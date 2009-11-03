@@ -73,15 +73,16 @@
 	<param name="ks.projects">classpath:ksb/ks-core-context.xml,classpath:ksb/ks-lu-context.xml</param>
 
 	
-	<!-- additional config files -->
-	<param name="rice.additionalSpringFiles">${ks.projects},classpath:StudentStandaloneSpringBeans.xml</param>
-	
 	<!-- default config files -->
     <param name="config.location">${user.home}/kuali/main/${environment}/ks-embedded-config.xml</param>
     <param name="config.location">${additional.config.locations}</param>
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
 	
+    <!-- additional config files -->
+    <param name="rice.additionalSpringFiles">${ks.projects},classpath:StudentStandaloneSpringBeans.xml</param>
 
+    <param name="serviceServletUrl">${application.url}/services/</param>
+    
     <!-- Rice Urls -->
     <param name="ks.rice.personLookup.serviceAddress" >${application.url}/kr/lookup.do</param>
     <param name="ks.rice.actionList.serviceAddress">${application.url}/kew/ActionList.do</param>
