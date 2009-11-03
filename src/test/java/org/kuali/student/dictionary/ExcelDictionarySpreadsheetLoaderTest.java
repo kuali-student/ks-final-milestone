@@ -46,21 +46,23 @@ public class ExcelDictionarySpreadsheetLoaderTest implements TestConstants
  {
  }
 
- private ExcelSpreadsheetReader reader;
+ private ExcelSpreadsheetReader dictReader;
+ private ExcelSpreadsheetReader orchReader;
  private DictionarySpreadsheet instance;
 
  @Before
  public void setUp ()
  {
-  System.out.println ("reading " + TYPE_STATE_EXCEL_FILE);
-  reader = new ExcelSpreadsheetReader (TYPE_STATE_EXCEL_FILE);
-  instance = new DictionarySpreadsheetLoader (reader);
+  System.out.println ("reading " + TYPE_STATE_DICTIONARY_EXCEL_FILE);
+  dictReader = new ExcelSpreadsheetReader (TYPE_STATE_DICTIONARY_EXCEL_FILE);
+  orchReader = new ExcelSpreadsheetReader (ORCHESTRATION_DICTIONARY_EXCEL_FILE);
+  instance = new DictionarySpreadsheetLoader (dictReader, orchReader);
  }
 
  @After
  public void tearDown ()
  {
-  reader.close ();
+  dictReader.close ();
  }
 
  /**
@@ -190,6 +192,27 @@ public class ExcelDictionarySpreadsheetLoaderTest implements TestConstants
 //  assertEquals (11, result.size ());
   assertEquals (true, true);
 
+ }
+
+ /**
+  * Test of info types method, of class SpreadsheetGeter.
+  */
+ @Test
+ public void testGetOrchObjs ()
+ {
+  System.out.println ("getOrchObjs");
+//  List<Type> expResult = new ArrayList ();
+  List<OrchObj> result = instance.getOrchObjs ();
+//  for (MessageStructureField field : result)
+//  {
+//   System.out.println (field.getObjectField ());
+//  }
+  if (result.size () < 135)
+  {
+   fail ("too few rows");
+  }
+  //assertEquals (135, result.size ());
+  assertEquals (true, true);
  }
 
 }

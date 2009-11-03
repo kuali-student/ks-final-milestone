@@ -27,11 +27,14 @@ import java.util.regex.PatternSyntaxException;
 public class DictionarySpreadsheetLoader implements DictionarySpreadsheet
 {
 
- private SpreadsheetReader spreadsheetReader;
+ private SpreadsheetReader dictSpreadsheetReader;
+ private SpreadsheetReader orchSpreadsheetReader;
 
- public DictionarySpreadsheetLoader (SpreadsheetReader spreadsheetReader)
+ public DictionarySpreadsheetLoader (SpreadsheetReader dictReader,
+                                     SpreadsheetReader orchReader)
  {
-  this.spreadsheetReader = spreadsheetReader;
+  this.dictSpreadsheetReader = dictReader;
+  this.orchSpreadsheetReader = orchReader;
  }
 
  /**
@@ -42,7 +45,7 @@ public class DictionarySpreadsheetLoader implements DictionarySpreadsheet
  public List<Dictionary> getDictionary ()
  {
   WorksheetReader worksheetReader =
-   spreadsheetReader.getWorksheetReader ("Dictionary");
+   dictSpreadsheetReader.getWorksheetReader ("Dictionary");
   List<Dictionary> list = new ArrayList (worksheetReader.getEstimatedRows ());
   while (worksheetReader.next ())
   {
@@ -166,7 +169,7 @@ public class DictionarySpreadsheetLoader implements DictionarySpreadsheet
  public List<State> getStates ()
  {
   WorksheetReader worksheetReader =
-   spreadsheetReader.getWorksheetReader ("States");
+   dictSpreadsheetReader.getWorksheetReader ("States");
   List<State> list = new ArrayList (worksheetReader.getEstimatedRows ());
   while (worksheetReader.next ())
   {
@@ -199,7 +202,7 @@ public class DictionarySpreadsheetLoader implements DictionarySpreadsheet
  public List<Type> getTypes ()
  {
   WorksheetReader worksheetReader =
-   spreadsheetReader.getWorksheetReader ("Types");
+   dictSpreadsheetReader.getWorksheetReader ("Types");
   List<Type> list = new ArrayList (worksheetReader.getEstimatedRows ());
   while (worksheetReader.next ())
   {
@@ -233,7 +236,7 @@ public class DictionarySpreadsheetLoader implements DictionarySpreadsheet
  public List<XmlType> getXmlTypes ()
  {
   WorksheetReader worksheetReader =
-   spreadsheetReader.getWorksheetReader ("XmlTypes");
+   dictSpreadsheetReader.getWorksheetReader ("XmlTypes");
   List<XmlType> list = new ArrayList (worksheetReader.getEstimatedRows ());
   while (worksheetReader.next ())
   {
@@ -268,7 +271,7 @@ public class DictionarySpreadsheetLoader implements DictionarySpreadsheet
  public List<Field> getFields ()
  {
   WorksheetReader worksheetReader =
-   spreadsheetReader.getWorksheetReader ("Fields");
+   dictSpreadsheetReader.getWorksheetReader ("Fields");
   List<Field> list = new ArrayList (worksheetReader.getEstimatedRows ());
   while (worksheetReader.next ())
   {
@@ -341,7 +344,7 @@ public class DictionarySpreadsheetLoader implements DictionarySpreadsheet
  public List<Constraint> getConstraints ()
  {
   WorksheetReader worksheetReader =
-   spreadsheetReader.getWorksheetReader ("Constraints");
+   dictSpreadsheetReader.getWorksheetReader ("Constraints");
   List<Constraint> list = new ArrayList (worksheetReader.getEstimatedRows ());
   while (worksheetReader.next ())
   {
@@ -398,7 +401,7 @@ public class DictionarySpreadsheetLoader implements DictionarySpreadsheet
  public List<CrossObjectConstraint> getCrossObjectConstraints ()
  {
   WorksheetReader worksheetReader =
-   spreadsheetReader.getWorksheetReader ("CrossObjectConstraints");
+   dictSpreadsheetReader.getWorksheetReader ("CrossObjectConstraints");
   List<CrossObjectConstraint> list = new ArrayList (worksheetReader.
    getEstimatedRows ());
   while (worksheetReader.next ())
@@ -453,11 +456,54 @@ public class DictionarySpreadsheetLoader implements DictionarySpreadsheet
   }
  }
 
- public String getSourceName ()
+ @Override
+ public List<String> getSourceNames ()
  {
-  return spreadsheetReader.getSourceName ();
+  List<String> list = new ArrayList ();
+  list.add (dictSpreadsheetReader.getSourceName ());
+  if (orchSpreadsheetReader != null)
+  {
+   list.add (orchSpreadsheetReader.getSourceName ());
+  }
+  return list;
  }
 
+ public List<OrchObj> getOrchObjs ()
+ {
+  if (orchSpreadsheetReader == null)
+  {
+   return new ArrayList (0);
+  }
+  WorksheetReader worksheetReader =
+   orchSpreadsheetReader.getWorksheetReader ("OrchObj");
+  List<OrchObj> list = new ArrayList (worksheetReader.getEstimatedRows ());
+  while (worksheetReader.next ())
+  {
+   OrchObj orchObj = new OrchObj ();
+   orchObj.setDesc (getFixup (worksheetReader, "desc"));
+   if (orchObj.getDesc ().equals ("ignore this row"))
+   {
+    continue;
+   }
+   orchObj.setParent (getFixup (worksheetReader, "Parent"));
+   orchObj.setCard1 (getFixup (worksheetReader, "Card1"));
+   orchObj.setChild (getFixup (worksheetReader, "child"));
+   orchObj.setCard2 (getFixup (worksheetReader, "Card2"));
+   orchObj.setGrandChild (getFixup (worksheetReader, "grandChild"));
+   orchObj.setXmlType (getFixup (worksheetReader, "xmlType"));
+   orchObj.setStatus (getFixup (worksheetReader, "status"));
+   orchObj.setDefaultValue (getFixup (worksheetReader, "defaultValue"));
 
+   orchObj.setComments (getFixup (worksheetReader, "comments"));
+   orchObj.setKey (getFixup (worksheetReader, "key"));
+   orchObj.setParentKey (getFixup (worksheetReader, "parentKey"));
+   orchObj.setFullyQualifiedKey (getFixup (worksheetReader, "fullyQualifiedKey"));
+   if ( ! orchObj.getFullyQualifiedKey ().equals (""))
+   {
+    list.add (orchObj);
+   }
+  }
+  return list;
+ }
 
 }

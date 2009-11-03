@@ -97,7 +97,7 @@ public class ExcelWorksheetReader implements WorksheetReader
   int col = 0;
   for (String colName : getColumnNames ())
   {
-   if (name.equals (colName))
+   if (name.equalsIgnoreCase (colName))
    {
     String val = sheet.getCell (col, row).getContents ();
     if (val == null)

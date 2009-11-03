@@ -100,7 +100,13 @@ public class DictionarySpreadsheetWriter extends XmlWriter
   buf.append ("\n");
   buf.append ("by: " + this.getClass ().getName ());
   buf.append ("\n");
-  buf.append ("using: " + sheet.getSourceName ());
+  String prefix = "Using:";
+  for (String name : sheet.getSourceNames ())
+  {
+  buf.append (prefix + name);
+  prefix = "   and: ";
+  }
+
   buf.append ("\n");
   writeComment (buf.toString ());
  }

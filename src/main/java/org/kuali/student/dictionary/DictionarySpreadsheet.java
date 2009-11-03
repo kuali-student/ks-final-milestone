@@ -29,7 +29,7 @@ public interface DictionarySpreadsheet
   * get name of the source of this spreadsheet
   * @return
   */
- public String getSourceName ();
+ public List<String> getSourceNames ();
 
  /**
   * get dictionary entries
@@ -72,5 +72,13 @@ public interface DictionarySpreadsheet
   * @return
   */
  public List<CrossObjectConstraint> getCrossObjectConstraints ();
+
+  /**
+  * get Orchestration Object Definitions
+  * @return
+  */
+ public List<OrchObj> getOrchObjs ();
+
+
 
 }

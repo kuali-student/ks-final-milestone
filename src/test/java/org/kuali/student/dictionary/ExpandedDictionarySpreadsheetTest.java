@@ -52,9 +52,9 @@ public class ExpandedDictionarySpreadsheetTest implements TestConstants
  @Before
  public void setUp ()
  {
-  System.out.println ("reading " + TYPE_STATE_EXCEL_FILE);
-  reader = new ExcelSpreadsheetReader (TYPE_STATE_EXCEL_FILE);
-  instance = new DictionarySpreadsheetLoader (reader);
+  System.out.println ("reading " + TYPE_STATE_DICTIONARY_EXCEL_FILE);
+  reader = new ExcelSpreadsheetReader (TYPE_STATE_DICTIONARY_EXCEL_FILE);
+  instance = new DictionarySpreadsheetLoader (reader, null);
   instance = new DictionarySpreadsheetCache (instance);
  }
 

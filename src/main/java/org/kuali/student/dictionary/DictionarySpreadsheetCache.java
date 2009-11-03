@@ -117,10 +117,23 @@ public class DictionarySpreadsheetCache implements DictionarySpreadsheet
   return xmlTypes;
  }
 
- public String getSourceName ()
+ @Override
+ public List<String> getSourceNames ()
  {
-  return spreadsheet.getSourceName ();
+  return spreadsheet.getSourceNames ();
  }
+
+ private List<OrchObj> orchObjs = null;
+
+ public List<OrchObj> getOrchObjs ()
+ {
+  if (orchObjs == null)
+  {
+   orchObjs = spreadsheet.getOrchObjs ();
+  }
+  return orchObjs;
+ }
+
 
  
 }

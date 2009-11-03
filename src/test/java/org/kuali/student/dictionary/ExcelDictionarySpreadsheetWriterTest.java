@@ -77,10 +77,10 @@ public class ExcelDictionarySpreadsheetWriterTest implements TestConstants
   {
    throw new RuntimeException (ex);
   }
-  SpreadsheetReader reader = new ExcelSpreadsheetReader (TYPE_STATE_EXCEL_FILE);
+  SpreadsheetReader reader = new ExcelSpreadsheetReader (TYPE_STATE_DICTIONARY_EXCEL_FILE);
   try
   {
-  DictionarySpreadsheetLoader loader = new DictionarySpreadsheetLoader (reader);
+  DictionarySpreadsheetLoader loader = new DictionarySpreadsheetLoader (reader, null);
   DictionarySpreadsheet cache = new DictionarySpreadsheetCache (loader);
   DictionarySpreadsheetWriter instance = new DictionarySpreadsheetWriter (out, cache);
   instance.write ();

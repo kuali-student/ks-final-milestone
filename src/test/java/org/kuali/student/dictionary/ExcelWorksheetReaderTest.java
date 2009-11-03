@@ -50,8 +50,8 @@ public class ExcelWorksheetReaderTest implements TestConstants
  @Before
  public void setUp ()
  {
-  System.out.println ("reading " + TYPE_STATE_EXCEL_FILE);
-  spreadsheetReader = new ExcelSpreadsheetReader (TYPE_STATE_EXCEL_FILE);
+  System.out.println ("reading " + TYPE_STATE_DICTIONARY_EXCEL_FILE);
+  spreadsheetReader = new ExcelSpreadsheetReader (TYPE_STATE_DICTIONARY_EXCEL_FILE);
  }
 
  @After

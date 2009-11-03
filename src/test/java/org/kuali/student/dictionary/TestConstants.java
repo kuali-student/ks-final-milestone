@@ -23,5 +23,6 @@ public interface TestConstants
 {
   public static String DIRECTORY = "src/test/resources/dictionary/";
   
-  public static String TYPE_STATE_EXCEL_FILE = DIRECTORY + "type-state configuration.xls";
+  public static String TYPE_STATE_DICTIONARY_EXCEL_FILE = DIRECTORY + "type-state configuration.xls";
+  public static String ORCHESTRATION_DICTIONARY_EXCEL_FILE = DIRECTORY + "orchestration-dictionary.xls";
 }

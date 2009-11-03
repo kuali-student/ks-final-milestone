@@ -85,8 +85,16 @@ public class DictionarySpreadsheetExpanded implements DictionarySpreadsheet
   return spreadsheet.getXmlTypes ();
  }
 
- public String getSourceName ()
+ @Override
+ public List<String> getSourceNames ()
  {
-  return spreadsheet.getSourceName ();
+  return spreadsheet.getSourceNames ();
  }
+
+ public List<OrchObj> getOrchObjs ()
+ {
+  return spreadsheet.getOrchObjs ();
+ }
+
+
 }

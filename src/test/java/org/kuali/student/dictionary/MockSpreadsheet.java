@@ -25,9 +25,13 @@ import java.util.List;
 public class MockSpreadsheet implements DictionarySpreadsheet
 {
 
- public String getSourceName ()
+ @Override
+ public List<String> getSourceNames ()
  {
-  return "Mock Spreadsheet";
+  List<String> list = new ArrayList ();
+  list.add ("Mock Dictionary Spreadsheet");
+  list.add ("Mock Orchestration Spreadsheet");
+  return list;
  }
 
 
@@ -179,5 +183,11 @@ public class MockSpreadsheet implements DictionarySpreadsheet
   List<CrossObjectConstraint> list = new ArrayList ();
   return list;
  }
+
+ public List<OrchObj> getOrchObjs ()
+ {
+  return new ArrayList ();
+ }
+
 
 }

@@ -32,12 +32,14 @@ public class DictionaryGeneratorFromExcelMojo extends AbstractMojo
 {
 
  public static String DIRECTORY = "src/test/resources/dictionary/";
- public static String EXCEL_FILE = "type-state configuration.xls";
+ public static String DICTIONARY_INPUT_FILE = "type-state configuration.xls";
+ public static String ORCHESTRATION_INPUT_FILE = "Orchestration Dictionary.xls";
  public static String XML_FILE = "lu-dictionary-config-generated-excel.xml";
 
  public DictionaryGeneratorFromExcelMojo ()
  {
-  this.excelInputFile = null;
+  this.dictionaryInputFile = null;
+  this.orchestrationInputFile = null;
   this.xmlOutputFile = null;
  }
 
@@ -46,7 +48,15 @@ public class DictionaryGeneratorFromExcelMojo extends AbstractMojo
   *
   * @parameter
   */
- private File excelInputFile;
+ private File dictionaryInputFile;
+
+  /**
+  * Path to orchestration excel file.
+  *
+  * @parameter
+  */
+ private File orchestrationInputFile;
+
  /**
   * Path to the XML file
   *
@@ -70,9 +80,11 @@ public class DictionaryGeneratorFromExcelMojo extends AbstractMojo
    {
     throw new DictionaryExecutionException ("Could  not create ");
    }
-   SpreadsheetReader reader = new ExcelSpreadsheetReader (excelInputFile.
+   SpreadsheetReader dictReader = new ExcelSpreadsheetReader (dictionaryInputFile.
     getCanonicalPath ());
-   DictionarySpreadsheetLoader loader = new DictionarySpreadsheetLoader (reader);
+   SpreadsheetReader orchReader = new ExcelSpreadsheetReader (orchestrationInputFile.
+    getCanonicalPath ());
+   DictionarySpreadsheetLoader loader = new DictionarySpreadsheetLoader (dictReader, orchReader);
    DictionarySpreadsheet cache = new DictionarySpreadsheetCache (loader);
    DictionarySpreadsheetWriter instance = new DictionarySpreadsheetWriter (out, cache);
    instance.write ();
@@ -92,15 +104,28 @@ public class DictionaryGeneratorFromExcelMojo extends AbstractMojo
   }
  }
 
- public File getExcelFile ()
+ public File getDictionaryInputFile ()
  {
-  return excelInputFile;
+  return dictionaryInputFile;
  }
 
- public void setExcelFile (File excelFile)
+ public void setDictionaryInputlFile (File excelFile)
  {
-  this.excelInputFile = excelFile;
+  this.dictionaryInputFile = excelFile;
  }
+
+
+ public File getOrchestrationInputFile ()
+ {
+  return orchestrationInputFile;
+ }
+
+ public void setOrchestrationInputlFile (File excelFile)
+ {
+  this.orchestrationInputFile = excelFile;
+ }
+
+
 
  public File getXmlFile ()
  {

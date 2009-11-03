@@ -95,7 +95,7 @@ public class GoogleDictionarySpreadsheetWriterTest
   reader.setKey (SPREADSHEET_KEY);
   reader.setVisibility ("public");
   reader.setProjection ("values");
-  DictionarySpreadsheet spreadsheet = new DictionarySpreadsheetLoader (reader);
+  DictionarySpreadsheet spreadsheet = new DictionarySpreadsheetLoader (reader, null);
   spreadsheet = new DictionarySpreadsheetCache (spreadsheet);
   DictionarySpreadsheetWriter instance = new DictionarySpreadsheetWriter (out, spreadsheet);
   instance.write ();
