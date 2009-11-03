@@ -23,6 +23,7 @@ import org.kuali.student.core.proposal.service.ProposalService;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.lu.assembly.CluInfoHierarchyAssembler.RelationshipHierarchy;
+import org.kuali.student.lum.lu.assembly.data.client.VersionData;
 import org.kuali.student.lum.lu.assembly.data.client.atp.TimeAmountInfoData;
 import org.kuali.student.lum.lu.assembly.data.client.creditcourse.CreditCourse;
 import org.kuali.student.lum.lu.assembly.data.client.creditcourse.CreditCourseActivity;
@@ -36,6 +37,7 @@ import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 
 public class CreditCourseProposalAssembler implements Assembler<CreditCourseProposal, Void> {
+	// TODO make sure that cluclurelation version indicators are carried over on retrieval
 	// TODO verify that the right relation types have been used
 	// public static final String FORMAT_RELATION_TYPE =
 	// LUConstants.LU_LU_RELATION_TYPE_HAS_COURSE_FORMAT;
@@ -126,7 +128,7 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 		result.setSubjectArea(course.getOfficialIdentifier().getDivision());
 		result.setTranscriptTitle(course.getOfficialIdentifier().getShortName());
 		result.setType(course.getType());
-		result.setVersionIndicator(course.getMetaInfo().getVersionInd());
+		result.getModifications().getVersions().add(new VersionData(CluInfo.class.getName(), course.getId(), course.getMetaInfo().getVersionInd()));
 
 		for (CluInfoHierarchy format : cluHierarchy.getChildren()) {
 			addFormats(result, format);	
@@ -143,7 +145,7 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 		CluInfo clu = cluHierarchy.getCluInfo();
 		format.setId(clu.getId());
 		format.setState(clu.getState());
-		format.setVersionIndicator(clu.getMetaInfo().getVersionInd());
+		format.getModifications().getVersions().add(new VersionData(CluInfo.class.getName(), clu.getId(), clu.getMetaInfo().getVersionInd()));
 		for (CluInfoHierarchy activity : cluHierarchy.getChildren()) {
 			addActivities(format, activity);
 		}
@@ -163,7 +165,7 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 		activity.setActivityType(clu.getType());
 		activity.setIntensity(timeamountAssembler.assemble(clu.getIntensity()));
 		activity.setState(clu.getState());
-		activity.setVersionIndicator(clu.getMetaInfo().getVersionInd());
+		activity.getModifications().getVersions().add(new VersionData(CluInfo.class.getName(), clu.getId(), clu.getMetaInfo().getVersionInd()));
 
 		format.addActivity(activity);
 	}
@@ -194,7 +196,7 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 		for (String s : prop.getProposalReference()) {
 			result.getReferences().add(s);
 		}
-		result.setVersionIndicator(prop.getMetaInfo().getVersionInd());
+		result.getModifications().getVersions().add(new VersionData(ProposalInfo.class.getName(), prop.getId(), prop.getMetaInfo().getVersionInd()));
 
 		return result;
 	}
@@ -354,6 +356,8 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 			// first save all of the clus and relations
 			saveCourse(root.getCourse());
 
+			// TODO make sure to use freshly loaded clu data after saving clus, so you can get the reference id on creates
+			
 			// make sure that the proposal's reference info is properly set
 			ProposalInfoData inputProposal = root.getProposal();
 			inputProposal.setReferenceType(PROPOSAL_REFERENCE_TYPE);
@@ -389,11 +393,11 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 	}
 
 	private void saveProposal(ProposalInfoData inputProposal) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, DependentObjectsExistException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException, VersionMismatchException {
-		if (inputProposal.isDeleted()) {
+		if (inputProposal.getModifications().isDeleted()) {
 			proposalService.deleteProposal(inputProposal.getId());
-		} else if (inputProposal.isModified()) {
+		} else if (inputProposal.getModifications().isModified()) {
 			ProposalInfo prop = null;
-			if (inputProposal.isCreated()) {
+			if (inputProposal.getModifications().isCreated()) {
 				prop = new ProposalInfo();
 			} else {
 				prop = proposalService.getProposal(inputProposal.getId());
@@ -411,10 +415,10 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 				}
 			}
 			if (prop.getMetaInfo() != null) {
-				prop.getMetaInfo().setVersionInd(inputProposal.getVersionIndicator());
+				prop.getMetaInfo().setVersionInd(inputProposal.getModifications().getVersionIndicator());
 			}
 			
-			if (inputProposal.isCreated()) {
+			if (inputProposal.getModifications().isCreated()) {
 				proposalService.createProposal(prop.getType(), prop);
 			} else {
 				proposalService.updateProposal(prop.getId(), prop);
@@ -435,7 +439,7 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 	private CluInfoHierarchy buildCluInfoHiearchy(CreditCourse course) throws AssemblyException {
 		CluInfoHierarchy result = null;
 		CluInfo courseClu = null;
-		if (course.isCreated()) {
+		if (course.getModifications().isCreated()) {
 			result = new CluInfoHierarchy();
 			courseClu = new CluInfo();
 			result.setCluInfo(courseClu);
@@ -444,12 +448,12 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 			courseClu = result.getCluInfo();
 		}
 		
-		if (course.isModified()) {
-			if (course.isCreated()) {
+		if (course.getModifications().isModified()) {
+			if (course.getModifications().isCreated()) {
 				result.setModificationState(ModificationState.CREATED);
-			} else if (course.isUpdated()) {
+			} else if (course.getModifications().isUpdated()) {
 				result.setModificationState(ModificationState.UPDATED);
-			} else if (course.isDeleted()) {
+			} else if (course.getModifications().isDeleted()) {
 				result.setModificationState(ModificationState.DELETED);
 			} 
 			
@@ -472,7 +476,7 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 			courseClu.setType(course.getType());
 			
 			if (courseClu.getMetaInfo() != null) {
-				courseClu.getMetaInfo().setVersionInd(course.getVersionIndicator());
+				courseClu.getMetaInfo().setVersionInd(course.getModifications().getVersionIndicator());
 			}
 		}
 		
@@ -487,27 +491,28 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 			CluInfoHierarchy formatHierarchy = null;
 			CluInfo formatClu = null;
 			
-			if (format.isCreated()) {
+			if (format.getModifications().isCreated()) {
 				formatHierarchy = new CluInfoHierarchy();
 				formatClu = new CluInfo();
+				formatHierarchy.setCluInfo(formatClu);
 				courseHierarchy.getChildren().add(formatHierarchy);
 			} else {
 				formatHierarchy = findChildByCluId(courseHierarchy, format.getId());
 				formatClu = formatHierarchy.getCluInfo();
 			}
 			
-			if (format.isModified()) {
-				if (format.isCreated()) {
+			if (format.getModifications().isModified()) {
+				if (format.getModifications().isCreated()) {
 					formatHierarchy.setModificationState(ModificationState.CREATED);
-				} else if (format.isUpdated()) {
+				} else if (format.getModifications().isUpdated()) {
 					formatHierarchy.setModificationState(ModificationState.UPDATED);
-				} else if (format.isDeleted()) {
+				} else if (format.getModifications().isDeleted()) {
 					formatHierarchy.setModificationState(ModificationState.DELETED);
 				} 
 				
 				formatClu.setState(format.getState());
 				if (formatClu.getMetaInfo() != null) {
-					formatClu.getMetaInfo().setVersionInd(format.getVersionIndicator());
+					formatClu.getMetaInfo().setVersionInd(format.getModifications().getVersionIndicator());
 				}
 			}
 			buildActivityUpdates(formatHierarchy, format);
@@ -523,21 +528,22 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 			CluInfoHierarchy activityHierarchy = null;
 			CluInfo activityClu = null;
 			
-			if (activity.isCreated()) {
+			if (activity.getModifications().isCreated()) {
 				activityHierarchy = new CluInfoHierarchy();
 				activityClu = new CluInfo();
+				activityHierarchy.setCluInfo(activityClu);
 				formatHierarchy.getChildren().add(formatHierarchy);
 			} else {
 				activityHierarchy = findChildByCluId(formatHierarchy, activity.getId());
 				activityClu = formatHierarchy.getCluInfo();
 			}
 			
-			if (activity.isModified()) {
-				if (activity.isCreated()) {
+			if (activity.getModifications().isModified()) {
+				if (activity.getModifications().isCreated()) {
 					activityHierarchy.setModificationState(ModificationState.CREATED);
-				} else if (activity.isUpdated()) {
+				} else if (activity.getModifications().isUpdated()) {
 					activityHierarchy.setModificationState(ModificationState.UPDATED);
-				} else if (activity.isDeleted()) {
+				} else if (activity.getModifications().isDeleted()) {
 					activityHierarchy.setModificationState(ModificationState.DELETED);
 				} 
 
@@ -546,7 +552,7 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 				activityClu.setState(activity.getState());
 				
 				if (activityClu.getMetaInfo() != null) {
-					activityClu.getMetaInfo().setVersionInd(activity.getVersionIndicator());
+					activityClu.getMetaInfo().setVersionInd(activity.getModifications().getVersionIndicator());
 				}
 			}
 		}
