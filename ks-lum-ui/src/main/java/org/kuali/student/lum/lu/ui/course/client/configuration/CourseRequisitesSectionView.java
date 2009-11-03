@@ -93,7 +93,10 @@ public class CourseRequisitesSectionView extends SectionView {
 
 	@Override
 	public void updateModel() {
-	    childController.saveApplicationState();
+		//don't save application state if no state changed i.e. the view was not even loaded
+		if (childController != null) {
+			childController.saveApplicationState();
+		}
 	}
 
 	@Override
