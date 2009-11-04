@@ -31,11 +31,11 @@
     <param name="notification.quartz.autostartup">false</param>
     <param name="notification.concurrent.jobs">false</param>
     
-    <param name="simpleDocumentActionsService.security">false</param>
-    <param name="secure.workflowutility.soapservice.endpoint">false</param>
+    <param name="simpleDocumentActionsService.security">true</param>
+    <param name="secure.workflowutility.soapservice.endpoint">true</param>
 
     <!-- KIM -->
-    <param name="kim.soapExposedService.jaxws.security">false</param>
+    <param name="kim.soapExposedService.jaxws.security">true</param>
     <!-- END KUALI STUDENT SETTINGS OVERRIDES -->
 
     <!-- Datasource Configuration -->
@@ -45,7 +45,7 @@
     <param name="datasource.password">KSRICE</param>
 
     <!-- Keystore Configuration -->
-    <param name="keystore.file">${rice.base}../../src/main/resources/rice.keystore</param>
+    <param name="keystore.file">rice.keystore</param>
     <param name="keystore.alias">rice</param>
     <param name="keystore.password">r1c3pw</param>
 
