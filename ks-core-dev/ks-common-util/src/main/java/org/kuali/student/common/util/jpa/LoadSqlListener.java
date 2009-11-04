@@ -3,9 +3,9 @@
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
@@ -44,18 +44,18 @@ public class LoadSqlListener implements ApplicationListener,
 		ApplicationContextAware {
 
 	final static Logger logger = LoggerFactory.getLogger(LoadSqlListener.class);
-	
+
 	private ApplicationContext applicationContext;
-	
+
 	private boolean loaded = false;
-	
+
 	private Map<String,String> preloadMap;
-	private JtaTransactionManager jtaTxManager;	
-	
+	private JtaTransactionManager jtaTxManager;
+
 	@Override
 	public void onApplicationEvent(ApplicationEvent event) {
 		if (event instanceof ContextRefreshedEvent && !loaded) {
-		
+
 			for (Entry<String, String> entry : preloadMap.entrySet()) {
 				String sqlFileName = entry.getValue();
 				EntityManagerFactory emf = EntityManagerFactoryUtils
@@ -63,7 +63,7 @@ public class LoadSqlListener implements ApplicationListener,
 								.getKey());
 				EntityManager em = SharedEntityManagerCreator
 						.createSharedEntityManager(emf);
-				
+
 				File sqlFile;
 				BufferedReader in;
 				try{
@@ -76,9 +76,9 @@ public class LoadSqlListener implements ApplicationListener,
 				} catch (Exception e) {
 					throw new RuntimeException(e);
 				}
-				
-				String ln;
-				
+
+				String ln = "";
+
 				TransactionDefinition txDefinition = new DefaultTransactionDefinition() ;
 				TransactionStatus txStatus = jtaTxManager.getTransaction(txDefinition);
 
@@ -91,13 +91,13 @@ public class LoadSqlListener implements ApplicationListener,
 					}
 					jtaTxManager.commit(txStatus);
 				} catch (Exception e) {
-					logger.error("Error loading sql file "+sqlFileName+".",e);
+					logger.error("Error loading sql file "+sqlFileName+". Last command was: " + ln,e);
 					jtaTxManager.rollback(txStatus);
 				}
 			}
 			loaded=true;
 		}
-		
+
 	}
 
 	@Override
