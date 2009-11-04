@@ -22,7 +22,7 @@ public class EditHistory implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private List<StatementVO> histories = new ArrayList<StatementVO>();
-    private final int MAX_NUM_HISTORIES = 5;
+    private static final int MAX_NUM_HISTORIES = 5;
     private int currHistoryIndex = -1;
     
     public void save(StatementVO history) {
