@@ -125,7 +125,7 @@ public class WorkflowButtonsWidget extends Composite {
 	
 	private void setupWFButtons() {
 
-		startWorkflowSaveActionEvent = new SaveActionEvent();
+		startWorkflowSaveActionEvent = new SaveActionEvent("Submitting");
 		startWorkflowSaveActionEvent.setActionCompleteCallback(new ActionCompleteCallback(){
 			public void onActionComplete(ActionEvent action) {
     			CluProposalModelDTO model = cluProposalWorkflowModel.get();
@@ -154,7 +154,7 @@ public class WorkflowButtonsWidget extends Composite {
     	});
     	wfStartWorkflowButton.setVisible(false);
 
-		approveSaveActionEvent = new SaveActionEvent();
+		approveSaveActionEvent = new SaveActionEvent("Approving");
 		approveSaveActionEvent.setActionCompleteCallback(new ActionCompleteCallback(){
 			public void onActionComplete(ActionEvent action) {
     			CluProposalModelDTO model = cluProposalWorkflowModel.get();

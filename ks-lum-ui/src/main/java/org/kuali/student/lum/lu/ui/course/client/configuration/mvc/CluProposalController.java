@@ -302,7 +302,7 @@ public class CluProposalController extends PagedSectionLayout{
     public void saveProposalClu(final SaveActionEvent saveActionEvent){
     	final KSLightBox saveWindow = new KSLightBox();
     	VerticalPanel vp = new VerticalPanel();
-    	final KSLabel saveProgress = new KSLabel("Saving...");
+    	final KSLabel saveProgress = new KSLabel(saveActionEvent.getMessage() + "...");
     	final OkGroup buttonGroup = new OkGroup(new Callback<OkEnum>(){
 
 			@Override
