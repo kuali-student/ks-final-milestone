@@ -18,12 +18,14 @@
  */
 package org.kuali.student.common.assembly;
 
+import java.io.Serializable;
+
 
 /**
  * @author wilj
  *
  */
-public interface ModelDefinition {
+public interface ModelDefinition extends Serializable{
 	public void ensurePath(final Data root, final QueryPath path, boolean includeLeafNode);
 	public String getType(final QueryPath path);
 }
