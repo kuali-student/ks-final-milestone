@@ -196,13 +196,15 @@ public class SearchUITest implements EntryPoint {
         advancedSearches.add(orText);
         advancedSearches.add(browseLink);
 
+//        atp.search.basicAtpByShortName
+//        atp.search.atpByShortName
         final OrgSearchTypeWidget searchWindow = 
         	new OrgSearchTypeWidget(
         			atpRpcServiceAsync, 
-        			"atp.search.atpByShortName", 
+        			"atp.search.basicAtpByShortName", 
         			"atp.resultColumn.atpId",
         			atpRpcServiceAsync,
-        			"atp.search.atpByShortName", 
+        			"atp.search.basicAtpByShortName", 
         			"atp.resultColumn.atpId",
         	"Find Session");
         

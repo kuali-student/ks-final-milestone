@@ -7,7 +7,8 @@
 	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	 ">
-	
+
+    <!-- Search Types -->	
 	<search:searchType id="atp.search.atpByShortName">
 		<search:name>ShortName match</search:name>
 		<search:desc>Search on shortName only.</search:desc>
@@ -19,6 +20,19 @@
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
 
+	<search:searchType id="atp.search.basicAtpByShortName">
+		<search:name>Basic ShortName match</search:name>
+		<search:desc>Search on shortName only and show details.</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="atp.result.atpBasicView" />
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="atp.criteria.atpByShortName" />
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+	
+	<!-- Search Result Type Infos -->
+
 	<search:searchResultTypeInfo id="atp.result.atpQuickView">
 		<search:name>ATP Quick View</search:name>
 		<search:desc>Quick view of the ATP</search:desc>
@@ -27,6 +41,19 @@
 			<ref bean="atp.resultColumn.atpShortName" />
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
+
+	<search:searchResultTypeInfo id="atp.result.atpBasicView">
+		<search:name>ATP Basic View</search:name>
+		<search:desc>Basic view of the ATP</search:desc>
+		<search:resultColumns>
+			<ref bean="atp.resultColumn.atpId" />
+			<ref bean="atp.resultColumn.atpSeasonAndTerm" />
+			<ref bean="atp.resultColumn.atpYear" />
+			<ref bean="atp.resultColumn.atpTypeName" />
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+	
+	<!-- Result Columns -->
 
 	<search:resultColumn id="atp.resultColumn.atpId">
 		<search:name>ATP Identifier</search:name>
@@ -40,13 +67,31 @@
 				listing.</search:desc>
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>
+	
+	<search:resultColumn id="atp.resultColumn.atpSeasonAndTerm">
+		<search:name>ATP Season and Name</search:name>
+		<search:desc>Will return as Season then duration type. Ex Fall 2009.</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+
+	<search:resultColumn id="atp.resultColumn.atpYear">
+		<search:name>ATP Year</search:name>
+		<search:desc>Year of the ATP.</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+
+	<search:resultColumn id="atp.resultColumn.atpTypeName">
+		<search:name>ATP Type Name</search:name>
+		<search:desc>Type of the ATP.</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+	<!-- Search Criteria Types -->
 
 	<search:searchCriteriaTypeInfo id="atp.criteria.atpByShortName">
 		<search:name>AtpByShortNameCriteria</search:name>
 		<search:desc>AtpByShortNameCriteria Description</search:desc>
 		<search:queryParams>
 			<ref bean="atp.queryParam.atpShortName" />
-			<ref bean="atp.queryParam.atpId" />
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
@@ -86,6 +131,22 @@
 			<map>
 				<entry key="atp.search.atpByShortName">
 					<value>SELECT atp.id, atp.name FROM Atp atp WHERE atp.name like :atp_queryParam_atpShortName or atp.id = :atp_queryParam_atpId</value>
+				</entry>
+				<entry key="atp.search.basicAtpByShortName">
+					<value>SELECT
+                           atp.id,
+                           CONCAT(CONCAT(seasonattr.value, ' '),durtype.name),
+                           yearattr.value, 
+                           atptype.name
+                           FROM Atp atp
+                           JOIN atp.type atptype
+                           JOIN atptype.seasonalType seasonaltype
+                           JOIN atptype.durationType durtype
+                           LEFT JOIN seasonaltype.attributes yearattr
+                           LEFT JOIN seasonaltype.attributes seasonattr
+                           WHERE yearattr.name = 'Year'
+                           and seasonattr.name = 'Season'
+                           and atp.name like :atp_queryParam_atpShortName</value>
 				</entry>
 			</map>
 		</property>
