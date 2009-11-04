@@ -329,7 +329,39 @@
             </bean>
         </property>
     </bean>
+	<!-- Atp Service Config -->
+	<bean id="atpEntityManagerFactory" parent="defaultEntityManagerFactory">
+        <property name="persistenceUnitName" value="Atp"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/atp-persistence.xml" />
+        <property name="dataSource" ref="coreDataSource" />
+    </bean>
 
+    <bean id="atpEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="atpEntityManagerFactory" />
+    </bean>
+
+    <bean id="atpDao"
+        class="org.kuali.student.core.atp.dao.impl.AtpDaoImpl">
+        <property name="em" ref="atpEntityManager" />
+    </bean>
+
+    <bean id="atpServiceImpl"
+        class="org.kuali.student.core.atp.service.impl.AtpServiceImpl">
+        <property name="atpDao" ref="atpDao" />
+    </bean>
+
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="atpServiceImpl" />
+                <property name="serviceInterface" value="org.kuali.student.core.atp.service.AtpService" />
+                <property name="localServiceName" value="AtpService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/atp" />
+                <property name="busSecurity" value="false" />
+            </bean>
+        </property>
+    </bean>
     <!-- Proposal Service -->
     <bean id="proposalEntityManagerFactory" parent="defaultEntityManagerFactory">
         <property name="persistenceUnitName" value="Proposal"/>
@@ -397,6 +429,9 @@
 				</entry>
 				<entry key="Proposal">
 					<value>classpath:ks-proposal.sql</value>
+				</entry>
+				<entry key="Atp">
+					<value>classpath:ks-atp.sql</value>
 				</entry>
             </map>
         </property>
