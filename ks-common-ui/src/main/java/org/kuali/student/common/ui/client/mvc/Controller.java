@@ -166,6 +166,14 @@ public abstract class Controller extends Composite {
         }
     }
     
+    @SuppressWarnings("unchecked")
+    public void requestModel(String modelId, ModelRequestCallback callback) {
+        if (getParentController() != null) {
+            parentController.requestModel(modelId, callback);
+        } else {
+            callback.onRequestFail(new RuntimeException("The requested model was not found: " + modelId));
+        }
+    }
     
     /**
      * Registers an application eventhandler. The controller will try to propagate "unchecked" handlers to the parent

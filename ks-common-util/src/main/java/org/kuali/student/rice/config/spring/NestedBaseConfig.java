@@ -64,7 +64,7 @@ import org.kuali.rice.core.util.RiceUtilities;
 	 */
 	public abstract class NestedBaseConfig implements Config {
 
-	    private static final Logger LOG = Logger.getLogger(BaseConfig.class);
+	    private static final Logger LOG = Logger.getLogger(NestedBaseConfig.class);
 
 	   // private Map<String, Object> configs = new LinkedHashMap<String, Object>();
 

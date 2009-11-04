@@ -72,7 +72,12 @@ public class ApplicationContext {
     public ObjectStructure getDictionaryData(String name){
        return dictionaryData.get(name);
     }
-	public void addMessages(List<Message> messages) {
+    
+    public boolean containsDictionaryKey(String key){
+        return dictionaryData.containsKey(key);
+    }
+
+    public void addMessages(List<Message> messages) {
 		messagesList.addAll(messages);
 	    for (Message m : messages) {
 	        String groupName = m.getGroupName();
@@ -96,6 +101,7 @@ public class ApplicationContext {
     
 	
 	public String getMessage(String groupName, String messageId) {
+			
 	    String result = null;
 	    
 	    Map<String, String> group = this.messages.get(groupName);
@@ -112,17 +118,19 @@ public class ApplicationContext {
      * First looks for a label specific to the type and state of the field.
      * If none found try for a generalized label.
      * Otherwise return the supplied fieldId
+     * Groups provide namespace for same label ids within different LUs
      * 
+     * @param groupName - for example 'course' or 'program'
      * @param type
      * @param state
      * @param fieldId
      * @return
-     */public String getUILabel(String type, String state, String fieldId) {
+     */public String getUILabel(String groupName, String type, String state, String fieldId) {
 
-        String label = getMessage(type + ":" + state + ":" + fieldId);
+        String label = getMessage(groupName, type + ":" + state + ":" + fieldId);
         
         if (label == null)
-            label = getMessage(fieldId);
+            label = getMessage(groupName, fieldId);
         
         if (label == null)
             label =  fieldId;

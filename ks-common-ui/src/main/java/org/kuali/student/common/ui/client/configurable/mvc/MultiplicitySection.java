@@ -75,8 +75,8 @@ public class MultiplicitySection extends Section implements HasModelDTOValue{
         
         RowDescriptor row = rows.get(rows.size()-1);
 
-        if (fieldDescriptor.getFieldWidget() instanceof MultiplicityComposite){
-            MultiplicityComposite listField = (MultiplicityComposite)fieldDescriptor.getFieldWidget(); 
+        if (fieldDescriptor.getFieldWidget() instanceof SimpleMultiplicityComposite){
+            SimpleMultiplicityComposite listField = (SimpleMultiplicityComposite) fieldDescriptor.getFieldWidget(); 
             listField.redraw();                  
         }
         panel.add(row);

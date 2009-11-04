@@ -62,17 +62,31 @@ import org.kuali.student.core.search.dto.SearchTypeInfo;
 @Daos( { @Dao(value = "org.kuali.student.core.organization.dao.impl.OrganizationDaoImpl",testSqlFile="classpath:ks-org.sql"/*, testDataFile = "classpath:test-beans.xml"*/) })
 @PersistenceFileLocation("classpath:META-INF/organization-persistence.xml")
 public class TestOrganizationServiceImpl extends AbstractServiceTest {
-	@Client(value = "org.kuali.student.core.organization.service.impl.OrganizationServiceImpl", port = "8181",additionalContextFile="classpath:organization-additional-context.xml")
+	@Client(value = "org.kuali.student.core.organization.service.impl.OrganizationServiceImpl", additionalContextFile="classpath:organization-additional-context.xml")
 	public OrganizationService client;
 
 	@Test
 	public void testSearch() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
 		List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>();
 		QueryParamValue qpv1 = new QueryParamValue();
+		qpv1.setKey("org.queryParam.orgGenericType");
+		qpv1.setValue("kuali.org.College");
+		queryParamValues.add(qpv1);
+		
+		qpv1 = new QueryParamValue();
+		qpv1.setKey("org.queryParam.orgGenericShortName");
+		qpv1.setValue("CollegeE%");
+		queryParamValues.add(qpv1);
+		
+		List<Result> results = client.searchForResults("org.search.test.orgs", queryParamValues);
+		assertEquals(2,results.size());
+		
+		queryParamValues = new ArrayList<QueryParamValue>();
+		qpv1 = new QueryParamValue();
 		qpv1.setKey("org.queryParam.orgType");
 		qpv1.setValue("kuali.org.College");
 		queryParamValues.add(qpv1);
-		List<Result> results = client.searchForResults("org.search.orgQuickViewByOrgType", queryParamValues);
+		results = client.searchForResults("org.search.orgQuickViewByOrgType", queryParamValues);
 		assertEquals(6,results.size());
 		assertEquals(2,results.get(0).getResultCells().size());
 		

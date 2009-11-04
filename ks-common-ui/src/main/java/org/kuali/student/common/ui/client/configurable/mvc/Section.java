@@ -17,6 +17,8 @@ package org.kuali.student.common.ui.client.configurable.mvc;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.assembly.Model;
+import org.kuali.student.common.ui.client.configurable.mvc.binding.SectionBinding;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
@@ -24,7 +26,6 @@ import org.kuali.student.common.ui.client.widgets.KSRequiredMarker;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Composite;
@@ -32,7 +33,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class Section extends Composite implements ConfigurableLayoutSection{
-    
+        
     protected SectionTitle sectionTitle = SectionTitle.generateEmptyTitle();
     protected final Label instructionsLabel = new Label();
     protected LayoutController layoutController = null;
@@ -233,8 +234,8 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
     public void updateModel(ModelDTO modelDTO){
         for (int i=0; i < fields.size(); i++){
             FieldDescriptor field = (FieldDescriptor)fields.get(i);
-            if (field.getFieldWidget() instanceof MultiplicityComposite){
-                ((MultiplicityComposite)field.getFieldWidget()).updateModelDTOValue();
+            if (field.getFieldWidget() instanceof SimpleMultiplicityComposite){
+                ((SimpleMultiplicityComposite) field.getFieldWidget()).updateModelDTOValue();
             }
 
             PropertyBinding pBinding = field.getPropertyBinding();
@@ -254,9 +255,9 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
     public void updateView(ModelDTO modelDTO) {
         for (int i=0; i < fields.size(); i++){
             FieldDescriptor field = (FieldDescriptor)fields.get(i);
-            if (field.getFieldWidget() instanceof MultiplicityComposite){
+            if (field.getFieldWidget() instanceof SimpleMultiplicityComposite){
                 ModelDTOValue value = modelDTO.get(field.getFieldKey());
-                ((MultiplicityComposite)field.getFieldWidget()).setValue(value);
+                ((SimpleMultiplicityComposite) field.getFieldWidget()).setValue(value);
             }
             PropertyBinding pBinding = field.getPropertyBinding();
             PropertyBinding wBinding = field.getWidgetBinding();
@@ -270,6 +271,14 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
         for(Section s: sections){
             s.updateView(modelDTO);
         }
+    }
+    
+    public void updateModel(Model model){
+        SectionBinding.INSTANCE.setModelValue(this, model, "");
+    }
+       
+    public void updateView(Model model) {
+        SectionBinding.INSTANCE.setWidgetValue(this, model, "");
     }
 
     public void clear(){
@@ -331,6 +340,10 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
 	public void setLayoutController(LayoutController controller) {
 		this.layoutController = controller;
 	}
+
+    public ArrayList<Section> getSections() {
+        return sections;
+    }
     
     
 

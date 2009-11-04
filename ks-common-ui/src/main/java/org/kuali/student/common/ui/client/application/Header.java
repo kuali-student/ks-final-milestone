@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcServiceAsync;
+import org.kuali.student.common.ui.client.theme.Theme;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -107,7 +108,7 @@ public class Header extends Composite {
         buildLogoPanel();
         main.add(logoPanel);
 
-        //main.add(separator1);
+        main.add(separator1);
         buildLinksPanel();
         main.add(linksPanel);    
         //main.add(separator2);

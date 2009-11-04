@@ -18,6 +18,7 @@ package org.kuali.student.common.ui.client.widgets.counting.impl;
 
 import org.kuali.student.common.ui.client.images.KSImages;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.theme.Theme;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSRichTextToolbar;
@@ -53,6 +54,7 @@ import com.google.gwt.user.client.ui.RichTextArea;
  * 
  * TODO implement with a clean toolbar and i18n
  */
+@Deprecated
 public class KSRichEditorImpl extends KSRichEditorAbstract {
 private final VerticalFlowPanel content = new VerticalFlowPanel();
     
@@ -74,8 +76,8 @@ private final VerticalFlowPanel content = new VerticalFlowPanel();
     private boolean isUsedInPopup = false;
     private int toolbarHeight;
     
-    private KSImages images = (KSImages) GWT.create(KSImages.class);
-    private final Image popoutImage = images.popout().createImage();
+    //private KSImages images = (KSImages) GWT.create(KSImages.class);
+    private final Image popoutImage = Theme.INSTANCE.getRichTextEditorImages().popout().getImage();
     
     private int height;
     private int width;
