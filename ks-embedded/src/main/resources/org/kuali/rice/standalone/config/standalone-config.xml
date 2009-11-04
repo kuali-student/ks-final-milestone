@@ -29,6 +29,11 @@
     <!-- END KUALI STUDENT SETTINGS -->
 
     <!-- BEGIN KUALI STUDENT SETTINGS OVERRIDES -->
+    
+    <!--KS Security    -->
+    <param name="ks.core.bus.security">true</param> 
+    <param name="ks.lum.bus.security">true</param>
+    
     <!-- KEW -->
     <param name="xml.pipeline.lifecycle.enabled">true</param>
     <param name="email.reminder.lifecycle.enabled">true</param>
@@ -36,11 +41,11 @@
     <param name="notification.quartz.autostartup">false</param>
     <param name="notification.concurrent.jobs">false</param>
     
-    <param name="simpleDocumentActionsService.security">false</param>
-    <param name="secure.workflowutility.soapservice.endpoint">false</param>
+    <param name="simpleDocumentActionsService.security">true</param>
+    <param name="secure.workflowutility.soapservice.endpoint">true</param>
 
     <!-- KIM -->
-    <param name="kim.soapExposedService.jaxws.security">false</param>
+    <param name="kim.soapExposedService.jaxws.security">true</param>
     <!-- END KUALI STUDENT SETTINGS OVERRIDES -->
 
     <!-- Datasource Configuration -->
@@ -56,7 +61,7 @@
     <param name="ks.core.datasource.password">${datasource.password}</param> 
 
     <!-- Keystore Configuration -->
-    <param name="keystore.file">${rice.base}../../src/main/resources/rice.keystore</param>
+    <param name="keystore.file">rice.keystore</param>
     <param name="keystore.alias">rice</param>
     <param name="keystore.password">r1c3pw</param>
 
