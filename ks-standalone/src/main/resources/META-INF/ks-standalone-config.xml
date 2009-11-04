@@ -7,8 +7,8 @@
     <param name="config.location">classpath:META-INF/ks-core-config.xml</param>
     <param name="config.location">classpath:META-INF/ks-lum-config.xml</param> 
 
-    <param name="app.code" override="false">ks-rice</param>
-    <param name="appserver.url">http://localhost:8081</param>
+    <param name="app.code" override="false">ks-standalone</param>
+    <param name="appserver.url">http://localhost:8080</param>
 	
     <param name="serviceNamespace">ks-standalone</param>
     <param name="rice.ksb.loadKNSModuleConfiguration">false</param>
@@ -83,7 +83,7 @@
     <param name="keystore.password">r1c3pw</param>
     
     <param name="ks.rice.url">http://localhost:8081/ks-rice-${environment}</param>
-
+ 	<param name="workflow.url">${ks.rice.url}/kew</param>
 	<!-- Config defaults and overrides -->
     <param name="config.location">${user.home}/kuali/main/${environment}/ks-config.xml</param>
     <param name="config.location">${user.home}/kuali/main/${environment}/ks-standalone-config.xml</param>
