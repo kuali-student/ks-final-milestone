@@ -17,7 +17,7 @@ package org.kuali.student.common.ui.client.configurable.mvc;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.assembly.Model;
+import org.kuali.student.common.assembly.client.Model;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.SectionBinding;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;

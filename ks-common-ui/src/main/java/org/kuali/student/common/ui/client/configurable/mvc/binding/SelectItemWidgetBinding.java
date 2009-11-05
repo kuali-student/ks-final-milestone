@@ -17,10 +17,10 @@ package org.kuali.student.common.ui.client.configurable.mvc.binding;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.student.common.assembly.Data;
-import org.kuali.student.common.assembly.Model;
-import org.kuali.student.common.assembly.QueryPath;
-import org.kuali.student.common.assembly.Data.Property;
+import org.kuali.student.common.assembly.client.Data;
+import org.kuali.student.common.assembly.client.Model;
+import org.kuali.student.common.assembly.client.QueryPath;
+import org.kuali.student.common.assembly.client.Data.Property;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 
 public class SelectItemWidgetBinding implements ModelWidgetBinding<KSSelectItemWidgetAbstract>{

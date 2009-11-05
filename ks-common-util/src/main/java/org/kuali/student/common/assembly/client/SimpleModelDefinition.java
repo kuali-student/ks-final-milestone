@@ -16,14 +16,14 @@
 /**
  * 
  */
-package org.kuali.student.common.assembly;
+package org.kuali.student.common.assembly.client;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.kuali.student.common.assembly.Data.DataType;
-import org.kuali.student.common.assembly.Data.Key;
+import org.kuali.student.common.assembly.client.Data.DataType;
+import org.kuali.student.common.assembly.client.Data.Key;
 
 
 /**
@@ -120,7 +120,7 @@ public class SimpleModelDefinition implements ModelDefinition {
 	}
 
     /**
-     * @see org.kuali.student.common.assembly.ModelDefinition#getType()
+     * @see org.kuali.student.common.assembly.client.ModelDefinition#getType()
      */
     @Override
     public String getType(final QueryPath path) {

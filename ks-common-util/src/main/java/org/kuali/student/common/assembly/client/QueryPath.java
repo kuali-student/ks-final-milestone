@@ -16,13 +16,13 @@
 /**
  * 
  */
-package org.kuali.student.common.assembly;
+package org.kuali.student.common.assembly.client;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 //import com.google.gwt.core.client.GWT;
-import org.kuali.student.common.assembly.Data.Key;
+import org.kuali.student.common.assembly.client.Data.Key;
 /**
  * @author wilj
  *

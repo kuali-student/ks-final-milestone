@@ -1,4 +1,4 @@
-package org.kuali.student.common.assembly;
+package org.kuali.student.common.assembly.client;
 
 import java.util.Map;
 

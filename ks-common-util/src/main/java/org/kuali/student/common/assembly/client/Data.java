@@ -1,4 +1,4 @@
-package org.kuali.student.common.assembly;
+package org.kuali.student.common.assembly.client;
 
 import java.io.Serializable;
 import java.sql.Time;
@@ -681,8 +681,10 @@ public class Data implements Serializable, Iterable<Data.Property> {
 	public void add(final Data value) {
 		final Key k = new IntegerKey(map.size());
 		map.put(k, new DataValue(value));
-		value.parent = this;
-		value.parentKey = k;
+		if (value != null) {
+			value.parent = this;
+			value.parentKey = k;
+		}
 	}
 
 	public void add(final Date value) {
@@ -872,8 +874,10 @@ public class Data implements Serializable, Iterable<Data.Property> {
 	public void set(final Integer key, final Data value) {
 		final Key k = new IntegerKey(key);
 		map.put(k, new DataValue(value));
-		value.parent = this;
-		value.parentKey = k;
+		if (value != null) {
+			value.parent = this;
+			value.parentKey = k;
+		}
 	}
 
 	public void set(final Integer key, final Date value) {
@@ -926,8 +930,10 @@ public class Data implements Serializable, Iterable<Data.Property> {
 
 	public void set(final Key key, final Data value) {
 		map.put(key, new DataValue(value));
-		value.parent = this;
-		value.parentKey = key;
+		if (value != null) {
+			value.parent = this;
+			value.parentKey = key;
+		}
 	}
 
 	public void set(final Key key, final Date value) {
@@ -992,8 +998,10 @@ public class Data implements Serializable, Iterable<Data.Property> {
 	public void set(final String key, final Data value) {
 		final Key k = new StringKey(key);
 		map.put(k, new DataValue(value));
-		value.parent = this;
-		value.parentKey = k;
+		if (value != null) {
+			value.parent = this;
+			value.parentKey = k;
+		}
 	}
 
 	public void set(final String key, final Date value) {

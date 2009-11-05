@@ -16,16 +16,16 @@
 /**
  * 
  */
-package org.kuali.student.common.assembly;
+package org.kuali.student.common.assembly.client;
 
 import java.io.Serializable;
 import java.util.Date;
 
-import org.kuali.student.common.assembly.Data.DataType;
-import org.kuali.student.common.assembly.Data.DataValue;
-import org.kuali.student.common.assembly.Data.Key;
-import org.kuali.student.common.assembly.Data.Property;
-import org.kuali.student.common.assembly.Data.Value;
+import org.kuali.student.common.assembly.client.Data.DataType;
+import org.kuali.student.common.assembly.client.Data.DataValue;
+import org.kuali.student.common.assembly.client.Data.Key;
+import org.kuali.student.common.assembly.client.Data.Property;
+import org.kuali.student.common.assembly.client.Data.Value;
 
 /**
  * @author wilj

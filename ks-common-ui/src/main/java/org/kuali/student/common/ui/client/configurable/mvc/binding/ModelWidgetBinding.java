@@ -15,7 +15,7 @@
  */
 package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
-import org.kuali.student.common.assembly.Model;
+import org.kuali.student.common.assembly.client.Model;
 
 /**
  * This is a description of what this class does - Will Gomes don't forget to fill this in. 

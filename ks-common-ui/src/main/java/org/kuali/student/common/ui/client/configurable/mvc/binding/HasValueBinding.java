@@ -16,8 +16,8 @@ package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
 import java.util.Date;
 
-import org.kuali.student.common.assembly.Model;
-import org.kuali.student.common.assembly.QueryPath;
+import org.kuali.student.common.assembly.client.Model;
+import org.kuali.student.common.assembly.client.QueryPath;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HasValue;

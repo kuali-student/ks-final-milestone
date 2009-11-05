@@ -2,6 +2,9 @@ package org.kuali.student.common.assembly;
 
 import java.util.List;
 
+import org.kuali.student.common.assembly.client.AssemblyException;
+import org.kuali.student.common.assembly.client.Metadata;
+import org.kuali.student.common.assembly.client.SaveResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 public interface Assembler<TargetType, SourceType> {
 

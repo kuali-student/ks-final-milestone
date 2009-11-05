@@ -14,9 +14,9 @@
  */
 package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
-import org.kuali.student.common.assembly.Model;
-import org.kuali.student.common.assembly.QueryPath;
-import org.kuali.student.common.assembly.Data.DataType;
+import org.kuali.student.common.assembly.client.Model;
+import org.kuali.student.common.assembly.client.QueryPath;
+import org.kuali.student.common.assembly.client.Data.DataType;
 import org.kuali.student.common.ui.client.validator.ClientDateParser;
 
 import com.google.gwt.user.client.ui.HasText;

@@ -1,4 +1,4 @@
-package org.kuali.student.common.assembly;
+package org.kuali.student.common.assembly.client;
 
 public class AssemblyException extends Exception {
 

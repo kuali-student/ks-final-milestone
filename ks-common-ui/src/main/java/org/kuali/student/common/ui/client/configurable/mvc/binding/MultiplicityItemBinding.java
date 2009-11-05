@@ -7,8 +7,8 @@
  */
 package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
-import org.kuali.student.common.assembly.Model;
-import org.kuali.student.common.assembly.QueryPath;
+import org.kuali.student.common.assembly.client.Model;
+import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.common.ui.client.configurable.mvc.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
 
@@ -29,7 +29,7 @@ public class MultiplicityItemBinding implements ModelWidgetBinding<MultiplicityI
     
     /**
      * @see org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding#setModelValue(java.lang.Object,
-     *      org.kuali.student.common.assembly.Model, java.lang.String)
+     *      org.kuali.student.common.assembly.client.Model, java.lang.String)
      */
     @Override
     public void setModelValue(MultiplicityItem multiplicityItem, Model model, String path) {
@@ -53,7 +53,7 @@ public class MultiplicityItemBinding implements ModelWidgetBinding<MultiplicityI
 
     /**
      * @see org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding#setWidgetValue(java.lang.Object,
-     *      org.kuali.student.common.assembly.Model, java.lang.String)
+     *      org.kuali.student.common.assembly.client.Model, java.lang.String)
      */
     @Override
     public void setWidgetValue(MultiplicityItem multiplicityItem, Model model, String path) {

@@ -17,10 +17,10 @@ package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
 import java.util.Iterator;
 
-import org.kuali.student.common.assembly.Data;
-import org.kuali.student.common.assembly.Model;
-import org.kuali.student.common.assembly.QueryPath;
-import org.kuali.student.common.assembly.Data.Property;
+import org.kuali.student.common.assembly.client.Data;
+import org.kuali.student.common.assembly.client.Model;
+import org.kuali.student.common.assembly.client.QueryPath;
+import org.kuali.student.common.assembly.client.Data.Property;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
 
@@ -37,7 +37,7 @@ public class MultiplicityCompositeBinding implements ModelWidgetBinding<Multipli
 
     
     /**
-     * @see org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding#setModelValue(java.lang.Object, org.kuali.student.common.assembly.Model, java.lang.String)
+     * @see org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding#setModelValue(java.lang.Object, org.kuali.student.common.assembly.client.Model, java.lang.String)
      */
     @Override
     public void setModelValue(MultiplicityComposite mcWidget, Model model, String path) {
@@ -47,7 +47,7 @@ public class MultiplicityCompositeBinding implements ModelWidgetBinding<Multipli
     }
 
     /**
-     * @see org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding#setWidgetValue(java.lang.Object, org.kuali.student.common.assembly.Model, java.lang.String)
+     * @see org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding#setWidgetValue(java.lang.Object, org.kuali.student.common.assembly.client.Model, java.lang.String)
      */
     @Override
     public void setWidgetValue(MultiplicityComposite mcWidget, Model model, String path) {
