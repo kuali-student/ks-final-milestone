@@ -9,4 +9,7 @@
 	<inherits name='org.kuali.student.core.search.Search'/>  
 	<inherits name='org.kuali.student.core.atp.Atp'/>
 	<inherits name='org.kuali.student.lum.ui.requirements.Requirements'/> 
+	<!-- <inherits name='org.kuali.student.common.assembly.Assembly'/>
+	<inherits name='org.kuali.student.lum.lu.assembly.data.LuData' />
+	 -->
 </module>
