@@ -38,6 +38,8 @@ import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
 import org.kuali.rice.kew.webservice.StandardResponse;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.PermissionService;
+import org.kuali.student.common.assembly.client.AssemblyException;
+import org.kuali.student.common.assembly.client.SaveResult;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
@@ -55,6 +57,8 @@ import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.ResultCell;
 import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
+import org.kuali.student.lum.lu.assembly.CreditCourseProposalAssembler;
+import org.kuali.student.lum.lu.assembly.data.client.creditcourse.CreditCourseProposal;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.workflow.CluProposalCollabRequestDocInfo;
@@ -64,6 +68,7 @@ import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
+import org.kuali.student.lum.lu.ui.course.client.service.DataSaveResult;
 import org.springframework.security.Authentication;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.context.SecurityContextHolder;
@@ -1345,4 +1350,44 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     public void setLearningObjectiveService(LearningObjectiveService learningObjectiveService) {
         this.learningObjectiveService = learningObjectiveService;
     }
+
+    private CreditCourseProposalAssembler creditCourseProposalAssembler;
+    private synchronized void initAssemblers() {
+    	if (creditCourseProposalAssembler == null) {
+    		// TODO change how the state is set/passed in to the proposal assembler, if at all
+    		creditCourseProposalAssembler = new CreditCourseProposalAssembler("draft");
+    		creditCourseProposalAssembler.setLuService(service);
+    		creditCourseProposalAssembler.setProposalService(proposalService);
+    	}
+    }
+	@Override
+	public CreditCourseProposal getCreditCourseProposal(String id) throws OperationFailedException {
+		try {
+			initAssemblers();
+			return creditCourseProposalAssembler.get(id);
+		} catch (AssemblyException e) {
+			logger.error("Unable to retrieve credit course proposal", e);
+			e.printStackTrace();
+			throw new OperationFailedException("Unable to retrieve credit course proposal");
+		}
+	}
+
+	@Override
+	public DataSaveResult<CreditCourseProposal> saveCreditCourseProposal(
+			CreditCourseProposal proposal) throws OperationFailedException {
+		try {
+			initAssemblers();
+			SaveResult<CreditCourseProposal> s = creditCourseProposalAssembler.save(proposal);
+			if (s == null) {
+				return null;
+			} else {
+				// TODO fix serialization save results
+				return new DataSaveResult<CreditCourseProposal>(s.getValidationResults(), s.getValue());
+			}
+		} catch (AssemblyException e) {
+			logger.error("Unable to retrieve credit course proposal", e);
+			e.printStackTrace();
+			throw new OperationFailedException("Unable to save credit course proposal");
+		}
+	}
 }
