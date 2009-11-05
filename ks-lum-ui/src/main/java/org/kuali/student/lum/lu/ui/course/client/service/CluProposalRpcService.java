@@ -56,5 +56,5 @@ public interface CluProposalRpcService extends BaseRpcService{
 	public Boolean disapproveDocument(String requestDocId);
     
 	public CreditCourseProposal getCreditCourseProposal(String id) throws OperationFailedException;
-	public DataSaveResult<CreditCourseProposal> saveCreditCourseProposal(CreditCourseProposal proposal) throws OperationFailedException;
+	public DataSaveResult saveCreditCourseProposal(CreditCourseProposal proposal) throws OperationFailedException;
 }

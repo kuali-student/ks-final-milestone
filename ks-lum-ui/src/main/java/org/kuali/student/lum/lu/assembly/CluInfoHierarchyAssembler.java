@@ -104,9 +104,11 @@ public class CluInfoHierarchyAssembler implements Assembler<CluInfoHierarchy, Vo
 	}
 
 	private void build(CluInfoHierarchy currentClu, RelationshipHierarchy currentRel) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		List<CluInfo> children = luService.getClusByRelation(currentClu.getCluInfo().getId(), currentRel.getRelationshipType());
+		System.out.println("Retrieving relation: " + currentClu.getCluInfo().getId() + "\t" + currentRel.getRelationshipType());
+		List<CluCluRelationInfo> children = luService.getCluCluRelationsByClu(currentClu.getCluInfo().getId());
 		if (children != null) {
-			for (CluInfo clu : children) {
+			for (CluCluRelationInfo rel : children) {
+				CluInfo clu = luService.getClu(rel.getRelatedCluId());
 				CluInfoHierarchy c = new CluInfoHierarchy();
 				c.setParentRelationType(currentRel.getRelationshipType());
 				c.setParentRelationState(currentRel.getRelationshipState());
@@ -199,6 +201,7 @@ public class CluInfoHierarchyAssembler implements Assembler<CluInfoHierarchy, Vo
 			rel.setRelatedCluId(input.getCluInfo().getId());
 			rel.setType(input.getParentRelationType());
 			rel.setState(input.getParentRelationState());
+			System.out.println("Creating relation: " + rel.getCluId() + "\t" + rel.getType() + "\t" + rel.getRelatedCluId());
 			luService.createCluCluRelation(rel.getCluId(), rel.getRelatedCluId(), rel.getType(), rel);
 		}
 		for (CluInfoHierarchy h : input.getChildren()) {

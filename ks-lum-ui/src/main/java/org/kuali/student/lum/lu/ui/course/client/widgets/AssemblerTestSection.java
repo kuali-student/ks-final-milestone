@@ -3,7 +3,6 @@ package org.kuali.student.lum.lu.ui.course.client.widgets;
 import java.util.List;
 
 import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.common.assembly.client.SaveResult;
 import org.kuali.student.common.assembly.client.Data.Property;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionView;
@@ -83,7 +82,7 @@ public class AssemblerTestSection extends SectionView {
 			panel.add(buttonPanel);
 			panel.add(status);
 			panel.add(output);
-			output.setSize("640px", "480px");
+			output.setSize("800px", "600px");
 			
 			buttonPanel.add(new Button("Create new", new ClickHandler() {
 				@Override
@@ -105,7 +104,7 @@ public class AssemblerTestSection extends SectionView {
 			status.setText("Creating new proposal");
 			CreditCourseProposal prop = createCreditCourseProposal();
 			status.setText("Saving new proposal");
-			service.saveCreditCourseProposal(prop, new AsyncCallback<DataSaveResult<CreditCourseProposal>>() {
+			service.saveCreditCourseProposal(prop, new AsyncCallback<DataSaveResult>() {
 
 				@Override
 				public void onFailure(Throwable caught) {
@@ -113,8 +112,8 @@ public class AssemblerTestSection extends SectionView {
 				}
 
 				@Override
-				public void onSuccess(DataSaveResult<CreditCourseProposal> result) {
-					CreditCourseProposal created = result.getValue();
+				public void onSuccess(DataSaveResult result) {
+					CreditCourseProposal created = (CreditCourseProposal) result.getValue();
 					if (created != null) {
 						lastCreatedId = created.getProposal().getId();
 						output.setText("");
@@ -156,18 +155,19 @@ public class AssemblerTestSection extends SectionView {
 		
 
 		private void dumpSaveResult(
-				SaveResult<CreditCourseProposal> result) {
+				DataSaveResult result) {
 			List<ValidationResultInfo> val = result.getValidationResults();
 			StringBuilder sb = new StringBuilder();
-			
-			for (ValidationResultInfo v : val) {
-				sb.append(v.getLevel().toString());
-				sb.append("\t");
-				sb.append(v.getMessage());
-				sb.append("\n");
+			if (val != null) {
+				for (ValidationResultInfo v : val) {
+					sb.append(v.getLevel().toString());
+					sb.append("\t");
+					sb.append(v.getMessage());
+					sb.append("\n");
+				}
+				output.setText(output.getText() + sb.toString());
 			}
-			output.setText(output.getText() + sb.toString());
-			dumpProposal(result.getValue());
+			dumpProposal((CreditCourseProposal)result.getValue());
 		}
 		private void dumpProposal(CreditCourseProposal prop) {
 			if (prop== null) {
@@ -195,6 +195,8 @@ public class AssemblerTestSection extends SectionView {
 				Object o = p.getValue();
 				if (o instanceof Data) {
 					dumpData((Data) o, indent+1, sb);
+				} else if (o == null) {
+					sb.append("null\n");
 				} else {
 					sb.append(o.toString());
 					sb.append("\n");

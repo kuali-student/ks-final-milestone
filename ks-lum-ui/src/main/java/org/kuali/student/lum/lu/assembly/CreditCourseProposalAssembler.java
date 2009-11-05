@@ -80,8 +80,8 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 	private CluInfoHierarchyAssembler getCluHierarchyAssembler() {
 		if (cluHierarchyAssembler == null) {
 			RelationshipHierarchy course = new RelationshipHierarchy();
-			RelationshipHierarchy formats = new RelationshipHierarchy(FORMAT_RELATION_TYPE, proposalState);
-			RelationshipHierarchy activities = new RelationshipHierarchy(ACTIVITY_RELATION_TYPE, proposalState);
+			RelationshipHierarchy formats = new RelationshipHierarchy(FORMAT_RELATION_TYPE, "Active");
+			RelationshipHierarchy activities = new RelationshipHierarchy(ACTIVITY_RELATION_TYPE, "Active");
 			
 			course.addChild(formats);
 			formats.addChild(activities);
@@ -368,8 +368,6 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 			if (courseId == null) {
 				throw new AssemblyException("Course ID was null after save");
 			}
-				
-			// TODO make sure to use freshly loaded clu data after saving clus, so you can get the reference id on creates
 			
 			// make sure that the proposal's reference info is properly set
 			ProposalInfoData inputProposal = root.getProposal();

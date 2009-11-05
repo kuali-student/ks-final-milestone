@@ -53,6 +53,6 @@ public interface CluProposalRpcServiceAsync extends BaseRpcServiceAsync{
 	public void disapproveDocument(String requestDocId, AsyncCallback<Boolean> callback);
 	
 	public void getCreditCourseProposal(String id, AsyncCallback<CreditCourseProposal> callback);
-	public void saveCreditCourseProposal(CreditCourseProposal proposal, AsyncCallback<DataSaveResult<CreditCourseProposal>> callback);
+	public void saveCreditCourseProposal(CreditCourseProposal proposal, AsyncCallback<DataSaveResult> callback);
     
 }

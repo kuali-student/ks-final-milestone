@@ -1373,7 +1373,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	}
 
 	@Override
-	public DataSaveResult<CreditCourseProposal> saveCreditCourseProposal(
+	public DataSaveResult saveCreditCourseProposal(
 			CreditCourseProposal proposal) throws OperationFailedException {
 		try {
 			initAssemblers();
@@ -1381,8 +1381,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 			if (s == null) {
 				return null;
 			} else {
-				// TODO fix serialization save results
-				return new DataSaveResult<CreditCourseProposal>(s.getValidationResults(), s.getValue());
+				return new DataSaveResult(s.getValidationResults(), s.getValue());
 			}
 		} catch (AssemblyException e) {
 			logger.error("Unable to retrieve credit course proposal", e);
