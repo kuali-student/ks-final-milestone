@@ -39,7 +39,10 @@ import org.kuali.rice.kew.webservice.StandardResponse;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.student.common.assembly.client.AssemblyException;
+import org.kuali.student.common.assembly.client.Data;
+import org.kuali.student.common.assembly.client.Model;
 import org.kuali.student.common.assembly.client.SaveResult;
+import org.kuali.student.common.assembly.client.SimpleModelDefinition;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
@@ -66,6 +69,7 @@ import org.kuali.student.lum.lu.dto.workflow.CluProposalDocInfo;
 import org.kuali.student.lum.lu.dto.workflow.PrincipalIdRoleAttribute;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
+import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.DataSaveResult;
@@ -1300,7 +1304,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             return new Boolean(false);
         }
         return new Boolean(true);
-    }
+    }	
     
 	public void setSimpleDocService(SimpleDocumentActionsWebService simpleDocService) {
 		this.simpleDocService = simpleDocService;
@@ -1350,7 +1354,29 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     public void setLearningObjectiveService(LearningObjectiveService learningObjectiveService) {
         this.learningObjectiveService = learningObjectiveService;
     }
-
+    
+    /**
+     * This method should return a an empty model with associated model definition for 
+     * requested model
+     */
+    public Model getCluProposalModelDefinition(String modelId){
+        Model model = null;
+        if (CourseConfigurer.CLU_PROPOSAL_MODEL.equals(modelId)){
+            final SimpleModelDefinition def = new SimpleModelDefinition();
+            def.define("cluInfo", "org.kuali.student.lum.lu.dto.CluInfo");
+            def.define("proposalInfo", "org.kuali.student.core.proposal.dto.ProposalInfo");
+            def.define("cluInfo/officialIdentifier", "org.kuali.student.lum.lu.dto.CluIdentifier");            
+            def.define("cluInfo/rationale", "org.kuali.student.RichText");
+            def.define("cluInfo/officialIdentifier/name", "String");
+            def.define("cluInfo/formats/*/cluInfo", "org.kuali.student.lum.lu.dto.CluInfo");
+            def.define("cluInfo/formats/*/activities/*/cluInfo", "org.kuali.student.lum.lu.dto.CluInfo");
+            
+            model = new Model(def, new Data());     
+            
+        }
+        return model;
+    }
+    
     private CreditCourseProposalAssembler creditCourseProposalAssembler;
     private synchronized void initAssemblers() {
     	if (creditCourseProposalAssembler == null) {
@@ -1372,6 +1398,12 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		}
 	}
 
+   @Override
+   public Data saveData(Data data) {
+       logger.info("Save Data: " + data.toString());
+       return data;
+   }
+	
 	@Override
 	public DataSaveResult saveCreditCourseProposal(
 			CreditCourseProposal proposal) throws OperationFailedException {
@@ -1389,4 +1421,5 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 			throw new OperationFailedException("Unable to save credit course proposal");
 		}
 	}
+
 }

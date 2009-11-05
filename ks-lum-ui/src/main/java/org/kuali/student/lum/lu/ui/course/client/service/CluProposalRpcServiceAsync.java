@@ -17,6 +17,8 @@ package org.kuali.student.lum.lu.ui.course.client.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.kuali.student.common.assembly.client.Data;
+import org.kuali.student.common.assembly.client.Model;
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
 import org.kuali.student.lum.lu.assembly.data.client.creditcourse.CreditCourseProposal;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
@@ -51,6 +53,9 @@ public interface CluProposalRpcServiceAsync extends BaseRpcServiceAsync{
 
 	public void approveDocument(String requestDocId, AsyncCallback<Boolean> callback);
 	public void disapproveDocument(String requestDocId, AsyncCallback<Boolean> callback);
+ 
+	public void getCluProposalModelDefinition(String modelId, AsyncCallback<Model> callback);	
+	public void saveData(Data data, AsyncCallback<Data> callback);
 	
 	public void getCreditCourseProposal(String id, AsyncCallback<CreditCourseProposal> callback);
 	public void saveCreditCourseProposal(CreditCourseProposal proposal, AsyncCallback<DataSaveResult> callback);

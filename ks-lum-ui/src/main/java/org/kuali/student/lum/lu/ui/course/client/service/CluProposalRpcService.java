@@ -17,6 +17,8 @@ package org.kuali.student.lum.lu.ui.course.client.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.kuali.student.common.assembly.client.Data;
+import org.kuali.student.common.assembly.client.Model;
 import org.kuali.student.common.ui.client.service.BaseRpcService;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.lum.lu.assembly.data.client.creditcourse.CreditCourseProposal;
@@ -54,6 +56,9 @@ public interface CluProposalRpcService extends BaseRpcService{
 
     public Boolean approveDocument(String requestDocId);
 	public Boolean disapproveDocument(String requestDocId);
+	
+	public Model getCluProposalModelDefinition(String modelId);
+	public Data saveData(Data data);
     
 	public CreditCourseProposal getCreditCourseProposal(String id) throws OperationFailedException;
 	public DataSaveResult saveCreditCourseProposal(CreditCourseProposal proposal) throws OperationFailedException;
