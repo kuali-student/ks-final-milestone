@@ -1,6 +1,6 @@
 package org.kuali.student.lum.lu.assembly.data.client;
 
-import org.kuali.student.common.assembly.Data;
+import org.kuali.student.common.assembly.client.Data;
 
 public class VersionData extends Data {
 	public enum Properties implements PropertyEnum {

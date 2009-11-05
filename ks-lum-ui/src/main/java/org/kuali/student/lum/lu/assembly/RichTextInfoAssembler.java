@@ -3,9 +3,9 @@ package org.kuali.student.lum.lu.assembly;
 import java.util.List;
 
 import org.kuali.student.common.assembly.Assembler;
-import org.kuali.student.common.assembly.AssemblyException;
-import org.kuali.student.common.assembly.Metadata;
-import org.kuali.student.common.assembly.SaveResult;
+import org.kuali.student.common.assembly.client.AssemblyException;
+import org.kuali.student.common.assembly.client.Metadata;
+import org.kuali.student.common.assembly.client.SaveResult;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.assembly.data.client.RichTextInfoData;

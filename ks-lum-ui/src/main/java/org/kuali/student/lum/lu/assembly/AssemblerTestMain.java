@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.kuali.student.common.assembly.Data;
+import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.ws.beans.JaxWsClientFactory;
 import org.kuali.student.common.ws.beans.JaxWsClientFactoryBean;
 import org.kuali.student.core.atp.dto.AtpDurationTypeInfo;

@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.assembly.Assembler;
-import org.kuali.student.common.assembly.AssemblyException;
-import org.kuali.student.common.assembly.Data;
-import org.kuali.student.common.assembly.Metadata;
-import org.kuali.student.common.assembly.SaveResult;
+import org.kuali.student.common.assembly.client.AssemblyException;
+import org.kuali.student.common.assembly.client.Data;
+import org.kuali.student.common.assembly.client.Metadata;
+import org.kuali.student.common.assembly.client.SaveResult;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.CircularReferenceException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
