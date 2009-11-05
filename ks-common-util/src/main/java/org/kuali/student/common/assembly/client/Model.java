@@ -58,7 +58,11 @@ public class Model implements Serializable {
 	public <T> T get(final QueryPath path) {
 		return (T) root.query(path);
 	}
-
+	
+    public <T> T get(final String path){
+        return (T)get(QueryPath.parse(path));
+    }
+	
 	/**
 	 * @return the root
 	 */
