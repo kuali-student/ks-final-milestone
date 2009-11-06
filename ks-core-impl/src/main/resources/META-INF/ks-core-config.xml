@@ -35,7 +35,9 @@
     <param name="ks.core.jpa.JpaProperties.hibernate.hbm2ddl.auto">validate</param>
 	
     <param name="ks.core.bus.security">false</param>
-
+	
+	<param name="ks.core.doDataLoad">false</param>
+	
 	<param name="config.location">${user.home}/kuali/main/${environment}/ks-config.xml</param> 
 
 </config>

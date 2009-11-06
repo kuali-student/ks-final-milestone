@@ -52,9 +52,11 @@ public class LoadSqlListener implements ApplicationListener,
 	private Map<String,String> preloadMap;
 	private JtaTransactionManager jtaTxManager;	
 	
+	private boolean shouldLoadData = false;
+	
 	@Override
 	public void onApplicationEvent(ApplicationEvent event) {
-		if (event instanceof ContextRefreshedEvent && !loaded) {
+		if (event instanceof ContextRefreshedEvent && !loaded && shouldLoadData) {
 		
 			for (Entry<String, String> entry : preloadMap.entrySet()) {
 				String sqlFileName = entry.getValue();
@@ -120,6 +122,10 @@ public class LoadSqlListener implements ApplicationListener,
 
 	public void setPreloadMap(Map<String, String> preloadMap) {
 		this.preloadMap = preloadMap;
+	}
+
+	public void setShouldLoadData(boolean shouldLoadData) {
+		this.shouldLoadData = shouldLoadData;
 	}
 
 }

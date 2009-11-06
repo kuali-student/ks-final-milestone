@@ -400,25 +400,29 @@
     </bean>
 
 	<!--  Data pre-load -->
-<!--    <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">-->
-<!--        <property name="jtaTxManager" ref="jtaTxManager"/>-->
-<!--        <property name="preloadMap">-->
-<!--            <map>-->
-<!--                <entry key="Organization">-->
-<!--                    <value>classpath:ks-org.sql</value>-->
-<!--                </entry>-->
-<!--				<entry key="Comment">-->
-<!--					<value>classpath:ks-comment.sql</value>-->
-<!--				</entry>-->
-<!--				<entry key="Document">-->
-<!--					<value>classpath:ks-document.sql</value>-->
-<!--				</entry>-->
-<!--				<entry key="Proposal">-->
-<!--					<value>classpath:ks-proposal.sql</value>-->
-<!--				</entry>-->
-<!--            </map>-->
-<!--        </property>-->
-<!--    </bean>-->
+    <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
+        <property name="jtaTxManager" ref="jtaTxManager"/>
+        <property name="shouldLoadData" value="${ks.core.doDataLoad}"/>
+       	<property name="preloadMap">
+        	<map>
+            	<entry key="Organization">
+                	<value>classpath:ks-org.sql</value>
+               	</entry>
+               	<entry key="Comment">
+					<value>classpath:ks-comment.sql</value>
+				</entry>
+				<entry key="Document">
+					<value>classpath:ks-document.sql</value>
+				</entry>
+				<entry key="Proposal">
+					<value>classpath:ks-proposal.sql</value>
+				</entry>
+				<entry key="Atp">
+					<value>classpath:ks-atp.sql</value>
+				</entry>
+           	</map>
+        </property>
+ 	</bean>
 
 	<bean id="mapExceptionAdvisor"
 		class="org.kuali.student.common.util.ExceptionMappingAdvice">

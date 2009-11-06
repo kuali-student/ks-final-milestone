@@ -47,6 +47,8 @@
     <param name="ks.core.datasource.password">${ks.core.datasource.password.${db.vendor}}</param>
     <param name="ks.core.datasource.validationQuery">${ks.core.datasource.validationQuery.${db.vendor}}</param>    
 
+	<param name="ks.core.doDataLoad">true</param>
+
 	<!-- Config defaults and overrides -->
     <param name="config.location">${user.home}/kuali/main/dev/ks-core-config.xml</param> 
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>

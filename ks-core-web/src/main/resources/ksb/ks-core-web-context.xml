@@ -29,7 +29,7 @@
 	<bean id="config" class="org.kuali.student.rice.config.spring.NestedConfigFactoryBean" depends-on="systemPropertyConfigurer">
 		<property name="configLocations">
 			<list>
-				<value>classpath:META-INF/ks-core-config.xml</value>
+				<value>classpath:META-INF/ks-core-web-config.xml</value>
 			</list>
 		</property>
 	</bean>
@@ -416,6 +416,7 @@
 	<!--  Data pre-load -->
     <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
         <property name="jtaTxManager" ref="jtaTxManager"/>
+        <property name="shouldLoadData" value="${ks.core.doDataLoad}"/>
         <property name="preloadMap">
             <map>
                 <entry key="Organization">

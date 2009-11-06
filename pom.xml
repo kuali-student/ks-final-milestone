@@ -87,7 +87,7 @@
         <jetty.version>6.1.6</jetty.version>
         <eclipselink.version>1.0</eclipselink.version>
         <aspectj.version>1.5.4</aspectj.version>
-        <kuali.rice.version>1.0.0-ks-m1-SNAPSHOT</kuali.rice.version>
+        <kuali.rice.version>1.0.1</kuali.rice.version>
         <xalan.version>2.7.1</xalan.version>
 
         <!-- plugin versions -->
