@@ -43,6 +43,7 @@ public class SearchManagerImpl implements SearchManager{
 	private Map<String, SearchCriteriaTypeInfo> searchCriteriaTypeMap;
 	private Map<String, SearchResultTypeInfo> searchResultTypeInfoMap;
 	private Map<String, String> queryMap;
+	
 
 	@SuppressWarnings("unchecked")
 	private void init() {
@@ -69,7 +70,7 @@ public class SearchManagerImpl implements SearchManager{
 		if (searchTypeInfo == null) {
 			throw new InvalidParameterException("No such searchTypeKey found: " + searchTypeKey);
 		}
-		return dao.searchForResults(queryString, searchTypeInfo, queryParamValues);
+		return dao.searchForResults(searchTypeKey, queryMap, searchTypeInfo, queryParamValues);
 	}
 
 	public SearchCriteriaTypeInfo getSearchCriteriaType(

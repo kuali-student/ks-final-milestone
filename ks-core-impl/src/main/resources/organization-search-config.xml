@@ -9,6 +9,28 @@
 	 ">
 	<import resource="organization-dictionary-config.xml" />
 
+	<search:searchType id="org.search.test.orgs">
+		<search:name>All Orgs Filtered</search:name>
+		<search:desc>Query with multiple optional elements</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="org.result.orgFullView" />
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo id="org.criteria.orgGenericCriteria">
+			<search:name>OrgGenericCriteria</search:name>
+			<search:desc>OrgGenericCriteria Description</search:desc>
+			<search:queryParams>
+				<search:queryParam id="org.queryParam.orgGenericType" optional="true">
+					<ref bean="childFieldDescriptor"/>
+				</search:queryParam>
+				<search:queryParam id="org.queryParam.orgGenericShortName" optional="true">
+					<ref bean="childFieldDescriptor"/>
+				</search:queryParam>
+			</search:queryParams>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+	
+
+
 	<search:searchType id="org.search.orgHierarchyIds">
 		<search:name>All org Hierarchies</search:name>
 		<search:desc>Returns all org hierarchy ids.</search:desc>
@@ -438,6 +460,15 @@
 				</entry>
 				<entry key="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgTypeAltr">
 					<value>SELECT rel.org.id, rel.org.shortName FROM OrgOrgRelation rel WHERE rel.type.id = :org_queryParam_relationType AND (rel.org.type.id in (:org_queryParam_orgTypeList))  AND rel.relatedOrg.type.id = :org_queryParam_relatedOrgType</value>
+				</entry>
+				<entry key="org.search.test.orgs">
+					<value>SELECT org.id, org.shortName, org.longName, org.type.id, hierarchy.name FROM Org org, in(org.type.orgHierarchies) hierarchy</value>
+				</entry>
+				<entry key="org.queryParam.orgGenericType">
+					<value>org.type.id = :org_queryParam_orgGenericType</value>
+				</entry>
+				<entry key="org.queryParam.orgGenericShortName">
+					<value>org.shortName like :org_queryParam_orgGenericShortName</value>
 				</entry>
 			</map>
 		</property>

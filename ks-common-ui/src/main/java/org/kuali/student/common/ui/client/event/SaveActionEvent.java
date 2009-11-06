@@ -27,15 +27,15 @@ public class SaveActionEvent extends ActionEvent<SaveActionHandler> implements H
     public static final Type<SaveActionHandler> TYPE = new Type<SaveActionHandler>();
     
     private ActionState actionState;
-    private String message = "Saving";    
+    private String message = "Saving";
     
     public SaveActionEvent(){
     }
-
+    
     public SaveActionEvent(String message){
         this.message = message;
     }    
-    
+   
     @Override
     protected void dispatch(SaveActionHandler handler) {
         handler.doSave(this);
@@ -58,9 +58,9 @@ public class SaveActionEvent extends ActionEvent<SaveActionHandler> implements H
     public ActionState getActionState() {
         return this.actionState;
     }
-
+    
     public String getMessage(){
         return message;
     }
-
+    
 }

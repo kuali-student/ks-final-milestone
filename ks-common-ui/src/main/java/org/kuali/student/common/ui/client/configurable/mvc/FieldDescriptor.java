@@ -1,20 +1,22 @@
 /*
- * Copyright 2007 The Kuali Foundation
- *
- * Licensed under the Educational Community License, Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.opensource.org/licenses/ecl1.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2009 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ * 
+ * http://www.osedu.org/licenses/ECL-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
  */
 package org.kuali.student.common.ui.client.configurable.mvc;
 
+import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
+import org.kuali.student.common.ui.client.configurable.mvc.binding.MultiplicityCompositeBinding;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
@@ -40,6 +42,7 @@ public class FieldDescriptor {
     private Widget fieldWidget;
     private PropertyBinding propertyBinding;
     private PropertyBinding widgetBinding;
+    private ModelWidgetBinding modelWidgetBinding;
     private Callback<Boolean> validationRequestCallback;
     private RequiredEnum requiredState = RequiredEnum.NOT_MARKED;
     private boolean dirty = false;
@@ -56,10 +59,9 @@ public class FieldDescriptor {
         this.fieldLabel = fieldLabel;
         this.fieldType = fieldType;
         this.fieldWidget = fieldWidget;
-        
     }
-
-	public FieldDescriptor(String fieldKey, String fieldLabel, ModelDTOValue.Type fieldType, Widget fieldWidget, RequiredEnum requiredState) {
+    
+    public FieldDescriptor(String fieldKey, String fieldLabel, ModelDTOValue.Type fieldType, Widget fieldWidget, RequiredEnum requiredState) {
         this.fieldKey = fieldKey;
         this.fieldLabel = fieldLabel;
         this.fieldType = fieldType;
@@ -116,11 +118,7 @@ public class FieldDescriptor {
     
     public Widget getFieldWidget(){
         if (fieldWidget == null){
-            //This could possible do a dictionary lookup to determine widget to use if none specified.
-            switch (fieldType){
-                case STRING: fieldWidget = new KSTextBox(); break;
-                case INTEGER: fieldWidget = new KSTextBox();break;
-            }
+            fieldWidget = new KSTextBox();
         }
         setWidgetStyle();
         return fieldWidget;
@@ -154,9 +152,29 @@ public class FieldDescriptor {
         return widgetBinding;
     }
 
-    public void setWidgetBinding(PropertyBinding widgetBinding) {
-        
+    public ModelWidgetBinding<?> getModelWidgetBinding() {
+        if(modelWidgetBinding == null){
+            if(fieldWidget instanceof RichTextEditor){
+            	modelWidgetBinding = org.kuali.student.common.ui.client.configurable.mvc.binding.RichTextBinding.INSTANCE;
+            }else if(fieldWidget instanceof MultiplicityComposite){
+        		modelWidgetBinding = MultiplicityCompositeBinding.INSTANCE;
+        	}else if (fieldWidget instanceof HasText) {
+        	    modelWidgetBinding = org.kuali.student.common.ui.client.configurable.mvc.binding.HasTextBinding.INSTANCE;
+            } else if (fieldWidget instanceof KSSelectItemWidgetAbstract){
+                modelWidgetBinding = org.kuali.student.common.ui.client.configurable.mvc.binding.SelectItemWidgetBinding.INSTANCE;
+            } else if (fieldWidget instanceof HasValue){
+                modelWidgetBinding = org.kuali.student.common.ui.client.configurable.mvc.binding.HasValueBinding.INSTANCE;
+            }
+        }
+        return modelWidgetBinding;
+    }
+
+    public void setWidgetBinding(PropertyBinding widgetBinding) {        
         this.widgetBinding = widgetBinding;
+    }
+        
+    public void setWidgetBinding(ModelWidgetBinding widgetBinding) {        
+        this.modelWidgetBinding = widgetBinding;
     }
     public void setValidationCallBack(Callback<Boolean> callback){
         validationRequestCallback = callback;

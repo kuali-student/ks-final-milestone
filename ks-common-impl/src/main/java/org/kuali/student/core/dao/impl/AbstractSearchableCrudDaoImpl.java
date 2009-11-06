@@ -16,10 +16,12 @@ package org.kuali.student.core.dao.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Query;
 
 import org.kuali.student.core.dao.SearchableDao;
+import org.kuali.student.core.search.dto.QueryParamInfo;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.ResultCell;
@@ -32,10 +34,31 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 
 
 	@Override
-	public List<Result> searchForResults(String queryString,
-			SearchTypeInfo searchTypeInfo,
+	public List<Result> searchForResults(String searchTypeKey,
+			Map<String, String> queryMap, SearchTypeInfo searchTypeInfo,
 			List<QueryParamValue> queryParamValues) {
 
+		String queryString = queryMap.get(searchTypeKey);
+		String optionalQueryString = "";
+		
+		//add in optional
+		for(QueryParamValue queryParamValue : queryParamValues){
+			for(QueryParamInfo queryParamInfo:searchTypeInfo.getSearchCriteriaTypeInfo().getQueryParams()){
+				if(queryParamInfo.isOptional()&&queryParamInfo.getKey().equals(queryParamValue.getKey())){
+					if(!optionalQueryString.isEmpty()){
+						optionalQueryString += " AND ";
+					}
+					optionalQueryString += queryMap.get(queryParamValue.getKey());
+				}
+			}
+		}
+		if(!optionalQueryString.isEmpty()){
+			if(!queryString.toUpperCase().contains(" WHERE ")){
+				queryString += " WHERE ";
+			}
+			queryString += optionalQueryString;
+		}
+		
 		Query query = em.createQuery(queryString);
 		
 		//replace all the "." notation with "_" since the "."s in the ids of the queries will cause problems with the jpql  
@@ -76,5 +99,7 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		}
 		return results;
 	}
+
+
 
 }

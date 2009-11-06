@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.kuali.student.core</groupId>
     <artifactId>ks-core</artifactId>
-    <version>1.0.0-m1-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>KS Core</name>
     <description>Kuali Student Parent POM</description>
@@ -51,8 +51,8 @@
     </modules>
 
     <scm>
-        <connection>scm:svn:https://test.kuali.org/svn/student/ks-core/branches/ks-core-1.0.0-m1</connection>
-        <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-core/branches/ks-core-1.0.0-m1</developerConnection>
+        <connection>scm:svn:https://test.kuali.org/svn/student/ks-core/branches/ks-core-dev</connection>
+        <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-core/branches/ks-core-dev</developerConnection>
     </scm>
 
     <repositories>
@@ -73,6 +73,7 @@
     </repositories>
 
     <properties>
+    	<!-- artifact versions -->
         <atomikos.version>3.4.1</atomikos.version>
         <cxf.version>2.2</cxf.version>
         <gwtVersion>1.6.4</gwtVersion>
@@ -86,7 +87,7 @@
         <jetty.version>6.1.6</jetty.version>
         <eclipselink.version>1.0</eclipselink.version>
         <aspectj.version>1.5.4</aspectj.version>
-        <kuali.rice.version>1.0.0-ks-m1-SNAPSHOT</kuali.rice.version>
+        <kuali.rice.version>1.0.1</kuali.rice.version>
         <xalan.version>2.7.1</xalan.version>
 
         <!-- plugin versions -->
@@ -95,6 +96,10 @@
         <site.plugin.version>2.0-beta-7</site.plugin.version>
 		<gwt.codehaus.plugin.version>1.2-SNAPSHOT</gwt.codehaus.plugin.version>
         <war.plugin.version>2.1-beta-1</war.plugin.version>
+        
+        <!-- build properties -->
+        <ks-core.version>1.0.0-SNAPSHOT</ks-core.version>
+        <ks.gwt.compile.phase>package</ks.gwt.compile.phase>
     </properties>
 
     <profiles>
@@ -363,7 +368,20 @@
 			        <groupId>org.codehaus.mojo</groupId>
 	        		<artifactId>tomcat-maven-plugin</artifactId>
 	        		<version>1.0-beta-1</version>
+	        		<configuration>
+	        			<server>${project.artifactId}</server>
+	        			<warDirectory>${project.build.directory}/${project.artifactId}-webapp</warDirectory>
+	        		</configuration>
 			    </plugin>
+			    
+			    <!-- War plugin Configuration -->
+			    <plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<configuration>
+						<webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
+					</configuration>
+				</plugin>
 	
 				<!-- Codehaus GWT Maven Plugin Configuration-->
 				<plugin>
@@ -371,9 +389,9 @@
 					<artifactId>gwt-maven-plugin</artifactId>
 					<version>${gwt.codehaus.plugin.version}</version>
 					<configuration>
-						<webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
-						<buildOutputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/classes</buildOutputDirectory>		          
-						<hostedWebapp>${project.build.directory}/${project.build.finalName}</hostedWebapp>
+						<webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
+						<buildOutputDirectory>${project.build.directory}/${project.artifactId}-webapp/WEB-INF/classes</buildOutputDirectory>		          
+						<hostedWebapp>${project.build.directory}/${project.artifactId}-webapp</hostedWebapp>
 						<extraJvmArgs>-Xss32m -Xmx512m</extraJvmArgs>
 					</configuration>
 				</plugin>
@@ -1008,31 +1026,31 @@
 			<dependency>
 				<groupId>org.kuali.student.core</groupId>
 				<artifactId>ks-jta</artifactId>
-				<version>1.0.0-m1-SNAPSHOT</version>
+				<version>1.0.0-SNAPSHOT</version>
 				<type>pom</type>
 			</dependency>
 			<dependency>
 				<groupId>org.kuali.student.core</groupId>
 				<artifactId>ks-cxf</artifactId>
-				<version>1.0.0-m1-SNAPSHOT</version>
+				<version>1.0.0-SNAPSHOT</version>
 				<type>pom</type>
 			</dependency>
 			<dependency>
 				<groupId>org.kuali.student.core</groupId>
 				<artifactId>ks-metro</artifactId>
-				<version>1.0.0-m1-SNAPSHOT</version>
+				<version>1.0.0-SNAPSHOT</version>
 				<type>pom</type>
 			</dependency>
 			<dependency>
 				<groupId>org.kuali.student.core</groupId>
 				<artifactId>ks-eclipselink</artifactId>
-				<version>1.0.0-m1-SNAPSHOT</version>
+				<version>1.0.0-SNAPSHOT</version>
 				<type>pom</type>
 			</dependency>
 			<dependency>
 				<groupId>org.kuali.student.core</groupId>
 				<artifactId>ks-hibernate</artifactId>
-				<version>1.0.0-m1-SNAPSHOT</version>
+				<version>1.0.0-SNAPSHOT</version>
 				<type>pom</type>
 			</dependency>
 			
@@ -1189,7 +1207,7 @@
 	                	<groupId>org.eclipse.jdt</groupId>
 	                	<artifactId>core</artifactId>
 	                </exclusion>
-	            </exclusions>                
+	            </exclusions>                   
             </dependency>          
 
             <dependency>

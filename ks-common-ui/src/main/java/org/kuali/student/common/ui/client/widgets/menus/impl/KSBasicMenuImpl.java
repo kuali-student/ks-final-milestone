@@ -135,6 +135,8 @@ public class KSBasicMenuImpl extends KSBasicMenuAbstract{
             Widget sender = (Widget) event.getSource();
             if(sender instanceof MenuItemPanel){
                 selectMenuItemPanel((MenuItemPanel)sender);
+                sender.removeStyleName(KSStyles.KS_BASIC_MENU_ITEM_PANEL_HOVER);
+                ((MenuItemPanel) sender).getItemLabel().removeStyleName(KSStyles.KS_BASIC_MENU_ITEM_LABEL_HOVER);
             }
         }
 
@@ -144,7 +146,7 @@ public class KSBasicMenuImpl extends KSBasicMenuAbstract{
         public void onMouseOver(MouseOverEvent event) {
             Widget sender = (Widget) event.getSource();   
             if(sender instanceof MenuItemPanel){
-                if(((MenuItemPanel) sender).isSelectable()){
+                if(((MenuItemPanel) sender).isSelectable() && !((MenuItemPanel) sender).isSelected()){
                     sender.addStyleName(KSStyles.KS_BASIC_MENU_ITEM_PANEL_HOVER);
                     ((MenuItemPanel) sender).getItemLabel().addStyleName(KSStyles.KS_BASIC_MENU_ITEM_LABEL_HOVER);
                 }
@@ -191,6 +193,7 @@ public class KSBasicMenuImpl extends KSBasicMenuAbstract{
         KSLabel itemLabel = new KSLabel();
         HorizontalPanel contentPanel = new HorizontalPanel();
         boolean selectable = false;
+        boolean selected = false;
         KSMenuItemData item;
         int indent;
         int itemNum;
@@ -246,11 +249,13 @@ public class KSBasicMenuImpl extends KSBasicMenuAbstract{
         public void deSelect(){
             this.removeStyleName(KSStyles.KS_BASIC_MENU_ITEM_PANEL_SELECTED);
             itemLabel.removeStyleName(KSStyles.KS_BASIC_MENU_ITEM_LABEL_SELECTED);
+            selected = false;
         }
         
         public void select(){
             this.addStyleName(KSStyles.KS_BASIC_MENU_ITEM_PANEL_SELECTED);
             itemLabel.addStyleName(KSStyles.KS_BASIC_MENU_ITEM_LABEL_SELECTED);
+            selected = true;
         }
 
         public KSLabel getItemLabel() {
@@ -268,6 +273,16 @@ public class KSBasicMenuImpl extends KSBasicMenuAbstract{
         public KSMenuItemData getItem() {
             return item;
         }
+
+		public boolean isSelected() {
+			return selected;
+		}
+
+		public void setSelected(boolean selected) {
+			this.selected = selected;
+		}
+        
+        
     }
     
     @Override

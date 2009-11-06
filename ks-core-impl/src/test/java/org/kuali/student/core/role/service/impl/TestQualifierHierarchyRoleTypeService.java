@@ -40,7 +40,7 @@ import org.kuali.student.core.role.QualifierHierarchyRoleTypeService;
 @PersistenceFileLocation("classpath:META-INF/role-persistence.xml")
 public class TestQualifierHierarchyRoleTypeService extends AbstractServiceTest {
     
-    @Client(value = "org.kuali.student.core.role.service.impl.QualifierHierarchyRoleTypeServiceImpl", port = "8181")
+    @Client(value = "org.kuali.student.core.role.service.impl.QualifierHierarchyRoleTypeServiceImpl")
     public QualifierHierarchyRoleTypeService qhRoleTypeService;
     
     AttributeSet qualification;

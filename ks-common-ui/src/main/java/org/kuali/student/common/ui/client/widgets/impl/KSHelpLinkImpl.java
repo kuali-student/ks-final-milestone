@@ -37,6 +37,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class KSHelpLinkImpl extends KSHelpLinkAbstract { 
 
     private final HorizontalPanel main = new HorizontalPanel();
@@ -49,7 +50,7 @@ public class KSHelpLinkImpl extends KSHelpLinkAbstract {
 
     private final MyEventHandler handler = new MyEventHandler();
 
-    private final KSImages icons = GWT.create(KSImages.class);
+    //private final KSImages icons = GWT.create(KSImages.class);
     private final KSLabel validationText = new KSLabel();
     private KSInfoDialogPanel popup ;
     private KSToolTip tip ;
@@ -186,22 +187,23 @@ public class KSHelpLinkImpl extends KSHelpLinkAbstract {
         main.addStyleName(KSStyles.KS_HELP_TEXT_PANEL_ERROR);
     }
 
+    //BELOW commented out because this widget is no longer in use, fix if it comes back into use
     private Image generateDefaultImage() {
-        Image image = icons.defaultIcon().createImage();
-        addImageListeners(image);          
-        return image;
+        //Image image = icons.defaultIcon().createImage();
+        //addImageListeners(image);          
+        return null;
     }
 
     private Image generateOKImage() {
-        Image image = icons.okIcon().createImage();
+        //Image image = icons.okIcon().createImage();
 //        addImageListeners(image); // Do we need any listeners if field is now OK?                   
-        return image;
+        return null;
     }
 
     private Image generateErrorImage() {
-        Image image = icons.errorIcon().createImage();
-        addImageListeners(image);                   
-        return image;
+        //Image image = icons.errorIcon().createImage();
+        //addImageListeners(image);                   
+        return null;
     }
 
     private void addImageListeners(Image image) {

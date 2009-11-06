@@ -1,20 +1,8 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
- * 
- * http://www.osedu.org/licenses/ECL-2.0
- * 
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
- * permissions and limitations under the License.
- */
 package org.kuali.student.common.ui.client.widgets.impl;
 
 import org.kuali.student.common.ui.client.images.KSImages;
+import org.kuali.student.common.ui.client.theme.Theme;
+import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSRichTextToolbarAbstract;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.KSRichTextToolbarAbstract.Strings;
@@ -208,7 +196,7 @@ public class KSRichTextToolbarImpl extends KSRichTextToolbarAbstract{
 	      RichTextArea.FontSize.LARGE, RichTextArea.FontSize.X_LARGE,
 	      RichTextArea.FontSize.XX_LARGE};
 
-	  private KSImages images = (KSImages) GWT.create(KSImages.class);
+	  //private KSImages images = (KSImages) GWT.create(KSImages.class);
 	  private Strings strings = (Strings) GWT.create(KSRichTextToolbarAbstract.Strings.class);
 	  private EventHandler handler = new EventHandler();
 
@@ -307,40 +295,40 @@ public class KSRichTextToolbarImpl extends KSRichTextToolbarAbstract{
 	    richText.addStyleName("hasRichTextToolbar");
 
 	    if (basic != null) {
-	      topPanel.add(bold = createToggleButton(images.bold(), strings.bold()));          
-	      topPanel.add(italic = createToggleButton(images.italic(),
+	      topPanel.add(bold = createToggleButton(Theme.INSTANCE.getRichTextEditorImages().bold(), strings.bold()));          
+	      topPanel.add(italic = createToggleButton(Theme.INSTANCE.getRichTextEditorImages().italic(),
 	          strings.italic()));
-	      topPanel.add(underline = createToggleButton(images.underline(),
+	      topPanel.add(underline = createToggleButton(Theme.INSTANCE.getRichTextEditorImages().underline(),
 	          strings.underline()));
-	      topPanel.add(subscript = createToggleButton(images.subscript(),
+	      topPanel.add(subscript = createToggleButton(Theme.INSTANCE.getRichTextEditorImages().subscript(),
 	          strings.subscript()));
-	      topPanel.add(superscript = createToggleButton(images.superscript(),
+	      topPanel.add(superscript = createToggleButton(Theme.INSTANCE.getRichTextEditorImages().superscript(),
 	          strings.superscript()));
-	      topPanel.add(justifyLeft = createPushButton(images.justifyLeft(),
+	      topPanel.add(justifyLeft = createPushButton(Theme.INSTANCE.getRichTextEditorImages().justifyLeft(),
 	          strings.justifyLeft()));
 	      //justifyLeft.getElement().getStyle().setProperty("display", "block");
-	      topPanel.add(justifyCenter = createPushButton(images.justifyCenter(),
+	      topPanel.add(justifyCenter = createPushButton(Theme.INSTANCE.getRichTextEditorImages().justifyCenter(),
 	          strings.justifyCenter()));
-	      topPanel.add(justifyRight = createPushButton(images.justifyRight(),
+	      topPanel.add(justifyRight = createPushButton(Theme.INSTANCE.getRichTextEditorImages().justifyRight(),
 	         strings.justifyRight()));
 	    }
 
 	    if (extended != null) {
-	      topPanel.add(strikethrough = createToggleButton(images.strikeThrough(),
+	      topPanel.add(strikethrough = createToggleButton(Theme.INSTANCE.getRichTextEditorImages().strikeThrough(),
 	          strings.strikeThrough()));
-	      topPanel.add(indent = createPushButton(images.indent(), strings.indent()));
-	      topPanel.add(outdent = createPushButton(images.outdent(),
+	      topPanel.add(indent = createPushButton(Theme.INSTANCE.getRichTextEditorImages().indent(), strings.indent()));
+	      topPanel.add(outdent = createPushButton(Theme.INSTANCE.getRichTextEditorImages().outdent(),
 	          strings.outdent()));
-	      topPanel.add(hr = createPushButton(images.hr(), strings.hr()));
-	      topPanel.add(ol = createPushButton(images.ol(), strings.ol()));
-	      topPanel.add(ul = createPushButton(images.ul(), strings.ul()));
-	      topPanel.add(insertImage = createPushButton(images.insertImage(),
+	      topPanel.add(hr = createPushButton(Theme.INSTANCE.getRichTextEditorImages().hr(), strings.hr()));
+	      topPanel.add(ol = createPushButton(Theme.INSTANCE.getRichTextEditorImages().ol(), strings.ol()));
+	      topPanel.add(ul = createPushButton(Theme.INSTANCE.getRichTextEditorImages().ul(), strings.ul()));
+	      topPanel.add(insertImage = createPushButton(Theme.INSTANCE.getRichTextEditorImages().insertImage(),
 	          strings.insertImage()));
-	      topPanel.add(createLink = createPushButton(images.createLink(),
+	      topPanel.add(createLink = createPushButton(Theme.INSTANCE.getRichTextEditorImages().createLink(),
 	          strings.createLink()));
-	      topPanel.add(removeLink = createPushButton(images.removeLink(),
+	      topPanel.add(removeLink = createPushButton(Theme.INSTANCE.getRichTextEditorImages().removeLink(),
 	          strings.removeLink()));
-	      topPanel.add(removeFormat = createPushButton(images.removeFormat(),
+	      topPanel.add(removeFormat = createPushButton(Theme.INSTANCE.getRichTextEditorImages().removeFormat(),
 	          strings.removeFormat()));
 	    }
 	    
@@ -418,8 +406,8 @@ public class KSRichTextToolbarImpl extends KSRichTextToolbarAbstract{
 	    return lb;
 	  }
 
-	  private PushButton createPushButton(AbstractImagePrototype img, String tip) {
-	    PushButton pb = new PushButton(img.createImage());
+	  private PushButton createPushButton(KSImage img, String tip) {
+	    PushButton pb = new PushButton(img.getImage());
 	    pb.addClickHandler(handler);
 	    pb.addMouseDownHandler(handler);
 	    pb.addMouseUpHandler(handler);
@@ -428,8 +416,8 @@ public class KSRichTextToolbarImpl extends KSRichTextToolbarAbstract{
 	    return pb;
 	  }
 
-	  private ToggleButton createToggleButton(AbstractImagePrototype img, String tip) {
-	    ToggleButton tb = new ToggleButton(img.createImage());
+	  private ToggleButton createToggleButton(KSImage img, String tip) {
+	    ToggleButton tb = new ToggleButton(img.getImage());
 	    tb.addClickHandler(handler);
 	    tb.addMouseDownHandler(handler);
 	    tb.addMouseUpHandler(handler);
