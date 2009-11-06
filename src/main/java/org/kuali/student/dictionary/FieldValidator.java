@@ -25,12 +25,12 @@ public class FieldValidator implements ModelValidator
 {
 
  private Field field;
- private DictionaryModel sheet;
+ private DictionaryModel model;
 
  public FieldValidator (Field field, DictionaryModel sheet)
  {
   this.field = field;
-  this.sheet = sheet;
+  this.model = sheet;
  }
 
  private Collection errors;
@@ -58,15 +58,13 @@ public class FieldValidator implements ModelValidator
 
  private Constraint findConstraint (String id)
  {
-  for (Constraint cons : sheet.getConstraints ())
+  Constraint cons = new ModelFinder (model).findConstraint (id);
+  if (cons != null)
   {
-   if (cons.getId ().equals (id))
-   {
-    return cons;
-   }
+   return cons;
   }
-  addError ("Constraint id, " + id +
-   " is not defined in the list of constraints");
+  addError ("Field constraint id, " + id +
+   " is not defined in the bank of constraints");
   return null;
  }
 

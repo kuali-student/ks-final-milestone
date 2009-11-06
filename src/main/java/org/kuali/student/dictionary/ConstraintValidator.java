@@ -131,7 +131,7 @@ public class ConstraintValidator implements ModelValidator
   }
   catch (NumberFormatException ex)
   {
-   addError (field + " is not an integer");
+   addError (field + " is [" + value + "] not an integer");
    return 0;
   }
  }
@@ -141,7 +141,7 @@ public class ConstraintValidator implements ModelValidator
   String id = cons.getId ();
   if (id.equals (""))
   {
-   id = "in-line constraint";
+   id = cons.getKey ();
   }
   String error = "Error in constraint " + id + ": " + msg;
   if ( ! errors.contains (error))

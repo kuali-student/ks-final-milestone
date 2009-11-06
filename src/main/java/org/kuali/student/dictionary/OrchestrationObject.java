@@ -63,7 +63,19 @@ public class OrchestrationObject
  public String getFullyQualifiedName ()
  {
   return packagePath +
-   "." + name.substring (0, 1).toUpperCase () + name.substring (1) + "Data";
+   "." + name.substring (0, 1).toUpperCase () + name.substring (1);
+ }
+
+ private String assembleFromClass;
+
+ public String getAssembleFromClass ()
+ {
+  return assembleFromClass;
+ }
+
+ public void setAssembleFromClass (String assembleFromClass)
+ {
+  this.assembleFromClass = assembleFromClass;
  }
 
 }

@@ -111,15 +111,31 @@ public class DictionaryValidator implements ModelValidator
 
  private Constraint findConstraint (String id)
  {
-  for (Constraint cons : this.sheet.getConstraints ())
+  Constraint cons = new ModelFinder (this.sheet).findConstraint (id);
+  if (cons != null)
   {
-   if (cons.getId ().equals (id))
+   return cons;
+  }
+  System.out.println ("id=["+ id + "]");
+  if (id == null)
+  {
+   System.out.println ("id is null");
+  }
+  else if (id.equals (""))
    {
-    return cons;
+    System.out.println ("id is empty string");
+   }
+  else
+  {
+   int i = 0;
+   for (byte b : id.getBytes ())
+   {
+    i++;
+    System.out.println (i + ":" + b);
    }
   }
-  addError ("Constraint id, " + id +
-   " is not defined in the list of constraints");
+  addError ("Dictionary constraint id, " + id +
+   " is not defined in the bank of constraints");
   return null;
  }
 
@@ -142,7 +158,7 @@ public class DictionaryValidator implements ModelValidator
  {
   if (cons.getId ().equals (""))
   {
-   return "in-line constraint";
+   return cons.getKey ();
   }
   return cons.getId ();
  }

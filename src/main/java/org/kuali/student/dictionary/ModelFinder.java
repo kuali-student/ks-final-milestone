@@ -28,16 +28,16 @@ import java.util.Set;
 public class ModelFinder
 {
 
- private DictionaryModel spreadsheet;
+ private DictionaryModel model;
 
  public ModelFinder (DictionaryModel spreadsheet)
  {
-  this.spreadsheet = spreadsheet;
+  this.model = spreadsheet;
  }
 
  public XmlType findXmlType (String xmlTypeName)
  {
-  for (XmlType xmlType : spreadsheet.getXmlTypes ())
+  for (XmlType xmlType : model.getXmlTypes ())
   {
    if (xmlTypeName.equalsIgnoreCase (xmlType.getName ()))
    {
@@ -49,7 +49,7 @@ public class ModelFinder
 
  public Type findType (String xmlObject, String typeName)
  {
-  for (Type type : spreadsheet.getTypes ())
+  for (Type type : model.getTypes ())
   {
    if (type.getXmlObject ().equalsIgnoreCase (xmlObject))
    {
@@ -79,7 +79,7 @@ public class ModelFinder
 
  public Dictionary findParent (Dictionary dict)
  {
-  for (Dictionary d : spreadsheet.getDictionary ())
+  for (Dictionary d : model.getDictionary ())
   {
    if (d.getXmlObject ().equalsIgnoreCase (dict.getParentObject ()))
    {
@@ -98,8 +98,8 @@ public class ModelFinder
   */
  public List<Dictionary> findDefaultDictionary ()
  {
-  List<Dictionary> list = new ArrayList (spreadsheet.getDictionary ().size ());
-  for (Dictionary d : spreadsheet.getDictionary ())
+  List<Dictionary> list = new ArrayList (model.getDictionary ().size ());
+  for (Dictionary d : model.getDictionary ())
   {
    if (d.getMainState ().equalsIgnoreCase (State.DEFAULT))
    {
@@ -115,8 +115,8 @@ public class ModelFinder
   */
  public List<Dictionary> findStateOverrideDictionary ()
  {
-  List<Dictionary> list = new ArrayList (spreadsheet.getDictionary ().size ());
-  for (Dictionary d : spreadsheet.getDictionary ())
+  List<Dictionary> list = new ArrayList (model.getDictionary ().size ());
+  for (Dictionary d : model.getDictionary ())
   {
    if ( ! d.getMainState ().equalsIgnoreCase (State.DEFAULT))
    {
@@ -137,7 +137,7 @@ public class ModelFinder
   Set<Type> types = new HashSet ();
   String pattern = type.getTypeKey ();
   GroupTypeStatePatternMatcher matcher = new GroupTypeStatePatternMatcher (pattern);
-  for (Type t : spreadsheet.getTypes ())
+  for (Type t : model.getTypes ())
   {
    // can't match yourself
    if (t == type)
@@ -169,5 +169,18 @@ public class ModelFinder
   }
   return types;
  }
+
+ public Constraint findConstraint (String id)
+ {
+  for (Constraint cons : model.getConstraints ())
+  {
+   if (cons.getId ().equals (id))
+   {
+    return cons;
+   }
+  }
+  return null;
+ }
+
 }
 

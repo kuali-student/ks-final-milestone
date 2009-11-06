@@ -207,9 +207,9 @@ public class ExcelDictionaryModelLoaderTest implements TestConstants
 //  {
 //   System.out.println (field.getObjectField ());
 //  }
-  if (result.size () < 135)
+  if (result.size () < 50)
   {
-   fail ("too few rows");
+   fail ("too few rows should be > 50 but was" + result.size ());
   }
   //assertEquals (135, result.size ());
   assertEquals (true, true);

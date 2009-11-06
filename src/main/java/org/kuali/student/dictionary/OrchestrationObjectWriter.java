@@ -5,11 +5,14 @@
 package org.kuali.student.dictionary;
 
 import com.sun.codemodel.ClassType;
+import com.sun.codemodel.JClass;
 import com.sun.codemodel.JClassAlreadyExistsException;
 import com.sun.codemodel.JCodeModel;
+import com.sun.codemodel.JConditional;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JEnumConstant;
 import com.sun.codemodel.JExpr;
+import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
@@ -22,9 +25,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.kuali.student.common.assembly.Data;
+import org.kuali.student.common.assembly.Assembler;
+import org.kuali.student.common.assembly.client.AssemblyException;
+import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.lum.lu.assembly.data.client.ModifiableData;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
+
 
 /**
  *
@@ -56,13 +62,15 @@ public class OrchestrationObjectWriter
   // first do from message structures
   List<OrchestrationObject> orchObjs =
    getOrchestrationObjectsFromMessageStructures ();
-  addClassToModel (jcm, map, orchObjs);
-  addBeanMethodsToModel (jcm, map, orchObjs);
+  addClassesToModel (jcm, map, orchObjs);
+  addBeanMethodsToModelForFields (jcm, map, orchObjs);
+  addBaseAssemblersToModel (jcm, map, orchObjs);
+
   // now do from orchObjs
   orchObjs =
    getOrchestrationObjectsFromOrchObjs ();
-  addClassToModel (jcm, map, orchObjs);
-  addBeanMethodsToModel (jcm, map, orchObjs);
+  addClassesToModel (jcm, map, orchObjs);
+  addBeanMethodsToModelForFields (jcm, map, orchObjs);
   try
   {
    jcm.build (new File (directory));
@@ -73,55 +81,15 @@ public class OrchestrationObjectWriter
   }
  }
 
- private void addClassToModel (JCodeModel jcm, Map<String, JDefinedClass> map,
-                               List<OrchestrationObject> orchObjs)
+ private void addClassesToModel (JCodeModel jcm, Map<String, JDefinedClass> map,
+                                 List<OrchestrationObject> orchObjs)
  {
-  for (OrchestrationObject oo : orchObjs)
+  for (OrchestrationObject orchObj : orchObjs)
   {
+
    try
    {
-    String className = oo.getFullyQualifiedName ();
-    System.out.println ("Creating " + className);
-    JDefinedClass mainClass = jcm._class (className, ClassType.CLASS);
-    map.put (oo.getName ().toLowerCase (), mainClass);
-    if (oo.hasOwnCreateUpdate ())
-    {
-     mainClass._extends (ModifiableData.class);
-    }
-    else
-    {
-     mainClass._extends (Data.class);
-    }
-    mainClass.field (JMod.PRIVATE + JMod.STATIC + JMod.FINAL, long.class, "serialVersionUID", JExpr.
-     lit (1l));
-
-    JDefinedClass enumClass = mainClass._enum ("Properties");
-    enumClass._implements (PropertyEnum.class);
-    for (OrchestrationObjectField field : oo.getFields ())
-    {
-     JEnumConstant ec =
-      enumClass.enumConstant (calcCONSTANT (field.getName ()));
-     ec.arg (JExpr.lit (field.getName ()));
-
-    }
-    JFieldVar keyVar =
-     enumClass.field (JMod.PRIVATE + JMod.FINAL, String.class, "key");
-
-    JMethod enumConstructor = enumClass.constructor (JMod.PRIVATE);
-    JVar keyParam = enumConstructor.param (JMod.FINAL, String.class, "ky");
-    enumConstructor.body ().assign (keyVar, keyParam);
-
-    JMethod getKeyMethod =
-     enumClass.method (JMod.PUBLIC, String.class, "getKey");
-    getKeyMethod.annotate (Override.class);
-    getKeyMethod.body ()._return (keyVar);
-
-
-    JMethod mainConstructor = mainClass.constructor (JMod.PUBLIC);
-    // TODO: ask Wil if we want to really use the class name as the key
-    // TODO: figure out how to insert a comment into the JBlock
-    mainConstructor.body ().directStatement ("super (" + oo.getName () +
-     ".class.getName ());");
+    addClassToModel (jcm, map, orchObj);
    }
    catch (JClassAlreadyExistsException ex)
    {
@@ -130,9 +98,58 @@ public class OrchestrationObjectWriter
   }
  }
 
- private void addBeanMethodsToModel (JCodeModel jcm,
-                                     Map<String, JDefinedClass> map,
-                                     List<OrchestrationObject> orchObjs)
+ private void addClassToModel (JCodeModel jcm, Map<String, JDefinedClass> map,
+                               OrchestrationObject orchObj)
+  throws JClassAlreadyExistsException
+ {
+  String className = orchObj.getFullyQualifiedName () + "Data";
+  System.out.println ("Creating " + className);
+  JDefinedClass mainClass = jcm._class (className, ClassType.CLASS);
+  map.put (orchObj.getName ().toLowerCase (), mainClass);
+  if (orchObj.hasOwnCreateUpdate ())
+  {
+   mainClass._extends (ModifiableData.class);
+  }
+  else
+  {
+   mainClass._extends (Data.class);
+  }
+  mainClass.field (JMod.PRIVATE + JMod.STATIC + JMod.FINAL, long.class, "serialVersionUID", JExpr.
+   lit (1l));
+
+  JDefinedClass enumClass = mainClass._enum ("Properties");
+  enumClass._implements (PropertyEnum.class);
+  for (OrchestrationObjectField field : orchObj.getFields ())
+  {
+   JEnumConstant ec =
+    enumClass.enumConstant (calcCONSTANT (field.getName ()));
+   ec.arg (JExpr.lit (field.getName ()));
+
+  }
+  JFieldVar keyVar =
+   enumClass.field (JMod.PRIVATE + JMod.FINAL, String.class, "key");
+
+  JMethod enumConstructor = enumClass.constructor (JMod.PRIVATE);
+  JVar keyParam = enumConstructor.param (JMod.FINAL, String.class, "ky");
+  enumConstructor.body ().assign (keyVar, keyParam);
+
+  JMethod getKeyMethod =
+   enumClass.method (JMod.PUBLIC, String.class, "getKey");
+  getKeyMethod.annotate (Override.class);
+  getKeyMethod.body ()._return (keyVar);
+
+
+  JMethod mainConstructor = mainClass.constructor (JMod.PUBLIC);
+  // TODO: ask Wil if we want to really use the class name as the key
+  // TODO: figure out how to insert a comment into the JBlock
+  mainConstructor.body ().directStatement ("super (" + orchObj.getName () +
+   ".class.getName ());");
+
+ }
+
+ private void addBeanMethodsToModelForFields (JCodeModel jcm,
+                                              Map<String, JDefinedClass> map,
+                                              List<OrchestrationObject> orchObjs)
  {
   for (OrchestrationObject oo : orchObjs)
   {
@@ -141,14 +158,98 @@ public class OrchestrationObjectWriter
    {
     System.out.println ("Adding Bean Method to Model " + oo.getName () + "." +
      field.getName () + "\t" + field.getType ());
-    addBeanMethodsToModel (map.get (oo.getName ().toLowerCase ()), field, map);
+    addBeanMethodsToModelForField (map.get (oo.getName ().toLowerCase ()), field, map);
    }
   }
  }
 
+ private void addBaseAssemblersToModel (JCodeModel jcm,
+                                        Map<String, JDefinedClass> map,
+                                        List<OrchestrationObject> orchObjs)
+ {
+  for (OrchestrationObject orchObj : orchObjs)
+  {
+   try
+   {
+    addBaseAssemblerToModel (jcm, map, orchObjs, orchObj);
+   }
+   catch (JClassAlreadyExistsException ex)
+   {
+    throw new DictionaryValidationException (ex);
+   }
+  }
+ }
+
+ private void addBaseAssemblerToModel (JCodeModel jcm,
+                                       Map<String, JDefinedClass> map,
+                                       List<OrchestrationObject> orchObjs,
+                                       OrchestrationObject orchObj)
+  throws JClassAlreadyExistsException
+ {
+  String className = orchObj.getFullyQualifiedName () + "Assembler";
+  System.out.println ("Creating assembler for " + className);
+  JDefinedClass mainClass = jcm._class (className, ClassType.CLASS);
+  map.put (orchObj.getName ().toLowerCase () + "Assembler", mainClass);
+
+  JClass assemblerInterface = jcm.ref (Assembler.class);
+ // assemblerInterface.generify (orchObj.getFullyQualifiedName () + "Data"); // target
+ // assemblerInterface.generify (orchObj.getFullyQualifiedName ());  // source
+  mainClass._implements (assemblerInterface);
+  // TODO: figure out how to add the generic qualifiers to the implements Assembler clause
+
+  JDefinedClass dataClass = map.get (orchObj.getName ().toLowerCase ());
+  JMethod assembleMethod = mainClass.method (JMod.PUBLIC, dataClass, "assemble");
+  assembleMethod.annotate (Override.class);
+  assembleMethod._throws (AssemblyException.class);
+  JVar inputParam = assembleMethod.param (String.class, "input");
+  JExpression inputIsNullExpr = inputParam.eq (JExpr._null ());
+  JConditional ifStmnt = assembleMethod.body ()._if (inputIsNullExpr);
+  ifStmnt._then ()._return (JExpr._null ());
+  JVar resultVar =
+   assembleMethod.body ().decl (dataClass, "result", JExpr._new (dataClass));
+  for (OrchestrationObjectField field : orchObj.getFields ())
+  {
+   String setMethodCall = "result." + calcSetterMethodName (field.getName ()) +
+    "(";
+   String getMethodCall = "input." + calcGetterMethodName (field.getName ()) +
+    "()";
+
+   Object fieldType = calcFieldTypeToUse (dataClass, field, map);
+   if (fieldType instanceof Class)
+   {
+    assembleMethod.body ().directStatement (setMethodCall + getMethodCall + ");");
+   }
+   else if (fieldType instanceof JDefinedClass)
+   {
+    OrchestrationObject child = findOrchestrationObject (orchObjs, field.getType ());
+    String assemblerName = child.getFullyQualifiedName () + "Assembler";
+    String assemblerCall =
+     "new " + assemblerName + "().get (" + getMethodCall + ")";
+    assembleMethod.body ().directStatement (setMethodCall + assemblerCall + ");");
+   }
+   else
+   {
+    assert false;
+   }
+  }
+ }
+
+ private OrchestrationObject findOrchestrationObject (List<OrchestrationObject> orchObjs,
+                                   String name)
+ {
+  for (OrchestrationObject orch : orchObjs)
+  {
+   if (orch.getName ().equalsIgnoreCase (name))
+   {
+    return orch;
+   }
+  }
+  return null;
+ }
+
  private Object calcFieldTypeToUse (JDefinedClass mainClass,
-                               OrchestrationObjectField field,
-                               Map<String, JDefinedClass> map)
+                                    OrchestrationObjectField field,
+                                    Map<String, JDefinedClass> map)
  {
   if (field.isIsList ())
   {
@@ -223,9 +324,9 @@ public class OrchestrationObjectWriter
    field.getType () + " for field " + field.getName ());
  }
 
- private void addBeanMethodsToModel (JDefinedClass mainClass,
-                                     OrchestrationObjectField field,
-                                     Map<String, JDefinedClass> map)
+ private void addBeanMethodsToModelForField (JDefinedClass mainClass,
+                                             OrchestrationObjectField field,
+                                             Map<String, JDefinedClass> map)
  {
 
   Object fieldType = calcFieldTypeToUse (mainClass, field, map);
@@ -331,6 +432,9 @@ public class OrchestrationObjectWriter
     list.add (obj);
     obj.setPackagePath (ROOT_PACKAGE + ".base");
     obj.setName (xmlType.getName ());
+    // these orchestratration data objects get assembled from versions of themself
+    // i.e CluInfoData from CluInfo
+    obj.setAssembleFromClass (xmlType.getName ());
     obj.setHasOwnCreateUpdate (xmlType.getHasOwnCreateUpdate ().equals ("true"));
     List<OrchestrationObjectField> fields = new ArrayList ();
     obj.setFields (fields);
@@ -384,6 +488,8 @@ public class OrchestrationObjectWriter
     obj = new OrchestrationObject ();
     list.add (obj);
     obj.setName (orch.getParent ());
+    // TODO: add this to spreadsheet
+    obj.setAssembleFromClass ("TODO: add this to spreadsheet");
     obj.setPackagePath (ROOT_PACKAGE + ".orch");
     obj.setHasOwnCreateUpdate (true);
     fields =
