@@ -16,7 +16,7 @@ package org.kuali.rice.student.lookup.keyvalues;
 
 import java.util.List;
 
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * @author lindholm

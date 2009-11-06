@@ -43,6 +43,8 @@
 	<param name="ks.lum.datasource.validationQuery">${ks.lum.datasource.validationQuery.${db.vendor}}</param>
 	<param name="ks.lum.datasource.username">kslum</param>
     <param name="ks.lum.datasource.password">kslum</param>
+   
+   	<param name="ks.lum.doDataLoad">true</param>
     
 	<!-- Config defaults and overrides -->
     <param name="config.location">${user.home}/kuali/main/dev/ks-lum-config.xml</param> 

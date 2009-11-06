@@ -30,7 +30,7 @@
 	<bean id="config" class="org.kuali.student.rice.config.spring.NestedConfigFactoryBean" depends-on="systemPropertyConfigurer">
 		<property name="configLocations">
 			<list>
-				<value>classpath:META-INF/ks-lum-config.xml</value>
+				<value>classpath:META-INF/ks-lum-web-config.xml</value>
 			</list>
 		</property>
 	</bean>
@@ -396,6 +396,7 @@
 	<!--  Preloaded data -->
 	<bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
 		<property name="jtaTxManager" ref="jtaTxManager"/>
+		<property name="shouldLoadData" value="${ks.lum.doDataLoad}"/>
 		<property name="preloadMap">
 			<map>
 				<entry key="Lu">

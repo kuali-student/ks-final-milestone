@@ -236,16 +236,20 @@
     </bean>
 
 	<!--  Preloaded data -->
-<!--	<bean id="dataLoadListenerLum" class="org.kuali.student.common.util.jpa.LoadSqlListener">-->
-<!--		<property name="jtaTxManager" ref="jtaTxManager"/>-->
-<!--		<property name="preloadMap">-->
-<!--			<map>-->
-<!--				<entry key="Lu">-->
-<!--					<value>classpath:ks-lu.sql</value>-->
-<!--				</entry>-->
-<!--			</map>-->
-<!--		</property>-->
-<!--	</bean>-->
+	<bean id="dataLoadListenerLum" class="org.kuali.student.common.util.jpa.LoadSqlListener">
+		<property name="jtaTxManager" ref="jtaTxManager"/>
+        <property name="shouldLoadData" value="${ks.lum.doDataLoad}"/>
+		<property name="preloadMap">
+			<map>
+				<entry key="Lu">
+					<value>classpath:ks-lu.sql</value>
+				</entry>
+				<entry key="Lo">
+					<value>classpath:ks-lo.sql</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
     
 	<!-- Exception mapping. This is needed because many operations are proxied and do not throw exceptions until a later time -->
 	<bean id="mapExceptionAdvisor"

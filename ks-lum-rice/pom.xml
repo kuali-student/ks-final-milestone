@@ -14,10 +14,6 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
-	<properties>
-		<kuali.rice.version>1.0.0-ks-m1-SNAPSHOT</kuali.rice.version>
-	</properties>
-
 	<build>
 		<plugins>
 			<plugin>
