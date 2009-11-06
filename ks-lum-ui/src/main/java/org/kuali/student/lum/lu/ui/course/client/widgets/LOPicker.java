@@ -97,7 +97,6 @@ public class LOPicker extends  Composite implements  HasValue<String>  {
 
     @Override
     public void setValue(String value, boolean fireEvents) {
-        // TODO Auto-generated method stub
         setValue(value);        
     }
 

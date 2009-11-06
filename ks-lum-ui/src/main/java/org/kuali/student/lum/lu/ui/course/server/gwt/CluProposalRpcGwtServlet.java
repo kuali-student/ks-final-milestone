@@ -49,7 +49,13 @@ import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.applicationstate.ApplicationStateManager;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
+import org.kuali.student.common.ui.server.mvc.dto.BeanMapper;
+import org.kuali.student.common.ui.server.mvc.dto.BeanMappingException;
+import org.kuali.student.common.ui.server.mvc.dto.DefaultBeanMapper;
 import org.kuali.student.common.ui.server.mvc.dto.MapContext;
+import org.kuali.student.common.ui.server.mvc.dto.PropertyMapping;
+import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.core.entity.RichText;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.organization.service.OrganizationService;
@@ -87,7 +93,7 @@ import org.springframework.security.userdetails.UserDetails;
  */
 public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuService> implements CluProposalRpcService {
 
-    final Logger logger = Logger.getLogger(CluProposalRpcGwtServlet.class);
+	final Logger logger = Logger.getLogger(CluProposalRpcGwtServlet.class);
 
     private static final long serialVersionUID = 1L;
     private static final String DEFAULT_USER_ID = "user1";
@@ -108,6 +114,52 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     private ProposalService proposalService;
     private LearningObjectiveService learningObjectiveService;
     private ApplicationStateManager applicationStateManager;
+    
+    /* TODO - this should all go away when
+     * a) we figure out how to do multiple LO's in the dictionary, so the configurable UI can handle
+     *    this for us by using a key of "desc/plain", or
+     * b) the new orchestration framework makes all this moot
+     */
+    private static MapContext loMapContext;
+    static {
+	    loMapContext = new MapContext();
+	    BeanMapper loBeanMapper = loMapContext.getBeanMapper(LoInfo.class.getName(), new DefaultBeanMapper());
+	    loBeanMapper.addPropertyMapping("desc", new LoDescMapper());
+	    loMapContext.addBeanMapper(LoInfo.class.getName(), loBeanMapper);
+    }
+
+	// Handle ModelDTO<->LoInfo for LO's "desc" RichText
+	public static class LoDescMapper implements PropertyMapping {
+
+		/* (non-Javadoc)
+		 * @see org.kuali.student.common.ui.server.mvc.dto.PropertyMapping#fromModelDTOValue(org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue, org.kuali.student.common.ui.server.mvc.dto.MapContext)
+		 */
+		@Override
+		public Object fromModelDTOValue(ModelDTOValue value, MapContext context)
+				throws BeanMappingException {
+			assert value instanceof ModelDTOValue.StringType;
+			RichTextInfo desc = new RichTextInfo();
+			String descStr = ((ModelDTOValue.StringType) value).get();
+			desc.setPlain(descStr);
+			desc.setFormatted(descStr);
+			return desc;
+		}
+
+		/* (non-Javadoc)
+		 * @see org.kuali.student.common.ui.server.mvc.dto.PropertyMapping#toModelDTOValue(java.lang.Object, org.kuali.student.common.ui.server.mvc.dto.MapContext)
+		 */
+		@Override
+		public ModelDTOValue toModelDTOValue(Object source, MapContext context)
+				throws BeanMappingException {
+			assert source instanceof RichTextInfo;
+			ModelDTOValue.StringType returnVal = new ModelDTOValue.StringType();
+			returnVal.set(((RichTextInfo) source).getPlain());
+			return returnVal;
+		}
+	}
+	/* End of:
+	 * TODO - this should all go away when ...
+	 */
 
 	@Override
 	public CluProposalModelDTO getCluProposalFromWorkflowId(String docId) throws OperationFailedException{
@@ -897,53 +949,54 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         ModelDTOValue.ListType learningObjectiveListType = (ModelDTOValue.ListType) ((ModelDTOValue.ModelDTOType) cluProposalDTO.get("cluInfo")).get().get("loInfos");
         
         if (null != learningObjectiveListType) {
-	        MapContext ctx = new MapContext();
+        	
         	List<ModelDTOValue> learningObjectiveList = learningObjectiveListType.get();
         	
         	// going to assume here that cluInfo is for a valid Clu that's already been persisted
         	// TODO - this needs to recursively navigate the LO tree(s) that the user has specified in the UI
         	for (ModelDTOValue learningObjectiveValue : learningObjectiveList) {
         		ModelDTO learningObjectiveModelDTO = ((ModelDTOValue.ModelDTOType) learningObjectiveValue).get();
-        		// for now, all we have is 'name' in the ModelDTO, and don't have an LoInfoModelDTO as such
+        		// for now, all we have is 'desc' in the ModelDTO, and don't have an LoInfoModelDTO as such
         		// (dictionary only has one; need a list)
-        		LoInfo info = (LoInfo) ctx.fromModelDTO(learningObjectiveModelDTO);
-        		String loName = info.getName();
+        		LoInfo info = (LoInfo) loMapContext.fromModelDTO(learningObjectiveModelDTO);
         		
-                if (null != loName && loName.length() > 0) {
+        		// only create/update LO's with a description entered
+        		RichTextInfo desc = info.getDesc();
+				if (null != desc && null != desc.getPlain() && desc.getPlain().length() > 0) {
 	                // does the LO already exist?
-	                String existingLoId = getLoIdByName(loName); 
-                	if (null == existingLoId) {
-                		// nope; create it
-                		// TODO - hardcoded Repo is just bad; somehow this needs to come from
-                		LoInfo createdLo = learningObjectiveService.createLo("kuali.loRepository.key.singleUse", info.getType(), info);
-                		// create Clu-Lo relation
-                		// TODO - this will be Clu-Lo or Lo-Lo, depending on where we are in the tree
-                		service.addOutcomeLoToClu(createdLo.getId(), cluInfo.getId());
-                	} else {
-                		// make sure the proper CluLoRelation exists
-                		try {
-                			// TODO - will need to be this call or
-                			// learningObjectiveService.createLoLoRelation() when doing multi-level LO's
-	            			service.addOutcomeLoToClu(existingLoId, cluInfo.getId());
-                		} catch (AlreadyExistsException aee) {
-                			// no worries; just checking
-                		}
-                	}
-                }
+	                LoInfo existingLo =  (null != info.getId() ?
+						                	learningObjectiveService.getLo(info.getId()) :
+							            		null);
+	            	if (null == existingLo) {
+	            		// nope; create it
+	            		// TODO - hardcoded Repo is just bad; somehow this needs to come from
+	            		LoInfo createdLo = learningObjectiveService.createLo("kuali.loRepository.key.singleUse", info.getType(), info);
+	            		// create Clu-Lo relation
+	            		// TODO - this will be Clu-Lo or Lo-Lo, depending on where we are in the tree
+	            		service.addOutcomeLoToClu(createdLo.getId(), cluInfo.getId());
+	            	} else {
+	            		// make sure the proper CluLoRelation exists
+	        			if ( ! service.getLoIdsByClu(cluInfo.getId()).contains(existingLo.getId()) ) {
+	            			// TODO - will need to be this call or
+	            			// learningObjectiveService.createLoLoRelation() when doing multi-level LO's
+	            			service.addOutcomeLoToClu(existingLo.getId(), cluInfo.getId());
+	        			}
+	            	}
+				}
         	}
         }
 	}
 
     
-    private String getLoIdByName(String learningObjectiveName) {
+    private String getLoIdByDesc(String loDescPlain) {
 		List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>(2);
 		QueryParamValue qpLoName = new QueryParamValue();
-		qpLoName.setKey("lo.queryParam.loName");
-		qpLoName.setValue(learningObjectiveName);
+		qpLoName.setKey("lo.queryParam.loDescPlain");
+		qpLoName.setValue(loDescPlain);
 		queryParamValues.add(qpLoName);
 
 		try {
-			List<Result> results = learningObjectiveService.searchForResults("lo.search.loByName", queryParamValues);
+			List<Result> results = learningObjectiveService.searchForResults("lo.search.loByDesc", queryParamValues);
 
 			if (null != results) {
 				switch (results.size()) {
@@ -954,7 +1007,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 				        ResultCell cell = resultCells.get(0);
 				        return cell.getValue();
 					default:
-						throw new OperationFailedException("More than one LearningObjective with name: " + learningObjectiveName);
+						throw new OperationFailedException("More than one LearningObjective with description: " + loDescPlain);
 				}
 			}
 		} catch (Exception e) {
@@ -1141,9 +1194,9 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		        	activityCluDTOValue.set(activityCluDTO);
 		        	activityList.get().add(activityCluDTOValue);
 		        }
-		        cluInfoModelDTO.put("activities", activityList);
+		        cluInfoModelDTO.put("activities", activityList, true);
 	        }
-        	((ModelDTOValue.ModelDTOType) cluProposalDTO.get("cluInfo")).get().put("courseFormats", courseFormatList);
+        	((ModelDTOValue.ModelDTOType) cluProposalDTO.get("cluInfo")).get().put("courseFormats", courseFormatList, true);
 	
 	    } catch (Exception e) {
 	        logger.error("Error getting Clu. " ,e);
@@ -1171,14 +1224,13 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	        }
         	courseList.set(courseModelDTOValueList);
         	
-        	((ModelDTOValue.ModelDTOType) cluProposalDTO.get("cluInfo")).get().put("offeredJointly", courseList);
+        	((ModelDTOValue.ModelDTOType) cluProposalDTO.get("cluInfo")).get().put("offeredJointly", courseList, true);
 	    } catch (Exception e) {
 	        logger.error("Error getting Clu. " ,e);
 	    }
 	}
 
 	private void getLearningObjectives(String parentCluId, ModelDTO cluProposalDTO) {
-        MapContext ctx = new MapContext();
         ModelDTOValue.ListType loList = new ModelDTOValue.ListType();
     	List<ModelDTOValue> loModelDTOValueList = new ArrayList<ModelDTOValue>();;
 
@@ -1190,7 +1242,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	        for (String loId : loIds) {
 	        	LoInfo loInfo = learningObjectiveService.getLo(loId);
 	        	
-	        	ModelDTO loInfoModelDTO = ctx.fromBean(loInfo);
+	        	ModelDTO loInfoModelDTO = loMapContext.fromBean(loInfo);
 	        	
 	        	ModelDTOValue.ModelDTOType loInfoModelDTOValue = new ModelDTOValue.ModelDTOType();
 	        	
@@ -1200,7 +1252,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	        }
         	loList.set(loModelDTOValueList);
         	
-        	((ModelDTOValue.ModelDTOType) cluProposalDTO.get("cluInfo")).get().put("loInfos", loList);
+        	((ModelDTOValue.ModelDTOType) cluProposalDTO.get("cluInfo")).get().put("loInfos", loList, true);
 	    } catch (Exception e) {
 	        logger.error("Error getting learning objective. ", e);
 	    }

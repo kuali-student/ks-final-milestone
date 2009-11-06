@@ -665,7 +665,7 @@ public class CourseConfigurer {
 
 		
 		@Override
-	    protected void onLoad() {
+	    public void onLoad() {
 	        super.onLoad();
 	        if (!loaded) {
 	            loaded = true;

@@ -75,8 +75,7 @@ public class CluProposalController extends PagedSectionLayout{
 	private final String REFERENCE_TYPE = "referenceType.clu";
 	
 	CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);
-    private boolean savedOnce=false;
-    
+	
     private KSButton saveButton = new KSButton("Save", new ClickHandler(){
         public void onClick(ClickEvent event) {
             fireApplicationEvent(new SaveActionEvent());
@@ -336,7 +335,6 @@ public class CluProposalController extends PagedSectionLayout{
                     buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
                 }
             });
-            savedOnce = true;
         }
         else{
             
@@ -391,7 +389,6 @@ public class CluProposalController extends PagedSectionLayout{
         this.setModelDTO(null, null);
         this.docId = null;
         this.proposalId = null;
-        this.savedOnce=false;
     }
     
     

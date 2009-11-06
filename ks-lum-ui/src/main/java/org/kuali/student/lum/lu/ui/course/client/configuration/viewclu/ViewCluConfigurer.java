@@ -658,7 +658,7 @@ public class ViewCluConfigurer {
 
             CustomNestedSection ns = new CustomNestedSection();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            ns.addField(new FieldDescriptor("desc/plain", null, Type.STRING, new KSLabel()));
+            ns.addField(new FieldDescriptor("desc", null, Type.STRING, new KSLabel()));
             multi.addSection(ns);
 
             return multi;
