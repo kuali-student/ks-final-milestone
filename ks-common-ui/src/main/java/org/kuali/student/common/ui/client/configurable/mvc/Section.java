@@ -258,14 +258,19 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
             if (field.getFieldWidget() instanceof SimpleMultiplicityComposite){
                 ModelDTOValue value = modelDTO.get(field.getFieldKey());
                 ((SimpleMultiplicityComposite) field.getFieldWidget()).setValue(value);
-            }
-            PropertyBinding pBinding = field.getPropertyBinding();
-            PropertyBinding wBinding = field.getWidgetBinding();
-            if (wBinding != null){
-                Widget w = field.getFieldWidget();            
-                wBinding.setValue(w, pBinding.getValue(modelDTO));
             } else {
-                GWT.log(field.getFieldKey() + " has no widget binding.", null);
+            	// HACK - _might_ be a hack, particularly if we have nested Multiplicities,
+				// but before this else the code below was executed for SimpleMultiplicityComposite's,
+            	// effectively setting their value twice and wiping out the blank LoInfo-related data
+            	// from the backing ModelDTOValue
+	            PropertyBinding pBinding = field.getPropertyBinding();
+	            PropertyBinding wBinding = field.getWidgetBinding();
+	            if (wBinding != null){
+	                Widget w = field.getFieldWidget();            
+	                wBinding.setValue(w, pBinding.getValue(modelDTO));
+	            } else {
+	                GWT.log(field.getFieldKey() + " has no widget binding.", null);
+	            }
             }
         }
         for(Section s: sections){
@@ -290,6 +295,7 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
             rd.clear();
         }
     }
+    
     
     public abstract void redraw();
     

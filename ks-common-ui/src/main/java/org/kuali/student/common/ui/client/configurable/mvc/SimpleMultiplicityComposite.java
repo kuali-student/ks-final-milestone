@@ -104,8 +104,10 @@ public abstract class SimpleMultiplicityComposite extends Composite implements H
 	 */
 	@Override
 	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<ModelDTOValue> handler) {        
-	    // TODO: Add value change handlers
-	    return null;
+		for (HasModelDTOValue widget : modelDTOValueWidgets) {
+			widget.addValueChangeHandler(handler);
+		}
+		return new NOOPListValueChangeHandler();
 	}
 
 	public void setAddItemLabel(String addItemLabel) {
@@ -179,6 +181,12 @@ public abstract class SimpleMultiplicityComposite extends Composite implements H
 	        }                                               
 	    }
 	}
+	
+	
+	@Override
+	public void onLoad() {
+		super.onLoad();
+	}
 
 	/**
 	 * 
@@ -205,11 +213,23 @@ public abstract class SimpleMultiplicityComposite extends Composite implements H
 	    Widget listItem = decorateItemWidget(newItemWidget);
 	
 	    itemsPanel.add(listItem);
-	    if (newItemWidget instanceof SimpleMultiplicityComposite){
-	        ((SimpleMultiplicityComposite)newItemWidget).redraw();
-	    }
+//	    if (newItemWidget instanceof SimpleMultiplicityComposite){
+//	        ((SimpleMultiplicityComposite)newItemWidget).redraw();
+//	    }
 	
 	    modelDTOList.get().add(((HasModelDTOValue)newItemWidget).getValue());
 	    modelDTOValueWidgets.add((HasModelDTOValue)newItemWidget);
 	}
+	
+	private class NOOPListValueChangeHandler implements HandlerRegistration {
+
+		/* (non-Javadoc)
+		 * @see com.google.gwt.event.shared.HandlerRegistration#removeHandler()
+		 */
+		@Override
+		public void removeHandler() {
+		}
+
+	}
+
 }
