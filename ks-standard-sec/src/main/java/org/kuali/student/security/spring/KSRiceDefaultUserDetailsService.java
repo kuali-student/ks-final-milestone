@@ -17,11 +17,12 @@ package org.kuali.student.security.spring;
 
 import org.kuali.rice.core.config.Config;
 import org.kuali.rice.core.config.ConfigContext;
+import org.kuali.rice.kim.KimAuthenticationProvider;
+import org.kuali.rice.kim.KimAuthenticationProvider.UserWithId;
 import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
 import org.kuali.rice.kim.service.IdentityService;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
-import org.springframework.security.userdetails.User;
 import org.springframework.security.userdetails.UserDetails;
 import org.springframework.security.userdetails.UserDetailsService;
 import org.springframework.security.userdetails.UsernameNotFoundException;
@@ -35,7 +36,7 @@ import org.springframework.security.util.AuthorityUtils;
  */
 public class KSRiceDefaultUserDetailsService implements UserDetailsService{
 
-    private UserDetails ksuser = null;
+    private UserWithId ksuser = null;
     private String password = "";
    
     private boolean enabled = true;
@@ -71,9 +72,10 @@ public class KSRiceDefaultUserDetailsService implements UserDetailsService{
         KimPrincipalInfo kimPrincipalInfo = null;
         try {
             kimPrincipalInfo = identityService.getPrincipalByPrincipalNameAndPassword(username, password);
-            
+            String userId;
 	        if (null != kimPrincipalInfo) {
-	            username = kimPrincipalInfo.getPrincipalId();
+	            username = kimPrincipalInfo.getPrincipalName();
+	            userId = kimPrincipalInfo.getPrincipalId();
 	        } else {
 	        // When a UsernameNotFoundException is thrown, spring security will proceed to the next AuthenticationProvider on the list.
 	        // When Rice is running and username is not found in KIM, we want authentication to stop and allow the user to enter the correct username.
@@ -81,7 +83,8 @@ public class KSRiceDefaultUserDetailsService implements UserDetailsService{
 	            System.out.println("kimPrincipalInfo is null ");
 	            throw new KimUserNotFoundException("Invalid username or password");  
 	        }
-	        ksuser = new User(username, password, enabled, true, true, nonlocked, authorities);
+	        ksuser = new KimAuthenticationProvider.UserWithId(username, password, enabled, true, true, nonlocked, authorities);
+	        ksuser.setUserId(userId);
 	        return ksuser;
 	        
         } catch(KimUserNotFoundException knfe){
