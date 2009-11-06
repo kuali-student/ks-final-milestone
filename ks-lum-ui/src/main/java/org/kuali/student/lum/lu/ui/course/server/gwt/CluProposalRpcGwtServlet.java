@@ -35,6 +35,7 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.webservice.DocumentResponse;
 import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
 import org.kuali.rice.kew.webservice.StandardResponse;
+import org.kuali.rice.kim.KimAuthenticationProvider;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
@@ -1016,7 +1017,10 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if(auth!=null){
         	Object obj = auth.getPrincipal();
-        	if (obj instanceof UserDetails) {
+        	if(obj instanceof KimAuthenticationProvider.UserWithId){
+        		//This is actually the user Id
+        		username = ((KimAuthenticationProvider.UserWithId)obj).getUserId();
+        	}else if (obj instanceof UserDetails) {
             	username = ((UserDetails)obj).getUsername();
             } else {
             	username = obj.toString();
