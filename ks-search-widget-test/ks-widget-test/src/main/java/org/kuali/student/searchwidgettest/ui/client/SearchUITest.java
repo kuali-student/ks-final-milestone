@@ -204,7 +204,7 @@ public class SearchUITest implements EntryPoint {
         			"atp.search.basicAtpByShortName", 
         			"atp.resultColumn.atpId",
         			atpRpcServiceAsync,
-        			"atp.search.basicAtpByShortName", 
+        			"atp.search.advancedAtpSearch", 
         			"atp.resultColumn.atpId",
         	"Find Session");
         

@@ -14,11 +14,16 @@
  */
 package org.kuali.student.common.ui.client.widgets.suggestbox;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSDatePicker;
+import org.kuali.student.common.ui.client.widgets.KSDatePickerAbstract;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
@@ -75,8 +80,9 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
     private boolean hasSelectionHandlers = false;
     //private SearchResultListItems searchResultList = new SearchResultListItems();
     private List<KSTextBox> textBoxes = new ArrayList<KSTextBox>();
+    private List<KSDatePickerAbstract> datePickers = new ArrayList<KSDatePickerAbstract>();
     private List<KSSelectItemWidgetAbstract> selectableEnums = new ArrayList<KSSelectItemWidgetAbstract>();
-    
+    private Map<KSDatePickerAbstract, String> datePickerCriteriaKeys = new HashMap<KSDatePickerAbstract, String>(); 
     private FlexTable searchParamTable = new FlexTable();
     
     private BaseRpcServiceAsync searchService;
@@ -171,14 +177,19 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
                         dropDown.setName(q.getKey());
                         searchParamTable.setWidget(row, column, dropDown);
                         selectableEnums.add(dropDown);
+                    } else if (fd.getDataType() != null && fd.getDataType().equals("date")) {
+                        KSDatePickerAbstract dp = new KSDatePicker();
+                        searchParamTable.setWidget(row, column, dp);
+                        datePickers.add(dp);
+                        datePickerCriteriaKeys.put(dp, q.getKey());
                     } else{
-                        KSTextBox tb = new KSTextBox();
-                        tb.setName(q.getKey());
-                        searchParamTable.setWidget(row, column, tb);
-                        textBoxes.add(tb);
-                     }
-                     column = 0;
-                     row++;
+                    	KSTextBox tb = new KSTextBox();
+                    	tb.setName(q.getKey());
+                    	searchParamTable.setWidget(row, column, tb);
+                    	textBoxes.add(tb);
+                    }
+                    column = 0;
+                    row++;
                 }
                 column++;
                 //TODO: Messages
@@ -251,10 +262,22 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
             Widget w = searchParamTable.getWidget(row, 1);
             
             QueryParamValue queryParamValue = new QueryParamValue();
-            queryParamValue.setKey(((HasName)w).getName());
+            if (w instanceof HasName) {
+                queryParamValue.setKey(((HasName)w).getName());
+            } else if (w instanceof KSDatePickerAbstract) {
+            	queryParamValue.setKey(datePickerCriteriaKeys.get(w));
+            }
             if (w instanceof KSSelectItemWidgetAbstract){
                 queryParamValue.setValue(((KSSelectItemWidgetAbstract)w).getSelectedItem());
                 System.out.println(((KSSelectItemWidgetAbstract)w).getSelectedItem());
+            } else if (w instanceof KSDatePickerAbstract) {
+            	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+            	java.util.Date date = ((KSDatePickerAbstract)w).getValue();
+            	String paramValue = null;
+            	if (date != null) {
+            		paramValue = (sdf.format(date));
+            	}
+            	queryParamValue.setValue(paramValue);
             } else {
                 String value = ((HasText)w).getText();
                 value = value.replace('*','%');
@@ -336,6 +359,9 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
         }
         for(KSSelectItemWidgetAbstract w: selectableEnums){
             w.redraw();
+        }
+        for (KSDatePickerAbstract dp: datePickers) {
+        	dp.setValue(null);
         }
         searchResultsTable.clearTable();
 //        tabPanel.selectTab(0);

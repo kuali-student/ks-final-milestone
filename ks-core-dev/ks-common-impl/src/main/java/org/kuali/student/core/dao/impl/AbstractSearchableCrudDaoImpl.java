@@ -15,11 +15,14 @@
 package org.kuali.student.core.dao.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.persistence.Query;
 
 import org.kuali.student.core.dao.SearchableDao;
+import org.kuali.student.core.search.dto.QueryParamInfo;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.ResultCell;
@@ -37,12 +40,38 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 			List<QueryParamValue> queryParamValues) {
 
 		Query query = em.createQuery(queryString);
+		List<QueryParamInfo> queryParameterInfos = 
+			(searchTypeInfo == null || searchTypeInfo.getSearchCriteriaTypeInfo() == null)? null :
+			searchTypeInfo.getSearchCriteriaTypeInfo().getQueryParams();
 		
 		//replace all the "." notation with "_" since the "."s in the ids of the queries will cause problems with the jpql  
 		if(queryParamValues!=null){
+			int parameterCount = 0;
 			for (QueryParamValue queryParamValue : queryParamValues) {
-				query.setParameter(queryParamValue.getKey().replace(".", "_"), queryParamValue
-						.getValue());
+				String parameterKey = queryParamValue.getKey().replace(".", "_");
+				Object parameterValue = null;
+				String parameterDataType = (queryParameterInfos == null || 
+						queryParameterInfos.get(parameterCount) == null ||
+						queryParameterInfos.get(parameterCount).getFieldDescriptor() == null)? null :
+							queryParameterInfos.get(parameterCount).getFieldDescriptor().getDataType();
+				if (parameterDataType != null && parameterDataType.equals("date")) {
+					Calendar cal = null;
+					String dateString = (String) queryParamValue.getValue();
+					if (dateString != null) {
+						int mo = Integer.parseInt(dateString.substring(0, 2)) -1;
+						int dt = Integer.parseInt(dateString.substring(3, 5));
+						int yr = Integer.parseInt(dateString.substring(6, 10));
+						cal = new GregorianCalendar(yr, mo, dt);
+						parameterValue = new java.sql.Date(cal.getTime().getTime());
+					} else {
+						parameterValue = null;
+					}
+				} else {
+					parameterValue = queryParamValue.getValue();
+				}
+				query.setParameter(parameterKey, parameterValue);
+				
+				parameterCount++;
 			}
 		}
 

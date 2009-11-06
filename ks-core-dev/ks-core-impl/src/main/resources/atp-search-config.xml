@@ -8,7 +8,19 @@
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	 ">
 
-    <!-- Search Types -->	
+    <!-- Search Types -->
+    
+	<search:searchType id="org.search.atpTypes">
+		<search:name>All ATP types</search:name>
+		<search:desc>Returns the list of all ATP Types</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="atp.result.atpType" />
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="atp.criteria.atpType" />
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+    	
 	<search:searchType id="atp.search.atpByShortName">
 		<search:name>ShortName match</search:name>
 		<search:desc>Search on shortName only.</search:desc>
@@ -31,6 +43,17 @@
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
 	
+	<search:searchType id="atp.search.advancedAtpSearch">
+		<search:name>Advanced ATP match</search:name>
+		<search:desc>Search by Name, start date, end date, and type</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="atp.result.advancedAtpSearch" />
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="atp.criteria.advancedAtpSearch" />
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+
 	<!-- Search Result Type Infos -->
 
 	<search:searchResultTypeInfo id="atp.result.atpQuickView">
@@ -39,6 +62,15 @@
 		<search:resultColumns>
 			<ref bean="atp.resultColumn.atpId" />
 			<ref bean="atp.resultColumn.atpShortName" />
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+
+	<search:searchResultTypeInfo id="atp.result.atpType">
+		<search:name>ATP Types</search:name>
+		<search:desc>ATP Types</search:desc>
+		<search:resultColumns>
+			<ref bean="atp.resultColumn.atpTypeId" />
+			<ref bean="atp.resultColumn.atpTypeName" />
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
 
@@ -53,7 +85,25 @@
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
 	
+	<search:searchResultTypeInfo id="atp.result.advancedAtpSearch">
+		<search:name>ATP Advanced Search</search:name>
+		<search:desc>Search by Name, start date, end date, and type</search:desc>
+		<search:resultColumns>
+			<ref bean="atp.resultColumn.atpId" />
+			<ref bean="atp.resultColumn.atpSeasonAndTerm" />
+			<ref bean="atp.resultColumn.atpYear" />
+			<ref bean="atp.resultColumn.atpStartDate" />
+			<ref bean="atp.resultColumn.atpTypeName" />
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+
 	<!-- Result Columns -->
+
+	<search:resultColumn id="atp.resultColumn.atpTypeId">
+		<search:name>ATP Type Identifier</search:name>
+		<search:desc>Identifier for an ATP Type</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
 
 	<search:resultColumn id="atp.resultColumn.atpId">
 		<search:name>ATP Identifier</search:name>
@@ -69,23 +119,36 @@
 	</search:resultColumn>
 	
 	<search:resultColumn id="atp.resultColumn.atpSeasonAndTerm">
-		<search:name>ATP Season and Name</search:name>
+		<search:name>Name</search:name>
 		<search:desc>Will return as Season then duration type. Ex Fall 2009.</search:desc>
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>
 
 	<search:resultColumn id="atp.resultColumn.atpYear">
-		<search:name>ATP Year</search:name>
+		<search:name>Year</search:name>
 		<search:desc>Year of the ATP.</search:desc>
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>
 
 	<search:resultColumn id="atp.resultColumn.atpTypeName">
-		<search:name>ATP Type Name</search:name>
+		<search:name>Type Name</search:name>
 		<search:desc>Type of the ATP.</search:desc>
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>
+
+	<search:resultColumn id="atp.resultColumn.atpStartDate">
+		<search:name>Start Date</search:name>
+		<search:desc>Start Date of the ATP.</search:desc>
+		<search:dataType>date</search:dataType>
+	</search:resultColumn>
+
+
 	<!-- Search Criteria Types -->
+	
+	<search:searchCriteriaTypeInfo id="atp.criteria.atpType">
+		<search:name>AtpTypesCriteria</search:name>
+		<search:desc>Criteria for searching of a list of all ATP Type ids</search:desc>
+	</search:searchCriteriaTypeInfo>
 
 	<search:searchCriteriaTypeInfo id="atp.criteria.atpByShortName">
 		<search:name>AtpByShortNameCriteria</search:name>
@@ -94,16 +157,48 @@
 			<ref bean="atp.queryParam.atpShortName" />
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
+	
+	<search:searchCriteriaTypeInfo id="atp.criteria.advancedAtpSearch">
+		<search:name>AdvancedAtpSearchCriteria</search:name>
+		<search:desc>AdvancedAtpSearchCriteria Description</search:desc>
+		<search:queryParams>
+			<ref bean="atp.queryParam.atpShortName" />
+			<ref bean="atp.queryParam.atpStartDate" />
+			<ref bean="atp.queryParam.atpEndDate" />
+			<ref bean="atp.queryParam.atpType" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
 
 	<search:queryParam id="atp.queryParam.atpShortName">
 		<dict:fieldDescriptor parent="childFieldDescriptor">
-			<dict:name>ATP Name</dict:name>
+			<dict:name>Name</dict:name>
 		</dict:fieldDescriptor>
 	</search:queryParam>
 
 	<search:queryParam id="atp.queryParam.atpId">
 		<dict:fieldDescriptor parent="childFieldDescriptor">
 			<dict:name>ATP Id</dict:name>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+
+	<search:queryParam id="atp.queryParam.atpStartDate">
+		<dict:fieldDescriptor parent="childFieldDescriptor">
+			<dict:name>Start Date</dict:name>
+			<dict:dataType>date</dict:dataType>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+
+	<search:queryParam id="atp.queryParam.atpEndDate">
+		<dict:fieldDescriptor>
+			<dict:name>End Date</dict:name>
+			<dict:dataType>date</dict:dataType>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+
+	<search:queryParam id="atp.queryParam.atpType">
+		<dict:fieldDescriptor parent="childFieldDescriptor">
+			<dict:name>Type</dict:name>
+			<dict:search key="org.search.atpTypes"/>
 		</dict:fieldDescriptor>
 	</search:queryParam>
 
@@ -129,6 +224,9 @@
 	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
 			<map>
+				<entry key="org.search.atpTypes">
+					<value>SELECT atptype.id, atptype.name FROM AtpType atptype</value>
+				</entry>
 				<entry key="atp.search.atpByShortName">
 					<value>SELECT atp.id, atp.name FROM Atp atp WHERE atp.name like :atp_queryParam_atpShortName or atp.id = :atp_queryParam_atpId</value>
 				</entry>
@@ -136,7 +234,7 @@
 					<value>SELECT
                            atp.id,
                            CONCAT(CONCAT(seasonattr.value, ' '),durtype.name),
-                           yearattr.value, 
+                           yearattr.value,
                            atptype.name
                            FROM Atp atp
                            JOIN atp.type atptype
@@ -147,6 +245,27 @@
                            WHERE yearattr.name = 'Year'
                            and seasonattr.name = 'Season'
                            and atp.name like :atp_queryParam_atpShortName</value>
+				</entry>
+				<entry key="atp.search.advancedAtpSearch">
+					<value>SELECT
+					       atp.id,
+					       CONCAT(CONCAT(seasonattr.value, ' '),durtype.name),
+					       yearattr.value,
+					       atp.effectiveDate,
+					       atptype.name
+                           FROM Atp atp
+                           JOIN atp.type atptype
+                           JOIN atptype.seasonalType seasonaltype
+                           JOIN atptype.durationType durtype
+                           LEFT JOIN seasonaltype.attributes yearattr
+                           LEFT JOIN seasonaltype.attributes seasonattr
+                           WHERE yearattr.name = 'Year'
+                           and seasonattr.name = 'Season'
+                           and 1 = 1
+                           and (:atp_queryParam_atpShortName is null or atp.name like :atp_queryParam_atpShortName)
+                           and (:atp_queryParam_atpStartDate is null or atp.effectiveDate = :atp_queryParam_atpStartDate)
+                           and (:atp_queryParam_atpEndDate is null or atp.expirationDate = :atp_queryParam_atpEndDate)
+                           and (:atp_queryParam_atpType is null or atp.type like :atp_queryParam_atpType)</value>
 				</entry>
 			</map>
 		</property>
