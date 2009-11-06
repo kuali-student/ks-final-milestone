@@ -14,6 +14,7 @@
  */
 package org.kuali.student.core.authorization.ui.server.gwt;
 
+import org.kuali.rice.kim.KimAuthenticationProvider;
 import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.student.core.authorization.ui.client.service.AuthorizationRpcService;
 import org.springframework.security.context.SecurityContextHolder;
@@ -31,7 +32,10 @@ public class AuthorizationRpcGwtServlet extends RemoteServiceServlet implements 
 		
         Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username;
-        if (obj instanceof UserDetails) {
+    	if(obj instanceof KimAuthenticationProvider.UserWithId){
+    		//This is actually the user Id
+    		username = ((KimAuthenticationProvider.UserWithId)obj).getUserId();
+    	}else if (obj instanceof UserDetails) {
             username = ((UserDetails)obj).getUsername();
           } else {
             username = obj.toString();
