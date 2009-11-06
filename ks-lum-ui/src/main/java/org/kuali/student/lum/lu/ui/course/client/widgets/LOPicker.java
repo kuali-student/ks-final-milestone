@@ -46,7 +46,7 @@ public class LOPicker extends  Composite implements  HasValue<String>  {
 
     private LoRpcServiceAsync loRpcServiceAsync = GWT.create(LoRpcService.class);
     
-    final KSAdvancedSearchWindow loSearchWindow = new KSAdvancedSearchWindow(loRpcServiceAsync, "lo.search.loByDesc","lo.resultColumn.loDescId", "Find Learning Objectives");   
+    KSAdvancedSearchWindow loSearchWindow;
     
     VerticalPanel root = new VerticalPanel();
     
@@ -67,26 +67,15 @@ public class LOPicker extends  Composite implements  HasValue<String>  {
 
             @Override
             public void onClick(ClickEvent event) {
-
-                    loSearchWindow.show();
+                if (loSearchWindow == null) {
+                    initSearchWindow();
+                }
+                loSearchWindow.show();
                 
             }
             
         });
                
-        //FIXME: This text should be from message service
-        loSearchWindow.setInstructions("Search for these words in Learning Objectives");
-        loSearchWindow.setIgnoreCase(true);
-        loSearchWindow.setPartialMatch(true);
-        loSearchWindow.addSelectionHandler(new SelectionHandler<List<String>>(){
-            public void onSelection(SelectionEvent<List<String>> event) {
-                final List<String> selected = event.getSelectedItem();
-                if (selected.size() > 0){
-                    loText.setValue(selected.get(0));                    
-                    loSearchWindow.hide();
-                }                
-            }            
-        });
         searchPanel.add(loText);
         searchPanel.add(searchLink);
                
@@ -121,4 +110,25 @@ public class LOPicker extends  Composite implements  HasValue<String>  {
     public void fireEvent(GwtEvent<?> event) {
         super.fireEvent(event);
     }
+    
+    private void initSearchWindow() {
+        loSearchWindow = new KSAdvancedSearchWindow(loRpcServiceAsync, "lo.search.loByDesc","lo.resultColumn.loDescId", "Find Learning Objectives");   
+        //FIXME: This text should be from message service
+        loSearchWindow.setInstructions("Search for these words in Learning Objectives");
+        loSearchWindow.setIgnoreCase(true);
+        loSearchWindow.setPartialMatch(true);
+        loSearchWindow.addSelectionHandler(new SelectionHandler<List<String>>(){
+            public void onSelection(SelectionEvent<List<String>> event) {
+                final List<String> selected = event.getSelectedItem();
+                if (selected.size() > 0){
+                    loText.setValue(selected.get(0));                    
+                    loSearchWindow.hide();
+                }                
+            }            
+        });
+
+        
+    }
+       
+
 }
