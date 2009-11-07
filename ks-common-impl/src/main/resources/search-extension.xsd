@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://student.kuali.org/xsd/search-extension"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+	targetNamespace="http://student.kuali.org/xsd/search-extension"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+	<xsd:import namespace="http://www.springframework.org/schema/beans"
+		schemaLocation="http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" />
+	<xsd:import namespace="http://student.kuali.org/xsd/dictionary-extension"
+		schemaLocation="http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd" />
+
+	<xsd:complexType name="searchCriteriaTypeInfo">
+		<xsd:complexContent>
+			<xsd:extension base="beans:identifiedType">
+				<xsd:choice>
+					<xsd:sequence>
+						<xsd:element name="name" type="xsd:string" maxOccurs="1"
+							minOccurs="1"></xsd:element>
+						<xsd:element name="desc" type="xsd:string" maxOccurs="1"
+							minOccurs="0"></xsd:element>
+						<xsd:element name="queryParams" type="queryParams"
+							maxOccurs="1" minOccurs="0"></xsd:element>
+					</xsd:sequence>
+					<xsd:element ref="beans:ref" />
+				</xsd:choice>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="queryParam">
+		<xsd:complexContent>
+			<xsd:extension base="beans:identifiedType">
+				<xsd:choice>
+					<xsd:sequence>
+						<xsd:element ref="dict:fieldDescriptor" />
+					</xsd:sequence>
+					<xsd:element ref="beans:ref" />
+				</xsd:choice>
+				<xsd:attribute name="optional" type="xsd:boolean"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="resultColumn">
+		<xsd:complexContent>
+			<xsd:extension base="beans:identifiedType">
+				<xsd:sequence>
+					<xsd:element name="name" type="xsd:string" maxOccurs="1"
+						minOccurs="1"></xsd:element>
+					<xsd:element name="desc" type="xsd:string" maxOccurs="1"
+						minOccurs="0"></xsd:element>
+					<xsd:element name="dataType" type="xsd:string"></xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="resultColumns">
+		<xsd:sequence minOccurs="1" maxOccurs="unbounded">
+			<xsd:choice>
+				<xsd:element ref="beans:ref" />
+				<xsd:element name="resultColumn" type="resultColumn" />
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="searchResultTypeInfo">
+		<xsd:complexContent>
+			<xsd:extension base="beans:identifiedType">
+				<xsd:choice>
+					<xsd:sequence>
+						<xsd:element name="name" type="xsd:string"></xsd:element>
+						<xsd:element name="desc" type="xsd:string"></xsd:element>
+						<xsd:element name="resultColumns" type="resultColumns"></xsd:element>
+					</xsd:sequence>
+					<xsd:element ref="beans:ref" />
+				</xsd:choice>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="searchType">
+		<xsd:complexContent>
+			<xsd:extension base="beans:identifiedType">
+				<xsd:sequence>
+					<xsd:element name="name" type="xsd:string" maxOccurs="1"
+						minOccurs="1">
+					</xsd:element>
+					<xsd:element name="desc" type="xsd:string" maxOccurs="1"
+						minOccurs="0">
+					</xsd:element>
+					<xsd:element name="searchResultTypeInfo" type="searchResultTypeInfo"></xsd:element>
+					<xsd:element name="searchCriteriaTypeInfo" type="searchCriteriaTypeInfo"></xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="queryParams">
+		<xsd:sequence maxOccurs="unbounded" minOccurs="0">
+			<xsd:choice>
+				<xsd:element ref="beans:ref" />
+				<xsd:element name="queryParam" type="queryParam" />
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element xmlns="http://student.kuali.org/xsd/search-extension"
+		name="searchCriteriaTypeInfo" type="searchCriteriaTypeInfo" />
+	<xsd:element xmlns="http://student.kuali.org/xsd/search-extension"
+		name="queryParam" type="queryParam" />
+	<xsd:element xmlns="http://student.kuali.org/xsd/search-extension"
+		name="searchType" type="searchType" />
+	<xsd:element xmlns="http://student.kuali.org/xsd/search-extension"
+		name="searchResultTypeInfo" type="searchResultTypeInfo" />
+	<xsd:element xmlns="http://student.kuali.org/xsd/search-extension"
+		name="resultColumn" type="resultColumn" />
+</xsd:schema>
