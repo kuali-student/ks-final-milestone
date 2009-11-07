@@ -30,8 +30,8 @@
     </properties>
     
     <scm>
-        <connection>scm:svn:https://test.kuali.org/svn/student/ks-web/branches/ks-web-1.0.0-dev</connection>
-        <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-web/branches/ks-web-1.0.0-dev</developerConnection>
+        <connection>scm:svn:https://test.kuali.org/svn/student/ks-web/branches/ks-web-dev</connection>
+        <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-web/branches/ks-web-dev</developerConnection>
     </scm>
     
     <repositories>
