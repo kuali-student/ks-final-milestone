@@ -1,0 +1,100 @@
+
+.Course-Home-Menu-Container{
+	width: 100%;
+	text-align: center;	
+}
+
+.Course-Home-Menu-Item{
+	background-color: #dbdbdd;
+	/*background: url("images/Home-unselected-button.jpg") repeat-x 0 100%;*/
+	font-weight: bold;
+	font-size: 10pt;
+	border: 1px solid #a2a3a5;
+	height: 4em;
+	width: 100%;
+	margin:0px;
+	padding-right: 4px;
+}
+
+.Course-Home-Menu-Label{
+	font-weight: bold;
+	font-size: 10pt;
+	color: black;
+	margin-left:10px;
+	margin-left:5px;
+}
+
+.Course-Home-Menu-Item-Selected{
+	background-color: #ab1845;
+	/*background: url("images/Home-selected-button.jpg") repeat-x scroll 0 100%;*/
+	border-color: 1px solid #20335b;
+}
+
+.Course-Home-Menu-Label-Selected{
+	color: white;
+}
+
+.Course-Home-Menu-Item-Hover{
+	cursor: pointer;
+}
+
+.Course-Home-Menu-Panel{
+	width: 175px;
+	height: 100%;
+}
+
+.Course-Home-Content-Panel{
+	width: 410px;
+	height: 100%;
+}
+
+.Course-Home-Main-Panel{
+	width: 555px;
+	height: 420px;
+	border: 1px solid #808080; 
+	margin-top: 50px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.Home-Description-Label{
+	font-size: 8pt;
+	width: 200px;
+}
+
+.Home-Standard-Button{
+	font-size:10pt;
+	width:300px;
+}
+
+.Home-Button-Row{
+	height: 50px;
+	width: 100%;
+}
+
+.Content-Left-Margin{
+	margin-left: 25px;
+}
+
+.Home-Horizontal-Break{
+	width: 100%;
+	margin-left: 10px;
+}
+
+.Home-Small-Hyperlink{
+	font-size: 8pt;
+}
+
+.Home-Category-Label{
+	font-weight: bold;
+}
+
+.Home-Search-Textbox{
+	width: 250px;
+}
+
+.Home-Blue-Button{
+	color: white;
+	background: url("images/Home-selected-button.jpg") repeat-x;
+	font-weight: bold;
+}
