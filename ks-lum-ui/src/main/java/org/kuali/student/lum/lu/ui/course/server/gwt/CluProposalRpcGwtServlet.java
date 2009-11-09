@@ -1425,9 +1425,10 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             def.define("proposalInfo", "org.kuali.student.core.proposal.dto.ProposalInfo");
             def.define("cluInfo/officialIdentifier", "org.kuali.student.lum.lu.dto.CluIdentifier");            
             def.define("cluInfo/rationale", "org.kuali.student.RichText");
-            def.define("cluInfo/officialIdentifier/name", "String");
             def.define("cluInfo/formats/*/cluInfo", "org.kuali.student.lum.lu.dto.CluInfo");
-            def.define("cluInfo/formats/*/activities/*/cluInfo", "org.kuali.student.lum.lu.dto.CluInfo");
+            def.define("cluInfo/formats/*/activities/*/cluInfo", "org.kuali.student.lum.lu.dto.CluInfo");            
+            def.define("cluInfo/effectiveDate", "Date");
+            def.define("cluInfo/expirationDate", "Date");
             
             model = new Model(def, new Data());     
             
