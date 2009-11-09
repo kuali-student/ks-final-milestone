@@ -42,4 +42,12 @@ public class CommonImagesImpl implements CommonImages{
 		return new KSImage(KSClientBundle.INSTANCE.warningIcon());
 	}
 
+	@Override
+	public KSImage getSpacer() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+
 }

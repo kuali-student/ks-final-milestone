@@ -361,7 +361,13 @@ public class KSTabPanelImpl extends KSTabPanelAbstract{
 
 	@Override
 	public String getSelectedTabKey() {
-		return selectedTab.getTabKey();
+		if(selectedTab != null){
+			return selectedTab.getTabKey();
+		}
+		else{
+			return "";
+		}
+		
 	}
 
 	@Override
@@ -376,6 +382,11 @@ public class KSTabPanelImpl extends KSTabPanelAbstract{
 			tab.emptyCallbacks();
 		}
 		
+	}
+
+	@Override
+	public boolean hasTabKey(String key) {
+		return tabMap.containsKey(key);
 	}
 	
 }

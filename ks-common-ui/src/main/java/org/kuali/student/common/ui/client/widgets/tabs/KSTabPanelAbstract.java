@@ -50,5 +50,6 @@ public abstract class KSTabPanelAbstract extends Composite {
     
     public abstract String getSelectedTabKey();
 
+    public abstract boolean hasTabKey(String key);
 
 }

@@ -79,6 +79,7 @@ public class KSWrapper extends Composite{
 		leftHeader.addStyleName("KS-Wrapper-Header-Left-Panel");
 		navDropdown.addStyleName("KS-Wrapper-Navigation-Dropdown");
 		userDropdown.addStyleName("KS-Wrapper-User-Dropdown");
+		footer.add(Theme.INSTANCE.getCommonImages().getSpacer());
 	}
 	
 	public void setContent(Widget wrappedContent){

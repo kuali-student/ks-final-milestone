@@ -111,4 +111,9 @@ public class KSTabPanel extends KSTabPanelAbstract {
 		return panel.getTabCount();
 	}
 
+	@Override
+	public boolean hasTabKey(String key) {
+		return panel.hasTabKey(key);
+	}
+
 }
