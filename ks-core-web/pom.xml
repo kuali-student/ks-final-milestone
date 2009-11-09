@@ -147,7 +147,7 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.kuali.student</groupId>
+			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-rice-lessdep</artifactId>
 			<version>1.0.0-m1-SNAPSHOT</version>
 			<type>pom</type>
