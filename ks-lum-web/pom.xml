@@ -85,7 +85,7 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.kuali.student</groupId>
+			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-rice-lessdep</artifactId>
 			<version>${ks-core.version}</version>
 			<type>pom</type>
