@@ -15,16 +15,10 @@
 package org.kuali.student.common.ui.client.widgets.selectors;
 
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
-import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
-import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.VerticalPanel;
