@@ -156,11 +156,8 @@ public class Model implements Serializable {
 		
 	public DataType getType(final QueryPath path){
 	    DataType dataType = null;
-	    try{
-	        dataType = DataType.valueOf(definition.getType(path).toUpperCase());
-	    } catch (Exception e) {
-	        dataType = DataType.DATA;
-        }
+
+	    dataType = DataType.valueOf(definition.getType(path).toUpperCase());
 	    
 	    return dataType;
 	}

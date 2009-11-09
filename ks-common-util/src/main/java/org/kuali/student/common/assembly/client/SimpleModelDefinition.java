@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.kuali.student.common.assembly.client.Data.IntegerKey;
 import org.kuali.student.common.assembly.client.Data.Key;
 
 /**
@@ -118,14 +119,19 @@ public class SimpleModelDefinition implements ModelDefinition {
             final Key key = itr.next();
             if (itr.hasNext()) {
                 Definition def = currentDef.getChildren().get(key);
-                if (def == null) {
-                    def = currentDef.getChildren().get(Data.WILDCARD_KEY);
+ 
+                if (def == null){
+                    if (key instanceof IntegerKey) {
+                        def = currentDef.getChildren().get(Data.WILDCARD_KEY);
+                    } else {
+                        throw new RuntimeException(key + " in " + path.toString() + " not defined in model definition");                        
+                    }
                 }
                 currentDef = def;
             } else {
                 Definition def = currentDef.getChildren().get(key);
                 if (def == null) {
-                    // TODO: This should really throw an error as the path is not defined
+                    // FIXME: Should all non-defined leaf nodes be treated as strings
                     return "String";
                 } else {
                     return def.getClassName();
@@ -133,6 +139,6 @@ public class SimpleModelDefinition implements ModelDefinition {
             }
         }
 
-        return null;
+        throw new RuntimeException(path.toString() + " not defined in model definition.");        
     }
 }
