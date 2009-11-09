@@ -96,6 +96,13 @@ public class AssemblerTestSection extends SectionView {
 					retrieveLastSaved();
 				}
 			}));
+			buttonPanel.add(new Button("Modify", new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					modifyLastSaved();
+				}
+			}));
+			
 						
 		}
 		
@@ -130,6 +137,46 @@ public class AssemblerTestSection extends SectionView {
 			});
 		}
 		
+		private void modifyLastSaved() {
+			status.setText("Retrieving saved proposal");
+			service.getCreditCourseProposal(lastCreatedId, new AsyncCallback<CreditCourseProposal>() {
+
+				@Override
+				public void onFailure(Throwable caught) {
+					status.setText("Modify failed: " + caught.toString());
+				}
+
+				@Override
+				public void onSuccess(CreditCourseProposal result) {
+					status.setText("Retrieved proposal");
+					result.getProposal().setTitle("MODIFIED " + result.getProposal().getTitle());
+					result.getProposal().getModifications().setUpdated(true);
+					
+					CreditCourse course = result.getCourse();
+					course.setTranscriptTitle("MODIFIED " + course.getTranscriptTitle());
+					course.getModifications().setUpdated(true);
+					
+					status.setText("Saving modified proposal");
+					service.saveCreditCourseProposal(result, new AsyncCallback<DataSaveResult>() {
+
+						@Override
+						public void onFailure(Throwable caught) {
+							status.setText("Failed to save modified proposal: " + caught.getMessage());
+						}
+
+						@Override
+						public void onSuccess(DataSaveResult result) {
+							status.setText("Modified proposal saved");
+							dumpSaveResult(result);
+						}
+						
+					});
+					output.setText("");
+					dumpProposal(result);
+				}
+			});
+		}
+
 		
 		private void retrieveLastSaved() {
 			if (lastCreatedId == null){

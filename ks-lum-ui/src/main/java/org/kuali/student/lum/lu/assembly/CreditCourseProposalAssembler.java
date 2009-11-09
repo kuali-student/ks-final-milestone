@@ -476,16 +476,22 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 				result.setModificationState(ModificationState.DELETED);
 			} 
 			
-			CluIdentifierInfo cluId = new CluIdentifierInfo();
+			CluIdentifierInfo cluId = courseClu.getOfficialIdentifier();
+			if (cluId == null) {
+				cluId = new CluIdentifierInfo();
+				courseClu.setOfficialIdentifier(cluId);
+			}
 			cluId.setSuffixCode(course.getCourseNumberSuffix());
 			cluId.setLongName(course.getCourseTitle());
 			cluId.setDivision(course.getSubjectArea());
 			cluId.setShortName(course.getTranscriptTitle());
-			courseClu.setOfficialIdentifier(cluId);
 			
-			AdminOrgInfo admin = new AdminOrgInfo();
+			AdminOrgInfo admin = courseClu.getPrimaryAdminOrg();
+			if (admin == null) {
+				admin = new AdminOrgInfo();
+				courseClu.setPrimaryAdminOrg(admin);
+			}
 			admin.setOrgId(course.getDepartment());
-			courseClu.setPrimaryAdminOrg(admin);
 			
 			courseClu.setDesc(richtextAssembler.disassemble(course.getDescription()));
 			courseClu.setIntensity(timeamountAssembler.disassemble(course.getDuration()));

@@ -168,23 +168,25 @@ public class CluInfoHierarchyAssembler implements Assembler<CluInfoHierarchy, Vo
 	private void saveClus(CluInfoHierarchy input) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException {
 		CluInfo result = null;
 		CluInfo clu = input.getCluInfo();
-		switch (input.getModificationState()) {
-			case CREATED:
-				result = luService.createClu(clu.getType(), clu);
-				break;
-			case UPDATED:
-				result = luService.updateClu(clu.getId(), clu);
-				break;
-			case DELETED:
-				// back out any relationships in case of RI
-				List<CluCluRelationInfo> relations = luService.getCluCluRelationsByClu(clu.getId());
-				for (CluCluRelationInfo rel : relations) {
-					luService.deleteCluCluRelation(rel.getId());
-				}
-				luService.deleteClu(clu.getId());
-				break;
-			default:
-				// do nothing
+		if (input.getModificationState() != null) {
+			switch (input.getModificationState()) {
+				case CREATED:
+					result = luService.createClu(clu.getType(), clu);
+					break;
+				case UPDATED:
+					result = luService.updateClu(clu.getId(), clu);
+					break;
+				case DELETED:
+					// back out any relationships in case of RI
+					List<CluCluRelationInfo> relations = luService.getCluCluRelationsByClu(clu.getId());
+					for (CluCluRelationInfo rel : relations) {
+						luService.deleteCluCluRelation(rel.getId());
+					}
+					luService.deleteClu(clu.getId());
+					break;
+				default:
+					// do nothing
+			}
 		}
 		if (result != null) {
 			input.setCluInfo(result);
