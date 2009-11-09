@@ -45,6 +45,7 @@
         <jetty.version>6.1.6</jetty.version>
         <eclipselink.version>1.0</eclipselink.version>
         <aspectj.version>1.5.4</aspectj.version>
+        <rice.version>1.0.0-ks-m1</rice.version>
 
         <!-- plugin versions -->
         <cobertura.plugin.version>2.2</cobertura.plugin.version>
@@ -113,33 +114,6 @@
                         http://people.apache.org/repo/m2-incubating-repository
                     </url>
                 </repository>
-                <!-- adding until maven repository resolution fixed (does not work in 2.0.9 or 2.1.0.20080530 embedded) -->
-                <repository>
-                    <id>repository.jboss.org</id>
-                    <url>http://repository.jboss.org/maven2</url>
-                    <releases>
-                        <enabled>true</enabled>
-                    </releases>
-                    <snapshots>
-                        <enabled>false</enabled>
-                    </snapshots>
-                </repository>
-                <repository>
-                    <id>ibiblio.maven</id>
-                    <url>http://www.ibiblio.org/maven</url>
-                </repository>
-                <repository>
-                    <id>EclipseLink Repo</id>
-                    <url>
-                        http://www.eclipse.org/downloads/download.php?r=1&amp;nf=1&amp;file=/rt/eclipselink/maven.repo
-					</url>
-				</repository>
-				<repository>
-					<id>gwt-maven</id>
-					<url>
-						http://gwt-maven.googlecode.com/svn/trunk/mavenrepo
-					</url>
-				</repository>
 				<repository>
                     <id>shibboleth.internet2</id>
                     <url>http://shibboleth.internet2.edu/downloads/maven2/</url>
@@ -176,27 +150,11 @@
                     <snapshots>
                         <enabled>true</enabled>
                     </snapshots>
-				</pluginRepository>
-				<pluginRepository>
-					<id>codehaus</id>
-					<url>http://snapshots.repository.codehaus.org/</url>
-                    <releases>
-                        <enabled>false</enabled>
-                    </releases>
-                    <snapshots>
-                        <enabled>true</enabled>
-                    </snapshots>
-				</pluginRepository>				
+				</pluginRepository>		
 				<pluginRepository>
 					<id>ks-public</id>
 					<url>http://archiva.kuali.umd.edu/repository/public</url>
 				</pluginRepository>
-                <pluginRepository>
-                    <id>gwt-maven</id>
-                    <url>
-                        http://gwt-maven.googlecode.com/svn/trunk/mavenrepo
-                    </url>
-                </pluginRepository>
 			</pluginRepositories>
 		</profile>	
 	</profiles>
@@ -305,7 +263,7 @@
 		<site>
 			<id>ks.site</id>
 			<url> 
-				dav:https://student.kuali.org:8443/student/site/core/${project.version}
+				dav:https://student.kuali.org:8443/student/site/security/${project.version}
 			</url>
 		</site>
 	</distributionManagement>
@@ -710,6 +668,29 @@
 				<artifactId>cxf-rt-databinding-aegis</artifactId>
 				<version>${cxf.version}</version>
 			</dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-api</artifactId>
+                <version>${cxf.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.geronimo.specs</groupId>
+                        <artifactId>geronimo-activation_1.1_spec</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-core</artifactId>
+                <version>${cxf.version}</version>
+                <exclusions>
+                    <exclusion>
+						<groupId>org.apache.geronimo.specs</groupId>
+						<artifactId>geronimo-javamail_1.4_spec</artifactId>
+					</exclusion>
+                </exclusions>
+            </dependency>
+            
 			<dependency>
 				<groupId>org.apache.ws.security</groupId>
   				<artifactId>wss4j</artifactId>
@@ -747,7 +728,7 @@
             <dependency>
                 <groupId>org.kuali.rice</groupId>
                 <artifactId>rice-api</artifactId>
-                <version>1.0.0</version>
+                <version>${rice.version}</version>
             </dependency>
             
             <dependency>
@@ -759,11 +740,5 @@
 		</dependencies>
 	</dependencyManagement>
 
-	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-		</dependency>
-	</dependencies>
 
 </project>

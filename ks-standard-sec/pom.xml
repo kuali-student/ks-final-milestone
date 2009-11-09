@@ -26,7 +26,6 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -54,13 +53,7 @@
 			<groupId>org.opensaml</groupId>
 			<artifactId>opensaml</artifactId>
 		</dependency>
-<!--
-        <dependency>
-        	<groupId>org.kuali.student.core</groupId>
-			<artifactId>ks-cxf</artifactId>
-			<type>pom</type>
-        </dependency>
--->        
+
         <dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-ws-security</artifactId>
@@ -69,12 +62,10 @@
          <dependency>
    			<groupId>org.apache.cxf</groupId>
    			<artifactId>cxf-rt-databinding-aegis</artifactId>
-   			<version>2.2</version>
   		</dependency>
   		<dependency>
   			<groupId>org.kuali.rice</groupId>
   			<artifactId>rice-api</artifactId>
-  			<version>1.0.0</version>
   		</dependency>
 
 	</dependencies>
