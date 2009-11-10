@@ -174,7 +174,7 @@ public class ModelFinder
  {
   for (Constraint cons : model.getConstraints ())
   {
-   if (cons.getId ().equals (id))
+   if (cons.getId ().equalsIgnoreCase (id))
    {
     return cons;
    }

@@ -76,11 +76,25 @@ public class DictionaryModelLoader implements DictionaryModel
 
  private String fixup (String str)
  {
-  if (str.equals ("FALSE"))
+  if (str == null)
+  {
+   return "";
+  }
+  // TODO: figure out why I am getting an unprintable character that gets translated to a 63 which is a ?
+  //       when there is a calculation that returns null
+  if (str.length () == 1)
+  {
+   byte[] bytes = str.getBytes ();
+   if (bytes[0] == 63)
+   {
+    return "";
+   }
+  }
+  if (str.equalsIgnoreCase ("FALSE"))
   {
    return "false";
   }
-  if (str.equals ("TRUE"))
+  if (str.equalsIgnoreCase ("TRUE"))
   {
    return "true";
   }
