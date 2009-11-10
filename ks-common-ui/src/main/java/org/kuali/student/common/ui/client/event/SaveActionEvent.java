@@ -28,6 +28,7 @@ public class SaveActionEvent extends ActionEvent<SaveActionHandler> implements H
     
     private ActionState actionState;
     private String message = "Saving";
+    private boolean acknowledgeRequired = true;
     
     public SaveActionEvent(){
     }
@@ -61,6 +62,14 @@ public class SaveActionEvent extends ActionEvent<SaveActionHandler> implements H
     
     public String getMessage(){
         return message;
+    }
+
+    public boolean isAcknowledgeRequired() {
+        return acknowledgeRequired;
+    }
+
+    public void setAcknowledgeRequired(boolean acknowledgeRequired) {
+        this.acknowledgeRequired = acknowledgeRequired;
     }
     
 }

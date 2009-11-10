@@ -12,6 +12,7 @@ import org.kuali.student.common.ui.client.event.ValidateResultHandler;
 import org.kuali.student.common.ui.client.mvc.ActionCompleteCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.mvc.HasActionState.ActionState;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -55,9 +56,6 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 	
 	private Class<? extends ModelDTO> modelDTOType;
 	
-	private String sectionMenuTitle = "Proposal";
-	private String toolMenuTitle = "Tools";
-	
 	private KSTabPanel tabPanel = new KSTabPanel();
 	private KSTitleContainerImpl container = new KSTitleContainerImpl();
 	
@@ -78,11 +76,20 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 		boolean renderedOnce = false;
 		Enum<?> tabDefaultView = null;
 		
-		private KSButton nextButton = new KSButton("Next", new ClickHandler(){
-	        public void onClick(ClickEvent event) {
-	            int nextSectionIndex = currSectionIdx + 1;
-	            // FIXME this is not safe for all sorts of reasons, do not call handlers directly like this.
-	            sectionMenuItems.get(nextSectionIndex).getClickHandler().onClick(event);
+		private KSButton nextButton = new KSButton("Save & Continue", new ClickHandler(){
+	        public void onClick(final ClickEvent event) {
+                
+                final SaveActionEvent saveActionEvent = new SaveActionEvent();
+                saveActionEvent.setAcknowledgeRequired(false);
+                saveActionEvent.setActionCompleteCallback(new ActionCompleteCallback(){
+                    public void onActionComplete(ActionEvent action) {
+                        int nextSectionIndex = currSectionIdx + 1;
+                        // FIXME this is not safe for all sorts of reasons, do not call handlers directly like this.
+                        sectionMenuItems.get(nextSectionIndex).getClickHandler().onClick(event);
+                    }                    
+                });
+                
+                fireApplicationEvent(saveActionEvent);	            	            
 	        }	    
 	    }
 		);
@@ -132,6 +139,7 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 			
 			sectionItem.setClickHandler(new ClickHandler() {
 				public void onClick(ClickEvent event) {
+				    
 				    int newMenuItemIdx = sectionMenuItems.indexOf(sectionItem);
 				    if (currSectionIdx != newMenuItemIdx){
 	                    currSectionIdx = newMenuItemIdx;
@@ -389,15 +397,7 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 		}
 	        
 	}
-	
-    public void setSectionMenuTitle(String title){
-        this.sectionMenuTitle = title;
-    }
-    
-    public void setToolMenuTitle(String title){
-        this.toolMenuTitle = title;
-    }
-    
+	    
     public void clear(){
     	
     	for(TabLayout layout: tabLayoutMap.values()){
