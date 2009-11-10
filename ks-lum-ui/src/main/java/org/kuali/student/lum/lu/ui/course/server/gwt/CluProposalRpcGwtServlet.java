@@ -1426,7 +1426,9 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             def.define("cluInfo/officialIdentifier", "org.kuali.student.lum.lu.dto.CluIdentifier");            
             def.define("cluInfo/rationale", "org.kuali.student.RichText");
             def.define("cluInfo/formats/*/cluInfo", "org.kuali.student.lum.lu.dto.CluInfo");
-            def.define("cluInfo/formats/*/activities/*/cluInfo", "org.kuali.student.lum.lu.dto.CluInfo");            
+            def.define("cluInfo/formats/*/activities/*/cluInfo", "org.kuali.student.lum.lu.dto.CluInfo");
+            def.define("cluInfo/formats/*/activities/*/cluInfo/stdDuration", "org.kuali.student.core.dto.TimeAmountInfo");
+            def.define("cluInfo/formats/*/activities/*/cluInfo/intensity", "org.kuali.student.core.dto.TimeAmountInfo");
             def.define("cluInfo/effectiveDate", "Date");
             def.define("cluInfo/expirationDate", "Date");
             

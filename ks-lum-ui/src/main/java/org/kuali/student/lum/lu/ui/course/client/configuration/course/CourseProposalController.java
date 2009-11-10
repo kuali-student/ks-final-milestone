@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
+import org.kuali.student.common.ui.client.configurable.mvc.TabbedSectionLayout;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionHandler;
 import org.kuali.student.common.ui.client.event.ValidateResultEvent;
@@ -28,9 +29,15 @@ import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.WorkQueue;
+import org.kuali.student.common.ui.client.mvc.HasActionState.ActionState;
 import org.kuali.student.common.ui.client.mvc.WorkQueue.WorkItem;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSLightBox;
+import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
+import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LuConfigurer;
@@ -45,6 +52,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * This is a description of what this class does - Will Gomes don't forget to fill this in. 
@@ -52,7 +60,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  * @author Kuali Student Team
  *
  */
-public class CourseProposalController extends PagedSectionLayout{ 
+public class CourseProposalController extends TabbedSectionLayout{ 
     private Model<org.kuali.student.common.assembly.client.Model> cluProposalModel; 
     private Model<Collaborators.CollaboratorModel> collaboratorModel;
     
@@ -281,7 +289,7 @@ public class CourseProposalController extends PagedSectionLayout{
 
                     @Override
                     public void onFailure(Throwable caught) {
-                        Window.alert("Failed to get model definition.");                        
+                        Window.alert("Failed to get model definition from server.");                        
                     }
 
                     @Override
@@ -289,6 +297,7 @@ public class CourseProposalController extends PagedSectionLayout{
                         cluProposalModel.put(result);                           
                         callback.onModelReady(cluProposalModel);
                         workCompleteCallback.exec(true);
+                        GWT.log("Retrieved course clu proposal model defintion.", null);
                     }                
             });
                         
@@ -310,9 +319,7 @@ public class CourseProposalController extends PagedSectionLayout{
             
             getCurrentView().updateModel();
             
-            for(View sectionView : orderedSectionViews){
-            	sectionView.updateModel();
-            }
+            this.updateModel();
             
             saveProposalClu(saveActionEvent);
 //            processingSave=true;
@@ -325,16 +332,47 @@ public class CourseProposalController extends PagedSectionLayout{
     }
     
     public void saveProposalClu(final SaveActionEvent saveActionEvent){
+        final KSLightBox saveWindow = new KSLightBox();
+        final KSLabel saveMessage = new KSLabel(saveActionEvent.getMessage() + "...");
+        final OkGroup buttonGroup = new OkGroup(new Callback<OkEnum>(){
+                
+                @Override
+                public void exec(OkEnum result) {
+                    saveWindow.hide();
+                    saveActionEvent.doActionComplete();                
+                }
+            });
+
+        buttonGroup.setWidth("250px");
+        buttonGroup.getButton(OkEnum.Ok).setEnabled(false);
+        buttonGroup.setContent(saveMessage);
+
+        
+        if (saveActionEvent.isAcknowledgeRequired()){
+            saveWindow.setWidget(buttonGroup);
+        } else {
+            saveWindow.setWidget(saveMessage);
+        }
+        saveWindow.show();
+
         if(cluProposalModel.get().get("cluInfo/id") == null){
             cluProposalRpcServiceAsync.saveData(cluProposalModel.get().getRoot(), new AsyncCallback<Data>(){
                 public void onFailure(Throwable caught) {
-                    caught.printStackTrace();
-                    Window.alert(caught.getMessage());
+                    GWT.log("Save Failed.", caught);
+                    saveWindow.setWidget(buttonGroup);
+                    saveMessage.setText("Save Failed!  Please Try Again.");
+                    buttonGroup.getButton(OkEnum.Ok).setEnabled(true);                    
                 }
 
                 public void onSuccess(Data result) {
                     cluProposalModel.get().setRoot(result);
-                    saveActionEvent.doActionComplete();                    
+                    if (saveActionEvent.isAcknowledgeRequired()){
+                        saveMessage.setText("Save Successful");
+                        buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
+                    } else {
+                        saveWindow.hide();
+                        saveActionEvent.doActionComplete();                        
+                    }                    
                 }
             });
             savedOnce = true;

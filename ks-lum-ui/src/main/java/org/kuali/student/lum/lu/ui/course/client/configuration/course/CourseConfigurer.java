@@ -21,16 +21,17 @@ import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.CustomNestedSection;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
-import org.kuali.student.common.ui.client.configurable.mvc.MultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.MultiplicityCompositeWithLabels;
 import org.kuali.student.common.ui.client.configurable.mvc.MultiplicitySection;
 import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.SimpleMultiplicityComposite;
+import org.kuali.student.common.ui.client.configurable.mvc.TabbedSectionLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
 import org.kuali.student.common.ui.client.configurable.mvc.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.Section.FieldLabelType;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.UpdatableMultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.Type;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
@@ -85,13 +86,13 @@ public class CourseConfigurer {
     	
         addCluStartSection(layout);
 
-        layout.addSection(new String[] {getLabel(LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, generateGovernanceSection());
-        layout.addSection(new String[] {getLabel(LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, generateCourseLogisticsSection());
-        layout.addSection(new String[] {getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateCourseInfoSection());
-        layout.addSection(new String[] {getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateLearningObjectivesSection());
-        layout.addSection(new String[] {getLabel(LUConstants.STUDENT_ELIGIBILITY_LABEL_KEY)}, generateCourseRequisitesSection());
-        layout.addSection(new String[] {getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateActiveDatesSection());
-        layout.addSection(new String[] {getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateFinancialsSection());        
+        layout.addSection(new String[] {"Edit Proposal", getLabel(LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, generateGovernanceSection());
+        layout.addSection(new String[] {"Edit Proposal",getLabel(LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, generateCourseLogisticsSection());
+        layout.addSection(new String[] {"Edit Proposal",getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateCourseInfoSection());
+        layout.addSection(new String[] {"Edit Proposal",getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateLearningObjectivesSection());
+        layout.addSection(new String[] {"Edit Proposal",getLabel(LUConstants.STUDENT_ELIGIBILITY_LABEL_KEY)}, generateCourseRequisitesSection());
+        layout.addSection(new String[] {"Edit Proposal",getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateActiveDatesSection());
+        layout.addSection(new String[] {"Edit Proposal",getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateFinancialsSection());        
         layout.addSection(new String[] {getLabel(LUConstants.SUMMARY_LABEL_KEY)}, generateSummarySection());
 
         layout.addTool(new CollaboratorTool());
@@ -132,7 +133,7 @@ public class CourseConfigurer {
         section.addField(new FieldDescriptor("proposalInfo/name", getLabel(LUConstants.PROPOSAL_TITLE_LABEL_KEY), Type.STRING));
         //This will need to be a person picker
         section.addField(new FieldDescriptor("proposalInfo/proposerPerson", getLabel(LUConstants.PROPOSAL_PERSON_LABEL_KEY),Type.LIST, new PersonList())) ;
-        ((PagedSectionLayout)layout).addStartSection(section);
+        ((TabbedSectionLayout)layout).addStartSection(section);
     }
 
     /**
@@ -327,13 +328,13 @@ public class CourseConfigurer {
 
         //COURSE FORMATS
         VerticalSection courseFormats = initSection(getH3Title(LUConstants.FORMATS_LABEL_KEY), WITH_DIVIDER);
-        courseFormats.addField(new FieldDescriptor("cluInfo/courseFormats", null, Type.LIST, new CourseFormatList()));
+        courseFormats.addField(new FieldDescriptor("cluInfo/formats", null, Type.LIST, new CourseFormatList()));
 
         section.addSection(instructors);
         section.addSection(credits);
         section.addSection(learningResults);
         section.addSection(scheduling);
-//        section.addSection(courseFormats);
+        section.addSection(courseFormats);
 
         
         return section;
@@ -351,23 +352,20 @@ public class CourseConfigurer {
         return section;        
     }
     
-    public static class CourseFormatList extends MultiplicityComposite {
+    public static class CourseFormatList extends UpdatableMultiplicityComposite  {
         {
             setAddItemLabel(getLabel(LUConstants.COURSE_ADD_FORMAT_LABEL_KEY));
             setItemLabel(getLabel(LUConstants.FORMAT_LABEL_KEY));
         }
 
         public Widget createItem() {
-            MultiplicitySection item = new MultiplicitySection(CluDictionaryClassNameHelper.CLU_INFO_CLASS);
-            //TODO: Do we need ability to add hidden fields, so key/value pairs can be set into ModelDTO
-            //e.g. addHiddenField("type", "kuali.lu.type.CreditCourseFormatShell");
-
+            VerticalSection item = initSection(null, false) ;
             item.addField(new FieldDescriptor("activities", null, Type.LIST, new CourseActivityList()));
             return item;
         }
     }
 
-    public static class CourseActivityList extends MultiplicityComposite {
+    public static class CourseActivityList extends UpdatableMultiplicityComposite {
 
         {
             setAddItemLabel(getLabel(LUConstants.ADD_ACTIVITY_LABEL_KEY));
@@ -375,9 +373,8 @@ public class CourseConfigurer {
         }
 
         public Widget createItem() {
-            MultiplicitySection item = new MultiplicitySection(CluDictionaryClassNameHelper.CLU_INFO_CLASS);
             CustomNestedSection activity = new CustomNestedSection();
-            activity.addField(new FieldDescriptor("type", getLabel(LUConstants.ACTIVITY_TYPE_LABEL_KEY), Type.STRING, new CluActivityType()));
+            activity.addField(new FieldDescriptor("cluInfo/type", getLabel(LUConstants.ACTIVITY_TYPE_LABEL_KEY), Type.STRING, new CluActivityType()));
             activity.nextRow();
 
             /* CreditInfo is deprecated, needs to be replaced with learning results
@@ -390,18 +387,16 @@ public class CourseConfigurer {
             */
 
             activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            activity.addField(new FieldDescriptor("term", getLabel(LUConstants.TERM_LITERAL_LABEL_KEY), Type.STRING, new AtpTypeList()));
-            activity.addField(new FieldDescriptor("stdDuration/timeQuantity", getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY), Type.INTEGER)); //TODO dropdown need here?
+            activity.addField(new FieldDescriptor("cluInfo/term", getLabel(LUConstants.TERM_LITERAL_LABEL_KEY), Type.STRING, new AtpTypeList()));
+            activity.addField(new FieldDescriptor("cluInfo/stdDuration/timeQuantity", getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY), Type.INTEGER)); //TODO dropdown need here?
 
             activity.nextRow();
             activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            activity.addField(new FieldDescriptor("intensity/timeQuantity", getLabel(LUConstants.CONTACT_HOURS_LABEL_KEY), Type.STRING));
+            activity.addField(new FieldDescriptor("cluInfo/intensity/timeQuantity", getLabel(LUConstants.CONTACT_HOURS_LABEL_KEY), Type.STRING));
             //TODO PER WHATEVER
-            activity.addField(new FieldDescriptor("defaultEnrollmentEstimate", getLabel(LUConstants.CLASS_SIZE_LABEL_KEY), Type.INTEGER));
+            activity.addField(new FieldDescriptor("cluInfo/defaultEnrollmentEstimate", getLabel(LUConstants.CLASS_SIZE_LABEL_KEY), Type.INTEGER));
 
-            item.addSection(activity);
-
-            return item;
+            return activity;
         }
 
     }
