@@ -4,6 +4,7 @@
  */
 package org.kuali.student.dictionary;
 
+
 import com.sun.codemodel.ClassType;
 import com.sun.codemodel.JClass;
 import com.sun.codemodel.JClassAlreadyExistsException;
@@ -191,11 +192,13 @@ public class OrchestrationObjectWriter
   JDefinedClass mainClass = jcm._class (className, ClassType.CLASS);
   map.put (orchObj.getName ().toLowerCase () + "Assembler", mainClass);
 
-  JClass assemblerInterface = jcm.ref (Assembler.class);
- // assemblerInterface.generify (orchObj.getFullyQualifiedName () + "Data"); // target
- // assemblerInterface.generify (orchObj.getFullyQualifiedName ());  // source
-  mainClass._implements (assemblerInterface);
-  // TODO: figure out how to add the generic qualifiers to the implements Assembler clause
+
+  JClass genericAssembler = jcm.ref (Assembler.class.getName ());
+  List <JClass> narroweredClasses = new ArrayList ();
+  narroweredClasses.add (jcm._getClass (orchObj.getFullyQualifiedName () + "Data"));
+  narroweredClasses.add (jcm.ref (orchObj.getFullyQualifiedName ()));
+  JClass narrowedAssembler = genericAssembler.narrow (narroweredClasses);
+  mainClass._implements (narrowedAssembler);
 
   JDefinedClass dataClass = map.get (orchObj.getName ().toLowerCase ());
   JMethod assembleMethod = mainClass.method (JMod.PUBLIC, dataClass, "assemble");
