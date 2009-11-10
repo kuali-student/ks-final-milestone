@@ -36,6 +36,7 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalController;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LuConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
@@ -78,28 +79,7 @@ public class CourseProposalController extends TabbedSectionLayout{
 	
 	CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);
     private boolean savedOnce=false;
-    
-    private class SaveButton extends KSButton{
-        public SaveButton(){
-            super("Save", new ClickHandler(){
-                public void onClick(ClickEvent event) {
-                    fireApplicationEvent(new SaveActionEvent());
-                }
-            });
-        }
-    }
-    
-    private class QuitButton extends KSButton{
-        public QuitButton(){
-            super("Quit", new ClickHandler(){
-                public void onClick(ClickEvent event) {
-                    Controller parentController = CourseProposalController.this.getParentController(); 
-                    parentController.fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.HOME_MENU, event));
-                }
-            });
-        }
-    }
-        
+            
     public CourseProposalController(){
         super();
         init();
@@ -117,9 +97,9 @@ public class CourseProposalController extends TabbedSectionLayout{
         }
 */        
         
-        addButton("Edit Proposal", new SaveButton());
-        addButton("Edit Proposal", new QuitButton());
-        addButton("Summary", new QuitButton());
+        addButton("Edit Proposal", getSaveButton());
+        addButton("Edit Proposal", getQuitButton());
+        addButton("Summary", getQuitButton());
         
         addApplicationEventHandler(SaveActionEvent.TYPE, new SaveActionHandler(){
             public void doSave(SaveActionEvent saveAction) {
@@ -153,6 +133,24 @@ public class CourseProposalController extends TabbedSectionLayout{
         
     }
         
+    private KSButton getSaveButton(){
+        return new KSButton("Save", new ClickHandler(){
+                    public void onClick(ClickEvent event) {
+                        fireApplicationEvent(new SaveActionEvent());
+                    }
+                });
+    }
+ 
+        
+    private KSButton getQuitButton(){
+        return new KSButton("Quit", new ClickHandler(){
+                    public void onClick(ClickEvent event) {
+                        Controller parentController = CourseProposalController.this.getParentController(); 
+                        parentController.fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.HOME_MENU, event));
+                    }
+                });       
+    }
+    
     /**
      * @see org.kuali.student.common.ui.client.mvc.Controller#getViewsEnum()
      */

@@ -76,29 +76,7 @@ public class CluProposalController extends TabbedSectionLayout{
 	private final String REFERENCE_TYPE = "referenceType.clu";
 	
 	CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);
-	   
-    private class SaveButton extends KSButton{
-    	public SaveButton(){
-    		super("Save", new ClickHandler(){
-    	        public void onClick(ClickEvent event) {
-    	            fireApplicationEvent(new SaveActionEvent());
-    	        }
-    	    });
-    	}
-    }
-    
-    private class QuitButton extends KSButton{
-    	public QuitButton(){
-    		super("Quit", new ClickHandler(){
-    	        public void onClick(ClickEvent event) {
-    	            Controller parentController = CluProposalController.this.getParentController(); 
-    	            parentController.fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.HOME_MENU, event));
-    	        }
-    	    });
-    	}
-    }
-        
-    
+	               
     public CluProposalController(String proposalType, String cluType, String docId) {
     	super();
     	this.docId = docId;   	this.proposalType = proposalType;
@@ -126,9 +104,10 @@ public class CluProposalController extends TabbedSectionLayout{
         	LuConfigurer.configureProgramProposal(this, objectKey, typeKey, stateKey);
         }
         
-        addButton("Edit Proposal", new SaveButton());
-        addButton("Edit Proposal", new QuitButton());
-        addButton("Summary", new QuitButton());
+        addButton("Edit Proposal", getSaveButton());
+        addButton("Edit Proposal", getQuitButton());
+        addButton("Summary", getQuitButton());
+        
         cluProposalModel = null;
         this.setModelDTOType(CluProposalModelDTO.class);
         
@@ -173,6 +152,24 @@ public class CluProposalController extends TabbedSectionLayout{
     }
 
 
+    private KSButton getSaveButton(){
+        return new KSButton("Save", new ClickHandler(){
+                    public void onClick(ClickEvent event) {
+                        fireApplicationEvent(new SaveActionEvent());
+                    }
+                });
+    }
+ 
+        
+    private KSButton getQuitButton(){
+        return new KSButton("Quit", new ClickHandler(){
+                    public void onClick(ClickEvent event) {
+                        Controller parentController = CluProposalController.this.getParentController(); 
+                        parentController.fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.HOME_MENU, event));
+                    }
+                });       
+    }
+    
     @SuppressWarnings("unchecked")
     @Override
     public void requestModel(Class modelType, final ModelRequestCallback callback) {
