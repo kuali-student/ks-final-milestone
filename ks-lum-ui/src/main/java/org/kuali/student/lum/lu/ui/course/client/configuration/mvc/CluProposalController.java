@@ -17,6 +17,7 @@ package org.kuali.student.lum.lu.ui.course.client.configuration.mvc;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
+import org.kuali.student.common.ui.client.configurable.mvc.TabbedSectionLayout;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionHandler;
 import org.kuali.student.common.ui.client.event.ValidateResultEvent;
@@ -55,7 +56,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author Kuali Student Team
  *
  */
-public class CluProposalController extends PagedSectionLayout{
+public class CluProposalController extends TabbedSectionLayout{
     private Model<CluProposalModelDTO> cluProposalModel;
     private Model<Collaborators.CollaboratorModel> collaboratorModel;
 
@@ -284,9 +285,7 @@ public class CluProposalController extends PagedSectionLayout{
             
             getCurrentView().updateModel();
             
-            for(View sectionView : orderedSectionViews){
-            	sectionView.updateModel();
-            }
+            this.updateModel();
             
             saveProposalClu(saveActionEvent);
 //            processingSave=true;
