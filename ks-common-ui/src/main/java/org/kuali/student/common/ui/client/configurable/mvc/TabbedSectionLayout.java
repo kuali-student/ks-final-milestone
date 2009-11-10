@@ -60,22 +60,30 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 	private KSTitleContainerImpl container = new KSTitleContainerImpl();
 	
 	private class TabLayout extends Composite{
-		HorizontalPanel layout = new HorizontalPanel();
-		SimplePanel content = new SimplePanel();
-		VerticalPanel contentLayout = new VerticalPanel();
-		KSListMenuImpl menu = new KSListMenuImpl();
+		private HorizontalPanel layout = new HorizontalPanel();
+		private SimplePanel content = new SimplePanel();
+		private VerticalPanel contentLayout = new VerticalPanel();
+		private KSListMenuImpl menu = new KSListMenuImpl();
 		//KSBasicMenu menu = new KSBasicMenu();
 		private int currSectionIdx = 0;
 		protected final ArrayList<View> orderedSectionViews = new ArrayList<View>();
 		private final HorizontalPanel sectionButtonPanel = new HorizontalPanel();
 		private final ArrayList<KSMenuItemData> sectionMenuItems = new ArrayList<KSMenuItemData>();
 		private final List<KSMenuItemData> topLevelMenuItems = new ArrayList<KSMenuItemData>();
-		Map<String, KSListPanel> sectionMap = new HashMap<String, KSListPanel>();
-		boolean menuAdded = false;
-		boolean shown = false;
-		boolean renderedOnce = false;
-		Enum<?> tabDefaultView = null;
+		private Map<String, KSListPanel> sectionMap = new HashMap<String, KSListPanel>();
+		private boolean menuAdded = false;
+		private boolean shown = false;
+		private boolean renderedOnce = false;
+		private Enum<?> tabDefaultView = null;
 		
+		public Enum<?> getTabDefaultView() {
+			return tabDefaultView;
+		}
+
+		public void setTabDefaultView(Enum<?> tabDefaultView) {
+			this.tabDefaultView = tabDefaultView;
+		}
+
 		private KSButton nextButton = new KSButton("Save & Continue", new ClickHandler(){
 	        public void onClick(final ClickEvent event) {
                 
@@ -279,6 +287,9 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 			layout = new TabLayout();
 			tabLayoutMap.put(tabKey, layout);
 			tabPanel.addTab(tabKey, tabKey, layout);
+			if(section != null){
+				layout.setTabDefaultView(section.getViewEnum());
+			}
 		}
 		else{
 			layout = tabLayoutMap.get(tabKey);
@@ -391,8 +402,10 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
         this.modelDTOType = modelDTOType;
     }
     
-	public void addButton(KSButton button){
-		for(TabLayout layout: tabLayoutMap.values()){
+	public void addButton(String tabKey, KSButton button){
+		TabLayout layout = tabLayoutMap.get(tabKey);
+		
+		if(layout != null){
 			layout.addButton(button);
 		}
 	        
