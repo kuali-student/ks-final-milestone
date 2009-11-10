@@ -76,19 +76,28 @@ public class CluProposalController extends TabbedSectionLayout{
 	private final String REFERENCE_TYPE = "referenceType.clu";
 	
 	CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);
-	
-    private KSButton saveButton = new KSButton("Save", new ClickHandler(){
-        public void onClick(ClickEvent event) {
-            fireApplicationEvent(new SaveActionEvent());
-        }
-    });
+	   
+    private class SaveButton extends KSButton{
+    	public SaveButton(){
+    		super("Save", new ClickHandler(){
+    	        public void onClick(ClickEvent event) {
+    	            fireApplicationEvent(new SaveActionEvent());
+    	        }
+    	    });
+    	}
+    }
+    
+    private class QuitButton extends KSButton{
+    	public QuitButton(){
+    		super("Quit", new ClickHandler(){
+    	        public void onClick(ClickEvent event) {
+    	            Controller parentController = CluProposalController.this.getParentController(); 
+    	            parentController.fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.HOME_MENU, event));
+    	        }
+    	    });
+    	}
+    }
         
-    private KSButton quitButton = new KSButton("Quit", new ClickHandler(){
-        public void onClick(ClickEvent event) {
-            Controller parentController = CluProposalController.this.getParentController(); 
-            parentController.fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.HOME_MENU, event));
-        }
-    });
     
     public CluProposalController(String proposalType, String cluType, String docId) {
     	super();
@@ -117,8 +126,9 @@ public class CluProposalController extends TabbedSectionLayout{
         	LuConfigurer.configureProgramProposal(this, objectKey, typeKey, stateKey);
         }
         
-        addButton(saveButton);
-        addButton(quitButton);
+        addButton("Edit Proposal", new SaveButton());
+        addButton("Edit Proposal", new QuitButton());
+        addButton("Summary", new QuitButton());
         cluProposalModel = null;
         this.setModelDTOType(CluProposalModelDTO.class);
         
