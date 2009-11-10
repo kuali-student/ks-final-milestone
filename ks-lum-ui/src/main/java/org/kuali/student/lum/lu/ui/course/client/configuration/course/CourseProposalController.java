@@ -17,7 +17,6 @@ package org.kuali.student.lum.lu.ui.course.client.configuration.course;
 import java.util.List;
 
 import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.TabbedSectionLayout;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionHandler;
@@ -27,15 +26,12 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.WorkQueue;
-import org.kuali.student.common.ui.client.mvc.HasActionState.ActionState;
 import org.kuali.student.common.ui.client.mvc.WorkQueue.WorkItem;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
-import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
@@ -52,7 +48,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * This is a description of what this class does - Will Gomes don't forget to fill this in. 
@@ -84,18 +79,26 @@ public class CourseProposalController extends TabbedSectionLayout{
 	CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);
     private boolean savedOnce=false;
     
-    private KSButton saveButton = new KSButton("Save", new ClickHandler(){
-        public void onClick(ClickEvent event) {
-            fireApplicationEvent(new SaveActionEvent());
+    private class SaveButton extends KSButton{
+        public SaveButton(){
+            super("Save", new ClickHandler(){
+                public void onClick(ClickEvent event) {
+                    fireApplicationEvent(new SaveActionEvent());
+                }
+            });
         }
-    });
-        
-    private KSButton quitButton = new KSButton("Quit", new ClickHandler(){
-        public void onClick(ClickEvent event) {
-            Controller parentController = CourseProposalController.this.getParentController(); 
-            parentController.fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.HOME_MENU, event));
+    }
+    
+    private class QuitButton extends KSButton{
+        public QuitButton(){
+            super("Quit", new ClickHandler(){
+                public void onClick(ClickEvent event) {
+                    Controller parentController = CourseProposalController.this.getParentController(); 
+                    parentController.fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.HOME_MENU, event));
+                }
+            });
         }
-    });
+    }
         
     public CourseProposalController(){
         super();
@@ -114,8 +117,9 @@ public class CourseProposalController extends TabbedSectionLayout{
         }
 */        
         
-        addButton(saveButton);
-        addButton(quitButton);
+        addButton("Edit Proposal", new SaveButton());
+        addButton("Edit Proposal", new QuitButton());
+        addButton("Summary", new QuitButton());
         
         addApplicationEventHandler(SaveActionEvent.TYPE, new SaveActionHandler(){
             public void doSave(SaveActionEvent saveAction) {
