@@ -305,7 +305,18 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>				
+			</plugin>
+            
+            <!-- remote tagging set for svn compatibility -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>${release.plugin.version}</version>
+                <configuration>
+                    <remoteTagging>true</remoteTagging>
+                </configuration>
+            </plugin>
+            		
 		</plugins>
 		
 		<pluginManagement>
@@ -327,16 +338,6 @@
                     <version>${site.plugin.version}</version>
                 </plugin>
                 
-                <!-- remote tagging set for svn compatibility -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-release-plugin</artifactId>
-                    <version>${release.plugin.version}</version>
-                    <configuration>
-                        <remoteTagging>true</remoteTagging>
-                    </configuration>
-                </plugin>
-            
                 <!--  war plguin, so one version is used regardless of build env :-) -->
                 <plugin>
 					<groupId>org.apache.maven.plugins</groupId>
