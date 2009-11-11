@@ -21,7 +21,7 @@
         <velocity.version>1.5</velocity.version>
         <velocity.tools.version>1.4</velocity.tools.version>
         <mvel.dep.version>2.0.12</mvel.dep.version>
-        <ks-core.version>1.0.0-m1-SNAPSHOT</ks-core.version>
+        <ks-core.version>1.0.0-m1</ks-core.version>
 	</properties>
 	
 	<modules>
