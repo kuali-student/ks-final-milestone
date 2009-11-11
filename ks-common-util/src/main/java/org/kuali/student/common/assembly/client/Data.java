@@ -724,18 +724,20 @@ public class Data implements Serializable, Iterable<Data.Property> {
 	}
 
 	public Data copy() {
+		return copy(new Data(this.className), true);
+	}
+	public Data copy(Data target, boolean recurse) {
 		// note, this was the clone() method, but my eclipse code cleanup insists on @Override, and the compiler gives an error
-		final Data result = new Data(this.className);
 		for (final Entry<Key, Value> e : map.entrySet()) {
-			if (e.getValue().getType().equals(Data.class)) {
+			if (recurse && e.getValue().getType().equals(Data.class)) {
 				Data value = e.getValue().get();
 				value = value.copy();
-				result.map.put(e.getKey(), new DataValue(value));
+				target.map.put(e.getKey(), new DataValue(value));
 			} else {
-				result.map.put(e.getKey(), e.getValue());
+				target.map.put(e.getKey(), e.getValue());
 			}
 		}
-		return result;
+		return target;
 	}
 
 	public <T> T get(final Integer key) {

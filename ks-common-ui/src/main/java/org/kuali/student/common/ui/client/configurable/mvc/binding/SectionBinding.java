@@ -48,8 +48,11 @@ public class SectionBinding implements ModelWidgetBinding<Section>{
         
         for (int i=0; i < fields.size(); i++){
             FieldDescriptor field = (FieldDescriptor)fields.get(i);
-
             String fieldPath = path + QueryPath.getPathSeparator() + field.getFieldKey();
+            fieldPath = fieldPath.trim();
+            if (fieldPath.startsWith(QueryPath.getPathSeparator())) {
+            	fieldPath = fieldPath.substring(QueryPath.getPathSeparator().length());
+            }
             ModelWidgetBinding binding = field.getModelWidgetBinding();
             if (binding != null){
                 Widget w = field.getFieldWidget();

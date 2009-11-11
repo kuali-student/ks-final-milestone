@@ -82,18 +82,6 @@ public class FieldDescriptor {
         this.fieldType = fieldType;
     }
     
-    
-    private void setWidgetStyle() {
-    	//TODO temporary style name assigning on only textboxes
-    	if(fieldKey != null){
-    		String style = this.fieldKey.replaceAll("/", "-");
-    		if(fieldWidget instanceof KSTextBox){
-    			this.fieldWidget.addStyleName(style);
-    		}
-    	}
-    	
-		
-    }
 
     public RequiredEnum getRequiredState() {
 		return requiredState;
@@ -118,10 +106,19 @@ public class FieldDescriptor {
     
     public Widget getFieldWidget(){
         if (fieldWidget == null){
-            fieldWidget = new KSTextBox();
+            fieldWidget = createFieldWidget();
         }
-        setWidgetStyle();
         return fieldWidget;
+    }
+    
+    protected Widget createFieldWidget() {
+    	// for now, default to textbox if not specified
+    	Widget result = new KSTextBox();
+    	if(fieldKey != null){
+    		String style = this.fieldKey.replaceAll("/", "-");
+    		result.addStyleName(style);
+    	}
+    	return result;
     }
     
     public void setPropertyBinding(PropertyBinding binding){

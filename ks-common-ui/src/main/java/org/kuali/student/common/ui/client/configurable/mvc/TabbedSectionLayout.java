@@ -306,6 +306,7 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 		sectionNameTabMap.put(section.getName(), tabKey);
 		sectionViewMap.put(section.getViewEnum().name(), section);
 		section.setController(this);
+		section.setLayoutController(this);
 		
 		if (defaultView == null){
 		    defaultView = section.getViewEnum();

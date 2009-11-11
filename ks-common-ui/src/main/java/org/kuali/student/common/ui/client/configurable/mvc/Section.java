@@ -161,6 +161,12 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
         //If fieldDescriptor.getFieldWidget() is not implementing the 
         //HasBlurHandlers. binding.bind does not do the bind.
      // how to deal with the special case
+        // FIXME wilj: validation needs to be reworked to use new model before this bug can be fixed
+        if (true) {
+        	// for now just skip out
+        	// I could just comment out the code, but then I wouldn't get the warning to fix it during refactor
+        	return;
+        }
         ValidationEventBinding binding = new LostFocusValidationEventBinding();
         if(fieldDescriptor.getValidationRequestCallback()== null){
             fieldDescriptor.setValidationCallBack(new Callback<Boolean>() {
