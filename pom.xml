@@ -16,6 +16,11 @@
         <module>ks-standard-sec</module>
     </modules>
 
+    <scm>
+        <connection>scm:svn:https://test.kuali.org/svn/student/sandbox/ks-security/branches/ks-security-dev</connection>
+        <developerConnection>scm:svn:https://test.kuali.org/svn/student/sandbox/ks-security/branches/ks-security-dev</developerConnection>
+    </scm>
+    
     <repositories>
         <repository>
             <id>kuali.release</id>
