@@ -1,6 +1,9 @@
 package org.kuali.student.lum.lu.assembly.data.client.creditcourse;
 
+import java.util.Date;
+
 import org.kuali.student.common.assembly.client.Data;
+import org.kuali.student.lum.lu.assembly.data.client.CluInstructorInfoData;
 import org.kuali.student.lum.lu.assembly.data.client.ModifiableData;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
 import org.kuali.student.lum.lu.assembly.data.client.RichTextInfoData;
@@ -14,7 +17,14 @@ public class CreditCourse extends ModifiableData {
 				"duration"), TRANSCRIPT_TITLE("transcriptTitle"), COURSE_TITLE(
 				"courseTitle"), DESCRIPTION("description"), DEPARTMENT(
 				"department"), SUBJECT_AREA("subjectArea"), COURSE_NUMBER_SUFFIX(
-				"courseNumberSuffix"), STATE("state"), TYPE("type");
+				"courseNumberSuffix"), STATE("state"), TYPE("type"), 
+				EFFECTIVE_DATE("effectiveDate"), EXPIRATION_DATE("expirationDate"),
+				ACADEMIC_SUBJECT_ORGS("academicSubjectOrgs"), 
+				CAMPUS_LOCATIONS("campusLocations"),
+				ALTERNATE_IDENTIFIERS("alternateIdentifiers"),
+				VERSION_CODES("versionCodes"),
+				RATIONALE("rationale"),
+				PRIMARY_INSTRUCTOR("primaryInstructor");
 
 		private final String key;
 
@@ -148,4 +158,89 @@ public class CreditCourse extends ModifiableData {
 	public String getId() {
 		return super.get(Properties.ID.getKey());
 	}
+	
+	public Date getEffectiveDate() {
+		return super.get(Properties.EFFECTIVE_DATE.getKey());
+	}
+	
+	public void setEffectiveDate(Date value)  {
+		super.set(Properties.EFFECTIVE_DATE.getKey(), value);
+	}
+	
+	public Date getExpirationDate() {
+		return super.get(Properties.EXPIRATION_DATE.getKey());
+	}
+	
+	public void setExpirationDate(Date value)  {
+		super.set(Properties.EXPIRATION_DATE.getKey(), value);
+	}
+	
+	public Data getAcademicSubjectOrgs() {
+		Data result = super.get(Properties.ACADEMIC_SUBJECT_ORGS.getKey());
+		if (result == null) {
+			result = new Data();
+			super.set(Properties.ACADEMIC_SUBJECT_ORGS.getKey(), result);
+		}
+		return result;
+	}
+	public void setAcademicSubjectOrgs(Data value) {
+		super.set(Properties.ACADEMIC_SUBJECT_ORGS.getKey(), value);
+	}
+	
+	public Data getCampusLocations() {
+		Data result = super.get(Properties.CAMPUS_LOCATIONS.getKey());
+		if (result == null) {
+			result = new Data();
+			super.set(Properties.CAMPUS_LOCATIONS.getKey(), result);
+		}
+		return result;
+	}
+	
+	public void setCampusLocations(Data value) {
+		super.set(Properties.CAMPUS_LOCATIONS.getKey(), value);
+	}
+	
+	public Data getAlternateIdentifiers() {
+		Data result = super.get(Properties.ALTERNATE_IDENTIFIERS.getKey());
+		if (result == null) {
+			result = new Data();
+			super.set(Properties.ALTERNATE_IDENTIFIERS.getKey(), result);
+		}
+		return result;
+	}
+	
+	public void setAlternateIdentifiers(Data alternateIdentifiers) {
+		super.set(Properties.ALTERNATE_IDENTIFIERS.getKey(), alternateIdentifiers);
+	}
+	
+	public Data getVersionCodes() {
+		Data result = super.get(Properties.VERSION_CODES.getKey());
+		if (result == null) {
+			result = new Data();
+			super.set(Properties.VERSION_CODES.getKey(), result);
+		}
+		return result;
+	}
+	
+	public void setVersionCodes(Data versionCodes) {
+		super.set(Properties.VERSION_CODES.getKey(), versionCodes);
+	}
+	
+	public void setRationale(RichTextInfoData rationale) {
+		super.set(Properties.RATIONALE.getKey(), rationale);
+	}
+	
+	public RichTextInfoData getRationale() {
+		return super.get(Properties.RATIONALE.getKey());
+	}
+
+	public void setPrimaryInstructor(CluInstructorInfoData instructor) {
+		super.set(Properties.PRIMARY_INSTRUCTOR.getKey(), instructor);
+	}
+	
+	public CluInstructorInfoData getPrimaryInstructor() {
+		return super.get(Properties.PRIMARY_INSTRUCTOR.getKey());
+	}
+
+	
 }

@@ -68,6 +68,7 @@ import org.kuali.student.core.search.dto.ResultCell;
 import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.lum.lu.assembly.CreditCourseProposalAssembler;
+import org.kuali.student.lum.lu.assembly.UntypedCreditCourseProposalAssembler;
 import org.kuali.student.lum.lu.assembly.data.client.creditcourse.CreditCourseProposal;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
@@ -1421,34 +1422,44 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         Model model = null;
         if (CourseConfigurer.CLU_PROPOSAL_MODEL.equals(modelId)){
             final SimpleModelDefinition def = new SimpleModelDefinition();
-            def.define("cluInfo", "org.kuali.student.lum.lu.dto.CluInfo");
-            def.define("proposalInfo", "org.kuali.student.core.proposal.dto.ProposalInfo");
-            def.define("cluInfo/officialIdentifier", "org.kuali.student.lum.lu.dto.CluIdentifier");            
-            def.define("cluInfo/rationale", "org.kuali.student.RichText");
-            def.define("cluInfo/formats/*/cluInfo", "org.kuali.student.lum.lu.dto.CluInfo");
-            def.define("cluInfo/formats/*/activities/*/cluInfo", "org.kuali.student.lum.lu.dto.CluInfo");
-            def.define("cluInfo/formats/*/activities/*/cluInfo/stdDuration", "org.kuali.student.core.dto.TimeAmountInfo");
-            def.define("cluInfo/formats/*/activities/*/cluInfo/intensity", "org.kuali.student.core.dto.TimeAmountInfo");
-            def.define("cluInfo/effectiveDate", "Date");
-            def.define("cluInfo/expirationDate", "Date");
+            def.define("proposal", "org.kuali.student.lum.lu.assembly.data.client.proposal.ProposalInfoData");
+            def.define("course", "org.kuali.student.lum.lu.assembly.data.client.creditcourse.CreditCourse");
+            def.define("course/formats/*", "org.kuali.student.lum.lu.assembly.data.client.creditcourse.CreditCourseFormat");
+            def.define("course/formats/*/activities/*", "org.kuali.student.lum.lu.assembly.data.client.creditcourse.CreditCourseActivity");
             
+            def.define("course/description", "org.kuali.student.lum.lu.assembly.data.client.RichTextInfoData");
+            def.define("course/rationale", "org.kuali.student.lum.lu.assembly.data.client.RichTextInfoData");
+            def.define("course/duration", "org.kuali.student.lum.lu.assembly.data.client.atp.TimeAmountInfoData");
+            def.define("course/primaryInstructor", "org.kuali.student.lum.lu.assembly.data.client.CluInstructorInfoData");
+            def.define("course/alternateIdentifiers", "org.kuali.student.lum.lu.assembly.data.client.CluIdentifierInfoData");
+            
+            def.define("course/formats/*/activities/*/intensity", "org.kuali.student.lum.lu.assembly.data.client.atp.TimeAmountInfoData");
+            
+//            
+//            def.define("cluInfo/officialIdentifier", "org.kuali.student.lum.lu.dto.CluIdentifier");            
+//            def.define("cluInfo/rationale", "org.kuali.student.RichText");
+//            def.define("cluInfo/formats/*/cluInfo", "org.kuali.student.lum.lu.dto.CluInfo");
+//            def.define("cluInfo/formats/*/activities/*/cluInfo", "org.kuali.student.lum.lu.dto.CluInfo");            
+//            def.define("cluInfo/effectiveDate", "Date");
+//            def.define("cluInfo/expirationDate", "Date");
+//            
             model = new Model(def, new Data());     
             
         }
         return model;
     }
     
-    private CreditCourseProposalAssembler creditCourseProposalAssembler;
+    private UntypedCreditCourseProposalAssembler creditCourseProposalAssembler;
     private synchronized void initAssemblers() {
     	if (creditCourseProposalAssembler == null) {
     		// TODO change how the state is set/passed in to the proposal assembler, if at all
-    		creditCourseProposalAssembler = new CreditCourseProposalAssembler("draft");
+    		creditCourseProposalAssembler = new UntypedCreditCourseProposalAssembler("draft");
     		creditCourseProposalAssembler.setLuService(service);
     		creditCourseProposalAssembler.setProposalService(proposalService);
     	}
     }
 	@Override
-	public CreditCourseProposal getCreditCourseProposal(String id) throws OperationFailedException {
+	public Data getCreditCourseProposal(String id) throws OperationFailedException {
 		try {
 			initAssemblers();
 			return creditCourseProposalAssembler.get(id);
@@ -1467,10 +1478,10 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	
 	@Override
 	public DataSaveResult saveCreditCourseProposal(
-			CreditCourseProposal proposal) throws OperationFailedException {
+			Data proposal) throws OperationFailedException {
 		try {
 			initAssemblers();
-			SaveResult<CreditCourseProposal> s = creditCourseProposalAssembler.save(proposal);
+			SaveResult<Data> s = creditCourseProposalAssembler.save(proposal);
 			if (s == null) {
 				return null;
 			} else {

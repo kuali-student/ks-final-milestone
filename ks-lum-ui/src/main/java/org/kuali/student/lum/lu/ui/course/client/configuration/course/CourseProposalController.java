@@ -17,6 +17,7 @@ package org.kuali.student.lum.lu.ui.course.client.configuration.course;
 import java.util.List;
 
 import org.kuali.student.common.assembly.client.Data;
+import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.TabbedSectionLayout;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionHandler;
@@ -26,6 +27,7 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.WorkQueue;
 import org.kuali.student.common.ui.client.mvc.WorkQueue.WorkItem;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
@@ -36,10 +38,11 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
-import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalController;
+import org.kuali.student.lum.lu.assembly.data.client.creditcourse.CreditCourseProposal;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LuConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
+import org.kuali.student.lum.lu.ui.course.client.service.DataSaveResult;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
 import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
@@ -56,7 +59,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  * @author Kuali Student Team
  *
  */
-public class CourseProposalController extends TabbedSectionLayout{ 
+public class CourseProposalController extends TabbedSectionLayout { 
     private Model<org.kuali.student.common.assembly.client.Model> cluProposalModel; 
     private Model<Collaborators.CollaboratorModel> collaboratorModel;
     
@@ -69,8 +72,8 @@ public class CourseProposalController extends TabbedSectionLayout{
     private boolean processingSave = false;
     private String proposalId = null;
 	
-	private final String CLU_PROPOSAL_ID_KEY   = "proposalInfo/id";
-	private final String CLU_PROPOSAL_NAME_KEY = "proposalInfo/name";
+	private final String CLU_PROPOSAL_ID_KEY   = "proposal/id";
+	private final String CLU_PROPOSAL_NAME_KEY = "proposal/title";
 
 	private String PROPOSAL_STATE = "draft.private";	
 	private final String CLU_STATE = "draft";
@@ -78,11 +81,29 @@ public class CourseProposalController extends TabbedSectionLayout{
 	private final String REFERENCE_TYPE = "referenceType.clu";
 	
 	CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);
-    private boolean savedOnce=false;
-            
+    
+        
     public CourseProposalController(){
         super();
         init();
+    }
+    
+    private KSButton getSaveButton(){
+        return new KSButton("Save", new ClickHandler(){
+                    public void onClick(ClickEvent event) {
+                        fireApplicationEvent(new SaveActionEvent());
+                    }
+                });
+    }
+ 
+        
+    private KSButton getQuitButton(){
+        return new KSButton("Quit", new ClickHandler(){
+                    public void onClick(ClickEvent event) {
+                        Controller parentController = CourseProposalController.this.getParentController(); 
+                        parentController.fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.HOME_MENU, event));
+                    }
+                });       
     }
     
     private void init(){
@@ -133,24 +154,6 @@ public class CourseProposalController extends TabbedSectionLayout{
         
     }
         
-    private KSButton getSaveButton(){
-        return new KSButton("Save", new ClickHandler(){
-                    public void onClick(ClickEvent event) {
-                        fireApplicationEvent(new SaveActionEvent());
-                    }
-                });
-    }
- 
-        
-    private KSButton getQuitButton(){
-        return new KSButton("Quit", new ClickHandler(){
-                    public void onClick(ClickEvent event) {
-                        Controller parentController = CourseProposalController.this.getParentController(); 
-                        parentController.fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.HOME_MENU, event));
-                    }
-                });       
-    }
-    
     /**
      * @see org.kuali.student.common.ui.client.mvc.Controller#getViewsEnum()
      */
@@ -199,8 +202,8 @@ public class CourseProposalController extends TabbedSectionLayout{
         		ReferenceModel ref = new ReferenceModel();
 
         		//FIXME: test code
-        		if(cluProposalModel.get() != null && cluProposalModel.get().get("cluInfo/id") != null){
-            		ref.setReferenceId((String)cluProposalModel.get().get("cluInfo/id"));
+        		if(cluProposalModel.get() != null && cluProposalModel.get().get("proposal/id") != null){
+            		ref.setReferenceId((String)cluProposalModel.get().get("proposal/id"));
         		}
         		else{
         			ref.setReferenceId(null);
@@ -291,7 +294,7 @@ public class CourseProposalController extends TabbedSectionLayout{
 
                     @Override
                     public void onFailure(Throwable caught) {
-                        Window.alert("Failed to get model definition from server.");                        
+                        Window.alert("Failed to get model definition.");                        
                     }
 
                     @Override
@@ -299,12 +302,11 @@ public class CourseProposalController extends TabbedSectionLayout{
                         cluProposalModel.put(result);                           
                         callback.onModelReady(cluProposalModel);
                         workCompleteCallback.exec(true);
-                        GWT.log("Retrieved course clu proposal model defintion.", null);
                     }                
             });
                         
         } else {
-            cluProposalModel.get().setRoot(new Data());
+            cluProposalModel.get().setRoot(new CreditCourseProposal());
             callback.onModelReady(cluProposalModel);
             workCompleteCallback.exec(true);            
         }
@@ -356,31 +358,46 @@ public class CourseProposalController extends TabbedSectionLayout{
             saveWindow.setWidget(saveMessage);
         }
         saveWindow.show();
+        
+        final Callback<Throwable> saveFailedCallback = new Callback<Throwable>() {
 
-        if(cluProposalModel.get().get("cluInfo/id") == null){
-            cluProposalRpcServiceAsync.saveData(cluProposalModel.get().getRoot(), new AsyncCallback<Data>(){
-                public void onFailure(Throwable caught) {
-                    GWT.log("Save Failed.", caught);
-                    saveWindow.setWidget(buttonGroup);
-                    saveMessage.setText("Save Failed!  Please Try Again.");
-                    buttonGroup.getButton(OkEnum.Ok).setEnabled(true);                    
-                }
-
-                public void onSuccess(Data result) {
-                    cluProposalModel.get().setRoot(result);
-                    if (saveActionEvent.isAcknowledgeRequired()){
-                        saveMessage.setText("Save Successful");
-                        buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
-                    } else {
-                        saveWindow.hide();
-                        saveActionEvent.doActionComplete();                        
-                    }                    
-                }
-            });
-            savedOnce = true;
+			@Override
+			public void exec(Throwable caught) {
+				 GWT.log("Save Failed.", caught);
+                 saveWindow.setWidget(buttonGroup);
+                 saveMessage.setText("Save Failed!  Please Try Again.");
+                 buttonGroup.getButton(OkEnum.Ok).setEnabled(true);   
+			}
+        	
+        };
+        try {
+	        if(cluProposalModel.get().get("proposal/id") == null){
+	        	// FIXME wilj: find out if/why curriculum oversight retrieving/saving wrong org and admin org is not saving at all
+	            cluProposalRpcServiceAsync.saveCreditCourseProposal(cluProposalModel.get().getRoot(), new AsyncCallback<DataSaveResult>(){
+	                public void onFailure(Throwable caught) {
+	                   saveFailedCallback.exec(caught);                 
+	                }
+	
+	                public void onSuccess(DataSaveResult result) {
+	                	// FIXME needs to check validation results and display messages if validation failed
+	    				cluProposalModel.get().setRoot(result.getValue());
+	                    if (saveActionEvent.isAcknowledgeRequired()){
+	                        saveMessage.setText("Save Successful");
+	                        buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
+	                    } else {
+	                        saveWindow.hide();
+	                        saveActionEvent.doActionComplete();                        
+	                    }                    
+	                }
+	            });
+	        }
+        } catch (Exception e) {
+        	saveFailedCallback.exec(e);
         }
+
     }
 
+    
 
     public String getDocId() {
         return docId;
@@ -410,12 +427,11 @@ public class CourseProposalController extends TabbedSectionLayout{
         this.proposalType = proposalType;
         this.cluType = cluType;
         if (cluProposalModel != null){
-            this.cluProposalModel.get().setRoot(new Data());            
+            this.cluProposalModel.get().setRoot(new CreditCourseProposal());            
         }
         this.setModelDTO(null, null);
         this.docId = null;
         this.proposalId = null;
-        this.savedOnce=false;
     }
     
     

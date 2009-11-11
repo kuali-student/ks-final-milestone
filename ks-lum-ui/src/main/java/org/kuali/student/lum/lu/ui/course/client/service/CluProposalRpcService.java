@@ -60,6 +60,6 @@ public interface CluProposalRpcService extends BaseRpcService{
 	public Model getCluProposalModelDefinition(String modelId);
 	public Data saveData(Data data);
     
-	public CreditCourseProposal getCreditCourseProposal(String id) throws OperationFailedException;
-	public DataSaveResult saveCreditCourseProposal(CreditCourseProposal proposal) throws OperationFailedException;
+	public Data getCreditCourseProposal(String id) throws OperationFailedException;
+	public DataSaveResult saveCreditCourseProposal(Data proposal) throws OperationFailedException;
 }

@@ -57,7 +57,7 @@ public interface CluProposalRpcServiceAsync extends BaseRpcServiceAsync{
 	public void getCluProposalModelDefinition(String modelId, AsyncCallback<Model> callback);	
 	public void saveData(Data data, AsyncCallback<Data> callback);
 	
-	public void getCreditCourseProposal(String id, AsyncCallback<CreditCourseProposal> callback);
-	public void saveCreditCourseProposal(CreditCourseProposal proposal, AsyncCallback<DataSaveResult> callback);
+	public void getCreditCourseProposal(String id, AsyncCallback<Data> callback);
+	public void saveCreditCourseProposal(Data proposal, AsyncCallback<DataSaveResult> callback);
     
 }

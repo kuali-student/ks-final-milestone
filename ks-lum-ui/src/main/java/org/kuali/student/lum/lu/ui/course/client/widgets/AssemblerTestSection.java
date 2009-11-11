@@ -3,6 +3,7 @@ package org.kuali.student.lum.lu.ui.course.client.widgets;
 import java.util.List;
 
 import org.kuali.student.common.assembly.client.Data;
+import org.kuali.student.common.assembly.client.Model;
 import org.kuali.student.common.assembly.client.Data.Property;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionView;
@@ -82,7 +83,7 @@ public class AssemblerTestSection extends SectionView {
 			panel.add(buttonPanel);
 			panel.add(status);
 			panel.add(output);
-			output.setSize("800px", "600px");
+			output.setSize("1280px", "800px");
 			
 			buttonPanel.add(new Button("Create new", new ClickHandler() {
 				@Override
@@ -105,6 +106,9 @@ public class AssemblerTestSection extends SectionView {
 			
 						
 		}
+		
+		
+		
 		
 		private void createNew() {
 			output.setText("");
@@ -137,9 +141,17 @@ public class AssemblerTestSection extends SectionView {
 			});
 		}
 		
+		private void setUpdated(Data d) {
+			Data mods = d.get("modifications");
+			if (mods == null) {
+				mods = new Data();
+				d.set("modifications", mods);
+			}
+			mods.set("isUpdated", true);
+		}
 		private void modifyLastSaved() {
 			status.setText("Retrieving saved proposal");
-			service.getCreditCourseProposal(lastCreatedId, new AsyncCallback<CreditCourseProposal>() {
+			service.getCreditCourseProposal(lastCreatedId, new AsyncCallback<Data>() {
 
 				@Override
 				public void onFailure(Throwable caught) {
@@ -147,14 +159,15 @@ public class AssemblerTestSection extends SectionView {
 				}
 
 				@Override
-				public void onSuccess(CreditCourseProposal result) {
+				public void onSuccess(Data result) {
 					status.setText("Retrieved proposal");
-					result.getProposal().setTitle("MODIFIED " + result.getProposal().getTitle());
-					result.getProposal().getModifications().setUpdated(true);
+					Data prop = result.get("proposal");
+					prop.set("title", "MODIFIED " + (String) prop.get("title"));
+					setUpdated(prop);
 					
-					CreditCourse course = result.getCourse();
-					course.setTranscriptTitle("MODIFIED " + course.getTranscriptTitle());
-					course.getModifications().setUpdated(true);
+					Data course = result.get("course");
+					course.set("transcriptTitle", "MODIFIED " + (String) course.get("transcriptTitle"));
+					setUpdated(course);
 					
 					status.setText("Saving modified proposal");
 					service.saveCreditCourseProposal(result, new AsyncCallback<DataSaveResult>() {
@@ -165,9 +178,9 @@ public class AssemblerTestSection extends SectionView {
 						}
 
 						@Override
-						public void onSuccess(DataSaveResult result) {
+						public void onSuccess(DataSaveResult result2) {
 							status.setText("Modified proposal saved");
-							dumpSaveResult(result);
+							dumpSaveResult(result2);
 						}
 						
 					});
@@ -183,7 +196,7 @@ public class AssemblerTestSection extends SectionView {
 				status.setText("No previous proposal to retrieve");
 			} else {
 				status.setText("Retrieving saved proposal");
-				service.getCreditCourseProposal(lastCreatedId, new AsyncCallback<CreditCourseProposal>() {
+				service.getCreditCourseProposal(lastCreatedId, new AsyncCallback<Data>() {
 	
 					@Override
 					public void onFailure(Throwable caught) {
@@ -191,7 +204,7 @@ public class AssemblerTestSection extends SectionView {
 					}
 	
 					@Override
-					public void onSuccess(CreditCourseProposal result) {
+					public void onSuccess(Data result) {
 						status.setText("Retrieved proposal");
 						output.setText("");
 						dumpProposal(result);
@@ -216,7 +229,7 @@ public class AssemblerTestSection extends SectionView {
 			}
 			dumpProposal((CreditCourseProposal)result.getValue());
 		}
-		private void dumpProposal(CreditCourseProposal prop) {
+		private void dumpProposal(Data prop) {
 			if (prop== null) {
 				output.setText(output.getText() + "proposal is null");
 			} else {
@@ -254,7 +267,7 @@ public class AssemblerTestSection extends SectionView {
 		private String makeIndent(int indent) {
 			String result = "";
 			for (int i=0; i<indent; i++) {
-				result += "\t";
+				result += "  ";
 			}
 			return result;
 		}
