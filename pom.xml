@@ -51,8 +51,8 @@
     </modules>
 
     <scm>
-        <connection>scm:svn:https://test.kuali.org/svn/student/ks-core/tags/ks-core-1.0.0-m1</connection>
-        <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-core/tags/ks-core-1.0.0-m1</developerConnection>
+        <connection>scm:svn:https://test.kuali.org/svn/student/ks-core/branches/ks-core-1.0.0-m1</connection>
+        <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-core/branches/ks-core-1.0.0-m1</developerConnection>
     </scm>
 
     <repositories>
