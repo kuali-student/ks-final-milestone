@@ -39,9 +39,7 @@
     <distributionManagement>
         <site>
             <id>ks.site</id>
-            <url>
-                dav:https://student.kuali.org:8443/student/site/web/${project.version}
-            </url>
+            <url>scp://student.kuali.org:/opt/www/student/site/web/${project.version}</url>
         </site>
     </distributionManagement>
     
