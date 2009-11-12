@@ -56,11 +56,6 @@ public class AtpPicker extends VerticalPanel implements HasText {
                     "atp.search.atpByDate",
                     "atp.resultColumn.atpId",
                     "atp.resultColumn.atpByDateDisplay");
-//        final AtpDateSearchLightBox dtpSearchByDate =
-//            new AtpDateSearchLightBox("Find Time Period",
-//                    atpRpcServiceAsync,
-//                    "atp.search.atpByDate",
-//                    "atp.resultColumn.atpId");
         
         searchLink.addClickHandler(new ClickHandler() {
             @Override

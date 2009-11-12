@@ -46,6 +46,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -101,7 +102,10 @@ public class AtpDateSearchLightBox implements HasSelectionHandlers<List<String>>
         generateSearchLayout();
 
         mainPanel.add(titleBar);
-        mainPanel.add(searchLayout);
+        ScrollPanel scrollPanel = new ScrollPanel();
+        scrollPanel.setHeight("200px");
+        scrollPanel.add(searchLayout);
+        mainPanel.add(scrollPanel);
         
         dialog.setWidget(mainPanel);
     }
