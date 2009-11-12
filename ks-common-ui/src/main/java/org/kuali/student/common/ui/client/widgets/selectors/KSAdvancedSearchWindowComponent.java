@@ -14,19 +14,20 @@
  */
 package org.kuali.student.common.ui.client.widgets.selectors;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
-import org.kuali.student.common.ui.client.widgets.buttongroups.ConfirmCancelGroup;
-import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ConfirmCancelEnum;
-import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchRpc;
+import org.kuali.student.common.ui.client.widgets.KSThinTitleBar;
+import org.kuali.student.core.search.dto.QueryParamValue;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
@@ -38,50 +39,109 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class KSAdvancedSearchWindowComponent implements HasSelectionHandlers<List<String>>{
+    private enum SearchMode {
+        BASIC, ADVANCED, CUSTOM
+    }
+    
+    //KS Advanced Search Window has 3 reusable areas:
+    // - title bar e.g. "Find Organization" title on the left with CANCEL button at the far right
+    // - links "Basic", "Advanced", "Custom" 
+    // - one or more fields
+    // - SEARCH button on the left of a single field or at the bottom of multiple fields
+    // - result table with one or more columns
+    // - paging through search results (if result has too many rows to display on a single page)
+    // - SELECT button
     private KSLightBox dialog = new KSLightBox();
     private VerticalPanel mainPanel = new VerticalPanel();
-    private KSAdvancedSearchRpc advancedSearch;
+    private SimplePanel searchPanel = new SimplePanel();
+    
+    private KSThinTitleBarComponent titleBar = null;
+    
+    private final HorizontalPanel searchModeLinksPanel = new HorizontalPanel();  //holds search mode links
+    private KSLabel basicSearchLabel = new KSLabel("Basic Search");
+    private KSLabel advancedSearchLabel = new KSLabel("Advanced Search");
+    private KSLabel customSearchLabel = new KSLabel("Custom Search"); 
+    private boolean basicSearchEnabled = true;
+    private boolean customSearchEnabled = true;
+    private SearchMode selectedSearchMode;
+
+    private KSAdvancedSearchRpcComponent basicSearch;
+    private KSAdvancedSearchRpcComponent advancedSearch;
     private HandlerManager handlers = new HandlerManager(this);
     
     //Title Bar with Cancel button
     private final HorizontalPanel titlePanel = new HorizontalPanel();
     private KSLabel titleLabel = new KSLabel();
-    private KSButton cancelButton = new KSButton("Cancel");    
+    private KSButton cancelButton = new KSButton("Cancel"); 
     
-    private ConfirmCancelGroup buttonPanel = new ConfirmCancelGroup(new Callback<ConfirmCancelEnum>(){
+    private String selectedOrgName;
+	                  
 
-        @Override
-        public void exec(ConfirmCancelEnum result) {
-            switch(result){
-                case CONFIRM:
-                    List<String> selectedItems = advancedSearch.getSelectedIds();
-                    if (selectedItems != null && selectedItems.size() > 0){
-                        fireSelectEvent(selectedItems);
-                    }
-                    dialog.hide();
-                    break;
-                case CANCEL:
-                    dialog.hide();
-                    break;
+	public KSAdvancedSearchWindowComponent(BaseRpcServiceAsync searchService, String searchTypeKey, String resultIdKey, List<String> basicSearchCriteria, List<String> advancedSearchCriteria, List<QueryParamValue> contextCriteria, String searchTitle){
+        init(searchService, searchTypeKey, resultIdKey, searchService, searchTypeKey, resultIdKey, basicSearchCriteria, advancedSearchCriteria, contextCriteria, searchTitle);       
+    }
+    
+    private void init(
+            BaseRpcServiceAsync basicSearchService, 
+            String basicSearchTypeKey, 
+            String basicSearchResultIdKey,
+            BaseRpcServiceAsync advancedSearchService,
+            String advancedSearchTypeKey,
+            String advancedSearchResultIdKey,
+            List<String> basicSearchCriteria,
+            List<String> advancedSearchCriteria,
+            List<QueryParamValue> contextCriteria,
+            String searchTitle
+            ){
+        
+        addSearchModeHandlers();
+        
+        SelectionHandler<List<String>> selectionHandler = new SelectionHandler<List<String>>() {
+            @Override
+            public void onSelection(SelectionEvent<List<String>> event) {
+
+                final List<String> selected = event.getSelectedItem();
+                if (selected.size() > 0){
+                    fireSelectEvent(event.getSelectedItem());                   
+                    hide();
+                }                  
             }
-        }
-    });
-    
-    public KSAdvancedSearchWindowComponent(BaseRpcServiceAsync searchService, String searchTypeKey, String resultIdKey){
-        init(searchService, searchTypeKey, resultIdKey);       
-    }
+        };        
+        
+        basicSearch = new KSAdvancedSearchRpcComponent(basicSearchService, basicSearchTypeKey, basicSearchResultIdKey, basicSearchCriteria, contextCriteria, searchTitle);       
+        basicSearch.addSelectionHandler(selectionHandler);
+        advancedSearch = new KSAdvancedSearchRpcComponent(advancedSearchService, advancedSearchTypeKey, advancedSearchResultIdKey, advancedSearchCriteria, contextCriteria, searchTitle);       
+        advancedSearch.addSelectionHandler(selectionHandler);
 
-    public KSAdvancedSearchWindowComponent(BaseRpcServiceAsync searchService, String searchTypeKey, String resultIdKey, String title){
-        init(searchService, searchTypeKey, resultIdKey);
-    }
-    
-    private void init(BaseRpcServiceAsync searchService, String searchTypeKey, String resultIdKey){
-        advancedSearch = new KSAdvancedSearchRpc(searchService, searchTypeKey, resultIdKey);
-        mainPanel.add(titlePanel);
-        mainPanel.add(advancedSearch);
-        mainPanel.add(buttonPanel);
+
+        selectedSearchMode = SearchMode.BASIC;
+        setSelectedSearchMode(selectedSearchMode);
+        
+        titleBar = new KSThinTitleBarComponent(searchTitle);
+        titleBar.addCancelButtonHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                hide();
+            }
+        });
+        mainPanel.add(titleBar);
+        
+        //add links to different mode of search (basic, advanced, custom)
+        searchModeLinksPanel.setHorizontalAlignment(HorizontalPanel.ALIGN_LEFT);
+        searchModeLinksPanel.setSpacing(10);
+        if (basicSearchEnabled) {
+            searchModeLinksPanel.add(basicSearchLabel);          
+        }
+        searchModeLinksPanel.add(advancedSearchLabel);        
+        if (customSearchEnabled) {
+            searchModeLinksPanel.add(customSearchLabel);         
+        }
+        mainPanel.add(searchModeLinksPanel);        
+        mainPanel.add(searchPanel);
+//        mainPanel.add(advancedSearch);
+      //  mainPanel.add(buttonPanel);
+
         dialog.setWidget(mainPanel);
-        initTitleBar(Application.getApplicationContext().getMessage("advSearch"));        
     }
     
     public void initTitleBar(String text){
@@ -92,9 +152,52 @@ public class KSAdvancedSearchWindowComponent implements HasSelectionHandlers<Lis
         titlePanel.add(cancelButton);
         titlePanel.addStyleName(KSStyles.KS_POPUP_HEADER);  //TODO header should be grey
     }    
+
+    private void addSearchModeHandlers() {
+        basicSearchLabel.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                selectedSearchMode = SearchMode.BASIC;
+                setSelectedSearchMode(selectedSearchMode);
+            }
+        });
+        advancedSearchLabel.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                selectedSearchMode = SearchMode.ADVANCED;
+                setSelectedSearchMode(selectedSearchMode);
+            }
+        });
+        customSearchLabel.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                selectedSearchMode = SearchMode.CUSTOM;
+                setSelectedSearchMode(selectedSearchMode);
+            }
+        });
+    }
+    
+    private void setSelectedSearchMode(SearchMode mode) {
+        if (mode == SearchMode.BASIC) {
+            basicSearchLabel.setStyleName("action-selected");
+            advancedSearchLabel.setStyleName("action");
+            customSearchLabel.setStyleName("action");
+            searchPanel.setWidget(basicSearch);
+        } else if (mode == SearchMode.ADVANCED) {
+            basicSearchLabel.setStyleName("action");
+            advancedSearchLabel.setStyleName("action-selected");
+            customSearchLabel.setStyleName("action");
+            searchPanel.setWidget(advancedSearch);
+        } else if (mode == SearchMode.CUSTOM) {
+            basicSearchLabel.setStyleName("action");
+            advancedSearchLabel.setStyleName("action");
+            customSearchLabel.setStyleName("action-selected");
+            searchPanel.setWidget(advancedSearch);
+        }
+    }
     
     public void show(){
-        advancedSearch.reset();
+    //    advancedSearch.reset();
         dialog.show();
     }
     
@@ -123,4 +226,12 @@ public class KSAdvancedSearchWindowComponent implements HasSelectionHandlers<Lis
     private void fireSelectEvent(List<String> selectedItems){
         SelectionEvent.fire(this, selectedItems);
     }
+
+    public String getSelectedOrgName() {
+		return selectedOrgName;
+	}
+
+	public void setSelectedOrgName(String selectedOrgName) {
+		this.selectedOrgName = selectedOrgName;
+	}
 }

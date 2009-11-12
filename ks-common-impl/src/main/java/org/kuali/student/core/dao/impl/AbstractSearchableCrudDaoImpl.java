@@ -15,8 +15,6 @@
 package org.kuali.student.core.dao.impl;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 
@@ -40,20 +38,33 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 			Map<String, String> queryMap, SearchTypeInfo searchTypeInfo,
 			List<QueryParamValue> queryParamValues) {
 
+		//retrieve the SELECT statement from search type definition
 		String queryString = queryMap.get(searchTypeKey);
 		String optionalQueryString = "";
 		
 		//add in optional
-		for(QueryParamValue queryParamValue : queryParamValues){
+		List<QueryParamValue> queryParamValuesTemp = new ArrayList(queryParamValues);
+		for(QueryParamValue queryParamValue : queryParamValuesTemp){
 			for(QueryParamInfo queryParamInfo:searchTypeInfo.getSearchCriteriaTypeInfo().getQueryParams()){
 				if(queryParamInfo.isOptional()&&queryParamInfo.getKey().equals(queryParamValue.getKey())){
 					if(!optionalQueryString.isEmpty()){
 						optionalQueryString += " AND ";
 					}
-					optionalQueryString += queryMap.get(queryParamValue.getKey());
+					
+					//if optional query parameter has only a column name then create proper search expression
+					String condition = queryMap.get(queryParamValue.getKey());
+					if (condition.trim().contains(":")) {
+						optionalQueryString += queryMap.get(queryParamValue.getKey());
+					} else {
+						//comparison should be case insensitive and include wild card
+						optionalQueryString += 
+							"LOWER(" + queryMap.get(queryParamValue.getKey()) + ") LIKE '%' || LOWER('" + queryParamValue.getValue() + "') || '%'"; 
+						queryParamValues.remove(queryParamValue);
+					}
 				}
 			}
 		}
+		
 		if(!optionalQueryString.isEmpty()){
 			if(!queryString.toUpperCase().contains(" WHERE ")){
 				queryString += " WHERE ";
@@ -62,38 +73,12 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		}
 		
 		Query query = em.createQuery(queryString);
-        List<QueryParamInfo> queryParameterInfos = 
-            (searchTypeInfo == null || searchTypeInfo.getSearchCriteriaTypeInfo() == null)? null :
-            searchTypeInfo.getSearchCriteriaTypeInfo().getQueryParams();
 		
 		//replace all the "." notation with "_" since the "."s in the ids of the queries will cause problems with the jpql  
 		if(queryParamValues!=null){
-            int parameterCount = 0;
 			for (QueryParamValue queryParamValue : queryParamValues) {
-                String parameterKey = queryParamValue.getKey().replace(".", "_");
-                Object parameterValue = null;
-                String parameterDataType = (queryParameterInfos == null || 
-                        queryParameterInfos.get(parameterCount) == null ||
-                        queryParameterInfos.get(parameterCount).getFieldDescriptor() == null)? null :
-                            queryParameterInfos.get(parameterCount).getFieldDescriptor().getDataType();
-                if (parameterDataType != null && parameterDataType.equals("date")) {
-                    Calendar cal = null;
-                    String dateString = (String) queryParamValue.getValue();
-                    if (dateString != null) {
-                        int mo = Integer.parseInt(dateString.substring(0, 2)) -1;
-                        int dt = Integer.parseInt(dateString.substring(3, 5));
-                        int yr = Integer.parseInt(dateString.substring(6, 10));
-                        cal = new GregorianCalendar(yr, mo, dt);
-                        parameterValue = new java.sql.Date(cal.getTime().getTime());
-                    } else {
-                        parameterValue = null;
-                    }
-                } else {
-                    parameterValue = queryParamValue.getValue();
-                }
-                query.setParameter(parameterKey, parameterValue);
-                
-                parameterCount++;
+				query.setParameter(queryParamValue.getKey().replace(".", "_"), queryParamValue
+						.getValue());
 			}
 		}
 

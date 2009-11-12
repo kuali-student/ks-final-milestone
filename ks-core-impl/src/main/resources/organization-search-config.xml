@@ -9,6 +9,67 @@
 	 ">
 	<import resource="organization-dictionary-config.xml" />
 
+	<search:searchType id="org.search.advanced">
+		<search:name>Basic and Advanced Search</search:name>
+		<search:desc>Query with multiple optional elements to satisfy most advanced pickers</search:desc>
+		<search:searchResultTypeInfo>  <!--  could be defined as stand alone -->
+			<search:name>Organization Full View Less Hierarchies</search:name>
+			<search:desc>Full view of the Organization Less Hierarchies</search:desc>
+			<search:resultColumns>
+			<ref bean="org.resultColumn.orgId" />
+			<ref bean="org.resultColumn.orgShortName" />
+			<ref bean="org.resultColumn.orgLongName" />
+			<ref bean="org.resultColumn.orgType" />
+			</search:resultColumns>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo id="org.criteria.orgAdvancedCriteria">
+			<search:name>OrgAdvancedCriteria</search:name>
+			<search:desc>Advanced criteria</search:desc>
+			<search:queryParams>
+				<search:queryParam id="org.queryParam.orgOptionalId" optional="true">
+					<dict:fieldDescriptor>   <!--  we could use the existing definitions of fds if they all share the same name displayed in UI -->
+						<dict:name>Id</dict:name>
+						<dict:desc>Unique identifier for an organization.</dict:desc>
+						<dict:dataType>string</dict:dataType>
+						<dict:readOnly>true</dict:readOnly>
+					</dict:fieldDescriptor>
+				</search:queryParam>			
+				<search:queryParam id="org.queryParam.orgOptionalType" optional="true">
+					<dict:fieldDescriptor>
+						<dict:name>Org Type</dict:name>
+						<dict:desc>Type of an organization.</dict:desc>
+						<dict:dataType>string</dict:dataType>
+						<dict:readOnly>true</dict:readOnly>
+					</dict:fieldDescriptor>
+				</search:queryParam>
+				<search:queryParam id="org.queryParam.orgOptionalShortName" optional="true">
+					<dict:fieldDescriptor>
+						<dict:name>Organization Name</dict:name>
+						<dict:desc>Short organization name.</dict:desc>
+						<dict:dataType>string</dict:dataType>
+						<dict:readOnly>true</dict:readOnly>
+					</dict:fieldDescriptor>
+				</search:queryParam>
+				<search:queryParam id="org.queryParam.orgOptionalLongName" optional="true">
+					<dict:fieldDescriptor>
+						<dict:name>Organization Name</dict:name>
+						<dict:desc>Long organization name.</dict:desc>
+						<dict:dataType>string</dict:dataType>
+						<dict:readOnly>true</dict:readOnly>
+					</dict:fieldDescriptor>
+				</search:queryParam>
+				<search:queryParam id="org.queryParam.orgOptionalLocation" optional="true">
+					<dict:fieldDescriptor>
+						<dict:name>Location</dict:name>
+						<dict:desc>Organization location.</dict:desc>
+						<dict:dataType>string</dict:dataType>
+						<dict:readOnly>true</dict:readOnly>
+					</dict:fieldDescriptor>
+				</search:queryParam>				
+			</search:queryParams>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+
 	<search:searchType id="org.search.test.orgs">
 		<search:name>All Orgs Filtered</search:name>
 		<search:desc>Query with multiple optional elements</search:desc>
@@ -29,8 +90,6 @@
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
 	
-
-
 	<search:searchType id="org.search.orgHierarchyIds">
 		<search:name>All org Hierarchies</search:name>
 		<search:desc>Returns all org hierarchy ids.</search:desc>
@@ -464,12 +523,30 @@
 				<entry key="org.search.test.orgs">
 					<value>SELECT org.id, org.shortName, org.longName, org.type.id, hierarchy.name FROM Org org, in(org.type.orgHierarchies) hierarchy</value>
 				</entry>
+				<entry key="org.search.advanced">
+					<value>SELECT org.id, org.shortName, org.longName, org.type.id FROM Org org</value>
+				</entry>				
 				<entry key="org.queryParam.orgGenericType">
 					<value>org.type.id = :org_queryParam_orgGenericType</value>
 				</entry>
 				<entry key="org.queryParam.orgGenericShortName">
 					<value>org.shortName like :org_queryParam_orgGenericShortName</value>
 				</entry>
+				<entry key="org.queryParam.orgOptionalId">
+					<value>org.id = :org_queryParam_orgOptionalId</value>
+				</entry>					
+				<entry key="org.queryParam.orgOptionalType">
+					<value>org.type.id = :org_queryParam_orgOptionalType</value>
+				</entry>	
+				<entry key="org.queryParam.orgOptionalShortName">
+					<value>org.shortName</value>
+				</entry>	
+				<entry key="org.queryParam.orgOptionalLongName">
+					<value>org.longName</value>
+				</entry>	
+				<entry key="org.queryParam.orgOptionalLocation">
+					<value>org.longName</value>  <!--  we don't have yet location defined in database -->
+				</entry>													
 			</map>
 		</property>
 	</bean>

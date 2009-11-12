@@ -14,12 +14,24 @@
  */
 package org.kuali.student.common.ui.client.widgets.selectors;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
+import org.kuali.student.core.search.dto.QueryParamValue;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -27,39 +39,63 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class KSSearchComponent extends Composite {
     private VerticalPanel layout = new VerticalPanel();
     final Hyperlink searchLink = new Hyperlink("Search", "Search");
-    final Hyperlink browseLink = new Hyperlink("Browse", "Browse");    
+    final Hyperlink browseLink = new Hyperlink("Browse", "Browse");
+    final HorizontalPanel searchOrBrowserLink = new HorizontalPanel();
     
     //data
     final KSSuggestBox suggestBox;
-    final KSAdvancedSearchWindow advSearchWindow;
+    final KSAdvancedSearchWindowComponent advSearchWindow; 
+	private List<QueryParamValue> contextCriteria = new ArrayList<QueryParamValue>();  
     
-    
-    public KSSearchComponent(BaseRpcServiceAsync searchService, String searchTypeKey, String resultIdKey) {
-    	
+    public KSSearchComponent(BaseRpcServiceAsync searchService, String searchTypeKey, String resultIdKey,
+    							List<String> basicSearchCriteria, List<String> advancedSearchCriteria, String searchTitle) {
+    	    	
     	final SearchSuggestOracle orgSearchOracle = new SearchSuggestOracle(searchService,
     	        "org.search.orgByShortNameAndType", 
-    	        "org.queryParam.orgShortName",
-    	        "org.queryParam.orgId", 
-    	        "org.resultColumn.orgId", 
-    	        "org.resultColumn.orgShortName");     	
-    	suggestBox = new KSSuggestBox(orgSearchOracle); 
-    	suggestBox.setAutoSelectEnabled(false);
-    	advSearchWindow = new KSAdvancedSearchWindow(searchService, searchTypeKey, resultIdKey);   
-    	      	
-
+    	        "org.queryParam.orgShortName", //field user is entering and we search on... add '%' the parameter
+    	        "org.queryParam.orgId", 		//if one wants to search by ID rather than by name
+    	        "org.resultColumn.orgId", 		
+    	        "org.resultColumn.orgShortName");
+    	  	
+		QueryParamValue orgTypeParam = new QueryParamValue();
+		orgTypeParam.setKey("org.queryParam.orgOptionalType");
+		orgTypeParam.setValue("kuali.org.Department");    //right now hard-coded criteria set to context specific value i.e. Administrative org
+		contextCriteria.add(orgTypeParam);    	
+		orgSearchOracle.setAdditionalQueryParams(contextCriteria);		
     	
+    	suggestBox = new KSSuggestBox(orgSearchOracle); 
+    	suggestBox.setAutoSelectEnabled(false);      	          	
         layout.add(suggestBox);
-   /*     layout.add(advSearchLink);
-       
-        advSearchLink.addClickHandler(new ClickHandler(){
+		orgSearchOracle.setTextWidget(suggestBox.getTextBox());
+                
+        searchOrBrowserLink.add(searchLink);
+        searchOrBrowserLink.add(new KSLabel("  or  "));
+        searchOrBrowserLink.add(browseLink);
+        layout.add(searchOrBrowserLink);
+        
+        //define advanced search link and window
+    	advSearchWindow = new KSAdvancedSearchWindowComponent(searchService, searchTypeKey, resultIdKey, basicSearchCriteria, advancedSearchCriteria, contextCriteria, searchTitle);  
+    	advSearchWindow.addSelectionHandler(selectionHandler);
+        searchLink.addClickHandler(new ClickHandler(){
             @Override
             public void onClick(ClickEvent event) {
                if(advSearchWindow != null){
                    advSearchWindow.show();
                }
             }
-        });  */
+        });  
         this.initWidget(layout);
     }
+    
+    
+    SelectionHandler<List<String>> selectionHandler = new SelectionHandler<List<String>>() {
+        @Override
+        public void onSelection(SelectionEvent<List<String>> event) {
 
+            final List<String> selected = event.getSelectedItem();
+            if (selected.size() > 0){
+                suggestBox.setText(event.getSelectedItem().get(0));                    
+            }                  
+        }
+    };
 }

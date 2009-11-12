@@ -14,17 +14,24 @@
  */
 package org.kuali.student.common.ui.client.widgets.selectors;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSDatePicker;
+import org.kuali.student.common.ui.client.widgets.KSDatePickerAbstract;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.SearchResultListItems;
+import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import org.kuali.student.common.ui.client.widgets.searchtable.SearchBackedTable;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.core.search.dto.QueryParamInfo;
@@ -70,16 +77,24 @@ public class KSAdvancedSearchRpcComponent extends Composite implements HasSelect
     private boolean hasSelectionHandlers = false;
     //private SearchResultListItems searchResultList = new SearchResultListItems();
     private List<KSTextBox> textBoxes = new ArrayList<KSTextBox>();
+    private List<KSDatePickerAbstract> datePickers = new ArrayList<KSDatePickerAbstract>();
     private List<KSSelectItemWidgetAbstract> selectableEnums = new ArrayList<KSSelectItemWidgetAbstract>();
-    
+    private Map<KSDatePickerAbstract, String> datePickerCriteriaKeys = new HashMap<KSDatePickerAbstract, String>(); 
     private FlexTable searchParamTable = new FlexTable();
+    
+    private List<String> searchCriteria;  //which criteria will be shown in the UI search screen
+    private List<QueryParamValue> contextCriteria = new ArrayList<QueryParamValue>();  //hidden criteria set to a context-specific value
     
     private BaseRpcServiceAsync searchService;
     private String searchTypeKey;
     
-    public KSAdvancedSearchRpcComponent(BaseRpcServiceAsync searchService, String searchTypeKey, String resultIdKey){
+    public KSAdvancedSearchRpcComponent(BaseRpcServiceAsync searchService, String searchTypeKey, String resultIdKey,
+    										List<String> searchCriteria, List<QueryParamValue> contextCriteria, String searchTitle)       
+    {
         this.searchService = searchService;
         this.searchTypeKey = searchTypeKey;
+        this.searchCriteria = searchCriteria;
+        this.contextCriteria = contextCriteria;
         
         searchResultsTable = new SearchBackedTable(searchService, searchTypeKey, resultIdKey);
         generateSearchLayout();
@@ -87,10 +102,6 @@ public class KSAdvancedSearchRpcComponent extends Composite implements HasSelect
         tabPanel.setSpacing(10);
         tabPanel.add(searchLayout);
         tabPanel.add(resultLayout);
-//        tabPanel.selectTab(0);
-        
-      /*  searchResults.setPageSize(10);
-        searchResults.setListItems(searchResultList);*/
         
         resultLayout.addStyleName(KSStyles.KS_ADVANCED_SEARCH_RESULTS_PANEL);
 //        searchLayout.addStyleName(KSStyles.KS_ADVANCED_SEARCH_PANEL);
@@ -99,9 +110,15 @@ public class KSAdvancedSearchRpcComponent extends Composite implements HasSelect
         
         selectButton.addClickHandler(new ClickHandler(){
             public void onClick(ClickEvent event) {
-                List<String> selectedItems = searchResultsTable.getSelectedIds();
-                if (selectedItems != null && selectedItems.size() > 0){
-                    fireSelectEvent(selectedItems);
+            	List<String> selectedValues = new ArrayList<String>(); 
+                List<ResultRow> selectedRows = searchResultsTable.getSelectedRows();
+                
+                if (selectedRows != null && selectedRows.size() > 0){
+                    /* for(Integer i: selectedRowIds){
+                        names.add(pagingScrollTable.getRowValue(i).getId());
+                    } */              	
+                	selectedValues.add(selectedRows.get(0).getValue("org.resultColumn.orgLongName"));  //TODO: remove hard-coded value
+                    fireSelectEvent(selectedValues);
                 }                
             }            
         });
@@ -123,6 +140,12 @@ public class KSAdvancedSearchRpcComponent extends Composite implements HasSelect
                 SearchCriteriaTypeInfo criteriaInfo = searchTypeInfo.getSearchCriteriaTypeInfo();
                 List<QueryParamInfo> queryParams = criteriaInfo.getQueryParams();
                 for (QueryParamInfo q:queryParams){
+                	
+                	//show only criteria used in this context to filter the search                	
+                	if (!searchCriteria.contains(q.getKey())) {
+                		continue;
+                	}
+                	
                     FieldDescriptor fd = q.getFieldDescriptor();
                     //TODO change this to use a message from messages, using the fd.getName() as the token
                     KSLabel paramLabel = new KSLabel(fd.getName());
@@ -139,6 +162,11 @@ public class KSAdvancedSearchRpcComponent extends Composite implements HasSelect
                         dropDown.setName(q.getKey());
                         searchParamTable.setWidget(row, column, dropDown);
                         selectableEnums.add(dropDown);
+                    } else if (fd.getDataType() != null && fd.getDataType().equals("date")) {
+                        KSDatePickerAbstract dp = new KSDatePicker();
+                        searchParamTable.setWidget(row, column, dp);
+                        datePickers.add(dp);
+                        datePickerCriteriaKeys.put(dp, q.getKey());
                     } else{
                         KSTextBox tb = new KSTextBox();
                         tb.setName(q.getKey());
@@ -148,6 +176,7 @@ public class KSAdvancedSearchRpcComponent extends Composite implements HasSelect
                      column = 0;
                      row++;
                 }
+                
                 column++;
                 //TODO: Messages
                 KSButton searchButton = new KSButton("Search");
@@ -206,25 +235,50 @@ public class KSAdvancedSearchRpcComponent extends Composite implements HasSelect
     }
            
     private void executeSearch(){
-        //Build query paramaters
+        //Build query parameters
         List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>();
         for (int row=0; row < searchParamTable.getRowCount()-1; row++ ){
             Widget w = searchParamTable.getWidget(row, 1);
             
             QueryParamValue queryParamValue = new QueryParamValue();
-            queryParamValue.setKey(((HasName)w).getName());
+            if (w instanceof HasName) {
+                queryParamValue.setKey(((HasName)w).getName());
+            } else if (w instanceof KSDatePickerAbstract) {
+                queryParamValue.setKey(datePickerCriteriaKeys.get(w));
+            }
+            
             if (w instanceof KSSelectItemWidgetAbstract){
                 queryParamValue.setValue(((KSSelectItemWidgetAbstract)w).getSelectedItem());
                 System.out.println(((KSSelectItemWidgetAbstract)w).getSelectedItem());
+            } else if (w instanceof KSDatePickerAbstract) {
+                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+                java.util.Date date = ((KSDatePickerAbstract)w).getValue();
+                String paramValue = null;
+                if (date != null) {
+                    paramValue = (sdf.format(date));
+                }
+                queryParamValue.setValue(paramValue);
             } else {
                 String value = ((HasText)w).getText();
-                value = value.replace('*','%');
+                value = value.replace('*','%');  //handle special characters TODO: remove '*' completely
                 queryParamValue.setValue(value);
             }
-            queryParamValues.add(queryParamValue);                
+            
+            //do not add criteria that are empty; criteria are empty if user did not use them or picker context does not require them
+            if ((queryParamValue.getValue() != null) && (!((String) queryParamValue.getValue()).trim().isEmpty())) {
+            	queryParamValues.add(queryParamValue);                
+            }
         }
+        
+        //add context-specific criteria
+        for (QueryParamValue contextCriterion : contextCriteria){
+        	queryParamValues.add(contextCriterion);
+        }             
+        
+        //execute the search itself
         searchResultsTable.clearTable();
         searchResultsTable.performSearch(queryParamValues);
+        
 //        tabPanel.selectTab(1);
        
         //Call the search service
@@ -297,6 +351,9 @@ public class KSAdvancedSearchRpcComponent extends Composite implements HasSelect
         }
         for(KSSelectItemWidgetAbstract w: selectableEnums){
             w.redraw();
+        }
+        for (KSDatePickerAbstract dp: datePickers) {
+            dp.setValue(null);
         }
         searchResultsTable.clearTable();
 //        tabPanel.selectTab(0);
