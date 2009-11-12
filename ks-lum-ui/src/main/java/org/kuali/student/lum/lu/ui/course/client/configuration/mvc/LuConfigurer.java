@@ -33,7 +33,6 @@ import org.kuali.student.common.ui.client.configurable.mvc.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.VerticalSectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.Section.FieldLabelType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.Type;
-import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -45,15 +44,13 @@ import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
-import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
-import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
+import org.kuali.student.common.ui.client.widgets.selectors.KSSearchComponent;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
-import org.kuali.student.core.organization.ui.client.view.OrgSearchTypeWidget;
+import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
+import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRequisitesSectionView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer;
-import org.kuali.student.lum.lu.ui.course.client.service.AtpRpcService;
-import org.kuali.student.lum.lu.ui.course.client.service.AtpRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.widgets.AssemblerTestSection;
 import org.kuali.student.lum.lu.ui.course.client.widgets.AtpPicker;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
@@ -62,15 +59,10 @@ import org.kuali.student.lum.lu.ui.course.client.widgets.OrgPicker;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.ui.HasText;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -194,7 +186,7 @@ public class LuConfigurer {
         
         section.addSection(startDate);
         section.addSection(endDate);
-        section.addSection(startSession);
+      //  section.addSection(startSession);
         
         return section;
 
@@ -229,7 +221,7 @@ public class LuConfigurer {
         campus.addField(new FieldDescriptor("cluInfo/campusLocationList", null, Type.STRING, new CampusLocationList()));
 
         VerticalSection adminOrgs = initSection(getH3Title(LUConstants.ADMIN_ORG_LABEL_KEY), WITH_DIVIDER);    
-        adminOrgs.addField(new FieldDescriptor("cluInfo/adminOrg", null, Type.STRING, new OrgPicker()));
+        adminOrgs.addField(new FieldDescriptor("cluInfo/adminOrg", null, Type.STRING, new OrgAdvSearchPicker())); //new OrgPicker()));
 //        adminOrgs.addField(new FieldDescriptor("cluInfo/primaryAdminOrg/orgId", null, Type.STRING, new OrgPicker()));
 //        adminOrgs.addField(new FieldDescriptor("cluInfo/alternateAdminOrgs", null, Type.LIST, new AlternateAdminOrgList()));
         
@@ -240,6 +232,29 @@ public class LuConfigurer {
         
         return section;
 
+    }
+    
+    private static class OrgAdvSearchPicker extends  KSSearchComponent {
+    	
+    	private static OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
+    	
+    	private static List<String> basicCriteria = new ArrayList<String>() {
+    		   {
+    		      add("org.queryParam.orgOptionalLongName");
+    		   }
+    		};
+    	
+        private static List<String> advancedCriteria = new ArrayList<String>() {
+     		   {
+     			   add("org.queryParam.orgOptionalLongName");
+     			   add("org.queryParam.orgOptionalLocation");
+     			   add("org.queryParam.orgOptionalId");
+     		   }
+     		};    		
+    		
+    	public OrgAdvSearchPicker() {
+    		super(orgRpcServiceAsync, "org.search.advanced", "org.resultColumn.orgId", basicCriteria, advancedCriteria, "Find Organization");
+    	}
     }
 
     public static SectionView generateCourseInfoSection(){
