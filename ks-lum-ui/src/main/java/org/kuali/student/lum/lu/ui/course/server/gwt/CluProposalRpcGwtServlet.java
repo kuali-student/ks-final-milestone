@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -58,7 +59,11 @@ import org.kuali.student.common.ui.server.mvc.dto.PropertyMapping;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.entity.RichText;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.DependentObjectsExistException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.MissingParameterException;
+import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
@@ -954,6 +959,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         	
         	List<ModelDTOValue> learningObjectiveList = learningObjectiveListType.get();
         	
+        	removeDeletedLOs(cluInfo.getId(), learningObjectiveList);
+        	
         	// going to assume here that cluInfo is for a valid Clu that's already been persisted
         	// TODO - this needs to recursively navigate the LO tree(s) that the user has specified in the UI
         	for (ModelDTOValue learningObjectiveValue : learningObjectiveList) {
@@ -990,32 +997,39 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	}
 
     
-    private String getLoIdByDesc(String loDescPlain) {
-		List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>(2);
-		QueryParamValue qpLoName = new QueryParamValue();
-		qpLoName.setKey("lo.queryParam.loDescPlain");
-		qpLoName.setValue(loDescPlain);
-		queryParamValues.add(qpLoName);
-
-		try {
-			List<Result> results = learningObjectiveService.searchForResults("lo.search.loByDesc", queryParamValues);
-
-			if (null != results) {
-				switch (results.size()) {
-					case 0 :
-						return null;
-					case 1:
-				        List<ResultCell> resultCells = results.get(0).getResultCells();
-				        ResultCell cell = resultCells.get(0);
-				        return cell.getValue();
-					default:
-						throw new OperationFailedException("More than one LearningObjective with description: " + loDescPlain);
-				}
-			}
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		return null;
+    private void removeDeletedLOs(String cluId, List<ModelDTOValue> learningObjectiveList)
+										    			throws DoesNotExistException,
+										    				   InvalidParameterException,
+										    				   MissingParameterException,
+										    				   OperationFailedException,
+										    				   org.kuali.student.core.exceptions.OperationFailedException, BeanMappingException, DependentObjectsExistException, PermissionDeniedException {
+		
+		List<String> loIds = service.getLoIdsByClu(cluId);
+		Set<String> loIdsFromUser = new TreeSet<String>();
+		
+		// get all the existing LO id's received from the client
+    	for (ModelDTOValue learningObjectiveValue : learningObjectiveList) {
+    		ModelDTO learningObjectiveModelDTO = ((ModelDTOValue.ModelDTOType) learningObjectiveValue).get();
+    		LoInfo info = (LoInfo) loMapContext.fromModelDTO(learningObjectiveModelDTO);
+    		String loId = info.getId();
+    		if (null != loId && loId.length() > 0) {
+    			loIdsFromUser.add(loId);
+    		}
+    	}
+    	// now see if any of the existing related LO's weren't submitted by the client
+    	for (String loId : loIds) {
+    		if ( ! loIdsFromUser.contains(loId) ) {
+    			// With LO reuse, we need to check that the LO is not related to any other LU's
+    			List<String> relatedCluIds = service.getCluIdsByLoId(loId);
+    			assert relatedCluIds.size() > 0;
+    			if (relatedCluIds.size() == 1) {
+    				assert loId.equals(relatedCluIds.get(0));
+    				// only Clu this LO's related to is the one this proposal's for, so get rid of it
+    				service.removeOutcomeLoFromClu(loId, cluId);
+    				learningObjectiveService.deleteLo(loId);
+    			}
+    		}
+    	}
 	}
 
 	/**
