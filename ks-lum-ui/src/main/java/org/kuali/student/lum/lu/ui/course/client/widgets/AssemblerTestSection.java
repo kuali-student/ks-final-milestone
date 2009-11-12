@@ -3,8 +3,11 @@ package org.kuali.student.lum.lu.ui.course.client.widgets;
 import java.util.List;
 
 import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.common.assembly.client.Model;
+import org.kuali.student.common.assembly.client.DataModel;
+import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.common.assembly.client.Data.Property;
+import org.kuali.student.common.assembly.client.HasChangeCallbacks.ChangeCallback;
+import org.kuali.student.common.assembly.client.HasChangeCallbacks.ChangeType;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -28,6 +31,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextArea;
@@ -84,7 +88,6 @@ public class AssemblerTestSection extends SectionView {
 			panel.add(status);
 			panel.add(output);
 			output.setSize("1280px", "800px");
-			
 			buttonPanel.add(new Button("Create new", new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {
@@ -106,7 +109,6 @@ public class AssemblerTestSection extends SectionView {
 			
 						
 		}
-		
 		
 		
 		
@@ -161,6 +163,12 @@ public class AssemblerTestSection extends SectionView {
 				@Override
 				public void onSuccess(Data result) {
 					status.setText("Retrieved proposal");
+					result.addChangeCallback(new ChangeCallback() {
+						@Override
+						public void onChange(ChangeType type, QueryPath path) {
+							GWT.log(type.toString() + " " + path.toString(), null);
+						}
+					});
 					Data prop = result.get("proposal");
 					prop.set("title", "MODIFIED " + (String) prop.get("title"));
 					setUpdated(prop);
@@ -271,11 +279,16 @@ public class AssemblerTestSection extends SectionView {
 			}
 			return result;
 		}
-
+		
 		private CreditCourseProposal createCreditCourseProposal() {
 			int idx = Random.nextInt();
 			CreditCourseProposal result = new CreditCourseProposal();
-			
+			result.addChangeCallback(new ChangeCallback() {
+				@Override
+				public void onChange(ChangeType type, QueryPath path) {
+					GWT.log(type.toString() + " " + path.toString(), null);
+				}
+			});
 			ProposalInfoData prop = new ProposalInfoData();
 			prop.setState("draft");
 			prop.setTitle("Assembler Test Proposal " + idx);

@@ -58,6 +58,7 @@ import org.kuali.student.lum.lu.ui.course.client.widgets.OrgPicker;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
@@ -716,8 +717,16 @@ public class CourseConfigurer {
                                                                 "kuali.lo.type.singleUse", "draft");
             CustomNestedSection ns = new CustomNestedSection();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            ns.addField(new FieldDescriptor("desc/plain", null/* getLabel(LUConstants.LEARNING_OBJECTIVE_LO_NAME_KEY)*/, Type.STRING, new LOPicker()));
-            
+            LOPicker picker = new LOPicker();
+            picker.addValueChangeHandler(new ValueChangeHandler<String>() {
+				@Override
+				public void onValueChange(ValueChangeEvent<String> event) {
+					// System.out.println("Value changed");
+				}
+			});
+            // FIXME wilj: definitely wrong path for LO picker
+            FieldDescriptor fd = new FieldDescriptor("desc", null/* getLabel(LUConstants.LEARNING_OBJECTIVE_LO_NAME_KEY)*/, Type.STRING, picker);
+            ns.addField(fd);
             multi.addSection(ns);
             
             return multi;

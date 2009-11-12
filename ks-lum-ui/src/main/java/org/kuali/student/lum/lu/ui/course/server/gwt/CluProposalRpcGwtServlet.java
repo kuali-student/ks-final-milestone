@@ -42,7 +42,7 @@ import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.student.common.assembly.client.AssemblyException;
 import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.common.assembly.client.Model;
+import org.kuali.student.common.assembly.client.DataModel;
 import org.kuali.student.common.assembly.client.SaveResult;
 import org.kuali.student.common.assembly.client.SimpleModelDefinition;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
@@ -1432,8 +1432,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
      * This method should return a an empty model with associated model definition for 
      * requested model
      */
-    public Model getCluProposalModelDefinition(String modelId){
-        Model model = null;
+    public DataModel getCluProposalModelDefinition(String modelId){
+        DataModel model = null;
         if (CourseConfigurer.CLU_PROPOSAL_MODEL.equals(modelId)){
             final SimpleModelDefinition def = new SimpleModelDefinition();
             def.define("proposal", "org.kuali.student.lum.lu.assembly.data.client.proposal.ProposalInfoData");
@@ -1457,7 +1457,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 //            def.define("cluInfo/effectiveDate", "Date");
 //            def.define("cluInfo/expirationDate", "Date");
 //            
-            model = new Model(def, new Data());     
+            model = new DataModel(def, new Data());     
             
         }
         return model;

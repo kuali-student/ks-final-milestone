@@ -60,7 +60,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  *
  */
 public class CourseProposalController extends TabbedSectionLayout { 
-    private Model<org.kuali.student.common.assembly.client.Model> cluProposalModel; 
+    private Model<org.kuali.student.common.assembly.client.DataModel> cluProposalModel; 
     private Model<Collaborators.CollaboratorModel> collaboratorModel;
     
     private WorkQueue modelRequestQueue;
@@ -287,10 +287,10 @@ public class CourseProposalController extends TabbedSectionLayout {
     @SuppressWarnings("unchecked")
     private void createNewCluProposalModel(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
         if (cluProposalModel == null){
-            cluProposalModel = new Model<org.kuali.student.common.assembly.client.Model>();
+            cluProposalModel = new Model<org.kuali.student.common.assembly.client.DataModel>();
 
             cluProposalRpcServiceAsync.getCluProposalModelDefinition(CourseConfigurer.CLU_PROPOSAL_MODEL, 
-                new AsyncCallback<org.kuali.student.common.assembly.client.Model>(){
+                new AsyncCallback<org.kuali.student.common.assembly.client.DataModel>(){
 
                     @Override
                     public void onFailure(Throwable caught) {
@@ -298,7 +298,7 @@ public class CourseProposalController extends TabbedSectionLayout {
                     }
 
                     @Override
-                    public void onSuccess(org.kuali.student.common.assembly.client.Model result) {
+                    public void onSuccess(org.kuali.student.common.assembly.client.DataModel result) {
                         cluProposalModel.put(result);                           
                         callback.onModelReady(cluProposalModel);
                         workCompleteCallback.exec(true);
