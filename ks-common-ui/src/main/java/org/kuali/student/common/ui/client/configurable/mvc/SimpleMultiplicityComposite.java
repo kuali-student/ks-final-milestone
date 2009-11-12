@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
+import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
@@ -26,6 +28,7 @@ public abstract class SimpleMultiplicityComposite extends Composite implements H
 	protected int itemCount = 0;
 	protected boolean updateable = true;
 	protected String addItemLabel;
+	protected boolean useDeleteLabel = true;
 
     //Initialization block
     {
@@ -147,6 +150,9 @@ public abstract class SimpleMultiplicityComposite extends Composite implements H
             itemPanel.addStyleName("KS-Multiplicity-Item");
 
             itemPanel.add(listItem);
+            if (updateable) {
+	            itemPanel.add(generateRemoveWidget(listItem, this));
+            } 
         }
     }
 
@@ -221,6 +227,29 @@ public abstract class SimpleMultiplicityComposite extends Composite implements H
 	    modelDTOValueWidgets.add((HasModelDTOValue)newItemWidget);
 	}
 	
+	protected Widget generateRemoveWidget(final Widget listItem, final Composite parent) {
+		ClickHandler ch = new ClickHandler(){
+	        public void onClick(ClickEvent event) {
+	            ModelDTOValue listItemValue = ((HasModelDTOValue) listItem).getValue(); 
+	            modelDTOList.get().remove(listItemValue);
+	            itemsPanel.remove(parent);
+	            modelDTOValueWidgets.remove(listItem);
+	        }
+		};
+	
+		Widget returnWidget;
+		if (useDeleteLabel) {
+			Label deleteLabel = new Label("Delete");
+			deleteLabel.addStyleName("KS-Multiplicity-Labels");
+			deleteLabel.addClickHandler(ch);
+			returnWidget = deleteLabel;
+		}
+		else {
+			returnWidget = new KSButton("-", ch); 
+		}
+		return returnWidget;
+	}
+
 	private class NOOPListValueChangeHandler implements HandlerRegistration {
 
 		/* (non-Javadoc)

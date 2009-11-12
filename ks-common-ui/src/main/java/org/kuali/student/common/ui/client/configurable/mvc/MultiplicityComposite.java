@@ -16,7 +16,6 @@ package org.kuali.student.common.ui.client.configurable.mvc;
 
 import java.util.ArrayList;
 
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
@@ -25,7 +24,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -40,8 +39,6 @@ import com.google.gwt.user.client.ui.Widget;
 public abstract class MultiplicityComposite extends SimpleMultiplicityComposite {
 
     private String itemLabel = "Item ";
-    protected boolean useDeleteLabel = false;
-
     public MultiplicityComposite() {
     	this(false);
     }
@@ -64,8 +61,8 @@ public abstract class MultiplicityComposite extends SimpleMultiplicityComposite 
             itemPanel = new VerticalFlowPanel();
             this.listItem = listItem;
             initWidget(itemPanel);
-            if (listItem instanceof MultiplicityComposite){
-                ((MultiplicityComposite) listItem).redraw();
+            if (listItem instanceof SimpleMultiplicityComposite){
+                ((SimpleMultiplicityComposite) listItem).redraw();
             }
             itemCount++;
             itemPanel.addStyleName("KS-Multiplicity-Item");
@@ -75,35 +72,13 @@ public abstract class MultiplicityComposite extends SimpleMultiplicityComposite 
             KSLabel headerLabel = new KSLabel(itemLabel + " " + itemCount);
             headerPanel.add(headerLabel);
             if (updateable) {
-                headerPanel.add(generateRemoveWidget());
+                headerPanel.add(generateRemoveWidget(listItem, this));
             }
 
             itemPanel.add(headerPanel);
             itemPanel.add(listItem);
         }
 
-        private Widget generateRemoveWidget() {
-        	ClickHandler ch = new ClickHandler(){
-                public void onClick(ClickEvent event) {
-                    ModelDTOValue listItemValue = ((HasModelDTOValue)listItem).getValue(); 
-                    modelDTOList.get().remove(listItemValue);
-                    itemsPanel.remove(MultiplicityItemWidgetDecorator.this);
-                    modelDTOValueWidgets.remove(listItem);
-                }
-        	};
-
-        	Widget returnWidget;
-        	if (useDeleteLabel) {
-        		Label deleteLabel = new Label("Delete");
-        		deleteLabel.addStyleName("KS-Multiplicity-Labels");
-        		deleteLabel.addClickHandler(ch);
-        		returnWidget = deleteLabel;
-        	}
-        	else {
-				returnWidget = new KSButton("-", ch); 
-        	}
-        	return returnWidget;
-        }        
     }
 
     @Override
