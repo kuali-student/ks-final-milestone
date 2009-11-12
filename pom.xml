@@ -1,12 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.security</groupId>
 	<artifactId>ks-security</artifactId>
 	<packaging>pom</packaging>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	
 	<name>KS Security</name>
 	<description>KS Security Parent POM</description>
@@ -17,8 +15,8 @@
     </modules>
 
     <scm>
-        <connection>scm:svn:https://test.kuali.org/svn/student/sandbox/ks-security/branches/ks-security-dev</connection>
-        <developerConnection>scm:svn:https://test.kuali.org/svn/student/sandbox/ks-security/branches/ks-security-dev</developerConnection>
+        <connection>scm:svn:https://test.kuali.org/svn/student/sandbox/ks-security/tags/ks-security-0.0.1</connection>
+        <developerConnection>scm:svn:https://test.kuali.org/svn/student/sandbox/ks-security/tags/ks-security-0.0.1</developerConnection>
     </scm>
     
     <repositories>
@@ -320,7 +318,7 @@
 					<maxmemory>256m</maxmemory>
 					<aggregate>true</aggregate>
 					<show>private</show>
-					<bottom>Copyright © 2009 The Kuali Foundation. All rights reserved.</bottom>
+					<bottom>Copyright ?? 2009 The Kuali Foundation. All rights reserved.</bottom>
 					<excludePackageNames>*.service.jaxws:*.exceptions.jaxws</excludePackageNames>
 					<source>1.6</source>
 					<links>
