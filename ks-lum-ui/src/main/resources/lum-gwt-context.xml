@@ -52,6 +52,10 @@
 					<ref bean="OrgRpcGwtServletController" />
 				</entry>
 				<entry
+				    key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/AtpRpcService">
+					<ref bean="atpRpcServiceGwtController"/>
+				</entry>
+				<entry
 					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/LoRpcService">
 					<ref bean="LoRpcGwtServletController" />
 				</entry>
@@ -141,6 +145,12 @@
 		class="org.kuali.student.common.ws.ServletWrappingController">
 		<property name="servletName" value="OrgRpcGwtServlet" />
 		<property name="servletInstance" ref="OrgRpcGwtServlet" />
+	</bean>
+
+	<bean id="atpRpcServiceGwtController"
+	    class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="atpRpcGwtServlet" />
+		<property name="servletInstance" ref="atpRpcGwtServlet" />
 	</bean>
 
 	<bean id="LoRpcGwtServletController"
@@ -243,6 +253,11 @@
 		<property name="service" ref="orgClient" />
 	</bean>
 
+	<bean id="atpRpcGwtServlet"
+		class="org.kuali.student.lum.lu.ui.course.server.gwt.AtpRpcGwtServlet">
+		<property name="service" ref="atpClient" />
+	</bean>
+
 	<bean id="LoRpcGwtServlet"
 		class="org.kuali.student.lum.lu.ui.course.server.gwt.LoRpcGwtServlet">
 		<property name="service" ref="loClient" />
@@ -285,6 +300,11 @@
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/organization}OrganizationService" />
 	</bean>
 	
+	<bean id="atpClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface" value="org.kuali.student.core.atp.service.AtpService" />
+		<property name="serviceQName" value="{http://student.kuali.org/wsdl/atp}AtpService" />
+	</bean>
+
 	<bean id="messageClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.student.core.messages.service.MessageService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/message}MessageService" />
