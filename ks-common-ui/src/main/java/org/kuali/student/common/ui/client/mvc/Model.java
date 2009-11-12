@@ -20,6 +20,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.student.common.assembly.client.HasChangeCallbacks;
+import org.kuali.student.common.assembly.client.QueryPath;
+import org.kuali.student.common.assembly.client.HasChangeCallbacks.ChangeCallback;
+import org.kuali.student.common.assembly.client.HasChangeCallbacks.ChangeCallbackRegistration;
+import org.kuali.student.common.assembly.client.HasChangeCallbacks.ChangeType;
 import org.kuali.student.common.ui.client.mvc.ModelChangeEvent.Action;
 import org.kuali.student.core.dto.Idable;
 
@@ -36,12 +41,13 @@ import com.google.gwt.event.shared.HandlerRegistration;
 public class Model<T> {
     private Map<String, T> data = new HashMap<String, T>();
     private HandlerManager handlers = new HandlerManager(this);
-
-    private T singleDataObject = null;
+    private transient ChangeCallbackRegistration bridgeCallbackReg;
+    
+    private T value = null;
     /**
      * Adds an object to the model, and fires a ModelChangeEvent
-     * 
      * @param object
+     * @deprecated should use new Data structures instead, accessed via getValue, setValue  
      */
     public void add(T object) {
         if (object instanceof Idable){
@@ -50,12 +56,21 @@ public class Model<T> {
         }
     }
 
+    /**
+     * @param object
+     * @deprecated old method, left backward compatibility
+     */
     public void put(T object) {
-        singleDataObject = object;
+        value = object;
+        handlers.fireEvent(new ModelChangeEvent<T>(Action.RELOAD, object));
     }
     
+    /**
+     * @return
+     * @deprecated old method, left backward compatibility
+     */
     public T get(){
-        return singleDataObject;
+        return value;
     }
 
     /**
@@ -63,6 +78,7 @@ public class Model<T> {
      * 
      * @param id
      * @return
+     * @deprecated should use new Data structures instead, accessed via getValue, setValue  
      */
     public T get(String id) {
         return data.get(id);
@@ -73,6 +89,7 @@ public class Model<T> {
      * 
      * @param id
      * @return the object that was removed, or null if not found
+     * @deprecated should use new Data structures instead, accessed via getValue, setValue  
      */
     public T remove(String id) {
         T result = data.remove(id);
@@ -87,6 +104,7 @@ public class Model<T> {
      * 
      * @param object
      * @return the object that was removed, or null if not found
+     * @deprecated should use new Data structures instead, accessed via getValue, setValue  
      */
     public T remove(T object) {
         if (object instanceof Idable){
@@ -101,6 +119,7 @@ public class Model<T> {
      * ModelChangeEvent with an action indicating whether it was added or updated.
      * 
      * @param object
+     * @deprecated should use new Data structures instead, accessed via getValue, setValue  
      */
     public void update(T object) {
         if (object instanceof Idable){
@@ -128,8 +147,51 @@ public class Model<T> {
      * Returns an unsorted, umodifiable collection of the values contained within the model.
      * 
      * @return an unsorted, umodifiable collection of the values contained within the model.
+     * @deprecated should use new Data structures instead, accessed via getValue, setValue  
      */
     public Collection<T> getValues() {
         return Collections.unmodifiableList(new ArrayList<T>(data.values()));
     }
+
+	
+    /**
+     * Returns the Model's value
+     * Going forward, the Model class should primarily be used with a single DataModel instance for use with the configurable UI framework.
+     * @return the Model's value
+     */
+    public T getValue() {
+		return value;
+	}
+
+    /**
+     * Sets the Model's value
+     * Going forward, the Model class should primarily be used with a single DataModel instance for use with the configurable UI framework.
+     * @param value the new value
+	 */
+	public void setValue(T value) {
+		this.value = value;
+		if (bridgeCallbackReg != null) {
+			bridgeCallbackReg.remove();
+		}
+		if (value instanceof HasChangeCallbacks) {
+			bridgeCallbackReg = ((HasChangeCallbacks)value).addChangeCallback(new ChangeCallback() {
+				@Override
+				public void onChange(ChangeType type, QueryPath path) {
+					Action action = null;
+					if (type == ChangeType.ADD) {
+						action = Action.ADD;
+					} else if (type == ChangeType.REMOVE) {
+						action = Action.REMOVE;
+					} else if (type == ChangeType.UPDATE) {
+						action = Action.UPDATE;
+					}
+					handlers.fireEvent(new ModelChangeEvent<T>(action, path));
+				}
+			});
+		}
+		handlers.fireEvent(new ModelChangeEvent<T>(Action.RELOAD, new QueryPath()));
+	}
+    
+    
+    
 }

@@ -14,7 +14,7 @@
  */
 package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
-import org.kuali.student.common.assembly.client.Model;
+import org.kuali.student.common.assembly.client.DataModel;
 import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.common.ui.client.widgets.RichTextEditor;
 
@@ -24,7 +24,7 @@ public class RichTextBinding implements ModelWidgetBinding<RichTextEditor>{
     private RichTextBinding(){}
 
     @Override
-    public void setModelValue(RichTextEditor object, Model model, String path) {
+    public void setModelValue(RichTextEditor object, DataModel model, String path) {
         String richTextRoot = path + QueryPath.getPathSeparator();
         
         QueryPath qPath = QueryPath.parse(richTextRoot + "plain");
@@ -42,7 +42,7 @@ public class RichTextBinding implements ModelWidgetBinding<RichTextEditor>{
     }
 
     @Override
-    public void setWidgetValue(RichTextEditor object, Model model, String path) {        
+    public void setWidgetValue(RichTextEditor object, DataModel model, String path) {        
         String richTextRoot = path + QueryPath.getPathSeparator();
         
         QueryPath qPath = QueryPath.parse(richTextRoot + "plain");       

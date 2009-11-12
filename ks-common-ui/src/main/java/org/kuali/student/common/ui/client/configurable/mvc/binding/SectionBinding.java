@@ -17,7 +17,7 @@ package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
 import java.util.List;
 
-import org.kuali.student.common.assembly.client.Model;
+import org.kuali.student.common.assembly.client.DataModel;
 import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.Section;
@@ -40,10 +40,10 @@ public class SectionBinding implements ModelWidgetBinding<Section>{
     private SectionBinding(){};
     
     /**
-     * @see org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding#setModelValue(java.lang.Object, org.kuali.student.common.assembly.client.Model, java.lang.String)
+     * @see org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding#setModelValue(java.lang.Object, org.kuali.student.common.assembly.client.DataModel, java.lang.String)
      */
     @Override
-    public void setModelValue(Section section, Model model, String path) {
+    public void setModelValue(Section section, DataModel model, String path) {
         List<FieldDescriptor> fields = section.getFields();
         
         for (int i=0; i < fields.size(); i++){
@@ -67,10 +67,10 @@ public class SectionBinding implements ModelWidgetBinding<Section>{
     }
 
     /**
-     * @see org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding#setWidgetValue(java.lang.Object, org.kuali.student.common.assembly.client.Model, java.lang.String)
+     * @see org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding#setWidgetValue(java.lang.Object, org.kuali.student.common.assembly.client.DataModel, java.lang.String)
      */
     @Override
-    public void setWidgetValue(Section section, Model model, String path) {
+    public void setWidgetValue(Section section, DataModel model, String path) {
         List<FieldDescriptor> fields = section.getFields();
         
         for (int i=0; i < fields.size(); i++){

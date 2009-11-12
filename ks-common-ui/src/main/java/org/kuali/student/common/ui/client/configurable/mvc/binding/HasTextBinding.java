@@ -16,7 +16,7 @@ package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
 import java.util.Date;
 
-import org.kuali.student.common.assembly.client.Model;
+import org.kuali.student.common.assembly.client.DataModel;
 import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.common.assembly.client.Data.DataType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.DateType;
@@ -33,7 +33,7 @@ public class HasTextBinding implements ModelWidgetBinding<HasText>{
     private HasTextBinding(){}
     
     @Override
-    public void setModelValue(HasText object, Model model, String path) {
+    public void setModelValue(HasText object, DataModel model, String path) {
         try{
             QueryPath qPath = QueryPath.parse(path);        
             DataType type = model.getType(qPath);
@@ -89,7 +89,7 @@ public class HasTextBinding implements ModelWidgetBinding<HasText>{
     
 
     @Override
-    public void setWidgetValue(HasText object, Model model, String path ) {
+    public void setWidgetValue(HasText object, DataModel model, String path ) {
         try {
             QueryPath qPath = QueryPath.parse(path);
             Object value = model.get(qPath);

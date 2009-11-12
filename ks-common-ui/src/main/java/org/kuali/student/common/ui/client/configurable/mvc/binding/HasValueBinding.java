@@ -16,7 +16,7 @@ package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
 import java.util.Date;
 
-import org.kuali.student.common.assembly.client.Model;
+import org.kuali.student.common.assembly.client.DataModel;
 import org.kuali.student.common.assembly.client.QueryPath;
 
 import com.google.gwt.core.client.GWT;
@@ -29,7 +29,7 @@ public class HasValueBinding implements ModelWidgetBinding<HasValue>{
     private HasValueBinding(){}
     
     @Override
-    public void setModelValue(HasValue object, Model model, String path) {        
+    public void setModelValue(HasValue object, DataModel model, String path) {        
         QueryPath qPath = QueryPath.parse(path);
         Object value = object.getValue();
         
@@ -57,7 +57,7 @@ public class HasValueBinding implements ModelWidgetBinding<HasValue>{
     }
 
     @Override
-    public void setWidgetValue(HasValue object, Model model, String path) {
+    public void setWidgetValue(HasValue object, DataModel model, String path) {
         QueryPath qPath = QueryPath.parse(path);
         Object value = model.get(qPath);
         

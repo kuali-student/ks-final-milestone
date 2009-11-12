@@ -15,7 +15,7 @@
  */
 package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
-import org.kuali.student.common.assembly.client.Model;
+import org.kuali.student.common.assembly.client.DataModel;
 
 /**
  * This is a description of what this class does - Will Gomes don't forget to fill this in. 
@@ -25,6 +25,6 @@ import org.kuali.student.common.assembly.client.Model;
  */
 public interface ModelWidgetBinding<WidgetType> {
       
-    public void setModelValue(WidgetType widget, Model model, String path);
-    public void setWidgetValue(WidgetType widget, Model model, String path);
+    public void setModelValue(WidgetType widget, DataModel model, String path);
+    public void setWidgetValue(WidgetType widget, DataModel model, String path);
 }

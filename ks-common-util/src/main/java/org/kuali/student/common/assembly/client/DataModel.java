@@ -20,19 +20,23 @@ package org.kuali.student.common.assembly.client;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.kuali.student.common.assembly.client.Data.DataType;
 import org.kuali.student.common.assembly.client.Data.DataValue;
 import org.kuali.student.common.assembly.client.Data.Key;
 import org.kuali.student.common.assembly.client.Data.Property;
 import org.kuali.student.common.assembly.client.Data.Value;
+import org.kuali.student.common.assembly.client.HasChangeCallbacks.ChangeCallback;
+import org.kuali.student.common.assembly.client.HasChangeCallbacks.ChangeCallbackRegistration;
 
 /**
  * @author wilj
  *
  */
 @SuppressWarnings("unchecked")
-public class Model implements Serializable {
+public class DataModel implements Serializable, HasChangeCallbacks {
 	public interface QueryCallback<T> {
 		void onResult(QueryPath path, T result);
 	}
@@ -46,13 +50,31 @@ public class Model implements Serializable {
 
 	private Data root;
 
-	protected Model() {
+	private transient Set<ChangeCallback> changeCallbacks;
+	private transient ChangeCallbackRegistration bridgeCallbackReg;
+	
+	protected DataModel() {
 		// do nothing
 	}
 
-	public Model(final ModelDefinition definition, final Data root) {
+	public DataModel(final ModelDefinition definition, final Data root) {
 		this.definition = definition;
 		this.root = root;
+	}
+
+	public ChangeCallbackRegistration addChangeCallback(final ChangeCallback callback) {
+		if (changeCallbacks == null) {
+			changeCallbacks = new HashSet<ChangeCallback>();
+		}
+		changeCallbacks.add(callback);
+		return new ChangeCallbackRegistration() {
+			@Override
+			public void remove() {
+				if (changeCallbacks != null) {
+					changeCallbacks.remove(callback);
+				}
+			}
+		};
 	}
 
 	public <T> T get(final QueryPath path) {
@@ -166,6 +188,19 @@ public class Model implements Serializable {
 	 * @param root the root to set
 	 */
 	public void setRoot(final Data root) {
+		if (bridgeCallbackReg != null) {
+			bridgeCallbackReg.remove();
+		}
 		this.root = root;
+		bridgeCallbackReg = root.addChangeCallback(new ChangeCallback() {
+			@Override
+			public void onChange(ChangeType type, QueryPath path) {
+				if (changeCallbacks != null) {
+					for (ChangeCallback c : changeCallbacks) {
+						c.onChange(type, path);
+					}
+				}
+			}
+		});
 	}
 }

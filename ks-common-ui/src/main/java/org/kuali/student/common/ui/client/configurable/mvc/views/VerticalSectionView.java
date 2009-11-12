@@ -14,7 +14,7 @@
  */
 package org.kuali.student.common.ui.client.configurable.mvc.views;
 
-import org.kuali.student.common.assembly.client.Model;
+import org.kuali.student.common.assembly.client.DataModel;
 import org.kuali.student.common.ui.client.configurable.mvc.RowDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionView;
@@ -38,7 +38,7 @@ public class VerticalSectionView extends SectionView {
     private boolean loaded = false;
     private String modelId;
     
-    private Model model;
+    private DataModel model;
     
     public VerticalSectionView(Enum<?> viewEnum, String name, String modelId) {     
         super(viewEnum, name);
@@ -63,7 +63,7 @@ public class VerticalSectionView extends SectionView {
         }
 
         //Request model and redraw view
-        getController().requestModel(modelId, new ModelRequestCallback<Model>(){
+        getController().requestModel(modelId, new ModelRequestCallback<DataModel>(){
 
             @Override
             public void onRequestFail(Throwable cause) {
@@ -71,7 +71,7 @@ public class VerticalSectionView extends SectionView {
             }
 
             @Override
-            public void onModelReady(org.kuali.student.common.ui.client.mvc.Model<Model> m) {
+            public void onModelReady(org.kuali.student.common.ui.client.mvc.Model<DataModel> m) {
                 model = m.get();
                 redraw();                                   
             }
@@ -103,9 +103,9 @@ public class VerticalSectionView extends SectionView {
     }
     
     public void updateView(){
-        getController().requestModel(modelId, new ModelRequestCallback<Model>(){
+        getController().requestModel(modelId, new ModelRequestCallback<DataModel>(){
             @Override
-            public void onModelReady(org.kuali.student.common.ui.client.mvc.Model<Model> m) {
+            public void onModelReady(org.kuali.student.common.ui.client.mvc.Model<DataModel> m) {
                 updateView(m.get());                
             }
 

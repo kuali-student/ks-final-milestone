@@ -18,7 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.common.assembly.client.Model;
+import org.kuali.student.common.assembly.client.DataModel;
 import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.common.assembly.client.Data.Property;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
@@ -30,7 +30,7 @@ public class SelectItemWidgetBinding implements ModelWidgetBinding<KSSelectItemW
     private SelectItemWidgetBinding(){}
     
     @Override
-    public void setModelValue(KSSelectItemWidgetAbstract object, Model model, String path) {
+    public void setModelValue(KSSelectItemWidgetAbstract object, DataModel model, String path) {
         QueryPath qPath = QueryPath.parse(path);
                
         if (object.isMultipleSelect()){                                            
@@ -49,7 +49,7 @@ public class SelectItemWidgetBinding implements ModelWidgetBinding<KSSelectItemW
     }
 
     @Override
-    public void setWidgetValue(KSSelectItemWidgetAbstract object, Model model, String path) {
+    public void setWidgetValue(KSSelectItemWidgetAbstract object, DataModel model, String path) {
         QueryPath qPath = QueryPath.parse(path);
         Object value = model.get(qPath);
         object.clear();

@@ -14,6 +14,7 @@
  */
 package org.kuali.student.common.ui.client.mvc;
 
+import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.core.dto.Idable;
 
 import com.google.gwt.event.shared.GwtEvent;
@@ -33,12 +34,13 @@ public class ModelChangeEvent<T> extends GwtEvent<ModelChangeHandler<T>> {
      * @author Kuali Student Team
      */
     public enum Action {
-        ADD, REMOVE, UPDATE
+        ADD, REMOVE, UPDATE, RELOAD
     }
 
     private final Action action;
     private final T value;
-
+    private final QueryPath path;
+    
     /**
      * Constructs a new ModelChangeEvent with an action and a value
      * 
@@ -48,6 +50,18 @@ public class ModelChangeEvent<T> extends GwtEvent<ModelChangeHandler<T>> {
     public ModelChangeEvent(Action action, T value) {
         this.action = action;
         this.value = value;
+        this.path = null;
+    }
+    /**
+     * Constructs a new ModelChangeEvent with an action and a QueryPath
+     * 
+     * @param action
+     * @param path the path that was changed
+     */
+    public ModelChangeEvent(Action action, QueryPath path) {
+        this.action = action;
+        this.path = path;
+        this.value = null;
     }
 
     @Override
@@ -78,5 +92,8 @@ public class ModelChangeEvent<T> extends GwtEvent<ModelChangeHandler<T>> {
     public T getValue() {
         return this.value;
     }
+	public QueryPath getPath() {
+		return path;
+	}
 
 }

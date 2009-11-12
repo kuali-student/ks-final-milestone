@@ -17,7 +17,7 @@ package org.kuali.student.common.ui.client.configurable.mvc;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.assembly.client.Model;
+import org.kuali.student.common.assembly.client.DataModel;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.SectionBinding;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
@@ -284,11 +284,11 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
         }
     }
     
-    public void updateModel(Model model){
+    public void updateModel(DataModel model){
         SectionBinding.INSTANCE.setModelValue(this, model, "");
     }
        
-    public void updateView(Model model) {
+    public void updateView(DataModel model) {
         SectionBinding.INSTANCE.setWidgetValue(this, model, "");
     }
 

@@ -18,7 +18,7 @@ package org.kuali.student.common.ui.client.configurable.mvc.binding;
 import java.util.Iterator;
 
 import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.common.assembly.client.Model;
+import org.kuali.student.common.assembly.client.DataModel;
 import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.common.assembly.client.Data.Property;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite;
@@ -37,20 +37,20 @@ public class MultiplicityCompositeBinding implements ModelWidgetBinding<Multipli
 
     
     /**
-     * @see org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding#setModelValue(java.lang.Object, org.kuali.student.common.assembly.client.Model, java.lang.String)
+     * @see org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding#setModelValue(java.lang.Object, org.kuali.student.common.assembly.client.DataModel, java.lang.String)
      */
     @Override
-    public void setModelValue(MultiplicityComposite mcWidget, Model model, String path) {
+    public void setModelValue(MultiplicityComposite mcWidget, DataModel model, String path) {
         for (MultiplicityItem item:mcWidget.getItems()){
             MultiplicityItemBinding.INSTANCE.setModelValue(item, model, path);
         }
     }
 
     /**
-     * @see org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding#setWidgetValue(java.lang.Object, org.kuali.student.common.assembly.client.Model, java.lang.String)
+     * @see org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding#setWidgetValue(java.lang.Object, org.kuali.student.common.assembly.client.DataModel, java.lang.String)
      */
     @Override
-    public void setWidgetValue(MultiplicityComposite mcWidget, Model model, String path) {
+    public void setWidgetValue(MultiplicityComposite mcWidget, DataModel model, String path) {
         mcWidget.clear();
         
         QueryPath qPath = QueryPath.parse(path);
