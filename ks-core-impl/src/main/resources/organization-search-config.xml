@@ -16,10 +16,14 @@
 			<search:name>Organization Full View Less Hierarchies</search:name>
 			<search:desc>Full view of the Organization Less Hierarchies</search:desc>
 			<search:resultColumns>
-			<ref bean="org.resultColumn.orgId" />
-			<ref bean="org.resultColumn.orgShortName" />
-			<ref bean="org.resultColumn.orgLongName" />
-			<ref bean="org.resultColumn.orgType" />
+			<ref bean="org.resultColumn.orgId" /> 
+			<!-- <ref bean="org.resultColumn.orgShortName" /> -->
+			<search:resultColumn id="org.resultColumn.orgOptionalLongName">
+				<search:name>Name</search:name>
+				<search:desc>Long name for the organization, recorded as the default listing.</search:desc>
+				<search:dataType>string</search:dataType>
+			</search:resultColumn>
+			<!-- <ref bean="org.resultColumn.orgType" /> -->
 			</search:resultColumns>
 		</search:searchResultTypeInfo>
 		<search:searchCriteriaTypeInfo id="org.criteria.orgAdvancedCriteria">

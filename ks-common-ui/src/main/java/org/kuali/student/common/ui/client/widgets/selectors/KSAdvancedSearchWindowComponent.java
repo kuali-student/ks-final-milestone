@@ -14,17 +14,12 @@
  */
 package org.kuali.student.common.ui.client.widgets.selectors;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
-import org.kuali.student.common.ui.client.widgets.KSThinTitleBar;
-import org.kuali.student.core.search.dto.QueryParamValue;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -74,25 +69,13 @@ public class KSAdvancedSearchWindowComponent implements HasSelectionHandlers<Lis
     private KSLabel titleLabel = new KSLabel();
     private KSButton cancelButton = new KSButton("Cancel"); 
     
-    private String selectedOrgName;
 	                  
 
-	public KSAdvancedSearchWindowComponent(BaseRpcServiceAsync searchService, String searchTypeKey, String resultIdKey, List<String> basicSearchCriteria, List<String> advancedSearchCriteria, List<QueryParamValue> contextCriteria, String searchTitle){
-        init(searchService, searchTypeKey, resultIdKey, searchService, searchTypeKey, resultIdKey, basicSearchCriteria, advancedSearchCriteria, contextCriteria, searchTitle);       
+	public KSAdvancedSearchWindowComponent(SearchComponentConfiguration searchConfig){
+        init(searchConfig);       
     }
     
-    private void init(
-            BaseRpcServiceAsync basicSearchService, 
-            String basicSearchTypeKey, 
-            String basicSearchResultIdKey,
-            BaseRpcServiceAsync advancedSearchService,
-            String advancedSearchTypeKey,
-            String advancedSearchResultIdKey,
-            List<String> basicSearchCriteria,
-            List<String> advancedSearchCriteria,
-            List<QueryParamValue> contextCriteria,
-            String searchTitle
-            ){
+    private void init(SearchComponentConfiguration searchConfig){
         
         addSearchModeHandlers();
         
@@ -108,16 +91,16 @@ public class KSAdvancedSearchWindowComponent implements HasSelectionHandlers<Lis
             }
         };        
         
-        basicSearch = new KSAdvancedSearchRpcComponent(basicSearchService, basicSearchTypeKey, basicSearchResultIdKey, basicSearchCriteria, contextCriteria, searchTitle);       
+        basicSearch = new KSAdvancedSearchRpcComponent(searchConfig, searchConfig.getBasicCriteria());       
         basicSearch.addSelectionHandler(selectionHandler);
-        advancedSearch = new KSAdvancedSearchRpcComponent(advancedSearchService, advancedSearchTypeKey, advancedSearchResultIdKey, advancedSearchCriteria, contextCriteria, searchTitle);       
+        advancedSearch = new KSAdvancedSearchRpcComponent(searchConfig, searchConfig.getAdvancedCriteria());       
         advancedSearch.addSelectionHandler(selectionHandler);
 
 
         selectedSearchMode = SearchMode.BASIC;
         setSelectedSearchMode(selectedSearchMode);
         
-        titleBar = new KSThinTitleBarComponent(searchTitle);
+        titleBar = new KSThinTitleBarComponent(searchConfig.getSearchDialogTitle());
         titleBar.addCancelButtonHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
@@ -226,12 +209,4 @@ public class KSAdvancedSearchWindowComponent implements HasSelectionHandlers<Lis
     private void fireSelectEvent(List<String> selectedItems){
         SelectionEvent.fire(this, selectedItems);
     }
-
-    public String getSelectedOrgName() {
-		return selectedOrgName;
-	}
-
-	public void setSelectedOrgName(String selectedOrgName) {
-		this.selectedOrgName = selectedOrgName;
-	}
 }

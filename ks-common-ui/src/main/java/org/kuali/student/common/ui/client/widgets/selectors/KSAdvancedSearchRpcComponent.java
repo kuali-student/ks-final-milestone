@@ -19,9 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSDatePickerAbstract;
@@ -83,20 +81,14 @@ public class KSAdvancedSearchRpcComponent extends Composite implements HasSelect
     private FlexTable searchParamTable = new FlexTable();
     
     private List<String> searchCriteria;  //which criteria will be shown in the UI search screen
-    private List<QueryParamValue> contextCriteria = new ArrayList<QueryParamValue>();  //hidden criteria set to a context-specific value
+    private SearchComponentConfiguration searchConfig;    
     
-    private BaseRpcServiceAsync searchService;
-    private String searchTypeKey;
-    
-    public KSAdvancedSearchRpcComponent(BaseRpcServiceAsync searchService, String searchTypeKey, String resultIdKey,
-    										List<String> searchCriteria, List<QueryParamValue> contextCriteria, String searchTitle)       
+    public KSAdvancedSearchRpcComponent(SearchComponentConfiguration searchConfig, List<String> searchCriteria)       
     {
-        this.searchService = searchService;
-        this.searchTypeKey = searchTypeKey;
         this.searchCriteria = searchCriteria;
-        this.contextCriteria = contextCriteria;
+        this.searchConfig = searchConfig;
         
-        searchResultsTable = new SearchBackedTable(searchService, searchTypeKey, resultIdKey);
+        searchResultsTable = new SearchBackedTable(searchConfig.getSearchService(), searchConfig.getSearchTypeKey(), searchConfig.getResultIdKey());
         generateSearchLayout();
                
         tabPanel.setSpacing(10);
@@ -127,7 +119,7 @@ public class KSAdvancedSearchRpcComponent extends Composite implements HasSelect
     
     
     private void generateSearchLayout() {
-        searchService.getSearchType(searchTypeKey, new AsyncCallback<SearchTypeInfo>(){
+    	searchConfig.getSearchService().getSearchType(searchConfig.getSearchTypeKey(), new AsyncCallback<SearchTypeInfo>(){
 
             public void onFailure(Throwable caught) {
                 Window.alert("Error generating search layout: " + caught);
@@ -271,7 +263,7 @@ public class KSAdvancedSearchRpcComponent extends Composite implements HasSelect
         }
         
         //add context-specific criteria
-        for (QueryParamValue contextCriterion : contextCriteria){
+        for (QueryParamValue contextCriterion : searchConfig.getContextCriteria()){
         	queryParamValues.add(contextCriterion);
         }             
         
@@ -308,7 +300,7 @@ public class KSAdvancedSearchRpcComponent extends Composite implements HasSelect
     }
 
     private void populateSearchEnumeration(final KSSelectItemWidgetAbstract selectField, String searchType){               
-        searchService.searchForResults(searchType, null, new AsyncCallback<List<Result>>(){
+    	searchConfig.getSearchService().searchForResults(searchType, null, new AsyncCallback<List<Result>>(){
 
             @Override
             public void onFailure(Throwable caught) {

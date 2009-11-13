@@ -51,29 +51,12 @@ public class KSSearchComponent extends Composite implements SuggestPicker {
     //data
     final KSSuggestBox suggestBox;
     final KSAdvancedSearchWindowComponent advSearchWindow; 
-	private List<QueryParamValue> contextCriteria = new ArrayList<QueryParamValue>();  
 	
 	private final FocusGroup focus = new FocusGroup(this);
     
-    public KSSearchComponent(BaseRpcServiceAsync searchService, String searchTypeKey, String resultIdKey,
-    							List<String> basicSearchCriteria, List<String> advancedSearchCriteria, String searchTitle) {
+    public KSSearchComponent(SearchComponentConfiguration searchConfig, SearchSuggestOracle orgSearchOracle) {
     	    	
     	
-    	// TODO why is there config stuff for org in a generic component?
-    	final SearchSuggestOracle orgSearchOracle = new SearchSuggestOracle(searchService,
-    	        "org.search.orgByShortNameAndType", 
-    	        "org.queryParam.orgShortName", //field user is entering and we search on... add '%' the parameter
-    	        "org.queryParam.orgId", 		//if one wants to search by ID rather than by name
-    	        "org.resultColumn.orgId", 		
-    	        "org.resultColumn.orgShortName");
-    	  			
-		//Restrict searches to Department Types
-		ArrayList<QueryParamValue> params = new ArrayList<QueryParamValue>();
-		QueryParamValue orgTypeParam = new QueryParamValue();
-		orgTypeParam.setKey("org.queryParam.orgType");
-		orgTypeParam.setValue("kuali.org.Department");
-		params.add(orgTypeParam);
-		orgSearchOracle.setAdditionalQueryParams(params);		
     	
     	suggestBox = new KSSuggestBox(orgSearchOracle); 
     	suggestBox.setAutoSelectEnabled(false);      	          	
@@ -84,17 +67,12 @@ public class KSSearchComponent extends Composite implements SuggestPicker {
 		focus.addWidget(suggestBox);
 		
         searchOrBrowserLink.add(searchLink);
-        searchOrBrowserLink.add(new KSLabel("  or  "));
-        searchOrBrowserLink.add(browseLink);
+     //   searchOrBrowserLink.add(new KSLabel("  or  "));
+     //   searchOrBrowserLink.add(browseLink);
         layout.add(searchOrBrowserLink);
         
-		QueryParamValue orgOptionalTypeParam = new QueryParamValue();
-		orgOptionalTypeParam.setKey("org.queryParam.orgOptionalType");
-		orgOptionalTypeParam.setValue("kuali.org.Department");    //right now hard-coded criteria set to context specific value i.e. Administrative org
-		contextCriteria.add(orgOptionalTypeParam);           
-        
         //define advanced search link and window
-    	advSearchWindow = new KSAdvancedSearchWindowComponent(searchService, searchTypeKey, resultIdKey, basicSearchCriteria, advancedSearchCriteria, contextCriteria, searchTitle);  
+    	advSearchWindow = new KSAdvancedSearchWindowComponent(searchConfig);  
     	advSearchWindow.addSelectionHandler(selectionHandler);
         searchLink.addClickHandler(new ClickHandler(){
             @Override
