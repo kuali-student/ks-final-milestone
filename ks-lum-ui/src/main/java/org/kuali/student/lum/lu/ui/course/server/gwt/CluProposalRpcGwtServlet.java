@@ -984,6 +984,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	            		// TODO - this will be Clu-Lo or Lo-Lo, depending on where we are in the tree
 	            		service.addOutcomeLoToClu(createdLo.getId(), cluInfo.getId());
 	            	} else {
+	            		// update it in case the client updated description, etc.
+	            		learningObjectiveService.updateLo(info.getId(), info);
 	            		// make sure the proper CluLoRelation exists
 	        			if ( ! service.getLoIdsByClu(cluInfo.getId()).contains(existingLo.getId()) ) {
 	            			// TODO - will need to be this call or
