@@ -56,12 +56,14 @@ public class KSSearchComponent extends Composite {
     	        "org.queryParam.orgId", 		//if one wants to search by ID rather than by name
     	        "org.resultColumn.orgId", 		
     	        "org.resultColumn.orgShortName");
-    	  	
+    	  			
+		//Restrict searches to Department Types
+		ArrayList<QueryParamValue> params = new ArrayList<QueryParamValue>();
 		QueryParamValue orgTypeParam = new QueryParamValue();
-		orgTypeParam.setKey("org.queryParam.orgOptionalType");
-		orgTypeParam.setValue("kuali.org.Department");    //right now hard-coded criteria set to context specific value i.e. Administrative org
-		contextCriteria.add(orgTypeParam);    	
-		orgSearchOracle.setAdditionalQueryParams(contextCriteria);		
+		orgTypeParam.setKey("org.queryParam.orgType");
+		orgTypeParam.setValue("kuali.org.Department");
+		params.add(orgTypeParam);
+		orgSearchOracle.setAdditionalQueryParams(params);		
     	
     	suggestBox = new KSSuggestBox(orgSearchOracle); 
     	suggestBox.setAutoSelectEnabled(false);      	          	
@@ -72,6 +74,11 @@ public class KSSearchComponent extends Composite {
         searchOrBrowserLink.add(new KSLabel("  or  "));
         searchOrBrowserLink.add(browseLink);
         layout.add(searchOrBrowserLink);
+        
+		QueryParamValue orgOptionalTypeParam = new QueryParamValue();
+		orgOptionalTypeParam.setKey("org.queryParam.orgOptionalType");
+		orgOptionalTypeParam.setValue("kuali.org.Department");    //right now hard-coded criteria set to context specific value i.e. Administrative org
+		contextCriteria.add(orgOptionalTypeParam);           
         
         //define advanced search link and window
     	advSearchWindow = new KSAdvancedSearchWindowComponent(searchService, searchTypeKey, resultIdKey, basicSearchCriteria, advancedSearchCriteria, contextCriteria, searchTitle);  
