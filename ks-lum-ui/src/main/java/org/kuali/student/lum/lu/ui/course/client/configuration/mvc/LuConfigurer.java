@@ -45,9 +45,12 @@ import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.selectors.KSSearchComponent;
+import org.kuali.student.common.ui.client.widgets.selectors.SearchComponentConfiguration;
+import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
+import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRequisitesSectionView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer;
@@ -158,18 +161,8 @@ public class LuConfigurer {
      */
     private static SectionView generateCourseRequisitesSection() {
         CourseRequisitesSectionView section = new CourseRequisitesSectionView(LuSections.COURSE_REQUISITES, getLabel(LUConstants.REQUISITES_LABEL_KEY), CluProposalModelDTO.class);
-        section.setSectionTitle(SectionTitle.generateH1Title(getLabel(LUConstants.REQUISITES_LABEL_KEY)));
-
-		/* TODO: Once we have a section that allows for flow between rule screens
-        VerticalSection enrollmentSection = new VerticalSection();
-        enrollmentSection.setSectionTitle(SectionTitle.generateH2Title("Enrollment Restrictions"));
-        enrollmentSection.addField(new FieldDescriptor("rationalle", "Rationalle", Type.STRING));
-        enrollmentSection.addField(new FieldDescriptor("rules", "Rules", Type.STRING));
-        enrollmentSection.addWidget(new KSButton());
-        section.addSection(enrollmentSection);   */
-        
+        section.setSectionTitle(SectionTitle.generateH1Title(getLabel(LUConstants.REQUISITES_LABEL_KEY)));        
         return section;
-
     }
 
     private static SectionView generateActiveDatesSection() {
@@ -180,16 +173,11 @@ public class LuConfigurer {
 
         VerticalSection endDate = initSection(getH3Title(LUConstants.END_DATE_LABEL_KEY), WITH_DIVIDER);
         endDate.addField(new FieldDescriptor("cluInfo/expirationDate", getLabel(LUConstants.EXPIRATION_DATE_LABEL_KEY), Type.DATE, new KSDatePicker()));
-
-        CustomNestedSection startSession = new CustomNestedSection();
-        startSession.addField(new FieldDescriptor("cluInfo/startSession", getLabel("Start Session"), Type.STRING, new AtpPicker()));
         
         section.addSection(startDate);
         section.addSection(endDate);
-      //  section.addSection(startSession);
         
         return section;
-
     }
 
     private static SectionView generateFinancialsSection() {
@@ -220,8 +208,8 @@ public class LuConfigurer {
         VerticalSection campus = initSection(getH3Title(LUConstants.CAMPUS_LOCATION_LABEL_KEY), WITH_DIVIDER);    
         campus.addField(new FieldDescriptor("cluInfo/campusLocationList", null, Type.STRING, new CampusLocationList()));
 
-        VerticalSection adminOrgs = initSection(getH3Title(LUConstants.ADMIN_ORG_LABEL_KEY), WITH_DIVIDER);    
-        adminOrgs.addField(new FieldDescriptor("cluInfo/adminOrg", null, Type.STRING, new OrgAdvSearchPicker())); //new OrgPicker()));
+        VerticalSection adminOrgs = initSection(getH3Title(LUConstants.ADMIN_ORG_LABEL_KEY), WITH_DIVIDER);           
+        adminOrgs.addField(new FieldDescriptor("cluInfo/adminOrg", null, Type.STRING, configureAdminOrgSearch()));
 //        adminOrgs.addField(new FieldDescriptor("cluInfo/primaryAdminOrg/orgId", null, Type.STRING, new OrgPicker()));
 //        adminOrgs.addField(new FieldDescriptor("cluInfo/alternateAdminOrgs", null, Type.LIST, new AlternateAdminOrgList()));
         
@@ -232,30 +220,7 @@ public class LuConfigurer {
         
         return section;
 
-    }
-    
-    private static class OrgAdvSearchPicker extends  KSSearchComponent {
-    	
-    	private static OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
-    	
-    	private static List<String> basicCriteria = new ArrayList<String>() {
-    		   {
-    		      add("org.queryParam.orgOptionalLongName");
-    		   }
-    		};
-    	
-        private static List<String> advancedCriteria = new ArrayList<String>() {
-     		   {
-     			   add("org.queryParam.orgOptionalLongName");
-     			   add("org.queryParam.orgOptionalLocation");
-     			   add("org.queryParam.orgOptionalId");
-     		   }
-     		};    		
-    		
-    	public OrgAdvSearchPicker() {
-    		super(orgRpcServiceAsync, "org.search.advanced", "org.resultColumn.orgId", basicCriteria, advancedCriteria, "Find Organization");
-    	}
-    }
+    } 
 
     public static SectionView generateCourseInfoSection(){
         VerticalSectionView section = initSectionView(LuSections.COURSE_INFO, LUConstants.INFORMATION_LABEL_KEY); 
@@ -799,6 +764,57 @@ public class LuConfigurer {
             return multi;
         }
     }
+    
+    private static KSSearchComponent configureAdminOrgSearch() {
+    	   
+    	OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
+    	
+    	List<String> basicCriteria = new ArrayList<String>() {
+  		   {
+  		      add("org.queryParam.orgOptionalLongName");
+  		   }
+  		};
+  	
+  		List<String> advancedCriteria = new ArrayList<String>() {
+   		   {
+   			   add("org.queryParam.orgOptionalLongName");
+   			   add("org.queryParam.orgOptionalLocation");
+   			   add("org.queryParam.orgOptionalId");
+   		   }
+   		};    
+   		
+        //set context criteria
+   		List<QueryParamValue> contextCriteria = new ArrayList<QueryParamValue>();   		
+		QueryParamValue orgOptionalTypeParam = new QueryParamValue();
+		orgOptionalTypeParam.setKey("org.queryParam.orgOptionalType");
+		orgOptionalTypeParam.setValue("kuali.org.Department");   
+		contextCriteria.add(orgOptionalTypeParam);      		
+    	
+    	SearchComponentConfiguration searchConfig = new SearchComponentConfiguration(contextCriteria, basicCriteria, advancedCriteria);
+    	
+    	searchConfig.setSearchDialogTitle("Find Organization");
+    	searchConfig.setSearchService(orgRpcServiceAsync);
+    	searchConfig.setSearchTypeKey("org.search.advanced");
+    	searchConfig.setResultIdKey("org.resultColumn.orgId");
+    	
+    	//TODO: following code should be in KSSearchComponent with config parameters set within SearchComponentConfiguration class
+    	final SearchSuggestOracle orgSearchOracle = new SearchSuggestOracle(searchConfig.getSearchService(),
+    	        "org.search.orgByShortNameAndType", 
+    	        "org.queryParam.orgShortName", //field user is entering and we search on... add '%' the parameter
+    	        "org.queryParam.orgId", 		//if one wants to search by ID rather than by name
+    	        "org.resultColumn.orgId", 		
+    	        "org.resultColumn.orgShortName");
+    	  			
+		//Restrict searches to Department Types
+		ArrayList<QueryParamValue> params = new ArrayList<QueryParamValue>();
+		QueryParamValue orgTypeParam = new QueryParamValue();
+		orgTypeParam.setKey("org.queryParam.orgType");
+		orgTypeParam.setValue("kuali.org.Department");
+		params.add(orgTypeParam);
+		orgSearchOracle.setAdditionalQueryParams(params);	
+    	
+    	return new KSSearchComponent(searchConfig, orgSearchOracle);
+    }       
     
     /*
      * Configuring Program specific screens.

@@ -48,6 +48,8 @@ import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.selectors.KSSearchComponent;
+import org.kuali.student.common.ui.client.widgets.selectors.SearchComponentConfiguration;
+import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRequisitesSectionView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
@@ -62,6 +64,7 @@ import org.kuali.student.lum.lu.ui.course.client.widgets.OrgPicker;
 
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
+import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.lum.lu.ui.course.client.widgets.AtpPicker;
 
 import com.google.gwt.core.client.GWT;
@@ -189,12 +192,7 @@ public class CourseConfigurer {
         section.addSection(startDate);
         section.addSection(endDate);
         
-        // FIXME wilj: this code was added by Zdenek in the LuConfigurer, needs to be merged/corrected for CourseConfigurer
-//        CustomNestedSection startSession = new CustomNestedSection();
-//        startSession.addField(new FieldDescriptor("cluInfo/startSession", getLabel("Start Session"), Type.STRING, new AtpPicker()));
-//          section.addSection(startSession);
         return section;
-
     }
 
     private static SectionView generateFinancialsSection() {
@@ -228,7 +226,7 @@ public class CourseConfigurer {
         VerticalSection adminOrgs = initSection(getH3Title(LUConstants.ADMIN_ORG_LABEL_KEY), WITH_DIVIDER);    
         
         // FIXME the new OrgAdvSearchPicker doesn't fire selection/value change events correctly, won't work with binding
-//        adminOrgs.addField(new FieldDescriptor("course/department", null, Type.STRING, new OrgAdvSearchPicker()));
+//        adminOrgs.addField(new FieldDescriptor("course/department", null, Type.STRING, configureAdminOrgSearch()));
         FieldDescriptor deptDescriptor = new FieldDescriptor("course/department", null, Type.STRING, new OrgListPicker());
         final QueryPath deptPath = QueryPath.parse(deptDescriptor.getFieldKey());
         deptDescriptor.setWidgetBinding(new ModelWidgetBinding<OrgListPicker>() {
@@ -808,28 +806,56 @@ public class CourseConfigurer {
         }
     }
 
-    private static class OrgAdvSearchPicker extends  KSSearchComponent {
+    private static KSSearchComponent configureAdminOrgSearch() {
+    	   
+    	OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
     	
-    	private static OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
+    	List<String> basicCriteria = new ArrayList<String>() {
+  		   {
+  		      add("org.queryParam.orgOptionalLongName");
+  		   }
+  		};
+  	
+  		List<String> advancedCriteria = new ArrayList<String>() {
+   		   {
+   			   add("org.queryParam.orgOptionalLongName");
+   			   add("org.queryParam.orgOptionalLocation");
+   			   add("org.queryParam.orgOptionalId");
+   		   }
+   		};    
+   		
+        //set context criteria
+   		List<QueryParamValue> contextCriteria = new ArrayList<QueryParamValue>();   		
+		QueryParamValue orgOptionalTypeParam = new QueryParamValue();
+		orgOptionalTypeParam.setKey("org.queryParam.orgOptionalType");
+		orgOptionalTypeParam.setValue("kuali.org.Department");   
+		contextCriteria.add(orgOptionalTypeParam);      		
     	
-    	private static List<String> basicCriteria = new ArrayList<String>() {
-    		   {
-    		      add("org.queryParam.orgOptionalLongName");
-    		   }
-    		};
+    	SearchComponentConfiguration searchConfig = new SearchComponentConfiguration(contextCriteria, basicCriteria, advancedCriteria);
     	
-        private static List<String> advancedCriteria = new ArrayList<String>() {
-     		   {
-     			   add("org.queryParam.orgOptionalLongName");
-     			   add("org.queryParam.orgOptionalLocation");
-     			   add("org.queryParam.orgOptionalId");
-     		   }
-     		};    		
-    		
-    	public OrgAdvSearchPicker() {
-    		super(orgRpcServiceAsync, "org.search.advanced", "org.resultColumn.orgId", basicCriteria, advancedCriteria, "Find Organization");
-    	}
-    }
+    	searchConfig.setSearchDialogTitle("Find Organization");
+    	searchConfig.setSearchService(orgRpcServiceAsync);
+    	searchConfig.setSearchTypeKey("org.search.advanced");
+    	searchConfig.setResultIdKey("org.resultColumn.orgId");
+    	
+    	//TODO: following code should be in KSSearchComponent with config parameters set within SearchComponentConfiguration class
+    	final SearchSuggestOracle orgSearchOracle = new SearchSuggestOracle(searchConfig.getSearchService(),
+    	        "org.search.orgByShortNameAndType", 
+    	        "org.queryParam.orgShortName", //field user is entering and we search on... add '%' the parameter
+    	        "org.queryParam.orgId", 		//if one wants to search by ID rather than by name
+    	        "org.resultColumn.orgId", 		
+    	        "org.resultColumn.orgShortName");
+    	  			
+		//Restrict searches to Department Types
+		ArrayList<QueryParamValue> params = new ArrayList<QueryParamValue>();
+		QueryParamValue orgTypeParam = new QueryParamValue();
+		orgTypeParam.setKey("org.queryParam.orgType");
+		orgTypeParam.setValue("kuali.org.Department");
+		params.add(orgTypeParam);
+		orgSearchOracle.setAdditionalQueryParams(params);	
+    	
+    	return new KSSearchComponent(searchConfig, orgSearchOracle);
+    }   
 
     /*
      * Configuring Program specific screens.
