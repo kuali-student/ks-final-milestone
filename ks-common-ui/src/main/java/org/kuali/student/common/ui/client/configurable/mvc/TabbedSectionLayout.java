@@ -83,6 +83,9 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 		public void setTabDefaultView(Enum<?> tabDefaultView) {
 			this.tabDefaultView = tabDefaultView;
 		}
+		
+		
+		
 
 		private KSButton nextButton = new KSButton("Save & Continue", new ClickHandler(){
 	        public void onClick(final ClickEvent event) {
@@ -237,6 +240,23 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 		super.initWidget(container);
 	}
 	
+	public TabbedSectionLayout(KSTitleContainerImpl container){
+	    this.container.setContent(tabPanel);
+        this.container.setTitle(container.getTitle());
+        this.container.setStatus(container.getStatus());
+        this.container.setLinkText(container.getLinkText());
+        super.initWidget(this.container);
+	}
+	
+	
+    public KSTitleContainerImpl getContainer(){
+        return this.container;
+    }
+    
+    public void setContainer(KSTitleContainerImpl container){
+        this.container=container;
+    }
+    
 	@Override
 	protected <V extends Enum<?>> View getView(V viewType) {
 		return sectionViewMap.get(viewType.name());
@@ -246,7 +266,7 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 	public Class<? extends Enum<?>> getViewsEnum() {
 		// TODO Auto-generated method stub
 		return null;
-	}
+	}	
 
 	@Override
 	protected void hideView(View view) {
