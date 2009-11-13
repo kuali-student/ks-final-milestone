@@ -47,6 +47,8 @@ public class IndexPageServlet extends HttpServlet {
 			HttpServletResponse response) throws IOException {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
+		
+		//Get the username
 		String username = "";
 		Authentication auth = SecurityContextHolder.getContext()
 				.getAuthentication();
@@ -60,7 +62,11 @@ public class IndexPageServlet extends HttpServlet {
 			}
 		}
 		
-		String riceUrl = ConfigContext.getCurrentContextConfig().getProperty("application.url");
+		//Get the Rice Application Url
+		String riceUrl = ConfigContext.getCurrentContextConfig().getProperty("ks.rice.url");
+		if(null==riceUrl||riceUrl.isEmpty()){
+			riceUrl = ConfigContext.getCurrentContextConfig().getProperty("application.url");
+		}
 		
 		out.println("		<html>\n"
 			      + " 		<head>\n"
