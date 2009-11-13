@@ -43,7 +43,7 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		String optionalQueryString = "";
 		
 		//add in optional
-		List<QueryParamValue> queryParamValuesTemp = new ArrayList(queryParamValues);
+		List<QueryParamValue> queryParamValuesTemp = new ArrayList<QueryParamValue>(queryParamValues);
 		for(QueryParamValue queryParamValue : queryParamValuesTemp){
 			for(QueryParamInfo queryParamInfo:searchTypeInfo.getSearchCriteriaTypeInfo().getQueryParams()){
 				if(queryParamInfo.isOptional()&&queryParamInfo.getKey().equals(queryParamValue.getKey())){
