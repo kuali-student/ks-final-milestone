@@ -43,6 +43,7 @@ import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
+import org.kuali.student.common.ui.client.widgets.selectors.KSSearchComponent;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRequisitesSectionView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
@@ -55,6 +56,11 @@ import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
 import org.kuali.student.lum.lu.ui.course.client.widgets.LOPicker;
 import org.kuali.student.lum.lu.ui.course.client.widgets.OrgPicker;
 
+import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
+import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
+import org.kuali.student.lum.lu.ui.course.client.widgets.AtpPicker;
+
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
@@ -175,9 +181,14 @@ public class CourseConfigurer {
         VerticalSection endDate = initSection(getH3Title(LUConstants.END_DATE_LABEL_KEY), WITH_DIVIDER);
         endDate.addField(new FieldDescriptor("course/expirationDate", getLabel(LUConstants.EXPIRATION_DATE_LABEL_KEY), Type.DATE, new KSDatePicker()));
 
+        
         section.addSection(startDate);
         section.addSection(endDate);
         
+        // FIXME wilj: this code was added by Zdenek in the LuConfigurer, needs to be merged/corrected for CourseConfigurer
+//        CustomNestedSection startSession = new CustomNestedSection();
+//        startSession.addField(new FieldDescriptor("cluInfo/startSession", getLabel("Start Session"), Type.STRING, new AtpPicker()));
+//          section.addSection(startSession);
         return section;
 
     }
@@ -211,7 +222,7 @@ public class CourseConfigurer {
         campus.addField(new FieldDescriptor("course/campusLocations", null, Type.STRING, new CampusLocationList()));
 
         VerticalSection adminOrgs = initSection(getH3Title(LUConstants.ADMIN_ORG_LABEL_KEY), WITH_DIVIDER);    
-        adminOrgs.addField(new FieldDescriptor("course/department", null, Type.STRING, new OrgPicker()));
+        adminOrgs.addField(new FieldDescriptor("course/department", null, Type.STRING, new OrgAdvSearchPicker()));
 //        adminOrgs.addField(new FieldDescriptor("cluInfo/primaryAdminOrg/orgId", null, Type.STRING, new OrgPicker()));
 //        adminOrgs.addField(new FieldDescriptor("cluInfo/alternateAdminOrgs", null, Type.LIST, new AlternateAdminOrgList()));
         
@@ -772,7 +783,30 @@ public class CourseConfigurer {
             return multi;
         }
     }
-    
+
+    private static class OrgAdvSearchPicker extends  KSSearchComponent {
+    	
+    	private static OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
+    	
+    	private static List<String> basicCriteria = new ArrayList<String>() {
+    		   {
+    		      add("org.queryParam.orgOptionalLongName");
+    		   }
+    		};
+    	
+        private static List<String> advancedCriteria = new ArrayList<String>() {
+     		   {
+     			   add("org.queryParam.orgOptionalLongName");
+     			   add("org.queryParam.orgOptionalLocation");
+     			   add("org.queryParam.orgOptionalId");
+     		   }
+     		};    		
+    		
+    	public OrgAdvSearchPicker() {
+    		super(orgRpcServiceAsync, "org.search.advanced", "org.resultColumn.orgId", basicCriteria, advancedCriteria, "Find Organization");
+    	}
+    }
+
     /*
      * Configuring Program specific screens.
      */
