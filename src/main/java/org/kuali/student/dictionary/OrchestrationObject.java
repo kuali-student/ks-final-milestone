@@ -48,22 +48,55 @@ public class OrchestrationObject
   this.hasOwnCreateUpdate = hasOwnCreateUpdate;
  }
 
- private String packagePath;
+ private String dataPackagePath;
 
- public String getPackagePath ()
+ public String getDataPackagePath ()
  {
-  return packagePath;
+  return dataPackagePath;
  }
 
- public void setPackagePath (String packagePath)
+ public void setDataPackagePath (String packagePath)
  {
-  this.packagePath = packagePath;
+  this.dataPackagePath = packagePath;
  }
 
- public String getFullyQualifiedName ()
+
+ private String infoPackagePath;
+
+ public String getInfoPackagePath ()
  {
-  return packagePath +
-   "." + name.substring (0, 1).toUpperCase () + name.substring (1);
+  return infoPackagePath;
+ }
+
+ public void setInfoPackagePath (String infoPackagePath)
+ {
+  this.infoPackagePath = infoPackagePath;
+ }
+
+ public String getInfoJavaClassName ()
+ {
+  return name.substring (0, 1).toUpperCase () + name.substring (1);
+ }
+
+ public String getFullyQualifiedInfoJavaClassName ()
+ {
+  return this.getInfoPackagePath () + "." + this.getInfoJavaClassName ();
+ }
+
+ public String getFullyQualifiedAssemblerName ()
+ {
+  return dataPackagePath + ".assembler" +
+   "." + getInfoJavaClassName () + "Assembler";
+ }
+
+ public String getJavaClassDataName ()
+ {
+  return getInfoJavaClassName () + "Data";
+ }
+
+ public String getFullyQualifiedJavaClassDataName ()
+ {
+  return dataPackagePath + "." + getJavaClassDataName ();
  }
 
  private String assembleFromClass;
@@ -77,5 +110,25 @@ public class OrchestrationObject
  {
   this.assembleFromClass = assembleFromClass;
  }
+
+ @Override
+ public boolean equals (Object obj)
+ {
+  OrchestrationObject that = (OrchestrationObject) obj;
+  return this.name.equals (that.name);
+ }
+
+ @Override
+ public int hashCode ()
+ {
+  return this.name.hashCode ();
+ }
+
+ @Override
+ public String toString ()
+ {
+  return this.name;
+ }
+
 
 }

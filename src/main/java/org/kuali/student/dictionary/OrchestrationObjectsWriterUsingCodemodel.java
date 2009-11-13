@@ -4,8 +4,8 @@
  */
 package org.kuali.student.dictionary;
 
-
 import com.sun.codemodel.ClassType;
+import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JClass;
 import com.sun.codemodel.JClassAlreadyExistsException;
 import com.sun.codemodel.JCodeModel;
@@ -15,6 +15,7 @@ import com.sun.codemodel.JEnumConstant;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JFieldVar;
+import com.sun.codemodel.JForLoop;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JVar;
@@ -32,19 +33,18 @@ import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.lum.lu.assembly.data.client.ModifiableData;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
 
-
 /**
  *
  * @author nwright
  */
-public class OrchestrationObjectWriter
+public class OrchestrationObjectsWriterUsingCodemodel
 {
 
  private DictionaryModel model;
  private String directory;
  public static final String ROOT_PACKAGE = "org.kuali.student.orchestration";
 
- public OrchestrationObjectWriter (DictionaryModel model, String directory)
+ public OrchestrationObjectsWriterUsingCodemodel (DictionaryModel model, String directory)
  {
   this.model = model;
   this.directory = directory;
@@ -90,7 +90,7 @@ public class OrchestrationObjectWriter
 
    try
    {
-    addClassToModel (jcm, map, orchObj);
+    addDataClassToModel (jcm, map, orchObj);
    }
    catch (JClassAlreadyExistsException ex)
    {
@@ -99,11 +99,11 @@ public class OrchestrationObjectWriter
   }
  }
 
- private void addClassToModel (JCodeModel jcm, Map<String, JDefinedClass> map,
+ private void addDataClassToModel (JCodeModel jcm, Map<String, JDefinedClass> map,
                                OrchestrationObject orchObj)
   throws JClassAlreadyExistsException
  {
-  String className = orchObj.getFullyQualifiedName () + "Data";
+  String className = orchObj.getFullyQualifiedJavaClassDataName ();
   System.out.println ("Creating " + className);
   JDefinedClass mainClass = jcm._class (className, ClassType.CLASS);
   map.put (orchObj.getName ().toLowerCase (), mainClass);
@@ -159,7 +159,7 @@ public class OrchestrationObjectWriter
    {
     System.out.println ("Adding Bean Method to Model " + oo.getName () + "." +
      field.getName () + "\t" + field.getType ());
-    addBeanMethodsToModelForField (map.get (oo.getName ().toLowerCase ()), field, map);
+    addBeanMethodsToDataForField (map.get (oo.getName ().toLowerCase ()), field, map);
    }
   }
  }
@@ -187,58 +187,154 @@ public class OrchestrationObjectWriter
                                        OrchestrationObject orchObj)
   throws JClassAlreadyExistsException
  {
-  String className = orchObj.getFullyQualifiedName () + "Assembler";
+  // public class xxxAssembler
+  String className = orchObj.getFullyQualifiedAssemblerName ();
   System.out.println ("Creating assembler for " + className);
   JDefinedClass mainClass = jcm._class (className, ClassType.CLASS);
   map.put (orchObj.getName ().toLowerCase () + "Assembler", mainClass);
 
-
-  JClass genericAssembler = jcm.ref (Assembler.class.getName ());
-  List <JClass> narroweredClasses = new ArrayList ();
-  narroweredClasses.add (jcm._getClass (orchObj.getFullyQualifiedName () + "Data"));
-  narroweredClasses.add (jcm.ref (orchObj.getFullyQualifiedName ()));
-  JClass narrowedAssembler = genericAssembler.narrow (narroweredClasses);
+  // implements Assembler <xxxData, xxxInfo>
+  JClass genericAssembler = jcm.ref (Assembler.class);
+  List<JClass> narrowingClasses = new ArrayList ();
+  JClass targetClass = jcm._getClass (orchObj.getFullyQualifiedJavaClassDataName ());
+  XmlType xmlType = new ModelFinder (model).findXmlType (orchObj.getName ());
+  String infoClassName = new XmlTypeNameBuilder (xmlType.getName (), xmlType.
+   getJavaPackage ()).build ();
+  Class infoClass;
+  try
+  {
+   infoClass = Class.forName (infoClassName);
+  }
+  catch (ClassNotFoundException ex)
+  {
+   throw new DictionaryValidationException ("Could not find " +
+    infoClassName + " on class path.");
+  }
+  JClass sourceClass = jcm.ref (infoClass);
+  narrowingClasses.add (targetClass);
+  narrowingClasses.add (sourceClass);
+  JClass narrowedAssembler = genericAssembler.narrow (narrowingClasses);
   mainClass._implements (narrowedAssembler);
 
-  JDefinedClass dataClass = map.get (orchObj.getName ().toLowerCase ());
-  JMethod assembleMethod = mainClass.method (JMod.PUBLIC, dataClass, "assemble");
+  // @Override
+  // public xxxData assemble (xxxInfo input)
+  //  throws AssemblyException
+  JMethod assembleMethod =
+   mainClass.method (JMod.PUBLIC, targetClass, "assemble");
   assembleMethod.annotate (Override.class);
+  JVar inputParam = assembleMethod.param (sourceClass, "input");
   assembleMethod._throws (AssemblyException.class);
-  JVar inputParam = assembleMethod.param (String.class, "input");
+
+  // if (input == null)
+  // {
+  //   return null;
+  // }
   JExpression inputIsNullExpr = inputParam.eq (JExpr._null ());
   JConditional ifStmnt = assembleMethod.body ()._if (inputIsNullExpr);
   ifStmnt._then ()._return (JExpr._null ());
+
+  // xxxData result = new xxxData ();
   JVar resultVar =
-   assembleMethod.body ().decl (dataClass, "result", JExpr._new (dataClass));
+   assembleMethod.body ().decl (targetClass, "result", JExpr._new (targetClass));
+
+  //
+  // for simple fields
+  // result.setXXX (input.getXXX ());
+  //
+  // for complex fields
+  // result.setYYY (new YYYAssembler ().assemble (input.getYYY ()));
+  // ...
+  // for list fields
+  // Data dataList = new Data ();
+  // for (YYYInfo source : input.getYYY ())
+  // {
+  //   XXXData result = new XXXData ();
+  //   result.setXXX (source.getXXX ());
+  //   dataList.add (result);
+  // }
+  // result.setYYY (new YYYAssembler ().assemble (input.getYYY ()));
+  // ...
   for (OrchestrationObjectField field : orchObj.getFields ())
   {
-   String setMethodCall = "result." + calcSetterMethodName (field.getName ()) +
-    "(";
-   String getMethodCall = "input." + calcGetterMethodName (field.getName ()) +
-    "()";
-
-   Object fieldType = calcFieldTypeToUse (dataClass, field, map);
-   if (fieldType instanceof Class)
-   {
-    assembleMethod.body ().directStatement (setMethodCall + getMethodCall + ");");
-   }
-   else if (fieldType instanceof JDefinedClass)
-   {
-    OrchestrationObject child = findOrchestrationObject (orchObjs, field.getType ());
-    String assemblerName = child.getFullyQualifiedName () + "Assembler";
-    String assemblerCall =
-     "new " + assemblerName + "().get (" + getMethodCall + ")";
-    assembleMethod.body ().directStatement (setMethodCall + assemblerCall + ");");
-   }
-   else
-   {
-    assert false;
-   }
+   addBeanMappingForField (field,
+                           true,
+                           jcm,
+                           assembleMethod.body (),
+                           sourceClass,
+                           targetClass,
+                           inputParam,
+                           resultVar,
+                           map,
+                           orchObjs);
   }
  }
 
- private OrchestrationObject findOrchestrationObject (List<OrchestrationObject> orchObjs,
-                                   String name)
+ private void addBeanMappingForField (OrchestrationObjectField field,
+                                      boolean processAsList,
+                                      JCodeModel jcm,
+                                      JBlock body,
+                                      JClass sourceClass,
+                                      JClass targetClass,
+                                      JVar inputVar,
+                                      JVar resultVar,
+                                      Map<String, JDefinedClass> map,
+                                      List<OrchestrationObject> orchObjs)
+ {
+  // TODO: switch string manipulation and directMethod to invocations.
+  String setter = resultVar.name () + "." +
+   calcSetterMethodName (field.getName ()) +
+   "(";
+  String getter = inputVar.name () + "." +
+   calcGetterMethodName (field.getName ()) +
+   "()";
+
+  if (field.isIsList () && processAsList)
+  {
+   JVar dataList = body.decl (jcm.ref (Data.class), "dataList", JExpr._new (jcm.
+    ref (Data.class)));
+   JForLoop forLoop = body._for ();
+   JVar inptVar = forLoop.init (sourceClass, "inpt", JExpr.direct (getter));
+   JVar rsltVar =
+    forLoop.body ().decl (sourceClass, "rslt", JExpr._new (targetClass));
+   addBeanMappingForField (field,
+                           false,
+                           jcm,
+                           forLoop.body (),
+                           sourceClass,
+                           targetClass,
+                           inptVar,
+                           rsltVar,
+                           map,
+                           orchObjs);
+   body.directStatement (setter + "datalist" + ")");
+   return;
+  }
+  Object fieldType = calcFieldTypeToUse (field, map);
+  if (fieldType instanceof Class)
+  {
+   // result.setXXX (input.getXXX ());
+   body.directStatement (setter + getter + ");");
+   return;
+  }
+  // TODO: Make sure this is really an xxxData class
+  if (fieldType instanceof JDefinedClass)
+  {
+   // result.setYYY (new YYYAssembler ().assemble (input.getYYY ()));
+   OrchestrationObject child =
+    findOrchestrationObject (orchObjs, field.getType ());
+   String assemblerName = child.getFullyQualifiedAssemblerName ();
+   String assemblerCall =
+    "new " + assemblerName + "().assemble (" + getter + ")";
+   body.directStatement (setter + assemblerCall + ");");
+   return;
+  }
+  throw new DictionaryExecutionException ("Generator Logic Error: Unknown/unhandled field type: " +
+   fieldType);
+ }
+
+ private OrchestrationObject findOrchestrationObject (
+  List<OrchestrationObject> orchObjs,
+  String name)
  {
   for (OrchestrationObject orch : orchObjs)
   {
@@ -250,8 +346,7 @@ public class OrchestrationObjectWriter
   return null;
  }
 
- private Object calcFieldTypeToUse (JDefinedClass mainClass,
-                                    OrchestrationObjectField field,
+ private Object calcFieldTypeToUse (OrchestrationObjectField field,
                                     Map<String, JDefinedClass> map)
  {
   if (field.isIsList ())
@@ -267,7 +362,7 @@ public class OrchestrationObjectWriter
    //
    // THIS IS A HACK because Orchestration Objects are not formally defined
    // in the XmlTypes spreadsheeet
-   Object fieldType = map.get (field.getType ().toLowerCase ());
+   JDefinedClass fieldType = map.get (field.getType ().toLowerCase ());
    if (fieldType == null)
    {
     throw new DictionaryValidationException ("Complex field type " +
@@ -314,11 +409,12 @@ public class OrchestrationObjectWriter
   }
   if (xmlType.getPrimitive ().equalsIgnoreCase ("Complex"))
   {
-   Object fieldType = map.get (field.getType ().toLowerCase ());
+   JDefinedClass fieldType = map.get (field.getType ().toLowerCase ());
    if (fieldType == null)
    {
     throw new DictionaryValidationException ("Complex field type " +
-     field.getType () + " for field " + field.getName () + " not found in map");
+     field.getType () + " for field " + field.getParent ().getName () + "." +
+     field.getName () + " not found in map");
    }
    return fieldType;
   }
@@ -327,12 +423,12 @@ public class OrchestrationObjectWriter
    field.getType () + " for field " + field.getName ());
  }
 
- private void addBeanMethodsToModelForField (JDefinedClass mainClass,
+ private void addBeanMethodsToDataForField (JDefinedClass mainClass,
                                              OrchestrationObjectField field,
                                              Map<String, JDefinedClass> map)
  {
 
-  Object fieldType = calcFieldTypeToUse (mainClass, field, map);
+  Object fieldType = calcFieldTypeToUse (field, map);
   // getter
   JMethod getMethod = null;
   if (fieldType instanceof Class)
@@ -384,22 +480,7 @@ public class OrchestrationObjectWriter
 
  public static String calcCONSTANT (String name)
  {
-  StringBuffer buf = new StringBuffer (name.length () + 3);
-  // do the first character so we don't prepend the first with a _ if it is upper
-  buf.append (Character.toUpperCase (name.charAt (0)));
-  for (int i = 1; i <
-   name.length (); i ++)
-  {
-   char c = name.charAt (i);
-   if (Character.isUpperCase (c))
-   {
-    buf.append ('_');
-   }
-
-   buf.append (Character.toUpperCase (c));
-  }
-
-  return buf.toString ();
+  return new JavaEnumConstantCalculator (name).calc ();
  }
 
  private void validate ()
@@ -429,11 +510,17 @@ public class OrchestrationObjectWriter
   List<OrchestrationObject> list = new ArrayList ();
   for (XmlType xmlType : model.getXmlTypes ())
   {
+   // TODO: remove this hack once all java packages exist so we are not trying to copy them.
+   //       ALSO remove the one below
+   if (xmlType.getJavaPackage ().equals (""))
+   {
+    continue;
+   }
    if (xmlType.getPrimitive ().equals ("Complex"))
    {
     OrchestrationObject obj = new OrchestrationObject ();
     list.add (obj);
-    obj.setPackagePath (ROOT_PACKAGE + ".base");
+    obj.setDataPackagePath (ROOT_PACKAGE + ".base");
     obj.setName (xmlType.getName ());
     // these orchestratration data objects get assembled from versions of themself
     // i.e CluInfoData from CluInfo
@@ -443,10 +530,25 @@ public class OrchestrationObjectWriter
     obj.setFields (fields);
     for (MessageStructure ms : model.getMessageStructures ())
     {
-     if (ms.getXmlObject ().equals (xmlType.getName ()))
+     if (ms.getXmlObject ().equalsIgnoreCase (xmlType.getName ()))
      {
+      // TODO: remove this hack once all java packages exist so we are not trying to copy them.
+      //       ALSO remove the one above
+      Field dictField = new ModelFinder (model).findField (ms.getId ());
+      if (dictField == null)
+      {
+       throw new DictionaryValidationException ("could not find corresponding field entry for message structure entry " +
+        ms.getId ());
+      }
+      XmlType fieldXmlType = new ModelFinder (model).findXmlType (dictField.
+       getXmlType ());
+      if (fieldXmlType.getJavaPackage ().equals (""))
+      {
+       continue;
+      }
       OrchestrationObjectField field = new OrchestrationObjectField ();
       fields.add (field);
+      field.setParent (obj);
       field.setName (ms.getShortName ());
       field.setType (calcType (ms.getType ()));
       field.setIsList (calcIsList (ms.getType ()));
@@ -493,7 +595,7 @@ public class OrchestrationObjectWriter
     obj.setName (orch.getParent ());
     // TODO: add this to spreadsheet
     obj.setAssembleFromClass ("TODO: add this to spreadsheet");
-    obj.setPackagePath (ROOT_PACKAGE + ".orch");
+    obj.setDataPackagePath (ROOT_PACKAGE + ".orch");
     obj.setHasOwnCreateUpdate (true);
     fields =
      new ArrayList ();
@@ -502,17 +604,11 @@ public class OrchestrationObjectWriter
 
    }
 
-
-
-
-
-
-
-
    if ( ! orch.getChild ().equals (""))
    {
     OrchestrationObjectField field = new OrchestrationObjectField ();
     fields.add (field);
+    field.setParent (obj);
     field.setName (orch.getChild ());
     field.setType (calcType (orch.getXmlType ()));
     field.setIsList (calcIsCardList (orch.getCard1 ()));

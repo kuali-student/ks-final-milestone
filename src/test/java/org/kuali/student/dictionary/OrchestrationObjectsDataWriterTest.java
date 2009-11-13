@@ -15,10 +15,10 @@ import static org.junit.Assert.*;
  *
  * @author nwright
  */
-public class OrchestrationObjectWriterTest implements TestConstants
+public class OrchestrationObjectsDataWriterTest implements TestConstants
 {
 
- public OrchestrationObjectWriterTest ()
+ public OrchestrationObjectsDataWriterTest ()
  {
  }
 
@@ -43,19 +43,9 @@ public class OrchestrationObjectWriterTest implements TestConstants
  public void tearDown ()
  {
  }
- 
- /**
-  * Test of write method, of class OrchestrationObjectWriter.
-  */
- @Test
- public void testCalcCONSTANT ()
- {
-   System.out.println ("calcCONSTANT");
-   assertEquals ("ABOUT_FACE", OrchestrationObjectWriter.calcCONSTANT ("aboutFace"));
- }
 
  /**
-  * Test of write method, of class OrchestrationObjectWriter.
+  * Test of write method, of class OrchestrationObjectsDataWriter.
   */
  @Test
  public void testWrite ()
@@ -70,8 +60,8 @@ public class OrchestrationObjectWriterTest implements TestConstants
    DictionaryModelLoader loader =
     new DictionaryModelLoader (dictReader, orchReader);
    DictionaryModel cache = new DictionaryModelCache (loader);
-   OrchestrationObjectWriter instance =
-    new OrchestrationObjectWriter (cache, SOURCE_DIRECTORY);
+   OrchestrationObjectsDataWriter instance =
+    new OrchestrationObjectsDataWriter (cache, SOURCE_DIRECTORY);
    instance.write ();
   }
   finally
@@ -81,7 +71,5 @@ public class OrchestrationObjectWriterTest implements TestConstants
   }
   assertEquals (true, true);
  }
-
-
 
 }

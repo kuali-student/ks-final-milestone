@@ -265,6 +265,7 @@ public class DictionaryModelLoader implements DictionaryModel
    info.setHasOwnType (getFixup (worksheetReader, "hasOwnType"));
    info.setHasOwnState (getFixup (worksheetReader, "hasOwnState"));
    info.setHasOwnCreateUpdate (getFixup (worksheetReader, "hasOwnCreateUpdate"));
+   info.setService (getFixup (worksheetReader, "service"));
 
    info.setJavaPackage (getFixup (worksheetReader, "javaPackage"));
    info.setExamples (getFixup (worksheetReader, "examples"));

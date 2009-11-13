@@ -28,12 +28,26 @@ public abstract class XmlWriter
  private int indent;
  private PrintStream out;
 
+ public XmlWriter ()
+ {
+
+ }
+
  public XmlWriter (PrintStream out, int indent)
  {
   this.indent = indent;
   this.out = out;
  }
 
+ protected void setOut (PrintStream out)
+ {
+  this.out = out;
+ }
+ protected void setIndent (int indent)
+ {
+  this.indent = indent;
+ }
+ 
  protected int getIndent ()
  {
   return indent;

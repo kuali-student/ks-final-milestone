@@ -182,5 +182,17 @@ public class ModelFinder
   return null;
  }
 
+  public Field findField (String id)
+ {
+  for (Field field : model.getFields ())
+  {
+   if (field.getId ().equalsIgnoreCase (id))
+   {
+    return field;
+   }
+  }
+  return null;
+ }
+
 }
 

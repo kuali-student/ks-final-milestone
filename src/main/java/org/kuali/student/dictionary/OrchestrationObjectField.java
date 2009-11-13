@@ -10,9 +10,23 @@ package org.kuali.student.dictionary;
  */
 public class OrchestrationObjectField
 {
-
+ private OrchestrationObject parent;
  private String name;
  private String type;
+
+
+
+ public OrchestrationObject getParent ()
+ {
+  return parent;
+ }
+
+ public void setParent (OrchestrationObject parent)
+ {
+  this.parent = parent;
+ }
+
+
 
  public void setName (String name)
  {
