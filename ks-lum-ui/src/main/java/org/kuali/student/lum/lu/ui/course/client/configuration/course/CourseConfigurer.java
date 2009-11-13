@@ -17,6 +17,8 @@ package org.kuali.student.lum.lu.ui.course.client.configuration.course;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.assembly.client.DataModel;
+import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.CustomNestedSection;
@@ -24,12 +26,14 @@ import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.MultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.MultiplicityCompositeWithLabels;
 import org.kuali.student.common.ui.client.configurable.mvc.MultiplicitySection;
+import org.kuali.student.common.ui.client.configurable.mvc.PropertyBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.SimpleMultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
 import org.kuali.student.common.ui.client.configurable.mvc.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.Section.FieldLabelType;
+import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.Type;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
@@ -222,7 +226,27 @@ public class CourseConfigurer {
         campus.addField(new FieldDescriptor("course/campusLocations", null, Type.STRING, new CampusLocationList()));
 
         VerticalSection adminOrgs = initSection(getH3Title(LUConstants.ADMIN_ORG_LABEL_KEY), WITH_DIVIDER);    
-        adminOrgs.addField(new FieldDescriptor("course/department", null, Type.STRING, new OrgAdvSearchPicker()));
+        
+        // FIXME the new OrgAdvSearchPicker doesn't fire selection/value change events correctly, won't work with binding
+//        adminOrgs.addField(new FieldDescriptor("course/department", null, Type.STRING, new OrgAdvSearchPicker()));
+        FieldDescriptor deptDescriptor = new FieldDescriptor("course/department", null, Type.STRING, new OrgListPicker());
+        final QueryPath deptPath = QueryPath.parse(deptDescriptor.getFieldKey());
+        deptDescriptor.setWidgetBinding(new ModelWidgetBinding<OrgListPicker>() {
+        	// FIXME had to create custom binding because the OrgListPicker always returns a list, even of 1
+			@Override
+			public void setModelValue(OrgListPicker widget, DataModel model,
+					String path) {
+				model.set(deptPath, widget.getSelectedItem());
+				
+			}
+			@Override
+			public void setWidgetValue(OrgListPicker widget, DataModel model,
+					String path) {
+				widget.setValue((String) model.get(path));
+			}
+        });
+        adminOrgs.addField(deptDescriptor);
+        
 //        adminOrgs.addField(new FieldDescriptor("cluInfo/primaryAdminOrg/orgId", null, Type.STRING, new OrgPicker()));
 //        adminOrgs.addField(new FieldDescriptor("cluInfo/alternateAdminOrgs", null, Type.LIST, new AlternateAdminOrgList()));
         

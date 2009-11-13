@@ -371,16 +371,16 @@ public class CourseProposalController extends TabbedSectionLayout {
         	
         };
         try {
-	        if(cluProposalModel.get().get("proposal/id") == null){
+//	        if(cluProposalModel.get().get("proposal/id") == null){
 	        	// FIXME wilj: find out if/why curriculum oversight retrieving/saving wrong org and admin org is not saving at all
-	            cluProposalRpcServiceAsync.saveCreditCourseProposal(cluProposalModel.get().getRoot(), new AsyncCallback<DataSaveResult>(){
+	            cluProposalRpcServiceAsync.saveCreditCourseProposal(cluProposalModel.getValue().getRoot(), new AsyncCallback<DataSaveResult>(){
 	                public void onFailure(Throwable caught) {
 	                   saveFailedCallback.exec(caught);                 
 	                }
 	
 	                public void onSuccess(DataSaveResult result) {
 	                	// FIXME needs to check validation results and display messages if validation failed
-	    				cluProposalModel.get().setRoot(result.getValue());
+	    				cluProposalModel.getValue().setRoot(result.getValue());
 	                    if (saveActionEvent.isAcknowledgeRequired()){
 	                        saveMessage.setText("Save Successful");
 	                        buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
@@ -390,7 +390,7 @@ public class CourseProposalController extends TabbedSectionLayout {
 	                    }                    
 	                }
 	            });
-	        }
+//	        }
         } catch (Exception e) {
         	saveFailedCallback.exec(e);
         }

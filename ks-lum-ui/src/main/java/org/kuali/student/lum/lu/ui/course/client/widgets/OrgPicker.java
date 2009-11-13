@@ -82,15 +82,15 @@ public class OrgPicker extends Composite implements SuggestPicker {
 
 	@Override
 	public void setValue(String value) {
-	    suggestBox.reset();
-	    suggestBox.setValue(value);
+		setValue(value, true);
 	}
 
 	@Override
 	public void setValue(String value, boolean fireEvents) {
-		// TODO Auto-generated method stub
-		setValue(value);		
+		suggestBox.reset();
+	    suggestBox.setValue(value, fireEvents);
 	}
+
 
 	@Override
 	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
