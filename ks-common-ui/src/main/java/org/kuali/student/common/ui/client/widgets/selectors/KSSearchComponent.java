@@ -19,15 +19,21 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.focus.FocusGroup;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
+import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
 import org.kuali.student.core.search.dto.QueryParamValue;
 
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
@@ -36,7 +42,7 @@ import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 //TODO comments
-public class KSSearchComponent extends Composite {
+public class KSSearchComponent extends Composite implements SuggestPicker {
     private VerticalPanel layout = new VerticalPanel();
     final Hyperlink searchLink = new Hyperlink("Search", "Search");
     final Hyperlink browseLink = new Hyperlink("Browse", "Browse");
@@ -46,10 +52,14 @@ public class KSSearchComponent extends Composite {
     final KSSuggestBox suggestBox;
     final KSAdvancedSearchWindowComponent advSearchWindow; 
 	private List<QueryParamValue> contextCriteria = new ArrayList<QueryParamValue>();  
+	
+	private final FocusGroup focus = new FocusGroup(this);
     
     public KSSearchComponent(BaseRpcServiceAsync searchService, String searchTypeKey, String resultIdKey,
     							List<String> basicSearchCriteria, List<String> advancedSearchCriteria, String searchTitle) {
     	    	
+    	
+    	// TODO why is there config stuff for org in a generic component?
     	final SearchSuggestOracle orgSearchOracle = new SearchSuggestOracle(searchService,
     	        "org.search.orgByShortNameAndType", 
     	        "org.queryParam.orgShortName", //field user is entering and we search on... add '%' the parameter
@@ -70,6 +80,9 @@ public class KSSearchComponent extends Composite {
         layout.add(suggestBox);
 		orgSearchOracle.setTextWidget(suggestBox.getTextBox());
                 
+		// FIXME when search window is displayed, call focus.setSuppressed(true), and set it to false afterwards
+		focus.addWidget(suggestBox);
+		
         searchOrBrowserLink.add(searchLink);
         searchOrBrowserLink.add(new KSLabel("  or  "));
         searchOrBrowserLink.add(browseLink);
@@ -105,4 +118,36 @@ public class KSSearchComponent extends Composite {
             }                  
         }
     };
+
+	@Override
+	public String getValue() {
+		return suggestBox.getSelectedId();
+	}
+
+	@Override
+	public void setValue(String value) {
+		setValue(value, true);
+	}
+
+	@Override
+	public void setValue(String value, boolean fireEvents) {
+		suggestBox.reset();
+	    suggestBox.setValue(value, fireEvents);
+	}
+
+	@Override
+	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
+		return suggestBox.addValueChangeHandler(handler);
+	}
+
+
+	@Override
+	public HandlerRegistration addFocusHandler(FocusHandler handler) {
+		return focus.addFocusHandler(handler);
+	}
+
+	@Override
+	public HandlerRegistration addBlurHandler(BlurHandler handler) {
+		return focus.addBlurHandler(handler);
+	}
 }
