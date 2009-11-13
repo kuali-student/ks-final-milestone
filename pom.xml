@@ -208,7 +208,22 @@
     				<remoteTagging>true</remoteTagging>
     			</configuration>
 			</plugin>
--->							
+-->			
+			<plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-scm-plugin</artifactId>
+                 <configuration>
+ 					<connectionUrl>scm:javasvn:https://test.kuali.org/svn/student/sandbox/ks-security/branches/ks-security-dev</connectionUrl>
+                 </configuration>
+                 <dependencies>
+                 	<dependency>
+						<groupId>com.google.scm.svnjava</groupId>
+ 						<artifactId>maven-scm-provider-svnjava</artifactId>
+                    	<version>1.2.1</version>
+                    </dependency>
+                 </dependencies>
+             </plugin>
+						
 		</plugins>
 		
 		<pluginManagement>
