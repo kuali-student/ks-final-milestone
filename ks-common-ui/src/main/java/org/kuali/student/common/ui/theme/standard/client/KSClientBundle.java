@@ -113,7 +113,7 @@ public interface KSClientBundle extends ImmutableResourceBundle{
 	
 	 //Common Images***************************************************
 	
-	@Resource("org/kuali/student/common/ui/theme/standard/public/images/common/kru_banner3.png")
+	@Resource("org/kuali/student/common/ui/theme/standard/public/images/common/kru_logo2.gif")
 	public ImageResource headerImage();
 	
 	@Resource("org/kuali/student/common/ui/theme/standard/public/images/common/spacer.gif")
