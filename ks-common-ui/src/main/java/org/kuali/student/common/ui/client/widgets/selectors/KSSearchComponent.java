@@ -14,27 +14,20 @@
  */
 package org.kuali.student.common.ui.client.widgets.selectors;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.focus.FocusGroup;
-import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
-import org.kuali.student.core.search.dto.QueryParamValue;
 
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -54,9 +47,7 @@ public class KSSearchComponent extends Composite implements SuggestPicker {
 	
 	private final FocusGroup focus = new FocusGroup(this);
     
-    public KSSearchComponent(SearchComponentConfiguration searchConfig, SearchSuggestOracle orgSearchOracle) {
-    	    	
-    	
+    public KSSearchComponent(SearchComponentConfiguration searchConfig, SearchSuggestOracle orgSearchOracle) {    	    	
     	
     	suggestBox = new KSSuggestBox(orgSearchOracle); 
     	suggestBox.setAutoSelectEnabled(false);      	          	
@@ -96,6 +87,10 @@ public class KSSearchComponent extends Composite implements SuggestPicker {
             }                  
         }
     };
+    
+    public String getSelectedValue() {
+    	return suggestBox.getText();
+    }
 
 	@Override
 	public String getValue() {

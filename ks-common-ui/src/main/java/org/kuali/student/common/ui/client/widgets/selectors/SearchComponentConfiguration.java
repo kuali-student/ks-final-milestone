@@ -36,12 +36,16 @@ public class SearchComponentConfiguration {
 	//which fields (columns) will be visible in the search result table	
 	private List<String> fieldsReturned = new ArrayList<String>();
 	
+	//which columns the results will be sorted on	
+	//private List<QueryParamValue> resultsSortSequence = new ArrayList<QueryParamValue>();	
+	
 	private String searchDialogTitle = new String();
 	private BaseRpcServiceAsync searchService;
 	private String searchTypeKey = new String();
 	
-	//result data
 	private String resultIdKey;
+	//when user selects a row, which column value will be returned from lightbox
+	private String retrievedColumnKey;  
 	
 	//is 'Search' link available?
 	private boolean searchLink = false;
@@ -98,6 +102,14 @@ public class SearchComponentConfiguration {
 	public void setSearchTypeKey(String searchTypeKey) {
 		this.searchTypeKey = searchTypeKey;
 	}
-	
+
+	public String getRetrievedColumnKey() {
+		return retrievedColumnKey;
+	}
+
+	public void setRetrievedColumnKey(String retrievedColumnKey) {
+		this.retrievedColumnKey = retrievedColumnKey;
+	}
+
 	
 }

@@ -66,10 +66,23 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		}
 		
 		if(!optionalQueryString.isEmpty()){
+
+			//TODO temporary solution; we should have e.g. sort sequence indicator in ResultColumnInfo instead.
+			// for now sorting is done within SELECT statement so we need to insert WHERE conditions before ORDER BY
+			String orderByClause = "";
+			int orderByIx = queryString.toUpperCase().indexOf(" ORDER BY ");
+			if (orderByIx != -1){
+				orderByClause = queryString.substring(orderByIx);
+				queryString = queryString.substring(0, orderByIx);
+			}
+			
 			if(!queryString.toUpperCase().contains(" WHERE ")){
 				queryString += " WHERE ";
 			}
-			queryString += optionalQueryString;
+			else {
+				queryString += " AND ";
+			}
+			queryString += optionalQueryString + orderByClause;
 		}
 		
 		Query query = em.createQuery(queryString);

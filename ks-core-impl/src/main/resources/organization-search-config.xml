@@ -9,6 +9,7 @@
 	 ">
 	<import resource="organization-dictionary-config.xml" />
 
+	<!-- definition for generic search component -->
 	<search:searchType id="org.search.advanced">
 		<search:name>Basic and Advanced Search</search:name>
 		<search:desc>Query with multiple optional elements to satisfy most advanced pickers</search:desc>
@@ -16,44 +17,20 @@
 			<search:name>Organization Full View Less Hierarchies</search:name>
 			<search:desc>Full view of the Organization Less Hierarchies</search:desc>
 			<search:resultColumns>
-			<ref bean="org.resultColumn.orgId" /> 
-			<!-- <ref bean="org.resultColumn.orgShortName" /> -->
-			<search:resultColumn id="org.resultColumn.orgOptionalLongName">
-				<search:name>Name</search:name>
-				<search:desc>Long name for the organization, recorded as the default listing.</search:desc>
-				<search:dataType>string</search:dataType>
-			</search:resultColumn>
-			<!-- <ref bean="org.resultColumn.orgType" /> -->
+				<ref bean="org.resultColumn.orgId" /> 
+				<ref bean="org.resultColumn.orgShortName" />
+				<search:resultColumn id="org.resultColumn.orgOptionalLongName">
+					<search:name>Name</search:name>
+					<search:desc>Long name for the organization, recorded as the default listing.</search:desc>
+					<search:dataType>string</search:dataType>
+				</search:resultColumn>
+				<ref bean="org.resultColumn.orgType" />
 			</search:resultColumns>
 		</search:searchResultTypeInfo>
 		<search:searchCriteriaTypeInfo id="org.criteria.orgAdvancedCriteria">
 			<search:name>OrgAdvancedCriteria</search:name>
 			<search:desc>Advanced criteria</search:desc>
 			<search:queryParams>
-				<search:queryParam id="org.queryParam.orgOptionalId" optional="true">
-					<dict:fieldDescriptor>   <!--  we could use the existing definitions of fds if they all share the same name displayed in UI -->
-						<dict:name>Id</dict:name>
-						<dict:desc>Unique identifier for an organization.</dict:desc>
-						<dict:dataType>string</dict:dataType>
-						<dict:readOnly>true</dict:readOnly>
-					</dict:fieldDescriptor>
-				</search:queryParam>			
-				<search:queryParam id="org.queryParam.orgOptionalType" optional="true">
-					<dict:fieldDescriptor>
-						<dict:name>Org Type</dict:name>
-						<dict:desc>Type of an organization.</dict:desc>
-						<dict:dataType>string</dict:dataType>
-						<dict:readOnly>true</dict:readOnly>
-					</dict:fieldDescriptor>
-				</search:queryParam>
-				<search:queryParam id="org.queryParam.orgOptionalShortName" optional="true">
-					<dict:fieldDescriptor>
-						<dict:name>Organization Name</dict:name>
-						<dict:desc>Short organization name.</dict:desc>
-						<dict:dataType>string</dict:dataType>
-						<dict:readOnly>true</dict:readOnly>
-					</dict:fieldDescriptor>
-				</search:queryParam>
 				<search:queryParam id="org.queryParam.orgOptionalLongName" optional="true">
 					<dict:fieldDescriptor>
 						<dict:name>Organization Name</dict:name>
@@ -61,11 +38,35 @@
 						<dict:dataType>string</dict:dataType>
 						<dict:readOnly>true</dict:readOnly>
 					</dict:fieldDescriptor>
-				</search:queryParam>
+				</search:queryParam>		
 				<search:queryParam id="org.queryParam.orgOptionalLocation" optional="true">
 					<dict:fieldDescriptor>
 						<dict:name>Location</dict:name>
 						<dict:desc>Organization location.</dict:desc>
+						<dict:dataType>string</dict:dataType>
+						<dict:readOnly>true</dict:readOnly>
+					</dict:fieldDescriptor>
+				</search:queryParam>					
+				<search:queryParam id="org.queryParam.orgOptionalId" optional="true">
+					<dict:fieldDescriptor>   <!--  we could use the existing definitions of fds if they all share the same name displayed in UI -->
+						<dict:name>Id</dict:name>
+						<dict:desc>Unique identifier for an organization.</dict:desc>
+						<dict:dataType>string</dict:dataType>
+						<dict:readOnly>true</dict:readOnly>
+					</dict:fieldDescriptor>
+				</search:queryParam>		
+				<search:queryParam id="org.queryParam.orgOptionalShortName" optional="true">
+					<dict:fieldDescriptor>
+						<dict:name>Organization Name</dict:name>
+						<dict:desc>Short organization name.</dict:desc>
+						<dict:dataType>string</dict:dataType>
+						<dict:readOnly>true</dict:readOnly>
+					</dict:fieldDescriptor>
+				</search:queryParam>									
+				<search:queryParam id="org.queryParam.orgOptionalType" optional="true">
+					<dict:fieldDescriptor>
+						<dict:name>Org Type</dict:name>
+						<dict:desc>Type of an organization.</dict:desc>
 						<dict:dataType>string</dict:dataType>
 						<dict:readOnly>true</dict:readOnly>
 					</dict:fieldDescriptor>

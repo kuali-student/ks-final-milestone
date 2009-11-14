@@ -83,7 +83,7 @@ public class KSAdvancedSearchRpcComponent extends Composite implements HasSelect
     private List<String> searchCriteria;  //which criteria will be shown in the UI search screen
     private SearchComponentConfiguration searchConfig;    
     
-    public KSAdvancedSearchRpcComponent(SearchComponentConfiguration searchConfig, List<String> searchCriteria)       
+    public KSAdvancedSearchRpcComponent(final SearchComponentConfiguration searchConfig, List<String> searchCriteria)       
     {
         this.searchCriteria = searchCriteria;
         this.searchConfig = searchConfig;
@@ -109,7 +109,7 @@ public class KSAdvancedSearchRpcComponent extends Composite implements HasSelect
                     /* for(Integer i: selectedRowIds){
                         names.add(pagingScrollTable.getRowValue(i).getId());
                     } */              	
-                	selectedValues.add(selectedRows.get(0).getValue("org.resultColumn.orgLongName"));  //TODO: remove hard-coded value
+                	selectedValues.add(selectedRows.get(0).getValue(searchConfig.getRetrievedColumnKey())); 
                     fireSelectEvent(selectedValues);
                 }                
             }            
@@ -265,7 +265,7 @@ public class KSAdvancedSearchRpcComponent extends Composite implements HasSelect
         //add context-specific criteria
         for (QueryParamValue contextCriterion : searchConfig.getContextCriteria()){
         	queryParamValues.add(contextCriterion);
-        }             
+        }                                          
         
         //execute the search itself
         searchResultsTable.clearTable();

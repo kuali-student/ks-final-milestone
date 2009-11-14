@@ -57,7 +57,7 @@ public class KSAdvancedSearchWindowComponent implements HasSelectionHandlers<Lis
     private KSLabel advancedSearchLabel = new KSLabel("Advanced Search");
     private KSLabel customSearchLabel = new KSLabel("Custom Search"); 
     private boolean basicSearchEnabled = true;
-    private boolean customSearchEnabled = true;
+    private boolean customSearchEnabled = false;
     private SearchMode selectedSearchMode;
 
     private KSAdvancedSearchRpcComponent basicSearch;
