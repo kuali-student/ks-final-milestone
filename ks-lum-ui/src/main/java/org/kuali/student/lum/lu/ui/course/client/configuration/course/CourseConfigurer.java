@@ -837,6 +837,7 @@ public class CourseConfigurer {
     	searchConfig.setSearchService(orgRpcServiceAsync);
     	searchConfig.setSearchTypeKey("org.search.advanced");
     	searchConfig.setResultIdKey("org.resultColumn.orgId");
+    	searchConfig.setRetrievedColumnKey("org.resultColumn.orgOptionalLongName");    	
     	
     	//TODO: following code should be in KSSearchComponent with config parameters set within SearchComponentConfiguration class
     	final SearchSuggestOracle orgSearchOracle = new SearchSuggestOracle(searchConfig.getSearchService(),

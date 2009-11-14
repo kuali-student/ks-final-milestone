@@ -23,6 +23,7 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.kuali.student.common.ui.client.configurable.mvc.MultiplicityCompositeWithLabels;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
@@ -35,12 +36,20 @@ import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
+import org.kuali.student.common.ui.client.widgets.selectors.KSSearchComponent;
+import org.kuali.student.common.ui.client.widgets.selectors.SearchComponentConfiguration;
+import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
+import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
+import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
+import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeNLTemplateInfo;
 import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
+import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
+import org.kuali.student.lum.lu.ui.course.client.service.LuRpcServiceAsync;
 import org.kuali.student.lum.ui.requirements.client.RulesUtilities;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager.PrereqViews;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
@@ -98,7 +107,7 @@ public class RuleComponentEditorView extends ViewComposite {
     private List<ReqComponentTypeInfo> reqCompTypeList;     //list of all Requirement Component Types
     private ListItems listItemReqCompTypes;                 //list of advanced Requirement Component Types
     private List<ReqComponentTypeInfo> advReqCompTypeList;     //list of advanced Requirement Component Types
-    private List<KSTextBox> reqCompWidgets = new ArrayList<KSTextBox>();
+    private List<Object> reqCompWidgets = new ArrayList<Object>();
     private Map<String, String> clusData = new HashMap<String, String>();
     private Map<String, String> cluSetsData = new HashMap<String, String>();
     private static int tempCounterID = 2000;
@@ -169,22 +178,6 @@ public class RuleComponentEditorView extends ViewComposite {
         tempPanelButtons.add(horizSpacer);
         tempPanelButtons.add(btnCancelView);
         addEditRuleView.add(tempPanelButtons);
-
-//        final SearchSuggestOracle oracle = new SearchSuggestOracle((BaseRpcServiceAsync)orgRpcServiceAsync, "org.search.orgByShortName", "org.queryParam.orgShortName", "org.resultColumn.orgId", "org.resultColumn.orgShortName", "org.queryParam.orgShortName");
-//        KSSuggestBox sb = new KSSuggestBox(oracle);
-//        oracle.setTextWidget(sb.getTextBox());
-//        
-//        // here
-//        KSAdvancedSearchWindow searchWindow = new KSAdvancedSearchWindow(orgRpcServiceAsync, "org.search.orgQuickViewByHierarchyShortName", "org.resultColumn.orgId");
-//        
-//        KSSuggestBoxWAdvSearch advSearchSuggest = new KSSuggestBoxWAdvSearch(sb, searchWindow);
-//        List<String> resultKeys = new ArrayList<String>();
-//        resultKeys.add("org.resultColumn.orgShortName");
-//        resultKeys.add("org.resultColumn.orgLongName");
-//        resultKeys.add("org.resultColumn.orgType");
-//        resultKeys.add("org.resultColumn.orgHierarchyName");
-//        KSSuggestBoxPicker picker = new KSSuggestBoxPicker(advSearchSuggest, orgRpcServiceAsync, "org.search.orgFullViewById", "org.queryParam.orgId", resultKeys, "org.resultColumn.orgId");
-//        addEditRuleView.add(picker);
         
         HorizontalPanel bodyPanel = new HorizontalPanel(); 
         bodyPanel.add(ruleTypesPanel);
@@ -429,10 +422,21 @@ public class RuleComponentEditorView extends ViewComposite {
         if (reqCompWidgets != null && !reqCompWidgets.isEmpty()) {
             fields = new ArrayList<ReqCompFieldInfo>();
             editedReqComp.setReqCompFields(fields);
-            for (KSTextBox reqCompWidget : reqCompWidgets) {
+            for (Object reqCompWidget : reqCompWidgets) {
+            	
+            	String name = "";
+            	String text = "";
+            	if (reqCompWidget.getClass().getName().contains("KSTextBox")) {
+            		name = ((KSTextBox)reqCompWidget).getName();
+            		text = ((KSTextBox)reqCompWidget).getText();
+            	} if (reqCompWidget.getClass().getName().contains("TmpCoursePicker")) {
+            		name = ((TmpCoursePicker)reqCompWidget).getName();
+            		text = ((TmpCoursePicker)reqCompWidget).getSelectedValue();            		
+            	}
+            	
                 ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo();
-                fieldInfo.setId(reqCompWidget.getName());
-                fieldInfo.setValue(reqCompWidget.getText());
+                fieldInfo.setId(name);
+                fieldInfo.setValue(text);
                 if (checkField(fieldInfo) == false) {
                     return false;
                 }
@@ -577,7 +581,7 @@ public class RuleComponentEditorView extends ViewComposite {
             }
 
             if (tag.equals("reqCompFieldType.clu")) {
-                final KSTextBox valueWidget = new KSTextBox();
+                final TmpCoursePicker valueWidget = configureCourseSearch();
                 String cluIdsInClause = getSpecificFieldValue(fields, tag);
                 String[] cluIds =
                     (cluIdsInClause == null)? null : cluIdsInClause.split("(, *)");
@@ -594,27 +598,6 @@ public class RuleComponentEditorView extends ViewComposite {
                 tempPanel.addStyleName("KS-Rules-FlexPanelFix");
                 tempPanel.add(valueWidget);
 
-                final SearchDialog searchDialog = new SearchDialog(getController(), clusData);
-                searchDialog.addCourseAddHandler(new ClickHandler() {
-                    public void onClick(ClickEvent event) {
-                        String origFieldValue = valueWidget.getText();
-                        int fieldValueCount = 0;
-                        origFieldValue = (origFieldValue == null)? "" : origFieldValue;
-                        StringBuilder newFieldValue = new StringBuilder("");
-                        SortedSet<String> newValues = new TreeSet<String>();
-                        newValues.addAll(Arrays.asList(origFieldValue.split(", +")));
-                        newValues.addAll(searchDialog.getSelections());
-                        for (String newValue : newValues) {
-                            if (fieldValueCount > 0 && newFieldValue.toString().trim().length() > 0) {
-                                newFieldValue.append(", ");
-                            }
-                            newFieldValue.append(newValue);
-                            fieldValueCount++;
-                        }
-                        valueWidget.setText(newFieldValue.toString());
-                    }
-                });
-                tempPanel.add(searchDialog);
                 if (i > 1) {
                     SimplePanel verticalSpacer = new SimplePanel();
                     verticalSpacer.setHeight("30px");
@@ -675,6 +658,34 @@ public class RuleComponentEditorView extends ViewComposite {
         parentWidget.setWidget(innerReqComponentTextPanel);
     }
 
+    public static class TmpCoursePicker extends KSSearchComponent {
+
+    	private String name;
+    	private String text;
+
+		public TmpCoursePicker(SearchComponentConfiguration searchConfig,
+				SearchSuggestOracle orgSearchOracle) {
+			super(searchConfig, orgSearchOracle);
+			// TODO Auto-generated constructor stub
+		}
+    	
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public String getText() {
+			return text;
+		}
+
+		public void setText(String text) {
+			this.text = text;
+		}    	
+    }
+    
     private ReqCompFieldInfo getReqCompFieldInfo(List<ReqCompFieldInfo> fields, String key) {
         ReqCompFieldInfo result = null;
         if (fields == null) {
@@ -864,5 +875,58 @@ public class RuleComponentEditorView extends ViewComposite {
         if (luStatementTypeKey.contains("coreq")) return "Corequisite";
         if (luStatementTypeKey.contains("antireq")) return "Antirequisite";
         return "";
-    }       
+    }  
+    
+    private static TmpCoursePicker configureCourseSearch() {
+ 	   
+    	LuRpcServiceAsync luRpcServiceAsync = GWT.create(LuRpcService.class);
+    	
+    	List<String> basicCriteria = new ArrayList<String>() {
+  		   {
+  		      add("lu.queryParam.luOptionalLongName");
+  		   }
+  		};
+  	
+  		List<String> advancedCriteria = new ArrayList<String>() {
+   		   {
+   		      add("lu.queryParam.luOptionalLongName");
+  		      add("lu.queryParam.luOptionalCode");
+  		      add("lu.queryParam.luOptionalLevel");  		      
+   		   }
+   		};       			
+   		
+        //set context criteria - we want to show only courses
+   		List<QueryParamValue> contextCriteria = new ArrayList<QueryParamValue>();
+		QueryParamValue orgOptionalTypeParam = new QueryParamValue();
+		orgOptionalTypeParam.setKey("lu.queryParam.luOptionalType");
+		orgOptionalTypeParam.setValue("luType.shell.course");   
+		contextCriteria.add(orgOptionalTypeParam); 
+    	
+    	SearchComponentConfiguration searchConfig = new SearchComponentConfiguration(contextCriteria, basicCriteria, advancedCriteria);
+    	
+    	searchConfig.setSearchDialogTitle("Find Course");
+    	searchConfig.setSearchService(luRpcServiceAsync);
+    	searchConfig.setSearchTypeKey("lu.search.generic");
+    	searchConfig.setResultIdKey("lu.resultColumn.cluId");
+    	searchConfig.setRetrievedColumnKey("lu.resultColumn.luOptionalCode");
+    	
+    	//TODO: following code should be in KSSearchComponent with config parameters set within SearchComponentConfiguration class
+    	final SearchSuggestOracle cluSearchOracle = new SearchSuggestOracle(searchConfig.getSearchService(),
+    	        "lu.search.generic", 
+    	        "lu.queryParam.luOptionalLongName", //field user is entering and we search on... add '%' the parameter
+    	        "lu.resultColumn.luOptionalCode", 		//if one wants to search by ID rather than by name
+    	        "lu.resultColumn.cluId", 		
+    	        "lu.resultColumn.luOptionalCode");
+    	  			
+		//Restrict searches to ?
+    	/*
+		ArrayList<QueryParamValue> params = new ArrayList<QueryParamValue>();
+		QueryParamValue orgTypeParam = new QueryParamValue();
+		orgTypeParam.setKey("org.queryParam.orgType");
+		orgTypeParam.setValue("kuali.org.Department");
+		params.add(orgTypeParam);
+		orgSearchOracle.setAdditionalQueryParams(params); */	
+    	
+    	return new TmpCoursePicker(searchConfig, cluSearchOracle);
+    }     
 }
