@@ -14,12 +14,14 @@
  */
 package org.kuali.student.common.ui.client.widgets.selectors;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.focus.FocusGroup;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
+import org.kuali.student.core.search.dto.ResultCell;
 
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -43,6 +45,7 @@ public class KSSearchComponent extends Composite implements SuggestPicker {
     
     //data
     final KSSuggestBox suggestBox;
+    List<ResultCell> selectedValues = new ArrayList<ResultCell>();
     final KSAdvancedSearchWindowComponent advSearchWindow; 
 	
 	private final FocusGroup focus = new FocusGroup(this);
@@ -77,20 +80,36 @@ public class KSSearchComponent extends Composite implements SuggestPicker {
     }
     
     
-    SelectionHandler<List<String>> selectionHandler = new SelectionHandler<List<String>>() {
+    SelectionHandler<List<ResultCell>> selectionHandler = new SelectionHandler<List<ResultCell>>() {
         @Override
-        public void onSelection(SelectionEvent<List<String>> event) {
+        public void onSelection(SelectionEvent<List<ResultCell>> event) {
 
-            final List<String> selected = event.getSelectedItem();
-            if (selected.size() > 0){
-                suggestBox.setText(event.getSelectedItem().get(0));                    
+            final List<ResultCell> selected = event.getSelectedItem();
+            if (selected.size() > 0){      
+                selectedValues = selected;            	
+                suggestBox.setText(selectedValues.get(0).getValue());
+
             }                  
         }
     };
     
+    public String getSelectedKey() {
+    	return (selectedValues.size() > 0 ? selectedValues.get(0).getKey() : "");
+    }    
+    
     public String getSelectedValue() {
+    	//return (selectedValues.size() > 0 ? selectedValues.get(0).getValue() : suggestBox.getText());
     	return suggestBox.getText();
     }
+    
+    public void setSuggestBox(String key, String value) {
+    	suggestBox.setText(value);
+    	ResultCell cell = new ResultCell();
+    	cell.setKey(key);
+    	cell.setValue(value);
+    	selectedValues.clear();
+    	selectedValues.add(cell);
+    }     
 
 	@Override
 	public String getValue() {

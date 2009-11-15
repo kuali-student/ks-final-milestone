@@ -20,6 +20,7 @@ import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
+import org.kuali.student.core.search.dto.ResultCell;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -33,7 +34,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class KSAdvancedSearchWindowComponent implements HasSelectionHandlers<List<String>>{
+public class KSAdvancedSearchWindowComponent implements HasSelectionHandlers<List<ResultCell>>{
     private enum SearchMode {
         BASIC, ADVANCED, CUSTOM
     }
@@ -41,10 +42,9 @@ public class KSAdvancedSearchWindowComponent implements HasSelectionHandlers<Lis
     //KS Advanced Search Window has 3 reusable areas:
     // - title bar e.g. "Find Organization" title on the left with CANCEL button at the far right
     // - links "Basic", "Advanced", "Custom" 
-    // - one or more fields
+    // - one or more criteria
     // - SEARCH button on the left of a single field or at the bottom of multiple fields
     // - result table with one or more columns
-    // - paging through search results (if result has too many rows to display on a single page)
     // - SELECT button
     private KSLightBox dialog = new KSLightBox();
     private VerticalPanel mainPanel = new VerticalPanel();
@@ -79,12 +79,12 @@ public class KSAdvancedSearchWindowComponent implements HasSelectionHandlers<Lis
         
         addSearchModeHandlers();
         
-        SelectionHandler<List<String>> selectionHandler = new SelectionHandler<List<String>>() {
+        SelectionHandler<List<ResultCell>> selectionHandler = new SelectionHandler<List<ResultCell>>() {
             @Override
-            public void onSelection(SelectionEvent<List<String>> event) {
+            public void onSelection(SelectionEvent<List<ResultCell>> event) {
 
-                final List<String> selected = event.getSelectedItem();
-                if (selected.size() > 0){
+                final List<ResultCell> selectedCells = event.getSelectedItem();
+                if (selectedCells.size() > 0){
                     fireSelectEvent(event.getSelectedItem());                   
                     hide();
                 }                  
@@ -194,7 +194,7 @@ public class KSAdvancedSearchWindowComponent implements HasSelectionHandlers<Lis
     }*/
     
     @Override
-    public HandlerRegistration addSelectionHandler(SelectionHandler<List<String>> handler) {
+    public HandlerRegistration addSelectionHandler(SelectionHandler<List<ResultCell>> handler) {
         return handlers.addHandler(SelectionEvent.getType(), handler);
     }
 
@@ -206,7 +206,7 @@ public class KSAdvancedSearchWindowComponent implements HasSelectionHandlers<Lis
         handlers.fireEvent(event);
     }
     
-    private void fireSelectEvent(List<String> selectedItems){
+    private void fireSelectEvent(List<ResultCell> selectedItems){
         SelectionEvent.fire(this, selectedItems);
     }
 }

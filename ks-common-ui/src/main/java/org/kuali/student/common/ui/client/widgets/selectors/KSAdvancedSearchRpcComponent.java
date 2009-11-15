@@ -35,6 +35,7 @@ import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.core.search.dto.QueryParamInfo;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
+import org.kuali.student.core.search.dto.ResultCell;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 
@@ -64,7 +65,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
-public class KSAdvancedSearchRpcComponent extends Composite implements HasSelectionHandlers<List<String>>{
+public class KSAdvancedSearchRpcComponent extends Composite implements HasSelectionHandlers<List<ResultCell>>{
     private VerticalPanel tabPanel = new VerticalPanel();
     private VerticalPanel searchLayout = new VerticalPanel();
     private VerticalPanel resultLayout = new VerticalPanel();
@@ -100,16 +101,19 @@ public class KSAdvancedSearchRpcComponent extends Composite implements HasSelect
         searchLayout.setVerticalAlignment(HasVerticalAlignment.ALIGN_TOP);
         tabPanel.addStyleName(KSStyles.KS_ADVANCED_SEARCH_TAB_PANEL);
         
+        //on selection, return back a list of values that we want to display and also
+        //a list of keys (ids) for each record
         selectButton.addClickHandler(new ClickHandler(){
             public void onClick(ClickEvent event) {
-            	List<String> selectedValues = new ArrayList<String>(); 
-                List<ResultRow> selectedRows = searchResultsTable.getSelectedRows();
+            	List<ResultCell> selectedValues = new ArrayList<ResultCell>(); 
+                for(ResultRow row: searchResultsTable.getSelectedRows()){
+                	ResultCell cell = new ResultCell();
+                	cell.setKey(row.getId());
+                	cell.setValue(row.getValue(searchConfig.getRetrievedColumnKey()));
+                	selectedValues.add(cell);
+                }                
                 
-                if (selectedRows != null && selectedRows.size() > 0){
-                    /* for(Integer i: selectedRowIds){
-                        names.add(pagingScrollTable.getRowValue(i).getId());
-                    } */              	
-                	selectedValues.add(selectedRows.get(0).getValue(searchConfig.getRetrievedColumnKey())); 
+                if (selectedValues.size() > 0){
                     fireSelectEvent(selectedValues);
                 }                
             }            
@@ -138,7 +142,7 @@ public class KSAdvancedSearchRpcComponent extends Composite implements HasSelect
                 		continue;
                 	}
                 	
-                    FieldDescriptor fd = q.getFieldDescriptor();
+                   FieldDescriptor fd = q.getFieldDescriptor();
                     //TODO change this to use a message from messages, using the fd.getName() as the token
                     KSLabel paramLabel = new KSLabel(fd.getName());
 //                    paramLabel.addStyleName(KSStyles.KS_ADVANCED_SEARCH_PARAM_LABELS);
@@ -328,12 +332,12 @@ public class KSAdvancedSearchRpcComponent extends Composite implements HasSelect
      * @see com.google.gwt.event.logical.shared.HasSelectionHandlers#addSelectionHandler(com.google.gwt.event.logical.shared.SelectionHandler)
      */
     @Override
-    public HandlerRegistration addSelectionHandler(SelectionHandler<List<String>> handler) {
+    public HandlerRegistration addSelectionHandler(SelectionHandler<List<ResultCell>> handler) {
         this.hasSelectionHandlers = true;
         return addHandler(handler,SelectionEvent.getType());
     }
     
-    private void fireSelectEvent(List<String> selectedItems){
+    private void fireSelectEvent(List<ResultCell> selectedItems){
         SelectionEvent.fire(this, selectedItems);
     }
     
