@@ -88,7 +88,7 @@ public class KSSearchComponent extends Composite implements SuggestPicker {
             if (selected.size() > 0){      
                 selectedValues = selected;            	
                 suggestBox.setText(selectedValues.get(0).getValue());
-
+                suggestBox.setValue(selectedValues.get(0).getKey());
             }                  
         }
     };
@@ -98,7 +98,6 @@ public class KSSearchComponent extends Composite implements SuggestPicker {
     }    
     
     public String getSelectedValue() {
-    	//return (selectedValues.size() > 0 ? selectedValues.get(0).getValue() : suggestBox.getText());
     	return suggestBox.getText();
     }
     
