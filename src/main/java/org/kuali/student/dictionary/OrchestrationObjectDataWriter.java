@@ -194,9 +194,14 @@ public class OrchestrationObjectDataWriter extends JavaClassWriter
   {
    return "String";
   }
+  if (xmlType.getPrimitive ().equalsIgnoreCase ("Map <String, String>"))
+  {
+   return "Map <String, String>";
+  }
   if (xmlType.getPrimitive ().equalsIgnoreCase ("Complex"))
   {
-   OrchestrationObject fieldOO = orchObjs.get (xmlType.getName ().toLowerCase ());
+   OrchestrationObject fieldOO =
+    orchObjs.get (xmlType.getName ().toLowerCase ());
    imports.add (fieldOO.getFullyQualifiedJavaClassDataName ());
    return fieldOO.getJavaClassDataName ();
   }

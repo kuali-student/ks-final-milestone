@@ -9,7 +9,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  *
@@ -109,9 +108,12 @@ private Map<String, OrchestrationObject> getOrchestrationObjectsFromMessageStruc
       }
       XmlType fieldXmlType = new ModelFinder (model).findXmlType (dictField.
        getXmlType ());
-      if (fieldXmlType.getJavaPackage ().equals (""))
+      if (fieldXmlType.getPrimitive ().equals ("Complex"))
       {
-       continue;
+       if (fieldXmlType.getJavaPackage ().equals (""))
+       {
+        continue;
+       }
       }
       OrchestrationObjectField field = new OrchestrationObjectField ();
       fields.add (field);
