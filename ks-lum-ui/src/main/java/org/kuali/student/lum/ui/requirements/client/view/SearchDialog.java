@@ -125,57 +125,47 @@ public class SearchDialog extends Composite {
 
     public void layoutWidgets() {
         
-        requirementsRpcServiceAsync.getAllClus(new AsyncCallback<Map<String, String>>() {
-            public void onFailure(Throwable caught) {
-                // just re-throw it and let the uncaught exception handler deal with it
-                Window.alert(caught.getMessage());
-                // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
+        ListItems listItemClus = new ListItems() {
+            private Map<String, String> results = listData; //clus; - to be fixed
+            @Override
+            public List<String> getAttrKeys() {
+                List<String> attributes = new ArrayList<String>();
+                attributes.add("Key");
+                return attributes;
             }
 
-            public void onSuccess(final Map<String, String> clus) {
-                ListItems listItemClus = new ListItems() {
-                    private Map<String, String> results = listData; //clus; - to be fixed
-                    @Override
-                    public List<String> getAttrKeys() {
-                        List<String> attributes = new ArrayList<String>();
-                        attributes.add("Key");
-                        return attributes;
+            @Override
+            public String getItemAttribute(String id, String attrkey) {
+                String value = null;
+                
+                try{
+                    if (attrkey.isEmpty()) {
+                        value = id; //results.get(id); fix later
                     }
+                } catch (Exception e) {
+                }
 
-                    @Override
-                    public String getItemAttribute(String id, String attrkey) {
-                        String value = null;
-                        
-                        try{
-                            if (attrkey.isEmpty()) {
-                                value = id; //results.get(id); fix later
-                            }
-                        } catch (Exception e) {
-                        }
-
-                        return value;
-                    }
-
-                    @Override
-                    public int getItemCount() {    
-                        return results.size();
-                    }
-
-                    @Override
-                    public List<String> getItemIds() {
-                        List temp = Arrays.asList(results.keySet().toArray());
-                        List<String> ids = new ArrayList<String>(temp);                        
-                        return ids;
-                    }
-
-                    @Override
-                    public String getItemText(String id) {
-                        return getItemAttribute(id, ""); //"Key");
-                    }
-                };                    
-                cluList.setListItems(listItemClus);
+                return value;
             }
-        });
+
+            @Override
+            public int getItemCount() {    
+                return results.size();
+            }
+
+            @Override
+            public List<String> getItemIds() {
+                List temp = Arrays.asList(results.keySet().toArray());
+                List<String> ids = new ArrayList<String>(temp);                        
+                return ids;
+            }
+
+            @Override
+            public String getItemText(String id) {
+                return getItemAttribute(id, ""); //"Key");
+            }
+        };                    
+        cluList.setListItems(listItemClus);
     }
     
     public void setEnabled(boolean enabled) {

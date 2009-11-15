@@ -94,6 +94,21 @@
         </search:searchCriteriaTypeInfo>
     </search:searchType>
 
+    <search:searchType id="lu.search.cluByCode">
+        <search:name>Search for clu id by its code</search:name>
+        <search:desc>Returns clu id</search:desc>
+        <search:searchResultTypeInfo>
+			<search:name>Lu id</search:name>
+			<search:desc>Lu id</search:desc>        
+        	<search:resultColumns>        
+            	<ref bean="lu.resultColumn.cluId" />
+        	</search:resultColumns>            
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+           <ref bean="lu.criteria.code"/>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
     <search:searchResultTypeInfo id="lu.result.luClus">
         <search:name>Lu Clu</search:name>
         <search:desc>List Lu Clus</search:desc>
@@ -120,6 +135,11 @@
         <search:desc>Placeholder Criteria</search:desc>
      </search:searchCriteriaTypeInfo>
 
+    <search:searchCriteriaTypeInfo id="lu.criteria.code">
+        <search:name>Code</search:name>
+        <search:desc>Clu Code</search:desc>
+     </search:searchCriteriaTypeInfo>
+
 	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
 			<map>
@@ -127,6 +147,9 @@
                     <value>SELECT clu.id, clu.officialIdentifier.longName FROM Clu clu
                     	WHERE clu.state NOT IN ('draft') ORDER BY clu.officialIdentifier.longName </value>
                 </entry>
+                <entry key="lu.search.cluByCode">
+                    <value>SELECT clu.id FROM Clu clu WHERE clu.officialIdentifier.code = :lu_criteria_code </value>
+                </entry>                
                 <entry key="lu.search.generic">
                     <value>SELECT clu.id,  clu.officialIdentifier.longName, clu.officialIdentifier.code, clu.officialIdentifier.level
                     		 FROM Clu clu WHERE clu.state NOT IN

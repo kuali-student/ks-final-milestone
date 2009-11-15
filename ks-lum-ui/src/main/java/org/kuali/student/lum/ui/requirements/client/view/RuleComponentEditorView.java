@@ -19,11 +19,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.kuali.student.common.ui.client.configurable.mvc.MultiplicityCompositeWithLabels;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
@@ -39,8 +37,6 @@ import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.selectors.KSSearchComponent;
 import org.kuali.student.common.ui.client.widgets.selectors.SearchComponentConfiguration;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
-import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
-import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
@@ -102,15 +98,16 @@ public class RuleComponentEditorView extends ViewComposite {
     private Model<RuleInfo> modelRuleInfo;
     private ReqComponentTypeInfo selectedReqType;
     private ReqComponentInfo editedReqComp;
+    private List<ReqCompFieldInfo> editedFields;
     private String origReqCompType;
     private ReqComponentVO editedReqCompVO;
     private List<ReqComponentTypeInfo> reqCompTypeList;     //list of all Requirement Component Types
     private ListItems listItemReqCompTypes;                 //list of advanced Requirement Component Types
     private List<ReqComponentTypeInfo> advReqCompTypeList;     //list of advanced Requirement Component Types
     private List<Object> reqCompWidgets = new ArrayList<Object>();
-    private Map<String, String> clusData = new HashMap<String, String>();
     private Map<String, String> cluSetsData = new HashMap<String, String>();
     private static int tempCounterID = 2000;
+    private List<TmpCoursePicker> valueWidgets = new ArrayList<TmpCoursePicker>();    
 
     public RuleComponentEditorView(Controller controller) {
         super(controller, "Clause Editor View");
@@ -216,14 +213,15 @@ public class RuleComponentEditorView extends ViewComposite {
         hodler.add(newButton);
         compReqTypesList.setStyleName("KS-Radio-Dropdown");
 
-        if (selectedReqType != null) {
-            ListItems advancedTypes = compReqTypesList.getListItems();
-            List<String> ids = advancedTypes.getItemIds();
-            for (int i = 0; i < advancedTypes.getItemCount(); i++) {
-                if (advancedTypes.getItemText(ids.get(i)).equals(selectedReqType.getName())) {
-                    compReqTypesList.selectItem(ids.get(i));
+        if (selectedReqType != null) {            
+        	int i = 0;
+            for (ReqComponentTypeInfo comp : advReqCompTypeList) {
+                if (comp.getId().equals(selectedReqType.getId())) {
+                    compReqTypesList.selectItem(Integer.toString(i));    //comp.getId());
+                    newButton.setValue(true);
                     break;
-                }
+                }     
+                i++;
             }
         }
         hodler.add(compReqTypesList);
@@ -320,47 +318,76 @@ public class RuleComponentEditorView extends ViewComposite {
 
             public void onClick(ClickEvent event) {
 
-                if (updateFields() == false) {
+            	//1. check that all fields have values
+                if (retrieveReqCompFields() == false) {
                     return;
                 }
 
-                editedReqComp.setType(selectedReqType.getId());
+            	//2. check that entered values are valid
+                requirementsRpcServiceAsync.verifyFieldsAndSetIds(editedFields, new AsyncCallback<List<ReqCompFieldInfo>>() {
+                    public void onFailure(Throwable caught) {
+                        Window.alert(caught.getMessage());
+                        caught.printStackTrace();
+                    }
 
-                //add new req. component (rule) to the top level of the rule
-                RuleInfo reqInfo = RulesUtilities.getReqInfoModelObject(modelRuleInfo);
-                StatementVO statementVO = reqInfo.getStatementVO();
-                
-                // Setup first statementVO if user just created the first req. component for this rule
-                if (statementVO == null) {
-                    LuStatementInfo newLuStatementInfo = new LuStatementInfo();
-                    statementVO = new StatementVO();
-                    newLuStatementInfo.setOperator(StatementOperatorTypeKey.AND);
-                    newLuStatementInfo.setType(reqInfo.getLuStatementTypeKey());
-                    statementVO.setLuStatementInfo(newLuStatementInfo);
-                    reqInfo.setStatementVO(statementVO);
-                }
-                statementVO.addReqComponentVO(editedReqCompVO);
-                statementVO.clearSelections();
-                editedReqCompVO.setCheckBoxOn(true);
-                updateNLAndExit();
+                    public void onSuccess(final List<ReqCompFieldInfo> editedFields) { 
+                    	//3. update req. component being edited
+                        editedReqComp.setReqCompFields(editedFields);                                                                
+                        editedReqComp.setType(selectedReqType.getId());
+                        editedReqCompVO.setCheckBoxOn(true);
+                        
+                        //4. create new req. component and possibly new statement if none exists yet
+                        RuleInfo reqInfo = RulesUtilities.getReqInfoModelObject(modelRuleInfo);
+                        StatementVO statementVO = reqInfo.getStatementVO();
+                        
+                        // Setup first statementVO if user just created the first req. component for this rule
+                        if (statementVO == null) {
+                            LuStatementInfo newLuStatementInfo = new LuStatementInfo();
+                            statementVO = new StatementVO();
+                            newLuStatementInfo.setOperator(StatementOperatorTypeKey.AND);
+                            newLuStatementInfo.setType(reqInfo.getLuStatementTypeKey());
+                            statementVO.setLuStatementInfo(newLuStatementInfo);
+                            reqInfo.setStatementVO(statementVO);
+                        }
+                        statementVO.addReqComponentVO(editedReqCompVO);
+                        statementVO.clearSelections();
+                        
+                        updateNLAndExit();                    	                    	
+                    }
+                });	    	            	                    	                    
             }
         });
 
         updateReqComp.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
 
-                if (updateFields() == false) {
+            	//1. check that all fields have values
+                if (retrieveReqCompFields() == false) {
                     return;
                 }
 
-                if (modelRuleInfo != null) {
-                    RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(modelRuleInfo);
-                    StatementVO statementVO = prereqInfo.getStatementVO();
-                    prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
-                    statementVO.clearSelections();
-                    editedReqCompVO.setCheckBoxOn(true);
-                }
-                updateNLAndExit();
+            	//2. check that entered values are valid
+                requirementsRpcServiceAsync.verifyFieldsAndSetIds(editedFields, new AsyncCallback<List<ReqCompFieldInfo>>() {
+                    public void onFailure(Throwable caught) {
+                        Window.alert(caught.getMessage());
+                        caught.printStackTrace();
+                    }
+
+                    public void onSuccess(final List<ReqCompFieldInfo> editedFields) { 
+                    	//3. update req. component being edited
+                        editedReqComp.setReqCompFields(editedFields);
+                        
+                        //2. update rule model
+                        if (modelRuleInfo != null) {
+                            RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(modelRuleInfo);
+                            StatementVO statementVO = prereqInfo.getStatementVO();
+                            prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
+                            statementVO.clearSelections();
+                            editedReqCompVO.setCheckBoxOn(true);
+                        }
+                        updateNLAndExit();                  	                    	
+                    }
+                });	                                                
             }
         });
 
@@ -383,6 +410,7 @@ public class RuleComponentEditorView extends ViewComposite {
                         if (addNewReqComp) {
                             setupNewEditedReqComp(selectedReqType);
                         } else {
+                        	editedReqComp.setRequiredComponentType(selectedReqType);
                             editedReqComp.setType(selectedReqType.getId());
                         }
                         displayReqComponentDetails();
@@ -405,6 +433,7 @@ public class RuleComponentEditorView extends ViewComposite {
                  if (addNewReqComp) {
                      setupNewEditedReqComp(selectedReqType);
                  } else {
+                	 editedReqComp.setRequiredComponentType(selectedReqType);
                      editedReqComp.setType(selectedReqType.getId());
                  }
                  displayReqComponentDetails();
@@ -412,105 +441,79 @@ public class RuleComponentEditorView extends ViewComposite {
 
     }
 
-    /**
-     * reads and check what are in the widgets and update the fields in editedReqComp
+    /* check that all fields have values and confirm basic format of each value
+     * TODO: this needs to be more generic based on validation of each field from dictionary
      */
-    private boolean updateFields() {
-        List<ReqCompFieldInfo> fields = null;
-        StringBuffer cluIds = new StringBuffer();
+    private boolean retrieveReqCompFields() {
+        StringBuffer enteredCluCodes = new StringBuffer();
+    	editedFields = new ArrayList<ReqCompFieldInfo>();
 
-        if (reqCompWidgets != null && !reqCompWidgets.isEmpty()) {
-            fields = new ArrayList<ReqCompFieldInfo>();
-            editedReqComp.setReqCompFields(fields);
-            for (Object reqCompWidget : reqCompWidgets) {
-            	
-            	String name = "";
-            	String text = "";
-            	if (reqCompWidget.getClass().getName().contains("KSTextBox")) {
-            		name = ((KSTextBox)reqCompWidget).getName();
-            		text = ((KSTextBox)reqCompWidget).getText();
-            	} if (reqCompWidget.getClass().getName().contains("TmpCoursePicker")) {
-            		name = ((TmpCoursePicker)reqCompWidget).getName();
-            		text = ((TmpCoursePicker)reqCompWidget).getSelectedValue();            		
-            	}
-            	
-                ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo();
-                fieldInfo.setId(name);
-                fieldInfo.setValue(text);
-                if (checkField(fieldInfo) == false) {
-                    return false;
-                }
-
-                if (fieldInfo.getId().equals("reqCompFieldType.clu")) {
-                    cluIds.append((cluIds.length() > 0 ? ", " : "") + fieldInfo.getValue());
-                } else {
-                    fields.add(fieldInfo);
-                }
+    	for (Object reqCompWidget : reqCompWidgets) {            	
+        	String name = "";
+        	String value = "";
+        	if (reqCompWidget.getClass().getName().contains("KSTextBox")) {
+        		name = ((KSTextBox)reqCompWidget).getName();
+        		value = ((KSTextBox)reqCompWidget).getText();
+        	} else if (reqCompWidget.getClass().getName().contains("TmpCoursePicker")) {
+        		name = ((TmpCoursePicker)reqCompWidget).getName();
+        		value = ((TmpCoursePicker)reqCompWidget).getSelectedValue();            		
+        	}
+        	
+            ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo();
+            fieldInfo.setId(name);
+            fieldInfo.setValue(value);
+            if (checkField(fieldInfo) == false) {
+            	editedFields.clear();
+                return false;
             }
-            if (cluIds.length() > 0) {
-                ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo();
-                fieldInfo.setId("reqCompFieldType.clu");
-                fieldInfo.setValue(cluIds.toString());
-                fields.add(fieldInfo);
+
+            if (fieldInfo.getId().equals("reqCompFieldType.clu")) {
+            	enteredCluCodes.append((enteredCluCodes.length() > 0 ? ", " : "") + fieldInfo.getValue());
+            } else {
+            	editedFields.add(fieldInfo);
             }
         }
-        editedReqComp.setReqCompFields(fields);
-        return true;
+        
+    	if (enteredCluCodes.length() > 0) {
+            ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo();
+            fieldInfo.setId("reqCompFieldType.clu");
+            fieldInfo.setValue(enteredCluCodes.toString());
+            editedFields.add(fieldInfo);
+        }
+
+        return true;    	
     }
 
     private boolean checkField(ReqCompFieldInfo fieldInfo) {
 
-        if (fieldInfo != null) {
-            String fieldId = fieldInfo.getId().replaceFirst("reqCompFieldType.", "");
-            String fieldValue = fieldInfo.getValue();
+        String fieldValue = fieldInfo.getValue();
 
-            if (fieldValue.trim().isEmpty()) {
-                Window.alert("Please enter all fields");
-                return false;
-            }
+        if (fieldValue.trim().isEmpty()) {
+            Window.alert("Please enter all fields");
+            return false;
+        }
 
-            if (fieldId.equals("clu")) {
-                String cluId = clusData.get(fieldValue);
-                if (cluId != null) {
-                    fieldInfo.setValue(cluId);
-                    return true;
-                }
-                if (fieldValue.contains(",")) {
-                    Window.alert("Please enter only one course");
-                } else {
-                    Window.alert("Cannot find course '" + fieldValue + "'");
-                }
-                return false;
+        if (fieldInfo.getId().equals("reqCompFieldType.clu")) {
+            if (fieldValue.contains(",")) {
+                Window.alert("Please enter only one course");
             }
+            return true;
+        }
 
-            if (fieldId.equals("cluSet")) {
-                String cluSetId = cluSetsData.get(fieldValue);
-                if (cluSetId != null) {
-                    fieldInfo.setValue(cluSetId);
-                    return true;
-                }
-                if (fieldValue.contains(",")) {
-                    Window.alert("Please enter only one course set");
-                } else {
-                    Window.alert("Cannot find course set '" + fieldValue + "'");
-                }
-                return false;
+        if (fieldInfo.getId().equals("reqCompFieldType.cluSet")) {
+            String cluSetId = cluSetsData.get(fieldValue);
+            if (cluSetId != null) {
+                fieldInfo.setValue(cluSetId);
+                return true;
             }
+            if (fieldValue.contains(",")) {
+                Window.alert("Please enter only one course set");
+            } else {
+                Window.alert("Cannot find course set '" + fieldValue + "'");
+            }
+            return false;
         }
         return true;
-    }
-
-    private String lookupCluCode(String cluId) {
-        Set<String> clusCodes = clusData.keySet();
-        if (clusCodes != null) {
-            for (String cluCode : clusCodes) {
-                String currCluId = clusData.get(cluCode);
-                if (currCluId != null && currCluId.equals(cluId)) {
-                    return cluCode;
-                }
-            }
-        }
-        return null;
     }
 
     private void displayReqComponentText(String reqInfoDesc, SimplePanel parentWidget, final List<ReqCompFieldInfo> fields) {
@@ -524,6 +527,7 @@ public class RuleComponentEditorView extends ViewComposite {
         boolean isValueWidget = true;
         Map<String, Integer> tagCounts = new HashMap<String, Integer>();
 
+        valueWidgets.clear();	
         for (int i = 0; i < tokens.length; i++) {
 
             isValueWidget = !isValueWidget;
@@ -581,17 +585,17 @@ public class RuleComponentEditorView extends ViewComposite {
             }
 
             if (tag.equals("reqCompFieldType.clu")) {
-                final TmpCoursePicker valueWidget = configureCourseSearch();
+            	final TmpCoursePicker valueWidget = configureCourseSearch();
+                valueWidgets.add(valueWidget);
                 String cluIdsInClause = getSpecificFieldValue(fields, tag);
-                String[] cluIds =
-                    (cluIdsInClause == null)? null : cluIdsInClause.split("(, *)");
-                String cluCode = null;
-                if (cluIds != null && tagCount < cluIds.length) {
-                    cluCode = lookupCluCode(cluIds[tagCount]);
+                
+                String[] cluIds = (cluIdsInClause == null)? null : cluIdsInClause.split("(, *)");                
+                //retrieve clu code to display for user
+                if ((cluIds != null) && (tagCount < cluIds.length) && (cluIds[tagCount].length() > 0)) {
+                	retrieveCluCode(tagCount, cluIds[tagCount]);
                 }
                 reqCompWidgets.add(valueWidget);
                 valueWidget.setName(tag);
-                valueWidget.setText(cluCode);
                 valueWidget.setWidth("100px");
                 valueWidget.setStyleName("KS-Textbox-Fix");
                 VerticalPanel tempPanel = new VerticalPanel();
@@ -658,6 +662,21 @@ public class RuleComponentEditorView extends ViewComposite {
         parentWidget.setWidget(innerReqComponentTextPanel);
     }
 
+	private void retrieveCluCode(final int id, final String cluId) {	
+        requirementsRpcServiceAsync.retrieveCluCode(cluId, new AsyncCallback<String>() {
+            public void onFailure(Throwable caught) {
+                Window.alert(caught.getMessage());
+                caught.printStackTrace();
+            }
+
+            public void onSuccess(final String cluCode) {
+            	if (cluCode != null) {
+            		valueWidgets.get(id).setSuggestBox(cluId, cluCode);
+            	}
+            }
+        });		  
+	}
+    
     public static class TmpCoursePicker extends KSSearchComponent {
 
     	private String name;
@@ -844,7 +863,7 @@ public class RuleComponentEditorView extends ViewComposite {
         });
     }
 
-    private void updateNLAndExit() {
+    private void updateNLAndExit() {    	            	
         requirementsRpcServiceAsync.getNaturalLanguageForReqComponentInfo(editedReqComp, "KUALI.CATALOG", new AsyncCallback<String>() {
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
@@ -857,11 +876,7 @@ public class RuleComponentEditorView extends ViewComposite {
                 prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
                 getController().showView(PrereqViews.MANAGE_RULES);
             }
-        });
-    }
-
-    public void setClusData(Map<String, String> clusData) {
-        this.clusData = clusData;
+        });            	
     }
 
     public void setCluSetsData(Map<String, String> cluSetsData) {
@@ -907,25 +922,16 @@ public class RuleComponentEditorView extends ViewComposite {
     	searchConfig.setSearchDialogTitle("Find Course");
     	searchConfig.setSearchService(luRpcServiceAsync);
     	searchConfig.setSearchTypeKey("lu.search.generic");
-    	searchConfig.setResultIdKey("lu.resultColumn.cluId");
+    	searchConfig.setResultIdKey("lu.resultColumn.cluId");  //lu.resultColumn.luOptionalCode  lu.resultColumn.cluId
     	searchConfig.setRetrievedColumnKey("lu.resultColumn.luOptionalCode");
     	
     	//TODO: following code should be in KSSearchComponent with config parameters set within SearchComponentConfiguration class
     	final SearchSuggestOracle cluSearchOracle = new SearchSuggestOracle(searchConfig.getSearchService(),
     	        "lu.search.generic", 
-    	        "lu.queryParam.luOptionalLongName", //field user is entering and we search on... add '%' the parameter
-    	        "lu.resultColumn.luOptionalCode", 		//if one wants to search by ID rather than by name
+    	        "lu.queryParam.luOptionalCode", //field user is entering and we search on... add '%' the parameter
+    	        "lu.queryParam.luOptionalId", 		//if one wants to search by ID rather than by name
     	        "lu.resultColumn.cluId", 		
-    	        "lu.resultColumn.luOptionalCode");
-    	  			
-		//Restrict searches to ?
-    	/*
-		ArrayList<QueryParamValue> params = new ArrayList<QueryParamValue>();
-		QueryParamValue orgTypeParam = new QueryParamValue();
-		orgTypeParam.setKey("org.queryParam.orgType");
-		orgTypeParam.setValue("kuali.org.Department");
-		params.add(orgTypeParam);
-		orgSearchOracle.setAdditionalQueryParams(params); */	
+    	        "lu.resultColumn.luOptionalCode");    	  				
     	
     	return new TmpCoursePicker(searchConfig, cluSearchOracle);
     }     

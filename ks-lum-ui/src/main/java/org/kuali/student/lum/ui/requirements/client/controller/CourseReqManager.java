@@ -63,7 +63,6 @@ public class CourseReqManager extends Controller {
     private Model<ReqComponentVO>  selectedReqCompVO;    
     private Model<ReqComponentTypeInfo> reqComponentTypes; //all requirements type info (fields and NL templates) for given statement type
     private String luStatementType = "unknown";             //type of rule that is being edited
-    private Map<String, String> listOfAvailableClus = new HashMap<String, String>();   //temporary - will be replaced with search widgets
     private Map<String, String> cluSetsData = new HashMap<String, String>(); 
     
     public CourseReqManager(VerticalPanel displayPanel) {
@@ -151,7 +150,6 @@ public class CourseReqManager extends Controller {
 	        case MANAGE_RULES:
                 return manageRulesView;
             case CLAUSE_EDITOR:    
-                rulesEditorView.setClusData(listOfAvailableClus);
                 rulesEditorView.setCluSetsData(cluSetsData);
                 return rulesEditorView;
             case RULE_EXPRESSION_EDITOR:
@@ -188,36 +186,10 @@ public class CourseReqManager extends Controller {
         }
     }
 
-    private void loadSearchBoxData() {
-    	
-    	//the following call will be replaced by search widgets that will query for all existing clus
-        requirementsRpcServiceAsync.getAllClus(new AsyncCallback<Map<String, String>>() {
-            public void onFailure(Throwable caught) {
-                Window.alert(caught.getMessage());
-                // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
-            }
-
-            public void onSuccess(final Map<String, String> cluData) {  
-                listOfAvailableClus = cluData;                   
-            }
-        });
-        
+    private void loadSearchBoxData() {        
         cluSetsData.put("CLUSET-NL-3", "CLUSET-NL-3");
         cluSetsData.put("CLUSET-NL-2", "CLUSET-NL-2");
-        cluSetsData.put("CLUSET-NL-1", "CLUSET-NL-1");
-
-        
-        /* will be removed when search widgets are added
-        RequirementsService.Util.getInstance().getAllClusets(new AsyncCallback<Map<String, String>>() {
-            public void onFailure(Throwable caught) {
-                Window.alert(caught.getMessage());
-                // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
-            }
-
-            public void onSuccess(final Map<String, String> cluSetData) {  
-                cluSetsData = cluSetData;                   
-            }
-        }); */         
+        cluSetsData.put("CLUSET-NL-1", "CLUSET-NL-1");              
     }
     
     public Class<? extends Enum<?>> getViewsEnum() {
