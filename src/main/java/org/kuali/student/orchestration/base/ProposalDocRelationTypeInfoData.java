@@ -16,6 +16,7 @@
 package org.kuali.student.orchestration.base;
 
 
+import java.util.Date;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.core.proposal.dto.ProposalDocRelationTypeInfo;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
@@ -28,6 +29,12 @@ public class ProposalDocRelationTypeInfoData
 	
 	public enum Properties implements PropertyEnum
 	{
+		NAME ("name"),
+		DESC ("desc"),
+		EFFECTIVE_DATE ("effectiveDate"),
+		EXPIRATION_DATE ("expirationDate"),
+		ATTRIBUTES ("attributes"),
+		KEY ("key");
 		
 		private final String key;
 		
@@ -48,5 +55,77 @@ public class ProposalDocRelationTypeInfoData
 		// TODO: ask Wil if we want to really use the class name as the key
 		super (ProposalDocRelationTypeInfo.class.getName ());
 	}
+	
+	public void setName (String value)
+	{
+		super.set (Properties.NAME.getKey (), value);
+	}
+	
+	
+	public String getName ()
+	{
+		return super.get (Properties.NAME.getKey ());
+	}
+	
+	
+	public void setDesc (String value)
+	{
+		super.set (Properties.DESC.getKey (), value);
+	}
+	
+	
+	public String getDesc ()
+	{
+		return super.get (Properties.DESC.getKey ());
+	}
+	
+	
+	public void setEffectiveDate (Date value)
+	{
+		super.set (Properties.EFFECTIVE_DATE.getKey (), value);
+	}
+	
+	
+	public Date getEffectiveDate ()
+	{
+		return super.get (Properties.EFFECTIVE_DATE.getKey ());
+	}
+	
+	
+	public void setExpirationDate (Date value)
+	{
+		super.set (Properties.EXPIRATION_DATE.getKey (), value);
+	}
+	
+	
+	public Date getExpirationDate ()
+	{
+		return super.get (Properties.EXPIRATION_DATE.getKey ());
+	}
+	
+	
+	public void setAttributes (Data value)
+	{
+		super.set (Properties.ATTRIBUTES.getKey (), value);
+	}
+	
+	
+	public Data getAttributes ()
+	{
+		return super.get (Properties.ATTRIBUTES.getKey ());
+	}
+	
+	
+	public void setKey (String value)
+	{
+		super.set (Properties.KEY.getKey (), value);
+	}
+	
+	
+	public String getKey ()
+	{
+		return super.get (Properties.KEY.getKey ());
+	}
+	
 }
 
