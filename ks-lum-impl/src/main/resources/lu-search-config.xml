@@ -148,7 +148,7 @@
                     	WHERE clu.state NOT IN ('draft') ORDER BY clu.officialIdentifier.longName </value>
                 </entry>
                 <entry key="lu.search.cluByCode">
-                    <value>SELECT clu.id FROM Clu clu WHERE clu.officialIdentifier.code = :lu_criteria_code </value>
+                    <value>SELECT clu.id FROM Clu clu WHERE clu.officialIdentifier.code = :lu_criteria_code ORDER BY clu.effectiveDate DESC</value>
                 </entry>                
                 <entry key="lu.search.generic">
                     <value>SELECT clu.id,  clu.officialIdentifier.longName, clu.officialIdentifier.code, clu.officialIdentifier.level

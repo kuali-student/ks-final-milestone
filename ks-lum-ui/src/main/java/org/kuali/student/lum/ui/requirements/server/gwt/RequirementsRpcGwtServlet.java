@@ -328,7 +328,7 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
     	        		cluParam.add(orgOptionalTypeParam);         		
     	        		
     	        		List<Result> resultId = service.searchForResults("lu.search.cluByCode", cluParam);
-    	        		if ((resultId == null) || (resultId.size() != 1)) {
+    	        		if ((resultId == null) || (resultId.size() < 1)) {
     	        			throw new Exception("Invalid code: '" + id + "'");
     	        		}
     	        		List<ResultCell> cells = resultId.get(0).getResultCells();        		        		
