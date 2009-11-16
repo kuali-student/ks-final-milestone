@@ -71,7 +71,7 @@ public class OrchestrationObjectsWriterUsingCodemodelTest implements TestConstan
     new DictionaryModelLoader (dictReader, orchReader);
    DictionaryModel cache = new DictionaryModelCache (loader);
    OrchestrationObjectsWriterUsingCodemodel instance =
-    new OrchestrationObjectsWriterUsingCodemodel (cache, SOURCE_DIRECTORY);
+    new OrchestrationObjectsWriterUsingCodemodel (cache, DIRECTORY_TO_WRITE_SOURCE);
    instance.write ();
   }
   finally
