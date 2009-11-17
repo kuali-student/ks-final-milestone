@@ -247,7 +247,7 @@ public class StatementTranslator {
 	private String getHeaderTemplate(CustomLuStatementInfo luStatement, String nlUsageTypeKey) throws DoesNotExistException {
 		for(LuStatementTypeHeaderTemplateInfo header : luStatement.getLuStatementType().getHeaders()) {
 			if(header.getNlUsageTypeKey().equals(nlUsageTypeKey) && header.getLanguage().equals(this.language)) {
-				return header.getTemplate();
+				return (header.getTemplate() == null ? "" : header.getTemplate());
 			}
 		}
         throw new DoesNotExistException("Natural language usage type key '" + nlUsageTypeKey + "'" +
