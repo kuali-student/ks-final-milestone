@@ -1534,81 +1534,81 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	        
 	        return;
 	    }     
-	 }
-    
-    //work in progress
-    private String saveRule(String cluId, StatementVO statementVO, String parentId) throws Exception {
-        
-        LuStatementInfo parentStmt = statementVO.getLuStatementInfo();
-    	List<StatementVO> stmtVOs = statementVO.getStatementVOs();       
-        List<ReqComponentVO> reqCompVOs = statementVO.getReqComponentVOs();
-        
-        if ((stmtVOs != null) && (reqCompVOs != null) && (stmtVOs.size() > 0) && (reqCompVOs.size() > 0))
-        {
-        	throw new Exception("Internal error: found both Lu Statements and Requirement Components on the same level of boolean expression");
-        }               
-        
-        //create this statement first             
-        parentStmt.setParentId(parentId);
-        parentStmt.setId(null);
-    	LuStatementInfo newParentStmt = service.createLuStatement(parentStmt.getType(), parentStmt);
-        if (newParentStmt == null) {
-        	throw new Exception("Unable to create Statement: " + parentStmt.getName());	
-        }          
-        
-        //next save contained statements or req. components
-        if ((stmtVOs != null) && (stmtVOs.size() > 0)) {        	        
 
-            //save children belonging to each statement
-        	newParentStmt.setLuStatementIds(new ArrayList<String>());
-            for (StatementVO stmtVO : stmtVOs) {            	          	
-            	            	 
-                //Set statement type
-            	stmtVO.getLuStatementInfo().setType(newParentStmt.getType());
-            	/*
-                if (newParentStmt.getLuStatementType() == null){
-        			LuStatementTypeInfo luStatementTypeInfo = new LuStatementTypeInfo();
-        			luStatementTypeInfo.setId(newParentStmt.getLuStatementType().getId());
-        			newParentStmt.setLuStatementType(luStatementTypeInfo);
-        			newParentStmt.setType(luStatementTypeInfo.getId());
-                } */            	
-            	
-            	//save this statement and all its children and leaves
-                String childStmtId = saveRule(cluId, stmtVO, newParentStmt.getId());
-                
-                //add the child statement id to the parent statement
-                newParentStmt.getLuStatementIds().add(childStmtId);                                               
-            }             
-            
-        } else {
-        	           
-            //create each req. component
-        	newParentStmt.setReqComponentIds(new ArrayList<String>());
-            for (ReqComponentVO reqCompVO : reqCompVOs) {             
-            	ReqComponentInfo reqComp = reqCompVO.getReqComponentInfo();
-            	
-            	logger.info("CREATING Req. Component with id: " + reqComp.getId());
-            	reqComp.setId(null);
-            	ReqComponentInfo newReqCmp = service.createReqComponent(reqComp.getType(), reqComp);
-            	if (newReqCmp == null) {            	
-                    throw new Exception("Unable to create Req. Component with id: " + reqComp.getId());
-            	}
-            	
-            	//add the new req. comp id to the statement
-            	newParentStmt.getReqComponentIds().add(newReqCmp.getId());
-            	
-            	reqCompVO.setReqComponentInfo(newReqCmp);
-            	reqCompVO.setId(newReqCmp.getId());            	
-            }             
-        }                                                 
-        
-        //update statement with children ids
-        newParentStmt = service.updateLuStatement(newParentStmt.getId(), newParentStmt);         
-        
-        statementVO.setLuStatementInfo(newParentStmt);        
-        
-        return newParentStmt.getId();
-    }  	
+	    //work in progress
+	    private String saveRule(String cluId, StatementVO statementVO, String parentId) throws Exception {
+	        
+	        LuStatementInfo parentStmt = statementVO.getLuStatementInfo();
+	    	List<StatementVO> stmtVOs = statementVO.getStatementVOs();       
+	        List<ReqComponentVO> reqCompVOs = statementVO.getReqComponentVOs();
+	        
+	        if ((stmtVOs != null) && (reqCompVOs != null) && (stmtVOs.size() > 0) && (reqCompVOs.size() > 0))
+	        {
+	        	throw new Exception("Internal error: found both Lu Statements and Requirement Components on the same level of boolean expression");
+	        }               
+	        
+	        //create this statement first             
+	        parentStmt.setParentId(parentId);
+	        parentStmt.setId(null);
+	    	LuStatementInfo newParentStmt = service.createLuStatement(parentStmt.getType(), parentStmt);
+	        if (newParentStmt == null) {
+	        	throw new Exception("Unable to create Statement: " + parentStmt.getName());	
+	        }          
+	        
+	        //next save contained statements or req. components
+	        if ((stmtVOs != null) && (stmtVOs.size() > 0)) {        	        
+
+	            //save children belonging to each statement
+	        	newParentStmt.setLuStatementIds(new ArrayList<String>());
+	            for (StatementVO stmtVO : stmtVOs) {            	          	
+	            	            	 
+	                //Set statement type
+	            	stmtVO.getLuStatementInfo().setType(newParentStmt.getType());
+	            	/*
+	                if (newParentStmt.getLuStatementType() == null){
+	        			LuStatementTypeInfo luStatementTypeInfo = new LuStatementTypeInfo();
+	        			luStatementTypeInfo.setId(newParentStmt.getLuStatementType().getId());
+	        			newParentStmt.setLuStatementType(luStatementTypeInfo);
+	        			newParentStmt.setType(luStatementTypeInfo.getId());
+	                } */            	
+	            	
+	            	//save this statement and all its children and leaves
+	                String childStmtId = saveRule(cluId, stmtVO, newParentStmt.getId());
+	                
+	                //add the child statement id to the parent statement
+	                newParentStmt.getLuStatementIds().add(childStmtId);                                               
+	            }             
+	            
+	        } else {
+	        	           
+	            //create each req. component
+	        	newParentStmt.setReqComponentIds(new ArrayList<String>());
+	            for (ReqComponentVO reqCompVO : reqCompVOs) {             
+	            	ReqComponentInfo reqComp = reqCompVO.getReqComponentInfo();
+	            	
+	            	logger.info("CREATING Req. Component with id: " + reqComp.getId());
+	            	reqComp.setId(null);
+	            	ReqComponentInfo newReqCmp = service.createReqComponent(reqComp.getType(), reqComp);
+	            	if (newReqCmp == null) {            	
+	                    throw new Exception("Unable to create Req. Component with id: " + reqComp.getId());
+	            	}
+	            	
+	            	//add the new req. comp id to the statement
+	            	newParentStmt.getReqComponentIds().add(newReqCmp.getId());
+	            	
+	            	reqCompVO.setReqComponentInfo(newReqCmp);
+	            	reqCompVO.setId(newReqCmp.getId());            	
+	            }             
+	        }                                                 
+	        
+	        //update statement with children ids
+	        newParentStmt = service.updateLuStatement(newParentStmt.getId(), newParentStmt);         
+	        
+	        statementVO.setLuStatementInfo(newParentStmt);        
+	        
+	        return newParentStmt.getId();
+	    }
+	}
 	
 	public void setSimpleDocService(SimpleDocumentActionsWebService simpleDocService) {
 		this.simpleDocService = simpleDocService;
