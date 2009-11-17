@@ -17,6 +17,7 @@ package org.kuali.student.lum.lu.ui.course.client.widgets;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
@@ -32,6 +33,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -51,7 +53,7 @@ public class LOPicker extends  Composite implements  HasValue<String>  {
     VerticalPanel root = new VerticalPanel();
     
     KSTextArea loText = new KSTextArea();
-    
+    ButtonPanel buttonPanel = new ButtonPanel();
 //    private final FocusGroup focus = new FocusGroup(this);
     
     public LOPicker() {
@@ -78,7 +80,7 @@ public class LOPicker extends  Composite implements  HasValue<String>  {
                
         searchPanel.add(loText);
         searchPanel.add(searchLink);
-               
+        searchPanel.add(buttonPanel);
         initWidget(root);
 
         root.add(searchPanel);
@@ -129,5 +131,22 @@ public class LOPicker extends  Composite implements  HasValue<String>  {
         
     }
        
-
+    class ButtonPanel extends  Composite {
+        FlexTable layoutTable = new FlexTable();
+        KSButton upButton = new KSButton();
+        KSButton downButton = new KSButton();
+        KSButton deleteButton = new KSButton();
+        KSButton indentButton = new KSButton();
+        
+        public ButtonPanel(){
+            layoutTable.setWidget(0, 0, upButton);
+            layoutTable.setWidget(0, 1, deleteButton);
+            layoutTable.setWidget(1, 0, downButton);
+            layoutTable.setWidget(1, 1, indentButton);
+            super.initWidget(layoutTable);
+        }
+        public void hideIndentButton(boolean vis){
+            indentButton.setVisible(vis);
+        }
+    }
 }
