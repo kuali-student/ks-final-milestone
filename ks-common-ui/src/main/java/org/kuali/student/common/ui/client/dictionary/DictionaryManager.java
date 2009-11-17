@@ -115,7 +115,7 @@ public class DictionaryManager {
                 }
 
                 result.put(field.getKey().toLowerCase(), field);
-                System.out.println(field.getKey());
+//                GWT.log(field.getKey(), null);
             }
         }
     }
