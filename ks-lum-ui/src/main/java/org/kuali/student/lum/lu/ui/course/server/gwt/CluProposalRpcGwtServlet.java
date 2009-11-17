@@ -642,7 +642,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             // save rules
             LuRuleInfoPersistanceBean ruleInfoBean = new LuRuleInfoPersistanceBean();
             ruleInfoBean.setLuService(service);
-            ruleInfoBean.saveRules(cluInfo.getId(), cluProposalDTO.getRuleInfos());
+            ruleInfoBean.updateRules(cluInfo.getId(), cluProposalDTO.getRuleInfos());
             
             // now update the clu with whatever changes were made in save... methods
             cluInfo = service.updateClu(cluInfo.getId(), cluInfo);
@@ -1429,10 +1429,13 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	    		//TODO remove the original rule i.e. first retrieve the original statement from clu 
 	    		//deleteRule(cluId, origLuStatementInfo, true);
 	        	//for now just remove the top statement from clu    	
-	            StatusInfo status = service.removeLuStatementFromClu(cluId, stmtVO.getLuStatementInfo().getId());
-	            if (!status.getSuccess()) {
-	            	throw new Exception("Unable to remove statement with id: " + stmtVO.getLuStatementInfo().getId() + " from clu with id: " + cluId);	
-	            }  
+	    		StatusInfo status;
+	    		if (stmtVO.getLuStatementInfo().getId() != null){
+		    		status = service.removeLuStatementFromClu(cluId, stmtVO.getLuStatementInfo().getId());
+		            if (!status.getSuccess()) {
+		            	throw new Exception("Unable to remove statement with id: " + stmtVO.getLuStatementInfo().getId() + " from clu with id: " + cluId);	
+		            }
+	    		}
 	    		
 	    		String rooStmtId = saveRule(cluId, stmtVO, null);
 	            status = service.addLuStatementToClu(cluId, rooStmtId);
