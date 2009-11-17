@@ -204,8 +204,11 @@ public class CourseReqManager extends Controller {
         return mainPanel;
     }
     
-    public void setRuleInfoModel(Model<RuleInfo> ruleInfo) {
-        this.ruleInfo = ruleInfo;
+    public void setRuleInfoModel(List<RuleInfo> rules) {
+    	ruleInfo = new Model<RuleInfo>();
+    	for (RuleInfo rule : rules) {
+    		this.ruleInfo.add(rule);
+    	}
     }
     
     public Model<RuleInfo> getRuleInfoModel() {

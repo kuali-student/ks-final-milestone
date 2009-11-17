@@ -15,13 +15,10 @@
 package org.kuali.student.lum.ui.requirements.server.gwt;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
-import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
@@ -38,7 +35,9 @@ import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.nlt.dto.LuNlStatementInfo;
 import org.kuali.student.lum.nlt.service.TranslationService;
+import org.kuali.student.lum.ui.requirements.client.model.EditHistory;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
+import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcService;
 
@@ -84,7 +83,12 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
                 
         //then get natural language for the statement
         String NLStatement = "";
-        cluId = (cluId.isEmpty() ? null : cluId);  //cluId can't be empty
+        
+        //cluId can't be empty
+        if ((cluId != null) && cluId.isEmpty()) {
+        	cluId = null;
+        }
+ 
         try {        
             NLStatement = translationService.getNaturalLanguageForLuStatementInfo(cluId, luNlStatementInfo, nlUsageTypeKey, null);            
         } catch (Exception ex) {
@@ -127,6 +131,39 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
         }
         
         return null;
+    }
+    
+    public List<RuleInfo> getRules(String cluId, List<String> applicableLuStatementTypes) throws Exception {
+    	
+    	List<RuleInfo> rules = new ArrayList<RuleInfo>();
+    	
+    	//get all statements of given type associated with this clu 	    	
+        for (String luStatementTypeKey : applicableLuStatementTypes) {
+        	
+        	StatementVO statementVO = getStatementVO(cluId, luStatementTypeKey);
+    	
+        	//if we don't have rule for give rule type
+	        if (statementVO == null) {                   
+	            continue;
+	        }       
+	        
+	        final RuleInfo ruleInfo = new RuleInfo();
+	        ruleInfo.setCluId(cluId);
+	        ruleInfo.setRationale("");  //TODO
+	        ruleInfo.setStatementVO(statementVO);
+	        ruleInfo.setLuStatementTypeKey(luStatementTypeKey);
+	        
+	        EditHistory editHistory = new EditHistory();
+	        editHistory.save(statementVO);
+	        ruleInfo.setEditHistory(editHistory);	                           
+	                                
+	        String statementNaturalLanguage = getNaturalLanguageForStatementVO(cluId, statementVO, "KUALI.CATALOG");        
+	        ruleInfo.setNaturalLanguage(statementNaturalLanguage);   
+	        
+	        rules.add(ruleInfo);
+        }
+    	
+        return rules;
     }
     
     public StatementVO getStatementVO(String cluId, String luStatementTypeKey) throws Exception {
@@ -240,69 +277,7 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
         }        
         
         return "";
-    }     
-    
-    
-
-    private String deleteRule(LuStatementInfo luStatementInfo) throws Exception {
-        
-        List<String> statementIDs = luStatementInfo.getLuStatementIds();       
-        List<String> reqComponentIDs = luStatementInfo.getReqComponentIds();
-        
-        if ((statementIDs != null) && (reqComponentIDs != null) && (statementIDs.size() > 0) && (reqComponentIDs.size() > 0))
-        {
-            return "Internal error: found both Statements and Requirement Components on the same level of boolean expression";
-        }
-        
-        if ((statementIDs != null) && (statementIDs.size() > 0)) {
-            //retrieve all statements
-        	List<LuStatementInfo> stmts;
-            try {
-            	stmts = service.getLuStatements(statementIDs);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                throw new Exception("Unable to retrieve Lu Statement based on statement ids: " + statementIDs, ex);
-            }            
-            
-            //need to start from bottom up...??
-            //for each statement, first find if there are other clus referencing it
-            for (LuStatementInfo stmt : stmts) {                   
-                deleteRule(stmt);
-            }            
-        } else {
-            //retrieve all requirement component LEAFS
-        	List<ReqComponentInfo> reqComponents;
-            try {
-                reqComponents = service.getReqComponents(reqComponentIDs);                               
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                throw new Exception("Unable to retrieve Lu Statemetn based on reqComponentIDs: " + reqComponentIDs, ex);
-            } 
-            
-            //for each requirement component, first find whether it referenced by other statements..
-            for (ReqComponentInfo reqComponent : reqComponents) {             
-                // List<LuStatementInfo> stmts = service.getStatementsUsingComponent(reqComponent.getId());
-            	// //if we have other statements referencing this req. component then don't delete it
-            	// if (stmts.size() > 1) {
-            	//    continue;
-            	// }
-            	//
-            	//  StatusInfo status = service.deleteReqComponent(reqComponent.getId());
-            	//  if (getSuccess() == false)
-            	//  {
-            	//
-            	//  }
-            }               
-        }        
-        
-        /*
-        service.deleteReqComponent(reqComponentId);
-        service.deleteLuStatement(luStatementId);
-        
-        service.get */
-        
-        return "";
-    }     
+    }                   
     
     /**
      * @throws Exception 
@@ -375,10 +350,7 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
  
         return cluCode;
     }     
-    
-    public String getRuleRationale(String cluId, String luStatementTypeKey) throws Exception {        
-        return "To be prepared for this course, students must have in-depth knowledge of the topics from at least on introductory education course.";
-    }        
+          
         
     
     /******************************************************************************************************************

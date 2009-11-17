@@ -25,11 +25,9 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
-import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
 import org.kuali.student.lum.ui.requirements.client.RulesUtilities;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;
@@ -79,25 +77,33 @@ public class CourseRequisiteView extends ViewComposite {
     
     private ButtonEventHandler handler = new ButtonEventHandler(); 
     
-    //view's data
-    private final Model<RuleInfo> courseRules = new Model<RuleInfo>();  //contains all rules, each rule has its own RuleInfo object
+    //rule types we deal with
+	List<String> applicableLuStatementTypes = new ArrayList<String>();
+   		
+   	//view's data   		
+    private List<RuleInfo> courseRules = new ArrayList<RuleInfo>();  //contains all rules, each rule has its own RuleInfo object
     private String cluId = null;
     private static int id = 0;
-    private boolean dataInitialized = false;
-    
+
     public CourseRequisiteView(Controller controller) {
         super(controller, "Course Requisites");
-        super.initWidget(mainPanel);           
+        super.initWidget(mainPanel);   
+        
+        applicableLuStatementTypes.add(KS_STATEMENT_TYPE_PREREQ);
+        applicableLuStatementTypes.add(KS_STATEMENT_TYPE_COREQ);
+        applicableLuStatementTypes.add(KS_STATEMENT_TYPE_ANTIREQ);
+        applicableLuStatementTypes.add(KS_STATEMENT_TYPE_ENROLLREQ);
     }
     
     public void beforeShow() {                 	
     	
     	getController().requestModel(CluProposalModelDTO.class,
-                new ModelRequestCallback<CluProposalModelDTO>() {
+    			new ModelRequestCallback<CluProposalModelDTO>() {
                     @Override
                     public void onModelReady(Model<CluProposalModelDTO> model) {
                     	ModelDTO cluInfoModelDTO = (ModelDTO) ((ModelDTOType) model.get().get("cluInfo")).get();
-                    	cluId = ""; //"CLU-NL-2"; //TODO ((StringType)cluInfoModelDTO.get("cluId")).getString();
+                    	courseRules = model.get().getRuleInfos();
+                    	cluId = model.get().getString("cluInfo/id");
                         initializeView();
                     }    
     
@@ -108,109 +114,120 @@ public class CourseRequisiteView extends ViewComposite {
         });    	            
     }    
     
-    public void initializeView() {
-       
+    public void initializeView() {       
         mainPanel.clear();
         viewPanel.clear();
-        mainPanel.add(viewPanel);
-        
+        mainPanel.add(viewPanel);;        
         layoutMainPanel(viewPanel);
-        if ((cluId == null) || dataInitialized) {
-        	setRuleText(KS_STATEMENT_TYPE_PREREQ);
-        	setRuleText(KS_STATEMENT_TYPE_COREQ);
-        	setRuleText(KS_STATEMENT_TYPE_ANTIREQ);
-        	setRuleText(KS_STATEMENT_TYPE_ENROLLREQ);        	
+
+        for (String luStatementType : applicableLuStatementTypes) {
+        	setupRuleType(luStatementType);
+        } 
+        
+        //go to retrieve new rules only for the first time
+        if ((cluId != null) && (courseRules.size() < applicableLuStatementTypes.size())) {
+        	retrieveRules();
+        }
+    }
+    
+    private void setupRuleType(String luStatementTypeKey) {
+    	
+    	layoutBasicRuleSection(luStatementTypeKey);
+    	
+        //add add or manage rules button
+        VerticalPanel rulesInfoPanel = getRulesInfoPanel(luStatementTypeKey);                     
+        HorizontalPanel rationalePanel3 = new HorizontalPanel();
+        KSLabel rationale3 = new KSLabel("");
+        rationale3.setStyleName("KS-ReqMgr-Field-Labels"); 
+        rationalePanel3.add(rationale3);        
+        rulesInfoPanel.add(rationalePanel3);
+    	
+    	RuleInfo rule = getRuleInfo(luStatementTypeKey);    	
+        KSButton submitButton = new KSButton(rule == null ? "Add Rule" : "Manage rule");
+        submitButtons.put(luStatementTypeKey, submitButton);
+        submitButton.setTitle(luStatementTypeKey);
+        submitButton.setStyleName("KS-Rules-Tight-Button");
+        submitButton.addClickHandler(handler);    
+        rationalePanel3.add(submitButton);        
+    	
+        if ((rule != null) || (cluId == null) ) {
+        	setRuleText(luStatementTypeKey);       	
             return;
-        }        
-        
-        //retrieve all rule data for each statement type
-        RulesUtilities.clearModel(courseRules);        
-        retrieveRuleTypeData(KS_STATEMENT_TYPE_PREREQ);
-        retrieveRuleTypeData(KS_STATEMENT_TYPE_COREQ);                           
-        retrieveRuleTypeData(KS_STATEMENT_TYPE_ANTIREQ);
-        retrieveRuleTypeData(KS_STATEMENT_TYPE_ENROLLREQ);       
-        
-        dataInitialized = true;
+        }     	    	
     }
             
-    private void retrieveRuleTypeData(final String luStatementTypeKey) {
-        
-        layoutBasicRuleSection(luStatementTypeKey);
+    private void retrieveRules() {                
 
-        requirementsRpcServiceAsync.getStatementVO(cluId, luStatementTypeKey, new AsyncCallback<StatementVO>() {
+        requirementsRpcServiceAsync.getRules(cluId, applicableLuStatementTypes, new AsyncCallback<List<RuleInfo>>() {
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
                 caught.printStackTrace();
             }
             
-            public void onSuccess(final StatementVO statementVO) {
-               
-                if (statementVO == null) {
-                    loadRuleInfo(luStatementTypeKey);
-                    KSLabel reqText = new KSLabel("No " + getRuleTypeName(luStatementTypeKey).toLowerCase() + " rules has been added.");
-                    reqText.setStyleName("KS-ReqMgr-NoRuleText");
-                    SimplePanel rulesText = getRulesTextPanel(luStatementTypeKey);
-                    rulesText.clear();
-                    rulesText.add(reqText);                    
-                    return;
-                }
-                
-                final RuleInfo ruleInfo = new RuleInfo();
-                ruleInfo.setId(Integer.toString(id++));
-                ruleInfo.setCluId(cluId);
-                ruleInfo.setRationale("");
-                ruleInfo.setStatementVO(statementVO);
-                ruleInfo.setLuStatementTypeKey(luStatementTypeKey);
-                
-                EditHistory editHistory = new EditHistory();
-                editHistory.save(statementVO);
-                ruleInfo.setEditHistory(editHistory);
-                
-                setRuleInfo(ruleInfo);                    
-                                        
-                requirementsRpcServiceAsync.getNaturalLanguageForStatementVO(cluId, statementVO, "KUALI.CATALOG", new AsyncCallback<String>() {
-                    public void onFailure(Throwable caught) {
-                        Window.alert(caught.getMessage());
-                        caught.printStackTrace();
+            public void onSuccess(final List<RuleInfo> rules) {
+            	
+                for (String luStatementType : applicableLuStatementTypes) {
+            	
+                	//do not update rules that were modified locally
+                	if (getRuleInfo(luStatementType) != null) {
+                		continue;
+                	}
+                	
+                	RuleInfo rule = null;
+                    for (RuleInfo tmpRule : rules) {
+                        if (tmpRule.getLuStatementTypeKey().equals(luStatementType)) {              	
+                        	rule = tmpRule;
+                        	break;
+                        }                
                     }
-                    
-                    public void onSuccess(final String statementNaturalLanguage) {                               
-                        ruleInfo.setNaturalLanguage(statementNaturalLanguage);   
-                        loadRuleInfo(luStatementTypeKey);
-                        SimplePanel rulesText = getRulesTextPanel(luStatementTypeKey);
-                        rulesText.clear();
-                        rulesText.add(new KSLabel(statementNaturalLanguage));  
-                        
-                        //store this new rule model in the top most model
-                        getController().requestModel(CluProposalModelDTO.class, new ModelRequestCallback<CluProposalModelDTO>() {
+                	
+                    //no rule exists for given lu statement type so state that on rules page
+		        	if (rule == null)
+		        	{
+			            KSLabel reqText = new KSLabel("No " + getRuleTypeName(luStatementType).toLowerCase() + " rules has been added.");
+			            reqText.setStyleName("KS-ReqMgr-NoRuleText");
+			            SimplePanel rulesText = getRulesTextPanel(luStatementType);
+			            rulesText.clear();
+			            rulesText.add(reqText); 
+			            continue;
+		        	}
+		        	
+		        	//update the model
+			        setRuleInfo(rule); 
+			        
+			        //update the UI
+			        submitButtons.get(rule.getLuStatementTypeKey()).setText("Manage rule");
+			        SimplePanel rulesText = getRulesTextPanel(luStatementType);
+			        rulesText.clear();
+			        rulesText.add(new KSLabel(rule.getNaturalLanguage())); 
+            	}
+    	        
+                //store this new rule model in the top most model
+                getController().requestModel(CluProposalModelDTO.class, new ModelRequestCallback<CluProposalModelDTO>() {
 
-                            @Override
-                            public void onModelReady(Model<CluProposalModelDTO> model) {
-                                List<RuleInfo> ruleInfos = model.get().getRuleInfos();
-                                ruleInfos.retainAll(ruleInfos);
-                            }
+                    @Override
+                    public void onModelReady(Model<CluProposalModelDTO> model) {
+                        List<RuleInfo> ruleInfos = model.get().getRuleInfos();
+                        ruleInfos.retainAll(ruleInfos);
+                    }
 
-                            @Override
-                            public void onRequestFail(Throwable cause) {
-                                Window.alert("Failed to request for CluProposalModelDTO");
-                            }
-                        });                        
-                    } 
-                });                                               
+                    @Override
+                    public void onRequestFail(Throwable cause) {
+                        Window.alert("Failed to request for CluProposalModelDTO");
+                    }
+                });                                              
             } 
         });            
     }
     
     private void setRuleText(String luStatementTypeKey) {
     	String ruleText;
-    	RuleInfo rule = getRuleInfo(luStatementTypeKey);
+    	RuleInfo rule = getRuleInfo(luStatementTypeKey);    	 	
     	
     	if ((rule == null) || (rule.getNaturalLanguage() == null) || (rule.getNaturalLanguage().isEmpty())) {
-    		ruleText = "No " + getRuleTypeName(luStatementTypeKey).toLowerCase() + " rules have been added.";
-        	submitButtons.get(luStatementTypeKey).setText("Add Rule");    		    		
+    		ruleText = "No " + getRuleTypeName(luStatementTypeKey).toLowerCase() + " rules have been added.";   		    		
     	} else {
     		ruleText = rule.getNaturalLanguage();
-        	submitButtons.get(luStatementTypeKey).setText("Manage rules");
     	}
 
         SimplePanel rulesText = getRulesTextPanel(luStatementTypeKey);
@@ -225,7 +242,6 @@ public class CourseRequisiteView extends ViewComposite {
             Widget sender = (Widget) event.getSource();
             CourseReqManager courseReqManager = (CourseReqManager) getController();
             
-            RuleInfo rule = getRuleInfo(sender.getTitle());
             String statementType = null;
             
             if (sender.getTitle().contains("prereq")) {
@@ -239,8 +255,8 @@ public class CourseRequisiteView extends ViewComposite {
             }
             courseReqManager.setLuStatementType(statementType);
             
+            RuleInfo rule = getRuleInfo(sender.getTitle());
             if ((rule == null) || (rule.getNaturalLanguage() == null) || (rule.getNaturalLanguage().isEmpty())) {                
-                //RulesUtilities.clearModel(courseRules);
                 RuleInfo newPrereqInfo = new RuleInfo();
                 newPrereqInfo.setId(Integer.toString(id++));
                 newPrereqInfo.setCluId(cluId);
@@ -260,7 +276,7 @@ public class CourseRequisiteView extends ViewComposite {
         }       
     }    
     
-    public void setRuleInfo(RuleInfo ruleInfo) { 
+    private void setRuleInfo(RuleInfo ruleInfo) { 
         RuleInfo origRule = getRuleInfo(ruleInfo.getLuStatementTypeKey());
         if (origRule != null) {    	
             courseRules.remove(origRule);
@@ -269,14 +285,13 @@ public class CourseRequisiteView extends ViewComposite {
     }
     
     private RuleInfo getRuleInfo(String luStatementTypeKey) { 	
-        if (courseRules.getValues() != null && !courseRules.getValues().isEmpty()) {
-            for (RuleInfo ruleInfo : courseRules.getValues()) {
+        if ((courseRules != null) && !courseRules.isEmpty()) {
+            for (RuleInfo ruleInfo : courseRules) {
                 if (ruleInfo.getLuStatementTypeKey().equals(luStatementTypeKey)) {              	
                     return ruleInfo;
                 }                
             }
         }     
-        GWT.log("Did not find RuleInfo for lu statement type: " + luStatementTypeKey, null);
         return null;
     }
     
@@ -351,24 +366,7 @@ public class CourseRequisiteView extends ViewComposite {
         return;
     }
         
-    private void loadRuleInfo(final String luStatementTypeKey) {
-        
-        RuleInfo rule = getRuleInfo(luStatementTypeKey);   
-        VerticalPanel rulesInfoPanel = getRulesInfoPanel(luStatementTypeKey);                     
-        
-        //BUTTONS
-        HorizontalPanel rationalePanel3 = new HorizontalPanel();
-        KSLabel rationale3 = new KSLabel("");
-        rationale3.setStyleName("KS-ReqMgr-Field-Labels"); 
-        rationalePanel3.add(rationale3);        
-        rulesInfoPanel.add(rationalePanel3);           
-                                   
-        //add add or manage rules button
-        KSButton submitButton = new KSButton(rule == null ? "Add Rule" : "Manage rules");
-        submitButtons.put(luStatementTypeKey, submitButton);
-        submitButton.setTitle(luStatementTypeKey);
-        submitButton.setStyleName("KS-Rules-Tight-Button");
-        submitButton.addClickHandler(handler);
+    private void loadRuleInfo(final String luStatementTypeKey) {                                                     
         
         // TODO remove when done testing the save application state feature
 //        KSButton saveApplicationState = new KSButton("Save State");
@@ -394,7 +392,7 @@ public class CourseRequisiteView extends ViewComposite {
 //            }
 //        });
 //        rationalePanel3.add(saveApplicationState);
-        rationalePanel3.add(submitButtons.get(luStatementTypeKey));
+
     }
     
     public void saveApplicationState() {

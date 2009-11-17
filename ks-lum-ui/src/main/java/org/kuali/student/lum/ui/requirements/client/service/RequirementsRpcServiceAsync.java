@@ -15,13 +15,13 @@
 package org.kuali.student.lum.ui.requirements.client.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
+import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -34,8 +34,8 @@ public interface RequirementsRpcServiceAsync extends BaseRpcServiceAsync {
     public void getNaturalLanguageForStatementVO(String cluId, StatementVO statementVO, String nlUsageTypeKey, AsyncCallback<String> asyncCallback);
     public void getReqComponentTypesForLuStatementType(String luStatementTypeKey, AsyncCallback<List<ReqComponentTypeInfo>> asyncCallback); 
     public void getLuStatementForCluAndStatementType(String cluId, String luStatementTypeKey, AsyncCallback<LuStatementInfo> asyncCallback); 
-    public void getRuleRationale(String cluId, String luStatementTypeKey, AsyncCallback<String> asyncCallback);
     public void getStatementVO(String cluId, String luStatementTypeKey, AsyncCallback<StatementVO> asyncCallback);
 	public void verifyFieldsAndSetIds(List<ReqCompFieldInfo> editedFields, AsyncCallback<List<ReqCompFieldInfo>> asyncCallback);
 	public void retrieveCluCode(String cluId, AsyncCallback<String> asyncCallback);
+	public void getRules(String cluId, List<String> applicableLuStatementTypes, AsyncCallback<List<RuleInfo>> asyncCallback);
 }

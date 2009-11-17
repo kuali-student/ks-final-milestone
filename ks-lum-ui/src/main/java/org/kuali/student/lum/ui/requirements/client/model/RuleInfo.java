@@ -15,7 +15,6 @@
 package org.kuali.student.lum.ui.requirements.client.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.table.Node;
@@ -26,7 +25,7 @@ import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 public class RuleInfo implements Idable, Serializable {
 
 	private static final long serialVersionUID = 1L;
-    private String id;
+    private String id = new String("0");
     private String cluId;
     private StatementVO statementVO;       //top-level statement (tree ROOT)
     private String luStatementTypeKey;	   //statement (rule) type

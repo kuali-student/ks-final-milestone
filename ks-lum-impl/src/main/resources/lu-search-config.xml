@@ -169,7 +169,7 @@
 				</entry>
 				<entry key="lu.queryParam.luOptionalLevel">
 					<value>clu.officialIdentifier.level</value>
-				</entry>									  				                          
+				</entry>
             </map>
 		</property>
 	</bean>

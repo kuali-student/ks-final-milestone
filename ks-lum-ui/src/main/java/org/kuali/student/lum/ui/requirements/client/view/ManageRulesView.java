@@ -414,16 +414,23 @@ public class ManageRulesView extends ViewComposite {
                     	RuleInfo managedRule = RulesUtilities.getReqInfoModelObject(model);
                     	managedRule.setNaturalLanguage(naturalLanguage);
                     	List<RuleInfo> ruleInfos = cluModel.get().getRuleInfos();
-                        ruleInfos.add(managedRule);
+                  
+                        for (RuleInfo origRuleInfo : ruleInfos) {
+                            if (origRuleInfo.getLuStatementTypeKey().equals(managedRule.getLuStatementTypeKey())) {              	
+                                ruleInfos.remove(origRuleInfo);
+                                ruleInfos.add(managedRule);
+                            }                
+                        }
+                        
+                        //switch to first page
+                        getController().showView(PrereqViews.RULES_LIST);                                               
                     }
 
                     @Override
                     public void onRequestFail(Throwable cause) {
                         Window.alert("Failed to request for CluProposalModelDTO");
                     }
-                });            	
-            	
-                getController().showView(PrereqViews.RULES_LIST);
+                });            	            
             }
         });        
     }
