@@ -46,10 +46,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  *
  */
 public class LOPicker extends  Composite implements  HasValue<String>  { 
-
-    private LoRpcServiceAsync loRpcServiceAsync = GWT.create(LoRpcService.class);
-    
-    KSAdvancedSearchWindow loSearchWindow;
     
     VerticalPanel root = new VerticalPanel();
     
@@ -70,31 +66,14 @@ public class LOPicker extends  Composite implements  HasValue<String>  {
         layoutTable.setWidget(1, 1, indentButton);
         
         
-        HorizontalPanel searchPanel = new HorizontalPanel();
-        searchPanel.addStyleName("KS-LO-Picker-Link-Panel");
-        
-        
-        KSLabel searchLink = new KSLabel("Search for LO");
-        searchLink.addStyleName("KS-LO-Picker-Link");
-        searchLink.addClickHandler(new ClickHandler() {
-
-            @Override
-            public void onClick(ClickEvent event) {
-                if (loSearchWindow == null) {
-                    initSearchWindow();
-                }
-                loSearchWindow.show();
-                
-            }
-            
-        });
+        HorizontalPanel mainPanel = new HorizontalPanel();
+        mainPanel.addStyleName("KS-LO-Picker-Link-Panel");
                
-        searchPanel.add(loText);
-        searchPanel.add(searchLink);
-        searchPanel.add(layoutTable);
+        mainPanel.add(loText);
+        mainPanel.add(layoutTable);
         initWidget(root);
 
-        root.add(searchPanel);
+        root.add(mainPanel);
 
     }
 
@@ -123,24 +102,6 @@ public class LOPicker extends  Composite implements  HasValue<String>  {
         super.fireEvent(event);
     }
     
-    private void initSearchWindow() {
-        loSearchWindow = new KSAdvancedSearchWindow(loRpcServiceAsync, "lo.search.loByDesc","lo.resultColumn.loDescId", "Find Learning Objectives");   
-        //FIXME: This text should be from message service
-        loSearchWindow.setInstructions("Search for these words in Learning Objectives");
-        loSearchWindow.setIgnoreCase(true);
-        loSearchWindow.setPartialMatch(true);
-        loSearchWindow.addSelectionHandler(new SelectionHandler<List<String>>(){
-            public void onSelection(SelectionEvent<List<String>> event) {
-                final List<String> selected = event.getSelectedItem();
-                if (selected.size() > 0){
-                    loText.setValue(selected.get(0));                    
-                    loSearchWindow.hide();
-                }                
-            }            
-        });
-
-        
-    }
     public void hideIndentButton(boolean vis){
         indentButton.setVisible(vis);
     }

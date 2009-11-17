@@ -56,6 +56,7 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.widgets.AssemblerTestSection;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
+import org.kuali.student.lum.lu.ui.course.client.widgets.LOBuilder;
 import org.kuali.student.lum.lu.ui.course.client.widgets.LOPicker;
 import org.kuali.student.lum.lu.ui.course.client.widgets.OrgPicker;
 
@@ -67,7 +68,6 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -141,7 +141,6 @@ public class LuConfigurer {
         section.addField(new FieldDescriptor("proposalInfo/todo", getLabel(LUConstants.COLLABORATORS_LABEL_KEY), Type.STRING, new KSLabel()));
         section.addField(new FieldDescriptor("proposalInfo/metaInfo/createTime", getLabel(LUConstants.CREATED_DATE_LABEL_KEY), Type.STRING, new KSLabel()));
         section.addField(new FieldDescriptor("proposalInfo/metaInfo/updateTime", getLabel(LUConstants.LAST_CHANGED_DATE_LABEL_KEY), Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("cluInfo/loInfos", getLabel(LUConstants.DESCRIPTION_LABEL_LABEL_KEY), Type.STRING, new LearningObjectiveList()));
         section.addField(new FieldDescriptor("proposalInfo/state", getLabel(LUConstants.STATUS_LABEL_KEY), Type.STRING, new KSLabel()));
         return section;
     } 
@@ -353,7 +352,7 @@ public class LuConfigurer {
 
         VerticalSection los = initSection(null, NO_DIVIDER);    
 
-        los.addField(new FieldDescriptor("cluInfo/loInfos", null, Type.LIST, new LearningObjectiveList()));
+        los.addField(new FieldDescriptor("cluInfo/loInfos", null, Type.MODELDTO, new LOBuilder()));
         los.addStyleName("KS-LUM-Section-Divider");
         
         section.addSection(los);
@@ -667,95 +666,95 @@ public class LuConfigurer {
         }
     }
     
-    public static class LearningObjectiveList extends SimpleMultiplicityComposite {        
-		{
-            setAddItemLabel(getLabel(LUConstants.LEARNING_OBJECTIVE_ADD_LABEL_KEY));
-        }
-
-		@Override
-	    public void onLoad() {
-	        super.onLoad();
-	        /*
-	        if (!loaded) {
-	            loaded = true;
-
-	            // TODO - what do we do when they delete an LO?
-	            // (as far as updating the model). If they clear
-	            // an LO textfield, I think we delete the item from
-	            // the multiplicity, and delete the LO via the service
-	            // if it exists
-	            
-				// populate with at least NUM_INITIAL_LOS items,
-				// even if there aren't that many defined yet
-				int startIdx = null == modelDTOList ? 0 : modelDTOList.get().size();
-	            for (int i = startIdx; i < NUM_INITIAL_LOS; i++) {
-	            	addItem();
-	            }
-	        }
-	        */
-	    }
-
-		@Override
-		public void redraw() {
-			super.redraw();
-			// populate with at least NUM_INITIAL_LOS items,
-			// even if there aren't that many defined yet
-			int startIdx = null == modelDTOList ? 0 : modelDTOList.get().size();
-            for (int i = startIdx; i < NUM_INITIAL_LOS; i++) {
-            	addItem();
-            }
-		}
-        private void moveUp(Widget item){
-            Widget decrator = item.getParent().getParent();
-            int index = LearningObjectiveList.this.itemsPanel.getWidgetIndex(decrator);
-            if(index ==0){
-               return;
-            }
-            LearningObjectiveList.this.itemsPanel.remove(decrator);
-            LearningObjectiveList.this.itemsPanel.insert(decrator,index -1 );
-            
-        }
-        private void moveDown(Widget item){
-            Widget decrator = item.getParent().getParent();
-            int index = LearningObjectiveList.this.itemsPanel.getWidgetIndex(decrator);
-            if(index == LearningObjectiveList.this.itemsPanel.getWidgetCount()-1){
-                return;
-            }
-        }
-
-        @Override
-        public Widget createItem() {
-            final MultiplicitySection multi = new MultiplicitySection(CluDictionaryClassNameHelper.LO_INFO_CLASS,
-                                                                "kuali.lo.type.singleUse", "draft");
-            CustomNestedSection ns = new CustomNestedSection();
-            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            final LOPicker picker = new LOPicker();
-            picker.addValueChangeHandler(new ValueChangeHandler<String>() {
-				@Override
-				public void onValueChange(ValueChangeEvent<String> event) {
-				  
-				   
-				}
-			});
-            picker.addMoveUpAction(new ClickHandler(){
-                @Override
-                public void onClick(ClickEvent event) {
-                    moveUp(multi);
-                }
-            });
-            picker.addMoveDownAction(new ClickHandler(){
-                @Override
-                public void onClick(ClickEvent event) {
-                
-                }
-            });
-            FieldDescriptor fd = new FieldDescriptor("desc", null/* getLabel(LUConstants.LEARNING_OBJECTIVE_LO_NAME_KEY)*/, Type.STRING, picker);
-            ns.addField(fd);
-            multi.addSection(ns);
-            
-            return multi;
-        }
-    }
+//    public static class LearningObjectiveList extends SimpleMultiplicityComposite {        
+//		{
+//            setAddItemLabel(getLabel(LUConstants.LEARNING_OBJECTIVE_ADD_LABEL_KEY));
+//        }
+//
+//		@Override
+//	    public void onLoad() {
+//	        super.onLoad();
+//	        /*
+//	        if (!loaded) {
+//	            loaded = true;
+//
+//	            // TODO - what do we do when they delete an LO?
+//	            // (as far as updating the model). If they clear
+//	            // an LO textfield, I think we delete the item from
+//	            // the multiplicity, and delete the LO via the service
+//	            // if it exists
+//	            
+//				// populate with at least NUM_INITIAL_LOS items,
+//				// even if there aren't that many defined yet
+//				int startIdx = null == modelDTOList ? 0 : modelDTOList.get().size();
+//	            for (int i = startIdx; i < NUM_INITIAL_LOS; i++) {
+//	            	addItem();
+//	            }
+//	        }
+//	        */
+//	    }
+//
+//		@Override
+//		public void redraw() {
+//			super.redraw();
+//			// populate with at least NUM_INITIAL_LOS items,
+//			// even if there aren't that many defined yet
+//			int startIdx = null == modelDTOList ? 0 : modelDTOList.get().size();
+//            for (int i = startIdx; i < NUM_INITIAL_LOS; i++) {
+//            	addItem();
+//            }
+//		}
+//        private void moveUp(Widget item){
+//            Widget decrator = item.getParent().getParent();
+//            int index = LearningObjectiveList.this.itemsPanel.getWidgetIndex(decrator);
+//            if(index ==0){
+//               return;
+//            }
+//            LearningObjectiveList.this.itemsPanel.remove(decrator);
+//            LearningObjectiveList.this.itemsPanel.insert(decrator,index -1 );
+//            
+//        }
+//        private void moveDown(Widget item){
+//            Widget decrator = item.getParent().getParent();
+//            int index = LearningObjectiveList.this.itemsPanel.getWidgetIndex(decrator);
+//            if(index == LearningObjectiveList.this.itemsPanel.getWidgetCount()-1){
+//                return;
+//            }
+//        }
+//
+//        @Override
+//        public Widget createItem() {
+//            final MultiplicitySection multi = new MultiplicitySection(CluDictionaryClassNameHelper.LO_INFO_CLASS,
+//                                                                "kuali.lo.type.singleUse", "draft");
+//            CustomNestedSection ns = new CustomNestedSection();
+//            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
+//            final LOPicker picker = new LOPicker();
+//            picker.addValueChangeHandler(new ValueChangeHandler<String>() {
+//				@Override
+//				public void onValueChange(ValueChangeEvent<String> event) {
+//				  
+//				   
+//				}
+//			});
+//            picker.addMoveUpAction(new ClickHandler(){
+//                @Override
+//                public void onClick(ClickEvent event) {
+//                    moveUp(multi);
+//                }
+//            });
+//            picker.addMoveDownAction(new ClickHandler(){
+//                @Override
+//                public void onClick(ClickEvent event) {
+//                
+//                }
+//            });
+//            FieldDescriptor fd = new FieldDescriptor("desc", null/* getLabel(LUConstants.LEARNING_OBJECTIVE_LO_NAME_KEY)*/, Type.STRING, picker);
+//            ns.addField(fd);
+//            multi.addSection(ns);
+//            
+//            return multi;
+//        }
+//    }
     
     public static class OfferedJointlyList extends MultiplicityCompositeWithLabels {
         {

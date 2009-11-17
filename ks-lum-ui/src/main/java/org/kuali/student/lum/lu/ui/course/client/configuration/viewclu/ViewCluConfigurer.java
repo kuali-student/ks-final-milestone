@@ -22,6 +22,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.MultiplicityComposite
 import org.kuali.student.common.ui.client.configurable.mvc.MultiplicitySection;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionView;
+import org.kuali.student.common.ui.client.configurable.mvc.SimpleMultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
 import org.kuali.student.common.ui.client.configurable.mvc.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.VerticalSectionView;
@@ -37,10 +38,6 @@ import org.kuali.student.core.dictionary.dto.Field;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluDictionaryClassNameHelper;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
-import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LuConfigurer.AtpTypeList;
-import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LuConfigurer.CluActivityType;
-import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LuConfigurer.CourseActivityList;
-import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LuConfigurer.LuSections;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
 
 import com.google.gwt.user.client.ui.Widget;
@@ -275,7 +272,7 @@ public class ViewCluConfigurer {
     private static VerticalSection generateLOs(SectionTitle title, boolean withDivider) {
         VerticalSection section = initSection(title, withDivider);
         
-        section.addField(new FieldDescriptor("cluInfo/loInfos", null, Type.STRING, new LearningObjectiveList()));
+        section.addField(new FieldDescriptor("cluInfo/loInfos", null, Type.LIST, new LearningObjectiveList()));
 
         return section;
     }
@@ -645,7 +642,7 @@ public class ViewCluConfigurer {
     }
 
     
-    private static class LearningObjectiveList extends MultiplicityComposite{
+    private static class LearningObjectiveList extends SimpleMultiplicityComposite{
 
         protected LearningObjectiveList () {
 //            this.setUseItemHeader(false);      
@@ -654,7 +651,8 @@ public class ViewCluConfigurer {
 
         @Override
         public Widget createItem() {
-            MultiplicitySection multi = new MultiplicitySection(CluDictionaryClassNameHelper.LO_INFO_CLASS);
+            MultiplicitySection multi = new MultiplicitySection(CluDictionaryClassNameHelper.LO_INFO_CLASS,
+                    "kuali.lo.type.singleUse", "draft");
 
             CustomNestedSection ns = new CustomNestedSection();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);

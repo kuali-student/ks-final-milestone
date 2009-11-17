@@ -29,9 +29,7 @@ import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.Type;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
-import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluDictionaryClassNameHelper;
@@ -153,8 +151,29 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
                                                                 "kuali.lo.type.singleUse", "draft");
             CustomNestedSection ns = new CustomNestedSection();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
+            
+            final LOPicker picker = new LOPicker();
+            picker.addValueChangeHandler(new ValueChangeHandler<String>() {
+                @Override
+                public void onValueChange(ValueChangeEvent<String> event) {
+                  
+                   
+                }
+            });
+            picker.addMoveUpAction(new ClickHandler(){
+                @Override
+                public void onClick(ClickEvent event) {
+                    moveUp(multi);
+                }
+            });
+            picker.addMoveDownAction(new ClickHandler(){
+                @Override
+                public void onClick(ClickEvent event) {
+                
+                }
+            });
 
-            FieldDescriptor fd = new FieldDescriptor("desc", null/* getLabel(LUConstants.LEARNING_OBJECTIVE_LO_NAME_KEY)*/, Type.STRING, new KSTextArea());
+            FieldDescriptor fd = new FieldDescriptor("desc", null/* getLabel(LUConstants.LEARNING_OBJECTIVE_LO_NAME_KEY)*/, Type.STRING, picker);
             ns.addField(fd);
             multi.addSection(ns);
             
@@ -173,6 +192,24 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
           ((ModelDTOValue.ModelDTOType)value).set(loModel);
           
           super.addNewItem(value);    
+        }
+        
+        private void moveUp(Widget item){
+            Widget decrator = item.getParent().getParent();
+            int index = LearningObjectiveList.this.itemsPanel.getWidgetIndex(decrator);
+            if(index ==0){
+               return;
+            }
+            LearningObjectiveList.this.itemsPanel.remove(decrator);
+            LearningObjectiveList.this.itemsPanel.insert(decrator,index -1 );
+            
+        }
+        private void moveDown(Widget item){
+            Widget decrator = item.getParent().getParent();
+            int index = LearningObjectiveList.this.itemsPanel.getWidgetIndex(decrator);
+            if(index == LearningObjectiveList.this.itemsPanel.getWidgetCount()-1){
+                return;
+            }
         }
     }  
     
