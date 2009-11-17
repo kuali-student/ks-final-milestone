@@ -54,12 +54,22 @@ public class LOPicker extends  Composite implements  HasValue<String>  {
     VerticalPanel root = new VerticalPanel();
     
     KSTextArea loText = new KSTextArea();
-    ButtonPanel buttonPanel = new ButtonPanel();
+    KSButton upButton = new KSButton();
+    KSButton downButton = new KSButton();
+    KSButton deleteButton = new KSButton();
+    KSButton indentButton = new KSButton();
 //    private final FocusGroup focus = new FocusGroup(this);
     
     public LOPicker() {
         super();
-
+        FlexTable layoutTable = new FlexTable();
+        
+        layoutTable.setWidget(0, 0, upButton);
+        layoutTable.setWidget(0, 1, deleteButton);
+        layoutTable.setWidget(1, 0, downButton);
+        layoutTable.setWidget(1, 1, indentButton);
+        
+        
         HorizontalPanel searchPanel = new HorizontalPanel();
         searchPanel.addStyleName("KS-LO-Picker-Link-Panel");
         
@@ -81,7 +91,7 @@ public class LOPicker extends  Composite implements  HasValue<String>  {
                
         searchPanel.add(loText);
         searchPanel.add(searchLink);
-        searchPanel.add(buttonPanel);
+        searchPanel.add(layoutTable);
         initWidget(root);
 
         root.add(searchPanel);
@@ -131,35 +141,19 @@ public class LOPicker extends  Composite implements  HasValue<String>  {
 
         
     }
-       
-    class ButtonPanel extends  Composite {
-        FlexTable layoutTable = new FlexTable();
-        KSButton upButton = new KSButton();
-        KSButton downButton = new KSButton();
-        KSButton deleteButton = new KSButton();
-        KSButton indentButton = new KSButton();
-        
-        public ButtonPanel(){
-            layoutTable.setWidget(0, 0, upButton);
-            layoutTable.setWidget(0, 1, deleteButton);
-            layoutTable.setWidget(1, 0, downButton);
-            layoutTable.setWidget(1, 1, indentButton);
-            super.initWidget(layoutTable);
-        }
-        public void hideIndentButton(boolean vis){
-            indentButton.setVisible(vis);
-        }
-        public void addMoveUpAction(ClickHandler ch){
-            upButton.addClickHandler(ch);
-        }
-        public void addMoveDownAction(ClickHandler ch){
-            downButton.addClickHandler(ch);
-        }
-        public void addMoveDeleteAction(ClickHandler ch){
-            deleteButton.addClickHandler(ch);
-        }
-        public void addMoveIndentAction(ClickHandler ch){
-            indentButton.addClickHandler(ch);
-        }
+    public void hideIndentButton(boolean vis){
+        indentButton.setVisible(vis);
+    }
+    public void addMoveUpAction(ClickHandler ch){
+        upButton.addClickHandler(ch);
+    }
+    public void addMoveDownAction(ClickHandler ch){
+        downButton.addClickHandler(ch);
+    }
+    public void addMoveDeleteAction(ClickHandler ch){
+        deleteButton.addClickHandler(ch);
+    }
+    public void addMoveIndentAction(ClickHandler ch){
+        indentButton.addClickHandler(ch);
     }
 }
