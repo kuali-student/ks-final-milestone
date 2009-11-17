@@ -59,7 +59,7 @@ import com.google.gwt.user.client.ui.Widget;
  * This class is a work in progress and is not ready for use!!
  *
  */
-public class LOComposite extends Composite  implements HasModelDTOValue {
+public class LOBuilder extends Composite  implements HasModelDTOValue {
 
 
     private LoRpcServiceAsync loRpcServiceAsync = GWT.create(LoRpcService.class);
@@ -78,7 +78,7 @@ public class LOComposite extends Composite  implements HasModelDTOValue {
     private static final int NUM_INITIAL_LOS = 1;
 
 
-    public LOComposite() {
+    public LOBuilder() {
         super();
         initWidget(main);
 
