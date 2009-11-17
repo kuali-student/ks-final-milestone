@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
 import org.kuali.student.lum.lu.ui.course.client.service.LoRpcService;
@@ -147,6 +148,18 @@ public class LOPicker extends  Composite implements  HasValue<String>  {
         }
         public void hideIndentButton(boolean vis){
             indentButton.setVisible(vis);
+        }
+        public void addMoveUpAction(ClickHandler ch){
+            upButton.addClickHandler(ch);
+        }
+        public void addMoveDownAction(ClickHandler ch){
+            downButton.addClickHandler(ch);
+        }
+        public void addMoveDeleteAction(ClickHandler ch){
+            deleteButton.addClickHandler(ch);
+        }
+        public void addMoveIndentAction(ClickHandler ch){
+            indentButton.addClickHandler(ch);
         }
     }
 }
