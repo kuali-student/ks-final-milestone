@@ -55,17 +55,19 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRequisitesS
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.widgets.AssemblerTestSection;
-import org.kuali.student.lum.lu.ui.course.client.widgets.AtpPicker;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
 import org.kuali.student.lum.lu.ui.course.client.widgets.LOPicker;
 import org.kuali.student.lum.lu.ui.course.client.widgets.OrgPicker;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -703,20 +705,50 @@ public class LuConfigurer {
             	addItem();
             }
 		}
-        
+        private void moveUp(Widget item){
+            Widget decrator = item.getParent().getParent();
+            int index = LearningObjectiveList.this.itemsPanel.getWidgetIndex(decrator);
+            if(index ==0){
+               return;
+            }
+            LearningObjectiveList.this.itemsPanel.remove(decrator);
+            LearningObjectiveList.this.itemsPanel.insert(decrator,index -1 );
+            
+        }
+        private void moveDown(Widget item){
+            Widget decrator = item.getParent().getParent();
+            int index = LearningObjectiveList.this.itemsPanel.getWidgetIndex(decrator);
+            if(index == LearningObjectiveList.this.itemsPanel.getWidgetCount()-1){
+                return;
+            }
+        }
+
         @Override
         public Widget createItem() {
             final MultiplicitySection multi = new MultiplicitySection(CluDictionaryClassNameHelper.LO_INFO_CLASS,
                                                                 "kuali.lo.type.singleUse", "draft");
             CustomNestedSection ns = new CustomNestedSection();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            LOPicker picker = new LOPicker();
+            final LOPicker picker = new LOPicker();
             picker.addValueChangeHandler(new ValueChangeHandler<String>() {
 				@Override
 				public void onValueChange(ValueChangeEvent<String> event) {
-					// System.out.println("Value changed");
+				  
+				   
 				}
 			});
+            picker.addMoveUpAction(new ClickHandler(){
+                @Override
+                public void onClick(ClickEvent event) {
+                    moveUp(multi);
+                }
+            });
+            picker.addMoveDownAction(new ClickHandler(){
+                @Override
+                public void onClick(ClickEvent event) {
+                
+                }
+            });
             FieldDescriptor fd = new FieldDescriptor("desc", null/* getLabel(LUConstants.LEARNING_OBJECTIVE_LO_NAME_KEY)*/, Type.STRING, picker);
             ns.addField(fd);
             multi.addSection(ns);
