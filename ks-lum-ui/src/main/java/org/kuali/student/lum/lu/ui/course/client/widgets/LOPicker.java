@@ -150,10 +150,10 @@ public class LOPicker extends  Composite implements  HasValue<String>  {
     public void addMoveDownAction(ClickHandler ch){
         downButton.addClickHandler(ch);
     }
-    public void addMoveDeleteAction(ClickHandler ch){
+    public void addDeleteAction(ClickHandler ch){
         deleteButton.addClickHandler(ch);
     }
-    public void addMoveIndentAction(ClickHandler ch){
+    public void addIndentAction(ClickHandler ch){
         indentButton.addClickHandler(ch);
     }
 }
