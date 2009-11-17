@@ -46,6 +46,7 @@ public abstract class AbstractContext<T> implements Context<T> {
 	protected final static String CLU_TOKEN = "clu";
 	protected final static String CLU_SET_TOKEN = "cluSet";
 	protected final static String EXPECTED_VALUE_TOKEN = "expectedValue";
+	protected final static String FIELDS_TOKEN = "fields";
 	protected final static String OPERATOR_TOKEN = "relationalOperator";
 
 	/*
@@ -155,7 +156,7 @@ public abstract class AbstractContext<T> implements Context<T> {
      * @param reqComponent Requirement component
      * @return Map of requirement component fields
      */
-    private Map<String, String> getReqCompField(CustomReqComponentInfo reqComponent) {
+    public Map<String, String> getReqCompField(CustomReqComponentInfo reqComponent) {
         List<ReqCompFieldInfo> fields = reqComponent.getReqCompFields();
         Map<String, String> map = new HashMap<String, String>();
         for (ReqCompFieldInfo field : fields) {

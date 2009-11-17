@@ -36,6 +36,7 @@ public class CourseListContextImpl extends AbstractContext<CustomReqComponentInf
         Map<String, Object> contextMap = new HashMap<String, Object>();
         
         contextMap.put(EXPECTED_VALUE_TOKEN, getReqCompFieldValue(reqComponent, ReqComponentTypes.ReqCompFieldTypes.REQUIRED_COUNT_KEY.getKey()));
+        contextMap.put(FIELDS_TOKEN, getReqCompField(reqComponent));
         contextMap.put(OPERATOR_TOKEN, getReqCompFieldValue(reqComponent, ReqComponentTypes.ReqCompFieldTypes.OPERATOR_KEY.getKey()));
         contextMap.put(CLU_SET_TOKEN, getCluSet(reqComponent));
 
