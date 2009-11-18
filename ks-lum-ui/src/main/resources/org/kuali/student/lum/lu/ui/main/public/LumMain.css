@@ -66,7 +66,46 @@
 	cursor: pointer;
 
 }
-
+.KS-LOMoveUpButton{
+    background: url("images/LOMoveUpButton.png") no-repeat 2px 2px;
+    width: 20px;
+    height:20px;
+}
+.KS-LOMoveUpButtonDisabled{
+    background: url("images/LOMoveUpButtonDisabled.png") no-repeat 2px 2px;
+    width: 20px;
+    height:20px;
+}
+.KS-LOMoveDownButton{
+    background: url("images/LOMoveDownButton.png") no-repeat 2px 2px;
+    width: 20px;
+    height:20px;
+}
+.KS-LOMoveDownButtonDisabled{
+    background: url("images/LOMoveDownButtonDisabled.png") no-repeat 2px 2px;
+    width: 20px;
+    height:20px;
+}
+.KS-LOIndentButton{
+    background: url("images/LOIndentLeft.png") no-repeat 2px 2px;
+    width: 20px;
+    height:20px;
+}
+.KS-LOIndentButtonDisabled{
+    background: url("images/LOIndentLeft.png") no-repeat 2px 2px;
+    width: 20px;
+    height:20px;
+}
+.KS-LODeleteButton{
+    background: url("images/LODeleteButton.png") no-repeat 2px 2px;
+    width: 20px;
+    height:20px;
+}
+.KS-LODeleteButtonDisabled{
+    background: url("images/LODeleteButtonDisabled.png") no-repeat 2px 2px;
+    width: 20px;
+    height:20px;
+}
 .cluInfo-officialIdentifier-longName{}
 .cluInfo-officialIdentifier-division{}
 .cluInfo-officialIdentifier-suffixCode{}
