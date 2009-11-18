@@ -50,11 +50,14 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * This is a description of what this class does - hjohnson don't forget to fill this in. 
+ * This class manages the users interactions when building/updating Learning Objectives within the
+ * context of managing CLUs.  It allows the user to type in LO text directly or execute a search and
+ * select one or more of the returned LOs.
+ * 
+ * Users can then re-organize LOs on the screen including altering the sequence and creating sub LOs
  * 
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
- * This class is a work in progress and is not ready for use!!
  *
  */
 public class LOBuilder extends Composite  implements HasModelDTOValue {
@@ -104,34 +107,11 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
 
     }
 
-    
+
     public static class LearningObjectiveList extends SimpleMultiplicityComposite {        
         {
             setAddItemLabel(Application.getApplicationContext().getUILabel(LUConstants.COURSE_GROUP_NAME, null, null, 
                     LUConstants.LEARNING_OBJECTIVE_ADD_LABEL_KEY));
-        }
-
-        @Override
-        public void onLoad() {
-            super.onLoad();
-            /*
-            if (!loaded) {
-                loaded = true;
-
-                // TODO - what do we do when they delete an LO?
-                // (as far as updating the model). If they clear
-                // an LO textfield, I think we delete the item from
-                // the multiplicity, and delete the LO via the service
-                // if it exists
-                
-                // populate with at least NUM_INITIAL_LOS items,
-                // even if there aren't that many defined yet
-                int startIdx = null == modelDTOList ? 0 : modelDTOList.get().size();
-                for (int i = startIdx; i < NUM_INITIAL_LOS; i++) {
-                    addItem();
-                }
-            }
-            */
         }
 
         @Override
@@ -144,20 +124,20 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
                 addItem();
             }
         }
-        
+
         @Override
         public Widget createItem() {
             final MultiplicitySection multi = new MultiplicitySection(CluDictionaryClassNameHelper.LO_INFO_CLASS,
-                                                                "kuali.lo.type.singleUse", "draft");
+                    "kuali.lo.type.singleUse", "draft");
             CustomNestedSection ns = new CustomNestedSection();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            
+
             final LOPicker picker = new LOPicker();
             picker.addValueChangeHandler(new ValueChangeHandler<String>() {
                 @Override
                 public void onValueChange(ValueChangeEvent<String> event) {
-                  
-                   
+
+
                 }
             });
             picker.addMoveUpAction(new ClickHandler(){
@@ -169,40 +149,44 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
             picker.addMoveDownAction(new ClickHandler(){
                 @Override
                 public void onClick(ClickEvent event) {
-                
+
                 }
             });
 
             FieldDescriptor fd = new FieldDescriptor("desc", null/* getLabel(LUConstants.LEARNING_OBJECTIVE_LO_NAME_KEY)*/, Type.STRING, picker);
             ns.addField(fd);
             multi.addSection(ns);
-            
+
             return multi;
         }
-        
-        public void addItem(String loDescription) {
-          ModelDTO loModel = new ModelDTO(LoInfo.class.getName());
-          StringType type = new StringType("kuali.lo.type.singleUse");
-          StringType state = new StringType("draft");
-          loModel.put("desc", loDescription);
-          loModel.put("type", type);
-          loModel.put("state", state);
-    
-          ModelDTOValue value = new ModelDTOValue.ModelDTOType();
-          ((ModelDTOValue.ModelDTOType)value).set(loModel);
-          
-          super.addNewItem(value);    
+
+        private void addSelectedLO(String loDescription) {
+            
+            //TODO: If there are empty LO boxes we should put the selected LOs in them
+            //  and not always create new ones?
+
+            ModelDTO loModel = new ModelDTO(LoInfo.class.getName());
+            StringType type = new StringType("kuali.lo.type.singleUse");
+            StringType state = new StringType("draft");
+            loModel.put("desc", loDescription);
+            loModel.put("type", type);
+            loModel.put("state", state);
+
+            ModelDTOValue value = new ModelDTOValue.ModelDTOType();
+            ((ModelDTOValue.ModelDTOType)value).set(loModel);
+
+            super.addNewItem(value);    
         }
-        
+
         private void moveUp(Widget item){
             Widget decrator = item.getParent().getParent();
             int index = LearningObjectiveList.this.itemsPanel.getWidgetIndex(decrator);
             if(index ==0){
-               return;
+                return;
             }
             LearningObjectiveList.this.itemsPanel.remove(decrator);
             LearningObjectiveList.this.itemsPanel.insert(decrator,index -1 );
-            
+
         }
         private void moveDown(Widget item){
             Widget decrator = item.getParent().getParent();
@@ -212,72 +196,8 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
             }
         }
     }  
-    
-    
-    
-    
-//    public static class LearningObjectiveList extends SimpleMultiplicityComposite {        
-//        {
-//            setAddItemLabel(Application.getApplicationContext().getUILabel(LUConstants.COURSE_GROUP_NAME, null, null, 
-//                    LUConstants.LEARNING_OBJECTIVE_ADD_LABEL_KEY));
-//        }
-//
-//        @Override
-//        public void onLoad() {
-//            super.onLoad();
-//           
-//            if (!loaded) {
-//                loaded = true;
-//
-//                // TODO - what do we do when they delete an LO?
-//                // (as far as updating the model). If they clear
-//                // an LO textfield, I think we delete the item from
-//                // the multiplicity, and delete the LO via the service
-//                // if it exists
-//                
-//                // populate with at least NUM_INITIAL_LOS items,
-//                // even if there aren't that many defined yet
-//                int startIdx = null == modelDTOList ? 0 : modelDTOList.get().size();
-//                for (int i = startIdx; i < NUM_INITIAL_LOS; i++) {
-//                    addItem();
-//                }
-//            }
-//        
-//        }
-//        
-//        @Override
-//        public Widget createItem() {
-//            final MultiplicitySection multi = new MultiplicitySection(CluDictionaryClassNameHelper.LO_INFO_CLASS,
-//                    "kuali.lo.type.singleUse", "draft");
-//            CustomNestedSection ns = new CustomNestedSection();
-//            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-//
-//            FieldDescriptor fd = new FieldDescriptor("desc", null/* getLabel(LUConstants.LEARNING_OBJECTIVE_LO_NAME_KEY)*/, Type.STRING, new KSTextArea());
-//            ns.addField(fd);
-//            multi.addSection(ns);
-//
-//            return multi;
-//        }
-//        
-//        public void addItem(String loDescription) {
-//            ModelDTO loModel = new ModelDTO(LoInfo.class.getName());
-//            StringType type = new StringType("kuali.lo.type.singleUse");
-//            StringType state = new StringType("draft");
-//            loModel.put("desc", loDescription);
-//            loModel.put("type", type);
-//            loModel.put("state", state);
-//
-//            ModelDTOValue value = new ModelDTOValue.ModelDTOType();
-//            ((ModelDTOValue.ModelDTOType)value).set(loModel);
-//            
-////            super.addItem(value);
-//        
-//        }
-//
-//    }
 
     private void initSearchWindow() {
-//        loList.redraw();
 
         loSearchWindow = new KSAdvancedSearchWindow(loRpcServiceAsync, "lo.search.loByDesc","lo.resultColumn.loDescId", "Find Learning Objectives");   
         //FIXME: This text should be from message service
@@ -289,14 +209,13 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
                 final List<String> selected = event.getSelectedItem();
                 if (selected.size() > 0){
                     for (String loDesc : selected ) {
-                        loList.addItem(loDesc);                        
+                        loList.addSelectedLO(loDesc);                        
                     }
 
                     loSearchWindow.hide();
                 }                
             }            
         });
-
     }
 
     @Override
