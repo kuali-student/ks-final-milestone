@@ -15,21 +15,10 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.widgets;
 
-import java.util.List;
-
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
-import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
-import org.kuali.student.lum.lu.ui.course.client.service.LoRpcService;
-import org.kuali.student.lum.lu.ui.course.client.service.LoRpcServiceAsync;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -37,6 +26,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -65,6 +55,11 @@ public class LOPicker extends  Composite implements  HasValue<String>  {
         layoutTable.setWidget(1, 0, downButton);
         layoutTable.setWidget(1, 1, indentButton);
         
+        upButton.addStyleName("KS-LOMoveUpButton");
+        downButton.addStyleName("KS-LOMoveDownButton");
+        deleteButton.addStyleName("KS-LODeleteButton");
+        indentButton.addStyleName("KS-LOIndentButton");
+
         
         HorizontalPanel mainPanel = new HorizontalPanel();
         mainPanel.addStyleName("KS-LO-Picker-Link-Panel");
