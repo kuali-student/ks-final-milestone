@@ -46,7 +46,7 @@
 		<property name="userDetailsService" ref="ksUserDetailsService"/>
 		<property name="serviceProperties" ref="serviceProperties"/>
 		<property name="ticketValidator">
-			<bean class="org.jasig.cas.client.validation.Cas20ServiceTicketValidator">
+			<bean class="org.jasig.cas.client.validation.Cas20ProxyTicketValidator">
 				<constructor-arg index="0" value="${ks.default.security.cas.serverAddress}"/>
 				<property name="proxyGrantingTicketStorage" ref="proxyGrantingTicketStorage"/>
         		<property name="proxyCallbackUrl" value="${ks.default.security.cas.webapp.service.context}/secure/receptor"/>
