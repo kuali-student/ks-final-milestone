@@ -41,11 +41,8 @@
 					<modules>
 						<module>org.kuali.student.core.organization.ui.OrgEntry</module>
 						<module>org.kuali.student.lum.lu.ui.main.LUMMain</module>
-<!--
 						<module>org.kuali.student.lum.ui.requirements.Requirements</module>
 						<module>org.kuali.student.lum.lu.ui.workflow.CollaboratorRequest</module>
--->
-
 					</modules>
 					<style>PRETTY</style>
 				</configuration>
