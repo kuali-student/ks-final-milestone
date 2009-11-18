@@ -18,15 +18,22 @@ package org.kuali.student.lum.lu.ui.course.client.widgets;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -37,7 +44,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class LOPicker extends  Composite implements  HasValue<String>  { 
     
-    VerticalPanel root = new VerticalPanel();
+    VerticalPanel root;
     
     KSTextArea loText = new KSTextArea();
     KSButton upButton = new KSButton();
@@ -45,10 +52,22 @@ public class LOPicker extends  Composite implements  HasValue<String>  {
     KSButton deleteButton = new KSButton();
     KSButton indentButton = new KSButton();
 //    private final FocusGroup focus = new FocusGroup(this);
-    
+    FlexTable layoutTable = new FlexTable();
     public LOPicker() {
         super();
-        FlexTable layoutTable = new FlexTable();
+        root = new VerticalPanel(){
+       //     public void onBrowserEvent(Event event){
+         //       switch (DOM.eventGetType(event)) {
+           //         case Event.ONMOUSEOVER:
+             //           layoutTable.setVisible(true);
+               //         break;
+                 //   case Event.ONMOUSEOUT:
+                   //     layoutTable.setVisible(false);
+                     // break;
+               // }
+                //super.onBrowserEvent(event);
+           // }
+        };
         
         layoutTable.setWidget(0, 0, upButton);
         layoutTable.setWidget(0, 1, deleteButton);
@@ -60,18 +79,65 @@ public class LOPicker extends  Composite implements  HasValue<String>  {
         deleteButton.addStyleName("KS-LODeleteButton");
         indentButton.addStyleName("KS-LOIndentButton");
 
+        FocusPanel focusPanel = new FocusPanel();
+        focusPanel.addFocusHandler(new FocusHandler(){
+            @Override
+            public void onFocus(FocusEvent event) {
+                layoutTable.setVisible(true);
+            }
+        });
+        HorizontalPanel mainPanel = new HorizontalPanel(){
+            public void onBrowserEvent(Event event){
+                Window.alert("from hori"+event.getString());
+                switch (DOM.eventGetType(event)) {
+                    case Event.ONMOUSEOVER:
+                        layoutTable.setVisible(true);
+                        break;
+                    case Event.ONMOUSEOUT:
+                        layoutTable.setVisible(false);
+                      break;
+                }
+                super.onBrowserEvent(event);
+            }
+        };
+        loText.addFocusHandler(new FocusHandler(){
+            @Override
+            public void onFocus(FocusEvent event) {
+           //     layoutTable.setVisible(true);
+            }
+        });
+        loText.addBlurHandler(new BlurHandler(){
+            @Override
+            public void onBlur(BlurEvent event) {
+             //   layoutTable.setVisible(false);
+            }
+        });
         
-        HorizontalPanel mainPanel = new HorizontalPanel();
         mainPanel.addStyleName("KS-LO-Picker-Link-Panel");
-               
+        
+        focusPanel.setWidget(layoutTable);
         mainPanel.add(loText);
-        mainPanel.add(layoutTable);
+        mainPanel.add(focusPanel);
         initWidget(root);
 
+        
         root.add(mainPanel);
-
+        layoutTable.setVisible(false);
+       
+    //    super.sinkEvents(Event.ONMOUSEMOVE);
+     //   super.sinkEvents(Event.ONMOUSEOUT);
     }
-
+    public void onBrowserEvent(Event event){
+        switch (DOM.eventGetType(event)) {
+            case Event.ONMOUSEMOVE:
+                layoutTable.setVisible(true);
+                break;
+            case Event.ONMOUSEOUT:
+                layoutTable.setVisible(false);
+              break;
+        }
+        super.onBrowserEvent(event);
+    }
     @Override
     public String getValue() {
         return loText.getValue();
