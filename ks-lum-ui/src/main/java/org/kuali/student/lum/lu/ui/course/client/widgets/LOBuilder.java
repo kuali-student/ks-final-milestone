@@ -149,7 +149,7 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
             picker.addMoveDownAction(new ClickHandler(){
                 @Override
                 public void onClick(ClickEvent event) {
-
+                    moveDown(multi);
                 }
             });
 
@@ -194,6 +194,9 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
             if(index == LearningObjectiveList.this.itemsPanel.getWidgetCount()-1){
                 return;
             }
+            LearningObjectiveList.this.itemsPanel.remove(decrator);
+            LearningObjectiveList.this.itemsPanel.insert(decrator,index+1 );
+            
         }
     }  
 
