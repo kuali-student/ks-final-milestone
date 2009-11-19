@@ -15,10 +15,10 @@ import static org.junit.Assert.*;
  *
  * @author nwright
  */
-public class OrchestrationObjectsDataWriterTest implements TestConstants
+public class OrchestrationObjectsWriterTest implements TestConstants
 {
 
- public OrchestrationObjectsDataWriterTest ()
+ public OrchestrationObjectsWriterTest ()
  {
  }
 
@@ -60,8 +60,8 @@ public class OrchestrationObjectsDataWriterTest implements TestConstants
    DictionaryModelLoader loader =
     new DictionaryModelLoader (dictReader, orchReader);
    DictionaryModel cache = new DictionaryModelCache (loader);
-   OrchestrationObjectsDataWriter instance =
-    new OrchestrationObjectsDataWriter (cache, DIRECTORY_TO_WRITE_SOURCE);
+   OrchestrationObjectsWriter instance =
+    new OrchestrationObjectsWriter (cache, DIRECTORY_TO_WRITE_SOURCE);
    instance.write ();
   }
   finally

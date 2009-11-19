@@ -14,14 +14,14 @@ import java.util.Map;
  *
  * @author nwright
  */
-public class OrchestrationObjectsDataWriter
+public class OrchestrationObjectsWriter
 {
 
  private DictionaryModel model;
  private String directory;
  public static final String ROOT_PACKAGE = "org.kuali.student.orchestration";
 
- public OrchestrationObjectsDataWriter (DictionaryModel model, String directory)
+ public OrchestrationObjectsWriter (DictionaryModel model, String directory)
  {
   this.model = model;
   this.directory = directory;
@@ -41,12 +41,11 @@ public class OrchestrationObjectsDataWriter
   for (OrchestrationObject oo : orchObjs.values ())
   {
    System.out.println ("Writing out " + oo.getFullyQualifiedJavaClassDataName ());
-   OrchestrationObjectDataWriter writer 
-    = new OrchestrationObjectDataWriter (model, directory, orchObjs, oo);
+   OrchestrationObjectDataHelperWriter writer =
+    new OrchestrationObjectDataHelperWriter (model, directory, orchObjs, oo);
    writer.write ();
   }
  }
-
 
  private void validate ()
  {
@@ -69,17 +68,19 @@ public class OrchestrationObjectsDataWriter
   }
 
  }
-private Map<String, OrchestrationObject> getOrchestrationObjectsFromMessageStructures ()
+
+
+ private Map<String, OrchestrationObject> getOrchestrationObjectsFromMessageStructures ()
  {
   Map<String, OrchestrationObject> map = new HashMap ();
   for (XmlType xmlType : model.getXmlTypes ())
   {
    // TODO: remove this hack once all java packages exist so we are not trying to copy them.
    //       ALSO remove the one below
-   if (xmlType.getJavaPackage ().equals (""))
-   {
-    continue;
-   }
+   //if (xmlType.getJavaPackage ().equals (""))
+   //{
+   // continue;
+   // }
    if (xmlType.getPrimitive ().equals ("Complex"))
    {
     OrchestrationObject obj = new OrchestrationObject ();
@@ -100,21 +101,21 @@ private Map<String, OrchestrationObject> getOrchestrationObjectsFromMessageStruc
      {
       // TODO: remove this hack once all java packages exist so we are not trying to copy them.
       //       ALSO remove the one above
-      Field dictField = new ModelFinder (model).findField (ms.getId ());
-      if (dictField == null)
-      {
-       throw new DictionaryValidationException ("could not find corresponding field entry for message structure entry " +
-        ms.getId ());
-      }
-      XmlType fieldXmlType = new ModelFinder (model).findXmlType (dictField.
-       getXmlType ());
-      if (fieldXmlType.getPrimitive ().equals ("Complex"))
-      {
-       if (fieldXmlType.getJavaPackage ().equals (""))
-       {
-        continue;
-       }
-      }
+//      Field dictField = new ModelFinder (model).findField (ms.getId ());
+//      if (dictField == null)
+//      {
+//       throw new DictionaryValidationException ("could not find corresponding field entry for message structure entry " +
+//        ms.getId ());
+//      }
+//      XmlType fieldXmlType = new ModelFinder (model).findXmlType (dictField.
+//       getXmlType ());
+//      if (fieldXmlType.getPrimitive ().equals ("Complex"))
+//      {
+//       if (fieldXmlType.getJavaPackage ().equals (""))
+//       {
+//        continue;
+//       }
+//      }
       OrchestrationObjectField field = new OrchestrationObjectField ();
       fields.add (field);
       field.setParent (obj);
@@ -148,6 +149,5 @@ private Map<String, OrchestrationObject> getOrchestrationObjectsFromMessageStruc
 
   return type;
  }
-
 
 }

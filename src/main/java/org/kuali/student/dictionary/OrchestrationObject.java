@@ -89,14 +89,14 @@ public class OrchestrationObject
    "." + getInfoJavaClassName () + "Assembler";
  }
 
- public String getJavaClassDataName ()
+ public String getJavaClassDataHelperName ()
  {
-  return getInfoJavaClassName () + "Data";
+  return getInfoJavaClassName () + "DataHelper";
  }
 
  public String getFullyQualifiedJavaClassDataName ()
  {
-  return dataPackagePath + "." + getJavaClassDataName ();
+  return dataPackagePath + "." + getJavaClassDataHelperName ();
  }
 
  private String assembleFromClass;
