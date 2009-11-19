@@ -120,7 +120,7 @@ public interface KSClientBundle extends ImmutableResourceBundle{
 	public ImageResource spacer();
 	
     // set the resource value to an image of a question mark
-    @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/help-16x16.png")
+    @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/question.png")
     public ImageResource helpIcon();
     
     // set the resource value to an image of a green checkmark
@@ -150,6 +150,20 @@ public interface KSClientBundle extends ImmutableResourceBundle{
     @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/fileclose.png")
     public ImageResource deleteComment();
     
+    @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/magnifier-right.png")
+    public ImageResource rightMagnifierIcon();
+
+    @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/magnifier-left.png")
+    public ImageResource leftMagnifierIcon();
+    
+    @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/light-bulb.png")
+    public ImageResource lightBulbIcon();
+
+    @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/question.png")
+    public ImageResource questionIcon();
+
+    //Rich Text Editor Images***************************************************
+
     @Resource("org/kuali/student/common/ui/theme/standard/public/images/richTextEditor/bold.gif")
     public ImageResource bold();
 

@@ -14,4 +14,5 @@ public interface CommonImages {
     public KSImage getEditCommentIcon();
     public KSImage getDeleteCommentIcon();
     public KSImage getSpacer();
+    public KSImage getSearchIcon();
 }

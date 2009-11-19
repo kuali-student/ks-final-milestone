@@ -47,6 +47,11 @@ public class CommonImagesImpl implements CommonImages{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+    @Override
+    public KSImage getSearchIcon() {
+        return null;
+    }
 	
 	
 
