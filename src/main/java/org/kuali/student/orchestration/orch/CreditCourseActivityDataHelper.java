@@ -19,7 +19,6 @@ package org.kuali.student.orchestration.orch;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.lum.lu.assembly.data.client.ModifiableData;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
-import org.kuali.student.orchestration.base.TimeAmountInfoDataHelper;
 
 
 public class CreditCourseActivityDataHelper
@@ -83,15 +82,15 @@ public class CreditCourseActivityDataHelper
 	}
 	
 	
-	public void setContactHours (TimeAmountInfoDataHelper value)
+	public void setContactHours (CreditCourseActivityContactHoursDataHelper value)
 	{
 		data.set (Properties.CONTACT_HOURS.getKey (), value.getData ());
 	}
 	
 	
-	public TimeAmountInfoDataHelper getContactHours ()
+	public CreditCourseActivityContactHoursDataHelper getContactHours ()
 	{
-		return new TimeAmountInfoDataHelper ((Data) data.get (Properties.CONTACT_HOURS.getKey ()));
+		return new CreditCourseActivityContactHoursDataHelper ((Data) data.get (Properties.CONTACT_HOURS.getKey ()));
 	}
 	
 	

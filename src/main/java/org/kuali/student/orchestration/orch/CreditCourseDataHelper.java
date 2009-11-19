@@ -20,7 +20,6 @@ import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.lum.lu.assembly.data.client.ModifiableData;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
 import org.kuali.student.orchestration.base.RichTextInfoDataHelper;
-import org.kuali.student.orchestration.base.TimeAmountInfoDataHelper;
 
 
 public class CreditCourseDataHelper
@@ -151,15 +150,15 @@ public class CreditCourseDataHelper
 	}
 	
 	
-	public void setDuration (TimeAmountInfoDataHelper value)
+	public void setDuration (CreditCourseDurationDataHelper value)
 	{
 		data.set (Properties.DURATION.getKey (), value.getData ());
 	}
 	
 	
-	public TimeAmountInfoDataHelper getDuration ()
+	public CreditCourseDurationDataHelper getDuration ()
 	{
-		return new TimeAmountInfoDataHelper ((Data) data.get (Properties.DURATION.getKey ()));
+		return new CreditCourseDurationDataHelper ((Data) data.get (Properties.DURATION.getKey ()));
 	}
 	
 	

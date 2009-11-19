@@ -26,8 +26,8 @@ public class CreditCourseActivityContactHoursDataHelper
 	
 	public enum Properties implements PropertyEnum
 	{
-		ATP_DURATION_TYPE_KEY ("AtpDurationTypeKey"),
-		TIME_QUANTITY ("TimeQuantity");
+		PER ("per"),
+		HRS ("hrs");
 		
 		private final String key;
 		
@@ -55,27 +55,27 @@ public class CreditCourseActivityContactHoursDataHelper
 	}
 	
 	
-	public void setAtpDurationTypeKey (String value)
+	public void setPer (String value)
 	{
-		data.set (Properties.ATP_DURATION_TYPE_KEY.getKey (), value);
+		data.set (Properties.PER.getKey (), value);
 	}
 	
 	
-	public String getAtpDurationTypeKey ()
+	public String getPer ()
 	{
-		return (String) data.get (Properties.ATP_DURATION_TYPE_KEY.getKey ());
+		return (String) data.get (Properties.PER.getKey ());
 	}
 	
 	
-	public void setTimeQuantity (Integer value)
+	public void setHrs (Integer value)
 	{
-		data.set (Properties.TIME_QUANTITY.getKey (), value);
+		data.set (Properties.HRS.getKey (), value);
 	}
 	
 	
-	public Integer getTimeQuantity ()
+	public Integer getHrs ()
 	{
-		return (Integer) data.get (Properties.TIME_QUANTITY.getKey ());
+		return (Integer) data.get (Properties.HRS.getKey ());
 	}
 	
 }

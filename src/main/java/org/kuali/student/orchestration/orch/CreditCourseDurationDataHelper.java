@@ -26,8 +26,8 @@ public class CreditCourseDurationDataHelper
 	
 	public enum Properties implements PropertyEnum
 	{
-		ATP_DURATION_TYPE_KEY ("AtpDurationTypeKey"),
-		TIME_QUANTITY ("TimeQuantity");
+		TERM_TYPE ("termType"),
+		QUANTITY ("quantity");
 		
 		private final String key;
 		
@@ -55,27 +55,27 @@ public class CreditCourseDurationDataHelper
 	}
 	
 	
-	public void setAtpDurationTypeKey (String value)
+	public void setTermType (String value)
 	{
-		data.set (Properties.ATP_DURATION_TYPE_KEY.getKey (), value);
+		data.set (Properties.TERM_TYPE.getKey (), value);
 	}
 	
 	
-	public String getAtpDurationTypeKey ()
+	public String getTermType ()
 	{
-		return (String) data.get (Properties.ATP_DURATION_TYPE_KEY.getKey ());
+		return (String) data.get (Properties.TERM_TYPE.getKey ());
 	}
 	
 	
-	public void setTimeQuantity (Integer value)
+	public void setQuantity (Integer value)
 	{
-		data.set (Properties.TIME_QUANTITY.getKey (), value);
+		data.set (Properties.QUANTITY.getKey (), value);
 	}
 	
 	
-	public Integer getTimeQuantity ()
+	public Integer getQuantity ()
 	{
-		return (Integer) data.get (Properties.TIME_QUANTITY.getKey ());
+		return (Integer) data.get (Properties.QUANTITY.getKey ());
 	}
 	
 }
