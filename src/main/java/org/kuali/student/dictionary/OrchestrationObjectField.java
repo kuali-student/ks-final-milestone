@@ -18,7 +18,7 @@ public class OrchestrationObjectField
  public enum FieldTypeCategory
  {
 
-  LIST, PRIMITIVE, MAPPED_STRING, DYNAMIC_ATTRIBUTE, COMPLEX;
+  LIST, PRIMITIVE, MAPPED_STRING, DYNAMIC_ATTRIBUTE, COMPLEX, COMPLEX_INLINE;
  }
 
  public OrchestrationObject getParent ()
@@ -62,6 +62,18 @@ public class OrchestrationObjectField
   FieldTypeCategory fieldTypeCategory)
  {
   this.fieldTypeCategory = fieldTypeCategory;
+ }
+
+ private OrchestrationObject inlineObject;
+
+ public OrchestrationObject getInlineObject ()
+ {
+  return inlineObject;
+ }
+
+ public void setInlineObject (OrchestrationObject inlineObject)
+ {
+  this.inlineObject = inlineObject;
  }
 
 }

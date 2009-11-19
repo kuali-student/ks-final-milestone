@@ -153,7 +153,8 @@ public class OrchestrationObjectsWriter
  }
 
  private FieldTypeCategory calcFieldTypeCategory (OrchestrationObjectField field,
-                                                  boolean isAList, boolean mustBeInXmlTypes)
+                                                  boolean isAList,
+                                                  boolean mustBeInXmlTypes)
  {
   if (field.getType ().equalsIgnoreCase ("attributeInfo"))
   {
@@ -163,7 +164,10 @@ public class OrchestrationObjectsWriter
   {
    return FieldTypeCategory.LIST;
   }
-
+  if (field.getType ().equalsIgnoreCase ("Complex-Inline"))
+  {
+   return FieldTypeCategory.COMPLEX_INLINE;
+  }
   XmlType xmlType = new ModelFinder (model).findXmlType (field.getType ());
   if (xmlType == null)
   {
@@ -199,41 +203,60 @@ public class OrchestrationObjectsWriter
  private Map<String, OrchestrationObject> getOrchestrationObjectsFromOrchObjs ()
  {
   Map<String, OrchestrationObject> map = new HashMap ();
-  OrchestrationObject obj = null;
-  List<OrchestrationObjectField> fields = null;
+  OrchestrationObject parentObj = null;
+  OrchestrationObjectField childField = null;
   for (OrchObj orch : model.getOrchObjs ())
   {
    // reset and add the object
    if ( ! orch.getParent ().equals (""))
    {
-    obj = new OrchestrationObject ();
+    parentObj = new OrchestrationObject ();
     // TODO: worry about qualifying the name somehow so we can support different orchestrations
-    map.put (orch.getParent ().toLowerCase (), obj);
-    obj.setName (orch.getParent ());
+    map.put (orch.getParent ().toLowerCase (), parentObj);
+    parentObj.setName (orch.getParent ());
     // TODO: add this to spreadsheet
-    obj.setAssembleFromClass ("TODO: add this to spreadsheet");
-    obj.setDataPackagePath (ROOT_PACKAGE + ".orch");
-    obj.setHasOwnCreateUpdate (true);
-    fields =
-     new ArrayList ();
-    obj.setFields (fields);
+    parentObj.setAssembleFromClass ("TODO: add this to spreadsheet");
+    parentObj.setDataPackagePath (ROOT_PACKAGE + ".orch");
+    parentObj.setHasOwnCreateUpdate (true);
+    parentObj.setFields (new ArrayList ());
     continue;
 
    }
 
    if ( ! orch.getChild ().equals (""))
    {
-    OrchestrationObjectField field = new OrchestrationObjectField ();
-    fields.add (field);
-    field.setParent (obj);
-    field.setName (orch.getChild ());
-    field.setType (calcType (orch.getXmlType ()));
-    field.setFieldTypeCategory (
-     calcFieldTypeCategory (field, calcIsCardList (orch.getCard1 ()), false));
+    childField = new OrchestrationObjectField ();
+    parentObj.getFields ().add (childField);
+    childField.setParent (parentObj);
+    childField.setName (orch.getChild ());
+    childField.setType (calcType (orch.getXmlType ()));
+    childField.setFieldTypeCategory (
+     calcFieldTypeCategory (childField, calcIsCardList (orch.getCard1 ()), false));
     continue;
-
    }
-   //TODO: worry about grand children
+   if ( ! orch.getGrandChild ().equals (""))
+   {
+    OrchestrationObjectField grandChildField = new OrchestrationObjectField ();
+    OrchestrationObject inlineObj = childField.getInlineObject ();
+    if (inlineObj == null)
+    {
+     inlineObj = new OrchestrationObject ();
+     childField.setInlineObject (inlineObj);
+     inlineObj.setInlineField (childField);
+     inlineObj.setName (childField.getName ());
+     inlineObj.setAssembleFromClass ("TODO: add this to spreadsheet");
+     inlineObj.setDataPackagePath (ROOT_PACKAGE + ".orch");
+     inlineObj.setHasOwnCreateUpdate (false);
+     inlineObj.setFields (new ArrayList ());
+    }
+    inlineObj.getFields ().add (grandChildField);
+    grandChildField.setParent (inlineObj);
+    grandChildField.setName (orch.getGrandChild ());
+    grandChildField.setType (calcType (orch.getXmlType ()));
+    grandChildField.setFieldTypeCategory (
+     calcFieldTypeCategory (grandChildField, calcIsCardList (orch.getCard2 ()), false));
+    continue;
+   }
 
   }
   return map;

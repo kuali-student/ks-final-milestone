@@ -48,6 +48,19 @@ public class OrchestrationObject
   this.hasOwnCreateUpdate = hasOwnCreateUpdate;
  }
 
+ private OrchestrationObjectField inlineField;
+
+ public OrchestrationObjectField getInlineField ()
+ {
+  return inlineField;
+ }
+
+ public void setInlineField (OrchestrationObjectField inlineField)
+ {
+  this.inlineField = inlineField;
+ }
+
+
  private String dataPackagePath;
 
  public String getDataPackagePath ()
@@ -91,12 +104,17 @@ public class OrchestrationObject
 
  public String getJavaClassDataHelperName ()
  {
-  return getInfoJavaClassName () + "DataHelper";
+  if (inlineField == null)
+  {
+   return getInfoJavaClassName () + "DataHelper";
+  }
+  return inlineField.getParent ().getInfoJavaClassName ()
+    + getInfoJavaClassName () + "DataHelper";
  }
 
  public String getFullyQualifiedJavaClassDataName ()
  {
-  return dataPackagePath + "." + getJavaClassDataHelperName ();
+   return dataPackagePath + "." + getJavaClassDataHelperName ();
  }
 
  private String assembleFromClass;

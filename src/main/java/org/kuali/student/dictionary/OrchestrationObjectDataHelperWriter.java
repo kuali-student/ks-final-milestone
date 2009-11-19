@@ -100,6 +100,15 @@ public class OrchestrationObjectDataHelperWriter extends JavaClassWriter
 
   for (OrchestrationObjectField field : orchObj.getFields ())
   {
+   if (field.getInlineObject () != null)
+   {
+    OrchestrationObjectDataHelperWriter inlineWriter =
+     new OrchestrationObjectDataHelperWriter (model,
+                                              directory,
+                                              orchObjs,
+                                              field.getInlineObject ());
+    inlineWriter.write ();
+   }
    String setter = calcSetterMethodName (field.getName ());
    String getter = calcGetterMethodName (field.getName ());
    String fieldTypeToUse = calcFieldTypeToUse (field);
@@ -118,6 +127,7 @@ public class OrchestrationObjectDataHelperWriter extends JavaClassWriter
      setterValue = "value";
      break;
     case COMPLEX:
+    case COMPLEX_INLINE:
      setterValue = "value.getData ()";
      break;
     default:
@@ -142,7 +152,14 @@ public class OrchestrationObjectDataHelperWriter extends JavaClassWriter
      break;
     case COMPLEX:
      String castType = calcModifiableOrData (field.getType ());
-     indentPrintln ("return new " + fieldTypeToUse + " ((" + castType + ") " + getterValue + ");");
+     indentPrintln ("return new " + fieldTypeToUse + " ((" + castType + ") " +
+      getterValue + ");");
+     break;
+    case COMPLEX_INLINE:
+     castType = "Data";
+     imports.add (Data.class.getName ());
+     indentPrintln ("return new " + fieldTypeToUse + " ((" + castType + ") " +
+      getterValue + ");");
      break;
     default:
      throw new DictionaryExecutionException ("unhandled type");
@@ -163,12 +180,11 @@ public class OrchestrationObjectDataHelperWriter extends JavaClassWriter
   OrchestrationObject oo = orchObjs.get (orchObjName.toLowerCase ());
   if (oo == null)
   {
-   throw new DictionaryExecutionException ("could not find orchestrration object " + orchObjName);
+   throw new DictionaryExecutionException ("could not find orchestrration object " +
+    orchObjName);
   }
   return calcModifiableOrData (oo);
  }
-
-
 
  private String calcModifiableOrData (OrchestrationObject orchObj)
  {
@@ -200,12 +216,7 @@ public class OrchestrationObjectDataHelperWriter extends JavaClassWriter
    case DYNAMIC_ATTRIBUTE:
    case LIST:
     imports.add (Data.class.getName ());
-
     return "Data";
-
-
-
-
 
    case PRIMITIVE:
     if (field.getType ().equalsIgnoreCase ("string"))
@@ -245,26 +256,18 @@ public class OrchestrationObjectDataHelperWriter extends JavaClassWriter
      "Unknown/handled field type " +
      field.getType () + " " + field.getName ());
 
-
    case MAPPED_STRING:
     return "String";
-
-
-
-
-
 
    case COMPLEX:
     OrchestrationObject fieldOO =
      orchObjs.get (field.getType ().toLowerCase ());
     imports.add (fieldOO.getFullyQualifiedJavaClassDataName ());
-
-
-
-
-
-
     return fieldOO.getJavaClassDataHelperName ();
+
+   case COMPLEX_INLINE:
+    imports.add (field.getInlineObject ().getFullyQualifiedJavaClassDataName ());
+    return field.getInlineObject ().getJavaClassDataHelperName ();
   }
   throw new DictionaryValidationException ("Unknown/unhandled field type category" +
    field.getFieldTypeCategory () + " for field type " +
