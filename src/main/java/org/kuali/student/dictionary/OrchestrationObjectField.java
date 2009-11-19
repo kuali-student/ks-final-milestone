@@ -10,11 +10,16 @@ package org.kuali.student.dictionary;
  */
 public class OrchestrationObjectField
 {
+
  private OrchestrationObject parent;
  private String name;
  private String type;
 
+ public enum FieldTypeCategory
+ {
 
+  LIST, PRIMITIVE, MAPPED_STRING, DYNAMIC_ATTRIBUTE, COMPLEX;
+ }
 
  public OrchestrationObject getParent ()
  {
@@ -25,8 +30,6 @@ public class OrchestrationObjectField
  {
   this.parent = parent;
  }
-
-
 
  public void setName (String name)
  {
@@ -48,16 +51,17 @@ public class OrchestrationObjectField
   return type;
  }
 
- private boolean isList;
+ private FieldTypeCategory fieldTypeCategory;
 
- public boolean isIsList ()
+ public FieldTypeCategory getFieldTypeCategory ()
  {
-  return isList;
+  return fieldTypeCategory;
  }
 
- public void setIsList (boolean isList)
+ public void setFieldTypeCategory (
+  FieldTypeCategory fieldTypeCategory)
  {
-  this.isList = isList;
+  this.fieldTypeCategory = fieldTypeCategory;
  }
 
 }

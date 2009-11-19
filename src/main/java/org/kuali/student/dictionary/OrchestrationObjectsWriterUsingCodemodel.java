@@ -288,27 +288,27 @@ public class OrchestrationObjectsWriterUsingCodemodel
    calcGetterMethodName (field.getName ()) +
    "()";
 
-  if (field.isIsList () && processAsList)
-  {
-   JVar dataList = body.decl (jcm.ref (Data.class), "dataList", JExpr._new (jcm.
-    ref (Data.class)));
-   JForLoop forLoop = body._for ();
-   JVar inptVar = forLoop.init (sourceClass, "inpt", JExpr.direct (getter));
-   JVar rsltVar =
-    forLoop.body ().decl (sourceClass, "rslt", JExpr._new (targetClass));
-   addBeanMappingForField (field,
-                           false,
-                           jcm,
-                           forLoop.body (),
-                           sourceClass,
-                           targetClass,
-                           inptVar,
-                           rsltVar,
-                           map,
-                           orchObjs);
-   body.directStatement (setter + "datalist" + ")");
-   return;
-  }
+//  if (field.isIsList () && processAsList)
+//  {
+//   JVar dataList = body.decl (jcm.ref (Data.class), "dataList", JExpr._new (jcm.
+//    ref (Data.class)));
+//   JForLoop forLoop = body._for ();
+//   JVar inptVar = forLoop.init (sourceClass, "inpt", JExpr.direct (getter));
+//   JVar rsltVar =
+//    forLoop.body ().decl (sourceClass, "rslt", JExpr._new (targetClass));
+//   addBeanMappingForField (field,
+//                           false,
+//                           jcm,
+//                           forLoop.body (),
+//                           sourceClass,
+//                           targetClass,
+//                           inptVar,
+//                           rsltVar,
+//                           map,
+//                           orchObjs);
+//   body.directStatement (setter + "datalist" + ")");
+//   return;
+//  }
   Object fieldType = calcFieldTypeToUse (field, map);
   if (fieldType instanceof Class)
   {
@@ -349,10 +349,11 @@ public class OrchestrationObjectsWriterUsingCodemodel
  private Object calcFieldTypeToUse (OrchestrationObjectField field,
                                     Map<String, JDefinedClass> map)
  {
-  if (field.isIsList ())
-  {
-   return Data.class;
-  }
+  // TODO: fix this
+//  if (field.isIsList ())
+//  {
+//   return Data.class;
+//  }
 
   XmlType xmlType = new ModelFinder (model).findXmlType (field.getType ());
   if (xmlType == null)
@@ -551,7 +552,7 @@ public class OrchestrationObjectsWriterUsingCodemodel
       field.setParent (obj);
       field.setName (ms.getShortName ());
       field.setType (calcType (ms.getType ()));
-      field.setIsList (calcIsList (ms.getType ()));
+      //field.setIsList (calcIsList (ms.getType ()));
      }
 
     }
@@ -611,7 +612,7 @@ public class OrchestrationObjectsWriterUsingCodemodel
     field.setParent (obj);
     field.setName (orch.getChild ());
     field.setType (calcType (orch.getXmlType ()));
-    field.setIsList (calcIsCardList (orch.getCard1 ()));
+    //field.setIsList (calcIsCardList (orch.getCard1 ()));
     continue;
 
    }

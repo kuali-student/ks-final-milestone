@@ -80,18 +80,7 @@ public class OrchestrationObjectDataHelperWriter extends JavaClassWriter
   closeBrace (); // getKey brace
   closeBrace (); // enum brace
 
-  String modifiableOrData = null;
-  if (orchObj.hasOwnCreateUpdate ())
-  {
-   modifiableOrData = "ModifiableData";
-
-   imports.add (ModifiableData.class.getName ());
-  }
-  else
-  {
-   modifiableOrData = "Data";
-   imports.add (Data.class.getName ());
-  }
+  String modifiableOrData = calcModifiableOrData (orchObj);
 
   indentPrintln ("private " + modifiableOrData + " data;");
   indentPrintln ("");
@@ -113,15 +102,14 @@ public class OrchestrationObjectDataHelperWriter extends JavaClassWriter
   {
    String setter = calcSetterMethodName (field.getName ());
    String getter = calcGetterMethodName (field.getName ());
-   String type = calcFieldTypeToUse (field);
-   FieldTypeCategory fieldTypeCategory = calcFieldTypeCategory (field);
+   String fieldTypeToUse = calcFieldTypeToUse (field);
    String constant = new JavaEnumConstantCalculator (field.getName ()).calc ();
 
    indentPrintln ("");
-   indentPrintln ("public void " + setter + " (" + type + " value)");
+   indentPrintln ("public void " + setter + " (" + fieldTypeToUse + " value)");
    openBrace ();
    String setterValue;
-   switch (fieldTypeCategory)
+   switch (field.getFieldTypeCategory ())
    {
     case PRIMITIVE:
     case MAPPED_STRING:
@@ -141,20 +129,20 @@ public class OrchestrationObjectDataHelperWriter extends JavaClassWriter
    indentPrintln ("");
 
    indentPrintln ("");
-   indentPrintln ("public " + type + " " + getter + " ()");
+   indentPrintln ("public " + fieldTypeToUse + " " + getter + " ()");
    openBrace ();
    String getterValue = "data.get (Properties." + constant + ".getKey ())";
-   switch (fieldTypeCategory)
+   switch (field.getFieldTypeCategory ())
    {
     case DYNAMIC_ATTRIBUTE:
     case PRIMITIVE:
     case MAPPED_STRING:
     case LIST:
-     indentPrintln ("return (" + type + ") " + getterValue + ";");
+     indentPrintln ("return (" + fieldTypeToUse + ") " + getterValue + ";");
      break;
     case COMPLEX:
-     imports.add (Data.class.getName ());
-     indentPrintln ("return new " + type + " ((Data) " + getterValue + ");");
+     String castType = calcModifiableOrData (field.getType ());
+     indentPrintln ("return new " + fieldTypeToUse + " ((" + castType + ") " + getterValue + ");");
      break;
     default:
      throw new DictionaryExecutionException ("unhandled type");
@@ -170,6 +158,29 @@ public class OrchestrationObjectDataHelperWriter extends JavaClassWriter
   this.getOut ().close ();
  }
 
+ private String calcModifiableOrData (String orchObjName)
+ {
+  OrchestrationObject oo = orchObjs.get (orchObjName.toLowerCase ());
+  if (oo == null)
+  {
+   throw new DictionaryExecutionException ("could not find orchestrration object " + orchObjName);
+  }
+  return calcModifiableOrData (oo);
+ }
+
+
+
+ private String calcModifiableOrData (OrchestrationObject orchObj)
+ {
+  if (orchObj.hasOwnCreateUpdate ())
+  {
+   imports.add (ModifiableData.class.getName ());
+   return "ModifiableData";
+  }
+  imports.add (Data.class.getName ());
+  return "Data";
+ }
+
  public static String calcGetterMethodName (String name)
  {
   return "get" + name.substring (0, 1).toUpperCase () + name.substring (1);
@@ -182,99 +193,81 @@ public class OrchestrationObjectDataHelperWriter extends JavaClassWriter
 
  private String calcFieldTypeToUse (OrchestrationObjectField field)
  {
-  XmlType xmlType = new ModelFinder (model).findXmlType (field.getType ());
-  switch (calcFieldTypeCategory (field))
+  //XmlType xmlType = new ModelFinder (model).findXmlType (field.getType ());
+  switch (field.getFieldTypeCategory ())
   {
    // TODO: translate map <String, String> to from Data
    case DYNAMIC_ATTRIBUTE:
    case LIST:
     imports.add (Data.class.getName ());
+
     return "Data";
+
+
+
+
+
    case PRIMITIVE:
     if (field.getType ().equalsIgnoreCase ("string"))
     {
      return "String";
     }
+
     if (field.getType ().equalsIgnoreCase ("date"))
     {
      // TODO: figure out what to use for Date
      imports.add (Date.class.getName ());
      return "Date";
     }
+
     if (field.getType ().equalsIgnoreCase ("dateTime"))
     {
      imports.add (Date.class.getName ());
      return "Date";
     }
+
     if (field.getType ().equalsIgnoreCase ("boolean"))
     {
      return "Boolean";
     }
+
     if (field.getType ().equalsIgnoreCase ("integer"))
     {
      return "Integer";
     }
+
     if (field.getType ().equalsIgnoreCase ("long"))
     {
      return "Long";
     }
 
-    throw new DictionaryValidationException ("Unknown/handled field type " +
+    throw new DictionaryValidationException (
+     "Unknown/handled field type " +
      field.getType () + " " + field.getName ());
+
+
    case MAPPED_STRING:
     return "String";
+
+
+
+
+
+
    case COMPLEX:
     OrchestrationObject fieldOO =
-     orchObjs.get (xmlType.getName ().toLowerCase ());
+     orchObjs.get (field.getType ().toLowerCase ());
     imports.add (fieldOO.getFullyQualifiedJavaClassDataName ());
+
+
+
+
+
+
     return fieldOO.getJavaClassDataHelperName ();
   }
-  throw new DictionaryValidationException ("Unknown/unhandled primitive " +
-   xmlType.getPrimitive () + " for field type " +
-   field.getType () + " for field " + field.getName ());
- }
-
- public enum FieldTypeCategory
- {
-
-  LIST, PRIMITIVE, MAPPED_STRING, DYNAMIC_ATTRIBUTE, COMPLEX;
- }
-
- private FieldTypeCategory calcFieldTypeCategory (OrchestrationObjectField field)
- {
-  if (field.getType ().equalsIgnoreCase ("attributeInfo"))
-  {
-   return FieldTypeCategory.DYNAMIC_ATTRIBUTE;
-  }
-  if (field.isIsList ())
-  {
-   return FieldTypeCategory.LIST;
-  }
-
-  XmlType xmlType = new ModelFinder (model).findXmlType (field.getType ());
-  if (xmlType == null)
-  {
-   throw new DictionaryValidationException ("No XmlType found for field type " +
-    field.getType () + " " + field.getName ());
-  }
-
-  if (xmlType.getPrimitive ().equalsIgnoreCase ("Primitive"))
-  {
-   return FieldTypeCategory.PRIMITIVE;
-  }
-
-  if (xmlType.getPrimitive ().equalsIgnoreCase ("Mapped String"))
-  {
-   return FieldTypeCategory.MAPPED_STRING;
-  }
-
-  if (xmlType.getPrimitive ().equalsIgnoreCase ("Complex"))
-  {
-   return FieldTypeCategory.COMPLEX;
-  }
-
-  throw new DictionaryValidationException ("Unknown/unhandled xmlType.primtive value, " +
-   xmlType.getPrimitive () + ", for field type " +
+  throw new DictionaryValidationException ("Unknown/unhandled field type category" +
+   field.getFieldTypeCategory () + " for field type " +
    field.getType () + " for field " + field.getName ());
  }
 
