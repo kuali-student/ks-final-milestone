@@ -16,6 +16,7 @@
 package org.kuali.student.orchestration.base;
 
 
+import java.util.Date;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
 
@@ -26,6 +27,12 @@ public class ResultUsageTypeInfoDataHelper
 	
 	public enum Properties implements PropertyEnum
 	{
+		NAME ("name"),
+		DESC ("desc"),
+		EFFECTIVE_DATE ("effectiveDate"),
+		EXPIRATION_DATE ("expirationDate"),
+		ATTRIBUTES ("attributes"),
+		KEY ("key");
 		
 		private final String key;
 		
@@ -50,6 +57,78 @@ public class ResultUsageTypeInfoDataHelper
 	public Data getData ()
 	{
 		return data;
+	}
+	
+	
+	public void setName (String value)
+	{
+		data.set (Properties.NAME.getKey (), value);
+	}
+	
+	
+	public String getName ()
+	{
+		return (String) data.get (Properties.NAME.getKey ());
+	}
+	
+	
+	public void setDesc (String value)
+	{
+		data.set (Properties.DESC.getKey (), value);
+	}
+	
+	
+	public String getDesc ()
+	{
+		return (String) data.get (Properties.DESC.getKey ());
+	}
+	
+	
+	public void setEffectiveDate (Date value)
+	{
+		data.set (Properties.EFFECTIVE_DATE.getKey (), value);
+	}
+	
+	
+	public Date getEffectiveDate ()
+	{
+		return (Date) data.get (Properties.EFFECTIVE_DATE.getKey ());
+	}
+	
+	
+	public void setExpirationDate (Date value)
+	{
+		data.set (Properties.EXPIRATION_DATE.getKey (), value);
+	}
+	
+	
+	public Date getExpirationDate ()
+	{
+		return (Date) data.get (Properties.EXPIRATION_DATE.getKey ());
+	}
+	
+	
+	public void setAttributes (Data value)
+	{
+		data.set (Properties.ATTRIBUTES.getKey (), value);
+	}
+	
+	
+	public Data getAttributes ()
+	{
+		return (Data) data.get (Properties.ATTRIBUTES.getKey ());
+	}
+	
+	
+	public void setKey (String value)
+	{
+		data.set (Properties.KEY.getKey (), value);
+	}
+	
+	
+	public String getKey ()
+	{
+		return (String) data.get (Properties.KEY.getKey ());
 	}
 	
 }
