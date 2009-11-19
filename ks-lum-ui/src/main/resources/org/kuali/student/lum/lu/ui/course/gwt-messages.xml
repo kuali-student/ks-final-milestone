@@ -119,6 +119,7 @@
 	   		<bean parent="enCourse" p:id="cluLearningObjective"	p:value="Learning Objective"/>
 	   		<bean parent="enCourse" p:id="cluAddLOs"			p:value="+ Add More Learning Objectives"/>
 	   		<bean parent="enCourse" p:id="cluLOName"			p:value="Name"/>
+	   		<bean parent="enCourse" p:id="cluLOSearch"			p:value="Search for Learning Objectives"/>
 
    	<bean parent="enCourse" p:id="cluStudentEligibility"		p:value="Student Eligibility"/>
 	 <bean parent="enCourse" p:id="cluCourseRestrictions"		p:value="Course Restrictions"/>
@@ -185,6 +186,7 @@
 	   		<bean parent="esCourse" p:id="cluRationale"	    	p:value="Análisis razonado del curso"/>
 	   	
 	   	<bean parent="esCourse" p:id="cluLearningObjectives"		p:value="Aprendizaje de objetivos"/>
+   		<bean parent="esCourse" p:id="cluLOSearch"			p:value="Búsqueda para aprender objetivos"/>
 
    	<bean parent="esCourse" p:id="cluStudentEligibility"		p:value="Elegibilidad del estudiante"/>
 	   	<bean parent="esCourse" p:id="cluCourseRestrictions"		p:value="Restricciones del curso"/>

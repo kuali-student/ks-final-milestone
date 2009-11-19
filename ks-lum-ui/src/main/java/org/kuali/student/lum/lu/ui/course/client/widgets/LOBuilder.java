@@ -28,6 +28,8 @@ import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.Type;
+import org.kuali.student.common.ui.client.theme.Theme;
+import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
 import org.kuali.student.lum.lo.dto.LoInfo;
@@ -46,6 +48,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -63,46 +66,76 @@ import com.google.gwt.user.client.ui.Widget;
 public class LOBuilder extends Composite  implements HasModelDTOValue {
 
 
+    //FIXME:  Initialize type and state
+    private static String type;
+    private static String state;
+    private static String messageGroup;
+    
     private LoRpcServiceAsync loRpcServiceAsync = GWT.create(LoRpcService.class);
 
     KSAdvancedSearchWindow loSearchWindow;   
 
     VerticalPanel main = new VerticalPanel();
 
-    HorizontalPanel searchPanel = new HorizontalPanel();
+    HorizontalPanel searchMainPanel = new HorizontalPanel();
+    SimplePanel searchSpacerPanel = new SimplePanel();
+    HorizontalPanel searchLinkPanel = new HorizontalPanel();
+    
     VerticalPanel loPanel = new VerticalPanel();
 
-    KSLabel searchLink = new KSLabel("Search for LO");
-
-    LearningObjectiveList loList = new LearningObjectiveList();
+    KSLabel searchLink;
+    LearningObjectiveList loList;
 
     private static final int NUM_INITIAL_LOS = 1;
+    
+    private KSImage searchImage = Theme.INSTANCE.getCommonImages().getSearchIcon();
 
 
-    public LOBuilder() {
+    protected LOBuilder() {
+        //TODO: should this be an error?  Can we set realistic defaults?
+        
+    }
+
+
+    public LOBuilder(String luType, String luState, String luGroup) {
         super();
         initWidget(main);
+        
+        type = luType;
+        state = luState;
+        messageGroup = luGroup;        
 
-        searchPanel.addStyleName("KS-LO-Picker-Link-Panel");
-
-        searchLink.addStyleName("KS-LO-Picker-Link");
-        searchLink.addClickHandler(new ClickHandler() {
-
-            @Override
+        ClickHandler searchClickHandler = new ClickHandler() {
+              @Override
             public void onClick(ClickEvent event) {
                 if (loSearchWindow == null) {
                     initSearchWindow();
                 }
                 loSearchWindow.show();
+            }          
+        };
 
-            }
+        searchLink = new KSLabel(getLabel(LUConstants.SEARCH_FOR_LOS));
+        searchLink.addClickHandler(searchClickHandler);          
+        searchImage.addClickHandler(searchClickHandler);          
 
-        });            
-
-//      searchPanel.add(loText);
-        searchPanel.add(searchLink);
+        searchLinkPanel.add(searchImage);
+        searchLinkPanel.add(searchLink);        
+        searchSpacerPanel.add(new KSLabel(""));
+        
+        searchMainPanel.add(searchSpacerPanel);
+        searchMainPanel.add(searchLinkPanel);
+        
+        loList = new LearningObjectiveList();
         loPanel.add(loList);
-        main.add(searchPanel);
+   
+        searchImage.addStyleName("KS-LOBuilder-Search-Image");
+        searchLink.addStyleName("KS-LOBuilder-Search-Link");
+        searchSpacerPanel.addStyleName("KS-LOBuilder-Spacer-Panel");
+        loPanel.addStyleName("KS-LOBuilder-LO-Panel");
+        searchMainPanel.addStyleName("KS-LOBuilder-Search-Panel");
+        
+        main.add(searchMainPanel);
         main.add(loPanel);
 
     }
@@ -110,8 +143,7 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
 
     public static class LearningObjectiveList extends SimpleMultiplicityComposite {        
         {
-            setAddItemLabel(Application.getApplicationContext().getUILabel(LUConstants.COURSE_GROUP_NAME, null, null, 
-                    LUConstants.LEARNING_OBJECTIVE_ADD_LABEL_KEY));
+            setAddItemLabel(getLabel(LUConstants.LEARNING_OBJECTIVE_ADD_LABEL_KEY));
         }
 
         @Override
@@ -256,4 +288,8 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
         return loList.addValueChangeHandler(handler);
     }
 
+    
+    private static String getLabel(String labelKey) {
+        return Application.getApplicationContext().getUILabel(messageGroup, type, state, labelKey);
+    }
 }

@@ -216,6 +216,8 @@ public class LUConstants {
     public static final String DEPT_REQS_LABEL_KEY = "cluDeptRequirements";
     public static final String DEPT_LABEL_KEY = "cluDept";
 
+    public static final String SEARCH_FOR_LOS = "cluLOSearch";
+
 
 }
 

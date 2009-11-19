@@ -86,9 +86,6 @@ public class LuConfigurer {
 
     private static boolean WITH_DIVIDER = true;
     private static boolean NO_DIVIDER = false;
-    private static final int NUM_INITIAL_LOS = 3;
-
-
 
     public enum LuSections{
         CLU_BEGIN, AUTHOR, SUMMARY, GOVERNANCE, COURSE_LOGISTICS, COURSE_INFO, LEARNING_OBJECTIVES,
@@ -352,7 +349,7 @@ public class LuConfigurer {
 
         VerticalSection los = initSection(null, NO_DIVIDER);    
 
-        los.addField(new FieldDescriptor("cluInfo/loInfos", null, Type.MODELDTO, new LOBuilder()));
+        los.addField(new FieldDescriptor("cluInfo/loInfos", null, Type.MODELDTO, new LOBuilder(type, state, groupName)));
         los.addStyleName("KS-LUM-Section-Divider");
         
         section.addSection(los);
