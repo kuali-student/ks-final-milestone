@@ -16,19 +16,18 @@
 package org.kuali.student.orchestration.orch;
 
 
-import org.kuali.student.lum.lu.assembly.data.client.ModifiableData;
+import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
 
 
-public class CreditCourseProposalKeyDataDataHelper
+public class CreditCourseActivityContactHoursHelper
 {
 	private static final long serialVersionUID = 1;
 	
 	public enum Properties implements PropertyEnum
 	{
-		TITLE ("Title"),
-		PROPOSER ("Proposer"),
-		DEPARTMENT ("Department");
+		PER ("per"),
+		HRS ("hrs");
 		
 		private final String key;
 		
@@ -43,52 +42,40 @@ public class CreditCourseProposalKeyDataDataHelper
 			return this.key;
 		}
 	}
-	private ModifiableData data;
+	private Data data;
 	
-	public CreditCourseProposalKeyDataDataHelper (ModifiableData data)
+	public CreditCourseActivityContactHoursHelper (Data data)
 	{
 		this.data = data;
 	}
 	
-	public ModifiableData getData ()
+	public Data getData ()
 	{
 		return data;
 	}
 	
 	
-	public void setTitle (String value)
+	public void setPer (String value)
 	{
-		data.set (Properties.TITLE.getKey (), value);
+		data.set (Properties.PER.getKey (), value);
 	}
 	
 	
-	public String getTitle ()
+	public String getPer ()
 	{
-		return (String) data.get (Properties.TITLE.getKey ());
+		return (String) data.get (Properties.PER.getKey ());
 	}
 	
 	
-	public void setProposer (String value)
+	public void setHrs (Integer value)
 	{
-		data.set (Properties.PROPOSER.getKey (), value);
+		data.set (Properties.HRS.getKey (), value);
 	}
 	
 	
-	public String getProposer ()
+	public Integer getHrs ()
 	{
-		return (String) data.get (Properties.PROPOSER.getKey ());
-	}
-	
-	
-	public void setDepartment (String value)
-	{
-		data.set (Properties.DEPARTMENT.getKey (), value);
-	}
-	
-	
-	public String getDepartment ()
-	{
-		return (String) data.get (Properties.DEPARTMENT.getKey ());
+		return (Integer) data.get (Properties.HRS.getKey ());
 	}
 	
 }

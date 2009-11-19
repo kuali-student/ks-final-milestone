@@ -17,18 +17,17 @@ package org.kuali.student.orchestration.orch;
 
 
 import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.lum.lu.assembly.data.client.ModifiableData;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
 
 
-public class CreditCourseFormatDataHelper
+public class CreditCourseDurationHelper
 {
 	private static final long serialVersionUID = 1;
 	
 	public enum Properties implements PropertyEnum
 	{
-		ID ("Id"),
-		ACTIVITIES ("Activities");
+		TERM_TYPE ("termType"),
+		QUANTITY ("quantity");
 		
 		private final String key;
 		
@@ -43,40 +42,40 @@ public class CreditCourseFormatDataHelper
 			return this.key;
 		}
 	}
-	private ModifiableData data;
+	private Data data;
 	
-	public CreditCourseFormatDataHelper (ModifiableData data)
+	public CreditCourseDurationHelper (Data data)
 	{
 		this.data = data;
 	}
 	
-	public ModifiableData getData ()
+	public Data getData ()
 	{
 		return data;
 	}
 	
 	
-	public void setId (String value)
+	public void setTermType (String value)
 	{
-		data.set (Properties.ID.getKey (), value);
+		data.set (Properties.TERM_TYPE.getKey (), value);
 	}
 	
 	
-	public String getId ()
+	public String getTermType ()
 	{
-		return (String) data.get (Properties.ID.getKey ());
+		return (String) data.get (Properties.TERM_TYPE.getKey ());
 	}
 	
 	
-	public void setActivities (Data value)
+	public void setQuantity (Integer value)
 	{
-		data.set (Properties.ACTIVITIES.getKey (), value);
+		data.set (Properties.QUANTITY.getKey (), value);
 	}
 	
 	
-	public Data getActivities ()
+	public Integer getQuantity ()
 	{
-		return (Data) data.get (Properties.ACTIVITIES.getKey ());
+		return (Integer) data.get (Properties.QUANTITY.getKey ());
 	}
 	
 }
