@@ -124,8 +124,8 @@ public class LOPicker extends  Composite implements  HasValue<String>  {
         root.add(mainPanel);
         layoutTable.setVisible(false);
        
-    //    super.sinkEvents(Event.ONMOUSEMOVE);
-     //   super.sinkEvents(Event.ONMOUSEOUT);
+        super.sinkEvents(Event.ONMOUSEMOVE);
+        super.sinkEvents(Event.ONMOUSEOUT);
     }
     public void onBrowserEvent(Event event){
         switch (DOM.eventGetType(event)) {
