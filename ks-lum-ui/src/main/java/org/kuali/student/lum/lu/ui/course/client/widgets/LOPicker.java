@@ -178,4 +178,36 @@ public class LOPicker extends  Composite implements  HasValue<String>  {
     public void addIndentAction(ClickHandler ch){
         indentButton.addClickHandler(ch);
     }
+    public void enableMoveUpButton(boolean enable){
+        upButton.setEnabled(enable);
+        if(enable){
+            upButton.addStyleName("KS-LOMoveUpButton");
+        }else{
+            upButton.addStyleName("KS-LOMoveUpButtonDisable");
+        }
+    }
+    public void enableMoveDownButton(boolean enable){
+        downButton.setEnabled(enable);
+        if(enable){
+            upButton.addStyleName("KS-LOMoveDownButton");
+        }else{
+            upButton.addStyleName("KS-LOMoveDownButtonDisable");
+        }
+    }
+    public void enableDeleteButton(boolean enable){
+        deleteButton.setEnabled(enable);
+        if(enable){
+            upButton.addStyleName("KS-LODeleteButton");
+        }else{
+            upButton.addStyleName("KS-LODeleteButtonDisable");
+        }
+    }
+    public void indentDeleteButton(boolean enable){
+        indentButton.setEnabled(enable);
+        if(enable){
+            indentButton.addStyleName("KS-LOIndentButton");
+        }else{
+            indentButton.addStyleName("KS-LOIndentButtonDisable");
+        }
+    }
 }
