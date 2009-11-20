@@ -61,16 +61,16 @@ public class OrchestrationObject
  }
 
 
- private String dataPackagePath;
+ private String orchestrationPackagePath;
 
- public String getDataPackagePath ()
+ public String getOrchestrationPackagePath ()
  {
-  return dataPackagePath;
+  return orchestrationPackagePath;
  }
 
- public void setDataPackagePath (String packagePath)
+ public void setOrchestrationPackagePath (String packagePath)
  {
-  this.dataPackagePath = packagePath;
+  this.orchestrationPackagePath = packagePath;
  }
 
 
@@ -93,13 +93,12 @@ public class OrchestrationObject
 
  public String getFullyQualifiedInfoJavaClassName ()
  {
-  return this.getInfoPackagePath () + "." + this.getInfoJavaClassName ();
+  return this.infoPackagePath + "." + this.getInfoJavaClassName ();
  }
 
- public String getFullyQualifiedAssemblerName ()
+ public String getFullyQualifiedJavaClassAssemblerName ()
  {
-  return dataPackagePath + ".assembler" +
-   "." + getInfoJavaClassName () + "Assembler";
+  return orchestrationPackagePath + "." + getInfoJavaClassName () + "Assembler";
  }
 
  public String getJavaClassHelperName ()
@@ -112,9 +111,24 @@ public class OrchestrationObject
     + getInfoJavaClassName () + "Helper";
  }
 
- public String getFullyQualifiedJavaClassName ()
+ public String getFullyQualifiedJavaClassHelperName ()
  {
-   return dataPackagePath + "." + getJavaClassHelperName ();
+   return orchestrationPackagePath + "." + getJavaClassHelperName ();
+ }
+
+  public String getJavaClassMetadataName ()
+ {
+  if (inlineField == null)
+  {
+   return getInfoJavaClassName () + "Metadata";
+  }
+  return inlineField.getParent ().getInfoJavaClassName ()
+    + getInfoJavaClassName () + "Metadata";
+ }
+
+ public String getFullyQualifiedJavaClassMetadataName ()
+ {
+   return orchestrationPackagePath + "." + getJavaClassMetadataName ();
  }
 
  private String assembleFromClass;

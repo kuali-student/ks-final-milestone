@@ -103,7 +103,7 @@ public class OrchestrationObjectsWriterUsingCodemodel
                                OrchestrationObject orchObj)
   throws JClassAlreadyExistsException
  {
-  String className = orchObj.getFullyQualifiedJavaClassName ();
+  String className = orchObj.getFullyQualifiedJavaClassHelperName ();
   System.out.println ("Creating " + className);
   JDefinedClass mainClass = jcm._class (className, ClassType.CLASS);
   map.put (orchObj.getName ().toLowerCase (), mainClass);
@@ -188,7 +188,7 @@ public class OrchestrationObjectsWriterUsingCodemodel
   throws JClassAlreadyExistsException
  {
   // public class xxxAssembler
-  String className = orchObj.getFullyQualifiedAssemblerName ();
+  String className = orchObj.getFullyQualifiedJavaClassAssemblerName ();
   System.out.println ("Creating assembler for " + className);
   JDefinedClass mainClass = jcm._class (className, ClassType.CLASS);
   map.put (orchObj.getName ().toLowerCase () + "Assembler", mainClass);
@@ -196,7 +196,7 @@ public class OrchestrationObjectsWriterUsingCodemodel
   // implements Assembler <xxxData, xxxInfo>
   JClass genericAssembler = jcm.ref (Assembler.class);
   List<JClass> narrowingClasses = new ArrayList ();
-  JClass targetClass = jcm._getClass (orchObj.getFullyQualifiedJavaClassName ());
+  JClass targetClass = jcm._getClass (orchObj.getFullyQualifiedJavaClassHelperName ());
   XmlType xmlType = new ModelFinder (model).findXmlType (orchObj.getName ());
   String infoClassName = new XmlTypeNameBuilder (xmlType.getName (), xmlType.
    getJavaPackage ()).build ();
@@ -322,7 +322,7 @@ public class OrchestrationObjectsWriterUsingCodemodel
    // result.setYYY (new YYYAssembler ().assemble (input.getYYY ()));
    OrchestrationObject child =
     findOrchestrationObject (orchObjs, field.getType ());
-   String assemblerName = child.getFullyQualifiedAssemblerName ();
+   String assemblerName = child.getFullyQualifiedJavaClassAssemblerName ();
    String assemblerCall =
     "new " + assemblerName + "().assemble (" + getter + ")";
    body.directStatement (setter + assemblerCall + ");");
@@ -521,7 +521,7 @@ public class OrchestrationObjectsWriterUsingCodemodel
    {
     OrchestrationObject obj = new OrchestrationObject ();
     list.add (obj);
-    obj.setDataPackagePath (ROOT_PACKAGE + ".base");
+    obj.setOrchestrationPackagePath (ROOT_PACKAGE + ".base");
     obj.setName (xmlType.getName ());
     // these orchestratration data objects get assembled from versions of themself
     // i.e CluInfoData from CluInfo
@@ -596,7 +596,7 @@ public class OrchestrationObjectsWriterUsingCodemodel
     obj.setName (orch.getParent ());
     // TODO: add this to spreadsheet
     obj.setAssembleFromClass ("TODO: add this to spreadsheet");
-    obj.setDataPackagePath (ROOT_PACKAGE + ".orch");
+    obj.setOrchestrationPackagePath (ROOT_PACKAGE + ".orch");
     obj.setHasOwnCreateUpdate (true);
     fields =
      new ArrayList ();

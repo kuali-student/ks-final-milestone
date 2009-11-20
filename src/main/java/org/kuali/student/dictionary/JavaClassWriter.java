@@ -77,9 +77,14 @@ public abstract class JavaClassWriter extends XmlWriter
 
   for (String imprt : imports)
   {
+   // exclude imports from same package
    if (imprt.startsWith (packageName))
    {
-    continue;
+    // don't exclude imports for same package that are including nested classes
+    if ( ! imprt.substring (packageName.length ()).contains ("."))
+    {
+     continue;
+    }
    }
    indentPrintln ("import " + imprt + ";");
   }

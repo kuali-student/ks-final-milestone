@@ -40,11 +40,22 @@ public class OrchestrationObjectsWriter
   Map<String, OrchestrationObject> orchObjs =
    getOrchestrationObjectsFromMessageStructures ();
   orchObjs.putAll (this.getOrchestrationObjectsFromOrchObjs ());
+
+  // do the helpers first
   for (OrchestrationObject oo : orchObjs.values ())
   {
-   System.out.println ("Writing out " + oo.getFullyQualifiedJavaClassName ());
+   System.out.println ("Writing out " + oo.getFullyQualifiedJavaClassHelperName ());
    OrchestrationObjectHelperWriter writer =
     new OrchestrationObjectHelperWriter (model, directory, orchObjs, oo);
+   writer.write ();
+  }
+
+  // do the metadata next
+  for (OrchestrationObject oo : orchObjs.values ())
+  {
+   System.out.println ("Writing out " + oo.getFullyQualifiedJavaClassMetadataName ());
+   OrchestrationObjectMetadataWriter writer =
+    new OrchestrationObjectMetadataWriter (model, directory, orchObjs, oo);
    writer.write ();
   }
  }
@@ -88,7 +99,7 @@ public class OrchestrationObjectsWriter
     map.put (xmlType.getName ().toLowerCase (), obj);
     obj.setName (xmlType.getName ());
     obj.setInfoPackagePath (xmlType.getJavaPackage ());
-    obj.setDataPackagePath (ROOT_PACKAGE + ".base");
+    obj.setOrchestrationPackagePath (ROOT_PACKAGE + ".base");
 
     // these orchestratration data objects get assembled from versions of themself
     // i.e CluInfoData from CluInfo
@@ -216,7 +227,7 @@ public class OrchestrationObjectsWriter
     parentObj.setName (orch.getParent ());
     // TODO: add this to spreadsheet
     parentObj.setAssembleFromClass ("TODO: add this to spreadsheet");
-    parentObj.setDataPackagePath (ROOT_PACKAGE + ".orch");
+    parentObj.setOrchestrationPackagePath (ROOT_PACKAGE + ".orch");
     parentObj.setHasOwnCreateUpdate (true);
     parentObj.setFields (new ArrayList ());
     continue;
@@ -245,7 +256,7 @@ public class OrchestrationObjectsWriter
      inlineObj.setInlineField (childField);
      inlineObj.setName (childField.getName ());
      inlineObj.setAssembleFromClass ("TODO: add this to spreadsheet");
-     inlineObj.setDataPackagePath (ROOT_PACKAGE + ".orch");
+     inlineObj.setOrchestrationPackagePath (ROOT_PACKAGE + ".orch");
      inlineObj.setHasOwnCreateUpdate (false);
      inlineObj.setFields (new ArrayList ());
     }

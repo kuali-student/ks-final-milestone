@@ -29,7 +29,7 @@ public class OrchestrationObjectHelperWriter extends JavaClassWriter
                                          Map<String, OrchestrationObject> orchObjs,
                                          OrchestrationObject orchObj)
  {
-  super (directory, orchObj.getDataPackagePath (), orchObj.
+  super (directory, orchObj.getOrchestrationPackagePath (), orchObj.
    getJavaClassHelperName ());
   this.model = model;
   this.directory = directory;
@@ -56,7 +56,6 @@ public class OrchestrationObjectHelperWriter extends JavaClassWriter
     inlineWriter.write ();
    }
   }
-
 
   indentPrintln ("public class " + orchObj.getJavaClassHelperName ());
   openBrace ();
@@ -174,42 +173,13 @@ public class OrchestrationObjectHelperWriter extends JavaClassWriter
    indentPrintln ("");
   }
 
-  // get metadata
-  imports.add (Metadata.class.getName ());
-  indentPrintln ("public Metadata getMetadata (String type, String state)");
-  openBrace ();
-  indentPrintln ("Metadata mainMeta = new Metadata ();");
-  indentPrintln ("Metadata childMeta;");
-  for (OrchestrationObjectField field : orchObj.getFields ())
-  {
-   indentPrintln ("");
-   indentPrintln ("// metadata for " + field.getName ());
-   indentPrintln ("childMeta = new Metadata ();");
-   String constant = new JavaEnumConstantCalculator (field.getName ()).calc ();
-   indentPrintln ("mainMeta.getProperties ().put (Properties."
-    + constant + ".getKey (), childMeta);");
-   if (field.getInlineObject () != null)
-   {
-    // TODO: something
-   }
-   imports.add (Data.class.getName ());
-   indentPrintln ("childMeta.setDataType (Data.DataType." + calcDataTypeToUse (field) + ");");
-   indentPrintln ("childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);");
-   }
-   indentPrintln ("");
-   indentPrintln ("mainMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);");
-   indentPrintln ("return mainMeta;");
-   closeBrace (); // end getMetadata method
+  closeBrace (); // end class
 
-   closeBrace (); // end class
+  this.writeJavaClassAndImportsOutToFile ();
+  this.getOut ().close ();
+ }
 
-   this.writeJavaClassAndImportsOutToFile ();
-   this.getOut ().close ();
-  }
-
- private
-
-  String calcModifiableOrData (String orchObjName)
+ private String calcModifiableOrData (String orchObjName)
  {
   OrchestrationObject oo = orchObjs.get (orchObjName.toLowerCase ());
   if (oo == null)
@@ -296,11 +266,11 @@ public class OrchestrationObjectHelperWriter extends JavaClassWriter
    case COMPLEX:
     OrchestrationObject fieldOO =
      orchObjs.get (field.getType ().toLowerCase ());
-    imports.add (fieldOO.getFullyQualifiedJavaClassName ());
+    imports.add (fieldOO.getFullyQualifiedJavaClassHelperName ());
     return fieldOO.getJavaClassHelperName ();
 
    case COMPLEX_INLINE:
-    imports.add (field.getInlineObject ().getFullyQualifiedJavaClassName ());
+    imports.add (field.getInlineObject ().getFullyQualifiedJavaClassHelperName ());
     return field.getInlineObject ().getJavaClassHelperName ();
   }
   throw new DictionaryValidationException ("Unknown/unhandled field type category" +
