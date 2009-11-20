@@ -29,9 +29,13 @@ public class MetadataInterrogator
   this.meta = meta;
  }
 
+ /**
+  * checks if is required
+  * @return true if any minOccurs > 1
+  */
  public boolean isRequired ()
  {
-  // TODO: worry aboutg special validators that might make this required
+  // TODO: worry about special validators
   for (ConstraintMetadata cons : meta.getConstraints ())
   {
    if (cons.getMinOccurs () != null)
@@ -45,11 +49,45 @@ public class MetadataInterrogator
   return false;
  }
 
+ /**
+  * checks if this field is a repeating field
+  * @return true if the smallest maxOccurs is > 1
+  */
+ public boolean isRepeating ()
+ {
+  Integer smallestMaxOccurs = null;
+  // TODO: worry aboutg special validators
+  // TODO: worry about how this applies to non-strings?
+  for (ConstraintMetadata cons : meta.getConstraints ())
+  {
+   if (cons.getMaxOccurs () != null)
+   {
+    if (smallestMaxOccurs == null)
+    {
+     smallestMaxOccurs = cons.getMaxOccurs ();
+    }
+    else if (cons.getMaxOccurs () < smallestMaxOccurs)
+    {
+     smallestMaxOccurs = cons.getMaxOccurs ();
+    }
+   }
+  }
+  // not specified so unbounded
+  if (smallestMaxOccurs == null)
+  {
+   return true;
+  }
+  if (smallestMaxOccurs > 1)
+  {
+   return true;
+  }
+  return false;
+ }
+
  public Integer getMaxLength ()
  {
   Integer maxLength = null;
-
-  // TODO: worry aboutg special validators that might limit the size
+  // TODO: worry aboutg special validators
   // TODO: worry about how this applies to non-strings?
   for (ConstraintMetadata cons : meta.getConstraints ())
   {
