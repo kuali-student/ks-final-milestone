@@ -103,7 +103,7 @@ public class OrchestrationObjectsWriterUsingCodemodel
                                OrchestrationObject orchObj)
   throws JClassAlreadyExistsException
  {
-  String className = orchObj.getFullyQualifiedJavaClassDataName ();
+  String className = orchObj.getFullyQualifiedJavaClassName ();
   System.out.println ("Creating " + className);
   JDefinedClass mainClass = jcm._class (className, ClassType.CLASS);
   map.put (orchObj.getName ().toLowerCase (), mainClass);
@@ -196,7 +196,7 @@ public class OrchestrationObjectsWriterUsingCodemodel
   // implements Assembler <xxxData, xxxInfo>
   JClass genericAssembler = jcm.ref (Assembler.class);
   List<JClass> narrowingClasses = new ArrayList ();
-  JClass targetClass = jcm._getClass (orchObj.getFullyQualifiedJavaClassDataName ());
+  JClass targetClass = jcm._getClass (orchObj.getFullyQualifiedJavaClassName ());
   XmlType xmlType = new ModelFinder (model).findXmlType (orchObj.getName ());
   String infoClassName = new XmlTypeNameBuilder (xmlType.getName (), xmlType.
    getJavaPackage ()).build ();

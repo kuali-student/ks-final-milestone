@@ -102,19 +102,19 @@ public class OrchestrationObject
    "." + getInfoJavaClassName () + "Assembler";
  }
 
- public String getJavaClassDataHelperName ()
+ public String getJavaClassHelperName ()
  {
   if (inlineField == null)
   {
-   return getInfoJavaClassName () + "DataHelper";
+   return getInfoJavaClassName () + "Helper";
   }
   return inlineField.getParent ().getInfoJavaClassName ()
-    + getInfoJavaClassName () + "DataHelper";
+    + getInfoJavaClassName () + "Helper";
  }
 
- public String getFullyQualifiedJavaClassDataName ()
+ public String getFullyQualifiedJavaClassName ()
  {
-   return dataPackagePath + "." + getJavaClassDataHelperName ();
+   return dataPackagePath + "." + getJavaClassHelperName ();
  }
 
  private String assembleFromClass;

@@ -14,7 +14,7 @@ import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
  *
  * @author nwright
  */
-public class OrchestrationObjectDataHelperWriter extends JavaClassWriter
+public class OrchestrationObjectHelperWriter extends JavaClassWriter
 {
 
  private DictionaryModel model;
@@ -23,13 +23,13 @@ public class OrchestrationObjectDataHelperWriter extends JavaClassWriter
  private OrchestrationObject orchObj;
  private Map<String, OrchestrationObject> orchObjs;
 
- public OrchestrationObjectDataHelperWriter (DictionaryModel model,
+ public OrchestrationObjectHelperWriter (DictionaryModel model,
                                              String directory,
                                              Map<String, OrchestrationObject> orchObjs,
                                              OrchestrationObject orchObj)
  {
   super (directory, orchObj.getDataPackagePath (), orchObj.
-   getJavaClassDataHelperName ());
+   getJavaClassHelperName ());
   this.model = model;
   this.directory = directory;
   this.orchObjs = orchObjs;
@@ -43,7 +43,7 @@ public class OrchestrationObjectDataHelperWriter extends JavaClassWriter
  public void write ()
  {
 
-  indentPrintln ("public class " + orchObj.getJavaClassDataHelperName ());
+  indentPrintln ("public class " + orchObj.getJavaClassHelperName ());
   openBrace ();
 
   indentPrintln ("private static final long serialVersionUID = 1;");
@@ -84,7 +84,7 @@ public class OrchestrationObjectDataHelperWriter extends JavaClassWriter
 
   indentPrintln ("private " + modifiableOrData + " data;");
   indentPrintln ("");
-  indentPrintln ("public " + orchObj.getJavaClassDataHelperName () + " (" +
+  indentPrintln ("public " + orchObj.getJavaClassHelperName () + " (" +
    modifiableOrData + " data)");
   openBrace ();
   indentPrintln ("this.data = data;");
@@ -102,8 +102,8 @@ public class OrchestrationObjectDataHelperWriter extends JavaClassWriter
   {
    if (field.getInlineObject () != null)
    {
-    OrchestrationObjectDataHelperWriter inlineWriter =
-     new OrchestrationObjectDataHelperWriter (model,
+    OrchestrationObjectHelperWriter inlineWriter =
+     new OrchestrationObjectHelperWriter (model,
                                               directory,
                                               orchObjs,
                                               field.getInlineObject ());
@@ -262,12 +262,12 @@ public class OrchestrationObjectDataHelperWriter extends JavaClassWriter
    case COMPLEX:
     OrchestrationObject fieldOO =
      orchObjs.get (field.getType ().toLowerCase ());
-    imports.add (fieldOO.getFullyQualifiedJavaClassDataName ());
-    return fieldOO.getJavaClassDataHelperName ();
+    imports.add (fieldOO.getFullyQualifiedJavaClassName ());
+    return fieldOO.getJavaClassHelperName ();
 
    case COMPLEX_INLINE:
-    imports.add (field.getInlineObject ().getFullyQualifiedJavaClassDataName ());
-    return field.getInlineObject ().getJavaClassDataHelperName ();
+    imports.add (field.getInlineObject ().getFullyQualifiedJavaClassName ());
+    return field.getInlineObject ().getJavaClassHelperName ();
   }
   throw new DictionaryValidationException ("Unknown/unhandled field type category" +
    field.getFieldTypeCategory () + " for field type " +

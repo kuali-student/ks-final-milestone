@@ -42,9 +42,9 @@ public class OrchestrationObjectsWriter
   orchObjs.putAll (this.getOrchestrationObjectsFromOrchObjs ());
   for (OrchestrationObject oo : orchObjs.values ())
   {
-   System.out.println ("Writing out " + oo.getFullyQualifiedJavaClassDataName ());
-   OrchestrationObjectDataHelperWriter writer =
-    new OrchestrationObjectDataHelperWriter (model, directory, orchObjs, oo);
+   System.out.println ("Writing out " + oo.getFullyQualifiedJavaClassName ());
+   OrchestrationObjectHelperWriter writer =
+    new OrchestrationObjectHelperWriter (model, directory, orchObjs, oo);
    writer.write ();
   }
  }
