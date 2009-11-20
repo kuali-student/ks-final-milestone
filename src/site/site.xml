@@ -8,10 +8,10 @@
 		<menu name="Kuali Student Sites">
 			<item name="Projects"
 				href="http://student.kuali.org/site">
-				<item name="LUM"
-					href="http://student.kuali.org/site/lum" >
+				<item name="Core"
+					href="http://student.kuali.org/site/core" >
 					<item name="${project.version}"
-						href="http://student.kuali.org/site/lum/${project.version}" />
+						href="http://student.kuali.org/site/core/${project.version}" />
 				</item>
 			</item>
 		</menu>

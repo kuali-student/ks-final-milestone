@@ -1,0 +1,325 @@
+@eval BACKGROUNDCOLOR org.kuali.student.core.organization.ui.client.view.CoreUIResources.BACKGROUNDCOLOR;
+
+@eval SearchResultsTableOdd org.kuali.student.core.organization.ui.client.view.CoreUIResources.SearchResultsTableOdd;
+@eval SearchResultsTableEven org.kuali.student.core.organization.ui.client.view.CoreUIResources.SearchResultsTableEven;
+
+@eval MenuColor SearchResultsTableOdd;
+@eval SubMenuColor SearchResultsTableEven;
+
+@eval SelectionChoosingColor org.kuali.student.core.organization.ui.client.view.CoreUIResources.SelectionChoosing;
+@eval SelectionChosenColor org.kuali.student.core.organization.ui.client.view.CoreUIResources.SelectionChosen;
+@eval SubSelectionChoosingColor org.kuali.student.core.organization.ui.client.view.CoreUIResources.SubSelectionChoosing;
+@eval SubSelectionChosenColor org.kuali.student.core.organization.ui.client.view.CoreUIResources.SubSelectionChosen;
+
+@eval FormBackgroundColor SelectionChosen;
+BODY
+{
+	FONT-FAMILY: Arial;
+	BACKGROUND: BACKGROUNDCOLOR;
+	margin-top: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+.ks-main {	
+	width: 100%;
+	margin:0 auto;
+}
+
+/*.gwt-TextBox {
+	width: 250px;
+}
+
+.gwt-ListBox {
+	width: 250px;
+}
+
+.gwt-TextArea {
+	width: 250px;
+}*/
+
+.info {
+	border-style: solid;
+	border-color: #ae1c27;
+	border-width: 1;
+	z-index: 99999999;
+	padding-left: 5px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	background-color: #fbf4f7;
+	margin-right: 20px; 
+}
+
+.page-title {
+	font: bold 18px tahoma, arial, verdana, sans-serif;
+	border: solid thin #aaaaaa;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 1ex;
+	z-index: 99999999;
+	background-color: #eeeeee;
+}
+
+
+.action,.action a:link, .action a:visited, .action a:hover {
+	font: 12px tahoma, arial, verdana, sans-serif;
+	text-decoration: none;
+	margin: 0;
+	margin-left: 1em;
+	color: blue;
+}
+
+.ks-section {
+	border-style: solid;
+	border-color: #ae1c27;
+	border-width: 1;
+	margin-bottom: 20px;
+	padding: 5px;
+	background-color: #e8e8e8; 
+}
+
+.KS-Org-Multi .KS-Disclosure-Content-Open {
+	background: SelectionChoosingColor;
+}
+
+.KS-Close-Button {
+	font-size: xx-small;
+	background: #aa0000;
+	color: white;
+	width: 5em;
+	padding: 0;
+	height: 1.5em;
+	font-weight: bold;
+}
+
+*.KS-Close-Button:hover {
+	background: #ff0000;
+}
+
+.KS-Org-Progress-Meter .KS-Textarea {
+	width: 100%;
+}
+
+.KS-Org-Progress-Bar {
+	border: groove black thin;
+	width: 100%;
+	margin: 1ex;
+}
+
+.KS-Org-Progress-Bar-Label {
+	width: 100%;
+	margin: 1ex;
+}
+
+.KS-Org-Progress-Bar-Image {
+	margin: 1ex;
+}
+
+.KS-Org-Progress-Bar-Image-Done {
+	visibility: hidden;
+}
+
+.KS-Org-Progress-Bar-Completed {
+	background: SubMenuColor;
+}
+
+.KS-Close-Panel {
+	/*border-bottom: solid thin blue;*/
+	margin-bottom: 1em;
+}
+
+.KS-Org-Multi-Widget {
+	background: SelectionChosenColor;
+	border: blue solid thin;
+	border-radius: 1ex;
+	/*-moz-border-radius: 1ex;
+	-webkit-border-radius: 1ex;*/
+	padding: 0 1em 1em 1em;
+	margin: 1ex;
+}
+
+@if user.agent safari {
+	.KS-Org-Multi-Widget {
+		\-webkit-border-radius: 1ex;
+	}
+} @elif user.agent gecko gecko1_8 {
+	.KS-Org-Multi-Widget {
+		\-moz-border-radius: 1ex;
+	}
+}
+
+.ks-orgChart{
+	border-style: solid;
+	border-color: #ae1c27;
+	border-width: 1;
+	background: #FFFFFF;
+	padding: 5px;	
+}
+
+.ks-link-selected{
+	background: silver;
+	font-weight: bold;
+}
+
+.ks-OrgMenu{
+	width: 200px;
+}
+
+.KS-Label-Subheader {
+	font-weight: bold;
+	background-color: #eeeeee;
+	padding-left: 1ex;
+}
+
+.KS-Label-Checkbox {
+	font-size: smaller;
+	font-weight: bold;
+}
+
+.KS-CheckBox-List {
+}
+
+.ks-position {		
+
+}
+
+.KS-Popup-Header {
+	background: MenuColor;
+	width: 100%;
+}
+
+.KS-Popup .KS-Org-Create-Panel {
+	width: 100%;
+}
+
+.KS-Org-Search-Widget-Results, .KS-Person-Search-Widget-Results {
+	margin: 5px;
+}
+
+.KS-Select-Table-Panel .google-visualization-table-table {
+	width: 100%;
+}
+
+.KS-Select-Table-Panel .google-visualization-table-tr-even td {
+	background: SearchResultsTableEven;
+}
+.KS-Select-Table-Panel .google-visualization-table-tr-odd td {
+	background: SearchResultsTableOdd;
+}
+.KS-Select-Table-Panel .google-visualization-table-tr-sel td {
+  background-color: SelectionChosenColor;
+}
+
+.KS-Select-Table-Panel .google-visualization-table-tr-over td {
+  background-color: SelectionChoosingColor;
+}
+
+.KS-Disclosure-Content{
+	border:none;
+}
+.KS-Disclosure-Header{
+	font: bold;
+	background-color: #F3F3F3; 
+	
+}
+.KS-Disclosure-Header-Open{
+	font: bold #D54F44;
+	border-bottom: 1px solid #c0c0c0;
+}
+.KS-Disclosure-Header td:first-child{
+padding: 0.5ex;
+}
+.KS-Disclosure-Header-Hover td:first-child{
+padding: 0.5ex;
+border: outset gray thin;
+}
+.KS-Disclosure-Header-Open td:first-child{
+padding: 0.5ex;
+border: inset gray thin;
+}
+.KS-Disclosure-Content-Open, .KS-Org-Tree, .KS-Org-Search-Widget, .KS-Person-Search-Widget{
+	margin: 5px;
+background: FormBackgroundColor;
+border: outset FormBackgroundColor thin;
+}
+
+.KS-Disclosure-Section{
+	  margin: 6px;
+      border: 1px solid #c0c0c0; 
+
+}
+
+KS-Disclosure-Section-Open{
+}
+
+.KS-Dropdown{
+	background: white;
+	border: 1px solid #4583D5;
+}
+.KS-Dropdown-Focus{
+	background-color: #ECF2FA;
+}
+.KS-Dropdown-Hover{
+	background-color: #ECF2FA;
+}
+.KS-Dropdown-Selected{
+
+}
+
+.KS-Accordion{
+	
+}
+.KS-Accordion-Titlebar{
+
+	width: 200;
+	height: 20;
+		
+border: 2px solid;
+border-color: MenuColor #bf9000;
+	margin: 2px;
+
+	background-color: MenuColor;	/*#bf9000, ffd966*/
+}
+
+.KS-Accordion-Titlebar .KS-Indent-1{
+
+	background-color: SubMenuColor;	/*#bf9000, ffd966*/
+	border-left: solid 1px SubMenuColor;
+}
+
+.KS-Accordion-Titlebar-Hover{
+	background-color: SelectionChoosingColor;
+border: 2px solid;
+border-color: SelectionChoosingColor #aabbbb;
+	
+	cursor:pointer;
+}
+
+.KS-Accordion-Titlebar-Hover .KS-Indent-1{
+	background-color: SubSelectionChoosingColor;
+}
+.KS-Accordion-Titlebar-Open .KS-Indent-1{
+	background-color: SubSelectionChosenColor;
+}
+.KS-Accordion-Titlebar-Open{
+
+	background-color: SelectionChosenColor;
+	border: 2px solid;
+	border-color: SelectionChosenColor #aaaaaa;
+}
+
+.KS-Accordion-Titlebar-Label{
+	font-weight: bold;
+	font-size: 80%;
+	padding: 1ex;
+}
+
+.KS-LUM-Section {
+	margin: 5px;
+	padding: 5px 5px 10px 5px;
+	width: 95%;
+}
+
+.KS-LUM-Section-Divider {
+	border-top: 1px solid orange;
+}

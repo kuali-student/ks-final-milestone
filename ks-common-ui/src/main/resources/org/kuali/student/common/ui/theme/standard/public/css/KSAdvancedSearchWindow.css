@@ -1,0 +1,38 @@
+.KS-Advanced-Search-Window{
+	width: 500;
+	height: 300;
+}
+
+.KS-Advanced-Search-Param-Labels{
+	font-weight: bold;
+}
+
+.KS-Advanced-Search-Tab-Panel{
+	width: 100%;
+	height: 300;
+}
+
+.KS-Advanced-Search-Panel{
+	width: 500;
+	height: 300;
+}
+
+.KS-Advanced-Search-Results-Panel{
+	width: 500;
+}
+
+/*.gwt-TabPanelBottom{
+	height: 100%;
+}*/
+
+.KS-Advanced-Search-Param-Label-Column{
+	width: 75;
+}
+
+.KS-Advanced-Search-Param-Label-Cells{
+	background-color: #99bbe8;
+}
+
+.KS-Advanced-Search-Results-Label{
+	font-weight: bold;
+}
