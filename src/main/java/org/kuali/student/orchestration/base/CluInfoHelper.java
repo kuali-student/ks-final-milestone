@@ -20,6 +20,15 @@ import java.util.Date;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.lum.lu.assembly.data.client.ModifiableData;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
+import org.kuali.student.orchestration.base.AdminOrgInfoHelper;
+import org.kuali.student.orchestration.base.CluAccountingInfoHelper;
+import org.kuali.student.orchestration.base.CluFeeInfoHelper;
+import org.kuali.student.orchestration.base.CluIdentifierInfoHelper;
+import org.kuali.student.orchestration.base.CluInstructorInfoHelper;
+import org.kuali.student.orchestration.base.CluPublishingInfoHelper;
+import org.kuali.student.orchestration.base.MetaInfoHelper;
+import org.kuali.student.orchestration.base.RichTextInfoHelper;
+import org.kuali.student.orchestration.base.TimeAmountInfoHelper;
 
 
 public class CluInfoHelper

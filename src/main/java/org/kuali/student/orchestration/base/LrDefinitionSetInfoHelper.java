@@ -18,6 +18,7 @@ package org.kuali.student.orchestration.base;
 
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
+import org.kuali.student.orchestration.base.MetaInfoHelper;
 
 
 public class LrDefinitionSetInfoHelper
