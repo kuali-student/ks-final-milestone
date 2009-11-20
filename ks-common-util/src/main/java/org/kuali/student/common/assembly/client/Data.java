@@ -28,6 +28,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
         BYTE,
         BOOLEAN,
         DATE,
+        TRUNCATED_DATE,
         DATA
     }
     
