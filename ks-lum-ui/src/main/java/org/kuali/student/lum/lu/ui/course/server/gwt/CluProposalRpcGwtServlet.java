@@ -58,7 +58,6 @@ import org.kuali.student.common.ui.server.mvc.dto.MapContext;
 import org.kuali.student.common.ui.server.mvc.dto.PropertyMapping;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.entity.RichText;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DependentObjectsExistException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -68,18 +67,12 @@ import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
-import org.kuali.student.core.search.dto.ResultCell;
 import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
-import org.kuali.student.lum.lu.assembly.CreditCourseProposalAssembler;
 import org.kuali.student.lum.lu.assembly.UntypedCreditCourseProposalAssembler;
-import org.kuali.student.lum.lu.assembly.data.client.creditcourse.CreditCourseProposal;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
-import org.kuali.student.lum.lu.dto.LuStatementTypeInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.workflow.CluProposalCollabRequestDocInfo;
 import org.kuali.student.lum.lu.dto.workflow.CluProposalDocInfo;
@@ -498,15 +491,13 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 
             //Get the current routeNodeName
             String routeNodeName="";
-            RouteNodeInstanceDTO[] routeNodes = workflowUtilityService.getDocumentRouteNodeInstances(Long.parseLong(docId));
-            if(null!=routeNodes){
-            	for(RouteNodeInstanceDTO routeNode:routeNodes){
-            		if(routeNode.isActive()){
-            			routeNodeName=routeNode.getName();
-            		}
-            	}
-            }
-            
+            RouteNodeInstanceDTO[] activeNodes = workflowUtilityService.getActiveNodeInstances(Long.decode(docResponse.getDocId()));
+    		if (activeNodes != null && activeNodes.length > 0) {
+	    		if (activeNodes.length == 1) {
+					routeNodeName = activeNodes[0].getName();
+				}
+    		}
+
             //Get the document xml
     		CluProposalCollabRequestDocInfo docContent = new CluProposalCollabRequestDocInfo();
 
