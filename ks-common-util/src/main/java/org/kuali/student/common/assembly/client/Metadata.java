@@ -59,6 +59,23 @@ public class Metadata
   return dataType;
  }
 
+ /**
+  * @deprecated
+  * @see #setDataType
+  */
+ public void setDataType (String strType)
+ {
+  for (Data.DataType dt : Data.DataType.values ())
+  {
+   if (dt.toString ().equalsIgnoreCase (strType))
+   {
+    setDataType (dt);
+    return;
+   }
+  }
+  throw new IllegalArgumentException (strType);
+ }
+
  public void setDataType (Data.DataType dataType)
  {
   this.dataType = dataType;
@@ -119,4 +136,5 @@ public class Metadata
  {
   this.onChangeRefereshMetadata = onChangeRefereshMetadata;
  }
+
 }
