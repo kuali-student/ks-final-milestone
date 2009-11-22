@@ -1,6 +1,17 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright 2009 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may	obtain a copy of the License at
+ *
+ * 	http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.student.dictionary;
 
@@ -278,67 +289,5 @@ public class OrchestrationObjectHelperWriter extends JavaClassWriter
    field.getType () + " for field " + field.getName ());
  }
 
- private Data.DataType calcDataTypeToUse (OrchestrationObjectField field)
- {
-  //XmlType xmlType = new ModelFinder (model).findXmlType (field.getType ());
-  switch (field.getFieldTypeCategory ())
-  {
-   case DYNAMIC_ATTRIBUTE:
-   case LIST:
-    imports.add (Data.class.getName ());
-    return Data.DataType.DATA;
-
-   case PRIMITIVE:
-    if (field.getType ().equalsIgnoreCase ("string"))
-    {
-     return Data.DataType.STRING;
-    }
-
-    if (field.getType ().equalsIgnoreCase ("date"))
-    {
-     imports.add (Date.class.getName ());
-     return Data.DataType.TRUNCATED_DATE;
-    }
-
-    if (field.getType ().equalsIgnoreCase ("dateTime"))
-    {
-     imports.add (Date.class.getName ());
-     return Data.DataType.DATE;
-    }
-
-    if (field.getType ().equalsIgnoreCase ("boolean"))
-    {
-     return Data.DataType.BOOLEAN;
-    }
-
-    if (field.getType ().equalsIgnoreCase ("integer"))
-    {
-     return Data.DataType.INTEGER;
-    }
-
-    if (field.getType ().equalsIgnoreCase ("long"))
-    {
-     return Data.DataType.LONG;
-    }
-
-    throw new DictionaryValidationException (
-     "Unknown/handled field type " +
-     field.getType () + " " + field.getName ());
-
-   case MAPPED_STRING:
-    return Data.DataType.STRING;
-
-   case COMPLEX:
-    imports.add (Data.class.getName ());
-    return Data.DataType.DATA;
-
-   case COMPLEX_INLINE:
-    imports.add (Data.class.getName ());
-    return Data.DataType.DATA;
-  }
-  throw new DictionaryValidationException ("Unknown/unhandled field type category" +
-   field.getFieldTypeCategory () + " for field type " +
-   field.getType () + " for field " + field.getName ());
- }
 
 }

@@ -1,6 +1,17 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright 2009 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may	obtain a copy of the License at
+ *
+ * 	http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.student.dictionary;
 
@@ -8,8 +19,6 @@ import java.util.Date;
 import java.util.Map;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
-import org.kuali.student.lum.lu.assembly.data.client.ModifiableData;
-import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
 
 /**
  *
@@ -25,9 +34,9 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
  private Map<String, OrchestrationObject> orchObjs;
 
  public OrchestrationObjectMetadataWriter (DictionaryModel model,
-                                         String directory,
-                                         Map<String, OrchestrationObject> orchObjs,
-                                         OrchestrationObject orchObj)
+                                           String directory,
+                                           Map<String, OrchestrationObject> orchObjs,
+                                           OrchestrationObject orchObj)
  {
   super (directory, orchObj.getOrchestrationPackagePath (), orchObj.
    getJavaClassMetadataName ());
@@ -50,9 +59,9 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
    {
     OrchestrationObjectMetadataWriter inlineWriter =
      new OrchestrationObjectMetadataWriter (model,
-                                          directory,
-                                          orchObjs,
-                                          field.getInlineObject ());
+                                            directory,
+                                            orchObjs,
+                                            field.getInlineObject ());
     inlineWriter.write ();
    }
   }
@@ -62,7 +71,7 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
   openBrace ();
 
   indentPrintln ("// version 2");
-  
+
   // get metadata
   imports.add (Metadata.class.getName ());
   indentPrintln ("public Metadata getMetadata (String type, String state)");
@@ -71,31 +80,68 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
   indentPrintln ("Metadata childMeta;");
   for (OrchestrationObjectField field : orchObj.getFields ())
   {
-   indentPrintln ("");
-   indentPrintln ("// metadata for " + field.getName ());
-   indentPrintln ("childMeta = new Metadata ();");
-   String constant = new JavaEnumConstantCalculator (field.getName ()).calc ();
-   imports.add (orchObj.getFullyQualifiedJavaClassHelperName () + ".Properties");
-   indentPrintln ("mainMeta.getProperties ().put (Properties."
-    + constant + ".getKey (), childMeta);");
-   if (field.getInlineObject () != null)
-   {
-    // TODO: something
-   }
-   imports.add (Data.class.getName ());
-   indentPrintln ("childMeta.setDataType (Data.DataType." + calcDataTypeToUse (field) + ");");
-   indentPrintln ("childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);");
-   }
-   indentPrintln ("");
-   indentPrintln ("mainMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);");
-   indentPrintln ("return mainMeta;");
-   closeBrace (); // end getMetadata method
-
-   closeBrace (); // end class
-
-   this.writeJavaClassAndImportsOutToFile ();
-   this.getOut ().close ();
+   writeMetadataForField (field);
   }
+  indentPrintln ("");
+  indentPrintln ("mainMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);");
+  indentPrintln ("return mainMeta;");
+  closeBrace (); // end getMetadata method
+
+  closeBrace (); // end class
+
+  this.writeJavaClassAndImportsOutToFile ();
+  this.getOut ().close ();
+ }
+
+ private void writeMetadataForField (OrchestrationObjectField field)
+ {
+  indentPrintln ("");
+  indentPrintln ("// metadata for " + field.getName ());
+  indentPrintln ("childMeta = new Metadata ();");
+  String constant = new JavaEnumConstantCalculator (field.getName ()).calc ();
+  imports.add (orchObj.getFullyQualifiedJavaClassHelperName () + ".Properties");
+  indentPrintln ("mainMeta.getProperties ().put (Properties." + constant +
+   ".getKey (), childMeta);");
+  if (field.getInlineObject () != null)
+  {
+   // TODO: something
+   }
+  imports.add (Data.class.getName ());
+  indentPrintln ("childMeta.setDataType (Data.DataType." +
+   calcDataTypeToUse (field) + ");");
+  indentPrintln ("childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);");
+
+  String lastType = null;
+  String lastState = null;
+  boolean closeIf = false;
+  for (TypeStateConstraint tsCons : field.getConstraints ())
+  {
+   boolean writeIfTypeStateMatcher = true;
+   if (lastType != null)
+   {
+    if (lastState != null)
+    {
+     if (lastType.equals (tsCons.getType ()))
+     {
+      if (lastState.equals (tsCons.getState ()))
+      {
+       writeIfTypeStateMatcher = false;
+      }
+     }
+    }
+   }
+   lastType = tsCons.getType ();
+   lastState = tsCons.getState ();
+   closeIf = true;
+   TypeStateConstraintMetadataWriter writer =
+    new TypeStateConstraintMetadataWriter (this, tsCons, writeIfTypeStateMatcher);
+   writer.write ();
+  }
+  if (closeIf)
+  {
+   closeBrace ();
+  }
+ }
 
  private Data.DataType calcDataTypeToUse (OrchestrationObjectField field)
  {

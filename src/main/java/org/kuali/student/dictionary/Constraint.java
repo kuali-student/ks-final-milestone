@@ -24,6 +24,9 @@ package org.kuali.student.dictionary;
 public class Constraint
 {
 
+ public static final String UNBOUNDED = "(unbounded)";
+ public static final String NINE_NINES = "999999999";
+
  public Constraint ()
  {
   super ();
@@ -359,4 +362,27 @@ public class Constraint
   this.className = className;
  }
 
+ private String messageId;
+
+ public String getMessageId ()
+ {
+  return messageId;
+ }
+
+ public void setMessageId (String messageId)
+ {
+  this.messageId = messageId;
+ }
+
+ private boolean inline;
+
+ public boolean isInline ()
+ {
+  return inline;
+ }
+
+ public void setInline (boolean inline)
+ {
+  this.inline = inline;
+ }
 }

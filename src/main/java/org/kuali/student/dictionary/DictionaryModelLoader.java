@@ -144,21 +144,22 @@ public class DictionaryModelLoader implements DictionaryModel
 
   // do in-line constraint
   Constraint inline = new Constraint ();
+  inline.setInline (true);
   inline.setId ("");
   inline.setKey ("in-line.constraint.for.dictionary." + dict.getId ());
   inline.setMinLength (getFixup (worksheetReader, "minLength"));
   inline.setMaxLength (getFixup (worksheetReader, "maxLength"));
-  if (inline.getMaxLength ().equals ("999999999"))
+  if (inline.getMaxLength ().equals (Constraint.NINE_NINES))
   {
-   inline.setMaxLength ("(unbounded)");
+   inline.setMaxLength (Constraint.UNBOUNDED);
   }
   inline.setMinValue (getFixup (worksheetReader, "minValue"));
   inline.setMaxValue (getFixup (worksheetReader, "maxValue"));
   inline.setMinOccurs (getFixup (worksheetReader, "minOccurs"));
   inline.setMaxOccurs (getFixup (worksheetReader, "maxOccurs"));
-  if (inline.getMaxOccurs ().equals ("999999999"))
+  if (inline.getMaxOccurs ().equals (Constraint.NINE_NINES))
   {
-   inline.setMaxOccurs ("(unbounded)");
+   inline.setMaxOccurs (Constraint.UNBOUNDED);
   }
   inline.setValidChars (getFixup (worksheetReader, "validChars"));
   if ( ! isValidChars (inline.getValidChars ()))
@@ -316,21 +317,22 @@ public class DictionaryModelLoader implements DictionaryModel
    field.setDynamic (getFixup (worksheetReader, "dynamic"));
    // do in-line constraint
    Constraint inline = new Constraint ();
+   inline.setInline (true);
    inline.setId ("");
    inline.setKey ("in-line.constraint.for.field." + field.getId ());
    inline.setMinLength (getFixup (worksheetReader, "minLength"));
    inline.setMaxLength (getFixup (worksheetReader, "maxLength"));
-   if (inline.getMaxLength ().equals ("999999999"))
+   if (inline.getMaxLength ().equals (Constraint.NINE_NINES))
    {
-    inline.setMaxLength ("(unbounded)");
+    inline.setMaxLength (Constraint.UNBOUNDED);
    }
    inline.setMinValue (getFixup (worksheetReader, "minValue"));
    inline.setMaxValue (getFixup (worksheetReader, "maxValue"));
    inline.setMinOccurs (getFixup (worksheetReader, "minOccurs"));
    inline.setMaxOccurs (getFixup (worksheetReader, "maxOccurs"));
-   if (inline.getMaxOccurs ().equals ("999999999"))
+   if (inline.getMaxOccurs ().equals (Constraint.NINE_NINES))
    {
-    inline.setMaxOccurs ("(unbounded)");
+    inline.setMaxOccurs (Constraint.UNBOUNDED);
    }
    inline.setValidChars (getFixup (worksheetReader, "validChars"));
    if ( ! isValidChars (inline.getValidChars ()))
@@ -374,17 +376,17 @@ public class DictionaryModelLoader implements DictionaryModel
    constraint.setServerSide (getFixup (worksheetReader, "serverSide"));
    constraint.setMinLength (getFixup (worksheetReader, "minLength"));
    constraint.setMaxLength (getFixup (worksheetReader, "maxLength"));
-   if (constraint.getMaxLength ().equals ("999999999"))
+   if (constraint.getMaxLength ().equals (Constraint.NINE_NINES))
    {
-    constraint.setMaxLength ("(unbounded)");
+    constraint.setMaxLength (Constraint.UNBOUNDED);
    }
    constraint.setMinValue (getFixup (worksheetReader, "minValue"));
    constraint.setMaxValue (getFixup (worksheetReader, "maxValue"));
    constraint.setMinOccurs (getFixup (worksheetReader, "minOccurs"));
    constraint.setMaxOccurs (getFixup (worksheetReader, "maxOccurs"));
-   if (constraint.getMaxOccurs ().equals ("999999999"))
+   if (constraint.getMaxOccurs ().equals (Constraint.NINE_NINES))
    {
-    constraint.setMaxOccurs ("(unbounded)");
+    constraint.setMaxOccurs (Constraint.UNBOUNDED);
    }
    constraint.setValidChars (getFixup (worksheetReader, "validChars"));
    if ( ! isValidChars (constraint.getValidChars ()))
@@ -446,9 +448,9 @@ public class DictionaryModelLoader implements DictionaryModel
    coc.setComments (getFixup (worksheetReader, "comments"));
    coc.setMinOccurs (getFixup (worksheetReader, "minOccurs"));
    coc.setMaxOccurs (getFixup (worksheetReader, "maxOccurs"));
-   if (coc.getMaxOccurs ().equals ("999999999"))
+   if (coc.getMaxOccurs ().equals (Constraint.NINE_NINES))
    {
-    coc.setMaxOccurs ("(unbounded)");
+    coc.setMaxOccurs (Constraint.UNBOUNDED);
    }
   }
   return list;

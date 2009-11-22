@@ -77,6 +77,7 @@ public class MockDictionaryModel implements DictionaryModel
   dict.setCombinedConstraintDescription ("test.combinedConstraintDescription	");
 
   Constraint inline = new Constraint ();
+  inline.setInline (true);
   dict.setInlineConstraint (inline);
   inline.setId ("");
   inline.setMinLength ("test.minLength");
@@ -116,6 +117,7 @@ public class MockDictionaryModel implements DictionaryModel
   field.setConstraintDescription ("test.constraintDescription");
   field.setDynamic ("test.dynamic");
   Constraint inline = new Constraint ();
+  inline.setInline (true);
   field.setInlineConstraint (inline);
   inline.setId ("");
   inline.setMinLength ("test.minLength");
