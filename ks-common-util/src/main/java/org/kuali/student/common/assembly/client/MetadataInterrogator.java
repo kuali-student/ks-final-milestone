@@ -35,25 +35,71 @@ public class MetadataInterrogator
   */
  public boolean isRequired ()
  {
-  // TODO: worry about special validators
+  Integer largestMinOccurs = getLargestMinOccurs ();
+  // no min occurs specified so not required
+  if (largestMinOccurs == null)
+  {
+   return false;
+  }
+  if (largestMinOccurs >= 1)
+  {
+   return true;
+  }
+  return false;
+ }
+
+ /**
+  * get the largest min occurs value
+  * @return null if none specified
+  */
+ public Integer getLargestMinOccurs ()
+ {
+  Integer largestMinOccurs = null;
+  // TODO: worry aboutg special validators
+  // TODO: worry about how this applies to non-strings?
   for (ConstraintMetadata cons : meta.getConstraints ())
   {
    if (cons.getMinOccurs () != null)
    {
-    if (cons.getMinOccurs () > 0)
+    if (largestMinOccurs == null)
     {
-     return true;
+     largestMinOccurs = cons.getMinOccurs ();
+    }
+    else if (cons.getMaxOccurs () > largestMinOccurs)
+    {
+     largestMinOccurs = cons.getMinOccurs ();
     }
    }
   }
-  return false;
+  return largestMinOccurs;
  }
+
+
 
  /**
   * checks if this field is a repeating field
   * @return true if the smallest maxOccurs is > 1
   */
  public boolean isRepeating ()
+ {
+  Integer smallestMaxOccurs = getSmallestMaxOccurs ();
+  // not specified so unbounded
+  if (smallestMaxOccurs == null)
+  {
+   return true;
+  }
+  if (smallestMaxOccurs > 1)
+  {
+   return true;
+  }
+  return false;
+ }
+
+  /**
+  * checks if this field is a repeating field
+  * @return true if the smallest maxOccurs is > 1
+  */
+ public Integer getSmallestMaxOccurs ()
  {
   Integer smallestMaxOccurs = null;
   // TODO: worry aboutg special validators
@@ -72,38 +118,57 @@ public class MetadataInterrogator
     }
    }
   }
-  // not specified so unbounded
-  if (smallestMaxOccurs == null)
-  {
-   return true;
-  }
-  if (smallestMaxOccurs > 1)
-  {
-   return true;
-  }
-  return false;
+  return smallestMaxOccurs;
  }
 
- public Integer getMaxLength ()
+
+ /**
+  * get the largest min occurs value
+  * @return null if none specified
+  */
+ public Integer getLargestMinLength ()
  {
-  Integer maxLength = null;
+  Integer largestMinLength = null;
+  // TODO: worry aboutg special validators
+  // TODO: worry about how this applies to non-strings?
+  for (ConstraintMetadata cons : meta.getConstraints ())
+  {
+   if (cons.getMinLength () != null)
+   {
+    if (largestMinLength == null)
+    {
+     largestMinLength = cons.getMinLength ();
+    }
+    else if (cons.getMaxOccurs () > largestMinLength)
+    {
+     largestMinLength = cons.getMinLength ();
+    }
+   }
+  }
+  return largestMinLength;
+ }
+
+
+ public Integer getSmallestMaxLength ()
+ {
+  Integer smallestMaxLength = null;
   // TODO: worry aboutg special validators
   // TODO: worry about how this applies to non-strings?
   for (ConstraintMetadata cons : meta.getConstraints ())
   {
    if (cons.getMaxLength () != null)
    {
-    if (maxLength == null)
+    if (smallestMaxLength == null)
     {
-     maxLength = cons.getMaxLength ();
+     smallestMaxLength = cons.getMaxLength ();
     }
-    else if (cons.getMaxLength () > maxLength)
+    else if (cons.getMaxLength () < smallestMaxLength)
     {
-     maxLength = cons.getMaxLength ();
+     smallestMaxLength = cons.getMaxLength ();
     }
    }
   }
-  return maxLength;
+  return smallestMaxLength;
  }
 
  public boolean isMultilined ()
@@ -129,7 +194,7 @@ public class MetadataInterrogator
    }
   }
   // TODO: Worry about hard coding the cut-off point
-  Integer maxLength = this.getMaxLength ();
+  Integer maxLength = this.getSmallestMaxLength ();
   if (maxLength != null)
   {
    if (maxLength > 60)
