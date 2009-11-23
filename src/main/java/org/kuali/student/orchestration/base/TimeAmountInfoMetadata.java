@@ -16,7 +16,6 @@
 package org.kuali.student.orchestration.base;
 
 
-import org.kuali.student.common.assembly.TypeStateMatcher;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.orchestration.ConstraintMetadataBank;
@@ -25,6 +24,13 @@ import org.kuali.student.orchestration.base.TimeAmountInfoHelper.Properties;
 
 public class TimeAmountInfoMetadata
 {
+	
+	public boolean matches (String inputType, String inputState, String dictType, String dictState)
+	{
+		// TODO: code more complex matches
+		return true;
+	}
+	
 	public Metadata getMetadata (String type, String state)
 	{
 		Metadata mainMeta = new Metadata ();
@@ -42,7 +48,7 @@ public class TimeAmountInfoMetadata
 		mainMeta.getProperties ().put (Properties.ATP_DURATION_TYPE_KEY.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -54,7 +60,7 @@ public class TimeAmountInfoMetadata
 		mainMeta.getProperties ().put (Properties.TIME_QUANTITY.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.INTEGER);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));

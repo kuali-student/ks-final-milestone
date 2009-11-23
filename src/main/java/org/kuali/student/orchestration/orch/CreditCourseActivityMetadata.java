@@ -18,11 +18,19 @@ package org.kuali.student.orchestration.orch;
 
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
+import org.kuali.student.orchestration.ConstraintMetadataBank;
 import org.kuali.student.orchestration.orch.CreditCourseActivityHelper.Properties;
 
 
 public class CreditCourseActivityMetadata
 {
+	
+	public boolean matches (String inputType, String inputState, String dictType, String dictState)
+	{
+		// TODO: code more complex matches
+		return true;
+	}
+	
 	public Metadata getMetadata (String type, String state)
 	{
 		Metadata mainMeta = new Metadata ();
@@ -40,18 +48,39 @@ public class CreditCourseActivityMetadata
 		mainMeta.getProperties ().put (Properties.ID.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("hidden"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("read.only"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.id"));
+		}
 		
 		// metadata for ActivityType
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.ACTIVITY_TYPE.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("lu.activity.types"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.type"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("lu.types"));
+		}
 		
 		// metadata for ContactHours
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.CONTACT_HOURS.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+		}
 		new CreditCourseActivityContactHoursMetadata ().loadChildMetadata (childMeta, type, state);
 		
 		// metadata for VersionInd
@@ -59,6 +88,14 @@ public class CreditCourseActivityMetadata
 		mainMeta.getProperties ().put (Properties.VERSION_IND.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("hidden"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("calc.meta.versionind"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("read.only"));
+		}
 		
 	}
 }

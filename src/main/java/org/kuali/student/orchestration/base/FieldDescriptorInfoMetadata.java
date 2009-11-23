@@ -16,7 +16,6 @@
 package org.kuali.student.orchestration.base;
 
 
-import org.kuali.student.common.assembly.TypeStateMatcher;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.orchestration.ConstraintMetadataBank;
@@ -25,6 +24,13 @@ import org.kuali.student.orchestration.base.FieldDescriptorInfoHelper.Properties
 
 public class FieldDescriptorInfoMetadata
 {
+	
+	public boolean matches (String inputType, String inputState, String dictType, String dictState)
+	{
+		// TODO: code more complex matches
+		return true;
+	}
+	
 	public Metadata getMetadata (String type, String state)
 	{
 		Metadata mainMeta = new Metadata ();
@@ -42,7 +48,7 @@ public class FieldDescriptorInfoMetadata
 		mainMeta.getProperties ().put (Properties.NAME.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -54,7 +60,7 @@ public class FieldDescriptorInfoMetadata
 		mainMeta.getProperties ().put (Properties.DESC.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -66,7 +72,7 @@ public class FieldDescriptorInfoMetadata
 		mainMeta.getProperties ().put (Properties.DATA_TYPE.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -78,7 +84,7 @@ public class FieldDescriptorInfoMetadata
 		mainMeta.getProperties ().put (Properties.MIN_LENGTH.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.INTEGER);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -90,7 +96,7 @@ public class FieldDescriptorInfoMetadata
 		mainMeta.getProperties ().put (Properties.MAX_LENGTH.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -102,7 +108,7 @@ public class FieldDescriptorInfoMetadata
 		mainMeta.getProperties ().put (Properties.VALID_CHARS.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -113,7 +119,7 @@ public class FieldDescriptorInfoMetadata
 		mainMeta.getProperties ().put (Properties.INVALID_CHARS.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("not.used"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -124,7 +130,7 @@ public class FieldDescriptorInfoMetadata
 		mainMeta.getProperties ().put (Properties.MIN_VALUE.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -135,7 +141,7 @@ public class FieldDescriptorInfoMetadata
 		mainMeta.getProperties ().put (Properties.MAX_VALUE.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -146,7 +152,7 @@ public class FieldDescriptorInfoMetadata
 		mainMeta.getProperties ().put (Properties.ENUM_FIELD_VIEW.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -158,7 +164,7 @@ public class FieldDescriptorInfoMetadata
 		mainMeta.getProperties ().put (Properties.MIN_OCCURS.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.INTEGER);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -170,7 +176,7 @@ public class FieldDescriptorInfoMetadata
 		mainMeta.getProperties ().put (Properties.MAX_OCCURS.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -182,7 +188,7 @@ public class FieldDescriptorInfoMetadata
 		mainMeta.getProperties ().put (Properties.READ_ONLY.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.BOOLEAN);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));

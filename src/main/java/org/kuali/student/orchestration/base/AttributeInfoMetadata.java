@@ -16,7 +16,6 @@
 package org.kuali.student.orchestration.base;
 
 
-import org.kuali.student.common.assembly.TypeStateMatcher;
 import org.kuali.student.common.assembly.client.ConstraintMetadata;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
@@ -26,6 +25,13 @@ import org.kuali.student.orchestration.base.AttributeInfoHelper.Properties;
 
 public class AttributeInfoMetadata
 {
+	
+	public boolean matches (String inputType, String inputState, String dictType, String dictState)
+	{
+		// TODO: code more complex matches
+		return true;
+	}
+	
 	public Metadata getMetadata (String type, String state)
 	{
 		Metadata mainMeta = new Metadata ();
@@ -43,7 +49,7 @@ public class AttributeInfoMetadata
 		mainMeta.getProperties ().put (Properties.VALUE.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -56,7 +62,7 @@ public class AttributeInfoMetadata
 		mainMeta.getProperties ().put (Properties.KEY.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));

@@ -17,7 +17,6 @@ package org.kuali.student.orchestration.base;
 
 
 import java.util.Date;
-import org.kuali.student.common.assembly.TypeStateMatcher;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.orchestration.ConstraintMetadataBank;
@@ -26,6 +25,13 @@ import org.kuali.student.orchestration.base.CluInfoHelper.Properties;
 
 public class CluInfoMetadata
 {
+	
+	public boolean matches (String inputType, String inputState, String dictType, String dictState)
+	{
+		// TODO: code more complex matches
+		return true;
+	}
+	
 	public Metadata getMetadata (String type, String state)
 	{
 		Metadata mainMeta = new Metadata ();
@@ -43,7 +49,7 @@ public class CluInfoMetadata
 		mainMeta.getProperties ().put (Properties.OFFICIAL_IDENTIFIER.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -55,7 +61,7 @@ public class CluInfoMetadata
 		mainMeta.getProperties ().put (Properties.ALTERNATE_IDENTIFIERS.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
@@ -66,7 +72,7 @@ public class CluInfoMetadata
 		mainMeta.getProperties ().put (Properties.ACADEMIC_SUBJECT_ORGS.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
@@ -77,7 +83,7 @@ public class CluInfoMetadata
 		mainMeta.getProperties ().put (Properties.STUDY_SUBJECT_AREA.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -89,7 +95,7 @@ public class CluInfoMetadata
 		mainMeta.getProperties ().put (Properties.DESC.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -101,7 +107,7 @@ public class CluInfoMetadata
 		mainMeta.getProperties ().put (Properties.MARKETING_DESC.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -113,7 +119,7 @@ public class CluInfoMetadata
 		mainMeta.getProperties ().put (Properties.CAMPUS_LOCATION_LIST.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
@@ -125,7 +131,7 @@ public class CluInfoMetadata
 		mainMeta.getProperties ().put (Properties.ACCREDITATION.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
@@ -136,7 +142,7 @@ public class CluInfoMetadata
 		mainMeta.getProperties ().put (Properties.PRIMARY_ADMIN_ORG.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -148,7 +154,7 @@ public class CluInfoMetadata
 		mainMeta.getProperties ().put (Properties.ALTERNATE_ADMIN_ORGS.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
@@ -159,7 +165,7 @@ public class CluInfoMetadata
 		mainMeta.getProperties ().put (Properties.PRIMARY_INSTRUCTOR.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -171,7 +177,7 @@ public class CluInfoMetadata
 		mainMeta.getProperties ().put (Properties.INSTRUCTORS.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
@@ -182,7 +188,7 @@ public class CluInfoMetadata
 		mainMeta.getProperties ().put (Properties.EXPECTED_FIRST_ATP.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -194,7 +200,7 @@ public class CluInfoMetadata
 		mainMeta.getProperties ().put (Properties.EFFECTIVE_DATE.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATE);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -206,7 +212,7 @@ public class CluInfoMetadata
 		mainMeta.getProperties ().put (Properties.EXPIRATION_DATE.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATE);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -218,7 +224,7 @@ public class CluInfoMetadata
 		mainMeta.getProperties ().put (Properties.INTENSITY.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -230,7 +236,7 @@ public class CluInfoMetadata
 		mainMeta.getProperties ().put (Properties.STD_DURATION.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -242,7 +248,7 @@ public class CluInfoMetadata
 		mainMeta.getProperties ().put (Properties.CAN_CREATE_LUI.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.BOOLEAN);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -254,7 +260,7 @@ public class CluInfoMetadata
 		mainMeta.getProperties ().put (Properties.REFERENCE_U_R_L.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -266,7 +272,7 @@ public class CluInfoMetadata
 		mainMeta.getProperties ().put (Properties.LU_CODES.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
@@ -277,7 +283,7 @@ public class CluInfoMetadata
 		mainMeta.getProperties ().put (Properties.PUBLISHING_INFO.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
@@ -289,7 +295,7 @@ public class CluInfoMetadata
 		mainMeta.getProperties ().put (Properties.NEXT_REVIEW_PERIOD.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -301,7 +307,7 @@ public class CluInfoMetadata
 		mainMeta.getProperties ().put (Properties.IS_ENROLLABLE.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.BOOLEAN);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -314,7 +320,7 @@ public class CluInfoMetadata
 		mainMeta.getProperties ().put (Properties.OFFERED_ATP_TYPES.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
@@ -326,7 +332,7 @@ public class CluInfoMetadata
 		mainMeta.getProperties ().put (Properties.HAS_EARLY_DROP_DEADLINE.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.BOOLEAN);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -338,7 +344,7 @@ public class CluInfoMetadata
 		mainMeta.getProperties ().put (Properties.DEFAULT_ENROLLMENT_ESTIMATE.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.INTEGER);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -350,7 +356,7 @@ public class CluInfoMetadata
 		mainMeta.getProperties ().put (Properties.DEFAULT_MAXIMUM_ENROLLMENT.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.INTEGER);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -362,7 +368,7 @@ public class CluInfoMetadata
 		mainMeta.getProperties ().put (Properties.IS_HAZARDOUS_FOR_DISABLED_STUDENTS.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.BOOLEAN);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -374,7 +380,7 @@ public class CluInfoMetadata
 		mainMeta.getProperties ().put (Properties.FEE_INFO.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -386,7 +392,7 @@ public class CluInfoMetadata
 		mainMeta.getProperties ().put (Properties.ACCOUNTING_INFO.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -398,7 +404,7 @@ public class CluInfoMetadata
 		mainMeta.getProperties ().put (Properties.ATTRIBUTES.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
@@ -409,7 +415,7 @@ public class CluInfoMetadata
 		mainMeta.getProperties ().put (Properties.META_INFO.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("read.only"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -421,7 +427,7 @@ public class CluInfoMetadata
 		mainMeta.getProperties ().put (Properties.TYPE.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -434,7 +440,7 @@ public class CluInfoMetadata
 		mainMeta.getProperties ().put (Properties.STATE.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -447,7 +453,7 @@ public class CluInfoMetadata
 		mainMeta.getProperties ().put (Properties.ID.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("read.only"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));

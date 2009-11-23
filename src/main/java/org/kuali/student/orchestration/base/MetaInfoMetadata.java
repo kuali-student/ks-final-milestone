@@ -17,7 +17,6 @@ package org.kuali.student.orchestration.base;
 
 
 import java.util.Date;
-import org.kuali.student.common.assembly.TypeStateMatcher;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.orchestration.ConstraintMetadataBank;
@@ -26,6 +25,13 @@ import org.kuali.student.orchestration.base.MetaInfoHelper.Properties;
 
 public class MetaInfoMetadata
 {
+	
+	public boolean matches (String inputType, String inputState, String dictType, String dictState)
+	{
+		// TODO: code more complex matches
+		return true;
+	}
+	
 	public Metadata getMetadata (String type, String state)
 	{
 		Metadata mainMeta = new Metadata ();
@@ -43,7 +49,7 @@ public class MetaInfoMetadata
 		mainMeta.getProperties ().put (Properties.VERSION_IND.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -56,7 +62,7 @@ public class MetaInfoMetadata
 		mainMeta.getProperties ().put (Properties.CREATE_TIME.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATE);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -69,7 +75,7 @@ public class MetaInfoMetadata
 		mainMeta.getProperties ().put (Properties.CREATE_ID.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("read.only"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -82,7 +88,7 @@ public class MetaInfoMetadata
 		mainMeta.getProperties ().put (Properties.UPDATE_TIME.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATE);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -95,7 +101,7 @@ public class MetaInfoMetadata
 		mainMeta.getProperties ().put (Properties.UPDATE_ID.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (TypeStateMatcher.matches (type, state, "(default)", "(default)"))
+		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("read.only"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));

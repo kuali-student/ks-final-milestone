@@ -16,14 +16,23 @@
 package org.kuali.student.orchestration.orch;
 
 
+import org.kuali.student.common.assembly.client.ConstraintMetadata;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
+import org.kuali.student.orchestration.ConstraintMetadataBank;
 import org.kuali.student.orchestration.base.RichTextInfoMetadata;
 import org.kuali.student.orchestration.orch.CreditCourseHelper.Properties;
 
 
 public class CreditCourseMetadata
 {
+	
+	public boolean matches (String inputType, String inputState, String dictType, String dictState)
+	{
+		// TODO: code more complex matches
+		return true;
+	}
+	
 	public Metadata getMetadata (String type, String state)
 	{
 		Metadata mainMeta = new Metadata ();
@@ -41,24 +50,57 @@ public class CreditCourseMetadata
 		mainMeta.getProperties ().put (Properties.ID.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("hidden"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("read.only"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.id"));
+		}
 		
 		// metadata for SubjectArea
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.SUBJECT_AREA.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("subject.areas"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("code"));
+		}
 		
 		// metadata for CourseNumberSuffix
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.COURSE_NUMBER_SUFFIX.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("available.course.numbers"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("code"));
+		}
 		
 		// metadata for TranscriptTitle
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.TRANSCRIPT_TITLE.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
+			ConstraintMetadata consMeta = new ConstraintMetadata ();
+			consMeta.setMaxLength (20);
+			childMeta.getConstraints ().add (consMeta);
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single.line.text"));
+		}
 		new RichTextInfoMetadata ().loadChildMetadata (childMeta, type, state);
 		
 		// metadata for CourseTitle
@@ -66,6 +108,16 @@ public class CreditCourseMetadata
 		mainMeta.getProperties ().put (Properties.COURSE_TITLE.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
+			ConstraintMetadata consMeta = new ConstraintMetadata ();
+			consMeta.setMaxLength (60);
+			childMeta.getConstraints ().add (consMeta);
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single.line.text"));
+		}
 		new RichTextInfoMetadata ().loadChildMetadata (childMeta, type, state);
 		
 		// metadata for Description
@@ -73,6 +125,12 @@ public class CreditCourseMetadata
 		mainMeta.getProperties ().put (Properties.DESCRIPTION.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+		}
 		new RichTextInfoMetadata ().loadChildMetadata (childMeta, type, state);
 		
 		// metadata for TermsOffered
@@ -80,12 +138,25 @@ public class CreditCourseMetadata
 		mainMeta.getProperties ().put (Properties.TERMS_OFFERED.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("atp.types"));
+		}
 		
 		// metadata for Duration
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.DURATION.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+		}
 		new CreditCourseDurationMetadata ().loadChildMetadata (childMeta, type, state);
 		
 		// metadata for Department
@@ -93,6 +164,12 @@ public class CreditCourseMetadata
 		mainMeta.getProperties ().put (Properties.DEPARTMENT.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("related.orgid"));
+		}
 		
 		// metadata for Formats
 		childMeta = new Metadata ();
@@ -105,6 +182,14 @@ public class CreditCourseMetadata
 		mainMeta.getProperties ().put (Properties.VERSION_IND.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("hidden"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("calc.meta.versionind"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("read.only"));
+		}
 		
 	}
 }
