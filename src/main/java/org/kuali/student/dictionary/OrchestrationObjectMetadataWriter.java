@@ -70,7 +70,7 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
   indentPrintln ("public class " + orchObj.getJavaClassMetadataName ());
   openBrace ();
 
-  indentPrintln ("// version 2");
+  //indentPrintln ("// version 2");
 
   // get metadata
   imports.add (Metadata.class.getName ());
@@ -162,7 +162,7 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
      throw new DictionaryValidationException ("Could not find orchestration object for field " +
       field.getName () + " type " + field.getType ());
     }
-    imports.add (fieldOO.getFullyQualifiedJavaClassHelperName ());
+    imports.add (fieldOO.getFullyQualifiedJavaClassMetadataName ());
     indentPrintln ("new " + fieldOO.getJavaClassMetadataName () +
      " ().loadChildMetadata (childMeta, type, state);");
     break;
