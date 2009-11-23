@@ -23,10 +23,16 @@ import org.kuali.student.orchestration.orch.CreditCourseActivityHelper.Propertie
 
 public class CreditCourseActivityMetadata
 {
-	// version 2
 	public Metadata getMetadata (String type, String state)
 	{
 		Metadata mainMeta = new Metadata ();
+		mainMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		loadChildMetadata (mainMeta, type, state);
+		return mainMeta;
+	}
+	
+	public void loadChildMetadata (Metadata mainMeta, String type, String state)
+	{
 		Metadata childMeta;
 		
 		// metadata for Id
@@ -46,6 +52,7 @@ public class CreditCourseActivityMetadata
 		mainMeta.getProperties ().put (Properties.CONTACT_HOURS.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		new CreditCourseActivityContactHoursMetadata ().loadChildMetadata (childMeta, type, state);
 		
 		// metadata for VersionInd
 		childMeta = new Metadata ();
@@ -53,8 +60,6 @@ public class CreditCourseActivityMetadata
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		
-		mainMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		return mainMeta;
 	}
 }
 

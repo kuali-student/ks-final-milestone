@@ -23,10 +23,16 @@ import org.kuali.student.orchestration.orch.CreditCourseProposalKeyDataHelper.Pr
 
 public class CreditCourseProposalKeyDataMetadata
 {
-	// version 2
 	public Metadata getMetadata (String type, String state)
 	{
 		Metadata mainMeta = new Metadata ();
+		mainMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		loadChildMetadata (mainMeta, type, state);
+		return mainMeta;
+	}
+	
+	public void loadChildMetadata (Metadata mainMeta, String type, String state)
+	{
 		Metadata childMeta;
 		
 		// metadata for Title
@@ -47,8 +53,6 @@ public class CreditCourseProposalKeyDataMetadata
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		
-		mainMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		return mainMeta;
 	}
 }
 

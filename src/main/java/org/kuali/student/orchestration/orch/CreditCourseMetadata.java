@@ -18,15 +18,22 @@ package org.kuali.student.orchestration.orch;
 
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
+import org.kuali.student.orchestration.base.RichTextInfoMetadata;
 import org.kuali.student.orchestration.orch.CreditCourseHelper.Properties;
 
 
 public class CreditCourseMetadata
 {
-	// version 2
 	public Metadata getMetadata (String type, String state)
 	{
 		Metadata mainMeta = new Metadata ();
+		mainMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		loadChildMetadata (mainMeta, type, state);
+		return mainMeta;
+	}
+	
+	public void loadChildMetadata (Metadata mainMeta, String type, String state)
+	{
 		Metadata childMeta;
 		
 		// metadata for Id
@@ -52,18 +59,21 @@ public class CreditCourseMetadata
 		mainMeta.getProperties ().put (Properties.TRANSCRIPT_TITLE.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		new RichTextInfoMetadata ().loadChildMetadata (childMeta, type, state);
 		
 		// metadata for CourseTitle
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.COURSE_TITLE.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		new RichTextInfoMetadata ().loadChildMetadata (childMeta, type, state);
 		
 		// metadata for Description
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.DESCRIPTION.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		new RichTextInfoMetadata ().loadChildMetadata (childMeta, type, state);
 		
 		// metadata for TermsOffered
 		childMeta = new Metadata ();
@@ -76,6 +86,7 @@ public class CreditCourseMetadata
 		mainMeta.getProperties ().put (Properties.DURATION.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		new CreditCourseDurationMetadata ().loadChildMetadata (childMeta, type, state);
 		
 		// metadata for Department
 		childMeta = new Metadata ();
@@ -95,8 +106,6 @@ public class CreditCourseMetadata
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		
-		mainMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		return mainMeta;
 	}
 }
 

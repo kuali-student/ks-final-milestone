@@ -18,15 +18,22 @@ package org.kuali.student.orchestration.orch;
 
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
+import org.kuali.student.orchestration.base.RichTextInfoMetadata;
 import org.kuali.student.orchestration.orch.CreditCourseProposalHelper.Properties;
 
 
 public class CreditCourseProposalMetadata
 {
-	// version 2
 	public Metadata getMetadata (String type, String state)
 	{
 		Metadata mainMeta = new Metadata ();
+		mainMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		loadChildMetadata (mainMeta, type, state);
+		return mainMeta;
+	}
+	
+	public void loadChildMetadata (Metadata mainMeta, String type, String state)
+	{
 		Metadata childMeta;
 		
 		// metadata for Id
@@ -52,6 +59,7 @@ public class CreditCourseProposalMetadata
 		mainMeta.getProperties ().put (Properties.RATIONALE.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		new RichTextInfoMetadata ().loadChildMetadata (childMeta, type, state);
 		
 		// metadata for Title
 		childMeta = new Metadata ();
@@ -70,6 +78,7 @@ public class CreditCourseProposalMetadata
 		mainMeta.getProperties ().put (Properties.CREDIT_COURSE.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		new CreditCourseMetadata ().loadChildMetadata (childMeta, type, state);
 		
 		// metadata for VersionInd
 		childMeta = new Metadata ();
@@ -77,8 +86,6 @@ public class CreditCourseProposalMetadata
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		
-		mainMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		return mainMeta;
 	}
 }
 

@@ -23,10 +23,16 @@ import org.kuali.student.orchestration.orch.CreditCourseFormatHelper.Properties;
 
 public class CreditCourseFormatMetadata
 {
-	// version 2
 	public Metadata getMetadata (String type, String state)
 	{
 		Metadata mainMeta = new Metadata ();
+		mainMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		loadChildMetadata (mainMeta, type, state);
+		return mainMeta;
+	}
+	
+	public void loadChildMetadata (Metadata mainMeta, String type, String state)
+	{
 		Metadata childMeta;
 		
 		// metadata for Id
@@ -41,8 +47,6 @@ public class CreditCourseFormatMetadata
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		
-		mainMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		return mainMeta;
 	}
 }
 

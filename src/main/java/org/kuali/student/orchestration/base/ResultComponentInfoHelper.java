@@ -20,8 +20,6 @@ import java.util.Date;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.lum.lu.assembly.data.client.ModifiableData;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
-import org.kuali.student.orchestration.base.MetaInfoHelper;
-import org.kuali.student.orchestration.base.RichTextInfoHelper;
 
 
 public class ResultComponentInfoHelper

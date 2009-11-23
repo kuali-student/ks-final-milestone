@@ -23,10 +23,16 @@ import org.kuali.student.orchestration.orch.CreditCourseActivityContactHoursHelp
 
 public class CreditCourseActivityContactHoursMetadata
 {
-	// version 2
 	public Metadata getMetadata (String type, String state)
 	{
 		Metadata mainMeta = new Metadata ();
+		mainMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		loadChildMetadata (mainMeta, type, state);
+		return mainMeta;
+	}
+	
+	public void loadChildMetadata (Metadata mainMeta, String type, String state)
+	{
 		Metadata childMeta;
 		
 		// metadata for per
@@ -41,8 +47,6 @@ public class CreditCourseActivityContactHoursMetadata
 		childMeta.setDataType (Data.DataType.INTEGER);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		
-		mainMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		return mainMeta;
 	}
 }
 

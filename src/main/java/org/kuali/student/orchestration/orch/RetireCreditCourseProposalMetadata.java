@@ -23,10 +23,16 @@ import org.kuali.student.orchestration.orch.RetireCreditCourseProposalHelper.Pro
 
 public class RetireCreditCourseProposalMetadata
 {
-	// version 2
 	public Metadata getMetadata (String type, String state)
 	{
 		Metadata mainMeta = new Metadata ();
+		mainMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		loadChildMetadata (mainMeta, type, state);
+		return mainMeta;
+	}
+	
+	public void loadChildMetadata (Metadata mainMeta, String type, String state)
+	{
 		Metadata childMeta;
 		
 		// metadata for Id
@@ -40,15 +46,15 @@ public class RetireCreditCourseProposalMetadata
 		mainMeta.getProperties ().put (Properties.PROPOSAL.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		new CreditCourseProposalMetadata ().loadChildMetadata (childMeta, type, state);
 		
 		// metadata for Original
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.ORIGINAL.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		new CreditCourseMetadata ().loadChildMetadata (childMeta, type, state);
 		
-		mainMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		return mainMeta;
 	}
 }
 
