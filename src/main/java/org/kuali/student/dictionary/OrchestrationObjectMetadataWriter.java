@@ -77,15 +77,22 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
   indentPrintln ("public Metadata getMetadata (String type, String state)");
   openBrace ();
   indentPrintln ("Metadata mainMeta = new Metadata ();");
+
+  indentPrintln ("mainMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);");
+  indentPrintln ("loadChildMetadata (mainMeta, type, state);");
+  indentPrintln ("return mainMeta;");
+  closeBrace (); // end getMetadata method
+  indentPrintln ("");
+
+  indentPrintln ("public void loadChildMetadata (Metadata mainMeta, String type, String state)");
+  openBrace ();
   indentPrintln ("Metadata childMeta;");
   for (OrchestrationObjectField field : orchObj.getFields ())
   {
    writeMetadataForField (field);
   }
   indentPrintln ("");
-  indentPrintln ("mainMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);");
-  indentPrintln ("return mainMeta;");
-  closeBrace (); // end getMetadata method
+  closeBrace (); // end loadChildMetadata method
 
   closeBrace (); // end class
 
@@ -141,6 +148,35 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
   {
    closeBrace ();
   }
+  switch (field.getFieldTypeCategory ())
+  {
+   case PRIMITIVE:
+   case MAPPED_STRING:
+   case DYNAMIC_ATTRIBUTE:
+   case LIST:
+    break;
+   case COMPLEX:
+    OrchestrationObject fieldOO = orchObjs.get (field.getType ().toLowerCase ());
+    if (fieldOO == null)
+    {
+     throw new DictionaryValidationException ("Could not find orchestration object for field " +
+      field.getName () + " type " + field.getType ());
+    }
+    imports.add (fieldOO.getFullyQualifiedJavaClassHelperName ());
+    indentPrintln ("new " + fieldOO.getJavaClassMetadataName () +
+     " ().loadChildMetadata (childMeta, type, state);");
+    break;
+   case COMPLEX_INLINE:
+    imports.add (field.getInlineObject ().getFullyQualifiedJavaClassHelperName ());
+    indentPrintln ("new " + field.getInlineObject ().getJavaClassMetadataName () +
+     " ().loadChildMetadata (childMeta, type, state);");
+    break;
+   default:
+    throw new DictionaryExecutionException ("unhandled type");
+  }
+
+
+
  }
 
  private Data.DataType calcDataTypeToUse (OrchestrationObjectField field)

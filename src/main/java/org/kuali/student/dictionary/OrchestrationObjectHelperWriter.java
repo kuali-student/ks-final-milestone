@@ -18,7 +18,6 @@ package org.kuali.student.dictionary;
 import java.util.Date;
 import java.util.Map;
 import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.lum.lu.assembly.data.client.ModifiableData;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
 
