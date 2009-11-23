@@ -68,15 +68,15 @@ public class ConstraintToConstraintMetadataConverter
   return asBoolean (value, false);
  }
 
- private Boolean asBoolean (String value, Boolean defaultValue)
+ private Boolean asBoolean (String value, Boolean defVal)
  {
   if (value == null)
   {
-   return defaultValue;
+   return defVal;
   }
   if (value.trim ().equals (""))
   {
-   return defaultValue;
+   return defVal;
   }
   if (value.equalsIgnoreCase ("true"))
   {

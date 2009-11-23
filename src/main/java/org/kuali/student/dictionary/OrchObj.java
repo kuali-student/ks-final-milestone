@@ -15,6 +15,8 @@
  */
 package org.kuali.student.dictionary;
 
+import java.util.List;
+
 /**
  *
  * @author nwright
@@ -128,6 +130,57 @@ public class OrchObj
  public void setDefaultValue (String defaultValue)
  {
   this.defaultValue = defaultValue;
+ }
+
+ private String dictionaryId;
+
+ public String getDictionaryId ()
+ {
+  return dictionaryId;
+ }
+
+ public void setDictionaryId (String dictionaryId)
+ {
+  this.dictionaryId = dictionaryId;
+ }
+
+ private List<String> constraintIds;
+
+ public List<String> getConstraintIds ()
+ {
+  return constraintIds;
+ }
+
+ public void setConstraintIds (List<String> constraintIds)
+ {
+  this.constraintIds = constraintIds;
+ }
+
+  private String selector;
+
+
+ public String getSelector ()
+ {
+  return selector;
+ }
+
+
+ public void setSelector (String selector)
+ {
+  this.selector = selector;
+ }
+
+  private Constraint inlineConstraint;
+
+
+ public Constraint getInlineConstraint ()
+ {
+  return inlineConstraint;
+ }
+
+ public void setInlineConstraint (Constraint inlineConstraint)
+ {
+  this.inlineConstraint = inlineConstraint;
  }
 
  private String comments;

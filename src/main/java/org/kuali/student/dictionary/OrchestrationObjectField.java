@@ -106,4 +106,26 @@ public class OrchestrationObjectField
   this.constraints = constraints;
  }
 
+ private String defaultValue;
+
+ public String getDefaultValue ()
+ {
+  return defaultValue;
+ }
+
+ public void setDefaultValue (String defaultValue)
+ {
+  this.defaultValue = defaultValue;
+ }
+
+ public String getFullyQualifiedName ()
+ {
+  //TODO: Get grand parent
+  StringBuffer buf = new StringBuffer ();
+  buf.append (getParent ().getName ());
+  buf.append (".");
+  buf.append (getName ());
+  return buf.toString ();
+ }
+
 }

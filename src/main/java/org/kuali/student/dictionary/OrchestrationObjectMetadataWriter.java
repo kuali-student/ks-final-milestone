@@ -72,6 +72,14 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
 
   //indentPrintln ("// version 2");
 
+  indentPrintln ("");
+  indentPrintln ("public boolean matches (String inputType, String inputState, String dictType, String dictState)");
+  openBrace ();
+  indentPrintln ("// TODO: code more complex matches");
+  indentPrintln ("return true;");
+  closeBrace ();
+  indentPrintln ("");
+
   // get metadata
   imports.add (Metadata.class.getName ());
   indentPrintln ("public Metadata getMetadata (String type, String state)");
@@ -109,15 +117,17 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
   imports.add (orchObj.getFullyQualifiedJavaClassHelperName () + ".Properties");
   indentPrintln ("mainMeta.getProperties ().put (Properties." + constant +
    ".getKey (), childMeta);");
-  if (field.getInlineObject () != null)
-  {
-   // TODO: something
-   }
+
   imports.add (Data.class.getName ());
   indentPrintln ("childMeta.setDataType (Data.DataType." +
    calcDataTypeToUse (field) + ");");
   indentPrintln ("childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);");
-
+  String defVal = calcDefaultValueDataType (field);
+  if (defVal != null)
+  {
+   //		childMeta.setDefaultValue (new Data.StringValue ("Draft"));
+   indentPrintln ("childMeta.setDefaultValue (" + defVal + ");");
+  }
   String lastType = null;
   String lastState = null;
   boolean closeIf = false;
@@ -240,6 +250,88 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
   throw new DictionaryValidationException ("Unknown/unhandled field type category" +
    field.getFieldTypeCategory () + " for field type " +
    field.getType () + " for field " + field.getName ());
+ }
+
+ private String calcDefaultValueDataType (OrchestrationObjectField field)
+ {
+  if (field.getDefaultValue () == null)
+  {
+   return null;
+  }
+  if (field.getDefaultValue ().equals (""))
+  {
+   return null;
+  }
+  //XmlType xmlType = new ModelFinder (model).findXmlType (field.getType ());
+  switch (field.getFieldTypeCategory ())
+  {
+   case DYNAMIC_ATTRIBUTE:
+   case LIST:
+    throw new DictionaryValidationException ("Default values not supported for field type " +
+     field.getFieldTypeCategory () + " in field " +
+     field.getFullyQualifiedName ());
+
+   case PRIMITIVE:
+    if (field.getType ().equalsIgnoreCase ("string"))
+    {
+     return "new Data.StringValue (" + quote (field.getDefaultValue ()) + ")";
+    }
+
+    if (field.getType ().equalsIgnoreCase ("date"))
+    {
+     throw new DictionaryValidationException ("Default values not supported for field type " +
+      field.getFieldTypeCategory () + " in field " +
+      field.getFullyQualifiedName ());
+    }
+
+    if (field.getType ().equalsIgnoreCase ("dateTime"))
+    {
+     throw new DictionaryValidationException ("Default values not supported for field type " +
+      field.getFieldTypeCategory () + " in field " +
+      field.getFullyQualifiedName ());
+    }
+
+    if (field.getType ().equalsIgnoreCase ("boolean"))
+    {
+     return "new Data.BooleanValue (Boolean." + field.getDefaultValue ().
+      toUpperCase () + ")";
+    }
+
+    if (field.getType ().equalsIgnoreCase ("integer"))
+    {
+     return "new Data.IntegerValue (" + field.getDefaultValue () + ")";
+    }
+
+    if (field.getType ().equalsIgnoreCase ("long"))
+    {
+     return "new Data.LongValue (" + field.getDefaultValue () + ")";
+    }
+
+    throw new DictionaryValidationException (
+     "Unknown/handled field type " +
+     field.getType () + " " + field.getName ());
+
+   case MAPPED_STRING:
+    return "new Data.StringValue (" + quote (field.getDefaultValue ()) + ")";
+
+   case COMPLEX:
+    throw new DictionaryValidationException ("Default values not supported for field type " +
+     field.getFieldTypeCategory () + " in field " +
+     field.getFullyQualifiedName ());
+
+   case COMPLEX_INLINE:
+    throw new DictionaryValidationException ("Default values not supported for field type " +
+     field.getFieldTypeCategory () + " in field " +
+     field.getFullyQualifiedName ());
+  }
+  throw new DictionaryValidationException ("Unknown/unhandled field type category" +
+   field.getFieldTypeCategory () + " for field type " +
+   field.getType () + " for field " + field.getName ());
+ }
+
+ private String quote (String str)
+ {
+  return StringQuoter.quote (str);
  }
 
 }

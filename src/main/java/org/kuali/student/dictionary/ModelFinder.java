@@ -93,6 +93,22 @@ public class ModelFinder
  }
 
  /**
+  * get dictionary entry for the id
+  * @return
+  */
+ public Dictionary findDictionaryEntry (String dictId)
+ {
+  for (Dictionary d : model.getDictionary ())
+  {
+   if (d.getId ().equalsIgnoreCase (dictId))
+   {
+    return d;
+   }
+  }
+  return null;
+ }
+
+ /**
   * get dictionary entries for the state overries
   * @return
   */
@@ -136,7 +152,8 @@ public class ModelFinder
  {
   Set<Type> types = new HashSet ();
   String pattern = type.getTypeKey ();
-  GroupTypeStatePatternMatcher matcher = new GroupTypeStatePatternMatcher (pattern);
+  GroupTypeStatePatternMatcher matcher =
+   new GroupTypeStatePatternMatcher (pattern);
   for (Type t : model.getTypes ())
   {
    // can't match yourself
@@ -155,15 +172,15 @@ public class ModelFinder
    {
     if (matcher.matches (t.getTypeKey ()))
     {
-    if (t.getStatus ().equalsIgnoreCase (Type.GROUPING))
-    {
-     //TODO: Worry about self-recursion
-     types.addAll (findExpandedTypes (t));
-    }
-    else
-    {
-     types.add (t);
-    }
+     if (t.getStatus ().equalsIgnoreCase (Type.GROUPING))
+     {
+      //TODO: Worry about self-recursion
+      types.addAll (findExpandedTypes (t));
+     }
+     else
+     {
+      types.add (t);
+     }
     }
    }
   }
@@ -182,7 +199,7 @@ public class ModelFinder
   return null;
  }
 
-  public Field findField (String id)
+ public Field findField (String id)
  {
   for (Field field : model.getFields ())
   {

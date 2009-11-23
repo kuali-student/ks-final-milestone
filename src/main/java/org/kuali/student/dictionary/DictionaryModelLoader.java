@@ -502,6 +502,13 @@ public class DictionaryModelLoader implements DictionaryModel
    {
     continue;
    }
+   orchObj.setKey (getFixup (worksheetReader, "key"));
+   orchObj.setParentKey (getFixup (worksheetReader, "parentKey"));
+   orchObj.setFullyQualifiedKey (getFixup (worksheetReader, "fullyQualifiedKey"));
+   if ( ! orchObj.getFullyQualifiedKey ().equals (""))
+   {
+    list.add (orchObj);
+   }
    orchObj.setParent (getFixup (worksheetReader, "Parent"));
    orchObj.setCard1 (getFixup (worksheetReader, "Card1"));
    orchObj.setChild (getFixup (worksheetReader, "child"));
@@ -510,15 +517,48 @@ public class DictionaryModelLoader implements DictionaryModel
    orchObj.setXmlType (getFixup (worksheetReader, "xmlType"));
    orchObj.setStatus (getFixup (worksheetReader, "status"));
    orchObj.setDefaultValue (getFixup (worksheetReader, "defaultValue"));
-
-   orchObj.setComments (getFixup (worksheetReader, "comments"));
-   orchObj.setKey (getFixup (worksheetReader, "key"));
-   orchObj.setParentKey (getFixup (worksheetReader, "parentKey"));
-   orchObj.setFullyQualifiedKey (getFixup (worksheetReader, "fullyQualifiedKey"));
-   if ( ! orchObj.getFullyQualifiedKey ().equals (""))
+   orchObj.setDictionaryId (getFixup (worksheetReader, "dictionaryId"));
+   orchObj.setSelector (getFixup (worksheetReader, "selector"));
+   // do additional constriants
+   List<String> constraintIds = new ArrayList (4);
+   for (int i = 1; i <= 4; i ++)
    {
-    list.add (orchObj);
+    String constraintId = getFixup (worksheetReader, "constraintId" + i);
+    if ( ! constraintId.equals (""))
+    {
+     constraintIds.add (constraintId);
+    }
    }
+   orchObj.setConstraintIds (constraintIds);
+   // do in-line constraint
+   Constraint inline = new Constraint ();
+   inline.setInline (true);
+   inline.setId ("");
+   inline.setKey ("in-line.constraint.for.orchobj." + orchObj.getFullyQualifiedKey ());
+   inline.setMinLength (getFixup (worksheetReader, "minLength"));
+   inline.setMaxLength (getFixup (worksheetReader, "maxLength"));
+   if (inline.getMaxLength ().equals (Constraint.NINE_NINES))
+   {
+    inline.setMaxLength (Constraint.UNBOUNDED);
+   }
+   inline.setMinValue (getFixup (worksheetReader, "minValue"));
+   inline.setMaxValue (getFixup (worksheetReader, "maxValue"));
+   inline.setMinOccurs (getFixup (worksheetReader, "minOccurs"));
+   inline.setMaxOccurs (getFixup (worksheetReader, "maxOccurs"));
+   if (inline.getMaxOccurs ().equals (Constraint.NINE_NINES))
+   {
+    inline.setMaxOccurs (Constraint.UNBOUNDED);
+   }
+   inline.setValidChars (getFixup (worksheetReader, "validChars"));
+   if ( ! isValidChars (inline.getValidChars ()))
+   {
+    throw new DictionaryValidationException ("Field " + orchObj.getFullyQualifiedKey () +
+     " contains an invalid regular expression " + inline.getValidChars ());
+   }
+   inline.setLookup (getFixup (worksheetReader, "lookup"));
+   orchObj.setInlineConstraint (inline);
+   orchObj.setComments (getFixup (worksheetReader, "comments"));
+
   }
   return list;
  }

@@ -40,12 +40,9 @@ public class TypeStateConstraintMetadataWriter
 
  public void write ()
  {
-  //out.imports.add (TypeStateMatcher.class.getName ());
-  //TODO: replace below with above once common util makes it to snapshot
   if (writeIfTypeStateMatcher)
   {
-   out.imports.add ("org.kuali.student.common.assembly.TypeStateMatcher");
-   out.indentPrintln ("if (TypeStateMatcher.matches (type, state, " +
+   out.indentPrintln ("if (this.matches (type, state, " +
     quote (tsCons.getType ()) + ", " + quote (tsCons.getState ()) + "))");
    out.openBrace ();
   }

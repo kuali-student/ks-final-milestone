@@ -83,7 +83,9 @@ public class OrchestrationObjectsLoader
       field.setType (calcType (ms.getType ()));
       field.setFieldTypeCategory (
        calcFieldTypeCategory (field, calcIsList (ms.getType ()), true));
-      loadMessageStructureFieldConstraints (field);
+      loadMessageStructureFieldConstraints (field, field.getParent ().getName () +
+       "." +
+       field.getName ());
      }
     }
    }
@@ -160,30 +162,29 @@ public class OrchestrationObjectsLoader
  }
 
  private void loadMessageStructureFieldConstraints (
-  OrchestrationObjectField ooField)
+  OrchestrationObjectField ooField, String fieldId)
  {
   ModelFinder finder = new ModelFinder (model);
-  Field field = finder.findField (ooField.getParent ().getName () + "." +
-   ooField.getName ());
-  for (String consId : field.getConstraintIds ())
+  Field msField = finder.findField (fieldId);
+  for (String consId : msField.getConstraintIds ())
   {
    Constraint cons = finder.findConstraint (consId);
    if (cons == null)
    {
     throw new DictionaryValidationException ("Could not find constraint id [" +
-     consId + "] for field [" + field.getId () + "] in bank of constraints");
+     consId + "] for field [" + msField.getId () + "] in bank of constraints");
    }
    TypeStateConstraint tsCons =
     new TypeStateConstraint (Type.DEFAULT, State.DEFAULT, cons);
    ooField.getConstraints ().add (tsCons);
   }
-  if (field.getInlineConstraint () != null)
+  if (msField.getInlineConstraint () != null)
   {
-   if (new ConstraintInterrogator (field.getInlineConstraint ()).
+   if (new ConstraintInterrogator (msField.getInlineConstraint ()).
     constrainsSomething ())
    {
     TypeStateConstraint tsCons =
-     new TypeStateConstraint (Type.DEFAULT, State.DEFAULT, field.
+     new TypeStateConstraint (Type.DEFAULT, State.DEFAULT, msField.
      getInlineConstraint ());
     ooField.getConstraints ().add (tsCons);
    }
@@ -221,8 +222,10 @@ public class OrchestrationObjectsLoader
     childField.setParent (parentObj);
     childField.setName (orch.getChild ());
     childField.setType (calcType (orch.getXmlType ()));
+    childField.setDefaultValue (orch.getDefaultValue ());
     childField.setFieldTypeCategory (
      calcFieldTypeCategory (childField, calcIsCardList (orch.getCard1 ()), false));
+    loadOrchObjsFieldConstraints (childField, orch);
     continue;
    }
    if ( ! orch.getGrandChild ().equals (""))
@@ -244,13 +247,86 @@ public class OrchestrationObjectsLoader
     grandChildField.setParent (inlineObj);
     grandChildField.setName (orch.getGrandChild ());
     grandChildField.setType (calcType (orch.getXmlType ()));
+    grandChildField.setDefaultValue (orch.getDefaultValue ());
     grandChildField.setFieldTypeCategory (
      calcFieldTypeCategory (grandChildField, calcIsCardList (orch.getCard2 ()), false));
+    loadOrchObjsFieldConstraints (grandChildField, orch);
     continue;
    }
 
   }
   return map;
+ }
+
+ private void loadOrchObjsFieldConstraints (
+  OrchestrationObjectField ooField, OrchObj orchObj)
+ {
+  ModelFinder finder = new ModelFinder (model);
+  for (String consId : orchObj.getConstraintIds ())
+  {
+   Constraint cons = finder.findConstraint (consId);
+   if (cons == null)
+   {
+    throw new DictionaryValidationException ("Could not find constraint id [" +
+     consId + "] for orchestration object [" + orchObj.getFullyQualifiedKey () +
+     "] in bank of constraints");
+   }
+   TypeStateConstraint tsCons =
+    new TypeStateConstraint (Type.DEFAULT, State.DEFAULT, cons);
+   ooField.getConstraints ().add (tsCons);
+  }
+  if (orchObj.getInlineConstraint () != null)
+  {
+   if (new ConstraintInterrogator (orchObj.getInlineConstraint ()).
+    constrainsSomething ())
+   {
+    TypeStateConstraint tsCons =
+     new TypeStateConstraint (Type.DEFAULT, State.DEFAULT, orchObj.
+     getInlineConstraint ());
+    ooField.getConstraints ().add (tsCons);
+   }
+  }
+  if ( ! orchObj.getDictionaryId ().equals (""))
+  {
+   Dictionary dict = finder.findDictionaryEntry (orchObj.getDictionaryId ());
+   if (dict == null)
+   {
+    throw new DictionaryValidationException ("Could not find dictionary Entry [" +
+     orchObj.getDictionaryId () + "] for orchestration object field " + orchObj.
+     getFullyQualifiedKey ());
+   }
+   loadConstraintsForDictionaryEntry (ooField, dict);
+   loadMessageStructureFieldConstraints (ooField, dict.getXmlObject () + "." + dict.getShortName ());
+  }
+ }
+
+ private void loadConstraintsForDictionaryEntry (
+  OrchestrationObjectField ooField, Dictionary dict)
+ {
+  ModelFinder finder = new ModelFinder (model);
+  for (String consId : dict.getAdditionalConstraintIds ())
+  {
+   Constraint cons = finder.findConstraint (consId);
+   if (cons == null)
+   {
+    throw new DictionaryValidationException ("Could not find constraint id [" +
+     consId + "] for dictionary [" + dict.getId () + "] in bank of constraints");
+   }
+   TypeStateConstraint tsCons =
+    new TypeStateConstraint (Type.DEFAULT, State.DEFAULT, cons);
+   ooField.getConstraints ().add (tsCons);
+  }
+  if (dict.getInlineConstraint () != null)
+  {
+   if (new ConstraintInterrogator (dict.getInlineConstraint ()).
+    constrainsSomething ())
+   {
+    TypeStateConstraint tsCons =
+     new TypeStateConstraint (Type.DEFAULT, State.DEFAULT, dict.
+     getInlineConstraint ());
+    ooField.getConstraints ().add (tsCons);
+   }
+  }
  }
 
  private boolean calcIsCardList (String type)
