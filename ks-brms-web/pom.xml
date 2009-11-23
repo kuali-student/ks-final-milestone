@@ -1,4 +1,7 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
 		<groupId>org.kuali.student.brms</groupId>
 		<artifactId>ks-brms</artifactId>
@@ -108,39 +111,6 @@
                 </dependency>
             </dependencies>
         </profile>
-
-        <!--profile>
-            <id>oracle</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <phase>process-test-resources</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <tasks>
-                                        <copy file="src/main/resources/drools-repository/repository_oracle.xml" tofile="${project.build.outputDirectory}/drools-repository/repository.xml" />
-                                        <delete file="${project.build.outputDirectory}/application.properties" />
-                                        <copy file="src/main/resources/application-oracle.properties" tofile="${project.build.outputDirectory}/application.properties" />
-                                        <delete file="${project.build.outputDirectory}/application-oracle.properties" />
-                                        <delete file="${project.build.outputDirectory}/drools-repository/repository_derby_server.xml" />
-                                        <delete file="${project.build.outputDirectory}/drools-repository/repository_derby.xml" />
-                                        <delete file="${project.build.outputDirectory}/drools-repository/repository_oracle.xml" />
-                                    </tasks>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile-->
     </profiles>
 
     <dependencies>
