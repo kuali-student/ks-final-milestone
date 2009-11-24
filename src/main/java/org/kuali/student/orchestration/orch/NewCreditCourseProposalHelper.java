@@ -16,7 +16,7 @@
 package org.kuali.student.orchestration.orch;
 
 
-import org.kuali.student.lum.lu.assembly.data.client.ModifiableData;
+import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
 
 
@@ -43,14 +43,14 @@ public class NewCreditCourseProposalHelper
 			return this.key;
 		}
 	}
-	private ModifiableData data;
+	private Data data;
 	
-	public NewCreditCourseProposalHelper (ModifiableData data)
+	public NewCreditCourseProposalHelper (Data data)
 	{
 		this.data = data;
 	}
 	
-	public ModifiableData getData ()
+	public Data getData ()
 	{
 		return data;
 	}
@@ -76,7 +76,7 @@ public class NewCreditCourseProposalHelper
 	
 	public CreditCourseProposalHelper getProposal ()
 	{
-		return new CreditCourseProposalHelper ((ModifiableData) data.get (Properties.PROPOSAL.getKey ()));
+		return new CreditCourseProposalHelper ((Data) data.get (Properties.PROPOSAL.getKey ()));
 	}
 	
 	
@@ -88,7 +88,7 @@ public class NewCreditCourseProposalHelper
 	
 	public CreditCourseHelper getBasedOn ()
 	{
-		return new CreditCourseHelper ((ModifiableData) data.get (Properties.BASED_ON.getKey ()));
+		return new CreditCourseHelper ((Data) data.get (Properties.BASED_ON.getKey ()));
 	}
 	
 }
