@@ -19,36 +19,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
  <modelVersion>4.0.0</modelVersion>
  <groupId>org.kuali.student.mojo</groupId>
- <artifactId>maven-component-sandbox</artifactId>
- <version>0.0.1-SNAPSHOT</version>
- <packaging>maven-plugin</packaging>
+ <artifactId>ks-component-sandbox</artifactId>
+ <version>1.0.0-SNAPSHOT</version>
+ <packaging>jar</packaging>
  <name>KS Tools - Component Sandbox</name>
+	<description>KS generated components from dictionary</description>
  <dependencies>
-  <dependency>
-   <groupId>net.sourceforge.jexcelapi</groupId>
-   <artifactId>jxl</artifactId>
-   <version>2.6</version>
-  </dependency>
-  <dependency>
-   <groupId>com.google.gdata</groupId>
-   <artifactId>gdata-base</artifactId>
-   <version>1.0</version>
-  </dependency>
-  <dependency>
-   <groupId>com.google.gdata</groupId>
-   <artifactId>gdata-core</artifactId>
-   <version>1.0</version>
-  </dependency>
-  <dependency>
-   <groupId>com.google.gdata</groupId>
-   <artifactId>gdata-spreadsheet</artifactId>
-   <version>3.0</version>
-  </dependency>
-  <dependency>
-   <groupId>com.google.gdata</groupId>
-   <artifactId>gdata-collect</artifactId>
-   <version>1.0</version>
-  </dependency>
   <dependency>
    <groupId>junit</groupId>
    <artifactId>junit</artifactId>
@@ -56,106 +32,24 @@
    <scope>test</scope>
   </dependency>
   <dependency>
-   <groupId>org.apache.maven</groupId>
-   <artifactId>maven-plugin-api</artifactId>
-   <version>2.0</version>
-  </dependency>
-  <dependency>
-   <groupId>com.google.gdata</groupId>
-   <artifactId>gdata-collect</artifactId>
-   <version>1.0</version>
-  </dependency>
-  <dependency>
-   <groupId>org.kuali.student.core</groupId>
-   <artifactId>ks-core-api</artifactId>
-   <version>1.0.0-SNAPSHOT</version>
-  </dependency>
-  <dependency>
-   <groupId>org.kuali.student.core</groupId>
-   <artifactId>ks-core-impl</artifactId>
-   <version>1.0.0-SNAPSHOT</version>
-  </dependency>
-  <dependency>
-   <groupId>org.kuali.student.core</groupId>
-   <artifactId>ks-core-ui</artifactId>
-   <version>1.0.0-SNAPSHOT</version>
-  </dependency>
-  <dependency>
-   <groupId>org.kuali.student.core</groupId>
-   <artifactId>ks-common-impl</artifactId>
-   <version>1.0.0-SNAPSHOT</version>
-  </dependency>
-  <dependency>
-   <groupId>org.kuali.student.core</groupId>
-   <artifactId>ks-common-ui</artifactId>
-   <version>1.0.0-SNAPSHOT</version>
-  </dependency>
-  <dependency>
    <groupId>org.kuali.student.core</groupId>
    <artifactId>ks-common-util</artifactId>
    <version>1.0.0-SNAPSHOT</version>
   </dependency>
-  <dependency>
-   <groupId>org.kuali.student.lum</groupId>
-   <artifactId>ks-lum-api</artifactId>
-   <version>1.0.0-SNAPSHOT</version>
-  </dependency>
-  <dependency>
+    <dependency>
    <groupId>org.kuali.student.lum</groupId>
    <artifactId>ks-lum-ui</artifactId>
    <version>1.0.0-SNAPSHOT</version>
   </dependency>
-  <dependency>
-   <groupId>org.kuali.student.lum</groupId>
-   <artifactId>ks-lum-impl</artifactId>
-   <version>1.0.0-SNAPSHOT</version>
-  </dependency>
  </dependencies>
-	
- <distributionManagement>
-  <repository>
-   <id>kuali.release</id>
-   <name>Internal Release Repository</name>
-   <url>dav:http://archiva.kuali.umd.edu/repository/release</url>
-  </repository>
-  <snapshotRepository>
-   <id>kuali.snapshots</id>
-   <name>Internal Snapshot Repository</name>
-   <url>dav:http://archiva.kuali.umd.edu/repository/snapshot</url>
-  </snapshotRepository>
- </distributionManagement>
-	
- <build>
+	<build>
   <plugins>
    <plugin>
     <artifactId>maven-compiler-plugin</artifactId>
     <configuration>
      <source>1.6</source>
      <target>1.6</target>
-     <archive>
-      <manifest>
-       <addClasspath>true</addClasspath>
-       <mainClass>org.kuali.student.comp.SwingMain</mainClass>
-      </manifest>
-     </archive>
     </configuration>
-   </plugin>
-   <plugin>
-    <groupId>org.codehaus.mojo</groupId>
-    <artifactId>gwt-maven-plugin</artifactId>
-    <configuration>
-     <runTarget>org.kuali.student.comp.GwtMain/GwtMain.jsp</runTarget>
-     <module>org.kuali.student.comp.GwtMain</module>
-     <localWorkers>2</localWorkers>
-    </configuration>
-    <executions>
-     <execution>
-      <phase>test</phase>
-      <goals>
-       <goal>run</goal>
-      </goals>
-     </execution>
-    </executions>
    </plugin>
   </plugins>
  </build>
