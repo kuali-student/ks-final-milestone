@@ -17,8 +17,8 @@
 	width: 100%;
 }
 
-.KS-Multiplicity-Labels {
+.KS-Multiplicity-Link-Label {
 	color: blue;
-	font-size: 11px;
+	font-size: 70%;
 	cursor: pointer;
 }

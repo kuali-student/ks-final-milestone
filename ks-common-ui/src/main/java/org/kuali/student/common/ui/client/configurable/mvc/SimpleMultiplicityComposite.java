@@ -82,7 +82,7 @@ public abstract class SimpleMultiplicityComposite extends Composite implements H
     // the whole mess, but...M2 looms
     protected Widget generateAddWidget() {
         Label addWidget =  new Label(addItemLabel);
-        addWidget.addStyleName("KS-Multiplicity-Labels");
+        addWidget.addStyleName("KS-Multiplicity-Link-Label");
         addWidget.addClickHandler(new ClickHandler(){
             public void onClick(ClickEvent event) {
                 addItem();
@@ -231,10 +231,12 @@ public abstract class SimpleMultiplicityComposite extends Composite implements H
       * The new item is also added to the internal variable modelDTOList type ModelDTOValue.ListType
       * 
       * @param modelDTOValue
-      */protected void addNewItem(ModelDTOValue modelDTOValue) {
+      */protected Widget addNewItem(ModelDTOValue modelDTOValue) {
 
           Widget w = addWidgetItem(modelDTOValue);
           modelDTOList.get().add(((HasModelDTOValue)w).getValue());
+
+         return w;
 
       }
 
@@ -269,7 +271,7 @@ public abstract class SimpleMultiplicityComposite extends Composite implements H
           Widget returnWidget;
           if (useDeleteLabel) {
               Label deleteLabel = new Label("Delete");
-              deleteLabel.addStyleName("KS-Multiplicity-Labels");
+              deleteLabel.addStyleName("KS-Multiplicity-Link-Label");
               deleteLabel.addClickHandler(ch);
               returnWidget = deleteLabel;
           }
@@ -290,4 +292,9 @@ public abstract class SimpleMultiplicityComposite extends Composite implements H
 
       }
 
+    public List<HasModelDTOValue> getModelDTOValueWidgets() {
+        return modelDTOValueWidgets;
+    }
+
+      
 }
