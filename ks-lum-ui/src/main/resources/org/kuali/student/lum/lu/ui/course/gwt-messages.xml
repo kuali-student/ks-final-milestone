@@ -120,6 +120,7 @@
 	   		<bean parent="enCourse" p:id="cluAddLOs"			p:value="+ Add More Learning Objectives"/>
 	   		<bean parent="enCourse" p:id="cluLOName"			p:value="Name"/>
 	   		<bean parent="enCourse" p:id="cluLOSearch"			p:value="Search for Learning Objectives"/>
+	   		<bean parent="enCourse" p:id="cluLOInstructions"	p:value="250 characters max for each Learning Objective"/>
 
    	<bean parent="enCourse" p:id="cluStudentEligibility"		p:value="Student Eligibility"/>
 	 <bean parent="enCourse" p:id="cluCourseRestrictions"		p:value="Course Restrictions"/>
