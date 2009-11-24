@@ -24,6 +24,11 @@ import java.util.List;
 public class OrchestrationObject
 {
 
+ public enum Source
+ {
+  MESSAGE_STRUCTURE, ORCH_OBJS;
+ }
+
  private List<OrchestrationObjectField> fields;
  private String name;
 
@@ -97,29 +102,24 @@ public class OrchestrationObject
   this.infoPackagePath = infoPackagePath;
  }
 
- public String getInfoJavaClassName ()
+ public String getJavaClassInfoName ()
  {
   return name.substring (0, 1).toUpperCase () + name.substring (1);
  }
 
- public String getFullyQualifiedInfoJavaClassName ()
+ public String getFullyQualifiedJavaClassInfoName ()
  {
-  return this.infoPackagePath + "." + this.getInfoJavaClassName ();
- }
-
- public String getFullyQualifiedJavaClassAssemblerName ()
- {
-  return orchestrationPackagePath + "." + getInfoJavaClassName () + "Assembler";
+  return this.infoPackagePath + "." + this.getJavaClassInfoName ();
  }
 
  public String getJavaClassHelperName ()
  {
   if (inlineField == null)
   {
-   return getInfoJavaClassName () + "Helper";
+   return getJavaClassInfoName () + "Helper";
   }
-  return inlineField.getParent ().getInfoJavaClassName ()
-    + getInfoJavaClassName () + "Helper";
+  return inlineField.getParent ().getJavaClassInfoName ()
+    + getJavaClassInfoName () + "Helper";
  }
 
  public String getFullyQualifiedJavaClassHelperName ()
@@ -131,10 +131,10 @@ public class OrchestrationObject
  {
   if (inlineField == null)
   {
-   return getInfoJavaClassName () + "Metadata";
+   return getJavaClassInfoName () + "Metadata";
   }
-  return inlineField.getParent ().getInfoJavaClassName ()
-    + getInfoJavaClassName () + "Metadata";
+  return inlineField.getParent ().getJavaClassInfoName ()
+    + getJavaClassInfoName () + "Metadata";
  }
 
  public String getFullyQualifiedJavaClassMetadataName ()
@@ -142,36 +142,32 @@ public class OrchestrationObject
    return orchestrationPackagePath + "." + getJavaClassMetadataName ();
  }
 
- private String assembleFromClass;
-
- public String getAssembleFromClass ()
+ public String getJavaClassAssemblerName ()
  {
-  return assembleFromClass;
+  if (inlineField == null)
+  {
+   return getJavaClassInfoName () + "Assembler";
+  }
+  return inlineField.getParent ().getJavaClassInfoName ()
+    + getJavaClassInfoName () + "Assembler";
  }
 
- public void setAssembleFromClass (String assembleFromClass)
+ public String getFullyQualifiedJavaClassAssemblerName ()
  {
-  this.assembleFromClass = assembleFromClass;
+   return orchestrationPackagePath + "." + getJavaClassAssemblerName ();
  }
 
- @Override
- public boolean equals (Object obj)
+
+ private Source source;
+
+ public Source getSource ()
  {
-  OrchestrationObject that = (OrchestrationObject) obj;
-  return this.name.equals (that.name);
+  return source;
  }
 
- @Override
- public int hashCode ()
+ public void setSource (Source source)
  {
-  return this.name.hashCode ();
+  this.source = source;
  }
-
- @Override
- public String toString ()
- {
-  return this.name;
- }
-
 
 }

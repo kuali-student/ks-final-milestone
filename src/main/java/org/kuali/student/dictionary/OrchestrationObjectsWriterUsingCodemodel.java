@@ -534,9 +534,6 @@ public class OrchestrationObjectsWriterUsingCodemodel
     list.add (obj);
     obj.setOrchestrationPackagePath (ROOT_PACKAGE + ".base");
     obj.setName (xmlType.getName ());
-    // these orchestratration data objects get assembled from versions of themself
-    // i.e CluInfoData from CluInfo
-    obj.setAssembleFromClass (xmlType.getName ());
     obj.setHasOwnCreateUpdate (xmlType.getHasOwnCreateUpdate ().equals ("true"));
     List<OrchestrationObjectField> fields = new ArrayList ();
     obj.setFields (fields);
@@ -605,8 +602,6 @@ public class OrchestrationObjectsWriterUsingCodemodel
     obj = new OrchestrationObject ();
     list.add (obj);
     obj.setName (orch.getParent ());
-    // TODO: add this to spreadsheet
-    obj.setAssembleFromClass ("TODO: add this to spreadsheet");
     obj.setOrchestrationPackagePath (ROOT_PACKAGE + ".orch");
     obj.setHasOwnCreateUpdate (true);
     fields =

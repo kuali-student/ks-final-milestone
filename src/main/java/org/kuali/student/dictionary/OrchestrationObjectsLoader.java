@@ -61,14 +61,12 @@ public class OrchestrationObjectsLoader
    if (xmlType.getPrimitive ().equals ("Complex"))
    {
     OrchestrationObject obj = new OrchestrationObject ();
+    obj.setSource (OrchestrationObject.Source.MESSAGE_STRUCTURE);
     map.put (xmlType.getName ().toLowerCase (), obj);
     obj.setName (xmlType.getName ());
     obj.setInfoPackagePath (xmlType.getJavaPackage ());
     obj.setOrchestrationPackagePath (ROOT_PACKAGE + ".base");
 
-    // these orchestratration data objects get assembled from versions of themself
-    // i.e CluInfoData from CluInfo
-    obj.setAssembleFromClass (xmlType.getName ());
     obj.setHasOwnCreateUpdate (xmlType.getHasOwnCreateUpdate ().equals ("true"));
     List<OrchestrationObjectField> fields = new ArrayList ();
     obj.setFields (fields);
@@ -203,11 +201,10 @@ public class OrchestrationObjectsLoader
    if ( ! orch.getParent ().equals (""))
    {
     parentObj = new OrchestrationObject ();
+    parentObj.setSource (OrchestrationObject.Source.ORCH_OBJS);
     // TODO: worry about qualifying the name somehow so we can support different orchestrations
     map.put (orch.getParent ().toLowerCase (), parentObj);
     parentObj.setName (orch.getParent ());
-    // TODO: add this to spreadsheet
-    parentObj.setAssembleFromClass ("TODO: add this to spreadsheet");
     parentObj.setOrchestrationPackagePath (ROOT_PACKAGE + ".orch");
     parentObj.setHasOwnCreateUpdate (true);
     parentObj.setFields (new ArrayList ());
@@ -235,10 +232,10 @@ public class OrchestrationObjectsLoader
     if (inlineObj == null)
     {
      inlineObj = new OrchestrationObject ();
+     inlineObj.setSource (OrchestrationObject.Source.ORCH_OBJS);
      childField.setInlineObject (inlineObj);
      inlineObj.setInlineField (childField);
      inlineObj.setName (childField.getName ());
-     inlineObj.setAssembleFromClass ("TODO: add this to spreadsheet");
      inlineObj.setOrchestrationPackagePath (ROOT_PACKAGE + ".orch");
      inlineObj.setHasOwnCreateUpdate (false);
      inlineObj.setFields (new ArrayList ());
