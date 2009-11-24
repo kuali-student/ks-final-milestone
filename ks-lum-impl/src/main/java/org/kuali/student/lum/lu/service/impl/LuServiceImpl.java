@@ -257,10 +257,12 @@ public class LuServiceImpl implements LuService {
         }
 
         List<Clu> cluList = stmt.getClus();
-
+        if(cluList == null){
+        	cluList = new ArrayList<Clu>();
+        }
         for(Clu cluItem : cluList) {
             if(cluItem.getId().equals(cluId))  {
-                throw new AlreadyExistsException("Sttement with Id " + luStatementId + " already exists for Clu " + cluId);
+                throw new AlreadyExistsException("Statement with Id " + luStatementId + " already exists for Clu " + cluId);
             }
         }
 
