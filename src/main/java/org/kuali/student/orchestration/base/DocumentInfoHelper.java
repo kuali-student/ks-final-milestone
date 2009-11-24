@@ -18,7 +18,6 @@ package org.kuali.student.orchestration.base;
 
 import java.util.Date;
 import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.lum.lu.assembly.data.client.ModifiableData;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
 
 
@@ -53,14 +52,14 @@ public class DocumentInfoHelper
 			return this.key;
 		}
 	}
-	private ModifiableData data;
+	private Data data;
 	
-	public DocumentInfoHelper (ModifiableData data)
+	public DocumentInfoHelper (Data data)
 	{
 		this.data = data;
 	}
 	
-	public ModifiableData getData ()
+	public Data getData ()
 	{
 		return data;
 	}
