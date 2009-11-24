@@ -199,7 +199,7 @@ public class LUConstants {
     public static final String END_DATE_LABEL_KEY = "cluEndDate";
     public static final String EXPIRATION_DATE_LABEL_KEY = "cluExpirationDate";
     public static final String CREATED_DATE_LABEL_KEY = "cluCreatedDate";
-    public static final String LAST_CHANGED_DATE_LABEL_KEY = "cluLastChangedDate";
+    public static final String LAST_CHANGED_DATE_LABEL_KEY       = "cluLastChangedDate";
 
     //Financials labels
     public static final String FINANCIALS_LABEL_KEY = "cluFinancials";
@@ -216,7 +216,9 @@ public class LUConstants {
     public static final String DEPT_REQS_LABEL_KEY = "cluDeptRequirements";
     public static final String DEPT_LABEL_KEY = "cluDept";
 
-    public static final String SEARCH_FOR_LOS = "cluLOSearch";
+    public static final String LO_SEARCH_LINK = "cluLOSearch";
+
+    public static final String LO_INSTRUCTIONS = "cluLOInstructions";
 
 
 }

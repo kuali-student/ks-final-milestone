@@ -74,6 +74,7 @@ public class LOPicker extends  Composite implements  HasValue<String>  {
         layoutTable.setWidget(1, 0, downButton);
         layoutTable.setWidget(1, 1, indentButton);
         
+        root.addStyleName("KS-LO-Picker-Main-Panel");
         upButton.addStyleName("KS-LOMoveUpButton");
         downButton.addStyleName("KS-LOMoveDownButton");
         deleteButton.addStyleName("KS-LODeleteButton");
@@ -113,14 +114,14 @@ public class LOPicker extends  Composite implements  HasValue<String>  {
             }
         });
         
-        mainPanel.addStyleName("KS-LO-Picker-Link-Panel");
-        
+//        loText.setVisibleLines(2);
+
         focusPanel.setWidget(layoutTable);
         mainPanel.add(loText);
         mainPanel.add(focusPanel);
         initWidget(root);
 
-        
+
         root.add(mainPanel);
         layoutTable.setVisible(false);
        

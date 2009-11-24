@@ -85,6 +85,7 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
 
     KSLabel searchLink;
     LearningObjectiveList loList;
+    KSLabel instructions ;
 
     private static final int NUM_INITIAL_LOS = 1;
     
@@ -115,7 +116,8 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
             }          
         };
 
-        searchLink = new KSLabel(getLabel(LUConstants.SEARCH_FOR_LOS));
+        instructions = new KSLabel(getLabel(LUConstants.LO_INSTRUCTIONS));
+        searchLink = new KSLabel(getLabel(LUConstants.LO_SEARCH_LINK));
         searchLink.addClickHandler(searchClickHandler);          
         searchImage.addClickHandler(searchClickHandler);          
 
@@ -132,16 +134,19 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
         searchImage.addStyleName("KS-LOBuilder-Search-Image");
         searchLink.addStyleName("KS-LOBuilder-Search-Link");
         searchSpacerPanel.addStyleName("KS-LOBuilder-Spacer-Panel");
-        loPanel.addStyleName("KS-LOBuilder-LO-Panel");
         searchMainPanel.addStyleName("KS-LOBuilder-Search-Panel");
-        
+        loPanel.addStyleName("KS-LOBuilder-LO-Panel");
+        instructions.addStyleName("KS-LOBuilder-Instructions");
+
         main.add(searchMainPanel);
+        main.add(instructions);
         main.add(loPanel);
 
     }
 
 
     public static class LearningObjectiveList extends SimpleMultiplicityComposite {        
+        private static final String STYLE_HIGHLIGHTED_ITEM = "KS-LOBuilder-Highlighted-Item";
         {
             setAddItemLabel(getLabel(LUConstants.LEARNING_OBJECTIVE_ADD_LABEL_KEY));
         }
@@ -187,14 +192,22 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
 
             FieldDescriptor fd = new FieldDescriptor("desc", null/* getLabel(LUConstants.LEARNING_OBJECTIVE_LO_NAME_KEY)*/, Type.STRING, picker);
             ns.addField(fd);
+            ns.addStyleName("KS-LOBuilder-Section");
             multi.addSection(ns);
 
             return multi;
         }
 
+        private void removeOldHighlights() {
+            List<HasModelDTOValue> widgets = this.getModelDTOValueWidgets();
+            for (HasModelDTOValue w: widgets) {
+                ((Widget)w).removeStyleName(STYLE_HIGHLIGHTED_ITEM);
+            }
+        }
+
         private void addSelectedLO(String loDescription) {
-            
-            //TODO: If there are empty LO boxes we should put the selected LOs in them
+
+            //TODO: If there are empty LO boxes should we put the selected LOs in them
             //  and not always create new ones?
 
             ModelDTO loModel = new ModelDTO(LoInfo.class.getName());
@@ -207,7 +220,8 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
             ModelDTOValue value = new ModelDTOValue.ModelDTOType();
             ((ModelDTOValue.ModelDTOType)value).set(loModel);
 
-            super.addNewItem(value);    
+            Widget w = super.addNewItem(value);
+            w.addStyleName(STYLE_HIGHLIGHTED_ITEM);
         }
 
         private void moveUp(Widget item){
@@ -241,6 +255,7 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
         loSearchWindow.setPartialMatch(true);
         loSearchWindow.addSelectionHandler(new SelectionHandler<List<String>>(){
             public void onSelection(SelectionEvent<List<String>> event) {
+                loList.removeOldHighlights();
                 final List<String> selected = event.getSelectedItem();
                 if (selected.size() > 0){
                     for (String loDesc : selected ) {

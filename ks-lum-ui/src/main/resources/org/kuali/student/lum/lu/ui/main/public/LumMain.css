@@ -54,6 +54,14 @@
 	width: 50px;
 }
 
+.KS-LO-Picker-Main-Panel {
+
+}
+
+.KS-LOBuilder-Section {
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
 
 .KS-LOBuilder-Search-Panel {
 	padding: 10px;
@@ -76,6 +84,16 @@
 	cursor: pointer;
 	
 }
+
+.KS-LOBuilder-Instructions {
+    font-size:70%;
+    margin:10px
+}
+
+.KS-LOBuilder-Highlighted-Item {
+	background-color: #ffffcc;
+}
+
 
 .KS-LOBuilder-LO-Panel {
 	background-color: #FFFFFF;	
