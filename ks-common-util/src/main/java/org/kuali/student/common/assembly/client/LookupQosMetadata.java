@@ -15,38 +15,34 @@
  */
 package org.kuali.student.common.assembly.client;
 
+import java.io.Serializable;
+
 /**
- *
+ * 
  * @author nwright
  */
-public class LookupQosMetadata
-{
- private Integer startAt;
- private Integer maxResults;
+public class LookupQosMetadata implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Integer startAt;
+	private Integer maxResults;
 
+	public Integer getStartAt() {
+		return startAt;
+	}
 
+	public void setStartAt(Integer startAt) {
+		this.startAt = startAt;
+	}
 
- public Integer getStartAt ()
- {
-  return startAt;
- }
+	public Integer getMaxResults() {
+		return maxResults;
+	}
 
- public void setStartAt (Integer startAt)
- {
-  this.startAt = startAt;
- }
-
- public Integer getMaxResults ()
- {
-  return maxResults;
- }
-
- public void setMaxResults (Integer maxResults)
- {
-  this.maxResults = maxResults;
- }
-
-
-
+	public void setMaxResults(Integer maxResults) {
+		this.maxResults = maxResults;
+	}
 
 }

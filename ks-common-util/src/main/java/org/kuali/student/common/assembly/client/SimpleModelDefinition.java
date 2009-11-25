@@ -79,12 +79,6 @@ public class SimpleModelDefinition implements ModelDefinition {
         define(QueryPath.parse(path), className);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see
-     * com.johnsoncs.gwt.application.client.model.ModelDefinition#ensurePath(com.johnsoncs.gwt.application.client.model.Data,
-     * com.johnsoncs.gwt.application.client.model.QueryPath)
-     */
     @Override
     public void ensurePath(final Data root, final QueryPath path, final boolean includeLeafNode) {
         Data currentData = root;

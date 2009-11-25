@@ -10,7 +10,7 @@ public interface Assembler<TargetType, SourceType> {
 
 	TargetType get(String id) throws AssemblyException;
 
-	Metadata getMetadata() throws AssemblyException;
+	Metadata getMetadata(String type, String state) throws AssemblyException;
 
 	SaveResult<TargetType> save(TargetType input) throws AssemblyException;
 

@@ -15,99 +15,81 @@
  */
 package org.kuali.student.common.assembly.client;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LookupMetadata
-{
+public class LookupMetadata implements Serializable {
 
- private static final long serialVersionUID = 1L;
- private String key;
- private String name;
- private String desc;
- private List<LookupParamMetadata> params;
- private List<LookupResultMetadata> results;
- private String resultReturnKey;
+	private static final long serialVersionUID = 1L;
+	private String key;
+	private String name;
+	private String desc;
+	private List<LookupParamMetadata> params;
+	private List<LookupResultMetadata> results;
+	private LookupQosMetadata qosMetadata;
+	private String resultReturnKey;
 
- public String getName ()
- {
-  return name;
- }
+	public String getName() {
+		return name;
+	}
 
- public void setName (String name)
- {
-  this.name = name;
- }
+	public void setName(String name) {
+		this.name = name;
+	}
 
- public String getDesc ()
- {
-  return desc;
- }
+	public String getDesc() {
+		return desc;
+	}
 
- public void setDesc (String desc)
- {
-  this.desc = desc;
- }
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
 
- public List<LookupParamMetadata> getParams ()
- {
-  if (params == null)
-  {
-   params = new ArrayList<LookupParamMetadata> ();
-  }
-  return params;
- }
+	public List<LookupParamMetadata> getParams() {
+		if (params == null) {
+			params = new ArrayList<LookupParamMetadata>();
+		}
+		return params;
+	}
 
- public void setParams (List<LookupParamMetadata> params)
- {
-  this.params = params;
- }
+	public void setParams(List<LookupParamMetadata> params) {
+		this.params = params;
+	}
 
- public List<LookupResultMetadata> getResults ()
- {
-  if (results == null)
-  {
-   results = new ArrayList<LookupResultMetadata> ();
-  }
-  return results;
- }
+	public List<LookupResultMetadata> getResults() {
+		if (results == null) {
+			results = new ArrayList<LookupResultMetadata>();
+		}
+		return results;
+	}
 
- public void setResults (List<LookupResultMetadata> results)
- {
-  this.results = results;
- }
+	public void setResults(List<LookupResultMetadata> results) {
+		this.results = results;
+	}
 
- public String getKey ()
- {
-  return key;
- }
+	public String getKey() {
+		return key;
+	}
 
- public void setKey (String key)
- {
-  this.key = key;
- }
+	public void setKey(String key) {
+		this.key = key;
+	}
 
- public String getResultReturnKey ()
- {
-  return resultReturnKey;
- }
+	public String getResultReturnKey() {
+		return resultReturnKey;
+	}
 
- public void setResultReturnKey (String resultReturnKey)
- {
-  this.resultReturnKey = resultReturnKey;
- }
+	public void setResultReturnKey(String resultReturnKey) {
+		this.resultReturnKey = resultReturnKey;
+	}
 
- private LookupQosMetadata qosMetadata;
+	public LookupQosMetadata getQosMetadata() {
+		return qosMetadata;
+	}
 
- public LookupQosMetadata getQosMetadata ()
- {
-  return qosMetadata;
- }
-
- public void setQosMetadata (LookupQosMetadata qosMetadata)
- {
-  this.qosMetadata = qosMetadata;
- }
-
+	public void setQosMetadata(LookupQosMetadata qosMetadata) {
+		this.qosMetadata = qosMetadata;
+	}
 
 }

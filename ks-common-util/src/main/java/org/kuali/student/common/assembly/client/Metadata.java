@@ -15,126 +15,107 @@
  */
 package org.kuali.student.common.assembly.client;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Metadata
-{
- // TODO this class, and referenced classes, need to be moved into a GWT module
+public class Metadata implements Serializable {
+	// TODO this class, and referenced classes, need to be moved into a GWT
+	// module
 
- private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
- public enum WriteAccess
- {
+	public enum WriteAccess {
 
-  ON_CREATE, /* must also be required */
-  ALWAYS,
-  NEVER
- }
- private WriteAccess writeAccess;
- private Data.DataType dataType;
- private Data.Value defaultValue;
- private List<ConstraintMetadata> constraints;
- private LookupMetadata lookupMetadata;
- private Map<String, Metadata> childProperites;
+		ON_CREATE, /* must also be required */
+		ALWAYS, NEVER
+	}
 
- public List<ConstraintMetadata> getConstraints ()
- {
-  if (constraints == null)
-  {
-   constraints = new ArrayList<ConstraintMetadata> ();
-  }
-  return constraints;
- }
+	private WriteAccess writeAccess;
+	private Data.DataType dataType;
+	private Data.Value defaultValue;
+	private List<ConstraintMetadata> constraints;
+	private LookupMetadata lookupMetadata;
+	private Map<String, Metadata> childProperties;
 
- public void setConstraints (List<ConstraintMetadata> constraints)
- {
-  this.constraints = constraints;
- }
+	public List<ConstraintMetadata> getConstraints() {
+		if (constraints == null) {
+			constraints = new ArrayList<ConstraintMetadata>();
+		}
+		return constraints;
+	}
 
- public Data.DataType getDataType ()
- {
-  return dataType;
- }
+	public void setConstraints(List<ConstraintMetadata> constraints) {
+		this.constraints = constraints;
+	}
 
- /**
-  * @deprecated
-  * @see #setDataType
-  */
- public void setDataType (String strType)
- {
-  for (Data.DataType dt : Data.DataType.values ())
-  {
-   if (dt.toString ().equalsIgnoreCase (strType))
-   {
-    setDataType (dt);
-    return;
-   }
-  }
-  throw new IllegalArgumentException (strType);
- }
+	public Data.DataType getDataType() {
+		return dataType;
+	}
 
- public void setDataType (Data.DataType dataType)
- {
-  this.dataType = dataType;
- }
+	/**
+	 * @deprecated
+	 * @see #setDataType
+	 */
+	public void setDataType(String strType) {
+		for (Data.DataType dt : Data.DataType.values()) {
+			if (dt.toString().equalsIgnoreCase(strType)) {
+				setDataType(dt);
+				return;
+			}
+		}
+		throw new IllegalArgumentException(strType);
+	}
 
- public Data.Value getDefaultValue ()
- {
-  return defaultValue;
- }
+	public void setDataType(Data.DataType dataType) {
+		this.dataType = dataType;
+	}
 
- public void setDefaultValue (Data.Value defaultValue)
- {
-  this.defaultValue = defaultValue;
- }
+	public Data.Value getDefaultValue() {
+		return defaultValue;
+	}
 
- public LookupMetadata getLookupMetadata ()
- {
-  return lookupMetadata;
- }
+	public void setDefaultValue(Data.Value defaultValue) {
+		this.defaultValue = defaultValue;
+	}
 
- public void setLookupMetadata (LookupMetadata lookupMetadata)
- {
-  this.lookupMetadata = lookupMetadata;
- }
+	public LookupMetadata getLookupMetadata() {
+		return lookupMetadata;
+	}
 
- public Map<String, Metadata> getProperties ()
- {
-  if (childProperites == null)
-  {
-   childProperites = new HashMap<String, Metadata> ();
-  }
-  return childProperites;
- }
+	public void setLookupMetadata(LookupMetadata lookupMetadata) {
+		this.lookupMetadata = lookupMetadata;
+	}
 
- public void setProperties (Map<String, Metadata> properties)
- {
-  this.childProperites = properties;
- }
+	public Map<String, Metadata> getProperties() {
+		if (childProperties == null) {
+			childProperties = new HashMap<String, Metadata>();
+		}
+		return childProperties;
+	}
 
- public WriteAccess getWriteAccess ()
- {
-  return writeAccess;
- }
+	public void setProperties(Map<String, Metadata> properties) {
+		this.childProperties = properties;
+	}
 
- public void setWriteAccess (WriteAccess writeAccess)
- {
-  this.writeAccess = writeAccess;
- }
+	public WriteAccess getWriteAccess() {
+		return writeAccess;
+	}
 
- private boolean onChangeRefereshMetadata;
+	public void setWriteAccess(WriteAccess writeAccess) {
+		this.writeAccess = writeAccess;
+	}
 
- public boolean isOnChangeRefereshMetadata ()
- {
-  return onChangeRefereshMetadata;
- }
+	private boolean onChangeRefereshMetadata;
 
- public void setOnChangeRefereshMetadata (boolean onChangeRefereshMetadata)
- {
-  this.onChangeRefereshMetadata = onChangeRefereshMetadata;
- }
+	public boolean isOnChangeRefereshMetadata() {
+		return onChangeRefereshMetadata;
+	}
+
+	public void setOnChangeRefereshMetadata(boolean onChangeRefereshMetadata) {
+		this.onChangeRefereshMetadata = onChangeRefereshMetadata;
+	}
 
 }
