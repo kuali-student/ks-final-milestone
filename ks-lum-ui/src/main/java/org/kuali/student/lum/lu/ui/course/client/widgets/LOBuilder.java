@@ -189,7 +189,12 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
                     moveDown(multi);
                 }
             });
-
+            picker.addDeleteAction(new ClickHandler(){
+                @Override
+                public void onClick(ClickEvent event) {
+                    delete(multi);
+                }
+            });
             FieldDescriptor fd = new FieldDescriptor("desc", null/* getLabel(LUConstants.LEARNING_OBJECTIVE_LO_NAME_KEY)*/, Type.STRING, picker);
             ns.addField(fd);
             ns.addStyleName("KS-LOBuilder-Section");
@@ -243,6 +248,14 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
             LearningObjectiveList.this.itemsPanel.remove(decrator);
             LearningObjectiveList.this.itemsPanel.insert(decrator,index+1 );
             
+        }
+        private void delete(Widget item){
+            Widget decrator = item.getParent().getParent();
+            int index = LearningObjectiveList.this.itemsPanel.getWidgetIndex(decrator);
+            if(index == -1){
+                return;
+            }
+            LearningObjectiveList.this.itemsPanel.remove(decrator);
         }
     }  
 
