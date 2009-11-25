@@ -52,6 +52,7 @@ public class NewCreditCourseProposalMetadata
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("hidden"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -63,6 +64,10 @@ public class NewCreditCourseProposalMetadata
 		mainMeta.getProperties ().put (Properties.PROPOSAL.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+		}
 		new CreditCourseProposalMetadata ().loadChildMetadata (childMeta, type, state);
 		
 		// metadata for BasedOn
@@ -70,6 +75,10 @@ public class NewCreditCourseProposalMetadata
 		mainMeta.getProperties ().put (Properties.BASED_ON.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATA);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+		}
 		new CreditCourseMetadata ().loadChildMetadata (childMeta, type, state);
 		
 	}

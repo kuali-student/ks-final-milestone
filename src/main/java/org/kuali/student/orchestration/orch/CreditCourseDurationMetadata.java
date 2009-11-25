@@ -53,6 +53,7 @@ public class CreditCourseDurationMetadata
 		childMeta.setDefaultValue (new Data.StringValue ("kuali.atp.duration.Semester"));
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("valid.duration.types"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
@@ -68,6 +69,7 @@ public class CreditCourseDurationMetadata
 		childMeta.setDefaultValue (new Data.IntegerValue (1));
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("hard.coded.one"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("read.only"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));

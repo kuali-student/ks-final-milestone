@@ -53,6 +53,7 @@ public class CreditCourseFormatMetadata
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("hidden"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("read.only"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -69,7 +70,7 @@ public class CreditCourseFormatMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
 		}
 		listMeta = new Metadata ();
-		listMeta.setDataType (Data.DataType.DATA);
+		listMeta.setDataType (Data.DataType.LIST);
 		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
 		new CreditCourseActivityMetadata ().loadChildMetadata (listMeta, type, state);

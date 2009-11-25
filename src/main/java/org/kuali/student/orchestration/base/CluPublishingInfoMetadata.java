@@ -93,7 +93,7 @@ public class CluPublishingInfoMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 		}
 		listMeta = new Metadata ();
-		listMeta.setDataType (Data.DataType.DATA);
+		listMeta.setDataType (Data.DataType.LIST);
 		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
 		new CluInstructorInfoMetadata ().loadChildMetadata (listMeta, type, state);

@@ -54,6 +54,7 @@ public class CreditCourseActivityContactHoursMetadata
 		childMeta.setDefaultValue (new Data.StringValue ("kuali.atp.duration.Week"));
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("unit.types"));
@@ -66,6 +67,7 @@ public class CreditCourseActivityContactHoursMetadata
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("non-negative.integer"));
 			ConstraintMetadata consMeta = new ConstraintMetadata ();
 			consMeta.setMinLength (1);

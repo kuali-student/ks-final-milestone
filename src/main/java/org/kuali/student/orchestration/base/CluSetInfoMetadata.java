@@ -110,7 +110,7 @@ public class CluSetInfoMetadata
 		// metadata for cluSetIds
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.CLU_SET_IDS.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.DATA);
+		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
@@ -119,14 +119,14 @@ public class CluSetInfoMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("related.clu.set.id"));
 		}
 		listMeta = new Metadata ();
-		listMeta.setDataType (Data.DataType.DATA);
+		listMeta.setDataType (Data.DataType.LIST);
 		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
 		
 		// metadata for cluIds
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.CLU_IDS.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.DATA);
+		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
@@ -135,7 +135,7 @@ public class CluSetInfoMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("related.cluid"));
 		}
 		listMeta = new Metadata ();
-		listMeta.setDataType (Data.DataType.DATA);
+		listMeta.setDataType (Data.DataType.LIST);
 		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
 		

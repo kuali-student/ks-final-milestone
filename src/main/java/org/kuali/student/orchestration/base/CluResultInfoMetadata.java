@@ -82,7 +82,7 @@ public class CluResultInfoMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
 		}
 		listMeta = new Metadata ();
-		listMeta.setDataType (Data.DataType.DATA);
+		listMeta.setDataType (Data.DataType.LIST);
 		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
 		new ResultOptionInfoMetadata ().loadChildMetadata (listMeta, type, state);
