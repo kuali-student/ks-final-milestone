@@ -29,7 +29,8 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
         BOOLEAN,
         DATE,
         TRUNCATED_DATE,
-        DATA
+        DATA,
+        LIST
     }
     
     public static class BooleanValue implements Value {
