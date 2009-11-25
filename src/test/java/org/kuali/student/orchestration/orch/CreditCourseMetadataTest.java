@@ -22,6 +22,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.kuali.student.common.assembly.client.Metadata;
+import org.kuali.student.common.assembly.client.MetadataDumper;
 
 /**
  *
