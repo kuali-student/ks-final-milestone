@@ -120,6 +120,26 @@ public class KSSuggestBox extends SuggestBox{
     	}
     }
     
+    public void setValue(String id, final Callback<IdableSuggestion> callback) {
+    	if(id == null || id.equals("")){
+        	currentSuggestion = new IdableSuggestion();
+        	currentSuggestion.setId("");
+        	currentSuggestion.setDisplayString("");
+        	currentSuggestion.setReplacementString("");
+    	}
+    	else
+    	{
+	        oracle.getSuggestionByIdSearch(id, new Callback<IdableSuggestion>(){
+	
+	            @Override
+	            public void exec(IdableSuggestion result) {
+	                currentSuggestion = result;
+	                KSSuggestBox.this.setText((currentSuggestion == null) ? "" : currentSuggestion.getReplacementString());
+	                callback.exec(result);
+	            }
+	        });
+    	}
+    }
     
     @Override
     public void setValue(String id, boolean fireEvents) {
