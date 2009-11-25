@@ -74,11 +74,12 @@ public class LOPicker extends  Composite implements  HasValue<String>  {
         layoutTable.setWidget(1, 0, downButton);
         layoutTable.setWidget(1, 1, indentButton);
         
-        root.addStyleName("KS-LO-Picker-Main-Panel");
+        root.addStyleName("KS-LOPicker-Main-Panel");
         upButton.addStyleName("KS-LOMoveUpButton");
         downButton.addStyleName("KS-LOMoveDownButton");
         deleteButton.addStyleName("KS-LODeleteButton");
         indentButton.addStyleName("KS-LOIndentButton");
+        loText.addStyleName("KS-LOPicker-TextArea");
 
         FocusPanel focusPanel = new FocusPanel();
         focusPanel.addFocusHandler(new FocusHandler(){
@@ -113,8 +114,12 @@ public class LOPicker extends  Composite implements  HasValue<String>  {
              //   layoutTable.setVisible(false);
             }
         });
-        
-//        loText.setVisibleLines(2);
+
+        //  Currently a bug in FF means that 3 lines are rendered not 2 .
+        //  See GWT bug report http://code.google.com/p/google-web-toolkit/issues/detail?id=3916 and
+        //  FF bug report https://bugzilla.mozilla.org/show_bug.cgi?id=33654 (reported in 2000 so probably not going to be
+        //  fixed anytime soon!
+        loText.setVisibleLines(2);
 
         focusPanel.setWidget(layoutTable);
         mainPanel.add(loText);
