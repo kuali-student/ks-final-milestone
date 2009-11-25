@@ -154,7 +154,7 @@ public class OrchestrationObject
 
  public String getFullyQualifiedJavaClassAssemblerName ()
  {
-   return orchestrationPackagePath + "." + getJavaClassAssemblerName ();
+   return orchestrationPackagePath + ".assembler." + getJavaClassAssemblerName ();
  }
 
 

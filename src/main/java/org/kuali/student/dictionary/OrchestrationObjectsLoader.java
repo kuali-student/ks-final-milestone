@@ -115,48 +115,7 @@ public class OrchestrationObjectsLoader
                                                   boolean isAList,
                                                   boolean mustBeInXmlTypes)
  {
-  if (field.getType ().equalsIgnoreCase ("attributeInfo"))
-  {
-   return FieldTypeCategory.DYNAMIC_ATTRIBUTE;
-  }
-  if (isAList)
-  {
-   return FieldTypeCategory.LIST;
-  }
-  if (field.getType ().equalsIgnoreCase ("Complex-Inline"))
-  {
-   return FieldTypeCategory.COMPLEX_INLINE;
-  }
-  XmlType xmlType = new ModelFinder (model).findXmlType (field.getType ());
-  if (xmlType == null)
-  {
-   if (mustBeInXmlTypes)
-   {
-    throw new DictionaryValidationException ("No XmlType found for field type " +
-     field.getType () + " " + field.getName ());
-   }
-   // if not found it must be a complex orchestration object
-   return FieldTypeCategory.COMPLEX;
-  }
-
-  if (xmlType.getPrimitive ().equalsIgnoreCase ("Primitive"))
-  {
-   return FieldTypeCategory.PRIMITIVE;
-  }
-
-  if (xmlType.getPrimitive ().equalsIgnoreCase ("Mapped String"))
-  {
-   return FieldTypeCategory.MAPPED_STRING;
-  }
-
-  if (xmlType.getPrimitive ().equalsIgnoreCase ("Complex"))
-  {
-   return FieldTypeCategory.COMPLEX;
-  }
-
-  throw new DictionaryValidationException ("Unknown/unhandled xmlType.primtive value, " +
-   xmlType.getPrimitive () + ", for field type " +
-   field.getType () + " for field " + field.getName ());
+  return FieldTypeCategoryCalculator.calculate (field, isAList, mustBeInXmlTypes, model);
  }
 
  private void loadMessageStructureFieldConstraints (
@@ -329,7 +288,7 @@ public class OrchestrationObjectsLoader
  private boolean calcIsCardList (String type)
  {
   // TODO: make this logic more robust to handle cases like 1-5 etc
-  if (type.endsWith ("-N"))
+  if (type.equalsIgnoreCase ("N"))
   {
    return true;
   }

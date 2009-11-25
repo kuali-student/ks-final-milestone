@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.Map;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
+import org.kuali.student.common.assembly.client.QueryPath;
 
 /**
  *
@@ -85,7 +86,7 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
   indentPrintln ("public Metadata getMetadata (String type, String state)");
   openBrace ();
   indentPrintln ("Metadata mainMeta = new Metadata ();");
-
+  indentPrintln ("mainMeta.setDataType (Data.DataType.DATA);");
   indentPrintln ("mainMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);");
   indentPrintln ("loadChildMetadata (mainMeta, type, state);");
   indentPrintln ("return mainMeta;");
@@ -95,6 +96,8 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
   indentPrintln ("public void loadChildMetadata (Metadata mainMeta, String type, String state)");
   openBrace ();
   indentPrintln ("Metadata childMeta;");
+  // TODO: only write this next line if we have at least one list
+  indentPrintln ("Metadata listMeta;");
   for (OrchestrationObjectField field : orchObj.getFields ())
   {
    writeMetadataForField (field);
@@ -161,9 +164,49 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
   switch (field.getFieldTypeCategory ())
   {
    case PRIMITIVE:
+    break;
    case MAPPED_STRING:
+    break;
    case DYNAMIC_ATTRIBUTE:
+    break;
    case LIST:
+    imports.add (QueryPath.class.getName ());
+    indentPrintln ("listMeta = new Metadata ();");
+    indentPrintln ("listMeta.setDataType (Data.DataType.DATA);");
+    indentPrintln ("listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);");
+    indentPrintln ("childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);");
+    switch (FieldTypeCategoryCalculator.calculate (field, false, false, model))
+    {
+     case PRIMITIVE:
+      break;
+     case MAPPED_STRING:
+      break;
+     case DYNAMIC_ATTRIBUTE:
+      throw new DictionaryExecutionException ("lists of dynamic attributes are not supported");
+     case LIST:
+      throw new DictionaryExecutionException ("lists of lists are not supported");
+     case COMPLEX:
+      OrchestrationObject fieldOO =
+       orchObjs.get (field.getType ().toLowerCase ());
+      if (fieldOO == null)
+      {
+       throw new DictionaryValidationException ("Could not find orchestration object for field " +
+        field.getName () + " type " + field.getType ());
+      }
+      imports.add (fieldOO.getFullyQualifiedJavaClassMetadataName ());
+      indentPrintln ("new " + fieldOO.getJavaClassMetadataName () +
+       " ().loadChildMetadata (listMeta, type, state);");
+      break;
+     case COMPLEX_INLINE:
+      imports.add (field.getInlineObject ().
+       getFullyQualifiedJavaClassMetadataName ());
+      indentPrintln ("new " +
+       field.getInlineObject ().getJavaClassMetadataName () +
+       " ().loadChildMetadata (listMeta, type, state);");
+      break;
+     default:
+      throw new DictionaryExecutionException ("unhandled type");
+    }
     break;
    case COMPLEX:
     OrchestrationObject fieldOO = orchObjs.get (field.getType ().toLowerCase ());

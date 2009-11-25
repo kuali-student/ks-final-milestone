@@ -15,13 +15,14 @@
  */
 package org.kuali.student.dictionary;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.kuali.student.common.assembly.Assembler;
 import org.kuali.student.common.assembly.client.AssemblyException;
 import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.lum.lu.assembly.data.client.ModifiableData;
 
 /**
  *
@@ -41,7 +42,7 @@ public class OrchestrationObjectAssemblerWriter extends JavaClassWriter
                                             Map<String, OrchestrationObject> orchObjs,
                                             OrchestrationObject orchObj)
  {
-  super (directory, orchObj.getOrchestrationPackagePath (), orchObj.
+  super (directory, orchObj.getOrchestrationPackagePath () + ".assembler", orchObj.
    getJavaClassAssemblerName ());
   this.model = model;
   this.directory = directory;
@@ -74,16 +75,30 @@ public class OrchestrationObjectAssemblerWriter extends JavaClassWriter
   incrementIndent ();
   imports.add (Assembler.class.getName ());
   imports.add (orchObj.getFullyQualifiedJavaClassInfoName ());
-  String modifiableData = calcModifiableOrData (orchObj);
-  indentPrintln ("implements Assembler <" + modifiableData + ", " + orchObj.
-   getJavaClassInfoName () + ">");
+  indentPrintln ("implements Assembler <Data, " +
+   orchObj.getJavaClassInfoName () + ">");
   decrementIndent ();
   openBrace ();
 
+
+  indentPrintln ("");
+  writeAssembleMethod ();
+  writeDisassembleMethod ();
+
+  closeBrace (); // end class
+
+  this.writeJavaClassAndImportsOutToFile ();
+  this.getOut ().close ();
+ }
+
+ private void writeAssembleMethod ()
+ {
+
   indentPrintln ("");
   indentPrintln ("@Override");
-  indentPrintln ("public " + modifiableData + " assemble (" + orchObj.
-   getJavaClassInfoName () + " input)");
+  imports.add (Data.class.getName ());
+  indentPrintln ("public Data assemble (" + orchObj.getJavaClassInfoName () +
+   " input)");
   incrementIndent ();
   imports.add (AssemblyException.class.getName ());
   indentPrintln ("throws AssemblyException");
@@ -94,23 +109,17 @@ public class OrchestrationObjectAssemblerWriter extends JavaClassWriter
   openBrace ();
   indentPrintln ("return null;");
   closeBrace ();
-  indentPrintln (modifiableData + " result = new " + modifiableData + "();");
-   indentPrintln ("Data data;");
+  indentPrintln ("Data result = new Data ();");
+  indentPrintln ("Data data;");
   for (OrchestrationObjectField field : orchObj.getFields ())
   {
-   writeLoadDataForField (field);
+   writeAssembleTransferDataForField (field);
   }
   indentPrintln ("return result;");
   closeBrace (); // end assemble method
-  indentPrintln ("");
-
-  closeBrace (); // end class
-
-  this.writeJavaClassAndImportsOutToFile ();
-  this.getOut ().close ();
  }
 
- private void writeLoadDataForField (OrchestrationObjectField field)
+ private void writeAssembleTransferDataForField (OrchestrationObjectField field)
  {
   indentPrintln ("");
   indentPrintln ("// loading data for " + field.getName ());
@@ -120,14 +129,15 @@ public class OrchestrationObjectAssemblerWriter extends JavaClassWriter
   switch (field.getFieldTypeCategory ())
   {
    case PRIMITIVE:
-    indentPrintln ("result.set (Properties." + constant + ".getKey ()," + getter + ");");
+    indentPrintln ("result.set (Properties." + constant + ".getKey ()," + getter +
+     ");");
     break;
    case MAPPED_STRING:
-    indentPrintln ("result.set (Properties." + constant + ".getKey ()," + getter + ");");
+    indentPrintln ("result.set (Properties." + constant + ".getKey ()," + getter +
+     ");");
     break;
    case DYNAMIC_ATTRIBUTE:
     imports.add (Map.class.getName ());
-    // TODO: worry about having more than one dynamic attribute and getting a name clash
     imports.add (Data.class.getName ());
     indentPrintln ("data = new Data ();");
     indentPrintln ("result.set (Properties." + constant + ".getKey (), data);");
@@ -141,12 +151,63 @@ public class OrchestrationObjectAssemblerWriter extends JavaClassWriter
     imports.add (List.class.getName ());
     indentPrintln ("data = new Data ();");
     indentPrintln ("result.set (Properties." + constant + ".getKey (), data);");
-    // TODO: handle lists of non-strings including lists of complex objects
- 
-    indentPrintln ("for (String value : " + getter + ")");
-    openBrace ();
-    indentPrintln ("data.add (value);");
-    closeBrace ();
+    switch (FieldTypeCategoryCalculator.calculate (field, false, true, model))
+    {
+     case PRIMITIVE:
+      indentPrintln ("for (" +
+       DictionaryTypeToJavaTypeConverter.convert (field, imports) + " value : " +
+       getter + ")");
+      openBrace ();
+      indentPrintln ("data.add (value);");
+      closeBrace ();
+      break;
+     case MAPPED_STRING:
+      indentPrintln ("for (String value : " + getter + ")");
+      openBrace ();
+      indentPrintln ("data.add (value);");
+      closeBrace ();
+      break;
+     case DYNAMIC_ATTRIBUTE:
+      throw new DictionaryExecutionException ("lists of dynamic attributes are not supported");
+     case LIST:
+      throw new DictionaryExecutionException ("lists of lists are not supported");
+     case COMPLEX:
+      OrchestrationObject fieldOO =
+       orchObjs.get (field.getType ().toLowerCase ());
+      if (fieldOO == null)
+      {
+       throw new DictionaryValidationException ("Could not find orchestration object for field " +
+        field.getName () + " type " + field.getType ());
+      }
+      imports.add (fieldOO.getFullyQualifiedJavaClassAssemblerName ());
+      imports.add (fieldOO.getFullyQualifiedJavaClassInfoName ());
+      indentPrintln ("for (" + fieldOO.getJavaClassInfoName () + " value : " +
+       getter + ")");
+      openBrace ();
+      indentPrintln ("Data dataValue = new " +
+       fieldOO.getJavaClassAssemblerName () +
+       " ().assemble (value);");
+      indentPrintln ("data.add (dataValue);");
+      closeBrace ();
+      break;
+     case COMPLEX_INLINE:
+      imports.add (field.getInlineObject ().
+       getFullyQualifiedJavaClassAssemblerName ());
+      // TODO: figure out what the the JavaClassInfoName is of an Orchestration Objecxt?
+      indentPrintln ("for (" + field.getInlineObject ().getJavaClassInfoName () +
+       " value : " +
+       getter + ")");
+      openBrace ();
+      indentPrintln ("Data dataValue = new " +
+       field.getInlineObject ().getJavaClassAssemblerName () +
+       " ().assemble (value);");
+      indentPrintln ("data.add (dataValue);");
+      closeBrace ();
+
+      break;
+     default:
+      throw new DictionaryExecutionException ("unhandled type");
+    }
     break;
    case COMPLEX:
     OrchestrationObject fieldOO = orchObjs.get (field.getType ().toLowerCase ());
@@ -161,28 +222,182 @@ public class OrchestrationObjectAssemblerWriter extends JavaClassWriter
     indentPrintln ("result.set (Properties." + constant + ".getKey (), data);");
     break;
    case COMPLEX_INLINE:
-    imports.add (field.getInlineObject ().getFullyQualifiedJavaClassAssemblerName ());
-    indentPrintln ("data = new " + field.getInlineObject ().getJavaClassAssemblerName () +
+    imports.add (field.getInlineObject ().
+     getFullyQualifiedJavaClassAssemblerName ());
+    indentPrintln ("data = new " + field.getInlineObject ().
+     getJavaClassAssemblerName () +
      " ().assemble (" + getter + ");");
     indentPrintln ("result.set (Properties." + constant + ".getKey (), data);");
     break;
    default:
     throw new DictionaryExecutionException ("unhandled type");
   }
-
-
-
  }
 
- private String calcModifiableOrData (OrchestrationObject orchObj)
+ private void writeDisassembleMethod ()
  {
-  if (orchObj.hasOwnCreateUpdate ())
+  indentPrintln ("");
+  indentPrintln ("@Override");
+  indentPrintln ("public " + orchObj.getJavaClassInfoName () +
+   " disassemble (Data input)");
+  incrementIndent ();
+  imports.add (AssemblyException.class.getName ());
+  indentPrintln ("throws AssemblyException");
+  decrementIndent ();
+  openBrace ();
+
+  indentPrintln ("if (input == null)");
+  openBrace ();
+  indentPrintln ("return null;");
+  closeBrace ();
+  indentPrintln (orchObj.getJavaClassInfoName () + " result = new " + orchObj.
+   getJavaClassInfoName () + "();");
+  indentPrintln ("Data data;");
+  for (OrchestrationObjectField field : orchObj.getFields ())
   {
-   imports.add (ModifiableData.class.getName ());
-   return "ModifiableData";
+   writeDisassembleTransferDataForField (field);
   }
-  imports.add (Data.class.getName ());
-  return "Data";
+  indentPrintln ("return result;");
+  closeBrace (); // end assemble method
+ }
+
+ private void writeDisassembleTransferDataForField (
+  OrchestrationObjectField field)
+ {
+  indentPrintln ("");
+  indentPrintln ("// loading info for " + field.getName ());
+  String constant = new JavaEnumConstantCalculator (field.getName ()).calc ();
+  imports.add (orchObj.getFullyQualifiedJavaClassHelperName () + ".Properties");
+  String setter = "result." + calcSetterMethodName (field.getName ());
+  switch (field.getFieldTypeCategory ())
+  {
+   case PRIMITIVE:
+    String cast = "(" +
+     DictionaryTypeToJavaTypeConverter.convert (field, imports) + ")";
+    indentPrintln (setter + "(" + cast + " input.get (Properties." + constant +
+     ".getKey ()));");
+    break;
+   case MAPPED_STRING:
+    indentPrintln (setter + "(input.get ((String) Properties." + constant +
+     ".getKey ()));");
+    break;
+   case DYNAMIC_ATTRIBUTE:
+    imports.add (Map.class.getName ());
+    imports.add (HashMap.class.getName ());
+    imports.add (Data.class.getName ());
+    indentPrintln ("Map attributes = new HashMap ();");
+    indentPrintln (setter + "(attributes);");
+    indentPrintln ("data = input.get (Properties." + constant + ".getKey ());");
+      imports.add (Iterator.class.getName ());
+    indentPrintln ("for (Iterator <Data.Property> it = data.iterator (); it.hasNext (); )");
+    openBrace ();
+    indentPrintln ("Data.Property prop = it.next ();");
+    indentPrintln ("attributes.set (prop.getKey (), (String) data.get (prop.getKey ()));");
+    closeBrace ();
+    break;
+   case LIST:
+    imports.add (List.class.getName ());
+    imports.add (ArrayList.class.getName ());
+    imports.add (Data.class.getName ());
+    openBrace ();
+    switch (FieldTypeCategoryCalculator.calculate (field, false, true, model))
+    {
+     case PRIMITIVE:
+      cast = DictionaryTypeToJavaTypeConverter.convert (field, imports);
+      indentPrintln ("List<" + cast + "> list = new ArrayList ();");
+      indentPrintln (setter + "(list);");
+      indentPrintln ("data = input.get (Properties." + constant + ".getKey ());");
+      imports.add (Iterator.class.getName ());
+      indentPrintln ("for (Iterator <Data.Property> it = data.iterator (); it.hasNext (); )");
+      openBrace ();
+      indentPrintln ("Data.Property prop = it.next ();");
+      indentPrintln ("list.add ((" + cast + ") data.get (prop.getKey ());");
+      closeBrace ();
+      break;
+     case MAPPED_STRING:
+      cast = "String";
+      indentPrintln ("List<" + cast + "> list = new ArrayList ();");
+      indentPrintln (setter + "(list);");
+      indentPrintln ("data = input.get (Properties." + constant + ".getKey ());");
+      imports.add (Iterator.class.getName ());
+      indentPrintln ("for (Iterator <Data.Property> it = data.iterator (); it.hasNext (); )");
+      openBrace ();
+      indentPrintln ("Data.Property prop = it.next ();");
+      indentPrintln ("list.add ((" + cast + ") data.get (prop.getKey ());");
+      closeBrace ();
+      break;
+     case DYNAMIC_ATTRIBUTE:
+      throw new DictionaryExecutionException ("lists of dynamic attributes are not supported");
+     case LIST:
+      throw new DictionaryExecutionException ("lists of lists are not supported");
+     case COMPLEX:
+      OrchestrationObject fieldOO =
+       orchObjs.get (field.getType ().toLowerCase ());
+      if (fieldOO == null)
+      {
+       throw new DictionaryValidationException ("Could not find orchestration object for field " +
+        field.getName () + " type " + field.getType ());
+      }
+      imports.add (fieldOO.getFullyQualifiedJavaClassAssemblerName ());
+      imports.add (fieldOO.getFullyQualifiedJavaClassInfoName ());
+      cast = fieldOO.getJavaClassInfoName ();
+      indentPrintln ("List<" + cast + "> list = new ArrayList ();");
+      indentPrintln (setter + "(list);");
+      indentPrintln ("data = input.get (Properties." + constant + ".getKey ());");
+      imports.add (Iterator.class.getName ());
+      indentPrintln ("for (Iterator <Data.Property> it = data.iterator (); it.hasNext (); )");
+      openBrace ();
+      indentPrintln ("Data.Property prop = it.next ();");
+      indentPrintln ("list.add (" + " new " +
+       fieldOO.getJavaClassAssemblerName () +
+       " ().disassemble (data));");
+      closeBrace ();
+      break;
+     case COMPLEX_INLINE:
+      imports.add (field.getInlineObject ().
+       getFullyQualifiedJavaClassAssemblerName ());
+      cast = field.getInlineObject ().getJavaClassInfoName ();
+      indentPrintln ("List<" + cast + "> list = new ArrayList ();");
+      indentPrintln (setter + "(list);");
+      indentPrintln ("data = input.get (Properties." + constant + ".getKey ());");
+      imports.add (Iterator.class.getName ());
+      indentPrintln ("for (Iterator <Data.Property> it = data.iterator (); it.hasNext (); )");
+      openBrace ();
+      indentPrintln ("Data.Property prop = it.next ();");
+      indentPrintln ("list.add (" + " new " +
+       field.getInlineObject ().getJavaClassAssemblerName () +
+       " ().disassemble (data));");
+      closeBrace ();
+      break;
+     default:
+      throw new DictionaryExecutionException ("unhandled type");
+    }
+    closeBrace ();
+    break;
+   case COMPLEX:
+    OrchestrationObject fieldOO = orchObjs.get (field.getType ().toLowerCase ());
+    if (fieldOO == null)
+    {
+     throw new DictionaryValidationException ("Could not find orchestration object for field " +
+      field.getName () + " type " + field.getType ());
+    }
+    imports.add (fieldOO.getFullyQualifiedJavaClassAssemblerName ());
+    indentPrintln ("data = input.get (Properties." + constant + ".getKey ());");
+    indentPrintln (setter + "(" + " new " +
+     fieldOO.getJavaClassAssemblerName () +
+     " ().disassemble (data));");
+    break;
+   case COMPLEX_INLINE:
+    imports.add (field.getInlineObject ().
+     getFullyQualifiedJavaClassAssemblerName ());
+    indentPrintln ("data = input.get (Properties." + constant + ".getKey ());");
+    indentPrintln (setter + "(" + " new " +
+     field.getInlineObject ().getJavaClassAssemblerName () +
+     " ().disassemble (data));");
+    break;
+   default:
+    throw new DictionaryExecutionException ("unhandled type");
+  }
  }
 
  public static String calcGetterMethodName (String name)
@@ -194,4 +409,5 @@ public class OrchestrationObjectAssemblerWriter extends JavaClassWriter
  {
   return "set" + name.substring (0, 1).toUpperCase () + name.substring (1);
  }
+
 }

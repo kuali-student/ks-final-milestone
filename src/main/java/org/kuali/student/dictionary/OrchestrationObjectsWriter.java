@@ -68,17 +68,17 @@ public class OrchestrationObjectsWriter
    writer.write ();
   }
 
-    // do the assemblers next
-  for (OrchestrationObject oo : orchObjs.values ())
-  {
-   if (oo.getSource ().equals (OrchestrationObject.Source.MESSAGE_STRUCTURE))
-   {
-    System.out.println ("Writing out " + oo.getFullyQualifiedJavaClassAssemblerName ());
-    OrchestrationObjectAssemblerWriter writer =
-     new OrchestrationObjectAssemblerWriter (model, directory, orchObjs, oo);
-    writer.write ();
-   }
-  }
+//  // do the assemblers next
+//  for (OrchestrationObject oo : orchObjs.values ())
+//  {
+//   if (oo.getSource ().equals (OrchestrationObject.Source.MESSAGE_STRUCTURE))
+//   {
+//    System.out.println ("Writing out " + oo.getFullyQualifiedJavaClassAssemblerName ());
+//    OrchestrationObjectAssemblerWriter writer =
+//     new OrchestrationObjectAssemblerWriter (model, directory, orchObjs, oo);
+//    writer.write ();
+//   }
+//  }
  }
 
  private void validate ()

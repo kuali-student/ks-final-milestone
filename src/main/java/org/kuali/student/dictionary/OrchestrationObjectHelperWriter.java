@@ -104,19 +104,17 @@ public class OrchestrationObjectHelperWriter extends JavaClassWriter
   closeBrace (); // getKey brace
   closeBrace (); // enum brace
 
-  String modifiableOrData = calcModifiableOrData (orchObj);
-
-  indentPrintln ("private " + modifiableOrData + " data;");
+  imports.add (Data.class.getName ());
+  indentPrintln ("private Data data;");
   indentPrintln ("");
-  indentPrintln ("public " + orchObj.getJavaClassHelperName () + " (" +
-   modifiableOrData + " data)");
+  indentPrintln ("public " + orchObj.getJavaClassHelperName () + " (Data data)");
   openBrace ();
   indentPrintln ("this.data = data;");
   closeBrace (); // constructor
 
   // add Data getData ()
   indentPrintln ("");
-  indentPrintln ("public " + modifiableOrData + " getData ()");
+  indentPrintln ("public Data getData ()");
   openBrace ();
   indentPrintln ("return data;");
   closeBrace (); // getter
@@ -166,14 +164,13 @@ public class OrchestrationObjectHelperWriter extends JavaClassWriter
      indentPrintln ("return (" + fieldTypeToUse + ") " + getterValue + ";");
      break;
     case COMPLEX:
-     String castType = calcModifiableOrData (field.getType ());
-     indentPrintln ("return new " + fieldTypeToUse + " ((" + castType + ") " +
+     imports.add (Data.class.getName ());
+     indentPrintln ("return new " + fieldTypeToUse + " ((Data) " +
       getterValue + ");");
      break;
     case COMPLEX_INLINE:
-     castType = "Data";
      imports.add (Data.class.getName ());
-     indentPrintln ("return new " + fieldTypeToUse + " ((" + castType + ") " +
+     indentPrintln ("return new " + fieldTypeToUse + " ((Data) " +
       getterValue + ");");
      break;
     default:
@@ -187,28 +184,6 @@ public class OrchestrationObjectHelperWriter extends JavaClassWriter
 
   this.writeJavaClassAndImportsOutToFile ();
   this.getOut ().close ();
- }
-
- private String calcModifiableOrData (String orchObjName)
- {
-  OrchestrationObject oo = orchObjs.get (orchObjName.toLowerCase ());
-  if (oo == null)
-  {
-   throw new DictionaryExecutionException ("could not find orchestrration object " +
-    orchObjName);
-  }
-  return calcModifiableOrData (oo);
- }
-
- private String calcModifiableOrData (OrchestrationObject orchObj)
- {
-  if (orchObj.hasOwnCreateUpdate ())
-  {
-   imports.add (ModifiableData.class.getName ());
-   return "ModifiableData";
-  }
-  imports.add (Data.class.getName ());
-  return "Data";
  }
 
  public static String calcGetterMethodName (String name)
@@ -233,42 +208,7 @@ public class OrchestrationObjectHelperWriter extends JavaClassWriter
     return "Data";
 
    case PRIMITIVE:
-    if (field.getType ().equalsIgnoreCase ("string"))
-    {
-     return "String";
-    }
-
-    if (field.getType ().equalsIgnoreCase ("date"))
-    {
-     // TODO: figure out what to use for Date
-     imports.add (Date.class.getName ());
-     return "Date";
-    }
-
-    if (field.getType ().equalsIgnoreCase ("dateTime"))
-    {
-     imports.add (Date.class.getName ());
-     return "Date";
-    }
-
-    if (field.getType ().equalsIgnoreCase ("boolean"))
-    {
-     return "Boolean";
-    }
-
-    if (field.getType ().equalsIgnoreCase ("integer"))
-    {
-     return "Integer";
-    }
-
-    if (field.getType ().equalsIgnoreCase ("long"))
-    {
-     return "Long";
-    }
-
-    throw new DictionaryValidationException (
-     "Unknown/handled field type " +
-     field.getType () + " " + field.getName ());
+    return DictionaryTypeToJavaTypeConverter.convert (field, imports);
 
    case MAPPED_STRING:
     return "String";
