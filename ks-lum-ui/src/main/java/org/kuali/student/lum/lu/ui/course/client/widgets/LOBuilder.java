@@ -250,12 +250,13 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
             
         }
         private void delete(Widget item){
-            Widget decrator = item.getParent().getParent();
-            int index = LearningObjectiveList.this.itemsPanel.getWidgetIndex(decrator);
-            if(index == -1){
-                return;
-            }
-            LearningObjectiveList.this.itemsPanel.remove(decrator);
+           // Widget decrator = item.getParent().getParent();
+            //int index = LearningObjectiveList.this.itemsPanel.getWidgetIndex(decrator);
+            //if(index == -1){
+              //  return;
+            //}
+            //super.r.decorateItemWidget(item);
+            //LearningObjectiveList.this.itemsPanel.remove(decrator);
         }
     }  
 

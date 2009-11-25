@@ -90,7 +90,6 @@ public class LOPicker extends  Composite implements  HasValue<String>  {
         });
         HorizontalPanel mainPanel = new HorizontalPanel(){
             public void onBrowserEvent(Event event){
-                Window.alert("from hori"+event.getString());
                 switch (DOM.eventGetType(event)) {
                     case Event.ONMOUSEOVER:
                         layoutTable.setVisible(true);
