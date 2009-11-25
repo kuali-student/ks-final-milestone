@@ -31,8 +31,15 @@ public class OrchestrationObjectField
 
  public enum FieldTypeCategory
  {
-
-  LIST, PRIMITIVE, MAPPED_STRING, DYNAMIC_ATTRIBUTE, COMPLEX, COMPLEX_INLINE;
+  PRIMITIVE,
+  MAPPED_STRING,
+  DYNAMIC_ATTRIBUTE,
+  COMPLEX,
+  COMPLEX_INLINE,
+  LIST_OF_PRIMITIVE,
+  LIST_OF_MAPPED_STRING,
+  LIST_OF_COMPLEX,
+  LIST_OF_COMPLEX_INLINE;
  }
 
  public OrchestrationObject getParent ()

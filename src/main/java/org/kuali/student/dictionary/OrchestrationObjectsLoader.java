@@ -80,7 +80,7 @@ public class OrchestrationObjectsLoader
       field.setName (ms.getShortName ());
       field.setType (calcType (ms.getType ()));
       field.setFieldTypeCategory (
-       calcFieldTypeCategory (field, calcIsList (ms.getType ()), true));
+       calcFieldTypeCategory (field, calcIsList (ms.getType ()), false));
       loadMessageStructureFieldConstraints (field, field.getParent ().getName () +
        "." +
        field.getName ());

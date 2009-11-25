@@ -147,13 +147,16 @@ public class OrchestrationObjectAssemblerWriter extends JavaClassWriter
     indentPrintln ("data.set (key, attributes.get (key));");
     closeBrace ();
     break;
-   case LIST:
+   case LIST_OF_PRIMITIVE:
+   case LIST_OF_MAPPED_STRING:
+   case LIST_OF_COMPLEX:
+   case LIST_OF_COMPLEX_INLINE:
     imports.add (List.class.getName ());
     indentPrintln ("data = new Data ();");
     indentPrintln ("result.set (Properties." + constant + ".getKey (), data);");
-    switch (FieldTypeCategoryCalculator.calculate (field, false, true, model))
+    switch (field.getFieldTypeCategory ())
     {
-     case PRIMITIVE:
+     case LIST_OF_PRIMITIVE:
       indentPrintln ("for (" +
        DictionaryTypeToJavaTypeConverter.convert (field, imports) + " value : " +
        getter + ")");
@@ -161,17 +164,13 @@ public class OrchestrationObjectAssemblerWriter extends JavaClassWriter
       indentPrintln ("data.add (value);");
       closeBrace ();
       break;
-     case MAPPED_STRING:
+     case LIST_OF_MAPPED_STRING:
       indentPrintln ("for (String value : " + getter + ")");
       openBrace ();
       indentPrintln ("data.add (value);");
       closeBrace ();
       break;
-     case DYNAMIC_ATTRIBUTE:
-      throw new DictionaryExecutionException ("lists of dynamic attributes are not supported");
-     case LIST:
-      throw new DictionaryExecutionException ("lists of lists are not supported");
-     case COMPLEX:
+     case LIST_OF_COMPLEX:
       OrchestrationObject fieldOO =
        orchObjs.get (field.getType ().toLowerCase ());
       if (fieldOO == null)
@@ -190,7 +189,7 @@ public class OrchestrationObjectAssemblerWriter extends JavaClassWriter
       indentPrintln ("data.add (dataValue);");
       closeBrace ();
       break;
-     case COMPLEX_INLINE:
+     case LIST_OF_COMPLEX_INLINE:
       imports.add (field.getInlineObject ().
        getFullyQualifiedJavaClassAssemblerName ());
       // TODO: figure out what the the JavaClassInfoName is of an Orchestration Objecxt?
@@ -295,14 +294,17 @@ public class OrchestrationObjectAssemblerWriter extends JavaClassWriter
     indentPrintln ("attributes.set (prop.getKey (), (String) data.get (prop.getKey ()));");
     closeBrace ();
     break;
-   case LIST:
+   case LIST_OF_PRIMITIVE:
+   case LIST_OF_MAPPED_STRING:
+   case LIST_OF_COMPLEX:
+   case LIST_OF_COMPLEX_INLINE:
     imports.add (List.class.getName ());
     imports.add (ArrayList.class.getName ());
     imports.add (Data.class.getName ());
     openBrace ();
-    switch (FieldTypeCategoryCalculator.calculate (field, false, true, model))
+    switch (field.getFieldTypeCategory ())
     {
-     case PRIMITIVE:
+     case LIST_OF_PRIMITIVE:
       cast = DictionaryTypeToJavaTypeConverter.convert (field, imports);
       indentPrintln ("List<" + cast + "> list = new ArrayList ();");
       indentPrintln (setter + "(list);");
@@ -314,7 +316,7 @@ public class OrchestrationObjectAssemblerWriter extends JavaClassWriter
       indentPrintln ("list.add ((" + cast + ") data.get (prop.getKey ());");
       closeBrace ();
       break;
-     case MAPPED_STRING:
+     case LIST_OF_MAPPED_STRING:
       cast = "String";
       indentPrintln ("List<" + cast + "> list = new ArrayList ();");
       indentPrintln (setter + "(list);");
@@ -326,11 +328,7 @@ public class OrchestrationObjectAssemblerWriter extends JavaClassWriter
       indentPrintln ("list.add ((" + cast + ") data.get (prop.getKey ());");
       closeBrace ();
       break;
-     case DYNAMIC_ATTRIBUTE:
-      throw new DictionaryExecutionException ("lists of dynamic attributes are not supported");
-     case LIST:
-      throw new DictionaryExecutionException ("lists of lists are not supported");
-     case COMPLEX:
+     case LIST_OF_COMPLEX:
       OrchestrationObject fieldOO =
        orchObjs.get (field.getType ().toLowerCase ());
       if (fieldOO == null)
@@ -353,7 +351,7 @@ public class OrchestrationObjectAssemblerWriter extends JavaClassWriter
        " ().disassemble (data));");
       closeBrace ();
       break;
-     case COMPLEX_INLINE:
+     case LIST_OF_COMPLEX_INLINE:
       imports.add (field.getInlineObject ().
        getFullyQualifiedJavaClassAssemblerName ());
       cast = field.getInlineObject ().getJavaClassInfoName ();

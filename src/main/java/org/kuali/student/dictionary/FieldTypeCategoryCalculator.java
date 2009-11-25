@@ -35,7 +35,21 @@ public class FieldTypeCategoryCalculator
   }
   if (isAList)
   {
-   return FieldTypeCategory.LIST;
+   FieldTypeCategory cat = calculate (field, false, mustBeInXmlTypes, model);
+   switch (cat)
+   {
+    case PRIMITIVE:
+     return FieldTypeCategory.LIST_OF_PRIMITIVE;
+    case MAPPED_STRING:
+     return FieldTypeCategory.LIST_OF_MAPPED_STRING;
+    case COMPLEX:
+     return FieldTypeCategory.LIST_OF_COMPLEX;
+    case COMPLEX_INLINE:
+     return FieldTypeCategory.LIST_OF_COMPLEX_INLINE;
+    default:
+    throw new DictionaryValidationException ("Lists of " + cat + "'s are not supported, field = "
+     + " " + field.getName ());
+   }
   }
   if (field.getType ().equalsIgnoreCase ("Complex-Inline"))
   {

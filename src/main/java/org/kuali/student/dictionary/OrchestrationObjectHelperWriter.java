@@ -15,10 +15,8 @@
  */
 package org.kuali.student.dictionary;
 
-import java.util.Date;
 import java.util.Map;
 import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.lum.lu.assembly.data.client.ModifiableData;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
 
 /**
@@ -136,7 +134,10 @@ public class OrchestrationObjectHelperWriter extends JavaClassWriter
     case PRIMITIVE:
     case MAPPED_STRING:
     case DYNAMIC_ATTRIBUTE:
-    case LIST:
+    case LIST_OF_PRIMITIVE:
+    case LIST_OF_MAPPED_STRING:
+    case LIST_OF_COMPLEX:
+    case LIST_OF_COMPLEX_INLINE:
      setterValue = "value";
      break;
     case COMPLEX:
@@ -160,7 +161,10 @@ public class OrchestrationObjectHelperWriter extends JavaClassWriter
     case DYNAMIC_ATTRIBUTE:
     case PRIMITIVE:
     case MAPPED_STRING:
-    case LIST:
+    case LIST_OF_PRIMITIVE:
+    case LIST_OF_MAPPED_STRING:
+    case LIST_OF_COMPLEX:
+    case LIST_OF_COMPLEX_INLINE:
      indentPrintln ("return (" + fieldTypeToUse + ") " + getterValue + ";");
      break;
     case COMPLEX:
@@ -203,12 +207,20 @@ public class OrchestrationObjectHelperWriter extends JavaClassWriter
   {
    // TODO: translate map <String, String> to from Data
    case DYNAMIC_ATTRIBUTE:
-   case LIST:
     imports.add (Data.class.getName ());
     return "Data";
 
+   case LIST_OF_PRIMITIVE:
+   case LIST_OF_MAPPED_STRING:
+   case LIST_OF_COMPLEX:
+   case LIST_OF_COMPLEX_INLINE:
+    imports.add (Data.class.getName ());
+    return "Data";
+
+
    case PRIMITIVE:
     return DictionaryTypeToJavaTypeConverter.convert (field, imports);
+
 
    case MAPPED_STRING:
     return "String";
@@ -227,6 +239,5 @@ public class OrchestrationObjectHelperWriter extends JavaClassWriter
    field.getFieldTypeCategory () + " for field type " +
    field.getType () + " for field " + field.getName ());
  }
-
 
 }

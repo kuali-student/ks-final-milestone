@@ -169,23 +169,18 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
     break;
    case DYNAMIC_ATTRIBUTE:
     break;
-   case LIST:
+   case LIST_OF_PRIMITIVE:
+   case LIST_OF_MAPPED_STRING:
+   case LIST_OF_COMPLEX:
+   case LIST_OF_COMPLEX_INLINE:
     imports.add (QueryPath.class.getName ());
     indentPrintln ("listMeta = new Metadata ();");
-    indentPrintln ("listMeta.setDataType (Data.DataType.DATA);");
+    indentPrintln ("listMeta.setDataType (Data.DataType.LIST);");
     indentPrintln ("listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);");
     indentPrintln ("childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);");
-    switch (FieldTypeCategoryCalculator.calculate (field, false, false, model))
+    switch (field.getFieldTypeCategory ())
     {
-     case PRIMITIVE:
-      break;
-     case MAPPED_STRING:
-      break;
-     case DYNAMIC_ATTRIBUTE:
-      throw new DictionaryExecutionException ("lists of dynamic attributes are not supported");
-     case LIST:
-      throw new DictionaryExecutionException ("lists of lists are not supported");
-     case COMPLEX:
+     case LIST_OF_COMPLEX:
       OrchestrationObject fieldOO =
        orchObjs.get (field.getType ().toLowerCase ());
       if (fieldOO == null)
@@ -197,7 +192,7 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
       indentPrintln ("new " + fieldOO.getJavaClassMetadataName () +
        " ().loadChildMetadata (listMeta, type, state);");
       break;
-     case COMPLEX_INLINE:
+     case LIST_OF_COMPLEX_INLINE:
       imports.add (field.getInlineObject ().
        getFullyQualifiedJavaClassMetadataName ());
       indentPrintln ("new " +
@@ -205,7 +200,7 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
        " ().loadChildMetadata (listMeta, type, state);");
       break;
      default:
-      throw new DictionaryExecutionException ("unhandled type");
+      break;
     }
     break;
    case COMPLEX:
@@ -227,9 +222,6 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
    default:
     throw new DictionaryExecutionException ("unhandled type");
   }
-
-
-
  }
 
  private Data.DataType calcDataTypeToUse (OrchestrationObjectField field)
@@ -238,48 +230,46 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
   switch (field.getFieldTypeCategory ())
   {
    case DYNAMIC_ATTRIBUTE:
-   case LIST:
     imports.add (Data.class.getName ());
     return Data.DataType.DATA;
-
+   case LIST_OF_COMPLEX:
+   case LIST_OF_COMPLEX_INLINE:
+    imports.add (Data.class.getName ());
+    return Data.DataType.DATA;
    case PRIMITIVE:
+   case LIST_OF_PRIMITIVE:
     if (field.getType ().equalsIgnoreCase ("string"))
     {
      return Data.DataType.STRING;
     }
-
     if (field.getType ().equalsIgnoreCase ("date"))
     {
      imports.add (Date.class.getName ());
      return Data.DataType.TRUNCATED_DATE;
     }
-
     if (field.getType ().equalsIgnoreCase ("dateTime"))
     {
      imports.add (Date.class.getName ());
      return Data.DataType.DATE;
     }
-
     if (field.getType ().equalsIgnoreCase ("boolean"))
     {
      return Data.DataType.BOOLEAN;
     }
-
     if (field.getType ().equalsIgnoreCase ("integer"))
     {
      return Data.DataType.INTEGER;
     }
-
     if (field.getType ().equalsIgnoreCase ("long"))
     {
      return Data.DataType.LONG;
     }
-
     throw new DictionaryValidationException (
      "Unknown/handled field type " +
      field.getType () + " " + field.getName ());
 
    case MAPPED_STRING:
+   case LIST_OF_MAPPED_STRING:
     return Data.DataType.STRING;
 
    case COMPLEX:
@@ -308,11 +298,7 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
   //XmlType xmlType = new ModelFinder (model).findXmlType (field.getType ());
   switch (field.getFieldTypeCategory ())
   {
-   case DYNAMIC_ATTRIBUTE:
-   case LIST:
-    throw new DictionaryValidationException ("Default values not supported for field type " +
-     field.getFieldTypeCategory () + " in field " +
-     field.getFullyQualifiedName ());
+
 
    case PRIMITIVE:
     if (field.getType ().equalsIgnoreCase ("string"))
@@ -357,19 +343,11 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
    case MAPPED_STRING:
     return "new Data.StringValue (" + quote (field.getDefaultValue ()) + ")";
 
-   case COMPLEX:
-    throw new DictionaryValidationException ("Default values not supported for field type " +
-     field.getFieldTypeCategory () + " in field " +
-     field.getFullyQualifiedName ());
-
-   case COMPLEX_INLINE:
+   default:
     throw new DictionaryValidationException ("Default values not supported for field type " +
      field.getFieldTypeCategory () + " in field " +
      field.getFullyQualifiedName ());
   }
-  throw new DictionaryValidationException ("Unknown/unhandled field type category" +
-   field.getFieldTypeCategory () + " for field type " +
-   field.getType () + " for field " + field.getName ());
  }
 
  private String quote (String str)
