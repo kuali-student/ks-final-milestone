@@ -65,7 +65,7 @@ public class MetadataInterrogator
     {
      largestMinOccurs = cons.getMinOccurs ();
     }
-    else if (cons.getMaxOccurs () > largestMinOccurs)
+    else if (cons.getMinOccurs () > largestMinOccurs)
     {
      largestMinOccurs = cons.getMinOccurs ();
     }
@@ -73,8 +73,6 @@ public class MetadataInterrogator
   }
   return largestMinOccurs;
  }
-
-
 
  /**
   * checks if this field is a repeating field
@@ -95,7 +93,7 @@ public class MetadataInterrogator
   return false;
  }
 
-  /**
+ /**
   * checks if this field is a repeating field
   * @return true if the smallest maxOccurs is > 1
   */
@@ -120,7 +118,6 @@ public class MetadataInterrogator
   }
   return smallestMaxOccurs;
  }
-
 
  /**
   * get the largest min occurs value
@@ -147,7 +144,6 @@ public class MetadataInterrogator
   }
   return largestMinLength;
  }
-
 
  public Integer getSmallestMaxLength ()
  {
@@ -176,21 +172,28 @@ public class MetadataInterrogator
   // TODO: worry about hard coding ids
   for (ConstraintMetadata cons : meta.getConstraints ())
   {
-   if (cons.getId ().equals ("multi.line.text"))
+   if (cons.getId () != null)
    {
-    return true;
-   }
-   if (cons.getId ().equals ("single.line.text"))
-   {
-    return false;
-   }
-   if (cons.getId ().equals ("code"))
-   {
-    return false;
-   }
-   if (cons.getId ().equals ("no.linefeeds"))
-   {
-    return false;
+    if (cons.getId ().equals ("rich.text"))
+    {
+     return true;
+    }
+    if (cons.getId ().equals ("multi.line.text"))
+    {
+     return true;
+    }
+    if (cons.getId ().equals ("single.line.text"))
+    {
+     return false;
+    }
+    if (cons.getId ().equals ("code"))
+    {
+     return false;
+    }
+    if (cons.getId ().equals ("no.linefeeds"))
+    {
+     return false;
+    }
    }
   }
   // TODO: Worry about hard coding the cut-off point
