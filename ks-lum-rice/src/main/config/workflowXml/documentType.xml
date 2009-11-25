@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>KualiStudentDocument</name>
+      <parent>KualiDocument</parent>
+      <description>Kuali Student Parent Document</description>
+      <label>Kuali Student Parent Document</label>
+      <active>true</active>
+    </documentType>
+<!-- BEGIN TEST DOCUMENT FOR HIERARCHY ROUTING -->
+    <documentType>
+      <name>HierarchyNodeDocumentTest</name>
+      <parent>KualiStudentDocument</parent>
+      <label>HierarchyNodeDocumentTest</label>
+      <postProcessorName>org.kuali.rice.kew.postprocessor.DefaultPostProcessor</postProcessorName>
+      <active>true</active>
+      <policies>
+	    <policy>
+		  <name>DEFAULT_APPROVE</name>
+		  <value>true</value>
+	    </policy>
+      </policies>
+      <routePaths>
+        <routePath>
+          <start name="PreRoute" nextNode="HierarchyNode" />
+          <role name="HierarchyNode"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="PreRoute">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <role name="HierarchyNode">
+          <qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+<!-- END TEST DOCUMENT FOR HIERARCHY ROUTING -->
+    <documentType>
+      <name>CollaboratorRequestDocument</name>
+      <parent>KualiStudentDocument</parent>
+      <description>Document used to request to add a collaborator on a Kuali Student Document</description>
+      <label>Request Collaborator Document</label>
+      <postProcessorName>org.kuali.student.lum.workflow.CourseProposalCollaboratorPostProcessor</postProcessorName>
+      <active>true</active>
+      <policies>
+        <policy>
+          <name>ALLOW_UNREQUESTED_ACTION</name>
+          <value>false</value>
+        </policy>
+      </policies>
+      <routePaths>
+        <routePath>
+          <start name="PreRoute" nextNode="Accept Collaboration" />
+          <requests name="Accept Collaboration"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="PreRoute">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <requests name="Accept Collaboration">
+		  <activationType>P</activationType>
+		  <ruleTemplate>RequestedCollaboratorRoleTemplate</ruleTemplate>
+        </requests>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>CluCollaboratorDocument</name>
+      <parent>CollaboratorRequestDocument</parent>
+      <description>Sample Clu Collaborator Request Document</description>
+      <label>Sample Clu Collaborator Request Document</label>
+      <docHandler>${lum.application.url}/org.kuali.student.lum.lu.ui.workflow.CollaboratorRequest/CollaboratorRequest.html</docHandler>
+      <active>true</active>
+      <attributes>
+        <attribute>
+          <name>CollaboratorRequestCustomActionListAttribute</name>
+        </attribute>
+      </attributes>
+    </documentType>
+    <documentType>
+      <name>CluDocument</name>
+      <parent>KualiStudentDocument</parent>
+      <description>Sample Clu Document</description>
+      <label>Sample Clu Document</label>
+      <docHandler>${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp</docHandler>
+      <postProcessorName>org.kuali.student.lum.workflow.CluPostProcessor</postProcessorName>
+      <active>true</active>
+      <attributes>
+        <attribute>
+            <name>CluDocument.ProposalOrgSearchAttribute</name>
+        </attribute>
+        </attributes>
+      <routePaths>
+        <routePath>
+          <start name="PreRoute" nextNode="Department Review" />
+          <requests name="Department Review" nextNode="Division Review" />
+<!--
+          <requests name="Division Review" nextNode="Undergrad Affairs Review" />
+          <requests name="Undergrad Affairs Review" nextNode="College Review" />
+-->
+          <requests name="Division Review" nextNode="College Review" />
+          <requests name="College Review" nextNode="Senate Review" />
+          <requests name="Senate Review" nextNode="Publication Review" />
+          <requests name="Publication Review"  />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="PreRoute">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        
+        <!-- OrgAdmin Derived role (checks OrgService for members who are admins of the orgId)-->
+        <role name="Department Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.DepartmentCommitteeQualifierResolver</qualifierResolverClass>
+        </role>
+        
+        <!-- Department Committee Reviewer Role -->
+        <role name="Division Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.DivisionCommitteeQualifierResolver</qualifierResolverClass>
+        </role>
+        
+<!--
+        <role name="Undergrad Affairs Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.UnderGradAffairsCommitteeQualifierResolver</qualifierResolverClass>
+        </role>
+-->
+        
+        <!-- College Committee Reviewer Role -->
+        <role name="College Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CollegeCommitteeQualifierResolver</qualifierResolverClass>
+        </role>
+        
+        <role name="Senate Review">
+	      <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.SenateCommitteeQualifierResolver</qualifierResolverClass>
+        </role>
+        
+        <role name="Publication Review">
+	      <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.PublicationQualifierResolver</qualifierResolverClass>
+        </role>
+        
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>
+
