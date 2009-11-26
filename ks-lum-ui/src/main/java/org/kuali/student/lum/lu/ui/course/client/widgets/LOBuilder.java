@@ -29,9 +29,13 @@ import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.Type;
 import org.kuali.student.common.ui.client.theme.Theme;
+import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
+import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel;
 import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluDictionaryClassNameHelper;
@@ -47,6 +51,7 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -141,7 +146,76 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
         main.add(searchMainPanel);
         main.add(instructions);
         main.add(loPanel);
+        
+      //  main.add(new CategoryManagementComposite());
+        
 
+    }
+    class CategoryManagementComposite extends Composite{
+        VerticalPanel mainPanel = new VerticalPanel();
+        CategoryManagementComposite(){
+            KSLabel titleLabel = new KSLabel("Categories Management");
+            
+            VerticalPanel createModifyPanel = new VerticalPanel();
+            VerticalPanel batchCreatePanel = new VerticalPanel();
+            
+            HorizontalPanel createPanel = new HorizontalPanel();
+            KSLabel createLabel = new KSLabel("Create");
+            createPanel.add(createLabel);
+            createPanel.add(new KSLabel("New Category"));
+            KSTextBox newCategoryTextBox = new KSTextBox();
+            createPanel.add(newCategoryTextBox);
+            createPanel.add(new KSLabel("Type"));
+            KSTextBox typeTextBox = new KSTextBox();
+            createPanel.add(typeTextBox);
+            KSButton createButton = new KSButton("Create");
+            createPanel.add(createButton);
+
+            
+            createModifyPanel.add(createPanel);
+            createModifyPanel.add(new KSLabel("Modify"));
+
+            HorizontalPanel modifyPanel = new HorizontalPanel();
+            VerticalPanel filterPanel = new VerticalPanel();
+            filterPanel.add(new KSLabel("Filter"));
+            filterPanel.add(new KSLabel("Category"));
+            filterPanel.add(new KSTextBox());
+            filterPanel.add(new KSLabel("Type"));
+            filterPanel.add(new KSCheckBox("Select All"));
+            filterPanel.add(new KSCheckBox("Accreditation"));
+            filterPanel.add(new KSCheckBox("Skill"));
+            filterPanel.add(new KSCheckBox("Subject"));
+            filterPanel.add(new KSCheckBox("Unclassified"));
+            filterPanel.add(new KSButton("Filter"));
+            
+            FlexTable modifyTable = new FlexTable();
+            modifyTable.setWidget(0, 0, new KSLabel("Category"));
+            modifyTable.setWidget(0, 1, new KSLabel("Type"));
+            modifyTable.setWidget(1, 0, new KSTextBox());
+            modifyTable.setWidget(1, 1, new KSTextBox());
+            modifyTable.setWidget(2, 0, new KSTextBox());
+            modifyTable.setWidget(2, 1, new KSTextBox());
+            modifyTable.setWidget(3, 0, new KSTextBox());
+            modifyTable.setWidget(3, 1, new KSTextBox());
+            modifyTable.setWidget(4, 0, new KSTextBox());
+            modifyTable.setWidget(4, 1, new KSTextBox());
+            modifyTable.setWidget(5, 0, new KSTextBox());
+            modifyTable.setWidget(5, 1, new KSTextBox());
+            
+            modifyPanel.add(filterPanel);
+            modifyPanel.add(modifyTable);
+            
+            
+            createModifyPanel.add(modifyPanel);
+            
+            KSTabPanel tabPanel = new KSTabPanel();
+            tabPanel.addTab("C", "Create/Modify", createModifyPanel);
+            tabPanel.addTab("B", "Batch Create", batchCreatePanel);
+            mainPanel.add(titleLabel);
+            mainPanel.add(tabPanel);
+            super.initWidget(mainPanel);
+        }
+        
     }
 
 
