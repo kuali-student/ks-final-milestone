@@ -220,6 +220,11 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
 
 
     public static class LearningObjectiveList extends SimpleMultiplicityComposite {        
+        protected Widget generateRemoveWidget(final Widget listItem, final Composite parent){
+            useDeleteLabel = false;
+
+            return super.generateRemoveWidget(listItem, parent);
+        }
         private static final String STYLE_HIGHLIGHTED_ITEM = "KS-LOBuilder-Highlighted-Item";
         {
             setAddItemLabel(getLabel(LUConstants.LEARNING_OBJECTIVE_ADD_LABEL_KEY));
@@ -324,13 +329,13 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
             
         }
         private void delete(Widget item){
-           // Widget decrator = item.getParent().getParent();
-            //int index = LearningObjectiveList.this.itemsPanel.getWidgetIndex(decrator);
-            //if(index == -1){
-              //  return;
-            //}
-            //super.r.decorateItemWidget(item);
-            //LearningObjectiveList.this.itemsPanel.remove(decrator);
+            Widget decrator = item.getParent().getParent();
+            int index = LearningObjectiveList.this.itemsPanel.getWidgetIndex(decrator);
+            if(index == -1){
+                return;
+            }
+            super.decorateItemWidget(item);
+            LearningObjectiveList.this.itemsPanel.remove(decrator);
         }
     }  
 
