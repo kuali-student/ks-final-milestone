@@ -5,7 +5,6 @@ import java.util.Map.Entry;
 
 import org.kuali.student.common.assembly.client.ConstraintMetadata;
 import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.common.assembly.client.DataModel;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.common.assembly.client.Data.Property;
@@ -36,7 +35,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;

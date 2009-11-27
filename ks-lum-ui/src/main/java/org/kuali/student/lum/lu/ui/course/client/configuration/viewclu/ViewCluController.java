@@ -14,8 +14,11 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.configuration.viewclu;
 
+import org.kuali.student.common.assembly.client.Data;
+import org.kuali.student.common.assembly.client.SimpleModelDefinition;
 import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
 import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
@@ -41,7 +44,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  *
  */
 public class ViewCluController extends PagedSectionLayout{
-    private Model<CluProposalModelDTO> cluProposalModel;
+    private DataModel cluProposalModel;
 
     private String cluId = null;
 
@@ -79,16 +82,17 @@ public class ViewCluController extends PagedSectionLayout{
     public void requestModel(Class modelType, ModelRequestCallback callback) {
         if (modelType == CluProposalModelDTO.class){
             if (cluProposalModel == null){
-                cluProposalModel = new Model<CluProposalModelDTO>();
-                cluProposalModel.put(new CluProposalModelDTO());
-                
-                StringType type = new StringType();
-                type.set("kuali.lu.type.CreditCourse");
-                cluProposalModel.get().put("type", type);
-
-                StringType state = new StringType();
-                state.set("draft");
-                cluProposalModel.get().put("state", state);
+            	// TODO retrieve metadata (if not already cached) from the assembler
+                cluProposalModel = new DataModel(new SimpleModelDefinition(), new Data());
+//                cluProposalModel.put(new CluProposalModelDTO());
+//                
+//                StringType type = new StringType();
+//                type.set("kuali.lu.type.CreditCourse");
+//                cluProposalModel.get().put("type", type);
+//
+//                StringType state = new StringType();
+//                state.set("draft");
+//                cluProposalModel.get().put("state", state);
                 callback.onModelReady(cluProposalModel);
             } else {
                 callback.onModelReady(cluProposalModel); 
@@ -103,9 +107,7 @@ public class ViewCluController extends PagedSectionLayout{
                 ref.setReferenceTypeKey("referenceType.clu");
                 ref.setReferenceType("kuali.lu.type.CreditCourse");
                 ref.setReferenceState("draft");
-                Model<ReferenceModel> model = new Model<ReferenceModel>();
-                model.put(ref);
-                callback.onModelReady(model);
+                callback.onModelReady(ref);
             }
         } else {
             super.requestModel(modelType, callback);
@@ -120,9 +122,10 @@ public class ViewCluController extends PagedSectionLayout{
     }
 
     private void loadClu() {
-
+    	// TODO need to doublecheck, make sure this is really a proposal ID and not a CLU ID
         if (cluId != null) {
-            cluProposalRpcServiceAsync.getClu(cluId,  new AsyncCallback<CluProposalModelDTO>(){
+        	cluProposalRpcServiceAsync.getCreditCourseProposal(cluId, new AsyncCallback<Data>() {
+
                 @Override
                 public void onFailure(Throwable caught) {
                 	Window.alert("Error loading Clu: "+caught.getMessage());
@@ -131,17 +134,17 @@ public class ViewCluController extends PagedSectionLayout{
                 }
 
                 @Override
-                public void onSuccess(CluProposalModelDTO result) {
-                    cluProposalModel.put(result);
-                    ModelDTOValue typeModel = cluProposalModel.get().get("cluInfo/type");
-                    ModelDTOValue stateModel = cluProposalModel.get().get("cluInfo/state");
-                    ViewCluConfigurer.setType(((StringType) typeModel).get());
-                    ViewCluConfigurer.setState(((StringType) stateModel).get());
+                public void onSuccess(Data result) {
+                    cluProposalModel.setRoot(result);
+                    // TODO will need to update these property paths once finished integrating Norm's work
+                    ViewCluConfigurer.setType((String) cluProposalModel.get("proposal/type"));
+                    ViewCluConfigurer.setState((String) cluProposalModel.get("proposal/state"));
                     generateLayout();
 
                     getCurrentView().beforeShow();
                 }
-            }); 
+        		
+        	});
 
         }
         else {

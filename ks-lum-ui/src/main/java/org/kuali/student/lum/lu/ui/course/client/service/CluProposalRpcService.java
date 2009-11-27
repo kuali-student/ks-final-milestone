@@ -18,11 +18,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.common.assembly.client.DataModel;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.ui.client.service.BaseRpcService;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
-import org.kuali.student.lum.lu.assembly.data.client.creditcourse.CreditCourseProposal;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
 
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -58,7 +56,7 @@ public interface CluProposalRpcService extends BaseRpcService{
     public Boolean approveDocument(String requestDocId);
 	public Boolean disapproveDocument(String requestDocId);
 	
-	public DataModel getCluProposalModelDefinition(String modelId);
+//	public DataModel getCluProposalModelDefinition(String modelId);
 	public Data saveData(Data data);
     
 	public Data getCreditCourseProposal(String id) throws OperationFailedException;

@@ -17,6 +17,8 @@ package org.kuali.student.lum.lu.ui.course.client.configuration.course;
 import java.util.List;
 
 import org.kuali.student.common.assembly.client.Data;
+import org.kuali.student.common.assembly.client.Metadata;
+import org.kuali.student.common.assembly.client.SimpleModelDefinition;
 import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.TabbedSectionLayout;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
@@ -25,6 +27,8 @@ import org.kuali.student.common.ui.client.event.ValidateResultEvent;
 import org.kuali.student.common.ui.client.event.ValidateResultHandler;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
@@ -60,8 +64,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  *
  */
 public class CourseProposalController extends TabbedSectionLayout { 
-    private Model<org.kuali.student.common.assembly.client.DataModel> cluProposalModel; 
-    private Model<Collaborators.CollaboratorModel> collaboratorModel;
+    private DataModel cluProposalModel; 
+    private Collaborators.CollaboratorModel collaboratorModel;
     
     private WorkQueue modelRequestQueue;
 
@@ -87,6 +91,19 @@ public class CourseProposalController extends TabbedSectionLayout {
         super();
         init();
     }
+    public CourseProposalController(String proposalType, String cluType){
+        super();
+    	this.proposalType = proposalType;
+    	this.cluType = cluType;        
+        init();
+    }
+    public CourseProposalController(String proposalType, String cluType, String docId) {
+    	super();
+    	this.docId = docId;   	
+    	this.proposalType = proposalType;
+    	this.cluType = cluType;
+    	init();
+	}
     
     private KSButton getSaveButton(){
         return new KSButton("Save", new ClickHandler(){
@@ -202,8 +219,8 @@ public class CourseProposalController extends TabbedSectionLayout {
         		ReferenceModel ref = new ReferenceModel();
 
         		//FIXME: test code
-        		if(cluProposalModel.get() != null && cluProposalModel.get().get("proposal/id") != null){
-            		ref.setReferenceId((String)cluProposalModel.get().get("proposal/id"));
+        		if(cluProposalModel.get("proposal/id") != null){
+            		ref.setReferenceId((String)cluProposalModel.get("proposal/id"));
         		}
         		else{
         			ref.setReferenceId(null);
@@ -212,23 +229,20 @@ public class CourseProposalController extends TabbedSectionLayout {
         		ref.setReferenceTypeKey(REFERENCE_TYPE);
         		ref.setReferenceType(cluType);
         		ref.setReferenceState(CLU_STATE);
-        		Model<ReferenceModel> model = new Model<ReferenceModel>();
-        		model.put(ref);
-        		callback.onModelReady(model);
+        		
+        		callback.onModelReady(ref);
         	}
         } else if(modelType == Collaborators.CollaboratorModel.class){
         	//Update the collabmodel with info from the CluProposal Model
         	//Create a new one if it does not yet exist
         	if(null==collaboratorModel){
-        		Collaborators.CollaboratorModel collab = new Collaborators.CollaboratorModel();
-        		collaboratorModel = new Model<Collaborators.CollaboratorModel>();
-        		collaboratorModel.put(collab);
+        		collaboratorModel = new Collaborators.CollaboratorModel();
         	}
         	String proposalId="";
-        	if(cluProposalModel!=null&&cluProposalModel.get()!=null&&cluProposalModel.get().get(CLU_PROPOSAL_ID_KEY)!=null){
-        		proposalId=cluProposalModel.get().get(CLU_PROPOSAL_ID_KEY);
+        	if(cluProposalModel!=null && cluProposalModel.get(CLU_PROPOSAL_ID_KEY)!=null){
+        		proposalId=cluProposalModel.get(CLU_PROPOSAL_ID_KEY);
         	}
-        	collaboratorModel.get().setProposalId(proposalId);    
+        	collaboratorModel.setProposalId(proposalId);    
         	callback.onModelReady(collaboratorModel);
         } else {
             super.requestModel(modelType, callback);
@@ -287,10 +301,9 @@ public class CourseProposalController extends TabbedSectionLayout {
     @SuppressWarnings("unchecked")
     private void createNewCluProposalModel(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
         if (cluProposalModel == null){
-            cluProposalModel = new Model<org.kuali.student.common.assembly.client.DataModel>();
 
-            cluProposalRpcServiceAsync.getCluProposalModelDefinition(CourseConfigurer.CLU_PROPOSAL_MODEL, 
-                new AsyncCallback<org.kuali.student.common.assembly.client.DataModel>(){
+            cluProposalRpcServiceAsync.getCreditCourseProposalMetadata( 
+                new AsyncCallback<Metadata>(){
 
                     @Override
                     public void onFailure(Throwable caught) {
@@ -298,15 +311,15 @@ public class CourseProposalController extends TabbedSectionLayout {
                     }
 
                     @Override
-                    public void onSuccess(org.kuali.student.common.assembly.client.DataModel result) {
-                        cluProposalModel.put(result);                           
+                    public void onSuccess(Metadata result) {
+                        cluProposalModel = new DataModel(new DataModelDefinition(result), new Data());
                         callback.onModelReady(cluProposalModel);
                         workCompleteCallback.exec(true);
                     }                
             });
                         
         } else {
-            cluProposalModel.get().setRoot(new CreditCourseProposal());
+            cluProposalModel.setRoot(new Data());
             callback.onModelReady(cluProposalModel);
             workCompleteCallback.exec(true);            
         }
@@ -314,7 +327,7 @@ public class CourseProposalController extends TabbedSectionLayout {
 
     
     public void doSaveAction(SaveActionEvent saveActionEvent){       
-        String proposalName = cluProposalModel.get().get(CLU_PROPOSAL_NAME_KEY);
+        String proposalName = cluProposalModel.get(CLU_PROPOSAL_NAME_KEY);
         currentSaveEvent = saveActionEvent;
         if (proposalName == null){
             showStartSection();
@@ -373,14 +386,14 @@ public class CourseProposalController extends TabbedSectionLayout {
         try {
 //	        if(cluProposalModel.get().get("proposal/id") == null){
 	        	// FIXME wilj: find out if/why curriculum oversight retrieving/saving wrong org and admin org is not saving at all
-	            cluProposalRpcServiceAsync.saveCreditCourseProposal(cluProposalModel.getValue().getRoot(), new AsyncCallback<DataSaveResult>(){
+	            cluProposalRpcServiceAsync.saveCreditCourseProposal(cluProposalModel.getRoot(), new AsyncCallback<DataSaveResult>(){
 	                public void onFailure(Throwable caught) {
 	                   saveFailedCallback.exec(caught);                 
 	                }
 	
 	                public void onSuccess(DataSaveResult result) {
 	                	// FIXME needs to check validation results and display messages if validation failed
-	    				cluProposalModel.getValue().setRoot(result.getValue());
+	    				cluProposalModel.setRoot(result.getValue());
 	                    if (saveActionEvent.isAcknowledgeRequired()){
 	                        saveMessage.setText("Save Successful");
 	                        buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
@@ -427,7 +440,7 @@ public class CourseProposalController extends TabbedSectionLayout {
         this.proposalType = proposalType;
         this.cluType = cluType;
         if (cluProposalModel != null){
-            this.cluProposalModel.get().setRoot(new CreditCourseProposal());            
+            this.cluProposalModel.setRoot(new Data());            
         }
         this.setModelDTO(null, null);
         this.docId = null;

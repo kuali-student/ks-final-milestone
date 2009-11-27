@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
@@ -59,9 +60,9 @@ public class CourseReqManager extends Controller {
     private final RuleExpressionEditor ruleExpressionEditorView = new RuleExpressionEditor(this);
     
     //controller's data
-    private Model<RuleInfo> ruleInfo;                      //contains all rules, each rule has its own RuleInfo object
-    private Model<ReqComponentVO>  selectedReqCompVO;    
-    private Model<ReqComponentTypeInfo> reqComponentTypes; //all requirements type info (fields and NL templates) for given statement type
+    private CollectionModel<RuleInfo> ruleInfo;                      //contains all rules, each rule has its own RuleInfo object
+    private CollectionModel<ReqComponentVO>  selectedReqCompVO;    
+    private CollectionModel<ReqComponentTypeInfo> reqComponentTypes; //all requirements type info (fields and NL templates) for given statement type
     private String luStatementType = "unknown";             //type of rule that is being edited
     private Map<String, String> cluSetsData = new HashMap<String, String>(); 
     
@@ -96,7 +97,7 @@ public class CourseReqManager extends Controller {
         if (modelType.equals(RuleInfo.class)) {
             
             //pass back only rule corresponding to the user selected rule type
-            Model<RuleInfo> ruleInfoGivenType = new Model<RuleInfo>();
+        	CollectionModel<RuleInfo> ruleInfoGivenType = new CollectionModel<RuleInfo>();
             ruleInfoGivenType.add(getRuleInfo(luStatementType));                        
             callback.onModelReady(ruleInfoGivenType);
         } else if (modelType.equals(ReqComponentTypeInfo.class)) {
@@ -160,7 +161,7 @@ public class CourseReqManager extends Controller {
     }
 
     //TODO: should we retrieve requirement comp. types for all applicable lu statement types?
-    public void retrieveModelData(Class<? extends Idable> modelType, final ModelRequestCallback<ReqComponentTypeInfo> callback) {
+    public void retrieveModelData(Class<? extends Idable> modelType, final ModelRequestCallback<CollectionModel<ReqComponentTypeInfo>> callback) {
         
         if (luStatementType == null) {
             throw new IllegalArgumentException();
@@ -176,7 +177,7 @@ public class CourseReqManager extends Controller {
                 }
     
                 public void onSuccess(final List<ReqComponentTypeInfo> reqComponentTypeInfoList) {  
-                    reqComponentTypes = new Model<ReqComponentTypeInfo>();
+                    reqComponentTypes = new CollectionModel<ReqComponentTypeInfo>();
                     for (ReqComponentTypeInfo reqCompInfo : reqComponentTypeInfoList) {
                         reqComponentTypes.add(reqCompInfo);
                     }      
@@ -197,7 +198,7 @@ public class CourseReqManager extends Controller {
     }
     
     public void resetReqCompVOModel () {
-        this.selectedReqCompVO = new Model<ReqComponentVO>();
+        this.selectedReqCompVO = new CollectionModel<ReqComponentVO>();
     }
     
     public SimplePanel getMainPanel() {
@@ -205,13 +206,13 @@ public class CourseReqManager extends Controller {
     }
     
     public void setRuleInfoModel(List<RuleInfo> rules) {
-    	ruleInfo = new Model<RuleInfo>();
+    	ruleInfo = new CollectionModel<RuleInfo>();
     	for (RuleInfo rule : rules) {
     		this.ruleInfo.add(rule);
     	}
     }
     
-    public Model<RuleInfo> getRuleInfoModel() {
+    public CollectionModel<RuleInfo> getRuleInfoModel() {
         return ruleInfo;
     }    
     

@@ -17,6 +17,7 @@ package org.kuali.student.lum.ui.requirements.client.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelChangeEvent;
@@ -86,7 +87,7 @@ public class ManageRulesView extends ViewComposite {
     private HandlerRegistration textClickHandler = null;
     
     //view's data
-    private Model<RuleInfo> model;   //contains only RuleInfo object for selected rule
+    private CollectionModel<RuleInfo> model;   //contains only RuleInfo object for selected rule
     private boolean isInitialized = false;
 
     public ManageRulesView(Controller controller) {
@@ -100,13 +101,13 @@ public class ManageRulesView extends ViewComposite {
             setupHandlers();            
         }            
             
-        getController().requestModel(RuleInfo.class, new ModelRequestCallback<RuleInfo>() {
-            public void onModelReady(Model<RuleInfo> theModel) {
+        getController().requestModel(RuleInfo.class, new ModelRequestCallback<CollectionModel<RuleInfo>>() {
+            public void onModelReady(CollectionModel<RuleInfo> theModel) {
                 model = theModel;    
                 
                 if (isInitialized == false) {                    
-                    model.addModelChangeHandler(new ModelChangeHandler<RuleInfo>() {
-                        public void onModelChange(ModelChangeEvent<RuleInfo> event) {
+                    model.addModelChangeHandler(new ModelChangeHandler() {
+                        public void onModelChange(ModelChangeEvent event) {
                             //redraw();
                         }
                     });                          
@@ -200,8 +201,8 @@ public class ManageRulesView extends ViewComposite {
                 if (userObject instanceof ReqComponentVO) {
                     final ReqComponentVO rule = (ReqComponentVO) userObject;
                 
-                    getController().requestModel(ReqComponentVO.class, new ModelRequestCallback<ReqComponentVO>() {
-                        public void onModelReady(Model<ReqComponentVO> theModel) {
+                    getController().requestModel(ReqComponentVO.class, new ModelRequestCallback<CollectionModel<ReqComponentVO>>() {
+                        public void onModelReady(CollectionModel<ReqComponentVO> theModel) {
                             RulesUtilities.clearModel(theModel);
                             theModel.add(rule);                            
                         }
@@ -219,8 +220,8 @@ public class ManageRulesView extends ViewComposite {
         btnAddRule.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {      
                 
-                getController().requestModel(ReqComponentVO.class, new ModelRequestCallback<ReqComponentVO>() {
-                    public void onModelReady(Model<ReqComponentVO> theModel) {
+                getController().requestModel(ReqComponentVO.class, new ModelRequestCallback<CollectionModel<ReqComponentVO>>() {
+                    public void onModelReady(CollectionModel<ReqComponentVO> theModel) {
                         if (theModel != null) {
                             RulesUtilities.clearModel(theModel);
                         }                    
@@ -407,30 +408,31 @@ public class ManageRulesView extends ViewComposite {
         btnBackToRulesSummary.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 //store this new rule model in the top most model
-                getController().requestModel(CluProposalModelDTO.class, new ModelRequestCallback<CluProposalModelDTO>() {
-
-                    @Override
-                    public void onModelReady(Model<CluProposalModelDTO> cluModel) {
-                    	RuleInfo managedRule = RulesUtilities.getReqInfoModelObject(model);
-                    	managedRule.setNaturalLanguage(naturalLanguage);
-                    	List<RuleInfo> ruleInfos = cluModel.get().getRuleInfos();
-                  
-                        for (RuleInfo origRuleInfo : ruleInfos) {
-                            if (origRuleInfo.getLuStatementTypeKey().equals(managedRule.getLuStatementTypeKey())) {              	
-                                ruleInfos.remove(origRuleInfo);
-                                ruleInfos.add(managedRule);
-                            }                
-                        }
-                        
-                        //switch to first page
-                        getController().showView(PrereqViews.RULES_LIST);                                               
-                    }
-
-                    @Override
-                    public void onRequestFail(Throwable cause) {
-                        Window.alert("Failed to request for CluProposalModelDTO");
-                    }
-                });            	            
+            	// TODO need to modify this to use new DataModel
+//                getController().requestModel(CluProposalModelDTO.class, new ModelRequestCallback<CluProposalModelDTO>() {
+//
+//                    @Override
+//                    public void onModelReady(Model<CluProposalModelDTO> cluModel) {
+//                    	RuleInfo managedRule = RulesUtilities.getReqInfoModelObject(model);
+//                    	managedRule.setNaturalLanguage(naturalLanguage);
+//                    	List<RuleInfo> ruleInfos = cluModel.get().getRuleInfos();
+//                  
+//                        for (RuleInfo origRuleInfo : ruleInfos) {
+//                            if (origRuleInfo.getLuStatementTypeKey().equals(managedRule.getLuStatementTypeKey())) {              	
+//                                ruleInfos.remove(origRuleInfo);
+//                                ruleInfos.add(managedRule);
+//                            }                
+//                        }
+//                        
+//                        //switch to first page
+//                        getController().showView(PrereqViews.RULES_LIST);                                               
+//                    }
+//
+//                    @Override
+//                    public void onRequestFail(Throwable cause) {
+//                        Window.alert("Failed to request for CluProposalModelDTO");
+//                    }
+//                });            	            
             }
         });        
     }

@@ -17,9 +17,11 @@ package org.kuali.student.lum.lu.ui.course.client.widgets;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.kuali.student.common.ui.client.mvc.AbstractSimpleModel;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.ModelChangeEvent.Action;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
@@ -294,9 +296,9 @@ public class Collaborators extends Composite implements HasWorkflowId{
 		Controller.findController(this).requestModel(Collaborators.CollaboratorModel.class, new ModelRequestCallback<Collaborators.CollaboratorModel>(){
 		
 			@Override
-			public void onModelReady(Model<Collaborators.CollaboratorModel> model) {
+			public void onModelReady(Collaborators.CollaboratorModel model) {
 				//After we get the model update immediately
-				updateFromModel(model.get());
+				updateFromModel(model);
 			}
 
 			@Override
@@ -433,7 +435,7 @@ public class Collaborators extends Composite implements HasWorkflowId{
 	}
 
 
-	public static class CollaboratorModel{
+	public static class CollaboratorModel extends AbstractSimpleModel {
 		private String proposalId;
 
 		public String getProposalId() {
@@ -441,6 +443,7 @@ public class Collaborators extends Composite implements HasWorkflowId{
 		}
 		public void setProposalId(String proposalId) {
 			this.proposalId = proposalId;
+			super.fireChangeEvent(Action.UPDATE);
 		}
 	}
 }

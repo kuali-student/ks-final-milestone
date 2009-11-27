@@ -17,6 +17,7 @@ package org.kuali.student.lum.ui.requirements.client.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
@@ -60,7 +61,7 @@ public class RuleExpressionEditor extends ViewComposite {
 
 
     // views's data
-    private Model<RuleInfo> model;
+    private CollectionModel<RuleInfo> model;
     
     // helper object
     private RuleExpressionParser ruleExpressionParser = new RuleExpressionParser();
@@ -73,8 +74,8 @@ public class RuleExpressionEditor extends ViewComposite {
     
     @Override
     public void beforeShow() {
-        getController().requestModel(RuleInfo.class, new ModelRequestCallback<RuleInfo>() {
-            public void onModelReady(Model<RuleInfo> theModel) {
+        getController().requestModel(RuleInfo.class, new ModelRequestCallback<CollectionModel<RuleInfo>>() {
+            public void onModelReady(CollectionModel<RuleInfo> theModel) {
                 model = theModel;    
             }
 

@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.mvc.SectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
@@ -45,7 +46,7 @@ public class CourseRequisitesSectionView extends SectionView {
 	
 	private Class<? extends ModelDTO> modelDTOType;
 	
-	private Model<ModelDTO> model = null;
+	private CollectionModel<ModelDTO> model = null;
 		
 	public CourseRequisitesSectionView(Enum<?> viewEnum, String name, Class<? extends ModelDTO> modelDTOType) {	    
 		super(viewEnum, name);
@@ -61,8 +62,8 @@ public class CourseRequisitesSectionView extends SectionView {
 		}
 		
 		//Request model and redraw view if model changed
-	    getController().requestModel(modelDTOType, new ModelRequestCallback<ModelDTO>(){
-            public void onModelReady(Model<ModelDTO> m) {
+	    getController().requestModel(modelDTOType, new ModelRequestCallback<CollectionModel<ModelDTO>>(){
+            public void onModelReady(CollectionModel<ModelDTO> m) {
                 //if (model != m){
                     model = m;
                     redraw();

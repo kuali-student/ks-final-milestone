@@ -46,6 +46,29 @@ import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
 
+
+/*
+ *	ASSEMBLERREVIEW
+ *  1) The type/state config in here is a mess.
+ *  	- some of the type/state info was just copied from other places, 
+ *  		just a hackjob to get it working
+ *  	- bigger issue is how to handle state transitions, etc.  not handling 
+ *  		it right now, but it would be nice to come up with a clean/standard
+ *  		way of doing it
+ *  
+ *  2) Need to come up with a clean way of copying properties that are passthrough without a lot of boilerplate code, but...
+ *  	- many "passthrough" properties will still have a rename along the way, and possibly a transformation of their position within the graph, e.g.
+ *  		cluInfo/officialIdentifier/shortName -> proposal/transcriptTitle  
+ *  
+ *  3) Disconnect on assembler type/state config
+ *  	- some assemblers will be specific to a type
+ *  	- getMetadata takes in type as a parameter
+ * 
+ * 	4) Propagation of version indicator information is messy
+ * 		- services require the version indicator for locking purposes
+ * 		- assemblers need to be stateless, so it needs to be passed down as part of the returned orchestration
+ * 		- resulting orchestrations will have complex types assembled from multiple objects each having their own version indicator
+ */
 public class CreditCourseProposalAssembler implements Assembler<CreditCourseProposal, Void> {
 	// TODO make sure that cluclurelation version indicators are carried over on retrieval
 	// TODO verify that the right relation types have been used
@@ -75,7 +98,6 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 	@Override
 	public CreditCourseProposal get(String id) throws AssemblyException {
 		CreditCourseProposal result = null;
-		// TODO figure out why the format isn't found
 		try {
 			ProposalInfoData proposal = getProposal(id);
 			if (proposal != null) {

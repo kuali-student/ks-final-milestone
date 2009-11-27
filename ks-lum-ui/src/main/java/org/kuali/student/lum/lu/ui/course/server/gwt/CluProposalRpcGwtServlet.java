@@ -42,10 +42,8 @@ import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.student.common.assembly.client.AssemblyException;
 import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.common.assembly.client.DataModel;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.assembly.client.SaveResult;
-import org.kuali.student.common.assembly.client.SimpleModelDefinition;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
@@ -80,7 +78,6 @@ import org.kuali.student.lum.lu.dto.workflow.CluProposalDocInfo;
 import org.kuali.student.lum.lu.dto.workflow.PrincipalIdRoleAttribute;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
-import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.DataSaveResult;
@@ -1654,40 +1651,40 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         this.learningObjectiveService = learningObjectiveService;
     }
     
-    /**
-     * This method should return a an empty model with associated model definition for 
-     * requested model
-     */
-    public DataModel getCluProposalModelDefinition(String modelId){
-        DataModel model = null;
-        if (CourseConfigurer.CLU_PROPOSAL_MODEL.equals(modelId)){
-            final SimpleModelDefinition def = new SimpleModelDefinition();
-            def.define("proposal", "org.kuali.student.lum.lu.assembly.data.client.proposal.ProposalInfoData");
-            def.define("course", "org.kuali.student.lum.lu.assembly.data.client.creditcourse.CreditCourse");
-            def.define("course/formats/*", "org.kuali.student.lum.lu.assembly.data.client.creditcourse.CreditCourseFormat");
-            def.define("course/formats/*/activities/*", "org.kuali.student.lum.lu.assembly.data.client.creditcourse.CreditCourseActivity");
-            
-            def.define("course/description", "org.kuali.student.lum.lu.assembly.data.client.RichTextInfoData");
-            def.define("course/rationale", "org.kuali.student.lum.lu.assembly.data.client.RichTextInfoData");
-            def.define("course/duration", "org.kuali.student.lum.lu.assembly.data.client.atp.TimeAmountInfoData");
-            def.define("course/primaryInstructor", "org.kuali.student.lum.lu.assembly.data.client.CluInstructorInfoData");
-            def.define("course/alternateIdentifiers", "org.kuali.student.lum.lu.assembly.data.client.CluIdentifierInfoData");
-            
-            def.define("course/formats/*/activities/*/intensity", "org.kuali.student.lum.lu.assembly.data.client.atp.TimeAmountInfoData");
-            
+//    /**
+//     * This method should return a an empty model with associated model definition for 
+//     * requested model
+//     */
+//    public DataModel getCluProposalModelDefinition(String modelId){
+//        DataModel model = null;
+//        if (CourseConfigurer.CLU_PROPOSAL_MODEL.equals(modelId)){
+//            final SimpleModelDefinition def = new SimpleModelDefinition();
+//            def.define("proposal", "org.kuali.student.lum.lu.assembly.data.client.proposal.ProposalInfoData");
+//            def.define("course", "org.kuali.student.lum.lu.assembly.data.client.creditcourse.CreditCourse");
+//            def.define("course/formats/*", "org.kuali.student.lum.lu.assembly.data.client.creditcourse.CreditCourseFormat");
+//            def.define("course/formats/*/activities/*", "org.kuali.student.lum.lu.assembly.data.client.creditcourse.CreditCourseActivity");
 //            
-//            def.define("cluInfo/officialIdentifier", "org.kuali.student.lum.lu.dto.CluIdentifier");            
-//            def.define("cluInfo/rationale", "org.kuali.student.RichText");
-//            def.define("cluInfo/formats/*/cluInfo", "org.kuali.student.lum.lu.dto.CluInfo");
-//            def.define("cluInfo/formats/*/activities/*/cluInfo", "org.kuali.student.lum.lu.dto.CluInfo");            
-//            def.define("cluInfo/effectiveDate", "Date");
-//            def.define("cluInfo/expirationDate", "Date");
+//            def.define("course/description", "org.kuali.student.lum.lu.assembly.data.client.RichTextInfoData");
+//            def.define("course/rationale", "org.kuali.student.lum.lu.assembly.data.client.RichTextInfoData");
+//            def.define("course/duration", "org.kuali.student.lum.lu.assembly.data.client.atp.TimeAmountInfoData");
+//            def.define("course/primaryInstructor", "org.kuali.student.lum.lu.assembly.data.client.CluInstructorInfoData");
+//            def.define("course/alternateIdentifiers", "org.kuali.student.lum.lu.assembly.data.client.CluIdentifierInfoData");
 //            
-            model = new DataModel(def, new Data());     
-            
-        }
-        return model;
-    }
+//            def.define("course/formats/*/activities/*/intensity", "org.kuali.student.lum.lu.assembly.data.client.atp.TimeAmountInfoData");
+//            
+////            
+////            def.define("cluInfo/officialIdentifier", "org.kuali.student.lum.lu.dto.CluIdentifier");            
+////            def.define("cluInfo/rationale", "org.kuali.student.RichText");
+////            def.define("cluInfo/formats/*/cluInfo", "org.kuali.student.lum.lu.dto.CluInfo");
+////            def.define("cluInfo/formats/*/activities/*/cluInfo", "org.kuali.student.lum.lu.dto.CluInfo");            
+////            def.define("cluInfo/effectiveDate", "Date");
+////            def.define("cluInfo/expirationDate", "Date");
+////            
+//            model = new DataModel(def, new Data());     
+//            
+//        }
+//        return model;
+//    }
     
     private UntypedCreditCourseProposalAssembler creditCourseProposalAssembler;
     private synchronized void initAssemblers() {

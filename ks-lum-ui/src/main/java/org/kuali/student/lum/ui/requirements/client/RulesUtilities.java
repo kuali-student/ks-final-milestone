@@ -14,6 +14,7 @@
  */
 package org.kuali.student.lum.ui.requirements.client;
 
+import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
@@ -51,7 +52,7 @@ public class RulesUtilities {
         }
     }    
     
-    public static void clearModel(Model model) {
+    public static void clearModel(CollectionModel model) {
         for (Object data : model.getValues().toArray()) {
             if (data != null) {
                 model.remove((Idable) data);
@@ -60,7 +61,7 @@ public class RulesUtilities {
     }    
     
     //returns first model object
-    public static RuleInfo getReqInfoModelObject(Model<RuleInfo> model) {
+    public static RuleInfo getReqInfoModelObject(CollectionModel<RuleInfo> model) {
         for (Object data : model.getValues().toArray()) {
             if (data != null) {
                 return (RuleInfo)data;

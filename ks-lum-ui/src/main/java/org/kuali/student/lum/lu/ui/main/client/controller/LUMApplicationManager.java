@@ -24,9 +24,6 @@ import org.kuali.student.common.ui.client.mvc.events.LogoutHandler;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseProposalController;
 import org.kuali.student.lum.lu.ui.course.client.configuration.history.KSHistory;
-import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalController;
-import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LuConfigurer;
-import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluController;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
@@ -141,7 +138,7 @@ public class LUMApplicationManager extends Controller{
 	    
 	    private View initBlankCluProposalView(String proposalType, String cluType){
 	       // if (cluProposalController == null){
-	            cluProposalController = new CluProposalController(proposalType, cluType);           
+	            cluProposalController = new CourseProposalController(proposalType, cluType);           
 	       // }
 	       // ((CluProposalController)cluProposalController).clear(proposalType, cluType);
 	        createCluView = new DelegatingViewComposite(LUMApplicationManager.this, cluProposalController);         
@@ -151,16 +148,16 @@ public class LUMApplicationManager extends Controller{
 
 	    private View initCluProposalViewFromProposalId(String proposalType, String cluType, String proposalId){
 	        initBlankCluProposalView(proposalType, cluType);
-	        ((CluProposalController)cluProposalController).setProposalId(proposalId);
+	        ((CourseProposalController)cluProposalController).setProposalId(proposalId);
 	        return createCluView;
 	    }
 
 	    private View initCluProposalViewFromDocId(String proposalType, String cluType, String docId){
 	    //    if (cluProposalController == null){
-	            cluProposalController = new CluProposalController(proposalType, cluType, docId);           
+	    	cluProposalController = new CourseProposalController(proposalType, cluType, docId);           
 	    //    }
 	   //     ((CluProposalController)cluProposalController).clear(proposalType, cluType);
-	        ((CluProposalController)cluProposalController).setDocId(docId);
+	        ((CourseProposalController)cluProposalController).setDocId(docId);
 	        createCluView = new DelegatingViewComposite(LUMApplicationManager.this, cluProposalController); 
 	        
 	        return createCluView;        

@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
@@ -98,9 +99,9 @@ public class CourseRequisiteView extends ViewComposite {
     public void beforeShow() {                 	
     	
     	getController().requestModel(CluProposalModelDTO.class,
-    			new ModelRequestCallback<CluProposalModelDTO>() {
+    			new ModelRequestCallback<CollectionModel<CluProposalModelDTO>>() {
                     @Override
-                    public void onModelReady(Model<CluProposalModelDTO> model) {
+                    public void onModelReady(CollectionModel<CluProposalModelDTO> model) {
                     	ModelDTO cluInfoModelDTO = (ModelDTO) ((ModelDTOType) model.get().get("cluInfo")).get();
                     	courseRules = model.get().getRuleInfos();
                     	cluId = model.get().getString("cluInfo/id");
@@ -203,10 +204,10 @@ public class CourseRequisiteView extends ViewComposite {
             	}
     	        
                 //store this new rule model in the top most model
-                getController().requestModel(CluProposalModelDTO.class, new ModelRequestCallback<CluProposalModelDTO>() {
+                getController().requestModel(CluProposalModelDTO.class, new ModelRequestCallback<CollectionModel<CluProposalModelDTO>>() {
 
                     @Override
-                    public void onModelReady(Model<CluProposalModelDTO> model) {
+                    public void onModelReady(CollectionModel<CluProposalModelDTO> model) {
                         List<RuleInfo> ruleInfos = model.get().getRuleInfos();
                         ruleInfos.retainAll(ruleInfos);
                     }
@@ -397,9 +398,9 @@ public class CourseRequisiteView extends ViewComposite {
     
     public void saveApplicationState() {
         getController().requestModel(CluProposalModelDTO.class,
-                new ModelRequestCallback<CluProposalModelDTO>() {
+                new ModelRequestCallback<CollectionModel<CluProposalModelDTO>>() {
             @Override
-            public void onModelReady(Model<CluProposalModelDTO> model) {
+            public void onModelReady(CollectionModel<CluProposalModelDTO> model) {
                 model.get().putApplicationState(
                         "kuali.luStatementType.prereqAcademicReadiness.rationale", 
                         getRationaleTextArea(KS_STATEMENT_TYPE_PREREQ)

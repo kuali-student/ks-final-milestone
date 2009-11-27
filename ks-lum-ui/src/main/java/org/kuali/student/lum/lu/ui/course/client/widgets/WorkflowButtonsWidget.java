@@ -35,9 +35,9 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
-
+// TODO update this class to use the new DataModel.  all references to model have been commented out for now
 public class WorkflowButtonsWidget extends Composite {
-	Model<CluProposalModelDTO> cluProposalWorkflowModel=null;
+//	Model<CluProposalModelDTO> cluProposalWorkflowModel=null;
 	
 	boolean loaded=false;
     
@@ -60,12 +60,12 @@ public class WorkflowButtonsWidget extends Composite {
 		super.initWidget(rootPanel);
 			
 		//Make the wf buttons
-		setupWFButtons();
-
-		rootPanel.add(wfApproveButton);
-		rootPanel.add(wfDisApproveButton);
-		rootPanel.add(wfAcknowledgeButton);
-		rootPanel.add(wfStartWorkflowButton);
+//		setupWFButtons();
+//
+//		rootPanel.add(wfApproveButton);
+//		rootPanel.add(wfDisApproveButton);
+//		rootPanel.add(wfAcknowledgeButton);
+//		rootPanel.add(wfStartWorkflowButton);
 	}
 	
 	/* (non-Javadoc)
@@ -75,37 +75,37 @@ public class WorkflowButtonsWidget extends Composite {
 	protected void onLoad() {
 		super.onLoad();
 		myController = Controller.findController(this);
-		if(null==cluProposalWorkflowModel){
-			//Get the Model from the controller and register a model change handler when the workflow model is updated
-			myController.requestModel(CluProposalModelDTO.class, new ModelRequestCallback<CluProposalModelDTO>(){
-			
-				@Override
-				public void onModelReady(Model<CluProposalModelDTO> model) {
-					
-					//After we get the model update immediately
-					cluProposalWorkflowModel = model;
-					updateWorkflow(cluProposalWorkflowModel.get());
-					
-					//Add a change listener for when the model changes
-//					model.addModelChangeHandler(new ModelChangeHandler<CluProposalModelDTO>(){
-//						@Override
-//						public void onModelChange(ModelChangeEvent<CluProposalModelDTO> event) {
-//							updateWorkflow(event.getValue());
-//						}
-//					});
-				}
-	
-				@Override
-				public void onRequestFail(Throwable cause) {
-					Window.alert("Model Request Failed. "+cause.getMessage());
-				}
-			});
-		}else{
-			
-			//If the model has been set don't waste time finding it again and don't register 
-			//another change listener, just update
-			updateWorkflow(cluProposalWorkflowModel.get());
-		}
+//		if(null==cluProposalWorkflowModel){
+//			//Get the Model from the controller and register a model change handler when the workflow model is updated
+//			myController.requestModel(CluProposalModelDTO.class, new ModelRequestCallback<CluProposalModelDTO>(){
+//			
+//				@Override
+//				public void onModelReady(Model<CluProposalModelDTO> model) {
+//					
+//					//After we get the model update immediately
+//					cluProposalWorkflowModel = model;
+//					updateWorkflow(cluProposalWorkflowModel.get());
+//					
+//					//Add a change listener for when the model changes
+////					model.addModelChangeHandler(new ModelChangeHandler<CluProposalModelDTO>(){
+////						@Override
+////						public void onModelChange(ModelChangeEvent<CluProposalModelDTO> event) {
+////							updateWorkflow(event.getValue());
+////						}
+////					});
+//				}
+//	
+//				@Override
+//				public void onRequestFail(Throwable cause) {
+//					Window.alert("Model Request Failed. "+cause.getMessage());
+//				}
+//			});
+//		}else{
+//			
+//			//If the model has been set don't waste time finding it again and don't register 
+//			//another change listener, just update
+//			updateWorkflow(cluProposalWorkflowModel.get());
+//		}
 	}
 	
 	private String getProposalIdFromModel(CluProposalModelDTO model){
@@ -125,99 +125,99 @@ public class WorkflowButtonsWidget extends Composite {
 	
 	private void setupWFButtons() {
 
-		startWorkflowSaveActionEvent = new SaveActionEvent("Submitting");
-		startWorkflowSaveActionEvent.setActionCompleteCallback(new ActionCompleteCallback(){
-			public void onActionComplete(ActionEvent action) {
-    			CluProposalModelDTO model = cluProposalWorkflowModel.get();
-    			if(model==null||model.get("cluInfo/adminOrg")==null||((StringType)model.get("cluInfo/adminOrg")).get()==null){
-    				Window.alert("Administering Organization must be entered and saved before workflow can be started.");
-    			}else{
-        			cluProposalRpcServiceAsync.submitProposal(model, new AsyncCallback<Boolean>(){
-						public void onFailure(
-								Throwable caught) {
-							Window.alert("Error starting Proposal workflow");
-						}
-						public void onSuccess(
-								Boolean result) {
-							Window.alert("Proposal has been routed to workflow");
-							removeButton(wfStartWorkflowButton);
-						}
-					});
-    			}
-			}
-		});
-		
-    	wfStartWorkflowButton = new KSButton("Submit", new ClickHandler(){
-    		public void onClick(ClickEvent event) {
-    			myController.fireApplicationEvent(startWorkflowSaveActionEvent);
-    		}
-    	});
-    	wfStartWorkflowButton.setVisible(false);
-
-		approveSaveActionEvent = new SaveActionEvent("Approving");
-		approveSaveActionEvent.setActionCompleteCallback(new ActionCompleteCallback(){
-			public void onActionComplete(ActionEvent action) {
-    			CluProposalModelDTO model = cluProposalWorkflowModel.get();
-				cluProposalRpcServiceAsync.approveProposal(model, new AsyncCallback<Boolean>(){
-					public void onFailure(
-							Throwable caught) {
-						Window.alert("Error approving Proposal");
-					}
-					public void onSuccess(
-							Boolean result) {
-						Window.alert("Proposal was approved");
-						removeButton(wfApproveButton);
-						removeButton(wfDisApproveButton);
-					}
-				});
-			}
-		});
-    	
-		wfApproveButton = new KSButton("Approve", new ClickHandler(){
-			public void onClick(ClickEvent event) {
-				myController.fireApplicationEvent(approveSaveActionEvent);
-			}        
-		});
-		wfApproveButton.setVisible(false);
-
-		wfDisApproveButton = new KSButton("Disapprove", new ClickHandler(){
-	        public void onClick(ClickEvent event) {
-    			CluProposalModelDTO model = cluProposalWorkflowModel.get();
-				cluProposalRpcServiceAsync.disapproveProposal(model, new AsyncCallback<Boolean>(){
-					public void onFailure(
-							Throwable caught) {
-						Window.alert("Error disapproving Proposal");
-					}
-					public void onSuccess(
-							Boolean result) {
-						Window.alert("Proposal was disapproved");
-						removeButton(wfApproveButton);
-						removeButton(wfDisApproveButton);
-					}
-					
-				});
-	        }        
-	    });
-		wfDisApproveButton.setVisible(false);
-		
-		wfAcknowledgeButton= new KSButton("Acknowledge", new ClickHandler(){
-	        public void onClick(ClickEvent event) {
-    			CluProposalModelDTO model = cluProposalWorkflowModel.get();
-				cluProposalRpcServiceAsync.acknowledgeProposal(model, new AsyncCallback<Boolean>(){
-					public void onFailure(
-							Throwable caught) {
-						Window.alert("Error acknowledging Proposal");
-					}
-					public void onSuccess(
-							Boolean result) {
-						Window.alert("Proposal was acknowledged");
-						removeButton(wfAcknowledgeButton);
-					}
-					
-				});
-	        }        
-	    });
-		wfAcknowledgeButton.setVisible(false);
+//		startWorkflowSaveActionEvent = new SaveActionEvent("Submitting");
+//		startWorkflowSaveActionEvent.setActionCompleteCallback(new ActionCompleteCallback(){
+//			public void onActionComplete(ActionEvent action) {
+//    			CluProposalModelDTO model = cluProposalWorkflowModel.get();
+//    			if(model==null||model.get("cluInfo/adminOrg")==null||((StringType)model.get("cluInfo/adminOrg")).get()==null){
+//    				Window.alert("Administering Organization must be entered and saved before workflow can be started.");
+//    			}else{
+//        			cluProposalRpcServiceAsync.submitProposal(model, new AsyncCallback<Boolean>(){
+//						public void onFailure(
+//								Throwable caught) {
+//							Window.alert("Error starting Proposal workflow");
+//						}
+//						public void onSuccess(
+//								Boolean result) {
+//							Window.alert("Proposal has been routed to workflow");
+//							removeButton(wfStartWorkflowButton);
+//						}
+//					});
+//    			}
+//			}
+//		});
+//		
+//    	wfStartWorkflowButton = new KSButton("Submit", new ClickHandler(){
+//    		public void onClick(ClickEvent event) {
+//    			myController.fireApplicationEvent(startWorkflowSaveActionEvent);
+//    		}
+//    	});
+//    	wfStartWorkflowButton.setVisible(false);
+//
+//		approveSaveActionEvent = new SaveActionEvent("Approving");
+//		approveSaveActionEvent.setActionCompleteCallback(new ActionCompleteCallback(){
+//			public void onActionComplete(ActionEvent action) {
+//    			CluProposalModelDTO model = cluProposalWorkflowModel.get();
+//				cluProposalRpcServiceAsync.approveProposal(model, new AsyncCallback<Boolean>(){
+//					public void onFailure(
+//							Throwable caught) {
+//						Window.alert("Error approving Proposal");
+//					}
+//					public void onSuccess(
+//							Boolean result) {
+//						Window.alert("Proposal was approved");
+//						removeButton(wfApproveButton);
+//						removeButton(wfDisApproveButton);
+//					}
+//				});
+//			}
+//		});
+//    	
+//		wfApproveButton = new KSButton("Approve", new ClickHandler(){
+//			public void onClick(ClickEvent event) {
+//				myController.fireApplicationEvent(approveSaveActionEvent);
+//			}        
+//		});
+//		wfApproveButton.setVisible(false);
+//
+//		wfDisApproveButton = new KSButton("Disapprove", new ClickHandler(){
+//	        public void onClick(ClickEvent event) {
+//    			CluProposalModelDTO model = cluProposalWorkflowModel.get();
+//				cluProposalRpcServiceAsync.disapproveProposal(model, new AsyncCallback<Boolean>(){
+//					public void onFailure(
+//							Throwable caught) {
+//						Window.alert("Error disapproving Proposal");
+//					}
+//					public void onSuccess(
+//							Boolean result) {
+//						Window.alert("Proposal was disapproved");
+//						removeButton(wfApproveButton);
+//						removeButton(wfDisApproveButton);
+//					}
+//					
+//				});
+//	        }        
+//	    });
+//		wfDisApproveButton.setVisible(false);
+//		
+//		wfAcknowledgeButton= new KSButton("Acknowledge", new ClickHandler(){
+//	        public void onClick(ClickEvent event) {
+//    			CluProposalModelDTO model = cluProposalWorkflowModel.get();
+//				cluProposalRpcServiceAsync.acknowledgeProposal(model, new AsyncCallback<Boolean>(){
+//					public void onFailure(
+//							Throwable caught) {
+//						Window.alert("Error acknowledging Proposal");
+//					}
+//					public void onSuccess(
+//							Boolean result) {
+//						Window.alert("Proposal was acknowledged");
+//						removeButton(wfAcknowledgeButton);
+//					}
+//					
+//				});
+//	        }        
+//	    });
+//		wfAcknowledgeButton.setVisible(false);
 	}
 
 	private void updateWorkflow(CluProposalModelDTO model){
