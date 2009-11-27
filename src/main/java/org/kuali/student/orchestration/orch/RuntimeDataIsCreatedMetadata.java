@@ -19,10 +19,10 @@ package org.kuali.student.orchestration.orch;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.orchestration.ConstraintMetadataBank;
-import org.kuali.student.orchestration.orch.NewCreditCourseProposalHelper.Properties;
+import org.kuali.student.orchestration.orch.RuntimeDataIsCreatedHelper.Properties;
 
 
-public class NewCreditCourseProposalMetadata
+public class RuntimeDataIsCreatedMetadata
 {
 	
 	public boolean matches (String inputType, String inputState, String dictType, String dictState)
@@ -45,27 +45,15 @@ public class NewCreditCourseProposalMetadata
 		Metadata childMeta;
 		Metadata listMeta;
 		
-		// metadata for CreditCourseProposal
+		// metadata for VersionInd
 		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.CREDIT_COURSE_PROPOSAL.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.DATA);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		mainMeta.getProperties ().put (Properties.VERSION_IND.getKey (), childMeta);
+		childMeta.setDataType (Data.DataType.STRING);
+		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 		}
-		new CreditCourseProposalMetadata ().loadChildMetadata (childMeta, type, state);
-		
-		// metadata for BasedOn
-		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.BASED_ON.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.DATA);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ON_CREATE);
-		if (this.matches (type, state, "(default)", "(default)"))
-		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-		}
-		new CreditCourseMetadata ().loadChildMetadata (childMeta, type, state);
 		
 	}
 }

@@ -50,7 +50,7 @@ public class MetaInfoMetadata
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.VERSION_IND.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
@@ -63,7 +63,7 @@ public class MetaInfoMetadata
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.CREATE_TIME.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATE);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
@@ -76,7 +76,7 @@ public class MetaInfoMetadata
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.CREATE_ID.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("read.only"));
@@ -89,7 +89,7 @@ public class MetaInfoMetadata
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.UPDATE_TIME.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.DATE);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
@@ -102,7 +102,7 @@ public class MetaInfoMetadata
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.UPDATE_ID.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("read.only"));

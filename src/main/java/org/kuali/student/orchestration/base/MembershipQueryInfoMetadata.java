@@ -62,7 +62,7 @@ public class MembershipQueryInfoMetadata
 		// metadata for queryParamValueList
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.QUERY_PARAM_VALUE_LIST.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.DATA);
+		childMeta.setDataType (Data.DataType.LIST);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
@@ -73,7 +73,7 @@ public class MembershipQueryInfoMetadata
 		listMeta.setDataType (Data.DataType.DATA);
 		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
-		new QueryParamValueMetadata ().loadChildMetadata (listMeta, type, state);
+		new QueryParamValueMetadata ().loadChildMetadata (childMeta, type, state);
 		
 	}
 }

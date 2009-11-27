@@ -49,7 +49,7 @@ public class CreditCourseProposalKeyDataMetadata
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.TITLE.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		childMeta.setWriteAccess (Metadata.WriteAccess.ON_CREATE);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -62,7 +62,7 @@ public class CreditCourseProposalKeyDataMetadata
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.PROPOSER.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		childMeta.setWriteAccess (Metadata.WriteAccess.ON_CREATE);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -75,7 +75,7 @@ public class CreditCourseProposalKeyDataMetadata
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.DEPARTMENT.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		childMeta.setWriteAccess (Metadata.WriteAccess.ON_CREATE);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));

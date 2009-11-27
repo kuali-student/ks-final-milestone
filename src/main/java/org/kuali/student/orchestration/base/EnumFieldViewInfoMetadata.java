@@ -49,7 +49,7 @@ public class EnumFieldViewInfoMetadata
 		// metadata for contextDescriptors
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.CONTEXT_DESCRIPTORS.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.DATA);
+		childMeta.setDataType (Data.DataType.LIST);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
@@ -60,13 +60,13 @@ public class EnumFieldViewInfoMetadata
 		listMeta.setDataType (Data.DataType.DATA);
 		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
-		new EnumContextInfoMetadata ().loadChildMetadata (listMeta, type, state);
+		new EnumContextInfoMetadata ().loadChildMetadata (childMeta, type, state);
 		
 		// metadata for key
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.KEY.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));

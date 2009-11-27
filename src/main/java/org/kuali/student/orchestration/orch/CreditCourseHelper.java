@@ -16,6 +16,7 @@
 package org.kuali.student.orchestration.orch;
 
 
+import java.util.Date;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
 import org.kuali.student.orchestration.base.RichTextInfoHelper;
@@ -27,17 +28,24 @@ public class CreditCourseHelper
 	
 	public enum Properties implements PropertyEnum
 	{
-		ID ("Id"),
-		SUBJECT_AREA ("SubjectArea"),
-		COURSE_NUMBER_SUFFIX ("CourseNumberSuffix"),
-		TRANSCRIPT_TITLE ("TranscriptTitle"),
-		COURSE_TITLE ("CourseTitle"),
-		DESCRIPTION ("Description"),
-		TERMS_OFFERED ("TermsOffered"),
-		DURATION ("Duration"),
-		DEPARTMENT ("Department"),
-		FORMATS ("Formats"),
-		VERSION_IND ("VersionInd");
+		ID ("id"),
+		FORMATS ("formats"),
+		TERMS_OFFERED ("termsOffered"),
+		DURATION ("duration"),
+		TRANSCRIPT_TITLE ("transcriptTitle"),
+		COURSE_TITLE ("courseTitle"),
+		DESCRIPTION ("description"),
+		DEPARTMENT ("department"),
+		SUBJECT_AREA ("subjectArea"),
+		COURSE_NUMBER_SUFFIX ("courseNumberSuffix"),
+		STATE ("state"),
+		TYPE ("type"),
+		EFFECTIVE_DATE ("effectiveDate"),
+		EXPIRATION_DATE ("expirationDate"),
+		ACADEMIC_SUBJECT_ORGS ("academicSubjectOrgs"),
+		CAMPUS_LOCATIONS ("campusLocations"),
+		PRIMARY_INSTRUCTOR ("primaryInstructor"),
+		_RUNTIME_DATA ("_runtimeData");
 		
 		private final String key;
 		
@@ -77,27 +85,39 @@ public class CreditCourseHelper
 	}
 	
 	
-	public void setSubjectArea (String value)
+	public void setFormats (Data value)
 	{
-		data.set (Properties.SUBJECT_AREA.getKey (), value);
+		data.set (Properties.FORMATS.getKey (), value);
 	}
 	
 	
-	public String getSubjectArea ()
+	public Data getFormats ()
 	{
-		return (String) data.get (Properties.SUBJECT_AREA.getKey ());
+		return (Data) data.get (Properties.FORMATS.getKey ());
 	}
 	
 	
-	public void setCourseNumberSuffix (String value)
+	public void setTermsOffered (Data value)
 	{
-		data.set (Properties.COURSE_NUMBER_SUFFIX.getKey (), value);
+		data.set (Properties.TERMS_OFFERED.getKey (), value);
 	}
 	
 	
-	public String getCourseNumberSuffix ()
+	public Data getTermsOffered ()
 	{
-		return (String) data.get (Properties.COURSE_NUMBER_SUFFIX.getKey ());
+		return (Data) data.get (Properties.TERMS_OFFERED.getKey ());
+	}
+	
+	
+	public void setDuration (CreditCourseDurationHelper value)
+	{
+		data.set (Properties.DURATION.getKey (), value.getData ());
+	}
+	
+	
+	public CreditCourseDurationHelper getDuration ()
+	{
+		return new CreditCourseDurationHelper ((Data) data.get (Properties.DURATION.getKey ()));
 	}
 	
 	
@@ -137,30 +157,6 @@ public class CreditCourseHelper
 	}
 	
 	
-	public void setTermsOffered (Data value)
-	{
-		data.set (Properties.TERMS_OFFERED.getKey (), value);
-	}
-	
-	
-	public Data getTermsOffered ()
-	{
-		return (Data) data.get (Properties.TERMS_OFFERED.getKey ());
-	}
-	
-	
-	public void setDuration (CreditCourseDurationHelper value)
-	{
-		data.set (Properties.DURATION.getKey (), value.getData ());
-	}
-	
-	
-	public CreditCourseDurationHelper getDuration ()
-	{
-		return new CreditCourseDurationHelper ((Data) data.get (Properties.DURATION.getKey ()));
-	}
-	
-	
 	public void setDepartment (String value)
 	{
 		data.set (Properties.DEPARTMENT.getKey (), value);
@@ -173,27 +169,123 @@ public class CreditCourseHelper
 	}
 	
 	
-	public void setFormats (Data value)
+	public void setSubjectArea (String value)
 	{
-		data.set (Properties.FORMATS.getKey (), value);
+		data.set (Properties.SUBJECT_AREA.getKey (), value);
 	}
 	
 	
-	public Data getFormats ()
+	public String getSubjectArea ()
 	{
-		return (Data) data.get (Properties.FORMATS.getKey ());
+		return (String) data.get (Properties.SUBJECT_AREA.getKey ());
 	}
 	
 	
-	public void setVersionInd (String value)
+	public void setCourseNumberSuffix (String value)
 	{
-		data.set (Properties.VERSION_IND.getKey (), value);
+		data.set (Properties.COURSE_NUMBER_SUFFIX.getKey (), value);
 	}
 	
 	
-	public String getVersionInd ()
+	public String getCourseNumberSuffix ()
 	{
-		return (String) data.get (Properties.VERSION_IND.getKey ());
+		return (String) data.get (Properties.COURSE_NUMBER_SUFFIX.getKey ());
+	}
+	
+	
+	public void setState (String value)
+	{
+		data.set (Properties.STATE.getKey (), value);
+	}
+	
+	
+	public String getState ()
+	{
+		return (String) data.get (Properties.STATE.getKey ());
+	}
+	
+	
+	public void setType (String value)
+	{
+		data.set (Properties.TYPE.getKey (), value);
+	}
+	
+	
+	public String getType ()
+	{
+		return (String) data.get (Properties.TYPE.getKey ());
+	}
+	
+	
+	public void setEffectiveDate (Date value)
+	{
+		data.set (Properties.EFFECTIVE_DATE.getKey (), value);
+	}
+	
+	
+	public Date getEffectiveDate ()
+	{
+		return (Date) data.get (Properties.EFFECTIVE_DATE.getKey ());
+	}
+	
+	
+	public void setExpirationDate (Date value)
+	{
+		data.set (Properties.EXPIRATION_DATE.getKey (), value);
+	}
+	
+	
+	public Date getExpirationDate ()
+	{
+		return (Date) data.get (Properties.EXPIRATION_DATE.getKey ());
+	}
+	
+	
+	public void setAcademicSubjectOrgs (Data value)
+	{
+		data.set (Properties.ACADEMIC_SUBJECT_ORGS.getKey (), value);
+	}
+	
+	
+	public Data getAcademicSubjectOrgs ()
+	{
+		return (Data) data.get (Properties.ACADEMIC_SUBJECT_ORGS.getKey ());
+	}
+	
+	
+	public void setCampusLocations (Data value)
+	{
+		data.set (Properties.CAMPUS_LOCATIONS.getKey (), value);
+	}
+	
+	
+	public Data getCampusLocations ()
+	{
+		return (Data) data.get (Properties.CAMPUS_LOCATIONS.getKey ());
+	}
+	
+	
+	public void setPrimaryInstructor (String value)
+	{
+		data.set (Properties.PRIMARY_INSTRUCTOR.getKey (), value);
+	}
+	
+	
+	public String getPrimaryInstructor ()
+	{
+		return (String) data.get (Properties.PRIMARY_INSTRUCTOR.getKey ());
+	}
+	
+	
+	public void set_runtimeData (RuntimeDataHelper value)
+	{
+		data.set (Properties._RUNTIME_DATA.getKey (), value.getData ());
+	}
+	
+	
+	public RuntimeDataHelper get_runtimeData ()
+	{
+		return new RuntimeDataHelper ((Data) data.get (Properties._RUNTIME_DATA.getKey ()));
 	}
 	
 }

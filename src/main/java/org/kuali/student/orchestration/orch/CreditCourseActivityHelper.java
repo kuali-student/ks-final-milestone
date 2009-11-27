@@ -26,10 +26,11 @@ public class CreditCourseActivityHelper
 	
 	public enum Properties implements PropertyEnum
 	{
-		ID ("Id"),
-		ACTIVITY_TYPE ("ActivityType"),
-		CONTACT_HOURS ("ContactHours"),
-		VERSION_IND ("VersionInd");
+		ID ("id"),
+		ACTIVITY_TYPE ("activityType"),
+		CONTACT_HOURS ("contactHours"),
+		STATE ("state"),
+		_RUNTIME_DATA ("_runtimeData");
 		
 		private final String key;
 		
@@ -93,15 +94,27 @@ public class CreditCourseActivityHelper
 	}
 	
 	
-	public void setVersionInd (String value)
+	public void setState (String value)
 	{
-		data.set (Properties.VERSION_IND.getKey (), value);
+		data.set (Properties.STATE.getKey (), value);
 	}
 	
 	
-	public String getVersionInd ()
+	public String getState ()
 	{
-		return (String) data.get (Properties.VERSION_IND.getKey ());
+		return (String) data.get (Properties.STATE.getKey ());
+	}
+	
+	
+	public void set_runtimeData (RuntimeDataHelper value)
+	{
+		data.set (Properties._RUNTIME_DATA.getKey (), value.getData ());
+	}
+	
+	
+	public RuntimeDataHelper get_runtimeData ()
+	{
+		return new RuntimeDataHelper ((Data) data.get (Properties._RUNTIME_DATA.getKey ()));
 	}
 	
 }

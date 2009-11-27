@@ -45,7 +45,7 @@ public class CreditCourseDurationMetadata
 		Metadata childMeta;
 		Metadata listMeta;
 		
-		// metadata for termType
+		// metadata for TermType
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.TERM_TYPE.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
@@ -61,7 +61,7 @@ public class CreditCourseDurationMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("duration.types"));
 		}
 		
-		// metadata for quantity
+		// metadata for Quantity
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.QUANTITY.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.INTEGER);

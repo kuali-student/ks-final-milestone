@@ -20,14 +20,13 @@ import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
 
 
-public class ModifyCreditCourseProposalHelper
+public class RuntimeDataIsCreatedHelper
 {
 	private static final long serialVersionUID = 1;
 	
 	public enum Properties implements PropertyEnum
 	{
-		CREDIT_COURSE_PROPOSAL ("creditCourseProposal"),
-		ORIGINAL ("original");
+		VERSION_IND ("versionInd");
 		
 		private final String key;
 		
@@ -44,7 +43,7 @@ public class ModifyCreditCourseProposalHelper
 	}
 	private Data data;
 	
-	public ModifyCreditCourseProposalHelper (Data data)
+	public RuntimeDataIsCreatedHelper (Data data)
 	{
 		this.data = data;
 	}
@@ -55,27 +54,15 @@ public class ModifyCreditCourseProposalHelper
 	}
 	
 	
-	public void setCreditCourseProposal (CreditCourseProposalHelper value)
+	public void setVersionInd (String value)
 	{
-		data.set (Properties.CREDIT_COURSE_PROPOSAL.getKey (), value.getData ());
+		data.set (Properties.VERSION_IND.getKey (), value);
 	}
 	
 	
-	public CreditCourseProposalHelper getCreditCourseProposal ()
+	public String getVersionInd ()
 	{
-		return new CreditCourseProposalHelper ((Data) data.get (Properties.CREDIT_COURSE_PROPOSAL.getKey ()));
-	}
-	
-	
-	public void setOriginal (CreditCourseHelper value)
-	{
-		data.set (Properties.ORIGINAL.getKey (), value.getData ());
-	}
-	
-	
-	public CreditCourseHelper getOriginal ()
-	{
-		return new CreditCourseHelper ((Data) data.get (Properties.ORIGINAL.getKey ()));
+		return (String) data.get (Properties.VERSION_IND.getKey ());
 	}
 	
 }

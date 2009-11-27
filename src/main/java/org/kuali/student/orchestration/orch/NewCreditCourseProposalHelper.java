@@ -26,9 +26,8 @@ public class NewCreditCourseProposalHelper
 	
 	public enum Properties implements PropertyEnum
 	{
-		ID ("Id"),
-		PROPOSAL ("Proposal"),
-		BASED_ON ("BasedOn");
+		CREDIT_COURSE_PROPOSAL ("creditCourseProposal"),
+		BASED_ON ("basedOn");
 		
 		private final String key;
 		
@@ -56,27 +55,15 @@ public class NewCreditCourseProposalHelper
 	}
 	
 	
-	public void setId (String value)
+	public void setCreditCourseProposal (CreditCourseProposalHelper value)
 	{
-		data.set (Properties.ID.getKey (), value);
+		data.set (Properties.CREDIT_COURSE_PROPOSAL.getKey (), value.getData ());
 	}
 	
 	
-	public String getId ()
+	public CreditCourseProposalHelper getCreditCourseProposal ()
 	{
-		return (String) data.get (Properties.ID.getKey ());
-	}
-	
-	
-	public void setProposal (CreditCourseProposalHelper value)
-	{
-		data.set (Properties.PROPOSAL.getKey (), value.getData ());
-	}
-	
-	
-	public CreditCourseProposalHelper getProposal ()
-	{
-		return new CreditCourseProposalHelper ((Data) data.get (Properties.PROPOSAL.getKey ()));
+		return new CreditCourseProposalHelper ((Data) data.get (Properties.CREDIT_COURSE_PROPOSAL.getKey ()));
 	}
 	
 	

@@ -20,15 +20,18 @@ import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
 
 
-public class CreditCourseProposalKeyDataHelper
+public class CreditCourseProposalInfoHelper
 {
 	private static final long serialVersionUID = 1;
 	
 	public enum Properties implements PropertyEnum
 	{
+		ID ("id"),
 		TITLE ("title"),
-		PROPOSER ("proposer"),
-		DEPARTMENT ("department");
+		RATIONALE ("rationale"),
+		REFERENCE_TYPE ("referenceType"),
+		REFERENCES ("references"),
+		_RUNTIME_DATA ("_runtimeData");
 		
 		private final String key;
 		
@@ -45,7 +48,7 @@ public class CreditCourseProposalKeyDataHelper
 	}
 	private Data data;
 	
-	public CreditCourseProposalKeyDataHelper (Data data)
+	public CreditCourseProposalInfoHelper (Data data)
 	{
 		this.data = data;
 	}
@@ -53,6 +56,18 @@ public class CreditCourseProposalKeyDataHelper
 	public Data getData ()
 	{
 		return data;
+	}
+	
+	
+	public void setId (String value)
+	{
+		data.set (Properties.ID.getKey (), value);
+	}
+	
+	
+	public String getId ()
+	{
+		return (String) data.get (Properties.ID.getKey ());
 	}
 	
 	
@@ -68,27 +83,51 @@ public class CreditCourseProposalKeyDataHelper
 	}
 	
 	
-	public void setProposer (String value)
+	public void setRationale (String value)
 	{
-		data.set (Properties.PROPOSER.getKey (), value);
+		data.set (Properties.RATIONALE.getKey (), value);
 	}
 	
 	
-	public String getProposer ()
+	public String getRationale ()
 	{
-		return (String) data.get (Properties.PROPOSER.getKey ());
+		return (String) data.get (Properties.RATIONALE.getKey ());
 	}
 	
 	
-	public void setDepartment (String value)
+	public void setReferenceType (String value)
 	{
-		data.set (Properties.DEPARTMENT.getKey (), value);
+		data.set (Properties.REFERENCE_TYPE.getKey (), value);
 	}
 	
 	
-	public String getDepartment ()
+	public String getReferenceType ()
 	{
-		return (String) data.get (Properties.DEPARTMENT.getKey ());
+		return (String) data.get (Properties.REFERENCE_TYPE.getKey ());
+	}
+	
+	
+	public void setReferences (Data value)
+	{
+		data.set (Properties.REFERENCES.getKey (), value);
+	}
+	
+	
+	public Data getReferences ()
+	{
+		return (Data) data.get (Properties.REFERENCES.getKey ());
+	}
+	
+	
+	public void set_runtimeData (RuntimeDataHelper value)
+	{
+		data.set (Properties._RUNTIME_DATA.getKey (), value.getData ());
+	}
+	
+	
+	public RuntimeDataHelper get_runtimeData ()
+	{
+		return new RuntimeDataHelper ((Data) data.get (Properties._RUNTIME_DATA.getKey ()));
 	}
 	
 }

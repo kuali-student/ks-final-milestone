@@ -18,7 +18,6 @@ package org.kuali.student.orchestration.orch;
 
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
-import org.kuali.student.orchestration.base.RichTextInfoHelper;
 
 
 public class CreditCourseProposalHelper
@@ -27,14 +26,10 @@ public class CreditCourseProposalHelper
 	
 	public enum Properties implements PropertyEnum
 	{
-		ID ("Id"),
-		TYPE ("Type"),
-		STATE ("State"),
-		RATIONALE ("Rationale"),
-		TITLE ("Title"),
-		PROPOSER ("Proposer"),
-		CREDIT_COURSE ("CreditCourse"),
-		VERSION_IND ("VersionInd");
+		COURSE ("course"),
+		PROPOSAL ("proposal"),
+		STATE ("state"),
+		TYPE ("type");
 		
 		private final String key;
 		
@@ -62,27 +57,27 @@ public class CreditCourseProposalHelper
 	}
 	
 	
-	public void setId (String value)
+	public void setCourse (CreditCourseHelper value)
 	{
-		data.set (Properties.ID.getKey (), value);
+		data.set (Properties.COURSE.getKey (), value.getData ());
 	}
 	
 	
-	public String getId ()
+	public CreditCourseHelper getCourse ()
 	{
-		return (String) data.get (Properties.ID.getKey ());
+		return new CreditCourseHelper ((Data) data.get (Properties.COURSE.getKey ()));
 	}
 	
 	
-	public void setType (String value)
+	public void setProposal (CreditCourseProposalInfoHelper value)
 	{
-		data.set (Properties.TYPE.getKey (), value);
+		data.set (Properties.PROPOSAL.getKey (), value.getData ());
 	}
 	
 	
-	public String getType ()
+	public CreditCourseProposalInfoHelper getProposal ()
 	{
-		return (String) data.get (Properties.TYPE.getKey ());
+		return new CreditCourseProposalInfoHelper ((Data) data.get (Properties.PROPOSAL.getKey ()));
 	}
 	
 	
@@ -98,63 +93,15 @@ public class CreditCourseProposalHelper
 	}
 	
 	
-	public void setRationale (RichTextInfoHelper value)
+	public void setType (String value)
 	{
-		data.set (Properties.RATIONALE.getKey (), value.getData ());
+		data.set (Properties.TYPE.getKey (), value);
 	}
 	
 	
-	public RichTextInfoHelper getRationale ()
+	public String getType ()
 	{
-		return new RichTextInfoHelper ((Data) data.get (Properties.RATIONALE.getKey ()));
-	}
-	
-	
-	public void setTitle (String value)
-	{
-		data.set (Properties.TITLE.getKey (), value);
-	}
-	
-	
-	public String getTitle ()
-	{
-		return (String) data.get (Properties.TITLE.getKey ());
-	}
-	
-	
-	public void setProposer (String value)
-	{
-		data.set (Properties.PROPOSER.getKey (), value);
-	}
-	
-	
-	public String getProposer ()
-	{
-		return (String) data.get (Properties.PROPOSER.getKey ());
-	}
-	
-	
-	public void setCreditCourse (CreditCourseHelper value)
-	{
-		data.set (Properties.CREDIT_COURSE.getKey (), value.getData ());
-	}
-	
-	
-	public CreditCourseHelper getCreditCourse ()
-	{
-		return new CreditCourseHelper ((Data) data.get (Properties.CREDIT_COURSE.getKey ()));
-	}
-	
-	
-	public void setVersionInd (String value)
-	{
-		data.set (Properties.VERSION_IND.getKey (), value);
-	}
-	
-	
-	public String getVersionInd ()
-	{
-		return (String) data.get (Properties.VERSION_IND.getKey ());
+		return (String) data.get (Properties.TYPE.getKey ());
 	}
 	
 }

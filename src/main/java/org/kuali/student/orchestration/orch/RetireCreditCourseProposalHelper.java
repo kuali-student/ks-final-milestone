@@ -26,9 +26,9 @@ public class RetireCreditCourseProposalHelper
 	
 	public enum Properties implements PropertyEnum
 	{
-		ID ("Id"),
-		PROPOSAL ("Proposal"),
-		ORIGINAL ("Original");
+		ID ("id"),
+		PROPOSAL ("proposal"),
+		ORIGINAL ("original");
 		
 		private final String key;
 		

@@ -73,7 +73,7 @@ public class CluFeeRecordInfoMetadata
 		// metadata for affiliatedOrgInfoList
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.AFFILIATED_ORG_INFO_LIST.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.DATA);
+		childMeta.setDataType (Data.DataType.LIST);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
@@ -81,10 +81,10 @@ public class CluFeeRecordInfoMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 		}
 		listMeta = new Metadata ();
-		listMeta.setDataType (Data.DataType.LIST);
+		listMeta.setDataType (Data.DataType.DATA);
 		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
-		new AffiliatedOrgInfoMetadata ().loadChildMetadata (listMeta, type, state);
+		new AffiliatedOrgInfoMetadata ().loadChildMetadata (childMeta, type, state);
 		
 		// metadata for attributes
 		childMeta = new Metadata ();
@@ -101,7 +101,7 @@ public class CluFeeRecordInfoMetadata
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.ID.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("read.only"));

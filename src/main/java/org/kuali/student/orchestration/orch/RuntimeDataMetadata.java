@@ -18,11 +18,12 @@ package org.kuali.student.orchestration.orch;
 
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
+import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.orchestration.ConstraintMetadataBank;
-import org.kuali.student.orchestration.orch.NewCreditCourseProposalHelper.Properties;
+import org.kuali.student.orchestration.orch.RuntimeDataHelper.Properties;
 
 
-public class NewCreditCourseProposalMetadata
+public class RuntimeDataMetadata
 {
 	
 	public boolean matches (String inputType, String inputState, String dictType, String dictState)
@@ -45,27 +46,52 @@ public class NewCreditCourseProposalMetadata
 		Metadata childMeta;
 		Metadata listMeta;
 		
-		// metadata for CreditCourseProposal
+		// metadata for IsCreated
 		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.CREDIT_COURSE_PROPOSAL.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.DATA);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		mainMeta.getProperties ().put (Properties.IS_CREATED.getKey (), childMeta);
+		childMeta.setDataType (Data.DataType.STRING);
+		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
+		childMeta.setDefaultValue (new Data.StringValue ("false"));
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 		}
-		new CreditCourseProposalMetadata ().loadChildMetadata (childMeta, type, state);
 		
-		// metadata for BasedOn
+		// metadata for IsDeleted
 		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.BASED_ON.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.DATA);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ON_CREATE);
+		mainMeta.getProperties ().put (Properties.IS_DELETED.getKey (), childMeta);
+		childMeta.setDataType (Data.DataType.STRING);
+		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
+		childMeta.setDefaultValue (new Data.StringValue ("false"));
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 		}
-		new CreditCourseMetadata ().loadChildMetadata (childMeta, type, state);
+		
+		// metadata for IsUpdated
+		childMeta = new Metadata ();
+		mainMeta.getProperties ().put (Properties.IS_UPDATED.getKey (), childMeta);
+		childMeta.setDataType (Data.DataType.STRING);
+		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
+		childMeta.setDefaultValue (new Data.StringValue ("false"));
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+		}
+		
+		// metadata for Versions
+		childMeta = new Metadata ();
+		mainMeta.getProperties ().put (Properties.VERSIONS.getKey (), childMeta);
+		childMeta.setDataType (Data.DataType.LIST);
+		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
+		}
+		listMeta = new Metadata ();
+		listMeta.setDataType (Data.DataType.STRING);
+		listMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
+		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
 		
 	}
 }

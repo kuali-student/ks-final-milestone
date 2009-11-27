@@ -127,7 +127,7 @@ public class LoLoRelationTypeInfoMetadata
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.KEY.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));

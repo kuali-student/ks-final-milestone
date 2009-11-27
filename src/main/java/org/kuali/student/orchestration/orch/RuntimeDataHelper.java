@@ -20,14 +20,16 @@ import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
 
 
-public class ModifyCreditCourseProposalHelper
+public class RuntimeDataHelper
 {
 	private static final long serialVersionUID = 1;
 	
 	public enum Properties implements PropertyEnum
 	{
-		CREDIT_COURSE_PROPOSAL ("creditCourseProposal"),
-		ORIGINAL ("original");
+		IS_CREATED ("isCreated"),
+		IS_DELETED ("isDeleted"),
+		IS_UPDATED ("isUpdated"),
+		VERSIONS ("versions");
 		
 		private final String key;
 		
@@ -44,7 +46,7 @@ public class ModifyCreditCourseProposalHelper
 	}
 	private Data data;
 	
-	public ModifyCreditCourseProposalHelper (Data data)
+	public RuntimeDataHelper (Data data)
 	{
 		this.data = data;
 	}
@@ -55,27 +57,51 @@ public class ModifyCreditCourseProposalHelper
 	}
 	
 	
-	public void setCreditCourseProposal (CreditCourseProposalHelper value)
+	public void setIsCreated (String value)
 	{
-		data.set (Properties.CREDIT_COURSE_PROPOSAL.getKey (), value.getData ());
+		data.set (Properties.IS_CREATED.getKey (), value);
 	}
 	
 	
-	public CreditCourseProposalHelper getCreditCourseProposal ()
+	public String getIsCreated ()
 	{
-		return new CreditCourseProposalHelper ((Data) data.get (Properties.CREDIT_COURSE_PROPOSAL.getKey ()));
+		return (String) data.get (Properties.IS_CREATED.getKey ());
 	}
 	
 	
-	public void setOriginal (CreditCourseHelper value)
+	public void setIsDeleted (String value)
 	{
-		data.set (Properties.ORIGINAL.getKey (), value.getData ());
+		data.set (Properties.IS_DELETED.getKey (), value);
 	}
 	
 	
-	public CreditCourseHelper getOriginal ()
+	public String getIsDeleted ()
 	{
-		return new CreditCourseHelper ((Data) data.get (Properties.ORIGINAL.getKey ()));
+		return (String) data.get (Properties.IS_DELETED.getKey ());
+	}
+	
+	
+	public void setIsUpdated (String value)
+	{
+		data.set (Properties.IS_UPDATED.getKey (), value);
+	}
+	
+	
+	public String getIsUpdated ()
+	{
+		return (String) data.get (Properties.IS_UPDATED.getKey ());
+	}
+	
+	
+	public void setVersions (Data value)
+	{
+		data.set (Properties.VERSIONS.getKey (), value);
+	}
+	
+	
+	public Data getVersions ()
+	{
+		return (Data) data.get (Properties.VERSIONS.getKey ());
 	}
 	
 }
