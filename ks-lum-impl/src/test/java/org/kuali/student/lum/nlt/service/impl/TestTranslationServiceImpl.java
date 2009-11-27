@@ -450,6 +450,7 @@ public class TestTranslationServiceImpl extends AbstractServiceTest {
 	@Test
 	public void testGetNaturalLanguageForStatementInfoAsTree() throws DoesNotExistException, OperationFailedException, MissingParameterException, InvalidParameterException, VersionMismatchException {
 		LuStatementInfo statementInfo = createLuStatement1();
+		statementInfo.setCluIds(Arrays.asList(new String[] {"CLU-NL-1"}));
 		NLTranslationNodeInfo rootNode = client.getNaturalLanguageForStatementInfoAsTree("CLU-NL-1", statementInfo, "KUALI.CATALOG", "en");
 
 		assertEquals("STMT-5", rootNode.getId());
@@ -462,6 +463,7 @@ public class TestTranslationServiceImpl extends AbstractServiceTest {
 	@Test
 	public void testGetNaturalLanguageForStatementInfoAsTree_EnglishGerman() throws DoesNotExistException, OperationFailedException, MissingParameterException, InvalidParameterException, VersionMismatchException {
 		LuStatementInfo statementInfo = createLuStatement1();
+		statementInfo.setCluIds(Arrays.asList(new String[] {"CLU-NL-1"}));
 		NLTranslationNodeInfo rootNode = client.getNaturalLanguageForStatementInfoAsTree("CLU-NL-1", statementInfo, "KUALI.CATALOG", "en");
 
 		assertEquals("STMT-5", rootNode.getId());

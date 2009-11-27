@@ -424,7 +424,15 @@ public class LuServiceAssembler extends BaseAssembler {
         BeanUtils.copyProperties(entity, dto, new String[] { "parent", "children",
                 "requiredComponents", "luStatementType", "attributes", "metaInfo" });
 
-		if(entity.getParent() != null) {
+		if(entity.getClus() != null) {
+	        List<String> cluIds = new ArrayList<String>(entity.getClus().size());
+			for (Clu clu : entity.getClus()) {
+				cluIds.add(clu.getId());
+			}
+			dto.setCluIds(cluIds);
+		}
+
+        if(entity.getParent() != null) {
 			dto.setParentId(entity.getParent().getId());
 		}
         List<String> statementIds = new ArrayList<String>(entity.getChildren().size());
@@ -472,13 +480,18 @@ public class LuServiceAssembler extends BaseAssembler {
             stmt = new LuStatement();
         }
 
-        BeanUtils.copyProperties(stmtInfo, stmt, new String[]{"luStatementIds", 
+        BeanUtils.copyProperties(stmtInfo, stmt, new String[]{"cluIds", "luStatementIds", 
         		"reqComponentIds", "attributes", "metaInfo", "type", 
         		"parent", "children", "requiredComponents", "luStatementType"});
 
         // Copy generic attributes
         stmt.setAttributes(toGenericAttributes(LuStatementAttribute.class, stmtInfo.getAttributes(), stmt, dao));
 
+        if(stmtInfo.getCluIds() != null) {
+        	List<Clu> cluList = dao.getClusByIdList(stmtInfo.getCluIds());
+        	stmt.setClus(cluList);
+        }
+        
         // Search for and copy the type
         LuStatementType stmtType = dao.fetch(LuStatementType.class, stmtInfo.getType());
         if (stmtType == null) {

@@ -183,6 +183,8 @@ public class TestLuDSLServiceImpl extends AbstractServiceTest {
         assertEquals("STMT 2", stmt.getName());
         assertEquals("Statement 2", stmt.getDesc());
 
+        assertTrue(stmt.getCluIds().contains("CLU-2"));
+        
         List<String> reqCompIds = stmt.getReqComponentIds();
         assertEquals(3, reqCompIds.size());
 

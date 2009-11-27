@@ -80,6 +80,9 @@ public class LuStatementInfo implements Serializable, Idable, HasTypeState, HasA
     @XmlElement
     private LuStatementTypeInfo luStatementType;
 
+    @XmlElement
+    private List<String> cluIds;
+
     /**
      * Friendly name for the LU statement.
      */
@@ -216,6 +219,14 @@ public class LuStatementInfo implements Serializable, Idable, HasTypeState, HasA
 		if(luStatementType != null) {
 			setType(luStatementType.getId());
 		}
+	}
+
+	public List<String> getCluIds() {
+		return cluIds;
+	}
+
+	public void setCluIds(List<String> clus) {
+		this.cluIds = clus;
 	}
 
 	@Override

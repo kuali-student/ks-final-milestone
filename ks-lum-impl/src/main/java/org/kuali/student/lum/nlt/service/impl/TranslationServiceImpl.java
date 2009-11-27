@@ -54,6 +54,7 @@ public class TranslationServiceImpl implements TranslationService {
 	/**
 	 * <p>Translates and retrieves a statement directly attached to a CLU 
 	 * for a specific usuage type (context) into natural language. 
+	 * 
 	 * If <code>cluId</code> is null or empty then statement header is not
 	 * generated</p>
 	 * 
@@ -68,7 +69,7 @@ public class TranslationServiceImpl implements TranslationService {
 	 * @param luStatementId Statement to translate
 	 * @param nlUsageTypeKey Natural language usage type key (context)
 	 * @param language Translation language
-     * @throws DoesNotExistException Statement not found
+     * @throws DoesNotExistException Statement not found or Clu anchor not found in statement
      * @throws InvalidParameterException Invalid nlUsageTypeKey 
      * @throws MissingParameterException Missing luStatementId or nlUsageTypeKey
      * @throws OperationFailedException Unable to complete request
@@ -87,6 +88,7 @@ public class TranslationServiceImpl implements TranslationService {
 				this.naturalLanguageTranslator.setLanguage(language);
 			}
 			LuStatementInfo luStatementInfo = this.luService.getLuStatement(luStatementId);
+			checkCluExistsInLuStatementInfo(cluId, luStatementInfo);
 			CustomLuStatementInfo customInfo = dtoAdapter.toCustomLuStatementInfo(luStatementInfo);
 			String nl = this.naturalLanguageTranslator.translateStatement(cluId, customInfo, nlUsageTypeKey);
 			return nl;
@@ -236,7 +238,7 @@ public class TranslationServiceImpl implements TranslationService {
 	 * @param nlUsageTypeKey Natural language usage type key (context)
 	 * @param language Translation language
 	 * @return Natural language root tree node
-	 * @throws DoesNotExistException CLU or statement does not exist
+	 * @throws DoesNotExistException CLU or statement does not exist or Clu anchor not found in statement
 	 * @throws OperationFailedException Translation fails
 	 */
 	public NLTranslationNodeInfo getNaturalLanguageForStatementAsTree(String cluId, String luStatementId, String nlUsageTypeKey, String language) throws DoesNotExistException, OperationFailedException, MissingParameterException, InvalidParameterException {
@@ -250,6 +252,7 @@ public class TranslationServiceImpl implements TranslationService {
 				this.naturalLanguageTranslator.setLanguage(language);
 			}
 			LuStatementInfo luStatementInfo = this.luService.getLuStatement(luStatementId);
+			checkCluExistsInLuStatementInfo(cluId, luStatementInfo);
 			CustomLuStatementInfo customInfo = this.dtoAdapter.toCustomLuStatementInfo(luStatementInfo);
 			return this.naturalLanguageTranslator.translateToTree(cluId, customInfo, nlUsageTypeKey);
 		} finally {
@@ -274,7 +277,7 @@ public class TranslationServiceImpl implements TranslationService {
 	 * @param statement Statement to translated
 	 * @param nlUsageTypeKey Natural language usage type key (context)
 	 * @return Natural language root tree node
-	 * @throws DoesNotExistException CLU or statement does not exist
+	 * @throws DoesNotExistException CLU or statement does not exist or Clu anchor not found in statement
 	 * @throws OperationFailedException Translation fails
      * @throws MissingParameterException Missing reqComponentId or nlUsageTypeKey
      * @throws InvalidParameterException Invalid CLU id or nlUsageTypeKey 
@@ -284,6 +287,7 @@ public class TranslationServiceImpl implements TranslationService {
 		checkForMissingParameter(statementInfo, "statementInfo");
 		checkForNullOrEmptyParameter(nlUsageTypeKey, "nlUsageTypeKey");
 		checkForEmptyParameter(language, "language");
+		checkCluExistsInLuStatementInfo(cluId, statementInfo);
 
 		CustomLuStatementInfo customInfo = this.dtoAdapter.toCustomLuStatementInfo(statementInfo);
 		
@@ -343,4 +347,23 @@ public class TranslationServiceImpl implements TranslationService {
 		}
 	}
 
+	/**
+	 * Checks whether <code>cluId</code> is in the 
+	 * <code>luStatementInfo</code>'s list of of anchor CLU ids.
+	 * 
+	 * @param cluId CLU id
+	 * @param luStatementInfo LU statement info
+	 * @throws DoesNotExistException Thrown if cluId is not an anchor for LU statement
+	 */
+	private void checkCluExistsInLuStatementInfo(String cluId, LuStatementInfo luStatementInfo) throws DoesNotExistException {
+		if(cluId == null || cluId.isEmpty()) {
+			return;
+		}
+		if (luStatementInfo.getCluIds() == null || luStatementInfo.getCluIds().isEmpty()) {
+			throw new DoesNotExistException("LU statement has no anchor CLUs: luStatementId=" + luStatementInfo.getId());
+		}
+		if (!luStatementInfo.getCluIds().contains(cluId)) {
+			throw new DoesNotExistException("Anchor CLU does not exists in LU statement: CluId=" + cluId);
+		}
+	}
 }
