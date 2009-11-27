@@ -17,7 +17,7 @@ package org.kuali.student.common.assembly.client;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -85,13 +85,13 @@ public class Metadata implements Serializable {
 		return lookupMetadata;
 	}
 
-	public void setLookupMetadata(LookupMetadata lookupMetadata) {
+ 	public void setLookupMetadata(LookupMetadata lookupMetadata) {
 		this.lookupMetadata = lookupMetadata;
 	}
 
-	public Map<String, Metadata> getProperties() {
+ 	public Map<String, Metadata> getProperties() {
 		if (childProperties == null) {
-			childProperties = new HashMap<String, Metadata>();
+			childProperties = new LinkedHashMap<String, Metadata>();
 		}
 		return childProperties;
 	}
