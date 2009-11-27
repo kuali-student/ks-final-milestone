@@ -38,7 +38,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
  * @param <T>
  *            the type of model object to be contained within the model
  */
-public class Model<T> {
+public class CollectionModel<T> {
     private Map<String, T> data = new HashMap<String, T>();
     private HandlerManager handlers = new HandlerManager(this);
     private transient ChangeCallbackRegistration bridgeCallbackReg;

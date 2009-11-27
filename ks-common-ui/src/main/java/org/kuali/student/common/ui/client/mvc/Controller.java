@@ -15,8 +15,6 @@
 package org.kuali.student.common.ui.client.mvc;
 
 import org.kuali.student.common.ui.client.mvc.events.ViewChangeEvent;
-import org.kuali.student.common.ui.client.mvc.test.AddressManager.AddressViews;
-import org.kuali.student.core.dto.Idable;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;

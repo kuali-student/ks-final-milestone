@@ -30,7 +30,7 @@ public interface ModelRequestCallback<T> {
      * @param model
      *            the model that was requested
      */
-    public void onModelReady(Model<T> model);
+    public void onModelReady(CollectionModel<T> model);
 
     /**
      * Called when the controller was unable to provide the model
