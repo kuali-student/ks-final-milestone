@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class Metadata implements Serializable {
 	// TODO this class, and referenced classes, need to be moved into a GWT
@@ -40,6 +41,39 @@ public class Metadata implements Serializable {
 	private LookupMetadata lookupMetadata;
 	private Map<String, Metadata> childProperties;
 
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		_toString(sb);
+		return sb.toString();
+	}
+	
+	protected void _toString(StringBuilder sb) {
+		Data.DataType type = (dataType == null) ? Data.DataType.DATA : dataType;
+		sb.append("Type: ");
+		sb.append(type.toString());
+		sb.append(", Default: ");
+		sb.append(defaultValue == null ? "null" : defaultValue.toString());
+		sb.append(", Properties: {" );
+		if (childProperties != null) {
+			for (Entry<String, Metadata> e : childProperties.entrySet()) {
+				sb.append("(");
+				sb.append(e.getKey());
+				sb.append(" = ");
+				Metadata m = e.getValue();
+				if (m == null) {
+					sb.append("null");
+				} else {
+					m._toString(sb);
+				}
+				sb.append(");");
+			}
+		}
+		sb.append("}");
+		// TODO dump lookup/constraint/etc info as well
+	}
+	
 	public List<ConstraintMetadata> getConstraints() {
 		if (constraints == null) {
 			constraints = new ArrayList<ConstraintMetadata>();
@@ -118,4 +152,6 @@ public class Metadata implements Serializable {
 		this.onChangeRefereshMetadata = onChangeRefereshMetadata;
 	}
 
+
+	
 }
