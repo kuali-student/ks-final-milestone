@@ -156,18 +156,28 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
         CategoryManagementComposite(){
             KSLabel titleLabel = new KSLabel("Categories Management");
             
-            VerticalPanel batchCreatePanel = new VerticalPanel();
             
 
             
             KSTabPanel tabPanel = new KSTabPanel();
             tabPanel.addTab("C", "Create/Modify", createModifyPanel());
-            tabPanel.addTab("B", "Batch Create", batchCreatePanel);
+            tabPanel.addTab("B", "Batch Create", batchCreatePanel());
             mainPanel.add(titleLabel);
             mainPanel.add(tabPanel);
             super.initWidget(mainPanel);
         }
-        
+        private Widget batchCreatePanel(){
+            VerticalPanel batchCreatePanel = new VerticalPanel();
+            FlexTable categoryTable = new FlexTable();
+            categoryTable.setWidget(0,0, new KSLabel("Category"));
+            categoryTable.setWidget(0,1, new KSLabel("Type"));
+
+            categoryTable.setWidget(1,0, new KSTextBox());
+            categoryTable.setWidget(1,1, new KSTextBox());
+
+            batchCreatePanel.add(categoryTable);
+            return batchCreatePanel;
+        }
         private Widget createModifyPanel(){
             VerticalPanel createModifyPanel = new VerticalPanel();
             HorizontalPanel createPanel = new HorizontalPanel();
