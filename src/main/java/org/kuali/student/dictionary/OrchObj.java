@@ -195,52 +195,30 @@ public class OrchObj
   this.comments = comments;
  }
 
- private String category;
 
- public String getCategory ()
+ private String id;
+
+ public String getId ()
  {
-  return category;
+  return id;
  }
 
- public void setCategory (String category)
+ public void setId (String id)
  {
-  this.category = category;
+  this.id = id;
  }
 
- private String key;
 
- public String getKey ()
+ private String writeAccess;
+
+ public String getWriteAccess ()
  {
-  return key;
+  return writeAccess;
  }
 
- public void setKey (String key)
+ public void setWriteAccess (String writeAccess)
  {
-  this.key = key;
- }
-
- private String parentKey;
-
- public String getParentKey ()
- {
-  return parentKey;
- }
-
- public void setParentKey (String parentKey)
- {
-  this.parentKey = parentKey;
- }
-
- private String fullyQualifiedKey;
-
- public String getFullyQualifiedKey ()
- {
-  return fullyQualifiedKey;
- }
-
- public void setFullyQualifiedKey (String fullyQualifiedKey)
- {
-  this.fullyQualifiedKey = fullyQualifiedKey;
+  this.writeAccess = writeAccess;
  }
 
 }

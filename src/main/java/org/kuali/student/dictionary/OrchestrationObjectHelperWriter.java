@@ -84,7 +84,7 @@ public class OrchestrationObjectHelperWriter extends JavaClassWriter
     comma = ";";
    }
    String constant = new JavaEnumConstantCalculator (field.getName ()).calc ();
-   indentPrintln (constant + " (\"" + field.getName () + "\")" + comma);
+   indentPrintln (constant + " (\"" + field.getPropertyName () + "\")" + comma);
   }
   indentPrintln ("");
   indentPrintln ("private final String key;");
@@ -120,8 +120,8 @@ public class OrchestrationObjectHelperWriter extends JavaClassWriter
 
   for (OrchestrationObjectField field : orchObj.getFields ())
   {
-   String setter = calcSetterMethodName (field.getName ());
-   String getter = calcGetterMethodName (field.getName ());
+   String setter = "set" + field.getProperName ();
+   String getter = "get" + field.getProperName ();
    String fieldTypeToUse = calcFieldTypeToUse (field);
    String constant = new JavaEnumConstantCalculator (field.getName ()).calc ();
 
@@ -188,16 +188,6 @@ public class OrchestrationObjectHelperWriter extends JavaClassWriter
 
   this.writeJavaClassAndImportsOutToFile ();
   this.getOut ().close ();
- }
-
- public static String calcGetterMethodName (String name)
- {
-  return "get" + name.substring (0, 1).toUpperCase () + name.substring (1);
- }
-
- public static String calcSetterMethodName (String name)
- {
-  return "set" + name.substring (0, 1).toUpperCase () + name.substring (1);
  }
 
  private String calcFieldTypeToUse (OrchestrationObjectField field)

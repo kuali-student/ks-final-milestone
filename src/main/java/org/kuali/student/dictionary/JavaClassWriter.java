@@ -106,7 +106,7 @@ public abstract class JavaClassWriter extends XmlWriter
  {
 
   File dir = new File (this.directory);
-  System.out.println ("Writing " + fileName + " to " + dir.getAbsolutePath ());
+  //System.out.println ("Writing java class: " + fileName + " to " + dir.getAbsolutePath ());
 
   if ( ! dir.exists ())
   {

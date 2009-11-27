@@ -50,7 +50,7 @@ public class OrchestrationObjectsWriter
   // do the helpers first
   for (OrchestrationObject oo : orchObjs.values ())
   {
-   System.out.println ("Writing out " + oo.getFullyQualifiedJavaClassHelperName ());
+   System.out.println ("Writing out helper class: " + oo.getFullyQualifiedJavaClassHelperName ());
    OrchestrationObjectHelperWriter writer =
     new OrchestrationObjectHelperWriter (model, directory, orchObjs, oo);
    writer.write ();
@@ -62,7 +62,7 @@ public class OrchestrationObjectsWriter
   // do the metadata next
   for (OrchestrationObject oo : orchObjs.values ())
   {
-   System.out.println ("Writing out " + oo.getFullyQualifiedJavaClassMetadataName ());
+   System.out.println ("Writing out metadata class: " + oo.getFullyQualifiedJavaClassMetadataName ());
    OrchestrationObjectMetadataWriter writer =
     new OrchestrationObjectMetadataWriter (model, directory, orchObjs, oo);
    writer.write ();

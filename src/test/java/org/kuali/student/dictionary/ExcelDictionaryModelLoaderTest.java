@@ -203,15 +203,14 @@ public class ExcelDictionaryModelLoaderTest implements TestConstants
   System.out.println ("getOrchObjs");
 //  List<Type> expResult = new ArrayList ();
   List<OrchObj> result = instance.getOrchObjs ();
-//  for (MessageStructureField field : result)
-//  {
-//   System.out.println (field.getObjectField ());
-//  }
+  for (OrchObj orch : result)
+  {
+   System.out.println (orch.getId ());
+  }
   if (result.size () < 50)
   {
    fail ("too few rows should be > 50 but was" + result.size ());
   }
-  //assertEquals (135, result.size ());
   assertEquals (true, true);
  }
 
@@ -221,7 +220,7 @@ public class ExcelDictionaryModelLoaderTest implements TestConstants
  @Test
  public void testGetMessageStructures ()
  {
-  System.out.println ("getOrchObjs");
+  System.out.println ("getMessageStructures");
 //  List<Type> expResult = new ArrayList ();
   List<MessageStructure> result = instance.getMessageStructures ();
 //  for (MessageStructureField field : result)

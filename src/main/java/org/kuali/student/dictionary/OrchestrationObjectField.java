@@ -62,6 +62,17 @@ public class OrchestrationObjectField
   return name;
  }
 
+ public String getPropertyName ()
+ {
+  return name.substring (0, 1).toLowerCase () + name.substring (1);
+ }
+
+ public String getProperName ()
+ {
+  return name.substring (0, 1).toUpperCase () + name.substring (1);
+ }
+
+
  public void setType (String type)
  {
   this.type = type;
@@ -131,8 +142,26 @@ public class OrchestrationObjectField
   StringBuffer buf = new StringBuffer ();
   buf.append (getParent ().getName ());
   buf.append (".");
-  buf.append (getName ());
+  buf.append (getProperName ());
   return buf.toString ();
  }
+
+ public enum WriteAccess
+ {
+  ALWAYS, NEVER, ON_CREATE;
+ }
+ 
+ private WriteAccess writeAccess;
+
+ public WriteAccess getWriteAccess ()
+ {
+  return writeAccess;
+ }
+
+ public void setWriteAccess (WriteAccess writeAccess)
+ {
+  this.writeAccess = writeAccess;
+ }
+
 
 }

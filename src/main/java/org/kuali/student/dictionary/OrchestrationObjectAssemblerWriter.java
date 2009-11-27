@@ -122,10 +122,10 @@ public class OrchestrationObjectAssemblerWriter extends JavaClassWriter
  private void writeAssembleTransferDataForField (OrchestrationObjectField field)
  {
   indentPrintln ("");
-  indentPrintln ("// loading data for " + field.getName ());
+  indentPrintln ("// loading data for " + field.getProperName ());
   String constant = new JavaEnumConstantCalculator (field.getName ()).calc ();
   imports.add (orchObj.getFullyQualifiedJavaClassHelperName () + ".Properties");
-  String getter = "input." + calcGetterMethodName (field.getName ()) + " ()";
+  String getter = "input.get" + field.getProperName () + " ()";
   switch (field.getFieldTypeCategory ())
   {
    case PRIMITIVE:
@@ -267,7 +267,7 @@ public class OrchestrationObjectAssemblerWriter extends JavaClassWriter
   indentPrintln ("// loading info for " + field.getName ());
   String constant = new JavaEnumConstantCalculator (field.getName ()).calc ();
   imports.add (orchObj.getFullyQualifiedJavaClassHelperName () + ".Properties");
-  String setter = "result." + calcSetterMethodName (field.getName ());
+  String setter = "result.set" + field.getProperName ();
   switch (field.getFieldTypeCategory ())
   {
    case PRIMITIVE:
@@ -396,16 +396,6 @@ public class OrchestrationObjectAssemblerWriter extends JavaClassWriter
    default:
     throw new DictionaryExecutionException ("unhandled type");
   }
- }
-
- public static String calcGetterMethodName (String name)
- {
-  return "get" + name.substring (0, 1).toUpperCase () + name.substring (1);
- }
-
- public static String calcSetterMethodName (String name)
- {
-  return "set" + name.substring (0, 1).toUpperCase () + name.substring (1);
  }
 
 }

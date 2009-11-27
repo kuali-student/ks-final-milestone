@@ -49,7 +49,7 @@ public class OrchObjValidator implements ModelValidator
 
   private void addError (String msg)
  {
-  String key = orch.getFullyQualifiedKey ();
+  String key = orch.getId ();
   if (key.equals (""))
   {
    key = "";

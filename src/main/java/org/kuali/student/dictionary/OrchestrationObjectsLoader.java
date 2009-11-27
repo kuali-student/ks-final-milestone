@@ -81,6 +81,7 @@ public class OrchestrationObjectsLoader
       field.setType (calcType (ms.getType ()));
       field.setFieldTypeCategory (
        calcFieldTypeCategory (field, calcIsList (ms.getType ()), false));
+      field.setWriteAccess (calcMessageStructureWriteAccess (ms));
       loadMessageStructureFieldConstraints (field, field.getParent ().getName () +
        "." +
        field.getName ());
@@ -89,6 +90,47 @@ public class OrchestrationObjectsLoader
    }
   }
   return map;
+ }
+
+ private OrchestrationObjectField.WriteAccess calcMessageStructureWriteAccess (MessageStructure ms)
+ {
+  if (ms.getShortName ().equalsIgnoreCase ("id"))
+  {
+   return OrchestrationObjectField.WriteAccess.NEVER;
+  }
+  if (ms.getShortName ().equalsIgnoreCase ("key"))
+  {
+   return OrchestrationObjectField.WriteAccess.NEVER;
+  }
+  if (ms.getShortName ().equalsIgnoreCase ("type"))
+  {
+   return OrchestrationObjectField.WriteAccess.ON_CREATE;
+  }
+  if (ms.getShortName ().equalsIgnoreCase ("metaInfo"))
+  {
+   return OrchestrationObjectField.WriteAccess.NEVER;
+  }
+  if (ms.getShortName ().equalsIgnoreCase ("versionInd"))
+  {
+   return OrchestrationObjectField.WriteAccess.NEVER;
+  }
+  if (ms.getShortName ().equalsIgnoreCase ("createTime"))
+  {
+   return OrchestrationObjectField.WriteAccess.NEVER;
+  }
+  if (ms.getShortName ().equalsIgnoreCase ("createId"))
+  {
+   return OrchestrationObjectField.WriteAccess.NEVER;
+  }
+  if (ms.getShortName ().equalsIgnoreCase ("updateTime"))
+  {
+   return OrchestrationObjectField.WriteAccess.NEVER;
+  }
+  if (ms.getShortName ().equalsIgnoreCase ("updateId"))
+  {
+   return OrchestrationObjectField.WriteAccess.NEVER;
+  }
+  return OrchestrationObjectField.WriteAccess.ALWAYS;
  }
 
  private boolean calcIsList (String type)
@@ -156,6 +198,7 @@ public class OrchestrationObjectsLoader
   OrchestrationObjectField childField = null;
   for (OrchObj orch : model.getOrchObjs ())
   {
+   System.out.println ("Loading orchObj " + orch.getId ());
    // reset and add the object
    if ( ! orch.getParent ().equals (""))
    {
@@ -181,6 +224,7 @@ public class OrchestrationObjectsLoader
     childField.setDefaultValue (orch.getDefaultValue ());
     childField.setFieldTypeCategory (
      calcFieldTypeCategory (childField, calcIsCardList (orch.getCard1 ()), false));
+    childField.setWriteAccess (calcWriteAccess (orch));
     loadOrchObjsFieldConstraints (childField, orch);
     continue;
    }
@@ -206,12 +250,32 @@ public class OrchestrationObjectsLoader
     grandChildField.setDefaultValue (orch.getDefaultValue ());
     grandChildField.setFieldTypeCategory (
      calcFieldTypeCategory (grandChildField, calcIsCardList (orch.getCard2 ()), false));
+    grandChildField.setWriteAccess (calcWriteAccess (orch));
     loadOrchObjsFieldConstraints (grandChildField, orch);
     continue;
    }
 
   }
   return map;
+ }
+
+ private OrchestrationObjectField.WriteAccess calcWriteAccess (OrchObj orch)
+ {
+  String writeAccess = orch.getWriteAccess ();
+  if (writeAccess.equalsIgnoreCase ("Always"))
+  {
+   return OrchestrationObjectField.WriteAccess.ALWAYS;
+  }
+  if (writeAccess.equalsIgnoreCase ("Never"))
+  {
+   return OrchestrationObjectField.WriteAccess.NEVER;
+  }
+  if (writeAccess.equalsIgnoreCase ("OnCreate"))
+  {
+   return OrchestrationObjectField.WriteAccess.ON_CREATE;
+  }
+  throw new DictionaryValidationException ("OrchObj " + orch.getId () +
+   " has an unknown/unhandled value for WriteAccess [" + writeAccess + "]");
  }
 
  private void loadOrchObjsFieldConstraints (
@@ -224,7 +288,7 @@ public class OrchestrationObjectsLoader
    if (cons == null)
    {
     throw new DictionaryValidationException ("Could not find constraint id [" +
-     consId + "] for orchestration object [" + orchObj.getFullyQualifiedKey () +
+     consId + "] for orchestration object [" + orchObj.getId () +
      "] in bank of constraints");
    }
    TypeStateConstraint tsCons =
@@ -249,10 +313,11 @@ public class OrchestrationObjectsLoader
    {
     throw new DictionaryValidationException ("Could not find dictionary Entry [" +
      orchObj.getDictionaryId () + "] for orchestration object field " + orchObj.
-     getFullyQualifiedKey ());
+     getId ());
    }
    loadConstraintsForDictionaryEntry (ooField, dict);
-   loadMessageStructureFieldConstraints (ooField, dict.getXmlObject () + "." + dict.getShortName ());
+   loadMessageStructureFieldConstraints (ooField, dict.getXmlObject () + "." +
+    dict.getShortName ());
   }
  }
 

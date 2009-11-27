@@ -21,11 +21,12 @@ public class JavaEnumConstantCalculator
  {
   StringBuffer buf = new StringBuffer (name.length () + 3);
   // do the first character so we don't prepend the first with a _ if it is upper
-  buf.append (Character.toUpperCase (name.charAt (0)));
+  char c = Character.toUpperCase (name.charAt (0));
+  buf.append (c);
   for (int i = 1; i <
    name.length (); i ++)
   {
-   char c = name.charAt (i);
+   c = name.charAt (i);
    if (Character.isUpperCase (c))
    {
     buf.append ('_');

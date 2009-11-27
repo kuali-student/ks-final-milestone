@@ -20,7 +20,7 @@
  <modelVersion>4.0.0</modelVersion>
  <groupId>org.kuali.student.mojo</groupId>
  <artifactId>maven-ksdictionary-generator-plugin</artifactId>
- <version>0.0.1-SNAPSHOT</version>
+ <version>1.0.0-SNAPSHOT</version>
  <packaging>maven-plugin</packaging>
  <name>KS Tools - Dictionary Generator</name>
  <!--

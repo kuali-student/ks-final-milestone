@@ -494,6 +494,7 @@ public class DictionaryModelLoader implements DictionaryModel
   WorksheetReader worksheetReader =
    orchSpreadsheetReader.getWorksheetReader ("OrchObj");
   List<OrchObj> list = new ArrayList (worksheetReader.getEstimatedRows ());
+
   while (worksheetReader.next ())
   {
    OrchObj orchObj = new OrchObj ();
@@ -502,13 +503,7 @@ public class DictionaryModelLoader implements DictionaryModel
    {
     continue;
    }
-   orchObj.setKey (getFixup (worksheetReader, "key"));
-   orchObj.setParentKey (getFixup (worksheetReader, "parentKey"));
-   orchObj.setFullyQualifiedKey (getFixup (worksheetReader, "fullyQualifiedKey"));
-   if ( ! orchObj.getFullyQualifiedKey ().equals (""))
-   {
-    list.add (orchObj);
-   }
+   list.add (orchObj);
    orchObj.setParent (getFixup (worksheetReader, "Parent"));
    orchObj.setCard1 (getFixup (worksheetReader, "Card1"));
    orchObj.setChild (getFixup (worksheetReader, "child"));
@@ -517,6 +512,7 @@ public class DictionaryModelLoader implements DictionaryModel
    orchObj.setXmlType (getFixup (worksheetReader, "xmlType"));
    orchObj.setStatus (getFixup (worksheetReader, "status"));
    orchObj.setDefaultValue (getFixup (worksheetReader, "defaultValue"));
+   orchObj.setWriteAccess (getFixup (worksheetReader, "writeAccess"));
    orchObj.setDictionaryId (getFixup (worksheetReader, "dictionaryId"));
    orchObj.setSelector (getFixup (worksheetReader, "selector"));
    // do additional constriants
@@ -533,8 +529,6 @@ public class DictionaryModelLoader implements DictionaryModel
    // do in-line constraint
    Constraint inline = new Constraint ();
    inline.setInline (true);
-   inline.setId ("");
-   inline.setKey ("in-line.constraint.for.orchobj." + orchObj.getFullyQualifiedKey ());
    inline.setMinLength (getFixup (worksheetReader, "minLength"));
    inline.setMaxLength (getFixup (worksheetReader, "maxLength"));
    if (inline.getMaxLength ().equals (Constraint.NINE_NINES))
@@ -552,13 +546,33 @@ public class DictionaryModelLoader implements DictionaryModel
    inline.setValidChars (getFixup (worksheetReader, "validChars"));
    if ( ! isValidChars (inline.getValidChars ()))
    {
-    throw new DictionaryValidationException ("Field " + orchObj.getFullyQualifiedKey () +
+    throw new DictionaryValidationException ("Field " + orchObj.getId () +
      " contains an invalid regular expression " + inline.getValidChars ());
    }
    inline.setLookup (getFixup (worksheetReader, "lookup"));
    orchObj.setInlineConstraint (inline);
    orchObj.setComments (getFixup (worksheetReader, "comments"));
 
+  }
+  // set the id of this thing
+  String parent = null;
+  String child = null;
+  for (OrchObj orch : list)
+  {
+   if ( ! orch.getParent ().equals (""))
+   {
+    orch.setId (orch.getParent ());
+    parent = orch.getParent ();
+    child = null;
+    continue;
+   }
+   if ( ! orch.getChild ().equals (""))
+   {
+    orch.setId (parent + "." + orch.getChild ());
+    child = orch.getChild ();
+    continue;
+   }
+   orch.setId (parent + "." + child + "." + orch.getGrandChild ());
   }
   return list;
  }
