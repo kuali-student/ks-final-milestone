@@ -15,326 +15,311 @@
  */
 package org.kuali.student.common.assembly.client;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
- *
+ * 
  * @author nwright
  */
-public class ConstraintMetadata
-{
+public class ConstraintMetadata implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String id;
 
- private String id;
+	/**
+	 * Get the value of id
+	 * 
+	 * @return the value of id
+	 */
+	public String getId() {
+		return id;
+	}
 
- /**
-  * Get the value of id
-  *
-  * @return the value of id
-  */
- public String getId ()
- {
-  return id;
- }
+	/**
+	 * Set the value of id
+	 * 
+	 * @param id
+	 *            new value of id
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
 
- /**
-  * Set the value of id
-  *
-  * @param id new value of id
-  */
- public void setId (String id)
- {
-  this.id = id;
- }
+	private List<ConstraintMetadata> childConstraints;
 
- private List<ConstraintMetadata> childConstraints;
+	/**
+	 * Get the value of childConstraints
+	 * 
+	 * @return the value of childConstraints
+	 */
+	public List<ConstraintMetadata> getChildConstraints() {
+		return childConstraints;
+	}
 
- /**
-  * Get the value of childConstraints
-  *
-  * @return the value of childConstraints
-  */
- public List<ConstraintMetadata> getChildConstraints ()
- {
-  return childConstraints;
- }
+	/**
+	 * Set the value of childConstraints
+	 * 
+	 * @param childConstraints
+	 *            new value of childConstraints
+	 */
+	public void setChildConstraints(List<ConstraintMetadata> childConstraints) {
+		this.childConstraints = childConstraints;
+	}
 
- /**
-  * Set the value of childConstraints
-  *
-  * @param childConstraints new value of childConstraints
-  */
- public void setChildConstraints (List<ConstraintMetadata> childConstraints)
- {
-  this.childConstraints = childConstraints;
- }
+	private String messageId;
 
- private String messageId;
+	/**
+	 * Get the value of messageId
+	 * 
+	 * @return the value of messageId
+	 */
+	public String getMessageId() {
+		return messageId;
+	}
 
- /**
-  * Get the value of messageId
-  *
-  * @return the value of messageId
-  */
- public String getMessageId ()
- {
-  return messageId;
- }
+	/**
+	 * Set the value of messageId
+	 * 
+	 * @param messageId
+	 *            new value of messageId
+	 */
+	public void setMessageId(String messageId) {
+		this.messageId = messageId;
+	}
 
- /**
-  * Set the value of messageId
-  *
-  * @param messageId new value of messageId
-  */
- public void setMessageId (String messageId)
- {
-  this.messageId = messageId;
- }
+	private String desc;
 
+	/**
+	 * Get the value of desc
+	 * 
+	 * @return the value of desc
+	 */
+	public String getDesc() {
+		return desc;
+	}
 
- private String desc;
+	/**
+	 * Set the value of desc
+	 * 
+	 * @param desc
+	 *            new value of desc
+	 */
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
 
- /**
-  * Get the value of desc
-  *
-  * @return the value of desc
-  */
- public String getDesc ()
- {
-  return desc;
- }
+	private boolean serverSide;
 
- /**
-  * Set the value of desc
-  *
-  * @param desc new value of desc
-  */
- public void setDesc (String desc)
- {
-  this.desc = desc;
- }
+	/**
+	 * Get the value of serverSide
+	 * 
+	 * @return the value of serverSide
+	 */
+	public boolean getServerSide() {
+		return serverSide;
+	}
 
- private boolean serverSide;
+	/**
+	 * Set the value of serverSide
+	 * 
+	 * @param serverSide
+	 *            new value of serverSide
+	 */
+	public void setServerSide(boolean serverSide) {
+		this.serverSide = serverSide;
+	}
 
- /**
-  * Get the value of serverSide
-  *
-  * @return the value of serverSide
-  */
- public boolean getServerSide ()
- {
-  return serverSide;
- }
+	private Integer minLength;
 
- /**
-  * Set the value of serverSide
-  *
-  * @param serverSide new value of serverSide
-  */
- public void setServerSide (boolean serverSide)
- {
-  this.serverSide = serverSide;
- }
+	/**
+	 * Get the value of minLength
+	 * 
+	 * @return the value of minLength
+	 */
+	public Integer getMinLength() {
+		return minLength;
+	}
 
- private Integer minLength;
+	/**
+	 * Set the value of minLength
+	 * 
+	 * @param minLength
+	 *            new value of minLength
+	 */
+	public void setMinLength(Integer minLength) {
+		this.minLength = minLength;
+	}
 
- /**
-  * Get the value of minLength
-  *
-  * @return the value of minLength
-  */
- public Integer getMinLength ()
- {
-  return minLength;
- }
+	private Integer maxLength;
 
- /**
-  * Set the value of minLength
-  *
-  * @param minLength new value of minLength
-  */
- public void setMinLength (Integer minLength)
- {
-  this.minLength = minLength;
- }
+	/**
+	 * Get the value of maxLength
+	 * 
+	 * @return the value of maxLength
+	 */
+	public Integer getMaxLength() {
+		return maxLength;
+	}
 
- private Integer maxLength;
+	/**
+	 * Set the value of maxLength
+	 * 
+	 * @param maxLength
+	 *            new value of maxLength
+	 */
+	public void setMaxLength(Integer maxLength) {
+		this.maxLength = maxLength;
+	}
 
- /**
-  * Get the value of maxLength
-  *
-  * @return the value of maxLength
-  */
- public Integer getMaxLength ()
- {
-  return maxLength;
- }
+	private String minValue;
 
- /**
-  * Set the value of maxLength
-  *
-  * @param maxLength new value of maxLength
-  */
- public void setMaxLength (Integer maxLength)
- {
-  this.maxLength = maxLength;
- }
+	/**
+	 * Get the value of minValue
+	 * 
+	 * @return the value of minValue
+	 */
+	public String getMinValue() {
+		return minValue;
+	}
 
- private String minValue;
+	/**
+	 * Set the value of minValue
+	 * 
+	 * @param minValue
+	 *            new value of minValue
+	 */
+	public void setMinValue(String minValue) {
+		this.minValue = minValue;
+	}
 
- /**
-  * Get the value of minValue
-  *
-  * @return the value of minValue
-  */
- public String getMinValue ()
- {
-  return minValue;
- }
+	private String maxValue;
 
- /**
-  * Set the value of minValue
-  *
-  * @param minValue new value of minValue
-  */
- public void setMinValue (String minValue)
- {
-  this.minValue = minValue;
- }
+	/**
+	 * Get the value of maxValue
+	 * 
+	 * @return the value of maxValue
+	 */
+	public String getMaxValue() {
+		return maxValue;
+	}
 
- private String maxValue;
+	/**
+	 * Set the value of maxValue
+	 * 
+	 * @param maxValue
+	 *            new value of maxValue
+	 */
+	public void setMaxValue(String maxValue) {
+		this.maxValue = maxValue;
+	}
 
- /**
-  * Get the value of maxValue
-  *
-  * @return the value of maxValue
-  */
- public String getMaxValue ()
- {
-  return maxValue;
- }
+	protected Integer minOccurs;
 
- /**
-  * Set the value of maxValue
-  *
-  * @param maxValue new value of maxValue
-  */
- public void setMaxValue (String maxValue)
- {
-  this.maxValue = maxValue;
- }
+	/**
+	 * Get the value of minOccurs
+	 * 
+	 * @return the value of minOccurs
+	 */
+	public Integer getMinOccurs() {
+		return minOccurs;
+	}
 
- protected Integer minOccurs;
+	/**
+	 * Set the value of minOccurs
+	 * 
+	 * @param minOccurs
+	 *            new value of minOccurs
+	 */
+	public void setMinOccurs(Integer minOccurs) {
+		this.minOccurs = minOccurs;
+	}
 
- /**
-  * Get the value of minOccurs
-  *
-  * @return the value of minOccurs
-  */
- public Integer getMinOccurs ()
- {
-  return minOccurs;
- }
+	private Integer maxOccurs;
 
- /**
-  * Set the value of minOccurs
-  *
-  * @param minOccurs new value of minOccurs
-  */
- public void setMinOccurs (Integer minOccurs)
- {
-  this.minOccurs = minOccurs;
- }
+	/**
+	 * Get the value of maxOccurs
+	 * 
+	 * @return the value of maxOccurs
+	 */
+	public Integer getMaxOccurs() {
+		return maxOccurs;
+	}
 
- private Integer maxOccurs;
+	/**
+	 * Set the value of maxOccurs
+	 * 
+	 * @param maxOccurs
+	 *            new value of maxOccurs
+	 */
+	public void setMaxOccurs(Integer maxOccurs) {
+		this.maxOccurs = maxOccurs;
+	}
 
- /**
-  * Get the value of maxOccurs
-  *
-  * @return the value of maxOccurs
-  */
- public Integer getMaxOccurs ()
- {
-  return maxOccurs;
- }
+	private String validChars;
 
- /**
-  * Set the value of maxOccurs
-  *
-  * @param maxOccurs new value of maxOccurs
-  */
- public void setMaxOccurs (Integer maxOccurs)
- {
-  this.maxOccurs = maxOccurs;
- }
+	/**
+	 * Get the value of validChars
+	 * 
+	 * @return the value of validChars
+	 */
+	public String getValidChars() {
+		return validChars;
+	}
 
- private String validChars;
+	/**
+	 * Set the value of validChars
+	 * 
+	 * @param validChars
+	 *            new value of validChars
+	 */
+	public void setValidChars(String validChars) {
+		this.validChars = validChars;
+	}
 
- /**
-  * Get the value of validChars
-  *
-  * @return the value of validChars
-  */
- public String getValidChars ()
- {
-  return validChars;
- }
+	private String comments;
 
- /**
-  * Set the value of validChars
-  *
-  * @param validChars new value of validChars
-  */
- public void setValidChars (String validChars)
- {
-  this.validChars = validChars;
- }
+	/**
+	 * Get the value of comments
+	 * 
+	 * @return the value of comments
+	 */
+	public String getComments() {
+		return comments;
+	}
 
- 
- private String comments;
+	/**
+	 * Set the value of comments
+	 * 
+	 * @param comments
+	 *            new value of comments
+	 */
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
 
- /**
-  * Get the value of comments
-  *
-  * @return the value of comments
-  */
- public String getComments ()
- {
-  return comments;
- }
+	protected String specialValidator;
 
- /**
-  * Set the value of comments
-  *
-  * @param comments new value of comments
-  */
- public void setComments (String comments)
- {
-  this.comments = comments;
- }
+	/**
+	 * Get the value of specialValidator
+	 * 
+	 * @return the value of specialValidator
+	 */
+	public String getSpecialValidator() {
+		return specialValidator;
+	}
 
- protected String specialValidator;
-
- /**
-  * Get the value of specialValidator
-  *
-  * @return the value of specialValidator
-  */
- public String getSpecialValidator ()
- {
-  return specialValidator;
- }
-
- /**
-  * Set the value of specialValidator
-  *
-  * @param specialValidator new value of specialValidator
-  */
- public void setSpecialValidator (String specialValidator)
- {
-  this.specialValidator = specialValidator;
- }
-
-
+	/**
+	 * Set the value of specialValidator
+	 * 
+	 * @param specialValidator
+	 *            new value of specialValidator
+	 */
+	public void setSpecialValidator(String specialValidator) {
+		this.specialValidator = specialValidator;
+	}
 
 }

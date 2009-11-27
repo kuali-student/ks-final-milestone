@@ -7,10 +7,10 @@
  */
 package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
-import org.kuali.student.common.assembly.client.DataModel;
 import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.common.ui.client.configurable.mvc.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
+import org.kuali.student.common.ui.client.mvc.DataModel;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
@@ -29,7 +29,7 @@ public class MultiplicityItemBinding implements ModelWidgetBinding<MultiplicityI
     
     /**
      * @see org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding#setModelValue(java.lang.Object,
-     *      org.kuali.student.common.assembly.client.DataModel, java.lang.String)
+     *      org.kuali.student.common.ui.client.mvc.DataModel, java.lang.String)
      */
     @Override
     public void setModelValue(MultiplicityItem multiplicityItem, DataModel model, String path) {
@@ -53,7 +53,7 @@ public class MultiplicityItemBinding implements ModelWidgetBinding<MultiplicityI
 
     /**
      * @see org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding#setWidgetValue(java.lang.Object,
-     *      org.kuali.student.common.assembly.client.DataModel, java.lang.String)
+     *      org.kuali.student.common.ui.client.mvc.DataModel, java.lang.String)
      */
     @Override
     public void setWidgetValue(MultiplicityItem multiplicityItem, DataModel model, String path) {

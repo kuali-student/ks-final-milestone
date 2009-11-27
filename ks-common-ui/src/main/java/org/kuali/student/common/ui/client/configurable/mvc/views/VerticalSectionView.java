@@ -14,11 +14,11 @@
  */
 package org.kuali.student.common.ui.client.configurable.mvc.views;
 
-import org.kuali.student.common.assembly.client.DataModel;
 import org.kuali.student.common.ui.client.configurable.mvc.RowDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 
 import com.google.gwt.user.client.Window;
@@ -71,8 +71,8 @@ public class VerticalSectionView extends SectionView {
             }
 
             @Override
-            public void onModelReady(org.kuali.student.common.ui.client.mvc.Model<DataModel> m) {
-                model = m.get();
+            public void onModelReady(DataModel m) {
+                model = m;
                 redraw();                                   
             }
             
@@ -105,8 +105,9 @@ public class VerticalSectionView extends SectionView {
     public void updateView(){
         getController().requestModel(modelId, new ModelRequestCallback<DataModel>(){
             @Override
-            public void onModelReady(org.kuali.student.common.ui.client.mvc.Model<DataModel> m) {
-                updateView(m.get());                
+            public void onModelReady(DataModel m) {
+            	// TODO review this, shouldn't it assign this.model = m?
+                updateView(m);                
             }
 
         

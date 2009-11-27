@@ -18,9 +18,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.common.assembly.client.DataModel;
 import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.common.assembly.client.Data.Property;
+import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 
 public class SelectItemWidgetBinding implements ModelWidgetBinding<KSSelectItemWidgetAbstract>{

@@ -14,23 +14,38 @@
  */
 package org.kuali.student.common.ui.client.mvc;
 
-import com.google.gwt.event.shared.HandlerRegistration;
+import org.kuali.student.common.assembly.client.QueryPath;
+import org.kuali.student.core.dto.Idable;
+
+import com.google.gwt.event.shared.GwtEvent;
 
 /**
- * Model object used as a container for the model state. Sources ModelChangeEvents used for tracking the model state.
+ * Event that is fired when the model is changed.
  * 
  * @author Kuali Student Team
  * @param <T>
- *            the type of model object to be contained within the model
  */
-public interface Model {
-    /**
-     * Adds a ModelChangeHandler that will be invoked for ModelChangeEvents
-     * 
-     * @param handler
-     *            the handler to add
-     * @return HandlerRegistration that can be used to unregister the handler later
-     */
-    public HandlerRegistration addModelChangeHandler(ModelChangeHandler handler);
+public class CollectionModelChangeEvent<T> extends ModelChangeEvent {
+    private final T value;
     
+    /**
+     * Constructs a new ModelChangeEvent with an action and a value
+     * 
+     * @param action
+     * @param value
+     */
+    public CollectionModelChangeEvent(Action action, Model source, T value) {
+        super(action, source);
+        this.value = value;
+    }
+    
+
+    /**
+     * Returns the object with which the event is associated
+     * 
+     * @return
+     */
+    public T getValue() {
+        return this.value;
+    }
 }

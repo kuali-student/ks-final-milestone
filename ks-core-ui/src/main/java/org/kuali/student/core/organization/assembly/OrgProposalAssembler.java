@@ -50,8 +50,13 @@ public class OrgProposalAssembler implements Assembler<Data, Org>{
         return null;
     }
 
-    @Override
+    @Deprecated
     public Metadata getMetadata() throws AssemblyException {
+    	// TODO remove this method
+    	return null;
+    }
+    @Override
+    public Metadata getMetadata(String type, String state) throws AssemblyException {
         // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
         return null;
     }

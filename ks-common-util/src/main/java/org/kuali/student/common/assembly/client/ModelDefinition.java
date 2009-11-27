@@ -20,6 +20,8 @@ package org.kuali.student.common.assembly.client;
 
 import java.io.Serializable;
 
+import org.kuali.student.common.assembly.client.Data.DataType;
+
 
 /**
  * @author wilj
@@ -27,5 +29,5 @@ import java.io.Serializable;
  */
 public interface ModelDefinition extends Serializable{
 	public void ensurePath(final Data root, final QueryPath path, boolean includeLeafNode);
-	public String getType(final QueryPath path);
+	public DataType getType(final QueryPath path);
 }

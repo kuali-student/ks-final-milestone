@@ -16,13 +16,13 @@
 /**
  * 
  */
-package org.kuali.student.common.assembly.client;
+package org.kuali.student.common.ui.client.mvc;
 
-import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
+import org.kuali.student.common.assembly.client.Data;
+import org.kuali.student.common.assembly.client.ModelDefinition;
+import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.common.assembly.client.Data.DataType;
 import org.kuali.student.common.assembly.client.Data.DataValue;
 import org.kuali.student.common.assembly.client.Data.Key;
@@ -30,13 +30,18 @@ import org.kuali.student.common.assembly.client.Data.Property;
 import org.kuali.student.common.assembly.client.Data.Value;
 import org.kuali.student.common.assembly.client.HasChangeCallbacks.ChangeCallback;
 import org.kuali.student.common.assembly.client.HasChangeCallbacks.ChangeCallbackRegistration;
+import org.kuali.student.common.assembly.client.HasChangeCallbacks.ChangeType;
+import org.kuali.student.common.ui.client.mvc.ModelChangeEvent.Action;
+
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.event.shared.HandlerRegistration;
 
 /**
  * @author wilj
  *
  */
 @SuppressWarnings("unchecked")
-public class DataModel implements Serializable, HasChangeCallbacks {
+public class DataModel implements Model {
 	public interface QueryCallback<T> {
 		void onResult(QueryPath path, T result);
 	}
@@ -47,11 +52,11 @@ public class DataModel implements Serializable, HasChangeCallbacks {
 	private static final long serialVersionUID = 1L;
 
 	private ModelDefinition definition;
+	private HandlerManager handlers = new HandlerManager(this);
+    private ChangeCallbackRegistration bridgeCallbackReg;
 
 	private Data root;
 
-	private transient Set<ChangeCallback> changeCallbacks;
-	private transient ChangeCallbackRegistration bridgeCallbackReg;
 	
 	protected DataModel() {
 		// do nothing
@@ -62,20 +67,6 @@ public class DataModel implements Serializable, HasChangeCallbacks {
 		this.root = root;
 	}
 
-	public ChangeCallbackRegistration addChangeCallback(final ChangeCallback callback) {
-		if (changeCallbacks == null) {
-			changeCallbacks = new HashSet<ChangeCallback>();
-		}
-		changeCallbacks.add(callback);
-		return new ChangeCallbackRegistration() {
-			@Override
-			public void remove() {
-				if (changeCallbacks != null) {
-					changeCallbacks.remove(callback);
-				}
-			}
-		};
-	}
 
 	public <T> T get(final QueryPath path) {
 		return (T) root.query(path);
@@ -177,11 +168,7 @@ public class DataModel implements Serializable, HasChangeCallbacks {
 	}
 		
 	public DataType getType(final QueryPath path){
-	    DataType dataType = null;
-
-	    dataType = DataType.valueOf(definition.getType(path).toUpperCase());
-	    
-	    return dataType;
+	    return definition.getType(path);
 	}
 
 	/**
@@ -195,12 +182,23 @@ public class DataModel implements Serializable, HasChangeCallbacks {
 		bridgeCallbackReg = root.addChangeCallback(new ChangeCallback() {
 			@Override
 			public void onChange(ChangeType type, QueryPath path) {
-				if (changeCallbacks != null) {
-					for (ChangeCallback c : changeCallbacks) {
-						c.onChange(type, path);
-					}
+				Action action = null;
+				if (type == ChangeType.ADD) {
+					action = Action.ADD;
+				} else if (type == ChangeType.REMOVE) {
+					action = Action.REMOVE;
+				} else if (type == ChangeType.UPDATE) {
+					action = Action.UPDATE;
 				}
+				handlers.fireEvent(new DataModelChangeEvent(action, DataModel.this, path));
 			}
 		});
+		handlers.fireEvent(new DataModelChangeEvent(Action.RELOAD, this, new QueryPath()));
+	}
+
+	@Override
+	public HandlerRegistration addModelChangeHandler(
+			ModelChangeHandler handler) {
+		return handlers.addHandler(ModelChangeEvent.TYPE, handler);
 	}
 }

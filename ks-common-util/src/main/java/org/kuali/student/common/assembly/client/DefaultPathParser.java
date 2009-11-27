@@ -29,9 +29,6 @@ public class DefaultPathParser implements PathParser {
 
     private final String PATH_SEPARATOR = "/";
     
-	/* (non-Javadoc)
-	 * @see com.johnsoncs.gwt.application.client.model.PathParser#format(com.johnsoncs.gwt.application.client.model.QueryPath)
-	 */
 	@Override
 	public String format(final QueryPath path) {
 		final StringBuilder sb = new StringBuilder();
@@ -51,17 +48,11 @@ public class DefaultPathParser implements PathParser {
 		return sb.toString();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.johnsoncs.gwt.application.client.model.PathParser#getWildCard()
-	 */
 	@Override
 	public String getWildCard() {
 		return "*";
 	}
 	
-	/* (non-Javadoc)
-	 * @see com.johnsoncs.gwt.application.client.model.PathParser#parse(java.lang.String)
-	 */
 	@Override
 	public QueryPath parse(final String path) {
 		final QueryPath result = new QueryPath();

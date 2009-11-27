@@ -14,8 +14,8 @@
  */
 package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
-import org.kuali.student.common.assembly.client.DataModel;
 import org.kuali.student.common.assembly.client.QueryPath;
+import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.widgets.RichTextEditor;
 
 public class RichTextBinding implements ModelWidgetBinding<RichTextEditor>{

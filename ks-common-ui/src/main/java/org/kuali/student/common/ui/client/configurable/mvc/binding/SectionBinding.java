@@ -17,10 +17,10 @@ package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
 import java.util.List;
 
-import org.kuali.student.common.assembly.client.DataModel;
 import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.Section;
+import org.kuali.student.common.ui.client.mvc.DataModel;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
@@ -40,7 +40,7 @@ public class SectionBinding implements ModelWidgetBinding<Section>{
     private SectionBinding(){};
     
     /**
-     * @see org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding#setModelValue(java.lang.Object, org.kuali.student.common.assembly.client.DataModel, java.lang.String)
+     * @see org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding#setModelValue(java.lang.Object, org.kuali.student.common.ui.client.mvc.DataModel, java.lang.String)
      */
     @Override
     public void setModelValue(Section section, DataModel model, String path) {
@@ -67,7 +67,7 @@ public class SectionBinding implements ModelWidgetBinding<Section>{
     }
 
     /**
-     * @see org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding#setWidgetValue(java.lang.Object, org.kuali.student.common.assembly.client.DataModel, java.lang.String)
+     * @see org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding#setWidgetValue(java.lang.Object, org.kuali.student.common.ui.client.mvc.DataModel, java.lang.String)
      */
     @Override
     public void setWidgetValue(Section section, DataModel model, String path) {

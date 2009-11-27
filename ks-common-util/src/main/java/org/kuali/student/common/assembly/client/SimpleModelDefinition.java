@@ -5,12 +5,15 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.kuali.student.common.assembly.client.Data.DataType;
 import org.kuali.student.common.assembly.client.Data.IntegerKey;
 import org.kuali.student.common.assembly.client.Data.Key;
 
 /**
  * @author wilj
+ * @deprecated SimpleModelDefinition no longer works, use DataModelDefinition instead
  */
+@Deprecated
 public class SimpleModelDefinition implements ModelDefinition {
     private static final long serialVersionUID = 1L;
 
@@ -79,12 +82,6 @@ public class SimpleModelDefinition implements ModelDefinition {
         define(QueryPath.parse(path), className);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see
-     * com.johnsoncs.gwt.application.client.model.ModelDefinition#ensurePath(com.johnsoncs.gwt.application.client.model.Data,
-     * com.johnsoncs.gwt.application.client.model.QueryPath)
-     */
     @Override
     public void ensurePath(final Data root, final QueryPath path, final boolean includeLeafNode) {
         Data currentData = root;
@@ -112,32 +109,32 @@ public class SimpleModelDefinition implements ModelDefinition {
      * @see org.kuali.student.common.assembly.client.ModelDefinition#getType()
      */
     @Override
-    public String getType(final QueryPath path) {
+    public DataType getType(final QueryPath path) {
         Definition currentDef = this.root;
 
-        for (final Iterator<Key> itr = path.iterator(); itr.hasNext();) {
-            final Key key = itr.next();
-            if (itr.hasNext()) {
-                Definition def = currentDef.getChildren().get(key);
- 
-                if (def == null){
-                    if (key instanceof IntegerKey) {
-                        def = currentDef.getChildren().get(Data.WILDCARD_KEY);
-                    } else {
-                        throw new RuntimeException(key + " in " + path.toString() + " not defined in model definition");                        
-                    }
-                }
-                currentDef = def;
-            } else {
-                Definition def = currentDef.getChildren().get(key);
-                if (def == null) {
-                    // FIXME: Should all non-defined leaf nodes be treated as strings
-                    return "String";
-                } else {
-                    return def.getClassName();
-                }
-            }
-        }
+//        for (final Iterator<Key> itr = path.iterator(); itr.hasNext();) {
+//            final Key key = itr.next();
+//            if (itr.hasNext()) {
+//                Definition def = currentDef.getChildren().get(key);
+// 
+//                if (def == null){
+//                    if (key instanceof IntegerKey) {
+//                        def = currentDef.getChildren().get(Data.WILDCARD_KEY);
+//                    } else {
+//                        throw new RuntimeException(key + " in " + path.toString() + " not defined in model definition");                        
+//                    }
+//                }
+//                currentDef = def;
+//            } else {
+//                Definition def = currentDef.getChildren().get(key);
+//                if (def == null) {
+//                    // FIXME: Should all non-defined leaf nodes be treated as strings
+//                    return "String";
+//                } else {
+//                    return def.getClassName();
+//                }
+//            }
+//        }
 
         throw new RuntimeException(path.toString() + " not defined in model definition.");        
     }
