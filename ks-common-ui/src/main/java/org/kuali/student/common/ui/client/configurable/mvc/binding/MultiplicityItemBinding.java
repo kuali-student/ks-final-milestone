@@ -33,6 +33,7 @@ public class MultiplicityItemBinding implements ModelWidgetBinding<MultiplicityI
      */
     @Override
     public void setModelValue(MultiplicityItem multiplicityItem, DataModel model, String path) {
+    	// TODO modify this method to use QueryPath.add to build paths, rather than string manipulation
         String itemPath = path + QueryPath.getPathSeparator() + multiplicityItem.getItemKey();
         Widget widget = multiplicityItem.getItemWidget();
         if (widget instanceof Section) {
@@ -44,10 +45,10 @@ public class MultiplicityItemBinding implements ModelWidgetBinding<MultiplicityI
         }
         
         //Multiplicity metadata?
-        QueryPath qPath = QueryPath.parse(itemPath + QueryPath.getPathSeparator() + "crudCreated");
+        QueryPath qPath = QueryPath.parse(itemPath + QueryPath.getPathSeparator() + "_runtimeData" + QueryPath.getPathSeparator() + "created");
         model.set(qPath, new Boolean(multiplicityItem.isCreated()));
 
-        qPath = QueryPath.parse(itemPath + QueryPath.getPathSeparator() + "crudDeleted");        
+        qPath = QueryPath.parse(itemPath + QueryPath.getPathSeparator() + "_runtimeData" + QueryPath.getPathSeparator() + "deleted");        
         model.set(qPath, new Boolean(multiplicityItem.isDeleted()));    
     }
 

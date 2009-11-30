@@ -44,7 +44,7 @@ public class DataModelDefinition implements ModelDefinition {
 			if (!data.containsKey(key)) {
 				// branch doesn't exist yet
 				Data.DataType type = currentMeta.getDataType(); 
-				if (type != DataType.DATA) {
+				if (type != DataType.DATA && type != DataType.LIST) {
 					throw new RuntimeException("Non-leaf nodes cannot be a simple type: " + key.toString() + " " + (type == null ? "null" : type.toString()));
 				} else {
 					Data.Value value = currentMeta.getDefaultValue();
