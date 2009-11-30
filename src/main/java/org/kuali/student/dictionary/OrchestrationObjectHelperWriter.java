@@ -105,9 +105,20 @@ public class OrchestrationObjectHelperWriter extends JavaClassWriter
   imports.add (Data.class.getName ());
   indentPrintln ("private Data data;");
   indentPrintln ("");
-  indentPrintln ("public " + orchObj.getJavaClassHelperName () + " (Data data)");
+  indentPrintln ("private " + orchObj.getJavaClassHelperName () + " (Data data)");
   openBrace ();
   indentPrintln ("this.data = data;");
+  closeBrace (); // constructor
+
+  indentPrintln ("");
+  indentPrintln ("public static " + orchObj.getJavaClassHelperName () + " wrap (Data data)");
+  openBrace ();
+  indentPrintln ("if (data == null)");
+  openBrace ();
+  indentPrintln (" return null;");
+  closeBrace ();
+
+  indentPrintln ("return new " + orchObj.getJavaClassHelperName () +  " (data);");
   closeBrace (); // constructor
 
   // add Data getData ()
@@ -115,13 +126,13 @@ public class OrchestrationObjectHelperWriter extends JavaClassWriter
   indentPrintln ("public Data getData ()");
   openBrace ();
   indentPrintln ("return data;");
-  closeBrace (); // getter
+  closeBrace (); 
   indentPrintln ("");
 
   for (OrchestrationObjectField field : orchObj.getFields ())
   {
-   String setter = "set" + field.getProperName ();
-   String getter = "get" + field.getProperName ();
+   String setter = calcSetter (field);
+   String getter = calcGetter (field);
    String fieldTypeToUse = calcFieldTypeToUse (field);
    String constant = new JavaEnumConstantCalculator (field.getName ()).calc ();
 
@@ -169,12 +180,12 @@ public class OrchestrationObjectHelperWriter extends JavaClassWriter
      break;
     case COMPLEX:
      imports.add (Data.class.getName ());
-     indentPrintln ("return new " + fieldTypeToUse + " ((Data) " +
+     indentPrintln ("return " + fieldTypeToUse +  ".wrap ((Data) " +
       getterValue + ");");
      break;
     case COMPLEX_INLINE:
      imports.add (Data.class.getName ());
-     indentPrintln ("return new " + fieldTypeToUse + " ((Data) " +
+     indentPrintln ("return " + fieldTypeToUse +  ".wrap ((Data) " +
       getterValue + ");");
      break;
     default:
@@ -188,6 +199,20 @@ public class OrchestrationObjectHelperWriter extends JavaClassWriter
 
   this.writeJavaClassAndImportsOutToFile ();
   this.getOut ().close ();
+ }
+
+ private String calcGetter (OrchestrationObjectField field)
+ {
+  if (calcFieldTypeToUse (field).equals ("Boolean"))
+  {
+   return "is" + field.getProperName ();
+  }
+  return  "get" + field.getProperName ();
+ }
+
+ private String calcSetter (OrchestrationObjectField field)
+ {
+  return  "set" + field.getProperName ();
  }
 
  private String calcFieldTypeToUse (OrchestrationObjectField field)

@@ -191,14 +191,14 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
       }
       imports.add (fieldOO.getFullyQualifiedJavaClassMetadataName ());
       indentPrintln ("new " + fieldOO.getJavaClassMetadataName () +
-       " ().loadChildMetadata (childMeta, type, state);");
+       " ().loadChildMetadata (listMeta, type, state);");
       break;
      case LIST_OF_COMPLEX_INLINE:
       imports.add (field.getInlineObject ().
        getFullyQualifiedJavaClassMetadataName ());
       indentPrintln ("new " +
        field.getInlineObject ().getJavaClassMetadataName () +
-       " ().loadChildMetadata (childMeta, type, state);");
+       " ().loadChildMetadata (listMeta, type, state);");
       break;
      default:
       break;
