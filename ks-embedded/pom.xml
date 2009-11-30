@@ -69,7 +69,7 @@
 				<version>2.0.1</version>
 				<configuration>
                     <webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
-					<dependentWarExcludes>WEB-INF/lib/**,**/sampleTravelApplication.tag</dependentWarExcludes>
+					<dependentWarExcludes>**/web.xml,WEB-INF/lib/**,**/sampleTravelApplication.tag</dependentWarExcludes>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -126,7 +126,33 @@
 			<artifactId>ks-common-ui</artifactId>
 			<version>${ks-core.version}</version>
 		</dependency>
-        	
+        
+        <!-- these are needed for rice jsp's to work properly -->
+		<dependency>
+      		<groupId>tomcat</groupId>
+      		<artifactId>jasper-compiler</artifactId>
+      		<version>5.5.15</version>
+      		<scope>runtime</scope>
+    	</dependency>
+		<dependency>
+      		<groupId>tomcat</groupId>
+      		<artifactId>jasper-compiler-jdt</artifactId>
+      		<version>5.5.15</version>
+      		<scope>runtime</scope>
+    	</dependency>
+		<dependency>
+      		<groupId>tomcat</groupId>
+      		<artifactId>jasper-runtime</artifactId>
+      		<version>5.5.15</version>
+      		<scope>runtime</scope>
+    	</dependency>
+		<dependency>
+      		<groupId>org.eclipse.jdt</groupId>
+      		<artifactId>core</artifactId>
+      		<version>3.1.1</version>
+      		<scope>runtime</scope>
+    	</dependency>
+
 		<!--  Sources for GWT Compile -->
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
