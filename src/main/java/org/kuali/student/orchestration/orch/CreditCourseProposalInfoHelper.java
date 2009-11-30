@@ -31,7 +31,8 @@ public class CreditCourseProposalInfoHelper
 		RATIONALE ("rationale"),
 		REFERENCE_TYPE ("referenceType"),
 		REFERENCES ("references"),
-		_RUNTIME_DATA ("_runtimeData");
+		_RUNTIME_DATA ("_runtimeData"),
+		PROPOSER_PERSON("proposerPerson");
 		
 		private final String key;
 		
@@ -128,6 +129,17 @@ public class CreditCourseProposalInfoHelper
 	public RuntimeDataHelper get_runtimeData ()
 	{
 		return new RuntimeDataHelper ((Data) data.get (Properties._RUNTIME_DATA.getKey ()));
+	}
+	
+	public void setProposerPerson(String value)
+	{
+		data.set (Properties.PROPOSER_PERSON.getKey (), value);
+	}
+	
+	
+	public String getProposerPerson()
+	{
+		return (String) data.get (Properties.PROPOSER_PERSON.getKey ());
 	}
 	
 }

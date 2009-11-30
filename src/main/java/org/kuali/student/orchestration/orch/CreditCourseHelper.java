@@ -17,6 +17,7 @@ package org.kuali.student.orchestration.orch;
 
 
 import java.util.Date;
+
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
 import org.kuali.student.orchestration.base.RichTextInfoHelper;
@@ -121,27 +122,27 @@ public class CreditCourseHelper
 	}
 	
 	
-	public void setTranscriptTitle (RichTextInfoHelper value)
+	public void setTranscriptTitle (String value)
 	{
-		data.set (Properties.TRANSCRIPT_TITLE.getKey (), value.getData ());
+		data.set (Properties.TRANSCRIPT_TITLE.getKey (), value);
 	}
 	
 	
-	public RichTextInfoHelper getTranscriptTitle ()
+	public String getTranscriptTitle ()
 	{
-		return new RichTextInfoHelper ((Data) data.get (Properties.TRANSCRIPT_TITLE.getKey ()));
+		return data.get (Properties.TRANSCRIPT_TITLE.getKey ());
 	}
 	
 	
-	public void setCourseTitle (RichTextInfoHelper value)
+	public void setCourseTitle (String value)
 	{
-		data.set (Properties.COURSE_TITLE.getKey (), value.getData ());
+		data.set (Properties.COURSE_TITLE.getKey (), value);
 	}
 	
 	
-	public RichTextInfoHelper getCourseTitle ()
+	public String getCourseTitle ()
 	{
-		return new RichTextInfoHelper ((Data) data.get (Properties.COURSE_TITLE.getKey ()));
+		return data.get (Properties.COURSE_TITLE.getKey ());
 	}
 	
 	

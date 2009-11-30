@@ -49,7 +49,7 @@ public class RuntimeDataMetadata
 		// metadata for IsCreated
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.IS_CREATED.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.STRING);
+		childMeta.setDataType (Data.DataType.BOOLEAN);
 		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
 		childMeta.setDefaultValue (new Data.StringValue ("false"));
 		if (this.matches (type, state, "(default)", "(default)"))
@@ -60,7 +60,7 @@ public class RuntimeDataMetadata
 		// metadata for IsDeleted
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.IS_DELETED.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.STRING);
+		childMeta.setDataType (Data.DataType.BOOLEAN);
 		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
 		childMeta.setDefaultValue (new Data.StringValue ("false"));
 		if (this.matches (type, state, "(default)", "(default)"))
@@ -71,7 +71,7 @@ public class RuntimeDataMetadata
 		// metadata for IsUpdated
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.IS_UPDATED.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.STRING);
+		childMeta.setDataType (Data.DataType.BOOLEAN);
 		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
 		childMeta.setDefaultValue (new Data.StringValue ("false"));
 		if (this.matches (type, state, "(default)", "(default)"))

@@ -18,6 +18,7 @@ package org.kuali.student.orchestration.base;
 
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoHelper;
 
 
 public class RichTextInfoHelper
@@ -77,6 +78,13 @@ public class RichTextInfoHelper
 	{
 		return (String) data.get (Properties.FORMATTED.getKey ());
 	}
-	
+
+	public static RichTextInfoHelper wrap(Data data) {
+		if (data == null) {
+			return null;
+		} else {
+			return new RichTextInfoHelper(data);
+		}
+	}
 }
 

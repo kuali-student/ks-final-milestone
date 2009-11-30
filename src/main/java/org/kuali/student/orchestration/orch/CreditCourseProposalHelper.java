@@ -18,6 +18,7 @@ package org.kuali.student.orchestration.orch;
 
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
 
 
 public class CreditCourseProposalHelper
@@ -103,6 +104,13 @@ public class CreditCourseProposalHelper
 	{
 		return (String) data.get (Properties.TYPE.getKey ());
 	}
-	
+
+	public static CreditCourseProposalHelper wrap(Data data) {
+		if (data == null) {
+			return null;
+		} else {
+			return new CreditCourseProposalHelper(data);
+		}
+	}
 }
 

@@ -127,6 +127,19 @@ public class CreditCourseProposalInfoMetadata
 		}
 		new RuntimeDataMetadata ().loadChildMetadata (childMeta, type, state);
 		
+		
+		// metadata for proposerPerson
+		childMeta = new Metadata ();
+		mainMeta.getProperties ().put (Properties.PROPOSER_PERSON.getKey (), childMeta);
+		childMeta.setDataType (Data.DataType.STRING);
+		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single.line.text"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
+		}
+
 	}
 }
 

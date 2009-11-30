@@ -73,7 +73,7 @@ public class CreditCourseFormatMetadata
 		listMeta.setDataType (Data.DataType.DATA);
 		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
-		new CreditCourseActivityMetadata ().loadChildMetadata (childMeta, type, state);
+		new CreditCourseActivityMetadata ().loadChildMetadata (listMeta, type, state);
 		
 		// metadata for State
 		childMeta = new Metadata ();

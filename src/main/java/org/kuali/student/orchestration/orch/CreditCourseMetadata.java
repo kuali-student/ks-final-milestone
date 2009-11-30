@@ -76,7 +76,7 @@ public class CreditCourseMetadata
 		listMeta.setDataType (Data.DataType.DATA);
 		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
-		new CreditCourseFormatMetadata ().loadChildMetadata (childMeta, type, state);
+		new CreditCourseFormatMetadata ().loadChildMetadata (listMeta, type, state);
 		
 		// metadata for TermsOffered
 		childMeta = new Metadata ();
@@ -113,7 +113,7 @@ public class CreditCourseMetadata
 		// metadata for TranscriptTitle
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.TRANSCRIPT_TITLE.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.DATA);
+		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
@@ -131,7 +131,7 @@ public class CreditCourseMetadata
 		// metadata for CourseTitle
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.COURSE_TITLE.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.DATA);
+		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{

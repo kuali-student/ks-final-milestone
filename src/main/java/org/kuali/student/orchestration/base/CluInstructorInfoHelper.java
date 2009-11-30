@@ -18,6 +18,7 @@ package org.kuali.student.orchestration.base;
 
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.CluInstructorInfoHelper;
 
 
 public class CluInstructorInfoHelper
@@ -90,6 +91,13 @@ public class CluInstructorInfoHelper
 	{
 		return (Data) data.get (Properties.ATTRIBUTES.getKey ());
 	}
-	
+
+	public static CluInstructorInfoHelper wrap(Data data) {
+		if (data == null) {
+			return null;
+		} else {
+			return new CluInstructorInfoHelper(data);
+		}
+	}
 }
 
