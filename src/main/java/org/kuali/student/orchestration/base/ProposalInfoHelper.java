@@ -57,9 +57,18 @@ public class ProposalInfoHelper
 	}
 	private Data data;
 	
-	public ProposalInfoHelper (Data data)
+	private ProposalInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static ProposalInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new ProposalInfoHelper (data);
 	}
 	
 	public Data getData ()
@@ -196,7 +205,7 @@ public class ProposalInfoHelper
 	
 	public MetaInfoHelper getMetaInfo ()
 	{
-		return new MetaInfoHelper ((Data) data.get (Properties.META_INFO.getKey ()));
+		return MetaInfoHelper.wrap ((Data) data.get (Properties.META_INFO.getKey ()));
 	}
 	
 	

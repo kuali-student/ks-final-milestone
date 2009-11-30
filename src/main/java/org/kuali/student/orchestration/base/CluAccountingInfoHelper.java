@@ -44,9 +44,18 @@ public class CluAccountingInfoHelper
 	}
 	private Data data;
 	
-	public CluAccountingInfoHelper (Data data)
+	private CluAccountingInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static CluAccountingInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new CluAccountingInfoHelper (data);
 	}
 	
 	public Data getData ()

@@ -18,7 +18,6 @@ package org.kuali.student.orchestration.orch;
 
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
 
 
 public class CreditCourseProposalHelper
@@ -47,9 +46,18 @@ public class CreditCourseProposalHelper
 	}
 	private Data data;
 	
-	public CreditCourseProposalHelper (Data data)
+	private CreditCourseProposalHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static CreditCourseProposalHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new CreditCourseProposalHelper (data);
 	}
 	
 	public Data getData ()
@@ -66,7 +74,7 @@ public class CreditCourseProposalHelper
 	
 	public CreditCourseHelper getCourse ()
 	{
-		return new CreditCourseHelper ((Data) data.get (Properties.COURSE.getKey ()));
+		return CreditCourseHelper.wrap ((Data) data.get (Properties.COURSE.getKey ()));
 	}
 	
 	
@@ -78,7 +86,7 @@ public class CreditCourseProposalHelper
 	
 	public CreditCourseProposalInfoHelper getProposal ()
 	{
-		return new CreditCourseProposalInfoHelper ((Data) data.get (Properties.PROPOSAL.getKey ()));
+		return CreditCourseProposalInfoHelper.wrap ((Data) data.get (Properties.PROPOSAL.getKey ()));
 	}
 	
 	
@@ -104,13 +112,6 @@ public class CreditCourseProposalHelper
 	{
 		return (String) data.get (Properties.TYPE.getKey ());
 	}
-
-	public static CreditCourseProposalHelper wrap(Data data) {
-		if (data == null) {
-			return null;
-		} else {
-			return new CreditCourseProposalHelper(data);
-		}
-	}
+	
 }
 

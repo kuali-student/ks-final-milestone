@@ -17,7 +17,6 @@ package org.kuali.student.orchestration.orch;
 
 
 import java.util.Date;
-
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
 import org.kuali.student.orchestration.base.RichTextInfoHelper;
@@ -63,9 +62,18 @@ public class CreditCourseHelper
 	}
 	private Data data;
 	
-	public CreditCourseHelper (Data data)
+	private CreditCourseHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static CreditCourseHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new CreditCourseHelper (data);
 	}
 	
 	public Data getData ()
@@ -118,7 +126,7 @@ public class CreditCourseHelper
 	
 	public CreditCourseDurationHelper getDuration ()
 	{
-		return new CreditCourseDurationHelper ((Data) data.get (Properties.DURATION.getKey ()));
+		return CreditCourseDurationHelper.wrap ((Data) data.get (Properties.DURATION.getKey ()));
 	}
 	
 	
@@ -130,7 +138,7 @@ public class CreditCourseHelper
 	
 	public String getTranscriptTitle ()
 	{
-		return data.get (Properties.TRANSCRIPT_TITLE.getKey ());
+		return (String) data.get (Properties.TRANSCRIPT_TITLE.getKey ());
 	}
 	
 	
@@ -142,7 +150,7 @@ public class CreditCourseHelper
 	
 	public String getCourseTitle ()
 	{
-		return data.get (Properties.COURSE_TITLE.getKey ());
+		return (String) data.get (Properties.COURSE_TITLE.getKey ());
 	}
 	
 	
@@ -154,7 +162,7 @@ public class CreditCourseHelper
 	
 	public RichTextInfoHelper getDescription ()
 	{
-		return new RichTextInfoHelper ((Data) data.get (Properties.DESCRIPTION.getKey ()));
+		return RichTextInfoHelper.wrap ((Data) data.get (Properties.DESCRIPTION.getKey ()));
 	}
 	
 	
@@ -286,7 +294,7 @@ public class CreditCourseHelper
 	
 	public RuntimeDataHelper get_runtimeData ()
 	{
-		return new RuntimeDataHelper ((Data) data.get (Properties._RUNTIME_DATA.getKey ()));
+		return RuntimeDataHelper.wrap ((Data) data.get (Properties._RUNTIME_DATA.getKey ()));
 	}
 	
 }

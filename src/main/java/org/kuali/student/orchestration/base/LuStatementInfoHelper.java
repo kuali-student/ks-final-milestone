@@ -52,9 +52,18 @@ public class LuStatementInfoHelper
 	}
 	private Data data;
 	
-	public LuStatementInfoHelper (Data data)
+	private LuStatementInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static LuStatementInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new LuStatementInfoHelper (data);
 	}
 	
 	public Data getData ()
@@ -83,7 +92,7 @@ public class LuStatementInfoHelper
 	
 	public RichTextInfoHelper getDesc ()
 	{
-		return new RichTextInfoHelper ((Data) data.get (Properties.DESC.getKey ()));
+		return RichTextInfoHelper.wrap ((Data) data.get (Properties.DESC.getKey ()));
 	}
 	
 	
@@ -143,7 +152,7 @@ public class LuStatementInfoHelper
 	
 	public MetaInfoHelper getMetaInfo ()
 	{
-		return new MetaInfoHelper ((Data) data.get (Properties.META_INFO.getKey ()));
+		return MetaInfoHelper.wrap ((Data) data.get (Properties.META_INFO.getKey ()));
 	}
 	
 	

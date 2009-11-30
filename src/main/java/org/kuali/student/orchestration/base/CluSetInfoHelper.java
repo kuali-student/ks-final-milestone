@@ -55,9 +55,18 @@ public class CluSetInfoHelper
 	}
 	private Data data;
 	
-	public CluSetInfoHelper (Data data)
+	private CluSetInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static CluSetInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new CluSetInfoHelper (data);
 	}
 	
 	public Data getData ()
@@ -86,7 +95,7 @@ public class CluSetInfoHelper
 	
 	public RichTextInfoHelper getDesc ()
 	{
-		return new RichTextInfoHelper ((Data) data.get (Properties.DESC.getKey ()));
+		return RichTextInfoHelper.wrap ((Data) data.get (Properties.DESC.getKey ()));
 	}
 	
 	
@@ -122,7 +131,7 @@ public class CluSetInfoHelper
 	
 	public MembershipQueryInfoHelper getMembershipQuery ()
 	{
-		return new MembershipQueryInfoHelper ((Data) data.get (Properties.MEMBERSHIP_QUERY.getKey ()));
+		return MembershipQueryInfoHelper.wrap ((Data) data.get (Properties.MEMBERSHIP_QUERY.getKey ()));
 	}
 	
 	
@@ -170,7 +179,7 @@ public class CluSetInfoHelper
 	
 	public MetaInfoHelper getMetaInfo ()
 	{
-		return new MetaInfoHelper ((Data) data.get (Properties.META_INFO.getKey ()));
+		return MetaInfoHelper.wrap ((Data) data.get (Properties.META_INFO.getKey ()));
 	}
 	
 	

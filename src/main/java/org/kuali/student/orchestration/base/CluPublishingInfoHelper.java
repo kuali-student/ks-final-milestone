@@ -50,9 +50,18 @@ public class CluPublishingInfoHelper
 	}
 	private Data data;
 	
-	public CluPublishingInfoHelper (Data data)
+	private CluPublishingInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static CluPublishingInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new CluPublishingInfoHelper (data);
 	}
 	
 	public Data getData ()
@@ -93,7 +102,7 @@ public class CluPublishingInfoHelper
 	
 	public CluInstructorInfoHelper getPrimaryInstructor ()
 	{
-		return new CluInstructorInfoHelper ((Data) data.get (Properties.PRIMARY_INSTRUCTOR.getKey ()));
+		return CluInstructorInfoHelper.wrap ((Data) data.get (Properties.PRIMARY_INSTRUCTOR.getKey ()));
 	}
 	
 	

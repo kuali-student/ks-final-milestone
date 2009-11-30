@@ -52,9 +52,18 @@ public class CluResultInfoHelper
 	}
 	private Data data;
 	
-	public CluResultInfoHelper (Data data)
+	private CluResultInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static CluResultInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new CluResultInfoHelper (data);
 	}
 	
 	public Data getData ()
@@ -71,7 +80,7 @@ public class CluResultInfoHelper
 	
 	public RichTextInfoHelper getDesc ()
 	{
-		return new RichTextInfoHelper ((Data) data.get (Properties.DESC.getKey ()));
+		return RichTextInfoHelper.wrap ((Data) data.get (Properties.DESC.getKey ()));
 	}
 	
 	
@@ -131,7 +140,7 @@ public class CluResultInfoHelper
 	
 	public MetaInfoHelper getMetaInfo ()
 	{
-		return new MetaInfoHelper ((Data) data.get (Properties.META_INFO.getKey ()));
+		return MetaInfoHelper.wrap ((Data) data.get (Properties.META_INFO.getKey ()));
 	}
 	
 	

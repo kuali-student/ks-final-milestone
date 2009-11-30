@@ -53,9 +53,18 @@ public class CluCluRelationInfoHelper
 	}
 	private Data data;
 	
-	public CluCluRelationInfoHelper (Data data)
+	private CluCluRelationInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static CluCluRelationInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new CluCluRelationInfoHelper (data);
 	}
 	
 	public Data getData ()
@@ -94,7 +103,7 @@ public class CluCluRelationInfoHelper
 	}
 	
 	
-	public Boolean getIsCluRelationRequired ()
+	public Boolean isIsCluRelationRequired ()
 	{
 		return (Boolean) data.get (Properties.IS_CLU_RELATION_REQUIRED.getKey ());
 	}
@@ -144,7 +153,7 @@ public class CluCluRelationInfoHelper
 	
 	public MetaInfoHelper getMetaInfo ()
 	{
-		return new MetaInfoHelper ((Data) data.get (Properties.META_INFO.getKey ()));
+		return MetaInfoHelper.wrap ((Data) data.get (Properties.META_INFO.getKey ()));
 	}
 	
 	

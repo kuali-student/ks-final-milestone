@@ -43,9 +43,18 @@ public class AcademicSubjectOrgInfoHelper
 	}
 	private Data data;
 	
-	public AcademicSubjectOrgInfoHelper (Data data)
+	private AcademicSubjectOrgInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static AcademicSubjectOrgInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new AcademicSubjectOrgInfoHelper (data);
 	}
 	
 	public Data getData ()

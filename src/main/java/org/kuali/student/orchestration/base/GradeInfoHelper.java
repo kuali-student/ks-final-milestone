@@ -52,9 +52,18 @@ public class GradeInfoHelper
 	}
 	private Data data;
 	
-	public GradeInfoHelper (Data data)
+	private GradeInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static GradeInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new GradeInfoHelper (data);
 	}
 	
 	public Data getData ()

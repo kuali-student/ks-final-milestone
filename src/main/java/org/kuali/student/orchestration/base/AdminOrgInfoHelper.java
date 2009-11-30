@@ -44,9 +44,18 @@ public class AdminOrgInfoHelper
 	}
 	private Data data;
 	
-	public AdminOrgInfoHelper (Data data)
+	private AdminOrgInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static AdminOrgInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new AdminOrgInfoHelper (data);
 	}
 	
 	public Data getData ()

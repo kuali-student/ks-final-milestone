@@ -49,9 +49,18 @@ public class ResultUsageTypeInfoHelper
 	}
 	private Data data;
 	
-	public ResultUsageTypeInfoHelper (Data data)
+	private ResultUsageTypeInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static ResultUsageTypeInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new ResultUsageTypeInfoHelper (data);
 	}
 	
 	public Data getData ()

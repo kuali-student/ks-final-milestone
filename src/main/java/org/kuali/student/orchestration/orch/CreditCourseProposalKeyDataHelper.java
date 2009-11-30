@@ -45,9 +45,18 @@ public class CreditCourseProposalKeyDataHelper
 	}
 	private Data data;
 	
-	public CreditCourseProposalKeyDataHelper (Data data)
+	private CreditCourseProposalKeyDataHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static CreditCourseProposalKeyDataHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new CreditCourseProposalKeyDataHelper (data);
 	}
 	
 	public Data getData ()

@@ -51,9 +51,18 @@ public class AtpTypeInfoHelper
 	}
 	private Data data;
 	
-	public AtpTypeInfoHelper (Data data)
+	private AtpTypeInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static AtpTypeInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new AtpTypeInfoHelper (data);
 	}
 	
 	public Data getData ()

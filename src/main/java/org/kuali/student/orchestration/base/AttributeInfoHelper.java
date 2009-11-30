@@ -44,9 +44,18 @@ public class AttributeInfoHelper
 	}
 	private Data data;
 	
-	public AttributeInfoHelper (Data data)
+	private AttributeInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static AttributeInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new AttributeInfoHelper (data);
 	}
 	
 	public Data getData ()

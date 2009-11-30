@@ -51,9 +51,18 @@ public class ResultOptionInfoHelper
 	}
 	private Data data;
 	
-	public ResultOptionInfoHelper (Data data)
+	private ResultOptionInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static ResultOptionInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new ResultOptionInfoHelper (data);
 	}
 	
 	public Data getData ()
@@ -70,7 +79,7 @@ public class ResultOptionInfoHelper
 	
 	public RichTextInfoHelper getDesc ()
 	{
-		return new RichTextInfoHelper ((Data) data.get (Properties.DESC.getKey ()));
+		return RichTextInfoHelper.wrap ((Data) data.get (Properties.DESC.getKey ()));
 	}
 	
 	
@@ -130,7 +139,7 @@ public class ResultOptionInfoHelper
 	
 	public MetaInfoHelper getMetaInfo ()
 	{
-		return new MetaInfoHelper ((Data) data.get (Properties.META_INFO.getKey ()));
+		return MetaInfoHelper.wrap ((Data) data.get (Properties.META_INFO.getKey ()));
 	}
 	
 	

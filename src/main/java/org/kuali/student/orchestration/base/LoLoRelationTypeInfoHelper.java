@@ -51,9 +51,18 @@ public class LoLoRelationTypeInfoHelper
 	}
 	private Data data;
 	
-	public LoLoRelationTypeInfoHelper (Data data)
+	private LoLoRelationTypeInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static LoLoRelationTypeInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new LoLoRelationTypeInfoHelper (data);
 	}
 	
 	public Data getData ()

@@ -49,9 +49,18 @@ public class CluSetTypeInfoHelper
 	}
 	private Data data;
 	
-	public CluSetTypeInfoHelper (Data data)
+	private CluSetTypeInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static CluSetTypeInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new CluSetTypeInfoHelper (data);
 	}
 	
 	public Data getData ()

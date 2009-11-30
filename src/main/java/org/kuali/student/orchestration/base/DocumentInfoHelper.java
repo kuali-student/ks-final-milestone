@@ -54,9 +54,18 @@ public class DocumentInfoHelper
 	}
 	private Data data;
 	
-	public DocumentInfoHelper (Data data)
+	private DocumentInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static DocumentInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new DocumentInfoHelper (data);
 	}
 	
 	public Data getData ()
@@ -97,7 +106,7 @@ public class DocumentInfoHelper
 	
 	public RichTextInfoHelper getDesc ()
 	{
-		return new RichTextInfoHelper ((Data) data.get (Properties.DESC.getKey ()));
+		return RichTextInfoHelper.wrap ((Data) data.get (Properties.DESC.getKey ()));
 	}
 	
 	
@@ -109,7 +118,7 @@ public class DocumentInfoHelper
 	
 	public DocumentBinaryInfoHelper getDocumentBinaryInfo ()
 	{
-		return new DocumentBinaryInfoHelper ((Data) data.get (Properties.DOCUMENT_BINARY_INFO.getKey ()));
+		return DocumentBinaryInfoHelper.wrap ((Data) data.get (Properties.DOCUMENT_BINARY_INFO.getKey ()));
 	}
 	
 	
@@ -157,7 +166,7 @@ public class DocumentInfoHelper
 	
 	public MetaInfoHelper getMetaInfo ()
 	{
-		return new MetaInfoHelper ((Data) data.get (Properties.META_INFO.getKey ()));
+		return MetaInfoHelper.wrap ((Data) data.get (Properties.META_INFO.getKey ()));
 	}
 	
 	

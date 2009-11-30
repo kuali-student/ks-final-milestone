@@ -18,7 +18,6 @@ package org.kuali.student.orchestration.base;
 
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.TimeAmountInfoHelper;
 
 
 public class TimeAmountInfoHelper
@@ -45,9 +44,18 @@ public class TimeAmountInfoHelper
 	}
 	private Data data;
 	
-	public TimeAmountInfoHelper (Data data)
+	private TimeAmountInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static TimeAmountInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new TimeAmountInfoHelper (data);
 	}
 	
 	public Data getData ()
@@ -79,12 +87,5 @@ public class TimeAmountInfoHelper
 		return (Integer) data.get (Properties.TIME_QUANTITY.getKey ());
 	}
 	
-	public static TimeAmountInfoHelper wrap(Data data) {
-		if (data == null) {
-			return null;
-		} else {
-			return new TimeAmountInfoHelper(data);
-		}
-	}
 }
 

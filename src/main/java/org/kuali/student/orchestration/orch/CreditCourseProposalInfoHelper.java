@@ -27,12 +27,12 @@ public class CreditCourseProposalInfoHelper
 	public enum Properties implements PropertyEnum
 	{
 		ID ("id"),
+		PROPOSER_PERSON ("proposerPerson"),
 		TITLE ("title"),
 		RATIONALE ("rationale"),
 		REFERENCE_TYPE ("referenceType"),
 		REFERENCES ("references"),
-		_RUNTIME_DATA ("_runtimeData"),
-		PROPOSER_PERSON("proposerPerson");
+		_RUNTIME_DATA ("_runtimeData");
 		
 		private final String key;
 		
@@ -49,9 +49,18 @@ public class CreditCourseProposalInfoHelper
 	}
 	private Data data;
 	
-	public CreditCourseProposalInfoHelper (Data data)
+	private CreditCourseProposalInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static CreditCourseProposalInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new CreditCourseProposalInfoHelper (data);
 	}
 	
 	public Data getData ()
@@ -69,6 +78,18 @@ public class CreditCourseProposalInfoHelper
 	public String getId ()
 	{
 		return (String) data.get (Properties.ID.getKey ());
+	}
+	
+	
+	public void setProposerPerson (Data value)
+	{
+		data.set (Properties.PROPOSER_PERSON.getKey (), value);
+	}
+	
+	
+	public Data getProposerPerson ()
+	{
+		return (Data) data.get (Properties.PROPOSER_PERSON.getKey ());
 	}
 	
 	
@@ -128,18 +149,7 @@ public class CreditCourseProposalInfoHelper
 	
 	public RuntimeDataHelper get_runtimeData ()
 	{
-		return new RuntimeDataHelper ((Data) data.get (Properties._RUNTIME_DATA.getKey ()));
-	}
-	
-	public void setProposerPerson(String value)
-	{
-		data.set (Properties.PROPOSER_PERSON.getKey (), value);
-	}
-	
-	
-	public String getProposerPerson()
-	{
-		return (String) data.get (Properties.PROPOSER_PERSON.getKey ());
+		return RuntimeDataHelper.wrap ((Data) data.get (Properties._RUNTIME_DATA.getKey ()));
 	}
 	
 }

@@ -52,9 +52,18 @@ public class AtpInfoHelper
 	}
 	private Data data;
 	
-	public AtpInfoHelper (Data data)
+	private AtpInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static AtpInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new AtpInfoHelper (data);
 	}
 	
 	public Data getData ()
@@ -83,7 +92,7 @@ public class AtpInfoHelper
 	
 	public RichTextInfoHelper getDesc ()
 	{
-		return new RichTextInfoHelper ((Data) data.get (Properties.DESC.getKey ()));
+		return RichTextInfoHelper.wrap ((Data) data.get (Properties.DESC.getKey ()));
 	}
 	
 	
@@ -131,7 +140,7 @@ public class AtpInfoHelper
 	
 	public MetaInfoHelper getMetaInfo ()
 	{
-		return new MetaInfoHelper ((Data) data.get (Properties.META_INFO.getKey ()));
+		return MetaInfoHelper.wrap ((Data) data.get (Properties.META_INFO.getKey ()));
 	}
 	
 	

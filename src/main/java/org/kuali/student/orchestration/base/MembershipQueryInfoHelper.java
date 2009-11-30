@@ -44,9 +44,18 @@ public class MembershipQueryInfoHelper
 	}
 	private Data data;
 	
-	public MembershipQueryInfoHelper (Data data)
+	private MembershipQueryInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static MembershipQueryInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new MembershipQueryInfoHelper (data);
 	}
 	
 	public Data getData ()

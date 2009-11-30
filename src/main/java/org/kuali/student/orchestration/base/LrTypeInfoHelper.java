@@ -49,9 +49,18 @@ public class LrTypeInfoHelper
 	}
 	private Data data;
 	
-	public LrTypeInfoHelper (Data data)
+	private LrTypeInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static LrTypeInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new LrTypeInfoHelper (data);
 	}
 	
 	public Data getData ()

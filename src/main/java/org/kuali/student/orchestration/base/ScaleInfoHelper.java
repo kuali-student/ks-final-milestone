@@ -49,9 +49,18 @@ public class ScaleInfoHelper
 	}
 	private Data data;
 	
-	public ScaleInfoHelper (Data data)
+	private ScaleInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static ScaleInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new ScaleInfoHelper (data);
 	}
 	
 	public Data getData ()
@@ -80,7 +89,7 @@ public class ScaleInfoHelper
 	
 	public RichTextInfoHelper getDesc ()
 	{
-		return new RichTextInfoHelper ((Data) data.get (Properties.DESC.getKey ()));
+		return RichTextInfoHelper.wrap ((Data) data.get (Properties.DESC.getKey ()));
 	}
 	
 	

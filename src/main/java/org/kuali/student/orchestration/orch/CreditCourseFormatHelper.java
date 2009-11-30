@@ -46,9 +46,18 @@ public class CreditCourseFormatHelper
 	}
 	private Data data;
 	
-	public CreditCourseFormatHelper (Data data)
+	private CreditCourseFormatHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static CreditCourseFormatHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new CreditCourseFormatHelper (data);
 	}
 	
 	public Data getData ()
@@ -101,7 +110,7 @@ public class CreditCourseFormatHelper
 	
 	public RuntimeDataHelper get_runtimeData ()
 	{
-		return new RuntimeDataHelper ((Data) data.get (Properties._RUNTIME_DATA.getKey ()));
+		return RuntimeDataHelper.wrap ((Data) data.get (Properties._RUNTIME_DATA.getKey ()));
 	}
 	
 }

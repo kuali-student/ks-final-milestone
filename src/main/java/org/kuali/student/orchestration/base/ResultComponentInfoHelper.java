@@ -53,9 +53,18 @@ public class ResultComponentInfoHelper
 	}
 	private Data data;
 	
-	public ResultComponentInfoHelper (Data data)
+	private ResultComponentInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static ResultComponentInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new ResultComponentInfoHelper (data);
 	}
 	
 	public Data getData ()
@@ -84,7 +93,7 @@ public class ResultComponentInfoHelper
 	
 	public RichTextInfoHelper getDesc ()
 	{
-		return new RichTextInfoHelper ((Data) data.get (Properties.DESC.getKey ()));
+		return RichTextInfoHelper.wrap ((Data) data.get (Properties.DESC.getKey ()));
 	}
 	
 	
@@ -144,7 +153,7 @@ public class ResultComponentInfoHelper
 	
 	public MetaInfoHelper getMetaInfo ()
 	{
-		return new MetaInfoHelper ((Data) data.get (Properties.META_INFO.getKey ()));
+		return MetaInfoHelper.wrap ((Data) data.get (Properties.META_INFO.getKey ()));
 	}
 	
 	

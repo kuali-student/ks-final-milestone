@@ -44,9 +44,18 @@ public class AmountInfoHelper
 	}
 	private Data data;
 	
-	public AmountInfoHelper (Data data)
+	private AmountInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static AmountInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new AmountInfoHelper (data);
 	}
 	
 	public Data getData ()

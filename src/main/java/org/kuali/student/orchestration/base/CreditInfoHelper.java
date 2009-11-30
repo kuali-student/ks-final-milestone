@@ -51,9 +51,18 @@ public class CreditInfoHelper
 	}
 	private Data data;
 	
-	public CreditInfoHelper (Data data)
+	private CreditInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static CreditInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new CreditInfoHelper (data);
 	}
 	
 	public Data getData ()
@@ -82,7 +91,7 @@ public class CreditInfoHelper
 	
 	public RichTextInfoHelper getDesc ()
 	{
-		return new RichTextInfoHelper ((Data) data.get (Properties.DESC.getKey ()));
+		return RichTextInfoHelper.wrap ((Data) data.get (Properties.DESC.getKey ()));
 	}
 	
 	

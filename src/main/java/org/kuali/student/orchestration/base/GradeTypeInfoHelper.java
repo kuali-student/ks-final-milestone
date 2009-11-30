@@ -49,9 +49,18 @@ public class GradeTypeInfoHelper
 	}
 	private Data data;
 	
-	public GradeTypeInfoHelper (Data data)
+	private GradeTypeInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static GradeTypeInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new GradeTypeInfoHelper (data);
 	}
 	
 	public Data getData ()

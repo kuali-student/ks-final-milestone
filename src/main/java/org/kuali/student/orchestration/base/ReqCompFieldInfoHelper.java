@@ -44,9 +44,18 @@ public class ReqCompFieldInfoHelper
 	}
 	private Data data;
 	
-	public ReqCompFieldInfoHelper (Data data)
+	private ReqCompFieldInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static ReqCompFieldInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new ReqCompFieldInfoHelper (data);
 	}
 	
 	public Data getData ()

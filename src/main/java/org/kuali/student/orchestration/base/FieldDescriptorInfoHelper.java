@@ -55,9 +55,18 @@ public class FieldDescriptorInfoHelper
 	}
 	private Data data;
 	
-	public FieldDescriptorInfoHelper (Data data)
+	private FieldDescriptorInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static FieldDescriptorInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new FieldDescriptorInfoHelper (data);
 	}
 	
 	public Data getData ()
@@ -182,7 +191,7 @@ public class FieldDescriptorInfoHelper
 	
 	public EnumFieldViewInfoHelper getEnumFieldView ()
 	{
-		return new EnumFieldViewInfoHelper ((Data) data.get (Properties.ENUM_FIELD_VIEW.getKey ()));
+		return EnumFieldViewInfoHelper.wrap ((Data) data.get (Properties.ENUM_FIELD_VIEW.getKey ()));
 	}
 	
 	
@@ -216,7 +225,7 @@ public class FieldDescriptorInfoHelper
 	}
 	
 	
-	public Boolean getReadOnly ()
+	public Boolean isReadOnly ()
 	{
 		return (Boolean) data.get (Properties.READ_ONLY.getKey ());
 	}

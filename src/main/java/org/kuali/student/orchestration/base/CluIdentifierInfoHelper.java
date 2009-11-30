@@ -53,9 +53,18 @@ public class CluIdentifierInfoHelper
 	}
 	private Data data;
 	
-	public CluIdentifierInfoHelper (Data data)
+	private CluIdentifierInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static CluIdentifierInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new CluIdentifierInfoHelper (data);
 	}
 	
 	public Data getData ()

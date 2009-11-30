@@ -48,9 +48,18 @@ public class MetaInfoHelper
 	}
 	private Data data;
 	
-	public MetaInfoHelper (Data data)
+	private MetaInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static MetaInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new MetaInfoHelper (data);
 	}
 	
 	public Data getData ()

@@ -47,9 +47,18 @@ public class AffiliatedOrgInfoHelper
 	}
 	private Data data;
 	
-	public AffiliatedOrgInfoHelper (Data data)
+	private AffiliatedOrgInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static AffiliatedOrgInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new AffiliatedOrgInfoHelper (data);
 	}
 	
 	public Data getData ()

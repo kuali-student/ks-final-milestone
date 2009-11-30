@@ -49,9 +49,18 @@ public class LoTypeInfoHelper
 	}
 	private Data data;
 	
-	public LoTypeInfoHelper (Data data)
+	private LoTypeInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static LoTypeInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new LoTypeInfoHelper (data);
 	}
 	
 	public Data getData ()

@@ -49,9 +49,18 @@ public class CreditTypeInfoHelper
 	}
 	private Data data;
 	
-	public CreditTypeInfoHelper (Data data)
+	private CreditTypeInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static CreditTypeInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new CreditTypeInfoHelper (data);
 	}
 	
 	public Data getData ()

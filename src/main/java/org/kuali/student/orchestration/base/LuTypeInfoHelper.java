@@ -51,9 +51,18 @@ public class LuTypeInfoHelper
 	}
 	private Data data;
 	
-	public LuTypeInfoHelper (Data data)
+	private LuTypeInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static LuTypeInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new LuTypeInfoHelper (data);
 	}
 	
 	public Data getData ()

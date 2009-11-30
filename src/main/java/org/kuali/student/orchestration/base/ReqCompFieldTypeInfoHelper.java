@@ -44,9 +44,18 @@ public class ReqCompFieldTypeInfoHelper
 	}
 	private Data data;
 	
-	public ReqCompFieldTypeInfoHelper (Data data)
+	private ReqCompFieldTypeInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static ReqCompFieldTypeInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new ReqCompFieldTypeInfoHelper (data);
 	}
 	
 	public Data getData ()
@@ -63,7 +72,7 @@ public class ReqCompFieldTypeInfoHelper
 	
 	public FieldDescriptorInfoHelper getFieldDescriptor ()
 	{
-		return new FieldDescriptorInfoHelper ((Data) data.get (Properties.FIELD_DESCRIPTOR.getKey ()));
+		return FieldDescriptorInfoHelper.wrap ((Data) data.get (Properties.FIELD_DESCRIPTOR.getKey ()));
 	}
 	
 	

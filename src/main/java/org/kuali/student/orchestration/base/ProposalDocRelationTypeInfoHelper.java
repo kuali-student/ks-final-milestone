@@ -49,9 +49,18 @@ public class ProposalDocRelationTypeInfoHelper
 	}
 	private Data data;
 	
-	public ProposalDocRelationTypeInfoHelper (Data data)
+	private ProposalDocRelationTypeInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static ProposalDocRelationTypeInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new ProposalDocRelationTypeInfoHelper (data);
 	}
 	
 	public Data getData ()

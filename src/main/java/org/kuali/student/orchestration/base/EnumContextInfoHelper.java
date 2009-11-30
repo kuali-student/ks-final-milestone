@@ -44,9 +44,18 @@ public class EnumContextInfoHelper
 	}
 	private Data data;
 	
-	public EnumContextInfoHelper (Data data)
+	private EnumContextInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static EnumContextInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new EnumContextInfoHelper (data);
 	}
 	
 	public Data getData ()
@@ -63,7 +72,7 @@ public class EnumContextInfoHelper
 	
 	public FieldDescriptorInfoHelper getContextValueDescriptor ()
 	{
-		return new FieldDescriptorInfoHelper ((Data) data.get (Properties.CONTEXT_VALUE_DESCRIPTOR.getKey ()));
+		return FieldDescriptorInfoHelper.wrap ((Data) data.get (Properties.CONTEXT_VALUE_DESCRIPTOR.getKey ()));
 	}
 	
 	

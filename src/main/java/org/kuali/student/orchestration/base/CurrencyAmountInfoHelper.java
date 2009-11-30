@@ -44,9 +44,18 @@ public class CurrencyAmountInfoHelper
 	}
 	private Data data;
 	
-	public CurrencyAmountInfoHelper (Data data)
+	private CurrencyAmountInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static CurrencyAmountInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new CurrencyAmountInfoHelper (data);
 	}
 	
 	public Data getData ()

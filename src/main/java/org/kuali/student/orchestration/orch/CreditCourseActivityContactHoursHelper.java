@@ -44,9 +44,18 @@ public class CreditCourseActivityContactHoursHelper
 	}
 	private Data data;
 	
-	public CreditCourseActivityContactHoursHelper (Data data)
+	private CreditCourseActivityContactHoursHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static CreditCourseActivityContactHoursHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new CreditCourseActivityContactHoursHelper (data);
 	}
 	
 	public Data getData ()

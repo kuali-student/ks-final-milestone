@@ -51,9 +51,18 @@ public class ReqComponentInfoHelper
 	}
 	private Data data;
 	
-	public ReqComponentInfoHelper (Data data)
+	private ReqComponentInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static ReqComponentInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new ReqComponentInfoHelper (data);
 	}
 	
 	public Data getData ()
@@ -70,7 +79,7 @@ public class ReqComponentInfoHelper
 	
 	public RichTextInfoHelper getDesc ()
 	{
-		return new RichTextInfoHelper ((Data) data.get (Properties.DESC.getKey ()));
+		return RichTextInfoHelper.wrap ((Data) data.get (Properties.DESC.getKey ()));
 	}
 	
 	
@@ -82,7 +91,7 @@ public class ReqComponentInfoHelper
 	
 	public ReqCompFieldInfoHelper getReqCompField ()
 	{
-		return new ReqCompFieldInfoHelper ((Data) data.get (Properties.REQ_COMP_FIELD.getKey ()));
+		return ReqCompFieldInfoHelper.wrap ((Data) data.get (Properties.REQ_COMP_FIELD.getKey ()));
 	}
 	
 	
@@ -118,7 +127,7 @@ public class ReqComponentInfoHelper
 	
 	public MetaInfoHelper getMetaInfo ()
 	{
-		return new MetaInfoHelper ((Data) data.get (Properties.META_INFO.getKey ()));
+		return MetaInfoHelper.wrap ((Data) data.get (Properties.META_INFO.getKey ()));
 	}
 	
 	

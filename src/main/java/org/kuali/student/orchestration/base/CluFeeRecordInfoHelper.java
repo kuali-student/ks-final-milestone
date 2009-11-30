@@ -47,9 +47,18 @@ public class CluFeeRecordInfoHelper
 	}
 	private Data data;
 	
-	public CluFeeRecordInfoHelper (Data data)
+	private CluFeeRecordInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static CluFeeRecordInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new CluFeeRecordInfoHelper (data);
 	}
 	
 	public Data getData ()
@@ -78,7 +87,7 @@ public class CluFeeRecordInfoHelper
 	
 	public CurrencyAmountInfoHelper getFeeAmount ()
 	{
-		return new CurrencyAmountInfoHelper ((Data) data.get (Properties.FEE_AMOUNT.getKey ()));
+		return CurrencyAmountInfoHelper.wrap ((Data) data.get (Properties.FEE_AMOUNT.getKey ()));
 	}
 	
 	

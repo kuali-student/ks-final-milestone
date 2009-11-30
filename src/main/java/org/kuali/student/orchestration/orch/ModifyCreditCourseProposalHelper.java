@@ -44,9 +44,18 @@ public class ModifyCreditCourseProposalHelper
 	}
 	private Data data;
 	
-	public ModifyCreditCourseProposalHelper (Data data)
+	private ModifyCreditCourseProposalHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static ModifyCreditCourseProposalHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new ModifyCreditCourseProposalHelper (data);
 	}
 	
 	public Data getData ()
@@ -63,7 +72,7 @@ public class ModifyCreditCourseProposalHelper
 	
 	public CreditCourseProposalHelper getCreditCourseProposal ()
 	{
-		return new CreditCourseProposalHelper ((Data) data.get (Properties.CREDIT_COURSE_PROPOSAL.getKey ()));
+		return CreditCourseProposalHelper.wrap ((Data) data.get (Properties.CREDIT_COURSE_PROPOSAL.getKey ()));
 	}
 	
 	
@@ -75,7 +84,7 @@ public class ModifyCreditCourseProposalHelper
 	
 	public CreditCourseHelper getOriginal ()
 	{
-		return new CreditCourseHelper ((Data) data.get (Properties.ORIGINAL.getKey ()));
+		return CreditCourseHelper.wrap ((Data) data.get (Properties.ORIGINAL.getKey ()));
 	}
 	
 }

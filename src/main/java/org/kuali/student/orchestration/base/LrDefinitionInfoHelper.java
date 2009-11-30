@@ -51,9 +51,18 @@ public class LrDefinitionInfoHelper
 	}
 	private Data data;
 	
-	public LrDefinitionInfoHelper (Data data)
+	private LrDefinitionInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static LrDefinitionInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new LrDefinitionInfoHelper (data);
 	}
 	
 	public Data getData ()
@@ -154,7 +163,7 @@ public class LrDefinitionInfoHelper
 	
 	public MetaInfoHelper getMetaInfo ()
 	{
-		return new MetaInfoHelper ((Data) data.get (Properties.META_INFO.getKey ()));
+		return MetaInfoHelper.wrap ((Data) data.get (Properties.META_INFO.getKey ()));
 	}
 	
 	

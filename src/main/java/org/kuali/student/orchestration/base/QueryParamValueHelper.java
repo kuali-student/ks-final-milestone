@@ -44,9 +44,18 @@ public class QueryParamValueHelper
 	}
 	private Data data;
 	
-	public QueryParamValueHelper (Data data)
+	private QueryParamValueHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static QueryParamValueHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new QueryParamValueHelper (data);
 	}
 	
 	public Data getData ()

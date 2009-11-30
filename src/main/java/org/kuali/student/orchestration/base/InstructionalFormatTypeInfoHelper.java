@@ -49,9 +49,18 @@ public class InstructionalFormatTypeInfoHelper
 	}
 	private Data data;
 	
-	public InstructionalFormatTypeInfoHelper (Data data)
+	private InstructionalFormatTypeInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static InstructionalFormatTypeInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new InstructionalFormatTypeInfoHelper (data);
 	}
 	
 	public Data getData ()

@@ -49,9 +49,18 @@ public class ReferenceTypeInfoHelper
 	}
 	private Data data;
 	
-	public ReferenceTypeInfoHelper (Data data)
+	private ReferenceTypeInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static ReferenceTypeInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new ReferenceTypeInfoHelper (data);
 	}
 	
 	public Data getData ()

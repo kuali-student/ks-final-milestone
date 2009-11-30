@@ -54,9 +54,18 @@ public class ProposalDocRelationInfoHelper
 	}
 	private Data data;
 	
-	public ProposalDocRelationInfoHelper (Data data)
+	private ProposalDocRelationInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static ProposalDocRelationInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new ProposalDocRelationInfoHelper (data);
 	}
 	
 	public Data getData ()
@@ -109,7 +118,7 @@ public class ProposalDocRelationInfoHelper
 	
 	public RichTextInfoHelper getDesc ()
 	{
-		return new RichTextInfoHelper ((Data) data.get (Properties.DESC.getKey ()));
+		return RichTextInfoHelper.wrap ((Data) data.get (Properties.DESC.getKey ()));
 	}
 	
 	
@@ -157,7 +166,7 @@ public class ProposalDocRelationInfoHelper
 	
 	public MetaInfoHelper getMetaInfo ()
 	{
-		return new MetaInfoHelper ((Data) data.get (Properties.META_INFO.getKey ()));
+		return MetaInfoHelper.wrap ((Data) data.get (Properties.META_INFO.getKey ()));
 	}
 	
 	

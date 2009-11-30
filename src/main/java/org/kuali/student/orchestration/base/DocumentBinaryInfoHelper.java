@@ -43,9 +43,18 @@ public class DocumentBinaryInfoHelper
 	}
 	private Data data;
 	
-	public DocumentBinaryInfoHelper (Data data)
+	private DocumentBinaryInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static DocumentBinaryInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new DocumentBinaryInfoHelper (data);
 	}
 	
 	public Data getData ()

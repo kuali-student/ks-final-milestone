@@ -49,9 +49,18 @@ public class DeliveryMethodTypeInfoHelper
 	}
 	private Data data;
 	
-	public DeliveryMethodTypeInfoHelper (Data data)
+	private DeliveryMethodTypeInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static DeliveryMethodTypeInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new DeliveryMethodTypeInfoHelper (data);
 	}
 	
 	public Data getData ()

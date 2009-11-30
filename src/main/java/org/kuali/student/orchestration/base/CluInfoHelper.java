@@ -78,9 +78,18 @@ public class CluInfoHelper
 	}
 	private Data data;
 	
-	public CluInfoHelper (Data data)
+	private CluInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static CluInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new CluInfoHelper (data);
 	}
 	
 	public Data getData ()
@@ -97,7 +106,7 @@ public class CluInfoHelper
 	
 	public CluIdentifierInfoHelper getOfficialIdentifier ()
 	{
-		return new CluIdentifierInfoHelper ((Data) data.get (Properties.OFFICIAL_IDENTIFIER.getKey ()));
+		return CluIdentifierInfoHelper.wrap ((Data) data.get (Properties.OFFICIAL_IDENTIFIER.getKey ()));
 	}
 	
 	
@@ -145,7 +154,7 @@ public class CluInfoHelper
 	
 	public RichTextInfoHelper getDesc ()
 	{
-		return new RichTextInfoHelper ((Data) data.get (Properties.DESC.getKey ()));
+		return RichTextInfoHelper.wrap ((Data) data.get (Properties.DESC.getKey ()));
 	}
 	
 	
@@ -157,7 +166,7 @@ public class CluInfoHelper
 	
 	public RichTextInfoHelper getMarketingDesc ()
 	{
-		return new RichTextInfoHelper ((Data) data.get (Properties.MARKETING_DESC.getKey ()));
+		return RichTextInfoHelper.wrap ((Data) data.get (Properties.MARKETING_DESC.getKey ()));
 	}
 	
 	
@@ -193,7 +202,7 @@ public class CluInfoHelper
 	
 	public AdminOrgInfoHelper getPrimaryAdminOrg ()
 	{
-		return new AdminOrgInfoHelper ((Data) data.get (Properties.PRIMARY_ADMIN_ORG.getKey ()));
+		return AdminOrgInfoHelper.wrap ((Data) data.get (Properties.PRIMARY_ADMIN_ORG.getKey ()));
 	}
 	
 	
@@ -217,7 +226,7 @@ public class CluInfoHelper
 	
 	public CluInstructorInfoHelper getPrimaryInstructor ()
 	{
-		return new CluInstructorInfoHelper ((Data) data.get (Properties.PRIMARY_INSTRUCTOR.getKey ()));
+		return CluInstructorInfoHelper.wrap ((Data) data.get (Properties.PRIMARY_INSTRUCTOR.getKey ()));
 	}
 	
 	
@@ -277,7 +286,7 @@ public class CluInfoHelper
 	
 	public TimeAmountInfoHelper getIntensity ()
 	{
-		return new TimeAmountInfoHelper ((Data) data.get (Properties.INTENSITY.getKey ()));
+		return TimeAmountInfoHelper.wrap ((Data) data.get (Properties.INTENSITY.getKey ()));
 	}
 	
 	
@@ -289,7 +298,7 @@ public class CluInfoHelper
 	
 	public TimeAmountInfoHelper getStdDuration ()
 	{
-		return new TimeAmountInfoHelper ((Data) data.get (Properties.STD_DURATION.getKey ()));
+		return TimeAmountInfoHelper.wrap ((Data) data.get (Properties.STD_DURATION.getKey ()));
 	}
 	
 	
@@ -299,7 +308,7 @@ public class CluInfoHelper
 	}
 	
 	
-	public Boolean getCanCreateLui ()
+	public Boolean isCanCreateLui ()
 	{
 		return (Boolean) data.get (Properties.CAN_CREATE_LUI.getKey ());
 	}
@@ -337,7 +346,7 @@ public class CluInfoHelper
 	
 	public CluPublishingInfoHelper getPublishingInfo ()
 	{
-		return new CluPublishingInfoHelper ((Data) data.get (Properties.PUBLISHING_INFO.getKey ()));
+		return CluPublishingInfoHelper.wrap ((Data) data.get (Properties.PUBLISHING_INFO.getKey ()));
 	}
 	
 	
@@ -359,7 +368,7 @@ public class CluInfoHelper
 	}
 	
 	
-	public Boolean getIsEnrollable ()
+	public Boolean isIsEnrollable ()
 	{
 		return (Boolean) data.get (Properties.IS_ENROLLABLE.getKey ());
 	}
@@ -383,7 +392,7 @@ public class CluInfoHelper
 	}
 	
 	
-	public Boolean getHasEarlyDropDeadline ()
+	public Boolean isHasEarlyDropDeadline ()
 	{
 		return (Boolean) data.get (Properties.HAS_EARLY_DROP_DEADLINE.getKey ());
 	}
@@ -419,7 +428,7 @@ public class CluInfoHelper
 	}
 	
 	
-	public Boolean getIsHazardousForDisabledStudents ()
+	public Boolean isIsHazardousForDisabledStudents ()
 	{
 		return (Boolean) data.get (Properties.IS_HAZARDOUS_FOR_DISABLED_STUDENTS.getKey ());
 	}
@@ -433,7 +442,7 @@ public class CluInfoHelper
 	
 	public CluFeeInfoHelper getFeeInfo ()
 	{
-		return new CluFeeInfoHelper ((Data) data.get (Properties.FEE_INFO.getKey ()));
+		return CluFeeInfoHelper.wrap ((Data) data.get (Properties.FEE_INFO.getKey ()));
 	}
 	
 	
@@ -445,7 +454,7 @@ public class CluInfoHelper
 	
 	public CluAccountingInfoHelper getAccountingInfo ()
 	{
-		return new CluAccountingInfoHelper ((Data) data.get (Properties.ACCOUNTING_INFO.getKey ()));
+		return CluAccountingInfoHelper.wrap ((Data) data.get (Properties.ACCOUNTING_INFO.getKey ()));
 	}
 	
 	
@@ -469,7 +478,7 @@ public class CluInfoHelper
 	
 	public MetaInfoHelper getMetaInfo ()
 	{
-		return new MetaInfoHelper ((Data) data.get (Properties.META_INFO.getKey ()));
+		return MetaInfoHelper.wrap ((Data) data.get (Properties.META_INFO.getKey ()));
 	}
 	
 	

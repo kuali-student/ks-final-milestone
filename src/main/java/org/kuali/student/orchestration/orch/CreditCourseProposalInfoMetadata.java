@@ -60,6 +60,23 @@ public class CreditCourseProposalInfoMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.id"));
 		}
 		
+		// metadata for ProposerPerson
+		childMeta = new Metadata ();
+		mainMeta.getProperties ().put (Properties.PROPOSER_PERSON.getKey (), childMeta);
+		childMeta.setDataType (Data.DataType.LIST);
+		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("related.personid"));
+		}
+		listMeta = new Metadata ();
+		listMeta.setDataType (Data.DataType.STRING);
+		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
+		
 		// metadata for Title
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.TITLE.getKey (), childMeta);
@@ -127,19 +144,6 @@ public class CreditCourseProposalInfoMetadata
 		}
 		new RuntimeDataMetadata ().loadChildMetadata (childMeta, type, state);
 		
-		
-		// metadata for proposerPerson
-		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.PROPOSER_PERSON.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (this.matches (type, state, "(default)", "(default)"))
-		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single.line.text"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
-		}
-
 	}
 }
 

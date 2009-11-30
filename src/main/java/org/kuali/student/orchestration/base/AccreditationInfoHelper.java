@@ -49,9 +49,18 @@ public class AccreditationInfoHelper
 	}
 	private Data data;
 	
-	public AccreditationInfoHelper (Data data)
+	private AccreditationInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static AccreditationInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new AccreditationInfoHelper (data);
 	}
 	
 	public Data getData ()
@@ -116,7 +125,7 @@ public class AccreditationInfoHelper
 	
 	public MetaInfoHelper getMetaInfo ()
 	{
-		return new MetaInfoHelper ((Data) data.get (Properties.META_INFO.getKey ()));
+		return MetaInfoHelper.wrap ((Data) data.get (Properties.META_INFO.getKey ()));
 	}
 	
 	

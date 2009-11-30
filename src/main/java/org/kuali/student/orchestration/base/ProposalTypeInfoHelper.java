@@ -49,9 +49,18 @@ public class ProposalTypeInfoHelper
 	}
 	private Data data;
 	
-	public ProposalTypeInfoHelper (Data data)
+	private ProposalTypeInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static ProposalTypeInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new ProposalTypeInfoHelper (data);
 	}
 	
 	public Data getData ()

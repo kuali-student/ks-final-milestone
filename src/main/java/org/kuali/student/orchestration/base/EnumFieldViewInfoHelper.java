@@ -44,9 +44,18 @@ public class EnumFieldViewInfoHelper
 	}
 	private Data data;
 	
-	public EnumFieldViewInfoHelper (Data data)
+	private EnumFieldViewInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static EnumFieldViewInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new EnumFieldViewInfoHelper (data);
 	}
 	
 	public Data getData ()

@@ -51,9 +51,18 @@ public class LoRepositoryInfoHelper
 	}
 	private Data data;
 	
-	public LoRepositoryInfoHelper (Data data)
+	private LoRepositoryInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static LoRepositoryInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new LoRepositoryInfoHelper (data);
 	}
 	
 	public Data getData ()
@@ -82,7 +91,7 @@ public class LoRepositoryInfoHelper
 	
 	public RichTextInfoHelper getDesc ()
 	{
-		return new RichTextInfoHelper ((Data) data.get (Properties.DESC.getKey ()));
+		return RichTextInfoHelper.wrap ((Data) data.get (Properties.DESC.getKey ()));
 	}
 	
 	
@@ -142,7 +151,7 @@ public class LoRepositoryInfoHelper
 	
 	public MetaInfoHelper getMetaInfo ()
 	{
-		return new MetaInfoHelper ((Data) data.get (Properties.META_INFO.getKey ()));
+		return MetaInfoHelper.wrap ((Data) data.get (Properties.META_INFO.getKey ()));
 	}
 	
 	

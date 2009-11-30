@@ -49,9 +49,18 @@ public class CredentialTypeInfoHelper
 	}
 	private Data data;
 	
-	public CredentialTypeInfoHelper (Data data)
+	private CredentialTypeInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static CredentialTypeInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new CredentialTypeInfoHelper (data);
 	}
 	
 	public Data getData ()

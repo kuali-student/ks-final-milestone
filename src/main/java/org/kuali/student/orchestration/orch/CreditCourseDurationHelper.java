@@ -44,9 +44,18 @@ public class CreditCourseDurationHelper
 	}
 	private Data data;
 	
-	public CreditCourseDurationHelper (Data data)
+	private CreditCourseDurationHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static CreditCourseDurationHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new CreditCourseDurationHelper (data);
 	}
 	
 	public Data getData ()

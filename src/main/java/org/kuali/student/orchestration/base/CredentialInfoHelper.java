@@ -51,9 +51,18 @@ public class CredentialInfoHelper
 	}
 	private Data data;
 	
-	public CredentialInfoHelper (Data data)
+	private CredentialInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static CredentialInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new CredentialInfoHelper (data);
 	}
 	
 	public Data getData ()
@@ -82,7 +91,7 @@ public class CredentialInfoHelper
 	
 	public RichTextInfoHelper getDesc ()
 	{
-		return new RichTextInfoHelper ((Data) data.get (Properties.DESC.getKey ()));
+		return RichTextInfoHelper.wrap ((Data) data.get (Properties.DESC.getKey ()));
 	}
 	
 	

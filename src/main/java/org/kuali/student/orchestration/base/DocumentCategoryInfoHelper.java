@@ -49,9 +49,18 @@ public class DocumentCategoryInfoHelper
 	}
 	private Data data;
 	
-	public DocumentCategoryInfoHelper (Data data)
+	private DocumentCategoryInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static DocumentCategoryInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new DocumentCategoryInfoHelper (data);
 	}
 	
 	public Data getData ()
@@ -80,7 +89,7 @@ public class DocumentCategoryInfoHelper
 	
 	public RichTextInfoHelper getDesc ()
 	{
-		return new RichTextInfoHelper ((Data) data.get (Properties.DESC.getKey ()));
+		return RichTextInfoHelper.wrap ((Data) data.get (Properties.DESC.getKey ()));
 	}
 	
 	

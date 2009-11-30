@@ -47,9 +47,18 @@ public class CreditCourseActivityHelper
 	}
 	private Data data;
 	
-	public CreditCourseActivityHelper (Data data)
+	private CreditCourseActivityHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static CreditCourseActivityHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new CreditCourseActivityHelper (data);
 	}
 	
 	public Data getData ()
@@ -90,7 +99,7 @@ public class CreditCourseActivityHelper
 	
 	public CreditCourseActivityContactHoursHelper getContactHours ()
 	{
-		return new CreditCourseActivityContactHoursHelper ((Data) data.get (Properties.CONTACT_HOURS.getKey ()));
+		return CreditCourseActivityContactHoursHelper.wrap ((Data) data.get (Properties.CONTACT_HOURS.getKey ()));
 	}
 	
 	
@@ -114,7 +123,7 @@ public class CreditCourseActivityHelper
 	
 	public RuntimeDataHelper get_runtimeData ()
 	{
-		return new RuntimeDataHelper ((Data) data.get (Properties._RUNTIME_DATA.getKey ()));
+		return RuntimeDataHelper.wrap ((Data) data.get (Properties._RUNTIME_DATA.getKey ()));
 	}
 	
 }

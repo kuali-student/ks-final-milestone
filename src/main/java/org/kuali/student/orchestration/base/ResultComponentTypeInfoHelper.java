@@ -49,9 +49,18 @@ public class ResultComponentTypeInfoHelper
 	}
 	private Data data;
 	
-	public ResultComponentTypeInfoHelper (Data data)
+	private ResultComponentTypeInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static ResultComponentTypeInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new ResultComponentTypeInfoHelper (data);
 	}
 	
 	public Data getData ()

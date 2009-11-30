@@ -44,9 +44,18 @@ public class CluFeeInfoHelper
 	}
 	private Data data;
 	
-	public CluFeeInfoHelper (Data data)
+	private CluFeeInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static CluFeeInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new CluFeeInfoHelper (data);
 	}
 	
 	public Data getData ()

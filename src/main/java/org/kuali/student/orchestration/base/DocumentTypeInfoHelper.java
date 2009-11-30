@@ -49,9 +49,18 @@ public class DocumentTypeInfoHelper
 	}
 	private Data data;
 	
-	public DocumentTypeInfoHelper (Data data)
+	private DocumentTypeInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static DocumentTypeInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new DocumentTypeInfoHelper (data);
 	}
 	
 	public Data getData ()
@@ -80,7 +89,7 @@ public class DocumentTypeInfoHelper
 	
 	public RichTextInfoHelper getDesc ()
 	{
-		return new RichTextInfoHelper ((Data) data.get (Properties.DESC.getKey ()));
+		return RichTextInfoHelper.wrap ((Data) data.get (Properties.DESC.getKey ()));
 	}
 	
 	

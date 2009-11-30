@@ -49,9 +49,18 @@ public class TagTypeInfoHelper
 	}
 	private Data data;
 	
-	public TagTypeInfoHelper (Data data)
+	private TagTypeInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static TagTypeInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new TagTypeInfoHelper (data);
 	}
 	
 	public Data getData ()

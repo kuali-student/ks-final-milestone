@@ -45,9 +45,18 @@ public class RetireCreditCourseProposalHelper
 	}
 	private Data data;
 	
-	public RetireCreditCourseProposalHelper (Data data)
+	private RetireCreditCourseProposalHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static RetireCreditCourseProposalHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new RetireCreditCourseProposalHelper (data);
 	}
 	
 	public Data getData ()
@@ -76,7 +85,7 @@ public class RetireCreditCourseProposalHelper
 	
 	public CreditCourseProposalHelper getProposal ()
 	{
-		return new CreditCourseProposalHelper ((Data) data.get (Properties.PROPOSAL.getKey ()));
+		return CreditCourseProposalHelper.wrap ((Data) data.get (Properties.PROPOSAL.getKey ()));
 	}
 	
 	
@@ -88,7 +97,7 @@ public class RetireCreditCourseProposalHelper
 	
 	public CreditCourseHelper getOriginal ()
 	{
-		return new CreditCourseHelper ((Data) data.get (Properties.ORIGINAL.getKey ()));
+		return CreditCourseHelper.wrap ((Data) data.get (Properties.ORIGINAL.getKey ()));
 	}
 	
 }

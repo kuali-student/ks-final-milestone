@@ -46,34 +46,34 @@ public class RuntimeDataMetadata
 		Metadata childMeta;
 		Metadata listMeta;
 		
-		// metadata for IsCreated
+		// metadata for Created
 		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.IS_CREATED.getKey (), childMeta);
+		mainMeta.getProperties ().put (Properties.CREATED.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.BOOLEAN);
 		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
-		childMeta.setDefaultValue (new Data.StringValue ("false"));
+		childMeta.setDefaultValue (new Data.BooleanValue (Boolean.FALSE));
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 		}
 		
-		// metadata for IsDeleted
+		// metadata for Deleted
 		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.IS_DELETED.getKey (), childMeta);
+		mainMeta.getProperties ().put (Properties.DELETED.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.BOOLEAN);
 		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
-		childMeta.setDefaultValue (new Data.StringValue ("false"));
+		childMeta.setDefaultValue (new Data.BooleanValue (Boolean.FALSE));
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 		}
 		
-		// metadata for IsUpdated
+		// metadata for Updated
 		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.IS_UPDATED.getKey (), childMeta);
+		mainMeta.getProperties ().put (Properties.UPDATED.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.BOOLEAN);
 		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
-		childMeta.setDefaultValue (new Data.StringValue ("false"));
+		childMeta.setDefaultValue (new Data.BooleanValue (Boolean.FALSE));
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -89,9 +89,10 @@ public class RuntimeDataMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
 		}
 		listMeta = new Metadata ();
-		listMeta.setDataType (Data.DataType.STRING);
+		listMeta.setDataType (Data.DataType.DATA);
 		listMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
 		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
+		new RuntimeDataVersionsMetadata ().loadChildMetadata (listMeta, type, state);
 		
 	}
 }

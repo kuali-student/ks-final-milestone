@@ -52,9 +52,18 @@ public class CluLoRelationInfoHelper
 	}
 	private Data data;
 	
-	public CluLoRelationInfoHelper (Data data)
+	private CluLoRelationInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static CluLoRelationInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new CluLoRelationInfoHelper (data);
 	}
 	
 	public Data getData ()
@@ -131,7 +140,7 @@ public class CluLoRelationInfoHelper
 	
 	public MetaInfoHelper getMetaInfo ()
 	{
-		return new MetaInfoHelper ((Data) data.get (Properties.META_INFO.getKey ()));
+		return MetaInfoHelper.wrap ((Data) data.get (Properties.META_INFO.getKey ()));
 	}
 	
 	

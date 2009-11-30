@@ -52,9 +52,18 @@ public class LoLoRelationInfoHelper
 	}
 	private Data data;
 	
-	public LoLoRelationInfoHelper (Data data)
+	private LoLoRelationInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static LoLoRelationInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new LoLoRelationInfoHelper (data);
 	}
 	
 	public Data getData ()
@@ -131,7 +140,7 @@ public class LoLoRelationInfoHelper
 	
 	public MetaInfoHelper getMetaInfo ()
 	{
-		return new MetaInfoHelper ((Data) data.get (Properties.META_INFO.getKey ()));
+		return MetaInfoHelper.wrap ((Data) data.get (Properties.META_INFO.getKey ()));
 	}
 	
 	

@@ -126,7 +126,6 @@ public class CreditCourseMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single.line.text"));
 		}
-		new RichTextInfoMetadata ().loadChildMetadata (childMeta, type, state);
 		
 		// metadata for CourseTitle
 		childMeta = new Metadata ();
@@ -144,7 +143,6 @@ public class CreditCourseMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single.line.text"));
 		}
-		new RichTextInfoMetadata ().loadChildMetadata (childMeta, type, state);
 		
 		// metadata for Description
 		childMeta = new Metadata ();

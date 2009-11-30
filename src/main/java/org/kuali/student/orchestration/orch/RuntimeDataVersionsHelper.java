@@ -44,9 +44,18 @@ public class RuntimeDataVersionsHelper
 	}
 	private Data data;
 	
-	public RuntimeDataVersionsHelper (Data data)
+	private RuntimeDataVersionsHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static RuntimeDataVersionsHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new RuntimeDataVersionsHelper (data);
 	}
 	
 	public Data getData ()

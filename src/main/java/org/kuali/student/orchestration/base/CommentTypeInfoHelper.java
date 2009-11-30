@@ -49,9 +49,18 @@ public class CommentTypeInfoHelper
 	}
 	private Data data;
 	
-	public CommentTypeInfoHelper (Data data)
+	private CommentTypeInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static CommentTypeInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new CommentTypeInfoHelper (data);
 	}
 	
 	public Data getData ()

@@ -53,9 +53,18 @@ public class CommentInfoHelper
 	}
 	private Data data;
 	
-	public CommentInfoHelper (Data data)
+	private CommentInfoHelper (Data data)
 	{
 		this.data = data;
+	}
+	
+	public static CommentInfoHelper wrap (Data data)
+	{
+		if (data == null)
+		{
+			 return null;
+		}
+		return new CommentInfoHelper (data);
 	}
 	
 	public Data getData ()
@@ -72,7 +81,7 @@ public class CommentInfoHelper
 	
 	public RichTextInfoHelper getCommentText ()
 	{
-		return new RichTextInfoHelper ((Data) data.get (Properties.COMMENT_TEXT.getKey ()));
+		return RichTextInfoHelper.wrap ((Data) data.get (Properties.COMMENT_TEXT.getKey ()));
 	}
 	
 	
@@ -144,7 +153,7 @@ public class CommentInfoHelper
 	
 	public MetaInfoHelper getMetaInfo ()
 	{
-		return new MetaInfoHelper ((Data) data.get (Properties.META_INFO.getKey ()));
+		return MetaInfoHelper.wrap ((Data) data.get (Properties.META_INFO.getKey ()));
 	}
 	
 	
