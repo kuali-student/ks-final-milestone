@@ -83,7 +83,7 @@ public class ScaleInfoHelper
 	
 	public void setDesc (RichTextInfoHelper value)
 	{
-		data.set (Properties.DESC.getKey (), value.getData ());
+		data.set (Properties.DESC.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	

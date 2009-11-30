@@ -66,7 +66,7 @@ public class ReqCompFieldTypeInfoHelper
 	
 	public void setFieldDescriptor (FieldDescriptorInfoHelper value)
 	{
-		data.set (Properties.FIELD_DESCRIPTOR.getKey (), value.getData ());
+		data.set (Properties.FIELD_DESCRIPTOR.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	

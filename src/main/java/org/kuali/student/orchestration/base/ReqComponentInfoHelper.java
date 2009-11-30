@@ -73,7 +73,7 @@ public class ReqComponentInfoHelper
 	
 	public void setDesc (RichTextInfoHelper value)
 	{
-		data.set (Properties.DESC.getKey (), value.getData ());
+		data.set (Properties.DESC.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	
@@ -85,7 +85,7 @@ public class ReqComponentInfoHelper
 	
 	public void setReqCompField (ReqCompFieldInfoHelper value)
 	{
-		data.set (Properties.REQ_COMP_FIELD.getKey (), value.getData ());
+		data.set (Properties.REQ_COMP_FIELD.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	
@@ -121,7 +121,7 @@ public class ReqComponentInfoHelper
 	
 	public void setMetaInfo (MetaInfoHelper value)
 	{
-		data.set (Properties.META_INFO.getKey (), value.getData ());
+		data.set (Properties.META_INFO.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	

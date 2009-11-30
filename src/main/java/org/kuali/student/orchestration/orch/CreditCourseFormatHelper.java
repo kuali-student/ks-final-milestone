@@ -104,7 +104,7 @@ public class CreditCourseFormatHelper
 	
 	public void set_runtimeData (RuntimeDataHelper value)
 	{
-		data.set (Properties._RUNTIME_DATA.getKey (), value.getData ());
+		data.set (Properties._RUNTIME_DATA.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	
