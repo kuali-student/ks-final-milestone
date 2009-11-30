@@ -75,7 +75,7 @@ public class CommentInfoHelper
 	
 	public void setCommentText (RichTextInfoHelper value)
 	{
-		data.set (Properties.COMMENT_TEXT.getKey (), value.getData ());
+		data.set (Properties.COMMENT_TEXT.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	
@@ -147,7 +147,7 @@ public class CommentInfoHelper
 	
 	public void setMetaInfo (MetaInfoHelper value)
 	{
-		data.set (Properties.META_INFO.getKey (), value.getData ());
+		data.set (Properties.META_INFO.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	

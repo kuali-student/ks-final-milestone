@@ -73,7 +73,7 @@ public class CluInfoMetadata
 		listMeta.setDataType (Data.DataType.DATA);
 		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
-		new CluIdentifierInfoMetadata ().loadChildMetadata (childMeta, type, state);
+		new CluIdentifierInfoMetadata ().loadChildMetadata (listMeta, type, state);
 		
 		// metadata for academicSubjectOrgs
 		childMeta = new Metadata ();
@@ -89,7 +89,7 @@ public class CluInfoMetadata
 		listMeta.setDataType (Data.DataType.DATA);
 		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
-		new AcademicSubjectOrgInfoMetadata ().loadChildMetadata (childMeta, type, state);
+		new AcademicSubjectOrgInfoMetadata ().loadChildMetadata (listMeta, type, state);
 		
 		// metadata for studySubjectArea
 		childMeta = new Metadata ();
@@ -157,7 +157,7 @@ public class CluInfoMetadata
 		listMeta.setDataType (Data.DataType.DATA);
 		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
-		new AccreditationInfoMetadata ().loadChildMetadata (childMeta, type, state);
+		new AccreditationInfoMetadata ().loadChildMetadata (listMeta, type, state);
 		
 		// metadata for primaryAdminOrg
 		childMeta = new Metadata ();
@@ -185,7 +185,7 @@ public class CluInfoMetadata
 		listMeta.setDataType (Data.DataType.DATA);
 		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
-		new AdminOrgInfoMetadata ().loadChildMetadata (childMeta, type, state);
+		new AdminOrgInfoMetadata ().loadChildMetadata (listMeta, type, state);
 		
 		// metadata for primaryInstructor
 		childMeta = new Metadata ();
@@ -213,7 +213,7 @@ public class CluInfoMetadata
 		listMeta.setDataType (Data.DataType.DATA);
 		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
-		new CluInstructorInfoMetadata ().loadChildMetadata (childMeta, type, state);
+		new CluInstructorInfoMetadata ().loadChildMetadata (listMeta, type, state);
 		
 		// metadata for expectedFirstAtp
 		childMeta = new Metadata ();
@@ -313,7 +313,7 @@ public class CluInfoMetadata
 		listMeta.setDataType (Data.DataType.DATA);
 		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
-		new LuCodeInfoMetadata ().loadChildMetadata (childMeta, type, state);
+		new LuCodeInfoMetadata ().loadChildMetadata (listMeta, type, state);
 		
 		// metadata for publishingInfo
 		childMeta = new Metadata ();

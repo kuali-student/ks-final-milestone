@@ -85,7 +85,7 @@ public class LoRepositoryInfoHelper
 	
 	public void setDesc (RichTextInfoHelper value)
 	{
-		data.set (Properties.DESC.getKey (), value.getData ());
+		data.set (Properties.DESC.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	
@@ -145,7 +145,7 @@ public class LoRepositoryInfoHelper
 	
 	public void setMetaInfo (MetaInfoHelper value)
 	{
-		data.set (Properties.META_INFO.getKey (), value.getData ());
+		data.set (Properties.META_INFO.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	

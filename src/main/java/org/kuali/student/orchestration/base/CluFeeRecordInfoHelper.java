@@ -81,7 +81,7 @@ public class CluFeeRecordInfoHelper
 	
 	public void setFeeAmount (CurrencyAmountInfoHelper value)
 	{
-		data.set (Properties.FEE_AMOUNT.getKey (), value.getData ());
+		data.set (Properties.FEE_AMOUNT.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	

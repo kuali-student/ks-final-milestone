@@ -96,7 +96,7 @@ public class CluPublishingInfoHelper
 	
 	public void setPrimaryInstructor (CluInstructorInfoHelper value)
 	{
-		data.set (Properties.PRIMARY_INSTRUCTOR.getKey (), value.getData ());
+		data.set (Properties.PRIMARY_INSTRUCTOR.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	

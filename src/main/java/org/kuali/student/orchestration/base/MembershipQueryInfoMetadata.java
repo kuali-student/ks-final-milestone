@@ -73,7 +73,7 @@ public class MembershipQueryInfoMetadata
 		listMeta.setDataType (Data.DataType.DATA);
 		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
-		new QueryParamValueMetadata ().loadChildMetadata (childMeta, type, state);
+		new QueryParamValueMetadata ().loadChildMetadata (listMeta, type, state);
 		
 	}
 }

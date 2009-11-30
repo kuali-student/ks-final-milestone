@@ -100,7 +100,7 @@ public class DocumentInfoHelper
 	
 	public void setDesc (RichTextInfoHelper value)
 	{
-		data.set (Properties.DESC.getKey (), value.getData ());
+		data.set (Properties.DESC.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	
@@ -112,7 +112,7 @@ public class DocumentInfoHelper
 	
 	public void setDocumentBinaryInfo (DocumentBinaryInfoHelper value)
 	{
-		data.set (Properties.DOCUMENT_BINARY_INFO.getKey (), value.getData ());
+		data.set (Properties.DOCUMENT_BINARY_INFO.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	
@@ -160,7 +160,7 @@ public class DocumentInfoHelper
 	
 	public void setMetaInfo (MetaInfoHelper value)
 	{
-		data.set (Properties.META_INFO.getKey (), value.getData ());
+		data.set (Properties.META_INFO.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	

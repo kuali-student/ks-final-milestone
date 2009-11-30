@@ -100,7 +100,7 @@ public class CluInfoHelper
 	
 	public void setOfficialIdentifier (CluIdentifierInfoHelper value)
 	{
-		data.set (Properties.OFFICIAL_IDENTIFIER.getKey (), value.getData ());
+		data.set (Properties.OFFICIAL_IDENTIFIER.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	
@@ -148,7 +148,7 @@ public class CluInfoHelper
 	
 	public void setDesc (RichTextInfoHelper value)
 	{
-		data.set (Properties.DESC.getKey (), value.getData ());
+		data.set (Properties.DESC.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	
@@ -160,7 +160,7 @@ public class CluInfoHelper
 	
 	public void setMarketingDesc (RichTextInfoHelper value)
 	{
-		data.set (Properties.MARKETING_DESC.getKey (), value.getData ());
+		data.set (Properties.MARKETING_DESC.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	
@@ -196,7 +196,7 @@ public class CluInfoHelper
 	
 	public void setPrimaryAdminOrg (AdminOrgInfoHelper value)
 	{
-		data.set (Properties.PRIMARY_ADMIN_ORG.getKey (), value.getData ());
+		data.set (Properties.PRIMARY_ADMIN_ORG.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	
@@ -220,7 +220,7 @@ public class CluInfoHelper
 	
 	public void setPrimaryInstructor (CluInstructorInfoHelper value)
 	{
-		data.set (Properties.PRIMARY_INSTRUCTOR.getKey (), value.getData ());
+		data.set (Properties.PRIMARY_INSTRUCTOR.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	
@@ -280,7 +280,7 @@ public class CluInfoHelper
 	
 	public void setIntensity (TimeAmountInfoHelper value)
 	{
-		data.set (Properties.INTENSITY.getKey (), value.getData ());
+		data.set (Properties.INTENSITY.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	
@@ -292,7 +292,7 @@ public class CluInfoHelper
 	
 	public void setStdDuration (TimeAmountInfoHelper value)
 	{
-		data.set (Properties.STD_DURATION.getKey (), value.getData ());
+		data.set (Properties.STD_DURATION.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	
@@ -340,7 +340,7 @@ public class CluInfoHelper
 	
 	public void setPublishingInfo (CluPublishingInfoHelper value)
 	{
-		data.set (Properties.PUBLISHING_INFO.getKey (), value.getData ());
+		data.set (Properties.PUBLISHING_INFO.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	
@@ -436,7 +436,7 @@ public class CluInfoHelper
 	
 	public void setFeeInfo (CluFeeInfoHelper value)
 	{
-		data.set (Properties.FEE_INFO.getKey (), value.getData ());
+		data.set (Properties.FEE_INFO.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	
@@ -448,7 +448,7 @@ public class CluInfoHelper
 	
 	public void setAccountingInfo (CluAccountingInfoHelper value)
 	{
-		data.set (Properties.ACCOUNTING_INFO.getKey (), value.getData ());
+		data.set (Properties.ACCOUNTING_INFO.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	
@@ -472,7 +472,7 @@ public class CluInfoHelper
 	
 	public void setMetaInfo (MetaInfoHelper value)
 	{
-		data.set (Properties.META_INFO.getKey (), value.getData ());
+		data.set (Properties.META_INFO.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	

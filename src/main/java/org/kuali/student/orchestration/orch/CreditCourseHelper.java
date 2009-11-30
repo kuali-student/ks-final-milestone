@@ -120,7 +120,7 @@ public class CreditCourseHelper
 	
 	public void setDuration (CreditCourseDurationHelper value)
 	{
-		data.set (Properties.DURATION.getKey (), value.getData ());
+		data.set (Properties.DURATION.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	
@@ -156,7 +156,7 @@ public class CreditCourseHelper
 	
 	public void setDescription (RichTextInfoHelper value)
 	{
-		data.set (Properties.DESCRIPTION.getKey (), value.getData ());
+		data.set (Properties.DESCRIPTION.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	
@@ -288,7 +288,7 @@ public class CreditCourseHelper
 	
 	public void set_runtimeData (RuntimeDataHelper value)
 	{
-		data.set (Properties._RUNTIME_DATA.getKey (), value.getData ());
+		data.set (Properties._RUNTIME_DATA.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	

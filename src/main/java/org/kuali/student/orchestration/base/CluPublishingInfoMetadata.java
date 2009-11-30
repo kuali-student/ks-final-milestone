@@ -96,7 +96,7 @@ public class CluPublishingInfoMetadata
 		listMeta.setDataType (Data.DataType.DATA);
 		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
-		new CluInstructorInfoMetadata ().loadChildMetadata (childMeta, type, state);
+		new CluInstructorInfoMetadata ().loadChildMetadata (listMeta, type, state);
 		
 		// metadata for attributes
 		childMeta = new Metadata ();

@@ -185,7 +185,7 @@ public class FieldDescriptorInfoHelper
 	
 	public void setEnumFieldView (EnumFieldViewInfoHelper value)
 	{
-		data.set (Properties.ENUM_FIELD_VIEW.getKey (), value.getData ());
+		data.set (Properties.ENUM_FIELD_VIEW.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	

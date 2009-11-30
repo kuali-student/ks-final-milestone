@@ -66,7 +66,7 @@ public class EnumContextInfoHelper
 	
 	public void setContextValueDescriptor (FieldDescriptorInfoHelper value)
 	{
-		data.set (Properties.CONTEXT_VALUE_DESCRIPTOR.getKey (), value.getData ());
+		data.set (Properties.CONTEXT_VALUE_DESCRIPTOR.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	

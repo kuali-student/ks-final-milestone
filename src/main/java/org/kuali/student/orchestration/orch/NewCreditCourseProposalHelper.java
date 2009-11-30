@@ -66,7 +66,7 @@ public class NewCreditCourseProposalHelper
 	
 	public void setCreditCourseProposal (CreditCourseProposalHelper value)
 	{
-		data.set (Properties.CREDIT_COURSE_PROPOSAL.getKey (), value.getData ());
+		data.set (Properties.CREDIT_COURSE_PROPOSAL.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	
@@ -78,7 +78,7 @@ public class NewCreditCourseProposalHelper
 	
 	public void setBasedOn (CreditCourseHelper value)
 	{
-		data.set (Properties.BASED_ON.getKey (), value.getData ());
+		data.set (Properties.BASED_ON.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	

@@ -84,7 +84,7 @@ public class CluFeeRecordInfoMetadata
 		listMeta.setDataType (Data.DataType.DATA);
 		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
-		new AffiliatedOrgInfoMetadata ().loadChildMetadata (childMeta, type, state);
+		new AffiliatedOrgInfoMetadata ().loadChildMetadata (listMeta, type, state);
 		
 		// metadata for attributes
 		childMeta = new Metadata ();

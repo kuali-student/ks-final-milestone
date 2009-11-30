@@ -55,6 +55,16 @@ public class RuntimeDataVersionsMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 		}
 		
+		// metadata for Id
+		childMeta = new Metadata ();
+		mainMeta.getProperties ().put (Properties.ID.getKey (), childMeta);
+		childMeta.setDataType (Data.DataType.STRING);
+		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+		}
+		
 		// metadata for VersionInd
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.VERSION_IND.getKey (), childMeta);

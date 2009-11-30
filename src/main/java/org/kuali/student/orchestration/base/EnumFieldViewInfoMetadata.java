@@ -60,7 +60,7 @@ public class EnumFieldViewInfoMetadata
 		listMeta.setDataType (Data.DataType.DATA);
 		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
-		new EnumContextInfoMetadata ().loadChildMetadata (childMeta, type, state);
+		new EnumContextInfoMetadata ().loadChildMetadata (listMeta, type, state);
 		
 		// metadata for key
 		childMeta = new Metadata ();

@@ -134,7 +134,7 @@ public class LoLoRelationInfoHelper
 	
 	public void setMetaInfo (MetaInfoHelper value)
 	{
-		data.set (Properties.META_INFO.getKey (), value.getData ());
+		data.set (Properties.META_INFO.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	
