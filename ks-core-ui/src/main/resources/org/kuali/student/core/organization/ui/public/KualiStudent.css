@@ -314,12 +314,12 @@ border-color: SelectionChoosingColor #aabbbb;
 	padding: 1ex;
 }
 
-.KS-LUM-Section {
+.KS-CORE-Section {
 	margin: 5px;
 	padding: 5px 5px 10px 5px;
 	width: 95%;
 }
 
-.KS-LUM-Section-Divider {
+.KS-CORE-Section-Divider {
 	border-top: 1px solid orange;
 }
