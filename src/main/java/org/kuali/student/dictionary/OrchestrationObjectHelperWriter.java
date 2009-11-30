@@ -153,7 +153,7 @@ public class OrchestrationObjectHelperWriter extends JavaClassWriter
      break;
     case COMPLEX:
     case COMPLEX_INLINE:
-     setterValue = "value.getData ()";
+     setterValue = "(value == null) ? null : value.getData ()";
      break;
     default:
      throw new DictionaryExecutionException ("unhandled type");
