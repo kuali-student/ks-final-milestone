@@ -644,7 +644,7 @@ public class CourseConfigurer {
 
         //FIXME: This is a hack, since field is a list, but wireframe allows only single select
         public boolean isMultipleSelect(){
-            return true;
+            return false;
         }
     }
 

@@ -153,7 +153,7 @@ public class AssemblerUtils {
 		if (data != null) {
 			Data runtime = data.get("_runtimeData");
 			if (runtime != null) {
-				result = (Boolean) runtime.get(key);
+				result = runtime.get(key) != null && (Boolean) runtime.get(key);
 			}
 		}
 		
