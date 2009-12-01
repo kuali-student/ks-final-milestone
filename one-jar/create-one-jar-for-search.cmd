@@ -7,7 +7,7 @@ mkdir build
 copy one-jar-boot-0.96.jar kuali-search-generator.jar
 @rem xcopy /s one-jar-classes build
 mkdir build\main
-xcopy ..\trunk\target\maven-ksdictionary-generator-plugin-0.0.1-SNAPSHOT.jar build\main
+xcopy ..\trunk\target\maven-ksdictionary-generator-plugin-1.0.0-SNAPSHOT.jar build\main
 mkdir build\lib
 xcopy ..\lib-jars-to-add-to-local-maven-repository\*.jar build\lib
 xcopy "C:\m2\repository\net\sourceforge\jexcelapi\jxl\2.6\*.jar" build\lib
