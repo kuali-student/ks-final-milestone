@@ -33,6 +33,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.VerticalSectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.Section.FieldLabelType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.Type;
+import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -54,6 +55,8 @@ import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRequisitesSectionView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.service.AtpRpcService;
+import org.kuali.student.lum.lu.ui.course.client.service.AtpRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.widgets.AssemblerTestSection;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
 import org.kuali.student.lum.lu.ui.course.client.widgets.LOBuilder;
@@ -159,7 +162,7 @@ public class LuConfigurer {
      */
     private static SectionView generateCourseRequisitesSection() {
         CourseRequisitesSectionView section = new CourseRequisitesSectionView(LuSections.COURSE_REQUISITES, getLabel(LUConstants.REQUISITES_LABEL_KEY), CluProposalModelDTO.class);
-        section.setSectionTitle(SectionTitle.generateH1Title(getLabel(LUConstants.REQUISITES_LABEL_KEY)));        
+        section.setSectionTitle(SectionTitle.generateH1Title(getLabel(LUConstants.REQUISITES_LABEL_KEY)));
         return section;
     }
 
@@ -171,9 +174,16 @@ public class LuConfigurer {
 
         VerticalSection endDate = initSection(getH3Title(LUConstants.END_DATE_LABEL_KEY), WITH_DIVIDER);
         endDate.addField(new FieldDescriptor("cluInfo/expirationDate", getLabel(LUConstants.EXPIRATION_DATE_LABEL_KEY), Type.DATE, new KSDatePicker()));
+
+        // NOTE: Please leave on the commented out code is a temporary place to test ATP pickers
+        //       the ATP pickers will be put in to somewhere else once it has find a home.
+//        CustomNestedSection startSession = new CustomNestedSection();
+//        startSession.addField(new FieldDescriptor("cluInfo/startSession", getLabel("Start Session"), Type.STRING, 
+//                configureAtpSearch()));
         
         section.addSection(startDate);
         section.addSection(endDate);
+//        section.addSection(startSession);
         
         return section;
     }
@@ -206,7 +216,7 @@ public class LuConfigurer {
         VerticalSection campus = initSection(getH3Title(LUConstants.CAMPUS_LOCATION_LABEL_KEY), WITH_DIVIDER);    
         campus.addField(new FieldDescriptor("cluInfo/campusLocationList", null, Type.STRING, new CampusLocationList()));
 
-        VerticalSection adminOrgs = initSection(getH3Title(LUConstants.ADMIN_ORG_LABEL_KEY), WITH_DIVIDER);           
+        VerticalSection adminOrgs = initSection(getH3Title(LUConstants.ADMIN_ORG_LABEL_KEY), WITH_DIVIDER);    
         adminOrgs.addField(new FieldDescriptor("cluInfo/adminOrg", null, Type.STRING, configureAdminOrgSearch()));
 //        adminOrgs.addField(new FieldDescriptor("cluInfo/primaryAdminOrg/orgId", null, Type.STRING, new OrgPicker()));
 //        adminOrgs.addField(new FieldDescriptor("cluInfo/alternateAdminOrgs", null, Type.LIST, new AlternateAdminOrgList()));
@@ -218,8 +228,8 @@ public class LuConfigurer {
         
         return section;
 
-    } 
-
+    }
+    
     public static SectionView generateCourseInfoSection(){
         VerticalSectionView section = initSectionView(LuSections.COURSE_INFO, LUConstants.INFORMATION_LABEL_KEY); 
 
@@ -840,11 +850,66 @@ public class LuConfigurer {
 		orgTypeParam.setKey("org.queryParam.orgType");
 		orgTypeParam.setValue("kuali.org.Department");
 		params.add(orgTypeParam);
-		orgSearchOracle.setAdditionalQueryParams(params);	
-    	
+		orgSearchOracle.setAdditionalQueryParams(params);
+		
     	return new KSSearchComponent(searchConfig, orgSearchOracle);
     }       
     
+    // NOTE: Please leave on the commented out code is a temporary place to test ATP pickers
+    //       the ATP pickers will be put in to somewhere else once it has find a home.
+    private static KSSearchComponent configureAtpSearch() {
+        
+        AtpRpcServiceAsync atpRpcServiceAsync = GWT.create(AtpRpcService.class);
+
+        List<String> basicCriteria = new ArrayList<String>() {
+            {
+                add("atp.advancedAtpSearchParam.atpShortName");
+            }
+        };
+
+        List<String> advancedCriteria = new ArrayList<String>() {
+            {
+                add("atp.advancedAtpSearchParam.atpShortName");
+                add("atp.advancedAtpSearchParam.atpStartDate");
+                add("atp.advancedAtpSearchParam.atpEndDate");
+                add("atp.advancedAtpSearchParam.atpType");
+            }
+        };
+
+        //set context criteria
+        List<QueryParamValue> contextCriteria = new ArrayList<QueryParamValue>();           
+//        QueryParamValue orgOptionalTypeParam = new QueryParamValue();
+//        orgOptionalTypeParam.setKey("org.queryParam.orgOptionalType");
+//        orgOptionalTypeParam.setValue("kuali.org.Department");   
+//        contextCriteria.add(orgOptionalTypeParam);              
+
+        SearchComponentConfiguration searchConfig = new SearchComponentConfiguration(contextCriteria, basicCriteria, advancedCriteria);
+
+        searchConfig.setSearchDialogTitle("Find Session");
+        searchConfig.setSearchService(atpRpcServiceAsync);
+        searchConfig.setSearchTypeKey("atp.search.advancedAtpSearch");
+        searchConfig.setResultIdKey("atp.resultColumn.atpId");
+
+        //TODO: following code should be in KSSearchComponent with config parameters set within SearchComponentConfiguration class
+        final SearchSuggestOracle atpSearchOracle = new SearchSuggestOracle(searchConfig.getSearchService(),
+                "atp.search.atpByShortName", 
+                "atp.queryParam.atpShortName", //field user is entering and we search on... add '%' the parameter
+                "atp.queryParam.atpId",         //if one wants to search by ID rather than by name
+                "atp.resultColumn.atpId",       
+                "atp.resultColumn.atpShortName");
+
+        //Restrict searches to Department Types
+//        ArrayList<QueryParamValue> params = new ArrayList<QueryParamValue>();
+//        QueryParamValue orgTypeParam = new QueryParamValue();
+//        orgTypeParam.setKey("org.queryParam.orgType");
+//        orgTypeParam.setValue("kuali.org.Department");
+//        params.add(orgTypeParam);
+//        atpSearchOracle.setAdditionalQueryParams(params);   
+        
+        return new KSSearchComponent(searchConfig, atpSearchOracle);
+    }
+
+
     /*
      * Configuring Program specific screens.
      */
