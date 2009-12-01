@@ -5,6 +5,8 @@ import java.util.List;
 import org.kuali.student.common.assembly.client.AssemblyException;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.assembly.client.SaveResult;
+import org.kuali.student.common.assembly.client.search.SearchRequest;
+import org.kuali.student.common.assembly.client.search.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 /*
  *	ASSEMBLERREVIEW
@@ -32,4 +34,6 @@ public interface Assembler<TargetType, SourceType> {
 	SourceType disassemble(TargetType input) throws AssemblyException;
 
 	List<ValidationResultInfo> validate(TargetType input) throws AssemblyException;
+	
+	SearchResult search(SearchRequest searchRequest);
 }
