@@ -175,8 +175,8 @@ public class LuConfigurer {
         VerticalSection endDate = initSection(getH3Title(LUConstants.END_DATE_LABEL_KEY), WITH_DIVIDER);
         endDate.addField(new FieldDescriptor("cluInfo/expirationDate", getLabel(LUConstants.EXPIRATION_DATE_LABEL_KEY), Type.DATE, new KSDatePicker()));
 
-        // NOTE: Please leave on the commented out code is a temporary place to test ATP pickers
-        //       the ATP pickers will be put in to somewhere else once it has find a home.
+        // NOTE: Please leave on. The commented out code is a temporary place to test ATP pickers
+        //       the ATP pickers will be used somewhere else once the ATP pickers have found a home.
 //        CustomNestedSection startSession = new CustomNestedSection();
 //        startSession.addField(new FieldDescriptor("cluInfo/startSession", getLabel("Start Session"), Type.STRING, 
 //                configureAtpSearch()));
@@ -855,8 +855,8 @@ public class LuConfigurer {
     	return new KSSearchComponent(searchConfig, orgSearchOracle);
     }       
     
-    // NOTE: Please leave on the commented out code is a temporary place to test ATP pickers
-    //       the ATP pickers will be put in to somewhere else once it has find a home.
+    // NOTE: Please leave on. This method is referenced in the commented out code
+    //       in method generateActiveDatesSection()
     private static KSSearchComponent configureAtpSearch() {
         
         AtpRpcServiceAsync atpRpcServiceAsync = GWT.create(AtpRpcService.class);
