@@ -142,7 +142,7 @@ public class KSAdvancedSearchRpcComponent extends Composite implements HasSelect
                 		continue;
                 	}
                 	
-                   FieldDescriptor fd = q.getFieldDescriptor();
+                    FieldDescriptor fd = q.getFieldDescriptor();
                     //TODO change this to use a message from messages, using the fd.getName() as the token
                     KSLabel paramLabel = new KSLabel(fd.getName());
 //                    paramLabel.addStyleName(KSStyles.KS_ADVANCED_SEARCH_PARAM_LABELS);
@@ -269,7 +269,7 @@ public class KSAdvancedSearchRpcComponent extends Composite implements HasSelect
         //add context-specific criteria
         for (QueryParamValue contextCriterion : searchConfig.getContextCriteria()){
         	queryParamValues.add(contextCriterion);
-        }                                          
+        }             
         
         //execute the search itself
         searchResultsTable.clearTable();

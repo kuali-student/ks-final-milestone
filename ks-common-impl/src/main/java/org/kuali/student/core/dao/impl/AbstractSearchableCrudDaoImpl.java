@@ -15,6 +15,8 @@
 package org.kuali.student.core.dao.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +34,28 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		implements SearchableDao {
 
 
+    private String getParameterDataType(SearchTypeInfo searchTypeInfo,
+            QueryParamValue paramValue) {
+        String dataType = null;
+        List<QueryParamInfo> queryParameterInfos = 
+            (searchTypeInfo == null || searchTypeInfo.getSearchCriteriaTypeInfo() == null)? null :
+            searchTypeInfo.getSearchCriteriaTypeInfo().getQueryParams();
+        String parameterKey = paramValue.getKey();
+        // go through the list of search type parameters and look for the parameter with a key
+        // that matches that of "paramValue".  Onces a match is found gets the data type.
+        if (queryParameterInfos != null) {
+            for (QueryParamInfo queryParameterInfo : queryParameterInfos) {
+                if (parameterKey.equals(queryParameterInfo.getKey())) {
+                    dataType =
+                        (queryParameterInfo == null ||
+                                queryParameterInfo.getFieldDescriptor() == null)?
+                                        null : queryParameterInfo.getFieldDescriptor().getDataType();
+                    break;
+                }
+            }
+        }
+        return dataType;
+    }
 
 	@Override
 	public List<Result> searchForResults(String searchTypeKey,
@@ -54,7 +78,7 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 					//if optional query parameter has only a column name then create proper search expression
 					String condition = queryMap.get(queryParamValue.getKey());
 					if (condition.trim().contains(":")) {
-						optionalQueryString += queryMap.get(queryParamValue.getKey());
+					    optionalQueryString += queryMap.get(queryParamValue.getKey());
 					} else {
 						//comparison should be case insensitive and include wild card
 						optionalQueryString += 
@@ -90,8 +114,25 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		//replace all the "." notation with "_" since the "."s in the ids of the queries will cause problems with the jpql  
 		if(queryParamValues!=null){
 			for (QueryParamValue queryParamValue : queryParamValues) {
-				query.setParameter(queryParamValue.getKey().replace(".", "_"), queryParamValue
-						.getValue());
+			    String parameterDataType = getParameterDataType(searchTypeInfo, queryParamValue);
+			    String parameterKey = queryParamValue.getKey().replace(".", "_");
+			    Object parameterValue = null;
+			    if (parameterDataType != null && parameterDataType.equals("date")) {
+                    Calendar cal = null;
+                    String dateString = (String) queryParamValue.getValue();
+                    if (dateString != null) {
+                        int mo = Integer.parseInt(dateString.substring(0, 2)) -1;
+                        int dt = Integer.parseInt(dateString.substring(3, 5));
+                        int yr = Integer.parseInt(dateString.substring(6, 10));
+                        cal = new GregorianCalendar(yr, mo, dt);
+                        parameterValue = new java.sql.Date(cal.getTime().getTime());
+                    } else {
+                        parameterValue = null;
+                    }
+			    } else {
+			        parameterValue = queryParamValue.getValue();
+			    }
+                query.setParameter(parameterKey, parameterValue);
 			}
 		}
 
