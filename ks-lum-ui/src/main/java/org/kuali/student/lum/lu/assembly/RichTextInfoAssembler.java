@@ -7,6 +7,8 @@ import org.kuali.student.common.assembly.client.AssemblyException;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.assembly.client.SaveResult;
+import org.kuali.student.common.assembly.client.search.SearchRequest;
+import org.kuali.student.common.assembly.client.search.SearchResult;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoHelper;
@@ -60,5 +62,9 @@ public class RichTextInfoAssembler implements Assembler<Data, RichTextInfo>{
 			throws AssemblyException {
 		return null;
 	}
-
+	@Override
+	public SearchResult search(SearchRequest searchRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

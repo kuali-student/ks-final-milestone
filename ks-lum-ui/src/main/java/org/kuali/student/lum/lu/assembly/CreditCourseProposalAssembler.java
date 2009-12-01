@@ -9,6 +9,8 @@ import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.assembly.client.SaveResult;
 import org.kuali.student.common.assembly.client.Data.Property;
+import org.kuali.student.common.assembly.client.search.SearchRequest;
+import org.kuali.student.common.assembly.client.search.SearchResult;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.TimeAmountInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
@@ -700,7 +702,11 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 	}
 
 	
-	
+	@Override
+	public SearchResult search(SearchRequest searchRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 
 }
