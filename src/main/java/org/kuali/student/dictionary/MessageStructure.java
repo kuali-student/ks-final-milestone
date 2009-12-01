@@ -144,16 +144,16 @@ public class MessageStructure
   this.status = status;
  }
 
- private String comments;
+ private String feedback;
 
- public String getComments ()
+ public String getFeedback ()
  {
-  return comments;
+  return feedback;
  }
 
- public void setComments (String comments)
+ public void setFeedback (String feedback)
  {
-  this.comments = comments;
+  this.feedback = feedback;
  }
 
 

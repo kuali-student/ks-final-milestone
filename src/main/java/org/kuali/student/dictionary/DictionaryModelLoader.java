@@ -147,6 +147,7 @@ public class DictionaryModelLoader implements DictionaryModel
   inline.setInline (true);
   inline.setId ("");
   inline.setKey ("in-line.constraint.for.dictionary." + dict.getId ());
+  inline.setMessageId (getFixup (worksheetReader, "messageId"));
   inline.setMinLength (getFixup (worksheetReader, "minLength"));
   inline.setMaxLength (getFixup (worksheetReader, "maxLength"));
   if (inline.getMaxLength ().equals (Constraint.NINE_NINES))
@@ -287,7 +288,7 @@ public class DictionaryModelLoader implements DictionaryModel
  public List<Field> getFields ()
  {
   WorksheetReader worksheetReader =
-   dictSpreadsheetReader.getWorksheetReader ("Fields");
+   dictSpreadsheetReader.getWorksheetReader ("MessageStructure");
   List<Field> list = new ArrayList (worksheetReader.getEstimatedRows ());
   while (worksheetReader.next ())
   {
@@ -315,6 +316,8 @@ public class DictionaryModelLoader implements DictionaryModel
    field.setConstraintIds (constraintIds);
    field.setConstraintDescription (getFixup (worksheetReader, "constraintDescription"));
    field.setDynamic (getFixup (worksheetReader, "dynamic"));
+   field.setSelector (getFixup (worksheetReader, "selector"));
+   field.setMessageId (getFixup (worksheetReader, "messageId"));
    // do in-line constraint
    Constraint inline = new Constraint ();
    inline.setInline (true);
@@ -343,7 +346,7 @@ public class DictionaryModelLoader implements DictionaryModel
    inline.setLookup (getFixup (worksheetReader, "lookup"));
    field.setInlineConstraint (inline);
    // finish up
-   field.setDesc (getFixup (worksheetReader, "desc"));
+   field.setDesc (getFixup (worksheetReader, "description"));
    field.setComments (getFixup (worksheetReader, "comments"));
    if ( ! field.getDesc ().equals ("ignore this row"))
    {
@@ -374,6 +377,7 @@ public class DictionaryModelLoader implements DictionaryModel
    constraint.setKey (constraint.getId ());
    constraint.setDesc (getFixup (worksheetReader, "desc"));
    constraint.setServerSide (getFixup (worksheetReader, "serverSide"));
+   constraint.setMessageId (getFixup (worksheetReader, "messageId"));
    constraint.setMinLength (getFixup (worksheetReader, "minLength"));
    constraint.setMaxLength (getFixup (worksheetReader, "maxLength"));
    if (constraint.getMaxLength ().equals (Constraint.NINE_NINES))
@@ -606,7 +610,7 @@ public class DictionaryModelLoader implements DictionaryModel
    struct.setCardinality (getFixup (worksheetReader, "Cardinality"));
    struct.setXmlAttribute (getFixup (worksheetReader, "XMLAttribute"));
    struct.setStatus (getFixup (worksheetReader, "status"));
-   struct.setComments (getFixup (worksheetReader, "comments"));
+   struct.setFeedback (getFixup (worksheetReader, "comments"));
 
 
 

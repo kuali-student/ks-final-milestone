@@ -252,6 +252,50 @@ public class Field implements Serializable
   this.dynamic = dynamic;
  }
  
+ private String selector;
+
+ /**
+  * Get the value of selector
+  *
+  * @return the value of selector
+  */
+ public String getSelector ()
+ {
+  return selector;
+ }
+
+ /**
+  * Set the value of selector
+  *
+  * @param selector new value of selector
+  */
+ public void setSelector (String selector)
+ {
+  this.selector = selector;
+ }
+
+ private String messageId;
+
+ /**
+  * Get the value of messageId
+  *
+  * @return the value of messageId
+  */
+ public String getMessageId ()
+ {
+  return messageId;
+ }
+
+ /**
+  * Set the value of messageId
+  *
+  * @param messageId new value of messageId
+  */
+ public void setMessageId (String messageId)
+ {
+  this.messageId = messageId;
+ }
+
 
  private Constraint inlineConstraint;
 
