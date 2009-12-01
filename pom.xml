@@ -95,13 +95,13 @@
         <cobertura.plugin.version>2.2</cobertura.plugin.version>
         <javadoc.plugin.version>2.4</javadoc.plugin.version>
         <site.plugin.version>2.0-beta-7</site.plugin.version>
-		<gwt.codehaus.plugin.version>1.2-20091109</gwt.codehaus.plugin.version>
+		<gwt.codehaus.plugin.version>1.2-SNAPSHOT</gwt.codehaus.plugin.version>
         <war.plugin.version>2.1-beta-1</war.plugin.version>
         
         <!-- build properties -->
         <ks-core.version>1.0.0-SNAPSHOT</ks-core.version>
         <ks.gwt.compile.phase>process-classes</ks.gwt.compile.phase>
-        <ks-standard-security.version>1.0.0-m1</ks-standard-security.version>
+        <ks-standard-security.version>1.0.0-SNAPSHOT</ks-standard-security.version>
     </properties>
 
     <profiles>
