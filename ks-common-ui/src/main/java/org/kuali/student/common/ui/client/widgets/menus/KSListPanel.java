@@ -55,16 +55,17 @@ public class KSListPanel extends ComplexPanel {
 		final Widget w = super.getWidget(index);
 		final Element e = w.getElement();
 		final boolean result = super.remove(index);
-		listElement.removeChild(e);
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.google.gwt.user.client.ui.ComplexPanel#remove(com.google.gwt.user.client.ui.Widget)
-	 */
 	@Override
-	public boolean remove(final Widget w) {
-		return this.remove(getWidgetIndex(w));
+	public void clear() {
+		super.clear();
+		for(int i = 0; i < listElement.getChildNodes().getLength(); i++){
+			listElement.removeChild(listElement.getChildNodes().getItem(i));
+		}
+		
 	}
-
+	
+	
 }

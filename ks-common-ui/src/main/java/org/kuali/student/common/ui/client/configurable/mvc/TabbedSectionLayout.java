@@ -115,6 +115,7 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 		}
 		
 		public void init(){
+			menu.addStyleName("KS-TabbedSectionLayout-Menu");
 			menu.setItems(topLevelMenuItems);
 		}
 		

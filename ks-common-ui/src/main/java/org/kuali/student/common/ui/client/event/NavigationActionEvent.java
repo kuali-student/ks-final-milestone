@@ -7,9 +7,15 @@ public class NavigationActionEvent extends ActionEvent<NavigationActionHandler> 
     
     private ActionState actionState;
     private String navKey;
+    private Enum<?> navEnum;
     
     public NavigationActionEvent(String navKey){
     	this.navKey = navKey;
+    }
+    
+    public NavigationActionEvent(Enum<?> navEnum){
+    	this.navKey = navEnum.toString();
+    	this.setNavEnum(navEnum);
     }
    
 	@Override
@@ -37,6 +43,14 @@ public class NavigationActionEvent extends ActionEvent<NavigationActionHandler> 
 
 	public String getNavKey() {
 		return navKey;
+	}
+
+	public void setNavEnum(Enum<?> navEnum) {
+		this.navEnum = navEnum;
+	}
+
+	public Enum<?> getNavEnum() {
+		return navEnum;
 	}
     
 }

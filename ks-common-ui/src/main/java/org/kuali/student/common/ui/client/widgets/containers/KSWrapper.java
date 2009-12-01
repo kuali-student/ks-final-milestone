@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcServiceAsync;
 import org.kuali.student.common.ui.client.theme.Theme;
@@ -12,7 +13,10 @@ import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
+import org.kuali.student.common.ui.client.widgets.NavigationHandler;
+import org.kuali.student.common.ui.client.widgets.StylishDropDown;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
+import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -37,7 +41,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class KSWrapper extends Composite{
     ServerPropertiesRpcServiceAsync serverProperties = GWT.create(ServerPropertiesRpcService.class);
     
-	private VerticalFlowPanel layout = new VerticalFlowPanel();
+	private VerticalPanel layout = new VerticalPanel();
 	private VerticalPanel leftHeader = new VerticalPanel();
 	private VerticalPanel rightHeader = new VerticalPanel();
 	private HorizontalPanel header = new HorizontalPanel();
@@ -45,10 +49,8 @@ public class KSWrapper extends Composite{
 	private HorizontalPanel footer = new HorizontalPanel();
 	private HorizontalPanel headerTopLinks = new HorizontalPanel();
 	private HorizontalPanel headerBottomLinks = new HorizontalPanel();
-	//TODO replace with custom drop down.  Is it hard coded OR from somewhere
-	private KSDropDown navDropdown = new KSDropDown();
-	//TODO replace with custom drop down.  Probably custom widget itself eventually.
-	private KSDropDown userDropdown = new KSDropDown();
+	private StylishDropDown navDropDown = new StylishDropDown("Home");
+	private StylishDropDown userDropDown = new StylishDropDown(Application.getApplicationContext().getUserId());
 	
 	//TODO replace with raw link widget list
 	private List<KSLabel> headerLinkList = new ArrayList<KSLabel>();
@@ -61,17 +63,36 @@ public class KSWrapper extends Composite{
 	private Widget headerCustomWidget = Theme.INSTANCE.getCommonWidgets().getHeaderWidget();
 	private SimplePanel content = new SimplePanel();
 	
-	
+	private KSLightBox actionListDialog = new KSLightBox();
+	private Frame actionList = new Frame();
+	private KSLightBox docSearchDialog = new KSLightBox();
+	private Frame docSearch = new Frame();
     private  String actionListUrl;
     private  String docSearchUrl;
+    
+    public class WrapperNavigationHandler extends NavigationHandler{
+
+		public WrapperNavigationHandler(String url) {
+			super(url);
+		}
+
+		@Override
+		public void beforeNavigate(Callback<Boolean> callback) {
+			//FIXME notify current controller of the page change so it can perform an action
+			//FIXME before navigation event
+			callback.exec(true);
+		}
+    	
+    }
 	
 	public KSWrapper(){
 		
 		getDocSearchAndActionListUrls();
 		
 		headerBottomLinks.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
-		//headerBottomLinks.add(userDropdown);//Todo, put in current user
-		headerBottomLinks.add(buildUserIdPanel());
+		createUserDropDown();
+		headerBottomLinks.add(userDropDown);//Todo, put in current user
+		//headerBottomLinks.add(buildUserIdPanel());
 		
 		headerBottomLinks.add(helpLabel);
 		headerBottomLinks.add(helpImage);
@@ -81,7 +102,8 @@ public class KSWrapper extends Composite{
 			headerCustomWidget.addStyleName("KS-Wrapper-Header-Custom-Widget-Panel");
 		}
 		leftHeader.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
-		//leftHeader.add(navDropdown);//TODO Put back in with operations
+		createNavDropDown();
+		leftHeader.add(navDropDown);//TODO Put back in with operations
 		rightHeader.setVerticalAlignment(HasVerticalAlignment.ALIGN_TOP);
 		rightHeader.add(headerTopLinks);
 		rightHeader.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
@@ -92,9 +114,9 @@ public class KSWrapper extends Composite{
 		//Put these in since dropdowns were blank, can remove later
 		headerContent.add(buildActionListPanel());
 		headerContent.add(buildDocSearchPanel());
-		headerContent.add(buildLink("Preferences", "Create, modify or delete user preferences", "Preferences not yet implemented"));
-		headerContent.add(buildLink("Home", "Return to home page", GWT.getModuleBaseURL() + "../"));
-		headerContent.add(buildLink("Logout", "End current Kuali Student session", GWT.getModuleBaseURL()+"../j_spring_security_logout"));
+		//headerContent.add(buildLink("Preferences", "Create, modify or delete user preferences", "Preferences not yet implemented"));
+		//headerContent.add(buildLink("Home", "Return to home page", GWT.getModuleBaseURL() + "../"));
+		//headerContent.add(buildLink("Logout", "End current Kuali Student session", GWT.getModuleBaseURL()+"../j_spring_security_logout"));
 		
 		headerContent.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		headerContent.add(rightHeader);
@@ -104,6 +126,8 @@ public class KSWrapper extends Composite{
 		layout.add(content);
 		layout.add(footer);
 		this.initWidget(layout);
+		navDropDown.addStyleName("KS-Navigation-DropDown");
+		userDropDown.addStyleName("KS-Username-DropDown");
 		header.addStyleName("KS-Wrapper-Header");
 		headerContent.addStyleName("KS-Wrapper-Header-Content");
 		footer.addStyleName("KS-Wrapper-Footer");
@@ -112,11 +136,72 @@ public class KSWrapper extends Composite{
 		helpLabel.addStyleName("KS-Wrapper-Help-Label");
 		rightHeader.addStyleName("KS-Wrapper-Header-Right-Panel");
 		leftHeader.addStyleName("KS-Wrapper-Header-Left-Panel");
-		navDropdown.addStyleName("KS-Wrapper-Navigation-Dropdown");
-		userDropdown.addStyleName("KS-Wrapper-User-Dropdown");
 		footer.add(Theme.INSTANCE.getCommonImages().getSpacer());
 	}
 	
+	private void createUserDropDown() {
+		List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
+    	//TODO preferences real link here
+    	items.add(new KSMenuItemData("Preferences",
+    			new WrapperNavigationHandler(
+    					"/Preferences%20not%20yet%20implemented"))
+    	);
+    	items.add(new KSMenuItemData("Logout",
+    			new WrapperNavigationHandler(
+    					"/j_spring_security_logout"))
+    	);
+    	userDropDown.setArrowImage(Theme.INSTANCE.getCommonImages().getDropDownIconWhite());
+    	userDropDown.setItems(items);
+	}
+
+	private void createNavDropDown() {
+		navDropDown.setShowSelectedItem(true);
+    	final List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
+    	items.add(new KSMenuItemData("Home",
+    			new WrapperNavigationHandler(
+    					"/index.html"))
+    	);
+    	items.add(new KSMenuItemData("Curriculum Management",
+    			new WrapperNavigationHandler(
+    					"/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp"))
+    	);
+    	items.add(new KSMenuItemData("Organizations",
+    			new WrapperNavigationHandler(
+    					"/org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.html"))
+    	);
+    	items.add(new KSMenuItemData("Rice",
+    			new WrapperNavigationHandler(
+    					"/portal.do?selectedTab=main"))
+    	);
+    	items.add(new KSMenuItemData("Action List",
+    			new ClickHandler(){
+
+					@Override
+					public void onClick(ClickEvent event) {
+						actionList.setUrl(actionListUrl);
+						actionListDialog.show();
+						
+					}})
+    	);
+        items.add(new KSMenuItemData("Doc Search",
+    			new ClickHandler(){
+
+					@Override
+					public void onClick(ClickEvent event) {
+						docSearch.setUrl(docSearchUrl);
+						docSearchDialog.show();
+						
+					}})
+    	);
+
+        
+        navDropDown.setArrowImage(Theme.INSTANCE.getCommonImages().getDropDownIconWhite());
+        navDropDown.setItems(items);
+
+    	
+		
+	}
+
 	public void setContent(Widget wrappedContent){
 		content.setWidget(wrappedContent);
 	}
@@ -175,17 +260,17 @@ public class KSWrapper extends Composite{
     }
     
     private Widget buildUserIdPanel(){
-        String userId = Application.getApplicationContext().getUserId();
+/*        String userId = 
         KSLabel userLabel = new KSLabel("User: "+userId);
         
         userLabel.addStyleName("KS-Header-Link");        
-        
-        return userLabel;
+        */
+        return null;
     }
     
     private Widget buildActionListPanel(){
-        final KSLightBox actionListDialog = new KSLightBox();
-        final Frame actionList = new Frame();
+        
+        
 
         actionList.setSize("700px", "500px");
         
@@ -220,8 +305,8 @@ public class KSWrapper extends Composite{
     
     //Method to build the light box for the doc search
     private Widget buildDocSearchPanel(){
-        final KSLightBox docSearchDialog = new KSLightBox();
-        final Frame docSearch = new Frame();
+        
+        
 
         docSearch.setSize("700px", "500px");
         

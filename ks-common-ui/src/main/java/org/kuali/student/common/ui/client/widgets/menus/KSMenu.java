@@ -26,6 +26,8 @@ import com.google.gwt.user.client.ui.Composite;
  *
  */
 public abstract class KSMenu extends Composite {
+	public static enum MenuImageLocation{LEFT, RIGHT};
+	
 	protected List<KSMenuItemData> items;
 	
 	/**

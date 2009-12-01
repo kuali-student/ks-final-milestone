@@ -3,15 +3,19 @@ package org.kuali.student.common.ui.client.widgets.menus.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.widgets.ClickablePanel;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
+import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSBasicMenuAbstract;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.menus.MenuChangeEvent;
 import org.kuali.student.common.ui.client.widgets.menus.MenuEventHandler;
 import org.kuali.student.common.ui.client.widgets.menus.MenuSelectEvent;
+import org.kuali.student.common.ui.client.widgets.menus.KSMenu.MenuImageLocation;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -36,8 +40,10 @@ public class KSListMenuImpl extends KSBasicMenuAbstract{
     //private VerticalPanel menuContainer = new VerticalPanel();
     private List<MenuItemPanel> menuItems = new ArrayList<MenuItemPanel>();
     private boolean numberAllItems = false;
-    
-    private EventHandler handler = new EventHandler();
+    private List<Callback<KSMenuItemData>> globalCallbacks = new ArrayList<Callback<KSMenuItemData>>();
+    private MenuImageLocation imgLoc = MenuImageLocation.RIGHT;
+
+	private EventHandler handler = new EventHandler();
     
     private MenuEventHandler menuHandler = new MenuEventHandler(){
 
@@ -112,7 +118,7 @@ public class KSListMenuImpl extends KSBasicMenuAbstract{
         //add style
     }
     
-    private class EventHandler implements ClickHandler{ //, MouseOverHandler, MouseOutHandler, FocusHandler, BlurHandler{
+    private class EventHandler implements ClickHandler, MouseOverHandler, MouseOutHandler{
 
         @Override
         public void onClick(ClickEvent event) {
@@ -123,7 +129,7 @@ public class KSListMenuImpl extends KSBasicMenuAbstract{
                 ((MenuItemPanel) sender).getItemLabel().removeStyleName(KSStyles.KS_BASIC_MENU_ITEM_LABEL_HOVER);
             }
         }
-/*
+
 
 
         @Override
@@ -147,19 +153,7 @@ public class KSListMenuImpl extends KSBasicMenuAbstract{
                 }
             } 
         }
-
-        @Override
-        public void onFocus(FocusEvent event) {
-            // no function yet
-            
-        }
-
-        @Override
-        public void onBlur(BlurEvent event) {
-            // no function yet
-            
-        }
-        */
+        
     }
     
     private void selectMenuItemPanel(MenuItemPanel toBeSelected) {
@@ -170,12 +164,15 @@ public class KSListMenuImpl extends KSBasicMenuAbstract{
             toBeSelected.select();
             toBeSelected.getItem().unhandledSetSelected(true);
         }
+        for(Callback<KSMenuItemData> c: globalCallbacks){
+        	c.exec(toBeSelected.getItem());
+        }
         
     }
     
-    private class MenuItemPanel extends FocusPanel{
+    private class MenuItemPanel extends ClickablePanel{
         KSLabel itemLabel = new KSLabel();
-        HorizontalPanel contentPanel = new HorizontalPanel();
+        HorizontalBlockFlowPanel contentPanel = new HorizontalBlockFlowPanel();
         boolean selectable = false;
         boolean selected = false;
         KSMenuItemData item;
@@ -227,11 +224,18 @@ public class KSListMenuImpl extends KSBasicMenuAbstract{
                 selectable = true;
             }
             this.addClickHandler(handler);
-/*            this.addMouseOverHandler(handler);
+            this.addMouseOverHandler(handler);
             this.addMouseOutHandler(handler);
-            this.addFocusHandler(handler);
-            this.addBlurHandler(handler);*/
+
             contentPanel.add(itemLabel);
+            if(item.getShownIcon() != null){
+            	if(imgLoc == MenuImageLocation.RIGHT){
+            		contentPanel.add(item.getShownIcon());
+            	}
+            	else{
+            		contentPanel.insert(item.getShownIcon(), 0);
+            	}
+            }
             this.add(contentPanel);
         }
         
@@ -350,5 +354,17 @@ public class KSListMenuImpl extends KSBasicMenuAbstract{
             m.getItem().unhandledSetSelected(false);
         }
     }
+
+	public void addGlobalMenuItemSelectCallback(Callback<KSMenuItemData> callback){
+    	globalCallbacks.add(callback);
+    }
+	
+    public MenuImageLocation getImageLocation() {
+		return imgLoc;
+	}
+
+	public void setImageLocation(MenuImageLocation imgLoc) {
+		this.imgLoc = imgLoc;
+	}
 
 }

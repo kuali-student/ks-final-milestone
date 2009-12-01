@@ -20,4 +20,9 @@ public class CommonCssImpl implements CommonCss {
         return injectString;
 	}
 
+	@Override
+	public String getResetCssString() {
+		return ((CssResource)KSClientBundle.INSTANCE.getResource("resetCss")).getText();
+	}
+
 }

@@ -48,10 +48,40 @@ public class CommonImagesImpl implements CommonImages{
 		return null;
 	}
 
-    @Override
-    public KSImage getSearchIcon() {
-        return null;
-    }
+	@Override
+	public KSImage getCurriculumManagementImage() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public KSImage getDropDownIconBlack() {
+		return null;
+	}
+
+	@Override
+	public KSImage getDropDownIconCustom() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public KSImage getDropDownIconWhite() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public KSImage getLightBulbIcon() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public KSImage getSearchIcon() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 

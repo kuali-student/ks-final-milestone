@@ -20,4 +20,10 @@ public class CommonCssImpl implements CommonCss {
         return injectString;
 	}
 
+	@Override
+	public String getResetCssString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

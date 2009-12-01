@@ -7,8 +7,11 @@ import java.util.List;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.theme.Theme;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSLumLandingPage;
 import org.kuali.student.common.ui.client.widgets.KSRichEditor;
+import org.kuali.student.common.ui.client.widgets.StylishDropDown;
 import org.kuali.student.common.ui.client.widgets.KSButton.ButtonImageAlign;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
@@ -18,6 +21,7 @@ import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImp
 import org.kuali.student.common.ui.client.widgets.containers.KSWrapper;
 import org.kuali.student.common.ui.client.widgets.menus.KSBasicMenu;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
+import org.kuali.student.common.ui.client.widgets.menus.KSMenu.MenuImageLocation;
 import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel;
 import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanelAbstract;
 import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel.TabPosition;
@@ -34,31 +38,65 @@ public class CommonUITest implements EntryPoint {
 	
     @Override
     public void onModuleLoad() {
-//    	KSButton button = new KSButton("A button");
-//    	button.setImage(Theme.INSTANCE.getCommonImages().getHelpIcon().getImage(), ButtonImageAlign.RIGHT);
-//    	button.addClickHandler(new ClickHandler(){
-//
-//			@Override
-//			public void onClick(ClickEvent event) {
-//				Window.alert("Hello there");
-//				
-//			}
-//    	});
-    	
-    	ButtonGroup group = new YesNoGroup(new Callback<YesNoEnum>(){
+    	final ClickHandler handler = new ClickHandler(){
 
 			@Override
-			public void exec(YesNoEnum result) {
-				if(result == YesNoEnum.YES){
-					Window.alert("Hello there");
-				}
-				else{
-					Window.alert("No");
-				}
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
 				
-			}
-		});
-    	RootPanel.get().add(group);
+			}};
+    	KSWrapper wrapper = new KSWrapper();
+    	StylishDropDown dropDown = new StylishDropDown("Navigation", Theme.INSTANCE.getCommonImages().getWarningIcon(), MenuImageLocation.RIGHT);
+    	dropDown.addStyleName("KS-Navigation-DropDown");
+    	dropDown.setShowSelectedItem(true);
+    	List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
+    	items.add(new KSMenuItemData("Curriculum Management"){{setClickHandler(handler); setShownIcon(Theme.INSTANCE.getCommonImages().getOkIcon());}});
+    	items.add(new KSMenuItemData("Organizations"));
+    	items.add(new KSMenuItemData("Rice"));
+    	dropDown.setArrowImage(Theme.INSTANCE.getCommonImages().getDropDownIconWhite());
+    	dropDown.setItems(items);
+    	
+    	StylishDropDown dropDown2 = new StylishDropDown("Propose New Curriculum", Theme.INSTANCE.getCommonImages().getWarningIcon(), MenuImageLocation.LEFT);
+    	dropDown2.addStyleName("KS-LPNavigation-DropDown");
+    	dropDown2.setShowSelectedItem(false);
+    	List<KSMenuItemData> proposeItems = new ArrayList<KSMenuItemData>();
+    	proposeItems.add(new KSMenuItemData("Courses"){{
+    		addSubItem(new KSMenuItemData("Academic Course", handler));
+    		addSubItem(new KSMenuItemData("Non Academic Course", handler));
+    	}});
+    	proposeItems.add(new KSMenuItemData("Programs"){{
+    		addSubItem(new KSMenuItemData("Undergraduate"){{
+    			addSubItem(new KSMenuItemData("Associate Degree", handler));
+        		addSubItem(new KSMenuItemData("Baccalaureate Degree Major", handler));
+        		addSubItem(new KSMenuItemData("Baccalaureate Degree Minor", handler));
+        		addSubItem(new KSMenuItemData("Undergraduate Certificate", handler));
+    		}});
+    		addSubItem(new KSMenuItemData("Graduate"){{
+    			addSubItem(new KSMenuItemData("Graduate Certificate", handler));
+        		addSubItem(new KSMenuItemData("Masters Degree", handler));
+        		addSubItem(new KSMenuItemData("Doctoral Degree", handler));
+    		}});
+    		addSubItem(new KSMenuItemData("Professional"){{
+    			addSubItem(new KSMenuItemData("Professional Degree", handler));
+        		addSubItem(new KSMenuItemData("Professional Certificate", handler));
+    		}});
+    	}});
+    	
+    	proposeItems.add(new KSMenuItemData("Experiential Learning"){{
+    		addSubItem(new KSMenuItemData("Externship", handler));
+    		addSubItem(new KSMenuItemData("Internship", handler));
+    		addSubItem(new KSMenuItemData("Practicum", handler));
+    	}});
+    	
+    	dropDown2.setItems(proposeItems);
+    	
+    	//KSLumLandingPage landing = new KSLumLandingPage();
+    	//wrapper.setContent(landing);
+    	
+    	RootPanel.get().add(new KSDatePicker());
+    	RootPanel.get().add(dropDown);
+    	RootPanel.get().add(dropDown2);
+    	RootPanel.get().add(wrapper);
     	
 /*    	KSWrapper wrapper = new KSWrapper();
 
