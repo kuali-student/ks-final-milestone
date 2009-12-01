@@ -7,6 +7,8 @@ import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.AssemblyException;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.assembly.client.SaveResult;
+import org.kuali.student.common.assembly.client.search.SearchRequest;
+import org.kuali.student.common.assembly.client.search.SearchResult;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
@@ -148,6 +150,12 @@ public class OrgProposalAssembler implements Assembler<Data, Org>{
        
         return org;
     }
+
+	@Override
+	public SearchResult search(SearchRequest searchRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
 
    
