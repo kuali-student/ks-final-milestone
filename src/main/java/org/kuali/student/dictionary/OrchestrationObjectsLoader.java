@@ -30,12 +30,13 @@ public class OrchestrationObjectsLoader
 
  private DictionaryModel model;
  private String directory;
- public static final String ROOT_PACKAGE = "org.kuali.student.orchestration";
+ private String rootPackage;
 
- public OrchestrationObjectsLoader (DictionaryModel model, String directory)
+ public OrchestrationObjectsLoader (DictionaryModel model, String directory, String rootPackage)
  {
   this.model = model;
   this.directory = directory;
+  this.rootPackage = rootPackage;
  }
 
  /**
@@ -65,7 +66,7 @@ public class OrchestrationObjectsLoader
     map.put (xmlType.getName ().toLowerCase (), obj);
     obj.setName (xmlType.getName ());
     obj.setInfoPackagePath (xmlType.getJavaPackage ());
-    obj.setOrchestrationPackagePath (ROOT_PACKAGE + ".base");
+    obj.setOrchestrationPackagePath (rootPackage + ".base");
 
     obj.setHasOwnCreateUpdate (xmlType.getHasOwnCreateUpdate ().equals ("true"));
     List<OrchestrationObjectField> fields = new ArrayList ();
@@ -207,7 +208,7 @@ public class OrchestrationObjectsLoader
     // TODO: worry about qualifying the name somehow so we can support different orchestrations
     map.put (orch.getParent ().toLowerCase (), parentObj);
     parentObj.setName (orch.getParent ());
-    parentObj.setOrchestrationPackagePath (ROOT_PACKAGE + ".orch");
+    parentObj.setOrchestrationPackagePath (rootPackage + ".orch");
     parentObj.setHasOwnCreateUpdate (true);
     parentObj.setFields (new ArrayList ());
     continue;
@@ -239,7 +240,7 @@ public class OrchestrationObjectsLoader
      childField.setInlineObject (inlineObj);
      inlineObj.setInlineField (childField);
      inlineObj.setName (childField.getName ());
-     inlineObj.setOrchestrationPackagePath (ROOT_PACKAGE + ".orch");
+     inlineObj.setOrchestrationPackagePath (rootPackage + ".orch");
      inlineObj.setHasOwnCreateUpdate (false);
      inlineObj.setFields (new ArrayList ());
     }

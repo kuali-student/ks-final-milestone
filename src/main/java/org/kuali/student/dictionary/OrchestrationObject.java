@@ -127,6 +127,22 @@ public class OrchestrationObject
    return orchestrationPackagePath + "." + getJavaClassHelperName ();
  }
 
+  public String getJavaClassConstantsName ()
+ {
+  if (inlineField == null)
+  {
+   return getJavaClassInfoName () + "Constants";
+  }
+  return inlineField.getParent ().getJavaClassInfoName ()
+    + getJavaClassInfoName () + "Constants";
+ }
+
+ public String getFullyQualifiedJavaClassConstantsName ()
+ {
+   return orchestrationPackagePath + "." + getJavaClassConstantsName ();
+ }
+
+
   public String getJavaClassMetadataName ()
  {
   if (inlineField == null)

@@ -27,12 +27,13 @@ public class OrchestrationObjectsWriter
 
  private DictionaryModel model;
  private String directory;
- public static final String ROOT_PACKAGE = "org.kuali.student.orchestration";
+ private String rootPackage;
 
- public OrchestrationObjectsWriter (DictionaryModel model, String directory)
+ public OrchestrationObjectsWriter (DictionaryModel model, String directory, String rootPackage)
  {
   this.model = model;
   this.directory = directory;
+  this.rootPackage = rootPackage;
  }
 
  /**
@@ -45,7 +46,7 @@ public class OrchestrationObjectsWriter
 
   // first do from message structures
   Map<String, OrchestrationObject> orchObjs =
-  new OrchestrationObjectsLoader (model, directory).load ();
+  new OrchestrationObjectsLoader (model, directory, rootPackage).load ();
 
   // do the helpers first
   for (OrchestrationObject oo : orchObjs.values ())
@@ -55,6 +56,16 @@ public class OrchestrationObjectsWriter
     new OrchestrationObjectHelperWriter (model, directory, orchObjs, oo);
    writer.write ();
   }
+
+  // do the helpers first
+  for (OrchestrationObject oo : orchObjs.values ())
+  {
+   System.out.println ("Writing out constants: " + oo.getFullyQualifiedJavaClassConstantsName ());
+   OrchestrationObjectConstantsWriter writer =
+    new OrchestrationObjectConstantsWriter (model, directory, orchObjs, oo);
+   writer.write ();
+  }
+
 
   // do the bank of constraints next
   new ConstraintMetadataBankWriter (model, directory).write ();

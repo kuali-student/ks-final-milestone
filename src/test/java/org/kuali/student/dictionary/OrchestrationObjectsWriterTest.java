@@ -72,7 +72,9 @@ public class OrchestrationObjectsWriterTest implements TestConstants
     new DictionaryModelLoader (dictReader, orchReader);
    DictionaryModel cache = new DictionaryModelCache (loader);
    OrchestrationObjectsWriter instance =
-    new OrchestrationObjectsWriter (cache, DIRECTORY_TO_WRITE_SOURCE);
+    new OrchestrationObjectsWriter (cache,
+                                    COMPONENT_SANDBOX_DIRECTORY_TO_WRITE_SOURCE,
+                                    COMPONENT_SANDBOX_ROOT_PACKAGE);
    instance.write ();
   }
   finally

@@ -21,11 +21,15 @@ package org.kuali.student.dictionary;
  */
 public interface TestConstants
 {
-  public static String RESOURCES_DIRECTORY = "src/test/resources/dictionary/";
+  public static final String RESOURCES_DIRECTORY = "src/test/resources/dictionary/";
   //public static String DIRECTORY_TO_WRITE_SOURCE = "target/";
-  public static String DIRECTORY_TO_WRITE_SOURCE = "../../maven-component-sandbox/trunk/src/main/java";
+  public static final String COMPONENT_SANDBOX_ROOT_PACKAGE = "org.kuali.student.orchestration";
+  public static final String LUM_UI_ROOT_PACKAGE = "org.kuali.student.lum.lu.assembly.data.client.refactorme";
+
+  public static final String COMPONENT_SANDBOX_DIRECTORY_TO_WRITE_SOURCE = "../../maven-component-sandbox/trunk/src/main/java";
+  public static final String LUM_UI_DIRECTORY_TO_WRITE_SOURCE = "C:/svn/kuali-student/ks-lum-dev-orch/ks-lum-ui/src/main/java";
   //public static String DIRECTORY_TO_WRITE_SOURCE = "C:/svn/kuali-student/maven-component-sandbox/trunk/src/main/java";
   
-  public static String TYPE_STATE_DICTIONARY_EXCEL_FILE = RESOURCES_DIRECTORY + "type-state configuration.xls";
-  public static String ORCHESTRATION_DICTIONARY_EXCEL_FILE = RESOURCES_DIRECTORY + "orchestration-dictionary.xls";
+  public static final String TYPE_STATE_DICTIONARY_EXCEL_FILE = RESOURCES_DIRECTORY + "type-state configuration.xls";
+  public static final String ORCHESTRATION_DICTIONARY_EXCEL_FILE = RESOURCES_DIRECTORY + "orchestration-dictionary.xls";
 }
