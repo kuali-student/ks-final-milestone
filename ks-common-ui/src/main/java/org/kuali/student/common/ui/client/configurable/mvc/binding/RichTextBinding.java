@@ -34,11 +34,12 @@ public class RichTextBinding implements ModelWidgetBinding<RichTextEditor>{
         model.set(qPath, object.getHTML());
 
         //TODO: Should these defaults be set in server assembly defaults?
-        qPath = QueryPath.parse(richTextRoot + "type");        
-        model.set(qPath, "kuali.not.applicable");
-        
-        qPath = QueryPath.parse(richTextRoot + "state");
-        model.set(qPath, "(n/a)");
+        //Commenting type and state as it is not required for rich text
+//        qPath = QueryPath.parse(richTextRoot + "type");        
+//        model.set(qPath, "kuali.not.applicable");
+//        
+//        qPath = QueryPath.parse(richTextRoot + "state");
+//        model.set(qPath, "(n/a)");
     }
 
     @Override
