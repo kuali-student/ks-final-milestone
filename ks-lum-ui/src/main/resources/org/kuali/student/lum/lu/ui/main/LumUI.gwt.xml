@@ -5,5 +5,8 @@
   	<inherits name="org.kuali.student.lum.lu.ui.course.Course"/>
   	<inherits name="org.kuali.student.core.organization.ui.OrgUI"/>  	
   	<inherits name="org.kuali.student.core.proposal.ui.ProposalUI"/>
+  		  		<!-- Theme                  -->
+	<inherits name="org.kuali.student.lum.ui.theme.standard.StandardTheme" />
+  	<!--<stylesheet src="LumMain.css"/>-->
   	  	  	
 </module>

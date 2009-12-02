@@ -16,6 +16,8 @@ package org.kuali.student.lum.lu.ui.main.client.controller;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.event.NavigationActionEvent;
+import org.kuali.student.common.ui.client.event.NavigationActionHandler;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DelegatingViewComposite;
 import org.kuali.student.common.ui.client.mvc.View;
@@ -30,6 +32,7 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluCo
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.home.client.view.HomeMenuController;
+import org.kuali.student.lum.lu.ui.home.client.view.KSLumLandingPage;
 import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
 import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateHandler;
 
@@ -46,7 +49,7 @@ public class LUMApplicationManager extends Controller{
 
     KSHistory history;
 
-    private final View homeMenuView = new DelegatingViewComposite(this, new HomeMenuController());
+    private final View homeMenuView = new KSLumLandingPage(this);
 
     private Controller cluProposalController = null;
     private Controller viewCluController = null;
@@ -81,6 +84,18 @@ public class LUMApplicationManager extends Controller{
                 showView(event.getViewType());  
             }
         });
+        
+        addApplicationEventHandler(NavigationActionEvent.TYPE, new NavigationActionHandler(){
+
+			@Override
+			public void processNavigation(NavigationActionEvent navAction) {
+				if(navAction.getNavEnum() != null){
+					//TODO check to make sure it is a lum view?
+					showView(navAction.getNavEnum());
+				}
+				
+			}
+		});
 
         addApplicationEventHandler(LogoutEvent.TYPE, new LogoutHandler() {
             public void onLogout(LogoutEvent event) {
