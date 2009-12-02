@@ -19,8 +19,8 @@ package org.kuali.student.lum.lu.assembly.data.client.refactorme.base;
 import java.util.Date;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.ConstraintMetadataBank;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.AtpTypeInfoHelper.Properties;
-import org.kuali.student.orchestration.ConstraintMetadataBank;
 
 
 public class AtpTypeInfoMetadata

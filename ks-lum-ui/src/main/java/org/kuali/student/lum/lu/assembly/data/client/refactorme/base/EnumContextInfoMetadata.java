@@ -18,8 +18,8 @@ package org.kuali.student.lum.lu.assembly.data.client.refactorme.base;
 
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.ConstraintMetadataBank;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.EnumContextInfoHelper.Properties;
-import org.kuali.student.orchestration.ConstraintMetadataBank;
 
 
 public class EnumContextInfoMetadata
