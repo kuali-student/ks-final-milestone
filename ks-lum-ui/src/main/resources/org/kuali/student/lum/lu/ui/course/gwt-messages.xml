@@ -112,6 +112,7 @@
 	   		<bean parent="enCourse" p:id="cluRationale"	    	p:value="Course Rationale"/>
 	   		<bean parent="enCourse" p:id="cluDivision"	    	p:value="Division:    "/>
 	   		<bean parent="enCourse" p:id="cluSuffixCode"	    p:value="Suffix Code:    "/>
+	   		<bean parent="enCourse" p:id="cluLevel"     	    p:value="Level:    "/>
 	   		<bean parent="enCourse" p:id="cluProposer"	    	p:value="Proposer:    "/>
 	   		<bean parent="enCourse" p:id="cluDelegate"	    	p:value="Delegate:    "/>
 	   		<bean parent="enCourse" p:id="cluCollaborators"	    p:value="Collaborators:    "/>
@@ -119,6 +120,10 @@
 	   		<bean parent="enCourse" p:id="cluLearningObjective"	p:value="Learning Objective"/>
 	   		<bean parent="enCourse" p:id="cluAddLOs"			p:value="+ Add More Learning Objectives"/>
 	   		<bean parent="enCourse" p:id="cluLOName"			p:value="Name"/>
+	   		
+	   		
+	   		<bean parent="enCourse" p:id="cluLOCluCodeSearch"			p:value="Search by Course Code"/>
+	   		<bean parent="enCourse" p:id="cluLOWordSearch"			p:value="Search for word in Learning Objectives"/>
 	   		<bean parent="enCourse" p:id="cluLOSearch"			p:value="Search for Learning Objectives"/>
 	   		<bean parent="enCourse" p:id="cluLOInstructions"	p:value="250 characters max for each Learning Objective"/>
 

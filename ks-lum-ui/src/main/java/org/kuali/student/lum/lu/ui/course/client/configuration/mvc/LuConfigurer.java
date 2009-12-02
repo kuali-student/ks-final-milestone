@@ -242,7 +242,7 @@ public class LuConfigurer {
         courseNumber.setSectionTitle(getH3Title(LUConstants.IDENTIFIER_LABEL_KEY)); 
         courseNumber.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
         courseNumber.addField(new FieldDescriptor("cluInfo/officialIdentifier/division", null, Type.STRING)); //TODO OrgSearch goes here?
-        courseNumber.addField(new FieldDescriptor("cluInfo/officialIdentifier/suffixCode", null, Type.STRING));
+        courseNumber.addField(new FieldDescriptor("cluInfo/officialIdentifier/level", null, Type.STRING));
         
         // TODO - hide cross-listed, offered jointly and version codes initially, with
         // clickable label to disclose them

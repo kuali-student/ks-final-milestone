@@ -109,6 +109,17 @@
         </search:searchCriteriaTypeInfo>
     </search:searchType>
 
+    <search:searchType id="lu.search.cluByCodeAndState">
+		<search:name>Code and state match</search:name>
+		<search:desc>Search by CLU Code and State.</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="lu.result.cluQuickView" />
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="lu.criteria.cluByCodeAndState" />
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+
     <search:searchResultTypeInfo id="lu.result.luClus">
         <search:name>Lu Clu</search:name>
         <search:desc>List Lu Clus</search:desc>
@@ -117,6 +128,15 @@
             <ref bean="lu.resultColumn.cluOfficialIdentifier.longName" />
         </search:resultColumns>
     </search:searchResultTypeInfo>
+
+    <search:searchResultTypeInfo id="lu.result.cluQuickView">
+		<search:name>LU Quick View</search:name>
+		<search:desc>Quick view of the CLU</search:desc>
+		<search:resultColumns>
+			<ref bean="lu.resultColumn.cluId" />
+			<ref bean="lu.resultColumn.cluOfficialIdentifier.cluCode" />
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
 
     <search:resultColumn id="lu.resultColumn.cluId">
         <search:name>Clu Id</search:name>
@@ -130,6 +150,40 @@
         <search:dataType>string</search:dataType>
     </search:resultColumn>
 
+    <search:resultColumn id="lu.resultColumn.cluOfficialIdentifier.cluCode">
+        <search:name>Clu Code</search:name>
+        <search:desc>Official code of a Clu</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+
+    <search:queryParam id="lu.queryParam.cluState">
+		<ref bean="childFieldDescriptor" />
+	</search:queryParam>
+
+    <search:queryParam id="lu.queryParam.cluCode">
+		<dict:fieldDescriptor parent="childFieldDescriptor">
+			<dict:name>Clu Code</dict:name>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+
+    <search:queryParam id="lu.queryParam.cluId">
+		<dict:fieldDescriptor parent="childFieldDescriptor">
+			<dict:name>Clu Id</dict:name>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+
+	<dict:fieldDescriptor id="parentFieldDescriptor">
+		<dict:name>CLU Identifier</dict:name>
+		<dict:desc>Unique identifier for a Canonical Learning Unit (CLU).</dict:desc>
+		<dict:dataType>string</dict:dataType>
+		<dict:readOnly>true</dict:readOnly>
+	</dict:fieldDescriptor>
+	
+	<dict:fieldDescriptor id="childFieldDescriptor"
+		parent="parentFieldDescriptor">
+		<dict:name>Child CLU Identifier</dict:name>
+	</dict:fieldDescriptor>
+    
     <search:searchCriteriaTypeInfo id="lu.criteria.all">
         <search:name>LuClu</search:name>
         <search:desc>Placeholder Criteria</search:desc>
@@ -140,6 +194,16 @@
         <search:desc>Clu Code</search:desc>
      </search:searchCriteriaTypeInfo>
 
+	<search:searchCriteriaTypeInfo id="lu.criteria.cluByCodeAndState">
+		<search:name>LuByCodeAndStateCriteria</search:name>
+		<search:desc>LuByCodeAndStateCriteria Description</search:desc>
+		<search:queryParams>
+			<ref bean="lu.queryParam.cluCode" />
+			<ref bean="lu.queryParam.cluId" />
+			<ref bean="lu.queryParam.cluState" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+
 	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
 			<map>
@@ -149,7 +213,13 @@
                 </entry>
                 <entry key="lu.search.cluByCode">
                     <value>SELECT clu.id FROM Clu clu WHERE clu.officialIdentifier.code = :lu_criteria_code ORDER BY clu.effectiveDate DESC</value>
-                </entry>                
+                </entry>
+                <entry key="lu.search.cluByCodeAndState">
+                    <value>SELECT clu.id, clu.officialIdentifier.code FROM Clu clu 
+                    WHERE clu.officialIdentifier.code like :lu_queryParam_cluCode 
+                    or clu.id = :lu_queryParam_cluId
+                    ORDER BY clu.officialIdentifier.code ASC</value>
+                </entry>
                 <entry key="lu.search.generic">
                     <value>SELECT clu.id,  clu.officialIdentifier.longName, clu.officialIdentifier.code, clu.officialIdentifier.level
                     		 FROM Clu clu WHERE clu.state NOT IN

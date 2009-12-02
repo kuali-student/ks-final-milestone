@@ -414,7 +414,7 @@ public class ViewCluConfigurer {
         section.addField(new FieldDescriptor("cluInfo/officialIdentifier/division", getLabel(LUConstants.DIVISION_LABEL_KEY), Type.STRING, new KSLabel()));
 //        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/level", "Level:    ", Type.STRING, new KSLabel()));
 //        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/variation", "Variation:    ", Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/suffixCode", getLabel(LUConstants.SUFFIX_CODE_LABEL_KEY), Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor("cluInfo/officialIdentifier/level", getLabel(LUConstants.LEVEL_LABEL_KEY), Type.STRING, new KSLabel()));
     
         section.addField(new FieldDescriptor("cluInfo/alternateIdentifiers", null, Type.LIST, new AlternateIdentifierList()));
        return section;
@@ -457,7 +457,7 @@ public class ViewCluConfigurer {
 
         protected AlternateInstructorList () {
             this.setItemLabel(getLabel(LUConstants.INSTRUCTOR_LABEL_KEY));      
-            this.setUpdateable(false);         
+            this.setDisplayOnly();         
         }
 
         @Override
@@ -479,7 +479,7 @@ public class ViewCluConfigurer {
 
         protected AlternateIdentifierList () {
             this.setItemLabel(getLabel(LUConstants.ALT_IDENTIFIER_LABEL_KEY));      
-            this.setUpdateable(false);         
+            this.setDisplayOnly();         
         }
 
         @Override
@@ -504,7 +504,7 @@ public class ViewCluConfigurer {
 
         protected AlternateAdminOrgList () {
             this.setItemLabel(getLabel(LUConstants.ALT_ADMIN_ORG_LABEL_KEY));      
-            this.setUpdateable(false);         
+            this.setDisplayOnly();         
         }
 
         @Override
@@ -523,7 +523,7 @@ public class ViewCluConfigurer {
     public static class CrossListedList extends MultiplicityComposite {        
         protected CrossListedList () {
             this.setItemLabel(getLabel(LUConstants.CROSS_LISTED_ITEM_LABEL_KEY));      
-            this.setUpdateable(false);         
+            this.setDisplayOnly();         
         }
         
         @Override
@@ -547,7 +547,7 @@ public class ViewCluConfigurer {
 
         protected OfferedJointlyList () {
             this.setItemLabel(getLabel(LUConstants.JOINT_OFFER_ITEM_LABEL_KEY));      
-            this.setUpdateable(false);         
+            this.setDisplayOnly();         
         }
 
         @Override
@@ -566,7 +566,7 @@ public class ViewCluConfigurer {
     public static class VersionCodeList extends MultiplicityComposite {
         protected VersionCodeList () {
             this.setItemLabel(getLabel(LUConstants.VERSION_CODE_LABEL_KEY));      
-            this.setUpdateable(false);         
+            this.setDisplayOnly();         
         }
 
         @Override
@@ -590,7 +590,7 @@ public class ViewCluConfigurer {
 
         protected CourseFormatList () {
             this.setItemLabel(getLabel(LUConstants.FORMATS_LABEL_KEY));      
-            this.setUpdateable(false);         
+            this.setDisplayOnly();         
         }
 
         public Widget createItem() {
@@ -607,7 +607,7 @@ public class ViewCluConfigurer {
 
         protected CourseActivityList () {
             this.setItemLabel(getLabel(LUConstants.ACTIVITY_LITERAL_LABEL_KEY));      
-            this.setUpdateable(false);         
+            this.setDisplayOnly();         
         }
 
         public Widget createItem() {
@@ -646,7 +646,7 @@ public class ViewCluConfigurer {
 
         protected LearningObjectiveList () {
 //            this.setUseItemHeader(false);      
-            this.setUpdateable(false);         
+            this.setDisplayOnly();         
         }
 
         @Override

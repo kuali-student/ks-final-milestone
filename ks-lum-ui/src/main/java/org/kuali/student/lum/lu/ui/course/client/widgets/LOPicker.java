@@ -52,7 +52,7 @@ public class LOPicker extends  Composite implements  HasValue<String>  {
     KSButton deleteButton = new KSButton();
     KSButton indentButton = new KSButton();
 //    private final FocusGroup focus = new FocusGroup(this);
-    FlexTable layoutTable = new FlexTable();
+    FlexTable layoutTable = new FlexTable();                               
     public LOPicker() {
         super();
         root = new VerticalPanel(){
