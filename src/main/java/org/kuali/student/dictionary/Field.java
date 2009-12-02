@@ -274,29 +274,6 @@ public class Field implements Serializable
   this.selector = selector;
  }
 
- private String messageId;
-
- /**
-  * Get the value of messageId
-  *
-  * @return the value of messageId
-  */
- public String getMessageId ()
- {
-  return messageId;
- }
-
- /**
-  * Set the value of messageId
-  *
-  * @param messageId new value of messageId
-  */
- public void setMessageId (String messageId)
- {
-  this.messageId = messageId;
- }
-
-
  private Constraint inlineConstraint;
 
  /**

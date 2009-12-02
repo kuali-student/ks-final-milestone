@@ -30,12 +30,14 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
 
  private DictionaryModel model;
  private String directory;
+ private String rootPackage;
  public static final String ROOT_PACKAGE = "org.kuali.student.orchestration";
  private OrchestrationObject orchObj;
  private Map<String, OrchestrationObject> orchObjs;
 
  public OrchestrationObjectMetadataWriter (DictionaryModel model,
                                            String directory,
+                                           String rootPackage,
                                            Map<String, OrchestrationObject> orchObjs,
                                            OrchestrationObject orchObj)
  {
@@ -43,6 +45,7 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
    getJavaClassMetadataName ());
   this.model = model;
   this.directory = directory;
+  this.rootPackage = rootPackage;
   this.orchObjs = orchObjs;
   this.orchObj = orchObj;
  }
@@ -61,6 +64,7 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
     OrchestrationObjectMetadataWriter inlineWriter =
      new OrchestrationObjectMetadataWriter (model,
                                             directory,
+                                            rootPackage,
                                             orchObjs,
                                             field.getInlineObject ());
     inlineWriter.write ();
@@ -113,7 +117,8 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
 
  private void writeMetadataForField (OrchestrationObjectField field)
  {
-  System.out.println ("Writing metadata for field " + field.getFullyQualifiedName ());
+  System.out.println ("Writing metadata for field " + field.
+   getFullyQualifiedName ());
   indentPrintln ("");
   indentPrintln ("// metadata for " + field.getName ());
   indentPrintln ("childMeta = new Metadata ();");
@@ -125,7 +130,8 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
   imports.add (Data.class.getName ());
   indentPrintln ("childMeta.setDataType (Data.DataType." +
    calcDataTypeToUse (field) + ");");
-  indentPrintln ("childMeta.setWriteAccess (Metadata.WriteAccess." + field.getWriteAccess () + ");");
+  indentPrintln ("childMeta.setWriteAccess (Metadata.WriteAccess." + field.
+   getWriteAccess () + ");");
   String defVal = calcDefaultValueDataType (field);
   if (defVal != null)
   {
@@ -155,7 +161,10 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
    lastState = tsCons.getState ();
    closeIf = true;
    TypeStateConstraintMetadataWriter writer =
-    new TypeStateConstraintMetadataWriter (this, tsCons, writeIfTypeStateMatcher);
+    new TypeStateConstraintMetadataWriter (this,
+                                           tsCons,
+                                           writeIfTypeStateMatcher,
+                                           rootPackage);
    writer.write ();
   }
   if (closeIf)
@@ -176,8 +185,10 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
    case LIST_OF_COMPLEX_INLINE:
     imports.add (QueryPath.class.getName ());
     indentPrintln ("listMeta = new Metadata ();");
-    indentPrintln ("listMeta.setDataType (Data.DataType." + calcDataTypeToUseForList (field) + ");");
-    indentPrintln ("listMeta.setWriteAccess (Metadata.WriteAccess." + field.getWriteAccess () + ");");
+    indentPrintln ("listMeta.setDataType (Data.DataType." +
+     calcDataTypeToUseForList (field) + ");");
+    indentPrintln ("listMeta.setWriteAccess (Metadata.WriteAccess." + field.
+     getWriteAccess () + ");");
     indentPrintln ("childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);");
     switch (field.getFieldTypeCategory ())
     {
@@ -284,13 +295,12 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
    field.getType () + " for field " + field.getName ());
  }
 
-
-  private Data.DataType calcDataTypeToUseForList (OrchestrationObjectField field)
+ private Data.DataType calcDataTypeToUseForList (OrchestrationObjectField field)
  {
   //XmlType xmlType = new ModelFinder (model).findXmlType (field.getType ());
   switch (field.getFieldTypeCategory ())
   {
-    case LIST_OF_PRIMITIVE:
+   case LIST_OF_PRIMITIVE:
     if (field.getType ().equalsIgnoreCase ("string"))
     {
      return Data.DataType.STRING;
@@ -334,8 +344,6 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
    field.getFieldTypeCategory () + " for field type " +
    field.getType () + " for field " + field.getName ());
  }
-
-
 
  private String calcDefaultValueDataType (OrchestrationObjectField field)
  {

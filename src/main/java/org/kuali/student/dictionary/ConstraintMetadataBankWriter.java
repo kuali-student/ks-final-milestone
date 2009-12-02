@@ -28,15 +28,17 @@ public class ConstraintMetadataBankWriter extends JavaClassWriter
 
  private DictionaryModel model;
  private String directory;
- public static final String ROOT_PACKAGE = "org.kuali.student.orchestration";
+ private String rootPackage;
  public static final String JAVA_CLASS_NAME = "ConstraintMetadataBank";
 
  public ConstraintMetadataBankWriter (DictionaryModel model,
-                                      String directory)
+                                      String directory,
+                                      String rootPackage)
  {
-  super (directory, ROOT_PACKAGE, JAVA_CLASS_NAME);
+  super (directory, rootPackage, JAVA_CLASS_NAME);
   this.model = model;
   this.directory = directory;
+  this.rootPackage = rootPackage;
  }
 
  /**

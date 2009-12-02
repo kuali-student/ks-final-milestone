@@ -27,14 +27,17 @@ public class TypeStateConstraintMetadataWriter
  private OrchestrationObjectMetadataWriter out;
  private TypeStateConstraint tsCons;
  private boolean writeIfTypeStateMatcher;
+ private String rootPackage;
 
  public TypeStateConstraintMetadataWriter (OrchestrationObjectMetadataWriter out,
                                            TypeStateConstraint tsCons,
-                                           boolean writeIfTypeStateMatcher
+                                           boolean writeIfTypeStateMatcher,
+                                           String rootPackage
                                            )
  {
   this.out = out;
   this.tsCons = tsCons;
+  this.rootPackage = rootPackage;
   this.writeIfTypeStateMatcher = writeIfTypeStateMatcher;
  }
 
@@ -57,7 +60,7 @@ public class TypeStateConstraintMetadataWriter
   }
   else
   {
-   out.imports.add (ConstraintMetadataBankWriter.ROOT_PACKAGE + "." +
+   out.imports.add (rootPackage + "." +
     ConstraintMetadataBankWriter.JAVA_CLASS_NAME);
    String bankGetter = "ConstraintMetadataBank.BANK.get (" + quote (tsCons.getConstraint ().getId ().
     toLowerCase ()) + ")";

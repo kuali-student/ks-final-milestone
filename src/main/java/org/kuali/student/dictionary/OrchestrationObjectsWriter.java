@@ -68,14 +68,14 @@ public class OrchestrationObjectsWriter
 
 
   // do the bank of constraints next
-  new ConstraintMetadataBankWriter (model, directory).write ();
+  new ConstraintMetadataBankWriter (model, directory, rootPackage).write ();
   
   // do the metadata next
   for (OrchestrationObject oo : orchObjs.values ())
   {
    System.out.println ("Writing out metadata class: " + oo.getFullyQualifiedJavaClassMetadataName ());
    OrchestrationObjectMetadataWriter writer =
-    new OrchestrationObjectMetadataWriter (model, directory, orchObjs, oo);
+    new OrchestrationObjectMetadataWriter (model, directory, rootPackage, orchObjs, oo);
    writer.write ();
   }
 

@@ -317,12 +317,13 @@ public class DictionaryModelLoader implements DictionaryModel
    field.setConstraintDescription (getFixup (worksheetReader, "constraintDescription"));
    field.setDynamic (getFixup (worksheetReader, "dynamic"));
    field.setSelector (getFixup (worksheetReader, "selector"));
-   field.setMessageId (getFixup (worksheetReader, "messageId"));
+
    // do in-line constraint
    Constraint inline = new Constraint ();
    inline.setInline (true);
    inline.setId ("");
    inline.setKey ("in-line.constraint.for.field." + field.getId ());
+   inline.setMessageId (getFixup (worksheetReader, "messageId"));
    inline.setMinLength (getFixup (worksheetReader, "minLength"));
    inline.setMaxLength (getFixup (worksheetReader, "maxLength"));
    if (inline.getMaxLength ().equals (Constraint.NINE_NINES))
