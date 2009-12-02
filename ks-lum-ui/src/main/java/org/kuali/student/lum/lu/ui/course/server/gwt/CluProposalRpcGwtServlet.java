@@ -103,7 +103,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	final Logger logger = Logger.getLogger(CluProposalRpcGwtServlet.class);
 
     private static final long serialVersionUID = 1L;
-    private static final String DEFAULT_USER_ID = "user1";
+    // ID of only user ('admin') who can initiate a CluDocument workflow
+    private static final String DEFAULT_USER_ID = "3";
     private static final String WF_TYPE_CLU_DOCUMENT = "CluDocument";
     private static final String WF_TYPE_CLU_COLLABORATOR_DOCUMENT =  "CluCollaboratorDocument";
     private static final String PROPOSAL_REFERENCE_TYPE = "kuali.proposal.referenceType.clu";
@@ -1287,22 +1288,24 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	
 	
 	private String getCurrentUser() {
-        String username=DEFAULT_USER_ID;//FIXME this is bad, need to find some kind of mock security context
+        String userID = DEFAULT_USER_ID;//FIXME this is bad, need to find some kind of mock security context
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if(auth!=null){
         	Object obj = auth.getPrincipal();
         	if(obj instanceof KimAuthenticationProvider.UserWithId){
-        		//This is actually the user Id
-        		username = ((KimAuthenticationProvider.UserWithId)obj).getUserId();
+        		userID = ((KimAuthenticationProvider.UserWithId)obj).getUserId();
         	}else if (obj instanceof UserDetails) {
-            	username = ((UserDetails)obj).getUsername();
+            	userID = ((UserDetails) obj).getUsername();
             } else {
-            	username = obj.toString();
+            	userID = obj.toString();
             }
         }else{
-        	username=(String)this.getThreadLocalRequest().getSession().getAttribute("backdoorId");
+        	String backDoorID = (String) this.getThreadLocalRequest().getSession().getAttribute("backdoorId");
+        	if (null != backDoorID) {
+	        	userID = backDoorID;
+        	}
         }
-		return username;
+		return userID;
 	}
 	
 	private String getCluProposalDocContent(CluInfo cluInfo, ProposalInfo proposalInfo) throws OperationFailedException{
