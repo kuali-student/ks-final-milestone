@@ -26,8 +26,9 @@ public class CreditCourseProposalHelper
 	
 	public enum Properties implements PropertyEnum
 	{
-		COURSE ("course"),
 		PROPOSAL ("proposal"),
+		COURSE ("course"),
+		FEES ("fees"),
 		STATE ("state"),
 		TYPE ("type");
 		
@@ -66,9 +67,21 @@ public class CreditCourseProposalHelper
 	}
 	
 	
+	public void setProposal (CreditCourseProposalInfoHelper value)
+	{
+		data.set (Properties.PROPOSAL.getKey (), (value == null) ? null : value.getData ());
+	}
+	
+	
+	public CreditCourseProposalInfoHelper getProposal ()
+	{
+		return CreditCourseProposalInfoHelper.wrap ((Data) data.get (Properties.PROPOSAL.getKey ()));
+	}
+	
+	
 	public void setCourse (CreditCourseHelper value)
 	{
-		data.set (Properties.COURSE.getKey (), (value == null) ? null : value.getData());
+		data.set (Properties.COURSE.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	
@@ -78,15 +91,15 @@ public class CreditCourseProposalHelper
 	}
 	
 	
-	public void setProposal (CreditCourseProposalInfoHelper value)
+	public void setFees (Data value)
 	{
-		data.set (Properties.PROPOSAL.getKey (), (value == null) ? null : value.getData());
+		data.set (Properties.FEES.getKey (), value);
 	}
 	
 	
-	public CreditCourseProposalInfoHelper getProposal ()
+	public Data getFees ()
 	{
-		return CreditCourseProposalInfoHelper.wrap ((Data) data.get (Properties.PROPOSAL.getKey ()));
+		return (Data) data.get (Properties.FEES.getKey ());
 	}
 	
 	

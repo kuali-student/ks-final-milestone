@@ -18,6 +18,7 @@ package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoHelper;
 
 
 public class CreditCourseProposalInfoHelper
@@ -32,6 +33,7 @@ public class CreditCourseProposalInfoHelper
 		RATIONALE ("rationale"),
 		REFERENCE_TYPE ("referenceType"),
 		REFERENCES ("references"),
+		META_INFO ("metaInfo"),
 		_RUNTIME_DATA ("_runtimeData");
 		
 		private final String key;
@@ -141,9 +143,21 @@ public class CreditCourseProposalInfoHelper
 	}
 	
 	
+	public void setMetaInfo (MetaInfoHelper value)
+	{
+		data.set (Properties.META_INFO.getKey (), (value == null) ? null : value.getData ());
+	}
+	
+	
+	public MetaInfoHelper getMetaInfo ()
+	{
+		return MetaInfoHelper.wrap ((Data) data.get (Properties.META_INFO.getKey ()));
+	}
+	
+	
 	public void set_runtimeData (RuntimeDataHelper value)
 	{
-		data.set (Properties._RUNTIME_DATA.getKey (), (value == null) ? null : value.getData());
+		data.set (Properties._RUNTIME_DATA.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	

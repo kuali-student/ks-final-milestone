@@ -18,8 +18,8 @@ package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.ConstraintMetadataBank;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.RuntimeDataVersionsHelper.Properties;
+import org.kuali.student.orchestration.ConstraintMetadataBank;
 
 
 public class RuntimeDataVersionsMetadata
@@ -55,7 +55,7 @@ public class RuntimeDataVersionsMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 		}
 		
-		// metadata for ID
+		// metadata for Id
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.ID.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);

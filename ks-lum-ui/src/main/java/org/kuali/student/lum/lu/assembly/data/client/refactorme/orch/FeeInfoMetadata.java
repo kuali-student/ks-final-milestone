@@ -18,11 +18,11 @@ package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalKeyDataHelper.Properties;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoHelper.Properties;
 import org.kuali.student.orchestration.ConstraintMetadataBank;
 
 
-public class CreditCourseProposalKeyDataMetadata
+public class FeeInfoMetadata
 {
 	
 	public boolean matches (String inputType, String inputState, String dictType, String dictState)
@@ -45,44 +45,66 @@ public class CreditCourseProposalKeyDataMetadata
 		Metadata childMeta;
 		Metadata listMeta;
 		
-		// metadata for Title
+		// metadata for FeeType
 		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.TITLE.getKey (), childMeta);
+		mainMeta.getProperties ().put (Properties.FEE_TYPE.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ON_CREATE);
+		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single.line.text"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 		}
 		
-		// metadata for Proposer
+		// metadata for FeeAmount
 		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.PROPOSER.getKey (), childMeta);
+		mainMeta.getProperties ().put (Properties.FEE_AMOUNT.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ON_CREATE);
+		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("related.personid"));
 		}
 		
-		// metadata for Department
+		// metadata for Taxable
 		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.DEPARTMENT.getKey (), childMeta);
+		mainMeta.getProperties ().put (Properties.TAXABLE.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ON_CREATE);
+		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("related.orgid"));
 		}
+		
+		// metadata for FeeDesc
+		childMeta = new Metadata ();
+		mainMeta.getProperties ().put (Properties.FEE_DESC.getKey (), childMeta);
+		childMeta.setDataType (Data.DataType.STRING);
+		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+		}
+		
+		// metadata for InternalNotation
+		childMeta = new Metadata ();
+		mainMeta.getProperties ().put (Properties.INTERNAL_NOTATION.getKey (), childMeta);
+		childMeta.setDataType (Data.DataType.STRING);
+		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+		}
+		
+		// metadata for _runtimeData
+		childMeta = new Metadata ();
+		mainMeta.getProperties ().put (Properties._RUNTIME_DATA.getKey (), childMeta);
+		childMeta.setDataType (Data.DataType.DATA);
+		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+		}
+		new RuntimeDataMetadata ().loadChildMetadata (childMeta, type, state);
 		
 	}
 }

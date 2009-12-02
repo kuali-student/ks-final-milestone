@@ -20,15 +20,17 @@ import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
 
 
-public class CreditCourseFormatHelper
+public class FeeInfoHelper
 {
 	private static final long serialVersionUID = 1;
 	
 	public enum Properties implements PropertyEnum
 	{
-		ID ("id"),
-		ACTIVITIES ("activities"),
-		STATE ("state"),
+		FEE_TYPE ("feeType"),
+		FEE_AMOUNT ("feeAmount"),
+		TAXABLE ("taxable"),
+		FEE_DESC ("feeDesc"),
+		INTERNAL_NOTATION ("internalNotation"),
 		_RUNTIME_DATA ("_runtimeData");
 		
 		private final String key;
@@ -46,18 +48,18 @@ public class CreditCourseFormatHelper
 	}
 	private Data data;
 	
-	private CreditCourseFormatHelper (Data data)
+	private FeeInfoHelper (Data data)
 	{
 		this.data = data;
 	}
 	
-	public static CreditCourseFormatHelper wrap (Data data)
+	public static FeeInfoHelper wrap (Data data)
 	{
 		if (data == null)
 		{
 			 return null;
 		}
-		return new CreditCourseFormatHelper (data);
+		return new FeeInfoHelper (data);
 	}
 	
 	public Data getData ()
@@ -66,39 +68,63 @@ public class CreditCourseFormatHelper
 	}
 	
 	
-	public void setId (String value)
+	public void setFeeType (String value)
 	{
-		data.set (Properties.ID.getKey (), value);
+		data.set (Properties.FEE_TYPE.getKey (), value);
 	}
 	
 	
-	public String getId ()
+	public String getFeeType ()
 	{
-		return (String) data.get (Properties.ID.getKey ());
+		return (String) data.get (Properties.FEE_TYPE.getKey ());
 	}
 	
 	
-	public void setActivities (Data value)
+	public void setFeeAmount (String value)
 	{
-		data.set (Properties.ACTIVITIES.getKey (), value);
+		data.set (Properties.FEE_AMOUNT.getKey (), value);
 	}
 	
 	
-	public Data getActivities ()
+	public String getFeeAmount ()
 	{
-		return (Data) data.get (Properties.ACTIVITIES.getKey ());
+		return (String) data.get (Properties.FEE_AMOUNT.getKey ());
 	}
 	
 	
-	public void setState (String value)
+	public void setTaxable (String value)
 	{
-		data.set (Properties.STATE.getKey (), value);
+		data.set (Properties.TAXABLE.getKey (), value);
 	}
 	
 	
-	public String getState ()
+	public String getTaxable ()
 	{
-		return (String) data.get (Properties.STATE.getKey ());
+		return (String) data.get (Properties.TAXABLE.getKey ());
+	}
+	
+	
+	public void setFeeDesc (String value)
+	{
+		data.set (Properties.FEE_DESC.getKey (), value);
+	}
+	
+	
+	public String getFeeDesc ()
+	{
+		return (String) data.get (Properties.FEE_DESC.getKey ());
+	}
+	
+	
+	public void setInternalNotation (String value)
+	{
+		data.set (Properties.INTERNAL_NOTATION.getKey (), value);
+	}
+	
+	
+	public String getInternalNotation ()
+	{
+		return (String) data.get (Properties.INTERNAL_NOTATION.getKey ());
 	}
 	
 	

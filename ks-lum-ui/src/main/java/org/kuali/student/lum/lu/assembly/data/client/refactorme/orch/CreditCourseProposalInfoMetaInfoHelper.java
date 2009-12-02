@@ -16,18 +16,19 @@
 package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 
 
+import java.util.Date;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
 
 
-public class ModifyCreditCourseProposalHelper
+public class CreditCourseProposalInfoMetaInfoHelper
 {
 	private static final long serialVersionUID = 1;
 	
 	public enum Properties implements PropertyEnum
 	{
-		CREDIT_COURSE_PROPOSAL ("creditCourseProposal"),
-		ORIGINAL ("original");
+		CREATE_TIME ("createTime"),
+		UPDATE_TIME ("updateTime");
 		
 		private final String key;
 		
@@ -44,18 +45,18 @@ public class ModifyCreditCourseProposalHelper
 	}
 	private Data data;
 	
-	private ModifyCreditCourseProposalHelper (Data data)
+	private CreditCourseProposalInfoMetaInfoHelper (Data data)
 	{
 		this.data = data;
 	}
 	
-	public static ModifyCreditCourseProposalHelper wrap (Data data)
+	public static CreditCourseProposalInfoMetaInfoHelper wrap (Data data)
 	{
 		if (data == null)
 		{
 			 return null;
 		}
-		return new ModifyCreditCourseProposalHelper (data);
+		return new CreditCourseProposalInfoMetaInfoHelper (data);
 	}
 	
 	public Data getData ()
@@ -64,27 +65,27 @@ public class ModifyCreditCourseProposalHelper
 	}
 	
 	
-	public void setCreditCourseProposal (CreditCourseProposalHelper value)
+	public void setCreateTime (Date value)
 	{
-		data.set (Properties.CREDIT_COURSE_PROPOSAL.getKey (), (value == null) ? null : value.getData ());
+		data.set (Properties.CREATE_TIME.getKey (), value);
 	}
 	
 	
-	public CreditCourseProposalHelper getCreditCourseProposal ()
+	public Date getCreateTime ()
 	{
-		return CreditCourseProposalHelper.wrap ((Data) data.get (Properties.CREDIT_COURSE_PROPOSAL.getKey ()));
+		return (Date) data.get (Properties.CREATE_TIME.getKey ());
 	}
 	
 	
-	public void setOriginal (CreditCourseHelper value)
+	public void setUpdateTime (Date value)
 	{
-		data.set (Properties.ORIGINAL.getKey (), (value == null) ? null : value.getData ());
+		data.set (Properties.UPDATE_TIME.getKey (), value);
 	}
 	
 	
-	public CreditCourseHelper getOriginal ()
+	public Date getUpdateTime ()
 	{
-		return CreditCourseHelper.wrap ((Data) data.get (Properties.ORIGINAL.getKey ()));
+		return (Date) data.get (Properties.UPDATE_TIME.getKey ());
 	}
 	
 }

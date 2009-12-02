@@ -79,7 +79,7 @@ public class RetireCreditCourseProposalHelper
 	
 	public void setProposal (CreditCourseProposalHelper value)
 	{
-		data.set (Properties.PROPOSAL.getKey (), (value == null) ? null : value.getData());
+		data.set (Properties.PROPOSAL.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	
@@ -91,7 +91,7 @@ public class RetireCreditCourseProposalHelper
 	
 	public void setOriginal (CreditCourseHelper value)
 	{
-		data.set (Properties.ORIGINAL.getKey (), (value == null) ? null : value.getData());
+		data.set (Properties.ORIGINAL.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	

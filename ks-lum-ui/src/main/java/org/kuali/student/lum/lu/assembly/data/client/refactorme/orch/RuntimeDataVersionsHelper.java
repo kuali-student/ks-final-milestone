@@ -27,7 +27,7 @@ public class RuntimeDataVersionsHelper
 	public enum Properties implements PropertyEnum
 	{
 		TYPE ("type"),
-		ID("id"),
+		ID ("id"),
 		VERSION_IND ("versionInd");
 		
 		private final String key;
@@ -74,6 +74,18 @@ public class RuntimeDataVersionsHelper
 	public String getType ()
 	{
 		return (String) data.get (Properties.TYPE.getKey ());
+	}
+	
+	
+	public void setId (String value)
+	{
+		data.set (Properties.ID.getKey (), value);
+	}
+	
+	
+	public String getId ()
+	{
+		return (String) data.get (Properties.ID.getKey ());
 	}
 	
 	

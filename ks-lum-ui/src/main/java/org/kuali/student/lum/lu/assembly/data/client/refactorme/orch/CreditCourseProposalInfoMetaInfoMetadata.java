@@ -16,13 +16,14 @@
 package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 
 
+import java.util.Date;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalKeyDataHelper.Properties;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalInfoMetaInfoHelper.Properties;
 import org.kuali.student.orchestration.ConstraintMetadataBank;
 
 
-public class CreditCourseProposalKeyDataMetadata
+public class CreditCourseProposalInfoMetaInfoMetadata
 {
 	
 	public boolean matches (String inputType, String inputState, String dictType, String dictState)
@@ -45,43 +46,24 @@ public class CreditCourseProposalKeyDataMetadata
 		Metadata childMeta;
 		Metadata listMeta;
 		
-		// metadata for Title
+		// metadata for CreateTime
 		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.TITLE.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ON_CREATE);
+		mainMeta.getProperties ().put (Properties.CREATE_TIME.getKey (), childMeta);
+		childMeta.setDataType (Data.DataType.DATE);
+		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single.line.text"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 		}
 		
-		// metadata for Proposer
+		// metadata for UpdateTime
 		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.PROPOSER.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ON_CREATE);
+		mainMeta.getProperties ().put (Properties.UPDATE_TIME.getKey (), childMeta);
+		childMeta.setDataType (Data.DataType.DATE);
+		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("related.personid"));
-		}
-		
-		// metadata for Department
-		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.DEPARTMENT.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ON_CREATE);
-		if (this.matches (type, state, "(default)", "(default)"))
-		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("related.orgid"));
 		}
 		
 	}

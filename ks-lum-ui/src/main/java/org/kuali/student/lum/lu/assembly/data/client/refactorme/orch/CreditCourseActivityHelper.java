@@ -93,7 +93,7 @@ public class CreditCourseActivityHelper
 	
 	public void setContactHours (CreditCourseActivityContactHoursHelper value)
 	{
-		data.set (Properties.CONTACT_HOURS.getKey (), (value == null) ? null : value.getData());
+		data.set (Properties.CONTACT_HOURS.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	
@@ -117,7 +117,7 @@ public class CreditCourseActivityHelper
 	
 	public void set_runtimeData (RuntimeDataHelper value)
 	{
-		data.set (Properties._RUNTIME_DATA.getKey (), (value == null) ? null : value.getData());
+		data.set (Properties._RUNTIME_DATA.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	

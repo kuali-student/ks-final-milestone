@@ -19,8 +19,9 @@ package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.assembly.client.QueryPath;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.ConstraintMetadataBank;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoMetadata;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalInfoHelper.Properties;
+import org.kuali.student.orchestration.ConstraintMetadataBank;
 
 
 public class CreditCourseProposalInfoMetadata
@@ -132,6 +133,17 @@ public class CreditCourseProposalInfoMetadata
 		listMeta.setDataType (Data.DataType.STRING);
 		listMeta.setWriteAccess (Metadata.WriteAccess.ON_CREATE);
 		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
+		
+		// metadata for MetaInfo
+		childMeta = new Metadata ();
+		mainMeta.getProperties ().put (Properties.META_INFO.getKey (), childMeta);
+		childMeta.setDataType (Data.DataType.DATA);
+		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+		}
+		new MetaInfoMetadata ().loadChildMetadata (childMeta, type, state);
 		
 		// metadata for _runtimeData
 		childMeta = new Metadata ();
