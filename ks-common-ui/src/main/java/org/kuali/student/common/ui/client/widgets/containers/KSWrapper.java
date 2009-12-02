@@ -173,7 +173,7 @@ public class KSWrapper extends Composite{
     			new WrapperNavigationHandler(
     					"/portal.do?selectedTab=main"))
     	);
-    	items.add(new KSMenuItemData("Action List",
+/*    	items.add(new KSMenuItemData("Action List",
     			new ClickHandler(){
 
 					@Override
@@ -192,7 +192,7 @@ public class KSWrapper extends Composite{
 						docSearchDialog.show();
 						
 					}})
-    	);
+    	);*/
 
         
         navDropDown.setArrowImage(Theme.INSTANCE.getCommonImages().getDropDownIconWhite());
