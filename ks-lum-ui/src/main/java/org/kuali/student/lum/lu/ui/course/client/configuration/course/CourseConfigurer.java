@@ -52,22 +52,28 @@ import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRequisitesSectionView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
-import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluDictionaryClassNameHelper;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LuConfigurer.LuSections;
 import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.widgets.AssemblerTestSection;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
-import org.kuali.student.lum.lu.ui.course.client.widgets.LOPicker;
 import org.kuali.student.lum.lu.ui.course.client.widgets.OrgPicker;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseDurationConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseFormatConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalInfoConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoConstants;
 
 
 /**
@@ -76,7 +82,16 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
-public class CourseConfigurer {
+public class CourseConfigurer 
+ implements CreditCourseProposalConstants,
+ CreditCourseProposalInfoConstants,
+ CreditCourseConstants,
+ CreditCourseFormatConstants,
+ CreditCourseActivityConstants,
+ MetaInfoConstants,
+ CreditCourseDurationConstants,
+ FeeInfoConstants
+{
 
     //FIXME:  Initialize type and state
     private static String groupName;
@@ -122,31 +137,32 @@ public class CourseConfigurer {
         section.addStyleName(LUConstants.STYLE_SECTION_DIVIDER);
         section.addStyleName(LUConstants.STYLE_SECTION);
         section.setSectionTitle(title);
-        section.addField(new FieldDescriptor("proposal/title", getLabel(LUConstants.TITLE_LABEL_KEY) +":    ", Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("course/subjectArea", getLabel(LUConstants.DIVISION_LABEL_KEY), Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("course/courseNumberSuffix", getLabel(LUConstants.SUFFIX_CODE_LABEL_KEY), Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor(PROPOSAL + "/" + TITLE, getLabel(LUConstants.TITLE_LABEL_KEY) +":    ", Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor(COURSE + "/" + SUBJECT_AREA, getLabel(LUConstants.DIVISION_LABEL_KEY), Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor(COURSE + "/" + COURSE_NUMBER_SUFFIX, getLabel(LUConstants.SUFFIX_CODE_LABEL_KEY), Type.STRING, new KSLabel()));
         
         // FIXME wilj: add proposal/delegate/collab person info to assembly
-        section.addField(new FieldDescriptor("proposalInfo/proposerPerson", getLabel(LUConstants.PROPOSER_LABEL_KEY), Type.LIST, new ProposerPersonList()));
+        section.addField(new FieldDescriptor(PROPOSAL + "/" + PROPOSER_PERSON, getLabel(LUConstants.PROPOSER_LABEL_KEY), Type.LIST, new ProposerPersonList()));
         section.addField(new FieldDescriptor("proposalInfo/todo", getLabel(LUConstants.DELEGATE_LABEL_KEY), Type.STRING, new KSLabel()));
         section.addField(new FieldDescriptor("proposalInfo/todo", getLabel(LUConstants.COLLABORATORS_LABEL_KEY), Type.STRING, new KSLabel()));
         
         // FIXME wilj: add create/update meta info to assembly
-        section.addField(new FieldDescriptor("proposalInfo/metaInfo/createTime", getLabel(LUConstants.CREATED_DATE_LABEL_KEY), Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("proposalInfo/metaInfo/updateTime", getLabel(LUConstants.LAST_CHANGED_DATE_LABEL_KEY), Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor(PROPOSAL + "/" + META_INFO + "/" + CREATE_TIME, getLabel(LUConstants.CREATED_DATE_LABEL_KEY), Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor(PROPOSAL + "/" + META_INFO + "/" + UPDATE_TIME, getLabel(LUConstants.LAST_CHANGED_DATE_LABEL_KEY), Type.STRING, new KSLabel()));
         
-        section.addField(new FieldDescriptor("course/description/plain", getLabel(LUConstants.DESCRIPTION_LABEL_LABEL_KEY), Type.STRING, new KSLabel()));
-        section.addField(new FieldDescriptor("proposal/state", getLabel(LUConstants.STATUS_LABEL_KEY), Type.STRING, new KSLabel()));
+        section.addField(new FieldDescriptor(COURSE + "/" + DESCRIPTION + "/" + RichTextInfoConstants.PLAIN, getLabel(LUConstants.DESCRIPTION_LABEL_LABEL_KEY), Type.STRING, new KSLabel()));
+       // TODO: Norm: find out why was this prefixed with proposal there is no state on proposal it is on the main object
+        section.addField(new FieldDescriptor(CreditCourseProposalConstants.STATE, getLabel(LUConstants.STATUS_LABEL_KEY), Type.STRING, new KSLabel()));
         return section;
     } 
     
     public static void addCluStartSection(ConfigurableLayout layout){
         VerticalSectionView section = initSectionView(LuSections.CLU_BEGIN, LUConstants.START_LABEL_KEY); 
 
-        section.addField(new FieldDescriptor("proposal/title", getLabel(LUConstants.PROPOSAL_TITLE_LABEL_KEY), Type.STRING));
+        section.addField(new FieldDescriptor(PROPOSAL + "/" + TITLE , getLabel(LUConstants.PROPOSAL_TITLE_LABEL_KEY), Type.STRING));
         //This will need to be a person picker
         // FIXME wilj: add proposal/delegate/collab person info to assembly
-        section.addField(new FieldDescriptor("proposal/proposerPerson", getLabel(LUConstants.PROPOSAL_PERSON_LABEL_KEY),Type.LIST, new PersonList())) ;
+        section.addField(new FieldDescriptor(PROPOSAL + "/" + PROPOSER_PERSON, getLabel(LUConstants.PROPOSAL_PERSON_LABEL_KEY),Type.LIST, new PersonList())) ;
         layout.addStartSection(section);
     }
 
@@ -176,10 +192,10 @@ public class CourseConfigurer {
         VerticalSectionView section = initSectionView(LuSections.ACTIVE_DATES, LUConstants.ACTIVE_DATES_LABEL_KEY); 
 
         VerticalSection startDate = initSection(getH3Title(LUConstants.START_DATE_LABEL_KEY), WITH_DIVIDER);
-        startDate.addField(new FieldDescriptor("course/effectiveDate", getLabel(LUConstants.EFFECTIVE_DATE_LABEL_KEY), Type.DATE, new KSDatePicker()));
+        startDate.addField(new FieldDescriptor(COURSE + "/" + EFFECTIVE_DATE, getLabel(LUConstants.EFFECTIVE_DATE_LABEL_KEY), Type.DATE, new KSDatePicker()));
 
         VerticalSection endDate = initSection(getH3Title(LUConstants.END_DATE_LABEL_KEY), WITH_DIVIDER);
-        endDate.addField(new FieldDescriptor("course/expirationDate", getLabel(LUConstants.EXPIRATION_DATE_LABEL_KEY), Type.DATE, new KSDatePicker()));
+        endDate.addField(new FieldDescriptor(COURSE + "/" + EXPIRATION_DATE, getLabel(LUConstants.EXPIRATION_DATE_LABEL_KEY), Type.DATE, new KSDatePicker()));
 
         
         section.addSection(startDate);
@@ -196,10 +212,10 @@ public class CourseConfigurer {
         feeType.addField(new FieldDescriptor("cluInfo/feeType", null, Type.STRING));
 
         VerticalSection feeAmount = initSection(getH3Title(LUConstants.FEE_DESC_LABEL_KEY), WITH_DIVIDER);
-        feeAmount.addField(new FieldDescriptor("cluInfo/feeAmount", getLabel(LUConstants.CURRENCY_SYMBOL_LABEL_KEY), Type.STRING));
-        feeAmount.addField(new FieldDescriptor("cluInfo/taxable", getLabel(LUConstants.TAXABLE_SYMBOL_LABEL_KEY), Type.STRING));//TODO checkboxes go here instead
-        feeAmount.addField(new FieldDescriptor("cluInfo/feeDesc", getLabel(LUConstants.FEE_DESC_LABEL_KEY), Type.STRING, new KSTextArea()));
-        feeAmount.addField(new FieldDescriptor("cluInfo/internalNotation", getLabel(LUConstants.INTERNAL_FEE_NOTIFICATION_LABEL_KEY), Type.STRING, new KSTextArea()));
+        feeAmount.addField(new FieldDescriptor(FEES +"/" + FEE_AMOUNT, getLabel(LUConstants.CURRENCY_SYMBOL_LABEL_KEY), Type.STRING));
+        feeAmount.addField(new FieldDescriptor(FEES + "/" + TAXABLE, getLabel(LUConstants.TAXABLE_SYMBOL_LABEL_KEY), Type.STRING));//TODO checkboxes go here instead
+        feeAmount.addField(new FieldDescriptor(FEES + "/" + FEE_DESC, getLabel(LUConstants.FEE_DESC_LABEL_KEY), Type.STRING, new KSTextArea()));
+        feeAmount.addField(new FieldDescriptor(FEES + "/" + INTERNAL_NOTATION, getLabel(LUConstants.INTERNAL_FEE_NOTIFICATION_LABEL_KEY), Type.STRING, new KSTextArea()));
 
         section.addSection(feeType);
         section.addSection(feeAmount);
@@ -211,16 +227,16 @@ public class CourseConfigurer {
         VerticalSectionView section = initSectionView(LuSections.GOVERNANCE, LUConstants.GOVERNANCE_LABEL_KEY); 
 
         VerticalSection oversight = initSection(getH3Title(LUConstants.CURRICULUM_OVERSIGHT_LABEL_KEY), WITH_DIVIDER);    
-        oversight.addField(new FieldDescriptor("course/academicSubjectOrgs", null, Type.STRING, new OrgListPicker()));
+        oversight.addField(new FieldDescriptor(COURSE + "/" + ACADEMIC_SUBJECT_ORGS, null, Type.STRING, new OrgListPicker()));
 
         VerticalSection campus = initSection(getH3Title(LUConstants.CAMPUS_LOCATION_LABEL_KEY), WITH_DIVIDER);    
-        campus.addField(new FieldDescriptor("course/campusLocations", null, Type.STRING, new CampusLocationList()));
+        campus.addField(new FieldDescriptor(COURSE + "/" + CAMPUS_LOCATIONS, null, Type.STRING, new CampusLocationList()));
 
         VerticalSection adminOrgs = initSection(getH3Title(LUConstants.ADMIN_ORG_LABEL_KEY), WITH_DIVIDER);    
         
         // FIXME the new OrgAdvSearchPicker doesn't fire selection/value change events correctly, won't work with binding
 //        adminOrgs.addField(new FieldDescriptor("course/department", null, Type.STRING, configureAdminOrgSearch()));
-        FieldDescriptor deptDescriptor = new FieldDescriptor("course/department", null, Type.STRING, new OrgListPicker());
+        FieldDescriptor deptDescriptor = new FieldDescriptor(COURSE + "/" + DEPARTMENT, null, Type.STRING, new OrgListPicker());
         final QueryPath deptPath = QueryPath.parse(deptDescriptor.getFieldKey());
         deptDescriptor.setWidgetBinding(new ModelWidgetBinding<OrgListPicker>() {
         	// FIXME had to create custom binding because the OrgListPicker always returns a list, even of 1
@@ -261,8 +277,8 @@ public class CourseConfigurer {
         courseNumber.addStyleName(LUConstants.STYLE_SECTION_DIVIDER);
         courseNumber.setSectionTitle(getH3Title(LUConstants.IDENTIFIER_LABEL_KEY)); 
         courseNumber.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-        courseNumber.addField(new FieldDescriptor("course/subjectArea", null, Type.STRING)); //TODO OrgSearch goes here?
-        courseNumber.addField(new FieldDescriptor("course/courseNumberSuffix", null, Type.STRING));
+        courseNumber.addField(new FieldDescriptor(COURSE + "/" + SUBJECT_AREA, null, Type.STRING)); //TODO OrgSearch goes here?
+        courseNumber.addField(new FieldDescriptor(COURSE + "/" + COURSE_NUMBER_SUFFIX, null, Type.STRING));
         
         // TODO - hide cross-listed, offered jointly and version codes initially, with
         // clickable label to disclose them
@@ -301,13 +317,13 @@ public class CourseConfigurer {
         longTitle.addField(fd);
         
         VerticalSection shortTitle = initSection(getH3Title(LUConstants.SHORT_TITLE_LABEL_KEY), WITH_DIVIDER);
-        shortTitle.addField(new FieldDescriptor("course/transcriptTitle", null, Type.STRING));
+        shortTitle.addField(new FieldDescriptor(COURSE + "/" + TRANSCRIPT_TITLE, null, Type.STRING));
         
         VerticalSection description = initSection(getH3Title(LUConstants.DESCRIPTION_LABEL_KEY), WITH_DIVIDER);
-        description.addField(new FieldDescriptor("course/description", null, Type.MODELDTO, new KSRichEditor()));
+        description.addField(new FieldDescriptor(COURSE + "/" + DESCRIPTION, null, Type.MODELDTO, new KSRichEditor()));
         
         VerticalSection rationale = initSection(getH3Title(LUConstants.RATIONALE_LABEL_KEY), WITH_DIVIDER);
-        rationale.addField(new FieldDescriptor("course/rationale", null, Type.MODELDTO, new KSRichEditor()));
+        rationale.addField(new FieldDescriptor(COURSE + "/" + RATIONALE, null, Type.MODELDTO, new KSRichEditor()));
         
         section.addSection(courseNumber);
         section.addSection(shortTitle);
@@ -345,7 +361,7 @@ public class CourseConfigurer {
 
         VerticalSection instructors = initSection(getH3Title(LUConstants.INSTRUCTOR_LABEL_KEY), WITH_DIVIDER);
         // FIXME wilj: do we need to set the instructor's orgId? or can we default it at the assembler level?
-        instructors.addField(new FieldDescriptor("course/primaryInstructor", null, Type.STRING));
+        instructors.addField(new FieldDescriptor(COURSE + "/" + PRIMARY_INSTRUCTOR, null, Type.STRING));
 //      instructors.addField(new FieldDescriptor("cluInfo/instructors", null, Type.LIST, new AlternateInstructorList()));
 
         //CREDITS
@@ -359,13 +375,13 @@ public class CourseConfigurer {
 
         VerticalSection scheduling = initSection(getH3Title(LUConstants.SCHEDULING_LABEL_KEY), WITH_DIVIDER);
         // FIXME wilj: termsOffered not currently populated by assembler
-        scheduling.addField(new FieldDescriptor("course/duration/termType", getLabel(LUConstants.TERM_LITERAL_LABEL_KEY), Type.STRING, new AtpTypeList()));
-        scheduling.addField(new FieldDescriptor("course/duration/quantity", getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY), Type.INTEGER)); //TODO DURATION ENUMERATION
+        scheduling.addField(new FieldDescriptor(COURSE + "/" + DURATION + "/" + TERM_TYPE, getLabel(LUConstants.TERM_LITERAL_LABEL_KEY), Type.STRING, new AtpTypeList()));
+        scheduling.addField(new FieldDescriptor(COURSE + "/" + DURATION + "/" + QUANTITY, getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY), Type.INTEGER)); //TODO DURATION ENUMERATION
 
 
         //COURSE FORMATS
         VerticalSection courseFormats = initSection(getH3Title(LUConstants.FORMATS_LABEL_KEY), WITH_DIVIDER);
-        courseFormats.addField(new FieldDescriptor("course/formats", null, Type.LIST, new CourseFormatList()));
+        courseFormats.addField(new FieldDescriptor(COURSE + "/" + FORMATS, null, Type.LIST, new CourseFormatList()));
 
         section.addSection(instructors);
 //        section.addSection(credits);
@@ -399,8 +415,9 @@ public class CourseConfigurer {
 
         public Widget createItem() {
         	VerticalSection item = new VerticalSection();
-            
-            item.addField(new FieldDescriptor("activities", null, Type.LIST, new CourseActivityList()));
+            // TODO: NORM: find out why this was not prefixed with "course/formats/" so it is "course/formats/activities
+            // item.addField(new FieldDescriptor("activities", null, Type.LIST, new CourseActivityList()));
+            item.addField(new FieldDescriptor(ACTIVITIES, null, Type.LIST, new CourseActivityList()));
             return item;
         }
     }
