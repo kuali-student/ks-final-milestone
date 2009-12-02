@@ -14,6 +14,8 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.service;
 
+import java.util.List;
+
 import org.kuali.student.common.ui.client.service.BaseRpcService;
 import org.kuali.student.lum.lu.dto.CluInfo;
 
@@ -30,4 +32,7 @@ public interface LuRpcService extends BaseRpcService {
     public CluInfo createClu(String luTypeKey, CluInfo cluInfo);
 
     public CluInfo updateClu(String luTypeKey, CluInfo cluInfo);
+    
+    public List<String> getLoIdsByClu(String cluId);
+
 }

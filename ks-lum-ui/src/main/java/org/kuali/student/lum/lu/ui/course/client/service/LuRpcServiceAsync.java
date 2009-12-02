@@ -15,6 +15,8 @@
 package org.kuali.student.lum.lu.ui.course.client.service;
 
 
+import java.util.List;
+
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
 import org.kuali.student.lum.lu.dto.CluInfo;
 
@@ -29,4 +31,5 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public interface LuRpcServiceAsync extends BaseRpcServiceAsync{
     public void createClu(String luTypeKey, CluInfo cluInfo, AsyncCallback<CluInfo> callback);
     public void updateClu(String cluId, CluInfo cluInfo, AsyncCallback<CluInfo> callback);
+    public void getLoIdsByClu(String cluId,  AsyncCallback<List<String>> callback);
 }

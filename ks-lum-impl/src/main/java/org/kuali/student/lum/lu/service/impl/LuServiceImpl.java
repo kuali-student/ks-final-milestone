@@ -333,7 +333,13 @@ public class LuServiceImpl implements LuService {
 
         if(cluInfo.getOfficialIdentifier()!=null){
             CluIdentifier officialIdentifier = new CluIdentifier();
-            BeanUtils.copyProperties(cluInfo.getOfficialIdentifier(), officialIdentifier);
+            BeanUtils.copyProperties(cluInfo.getOfficialIdentifier(), officialIdentifier,new String[]{"code"});
+
+            //FIXME: This will be in orchestration somewhere but
+            //       for now put it here
+            officialIdentifier.setCode(new StringBuilder().append(cluInfo.getOfficialIdentifier().getDivision()).
+                    append(cluInfo.getOfficialIdentifier().getLevel()).toString());
+            
             clu.setOfficialIdentifier(officialIdentifier);
         }
 
@@ -344,7 +350,11 @@ public class LuServiceImpl implements LuService {
 
         for(CluIdentifierInfo cluIdInfo : cluInfo.getAlternateIdentifiers()){
             CluIdentifier identifier = new CluIdentifier();
-            BeanUtils.copyProperties(cluIdInfo, identifier);
+            BeanUtils.copyProperties(cluIdInfo, identifier,new String[]{"code"});
+            
+            //FIXME: This will be in orchestration somewhere but
+            //       for now put it here
+            identifier.setCode(new StringBuilder().append(cluIdInfo.getDivision()).append(cluIdInfo.getLevel()).toString());
             alternateIdentifiers.add(identifier);
         }
 
@@ -1829,7 +1839,12 @@ public class LuServiceImpl implements LuService {
             if(clu.getOfficialIdentifier()==null){
                 clu.setOfficialIdentifier(new CluIdentifier());
             }
-            BeanUtils.copyProperties(cluInfo.getOfficialIdentifier(), clu.getOfficialIdentifier(), new String[]{"id"});
+            BeanUtils.copyProperties(cluInfo.getOfficialIdentifier(), clu.getOfficialIdentifier(), new String[]{"id", "code"});
+
+            //FIXME: This will be in orchestration somewhere but
+            //       for now put it here
+            clu.getOfficialIdentifier().setCode(new StringBuilder().append(cluInfo.getOfficialIdentifier().getDivision()).append(cluInfo.getOfficialIdentifier().getLevel()).toString());
+            
         }else if(clu.getOfficialIdentifier()!=null){
             luDao.delete(clu.getOfficialIdentifier());
         }
@@ -1850,7 +1865,10 @@ public class LuServiceImpl implements LuService {
                 identifier = new CluIdentifier();
             }
             //Do Copy
-            BeanUtils.copyProperties(cluIdInfo, identifier);
+            BeanUtils.copyProperties(cluIdInfo, identifier, new String[]{"code"});
+            //FIXME: This will be in orchestration somewhere but
+            //       for now put it here
+            identifier.setCode(new StringBuilder().append(cluIdInfo.getDivision()).append(cluIdInfo.getLevel()).toString());
             clu.getAlternateIdentifiers().add(identifier);
         }
 
