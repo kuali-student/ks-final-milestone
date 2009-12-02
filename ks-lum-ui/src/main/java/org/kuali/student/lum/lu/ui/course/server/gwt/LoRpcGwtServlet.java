@@ -14,7 +14,13 @@
  */
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
+import java.util.List;
+
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
+import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.MissingParameterException;
+import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.lum.lu.ui.course.client.service.LoRpcService;
 
@@ -26,5 +32,27 @@ import org.kuali.student.lum.lu.ui.course.client.service.LoRpcService;
 public class LoRpcGwtServlet extends BaseRpcGwtServletAbstract<LearningObjectiveService> implements LoRpcService{
 
     private static final long serialVersionUID = 1L;
-    
+
+    /**
+     * This overridden method ...
+     * 
+     * @see org.kuali.student.lum.lu.ui.course.client.service.LoRpcService#getLoByIdList(java.util.List)
+     */
+    @Override
+    public List<LoInfo> getLoByIdList(List<String> loIds) {
+        try {
+            return service.getLoByIdList(loIds);
+
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+
+        }
+        return null;
+
+    }
+
 }
