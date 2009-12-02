@@ -14,6 +14,8 @@
  */
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
+import java.util.List;
+
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -36,7 +38,7 @@ import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
 public class LuRpcGwtServlet extends BaseRpcGwtServletAbstract<LuService> implements LuRpcService{
 
     private static final long serialVersionUID = 1L;
-    
+
     /**
      * @see org.kuali.student.lum.lu.ui.course.client.service.LuRemoteService#createClu(java.lang.String, org.kuali.student.lum.lu.dto.CluInfo)
      */
@@ -60,7 +62,7 @@ public class LuRpcGwtServlet extends BaseRpcGwtServletAbstract<LuService> implem
         }
         return null;
     }
-    
+
     /**
      * @see org.kuali.student.lum.lu.ui.course.client.service.LuRemoteService#updateClu(java.lang.String, org.kuali.student.lum.lu.dto.CluInfo)
      */
@@ -84,7 +86,24 @@ public class LuRpcGwtServlet extends BaseRpcGwtServletAbstract<LuService> implem
         } catch (VersionMismatchException e) {
             e.printStackTrace();
         }
- 
+
+        return null;
+    }
+
+    public List<String> getLoIdsByClu(String cluId) {
+        try {
+            return service.getLoIdsByClu(cluId);
+
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+
+        }
         return null;
     }
 
