@@ -299,11 +299,5 @@ public abstract class SimpleMultiplicityComposite extends Composite implements H
           public void removeHandler() {
           }
 
-      }
-
-    public List<HasModelDTOValue> getModelDTOValueWidgets() {
-        return modelDTOValueWidgets;
-    }
-
-      
+      }     
 }
