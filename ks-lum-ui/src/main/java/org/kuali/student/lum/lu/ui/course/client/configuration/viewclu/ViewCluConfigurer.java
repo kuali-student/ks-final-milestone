@@ -490,9 +490,9 @@ public class ViewCluConfigurer {
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
 //            ns.addField(new FieldDescriptor("code", null, Type.STRING, new KSLabel()));
             ns.addField(new FieldDescriptor("division", null, Type.STRING, new KSLabel()));
-//            ns.addField(new FieldDescriptor("level", null, Type.STRING, new KSLabel()));
+            ns.addField(new FieldDescriptor("level", null, Type.STRING, new KSLabel()));
 //            ns.addField(new FieldDescriptor("variation", null, Type.STRING, new KSLabel()));
-            ns.addField(new FieldDescriptor("suffixCode", null, Type.STRING, new KSLabel()));
+//            ns.addField(new FieldDescriptor("suffixCode", null, Type.STRING, new KSLabel()));
             multi.addSection(ns);
 
             return multi;
@@ -536,7 +536,7 @@ public class ViewCluConfigurer {
             ns.nextRow();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
             ns.addField(new FieldDescriptor("cluInfo/division", getLabel(LUConstants.DIVISION_LABEL_KEY), Type.STRING, new KSLabel()));
-            ns.addField(new FieldDescriptor("cluInfo/suffixCode", getLabel(LUConstants.SUFFIX_CODE_LABEL_KEY), Type.STRING, new KSLabel()));
+            ns.addField(new FieldDescriptor("cluInfo/level", getLabel(LUConstants.SUFFIX_CODE_LABEL_KEY), Type.STRING, new KSLabel()));
             multi.addSection(ns);
             
             return multi;

@@ -16,8 +16,8 @@
 package org.kuali.student.lum.lu.ui.course.client.widgets;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Arrays;
+import java.util.List;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.CustomNestedSection;
@@ -29,18 +29,20 @@ import org.kuali.student.common.ui.client.configurable.mvc.Section.FieldLabelTyp
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.Type;
 import org.kuali.student.common.ui.client.theme.Theme;
-import org.kuali.student.common.ui.client.widgets.*;
-import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.GoCancelEnum;
+import org.kuali.student.common.ui.client.widgets.KSImage;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSLightBox;
+import org.kuali.student.common.ui.client.widgets.KSRadioButton;
+import org.kuali.student.common.ui.client.widgets.KSThinTitleBar;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ConfirmCancelGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.GoCancelGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ConfirmCancelEnum;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.GoCancelEnum;
 import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
-import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
-import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
 import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
@@ -104,7 +106,7 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
     LearningObjectiveList loList;
     KSLabel instructions ;
 
-    private static final int NUM_INITIAL_LOS = 1;
+    private static final int NUM_INITIAL_LOS = 5;
 
     KSLightBox searchWindow ;
     private static final String SEARCH_BY_COURSE_CODE = "by Course Code";
@@ -169,6 +171,8 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
 
     public static class LearningObjectiveList extends SimpleMultiplicityComposite {
         private static final String STYLE_HIGHLIGHTED_ITEM = "KS-LOBuilder-Highlighted-Item";
+        private static final String DESC_KEY = "desc";
+
         {
             setAddItemLabel(getLabel(LUConstants.LEARNING_OBJECTIVE_ADD_LABEL_KEY));
 //          setShowDelete(false);
@@ -227,7 +231,7 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
         }
 
         private void removeOldHighlights() {
-            List<HasModelDTOValue> widgets = this.getModelDTOValueWidgets();
+            List<HasModelDTOValue> widgets = modelDTOValueWidgets;
             for (HasModelDTOValue w: widgets) {
                 ((Widget)w).removeStyleName(STYLE_HIGHLIGHTED_ITEM);
             }
@@ -235,36 +239,30 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
 
         private void addSelectedLO(String loDescription) {
 
-           ModelDTO loModel = new ModelDTO(LoInfo.class.getName());
-            StringType type = new StringType("kuali.lo.type.singleUse");
-            StringType state = new StringType("draft");
-            loModel.put("desc", loDescription);
-            loModel.put("type", type);
-            loModel.put("state", state);
+            int widgetKey = -1;
+            boolean foundEmptyWidget = false;
 
-            ModelDTOValue value = new ModelDTOValue.ModelDTOType();
-            ((ModelDTOValue.ModelDTOType)value).set(loModel);
+            for (ModelDTOValue v: modelDTOList.get()) {
+                ModelDTO model = ((ModelDTOType) v).get();
+                widgetKey++;
+                if (model.get(DESC_KEY) == null) {
+                    model.put(DESC_KEY, loDescription);
+                    foundEmptyWidget = true;
+                    break;
+                }
+            }
+            if (!foundEmptyWidget) {
+                this.addItem();
+                widgetKey = modelDTOList.get().size()-1;
+                //FIXME: is the new item always going to be the last one?
+                ModelDTOValue v = modelDTOList.get().get(widgetKey);
+                ModelDTO model = ((ModelDTOType) v).get();
+                model.put(DESC_KEY, loDescription);
+            }
+            this.redraw();                    
 
-//          String test = super.getModelDTOValueWidgets().get(0).getValue().toString();
-//          GWT.log("ModelDTOValue in Section = " + ((HasModelDTOValue)newItemWidget).getValue().toString(), null);
-            
-            Widget w = null;
-
-            //TODO: If there are empty LO boxes the selected LOs should go in there
-             
-//            boolean foundEmptyWidget = false;
-//            for (HasModelDTOValue v: super.getModelDTOValueWidgets()) {
-//                if (v.getValue().toString().indexOf("desc") < 0) {
-//                    GWT.log("ModelDTOValueActual = " + v.toString(), null);
-//                    ((HasModelDTOValue)v).setValue(value);
-//                    foundEmptyWidget = true;
-//                    break;
-//                }
-//            }
-//
-//            if (!foundEmptyWidget) {
-                w = super.addNewItem(value);
-//            }
+            //FIXME: This only highlights last one added
+            Widget w = (Widget)modelDTOValueWidgets.get(widgetKey);
             w.addStyleName(STYLE_HIGHLIGHTED_ITEM);
         }
 
