@@ -1,15 +1,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
+    
 	<groupId>org.kuali.student</groupId>
 	<artifactId>ks-standalone</artifactId>
-	<packaging>war</packaging>
-	<version>1.0.0-m1</version>
+	<version>1.0.0-m2</version>
+    <packaging>war</packaging>
+    
 	<name>ks-standalone</name>
-	<url>http://maven.apache.org</url>
+	<description>All KS modules combined into one application.</description>
+    
 	<parent>
 		<groupId>org.kuali.student</groupId>
 		<artifactId>ks-web</artifactId>
-		<version>1.0.0-m1</version>
+		<version>1.0.0-m2</version>
 	</parent>
 	<build>
 	
@@ -26,7 +30,7 @@
 						<goals>
 							<goal>compile</goal>
 						</goals>
-<!--					<phase>none</phase>-->
+						<phase>${ks.gwt.compile.phase}</phase>
 					</execution>
 				</executions>
 				<configuration>

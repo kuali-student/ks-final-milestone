@@ -5,10 +5,7 @@
 	<param name="jpa.vendor">hibernate</param>
 
     <param name="config.location">classpath:META-INF/ks-core-config.xml</param>
-    <param name="config.location">classpath:META-INF/ks-lum-config.xml</param>
-    
-    <param name="ks.core.bus.security">true</param> 
-    <param name="ks.lum.bus.security">true</param>
+    <param name="config.location">classpath:META-INF/ks-lum-config.xml</param> 
 
     <param name="app.code" override="false">ks-standalone</param>
     <param name="appserver.url">http://localhost:8080</param>
@@ -81,12 +78,12 @@
 
 
     <!-- Keystore Configuration -->
-    <param name="keystore.file">rice.keystore</param>
+    <param name="keystore.file">${rice.base}../../src/main/resources/rice.keystore</param>
     <param name="keystore.alias">rice</param>
     <param name="keystore.password">r1c3pw</param>
     
     <param name="ks.rice.url">http://localhost:8081/ks-rice-${environment}</param>
-    
+
 	<!-- Config defaults and overrides -->
     <param name="config.location">${user.home}/kuali/main/${environment}/ks-config.xml</param>
     <param name="config.location">${user.home}/kuali/main/${environment}/ks-standalone-config.xml</param>
@@ -98,6 +95,5 @@
     <!-- Rice URLS --> 
 	<param name="ks.rice.personLookup.serviceAddress">${ks.rice.url}/kr/lookup.do</param>
 	<param name="ks.rice.actionList.serviceAddress">${ks.rice.url}/kew/ActionList.do</param>
-	<param name="ks.rice.docSearch.serviceAddress">${ks.rice.url}/kew/DocumentSearch.do?docFormKey=88888888&amp;returnLocation=${ks.rice.url}/portal.do&amp;hideReturnLink=true</param>
-    
+
 </config>
