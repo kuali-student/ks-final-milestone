@@ -131,4 +131,7 @@ public class KSAdvancedSearchWindow implements HasSelectionHandlers<List<String>
     public void setInstructions(String text) {
         advancedSearch.setSearchInstructions(text);
     }
+    public void reset() {
+        advancedSearch.reset();
+    }
 }

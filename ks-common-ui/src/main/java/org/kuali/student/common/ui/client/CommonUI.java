@@ -22,8 +22,10 @@ import com.google.gwt.libideas.client.StyleInjector;
 
 public class CommonUI implements EntryPoint {
     public StyleElement commonStyle;
+    public StyleElement resetStyle;
 
 	public void onModuleLoad() {
+        resetStyle = StyleInjector.injectStylesheet(Theme.INSTANCE.getCommonCss().getResetCssString());
         commonStyle = StyleInjector.injectStylesheet(Theme.INSTANCE.getCommonCss().getCssString());
 	}
 }

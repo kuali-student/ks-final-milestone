@@ -26,9 +26,12 @@ public abstract class SimpleMultiplicityComposite extends Composite implements H
     protected List<HasModelDTOValue> modelDTOValueWidgets;
     protected boolean loaded = false;
     protected int itemCount = 0;
-    protected boolean updateable = true;
+//    protected boolean updateable = true;
     protected String addItemLabel;
     protected boolean useDeleteLabel = true;
+    protected boolean showAdd = true;
+    protected boolean showDelete = true;
+    
 
     //Initialization block
     {
@@ -127,14 +130,20 @@ public abstract class SimpleMultiplicityComposite extends Composite implements H
      */
     public abstract Widget createItem();
 
-    public boolean isUpdateable() {
-        return updateable;
+
+    public void setDisplayOnly() {
+        this.showAdd = false;
+        this.showDelete = false;
     }
 
-    public void setUpdateable(boolean forUpdate) {
-        this.updateable = forUpdate;
+    public void setShowAdd(boolean showAdd) {
+        this.showAdd = showAdd;
     }
 
+    public void setShowDelete(boolean showDelete) {
+        this.showDelete = showDelete;
+    }
+    
     protected Widget decorateItemWidget(Widget listItem ) {
         return new SimpleMultiplicityItemWidgetDecorator(listItem);
     }
@@ -152,7 +161,7 @@ public abstract class SimpleMultiplicityComposite extends Composite implements H
             itemPanel.addStyleName("KS-Multiplicity-Item");
 
             itemPanel.add(listItem);
-            if (updateable) {
+            if (showDelete) {
                 itemPanel.add(generateRemoveWidget(listItem, this));
             }
         }
@@ -170,7 +179,7 @@ public abstract class SimpleMultiplicityComposite extends Composite implements H
             mainPanel.addStyleName("KS-Multiplicity-Composite");
             mainPanel.add(itemsPanel);
 
-            if (updateable) {
+            if (showAdd) {
                 mainPanel.add(generateAddWidget());
             }
             loaded = true;

@@ -14,8 +14,6 @@
  */
 package org.kuali.student.common.ui.client.configurable.mvc;
 
-import java.util.ArrayList;
-
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
@@ -24,7 +22,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -71,7 +68,7 @@ public abstract class MultiplicityComposite extends SimpleMultiplicityComposite 
             headerPanel.addStyleName("KS-Multiplicity-Item-Header");
             KSLabel headerLabel = new KSLabel(itemLabel + " " + itemCount);
             headerPanel.add(headerLabel);
-            if (updateable) {
+            if (showDelete) {
                 headerPanel.add(generateRemoveWidget(listItem, this));
             }
 
