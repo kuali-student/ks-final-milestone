@@ -311,7 +311,7 @@ public class CourseConfigurer
         VerticalSection longTitle = initSection(getH3Title(LUConstants.TITLE_LABEL_KEY), WITH_DIVIDER);
         KSTextArea textArea = new KSTextArea();
         textArea.setWidth("50");
-        FieldDescriptor fd = new FieldDescriptor("course/courseTitle", null, Type.STRING);
+        FieldDescriptor fd = new FieldDescriptor(COURSE + "/" + COURSE_TITLE, null, Type.STRING);
 //        Callback<Boolean> callback =  getSubjectValidationCallback(fd,objectKey);
   //      fd.setValidationCallBack(callback);
         longTitle.addField(fd);
@@ -375,8 +375,8 @@ public class CourseConfigurer
 
         VerticalSection scheduling = initSection(getH3Title(LUConstants.SCHEDULING_LABEL_KEY), WITH_DIVIDER);
         // FIXME wilj: termsOffered not currently populated by assembler
-        scheduling.addField(new FieldDescriptor(COURSE + "/" + DURATION + "/" + TERM_TYPE, getLabel(LUConstants.TERM_LITERAL_LABEL_KEY), Type.STRING, new AtpTypeList()));
-        scheduling.addField(new FieldDescriptor(COURSE + "/" + DURATION + "/" + QUANTITY, getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY), Type.INTEGER)); //TODO DURATION ENUMERATION
+        scheduling.addField(new FieldDescriptor(COURSE + "/" + CreditCourseConstants.DURATION + "/" + TERM_TYPE, getLabel(LUConstants.TERM_LITERAL_LABEL_KEY), Type.STRING, new AtpTypeList()));
+        scheduling.addField(new FieldDescriptor(COURSE + "/" + CreditCourseConstants.DURATION + "/" + QUANTITY, getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY), Type.INTEGER)); //TODO DURATION ENUMERATION
 
 
         //COURSE FORMATS
@@ -431,7 +431,7 @@ public class CourseConfigurer
 
         public Widget createItem() {
             CustomNestedSection activity = new CustomNestedSection();
-            activity.addField(new FieldDescriptor("activityType", getLabel(LUConstants.ACTIVITY_TYPE_LABEL_KEY), Type.STRING, new CluActivityType()));
+            activity.addField(new FieldDescriptor(ACTIVITY_TYPE, getLabel(LUConstants.ACTIVITY_TYPE_LABEL_KEY), Type.STRING, new CluActivityType()));
             activity.nextRow();
 
             /* CreditInfo is deprecated, needs to be replaced with learning results
