@@ -111,14 +111,15 @@ public class OrchestrationObjectHelperWriter extends JavaClassWriter
   closeBrace (); // constructor
 
   indentPrintln ("");
-  indentPrintln ("public static " + orchObj.getJavaClassHelperName () + " wrap (Data data)");
+  indentPrintln ("public static " + orchObj.getJavaClassHelperName () +
+   " wrap (Data data)");
   openBrace ();
   indentPrintln ("if (data == null)");
   openBrace ();
   indentPrintln (" return null;");
   closeBrace ();
 
-  indentPrintln ("return new " + orchObj.getJavaClassHelperName () +  " (data);");
+  indentPrintln ("return new " + orchObj.getJavaClassHelperName () + " (data);");
   closeBrace (); // constructor
 
   // add Data getData ()
@@ -126,7 +127,7 @@ public class OrchestrationObjectHelperWriter extends JavaClassWriter
   indentPrintln ("public Data getData ()");
   openBrace ();
   indentPrintln ("return data;");
-  closeBrace (); 
+  closeBrace ();
   indentPrintln ("");
 
   for (OrchestrationObjectField field : orchObj.getFields ())
@@ -180,12 +181,12 @@ public class OrchestrationObjectHelperWriter extends JavaClassWriter
      break;
     case COMPLEX:
      imports.add (Data.class.getName ());
-     indentPrintln ("return " + fieldTypeToUse +  ".wrap ((Data) " +
+     indentPrintln ("return " + fieldTypeToUse + ".wrap ((Data) " +
       getterValue + ");");
      break;
     case COMPLEX_INLINE:
      imports.add (Data.class.getName ());
-     indentPrintln ("return " + fieldTypeToUse +  ".wrap ((Data) " +
+     indentPrintln ("return " + fieldTypeToUse + ".wrap ((Data) " +
       getterValue + ");");
      break;
     default:
@@ -207,12 +208,12 @@ public class OrchestrationObjectHelperWriter extends JavaClassWriter
   {
    return "is" + field.getProperName ();
   }
-  return  "get" + field.getProperName ();
+  return "get" + field.getProperName ();
  }
 
  private String calcSetter (OrchestrationObjectField field)
  {
-  return  "set" + field.getProperName ();
+  return "set" + field.getProperName ();
  }
 
  private String calcFieldTypeToUse (OrchestrationObjectField field)
@@ -243,6 +244,12 @@ public class OrchestrationObjectHelperWriter extends JavaClassWriter
    case COMPLEX:
     OrchestrationObject fieldOO =
      orchObjs.get (field.getType ().toLowerCase ());
+    if (fieldOO == null)
+    {
+     throw new DictionaryValidationException ("Field [" + field.getName () +
+      "] has a complex type of, [" + field.getType () +
+      ", that does not exist later in the list of orchestration objects. ");
+    }
     imports.add (fieldOO.getFullyQualifiedJavaClassHelperName ());
     return fieldOO.getJavaClassHelperName ();
 
