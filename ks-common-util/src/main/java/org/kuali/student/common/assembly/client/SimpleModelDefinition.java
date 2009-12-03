@@ -138,4 +138,10 @@ public class SimpleModelDefinition implements ModelDefinition {
 
         throw new RuntimeException(path.toString() + " not defined in model definition.");        
     }
+
+	@Override
+	public Metadata getMetadata(QueryPath path) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

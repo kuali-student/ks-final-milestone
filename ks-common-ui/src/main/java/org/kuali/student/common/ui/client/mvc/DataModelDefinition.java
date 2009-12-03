@@ -67,6 +67,16 @@ public class DataModelDefinition implements ModelDefinition {
 
 	@Override
 	public DataType getType(QueryPath path) {
+		Metadata meta = getMetadata(path);
+		if (meta == null) {
+			return null;
+		} else {
+			return meta.getDataType();
+		}
+	}
+	
+	@Override
+	public Metadata getMetadata(QueryPath path) {
 		Metadata meta = this.metadata;
 		for (Key key : path) {
 			Metadata m = meta.getProperties().get(key.toString());
@@ -79,18 +89,14 @@ public class DataModelDefinition implements ModelDefinition {
 				meta = m;
 			}
 		}
-		if (meta == null) {
-			return null;
-		} else {
-			return meta.getDataType();
-		}
+		return meta;
 	}
-	
 	public Metadata getMetadata() {
 		return metadata;
 	}
 	public void setMetadata(Metadata root) {
 		this.metadata = root;
 	}
+	
 
 }

@@ -162,4 +162,14 @@ public class QueryPath extends ArrayList<Key> {
 		}
 		return stringPath;
 	}
+	
+	public static QueryPath concat(String... paths) {
+		QueryPath result = new QueryPath();
+		for (String path : paths) {
+			if (path != null) {
+				result.addAll(QueryPath.parse(path));
+			}
+		}
+		return result;
+	}
 }

@@ -15,197 +15,277 @@
  */
 package org.kuali.student.common.assembly.client;
 
+import java.util.List;
+
 /**
- *
+ * 
  * @author nwright
  */
-public class MetadataInterrogator
-{
+public class MetadataInterrogator {
 
- private Metadata meta;
+	public enum ConstraintIds {
+		MULTI_LINE_TEXT("multi.line.text"), RICH_TEXT("rich.text");
+		private final String id;
 
- public MetadataInterrogator (Metadata meta)
- {
-  this.meta = meta;
- }
+		private ConstraintIds(final String id) {
+			this.id = id;
+		}
 
- /**
-  * checks if is required
-  * @return true if any minOccurs > 1
-  */
- public boolean isRequired ()
- {
-  Integer largestMinOccurs = getLargestMinOccurs ();
-  // no min occurs specified so not required
-  if (largestMinOccurs == null)
-  {
-   return false;
-  }
-  if (largestMinOccurs >= 1)
-  {
-   return true;
-  }
-  return false;
- }
+		public String getId() {
+			return this.id;
+		}
+	}
 
- /**
-  * get the largest min occurs value
-  * @return null if none specified
-  */
- public Integer getLargestMinOccurs ()
- {
-  Integer largestMinOccurs = null;
-  // TODO: worry aboutg special validators
-  // TODO: worry about how this applies to non-strings?
-  for (ConstraintMetadata cons : meta.getConstraints ())
-  {
-   if (cons.getMinOccurs () != null)
-   {
-    if (largestMinOccurs == null)
-    {
-     largestMinOccurs = cons.getMinOccurs ();
-    }
-    else if (cons.getMinOccurs () > largestMinOccurs)
-    {
-     largestMinOccurs = cons.getMinOccurs ();
-    }
-   }
-  }
-  return largestMinOccurs;
- }
+	private Metadata meta;
 
- /**
-  * checks if this field is a repeating field
-  * @return true if the smallest maxOccurs is > 1
-  */
- public boolean isRepeating ()
- {
-  Integer smallestMaxOccurs = getSmallestMaxOccurs ();
-  // not specified so unbounded
-  if (smallestMaxOccurs == null)
-  {
-   return true;
-  }
-  if (smallestMaxOccurs > 1)
-  {
-   return true;
-  }
-  return false;
- }
+	public MetadataInterrogator(Metadata meta) {
+		this.meta = meta;
+	}
 
- /**
-  * checks if this field is a repeating field
-  * @return true if the smallest maxOccurs is > 1
-  */
- public Integer getSmallestMaxOccurs ()
- {
-  Integer smallestMaxOccurs = null;
-  // TODO: worry aboutg special validators
-  // TODO: worry about how this applies to non-strings?
-  for (ConstraintMetadata cons : meta.getConstraints ())
-  {
-   if (cons.getMaxOccurs () != null)
-   {
-    if (smallestMaxOccurs == null)
-    {
-     smallestMaxOccurs = cons.getMaxOccurs ();
-    }
-    else if (cons.getMaxOccurs () < smallestMaxOccurs)
-    {
-     smallestMaxOccurs = cons.getMaxOccurs ();
-    }
-   }
-  }
-  return smallestMaxOccurs;
- }
+	/**
+	 * Returns true if the metadata contains the specified constraint
+	 */
+	public boolean hasConstraint(String id) {
+		return hasConstraint(meta, id);
+	}
 
- /**
-  * get the largest min occurs value
-  * @return null if none specified
-  */
- public Integer getLargestMinLength ()
- {
-  Integer largestMinLength = null;
-  // TODO: worry aboutg special validators
-  // TODO: worry about how this applies to non-strings?
-  for (ConstraintMetadata cons : meta.getConstraints ())
-  {
-   if (cons.getMinLength () != null)
-   {
-    if (largestMinLength == null)
-    {
-     largestMinLength = cons.getMinLength ();
-    }
-    else if (cons.getMaxOccurs () > largestMinLength)
-    {
-     largestMinLength = cons.getMinLength ();
-    }
-   }
-  }
-  return largestMinLength;
- }
 
- public Integer getSmallestMaxLength ()
- {
-  Integer smallestMaxLength = null;
-  // TODO: worry aboutg special validators
-  // TODO: worry about how this applies to non-strings?
-  for (ConstraintMetadata cons : meta.getConstraints ())
-  {
-   if (cons.getMaxLength () != null)
-   {
-    if (smallestMaxLength == null)
-    {
-     smallestMaxLength = cons.getMaxLength ();
-    }
-    else if (cons.getMaxLength () < smallestMaxLength)
-    {
-     smallestMaxLength = cons.getMaxLength ();
-    }
-   }
-  }
-  return smallestMaxLength;
- }
+	/**
+	 * checks if is required
+	 * 
+	 * @return true if any minOccurs > 1
+	 */
+	public boolean isRequired() {
+		return isRequired(meta);
+	}
 
- public boolean isMultilined ()
- {
-  // TODO: worry about hard coding ids
-  for (ConstraintMetadata cons : meta.getConstraints ())
-  {
-   if (cons.getId () != null)
-   {
-    if (cons.getId ().equals ("rich.text"))
-    {
-     return true;
-    }
-    if (cons.getId ().equals ("multi.line.text"))
-    {
-     return true;
-    }
-    if (cons.getId ().equals ("single.line.text"))
-    {
-     return false;
-    }
-    if (cons.getId ().equals ("code"))
-    {
-     return false;
-    }
-    if (cons.getId ().equals ("no.linefeeds"))
-    {
-     return false;
-    }
-   }
-  }
-  // TODO: Worry about hard coding the cut-off point
-  Integer maxLength = this.getSmallestMaxLength ();
-  if (maxLength != null)
-  {
-   if (maxLength > 60)
-   {
-    return true;
-   }
-  }
-  return false;
- }
+	/**
+	 * get the largest min occurs value
+	 * 
+	 * @return null if none specified
+	 */
+	public Integer getLargestMinOccurs() {
+		return getLargestMinOccurs(meta);
+	}
 
+	/**
+	 * checks if this field is a repeating field
+	 * 
+	 * @return true if the smallest maxOccurs is > 1
+	 */
+	public boolean isRepeating() {
+		return isRepeating(meta);
+	}
+
+	/**
+	 * checks if this field is a repeating field
+	 * 
+	 * @return true if the smallest maxOccurs is > 1
+	 */
+	public Integer getSmallestMaxOccurs() {
+		return getSmallestMaxOccurs(meta);
+	}
+
+	/**
+	 * get the largest min occurs value
+	 * 
+	 * @return null if none specified
+	 */
+	public Integer getLargestMinLength() {
+		return getLargestMinLength(meta);
+	}
+
+	public Integer getSmallestMaxLength() {
+		return getSmallestMaxLength(meta);
+	}
+
+	public boolean isMultilined() {
+		return isMultilined(meta);
+	}
+
+	
+	/**
+	 * Returns true if the metadata contains the specified constraint
+	 */
+	public static boolean hasConstraint(Metadata meta, ConstraintIds id) {
+		return hasConstraint(meta, id.getId());
+	}
+	/**
+	 * Returns true if the metadata contains the specified constraint
+	 */
+	public static boolean hasConstraint(Metadata meta, String id) {
+		boolean result = false;
+		if (meta != null && meta.getConstraints() != null) {
+			result = containsConstraint(meta.getConstraints(), id);
+		}
+		return result;
+	}
+
+	private static boolean containsConstraint(List<ConstraintMetadata> constraints,
+			String id) {
+		boolean result = false;
+		if (constraints != null) {
+			for (ConstraintMetadata con : constraints) {
+				if ((con.getId() != null && con.getId().equals(id))
+						|| containsConstraint(con.getChildConstraints(), id)) {
+					result = true;
+					break;
+				}
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * checks if is required
+	 * 
+	 * @return true if any minOccurs > 1
+	 */
+	public static boolean isRequired(Metadata meta) {
+		if (meta == null) {
+			return false;
+		}
+		Integer largestMinOccurs = getLargestMinOccurs(meta);
+		// no min occurs specified so not required
+		if (largestMinOccurs == null) {
+			return false;
+		}
+		if (largestMinOccurs >= 1) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * get the largest min occurs value
+	 * 
+	 * @return null if none specified
+	 */
+	public static Integer getLargestMinOccurs(Metadata meta) {
+		if (meta == null) {
+			return null;
+		}
+		Integer largestMinOccurs = null;
+		// TODO: worry aboutg special validators
+		// TODO: worry about how this applies to non-strings?
+		for (ConstraintMetadata cons : meta.getConstraints()) {
+			if (cons.getMinOccurs() != null) {
+				if (largestMinOccurs == null) {
+					largestMinOccurs = cons.getMinOccurs();
+				} else if (cons.getMinOccurs() > largestMinOccurs) {
+					largestMinOccurs = cons.getMinOccurs();
+				}
+			}
+		}
+		return largestMinOccurs;
+	}
+
+	/**
+	 * checks if this field is a repeating field
+	 * 
+	 * @return true if the smallest maxOccurs is > 1
+	 */
+	public static boolean isRepeating(Metadata meta) {
+		if (meta == null) {
+			return false;
+		}
+		Integer smallestMaxOccurs = getSmallestMaxOccurs(meta);
+		// not specified so unbounded
+		if (smallestMaxOccurs == null) {
+			return true;
+		}
+		if (smallestMaxOccurs > 1) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * checks if this field is a repeating field
+	 * 
+	 * @return true if the smallest maxOccurs is > 1
+	 */
+	public static Integer getSmallestMaxOccurs(Metadata meta) {
+		if (meta == null) {
+			return null;
+		}
+		Integer smallestMaxOccurs = null;
+		// TODO: worry aboutg special validators
+		// TODO: worry about how this applies to non-strings?
+		for (ConstraintMetadata cons : meta.getConstraints()) {
+			if (cons.getMaxOccurs() != null) {
+				if (smallestMaxOccurs == null) {
+					smallestMaxOccurs = cons.getMaxOccurs();
+				} else if (cons.getMaxOccurs() < smallestMaxOccurs) {
+					smallestMaxOccurs = cons.getMaxOccurs();
+				}
+			}
+		}
+		return smallestMaxOccurs;
+	}
+
+	/**
+	 * get the largest min occurs value
+	 * 
+	 * @return null if none specified
+	 */
+	public static Integer getLargestMinLength(Metadata meta) {
+		if (meta == null) {
+			return null;
+		}
+		Integer largestMinLength = null;
+		// TODO: worry aboutg special validators
+		// TODO: worry about how this applies to non-strings?
+		for (ConstraintMetadata cons : meta.getConstraints()) {
+			if (cons.getMinLength() != null) {
+				if (largestMinLength == null) {
+					largestMinLength = cons.getMinLength();
+				} else if (cons.getMaxOccurs() > largestMinLength) {
+					largestMinLength = cons.getMinLength();
+				}
+			}
+		}
+		return largestMinLength;
+	}
+
+	public static Integer getSmallestMaxLength(Metadata meta) {
+		if (meta == null) {
+			return null;
+		}
+		Integer smallestMaxLength = null;
+		// TODO: worry aboutg special validators
+		// TODO: worry about how this applies to non-strings?
+		for (ConstraintMetadata cons : meta.getConstraints()) {
+			if (cons.getMaxLength() != null) {
+				if (smallestMaxLength == null) {
+					smallestMaxLength = cons.getMaxLength();
+				} else if (cons.getMaxLength() < smallestMaxLength) {
+					smallestMaxLength = cons.getMaxLength();
+				}
+			}
+		}
+		return smallestMaxLength;
+	}
+
+	public static boolean isMultilined(Metadata meta) {
+		if (meta == null) {
+			return false;
+		}
+		// TODO: worry about hard coding ids
+		boolean result = (hasConstraint(meta, "rich.text") || hasConstraint(meta, "multi.line.text")) 
+			&& !(hasConstraint(meta, "single.line.text") || hasConstraint(meta, "code") || hasConstraint(meta, "no.linefeeds"));
+		
+		// TODO: Worry about hard coding the cut-off point
+		if (!result) {
+			Integer maxLength = getSmallestMaxLength(meta);
+			if (maxLength != null) {
+				if (maxLength > 60) {
+					result = true;
+				}
+			}
+		}
+		return result;
+	}
+
+	
 }

@@ -30,4 +30,5 @@ import org.kuali.student.common.assembly.client.Data.DataType;
 public interface ModelDefinition extends Serializable{
 	public void ensurePath(final Data root, final QueryPath path, boolean includeLeafNode);
 	public DataType getType(final QueryPath path);
+	public Metadata getMetadata(final QueryPath path);
 }

@@ -58,7 +58,7 @@ public class DataModel implements Model {
 	private Data root;
 
 	
-	protected DataModel() {
+	public DataModel() {
 		// do nothing
 	}
 
@@ -201,4 +201,14 @@ public class DataModel implements Model {
 			ModelChangeHandler handler) {
 		return handlers.addHandler(ModelChangeEvent.TYPE, handler);
 	}
+
+	public ModelDefinition getDefinition() {
+		return definition;
+	}
+
+	public void setDefinition(ModelDefinition definition) {
+		this.definition = definition;
+	}
+	
+	
 }
