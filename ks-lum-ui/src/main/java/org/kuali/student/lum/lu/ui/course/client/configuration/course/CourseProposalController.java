@@ -14,10 +14,12 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.configuration.course;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
+import org.kuali.student.common.assembly.client.ModelDefinition;
 import org.kuali.student.common.assembly.client.SimpleModelDefinition;
 import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.TabbedSectionLayout;
@@ -53,6 +55,7 @@ import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -63,7 +66,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  *
  */
 public class CourseProposalController extends TabbedSectionLayout { 
-    private DataModel cluProposalModel; 
+    private final DataModel cluProposalModel = new DataModel(); 
     private Collaborators.CollaboratorModel collaboratorModel;
     
     private WorkQueue modelRequestQueue;
@@ -122,9 +125,29 @@ public class CourseProposalController extends TabbedSectionLayout {
                 });       
     }
     
-    private void init(){
+    private void init() {
+        cluProposalRpcServiceAsync.getCreditCourseProposalMetadata( 
+                new AsyncCallback<Metadata>(){
+
+                    @Override
+                    public void onFailure(Throwable caught) {
+                        throw new RuntimeException("Failed to get model definition.", caught);                        
+                    }
+
+                    @Override
+                    public void onSuccess(Metadata result) {
+                    	DataModelDefinition def = new DataModelDefinition(result);
+                        cluProposalModel.setDefinition(def);
+                        init(def);
+                    }                
+            });
+
+    }
+    private void init(DataModelDefinition modelDefinition){
         
-        CourseConfigurer.configureCourseProposal(this);
+        CourseConfigurer cfg = new CourseConfigurer();
+        cfg.setModelDefinition(modelDefinition);
+        cfg.configureCourseProposal(this);
         
 /*
         else if (proposalType == LUConstants.PROPOSAL_TYPE_PROGRAM_CREATE) { 
@@ -168,6 +191,8 @@ public class CourseProposalController extends TabbedSectionLayout {
             }
         });
         
+        initialized = true;
+        execPendingViewCommands();
     }
         
     /**
@@ -189,7 +214,7 @@ public class CourseProposalController extends TabbedSectionLayout {
             WorkItem workItem = new WorkItem(){
                 @Override
                 public void exec(Callback<Boolean> workCompleteCallback) {
-                    if (cluProposalModel == null){
+                    if (cluProposalModel.getRoot() == null){
                         if(docId!=null){
                             getCluProposalFromWorkflowId(modelRequestCallback, workCompleteCallback);
                         } else if (proposalId != null){
@@ -299,29 +324,9 @@ public class CourseProposalController extends TabbedSectionLayout {
     
     @SuppressWarnings("unchecked")
     private void createNewCluProposalModel(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
-        if (cluProposalModel == null){
-
-            cluProposalRpcServiceAsync.getCreditCourseProposalMetadata( 
-                new AsyncCallback<Metadata>(){
-
-                    @Override
-                    public void onFailure(Throwable caught) {
-                        Window.alert("Failed to get model definition.");                        
-                    }
-
-                    @Override
-                    public void onSuccess(Metadata result) {
-                        cluProposalModel = new DataModel(new DataModelDefinition(result), new Data());
-                        callback.onModelReady(cluProposalModel);
-                        workCompleteCallback.exec(true);
-                    }                
-            });
-                        
-        } else {
-            cluProposalModel.setRoot(new Data());
-            callback.onModelReady(cluProposalModel);
-            workCompleteCallback.exec(true);            
-        }
+        cluProposalModel.setRoot(new Data());
+        callback.onModelReady(cluProposalModel);
+        workCompleteCallback.exec(true);            
     }
 
     
@@ -419,7 +424,7 @@ public class CourseProposalController extends TabbedSectionLayout {
     public void setDocId(String docId) {
         this.docId = docId;
         this.proposalId = null;
-        this.cluProposalModel = null;
+        this.cluProposalModel.setRoot(null);
     }
 
 
@@ -431,7 +436,7 @@ public class CourseProposalController extends TabbedSectionLayout {
     public void setProposalId(String proposalId) {
         this.proposalId = proposalId;
         this.docId = null;
-        this.cluProposalModel = null;        
+        this.cluProposalModel.setRoot(null);        
     }
     
     public void clear(String proposalType, String cluType){
@@ -445,6 +450,33 @@ public class CourseProposalController extends TabbedSectionLayout {
         this.docId = null;
         this.proposalId = null;
     }
+    
+	// FIXME this is a hack to work around async fetches when configuring views
+    private boolean initialized = false;
+	private List<Command> pendingViewCommands = new ArrayList<Command>();
+	private void execPendingViewCommands() {
+		for (Command c : pendingViewCommands) {
+			c.execute();
+		}
+		pendingViewCommands.clear();
+	}
+	@Override
+	public void showDefaultView() {
+		if (initialized) {
+			super.showDefaultView();
+		} else {
+			pendingViewCommands.add(new Command() {
+				@Override
+				public void execute() {
+					doShowDefaultView();
+				}
+			});
+		}
+	}
+	
+	private void doShowDefaultView() {
+		super.showDefaultView();
+	}
     
     
 }
