@@ -441,6 +441,11 @@
   overflow: hidden;
 }
 
+.gwt-PopupPanel {
+  padding: 3px;
+  background: white;
+}
+
 .gwt-PushButton-up,
 .gwt-PushButton-up-hovering,
 .gwt-PushButton-up-disabled,
