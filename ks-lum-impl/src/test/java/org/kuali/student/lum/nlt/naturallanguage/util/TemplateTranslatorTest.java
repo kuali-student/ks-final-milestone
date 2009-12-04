@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.student.core.exceptions.OperationFailedException;
 
 public class TemplateTranslatorTest {
 
@@ -32,4 +33,20 @@ public class TemplateTranslatorTest {
 		String translation = translator.translate(contextMap, template);
 		Assert.assertEquals("Hey Mr. Kuali! Any students there?", translation);
 	}
+
+	@Test
+	public void testTranslate_InvalidTemplate() throws Exception {
+		TemplateTranslator translator = new TemplateTranslator();
+		Map<String, Object> contextMap = new HashMap<String, Object>();
+		contextMap.put("person", "Kuali");
+		// Invalid date to for exception
+		String template = "$dateTool.get('x-M-d'): Hey Mr. $person! Any students there?";
+
+		try {
+			translator.translate(contextMap, template);
+		} catch (OperationFailedException e) {
+			Assert.assertNotNull(e.getMessage());
+		}
+	}
+	
 }

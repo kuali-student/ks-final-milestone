@@ -19,14 +19,10 @@ import java.util.Map;
 import org.apache.velocity.exception.VelocityException;
 import org.kuali.student.common.util.VelocityTemplateEngine;
 import org.kuali.student.core.exceptions.OperationFailedException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class TemplateTranslator {
-    /** SLF4J logging framework */
-    final static Logger logger = LoggerFactory.getLogger(TemplateTranslator.class);
 
-    private VelocityTemplateEngine templateEngine = new VelocityTemplateEngine();
+	private VelocityTemplateEngine templateEngine = new VelocityTemplateEngine();
 
     /**
      * Translates the template and context map (data) into natural language.
@@ -41,10 +37,7 @@ public class TemplateTranslator {
         try {
             naturalLanguage = this.templateEngine.evaluate(contextMap, template);
         } catch (VelocityException e) {
-			logger.error("template: "+template);
-			logger.error("contextMap: "+contextMap);
-			logger.error(e.getMessage(), e);
-            throw new OperationFailedException("Generating template failed: " + e.getMessage(), e);
+            throw new OperationFailedException("Generating template failed: template='"+template+"', contextMap="+contextMap, e);
         }
         return naturalLanguage;
     }
