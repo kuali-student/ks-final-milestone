@@ -182,21 +182,29 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		String orderByClause = "";		
 		if(!queryString.toUpperCase().contains("ORDER BY")&&searchRequest.getSortColumn()!=null){
 			//make sure the sort column is a real result column
+			int i = 0;
+			
+			//Get an array of the jpql results
+			int selectIndex = queryString.toLowerCase().indexOf("select")+"select".length();
+			int fromIndex = queryString.toLowerCase().indexOf("from");
+			String[] jpqlResultColumns = queryString.substring(selectIndex, fromIndex).replaceAll("\\s", "").split(",");
+			
 			for(LookupResultMetadata results : lookupMetadata.getResults()){
 				if(results.getKey().equals(searchRequest.getSortColumn())){
-					orderByClause = " ORDER BY "+results.getKey()+" ";
+					orderByClause = " ORDER BY "+jpqlResultColumns[i]+" ";
 					if(searchRequest.getSortDirection()!=null&&searchRequest.getSortDirection()==SortDirection.DESC){
 						orderByClause += "DESC ";
 					}else{
 						orderByClause += "ASC ";
 					}
 				}
+				i++;
 			}
 		}
 		
 		//Create the query
 		String finalQueryString = queryString + optionalQueryString + orderByClause;
-		
+		System.out.println("Executing query: "+finalQueryString);
 		Query query = em.createQuery(finalQueryString);
 		
 		//Set the pagination information (eg. only return 25 rows starting at row 100)
@@ -225,7 +233,10 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		searchResult.setStartAt(searchRequest.getStartAt());
 		if(searchRequest.getNeededTotalResults()){
 			//Get count of total rows if needed
-			String countQueryString = "SELECT COUNT(*) FROM ("+queryString + optionalQueryString+")";
+			String regex = "^[Ss][Ee][Ll][Ee][Cc][Tt]\\s*([^,\\s]+).*?[Ff][Rr][Oo][Mm]";
+			String replacement = "SELECT COUNT($1) FROM";
+			String countQueryString = (queryString + optionalQueryString).replaceAll(regex, replacement);
+			System.out.println("Executing query: "+countQueryString);
 			Query countQuery = em.createQuery(countQueryString);
 			if(searchRequest.getParams()!=null){
 				for (SearchParam searchParam : searchRequest.getParams()) {
@@ -233,8 +244,8 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 							.getValue());
 				}
 			}
-			Integer totalResults = (Integer) countQuery.getSingleResult();
-			searchResult.setTotalResults(totalResults);
+			Long totalResults = (Long) countQuery.getSingleResult();
+			searchResult.setTotalResults(totalResults.intValue());
 		}
 
 		return searchResult;
