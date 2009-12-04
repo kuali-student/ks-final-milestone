@@ -24,10 +24,10 @@ import com.google.gwt.libideas.resources.client.ImageResource.RepeatStyle;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.ImageBundle.Resource;
 
-
+@Deprecated
 public interface KSCommonResources extends ImmutableResourceBundle{
     public static final KSCommonResources INSTANCE =  (KSCommonResources) GWT.create(KSCommonResources.class);
-
+/*
     @Resource("org/kuali/student/common/ui/public/KSGeneral.css")
 	public CssResource generalCss();
     @Resource("org/kuali/student/common/ui/public/KSAccordionMenu.css")
@@ -131,5 +131,5 @@ public interface KSCommonResources extends ImmutableResourceBundle{
 
 	@Resource("org/kuali/student/common/ui/public/KSValidationLayout.css")
 	public CssResource validationLayoutCss(); 
-
+*/
 }

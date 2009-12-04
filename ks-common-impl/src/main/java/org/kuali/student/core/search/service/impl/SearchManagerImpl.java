@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.assembly.client.LookupMetadata;
 import org.kuali.student.core.dao.SearchableDao;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
@@ -29,6 +30,8 @@ import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
+import org.kuali.student.core.search.newdto.SearchRequest;
+import org.kuali.student.core.search.newdto.SearchResult;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
@@ -43,6 +46,8 @@ public class SearchManagerImpl implements SearchManager{
 	private Map<String, SearchCriteriaTypeInfo> searchCriteriaTypeMap;
 	private Map<String, SearchResultTypeInfo> searchResultTypeInfoMap;
 	private Map<String, String> queryMap;
+	
+	private Map<String, LookupMetadata> lookupMetadataMap;
 
 	@SuppressWarnings("unchecked")
 	private void init() {
@@ -69,7 +74,7 @@ public class SearchManagerImpl implements SearchManager{
 		if (searchTypeInfo == null) {
 			throw new InvalidParameterException("No such searchTypeKey found: " + searchTypeKey);
 		}
-		return dao.searchForResults(queryString, searchTypeInfo, queryParamValues);
+		return dao.searchForResults(searchTypeKey, queryMap, searchTypeInfo, queryParamValues);
 	}
 
 	public SearchCriteriaTypeInfo getSearchCriteriaType(
@@ -142,5 +147,13 @@ public class SearchManagerImpl implements SearchManager{
 
 	public void setSearchContext(String searchContextFile) {
 		this.searchContextFile = searchContextFile;
+	}
+
+	@Override
+	public SearchResult search(SearchRequest searchRequest, SearchableDao dao) {
+
+		String searchKey = searchRequest.getSearchKey();
+		LookupMetadata lookupMetadata = lookupMetadataMap.get(searchKey);
+		return dao.search(searchRequest, queryMap, lookupMetadata);
 	}
 }

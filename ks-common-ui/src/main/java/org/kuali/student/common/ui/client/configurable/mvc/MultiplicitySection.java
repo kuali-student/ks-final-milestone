@@ -75,8 +75,8 @@ public class MultiplicitySection extends Section implements HasModelDTOValue{
         
         RowDescriptor row = rows.get(rows.size()-1);
 
-        if (fieldDescriptor.getFieldWidget() instanceof MultiplicityComposite){
-            MultiplicityComposite listField = (MultiplicityComposite)fieldDescriptor.getFieldWidget(); 
+        if (fieldDescriptor.getFieldWidget() instanceof SimpleMultiplicityComposite){
+            SimpleMultiplicityComposite listField = (SimpleMultiplicityComposite) fieldDescriptor.getFieldWidget(); 
             listField.redraw();                  
         }
         panel.add(row);
@@ -114,10 +114,13 @@ public class MultiplicitySection extends Section implements HasModelDTOValue{
     @Override
     public void setValue(ModelDTOValue modelDTOValue) {
         //assert(modelDTOValue instanceof ModelDTOValue.ModelDTOType);
-        if(modelDTOValue instanceof ModelDTOType){
-	        if(state.equals(((ModelDTOType) modelDTOValue).get().get("state")) && type.equals(((ModelDTOType) modelDTOValue).get().get("type"))){
-	        	this.modelDTOValue = modelDTOValue;
-	        }
+        if(modelDTOValue instanceof ModelDTOType) {
+        	ModelDTO dto = ((ModelDTOType) modelDTOValue).get();
+	        String stateVal = ((ModelDTOValue.StringType) dto.get("state")).getString();
+	        String typeVal = ((ModelDTOValue.StringType) dto.get("type")).getString();
+		    if (state.equals(stateVal) && type.equals(typeVal)) {
+		        this.modelDTOValue = modelDTOValue;
+		    }
         }
         redraw();
     }

@@ -18,6 +18,7 @@ package org.kuali.student.common.ui.client.widgets.impl;
 
 import org.kuali.student.common.ui.client.images.KSImages;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.theme.Theme;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSRichEditorAbstract;
 import org.kuali.student.common.ui.client.widgets.KSRichTextToolbar;
@@ -68,8 +69,8 @@ public class KSRichEditorImpl extends KSRichEditorAbstract {
 	private boolean isUsedInPopup = false;
 	private int toolbarHeight;
 	
-	private KSImages images = (KSImages) GWT.create(KSImages.class);
-	private final Image popoutImage = images.popout().createImage();
+	//private KSImages images = (KSImages) GWT.create(KSImages.class);
+	private final Image popoutImage = Theme.INSTANCE.getRichTextEditorImages().popout().getImage();
 	
 	private int height;
 	private int width;

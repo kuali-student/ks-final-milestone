@@ -29,6 +29,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class KSConfirmationDialogImpl extends KSConfirmationDialogAbstract{ 
 	
 	private boolean canceled = false;

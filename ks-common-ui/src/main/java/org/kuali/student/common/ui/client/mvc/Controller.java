@@ -15,8 +15,6 @@
 package org.kuali.student.common.ui.client.mvc;
 
 import org.kuali.student.common.ui.client.mvc.events.ViewChangeEvent;
-import org.kuali.student.common.ui.client.mvc.test.AddressManager.AddressViews;
-import org.kuali.student.core.dto.Idable;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
@@ -166,6 +164,14 @@ public abstract class Controller extends Composite {
         }
     }
     
+    @SuppressWarnings("unchecked")
+    public void requestModel(String modelId, ModelRequestCallback callback) {
+        if (getParentController() != null) {
+            parentController.requestModel(modelId, callback);
+        } else {
+            callback.onRequestFail(new RuntimeException("The requested model was not found: " + modelId));
+        }
+    }
     
     /**
      * Registers an application eventhandler. The controller will try to propagate "unchecked" handlers to the parent

@@ -23,6 +23,7 @@ import org.kuali.student.common.ui.client.service.SecurityRpcService;
 import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.core.messages.dto.MessageList;
+import org.kuali.student.core.organization.ui.client.mvc.controller.OrgApplicationManager;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -45,6 +46,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class OrgEntryPoint implements EntryPoint{
 
     ApplicationComposite app;
+    private OrgApplicationManager manager = null;
     SimplePanel content = new SimplePanel();
     private OrgMenu orgMenu = new OrgMenu(content);;
     
@@ -124,7 +126,11 @@ public class OrgEntryPoint implements EntryPoint{
     
     private void initScreen(){
         app = new ApplicationComposite();
+//        manager = new OrgApplicationManager();
+//        app.setContent(manager);
         app.setContent(getContent());
         RootPanel.get().add(app);
+//        if(manager.getCurrentView() == null)
+//            manager.showDefaultView();
     }
 }

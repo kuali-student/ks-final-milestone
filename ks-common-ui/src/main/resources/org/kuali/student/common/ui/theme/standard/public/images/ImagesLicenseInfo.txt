@@ -1,0 +1,5 @@
+help-16x16.png has a LinkWare license from Ruby Software. This is satisfied by the website acknowedging the 
+company and linking to www.rubysoftware.nl
+
+agt_action_success.png and messagebox_warning.png are LGPL licensed see
+http://www.everaldo.com/crystal/?action=license

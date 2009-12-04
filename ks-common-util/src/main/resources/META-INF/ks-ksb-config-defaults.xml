@@ -26,11 +26,6 @@
     <param name="rice.ksb.message.jpa.PersistenceUnitName">${rice.ksb.message.jpa.PersistenceUnitName.${db.vendor}}</param>
     <param name="rice.ksb.message.jpa.GenerateDdl">true</param>
     
-    <!-- these are defaulted to false already, helpful to turn on for debug -->
-    <param name="rice.jpa.JpaProperties.hibernate.show_sql">true</param>
-    <param name="rice.jpa.JpaProperties.hibernate.use_sql_comments">false</param>
-    <param name="rice.jpa.JpaProperties.hibernate.format_sql">false</param>
-
     <param name="rice.jpa.DatabasePlatform.derby">org.hibernate.dialect.DerbyDialect</param>
     <param name="rice.jpa.UseSerialization">false</param>
 

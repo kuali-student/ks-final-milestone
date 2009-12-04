@@ -28,7 +28,7 @@ public abstract class MultiplicityCompositeWithLabels extends MultiplicityCompos
     @Override
     protected Widget generateAddWidget() {
     	Label addWidget =  new Label(addItemLabel);
-    	addWidget.addStyleName("KS-Multiplicity-Labels");
+    	addWidget.addStyleName("KS-Multiplicity-Link-Label");
     	addWidget.addClickHandler(new ClickHandler(){
             public void onClick(ClickEvent event) {
                 addItem();

@@ -30,7 +30,9 @@ import org.kuali.student.common.ui.client.service.DocumentRpcService;
 import org.kuali.student.common.ui.client.service.DocumentRpcServiceAsync;
 import org.kuali.student.common.ui.client.service.UploadStatusRpcService;
 import org.kuali.student.common.ui.client.service.UploadStatusRpcServiceAsync;
+import org.kuali.student.common.ui.client.theme.Theme;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
@@ -423,7 +425,7 @@ public class DocumentTool extends ToolView implements HasReferenceId{
         private VerticalFlowPanel headerTextContainer = new VerticalFlowPanel();
         private HorizontalBlockFlowPanel editActions = new HorizontalBlockFlowPanel();
         
-        Image delete = KSImages.INSTANCE.deleteComment().createImage();
+        KSImage delete = Theme.INSTANCE.getCommonImages().getDeleteCommentIcon();
         
         private HTML name = new HTML("No file exists");
         private HTML documentText = new HTML();

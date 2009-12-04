@@ -14,12 +14,17 @@
  */
 package org.kuali.student.common.ui.client.configurable.mvc;
 
+import java.util.List;
+
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.Model;
+import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
+import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -37,7 +42,7 @@ public class VerticalSectionView extends SectionView {
 	
 	private Class<? extends ModelDTO> modelDTOType;
 	
-	private Model<ModelDTO> model = null;
+	private CollectionModel<ModelDTO> model = null;
 		
 	public VerticalSectionView(Enum<?> viewEnum, String name, Class<? extends ModelDTO> modelDTOType) {	    
 		super(viewEnum, name);
@@ -62,8 +67,8 @@ public class VerticalSectionView extends SectionView {
 	    }
 
         //Request model and redraw view
-	    getController().requestModel(modelDTOType, new ModelRequestCallback<ModelDTO>(){
-            public void onModelReady(Model<ModelDTO> m) {
+	    getController().requestModel(modelDTOType, new ModelRequestCallback<CollectionModel<ModelDTO>>(){
+            public void onModelReady(CollectionModel<ModelDTO> m) {
                 //if (model != m){
                     model = m;
                     redraw();
@@ -112,8 +117,8 @@ public class VerticalSectionView extends SectionView {
     }
     
     public void updateView(){
-	    getController().requestModel(modelDTOType, new ModelRequestCallback<ModelDTO>(){
-            public void onModelReady(Model<ModelDTO> m) {
+	    getController().requestModel(modelDTOType, new ModelRequestCallback<CollectionModel<ModelDTO>>(){
+            public void onModelReady(CollectionModel<ModelDTO> m) {
                     updateView(m.get());
             }
 
