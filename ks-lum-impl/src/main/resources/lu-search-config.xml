@@ -216,8 +216,9 @@
                 </entry>
                 <entry key="lu.search.cluByCodeAndState">
                     <value>SELECT clu.id, clu.officialIdentifier.code FROM Clu clu 
-                    WHERE clu.officialIdentifier.code like :lu_queryParam_cluCode 
-                    or clu.id = :lu_queryParam_cluId
+                    WHERE (clu.officialIdentifier.code like :lu_queryParam_cluCode 
+                    or clu.id = :lu_queryParam_cluId)
+                    and clu.state = :lu_queryParam_cluState
                     ORDER BY clu.officialIdentifier.code ASC</value>
                 </entry>
                 <entry key="lu.search.generic">
