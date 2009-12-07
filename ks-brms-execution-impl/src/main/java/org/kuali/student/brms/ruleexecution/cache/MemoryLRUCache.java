@@ -7,28 +7,32 @@ import java.util.Set;
 
 public class MemoryLRUCache<K,V> implements Cache<K,V> {
 	
-	private int maxSize = 20;
+	private int maxSize = 50;
 
 	private Map<K,V> cacheMap;
 
+	public MemoryLRUCache() {
+		this.cacheMap = Collections.synchronizedMap(new LruMap<K,V>(this.maxSize));
+	}
+
 	public MemoryLRUCache(int maxSize) {
 		if(maxSize <= 1) {
-			throw new IllegalArgumentException("Max cache size must be greater then 1");
+			throw new IllegalArgumentException("Max cache size must be greater than 1");
 		}
 		this.maxSize = maxSize;
 		this.cacheMap = Collections.synchronizedMap(new LruMap<K,V>(this.maxSize));
 	}
 	
-	public void put(K key, V value) {
-		this.cacheMap.put(key, value);
+	public V put(K key, V value) {
+		return this.cacheMap.put(key, value);
 	}
 	
 	public V get(K key) {
 		return this.cacheMap.get(key);
 	}
 	
-	public void remove(K key) {
-		this.remove(key);
+	public V remove(K key) {
+		return this.cacheMap.remove(key);
 	}
 
 	public void clear() {
@@ -40,7 +44,7 @@ public class MemoryLRUCache<K,V> implements Cache<K,V> {
 	}
 	
 	public boolean isEmpty() {
-		return this.isEmpty();
+		return this.cacheMap.isEmpty();
 	}
 	
 	public Set<K> keySet() {
@@ -55,10 +59,7 @@ public class MemoryLRUCache<K,V> implements Cache<K,V> {
 		/** Class serial version uid */
 	    private static final long serialVersionUID = 1L;
 
-		private int maxSize = 20;
-
-		public LruMap() {
-	    }
+		private int maxSize = 50;
 
 		public LruMap(int maxSize) {
 	    	this.maxSize = maxSize;
