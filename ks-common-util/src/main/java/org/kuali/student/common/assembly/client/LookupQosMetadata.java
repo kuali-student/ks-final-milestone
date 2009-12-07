@@ -16,33 +16,95 @@
 package org.kuali.student.common.assembly.client;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 
  * @author nwright
  */
-public class LookupQosMetadata implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private Integer startAt;
-	private Integer maxResults;
+public class LookupQosMetadata implements Serializable
+{
 
-	public Integer getStartAt() {
-		return startAt;
-	}
+ /**
+  *
+  */
+ private static final long serialVersionUID = 1L;
+ private Integer startAt;
+ private Integer maxResults;
 
-	public void setStartAt(Integer startAt) {
-		this.startAt = startAt;
-	}
+ public Integer getStartAt ()
+ {
+  return startAt;
+ }
 
-	public Integer getMaxResults() {
-		return maxResults;
-	}
+ public void setStartAt (Integer startAt)
+ {
+  this.startAt = startAt;
+ }
 
-	public void setMaxResults(Integer maxResults) {
-		this.maxResults = maxResults;
-	}
+ public Integer getMaxResults ()
+ {
+  return maxResults;
+ }
+
+ public void setMaxResults (Integer maxResults)
+ {
+  this.maxResults = maxResults;
+ }
+
+ public class SortMetadata
+ {
+
+  public SortMetadata ()
+  {
+  }
+
+  private String resultColumnKey;
+
+  public String getResultColumnKey ()
+  {
+   return resultColumnKey;
+  }
+
+  public void setResultColumnKey (String resultColumnKey)
+  {
+   this.resultColumnKey = resultColumnKey;
+  }
+
+  private boolean descending;
+
+  public boolean isDescending ()
+  {
+   return descending;
+  }
+
+  public void setDescending (boolean descending)
+  {
+   this.descending = descending;
+  }
+
+ }
+
+ protected List<SortMetadata> sorts;
+
+ /**
+  * Get the value of sorts
+  *
+  * @return the value of sorts
+  */
+ public List<SortMetadata> getSorts ()
+ {
+  return sorts;
+ }
+
+ /**
+  * Set the value of sorts
+  *
+  * @param sorts new value of sorts
+  */
+ public void setSorts (List<SortMetadata> sorts)
+ {
+  this.sorts = sorts;
+ }
 
 }

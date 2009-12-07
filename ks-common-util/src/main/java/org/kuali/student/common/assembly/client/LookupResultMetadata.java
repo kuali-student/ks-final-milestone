@@ -25,7 +25,7 @@ public class LookupResultMetadata implements Serializable {
 	private String name;
 	private String desc;
 	private Data.DataType dataType;
-	private boolean initiallyHidden;
+	private boolean hidden;
 
 	public String getName() {
 		return name;
@@ -59,12 +59,12 @@ public class LookupResultMetadata implements Serializable {
 		this.key = key;
 	}
 
-	public boolean isInitiallyHidden() {
-		return initiallyHidden;
+	public boolean isHidden() {
+		return hidden;
 	}
 
-	public void setInitiallyHidden(boolean initiallyHidden) {
-		this.initiallyHidden = initiallyHidden;
+	public void setHidden(boolean hidden) {
+		this.hidden = hidden;
 	}
 
 }

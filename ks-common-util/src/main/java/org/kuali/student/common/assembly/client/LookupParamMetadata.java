@@ -18,22 +18,27 @@ package org.kuali.student.common.assembly.client;
 import java.io.Serializable;
 
 import org.kuali.student.common.assembly.client.Data.Value;
+import org.kuali.student.common.assembly.client.Metadata.WriteAccess;
 
 public class LookupParamMetadata implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String key;
-	private Metadata metadata;
+	private LookupMetadata childLookup;
+ private Metadata.WriteAccess writeAccess;
+	private Data.DataType dataType;
 	private boolean optional;
 	private Value defaultValue;
 	private String defaultValuePath;
+ 	private String name;
+	private String desc;
 
-	public Metadata getMetadata() {
-		return metadata;
+	public LookupMetadata getChildLookup() {
+		return childLookup;
 	}
 
-	public void setMetadata(Metadata metadata) {
-		this.metadata = metadata;
+	public void setMetadata(LookupMetadata childLookup) {
+		this.childLookup = childLookup;
 	}
 
 	public String getKey() {
@@ -50,6 +55,37 @@ public class LookupParamMetadata implements Serializable {
 
 	public void setOptional(boolean optional) {
 		this.optional = optional;
+	}
+	public Data.DataType getDataType() {
+		return dataType;
+	}
+
+	public void setDataType(Data.DataType dataType) {
+		this.dataType = dataType;
+	}
+
+ 	public WriteAccess getWriteAccess() {
+		return writeAccess;
+	}
+
+	public void setWriteAccess(WriteAccess writeAccess) {
+		this.writeAccess = writeAccess;
+	}
+
+ public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDesc() {
+		return desc;
+	}
+
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 
 	public Value getDefaultValue() {
