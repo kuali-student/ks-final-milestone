@@ -17,14 +17,14 @@ package org.kuali.student.brms.ruleexecution.runtime.drools;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 import java.util.Set;
 
 import org.drools.KnowledgeBase;
 import org.drools.KnowledgeBaseFactory;
 import org.drools.definition.KnowledgePackage;
-import org.kuali.student.brms.ruleexecution.cache.Cache;
-import org.kuali.student.brms.ruleexecution.cache.MemoryLRUCache;
 import org.kuali.student.brms.ruleexecution.exceptions.RuleSetExecutionException;
+import org.kuali.student.common.util.LRUMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +39,7 @@ public class DroolsKnowledgeBase {
 	/**
 	 * Cache of rule base types.
 	 */
-	private Cache<String, KnowledgeBase> ruleBaseTypeCache = new MemoryLRUCache<String, KnowledgeBase>(20);
+	private Map<String, KnowledgeBase> ruleBaseTypeCache = new LRUMap<String,KnowledgeBase>();
 	
 	/**
 	 * Constructor
@@ -53,7 +53,7 @@ public class DroolsKnowledgeBase {
 	 * 
 	 * @param cache 
 	 */
-	public void setCache(Cache<String,KnowledgeBase> cache) {
+	public void setCache(Map<String,KnowledgeBase> cache) {
 		this.ruleBaseTypeCache = cache;
 	}
 

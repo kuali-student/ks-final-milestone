@@ -217,7 +217,7 @@
     </bean>
     
     <bean id="cache"
-        class="org.kuali.student.brms.ruleexecution.cache.MemoryLRUCache">
+        class="org.apache.commons.collections.map.LRUMap">
         <constructor-arg type="int" value="50"/>
     </bean>
     
@@ -243,7 +243,7 @@
     </bean>
     
     <bean id="cacheTest"
-        class="org.kuali.student.brms.ruleexecution.cache.MemoryLRUCache">
+        class="org.kuali.student.common.util.LRUMap">
         <constructor-arg type="int" value="2"/>
     </bean>
 
