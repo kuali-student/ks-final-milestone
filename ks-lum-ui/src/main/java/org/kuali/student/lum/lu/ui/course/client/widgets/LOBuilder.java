@@ -237,7 +237,28 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
             }
         }
 
-        private void addSelectedLO(String loDescription) {
+        private void addHighlights(List<Integer> selectedWidgets) {
+            for (int i: selectedWidgets) {
+                Widget w = (Widget)modelDTOValueWidgets.get(i);
+                w.addStyleName(STYLE_HIGHLIGHTED_ITEM);
+
+            }
+        }
+        
+        private void addSelectedLOs(List<String> selected) {
+            this.removeOldHighlights();
+            List<Integer> addedLos = new ArrayList<Integer>();
+            if (selected.size() > 0){
+                for (String loDesc : selected ) {
+                    int a = this.addSelectedLO(loDesc);
+                    addedLos.add(a);
+                }
+            }
+            this.redraw(); 
+            this.addHighlights(addedLos);                   
+        }
+
+        private int addSelectedLO(String loDescription) {
 
             int widgetKey = -1;
             boolean foundEmptyWidget = false;
@@ -259,11 +280,8 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
                 ModelDTO model = ((ModelDTOType) v).get();
                 model.put(DESC_KEY, loDescription);
             }
-            this.redraw();                    
 
-            //FIXME: This only highlights last one added
-            Widget w = (Widget)modelDTOValueWidgets.get(widgetKey);
-            w.addStyleName(STYLE_HIGHLIGHTED_ITEM);
+            return widgetKey;
         }
 
         private void moveUp(Widget item){
@@ -361,15 +379,13 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
         loWordSearchWindow.setPartialMatch(true);
         loWordSearchWindow.addSelectionHandler(new SelectionHandler<List<String>>(){
             public void onSelection(SelectionEvent<List<String>> event) {
-                loList.removeOldHighlights();
                 final List<String> selected = event.getSelectedItem();
-                if (selected.size() > 0){
-                    for (String loDesc : selected ) {
-                        loList.addSelectedLO(loDesc);
-                    }
-                    loWordSearchWindow.hide();
-                }
+
+                loList.addSelectedLOs(selected);
+                loWordSearchWindow.hide();
             }
+
+
         });
     }
 
@@ -444,10 +460,12 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
                         public void exec(ConfirmCancelEnum result) {
                             switch(result){
                                 case CONFIRM:
-                                    List<String> selectedItems = loCheckBoxes.getSelectedItems();
-                                    for(String s: selectedItems){
-                                        loList.addSelectedLO(loListItems.getItemText(s));
+                                    List<String> selected = new ArrayList<String>();                                
+                                    for (String s: loCheckBoxes.getSelectedItems()) {
+                                        selected.add(loListItems.getItemText(s));
+                                        
                                     }
+                                    loList.addSelectedLOs(selected);
                                     cluSearchResultsWindow.hide();
                                     break;
                                 case CANCEL:
