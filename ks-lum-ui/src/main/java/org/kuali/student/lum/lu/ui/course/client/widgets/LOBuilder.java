@@ -380,12 +380,12 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
 
         VerticalPanel main = new VerticalPanel();
         final CluCodePicker picker = new CluCodePicker();
-        ConfirmCancelGroup buttonPanel = new ConfirmCancelGroup(new Callback<ConfirmCancelEnum>(){
+        GoCancelGroup buttonPanel = new GoCancelGroup(new Callback<GoCancelEnum>(){
 
             @Override
-            public void exec(ConfirmCancelEnum result) {
+            public void exec(GoCancelEnum result) {
                 switch(result){
-                    case CONFIRM:
+                    case GO:
 
                         luRpcServiceAsync.getLoIdsByClu(picker.getValue(), new AsyncCallback<List<String>>() {
 
