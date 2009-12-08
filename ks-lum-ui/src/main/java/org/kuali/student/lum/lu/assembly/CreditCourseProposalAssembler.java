@@ -1,5 +1,14 @@
 package org.kuali.student.lum.lu.assembly;
 
+import static org.kuali.student.lum.lu.assembly.AssemblerUtils.addVersionIndicator;
+import static org.kuali.student.lum.lu.assembly.AssemblerUtils.getVersionIndicator;
+import static org.kuali.student.lum.lu.assembly.AssemblerUtils.isCreated;
+import static org.kuali.student.lum.lu.assembly.AssemblerUtils.isDeleted;
+import static org.kuali.student.lum.lu.assembly.AssemblerUtils.isModified;
+import static org.kuali.student.lum.lu.assembly.AssemblerUtils.isUpdated;
+import static org.kuali.student.lum.lu.assembly.AssemblerUtils.setCreated;
+import static org.kuali.student.lum.lu.assembly.AssemblerUtils.setUpdated;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,8 +18,6 @@ import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.assembly.client.SaveResult;
 import org.kuali.student.common.assembly.client.Data.Property;
-import org.kuali.student.core.search.newdto.SearchRequest;
-import org.kuali.student.core.search.newdto.SearchResult;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.TimeAmountInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
@@ -24,6 +31,8 @@ import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
+import org.kuali.student.core.search.newdto.SearchRequest;
+import org.kuali.student.core.search.newdto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.lu.assembly.CluInfoHierarchyAssembler.RelationshipHierarchy;
@@ -32,13 +41,14 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInf
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.TimeAmountInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityContactHoursHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityHelper;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseCrossListingsHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseDurationHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseFormatHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalMetadata;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.RuntimeDataHelper;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseVersionsHelper;
 import org.kuali.student.lum.lu.assembly.data.server.CluInfoHierarchy;
 import org.kuali.student.lum.lu.assembly.data.server.CluInfoHierarchy.ModificationState;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
@@ -46,7 +56,6 @@ import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.lum.lu.service.LuService;
-import static org.kuali.student.lum.lu.assembly.AssemblerUtils.*;
 
 /*
  *	ASSEMBLERREVIEW
@@ -200,6 +209,8 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 
 		for (CluInfoHierarchy format : cluHierarchy.getChildren()) {
 			addFormats(result, format);	
+			addCrossListings(result, format);
+			addVersinos(result, format);
 		}
 		
 		return result;
@@ -240,6 +251,7 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 			hours.setPer(time.getAtpDurationTypeKey());
 			activity.setContactHours(hours);
 		}
+		activity.setDefaultEnrollmentEstimate(clu.getDefaultEnrollmentEstimate());
 		activity.setState(clu.getState());
 		addVersionIndicator(activity.getData(), CluInfo.class.getName(), clu.getId(), clu.getMetaInfo().getVersionInd());
 
@@ -249,7 +261,45 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 		format.getActivities().add(activity.getData());
 	}
 
-	
+    private void addCrossListings(CreditCourseHelper course, CluInfoHierarchy cluHierarchy) 
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, 
+            OperationFailedException, AssemblyException {
+        
+        CreditCourseCrossListingsHelper xListings = null;
+        CluInfo clu = cluHierarchy.getCluInfo();
+        List<CluIdentifierInfo> cluIdentifiers = clu.getAlternateIdentifiers();
+        
+        for(CluIdentifierInfo cluIdentifier : cluIdentifiers){
+            xListings = CreditCourseCrossListingsHelper.wrap(new Data());
+            xListings.setId(cluIdentifier.getId());
+            xListings.setType(cluIdentifier.getType());
+            xListings.setDepartment(cluIdentifier.getOrgId());
+            xListings.setSubjectArea(cluIdentifier.getDivision());
+            xListings.setCourseNumberSuffix(cluIdentifier.getSuffixCode());
+            course.getCrossListings().add(xListings.getData());
+        }   
+    }
+    
+    private void addVersinos(CreditCourseHelper course, CluInfoHierarchy cluHierarchy) 
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, 
+            OperationFailedException, AssemblyException {
+
+        CreditCourseVersionsHelper versions = null;
+        CluInfo clu = cluHierarchy.getCluInfo();
+        List<CluIdentifierInfo> cluIdentifiers = clu.getAlternateIdentifiers();
+
+        for(CluIdentifierInfo cluIdentifier : cluIdentifiers){
+            versions = CreditCourseVersionsHelper.wrap(new Data());
+            versions.setId(cluIdentifier.getId());
+            versions.setType(cluIdentifier.getType());
+            versions.setVersionTitle(cluIdentifier.getLongName());
+            versions.setSubjectArea(cluIdentifier.getDivision());
+            versions.setCourseNumberSuffix(cluIdentifier.getSuffixCode());
+            versions.setVersionCode(cluIdentifier.getVariation());
+            course.getVersions().add(versions.getData());
+        }   
+    }
+    
 	private CreditCourseProposalInfoHelper getProposal(String id)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -512,6 +562,8 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 		}
 		
 		buildFormatUpdates(result, course);
+		buildCrossListingsUpdates(result, course);
+		buildVersionsUpdates(result, course);
 		
 		return result;
 	}
@@ -646,6 +698,7 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 					time.setTimeQuantity(activity.getContactHours().getHrs());
 				}
 				
+				activityClu.setDefaultEnrollmentEstimate(activity.getDefaultEnrollmentEstimate());
 				// TODO un-hardcode
 				activityClu.setState("draft");
 				activityHierarchy.setParentRelationType(ACTIVITY_RELATION_TYPE);
@@ -658,7 +711,7 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 			}
 		}
 	}
-
+	
 	private CluInfoHierarchy findChildByCluId(CluInfoHierarchy parent, String cluId) {
 		for (CluInfoHierarchy c : parent.getChildren()) {
 			if (c.getCluInfo().getId() != null && c.getCluInfo().getId().equals(cluId)) {
