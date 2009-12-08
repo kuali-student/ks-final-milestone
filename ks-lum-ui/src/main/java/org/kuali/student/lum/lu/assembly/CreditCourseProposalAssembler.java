@@ -10,6 +10,7 @@ import static org.kuali.student.lum.lu.assembly.AssemblerUtils.setCreated;
 import static org.kuali.student.lum.lu.assembly.AssemblerUtils.setUpdated;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.student.common.assembly.Assembler;
@@ -50,7 +51,6 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCours
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalMetadata;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseVersionsHelper;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.RuntimeDataHelper;
 import org.kuali.student.lum.lu.assembly.data.server.CluInfoHierarchy;
 import org.kuali.student.lum.lu.assembly.data.server.CluInfoHierarchy.ModificationState;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
@@ -59,7 +59,6 @@ import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.lum.lu.service.LuService;
-import static org.kuali.student.lum.lu.assembly.AssemblerUtils.*;
 
 /*
  *	ASSEMBLERREVIEW
@@ -616,8 +615,8 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 		}
 		
 		buildFormatUpdates(result, course);
-//		buildCrossListingsUpdates(result, course);
-//		buildVersionsUpdates(result, course);
+		buildCrossListingsUpdates(result, course);
+		buildVersionsUpdates(result, course);
 		
 		return result;
 	}
@@ -765,7 +764,69 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 			}
 		}
 	}
-	
+
+	private void buildCrossListingsUpdates(CluInfoHierarchy courseHierarchy, CreditCourseHelper course) throws AssemblyException {
+	    if (course.getCrossListings() == null) {
+	        return;
+	    }
+	    
+        CluInfo cluInfoToStore = courseHierarchy.getCluInfo();
+        List<CluIdentifierInfo> alternateIdentifiers = cluInfoToStore.getAlternateIdentifiers();
+        
+        if (isModified(course.getData())) {
+            // clear the list because the screen should have all loaded all these AltIdentifiers and
+            // they may have been modified by the user and will be populated in for() below.
+            Iterator<CluIdentifierInfo> iterator = alternateIdentifiers.iterator();
+            while(iterator.hasNext()){
+                CluIdentifierInfo cluIdentifierInfo = iterator.next();
+                String identifierType = cluIdentifierInfo.getType();
+                if(identifierType.equals("kuali.lu.type.CreditCourse.identifier.cross-listed")){
+                    alternateIdentifiers.remove(cluIdentifierInfo);
+                }
+            }
+        }
+        
+        for (Property p : course.getCrossListings()) {
+            CreditCourseCrossListingsHelper xListings = CreditCourseCrossListingsHelper.wrap((Data)p.getValue());
+            CluIdentifierInfo cluIdentifier = new CluIdentifierInfo();
+            cluIdentifier.setCluId(xListings.getId());
+            cluIdentifier.setType("kuali.lu.type.CreditCourse.identifier.cross-listed");
+            alternateIdentifiers.add(cluIdentifier);
+        }
+        cluInfoToStore.setAlternateIdentifiers(alternateIdentifiers);
+	}
+
+    private void buildVersionsUpdates(CluInfoHierarchy courseHierarchy, CreditCourseHelper course) throws AssemblyException {
+        if (course.getVersions() == null) {
+            return;
+        }
+        
+        CluInfo cluInfoToStore = courseHierarchy.getCluInfo();
+        List<CluIdentifierInfo> alternateIdentifiers = cluInfoToStore.getAlternateIdentifiers();
+        
+        if (isModified(course.getData())) {
+            // clear the list because the screen should have all loaded all these AltIdentifiers and
+            // they may have been modified by the user and will be populated in for() below.
+            Iterator<CluIdentifierInfo> iterator = alternateIdentifiers.iterator();
+            while(iterator.hasNext()){
+                CluIdentifierInfo cluIdentifierInfo = iterator.next();
+                String identifierType = cluIdentifierInfo.getType();
+                if(identifierType.equals("kuali.lu.type.CreditCourse.identifier.version")){
+                    alternateIdentifiers.remove(cluIdentifierInfo);
+                }
+            }
+        }
+        
+        for (Property p : course.getCrossListings()) {
+            CreditCourseVersionsHelper versions = CreditCourseVersionsHelper.wrap((Data)p.getValue());
+            CluIdentifierInfo cluIdentifier = new CluIdentifierInfo();
+            cluIdentifier.setCluId(versions.getId());
+            cluIdentifier.setType("kuali.lu.type.CreditCourse.identifier.version");
+            alternateIdentifiers.add(cluIdentifier);
+        }
+        cluInfoToStore.setAlternateIdentifiers(alternateIdentifiers);
+    }
+    
 	private CluInfoHierarchy findChildByCluId(CluInfoHierarchy parent, String cluId) {
 		for (CluInfoHierarchy c : parent.getChildren()) {
 			if (c.getCluInfo().getId() != null && c.getCluInfo().getId().equals(cluId)) {
