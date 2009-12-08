@@ -519,6 +519,10 @@ public class DictionaryModelLoader implements DictionaryModel
    orchObj.setDefaultValue (getFixup (worksheetReader, "defaultValue"));
    orchObj.setWriteAccess (getFixup (worksheetReader, "writeAccess"));
    orchObj.setDictionaryId (getFixup (worksheetReader, "dictionaryId"));
+   if (orchObj.getDictionaryId ().equalsIgnoreCase ("TBD"))
+   {
+    orchObj.setDictionaryId ("");
+   }
    orchObj.setSelector (getFixup (worksheetReader, "selector"));
    // do additional constriants
    List<String> constraintIds = new ArrayList (4);
