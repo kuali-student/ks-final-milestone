@@ -48,7 +48,7 @@ import org.kuali.student.core.entity.TimeAmount;
     @NamedQuery(name = "Clu.findClusByIdList", query = "SELECT c FROM Clu c WHERE c.id IN (:idList)"),
     @NamedQuery(name = "Clu.getClusByLuType", query = "SELECT c FROM Clu c WHERE c.state = :luState AND c.luType.id = :luTypeKey"),
     @NamedQuery(name = "Clu.getCluIdsByLoId", query = "SELECT c.id FROM Clu c join c.learningObjectives lo WHERE lo.learningObjectiveId = :loId"),
-    @NamedQuery(name = "Clu.getClusByRelation", query = "SELECT c FROM Clu c WHERE c.id IN (SELECT ccr.relatedClu.id FROM CluCluRelation ccr WHERE ccr.relatedClu.id = :relatedCluId AND ccr.luLuRelationType.id = :luLuRelationTypeKey)")
+    @NamedQuery(name = "Clu.getClusByRelation", query = "SELECT c FROM Clu c WHERE c.id IN (SELECT ccr.relatedClu.id FROM CluCluRelation ccr WHERE ccr.clu.id = :parentCluId AND ccr.luLuRelationType.id = :luLuRelationTypeKey)")
 })
 public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     @Id
