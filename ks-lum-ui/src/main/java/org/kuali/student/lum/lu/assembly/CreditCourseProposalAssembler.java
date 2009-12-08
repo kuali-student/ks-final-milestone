@@ -45,17 +45,21 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCours
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseDurationHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseFormatHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseHelper;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseJointsHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalMetadata;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseVersionsHelper;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.RuntimeDataHelper;
 import org.kuali.student.lum.lu.assembly.data.server.CluInfoHierarchy;
 import org.kuali.student.lum.lu.assembly.data.server.CluInfoHierarchy.ModificationState;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
+import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.lum.lu.service.LuService;
+import static org.kuali.student.lum.lu.assembly.AssemblerUtils.*;
 
 /*
  *	ASSEMBLERREVIEW
@@ -91,6 +95,7 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 	public static final String ACTIVITY_RELATION_TYPE = "luLuRelationType.contains";
 	public static final String PROPOSAL_REFERENCE_TYPE = "kuali.proposal.referenceType.clu"; // <- what the service says, but the dictionary says: "kuali.referenceType.CLU";
 	public static final String PROPOSAL_TYPE_CREATE_COURSE = "kuali.proposal.type.course.create";
+	public static final String JOINT_RELATION_TYPE = "kuali.lu.relation.type.co-located";
 	
 	private final String proposalState;
 	private CluInfoHierarchyAssembler cluHierarchyAssembler;
@@ -211,6 +216,17 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 			addFormats(result, format);	
 			addCrossListings(result, format);
 			addVersinos(result, format);
+		}
+		
+		//Retrieve related clus of type Joints and add the list to the map.
+		List<CluInfo> clus = luService.getClusByRelation(cluId, JOINT_RELATION_TYPE);
+		if (clus != null) {
+			for (CluInfo clu : clus) {
+				CreditCourseJointsHelper joint = CreditCourseJointsHelper
+						.wrap(new Data());
+				buildJoints(clu,joint);
+				result.getJoints().add(joint.getData());
+			}
 		}
 		
 		return result;
@@ -461,10 +477,48 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 			throw new AssemblyException("Cannot save proposal without course");
 		}
 		CluInfoHierarchy clus = buildCluInfoHiearchy(course);
-		return getCluHierarchyAssembler().save(clus);
+		
+		SaveResult<CluInfoHierarchy> result = getCluHierarchyAssembler().save(clus);
+		
+//		Uncomment this line when the screen elements for adding join courses is added.
+//		saveJoints(result.getValue().getCluInfo().getId(),course);
+		
+		return result;
 	}
 
+	private void saveJoints(String parentCourseId,CreditCourseHelper course ) throws AssemblyException{
+		try {
+			// CreditCourseJointsHelper joints =
+			// CreditCourseJointsHelper.wrap(course.getJoints());
+			for (Property p : course.getJoints()) {
+				CreditCourseJointsHelper joint = CreditCourseJointsHelper
+						.wrap((Data) p.getValue());
+				CluCluRelationInfo rel = new CluCluRelationInfo();
+				rel.setCluId(parentCourseId);
+				rel.setRelatedCluId(joint.getCourseId());
+				rel.setType(joint.getType());
+				luService.createCluCluRelation(parentCourseId, joint
+						.getCourseId(), joint.getCourseId(), rel);
+			}
+		} catch (Exception e) {
+			throw new AssemblyException("Unable to save cluClu Joint Relationship", e);
+		}
 
+	}
+	
+	private void buildJoints(CluInfo clu,CreditCourseJointsHelper joint) throws AssemblyException{
+		try{
+//		List<CluInfo> clus = luService.getClusByRelation(parentCourseId, JOINT_RELATION_TYPE);
+		joint.setCourseId(clu.getId());
+		joint.setType(JOINT_RELATION_TYPE);
+		joint.setSubjectArea(clu.getStudySubjectArea());
+		
+		}
+		catch(Exception e){
+			throw new AssemblyException("Unable to get cluClu Joint Relationship");
+		}
+		
+	}
 	
 	private CluInfoHierarchy buildCluInfoHiearchy(CreditCourseHelper course) throws AssemblyException {
 		CluInfoHierarchy result = null;
@@ -562,8 +616,8 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 		}
 		
 		buildFormatUpdates(result, course);
-		buildCrossListingsUpdates(result, course);
-		buildVersionsUpdates(result, course);
+//		buildCrossListingsUpdates(result, course);
+//		buildVersionsUpdates(result, course);
 		
 		return result;
 	}
