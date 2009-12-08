@@ -30,7 +30,8 @@ public class CreditCourseJointsHelper
 		COURSE_ID ("courseId"),
 		COURSE_TITLE ("courseTitle"),
 		SUBJECT_AREA ("subjectArea"),
-		COURSE_NUMBER_SUFFIX ("courseNumberSuffix");
+		COURSE_NUMBER_SUFFIX ("courseNumberSuffix"),
+		_RUNTIME_DATA ("_runtimeData");
 		
 		private final String key;
 		
@@ -124,6 +125,18 @@ public class CreditCourseJointsHelper
 	public String getCourseNumberSuffix ()
 	{
 		return (String) data.get (Properties.COURSE_NUMBER_SUFFIX.getKey ());
+	}
+	
+	
+	public void set_runtimeData (RuntimeDataHelper value)
+	{
+		data.set (Properties._RUNTIME_DATA.getKey (), (value == null) ? null : value.getData ());
+	}
+	
+	
+	public RuntimeDataHelper get_runtimeData ()
+	{
+		return RuntimeDataHelper.wrap ((Data) data.get (Properties._RUNTIME_DATA.getKey ()));
 	}
 	
 }

@@ -24,5 +24,6 @@ public interface CreditCourseJointsConstants
 	public static final String COURSE_TITLE = "courseTitle";
 	public static final String SUBJECT_AREA = "subjectArea";
 	public static final String COURSE_NUMBER_SUFFIX = "courseNumberSuffix";
+	public static final String _RUNTIME_DATA = "_runtimeData";
 }
 

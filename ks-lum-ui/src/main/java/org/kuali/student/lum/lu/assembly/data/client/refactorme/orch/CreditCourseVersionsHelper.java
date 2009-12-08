@@ -31,7 +31,8 @@ public class CreditCourseVersionsHelper
 		VERSION_TITLE ("versionTitle"),
 		SUBJECT_AREA ("subjectArea"),
 		COURSE_NUMBER_SUFFIX ("courseNumberSuffix"),
-		VERSION_CODE ("versionCode");
+		VERSION_CODE ("versionCode"),
+		_RUNTIME_DATA ("_runtimeData");
 		
 		private final String key;
 		
@@ -137,6 +138,18 @@ public class CreditCourseVersionsHelper
 	public String getVersionCode ()
 	{
 		return (String) data.get (Properties.VERSION_CODE.getKey ());
+	}
+	
+	
+	public void set_runtimeData (RuntimeDataHelper value)
+	{
+		data.set (Properties._RUNTIME_DATA.getKey (), (value == null) ? null : value.getData ());
+	}
+	
+	
+	public RuntimeDataHelper get_runtimeData ()
+	{
+		return RuntimeDataHelper.wrap ((Data) data.get (Properties._RUNTIME_DATA.getKey ()));
 	}
 	
 }

@@ -16,6 +16,7 @@
 package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 
 
+import org.kuali.student.common.assembly.client.ConstraintMetadata;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.ConstraintMetadataBank;
@@ -70,6 +71,8 @@ public class CreditCourseJointsMetadata
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			ConstraintMetadata consMeta = new ConstraintMetadata ();
+			childMeta.getConstraints ().add (consMeta);
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("related.cluid"));
@@ -104,6 +107,17 @@ public class CreditCourseJointsMetadata
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 		}
+		
+		// metadata for _runtimeData
+		childMeta = new Metadata ();
+		mainMeta.getProperties ().put (Properties._RUNTIME_DATA.getKey (), childMeta);
+		childMeta.setDataType (Data.DataType.DATA);
+		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+		}
+		new RuntimeDataMetadata ().loadChildMetadata (childMeta, type, state);
 		
 	}
 }

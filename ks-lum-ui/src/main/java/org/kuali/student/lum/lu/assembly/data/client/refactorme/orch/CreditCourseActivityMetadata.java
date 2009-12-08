@@ -16,6 +16,7 @@
 package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 
 
+import org.kuali.student.common.assembly.client.ConstraintMetadata;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.ConstraintMetadataBank;
@@ -67,6 +68,8 @@ public class CreditCourseActivityMetadata
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			ConstraintMetadata consMeta = new ConstraintMetadata ();
+			childMeta.getConstraints ().add (consMeta);
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("lu.activity.types"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -96,6 +99,8 @@ public class CreditCourseActivityMetadata
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 		}
 		new CreditCourseActivityDurationMetadata ().loadChildMetadata (childMeta, type, state);
 		
@@ -106,6 +111,7 @@ public class CreditCourseActivityMetadata
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("not.used"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));

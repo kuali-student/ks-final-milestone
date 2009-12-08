@@ -55,6 +55,8 @@ public class CreditCourseActivityContactHoursMetadata
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			ConstraintMetadata consMeta = new ConstraintMetadata ();
+			childMeta.getConstraints ().add (consMeta);
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("unit.types"));

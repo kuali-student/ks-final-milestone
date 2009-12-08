@@ -21,6 +21,8 @@ public interface CreditCourseFinalResultsConstants
 {
 	public static final String EVAL_TYPE = "evalType";
 	public static final String QUALITATIVE_EVAL = "qualitativeEval";
-	public static final String CREDIT = "credit";
+	public static final String CREDIT_TYPE = "creditType";
+	public static final String CREDIT_VALUE = "creditValue";
+	public static final String MAX_CREDITS = "maxCredits";
 }
 

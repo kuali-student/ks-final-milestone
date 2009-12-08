@@ -54,6 +54,10 @@ public class CreditCourseProposalInfoMetaInfoMetadata
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("date.time"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("default.now"));
 		}
 		
 		// metadata for UpdateTime
@@ -64,6 +68,10 @@ public class CreditCourseProposalInfoMetaInfoMetadata
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("date.time"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("calc.now"));
 		}
 		
 	}

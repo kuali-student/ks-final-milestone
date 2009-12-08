@@ -135,6 +135,17 @@ public class CreditCourseVersionsMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("code"));
 		}
 		
+		// metadata for _runtimeData
+		childMeta = new Metadata ();
+		mainMeta.getProperties ().put (Properties._RUNTIME_DATA.getKey (), childMeta);
+		childMeta.setDataType (Data.DataType.DATA);
+		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+		}
+		new RuntimeDataMetadata ().loadChildMetadata (childMeta, type, state);
+		
 	}
 }
 

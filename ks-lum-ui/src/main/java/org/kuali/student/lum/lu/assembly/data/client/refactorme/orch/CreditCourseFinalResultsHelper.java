@@ -28,7 +28,9 @@ public class CreditCourseFinalResultsHelper
 	{
 		EVAL_TYPE ("evalType"),
 		QUALITATIVE_EVAL ("qualitativeEval"),
-		CREDIT ("credit");
+		CREDIT_TYPE ("creditType"),
+		CREDIT_VALUE ("creditValue"),
+		MAX_CREDITS ("maxCredits");
 		
 		private final String key;
 		
@@ -89,15 +91,39 @@ public class CreditCourseFinalResultsHelper
 	}
 	
 	
-	public void setCredit (CreditInfoHelper value)
+	public void setCreditType (String value)
 	{
-		data.set (Properties.CREDIT.getKey (), (value == null) ? null : value.getData ());
+		data.set (Properties.CREDIT_TYPE.getKey (), value);
 	}
 	
 	
-	public CreditInfoHelper getCredit ()
+	public String getCreditType ()
 	{
-		return CreditInfoHelper.wrap ((Data) data.get (Properties.CREDIT.getKey ()));
+		return (String) data.get (Properties.CREDIT_TYPE.getKey ());
+	}
+	
+	
+	public void setCreditValue (String value)
+	{
+		data.set (Properties.CREDIT_VALUE.getKey (), value);
+	}
+	
+	
+	public String getCreditValue ()
+	{
+		return (String) data.get (Properties.CREDIT_VALUE.getKey ());
+	}
+	
+	
+	public void setMaxCredits (String value)
+	{
+		data.set (Properties.MAX_CREDITS.getKey (), value);
+	}
+	
+	
+	public String getMaxCredits ()
+	{
+		return (String) data.get (Properties.MAX_CREDITS.getKey ());
 	}
 	
 }

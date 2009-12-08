@@ -25,5 +25,6 @@ public interface CreditCourseVersionsConstants
 	public static final String SUBJECT_AREA = "subjectArea";
 	public static final String COURSE_NUMBER_SUFFIX = "courseNumberSuffix";
 	public static final String VERSION_CODE = "versionCode";
+	public static final String _RUNTIME_DATA = "_runtimeData";
 }
 

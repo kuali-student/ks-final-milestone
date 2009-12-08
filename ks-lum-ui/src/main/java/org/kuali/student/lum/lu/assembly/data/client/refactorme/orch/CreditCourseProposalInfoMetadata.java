@@ -16,6 +16,7 @@
 package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 
 
+import org.kuali.student.common.assembly.client.ConstraintMetadata;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.assembly.client.QueryPath;
@@ -69,6 +70,8 @@ public class CreditCourseProposalInfoMetadata
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
+			ConstraintMetadata consMeta = new ConstraintMetadata ();
+			childMeta.getConstraints ().add (consMeta);
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("related.personid"));
@@ -146,6 +149,9 @@ public class CreditCourseProposalInfoMetadata
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.meta.data"));
 		}
 		new MetaInfoMetadata ().loadChildMetadata (childMeta, type, state);
 		
