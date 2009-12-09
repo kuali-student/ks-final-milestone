@@ -25,13 +25,13 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public class OfferedJointlyList extends UpdatableMultiplicityComposite {
 	
 	{
         setAddItemLabel(Application.getApplicationContext().getUILabel(LUConstants.COURSE_GROUP_NAME, "course", "draft", LUConstants.ADD_EXISTING_LABEL_KEY));
+        setMinEmptyItems(1);
     }
 
     KSAdvancedSearchWindow courseSearchWindow;
@@ -107,10 +107,14 @@ public class OfferedJointlyList extends UpdatableMultiplicityComposite {
 		
 		@Override
 		public void setItemWidget(Widget itemWidget) {
-			super.setItemWidget(course);
+			throw new UnsupportedOperationException();
+		}
+		
+		@Override
+		public Widget getItemWidget() {
+			return this;
 		}
 
-		
 		@Override
 		protected void onLoad() {
 			redraw();
