@@ -40,6 +40,7 @@ public abstract class MultiplicityComposite extends Composite {
     protected VerticalFlowPanel itemsPanel = new VerticalFlowPanel();
     protected boolean loaded = false;
     protected int itemCount = 0;
+    protected int minEmptyItems = 0;
     protected List<MultiplicityItem> items = new ArrayList<MultiplicityItem>();
     protected List<MultiplicityItem> removed = new ArrayList<MultiplicityItem>();
     protected Set<Integer> itemKeys;
@@ -86,6 +87,10 @@ public abstract class MultiplicityComposite extends Composite {
             if (addWidget != null){
                 mainPanel.add(addWidget);
             }
+            
+            for (int i=0; i < minEmptyItems; i++){
+            	addItem();
+            }
             loaded = true;
         }
     }
@@ -109,7 +114,14 @@ public abstract class MultiplicityComposite extends Composite {
         for (MultiplicityItem item:items){
             item.redraw();
         }
-    }    
+    }
+    
+    /**
+     * This method will set the number of minimum empty rows to display on initial display of widget.   
+     */
+    public void setMinEmptyItems(int minCount){
+    	this.minEmptyItems = minCount;
+    }
 
     /**
      * Method used to get the item decorator for each multiplicity item 
