@@ -313,20 +313,18 @@ public class CourseConfigurer
         courseNumber.addSection(crossListed);
 
         // Offered jointly
-        // FIXME wilj: implement offered jointly in assembler 
         VerticalSection offeredJointly = new VerticalSection();
         offeredJointly.setSectionTitle(getH3Title(LUConstants.JOINT_OFFERINGS_ALT_LABEL_KEY));
         addField(offeredJointly, COURSE + "/joints", null, new OfferedJointlyList());
         offeredJointly.addStyleName("KS-LUM-Section-Divider");
         courseNumber.addSection(offeredJointly);
 
-        // FIXME wilj: version codes should be split out into a separate field on CreditCourse
         //Version Codes
-//        VerticalSection versionCodes = new VerticalSection();
-//        versionCodes.setSectionTitle(getH3Title(LUConstants.VERSION_CODES_LABEL_KEY));
-//        versionCodes.addField(new FieldDescriptor("course/alternateIdentifiers", null, Type.LIST, new VersionCodeList()));
-//        versionCodes.addStyleName("KS-LUM-Section-Divider");
-//        courseNumber.addSection(versionCodes);
+        VerticalSection versionCodes = new VerticalSection();
+        versionCodes.setSectionTitle(getH3Title(LUConstants.VERSION_CODES_LABEL_KEY));
+        addField(versionCodes, COURSE + "versions", null, new VersionCodeList());
+        versionCodes.addStyleName("KS-LUM-Section-Divider");
+        courseNumber.addSection(versionCodes);
 
         VerticalSection longTitle = initSection(getH3Title(LUConstants.TITLE_LABEL_KEY), WITH_DIVIDER);
         addField(longTitle, COURSE + "/" + COURSE_TITLE, null);
@@ -728,91 +726,25 @@ public class CourseConfigurer
             return ns;
         }
     }
+    
+    
+    
+    public class VersionCodeList extends UpdatableMultiplicityComposite {
+        {
+            setAddItemLabel(getLabel(LUConstants.ADD_VERSION_CODE_LABEL_KEY));
+            setItemLabel(getLabel(LUConstants.VERSION_CODE_LABEL_KEY));
+        }
 
-    //    
-//    public class LearningObjectiveList extends SimpleMultiplicityComposite {        
-//		{
-//            setAddItemLabel(getLabel(LUConstants.LEARNING_OBJECTIVE_ADD_LABEL_KEY));
-//        }
-//
-//		
-//		@Override
-//	    public void onLoad() {
-//	        super.onLoad();
-//	        if (!loaded) {
-//	            loaded = true;
-//
-//	            // TODO - what do we do when they delete an LO?
-//	            // (as far as updating the model). If they clear
-//	            // an LO textfield, I think we delete the item from
-//	            // the multiplicity, and delete the LO via the service
-//	            // if it exists
-//	            
-//				// populate with at least NUM_INITIAL_LOS items,
-//				// even if there aren't that many defined yet
-//				int startIdx = null == modelDTOList ? 0 : modelDTOList.get().size();
-//	            for (int i = startIdx; i < NUM_INITIAL_LOS; i++) {
-//	            	addItem();
-//	            }
-//	        }
-//	    }
-//
-//		@Override
-//		public void redraw() {
-//			super.redraw();
-//			// populate with at least NUM_INITIAL_LOS items,
-//			// even if there aren't that many defined yet
-//			int startIdx = null == modelDTOList ? 0 : modelDTOList.get().size();
-//            for (int i = startIdx; i < NUM_INITIAL_LOS; i++) {
-//            	addItem();
-//            }
-//		}
-//        
-//        @Override
-//        public Widget createItem() {
-//            MultiplicitySection multi = new MultiplicitySection(CluDictionaryClassNameHelper.LO_INFO_CLASS,
-//                                                                "kuali.lo.type.singleUse", "draft");
-//            CustomNestedSection ns = new CustomNestedSection();
-//            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-//            LOPicker picker = new LOPicker();
-//            picker.addValueChangeHandler(new ValueChangeHandler<String>() {
-//				@Override
-//				public void onValueChange(ValueChangeEvent<String> event) {
-//					// System.out.println("Value changed");
-//				}
-//			});
-//            // FIXME wilj: definitely wrong path for LO picker
-//            FieldDescriptor fd = new FieldDescriptor("desc", null/* getLabel(LUConstants.LEARNING_OBJECTIVE_LO_NAME_KEY)*/, Type.STRING, picker);
-//            ns.addField(fd);
-//            multi.addSection(ns);
-//            
-//            return multi;
-//        }
-//    }
-//
-    
-    
-//    
-//    public class VersionCodeList extends MultiplicityCompositeWithLabels {
-//        {
-//            setAddItemLabel(getLabel(LUConstants.ADD_VERSION_CODE_LABEL_KEY));
-//            setItemLabel(getLabel(LUConstants.VERSION_CODE_LABEL_KEY));
-//        }
-//
-//        @Override
-//        public Widget createItem() {
-//            MultiplicitySection multi = new MultiplicitySection(CluDictionaryClassNameHelper.CLU_IDENTIFIER_INFO_CLASS,
-//                                                                "kuali.lu.type.CreditCourse.identifier.version",
-//                                                                "active");
-//            CustomNestedSection ns = new CustomNestedSection();
-//            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-//            ns.addField(new FieldDescriptor("variation", getLabel(LUConstants.CODE_LABEL_KEY), Type.STRING));//TODO wrong key
-//            ns.addField(new FieldDescriptor("shortName", getLabel(LUConstants.TITLE_LITERAL_LABEL_KEY), Type.STRING));//TODO wrong key
-//            multi.addSection(ns);
-//            
-//            return multi;
-//        }
-//    }
+        @Override
+        public Widget createItem() {
+            CustomNestedSection ns = new CustomNestedSection();
+            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
+            addField(ns, "versionCode", getLabel(LUConstants.CODE_LABEL_KEY));
+            addField(ns, "shortName", getLabel(LUConstants.TITLE_LITERAL_LABEL_KEY));
+            
+            return ns;
+        }
+    }
 
     private KSSearchComponent configureAdminOrgSearch() {
     	   
