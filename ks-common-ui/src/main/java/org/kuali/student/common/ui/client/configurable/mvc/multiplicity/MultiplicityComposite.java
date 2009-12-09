@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -35,8 +36,8 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public abstract class MultiplicityComposite extends Composite {
 
-    protected FlowPanel mainPanel = new FlowPanel();
-    protected FlowPanel itemsPanel = new FlowPanel();
+    protected VerticalFlowPanel mainPanel = new VerticalFlowPanel();
+    protected VerticalFlowPanel itemsPanel = new VerticalFlowPanel();
     protected boolean loaded = false;
     protected int itemCount = 0;
     protected List<MultiplicityItem> items = new ArrayList<MultiplicityItem>();
@@ -59,11 +60,16 @@ public abstract class MultiplicityComposite extends Composite {
         
 
 	public MultiplicityItem addItem(){
-	    itemCount++;
+	    itemCount++;	    
 	    MultiplicityItem item = getItemDecorator();
-	    item.setItemKey(new Integer(itemCount));
-	    item.setItemWidget(createItem());
-	    item.setRemoveCallback(removeCallback);
+	    Widget itemWidget = createItem();
+	    if (item != null){
+		    item.setItemKey(new Integer(itemCount));
+		    item.setItemWidget(itemWidget);
+		    item.setRemoveCallback(removeCallback);
+	    } else if (itemWidget instanceof MultiplicityItem){
+	    	item = (MultiplicityItem)itemWidget;
+	    }
 	    items.add(item);
 	    item.redraw();
 	    itemsPanel.add(item);
@@ -103,8 +109,8 @@ public abstract class MultiplicityComposite extends Composite {
         for (MultiplicityItem item:items){
             item.redraw();
         }
-    }
-    
+    }    
+
     /**
      * Method used to get the item decorator for each multiplicity item 
      */

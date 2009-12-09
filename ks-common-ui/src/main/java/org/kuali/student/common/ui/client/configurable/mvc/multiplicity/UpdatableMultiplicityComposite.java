@@ -51,7 +51,7 @@ public abstract class UpdatableMultiplicityComposite extends MultiplicityComposi
      */
     public Widget generateAddWidget() {
         Label addWidget =  new Label(addItemLabel);
-        addWidget.addStyleName("KS-Multiplicity-Labels");
+        addWidget.addStyleName("KS-Multiplicity-Link-Label");
         addWidget.addClickHandler(new ClickHandler(){
             public void onClick(ClickEvent event) {
                 addItem();
