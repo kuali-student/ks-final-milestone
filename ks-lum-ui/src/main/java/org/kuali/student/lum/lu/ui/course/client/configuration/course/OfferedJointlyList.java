@@ -41,7 +41,6 @@ public class OfferedJointlyList extends UpdatableMultiplicityComposite {
 
 	@Override
 	public MultiplicityItem getItemDecorator() {
-    	//No need to decorate the item as MultiplicityItem, the item itself will be an instance of MultiplicityItem
 		return null;
 	}
 
@@ -155,7 +154,7 @@ public class OfferedJointlyList extends UpdatableMultiplicityComposite {
 				DataModel model, String path) {
 			if (loaded){
 				String fieldPath = path + QueryPath.getPathSeparator() + "CourseId";
-				model.set(QueryPath.parse(fieldPath), course.getText());					
+				model.set(QueryPath.parse(fieldPath), courseId);					
 			}				
 		}
 
