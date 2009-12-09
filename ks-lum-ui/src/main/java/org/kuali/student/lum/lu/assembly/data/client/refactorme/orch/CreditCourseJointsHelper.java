@@ -28,6 +28,7 @@ public class CreditCourseJointsHelper
 	{
 		TYPE ("type"),
 		COURSE_ID ("courseId"),
+		RELATION_ID ("relationId"),
 		COURSE_TITLE ("courseTitle"),
 		SUBJECT_AREA ("subjectArea"),
 		COURSE_NUMBER_SUFFIX ("courseNumberSuffix"),
@@ -89,6 +90,18 @@ public class CreditCourseJointsHelper
 	public String getCourseId ()
 	{
 		return (String) data.get (Properties.COURSE_ID.getKey ());
+	}
+	
+	
+	public void setRelationId (String value)
+	{
+		data.set (Properties.RELATION_ID.getKey (), value);
+	}
+	
+	
+	public String getRelationId ()
+	{
+		return (String) data.get (Properties.RELATION_ID.getKey ());
 	}
 	
 	

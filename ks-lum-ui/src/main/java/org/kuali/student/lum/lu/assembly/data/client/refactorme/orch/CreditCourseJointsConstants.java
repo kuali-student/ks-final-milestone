@@ -21,6 +21,7 @@ public interface CreditCourseJointsConstants
 {
 	public static final String TYPE = "type";
 	public static final String COURSE_ID = "courseId";
+	public static final String RELATION_ID = "relationId";
 	public static final String COURSE_TITLE = "courseTitle";
 	public static final String SUBJECT_AREA = "subjectArea";
 	public static final String COURSE_NUMBER_SUFFIX = "courseNumberSuffix";

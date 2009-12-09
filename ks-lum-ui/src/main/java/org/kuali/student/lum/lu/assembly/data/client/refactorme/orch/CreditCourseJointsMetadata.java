@@ -63,7 +63,7 @@ public class CreditCourseJointsMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("lu.lu.relation.types"));
 		}
 		
-		// metadata for courseId
+		// metadata for CourseId
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.COURSE_ID.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
@@ -76,6 +76,20 @@ public class CreditCourseJointsMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("related.cluid"));
+		}
+		
+		// metadata for RelationId
+		childMeta = new Metadata ();
+		mainMeta.getProperties ().put (Properties.RELATION_ID.getKey (), childMeta);
+		childMeta.setDataType (Data.DataType.STRING);
+		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("hidden"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("read.only"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.id"));
 		}
 		
 		// metadata for CourseTitle
