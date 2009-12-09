@@ -88,10 +88,13 @@ public abstract class MultiplicityComposite extends Composite {
                 mainPanel.add(addWidget);
             }
             
+            loaded = true;
+        }
+        
+        if (!loaded || itemCount == 0){
             for (int i=0; i < minEmptyItems; i++){
             	addItem();
-            }
-            loaded = true;
+            }        	
         }
     }
 

@@ -8,6 +8,7 @@
 	text-align: left;
 	width: 90%;
 	margin: 10px;
+	border: 1px solid black;
 }
 
 .KS-Multiplicity-Item-Header{
@@ -17,7 +18,7 @@
 	width: 100%;
 }
 
-.KS-Multiplicity-Labels {
+.KS-Multiplicity-Link-Label {
 	color: blue;
 	font-size: 11px;
 	cursor: pointer;

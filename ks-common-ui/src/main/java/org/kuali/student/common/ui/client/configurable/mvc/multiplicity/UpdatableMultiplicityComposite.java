@@ -40,7 +40,7 @@ public abstract class UpdatableMultiplicityComposite extends MultiplicityComposi
      */
     @Override
     public MultiplicityItem getItemDecorator() {
-        RemovableItem item = new RemovableItem();
+        RemovableItemWithHeader item = new RemovableItemWithHeader();
         item.setItemLabel(itemLabel);            
 
         return item;
