@@ -217,7 +217,7 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 			addVersinos(result, format);
 		}
 		
-		//Retrieve related clus of type Joints and add the list to the map.
+		//Retrieve related clus of type kuali.lu.relation.type.co-located and add the list to the map.
 		List<CluInfo> clus = luService.getClusByRelation(cluId, JOINT_RELATION_TYPE);
 		if (clus != null) {
 			for (CluInfo clu : clus) {
@@ -487,17 +487,28 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 
 	private void saveJoints(String parentCourseId,CreditCourseHelper course ) throws AssemblyException{
 		try {
+			if (course.getJoints() == null) {
+				return;
+			}
 			// CreditCourseJointsHelper joints =
 			// CreditCourseJointsHelper.wrap(course.getJoints());
 			for (Property p : course.getJoints()) {
 				CreditCourseJointsHelper joint = CreditCourseJointsHelper
 						.wrap((Data) p.getValue());
-				CluCluRelationInfo rel = new CluCluRelationInfo();
-				rel.setCluId(parentCourseId);
-				rel.setRelatedCluId(joint.getCourseId());
-				rel.setType(joint.getType());
-				luService.createCluCluRelation(parentCourseId, joint
-						.getCourseId(), joint.getCourseId(), rel);
+				if (isCreated(joint.getData())) {
+					CluCluRelationInfo rel = new CluCluRelationInfo();
+					rel.setCluId(parentCourseId);
+					rel.setRelatedCluId(joint.getCourseId());
+//					rel.setType(joint.getType());
+//					Remove hardcoded Type
+					rel.setType(JOINT_RELATION_TYPE);
+					
+					luService.createCluCluRelation(parentCourseId, joint
+							.getCourseId(), JOINT_RELATION_TYPE, rel);
+				}
+				else if(isDeleted(joint.getData())){
+					
+				}
 			}
 		} catch (Exception e) {
 			throw new AssemblyException("Unable to save cluClu Joint Relationship", e);
