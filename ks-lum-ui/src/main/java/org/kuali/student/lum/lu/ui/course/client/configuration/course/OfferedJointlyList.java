@@ -153,7 +153,7 @@ public class OfferedJointlyList extends UpdatableMultiplicityComposite {
 		public void setModelValue(OfferedJointlyItem widget,
 				DataModel model, String path) {
 			if (loaded){
-				String fieldPath = path + QueryPath.getPathSeparator() + getItemKey()+ QueryPath.getPathSeparator()+"CourseId";
+				String fieldPath = path + QueryPath.getPathSeparator() + getItemKey()+ QueryPath.getPathSeparator()+"courseId";
 				model.set(QueryPath.parse(fieldPath), courseId);					
 			}				
 		}
