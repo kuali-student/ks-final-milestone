@@ -15,15 +15,14 @@ INSERT INTO KS_LO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-21', '<p>
 INSERT INTO KS_LO_RICH_TEXT_T (ID, FORMATTED, PLAIN) VALUES ('RICHTEXT-22', '<p>Learning objectives mandated by the state</p>', 'Learning objectives mandated by the state')
 
 // LoType
-INSERT INTO KSLU_LO_TYPE (ID, NAME, DESCR, EFF_DT, EXPIR_DT) VALUES ('kuali.lo.type.external', 'Externally-created','LO created by external organization, e.g., state or accrediting organization', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'})
-INSERT INTO KSLU_LO_TYPE (ID, NAME, DESCR, EFF_DT, EXPIR_DT) VALUES ('kuali.lo.type.formal', 'Formal','LO created as part of an established, "official" curriculum or program, typically requires separate approval process to add to hierarchy', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'})
-INSERT INTO KSLU_LO_TYPE (ID, NAME, DESCR, EFF_DT, EXPIR_DT) VALUES ('kuali.lo.type.singleUse', 'singleUse','LO created in support of programs or courses, e.g., faculty-inspired additional LO for a course', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'})
+INSERT INTO KSLU_LO_TYPE (ID, NAME, DESCR, EFF_DT, EXPIR_DT) VALUES ('kuali.lo.type.governed', 'Governed','LO governed by an organization external to department, e.g., the college at large, or a state or accrediting organization', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'})
+INSERT INTO KSLU_LO_TYPE (ID, NAME, DESCR, EFF_DT, EXPIR_DT) VALUES ('kuali.lo.type.singleUse', 'Single use','LO created in support of programs or courses, e.g., faculty-inspired additional LO for a course', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'})
 
 // LoRepository
 INSERT INTO KSLU_LO_REPOSITORY (ID, NAME, RT_DESCR_ID, EFF_DT, EXPIR_DT, VERSIONIND) VALUES ('kuali.loRepository.key.singleUse', 'singleUse', 'RICHTEXT-10', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'},1)
-// no LOs, one LoCategory
+// no LO's, one LoCategory
 INSERT INTO KSLU_LO_REPOSITORY (ID, NAME, RT_DESCR_ID, EFF_DT, EXPIR_DT, VERSIONIND) VALUES ('kuali.loRepository.key.institution', 'Institution', 'RICHTEXT-18', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'},1)
-// no LOs, no LoCategorys
+// no LO's, no LoCategory's
 INSERT INTO KSLU_LO_REPOSITORY (ID, NAME, RT_DESCR_ID, EFF_DT, EXPIR_DT, VERSIONIND) VALUES ('kuali.loRepository.key.state', 'State', 'RICHTEXT-22', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'},1)
 
 // Lo-Lo Relation Type

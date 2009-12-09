@@ -223,13 +223,13 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
     public void testGetLoTypesAndGetLoTypes() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException {
         List<LoTypeInfo> loTypes = client.getLoTypes();
         assertNotNull(loTypes);
-        assertTrue(!loTypes.isEmpty()); //this gets populated elsewhere
+        assertTrue(!loTypes.isEmpty());
         
         LoTypeInfo loType = client.getLoType(loTypes.get(0).getId());
         assertEquals(loTypes.get(0).getName(), loType.getName());
         
-        loType = client.getLoType("kuali.lo.type.formal");
-        assertEquals("Formal", loType.getName());
+        loType = client.getLoType("kuali.lo.type.governed");
+        assertEquals("Governed", loType.getName());
         
         // Detecting expected errors
         try {
