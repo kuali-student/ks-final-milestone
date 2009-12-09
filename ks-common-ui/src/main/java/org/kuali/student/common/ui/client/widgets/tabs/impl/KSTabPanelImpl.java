@@ -6,8 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.widgets.ClickablePanel;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
+import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanelAbstract;
 import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel.TabPosition;
 
@@ -19,21 +22,20 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FocusPanel;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class KSTabPanelImpl extends KSTabPanelAbstract{
 	
-	private VerticalPanel container = new VerticalPanel();
-	private HorizontalPanel tabRow = new HorizontalPanel();
-	private HorizontalPanel left = new HorizontalPanel();
-	private HorizontalPanel right = new HorizontalPanel();
+	private VerticalFlowPanel container = new VerticalFlowPanel();
+	private FlowPanel tabRow = new FlowPanel();
+	//private HorizontalPanel left = new HorizontalPanel();
+	//private HorizontalPanel right = new HorizontalPanel();
+	private KSListPanel left = new KSListPanel();
+	private KSListPanel right = new KSListPanel();
 	private SimplePanel content = new SimplePanel();
 	private Tab selectedTab;
 	private Map<String, Tab> tabMap = new HashMap<String, Tab>();
@@ -85,7 +87,7 @@ public class KSTabPanelImpl extends KSTabPanelAbstract{
 	protected class Tab extends Composite{
 		private boolean selected = false;
 		private Widget tab;
-		private FocusPanel tabPanel = new FocusPanel();
+		private ClickablePanel tabPanel = new ClickablePanel();
 		private Widget displayContent;
 		private int labelIndex = -1;
 		private String tabKey = "";
@@ -258,9 +260,9 @@ public class KSTabPanelImpl extends KSTabPanelAbstract{
 	}
 	
 	public KSTabPanelImpl(){
-		left.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
-		right.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-		tabRow.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
+		//left.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
+		//right.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+		//tabRow.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
 		tabRow.add(left);
 		tabRow.add(right);
 		tabRow.addStyleName("KS-TabPanel-TabRow");

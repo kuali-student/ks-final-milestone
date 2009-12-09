@@ -30,6 +30,7 @@ public class KSLabel extends Label{
      */
     public KSLabel(){
         super();
+        setupDefaultStyle();
     }
     
     /**
@@ -39,6 +40,7 @@ public class KSLabel extends Label{
      */
     public KSLabel(String text){
         super(text);
+        setupDefaultStyle();
     }
     
     /**
@@ -50,6 +52,7 @@ public class KSLabel extends Label{
      */
     public KSLabel(String text, boolean wordWrap){
         super(text, wordWrap);
+        setupDefaultStyle();
     }
     
     /**

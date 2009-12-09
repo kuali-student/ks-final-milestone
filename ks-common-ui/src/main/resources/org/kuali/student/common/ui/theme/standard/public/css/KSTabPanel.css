@@ -4,6 +4,8 @@
 
 .KS-TabPanel-TabRow{
 	width: 100%;
+	overflow:hidden;
+   	position:relative;
 }
 
 .KS-TabPanel-Tab{
@@ -21,9 +23,17 @@
 	white-space: nowrap;
 }
 
+.KS-TabPanel-Tab .KS-Label{
+	color: white;
+	
+}
+
+.KS-TabPanel-Tab-Selected .KS-Label{
+	color: black;
+}
+
 .KS-TabPanel-Tab-Selected{
 	background-color: white;
-	color: black;
 }
 
 .KS-TabPanel-Tab-Label-Hover{
@@ -51,26 +61,79 @@
 	margin-left: 20px;
 }
 
-.KS-TabPanel-Right-Panel{
-	float: right;
-	margin-right: 15px;
+.KS-TabPanel-Left-Panel ul {
+	clear:left;
+   	float:left;
+ 	list-style:none;
+   	margin:0;
+   	padding:0;
+   	position:relative;
+   	list-style:none;
+   	
 }
 
+.KS-TabPanel-Left-Panel ul li{
+	display: block;
+	float: left;
+	list-style:none;
+	margin:0;
+   	padding:0;
 
+   	line-height:1.3em;
+   	
+}
 
 .KS-TabPanel-Tab-Left{
+	font-size: 1em;
 	padding-left: 20px;
 	padding-right: 20px;
 	padding-top: 8px;
 	margin-right: 2px;
 }
 
+.KS-TabPanel-Right-Panel{
+	margin-right: 15px;
+	position: absolute;
+	bottom: -1px;
+	right: 0;
+}
+
+.KS-TabPanel-Right-Panel ul{
+	clear:right;
+	position:absolute; 
+	bottom:0;
+   	/*float:right;*/
+   	vertical-align: bottom;
+ 	list-style:none;
+   	margin:0;
+   	padding:0;
+   	position:relative;
+   	list-style:none;
+}
+
+.KS-TabPanel-Right-Panel ul li{
+	display: block;
+	float:right;
+	list-style:none;
+	margin:0;
+   	padding:0;
+   	position:relative;
+}
+
 .KS-TabPanel-Tab-Right{
-	font-size: 14px;
+	/*font-size: 14px;
 	padding-left: 15px;
 	padding-right: 15px;
 	padding-top: 5px;
 	margin-left: 2px;
+	line-height:1.3em;*/
+	
+	font-size: .8em;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-top: 5px;
+	margin-left: 2px;
+
 }
 
 
