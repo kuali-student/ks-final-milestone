@@ -54,6 +54,8 @@ import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityContactHoursConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityDurationConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseDurationConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseFormatConstants;
@@ -80,6 +82,10 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * This is the configuration factory class for creating a proposal.
  *
+ * TODO: The following is a list of items that need to be fixed.
+ * 	1) All hardcoded drop downs need to be replaced with one populated via an enumeration lookup
+ *  2) Any pickers (eg. org, course, needs to be replaced wtih proper lookup based search pickers
+ *  
  * @author Kuali Student Team
  *
  */
@@ -287,7 +293,7 @@ public class CourseConfigurer
         courseNumber.addStyleName(LUConstants.STYLE_SECTION_DIVIDER);
         courseNumber.setSectionTitle(getH3Title(LUConstants.IDENTIFIER_LABEL_KEY)); 
         courseNumber.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-        addField(courseNumber, COURSE + "/" + SUBJECT_AREA, null); //TODO OrgSearch goes here?
+        addField(courseNumber, COURSE + "/" + SUBJECT_AREA, null);
         addField(courseNumber, COURSE + "/" + COURSE_NUMBER_SUFFIX, null);
         
         // TODO - hide cross-listed, offered jointly and version codes initially, with
@@ -418,8 +424,6 @@ public class CourseConfigurer
 
         public Widget createItem() {
         	VerticalSection item = new VerticalSection();
-            // TODO: NORM: find out why this was not prefixed with "course/formats/" so it is "course/formats/activities
-            // item.addField(new FieldDescriptor("activities", null, Type.LIST, new CourseActivityList()));
             addField(item, ACTIVITIES, null, new CourseActivityList(QueryPath.concat(parentPath, QueryPath.getWildCard(), ACTIVITIES).toString()), parentPath);
             return item;
         }
@@ -450,18 +454,16 @@ public class CourseConfigurer
 
             activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
             // FIXME need to get the term offered added to the activity metadata?
-//            activity.addField(new FieldDescriptor("term", getLabel(LUConstants.TERM_LITERAL_LABEL_KEY), Type.STRING, new AtpTypeList()));
-            // FIXME last I checked, the activity had an intensity but not a duration, need to recheck.  either add it to the assembler, or remove it from here  
-//            activity.addField(new FieldDescriptor("stdDuration/timeQuantity", getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY), Type.INTEGER)); //TODO dropdown need here?
+//            activity.addField(new FieldDescriptor("term", getLabel(LUConstants.TERM_LITERAL_LABEL_KEY), Type.STRING, new AtpTypeList())); 
+            addField(activity, CreditCourseActivityConstants.DURATION + "/" + CreditCourseActivityDurationConstants.TIME_UNIT, getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY));
+            addField(activity, CreditCourseActivityConstants.DURATION + "/" + CreditCourseActivityDurationConstants.QUANTITY, "Duration Type", new DurationAtpTypeList());
 
-            // FIXME contact hours needs to be reworked
-//            activity.nextRow();
-//            activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-//            activity.addField(new FieldDescriptor("contactHours/hrs", getLabel(LUConstants.CONTACT_HOURS_LABEL_KEY), Type.INTEGER));
-//            // FIXME look up what the label and implement as dropdown
-//            activity.addField(new FieldDescriptor("contactHours/per", getLabel(label goes here), Type.STRING));
-//            // FIXME add defaultEnrollmentEstimate to assembler
-//            activity.addField(new FieldDescriptor("defaultEnrollmentEstimate", getLabel(LUConstants.CLASS_SIZE_LABEL_KEY), Type.INTEGER));
+            activity.nextRow();
+            activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
+            addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.HRS, "Contact Hours");
+            // FIXME look up what the label and implement as dropdown
+            addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.PER, null,  new ContactHoursAtpTypeList());
+            addField(activity, DEFAULT_ENROLLMENT_ESTIMATE, getLabel(LUConstants.CLASS_SIZE_LABEL_KEY));
 
             return activity;
         }
@@ -633,7 +635,32 @@ public class CourseConfigurer
         }
     }
 
-    //FIXME: Create a configurable drop down list which can obtain values via RPC calls
+    public class DurationAtpTypeList extends KSDropDown{
+        public DurationAtpTypeList(){
+            SimpleListItems activityTypes = new SimpleListItems();
+
+            activityTypes.addItem("atpType.duration.week", "Week");
+            activityTypes.addItem("atpType.duration.month", "Month");
+            activityTypes.addItem("atpType.semester.day", "Day");
+
+            super.setListItems(activityTypes);
+        }
+
+    }
+
+    public class ContactHoursAtpTypeList extends KSDropDown{
+        public ContactHoursAtpTypeList(){
+            SimpleListItems activityTypes = new SimpleListItems();
+
+            activityTypes.addItem("atpType.duration.weekly", "per week");
+            activityTypes.addItem("atpType.duration.monthly", "per month");
+            activityTypes.addItem("atpType.semester.daily", "per day");
+
+            super.setListItems(activityTypes);
+        }
+
+    }
+
     public class CluActivityType extends KSDropDown{
         public CluActivityType(){
             SimpleListItems activityTypes = new SimpleListItems();
@@ -651,7 +678,6 @@ public class CourseConfigurer
         }
     }
 
-    //FIXME: Is this what should be part of the term field
     public class AtpTypeList extends KSDropDown{
         public AtpTypeList(){
             SimpleListItems activityTypes = new SimpleListItems();
@@ -664,13 +690,11 @@ public class CourseConfigurer
             super.setListItems(activityTypes);
         }
 
-        //FIXME: This is a hack, since field is a list, but wireframe allows only single select
         public boolean isMultipleSelect(){
             return false;
         }
     }
 
-    //FIXME: This needs to be a proper person picker (or some other widget person entry widget)
     public class PersonList extends KSDropDown{
         public PersonList(){
             SimpleListItems people = new SimpleListItems();
@@ -682,7 +706,6 @@ public class CourseConfigurer
             this.selectItem(userId);
         }
 
-        //FIXME: This is a hack, since field is a list, but wireframe allows only single select
         public boolean isMultipleSelect(){
             return true;
         }
