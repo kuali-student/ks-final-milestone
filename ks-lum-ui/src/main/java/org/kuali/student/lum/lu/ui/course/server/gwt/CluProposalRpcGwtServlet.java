@@ -1685,13 +1685,30 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 //        return model;
 //    }
     
+    //private Assembler<Data, Void> creditCourseProposalAssembler;
     private CreditCourseProposalAssembler creditCourseProposalAssembler;
+    
     private synchronized void initAssemblers() {
     	if (creditCourseProposalAssembler == null) {
+//    		CreditCourseProposalAssembler targetAssembler = new CreditCourseProposalAssembler("draft");
+//    		targetAssembler.setLuService(service);
+//    		targetAssembler.setProposalService(proposalService);   
+//    		
+//    		
+//    		CreditCourseProposalWorkflowAssemblerFilter workflowAssemblerFilter = new CreditCourseProposalWorkflowAssemblerFilter();
+//    		workflowAssemblerFilter.setSimpleDocService(simpleDocService);
+//    		workflowAssemblerFilter.setWorkflowUtilityService(workflowUtilityService);
+//    		
+//    		AssemblerFilterManager<Data, Void> filterManager = new AssemblerFilterManager<Data, Void>(targetAssembler);
+//    		filterManager.addFilter(workflowAssemblerFilter);
+//    		
+//    		creditCourseProposalAssembler = filterManager;
+    		
     		// TODO change how the state is set/passed in to the proposal assembler, if at all
     		creditCourseProposalAssembler = new CreditCourseProposalAssembler("draft");
     		creditCourseProposalAssembler.setLuService(service);
     		creditCourseProposalAssembler.setProposalService(proposalService);
+    		
     	}
     }
 	@Override
