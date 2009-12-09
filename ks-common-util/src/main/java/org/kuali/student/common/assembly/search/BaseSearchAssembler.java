@@ -1,4 +1,4 @@
-package org.kuali.student.common.assembly.client.search;
+package org.kuali.student.common.assembly.search;
 
 import java.util.List;
 import java.util.Map;
