@@ -305,12 +305,12 @@ public class CourseConfigurer
         // clickable label to disclose them
         
         // Cross-listed
-//        VerticalSection crossListed = new VerticalSection();
-//        crossListed.setSectionTitle(getH3Title(LUConstants.CROSS_LISTED_ALT_LABEL_KEY));
-//        // crossListed.setInstructions("Enter Department and/or Subject Code/Course Number.");
-//        crossListed.addField(new FieldDescriptor("course/alternateIdentifiers", null, Type.LIST, new CrossListedList()));
-//        crossListed.addStyleName("KS-LUM-Section-Divider");
-//        courseNumber.addSection(crossListed);
+        VerticalSection crossListed = new VerticalSection();
+        crossListed.setSectionTitle(getH3Title(LUConstants.CROSS_LISTED_ALT_LABEL_KEY));
+        // crossListed.setInstructions("Enter Department and/or Subject Code/Course Number.");
+        addField(crossListed, COURSE + "crosslistings", null, new CrossListedList());
+        crossListed.addStyleName("KS-LUM-Section-Divider");
+        courseNumber.addSection(crossListed);
 
         // Offered jointly
         // FIXME wilj: implement offered jointly in assembler 
@@ -709,32 +709,27 @@ public class CourseConfigurer
         }
     }
 
-    // FIXME uncomment and fix CrossListedList, LearningObjectiveList, OfferedJointlyList, and VersionCodeList
-//    public class CrossListedList extends MultiplicityCompositeWithLabels {        
-//        {
-//            setAddItemLabel(getLabel(LUConstants.ADD_CROSS_LISTED_LABEL_KEY));
-//            setItemLabel(getLabel(LUConstants.CROSS_LISTED_ITEM_LABEL_KEY));
-//        }
-//        
-//        @Override
-//        public Widget createItem() {
-//            MultiplicitySection multi = new MultiplicitySection(CluDictionaryClassNameHelper.CLU_IDENTIFIER_INFO_CLASS,
-//                                                                "kuali.lu.type.CreditCourse.identifier.cross-listed",
-//                                                                "active");
-//            CustomNestedSection ns = new CustomNestedSection();
-//            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-//            ns.addField(new FieldDescriptor("orgId", getLabel(LUConstants.DEPT_LABEL_KEY), Type.STRING, new OrgPicker()));
-//            ns.nextRow();
-//            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-//            ns.addField(new FieldDescriptor("code", getLabel(LUConstants.SUBJECT_CODE_LABEL_KEY), Type.STRING));//TODO OrgSearch goes here?
-//            ns.addField(new FieldDescriptor("suffixCode", getLabel(LUConstants.COURSE_NUMBER_LABEL_KEY), Type.STRING));
-//            
-//            multi.addSection(ns);
-//            
-//            return multi;
-//        }
-//    }
-//    
+    public class CrossListedList extends UpdatableMultiplicityComposite {        
+        {
+            setAddItemLabel(getLabel(LUConstants.ADD_CROSS_LISTED_LABEL_KEY));
+            setItemLabel(getLabel(LUConstants.CROSS_LISTED_ITEM_LABEL_KEY));
+        }
+        
+        @Override
+        public Widget createItem() {
+            CustomNestedSection ns = new CustomNestedSection();
+            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
+            addField(ns, "Department", getLabel(LUConstants.DEPT_LABEL_KEY), new OrgPicker());
+            ns.nextRow();
+            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
+            addField(ns,"SubjectArea", getLabel(LUConstants.SUBJECT_CODE_LABEL_KEY));
+            addField(ns,"CourseNumberSuffix", getLabel(LUConstants.COURSE_NUMBER_LABEL_KEY));
+                        
+            return ns;
+        }
+    }
+
+    //    
 //    public class LearningObjectiveList extends SimpleMultiplicityComposite {        
 //		{
 //            setAddItemLabel(getLabel(LUConstants.LEARNING_OBJECTIVE_ADD_LABEL_KEY));
