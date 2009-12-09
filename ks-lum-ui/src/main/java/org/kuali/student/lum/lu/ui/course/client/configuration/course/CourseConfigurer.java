@@ -40,12 +40,14 @@ import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
 import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
+import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.selectors.KSSearchComponent;
 import org.kuali.student.common.ui.client.widgets.selectors.SearchComponentConfiguration;
+import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
@@ -60,22 +62,29 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCours
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoConstants;
+import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRequisitesSectionView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LuConfigurer.LuSections;
 import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
+import org.kuali.student.lum.lu.ui.course.client.service.LuRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.widgets.AssemblerTestSection;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
-import org.kuali.student.lum.lu.ui.course.client.widgets.LOPicker;
 import org.kuali.student.lum.lu.ui.course.client.widgets.OrgPicker;
-import org.kuali.student.lum.ui.requirements.client.view.SearchDialog;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -787,80 +796,6 @@ public class CourseConfigurer
 //    }
 //
     
-    public class OfferedJointlyList extends UpdatableMultiplicityComposite {
-            	
-    	{
-            setAddItemLabel(getLabel(LUConstants.ADD_EXISTING_LABEL_KEY));
-        }
-
-        @Override
-		public MultiplicityItem getItemDecorator() {
-        	//No need to decorate the item as MultiplicityItem, the item itself will be an instance of MultiplicityItem
-			return null;
-		}
-
-		@Override
-        public Widget createItem() {
-            return new OfferedJointlyItem();
-        }
-		
-		public class OfferedJointlyItem extends MultiplicityItem implements ModelWidgetBinding<OfferedJointlyItem> {
-			KSTextBox course;
-			private boolean loaded = false;
-						
-			String courseTitle;
-			String courseNumber;
-			
-			public OfferedJointlyItem(){
-			}
-			
-			@Override
-			public void setItemWidget(Widget itemWidget) {
-				super.setItemWidget(course);
-			}
-
-			
-			@Override
-			protected void onLoad() {
-				redraw();
-			}
-
-
-			@Override
-			public void clear() {
-				if (loaded){
-					course.setText("");
-				}
-			}
-
-			@Override
-			public void redraw() {
-				if (!loaded){					
-					course = new KSTextBox();
-					initWidget(course);
-					loaded=true;
-				}
-			}
-
-			@Override
-			public void setModelValue(OfferedJointlyItem widget,
-					DataModel model, String path) {
-				if (loaded){
-					String fieldPath = path + QueryPath.getPathSeparator() + "id";
-					model.set(QueryPath.parse(fieldPath), course.getText());
-				}				
-			}
-
-			@Override
-			public void setWidgetValue(OfferedJointlyItem widget,
-					DataModel model, String path) {
-				if (loaded){
-					String fieldPath = path + QueryPath.getPathSeparator() + "id";
-					course.setText((String)model.get(fieldPath));
-				}								
-			}  			
-		}
-    }
     
 //    
 //    public class VersionCodeList extends MultiplicityCompositeWithLabels {

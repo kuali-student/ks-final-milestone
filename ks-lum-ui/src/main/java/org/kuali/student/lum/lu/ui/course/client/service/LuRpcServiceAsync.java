@@ -29,4 +29,5 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public interface LuRpcServiceAsync extends BaseRpcServiceAsync{
     public void createClu(String luTypeKey, CluInfo cluInfo, AsyncCallback<CluInfo> callback);
     public void updateClu(String cluId, CluInfo cluInfo, AsyncCallback<CluInfo> callback);
+    public void getClu(String cluId, AsyncCallback<CluInfo> callback);
 }

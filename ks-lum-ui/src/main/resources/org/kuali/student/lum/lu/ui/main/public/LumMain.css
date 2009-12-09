@@ -23,6 +23,10 @@
 	border-top: 1px solid orange;
 }
 
+.KS-LUM-Bottom-Divider {
+	border-bottom: 1px solid gray;
+}
+
 .KS-FormLayout-Label {
 	width: 90px;
 	text-align: left;

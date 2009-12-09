@@ -84,7 +84,8 @@ public class LUConstants {
     //Styles
     public static final String STYLE_SECTION = "KS-LUM-Section";
     public static final String STYLE_SECTION_DIVIDER = "KS-LUM-Section-Divider";
-
+    public static final String STYLE_BOTTOM_DIVIDER = "KS-LUM-Bottom-Divider";
+    
     // Dictionary definitions
     public static final String STRUCTURE_CLU_INFO = "org.kuali.student.lum.lu.dto.CluInfo";
     public static final String STRUCTURE_CLU_ID_INFO = "org.kuali.student.lum.lu.dto.CluIdentifierInfo";

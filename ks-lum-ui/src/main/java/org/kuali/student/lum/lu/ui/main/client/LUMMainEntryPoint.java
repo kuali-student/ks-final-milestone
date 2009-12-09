@@ -53,7 +53,7 @@ public class LUMMainEntryPoint implements EntryPoint{
         try {
             loadMessages(context);            
             
-            loadDictionary();          
+            //loadDictionary();          
             
             loadApp(context);
         } catch (Exception e) {

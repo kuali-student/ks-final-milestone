@@ -88,4 +88,22 @@ public class LuRpcGwtServlet extends BaseRpcGwtServletAbstract<LuService> implem
         return null;
     }
 
+	@Override
+	public CluInfo getClu(String cluId) {		
+		try {
+			return service.getClu(cluId);
+		} catch (DoesNotExistException e) {
+			e.printStackTrace();
+		} catch (InvalidParameterException e) {
+			e.printStackTrace();
+		} catch (MissingParameterException e) {
+			e.printStackTrace();
+		} catch (OperationFailedException e) {
+			e.printStackTrace();
+		}		
+
+		return null;
+	}
+
+    
 }
