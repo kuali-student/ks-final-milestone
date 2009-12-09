@@ -31,23 +31,21 @@ import org.kuali.student.common.ui.client.configurable.mvc.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.Section.FieldLabelType;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.RemovableItem;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.UpdatableMultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
 import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
-import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.selectors.KSSearchComponent;
 import org.kuali.student.common.ui.client.widgets.selectors.SearchComponentConfiguration;
-import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
@@ -62,29 +60,20 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCours
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoConstants;
-import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRequisitesSectionView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LuConfigurer.LuSections;
 import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer;
-import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
-import org.kuali.student.lum.lu.ui.course.client.service.LuRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.widgets.AssemblerTestSection;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
 import org.kuali.student.lum.lu.ui.course.client.widgets.OrgPicker;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -714,6 +703,11 @@ public class CourseConfigurer
         }
         
         @Override
+        public MultiplicityItem getItemDecorator() {
+            return new RemovableItem();
+        }
+
+        @Override
         public Widget createItem() {
             CustomNestedSection ns = new CustomNestedSection();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
@@ -733,6 +727,11 @@ public class CourseConfigurer
         {
             setAddItemLabel(getLabel(LUConstants.ADD_VERSION_CODE_LABEL_KEY));
             setItemLabel(getLabel(LUConstants.VERSION_CODE_LABEL_KEY));
+        }
+
+        @Override
+        public MultiplicityItem getItemDecorator() {
+            return new RemovableItem();
         }
 
         @Override
