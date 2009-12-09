@@ -791,6 +791,9 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
             CluIdentifierInfo cluIdentifier = new CluIdentifierInfo();
             cluIdentifier.setCluId(xListings.getId());
             cluIdentifier.setType("kuali.lu.type.CreditCourse.identifier.cross-listed");
+            cluIdentifier.setOrgId(xListings.getDepartment());
+            cluIdentifier.setDivision(xListings.getSubjectArea());
+            cluIdentifier.setSuffixCode(xListings.getCourseNumberSuffix());
             alternateIdentifiers.add(cluIdentifier);
         }
         cluInfoToStore.setAlternateIdentifiers(alternateIdentifiers);

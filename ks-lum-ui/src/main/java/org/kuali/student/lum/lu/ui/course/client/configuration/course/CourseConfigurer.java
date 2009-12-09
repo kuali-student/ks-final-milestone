@@ -297,7 +297,7 @@ public class CourseConfigurer
         VerticalSection crossListed = new VerticalSection();
         crossListed.setSectionTitle(getH3Title(LUConstants.CROSS_LISTED_ALT_LABEL_KEY));
         // crossListed.setInstructions("Enter Department and/or Subject Code/Course Number.");
-        addField(crossListed, COURSE + "crosslistings", null, new CrossListedList());
+        addField(crossListed, COURSE + "/" + CROSS_LISTINGS, null, new CrossListedList());
         crossListed.addStyleName("KS-LUM-Section-Divider");
         courseNumber.addSection(crossListed);
 
@@ -711,11 +711,11 @@ public class CourseConfigurer
         public Widget createItem() {
             CustomNestedSection ns = new CustomNestedSection();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            addField(ns, "Department", getLabel(LUConstants.DEPT_LABEL_KEY), new OrgPicker());
+            addField(ns, DEPARTMENT, getLabel(LUConstants.DEPT_LABEL_KEY), new OrgPicker());
             ns.nextRow();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            addField(ns,"SubjectArea", getLabel(LUConstants.SUBJECT_CODE_LABEL_KEY));
-            addField(ns,"CourseNumberSuffix", getLabel(LUConstants.COURSE_NUMBER_LABEL_KEY));
+            addField(ns, SUBJECT_AREA, getLabel(LUConstants.SUBJECT_CODE_LABEL_KEY));
+            addField(ns, COURSE_NUMBER_SUFFIX, getLabel(LUConstants.COURSE_NUMBER_LABEL_KEY));
                         
             return ns;
         }
