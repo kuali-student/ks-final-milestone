@@ -30,14 +30,15 @@ public class LookupParamMetadata implements Serializable {
 	private boolean optional;
 	private Value defaultValue;
 	private String defaultValuePath;
- 	private String name;
+ private String name;
 	private String desc;
+ private boolean caseSensitive;
 
 	public LookupMetadata getChildLookup() {
 		return childLookup;
 	}
 
-	public void setMetadata(LookupMetadata childLookup) {
+	public void setChildLookup(LookupMetadata childLookup) {
 		this.childLookup = childLookup;
 	}
 
@@ -103,5 +104,15 @@ public class LookupParamMetadata implements Serializable {
 	public void setDefaultValuePath(String defaultValuePath) {
 		this.defaultValuePath = defaultValuePath;
 	}
+
+ public boolean isCaseSensitive ()
+ {
+  return caseSensitive;
+ }
+
+ public void setCaseSensitive (boolean caseSensitive)
+ {
+  this.caseSensitive = caseSensitive;
+ }
 
 }

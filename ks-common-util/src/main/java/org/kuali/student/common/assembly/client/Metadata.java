@@ -31,7 +31,9 @@ public class Metadata implements Serializable {
 	public enum WriteAccess {
 
 		ON_CREATE, /* must also be required */
-		ALWAYS, NEVER
+		ALWAYS, 
+  NEVER,
+  WHEN_NULL
 	}
 
 	private WriteAccess writeAccess;

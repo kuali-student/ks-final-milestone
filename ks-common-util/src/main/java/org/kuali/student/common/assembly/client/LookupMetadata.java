@@ -29,7 +29,8 @@ public class LookupMetadata implements Serializable {
 	private List<LookupResultMetadata> results;
 	private LookupQosMetadata qosMetadata;
 	private String resultReturnKey;
-
+ private LookupImplMetadata impl;
+ 
 	public String getName() {
 		return name;
 	}
@@ -91,5 +92,30 @@ public class LookupMetadata implements Serializable {
 	public void setQosMetadata(LookupQosMetadata qosMetadata) {
 		this.qosMetadata = qosMetadata;
 	}
+
+
+
+ public LookupImplMetadata getImpl ()
+ {
+  return impl;
+ }
+
+ public void setImpl (LookupImplMetadata impl)
+ {
+  this.impl = impl;
+ }
+
+ private String lookupKey;
+
+ public String getLookupKey ()
+ {
+  return lookupKey;
+ }
+
+ public void setLookupKey (String lookupKey)
+ {
+  this.lookupKey = lookupKey;
+ }
+
 
 }
