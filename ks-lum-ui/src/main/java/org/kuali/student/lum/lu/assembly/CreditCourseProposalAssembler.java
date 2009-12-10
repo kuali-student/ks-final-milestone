@@ -223,10 +223,11 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 
 		for (CluInfoHierarchy format : cluHierarchy.getChildren()) {
 			addFormats(result, format);	
-			addCrossListings(result, format);
-			addVersinos(result, format);
+			
 		}
-		
+		addCrossListings(result, cluHierarchy);
+        addVersions(result, cluHierarchy);
+        
 		//Retrieve related clus of type kuali.lu.relation.type.co-located and add the list to the map.
 		List<CluInfo> clus = luService.getClusByRelation(cluId, JOINT_RELATION_TYPE);
 		if (clus != null) {
@@ -305,11 +306,18 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
             xListings.setDepartment(cluIdentifier.getOrgId());
             xListings.setSubjectArea(cluIdentifier.getDivision());
             xListings.setCourseNumberSuffix(cluIdentifier.getSuffixCode());
-            course.getCrossListings().add(xListings.getData());
+            
+            Data data = course.getCrossListings();
+            if(data == null){
+                data = new Data();
+                course.setCrossListings(data);
+            }
+            data.add(xListings.getData());
+            //course.getCrossListings().add(xListings.getData());
         }   
     }
     
-    private void addVersinos(CreditCourseHelper course, CluInfoHierarchy cluHierarchy) 
+    private void addVersions(CreditCourseHelper course, CluInfoHierarchy cluHierarchy) 
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, 
             OperationFailedException, AssemblyException {
 
@@ -325,7 +333,14 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
             versions.setSubjectArea(cluIdentifier.getDivision());
             versions.setCourseNumberSuffix(cluIdentifier.getSuffixCode());
             versions.setVersionCode(cluIdentifier.getVariation());
-            course.getVersions().add(versions.getData());
+            
+            Data data = course.getVersions();
+            if(data == null){
+                data = new Data();
+                course.setVersions(data);
+            }
+            data.add(versions.getData());
+            //course.getVersions().add(versions.getData());
         }   
     }
     
@@ -897,11 +912,13 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
             }
         }
         
-        for (Property p : course.getCrossListings()) {
+        for (Property p : course.getVersions()) {
             CreditCourseVersionsHelper versions = CreditCourseVersionsHelper.wrap((Data)p.getValue());
             CluIdentifierInfo cluIdentifier = new CluIdentifierInfo();
             cluIdentifier.setCluId(versions.getId());
             cluIdentifier.setType("kuali.lu.type.CreditCourse.identifier.version");
+            cluIdentifier.setLongName(versions.getVersionTitle());
+            cluIdentifier.setVariation(versions.getVersionCode());
             alternateIdentifiers.add(cluIdentifier);
         }
         cluInfoToStore.setAlternateIdentifiers(alternateIdentifiers);

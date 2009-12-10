@@ -310,14 +310,14 @@ public class CourseConfigurer
         // Offered jointly
         VerticalSection offeredJointly = new VerticalSection();
         offeredJointly.setSectionTitle(getH3Title(LUConstants.JOINT_OFFERINGS_ALT_LABEL_KEY));
-        addField(offeredJointly, COURSE + "/joints", null, new OfferedJointlyList());
+        addField(offeredJointly, COURSE + "/" + JOINTS, null, new OfferedJointlyList());
         offeredJointly.addStyleName("KS-LUM-Section-Divider");
         courseNumber.addSection(offeredJointly);
 
         //Version Codes
         VerticalSection versionCodes = new VerticalSection();
         versionCodes.setSectionTitle(getH3Title(LUConstants.VERSION_CODES_LABEL_KEY));
-        addField(versionCodes, COURSE + "versions", null, new VersionCodeList());
+        addField(versionCodes, COURSE + "/" + VERSIONS, null, new VersionCodeList());
         versionCodes.addStyleName("KS-LUM-Section-Divider");
         courseNumber.addSection(versionCodes);
 
@@ -762,7 +762,7 @@ public class CourseConfigurer
             CustomNestedSection ns = new CustomNestedSection();
             ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
             addField(ns, "versionCode", getLabel(LUConstants.CODE_LABEL_KEY));
-            addField(ns, "shortName", getLabel(LUConstants.TITLE_LITERAL_LABEL_KEY));
+            addField(ns, "versionTitle", getLabel(LUConstants.TITLE_LITERAL_LABEL_KEY));
             
             return ns;
         }
