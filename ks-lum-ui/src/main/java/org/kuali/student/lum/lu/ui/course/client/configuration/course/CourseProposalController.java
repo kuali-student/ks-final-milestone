@@ -214,7 +214,7 @@ public class CourseProposalController extends TabbedSectionLayout {
             WorkItem workItem = new WorkItem(){
                 @Override
                 public void exec(Callback<Boolean> workCompleteCallback) {
-                    if (cluProposalModel.getRoot() == null){
+                    if (cluProposalModel.getRoot() == null || cluProposalModel.getRoot().size() == 0){
                         if(docId!=null){
                             getCluProposalFromWorkflowId(modelRequestCallback, workCompleteCallback);
                         } else if (proposalId != null){
@@ -301,25 +301,23 @@ public class CourseProposalController extends TabbedSectionLayout {
     }
     
     @SuppressWarnings("unchecked")    
-    private void getCluProposalFromProposalId(final ModelRequestCallback callback, Callback<Boolean> workCompleteCallback){
-/*
-        cluProposalRpcServiceAsync.getProposal(proposalId, 
-                new AsyncCallback<CluProposalModelDTO>(){
+    private void getCluProposalFromProposalId(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
+    	cluProposalRpcServiceAsync.getCreditCourseProposal(proposalId, new AsyncCallback<Data>(){
 
-            public void onFailure(Throwable caught) {
+			@Override
+			public void onFailure(Throwable caught) {
                 Window.alert("Error loading Proposal: "+caught.getMessage());
-                createNewCluProposalModel();
-                callback.onModelReady(cluProposalModel);
-                CourseProposalController.this.setModelDTO(cluProposalModel.get(), CluDictionaryClassNameHelper.getClasstoObjectKeyMap());                
-            }
+                createNewCluProposalModel(callback, workCompleteCallback);               				
+			}
 
-            public void onSuccess(CluProposalModelDTO result) {                    
-                cluProposalModel = new Model<CluProposalModelDTO>();
-                cluProposalModel.put(result);
-                callback.onModelReady(cluProposalModel);
-                CourseProposalController.this.setModelDTO(cluProposalModel.get(), CluDictionaryClassNameHelper.getClasstoObjectKeyMap());                
-            }});                                        
-*/    
+			@Override
+			public void onSuccess(Data result) {
+				cluProposalModel.setRoot(result);
+		        callback.onModelReady(cluProposalModel);
+		        workCompleteCallback.exec(true);            				
+			}
+    		
+    	});
     }
     
     @SuppressWarnings("unchecked")
@@ -436,7 +434,7 @@ public class CourseProposalController extends TabbedSectionLayout {
     public void setProposalId(String proposalId) {
         this.proposalId = proposalId;
         this.docId = null;
-        this.cluProposalModel.setRoot(null);        
+        this.cluProposalModel.setRoot(new Data());        
     }
     
     public void clear(String proposalType, String cluType){
