@@ -20,11 +20,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.student.common.assembly.client.HasChangeCallbacks;
-import org.kuali.student.common.assembly.client.QueryPath;
-import org.kuali.student.common.assembly.client.HasChangeCallbacks.ChangeCallback;
-import org.kuali.student.common.assembly.client.HasChangeCallbacks.ChangeCallbackRegistration;
-import org.kuali.student.common.assembly.client.HasChangeCallbacks.ChangeType;
 import org.kuali.student.common.ui.client.mvc.ModelChangeEvent.Action;
 import org.kuali.student.core.dto.Idable;
 

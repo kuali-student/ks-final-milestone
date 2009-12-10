@@ -1,34 +1,13 @@
 package org.kuali.student.common.ui.client;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.theme.Theme;
-import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.KSRichEditor;
-import org.kuali.student.common.ui.client.widgets.KSButton.ButtonImageAlign;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonGroup;
-import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.YesNoGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.YesNoEnum;
-import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
-import org.kuali.student.common.ui.client.widgets.containers.KSWrapper;
-import org.kuali.student.common.ui.client.widgets.menus.KSBasicMenu;
-import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
-import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel;
-import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanelAbstract;
-import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel.TabPosition;
-import org.kuali.student.common.ui.client.widgets.tabs.impl.KSTabPanelImpl;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class CommonUITest implements EntryPoint {
 	

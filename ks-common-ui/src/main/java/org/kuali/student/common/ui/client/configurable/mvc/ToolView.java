@@ -14,8 +14,8 @@
  */
 package org.kuali.student.common.ui.client.configurable.mvc;
 
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
@@ -68,7 +68,8 @@ public abstract class ToolView extends LazyPanel implements View{
         this.viewName = viewName;
     }
    
-    public void beforeShow(){
+    @Override
+    public void beforeShow(final Callback<Boolean> onReadyCallback){
         if (getWidget() instanceof HasReferenceId){
             reference = (HasReferenceId)getWidget();
             controller.requestModel(ReferenceModel.class, modelRequestCallback);
@@ -78,6 +79,8 @@ public abstract class ToolView extends LazyPanel implements View{
         } else {
             this.setVisible(true);
         }
+        // FIXME ? need to wire onReadyCallback into the model request, so that we aren't indicating that we're ready before the model is available?
+        onReadyCallback.exec(true);
     }
 
     /**

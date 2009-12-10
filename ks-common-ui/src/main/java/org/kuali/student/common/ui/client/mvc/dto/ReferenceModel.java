@@ -15,7 +15,6 @@
 package org.kuali.student.common.ui.client.mvc.dto;
 
 import org.kuali.student.common.ui.client.configurable.mvc.HasReferenceId;
-import org.kuali.student.common.ui.client.mvc.CollectionModelChangeEvent;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelChangeEvent;
 import org.kuali.student.common.ui.client.mvc.ModelChangeHandler;

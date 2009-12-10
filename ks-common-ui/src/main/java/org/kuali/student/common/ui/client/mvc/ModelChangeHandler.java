@@ -14,8 +14,6 @@
  */
 package org.kuali.student.common.ui.client.mvc;
 
-import org.kuali.student.core.dto.Idable;
-
 import com.google.gwt.event.shared.EventHandler;
 
 /**

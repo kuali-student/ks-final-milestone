@@ -24,7 +24,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.GwtEvent.Type;
-import com.google.gwt.user.client.ui.Image;
 
 /**
  * The data object used to populate interactive ui menus.

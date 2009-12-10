@@ -16,10 +16,8 @@ package org.kuali.student.common.ui.client.widgets.impl;
 
 import static org.kuali.student.common.ui.client.widgets.KSStyles.KS_PROGRESS_INDICATOR;
 
-import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.KSMessages;
 import org.kuali.student.common.ui.client.widgets.KSProgressIndicatorAbstract;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;

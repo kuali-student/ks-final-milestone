@@ -16,7 +16,6 @@ package org.kuali.student.common.ui.client.application;
 
 import org.kuali.student.common.ui.client.widgets.containers.KSWrapper;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;

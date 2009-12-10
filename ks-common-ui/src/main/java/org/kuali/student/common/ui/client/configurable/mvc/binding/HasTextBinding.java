@@ -19,7 +19,6 @@ import java.util.Date;
 import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.common.assembly.client.Data.DataType;
 import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.DateType;
 import org.kuali.student.common.ui.client.validator.ClientDateParser;
 
 import com.google.gwt.core.client.GWT;

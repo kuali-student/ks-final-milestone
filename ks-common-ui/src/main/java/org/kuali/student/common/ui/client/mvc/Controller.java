@@ -30,13 +30,20 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  */
 public abstract class Controller extends Composite {
-
+	public static final Callback<Boolean> NO_OP_CALLBACK = new Callback<Boolean>() {
+		@Override
+		public void exec(Boolean result) {
+			// do nothing
+		}
+	};
+	
     private Controller parentController = null;
     private View currentView = null;
     private Enum<?> currentViewEnum = null;
 
     private HandlerManager applicationEventHandlers = new HandlerManager(this);
 
+    
     /**
      * Directs the controller to display the specified view. The parameter must be an enum value, based on an enum defined in
      * the controller implementation. For example, a "Search" controller might have an enumeration of: <code>
@@ -52,30 +59,41 @@ public abstract class Controller extends Composite {
      *            view enum type
      * @param viewType
      *            enum value representing the view to show
+     * @param onReadyCallback the callback to invoke when the method has completed execution
      * @return false if the current view cancels the operation
      */
-    public <V extends Enum<?>> boolean showView(V viewType) {
-        boolean result = false;
+    public <V extends Enum<?>> void showView(final V viewType, final Callback<Boolean> onReadyCallback) {
         GWT.log("showView " + viewType.toString(), null);
-        View view = getView(viewType);
+        final View view = getView(viewType);
         if (view == null) {
+        	onReadyCallback.exec(false);
             throw new ControllerException("View not registered: " + viewType.toString());
         }
         if ((currentView == null) || currentView.beforeHide()) {
-            if (currentView != null) {
-                hideView(currentView);
-            }
-            view.beforeShow();
-            currentViewEnum = viewType;
-            fireApplicationEvent(new ViewChangeEvent(currentView, view));
-            currentView = view;
-            GWT.log("renderView " + viewType.toString(), null);
-            renderView(view);
-            result = true;
+			view.beforeShow(new Callback<Boolean>() {
+				@Override
+				public void exec(Boolean result) {
+					if (!result) {
+						GWT.log("showView: beforeShow yielded false " + viewType.toString(), null);
+			        	onReadyCallback.exec(false);
+					} else {
+			        	if (currentView != null) {
+			                hideView(currentView);
+			            }
+			            
+			            currentViewEnum = viewType;
+			            fireApplicationEvent(new ViewChangeEvent(currentView, view));
+			            currentView = view;
+			            GWT.log("renderView " + viewType.toString(), null);
+			            renderView(view);
+			        	onReadyCallback.exec(true);
+					}
+				}
+			});
         } else {
+        	onReadyCallback.exec(false);
             GWT.log("Current view canceled hide action", null);
         }
-        return result;
     }
 
     /**
@@ -233,7 +251,7 @@ public abstract class Controller extends Composite {
     /**
      * Shows the default view. Must be implemented by subclass, in order to define the default view.
      */
-    public abstract void showDefaultView();
+    public abstract void showDefaultView(Callback<Boolean> onReadyCallback);
 
     public abstract Class<? extends Enum<?>> getViewsEnum();
 

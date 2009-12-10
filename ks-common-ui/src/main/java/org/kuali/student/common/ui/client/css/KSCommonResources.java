@@ -15,14 +15,7 @@
 package org.kuali.student.common.ui.client.css;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.libideas.resources.client.CssResource;
-import com.google.gwt.libideas.resources.client.ImageResource;
 import com.google.gwt.libideas.resources.client.ImmutableResourceBundle;
-import com.google.gwt.libideas.resources.client.CssResource;
-import com.google.gwt.libideas.resources.client.ImageResource.ImageOptions;
-import com.google.gwt.libideas.resources.client.ImageResource.RepeatStyle;
-import com.google.gwt.user.client.ui.AbstractImagePrototype;
-import com.google.gwt.user.client.ui.ImageBundle.Resource;
 
 @Deprecated
 public interface KSCommonResources extends ImmutableResourceBundle{

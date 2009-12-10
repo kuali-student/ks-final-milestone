@@ -14,10 +14,6 @@
  */
 package org.kuali.student.common.ui.client.mvc;
 
-import org.kuali.student.common.assembly.client.QueryPath;
-import org.kuali.student.core.dto.Idable;
-
-import com.google.gwt.event.shared.GwtEvent;
 
 /**
  * Event that is fired when the model is changed.

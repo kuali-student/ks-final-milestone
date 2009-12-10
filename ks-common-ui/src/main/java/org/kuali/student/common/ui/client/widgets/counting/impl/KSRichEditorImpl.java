@@ -16,7 +16,6 @@ package org.kuali.student.common.ui.client.widgets.counting.impl;
 
 
 
-import org.kuali.student.common.ui.client.images.KSImages;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.theme.Theme;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -29,7 +28,6 @@ import org.kuali.student.common.ui.client.widgets.counting.KSRichEditorAbstract;
 import org.kuali.student.common.ui.client.widgets.focus.FocusGroup;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;

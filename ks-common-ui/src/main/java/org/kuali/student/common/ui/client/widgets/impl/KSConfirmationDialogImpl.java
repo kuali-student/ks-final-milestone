@@ -14,13 +14,11 @@
  */
 package org.kuali.student.common.ui.client.widgets.impl;
 
-import org.kuali.student.common.ui.client.images.KSImages;
 import org.kuali.student.common.ui.client.widgets.KSConfirmButtonPanel;
 import org.kuali.student.common.ui.client.widgets.KSConfirmationDialogAbstract;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;

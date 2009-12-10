@@ -1,11 +1,8 @@
 package org.kuali.student.common.ui.client.widgets.impl;
 
-import org.kuali.student.common.ui.client.images.KSImages;
 import org.kuali.student.common.ui.client.theme.Theme;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSRichTextToolbarAbstract;
-import org.kuali.student.common.ui.client.widgets.KSStyles;
-import org.kuali.student.common.ui.client.widgets.KSRichTextToolbarAbstract.Strings;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 
@@ -22,28 +19,16 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
-import com.google.gwt.i18n.client.Constants;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
-import com.google.gwt.user.client.ui.AbstractImagePrototype;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.FocusPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.ImageBundle;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.RichTextArea;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 //TODO: Implement using i18n messages

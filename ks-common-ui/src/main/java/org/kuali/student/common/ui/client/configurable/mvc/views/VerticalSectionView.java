@@ -46,37 +46,45 @@ public class VerticalSectionView extends SectionView {
         this.modelId = modelId; 
     }
         
-    public void beforeShow(){
-        super.beforeShow();
-        if (!loaded){
-            panel.add(generateTitlePanel());
-            panel.add(sectionTitle);
-            panel.add(instructionsLabel);
-            for(Section ns: sections){
-                ns.redraw();
-            }
-            for(RowDescriptor r: rows){
-                panel.add(r);
-            }
-            
-            loaded = true;
-        }
+    @Override
+    public void beforeShow(final Callback<Boolean> onReadyCallback){
+        super.beforeShow(new Callback<Boolean>() {
+			@Override
+			public void exec(Boolean result) {
+		        if (!loaded){
+		            panel.add(generateTitlePanel());
+		            panel.add(sectionTitle);
+		            panel.add(instructionsLabel);
+		            for(Section ns: sections){
+		                ns.redraw();
+		            }
+		            for(RowDescriptor r: rows){
+		                panel.add(r);
+		            }
+		            
+		            loaded = true;
+		        }
 
-        //Request model and redraw view
-        getController().requestModel(modelId, new ModelRequestCallback<DataModel>(){
+		        //Request model and redraw view
+		        getController().requestModel(modelId, new ModelRequestCallback<DataModel>(){
 
-            @Override
-            public void onRequestFail(Throwable cause) {
-                Window.alert("Failed to get model: " + getName());
-            }
+		            @Override
+		            public void onRequestFail(Throwable cause) {
+		                Window.alert("Failed to get model: " + getName());
+		                onReadyCallback.exec(false);
+		            }
 
-            @Override
-            public void onModelReady(DataModel m) {
-                model = m;
-                redraw();                                   
-            }
-            
+		            @Override
+		            public void onModelReady(DataModel m) {
+		                model = m;
+		                redraw();
+		                onReadyCallback.exec(true);
+		            }
+		            
+		        });
+			}
         });
+
     }
     
     @Override   

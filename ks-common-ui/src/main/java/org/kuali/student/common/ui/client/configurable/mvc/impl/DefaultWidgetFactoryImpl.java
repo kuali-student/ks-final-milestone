@@ -1,6 +1,5 @@
 package org.kuali.student.common.ui.client.configurable.mvc.impl;
 
-import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.assembly.client.MetadataInterrogator;
 import org.kuali.student.common.assembly.client.Metadata.WriteAccess;

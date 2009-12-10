@@ -3,9 +3,6 @@ package org.kuali.student.common.ui.theme.custom.client;
 import org.kuali.student.common.ui.client.theme.CommonImages;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.ui.Image;
-
 public class CommonImagesImpl implements CommonImages{
 	@Override
 	public KSImage getAsterisk() {

@@ -21,7 +21,6 @@ import org.kuali.student.common.ui.client.widgets.KSStyles;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
 
 public class KSThinTitleBarComponent extends Composite{
     private final HorizontalPanel titlePanel = new HorizontalPanel();

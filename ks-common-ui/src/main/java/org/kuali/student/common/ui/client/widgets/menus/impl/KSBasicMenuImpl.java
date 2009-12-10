@@ -20,15 +20,12 @@ import java.util.List;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
-import org.kuali.student.common.ui.client.widgets.impl.KSAccordionPanelImpl.AccordionTitleBar;
 import org.kuali.student.common.ui.client.widgets.menus.KSBasicMenuAbstract;
-import org.kuali.student.common.ui.client.widgets.menus.KSMenu;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.menus.MenuChangeEvent;
 import org.kuali.student.common.ui.client.widgets.menus.MenuEventHandler;
 import org.kuali.student.common.ui.client.widgets.menus.MenuSelectEvent;
 
-import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -39,12 +36,8 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 

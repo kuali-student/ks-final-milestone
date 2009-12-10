@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcServiceAsync;
-import org.kuali.student.common.ui.client.theme.Theme;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;

@@ -8,7 +8,6 @@
 package org.kuali.student.common.ui.client.configurable.mvc.multiplicity;
 
 import org.kuali.student.common.ui.client.configurable.mvc.Section;
-import org.kuali.student.common.ui.client.widgets.KSButton;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

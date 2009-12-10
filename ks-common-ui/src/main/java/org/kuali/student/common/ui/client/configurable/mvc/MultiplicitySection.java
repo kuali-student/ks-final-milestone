@@ -15,14 +15,11 @@
 package org.kuali.student.common.ui.client.configurable.mvc;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
