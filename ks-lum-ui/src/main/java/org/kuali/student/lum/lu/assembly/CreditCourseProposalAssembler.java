@@ -313,7 +313,6 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
                 course.setCrossListings(data);
             }
             data.add(xListings.getData());
-            //course.getCrossListings().add(xListings.getData());
         }   
     }
     
@@ -340,7 +339,6 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
                 course.setVersions(data);
             }
             data.add(versions.getData());
-            //course.getVersions().add(versions.getData());
         }   
     }
     
