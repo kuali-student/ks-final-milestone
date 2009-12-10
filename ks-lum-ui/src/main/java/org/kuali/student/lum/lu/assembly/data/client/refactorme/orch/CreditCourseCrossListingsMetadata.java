@@ -15,129 +15,124 @@
  */
 package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 
-
-import org.kuali.student.common.assembly.client.ConstraintMetadata;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.ConstraintMetadataBank;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.LookupMetadataBank;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseCrossListingsHelper.Properties;
-
 
 public class CreditCourseCrossListingsMetadata
 {
-	
-	public boolean matches (String inputType, String inputState, String dictType, String dictState)
-	{
-		// TODO: code more complex matches
-		return true;
-	}
-	
-	public Metadata getMetadata (String type, String state)
-	{
-		Metadata mainMeta = new Metadata ();
-		mainMeta.setDataType (Data.DataType.DATA);
-		mainMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		loadChildMetadata (mainMeta, type, state);
-		return mainMeta;
-	}
-	
-	public void loadChildMetadata (Metadata mainMeta, String type, String state)
-	{
-		Metadata childMeta;
-		Metadata listMeta;
-		
-		// metadata for Id
-		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.ID.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
-		if (this.matches (type, state, "(default)", "(default)"))
-		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("hidden"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("read.only"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.id"));
-		}
-		
-		// metadata for Type
-		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.TYPE.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
-		childMeta.setDefaultValue (new Data.StringValue ("kuali.lu.type.CreditCourse.identifier.cross-listed"));
-		if (this.matches (type, state, "(default)", "(default)"))
-		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("hard.coded.cross-listed"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("read.only"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.type"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("lu.identifier.types"));
-		}
-		
-		// metadata for Department
-		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.DEPARTMENT.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (this.matches (type, state, "(default)", "(default)"))
-		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-			ConstraintMetadata consMeta = new ConstraintMetadata ();
-			childMeta.getConstraints ().add (consMeta);
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("related.orgid"));
-		}
-		
-		// metadata for SubjectArea
-		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.SUBJECT_AREA.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (this.matches (type, state, "(default)", "(default)"))
-		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-			ConstraintMetadata consMeta = new ConstraintMetadata ();
-			childMeta.getConstraints ().add (consMeta);
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("subject.areas"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("code"));
-		}
-		
-		// metadata for CourseNumberSuffix
-		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.COURSE_NUMBER_SUFFIX.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (this.matches (type, state, "(default)", "(default)"))
-		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-			ConstraintMetadata consMeta = new ConstraintMetadata ();
-			childMeta.getConstraints ().add (consMeta);
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("available.course.numbers"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("code"));
-		}
-		
-		// metadata for _runtimeData
-		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties._RUNTIME_DATA.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.DATA);
-		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
-		if (this.matches (type, state, "(default)", "(default)"))
-		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-		}
-		new RuntimeDataMetadata ().loadChildMetadata (childMeta, type, state);
-		
-	}
+
+ public boolean matches (String inputType, String inputState, String dictType,
+                         String dictState)
+ {
+  // TODO: code more complex matches
+  return true;
+ }
+
+ public Metadata getMetadata (String type, String state)
+ {
+  Metadata mainMeta = new Metadata ();
+  mainMeta.setDataType (Data.DataType.DATA);
+  mainMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+  loadChildMetadata (mainMeta, type, state);
+  return mainMeta;
+ }
+
+ public void loadChildMetadata (Metadata mainMeta, String type, String state)
+ {
+  Metadata childMeta;
+  Metadata listMeta;
+
+  // metadata for Id
+  childMeta = new Metadata ();
+  mainMeta.getProperties ().put (Properties.ID.getKey (), childMeta);
+  childMeta.setDataType (Data.DataType.STRING);
+  childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
+  if (this.matches (type, state, "(default)", "(default)"))
+  {
+   childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+   childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("hidden"));
+   childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("read.only"));
+   childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+   childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.id"));
+  }
+
+  // metadata for Type
+  childMeta = new Metadata ();
+  mainMeta.getProperties ().put (Properties.TYPE.getKey (), childMeta);
+  childMeta.setDataType (Data.DataType.STRING);
+  childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
+  childMeta.setDefaultValue (new Data.StringValue ("kuali.lu.type.CreditCourse.identifier.cross-listed"));
+  if (this.matches (type, state, "(default)", "(default)"))
+  {
+   childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+   childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("hard.coded.cross-listed"));
+   childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("read.only"));
+   childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
+   childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+   childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.type"));
+   childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("lu.identifier.types"));
+  }
+
+  // metadata for Department
+  childMeta = new Metadata ();
+  mainMeta.getProperties ().put (Properties.DEPARTMENT.getKey (), childMeta);
+  childMeta.setDataType (Data.DataType.STRING);
+  childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+  childMeta.setLookupMetadata (LookupMetadataBank.LOOKUP_BANK.get ("kuali.lu.lookup.admin.departments"));
+  if (this.matches (type, state, "(default)", "(default)"))
+  {
+   childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+   childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
+   childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
+   childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+   childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("related.orgid"));
+  }
+
+  // metadata for SubjectArea
+  childMeta = new Metadata ();
+  mainMeta.getProperties ().put (Properties.SUBJECT_AREA.getKey (), childMeta);
+  childMeta.setDataType (Data.DataType.STRING);
+  childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+  if (this.matches (type, state, "(default)", "(default)"))
+  {
+   childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+   childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
+   childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("subject.areas"));
+   childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
+   childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+   childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("code"));
+  }
+
+  // metadata for CourseNumberSuffix
+  childMeta = new Metadata ();
+  mainMeta.getProperties ().put (Properties.COURSE_NUMBER_SUFFIX.getKey (), childMeta);
+  childMeta.setDataType (Data.DataType.STRING);
+  childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+  if (this.matches (type, state, "(default)", "(default)"))
+  {
+   childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+   childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
+   childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("available.course.numbers"));
+   childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
+   childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+   childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("code"));
+  }
+
+  // metadata for _runtimeData
+  childMeta = new Metadata ();
+  mainMeta.getProperties ().put (Properties._RUNTIME_DATA.getKey (), childMeta);
+  childMeta.setDataType (Data.DataType.DATA);
+  childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
+  if (this.matches (type, state, "(default)", "(default)"))
+  {
+   childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+  }
+  new RuntimeDataMetadata ().loadChildMetadata (childMeta, type, state);
+
+ }
+
 }
 

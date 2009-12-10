@@ -84,7 +84,7 @@ public class CreditCourseFormatMetadata
 		mainMeta.getProperties ().put (Properties.STATE.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		childMeta.setDefaultValue (new Data.StringValue ("draft"));
+		childMeta.setDefaultValue (new Data.StringValue ("draft.public"));
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));

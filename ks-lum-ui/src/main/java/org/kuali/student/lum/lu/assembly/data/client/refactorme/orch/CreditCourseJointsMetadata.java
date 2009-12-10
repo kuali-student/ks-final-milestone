@@ -16,7 +16,6 @@
 package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 
 
-import org.kuali.student.common.assembly.client.ConstraintMetadata;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.ConstraintMetadataBank;
@@ -71,8 +70,6 @@ public class CreditCourseJointsMetadata
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-			ConstraintMetadata consMeta = new ConstraintMetadata ();
-			childMeta.getConstraints ().add (consMeta);
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("related.cluid"));

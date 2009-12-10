@@ -42,6 +42,7 @@ public class CreditCourseHelper
 		VERSIONS ("versions"),
 		JOINTS ("joints"),
 		FINAL_RESULTS ("finalResults"),
+		FEES ("fees"),
 		STATE ("state"),
 		TYPE ("type"),
 		EFFECTIVE_DATE ("effectiveDate"),
@@ -251,6 +252,18 @@ public class CreditCourseHelper
 	public String getFinalResults ()
 	{
 		return (String) data.get (Properties.FINAL_RESULTS.getKey ());
+	}
+	
+	
+	public void setFees (Data value)
+	{
+		data.set (Properties.FEES.getKey (), value);
+	}
+	
+	
+	public Data getFees ()
+	{
+		return (Data) data.get (Properties.FEES.getKey ());
 	}
 	
 	

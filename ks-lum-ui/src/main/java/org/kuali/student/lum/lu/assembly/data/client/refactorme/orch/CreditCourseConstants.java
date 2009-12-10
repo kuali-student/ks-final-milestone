@@ -33,6 +33,7 @@ public interface CreditCourseConstants
 	public static final String VERSIONS = "versions";
 	public static final String JOINTS = "joints";
 	public static final String FINAL_RESULTS = "finalResults";
+	public static final String FEES = "fees";
 	public static final String STATE = "state";
 	public static final String TYPE = "type";
 	public static final String EFFECTIVE_DATE = "effectiveDate";

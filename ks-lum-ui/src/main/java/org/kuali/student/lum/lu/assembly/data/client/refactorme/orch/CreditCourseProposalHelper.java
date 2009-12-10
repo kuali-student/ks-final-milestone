@@ -28,7 +28,6 @@ public class CreditCourseProposalHelper
 	{
 		PROPOSAL ("proposal"),
 		COURSE ("course"),
-		FEES ("fees"),
 		STATE ("state"),
 		TYPE ("type");
 		
@@ -88,18 +87,6 @@ public class CreditCourseProposalHelper
 	public CreditCourseHelper getCourse ()
 	{
 		return CreditCourseHelper.wrap ((Data) data.get (Properties.COURSE.getKey ()));
-	}
-	
-	
-	public void setFees (Data value)
-	{
-		data.set (Properties.FEES.getKey (), value);
-	}
-	
-	
-	public Data getFees ()
-	{
-		return (Data) data.get (Properties.FEES.getKey ());
 	}
 	
 	

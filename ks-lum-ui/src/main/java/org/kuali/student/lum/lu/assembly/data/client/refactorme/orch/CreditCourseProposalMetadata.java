@@ -18,7 +18,6 @@ package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
-import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.ConstraintMetadataBank;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper.Properties;
 
@@ -68,27 +67,12 @@ public class CreditCourseProposalMetadata
 		}
 		new CreditCourseMetadata ().loadChildMetadata (childMeta, type, state);
 		
-		// metadata for Fees
-		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.FEES.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.LIST);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (this.matches (type, state, "(default)", "(default)"))
-		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
-		}
-		listMeta = new Metadata ();
-		listMeta.setDataType (Data.DataType.DATA);
-		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
-		new FeeInfoMetadata ().loadChildMetadata (listMeta, type, state);
-		
 		// metadata for State
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.STATE.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		childMeta.setDefaultValue (new Data.StringValue ("draft"));
+		childMeta.setDefaultValue (new Data.StringValue ("draft.public"));
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
