@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
@@ -127,8 +128,8 @@ public class CourseReqManager extends Controller {
     }    
 
     @Override
-    public void showDefaultView() {
-        showView(PrereqViews.RULES_LIST);
+    public void showDefaultView(final Callback<Boolean> onReadyCallback) {
+        showView(PrereqViews.RULES_LIST, onReadyCallback);
     }
     
     @Override

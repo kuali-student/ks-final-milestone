@@ -54,7 +54,8 @@ public class CourseRequisitesSectionView extends SectionView {
 	    this.modelDTOType = modelDTOType; 
 	}
 	
-    public void beforeShow(){	
+    @Override
+	public void beforeShow(final Callback<Boolean> onReadyCallback){	
 		
 		if (loaded == false) {
 			childController = new CourseReqManager(panel);
@@ -78,7 +79,7 @@ public class CourseRequisitesSectionView extends SectionView {
         });		
 		
         if (childController.getCurrentView() == null){
-            childController.showDefaultView();
+            childController.showDefaultView(onReadyCallback);
         }
         
         loaded = true;

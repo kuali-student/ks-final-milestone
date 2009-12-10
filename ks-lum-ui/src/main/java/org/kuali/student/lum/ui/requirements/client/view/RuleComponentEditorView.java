@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
@@ -116,8 +117,11 @@ public class RuleComponentEditorView extends ViewComposite {
         setupHandlers();
     }
 
-    public void beforeShow() {
+    @Override
+    public void beforeShow(final Callback<Boolean> onReadyCallback) {
         setReqComponentListAndReqComp();
+        // TODO should probably pass the callback into the method above and invoke it when the work is actually done
+        onReadyCallback.exec(true);
     }
 
     public void redraw() {
@@ -311,7 +315,7 @@ public class RuleComponentEditorView extends ViewComposite {
                 if (origReqCompType != null) {
                     editedReqComp.setType(origReqCompType); //revert possible changes to type
                 }
-                getController().showView(PrereqViews.MANAGE_RULES);
+                getController().showView(PrereqViews.MANAGE_RULES, Controller.NO_OP_CALLBACK);
             }
         });
 
@@ -875,7 +879,7 @@ public class RuleComponentEditorView extends ViewComposite {
                 editedReqCompVO.setTypeDesc(reqCompNaturalLanguage);
                 RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(modelRuleInfo);
                 prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
-                getController().showView(PrereqViews.MANAGE_RULES);
+                getController().showView(PrereqViews.MANAGE_RULES, Controller.NO_OP_CALLBACK);
             }
         });            	
     }

@@ -19,6 +19,7 @@ import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ApplicationComposite;
 import org.kuali.student.common.ui.client.application.ApplicationContext;
 import org.kuali.student.common.ui.client.dictionary.DictionaryLoader;
+import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.service.MessagesRpcService;
 import org.kuali.student.common.ui.client.service.SecurityRpcService;
 import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
@@ -72,7 +73,7 @@ public class LUMMainEntryPoint implements EntryPoint{
         app.setContent(manager);
         RootPanel.get().add(app);
         if(manager.getCurrentView() == null)
-            manager.showDefaultView();
+            manager.showDefaultView(Controller.NO_OP_CALLBACK);
     }
     
     private void loadMessages(final ApplicationContext context) throws SerializationException {

@@ -16,6 +16,7 @@ package org.kuali.student.lum.lu.ui.main.client.controller;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DelegatingViewComposite;
 import org.kuali.student.common.ui.client.mvc.View;
@@ -76,7 +77,7 @@ public class LUMApplicationManager extends Controller{
 	                    }
 
 	                }
-	                showView(event.getViewType());  
+	                showView(event.getViewType(), NO_OP_CALLBACK);  
 	            }
 	        });
 
@@ -93,6 +94,7 @@ public class LUMApplicationManager extends Controller{
 
 	    @Override
 	    protected <V extends Enum<?>> View getView(V viewType) {
+	    	// FIXME the showDefaultView calls should probably be handled elsewhere, not in this factory method
 	        switch ((LUMViews) viewType) {
 	            case HOME_MENU:
 	                return homeMenuView;
@@ -101,27 +103,27 @@ public class LUMApplicationManager extends Controller{
 	                initBlankCourseView();
 	                
 	                //FIXME: This is a quick fix, need better way to reset view
-	                cluProposalController.showDefaultView();  
+	                cluProposalController.showDefaultView(NO_OP_CALLBACK);  
 
 	                return createCluView;
 	            case EDIT_COURSE_PROPOSAL:
 	                //View setup should already be handled.
 
 	                //FIXME: This is quick fix, need better way via config to set and show summary view.
-	                cluProposalController.showDefaultView(); 
+	                cluProposalController.showDefaultView(NO_OP_CALLBACK); 
 //	                cluProposalController.showView(LuConfigurer.LuSections.SUMMARY);//FIXME this was causing the nav bar not to show up
 	                return createCluView;
 	            case VIEW_COURSE:
 	                if (viewCluView == null){
 	                    viewCluView = new DelegatingViewComposite(this, new ViewCluController());
 	                }
-	                viewCluController.showDefaultView();
+	                viewCluController.showDefaultView(NO_OP_CALLBACK);
 	                return viewCluView;
 	            case CREATE_PROGRAM:
 	                initBlankCluProposalView(LUConstants.PROPOSAL_TYPE_PROGRAM_CREATE, LUConstants.CLU_TYPE_CREDIT_PROGRAM);  //FIXME replace with program specific constants
 
 	                //FIXME: This is a quick fix, need better way to reset view
-	                cluProposalController.showDefaultView();  
+	                cluProposalController.showDefaultView(NO_OP_CALLBACK);  
 
 	                return createCluView; //createProgramView;                
 	            default:
@@ -198,7 +200,7 @@ public class LUMApplicationManager extends Controller{
 	    }
 
 	    @Override
-	    public void showDefaultView() {
+	    public void showDefaultView(final Callback<Boolean> onReadyCallback) {
 	        final String docId=Window.Location.getParameter("docId");
 	        String backdoorId=Window.Location.getParameter("backdoorId");
 	        if(docId!=null){
@@ -206,24 +208,26 @@ public class LUMApplicationManager extends Controller{
 	                cluProposalRpcServiceAsync.loginBackdoor(backdoorId, new AsyncCallback<Boolean>(){
 	                    public void onFailure(Throwable caught) {
 	                        Window.alert(caught.getMessage());
+	                        onReadyCallback.exec(false);
 	                    }
 
 	                    public void onSuccess(Boolean result) {
 	                        if(!result){
 	                            Window.alert("Error with backdoor login");
+	                            onReadyCallback.exec(false);
 	                        }
 	                        initCluProposalViewFromDocId(LUConstants.PROPOSAL_TYPE_COURSE_CREATE, LUConstants.CLU_TYPE_CREDIT_COURSE, docId);  //FIXME replace with program specific constants
-	                        showView(LUMViews.EDIT_COURSE_PROPOSAL);
+	                        showView(LUMViews.EDIT_COURSE_PROPOSAL, onReadyCallback);
 	                    }
 
 	                });
 	            }else{
 	                initCluProposalViewFromDocId(LUConstants.PROPOSAL_TYPE_COURSE_CREATE, LUConstants.CLU_TYPE_CREDIT_COURSE, docId);  //FIXME replace with program specific constants
-	                this.showView(LUMViews.EDIT_COURSE_PROPOSAL);
+	                this.showView(LUMViews.EDIT_COURSE_PROPOSAL, onReadyCallback);
 	            }
 	        }
 	        else{
-	            this.showView(LUMViews.HOME_MENU);
+	            this.showView(LUMViews.HOME_MENU, onReadyCallback);
 	        }
 	    }
 

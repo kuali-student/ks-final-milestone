@@ -17,6 +17,7 @@ package org.kuali.student.lum.ui.requirements.client.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
@@ -95,7 +96,8 @@ public class ManageRulesView extends ViewComposite {
         super.initWidget(mainPanel);                
     }
     
-    public void beforeShow() {
+    @Override
+    public void beforeShow(final Callback<Boolean> onReadyCallback) {
 
         if (isInitialized == false) {
             setupHandlers();            
@@ -122,6 +124,7 @@ public class ManageRulesView extends ViewComposite {
         redraw();
         
         isInitialized = true;
+        onReadyCallback.exec(true);
     }
 
     private void setupHandlers() {            
@@ -212,7 +215,7 @@ public class ManageRulesView extends ViewComposite {
                         }
                     });                
                                     
-                    getController().showView(PrereqViews.CLAUSE_EDITOR);
+                    getController().showView(PrereqViews.CLAUSE_EDITOR, Controller.NO_OP_CALLBACK);
                 }
             }
         };
@@ -232,7 +235,7 @@ public class ManageRulesView extends ViewComposite {
                     }
                 });                  
                 
-                getController().showView(PrereqViews.CLAUSE_EDITOR);
+                getController().showView(PrereqViews.CLAUSE_EDITOR, Controller.NO_OP_CALLBACK);
             }
         });                
         
@@ -379,7 +382,7 @@ public class ManageRulesView extends ViewComposite {
                 RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
                 prereqInfo.populateExpression();
                 prereqInfo.setPreviewedExpression(prereqInfo.getExpression());
-                getController().showView(PrereqViews.RULE_EXPRESSION_EDITOR);
+                getController().showView(PrereqViews.RULE_EXPRESSION_EDITOR, Controller.NO_OP_CALLBACK);
             }
         });
         

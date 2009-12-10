@@ -141,7 +141,8 @@ public class ViewCluController extends PagedSectionLayout{
                     ViewCluConfigurer.setState((String) cluProposalModel.get("proposal/state"));
                     generateLayout();
 
-                    getCurrentView().beforeShow();
+                    
+                    getCurrentView().beforeShow(NO_OP_CALLBACK);
                 }
         		
         	});

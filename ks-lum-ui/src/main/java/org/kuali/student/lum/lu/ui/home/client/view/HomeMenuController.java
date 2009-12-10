@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.ApplicationEvent;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
@@ -131,7 +132,7 @@ public class HomeMenuController extends Controller{
 
             if (sender == creditCourse.getPanel()) {
                 creditCourse.select();
-                showView(MenuViews.CREATE_COURSE_VIEW);
+                showView(MenuViews.CREATE_COURSE_VIEW, NO_OP_CALLBACK);
             }
             else if (sender == createProgram.getPanel()) {
             	createProgram.select();
@@ -139,7 +140,7 @@ public class HomeMenuController extends Controller{
             }            
             else if(sender == find.getPanel()){
                 find.select();
-                showView(MenuViews.FIND_VIEW);
+                showView(MenuViews.FIND_VIEW, NO_OP_CALLBACK);
             }
             
         }
@@ -229,9 +230,9 @@ public class HomeMenuController extends Controller{
     }
 
     @Override
-    public void showDefaultView() {
+    public void showDefaultView(final Callback<Boolean> onReadyCallback) {
     	creditCourse.select();
-        showView(MenuViews.CREATE_COURSE_VIEW);
+        showView(MenuViews.CREATE_COURSE_VIEW, onReadyCallback);
         
     }
 

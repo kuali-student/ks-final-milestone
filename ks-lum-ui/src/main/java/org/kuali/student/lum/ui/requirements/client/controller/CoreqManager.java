@@ -14,6 +14,7 @@
  */
 package org.kuali.student.lum.ui.requirements.client.controller;
 
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
@@ -43,7 +44,7 @@ public class CoreqManager extends Controller {
 
     @Override
     protected void onLoad() {
-        showDefaultView();
+        showDefaultView(NO_OP_CALLBACK);
         // add event handler to show example of a nested controller listening for unchecked events
         addApplicationEventHandler(LogoutEvent.TYPE, new LogoutHandler() {
             public void onLogout(LogoutEvent event) {
@@ -76,8 +77,9 @@ public class CoreqManager extends Controller {
     }
 
     @Override
-    public void showDefaultView() {
+    public void showDefaultView(final Callback<Boolean> onReadyCallback) {
 //        showView(AddressViews.ADDRESS_LIST);
+    	onReadyCallback.exec(true);
     }
 
     @Override

@@ -85,26 +85,23 @@ public class CourseProposalController extends TabbedSectionLayout {
 	private final String CLU_STATE = "draft";
 	
 	private final String REFERENCE_TYPE = "referenceType.clu";
-	
+	private boolean initialized = false;
 	CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);
     
         
     public CourseProposalController(){
         super();
-        init();
     }
     public CourseProposalController(String proposalType, String cluType){
         super();
     	this.proposalType = proposalType;
     	this.cluType = cluType;        
-        init();
     }
     public CourseProposalController(String proposalType, String cluType, String docId) {
     	super();
     	this.docId = docId;   	
     	this.proposalType = proposalType;
     	this.cluType = cluType;
-    	init();
 	}
     
     private KSButton getSaveButton(){
@@ -125,23 +122,30 @@ public class CourseProposalController extends TabbedSectionLayout {
                 });       
     }
     
-    private void init() {
-        cluProposalRpcServiceAsync.getCreditCourseProposalMetadata( 
-                new AsyncCallback<Metadata>(){
-
-                    @Override
-                    public void onFailure(Throwable caught) {
-                        throw new RuntimeException("Failed to get model definition.", caught);                        
-                    }
-
-                    @Override
-                    public void onSuccess(Metadata result) {
-                    	DataModelDefinition def = new DataModelDefinition(result);
-                        cluProposalModel.setDefinition(def);
-                        init(def);
-                    }                
-            });
-
+    private void init(final Callback<Boolean> onReadyCallback) {
+    	if (initialized) {
+    		onReadyCallback.exec(true);
+    	} else {
+	        cluProposalRpcServiceAsync.getCreditCourseProposalMetadata( 
+	                new AsyncCallback<Metadata>(){
+	
+	                    @Override
+	                    public void onFailure(Throwable caught) {
+	                    	onReadyCallback.exec(false);
+	                        throw new RuntimeException("Failed to get model definition.", caught);                        
+	                    }
+	
+	                    @Override
+	                    public void onSuccess(Metadata result) {
+	                    	DataModelDefinition def = new DataModelDefinition(result);
+	                        cluProposalModel.setDefinition(def);
+	                        init(def);
+	                        initialized = true;
+	                        onReadyCallback.exec(true);
+	                    }                
+	            });
+	        
+    	}
     }
     private void init(DataModelDefinition modelDefinition){
         
@@ -192,7 +196,6 @@ public class CourseProposalController extends TabbedSectionLayout {
         });
         
         initialized = true;
-        execPendingViewCommands();
     }
         
     /**
@@ -332,7 +335,7 @@ public class CourseProposalController extends TabbedSectionLayout {
         String proposalName = cluProposalModel.get(CLU_PROPOSAL_NAME_KEY);
         currentSaveEvent = saveActionEvent;
         if (proposalName == null){
-            showStartSection();
+            showStartSection(NO_OP_CALLBACK);
         } else {
             getStartSection().updateModel();
             
@@ -422,7 +425,7 @@ public class CourseProposalController extends TabbedSectionLayout {
     public void setDocId(String docId) {
         this.docId = docId;
         this.proposalId = null;
-        this.cluProposalModel.setRoot(null);
+        this.cluProposalModel.setRoot(new Data());
     }
 
 
@@ -434,7 +437,7 @@ public class CourseProposalController extends TabbedSectionLayout {
     public void setProposalId(String proposalId) {
         this.proposalId = proposalId;
         this.docId = null;
-        this.cluProposalModel.setRoot(new Data());        
+        this.cluProposalModel.setRoot(null);        
     }
     
     public void clear(String proposalType, String cluType){
@@ -449,31 +452,24 @@ public class CourseProposalController extends TabbedSectionLayout {
         this.proposalId = null;
     }
     
-	// FIXME this is a hack to work around async fetches when configuring views
-    private boolean initialized = false;
-	private List<Command> pendingViewCommands = new ArrayList<Command>();
-	private void execPendingViewCommands() {
-		for (Command c : pendingViewCommands) {
-			c.execute();
-		}
-		pendingViewCommands.clear();
-	}
+	
 	@Override
-	public void showDefaultView() {
-		if (initialized) {
-			super.showDefaultView();
-		} else {
-			pendingViewCommands.add(new Command() {
-				@Override
-				public void execute() {
-					doShowDefaultView();
+	public void showDefaultView(final Callback<Boolean> onReadyCallback) {
+		init(new Callback<Boolean>() {
+
+			@Override
+			public void exec(Boolean result) {
+				if (result) {
+					doShowDefaultView(onReadyCallback);
+				} else {
+					onReadyCallback.exec(false);
 				}
-			});
-		}
+			}
+		});
 	}
 	
-	private void doShowDefaultView() {
-		super.showDefaultView();
+	private void doShowDefaultView(final Callback<Boolean> onReadyCallback) {
+		super.showDefaultView(onReadyCallback);
 	}
     
     

@@ -762,7 +762,8 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 					time.setTimeQuantity(activity.getContactHours().getHrs());
 				}
 				
-				activityClu.setDefaultEnrollmentEstimate(activity.getDefaultEnrollmentEstimate());
+				Integer enrEst = activity.getDefaultEnrollmentEstimate();
+				activityClu.setDefaultEnrollmentEstimate(enrEst == null ? 0 : enrEst);
 				// TODO un-hardcode
 				activityClu.setState("draft");
 				activityHierarchy.setParentRelationType(ACTIVITY_RELATION_TYPE);
