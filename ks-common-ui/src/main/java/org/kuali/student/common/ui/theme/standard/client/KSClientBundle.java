@@ -6,6 +6,7 @@ import com.google.gwt.libideas.resources.client.CssResource;
 import com.google.gwt.libideas.resources.client.DataResource;
 import com.google.gwt.libideas.resources.client.ImageResource;
 import com.google.gwt.libideas.resources.client.ImmutableResourceBundle;
+import com.google.gwt.libideas.resources.client.ImmutableResourceBundle.Resource;
 
 public interface KSClientBundle extends ImmutableResourceBundle{
 	public static final KSClientBundle INSTANCE =  GWT.create(KSClientBundle.class);
@@ -138,6 +139,9 @@ public interface KSClientBundle extends ImmutableResourceBundle{
     @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/asterisk_orange.png")
     public ImageResource asterisk();
     
+    @Resource("org/kuali/student/common/ui/theme/custom/public/images/common/twiddler3.gif")
+    public ImageResource spinner();
+
     @Resource("org/kuali/student/common/ui/theme/standard/public/images/common/blue-gradient.jpg")
     public DataResource blueGradient();
     

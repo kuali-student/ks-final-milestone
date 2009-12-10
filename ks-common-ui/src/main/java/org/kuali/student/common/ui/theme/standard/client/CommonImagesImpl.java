@@ -35,6 +35,11 @@ public class CommonImagesImpl implements CommonImages{
     }
 
     @Override
+	public KSImage getProgressSpinner() {
+		return new KSImage(KSClientBundle.INSTANCE.spinner());
+	}
+
+	@Override
     public KSImage getWarningIcon() {
         return new KSImage(KSClientBundle.INSTANCE.warningIcon());
     }

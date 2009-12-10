@@ -13,4 +13,5 @@ public interface CommonImages {
     public KSImage getDeleteCommentIcon();
     public KSImage getSpacer();
     public KSImage getSearchIcon();
+    public KSImage getProgressSpinner();
 }

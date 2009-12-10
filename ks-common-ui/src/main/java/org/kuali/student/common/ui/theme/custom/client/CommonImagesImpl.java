@@ -49,6 +49,11 @@ public class CommonImagesImpl implements CommonImages{
     public KSImage getSearchIcon() {
         return null;
     }
+
+	@Override
+	public KSImage getProgressSpinner() {
+		return new KSImage(KSClientBundle.INSTANCE.spinner());
+	}
 	
 	
 
