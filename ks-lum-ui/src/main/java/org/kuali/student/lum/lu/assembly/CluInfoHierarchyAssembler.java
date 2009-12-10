@@ -59,6 +59,7 @@ public class CluInfoHierarchyAssembler implements Assembler<CluInfoHierarchy, Vo
 	}
 	private LuService luService;
 	private RelationshipHierarchy hierarchy;
+	public static final String JOINT_RELATION_TYPE = "kuali.lu.relation.type.co-located";
 
 	public RelationshipHierarchy getHierarchy() {
 		return hierarchy;
@@ -110,6 +111,10 @@ public class CluInfoHierarchyAssembler implements Assembler<CluInfoHierarchy, Vo
 		List<CluCluRelationInfo> children = luService.getCluCluRelationsByClu(currentClu.getCluInfo().getId());
 		if (children != null) {
 			for (CluCluRelationInfo rel : children) {
+				if(rel.getType().equals(CreditCourseProposalAssembler.JOINT_RELATION_TYPE)){
+					// if the cluclu realtion is of type jointCourses than dont add that as a child to the CluInfoHierarchy object
+					return;
+				}
 				CluInfo clu = luService.getClu(rel.getRelatedCluId());
 				CluInfoHierarchy c = new CluInfoHierarchy();
 				c.setParentRelationType(currentRel.getRelationshipType());
