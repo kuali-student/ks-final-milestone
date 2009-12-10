@@ -1,5 +1,7 @@
 package org.kuali.student.common.ui.client.configurable.mvc;
 
+import org.kuali.student.common.assembly.client.LookupParamMetadata;
+import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.ui.client.configurable.mvc.impl.DefaultWidgetFactoryImpl;
 
 import com.google.gwt.core.client.GWT;
@@ -11,5 +13,10 @@ public abstract class DefaultWidgetFactory {
 		return instance;
 	}
 	public abstract Widget getWidget(FieldDescriptor field);
+	
+	public abstract Widget getWidget(Metadata meta);
+	
+	public abstract Widget getWidget(LookupParamMetadata meta);
+	
 }
  
