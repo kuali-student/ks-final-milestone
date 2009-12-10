@@ -17,7 +17,9 @@ package org.kuali.student.lum.lu.ui.course.client.widgets;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.CustomNestedSection;
@@ -32,18 +34,22 @@ import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.Type;
 import org.kuali.student.common.ui.client.theme.Theme;
+import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
-import org.kuali.student.common.ui.client.widgets.KSRadioButton;
 import org.kuali.student.common.ui.client.widgets.KSThinTitleBar;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ConfirmCancelGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.GoCancelGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ConfirmCancelEnum;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.GoCancelEnum;
 import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
+import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
-import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
+import org.kuali.student.common.ui.client.widgets.selectors.SearchComponentConfiguration;
+import org.kuali.student.core.search.dto.QueryParamValue;
+import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluDictionaryClassNameHelper;
@@ -55,8 +61,6 @@ import org.kuali.student.lum.lu.ui.course.client.service.LuRpcServiceAsync;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -80,6 +84,9 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class LOBuilder extends Composite  implements HasModelDTOValue {
+    
+    //TODO: need to move more search stuff to LOSearchWidget
+    //
 
     private static String type;
     private static String state;
@@ -88,23 +95,26 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
     private LoRpcServiceAsync loRpcServiceAsync = GWT.create(LoRpcService.class);
     private LuRpcServiceAsync luRpcServiceAsync = GWT.create(LuRpcService.class);
 
-    CluCodePicker coursePicker = new CluCodePicker();
+    final CluCodePicker cluPicker = new CluCodePicker();
+    LOSearchWidget searchWidget;   
 
-    KSAdvancedSearchWindow loWordSearchWindow;
-    KSLightBox loCluSearchWindow;
-    KSLightBox cluSearchResultsWindow ;
+    KSLightBox searchResultsWindow ;
 
     VerticalPanel main = new VerticalPanel();
 
     HorizontalPanel searchMainPanel = new HorizontalPanel();
     SimplePanel searchSpacerPanel = new SimplePanel();
     HorizontalPanel searchLinkPanel = new HorizontalPanel();
+    final SimplePanel searchParamPanel = new SimplePanel();
+
+    SearchComponentConfiguration loSearchConfig;
 
     VerticalPanel loPanel = new VerticalPanel();
 
     KSLabel searchLink;
     LearningObjectiveList loList;
     KSLabel instructions ;
+    final KSDropDown loSearches = new KSDropDown();
 
     private static final int NUM_INITIAL_LOS = 5;
 
@@ -131,6 +141,12 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
             public void onClick(ClickEvent event) {
                 if (searchWindow == null) {
                     initSearchWindow();
+                }
+                else {
+//                  loSearches.redraw();  TODO doesn't seem to work
+                    searchParamPanel.clear();
+                    cluPicker.clear();
+
                 }
                 searchWindow.show();
             }
@@ -168,6 +184,305 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
 
     }
 
+    private void initSearchWindow() {
+        VerticalPanel main = new VerticalPanel();
+        HorizontalPanel selectSearchPanel = new HorizontalPanel();
+
+        KSThinTitleBar titleBar = new KSThinTitleBar(getLabel(LUConstants.LO_SEARCH_LINK));
+
+//      loSearches.setMultipleSelect(false);
+        selectSearchPanel.add(new KSLabel("Search: "));
+        selectSearchPanel.add(loSearches);
+        final ListItems searchTypesList = buildSearchListItems();
+        loSearches.setListItems(searchTypesList);
+        loSearches.addSelectionChangeHandler(new SelectionChangeHandler() {
+
+            @Override
+            public void onSelectionChange(KSSelectItemWidgetAbstract w) {
+                List<String> selectedItems = loSearches.getSelectedItems();
+                if (searchTypesList.getItemText(selectedItems.get(0)).equals(SEARCH_BY_COURSE_CODE)) {
+                    cluPicker.clear();                    
+                    searchParamPanel.clear();
+                    searchParamPanel.add(cluPicker);
+                }
+                else {
+                    searchParamPanel.clear();
+                    searchParamPanel.add(buildWordSearchPanel());
+
+                }
+            }
+        })  ;
+
+        GoCancelGroup buttonPanel = new GoCancelGroup(new Callback<GoCancelEnum>(){
+
+            @Override
+            public void exec(GoCancelEnum result) {
+                switch(result){
+                    case GO:
+                        List<String> selectedItems = loSearches.getSelectedItems();
+                        for(String s: selectedItems){
+                            if (searchTypesList.getItemText(s).equals(SEARCH_BY_COURSE_CODE)) {
+                                getLOsForClu();                                                          
+                            }
+                            else if (searchTypesList.getItemText(s).equals(SEARCH_BY_WORD)) {
+                                performSearch(loSearchConfig, searchWidget.buildSearchParams());
+//                              Window.alert(searchTypesList.getItemText(s) + " selected");
+
+                            }
+                            else {
+                                Window.alert("Invalid search type selected");
+
+                            }
+                        }
+                        break;
+                    case CANCEL:
+                        searchWindow.hide();
+                        break;
+                }
+            }
+        });
+
+        main.add(titleBar);
+        main.add(selectSearchPanel);
+        main.add(searchParamPanel);
+        main.add(buttonPanel);
+
+        searchWindow = new KSLightBox();
+        searchWindow.setWidget(main);
+    }    
+
+    private void getLOsForClu() {
+        luRpcServiceAsync.getLoIdsByClu(cluPicker.getValue(), new AsyncCallback<List<String>>() {
+
+            @Override
+            public void onFailure(Throwable caught) {
+                GWT.log("getLoIdsByClu failed ", caught);
+            }
+
+            @Override
+            public void onSuccess(List<String> result) {
+                searchWindow.hide();
+                showCourseSearchResultsWindow(cluPicker.getText(), result);
+
+            }
+        });
+    }
+
+    private Widget buildWordSearchPanel() {
+
+        VerticalPanel main = new VerticalPanel();
+
+//      KSAdvancedSearchRpc search = new KSAdvancedSearchRpc(loRpcServiceAsync, "lo.search.loByDesc","lo.resultColumn.loDescId");
+
+//      search.setIgnoreCase(true);
+//      search.setPartialMatch(true);
+
+
+        List<String> basicCriteria = new ArrayList<String>() {
+            {
+                add("lo.queryParam.loDescPlain");
+            }
+        };
+
+//      List<String> advancedCriteria = new ArrayList<String>() {
+//      {
+//      add("org.queryParam.orgOptionalLongName");
+//      add("org.queryParam.orgOptionalLocation");
+//      add("org.queryParam.orgOptionalId");
+//      }
+//      };    
+
+        //set context criteria
+        List<QueryParamValue> contextCriteria = new ArrayList<QueryParamValue>();           
+//      QueryParamValue orgOptionalTypeParam = new QueryParamValue();
+//      orgOptionalTypeParam.setKey("org.queryParam.orgOptionalType");
+//      orgOptionalTypeParam.setValue("kuali.org.Department");   
+//      contextCriteria.add(orgOptionalTypeParam);              
+
+        loSearchConfig = new SearchComponentConfiguration(contextCriteria, basicCriteria, null);
+        loSearchConfig.setSearchDialogTitle("Find Learning Objectives");
+        loSearchConfig.setSearchService(loRpcServiceAsync);
+        loSearchConfig.setSearchTypeKey("lo.search.loByDesc");
+        loSearchConfig.setResultIdKey("lo.resultColumn.loDescId");
+        loSearchConfig.setRetrievedColumnKey("lo.resultColumn.loDescPlain");
+
+
+        searchWidget = new LOSearchWidget(loSearchConfig, loSearchConfig.getBasicCriteria());   
+        searchWidget.setPartialMatch(true);
+        searchWidget.setIgnoreCase(true);
+
+//      searchWidget.addSelectionHandler(new SelectionHandler<List<ResultCell>>(){
+////    public void onSelection(SelectionEvent<List<String>> event) {
+////    }
+
+//      public void onSelection(SelectionEvent<List<ResultCell>> event) {
+
+//      final List<ResultCell> selectedCells = event.getSelectedItem();
+//      if (selectedCells.size() > 0){      
+//      List<String> selected = new ArrayList<String>();                                
+//      for (ResultCell c: selectedCells) {
+//      selected.add(c.getValue());
+
+//      }
+//      loList.addSelectedLOs(selected);
+//      searchWindow.hide();
+//      }                  
+//      }
+
+//      });
+
+        main.add(searchWidget);
+        return main;
+    }
+
+    private void showCourseSearchResultsWindow(final String selectedCluCode, final List<String> loIds) {
+        if (loIds != null && !loIds.isEmpty()) {
+            loRpcServiceAsync.getLoByIdList(loIds, new AsyncCallback<List<LoInfo>>() {
+
+                @Override
+                public void onFailure(Throwable caught) {
+                    Window.alert("getLoByIdList failed " + caught.getMessage());
+                }
+
+                @Override
+                public void onSuccess(List<LoInfo> results) {
+
+                    searchResultsWindow = new KSLightBox();
+                    final KSThinTitleBar titleBar = new KSThinTitleBar(results.size() + " results returned for " + selectedCluCode);
+                    final VerticalPanel main = new VerticalPanel();
+                    final KSCheckBoxList loCheckBoxes = new KSCheckBoxList();
+                    final ListItems loListItems = new LoInfoList(results);
+                    loCheckBoxes.setListItems(loListItems);
+
+                    main.add(titleBar);
+                    main.add(loCheckBoxes);
+                    main.add(new ConfirmCancelGroup(new Callback<ConfirmCancelEnum>(){
+
+                        @Override
+                        public void exec(ConfirmCancelEnum result) {
+                            switch(result){
+                                case CONFIRM:
+                                    List<String> selected = new ArrayList<String>();                                
+                                    for (String s: loCheckBoxes.getSelectedItems()) {
+                                        selected.add(loListItems.getItemText(s));
+
+                                    }
+                                    loList.addSelectedLOs(selected);
+                                    searchResultsWindow.hide();
+                                    break;
+                                case CANCEL:
+                                    searchWindow.show();
+                                    searchResultsWindow.hide();
+                                    break;
+                            }
+                        }
+                    }));
+                    searchWindow.hide();
+                    searchResultsWindow.setWidget(main);
+                    searchResultsWindow.show();
+                }
+
+            });
+        }
+        else {
+            Window.alert("No LOs found");
+
+        }
+    }
+
+    private void performSearch(SearchComponentConfiguration searchConfig, List<QueryParamValue> queryParamValues){
+
+        searchConfig.getSearchService().searchForResults(searchConfig.getSearchTypeKey(), queryParamValues, new AsyncCallback<List<Result>>(){
+
+            @Override
+            public void onFailure(Throwable caught) {
+                Window.alert("Search failed");
+            }
+
+            @Override
+            public void onSuccess(List<Result> results) {
+                showWordSearchResultsWindow(results);
+            }
+        });
+    }
+
+    private void showWordSearchResultsWindow(List<Result> results) {   
+                
+        searchResultsWindow = new KSLightBox();
+        final VerticalPanel main = new VerticalPanel();
+        final KSCheckBoxList loCheckBoxes = new KSCheckBoxList();
+        final LoResultList loListItems = new LoResultList(results);
+        loCheckBoxes.setListItems(loListItems);
+        final KSThinTitleBar titleBar = new KSThinTitleBar(loListItems.getItemCount() + " results returned " );//+ enteredWord);
+
+        main.add(titleBar);
+        main.add(loCheckBoxes);
+        main.add(new ConfirmCancelGroup(new Callback<ConfirmCancelEnum>(){
+
+            @Override
+            public void exec(ConfirmCancelEnum result) {
+                switch(result){
+                    case CONFIRM:
+                        List<String> selected = new ArrayList<String>();                                
+                        for (String s: loCheckBoxes.getSelectedItems()) {
+                            selected.add(loListItems.getItemText(s));
+
+                        }
+                        loList.addSelectedLOs(selected);
+                        searchResultsWindow.hide();
+                        break;
+                    case CANCEL:
+                        searchWindow.show();
+                        searchResultsWindow.hide();
+                        break;
+                }
+            }
+        }));
+        searchWindow.hide();
+        searchResultsWindow.setWidget(main);
+        searchResultsWindow.show();
+
+    }
+    
+    @Override
+    public void setValue(ModelDTOValue modelDTOValue) {
+        loList.setValue(modelDTOValue);
+
+    }
+
+    @Override
+    public void setValue(ModelDTOValue value, boolean fireEvents) {
+        setValue(value, fireEvents);
+    }
+
+    /**
+     * @see com.google.gwt.user.client.ui.HasValue#getValue()
+     */
+    @Override
+    public ModelDTOValue getValue() {
+        return loList.getValue();
+    }
+
+    /**
+     * @see org.kuali.student.common.ui.client.configurable.mvc.HasModelDTOValue#updateModelDTO(org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue)
+     */
+    @Override
+    public void updateModelDTOValue() {
+        loList.updateModelDTOValue();
+    }
+
+    /**
+     * @see com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
+     */
+    @Override
+    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<ModelDTOValue> handler) {
+        return loList.addValueChangeHandler(handler);
+    }
+
+
+    private static String getLabel(String labelKey) {
+        return Application.getApplicationContext().getUILabel(messageGroup, type, state, labelKey);
+    }
 
     public static class LearningObjectiveList extends SimpleMultiplicityComposite {
         private static final String STYLE_HIGHLIGHTED_ITEM = "KS-LOBuilder-Highlighted-Item";
@@ -175,7 +490,7 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
 
         {
             setAddItemLabel(getLabel(LUConstants.LEARNING_OBJECTIVE_ADD_LABEL_KEY));
-//          setShowDelete(false);
+//            setShowDelete(false);
         }
 
         @Override
@@ -244,7 +559,7 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
 
             }
         }
-        
+
         private void addSelectedLOs(List<String> selected) {
             this.removeOldHighlights();
             List<Integer> addedLos = new ArrayList<Integer>();
@@ -314,236 +629,94 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
             LearningObjectiveList.this.itemsPanel.remove(decrator);
         }
     }
+    
+    private class LoInfoList implements ListItems{
+        Map<String, LoInfo> loInfoMap = new HashMap<String, LoInfo>();
 
-    private void initSearchWindow() {
-        VerticalPanel main = new VerticalPanel();
-        KSThinTitleBar titleBar = new KSThinTitleBar(getLabel(LUConstants.LO_SEARCH_LINK));
-
-        VerticalPanel selectSearchPanel = new VerticalPanel();
-
-        final KSRadioButton wordSearch = new KSRadioButton("searchType", "Search for words in Learning Objective");
-        final KSRadioButton courseSearch = new KSRadioButton("searchType", "Search by Course Code");
-        selectSearchPanel.add(wordSearch);
-        selectSearchPanel.add(courseSearch);
-
-        GoCancelGroup buttonPanel = new GoCancelGroup(new Callback<GoCancelEnum>(){
-
-            @Override
-            public void exec(GoCancelEnum result) {
-                switch(result){
-                    case GO:
-                        if (wordSearch.getValue()) {
-                            if (loWordSearchWindow == null) {
-                                initWordSearchWindow();
-                            }
-                            else {
-                                loWordSearchWindow.reset();
-                            }
-                            searchWindow.hide();
-                            loWordSearchWindow.show();
-                        }
-                        else {
-                            if (loCluSearchWindow == null) {
-                                initCluSearchWindow();
-                            }
-                            else {
-//                              ((CluCodePicker)loCluSearchWindow.getWidget()).clear();
-                            }
-                            searchWindow.hide();
-                            loCluSearchWindow.show();
-                        }
-
-                        break;
-                    case CANCEL:
-                        searchWindow.hide();
-                        loCluSearchWindow.hide();
-                        loWordSearchWindow.hide();
-                        break;
-                }
+        public LoInfoList(List<LoInfo> loInfos){
+            for (LoInfo lo: loInfos){
+                loInfoMap.put(lo.getId(), lo);
             }
-        });
-
-        main.add(titleBar);
-        main.add(selectSearchPanel);
-        main.add(buttonPanel);
-
-        searchWindow = new KSLightBox();
-        searchWindow.setWidget(main);
-    }    
-
-    private void initWordSearchWindow() {
-
-        loWordSearchWindow = new KSAdvancedSearchWindow(loRpcServiceAsync, "lo.search.loByDesc","lo.resultColumn.loDescId",
-                getLabel(LUConstants.LEARNING_OBJECTIVE_WORD_SEARCH_KEY));
-        loWordSearchWindow.setIgnoreCase(true);
-        loWordSearchWindow.setPartialMatch(true);
-        loWordSearchWindow.addSelectionHandler(new SelectionHandler<List<String>>(){
-            public void onSelection(SelectionEvent<List<String>> event) {
-                final List<String> selected = event.getSelectedItem();
-
-                loList.addSelectedLOs(selected);
-                loWordSearchWindow.hide();
-            }
-
-
-        });
-    }
-
-    private void initCluSearchWindow() {
-
-        loCluSearchWindow = new KSLightBox();
-        KSThinTitleBar titleBar = new KSThinTitleBar(getLabel(LUConstants.LEARNING_OBJECTIVE_CLUCODE_SEARCH_KEY));
-
-        VerticalPanel main = new VerticalPanel();
-        final CluCodePicker picker = new CluCodePicker();
-        GoCancelGroup buttonPanel = new GoCancelGroup(new Callback<GoCancelEnum>(){
-
-            @Override
-            public void exec(GoCancelEnum result) {
-                switch(result){
-                    case GO:
-
-                        luRpcServiceAsync.getLoIdsByClu(picker.getValue(), new AsyncCallback<List<String>>() {
-
-                            @Override
-                            public void onFailure(Throwable caught) {
-                                GWT.log("getLoIdsByClu failed ", caught);
-                            }
-
-                            @Override
-                            public void onSuccess(List<String> result) {
-                                loCluSearchWindow.hide();
-                                showCourseSearchResultsWindow(picker.getText(), result);
-
-                            }
-                        });
-
-                        break;
-                    case CANCEL:
-                        loCluSearchWindow.hide();
-                        searchWindow.show();
-                        break;
-                }
-            }
-        });
-
-        main.add(titleBar);
-        main.add(picker);
-        main.add(buttonPanel);
-        loCluSearchWindow.setWidget(main);
-    }
-
-    private void showCourseSearchResultsWindow(final String selectedCluCode, final List<String> loIds) {
-        if (loIds != null && !loIds.isEmpty()) {
-            loRpcServiceAsync.getLoByIdList(loIds, new AsyncCallback<List<LoInfo>>() {
-
-                @Override
-                public void onFailure(Throwable caught) {
-                    Window.alert("getLoByIdList failed " + caught.getMessage());
-                }
-
-                @Override
-                public void onSuccess(List<LoInfo> result) {
-
-                    cluSearchResultsWindow = new KSLightBox();
-                    final KSThinTitleBar titleBar = new KSThinTitleBar("Learning Objectives for " + selectedCluCode);
-                    final VerticalPanel main = new VerticalPanel();
-                    final KSCheckBoxList loCheckBoxes = new KSCheckBoxList();
-                    final ListItems loListItems = buildListItems(result);
-                    loCheckBoxes.setListItems(loListItems);
-
-                    main.add(titleBar);
-                    main.add(loCheckBoxes);
-                    main.add(new ConfirmCancelGroup(new Callback<ConfirmCancelEnum>(){
-
-                        @Override
-                        public void exec(ConfirmCancelEnum result) {
-                            switch(result){
-                                case CONFIRM:
-                                    List<String> selected = new ArrayList<String>();                                
-                                    for (String s: loCheckBoxes.getSelectedItems()) {
-                                        selected.add(loListItems.getItemText(s));
-                                        
-                                    }
-                                    loList.addSelectedLOs(selected);
-                                    cluSearchResultsWindow.hide();
-                                    break;
-                                case CANCEL:
-                                    loCluSearchWindow.show();
-                                    cluSearchResultsWindow.hide();
-                                    break;
-                            }
-                        }
-                    }));
-                    loCluSearchWindow.hide();
-                    cluSearchResultsWindow.setWidget(main);
-                    cluSearchResultsWindow.show();
-                }
-
-            });
         }
-        else {
-            Window.alert("No LOs found");
+        
+        public List<String> getAttrKeys() {
+            return Arrays.asList("Description");
+        }
+        
+        public String getItemAttribute(String id, String attrkey) {
+            LoInfo lo = loInfoMap.get(id);
+            
+            if (attrkey.equals("Description")){
+                return lo.getDesc().getPlain(); 
+            }
+            
+            return null;
+        }
+        
+        public int getItemCount() {
+            return loInfoMap.size();
+        }
+        
+        public List<String> getItemIds() {
+            List<String> keys = new ArrayList<String>();
 
+            for (String s:loInfoMap.keySet()){
+                keys.add(s);
+            }
+            
+            return keys;
+        }
+        
+        public String getItemText(String id) {
+            return ((LoInfo)loInfoMap.get(id)).getDesc().getPlain();
+        }
+    }
+
+
+
+    class LoResultList implements ListItems{
+        Map<String, Result> loResultMap = new HashMap<String, Result>();
+                
+        public LoResultList(List<Result> results){
+            for (Result r: results){
+                loResultMap.put(r.getResultCells().get(0).getValue(), r);
+            }
+        }
+        
+        public List<String> getAttrKeys() {
+            return Arrays.asList("Description");
         }
 
+        public String getItemAttribute(String id, String attrkey) {
+            Result r = loResultMap.get(id);
+            
+            if (attrkey.equals("Description")){
+                return r.getResultCells().get(1).getValue(); 
+            }
+            
+            return null;
+        }
 
+        public int getItemCount() {
+            return loResultMap.size();
+        }
+
+        public List<String> getItemIds() {
+            List<String> keys = new ArrayList<String>();
+
+            for (String s:loResultMap.keySet()){
+                keys.add(s);
+            }
+            
+            return keys;
+        }
+
+        public String getItemText(String id) {
+            return ((Result)loResultMap.get(id)).getResultCells().get(1).getValue();
+        }
+                
     }
-
-    private ListItems buildListItems(final List<LoInfo> loList) {
-
-        ListItems list = new ListItems(){
-            @Override
-            public List<String> getAttrKeys() {
-                List<String> attributes = new ArrayList<String>();
-                attributes.add("Desc");
-                return attributes;
-            }
-
-            @Override
-            public String getItemAttribute(String id, String attrkey) {
-                String value = null;
-                for(LoInfo lo: loList){
-                    if(lo.getId().equals(id)){
-                        if(attrkey.equals("Desc")){
-                            value = lo.getDesc().getPlain();
-                        }
-                        break;
-                    }
-                }
-                return value;
-            }
-
-            @Override
-            public int getItemCount() {
-                return loList.size();
-            }
-
-            @Override
-            public List<String> getItemIds() {
-                List<String> ids = new ArrayList<String>();
-                for(LoInfo lo: loList){
-                    ids.add(lo.getId());
-                }
-                return ids;
-            }
-
-            @Override
-            public String getItemText(String id) {
-                String value = null;
-                for(LoInfo lo: loList){
-                    if(lo.getId().equals(id)){
-                        value = lo.getDesc().getPlain();
-                        break;
-                    }
-                }
-                return value;
-            }
-        };
-
-        return list;
-    }
-
+   
     private ListItems buildSearchListItems() {
 
         return new ListItems(){
@@ -589,45 +762,5 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
             }
         };
 
-    }
-
-    @Override
-    public void setValue(ModelDTOValue modelDTOValue) {
-        loList.setValue(modelDTOValue);
-
-    }
-
-    @Override
-    public void setValue(ModelDTOValue value, boolean fireEvents) {
-        setValue(value, fireEvents);
-    }
-
-    /**
-     * @see com.google.gwt.user.client.ui.HasValue#getValue()
-     */
-    @Override
-    public ModelDTOValue getValue() {
-        return loList.getValue();
-    }
-
-    /**
-     * @see org.kuali.student.common.ui.client.configurable.mvc.HasModelDTOValue#updateModelDTO(org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue)
-     */
-    @Override
-    public void updateModelDTOValue() {
-        loList.updateModelDTOValue();
-    }
-
-    /**
-     * @see com.google.gwt.event.logical.shared.HasValueChangeHandlers#addValueChangeHandler(com.google.gwt.event.logical.shared.ValueChangeHandler)
-     */
-    @Override
-    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<ModelDTOValue> handler) {
-        return loList.addValueChangeHandler(handler);
-    }
-
-
-    private static String getLabel(String labelKey) {
-        return Application.getApplicationContext().getUILabel(messageGroup, type, state, labelKey);
     }
 }

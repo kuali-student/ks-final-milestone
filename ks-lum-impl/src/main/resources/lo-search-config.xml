@@ -32,6 +32,16 @@
         </search:searchCriteriaTypeInfo>
     </search:searchType>
     
+    <search:searchType id="lo.search.loByDesc">
+        <search:name>LO Search for all LOs matching supplied word</search:name>
+        <search:desc>Returns all matching LOs</search:desc>
+        <search:searchResultTypeInfo>
+            <ref bean="lo.result.loByDesc" />
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+           <ref bean="lo.criteria.loByDesc"/>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
 
     <search:searchCriteriaTypeInfo id="lo.criteria.all">
         <search:name>LoLo</search:name>
@@ -64,16 +74,7 @@
         </search:resultColumns>
     </search:searchResultTypeInfo>
 
-    <search:searchType id="lo.search.loByDesc">
-        <search:name>LO Search for all LOs matching supplied word</search:name>
-        <search:desc>Returns all matching LOs</search:desc>
-        <search:searchResultTypeInfo>
-            <ref bean="lo.result.loByDesc" />
-        </search:searchResultTypeInfo>
-        <search:searchCriteriaTypeInfo>
-           <ref bean="lo.criteria.loByDesc"/>
-        </search:searchCriteriaTypeInfo>
-    </search:searchType>
+
  
     <search:searchResultTypeInfo id="lo.result.loByDesc">
         <search:name>Los</search:name>
