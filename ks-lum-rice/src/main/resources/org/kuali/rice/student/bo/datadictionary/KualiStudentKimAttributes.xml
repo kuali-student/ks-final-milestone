@@ -14,6 +14,9 @@
         <ref bean="KualiStudentKimAttributes-department" />
         <ref bean="KualiStudentKimAttributes-college" />
         <ref bean="KualiStudentKimAttributes-division" />
+        <ref bean="KualiStudentKimAttributes-dtoName" />
+        <ref bean="KualiStudentKimAttributes-dtoFieldKey" />
+        <ref bean="KualiStudentKimAttributes-fieldAccessLevel" />
       </list>
     </property>
   </bean>
@@ -69,6 +72,54 @@
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.rice.student.lookup.keyvalues.DivisionCocValuesFinder"
             p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+
+  <bean id="KualiStudentKimAttributes-dtoName" parent="KualiStudentKimAttributes-dtoName-parentBean" />
+  <bean id="KualiStudentKimAttributes-dtoName-parentBean" abstract="true" parent="AttributeDefinition"
+        p:name="dtoName"
+        p:forceUppercase="false"
+        p:label="Service DTO Name"
+        p:shortLabel="DTO Name"
+        p:maxLength="100"
+        p:required="true" >
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="false"/>
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="80"/>
+    </property>
+  </bean>
+
+  <bean id="KualiStudentKimAttributes-dtoFieldKey" parent="KualiStudentKimAttributes-dtoFieldKey-parentBean" />
+  <bean id="KualiStudentKimAttributes-dtoFieldKey-parentBean" abstract="true" parent="AttributeDefinition"
+        p:name="dtoFieldKey"
+        p:forceUppercase="false"
+        p:label="Field Name"
+        p:shortLabel="Field Name"
+        p:maxLength="100"
+        p:required="true" >
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="false"/>
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="80"/>
+    </property>
+  </bean>
+
+  <bean id="KualiStudentKimAttributes-fieldAccessLevel" parent="KualiStudentKimAttributes-fieldAccessLevel-parentBean" />
+  <bean id="KualiStudentKimAttributes-fieldAccessLevel-parentBean" abstract="true" parent="AttributeDefinition"
+        p:name="fieldAccessLevel"
+        p:forceUppercase="false"
+        p:label="Action"
+        p:shortLabel="Action"
+        p:maxLength="50"
+        p:required="true" >
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="false"/>
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="80"/>
     </property>
   </bean>
 
