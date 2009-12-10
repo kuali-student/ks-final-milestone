@@ -13,12 +13,18 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.kuali.rice.kim.bo.role.dto.KimPermissionInfo;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.student.common.assembly.Assembler;
 import org.kuali.student.common.assembly.client.AssemblyException;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.assembly.client.SaveResult;
 import org.kuali.student.common.assembly.client.Data.Property;
+import org.kuali.student.common.assembly.client.Metadata.WriteAccess;
+import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.TimeAmountInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
@@ -59,6 +65,7 @@ import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.lum.lu.ui.course.server.gwt.CluProposalRpcGwtServlet;
 
 /*
  *	ASSEMBLERREVIEW
@@ -96,6 +103,8 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 	public static final String PROPOSAL_TYPE_CREATE_COURSE = "kuali.proposal.type.course.create";
 	public static final String JOINT_RELATION_TYPE = "kuali.lu.relation.type.co-located";
 	
+	final Logger LOG = Logger.getLogger(CreditCourseProposalAssembler.class);
+	
 	private final String proposalState;
 	private CluInfoHierarchyAssembler cluHierarchyAssembler;
 	private final RichTextInfoAssembler richtextAssembler = new RichTextInfoAssembler();
@@ -104,6 +113,7 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 	private final CluInstructorInfoDataAssembler instructorAssembler = new CluInstructorInfoDataAssembler();
 	private ProposalService proposalService;
 	private LuService luService;
+	private PermissionService permissionService;
 	
 	public CreditCourseProposalAssembler(String proposalState) {
 		this.proposalState = proposalState;
@@ -358,8 +368,38 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 
 	@Override
 	public Metadata getMetadata(String type, String state) throws AssemblyException {
-		// TODO overriding the specified type isn't a good thing, but in other cases the type needs to be specified by the caller 
-		return new CreditCourseProposalMetadata().getMetadata(PROPOSAL_TYPE_CREATE_COURSE, state);
+		// TODO overriding the specified type isn't a good thing, but in other cases the type needs to be specified by the caller
+		//this needs to be filtered, but not sure how to do that if an assembler needs metadata itself
+		Metadata metadata = new CreditCourseProposalMetadata().getMetadata(PROPOSAL_TYPE_CREATE_COURSE, state);
+		try{	
+			//Check authz and set flags
+			String principalId = SecurityUtils.getCurrentUserId();
+			String namespaceCode = "KS-SYS";
+			String permissionTemplateName = "Field Access";
+			AttributeSet qualification = null;
+			AttributeSet permissionDetails = new AttributeSet("dtoName","kuali.lu.type.CreditCourse");
+			List<KimPermissionInfo> permissions = permissionService.getAuthorizedPermissionsByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, qualification);
+		
+			if(permissions!=null){
+				Metadata courseMetadata = metadata.getProperties().get("course");
+				
+				//Apply permissions to metadata access
+				for(KimPermissionInfo permission:permissions){
+					String dtoFieldKey = permission.getDetails().get("dtoFieldKey");
+					String fieldAccessLevel = permission.getDetails().get("fieldAccessLevel");
+					Metadata fieldMetadata = courseMetadata.getProperties().get(dtoFieldKey);
+					if(fieldMetadata!=null){
+						if("edit".equals(fieldAccessLevel)){//TODO better translation of access
+							fieldMetadata.setWriteAccess(WriteAccess.ALWAYS);
+						}
+					}
+				}
+			}
+		}catch(Exception e){
+			LOG.warn("Error calling permission service.",e);
+		}
+		
+		return metadata;
 	}
 
 	@Override
@@ -536,6 +576,9 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 	}
 	
 	private CluInfoHierarchy buildCluInfoHiearchy(CreditCourseHelper course) throws AssemblyException {
+		//metadata for authz
+		Metadata courseMetadata = this.getMetadata(course.getType(), course.getState()).getProperties().get("course");//TODO cache the metadata
+		
 		CluInfoHierarchy result = null;
 		CluInfo courseClu = null;
 		// FIXME wilj: temp check for id, client needs to enforce modification flags once we get the basics working
@@ -566,7 +609,10 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 				courseClu.setOfficialIdentifier(cluId);
 			}
 			cluId.setSuffixCode(course.getCourseNumberSuffix());
-			cluId.setLongName(course.getCourseTitle());
+			//AuthzCheck
+			if(courseMetadata.getProperties().get("courseTitle").getWriteAccess()!=WriteAccess.NEVER){
+				cluId.setLongName(course.getCourseTitle());
+			}
 			cluId.setDivision(course.getSubjectArea());
 			cluId.setShortName(course.getTranscriptTitle());
 			
@@ -578,12 +624,15 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 			}
 			instr.setPersonId(instrId);
 			
-			AdminOrgInfo admin = courseClu.getPrimaryAdminOrg();
-			if (admin == null) {
-				admin = new AdminOrgInfo();
-				courseClu.setPrimaryAdminOrg(admin);
+			//AuthzCheck
+			if(courseMetadata.getProperties().get("department").getWriteAccess()!=WriteAccess.NEVER){
+				AdminOrgInfo admin = courseClu.getPrimaryAdminOrg();
+				if (admin == null) {
+					admin = new AdminOrgInfo();
+					courseClu.setPrimaryAdminOrg(admin);
+				}
+				admin.setOrgId(course.getDepartment());
 			}
-			admin.setOrgId(course.getDepartment());
 			
 			List<String> subjectOrgs = new ArrayList<String>();
 			if (course.getAcademicSubjectOrgs() != null) {
@@ -606,16 +655,22 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 	
 //			mergeAlternateIdentifiers(course, courseClu);
 			
-			
-			courseClu.setDesc(getRichText(course.getDescription()));
-			TimeAmountInfo time = courseClu.getIntensity();
-			if (time == null) {
-				time = new TimeAmountInfo();
-				courseClu.setIntensity(time);
+			//AuthzCheck
+			if(courseMetadata.getProperties().get("description").getWriteAccess()!=WriteAccess.NEVER){
+				courseClu.setDesc(getRichText(course.getDescription()));
 			}
-			if (course.getDuration() != null) {
-				time.setAtpDurationTypeKey(course.getDuration().getTermType());
-				time.setTimeQuantity(course.getDuration().getQuantity());
+			
+			//AuthzCheck
+			if(courseMetadata.getProperties().get("duration").getWriteAccess()!=WriteAccess.NEVER){
+				TimeAmountInfo time = courseClu.getIntensity();
+				if (time == null) {
+					time = new TimeAmountInfo();
+					courseClu.setIntensity(time);
+				}
+				if (course.getDuration() != null) {
+					time.setAtpDurationTypeKey(course.getDuration().getTermType());
+					time.setTimeQuantity(course.getDuration().getQuantity());
+				}
 			}
 	
 			courseClu.setEffectiveDate(course.getEffectiveDate());
@@ -635,6 +690,11 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 		buildVersionsUpdates(result, course);
 		
 		return result;
+	}
+
+	private boolean isAuthorized(String string, String string2, String string3) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	private RichTextInfo getRichText(RichTextInfoHelper hlp) throws AssemblyException {
@@ -894,6 +954,10 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 	public SearchResult search(SearchRequest searchRequest) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public void setPermissionService(PermissionService permissionService) {
+		this.permissionService = permissionService;
 	}
 	
 

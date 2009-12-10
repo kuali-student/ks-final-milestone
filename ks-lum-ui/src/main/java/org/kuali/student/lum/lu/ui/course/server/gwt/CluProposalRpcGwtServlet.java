@@ -1694,7 +1694,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     		CreditCourseProposalAssembler targetAssembler = new CreditCourseProposalAssembler("draft");
     		targetAssembler.setLuService(service);
     		targetAssembler.setProposalService(proposalService);   
-    		
+    		targetAssembler.setPermissionService(permissionService);
     		
     		CreditCourseProposalWorkflowAssemblerFilter workflowAssemblerFilter = new CreditCourseProposalWorkflowAssemblerFilter();
     		workflowAssemblerFilter.setSimpleDocService(simpleDocService);
