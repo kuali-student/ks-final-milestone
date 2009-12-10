@@ -437,7 +437,7 @@ public class CourseProposalController extends TabbedSectionLayout {
     public void setProposalId(String proposalId) {
         this.proposalId = proposalId;
         this.docId = null;
-        this.cluProposalModel.setRoot(null);        
+        this.cluProposalModel.setRoot(new Data());        
     }
     
     public void clear(String proposalType, String cluType){
