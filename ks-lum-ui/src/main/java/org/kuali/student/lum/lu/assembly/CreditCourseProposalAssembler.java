@@ -220,10 +220,14 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 		//Retrieve related clus of type kuali.lu.relation.type.co-located and add the list to the map.
 		List<CluInfo> clus = luService.getClusByRelation(cluId, JOINT_RELATION_TYPE);
 		if (clus != null) {
+			
 			for (CluInfo clu : clus) {
 				CreditCourseJointsHelper joint = CreditCourseJointsHelper
 						.wrap(new Data());
 				buildJoints(clu,joint);
+				if(result.getJoints()==null){
+					result.setJoints(new Data());
+				}
 				result.getJoints().add(joint.getData());
 			}
 		}
@@ -480,7 +484,7 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 		SaveResult<CluInfoHierarchy> result = getCluHierarchyAssembler().save(clus);
 		
 //		Uncomment this line when the screen elements for adding join courses is added.
-//		saveJoints(result.getValue().getCluInfo().getId(),course);
+		saveJoints(result.getValue().getCluInfo().getId(),course);
 		
 		return result;
 	}
