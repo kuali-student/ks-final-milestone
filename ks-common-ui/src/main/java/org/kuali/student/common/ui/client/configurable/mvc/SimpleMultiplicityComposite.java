@@ -26,12 +26,12 @@ public abstract class SimpleMultiplicityComposite extends Composite implements H
     protected List<HasModelDTOValue> modelDTOValueWidgets;
     protected boolean loaded = false;
     protected int itemCount = 0;
-//    protected boolean updateable = true;
+//  protected boolean updateable = true;
     protected String addItemLabel;
     protected boolean useDeleteLabel = true;
     protected boolean showAdd = true;
     protected boolean showDelete = true;
-    
+
 
     //Initialization block
     {
@@ -143,7 +143,7 @@ public abstract class SimpleMultiplicityComposite extends Composite implements H
     public void setShowDelete(boolean showDelete) {
         this.showDelete = showDelete;
     }
-    
+
     protected Widget decorateItemWidget(Widget listItem ) {
         return new SimpleMultiplicityItemWidgetDecorator(listItem);
     }
@@ -205,99 +205,75 @@ public abstract class SimpleMultiplicityComposite extends Composite implements H
     }
 
     /**
-     *
-     * This method creates a new composite item, populated using values from the modelDTOValue object
-     *
+     * 
+     * This method creates a new item, populated using values from the modelDTOValue object
+     * 
      * @param modelDTOValue
      */
     private void addItem(ModelDTOValue modelDTOValue) {
-        addWidgetItem(modelDTOValue);
+        Widget newItemWidget = createItem();
+        Widget listItem = decorateItemWidget(newItemWidget);
+        ((HasModelDTOValue)newItemWidget).setValue(modelDTOValue);
+        GWT.log("ModelDTOValueActual = " + modelDTOValue.toString(), null);
+        GWT.log("ModelDTOValue in Section = " + ((HasModelDTOValue)newItemWidget).getValue().toString(), null);
+        itemsPanel.add(listItem);
+        modelDTOValueWidgets.add((HasModelDTOValue)newItemWidget);
     }
 
     /**
-     * 
-     * This method creates a new item populated using values from the ModelDTOValue object
-     * returning the new widget created
-     * 
-     * @param modelDTOValue
-     * @return
-     */private Widget addWidgetItem(ModelDTOValue modelDTOValue) {
-         Widget newItemWidget = createItem();
-         Widget listItem = decorateItemWidget(newItemWidget);
-         ((HasModelDTOValue)newItemWidget).setValue(modelDTOValue);
-         GWT.log("ModelDTOValueActual = " + modelDTOValue.toString(), null);
-         GWT.log("ModelDTOValue in Section = " + ((HasModelDTOValue)newItemWidget).getValue().toString(), null);
-         itemsPanel.add(listItem);
+     * This method creates a new empty item.
+     *
+     */
+    protected void addItem() {
+        Widget newItemWidget = createItem();
+        Widget listItem = decorateItemWidget(newItemWidget);
 
-         modelDTOValueWidgets.add((HasModelDTOValue)newItemWidget);
+        itemsPanel.add(listItem);
+//      if (newItemWidget instanceof SimpleMultiplicityComposite){
+//      ((SimpleMultiplicityComposite)newItemWidget).redraw();
+//      }
 
-         return newItemWidget;
-     }
+        modelDTOList.get().add(((HasModelDTOValue)newItemWidget).getValue());
+        modelDTOValueWidgets.add((HasModelDTOValue)newItemWidget);
+    }
 
-     /**
-      * 
-      * This method creates a new composite item, populated using values from the modelDTOValue object.
-      * The new item is also added to the internal variable modelDTOList type ModelDTOValue.ListType
-      * 
-      * @param modelDTOValue
-      */protected Widget addNewItem(ModelDTOValue modelDTOValue) {
+    private void removeItem(final Widget listItem, final Composite parent) {
+        ModelDTOValue listItemValue = ((HasModelDTOValue) listItem).getValue();
+        modelDTOList.get().remove(listItemValue);
+        itemsPanel.remove(parent);
+        modelDTOValueWidgets.remove(listItem);
+    }
 
-          Widget w = addWidgetItem(modelDTOValue);
-          modelDTOList.get().add(((HasModelDTOValue)w).getValue());
-
-         return w;
-
-      }
+    protected Widget generateRemoveWidget(final Widget listItem, final Composite parent) {
+        ClickHandler ch = new ClickHandler(){
+            public void onClick(ClickEvent event) {
+                removeItem(listItem, parent);
+            }
 
 
-      /**
-       * This method creates a new empty item.
-       *
-       */
-      protected void addItem() {
-          Widget newItemWidget = createItem();
-          Widget listItem = decorateItemWidget(newItemWidget);
+        };
 
-          itemsPanel.add(listItem);
-//        if (newItemWidget instanceof SimpleMultiplicityComposite){
-//        ((SimpleMultiplicityComposite)newItemWidget).redraw();
-//        }
+        Widget returnWidget;
+        if (useDeleteLabel) {
+            Label deleteLabel = new Label("Delete");
+            deleteLabel.addStyleName("KS-Multiplicity-Link-Label");
+            deleteLabel.addClickHandler(ch);
+            returnWidget = deleteLabel;
+        }
+        else {
+            returnWidget = new KSButton("-", ch);
+        }
+        return returnWidget;
+    }
 
-          modelDTOList.get().add(((HasModelDTOValue)newItemWidget).getValue());
-          modelDTOValueWidgets.add((HasModelDTOValue)newItemWidget);
-      }
+    private class NOOPListValueChangeHandler implements HandlerRegistration {
 
-      protected Widget generateRemoveWidget(final Widget listItem, final Composite parent) {
-          ClickHandler ch = new ClickHandler(){
-              public void onClick(ClickEvent event) {
-                  ModelDTOValue listItemValue = ((HasModelDTOValue) listItem).getValue();
-                  modelDTOList.get().remove(listItemValue);
-                  itemsPanel.remove(parent);
-                  modelDTOValueWidgets.remove(listItem);
-              }
-          };
+        /* (non-Javadoc)
+         * @see com.google.gwt.event.shared.HandlerRegistration#removeHandler()
+         */
+        @Override
+        public void removeHandler() {
+        }
 
-          Widget returnWidget;
-          if (useDeleteLabel) {
-              Label deleteLabel = new Label("Delete");
-              deleteLabel.addStyleName("KS-Multiplicity-Link-Label");
-              deleteLabel.addClickHandler(ch);
-              returnWidget = deleteLabel;
-          }
-          else {
-              returnWidget = new KSButton("-", ch);
-          }
-          return returnWidget;
-      }
-
-      private class NOOPListValueChangeHandler implements HandlerRegistration {
-
-          /* (non-Javadoc)
-           * @see com.google.gwt.event.shared.HandlerRegistration#removeHandler()
-           */
-          @Override
-          public void removeHandler() {
-          }
-
-      }     
+    }     
 }
