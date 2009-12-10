@@ -526,6 +526,7 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 		joint.setCourseId(clu.getId());
 		joint.setType(JOINT_RELATION_TYPE);
 		joint.setSubjectArea(clu.getStudySubjectArea());
+		joint.setCourseTitle(clu.getOfficialIdentifier().getLongName());
 		
 		}
 		catch(Exception e){
