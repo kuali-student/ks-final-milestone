@@ -537,12 +537,12 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 		SaveResult<CluInfoHierarchy> result = getCluHierarchyAssembler().save(clus);
 		
 //		Uncomment this line when the screen elements for adding join courses is added.
-		saveJoints(result.getValue().getCluInfo().getId(),course);
+		addJoints(result.getValue().getCluInfo().getId(),course);
 		
 		return result;
 	}
 
-	private void saveJoints(String parentCourseId,CreditCourseHelper course ) throws AssemblyException{
+	private void addJoints(String parentCourseId,CreditCourseHelper course ) throws AssemblyException{
 		try {
 			if (course.getJoints() == null) {
 				return;
@@ -552,6 +552,10 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 			for (Property p : course.getJoints()) {
 				CreditCourseJointsHelper joint = CreditCourseJointsHelper
 						.wrap((Data) p.getValue());
+				//If user has not entered a joint course on the screen then return back
+				if(joint.getCourseId()==null){
+					return;
+				}
 				if (isCreated(joint.getData())) {
 					CluCluRelationInfo rel = new CluCluRelationInfo();
 					rel.setCluId(parentCourseId);
