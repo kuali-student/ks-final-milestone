@@ -92,7 +92,14 @@ public class SearchModelWriter extends XmlWriter
   buf.append ("\n");
   buf.append ("by: " + this.getClass ().getName ());
   buf.append ("\n");
-  buf.append ("using: " + sheet.getSourceName ());
+  buf.append ("using: ");
+  String comma = "";
+  for (String soureName : sheet.getSourceNames ())
+  {
+   buf.append (soureName);
+   buf.append (comma);
+   comma = ", ";
+  }
   buf.append ("\n");
   writeComment (buf.toString ());
  }

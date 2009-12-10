@@ -69,7 +69,10 @@ public class OrchestrationObjectsWriter
 
   // do the bank of constraints next
   new ConstraintMetadataBankWriter (model, directory, rootPackage).write ();
-  
+
+  // do the bank of constraints next
+  new LookupMetadataBankWriter (model, directory, rootPackage).write ();
+
   // do the metadata next
   for (OrchestrationObject oo : orchObjs.values ())
   {

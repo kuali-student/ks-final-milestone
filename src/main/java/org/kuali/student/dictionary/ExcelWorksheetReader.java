@@ -92,35 +92,49 @@ public class ExcelWorksheetReader implements WorksheetReader
  }
 
  @Override
- public String getValue (String name)
+ public int getIndex (String name)
  {
+  name = name.toLowerCase ().trim ();
   int col = 0;
   for (String colName : getColumnNames ())
   {
    if (name.equalsIgnoreCase (colName))
    {
-    String val = sheet.getCell (col, row).getContents ();
-    if (val == null)
-    {
-     return "";
-    }
-    return val.trim ();
+    return col;
    }
    col ++;
   }
-  throw new DictionaryValidationException ("ColName=" + name +
-   " does not exist in " +
-   getColumnNames ());
+  return -1;
+ }
+
+ @Override
+ public String getValue (String name)
+ {
+  name = name.toLowerCase ().trim ();
+  int col = getIndex (name);
+  if (col == -1)
+  {
+   throw new DictionaryValidationException ("ColName=" + name +
+    " does not exist in " +
+    getColumnNames ());
+  }
+  String val = sheet.getCell (col, row).getContents ();
+  if (val == null)
+  {
+   return "";
+  }
+  return val.trim ();
  }
 
  @Override
  public boolean next ()
  {
-  row++;
+  row ++;
   if (row < sheet.getRows ())
   {
    return true;
   }
+
   return false;
  }
 

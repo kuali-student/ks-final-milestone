@@ -16,6 +16,7 @@
 package org.kuali.student.dictionary;
 
 import java.util.List;
+import org.kuali.student.search.SearchType;
 
 /**
  * This provides expansion functionality to the spreadsheet model by expanding
@@ -29,7 +30,8 @@ public class DictionaryModelExpanded implements DictionaryModel
  private DictionaryModel model;
  private DictionaryExpander expander;
 
- public DictionaryModelExpanded (DictionaryModel spreadsheet, DictionaryExpander expander)
+ public DictionaryModelExpanded (DictionaryModel spreadsheet,
+                                 DictionaryExpander expander)
  {
   this.model = spreadsheet;
   this.expander = expander;
@@ -101,5 +103,9 @@ public class DictionaryModelExpanded implements DictionaryModel
   return model.getMessageStructures ();
  }
 
+ public List<SearchType> getSearchTypes ()
+ {
+  return model.getSearchTypes ();
+ }
 
 }

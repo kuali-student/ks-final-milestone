@@ -21,6 +21,7 @@ package org.kuali.student.dictionary;
  */
 public class StringQuoter
 {
+
  public static String quote (String value)
  {
   if (value == null)
@@ -30,7 +31,7 @@ public class StringQuoter
   StringBuffer buf = new StringBuffer (value.length () + 3);
   buf.append ('"');
   boolean lastCharWasEscape = false;
-  for (int i = 0; i < value.length (); i++)
+  for (int i = 0; i < value.length (); i ++)
   {
    char c = value.charAt (i);
    switch (c)
@@ -49,6 +50,14 @@ public class StringQuoter
      }
      lastCharWasEscape = true;
      break;
+    case '\n':
+    case '\r':
+     buf.append ('"');
+     buf.append ("\n");
+     buf.append ("\t + ");
+     buf.append ('"');
+     lastCharWasEscape = false;
+     continue;
     default:
      lastCharWasEscape = false;
    }
@@ -57,4 +66,5 @@ public class StringQuoter
   buf.append ('"');
   return buf.toString ();
  }
+
 }

@@ -138,6 +138,7 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
    //		childMeta.setDefaultValue (new Data.StringValue ("Draft"));
    indentPrintln ("childMeta.setDefaultValue (" + defVal + ");");
   }
+ // TODO: Fix this indentPrintln ("childMeta.setLookupMetadata (LookupMetadataBank.LOOKUP_BANK.get (" + quote (field.xxx));
   String lastType = null;
   String lastState = null;
   boolean closeIf = false;

@@ -73,6 +73,22 @@ public class GoogleWorksheetReader implements WorksheetReader
  }
 
  @Override
+ public int getIndex (String name)
+ {
+  name = name.toLowerCase ().trim ();
+  int col = 0;
+  for (String tag : currentCustomElementCollection.getTags ())
+  {
+   if (tag.equals (name))
+   {
+    return col;
+   }
+   col ++;
+  }
+  return -1;
+ }
+
+ @Override
  public String getValue (String name)
  {
   name = name.toLowerCase ().trim ();

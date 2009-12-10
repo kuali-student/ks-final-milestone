@@ -16,13 +16,14 @@
 package org.kuali.student.dictionary;
 
 import java.util.List;
+import org.kuali.student.search.SearchModel;
 
 /**
  * Abstration of the spreadsheet that holds the data so we can implement both
  * google and excel versions as well as caching and expanding ones.
  * @author nwright
  */
-public interface DictionaryModel
+public interface DictionaryModel extends SearchModel
 {
 
  /**

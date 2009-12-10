@@ -132,6 +132,43 @@ public class OrchObj
   this.defaultValue = defaultValue;
  }
 
+ private String defaultValuePath;
+
+ public String getDefaultValuePath ()
+ {
+  return defaultValuePath;
+ }
+
+ public void setDefaultValuePath (String defaultValuePath)
+ {
+  this.defaultValuePath = defaultValuePath;
+ }
+
+ private String lookup;
+
+ public String getLookup ()
+ {
+  return lookup;
+ }
+
+ public void setLookup (String lookup)
+ {
+  this.lookup = lookup;
+ }
+
+ private String lookupContextPath;
+
+ public String getLookupContextPath ()
+ {
+  return lookupContextPath;
+ }
+
+ public void setLookupContextPath (String lookupContextPath)
+ {
+  this.lookupContextPath = lookupContextPath;
+ }
+
+
  private String dictionaryId;
 
  public String getDictionaryId ()
@@ -154,6 +191,18 @@ public class OrchObj
  public void setConstraintIds (List<String> constraintIds)
  {
   this.constraintIds = constraintIds;
+ }
+
+ private String messageStructureKey;
+
+ public String getMessageStructureKey ()
+ {
+  return messageStructureKey;
+ }
+
+ public void setMessageStructureKey (String messageStructureKey)
+ {
+  this.messageStructureKey = messageStructureKey;
  }
 
   private String selector;

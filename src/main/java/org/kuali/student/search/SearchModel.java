@@ -25,7 +25,7 @@ import java.util.List;
 public interface SearchModel
 {
 
- public String getSourceName ();
+ public List<String> getSourceNames ();
 
  /**
   * get search types

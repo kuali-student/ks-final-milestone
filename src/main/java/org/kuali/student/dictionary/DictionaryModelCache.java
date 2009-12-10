@@ -16,6 +16,7 @@
 package org.kuali.student.dictionary;
 
 import java.util.List;
+import org.kuali.student.search.SearchType;
 
 /**
  * This reads the supplied spreadsheet but then caches it so it doesn't have to
@@ -25,11 +26,11 @@ import java.util.List;
 public class DictionaryModelCache implements DictionaryModel
 {
 
- private DictionaryModel spreadsheet;
+ private DictionaryModel model;
 
  public DictionaryModelCache (DictionaryModel spreadsheet)
  {
-  this.spreadsheet = spreadsheet;
+  this.model = spreadsheet;
  }
 
  private List<Constraint> constraints = null;
@@ -39,23 +40,22 @@ public class DictionaryModelCache implements DictionaryModel
  {
   if (constraints == null)
   {
-   constraints = spreadsheet.getConstraints ();
+   constraints = model.getConstraints ();
   }
   return constraints;
  }
 
-  private List<CrossObjectConstraint> crossObjectConstraints = null;
+ private List<CrossObjectConstraint> crossObjectConstraints = null;
 
  @Override
  public List<CrossObjectConstraint> getCrossObjectConstraints ()
  {
   if (crossObjectConstraints == null)
   {
-   crossObjectConstraints = spreadsheet.getCrossObjectConstraints ();
+   crossObjectConstraints = model.getCrossObjectConstraints ();
   }
   return crossObjectConstraints;
  }
-
 
  private List<Dictionary> dicts = null;
 
@@ -64,7 +64,7 @@ public class DictionaryModelCache implements DictionaryModel
  {
   if (dicts == null)
   {
-   dicts = spreadsheet.getDictionary ();
+   dicts = model.getDictionary ();
   }
   return dicts;
  }
@@ -76,7 +76,7 @@ public class DictionaryModelCache implements DictionaryModel
  {
   if (fields == null)
   {
-   fields = spreadsheet.getFields ();
+   fields = model.getFields ();
   }
   return fields;
  }
@@ -88,7 +88,7 @@ public class DictionaryModelCache implements DictionaryModel
  {
   if (states == null)
   {
-   states = spreadsheet.getStates ();
+   states = model.getStates ();
   }
   return states;
  }
@@ -100,7 +100,7 @@ public class DictionaryModelCache implements DictionaryModel
  {
   if (types == null)
   {
-   types = spreadsheet.getTypes ();
+   types = model.getTypes ();
   }
   return types;
  }
@@ -112,7 +112,7 @@ public class DictionaryModelCache implements DictionaryModel
  {
   if (xmlTypes == null)
   {
-   xmlTypes = spreadsheet.getXmlTypes ();
+   xmlTypes = model.getXmlTypes ();
   }
   return xmlTypes;
  }
@@ -120,34 +120,43 @@ public class DictionaryModelCache implements DictionaryModel
  @Override
  public List<String> getSourceNames ()
  {
-  return spreadsheet.getSourceNames ();
+  return model.getSourceNames ();
  }
 
  private List<OrchObj> orchObjs = null;
 
+ @Override
  public List<OrchObj> getOrchObjs ()
  {
   if (orchObjs == null)
   {
-   orchObjs = spreadsheet.getOrchObjs ();
+   orchObjs = model.getOrchObjs ();
   }
   return orchObjs;
  }
 
-  private List<MessageStructure> messageStructures = null;
+ private List<MessageStructure> messageStructures = null;
 
+ @Override
  public List<MessageStructure> getMessageStructures ()
  {
- if (messageStructures == null)
+  if (messageStructures == null)
   {
-   messageStructures = spreadsheet.getMessageStructures ();
+   messageStructures = model.getMessageStructures ();
   }
   return messageStructures;
  }
 
+ List<SearchType> searchTypes = null;
 
+ @Override
+ public List<SearchType> getSearchTypes ()
+ {
+  if (searchTypes == null)
+  {
+   searchTypes = model.getSearchTypes ();
+  }
+  return searchTypes;
+ }
 
-
-
- 
 }

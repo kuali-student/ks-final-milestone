@@ -22,7 +22,7 @@ import java.io.Serializable;
  * @author nwright
  */
 public class SearchRow implements Serializable,
-                               Cloneable
+                                  Cloneable
 {
 
  public SearchRow ()
@@ -62,6 +62,28 @@ public class SearchRow implements Serializable,
  public String getKey ()
  {
   return key;
+ }
+
+ private String lookupKey;
+
+ /**
+  * Get the value of lookupKey
+  *
+  * @return the value of lookupKey
+  */
+ public String getLookupKey ()
+ {
+  return lookupKey;
+ }
+
+ /**
+  * Set the value of lookupKey
+  *
+  * @param lookupKey new value of lookupKey
+  */
+ public void setLookupKey (String lookupKey)
+ {
+  this.lookupKey = lookupKey;
  }
 
  private String type;
@@ -141,6 +163,160 @@ public class SearchRow implements Serializable,
   this.dataType = dataType;
  }
 
+ private String hidden;
+
+ /**
+  * Get the value of hidden
+  *
+  * @return the value of hidden
+  */
+ public String getHidden ()
+ {
+  return hidden;
+ }
+
+ private String returnResult;
+
+ /**
+  * Get the value of returnResult
+  *
+  * @return the value of returnResult
+  */
+ public String getReturnResult ()
+ {
+  return returnResult;
+ }
+
+ private String optional;
+
+ /**
+  * Get the value of optional
+  *
+  * @return the value of optional
+  */
+ public String getOptional ()
+ {
+  return optional;
+ }
+
+ private String caseSensitive;
+
+ /**
+  * Get the value of caseSensitive
+  *
+  * @return the value of caseSensitive
+  */
+ public String getCaseSensitive ()
+ {
+  return caseSensitive;
+ }
+
+ /**
+  * Set the value of caseSensitive
+  *
+  * @param caseSensitive new value of caseSensitive
+  */
+ public void setCaseSensitive (String caseSensitive)
+ {
+  this.caseSensitive = caseSensitive;
+ }
+
+ private String writeAccess;
+
+ /**
+  * Get the value of writeAccess
+  *
+  * @return the value of writeAccess
+  */
+ public String getWriteAccess ()
+ {
+  return writeAccess;
+ }
+
+ /**
+  * Set the value of writeAccess
+  *
+  * @param writeAccess new value of writeAccess
+  */
+ public void setWriteAccess (String writeAccess)
+ {
+  this.writeAccess = writeAccess;
+ }
+
+ private String defaultValue;
+
+ /**
+  * Get the value of defaultValue
+  *
+  * @return the value of defaultValue
+  */
+ public String getDefaultValue ()
+ {
+  return defaultValue;
+ }
+
+ /**
+  * Set the value of defaultValue
+  *
+  * @param defaultValue new value of defaultValue
+  */
+ public void setDefaultValue (String defaultValue)
+ {
+  this.defaultValue = defaultValue;
+ }
+
+ private String childLookup;
+
+ /**
+  * Get the value of childLookup
+  *
+  * @return the value of childLookup
+  */
+ public String getChildLookup ()
+ {
+  return childLookup;
+ }
+
+ /**
+  * Set the value of childLookup
+  *
+  * @param childLookup new value of childLookup
+  */
+ public void setChildLookup (String childLookup)
+ {
+  this.childLookup = childLookup;
+ }
+
+ /**
+  * Set the value of optional
+  *
+  * @param optional new value of optional
+  */
+ public void setOptional (String optional)
+ {
+  this.optional = optional;
+ }
+
+ /**
+  * Set the value of returnResult
+  *
+  * @param returnResult new value of returnResult
+  */
+ public void setReturnResult (String returnResult)
+ {
+  this.returnResult = returnResult;
+ }
+
+ /**
+  * Set the value of hidden
+  *
+  * @param hidden new value of hidden
+  */
+ public void setHidden (String hidden)
+ {
+  this.hidden = hidden;
+ }
+
  /**
   * Get the value of description
   *
@@ -210,6 +386,28 @@ public class SearchRow implements Serializable,
   throws CloneNotSupportedException
  {
   return super.clone ();
+ }
+
+ private String service;
+
+ /**
+  * Get the value of service
+  *
+  * @return the value of service
+  */
+ public String getService ()
+ {
+  return service;
+ }
+
+ /**
+  * Set the value of service
+  *
+  * @param service new value of service
+  */
+ public void setService (String service)
+ {
+  this.service = service;
  }
 
 }

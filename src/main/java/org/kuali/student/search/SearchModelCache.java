@@ -44,8 +44,9 @@ public class SearchModelCache implements SearchModel
   return searchTypes;
  }
 
- public String getSourceName ()
+ @Override
+ public List<String> getSourceNames ()
  {
-  return spreadsheet.getSourceName ();
+  return spreadsheet.getSourceNames ();
  }
 }

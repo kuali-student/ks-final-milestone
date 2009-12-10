@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+import org.kuali.student.search.SearchModelLoader;
+import org.kuali.student.search.SearchType;
 
 /**
  * Loads a spreadsheet using either a google or excel reader
@@ -517,8 +519,12 @@ public class DictionaryModelLoader implements DictionaryModel
    orchObj.setXmlType (getFixup (worksheetReader, "xmlType"));
    orchObj.setStatus (getFixup (worksheetReader, "status"));
    orchObj.setDefaultValue (getFixup (worksheetReader, "defaultValue"));
+   orchObj.setDefaultValuePath (getFixup (worksheetReader, "defaultValuePath"));
+   orchObj.setLookup (getFixup (worksheetReader, "lookup"));
+   orchObj.setLookupContextPath (getFixup (worksheetReader, "lookupContextPath"));
    orchObj.setWriteAccess (getFixup (worksheetReader, "writeAccess"));
    orchObj.setDictionaryId (getFixup (worksheetReader, "dictionaryId"));
+   orchObj.setMessageStructureKey (getFixup (worksheetReader, "messageStructureKey"));
    if (orchObj.getDictionaryId ().equalsIgnoreCase ("TBD"))
    {
     orchObj.setDictionaryId ("");
@@ -558,7 +564,10 @@ public class DictionaryModelLoader implements DictionaryModel
     throw new DictionaryValidationException ("Field " + orchObj.getId () +
      " contains an invalid regular expression " + inline.getValidChars ());
    }
-   inline.setLookup (getFixup (worksheetReader, "lookup"));
+   // removed from constraint because lookup is now it's own thing
+   // and is on the orchObj directly
+   // it is not just a search but a fully configured search
+   //inline.setLookup (getFixup (worksheetReader, "lookup"));
    orchObj.setInlineConstraint (inline);
    orchObj.setComments (getFixup (worksheetReader, "comments"));
 
@@ -616,11 +625,13 @@ public class DictionaryModelLoader implements DictionaryModel
    struct.setXmlAttribute (getFixup (worksheetReader, "XMLAttribute"));
    struct.setStatus (getFixup (worksheetReader, "status"));
    struct.setFeedback (getFixup (worksheetReader, "comments"));
-
-
-
   }
   return list;
  }
 
+ public List<SearchType> getSearchTypes ()
+ {
+   SearchModelLoader loader = new SearchModelLoader (orchSpreadsheetReader);
+   return loader.getSearchTypes ();
+ }
 }

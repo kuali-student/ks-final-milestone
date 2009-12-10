@@ -21,6 +21,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.kuali.student.search.SearchType;
 import static org.junit.Assert.*;
 
 /**
@@ -243,5 +244,26 @@ public class ExcelDictionaryModelLoaderTest implements TestConstants
   //assertEquals (135, result.size ());
   assertEquals (true, true);
  }
+
+ /**
+  * Test of info types method, of class SpreadsheetGeter.
+  */
+ @Test
+ public void testGetSearchTypes ()
+ {
+  System.out.println ("getSearchTypes");
+//  List<Type> expResult = new ArrayList ();
+  List<SearchType> result = instance.getSearchTypes ();
+  for (SearchType searchType : result)
+  {
+   System.out.println (searchType.getLookupKey () + " ==> " + searchType.getKey ());
+  }
+  if (result.size () < 2)
+  {
+   fail ("too few rows should be > 50 but was" + result.size ());
+  }
+  assertEquals (true, true);
+ }
+
 
 }

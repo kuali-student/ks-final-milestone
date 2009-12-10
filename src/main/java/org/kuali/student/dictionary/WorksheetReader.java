@@ -26,11 +26,19 @@ public interface WorksheetReader
 
  /**
   * Get the value with the specified column name
-  * @param name
+  * @param name to be compared ignoring case.
   * @return nulls converted to "" and values trimmed.
   * @throws DictionaryValidationException if name is not a valid column name
   */
  public String getValue (String name);
+
+  /**
+  * Get the index to the column with the specified column name.
+  * @param name to be compared ignoring case
+  * @return -1 if not found
+  */
+ public int getIndex (String name);
+
 
  /**
   * Move to the next row in the worksheet

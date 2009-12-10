@@ -16,6 +16,7 @@
 package org.kuali.student.search;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.kuali.student.dictionary.SpreadsheetReader;
 import org.kuali.student.dictionary.WorksheetReader;
@@ -38,29 +39,30 @@ public class SearchModelLoader implements SearchModel
  {
   WorksheetReader worksheetReader =
    spreadsheetReader.getWorksheetReader ("Searches");
-  List<SearchType> list = new ArrayList (worksheetReader.getEstimatedRows ());
+  List<SearchType> list = new ArrayList ();
   SearchType searchType = null;
   int rowNumber = 1;
   while (worksheetReader.next ())
   {
-   rowNumber++;
+   rowNumber ++;
    String type = getFixup (worksheetReader, "Type");
-   if (type.equals ("Search"))
+   if (type.equalsIgnoreCase ("Search"))
    {
     searchType = new SearchType ();
     loadRow (worksheetReader, searchType, rowNumber);
     list.add (searchType);
    }
-   else if (type.equals ("JPQL"))
+   else if (type.equalsIgnoreCase ("JPQL") || type.equalsIgnoreCase ("SPECIAL"))
    {
     SearchImplementation impl = new SearchImplementation ();
     loadRow (worksheetReader, impl, rowNumber);
     //TODO: Fix this hack that gets the key set to the search key
+    impl.setType (type);
     impl.setDescription (impl.getKey ());
     impl.setKey (searchType.getKey ());
     searchType.setImplementation (impl);
    }
-   else if (type.equals ("Criteria"))
+   else if (type.equalsIgnoreCase ("Criteria"))
    {
     SearchCriteria criteria = new SearchCriteria ();
     searchType.setSearchCriteria (criteria);
@@ -72,13 +74,13 @@ public class SearchModelLoader implements SearchModel
     searchType.getSearchCriteria ().getParameters ().add (param);
     loadRow (worksheetReader, param, rowNumber);
    }
-   else if (type.equals ("Result"))
+   else if (type.equalsIgnoreCase ("Result"))
    {
     SearchResult result = new SearchResult ();
     searchType.setSearchResult (result);
     loadRow (worksheetReader, result, rowNumber);
    }
-   else if (type.equals ("Column"))
+   else if (type.equalsIgnoreCase ("Column"))
    {
     SearchResultColumn col = new SearchResultColumn ();
     searchType.getSearchResult ().getResultColumns ().add (col);
@@ -86,38 +88,99 @@ public class SearchModelLoader implements SearchModel
    }
    else
    {
-    throw new SearchValidationException ("Spreadsheet row #" + rowNumber + " has an unknown type,[" + type + "]");
+    SearchRow row = new SearchRow ();
+    loadRow (worksheetReader, row, rowNumber);
+    if (isRowBlank (row))
+    {
+     continue;
+    }
+    throw new SearchValidationException ("Spreadsheet row #" + rowNumber +
+     " has an unknown type,[" + type + "]");
    }
   }
   return list;
  }
 
- private void loadRow (WorksheetReader worksheetReader, SearchRow row, int rowNumber)
+ private void loadRow (WorksheetReader worksheetReader, SearchRow row,
+                       int rowNumber)
  {
   row.setRowNumber (rowNumber);
-  row.setKey (getFixup (worksheetReader, "Key"));
+  // trying to reuse same code for two slightly different spreadsheets
+  row.setKey (getFixup (worksheetReader, "Key", "SearchKey"));
   row.setType (getFixup (worksheetReader, "Type"));
   row.setName (getFixup (worksheetReader, "Name"));
   row.setDescription (getFixup (worksheetReader, "Description"));
   row.setDataType (getFixup (worksheetReader, "DataType"));
   row.setStatus (getFixup (worksheetReader, "Status"));
   row.setComments (getFixup (worksheetReader, "Comments"));
+  row.setCaseSensitive (getFixup (worksheetReader, "Case?"));
+  row.setOptional (getFixup (worksheetReader, "Optional"));
+  row.setDefaultValue (getFixup (worksheetReader, "Default", "DefaultValue"));
+  // default for spreadsheet that does not have these fields
+  if (worksheetReader.getIndex ("WriteAccess") == -1)
+  {
+   row.setLookupKey ("");
+   row.setWriteAccess ("Always");
+   row.setChildLookup ("");
+   row.setHidden ("");
+   row.setReturnResult ("");
+   row.setService ("");
+  }
+  else
+  {
+   row.setLookupKey (getFixup (worksheetReader, "LookupKey"));
+   row.setWriteAccess (getFixup (worksheetReader, "WriteAccess"));
+   row.setChildLookup (getFixup (worksheetReader, "ChildLookup"));
+   row.setHidden (getFixup (worksheetReader, "Hidden"));
+   row.setReturnResult (getFixup (worksheetReader, "ReturnResult"));
+   row.setService (getFixup (worksheetReader, "Service"));
+  }
+ }
+
+ private boolean isRowBlank (SearchRow row)
+ {
+  // TODO: uncomment the key
+  if ( ! row.getKey ().equals ("")) { return false;}
+  if ( ! row.getLookupKey ().equals ("")) {return false;}
+  if ( ! row.getType ().equals ("")) {return false;}
+  //TODO: check more fields
+  return true;
  }
 
  private String get (WorksheetReader worksheetReader, String colName)
  {
-  String value = worksheetReader.getValue (colName);
-  if (value == null)
+  return get (worksheetReader, colName, null);
+ }
+
+ private String get (WorksheetReader worksheetReader,
+                     String colName,
+                     String colName2)
+ {
+  while (true)
   {
-   return "";
+   if (worksheetReader.getIndex (colName) == -1)
+   {
+    colName = colName2;
+   }
+   String value = worksheetReader.getValue (colName);
+   if (value == null)
+   {
+    return "";
+   }
+   value = value.trim ();
+   return value;
   }
-  value = value.trim ();
-  return value;
  }
 
  private String getFixup (WorksheetReader worksheetReader, String colName)
  {
   return fixup (get (worksheetReader, colName));
+ }
+
+ private String getFixup (WorksheetReader worksheetReader, String colName,
+                          String colName2)
+ {
+  return fixup (get (worksheetReader, colName, colName2));
  }
 
  private String fixup (String str)
@@ -133,8 +196,10 @@ public class SearchModelLoader implements SearchModel
   return str;
  }
 
- public String getSourceName ()
+ @Override
+ public List<String> getSourceNames ()
  {
-  return spreadsheetReader.getSourceName ();
+  return Arrays.asList (spreadsheetReader.getSourceName ());
  }
+
 }

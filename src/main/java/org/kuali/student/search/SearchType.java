@@ -71,7 +71,7 @@ public class SearchType extends SearchRow
   this.criteria = criteria;
  }
 
- protected SearchResult results;
+ private SearchResult result;
 
  /**
   * Get the value of results
@@ -80,7 +80,7 @@ public class SearchType extends SearchRow
   */
  public SearchResult getSearchResult ()
  {
-  return results;
+  return result;
  }
 
  /**
@@ -88,10 +88,10 @@ public class SearchType extends SearchRow
   *
   * @param results new value of results
   */
- public void setSearchResult (SearchResult results)
+ public void setSearchResult (SearchResult result)
  {
-  this.results = results;
+  this.result = result;
  }
 
-
+ 
 }
