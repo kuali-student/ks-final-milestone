@@ -14,14 +14,10 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.configuration.course;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
-import org.kuali.student.common.assembly.client.ModelDefinition;
-import org.kuali.student.common.assembly.client.SimpleModelDefinition;
-import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.TabbedSectionLayout;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionHandler;
@@ -31,15 +27,14 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.WorkQueue;
 import org.kuali.student.common.ui.client.mvc.WorkQueue.WorkItem;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
+import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
@@ -55,7 +50,6 @@ import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -87,6 +81,9 @@ public class CourseProposalController extends TabbedSectionLayout {
 	private final String REFERENCE_TYPE = "referenceType.clu";
 	private boolean initialized = false;
 	CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);
+	
+	final KSLightBox progressWindow = new KSLightBox();
+
     
         
     public CourseProposalController(){
@@ -123,15 +120,22 @@ public class CourseProposalController extends TabbedSectionLayout {
     }
     
     private void init(final Callback<Boolean> onReadyCallback) {
+    	KSProgressIndicator progressInd = new KSProgressIndicator();
+    	progressInd.setText("Loading");
+    	progressInd.show();
+    	progressWindow.setWidget(progressInd);
+
     	if (initialized) {
     		onReadyCallback.exec(true);
     	} else {
+    		progressWindow.show();
 	        cluProposalRpcServiceAsync.getCreditCourseProposalMetadata( 
 	                new AsyncCallback<Metadata>(){
 	
 	                    @Override
 	                    public void onFailure(Throwable caught) {
 	                    	onReadyCallback.exec(false);
+	                    	progressWindow.hide();
 	                        throw new RuntimeException("Failed to get model definition.", caught);                        
 	                    }
 	
@@ -142,6 +146,7 @@ public class CourseProposalController extends TabbedSectionLayout {
 	                        init(def);
 	                        initialized = true;
 	                        onReadyCallback.exec(true);
+	                        progressWindow.hide();
 	                    }                
 	            });
 	        
@@ -161,39 +166,41 @@ public class CourseProposalController extends TabbedSectionLayout {
         }
 */        
         
-        addButton("Edit Proposal", getSaveButton());
-        addButton("Edit Proposal", getQuitButton());
-        addButton("Summary", getQuitButton());
-        
-        addApplicationEventHandler(SaveActionEvent.TYPE, new SaveActionHandler(){
-            public void doSave(SaveActionEvent saveAction) {
-                GWT.log("CluProposalController received save action request.", null);
-                doSaveAction(saveAction);
-            }            
-        });
-        
-        addApplicationEventHandler(ValidateResultEvent.TYPE, new ValidateResultHandler() {
-            @Override
-            public void onValidateResult(ValidateResultEvent event) {
-            	if(processingSave){
-            		List<ValidationResultContainer> list = event.getValidationResult();
-            		ErrorLevel errorLevel = checkForErrors(list);
-            		if(errorLevel.equals(ErrorLevel.ERROR)){
-            			//TODO replace with a ks modal
-            			Window.alert("Validation failed.  The proposal could not be saved.  Please check fields for errors.");
-            		}
-            		else if(errorLevel.equals(ErrorLevel.WARN)){
-            			//TODO do something else for warning level?
-            			saveProposalClu(currentSaveEvent);
-            		}
-            		else{
-            			saveProposalClu(currentSaveEvent);
-            		}
-            		processingSave = false;
-            		currentSaveEvent = null;
-            	}
-            }
-        });
+        if (!initialized){
+	        addButton("Edit Proposal", getSaveButton());
+	        addButton("Edit Proposal", getQuitButton());
+	        addButton("Summary", getQuitButton());
+	        
+	        addApplicationEventHandler(SaveActionEvent.TYPE, new SaveActionHandler(){
+	            public void doSave(SaveActionEvent saveAction) {
+	                GWT.log("CluProposalController received save action request.", null);
+	                doSaveAction(saveAction);
+	            }            
+	        });
+	        
+	        addApplicationEventHandler(ValidateResultEvent.TYPE, new ValidateResultHandler() {
+	            @Override
+	            public void onValidateResult(ValidateResultEvent event) {
+	            	if(processingSave){
+	            		List<ValidationResultContainer> list = event.getValidationResult();
+	            		ErrorLevel errorLevel = checkForErrors(list);
+	            		if(errorLevel.equals(ErrorLevel.ERROR)){
+	            			//TODO replace with a ks modal
+	            			Window.alert("Validation failed.  The proposal could not be saved.  Please check fields for errors.");
+	            		}
+	            		else if(errorLevel.equals(ErrorLevel.WARN)){
+	            			//TODO do something else for warning level?
+	            			saveProposalClu(currentSaveEvent);
+	            		}
+	            		else{
+	            			saveProposalClu(currentSaveEvent);
+	            		}
+	            		processingSave = false;
+	            		currentSaveEvent = null;
+	            	}
+	            }
+	        });
+        }
         
         initialized = true;
     }
@@ -305,19 +312,22 @@ public class CourseProposalController extends TabbedSectionLayout {
     
     @SuppressWarnings("unchecked")    
     private void getCluProposalFromProposalId(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
+    	progressWindow.show();
     	cluProposalRpcServiceAsync.getCreditCourseProposal(proposalId, new AsyncCallback<Data>(){
 
 			@Override
 			public void onFailure(Throwable caught) {
                 Window.alert("Error loading Proposal: "+caught.getMessage());
-                createNewCluProposalModel(callback, workCompleteCallback);               				
+                createNewCluProposalModel(callback, workCompleteCallback);
+                progressWindow.hide();
 			}
 
 			@Override
 			public void onSuccess(Data result) {
 				cluProposalModel.setRoot(result);
 		        callback.onModelReady(cluProposalModel);
-		        workCompleteCallback.exec(true);            				
+		        workCompleteCallback.exec(true);
+		        progressWindow.hide();
 			}
     		
     	});
