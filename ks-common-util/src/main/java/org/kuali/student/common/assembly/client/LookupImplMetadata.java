@@ -15,49 +15,46 @@
  */
 package org.kuali.student.common.assembly.client;
 
+import java.io.Serializable;
+
 /**
- *
+ * 
  * @author nwright
  */
-public class LookupImplMetadata
-{
+public class LookupImplMetadata implements Serializable {
 
- private String service;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String service;
 
- public String getService ()
- {
-  return service;
- }
+	public String getService() {
+		return service;
+	}
 
- public void setService (String service)
- {
-  this.service = service;
- }
+	public void setService(String service) {
+		this.service = service;
+	}
 
- private String type;
+	private String type;
 
- public String getType ()
- {
-  return type;
- }
+	public String getType() {
+		return type;
+	}
 
- public void setType (String type)
- {
-  this.type = type;
- }
+	public void setType(String type) {
+		this.type = type;
+	}
 
- private String info;
+	private String info;
 
- public String getInfo ()
- {
-  return info;
- }
+	public String getInfo() {
+		return info;
+	}
 
- public void setInfo (String info)
- {
-  this.info = info;
- }
-
-
+	public void setInfo(String info) {
+		this.info = info;
+	}
 
 }
