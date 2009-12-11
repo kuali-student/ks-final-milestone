@@ -120,7 +120,7 @@ public class SearchPanel extends Composite{
 		listItems = new ParamListItems(meta);
 		layout.add(new AdvancedSearch(null, meta));
 		layout.add(new CustomizedSearch(null, meta));
-		table = new SearchBackedTable(searchService, meta.getLookupKey(), meta.getResultReturnKey());
+		table = new SearchBackedTable(searchService, meta.getKey(), meta.getResultReturnKey());
 		tablePanel.add(searchCriteria);
 		tablePanel.add(table);
 		layout.add(tablePanel);
@@ -204,7 +204,7 @@ public class SearchPanel extends Composite{
 					for(SearchParam p: params){
 						GWT.log("Key = " + p.getKey() + "  Value = " + p.getValue().toString(), null);
 					}
-					sr.setSearchKey(meta.getLookupKey());
+					sr.setSearchKey(meta.getKey());
 					
 					//TODO remove this
 					if(table != null){
@@ -350,7 +350,7 @@ public class SearchPanel extends Composite{
 					for(SearchParam p: params){
 						GWT.log("Key = " + p.getKey() + "  Value = " + p.getValue().toString(), null);
 					}
-					sr.setSearchKey(meta.getLookupKey());
+					sr.setSearchKey(meta.getKey());
 					
 					//TODO remove this
 					if(table != null){
