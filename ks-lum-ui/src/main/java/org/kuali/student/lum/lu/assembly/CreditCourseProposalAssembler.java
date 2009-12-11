@@ -10,8 +10,10 @@ import static org.kuali.student.lum.lu.assembly.AssemblerUtils.setCreated;
 import static org.kuali.student.lum.lu.assembly.AssemblerUtils.setUpdated;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.kim.bo.role.dto.KimPermissionInfo;
@@ -159,6 +161,9 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 			OperationFailedException {
 		CreditCourseHelper result = CreditCourseHelper.wrap(new Data());
 
+		//Get permissions for course
+		Map<String, String> permissions = getPermissions("kuali.lu.type.CreditCourse");
+		
 		Data references = proposal.getReferences();
 		if (references.size() != 1) {
 			throw new AssemblyException(
@@ -176,30 +181,39 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 		result.setId(cluId);
 		result.setCourseNumberSuffix(course.getOfficialIdentifier()
 				.getSuffixCode());
-		result.setCourseTitle(course.getOfficialIdentifier().getLongName());
+		//Authz Check
+		if(permissions==null||permissions.get("courseTitle")==null||"edit".equals(permissions.get("courseTitle"))||"readOnly".equals(permissions.get("courseTitle"))){
+			result.setCourseTitle(course.getOfficialIdentifier().getLongName());
+		}
 		result.setEffectiveDate(course.getEffectiveDate());
 		result.setExpirationDate(course.getExpirationDate());
 		
-		AdminOrgInfo admin = course.getPrimaryAdminOrg();
-		if (admin != null) {
-			result.setDepartment(admin.getOrgId());
+		//Authz Check
+		if(permissions==null||permissions.get("department")==null||"edit".equals(permissions.get("department"))||"readOnly".equals(permissions.get("department"))){
+			AdminOrgInfo admin = course.getPrimaryAdminOrg();
+			if (admin != null) {
+				result.setDepartment(admin.getOrgId());
+			}
 		}
-		
 		
 		// FIXME wilj: figure out how to retrieve the version codes and cross listings 
 //		for (CluIdentifierInfo alt : course.getAlternateIdentifiers()) {
 //			result.getAlternateIdentifiers().add(cluIdentifierAssembler.assemble(alt));
 //		}
-		
-		result.setDescription(RichTextInfoHelper.wrap(richtextAssembler.assemble(course.getDesc())));
+		//Authz Check
+		if(permissions==null||permissions.get("description")==null||"edit".equals(permissions.get("description"))||"readOnly".equals(permissions.get("description"))){
+			result.setDescription(RichTextInfoHelper.wrap(richtextAssembler.assemble(course.getDesc())));
+		}
 //		result.setRationale(RichTextInfoHelper.wrap(richtextAssembler.assemble(course.getMarketingDesc())));
-		
-		TimeAmountInfoHelper time = TimeAmountInfoHelper.wrap(timeamountAssembler.assemble(course.getIntensity()));
-		if (time != null) {
-			CreditCourseDurationHelper duration = CreditCourseDurationHelper.wrap(new Data());
-			duration.setQuantity(time.getTimeQuantity());
-			duration.setTermType(time.getAtpDurationTypeKey());
-			result.setDuration(duration);
+		//Authz Check
+		if(permissions==null||permissions.get("duration")==null||"edit".equals(permissions.get("duration"))||"readOnly".equals(permissions.get("duration"))){
+			TimeAmountInfoHelper time = TimeAmountInfoHelper.wrap(timeamountAssembler.assemble(course.getIntensity()));
+			if (time != null) {
+				CreditCourseDurationHelper duration = CreditCourseDurationHelper.wrap(new Data());
+				duration.setQuantity(time.getTimeQuantity());
+				duration.setTermType(time.getAtpDurationTypeKey());
+				result.setDuration(duration);
+			}
 		}
 		CluInstructorInfoHelper instr = CluInstructorInfoHelper.wrap(instructorAssembler.assemble(course.getPrimaryInstructor()));
 		if (instr != null) {
@@ -379,37 +393,55 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 		return result;
 	}
 
+	private Map<String,String> getPermissions(String dtoName){
+		try{	
+			//get permissions and turn into a map of fieldName=>access
+			String principalId = SecurityUtils.getCurrentUserId();
+			String namespaceCode = "KS-SYS";
+			String permissionTemplateName = "Field Access";
+			AttributeSet qualification = null;
+			AttributeSet permissionDetails = new AttributeSet("dtoName",dtoName);
+			List<KimPermissionInfo> permissions = permissionService.getAuthorizedPermissionsByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, qualification);
+			Map<String, String> permMap = new HashMap<String,String>();
+			for(KimPermissionInfo permission:permissions){
+				String dtoFieldKey = permission.getDetails().get("dtoFieldKey");
+				String fieldAccessLevel = permission.getDetails().get("fieldAccessLevel");
+				permMap.put(dtoFieldKey, fieldAccessLevel);
+			}
+			return permMap;
+		}catch(Exception e){
+			LOG.warn("Error calling permission service.",e);
+		}
+		return null;
+	}
+	
 	@Override
 	public Metadata getMetadata(String type, String state) throws AssemblyException {
 		// TODO overriding the specified type isn't a good thing, but in other cases the type needs to be specified by the caller
 		//this needs to be filtered, but not sure how to do that if an assembler needs metadata itself
 		Metadata metadata = new CreditCourseProposalMetadata().getMetadata(PROPOSAL_TYPE_CREATE_COURSE, state);
-		try{	
-			//Check authz and set flags
-			String principalId = SecurityUtils.getCurrentUserId();
-			String namespaceCode = "KS-SYS";
-			String permissionTemplateName = "Field Access";
-			AttributeSet qualification = null;
-			AttributeSet permissionDetails = new AttributeSet("dtoName","kuali.lu.type.CreditCourse");
-			List<KimPermissionInfo> permissions = permissionService.getAuthorizedPermissionsByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, qualification);
 		
-			if(permissions!=null){
-				Metadata courseMetadata = metadata.getProperties().get("course");
-				
-				//Apply permissions to metadata access
-				for(KimPermissionInfo permission:permissions){
-					String dtoFieldKey = permission.getDetails().get("dtoFieldKey");
-					String fieldAccessLevel = permission.getDetails().get("fieldAccessLevel");
-					Metadata fieldMetadata = courseMetadata.getProperties().get(dtoFieldKey);
-					if(fieldMetadata!=null){
-						if("edit".equals(fieldAccessLevel)){//TODO better translation of access
-							fieldMetadata.setWriteAccess(WriteAccess.ALWAYS);
-						}
+		//Get permissions for course
+		Map<String, String> permissions = getPermissions("kuali.lu.type.CreditCourse");
+		
+		
+		if(permissions!=null){
+			//Get course metadata
+			Metadata courseMetadata = metadata.getProperties().get("course");
+			
+			//Apply permissions to course metadata access...
+			for(Map.Entry<String, String> permission:permissions.entrySet()){
+				String dtoFieldKey = permission.getKey();
+				String fieldAccessLevel = permission.getValue();
+				Metadata fieldMetadata = courseMetadata.getProperties().get(dtoFieldKey);
+				if(fieldMetadata!=null){
+					if("edit".equals(fieldAccessLevel)){//TODO better translation of access
+						//Don't do anything, yield to default behavior
+					}else{
+						fieldMetadata.setWriteAccess(WriteAccess.NEVER);
 					}
 				}
-			}
-		}catch(Exception e){
-			LOG.warn("Error calling permission service.",e);
+			}	
 		}
 		
 		return metadata;
