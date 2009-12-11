@@ -284,30 +284,28 @@ public class CourseProposalController extends TabbedSectionLayout {
     }
     
     @SuppressWarnings("unchecked")        
-    private void getCluProposalFromWorkflowId(final ModelRequestCallback callback, Callback<Boolean> workCompleteCallback){
-/*        
-        cluProposalRpcServiceAsync.getCluProposalFromWorkflowId(docId, new AsyncCallback<CluProposalModelDTO>(){
+    private void getCluProposalFromWorkflowId(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
+       
+        cluProposalRpcServiceAsync.getCluProposalFromWorkflowId(docId, new AsyncCallback<Data>(){
 
             @Override
             public void onFailure(Throwable caught) {
-                Window.alert("Error loading Proposal: "+docId+". "+caught.getMessage());
-                createNewCluProposalModel();
-                callback.onModelReady(cluProposalModel);
-                //Set it up for validation in layoutController
-                CourseProposalController.this.setModelDTO(cluProposalModel.get(), CluDictionaryClassNameHelper.getClasstoObjectKeyMap());
+                Window.alert("Error loading Proposal from docId: "+docId+". "+caught.getMessage());
+                createNewCluProposalModel(callback, workCompleteCallback);
+                progressWindow.hide();
 
             }
 
             @Override
-            public void onSuccess(CluProposalModelDTO result) {
-                cluProposalModel = new Model<CluProposalModelDTO>();
-                cluProposalModel.put(result);
-                callback.onModelReady(cluProposalModel);
-                CourseProposalController.this.setModelDTO(cluProposalModel.get(), CluDictionaryClassNameHelper.getClasstoObjectKeyMap());                
+            public void onSuccess(Data result) {
+				cluProposalModel.setRoot(result);
+		        callback.onModelReady(cluProposalModel);
+		        workCompleteCallback.exec(true);
+		        progressWindow.hide();              
             }
             
         });
-*/
+
     }
     
     @SuppressWarnings("unchecked")    
