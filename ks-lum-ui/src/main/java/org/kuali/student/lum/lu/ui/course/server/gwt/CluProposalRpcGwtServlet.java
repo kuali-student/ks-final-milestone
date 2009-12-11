@@ -37,7 +37,6 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.webservice.DocumentResponse;
 import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
 import org.kuali.rice.kew.webservice.StandardResponse;
-import org.kuali.rice.kim.KimAuthenticationProvider;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.student.common.assembly.Assembler;
@@ -56,6 +55,7 @@ import org.kuali.student.common.ui.server.mvc.dto.BeanMappingException;
 import org.kuali.student.common.ui.server.mvc.dto.DefaultBeanMapper;
 import org.kuali.student.common.ui.server.mvc.dto.MapContext;
 import org.kuali.student.common.ui.server.mvc.dto.PropertyMapping;
+import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
@@ -92,7 +92,6 @@ import org.springframework.security.GrantedAuthority;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
 import org.springframework.security.userdetails.User;
-import org.springframework.security.userdetails.UserDetails;
 
 /**
  * GWT service orchestration code for creating and modifying clu proposals.
@@ -104,7 +103,6 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	final Logger logger = Logger.getLogger(CluProposalRpcGwtServlet.class);
 
     private static final long serialVersionUID = 1L;
-    private static final String DEFAULT_USER_ID = "user1";
     private static final String WF_TYPE_CLU_DOCUMENT = "CluDocument";
     private static final String WF_TYPE_CLU_COLLABORATOR_DOCUMENT =  "CluCollaboratorDocument";
     private static final String PROPOSAL_REFERENCE_TYPE = "kuali.proposal.referenceType.clu";
@@ -1285,20 +1283,9 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	
 	
 	private String getCurrentUser() {
-        String username=DEFAULT_USER_ID;//FIXME this is bad, need to find some kind of mock security context
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if(auth!=null){
-        	Object obj = auth.getPrincipal();
-        	if(obj instanceof KimAuthenticationProvider.UserWithId){
-        		//This is actually the user Id
-        		username = ((KimAuthenticationProvider.UserWithId)obj).getUserId();
-        	}else if (obj instanceof UserDetails) {
-            	username = ((UserDetails)obj).getUsername();
-            } else {
-            	username = obj.toString();
-            }
-        }else{
-        	username=(String)this.getThreadLocalRequest().getSession().getAttribute("backdoorId");
+		String username = SecurityUtils.getCurrentUserId();
+		if(username==null&&this.getThreadLocalRequest().getSession().getAttribute("backdoorId")!=null){
+			username=(String)this.getThreadLocalRequest().getSession().getAttribute("backdoorId");
         }
 		return username;
 	}
