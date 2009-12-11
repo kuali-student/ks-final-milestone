@@ -488,7 +488,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 
             //Get the current routeNodeName
             String routeNodeName="";
-            RouteNodeInstanceDTO[] activeNodes = workflowUtilityService.getActiveNodeInstances(Long.decode(docResponse.getDocId()));
+            RouteNodeInstanceDTO[] activeNodes = workflowUtilityService.getActiveNodeInstances(Long.decode(docId));
     		if (activeNodes != null && activeNodes.length > 0) {
 	    		if (activeNodes.length == 1) {
 					routeNodeName = activeNodes[0].getName();
