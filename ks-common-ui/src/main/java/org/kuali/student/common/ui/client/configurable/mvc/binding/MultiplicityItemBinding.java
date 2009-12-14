@@ -51,13 +51,12 @@ public class MultiplicityItemBinding implements ModelWidgetBinding<MultiplicityI
         QueryPath qPath;
         if (multiplicityItem.isCreated()){
             qPath = QueryPath.parse(itemPath + QueryPath.getPathSeparator() + RT_CREATED);
+        } else if (multiplicityItem.isDeleted()){
+        	qPath = QueryPath.parse(itemPath + QueryPath.getPathSeparator() + RT_DELETED);
         } else {
             qPath = QueryPath.parse(itemPath + QueryPath.getPathSeparator() + RT_UPDATED);
         }
-    	model.set(qPath, new Boolean(true));
-        
-        qPath = QueryPath.parse(itemPath + QueryPath.getPathSeparator() + RT_DELETED);        
-        model.set(qPath, new Boolean(multiplicityItem.isDeleted()));    
+    	model.set(qPath, new Boolean(true));        
     }
 
     /**
