@@ -143,7 +143,7 @@ public class CluInfoHierarchyAssembler implements Assembler<CluInfoHierarchy, Vo
 			result.setValidationResults(val);
 			
 			if (isValid(val)) {
-				saveClus(input);
+				saveClus(input, null);
 				saveRelations(null, input);
 				result.setValue(removeOrphans(input));
 			} else {
@@ -172,7 +172,7 @@ public class CluInfoHierarchyAssembler implements Assembler<CluInfoHierarchy, Vo
 	}
 
 
-	private void saveClus(CluInfoHierarchy input) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException {
+	private void saveClus(CluInfoHierarchy input, String parentId) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException {
 		CluInfo result = null;
 		CluInfo clu = input.getCluInfo();
 		if (input.getModificationState() != null) {
@@ -185,11 +185,13 @@ public class CluInfoHierarchyAssembler implements Assembler<CluInfoHierarchy, Vo
 					break;
 				case DELETED:
 					// back out any relationships in case of RI
-					List<CluCluRelationInfo> relations = luService.getCluCluRelationsByClu(clu.getId());
-					for (CluCluRelationInfo rel : relations) {
-						luService.deleteCluCluRelation(rel.getId());
+					if (parentId != null){
+						List<CluCluRelationInfo> relations = luService.getCluCluRelationsByClu(parentId);
+						for (CluCluRelationInfo rel : relations) {
+							luService.deleteCluCluRelation(rel.getId());
+						}
+						luService.deleteClu(clu.getId());
 					}
-					luService.deleteClu(clu.getId());
 					break;
 				default:
 					// do nothing
@@ -199,7 +201,7 @@ public class CluInfoHierarchyAssembler implements Assembler<CluInfoHierarchy, Vo
 			input.setCluInfo(result);
 		}
 		for (CluInfoHierarchy child : input.getChildren()) {
-			saveClus(child);
+			saveClus(child, input.getCluInfo().getId());
 		}
 	}
 	
