@@ -24,8 +24,11 @@ import com.google.gwt.user.client.ui.Widget;
 public class MultiplicityItemBinding implements ModelWidgetBinding<MultiplicityItem> {
     public static MultiplicityItemBinding INSTANCE = new MultiplicityItemBinding();
     
+    private final String RT_CREATED = "_runtimeData" + QueryPath.getPathSeparator() + "created";
+    private final String RT_UPDATED = "_runtimeData" + QueryPath.getPathSeparator() + "updated";
+    private final String RT_DELETED = "_runtimeData" + QueryPath.getPathSeparator() + "deleted";
+    
     private MultiplicityItemBinding(){};
-
     
     /**
      * @see org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding#setModelValue(java.lang.Object,
@@ -45,10 +48,15 @@ public class MultiplicityItemBinding implements ModelWidgetBinding<MultiplicityI
         }
         
         //Multiplicity metadata?
-        QueryPath qPath = QueryPath.parse(itemPath + QueryPath.getPathSeparator() + "_runtimeData" + QueryPath.getPathSeparator() + "created");
-        model.set(qPath, new Boolean(multiplicityItem.isCreated()));
-
-        qPath = QueryPath.parse(itemPath + QueryPath.getPathSeparator() + "_runtimeData" + QueryPath.getPathSeparator() + "deleted");        
+        QueryPath qPath;
+        if (multiplicityItem.isCreated()){
+            qPath = QueryPath.parse(itemPath + QueryPath.getPathSeparator() + RT_CREATED);
+        } else {
+            qPath = QueryPath.parse(itemPath + QueryPath.getPathSeparator() + RT_UPDATED);
+        }
+    	model.set(qPath, new Boolean(true));
+        
+        qPath = QueryPath.parse(itemPath + QueryPath.getPathSeparator() + RT_DELETED);        
         model.set(qPath, new Boolean(multiplicityItem.isDeleted()));    
     }
 
@@ -68,18 +76,8 @@ public class MultiplicityItemBinding implements ModelWidgetBinding<MultiplicityI
             GWT.log(itemPath + " has no widget binding.", null);
         }        
 
-        //Multiplicity metadata?
-        QueryPath qPath = QueryPath.parse(itemPath + QueryPath.getPathSeparator() + "crudCreated");
-        Boolean existing = model.get(qPath);
-        if (existing != null){
-            multiplicityItem.setCreated(existing.booleanValue());
-        }
-
-        qPath = QueryPath.parse(itemPath + QueryPath.getPathSeparator() + "crudDeleted");
-        Boolean deleted = model.get(qPath);
-        if (existing != null){
-            multiplicityItem.setCreated(deleted.booleanValue());
-        }
+        multiplicityItem.setCreated(false);
+        multiplicityItem.setCreated(false);
     }
 
 }
