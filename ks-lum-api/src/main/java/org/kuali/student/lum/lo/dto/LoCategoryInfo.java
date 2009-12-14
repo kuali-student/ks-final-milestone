@@ -16,8 +16,10 @@
 package org.kuali.student.lum.lo.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -26,23 +28,24 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.core.dto.HasAttributes;
+import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 import org.kuali.student.core.dto.Idable;
+import org.kuali.student.core.dto.HasTypeState;
+import org.kuali.student.core.dto.HasAttributes;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 /**
  * Detailed information about a learning objective category.
  *
  * @Author KSContractMojo
  * @Author jimt
- * @Since Wed Oct 14 10:10:05 PDT 2009
- * @See <a href="https://test.kuali.org/confluence/display/KULSTR/loCategoryInfo+Structure+v1.0-rc2">LoCategoryInfo</>
+ * @Since Tue Dec 08 10:01:27 PST 2009
+ * @See <a href="https://test.kuali.org/confluence/display/KULSTU/loCategoryInfo+Structure+v1.0-rc3">LoCategoryInfo v1.0-rc3</>
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class LoCategoryInfo implements Serializable, Idable, HasAttributes {
+public class LoCategoryInfo implements Serializable, Idable, HasTypeState, HasAttributes {
 
     private static final long serialVersionUID = 1L;
 
@@ -67,6 +70,12 @@ public class LoCategoryInfo implements Serializable, Idable, HasAttributes {
 
     @XmlElement
     private MetaInfo metaInfo;
+
+    @XmlAttribute
+    private String type;
+
+    @XmlAttribute
+    private String state;
 
     @XmlAttribute
     private String id;
@@ -94,7 +103,7 @@ public class LoCategoryInfo implements Serializable, Idable, HasAttributes {
     }
 
     /**
-     * The page loRepositoryKey Structure does not exist. Once set in creation, this is immutable.
+     * Unique identifier for a learning objective repository. Once set in creation, this is immutable.
      */
     public String getLoRepository() {
         return loRepository;
@@ -127,7 +136,7 @@ public class LoCategoryInfo implements Serializable, Idable, HasAttributes {
     }
 
     /**
-     * The page attributeInfoList Structure does not exist.
+     * List of key/value pairs, typically used for dynamic attributes.
      */
     public Map<String, String> getAttributes() {
         if (attributes == null) {
@@ -141,7 +150,7 @@ public class LoCategoryInfo implements Serializable, Idable, HasAttributes {
     }
 
     /**
-     * The page metaInfo Structure does not exist.
+     * Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.
      */
     public MetaInfo getMetaInfo() {
         return metaInfo;
@@ -152,7 +161,29 @@ public class LoCategoryInfo implements Serializable, Idable, HasAttributes {
     }
 
     /**
-     * The page loCategoryId Structure does not exist. This is optional, due to the identifier being set at the time of creation. Once the learning objective category has been created, this should be seen as required.
+     * Unique identifier for a learning objective category type.
+     */
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    /**
+     * The current status of the learning objective category. The values for this field are constrained to those in the loCategoryState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.
+     */
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    /**
+     * Unique identifier for a learning objective category record. This is optional, due to the identifier being set at the time of creation. Once the learning objective category has been created, this should be seen as required.
      */
     public String getId() {
         return id;

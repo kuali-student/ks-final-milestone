@@ -16,25 +16,19 @@
 
 package org.kuali.student.lum.lo.dao.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
-import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DependentObjectsExistException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.lum.lo.dao.LoDao;
-import org.kuali.student.lum.lo.dto.LoLoRelationInfo;
 import org.kuali.student.lum.lo.entity.Lo;
 import org.kuali.student.lum.lo.entity.LoCategory;
-import org.kuali.student.lum.lo.entity.LoLoRelationType;
+import org.kuali.student.lum.lo.entity.LoLoRelation;
 import org.kuali.student.lum.lo.entity.LoRepository;
 
 /**
@@ -113,6 +107,7 @@ public class LoDaoImpl extends AbstractSearchableCrudDaoImpl implements LoDao {
 		}
 		List<Lo> parents = getIncludingLos(loId);
 		for (Lo parent : parents) {
+			
 			getIncludedLos(parent.getId()).remove(child);
 		}
 		delete(Lo.class, loId);
@@ -139,99 +134,10 @@ public class LoDaoImpl extends AbstractSearchableCrudDaoImpl implements LoDao {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.lum.lo.dao.LoDao#getAllDescendantLoIds(java.lang.String)
-	@Override
-	public List<String> getAllDescendantLoIds(String loId) {
-		Query query = em.createNamedQuery("Lo.getLoChildrenIds");
-		query.setParameter("parentId", loId);
-		return getAllLevels(query, "parentId", loId);
-	}
-	 */
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.lum.lo.dao.LoDao#getAncestors(java.lang.String)
-	 * 
-	 * Get the id's of _all_ ancestors of the specified Lo
-	@Override
-	public List<String> getAncestors(String loId) {
-		Query query = em.createNamedQuery("Lo.getAncestors");
-		query.setParameter("childId", loId);
-		return getAllLevels(query, "childId", loId);
-	}
-	 */
-
-	/* Recurse a query */
-	/*
-	private List<String> getAllLevels(Query query, String paramName, String paramValue) {
-		// Eliminate dup's by using a set
-		Set<String> valSet = new TreeSet<String>();
-		query.setParameter(paramName, paramValue);
-		@SuppressWarnings("unchecked")
-		List<String> nextLevelList = query.getResultList();
-		valSet.addAll(nextLevelList);
-		for (String resultStr : nextLevelList) {
-			valSet.addAll(getAllLevels(query, paramName, resultStr));
-		}
-		return new ArrayList<String>(valSet);
-	}
-	*/
-
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.lum.lo.dao.LoDao#getLoEquivalents(java.lang.String)
-     * Retrieves all learning objectives that have an equivalence reference to the specified LO.
-     * Note: Equivalency of learning objectives is uni-directional, and we're navigating to those
-     * LO's pointing to loId's
-	@Override
-	public List<Lo> getLoEquivalents(String loId) {
-		Query query = em.createNamedQuery("Lo.getLoEquivalents");
-		query.setParameter("loId", loId);
-		@SuppressWarnings("unchecked")
-		List<Lo> los = query.getResultList();
-		return los;
-	}
-	 */
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.lum.lo.dao.LoDao#getEquivalentLos(java.lang.String)
-	 *     /** 
-     * Retrieves all equivalent learning objectives of a learning objective.
-     * Note: Equivalency of learning objectives is uni-directional, and we're navigating to those
-     * LO's that loId's LO points to as equivalent
-	@Override
-	public List<Lo> getEquivalentLos(String loId) {
-		Query query = em.createNamedQuery("Lo.getEquivalentLos");
-		query.setParameter("loId", loId);
-		@SuppressWarnings("unchecked")
-		List<Lo> los = query.getResultList();
-		return los;
-	}
-	 */
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.lum.lo.dao.LoDao#isEquivalent(java.lang.String, java.lang.String)
-	@Override
-	public boolean isEquivalent(String equivLoId, String loId) {
-		Query query = em.createNamedQuery("Lo.getEquivalentLosIds");
-		query.setParameter("loId", loId);
-		@SuppressWarnings("unchecked")
-		List<String> losIds = query.getResultList();
-		return losIds.contains(equivLoId);
-	}
-	 */
-
-	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lo.dao.LoDao#getLoParents(java.lang.String)
 	 */
-	private List<Lo> getIncludingLos(String loId) {
-		/*
-		Query query = em.createNamedQuery("Lo.getLoParents");
-		query.setParameter("loChildId", loId);
-		@SuppressWarnings("unchecked")
-		List<Lo> resultList = query.getResultList();
-		return resultList;
-		*/
-		return Collections.emptyList();
+	private List<Lo> getIncludingLos(String loId) throws DoesNotExistException {
+		return getLosByRelatedLoId(loId, "kuali.lo.relation.type.includes"); // TODO - gotta be a constant somewhere, or perhaps pull from dictionary
 	}
 
 	/* (non-Javadoc)
@@ -247,51 +153,6 @@ public class LoDaoImpl extends AbstractSearchableCrudDaoImpl implements LoDao {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.lum.lo.dao.LoDao#removeChildLoFromLo(java.lang.String, java.lang.String)
-	@Override
-	public boolean removeChildLoFromLo(String loId, String parentLoId) throws DependentObjectsExistException, DoesNotExistException {
-		Lo parentLo = null;
-		Lo lo = null;
-		if (getLoParents(loId).size() <= 1) {
-			throw new DependentObjectsExistException();
-		}
-		try {
-			parentLo = fetch(Lo.class, parentLoId);
-			lo = fetch(Lo.class, loId);
-		} catch (DoesNotExistException e) {
-			return false;
-		}
-		List<Lo> children = parentLo.getChildLos();
-		int index = children.indexOf(lo);
-		if (-1 == index) {
-			throw new DoesNotExistException("Lo(" + loId + ") is not a child of Lo(" + parentLoId + ").");
-		}
-		children.remove(index);
-		// TODO - null out hierarchy 
-		return true;
-	}
-	 */
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.lum.lo.dao.LoDao#removeEquivalentLoFromLo(java.lang.String, java.lang.String)
-	@Override
-	public boolean removeEquivalentLoFromLo(String loId, String equivalentLoId) {
-		Lo lo = null;
-		Lo equivLo = null;
-		try {
-			lo = fetch(Lo.class, loId);
-			equivLo = fetch(Lo.class, equivalentLoId);
-		} catch (DoesNotExistException e) {
-			return false;
-		}
-		List<Lo> equivs = lo.getEquivalentLos();
-		int index = equivs.indexOf(equivLo);
-		equivs.remove(index);
-		return true;
-	}
-	 */
-
-	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lo.dao.LoDao#getLoCategories(java.lang.String)
 	 */
 	@Override
@@ -302,21 +163,6 @@ public class LoDaoImpl extends AbstractSearchableCrudDaoImpl implements LoDao {
 		List<LoCategory> resultList = query.getResultList();
 		return resultList;
 	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.lum.lo.dao.LoDao#isDescendant(java.lang.String, java.lang.String)
-	@Override
-	public boolean isDescendant(String loId, String descendantLoId) {
-		List<Lo> los = getLoChildren(loId);
-		Lo child = null;
-		try {
-			child = fetch(Lo.class, descendantLoId);
-		} catch (DoesNotExistException e) {
-			return false;
-		}
-		return los.contains(child);
-	}
-	 */
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lo.dao.LoDao#deleteLoCategory(java.lang.String)
@@ -345,7 +191,159 @@ public class LoDaoImpl extends AbstractSearchableCrudDaoImpl implements LoDao {
 	@Override
 	public List<Lo> getLosByRelatedLoId(String relatedLoId,
 			String loLoRelationTypeId) throws DoesNotExistException {
-		// TODO Auto-generated method stub
-		return null;
+		Query query = em.createNamedQuery("Lo.getLosByRelatedLoId");
+		query.setParameter("relatedLoId", relatedLoId);
+		query.setParameter("loLoRelationTypeId", loLoRelationTypeId);
+		@SuppressWarnings("unchecked")
+		List<Lo> resultList = query.getResultList();
+		return resultList;
 	}
+
+	@Override
+	public void deleteLoLoRelation(String loLoRelationId) throws DoesNotExistException, DependentObjectsExistException {
+		// make sure we don't orphan an LO (and potentially its children)
+		LoLoRelation llRelation = fetch(LoLoRelation.class, loLoRelationId);
+		if (getIncludingLos(llRelation.getRelatedLo().getId()).size() == 1) {
+			// TODO - "&& [not a top-level LO for another CLU]" when LO's are reused
+			throw new DependentObjectsExistException("LoLoRelation(" +
+													 loLoRelationId +
+													 ") cannot be deleted without orphaning Lo(s).");
+		}
+		delete(LoLoRelation.class, loLoRelationId);
+	}
+
+	// These are left over from when Lo's were in parent-child hierarchies, and there
+	// was a concept of 'equivalent' LO's
+	// TODO - remove when logic has been completely pilfered as appropriate
+	/* (non-Javadoc)
+	 * @see org.kuali.student.lum.lo.dao.LoDao#getAllDescendantLoIds(java.lang.String)
+	@Override
+	public List<String> getAllDescendantLoIds(String loId) {
+		Query query = em.createNamedQuery("Lo.getLoChildrenIds");
+		query.setParameter("parentId", loId);
+		return getAllLevels(query, "parentId", loId);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.lum.lo.dao.LoDao#getAncestors(java.lang.String)
+	 * 
+	 * Get the id's of _all_ ancestors of the specified Lo
+	@Override
+	public List<String> getAncestors(String loId) {
+		Query query = em.createNamedQuery("Lo.getAncestors");
+		query.setParameter("childId", loId);
+		return getAllLevels(query, "childId", loId);
+	}
+
+	/* Recurse a query 
+	private List<String> getAllLevels(Query query, String paramName, String paramValue) {
+		// Eliminate dup's by using a set
+		Set<String> valSet = new TreeSet<String>();
+		query.setParameter(paramName, paramValue);
+		@SuppressWarnings("unchecked")
+		List<String> nextLevelList = query.getResultList();
+		valSet.addAll(nextLevelList);
+		for (String resultStr : nextLevelList) {
+			valSet.addAll(getAllLevels(query, paramName, resultStr));
+		}
+		return new ArrayList<String>(valSet);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.lum.lo.dao.LoDao#getLoEquivalents(java.lang.String)
+     * Retrieves all learning objectives that have an equivalence reference to the specified LO.
+     * Note: Equivalency of learning objectives is uni-directional, and we're navigating to those
+     * LO's pointing to loId's
+	@Override
+	public List<Lo> getLoEquivalents(String loId) {
+		Query query = em.createNamedQuery("Lo.getLoEquivalents");
+		query.setParameter("loId", loId);
+		@SuppressWarnings("unchecked")
+		List<Lo> los = query.getResultList();
+		return los;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.lum.lo.dao.LoDao#getEquivalentLos(java.lang.String)
+	 *     /** 
+     * Retrieves all equivalent learning objectives of a learning objective.
+     * Note: Equivalency of learning objectives is uni-directional, and we're navigating to those
+     * LO's that loId's LO points to as equivalent
+	@Override
+	public List<Lo> getEquivalentLos(String loId) {
+		Query query = em.createNamedQuery("Lo.getEquivalentLos");
+		query.setParameter("loId", loId);
+		@SuppressWarnings("unchecked")
+		List<Lo> los = query.getResultList();
+		return los;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.lum.lo.dao.LoDao#isEquivalent(java.lang.String, java.lang.String)
+	@Override
+	public boolean isEquivalent(String equivLoId, String loId) {
+		Query query = em.createNamedQuery("Lo.getEquivalentLosIds");
+		query.setParameter("loId", loId);
+		@SuppressWarnings("unchecked")
+		List<String> losIds = query.getResultList();
+		return losIds.contains(equivLoId);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.lum.lo.dao.LoDao#removeChildLoFromLo(java.lang.String, java.lang.String)
+	@Override
+	public boolean removeChildLoFromLo(String loId, String parentLoId) throws DependentObjectsExistException, DoesNotExistException {
+		Lo parentLo = null;
+		Lo lo = null;
+		if (getLoParents(loId).size() <= 1) {
+			throw new DependentObjectsExistException();
+		}
+		try {
+			parentLo = fetch(Lo.class, parentLoId);
+			lo = fetch(Lo.class, loId);
+		} catch (DoesNotExistException e) {
+			return false;
+		}
+		List<Lo> children = parentLo.getChildLos();
+		int index = children.indexOf(lo);
+		if (-1 == index) {
+			throw new DoesNotExistException("Lo(" + loId + ") is not a child of Lo(" + parentLoId + ").");
+		}
+		children.remove(index);
+		// TODO - null out hierarchy 
+		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.lum.lo.dao.LoDao#removeEquivalentLoFromLo(java.lang.String, java.lang.String)
+	@Override
+	public boolean removeEquivalentLoFromLo(String loId, String equivalentLoId) {
+		Lo lo = null;
+		Lo equivLo = null;
+		try {
+			lo = fetch(Lo.class, loId);
+			equivLo = fetch(Lo.class, equivalentLoId);
+		} catch (DoesNotExistException e) {
+			return false;
+		}
+		List<Lo> equivs = lo.getEquivalentLos();
+		int index = equivs.indexOf(equivLo);
+		equivs.remove(index);
+		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.lum.lo.dao.LoDao#isDescendant(java.lang.String, java.lang.String)
+	@Override
+	public boolean isDescendant(String loId, String descendantLoId) {
+		List<Lo> los = getLoChildren(loId);
+		Lo child = null;
+		try {
+			child = fetch(Lo.class, descendantLoId);
+		} catch (DoesNotExistException e) {
+			return false;
+		}
+		return los.contains(child);
+	}
+	 */
 }

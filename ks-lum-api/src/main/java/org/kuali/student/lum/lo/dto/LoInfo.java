@@ -40,8 +40,8 @@ import org.kuali.student.core.dto.RichTextInfo;
  *
  * @Author KSContractMojo
  * @Author jimt
- * @Since Wed Oct 14 10:10:08 PDT 2009
- * @See <a href="https://test.kuali.org/confluence/display/KULSTR/loInfo+Structure+v1.0-rc2">LoInfo</>
+ * @Since Tue Dec 08 10:01:30 PST 2009
+ * @See <a href="https://test.kuali.org/confluence/display/KULSTU/loInfo+Structure+v1.0-rc2">LoInfo</>
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)

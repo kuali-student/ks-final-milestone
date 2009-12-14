@@ -22,6 +22,7 @@ import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.CircularReferenceException;
+import org.kuali.student.core.exceptions.CircularRelationshipException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DependentObjectsExistException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -261,8 +262,8 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
             fail("Exception caught when calling LearningObjectiveService.getLoLoRelation(): " + e.getMessage());
     	}
     	assertNotNull(llrInfo);
-    	assertEquals("81ABEA67-3BCC-4088-8348-E265F3670145", llrInfo.getLo());
-    	assertEquals("DD0658D2-FDC9-48FA-9578-67A2CE53BF8A", llrInfo.getRelatedLo());
+    	assertEquals("81ABEA67-3BCC-4088-8348-E265F3670145", llrInfo.getLoId());
+    	assertEquals("DD0658D2-FDC9-48FA-9578-67A2CE53BF8A", llrInfo.getRelatedLoId());
     	assertEquals("kuali.lo.relation.type.includes", llrInfo.getType());
     	assertEquals("draft", llrInfo.getState());
         // Detecting expected errors
@@ -273,7 +274,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
     }
     
     @Test
-    public void testCreateLoLoRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, AlreadyExistsException, CircularReferenceException, DataValidationErrorException, PermissionDeniedException {
+    public void testCreateLoLoRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, AlreadyExistsException, CircularReferenceException, DataValidationErrorException, PermissionDeniedException, CircularRelationshipException {
     	LoLoRelationInfo llrInfo = new LoLoRelationInfo();
     	
     	try {
@@ -283,8 +284,8 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
     	}
     	assertNotNull(llrInfo);
     	llrInfo = client.getLoLoRelation(llrInfo.getId());
-    	assertEquals("7BCD7C0E-3E6B-4527-AC55-254C58CECC22", llrInfo.getLo());
-    	assertEquals("91A91860-D796-4A17-976B-A6165B1A0B05", llrInfo.getRelatedLo());
+    	assertEquals("7BCD7C0E-3E6B-4527-AC55-254C58CECC22", llrInfo.getLoId());
+    	assertEquals("91A91860-D796-4A17-976B-A6165B1A0B05", llrInfo.getRelatedLoId());
     	assertEquals("kuali.lo.relation.type.includes", llrInfo.getType());
     	assertEquals("draft", llrInfo.getState());
         // Detecting expected errors

@@ -1,16 +1,17 @@
 /*
- * Copyright 2009 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
- * 
- * http://www.osedu.org/licenses/ECL-2.0
- * 
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
- * permissions and limitations under the License.
+ * Copyright 2009 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl1.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.student.lum.lo.service;
 
@@ -24,7 +25,7 @@ import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.enumerable.service.EnumerableService;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
-import org.kuali.student.core.exceptions.CircularReferenceException;
+import org.kuali.student.core.exceptions.CircularRelationshipException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DependentObjectsExistException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -35,9 +36,10 @@ import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.search.service.SearchService;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
+
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lo.dto.LoLoRelationInfo;
 import org.kuali.student.lum.lo.dto.LoLoRelationTypeInfo;
@@ -48,8 +50,8 @@ import org.kuali.student.lum.lo.dto.LoTypeInfo;
  *
  * @Author KSContractMojo
  * @Author jimt
- * @Since Thu Jun 18 21:14:17 PDT 2009
- * @See <a href="https://test.kuali.org/confluence/display/KULSTU/Learning+Objective+Service">LearningObjectiveService</>
+ * @Since Tue Dec 08 10:00:55 PST 2009
+ * @See <a href="https://test.kuali.org/confluence/display/KULSTU/Learning+Objective+Service+v1.0-rc3">LearningObjectiveService</>
  *
  */
 @WebService(name = "LearningObjectiveService", targetNamespace = "http://student.kuali.org/wsdl/lo") // TODO CHECK THESE VALUES
@@ -72,6 +74,24 @@ public interface LearningObjectiveService extends DictionaryService, EnumerableS
      * @throws OperationFailedException unable to complete request
 	 */
     public LoRepositoryInfo getLoRepository(@WebParam(name="loRepositoryKey")String loRepositoryKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /** 
+     * Retrieves the list of learning objective category types known by this service.
+     * @return list of learning objective category type information
+     * @throws OperationFailedException unable to complete request
+	 */
+    public List<LoCategoryTypeInfo> getLoCategoryTypes() throws OperationFailedException;
+
+    /** 
+     * Retrieves information about a particular learning objective category type.
+     * @param loCategoryTypeKey learning objective category type identifier
+     * @return information about a learning objective category type
+     * @throws DoesNotExistException specified learning objective category type not found
+     * @throws InvalidParameterException invalid loCategoryTypeKey
+     * @throws MissingParameterException loCategoryTypeKey not specified
+     * @throws OperationFailedException unable to complete request
+	 */
+    public LoCategoryTypeInfo getLoCategoryType(@WebParam(name="loCategoryTypeKey")String loCategoryTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Retrieves the list of learning objective types known by this service.
@@ -164,6 +184,18 @@ public interface LearningObjectiveService extends DictionaryService, EnumerableS
     public List<LoInfo> getLoByIdList(@WebParam(name="loId")List<String> loId) throws InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
+     * Retrieves learning objectives from a given repository of a given type and state.
+     * @param loRepositoryKey repository identifier
+     * @param loTypeKey learning objective type identifier
+     * @param loStateKey learning objective state identifier
+     * @return list of learning objectives
+     * @throws InvalidParameterException one or more parameters invalid
+     * @throws MissingParameterException one or more missing parameters missing
+     * @throws OperationFailedException unable to complete request
+	 */
+    public List<LoInfo> getLosByRepository(@WebParam(name="loRepositoryKey")String loRepositoryKey, @WebParam(name="loTypeKey")String loTypeKey, @WebParam(name="loStateKey")String loStateKey) throws InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /** 
      * Retrieves a list of learning objective categories for a specific learning objective.
      * @param loId learning objective identifier
      * @return list of learning objective category information
@@ -207,7 +239,7 @@ public interface LearningObjectiveService extends DictionaryService, EnumerableS
      * @throws MissingParameterException missing loId, loLoRelationType
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<LoInfo> getRelatedLosByLoId(@WebParam(name="loId")String loId, @WebParam(name="loLoRelationTypeKey")String loLoRelationTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<LoInfo> getRelatedLosByLoId(@WebParam(name="loId")String loId, @WebParam(name="loLoRelationType")String loLoRelationType) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Retrieves the relationship information between LOs for a particular relationship identifier
@@ -246,16 +278,17 @@ public interface LearningObjectiveService extends DictionaryService, EnumerableS
     /** 
      * Create a learning objective category in a particular learning objective repository.
      * @param loRepositoryKey identifier of the learning objective repository
+     * @param loCategoryTypeKey identifier of the learning objective category type
      * @param loCategoryInfo information to create the learning objective category
      * @return information on the created learning objective category
      * @throws DataValidationErrorException One or more values invalid for this operation
-     * @throws DoesNotExistException loRepositoryKey not found
-     * @throws InvalidParameterException invalid loRepositoryKey, loCategoryInfo
-     * @throws MissingParameterException missing loRepositoryKey, loCategoryInfo
+     * @throws DoesNotExistException loRepositoryKey, loCategoryTypeKey not found
+     * @throws InvalidParameterException invalid loRepositoryKey, loCategoryTypeKey, loCategoryInfo
+     * @throws MissingParameterException missing loRepositoryKey, loCategoryTypeKey, loCategoryInfo
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
 	 */
-    public LoCategoryInfo createLoCategory(@WebParam(name="loRepositoryKey")String loRepositoryKey, @WebParam(name="loCategoryInfo")LoCategoryInfo loCategoryInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public LoCategoryInfo createLoCategory(@WebParam(name="loRepositoryKey")String loRepositoryKey, @WebParam(name="loCategoryTypeKey")String loCategoryTypeKey, @WebParam(name="loCategoryInfo")LoCategoryInfo loCategoryInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Updates a learning objective category in a particular learning objective repository.
@@ -310,7 +343,7 @@ public interface LearningObjectiveService extends DictionaryService, EnumerableS
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
 	 */
-    public LoInfo createLo(@WebParam(name="loRepositoryKey") String loRepositoryKey, @WebParam(name="loType") String loType, @WebParam(name="loInfo") LoInfo loInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public LoInfo createLo(@WebParam(name="loRepositoryKey")String loRepositoryKey, @WebParam(name="loType")String loType, @WebParam(name="loInfo")LoInfo loInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Update a learning objective.
@@ -397,7 +430,7 @@ public interface LearningObjectiveService extends DictionaryService, EnumerableS
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
 	 */
-    public LoLoRelationInfo createLoLoRelation(@WebParam(name="loId")String loId, @WebParam(name="relatedLoId")String relatedLoId, @WebParam(name="loLoRelationType")String loLoRelationType, @WebParam(name="loLoRelationInfo")LoLoRelationInfo loLoRelationInfo) throws AlreadyExistsException, CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public LoLoRelationInfo createLoLoRelation(@WebParam(name="loId")String loId, @WebParam(name="relatedLoId")String relatedLoId, @WebParam(name="loLoRelationType")String loLoRelationType, @WebParam(name="loLoRelationInfo")LoLoRelationInfo loLoRelationInfo) throws AlreadyExistsException, CircularRelationshipException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Updates a relationship between two LOs
@@ -423,7 +456,8 @@ public interface LearningObjectiveService extends DictionaryService, EnumerableS
      * @throws MissingParameterException missing loLoRelationId
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
+     * @throws DependentObjectsExistException 
 	 */
-    public StatusInfo deleteLoLoRelation(@WebParam(name="loLoRelationId")String loLoRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deleteLoLoRelation(@WebParam(name="loLoRelationId")String loLoRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException;
 
 }

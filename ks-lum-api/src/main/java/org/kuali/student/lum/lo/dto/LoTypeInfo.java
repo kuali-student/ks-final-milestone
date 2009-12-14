@@ -31,15 +31,14 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.HasAttributes;
-import org.kuali.student.core.dto.MetaInfo;
 
 /**
  * Information about a learning objective type.
  *
  * @Author KSContractMojo
  * @Author jimt
- * @Since Wed Oct 14 10:09:56 PDT 2009
- * @See <a href="https://test.kuali.org/confluence/display/KULSTR/loTypeInfo+Structure+v1.0-rc2">LoTypeInfo</>
+ * @Since Tue Dec 08 10:01:20 PST 2009
+ * @See <a href="https://test.kuali.org/confluence/display/KULSTU/loTypeInfo+Structure+v1.0-rc2">LoTypeInfo</>
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)

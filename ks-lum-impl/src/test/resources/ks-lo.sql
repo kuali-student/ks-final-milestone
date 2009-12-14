@@ -26,18 +26,23 @@ INSERT INTO KSLU_LO_REPOSITORY (ID, NAME, RT_DESCR_ID, EFF_DT, EXPIR_DT, VERSION
 INSERT INTO KSLU_LO_REPOSITORY (ID, NAME, RT_DESCR_ID, EFF_DT, EXPIR_DT, VERSIONIND) VALUES ('kuali.loRepository.key.state', 'State', 'RICHTEXT-22', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'},1)
 
 // Lo-Lo Relation Type
-INSERT INTO KSLU_LOLO_RELTN_TYPE (ID, NAME, DESCR, REV_NAME, REV_DESCR, EFF_DT, EXPIR_DT, VERSIONIND) values ('kuali.lo.relation.type.includes', 'includes', 'Parent-child relationship between a parent LO and sub LO. Currently used in the context of LOs that are related within a single CLU.', 'is-included-by', 'Child-parent relationship between a child LO and an LO that includes the child.  Currently used in the context of LOs that are related within a single CLU.', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'}, 0)
-INSERT INTO KSLU_LOLO_RELTN_TYPE (ID, NAME, DESCR, REV_NAME, REV_DESCR, EFF_DT, EXPIR_DT, VERSIONIND) values ('kuali.lo.relation.type.inSupportOf', 'inSupportOf', '', 'supports', '', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'}, 0)
+INSERT INTO KSLU_LOLO_RELTN_TYPE (ID, NAME, DESCR, REV_NAME, REV_DESCR, EFF_DT, EXPIR_DT) values ('kuali.lo.relation.type.includes', 'includes', 'Parent-child relationship between a parent LO and sub LO. Currently used in the context of LOs that are related within a single CLU.', 'is-included-by', 'Child-parent relationship between a child LO and an LO that includes the child.  Currently used in the context of LOs that are related within a single CLU.', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'})
+INSERT INTO KSLU_LOLO_RELTN_TYPE (ID, NAME, DESCR, REV_NAME, REV_DESCR, EFF_DT, EXPIR_DT) values ('kuali.lo.relation.type.inSupportOf', 'inSupportOf', '', 'supports', '', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'})
 
 // Allowed Lo-Lo Relation Type 
 INSERT INTO KSLU_LOLO_ALLOWED_RELTN_TYPE (ID, LOLO_RELTN_TYPE_ID, LO_TYPE_ID, LO_REL_TYPE_ID, EFF_DT, EXPIR_DT, VERSIONIND) values ('DEC1364F-EFF0-41C6-9803-06A56CA5F192', 'kuali.lo.relation.type.includes', 'kuali.lo.type.singleUse', 'kuali.lo.type.singleUse', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'}, 1)
 
+// LoCategoryType
+INSERT INTO KSLU_LO_CATEGORY_TYPE (ID, NAME, DESCR, EFF_DT, EXPIR_DT) VALUES ('loCategoryType.skillarea', 'Skill', 'Skill', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'})
+INSERT INTO KSLU_LO_CATEGORY_TYPE (ID, NAME, DESCR, EFF_DT, EXPIR_DT) VALUES ('loCategoryType.accreditation', 'Accreditation', 'Accreditation', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'})
+INSERT INTO KSLU_LO_CATEGORY_TYPE (ID, NAME, DESCR, EFF_DT, EXPIR_DT) VALUES ('loCategoryType.subject', 'Subject', 'Subject', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'})
+
 // LoCategory
-INSERT INTO KSLU_LO_CATEGORY (ID, NAME, RT_DESCR_ID, LO_REPO_ID, EFF_DT, EXPIR_DT, VERSIONIND) VALUES ('550e8400-e29b-41d4-a716-446655440000', 'Perception', 'RICHTEXT-14', 'kuali.loRepository.key.singleUse', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'},1)
-INSERT INTO KSLU_LO_CATEGORY (ID, NAME, RT_DESCR_ID, LO_REPO_ID, EFF_DT, EXPIR_DT, VERSIONIND) VALUES ('054CAA88-C21D-4496-8287-36A311A11D68', 'Test Category 2', 'RICHTEXT-9', 'kuali.loRepository.key.singleUse', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'},1)
-INSERT INTO KSLU_LO_CATEGORY (ID, NAME, RT_DESCR_ID, LO_REPO_ID, EFF_DT, EXPIR_DT, VERSIONIND) VALUES ('162979A3-25B9-4921-BC8F-C861B2267A73', 'Test Category 3', 'RICHTEXT-9', 'kuali.loRepository.key.singleUse', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'},1)
-INSERT INTO KSLU_LO_CATEGORY (ID, NAME, RT_DESCR_ID, LO_REPO_ID, EFF_DT, EXPIR_DT, VERSIONIND) VALUES ('7114D2A4-F66D-4D3A-9D41-A7AA4299C797', 'Test Category 4', 'RICHTEXT-9', 'kuali.loRepository.key.singleUse', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'},1)
-INSERT INTO KSLU_LO_CATEGORY (ID, NAME, RT_DESCR_ID, LO_REPO_ID, EFF_DT, EXPIR_DT, VERSIONIND) VALUES ('F2F02922-4E77-4144-AA07-8C2C956370DC', 'Empty Test Category', 'RICHTEXT-19', 'kuali.loRepository.key.singleUse', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'},1)
+INSERT INTO KSLU_LO_CATEGORY (ID, NAME, RT_DESCR_ID, LO_REPO_ID, LO_CATEGORY_TYPE_ID, EFF_DT, EXPIR_DT, VERSIONIND) VALUES ('550e8400-e29b-41d4-a716-446655440000', 'Perception', 'RICHTEXT-14', 'kuali.loRepository.key.singleUse', 'loCategoryType.skillarea', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'},1)
+INSERT INTO KSLU_LO_CATEGORY (ID, NAME, RT_DESCR_ID, LO_REPO_ID, LO_CATEGORY_TYPE_ID, EFF_DT, EXPIR_DT, VERSIONIND) VALUES ('054CAA88-C21D-4496-8287-36A311A11D68', 'Test Category 2', 'RICHTEXT-9', 'kuali.loRepository.key.singleUse', 'loCategoryType.subject', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'},1)
+INSERT INTO KSLU_LO_CATEGORY (ID, NAME, RT_DESCR_ID, LO_REPO_ID, LO_CATEGORY_TYPE_ID, EFF_DT, EXPIR_DT, VERSIONIND) VALUES ('162979A3-25B9-4921-BC8F-C861B2267A73', 'Test Category 3', 'RICHTEXT-9', 'kuali.loRepository.key.singleUse', 'loCategoryType.skillarea', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'},1)
+INSERT INTO KSLU_LO_CATEGORY (ID, NAME, RT_DESCR_ID, LO_REPO_ID, LO_CATEGORY_TYPE_ID, EFF_DT, EXPIR_DT, VERSIONIND) VALUES ('7114D2A4-F66D-4D3A-9D41-A7AA4299C797', 'Test Category 4', 'RICHTEXT-9', 'kuali.loRepository.key.singleUse', 'loCategoryType.subject', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'},1)
+INSERT INTO KSLU_LO_CATEGORY (ID, NAME, RT_DESCR_ID, LO_REPO_ID, LO_CATEGORY_TYPE_ID, EFF_DT, EXPIR_DT, VERSIONIND) VALUES ('F2F02922-4E77-4144-AA07-8C2C956370DC', 'Empty Test Category', 'RICHTEXT-19', 'kuali.loRepository.key.singleUse', 'loCategoryType.skillarea', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'},1)
 
 // Lo 
 INSERT INTO KSLU_LO (ID, NAME, RT_DESCR_ID, LO_REPO_ID, EFF_DT, EXPIR_DT, LOTYPE_ID, ST, VERSIONIND) VALUES ('81ABEA67-3BCC-4088-8348-E265F3670145', 'Edit Wiki Message Structure', 'RICHTEXT-9', 'kuali.loRepository.key.singleUse', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'}, 'kuali.lo.type.singleUse', 'draft', 1)

@@ -16,10 +16,8 @@
 package org.kuali.student.lum.lo.dto;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -28,23 +26,21 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
-import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.HasAttributes;
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.core.dto.Idable;
+import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 /**
- * Detailed information about a learning objective repository, including the root node.
+ * Information about a learning objective category type.
  *
  * @Author KSContractMojo
  * @Author jimt
- * @Since Tue Dec 08 10:01:01 PST 2009
- * @See <a href="https://test.kuali.org/confluence/display/KULSTU/loRepositoryInfo+Structure+v1.0-rc2">LoRepositoryInfo</>
+ * @Since Tue Dec 08 10:01:17 PST 2009
+ * @See <a href="https://test.kuali.org/confluence/display/KULSTU/loCategoryTypeInfo+Structure+v1.0-rc1">LoCategoryTypeInfo v1.0-rc1</>
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class LoRepositoryInfo implements Serializable, Idable, HasAttributes {
+public class LoCategoryTypeInfo implements Serializable, Idable, HasAttributes {
 
     private static final long serialVersionUID = 1L;
 
@@ -52,10 +48,7 @@ public class LoRepositoryInfo implements Serializable, Idable, HasAttributes {
     private String name;
 
     @XmlElement
-    private RichTextInfo desc;
-
-    @XmlElement
-    private String rootLoId;
+    private String desc;
 
     @XmlElement
     private Date effectiveDate;
@@ -67,14 +60,11 @@ public class LoRepositoryInfo implements Serializable, Idable, HasAttributes {
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
     private Map<String, String> attributes;
 
-    @XmlElement
-    private MetaInfo metaInfo;
-
     @XmlAttribute(name="key")
     private String id;
 
     /**
-     * Friendly name of the repository
+     * Friendly name of the learning objective category type
      */
     public String getName() {
         return name;
@@ -85,29 +75,18 @@ public class LoRepositoryInfo implements Serializable, Idable, HasAttributes {
     }
 
     /**
-     * Narrative description of the learning objective repository
+     * Narrative description of the learning objective category type
      */
-    public RichTextInfo getDesc() {
+    public String getDesc() {
         return desc;
     }
 
-    public void setDesc(RichTextInfo desc) {
+    public void setDesc(String desc) {
         this.desc = desc;
     }
 
     /**
-     * Identifier for the root node of the learning objective repository. This is primarily present for repositories which are trees descendent from a singular node instead of looser collections.
-     */
-    public String getRootLoId() {
-        return rootLoId;
-    }
-
-    public void setRootLoId(String rootLoId) {
-        this.rootLoId = rootLoId;
-    }
-
-    /**
-     * Date and time that this learning objective repository became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.
+     * Date and time that this learning objective category type became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.
      */
     public Date getEffectiveDate() {
         return effectiveDate;
@@ -118,7 +97,7 @@ public class LoRepositoryInfo implements Serializable, Idable, HasAttributes {
     }
 
     /**
-     * Date and time that this learning objective repository expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.
+     * Date and time that this learning objective category type expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.
      */
     public Date getExpirationDate() {
         return expirationDate;
@@ -143,18 +122,7 @@ public class LoRepositoryInfo implements Serializable, Idable, HasAttributes {
     }
 
     /**
-     * Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.
-     */
-    public MetaInfo getMetaInfo() {
-        return metaInfo;
-    }
-
-    public void setMetaInfo(MetaInfo metaInfo) {
-        this.metaInfo = metaInfo;
-    }
-
-    /**
-     * Unique identifier for a learning objective repository.
+     * Unique identifier for a learning objective category type.
      */
     public String getId() {
         return id;

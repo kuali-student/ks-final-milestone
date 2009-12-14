@@ -25,6 +25,7 @@ import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.service.impl.BaseAssembler;
 import org.kuali.student.lum.lo.dao.LoDao;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lo.dto.LoLoRelationInfo;
 import org.kuali.student.lum.lo.dto.LoLoRelationTypeInfo;
@@ -34,6 +35,8 @@ import org.kuali.student.lum.lo.entity.Lo;
 import org.kuali.student.lum.lo.entity.LoAttribute;
 import org.kuali.student.lum.lo.entity.LoCategory;
 import org.kuali.student.lum.lo.entity.LoCategoryAttribute;
+import org.kuali.student.lum.lo.entity.LoCategoryType;
+import org.kuali.student.lum.lo.entity.LoCategoryTypeAttribute;
 import org.kuali.student.lum.lo.entity.LoLoRelation;
 import org.kuali.student.lum.lo.entity.LoLoRelationAttribute;
 import org.kuali.student.lum.lo.entity.LoLoRelationType;
@@ -248,8 +251,8 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
         Lo relatedLo = null;
         LoLoRelationType relationType = null;
         try {
-	        lo = dao.fetch(Lo.class, dto.getLo());
-	        relatedLo = dao.fetch(Lo.class, dto.getRelatedLo());
+	        lo = dao.fetch(Lo.class, dto.getLoId());
+	        relatedLo = dao.fetch(Lo.class, dto.getRelatedLoId());
 	        relationType = dao.fetch(LoLoRelationType.class, dto.getType());
         } catch (DoesNotExistException dnee) {
         	throw new DoesNotExistException((null == lo ? "Lo" : (null == relatedLo ? "Related Lo" : "Lo-Lo relation type")) +
@@ -268,11 +271,28 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
 		
         BeanUtils.copyProperties(entity, dto,
                 new String[] { "lo", "relatedLo", "type", "attributes" });
-        dto.setLo(entity.getLo().getId());
-        dto.setRelatedLo(entity.getRelatedLo().getId());
+        dto.setLoId(entity.getLo().getId());
+        dto.setRelatedLoId(entity.getRelatedLo().getId());
         dto.setType(entity.getLoLoRelationType().getId());
         dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         return dto;
+	}
+	
+    public static LoCategoryType toLoCategoryType(LoCategoryType entity, LoCategoryTypeInfo dto, LoDao dao) throws InvalidParameterException {
+        if(entity == null)
+            entity = new LoCategoryType();
+        BeanUtils.copyProperties(dto, entity,
+                new String[] { "attributes", "metaInfo" });
+        entity.setAttributes(toGenericAttributes(LoCategoryTypeAttribute.class, dto.getAttributes(), entity, dao));
+        return entity;
+    }
+
+	
+	public static LoCategoryTypeInfo toLoCategoryTypeInfo(
+			LoCategoryType loCatType) {
+		LoCategoryTypeInfo dto = new LoCategoryTypeInfo();
+		BeanUtils.copyProperties(loCatType, dto, new String[] { });
+		return dto;
 	}
 }

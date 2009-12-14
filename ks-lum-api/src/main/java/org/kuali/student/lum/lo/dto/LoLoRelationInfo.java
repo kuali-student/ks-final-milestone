@@ -16,8 +16,10 @@
 package org.kuali.student.lum.lo.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -34,17 +36,14 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
  *
  * @Author KSContractMojo
  * @Author jimt
- * @Since Wed Oct 14 10:10:12 PDT 2009
- * @See <a href="https://test.kuali.org/confluence/display/KULSTR/loLoRelationInfo+Structure+v1.0-rc2">LoLoRelationInfo</>
+ * @Since Tue Dec 08 10:01:34 PST 2009
+ * @See <a href="https://test.kuali.org/confluence/display/KULSTU/loLoRelationInfo+Structure+v1.0-rc2">LoLoRelationInfo</>
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LoLoRelationInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @XmlAttribute
-    private String id;
 
     @XmlElement
     private String loId;
@@ -71,29 +70,32 @@ public class LoLoRelationInfo implements Serializable {
     @XmlAttribute
     private String state;
 
+    @XmlAttribute
+    private String id;
+
     /**
-     * The page loId Structure does not exist. This is the "From" or "Parent" in the relation.
+     * Unique identifier for a learning objective record. This is the "From" or "Parent" in the relation.
      */
-    public String getLo() {
+    public String getLoId() {
         return loId;
     }
 
-    public void setLo(String loId) {
+    public void setLoId(String loId) {
         this.loId = loId;
     }
 
     /**
-     * The page loId Structure does not exist. This is the "To" or "Child" of the relation.
+     * Unique identifier for a learning objective record. This is the "To" or "Child" of the relation.
      */
-    public String getRelatedLo() {
+    public String getRelatedLoId() {
         return relatedLoId;
     }
 
-    public void setRelatedLo(String relatedLoId) {
+    public void setRelatedLoId(String relatedLoId) {
         this.relatedLoId = relatedLoId;
     }
 
-	/**
+    /**
      * Date and time that this LO to LO relationship became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.
      */
     public Date getEffectiveDate() {

@@ -47,6 +47,7 @@ import org.kuali.student.core.entity.MetaEntity;
 @NamedQueries( {
 	@NamedQuery(name = "Lo.getAllowedLoLoRelationTypes", query = "SELECT l FROM Lo l WHERE l.id IN (:idList)"),	
 	@NamedQuery(name = "Lo.getRelatedLosByLoId", query = "SELECT rel.relatedLo FROM LoLoRelation rel WHERE rel.lo.id = :loId AND rel.loLoRelationType.id = :loLoRelationTypeId"),
+	@NamedQuery(name = "Lo.getLosByRelatedLoId", query = "SELECT rel.lo FROM LoLoRelation rel WHERE rel.relatedLo.id = :relatedLoId AND rel.loLoRelationType.id = :loLoRelationTypeId"),
 	@NamedQuery(name = "Lo.getLoCategories", query = "SELECT c FROM LoCategory c WHERE c.loRepository.id = :repositoryId"),
 	@NamedQuery(name = "Lo.findLosByIdList", query = "SELECT l FROM Lo l WHERE l.id IN (:idList)")
 	/*

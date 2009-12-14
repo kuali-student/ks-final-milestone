@@ -16,8 +16,10 @@
 package org.kuali.student.lum.lo.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -26,17 +28,17 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.core.dto.HasAttributes;
-import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+import org.kuali.student.core.dto.Idable;
+import org.kuali.student.core.dto.HasAttributes;
 
 /**
  * Information about a LO to LO relationship type.
  *
  * @Author KSContractMojo
  * @Author jimt
- * @Since Wed Oct 14 10:09:59 PDT 2009
- * @See <a href="https://test.kuali.org/confluence/display/KULSTR/loLoRelationTypeInfo+Structure+v1.0-rc2">LoLoRelationTypeInfo</>
+ * @Since Tue Dec 08 10:01:23 PST 2009
+ * @See <a href="https://test.kuali.org/confluence/display/KULSTU/loLoRelationTypeInfo+Structure+v1.0-rc2">LoLoRelationTypeInfo</>
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -44,20 +46,17 @@ public class LoLoRelationTypeInfo implements Serializable, Idable, HasAttributes
 
     private static final long serialVersionUID = 1L;
 
-    @XmlAttribute(name="key")
-    private String id;
-
     @XmlElement
     private String name;
 
     @XmlElement
-    private String description;
+    private String desc;
 
     @XmlElement
     private String revName;
 
     @XmlElement
-    private String revDescription;
+    private String revDesc;
 
     @XmlElement
     private Date effectiveDate;
@@ -69,16 +68,8 @@ public class LoLoRelationTypeInfo implements Serializable, Idable, HasAttributes
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
     private Map<String, String> attributes;
 
-    /**
-     * Unique identifier for the LO to LO relation type.
-     */
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+    @XmlAttribute(name="key")
+    private String id;
 
     /**
      * Short name of the LO to LO relationship type. This is primarily to be used by developers and may end up translated in the end system.
@@ -94,12 +85,12 @@ public class LoLoRelationTypeInfo implements Serializable, Idable, HasAttributes
     /**
      * Narrative description of the LO to LO relationship type.
      */
-    public String getDescription() {
-        return description;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
     /**
@@ -116,12 +107,12 @@ public class LoLoRelationTypeInfo implements Serializable, Idable, HasAttributes
     /**
      * Description of the reverse of the LO to LO relationship type
      */
-    public String getRevDescription() {
-        return revDescription;
+    public String getRevDesc() {
+        return revDesc;
     }
 
-    public void setRevDescription (String revDescription) {
-        this.revDescription = revDescription;
+    public void setRevDesc(String revDesc) {
+        this.revDesc = revDesc;
     }
 
     /**
@@ -158,5 +149,16 @@ public class LoLoRelationTypeInfo implements Serializable, Idable, HasAttributes
 
     public void setAttributes(Map<String, String> attributes) {
         this.attributes = attributes;
+    }
+
+    /**
+     * Unique identifier for the LO to LO relation type.
+     */
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

@@ -39,28 +39,18 @@ import org.kuali.student.core.entity.MetaEntity;
  * @author Kuali Student Team
  */
 @Entity
-@Table(name = "KSLU_LO_CATEGORY")
-public class LoCategory extends MetaEntity implements AttributeOwner<LoCategoryAttribute> {
+@Table(name = "KSLU_LO_CATEGORY_TYPE")
+public class LoCategoryType implements AttributeOwner<LoCategoryTypeAttribute> {
 	@Id
 	@Column(name = "ID")
 	private String id;
 
 	@Column(name = "NAME")
-	private
-	String name;
+	private String name;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "RT_DESCR_ID")
-	private LoRichText desc;
+	@Column(name = "DESCR")
+	private String desc;
 	
-	@ManyToOne
-	@JoinColumn(name = "LO_REPO_ID")
-	private LoRepository loRepository;
-
-	@ManyToOne
-	@JoinColumn(name = "LO_CATEGORY_TYPE_ID")
-	private LoCategoryType loCategoryType;
-
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EFF_DT")
 	private Date effectiveDate;
@@ -70,12 +60,7 @@ public class LoCategory extends MetaEntity implements AttributeOwner<LoCategoryA
 	private Date expirationDate;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-	private List<LoCategoryAttribute> attributes;
-
-	@Override
-	protected void onPrePersist() {
-		this.id = UUIDHelper.genStringUUID(this.id);
-	}
+	private List<LoCategoryTypeAttribute> attributes;
 
 	public String getId() {
 		return id;
@@ -99,34 +84,12 @@ public class LoCategory extends MetaEntity implements AttributeOwner<LoCategoryA
 		return name;
 	}
 
-	public LoRichText getDesc() {
+	public String getDesc() {
 		return desc;
 	}
 
-	public void setDesc(LoRichText desc) {
+	public void setDesc(String desc) {
 		this.desc = desc;
-	}
-
-	/**
-	 * @param loRepository the loRepository to set
-	 */
-	public void setLoRepository(LoRepository loRepository) {
-		this.loRepository = loRepository;
-	}
-
-	/**
-	 * @return the loRepository
-	 */
-	public LoRepository getLoRepository() {
-		return loRepository;
-	}
-
-	public LoCategoryType getLoCategoryType() {
-		return loCategoryType;
-	}
-
-	public void setLoCategoryType(LoCategoryType loCategoryType) {
-		this.loCategoryType = loCategoryType;
 	}
 
 	public Date getEffectiveDate() {
@@ -149,9 +112,9 @@ public class LoCategory extends MetaEntity implements AttributeOwner<LoCategoryA
 	 * @see org.kuali.student.core.entity.AttributeOwner#getAttributes()
 	 */
 	@Override
-	public List<LoCategoryAttribute> getAttributes() {
+	public List<LoCategoryTypeAttribute> getAttributes() {
 		if (attributes == null) {
-			attributes = new ArrayList<LoCategoryAttribute>(0);
+			attributes = new ArrayList<LoCategoryTypeAttribute>(0);
 		}
 		return attributes;
 	}
@@ -160,7 +123,7 @@ public class LoCategory extends MetaEntity implements AttributeOwner<LoCategoryA
 	 * @see org.kuali.student.core.entity.AttributeOwner#setAttributes(java.util.List)
 	 */
 	@Override
-	public void setAttributes(List<LoCategoryAttribute> attributes) {
+	public void setAttributes(List<LoCategoryTypeAttribute> attributes) {
 		this.attributes = attributes;
 	}
 }
