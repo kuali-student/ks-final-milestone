@@ -852,7 +852,7 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 				formatHierarchy.getChildren().add(activityHierarchy);
 			} else {
 				activityHierarchy = findChildByCluId(formatHierarchy, activity.getId());
-				activityClu = formatHierarchy.getCluInfo();
+				activityClu = activityHierarchy.getCluInfo();
 			}
 			
 			if (isModified(activity.getData())) {

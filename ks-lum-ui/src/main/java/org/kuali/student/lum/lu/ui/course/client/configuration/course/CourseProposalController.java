@@ -19,6 +19,7 @@ import java.util.List;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.ui.client.configurable.mvc.TabbedSectionLayout;
+import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionHandler;
 import org.kuali.student.common.ui.client.event.ValidateResultEvent;
@@ -28,6 +29,7 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.WorkQueue;
 import org.kuali.student.common.ui.client.mvc.WorkQueue.WorkItem;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
@@ -407,7 +409,11 @@ public class CourseProposalController extends TabbedSectionLayout {
 	                public void onSuccess(DataSaveResult result) {
 	                	// FIXME needs to check validation results and display messages if validation failed
 	    				cluProposalModel.setRoot(result.getValue());
-	                    if (saveActionEvent.isAcknowledgeRequired()){
+	    	            View currentView = getCurrentView(); 
+	    				if (currentView instanceof VerticalSectionView){
+	    	            	((VerticalSectionView) currentView).redraw();
+	    	            }
+	    				if (saveActionEvent.isAcknowledgeRequired()){
 	                        saveMessage.setText("Save Successful");
 	                        buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
 	                    } else {
