@@ -9,7 +9,7 @@
 		  http://cxf.apache.org/simple http://cxf.apache.org/schemas/simple.xsd">
 
 	<!-- Spring to GWT servlet mapping -->
-	<bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+	<bean id="urlMappingCore" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 		<property name="alwaysUseFullPath" value="true" />
 		<property name="urlMap">
 			<map>
@@ -98,7 +98,7 @@
 	
 	<bean id="uploadStatusRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.UploadStatusRpcGwtServlet">	
 	</bean>
-
+	
 	<bean id="SecurityGwtServlet" class="org.kuali.student.common.ui.server.gwt.SecurityRpcGwtServlet">
 	</bean>
 

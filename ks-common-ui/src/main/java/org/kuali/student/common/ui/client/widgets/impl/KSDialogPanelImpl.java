@@ -15,8 +15,6 @@
 package org.kuali.student.common.ui.client.widgets.impl;
 
 import org.kuali.student.common.ui.client.widgets.KSDialogPanelAbstract;
-import org.kuali.student.common.ui.client.widgets.KSDialogPanelAbstract;
-import org.kuali.student.common.ui.client.widgets.KSResizablePanel;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 
 import com.google.gwt.core.client.GWT;
@@ -24,10 +22,6 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.DOM;

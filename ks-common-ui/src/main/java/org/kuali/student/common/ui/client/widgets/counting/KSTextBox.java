@@ -35,7 +35,8 @@ public class KSTextBox extends KSTextBoxAbstract {
      * 
      */
     public KSTextBox() {
-        this(32); // TODO set default max
+    	super();
+        super.initWidget(textBox);
     }
 
     /**
@@ -50,7 +51,7 @@ public class KSTextBox extends KSTextBoxAbstract {
         textBox.setMaxTextLength(maxTextLength);
     }
 
-    protected void setMaxTextLength(int maxTextLength) {
+    public void setMaxTextLength(int maxTextLength) {
         textBox.setMaxTextLength(maxTextLength);
     }
 

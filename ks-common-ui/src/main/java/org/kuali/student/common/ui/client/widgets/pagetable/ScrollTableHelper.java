@@ -14,7 +14,6 @@
  */
 package org.kuali.student.common.ui.client.widgets.pagetable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.gen2.table.client.FixedWidthFlexTable;

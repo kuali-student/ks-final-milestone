@@ -14,10 +14,7 @@
  */
 package org.kuali.student.common.ui.client.widgets.table;
 
-import java.util.List;
-
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 

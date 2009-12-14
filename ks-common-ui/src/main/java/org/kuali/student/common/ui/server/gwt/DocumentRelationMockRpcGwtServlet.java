@@ -17,7 +17,6 @@ package org.kuali.student.common.ui.server.gwt;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.service.DocumentRelationMockRpcService;
-import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.core.dto.RefDocRelationInfoMock;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.mock.service.DocumentRelationService;

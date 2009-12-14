@@ -60,7 +60,7 @@ import org.kuali.student.core.search.dto.Result;
 @Daos( { @Dao(value = "org.kuali.student.core.proposal.dao.impl.ProposalDaoImpl",testSqlFile="classpath:ks-proposal.sql"/*, testDataFile = "classpath:test-beans.xml"*/) })
 @PersistenceFileLocation("classpath:META-INF/proposal-persistence.xml")
 public class TestProposalServiceImpl extends AbstractServiceTest {
-    @Client(value = "org.kuali.student.core.proposal.service.impl.ProposalServiceImpl", port = "8181",additionalContextFile="classpath:proposal-additional-context.xml")
+    @Client(value = "org.kuali.student.core.proposal.service.impl.ProposalServiceImpl", additionalContextFile="classpath:proposal-additional-context.xml")
     public ProposalService client;
 
     @Test

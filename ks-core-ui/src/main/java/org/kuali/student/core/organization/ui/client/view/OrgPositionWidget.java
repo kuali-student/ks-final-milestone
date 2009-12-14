@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.event.SaveEvent;
-import org.kuali.student.common.ui.client.mvc.Model;
+import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.widgets.KSDisclosureSection;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
@@ -53,7 +53,7 @@ class OrgPositionWidget extends OrgMultiWidget {
     static final String FAKE_ID = "FAKE-ID-";
     private ListItems orgPosTypeList;
     List<Map<String,Object>> forms = new ArrayList<Map<String,Object>>();
-    private Model<OrgPositionRestrictionInfo> model = new Model<OrgPositionRestrictionInfo>();
+    private CollectionModel<OrgPositionRestrictionInfo> model = new CollectionModel<OrgPositionRestrictionInfo>();
     int newCount;
     
     public OrgPositionWidget() {
@@ -366,10 +366,10 @@ class OrgPositionWidget extends OrgMultiWidget {
         }
     }
 
-    public Model<OrgPositionRestrictionInfo> getModel() {
+    public CollectionModel<OrgPositionRestrictionInfo> getModel() {
         return model;
     }
-    public void setModel(Model<OrgPositionRestrictionInfo> model) {
+    public void setModel(CollectionModel<OrgPositionRestrictionInfo> model) {
         this.model = model;
     }
     @Override

@@ -137,6 +137,7 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
                                 //System.out.println("Cell: " + c.getKey() + "-" + c.getValue());
                                 if(c.getKey().equals(resultDisplayKey)){
                                     String itemText = c.getValue();
+                                    System.out.println("itemText: " + itemText);
                                     theSuggestion.addAttr(c.getKey(), c.getValue());
                                     int index = itemText.toLowerCase().indexOf(query.toLowerCase().trim());
                                     String htmlString = itemText.substring(0,index) + "<b>" + itemText.substring(index, query.length()) + "</b>" + itemText.substring(index + query.length(), itemText.length());

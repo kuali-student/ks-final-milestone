@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.event.SaveEvent;
-import org.kuali.student.common.ui.client.mvc.Model;
+import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSDisclosureSection;
@@ -74,7 +74,7 @@ class OrgPersonRelationWidget extends OrgMultiWidget {
     public OrgPersonRelationWidget(String orgId, boolean open) {
         this(orgId, null, open);
     }
-    public OrgPersonRelationWidget(final String orgId, final Model<OrgPositionRestrictionInfo> model, final boolean open) {
+    public OrgPersonRelationWidget(final String orgId, final CollectionModel<OrgPositionRestrictionInfo> model, final boolean open) {
         super(new KSDisclosureSection("Membership", null, open));
         this.orgId = orgId;
         if(orgId != null) { //basically can't do much without an orgId

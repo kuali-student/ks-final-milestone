@@ -18,6 +18,9 @@ package org.kuali.student.common.ui.client.widgets;
 import org.kuali.student.common.ui.client.widgets.impl.KSImageImpl;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.libideas.resources.client.ImageResource;
+import com.google.gwt.user.client.ui.Image;
 
 
 /**
@@ -59,7 +62,15 @@ public class KSImage extends KSImageAbstract{
 	    image.init( url,  left,  top,  width,  height);
 	    this.initWidget(image);
 	}
+	
+	public KSImage(ImageResource resource){
+		image.init(resource);
+		this.initWidget(image);
+	}
 
+	public void addClickHandler(ClickHandler handler){
+		image.addClickHandler(handler);
+	}
     /**
      * Initialized the KSImage with the passed in values
      * 
@@ -85,4 +96,14 @@ public class KSImage extends KSImageAbstract{
         image.init(url, left, top, width, height);
         
     }
+
+	@Override
+	protected void init(ImageResource resource) {
+		image.init(resource);
+		
+	}
+	
+	public Image getImage(){
+		return image.getImage();
+	}
 }

@@ -20,11 +20,6 @@ import org.kuali.student.common.ui.client.service.DocumentRpcService;
 import org.kuali.student.core.document.dto.DocumentInfo;
 import org.kuali.student.core.document.service.DocumentService;
 import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
 
 public class DocumentRpcGwtServlet extends BaseRpcGwtServletAbstract<DocumentService> implements DocumentRpcService{
 

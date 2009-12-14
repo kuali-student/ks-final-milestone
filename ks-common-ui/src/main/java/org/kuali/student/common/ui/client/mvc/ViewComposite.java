@@ -42,8 +42,10 @@ public abstract class ViewComposite extends Composite implements View {
      * Called by controller before the view is displayed to allow lazy initialization or any other preparatory work to be
      * done.
      */
-    public void beforeShow() {
-    // do nothing
+    @Override
+    public void beforeShow(final Callback<Boolean> onReadyCallback) {
+    	// do nothing
+    	onReadyCallback.exec(true);
     }
 
     /**

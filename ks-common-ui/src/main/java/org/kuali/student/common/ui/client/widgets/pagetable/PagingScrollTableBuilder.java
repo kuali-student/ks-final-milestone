@@ -18,7 +18,6 @@ import java.util.List;
 
 import org.kuali.student.core.dto.Idable;
 
-
 import com.google.gwt.gen2.table.client.AbstractColumnDefinition;
 import com.google.gwt.gen2.table.client.DefaultTableDefinition;
 import com.google.gwt.gen2.table.client.PagingScrollTable;

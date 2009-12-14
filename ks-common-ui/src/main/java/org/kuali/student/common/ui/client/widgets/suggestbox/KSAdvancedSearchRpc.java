@@ -66,7 +66,8 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
     private VerticalPanel resultLayout = new VerticalPanel();
     //private KSSelectableTableList searchResults = new KSSelectableTableList();
     private SearchBackedTable searchResultsTable;
-    private KSLabel resultLabel = new KSLabel("No Search Results");
+    private KSLabel resultLabel = new KSLabel();
+    private KSLabel searchInstructions = new KSLabel();
     private KSButton selectButton = new KSButton("Select");
     private boolean hasSelectionHandlers = false;
     //private SearchResultListItems searchResultList = new SearchResultListItems();
@@ -77,6 +78,10 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
     
     private BaseRpcServiceAsync searchService;
     private String searchTypeKey;
+    
+    private boolean ignoreCase = false;
+    private boolean partialMatch = false;
+
     
     /** 
      * This constructs a search widget.
@@ -101,6 +106,7 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
         resultLayout.addStyleName(KSStyles.KS_ADVANCED_SEARCH_RESULTS_PANEL);
         searchLayout.addStyleName(KSStyles.KS_ADVANCED_SEARCH_PANEL);
         searchLayout.setVerticalAlignment(HasVerticalAlignment.ALIGN_TOP);
+        searchLayout.add(searchInstructions);
         tabPanel.addStyleName(KSStyles.KS_ADVANCED_SEARCH_TAB_PANEL);
         
         selectButton.addClickHandler(new ClickHandler(){
@@ -220,10 +226,18 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
             queryParamValue.setKey(((HasName)w).getName());
             if (w instanceof KSSelectItemWidgetAbstract){
                 queryParamValue.setValue(((KSSelectItemWidgetAbstract)w).getSelectedItem());
-                System.out.println(((KSSelectItemWidgetAbstract)w).getSelectedItem());
+//                System.out.println(((KSSelectItemWidgetAbstract)w).getSelectedItem());
             } else {
                 String value = ((HasText)w).getText();
-                value = value.replace('*','%');
+                if (value.contains("*")) {
+                   value = value.replace('*','%');                    
+                }
+                else if (partialMatch) {
+                    value = "%" + value + "%";
+                }
+                if (ignoreCase) {
+                    value = value.toLowerCase();
+                }
                 queryParamValue.setValue(value);
             }
             queryParamValues.add(queryParamValue);                
@@ -306,4 +320,35 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
         searchResultsTable.clearTable();
         tabPanel.selectTab(0);
     }
+
+
+    public boolean isIgnoreCase() {
+        return ignoreCase;
+    }
+
+
+    public void setIgnoreCase(boolean ignoreCase) {
+        this.ignoreCase = ignoreCase;
+    }
+
+    public boolean isPartialMatch() {
+        return partialMatch;
+    }
+
+
+    public void setPartialMatch(boolean partialMatch) {
+        this.partialMatch = partialMatch;
+    }
+
+    public KSLabel getSearchInstructions() {
+        return searchInstructions;
+    }
+
+
+    public void setSearchInstructions(String text) {
+        searchInstructions.setText(text);
+    }
+    
+    
+    
 }

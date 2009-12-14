@@ -16,6 +16,7 @@ package org.kuali.student.core.organization.ui.client.service;
 
 import java.util.List;
 
+import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
@@ -59,4 +60,6 @@ public interface OrgRpcServiceAsync extends BaseRpcServiceAsync {
     public void getOrgPersonRelationsByOrg(String orgId, AsyncCallback<List<OrgPersonRelationInfo>> callback);
     public void removeOrgOrgRelation(String orgOrgRelationId, AsyncCallback<StatusInfo> callback);
 	public void removePositionRestrictionFromOrg(String orgId, String orgPersonRelationTypeKey, AsyncCallback<StatusInfo> callback);
+//	public void getOrgProposalModelDefinition(String modelId, AsyncCallback<DataModel> callback);
+	public void saveOrgProposal(Data proposal, AsyncCallback<DataSaveResult> callback);
 }

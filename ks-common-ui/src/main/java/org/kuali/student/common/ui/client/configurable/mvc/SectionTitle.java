@@ -14,13 +14,13 @@
  */
 package org.kuali.student.common.ui.client.configurable.mvc;
 
-import static org.kuali.student.common.ui.client.widgets.KSStyles.KS_SECTION_TITLE;
 import static org.kuali.student.common.ui.client.widgets.KSStyles.KS_H1_SECTION_TITLE;
 import static org.kuali.student.common.ui.client.widgets.KSStyles.KS_H2_SECTION_TITLE;
 import static org.kuali.student.common.ui.client.widgets.KSStyles.KS_H3_SECTION_TITLE;
 import static org.kuali.student.common.ui.client.widgets.KSStyles.KS_H4_SECTION_TITLE;
 import static org.kuali.student.common.ui.client.widgets.KSStyles.KS_H5_SECTION_TITLE;
 import static org.kuali.student.common.ui.client.widgets.KSStyles.KS_H6_SECTION_TITLE;
+import static org.kuali.student.common.ui.client.widgets.KSStyles.KS_SECTION_TITLE;
 
 import com.google.gwt.user.client.ui.HTML;
 
