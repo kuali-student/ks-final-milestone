@@ -49,6 +49,7 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.CluInstruct
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.TimeAmountInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityContactHoursHelper;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityDurationHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseCrossListingsHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseDurationHelper;
@@ -295,6 +296,15 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 			hours.setPer(time.getAtpDurationTypeKey());
 			activity.setContactHours(hours);
 		}
+
+		TimeAmountInfoHelper stdDuration = TimeAmountInfoHelper.wrap(timeamountAssembler.assemble(clu.getStdDuration()));
+		if (stdDuration != null) {
+			CreditCourseActivityDurationHelper duration = CreditCourseActivityDurationHelper.wrap(new Data());
+			duration.setQuantity(stdDuration.getTimeQuantity());
+			duration.setTimeUnit(stdDuration.getAtpDurationTypeKey());
+			activity.setDuration(duration);
+		}
+		
 		activity.setDefaultEnrollmentEstimate(clu.getDefaultEnrollmentEstimate());
 		activity.setState(clu.getState());
 		addVersionIndicator(activity.getData(), CluInfo.class.getName(), clu.getId(), clu.getMetaInfo().getVersionInd());
@@ -866,6 +876,7 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 
 				activityClu.setType(activity.getActivityType());
 				
+				
 				TimeAmountInfo time = activityClu.getIntensity();
 				if (time == null) {
 					time = new TimeAmountInfo();
@@ -876,8 +887,19 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 					time.setTimeQuantity(activity.getContactHours().getHrs());
 				}
 				
+				TimeAmountInfo stdDuration = activityClu.getStdDuration();
+				if (stdDuration == null){
+					stdDuration = new TimeAmountInfo();
+					activityClu.setStdDuration(stdDuration);
+				}
+				if (activity.getDuration() != null){
+					stdDuration.setAtpDurationTypeKey(activity.getDuration().getTimeUnit());
+					stdDuration.setTimeQuantity(activity.getDuration().getQuantity());
+				}
+				
 				Integer enrEst = activity.getDefaultEnrollmentEstimate();
 				activityClu.setDefaultEnrollmentEstimate(enrEst == null ? 0 : enrEst);
+				
 				// TODO un-hardcode
 				activityClu.setState("draft");
 				activityHierarchy.setParentRelationType(ACTIVITY_RELATION_TYPE);
