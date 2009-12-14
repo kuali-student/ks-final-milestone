@@ -157,22 +157,72 @@ public class KSWrapper extends Composite{
 	private void createNavDropDown() {
 		navDropDown.setShowSelectedItem(true);
     	final List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
-    	items.add(new KSMenuItemData("Home",
-    			new WrapperNavigationHandler(
-    					"/index.html"))
-    	);
-    	items.add(new KSMenuItemData("Curriculum Management",
-    			new WrapperNavigationHandler(
-    					"/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp"))
-    	);
-    	items.add(new KSMenuItemData("Organizations",
-    			new WrapperNavigationHandler(
-    					"/org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.html"))
-    	);
-    	items.add(new KSMenuItemData("Rice",
-    			new WrapperNavigationHandler(
-    					"/portal.do?selectedTab=main"))
-    	);
+    	serverProperties.get("lum.application.url", new AsyncCallback<String>(){
+			public void onFailure(Throwable caught) {
+		    	items.add(new KSMenuItemData("Home",
+		    			new WrapperNavigationHandler(
+		    					"../index.html"))
+		    	);
+		    	items.add(new KSMenuItemData("Curriculum Management",
+		    			new WrapperNavigationHandler(
+		    					"../org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp"))
+		    	);
+		    	items.add(new KSMenuItemData("Organizations",
+		    			new WrapperNavigationHandler(
+		    					"../org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.html"))
+		    	);
+		    	serverProperties.get("application.url", new AsyncCallback<String>(){
+					public void onFailure(Throwable caught) {
+				    	items.add(new KSMenuItemData("Rice",
+				    			new WrapperNavigationHandler(
+				    					"../portal.do?selectedTab=main"))
+				    	);
+				    	navDropDown.setItems(items);
+
+					}
+					public void onSuccess(String result) {
+				    	items.add(new KSMenuItemData("Rice",
+				    			new WrapperNavigationHandler(
+				    					result+"/portal.do?selectedTab=main"))
+				    	);
+				    	navDropDown.setItems(items);
+					}
+		    	});
+			}
+			public void onSuccess(String result) {
+		    	items.add(new KSMenuItemData("Home",
+		    			new WrapperNavigationHandler(
+		    					result+"/index.html"))
+		    	);
+		    	items.add(new KSMenuItemData("Curriculum Management",
+		    			new WrapperNavigationHandler(
+		    					result+"/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp"))
+		    	);
+		    	items.add(new KSMenuItemData("Organizations",
+		    			new WrapperNavigationHandler(
+		    					result+"/org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.html"))
+		    	);
+		    	serverProperties.get("application.url", new AsyncCallback<String>(){
+					public void onFailure(Throwable caught) {
+				    	items.add(new KSMenuItemData("Rice",
+				    			new WrapperNavigationHandler(
+				    					"/portal.do?selectedTab=main"))
+				    	);
+				    	navDropDown.setItems(items);
+
+					}
+					public void onSuccess(String result) {
+				    	items.add(new KSMenuItemData("Rice",
+				    			new WrapperNavigationHandler(
+				    					result+"/portal.do?selectedTab=main"))
+				    	);
+				    	navDropDown.setItems(items);
+					}
+		    	});
+			}
+    	});
+
+
 /*    	items.add(new KSMenuItemData("Action List",
     			new ClickHandler(){
 
@@ -196,7 +246,7 @@ public class KSWrapper extends Composite{
 
         
         navDropDown.setArrowImage(Theme.INSTANCE.getCommonImages().getDropDownIconWhite());
-        navDropDown.setItems(items);
+        
 
     	
 		
