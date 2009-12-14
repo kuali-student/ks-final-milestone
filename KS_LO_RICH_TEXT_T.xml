@@ -1,38 +1,10 @@
 <?xml version="1.0"?>
 <!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
-    <KS_LO_RICH_TEXT_T
-        FORMATTED="&lt;p>Learning objectives defined by faculty that are specific to a course&lt;/p>"
-        ID="RICHTEXT-10" PLAIN="Learning objectives defined by faculty that are specific to a course"/>
-    <KS_LO_RICH_TEXT_T
-        FORMATTED="&lt;p>Default Learning Objective type&lt;/p>"
-        ID="RICHTEXT-11" PLAIN="Default Learning Objective type"/>
-    <KS_LO_RICH_TEXT_T
-        FORMATTED="&lt;p>Basic Learning Objective type&lt;/p>"
-        ID="RICHTEXT-12" PLAIN="Basic Learning Objective type"/>
-    <KS_LO_RICH_TEXT_T
-        FORMATTED="&lt;p>Advanced Learning Objective type&lt;/p>"
-        ID="RICHTEXT-13" PLAIN="Advanced Learning Objective type"/>
-    <KS_LO_RICH_TEXT_T
-        FORMATTED="The ability to use sensory cues to ..."
-        ID="RICHTEXT-14" PLAIN="The ability to use sensory cues to guide motor activity.  This ranges from sensory stimulation, through cue selection, to translation."/>
-    <KS_LO_RICH_TEXT_T FORMATTED="&lt;p>Create Wiki&lt;/p>"
-        ID="RICHTEXT-15" PLAIN="Create Wiki"/>
-    <KS_LO_RICH_TEXT_T FORMATTED="&lt;p>Update Wiki&lt;/p>"
-        ID="RICHTEXT-16" PLAIN="Update Wiki"/>
-    <KS_LO_RICH_TEXT_T FORMATTED="&lt;p>Modify Wiki&lt;/p>"
-        ID="RICHTEXT-17" PLAIN="Modify Wiki"/>
-    <KS_LO_RICH_TEXT_T
-        FORMATTED="&lt;p>Learning objectives mandated by the Institution. They represent learning objectives of the institutions general education and are inherited by all programs&lt;/p>"
-        ID="RICHTEXT-18" PLAIN="Learning objectives mandated by the Institution. They represent learning objectives of the institutions general education and are inherited by all programs"/>
-    <KS_LO_RICH_TEXT_T FORMATTED="&lt;p>Empty Test LoCategory&lt;/p>"
-        ID="RICHTEXT-19" PLAIN="Empty Test LoCategory"/>
-    <KS_LO_RICH_TEXT_T FORMATTED="&lt;p>Destroy Wiki&lt;/p>"
-        ID="RICHTEXT-20" PLAIN="Destroy Wiki"/>
-    <KS_LO_RICH_TEXT_T FORMATTED="&lt;p>Annihilate Wiki&lt;/p>"
-        ID="RICHTEXT-21" PLAIN="Annihilate Wiki"/>
-    <KS_LO_RICH_TEXT_T
-        FORMATTED="&lt;p>Learning objectives mandated by the state&lt;/p>"
-        ID="RICHTEXT-22" PLAIN="Learning objectives mandated by the state"/>
-    <KS_LO_RICH_TEXT_T FORMATTED="&lt;p>Desc&lt;/p>" ID="RICHTEXT-9" PLAIN="Desc"/>
+	<KS_LO_RICH_TEXT_T ID="3EB9CCFD-42EA-46F4-B36B-283881B7FFF6" PLAIN="The ability to use sensory cues to guide motor activity.  This ranges from sensory stimulation, through cue selection, to translation." FORMATTED="The ability to use sensory cues to ... "/>
+	<KS_LO_RICH_TEXT_T ID="386AA4B6-FC0B-4615-A44D-FCC482EF16A3" PLAIN="Skills are well developed and the individual can modify movement patterns to fit special requirements." FORMATTED="Skills are well developed and ... "/>
+	<KS_LO_RICH_TEXT_T ID="AD7A3AE8-AC11-44EA-9360-EE52B38D72CB" PLAIN="Creating new movement patterns to fit a particular situation or specific problem. Learning outcomes emphasize creativity based upon highly developed skills." FORMATTED="Creating new movement patterns to fit ... "/>
+	<KS_LO_RICH_TEXT_T ID="CE25E42E-8E53-4563-B28E-365C10380EBB" PLAIN="Single Use" FORMATTED="Single Use... "/>
+	<KS_LO_RICH_TEXT_T ID="6EEB8215-3CD2-427D-A216-ACEEC58C9282" PLAIN="Institution" FORMATTED="Institution... "/>
+	<KS_LO_RICH_TEXT_T ID="042E60B0-5094-4570-B94D-E326506025E0" PLAIN="State" FORMATTED="State... "/>
 </dataset>
