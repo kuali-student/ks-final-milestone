@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.ApplicationEvent;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
@@ -113,11 +114,11 @@ public class HomeMenuController extends Controller implements View {
 
             if (sender == createCourse.getPanel()) {
                 createCourse.select();
-                showView(MenuViews.CREATE_COURSE_VIEW);
+                showView(MenuViews.CREATE_COURSE_VIEW, NO_OP_CALLBACK);
             }
             else if(sender == modifyCourse.getPanel()){
                 modifyCourse.select();
-                showView(MenuViews.MODIFY_COURSE_VIEW);
+                showView(MenuViews.MODIFY_COURSE_VIEW, NO_OP_CALLBACK);
             }            
         }
 
@@ -193,8 +194,8 @@ public class HomeMenuController extends Controller implements View {
     }
 
     @Override
-    public void showDefaultView() {
-        showView(MenuViews.DEFAULT_VIEW);
+    public void showDefaultView(Callback<Boolean> onReadyCallback) {
+        showView(MenuViews.DEFAULT_VIEW, onReadyCallback);
         
     }
 
@@ -204,8 +205,8 @@ public class HomeMenuController extends Controller implements View {
     }
 
     @Override
-    public void beforeShow() {
-        //Not needed
+    public void beforeShow(Callback<Boolean> onReadyCallback) {
+        onReadyCallback.exec(true);
     }
 
     @Override

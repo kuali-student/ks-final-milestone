@@ -92,7 +92,7 @@ public class KSHistory implements ValueChangeHandler<String> {
             }
             if(controller.getCurrentViewEnum() == null || !view.equals(controller.getCurrentViewEnum())) {
                 if(switchedView == null || switchedView != view)
-                    controller.showView(switchedView = view);
+                    controller.showView(switchedView = view, Controller.NO_OP_CALLBACK);
             }
             if(params.get(IDABLE_KEY) != null && !params.get(IDABLE_KEY).isEmpty()) {
                 String id = params.get(IDABLE_KEY).get(0);

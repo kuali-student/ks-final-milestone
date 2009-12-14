@@ -1,16 +1,34 @@
 package org.kuali.student.lum.lu.assembly;
 
+import static org.kuali.student.lum.lu.assembly.AssemblerUtils.addVersionIndicator;
+import static org.kuali.student.lum.lu.assembly.AssemblerUtils.getVersionIndicator;
+import static org.kuali.student.lum.lu.assembly.AssemblerUtils.isCreated;
+import static org.kuali.student.lum.lu.assembly.AssemblerUtils.isDeleted;
+import static org.kuali.student.lum.lu.assembly.AssemblerUtils.isModified;
+import static org.kuali.student.lum.lu.assembly.AssemblerUtils.isUpdated;
+import static org.kuali.student.lum.lu.assembly.AssemblerUtils.setCreated;
+import static org.kuali.student.lum.lu.assembly.AssemblerUtils.setUpdated;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+import org.kuali.rice.kim.bo.role.dto.KimPermissionInfo;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.student.common.assembly.Assembler;
 import org.kuali.student.common.assembly.client.AssemblyException;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.assembly.client.SaveResult;
 import org.kuali.student.common.assembly.client.Data.Property;
+import org.kuali.student.common.assembly.client.Metadata.WriteAccess;
+import org.kuali.student.common.util.security.SecurityUtils;
+import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.core.dto.TimeAmountInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DependentObjectsExistException;
@@ -22,25 +40,58 @@ import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
+import org.kuali.student.core.search.newdto.SearchRequest;
+import org.kuali.student.core.search.newdto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.lu.assembly.CluInfoHierarchyAssembler.RelationshipHierarchy;
-import org.kuali.student.lum.lu.assembly.data.client.CluIdentifierInfoData;
-import org.kuali.student.lum.lu.assembly.data.client.VersionData;
-import org.kuali.student.lum.lu.assembly.data.client.atp.TimeAmountInfoData;
-import org.kuali.student.lum.lu.assembly.data.client.creditcourse.CreditCourse;
-import org.kuali.student.lum.lu.assembly.data.client.creditcourse.CreditCourseActivity;
-import org.kuali.student.lum.lu.assembly.data.client.creditcourse.CreditCourseFormat;
-import org.kuali.student.lum.lu.assembly.data.client.creditcourse.CreditCourseProposal;
-import org.kuali.student.lum.lu.assembly.data.client.proposal.ProposalInfoData;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.CluInstructorInfoHelper;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoHelper;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.TimeAmountInfoHelper;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityContactHoursHelper;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityHelper;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseCrossListingsHelper;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseDurationHelper;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseFormatHelper;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseHelper;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseJointsHelper;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalInfoHelper;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalMetadata;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseVersionsHelper;
 import org.kuali.student.lum.lu.assembly.data.server.CluInfoHierarchy;
 import org.kuali.student.lum.lu.assembly.data.server.CluInfoHierarchy.ModificationState;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
+import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.lum.lu.ui.course.server.gwt.CluProposalRpcGwtServlet;
 
-public class CreditCourseProposalAssembler implements Assembler<CreditCourseProposal, Void> {
+/*
+ *	ASSEMBLERREVIEW
+ *  1) The type/state config in here is a mess.
+ *  	- some of the type/state info was just copied from other places, 
+ *  		just a hackjob to get it working
+ *  	- bigger issue is how to handle state transitions, etc.  not handling 
+ *  		it right now, but it would be nice to come up with a clean/standard
+ *  		way of doing it
+ *  
+ *  2) Need to come up with a clean way of copying properties that are passthrough without a lot of boilerplate code, but...
+ *  	- many "passthrough" properties will still have a rename along the way, and possibly a transformation of their position within the graph, e.g.
+ *  		cluInfo/officialIdentifier/shortName -> proposal/transcriptTitle  
+ *  
+ *  3) Disconnect on assembler type/state config
+ *  	- some assemblers will be specific to a type
+ *  	- getMetadata takes in type as a parameter
+ * 
+ * 	4) Propagation of version indicator information is messy
+ * 		- services require the version indicator for locking purposes
+ * 		- assemblers need to be stateless, so it needs to be passed down as part of the returned orchestration
+ * 		- resulting orchestrations will have complex types assembled from multiple objects each having their own version indicator
+ */
+public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 	// TODO make sure that cluclurelation version indicators are carried over on retrieval
 	// TODO verify that the right relation types have been used
 	// public static final String FORMAT_RELATION_TYPE =
@@ -51,6 +102,11 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 	public static final String FORMAT_LU_TYPE = "kuali.lu.type.CreditCourseFormatShell";
 	public static final String ACTIVITY_RELATION_TYPE = "luLuRelationType.contains";
 	public static final String PROPOSAL_REFERENCE_TYPE = "kuali.proposal.referenceType.clu"; // <- what the service says, but the dictionary says: "kuali.referenceType.CLU";
+	public static final String PROPOSAL_TYPE_CREATE_COURSE = "kuali.proposal.type.course.create";
+	public static final String JOINT_RELATION_TYPE = "kuali.lu.relation.type.co-located";
+	
+	final Logger LOG = Logger.getLogger(CreditCourseProposalAssembler.class);
+	
 	private final String proposalState;
 	private CluInfoHierarchyAssembler cluHierarchyAssembler;
 	private final RichTextInfoAssembler richtextAssembler = new RichTextInfoAssembler();
@@ -59,28 +115,28 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 	private final CluInstructorInfoDataAssembler instructorAssembler = new CluInstructorInfoDataAssembler();
 	private ProposalService proposalService;
 	private LuService luService;
+	private PermissionService permissionService;
 	
 	public CreditCourseProposalAssembler(String proposalState) {
 		this.proposalState = proposalState;
 	}
 	
 	@Override
-	public CreditCourseProposal get(String id) throws AssemblyException {
-		CreditCourseProposal result = null;
-		// TODO figure out why the format isn't found
+	public Data get(String id) throws AssemblyException {
+		CreditCourseProposalHelper result = CreditCourseProposalHelper.wrap(new Data());
 		try {
-			ProposalInfoData proposal = getProposal(id);
-			if (proposal != null) {
-				result = new CreditCourseProposal();
-				result.setProposal(proposal);
-				result.setCourse(getCourse(proposal));
+			CreditCourseProposalInfoHelper proposal = getProposal(id);
+			if (proposal == null) {
+				return null;
 			}
+			result.setProposal(proposal);
+			result.setCourse(getCourse(proposal));
 		} catch (Exception e) {
 			throw new AssemblyException(
 					"Could not assemble credit course proposal", e);
 		}
 
-		return result;
+		return result.getData();
 	}
 
 	private CluInfoHierarchyAssembler getCluHierarchyAssembler() {
@@ -99,12 +155,15 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 		return cluHierarchyAssembler;
 	}
 
-	private CreditCourse getCourse(ProposalInfoData proposal)
+	private CreditCourseHelper getCourse(CreditCourseProposalInfoHelper proposal)
 			throws AssemblyException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		CreditCourse result = new CreditCourse();
+		CreditCourseHelper result = CreditCourseHelper.wrap(new Data());
 
+		//Get permissions for course
+		Map<String, String> permissions = getPermissions("kuali.lu.type.CreditCourse");
+		
 		Data references = proposal.getReferences();
 		if (references.size() != 1) {
 			throw new AssemblyException(
@@ -122,84 +181,185 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 		result.setId(cluId);
 		result.setCourseNumberSuffix(course.getOfficialIdentifier()
 				.getSuffixCode());
-		result.setCourseTitle(course.getOfficialIdentifier().getLongName());
+		//Authz Check
+		if(permissions==null||permissions.get("courseTitle")==null||"edit".equals(permissions.get("courseTitle"))||"readOnly".equals(permissions.get("courseTitle"))){
+			result.setCourseTitle(course.getOfficialIdentifier().getLongName());
+		}
 		result.setEffectiveDate(course.getEffectiveDate());
 		result.setExpirationDate(course.getExpirationDate());
 		
-		AdminOrgInfo admin = course.getPrimaryAdminOrg();
-		if (admin != null) {
-			result.setDepartment(admin.getOrgId());
+		//Authz Check
+		if(permissions==null||permissions.get("department")==null||"edit".equals(permissions.get("department"))||"readOnly".equals(permissions.get("department"))){
+			AdminOrgInfo admin = course.getPrimaryAdminOrg();
+			if (admin != null) {
+				result.setDepartment(admin.getOrgId());
+			}
 		}
 		
-		for (CluIdentifierInfo alt : course.getAlternateIdentifiers()) {
-			result.getAlternateIdentifiers().add(cluIdentifierAssembler.assemble(alt));
-		}
 		// FIXME wilj: figure out how to retrieve the version codes and cross listings 
-
-		result.setDescription(richtextAssembler.assemble(course.getDesc()));
-		result.setRationale(richtextAssembler.assemble(course.getMarketingDesc()));
-		result.setDuration(timeamountAssembler.assemble(course.getIntensity()));
-		result.setPrimaryInstructor(instructorAssembler.assemble(course.getPrimaryInstructor()));
+//		for (CluIdentifierInfo alt : course.getAlternateIdentifiers()) {
+//			result.getAlternateIdentifiers().add(cluIdentifierAssembler.assemble(alt));
+//		}
+		//Authz Check
+		if(permissions==null||permissions.get("description")==null||"edit".equals(permissions.get("description"))||"readOnly".equals(permissions.get("description"))){
+			result.setDescription(RichTextInfoHelper.wrap(richtextAssembler.assemble(course.getDesc())));
+		}
+//		result.setRationale(RichTextInfoHelper.wrap(richtextAssembler.assemble(course.getMarketingDesc())));
+		//Authz Check
+		if(permissions==null||permissions.get("duration")==null||"edit".equals(permissions.get("duration"))||"readOnly".equals(permissions.get("duration"))){
+			TimeAmountInfoHelper time = TimeAmountInfoHelper.wrap(timeamountAssembler.assemble(course.getIntensity()));
+			if (time != null) {
+				CreditCourseDurationHelper duration = CreditCourseDurationHelper.wrap(new Data());
+				duration.setQuantity(time.getTimeQuantity());
+				duration.setTermType(time.getAtpDurationTypeKey());
+				result.setDuration(duration);
+			}
+		}
+		CluInstructorInfoHelper instr = CluInstructorInfoHelper.wrap(instructorAssembler.assemble(course.getPrimaryInstructor()));
+		if (instr != null) {
+			result.setPrimaryInstructor(instr.getPersonId());
+		}
 		result.setState(course.getState());
 		result.setSubjectArea(course.getOfficialIdentifier().getDivision());
 		result.setTranscriptTitle(course.getOfficialIdentifier().getShortName());
 		result.setType(course.getType());
 		
-
+		result.setAcademicSubjectOrgs(new Data());
 		for (String org : course.getAcademicSubjectOrgs()) {
 			result.getAcademicSubjectOrgs().add(org);
 		}
 		
+		result.setCampusLocations(new Data());
 		for (String campus : course.getCampusLocationList()) {
 			result.getCampusLocations().add(campus);
 		}
-		result.getModifications().getVersions().add(new VersionData(CluInfo.class.getName(), course.getId(), course.getMetaInfo().getVersionInd()));
+		addVersionIndicator(result.getData(), CluInfo.class.getName(), course.getId(), course.getMetaInfo().getVersionInd());
 
 		for (CluInfoHierarchy format : cluHierarchy.getChildren()) {
 			addFormats(result, format);	
+			
+		}
+		addCrossListings(result, cluHierarchy);
+        addVersions(result, cluHierarchy);
+        
+		//Retrieve related clus of type kuali.lu.relation.type.co-located and add the list to the map.
+		List<CluInfo> clus = luService.getClusByRelation(cluId, JOINT_RELATION_TYPE);
+		if (clus != null) {
+			
+			for (CluInfo clu : clus) {
+				CreditCourseJointsHelper joint = CreditCourseJointsHelper
+						.wrap(new Data());
+				buildJoints(clu,joint);
+				if(result.getJoints()==null){
+					result.setJoints(new Data());
+				}
+				result.getJoints().add(joint.getData());
+			}
 		}
 		
 		return result;
 	}
 
-	private void addFormats(CreditCourse course, CluInfoHierarchy cluHierarchy) throws DoesNotExistException,
+	private void addFormats(CreditCourseHelper course, CluInfoHierarchy cluHierarchy) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, AssemblyException {
 
-		CreditCourseFormat format = new CreditCourseFormat();
+		CreditCourseFormatHelper format = CreditCourseFormatHelper.wrap(new Data());
 		CluInfo clu = cluHierarchy.getCluInfo();
 		format.setId(clu.getId());
 		format.setState(clu.getState());
-		format.getModifications().getVersions().add(new VersionData(CluInfo.class.getName(), clu.getId(), clu.getMetaInfo().getVersionInd()));
+		addVersionIndicator(format.getData(), CluInfo.class.getName(), clu.getId(), clu.getMetaInfo().getVersionInd());
 		for (CluInfoHierarchy activity : cluHierarchy.getChildren()) {
 			addActivities(format, activity);
 		}
-
-
-		course.addFormat(format);
+		if (course.getFormats() == null) {
+			course.setFormats(new Data());
+		}
+		course.getFormats().add(format.getData());
 	}
 
-	private void addActivities(CreditCourseFormat format, CluInfoHierarchy cluHierarchy)
+	private void addActivities(CreditCourseFormatHelper format, CluInfoHierarchy cluHierarchy)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException, AssemblyException {
 
-		CreditCourseActivity activity = new CreditCourseActivity();
+		CreditCourseActivityHelper activity = CreditCourseActivityHelper.wrap(new Data());
 		CluInfo clu = cluHierarchy.getCluInfo();
 		
 		activity.setId(clu.getId());
 		activity.setActivityType(clu.getType());
-		activity.setIntensity(timeamountAssembler.assemble(clu.getIntensity()));
+		
+		TimeAmountInfoHelper time = TimeAmountInfoHelper.wrap(timeamountAssembler.assemble(clu.getIntensity()));
+		if (time != null) {
+			CreditCourseActivityContactHoursHelper hours = CreditCourseActivityContactHoursHelper.wrap(new Data());
+			hours.setHrs(time.getTimeQuantity());
+			hours.setPer(time.getAtpDurationTypeKey());
+			activity.setContactHours(hours);
+		}
+		activity.setDefaultEnrollmentEstimate(clu.getDefaultEnrollmentEstimate());
 		activity.setState(clu.getState());
-		activity.getModifications().getVersions().add(new VersionData(CluInfo.class.getName(), clu.getId(), clu.getMetaInfo().getVersionInd()));
+		addVersionIndicator(activity.getData(), CluInfo.class.getName(), clu.getId(), clu.getMetaInfo().getVersionInd());
 
-		format.addActivity(activity);
+		if (format.getActivities() == null) {
+			format.setActivities(new Data());
+		}
+		format.getActivities().add(activity.getData());
 	}
 
-	
-	private ProposalInfoData getProposal(String id)
+    private void addCrossListings(CreditCourseHelper course, CluInfoHierarchy cluHierarchy) 
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, 
+            OperationFailedException, AssemblyException {
+        
+        CreditCourseCrossListingsHelper xListings = null;
+        CluInfo clu = cluHierarchy.getCluInfo();
+        List<CluIdentifierInfo> cluIdentifiers = clu.getAlternateIdentifiers();
+        
+        for(CluIdentifierInfo cluIdentifier : cluIdentifiers){
+            xListings = CreditCourseCrossListingsHelper.wrap(new Data());
+            xListings.setId(cluIdentifier.getId());
+            xListings.setType(cluIdentifier.getType());
+            xListings.setDepartment(cluIdentifier.getOrgId());
+            xListings.setSubjectArea(cluIdentifier.getDivision());
+            xListings.setCourseNumberSuffix(cluIdentifier.getSuffixCode());
+            
+            Data data = course.getCrossListings();
+            if(data == null){
+                data = new Data();
+                course.setCrossListings(data);
+            }
+            data.add(xListings.getData());
+        }   
+    }
+    
+    private void addVersions(CreditCourseHelper course, CluInfoHierarchy cluHierarchy) 
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, 
+            OperationFailedException, AssemblyException {
+
+        CreditCourseVersionsHelper versions = null;
+        CluInfo clu = cluHierarchy.getCluInfo();
+        List<CluIdentifierInfo> cluIdentifiers = clu.getAlternateIdentifiers();
+
+        for(CluIdentifierInfo cluIdentifier : cluIdentifiers){
+            versions = CreditCourseVersionsHelper.wrap(new Data());
+            versions.setId(cluIdentifier.getId());
+            versions.setType(cluIdentifier.getType());
+            versions.setVersionTitle(cluIdentifier.getLongName());
+            versions.setSubjectArea(cluIdentifier.getDivision());
+            versions.setCourseNumberSuffix(cluIdentifier.getSuffixCode());
+            versions.setVersionCode(cluIdentifier.getVariation());
+            
+            Data data = course.getVersions();
+            if(data == null){
+                data = new Data();
+                course.setVersions(data);
+            }
+            data.add(versions.getData());
+        }   
+    }
+    
+	private CreditCourseProposalInfoHelper getProposal(String id)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		ProposalInfoData result = null;
+		CreditCourseProposalInfoHelper result = null;
 
 		ProposalInfo prop = proposalService.getProposal(id);
 		if (prop != null) {
@@ -209,166 +369,89 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 		return result;
 	}
 
-	private ProposalInfoData copyProposalDTO(ProposalInfo prop) {
-		ProposalInfoData result = new ProposalInfoData();
+	private CreditCourseProposalInfoHelper copyProposalDTO(ProposalInfo prop) {
+		CreditCourseProposalInfoHelper result = CreditCourseProposalInfoHelper.wrap(new Data());
 
 		result.setId(prop.getId());
 		result.setRationale(prop.getRationale());
-		result.setState(prop.getState());
+		List<String> tmp = prop.getProposerPerson();
+		if (tmp != null) {
+			result.setProposerPerson(new Data());
+			for (String s : tmp) {
+				result.getProposerPerson().add(s);
+			}
+		}
 		result.setTitle(prop.getName());
-		result.setType(prop.getType());
 		result.setReferenceType(prop.getProposalReferenceType());
+		result.setReferences(new Data());
 		for (String s : prop.getProposalReference()) {
 			result.getReferences().add(s);
 		}
-		result.getModifications().getVersions().add(new VersionData(ProposalInfo.class.getName(), prop.getId(), prop.getMetaInfo().getVersionInd()));
+		
+		addVersionIndicator(result.getData(), ProposalInfo.class.getName(), prop.getId(), prop.getMetaInfo().getVersionInd());
 
 		return result;
+	}
+
+	private Map<String,String> getPermissions(String dtoName){
+		try{	
+			//get permissions and turn into a map of fieldName=>access
+			String principalId = SecurityUtils.getCurrentUserId();
+			String namespaceCode = "KS-SYS";
+			String permissionTemplateName = "Field Access";
+			AttributeSet qualification = null;
+			AttributeSet permissionDetails = new AttributeSet("dtoName",dtoName);
+			List<KimPermissionInfo> permissions = permissionService.getAuthorizedPermissionsByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, qualification);
+			Map<String, String> permMap = new HashMap<String,String>();
+			for(KimPermissionInfo permission:permissions){
+				String dtoFieldKey = permission.getDetails().get("dtoFieldKey");
+				String fieldAccessLevel = permission.getDetails().get("fieldAccessLevel");
+				permMap.put(dtoFieldKey, fieldAccessLevel);
+			}
+			return permMap;
+		}catch(Exception e){
+			LOG.warn("Error calling permission service.",e);
+		}
+		return null;
+	}
+	
+	@Override
+	public Metadata getMetadata(String type, String state) throws AssemblyException {
+		// TODO overriding the specified type isn't a good thing, but in other cases the type needs to be specified by the caller
+		//this needs to be filtered, but not sure how to do that if an assembler needs metadata itself
+		Metadata metadata = new CreditCourseProposalMetadata().getMetadata(PROPOSAL_TYPE_CREATE_COURSE, state);
+		
+		//Get permissions for course
+		Map<String, String> permissions = getPermissions("kuali.lu.type.CreditCourse");
+		
+		
+		if(permissions!=null){
+			//Get course metadata
+			Metadata courseMetadata = metadata.getProperties().get("course");
+			
+			//Apply permissions to course metadata access...
+			for(Map.Entry<String, String> permission:permissions.entrySet()){
+				String dtoFieldKey = permission.getKey();
+				String fieldAccessLevel = permission.getValue();
+				Metadata fieldMetadata = courseMetadata.getProperties().get(dtoFieldKey);
+				if(fieldMetadata!=null){
+					if("edit".equals(fieldAccessLevel)){//TODO better translation of access
+						//Don't do anything, yield to default behavior
+					}else{
+						fieldMetadata.setWriteAccess(WriteAccess.NEVER);
+					}
+				}
+			}	
+		}
+		
+		return metadata;
 	}
 
 	@Override
-	public Metadata getMetadata() throws AssemblyException {
-		Metadata result = new Metadata();
-		result.setDataType(CreditCourseProposal.class.getName());
-
-		// TODO read metadata from dictionary
-		result.getProperties().put(
-				CreditCourseProposal.Properties.TYPE.getKey(),
-				getMockMetadata(String.class));
-		result.getProperties().put(
-				CreditCourseProposal.Properties.STATE.getKey(),
-				getMockMetadata(String.class));
-
-		result.getProperties().put(
-				CreditCourseProposal.Properties.PROPOSAL.getKey(),
-				getProposalMetadata());
-		result.getProperties().put(
-				CreditCourseProposal.Properties.COURSE.getKey(),
-				getCreditCourseMetadata());
-
-		return result;
-	}
-
-	private Metadata getCreditCourseMetadata() {
-		Metadata result = new Metadata();
-		result.setDataType(CreditCourse.class.getName());
-
-		// TODO read metadata from dictionary
-		result.getProperties().put(CreditCourse.Properties.ID.getKey(),
-				getMockMetadata(String.class));
-		result.getProperties().put(CreditCourse.Properties.TYPE.getKey(),
-				getMockMetadata(String.class));
-		result.getProperties().put(CreditCourse.Properties.STATE.getKey(),
-				getMockMetadata(String.class));
-		result.getProperties().put(
-				CreditCourse.Properties.COURSE_NUMBER_SUFFIX.getKey(),
-				getMockMetadata(String.class));
-		result.getProperties().put(
-				CreditCourse.Properties.COURSE_TITLE.getKey(),
-				getMockMetadata(String.class));
-		result.getProperties().put(CreditCourse.Properties.DEPARTMENT.getKey(),
-				getMockMetadata(String.class));
-		result.getProperties().put(
-				CreditCourse.Properties.DESCRIPTION.getKey(),
-				getMockMetadata(String.class));
-		result.getProperties().put(CreditCourse.Properties.DURATION.getKey(),
-				getMockMetadata(TimeAmountInfoData.class));
-		result.getProperties().put(
-				CreditCourse.Properties.SUBJECT_AREA.getKey(),
-				getMockMetadata(String.class));
-		// TODO verify if this is a useful "dataType" for Data objects acting as
-		// a list
-		result.getProperties().put(
-				CreditCourse.Properties.TERMS_OFFERED.getKey(),
-				getMockMetadata(Data.class));
-		result.getProperties().put(
-				CreditCourse.Properties.TRANSCRIPT_TITLE.getKey(),
-				getMockMetadata(String.class));
-
-		result.getProperties().put(CreditCourse.Properties.FORMATS.getKey(),
-				getCreditCourseFormatMetadata());
-
-		return result;
-	}
-
-	private Metadata getCreditCourseFormatMetadata() {
-		Metadata result = new Metadata();
-		result.setDataType(CreditCourseFormat.class.getName());
-
-		// TODO read metadata from dictionary
-		result.getProperties().put(CreditCourseFormat.Properties.ID.getKey(),
-				getMockMetadata(String.class));
-		result.getProperties().put(
-				CreditCourseFormat.Properties.STATE.getKey(),
-				getMockMetadata(String.class));
-		result.getProperties().put(
-				CreditCourseFormat.Properties.ACTIVITIES.getKey(),
-				getCreditCourseActivityMetadata());
-
-		return result;
-	}
-
-	private Metadata getCreditCourseActivityMetadata() {
-		Metadata result = new Metadata();
-		result.setDataType(CreditCourseActivity.class.getName());
-
-		// TODO read metadata from dictionary
-		result.getProperties().put(CreditCourseActivity.Properties.ID.getKey(),
-				getMockMetadata(String.class));
-		result.getProperties().put(
-				CreditCourseActivity.Properties.STATE.getKey(),
-				getMockMetadata(String.class));
-		result.getProperties().put(
-				CreditCourseActivity.Properties.ACTIVITY_TYPE.getKey(),
-				getMockMetadata(String.class));
-		result.getProperties().put(
-				CreditCourseActivity.Properties.INTENSITY.getKey(),
-				getMockMetadata(TimeAmountInfoData.class));
-
-		return result;
-	}
-
-	private Metadata getProposalMetadata() {
-		Metadata result = new Metadata();
-		result.setDataType(ProposalInfoData.class.getName());
-
-		// TODO read metadata from dictionary
-		result.getProperties().put(ProposalInfoData.Properties.ID.getKey(),
-				getMockMetadata(String.class));
-		result.getProperties().put(ProposalInfoData.Properties.TYPE.getKey(),
-				getMockMetadata(String.class));
-		result.getProperties().put(ProposalInfoData.Properties.STATE.getKey(),
-				getMockMetadata(String.class));
-		result.getProperties().put(
-				ProposalInfoData.Properties.RATIONALE.getKey(),
-				getMockMetadata(String.class));
-		result.getProperties().put(
-				ProposalInfoData.Properties.REFERENCE_TYPE.getKey(),
-				getMockMetadata(String.class));
-		// TODO verify if this is a useful "dataType" for Data objects acting as
-		// a list
-		result.getProperties().put(
-				ProposalInfoData.Properties.REFERENCES.getKey(),
-				getMockMetadata(Data.class));
-		result.getProperties().put(ProposalInfoData.Properties.TITLE.getKey(),
-				getMockMetadata(String.class));
-
-		return result;
-	}
-
-	private Metadata getMockMetadata(Class<?> dataType) {
-		Metadata result = new Metadata();
-		result.setDataType(dataType.getName());
-		// TODO mock more metadata, or go ahead and implement dictionary lookup
-		return result;
-	}
-
-
-	@Override
-	public SaveResult<CreditCourseProposal> save(CreditCourseProposal data)
+	public SaveResult<Data> save(Data data)
 			throws AssemblyException {
 		try {
-			SaveResult<CreditCourseProposal> result = new SaveResult<CreditCourseProposal>();
+			SaveResult<Data> result = new SaveResult<Data>();
 			List<ValidationResultInfo> validationResults = validate(data);
 			result.setValidationResults(validationResults);
 			if (validationFailed(validationResults)) {
@@ -377,7 +460,7 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 			}
 
 
-			CreditCourseProposal root = (CreditCourseProposal) data;
+			CreditCourseProposalHelper root = CreditCourseProposalHelper.wrap(data);
 			// first save all of the clus and relations
 			SaveResult<CluInfoHierarchy> courseResult = saveCourse(root.getCourse());
 			if (result.getValidationResults() == null) {
@@ -394,14 +477,18 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 			}
 			
 			// make sure that the proposal's reference info is properly set
-			ProposalInfoData inputProposal = root.getProposal();
+			CreditCourseProposalInfoHelper inputProposal = root.getProposal();
 			inputProposal.setReferenceType(PROPOSAL_REFERENCE_TYPE);
 			Data references = inputProposal.getReferences();
-			if (!references.containsValue(new Data.StringValue(courseId))) {
+			if (references == null) {
+				references = new Data();
+				references.add(courseId);
+				inputProposal.setReferences(references);
+			} else if (!references.containsValue(new Data.StringValue(courseId))) {
 				references.add(courseId);
 			}
 
-			String proposalId = saveProposal(inputProposal);
+			String proposalId = saveProposal(root);
 
 
 			result.setValidationResults(validationResults);
@@ -427,38 +514,38 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 		return result;
 	}
 
-	private String saveProposal(ProposalInfoData inputProposal) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, DependentObjectsExistException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException, VersionMismatchException {
+	private String saveProposal(CreditCourseProposalHelper inputProposal) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, DependentObjectsExistException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException, VersionMismatchException {
 		String result = null;
-		if (inputProposal.getModifications().isDeleted()) {
-			proposalService.deleteProposal(inputProposal.getId());
-		} else if (inputProposal.getModifications().isModified() || inputProposal.getId() == null) { // FIXME wilj: use modification flags once the client enforces them
+		if (isDeleted(inputProposal.getProposal().getData())) {
+			proposalService.deleteProposal(inputProposal.getProposal().getId());
+		} else if (isModified(inputProposal.getProposal().getData()) || inputProposal.getProposal().getId() == null) { // FIXME wilj: use modification flags once the client enforces them
 			ProposalInfo prop = null;
 			// FIXME wilj: use modification flags once the client enforces them
-			if (inputProposal.getId() == null) {
+			if (inputProposal.getProposal().getId() == null) {
 //			if (inputProposal.getModifications().isCreated()) {
 				prop = new ProposalInfo();
-				prop.setType("kuali.proposal.type.course.create");
+				prop.setType(PROPOSAL_TYPE_CREATE_COURSE);
 				prop.setProposalReferenceType("kuali.proposal.referenceType.clu");
 			} else {
-				prop = proposalService.getProposal(inputProposal.getId());
+				prop = proposalService.getProposal(inputProposal.getProposal().getId());
 			}
 
-			prop.setRationale(inputProposal.getRationale());
+			prop.setRationale(inputProposal.getProposal().getRationale());
 			prop.setState(inputProposal.getState());
-			prop.setName(inputProposal.getTitle());
-			for (Property p : inputProposal.getReferences()) {
+			prop.setName(inputProposal.getProposal().getTitle());
+			for (Property p : inputProposal.getProposal().getReferences()) {
 				String ref = p.getValue();
 				if (!prop.getProposalReference().contains(ref)) {
 					prop.getProposalReference().add(ref);
 				}
 			}
 			if (prop.getMetaInfo() != null) {
-				prop.getMetaInfo().setVersionInd(inputProposal.getModifications().getVersionIndicator());
+				prop.getMetaInfo().setVersionInd(getVersionIndicator(inputProposal.getProposal().getData()));
 			}
 			
 			ProposalInfo saved = null;
 			// FIXME wilj: use modification flags once the client enforces them
-			if (inputProposal.getId() == null) {
+			if (inputProposal.getProposal().getId() == null) {
 //			if (inputProposal.getModifications().isCreated()) {
 				saved = proposalService.createProposal(prop.getType(), prop);
 			} else {
@@ -468,43 +555,100 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 				result = saved.getId();
 			}
 		} else {
-			result = inputProposal.getId();
+			result = inputProposal.getProposal().getId();
 		}
 		return result;
 	}
 
-	private SaveResult<CluInfoHierarchy> saveCourse(CreditCourse course) throws AssemblyException {
+	private SaveResult<CluInfoHierarchy> saveCourse(CreditCourseHelper course) throws AssemblyException {
 		if (course == null) {
 			throw new AssemblyException("Cannot save proposal without course");
 		}
 		CluInfoHierarchy clus = buildCluInfoHiearchy(course);
-		return getCluHierarchyAssembler().save(clus);
+		
+		SaveResult<CluInfoHierarchy> result = getCluHierarchyAssembler().save(clus);
+		
+//		Uncomment this line when the screen elements for adding join courses is added.
+		addJoints(result.getValue().getCluInfo().getId(),course);
+		
+		return result;
 	}
 
+	private void addJoints(String parentCourseId,CreditCourseHelper course ) throws AssemblyException{
+		try {
+			if (course.getJoints() == null) {
+				return;
+			}
+			// CreditCourseJointsHelper joints =
+			// CreditCourseJointsHelper.wrap(course.getJoints());
+			for (Property p : course.getJoints()) {
+				CreditCourseJointsHelper joint = CreditCourseJointsHelper
+						.wrap((Data) p.getValue());
+				//If user has not entered a joint course on the screen then return back
+				if(joint.getCourseId()==null){
+					return;
+				}
+				if (isCreated(joint.getData())) {
+					CluCluRelationInfo rel = new CluCluRelationInfo();
+					rel.setCluId(parentCourseId);
+					rel.setRelatedCluId(joint.getCourseId());
+//					rel.setType(joint.getType());
+//					Remove hardcoded Type
+					rel.setType(JOINT_RELATION_TYPE);
+					
+					luService.createCluCluRelation(parentCourseId, joint
+							.getCourseId(), JOINT_RELATION_TYPE, rel);
+				}
+				else if(isDeleted(joint.getData())){
+					
+				}
+			}
+		} catch (Exception e) {
+			throw new AssemblyException("Unable to save cluClu Joint Relationship", e);
+		}
 
+	}
 	
-	private CluInfoHierarchy buildCluInfoHiearchy(CreditCourse course) throws AssemblyException {
+	private void buildJoints(CluInfo clu,CreditCourseJointsHelper joint) throws AssemblyException{
+		try{
+//		List<CluInfo> clus = luService.getClusByRelation(parentCourseId, JOINT_RELATION_TYPE);
+		joint.setCourseId(clu.getId());
+		joint.setType(JOINT_RELATION_TYPE);
+		joint.setSubjectArea(clu.getStudySubjectArea());
+		joint.setCourseTitle(clu.getOfficialIdentifier().getLongName());
+		
+		}
+		catch(Exception e){
+			throw new AssemblyException("Unable to get cluClu Joint Relationship");
+		}
+		
+	}
+	
+	private CluInfoHierarchy buildCluInfoHiearchy(CreditCourseHelper course) throws AssemblyException {
+		//metadata for authz
+		Metadata courseMetadata = this.getMetadata(course.getType(), course.getState()).getProperties().get("course");//TODO cache the metadata
+		
 		CluInfoHierarchy result = null;
 		CluInfo courseClu = null;
 		// FIXME wilj: temp check for id, client needs to enforce modification flags once we get the basics working
 		if (course.getId() == null) {
-			course.getModifications().setCreated(true);
+			setCreated(course.getData(), true);
 			result = new CluInfoHierarchy();
 			courseClu = new CluInfo();
 			result.setCluInfo(courseClu);
 		} else {
 			// FIXME wilj: forcing update for now, until client enforces modification flags
-			course.getModifications().setUpdated(true);
+			setUpdated(course.getData(), true);
 			result = getCluHierarchyAssembler().get(course.getId());
 			courseClu = result.getCluInfo();
 		}
 		
-		if (course.getModifications().isModified()) {
-			if (course.getModifications().isCreated()) {
+		if (isModified(course.getData())) {
+			if (isCreated(course.getData())) {
 				result.setModificationState(ModificationState.CREATED);
-			} else if (course.getModifications().isUpdated()) {
+			} else if (isUpdated(course.getData())) {
 				result.setModificationState(ModificationState.UPDATED);
-			} else if (course.getModifications().isDeleted()) {
+			} else if (isDeleted(course.getData())) {
 				result.setModificationState(ModificationState.DELETED);
 			} 
 			
@@ -514,39 +658,69 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 				courseClu.setOfficialIdentifier(cluId);
 			}
 			cluId.setSuffixCode(course.getCourseNumberSuffix());
-			cluId.setLongName(course.getCourseTitle());
+			//AuthzCheck
+			if(courseMetadata.getProperties().get("courseTitle").getWriteAccess()!=WriteAccess.NEVER){
+				cluId.setLongName(course.getCourseTitle());
+			}
 			cluId.setDivision(course.getSubjectArea());
 			cluId.setShortName(course.getTranscriptTitle());
 			
-			courseClu.setPrimaryInstructor(instructorAssembler.disassemble(course.getPrimaryInstructor()));
-			AdminOrgInfo admin = courseClu.getPrimaryAdminOrg();
-			if (admin == null) {
-				admin = new AdminOrgInfo();
-				courseClu.setPrimaryAdminOrg(admin);
+			String instrId = course.getPrimaryInstructor();
+			CluInstructorInfo instr = courseClu.getPrimaryInstructor();
+			if (instr == null) {
+				instr = new CluInstructorInfo();
+				courseClu.setPrimaryInstructor(instr);
 			}
-			admin.setOrgId(course.getDepartment());
+			instr.setPersonId(instrId);
+			
+			//AuthzCheck
+			if(courseMetadata.getProperties().get("department").getWriteAccess()!=WriteAccess.NEVER){
+				AdminOrgInfo admin = courseClu.getPrimaryAdminOrg();
+				if (admin == null) {
+					admin = new AdminOrgInfo();
+					courseClu.setPrimaryAdminOrg(admin);
+				}
+				admin.setOrgId(course.getDepartment());
+			}
 			
 			List<String> subjectOrgs = new ArrayList<String>();
-			for (Property p : course.getAcademicSubjectOrgs()) {
-				String org = p.getValue();
-				subjectOrgs.add(org);
+			if (course.getAcademicSubjectOrgs() != null) {
+				for (Property p : course.getAcademicSubjectOrgs()) {
+					String org = p.getValue();
+					subjectOrgs.add(org);
+				}
 			}
 			courseClu.setAcademicSubjectOrgs(subjectOrgs);
 			
 			List<String> campuses = new ArrayList<String>();
-			for (Property p : course.getCampusLocations()) {
-				String campus = p.getValue();
-				campuses.add(campus);
+			if (course.getCampusLocations() != null) {
+				for (Property p : course.getCampusLocations()) {
+					String campus = p.getValue();
+					campuses.add(campus);
+				}
 			}
 			courseClu.setCampusLocationList(campuses);
 			
 	
-			mergeAlternateIdentifiers(course, courseClu);
+//			mergeAlternateIdentifiers(course, courseClu);
 			
+			//AuthzCheck
+			if(courseMetadata.getProperties().get("description").getWriteAccess()!=WriteAccess.NEVER){
+				courseClu.setDesc(getRichText(course.getDescription()));
+			}
 			
-			courseClu.setDesc(richtextAssembler.disassemble(course.getDescription()));
-			courseClu.setMarketingDesc(richtextAssembler.disassemble(course.getRationale()));
-			courseClu.setIntensity(timeamountAssembler.disassemble(course.getDuration()));
+			//AuthzCheck
+			if(courseMetadata.getProperties().get("duration").getWriteAccess()!=WriteAccess.NEVER){
+				TimeAmountInfo time = courseClu.getIntensity();
+				if (time == null) {
+					time = new TimeAmountInfo();
+					courseClu.setIntensity(time);
+				}
+				if (course.getDuration() != null) {
+					time.setAtpDurationTypeKey(course.getDuration().getTermType());
+					time.setTimeQuantity(course.getDuration().getQuantity());
+				}
+			}
 	
 			courseClu.setEffectiveDate(course.getEffectiveDate());
 			courseClu.setExpirationDate(course.getExpirationDate());
@@ -556,60 +730,77 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 			courseClu.setType("kuali.lu.type.CreditCourse");
 			
 			if (courseClu.getMetaInfo() != null) {
-				courseClu.getMetaInfo().setVersionInd(course.getModifications().getVersionIndicator());
+				courseClu.getMetaInfo().setVersionInd(getVersionIndicator(course.getData()));
 			}
 		}
 		
 		buildFormatUpdates(result, course);
+		buildCrossListingsUpdates(result, course);
+		buildVersionsUpdates(result, course);
 		
 		return result;
 	}
 
-	private void mergeAlternateIdentifiers(CreditCourse course,
-			CluInfo courseClu) throws AssemblyException {
-		// create map of existing identifiers
-		Map<String, CluIdentifierInfo> ids = new HashMap<String, CluIdentifierInfo>();
-		for (CluIdentifierInfo id : courseClu.getAlternateIdentifiers()) {
-			if (id.getId() != null) {
-				ids.put(id.getId(), id);
-			}
-		}
-		for (Property p : course.getAlternateIdentifiers()) {
-			CluIdentifierInfoData data = p.getValue();
-			CluIdentifierInfo idSource = cluIdentifierAssembler.disassemble(data);
-			CluIdentifierInfo idTarget = ids.get(idSource.getId());
-			if (idTarget == null) {
-				// newly created
-				courseClu.getAlternateIdentifiers().add(idSource);
-			} else {
-				// modified
-				// skipping some fields that shouldn't be reassigned like id, cluId, etc
-				idTarget.setCode(idSource.getCode());
-				idTarget.setDivision(idSource.getDivision());
-				idTarget.setLevel(idSource.getLevel());
-				idTarget.setLongName(idSource.getLongName());
-				idTarget.setOrgId(idSource.getOrgId());
-				idTarget.setShortName(idSource.getShortName());
-				idTarget.setSuffixCode(idSource.getSuffixCode());
-				idTarget.setVariation(idSource.getVariation());
-				
-				ids.remove(idTarget.getId());
-			}
-		}
-		
-		// anything left in the ids map is something that was deleted by the client
-		for (CluIdentifierInfo c : ids.values()) {
-			courseClu.getAlternateIdentifiers().remove(c);
-		}
+	private boolean isAuthorized(String string, String string2, String string3) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
-	private void buildFormatUpdates(CluInfoHierarchy courseHierarchy, CreditCourse course) throws AssemblyException {
+	private RichTextInfo getRichText(RichTextInfoHelper hlp) throws AssemblyException {
+		if (hlp == null || hlp.getData() == null) {
+			return null;
+		}
+		return richtextAssembler.disassemble(hlp.getData());
+	}
+	// TODO rewrite alternate identifier code to create separate properties per alternate identifier type
+//	private void mergeAlternateIdentifiers(CreditCourse course,
+//			CluInfo courseClu) throws AssemblyException {
+//		// create map of existing identifiers
+//		Map<String, CluIdentifierInfo> ids = new HashMap<String, CluIdentifierInfo>();
+//		for (CluIdentifierInfo id : courseClu.getAlternateIdentifiers()) {
+//			if (id.getId() != null) {
+//				ids.put(id.getId(), id);
+//			}
+//		}
+//		for (Property p : course.getAlternateIdentifiers()) {
+//			CluIdentifierInfoData data = p.getValue();
+//			CluIdentifierInfo idSource = cluIdentifierAssembler.disassemble(data);
+//			CluIdentifierInfo idTarget = ids.get(idSource.getId());
+//			if (idTarget == null) {
+//				// newly created
+//				courseClu.getAlternateIdentifiers().add(idSource);
+//			} else {
+//				// modified
+//				// skipping some fields that shouldn't be reassigned like id, cluId, etc
+//				idTarget.setCode(idSource.getCode());
+//				idTarget.setDivision(idSource.getDivision());
+//				idTarget.setLevel(idSource.getLevel());
+//				idTarget.setLongName(idSource.getLongName());
+//				idTarget.setOrgId(idSource.getOrgId());
+//				idTarget.setShortName(idSource.getShortName());
+//				idTarget.setSuffixCode(idSource.getSuffixCode());
+//				idTarget.setVariation(idSource.getVariation());
+//				
+//				ids.remove(idTarget.getId());
+//			}
+//		}
+//		
+//		// anything left in the ids map is something that was deleted by the client
+//		for (CluIdentifierInfo c : ids.values()) {
+//			courseClu.getAlternateIdentifiers().remove(c);
+//		}
+//	}
+
+	private void buildFormatUpdates(CluInfoHierarchy courseHierarchy, CreditCourseHelper course) throws AssemblyException {
+		if (course.getFormats() == null) {
+			return;
+		}
 		for (Property p : course.getFormats()) {
-			CreditCourseFormat format = p.getValue();
+			CreditCourseFormatHelper format = CreditCourseFormatHelper.wrap((Data)p.getValue());
 			CluInfoHierarchy formatHierarchy = null;
 			CluInfo formatClu = null;
 			
-			if (format.getModifications().isCreated()) {
+			if (isCreated(format.getData())) {
 				formatHierarchy = new CluInfoHierarchy();
 				formatClu = new CluInfo();
 				formatHierarchy.setCluInfo(formatClu);
@@ -619,12 +810,12 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 				formatClu = formatHierarchy.getCluInfo();
 			}
 			
-			if (format.getModifications().isModified()) {
-				if (format.getModifications().isCreated()) {
+			if (isModified(format.getData())) {
+				if (isCreated(format.getData())) {
 					formatHierarchy.setModificationState(ModificationState.CREATED);
-				} else if (format.getModifications().isUpdated()) {
+				} else if (isUpdated(format.getData())) {
 					formatHierarchy.setModificationState(ModificationState.UPDATED);
-				} else if (format.getModifications().isDeleted()) {
+				} else if (isDeleted(format.getData())) {
 					formatHierarchy.setModificationState(ModificationState.DELETED);
 				} 
 				
@@ -634,7 +825,7 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 				formatHierarchy.setParentRelationType(FORMAT_RELATION_TYPE);
 				formatHierarchy.setParentRelationState("Active");
 				if (formatClu.getMetaInfo() != null) {
-					formatClu.getMetaInfo().setVersionInd(format.getModifications().getVersionIndicator());
+					formatClu.getMetaInfo().setVersionInd(getVersionIndicator(format.getData()));
 				}
 				
 			}
@@ -645,13 +836,16 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 	
 	
 	private void buildActivityUpdates(CluInfoHierarchy formatHierarchy,
-			CreditCourseFormat format) throws AssemblyException {
+			CreditCourseFormatHelper format) throws AssemblyException {
+		if (format.getActivities() == null) {
+			return;
+		}
 		for (Property p : format.getActivities()) {
-			CreditCourseActivity activity = p.getValue();
+			CreditCourseActivityHelper activity = CreditCourseActivityHelper.wrap((Data)p.getValue());
 			CluInfoHierarchy activityHierarchy = null;
 			CluInfo activityClu = null;
 			
-			if (activity.getModifications().isCreated()) {
+			if (isCreated(activity.getData())) {
 				activityHierarchy = new CluInfoHierarchy();
 				activityClu = new CluInfo();
 				activityHierarchy.setCluInfo(activityClu);
@@ -661,17 +855,29 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 				activityClu = formatHierarchy.getCluInfo();
 			}
 			
-			if (activity.getModifications().isModified()) {
-				if (activity.getModifications().isCreated()) {
+			if (isModified(activity.getData())) {
+				if (isCreated(activity.getData())) {
 					activityHierarchy.setModificationState(ModificationState.CREATED);
-				} else if (activity.getModifications().isUpdated()) {
+				} else if (isUpdated(activity.getData())) {
 					activityHierarchy.setModificationState(ModificationState.UPDATED);
-				} else if (activity.getModifications().isDeleted()) {
+				} else if (isDeleted(activity.getData())) {
 					activityHierarchy.setModificationState(ModificationState.DELETED);
 				} 
 
 				activityClu.setType(activity.getActivityType());
-				activityClu.setIntensity(timeamountAssembler.disassemble(activity.getIntensity()));
+				
+				TimeAmountInfo time = activityClu.getIntensity();
+				if (time == null) {
+					time = new TimeAmountInfo();
+					activityClu.setIntensity(time);
+				}
+				if (activity.getContactHours() != null) {
+					time.setAtpDurationTypeKey(activity.getContactHours().getPer());
+					time.setTimeQuantity(activity.getContactHours().getHrs());
+				}
+				
+				Integer enrEst = activity.getDefaultEnrollmentEstimate();
+				activityClu.setDefaultEnrollmentEstimate(enrEst == null ? 0 : enrEst);
 				// TODO un-hardcode
 				activityClu.setState("draft");
 				activityHierarchy.setParentRelationType(ACTIVITY_RELATION_TYPE);
@@ -679,12 +885,79 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 
 				
 				if (activityClu.getMetaInfo() != null) {
-					activityClu.getMetaInfo().setVersionInd(activity.getModifications().getVersionIndicator());
+					activityClu.getMetaInfo().setVersionInd(getVersionIndicator(activity.getData()));
 				}
 			}
 		}
 	}
 
+	private void buildCrossListingsUpdates(CluInfoHierarchy courseHierarchy, CreditCourseHelper course) throws AssemblyException {
+	    if (course.getCrossListings() == null) {
+	        return;
+	    }
+	    
+        CluInfo cluInfoToStore = courseHierarchy.getCluInfo();
+        List<CluIdentifierInfo> alternateIdentifiers = cluInfoToStore.getAlternateIdentifiers();
+        
+        if (isModified(course.getData())) {
+            // clear the list because the screen should have all loaded all these AltIdentifiers and
+            // they may have been modified by the user and will be populated in for() below.
+            Iterator<CluIdentifierInfo> iterator = alternateIdentifiers.iterator();
+            while(iterator.hasNext()){
+                CluIdentifierInfo cluIdentifierInfo = iterator.next();
+                String identifierType = cluIdentifierInfo.getType();
+                if(identifierType.equals("kuali.lu.type.CreditCourse.identifier.cross-listed")){
+                    alternateIdentifiers.remove(cluIdentifierInfo);
+                }
+            }
+        }
+        
+        for (Property p : course.getCrossListings()) {
+            CreditCourseCrossListingsHelper xListings = CreditCourseCrossListingsHelper.wrap((Data)p.getValue());
+            CluIdentifierInfo cluIdentifier = new CluIdentifierInfo();
+            cluIdentifier.setCluId(xListings.getId());
+            cluIdentifier.setType("kuali.lu.type.CreditCourse.identifier.cross-listed");
+            cluIdentifier.setOrgId(xListings.getDepartment());
+            cluIdentifier.setDivision(xListings.getSubjectArea());
+            cluIdentifier.setSuffixCode(xListings.getCourseNumberSuffix());
+            alternateIdentifiers.add(cluIdentifier);
+        }
+        cluInfoToStore.setAlternateIdentifiers(alternateIdentifiers);
+	}
+
+    private void buildVersionsUpdates(CluInfoHierarchy courseHierarchy, CreditCourseHelper course) throws AssemblyException {
+        if (course.getVersions() == null) {
+            return;
+        }
+        
+        CluInfo cluInfoToStore = courseHierarchy.getCluInfo();
+        List<CluIdentifierInfo> alternateIdentifiers = cluInfoToStore.getAlternateIdentifiers();
+        
+        if (isModified(course.getData())) {
+            // clear the list because the screen should have all loaded all these AltIdentifiers and
+            // they may have been modified by the user and will be populated in for() below.
+            Iterator<CluIdentifierInfo> iterator = alternateIdentifiers.iterator();
+            while(iterator.hasNext()){
+                CluIdentifierInfo cluIdentifierInfo = iterator.next();
+                String identifierType = cluIdentifierInfo.getType();
+                if(identifierType.equals("kuali.lu.type.CreditCourse.identifier.version")){
+                    alternateIdentifiers.remove(cluIdentifierInfo);
+                }
+            }
+        }
+        
+        for (Property p : course.getVersions()) {
+            CreditCourseVersionsHelper versions = CreditCourseVersionsHelper.wrap((Data)p.getValue());
+            CluIdentifierInfo cluIdentifier = new CluIdentifierInfo();
+            cluIdentifier.setCluId(versions.getId());
+            cluIdentifier.setType("kuali.lu.type.CreditCourse.identifier.version");
+            cluIdentifier.setLongName(versions.getVersionTitle());
+            cluIdentifier.setVariation(versions.getVersionCode());
+            alternateIdentifiers.add(cluIdentifier);
+        }
+        cluInfoToStore.setAlternateIdentifiers(alternateIdentifiers);
+    }
+    
 	private CluInfoHierarchy findChildByCluId(CluInfoHierarchy parent, String cluId) {
 		for (CluInfoHierarchy c : parent.getChildren()) {
 			if (c.getCluInfo().getId() != null && c.getCluInfo().getId().equals(cluId)) {
@@ -695,7 +968,7 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 	}
 
 	@Override
-	public List<ValidationResultInfo> validate(CreditCourseProposal data)
+	public List<ValidationResultInfo> validate(Data data)
 			throws AssemblyException {
 		// TODO validate CreditCourseProposal
 		return null;
@@ -709,12 +982,12 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 	}
 
 	@Override
-	public CreditCourseProposal assemble(Void input) throws AssemblyException {
+	public Data assemble(Void input) throws AssemblyException {
 		throw new UnsupportedOperationException("CreditCourseProposalAssember does not support assembly from source type");
 	}
 
 	@Override
-	public Void disassemble(CreditCourseProposal input)
+	public Void disassemble(Data input)
 			throws AssemblyException {
 		throw new UnsupportedOperationException("CreditCourseProposalAssember does not support disassembly to source type");
 	}
@@ -727,5 +1000,16 @@ public class CreditCourseProposalAssembler implements Assembler<CreditCourseProp
 		this.luService = luService;
 	}
 
+	
+	@Override
+	public SearchResult search(SearchRequest searchRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void setPermissionService(PermissionService permissionService) {
+		this.permissionService = permissionService;
+	}
+	
 
 }

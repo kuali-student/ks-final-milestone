@@ -41,6 +41,10 @@ public class KualiStudentKimAttributes extends TransientBusinessObjectBase {
 	protected String college;
 	protected String division;
 
+	protected String dtoName;
+	protected String dtoFieldKey;
+	protected String fieldAccessLevel;
+
 	/**
 	 * @return the department
 	 */
@@ -79,6 +83,48 @@ public class KualiStudentKimAttributes extends TransientBusinessObjectBase {
 		this.division = division;
 	}
 	
+	/**
+	 * @return the dtoName
+	 */
+	public String getDtoName() {
+		return dtoName;
+	}
+
+	/**
+	 * @param dtoName the dtoName to set
+	 */
+	public void setDtoName(String dtoName) {
+		this.dtoName = dtoName;
+	}
+
+	/**
+	 * @return the dtoFieldKey
+	 */
+	public String getDtoFieldKey() {
+		return dtoFieldKey;
+	}
+
+	/**
+	 * @param dtoFieldKey the dtoFieldKey to set
+	 */
+	public void setDtoFieldKey(String dtoFieldKey) {
+		this.dtoFieldKey = dtoFieldKey;
+	}
+
+	/**
+	 * @return the fieldAccessLevel
+	 */
+	public String getFieldAccessLevel() {
+		return fieldAccessLevel;
+	}
+
+	/**
+	 * @param fieldAccessLevel the fieldAccessLevel to set
+	 */
+	public void setFieldAccessLevel(String fieldAccessLevel) {
+		this.fieldAccessLevel = fieldAccessLevel;
+	}
+
 	@Override
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap m = new LinkedHashMap();

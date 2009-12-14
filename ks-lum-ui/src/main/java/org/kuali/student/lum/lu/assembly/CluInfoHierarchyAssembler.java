@@ -9,6 +9,8 @@ import org.kuali.student.common.assembly.client.AssemblyException;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.assembly.client.SaveResult;
+import org.kuali.student.core.search.newdto.SearchRequest;
+import org.kuali.student.core.search.newdto.SearchResult;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.CircularReferenceException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -57,6 +59,7 @@ public class CluInfoHierarchyAssembler implements Assembler<CluInfoHierarchy, Vo
 	}
 	private LuService luService;
 	private RelationshipHierarchy hierarchy;
+	public static final String JOINT_RELATION_TYPE = "kuali.lu.relation.type.co-located";
 
 	public RelationshipHierarchy getHierarchy() {
 		return hierarchy;
@@ -108,6 +111,10 @@ public class CluInfoHierarchyAssembler implements Assembler<CluInfoHierarchy, Vo
 		List<CluCluRelationInfo> children = luService.getCluCluRelationsByClu(currentClu.getCluInfo().getId());
 		if (children != null) {
 			for (CluCluRelationInfo rel : children) {
+				if(rel.getType().equals(CreditCourseProposalAssembler.JOINT_RELATION_TYPE)){
+					// if the cluclu realtion is of type jointCourses than dont add that as a child to the CluInfoHierarchy object
+					return;
+				}
 				CluInfo clu = luService.getClu(rel.getRelatedCluId());
 				CluInfoHierarchy c = new CluInfoHierarchy();
 				c.setParentRelationType(currentRel.getRelationshipType());
@@ -122,7 +129,7 @@ public class CluInfoHierarchyAssembler implements Assembler<CluInfoHierarchy, Vo
 	}
 
 	@Override
-	public Metadata getMetadata() throws AssemblyException {
+	public Metadata getMetadata(String type, String state) throws AssemblyException {
 		throw new UnsupportedOperationException("Assembler is not type/state specific");
 	}
 
@@ -231,5 +238,9 @@ public class CluInfoHierarchyAssembler implements Assembler<CluInfoHierarchy, Vo
 		// TODO validate against service
 		return null;
 	}
-
+	@Override
+	public SearchResult search(SearchRequest searchRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

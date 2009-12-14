@@ -18,10 +18,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.common.assembly.client.DataModel;
+import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.ui.client.service.BaseRpcService;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
-import org.kuali.student.lum.lu.assembly.data.client.creditcourse.CreditCourseProposal;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
 
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -35,16 +34,16 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("rpcservices/CluProposalRpcService")
 public interface CluProposalRpcService extends BaseRpcService{
 	
-	public Boolean submitProposal(CluProposalModelDTO cluProposalDTO);
+	public Boolean submitProposal(Data cluProposalDTO);
     public String getActionsRequested(String cluProposalId) throws OperationFailedException;
     public Boolean adhocRequest(String docId, String recipientPrincipalId,String requestType, String annotation) throws OperationFailedException;
-    public Boolean approveProposal(CluProposalModelDTO cluProposal) throws OperationFailedException;
-    public Boolean disapproveProposal(CluProposalModelDTO cluProposal) throws OperationFailedException;
-    public Boolean acknowledgeProposal(CluProposalModelDTO cluProposal) throws OperationFailedException;
+    public Boolean approveProposal(Data cluProposal) throws OperationFailedException;
+    public Boolean disapproveProposal(Data cluProposal) throws OperationFailedException;
+    public Boolean acknowledgeProposal(Data cluProposal) throws OperationFailedException;
     public Boolean addCollaborator(String docId, String recipientPrincipalId, String collabType, boolean participationRequired, String respondBy) throws OperationFailedException;
     public HashMap<String, ArrayList<String>> getCollaborators(String docId) throws OperationFailedException;
     public Boolean loginBackdoor(String backdoorId);
-    public CluProposalModelDTO getCluProposalFromWorkflowId(String docId) throws OperationFailedException;
+    public Data getCluProposalFromWorkflowId(String docId) throws OperationFailedException;
 	public String getWorkflowIdFromProposalId(String proposalId) throws OperationFailedException;
     
     public CluProposalModelDTO createProposal(CluProposalModelDTO cluProposalDTO) throws OperationFailedException;
@@ -57,9 +56,10 @@ public interface CluProposalRpcService extends BaseRpcService{
     public Boolean approveDocument(String requestDocId);
 	public Boolean disapproveDocument(String requestDocId);
 	
-	public DataModel getCluProposalModelDefinition(String modelId);
+//	public DataModel getCluProposalModelDefinition(String modelId);
 	public Data saveData(Data data);
     
 	public Data getCreditCourseProposal(String id) throws OperationFailedException;
 	public DataSaveResult saveCreditCourseProposal(Data proposal) throws OperationFailedException;
+	public Metadata getCreditCourseProposalMetadata() throws OperationFailedException;
 }

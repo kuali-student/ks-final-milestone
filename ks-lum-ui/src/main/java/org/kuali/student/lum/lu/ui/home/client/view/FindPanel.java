@@ -16,6 +16,7 @@ package org.kuali.student.lum.lu.ui.home.client.view;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.widgets.KSButton;
@@ -56,7 +57,7 @@ public class FindPanel extends ViewComposite{
     }
 
     @Override
-    public void beforeShow() {
+    public void beforeShow(final Callback<Boolean> onReadyCallback) {
         if (!loaded){                        
             //FIXME: This is a quick fix
             KSButton findCourseButton = new KSButton("Find Course", new ClickHandler(){
@@ -82,6 +83,7 @@ public class FindPanel extends ViewComposite{
 
             loaded = true;
         }
+        onReadyCallback.exec(true);
     }
     
     private void initCourseSearchWindow(){

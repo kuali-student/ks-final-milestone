@@ -32,4 +32,5 @@ public interface LuRpcServiceAsync extends BaseRpcServiceAsync{
     public void createClu(String luTypeKey, CluInfo cluInfo, AsyncCallback<CluInfo> callback);
     public void updateClu(String cluId, CluInfo cluInfo, AsyncCallback<CluInfo> callback);
     public void getLoIdsByClu(String cluId,  AsyncCallback<List<String>> callback);
+    public void getClu(String cluId, AsyncCallback<CluInfo> callback);
 }

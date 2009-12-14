@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
@@ -95,21 +97,24 @@ public class CourseRequisiteView extends ViewComposite {
         applicableLuStatementTypes.add(KS_STATEMENT_TYPE_ENROLLREQ);
     }
     
-    public void beforeShow() {                 	
+    @Override
+    public void beforeShow(final Callback<Boolean> onReadyCallback) {                 	
     	
     	getController().requestModel(CluProposalModelDTO.class,
-    			new ModelRequestCallback<CluProposalModelDTO>() {
+    			new ModelRequestCallback<CollectionModel<CluProposalModelDTO>>() {
                     @Override
-                    public void onModelReady(Model<CluProposalModelDTO> model) {
+                    public void onModelReady(CollectionModel<CluProposalModelDTO> model) {
                     	ModelDTO cluInfoModelDTO = (ModelDTO) ((ModelDTOType) model.get().get("cluInfo")).get();
                     	courseRules = model.get().getRuleInfos();
                     	cluId = model.get().getString("cluInfo/id");
                         initializeView();
+                        onReadyCallback.exec(true);
                     }    
     
                     @Override
                     public void onRequestFail(Throwable cause) {
                         Window.alert("Failed to get CluProposalModelDTO");
+                        onReadyCallback.exec(false);
                     }
         });    	            
     }    
@@ -203,10 +208,10 @@ public class CourseRequisiteView extends ViewComposite {
             	}
     	        
                 //store this new rule model in the top most model
-                getController().requestModel(CluProposalModelDTO.class, new ModelRequestCallback<CluProposalModelDTO>() {
+                getController().requestModel(CluProposalModelDTO.class, new ModelRequestCallback<CollectionModel<CluProposalModelDTO>>() {
 
                     @Override
-                    public void onModelReady(Model<CluProposalModelDTO> model) {
+                    public void onModelReady(CollectionModel<CluProposalModelDTO> model) {
                         List<RuleInfo> ruleInfos = model.get().getRuleInfos();
                         ruleInfos.retainAll(ruleInfos);
                     }
@@ -268,10 +273,10 @@ public class CourseRequisiteView extends ViewComposite {
                 courseReqManager.resetReqCompVOModel();
                 
                 courseReqManager.setRuleInfoModel(courseRules);
-                courseReqManager.showView(PrereqViews.CLAUSE_EDITOR);
+                courseReqManager.showView(PrereqViews.CLAUSE_EDITOR, Controller.NO_OP_CALLBACK);
             } else {
                 courseReqManager.setRuleInfoModel(courseRules);
-                courseReqManager.showView(PrereqViews.MANAGE_RULES);
+                courseReqManager.showView(PrereqViews.MANAGE_RULES, Controller.NO_OP_CALLBACK);
             }
         }       
     }    
@@ -397,9 +402,9 @@ public class CourseRequisiteView extends ViewComposite {
     
     public void saveApplicationState() {
         getController().requestModel(CluProposalModelDTO.class,
-                new ModelRequestCallback<CluProposalModelDTO>() {
+                new ModelRequestCallback<CollectionModel<CluProposalModelDTO>>() {
             @Override
-            public void onModelReady(Model<CluProposalModelDTO> model) {
+            public void onModelReady(CollectionModel<CluProposalModelDTO> model) {
                 model.get().putApplicationState(
                         "kuali.luStatementType.prereqAcademicReadiness.rationale", 
                         getRationaleTextArea(KS_STATEMENT_TYPE_PREREQ)

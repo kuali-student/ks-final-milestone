@@ -32,7 +32,9 @@ public interface LuRpcService extends BaseRpcService {
     public CluInfo createClu(String luTypeKey, CluInfo cluInfo);
 
     public CluInfo updateClu(String luTypeKey, CluInfo cluInfo);
-    
+
     public List<String> getLoIdsByClu(String cluId);
+
+    public CluInfo getClu(String cluId);    
 
 }

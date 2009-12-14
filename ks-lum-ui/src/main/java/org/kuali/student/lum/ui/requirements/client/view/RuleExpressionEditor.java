@@ -17,6 +17,8 @@ package org.kuali.student.lum.ui.requirements.client.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
@@ -60,7 +62,7 @@ public class RuleExpressionEditor extends ViewComposite {
 
 
     // views's data
-    private Model<RuleInfo> model;
+    private CollectionModel<RuleInfo> model;
     
     // helper object
     private RuleExpressionParser ruleExpressionParser = new RuleExpressionParser();
@@ -72,9 +74,9 @@ public class RuleExpressionEditor extends ViewComposite {
     }
     
     @Override
-    public void beforeShow() {
-        getController().requestModel(RuleInfo.class, new ModelRequestCallback<RuleInfo>() {
-            public void onModelReady(Model<RuleInfo> theModel) {
+    public void beforeShow(final Callback<Boolean> onReadyCallback) {
+        getController().requestModel(RuleInfo.class, new ModelRequestCallback<CollectionModel<RuleInfo>>() {
+            public void onModelReady(CollectionModel<RuleInfo> theModel) {
                 model = theModel;    
             }
 
@@ -83,6 +85,8 @@ public class RuleExpressionEditor extends ViewComposite {
             }
         }); 
         redraw();
+        // TODO should probably pass the callback into the method above and invoke it when the work is actually done
+        onReadyCallback.exec(true);
     }
     
     private void setupHandlers() {
@@ -130,7 +134,7 @@ public class RuleExpressionEditor extends ViewComposite {
                     prereqInfo.setStatementVO(newStatementVO);
                     prereqInfo.setPreviewedExpression(null);
                     prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
-                    getController().showView(PrereqViews.MANAGE_RULES);
+                    getController().showView(PrereqViews.MANAGE_RULES, Controller.NO_OP_CALLBACK);
                 } else {
                     String expression = prereqInfo.getExpression();
                     prereqInfo.setPreviewedExpression(expression);
@@ -143,7 +147,7 @@ public class RuleExpressionEditor extends ViewComposite {
             public void onClick(ClickEvent event) {
                 RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(model);
                 prereqInfo.setPreviewedExpression(null);
-                getController().showView(PrereqViews.MANAGE_RULES);
+                getController().showView(PrereqViews.MANAGE_RULES, Controller.NO_OP_CALLBACK);
             }
         });
     }

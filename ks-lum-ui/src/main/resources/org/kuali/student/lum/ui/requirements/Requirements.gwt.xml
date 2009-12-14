@@ -16,6 +16,8 @@
 	<inherits name='org.kuali.student.core.atp.Atp'/>
 	<inherits name='org.kuali.student.lum.lu.ui.course.Course'/>
 
+	<inherits name='org.kuali.student.common.assembly.Assembly'/>
+	
 	<entry-point class="org.kuali.student.lum.ui.requirements.client.RequirementsEntryPoint"/>
 	
 </module>

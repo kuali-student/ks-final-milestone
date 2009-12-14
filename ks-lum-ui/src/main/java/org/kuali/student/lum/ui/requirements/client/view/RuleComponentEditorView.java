@@ -22,6 +22,8 @@ import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
@@ -95,7 +97,7 @@ public class RuleComponentEditorView extends ViewComposite {
 
     //view's data
     private boolean addNewReqComp;
-    private Model<RuleInfo> modelRuleInfo;
+    private CollectionModel<RuleInfo> modelRuleInfo;
     private ReqComponentTypeInfo selectedReqType;
     private ReqComponentInfo editedReqComp;
     private List<ReqCompFieldInfo> editedFields;
@@ -115,8 +117,11 @@ public class RuleComponentEditorView extends ViewComposite {
         setupHandlers();
     }
 
-    public void beforeShow() {
+    @Override
+    public void beforeShow(final Callback<Boolean> onReadyCallback) {
         setReqComponentListAndReqComp();
+        // TODO should probably pass the callback into the method above and invoke it when the work is actually done
+        onReadyCallback.exec(true);
     }
 
     public void redraw() {
@@ -310,7 +315,7 @@ public class RuleComponentEditorView extends ViewComposite {
                 if (origReqCompType != null) {
                     editedReqComp.setType(origReqCompType); //revert possible changes to type
                 }
-                getController().showView(PrereqViews.MANAGE_RULES);
+                getController().showView(PrereqViews.MANAGE_RULES, Controller.NO_OP_CALLBACK);
             }
         });
 
@@ -744,8 +749,8 @@ public class RuleComponentEditorView extends ViewComposite {
 
     private void setReqComponentListAndReqComp() {
 
-        getController().requestModel(ReqComponentTypeInfo.class, new ModelRequestCallback<ReqComponentTypeInfo>() {
-            public void onModelReady(Model<ReqComponentTypeInfo> theModel) {
+        getController().requestModel(ReqComponentTypeInfo.class, new ModelRequestCallback<CollectionModel<ReqComponentTypeInfo>>() {
+            public void onModelReady(CollectionModel<ReqComponentTypeInfo> theModel) {
                 reqCompTypeList = new ArrayList<ReqComponentTypeInfo>();
                 reqCompTypeList.addAll(theModel.getValues());
 
@@ -815,12 +820,12 @@ public class RuleComponentEditorView extends ViewComposite {
             compReqTypesList.deSelectItem(compReqTypesList.getSelectedItem());
         }
 
-        getController().requestModel(RuleInfo.class, new ModelRequestCallback<RuleInfo>() {
-            public void onModelReady(Model<RuleInfo> theModel) {
+        getController().requestModel(RuleInfo.class, new ModelRequestCallback<CollectionModel<RuleInfo>>() {
+            public void onModelReady(CollectionModel<RuleInfo> theModel) {
                 modelRuleInfo = theModel;
 
-                getController().requestModel(ReqComponentVO.class, new ModelRequestCallback<ReqComponentVO>() {
-                    public void onModelReady(Model<ReqComponentVO> theModel) {
+                getController().requestModel(ReqComponentVO.class, new ModelRequestCallback<CollectionModel<ReqComponentVO>>() {
+                    public void onModelReady(CollectionModel<ReqComponentVO> theModel) {
 
                         if (theModel != null) {
                             List<ReqComponentVO> selectedReqComp = new ArrayList<ReqComponentVO>();
@@ -874,7 +879,7 @@ public class RuleComponentEditorView extends ViewComposite {
                 editedReqCompVO.setTypeDesc(reqCompNaturalLanguage);
                 RuleInfo prereqInfo = RulesUtilities.getReqInfoModelObject(modelRuleInfo);
                 prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
-                getController().showView(PrereqViews.MANAGE_RULES);
+                getController().showView(PrereqViews.MANAGE_RULES, Controller.NO_OP_CALLBACK);
             }
         });            	
     }

@@ -4,58 +4,67 @@ import java.util.List;
 
 import org.kuali.student.common.assembly.Assembler;
 import org.kuali.student.common.assembly.client.AssemblyException;
+import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.assembly.client.SaveResult;
+import org.kuali.student.core.search.newdto.SearchRequest;
+import org.kuali.student.core.search.newdto.SearchResult;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.lum.lu.assembly.data.client.RichTextInfoData;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoHelper;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoMetadata;
 
-public class RichTextInfoAssembler implements Assembler<RichTextInfoData, RichTextInfo>{
+public class RichTextInfoAssembler implements Assembler<Data, RichTextInfo>{
 
 	@Override
-	public RichTextInfoData assemble(RichTextInfo input)
+	public Data assemble(RichTextInfo input)
 			throws AssemblyException {
 		if (input == null) {
 			return null;
 		}
-		RichTextInfoData result = new RichTextInfoData();
-		result.setFormatted(input.getFormatted());
-		result.setPlain(input.getPlain());
-		return result;
+		RichTextInfoHelper hlp =  RichTextInfoHelper.wrap(new Data());
+		hlp.setFormatted(input.getFormatted());
+		hlp.setPlain(input.getPlain());
+		return hlp.getData();
 	}
 
 	@Override
-	public RichTextInfo disassemble(RichTextInfoData input)
+	public RichTextInfo disassemble(Data input)
 			throws AssemblyException {
 		if (input == null) {
 			return null;
 		}
 		RichTextInfo result = new RichTextInfo();
-		result.setFormatted(input.getFormatted());
-		result.setPlain(input.getPlain());
+		RichTextInfoHelper hlp =  RichTextInfoHelper.wrap(input);
+		result.setFormatted(hlp.getFormatted());
+		result.setPlain(hlp.getPlain());
 		return result;
 	}
 
 	@Override
-	public RichTextInfoData get(String id) throws AssemblyException {
+	public Data get(String id) throws AssemblyException {
 		throw new UnsupportedOperationException(RichTextInfoAssembler.class.getName() + " does not support retrieval");
 	}
 
 	@Override
-	public Metadata getMetadata() throws AssemblyException {
-		return null;
+	public Metadata getMetadata(String type, String state) throws AssemblyException {
+		return new RichTextInfoMetadata().getMetadata(type, state);
 	}
 
 	@Override
-	public SaveResult<RichTextInfoData> save(RichTextInfoData input)
+	public SaveResult<Data> save(Data input)
 			throws AssemblyException {
 		throw new UnsupportedOperationException(RichTextInfoAssembler.class.getName() + " does not support persistence");
 	}
 
 	@Override
-	public List<ValidationResultInfo> validate(RichTextInfoData input)
+	public List<ValidationResultInfo> validate(Data input)
 			throws AssemblyException {
 		return null;
 	}
-
+	@Override
+	public SearchResult search(SearchRequest searchRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

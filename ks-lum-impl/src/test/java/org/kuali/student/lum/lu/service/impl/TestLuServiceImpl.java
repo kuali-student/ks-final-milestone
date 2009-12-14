@@ -1699,9 +1699,9 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
     @Test
     public void  testGetClusByRelation() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ParseException, VersionMismatchException{
-        List<CluInfo> clus = client.getClusByRelation("CLU-2", "luLuType.type1");
+        List<CluInfo> clus = client.getClusByRelation("CLU-1", "luLuType.type1");
         assertNotNull(clus);
-        assertEquals(1, clus.size());
+        assertEquals(2, clus.size());
 
         clus = client.getClusByRelation("CLUXX-2", "luLuType.type1");
         assertNotNull(clus);
@@ -1724,9 +1724,9 @@ public class TestLuServiceImpl extends AbstractServiceTest {
             assertTrue(true);
         }
 
-        List<String> ids = client.getCluIdsByRelation("CLU-2", "luLuType.type1");
+        List<String> ids = client.getCluIdsByRelation("CLU-1", "luLuType.type1");
         assertNotNull(ids);
-        assertEquals(1, ids.size());
+        assertEquals(2, ids.size());
 
         ids = client.getCluIdsByRelation("CLUXX-2", "luLuType.type1");
         assertNotNull(ids);

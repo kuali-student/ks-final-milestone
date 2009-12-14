@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
@@ -39,16 +40,9 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.*;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.*;
-import org.kuali.student.common.ui.client.widgets.KSConfirmationDialog;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.buttongroups.YesNoGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.YesNoEnum;
 
@@ -64,7 +58,7 @@ public class SearchDialog extends Composite {
     private KSButton btnCancel = new KSButton("Cancel");
     private KSButton btnAdd = new KSButton("Add");
     KSListBox cluList = new KSListBox();    
-    private Model<RuleInfo> model;
+    private CollectionModel<RuleInfo> model;
     private Controller controller;
     private Map<String, String> listData;
     
@@ -100,8 +94,8 @@ public class SearchDialog extends Composite {
     
     public void show() {
         if (model == null) {
-            controller.requestModel(RuleInfo.class, new ModelRequestCallback<RuleInfo>() {
-                public void onModelReady(Model<RuleInfo> theModel) {
+            controller.requestModel(RuleInfo.class, new ModelRequestCallback<CollectionModel<RuleInfo>>() {
+                public void onModelReady(CollectionModel<RuleInfo> theModel) {
                     //printModel(theModel);
                     model = theModel;                    
                 }

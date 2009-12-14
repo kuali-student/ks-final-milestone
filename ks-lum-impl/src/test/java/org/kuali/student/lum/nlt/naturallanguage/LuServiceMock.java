@@ -39,6 +39,8 @@ import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
+import org.kuali.student.core.search.newdto.SearchRequest;
+import org.kuali.student.core.search.newdto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
@@ -1101,6 +1103,12 @@ public class LuServiceMock implements LuService {
 	@Override
 	public List<EnumeratedValue> getEnumeration(String enumerationKey,
 			String enumContextKey, String contextValue, Date contextDate) {
+		return null;
+	}
+
+	@Override
+	public SearchResult search(SearchRequest searchRequest) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }
