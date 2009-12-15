@@ -15,8 +15,15 @@
  */
 package org.kuali.student.dictionary;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
 import java.util.Collection;
 import java.util.Map;
+import org.kuali.student.search.SearchModel;
+import org.kuali.student.search.SearchModelCache;
+import org.kuali.student.search.SearchModelLoader;
+import org.kuali.student.search.SearchModelWriter;
 
 /**
  *
@@ -80,6 +87,27 @@ public class OrchestrationObjectsWriter
    OrchestrationObjectMetadataWriter writer =
     new OrchestrationObjectMetadataWriter (model, directory, rootPackage, orchObjs, oo);
    writer.write ();
+  }
+
+    File file =
+   new File (directory + "/" + "orchestration-search-config-generated-excel.xml");
+  PrintStream out;
+  try
+  {
+   out = new PrintStream (file);
+  }
+  catch (FileNotFoundException ex)
+  {
+   throw new RuntimeException (ex);
+  }
+  try
+  {
+   SearchModelWriter instance = new SearchModelWriter (out, model);
+   instance.write ();
+  }
+  finally
+  {
+   out.close ();
   }
 
 //  // do the assemblers next

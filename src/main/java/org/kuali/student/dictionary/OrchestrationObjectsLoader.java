@@ -227,6 +227,8 @@ public class OrchestrationObjectsLoader
      calcFieldTypeCategory (childField, calcIsCardList (orch.getCard1 ()), false));
     childField.setWriteAccess (calcWriteAccess (orch));
     loadOrchObjsFieldConstraints (childField, orch);
+    childField.setLookup (orch.getLookup ());
+    childField.setLookupContextPath (orch.getLookupContextPath ());
     continue;
    }
    if ( ! orch.getGrandChild ().equals (""))
@@ -253,6 +255,8 @@ public class OrchestrationObjectsLoader
      calcFieldTypeCategory (grandChildField, calcIsCardList (orch.getCard2 ()), false));
     grandChildField.setWriteAccess (calcWriteAccess (orch));
     loadOrchObjsFieldConstraints (grandChildField, orch);
+    grandChildField.setLookup (orch.getLookup ());
+    grandChildField.setLookupContextPath (orch.getLookupContextPath ());
     continue;
    }
 

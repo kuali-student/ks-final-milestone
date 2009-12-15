@@ -163,6 +163,29 @@ public class OrchestrationObjectField
   this.writeAccess = writeAccess;
  }
 
+ private String lookup;
+
+ public String getLookup ()
+ {
+  return lookup;
+ }
+
+ public void setLookup (String lookup)
+ {
+  this.lookup = lookup;
+ }
+
+ private String lookupContextPath;
+
+ public String getLookupContextPath ()
+ {
+  return lookupContextPath;
+ }
+
+ public void setLookupContextPath (String lookupContextPath)
+ {
+  this.lookupContextPath = lookupContextPath;
+ }
 
 
 }

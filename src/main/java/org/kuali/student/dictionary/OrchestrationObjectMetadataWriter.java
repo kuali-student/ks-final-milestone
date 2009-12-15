@@ -31,7 +31,6 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
  private DictionaryModel model;
  private String directory;
  private String rootPackage;
- public static final String ROOT_PACKAGE = "org.kuali.student.orchestration";
  private OrchestrationObject orchObj;
  private Map<String, OrchestrationObject> orchObjs;
 
@@ -138,7 +137,9 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
    //		childMeta.setDefaultValue (new Data.StringValue ("Draft"));
    indentPrintln ("childMeta.setDefaultValue (" + defVal + ");");
   }
- // TODO: Fix this indentPrintln ("childMeta.setLookupMetadata (LookupMetadataBank.LOOKUP_BANK.get (" + quote (field.xxx));
+  imports.add (rootPackage + ".LookupMetadataBank");
+  indentPrintln ("childMeta.setLookupMetadata (LookupMetadataBank.LOOKUP_BANK.get ("
+   + quote (field.getLookup ()) + ".toLowerCase ());");
   String lastType = null;
   String lastState = null;
   boolean closeIf = false;
