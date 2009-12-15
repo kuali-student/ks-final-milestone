@@ -22,21 +22,18 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.common.ui.client.mvc.Model;
+import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
-import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
+import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.ui.requirements.client.RulesUtilities;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager.PrereqViews;
 import org.kuali.student.lum.ui.requirements.client.model.EditHistory;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
-import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcService;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcServiceAsync;
 
@@ -100,20 +97,21 @@ public class CourseRequisiteView extends ViewComposite {
     @Override
     public void beforeShow(final Callback<Boolean> onReadyCallback) {                 	
     	
-    	getController().requestModel(CluProposalModelDTO.class,
-    			new ModelRequestCallback<CollectionModel<CluProposalModelDTO>>() {
+    	getController().requestModel(LuData.class,
+    			new ModelRequestCallback<DataModel>() {
                     @Override
-                    public void onModelReady(CollectionModel<CluProposalModelDTO> model) {
-                    	ModelDTO cluInfoModelDTO = (ModelDTO) ((ModelDTOType) model.get().get("cluInfo")).get();
-                    	courseRules = model.get().getRuleInfos();
-                    	cluId = model.get().getString("cluInfo/id");
+                    public void onModelReady(DataModel dataModel) {
+                    	LuData luData = (LuData)dataModel.getRoot();
+                    	courseRules = luData.getRuleInfos();
+                    	cluId = dataModel.get("course/id");
                         initializeView();
                         onReadyCallback.exec(true);
                     }    
     
                     @Override
                     public void onRequestFail(Throwable cause) {
-                        Window.alert("Failed to get CluProposalModelDTO");
+                    	GWT.log("Failed to get LuData DataModel", cause);
+                    	Window.alert("Failed to get LuData DataModel");
                         onReadyCallback.exec(false);
                     }
         });    	            
@@ -208,17 +206,18 @@ public class CourseRequisiteView extends ViewComposite {
             	}
     	        
                 //store this new rule model in the top most model
-                getController().requestModel(CluProposalModelDTO.class, new ModelRequestCallback<CollectionModel<CluProposalModelDTO>>() {
+                getController().requestModel(LuData.class, new ModelRequestCallback<DataModel>() {
 
                     @Override
-                    public void onModelReady(CollectionModel<CluProposalModelDTO> model) {
-                        List<RuleInfo> ruleInfos = model.get().getRuleInfos();
+                    public void onModelReady(DataModel model) {
+                        List<RuleInfo> ruleInfos = ((LuData)model.getRoot()).getRuleInfos();
                         ruleInfos.retainAll(ruleInfos);
                     }
 
                     @Override
                     public void onRequestFail(Throwable cause) {
-                        Window.alert("Failed to request for CluProposalModelDTO");
+                    	GWT.log("Failed to get LuData DataModel", cause);
+                    	Window.alert("Failed to get LuData DataModel");
                     }
                 });                                              
             } 
@@ -401,23 +400,24 @@ public class CourseRequisiteView extends ViewComposite {
     }
     
     public void saveApplicationState() {
-        getController().requestModel(CluProposalModelDTO.class,
-                new ModelRequestCallback<CollectionModel<CluProposalModelDTO>>() {
+        getController().requestModel(LuData.class,
+                new ModelRequestCallback<DataModel>() {
             @Override
-            public void onModelReady(CollectionModel<CluProposalModelDTO> model) {
-                model.get().putApplicationState(
+            public void onModelReady(DataModel model) {
+            	LuData luData = (LuData)model.getRoot();
+                luData.putApplicationState(
                         "kuali.luStatementType.prereqAcademicReadiness.rationale", 
                         getRationaleTextArea(KS_STATEMENT_TYPE_PREREQ)
                         .getText());
-                model.get().putApplicationState(
+                luData.putApplicationState(
                         "kuali.luStatementType.coreqAcademicReadiness.rationale", 
                         getRationaleTextArea(KS_STATEMENT_TYPE_COREQ)
                         .getText());
-                model.get().putApplicationState(
+                luData.putApplicationState(
                         "kuali.luStatementType.antireqAcademicReadiness.rationale", 
                         getRationaleTextArea(KS_STATEMENT_TYPE_ANTIREQ)
                         .getText());
-                model.get().putApplicationState(
+                luData.putApplicationState(
                         "kuali.luStatementType.enrollAcademicReadiness.rationale", 
                         getRationaleTextArea(KS_STATEMENT_TYPE_ENROLLREQ)
                         .getText());
@@ -425,7 +425,8 @@ public class CourseRequisiteView extends ViewComposite {
 
             @Override
             public void onRequestFail(Throwable cause) {
-                Window.alert("Failed to get CluProposalModelDTO");
+            	GWT.log("Failed to get LuData DataModel", cause);
+                Window.alert("Failed to get LuData DataModel");
             }
         });
     }

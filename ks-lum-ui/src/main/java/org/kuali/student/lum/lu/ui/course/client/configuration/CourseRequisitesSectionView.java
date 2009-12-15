@@ -43,15 +43,16 @@ public class CourseRequisitesSectionView extends SectionView {
     protected final VerticalPanel panel = new VerticalPanel();
 	private boolean loaded = false;
 	CourseReqManager childController;	//controls the display of all rules related pages
-	
-	private Class<? extends ModelDTO> modelDTOType;
-	
-	private CollectionModel<ModelDTO> model = null;
-		
+			
+	@Deprecated
 	public CourseRequisitesSectionView(Enum<?> viewEnum, String name, Class<? extends ModelDTO> modelDTOType) {	    
 		super(viewEnum, name);
+	    super.initWidget(panel); 
+	}
+
+	public CourseRequisitesSectionView(Enum<?> viewEnum, String name) {	    
+		super(viewEnum, name);
 	    super.initWidget(panel);
-	    this.modelDTOType = modelDTOType; 
 	}
 	
     @Override
@@ -61,23 +62,7 @@ public class CourseRequisitesSectionView extends SectionView {
 			childController = new CourseReqManager(panel);
 			childController.setParentController(getController());
 		}
-		
-		//Request model and redraw view if model changed
-	    getController().requestModel(modelDTOType, new ModelRequestCallback<CollectionModel<ModelDTO>>(){
-            public void onModelReady(CollectionModel<ModelDTO> m) {
-                //if (model != m){
-                    model = m;
-                    redraw();
-                //}                    
-            }
-
-            @Override
-            public void onRequestFail(Throwable cause) {
-                Window.alert("Failed to get model");
-            }
-            
-        });		
-		
+				
         if (childController.getCurrentView() == null){
             childController.showDefaultView(onReadyCallback);
         }
@@ -90,7 +75,7 @@ public class CourseRequisitesSectionView extends SectionView {
 
     @Override	
 	public void redraw(){
-		super.updateView(model.get());
+		//super.updateView(model.get());
 	}			
 
 	@Override

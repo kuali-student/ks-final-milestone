@@ -41,6 +41,7 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LuConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
@@ -280,9 +281,11 @@ public class CourseProposalController extends TabbedSectionLayout {
         	}
         	collaboratorModel.setProposalId(proposalId);    
         	callback.onModelReady(collaboratorModel);
+        }else if (modelType == LuData.class){
+        	requestModel(CourseConfigurer.CLU_PROPOSAL_MODEL, callback);
         } else {
             super.requestModel(modelType, callback);
-        }       
+        }
     }
     
     @SuppressWarnings("unchecked")        
@@ -335,7 +338,7 @@ public class CourseProposalController extends TabbedSectionLayout {
     
     @SuppressWarnings("unchecked")
     private void createNewCluProposalModel(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
-        cluProposalModel.setRoot(new Data());
+        cluProposalModel.setRoot(new LuData());
         callback.onModelReady(cluProposalModel);
         workCompleteCallback.exec(true);            
     }
@@ -439,7 +442,7 @@ public class CourseProposalController extends TabbedSectionLayout {
     public void setDocId(String docId) {
         this.docId = docId;
         this.proposalId = null;
-        this.cluProposalModel.setRoot(new Data());
+        this.cluProposalModel.setRoot(new LuData());
     }
 
 
@@ -451,7 +454,7 @@ public class CourseProposalController extends TabbedSectionLayout {
     public void setProposalId(String proposalId) {
         this.proposalId = proposalId;
         this.docId = null;
-        this.cluProposalModel.setRoot(new Data());        
+        this.cluProposalModel.setRoot(new LuData());        
     }
     
     public void clear(String proposalType, String cluType){
@@ -459,7 +462,7 @@ public class CourseProposalController extends TabbedSectionLayout {
         this.proposalType = proposalType;
         this.cluType = cluType;
         if (cluProposalModel != null){
-            this.cluProposalModel.setRoot(new Data());            
+            this.cluProposalModel.setRoot(new LuData());            
         }
         this.setModelDTO(null, null);
         this.docId = null;

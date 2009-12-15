@@ -71,6 +71,7 @@ import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.lum.lu.assembly.CreditCourseProposalAssembler;
 import org.kuali.student.lum.lu.assembly.CreditCourseProposalWorkflowAssemblerFilter;
+import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
@@ -1692,7 +1693,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     		AssemblerFilterManager<Data, Void> filterManager = new AssemblerFilterManager<Data, Void>(targetAssembler);
     		filterManager.addFilter(workflowAssemblerFilter);
     		
-    		creditCourseProposalAssembler = filterManager;
+    		creditCourseProposalAssembler = targetAssembler;
     		
     		// TODO change how the state is set/passed in to the proposal assembler, if at all
 //    		creditCourseProposalAssembler = new CreditCourseProposalAssembler("draft");
@@ -1705,7 +1706,13 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	public Data getCreditCourseProposal(String id) throws OperationFailedException {
 		try {
 			initAssemblers();
-			return creditCourseProposalAssembler.get(id);
+			Data data = creditCourseProposalAssembler.get(id);
+			LuData luData = new LuData();
+			luData.setData(data);
+			
+			
+			
+			return  luData;
 		} catch (Exception e) {
 			logger.error("Unable to retrieve credit course proposal", e);
 			e.printStackTrace();
@@ -1725,10 +1732,18 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 		try {
 			initAssemblers();
 			SaveResult<Data> s = creditCourseProposalAssembler.save(proposal);
+
+			//Save rules
+//			LuData luData = (LuData)proposal;
+//			LuRuleInfoPersistanceBean ruleInfoBean = new LuRuleInfoPersistanceBean();
+//            ruleInfoBean.setLuService(service);
+//            ruleInfoBean.updateRules((String)luData.get("course/id"), luData.getRuleInfos());
+			
 			if (s == null) {
 				return null;
 			} else {
-				return new DataSaveResult(s.getValidationResults(), s.getValue());
+				LuData luData = new LuData(s.getValue());
+				return new DataSaveResult(s.getValidationResults(), luData);
 			}
 		} catch (Exception e) {
 			logger.error("Unable to retrieve credit course proposal", e);
