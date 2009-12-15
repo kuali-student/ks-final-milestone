@@ -65,6 +65,8 @@ public class CourseRequisitesSectionView extends SectionView {
 				
         if (childController.getCurrentView() == null){
             childController.showDefaultView(onReadyCallback);
+        } else {
+        	onReadyCallback.exec(true);
         }
         
         loaded = true;
