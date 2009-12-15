@@ -245,18 +245,33 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
         
 		//Retrieve related clus of type kuali.lu.relation.type.co-located and add the list to the map.
 		List<CluInfo> clus = luService.getClusByRelation(cluId, JOINT_RELATION_TYPE);
-		if (clus != null) {
-			
-			for (CluInfo clu : clus) {
-				CreditCourseJointsHelper joint = CreditCourseJointsHelper
-						.wrap(new Data());
-				buildJoints(clu,joint);
-				if(result.getJoints()==null){
-					result.setJoints(new Data());
-				}
-				result.getJoints().add(joint.getData());
-			}
+		List<CluCluRelationInfo> cluClus = luService.getCluCluRelationsByClu(cluId);
+		for(CluCluRelationInfo cluRel:cluClus){
+		    if(cluRel.getType().equals(JOINT_RELATION_TYPE)){
+		        CluInfo cluInfo = luService.getClu(cluRel.getRelatedCluId());
+		        CreditCourseJointsHelper joint = CreditCourseJointsHelper
+                .wrap(new Data());
+		        buildJoints(cluInfo,joint);
+		        joint.setRelationId(cluRel.getId());
+		        if(result.getJoints()==null){
+                    result.setJoints(new Data());
+                }
+                result.getJoints().add(joint.getData());
+                
+		    }
 		}
+//		if (clus != null) {
+//			
+//			for (CluInfo clu : clus) {
+//				CreditCourseJointsHelper joint = CreditCourseJointsHelper
+//						.wrap(new Data());
+//				buildJoints(clu,joint);
+//				if(result.getJoints()==null){
+//					result.setJoints(new Data());
+//				}
+//				result.getJoints().add(joint.getData());
+//			}
+//		}
 		
 		return result;
 	}
@@ -606,10 +621,23 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 //					Remove hardcoded Type
 					rel.setType(JOINT_RELATION_TYPE);
 					
-					luService.createCluCluRelation(parentCourseId, joint
+					CluCluRelationInfo result= luService.createCluCluRelation(parentCourseId, joint
 							.getCourseId(), JOINT_RELATION_TYPE, rel);
+					joint.setRelationId(result.getId());
+					
 				}
-				else if(isDeleted(joint.getData())){
+				else if(isUpdated(joint.getData())){
+				    String relationId = joint.getRelationId();
+				    CluInfo clu = luService.getClu(joint.getCourseId());
+				    if(!(clu.getOfficialIdentifier().getLongName().equals(joint.getCourseTitle()))){
+				        CluCluRelationInfo cluCluRelation = new CluCluRelationInfo();
+				        cluCluRelation.setId(relationId);
+				        cluCluRelation.setCluId(parentCourseId);
+				        cluCluRelation.setRelatedCluId(joint.getCourseId());
+				        cluCluRelation.setType(JOINT_RELATION_TYPE);
+				        
+				        luService.updateCluCluRelation(relationId, cluCluRelation);
+				    }
 					
 				}
 			}
