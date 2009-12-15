@@ -140,8 +140,8 @@ public class SearchModelLoader implements SearchModel
  private boolean isRowBlank (SearchRow row)
  {
   // TODO: uncomment the key
-  if ( ! row.getKey ().equals ("")) { return false;}
-  if ( ! row.getLookupKey ().equals ("")) {return false;}
+  if (row.getKey ().equals ("")) { return true;}
+  //if ( ! row.getLookupKey ().equals ("")) {return false;}
   if ( ! row.getType ().equals ("")) {return false;}
   //TODO: check more fields
   return true;
