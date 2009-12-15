@@ -45,6 +45,7 @@ import org.kuali.student.core.search.newdto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.lu.assembly.CluInfoHierarchyAssembler.RelationshipHierarchy;
+import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.CluInstructorInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.TimeAmountInfoHelper;
@@ -68,7 +69,8 @@ import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.lu.ui.course.server.gwt.CluProposalRpcGwtServlet;
+import org.kuali.student.lum.lu.ui.course.server.gwt.LuRuleInfoPersistanceBean;
+import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 
 /*
  *	ASSEMBLERREVIEW
@@ -124,12 +126,18 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 	
 	@Override
 	public Data get(String id) throws AssemblyException {
-		CreditCourseProposalHelper result = CreditCourseProposalHelper.wrap(new Data());
+		LuData luData = new LuData();
+		CreditCourseProposalHelper result = CreditCourseProposalHelper.wrap(luData);
 		try {
 			CreditCourseProposalInfoHelper proposal = getProposal(id);
 			if (proposal == null) {
 				return null;
 			}
+			
+			CreditCourseHelper course = getCourse(proposal);
+			
+			luData.setRuleInfos(getRules(course.getId()));
+			
 			result.setProposal(proposal);
 			result.setCourse(getCourse(proposal));
 		} catch (Exception e) {
@@ -514,10 +522,12 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 			}
 
 			String proposalId = saveProposal(root);
-
-
+			
+			saveRules(courseId, (LuData)data);
+			
 			result.setValidationResults(validationResults);
 			result.setValue((proposalId == null) ? null : get(proposalId));
+			
 			return result;
 		} catch (Exception e) {
 			throw new AssemblyException("Unable to save proposal", e);
@@ -537,6 +547,17 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 			}
 		}
 		return result;
+	}
+
+	private void saveRules(String courseId, LuData luData) throws Exception{
+		LuRuleInfoPersistanceBean ruleInfoBean = new LuRuleInfoPersistanceBean();
+		ruleInfoBean.setLuService(luService);
+		ruleInfoBean.updateRules(courseId, luData.getRuleInfos());			
+	}
+	
+	private List<RuleInfo> getRules(String courseId) throws Exception{
+		LuRuleInfoPersistanceBean ruleInfoBean = new LuRuleInfoPersistanceBean();
+		return ruleInfoBean.fetchRules(courseId);
 	}
 
 	private String saveProposal(CreditCourseProposalHelper inputProposal) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, DependentObjectsExistException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException, VersionMismatchException {
