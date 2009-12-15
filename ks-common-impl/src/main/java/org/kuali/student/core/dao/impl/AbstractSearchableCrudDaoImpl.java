@@ -70,10 +70,17 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 	public List<Result> searchForResults(String searchTypeKey,
 			Map<String, String> queryMap, SearchTypeInfo searchTypeInfo,
 			List<QueryParamValue> queryParamValues) {
-
+		
+		boolean isNative = false;
+		
 		//retrieve the SELECT statement from search type definition
 		String queryString = queryMap.get(searchTypeKey);
 		String optionalQueryString = "";
+		
+		if(queryString.toUpperCase().startsWith("NATIVE:")){
+			queryString = queryString.substring("NATIVE:".length());
+			isNative = true;
+		}
 		
 		//add in optional
 		List<QueryParamValue> queryParamValuesTemp = new ArrayList<QueryParamValue>(queryParamValues);
@@ -118,7 +125,12 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 			queryString += optionalQueryString + orderByClause;
 		}
 		
-		Query query = em.createQuery(queryString);
+		Query query;
+		if(isNative){
+			query = em.createNativeQuery(queryString);
+		}else{
+			query = em.createQuery(queryString);
+		}
 		
 		//replace all the "." notation with "_" since the "."s in the ids of the queries will cause problems with the jpql  
 		if(queryParamValues!=null){
@@ -181,9 +193,16 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 			Map<String, String> queryMap, LookupMetadata lookupMetadata) {
 		String searchKey = searchRequest.getSearchKey();
 		
+		boolean isNative = false;
+		
 		//retrieve the SELECT statement from search type definition
 		String queryString = queryMap.get(searchKey);
 		String optionalQueryString = "";
+		
+		if(queryString.toUpperCase().startsWith("NATIVE:")){
+			queryString = queryString.substring("NATIVE:".length());
+			isNative = true;
+		}
 		
 		//add in optional
 		List<SearchParam> searchParamsTemp = new ArrayList<SearchParam>(searchRequest.getParams());
@@ -246,7 +265,13 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		//Create the query
 		String finalQueryString = queryString + optionalQueryString + orderByClause;
 		System.out.println("Executing query: "+finalQueryString);
-		Query query = em.createQuery(finalQueryString);
+		
+		Query query;
+		if(isNative){
+			query = em.createNativeQuery(finalQueryString);
+		}else{
+			query = em.createQuery(finalQueryString);
+		}
 		
 		//Set the pagination information (eg. only return 25 rows starting at row 100)
 		if(searchRequest.getStartAt()!=null){
@@ -278,7 +303,12 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 			String replacement = "SELECT COUNT($1) FROM";
 			String countQueryString = (queryString + optionalQueryString).replaceAll(regex, replacement);
 			System.out.println("Executing query: "+countQueryString);
-			Query countQuery = em.createQuery(countQueryString);
+			Query countQuery;
+			if(isNative){
+				countQuery = em.createNativeQuery(countQueryString);
+			}else{
+				countQuery = em.createQuery(countQueryString);
+			}
 			if(searchRequest.getParams()!=null){
 				for (SearchParam searchParam : searchRequest.getParams()) {
 					countQuery.setParameter(searchParam.getKey().replace(".", "_"), searchParam
