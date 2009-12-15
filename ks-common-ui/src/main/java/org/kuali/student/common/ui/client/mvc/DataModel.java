@@ -21,6 +21,7 @@ package org.kuali.student.common.ui.client.mvc;
 import java.util.Date;
 
 import org.kuali.student.common.assembly.client.Data;
+import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.assembly.client.ModelDefinition;
 import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.common.assembly.client.Data.DataType;
@@ -169,6 +170,9 @@ public class DataModel implements Model {
 		
 	public DataType getType(final QueryPath path){
 	    return definition.getType(path);
+	}
+	public Metadata getMetadata(final QueryPath path) {
+		return definition.getMetadata(path);
 	}
 
 	/**
