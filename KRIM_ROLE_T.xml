@@ -124,6 +124,14 @@
         LAST_UPDT_DT="20091130171545" NMSPC_CD="KS-LUM"
         OBJ_ID="DEPARTMENTCOMITREVIEWER00000ROLE" ROLE_ID="917"
         ROLE_NM="Department Committee Reviewer" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="1"
+        LAST_UPDT_DT="20091216111952" NMSPC_CD="KS-SYS"
+        OBJ_ID="DEPARTMENTWDMINREVIEWER20000ROLE" ROLE_ID="920"
+        ROLE_NM="Global Field Editor" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="1"
+        LAST_UPDT_DT="20091216111952" NMSPC_CD="KS-SYS"
+        OBJ_ID="DEPARTMANTWDMINREVIEWER20000ROLE" ROLE_ID="921"
+        ROLE_NM="Title/Description Field Editor" VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="This role derives its members from users with the Initiate Document permission for a given document type."
         KIM_TYP_ID="66" LAST_UPDT_DT="20090821035258" NMSPC_CD="KR-SYS"
