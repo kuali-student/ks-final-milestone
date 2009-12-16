@@ -23,6 +23,7 @@ import javax.xml.namespace.QName;
 import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.bo.entity.KimPrincipal;
 import org.kuali.rice.kim.bo.entity.dto.KimEntityDefaultInfo;
+import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
 import org.kuali.rice.kim.service.IdentityService;
 import org.kuali.student.core.person.dto.PersonInfo;
 import org.kuali.student.core.person.dto.PersonNameInfo;
@@ -58,7 +59,6 @@ public class PersonRpcGwtServlet extends RemoteServiceServlet implements
 		
 		if (identityService != null) {
 			try{
-				@SuppressWarnings("unchecked")
 				List<KimEntityDefaultInfo> entities = (List<KimEntityDefaultInfo>) identityService
 						.lookupEntityDefaultInfo(new HashMap<String, String>(),
 								true);
@@ -151,6 +151,23 @@ public class PersonRpcGwtServlet extends RemoteServiceServlet implements
 
 	@Override
 	public PersonInfo fetchPerson(String personId) {
+		if (null == identityService) {
+			identityService = (IdentityService) GlobalResourceLoader.getService(new QName("KIM","kimIdentityServiceSOAPUnsecure"));
+		}
+		//Try to use the identity service, otherwise send back name=id;
+		if (identityService != null) {
+			try{
+				KimPrincipalInfo kimPrincipalInfo = identityService.getPrincipal(personId);
+				PersonInfo person = new PersonInfo();
+				person.setId(kimPrincipalInfo.getPrincipalId());
+				PersonNameInfo nameInfo = new PersonNameInfo();
+				nameInfo.setGivenName(kimPrincipalInfo.getPrincipalName());
+				person.getPersonNameInfoList().add(nameInfo);
+				return person;
+			}catch(Exception e){
+				LOG.error("Error getting identityService", e);
+			}
+		}
 		PersonInfo person = new PersonInfo();
 		person.setId(personId);
 		PersonNameInfo nameInfo = new PersonNameInfo();
