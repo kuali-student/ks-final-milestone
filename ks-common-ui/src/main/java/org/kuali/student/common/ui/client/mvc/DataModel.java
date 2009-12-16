@@ -18,7 +18,9 @@
  */
 package org.kuali.student.common.ui.client.mvc;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
@@ -33,9 +35,12 @@ import org.kuali.student.common.assembly.client.HasChangeCallbacks.ChangeCallbac
 import org.kuali.student.common.assembly.client.HasChangeCallbacks.ChangeCallbackRegistration;
 import org.kuali.student.common.assembly.client.HasChangeCallbacks.ChangeType;
 import org.kuali.student.common.ui.client.mvc.ModelChangeEvent.Action;
+import org.kuali.student.core.validation.dto.ValidationResultContainer;
 
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DeferredCommand;
 
 /**
  * @author wilj
@@ -215,4 +220,13 @@ public class DataModel implements Model {
 	}
 	
 	
+	public void validate(final Callback<List<ValidationResultContainer>> callback) {
+		DeferredCommand.addCommand(new Command() {
+			@Override
+			public void execute() {
+				// TODO call validator
+				callback.exec(new ArrayList<ValidationResultContainer>());
+			}
+		});
+	}
 }
