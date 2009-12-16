@@ -70,7 +70,7 @@ public class CourseProposalController extends TabbedSectionLayout {
 
 	private String docId = null;
 	private String proposalType = null;
-	private String cluType = null;
+	private String cluType = "kuali.lu.type.CreditCourse";
 	private SaveActionEvent currentSaveEvent = null;
     private boolean processingSave = false;
     private String proposalId = null;
