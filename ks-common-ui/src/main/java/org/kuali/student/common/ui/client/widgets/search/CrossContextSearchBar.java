@@ -39,7 +39,7 @@ public class CrossContextSearchBar {
 	 * the key to the searchbar... this is the lookup that will be used for that metadata initially
 	 */
 	public CrossContextSearchBar(String searchName, final Map<String, Metadata> metaKeyMetadataMap, Map<String, String> metaKeyLookupKeyMap){
-		searchNameLabel.setText(searchName);
+/*		searchNameLabel.setText(searchName);
 		searchButton.setImage(Theme.INSTANCE.getCommonImages().getSearchIcon().getImage(), ButtonImageAlign.RIGHT);
 		this.metaKeyMetadataMap = metaKeyMetadataMap;
 		this.metaKeyLookupKeyMap = metaKeyLookupKeyMap;
@@ -111,5 +111,6 @@ public class CrossContextSearchBar {
 
 	public Metadata getSelectedMeta() {
 		return selectedMeta;
+	}*/
 	}
 }
