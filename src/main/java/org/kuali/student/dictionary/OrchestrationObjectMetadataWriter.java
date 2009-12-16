@@ -16,6 +16,7 @@
 package org.kuali.student.dictionary;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
@@ -74,7 +75,7 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
   indentPrintln ("public class " + orchObj.getJavaClassMetadataName ());
   openBrace ();
 
-  //indentPrintln ("// version 2");
+
 
   indentPrintln ("");
   indentPrintln ("public boolean matches (String inputType, String inputState, String dictType, String dictState)");
@@ -91,13 +92,19 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
   indentPrintln ("Metadata mainMeta = new Metadata ();");
   indentPrintln ("mainMeta.setDataType (Data.DataType.DATA);");
   indentPrintln ("mainMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);");
-  indentPrintln ("loadChildMetadata (mainMeta, type, state);");
+  indentPrintln ("Map <String, Integer> recursions = new HashMap ();");
+  indentPrintln ("loadChildMetadata (mainMeta, type, state, recursions);");
   indentPrintln ("return mainMeta;");
   closeBrace (); // end getMetadata method
   indentPrintln ("");
 
-  indentPrintln ("public void loadChildMetadata (Metadata mainMeta, String type, String state)");
+  imports.add (Map.class.getName ());
+  imports.add (HashMap.class.getName ());
+  indentPrintln ("public void loadChildMetadata (Metadata mainMeta, String type, String state,  Map<String, Integer> recursions)");
   openBrace ();
+  indentPrintln ("int recurseLevel = increment (recursions, " + quote (orchObj.
+   getJavaClassMetadataName ()) + ");");
+  indentPrintln ("");
   indentPrintln ("Metadata childMeta;");
   // TODO: only write this next line if we have at least one list
   indentPrintln ("Metadata listMeta;");
@@ -107,6 +114,19 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
   }
   indentPrintln ("");
   closeBrace (); // end loadChildMetadata method
+
+  indentPrintln ("");
+  indentPrintln ("private int increment (Map<String, Integer> recursions, String key)");
+  openBrace ();
+  indentPrintln ("Integer recurseLevel = recursions.get (key);");
+  indentPrintln ("if (recurseLevel == null)");
+  openBrace ();
+  indentPrintln ("recursions.put (key, 0);");
+  indentPrintln ("return 0;");
+  closeBrace ();
+  indentPrintln ("recursions.put (key, recurseLevel.intValue () + 1);");
+  indentPrintln ("return recurseLevel.intValue ();");
+  closeBrace ();
 
   closeBrace (); // end class
 
@@ -137,9 +157,12 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
    //		childMeta.setDefaultValue (new Data.StringValue ("Draft"));
    indentPrintln ("childMeta.setDefaultValue (" + defVal + ");");
   }
-  imports.add (rootPackage + ".LookupMetadataBank");
-  indentPrintln ("childMeta.setLookupMetadata (LookupMetadataBank.LOOKUP_BANK.get ("
-   + quote (field.getLookup ()) + ".toLowerCase ());");
+  if (field.getLookup () != null &&  ! field.getLookup ().equals (""))
+  {
+   imports.add (rootPackage + ".LookupMetadataBank");
+   indentPrintln ("childMeta.setLookupMetadata (LookupMetadataBank.LOOKUP_BANK.get (" +
+    quote (field.getLookup ()) + ".toLowerCase ()));");
+  }
   String lastType = null;
   String lastState = null;
   boolean closeIf = false;
@@ -202,16 +225,30 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
        throw new DictionaryValidationException ("Could not find orchestration object for field " +
         field.getName () + " type " + field.getType ());
       }
+      indentPrintln ("if (recurseLevel >= " + field.getMaxRecursions () + ")");
+      openBrace ();
+      indentPrintln ("mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);");
+      closeBrace ();
+      indentPrintln ("else");
+      openBrace ();
       imports.add (fieldOO.getFullyQualifiedJavaClassMetadataName ());
       indentPrintln ("new " + fieldOO.getJavaClassMetadataName () +
-       " ().loadChildMetadata (listMeta, type, state);");
+       " ().loadChildMetadata (listMeta, type, state, recursions);");
+      closeBrace ();
       break;
      case LIST_OF_COMPLEX_INLINE:
+      indentPrintln ("if (recurseLevel >= " + field.getMaxRecursions () + ")");
+      openBrace ();
+      indentPrintln ("mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);");
+      closeBrace ();
+      indentPrintln ("else");
+      openBrace ();
       imports.add (field.getInlineObject ().
        getFullyQualifiedJavaClassMetadataName ());
       indentPrintln ("new " +
        field.getInlineObject ().getJavaClassMetadataName () +
-       " ().loadChildMetadata (listMeta, type, state);");
+       " ().loadChildMetadata (listMeta, type, state, recursions);");
+      closeBrace ();
       break;
      default:
       break;
@@ -224,14 +261,28 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
      throw new DictionaryValidationException ("Could not find orchestration object for field " +
       field.getName () + " type " + field.getType ());
     }
+    indentPrintln ("if (recurseLevel >= " + field.getMaxRecursions () + ")");
+    openBrace ();
+    indentPrintln ("mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);");
+    closeBrace ();
+    indentPrintln ("else");
+    openBrace ();
     imports.add (fieldOO.getFullyQualifiedJavaClassMetadataName ());
     indentPrintln ("new " + fieldOO.getJavaClassMetadataName () +
-     " ().loadChildMetadata (childMeta, type, state);");
+     " ().loadChildMetadata (childMeta, type, state, recursions);");
+    closeBrace ();
     break;
    case COMPLEX_INLINE:
+    indentPrintln ("if (recurseLevel >= " + field.getMaxRecursions () + ")");
+    openBrace ();
+    indentPrintln ("mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);");
+    closeBrace ();
+    indentPrintln ("else");
+    openBrace ();
     imports.add (field.getInlineObject ().getFullyQualifiedJavaClassHelperName ());
     indentPrintln ("new " + field.getInlineObject ().getJavaClassMetadataName () +
-     " ().loadChildMetadata (childMeta, type, state);");
+     " ().loadChildMetadata (childMeta, type, state, recursions);");
+    closeBrace ();
     break;
    default:
     throw new DictionaryExecutionException ("unhandled type");

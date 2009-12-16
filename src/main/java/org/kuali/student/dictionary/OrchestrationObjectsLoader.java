@@ -32,7 +32,8 @@ public class OrchestrationObjectsLoader
  private String directory;
  private String rootPackage;
 
- public OrchestrationObjectsLoader (DictionaryModel model, String directory, String rootPackage)
+ public OrchestrationObjectsLoader (DictionaryModel model, String directory,
+                                    String rootPackage)
  {
   this.model = model;
   this.directory = directory;
@@ -93,7 +94,8 @@ public class OrchestrationObjectsLoader
   return map;
  }
 
- private OrchestrationObjectField.WriteAccess calcMessageStructureWriteAccess (MessageStructure ms)
+ private OrchestrationObjectField.WriteAccess calcMessageStructureWriteAccess (
+  MessageStructure ms)
  {
   if (ms.getShortName ().equalsIgnoreCase ("id"))
   {
@@ -222,6 +224,7 @@ public class OrchestrationObjectsLoader
     childField.setParent (parentObj);
     childField.setName (orch.getChild ());
     childField.setType (calcType (orch.getXmlType ()));
+    childField.setMaxRecursions (calcMaxRecursions (orch));
     childField.setDefaultValue (orch.getDefaultValue ());
     childField.setFieldTypeCategory (
      calcFieldTypeCategory (childField, calcIsCardList (orch.getCard1 ()), false));
@@ -250,6 +253,7 @@ public class OrchestrationObjectsLoader
     grandChildField.setParent (inlineObj);
     grandChildField.setName (orch.getGrandChild ());
     grandChildField.setType (calcType (orch.getXmlType ()));
+    grandChildField.setMaxRecursions (calcMaxRecursions (orch));
     grandChildField.setDefaultValue (orch.getDefaultValue ());
     grandChildField.setFieldTypeCategory (
      calcFieldTypeCategory (grandChildField, calcIsCardList (orch.getCard2 ()), false));
@@ -262,6 +266,35 @@ public class OrchestrationObjectsLoader
 
   }
   return map;
+ }
+
+ private int calcMaxRecursions (OrchObj orch)
+ {
+  String recursions = orch.getRecursions ();
+  if (recursions == null)
+  {
+   return 1;
+  }
+  if (recursions.equals (""))
+  {
+   return 1;
+  }
+  try
+  {
+   int maxRecursions = Integer.parseInt (recursions);
+   if (maxRecursions < 1)
+   {
+    throw new DictionaryValidationException ("OrchObj " + orch.getId () +
+     " has a value for recursions that is not a positive integer [" + recursions +
+     "]");
+   }
+   return maxRecursions;
+  }
+  catch (NumberFormatException ex)
+  {
+   throw new DictionaryValidationException ("OrchObj " + orch.getId () +
+    " has a value for recursions that is not an integer [" + recursions + "]");
+  }
  }
 
  private OrchestrationObjectField.WriteAccess calcWriteAccess (OrchObj orch)

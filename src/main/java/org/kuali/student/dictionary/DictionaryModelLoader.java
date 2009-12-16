@@ -517,6 +517,7 @@ public class DictionaryModelLoader implements DictionaryModel
    orchObj.setCard2 (getFixup (worksheetReader, "Card2"));
    orchObj.setGrandChild (getFixup (worksheetReader, "grandChild"));
    orchObj.setXmlType (getFixup (worksheetReader, "xmlType"));
+   orchObj.setRecursions (getFixup (worksheetReader, "recursions"));
    orchObj.setStatus (getFixup (worksheetReader, "status"));
    orchObj.setDefaultValue (getFixup (worksheetReader, "defaultValue"));
    orchObj.setDefaultValuePath (getFixup (worksheetReader, "defaultValuePath"));

@@ -187,5 +187,16 @@ public class OrchestrationObjectField
   this.lookupContextPath = lookupContextPath;
  }
 
+ private int maxRecursions = 1;
+
+ public int getMaxRecursions ()
+ {
+  return maxRecursions;
+ }
+
+ public void setMaxRecursions (int maxRecursions)
+ {
+  this.maxRecursions = maxRecursions;
+ }
 
 }

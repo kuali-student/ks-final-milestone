@@ -108,6 +108,19 @@ public class OrchObj
   this.xmlType = xmlType;
  }
 
+ private String recursions;
+
+ public String getRecursions ()
+ {
+  return recursions;
+ }
+
+ public void setRecursions (String recursions)
+ {
+  this.recursions = recursions;
+ }
+
+
  private String status;
 
  public String getStatus ()
