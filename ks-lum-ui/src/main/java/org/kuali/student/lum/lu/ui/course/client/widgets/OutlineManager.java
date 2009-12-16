@@ -21,9 +21,13 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-public class OutlineManager {
+//***************************************************
+// TODO: move to ks-core and java doc
 
-}
+//***************************************************
+
+//public class OutlineManager {
+//}
 //  public void onModuleLoad() {
 //    final OutlineManangerComposite outlineComposite = new OutlineManangerComposite();
 //    OutlineNodeModel outlineModel = new OutlineNodeModel();
@@ -48,6 +52,7 @@ public class OutlineManager {
     
 //    RootPanel.get().add(outlineComposite);
 //  }
+
 class OutlineNodeModel {
   private ArrayList<OutlineNode> outlineNodeList = new ArrayList<OutlineNode>();
 
@@ -439,14 +444,14 @@ class OutlineManagerToolbar extends PopupPanel {
 }
 
 
-class OutlineMananger extends Composite {
+class OutlineManager extends Composite {
   OutlineNodeModel outlineModel;
 
   OutlineManagerToolbar toolbar = new OutlineManagerToolbar();
 
   VerticalPanel mainPanel = new VerticalPanel();
 
-  public OutlineMananger() {
+  public OutlineManager() {
     super.initWidget(mainPanel);
   }
 
