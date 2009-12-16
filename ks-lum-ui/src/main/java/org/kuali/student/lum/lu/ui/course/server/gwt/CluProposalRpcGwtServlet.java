@@ -1472,7 +1472,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     		AssemblerFilterManager<Data, Void> filterManager = new AssemblerFilterManager<Data, Void>(targetAssembler);
     		filterManager.addFilter(workflowAssemblerFilter);
     		
-    		creditCourseProposalAssembler = targetAssembler;
+    		creditCourseProposalAssembler = filterManager;
     		
     		// TODO change how the state is set/passed in to the proposal assembler, if at all
 //    		creditCourseProposalAssembler = new CreditCourseProposalAssembler("draft");
