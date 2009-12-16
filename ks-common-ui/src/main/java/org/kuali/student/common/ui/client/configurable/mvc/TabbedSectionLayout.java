@@ -167,7 +167,6 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 
 		public void renderView(View view) {
 			renderedOnce = true;
-			view.beforeShow(NO_OP_CALLBACK);
 			
 			content.setWidget((Widget)view);
 			if(menuAdded){
@@ -211,7 +210,11 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 
 		public void beforeShow(final Callback<Boolean> onReadyCallback) {
 			if(!shown) {
-				onReadyCallback.exec(true);
+			    // This code is commented because the Summary section was getting loaded.
+			    //this call does nothing and the summary section was blank.
+			    // This code looks funny and needs to be looked at.
+//				onReadyCallback.exec(true);
+			    showView(tabDefaultView, onReadyCallback); 
 			} else {
 				showView(tabDefaultView, onReadyCallback);
 			}
