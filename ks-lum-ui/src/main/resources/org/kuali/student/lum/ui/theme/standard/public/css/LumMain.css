@@ -107,6 +107,38 @@
 .KS-LOBuilder-LO-Panel {
 	margin: 10px;
 }
+
+.KS-LOSearch-Window {
+	padding: 5px;
+	border: groove;
+}
+
+.KS-LOSearch-Title {
+
+}
+
+.KS-LOSearch-Type-Panel {
+	padding: 10px;
+    border-bottom: thin solid #cccccc;
+}
+
+.KS-LOSearch-Param-Panel {
+	padding: 5px;
+}
+
+.KS-LOSearch-Button-Panel {
+    padding: 5px;
+    margin-left:auto;
+    margin-right:auto;
+    width:70%;
+}
+
+.KS-LOSearch-Results-Header {
+    padding: 5px;
+    background-color: #cccccc;
+    font-weight:bold;
+
+}
 .KS-LOMoveUpButton{
     background: url("images/LOMoveUpButton.png") no-repeat 2px 2px;
     width: 20px;

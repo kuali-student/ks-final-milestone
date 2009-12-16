@@ -86,7 +86,7 @@ public class LOSearchWindow extends Composite {
 //    KSLightBox searchResultsWindow ;
     private VerticalPanel searchLayout = new VerticalPanel();
     final SimplePanel searchParamPanel = new SimplePanel();
-    private VerticalPanel searchRequestPanel = new VerticalPanel();
+    private VerticalPanel mainPanel = new VerticalPanel();
 
     private List<KSTextBox> textBoxes = new ArrayList<KSTextBox>();
     private List<KSDatePickerAbstract> datePickers = new ArrayList<KSDatePickerAbstract>();
@@ -97,6 +97,7 @@ public class LOSearchWindow extends Composite {
     private KSCheckBoxList loCheckBoxes;
     private ListItems listItems;
     private ConfirmCancelGroup buttons;
+    ListItems searchTypesList;
     
     private SearchComponentConfiguration searchConfig;    
 
@@ -108,9 +109,12 @@ public class LOSearchWindow extends Composite {
 
     private static final String SEARCH_BY_COURSE_CODE = "by Course Code";
     private static final String SEARCH_BY_WORD = "for words in Learning Objective";
+    
+    private static final String LO_DESCRIPTION_ATTR_KEY = "Description";
+    private static final String LO_CLU_CODE_ATTR_KEY = "From";
 
     final KSDropDown loSearches = new KSDropDown();
-    final CluCodePicker cluPicker = new CluCodePicker();
+    CluCodePicker cluPicker ;
 
 
     /**
@@ -146,7 +150,7 @@ public class LOSearchWindow extends Composite {
 //      loSearches.setMultipleSelect(false);
         selectSearchPanel.add(new KSLabel("Search: "));
         selectSearchPanel.add(loSearches);
-        final ListItems searchTypesList = buildSearchListItems();
+        searchTypesList = buildSearchListItems();
         loSearches.setListItems(searchTypesList);
         loSearches.addSelectionChangeHandler(new SelectionChangeHandler() {
 
@@ -195,13 +199,23 @@ public class LOSearchWindow extends Composite {
             }
         });
 
-        searchRequestPanel.add(titleBar);
-        searchRequestPanel.add(selectSearchPanel);
-        searchRequestPanel.add(searchParamPanel);
-        searchRequestPanel.add(buttonPanel);
+
+        cluPicker = new CluCodePicker(messageGroup, type, state);
+
+        mainPanel.add(titleBar);
+        mainPanel.add(selectSearchPanel);
+        mainPanel.add(searchParamPanel);
+        mainPanel.add(buttonPanel);
 
         searchWindow = new KSLightBox();
-        searchWindow.setWidget(searchRequestPanel);
+        searchWindow.setWidget(mainPanel);
+        mainPanel.addStyleName("KS-LOSearch-Window");
+
+        titleBar.addStyleName("KS-LOSearch-Title");        
+        selectSearchPanel.addStyleName("KS-LOSearch-Type-Panel");        
+        searchParamPanel.addStyleName("KS-LOSearch-Param-Panel");        
+        buttonPanel.addStyleName("KS-LOSearch-Button-Panel");        
+        
 
     }    
 
@@ -256,8 +270,8 @@ public class LOSearchWindow extends Composite {
         searchConfig = new SearchComponentConfiguration(contextCriteria, basicCriteria, null);
         searchConfig.setSearchDialogTitle("Find Learning Objectives");
         searchConfig.setSearchService(loRpcServiceAsync);
-        searchConfig.setSearchTypeKey("lo.search.loByDesc");
-        searchConfig.setResultIdKey("lo.resultColumn.loDescId");
+        searchConfig.setSearchTypeKey("lo.search.loCluByDesc");
+        searchConfig.setResultIdKey("lo.resultColumn.loId");
         searchConfig.setRetrievedColumnKey("lo.resultColumn.loDescPlain");
 
 
@@ -314,13 +328,16 @@ public class LOSearchWindow extends Composite {
 
                     final KSThinTitleBar titleBar = new KSThinTitleBar(results.size() + " results returned for " + selectedCluCode);
                     final VerticalPanel main = new VerticalPanel();
+
                     listItems = new LoInfoList(results);
+                    
                     loCheckBoxes = new KSCheckBoxList();
                     loCheckBoxes.setListItems(listItems);
 
                     main.add(titleBar);
                     main.add(loCheckBoxes);
                     main.add(buttons);
+                    main.addStyleName("KS-LOSearch-Window");
 
                     searchWindow.setWidget(main);
                 }
@@ -360,6 +377,7 @@ public class LOSearchWindow extends Composite {
         main.add(titleBar);
         main.add(loCheckBoxes);
         main.add(buttons);
+        main.addStyleName("KS-LOSearch-Window");
 
         searchWindow.setWidget(main);
  
@@ -549,7 +567,7 @@ public class LOSearchWindow extends Composite {
             dp.setValue(null);
         }
         clear();
-        searchWindow.setWidget(searchRequestPanel);
+        searchWindow.setWidget(mainPanel);
     }
 
     public void setIgnoreCase(boolean ignoreCase) {
@@ -621,13 +639,13 @@ public class LOSearchWindow extends Composite {
         }
 
         public List<String> getAttrKeys() {
-            return Arrays.asList("Description");
+            return Arrays.asList(LO_DESCRIPTION_ATTR_KEY);
         }
 
         public String getItemAttribute(String id, String attrkey) {
             LoInfo lo = loInfoMap.get(id);
 
-            if (attrkey.equals("Description")){
+            if (attrkey.equals(LO_DESCRIPTION_ATTR_KEY)){
                 return lo.getDesc().getPlain(); 
             }
 
@@ -665,14 +683,17 @@ public class LOSearchWindow extends Composite {
         }
 
         public List<String> getAttrKeys() {
-            return Arrays.asList("Description");
+            return Arrays.asList(LO_DESCRIPTION_ATTR_KEY, LO_CLU_CODE_ATTR_KEY);
         }
 
         public String getItemAttribute(String id, String attrkey) {
             Result r = loResultMap.get(id);
 
-            if (attrkey.equals("Description")){
-                return r.getResultCells().get(1).getValue(); 
+            if (attrkey.equals(LO_DESCRIPTION_ATTR_KEY)){
+                return r.getResultCells().get(3).getValue(); 
+            }
+            else if (attrkey.equals(LO_CLU_CODE_ATTR_KEY)){
+                return r.getResultCells().get(2).getValue(); 
             }
 
             return null;
@@ -693,12 +714,13 @@ public class LOSearchWindow extends Composite {
         }
 
         public String getItemText(String id) {
-            return ((Result)loResultMap.get(id)).getResultCells().get(1).getValue();
+            return ((Result)loResultMap.get(id)).getResultCells().get(3).getValue();
         }
     }
 
     public void clear() {
-//      loSearches.redraw();  TODO doesn't seem to work
+
+        loSearches.setListItems(searchTypesList);
         searchParamPanel.clear();
         cluPicker.clear();        
     }
@@ -711,7 +733,7 @@ public class LOSearchWindow extends Composite {
         searchWindow.hide();
     }
     
-    public List<String> getSelections() {
+    public List<String> getLoSelections() {
         List<String> selected = new ArrayList<String>();                                
         for (String s: loCheckBoxes.getSelectedItems()) {
             selected.add(listItems.getItemText(s));
