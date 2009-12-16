@@ -164,7 +164,7 @@ public class OrgAdvancedSearchRpc extends Composite implements HasSelectionHandl
                     //TODO change this to use a message from messages, using the fd.getName() as the token
                     KSLabel paramLabel = new KSLabel(fd.getName());
 //                    paramLabel.addStyleName(KSStyles.KS_ADVANCED_SEARCH_PARAM_LABELS);
-                    searchParamTable.getColumnFormatter().addStyleName(0, KSStyles.KS_ADVANCED_SEARCH_PARAM_LABEL_COLUMN);
+                    //searchParamTable.getColumnFormatter().addStyleName(0, KSStyles.KS_ADVANCED_SEARCH_PARAM_LABEL_COLUMN);
 //                    searchParamTable.getCellFormatter().addStyleName(row, column, KSStyles.KS_ADVANCED_SEARCH_PARAM_LABEL_CELLS);
                     searchParamTable.setWidget(row, column, paramLabel);
                     column++;
@@ -210,7 +210,7 @@ public class OrgAdvancedSearchRpc extends Composite implements HasSelectionHandl
                 searchResultList.setResultColumns(resultTypeInfo.getResultColumns());
 */
                 FlexTable resultTable = new FlexTable();
-                resultLabel.addStyleName(KSStyles.KS_ADVANCED_SEARCH_RESULTS_LABEL);
+                //resultLabel.addStyleName(KSStyles.KS_ADVANCED_SEARCH_RESULTS_LABEL);
                 resultTable.setWidget(0, 0, resultLabel);
 //                searchResultsTable.getElement().getStyle().setProperty("backgroundColor", "red");
                 resultTable.setWidget(1, 0, searchResultsTable);
