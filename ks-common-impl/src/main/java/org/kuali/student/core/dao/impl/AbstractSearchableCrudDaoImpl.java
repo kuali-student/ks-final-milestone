@@ -71,6 +71,10 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 			Map<String, String> queryMap, SearchTypeInfo searchTypeInfo,
 			List<QueryParamValue> queryParamValues) {
 		
+		if(queryParamValues == null){
+			queryParamValues = new ArrayList<QueryParamValue>();
+		}
+		
 		boolean isNative = false;
 		
 		//retrieve the SELECT statement from search type definition
