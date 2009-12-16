@@ -1,6 +1,7 @@
 package org.kuali.student.common.ui.client.widgets.search;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.student.common.assembly.client.LookupMetadata;
@@ -32,6 +33,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.ListBox;
@@ -42,16 +44,19 @@ import com.google.gwt.user.client.ui.Widget;
 public class SearchPanel extends Composite{
 	private VerticalFlowPanel layout = new VerticalFlowPanel();
 	private SimplePanel searchCriteriaPanel = new SimplePanel();
-	private VerticalFlowPanel searchResultsPanel = new VerticalFlowPanel();
 	private VerticalFlowPanel tablePanel = new VerticalFlowPanel();
+	private HorizontalBlockFlowPanel criteria = new HorizontalBlockFlowPanel();
+	private CollapsablePanel modifySearchPanel;
+	private boolean resultsShown = false;
 	//Swap with new table implementation
 	private SearchBackedTable table = null;
+	
+	private static enum SearchStyle{ADVANCED, CUSTOM};
 	
 	//TODO messages
 	private String advInstructions = "Enter one or more fields";
 	private KSLabel searchCriteria = new KSLabel("Search Criteria:");
 	private boolean multiSelect = false;
-	private ParamListItems listItems = null;
 	
 	private class ParamListItems implements ListItems{
 
@@ -103,7 +108,6 @@ public class SearchPanel extends Composite{
 			Widget w = null;
 			for(LookupParamMetadata param: params){
 				if(param.getKey().equals(id)){
-					//TODO this should be a message key
 					w = DefaultWidgetFactory.getInstance().getWidget(param);
 					break;
 				}
@@ -117,11 +121,10 @@ public class SearchPanel extends Composite{
 	//TODO get rid of this, only in here as intermediate solution
 	@Deprecated
 	public SearchPanel(BaseRpcServiceAsync searchService, LookupMetadata meta){
-		listItems = new ParamListItems(meta);
-		layout.add(new AdvancedSearch(null, meta));
-		layout.add(new CustomizedSearch(null, meta));
+		layout.add(createSearchParamPanel(null, meta));
 		table = new SearchBackedTable(searchService, meta.getKey(), meta.getResultReturnKey());
 		tablePanel.add(searchCriteria);
+		tablePanel.add(criteria);
 		tablePanel.add(table);
 		layout.add(tablePanel);
 		tablePanel.setVisible(false);
@@ -129,15 +132,44 @@ public class SearchPanel extends Composite{
 	}
 
 	public SearchPanel(SearchBaseRpc search, LookupMetadata meta){
-		listItems = new ParamListItems(meta);
-		layout.add(new AdvancedSearch(search, meta));
-		layout.add(new CustomizedSearch(search, meta));
+		layout.add(createSearchParamPanel(search, meta));
+		tablePanel.add(searchCriteria);
+		tablePanel.add(criteria);
 		//TODO new table goes here
 		//tablePanel.add(table);
-		tablePanel.add(searchCriteria);
 		layout.add(tablePanel);
 		tablePanel.setVisible(false);
 		this.initWidget(layout);
+	}
+	
+	//TODO constructor for list of lookupMeata, is it always a single searchrpc class?
+	public SearchPanel(SearchBaseRpc search, List<LookupMetadata> metas){
+		
+		LinkedHashMap<String, Widget> searches = new LinkedHashMap<String, Widget>(); 
+		for(LookupMetadata meta: metas){
+			//TODO check for default (?)
+			searches.put(meta.getKey(), createSearchParamPanel(search, meta));
+		}
+		SwappablePanel swapPanel = new SwappablePanel(searches);
+		searchCriteriaPanel.setWidget(swapPanel);
+		layout.add(searchCriteriaPanel);
+		tablePanel.add(searchCriteria);
+		tablePanel.add(criteria);
+		//TODO new table goes here
+		//tablePanel.add(table);
+		layout.add(tablePanel);
+		tablePanel.setVisible(false);
+		this.initWidget(layout);
+	}
+	
+	private Widget createSearchParamPanel(SearchBaseRpc search, LookupMetadata meta){
+		ParamListItems listItems = new ParamListItems(meta);
+		LinkPanel panel = new LinkPanel(SearchStyle.ADVANCED, new AdvancedSearch(search, meta));
+		//TODO use messages here and link styling
+		panel.addLinkToPanel(SearchStyle.ADVANCED, "Customize this Search", SearchStyle.CUSTOM);
+		panel.addPanel(SearchStyle.CUSTOM, new CustomizedSearch(search, meta, listItems));
+		panel.addLinkToPanel(SearchStyle.CUSTOM, "Return to Advanced", SearchStyle.ADVANCED);
+		return panel;
 	}
 	
 	private class CustomizedSearch extends Composite{
@@ -147,18 +179,18 @@ public class SearchPanel extends Composite{
 		private VerticalFlowPanel linePanel = new VerticalFlowPanel();
 		private VerticalFlowPanel buttonPanel = new VerticalFlowPanel();
 		
-		public CustomizedSearch(SearchBaseRpc search, final LookupMetadata meta){
+		public CustomizedSearch(SearchBaseRpc search, final LookupMetadata meta, final ParamListItems listItems){
 			layout.add(linePanel);
-			CustomLine line = new CustomLine(meta);
+			CustomLine line = new CustomLine(meta, listItems);
 			linePanel.add(line);
 			lines.add(line);
-			
+
 			KSButton addCriteria = new KSButton("+ Add Criteria");
 			addCriteria.addClickHandler(new ClickHandler(){
 
 				@Override
 				public void onClick(ClickEvent event) {
-					CustomLine line = new CustomLine(meta);
+					CustomLine line = new CustomLine(meta, listItems);
 					linePanel.add(line);
 					lines.add(line);
 				}
@@ -175,11 +207,13 @@ public class SearchPanel extends Composite{
 					//TODO pass search to the table
 					SearchRequest sr = new SearchRequest();
 					List<SearchParam> params = new ArrayList<SearchParam>();
+					List<HasSearchParam> userCriteria = new ArrayList<HasSearchParam>();
 					for(CustomLine field: lines){
 						SearchParam param = field.getSearchParam();
 						//TODO is this check needed here? probably. assuming string here
 						if((param.getValue() != null)){
 							params.add(param);
+							userCriteria.add(field);
 						}
 					}
 					for(LookupParamMetadata metaParam: meta.getParams()){
@@ -211,6 +245,16 @@ public class SearchPanel extends Composite{
 						table.performSearch(convertParams(params));
 					}
 					tablePanel.setVisible(true);
+					showCriteriaChosen(userCriteria);
+					if(!resultsShown){
+						searchCriteriaPanel.removeFromParent();
+						modifySearchPanel = new CollapsablePanel("Modify Search", searchCriteriaPanel, false);
+						SearchPanel.this.layout.insert(modifySearchPanel, 0);
+					}
+					else{
+						modifySearchPanel.close();
+					}
+					resultsShown = true;
 				}
 			});
 			layout.add(searchButton);
@@ -232,14 +276,21 @@ public class SearchPanel extends Composite{
 		return queryParams;
 	}
 	
-	private class CustomLine extends Composite{
+	private interface HasSearchParam{
+		public SearchParam getSearchParam();
+		public String getFieldName();
+	}
+	
+	private class CustomLine extends Composite implements HasSearchParam{
 		private KSDropDown paramSelector = new KSDropDown();
 		private SimplePanel widgetPanel = new SimplePanel();
 		private Widget widget = null;
 		private String key;
 		private HorizontalBlockFlowPanel layout = new HorizontalBlockFlowPanel();
+		private ParamListItems listItems;
 		
-		public CustomLine(LookupMetadata meta){
+		public CustomLine(LookupMetadata meta, final ParamListItems listItems){
+			this.listItems = listItems;
 			paramSelector.setBlankFirstItem(false);
 			paramSelector.setListItems(listItems);
 			String id = meta.getParams().get(0).getKey();
@@ -288,6 +339,11 @@ public class SearchPanel extends Composite{
 		public String getKey(){
 			return key;
 		}
+		
+		public String getFieldName(){
+			String id = paramSelector.getSelectedItem();
+			return listItems.getItemText(id);
+		}
 	}
 	
 	private class AdvancedSearch extends Composite{
@@ -321,12 +377,16 @@ public class SearchPanel extends Composite{
 					//TODO pass search to the table
 					SearchRequest sr = new SearchRequest();
 					List<SearchParam> params = new ArrayList<SearchParam>();
+					List<HasSearchParam> userCriteria = new ArrayList<HasSearchParam>();
 					for(SearchField field: searchFields){
 						SearchParam param = field.getSearchParam();
 						//TODO is this check needed here? probably. assuming string here
+						//TODO make check more robust here/inserting params more robust
 						if(param.getValue() != null){
 							params.add(param);
+							userCriteria.add(field);
 						}
+						
 					}
 					
 					for(LookupParamMetadata metaParam: meta.getParams()){
@@ -357,6 +417,16 @@ public class SearchPanel extends Composite{
 						table.performSearch(convertParams(params));
 					}
 					tablePanel.setVisible(true);
+					showCriteriaChosen(userCriteria);
+					if(!resultsShown){
+						searchCriteriaPanel.removeFromParent();
+						modifySearchPanel = new CollapsablePanel("Modify Search", searchCriteriaPanel, false);
+						SearchPanel.this.layout.insert(modifySearchPanel, 0);
+					}
+					else{
+						modifySearchPanel.close();
+					}
+					resultsShown = true;
 				}
 			});
 			panel.add(searchButton);
@@ -364,11 +434,12 @@ public class SearchPanel extends Composite{
 		}
 	}
 	
-	private class SearchField extends Composite{
+	private class SearchField extends Composite implements HasSearchParam{
 		
 		private Widget widget = null;
 		private LookupParamMetadata meta = null;
 		private VerticalFlowPanel panel = new VerticalFlowPanel();
+		private String fieldName;
 		
 		public SearchParam getSearchParam(){
 			SearchParam param = new SearchParam();
@@ -379,7 +450,7 @@ public class SearchPanel extends Composite{
 			else if(widget instanceof HasValue){
 				Object value = ((HasValue) widget).getValue();
 				if(value != null){
-				//TODO need to handle date and other types here
+				//TODO need to handle date and other types here, how they are converted for search, etc
 					if(value instanceof String){
 						param.setValue((String)value);
 					}
@@ -398,7 +469,9 @@ public class SearchPanel extends Composite{
 		
 		public SearchField(LookupParamMetadata param){
 			meta = param;
-			KSLabel searchParamLabel = new KSLabel(param.getName());
+			//TODO use message call here
+			fieldName = param.getName();
+			KSLabel searchParamLabel = new KSLabel(fieldName);
 			widget = DefaultWidgetFactory.getInstance().getWidget(param);
 			if(param.getDefaultValue() != null){
 				if(widget instanceof HasText){
@@ -416,18 +489,25 @@ public class SearchPanel extends Composite{
 		public Widget getFieldPanel(){
 			return panel;
 		}
+		
+		public String getFieldName() {
+			return fieldName;
+		}
 
 		
 	}
 	
-	//public void search
-	
-	//TODO context criteria panel if the it is configured to show some never fields
-	//private void contextCriteriaPanel()
-	
-	//TODO constructor for list of lookupMeata, is it always a single searchrpc class?
-	public SearchPanel(SearchBaseRpc search, List<LookupMetadata> meta){
-		
+	private void showCriteriaChosen(List<HasSearchParam> fields){
+		criteria.clear();
+		for(HasSearchParam field: fields){
+			String name = field.getFieldName();
+			//TODO Should be string only, needs type safety
+			String value = field.getSearchParam().getValue().toString();
+			if(!value.isEmpty()){
+				HTMLPanel label = new HTMLPanel(" " + name + ": <b>" + value + "</b>");
+				criteria.add(label);
+			}
+		}
 	}
 	
 	public List<String> getSelectedIds(){

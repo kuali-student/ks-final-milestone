@@ -16,14 +16,15 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class SwappablePanel extends Composite{
 	private VerticalFlowPanel panel = new VerticalFlowPanel();
 	private ListBox panelSelector = new ListBox();
-	private LinkedHashMap<String, Panel> panelMap = new LinkedHashMap<String, Panel>();
+	private LinkedHashMap<String, Widget> panelMap = new LinkedHashMap<String, Widget>();
 	private SimplePanel content = new SimplePanel();
 	
-	public SwappablePanel(LinkedHashMap<String, Panel> panelMap){
+	public SwappablePanel(LinkedHashMap<String, Widget> panelMap){
 		this.panelMap = panelMap;
 		drawPanel();
 		panelSelector.addChangeHandler(new ChangeHandler(){
@@ -31,7 +32,7 @@ public class SwappablePanel extends Composite{
 			@Override
 			public void onChange(ChangeEvent event) {
 				int i = panelSelector.getSelectedIndex();
-				Panel p = SwappablePanel.this.panelMap.get(panelSelector.getItemText(i));
+				Widget p = SwappablePanel.this.panelMap.get(panelSelector.getItemText(i));
 				content.setWidget(p);
 			}
 		});
@@ -51,6 +52,7 @@ public class SwappablePanel extends Composite{
 			panelSelector.addItem(text);
 			if(!contentSet){
 				content.setWidget(panelMap.get(text));
+				contentSet = true;
 			}
 		}
 	}
