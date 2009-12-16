@@ -167,6 +167,8 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 
 		public void renderView(View view) {
 			renderedOnce = true;
+			view.beforeShow(NO_OP_CALLBACK);
+			
 			content.setWidget((Widget)view);
 			if(menuAdded){
 			    if (currSectionIdx == sectionMenuItems.size() - 1){
@@ -299,6 +301,11 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 	public void addSection(String[] hierarchy, final SectionView section) {
 		String tabKey = hierarchy[0];
 		
+		sectionNameTabMap.put(section.getName(), tabKey);
+		sectionViewMap.put(section.getViewEnum().name(), section);
+		section.setController(this);
+		section.setLayoutController(this);
+
 		final TabLayout layout;
 		if(!(tabPanel.hasTabKey(tabKey))){
 			layout = new TabLayout();
@@ -318,13 +325,7 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 		else{
 			layout.renderView(section);
 		}
-
-		
-		sectionNameTabMap.put(section.getName(), tabKey);
-		sectionViewMap.put(section.getViewEnum().name(), section);
-		section.setController(this);
-		section.setLayoutController(this);
-		
+				
 		if (defaultView == null){
 		    defaultView = section.getViewEnum();
 		}
