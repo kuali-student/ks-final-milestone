@@ -40,12 +40,9 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluDictionary
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -113,7 +110,7 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
                         public void exec(ConfirmCancelEnum result) {
                             switch(result){
                                 case CONFIRM:
-                                    loList.addSelectedLOs(searchWindow.getSelections());
+                                    loList.addSelectedLOs(searchWindow.getLoSelections());
                                     searchWindow.hide();
                                     break;
                                 case CANCEL:
@@ -209,7 +206,7 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
         return Application.getApplicationContext().getUILabel(messageGroup, type, state, labelKey);
     }
 
-    public static class LearningObjectiveList extends SimpleMultiplicityComposite {
+    public class LearningObjectiveList extends SimpleMultiplicityComposite {
         private static final String STYLE_HIGHLIGHTED_ITEM = "KS-LOBuilder-Highlighted-Item";
         private static final String DESC_KEY = "desc";
 
@@ -355,7 +352,6 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
         }
     }
     
-
    
 
 }

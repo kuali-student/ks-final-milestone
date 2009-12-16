@@ -9,9 +9,13 @@ import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSDropDown;
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcServiceAsync;
+import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -45,6 +49,10 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class CluCodePicker extends Composite implements SuggestPicker {
 
+    private String type;
+    private String state;
+    private String messageGroup;
+
     private LuRpcServiceAsync luRpcServiceAsync = GWT.create(LuRpcService.class);
     final SearchSuggestOracle luSearchOracle = new SearchSuggestOracle(luRpcServiceAsync,
             "lu.search.cluByCodeAndState",
@@ -73,15 +81,18 @@ public class CluCodePicker extends Composite implements SuggestPicker {
 
 
 
-    public CluCodePicker() {
+    public CluCodePicker(String messageGroup, String type, String state) {
         super();
 
-        // FIXME when org search window is displayed, call focus.setSuppressed(true), and set it to false afterwards
+        this.type = type;
+        this.state = state;
+        this.messageGroup = messageGroup;
+
         focus.addWidget(suggestBox);
 
         initWidget(root);
 
-        HorizontalPanel main = new HorizontalPanel();
+        VerticalPanel main = new VerticalPanel();
 
         luSearchOracle.setTextWidget(suggestBox.getTextBox());
 
@@ -91,6 +102,7 @@ public class CluCodePicker extends Composite implements SuggestPicker {
 //        stateDropDown.setMultipleSelect(false);
 //        stateDropDown.selectItem("0");
 
+        main.add(getLabel(LUConstants.CODE_LABEL_KEY));
         main.add(suggestBox);
 //        main.add(stateDropDown);
         final ArrayList<QueryParamValue> params = new ArrayList<QueryParamValue>();
@@ -168,6 +180,10 @@ public class CluCodePicker extends Composite implements SuggestPicker {
 
     public String getText() {
         return suggestBox.getText();
+    }
+
+    private KSLabel getLabel(String labelKey) {
+        return new KSLabel(Application.getApplicationContext().getUILabel(messageGroup, type, state, labelKey));
     }
 
     private ListItems buildCluStateListItems() {
