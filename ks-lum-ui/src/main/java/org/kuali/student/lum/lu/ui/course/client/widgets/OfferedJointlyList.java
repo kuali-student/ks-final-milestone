@@ -1,4 +1,4 @@
-package org.kuali.student.lum.lu.ui.course.client.configuration.course;
+package org.kuali.student.lum.lu.ui.course.client.widgets;
 
 import java.util.List;
 

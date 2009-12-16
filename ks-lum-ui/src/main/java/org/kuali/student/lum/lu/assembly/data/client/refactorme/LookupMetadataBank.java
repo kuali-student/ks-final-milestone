@@ -206,7 +206,7 @@ public class LookupMetadataBank
 		{
 			return new SimpleDateFormat ("yyyy-MM-dd").parse (value);
 		}
-		catch (ParseException e)
+		catch (Exception e)
 		{
 			assert (false); // this should never happen
 		}

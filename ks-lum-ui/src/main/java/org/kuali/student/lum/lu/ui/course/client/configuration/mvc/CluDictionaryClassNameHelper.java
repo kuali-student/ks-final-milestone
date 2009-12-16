@@ -26,6 +26,7 @@ import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.lum.lu.dto.CluPublishingInfo;
 
+@Deprecated
 public class CluDictionaryClassNameHelper {
 	
 	//TODO do not add get name from class, hard code them in here to reduce imports req
