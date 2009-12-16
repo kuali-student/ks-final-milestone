@@ -19,35 +19,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.common.ui.client.configurable.mvc.CustomNestedSection;
-import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.HasModelDTOValue;
-import org.kuali.student.common.ui.client.configurable.mvc.MultiplicitySection;
-import org.kuali.student.common.ui.client.configurable.mvc.SimpleMultiplicityComposite;
-import org.kuali.student.common.ui.client.configurable.mvc.Section.FieldLabelType;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.Type;
 import org.kuali.student.common.ui.client.theme.Theme;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ConfirmCancelGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ConfirmCancelEnum;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
-import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluDictionaryClassNameHelper;
 
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 
 /**
@@ -206,6 +199,113 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
         return Application.getApplicationContext().getUILabel(messageGroup, type, state, labelKey);
     }
 
+    public static class LearningObjectiveList extends Composite /*implements HasModelDTOValue*/{
+        protected List<ModelDTO> modelDTOList = new ArrayList<ModelDTO>();
+        OutlineNodeModel outlineModel = new OutlineNodeModel();
+        public ModelDTOValue getValue() {
+            ModelDTOValue.ListType list = new ModelDTOValue.ListType();
+            modelDTOList = new ArrayList<ModelDTO>();
+            // get from outline model
+            OutlineNode[] outlineNodes = outlineModel.toOutlineNodes(); 
+            for(OutlineNode outlineNode: outlineNodes){
+                ModelDTO modelDTO = new ModelDTO();
+                ModelDTOValue.StringType str = new ModelDTOValue.StringType();
+                str.set(((TextBox)outlineNode.getUserObject()).getText());
+                modelDTO.put("value", str);
+
+                ModelDTOValue.IntegerType intT = new ModelDTOValue.IntegerType();
+                intT.set(modelDTOList.size());
+                modelDTO.put("sequence",intT);
+                
+                intT = new ModelDTOValue.IntegerType();
+                intT.set(outlineNode.getIndentLevel());
+                modelDTO.put("level",intT);
+                modelDTOList.add(modelDTO);
+            }
+            // fill the list of ModelDTO to ModelDTOValue.ModelDTOType 
+            for(ModelDTO dto:modelDTOList){
+                ModelDTOValue.ModelDTOType dtoValue = new ModelDTOValue.ModelDTOType();
+                dtoValue.set(dto);
+                list.get().add(dtoValue);
+            }
+            return list;
+        }
+        public void setValue(ModelDTOValue value) {
+            ModelDTOValue.ListType list = (ModelDTOValue.ListType)value;
+            modelDTOList = new ArrayList<ModelDTO>();
+            // fill the ModelDTOValue.ModelDTOType to List<ModelDTO>
+            for(ModelDTOValue dto : list.get()){
+                ModelDTOValue.ModelDTOType dtoType = (ModelDTOValue.ModelDTOType)dto;
+                modelDTOList.add(dtoType.get());
+            }
+            reDraw();
+        }
+
+        public void addSelectedLOs(List<String> loDescription) {
+            for(String strValue:loDescription){
+                ModelDTO modelDTO = new ModelDTO();
+                ModelDTOValue.StringType str = new ModelDTOValue.StringType();
+                str.set(strValue);
+                modelDTO.put("value", str);
+
+                ModelDTOValue.IntegerType intT = new ModelDTOValue.IntegerType();
+                intT.set(new Integer( modelDTOList.size()));
+                modelDTO.put("sequence",intT);
+                
+                intT = new ModelDTOValue.IntegerType();
+                intT.set(0);
+                modelDTO.put("level",intT);
+                
+                modelDTOList.add(modelDTO);
+            }
+            reDraw();
+        }
+        private void reDraw(){
+          final OutlineManager outlineComposite = new OutlineManager();
+          outlineModel = new OutlineNodeModel();
+          for (int i = 0; i < modelDTOList.size(); i++) {
+            OutlineNode aNode = new OutlineNode();
+            aNode.setModel(outlineModel);
+            aNode.setUserObject(new TextBox());
+            
+            String strvalue = ((ModelDTOValue.StringType)modelDTOList.get(i).get("value")).get();
+            int level = ((ModelDTOValue.IntegerType)modelDTOList.get(i).get("level")).get();
+            int sequence = ((ModelDTOValue.IntegerType)modelDTOList.get(i).get("sequence")).get();
+            // the LO from server should be in the right order
+            ((TextBox)aNode.getUserObject()).setText(strvalue);
+            aNode.setIndentLevel(level);
+            outlineModel.addOutlineNode(aNode);
+          }
+          outlineComposite.setModel(outlineModel);
+          outlineModel.addChangeHandler(new ChangeHandler() {
+            public void onChange(ChangeEvent event) {
+              outlineComposite.render();
+            }
+          });
+
+          outlineComposite.render();
+          super.initWidget(outlineComposite);
+        }
+        public HandlerRegistration addValueChangeHandler(ValueChangeHandler<ModelDTOValue> handler) {
+//            for (HasModelDTOValue widget : modelDTOValueWidgets) {
+  //              widget.addValueChangeHandler(handler);
+    //        }
+            return new NOOPListValueChangeHandler();
+        }
+        public void updateModelDTOValue() {
+            
+        }
+
+        public void setValue(ModelDTOValue value, boolean fireEvents) {
+         
+            
+        }
+        private class NOOPListValueChangeHandler implements HandlerRegistration {
+            public void removeHandler() {
+            }
+        }  
+    }
+/*
     public class LearningObjectiveList extends SimpleMultiplicityComposite {
         private static final String STYLE_HIGHLIGHTED_ITEM = "KS-LOBuilder-Highlighted-Item";
         private static final String DESC_KEY = "desc";
@@ -259,7 +359,7 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
                     delete(multi);
                 }
             });
-            FieldDescriptor fd = new FieldDescriptor("desc", null/* getLabel(LUConstants.LEARNING_OBJECTIVE_LO_NAME_KEY)*/, Type.STRING, picker);
+            FieldDescriptor fd = new FieldDescriptor("desc", null, Type.STRING, picker);
             ns.addField(fd);
             ns.addStyleName("KS-LOBuilder-Section");
             multi.addSection(ns);
@@ -353,5 +453,5 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
     }
     
    
-
+*/
 }
