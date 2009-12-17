@@ -54,6 +54,8 @@ import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcServiceAsync;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
@@ -86,7 +88,7 @@ public class LOSearchWindow extends Composite {
 //  KSLightBox searchResultsWindow ;
     private VerticalPanel searchLayout = new VerticalPanel();
     final SimplePanel searchParamPanel = new SimplePanel();
-    private VerticalPanel mainPanel = new VerticalPanel();
+    private VerticalPanel searchRequestPanel = new VerticalPanel();
 
     private List<KSTextBox> textBoxes = new ArrayList<KSTextBox>();
     private List<KSDatePickerAbstract> datePickers = new ArrayList<KSDatePickerAbstract>();
@@ -119,6 +121,7 @@ public class LOSearchWindow extends Composite {
     CluCodePicker cluPicker ;
 
 
+
     /**
      * 
      * This constructs an LOSearchWindow which handles all the search functions for LOBuilder
@@ -147,7 +150,7 @@ public class LOSearchWindow extends Composite {
     private void initSearchWindow() {
         HorizontalPanel selectSearchPanel = new HorizontalPanel();
 
-        KSThinTitleBar titleBar = new KSThinTitleBar(getLabel(LUConstants.LO_SEARCH_LINK));
+        KSThinTitleBar titleBar = new KSThinTitleBar(getLabel(LUConstants.LO_SEARCH_LINK_KEY));
 
         loRpcServiceAsync = GWT.create(LoRpcService.class);
         luRpcServiceAsync = GWT.create(LuRpcService.class);
@@ -212,15 +215,15 @@ public class LOSearchWindow extends Composite {
 
         cluPicker = new CluCodePicker(messageGroup, type, state);
 
-        mainPanel.add(titleBar);
-        mainPanel.add(selectSearchPanel);
-        mainPanel.add(searchParamPanel);
-        mainPanel.add(buttonPanel);
+        searchRequestPanel.add(titleBar);
+        searchRequestPanel.add(selectSearchPanel);
+        searchRequestPanel.add(searchParamPanel);
+        searchRequestPanel.add(buttonPanel);
 
         searchWindow = new KSLightBox();
-        searchWindow.setWidget(mainPanel);
-        mainPanel.addStyleName("KS-LOSearch-Window");
+        searchWindow.setWidget(searchRequestPanel);
 
+        searchRequestPanel.addStyleName("KS-LOSearch-Window");
         titleBar.addStyleName("KS-LOSearch-Title");        
         selectSearchPanel.addStyleName("KS-LOSearch-Type-Panel");        
         searchParamPanel.addStyleName("KS-LOSearch-Param-Panel");        
@@ -365,12 +368,14 @@ public class LOSearchWindow extends Composite {
                     final KSThinTitleBar titleBar = new KSThinTitleBar(results.size() + " results returned for " + selectedCluCode);
                     final VerticalPanel main = new VerticalPanel();
 
+                    KSLabel searchAgainLink = generateSearchAgainLink();
                     listItems = new LoInfoList(results);
 
                     loCheckBoxes = new KSCheckBoxList();
                     loCheckBoxes.setListItems(listItems);
 
                     main.add(titleBar);
+                    main.add(searchAgainLink);
                     main.add(loCheckBoxes);
                     main.add(buttons);
                     main.addStyleName("KS-LOSearch-Window");
@@ -421,13 +426,19 @@ public class LOSearchWindow extends Composite {
     private void showSearchResultsWindow(List<Result> results) {   
 
         final VerticalPanel main = new VerticalPanel();
+
+
+
+
         if (results != null) {
             listItems = new LoResultList(results);
             loCheckBoxes = new KSCheckBoxList();
             loCheckBoxes.setListItems(listItems);
             final KSThinTitleBar titleBar = new KSThinTitleBar(listItems.getItemCount() + " results returned " );//+ enteredWord);
-
+            
+            KSLabel searchAgainLink = generateSearchAgainLink();
             main.add(titleBar);
+            main.add(searchAgainLink);
             main.add(loCheckBoxes);
             main.add(buttons);
             main.addStyleName("KS-LOSearch-Window");
@@ -439,6 +450,20 @@ public class LOSearchWindow extends Composite {
         }
 
 
+    }
+
+    private KSLabel generateSearchAgainLink() {
+        KSLabel searchAgainLink = new KSLabel(getLabel(LUConstants.LO_SEARCH_AGAIN_LINK_KEY));
+        searchAgainLink.addStyleName("KS-LOBuilder-Search-Link");
+        searchAgainLink.addClickHandler(new ClickHandler() {
+
+            @Override
+            public void onClick(ClickEvent event) {
+                reset();
+            }
+
+        });
+        return searchAgainLink;
     }
     private void generateSearchLayout() {
         searchConfig.getSearchService().getSearchType(searchConfig.getSearchTypeKey(), new AsyncCallback<SearchTypeInfo>(){
@@ -608,7 +633,7 @@ public class LOSearchWindow extends Composite {
             dp.setValue(null);
         }
         clear();
-        searchWindow.setWidget(mainPanel);
+        searchWindow.setWidget(searchRequestPanel);
     }
 
     public void setIgnoreCase(boolean ignoreCase) {

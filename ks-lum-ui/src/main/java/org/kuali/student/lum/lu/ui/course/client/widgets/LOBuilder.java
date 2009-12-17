@@ -124,11 +124,9 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
             }
         };
 
-        searchLink = new KSLabel(getLabel(LUConstants.LO_SEARCH_LINK));
-        searchLink.addClickHandler(searchClickHandler);
 
-        instructions = new KSLabel(getLabel(LUConstants.LO_INSTRUCTIONS));
-        searchLink = new KSLabel(getLabel(LUConstants.LO_SEARCH_LINK));
+        instructions = new KSLabel(getLabel(LUConstants.LO_INSTRUCTIONS_KEY));
+        searchLink = new KSLabel(getLabel(LUConstants.LO_SEARCH_LINK_KEY));
         searchLink.addClickHandler(searchClickHandler);
         KSImage searchImage = Theme.INSTANCE.getCommonImages().getSearchIcon();
         searchImage.addClickHandler(searchClickHandler);
