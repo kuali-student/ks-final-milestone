@@ -104,11 +104,13 @@ public class LOSearchWindow extends Composite {
     private boolean ignoreCase = false;
     private boolean partialMatch = false;
 
-    private LoRpcServiceAsync loRpcServiceAsync = GWT.create(LoRpcService.class);
-    private LuRpcServiceAsync luRpcServiceAsync = GWT.create(LuRpcService.class);
+    private LoRpcServiceAsync loRpcServiceAsync ;
+    private LuRpcServiceAsync luRpcServiceAsync ;
 
+    // FIXME: List should come from search service?
     private static final String SEARCH_BY_COURSE_CODE = "by Course Code";
     private static final String SEARCH_BY_WORD = "for words in Learning Objective";
+    private static final String SEARCH_BY_CATEGORY = "by Category";
     
     private static final String LO_DESCRIPTION_ATTR_KEY = "Description";
     private static final String LO_CLU_CODE_ATTR_KEY = "From";
@@ -147,6 +149,9 @@ public class LOSearchWindow extends Composite {
 
         KSThinTitleBar titleBar = new KSThinTitleBar(getLabel(LUConstants.LO_SEARCH_LINK));
 
+        loRpcServiceAsync = GWT.create(LoRpcService.class);
+        luRpcServiceAsync = GWT.create(LuRpcService.class);
+
 //      loSearches.setMultipleSelect(false);
         selectSearchPanel.add(new KSLabel("Search: "));
         selectSearchPanel.add(loSearches);
@@ -161,6 +166,10 @@ public class LOSearchWindow extends Composite {
                     cluPicker.clear();                    
                     searchParamPanel.clear();
                     searchParamPanel.add(cluPicker);
+                }
+                else if (searchTypesList.getItemText(selectedItems.get(0)).equals(SEARCH_BY_CATEGORY)) {
+                    searchParamPanel.clear();
+                    searchParamPanel.add(buildCategorySearchPanel());
                 }
                 else {
                     searchParamPanel.clear();
@@ -182,9 +191,10 @@ public class LOSearchWindow extends Composite {
                                 getLOsForClu();                                                          
                             }
                             else if (searchTypesList.getItemText(s).equals(SEARCH_BY_WORD)) {
-                                performSearch(searchConfig, buildSearchParams());
-//                              Window.alert(searchTypesList.getItemText(s) + " selected");
-
+                                performWordSearch(searchConfig, buildSearchParams());
+                            }
+                            else if (searchTypesList.getItemText(s).equals(SEARCH_BY_CATEGORY)) {
+                                performCategorySearch(searchConfig, buildSearchParams());
                             }
                             else {
                                 Window.alert("Invalid search type selected");
@@ -240,12 +250,6 @@ public class LOSearchWindow extends Composite {
 
         VerticalPanel main = new VerticalPanel();
 
-//      KSAdvancedSearchRpc search = new KSAdvancedSearchRpc(loRpcServiceAsync, "lo.search.loByDesc","lo.resultColumn.loDescId");
-
-//      search.setIgnoreCase(true);
-//      search.setPartialMatch(true);
-
-
         List<String> basicCriteria = new ArrayList<String>() {
             {
                 add("lo.queryParam.loDescPlain");
@@ -274,8 +278,6 @@ public class LOSearchWindow extends Composite {
         searchConfig.setResultIdKey("lo.resultColumn.loId");
         searchConfig.setRetrievedColumnKey("lo.resultColumn.loDescPlain");
 
-
-//      searchWidget = new LOSearchWidget(loSearchConfig, loSearchConfig.getBasicCriteria());   
         setPartialMatch(true);
         setIgnoreCase(true);
 
@@ -299,20 +301,54 @@ public class LOSearchWindow extends Composite {
 
 //      });
 
-//      main.add(searchWidget);
-
-//      this.searchCriteria = searchCriteria;
-//      this.searchConfig = searchConfig;
-
         generateSearchLayout();
-
-//      main.setSpacing(10);
         main.add(searchLayout);
         searchLayout.setVerticalAlignment(HasVerticalAlignment.ALIGN_TOP);
-//      main.addStyleName(KSStyles.KS_ADVANCED_SEARCH_TAB_PANEL);
         return main;
     }
 
+
+    private Widget buildCategorySearchPanel() {
+
+        VerticalPanel main = new VerticalPanel();
+
+        List<String> basicCriteria = new ArrayList<String>() {
+            {
+                add("lo.queryParam.loCategory");
+            }
+        };
+
+//      List<String> advancedCriteria = new ArrayList<String>() {
+//      {
+//      add("org.queryParam.orgOptionalLongName");
+//      add("org.queryParam.orgOptionalLocation");
+//      add("org.queryParam.orgOptionalId");
+//      }
+//      };    
+
+        //set context criteria
+        List<QueryParamValue> contextCriteria = new ArrayList<QueryParamValue>();           
+//      QueryParamValue orgOptionalTypeParam = new QueryParamValue();
+//      orgOptionalTypeParam.setKey("org.queryParam.orgOptionalType");
+//      orgOptionalTypeParam.setValue("kuali.org.Department");   
+//      contextCriteria.add(orgOptionalTypeParam);              
+
+        searchConfig = new SearchComponentConfiguration(contextCriteria, basicCriteria, null);
+        searchConfig.setSearchDialogTitle("Find Learning Objectives");
+        searchConfig.setSearchService(loRpcServiceAsync);
+        searchConfig.setSearchTypeKey("lo.search.loByCategory");
+        searchConfig.setResultIdKey("lo.resultColumn.loId");
+        searchConfig.setRetrievedColumnKey("lo.resultColumn.loDescPlain");
+
+        setPartialMatch(true);
+        setIgnoreCase(true);
+
+        generateSearchLayout();
+
+        main.add(searchLayout);
+        searchLayout.setVerticalAlignment(HasVerticalAlignment.ALIGN_TOP);
+        return main;
+    }
 
     private void showCourseSearchResultsWindow(final String selectedCluCode, final List<String> loIds) {
         if (loIds != null && !loIds.isEmpty()) {
@@ -350,7 +386,7 @@ public class LOSearchWindow extends Composite {
         }
     }
 
-    private void performSearch(SearchComponentConfiguration searchConfig, List<QueryParamValue> queryParamValues){
+    private void performWordSearch(SearchComponentConfiguration searchConfig, List<QueryParamValue> queryParamValues){
 
         searchConfig.getSearchService().searchForResults(searchConfig.getSearchTypeKey(), queryParamValues, new AsyncCallback<List<Result>>(){
 
@@ -361,12 +397,28 @@ public class LOSearchWindow extends Composite {
 
             @Override
             public void onSuccess(List<Result> results) {
-                showWordSearchResultsWindow(results);
+                showSearchResultsWindow(results);
             }
         });
     }
 
-    private void showWordSearchResultsWindow(List<Result> results) {   
+    private void performCategorySearch(SearchComponentConfiguration searchConfig, List<QueryParamValue> queryParamValues){
+
+        searchConfig.getSearchService().searchForResults(searchConfig.getSearchTypeKey(), queryParamValues, new AsyncCallback<List<Result>>(){
+
+            @Override
+            public void onFailure(Throwable caught) {
+                Window.alert("Search failed");
+            }
+
+            @Override
+            public void onSuccess(List<Result> results) {
+                showSearchResultsWindow(results);
+            }
+        });
+    }
+    
+    private void showSearchResultsWindow(List<Result> results) {   
 
         final VerticalPanel main = new VerticalPanel();
         listItems = new LoResultList(results);
@@ -434,24 +486,7 @@ public class LOSearchWindow extends Composite {
                 }
 
                 column++;
-                //TODO: Messages
                 searchLayout.add(searchParamTable);     
-
-                //Initialze Results Layout
-                /*                SearchResultTypeInfo resultTypeInfo = searchTypeInfo.getSearchResultTypeInfo();
-                searchResultList.setResultColumns(resultTypeInfo.getResultColumns());
-                 */
-//              FlexTable resultTable = new FlexTable();
-//              resultLabel.addStyleName(KSStyles.KS_ADVANCED_SEARCH_RESULTS_LABEL);
-//              resultTable.setWidget(0, 0, resultLabel);
-////            searchResultsTable.getElement().getStyle().setProperty("backgroundColor", "red");
-//              resultTable.setWidget(1, 0, searchResultsTable);
-//              resultLayout.add(resultTable);
-
-//              //Add select button, this will only be visible if a select handler is directly added
-//              //to this widget.
-//              resultLayout.add(selectButton);
-//              selectButton.setVisible(hasSelectionHandlers);
             }            
         });       
     }
@@ -585,7 +620,7 @@ public class LOSearchWindow extends Composite {
     private ListItems buildSearchListItems() {
 
         return new ListItems(){
-            List<String> names = Arrays.asList(SEARCH_BY_WORD, SEARCH_BY_COURSE_CODE);
+            List<String> names = Arrays.asList(SEARCH_BY_WORD, SEARCH_BY_COURSE_CODE, SEARCH_BY_CATEGORY);
 
             @Override
             public List<String> getAttrKeys() {

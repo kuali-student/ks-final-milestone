@@ -36,7 +36,7 @@
         <search:name>LO Search for all LOs matching supplied word</search:name>
         <search:desc>Returns all matching LOs</search:desc>
         <search:searchResultTypeInfo>
-            <ref bean="lo.result.loByDesc" />
+            <ref bean="lo.result.loDesc" />
         </search:searchResultTypeInfo>
         <search:searchCriteriaTypeInfo>
            <ref bean="lo.criteria.loByDesc"/>
@@ -45,7 +45,7 @@
 
     <search:searchType id="lo.search.loCluByDesc">
         <search:name>LO Search for all LOs and related Clus matching supplied word</search:name>
-        <search:desc>Returns all matching LOs ids and related Clu ids</search:desc>
+        <search:desc>Returns all matching LOs ids and related Clu ids and codes</search:desc>
         <search:searchResultTypeInfo>
         	<ref bean="lo.result.loClu" />
         </search:searchResultTypeInfo>
@@ -54,6 +54,17 @@
         </search:searchCriteriaTypeInfo>
     </search:searchType>
 
+    <search:searchType id="lo.search.loByCategory">
+        <search:name>LO Search for all LOs by matching category</search:name>
+        <search:desc>Returns all matching LOs ids </search:desc>
+        <search:searchResultTypeInfo>
+        	<ref bean="lo.result.loClu" />
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+        	<ref bean="lo.criteria.loByCategory"/>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+    
     <search:searchCriteriaTypeInfo id="lo.criteria.all">
         <search:name>LoLo</search:name>
         <search:desc>Placeholder Criteria</search:desc>
@@ -85,9 +96,7 @@
         </search:resultColumns>
     </search:searchResultTypeInfo>
 
-
- 
-    <search:searchResultTypeInfo id="lo.result.loByDesc">
+    <search:searchResultTypeInfo id="lo.result.loDesc">
         <search:name>Los</search:name>
         <search:desc>Lo descs</search:desc>
         <search:resultColumns>
@@ -144,18 +153,31 @@
     </search:resultColumn>
     
 	<search:searchCriteriaTypeInfo id="lo.criteria.loByDesc">
-		<search:name>LoByFirstLetterCriteria</search:name>
+		<search:name>LoByWordMatchCriteria</search:name>
 		<search:queryParams>
 			<ref bean="lo.queryParam.loDescPlain" />
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 	
-    <search:queryParam id="lo.queryParam.loDescPlain">
+	<search:searchCriteriaTypeInfo id="lo.criteria.loByCategory">
+		<search:name>LoByCategoryCriteria</search:name>
+		<search:queryParams>
+			<ref bean="lo.queryParam.loCategory" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+	
+	<search:queryParam id="lo.queryParam.loDescPlain">
         <dict:fieldDescriptor parent="parentFieldDescriptor">
             <dict:name>Description</dict:name>
         </dict:fieldDescriptor>
     </search:queryParam>
        
+	<search:queryParam id="lo.queryParam.loCategory">
+        <dict:fieldDescriptor parent="parentFieldDescriptor">
+            <dict:name>Category</dict:name>
+        </dict:fieldDescriptor>
+    </search:queryParam>
+    
     <dict:fieldDescriptor id="parentFieldDescriptor">
         <dict:name>Comment Identifier</dict:name>
         <dict:desc>Unique identifier for a desc.</dict:desc>
@@ -170,11 +192,13 @@
 					<value>SELECT lo.id, lo.name FROM Lo lo </value>
 				</entry>
 				<entry key="lo.search.loByDesc">
-                    <value>SELECT loDesc.plain FROM Lo lo JOIN lo.desc loDesc WHERE lower(loDesc.plain) like :lo_queryParam_loDescPlain</value>
+                    <value>SELECT lo.id, loDesc.plain FROM Lo lo JOIN lo.desc loDesc WHERE lower(loDesc.plain) like :lo_queryParam_loDescPlain</value>
 				</entry>			
 				<entry key="lo.search.loByName">
 					<value>SELECT lo.id, lo.name FROM Lo lo WHERE lo.name = :lo_queryParam_loName</value>
 				</entry>
+				<!--  This native search is a temporary solution to allow cross service searches in advance of the KS permanent 
+				      cross service search implementation  -->
 				<entry key="lo.search.loCluByDesc">
 					<value>NATIVE:SELECT 
     lo.id lo_id, 
@@ -203,6 +227,14 @@ WHERE
     lower(lodesc.PLAIN) like :lo_queryParam_loDescPlain
 					</value>
     			</entry>
+    			<!--  This is initial search by category, need extra relationship between LOs and repositories before this
+    			search can be extended to include the clu code -->
+    			<entry key="lo.search.loByCategory">
+                    <value>SELECT lo.id, 'test', 'test', lo.desc.plain FROM Lo lo 
+					JOIN lo.loRepository repo
+					JOIN repo.categories cat
+					WHERE lower(cat.name) like :lo_queryParam_loCategory</value>
+				</entry>
             </map>
 		</property>
 	</bean>
