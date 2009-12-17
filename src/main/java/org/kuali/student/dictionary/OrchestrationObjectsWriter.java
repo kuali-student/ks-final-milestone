@@ -20,9 +20,6 @@ import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.Collection;
 import java.util.Map;
-import org.kuali.student.search.SearchModel;
-import org.kuali.student.search.SearchModelCache;
-import org.kuali.student.search.SearchModelLoader;
 import org.kuali.student.search.SearchModelWriter;
 
 /**
@@ -98,7 +95,7 @@ public class OrchestrationObjectsWriter
   }
   catch (FileNotFoundException ex)
   {
-   throw new RuntimeException (ex);
+   throw new DictionaryValidationException (ex);
   }
   try
   {

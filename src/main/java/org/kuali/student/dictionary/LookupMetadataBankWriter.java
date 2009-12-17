@@ -26,6 +26,7 @@ import org.kuali.student.common.assembly.client.LookupImplMetadata;
 import org.kuali.student.common.assembly.client.LookupMetadata;
 import org.kuali.student.common.assembly.client.LookupParamMetadata;
 import org.kuali.student.common.assembly.client.LookupResultMetadata;
+import org.kuali.student.search.SearchCriteriaParameter;
 import org.kuali.student.search.SearchType;
 
 /**
@@ -76,6 +77,8 @@ public class LookupMetadataBankWriter extends JavaClassWriter
   imports.add (LookupParamMetadata.class.getName ());
   imports.add (LookupResultMetadata.class.getName ());
   imports.add (LookupImplMetadata.class.getName ());
+
+  // basic conversion
   List<LookupMetadata> lookupMetas =
    new ArrayList (model.getSearchTypes ().size ());
   for (SearchType searchType : model.getSearchTypes ())
@@ -87,6 +90,48 @@ public class LookupMetadataBankWriter extends JavaClassWriter
    }
    lookupMetas.add (new SearchTypeToLookupMetadataConverter (searchType).convert ());
   }
+
+  // attach childLookups
+  for (SearchType searchType : model.getSearchTypes ())
+  {
+   //TODO: remove this once we have th spreadsheet filled out all the way
+   if (searchType.getImplementation () == null)
+   {
+    continue;
+   }
+   for (SearchCriteriaParameter param : searchType.getSearchCriteria ().
+    getParameters ())
+   {
+    LookupMetadata parent = findLookup (lookupMetas, searchType.getLookupKey ());
+    if (parent == null)
+    {
+     throw new DictionaryValidationException ("Could not find lookup for search [" +
+      searchType.getKey () + "].");
+    }
+    if (param.getChildLookup () != null &&
+      ! param.getChildLookup ().equals (""))
+    {
+     LookupParamMetadata paramMeta = findParam (parent, param.getKey ());
+     if (paramMeta == null)
+     {
+      throw new DictionaryExecutionException ("Could not find lookup param [" +
+       searchType.getKey () + "." + param.getKey () + "].");
+     }
+     LookupMetadata child = findLookup (lookupMetas, param.getChildLookup ());
+     if (child == null)
+     {
+      throw new DictionaryExecutionException ("Child lookup not found [" +
+       param.getChildLookup () + "].  It was specified on parameter [" +
+       searchType.getKey () + "." + param.getKey () + "].");
+     }
+     paramMeta.setChildLookup (child);
+    }
+   }
+   lookupMetas.add (new SearchTypeToLookupMetadataConverter (searchType).convert ());
+  }
+
+
+  // now write them out
   for (LookupMetadata lookupMeta : lookupMetas)
   {
    indentPrintln ("");
@@ -97,7 +142,28 @@ public class LookupMetadataBankWriter extends JavaClassWriter
    indentPrintln ("SEARCH_BANK.put (lookup.getKey ().toLowerCase (), lookup);");
    indentPrintln ("LOOKUP_BANK.put (lookup.getLookupKey ().toLowerCase (), lookup);");
   }
-  closeBrace (); // end getMetadata method
+
+  for (LookupMetadata lookupMeta : lookupMetas)
+  {
+   for (LookupParamMetadata param : lookupMeta.getParams ())
+   {
+    if (param.getChildLookup () != null)
+    {
+     String childLookupKey = param.getChildLookup ().getKey ();
+     String lookupKey = lookupMeta.getLookupKey ();
+     String paramKey = param.getKey ();
+     indentPrintln ("");
+     indentPrintln ("// set childLookup " + childLookupKey);
+     indentPrintln ("// on " + lookupKey + "." + paramKey);
+     indentPrintln ("param = findParam (" + quote (lookupKey) + ", " +
+      quote (paramKey) + ");");
+     indentPrintln ("lookup = LOOKUP_BANK.get (" + quote (childLookupKey) +
+      ".toLowerCase ());");
+     indentPrintln ("param.setChildLookup (lookup);");
+    }
+   }
+  }
+  closeBrace (); // end static initializer
 
   indentPrintln ("");
   indentPrintln ("private static Date asDate (String value)");
@@ -123,7 +189,7 @@ public class LookupMetadataBankWriter extends JavaClassWriter
   closeBrace ();
 
   indentPrintln ("");
-  indentPrintln ("private static LookupParamMetadata findParam (LookupMetadata lookup,String paramKey)");
+  indentPrintln ("private static LookupParamMetadata findParam (LookupMetadata lookup, String paramKey)");
   openBrace ();
   indentPrintln ("for (LookupParamMetadata param : lookup.getParams ())");
   openBrace ();
@@ -139,6 +205,35 @@ public class LookupMetadataBankWriter extends JavaClassWriter
 
   this.writeJavaClassAndImportsOutToFile ();
   this.getOut ().close ();
+ }
+
+ private String quote (String str)
+ {
+  return StringQuoter.quote (str);
+ }
+
+ private LookupMetadata findLookup (List<LookupMetadata> metas, String key)
+ {
+  for (LookupMetadata meta : metas)
+  {
+   if (meta.getLookupKey ().equalsIgnoreCase (key))
+   {
+    return meta;
+   }
+  }
+  return null;
+ }
+
+ private LookupParamMetadata findParam (LookupMetadata lookup, String key)
+ {
+  for (LookupParamMetadata meta : lookup.getParams ())
+  {
+   if (meta.getKey ().equalsIgnoreCase (key))
+   {
+    return meta;
+   }
+  }
+  return null;
  }
 
 }

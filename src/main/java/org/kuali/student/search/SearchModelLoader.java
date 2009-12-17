@@ -132,7 +132,7 @@ public class SearchModelLoader implements SearchModel
    row.setWriteAccess (getFixup (worksheetReader, "WriteAccess"));
    row.setChildLookup (getFixup (worksheetReader, "ChildLookup"));
    row.setHidden (getFixup (worksheetReader, "Hidden"));
-   row.setReturnResult (getFixup (worksheetReader, "ReturnResult"));
+   row.setReturnResult (getFixup (worksheetReader, "Return"));
    row.setService (getFixup (worksheetReader, "Service"));
   }
  }
@@ -160,7 +160,10 @@ public class SearchModelLoader implements SearchModel
   {
    if (worksheetReader.getIndex (colName) == -1)
    {
-    colName = colName2;
+    if (colName2 != null)
+    {
+     colName = colName2;
+    }
    }
    String value = worksheetReader.getValue (colName);
    if (value == null)
