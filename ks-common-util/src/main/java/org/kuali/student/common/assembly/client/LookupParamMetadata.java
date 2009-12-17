@@ -29,10 +29,25 @@ public class LookupParamMetadata implements Serializable {
 	private Data.DataType dataType;
 	private boolean optional;
 	private Value defaultValue;
-	private String defaultValuePath;
  private String name;
 	private String desc;
  private boolean caseSensitive;
+ public enum Usage {
+  DEFAULT,
+  ADVANCED,
+  CUSTOM
+ }
+ private Usage usage;
+
+ public enum Widget {
+  SUGGEST_BOX,
+  DROPDOWN_LIST,
+  RADIO_BUTTONS,
+  CHECK_BOXES,
+  TEXT_BOX,
+  PICKER
+ }
+ private Widget widget;
 
 	public LookupMetadata getChildLookup() {
 		return childLookup;
@@ -41,6 +56,26 @@ public class LookupParamMetadata implements Serializable {
 	public void setChildLookup(LookupMetadata childLookup) {
 		this.childLookup = childLookup;
 	}
+
+ public Usage getUsage ()
+ {
+  return usage;
+ }
+
+ public void setUsage (Usage usage)
+ {
+  this.usage = usage;
+ }
+
+ public Widget getWidget ()
+ {
+  return widget;
+ }
+
+ public void setWidget (Widget widget)
+ {
+  this.widget = widget;
+ }
 
 	public String getKey() {
 		return key;
@@ -97,13 +132,6 @@ public class LookupParamMetadata implements Serializable {
 		this.defaultValue = defaultValue;
 	}
 
-	public String getDefaultValuePath() {
-		return defaultValuePath;
-	}
-
-	public void setDefaultValuePath(String defaultValuePath) {
-		this.defaultValuePath = defaultValuePath;
-	}
 
  public boolean isCaseSensitive ()
  {

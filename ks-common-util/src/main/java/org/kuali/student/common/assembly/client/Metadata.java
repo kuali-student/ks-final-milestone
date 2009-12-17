@@ -39,8 +39,11 @@ public class Metadata implements Serializable {
 	private WriteAccess writeAccess;
 	private Data.DataType dataType;
 	private Data.Value defaultValue;
+ private String defaultValuePath;
 	private List<ConstraintMetadata> constraints;
 	private LookupMetadata lookupMetadata;
+ private String lookupContextPath;
+ private List<LookupMetadata> additionalLookups;
 	private Map<String, Metadata> childProperties;
 
 
@@ -117,6 +120,19 @@ public class Metadata implements Serializable {
 		this.defaultValue = defaultValue;
 	}
 
+ public String getDefaultValuePath ()
+ {
+  return defaultValuePath;
+ }
+
+ public void setDefaultValuePath (String defaultValuePath)
+ {
+  this.defaultValuePath = defaultValuePath;
+ }
+
+
+
+
 	public LookupMetadata getLookupMetadata() {
 		return lookupMetadata;
 	}
@@ -125,7 +141,32 @@ public class Metadata implements Serializable {
 		this.lookupMetadata = lookupMetadata;
 	}
 
- 	public Map<String, Metadata> getProperties() {
+
+ public String getLookupContextPath ()
+ {
+  return lookupContextPath;
+ }
+
+ public void setLookupContextPath (String lookupContextPath)
+ {
+  this.lookupContextPath = lookupContextPath;
+ }
+
+ public List<LookupMetadata> getAdditionalLookups ()
+ {
+  if (additionalLookups == null) {
+   additionalLookups = new ArrayList ();
+  }
+  return additionalLookups;
+ }
+
+ public void setAdditionalLookups (List<LookupMetadata> additionalLookups)
+ {
+  this.additionalLookups = additionalLookups;
+ }
+
+
+ public Map<String, Metadata> getProperties() {
 		if (childProperties == null) {
 			childProperties = new LinkedHashMap<String, Metadata>();
 		}

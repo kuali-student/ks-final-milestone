@@ -29,8 +29,16 @@ public class LookupMetadata implements Serializable {
 	private List<LookupResultMetadata> results;
 	private LookupQosMetadata qosMetadata;
 	private String resultReturnKey;
+	private String resultDisplayKey;
+ private String resultSortKey;
  private LookupImplMetadata impl;
- 
+ public enum Usage {
+  DEFAULT,
+  ADVANCED,
+  CUSTOM
+ }
+ private Usage usage;
+
 	public String getName() {
 		return name;
 	}
@@ -85,6 +93,25 @@ public class LookupMetadata implements Serializable {
 		this.resultReturnKey = resultReturnKey;
 	}
 
+
+	public String getResultDisplayKey() {
+		return resultDisplayKey;
+	}
+
+	public void setResultDisplayKey(String resultDisplayKey) {
+		this.resultDisplayKey = resultDisplayKey;
+	}
+
+ public String getResultSortKey ()
+ {
+  return resultSortKey;
+ }
+
+ public void setResultSortKey (String resultSortKey)
+ {
+  this.resultSortKey = resultSortKey;
+ }
+
 	public LookupQosMetadata getQosMetadata() {
 		return qosMetadata;
 	}
@@ -115,6 +142,16 @@ public class LookupMetadata implements Serializable {
  public void setLookupKey (String lookupKey)
  {
   this.lookupKey = lookupKey;
+ }
+
+ public Usage getUsage ()
+ {
+  return usage;
+ }
+
+ public void setUsage (Usage usage)
+ {
+  this.usage = usage;
  }
 
 
