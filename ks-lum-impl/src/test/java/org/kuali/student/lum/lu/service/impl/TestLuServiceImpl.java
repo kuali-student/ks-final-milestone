@@ -614,7 +614,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         assertEquals("AccountingAttrValue1", createdClu.getAccountingInfo().getAttributes().get("AccountingAttrKey1"));
         assertEquals("AccountingAttrValue2", createdClu.getAccountingInfo().getAttributes().get("AccountingAttrKey2"));
 
-        assertEquals("offId_divisionoffId_level",createdClu.getOfficialIdentifier().getCode());
+        assertEquals("offId_divisionoffId_suffixcode",createdClu.getOfficialIdentifier().getCode());
         assertEquals("offId_division",createdClu.getOfficialIdentifier().getDivision());
         assertEquals("offId_level",createdClu.getOfficialIdentifier().getLevel());
         assertEquals("offId_longName",createdClu.getOfficialIdentifier().getLongName());
@@ -625,7 +625,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         assertEquals("offId_suffixcode",createdClu.getOfficialIdentifier().getSuffixCode());
         assertEquals("offId_orgid",createdClu.getOfficialIdentifier().getOrgId());
 
-        assertEquals("cluId1_divisioncluId1_level",createdClu.getAlternateIdentifiers().get(0).getCode());
+        assertEquals("cluId1_divisioncluId1_suffixcode",createdClu.getAlternateIdentifiers().get(0).getCode());
         assertEquals("cluId1_division",createdClu.getAlternateIdentifiers().get(0).getDivision());
         assertEquals("cluId1_level",createdClu.getAlternateIdentifiers().get(0).getLevel());
         assertEquals("cluId1_longName",createdClu.getAlternateIdentifiers().get(0).getLongName());
@@ -636,7 +636,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         assertEquals("cluId1_suffixcode",createdClu.getAlternateIdentifiers().get(0).getSuffixCode());
         assertEquals("cluId1_orgid",createdClu.getAlternateIdentifiers().get(0).getOrgId());
 
-        assertEquals("cluId2_divisioncluId2_level",createdClu.getAlternateIdentifiers().get(1).getCode());
+        assertEquals("cluId2_divisioncluId2_suffixcode",createdClu.getAlternateIdentifiers().get(1).getCode());
         assertEquals("cluId2_division",createdClu.getAlternateIdentifiers().get(1).getDivision());
         assertEquals("cluId2_level",createdClu.getAlternateIdentifiers().get(1).getLevel());
         assertEquals("cluId2_longName",createdClu.getAlternateIdentifiers().get(1).getLongName());
@@ -767,6 +767,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         createdClu.getOfficialIdentifier().setCode("UPoffId_code");
         createdClu.getOfficialIdentifier().setDivision("UPoffId_division");
         createdClu.getOfficialIdentifier().setLevel("UPoffId_level");
+        createdClu.getOfficialIdentifier().setSuffixCode("UPoffId_suffixcode");
         createdClu.getOfficialIdentifier().setLongName("UPoffId_longName");
         createdClu.getOfficialIdentifier().setShortName("UPoffId_shortName");
         createdClu.getOfficialIdentifier().setState("UPoffId_state");
@@ -776,6 +777,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         createdClu.getAlternateIdentifiers().get(0).setCode("UPcluId1_code");
         createdClu.getAlternateIdentifiers().get(0).setDivision("UPcluId1_division");
         createdClu.getAlternateIdentifiers().get(0).setLevel("UPcluId1_level");
+        createdClu.getAlternateIdentifiers().get(0).setSuffixCode("UPcluId1_suffixcode");
         createdClu.getAlternateIdentifiers().get(0).setLongName("UPcluId1_longName");
         createdClu.getAlternateIdentifiers().get(0).setShortName("UPcluId1_shortName");
         createdClu.getAlternateIdentifiers().get(0).setState("UPcluId1_state");
@@ -787,6 +789,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         CluIdentifierInfo cluId3 = new CluIdentifierInfo();
         cluId3.setCode("cluId3_code");
         cluId3.setDivision("cluId3_division");
+        cluId3.setSuffixCode("cluId3_suffixcode");
         cluId3.setLevel("cluId3_level");
         cluId3.setLongName("cluId3_longName");
         cluId3.setShortName("cluId3_shortName");
@@ -923,27 +926,30 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         assertEquals("AccountingAttrValue3", updatedClu.getAccountingInfo().getAttributes().get("AccountingAttrKey3"));
         assertEquals(2,updatedClu.getAccountingInfo().getAttributes().size());
 
-        assertEquals("UPoffId_divisionUPoffId_level",updatedClu.getOfficialIdentifier().getCode());
+        assertEquals("UPoffId_divisionUPoffId_suffixcode",updatedClu.getOfficialIdentifier().getCode());
         assertEquals("UPoffId_division",updatedClu.getOfficialIdentifier().getDivision());
         assertEquals("UPoffId_level",updatedClu.getOfficialIdentifier().getLevel());
+        assertEquals("UPoffId_suffixcode",updatedClu.getOfficialIdentifier().getSuffixCode());
         assertEquals("UPoffId_longName",updatedClu.getOfficialIdentifier().getLongName());
         assertEquals("UPoffId_shortName",updatedClu.getOfficialIdentifier().getShortName());
         assertEquals("UPoffId_state",updatedClu.getOfficialIdentifier().getState());
         assertEquals("UPoffId_type",updatedClu.getOfficialIdentifier().getType());
         assertEquals("UPoffId_variation",updatedClu.getOfficialIdentifier().getVariation());
 
-        assertEquals("UPcluId1_divisionUPcluId1_level",updatedClu.getAlternateIdentifiers().get(0).getCode());
+        assertEquals("UPcluId1_divisionUPcluId1_suffixcode",updatedClu.getAlternateIdentifiers().get(0).getCode());
         assertEquals("UPcluId1_division",updatedClu.getAlternateIdentifiers().get(0).getDivision());
         assertEquals("UPcluId1_level",updatedClu.getAlternateIdentifiers().get(0).getLevel());
+        assertEquals("UPcluId1_suffixcode",updatedClu.getAlternateIdentifiers().get(0).getSuffixCode());
         assertEquals("UPcluId1_longName",updatedClu.getAlternateIdentifiers().get(0).getLongName());
         assertEquals("UPcluId1_shortName",updatedClu.getAlternateIdentifiers().get(0).getShortName());
         assertEquals("UPcluId1_state",updatedClu.getAlternateIdentifiers().get(0).getState());
         assertEquals("UPcluId1_type",updatedClu.getAlternateIdentifiers().get(0).getType());
         assertEquals("UPcluId1_variation",updatedClu.getAlternateIdentifiers().get(0).getVariation());
 
-        assertEquals("cluId3_divisioncluId3_level",updatedClu.getAlternateIdentifiers().get(1).getCode());
+        assertEquals("cluId3_divisioncluId3_suffixcode",updatedClu.getAlternateIdentifiers().get(1).getCode());
         assertEquals("cluId3_division",updatedClu.getAlternateIdentifiers().get(1).getDivision());
         assertEquals("cluId3_level",updatedClu.getAlternateIdentifiers().get(1).getLevel());
+        assertEquals("cluId3_suffixcode",updatedClu.getAlternateIdentifiers().get(1).getSuffixCode());
         assertEquals("cluId3_longName",updatedClu.getAlternateIdentifiers().get(1).getLongName());
         assertEquals("cluId3_shortName",updatedClu.getAlternateIdentifiers().get(1).getShortName());
         assertEquals("cluId3_state",updatedClu.getAlternateIdentifiers().get(1).getState());
