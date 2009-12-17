@@ -83,7 +83,7 @@ public class LOSearchWindow extends Composite {
     private String messageGroup;
 
     KSLightBox searchWindow ;
-//    KSLightBox searchResultsWindow ;
+//  KSLightBox searchResultsWindow ;
     private VerticalPanel searchLayout = new VerticalPanel();
     final SimplePanel searchParamPanel = new SimplePanel();
     private VerticalPanel mainPanel = new VerticalPanel();
@@ -93,12 +93,12 @@ public class LOSearchWindow extends Composite {
     private List<KSSelectItemWidgetAbstract> selectableEnums = new ArrayList<KSSelectItemWidgetAbstract>();
     private Map<KSDatePickerAbstract, String> datePickerCriteriaKeys = new HashMap<KSDatePickerAbstract, String>(); 
     private FlexTable searchParamTable = new FlexTable();
-    
+
     private KSCheckBoxList loCheckBoxes;
     private ListItems listItems;
     private ConfirmCancelGroup buttons;
     ListItems searchTypesList;
-    
+
     private SearchComponentConfiguration searchConfig;    
 
     private boolean ignoreCase = false;
@@ -111,7 +111,7 @@ public class LOSearchWindow extends Composite {
     private static final String SEARCH_BY_COURSE_CODE = "by Course Code";
     private static final String SEARCH_BY_WORD = "for words in Learning Objective";
     private static final String SEARCH_BY_CATEGORY = "by Category";
-    
+
     private static final String LO_DESCRIPTION_ATTR_KEY = "Description";
     private static final String LO_CLU_CODE_ATTR_KEY = "From";
 
@@ -225,7 +225,7 @@ public class LOSearchWindow extends Composite {
         selectSearchPanel.addStyleName("KS-LOSearch-Type-Panel");        
         searchParamPanel.addStyleName("KS-LOSearch-Param-Panel");        
         buttonPanel.addStyleName("KS-LOSearch-Button-Panel");        
-        
+
 
     }    
 
@@ -366,7 +366,7 @@ public class LOSearchWindow extends Composite {
                     final VerticalPanel main = new VerticalPanel();
 
                     listItems = new LoInfoList(results);
-                    
+
                     loCheckBoxes = new KSCheckBoxList();
                     loCheckBoxes.setListItems(listItems);
 
@@ -417,22 +417,28 @@ public class LOSearchWindow extends Composite {
             }
         });
     }
-    
+
     private void showSearchResultsWindow(List<Result> results) {   
 
         final VerticalPanel main = new VerticalPanel();
-        listItems = new LoResultList(results);
-        loCheckBoxes = new KSCheckBoxList();
-        loCheckBoxes.setListItems(listItems);
-        final KSThinTitleBar titleBar = new KSThinTitleBar(listItems.getItemCount() + " results returned " );//+ enteredWord);
+        if (results != null) {
+            listItems = new LoResultList(results);
+            loCheckBoxes = new KSCheckBoxList();
+            loCheckBoxes.setListItems(listItems);
+            final KSThinTitleBar titleBar = new KSThinTitleBar(listItems.getItemCount() + " results returned " );//+ enteredWord);
 
-        main.add(titleBar);
-        main.add(loCheckBoxes);
-        main.add(buttons);
-        main.addStyleName("KS-LOSearch-Window");
+            main.add(titleBar);
+            main.add(loCheckBoxes);
+            main.add(buttons);
+            main.addStyleName("KS-LOSearch-Window");
 
-        searchWindow.setWidget(main);
- 
+            searchWindow.setWidget(main);         
+        }
+        else {
+            Window.alert("No matches found");
+        }
+
+
     }
     private void generateSearchLayout() {
         searchConfig.getSearchService().getSearchType(searchConfig.getSearchTypeKey(), new AsyncCallback<SearchTypeInfo>(){
@@ -763,11 +769,11 @@ public class LOSearchWindow extends Composite {
     public void show() {
         searchWindow.show();
     }
-    
+
     public void hide(){
         searchWindow.hide();
     }
-    
+
     public List<String> getLoSelections() {
         List<String> selected = new ArrayList<String>();                                
         for (String s: loCheckBoxes.getSelectedItems()) {

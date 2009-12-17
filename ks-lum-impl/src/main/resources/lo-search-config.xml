@@ -230,10 +230,47 @@ WHERE
     			<!--  This is initial search by category, need extra relationship between LOs and repositories before this
     			search can be extended to include the clu code -->
     			<entry key="lo.search.loByCategory">
-                    <value>SELECT lo.id, 'test', 'test', lo.desc.plain FROM Lo lo 
+                 <!--    <value>SELECT lo.id, 'test', 'test', lo.desc.plain FROM Lo lo 
 					JOIN lo.loRepository repo
 					JOIN repo.categories cat
-					WHERE lower(cat.name) like :lo_queryParam_loCategory</value>
+					WHERE lower(cat.name) like :lo_queryParam_loCategory
+					</value>
+					-->					
+					<value>NATIVE:SELECT 
+    lo.id lo_id, 
+    clu.id clu_id, 
+    officialIdentifier.cd code, 
+    lodesc.plain plain 
+FROM 
+    KSLU_CLU clu 
+JOIN 
+    KSLU_LO_JN_CLU jn 
+    ON 
+    jn.CLU_ID = clu.ID 
+JOIN 
+    KSLU_LO lo 
+    ON 
+    jn.LO_ID = lo.ID 
+JOIN 
+    KSLU_CLU_IDENT officialIdentifier 
+    ON 
+    clu.OFFIC_CLU_ID = officialIdentifier.ID 
+JOIN 
+    KS_LO_RICH_TEXT_T lodesc 
+    ON 
+    lodesc.ID = lo.RT_DESCR_ID 
+JOIN 
+    KSLU_LO_JN_LOCATEGORY jncat
+    ON
+    lo.id = jncat.lo_id
+JOIN
+    KSLU_LO_CATEGORY cat
+    ON
+    cat.id = jncat.locategory_id
+
+WHERE 
+    lower(cat.name) like :lo_queryParam_loCategory
+					</value>
 				</entry>
             </map>
 		</property>
