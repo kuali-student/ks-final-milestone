@@ -41,6 +41,7 @@ public interface CreditCourseConstants
 	public static final String ACADEMIC_SUBJECT_ORGS = "academicSubjectOrgs";
 	public static final String CAMPUS_LOCATIONS = "campusLocations";
 	public static final String PRIMARY_INSTRUCTOR = "primaryInstructor";
+	public static final String COURSE_SPECIFIC_L_OS = "courseSpecificLOs";
 	public static final String _RUNTIME_DATA = "_runtimeData";
 }
 

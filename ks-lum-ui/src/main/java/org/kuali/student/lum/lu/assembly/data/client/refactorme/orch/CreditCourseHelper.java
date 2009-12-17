@@ -50,6 +50,7 @@ public class CreditCourseHelper
 		ACADEMIC_SUBJECT_ORGS ("academicSubjectOrgs"),
 		CAMPUS_LOCATIONS ("campusLocations"),
 		PRIMARY_INSTRUCTOR ("primaryInstructor"),
+		COURSE_SPECIFIC_L_OS ("courseSpecificLOs"),
 		_RUNTIME_DATA ("_runtimeData");
 		
 		private final String key;
@@ -348,6 +349,18 @@ public class CreditCourseHelper
 	public String getPrimaryInstructor ()
 	{
 		return (String) data.get (Properties.PRIMARY_INSTRUCTOR.getKey ());
+	}
+	
+	
+	public void setCourseSpecificLOs (Data value)
+	{
+		data.set (Properties.COURSE_SPECIFIC_L_OS.getKey (), value);
+	}
+	
+	
+	public Data getCourseSpecificLOs ()
+	{
+		return (Data) data.get (Properties.COURSE_SPECIFIC_L_OS.getKey ());
 	}
 	
 	
