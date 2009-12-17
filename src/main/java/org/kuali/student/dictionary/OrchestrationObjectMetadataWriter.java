@@ -157,11 +157,28 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
    //		childMeta.setDefaultValue (new Data.StringValue ("Draft"));
    indentPrintln ("childMeta.setDefaultValue (" + defVal + ");");
   }
+  if (field.getDefaultValuePath () != null && ! field.getDefaultValuePath ().
+   equals (""))
+  {
+   indentPrintln ("childMeta.setDefaultValuePath (" +
+    quote (field.getDefaultValuePath ()) + ");");
+  }
   if (field.getLookup () != null &&  ! field.getLookup ().equals (""))
   {
    imports.add (rootPackage + ".LookupMetadataBank");
    indentPrintln ("childMeta.setLookupMetadata (LookupMetadataBank.LOOKUP_BANK.get (" +
     quote (field.getLookup ()) + ".toLowerCase ()));");
+   indentPrintln ("childMeta.setLookupContextPath (" + quote (field.
+    getLookupContextPath ()) + ");");
+  }
+  if (field.getAdditionalLookups () != null)
+  {
+   for (String additinalLookup : field.getAdditionalLookups ())
+   {
+    imports.add (rootPackage + ".LookupMetadataBank");
+    indentPrintln ("childMeta.getAdditionalLookups ().add ((LookupMetadataBank.LOOKUP_BANK.get (" +
+     quote (additinalLookup) + ".toLowerCase ())));");
+   }
   }
   String lastType = null;
   String lastState = null;

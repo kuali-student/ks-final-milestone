@@ -27,7 +27,7 @@ public interface TestConstants
   public static final String LUM_UI_ROOT_PACKAGE = "org.kuali.student.lum.lu.assembly.data.client.refactorme";
 
   public static final String COMPONENT_SANDBOX_DIRECTORY_TO_WRITE_SOURCE = "../../maven-component-sandbox/trunk/src/main/java";
-  public static final String LUM_UI_DIRECTORY_TO_WRITE_SOURCE = "C:/svn/kuali-student/ks-lum-dev-orch/ks-lum-ui/src/main/java";
+  public static final String LUM_UI_DIRECTORY_TO_WRITE_SOURCE = "../../ks-lum-dev/ks-lum-ui/src/main/java";
   //public static String DIRECTORY_TO_WRITE_SOURCE = "C:/svn/kuali-student/maven-component-sandbox/trunk/src/main/java";
   
   public static final String TYPE_STATE_DICTIONARY_EXCEL_FILE = RESOURCES_DIRECTORY + "type-state configuration.xls";

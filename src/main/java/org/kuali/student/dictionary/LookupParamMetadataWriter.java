@@ -50,7 +50,8 @@ public class LookupParamMetadataWriter
   writeSetValue ("DataType", paramMeta.getDataType ());
   writeSetValue ("Optional", paramMeta.isOptional ());
   writeSetValue ("DefaultValue", paramMeta.getDefaultValue ());
-  writeSetValue ("DefaultValuePath", paramMeta.getDefaultValuePath ());
+  writeSetValue ("Usage", paramMeta.getUsage ());
+  writeSetValue ("Widget", paramMeta.getWidget ());
   writeSetValue ("CaseSensitive", paramMeta.isCaseSensitive ());
   
  }
@@ -73,6 +74,26 @@ public class LookupParamMetadataWriter
    return;
   }
   writeSetValueInternal (property, "Metadata.WriteAccess." + value);
+ }
+
+  private void writeSetValue (String property, LookupParamMetadata.Usage value)
+ {
+  out.imports.add (LookupParamMetadata.class.getName ());
+  if (value == null)
+  {
+   return;
+  }
+  writeSetValueInternal (property, "LookupParamMetadata.Usage." + value);
+ }
+
+ private void writeSetValue (String property, LookupParamMetadata.Widget value)
+ {
+  out.imports.add (LookupParamMetadata.class.getName ());
+  if (value == null)
+  {
+   return;
+  }
+  writeSetValueInternal (property, "LookupParamMetadata.Widget." + value);
  }
 
  private void writeSetValue (String property, Data.Value value)

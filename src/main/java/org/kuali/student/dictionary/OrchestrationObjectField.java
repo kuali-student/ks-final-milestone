@@ -31,6 +31,7 @@ public class OrchestrationObjectField
 
  public enum FieldTypeCategory
  {
+
   PRIMITIVE,
   MAPPED_STRING,
   DYNAMIC_ATTRIBUTE,
@@ -71,7 +72,6 @@ public class OrchestrationObjectField
  {
   return name.substring (0, 1).toUpperCase () + name.substring (1);
  }
-
 
  public void setType (String type)
  {
@@ -136,6 +136,18 @@ public class OrchestrationObjectField
   this.defaultValue = defaultValue;
  }
 
+ private String defaultValuePath;
+
+ public String getDefaultValuePath ()
+ {
+  return defaultValuePath;
+ }
+
+ public void setDefaultValuePath (String defaultValuePath)
+ {
+  this.defaultValuePath = defaultValuePath;
+ }
+
  public String getFullyQualifiedName ()
  {
   //TODO: Get grand parent
@@ -148,9 +160,9 @@ public class OrchestrationObjectField
 
  public enum WriteAccess
  {
+
   ALWAYS, NEVER, ON_CREATE;
  }
- 
  private WriteAccess writeAccess;
 
  public WriteAccess getWriteAccess ()
@@ -173,6 +185,18 @@ public class OrchestrationObjectField
  public void setLookup (String lookup)
  {
   this.lookup = lookup;
+ }
+
+ private List<String> additionalLookups;
+
+ public List<String> getAdditionalLookups ()
+ {
+  return additionalLookups;
+ }
+
+ public void setAdditionalLookups (List<String> additionalLookups)
+ {
+  this.additionalLookups = additionalLookups;
  }
 
  private String lookupContextPath;

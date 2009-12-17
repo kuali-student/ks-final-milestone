@@ -49,6 +49,7 @@ public class SearchTypeToLookupMetadataConverter
   LookupMetadata lookupMeta = new LookupMetadata ();
   lookupMeta.setKey (asString (searchType.getKey ()));
   lookupMeta.setLookupKey (searchType.getLookupKey ());
+  lookupMeta.setUsage (calcLookupUsage (searchType.getUsage ()));
   lookupMeta.setName (asString (searchType.getName ()));
   lookupMeta.setDesc (asString (searchType.getDescription ()));
   LookupImplMetadata impl = new LookupImplMetadata ();
@@ -66,20 +67,11 @@ public class SearchTypeToLookupMetadataConverter
    paramMeta.setName (asString (param.getName ()));
    paramMeta.setDesc (asString (param.getDescription ()));
    paramMeta.setDataType (asDataType (param.getDataType ()));
-   if (param.getDefaultValue ().equalsIgnoreCase ("Use LookupContextValue"))
-   {
-    paramMeta.setDefaultValue (asDataValue (paramMeta.getDataType (), param.
-     getDefaultValue (), paramMeta.getKey ()));
-    paramMeta.setDefaultValuePath (null);
-   }
-   else
-   {
-    paramMeta.setDefaultValue (null);
-    paramMeta.setDefaultValuePath (null);
-   }
    paramMeta.setOptional (asBoolean (param.getOptional (), "optional"));
    paramMeta.setCaseSensitive ( ! asBoolean (param.getCaseSensitive (), "ignore case"));
    paramMeta.setWriteAccess (calcWriteAccess (asString (param.getWriteAccess ())));
+   paramMeta.setUsage (calcParamUsage (param.getUsage ()));
+   paramMeta.setWidget (calcParamWidget (param.getWidget ()));
   }
 
   for (SearchResultColumn col :
@@ -91,11 +83,31 @@ public class SearchTypeToLookupMetadataConverter
    resultMeta.setName (asString (col.getName ()));
    resultMeta.setDesc (asString (col.getDescription ()));
    resultMeta.setDataType (asDataType (col.getDataType ()));
-   if (asBoolean (col.getReturnResult (), "return"))
+   if (asBoolean (col.getUsage (), "value"))
    {
     lookupMeta.setResultReturnKey (col.getKey ());
+    if (lookupMeta.getResultDisplayKey () == null)
+    {
+     lookupMeta.setResultDisplayKey (col.getKey ());
+    }
+    if (lookupMeta.getResultSortKey () == null)
+    {
+     lookupMeta.setResultSortKey (col.getKey ());
+    }
    }
-   resultMeta.setHidden (asBoolean (col.getReturnResult (), "hidden"));
+   if (asBoolean (col.getUsage (), "display"))
+   {
+    lookupMeta.setResultDisplayKey (col.getKey ());
+    if (lookupMeta.getResultSortKey () == null)
+    {
+     lookupMeta.setResultSortKey (col.getKey ());
+    }
+   }
+   if (asBoolean (col.getUsage (), "sort"))
+   {
+    lookupMeta.setResultSortKey (col.getKey ());
+   }
+   resultMeta.setHidden (asBoolean (col.getUsage (), "hidden"));
   }
   return lookupMeta;
  }
@@ -110,17 +122,107 @@ public class SearchTypeToLookupMetadataConverter
   {
    return Metadata.WriteAccess.NEVER;
   }
-  if (value.equalsIgnoreCase ("OnCreate"))
+  if (value.equalsIgnoreCase ("On Create"))
   {
    return Metadata.WriteAccess.ON_CREATE;
   }
-  if (value.equalsIgnoreCase ("WhenNull"))
+  if (value.equalsIgnoreCase ("When Null"))
   {
    return Metadata.WriteAccess.WHEN_NULL;
   }
   throw new DictionaryValidationException ("search param " +
    searchType.getKey () +
    " has a parameter with an unknown/unhandled value for WriteAccess [" + value +
+   "]");
+ }
+
+ private LookupMetadata.Usage calcLookupUsage (String value)
+ {
+  if (value.equalsIgnoreCase ("Default"))
+  {
+   return LookupMetadata.Usage.DEFAULT;
+  }
+  if (value.equalsIgnoreCase ("Custom"))
+  {
+   return LookupMetadata.Usage.CUSTOM;
+  }
+  if (value.equalsIgnoreCase ("Advanced"))
+  {
+   return LookupMetadata.Usage.ADVANCED;
+  }
+
+  throw new DictionaryValidationException ("search " +
+   searchType.getKey () +
+   " has a usage with an unknown/unhandled value [" + value +
+   "]");
+ }
+
+ private LookupParamMetadata.Usage calcParamUsage (String value)
+ {
+  if (value == null)
+  {
+   return null;
+  }
+  if (value.equals (""))
+  {
+   return null;
+  }
+  if (value.equalsIgnoreCase ("Default"))
+  {
+   return LookupParamMetadata.Usage.DEFAULT;
+  }
+  if (value.equalsIgnoreCase ("Custom"))
+  {
+   return LookupParamMetadata.Usage.CUSTOM;
+  }
+  if (value.equalsIgnoreCase ("Advanced"))
+  {
+   return LookupParamMetadata.Usage.ADVANCED;
+  }
+  throw new DictionaryValidationException ("search " +
+   searchType.getKey () +
+   " has a usage with an unknown/unhandled value [" + value +
+   "]");
+ }
+
+ private LookupParamMetadata.Widget calcParamWidget (String value)
+ {
+  if (value == null)
+  {
+   return null;
+  }
+  if (value.equals (""))
+  {
+   return null;
+  }
+  if (value.equalsIgnoreCase ("Suggest Box"))
+  {
+   return LookupParamMetadata.Widget.SUGGEST_BOX;
+  }
+  if (value.equalsIgnoreCase ("Check Boxes"))
+  {
+   return LookupParamMetadata.Widget.CHECK_BOXES;
+  }
+  if (value.equalsIgnoreCase ("Dropdown List"))
+  {
+   return LookupParamMetadata.Widget.DROPDOWN_LIST;
+  }
+  if (value.equalsIgnoreCase ("Picker"))
+  {
+   return LookupParamMetadata.Widget.PICKER;
+  }
+  if (value.equalsIgnoreCase ("Radio Buttons"))
+  {
+   return LookupParamMetadata.Widget.RADIO_BUTTONS;
+  }
+  if (value.equalsIgnoreCase ("Text Box"))
+  {
+   return LookupParamMetadata.Widget.TEXT_BOX;
+  }
+
+  throw new DictionaryValidationException ("search " +
+   searchType.getKey () +
+   " has a parameter with an unknown/unhandled value for widget [" + value +
    "]");
  }
 

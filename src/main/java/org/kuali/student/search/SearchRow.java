@@ -175,16 +175,38 @@ public class SearchRow implements Serializable,
   return hidden;
  }
 
- private String returnResult;
+ private String usage;
 
  /**
-  * Get the value of returnResult
+  * Get the value of usage
   *
-  * @return the value of returnResult
+  * @return the value of usage
   */
- public String getReturnResult ()
+ public String getUsage ()
  {
-  return returnResult;
+  return usage;
+ }
+
+ private String widget;
+
+ /**
+  * Get the value of widget
+  *
+  * @return the value of widget
+  */
+ public String getWidget ()
+ {
+  return widget;
+ }
+
+ /**
+  * Set the value of widget
+  *
+  * @param widget new value of widget
+  */
+ public void setWidget (String widget)
+ {
+  this.widget = widget;
  }
 
  private String optional;
@@ -298,13 +320,13 @@ public class SearchRow implements Serializable,
  }
 
  /**
-  * Set the value of returnResult
+  * Set the value of usage
   *
-  * @param returnResult new value of returnResult
+  * @param usage new value of usage
   */
- public void setReturnResult (String returnResult)
+ public void setUsage (String usage)
  {
-  this.returnResult = returnResult;
+  this.usage = usage;
  }
 
  /**

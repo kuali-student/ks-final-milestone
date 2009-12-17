@@ -17,6 +17,7 @@ package org.kuali.student.dictionary;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.kuali.student.search.SearchType;
 
 /**
  *
@@ -192,6 +193,11 @@ public class MockDictionaryModel implements DictionaryModel
  }
 
  public List<MessageStructure> getMessageStructures ()
+ {
+  return new ArrayList ();
+ }
+
+ public List<SearchType> getSearchTypes ()
  {
   return new ArrayList ();
  }

@@ -48,6 +48,9 @@ public class LookupMetadataWriter
   writeSetValue ("Name", lookupMeta.getName ());
   writeSetValue ("Desc", lookupMeta.getDesc ());
   writeSetValue ("ResultReturnKey", lookupMeta.getResultReturnKey ());
+  writeSetValue ("ResultDisplayKey", lookupMeta.getResultDisplayKey ());
+  writeSetValue ("ResultSortKey", lookupMeta.getResultSortKey ());
+  writeSetValue ("Usage", lookupMeta.getUsage ());
 
   out.imports.add (LookupImplMetadata.class.getName ());
   out.indentPrintln ("");
@@ -103,6 +106,17 @@ public class LookupMetadataWriter
   }
   writeSetValueInternal (property, quote (value));
  }
+
+  private void writeSetValue (String property, LookupMetadata.Usage value)
+ {
+  out.imports.add (LookupMetadata.class.getName ());
+  if (value == null)
+  {
+   return;
+  }
+  writeSetValueInternal (property, "LookupMetadata.Usage." + value);
+ }
+
 
  private void writeSetValueInternal (String property, Object value)
  {

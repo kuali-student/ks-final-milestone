@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.kuali.student.common.assembly.client.LookupMetadata;
 import org.kuali.student.dictionary.OrchestrationObjectField.FieldTypeCategory;
 
 /**
@@ -31,11 +32,13 @@ public class OrchestrationObjectsLoader
  private DictionaryModel model;
  private String directory;
  private String rootPackage;
+ private List<LookupMetadata> lookupMetas;
 
  public OrchestrationObjectsLoader (DictionaryModel model, String directory,
                                     String rootPackage)
  {
   this.model = model;
+  this.lookupMetas = new SearchTypesToLookupMetadataBankConverter (model).getLookups ();
   this.directory = directory;
   this.rootPackage = rootPackage;
  }
@@ -226,12 +229,14 @@ public class OrchestrationObjectsLoader
     childField.setType (calcType (orch.getXmlType ()));
     childField.setMaxRecursions (calcMaxRecursions (orch));
     childField.setDefaultValue (orch.getDefaultValue ());
+    childField.setDefaultValuePath (orch.getDefaultValuePath ());
     childField.setFieldTypeCategory (
      calcFieldTypeCategory (childField, calcIsCardList (orch.getCard1 ()), false));
     childField.setWriteAccess (calcWriteAccess (orch));
     loadOrchObjsFieldConstraints (childField, orch);
     childField.setLookup (orch.getLookup ());
     childField.setLookupContextPath (orch.getLookupContextPath ());
+    loadAdditionalLookups (childField);
     continue;
    }
    if ( ! orch.getGrandChild ().equals (""))
@@ -255,12 +260,14 @@ public class OrchestrationObjectsLoader
     grandChildField.setType (calcType (orch.getXmlType ()));
     grandChildField.setMaxRecursions (calcMaxRecursions (orch));
     grandChildField.setDefaultValue (orch.getDefaultValue ());
+    grandChildField.setDefaultValuePath (orch.getDefaultValuePath ());
     grandChildField.setFieldTypeCategory (
      calcFieldTypeCategory (grandChildField, calcIsCardList (orch.getCard2 ()), false));
     grandChildField.setWriteAccess (calcWriteAccess (orch));
     loadOrchObjsFieldConstraints (grandChildField, orch);
     grandChildField.setLookup (orch.getLookup ());
     grandChildField.setLookupContextPath (orch.getLookupContextPath ());
+    loadAdditionalLookups (childField);
     continue;
    }
 
@@ -268,6 +275,36 @@ public class OrchestrationObjectsLoader
   return map;
  }
 
+ private void loadAdditionalLookups (OrchestrationObjectField field)
+ {
+  if (field.getLookup () == null)
+  {
+   return;
+  }
+  if (field.getLookup ().equals (""))
+  {
+   return;
+  }
+  List<String> list = new ArrayList ();
+  for (LookupMetadata lookup : findAdditional (field.getLookup ()))
+  {
+   list.add (lookup.getLookupKey ());
+  }
+  field.setAdditionalLookups (list);
+ }
+
+  private List<LookupMetadata> findAdditional (String lookupKey)
+ {
+  List<LookupMetadata> list = new ArrayList ();
+  for (LookupMetadata lookup : lookupMetas)
+  {
+   if (lookup.getLookupKey ().toLowerCase ().startsWith (lookupKey + ".additional."))
+   {
+    list.add (lookup);
+   }
+  }
+  return list;
+ }
  private int calcMaxRecursions (OrchObj orch)
  {
   String recursions = orch.getRecursions ();

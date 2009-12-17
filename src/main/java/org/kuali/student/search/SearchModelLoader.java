@@ -42,6 +42,8 @@ public class SearchModelLoader implements SearchModel
   List<SearchType> list = new ArrayList ();
   SearchType searchType = null;
   int rowNumber = 1;
+  String lastLookupKey = null;
+  int lastLookupKeySequence = 0;
   while (worksheetReader.next ())
   {
    rowNumber ++;
@@ -50,6 +52,27 @@ public class SearchModelLoader implements SearchModel
    {
     searchType = new SearchType ();
     loadRow (worksheetReader, searchType, rowNumber);
+    // give the non-default lookups a unique key
+    if (searchType.getLookupKey ().equals (""))
+    {
+     if (searchType.getUsage ().equalsIgnoreCase ("default"))
+     {
+      throw new SearchValidationException ("Defaut lookups must be defined before other lookups and have a lookupKey assigned, error on row " +
+       rowNumber);
+     }
+     lastLookupKeySequence++;
+     searchType.setLookupKey (lastLookupKey + ".additional." + lastLookupKeySequence);
+    }
+    else
+    {
+     lastLookupKey = searchType.getLookupKey ();
+     lastLookupKeySequence = 0;
+     if ( ! searchType.getUsage ().equalsIgnoreCase ("default"))
+     {
+      throw new SearchValidationException ("The first lookup defined must have a usage of default, error on row " +
+       rowNumber);
+     }
+    }
     list.add (searchType);
    }
    else if (type.equalsIgnoreCase ("JPQL") || type.equalsIgnoreCase ("SPECIAL"))
@@ -117,14 +140,15 @@ public class SearchModelLoader implements SearchModel
   row.setOptional (getFixup (worksheetReader, "Optional"));
   row.setDefaultValue (getFixup (worksheetReader, "Default", "DefaultValue"));
   // default for spreadsheet that does not have these fields
-  if (worksheetReader.getIndex ("WriteAccess") == -1)
+  if (worksheetReader.getIndex ("LookupKey") == -1)
   {
    row.setLookupKey ("");
    row.setWriteAccess ("Always");
    row.setChildLookup ("");
    row.setHidden ("");
-   row.setReturnResult ("");
-   row.setService ("");
+   row.setUsage ("");
+   row.setWidget ("");
+   row.setService (""); // TODO: set this based on the name of the file somehow
   }
   else
   {
@@ -132,7 +156,8 @@ public class SearchModelLoader implements SearchModel
    row.setWriteAccess (getFixup (worksheetReader, "WriteAccess"));
    row.setChildLookup (getFixup (worksheetReader, "ChildLookup"));
    row.setHidden (getFixup (worksheetReader, "Hidden"));
-   row.setReturnResult (getFixup (worksheetReader, "Return"));
+   row.setUsage (getFixup (worksheetReader, "Usage"));
+   row.setWidget (getFixup (worksheetReader, "Widget"));
    row.setService (getFixup (worksheetReader, "Service"));
   }
  }
@@ -140,9 +165,15 @@ public class SearchModelLoader implements SearchModel
  private boolean isRowBlank (SearchRow row)
  {
   // TODO: uncomment the key
-  if (row.getKey ().equals ("")) { return true;}
+  if (row.getKey ().equals (""))
+  {
+   return true;
+  }
   //if ( ! row.getLookupKey ().equals ("")) {return false;}
-  if ( ! row.getType ().equals ("")) {return false;}
+  if ( ! row.getType ().equals (""))
+  {
+   return false;
+  }
   //TODO: check more fields
   return true;
  }
