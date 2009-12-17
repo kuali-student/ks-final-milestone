@@ -1,24 +1,19 @@
 package org.kuali.student.lum.lu.ui.course.client.widgets;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
+import org.kuali.student.common.ui.client.widgets.KSButton;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 //***************************************************
@@ -57,21 +52,21 @@ import com.google.gwt.user.client.ui.Widget;
 
 
 class OutlineManagerToolbar extends PopupPanel {
-  Button moveUpButton = new Button("Up");
+    KSButton moveUpButton = new KSButton("Up");
 
-  Button moveDownButton = new Button("Down");
+    KSButton moveDownButton = new KSButton("Down");
 
-  Button indentButton = new Button("Indent");
+    KSButton indentButton = new KSButton("Indent");
 
-  Button outdentButton = new Button("Outdent");
+    KSButton outdentButton = new KSButton("Outdent");
 
-  Button deleteButton = new Button("Delete");
+    KSButton deleteButton = new KSButton("Delete");
 
   // Button insertPeerAboveButton = new Button("InsertPeerAbove");
 
-  Button addPeerButton = new Button("AddPeer");
+    KSButton addPeerButton = new KSButton("AddPeer");
 
-  Button addChildButton = new Button("AddChild");
+    KSButton addChildButton = new KSButton("AddChild");
 
   OutlineNodeModel outlineModel;
 
@@ -84,9 +79,14 @@ class OutlineManagerToolbar extends PopupPanel {
     buttonPanel.add(indentButton);
     buttonPanel.add(outdentButton);
     buttonPanel.add(deleteButton);
-    buttonPanel.add(addPeerButton);
-    buttonPanel.add(addChildButton);
+//    buttonPanel.add(addPeerButton);
+  //  buttonPanel.add(addChildButton);
 
+    moveUpButton.addStyleName("KS-LOMoveUpButton");
+    moveDownButton.addStyleName("KS-LOMoveDownButton");
+    deleteButton.addStyleName("KS-LODeleteButton");
+    indentButton.addStyleName("KS-LOIndentButton");
+    
     moveUpButton.addClickHandler(new ClickHandler() {
       public void onClick(ClickEvent event) {
         outlineModel.moveUpCurrent();

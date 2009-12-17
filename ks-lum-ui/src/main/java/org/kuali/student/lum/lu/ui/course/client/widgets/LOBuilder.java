@@ -203,6 +203,13 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
         protected List<ModelDTO> modelDTOList = new ArrayList<ModelDTO>();
         OutlineNodeModel outlineModel = new OutlineNodeModel();
         OutlineManager outlineComposite = new OutlineManager();
+        
+        public LearningObjectiveList(){
+            super.initWidget(outlineComposite);
+            List<String> list = new ArrayList<String>();
+            list.add("");
+            addSelectedLOs(list);
+        }
         public ModelDTOValue getValue() {
             ModelDTOValue.ListType list = new ModelDTOValue.ListType();
             modelDTOList = new ArrayList<ModelDTO>();
@@ -284,7 +291,7 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
           });
 
           outlineComposite.render();
-          super.initWidget(outlineComposite);
+          
         }
         public HandlerRegistration addValueChangeHandler(ValueChangeHandler<ModelDTOValue> handler) {
 //            for (HasModelDTOValue widget : modelDTOValueWidgets) {
