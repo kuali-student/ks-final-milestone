@@ -13,7 +13,10 @@ class OutlineNodeModel {
     private ArrayList<ChangeHandler> changeHandlerList = new ArrayList<ChangeHandler>();
 
     private OutlineNode currentNode;
-
+    
+    public void clearNodes(){
+        outlineNodeList = new ArrayList<OutlineNode>();
+    }
     public void setCurrentNode(OutlineNode aNode) {
       currentNode = aNode;
     }

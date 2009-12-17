@@ -202,6 +202,7 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
     public static class LearningObjectiveList extends Composite /*implements HasModelDTOValue*/{
         protected List<ModelDTO> modelDTOList = new ArrayList<ModelDTO>();
         OutlineNodeModel outlineModel = new OutlineNodeModel();
+        OutlineManager outlineComposite = new OutlineManager();
         public ModelDTOValue getValue() {
             ModelDTOValue.ListType list = new ModelDTOValue.ListType();
             modelDTOList = new ArrayList<ModelDTO>();
@@ -261,8 +262,7 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
             reDraw();
         }
         private void reDraw(){
-          final OutlineManager outlineComposite = new OutlineManager();
-          outlineModel = new OutlineNodeModel();
+          outlineModel.clearNodes();
           for (int i = 0; i < modelDTOList.size(); i++) {
             OutlineNode aNode = new OutlineNode();
             aNode.setModel(outlineModel);
