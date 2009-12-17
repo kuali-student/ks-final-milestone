@@ -340,7 +340,7 @@ public class LuServiceImpl implements LuService {
             //FIXME: This will be in orchestration somewhere but
             //       for now put it here
             officialIdentifier.setCode(new StringBuilder().append(cluInfo.getOfficialIdentifier().getDivision()).
-                    append(cluInfo.getOfficialIdentifier().getLevel()).toString());
+                    append(cluInfo.getOfficialIdentifier().getSuffixCode()).toString());
             
             clu.setOfficialIdentifier(officialIdentifier);
         }
@@ -356,7 +356,7 @@ public class LuServiceImpl implements LuService {
             
             //FIXME: This will be in orchestration somewhere but
             //       for now put it here
-            identifier.setCode(new StringBuilder().append(cluIdInfo.getDivision()).append(cluIdInfo.getLevel()).toString());
+            identifier.setCode(new StringBuilder().append(cluIdInfo.getDivision()).append(cluIdInfo.getSuffixCode()).toString());
             alternateIdentifiers.add(identifier);
         }
 
@@ -1845,7 +1845,8 @@ public class LuServiceImpl implements LuService {
 
             //FIXME: This will be in orchestration somewhere but
             //       for now put it here
-            clu.getOfficialIdentifier().setCode(new StringBuilder().append(cluInfo.getOfficialIdentifier().getDivision()).append(cluInfo.getOfficialIdentifier().getLevel()).toString());
+            clu.getOfficialIdentifier().setCode(new StringBuilder().append(cluInfo.getOfficialIdentifier().getDivision())
+                    .append(cluInfo.getOfficialIdentifier().getSuffixCode()).toString());
             
         }else if(clu.getOfficialIdentifier()!=null){
             luDao.delete(clu.getOfficialIdentifier());
@@ -1870,7 +1871,7 @@ public class LuServiceImpl implements LuService {
             BeanUtils.copyProperties(cluIdInfo, identifier, new String[]{"code"});
             //FIXME: This will be in orchestration somewhere but
             //       for now put it here
-            identifier.setCode(new StringBuilder().append(cluIdInfo.getDivision()).append(cluIdInfo.getLevel()).toString());
+            identifier.setCode(new StringBuilder().append(cluIdInfo.getDivision()).append(cluIdInfo.getSuffixCode()).toString());
             clu.getAlternateIdentifiers().add(identifier);
         }
 
