@@ -25,7 +25,7 @@ public class AllowedLoLoRelationType extends MetaEntity {
 	private String loTypeId;
 	
 	@Column(name = "LO_REL_TYPE_ID")
-	private String relatedTypeId;
+	private String relatedLoTypeId;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EFF_DT")
@@ -51,12 +51,12 @@ public class AllowedLoLoRelationType extends MetaEntity {
 		this.loTypeId = loTypeId;
 	}
 
-	public String getRelatedTypeId() {
-		return relatedTypeId;
+	public String getRelatedLoTypeId() {
+		return relatedLoTypeId;
 	}
 
-	public void setRelatedTypeId(String relatedTypeId) {
-		this.relatedTypeId = relatedTypeId;
+	public void setRelatedLoTypeId(String relatedLoTypeId) {
+		this.relatedLoTypeId = relatedLoTypeId;
 	}
 
 	/**

@@ -20,19 +20,24 @@ import org.kuali.student.core.dao.CrudDao;
 import org.kuali.student.core.dao.SearchableDao;
 import org.kuali.student.core.exceptions.DependentObjectsExistException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.lum.lo.entity.Lo;
 import org.kuali.student.lum.lo.entity.LoCategory;
+import org.kuali.student.lum.lo.entity.LoLoRelation;
 
 public interface LoDao extends CrudDao, SearchableDao  {
 	public List<Lo> getLoByIdList(List<String> loIds);
-	public List<LoCategory> getLoCategoriesForLo(String loId);
 	public List<Lo> getLosByLoCategory(String loCategoryId);
 	public List<LoCategory> getLoCategories(String loHierarchyKey);
-    public boolean addLoCategoryToLo(String loCategoryId, String loId);
-    public boolean removeLoCategoryFromLo(String loCategoryId, String loId);
+    public boolean addLoCategoryToLo(String loCategoryId, String loId) throws UnsupportedActionException, DoesNotExistException;
+    public boolean removeLoCategoryFromLo(String loCategoryId, String loId) throws DoesNotExistException;
     public boolean deleteLoCategory(String loCategoryId) throws DoesNotExistException, DependentObjectsExistException;
     public boolean deleteLo(String loId) throws DoesNotExistException, DependentObjectsExistException;
     public List<Lo> getRelatedLosByLoId(String loId, String loLoRelationTypeId) throws DoesNotExistException;
     public List<Lo> getLosByRelatedLoId(String relatedLoId, String loLoRelationTypeId) throws DoesNotExistException;
 	public void deleteLoLoRelation(String loLoRelationId) throws DoesNotExistException, DependentObjectsExistException;
+	public List<LoCategory> getLoCategoriesForLo(String loId);
+	public List<String> getAllowedLoLoRelationTypesForLoType(String loTypeKey, String relatedLoTypeKey);
+	public List<Lo> getLosByRepository(String loRepositoryId);
+	public List<LoLoRelation> getLoLoRelationsByLoId(String loId);
 }

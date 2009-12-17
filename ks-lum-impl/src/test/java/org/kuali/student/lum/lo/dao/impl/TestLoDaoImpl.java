@@ -17,6 +17,7 @@ import org.kuali.student.core.exceptions.DependentObjectsExistException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.lum.lo.dao.LoDao;
 import org.kuali.student.lum.lo.entity.Lo;
+import org.kuali.student.lum.lo.entity.LoCategory;
 import org.kuali.student.lum.lo.entity.LoRepository;
 
 @PersistenceFileLocation("classpath:META-INF/lo-persistence.xml")
@@ -91,14 +92,6 @@ public class TestLoDaoImpl extends AbstractTransactionalDaoTest {
 	}
 	
 	/*
-	@Test
-	public void testGetLoCategoriesForLo() {
-		List<LoCategory> categories = dao.getLoCategoriesForLo("81ABEA67-3BCC-4088-8348-E265F3670145");
-		assertNotNull(categories);
-		assertEquals(2, categories.size());
-		assertTrue(categories.get(0).getName().equals("Test Category 3") ^ categories.get(1).getName().equals("Test Category 3"));
-	}
-	
 	@Test
 	public void testGetLosByLoCategory() {
 		Set<String> loNames = new TreeSet<String>(Arrays.asList("Edit Wiki Message Structure", "Navigate Wiki", "Install Wiki Engine"));

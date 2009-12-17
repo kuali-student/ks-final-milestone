@@ -182,7 +182,10 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
     }
 
     public static List<LoCategoryInfo> toLoCategoryInfos(List<LoCategory> categories) {
-        List<LoCategoryInfo> list = new ArrayList<LoCategoryInfo>();
+    	if (null == categories) {
+    		return new ArrayList<LoCategoryInfo>(0);
+    	}
+        List<LoCategoryInfo> list = new ArrayList<LoCategoryInfo>(categories.size());
         for (LoCategory loCategory : categories) {
             list.add(toLoCategoryInfo(loCategory));
         }
@@ -289,10 +292,26 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
     }
 
 	
-	public static LoCategoryTypeInfo toLoCategoryTypeInfo(
-			LoCategoryType loCatType) {
+	public static LoCategoryTypeInfo toLoCategoryTypeInfo( LoCategoryType loCatType) {
 		LoCategoryTypeInfo dto = new LoCategoryTypeInfo();
-		BeanUtils.copyProperties(loCatType, dto, new String[] { });
+		BeanUtils.copyProperties(loCatType, dto, new String[] { "attributes" });
+        dto.setAttributes(toAttributeMap(loCatType.getAttributes()));
 		return dto;
+	}
+
+	public static List<LoCategoryTypeInfo> toLoCategoryTypeInfos(List<LoCategoryType> categoryTypes) {
+        ArrayList<LoCategoryTypeInfo> list = new ArrayList<LoCategoryTypeInfo>();
+        for (LoCategoryType catType : categoryTypes) {
+            list.add(toLoCategoryTypeInfo(catType));
+        }
+        return list;
+	}
+
+	public static List<LoLoRelationInfo> toLoLoRelationInfos( List<LoLoRelation> llRelations) {
+		List<LoLoRelationInfo> llRelInfos = new ArrayList<LoLoRelationInfo>();
+		for (LoLoRelation llRelation : llRelations) {
+			llRelInfos.add(toLoLoRelationInfo(llRelation));
+		}
+		return llRelInfos;
 	}
 }

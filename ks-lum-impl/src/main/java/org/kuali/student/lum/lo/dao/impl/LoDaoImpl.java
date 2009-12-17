@@ -25,11 +25,11 @@ import javax.persistence.Query;
 import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
 import org.kuali.student.core.exceptions.DependentObjectsExistException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.lum.lo.dao.LoDao;
 import org.kuali.student.lum.lo.entity.Lo;
 import org.kuali.student.lum.lo.entity.LoCategory;
 import org.kuali.student.lum.lo.entity.LoLoRelation;
-import org.kuali.student.lum.lo.entity.LoRepository;
 
 /**
  * @author Kuali Student Team
@@ -46,19 +46,16 @@ public class LoDaoImpl extends AbstractSearchableCrudDaoImpl implements LoDao {
 	 * @see org.kuali.student.lum.lo.dao.LoDao#addLoCategoryToLo(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public boolean addLoCategoryToLo(String loCategoryId, String loId) {
-		// This actually entails adding it to the associated repository
-		Lo lo;
-		LoCategory loCategory;
-		try {
-			lo = fetch(Lo.class, loId);
-			loCategory = fetch(LoCategory.class, loCategoryId);
-		} catch (DoesNotExistException e) {
-			return false;
+	public boolean addLoCategoryToLo(String loCategoryId, String loId) throws UnsupportedActionException, DoesNotExistException {
+		Lo lo = fetch(Lo.class, loId);
+		LoCategory loCategory = fetch(LoCategory.class, loCategoryId);
+		String loRepoId = lo.getLoRepository().getId();
+		String loCategoryRepoId = loCategory.getLoRepository().getId();
+		
+		if ( ! loRepoId.equals(loCategoryRepoId) ) {
+			throw new UnsupportedActionException("The learning objective category is not associated with the learning objective's repository");
 		}
-		LoRepository repository = lo.getLoRepository();
-		repository.getCategories().add(loCategory);
-		loCategory.setLoRepository(repository);
+		lo.getCategories().add(loCategory);
 		return true;
 	}
 
@@ -66,19 +63,10 @@ public class LoDaoImpl extends AbstractSearchableCrudDaoImpl implements LoDao {
 	 * @see org.kuali.student.lum.lo.dao.LoDao#removeLoCategoryFromLo(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public boolean removeLoCategoryFromLo(String loCategoryId, String loId) {
-		// This actually entails removing it from the associated hierarchy
-		Lo lo;
-		LoCategory loCategory;
-		try {
-			lo = fetch(Lo.class, loId);
-			loCategory = fetch(LoCategory.class, loCategoryId);
-		} catch (DoesNotExistException e) {
-			return false;
-		}
-		LoRepository repository = lo.getLoRepository();
-		repository.getCategories().remove(loCategory);
-		loCategory.setLoRepository(null);
+	public boolean removeLoCategoryFromLo(String loCategoryId, String loId) throws DoesNotExistException {
+		Lo lo = fetch(Lo.class, loId);
+		LoCategory loCategory = fetch(LoCategory.class, loCategoryId);
+		lo.getCategories().remove(loCategory);
 		return true;
 	}
 
@@ -105,25 +93,15 @@ public class LoDaoImpl extends AbstractSearchableCrudDaoImpl implements LoDao {
 													 loId+
 													 ") cannot be deleted without orphaning child Lo(s).");
 		}
+		// TODO - will need more general logic here when we have relationships other than "includes"
+		// hopefully dictionary-driven
 		List<Lo> parents = getIncludingLos(loId);
 		for (Lo parent : parents) {
-			
-			getIncludedLos(parent.getId()).remove(child);
+			parent.getRelatedLos().remove(child);
+			update(parent);
 		}
 		delete(Lo.class, loId);
 		return true;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.lum.lo.dao.LoDao#getLoCategoriesForLo(java.lang.String)
-	 */
-	@Override
-	public List<LoCategory> getLoCategoriesForLo(String loId) {
-		Query query = em.createNamedQuery("Lo.getLoCategoriesForLo");
-		query.setParameter("loId", loId);
-		@SuppressWarnings("unchecked")
-		List<LoCategory> resultList = query.getResultList();
-		return resultList;
 	}
 
 	/* (non-Javadoc)
@@ -210,6 +188,43 @@ public class LoDaoImpl extends AbstractSearchableCrudDaoImpl implements LoDao {
 													 ") cannot be deleted without orphaning Lo(s).");
 		}
 		delete(LoLoRelation.class, loLoRelationId);
+	}
+
+	@Override
+	public List<LoCategory> getLoCategoriesForLo(String loId) {
+		Query query = em.createNamedQuery("Lo.getLoCategoriesForLo");
+		query.setParameter("loId", loId);
+		// @SuppressWarnings("unchecked")
+		List<LoCategory> resultList = query.getResultList();
+		return resultList;
+	}
+
+	@Override
+	public List<String> getAllowedLoLoRelationTypesForLoType(String loTypeKey, String relatedLoTypeKey) {
+		Query query = em.createNamedQuery("Lo.getAllowedLoLoRelationTypes");
+		query.setParameter("loTypeKey", loTypeKey);
+		query.setParameter("relatedLoTypeKey", relatedLoTypeKey);
+		@SuppressWarnings("unchecked")
+		List<String> resultList = query.getResultList();
+		return resultList;
+	}
+
+	@Override
+	public List<Lo> getLosByRepository(String loRepositoryId) {
+		Query query = em.createNamedQuery("Lo.getLosByRepository");
+		query.setParameter("loRepositoryId", loRepositoryId);
+		@SuppressWarnings("unchecked")
+		List<Lo> resultList = query.getResultList();
+		return resultList;
+	}
+
+	@Override
+	public List<LoLoRelation> getLoLoRelationsByLoId(String loId) {
+		Query query = em.createNamedQuery("Lo.getLoLoRelationsByLoId");
+		query.setParameter("loId", loId);
+		@SuppressWarnings("unchecked")
+		List<LoLoRelation> resultList = query.getResultList();
+		return resultList;
 	}
 
 	// These are left over from when Lo's were in parent-child hierarchies, and there

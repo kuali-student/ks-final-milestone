@@ -28,8 +28,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
 import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -45,23 +45,15 @@ import org.kuali.student.core.entity.MetaEntity;
 @Entity
 @Table(name = "KSLU_LO")
 @NamedQueries( {
-	@NamedQuery(name = "Lo.getAllowedLoLoRelationTypes", query = "SELECT l FROM Lo l WHERE l.id IN (:idList)"),	
+	@NamedQuery(name = "Lo.getAllowedLoLoRelationTypes", query = "SELECT relType.relationTypeId FROM AllowedLoLoRelationType relType WHERE relType.loTypeId = :loTypeKey AND relType.relatedLoTypeId = :relatedLoTypeKey"),	
 	@NamedQuery(name = "Lo.getRelatedLosByLoId", query = "SELECT rel.relatedLo FROM LoLoRelation rel WHERE rel.lo.id = :loId AND rel.loLoRelationType.id = :loLoRelationTypeId"),
 	@NamedQuery(name = "Lo.getLosByRelatedLoId", query = "SELECT rel.lo FROM LoLoRelation rel WHERE rel.relatedLo.id = :relatedLoId AND rel.loLoRelationType.id = :loLoRelationTypeId"),
 	@NamedQuery(name = "Lo.getLoCategories", query = "SELECT c FROM LoCategory c WHERE c.loRepository.id = :repositoryId"),
-	@NamedQuery(name = "Lo.findLosByIdList", query = "SELECT l FROM Lo l WHERE l.id IN (:idList)")
-	/*
-	@NamedQuery(name = "Lo.getLoCategoriesForLo", query = "SELECT c FROM LoCategory c, Lo l WHERE c.loHierarchy = l.loHierarchy AND l.id = :loId"),
-	@NamedQuery(name = "Lo.getLosByLoCategory", query = "SELECT l FROM Lo l, LoCategory c WHERE c.loHierarchy = l.loHierarchy AND c.id = :loCategoryId"),
-	@NamedQuery(name = "Lo.getLoChildren", query = "SELECT child FROM Lo lo, IN (lo.childLos) child WHERE lo.id = :parentId"),
-	@NamedQuery(name = "Lo.getLoParents", query = "SELECT parent FROM Lo parent, IN (parent.childLos) child WHERE child.id = :loChildId"),
-	@NamedQuery(name = "Lo.getLoChildrenIds", query = "SELECT child.id FROM Lo lo, IN (lo.childLos) child WHERE lo.id = :parentId"),
-	@NamedQuery(name = "Lo.getAncestors", query = "SELECT pl.id FROM Lo pl, IN (pl.childLos) child WHERE child.id = :childId"),
-	@NamedQuery(name = "Lo.isEquivalent", query = "SELECT pl.id FROM Lo cl, Lo pl WHERE cl.id = :childId AND cl IN (pl.childLos)"),
-	@NamedQuery(name = "Lo.getEquivalentLos", query = "SELECT equivLo FROM Lo lo, IN (lo.equivalentLos) equivLo WHERE lo.id = :loId"),
-	@NamedQuery(name = "Lo.getEquivalentLosIds", query = "SELECT equivLo.id FROM Lo lo, IN (lo.equivalentLos) equivLo WHERE lo.id = :loId"),
-	@NamedQuery(name = "Lo.getLoEquivalents", query = "SELECT lo FROM Lo lo, IN (lo.equivalentLos) equivs where equivs.id = :loId")
-*/
+	@NamedQuery(name = "Lo.findLosByIdList", query = "SELECT l FROM Lo l WHERE l.id IN (:idList)"),
+	@NamedQuery(name = "Lo.getLoCategoriesForLo", query = "SELECT c FROM LoCategory c, IN (c.los) lo WHERE lo.id = :loId"),
+	@NamedQuery(name = "Lo.getLosByLoCategory", query = "SELECT l FROM Lo l, IN (l.categories) category WHERE category.id = :loCategoryId"),
+	@NamedQuery(name = "Lo.getLosByRepository", query = "SELECT l FROM Lo l WHERE l.loRepository.id = :loRepositoryId"),
+	@NamedQuery(name = "Lo.getLoLoRelationsByLoId", query = "SELECT llRel FROM LoLoRelation llRel WHERE llRel.lo.id = :loId OR llRel.relatedLo.id = :loId")
 })
 public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 	@Id
@@ -85,6 +77,12 @@ public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 				joinColumns = { @JoinColumn(name = "LO_ID")},
 				inverseJoinColumns = { @JoinColumn(name = "RELATED_LO_ID")})
 	private List<Lo> relatedLos;
+
+	@ManyToMany
+	@JoinTable(name = "KSLU_LO_JN_LOCATEGORY",
+				joinColumns = { @JoinColumn(name = "LO_ID")},
+				inverseJoinColumns = { @JoinColumn(name = "LOCATEGORY_ID")})
+	private List<LoCategory> categories;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EFF_DT")
@@ -168,6 +166,17 @@ public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 			relatedLos = new ArrayList<Lo>(0);
 		}
 		return relatedLos;
+	}
+
+	public void setCategories(List<LoCategory> categories) {
+		this.categories = categories;
+	}
+
+	public List<LoCategory> getCategories() {
+		if (null == categories) {
+			categories = new ArrayList<LoCategory>(0);
+		}
+		return categories;
 	}
 
 	public Date getEffectiveDate() {

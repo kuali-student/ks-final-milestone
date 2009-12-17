@@ -163,7 +163,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	    checkForMissingParameter(loTypeKey, "loTypeKey");
 	    checkForMissingParameter(relatedLoTypeKey, "relatedLoTypeKey");
 	    
-		return null;
+	    return loDao.getAllowedLoLoRelationTypesForLoType(loTypeKey, relatedLoTypeKey);
 	}
 
     /*
@@ -719,8 +719,8 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	public List<LoLoRelationInfo> getLoLoRelationsByLoId(String loId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<LoLoRelation> llRelations = loDao.getLoLoRelationsByLoId(loId);
+		return LearningObjectiveServiceAssembler.toLoLoRelationInfos(llRelations);
 	}
 
 	@Override
@@ -728,8 +728,8 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			String loLoRelationType) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<Lo> relatedLos = loDao.getLosByRelatedLoId(relatedLoId, loLoRelationType);
+		return LearningObjectiveServiceAssembler.toLoInfos(relatedLos);
 	}
 
 	@Override
@@ -791,8 +791,8 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	@Override
 	public List<LoCategoryTypeInfo> getLoCategoryTypes()
 			throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<LoCategoryType> categoryTypes = loDao.find(LoCategoryType.class);
+		return LearningObjectiveServiceAssembler.toLoCategoryTypeInfos(categoryTypes);
 	}
 
 	@Override
@@ -800,8 +800,9 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			String loTypeKey, String loStateKey)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(loRepositoryKey, "loRepositoryKey");
+	    List<Lo> los = loDao.getLosByRepository(loRepositoryKey);
+		return LearningObjectiveServiceAssembler.toLoInfos(los);
 	}
 
 	@Override

@@ -30,16 +30,21 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.ResultCell;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
+import org.kuali.student.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lo.dto.LoLoRelationInfo;
 import org.kuali.student.lum.lo.dto.LoLoRelationTypeInfo;
 import org.kuali.student.lum.lo.dto.LoRepositoryInfo;
 import org.kuali.student.lum.lo.dto.LoTypeInfo;
+import org.kuali.student.lum.lo.entity.LoCategory;
+import org.kuali.student.lum.lo.entity.LoCategoryType;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
 
 @Daos({@Dao(value = "org.kuali.student.lum.lo.dao.impl.LoDaoImpl", testSqlFile = "classpath:ks-lo.sql")})
@@ -49,7 +54,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
     public LearningObjectiveService client;
 
     @Test
-    public void testLo() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, DataValidationErrorException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException {
+    public void testLo() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, DataValidationErrorException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException, AlreadyExistsException, CircularRelationshipException {
         LoInfo loInfo = new LoInfo();
         loInfo.setName("How Lo Can You Go?");
         RichTextInfo richText = new RichTextInfo();
@@ -108,16 +113,6 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 
         // Detecting expected errors
         loInfo = new LoInfo();
-        /* So, how do you create a LO that either has no parent yet,
-         * or will be the root of a hierarchy? And, had to relax the
-         * requirement so as to allow the first createLo() above to pass.
-        try {
-            client.createLo(null, "anytype", loInfo);
-            throw new Exception();
-        } catch (MissingParameterException e) {} catch (Exception e) {
-            fail("MissingParameterException expected for parentLoId");
-        }
-        */
         try {
             client.createLo(null, "kuali.lo.type.singleUse", loInfo);
             fail("MissingParameterException expected for loRepositoryId");
@@ -147,6 +142,17 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         
         StatusInfo statusInfo = client.deleteLo(loId);
         assertTrue(statusInfo.getSuccess());
+        
+        // now make sure we can't orphan "included" LO's
+    	LoLoRelationInfo llrInfo = new LoLoRelationInfo();
+    	
+		llrInfo = client.createLoLoRelation("7BCD7C0E-3E6B-4527-AC55-254C58CECC22", "91A91860-D796-4A17-976B-A6165B1A0B05", "kuali.lo.relation.type.includes", llrInfo);
+    	assertNotNull(llrInfo);
+    	llrInfo = client.getLoLoRelation(llrInfo.getId());
+    	try {
+    		client.deleteLo("7BCD7C0E-3E6B-4527-AC55-254C58CECC22");
+    		fail("Deleted an LO which orphaned included LO(s)");
+    	} catch (DependentObjectsExistException doee) {}
     }
     
     @Test
@@ -221,7 +227,13 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
     }
     
     @Test
-    public void testGetLoTypesAndGetLoTypes() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException {
+    public void testGetLoCategoryTypes() throws DoesNotExistException, InvalidParameterException, OperationFailedException {
+    	List<LoCategoryTypeInfo> loCatTypeInfos = client.getLoCategoryTypes();
+    	assertEquals(3, loCatTypeInfos.size());
+    }
+    	
+    @Test
+    public void testGetLoTypesAndGetLoType() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException {
         List<LoTypeInfo> loTypes = client.getLoTypes();
         assertNotNull(loTypes);
         assertTrue(!loTypes.isEmpty());
@@ -254,6 +266,31 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
     }
     
     @Test
+    public void testGetLoLoRelationType() throws OperationFailedException, DoesNotExistException  {
+    	LoLoRelationTypeInfo llrtInfo = null;
+    	try {
+    		llrtInfo = client.getLoLoRelationType("kuali.lo.relation.type.includes");
+    	} catch (Exception e) {
+            fail("Exception caught when calling LearningObjectiveService.getLoLoRelationType(): " + e.getMessage());
+    	}
+    	assertNotNull(llrtInfo);
+    	assertEquals("includes", llrtInfo.getName());
+        // Detecting expected errors
+        try {
+    		client.getLoLoRelationType(null);
+            fail("MissingParameterException expected for loLoRelationTypeKey");
+        } catch (MissingParameterException e) {}
+    }
+    
+    @Test
+    public void testGetAllowedLoLoRelationTypesForLoType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    	List<String> allowedTypes = client.getAllowedLoLoRelationTypesForLoType("kuali.lo.type.singleUse", "kuali.lo.type.singleUse");
+    	assertEquals(1, allowedTypes.size());
+    	allowedTypes = client.getAllowedLoLoRelationTypesForLoType("kuali.lo.type.governed", "kuali.lo.type.governed");
+    	assertTrue(null == allowedTypes || allowedTypes.size() == 0);
+    }
+    
+    @Test
     public void testGetLoLoRelation() throws OperationFailedException, DoesNotExistException, InvalidParameterException  {
     	LoLoRelationInfo llrInfo = null;
     	try {
@@ -273,6 +310,49 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         } catch (MissingParameterException e) {}
     }
     
+	@Test
+	public void testGetLoCategories() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		List<LoCategoryInfo> categories = client.getLoCategories("kuali.loRepository.key.singleUse");
+		assertEquals(5, categories.size());
+		categories = client.getLoCategories("kuali.loRepository.key.state");
+		assertTrue(null == categories || categories.size() == 0);
+	}
+	
+	@Test
+	public void testGetLoCategoriesForLo() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		List<LoCategoryInfo> categories = client.getLoCategoriesForLo("DD0658D2-FDC9-48FA-9578-67A2CE53BF8A");
+		assertNotNull(categories);
+		assertEquals(2, categories.size());
+		categories = client.getLoCategoriesForLo("E0619A90-66D6-4AF4-B357-E73AE44F7E88");
+		assertEquals(1, categories.size());
+		assertEquals("Test Category 3", categories.get(0).getName());
+		categories = client.getLoCategoriesForLo("E0B456B2-62CB-4BD3-8867-A0D59FD8F2CF");
+		assertTrue(null == categories || categories.size() == 0);
+	}
+    
+	@Test
+	public void testAddRemoveLoCategoryToFromLo() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, AlreadyExistsException, PermissionDeniedException, UnsupportedActionException {
+		List<LoCategoryInfo> categories = client.getLoCategoriesForLo("DD0658D2-FDC9-48FA-9578-67A2CE53BF8A");
+		assertEquals(2, categories.size());
+		assertTrue(containsLoCatInfo(categories, Arrays.asList("550e8400-e29b-41d4-a716-446655440000", "7114D2A4-F66D-4D3A-9D41-A7AA4299C797")));
+		client.addLoCategoryToLo("F2F02922-4E77-4144-AA07-8C2C956370DC", "DD0658D2-FDC9-48FA-9578-67A2CE53BF8A");
+		categories = client.getLoCategoriesForLo("DD0658D2-FDC9-48FA-9578-67A2CE53BF8A");
+		assertEquals(3, categories.size());
+		assertTrue(containsLoCatInfo(categories, Arrays.asList("550e8400-e29b-41d4-a716-446655440000", "7114D2A4-F66D-4D3A-9D41-A7AA4299C797", "F2F02922-4E77-4144-AA07-8C2C956370DC")));
+		client.removeLoCategoryFromLo("F2F02922-4E77-4144-AA07-8C2C956370DC", "DD0658D2-FDC9-48FA-9578-67A2CE53BF8A");
+		categories = client.getLoCategoriesForLo("DD0658D2-FDC9-48FA-9578-67A2CE53BF8A");
+		assertEquals(2, categories.size());
+	}
+
+    private boolean containsLoCatInfo(List<LoCategoryInfo> categories, List<String> idList) {
+    	List<String> ids = new ArrayList<String>();
+    	
+    	for (LoCategoryInfo info : categories) {
+    		ids.add(info.getId());
+    	}
+		return ids.containsAll(idList);
+	}
+
     @Test
     public void testCreateLoLoRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, AlreadyExistsException, CircularReferenceException, DataValidationErrorException, PermissionDeniedException, CircularRelationshipException {
     	LoLoRelationInfo llrInfo = new LoLoRelationInfo();
@@ -306,30 +386,6 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
             fail("MissingParameterException expected for loLoRelationInfo");
         } catch (MissingParameterException e) {}
     }
-    
-    @Test
-    public void testGetLoLoRelationType() throws OperationFailedException, DoesNotExistException  {
-    	LoLoRelationTypeInfo llrtInfo = null;
-    	try {
-    		llrtInfo = client.getLoLoRelationType("kuali.lo.relation.type.includes");
-    	} catch (Exception e) {
-            fail("Exception caught when calling LearningObjectiveService.getLoLoRelationType(): " + e.getMessage());
-    	}
-    	assertNotNull(llrtInfo);
-    	assertEquals("includes", llrtInfo.getName());
-        // Detecting expected errors
-        try {
-    		client.getLoLoRelationType(null);
-            fail("MissingParameterException expected for loLoRelationTypeKey");
-        } catch (MissingParameterException e) {}
-    }
-    
-    @Test
-    public void testGetAllowedLoLoRelationTypesForLoType() {
-    	
-    }
-    
-    
     
     /*
     @Test
@@ -394,11 +450,10 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
     }
     */
     
-    /*
     @Test
     public void testLoCategory() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, DataValidationErrorException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException, AlreadyExistsException, UnsupportedActionException {
         
-        List<LoCategoryInfo> categories = client.getLoCategories("loHierarchy.empty.test");
+        List<LoCategoryInfo> categories = client.getLoCategories("foo.bar.baz");
         assertTrue(null == categories || categories.isEmpty());
         
         LoCategoryInfo category = new LoCategoryInfo();
@@ -415,8 +470,9 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         category.setAttributes(attributes);
         
         
-        String categoryId = "7114D2A4-F66D-4D3A-9D41-A7AA4299C79";
+        String categoryId = "054CAA88-C21D-4496-8287-36A311A11D68";
         category = client.getLoCategory(categoryId);
+        assertEquals("Test Category 2", category.getName());
         category.setName("LENNY, THE LECHEROUS MILK THIEF");
         
         LoCategoryInfo updated = client.updateLoCategory(categoryId, category);
@@ -456,10 +512,11 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         statusInfo = client.removeLoCategoryFromLo(categoryId, "91A91860-D796-4A17-976B-A6165B1A0B05");
         assertTrue(statusInfo.getSuccess());
         
+        los = client.getLosByLoCategory(categoryId);
         statusInfo = client.deleteLoCategory(categoryId);
         assertTrue(statusInfo.getSuccess());
     }
-    */
+    
 	@Test
 	public void testSearchForResults() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
 		String testLoName = "Navigate Wiki";

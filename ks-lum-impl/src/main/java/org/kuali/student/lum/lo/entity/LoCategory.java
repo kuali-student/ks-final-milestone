@@ -25,6 +25,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -34,6 +35,7 @@ import javax.persistence.TemporalType;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
+import org.kuali.student.core.organization.entity.OrgHierarchy;
 
 /**
  * @author Kuali Student Team
@@ -60,6 +62,12 @@ public class LoCategory extends MetaEntity implements AttributeOwner<LoCategoryA
 	@ManyToOne
 	@JoinColumn(name = "LO_CATEGORY_TYPE_ID")
 	private LoCategoryType loCategoryType;
+
+	@Column(name="STATE")
+	private String state;
+	
+	@ManyToMany(mappedBy="categories")
+	private List<Lo> los;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EFF_DT")
@@ -127,6 +135,25 @@ public class LoCategory extends MetaEntity implements AttributeOwner<LoCategoryA
 
 	public void setLoCategoryType(LoCategoryType loCategoryType) {
 		this.loCategoryType = loCategoryType;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setLos(List<Lo> los) {
+		this.los = los;
+	}
+
+	public List<Lo> getLos() {
+		if (null == los) {
+			los = new ArrayList<Lo>(0);
+		}
+		return los;
 	}
 
 	public Date getEffectiveDate() {
