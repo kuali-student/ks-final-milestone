@@ -52,27 +52,28 @@ import com.google.gwt.user.client.ui.Widget;
 
 
 class OutlineManagerToolbar extends PopupPanel {
-    KSButton moveUpButton = new KSButton("Up");
+    KSButton moveUpButton = new KSButton();
 
-    KSButton moveDownButton = new KSButton("Down");
+    KSButton moveDownButton = new KSButton();
 
-    KSButton indentButton = new KSButton("Indent");
+    KSButton indentButton = new KSButton();
 
-    KSButton outdentButton = new KSButton("Outdent");
+    KSButton outdentButton = new KSButton();
 
-    KSButton deleteButton = new KSButton("Delete");
+    KSButton deleteButton = new KSButton();
 
   // Button insertPeerAboveButton = new Button("InsertPeerAbove");
 
-    KSButton addPeerButton = new KSButton("AddPeer");
+    KSButton addPeerButton = new KSButton();
 
-    KSButton addChildButton = new KSButton("AddChild");
+    KSButton addChildButton = new KSButton();
 
   OutlineNodeModel outlineModel;
 
   OutlineManagerToolbar() {
     super(true, false);
     HorizontalPanel buttonPanel = new HorizontalPanel();
+    super.setPixelSize(100, 22);
     super.add(buttonPanel);
     buttonPanel.add(moveUpButton);
     buttonPanel.add(moveDownButton);
@@ -86,6 +87,7 @@ class OutlineManagerToolbar extends PopupPanel {
     moveDownButton.addStyleName("KS-LOMoveDownButton");
     deleteButton.addStyleName("KS-LODeleteButton");
     indentButton.addStyleName("KS-LOIndentButton");
+    outdentButton.addStyleName("KS-LOOutdentButton"); 
     
     moveUpButton.addClickHandler(new ClickHandler() {
       public void onClick(ClickEvent event) {
@@ -136,11 +138,32 @@ class OutlineManagerToolbar extends PopupPanel {
   }
 
   public void updateButtonStates() {
-    this.moveUpButton.setEnabled(this.outlineModel.isMoveUpable());
-    this.deleteButton.setEnabled(this.outlineModel.isDeletable());
-    this.indentButton.setEnabled(this.outlineModel.isIndentable());
-    this.moveDownButton.setEnabled(this.outlineModel.isMoveDownable());
-    this.outdentButton.setEnabled(this.outlineModel.isOutdentable());
+    if(  this.outlineModel.isMoveUpable()){
+        moveUpButton.addStyleName("KS-LOMoveUpButton");
+    }else{
+        moveUpButton.addStyleName("KS-LOMoveUpButtonDiable");
+    }
+    if(this.outlineModel.isDeletable()){
+        deleteButton.addStyleName("KS-LODeleteButton");
+    } else{
+        deleteButton.addStyleName("KS-LODeleteButtonDisable");
+    }
+    if(this.outlineModel.isIndentable()){
+        indentButton.addStyleName("KS-LOIndentButton");
+    }else{
+        indentButton.addStyleName("KS-LOIndentButtonDisable");
+    }
+    if(this.outlineModel.isMoveDownable()){
+        moveDownButton.addStyleName("KS-LOMoveDownButton");
+    }else{
+        moveDownButton.addStyleName("KS-LOMoveDownButtonDisable");
+    }
+    if(this.outlineModel.isOutdentable()){
+        outdentButton.addStyleName("KS-LOOutdentButton"); 
+    }else{
+        outdentButton.addStyleName("KS-LOOutdentButtonDisable"); 
+
+    }
     
   }
 }

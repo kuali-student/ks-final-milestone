@@ -201,13 +201,26 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
         protected List<ModelDTO> modelDTOList = new ArrayList<ModelDTO>();
         OutlineNodeModel outlineModel = new OutlineNodeModel();
         OutlineManager outlineComposite = new OutlineManager();
+        VerticalPanel mainPanel = new VerticalPanel();
         
         public LearningObjectiveList(){
-            super.initWidget(outlineComposite);
+            mainPanel.add(outlineComposite);
+            KSLabel addnew = new KSLabel("Add new Learnging Objective");
+            addnew.addStyleName("KS-LOBuilder-New");
+            mainPanel.add(addnew);
+            addnew.addClickHandler(new ClickHandler(){
+                public void onClick(ClickEvent event) {
+                    List<String> list = new ArrayList<String>();
+                    list.add("");
+                    addSelectedLOs(list);
+                }
+            });
+            super.initWidget(mainPanel);
             List<String> list = new ArrayList<String>();
             list.add("");
             addSelectedLOs(list);
         }
+     
         public ModelDTOValue getValue() {
             ModelDTOValue.ListType list = new ModelDTOValue.ListType();
             modelDTOList = new ArrayList<ModelDTO>();

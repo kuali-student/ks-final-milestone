@@ -20,7 +20,7 @@ class OutlineNodeModel {
     public void setCurrentNode(OutlineNode aNode) {
       currentNode = aNode;
     }
-
+    
     public void addChangeHandler(ChangeHandler ch) {
       changeHandlerList.add(ch);
     }
