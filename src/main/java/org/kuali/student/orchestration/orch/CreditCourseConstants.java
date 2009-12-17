@@ -29,6 +29,11 @@ public interface CreditCourseConstants
 	public static final String DEPARTMENT = "department";
 	public static final String SUBJECT_AREA = "subjectArea";
 	public static final String COURSE_NUMBER_SUFFIX = "courseNumberSuffix";
+	public static final String CROSS_LISTINGS = "crossListings";
+	public static final String VERSIONS = "versions";
+	public static final String JOINTS = "joints";
+	public static final String FINAL_RESULTS = "finalResults";
+	public static final String FEES = "fees";
 	public static final String STATE = "state";
 	public static final String TYPE = "type";
 	public static final String EFFECTIVE_DATE = "effectiveDate";
@@ -36,6 +41,7 @@ public interface CreditCourseConstants
 	public static final String ACADEMIC_SUBJECT_ORGS = "academicSubjectOrgs";
 	public static final String CAMPUS_LOCATIONS = "campusLocations";
 	public static final String PRIMARY_INSTRUCTOR = "primaryInstructor";
+	public static final String COURSE_SPECIFIC_L_OS = "courseSpecificLOs";
 	public static final String _RUNTIME_DATA = "_runtimeData";
 }
 

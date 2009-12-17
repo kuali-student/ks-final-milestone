@@ -16,10 +16,13 @@
 package org.kuali.student.orchestration.orch;
 
 
+import java.util.HashMap;
+import java.util.Map;
 import org.kuali.student.common.assembly.client.ConstraintMetadata;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.orchestration.ConstraintMetadataBank;
+import org.kuali.student.orchestration.LookupMetadataBank;
 import org.kuali.student.orchestration.orch.CreditCourseActivityContactHoursHelper.Properties;
 
 
@@ -37,12 +40,15 @@ public class CreditCourseActivityContactHoursMetadata
 		Metadata mainMeta = new Metadata ();
 		mainMeta.setDataType (Data.DataType.DATA);
 		mainMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		loadChildMetadata (mainMeta, type, state);
+		Map <String, Integer> recursions = new HashMap ();
+		loadChildMetadata (mainMeta, type, state, recursions);
 		return mainMeta;
 	}
 	
-	public void loadChildMetadata (Metadata mainMeta, String type, String state)
+	public void loadChildMetadata (Metadata mainMeta, String type, String state,  Map<String, Integer> recursions)
 	{
+		int recurseLevel = increment (recursions, "CreditCourseActivityContactHoursMetadata");
+		
 		Metadata childMeta;
 		Metadata listMeta;
 		
@@ -52,6 +58,7 @@ public class CreditCourseActivityContactHoursMetadata
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.setDefaultValue (new Data.StringValue ("kuali.atp.duration.Week"));
+		childMeta.setLookupMetadata (LookupMetadataBank.LOOKUP_BANK.get ("kuali.lu.lookup.contact.hrs.per".toLowerCase ()));
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -80,6 +87,18 @@ public class CreditCourseActivityContactHoursMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("decimal"));
 		}
 		
+	}
+	
+	private int increment (Map<String, Integer> recursions, String key)
+	{
+		Integer recurseLevel = recursions.get (key);
+		if (recurseLevel == null)
+		{
+			recursions.put (key, 0);
+			return 0;
+		}
+		recursions.put (key, recurseLevel.intValue () + 1);
+		return recurseLevel.intValue ();
 	}
 }
 

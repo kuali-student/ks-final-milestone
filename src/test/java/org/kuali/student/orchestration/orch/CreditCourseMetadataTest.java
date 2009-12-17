@@ -77,9 +77,9 @@ public class CreditCourseMetadataTest
   * Test of getMetadata method, of class CreditCourseMetadata.
   */
  @Test
- public void testGetMetadata ()
+ public void testGetMetadataForCreditCourse ()
  {
-  System.out.println ("getMetadata");
+  System.out.println ("getMetadataForCreditCourse");
   String type = "";
   String state = "";
   CreditCourseMetadata instance = new CreditCourseMetadata ();

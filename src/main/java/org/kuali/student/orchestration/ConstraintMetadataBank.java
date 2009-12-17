@@ -948,6 +948,15 @@ public class ConstraintMetadataBank
 		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
 		
 		consMeta = new ConstraintMetadata ();
+		consMeta.setId ("hard.coded.singleUse.lo.sequence");
+		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
+		consMeta.setDesc ("must be \"kuali.lo.type.SingleUse.dynamic.sequence\"");
+		consMeta.setServerSide (true);
+		consMeta.setSpecialValidator ("org.kuali.student.core.calculation.HardCodedValueCalculator");
+		consMeta.setValidChars ("kuali\\.lo\\.type\\.singleUse\\dynamic\\sequence");
+		BANK.put (consMeta.getId ().toLowerCase (), consMeta);
+		
+		consMeta = new ConstraintMetadata ();
 		consMeta.setId ("hard.coded.unclassified.lo.category");
 		consMeta.setMessageId ("kuali.msg.validation.hard.coded");
 		consMeta.setDesc ("must be \"kuali.lo.category.type.unclassified\"");

@@ -29,6 +29,8 @@ public class CreditCourseActivityHelper
 		ID ("id"),
 		ACTIVITY_TYPE ("activityType"),
 		CONTACT_HOURS ("contactHours"),
+		DURATION ("duration"),
+		DEFAULT_ENROLLMENT_ESTIMATE ("defaultEnrollmentEstimate"),
 		STATE ("state"),
 		_RUNTIME_DATA ("_runtimeData");
 		
@@ -100,6 +102,30 @@ public class CreditCourseActivityHelper
 	public CreditCourseActivityContactHoursHelper getContactHours ()
 	{
 		return CreditCourseActivityContactHoursHelper.wrap ((Data) data.get (Properties.CONTACT_HOURS.getKey ()));
+	}
+	
+	
+	public void setDuration (CreditCourseActivityDurationHelper value)
+	{
+		data.set (Properties.DURATION.getKey (), (value == null) ? null : value.getData ());
+	}
+	
+	
+	public CreditCourseActivityDurationHelper getDuration ()
+	{
+		return CreditCourseActivityDurationHelper.wrap ((Data) data.get (Properties.DURATION.getKey ()));
+	}
+	
+	
+	public void setDefaultEnrollmentEstimate (Integer value)
+	{
+		data.set (Properties.DEFAULT_ENROLLMENT_ESTIMATE.getKey (), value);
+	}
+	
+	
+	public Integer getDefaultEnrollmentEstimate ()
+	{
+		return (Integer) data.get (Properties.DEFAULT_ENROLLMENT_ESTIMATE.getKey ());
 	}
 	
 	

@@ -16,9 +16,12 @@
 package org.kuali.student.orchestration.orch;
 
 
+import java.util.HashMap;
+import java.util.Map;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.orchestration.ConstraintMetadataBank;
+import org.kuali.student.orchestration.LookupMetadataBank;
 import org.kuali.student.orchestration.orch.CreditCourseActivityHelper.Properties;
 
 
@@ -36,12 +39,15 @@ public class CreditCourseActivityMetadata
 		Metadata mainMeta = new Metadata ();
 		mainMeta.setDataType (Data.DataType.DATA);
 		mainMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		loadChildMetadata (mainMeta, type, state);
+		Map <String, Integer> recursions = new HashMap ();
+		loadChildMetadata (mainMeta, type, state, recursions);
 		return mainMeta;
 	}
 	
-	public void loadChildMetadata (Metadata mainMeta, String type, String state)
+	public void loadChildMetadata (Metadata mainMeta, String type, String state,  Map<String, Integer> recursions)
 	{
+		int recurseLevel = increment (recursions, "CreditCourseActivityMetadata");
+		
 		Metadata childMeta;
 		Metadata listMeta;
 		
@@ -64,6 +70,7 @@ public class CreditCourseActivityMetadata
 		mainMeta.getProperties ().put (Properties.ACTIVITY_TYPE.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		childMeta.setLookupMetadata (LookupMetadataBank.LOOKUP_BANK.get ("kuali.lu.lookup.activity.types".toLowerCase ()));
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -86,14 +93,55 @@ public class CreditCourseActivityMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 		}
-		new CreditCourseActivityContactHoursMetadata ().loadChildMetadata (childMeta, type, state);
+		if (recurseLevel >= 1)
+		{
+			mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
+		}
+		else
+		{
+			new CreditCourseActivityContactHoursMetadata ().loadChildMetadata (childMeta, type, state, recursions);
+		}
+		
+		// metadata for Duration
+		childMeta = new Metadata ();
+		mainMeta.getProperties ().put (Properties.DURATION.getKey (), childMeta);
+		childMeta.setDataType (Data.DataType.DATA);
+		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+		}
+		if (recurseLevel >= 1)
+		{
+			mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
+		}
+		else
+		{
+			new CreditCourseActivityDurationMetadata ().loadChildMetadata (childMeta, type, state, recursions);
+		}
+		
+		// metadata for defaultEnrollmentEstimate
+		childMeta = new Metadata ();
+		mainMeta.getProperties ().put (Properties.DEFAULT_ENROLLMENT_ESTIMATE.getKey (), childMeta);
+		childMeta.setDataType (Data.DataType.INTEGER);
+		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("not.used"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("non-negative.integer"));
+		}
 		
 		// metadata for State
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.STATE.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		childMeta.setDefaultValue (new Data.StringValue ("draft"));
+		childMeta.setDefaultValue (new Data.StringValue ("draft.public"));
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -112,8 +160,27 @@ public class CreditCourseActivityMetadata
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 		}
-		new RuntimeDataMetadata ().loadChildMetadata (childMeta, type, state);
+		if (recurseLevel >= 1)
+		{
+			mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
+		}
+		else
+		{
+			new RuntimeDataMetadata ().loadChildMetadata (childMeta, type, state, recursions);
+		}
 		
+	}
+	
+	private int increment (Map<String, Integer> recursions, String key)
+	{
+		Integer recurseLevel = recursions.get (key);
+		if (recurseLevel == null)
+		{
+			recursions.put (key, 0);
+			return 0;
+		}
+		recursions.put (key, recurseLevel.intValue () + 1);
+		return recurseLevel.intValue ();
 	}
 }
 

@@ -21,7 +21,6 @@ public interface CreditCourseProposalConstants
 {
 	public static final String PROPOSAL = "proposal";
 	public static final String COURSE = "course";
-	public static final String FEES = "fees";
 	public static final String STATE = "state";
 	public static final String TYPE = "type";
 }

@@ -38,6 +38,11 @@ public class CreditCourseHelper
 		DEPARTMENT ("department"),
 		SUBJECT_AREA ("subjectArea"),
 		COURSE_NUMBER_SUFFIX ("courseNumberSuffix"),
+		CROSS_LISTINGS ("crossListings"),
+		VERSIONS ("versions"),
+		JOINTS ("joints"),
+		FINAL_RESULTS ("finalResults"),
+		FEES ("fees"),
 		STATE ("state"),
 		TYPE ("type"),
 		EFFECTIVE_DATE ("effectiveDate"),
@@ -45,6 +50,7 @@ public class CreditCourseHelper
 		ACADEMIC_SUBJECT_ORGS ("academicSubjectOrgs"),
 		CAMPUS_LOCATIONS ("campusLocations"),
 		PRIMARY_INSTRUCTOR ("primaryInstructor"),
+		COURSE_SPECIFIC_L_OS ("courseSpecificLOs"),
 		_RUNTIME_DATA ("_runtimeData");
 		
 		private final String key;
@@ -202,6 +208,66 @@ public class CreditCourseHelper
 	}
 	
 	
+	public void setCrossListings (Data value)
+	{
+		data.set (Properties.CROSS_LISTINGS.getKey (), value);
+	}
+	
+	
+	public Data getCrossListings ()
+	{
+		return (Data) data.get (Properties.CROSS_LISTINGS.getKey ());
+	}
+	
+	
+	public void setVersions (Data value)
+	{
+		data.set (Properties.VERSIONS.getKey (), value);
+	}
+	
+	
+	public Data getVersions ()
+	{
+		return (Data) data.get (Properties.VERSIONS.getKey ());
+	}
+	
+	
+	public void setJoints (Data value)
+	{
+		data.set (Properties.JOINTS.getKey (), value);
+	}
+	
+	
+	public Data getJoints ()
+	{
+		return (Data) data.get (Properties.JOINTS.getKey ());
+	}
+	
+	
+	public void setFinalResults (String value)
+	{
+		data.set (Properties.FINAL_RESULTS.getKey (), value);
+	}
+	
+	
+	public String getFinalResults ()
+	{
+		return (String) data.get (Properties.FINAL_RESULTS.getKey ());
+	}
+	
+	
+	public void setFees (Data value)
+	{
+		data.set (Properties.FEES.getKey (), value);
+	}
+	
+	
+	public Data getFees ()
+	{
+		return (Data) data.get (Properties.FEES.getKey ());
+	}
+	
+	
 	public void setState (String value)
 	{
 		data.set (Properties.STATE.getKey (), value);
@@ -283,6 +349,18 @@ public class CreditCourseHelper
 	public String getPrimaryInstructor ()
 	{
 		return (String) data.get (Properties.PRIMARY_INSTRUCTOR.getKey ());
+	}
+	
+	
+	public void setCourseSpecificLOs (Data value)
+	{
+		data.set (Properties.COURSE_SPECIFIC_L_OS.getKey (), value);
+	}
+	
+	
+	public Data getCourseSpecificLOs ()
+	{
+		return (Data) data.get (Properties.COURSE_SPECIFIC_L_OS.getKey ());
 	}
 	
 	

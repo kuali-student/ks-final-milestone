@@ -16,6 +16,8 @@
 package org.kuali.student.orchestration.orch;
 
 
+import java.util.HashMap;
+import java.util.Map;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.orchestration.ConstraintMetadataBank;
@@ -36,12 +38,15 @@ public class RuntimeDataVersionsMetadata
 		Metadata mainMeta = new Metadata ();
 		mainMeta.setDataType (Data.DataType.DATA);
 		mainMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		loadChildMetadata (mainMeta, type, state);
+		Map <String, Integer> recursions = new HashMap ();
+		loadChildMetadata (mainMeta, type, state, recursions);
 		return mainMeta;
 	}
 	
-	public void loadChildMetadata (Metadata mainMeta, String type, String state)
+	public void loadChildMetadata (Metadata mainMeta, String type, String state,  Map<String, Integer> recursions)
 	{
+		int recurseLevel = increment (recursions, "RuntimeDataVersionsMetadata");
+		
 		Metadata childMeta;
 		Metadata listMeta;
 		
@@ -75,6 +80,18 @@ public class RuntimeDataVersionsMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 		}
 		
+	}
+	
+	private int increment (Map<String, Integer> recursions, String key)
+	{
+		Integer recurseLevel = recursions.get (key);
+		if (recurseLevel == null)
+		{
+			recursions.put (key, 0);
+			return 0;
+		}
+		recursions.put (key, recurseLevel.intValue () + 1);
+		return recurseLevel.intValue ();
 	}
 }
 

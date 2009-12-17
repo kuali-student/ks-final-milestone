@@ -17,6 +17,8 @@ package org.kuali.student.orchestration.base;
 
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.orchestration.ConstraintMetadataBank;
@@ -37,12 +39,15 @@ public class TagInfoMetadata
 		Metadata mainMeta = new Metadata ();
 		mainMeta.setDataType (Data.DataType.DATA);
 		mainMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		loadChildMetadata (mainMeta, type, state);
+		Map <String, Integer> recursions = new HashMap ();
+		loadChildMetadata (mainMeta, type, state, recursions);
 		return mainMeta;
 	}
 	
-	public void loadChildMetadata (Metadata mainMeta, String type, String state)
+	public void loadChildMetadata (Metadata mainMeta, String type, String state,  Map<String, Integer> recursions)
 	{
+		int recurseLevel = increment (recursions, "TagInfoMetadata");
+		
 		Metadata childMeta;
 		Metadata listMeta;
 		
@@ -151,7 +156,14 @@ public class TagInfoMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.meta.data"));
 		}
-		new MetaInfoMetadata ().loadChildMetadata (childMeta, type, state);
+		if (recurseLevel >= 1)
+		{
+			mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
+		}
+		else
+		{
+			new MetaInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
+		}
 		
 		// metadata for type
 		childMeta = new Metadata ();
@@ -189,6 +201,18 @@ public class TagInfoMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.id"));
 		}
 		
+	}
+	
+	private int increment (Map<String, Integer> recursions, String key)
+	{
+		Integer recurseLevel = recursions.get (key);
+		if (recurseLevel == null)
+		{
+			recursions.put (key, 0);
+			return 0;
+		}
+		recursions.put (key, recurseLevel.intValue () + 1);
+		return recurseLevel.intValue ();
 	}
 }
 

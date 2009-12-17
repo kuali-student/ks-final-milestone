@@ -22,6 +22,8 @@ public interface CreditCourseActivityConstants
 	public static final String ID = "id";
 	public static final String ACTIVITY_TYPE = "activityType";
 	public static final String CONTACT_HOURS = "contactHours";
+	public static final String DURATION = "duration";
+	public static final String DEFAULT_ENROLLMENT_ESTIMATE = "defaultEnrollmentEstimate";
 	public static final String STATE = "state";
 	public static final String _RUNTIME_DATA = "_runtimeData";
 }
