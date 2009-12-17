@@ -36,6 +36,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.Updatabl
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.Type;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
@@ -59,6 +60,7 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCours
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseDurationConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseFormatConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.LearningObjectiveConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoConstants;
@@ -69,6 +71,7 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LuConfigurer.
 import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.widgets.AssemblerTestSection;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
+import org.kuali.student.lum.lu.ui.course.client.widgets.LOBuilder;
 import org.kuali.student.lum.lu.ui.course.client.widgets.OfferedJointlyList;
 import org.kuali.student.lum.lu.ui.course.client.widgets.OrgPicker;
 
@@ -98,15 +101,17 @@ public class CourseConfigurer
  CreditCourseActivityConstants,
  MetaInfoConstants,
  CreditCourseDurationConstants,
- FeeInfoConstants
+ FeeInfoConstants,
+ LearningObjectiveConstants
 {
 
     //FIXME:  Initialize type and state
+    private String type = "course";
+    private String state = "draft";
     private String groupName;
 
     private boolean WITH_DIVIDER = true;
     private boolean NO_DIVIDER = false;
-    private final int NUM_INITIAL_LOS = 3;
 
     public static final String CLU_PROPOSAL_MODEL = "cluProposalModel";
 
@@ -124,7 +129,7 @@ public class CourseConfigurer
         layout.addSection(new String[] {"Edit Proposal", getLabel(LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, generateGovernanceSection());
         layout.addSection(new String[] {"Edit Proposal", getLabel(LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, generateCourseLogisticsSection());
         layout.addSection(new String[] {"Edit Proposal", getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateCourseInfoSection());
-//        layout.addSection(new String[] {"Edit Proposal", getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateLearningObjectivesSection());
+        layout.addSection(new String[] {"Edit Proposal", getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateLearningObjectivesSection());
         layout.addSection(new String[] {"Edit Proposal", getLabel(LUConstants.STUDENT_ELIGIBILITY_LABEL_KEY)}, generateCourseRequisitesSection());
         layout.addSection(new String[] {"Edit Proposal", getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateActiveDatesSection());
         layout.addSection(new String[] {"Edit Proposal", getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateFinancialsSection());   
@@ -402,18 +407,16 @@ public class CourseConfigurer
         return section;
     }
 
-//    private SectionView generateLearningObjectivesSection() {
-//    	// FIXME wilj: assembler does not contain any LO stuff yet
-//        VerticalSectionView section = initSectionView(LuSections.LEARNING_OBJECTIVES, LUConstants.LEARNING_OBJECTIVES_LABEL_KEY); 
-//
-//        VerticalSection los = initSection(null, NO_DIVIDER);    
-//
-//        los.addField(new FieldDescriptor("cluInfo/loInfos", null, Type.LIST, new LearningObjectiveList()));
-//        los.addStyleName("KS-LUM-Section-Divider");
-//        
-//        section.addSection(los);
-//        return section;        
-//    }
+    private SectionView generateLearningObjectivesSection() {
+        VerticalSectionView section = initSectionView(LuSections.LEARNING_OBJECTIVES, LUConstants.LEARNING_OBJECTIVES_LABEL_KEY); 
+
+        VerticalSection los = initSection(null, NO_DIVIDER);    
+        addField(los, LEARNING_OBJECTIVES, null, new LOBuilder(type, state, groupName));
+        los.addStyleName("KS-LUM-Section-Divider");
+        
+        section.addSection(los);
+        return section;        
+    }
     
     public class CourseFormatList extends UpdatableMultiplicityComposite {
     	private final String parentPath;
@@ -882,7 +885,7 @@ public class CourseConfigurer
     }
     
     private String getLabel(String labelKey) {
-        return Application.getApplicationContext().getUILabel(groupName, "course", "draft", labelKey);
+        return Application.getApplicationContext().getUILabel(groupName, type, state, labelKey);
     }
     
     private SectionTitle getH1Title(String labelKey) {
