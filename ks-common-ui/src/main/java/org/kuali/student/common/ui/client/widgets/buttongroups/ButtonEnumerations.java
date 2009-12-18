@@ -125,4 +125,32 @@ public class ButtonEnumerations {
         return null;  
     }
     };
+    
+    public static enum CreateCancelEnum implements ButtonEnum{CREATE, CANCEL;
+
+    @Override
+    public String getText() {
+        switch(this){
+            case CREATE:
+                return context.getMessage("create");
+            case CANCEL:
+                return context.getMessage("cancel");
+        }
+        return null;  
+    }
+    };
+    
+    public static enum SearchCancelEnum implements ButtonEnum{SEARCH, CANCEL;
+
+    @Override
+    public String getText() {
+        switch(this){
+            case SEARCH:
+                return context.getMessage("search");
+            case CANCEL:
+                return context.getMessage("cancel");
+        }
+        return null;  
+    }
+    };
 }

@@ -21,6 +21,8 @@
    	<bean parent="enCommon" p:id="advSearch"	p:value="Advanced Search"/>
    	<bean parent="enCommon" p:id="send"     	p:value="Send"/>
    	<bean parent="enCommon" p:id="go"		p:value="Go"/>
+   	<bean parent="enCommon" p:id="create"		p:value="Create"/>
+   	<bean parent="enCommon" p:id="search"		p:value="Search"/>
    	
    	<bean parent="enCommon" p:id="errorDialogTitle"     	p:value="Send us an Error Report"/>
    	<bean parent="enCommon" p:id="errorDescription"     	p:value="Here is the information included in this report."/>
