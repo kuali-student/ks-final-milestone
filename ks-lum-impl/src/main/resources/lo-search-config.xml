@@ -61,7 +61,18 @@
         	<ref bean="lo.result.loClu" />
         </search:searchResultTypeInfo>
         <search:searchCriteriaTypeInfo>
-        	<ref bean="lo.criteria.loByCategory"/>
+        	<ref bean="lo.criteria.byCategoryName"/>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+    
+    <search:searchType id="lo.search.categories">
+        <search:name>LO Search for all categories</search:name>
+        <search:desc>Returns all matching category names </search:desc>
+        <search:searchResultTypeInfo>
+        	<ref bean="lo.result.categoryName" />
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+        	<ref bean="lo.criteria.byCategoryName"/>
         </search:searchCriteriaTypeInfo>
     </search:searchType>
     
@@ -78,6 +89,20 @@
         </search:queryParams>
 	</search:searchCriteriaTypeInfo>
 	
+	<search:searchCriteriaTypeInfo id="lo.criteria.loByDesc">
+		<search:name>LoByWordMatchCriteria</search:name>
+		<search:queryParams>
+			<ref bean="lo.queryParam.loDescPlain" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+	
+	<search:searchCriteriaTypeInfo id="lo.criteria.byCategoryName">
+		<search:name>LoByCategoryCriteria</search:name>
+		<search:queryParams>
+			<ref bean="lo.queryParam.loCategoryName" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+		
     <search:queryParam id="lo.queryParam.loName">
         <dict:fieldDescriptor>
             <dict:name>Learning Objective Name</dict:name>
@@ -86,7 +111,25 @@
 	        <dict:readOnly>true</dict:readOnly>
         </dict:fieldDescriptor>
     </search:queryParam>
-
+    
+	<search:queryParam id="lo.queryParam.loDescPlain">
+        <dict:fieldDescriptor parent="parentFieldDescriptor">
+            <dict:name>Description</dict:name>
+        </dict:fieldDescriptor>
+    </search:queryParam>
+       
+	<search:queryParam id="lo.queryParam.loCategoryName">
+        <dict:fieldDescriptor parent="parentFieldDescriptor">
+            <dict:name>Category</dict:name>
+        </dict:fieldDescriptor>
+    </search:queryParam>
+    
+    <search:queryParam id="lo.queryParam.loCategoryId">
+		<dict:fieldDescriptor parent="parentFieldDescriptor">
+			<dict:name>LO category Id</dict:name>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+	
     <search:searchResultTypeInfo id="lo.result.los">
         <search:name>Los</search:name>
         <search:desc>List Los</search:desc>
@@ -113,6 +156,15 @@
             <ref bean="lo.resultColumn.loCluId" />
             <ref bean="lo.resultColumn.loCluCode" />
         	<ref bean="lo.resultColumn.loDescPlain" />
+        </search:resultColumns>
+    </search:searchResultTypeInfo>
+    
+    <search:searchResultTypeInfo id="lo.result.categoryName">
+        <search:name>Los and Related Clus</search:name>
+        <search:desc>Lo descs ids and Clu ids and Codes</search:desc>
+        <search:resultColumns>
+            <ref bean="lo.resultColumn.categoryId" />
+            <ref bean="lo.resultColumn.categoryName" />
         </search:resultColumns>
     </search:searchResultTypeInfo>
     
@@ -151,32 +203,18 @@
         <search:desc>Desc of an Lo</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
-    
-	<search:searchCriteriaTypeInfo id="lo.criteria.loByDesc">
-		<search:name>LoByWordMatchCriteria</search:name>
-		<search:queryParams>
-			<ref bean="lo.queryParam.loDescPlain" />
-		</search:queryParams>
-	</search:searchCriteriaTypeInfo>
-	
-	<search:searchCriteriaTypeInfo id="lo.criteria.loByCategory">
-		<search:name>LoByCategoryCriteria</search:name>
-		<search:queryParams>
-			<ref bean="lo.queryParam.loCategory" />
-		</search:queryParams>
-	</search:searchCriteriaTypeInfo>
-	
-	<search:queryParam id="lo.queryParam.loDescPlain">
-        <dict:fieldDescriptor parent="parentFieldDescriptor">
-            <dict:name>Description</dict:name>
-        </dict:fieldDescriptor>
-    </search:queryParam>
-       
-	<search:queryParam id="lo.queryParam.loCategory">
-        <dict:fieldDescriptor parent="parentFieldDescriptor">
-            <dict:name>Category</dict:name>
-        </dict:fieldDescriptor>
-    </search:queryParam>
+
+    <search:resultColumn id="lo.resultColumn.categoryName">
+        <search:name>Category</search:name>
+        <search:desc>Category to be used for an LO</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+        
+    <search:resultColumn id="lo.resultColumn.categoryId">
+        <search:name>Category ID</search:name>
+        <search:desc>Category to be used for an LO</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
     
     <dict:fieldDescriptor id="parentFieldDescriptor">
         <dict:name>Comment Identifier</dict:name>
@@ -197,7 +235,10 @@
 				<entry key="lo.search.loByName">
 					<value>SELECT lo.id, lo.name FROM Lo lo WHERE lo.name = :lo_queryParam_loName</value>
 				</entry>
-				<!--  This native search is a temporary solution to allow cross service searches in advance of the KS permanent 
+				<entry key="lo.search.categories">
+                    <value>SELECT cat.id, cat.name FROM LoCategory cat WHERE cat.name like :lo_queryParam_loCategoryName or cat.id = :lo_queryParam_loCategoryId</value>
+				</entry>
+				<!--  These native searches are temporary solutions to allow cross service searches in advance of the KS permanent 
 				      cross service search implementation  -->
 				<entry key="lo.search.loCluByDesc">
 					<value>NATIVE:SELECT 
@@ -227,15 +268,7 @@ WHERE
     lower(lodesc.PLAIN) like :lo_queryParam_loDescPlain
 					</value>
     			</entry>
-    			<!--  This is initial search by category, need extra relationship between LOs and repositories before this
-    			search can be extended to include the clu code -->
-    			<entry key="lo.search.loByCategory">
-                 <!--    <value>SELECT lo.id, 'test', 'test', lo.desc.plain FROM Lo lo 
-					JOIN lo.loRepository repo
-					JOIN repo.categories cat
-					WHERE lower(cat.name) like :lo_queryParam_loCategory
-					</value>
-					-->					
+    			<entry key="lo.search.loByCategory">				
 					<value>NATIVE:SELECT 
     lo.id lo_id, 
     clu.id clu_id, 
