@@ -119,6 +119,7 @@ public class LOCategoryCodePicker extends Composite implements SuggestPicker {
             }});
         main.add(getLabel(LUConstants.LO_CATEGORY_CODE_KEY));
         main.addStyleName("KS-LOCategoryPicker");
+        addButton.addStyleName("KS-LOCategoryPicker-Button");
         main.add(suggestPanel);
         main.add(selectedPanel);
 
