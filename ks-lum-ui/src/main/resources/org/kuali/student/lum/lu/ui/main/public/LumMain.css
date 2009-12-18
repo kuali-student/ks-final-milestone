@@ -129,7 +129,7 @@
     height:20px;
 }
 .KS-LOIndentButtonDisabled{
-    background: url("images/LOIndentLeft.png") no-repeat 2px 2px;
+    background: url("images/LOIndentLeftDisabled.png") no-repeat 2px 2px;
     width: 20px;
     height:20px;
 }
