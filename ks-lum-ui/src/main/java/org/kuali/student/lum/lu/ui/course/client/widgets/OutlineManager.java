@@ -140,41 +140,49 @@ class OutlineManagerToolbar extends PopupPanel {
   public void updateButtonStates() {
     if(  this.outlineModel.isMoveUpable()){
         moveUpButton.setEnabled(true);
+        moveUpButton.removeStyleName("KS-LOMoveUpButtonDisabled");
         moveUpButton.addStyleName("KS-LOMoveUpButton");
     }else{
         moveUpButton.setEnabled(false);
-        moveUpButton.addStyleName("KS-LOMoveUpButtonDiable");
+        moveUpButton.removeStyleName("KS-LOMoveUpButton");
+        moveUpButton.addStyleName("KS-LOMoveUpButtonDisabled");
     }
     if(this.outlineModel.isDeletable()){
         deleteButton.setEnabled(true);
+        deleteButton.removeStyleName("KS-LODeleteButtonDisabled");
         deleteButton.addStyleName("KS-LODeleteButton");
     } else{
         deleteButton.setEnabled(false);
-        deleteButton.addStyleName("KS-LODeleteButtonDisable");
+        deleteButton.removeStyleName("KS-LODeleteButton");
+        deleteButton.addStyleName("KS-LODeleteButtonDisabled");
     }
     if(this.outlineModel.isIndentable()){
         indentButton.setEnabled(true);
+        indentButton.removeStyleName("KS-LOIndentButtonDisabled");
         indentButton.addStyleName("KS-LOIndentButton");
     }else{
         indentButton.setEnabled(false);
-        indentButton.addStyleName("KS-LOIndentButtonDisable");
+        indentButton.removeStyleName("KS-LOIndentButton");
+        indentButton.addStyleName("KS-LOIndentButtonDisabled");
     }
     if(this.outlineModel.isMoveDownable()){
         moveDownButton.setEnabled(true);
+        moveDownButton.removeStyleName("KS-LOMoveDownButtonDisabled");
         moveDownButton.addStyleName("KS-LOMoveDownButton");
     }else{
         moveDownButton.setEnabled(false);
-        moveDownButton.addStyleName("KS-LOMoveDownButtonDisable");
+        moveDownButton.removeStyleName("KS-LOMoveDownButton");
+        moveDownButton.addStyleName("KS-LOMoveDownButtonDisabled");
     }
     if(this.outlineModel.isOutdentable()){
         outdentButton.setEnabled(true);
+        outdentButton.removeStyleName("KS-LOOutdentButtonDisabled");
         outdentButton.addStyleName("KS-LOOutdentButton"); 
     }else{
         outdentButton.setEnabled(false);
-        outdentButton.addStyleName("KS-LOOutdentButtonDisable"); 
-
+        outdentButton.removeStyleName("KS-LOOutdentButton");
+        outdentButton.addStyleName("KS-LOOutdentButtonDisabled"); 
     }
-    
   }
 }
 

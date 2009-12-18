@@ -300,7 +300,7 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
             
             String strvalue = ((ModelDTOValue.StringType)modelDTOList.get(i).get("value")).get();
             int level = ((ModelDTOValue.IntegerType)modelDTOList.get(i).get("level")).get();
-            int sequence = ((ModelDTOValue.IntegerType)modelDTOList.get(i).get("sequence")).get();
+           // int sequence = ((ModelDTOValue.IntegerType)modelDTOList.get(i).get("sequence")).get();
             // the LO from server should be in the right order
             ((TextBox)aNode.getUserObject()).setText(strvalue);
             aNode.setIndentLevel(level);
