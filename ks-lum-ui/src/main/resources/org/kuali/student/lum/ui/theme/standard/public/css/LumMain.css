@@ -139,6 +139,13 @@
     font-weight:bold;
 
 }
+
+.KS-LOCategoryPicker {
+    padding: 5px;
+    background-color: #FFE0C2;
+    border-style: dashed;
+}
+
 .KS-LOMoveUpButton{
     background: url("images/LOMoveUpButton.png") no-repeat 2px 2px;
     width: 22px;

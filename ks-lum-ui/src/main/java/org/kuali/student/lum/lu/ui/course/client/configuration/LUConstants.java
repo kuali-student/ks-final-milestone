@@ -187,7 +187,13 @@ public class LUConstants {
     public static final String LEARNING_OBJECTIVE_ADD_LABEL_KEY = "cluAddLOs";    
     public static final String LEARNING_OBJECTIVE_WORD_SEARCH_KEY = "cluLOWordSearch";
     public static final String LEARNING_OBJECTIVE_CLUCODE_SEARCH_KEY = "cluLOCluCodeSearch";
-//    public static final String SYLLABUS_LABEL_KEY = "cluSyllabus";
+    public static final String LO_SEARCH_LINK_KEY = "cluLOSearch";
+    public static final String LO_SEARCH_AGAIN_LINK_KEY = "cluLOSearchAgain";
+    public static final String LO_INSTRUCTIONS_KEY = "cluLOInstructions";
+    public static final String LO_CATEGORY_CODE_KEY = "cluLOCategoryCode";
+
+    
+    //    public static final String SYLLABUS_LABEL_KEY = "cluSyllabus";
 
     //Requisites labels
     public static final String RESTRICTIONS_LABEL_KEY = "cluCourseRestrictions";
@@ -220,9 +226,6 @@ public class LUConstants {
     public static final String DEPT_REQS_LABEL_KEY = "cluDeptRequirements";
     public static final String DEPT_LABEL_KEY = "cluDept";
 
-    public static final String LO_SEARCH_LINK_KEY = "cluLOSearch";
-    public static final String LO_SEARCH_AGAIN_LINK_KEY = "cluLOSearchAgain";
-    public static final String LO_INSTRUCTIONS_KEY = "cluLOInstructions";
 
 
 }

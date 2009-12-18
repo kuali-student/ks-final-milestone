@@ -1,6 +1,10 @@
 package org.kuali.student.lum.lu.ui.course.client.widgets;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.focus.FocusGroup;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
@@ -12,12 +16,17 @@ import org.kuali.student.lum.lu.ui.course.client.service.LoRpcServiceAsync;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.HTMLTable.Cell;
 
 /**
  * /*
@@ -51,27 +60,17 @@ public class LOCategoryCodePicker extends Composite implements SuggestPicker {
             "lo.queryParam.loCategoryName",
             "lo.queryParam.loCategoryId",
             "lo.resultColumn.categoryName", 
-            "lo.resultColumn.categoryName");
+    "lo.resultColumn.categoryName");
     final KSSuggestBox suggestBox = new KSSuggestBox(luSearchOracle);
 
-//    final KSDropDown stateDropDown = new KSDropDown();
+    FlexTable selections = new FlexTable();
 
     VerticalPanel root = new VerticalPanel();
+    int row = 0;
+    int col = 0;
 
     private final FocusGroup focus = new FocusGroup(this);
-
-    //FIXME: These should come from an enumeration somehow
-    private static final String STATE_EXPLORE = "Explore";
-    private static final String STATE_TEMPLATE = "Template";
-    private static final String STATE_DRAFT = "Draft";
-    private static final String STATE_SUBMITTED = "Submitted";
-    private static final String STATE_WITHDRAWN = "Withdrawn";
-    private static final String STATE_APPROVED = "Approved";
-    private static final String STATE_REJECTED = "Rejected";
-    private static final String STATE_ACTIVATED = "Activated";
-    private static final String STATE_RETIRED = "Retired";
-
-
+    private KSButton addButton = new KSButton("Add");
 
     public LOCategoryCodePicker(String messageGroup, String type, String state) {
         super();
@@ -85,45 +84,43 @@ public class LOCategoryCodePicker extends Composite implements SuggestPicker {
         initWidget(root);
 
         VerticalPanel main = new VerticalPanel();
+        HorizontalPanel suggestPanel = new HorizontalPanel();
+        suggestPanel.add(suggestBox);
+        suggestPanel.add(addButton);
 
         luSearchOracle.setTextWidget(suggestBox.getTextBox());
+//      final ArrayList<QueryParamValue> params = new ArrayList<QueryParamValue>();
+//      QueryParamValue luStateParam = new QueryParamValue();
+//      luStateParam.setKey("lu.queryParam.cluState");     
+//      luStateParam.setValue(STATE_ACTIVATED);
+//      params.add(luStateParam);
+//      luSearchOracle.setAdditionalQueryParams(params);
+        
+        final VerticalPanel selectedPanel = new VerticalPanel();
+        selectedPanel.add(selections);
 
-
-//        final ListItems cluStateListItems = buildCluStateListItems();
-//        stateDropDown.setListItems(cluStateListItems);
-//        stateDropDown.setMultipleSelect(false);
-//        stateDropDown.selectItem("0");
-
-        main.add(getLabel(LUConstants.CODE_LABEL_KEY));
-        main.add(suggestBox);
-//        main.add(stateDropDown);
-//        final ArrayList<QueryParamValue> params = new ArrayList<QueryParamValue>();
-//        QueryParamValue luStateParam = new QueryParamValue();
-//        luStateParam.setKey("lu.queryParam.cluState");     
-//        luStateParam.setValue(STATE_ACTIVATED);
-//        params.add(luStateParam);
-//        luSearchOracle.setAdditionalQueryParams(params);
-
-
-//        stateDropDown.addSelectionChangeHandler(new SelectionChangeHandler() {
-//
-//            @Override
-//            public void onSelectionChange(KSSelectItemWidgetAbstract w) {
-//                
-//                ArrayList<QueryParamValue> newParams = new ArrayList<QueryParamValue>();
-//                List<String> selectedItems = stateDropDown.getSelectedItems();
-//                for(String s: selectedItems){
-//                    QueryParamValue luStateParam = new QueryParamValue();
-//                    luStateParam.setKey("lu.queryParam.cluState");     
-//                    luStateParam.setValue(cluStateListItems.getItemText(s));
-//                    params.add(luStateParam);
-//               }
-//                luSearchOracle.setAdditionalQueryParams(newParams);
-//
-//            }
-//
-//        });
-
+        addButton.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                selections.setWidget(row, col++, new KSLabel(suggestBox.getText().trim()));
+                KSLabel deleteLabel = new KSLabel("[x]");
+                deleteLabel.addStyleName("KS-LOBuilder-Search-Link");
+                deleteLabel.addClickHandler(new ClickHandler() {
+                    @Override
+                    public void onClick(ClickEvent event) {
+                        Cell cell = selections.getCellForEvent(event);
+                        selections.removeRow(cell.getRowIndex());
+                    }                   
+                });
+                selections.setWidget(row, col++, deleteLabel);
+                row++;
+                col = 0;                
+                suggestBox.reset();
+            }});
+        main.add(getLabel(LUConstants.LO_CATEGORY_CODE_KEY));
+        main.addStyleName("KS-LOCategoryPicker");
+        main.add(suggestPanel);
+        main.add(selectedPanel);
 
         root.add(main);
 
