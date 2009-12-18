@@ -18,6 +18,8 @@ package org.kuali.student.lum.lu.ui.course.client.service;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
+import org.kuali.student.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -29,5 +31,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public interface LoRpcServiceAsync extends BaseRpcServiceAsync{
     public void getLoByIdList(List<String> loId,  AsyncCallback<List<LoInfo>> callback);
+    public void getLoCategoryTypes( AsyncCallback<List<LoCategoryTypeInfo>> callback);
+    public void createLoCategory(String loRepositoryKey,  String loCategoryTypeKey, LoCategoryInfo loCategoryInfo,
+            AsyncCallback<LoCategoryInfo> callback);
 
 }

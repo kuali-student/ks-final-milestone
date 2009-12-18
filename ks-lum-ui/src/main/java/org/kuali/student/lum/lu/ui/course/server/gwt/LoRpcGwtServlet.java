@@ -17,9 +17,14 @@ package org.kuali.student.lum.lu.ui.course.server.gwt;
 import java.util.List;
 
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
+import org.kuali.student.core.exceptions.DataValidationErrorException;
+import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.lum.lu.ui.course.client.service.LoRpcService;
@@ -54,5 +59,48 @@ public class LoRpcGwtServlet extends BaseRpcGwtServletAbstract<LearningObjective
         return null;
 
     }
+
+    /**
+     * This overridden method ...
+     * 
+     * @see org.kuali.student.lum.lu.ui.course.client.service.LoRpcService#getLoCategoryTypes()
+     */
+    @Override
+    public List<LoCategoryTypeInfo> getLoCategoryTypes() {
+        try {
+            return service.getLoCategoryTypes();
+
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+
+        }
+        return null;
+    }
+
+    /**
+     * This overridden method ...
+     * 
+     * @see org.kuali.student.lum.lu.ui.course.client.service.LoRpcService#createLoCategory(java.lang.String, java.lang.String, org.kuali.student.lum.lo.dto.LoCategoryInfo)
+     */
+    @Override
+    public LoCategoryInfo createLoCategory(String loRepositoryKey, String loCategoryTypeKey, LoCategoryInfo loCategoryInfo) {
+        try {
+            return service.createLoCategory(loRepositoryKey, loCategoryTypeKey, loCategoryInfo);
+
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        } catch (DataValidationErrorException e) {
+            e.printStackTrace();
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();
+        }
+        return null;
+        }
 
 }

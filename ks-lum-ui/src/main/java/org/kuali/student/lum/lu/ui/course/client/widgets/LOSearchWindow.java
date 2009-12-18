@@ -31,9 +31,9 @@ import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.KSThinTitleBar;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.SearchCancelEnum;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ConfirmCancelGroup;
-import org.kuali.student.common.ui.client.widgets.buttongroups.GoCancelGroup;
-import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.GoCancelEnum;
+import org.kuali.student.common.ui.client.widgets.buttongroups.SearchCancelGroup;
 import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
@@ -85,7 +85,7 @@ public class LOSearchWindow extends Composite {
     private String messageGroup;
 
     KSLightBox searchWindow ;
-//  KSLightBox searchResultsWindow ;
+
     private VerticalPanel searchLayout = new VerticalPanel();
     final SimplePanel searchParamPanel = new SimplePanel();
     private VerticalPanel searchRequestPanel = new VerticalPanel();
@@ -119,8 +119,6 @@ public class LOSearchWindow extends Composite {
 
     final KSDropDown loSearches = new KSDropDown();
     CluCodePicker cluPicker ;
-
-
 
     /**
      * 
@@ -182,12 +180,12 @@ public class LOSearchWindow extends Composite {
             }
         })  ;
 
-        GoCancelGroup buttonPanel = new GoCancelGroup(new Callback<GoCancelEnum>(){
+        SearchCancelGroup buttonPanel = new SearchCancelGroup(new Callback<SearchCancelEnum>(){
 
             @Override
-            public void exec(GoCancelEnum result) {
+            public void exec(SearchCancelEnum result) {
                 switch(result){
-                    case GO:
+                    case SEARCH:
                         List<String> selectedItems = loSearches.getSelectedItems();
                         for(String s: selectedItems){
                             if (searchTypesList.getItemText(s).equals(SEARCH_BY_COURSE_CODE)) {
@@ -223,7 +221,7 @@ public class LOSearchWindow extends Composite {
         searchWindow = new KSLightBox();
         searchWindow.setWidget(searchRequestPanel);
 
-        searchRequestPanel.addStyleName("KS-LOSearch-Window");
+        searchRequestPanel.addStyleName("KS-LOWindow");
         titleBar.addStyleName("KS-LOSearch-Title");        
         selectSearchPanel.addStyleName("KS-LOSearch-Type-Panel");        
         searchParamPanel.addStyleName("KS-LOSearch-Param-Panel");        
@@ -441,7 +439,7 @@ public class LOSearchWindow extends Composite {
             main.add(searchAgainLink);
             main.add(loCheckBoxes);
             main.add(buttons);
-            main.addStyleName("KS-LOSearch-Window");
+            main.addStyleName("KS-LOWindow");
 
             searchWindow.setWidget(main);         
         }

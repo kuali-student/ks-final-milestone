@@ -775,6 +775,8 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	    LoCategory category = LearningObjectiveServiceAssembler.toLoCategory(loCategoryInfo, loDao);
 	    LoCategoryType loCatType = loDao.fetch(LoCategoryType.class, loCategoryTypeKey);
 	    category.setLoCategoryType(loCatType);
+	    LoRepository loRepository = loDao.fetch(LoRepository.class, loRepositoryKey);
+	    category.setLoRepository(loRepository);
 	    loDao.create(category);
 		return LearningObjectiveServiceAssembler.toLoCategoryInfo(category);
 	}
