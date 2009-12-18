@@ -210,12 +210,21 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
             mainPanel.add(addnew);
             addnew.addClickHandler(new ClickHandler(){
                 public void onClick(ClickEvent event) {
+                    setValue(getValue()); 
                     List<String> list = new ArrayList<String>();
                     list.add("");
                     addSelectedLOs(list);
                 }
             });
             super.initWidget(mainPanel);
+            
+            outlineComposite.setModel(outlineModel);
+            outlineModel.addChangeHandler(new ChangeHandler() {
+              public void onChange(ChangeEvent event) {
+                outlineComposite.render();
+              }
+            });
+            
             List<String> list = new ArrayList<String>();
             list.add("");
             addSelectedLOs(list);
@@ -242,11 +251,14 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
                 modelDTOList.add(modelDTO);
             }
             // fill the list of ModelDTO to ModelDTOValue.ModelDTOType 
+            List<ModelDTOValue> valueList = new ArrayList<ModelDTOValue>();
             for(ModelDTO dto:modelDTOList){
                 ModelDTOValue.ModelDTOType dtoValue = new ModelDTOValue.ModelDTOType();
                 dtoValue.set(dto);
-                list.get().add(dtoValue);
+                valueList.add(dtoValue);
             }
+            list.set(valueList);
+
             return list;
         }
         public void setValue(ModelDTOValue value) {
@@ -294,12 +306,6 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
             aNode.setIndentLevel(level);
             outlineModel.addOutlineNode(aNode);
           }
-          outlineComposite.setModel(outlineModel);
-          outlineModel.addChangeHandler(new ChangeHandler() {
-            public void onChange(ChangeEvent event) {
-              outlineComposite.render();
-            }
-          });
 
           outlineComposite.render();
           

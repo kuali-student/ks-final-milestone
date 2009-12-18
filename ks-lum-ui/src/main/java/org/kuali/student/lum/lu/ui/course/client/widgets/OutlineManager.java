@@ -139,28 +139,38 @@ class OutlineManagerToolbar extends PopupPanel {
 
   public void updateButtonStates() {
     if(  this.outlineModel.isMoveUpable()){
+        moveUpButton.setEnabled(true);
         moveUpButton.addStyleName("KS-LOMoveUpButton");
     }else{
+        moveUpButton.setEnabled(false);
         moveUpButton.addStyleName("KS-LOMoveUpButtonDiable");
     }
     if(this.outlineModel.isDeletable()){
+        deleteButton.setEnabled(true);
         deleteButton.addStyleName("KS-LODeleteButton");
     } else{
+        deleteButton.setEnabled(false);
         deleteButton.addStyleName("KS-LODeleteButtonDisable");
     }
     if(this.outlineModel.isIndentable()){
+        indentButton.setEnabled(true);
         indentButton.addStyleName("KS-LOIndentButton");
     }else{
+        indentButton.setEnabled(false);
         indentButton.addStyleName("KS-LOIndentButtonDisable");
     }
     if(this.outlineModel.isMoveDownable()){
+        moveDownButton.setEnabled(true);
         moveDownButton.addStyleName("KS-LOMoveDownButton");
     }else{
+        moveDownButton.setEnabled(false);
         moveDownButton.addStyleName("KS-LOMoveDownButtonDisable");
     }
     if(this.outlineModel.isOutdentable()){
+        outdentButton.setEnabled(true);
         outdentButton.addStyleName("KS-LOOutdentButton"); 
     }else{
+        outdentButton.setEnabled(false);
         outdentButton.addStyleName("KS-LOOutdentButtonDisable"); 
 
     }
