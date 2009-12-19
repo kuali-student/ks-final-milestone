@@ -153,9 +153,6 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
         main.add(loPanel);
 
     }
-
-
-
     
     @Override
     public void setValue(ModelDTOValue modelDTOValue) {
@@ -165,7 +162,8 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
 
     @Override
     public void setValue(ModelDTOValue value, boolean fireEvents) {
-        setValue(value, fireEvents);
+        // setValue(value, fireEvents); // methinks this would blow the stack :)
+        setValue(value);
     }
 
     /**
@@ -240,6 +238,13 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
                 ModelDTOValue.StringType str = new ModelDTOValue.StringType();
                 str.set(((TextBox)outlineNode.getUserObject()).getText());
                 modelDTO.put("value", str);
+                
+                ModelDTOValue.ModelDTOType lo = new ModelDTOValue.ModelDTOType();
+                Object possibleLo = outlineNode.getOpaque();
+                if (null != possibleLo && possibleLo instanceof ModelDTO) {
+                	lo.set((ModelDTO) possibleLo);
+                	modelDTO.put("lo", lo);
+                }
 
                 ModelDTOValue.IntegerType intT = new ModelDTOValue.IntegerType();
                 intT.set(modelDTOList.size());
@@ -262,12 +267,15 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
             return list;
         }
         public void setValue(ModelDTOValue value) {
-            ModelDTOValue.ListType list = (ModelDTOValue.ListType)value;
+            ModelDTOValue.ListType list = (ModelDTOValue.ListType) value;
             modelDTOList = new ArrayList<ModelDTO>();
             // fill the ModelDTOValue.ModelDTOType to List<ModelDTO>
-            for(ModelDTOValue dto : list.get()){
-                ModelDTOValue.ModelDTOType dtoType = (ModelDTOValue.ModelDTOType)dto;
-                modelDTOList.add(dtoType.get());
+            // when the server hasn't been called yet, there's not list in LoModelDTO
+            if (null != list) {
+	            for(ModelDTOValue dto : list.get()){
+	                ModelDTOValue.ModelDTOType dtoType = (ModelDTOValue.ModelDTOType)dto;
+	                modelDTOList.add(dtoType.get());
+	            }
             }
             reDraw();
         }
@@ -301,8 +309,16 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
             String strvalue = ((ModelDTOValue.StringType)modelDTOList.get(i).get("value")).get();
             int level = ((ModelDTOValue.IntegerType)modelDTOList.get(i).get("level")).get();
            // int sequence = ((ModelDTOValue.IntegerType)modelDTOList.get(i).get("sequence")).get();
+            ModelDTOValue possibleLoValue = (ModelDTOValue.ModelDTOType) modelDTOList.get(i).get("lo");
+            Object possibleLo = null;
+            if (null != possibleLoValue) {
+            	possibleLo = ((ModelDTOValue.ModelDTOType) possibleLoValue).get();
+            }
             // the LO from server should be in the right order
             ((TextBox)aNode.getUserObject()).setText(strvalue);
+            if (null != possibleLo) {
+            	aNode.setOpaque(possibleLo);
+            }
             aNode.setIndentLevel(level);
             outlineModel.addOutlineNode(aNode);
           }
@@ -317,165 +333,15 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
             return new NOOPListValueChangeHandler();
         }
         public void updateModelDTOValue() {
-            
+        	// M3 - update?
         }
 
-        public void setValue(ModelDTOValue value, boolean fireEvents) {
-         
+//        public void setValue(ModelDTOValue value, boolean fireEvents) {
+//        }
             
-        }
         private class NOOPListValueChangeHandler implements HandlerRegistration {
             public void removeHandler() {
             }
         }  
     }
-/*
-    public class LearningObjectiveList extends SimpleMultiplicityComposite {
-        private static final String STYLE_HIGHLIGHTED_ITEM = "KS-LOBuilder-Highlighted-Item";
-        private static final String DESC_KEY = "desc";
-
-        {
-            setAddItemLabel(getLabel(LUConstants.LEARNING_OBJECTIVE_ADD_LABEL_KEY));
-//            setShowDelete(false);
-        }
-
-        @Override
-        public void redraw() {
-            super.redraw();
-            // populate with at least NUM_INITIAL_LOS items,
-            // even if there aren't that many defined yet
-            int startIdx = null == modelDTOList ? 0 : modelDTOList.get().size();
-            for (int i = startIdx; i < NUM_INITIAL_LOS; i++) {
-                addItem();
-            }
-        }
-
-        @Override
-        public Widget createItem() {
-            final MultiplicitySection multi = new MultiplicitySection(CluDictionaryClassNameHelper.LO_INFO_CLASS,
-                    "kuali.lo.type.singleUse", "draft");
-            CustomNestedSection ns = new CustomNestedSection();
-            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-
-            final LOPicker picker = new LOPicker();
-            picker.addValueChangeHandler(new ValueChangeHandler<String>() {
-                @Override
-                public void onValueChange(ValueChangeEvent<String> event) {
-
-
-                }
-            });
-            picker.addMoveUpAction(new ClickHandler(){
-                @Override
-                public void onClick(ClickEvent event) {
-                    moveUp(multi);
-                }
-            });
-            picker.addMoveDownAction(new ClickHandler(){
-                @Override
-                public void onClick(ClickEvent event) {
-                    moveDown(multi);
-                }
-            });
-            picker.addDeleteAction(new ClickHandler(){
-                @Override
-                public void onClick(ClickEvent event) {
-                    delete(multi);
-                }
-            });
-            FieldDescriptor fd = new FieldDescriptor("desc", null, Type.STRING, picker);
-            ns.addField(fd);
-            ns.addStyleName("KS-LOBuilder-Section");
-            multi.addSection(ns);
-
-            return multi;
-        }
-
-        private void removeOldHighlights() {
-            List<HasModelDTOValue> widgets = modelDTOValueWidgets;
-            for (HasModelDTOValue w: widgets) {
-                ((Widget)w).removeStyleName(STYLE_HIGHLIGHTED_ITEM);
-            }
-        }
-
-        private void addHighlights(List<Integer> selectedWidgets) {
-            for (int i: selectedWidgets) {
-                Widget w = (Widget)modelDTOValueWidgets.get(i);
-                w.addStyleName(STYLE_HIGHLIGHTED_ITEM);
-
-            }
-        }
-
-        private void addSelectedLOs(List<String> selected) {
-            this.removeOldHighlights();
-            List<Integer> addedLos = new ArrayList<Integer>();
-            if (selected.size() > 0){
-                for (String loDesc : selected ) {
-                    int a = this.addSelectedLO(loDesc);
-                    addedLos.add(a);
-                }
-            }
-            this.redraw(); 
-            this.addHighlights(addedLos);                   
-        }
-
-        private int addSelectedLO(String loDescription) {
-
-            int widgetKey = -1;
-            boolean foundEmptyWidget = false;
-
-            for (ModelDTOValue v: modelDTOList.get()) {
-                ModelDTO model = ((ModelDTOType) v).get();
-                widgetKey++;
-                if (model.get(DESC_KEY) == null) {
-                    model.put(DESC_KEY, loDescription);
-                    foundEmptyWidget = true;
-                    break;
-                }
-            }
-            if (!foundEmptyWidget) {
-                this.addItem();
-                widgetKey = modelDTOList.get().size()-1;
-                //FIXME: is the new item always going to be the last one?
-                ModelDTOValue v = modelDTOList.get().get(widgetKey);
-                ModelDTO model = ((ModelDTOType) v).get();
-                model.put(DESC_KEY, loDescription);
-            }
-
-            return widgetKey;
-        }
-
-        private void moveUp(Widget item){
-            Widget decrator = item.getParent().getParent();
-            int index = LearningObjectiveList.this.itemsPanel.getWidgetIndex(decrator);
-            if(index ==0){
-                return;
-            }
-            LearningObjectiveList.this.itemsPanel.remove(decrator);
-            LearningObjectiveList.this.itemsPanel.insert(decrator,index -1 );
-
-        }
-        private void moveDown(Widget item){
-            Widget decrator = item.getParent().getParent();
-            int index = LearningObjectiveList.this.itemsPanel.getWidgetIndex(decrator);
-            if(index == LearningObjectiveList.this.itemsPanel.getWidgetCount()-1){
-                return;
-            }
-            LearningObjectiveList.this.itemsPanel.remove(decrator);
-            LearningObjectiveList.this.itemsPanel.insert(decrator,index+1 );
-
-        }
-        private void delete(Widget item){
-            Widget decrator = item.getParent().getParent();
-            int index = LearningObjectiveList.this.itemsPanel.getWidgetIndex(decrator);
-            if(index == -1){
-                return;
-            }
-            super.decorateItemWidget(item);
-            LearningObjectiveList.this.itemsPanel.remove(decrator);
-        }
-    }
-    
-   
-*/
 }

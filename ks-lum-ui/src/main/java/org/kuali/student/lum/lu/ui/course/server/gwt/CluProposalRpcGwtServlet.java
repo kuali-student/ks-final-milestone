@@ -1270,6 +1270,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	        	loInfoModelDTOValue.set(loInfoModelDTO);
 	        	
 				loModelDTOValueList.add(loInfoModelDTOValue);
+				
+	        	// M3 - recursively retrieve "include"ed LO's
 	        }
         	loList.set(loModelDTOValueList);
         	
@@ -1464,6 +1466,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     		targetAssembler.setLuService(service);
     		targetAssembler.setProposalService(proposalService);   
     		targetAssembler.setPermissionService(permissionService);
+    		targetAssembler.setLearningObjectiveService(learningObjectiveService);
     		
     		CreditCourseProposalWorkflowAssemblerFilter workflowAssemblerFilter = new CreditCourseProposalWorkflowAssemblerFilter();
     		workflowAssemblerFilter.setSimpleDocService(simpleDocService);

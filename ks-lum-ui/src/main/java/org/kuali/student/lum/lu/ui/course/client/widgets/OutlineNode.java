@@ -8,6 +8,9 @@ public class OutlineNode<T> {
     T userObject;
 
     OutlineNodeModel outlineModel;
+    
+    // TODO M4 - some way to subclass OutlineNode? 
+    private Object opaque;
 
     public void setModel(OutlineNodeModel model) {
       outlineModel = model;
@@ -40,4 +43,12 @@ public class OutlineNode<T> {
     public int getIndentLevel() {
       return indentLevel;
     }
+
+	public void setOpaque(Object opaque) {
+		this.opaque = opaque;
+	}
+
+	public Object getOpaque() {
+		return opaque;
+	}
   }

@@ -41,6 +41,7 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LuConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
@@ -283,9 +284,11 @@ public class CourseProposalController extends TabbedSectionLayout {
         	callback.onModelReady(collaboratorModel);
         }else if (modelType == LuData.class){
         	requestModel(CourseConfigurer.CLU_PROPOSAL_MODEL, callback);
-        } else {
+        } else /*
+        */ {
             super.requestModel(modelType, callback);
         }
+        LoInfo lo = new LoInfo();
     }
     
     @SuppressWarnings("unchecked")        

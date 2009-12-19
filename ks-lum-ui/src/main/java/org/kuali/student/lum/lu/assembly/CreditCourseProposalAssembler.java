@@ -26,6 +26,7 @@ import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.assembly.client.SaveResult;
 import org.kuali.student.common.assembly.client.Data.Property;
 import org.kuali.student.common.assembly.client.Metadata.WriteAccess;
+import org.kuali.student.common.ui.server.mvc.dto.BeanMappingException;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.TimeAmountInfo;
@@ -44,7 +45,9 @@ import org.kuali.student.core.search.newdto.SearchRequest;
 import org.kuali.student.core.search.newdto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.lum.lu.assembly.CluInfoHierarchyAssembler.RelationshipHierarchy;
+import org.kuali.student.lum.lu.assembly.data.client.LoModelDTO;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.CluInstructorInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoHelper;
@@ -69,6 +72,7 @@ import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.lum.lu.ui.course.server.gwt.LoInfoPersistenceBean;
 import org.kuali.student.lum.lu.ui.course.server.gwt.LuRuleInfoPersistanceBean;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 
@@ -119,6 +123,8 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 	private ProposalService proposalService;
 	private LuService luService;
 	private PermissionService permissionService;
+	private LearningObjectiveService loService;
+	private LoInfoPersistenceBean loInfoBean;
 	
 	public CreditCourseProposalAssembler(String proposalState) {
 		this.proposalState = proposalState;
@@ -137,6 +143,8 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 			CreditCourseHelper course = getCourse(proposal);
 			
 			luData.setRuleInfos(getRules(course.getId()));
+			
+			luData.setLoModelDTO(new LoModelDTO(getLoInfoPersistenceBean().getLos(course.getId())));
 			
 			result.setProposal(proposal);
 			result.setCourse(getCourse(proposal));
@@ -525,6 +533,8 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 			
 			saveRules(courseId, (LuData)data);
 			
+			saveLearningObjectives(courseId, (LuData) data);
+			
 			result.setValidationResults(validationResults);
 			result.setValue((proposalId == null) ? null : get(proposalId));
 			
@@ -558,6 +568,19 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 	private List<RuleInfo> getRules(String courseId) throws Exception{
 		LuRuleInfoPersistanceBean ruleInfoBean = new LuRuleInfoPersistanceBean();
 		return ruleInfoBean.fetchRules(courseId);
+	}
+
+	private void saveLearningObjectives(String courseId, LuData data) throws Exception {
+		getLoInfoPersistenceBean().updateLos(courseId, data.getLoModelDTO());			
+	}
+
+	private LoInfoPersistenceBean getLoInfoPersistenceBean() {
+		if (null == loInfoBean) {
+			loInfoBean = new LoInfoPersistenceBean();
+			loInfoBean.setLoService(loService);
+			loInfoBean.setLuService(luService);
+		}
+		return loInfoBean;
 	}
 
 	private String saveProposal(CreditCourseProposalHelper inputProposal) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, DependentObjectsExistException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException, VersionMismatchException {
@@ -1072,6 +1095,10 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 	}
 
 	
+	public void setLearningObjectiveService(LearningObjectiveService loService) {
+		this.loService = loService;
+	}
+
 	@Override
 	public SearchResult search(SearchRequest searchRequest) {
 		// TODO Auto-generated method stub

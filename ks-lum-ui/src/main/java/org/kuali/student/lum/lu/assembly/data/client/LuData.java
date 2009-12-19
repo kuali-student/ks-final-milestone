@@ -25,6 +25,7 @@ public class LuData extends Data {
 
 	private Data data;
 	private List<RuleInfo> ruleInfos = new ArrayList<RuleInfo>();
+	private LoModelDTO loModelDTO = new LoModelDTO();
 	protected Map<String, String> applicationStateMap = new HashMap<String, String>();
 
 	public LuData(Data data){
@@ -50,6 +51,14 @@ public class LuData extends Data {
 	 */
 	public List<RuleInfo> getRuleInfos() {
 		return ruleInfos;
+	}
+
+	public void setLoModelDTO(LoModelDTO loModelDTO) {
+		this.loModelDTO = loModelDTO;
+	}
+
+	public LoModelDTO getLoModelDTO() {
+		return loModelDTO;
 	}
 
 	/**
