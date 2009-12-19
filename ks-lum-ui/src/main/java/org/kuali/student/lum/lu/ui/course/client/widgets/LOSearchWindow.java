@@ -315,7 +315,7 @@ public class LOSearchWindow extends Composite {
 
         List<String> basicCriteria = new ArrayList<String>() {
             {
-                add("lo.queryParam.loCategory");
+                add("lo.queryParam.loCategoryName");
             }
         };
 

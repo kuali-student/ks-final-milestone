@@ -302,7 +302,7 @@ JOIN
     cat.id = jncat.locategory_id
 
 WHERE 
-    lower(cat.name) like :lo_queryParam_loCategory
+    lower(cat.name) like :lo_queryParam_loCategoryName
 					</value>
 				</entry>
             </map>
