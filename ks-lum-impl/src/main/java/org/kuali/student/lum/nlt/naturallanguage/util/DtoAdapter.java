@@ -48,16 +48,18 @@ public class DtoAdapter {
 	}
 
 	/**
-	 * Converts an {@link LuStatementInfo} into a {@link CustomLuStatementInfo}.
+	 * Converts a root {@link LuStatementInfo} into a {@link CustomLuStatementInfo}.
 	 * 
-	 * @param luStatementInfo LU statement to convert
-	 * @return A custom LU statement
+	 * @param luStatementInfo Root LU statement to convert
+	 * @return A custom root LU statement
 	 * @throws Exception If  conversion fails
 	 */
-	public CustomLuStatementInfo toCustomLuStatementInfo(LuStatementInfo luStatementInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		CustomLuStatementInfo custom = createCustomLuStatementInfo(luStatementInfo);
-		createParent(luStatementInfo, custom);
-		createChildren(luStatementInfo, custom);
+	public CustomLuStatementInfo toCustomLuStatementInfo(LuStatementInfo rootLuStatementInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		CustomLuStatementInfo custom = createCustomLuStatementInfo(rootLuStatementInfo);
+		// Traverse up the tree is not needed
+		//createParent(luStatementInfo, custom);
+		// Traverse down the tree
+		createChildren(rootLuStatementInfo, custom);
 		return custom;
 	}
 
@@ -111,14 +113,14 @@ public class DtoAdapter {
 		return custom;
 	}
 	
-	private void createParent(LuStatementInfo stmtInfo, CustomLuStatementInfo rootCustomLuStatement) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+	/*private void createParent(LuStatementInfo stmtInfo, CustomLuStatementInfo rootCustomLuStatement) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		if(stmtInfo.getParentId() != null) {
 			LuStatementInfo info = this.luService.getLuStatement(stmtInfo.getParentId());
 			CustomLuStatementInfo custom = createCustomLuStatementInfo(info);
 			rootCustomLuStatement.setParent(custom);
 			createParent(info, custom);
 		}
-	}
+	}*/
 
 	private void checkReference(String statementId, List<String> statementIds) throws OperationFailedException {
 		for(String id : statementIds) {
