@@ -169,7 +169,7 @@ public class KSWrapper extends Composite{
 		    	);
 		    	items.add(new KSMenuItemData("Organizations",
 		    			new WrapperNavigationHandler(
-		    					"../org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.html"))
+		    					"../org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.jsp"))
 		    	);
 		    	serverProperties.get("application.url", new AsyncCallback<String>(){
 					public void onFailure(Throwable caught) {
@@ -200,7 +200,7 @@ public class KSWrapper extends Composite{
 		    	);
 		    	items.add(new KSMenuItemData("Organizations",
 		    			new WrapperNavigationHandler(
-		    					result+"/org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.html"))
+		    					result+"/org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.jsp"))
 		    	);
 		    	serverProperties.get("application.url", new AsyncCallback<String>(){
 					public void onFailure(Throwable caught) {
