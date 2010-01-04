@@ -38,7 +38,7 @@ import org.kuali.student.core.entity.MetaEntity;
 import org.kuali.student.core.entity.RichText;
 
 @Entity
-@Table(name = "KSLU_LU_DOC_RELTN", uniqueConstraints = { @UniqueConstraint(columnNames = {
+@Table(name = "KSLU_CLU_DOC_RELTN", uniqueConstraints = { @UniqueConstraint(columnNames = {
 		"CLU_ID", "DOC_ID" }) })
 @NamedQueries( {
 		@NamedQuery(name = "LuDocumentRelation.getLuDocRelationsByClu", query = "SELECT ldr FROM LuDocumentRelation ldr WHERE ldr.clu.id = :cluId"),

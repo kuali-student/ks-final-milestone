@@ -25,7 +25,7 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Type;
 
 @Entity
-@Table(name = "KSLU_LU_DOC_RELTN_TYPE")
+@Table(name = "KSLU_CLU_DOC_RELTN_TYPE")
 public class LuDocumentRelationType extends
 		Type<LuDocumentRelationTypeAttribute> {
 
