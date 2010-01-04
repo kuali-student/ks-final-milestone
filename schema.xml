@@ -3942,7 +3942,7 @@
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
     </table>
-    <table name="KSLU_LU_DOC_RELTN">
+    <table name="KSLU_CLU_DOC_RELTN">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="CREATEID" size="255" type="VARCHAR"/>
         <column name="CREATETIME" type="TIMESTAMP"/>
@@ -3957,7 +3957,7 @@
         <column name="CLU_ID" size="255" type="VARCHAR"/>
         <column name="DESCR" size="255" type="VARCHAR"/>
         <column name="LU_DOC_RELTN_TYPE_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LU_DOC_RELTN_TYPE" name="FK420F9424ED9B3478">
+        <foreign-key foreignTable="KSLU_CLU_DOC_RELTN_TYPE" name="FK420F9424ED9B3478">
             <reference foreign="TYPE_KEY" local="LU_DOC_RELTN_TYPE_ID"/>
         </foreign-key>
         <foreign-key foreignTable="KS_RICH_TEXT_T" name="FK420F94242BC3DA7D">
@@ -3971,28 +3971,28 @@
             <unique-column name="DOC_ID"/>
         </unique>
     </table>
-    <table name="KSLU_LU_DOC_RELTN_ATTR">
+    <table name="KSLU_CLU_DOC_RELTN_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LU_DOC_RELTN" name="FK7F54ED2C7F147A7A">
+        <foreign-key foreignTable="KSLU_CLU_DOC_RELTN" name="FK7F54ED2C7F147A7A">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
     </table>
-    <table name="KSLU_LU_DOC_RELTN_TYPE">
+    <table name="KSLU_CLU_DOC_RELTN_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="TYPE_DESC" size="2000" type="VARCHAR"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
     </table>
-    <table name="KSLU_LU_DOC_RELTN_TYPE_ATTR">
+    <table name="KSLU_CLU_DOC_RELTN_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="ATTR_NAME" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="255" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSLU_LU_DOC_RELTN_TYPE" name="FKD0D8297B98954254">
+        <foreign-key foreignTable="KSLU_CLU_DOC_RELTN_TYPE" name="FKD0D8297B98954254">
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
     </table>
