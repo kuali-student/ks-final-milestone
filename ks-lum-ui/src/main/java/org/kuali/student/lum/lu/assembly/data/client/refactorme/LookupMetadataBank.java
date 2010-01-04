@@ -16,13 +16,13 @@
 package org.kuali.student.lum.lu.assembly.data.client.refactorme;
 
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.LookupImplMetadata;
 import org.kuali.student.common.assembly.client.LookupMetadata;
@@ -419,7 +419,7 @@ public class LookupMetadataBank
 		{
 			return new SimpleDateFormat ("yyyy-MM-dd").parse (value);
 		}
-		catch (ParseException e)
+		catch (Exception e)
 		{
 			assert (false); // this should never happen
 		}
