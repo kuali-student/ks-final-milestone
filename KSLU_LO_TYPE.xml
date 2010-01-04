@@ -2,15 +2,11 @@
 <!DOCTYPE dataset SYSTEM "data.dtd">
 <dataset>
     <KSLU_LO_TYPE
-        DESCR="LO created by external organization, e.g., state or accrediting organization"
+        DESCR="LO governed by an organization external to department, e.g., the college at large, or a state or accrediting organization"
         EFF_DT="20080101000000" EXPIR_DT="20100101000000"
-        ID="kuali.lo.type.external" NAME="Externally-created"/>
-    <KSLU_LO_TYPE
-        DESCR="LO created as part of an established, &quot;official&quot; curriculum or program, typically requires separate approval process to add to hierarchy"
-        EFF_DT="20080101000000" EXPIR_DT="20100101000000"
-        ID="kuali.lo.type.formal" NAME="Formal"/>
+        ID="kuali.lo.type.governed" NAME="Governed"/>
     <KSLU_LO_TYPE
         DESCR="LO created in support of programs or courses, e.g., faculty-inspired additional LO for a course"
         EFF_DT="20080101000000" EXPIR_DT="20100101000000"
-        ID="kuali.lo.type.singleUse" NAME="singleUse"/>
+        ID="kuali.lo.type.singleUse" NAME="Single use"/>
 </dataset>
