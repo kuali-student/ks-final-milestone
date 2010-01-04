@@ -432,7 +432,7 @@
 		<column description="" javaName="" name="ATTR_VALUE"/>
 		<column description="" javaName="owner" name="OWNER"/>
 	</table>
-	<table description="" javaName="LuDocumentRelation" name="KSLU_LU_DOC_RELTN">
+	<table description="" javaName="LuDocumentRelation" name="KSLU_CLU_DOC_RELTN">
 		<column description="" javaName="id" name="ID"/>
 		<column description="" javaName="" name="CREATEID"/>
 		<column description="" javaName="" name="CREATETIME"/>
@@ -448,20 +448,20 @@
 		<column description="" javaName="desc" name="DESCR"/>
 		<column description="" javaName="luDocumentRelationType" name="LU_DOC_RELTN_TYPE_ID"/>
 	</table>
-	<table description="" javaName="LuDocumentRelationAttribute" name="KSLU_LU_DOC_RELTN_ATTR">
+	<table description="" javaName="LuDocumentRelationAttribute" name="KSLU_CLU_DOC_RELTN_ATTR">
 		<column description="" javaName="" name="ID"/>
 		<column description="" javaName="" name="ATTR_NAME"/>
 		<column description="" javaName="" name="ATTR_VALUE"/>
 		<column description="" javaName="owner" name="OWNER"/>
 	</table>
-	<table description="" javaName="LuDocumentRelationType" name="KSLU_LU_DOC_RELTN_TYPE">
+	<table description="" javaName="LuDocumentRelationType" name="KSLU_CLU_DOC_RELTN_TYPE">
 		<column description="" javaName="" name="TYPE_KEY"/>
 		<column description="" javaName="" name="TYPE_DESC"/>
 		<column description="" javaName="" name="EFF_DT"/>
 		<column description="" javaName="" name="EXPIR_DT"/>
 		<column description="" javaName="" name="NAME"/>
 	</table>
-	<table description="" javaName="LuDocumentRelationTypeAttribute" name="KSLU_LU_DOC_RELTN_TYPE_ATTR">
+	<table description="" javaName="LuDocumentRelationTypeAttribute" name="KSLU_CLU_DOC_RELTN_TYPE_ATTR">
 		<column description="" javaName="" name="ID"/>
 		<column description="" javaName="" name="ATTR_NAME"/>
 		<column description="" javaName="" name="ATTR_VALUE"/>
