@@ -236,20 +236,21 @@ public class OutlineManager extends Composite {
     OutlineNode currentNode; 
     NodePanel() {
       toolbar.setModel(outlineModel);
-      //super.add(toolbar);
-
-         
       super.sinkEvents(Event.ONMOUSEMOVE);
       super.sinkEvents(Event.ONMOUSEOUT);
-      //super.setPixelSize(400,400);
     }
 
     public void setOutlineNode(OutlineNode aNode) {
         currentNode = aNode;
       for (int i = 0; i < aNode.getIndentLevel(); i++) {
         Label label = new Label();
-        label.setPixelSize(50,50);
+        label.setPixelSize(50,10);
         horitonalPanel.add(label);
+        
+        // space for toolbar
+        label = new Label();
+        label.setPixelSize(50,10);
+        toolbar.insert(label, 0);
       }
       Widget userWidget = (Widget) aNode.getUserObject();
       userWidget.setPixelSize(200, 50);

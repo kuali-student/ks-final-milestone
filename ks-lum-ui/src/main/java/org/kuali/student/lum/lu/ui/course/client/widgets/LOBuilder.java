@@ -236,7 +236,7 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
             for(OutlineNode outlineNode: outlineNodes){
                 ModelDTO modelDTO = new ModelDTO();
                 ModelDTOValue.StringType str = new ModelDTOValue.StringType();
-                str.set(((TextBox)outlineNode.getUserObject()).getText());
+                str.set(((LOPicker)outlineNode.getUserObject()).getLOText());
                 modelDTO.put("value", str);
                 
                 ModelDTOValue.ModelDTOType lo = new ModelDTOValue.ModelDTOType();
@@ -304,7 +304,7 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
           for (int i = 0; i < modelDTOList.size(); i++) {
             OutlineNode aNode = new OutlineNode();
             aNode.setModel(outlineModel);
-            aNode.setUserObject(new TextBox());
+            aNode.setUserObject(new LOPicker());
             
             String strvalue = ((ModelDTOValue.StringType)modelDTOList.get(i).get("value")).get();
             int level = ((ModelDTOValue.IntegerType)modelDTOList.get(i).get("level")).get();
@@ -315,7 +315,7 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
             	possibleLo = ((ModelDTOValue.ModelDTOType) possibleLoValue).get();
             }
             // the LO from server should be in the right order
-            ((TextBox)aNode.getUserObject()).setText(strvalue);
+            ((LOPicker)aNode.getUserObject()).setLOText(strvalue);
             if (null != possibleLo) {
             	aNode.setOpaque(possibleLo);
             }
