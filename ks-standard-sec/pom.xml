@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.security</groupId>
 	<artifactId>ks-standard-sec</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>KS Standard Security</name>
 	<description>KS Standard Security - out of the box</description>
@@ -11,7 +11,7 @@
 	<parent>
 		<groupId>org.kuali.student.security</groupId>
 		<artifactId>ks-security</artifactId>
-		<version>0.0.1</version>
+		<version>0.0.2-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
