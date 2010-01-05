@@ -100,6 +100,7 @@ public class CreditCourseVersionsMetadata
 		mainMeta.getProperties ().put (Properties.SUBJECT_AREA.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
+		childMeta.setDefaultValuePath ("course.subjectArea");
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -114,6 +115,7 @@ public class CreditCourseVersionsMetadata
 		mainMeta.getProperties ().put (Properties.COURSE_NUMBER_SUFFIX.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
+		childMeta.setDefaultValuePath ("course.CourseNumberSuffix");
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));

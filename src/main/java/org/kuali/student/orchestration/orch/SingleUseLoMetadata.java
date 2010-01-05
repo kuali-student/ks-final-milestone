@@ -143,7 +143,7 @@ public class SingleUseLoMetadata
 		listMeta.setDataType (Data.DataType.DATA);
 		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
-		if (recurseLevel >= 3)
+		if (recurseLevel >= 2)
 		{
 			mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
 		}
