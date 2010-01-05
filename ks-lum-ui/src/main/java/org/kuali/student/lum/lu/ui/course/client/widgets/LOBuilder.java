@@ -237,6 +237,7 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
                 ModelDTO modelDTO = new ModelDTO();
                 ModelDTOValue.StringType str = new ModelDTOValue.StringType();
                 str.set(((LOPicker)outlineNode.getUserObject()).getLOText());
+                //TODO .set(((LOPicker)outlineNode.getUserObject()).getLOCategory());
                 modelDTO.put("value", str);
                 
                 ModelDTOValue.ModelDTOType lo = new ModelDTOValue.ModelDTOType();
@@ -316,6 +317,7 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
             }
             // the LO from server should be in the right order
             ((LOPicker)aNode.getUserObject()).setLOText(strvalue);
+            //TODO ((LOPicker)aNode.getUserObject()).setLOCategory();
             if (null != possibleLo) {
             	aNode.setOpaque(possibleLo);
             }

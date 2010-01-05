@@ -33,7 +33,7 @@ public class LOPicker extends HorizontalPanel{
         super();
         loCategoryBuilder = new LOCategoryBuilder(messageGroup, type, state);
         
-        loTextBox.setPixelSize(200, 50);
+        loTextBox.setPixelSize(200, 80);
         super.add(loTextBox);
         super.add(loCategoryBuilder);
     }
