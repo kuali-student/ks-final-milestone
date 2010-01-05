@@ -15,6 +15,8 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.widgets;
 
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
+
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.TextBox;
 
@@ -26,17 +28,26 @@ import com.google.gwt.user.client.ui.TextBox;
  */
 public class LOPicker extends HorizontalPanel{ 
     TextBox loTextBox = new TextBox();
-    
-    public LOPicker() {
+    LOCategoryBuilder loCategoryBuilder;
+    public LOPicker(String messageGroup, String type, String state) {
         super();
+        loCategoryBuilder = new LOCategoryBuilder(messageGroup, type, state);
+        
         loTextBox.setPixelSize(200, 50);
         super.add(loTextBox);
+        super.add(loCategoryBuilder);
     }
-    
+    public void setLOCategory(ModelDTOValue modelDTOValue){
+        loCategoryBuilder.setValue(modelDTOValue);
+    }
+    public ModelDTOValue getLoCategory(){
+        return loCategoryBuilder.getValue();
+    }
     public String getLOText(){
         return loTextBox.getText();
     }
     public void setLOText(String value){
         loTextBox.setText(value);
     }
+    
 }

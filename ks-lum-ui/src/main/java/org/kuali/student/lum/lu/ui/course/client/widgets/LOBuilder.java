@@ -304,7 +304,7 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
           for (int i = 0; i < modelDTOList.size(); i++) {
             OutlineNode aNode = new OutlineNode();
             aNode.setModel(outlineModel);
-            aNode.setUserObject(new LOPicker());
+            aNode.setUserObject(new LOPicker(messageGroup,type,state));
             
             String strvalue = ((ModelDTOValue.StringType)modelDTOList.get(i).get("value")).get();
             int level = ((ModelDTOValue.IntegerType)modelDTOList.get(i).get("level")).get();
