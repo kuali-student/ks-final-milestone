@@ -119,12 +119,12 @@ public class LookupMetadataBankWriter extends JavaClassWriter
   openBrace ();
   imports.add (Date.class.getName ());
   imports.add (SimpleDateFormat.class.getName ());
-  imports.add (ParseException.class.getName ());
+  //imports.add (ParseException.class.getName ());
   indentPrintln ("try");
   openBrace ();
   indentPrintln ("return new SimpleDateFormat (\"yyyy-MM-dd\").parse (value);");
   closeBrace ();
-  indentPrintln ("catch (ParseException e)");
+  indentPrintln ("catch (Exception e)");
   openBrace ();
   indentPrintln ("assert (false); // this should never happen");
   closeBrace ();
