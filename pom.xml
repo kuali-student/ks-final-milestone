@@ -99,6 +99,7 @@
         <war.plugin.version>2.1-beta-1</war.plugin.version>
         
         <!-- build properties -->
+        <ks-core.version>1.0.0-SNAPSHOT</ks-core.version>
         <ks.gwt.compile.phase>process-classes</ks.gwt.compile.phase>
         <ks-standard-security.version>1.0.0-m1</ks-standard-security.version>
     </properties>
