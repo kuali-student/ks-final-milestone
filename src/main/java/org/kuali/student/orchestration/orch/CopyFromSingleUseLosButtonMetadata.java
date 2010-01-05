@@ -58,6 +58,7 @@ public class CopyFromSingleUseLosButtonMetadata
 		childMeta.setDataType (Data.DataType.LIST);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.setLookupMetadata (LookupMetadataBank.LOOKUP_BANK.get ("kuali.lookup.singleUseLos".toLowerCase ()));
+		childMeta.setLookupContextPath (null);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));

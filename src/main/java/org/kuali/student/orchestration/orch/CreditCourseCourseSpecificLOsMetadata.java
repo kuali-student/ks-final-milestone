@@ -88,6 +88,7 @@ public class CreditCourseCourseSpecificLOsMetadata
 		mainMeta.getProperties ().put (Properties.EFFECTIVE_DATE.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.TRUNCATED_DATE);
 		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
+		childMeta.setDefaultValuePath ("course.effectiveDate");
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));

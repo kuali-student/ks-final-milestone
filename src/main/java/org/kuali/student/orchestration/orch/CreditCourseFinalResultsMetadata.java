@@ -58,6 +58,7 @@ public class CreditCourseFinalResultsMetadata
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.setDefaultValue (new Data.StringValue ("course.final.results.final.grade.award.option.resultComponentId"));
 		childMeta.setLookupMetadata (LookupMetadataBank.LOOKUP_BANK.get ("kuali.lu.lookup.gradingOptions".toLowerCase ()));
+		childMeta.setLookupContextPath (null);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
