@@ -58,7 +58,7 @@ public class CreditCourseDurationMetadata
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.setDefaultValue (new Data.StringValue ("kuali.atp.duration.Semester"));
 		childMeta.setLookupMetadata (LookupMetadataBank.LOOKUP_BANK.get ("kuali.lu.lookup.creditCourse.durations".toLowerCase ()));
-		childMeta.setLookupContextPath ("");
+		childMeta.setLookupContextPath (null);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
