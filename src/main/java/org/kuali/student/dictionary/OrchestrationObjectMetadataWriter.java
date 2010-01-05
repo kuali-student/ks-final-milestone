@@ -157,7 +157,7 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
    //		childMeta.setDefaultValue (new Data.StringValue ("Draft"));
    indentPrintln ("childMeta.setDefaultValue (" + defVal + ");");
   }
-  if (field.getDefaultValuePath () != null && ! field.getDefaultValuePath ().
+  if (field.getDefaultValuePath () != null &&  ! field.getDefaultValuePath ().
    equals (""))
   {
    indentPrintln ("childMeta.setDefaultValuePath (" +
@@ -168,8 +168,8 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
    imports.add (rootPackage + ".LookupMetadataBank");
    indentPrintln ("childMeta.setLookupMetadata (LookupMetadataBank.LOOKUP_BANK.get (" +
     quote (field.getLookup ()) + ".toLowerCase ()));");
-   indentPrintln ("childMeta.setLookupContextPath (" + quote (field.
-    getLookupContextPath ()) + ");");
+   indentPrintln ("childMeta.setLookupContextPath (" +
+    quote (replaceEmptyWitNull (field.getLookupContextPath ())) + ");");
   }
   if (field.getAdditionalLookups () != null)
   {
@@ -478,6 +478,19 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
      field.getFieldTypeCategory () + " in field " +
      field.getFullyQualifiedName ());
   }
+ }
+
+ private String replaceEmptyWitNull (String str)
+ {
+  if (str == null)
+  {
+   return null;
+  }
+  if (str.equals (""))
+  {
+   return null;
+  }
+  return str;
  }
 
  private String quote (String str)

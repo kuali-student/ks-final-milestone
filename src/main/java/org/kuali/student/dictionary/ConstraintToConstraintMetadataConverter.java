@@ -46,7 +46,7 @@ public class ConstraintToConstraintMetadataConverter
   meta.setMaxValue (asString (cons.getMaxValue ()));
   meta.setServerSide (asBoolean (cons.getServerSide ()));
   meta.setSpecialValidator (asString (cons.getClassName ()));
-  meta.setValidChars (asString (cons.getValidChars ()));
+  meta.setValidChars (asString (ConstraintWriter.calcValidChars (cons.getValidChars ())));
   return meta;
  }
 

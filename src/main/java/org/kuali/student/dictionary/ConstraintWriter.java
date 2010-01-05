@@ -129,12 +129,15 @@ public class ConstraintWriter extends XmlWriter
 
  private String calcValidChars ()
  {
-  String validChars = constraint.getValidChars ();
+  return calcValidChars (constraint.getValidChars ());
+ }
+
+ public static String calcValidChars (String validChars)
+ {
   if (validChars.equals (""))
   {
    return "";
   }
   return "regex:" + validChars;
  }
-
 }
