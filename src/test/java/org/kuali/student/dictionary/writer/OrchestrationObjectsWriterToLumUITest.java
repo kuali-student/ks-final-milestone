@@ -15,10 +15,8 @@
  */
 package org.kuali.student.dictionary.writer;
 
-import org.kuali.student.dictionary.*;
-import org.kuali.student.dictionary.writer.OrchestrationObjectsWriter;
-import org.kuali.student.dictionary.model.DictionaryModelCache;
-import org.kuali.student.dictionary.model.DictionaryModelLoader;
+import org.kuali.student.dictionary.model.impl.DictionaryModelCache;
+import org.kuali.student.dictionary.model.impl.DictionaryModelLoader;
 import org.kuali.student.dictionary.model.DictionaryModel;
 import org.kuali.student.dictionary.model.spreadsheet.ExcelSpreadsheetReader;
 import org.kuali.student.dictionary.model.spreadsheet.SpreadsheetReader;
@@ -27,6 +25,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.kuali.student.dictionary.TestConstants;
 import static org.junit.Assert.*;
 
 /**

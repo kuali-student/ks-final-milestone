@@ -15,12 +15,14 @@
  */
 package org.kuali.student.dictionary.model.validation;
 
+import org.kuali.student.dictionary.DictionaryException;
+
 /**
  * Exception thrown when encounter a problem with the spreadsheet model while
  * generating the dictionary
  * @author nwright
  */
-public class DictionaryValidationException extends RuntimeException
+public class DictionaryValidationException extends DictionaryException
 {
 
  public DictionaryValidationException (Throwable cause)

@@ -15,9 +15,7 @@
  */
 package org.kuali.student.dictionary.writer;
 
-import org.kuali.student.dictionary.model.SearchTypesToLookupMetadataBankConverter;
 import org.kuali.student.dictionary.model.DictionaryModel;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,6 +26,7 @@ import org.kuali.student.common.assembly.client.LookupImplMetadata;
 import org.kuali.student.common.assembly.client.LookupMetadata;
 import org.kuali.student.common.assembly.client.LookupParamMetadata;
 import org.kuali.student.common.assembly.client.LookupResultMetadata;
+import org.kuali.student.dictionary.model.OrchestrationModel;
 
 /**
  *
@@ -37,16 +36,19 @@ public class LookupMetadataBankWriter extends JavaClassWriter
 {
 
  private DictionaryModel model;
+ OrchestrationModel orchModel;
  private String directory;
  private String rootPackage;
  public static final String JAVA_CLASS_NAME = "LookupMetadataBank";
 
  public LookupMetadataBankWriter (DictionaryModel model,
+                                  OrchestrationModel orchModel,
                                   String directory,
                                   String rootPackage)
  {
   super (directory, rootPackage, JAVA_CLASS_NAME);
   this.model = model;
+  this.orchModel = orchModel;
   this.directory = directory;
   this.rootPackage = rootPackage;
  }
@@ -79,8 +81,7 @@ public class LookupMetadataBankWriter extends JavaClassWriter
   imports.add (LookupImplMetadata.class.getName ());
 
   // basic conversion
-  List<LookupMetadata> lookupMetas =
-   new SearchTypesToLookupMetadataBankConverter (model).getLookups ();
+  List<LookupMetadata> lookupMetas = orchModel.getLookups ();
 
   // now write them out
   for (LookupMetadata lookupMeta : lookupMetas)

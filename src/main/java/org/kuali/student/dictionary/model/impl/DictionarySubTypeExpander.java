@@ -13,16 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.dictionary.model;
+package org.kuali.student.dictionary.model.impl;
 
+import org.kuali.student.dictionary.model.util.ModelFinder;
+import org.kuali.student.dictionary.model.*;
 import org.kuali.student.dictionary.model.validation.DictionaryValidationException;
-import org.kuali.student.dictionary.*;
-import org.kuali.student.dictionary.model.DictionaryExpander;
-import org.kuali.student.dictionary.model.Dictionary;
-import org.kuali.student.dictionary.model.DictionaryModel;
-import org.kuali.student.dictionary.model.Type;
 import java.util.ArrayList;
 import java.util.List;
+import org.kuali.student.dictionary.DictionaryExecutionException;
 
 /**
  * A dictionary expander that expands the sub-type

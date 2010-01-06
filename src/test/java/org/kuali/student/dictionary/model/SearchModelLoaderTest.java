@@ -16,6 +16,8 @@
 package org.kuali.student.dictionary.model;
 
 
+import org.kuali.student.dictionary.model.impl.SearchModelLoader;
+import org.kuali.student.dictionary.model.impl.SearchModelCache;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;

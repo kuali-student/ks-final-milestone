@@ -15,7 +15,6 @@
  */
 package org.kuali.student.dictionary.writer;
 
-import org.kuali.student.dictionary.*;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -23,6 +22,7 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.Set;
 import java.util.TreeSet;
+import org.kuali.student.dictionary.DictionaryExecutionException;
 
 /**
  *

@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.dictionary.model;
+package org.kuali.student.dictionary.model.impl;
 
-import org.kuali.student.dictionary.model.validation.SearchValidationException;
+import org.kuali.student.dictionary.model.*;
+import org.kuali.student.dictionary.model.validation.DictionaryValidationException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -58,7 +59,7 @@ public class SearchModelLoader implements SearchModel
     {
      if (searchType.getUsage ().equalsIgnoreCase ("default"))
      {
-      throw new SearchValidationException ("Defaut lookups must be defined before other lookups and have a lookupKey assigned, error on row " +
+      throw new DictionaryValidationException ("Defaut lookups must be defined before other lookups and have a lookupKey assigned, error on row " +
        rowNumber);
      }
      lastLookupKeySequence++;
@@ -70,7 +71,7 @@ public class SearchModelLoader implements SearchModel
      lastLookupKeySequence = 0;
      if ( ! searchType.getUsage ().equalsIgnoreCase ("default"))
      {
-      throw new SearchValidationException ("The first lookup defined must have a usage of default, error on row " +
+      throw new DictionaryValidationException ("The first lookup defined must have a usage of default, error on row " +
        rowNumber);
      }
     }
@@ -118,7 +119,7 @@ public class SearchModelLoader implements SearchModel
     {
      continue;
     }
-    throw new SearchValidationException ("Spreadsheet row #" + rowNumber +
+    throw new DictionaryValidationException ("Spreadsheet row #" + rowNumber +
      " has an unknown type,[" + type + "]");
    }
   }

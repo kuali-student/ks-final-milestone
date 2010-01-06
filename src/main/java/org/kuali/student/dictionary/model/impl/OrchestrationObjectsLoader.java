@@ -13,56 +13,64 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.dictionary.model;
+package org.kuali.student.dictionary.model.impl;
 
+import org.kuali.student.dictionary.model.util.ModelFinder;
 import org.kuali.student.dictionary.writer.FieldTypeCategoryCalculator;
 import org.kuali.student.dictionary.writer.ConstraintInterrogator;
-import org.kuali.student.dictionary.*;
-import org.kuali.student.dictionary.model.OrchestrationObject;
-import org.kuali.student.dictionary.model.ModelFinder;
 import org.kuali.student.dictionary.model.validation.DictionaryValidationException;
-import org.kuali.student.dictionary.model.XmlType;
-import org.kuali.student.dictionary.model.MessageStructure;
-import org.kuali.student.dictionary.model.Dictionary;
-import org.kuali.student.dictionary.model.OrchObj;
-import org.kuali.student.dictionary.model.DictionaryModel;
-import org.kuali.student.dictionary.model.Constraint;
-import org.kuali.student.dictionary.model.Field;
-import org.kuali.student.dictionary.model.Type;
-import org.kuali.student.dictionary.model.State;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.kuali.student.common.assembly.client.LookupMetadata;
+import org.kuali.student.dictionary.model.Constraint;
+import org.kuali.student.dictionary.model.Dictionary;
+import org.kuali.student.dictionary.model.DictionaryModel;
+import org.kuali.student.dictionary.model.Field;
+import org.kuali.student.dictionary.model.MessageStructure;
+import org.kuali.student.dictionary.model.OrchObj;
+import org.kuali.student.dictionary.model.OrchestrationModel;
+import org.kuali.student.dictionary.model.OrchestrationObject;
+import org.kuali.student.dictionary.model.OrchestrationObjectField;
 import org.kuali.student.dictionary.model.OrchestrationObjectField.FieldTypeCategory;
+import org.kuali.student.dictionary.model.State;
+import org.kuali.student.dictionary.model.Type;
+import org.kuali.student.dictionary.model.TypeStateConstraint;
+import org.kuali.student.dictionary.model.XmlType;
 
 /**
  *
  * @author nwright
  */
-public class OrchestrationObjectsLoader
+public class OrchestrationObjectsLoader implements OrchestrationModel
 {
 
  private DictionaryModel model;
- private String directory;
  private String rootPackage;
  private List<LookupMetadata> lookupMetas;
 
- public OrchestrationObjectsLoader (DictionaryModel model, String directory,
+ public OrchestrationObjectsLoader (DictionaryModel model,
                                     String rootPackage)
  {
   this.model = model;
   this.lookupMetas = new SearchTypesToLookupMetadataBankConverter (model).getLookups ();
-  this.directory = directory;
   this.rootPackage = rootPackage;
  }
+
+ public List<LookupMetadata> getLookups ()
+ {
+  return this.lookupMetas;
+ }
+
+
 
  /**
   * Load the Orchestration objects from the model
   * @param out
   */
- public Map<String, OrchestrationObject> load ()
+ @Override
+ public Map<String, OrchestrationObject> getOrchestrationObjects ()
  {
 
   // first do from message structures

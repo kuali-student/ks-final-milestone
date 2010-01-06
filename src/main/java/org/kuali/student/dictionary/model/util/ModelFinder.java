@@ -13,17 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.dictionary.model;
+package org.kuali.student.dictionary.model.util;
 
-import org.kuali.student.dictionary.*;
+import org.kuali.student.dictionary.model.*;
 import org.kuali.student.dictionary.model.validation.DictionaryValidationException;
-import org.kuali.student.dictionary.model.XmlType;
-import org.kuali.student.dictionary.model.Dictionary;
-import org.kuali.student.dictionary.model.DictionaryModel;
-import org.kuali.student.dictionary.model.Constraint;
-import org.kuali.student.dictionary.model.Field;
-import org.kuali.student.dictionary.model.Type;
-import org.kuali.student.dictionary.model.State;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;

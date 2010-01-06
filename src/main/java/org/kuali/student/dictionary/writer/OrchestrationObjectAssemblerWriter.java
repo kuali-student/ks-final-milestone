@@ -15,7 +15,6 @@
  */
 package org.kuali.student.dictionary.writer;
 
-import org.kuali.student.dictionary.*;
 import org.kuali.student.dictionary.model.OrchestrationObject;
 import org.kuali.student.dictionary.model.OrchestrationObjectField;
 import org.kuali.student.dictionary.model.validation.DictionaryValidationException;
@@ -28,6 +27,7 @@ import java.util.Map;
 import org.kuali.student.common.assembly.Assembler;
 import org.kuali.student.common.assembly.client.AssemblyException;
 import org.kuali.student.common.assembly.client.Data;
+import org.kuali.student.dictionary.DictionaryExecutionException;
 
 /**
  *

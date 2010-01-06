@@ -19,7 +19,7 @@ package org.kuali.student.dictionary;
  * Exception thrown when encounter an unexpected exeception when generating the dictionary
  * @author nwright
  */
-public class DictionaryExecutionException extends RuntimeException
+public class DictionaryExecutionException extends DictionaryException
 {
 
  public DictionaryExecutionException (Throwable cause)

@@ -17,8 +17,8 @@ package org.kuali.student.dictionary;
 
 import org.kuali.student.dictionary.writer.SearchModelWriter;
 import org.kuali.student.dictionary.model.SearchModel;
-import org.kuali.student.dictionary.model.SearchModelCache;
-import org.kuali.student.dictionary.model.SearchModelLoader;
+import org.kuali.student.dictionary.model.impl.SearchModelCache;
+import org.kuali.student.dictionary.model.impl.SearchModelLoader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
@@ -86,17 +86,17 @@ public class SearchGeneratorFromCommandLine
   if (args == null)
   {
    displayUsage ();
-   throw new SearchExecutionException ("args is null");
+   throw new DictionaryExecutionException ("args is null");
   }
   if (args.length == 0)
   {
    displayUsage ();
-   throw new SearchExecutionException ("no args specified");
+   throw new DictionaryExecutionException ("no args specified");
   }
   if (args.length == 1)
   {
    displayUsage ();
-   throw new SearchExecutionException ("no output file specified");
+   throw new DictionaryExecutionException ("no output file specified");
   }
   String in = args[0];
   String out = args[1];

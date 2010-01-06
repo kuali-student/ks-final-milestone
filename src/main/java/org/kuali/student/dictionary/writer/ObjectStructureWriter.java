@@ -15,7 +15,7 @@
  */
 package org.kuali.student.dictionary.writer;
 
-import org.kuali.student.dictionary.model.ModelFinder;
+import org.kuali.student.dictionary.model.util.ModelFinder;
 import org.kuali.student.dictionary.model.validation.DictionaryValidationException;
 import org.kuali.student.dictionary.model.XmlType;
 import org.kuali.student.dictionary.model.Dictionary;

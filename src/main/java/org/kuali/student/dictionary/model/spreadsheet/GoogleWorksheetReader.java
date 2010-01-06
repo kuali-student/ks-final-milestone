@@ -16,7 +16,6 @@
 package org.kuali.student.dictionary.model.spreadsheet;
 
 import org.kuali.student.dictionary.model.validation.DictionaryValidationException;
-import org.kuali.student.dictionary.*;
 import com.google.gdata.data.spreadsheet.CustomElementCollection;
 import com.google.gdata.data.spreadsheet.ListEntry;
 import com.google.gdata.data.spreadsheet.ListFeed;
@@ -27,6 +26,7 @@ import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import org.kuali.student.dictionary.DictionaryExecutionException;
 
 /**
  * Reads a single tab of a google spreadsheet using the Gdata API

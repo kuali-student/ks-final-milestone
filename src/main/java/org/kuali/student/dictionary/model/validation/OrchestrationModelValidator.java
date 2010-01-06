@@ -15,15 +15,12 @@
  */
 package org.kuali.student.dictionary.model.validation;
 
-import org.kuali.student.dictionary.model.ModelFinder;
-import org.kuali.student.dictionary.*;
+import org.kuali.student.dictionary.model.util.ModelFinder;
 import org.kuali.student.dictionary.model.OrchObj;
 import org.kuali.student.dictionary.model.DictionaryModel;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Validates the entire spreadsheet model

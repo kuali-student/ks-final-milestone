@@ -15,17 +15,17 @@
  */
 package org.kuali.student.dictionary.writer;
 
-import org.kuali.student.dictionary.model.ModelFinder;
+import org.kuali.student.dictionary.model.util.ModelFinder;
 import org.kuali.student.dictionary.model.validation.DictionaryModelValidator;
 import org.kuali.student.dictionary.model.validation.DictionaryValidationException;
-import org.kuali.student.dictionary.model.DictionarySubTypeExpander;
+import org.kuali.student.dictionary.model.impl.DictionarySubTypeExpander;
 import org.kuali.student.dictionary.model.XmlType;
-import org.kuali.student.dictionary.model.DictionaryModelExpanded;
+import org.kuali.student.dictionary.model.impl.DictionaryModelExpanded;
 import org.kuali.student.dictionary.model.CrossObjectConstraint;
 import org.kuali.student.dictionary.model.Dictionary;
 import org.kuali.student.dictionary.model.DictionaryModel;
 import org.kuali.student.dictionary.model.Constraint;
-import org.kuali.student.dictionary.model.DictionaryMainTypeExpander;
+import org.kuali.student.dictionary.model.impl.DictionaryMainTypeExpander;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;

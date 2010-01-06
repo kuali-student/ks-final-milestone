@@ -15,11 +15,11 @@
  */
 package org.kuali.student.dictionary.model.spreadsheet;
 
-import org.kuali.student.dictionary.*;
 import java.io.File;
 import java.io.IOException;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
+import org.kuali.student.dictionary.DictionaryExecutionException;
 
 /**
  * This reads an excel spreadsheet using the JExcelAPI from SourceForge

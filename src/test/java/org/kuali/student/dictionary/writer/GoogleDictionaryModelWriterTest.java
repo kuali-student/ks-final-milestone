@@ -16,8 +16,8 @@
 package org.kuali.student.dictionary.writer;
 
 import org.kuali.student.dictionary.writer.DictionaryModelWriter;
-import org.kuali.student.dictionary.model.DictionaryModelCache;
-import org.kuali.student.dictionary.model.DictionaryModelLoader;
+import org.kuali.student.dictionary.model.impl.DictionaryModelCache;
+import org.kuali.student.dictionary.model.impl.DictionaryModelLoader;
 import org.kuali.student.dictionary.model.DictionaryModel;
 import org.kuali.student.dictionary.model.spreadsheet.GoogleSpreadsheetReader;
 import java.io.File;

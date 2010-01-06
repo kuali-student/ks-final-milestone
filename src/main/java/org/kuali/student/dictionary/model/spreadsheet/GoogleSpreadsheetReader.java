@@ -15,7 +15,6 @@
  */
 package org.kuali.student.dictionary.model.spreadsheet;
 
-import org.kuali.student.dictionary.*;
 import com.google.gdata.client.spreadsheet.SpreadsheetService;
 import com.google.gdata.data.spreadsheet.SpreadsheetEntry;
 import com.google.gdata.data.spreadsheet.SpreadsheetFeed;
@@ -26,6 +25,7 @@ import com.google.gdata.util.ServiceException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import org.kuali.student.dictionary.DictionaryExecutionException;
 
 /**
  * Reads an on-line google spreadsheet using the gdata API

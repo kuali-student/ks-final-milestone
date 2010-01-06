@@ -16,9 +16,8 @@
 package org.kuali.student.dictionary.model.validation;
 
 import org.kuali.student.dictionary.model.SearchModel;
-import org.kuali.student.dictionary.model.SearchModelValidator;
-import org.kuali.student.dictionary.model.SearchModelCache;
-import org.kuali.student.dictionary.model.SearchModelLoader;
+import org.kuali.student.dictionary.model.impl.SearchModelCache;
+import org.kuali.student.dictionary.model.impl.SearchModelLoader;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.junit.After;

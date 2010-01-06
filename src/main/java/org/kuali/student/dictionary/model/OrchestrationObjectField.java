@@ -15,7 +15,6 @@
  */
 package org.kuali.student.dictionary.model;
 
-import org.kuali.student.dictionary.*;
 import java.util.ArrayList;
 import java.util.List;
 

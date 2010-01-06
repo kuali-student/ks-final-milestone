@@ -2,17 +2,15 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.kuali.student.dictionary.model;
+package org.kuali.student.dictionary.model.impl;
 
-import org.kuali.student.dictionary.*;
+import org.kuali.student.dictionary.model.*;
 import org.kuali.student.dictionary.model.validation.DictionaryValidationException;
-import org.kuali.student.dictionary.model.DictionaryModel;
 import java.util.ArrayList;
 import java.util.List;
 import org.kuali.student.common.assembly.client.LookupMetadata;
 import org.kuali.student.common.assembly.client.LookupParamMetadata;
-import org.kuali.student.dictionary.model.SearchCriteriaParameter;
-import org.kuali.student.dictionary.model.SearchType;
+import org.kuali.student.dictionary.DictionaryExecutionException;
 
 /**
  *

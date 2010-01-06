@@ -15,10 +15,10 @@
  */
 package org.kuali.student.dictionary.writer;
 
-import org.kuali.student.dictionary.model.validation.SearchValidationException;
+import org.kuali.student.dictionary.model.validation.DictionaryValidationException;
 import org.kuali.student.dictionary.model.SearchResult;
 import org.kuali.student.dictionary.model.SearchImplementation;
-import org.kuali.student.dictionary.model.SearchModelValidator;
+import org.kuali.student.dictionary.model.validation.SearchModelValidator;
 import org.kuali.student.dictionary.model.SearchCriteriaParameter;
 import org.kuali.student.dictionary.model.SearchModel;
 import org.kuali.student.dictionary.model.SearchCriteria;
@@ -67,7 +67,7 @@ public class SearchModelWriter extends XmlWriter
     buf.append ("\n");
     buf.append ("*error*" + cnt + ":" + msg);
    }
-   throw new SearchValidationException (buf.toString ());
+   throw new DictionaryValidationException (buf.toString ());
   }
   writeHeader ();
   writeSearchTypes ();

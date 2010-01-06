@@ -15,7 +15,7 @@
  */
 package org.kuali.student.dictionary.model;
 
-import org.kuali.student.dictionary.model.GroupTypeStatePatternMatcher;
+import org.kuali.student.dictionary.model.util.GroupTypeStatePatternMatcher;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

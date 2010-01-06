@@ -15,18 +15,7 @@
  */
 package org.kuali.student.dictionary.model;
 
-import org.kuali.student.dictionary.*;
-import org.kuali.student.dictionary.model.XmlType;
-import org.kuali.student.dictionary.model.Constraint;
-import org.kuali.student.dictionary.model.CrossObjectConstraint;
-import org.kuali.student.dictionary.model.MessageStructure;
-import org.kuali.student.dictionary.model.Type;
-import org.kuali.student.dictionary.model.Field;
-import org.kuali.student.dictionary.model.Dictionary;
-import org.kuali.student.dictionary.model.OrchObj;
-import org.kuali.student.dictionary.model.State;
-import org.kuali.student.dictionary.model.DictionaryModelLoader;
-import org.kuali.student.dictionary.model.DictionaryModel;
+import org.kuali.student.dictionary.model.impl.DictionaryModelLoader;
 import org.kuali.student.dictionary.model.spreadsheet.ExcelSpreadsheetReader;
 import java.util.List;
 import org.junit.After;
@@ -34,7 +23,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.kuali.student.dictionary.model.SearchType;
+import org.kuali.student.dictionary.TestConstants;
 import static org.junit.Assert.*;
 
 /**

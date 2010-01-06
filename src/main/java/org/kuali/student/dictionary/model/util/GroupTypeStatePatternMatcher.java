@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.dictionary.model;
+package org.kuali.student.dictionary.model.util;
 
 /**
  * Matches patterns that define groups of types or groups of states

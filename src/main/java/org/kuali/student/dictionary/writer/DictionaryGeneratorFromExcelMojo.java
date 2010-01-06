@@ -15,11 +15,10 @@
  */
 package org.kuali.student.dictionary.writer;
 
-import org.kuali.student.dictionary.*;
 import org.kuali.student.dictionary.model.validation.DictionaryValidationException;
-import org.kuali.student.dictionary.model.DictionaryModelCache;
+import org.kuali.student.dictionary.model.impl.DictionaryModelCache;
 import org.kuali.student.dictionary.model.DictionaryModel;
-import org.kuali.student.dictionary.model.DictionaryModelLoader;
+import org.kuali.student.dictionary.model.impl.DictionaryModelLoader;
 import org.kuali.student.dictionary.model.spreadsheet.SpreadsheetReader;
 import org.kuali.student.dictionary.model.spreadsheet.ExcelSpreadsheetReader;
 import java.io.File;
@@ -28,6 +27,7 @@ import java.io.PrintStream;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.kuali.student.dictionary.DictionaryExecutionException;
 
 /**
  * Creates the dictionary XML file from the Excel source file

@@ -8,7 +8,7 @@ http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/searc
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Wed Jan 06 13:28:11 EST 2010
+on: Wed Jan 06 14:58:12 EST 2010
 by: org.kuali.student.dictionary.writer.SearchModelWriter
 using: Excel Spreadsheet src/test/resources/Organization Search Specification.xls
  -->

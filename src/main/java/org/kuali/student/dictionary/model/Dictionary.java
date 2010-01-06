@@ -477,7 +477,7 @@ public class Dictionary implements Serializable, Cloneable
  }
 
  @Override
- protected Object clone ()
+ public Object clone ()
   throws CloneNotSupportedException
  {
   return super.clone ();

@@ -15,7 +15,7 @@
  */
 package org.kuali.student.dictionary.writer;
 
-import org.kuali.student.dictionary.model.OrchestrationObjectsLoader;
+import org.kuali.student.dictionary.model.impl.OrchestrationObjectsLoader;
 import org.kuali.student.dictionary.model.OrchestrationObject;
 import org.kuali.student.dictionary.model.validation.DictionaryValidationException;
 import org.kuali.student.dictionary.model.validation.OrchestrationModelValidator;
@@ -25,6 +25,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.Collection;
 import java.util.Map;
+import org.kuali.student.dictionary.model.OrchestrationModel;
 
 /**
  *
@@ -44,6 +45,12 @@ public class OrchestrationObjectsWriter
   this.rootPackage = rootPackage;
  }
 
+ private OrchestrationModel getOrchestrationModel ()
+ {
+  return new OrchestrationObjectsLoader (model, rootPackage);
+ }
+ 
+
  /**
   * Write out the entire file
   * @param out
@@ -53,8 +60,7 @@ public class OrchestrationObjectsWriter
   this.validate ();
 
   // first do from message structures
-  Map<String, OrchestrationObject> orchObjs =
-  new OrchestrationObjectsLoader (model, directory, rootPackage).load ();
+  Map<String, OrchestrationObject> orchObjs = getOrchestrationModel ().getOrchestrationObjects ();
 
   // do the helpers first
   for (OrchestrationObject oo : orchObjs.values ())
@@ -79,7 +85,7 @@ public class OrchestrationObjectsWriter
   new ConstraintMetadataBankWriter (model, directory, rootPackage).write ();
 
   // do the bank of constraints next
-  new LookupMetadataBankWriter (model, directory, rootPackage).write ();
+  new LookupMetadataBankWriter (model, getOrchestrationModel (), directory, rootPackage).write ();
 
   // do the metadata next
   for (OrchestrationObject oo : orchObjs.values ())

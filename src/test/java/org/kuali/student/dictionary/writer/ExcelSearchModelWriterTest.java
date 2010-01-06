@@ -16,8 +16,8 @@
 package org.kuali.student.dictionary.writer;
 
 import org.kuali.student.dictionary.model.SearchModel;
-import org.kuali.student.dictionary.model.SearchModelCache;
-import org.kuali.student.dictionary.model.SearchModelLoader;
+import org.kuali.student.dictionary.model.impl.SearchModelCache;
+import org.kuali.student.dictionary.model.impl.SearchModelLoader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
