@@ -95,7 +95,7 @@
         <cobertura.plugin.version>2.2</cobertura.plugin.version>
         <javadoc.plugin.version>2.4</javadoc.plugin.version>
         <site.plugin.version>2.0-beta-7</site.plugin.version>
-		<gwt.codehaus.plugin.version>1.2-20091109</gwt.codehaus.plugin.version>
+		<gwt.codehaus.plugin.version>1.2</gwt.codehaus.plugin.version>
         <war.plugin.version>2.1-beta-1</war.plugin.version>
 		<tomcat.plugin.version>1.0-beta-1</tomcat.plugin.version>
         
@@ -230,24 +230,18 @@
 				</pluginRepository>
 				<pluginRepository>
 					<id>codehaus</id>
-					<url>http://snapshots.repository.codehaus.org/</url>
+					<url>http://repository.codehaus.org/</url>
                     <releases>
-                        <enabled>false</enabled>
+                        <enabled>true</enabled>
                     </releases>
                     <snapshots>
-                        <enabled>true</enabled>
+                        <enabled>false</enabled>
                     </snapshots>
 				</pluginRepository>				
 				<pluginRepository>
 					<id>ks-public</id>
 					<url>http://archiva.kuali.umd.edu/repository/public</url>
 				</pluginRepository>
-                <pluginRepository>
-                    <id>gwt-maven</id>
-                    <url>
-                        http://gwt-maven.googlecode.com/svn/trunk/mavenrepo
-                    </url>
-                </pluginRepository>
 			</pluginRepositories>
 		</profile>
 		
