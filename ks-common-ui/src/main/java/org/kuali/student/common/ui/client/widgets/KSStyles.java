@@ -21,6 +21,7 @@ package org.kuali.student.common.ui.client.widgets;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public interface KSStyles {
 	public static final String KS_ACCORDION = "KS-Accordion";
 	public static final String KS_ACCORDION_TITLEBAR = "KS-Accordion-Titlebar";

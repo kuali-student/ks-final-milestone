@@ -15,14 +15,11 @@
 package org.kuali.student.common.ui.client.configurable.mvc;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -75,8 +72,8 @@ public class MultiplicitySection extends Section implements HasModelDTOValue{
         
         RowDescriptor row = rows.get(rows.size()-1);
 
-        if (fieldDescriptor.getFieldWidget() instanceof MultiplicityComposite){
-            MultiplicityComposite listField = (MultiplicityComposite)fieldDescriptor.getFieldWidget(); 
+        if (fieldDescriptor.getFieldWidget() instanceof SimpleMultiplicityComposite){
+            SimpleMultiplicityComposite listField = (SimpleMultiplicityComposite) fieldDescriptor.getFieldWidget(); 
             listField.redraw();                  
         }
         panel.add(row);
@@ -114,10 +111,13 @@ public class MultiplicitySection extends Section implements HasModelDTOValue{
     @Override
     public void setValue(ModelDTOValue modelDTOValue) {
         //assert(modelDTOValue instanceof ModelDTOValue.ModelDTOType);
-        if(modelDTOValue instanceof ModelDTOType){
-	        if(state.equals(((ModelDTOType) modelDTOValue).get().get("state")) && type.equals(((ModelDTOType) modelDTOValue).get().get("type"))){
-	        	this.modelDTOValue = modelDTOValue;
-	        }
+        if(modelDTOValue instanceof ModelDTOType) {
+        	ModelDTO dto = ((ModelDTOType) modelDTOValue).get();
+	        String stateVal = ((ModelDTOValue.StringType) dto.get("state")).getString();
+	        String typeVal = ((ModelDTOValue.StringType) dto.get("type")).getString();
+		    if (state.equals(stateVal) && type.equals(typeVal)) {
+		        this.modelDTOValue = modelDTOValue;
+		    }
         }
         redraw();
     }

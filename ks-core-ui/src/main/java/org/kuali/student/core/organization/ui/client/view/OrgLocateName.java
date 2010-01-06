@@ -27,6 +27,7 @@ import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectableTableList;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
@@ -144,9 +145,10 @@ public class OrgLocateName extends Composite implements HasStateChanges {
                         resultPanel.setWidget(resultTable);
                         resultTable.addSelectionChangeHandler(new SelectionChangeHandler() {
 
-                            @Override
-                            public void onSelectionChange(final KSSelectItemWidgetAbstract selected) {
-                                if(selected.getSelectedItem() != null) {
+							@Override
+							public void onSelectionChange(SelectionChangeEvent event) {
+								KSSelectItemWidgetAbstract selected = (KSSelectItemWidgetAbstract)event.getWidget();
+								if(selected.getSelectedItem() != null) {
                                     final OrganizationWidget orgCreatePanel = new OrganizationWidget(selected.getSelectedItem(), OrganizationWidget.Scope.ORG_MODIFY_ALL);
                                     orgCreatePanel.addCloseButton("Back", new ClickHandler() {
                                         @Override
@@ -158,7 +160,8 @@ public class OrgLocateName extends Composite implements HasStateChanges {
                                     w.add(orgCreatePanel);
                                     w.showWidget(w.getWidgetCount() - 1);
                                 }
-                            }});
+								
+							}});
                         // selectButton.setVisible(true);
                     }
                 }
@@ -178,10 +181,12 @@ public class OrgLocateName extends Composite implements HasStateChanges {
         orgTypes = new KSCheckBoxList();
         orgTypes.addStyleName("KS-CheckBox-List");
         orgTypes.addSelectionChangeHandler(new SelectionChangeHandler() {
-            @Override
-            public void onSelectionChange(KSSelectItemWidgetAbstract w) {
-                handler.onClick(null);
-            }});
+
+			@Override
+			public void onSelectionChange(SelectionChangeEvent event) {
+				handler.onClick(null);
+				
+			}});
 
         Panel browsePanel = new VerticalPanel();
         browsePanel.add(grid);

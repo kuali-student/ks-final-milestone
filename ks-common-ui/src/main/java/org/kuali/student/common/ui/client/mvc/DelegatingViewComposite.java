@@ -14,7 +14,6 @@
  */
 package org.kuali.student.common.ui.client.mvc;
 
-import com.google.gwt.user.client.ui.Composite;
 
 /**
  * This is a simple view composite that delegates all view operations to nested
@@ -51,11 +50,11 @@ public class DelegatingViewComposite extends ViewComposite {
      * @see org.kuali.student.common.ui.client.mvc.View#beforeShow()
      */
     @Override
-    public void beforeShow() {
+    public void beforeShow(final Callback<Boolean> onReadyCallback) {
         if (childController.getCurrentView() == null){
-            childController.showDefaultView();
+            childController.showDefaultView(onReadyCallback);
         } else {
-            childController.getCurrentView().beforeShow();
+            childController.getCurrentView().beforeShow(onReadyCallback);
         }
     }
     

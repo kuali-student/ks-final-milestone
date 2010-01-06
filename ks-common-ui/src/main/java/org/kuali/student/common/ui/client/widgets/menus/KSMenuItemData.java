@@ -24,7 +24,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.GwtEvent.Type;
-import com.google.gwt.user.client.ui.Image;
 
 /**
  * The data object used to populate interactive ui menus.
@@ -45,6 +44,12 @@ public class KSMenuItemData {
 	public KSMenuItemData(String label) {
 		super();
 		this.label = label;
+	}
+	
+	public KSMenuItemData(String label, ClickHandler clickHandler) {
+		super();
+		this.label = label;
+		this.clickHandler = clickHandler;
 	}
 	
 	/**

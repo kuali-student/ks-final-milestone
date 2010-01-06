@@ -114,7 +114,7 @@ public class OrgSearchWidget extends Composite implements HasSelectionHandlers<O
         
         });
         
-        tb.addStyleName("KS-Org-Search-Widget");
+        //tb.addStyleName("KS-Org-Search-Widget");
         
         root.add(tb);
         selectButton.addClickHandler(new ClickHandler(){
@@ -139,7 +139,7 @@ public class OrgSearchWidget extends Composite implements HasSelectionHandlers<O
             }
         });
         selectButton.setVisible(false);
-        resultPanel.addStyleName("KS-Org-Search-Widget-Results");
+        //resultPanel.addStyleName("KS-Org-Search-Widget-Results");
         resultPanel.setVisible(false);
         root.add(resultPanel);
         root.add(selectButton);

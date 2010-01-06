@@ -16,6 +16,7 @@ package org.kuali.student.common.ui.client.configurable.mvc;
 
 
 public interface ConfigurableLayout {
+	public void addStartSection(SectionView section);
 	
     public void addSection(String[] hierarchy, SectionView section);
 

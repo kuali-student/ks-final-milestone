@@ -22,7 +22,6 @@ import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.ModelListItems;
-import org.kuali.student.common.ui.client.widgets.list.impl.KSCheckBoxListImpl;
 import org.kuali.student.core.dto.Idable;
 
 import com.google.gwt.event.dom.client.BlurEvent;

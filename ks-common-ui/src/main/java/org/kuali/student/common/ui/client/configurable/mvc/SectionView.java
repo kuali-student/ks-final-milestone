@@ -14,6 +14,7 @@
  */
 package org.kuali.student.common.ui.client.configurable.mvc;
 
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
 
@@ -64,8 +65,10 @@ public abstract class SectionView extends Section implements View{
      * Called by controller before the view is displayed to allow lazy initialization or any other preparatory work to be
      * done.
      */
-    public void beforeShow() {
+    @Override
+    public void beforeShow(final Callback<Boolean> onReadyCallback) {
     	this.resetFieldInteractionFlags();
+    	onReadyCallback.exec(true);
     }
 
 	/**

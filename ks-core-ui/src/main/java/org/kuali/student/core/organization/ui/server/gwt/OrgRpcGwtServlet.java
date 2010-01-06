@@ -14,8 +14,12 @@
  */
 package org.kuali.student.core.organization.ui.server.gwt;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.assembly.client.AssemblyException;
+import org.kuali.student.common.assembly.client.Data;
+import org.kuali.student.common.assembly.client.SaveResult;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
@@ -26,6 +30,7 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.core.organization.assembly.OrgProposalAssembler;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
@@ -36,7 +41,9 @@ import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
+import org.kuali.student.core.organization.ui.client.service.DataSaveResult;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class OrgRpcGwtServlet extends BaseRpcGwtServletAbstract<OrganizationService> implements OrgRpcService{
 
@@ -486,4 +493,58 @@ public class OrgRpcGwtServlet extends BaseRpcGwtServletAbstract<OrganizationServ
         }
         return null;
     }	
+    private OrgProposalAssembler orgProposalAssembler;
+    private synchronized void initAssemblers() {
+        if (orgProposalAssembler == null) {
+            // TODO change how the state is set/passed in to the proposal assembler, if at all
+            orgProposalAssembler = new OrgProposalAssembler();
+            orgProposalAssembler.setOrgService(service);
+            
+        }
+    }
+    
+// TODO rewrite this method to use the metadata structures from the assembler
+//    /**
+//     * This method should return a an empty model with associated model definition for 
+//     * requested model
+//     */
+//    public DataModel getOrgProposalModelDefinition(String modelId){
+//        DataModel model = null;
+//        if (OrgConfigurerFactory.ORG_PROPOSAL_MODEL.equals(modelId)){
+//            final SimpleModelDefinition def = new SimpleModelDefinition();
+//            def.define("orgInfo", "org.kuali.student.core.organization.assembly.data.client.org.Org");
+//            def.define("orgOrgRelInfo", "org.kuali.student.core.organization.assembly.data.client.org.OrgorgRelation");
+//            model = new DataModel(def, new Data());
+//            
+//        }
+//        return model;
+//    }
+    
+    @Override
+    public DataSaveResult saveOrgProposal(Data proposal) {
+
+        try {
+            initAssemblers();
+            SaveResult<Data> s = orgProposalAssembler.save(proposal);
+            if (s == null) {
+                return null;
+            } else {
+//                DataSaveResult dsr = new DataSaveResult(s.getValidationResults(), s.getValue());
+                SaveResult<Data> samp = new SaveResult<Data>();
+                Data sampdata = new Data();
+                sampdata = s.getValue();
+                List<ValidationResultInfo> vsr =  new ArrayList<ValidationResultInfo>();
+                DataSaveResult dsr = new DataSaveResult(vsr,sampdata);
+                return dsr;
+            }
+        } catch (AssemblyException e) {
+            e.printStackTrace();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
+     
+    }
+    
 }

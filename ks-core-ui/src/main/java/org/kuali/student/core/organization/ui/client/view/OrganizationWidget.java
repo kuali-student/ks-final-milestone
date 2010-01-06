@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.event.SaveEvent;
 import org.kuali.student.common.ui.client.event.SaveHandler;
-import org.kuali.student.common.ui.client.mvc.Model;
+import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDialogPanel;
 import org.kuali.student.common.ui.client.widgets.KSImage;
@@ -127,7 +127,7 @@ public class OrganizationWidget extends Composite implements HasSelectionHandler
         widgets = new ArrayList<OrgAbstractWidget>();
         
         boolean openFirst = true;
-        Model<OrgPositionRestrictionInfo> model = null;
+        CollectionModel<OrgPositionRestrictionInfo> model = null;
 
         if ((scope.value() & Scope.ORG.value()) != 0) {
             OrgWidget orgWidget = new OrgWidget(orgId,openFirst);

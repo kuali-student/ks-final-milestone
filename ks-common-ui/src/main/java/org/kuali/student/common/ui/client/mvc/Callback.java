@@ -21,5 +21,5 @@ package org.kuali.student.common.ui.client.mvc;
  *
  */
 public interface Callback <T extends Object> { 
-    public void exec(T result);
+	public void exec(T result);
 }

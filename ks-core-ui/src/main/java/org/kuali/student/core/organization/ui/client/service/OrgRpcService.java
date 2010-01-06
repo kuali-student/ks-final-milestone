@@ -16,6 +16,7 @@ package org.kuali.student.core.organization.ui.client.service;
 
 import java.util.List;
 
+import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.ui.client.service.BaseRpcService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
@@ -65,5 +66,7 @@ public interface OrgRpcService extends RemoteService, BaseRpcService {
     public List<OrgPersonRelationInfo> getOrgPersonRelationsByOrg(String orgId);
     public StatusInfo removeOrgOrgRelation(String orgOrgRelationId);
     public StatusInfo removePositionRestrictionFromOrg(String orgId, String orgPersonRelationTypeKey);
+//    public DataModel getOrgProposalModelDefinition(String modelId);
+    public DataSaveResult saveOrgProposal(Data proposal);
 
 }

@@ -3,7 +3,7 @@
 
     <context-param>
 	    <param-name>contextConfigLocation</param-name>
-      	<param-value>classpath:ksb/ks-core-context.xml</param-value>
+      	<param-value>classpath:ksb/ks-core-web-context.xml</param-value>
     </context-param>	
 
  

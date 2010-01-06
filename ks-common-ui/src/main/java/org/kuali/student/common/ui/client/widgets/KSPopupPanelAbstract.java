@@ -15,7 +15,6 @@
 package org.kuali.student.common.ui.client.widgets;
 
 import com.google.gwt.event.logical.shared.CloseHandler;
-
 import com.google.gwt.user.client.ui.Widget;
 /**
  * @deprecated

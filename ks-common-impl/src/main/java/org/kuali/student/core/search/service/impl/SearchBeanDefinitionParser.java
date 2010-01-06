@@ -65,6 +65,12 @@ public class SearchBeanDefinitionParser extends
 		if("fieldDescriptor".equals(element.getLocalName())&&element.hasAttribute("parent")){
 			builder.setParentName(element.getAttributes().getNamedItem("parent").getTextContent());
 		}
+		
+		//Set optional if its a queryParam
+		if("queryParam".equals(element.getLocalName())&&element.hasAttribute("optional")){
+			builder.addPropertyValue("optional", "true".equals(element.getAttribute("optional"))?true:false);
+		}
+		
 	
 		//Parse the children
 		for(int i = 0;i<element.getChildNodes().getLength();i++){

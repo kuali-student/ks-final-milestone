@@ -49,6 +49,10 @@ import org.kuali.student.core.organization.entity.OrgPositionRestriction;
 import org.kuali.student.core.organization.entity.OrgType;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
+import org.kuali.student.core.search.newdto.SearchParam;
+import org.kuali.student.core.search.newdto.SearchRequest;
+import org.kuali.student.core.search.newdto.SearchResult;
+import org.kuali.student.core.search.newdto.SortDirection;
 import org.kuali.student.core.search.service.impl.SearchManager;
 import org.kuali.student.core.search.service.impl.SearchManagerImpl;
 
@@ -58,7 +62,44 @@ import edu.emory.mathcs.backport.java.util.Collections;
 public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 	@Dao(value = "org.kuali.student.core.organization.dao.impl.OrganizationDaoImpl", testSqlFile = "classpath:ks-org.sql")
 	public OrganizationDao dao;
+	
+	@Test
+	public void testNewSearch() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+		SearchManager sm = new SearchManagerImpl("classpath:organization-search-config.xml");
 
+		
+ 		List<SearchParam> searchParams = new ArrayList<SearchParam>();
+		SearchParam qpv1 = new SearchParam();
+		qpv1.setKey("org.queryParam.orgType");
+		qpv1.setValue("kuali.org.College");
+		searchParams.add(qpv1);
+		
+		SearchRequest searchRequest = new SearchRequest();
+		searchRequest.setNeededTotalResults(Boolean.TRUE);
+		searchRequest.setParams(searchParams);
+		searchRequest.setSearchKey("org.search.orgQuickViewByOrgType");
+		
+		SearchResult result = sm.search(searchRequest, dao);
+		assertEquals(6,result.getRows().size());
+		assertEquals(2,result.getRows().get(0).getCells().size());
+		
+		searchRequest.setMaxResults(4);
+		searchRequest.setSortDirection(SortDirection.DESC);
+		searchRequest.setSortColumn("org.resultColumn.orgShortName");
+		searchRequest.setStartAt(2);
+		result = sm.search(searchRequest, dao);
+		assertEquals(4,result.getRows().size());
+		assertEquals(2,result.getRows().get(0).getCells().size());
+		
+		assertEquals("CollegeEng",result.getRows().get(0).getCells().get(1).getValue());
+		assertEquals("CollegeArtsHum",result.getRows().get(3).getCells().get(1).getValue());
+
+		searchRequest.setSortDirection(SortDirection.ASC);
+		result = sm.search(searchRequest, dao);
+		assertEquals("DistanceEducation",result.getRows().get(3).getCells().get(1).getValue());
+		assertEquals("CollegeEducation",result.getRows().get(0).getCells().get(1).getValue());
+	}
+	
 	@Test
 	public void testSearch() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
 		SearchManager sm = new SearchManagerImpl("classpath:organization-search-config.xml");
