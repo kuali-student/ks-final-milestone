@@ -52,9 +52,9 @@ public class CopyFromSingleUseLosButtonMetadata
 		Metadata childMeta;
 		Metadata listMeta;
 		
-		// metadata for Id
+		// metadata for Description
 		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.ID.getKey (), childMeta);
+		mainMeta.getProperties ().put (Properties.DESCRIPTION.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.LIST);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.setLookupMetadata (LookupMetadataBank.LOOKUP_BANK.get ("kuali.lookup.singleUseLos".toLowerCase ()));

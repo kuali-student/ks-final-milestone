@@ -19,6 +19,6 @@ package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 
 public interface CopyFromSingleUseLosButtonConstants
 {
-	public static final String ID = "id";
+	public static final String DESCRIPTION = "description";
 }
 

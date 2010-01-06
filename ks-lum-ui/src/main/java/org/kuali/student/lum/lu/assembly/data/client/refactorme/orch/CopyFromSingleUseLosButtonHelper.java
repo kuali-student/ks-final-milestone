@@ -26,7 +26,7 @@ public class CopyFromSingleUseLosButtonHelper
 	
 	public enum Properties implements PropertyEnum
 	{
-		ID ("id");
+		DESCRIPTION ("description");
 		
 		private final String key;
 		
@@ -63,15 +63,15 @@ public class CopyFromSingleUseLosButtonHelper
 	}
 	
 	
-	public void setId (Data value)
+	public void setDescription (Data value)
 	{
-		data.set (Properties.ID.getKey (), value);
+		data.set (Properties.DESCRIPTION.getKey (), value);
 	}
 	
 	
-	public Data getId ()
+	public Data getDescription ()
 	{
-		return (Data) data.get (Properties.ID.getKey ());
+		return (Data) data.get (Properties.DESCRIPTION.getKey ());
 	}
 	
 }
