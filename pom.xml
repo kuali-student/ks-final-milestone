@@ -97,6 +97,7 @@
         <site.plugin.version>2.0-beta-7</site.plugin.version>
 		<gwt.codehaus.plugin.version>1.2-20091109</gwt.codehaus.plugin.version>
         <war.plugin.version>2.1-beta-1</war.plugin.version>
+		<tomcat.plugin.version>1.0-beta-1</tomcat.plugin.version>
         
         <!-- build properties -->
         <ks-core.version>1.0.0-SNAPSHOT</ks-core.version>
@@ -333,13 +334,6 @@
                     <version>${site.plugin.version}</version>
                 </plugin>
             
-                <!--  war plguin, so one version is used regardless of build env :-) -->
-                <plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-war-plugin</artifactId>
-					<version>${war.plugin.version}</version>
-                </plugin>
-
 				<!-- CXF Java2WS Default Configuration -->
 				<plugin>
 					<groupId>org.apache.cxf</groupId>
@@ -369,17 +363,18 @@
 			    <plugin>
 			        <groupId>org.codehaus.mojo</groupId>
 	        		<artifactId>tomcat-maven-plugin</artifactId>
-	        		<version>1.0-beta-1</version>
+	        		<version>${tomcat.plugin.version}</version>
 	        		<configuration>
 	        			<server>${project.artifactId}</server>
 	        			<warDirectory>${project.build.directory}/${project.artifactId}-webapp</warDirectory>
 	        		</configuration>
 			    </plugin>
 			    
-			    <!-- War plugin Configuration -->
+			    <!-- War Plugin Configuration -->
 			    <plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-war-plugin</artifactId>
+					<version>${war.plugin.version}</version> <!-- so one version is used regardless of build env :-) -->
 					<configuration>
 						<webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
 					</configuration>
