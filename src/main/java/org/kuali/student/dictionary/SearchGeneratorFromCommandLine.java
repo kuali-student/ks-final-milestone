@@ -15,21 +15,21 @@
  */
 package org.kuali.student.dictionary;
 
-import org.kuali.student.dictionary.writer.DictionaryModelWriter;
-import org.kuali.student.dictionary.model.DictionaryModelCache;
-import org.kuali.student.dictionary.model.DictionaryModel;
-import org.kuali.student.dictionary.model.DictionaryModelLoader;
-import org.kuali.student.dictionary.model.spreadsheet.SpreadsheetReader;
-import org.kuali.student.dictionary.model.spreadsheet.ExcelSpreadsheetReader;
+import org.kuali.student.dictionary.writer.SearchModelWriter;
+import org.kuali.student.dictionary.model.SearchModel;
+import org.kuali.student.dictionary.model.SearchModelCache;
+import org.kuali.student.dictionary.model.SearchModelLoader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import org.kuali.student.dictionary.model.spreadsheet.ExcelSpreadsheetReader;
+import org.kuali.student.dictionary.model.spreadsheet.SpreadsheetReader;
 
 /**
  *
  * @author nwright
  */
-public class DictionaryGeneratorFromCommandLine
+public class SearchGeneratorFromCommandLine
 {
 
  /**
@@ -37,8 +37,8 @@ public class DictionaryGeneratorFromCommandLine
   */
  public static void main (String[] args)
  {
-  DictionaryGeneratorFromCommandLine instance =
-   new DictionaryGeneratorFromCommandLine ();
+  SearchGeneratorFromCommandLine instance =
+   new SearchGeneratorFromCommandLine ();
   instance.generate (args);
 
  }
@@ -51,8 +51,8 @@ public class DictionaryGeneratorFromCommandLine
  public void displayVersion (PrintStream out)
  {
   //TODO: figure out how to get the version from the Maven property
-  out.println ("Kuali Student Dictionary Geneator: Version 0.5");
-  out.println ("             Built on Tuesday, September 9, 2009");
+  out.println ("Kuali Student Search Geneator: Version 0.5");
+  out.println ("          Built on Tuesday, September 25, 2009");
  }
 
  private void displayParameters (String inFile, String outFile)
@@ -73,11 +73,11 @@ public class DictionaryGeneratorFromCommandLine
 
  public void displayUsage (PrintStream out)
  {
-  out.println ("Usage: java -jar kuali-dictionary-generator.jar <inputExcel> <outputXML>");
+  out.println ("Usage: java -jar kuali-search-generator.jar <inputExcel> <outputXML>");
   out.println ("\t@param inputExcel the fully qualified file name for the input excel file");
   out.println ("\t@param outputXML the fully qualified file name for the output xml file");
   out.println ("\t@note both / and \\ are allowed in directory path name");
-  out.println ("ex: java -jar kuali-dictionary-generator.jar mydir/org.kuali.student.dictionary.xls mydir\\lu-dictionary-config.xml");
+  out.println ("ex: java -jar kuali-search-generator.jar mydir/organization search specification.xls mydir\\org-search-config.xml ");
  }
 
  private void generate (String[] args)
@@ -86,17 +86,17 @@ public class DictionaryGeneratorFromCommandLine
   if (args == null)
   {
    displayUsage ();
-   throw new DictionaryExecutionException ("args is null");
+   throw new SearchExecutionException ("args is null");
   }
   if (args.length == 0)
   {
    displayUsage ();
-   throw new DictionaryExecutionException ("no args specified");
+   throw new SearchExecutionException ("no args specified");
   }
   if (args.length == 1)
   {
    displayUsage ();
-   throw new DictionaryExecutionException ("no output file specified");
+   throw new SearchExecutionException ("no output file specified");
   }
   String in = args[0];
   String out = args[1];
@@ -122,9 +122,9 @@ public class DictionaryGeneratorFromCommandLine
   try
   {
    reader = new ExcelSpreadsheetReader (inFile);
-   DictionaryModelLoader loader = new DictionaryModelLoader (reader, null);
-   DictionaryModel cache = new DictionaryModelCache (loader);
-   DictionaryModelWriter instance = new DictionaryModelWriter (out, cache);
+   SearchModelLoader loader = new SearchModelLoader (reader);
+   SearchModel cache = new SearchModelCache (loader);
+   SearchModelWriter instance = new SearchModelWriter (out, cache);
    instance.write ();
   }
   finally

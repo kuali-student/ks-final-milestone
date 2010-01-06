@@ -21,7 +21,14 @@ package org.kuali.student.dictionary;
  */
 public interface TestConstants
 {
-  public static final String RESOURCES_DIRECTORY = "src/test/resources/dictionary/";
+ public static final String RESOURCES_DIRECTORY = "src/test/resources/";
+
+ public static String ORG_SEARCH_EXCEL_FILE = RESOURCES_DIRECTORY +
+  "Organization Search Specification.xls";
+ public static String ORG_SEARCH_EXCEL_FILE_BAD = RESOURCES_DIRECTORY +
+  "Organization Search Specification Test For Errors.xls";
+
+
   //public static String DIRECTORY_TO_WRITE_SOURCE = "target/";
   public static final String COMPONENT_SANDBOX_ROOT_PACKAGE = "org.kuali.student.orchestration";
   public static final String LUM_UI_ROOT_PACKAGE = "org.kuali.student.lum.lu.assembly.data.client.refactorme";
