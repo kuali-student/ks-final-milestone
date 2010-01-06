@@ -8,18 +8,32 @@ http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/searc
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Thu Dec 17 07:15:39 EST 2009
-by: org.kuali.student.search.SearchModelWriter
-using: Excel Spreadsheet src/test/resources/dictionary/type-state configuration.xlsExcel Spreadsheet src/test/resources/dictionary/orchestration-dictionary.xls, 
+on: Wed Jan 06 13:29:14 EST 2010
+by: org.kuali.student.dictionary.writer.SearchModelWriter
+using: Excel Spreadsheet src/test/resources/type-state configuration.xlsExcel Spreadsheet src/test/resources/orchestration-dictionary.xls, 
  -->
 
 <!-- Search Types -->
 
-	<search:searchType id="org.search.NameAndRelatedPerson">
+	<search:searchType id="org.search.NameAndDescription">
+		<search:name>Search by name and/or related person</search:name>
+		<search:desc>Returns a list of organizations with the specified name and with a specified person related to it</search:desc>
+		<search:searchResultTypeInfo><ref bean="org.result.NameAndDescription" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="org.criteria.NameAndDescription" /></search:searchCriteriaTypeInfo>
+		</search:searchType>
+
+	<search:searchType id="org.search.ByRelatedPerson">
 		<search:name>Search by name and/or related person</search:name>
 		<search:desc>Returns a list of organizations with the specified name and with a specified person related to it</search:desc>
 		<search:searchResultTypeInfo><ref bean="org.result.Name" /></search:searchResultTypeInfo>
-		<search:searchCriteriaTypeInfo><ref bean="org.criteria.QuickNameAndRelatedPerson" /></search:searchCriteriaTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="org.criteria.RelatedPerson" /></search:searchCriteriaTypeInfo>
+		</search:searchType>
+
+	<search:searchType id="org.search.all.active.org.types">
+		<search:name>All org hierarchies</search:name>
+		<search:desc>Returns all org hierarchies, name and id</search:desc>
+		<search:searchResultTypeInfo><ref bean="org.result.org.type.info" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="kuali.criteria.none" /></search:searchCriteriaTypeInfo>
 		</search:searchType>
 
 	<search:searchType id="person.search.personQuickViewByGivenName">
@@ -31,16 +45,34 @@ using: Excel Spreadsheet src/test/resources/dictionary/type-state configuration.
 
 <!-- Search Criteria -->
 
-	<search:searchCriteriaTypeInfo id="org.criteria.QuickNameAndRelatedPerson">
+	<search:searchCriteriaTypeInfo id="org.criteria.NameAndDescription">
 		<search:name>Search by name and/or related person</search:name>
 		<search:desc>Search by name and/or related person</search:desc>
 		<search:queryParams>
-			<ref bean="org.queryParam.NameLookupField" />
+			<ref bean="org.queryParam.Name" />
+			<ref bean="org.queryParam.Description" />
+			<ref bean="org.queryParam.OrganizationTypes" />
+			<ref bean="org.queryParam.OrganizationStates" />
+			<ref bean="kuali.queryParam.MaximumResults" />
+		</search:queryParams>
+		</search:searchCriteriaTypeInfo>
+
+	<search:searchCriteriaTypeInfo id="org.criteria.RelatedPerson">
+		<search:name>Search by name and/or related person</search:name>
+		<search:desc>Search by name and/or related person</search:desc>
+		<search:queryParams>
 			<ref bean="org.queryParam.personIds" />
 			<ref bean="org.queryParam.orgPersonRelationTypes" />
 			<ref bean="org.queryParam.OrganizationTypes" />
 			<ref bean="org.queryParam.OrganizationStates" />
 			<ref bean="kuali.queryParam.MaximumResults" />
+		</search:queryParams>
+		</search:searchCriteriaTypeInfo>
+
+	<search:searchCriteriaTypeInfo id="kuali.criteria.none">
+		<search:name>Search by name and/or related person</search:name>
+		<search:desc>Search by name and/or related person</search:desc>
+		<search:queryParams>
 		</search:queryParams>
 		</search:searchCriteriaTypeInfo>
 
@@ -55,29 +87,19 @@ using: Excel Spreadsheet src/test/resources/dictionary/type-state configuration.
 
 <!-- Search Criteria Parameters -->
 
-	<search:queryParam id="org.queryParam.NameLookupField">
+	<search:queryParam id="org.queryParam.Name">
 			<dict:fieldDescriptor>
-			<dict:name>Name Lookup Field</dict:name>
-			<dict:desc>Name of organization</dict:desc>
+			<dict:name>Name of organization</dict:name>
+			<dict:desc>Substring to use to search in name fields</dict:desc>
 			<dict:dataType>string</dict:dataType>
 			</dict:fieldDescriptor>
 		</search:queryParam>
 
-	<search:queryParam id="org.queryParam.personIds">
-			<!-- if a person id is specified then the relation type must be specified as well -->
+	<search:queryParam id="org.queryParam.Description">
 			<dict:fieldDescriptor>
-			<dict:name>Ids of a person who must be related to this org</dict:name>
-			<dict:desc>The internal identifier of the person or peope</dict:desc>
-			<dict:dataType>List&lt;String&gt;</dict:dataType>
-			</dict:fieldDescriptor>
-		</search:queryParam>
-
-	<search:queryParam id="org.queryParam.orgPersonRelationTypes">
-			<!-- if a person id is specified then the relation type must be specified as well -->
-			<dict:fieldDescriptor>
-			<dict:name>Org person relation types to use to match the person</dict:name>
-			<dict:desc>Type or types defining the relationship of the person to the org</dict:desc>
-			<dict:dataType>List&lt;String&gt;</dict:dataType>
+			<dict:name>Description</dict:name>
+			<dict:desc>Substring to use to search in the short or long description fields</dict:desc>
+			<dict:dataType>string</dict:dataType>
 			</dict:fieldDescriptor>
 		</search:queryParam>
 
@@ -105,6 +127,24 @@ using: Excel Spreadsheet src/test/resources/dictionary/type-state configuration.
 			</dict:fieldDescriptor>
 		</search:queryParam>
 
+	<search:queryParam id="org.queryParam.personIds">
+			<!-- if a person id is specified then the relation type must be specified as well -->
+			<dict:fieldDescriptor>
+			<dict:name>Ids of a person who must be related to this org</dict:name>
+			<dict:desc>The internal identifier of the person or peope</dict:desc>
+			<dict:dataType>List&lt;String&gt;</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="org.queryParam.orgPersonRelationTypes">
+			<!-- if a person id is specified then the relation type must be specified as well -->
+			<dict:fieldDescriptor>
+			<dict:name>Org person relation types to use to match the person</dict:name>
+			<dict:desc>Type or types defining the relationship of the person to the org</dict:desc>
+			<dict:dataType>List&lt;String&gt;</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
 	<search:queryParam id="person.queryParam.personGivenName">
 			<dict:fieldDescriptor>
 			<dict:name>Name Lookup Field</dict:name>
@@ -115,6 +155,21 @@ using: Excel Spreadsheet src/test/resources/dictionary/type-state configuration.
 
 <!-- Search Results -->
 
+	<search:searchResultTypeInfo id="org.result.NameAndDescription">
+		<search:name>Name (long and short)</search:name>
+		<search:desc>Search that returns all the known campus locations</search:desc>
+		<search:resultColumns>
+			<ref bean="org.resultColumn.orgId" />
+			<ref bean="org.resultColumn.orgType" />
+			<ref bean="org.resultColumn.orgState" />
+			<ref bean="org.resultColumn.orgShortName" />
+			<ref bean="org.resultColumn.orgLongName" />
+			<ref bean="org.resultColumn.orgSortName" />
+			<ref bean="org.resultColumn.orgShortDesc" />
+			<ref bean="org.resultColumn.orgLongDesc" />
+		</search:resultColumns>
+		</search:searchResultTypeInfo>
+
 	<search:searchResultTypeInfo id="org.result.Name">
 		<search:name>Name (long and short)</search:name>
 		<search:desc>Search that returns all the known campus locations</search:desc>
@@ -124,6 +179,19 @@ using: Excel Spreadsheet src/test/resources/dictionary/type-state configuration.
 			<ref bean="org.resultColumn.orgState" />
 			<ref bean="org.resultColumn.orgShortName" />
 			<ref bean="org.resultColumn.orgLongName" />
+			<ref bean="org.resultColumn.orgSortName" />
+		</search:resultColumns>
+		</search:searchResultTypeInfo>
+
+	<search:searchResultTypeInfo id="org.result.org.type.info">
+		<search:name>ID and Given name of person</search:name>
+		<search:desc>Search that returns all the known campus locations</search:desc>
+		<search:resultColumns>
+			<ref bean="org.resultColumn.key" />
+			<ref bean="org.resultColumn.name" />
+			<ref bean="org.resultColumn.desc" />
+			<ref bean="org.resultColumn.effective_date" />
+			<ref bean="org.resultColumn.expiration_date" />
 		</search:resultColumns>
 		</search:searchResultTypeInfo>
 
@@ -168,6 +236,54 @@ using: Excel Spreadsheet src/test/resources/dictionary/type-state configuration.
 		<search:dataType>string</search:dataType>
 		</search:resultColumn>
 
+	<search:resultColumn id="org.resultColumn.orgSortName">
+		<search:name>Organization Sort Name</search:name>
+		<search:desc>Sort name for the organization, recorded as the default listing</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="org.resultColumn.orgShortDesc">
+		<search:name>Organization short description</search:name>
+		<search:desc>Short description for the organization</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="org.resultColumn.orgLongDesc">
+		<search:name>Organization Long description</search:name>
+		<search:desc>Long description of the organization</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="org.resultColumn.key">
+		<search:name>Given name of person</search:name>
+		<search:desc>Internal id</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="org.resultColumn.name">
+		<search:name>Given name of person</search:name>
+		<search:desc>Internal id</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="org.resultColumn.desc">
+		<search:name>Internal person id</search:name>
+		<search:desc>Internal id</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="org.resultColumn.effective_date">
+		<search:name>Given name of person</search:name>
+		<search:desc>Internal id</search:desc>
+		<search:dataType>date</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="org.resultColumn.expiration_date">
+		<search:name>Given name of person</search:name>
+		<search:desc>Internal id</search:desc>
+		<search:dataType>date</search:dataType>
+		</search:resultColumn>
+
 	<search:resultColumn id="person.resultColumn.PersonId">
 		<search:name>Internal person id</search:name>
 		<search:desc>Internal id</search:desc>
@@ -185,17 +301,38 @@ using: Excel Spreadsheet src/test/resources/dictionary/type-state configuration.
 	<property name="sourceMap">
 	<map>
 
-		<entry key="org.search.NameAndRelatedPerson"		>
+		<entry key="org.search.NameAndDescription"		>
 			<value>
-SELECT org.id, org.type.id, org.state.id, org.shortName, org.longName
-FROM Org org
-WHERE (org.shortName like concat (&apos;%&apos;, :org_queryParam_NameLookupField, &apos;%&apos;)
-or  org.longName like concat (&apos;%&apos;, :org_queryParam_NameLookupField, &apos;%&apos;)
-and (org.type.id in (:org_queryParam_OrganizationTypes) 
-or :org_queryParam_OrganizationTypes is null)
-and (org.state.id in (:org_queryParam_OrganizationStates) 
-or :(:org_queryParam_OrganizationStates is null)
-AND TODO LAYER IN LOGIC TO RESTRICT BASED ON ORG-PERSON RELATION IF A PERSON ID IS SUPPLIED
+select id, type, state, shortName, longName, sortName
+from org
+where type in PARAM_LIST_OF_TYPES
+and state in PARAM_LIST_OF_STATES
+and OPTIONALLY 
+shortName like &apos;%PARAM_NAME%: or longName like &apos;%PARAM_NAME%&apos; or sortName like &apos;%PARAM_NAME%&apos;
+and OPTIONALLY 
+shortDesc like &apos;%PARAM_DESC%: or longDesc like &apos;%PARAM_DESC%&apos;
+</value>
+		</entry>
+
+		<entry key="org.search.ByRelatedPerson"		>
+			<value>
+select id, type, state, shortName, longName, sortName
+from org
+where type in PARAM_LIST_OF_TYPES
+and state in PARAM_LIST_OF_STATES
+and OPTIONALLY
+exists (select person_id from org.person.relation
+where org.person.relation.org.id = org_d
+and org.person.relation.type in LOF_ORG_PERSON_TYPES
+and org.persson.relation.person_id in LIST OF_ORG_PERSON_IDS)
+</value>
+		</entry>
+
+		<entry key="org.search.all.active.org.types"		>
+			<value>
+select key, name, desc, effective_date, expiration_date
+from OrgType
+where expiration_date is null
 </value>
 		</entry>
 	</map>
