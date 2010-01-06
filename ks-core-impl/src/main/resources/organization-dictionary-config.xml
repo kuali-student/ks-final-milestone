@@ -1,591 +1,593 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
-	xsi:schemaLocation=" http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-	
-	<dict:constraint key="repeating" id="repeating"
-		serverSide="false">
-		<!-- Repeating -->
-		<!-- Nine 9's get translated as "(unbounded)" -->
-		<dict:maxOccurs>(unbounded)</dict:maxOccurs>
-	</dict:constraint>
-
-	<dict:constraint key="single" id="single" serverSide="false">
-		<!-- Single valued (non-repeating) -->
-		<!-- Used to override a repeating constraint -->
-		<dict:maxOccurs>1</dict:maxOccurs>
-	</dict:constraint>
-
-	<dict:objectStructure key="OrgCodeInfo" id="OrgCodeInfo">
-		<dict:type key="default" id="OrgCodeInfo.type.default">
-			<dict:state key="default" id="OrgCodeInfo.state.default">
-				<dict:field key="desc">
-					<dict:fieldDescriptor>
-						<dict:name>desc</dict:name>
-						<dict:desc>desc</dict:desc>
-						<dict:dataType>String</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="value">
-					<dict:fieldDescriptor>
-						<dict:name>value</dict:name>
-						<dict:desc>value</dict:desc>
-						<dict:dataType>String</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-			</dict:state>
-		</dict:type>
-	</dict:objectStructure>
-	<dict:objectStructure key="OrgHierarchyInfo" id="OrgHierarchyInfo">
-		<dict:type key="default" id="OrgHierarchyInfo.type.default">
-			<dict:state key="default" id="OrgHierarchyInfo.state.default">
-				<dict:field key="desc">
-					<dict:fieldDescriptor>
-						<dict:name>desc</dict:name>
-						<dict:desc>desc</dict:desc>
-						<dict:dataType>String</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="effectiveDate">
-					<dict:fieldDescriptor>
-						<dict:name>effectiveDate</dict:name>
-						<dict:desc>effectiveDate</dict:desc>
-						<dict:dataType>Date</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="expirationDate">
-					<dict:fieldDescriptor>
-						<dict:name>expirationDate</dict:name>
-						<dict:desc>expirationDate</dict:desc>
-						<dict:dataType>Date</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="name">
-					<dict:fieldDescriptor>
-						<dict:name>name</dict:name>
-						<dict:desc>name</dict:desc>
-						<dict:dataType>String</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="rootOrgId">
-					<dict:fieldDescriptor>
-						<dict:name>rootOrgId</dict:name>
-						<dict:desc>rootOrgId</dict:desc>
-						<dict:dataType>String</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-			</dict:state>
-		</dict:type>
-	</dict:objectStructure>
-	<dict:objectStructure key="OrgInfo" id="OrgInfo">
-		<dict:type key="default" id="OrgInfo.type.default">
-			<dict:state key="default" id="OrgInfo.state.default">
-				<dict:field key="effectiveDate">
-					<dict:fieldDescriptor>
-						<dict:name>effectiveDate</dict:name>
-						<dict:desc>effectiveDate</dict:desc>
-						<dict:dataType>Date</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="expirationDate">
-					<dict:fieldDescriptor>
-						<dict:name>expirationDate</dict:name>
-						<dict:desc>expirationDate</dict:desc>
-						<dict:dataType>Date</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="longDesc">
-					<dict:fieldDescriptor>
-						<dict:name>longDesc</dict:name>
-						<dict:desc>longDesc</dict:desc>
-						<dict:dataType>String</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="longName">
-					<dict:fieldDescriptor>
-						<dict:name>longName</dict:name>
-						<dict:desc>longName</dict:desc>
-						<dict:dataType>String</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="orgCodes">
-					<dict:fieldDescriptor>
-						<dict:name>orgCodes</dict:name>
-						<dict:desc>orgCodes</dict:desc>
-						<dict:dataType>complex</dict:dataType>
-						<dict:objectStructureRef bean="OrgCodeInfo" />
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="repeating" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="shortDesc">
-					<dict:fieldDescriptor>
-						<dict:name>shortDesc</dict:name>
-						<dict:desc>shortDesc</dict:desc>
-						<dict:dataType>String</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="shortName">
-					<dict:fieldDescriptor>
-						<dict:name>shortName</dict:name>
-						<dict:desc>shortName</dict:desc>
-						<dict:dataType>String</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="sortName">
-					<dict:fieldDescriptor>
-						<dict:name>sortName</dict:name>
-						<dict:desc>sortName</dict:desc>
-						<dict:dataType>String</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-			</dict:state>
-		</dict:type>
-	</dict:objectStructure>
-	<dict:objectStructure key="OrgOrgRelationInfo" id="OrgOrgRelationInfo">
-		<dict:type key="default" id="OrgOrgRelationInfo.type.default">
-			<dict:state key="default" id="OrgOrgRelationInfo.state.default">
-				<dict:field key="effectiveDate">
-					<dict:fieldDescriptor>
-						<dict:name>effectiveDate</dict:name>
-						<dict:desc>effectiveDate</dict:desc>
-						<dict:dataType>Date</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="expirationDate">
-					<dict:fieldDescriptor>
-						<dict:name>expirationDate</dict:name>
-						<dict:desc>expirationDate</dict:desc>
-						<dict:dataType>Date</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="orgId">
-					<dict:fieldDescriptor>
-						<dict:name>orgId</dict:name>
-						<dict:desc>orgId</dict:desc>
-						<dict:dataType>String</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="relatedOrgId">
-					<dict:fieldDescriptor>
-						<dict:name>relatedOrgId</dict:name>
-						<dict:desc>relatedOrgId</dict:desc>
-						<dict:dataType>String</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-			</dict:state>
-		</dict:type>
-	</dict:objectStructure>
-	<dict:objectStructure key="OrgOrgRelationTypeInfo"
-		id="OrgOrgRelationTypeInfo">
-		<dict:type key="default" id="OrgOrgRelationTypeInfo.type.default">
-			<dict:state key="default" id="OrgOrgRelationTypeInfo.state.default">
-				<dict:field key="desc">
-					<dict:fieldDescriptor>
-						<dict:name>desc</dict:name>
-						<dict:desc>desc</dict:desc>
-						<dict:dataType>String</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="effectiveDate">
-					<dict:fieldDescriptor>
-						<dict:name>effectiveDate</dict:name>
-						<dict:desc>effectiveDate</dict:desc>
-						<dict:dataType>Date</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="expirationDate">
-					<dict:fieldDescriptor>
-						<dict:name>expirationDate</dict:name>
-						<dict:desc>expirationDate</dict:desc>
-						<dict:dataType>Date</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="name">
-					<dict:fieldDescriptor>
-						<dict:name>name</dict:name>
-						<dict:desc>name</dict:desc>
-						<dict:dataType>String</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="orgHierarchyKey">
-					<dict:fieldDescriptor>
-						<dict:name>orgHierarchyKey</dict:name>
-						<dict:desc>orgHierarchyKey</dict:desc>
-						<dict:dataType>String</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="revDesc">
-					<dict:fieldDescriptor>
-						<dict:name>revDesc</dict:name>
-						<dict:desc>revDesc</dict:desc>
-						<dict:dataType>String</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="revName">
-					<dict:fieldDescriptor>
-						<dict:name>revName</dict:name>
-						<dict:desc>revName</dict:desc>
-						<dict:dataType>String</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-			</dict:state>
-		</dict:type>
-	</dict:objectStructure>
-	<dict:objectStructure key="OrgPersonRelationInfo"
-		id="OrgPersonRelationInfo">
-		<dict:type key="default" id="OrgPersonRelationInfo.type.default">
-			<dict:state key="default" id="OrgPersonRelationInfo.state.default">
-				<dict:field key="effectiveDate">
-					<dict:fieldDescriptor>
-						<dict:name>effectiveDate</dict:name>
-						<dict:desc>effectiveDate</dict:desc>
-						<dict:dataType>Date</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="expirationDate">
-					<dict:fieldDescriptor>
-						<dict:name>expirationDate</dict:name>
-						<dict:desc>expirationDate</dict:desc>
-						<dict:dataType>Date</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="orgId">
-					<dict:fieldDescriptor>
-						<dict:name>orgId</dict:name>
-						<dict:desc>orgId</dict:desc>
-						<dict:dataType>String</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="personId">
-					<dict:fieldDescriptor>
-						<dict:name>personId</dict:name>
-						<dict:desc>personId</dict:desc>
-						<dict:dataType>String</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-			</dict:state>
-		</dict:type>
-	</dict:objectStructure>
-	<dict:objectStructure key="OrgPersonRelationTypeInfo"
-		id="OrgPersonRelationTypeInfo">
-		<dict:type key="default" id="OrgPersonRelationTypeInfo.type.default">
-			<dict:state key="default" id="OrgPersonRelationTypeInfo.state.default">
-				<dict:field key="desc">
-					<dict:fieldDescriptor>
-						<dict:name>desc</dict:name>
-						<dict:desc>desc</dict:desc>
-						<dict:dataType>String</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="effectiveDate">
-					<dict:fieldDescriptor>
-						<dict:name>effectiveDate</dict:name>
-						<dict:desc>effectiveDate</dict:desc>
-						<dict:dataType>Date</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="expirationDate">
-					<dict:fieldDescriptor>
-						<dict:name>expirationDate</dict:name>
-						<dict:desc>expirationDate</dict:desc>
-						<dict:dataType>Date</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="name">
-					<dict:fieldDescriptor>
-						<dict:name>name</dict:name>
-						<dict:desc>name</dict:desc>
-						<dict:dataType>String</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-			</dict:state>
-		</dict:type>
-	</dict:objectStructure>
-	<dict:objectStructure key="OrgPositionRestrictionInfo"
-		id="OrgPositionRestrictionInfo">
-		<dict:type key="default" id="OrgPositionRestrictionInfo.type.default">
-			<dict:state key="default" id="OrgPositionRestrictionInfo.state.default">
-				<dict:field key="desc">
-					<dict:fieldDescriptor>
-						<dict:name>desc</dict:name>
-						<dict:desc>desc</dict:desc>
-						<dict:dataType>String</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="maxNumRelations">
-					<dict:fieldDescriptor>
-						<dict:name>maxNumRelations</dict:name>
-						<dict:desc>maxNumRelations</dict:desc>
-						<dict:dataType>String</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="minNumRelations">
-					<dict:fieldDescriptor>
-						<dict:name>minNumRelations</dict:name>
-						<dict:desc>minNumRelations</dict:desc>
-						<dict:dataType>Integer</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="orgId">
-					<dict:fieldDescriptor>
-						<dict:name>orgId</dict:name>
-						<dict:desc>orgId</dict:desc>
-						<dict:dataType>String</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="orgPersonRelationTypeKey">
-					<dict:fieldDescriptor>
-						<dict:name>orgPersonRelationTypeKey</dict:name>
-						<dict:desc>orgPersonRelationTypeKey</dict:desc>
-						<dict:dataType>String</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="stdDuration">
-					<dict:fieldDescriptor>
-						<dict:name>stdDuration</dict:name>
-						<dict:desc>stdDuration</dict:desc>
-						<dict:dataType>complex</dict:dataType>
-						<dict:objectStructureRef bean="TimeAmountInfo" />
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="title">
-					<dict:fieldDescriptor>
-						<dict:name>title</dict:name>
-						<dict:desc>title</dict:desc>
-						<dict:dataType>String</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-			</dict:state>
-		</dict:type>
-	</dict:objectStructure>
-	<dict:objectStructure key="TimeAmountInfo" id="TimeAmountInfo">
-		<dict:type key="default" id="TimeAmountInfo.type.default">
-			<dict:state key="default" id="TimeAmountInfo.state.default">
-				<dict:field key="atpDurationTypeKey">
-					<dict:fieldDescriptor>
-						<dict:name>atpDurationTypeKey</dict:name>
-						<dict:desc>atpDurationTypeKey</dict:desc>
-						<dict:dataType>String</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="timeQuantity">
-					<dict:fieldDescriptor>
-						<dict:name>timeQuantity</dict:name>
-						<dict:desc>timeQuantity</dict:desc>
-						<dict:dataType>Integer</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-			</dict:state>
-		</dict:type>
-	</dict:objectStructure>
-	<dict:objectStructure key="OrgTreeInfo" id="OrgTreeInfo">
-		<dict:type key="default" id="OrgTreeInfo.type.default">
-			<dict:state key="default" id="OrgTreeInfo.state.default">
-				<dict:field key="displayName">
-					<dict:fieldDescriptor>
-						<dict:name>displayName</dict:name>
-						<dict:desc>displayName</dict:desc>
-						<dict:dataType>String</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="orgId">
-					<dict:fieldDescriptor>
-						<dict:name>orgId</dict:name>
-						<dict:desc>orgId</dict:desc>
-						<dict:dataType>String</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="parentId">
-					<dict:fieldDescriptor>
-						<dict:name>parentId</dict:name>
-						<dict:desc>parentId</dict:desc>
-						<dict:dataType>String</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-			</dict:state>
-		</dict:type>
-	</dict:objectStructure>
-	<dict:objectStructure key="OrgTypeInfo" id="OrgTypeInfo">
-		<dict:type key="default" id="OrgTypeInfo.type.default">
-			<dict:state key="default" id="OrgTypeInfo.state.default">
-				<dict:field key="desc">
-					<dict:fieldDescriptor>
-						<dict:name>desc</dict:name>
-						<dict:desc>desc</dict:desc>
-						<dict:dataType>String</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="effectiveDate">
-					<dict:fieldDescriptor>
-						<dict:name>effectiveDate</dict:name>
-						<dict:desc>effectiveDate</dict:desc>
-						<dict:dataType>Date</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="expirationDate">
-					<dict:fieldDescriptor>
-						<dict:name>expirationDate</dict:name>
-						<dict:desc>expirationDate</dict:desc>
-						<dict:dataType>Date</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:field key="name">
-					<dict:fieldDescriptor>
-						<dict:name>name</dict:name>
-						<dict:desc>name</dict:desc>
-						<dict:dataType>String</dict:dataType>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-						<dict:constraintRef bean="single" />
-					</dict:constraintDescriptor>
-				</dict:field>
-			</dict:state>
-		</dict:type>
-	</dict:objectStructure>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dict="http://student.kuali.org/xsd/dictionary-extension" xsi:schemaLocation="http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+<dict:constraint key="repeating" id="repeating"
+serverSide="false">
+	<!-- Repeating -->
+	<!-- Nine 9's get translated as "(unbounded)" -->
+	<dict:maxOccurs>(unbounded)</dict:maxOccurs>
+</dict:constraint>
+<dict:constraint key="single" id="single" serverSide="false">
+	<!-- Single valued (non-repeating) -->
+	<!-- Used to override a repeating constraint -->
+	<dict:maxOccurs>1</dict:maxOccurs>
+</dict:constraint>
+<dict:objectStructure key="OrgCodeInfo-parent" id="OrgCodeInfo-parent" abstract="true">
+	<dict:type key="default" id="OrgCodeInfo.type.default">
+		<dict:state key="default" id="OrgCodeInfo.state.default">
+			<dict:field key="desc">
+				<dict:fieldDescriptor>
+					<dict:name>desc</dict:name>
+					<dict:desc>desc</dict:desc>
+					<dict:dataType>String</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="value">
+				<dict:fieldDescriptor>
+					<dict:name>value</dict:name>
+					<dict:desc>value</dict:desc>
+					<dict:dataType>String</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+		</dict:state>
+	</dict:type>
+</dict:objectStructure>
+<dict:objectStructure key="OrgCodeInfo" id="OrgCodeInfo" parent="OrgCodeInfo-parent"/>
+<dict:objectStructure key="OrgHierarchyInfo-parent" id="OrgHierarchyInfo-parent" abstract="true">
+	<dict:type key="default" id="OrgHierarchyInfo.type.default">
+		<dict:state key="default" id="OrgHierarchyInfo.state.default">
+			<dict:field key="desc">
+				<dict:fieldDescriptor>
+					<dict:name>desc</dict:name>
+					<dict:desc>desc</dict:desc>
+					<dict:dataType>String</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="effectiveDate">
+				<dict:fieldDescriptor>
+					<dict:name>effectiveDate</dict:name>
+					<dict:desc>effectiveDate</dict:desc>
+					<dict:dataType>Date</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="expirationDate">
+				<dict:fieldDescriptor>
+					<dict:name>expirationDate</dict:name>
+					<dict:desc>expirationDate</dict:desc>
+					<dict:dataType>Date</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="name">
+				<dict:fieldDescriptor>
+					<dict:name>name</dict:name>
+					<dict:desc>name</dict:desc>
+					<dict:dataType>String</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="rootOrgId">
+				<dict:fieldDescriptor>
+					<dict:name>rootOrgId</dict:name>
+					<dict:desc>rootOrgId</dict:desc>
+					<dict:dataType>String</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+		</dict:state>
+	</dict:type>
+</dict:objectStructure>
+<dict:objectStructure key="OrgHierarchyInfo" id="OrgHierarchyInfo" parent="OrgHierarchyInfo-parent"/>
+<dict:objectStructure key="OrgInfo-parent" id="OrgInfo-parent" abstract="true">
+	<dict:type key="default" id="OrgInfo.type.default">
+		<dict:state key="default" id="OrgInfo.state.default">
+			<dict:field key="effectiveDate">
+				<dict:fieldDescriptor>
+					<dict:name>effectiveDate</dict:name>
+					<dict:desc>effectiveDate</dict:desc>
+					<dict:dataType>Date</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="expirationDate">
+				<dict:fieldDescriptor>
+					<dict:name>expirationDate</dict:name>
+					<dict:desc>expirationDate</dict:desc>
+					<dict:dataType>Date</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="longDesc">
+				<dict:fieldDescriptor>
+					<dict:name>longDesc</dict:name>
+					<dict:desc>longDesc</dict:desc>
+					<dict:dataType>String</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="longName">
+				<dict:fieldDescriptor>
+					<dict:name>longName</dict:name>
+					<dict:desc>longName</dict:desc>
+					<dict:dataType>String</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="orgCodes">
+				<dict:fieldDescriptor>
+					<dict:name>orgCodes</dict:name>
+					<dict:desc>orgCodes</dict:desc>
+					<dict:dataType>complex</dict:dataType>
+					<dict:objectStructureRef bean="OrgCodeInfo"/>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="repeating"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="shortDesc">
+				<dict:fieldDescriptor>
+					<dict:name>shortDesc</dict:name>
+					<dict:desc>shortDesc</dict:desc>
+					<dict:dataType>String</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="shortName">
+				<dict:fieldDescriptor>
+					<dict:name>shortName</dict:name>
+					<dict:desc>shortName</dict:desc>
+					<dict:dataType>String</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="sortName">
+				<dict:fieldDescriptor>
+					<dict:name>sortName</dict:name>
+					<dict:desc>sortName</dict:desc>
+					<dict:dataType>String</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+		</dict:state>
+	</dict:type>
+</dict:objectStructure>
+<dict:objectStructure key="OrgInfo" id="OrgInfo" parent="OrgInfo-parent"/>
+<dict:objectStructure key="OrgOrgRelationInfo-parent" id="OrgOrgRelationInfo-parent" abstract="true">
+	<dict:type key="default" id="OrgOrgRelationInfo.type.default">
+		<dict:state key="default" id="OrgOrgRelationInfo.state.default">
+			<dict:field key="effectiveDate">
+				<dict:fieldDescriptor>
+					<dict:name>effectiveDate</dict:name>
+					<dict:desc>effectiveDate</dict:desc>
+					<dict:dataType>Date</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="expirationDate">
+				<dict:fieldDescriptor>
+					<dict:name>expirationDate</dict:name>
+					<dict:desc>expirationDate</dict:desc>
+					<dict:dataType>Date</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="orgId">
+				<dict:fieldDescriptor>
+					<dict:name>orgId</dict:name>
+					<dict:desc>orgId</dict:desc>
+					<dict:dataType>String</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="relatedOrgId">
+				<dict:fieldDescriptor>
+					<dict:name>relatedOrgId</dict:name>
+					<dict:desc>relatedOrgId</dict:desc>
+					<dict:dataType>String</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+		</dict:state>
+	</dict:type>
+</dict:objectStructure>
+<dict:objectStructure key="OrgOrgRelationInfo" id="OrgOrgRelationInfo" parent="OrgOrgRelationInfo-parent"/>
+<dict:objectStructure key="OrgOrgRelationTypeInfo-parent" id="OrgOrgRelationTypeInfo-parent" abstract="true">
+	<dict:type key="default" id="OrgOrgRelationTypeInfo.type.default">
+		<dict:state key="default" id="OrgOrgRelationTypeInfo.state.default">
+			<dict:field key="desc">
+				<dict:fieldDescriptor>
+					<dict:name>desc</dict:name>
+					<dict:desc>desc</dict:desc>
+					<dict:dataType>String</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="effectiveDate">
+				<dict:fieldDescriptor>
+					<dict:name>effectiveDate</dict:name>
+					<dict:desc>effectiveDate</dict:desc>
+					<dict:dataType>Date</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="expirationDate">
+				<dict:fieldDescriptor>
+					<dict:name>expirationDate</dict:name>
+					<dict:desc>expirationDate</dict:desc>
+					<dict:dataType>Date</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="name">
+				<dict:fieldDescriptor>
+					<dict:name>name</dict:name>
+					<dict:desc>name</dict:desc>
+					<dict:dataType>String</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="orgHierarchyKey">
+				<dict:fieldDescriptor>
+					<dict:name>orgHierarchyKey</dict:name>
+					<dict:desc>orgHierarchyKey</dict:desc>
+					<dict:dataType>String</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="revDesc">
+				<dict:fieldDescriptor>
+					<dict:name>revDesc</dict:name>
+					<dict:desc>revDesc</dict:desc>
+					<dict:dataType>String</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="revName">
+				<dict:fieldDescriptor>
+					<dict:name>revName</dict:name>
+					<dict:desc>revName</dict:desc>
+					<dict:dataType>String</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+		</dict:state>
+	</dict:type>
+</dict:objectStructure>
+<dict:objectStructure key="OrgOrgRelationTypeInfo" id="OrgOrgRelationTypeInfo" parent="OrgOrgRelationTypeInfo-parent"/>
+<dict:objectStructure key="OrgPersonRelationInfo-parent" id="OrgPersonRelationInfo-parent" abstract="true">
+	<dict:type key="default" id="OrgPersonRelationInfo.type.default">
+		<dict:state key="default" id="OrgPersonRelationInfo.state.default">
+			<dict:field key="effectiveDate">
+				<dict:fieldDescriptor>
+					<dict:name>effectiveDate</dict:name>
+					<dict:desc>effectiveDate</dict:desc>
+					<dict:dataType>Date</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="expirationDate">
+				<dict:fieldDescriptor>
+					<dict:name>expirationDate</dict:name>
+					<dict:desc>expirationDate</dict:desc>
+					<dict:dataType>Date</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="orgId">
+				<dict:fieldDescriptor>
+					<dict:name>orgId</dict:name>
+					<dict:desc>orgId</dict:desc>
+					<dict:dataType>String</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="personId">
+				<dict:fieldDescriptor>
+					<dict:name>personId</dict:name>
+					<dict:desc>personId</dict:desc>
+					<dict:dataType>String</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+		</dict:state>
+	</dict:type>
+</dict:objectStructure>
+<dict:objectStructure key="OrgPersonRelationInfo" id="OrgPersonRelationInfo" parent="OrgPersonRelationInfo-parent"/>
+<dict:objectStructure key="OrgPersonRelationTypeInfo-parent" id="OrgPersonRelationTypeInfo-parent" abstract="true">
+	<dict:type key="default" id="OrgPersonRelationTypeInfo.type.default">
+		<dict:state key="default" id="OrgPersonRelationTypeInfo.state.default">
+			<dict:field key="desc">
+				<dict:fieldDescriptor>
+					<dict:name>desc</dict:name>
+					<dict:desc>desc</dict:desc>
+					<dict:dataType>String</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="effectiveDate">
+				<dict:fieldDescriptor>
+					<dict:name>effectiveDate</dict:name>
+					<dict:desc>effectiveDate</dict:desc>
+					<dict:dataType>Date</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="expirationDate">
+				<dict:fieldDescriptor>
+					<dict:name>expirationDate</dict:name>
+					<dict:desc>expirationDate</dict:desc>
+					<dict:dataType>Date</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="name">
+				<dict:fieldDescriptor>
+					<dict:name>name</dict:name>
+					<dict:desc>name</dict:desc>
+					<dict:dataType>String</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+		</dict:state>
+	</dict:type>
+</dict:objectStructure>
+<dict:objectStructure key="OrgPersonRelationTypeInfo" id="OrgPersonRelationTypeInfo" parent="OrgPersonRelationTypeInfo-parent"/>
+<dict:objectStructure key="OrgPositionRestrictionInfo-parent" id="OrgPositionRestrictionInfo-parent" abstract="true">
+	<dict:type key="default" id="OrgPositionRestrictionInfo.type.default">
+		<dict:state key="default" id="OrgPositionRestrictionInfo.state.default">
+			<dict:field key="desc">
+				<dict:fieldDescriptor>
+					<dict:name>desc</dict:name>
+					<dict:desc>desc</dict:desc>
+					<dict:dataType>String</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="maxNumRelations">
+				<dict:fieldDescriptor>
+					<dict:name>maxNumRelations</dict:name>
+					<dict:desc>maxNumRelations</dict:desc>
+					<dict:dataType>String</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="minNumRelations">
+				<dict:fieldDescriptor>
+					<dict:name>minNumRelations</dict:name>
+					<dict:desc>minNumRelations</dict:desc>
+					<dict:dataType>Integer</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="orgId">
+				<dict:fieldDescriptor>
+					<dict:name>orgId</dict:name>
+					<dict:desc>orgId</dict:desc>
+					<dict:dataType>String</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="orgPersonRelationTypeKey">
+				<dict:fieldDescriptor>
+					<dict:name>orgPersonRelationTypeKey</dict:name>
+					<dict:desc>orgPersonRelationTypeKey</dict:desc>
+					<dict:dataType>String</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="stdDuration">
+				<dict:fieldDescriptor>
+					<dict:name>stdDuration</dict:name>
+					<dict:desc>stdDuration</dict:desc>
+					<dict:dataType>complex</dict:dataType>
+					<dict:objectStructureRef bean="TimeAmountInfo"/>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="title">
+				<dict:fieldDescriptor>
+					<dict:name>title</dict:name>
+					<dict:desc>title</dict:desc>
+					<dict:dataType>String</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+		</dict:state>
+	</dict:type>
+</dict:objectStructure>
+<dict:objectStructure key="OrgPositionRestrictionInfo" id="OrgPositionRestrictionInfo" parent="OrgPositionRestrictionInfo-parent"/>
+<dict:objectStructure key="TimeAmountInfo-parent" id="TimeAmountInfo-parent" abstract="true">
+	<dict:type key="default" id="TimeAmountInfo.type.default">
+		<dict:state key="default" id="TimeAmountInfo.state.default">
+			<dict:field key="atpDurationTypeKey">
+				<dict:fieldDescriptor>
+					<dict:name>atpDurationTypeKey</dict:name>
+					<dict:desc>atpDurationTypeKey</dict:desc>
+					<dict:dataType>String</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="timeQuantity">
+				<dict:fieldDescriptor>
+					<dict:name>timeQuantity</dict:name>
+					<dict:desc>timeQuantity</dict:desc>
+					<dict:dataType>Integer</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+		</dict:state>
+	</dict:type>
+</dict:objectStructure>
+<dict:objectStructure key="TimeAmountInfo" id="TimeAmountInfo" parent="TimeAmountInfo-parent"/>
+<dict:objectStructure key="OrgTreeInfo-parent" id="OrgTreeInfo-parent" abstract="true">
+	<dict:type key="default" id="OrgTreeInfo.type.default">
+		<dict:state key="default" id="OrgTreeInfo.state.default">
+			<dict:field key="displayName">
+				<dict:fieldDescriptor>
+					<dict:name>displayName</dict:name>
+					<dict:desc>displayName</dict:desc>
+					<dict:dataType>String</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="orgId">
+				<dict:fieldDescriptor>
+					<dict:name>orgId</dict:name>
+					<dict:desc>orgId</dict:desc>
+					<dict:dataType>String</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="parentId">
+				<dict:fieldDescriptor>
+					<dict:name>parentId</dict:name>
+					<dict:desc>parentId</dict:desc>
+					<dict:dataType>String</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+		</dict:state>
+	</dict:type>
+</dict:objectStructure>
+<dict:objectStructure key="OrgTreeInfo" id="OrgTreeInfo" parent="OrgTreeInfo-parent"/>
+<dict:objectStructure key="OrgTypeInfo-parent" id="OrgTypeInfo-parent" abstract="true">
+	<dict:type key="default" id="OrgTypeInfo.type.default">
+		<dict:state key="default" id="OrgTypeInfo.state.default">
+			<dict:field key="desc">
+				<dict:fieldDescriptor>
+					<dict:name>desc</dict:name>
+					<dict:desc>desc</dict:desc>
+					<dict:dataType>String</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="effectiveDate">
+				<dict:fieldDescriptor>
+					<dict:name>effectiveDate</dict:name>
+					<dict:desc>effectiveDate</dict:desc>
+					<dict:dataType>Date</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="expirationDate">
+				<dict:fieldDescriptor>
+					<dict:name>expirationDate</dict:name>
+					<dict:desc>expirationDate</dict:desc>
+					<dict:dataType>Date</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+			<dict:field key="name">
+				<dict:fieldDescriptor>
+					<dict:name>name</dict:name>
+					<dict:desc>name</dict:desc>
+					<dict:dataType>String</dict:dataType>
+				</dict:fieldDescriptor>
+				<dict:constraintDescriptor>
+					<dict:constraintRef bean="single"/>
+				</dict:constraintDescriptor>
+			</dict:field>
+		</dict:state>
+	</dict:type>
+</dict:objectStructure>
+<dict:objectStructure key="OrgTypeInfo" id="OrgTypeInfo" parent="OrgTypeInfo-parent"/>
 </beans>
