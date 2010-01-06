@@ -39,6 +39,7 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.CreateCancelGroup
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.CreateCancelEnum;
 import org.kuali.student.common.ui.client.widgets.focus.FocusGroup;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
@@ -349,6 +350,11 @@ public class LOCategoryBuilder extends Composite implements HasModelDTOValue {
 
         public String getText() {
             return suggestBox.getText();
+        }
+
+        @Override
+        public HandlerRegistration addSelectionChangeHandler(SelectionChangeHandler handler) {
+            return suggestBox.addSelectionChangeHandler(handler);
         }
 
     }

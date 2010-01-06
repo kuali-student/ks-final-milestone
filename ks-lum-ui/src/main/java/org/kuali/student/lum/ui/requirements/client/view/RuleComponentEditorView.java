@@ -35,6 +35,7 @@ import org.kuali.student.common.ui.client.widgets.KSRadioButton;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.selectors.KSSearchComponent;
 import org.kuali.student.common.ui.client.widgets.selectors.SearchComponentConfiguration;
@@ -426,23 +427,26 @@ public class RuleComponentEditorView extends ViewComposite {
         };
 
         compReqTypesList.addSelectionChangeHandler(new SelectionChangeHandler() {
-             public void onSelectionChange(KSSelectItemWidgetAbstract w) {
-                 addReqComp.setEnabled(true);
-                 updateReqComp.setEnabled(true);
-                 for (KSRadioButton button : rbRuleType) {
-                     button.setValue(button.getText().equals(RULE_TYPES_OTHER) ? true : false);
-                 }
 
-                 List<String> ids = w.getSelectedItems();
-                 selectedReqType = advReqCompTypeList.get(Integer.valueOf(ids.get(0)));
-                 if (addNewReqComp) {
-                     setupNewEditedReqComp(selectedReqType);
-                 } else {
-                	 editedReqComp.setRequiredComponentType(selectedReqType);
-                     editedReqComp.setType(selectedReqType.getId());
-                 }
-                 displayReqComponentDetails();
-         }});
+			@Override
+			public void onSelectionChange(SelectionChangeEvent event) {
+                addReqComp.setEnabled(true);
+                updateReqComp.setEnabled(true);
+                for (KSRadioButton button : rbRuleType) {
+                    button.setValue(button.getText().equals(RULE_TYPES_OTHER) ? true : false);
+                }
+
+                List<String> ids = ((KSSelectItemWidgetAbstract)event.getWidget()).getSelectedItems();
+                selectedReqType = advReqCompTypeList.get(Integer.valueOf(ids.get(0)));
+                if (addNewReqComp) {
+                    setupNewEditedReqComp(selectedReqType);
+                } else {
+               	 editedReqComp.setRequiredComponentType(selectedReqType);
+                    editedReqComp.setType(selectedReqType.getId());
+                }
+                displayReqComponentDetails();
+				
+			}});
 
     }
 

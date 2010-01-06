@@ -17,6 +17,7 @@ package org.kuali.student.lum.lu.ui.course.client.widgets;
 import java.util.ArrayList;
 
 import org.kuali.student.common.ui.client.widgets.focus.FocusGroup;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
@@ -82,7 +83,7 @@ public class OrgPicker extends Composite implements SuggestPicker {
 
 	@Override
 	public void setValue(String value) {
-		setValue(value, true);
+		setValue(value, false);
 	}
 
 	@Override
@@ -114,5 +115,11 @@ public class OrgPicker extends Composite implements SuggestPicker {
 	@Override
 	public HandlerRegistration addBlurHandler(BlurHandler handler) {
 		return focus.addBlurHandler(handler);
+	}
+
+	@Override
+	public HandlerRegistration addSelectionChangeHandler(
+			SelectionChangeHandler handler) {
+		return suggestBox.addSelectionChangeHandler(handler);
 	}
 }
