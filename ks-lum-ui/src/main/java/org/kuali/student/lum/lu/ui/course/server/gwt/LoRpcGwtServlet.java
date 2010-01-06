@@ -101,6 +101,51 @@ public class LoRpcGwtServlet extends BaseRpcGwtServletAbstract<LearningObjective
             e.printStackTrace();
         }
         return null;
-        }
+    }
 
+    /**
+     * This overridden method ...
+     * 
+     * @see org.kuali.student.lum.lu.ui.course.client.service.LoRpcService#getLoCategory(java.lang.String)
+     */
+    @Override
+    public LoCategoryInfo getLoCategory(String loCategoryId) {
+        try {
+            return service.getLoCategory(loCategoryId);
+
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * This overridden method ...
+     * 
+     * @see org.kuali.student.lum.lu.ui.course.client.service.LoRpcService#getLoCategoryType(java.lang.String)
+     */
+    @Override
+    public LoCategoryTypeInfo getLoCategoryType(String loCategoryTypeKey) {
+        try {
+            return service.getLoCategoryType(loCategoryTypeKey);
+
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
+
+
