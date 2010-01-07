@@ -28,6 +28,12 @@ rule "${ruleName}"
         CurrentDateTime( currentDateAsLong < $effectiveStartTime || currentDateAsLong >= $effectiveEndTime )
         container : FactContainer( anchor == "${anchor}", anchorTypeKey == "${anchorTypeKey}", state == FactContainer.State.INIT, propositionMap : propositionMap, prop : propositionContainer, factMap : factMap )
     then
+        Logger logger = LoggerFactory.getLogger(org.kuali.student.brms.translators.RuleSetTranslator.class);
+
+        if (logger.isWarnEnabled()) {
+            logger.warn("*** Rule (rule id=${ruleId}) has expired and was not executed ***");
+        }
+                
         prop.setOverrideReport(true);
         prop.setFunctionalRuleString("$functionString");
         prop.setRuleResult(false);
