@@ -209,9 +209,11 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
             addnew.addClickHandler(new ClickHandler(){
                 public void onClick(ClickEvent event) {
                     setValue(getValue()); 
-                    List<String> list = new ArrayList<String>();
-                    list.add("");
-                    addSelectedLOs(list);
+                  //  List<String> list = new ArrayList<String>();
+                   // list.add("");
+                  //  addSelectedLOs(list);
+                    appendLO("");
+                    reDraw();
                 }
             });
             super.initWidget(mainPanel);
@@ -227,7 +229,7 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
             list.add("");
             addSelectedLOs(list);
         }
-     
+
         public ModelDTOValue getValue() {
             ModelDTOValue.ListType list = new ModelDTOValue.ListType();
             modelDTOList = new ArrayList<ModelDTO>();
@@ -280,23 +282,45 @@ public class LOBuilder extends Composite  implements HasModelDTOValue {
             }
             reDraw();
         }
+        private ModelDTO getBlankLOInFirstLevel(){
+            for(ModelDTO dto:modelDTOList){
+                String strvalue = ((ModelDTOValue.StringType)dto.get("value")).get();
+                int level = ((ModelDTOValue.IntegerType)dto.get("level")).get();
+                if(level == 0){// first level
+                    if(strvalue == null || strvalue.equals("")){
+                        return dto;
+                    }
+                }
+            }
+            
+            return null;
+        }
+        private void appendLO(String loValue){
+            ModelDTO modelDTO = new ModelDTO();
+            ModelDTOValue.StringType str = new ModelDTOValue.StringType();
+            str.set(loValue);
+            modelDTO.put("value", str);
 
+            ModelDTOValue.IntegerType intT = new ModelDTOValue.IntegerType();
+            intT.set(new Integer( modelDTOList.size()));
+            modelDTO.put("sequence",intT);
+            
+            intT = new ModelDTOValue.IntegerType();
+            intT.set(0);
+            modelDTO.put("level",intT);
+            
+            modelDTOList.add(modelDTO);
+        }
         public void addSelectedLOs(List<String> loDescription) {
             for(String strValue:loDescription){
-                ModelDTO modelDTO = new ModelDTO();
-                ModelDTOValue.StringType str = new ModelDTOValue.StringType();
-                str.set(strValue);
-                modelDTO.put("value", str);
-
-                ModelDTOValue.IntegerType intT = new ModelDTOValue.IntegerType();
-                intT.set(new Integer( modelDTOList.size()));
-                modelDTO.put("sequence",intT);
-                
-                intT = new ModelDTOValue.IntegerType();
-                intT.set(0);
-                modelDTO.put("level",intT);
-                
-                modelDTOList.add(modelDTO);
+            //    ModelDTO modelDTO = getBlankLOInFirstLevel();
+              //  if(modelDTO == null){
+                    appendLO(strValue);
+              //  }else{
+                //    ModelDTOValue.StringType str = new ModelDTOValue.StringType();
+                  //  str.set(strValue);
+                  //  modelDTO.put("value", str);
+               // }
             }
             reDraw();
         }
