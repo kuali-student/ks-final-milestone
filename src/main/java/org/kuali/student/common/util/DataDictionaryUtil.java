@@ -4,6 +4,7 @@ import java.beans.PropertyDescriptor;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -36,7 +37,6 @@ public class DataDictionaryUtil {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws ClassNotFoundException, SecurityException, NoSuchFieldException, IOException {
-		// TODO Auto-generated method stub
 		
 		String dictPackageString="org.kuali.student.core.organization.dto";
 		String outputFileName="org-dict.xml";
@@ -87,53 +87,18 @@ public class DataDictionaryUtil {
 
 	}
 	
-	Map<String,String> getMethodDocComments(Class<?> clazz) throws IOException{
-		Map<String,String> results = new HashMap<String,String>();
-		Context ctx = new Context();
-		MyMessager messager = new MyMessager(ctx, null, new PrintWriter(System.err), 
-				new PrintWriter(System.out), new PrintWriter(System.out));
-
-		JavadocTool jdt = JavadocTool.make0(ctx);
-		String docLocale="";
-		String encoding = null;
-		long defaultFilter = com.sun.tools.javac.code.Flags.PUBLIC | com.sun.tools.javac.code.Flags.PROTECTED | ModifierFilter.PACKAGE;
-		ModifierFilter showAccess = new ModifierFilter(defaultFilter);
-		ListBuffer<String> javaNames = new ListBuffer<String>();
-		javaNames.append("C:\\dev\\ks3.5\\Scratch\\src\\foo\\bar\\TestRegex.java");
-		ListBuffer<String[]> options = new ListBuffer<String[]>();
-		boolean breakiterator = false;
-		ListBuffer<String> subPackages = new ListBuffer<String>();
-		//subPackages.append("foo.bar");
-		ListBuffer<String> excludedPackages = new ListBuffer<String>();
-		boolean docClasses = false;
-		boolean languageVersion = false;
-		boolean quiet = false;
-
-		RootDocImpl root = jdt.getRootDocImpl(docLocale, encoding, 
-				showAccess, javaNames.toList(), options.toList(), 
-				breakiterator, subPackages.toList(), excludedPackages
-				.toList(), docClasses,
-				languageVersion, quiet);
-		for(ClassDoc d:root.classes()){
-			for(MethodDoc md:d.methods()){
-				System.out.println("MethodDoc:"+md.commentText());
-			}
-		}
-		return null;
-	}
-	public static class MyMessager extends Messager{
-
-		protected MyMessager(Context arg0, String arg1, PrintWriter arg2,
-				PrintWriter arg3, PrintWriter arg4) {
-			super(arg0, arg1, arg2, arg3, arg4);
-			
-		}
-		
-	}
     private static void processObjectStructure(Class<?> beanClass, StringBuilder sb, Set<Class<?>> alreadyProcessed) throws ClassNotFoundException, IOException {
 		if(!alreadyProcessed.contains(beanClass)){
 			alreadyProcessed.add(beanClass);
-
+			
+			Map<String,String> methodComments;
+			try{
+				methodComments = getMethodDocComments(beanClass);
+			}catch(Exception e){
+				System.out.println("Warning, couldn't get javadocs for class:" + beanClass.getName());
+				methodComments = new HashMap<String,String>();
+			}
+			
 	    	Set<Class<?>> childStructures = new HashSet<Class<?>>();
 
 	    	//output parent object structure and default type/state
@@ -151,7 +116,12 @@ public class DataDictionaryUtil {
 					sb.append("\n\t\t\t<dict:field key=\""+name+"\">");
 					sb.append("\n\t\t\t\t<dict:fieldDescriptor>");
 					sb.append("\n\t\t\t\t\t<dict:name>"+name+"</dict:name>");
-					sb.append("\n\t\t\t\t\t<dict:desc>"+name+"</dict:desc>");
+					String comment = methodComments.get(pd.getReadMethod().getName());
+					if(comment!=null){
+						sb.append("\n\t\t\t\t\t<dict:desc>"+comment+"</dict:desc>");
+					}else{
+						sb.append("\n\t\t\t\t\t<dict:desc>"+name+"</dict:desc>");
+					}
 					//Check if it's a list
 					boolean isList = false;
 					if(type.isAssignableFrom(java.util.List.class)){
@@ -204,11 +174,91 @@ public class DataDictionaryUtil {
 	    	}
 		}
 	}
+    
+	/**
+	 * Gets a map of method name to method javadoc comment (provided the sources are on the path)
+	 * @param clazz
+	 * @return map of method name to method javadoc comment
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
+	static Map<String,String> getMethodDocComments(Class<?> clazz) throws IOException, ClassNotFoundException{
+		
+		//Get the source .java file and write it to a temp location
+		ClassLoader cld = Thread.currentThread().getContextClassLoader();
+		if (cld == null) {
+			throw new ClassNotFoundException("Can't get class loader.");
+		}
+		String sourceResourceName = clazz.getName().replace('.', '/')+".java";
+		InputStream is= cld.getResourceAsStream(sourceResourceName);
+		FileWriter os = new FileWriter(clazz.getSimpleName()+".java");
+		int c;
+		while((c=is.read())!=-1){
+			os.write(c);
+		}
+		os.close();
+		is.close();
+		
+		///The result map to return
+		Map<String,String> results = new HashMap<String,String>();
+		
+		//Load the javadoc info
+		Context ctx = new Context();
+		@SuppressWarnings("unused")
+		MyMessager messager = new MyMessager(ctx, null, new PrintWriter(System.err), 
+				new PrintWriter(System.out), new PrintWriter(System.out));
+
+		JavadocTool jdt = JavadocTool.make0(ctx);
+		String docLocale="";
+		String encoding = null;
+		long defaultFilter = com.sun.tools.javac.code.Flags.PUBLIC | com.sun.tools.javac.code.Flags.PROTECTED | ModifierFilter.PACKAGE;
+		ModifierFilter showAccess = new ModifierFilter(defaultFilter);
+		ListBuffer<String> javaNames = new ListBuffer<String>();
+		javaNames.append(clazz.getSimpleName()+".java");
+		ListBuffer<String[]> options = new ListBuffer<String[]>();
+		boolean breakiterator = false;
+		ListBuffer<String> subPackages = new ListBuffer<String>();
+		ListBuffer<String> excludedPackages = new ListBuffer<String>();
+		boolean docClasses = false;
+		boolean languageVersion = false;
+		boolean quiet = false;
+
+		RootDocImpl root = jdt.getRootDocImpl(docLocale, encoding, 
+				showAccess, javaNames.toList(), options.toList(), 
+				breakiterator, subPackages.toList(), excludedPackages
+				.toList(), docClasses,
+				languageVersion, quiet);
+		
+		
+		//Loop through the methods in the javadoc and store the results
+		for(ClassDoc d:root.classes()){
+			for(MethodDoc md:d.methods()){
+				results.put(md.name(), md.commentText());
+			}
+		}
+		
+		//delete the temp file
+		File cleanupFile = new File(clazz.getSimpleName()+".java");
+		cleanupFile.delete();
+		
+		return results;
+	}
+	
+	//Needed because of protected access
+	public static class MyMessager extends Messager{
+
+		protected MyMessager(Context arg0, String arg1, PrintWriter arg2,
+				PrintWriter arg3, PrintWriter arg4) {
+			super(arg0, arg1, arg2, arg3, arg4);
+			
+		}
+		
+	}
+	
 	private static void saveToFile(String filename, StringBuilder sb) throws IOException {
     	PrintWriter out = new PrintWriter(new FileWriter(filename));
     	out.print(sb.toString());
     	out.close();
-//    	System.out.print(sb.toString());
     }
 
 	private static String getTypeString(Class<?> type) {
