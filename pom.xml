@@ -115,12 +115,6 @@
 		<dependencies>
 
 	        <dependency>
-	            <groupId>org.apache.derby</groupId>
-	            <artifactId>derby</artifactId>
-	            <version>${derby.version}</version>
-	        </dependency>
-
-	        <dependency>
 	            <groupId>velocity-tools</groupId>
 	            <artifactId>velocity-tools</artifactId>
 	            <version>${velocity.tools.version}</version>          
@@ -289,11 +283,13 @@
 	            <version>1.2</version>
 	        </dependency>
 	        
-	        <dependency>
+	        <!-- Drools depends on xerces 2.8.1 but it 
+	             seems to work using xerces 2.9.1 from ks-core pom -->
+	        <!--dependency>
 	            <groupId>xerces</groupId>
 	            <artifactId>xercesImpl</artifactId>
 	            <version>2.8.1</version>
-	        </dependency>
+	        </dependency-->
 
 		</dependencies>
 	</dependencyManagement>
