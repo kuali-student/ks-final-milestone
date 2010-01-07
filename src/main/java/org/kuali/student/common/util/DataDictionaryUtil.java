@@ -10,10 +10,21 @@ import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import org.apache.commons.beanutils.PropertyUtils;
+
+import com.sun.javadoc.ClassDoc;
+import com.sun.javadoc.MethodDoc;
+import com.sun.tools.javac.util.Context;
+import com.sun.tools.javac.util.ListBuffer;
+import com.sun.tools.javadoc.*;
 
 public class DataDictionaryUtil {
 
@@ -75,10 +86,54 @@ public class DataDictionaryUtil {
 		
 
 	}
-    private static void processObjectStructure(Class<?> beanClass, StringBuilder sb, Set<Class<?>> alreadyProcessed) throws ClassNotFoundException {
+	
+	Map<String,String> getMethodDocComments(Class<?> clazz) throws IOException{
+		Map<String,String> results = new HashMap<String,String>();
+		Context ctx = new Context();
+		MyMessager messager = new MyMessager(ctx, null, new PrintWriter(System.err), 
+				new PrintWriter(System.out), new PrintWriter(System.out));
+
+		JavadocTool jdt = JavadocTool.make0(ctx);
+		String docLocale="";
+		String encoding = null;
+		long defaultFilter = com.sun.tools.javac.code.Flags.PUBLIC | com.sun.tools.javac.code.Flags.PROTECTED | ModifierFilter.PACKAGE;
+		ModifierFilter showAccess = new ModifierFilter(defaultFilter);
+		ListBuffer<String> javaNames = new ListBuffer<String>();
+		javaNames.append("C:\\dev\\ks3.5\\Scratch\\src\\foo\\bar\\TestRegex.java");
+		ListBuffer<String[]> options = new ListBuffer<String[]>();
+		boolean breakiterator = false;
+		ListBuffer<String> subPackages = new ListBuffer<String>();
+		//subPackages.append("foo.bar");
+		ListBuffer<String> excludedPackages = new ListBuffer<String>();
+		boolean docClasses = false;
+		boolean languageVersion = false;
+		boolean quiet = false;
+
+		RootDocImpl root = jdt.getRootDocImpl(docLocale, encoding, 
+				showAccess, javaNames.toList(), options.toList(), 
+				breakiterator, subPackages.toList(), excludedPackages
+				.toList(), docClasses,
+				languageVersion, quiet);
+		for(ClassDoc d:root.classes()){
+			for(MethodDoc md:d.methods()){
+				System.out.println("MethodDoc:"+md.commentText());
+			}
+		}
+		return null;
+	}
+	public static class MyMessager extends Messager{
+
+		protected MyMessager(Context arg0, String arg1, PrintWriter arg2,
+				PrintWriter arg3, PrintWriter arg4) {
+			super(arg0, arg1, arg2, arg3, arg4);
+			
+		}
+		
+	}
+    private static void processObjectStructure(Class<?> beanClass, StringBuilder sb, Set<Class<?>> alreadyProcessed) throws ClassNotFoundException, IOException {
 		if(!alreadyProcessed.contains(beanClass)){
 			alreadyProcessed.add(beanClass);
-			
+
 	    	Set<Class<?>> childStructures = new HashSet<Class<?>>();
 
 	    	//output parent object structure and default type/state
@@ -191,44 +246,58 @@ public class DataDictionaryUtil {
 	}
 	
 	//Taken from http://forums.sun.com/thread.jspa?threadID=341935&start=15
-	private static File getClassesHelper(String pckgname)
-			throws ClassNotFoundException {
+	private static ArrayList<String> getClassesHelper(String pckgname)
+		throws ClassNotFoundException, IOException {
 		// Get a File object for the package
-		File directory = null;
+		ArrayList<String> directories = new ArrayList<String>();
+		
 		try {
 			ClassLoader cld = Thread.currentThread().getContextClassLoader();
 			if (cld == null) {
 				throw new ClassNotFoundException("Can't get class loader.");
 			}
 			String path = pckgname.replace('.', '/');
-			URL resource = cld.getResource(path);
-			if (resource == null) {
+			Enumeration<URL> resources = cld.getResources(path);
+			if (resources == null) {
 				throw new ClassNotFoundException("No resource for " + path);
 			}
-			directory = new File(resource.getFile());
-			return directory;
+			while(resources.hasMoreElements()){
+				URL resource = resources.nextElement();
+				if ("jar".equals(resource.getProtocol())){
+					JarFile directory = new JarFile(resource.getFile().substring(6, resource.getFile().indexOf('!')));
+					for (Enumeration<JarEntry> e = directory.entries(); e.hasMoreElements();){
+						JarEntry current = e.nextElement();
+						if(current.getName().length() > path.length() && current.getName().substring(0, path.length()).equals(path) && current.getName().endsWith(".class")){
+							directories.add(current.getName().replace("/", "."));
+						}
+					}
+				}else{
+					File directory = new File(resource.getFile());
+					for(String current:directory.list()){
+						directories.add(pckgname + '.' + current);
+					}
+				}
+			}
+			return directories;
 		} catch (NullPointerException x) {
-			throw new ClassNotFoundException(pckgname + " (" + directory
-					+ ") does not appear to be a valid package");
+			throw new ClassNotFoundException(pckgname + "does not appear to be a valid package");
 		}
 	}
 
 	public static Class<?>[] getClasses(String pckgname,
-			boolean skipDollarClasses) {
+			boolean skipDollarClasses) throws IOException {
 		ArrayList<Class<?>> classes = new ArrayList<Class<?>>();
 
 		try {
-			File directory = getClassesHelper(pckgname);
+			ArrayList<String> files = getClassesHelper(pckgname);
 
-			if (directory.exists()) {
+			if (files!=null&&!files.isEmpty()) {
 				// Get the list of the files contained in the package
-				String[] files = directory.list();
-				for (int i = 0; i < files.length; i++) {
+				for (String file:files) {
 					// we are only interested in .class files
-					if (files[i].endsWith(".class")) {
+					if (file.endsWith(".class")) {
 						// get rid of the ".class" at the end
-						String withoutclass = pckgname + '.'
-								+ files[i].substring(0, files[i].length() - 6);
+						String withoutclass = file.substring(0, file.length() - ".class".length());
 
 						// in case we don't want $1 $2 etc. endings (i.e. common
 						// in GUI classes)
