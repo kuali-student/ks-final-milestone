@@ -219,6 +219,7 @@
         <property name="proposalService" ref="proposalClient" />
         <property name="learningObjectiveService" ref="loClient" />
 		<property name="permissionService" ref="permissionServiceClient"/>
+		<property name="translationService" ref="translationClient"/>						
 		<!--<property name="simpleDocService" ref="simpleDocClient"/>-->
         <!--<property name="applicationStateManager" ref="applicationStateManager" />-->
 	</bean>

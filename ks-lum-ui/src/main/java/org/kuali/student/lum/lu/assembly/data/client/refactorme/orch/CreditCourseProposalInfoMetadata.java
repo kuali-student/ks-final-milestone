@@ -161,7 +161,7 @@ public class CreditCourseProposalInfoMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.meta.data"));
 		}
-		new MetaInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
+	//	new MetaInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
 		
 		// metadata for _runtimeData
 		childMeta = new Metadata ();

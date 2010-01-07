@@ -170,7 +170,7 @@ public class CreditCourseMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 		}
-		new RichTextInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
+	//	new RichTextInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
 		
 		// metadata for Department
 		childMeta = new Metadata ();

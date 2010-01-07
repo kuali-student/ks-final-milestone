@@ -5,8 +5,11 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
+import org.kuali.student.lum.lu.dto.LuStatementTypeInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
+import org.kuali.student.lum.nlt.service.TranslationService;
 import org.kuali.student.lum.ui.requirements.client.model.EditHistory;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
@@ -16,7 +19,8 @@ public class LuRuleInfoPersistanceBean {
 	final Logger logger = Logger.getLogger(LuRuleInfoPersistanceBean.class);
 	
 	private LuService luService;
-	
+    private TranslationService translationService;	
+
 	public LuService getLuService() {
 		return luService;
 	}
@@ -24,7 +28,15 @@ public class LuRuleInfoPersistanceBean {
 	public void setLuService(LuService luService) {
 		this.luService = luService;
 	}
-	  
+	
+	public TranslationService getTranslationService() {
+		return translationService;
+	}
+
+	public void setTranslationService(TranslationService translationService) {
+		this.translationService = translationService;
+	}	
+	
 	//eventually this all needs to be one transaction
     public String saveRules(String cluId, List<RuleInfo> rules) throws Exception {
     	for (RuleInfo ruleInfo : rules) {
@@ -62,6 +74,29 @@ public class LuRuleInfoPersistanceBean {
     }
 
 	public List<RuleInfo> fetchRules(String cluId) {
+		
+		//FIXME remove once we can use "kuali.luStatementType.createCourseAcademicReadiness" to
+		// determine which rules belong to the course proposal screen
+  		List<String> courseAcademicReadinessRules = new ArrayList<String>() {
+    		   {
+    			   add("kuali.luStatementType.prereqAcademicReadiness");
+    			   add("kuali.luStatementType.coreqAcademicReadiness");
+    			   add("kuali.luStatementType.antireqAcademicReadiness");
+    			   add("kuali.luStatementType.enrollAcademicReadiness");    			   
+    		   }
+    		};  		
+    		
+    	/* TODO
+    	List<String> createCourseAcademicReadinessRuleTypes;   		
+		try {    		
+			List<LuStatementTypeInfo> relatedStatementTypes = luService.getLuStatementTypesForLuStatementType(luStatementTypeKey);
+			createCourseAcademicReadinessRuleTypes = relatedStatementTypes.;
+		} catch (Exception e) {
+			logger.error("Error fetching rules from luService:" + cluId, e);
+			throw new RuntimeException("Error fetching statement types for statement type " +
+											"'kuali.luStatementType.createCourseAcademicReadiness' from luService:" + cluId);
+		} */   		
+    		
 		List<RuleInfo> ruleInfos = new ArrayList<RuleInfo>();
 		
 		try {
@@ -69,18 +104,38 @@ public class LuRuleInfoPersistanceBean {
 			List<LuStatementInfo> luStatements;
 			luStatements = luService.getLuStatementsForClu(cluId);
 			for (LuStatementInfo luStatementInfo:luStatements){
+				
+				//ignore rules not related to our course proposal context
+				if (!courseAcademicReadinessRules.contains(luStatementInfo.getType())) {
+					continue;
+				}
+				
 				StatementVO statementVO = createStatementVO(luStatementInfo);
 
+				
+            	//create a blank root statementVO
+				/*
+                LuStatementInfo newLuStatementInfo = new LuStatementInfo();
+                newLuStatementInfo.setOperator(StatementOperatorTypeKey.AND);
+                newLuStatementInfo.setType(statementType);
+                StatementVO statementVO = new StatementVO();                            
+                statementVO.setLuStatementInfo(newLuStatementInfo);         	            	                
+                newPrereqInfo.setId(Integer.toString(id++));  */				
+				
 				RuleInfo ruleInfo = new RuleInfo();
+				ruleInfo.setCluId(cluId);
 				ruleInfo.setEditHistory(new EditHistory());
-				ruleInfo.setNaturalLanguage(statementVO.getLuStatementInfo().getDesc());
-				ruleInfo.setLuStatementTypeKey(statementVO.getLuStatementInfo().getLuStatementType().getId());
 				ruleInfo.setStatementVO(statementVO);
+				
+		        EditHistory editHistory = new EditHistory();
+		        editHistory.save(statementVO);
+		        ruleInfo.setEditHistory(editHistory);
+				
 				ruleInfos.add(ruleInfo);
 			}
 		} catch (Exception e) {
 			logger.error("Error fetching rules from luService:" + cluId, e);
-			//throw new RuntimeException("Error fetching rules from luService:" + cluId);
+			throw new RuntimeException("Error fetching rules from luService:" + cluId);
 		}
 	
 		return ruleInfos;
@@ -88,24 +143,36 @@ public class LuRuleInfoPersistanceBean {
     
 	private StatementVO createStatementVO(LuStatementInfo luStatementInfo) throws Exception{
 		StatementVO statementVO = new StatementVO(luStatementInfo);
-					
+        List<String> statementIDs = luStatementInfo.getLuStatementIds();       
+        List<String> reqComponentIDs = luStatementInfo.getReqComponentIds();	
+        
+        //each statement can contain EITHER child statements or child req. components but not both
+        if ((statementIDs != null) && (reqComponentIDs != null) && (statementIDs.size() > 0) && (reqComponentIDs.size() > 0))
+        {
+        	throw new Exception("Found both Statements and Requirement Components on the same level of a boolean expression");
+        }		
+		
 		//Fetch child statements
-		if (luStatementInfo.getLuStatementIds() != null && luStatementInfo.getLuStatementIds().size() > 0){
+		if (statementIDs != null && statementIDs.size() > 0){
 			List<LuStatementInfo> childStatements = luService.getLuStatements(luStatementInfo.getLuStatementIds());
 			for (LuStatementInfo childStatement:childStatements){
 				StatementVO childStatementVO = createStatementVO(childStatement);
 				statementVO.addStatementVO(childStatementVO);
 			}
-		}
-		
-		//Fetch child requirement components
-		if (luStatementInfo.getReqComponentIds() != null && luStatementInfo.getReqComponentIds().size() > 0){
+		} else { //Fetch child requirement components		
 			List<ReqComponentInfo> childReqComponents = luService.getReqComponents(luStatementInfo.getReqComponentIds());
 			for (ReqComponentInfo childReqComponent:childReqComponents){
-				ReqComponentVO reqComponentVO = new ReqComponentVO();
-				reqComponentVO.setId(childReqComponent.getId());
-				reqComponentVO.setTypeDesc(childReqComponent.getDesc());
-				reqComponentVO.setReqComponentInfo(childReqComponent);
+				ReqComponentVO reqComponentVO = new ReqComponentVO(childReqComponent);
+					
+				String nl;
+				try {
+					nl = translationService.getNaturalLanguageForReqComponentInfo(childReqComponent, "KUALI.CATALOG", null);
+				} catch(Exception e) {
+					logger.error("Error fetching NL for req. component:" + childReqComponent.getRequiredComponentType().getId(), e);
+					throw new RuntimeException("Error fetching NL for req. component:" + childReqComponent.getRequiredComponentType().getId());
+				} 				
+				reqComponentVO.setTypeDesc(nl);
+				
 				statementVO.addReqComponentVO(reqComponentVO);
 			}
 		}

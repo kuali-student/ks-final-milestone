@@ -26,7 +26,6 @@ import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.assembly.client.SaveResult;
 import org.kuali.student.common.assembly.client.Data.Property;
 import org.kuali.student.common.assembly.client.Metadata.WriteAccess;
-import org.kuali.student.common.ui.server.mvc.dto.BeanMappingException;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.TimeAmountInfo;
@@ -74,6 +73,7 @@ import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.ui.course.server.gwt.LoInfoPersistenceBean;
 import org.kuali.student.lum.lu.ui.course.server.gwt.LuRuleInfoPersistanceBean;
+import org.kuali.student.lum.nlt.service.TranslationService;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 
 /*
@@ -125,6 +125,7 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 	private PermissionService permissionService;
 	private LearningObjectiveService loService;
 	private LoInfoPersistenceBean loInfoBean;
+    private TranslationService translationService;
 	
 	public CreditCourseProposalAssembler(String proposalState) {
 		this.proposalState = proposalState;
@@ -562,11 +563,14 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 	private void saveRules(String courseId, LuData luData) throws Exception{
 		LuRuleInfoPersistanceBean ruleInfoBean = new LuRuleInfoPersistanceBean();
 		ruleInfoBean.setLuService(luService);
+        ruleInfoBean.setTranslationService(translationService);		
 		ruleInfoBean.updateRules(courseId, luData.getRuleInfos());			
 	}
 	
 	private List<RuleInfo> getRules(String courseId) throws Exception{
 		LuRuleInfoPersistanceBean ruleInfoBean = new LuRuleInfoPersistanceBean();
+		ruleInfoBean.setLuService(luService);
+        ruleInfoBean.setTranslationService(translationService);		
 		return ruleInfoBean.fetchRules(courseId);
 	}
 
@@ -1068,13 +1072,6 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 		return null;
 	}
 
-	
-
-
-	public void setProposalService(ProposalService proposalService) {
-		this.proposalService = proposalService;
-	}
-
 	@Override
 	public Data assemble(Void input) throws AssemblyException {
 		throw new UnsupportedOperationException("CreditCourseProposalAssember does not support assembly from source type");
@@ -1086,6 +1083,12 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 		throw new UnsupportedOperationException("CreditCourseProposalAssember does not support disassembly to source type");
 	}
 
+	@Override
+	public SearchResult search(SearchRequest searchRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}	
+	
 	public LuService getLuService() {
 		return luService;
 	}
@@ -1094,20 +1097,19 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 		this.luService = luService;
 	}
 
+	public void setProposalService(ProposalService proposalService) {
+		this.proposalService = proposalService;
+	}		
 	
-	public void setLearningObjectiveService(LearningObjectiveService loService) {
-		this.loService = loService;
-	}
-
-	@Override
-	public SearchResult search(SearchRequest searchRequest) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public void setPermissionService(PermissionService permissionService) {
 		this.permissionService = permissionService;
 	}
 	
-
+	public void setLearningObjectiveService(LearningObjectiveService loService) {
+		this.loService = loService;
+	}	
+	
+	public void setTranslationService(TranslationService translationService) {
+		this.translationService = translationService;
+	}	
 }
