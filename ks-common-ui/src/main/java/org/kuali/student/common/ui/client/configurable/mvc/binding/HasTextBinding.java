@@ -38,35 +38,40 @@ public class HasTextBinding implements ModelWidgetBinding<HasText>{
             DataType type = model.getType(qPath);
             String value = object.getText().trim();
     
-            switch (type) {
-                case STRING:
-                    model.set(qPath, value);
-                    break;
-                case INTEGER:
-                    if (value != null && value.length() > 0){
-                        model.set(qPath, Integer.parseInt(value));
-                    }
-                    break;
-                case LONG:
-                    model.set(qPath, Long.parseLong(value));
-                    break;
-                case FLOAT:
-                    model.set(qPath, Float.parseFloat(value));
-                    break;
-                case DOUBLE:
-                    model.set(qPath, Double.parseDouble(value));
-                    break;
-                case BOOLEAN:
-                    if(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")){
-                        model.set(qPath, Boolean.parseBoolean(value));
-                    }
-                    else{
-                        throw new UnsupportedOperationException("BooleanTypes can only be set with true or false");
-                    }
-                    break;
-                case DATE:
-                    model.set(qPath, dateParser.parseDate(value));
-                    break;
+            try {
+                switch (type) {
+                    case STRING:
+                        model.set(qPath, value);
+                        break;
+                    case INTEGER:
+                        if (value != null && value.length() > 0){
+                            model.set(qPath, Integer.parseInt(value));
+                        }
+                        break;
+                    case LONG:
+                        model.set(qPath, Long.parseLong(value));
+                        break;
+                    case FLOAT:
+                        model.set(qPath, Float.parseFloat(value));
+                        break;
+                    case DOUBLE:
+                        model.set(qPath, Double.parseDouble(value));
+                        break;
+                    case BOOLEAN:
+                        if(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")){
+                            model.set(qPath, Boolean.parseBoolean(value));
+                        }
+                        else{
+                            throw new UnsupportedOperationException("BooleanTypes can only be set with true or false");
+                        }
+                        break;
+                    case DATE:
+                        model.set(qPath, dateParser.parseDate(value));
+                        break;
+                }
+            } catch (Exception e) {
+                GWT.log("Unable to coerce type for " + path + ", falling back to String", e);
+                model.set(qPath, value);
             }
         } catch (Exception e) {
             GWT.log("Error setting model value for: " + path, e);
