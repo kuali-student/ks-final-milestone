@@ -65,6 +65,7 @@ public class TypeStateConstraintMetadataWriter
     ConstraintMetadataBankWriter.JAVA_CLASS_NAME);
    String bankGetter = "ConstraintMetadataBank.BANK.get (" + quote (tsCons.getConstraint ().getId ().
     toLowerCase ()) + ")";
+   //TODO: don't write out duplicate constraints
    out.indentPrintln ("childMeta.getConstraints ().add (" + bankGetter + ");");
   }
  }

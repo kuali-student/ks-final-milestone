@@ -328,16 +328,16 @@ public class OrchestrationObjectsLoader implements OrchestrationModel
   }
   return list;
  }
- private int calcMaxRecursions (OrchObj orch)
+ private Integer calcMaxRecursions (OrchObj orch)
  {
   String recursions = orch.getRecursions ();
   if (recursions == null)
   {
-   return 1;
+   return null;
   }
   if (recursions.equals (""))
   {
-   return 1;
+   return null;
   }
   try
   {

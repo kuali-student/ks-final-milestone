@@ -50,30 +50,27 @@ public class SearchModelLoader implements SearchModel
   {
    rowNumber ++;
    String type = getFixup (worksheetReader, "Type");
-   if (type.equalsIgnoreCase ("Search"))
+   if (type.equalsIgnoreCase ("Lookup"))
+   {
+    SearchRow searchRow = new SearchRow ();
+    loadRow (worksheetReader, searchRow, rowNumber);
+    lastLookupKey = searchRow.getKey ();
+    lastLookupKeySequence = 0;
+   }
+   else if (type.equalsIgnoreCase ("Search"))
    {
     searchType = new SearchType ();
     loadRow (worksheetReader, searchType, rowNumber);
     // give the non-default lookups a unique key
-    if (searchType.getLookupKey ().equals (""))
+    if (searchType.getUsage ().equalsIgnoreCase ("default"))
     {
-     if (searchType.getUsage ().equalsIgnoreCase ("default"))
-     {
-      throw new DictionaryValidationException ("Defaut lookups must be defined before other lookups and have a lookupKey assigned, error on row " +
-       rowNumber);
-     }
-     lastLookupKeySequence++;
-     searchType.setLookupKey (lastLookupKey + ".additional." + lastLookupKeySequence);
+     searchType.setLookupKey (lastLookupKey);
     }
     else
     {
-     lastLookupKey = searchType.getLookupKey ();
-     lastLookupKeySequence = 0;
-     if ( ! searchType.getUsage ().equalsIgnoreCase ("default"))
-     {
-      throw new DictionaryValidationException ("The first lookup defined must have a usage of default, error on row " +
-       rowNumber);
-     }
+     lastLookupKeySequence ++;
+     searchType.setLookupKey (lastLookupKey + ".additional." +
+      lastLookupKeySequence);
     }
     list.add (searchType);
    }
@@ -111,14 +108,12 @@ public class SearchModelLoader implements SearchModel
     searchType.getSearchResult ().getResultColumns ().add (col);
     loadRow (worksheetReader, col, rowNumber);
    }
+   else if (type.equalsIgnoreCase (""))
+   {
+    continue;
+   }
    else
    {
-    SearchRow row = new SearchRow ();
-    loadRow (worksheetReader, row, rowNumber);
-    if (isRowBlank (row))
-    {
-     continue;
-    }
     throw new DictionaryValidationException ("Spreadsheet row #" + rowNumber +
      " has an unknown type,[" + type + "]");
    }
@@ -131,7 +126,7 @@ public class SearchModelLoader implements SearchModel
  {
   row.setRowNumber (rowNumber);
   // trying to reuse same code for two slightly different spreadsheets
-  row.setKey (getFixup (worksheetReader, "Key", "SearchKey"));
+  row.setKey (getFixup (worksheetReader, "Key"));
   row.setType (getFixup (worksheetReader, "Type"));
   row.setName (getFixup (worksheetReader, "Name"));
   row.setDescription (getFixup (worksheetReader, "Description"));
@@ -142,9 +137,8 @@ public class SearchModelLoader implements SearchModel
   row.setOptional (getFixup (worksheetReader, "Optional"));
   row.setDefaultValue (getFixup (worksheetReader, "Default", "DefaultValue"));
   // default for spreadsheet that does not have these fields
-  if (worksheetReader.getIndex ("LookupKey") == -1)
+  if (worksheetReader.getIndex ("WriteAccess") == -1)
   {
-   row.setLookupKey ("");
    row.setWriteAccess ("Always");
    row.setChildLookup ("");
    row.setHidden ("");
@@ -154,7 +148,6 @@ public class SearchModelLoader implements SearchModel
   }
   else
   {
-   row.setLookupKey (getFixup (worksheetReader, "LookupKey"));
    row.setWriteAccess (getFixup (worksheetReader, "WriteAccess"));
    row.setChildLookup (getFixup (worksheetReader, "ChildLookup"));
    row.setHidden (getFixup (worksheetReader, "Hidden"));

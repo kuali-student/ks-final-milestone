@@ -211,14 +211,14 @@ public class OrchestrationObjectField
   this.lookupContextPath = lookupContextPath;
  }
 
- private int maxRecursions = 1;
+ private Integer maxRecursions;
 
- public int getMaxRecursions ()
+ public Integer getMaxRecursions ()
  {
   return maxRecursions;
  }
 
- public void setMaxRecursions (int maxRecursions)
+ public void setMaxRecursions (Integer maxRecursions)
  {
   this.maxRecursions = maxRecursions;
  }
