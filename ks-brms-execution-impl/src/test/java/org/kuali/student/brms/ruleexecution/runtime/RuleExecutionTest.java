@@ -466,6 +466,30 @@ public class RuleExecutionTest extends AbstractJUnit4SpringContextTests  {
     }
 
     @Test
+    public void testCreateExpiredBusinessRuleAndExecute_StaticFact() throws Exception {
+    	BusinessRuleInfo expiredBusinessRule1 = createIntersectionBusinessRuleInfo("CHEM100PRE_REQ", "CHEM100");
+    	Date effectiveEndTime = createDate(2010, 1, 1, 00, 00); // Rule expiry date
+    	expiredBusinessRule1.setExpirationDate(effectiveEndTime);
+ 
+    	String businessRuleId = null;
+    	try {
+    		businessRuleId = ruleManagement.createBusinessRule(expiredBusinessRule1).getId();
+    		BusinessRuleInfo businessRule = ruleManagement.getBusinessRuleInfo(businessRuleId);
+	        Assert.assertNotNull(businessRule);
+
+	        ExecutionResultInfo executionResult = ruleExecution.executeBusinessRule(businessRuleId, null);
+
+	        Assert.assertNotNull(executionResult);
+	        Assert.assertTrue(executionResult.isExecutionSuccessful());
+	        Assert.assertFalse(executionResult.getReport().isSuccessful());
+	        Assert.assertNull(executionResult.getReport().getSuccessMessage());
+	        Assert.assertEquals("Rule has expired and was not executed", executionResult.getReport().getFailureMessage());
+    	} finally {
+    		ruleManagement.deleteBusinessRule(businessRuleId);
+    	}
+    }
+
+    @Test
     public void testCreateAndExecuteBusinessRule_DynamicFact() throws Exception {
     	BusinessRuleInfo businessRule1 = createIntersectionBusinessRule("CHEM200PRE_REQ", "CHEM200", false);
 

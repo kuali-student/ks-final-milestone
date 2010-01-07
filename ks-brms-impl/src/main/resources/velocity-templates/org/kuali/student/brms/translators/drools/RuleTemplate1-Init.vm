@@ -17,7 +17,7 @@
 ## A generic initialization rule template
 ## Generics need Java 1.5 or greater - Must set drools.dialect.java.compiler=ECLIPSE
 
-# Date created $dateTool.get('yyyy-MM-dd HH:mm:ss z')
+# Date created: $dateTool.get('yyyy-MM-dd HH:mm:ss z')
 
 #macro (dataType $comparisonDataType)
     #if($comparisonDataType == "java.lang.String")
@@ -107,6 +107,6 @@ rule "${ruleName}"
             #end
         #end
 
-        container.setState(FactContainer.State.DONE);
+        container.setState(FactContainer.State.COMPLETE);
         update(container);
 end

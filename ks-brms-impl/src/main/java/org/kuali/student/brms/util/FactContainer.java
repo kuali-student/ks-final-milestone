@@ -32,7 +32,7 @@ public class FactContainer implements java.io.Serializable {
     private Map<String, ?> factMap;
     private State state = State.INIT;
     
-    public enum State {INIT,DONE};
+    public enum State {INIT,COMPLETE};
 
     public FactContainer(String id, String anchor, String anchorTypeKey, Map<String, RulePropositionInfo> propositionMap, Map<String, ?> factMap) {
         this.id = id;

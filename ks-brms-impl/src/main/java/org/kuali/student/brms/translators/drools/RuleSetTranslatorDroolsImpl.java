@@ -15,6 +15,7 @@
  */
 package org.kuali.student.brms.translators.drools;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -43,32 +44,47 @@ import org.slf4j.LoggerFactory;
 
 /**
  * This class generates Drools rules source code from functional business rules.
+ * TODO: This class needs to be re-factored.
  */
 public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
     /** SLF4J logging framework */
-    final static Logger logger = LoggerFactory.getLogger(RuleSetTranslatorDroolsImpl.class);
+    private final static Logger logger = LoggerFactory.getLogger(RuleSetTranslatorDroolsImpl.class);
     
     private final static RuleSetFactory ruleSetFactory = RuleSetFactory.getInstance();
 
-    private static final String VELOCITY_RULE_TEMPLATE1_INIT = "velocity-templates/org/kuali/student/brms/translators/drools/RuleTemplate1Init-v2.vm";
-    private static final String VELOCITY_RULE_TEMPLATE2 = "velocity-templates/org/kuali/student/brms/translators/drools/RuleTemplate2-v2.vm";
+    private final static String VELOCITY_RULE_TEMPLATE1 = "velocity-templates/org/kuali/student/brms/translators/drools/RuleTemplate1-Init.vm";
+    private final static String VELOCITY_RULE_TEMPLATE2 = "velocity-templates/org/kuali/student/brms/translators/drools/RuleTemplate2-Rule.vm";
+    private final static String VELOCITY_RULE_TEMPLATE3 = "velocity-templates/org/kuali/student/brms/translators/drools/RuleTemplate3-RuleExpiryDate.vm";
 
-    private static final String PACKAGE_PREFIX = "org.kuali.student.brms.";
+	private List<String> ruleTemplates = Arrays.asList(new String[] {
+			VELOCITY_RULE_TEMPLATE1, 
+			VELOCITY_RULE_TEMPLATE2,
+			VELOCITY_RULE_TEMPLATE3 });
+    	
+    protected final static String PACKAGE_PREFIX = "org.kuali.student.brms.";
 
-    private final static String INVALID_CHARACTERS_REGEX = "[^a-zA-Z0-9]";
-    private final static String VALID_RULE_NAME_REGEX = "[a-zA-Z_][a-zA-Z0-9_]*";
+    protected final static String INVALID_CHARACTERS_REGEX = "[^a-zA-Z0-9]";
+    protected final static String VALID_RULE_NAME_REGEX = "[a-zA-Z_][a-zA-Z0-9_]*";
     
     private RuleSetValidator ruleSetValidator;
     
     public RuleSetTranslatorDroolsImpl() {
     }
 
+	public List<String> getRuleTemplates() {
+		return this.ruleTemplates;
+	}
+
+	public void setRuleTemplates(final List<String> ruleTemplates) {
+		this.ruleTemplates = ruleTemplates;
+	}
+
     /**
      * Sets the rule set validator.
      * 
      * @param ruleSetValidator Rule set validator
      */
-	public void setRuleSetValidator(RuleSetValidator ruleSetValidator) {
+	public void setRuleSetValidator(final RuleSetValidator ruleSetValidator) {
 		this.ruleSetValidator = ruleSetValidator;
 	}
 
@@ -79,7 +95,7 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
 	 * @return A rule set
 	 * @throws RuleSetTranslatorException Thrown if translating a rule set fails
 	 */
-    public synchronized RuleSet translate(BusinessRuleInfo businessRule) throws RuleSetTranslatorException {
+    public synchronized RuleSet translate(final BusinessRuleInfo businessRule) throws RuleSetTranslatorException {
     	RuleSet ruleSet = null;
     	String ruleSetName = getRuleSetName(businessRule);
     	if (businessRule.getCompiledId() != null && !businessRule.getCompiledId().trim().isEmpty()) {
@@ -104,7 +120,7 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
      * @param businessRule Business rule
      * @return Rule set name
      */
-    public static String getRuleSetName(BusinessRuleInfo businessRule) {
+    public static String getRuleSetName(final BusinessRuleInfo businessRule) {
     	String businessRuleName = removeInvalidCharacters(businessRule.getName());
     	if(!isValidRuleName(businessRuleName)) {
     		throw new RuleSetTranslatorException("Invalid rule name. " +
@@ -145,79 +161,84 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
         		propositionMap, ruleSet, effectiveStartTime, effectiveEndTime);
     }
 
+    /**
+     * Generates Drools rule source code using the velocity templates.
+     *  
+     * @param anchor Rule anchor
+     * @param anchorTypeKey Rule anchor type key
+     * @param ruleName Rule name
+     * @param ruleDescription Rule description
+     * @param functionString Rule function String (e.g. (A*B)+C))
+     * @param functionalPropositionMap Rule proposition map
+     * @param ruleSet Rule set
+     * @param effectiveStartTime Rule effective start date
+     * @param effectiveEndTime Rule effective end date
+     */
     public void generateRules(String anchor, String anchorTypeKey, String ruleName, 
     						  String ruleDescription, String functionString,
     						  Map<String, RulePropositionInfo> functionalPropositionMap, 
     						  RuleSet ruleSet,
     						  Date effectiveStartTime,
     						  Date effectiveEndTime) {
-        String initRuleName = ruleName+"_INIT";
-        String uuid = UUID.randomUUID().toString();
-        String rule1Source = generateRule1InitSourceCode(anchor, anchorTypeKey, initRuleName, uuid, 
-        		functionString, functionalPropositionMap, 
-        		effectiveStartTime, effectiveEndTime);
-        addRule(initRuleName, ruleDescription, ruleSet, rule1Source, effectiveStartTime, effectiveEndTime);
-
-        String rule2Source = generateRule2SourceCode(anchor, anchorTypeKey, ruleName, uuid,
-        		functionString, functionalPropositionMap);
-        addRule(ruleName, ruleDescription, ruleSet, rule2Source, effectiveStartTime, effectiveEndTime);
+    	String uuid = UUID.randomUUID().toString();
+        int i=1;
+        for(String template : ruleTemplates) {
+        	// Rule names must be unique
+        	String name = ruleName + "_T" + i++;
+        	// Generate Drools rule source code
+        	String ruleSource = generateRuleSourceCode(
+            		anchor, anchorTypeKey, name, uuid,
+            		functionString, functionalPropositionMap, 
+            		effectiveStartTime, effectiveEndTime, template);
+            addRule(name, ruleDescription, ruleSet, ruleSource, effectiveStartTime, effectiveEndTime);
+        }
     }
 
-    private String generateRule1InitSourceCode(String anchor, String anchorTypeKey,
-    										   String ruleName,
-    										   String uuid,
-    										   String functionString,
-    										   Map<String, RulePropositionInfo> functionalPropositionMap,
-    										   Date effectiveStartTime,
-    										   Date effectiveEndTime) {
-    	removeInvalidCharacters(anchor);
-        BooleanFunction function = new BooleanFunction(functionString);
+	private String generateRuleSourceCode(String anchor,
+                                          String anchorTypeKey, String ruleName, String uuid,
+                                          String functionString,
+                                          Map<String, RulePropositionInfo> functionalPropositionMap,
+                                          Date effectiveStartTime, Date effectiveEndTime,
+                                          String template) {
+		removeInvalidCharacters(anchor);
+		BooleanFunction function = new BooleanFunction(functionString);
 
-        CurrentDateTime date = new CurrentDateTime();
-        long effStartDate = date.getDateAsLong(effectiveStartTime);
-        long effEndDate = date.getDateAsLong(effectiveEndTime);
-        
-        // Create the final composite rule for the function
-        List<String> symbols = function.getSymbols();
-        Map<String, Object> velocityContextMap = new HashMap<String, Object>();
-        velocityContextMap.put("anchor", anchor);
-        velocityContextMap.put("anchorTypeKey", anchorTypeKey);
-        velocityContextMap.put("ruleName", ruleName);
-        velocityContextMap.put("propositionMap", functionalPropositionMap);
-        velocityContextMap.put("functionSymbols", symbols);
-        velocityContextMap.put("functionString", functionString);
-        velocityContextMap.put("effectiveStartTime", effStartDate);
-        velocityContextMap.put("effectiveEndTime", effEndDate);
-        velocityContextMap.put("factUtil", new FactUtil());
-        velocityContextMap.put("uuid", uuid);
+		CurrentDateTime date = new CurrentDateTime();
+		long effStartDate = date.getDateAsLong(effectiveStartTime);
+		long effEndDate = date.getDateAsLong(effectiveEndTime);
 
-        RuleTemplate velocityRuleTemplate = new RuleTemplate();
-        return velocityRuleTemplate.process(VELOCITY_RULE_TEMPLATE1_INIT, velocityContextMap);
-    }
+		// Create the final composite rule for the function
+		List<String> symbols = function.getSymbols();
+		Map<String, Object> velocityContextMap = new HashMap<String, Object>();
+		velocityContextMap.put("anchor", anchor);
+		velocityContextMap.put("anchorTypeKey", anchorTypeKey);
+		velocityContextMap.put("ruleName", ruleName);
+		velocityContextMap.put("propositionMap", functionalPropositionMap);
+		velocityContextMap.put("functionSymbols", symbols);
+		velocityContextMap.put("functionString", functionString);
+		velocityContextMap.put("effectiveStartTime", effStartDate);
+		velocityContextMap.put("effectiveEndTime", effEndDate);
+		velocityContextMap.put("factUtil", new FactUtil());
+		velocityContextMap.put("uuid", uuid);
 
-    private String generateRule2SourceCode(String anchor, String anchorTypeKey,
-    									   String ruleName, 
-    									   String uuid,
-    									   String functionString,
-    									   Map<String, RulePropositionInfo> functionalPropositionMap) {
-    	removeInvalidCharacters(anchor);
-        BooleanFunction function = new BooleanFunction(functionString);
+		RuleTemplate velocityRuleTemplate = new RuleTemplate();
+		return velocityRuleTemplate.process(template, velocityContextMap);
+	}
 
-        // Create the final composite rule for the function
-        List<String> symbols = function.getSymbols();
-        Map<String, Object> velocityContextMap = new HashMap<String, Object>();
-        velocityContextMap.put("anchor", anchor);
-        velocityContextMap.put("anchorTypeKey", anchorTypeKey);
-        velocityContextMap.put("ruleName", ruleName);
-        velocityContextMap.put("propositionMap", functionalPropositionMap);
-        velocityContextMap.put("functionSymbols", symbols);
-        velocityContextMap.put("functionString", functionString);
-        velocityContextMap.put("uuid", uuid);
-
-        RuleTemplate velocityRuleTemplate = new RuleTemplate();
-        return velocityRuleTemplate.process(VELOCITY_RULE_TEMPLATE2, velocityContextMap);
-    }
-    
+	/**
+	 * Create rule set.
+	 * 
+	 * @param anchor Rule anchor
+	 * @param anchorTypeKey Rule anchor type key
+	 * @param packageName package name
+	 * @param description Rule description
+	 * @param ruleName Rule name
+	 * @param functionString Rule function String (e.g. (A*B)+C))
+     * @param functionalPropositionMap Rule proposition map
+     * @param effectiveStartTime Rule effective start date
+     * @param effectiveEndTime Rule effective end date
+	 * @return rule set
+	 */
     public RuleSet createRuleSet(String anchor, String anchorTypeKey, 
     							 String packageName, String description, 
     							 String ruleName, String functionString,
@@ -230,7 +251,12 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
         return ruleSet;
     }
 
-    public void addHeader(RuleSet ruleSet) {
+    /**
+     * Adds Drools header information.
+     * 
+     * @param ruleSet Rule set
+     */
+    public void addHeader(final RuleSet ruleSet) {
         ruleSet.addHeader("import java.util.*");
         ruleSet.addHeader("import java.math.BigDecimal");
         ruleSet.addHeader("import org.slf4j.Logger;");
@@ -238,6 +264,7 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
         ruleSet.addHeader("import org.kuali.student.brms.internal.common.entity.*");
         ruleSet.addHeader("import org.kuali.student.brms.internal.common.statement.propositions.*");
         ruleSet.addHeader("import org.kuali.student.brms.internal.common.statement.propositions.rules.*");
+        ruleSet.addHeader("import org.kuali.student.brms.internal.common.statement.report.*");
         ruleSet.addHeader("import org.kuali.student.brms.rulemanagement.dto.*");
         ruleSet.addHeader("import org.kuali.student.brms.util.FactContainer");
         ruleSet.addHeader("import org.kuali.student.brms.util.FactContainer.State");
@@ -285,5 +312,4 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
     private static boolean isValidRuleName(String s) {
     	return (s == null ? true : s.matches(VALID_RULE_NAME_REGEX));
     }
-
 }
