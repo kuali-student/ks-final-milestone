@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dict="http://student.kuali.org/xsd/dictionary-extension" xsi:schemaLocation="http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dict="http://student.kuali.org/xsd/dictionary-extension" xsi:schemaLocation=" http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 <dict:constraint key="repeating" id="repeating"
 serverSide="false">
 	<!-- Repeating -->
@@ -17,7 +17,7 @@ serverSide="false">
 			<dict:field key="desc">
 				<dict:fieldDescriptor>
 					<dict:name>desc</dict:name>
-					<dict:desc>desc</dict:desc>
+					<dict:desc>The description of the code.</dict:desc>
 					<dict:dataType>String</dict:dataType>
 				</dict:fieldDescriptor>
 				<dict:constraintDescriptor>
@@ -27,7 +27,7 @@ serverSide="false">
 			<dict:field key="value">
 				<dict:fieldDescriptor>
 					<dict:name>value</dict:name>
-					<dict:desc>value</dict:desc>
+					<dict:desc>The code value.</dict:desc>
 					<dict:dataType>String</dict:dataType>
 				</dict:fieldDescriptor>
 				<dict:constraintDescriptor>
@@ -84,7 +84,7 @@ serverSide="false">
 			<dict:field key="rootOrgId">
 				<dict:fieldDescriptor>
 					<dict:name>rootOrgId</dict:name>
-					<dict:desc>rootOrgId</dict:desc>
+					<dict:desc>Root organization for the hierarchy.</dict:desc>
 					<dict:dataType>String</dict:dataType>
 				</dict:fieldDescriptor>
 				<dict:constraintDescriptor>
@@ -101,7 +101,7 @@ serverSide="false">
 			<dict:field key="effectiveDate">
 				<dict:fieldDescriptor>
 					<dict:name>effectiveDate</dict:name>
-					<dict:desc>effectiveDate</dict:desc>
+					<dict:desc>Date and time that this organization became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
 					<dict:dataType>Date</dict:dataType>
 				</dict:fieldDescriptor>
 				<dict:constraintDescriptor>
@@ -111,7 +111,7 @@ serverSide="false">
 			<dict:field key="expirationDate">
 				<dict:fieldDescriptor>
 					<dict:name>expirationDate</dict:name>
-					<dict:desc>expirationDate</dict:desc>
+					<dict:desc>Date and time that this organization expires. This is a similar concept to the expiration date on enumerated values. If specified, this must be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:desc>
 					<dict:dataType>Date</dict:dataType>
 				</dict:fieldDescriptor>
 				<dict:constraintDescriptor>
@@ -121,7 +121,7 @@ serverSide="false">
 			<dict:field key="longDesc">
 				<dict:fieldDescriptor>
 					<dict:name>longDesc</dict:name>
-					<dict:desc>longDesc</dict:desc>
+					<dict:desc>Narrative description of the organization.</dict:desc>
 					<dict:dataType>String</dict:dataType>
 				</dict:fieldDescriptor>
 				<dict:constraintDescriptor>
@@ -131,7 +131,7 @@ serverSide="false">
 			<dict:field key="longName">
 				<dict:fieldDescriptor>
 					<dict:name>longName</dict:name>
-					<dict:desc>longName</dict:desc>
+					<dict:desc>Full name of the organization.</dict:desc>
 					<dict:dataType>String</dict:dataType>
 				</dict:fieldDescriptor>
 				<dict:constraintDescriptor>
@@ -141,7 +141,7 @@ serverSide="false">
 			<dict:field key="orgCodes">
 				<dict:fieldDescriptor>
 					<dict:name>orgCodes</dict:name>
-					<dict:desc>orgCodes</dict:desc>
+					<dict:desc>List of organization code info structures. These are structures so that many different types of codes can be associated with the org. This allows them to be put into categories.</dict:desc>
 					<dict:dataType>complex</dict:dataType>
 					<dict:objectStructureRef bean="OrgCodeInfo"/>
 				</dict:fieldDescriptor>
@@ -152,7 +152,7 @@ serverSide="false">
 			<dict:field key="shortDesc">
 				<dict:fieldDescriptor>
 					<dict:name>shortDesc</dict:name>
-					<dict:desc>shortDesc</dict:desc>
+					<dict:desc>A brief description of the organization.</dict:desc>
 					<dict:dataType>String</dict:dataType>
 				</dict:fieldDescriptor>
 				<dict:constraintDescriptor>
@@ -162,7 +162,7 @@ serverSide="false">
 			<dict:field key="shortName">
 				<dict:fieldDescriptor>
 					<dict:name>shortName</dict:name>
-					<dict:desc>shortName</dict:desc>
+					<dict:desc>Shortened format or abbreviation of the organization's name.</dict:desc>
 					<dict:dataType>String</dict:dataType>
 				</dict:fieldDescriptor>
 				<dict:constraintDescriptor>
@@ -172,7 +172,7 @@ serverSide="false">
 			<dict:field key="sortName">
 				<dict:fieldDescriptor>
 					<dict:name>sortName</dict:name>
-					<dict:desc>sortName</dict:desc>
+					<dict:desc>The name used for sorting, for cases when alphabetical sorting by shortName or longName is undesirable.</dict:desc>
 					<dict:dataType>String</dict:dataType>
 				</dict:fieldDescriptor>
 				<dict:constraintDescriptor>
@@ -189,7 +189,7 @@ serverSide="false">
 			<dict:field key="effectiveDate">
 				<dict:fieldDescriptor>
 					<dict:name>effectiveDate</dict:name>
-					<dict:desc>effectiveDate</dict:desc>
+					<dict:desc>Date and time that this organization to organization relationship became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
 					<dict:dataType>Date</dict:dataType>
 				</dict:fieldDescriptor>
 				<dict:constraintDescriptor>
@@ -199,7 +199,7 @@ serverSide="false">
 			<dict:field key="expirationDate">
 				<dict:fieldDescriptor>
 					<dict:name>expirationDate</dict:name>
-					<dict:desc>expirationDate</dict:desc>
+					<dict:desc>Date and time that this organization to organization relationship expires. This is a similar concept to the expiration date on enumerated values. If specified, this must be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:desc>
 					<dict:dataType>Date</dict:dataType>
 				</dict:fieldDescriptor>
 				<dict:constraintDescriptor>
@@ -209,7 +209,7 @@ serverSide="false">
 			<dict:field key="orgId">
 				<dict:fieldDescriptor>
 					<dict:name>orgId</dict:name>
-					<dict:desc>orgId</dict:desc>
+					<dict:desc>Identifies the "parent" organization in the relation. The relationship is from this organization to the other organization.</dict:desc>
 					<dict:dataType>String</dict:dataType>
 				</dict:fieldDescriptor>
 				<dict:constraintDescriptor>
@@ -219,7 +219,7 @@ serverSide="false">
 			<dict:field key="relatedOrgId">
 				<dict:fieldDescriptor>
 					<dict:name>relatedOrgId</dict:name>
-					<dict:desc>relatedOrgId</dict:desc>
+					<dict:desc>This identifies the "child" organization in the relation. The relationship is from the other organization to this organization.</dict:desc>
 					<dict:dataType>String</dict:dataType>
 				</dict:fieldDescriptor>
 				<dict:constraintDescriptor>
@@ -276,7 +276,7 @@ serverSide="false">
 			<dict:field key="orgHierarchyKey">
 				<dict:fieldDescriptor>
 					<dict:name>orgHierarchyKey</dict:name>
-					<dict:desc>orgHierarchyKey</dict:desc>
+					<dict:desc>The organization hierarchy relationships of this type belong to.</dict:desc>
 					<dict:dataType>String</dict:dataType>
 				</dict:fieldDescriptor>
 				<dict:constraintDescriptor>
@@ -286,7 +286,7 @@ serverSide="false">
 			<dict:field key="revDesc">
 				<dict:fieldDescriptor>
 					<dict:name>revDesc</dict:name>
-					<dict:desc>revDesc</dict:desc>
+					<dict:desc>Narrative description of the reverse of the organization to organization relationship type.</dict:desc>
 					<dict:dataType>String</dict:dataType>
 				</dict:fieldDescriptor>
 				<dict:constraintDescriptor>
@@ -296,7 +296,7 @@ serverSide="false">
 			<dict:field key="revName">
 				<dict:fieldDescriptor>
 					<dict:name>revName</dict:name>
-					<dict:desc>revName</dict:desc>
+					<dict:desc>Name for the reverse of the organization to organization relationship type. This is primarily to be used by developers and may end up translated in the end system.</dict:desc>
 					<dict:dataType>String</dict:dataType>
 				</dict:fieldDescriptor>
 				<dict:constraintDescriptor>
@@ -313,7 +313,7 @@ serverSide="false">
 			<dict:field key="effectiveDate">
 				<dict:fieldDescriptor>
 					<dict:name>effectiveDate</dict:name>
-					<dict:desc>effectiveDate</dict:desc>
+					<dict:desc>Date and time that this organization to person relationship became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
 					<dict:dataType>Date</dict:dataType>
 				</dict:fieldDescriptor>
 				<dict:constraintDescriptor>
@@ -323,7 +323,7 @@ serverSide="false">
 			<dict:field key="expirationDate">
 				<dict:fieldDescriptor>
 					<dict:name>expirationDate</dict:name>
-					<dict:desc>expirationDate</dict:desc>
+					<dict:desc>Date and time that this organization to person relationship expires. This is a similar concept to the expiration date on enumerated values. If specified, this must be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:desc>
 					<dict:dataType>Date</dict:dataType>
 				</dict:fieldDescriptor>
 				<dict:constraintDescriptor>
@@ -333,7 +333,7 @@ serverSide="false">
 			<dict:field key="orgId">
 				<dict:fieldDescriptor>
 					<dict:name>orgId</dict:name>
-					<dict:desc>orgId</dict:desc>
+					<dict:desc>Identifier of the organization in the relationship.</dict:desc>
 					<dict:dataType>String</dict:dataType>
 				</dict:fieldDescriptor>
 				<dict:constraintDescriptor>
@@ -343,7 +343,7 @@ serverSide="false">
 			<dict:field key="personId">
 				<dict:fieldDescriptor>
 					<dict:name>personId</dict:name>
-					<dict:desc>personId</dict:desc>
+					<dict:desc>Identifier of the person in the relationship.</dict:desc>
 					<dict:dataType>String</dict:dataType>
 				</dict:fieldDescriptor>
 				<dict:constraintDescriptor>
@@ -407,7 +407,7 @@ serverSide="false">
 			<dict:field key="desc">
 				<dict:fieldDescriptor>
 					<dict:name>desc</dict:name>
-					<dict:desc>desc</dict:desc>
+					<dict:desc>Description of the restrictions and use of the relationship type within this particular organization. This should primarily focus on deviations from the standard use of the relationship type.</dict:desc>
 					<dict:dataType>String</dict:dataType>
 				</dict:fieldDescriptor>
 				<dict:constraintDescriptor>
@@ -417,7 +417,7 @@ serverSide="false">
 			<dict:field key="maxNumRelations">
 				<dict:fieldDescriptor>
 					<dict:name>maxNumRelations</dict:name>
-					<dict:desc>maxNumRelations</dict:desc>
+					<dict:desc>Acts as an upper bound on the number of relationships of this type expected for the organization. The values of this field are restricted to integer values and the string "unbounded". If specified, this should be greater than or equal to the value of minNumRelations, with the value "unbounded" being automatically assumed to be greater.</dict:desc>
 					<dict:dataType>String</dict:dataType>
 				</dict:fieldDescriptor>
 				<dict:constraintDescriptor>
@@ -427,7 +427,7 @@ serverSide="false">
 			<dict:field key="minNumRelations">
 				<dict:fieldDescriptor>
 					<dict:name>minNumRelations</dict:name>
-					<dict:desc>minNumRelations</dict:desc>
+					<dict:desc>Acts as a lower bound on the number of relationships of this type expected for the organization. If specified, this should be less than or equal to the value of maxNumRelations</dict:desc>
 					<dict:dataType>Integer</dict:dataType>
 				</dict:fieldDescriptor>
 				<dict:constraintDescriptor>
@@ -437,7 +437,7 @@ serverSide="false">
 			<dict:field key="orgId">
 				<dict:fieldDescriptor>
 					<dict:name>orgId</dict:name>
-					<dict:desc>orgId</dict:desc>
+					<dict:desc>Organization the restriction applies to.</dict:desc>
 					<dict:dataType>String</dict:dataType>
 				</dict:fieldDescriptor>
 				<dict:constraintDescriptor>
@@ -447,7 +447,7 @@ serverSide="false">
 			<dict:field key="orgPersonRelationTypeKey">
 				<dict:fieldDescriptor>
 					<dict:name>orgPersonRelationTypeKey</dict:name>
-					<dict:desc>orgPersonRelationTypeKey</dict:desc>
+					<dict:desc>Organization to person relationship type the restriction applies to.</dict:desc>
 					<dict:dataType>String</dict:dataType>
 				</dict:fieldDescriptor>
 				<dict:constraintDescriptor>
@@ -457,7 +457,7 @@ serverSide="false">
 			<dict:field key="stdDuration">
 				<dict:fieldDescriptor>
 					<dict:name>stdDuration</dict:name>
-					<dict:desc>stdDuration</dict:desc>
+					<dict:desc>Describes the standard duration of relationships of this type.</dict:desc>
 					<dict:dataType>complex</dict:dataType>
 					<dict:objectStructureRef bean="TimeAmountInfo"/>
 				</dict:fieldDescriptor>
@@ -468,7 +468,7 @@ serverSide="false">
 			<dict:field key="title">
 				<dict:fieldDescriptor>
 					<dict:name>title</dict:name>
-					<dict:desc>title</dict:desc>
+					<dict:desc>Title of organization person relationships of this type. This allows for distinction from the name of the relationship type itself, specific for the given organization.</dict:desc>
 					<dict:dataType>String</dict:dataType>
 				</dict:fieldDescriptor>
 				<dict:constraintDescriptor>
@@ -485,7 +485,7 @@ serverSide="false">
 			<dict:field key="atpDurationTypeKey">
 				<dict:fieldDescriptor>
 					<dict:name>atpDurationTypeKey</dict:name>
-					<dict:desc>atpDurationTypeKey</dict:desc>
+					<dict:desc></dict:desc>
 					<dict:dataType>String</dict:dataType>
 				</dict:fieldDescriptor>
 				<dict:constraintDescriptor>
@@ -495,7 +495,7 @@ serverSide="false">
 			<dict:field key="timeQuantity">
 				<dict:fieldDescriptor>
 					<dict:name>timeQuantity</dict:name>
-					<dict:desc>timeQuantity</dict:desc>
+					<dict:desc></dict:desc>
 					<dict:dataType>Integer</dict:dataType>
 				</dict:fieldDescriptor>
 				<dict:constraintDescriptor>
@@ -512,7 +512,7 @@ serverSide="false">
 			<dict:field key="displayName">
 				<dict:fieldDescriptor>
 					<dict:name>displayName</dict:name>
-					<dict:desc>displayName</dict:desc>
+					<dict:desc></dict:desc>
 					<dict:dataType>String</dict:dataType>
 				</dict:fieldDescriptor>
 				<dict:constraintDescriptor>
@@ -522,7 +522,7 @@ serverSide="false">
 			<dict:field key="orgId">
 				<dict:fieldDescriptor>
 					<dict:name>orgId</dict:name>
-					<dict:desc>orgId</dict:desc>
+					<dict:desc></dict:desc>
 					<dict:dataType>String</dict:dataType>
 				</dict:fieldDescriptor>
 				<dict:constraintDescriptor>
@@ -532,7 +532,7 @@ serverSide="false">
 			<dict:field key="parentId">
 				<dict:fieldDescriptor>
 					<dict:name>parentId</dict:name>
-					<dict:desc>parentId</dict:desc>
+					<dict:desc></dict:desc>
 					<dict:dataType>String</dict:dataType>
 				</dict:fieldDescriptor>
 				<dict:constraintDescriptor>
