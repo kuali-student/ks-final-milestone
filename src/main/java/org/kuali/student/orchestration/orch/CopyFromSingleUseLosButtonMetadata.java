@@ -16,13 +16,12 @@
 package org.kuali.student.orchestration.orch;
 
 
-import java.util.HashMap;
-import java.util.Map;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.orchestration.ConstraintMetadataBank;
 import org.kuali.student.orchestration.LookupMetadataBank;
+import org.kuali.student.orchestration.RecursionCounter;
 import org.kuali.student.orchestration.orch.CopyFromSingleUseLosButtonHelper.Properties;
 
 
@@ -40,14 +39,18 @@ public class CopyFromSingleUseLosButtonMetadata
 		Metadata mainMeta = new Metadata ();
 		mainMeta.setDataType (Data.DataType.DATA);
 		mainMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		Map <String, Integer> recursions = new HashMap ();
-		loadChildMetadata (mainMeta, type, state, recursions);
+		loadChildMetadata (mainMeta, type, state, new RecursionCounter ());
 		return mainMeta;
 	}
 	
-	public void loadChildMetadata (Metadata mainMeta, String type, String state,  Map<String, Integer> recursions)
+	public void loadChildMetadata (Metadata mainMeta, String type, String state,  RecursionCounter recursions)
 	{
-		int recurseLevel = increment (recursions, "CopyFromSingleUseLosButtonMetadata");
+		if (recursions.decrement (this.getClass ().getName ()) < 0)
+		{
+			recursions.increment (this.getClass ().getName ());
+			mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
+			return;
+		}
 		
 		Metadata childMeta;
 		Metadata listMeta;
@@ -68,18 +71,7 @@ public class CopyFromSingleUseLosButtonMetadata
 		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
 		
-	}
-	
-	private int increment (Map<String, Integer> recursions, String key)
-	{
-		Integer recurseLevel = recursions.get (key);
-		if (recurseLevel == null)
-		{
-			recursions.put (key, 0);
-			return 0;
-		}
-		recursions.put (key, recurseLevel.intValue () + 1);
-		return recurseLevel.intValue ();
+		recursions.increment (this.getClass ().getName ());
 	}
 }
 
