@@ -147,7 +147,7 @@ public class DictionaryModelCache implements DictionaryModel
   return messageStructures;
  }
 
- List<SearchType> searchTypes = null;
+ private List<SearchType> searchTypes = null;
 
  @Override
  public List<SearchType> getSearchTypes ()
@@ -158,5 +158,30 @@ public class DictionaryModelCache implements DictionaryModel
   }
   return searchTypes;
  }
+
+  private List<Service> services = null;
+
+ @Override
+ public List<Service> getServices ()
+ {
+  if (services == null)
+  {
+   services = model.getServices ();
+  }
+  return services;
+ }
+
+ private List<Project> projects = null;
+
+ @Override
+ public List<Project> getProjects ()
+ {
+  if (projects == null)
+  {
+   projects = model.getProjects ();
+  }
+  return projects;
+ }
+
 
 }

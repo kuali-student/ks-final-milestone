@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 The Kuali Foundation
+ * Copyright 2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,60 +15,62 @@
  */
 package org.kuali.student.dictionary.model.validation;
 
-import org.kuali.student.dictionary.model.util.ModelFinder;
-import org.kuali.student.dictionary.model.OrchObj;
-import org.kuali.student.dictionary.model.DictionaryModel;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import org.kuali.student.dictionary.model.DictionaryModel;
+import org.kuali.student.dictionary.model.XmlType;
+import org.kuali.student.dictionary.model.util.ModelFinder;
 
 /**
- * Validates the entire spreadsheet model
+ *
  * @author nwright
  */
-public class OrchestrationModelValidator implements ModelValidator
+public class XmlTypesValidator implements ModelValidator
 {
-
  private DictionaryModel model;
- private ModelFinder finder;
+ private XmlType xmlType;
 
- public OrchestrationModelValidator (DictionaryModel model)
+ public XmlTypesValidator (XmlType xmlType, DictionaryModel model)
  {
   this.model = model;
-  this.finder = new ModelFinder (model);
+  this.xmlType = xmlType;
  }
 
- List<String> errors;
+  private Collection errors;
 
  @Override
  public Collection<String> validate ()
  {
-  errors = new ArrayList ();
-  validateOrchObjs ();
-  errors.addAll (new DictionaryModelValidator (model).validate ());
+
+ errors = new ArrayList ();
+  basicValidation ();
   return errors;
  }
 
- private void validateOrchObjs ()
+ private void basicValidation ()
  {
-  if (model.getOrchObjs ().size () == 0)
+  if (xmlType.getName ().equals (""))
   {
-   addError ("No orchestration objects found");
+   addError ("Name is required");
   }
-  for (OrchObj orch : model.getOrchObjs ())
+  if ( ! xmlType.getService ().equals (""))
   {
-   OrchObjValidator cv = new OrchObjValidator (orch);
-   errors.addAll (cv.validate ());
+   if (new ModelFinder (model).findService (xmlType.getService ()) == null)
+   {
+     addError ("Service, [" + xmlType.getService ()
+      + "] could not be found in the list of services");
+   }
   }
  }
 
  private void addError (String msg)
  {
-  String error = "Error in orchestration dictionary spreadsheet: " + msg;
+  String error = "Error in xmlType entry: " + xmlType.getName () + ": " + msg;
   if ( ! errors.contains (error))
   {
    errors.add (error);
   }
  }
+
 
 }

@@ -18,6 +18,11 @@ package org.kuali.student.dictionary.model.validation;
 import org.kuali.student.dictionary.model.SearchType;
 import java.util.ArrayList;
 import java.util.Collection;
+import org.kuali.student.dictionary.model.DictionaryModel;
+import org.kuali.student.dictionary.model.SearchModel;
+import org.kuali.student.dictionary.model.SearchModel;
+import org.kuali.student.dictionary.model.Service;
+import org.kuali.student.dictionary.model.util.ModelFinder;
 
 /**
  * This validates a single searchTypeinoary entry
@@ -27,10 +32,12 @@ public class SearchTypeValidator implements ModelValidator
 {
 
  private SearchType searchType;
+private SearchModel model;
 
- public SearchTypeValidator (SearchType searchType)
+ public SearchTypeValidator (SearchType searchType, SearchModel model)
  {
   this.searchType = searchType;
+  this.model = model;
  }
 
  private Collection errors;
@@ -83,12 +90,30 @@ public class SearchTypeValidator implements ModelValidator
   {
    addError ("Data Type should be blank");
   }
+   if ( ! searchType.getService ().equals (""))
+  {
+   if (findService (searchType.getService ()) == null)
+   {
+     addError ("Service, [" + searchType.getService ()
+      + "] could not be found in the list of services");
+   }
+  }
+ }
+
+ private Service findService (String service)
+ {
+  // if we are only working with the searchModel then can't validate service
+  if ( ! (model instanceof DictionaryModel))
+  {
+   return null;
+  }
+  return new ModelFinder ((DictionaryModel) model).findService (service);
  }
 
  private void addError (String msg)
  {
-  String error = "Error in searchTypeionary entry: " + searchType.getKey () +
-   " of " + searchType + ": " + msg;
+  String error = "Error in searchType entry: " + searchType.getKey () +
+   ": " + msg;
   if ( ! errors.contains (error))
   {
    errors.add (error);

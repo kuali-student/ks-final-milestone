@@ -15,14 +15,17 @@
  */
 package org.kuali.student.dictionary.model.validation;
 
-import org.kuali.student.dictionary.model.*;
-import org.kuali.student.dictionary.model.validation.SearchTypeValidator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.kuali.student.dictionary.model.validation.ModelValidator;
+import org.kuali.student.dictionary.model.SearchCriteria;
+import org.kuali.student.dictionary.model.SearchCriteriaParameter;
+import org.kuali.student.dictionary.model.SearchModel;
+import org.kuali.student.dictionary.model.SearchResult;
+import org.kuali.student.dictionary.model.SearchResultColumn;
+import org.kuali.student.dictionary.model.SearchType;
 
 /**
  * Validates the entire spreadsheet model
@@ -31,11 +34,11 @@ import org.kuali.student.dictionary.model.validation.ModelValidator;
 public class SearchModelValidator implements ModelValidator
 {
 
- private SearchModel sheet;
+ private SearchModel model;
 
- public SearchModelValidator (SearchModel sheet)
+ public SearchModelValidator (SearchModel model)
  {
-  this.sheet = sheet;
+  this.model = model;
  }
 
  List<String> errors = new ArrayList ();
@@ -50,14 +53,14 @@ public class SearchModelValidator implements ModelValidator
 
  private void validateSearchTypes ()
  {
-  if (sheet.getSearchTypes ().size () == 0)
+  if (model.getSearchTypes ().size () == 0)
   {
    addError ("No search types found");
   }
   validateForDuplicates ();
-  for (SearchType st : sheet.getSearchTypes ())
+  for (SearchType st : model.getSearchTypes ())
   {
-   SearchTypeValidator stv = new SearchTypeValidator (st);
+   SearchTypeValidator stv = new SearchTypeValidator (st, model);
    errors.addAll (stv.validate ());
   }
   getValidateSearchCriteria (true);
@@ -69,7 +72,7 @@ public class SearchModelValidator implements ModelValidator
  private void validateForDuplicates ()
  {
   Set<String> keys = new HashSet ();
-  for (SearchType st : sheet.getSearchTypes ())
+  for (SearchType st : model.getSearchTypes ())
   {
    if ( ! keys.add (st.getKey ()))
    {
@@ -82,7 +85,7 @@ public class SearchModelValidator implements ModelValidator
  {
   List<SearchResult> list = new ArrayList ();
   Set<String> keys = new HashSet ();
-  for (SearchType st : sheet.getSearchTypes ())
+  for (SearchType st : model.getSearchTypes ())
   {
    if (keys.add (st.getSearchResult ().getKey ()))
    {
@@ -195,7 +198,7 @@ public class SearchModelValidator implements ModelValidator
  {
   List<SearchCriteria> list = new ArrayList ();
   Set<String> keys = new HashSet ();
-  for (SearchType st : sheet.getSearchTypes ())
+  for (SearchType st : model.getSearchTypes ())
   {
    if (keys.add (st.getSearchCriteria ().getKey ()))
    {

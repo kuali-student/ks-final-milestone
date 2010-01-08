@@ -212,6 +212,16 @@ public class MockDictionaryModel implements DictionaryModel
   return new ArrayList ();
  }
 
+ public List<Project> getProjects ()
+ {
+  return new ArrayList ();
+ }
+
+ public List<Service> getServices ()
+ {
+  return new ArrayList ();
+ }
+
 
 
 }

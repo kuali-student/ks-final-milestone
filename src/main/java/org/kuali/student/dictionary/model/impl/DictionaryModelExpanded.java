@@ -108,4 +108,14 @@ public class DictionaryModelExpanded implements DictionaryModel
   return model.getSearchTypes ();
  }
 
+ public List<Service> getServices ()
+ {
+  return model.getServices ();
+ }
+
+ public List<Project> getProjects ()
+ {
+  return model.getProjects ();
+ }
+
 }

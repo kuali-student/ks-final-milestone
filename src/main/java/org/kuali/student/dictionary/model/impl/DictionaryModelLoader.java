@@ -42,10 +42,7 @@ public class DictionaryModelLoader implements DictionaryModel
   this.orchSpreadsheetReader = orchReader;
  }
 
- /**
-  * load the dictionary entries for the default state
-  * @return
-  */
+
  @Override
  public List<Dictionary> getDictionary ()
  {
@@ -182,10 +179,7 @@ public class DictionaryModelLoader implements DictionaryModel
   return dict;
  }
 
- /**
-  * load lu States
-  * @return
-  */
+
  @Override
  public List<State> getStates ()
  {
@@ -215,10 +209,7 @@ public class DictionaryModelLoader implements DictionaryModel
   return list;
  }
 
- /**
-  * get Types
-  * @return
-  */
+ 
  @Override
  public List<Type> getTypes ()
  {
@@ -249,10 +240,7 @@ public class DictionaryModelLoader implements DictionaryModel
   return list;
  }
 
- /**
-  * load info types
-  * @return
-  */
+
  @Override
  public List<XmlType> getXmlTypes ()
  {
@@ -285,10 +273,7 @@ public class DictionaryModelLoader implements DictionaryModel
   return list;
  }
 
- /**
-  * load message structure fields
-  * @return
-  */
+ 
  @Override
  public List<Field> getFields ()
  {
@@ -362,10 +347,7 @@ public class DictionaryModelLoader implements DictionaryModel
   return list;
  }
 
- /**
-  * load message structure fields
-  * @return
-  */
+
  @Override
  public List<Constraint> getConstraints ()
  {
@@ -420,10 +402,7 @@ public class DictionaryModelLoader implements DictionaryModel
   return new ClassNameDecorator (className).decorate ();
  }
 
- /**
-  * load cross object constraints
-  * @return
-  */
+
  @Override
  public List<CrossObjectConstraint> getCrossObjectConstraints ()
  {
@@ -495,6 +474,7 @@ public class DictionaryModelLoader implements DictionaryModel
   return list;
  }
 
+  @Override
  public List<OrchObj> getOrchObjs ()
  {
   if (orchSpreadsheetReader == null)
@@ -599,6 +579,7 @@ public class DictionaryModelLoader implements DictionaryModel
   return list;
  }
 
+  @Override
  public List<MessageStructure> getMessageStructures ()
  {
   WorksheetReader worksheetReader =
@@ -633,9 +614,70 @@ public class DictionaryModelLoader implements DictionaryModel
   return list;
  }
 
+  @Override
  public List<SearchType> getSearchTypes ()
  {
    SearchModelLoader loader = new SearchModelLoader (orchSpreadsheetReader);
    return loader.getSearchTypes ();
+ }
+
+ @Override
+  public List<Service> getServices ()
+ {
+  WorksheetReader worksheetReader =
+   dictSpreadsheetReader.getWorksheetReader ("Services");
+  List<Service> list =
+   new ArrayList (worksheetReader.getEstimatedRows ());
+  while (worksheetReader.next ())
+  {
+   Service serv = new Service ();
+   serv.setKey (getFixup (worksheetReader, "key"));
+   if (serv.getKey ().equals (""))
+   {
+    continue;
+   }
+   serv.setStatus (getFixup (worksheetReader, "status"));
+   if (serv.getStatus ().equals ("ignore"))
+   {
+    continue;
+   }
+   serv.setName (getFixup (worksheetReader, "name"));
+   serv.setImplProject (getFixup (worksheetReader, "implProject"));
+   serv.setComments (getFixup (worksheetReader, "comments"));
+   list.add (serv);
+  }
+  return list;
+ }
+
+@Override
+  public List<Project> getProjects ()
+ {
+  WorksheetReader worksheetReader =
+   dictSpreadsheetReader.getWorksheetReader ("Projects");
+  List<Project> list =
+   new ArrayList (worksheetReader.getEstimatedRows ());
+  while (worksheetReader.next ())
+  {
+   Project proj = new Project ();
+   proj.setKey (getFixup (worksheetReader, "key"));
+   if (proj.getKey ().equals (""))
+   {
+    continue;
+   }
+   proj.setStatus (getFixup (worksheetReader, "status"));
+   if (proj.getStatus ().equals ("ignore"))
+   {
+    continue;
+   }
+   proj.setType (getFixup (worksheetReader, "type"));
+   proj.setName (getFixup (worksheetReader, "name"));
+   proj.setDescription (getFixup (worksheetReader, "description"));
+   proj.setDirectory (getFixup (worksheetReader, "directory"));
+   proj.setJavaDirectory (getFixup (worksheetReader, "javaDirectory"));
+   proj.setResourcesDirectory (getFixup (worksheetReader, "resourcesDirectory"));
+   proj.setComments (getFixup (worksheetReader, "comments"));
+   list.add (proj);
+  }
+  return list;
  }
 }

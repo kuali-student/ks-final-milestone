@@ -25,6 +25,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.kuali.student.dictionary.model.XmlType;
 
 /**
  * Validates the entire spreadsheet model
@@ -52,6 +53,7 @@ public class DictionaryModelValidator implements ModelValidator
   validateFields ();
   validateDefaultDictionary ();
   validateStateOverrideDictionary ();
+  validateXmlTypes ();
   checkForDuplicateDictionaryEntries ();
   return errors;
  }
@@ -81,6 +83,20 @@ public class DictionaryModelValidator implements ModelValidator
    errors.addAll (fv.validate ());
   }
  }
+
+ private void validateXmlTypes ()
+ {
+  if (model.getXmlTypes ().size () == 0)
+  {
+   addError ("No xmlTypes found");
+  }
+  for (XmlType xmlType : model.getXmlTypes ())
+  {
+   XmlTypesValidator validator = new XmlTypesValidator (xmlType, model);
+   errors.addAll (validator.validate ());
+  }
+ }
+
 
  private void validateDefaultDictionary ()
  {

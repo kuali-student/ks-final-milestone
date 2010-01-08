@@ -213,5 +213,31 @@ public class ModelFinder
   return null;
  }
 
+ public Service findService (String key)
+ {
+  for (Service serv : model.getServices ())
+  {
+   if (serv.getKey ().equalsIgnoreCase (key))
+   {
+    return serv;
+   }
+  }
+  return null;
+ }
+
+
+
+ public Project findProject (String key)
+ {
+  for (Project proj : model.getProjects ())
+  {
+   if (proj.getKey ().equalsIgnoreCase (key))
+   {
+    return proj;
+   }
+  }
+  return null;
+ }
+
 }
 

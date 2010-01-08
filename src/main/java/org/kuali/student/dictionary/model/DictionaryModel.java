@@ -85,4 +85,19 @@ public interface DictionaryModel extends SearchModel
   */
  public List<OrchObj> getOrchObjs ();
 
+
+  /**
+   * get the service definitions
+   * @return list of services known to the metadata
+   */
+ public List<Service> getServices ();
+
+
+  /**
+   * get the project definitions
+   * @return list of projects known to the metadata
+   */
+ public List<Project> getProjects ();
+
+
 }
