@@ -127,6 +127,8 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 	private LoInfoPersistenceBean loInfoBean;
     private TranslationService translationService;
 	
+	private SearchDispatcher searchDispatcher;
+	
 	public CreditCourseProposalAssembler(String proposalState) {
 		this.proposalState = proposalState;
 	}
@@ -1085,8 +1087,11 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 
 	@Override
 	public SearchResult search(SearchRequest searchRequest) {
-		// TODO Auto-generated method stub
-		return null;
+		//TODO Might want to be synchronized, or services should be dependency injected...
+		if(null == searchDispatcher){
+			searchDispatcher = new SearchDispatcher(luService, loService, proposalService);
+		}
+		return searchDispatcher.dispatchSearch(searchRequest);
 	}	
 	
 	public LuService getLuService() {
@@ -1111,5 +1116,9 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 	
 	public void setTranslationService(TranslationService translationService) {
 		this.translationService = translationService;
+	}
+
+	public void setSearchDispatcher(SearchDispatcher searchDispatcher) {
+		this.searchDispatcher = searchDispatcher;
 	}	
 }
