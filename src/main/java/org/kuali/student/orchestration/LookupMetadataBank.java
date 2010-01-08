@@ -56,7 +56,7 @@ public class LookupMetadataBank
 		lookup.setUsage (LookupMetadata.Usage.DEFAULT);
 		
 		impl = new LookupImplMetadata ();
-		impl.setService ("org");
+		impl.setService ("organization");
 		impl.setType ("JPQL");
 		impl.setInfo ("select id, type, state, shortName, longName, sortName"
 	 + "from org"
@@ -193,7 +193,7 @@ public class LookupMetadataBank
 		lookup.setUsage (LookupMetadata.Usage.CUSTOM);
 		
 		impl = new LookupImplMetadata ();
-		impl.setService ("org");
+		impl.setService ("organization");
 		impl.setType ("JPQL");
 		impl.setInfo ("select id, type, state, shortName, longName, sortName"
 	 + "from org"
@@ -318,7 +318,7 @@ public class LookupMetadataBank
 		lookup.setUsage (LookupMetadata.Usage.DEFAULT);
 		
 		impl = new LookupImplMetadata ();
-		impl.setService ("org");
+		impl.setService ("organization");
 		impl.setType ("JPQL");
 		impl.setInfo ("select key, name, desc, effective_date, expiration_date"
 	 + "from OrgType"
