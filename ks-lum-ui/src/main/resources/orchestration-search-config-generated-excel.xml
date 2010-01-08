@@ -8,7 +8,7 @@ http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/searc
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Thu Jan 07 13:59:19 EST 2010
+on: Fri Jan 08 13:45:54 EST 2010
 by: org.kuali.student.dictionary.writer.SearchModelWriter
 using: Excel Spreadsheet src/test/resources/type-state configuration.xlsExcel Spreadsheet src/test/resources/orchestration-dictionary.xls, 
  -->
@@ -41,6 +41,13 @@ using: Excel Spreadsheet src/test/resources/type-state configuration.xlsExcel Sp
 		<search:desc>Returns all org hierarchies, name and id</search:desc>
 		<search:searchResultTypeInfo><ref bean="person.results.GivenName" /></search:searchResultTypeInfo>
 		<search:searchCriteriaTypeInfo><ref bean="person.criteria.personGivenName" /></search:searchCriteriaTypeInfo>
+		</search:searchType>
+
+	<search:searchType id="lu.search.generic">
+		<search:name>Basic and Advanced Search</search:name>
+		<search:desc>Query with multiple optional elements to satisfy most advanced pickers</search:desc>
+		<search:searchResultTypeInfo><ref bean="lu.result.FullView" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="lu.criteria.luAdvancedCriteria" /></search:searchCriteriaTypeInfo>
 		</search:searchType>
 
 <!-- Search Criteria -->
@@ -82,6 +89,18 @@ using: Excel Spreadsheet src/test/resources/type-state configuration.xlsExcel Sp
 		<search:desc>No criteria needed</search:desc>
 		<search:queryParams>
 			<ref bean="person.queryParam.personGivenName" />
+		</search:queryParams>
+		</search:searchCriteriaTypeInfo>
+
+	<search:searchCriteriaTypeInfo id="lu.criteria.luAdvancedCriteria">
+		<search:name>LuAdvancedCriteria</search:name>
+		<search:desc>Advanced criteria</search:desc>
+		<search:queryParams>
+			<ref bean="lu.queryParam.luOptionalId" />
+			<ref bean="lu.queryParam.luOptionalLongName" />
+			<ref bean="lu.queryParam.luOptionalType" />
+			<ref bean="lu.queryParam.luOptionalCode" />
+			<ref bean="lu.queryParam.luOptionalLevel" />
 		</search:queryParams>
 		</search:searchCriteriaTypeInfo>
 
@@ -153,6 +172,46 @@ using: Excel Spreadsheet src/test/resources/type-state configuration.xlsExcel Sp
 			</dict:fieldDescriptor>
 		</search:queryParam>
 
+	<search:queryParam id="lu.queryParam.luOptionalId">
+			<dict:fieldDescriptor>
+			<dict:name>Id</dict:name>
+			<dict:desc>Unique identifier for a lu.</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="lu.queryParam.luOptionalLongName">
+			<dict:fieldDescriptor>
+			<dict:name>Name</dict:name>
+			<dict:desc>Long name</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="lu.queryParam.luOptionalType">
+			<dict:fieldDescriptor>
+			<dict:name>Type</dict:name>
+			<dict:desc>Lu type (course, program etc.)</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="lu.queryParam.luOptionalCode">
+			<dict:fieldDescriptor>
+			<dict:name>Code</dict:name>
+			<dict:desc>Lu code</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="lu.queryParam.luOptionalLevel">
+			<dict:fieldDescriptor>
+			<dict:name>Level</dict:name>
+			<dict:desc>Lu level grad/undergrad</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
 <!-- Search Results -->
 
 	<search:searchResultTypeInfo id="org.result.NameAndDescription">
@@ -201,6 +260,17 @@ using: Excel Spreadsheet src/test/resources/type-state configuration.xlsExcel Sp
 		<search:resultColumns>
 			<ref bean="person.resultColumn.PersonId" />
 			<ref bean="person.resultColumn.GivenName" />
+		</search:resultColumns>
+		</search:searchResultTypeInfo>
+
+	<search:searchResultTypeInfo id="lu.result.FullView">
+		<search:name>Lu Full View</search:name>
+		<search:desc>Full view of clus</search:desc>
+		<search:resultColumns>
+			<ref bean="lu.resultColumn.cluId" />
+			<ref bean="lu.resultColumn.luOptionalLongName" />
+			<ref bean="lu.resultColumn.luOptionalCode" />
+			<ref bean="lu.resultColumn.luOptionalLevel" />
 		</search:resultColumns>
 		</search:searchResultTypeInfo>
 
@@ -296,12 +366,37 @@ using: Excel Spreadsheet src/test/resources/type-state configuration.xlsExcel Sp
 		<search:dataType>string</search:dataType>
 		</search:resultColumn>
 
+	<search:resultColumn id="lu.resultColumn.cluId">
+		<search:name>Clu Id</search:name>
+		<search:desc>Identifier of a Clu</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="lu.resultColumn.luOptionalLongName">
+		<search:name>Name</search:name>
+		<search:desc>Long name for the lu, recorded as the default listing.</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="lu.resultColumn.luOptionalCode">
+		<search:name>Code</search:name>
+		<search:desc>Lu code</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="lu.resultColumn.luOptionalLevel">
+		<search:name>Level</search:name>
+		<search:desc>Level of Lu</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
 	<!-- Query Map -->
 	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
 	<property name="sourceMap">
 	<map>
-
-		<entry key="org.search.NameAndDescription"		>
+		
+		<entry
+ key="org.search.NameAndDescription"		>
 			<value>
 select id, type, state, shortName, longName, sortName
 from org
@@ -313,8 +408,9 @@ and OPTIONALLY
 shortDesc like &apos;%PARAM_DESC%: or longDesc like &apos;%PARAM_DESC%&apos;
 </value>
 		</entry>
-
-		<entry key="org.search.ByRelatedPerson"		>
+		
+		<entry
+ key="org.search.ByRelatedPerson"		>
 			<value>
 select id, type, state, shortName, longName, sortName
 from org
@@ -327,12 +423,20 @@ and org.person.relation.type in LOF_ORG_PERSON_TYPES
 and org.persson.relation.person_id in LIST OF_ORG_PERSON_IDS)
 </value>
 		</entry>
-
-		<entry key="org.search.all.active.org.types"		>
+		
+		<entry
+ key="org.search.all.active.org.types"		>
 			<value>
 select key, name, desc, effective_date, expiration_date
 from OrgType
 where expiration_date is null
+</value>
+		</entry>
+		
+		<entry
+ key="lu.search.generic"		>
+			<value>
+TBD already in xml
 </value>
 		</entry>
 	</map>
