@@ -21,10 +21,10 @@ import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.ConstraintMetadataBank;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.LookupMetadataBank;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.RecursionCounter;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalKeyDataHelper.Properties;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FindCourseHelper.Properties;
 
 
-public class CreditCourseProposalKeyDataMetadata
+public class FindCourseMetadata
 {
 	
 	public boolean matches (String inputType, String inputState, String dictType, String dictState)
@@ -54,45 +54,16 @@ public class CreditCourseProposalKeyDataMetadata
 		Metadata childMeta;
 		Metadata listMeta;
 		
-		// metadata for Title
+		// metadata for CourseId
 		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.TITLE.getKey (), childMeta);
+		mainMeta.getProperties ().put (Properties.COURSE_ID.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ON_CREATE);
-		if (this.matches (type, state, "(default)", "(default)"))
-		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single.line.text"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-		}
-		
-		// metadata for Proposer
-		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.PROPOSER.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ON_CREATE);
-		childMeta.setLookupMetadata (LookupMetadataBank.LOOKUP_BANK.get ("kuali.lu.lookup.proposers".toLowerCase ()));
+		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		childMeta.setLookupMetadata (LookupMetadataBank.LOOKUP_BANK.get ("kuali.lu.lookup.creditCoursesAndProposals".toLowerCase ()));
 		childMeta.setLookupContextPath (null);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("related.personid"));
-		}
-		
-		// metadata for Department
-		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.DEPARTMENT.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ON_CREATE);
-		if (this.matches (type, state, "(default)", "(default)"))
-		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("related.orgid"));
 		}
 		
 		recursions.increment (this.getClass ().getName ());

@@ -29,11 +29,15 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  */
 @RemoteServiceRelativePath("rpcservices/LoRpcService")
 public interface LoRpcService extends BaseRpcService {
-    
+
     public List<LoInfo> getLoByIdList(List<String> loId);
-    
+
     public List<LoCategoryTypeInfo> getLoCategoryTypes();
 
     public LoCategoryInfo createLoCategory(String loRepositoryKey,
             String loCategoryTypeKey, LoCategoryInfo loCategoryInfo);
+
+    public LoCategoryInfo getLoCategory(String loCategoryId);
+    
+    public LoCategoryTypeInfo getLoCategoryType(String loCategoryTypeKey);
 }

@@ -44,6 +44,7 @@ import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
 import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.selectors.KSSearchComponent;
 import org.kuali.student.common.ui.client.widgets.selectors.SearchComponentConfiguration;
@@ -531,6 +532,11 @@ public class LuConfigurer {
 		public HandlerRegistration addValueChangeHandler(
 				ValueChangeHandler<String> handler) {
 			return orgPicker.addValueChangeHandler(handler);
+		}
+		
+		@Override
+		public HandlerRegistration addSelectionChangeHandler(SelectionChangeHandler handler){
+			return orgPicker.addSelectionChangeHandler(handler);
 		}
     }
     

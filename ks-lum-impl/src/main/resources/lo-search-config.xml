@@ -165,6 +165,8 @@
         <search:resultColumns>
             <ref bean="lo.resultColumn.categoryId" />
             <ref bean="lo.resultColumn.categoryName" />
+            <ref bean="lo.resultColumn.categoryType" />
+            <ref bean="lo.resultColumn.categoryNameAndType" />
         </search:resultColumns>
     </search:searchResultTypeInfo>
     
@@ -210,6 +212,18 @@
         <search:dataType>string</search:dataType>
     </search:resultColumn>
         
+    <search:resultColumn id="lo.resultColumn.categoryType">
+        <search:name>Category</search:name>
+        <search:desc>Category type for a category</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+    
+    <search:resultColumn id="lo.resultColumn.categoryNameAndType">
+        <search:name>Category</search:name>
+        <search:desc>Category name concatenated with category type</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+    
     <search:resultColumn id="lo.resultColumn.categoryId">
         <search:name>Category ID</search:name>
         <search:desc>Category to be used for an LO</search:desc>
@@ -236,7 +250,7 @@
 					<value>SELECT lo.id, lo.name FROM Lo lo WHERE lo.name = :lo_queryParam_loName</value>
 				</entry>
 				<entry key="lo.search.categories">
-                    <value>SELECT cat.id, cat.name FROM LoCategory cat WHERE cat.name like :lo_queryParam_loCategoryName or cat.id = :lo_queryParam_loCategoryId</value>
+                    <value>SELECT cat.id, cat.name, cat.loCategoryType.name, cat.name||' - '||cat.loCategoryType.name FROM LoCategory cat WHERE cat.name like :lo_queryParam_loCategoryName or cat.id = :lo_queryParam_loCategoryId</value>
 				</entry>
 				<!--  These native searches are temporary solutions to allow cross service searches in advance of the KS permanent 
 				      cross service search implementation  -->

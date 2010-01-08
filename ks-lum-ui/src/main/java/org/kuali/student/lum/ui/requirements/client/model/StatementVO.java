@@ -28,23 +28,16 @@ public class StatementVO extends Token implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private LuStatementInfo luStatementInfo;
-    private List<ReqComponentVO> reqComponentVOs;
-    private List<StatementVO> statementVOs;
+    private List<ReqComponentVO> reqComponentVOs = new ArrayList<ReqComponentVO>();
+    private List<StatementVO> statementVOs = new ArrayList<StatementVO>();
     private boolean checkBoxOn;
     
-    public StatementVO() {
-        init();
+    public StatementVO() {        
     }
     
-    public StatementVO(LuStatementInfo luStatementInfo) {
-        init();
+    public StatementVO(LuStatementInfo luStatementInfo) {        
         setLuStatementInfo(luStatementInfo);
-    }    
-    
-    private void init() {
-        reqComponentVOs = new ArrayList<ReqComponentVO>();
-        statementVOs = new ArrayList<StatementVO>();
-    }
+    }        
     
     public boolean isCheckBoxOn() {
         return checkBoxOn;
@@ -492,8 +485,7 @@ public class StatementVO extends Token implements Serializable {
         return doGetSelectedStatmentVOs(this, selectedStatementVOs);
     }
     
-    private List<StatementVO> doGetSelectedStatmentVOs(StatementVO statementVO,
-            List<StatementVO> selectedStatementVOs) {
+    private List<StatementVO> doGetSelectedStatmentVOs(StatementVO statementVO, List<StatementVO> selectedStatementVOs) {
         List<StatementVO> childrenStatementVOs = statementVO.getStatementVOs();
         if (statementVO.isCheckBoxOn()) {
             selectedStatementVOs.add(statementVO);

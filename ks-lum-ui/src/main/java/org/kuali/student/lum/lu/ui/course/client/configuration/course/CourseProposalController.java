@@ -22,12 +22,15 @@ import org.kuali.student.common.ui.client.configurable.mvc.TabbedSectionLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionHandler;
+import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
+import org.kuali.student.common.ui.client.event.ValidateRequestHandler;
 import org.kuali.student.common.ui.client.event.ValidateResultEvent;
 import org.kuali.student.common.ui.client.event.ValidateResultHandler;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.mvc.ModelProvider;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.WorkQueue;
@@ -92,18 +95,81 @@ public class CourseProposalController extends TabbedSectionLayout {
         
     public CourseProposalController(){
         super();
+        initialize();
     }
     public CourseProposalController(String proposalType, String cluType){
         super();
     	this.proposalType = proposalType;
     	this.cluType = cluType;        
+        initialize();
     }
     public CourseProposalController(String proposalType, String cluType, String docId) {
     	super();
     	this.docId = docId;   	
     	this.proposalType = proposalType;
     	this.cluType = cluType;
+        initialize();
 	}
+    
+    private void initialize() {
+        super.setDefaultModelId(CourseConfigurer.CLU_PROPOSAL_MODEL);
+        super.registerModel(CourseConfigurer.CLU_PROPOSAL_MODEL, new ModelProvider<DataModel>() {
+
+            @Override
+            public void requestModel(final ModelRequestCallback<DataModel> callback) {
+                if (modelRequestQueue == null){
+                    modelRequestQueue = new WorkQueue();
+                }
+
+                WorkItem workItem = new WorkItem(){
+                    @Override
+                    public void exec(Callback<Boolean> workCompleteCallback) {
+                        if (cluProposalModel.getRoot() == null || cluProposalModel.getRoot().size() == 0){
+                            if(docId!=null){
+                                getCluProposalFromWorkflowId(callback, workCompleteCallback);
+                            } else if (proposalId != null){
+                                getCluProposalFromProposalId(callback, workCompleteCallback);
+                            } else{
+                                createNewCluProposalModel(callback, workCompleteCallback);
+                            }                
+                        } else {
+                            callback.onModelReady(cluProposalModel);
+                            workCompleteCallback.exec(true);
+                        }
+                    }               
+                };
+                modelRequestQueue.submit(workItem);
+                
+            }
+            
+        });
+        super.addApplicationEventHandler(ValidateRequestEvent.TYPE, new ValidateRequestHandler() {
+
+            @Override
+            public void onValidateRequest(ValidateRequestEvent event) {
+                requestModel(new ModelRequestCallback<DataModel>() {
+                    @Override
+                    public void onModelReady(DataModel model) {
+                        model.validate(new Callback<List<ValidationResultContainer>>() {
+                            @Override
+                            public void exec(List<ValidationResultContainer> result) {
+                                ValidateResultEvent e = new ValidateResultEvent();
+                                e.setValidationResult(result);
+                                fireApplicationEvent(e);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onRequestFail(Throwable cause) {
+                        GWT.log("Unable to retrieve model for validation", cause);
+                    }
+                    
+                });
+            }
+            
+        });
+    }
     
     private KSButton getSaveButton(){
         return new KSButton("Save", new ClickHandler(){
@@ -217,36 +283,7 @@ public class CourseProposalController extends TabbedSectionLayout {
         return LuConfigurer.LuSections.class;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public void requestModel(String modelId, final ModelRequestCallback modelRequestCallback) {
-        if (modelRequestQueue == null){
-            modelRequestQueue = new WorkQueue();
-        }
-
-        if (modelId.equals(CourseConfigurer.CLU_PROPOSAL_MODEL)){
-            WorkItem workItem = new WorkItem(){
-                @Override
-                public void exec(Callback<Boolean> workCompleteCallback) {
-                    if (cluProposalModel.getRoot() == null || cluProposalModel.getRoot().size() == 0){
-                        if(docId!=null){
-                            getCluProposalFromWorkflowId(modelRequestCallback, workCompleteCallback);
-                        } else if (proposalId != null){
-                            getCluProposalFromProposalId(modelRequestCallback, workCompleteCallback);
-                        } else{
-                            createNewCluProposalModel(modelRequestCallback, workCompleteCallback);
-                        }                
-                    } else {
-                        modelRequestCallback.onModelReady(cluProposalModel);
-                        workCompleteCallback.exec(true);
-                    }
-                }               
-            };
-            modelRequestQueue.submit(workItem);
-        } else{
-            super.requestModel(modelId, modelRequestCallback);
-        }
-    }
+   
 
     
     @SuppressWarnings("unchecked")

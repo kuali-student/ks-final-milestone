@@ -44,6 +44,7 @@ import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
 import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.selectors.KSSearchComponent;
 import org.kuali.student.common.ui.client.widgets.selectors.SearchComponentConfiguration;
@@ -69,6 +70,7 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRequisitesS
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LuConfigurer.LuSections;
 import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.widgets.AssemblerTestSection;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
 import org.kuali.student.lum.lu.ui.course.client.widgets.LOBuilder;
 import org.kuali.student.lum.lu.ui.course.client.widgets.OfferedJointlyList;
@@ -133,7 +135,7 @@ public class CourseConfigurer
         layout.addSection(new String[] {"Edit Proposal", getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateActiveDatesSection());
         layout.addSection(new String[] {"Edit Proposal", getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateFinancialsSection());   
         layout.addSection(new String[] {getLabel(LUConstants.SUMMARY_LABEL_KEY)}, generateSummarySection());
-        //layout.addSection(new String[] {"Assembler Test"}, new AssemblerTestSection(LuSections.ASSEMBLER_TEST, "Assembler Test"));
+        layout.addSection(new String[] {"Assembler Test"}, new AssemblerTestSection(LuSections.ASSEMBLER_TEST, "Assembler Test"));
         
         layout.addTool(new CollaboratorTool());
         layout.addTool(new CommentPanel(LuSections.COMMENTS, LUConstants.TOOL_COMMENTS));
@@ -434,7 +436,7 @@ public class CourseConfigurer
 
         public Widget createItem() {
         	VerticalSection item = new VerticalSection();
-            addField(item, ACTIVITIES, null, new CourseActivityList(QueryPath.concat(parentPath, QueryPath.getWildCard(), ACTIVITIES).toString()), parentPath);
+            addField(item, ACTIVITIES, null, new CourseActivityList(QueryPath.concat(parentPath, String.valueOf(itemCount-1), ACTIVITIES).toString()), parentPath);
             return item;
         }
     }
@@ -449,6 +451,7 @@ public class CourseConfigurer
         }
 
         public Widget createItem() {
+            String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
             CustomNestedSection activity = new CustomNestedSection();
             addField(activity, ACTIVITY_TYPE, getLabel(LUConstants.ACTIVITY_TYPE_LABEL_KEY), new CluActivityType(), parentPath);
             activity.nextRow();
@@ -465,15 +468,15 @@ public class CourseConfigurer
             activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
             // FIXME need to get the term offered added to the activity metadata?
 //            activity.addField(new FieldDescriptor("term", getLabel(LUConstants.TERM_LITERAL_LABEL_KEY), Type.STRING, new AtpTypeList())); 
-            addField(activity, CreditCourseActivityConstants.DURATION + "/" + CreditCourseActivityDurationConstants.QUANTITY, getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY));
-            addField(activity, CreditCourseActivityConstants.DURATION + "/" + CreditCourseActivityDurationConstants.TIME_UNIT, "Duration Type", new DurationAtpTypeList());
+            addField(activity, CreditCourseActivityConstants.DURATION + "/" + CreditCourseActivityDurationConstants.QUANTITY, getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY), path);
+            addField(activity, CreditCourseActivityConstants.DURATION + "/" + CreditCourseActivityDurationConstants.TIME_UNIT, "Duration Type", new DurationAtpTypeList(), path);
 
             activity.nextRow();
             activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.HRS, "Contact Hours");
+            addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.HRS, "Contact Hours" , path);
             // FIXME look up what the label and implement as dropdown
-            addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.PER, null,  new ContactHoursAtpTypeList());
-            addField(activity, DEFAULT_ENROLLMENT_ESTIMATE, getLabel(LUConstants.CLASS_SIZE_LABEL_KEY));
+            addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.PER, null,  new ContactHoursAtpTypeList(), path);
+            addField(activity, DEFAULT_ENROLLMENT_ESTIMATE, getLabel(LUConstants.CLASS_SIZE_LABEL_KEY), path);
 
             return activity;
         }
@@ -915,15 +918,19 @@ public class CourseConfigurer
     }
     
     private void addField(Section section, String fieldKey, String fieldLabel) {
-    	addField(section, fieldKey, fieldLabel, null);
+    	addField(section, fieldKey, fieldLabel, null, null);
     }
     private void addField(Section section, String fieldKey, String fieldLabel, Widget widget) {
     	addField(section, fieldKey, fieldLabel, widget, null);
     }
+    private void addField(Section section, String fieldKey, String fieldLabel, String parentPath) {
+        addField(section, fieldKey, fieldLabel, null, parentPath);
+    }
     private void addField(Section section, String fieldKey, String fieldLabel, Widget widget, String parentPath) {
-    	Metadata meta = modelDefinition.getMetadata(QueryPath.concat(parentPath, fieldKey));
+        QueryPath path = QueryPath.concat(parentPath, fieldKey);
+    	Metadata meta = modelDefinition.getMetadata(path);
     	
-    	FieldDescriptor fd = new FieldDescriptor(fieldKey, fieldLabel, meta);
+    	FieldDescriptor fd = new FieldDescriptor(path.toString(), fieldLabel, meta);
     	if (widget != null) {
     		fd.setFieldWidget(widget);
     	}

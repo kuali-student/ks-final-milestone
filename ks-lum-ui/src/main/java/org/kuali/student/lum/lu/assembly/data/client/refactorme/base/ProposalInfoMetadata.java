@@ -17,12 +17,11 @@ package org.kuali.student.lum.lu.assembly.data.client.refactorme.base;
 
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.ConstraintMetadataBank;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.RecursionCounter;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.ProposalInfoHelper.Properties;
 
 
@@ -40,14 +39,18 @@ public class ProposalInfoMetadata
 		Metadata mainMeta = new Metadata ();
 		mainMeta.setDataType (Data.DataType.DATA);
 		mainMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		Map <String, Integer> recursions = new HashMap ();
-		loadChildMetadata (mainMeta, type, state, recursions);
+		loadChildMetadata (mainMeta, type, state, new RecursionCounter ());
 		return mainMeta;
 	}
 	
-	public void loadChildMetadata (Metadata mainMeta, String type, String state,  Map<String, Integer> recursions)
+	public void loadChildMetadata (Metadata mainMeta, String type, String state,  RecursionCounter recursions)
 	{
-		int recurseLevel = increment (recursions, "ProposalInfoMetadata");
+		if (recursions.decrement (this.getClass ().getName ()) < 0)
+		{
+			recursions.increment (this.getClass ().getName ());
+			mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
+			return;
+		}
 		
 		Metadata childMeta;
 		Metadata listMeta;
@@ -192,14 +195,7 @@ public class ProposalInfoMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.meta.data"));
 		}
-		if (recurseLevel >= 1)
-		{
-			mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
-		}
-		else
-		{
-			new MetaInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
-		}
+		new MetaInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
 		
 		// metadata for type
 		childMeta = new Metadata ();
@@ -237,18 +233,7 @@ public class ProposalInfoMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.id"));
 		}
 		
-	}
-	
-	private int increment (Map<String, Integer> recursions, String key)
-	{
-		Integer recurseLevel = recursions.get (key);
-		if (recurseLevel == null)
-		{
-			recursions.put (key, 0);
-			return 0;
-		}
-		recursions.put (key, recurseLevel.intValue () + 1);
-		return recurseLevel.intValue ();
+		recursions.increment (this.getClass ().getName ());
 	}
 }
 

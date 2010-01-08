@@ -39,6 +39,7 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.CreateCancelGroup
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.CreateCancelEnum;
 import org.kuali.student.common.ui.client.widgets.focus.FocusGroup;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
@@ -83,6 +84,7 @@ public class LOCategoryBuilder extends Composite implements HasModelDTOValue {
     private LOCategoryPicker picker ;
 
     LOCategoryList categoryList;
+    Map<String, LoCategoryTypeInfo> categoryTypeMap ;
 
     VerticalPanel root = new VerticalPanel();
 
@@ -118,7 +120,7 @@ public class LOCategoryBuilder extends Composite implements HasModelDTOValue {
         suggestPanel.add(addButton);
 
         selectedPanel.add(categoryList);
-        main.add(getLabel(LUConstants.LO_CATEGORY_CODE_KEY));
+        main.add(getLabel(LUConstants.LO_CATEGORY_KEY));
         main.add(suggestPanel);
         main.add(selectedPanel);
         root.add(main);
@@ -130,21 +132,26 @@ public class LOCategoryBuilder extends Composite implements HasModelDTOValue {
 
     private void addEnteredCategory() {
 
-        String categoryId = picker.getSelectedId();
-
         if (categoryList == null)
             categoryList = new LOCategoryList();
 
-        if (categoryId.trim().equals("")) {
+        if (picker.getSelectedId().trim().equals("")) {
             showNewCategoryWindow();
         }
         else {
-            LoCategoryInfo category = new LoCategoryInfo();
-            category.setId(picker.getSelectedId());
-            category.setName(picker.getText());
-            category.setState("active");
-            addCategory(category);   
-         }
+            loRpcServiceAsync.getLoCategory(picker.getSelectedId(), new AsyncCallback<LoCategoryInfo>() {
+
+                @Override
+                public void onFailure(Throwable caught) {
+                    Window.alert("getLoCategory failed " + caught.getMessage());
+                }
+
+                @Override
+                public void onSuccess(LoCategoryInfo result) {
+                    addCategory(result);   
+                }
+            });
+        }
     }
 
     private void showNewCategoryWindow() {
@@ -164,7 +171,9 @@ public class LOCategoryBuilder extends Composite implements HasModelDTOValue {
             public void onSuccess(List<LoCategoryTypeInfo> result) {
                 final LOCategoryTypeInfoList list = new LOCategoryTypeInfoList(result);
                 typesDropDown.setListItems(list);
-                String a = picker.getText();
+                if (categoryTypeMap == null) {
+                    loadCategoryTypes(result);                    
+                }
                 KSThinTitleBar titleBar = new KSThinTitleBar("Create New Category " + picker.getText());//+ enteredWord);
                 main.add(titleBar);
                 main.add(new KSLabel("Select a Type"));
@@ -178,6 +187,7 @@ public class LOCategoryBuilder extends Composite implements HasModelDTOValue {
                                 final LoCategoryInfo loCategoryInfo = new LoCategoryInfo();
                                 loCategoryInfo.setName(picker.getText());
                                 loCategoryInfo.setState("active");
+                                loCategoryInfo.setType(typesDropDown.getSelectedItem());
 
                                 loRpcServiceAsync.createLoCategory("kuali.loRepository.key.singleUse", typesDropDown.getSelectedItem(),
                                         loCategoryInfo, new AsyncCallback<LoCategoryInfo>() {
@@ -211,12 +221,48 @@ public class LOCategoryBuilder extends Composite implements HasModelDTOValue {
                 createCategoryWindow.show();
             }
 
+
+
         });
     }
 
-    private void addCategory(LoCategoryInfo category) {
-        categoryList.addItem(category);
-        picker.reset();
+    private void loadCategoryTypes(List<LoCategoryTypeInfo> categoryTypes) {
+        if (categoryTypeMap == null) {
+            categoryTypeMap = new HashMap<String, LoCategoryTypeInfo>();
+        }                
+        for (LoCategoryTypeInfo i: categoryTypes) {
+            categoryTypeMap.put(i.getId(), i);
+        }
+    }
+
+    private void addCategory(final LoCategoryInfo category) {
+        if (categoryTypeMap == null) {
+            categoryTypeMap = new HashMap<String, LoCategoryTypeInfo>();
+        }
+
+        if (categoryTypeMap.containsKey(category.getType())) {
+            categoryList.addItem(category);
+            picker.reset();
+        }
+        else {
+            loRpcServiceAsync.getLoCategoryType(category.getType(), new AsyncCallback<LoCategoryTypeInfo> () {
+
+                @Override
+                public void onFailure(Throwable caught) {
+                    Window.alert("getLoCategoryType failed " + caught.getMessage());
+                }
+
+                @Override
+                public void onSuccess(LoCategoryTypeInfo result) {
+                    categoryTypeMap.put(result.getId(), result);
+                    categoryList.addItem(category);
+                    picker.reset();
+
+                }
+
+            });        
+        }
+
     }
 
     private KSLabel getLabel(String labelKey) {
@@ -264,258 +310,275 @@ public class LOCategoryBuilder extends Composite implements HasModelDTOValue {
      *  
      * @author Kuali Rice Team (kuali-rice@googlegroups.com)
      *
-     */private class LOCategoryPicker extends Composite implements SuggestPicker {
+     */
+    private class LOCategoryPicker extends Composite implements SuggestPicker {
 
-        final SearchSuggestOracle luSearchOracle = new SearchSuggestOracle(loRpcServiceAsync,
-                "lo.search.categories",
-                "lo.queryParam.loCategoryName",
-                "lo.queryParam.loCategoryId",
-                "lo.resultColumn.categoryId", 
-        "lo.resultColumn.categoryName");
+         final SearchSuggestOracle luSearchOracle = new SearchSuggestOracle(loRpcServiceAsync,
+                 "lo.search.categories",
+                 "lo.queryParam.loCategoryName",
+                 "lo.queryParam.loCategoryId",
+                 "lo.resultColumn.categoryId", 
+         "lo.resultColumn.categoryNameAndType");
 
-        final KSSuggestBox suggestBox = new KSSuggestBox(luSearchOracle);
+         final KSSuggestBox suggestBox = new KSSuggestBox(luSearchOracle);
 
-        private final FocusGroup focus = new FocusGroup(this);
+         private final FocusGroup focus = new FocusGroup(this);
 
-        private VerticalPanel main = new VerticalPanel();
+         private VerticalPanel main = new VerticalPanel();
 
-        protected LOCategoryPicker() {
-            super();
-            init();
-        }
+         protected LOCategoryPicker() {
+             super();
+             init();
+         }
 
-        public String getSelectedId() {
-            return suggestBox.getSelectedId();
-        }
+         public String getSelectedId() {
+             return suggestBox.getSelectedId();
+         }
 
-        private void init () {
+         private void init () {
 
-            focus.addWidget(suggestBox);
+             focus.addWidget(suggestBox);
 
-            luSearchOracle.setTextWidget(suggestBox.getTextBox());
-//          final ArrayList<QueryParamValue> params = new ArrayList<QueryParamValue>();
-//          QueryParamValue luStateParam = new QueryParamValue();
-//          luStateParam.setKey("lu.queryParam.cluState");     
-//          luStateParam.setValue(STATE_ACTIVATED);
-//          params.add(luStateParam);
-//          luSearchOracle.setAdditionalQueryParams(params);
+             luSearchOracle.setTextWidget(suggestBox.getTextBox());
+//           final ArrayList<QueryParamValue> params = new ArrayList<QueryParamValue>();
+//           QueryParamValue luStateParam = new QueryParamValue();
+//           luStateParam.setKey("lu.queryParam.cluState");     
+//           luStateParam.setValue(STATE_ACTIVATED);
+//           params.add(luStateParam);
+//           luSearchOracle.setAdditionalQueryParams(params);
 
-            main.add(suggestBox);
-            initWidget(main);
-        }
+             main.add(suggestBox);
+             initWidget(main);
+         }
 
 
+
+         @Override
+         public String getValue() {
+             return suggestBox.getSelectedId();
+         }
+
+         @Override
+         public void setValue(String value) {
+             setValue(value, true);
+         }
+
+         @Override
+         public void setValue(String value, boolean fireEvents) {
+             suggestBox.reset();
+             suggestBox.setValue(value, fireEvents);
+         }
+
+
+         @Override
+         public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
+             return suggestBox.addValueChangeHandler(handler);
+         }
+
+         @Override
+         public void fireEvent(GwtEvent<?> event) {
+             super.fireEvent(event);
+         }
+
+         public void reset(){
+             suggestBox.reset();
+         }
+
+         @Override
+         public HandlerRegistration addFocusHandler(FocusHandler handler) {
+             return focus.addFocusHandler(handler);
+         }
+
+         @Override
+         public HandlerRegistration addBlurHandler(BlurHandler handler) {
+             return focus.addBlurHandler(handler);
+         }
+
+         public String getText() {
+             return suggestBox.getText();
+         }
 
         @Override
-        public String getValue() {
-            return suggestBox.getSelectedId();
+        public HandlerRegistration addSelectionChangeHandler(SelectionChangeHandler handler) {
+            return suggestBox.addSelectionChangeHandler(handler);
         }
+     }
 
-        @Override
-        public void setValue(String value) {
-            setValue(value, true);
-        }
+     private class LOCategoryTypeInfoList implements ListItems{
+         Map<String, LoCategoryTypeInfo> loTypeMap = new HashMap<String, LoCategoryTypeInfo>();
 
-        @Override
-        public void setValue(String value, boolean fireEvents) {
-            suggestBox.reset();
-            suggestBox.setValue(value, fireEvents);
-        }
+         public LOCategoryTypeInfoList(List<LoCategoryTypeInfo> loTypes){
+             for (LoCategoryTypeInfo type: loTypes){
+                 loTypeMap.put(type.getId(), type);
+             }
+         }
 
+         public List<String> getAttrKeys() {
+             return Arrays.asList("Name");
+         }
 
-        @Override
-        public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
-            return suggestBox.addValueChangeHandler(handler);
-        }
+         public String getItemAttribute(String id, String attrkey) {
+             LoCategoryTypeInfo lo = loTypeMap.get(id);
 
-        @Override
-        public void fireEvent(GwtEvent<?> event) {
-            super.fireEvent(event);
-        }
+             if (attrkey.equals("Name")){
+                 return lo.getName(); 
+             }
 
-        public void reset(){
-            suggestBox.reset();
-        }
+             return null;
+         }
 
-        @Override
-        public HandlerRegistration addFocusHandler(FocusHandler handler) {
-            return focus.addFocusHandler(handler);
-        }
+         public int getItemCount() {
+             return loTypeMap.size();
+         }
 
-        @Override
-        public HandlerRegistration addBlurHandler(BlurHandler handler) {
-            return focus.addBlurHandler(handler);
-        }
+         public List<String> getItemIds() {
+             List<String> keys = new ArrayList<String>();
 
-        public String getText() {
-            return suggestBox.getText();
-        }
+             for (String s:loTypeMap.keySet()){
+                 keys.add(s);
+             }
 
-    }
+             return keys;
+         }
 
-    private class LOCategoryTypeInfoList implements ListItems{
-        Map<String, LoCategoryTypeInfo> loTypeMap = new HashMap<String, LoCategoryTypeInfo>();
+         public String getItemText(String id) {
+             return ((LoCategoryTypeInfo)loTypeMap.get(id)).getName();
+         }
+     }
 
-        public LOCategoryTypeInfoList(List<LoCategoryTypeInfo> loTypes){
-            for (LoCategoryTypeInfo type: loTypes){
-                loTypeMap.put(type.getId(), type);
-            }
-        }
+     /**
+      * 
+      * This inner class handles adding and removing selected categories to/from 
+      * a list in the CategoryPicker.  Uses ModelDTOList
+      *  
+      * TODO: Still valid in DOL? 
+      * 
+      * @author Kuali Rice Team (kuali-rice@googlegroups.com)
+      *
+      */    
+     public class LOCategoryList extends Composite {
+         
+         private static final String CATEGORY_TYPE_SEPARATOR = " - ";
+         protected List<ModelDTO> modelDTOList = new ArrayList<ModelDTO>();
+         VerticalPanel main = new VerticalPanel();
 
-        public List<String> getAttrKeys() {
-            return Arrays.asList("Name");
-        }
+         FlexTable categoryTable = new FlexTable();
 
-        public String getItemAttribute(String id, String attrkey) {
-            LoCategoryTypeInfo lo = loTypeMap.get(id);
+         final ClickHandler deleteHandler = new ClickHandler() {
+             @Override
+             public void onClick(ClickEvent event) {
+                 Cell cell = categoryTable.getCellForEvent(event);
+                 int r = cell.getRowIndex();
+                 KSLabel label = (KSLabel)categoryTable.getWidget(r, 0);
+                 categoryList.removeItem(label.getText());
+                 categoryList.redraw();
+             }                   
+         };
 
-            if (attrkey.equals("Name")){
-                return lo.getName(); 
-            }
+         public LOCategoryList(){
 
-            return null;
-        }
+             main.add(categoryTable);
+             super.initWidget(main);
 
-        public int getItemCount() {
-            return loTypeMap.size();
-        }
+         }
 
-        public List<String> getItemIds() {
-            List<String> keys = new ArrayList<String>();
+         public HandlerRegistration addValueChangeHandler(ValueChangeHandler<ModelDTOValue> handler) {
+             return null;
+         }
 
-            for (String s:loTypeMap.keySet()){
-                keys.add(s);
-            }
+         public void updateModelDTOValue() {
+             categoryList.updateModelDTOValue();
+         }
 
-            return keys;
-        }
+         public void redraw() {
 
-        public String getItemText(String id) {
-            return ((LoCategoryTypeInfo)loTypeMap.get(id)).getName();
-        }
-    }
+             int row = 0;
+             int col = 0;
 
-/**
- * 
- * This inner class handles adding and removing selected categories to/from 
- * a list in the CategoryPicker.  Uses ModelDTOList
- *  
- * TODO: Still valid in DOL? 
- * 
- * @author Kuali Rice Team (kuali-rice@googlegroups.com)
- *
- */    public class LOCategoryList extends Composite {
-        protected List<ModelDTO> modelDTOList = new ArrayList<ModelDTO>();
-        VerticalPanel main = new VerticalPanel();
+             categoryTable.clear();
 
-        FlexTable categoryTable = new FlexTable();
+             for (int i = 0; i < modelDTOList.size(); i++) {
+                 String name = ((ModelDTOValue.StringType)modelDTOList.get(i).get("name")).get();
+                 String typeKey = ((ModelDTOValue.StringType)modelDTOList.get(i).get("type")).get();
+                 String typeName = categoryTypeMap.get(typeKey).getName();
+                 categoryTable.setWidget(row, col++, new KSLabel(name + CATEGORY_TYPE_SEPARATOR + typeName));
+                 KSLabel deleteLabel = new KSLabel("[x]");
+                 deleteLabel.addStyleName("KS-LOBuilder-Search-Link");
+                 deleteLabel.addClickHandler(deleteHandler);
+                 categoryTable.setWidget(row, col++, deleteLabel);
+                 row++;
+                 col = 0;                                
+             }
+         }
 
-        final ClickHandler deleteHandler = new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                Cell cell = categoryTable.getCellForEvent(event);
-                int r = cell.getRowIndex();
-                KSLabel label = (KSLabel)categoryTable.getWidget(r, 0);
-                categoryList.removeItem(label.getText());
-                categoryList.redraw();
-            }                   
-        };
-        
-        public LOCategoryList(){
+         public ModelDTOValue getValue() {
+             ModelDTOValue.ListType value = new ModelDTOValue.ListType();
 
-            main.add(categoryTable);
-            super.initWidget(main);
+             // fill the list of ModelDTO to ModelDTOValue.ModelDTOType 
+             List<ModelDTOValue> valueList = new ArrayList<ModelDTOValue>();
+             for(ModelDTO dto:modelDTOList){
+                 ModelDTOValue.ModelDTOType dtoValue = new ModelDTOValue.ModelDTOType();
+                 dtoValue.set(dto);
+                 valueList.add(dtoValue);
+             }
+             value.set(valueList);
 
-        }
+             return value;
+         }
 
-        public HandlerRegistration addValueChangeHandler(ValueChangeHandler<ModelDTOValue> handler) {
-            return null;
-        }
+         public void setValue(ModelDTOValue value) {
+             ModelDTOValue.ListType list = (ModelDTOValue.ListType) value;
+             modelDTOList = new ArrayList<ModelDTO>();
+             // fill the ModelDTOValue.ModelDTOType to List<ModelDTO>
+             // when the server hasn't been called yet, there's not list in LoModelDTO
+             if (null != list) {
+                 for(ModelDTOValue dto : list.get()){
+                     ModelDTOValue.ModelDTOType dtoType = (ModelDTOValue.ModelDTOType)dto;
+                     modelDTOList.add(dtoType.get());
+                 }
+             }
+             redraw();            
+         }
 
-        public void updateModelDTOValue() {
-            categoryList.updateModelDTOValue();
-        }
+         public void removeItem(String text) {
 
-        public void redraw() {
+             int a  = text.indexOf(CATEGORY_TYPE_SEPARATOR);
+             text = text.substring(0,a);
 
-            int row = 0;
-            int col = 0;
+             int i = 0;
+             for (ModelDTO dto : modelDTOList) {
+                 String name = ((ModelDTOValue.StringType)dto.get("name")).get();
 
-            categoryTable.clear();
+                 if (name.equals(text)) {
+                     modelDTOList.remove(i);
+                     break;
+                 }
+                 i++;                              
+             }
+             redraw();
+         }
 
-            for (int i = 0; i < modelDTOList.size(); i++) {
-                String name = ((ModelDTOValue.StringType)modelDTOList.get(i).get("name")).get();
-                categoryTable.setWidget(row, col++, new KSLabel(name));
-                KSLabel deleteLabel = new KSLabel("[x]");
-                deleteLabel.addStyleName("KS-LOBuilder-Search-Link");
-                deleteLabel.addClickHandler(deleteHandler);
-                categoryTable.setWidget(row, col++, deleteLabel);
-                row++;
-                col = 0;                                
-            }
-        }
-        
-        public ModelDTOValue getValue() {
-            ModelDTOValue.ListType value = new ModelDTOValue.ListType();
+         public void addItem(LoCategoryInfo category) {
+             ModelDTO modelDTO = new ModelDTO();
+             ModelDTOValue.StringType nameValue = new ModelDTOValue.StringType();
+             nameValue.set(category.getName());            
+             modelDTO.put("name", nameValue);
 
-            // fill the list of ModelDTO to ModelDTOValue.ModelDTOType 
-            List<ModelDTOValue> valueList = new ArrayList<ModelDTOValue>();
-            for(ModelDTO dto:modelDTOList){
-                ModelDTOValue.ModelDTOType dtoValue = new ModelDTOValue.ModelDTOType();
-                dtoValue.set(dto);
-                valueList.add(dtoValue);
-            }
-            value.set(valueList);
+             ModelDTOValue.StringType idValue = new ModelDTOValue.StringType();
+             idValue.set(category.getId());            
+             modelDTO.put("id", idValue);
 
-            return value;
-        }
+             ModelDTOValue.StringType stateValue = new ModelDTOValue.StringType();
+             stateValue.set(category.getState());            
+             modelDTO.put("state", stateValue);
 
-        public void setValue(ModelDTOValue value) {
-            ModelDTOValue.ListType list = (ModelDTOValue.ListType) value;
-            modelDTOList = new ArrayList<ModelDTO>();
-            // fill the ModelDTOValue.ModelDTOType to List<ModelDTO>
-            // when the server hasn't been called yet, there's not list in LoModelDTO
-            if (null != list) {
-                for(ModelDTOValue dto : list.get()){
-                    ModelDTOValue.ModelDTOType dtoType = (ModelDTOValue.ModelDTOType)dto;
-                    modelDTOList.add(dtoType.get());
-                }
-            }
-            redraw();            
-        }
+             ModelDTOValue.StringType typeValue = new ModelDTOValue.StringType();
+             typeValue.set(category.getType());            
+             modelDTO.put("type", typeValue);
 
-        public void removeItem(String text) {
-           
-            int i = 0;
-            for (ModelDTO dto : modelDTOList) {
-                String name = ((ModelDTOValue.StringType)dto.get("name")).get();
-                
-                if (name.equals(text)) {
-                    modelDTOList.remove(i);
-                    break;
-                }
-                i++;                              
-            }
-            redraw();
-        }
+             modelDTOList.add(modelDTO);
 
-        public void addItem(LoCategoryInfo category) {
-            ModelDTO modelDTO = new ModelDTO();
-            ModelDTOValue.StringType name = new ModelDTOValue.StringType();
-            name.set(category.getName());            
-            modelDTO.put("name", name);
-            
-            ModelDTOValue.StringType id = new ModelDTOValue.StringType();
-            id.set(category.getId());            
-            modelDTO.put("id", id);
-
-            ModelDTOValue.StringType state = new ModelDTOValue.StringType();
-            state.set(category.getState());            
-            modelDTO.put("state", state);
-
-            modelDTOList.add(modelDTO);
-            
-            redraw();
-        }
-    }        
+             redraw();
+         }
+     }        
 }

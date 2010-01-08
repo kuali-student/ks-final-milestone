@@ -17,12 +17,11 @@ package org.kuali.student.lum.lu.assembly.data.client.refactorme.base;
 
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.ConstraintMetadataBank;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.RecursionCounter;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.CluInfoHelper.Properties;
 
 
@@ -40,14 +39,18 @@ public class CluInfoMetadata
 		Metadata mainMeta = new Metadata ();
 		mainMeta.setDataType (Data.DataType.DATA);
 		mainMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		Map <String, Integer> recursions = new HashMap ();
-		loadChildMetadata (mainMeta, type, state, recursions);
+		loadChildMetadata (mainMeta, type, state, new RecursionCounter ());
 		return mainMeta;
 	}
 	
-	public void loadChildMetadata (Metadata mainMeta, String type, String state,  Map<String, Integer> recursions)
+	public void loadChildMetadata (Metadata mainMeta, String type, String state,  RecursionCounter recursions)
 	{
-		int recurseLevel = increment (recursions, "CluInfoMetadata");
+		if (recursions.decrement (this.getClass ().getName ()) < 0)
+		{
+			recursions.increment (this.getClass ().getName ());
+			mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
+			return;
+		}
 		
 		Metadata childMeta;
 		Metadata listMeta;
@@ -62,14 +65,7 @@ public class CluInfoMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 		}
-		if (recurseLevel >= 1)
-		{
-			mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
-		}
-		else
-		{
-			new CluIdentifierInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
-		}
+		new CluIdentifierInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
 		
 		// metadata for alternateIdentifiers
 		childMeta = new Metadata ();
@@ -85,14 +81,7 @@ public class CluInfoMetadata
 		listMeta.setDataType (Data.DataType.DATA);
 		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
-		if (recurseLevel >= 1)
-		{
-			mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
-		}
-		else
-		{
-			new CluIdentifierInfoMetadata ().loadChildMetadata (listMeta, type, state, recursions);
-		}
+		new CluIdentifierInfoMetadata ().loadChildMetadata (listMeta, type, state, recursions);
 		
 		// metadata for academicSubjectOrgs
 		childMeta = new Metadata ();
@@ -108,14 +97,7 @@ public class CluInfoMetadata
 		listMeta.setDataType (Data.DataType.DATA);
 		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
-		if (recurseLevel >= 1)
-		{
-			mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
-		}
-		else
-		{
-			new AcademicSubjectOrgInfoMetadata ().loadChildMetadata (listMeta, type, state, recursions);
-		}
+		new AcademicSubjectOrgInfoMetadata ().loadChildMetadata (listMeta, type, state, recursions);
 		
 		// metadata for studySubjectArea
 		childMeta = new Metadata ();
@@ -139,14 +121,7 @@ public class CluInfoMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 		}
-		if (recurseLevel >= 1)
-		{
-			mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
-		}
-		else
-		{
-			new RichTextInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
-		}
+		new RichTextInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
 		
 		// metadata for marketingDesc
 		childMeta = new Metadata ();
@@ -158,14 +133,7 @@ public class CluInfoMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 		}
-		if (recurseLevel >= 1)
-		{
-			mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
-		}
-		else
-		{
-			new RichTextInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
-		}
+		new RichTextInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
 		
 		// metadata for campusLocationList
 		childMeta = new Metadata ();
@@ -197,14 +165,7 @@ public class CluInfoMetadata
 		listMeta.setDataType (Data.DataType.DATA);
 		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
-		if (recurseLevel >= 1)
-		{
-			mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
-		}
-		else
-		{
-			new AccreditationInfoMetadata ().loadChildMetadata (listMeta, type, state, recursions);
-		}
+		new AccreditationInfoMetadata ().loadChildMetadata (listMeta, type, state, recursions);
 		
 		// metadata for primaryAdminOrg
 		childMeta = new Metadata ();
@@ -216,14 +177,7 @@ public class CluInfoMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 		}
-		if (recurseLevel >= 1)
-		{
-			mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
-		}
-		else
-		{
-			new AdminOrgInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
-		}
+		new AdminOrgInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
 		
 		// metadata for alternateAdminOrgs
 		childMeta = new Metadata ();
@@ -239,14 +193,7 @@ public class CluInfoMetadata
 		listMeta.setDataType (Data.DataType.DATA);
 		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
-		if (recurseLevel >= 1)
-		{
-			mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
-		}
-		else
-		{
-			new AdminOrgInfoMetadata ().loadChildMetadata (listMeta, type, state, recursions);
-		}
+		new AdminOrgInfoMetadata ().loadChildMetadata (listMeta, type, state, recursions);
 		
 		// metadata for primaryInstructor
 		childMeta = new Metadata ();
@@ -258,14 +205,7 @@ public class CluInfoMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 		}
-		if (recurseLevel >= 1)
-		{
-			mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
-		}
-		else
-		{
-			new CluInstructorInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
-		}
+		new CluInstructorInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
 		
 		// metadata for instructors
 		childMeta = new Metadata ();
@@ -281,14 +221,7 @@ public class CluInfoMetadata
 		listMeta.setDataType (Data.DataType.DATA);
 		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
-		if (recurseLevel >= 1)
-		{
-			mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
-		}
-		else
-		{
-			new CluInstructorInfoMetadata ().loadChildMetadata (listMeta, type, state, recursions);
-		}
+		new CluInstructorInfoMetadata ().loadChildMetadata (listMeta, type, state, recursions);
 		
 		// metadata for expectedFirstAtp
 		childMeta = new Metadata ();
@@ -336,14 +269,7 @@ public class CluInfoMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 		}
-		if (recurseLevel >= 1)
-		{
-			mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
-		}
-		else
-		{
-			new TimeAmountInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
-		}
+		new TimeAmountInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
 		
 		// metadata for stdDuration
 		childMeta = new Metadata ();
@@ -355,14 +281,7 @@ public class CluInfoMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 		}
-		if (recurseLevel >= 1)
-		{
-			mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
-		}
-		else
-		{
-			new TimeAmountInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
-		}
+		new TimeAmountInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
 		
 		// metadata for canCreateLui
 		childMeta = new Metadata ();
@@ -402,14 +321,7 @@ public class CluInfoMetadata
 		listMeta.setDataType (Data.DataType.DATA);
 		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
-		if (recurseLevel >= 1)
-		{
-			mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
-		}
-		else
-		{
-			new LuCodeInfoMetadata ().loadChildMetadata (listMeta, type, state, recursions);
-		}
+		new LuCodeInfoMetadata ().loadChildMetadata (listMeta, type, state, recursions);
 		
 		// metadata for publishingInfo
 		childMeta = new Metadata ();
@@ -421,14 +333,7 @@ public class CluInfoMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
 		}
-		if (recurseLevel >= 1)
-		{
-			mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
-		}
-		else
-		{
-			new CluPublishingInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
-		}
+		new CluPublishingInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
 		
 		// metadata for nextReviewPeriod
 		childMeta = new Metadata ();
@@ -529,14 +434,7 @@ public class CluInfoMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 		}
-		if (recurseLevel >= 1)
-		{
-			mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
-		}
-		else
-		{
-			new CluFeeInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
-		}
+		new CluFeeInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
 		
 		// metadata for accountingInfo
 		childMeta = new Metadata ();
@@ -548,14 +446,7 @@ public class CluInfoMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 		}
-		if (recurseLevel >= 1)
-		{
-			mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
-		}
-		else
-		{
-			new CluAccountingInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
-		}
+		new CluAccountingInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
 		
 		// metadata for attributes
 		childMeta = new Metadata ();
@@ -578,14 +469,7 @@ public class CluInfoMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("read.only"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 		}
-		if (recurseLevel >= 1)
-		{
-			mainMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
-		}
-		else
-		{
-			new MetaInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
-		}
+		new MetaInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
 		
 		// metadata for type
 		childMeta = new Metadata ();
@@ -625,18 +509,7 @@ public class CluInfoMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.id"));
 		}
 		
-	}
-	
-	private int increment (Map<String, Integer> recursions, String key)
-	{
-		Integer recurseLevel = recursions.get (key);
-		if (recurseLevel == null)
-		{
-			recursions.put (key, 0);
-			return 0;
-		}
-		recursions.put (key, recurseLevel.intValue () + 1);
-		return recurseLevel.intValue ();
+		recursions.increment (this.getClass ().getName ());
 	}
 }
 

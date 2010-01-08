@@ -20,13 +20,13 @@ import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
 
 
-public class CopyFromSingleUseLosButtonHelper
+public class FindCourseHelper
 {
 	private static final long serialVersionUID = 1;
 	
 	public enum Properties implements PropertyEnum
 	{
-		DESCRIPTION ("description");
+		COURSE_ID ("courseId");
 		
 		private final String key;
 		
@@ -43,18 +43,18 @@ public class CopyFromSingleUseLosButtonHelper
 	}
 	private Data data;
 	
-	private CopyFromSingleUseLosButtonHelper (Data data)
+	private FindCourseHelper (Data data)
 	{
 		this.data = data;
 	}
 	
-	public static CopyFromSingleUseLosButtonHelper wrap (Data data)
+	public static FindCourseHelper wrap (Data data)
 	{
 		if (data == null)
 		{
 			 return null;
 		}
-		return new CopyFromSingleUseLosButtonHelper (data);
+		return new FindCourseHelper (data);
 	}
 	
 	public Data getData ()
@@ -63,15 +63,15 @@ public class CopyFromSingleUseLosButtonHelper
 	}
 	
 	
-	public void setDescription (Data value)
+	public void setCourseId (String value)
 	{
-		data.set (Properties.DESCRIPTION.getKey (), value);
+		data.set (Properties.COURSE_ID.getKey (), value);
 	}
 	
 	
-	public Data getDescription ()
+	public String getCourseId ()
 	{
-		return (Data) data.get (Properties.DESCRIPTION.getKey ());
+		return (String) data.get (Properties.COURSE_ID.getKey ());
 	}
 	
 }

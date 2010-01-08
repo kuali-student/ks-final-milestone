@@ -190,7 +190,7 @@ public class LUConstants {
     public static final String LO_SEARCH_LINK_KEY = "cluLOSearch";
     public static final String LO_SEARCH_AGAIN_LINK_KEY = "cluLOSearchAgain";
     public static final String LO_INSTRUCTIONS_KEY = "cluLOInstructions";
-    public static final String LO_CATEGORY_CODE_KEY = "cluLOCategoryCode";
+    public static final String LO_CATEGORY_KEY = "cluLOCategory";
 
     
     //    public static final String SYLLABUS_LABEL_KEY = "cluSyllabus";
