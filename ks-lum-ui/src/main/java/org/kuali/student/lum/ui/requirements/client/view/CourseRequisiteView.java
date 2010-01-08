@@ -158,13 +158,14 @@ public class CourseRequisiteView extends ViewComposite {
     
     private void setRuleText(String luStatementTypeKey) {
     	final RuleInfo rule = getRuleInfo(luStatementTypeKey);
-        final SimplePanel rulesText = getRulesTextPanel(luStatementTypeKey);
-        rulesText.clear();   	 	
+        final SimplePanel rulesText = getRulesTextPanel(luStatementTypeKey);  	 	
     	
     	if (rule == null) { //|| (rule.getNaturalLanguage() == null) || (rule.getNaturalLanguage().isEmpty())) {
     		String ruleText = "No " + getRuleTypeName(luStatementTypeKey).toLowerCase() + " rules have been added.";
+            rulesText.clear();
     		rulesText.add(new KSLabel(ruleText));
     	} else {
+            rulesText.clear();
             requirementsRpcServiceAsync.getNaturalLanguageForStatementVO(rule.getCluId(), rule.getStatementVO(), "KUALI.CATALOG", new AsyncCallback<String>() {
 				public void onFailure(Throwable cause) {
 	            	GWT.log("Failed to get NL for " + rule.getCluId(), cause);
@@ -173,6 +174,7 @@ public class CourseRequisiteView extends ViewComposite {
 				
 				public void onSuccess(final String statementNaturalLanguage) { 
 					rule.setNaturalLanguage(statementNaturalLanguage);
+			        rulesText.clear();
 					rulesText.add(new KSLabel(statementNaturalLanguage));
 				} 
 			}); 

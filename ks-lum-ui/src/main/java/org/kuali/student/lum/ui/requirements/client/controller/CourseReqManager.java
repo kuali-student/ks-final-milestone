@@ -107,6 +107,7 @@ public class CourseReqManager extends Controller {
 		                    	List<RuleInfo> rules = luData.getRuleInfos();
 		                    	ruleInfo = new CollectionModel<RuleInfo>();
 		                    	for (RuleInfo oneRule : rules) {
+		                    		oneRule.setId(Integer.toString(id++));
 		                    		ruleInfo.add(oneRule);
 		                    	}
 		                    	cluId = dataModel.get("course/id");

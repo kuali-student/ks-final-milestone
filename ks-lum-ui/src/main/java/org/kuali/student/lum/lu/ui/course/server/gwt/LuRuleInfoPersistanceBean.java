@@ -5,10 +5,8 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
-import org.kuali.student.lum.lu.dto.LuStatementTypeInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 import org.kuali.student.lum.nlt.service.TranslationService;
 import org.kuali.student.lum.ui.requirements.client.model.EditHistory;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
@@ -57,11 +55,21 @@ public class LuRuleInfoPersistanceBean {
     		//deleteRule(cluId, origLuStatementInfo, true);
         	//for now just remove the top statement from clu    	
     		StatusInfo status;
-    		if (stmtVO.getLuStatementInfo().getId() != null){
-	    		status = luService.removeLuStatementFromClu(cluId, stmtVO.getLuStatementInfo().getId());
+    		LuStatementInfo topStmt = stmtVO.getLuStatementInfo();
+    		if (topStmt.getId() != null){
+	    		status = luService.removeLuStatementFromClu(cluId, topStmt.getId());
 	            if (!status.getSuccess()) {
 	            	throw new Exception("Unable to remove statement with id: " + stmtVO.getLuStatementInfo().getId() + " from clu with id: " + cluId);	
 	            }
+	            
+	            List<String> cluList = topStmt.getCluIds();
+	            List<String> cluListTemp = new ArrayList<String>(cluList);	            
+	            for(String cluIId : cluListTemp) {
+	                if (cluIId.equals(cluId))  {
+	                    cluList.remove(cluIId);
+	                    topStmt.setCluIds(cluList);
+	                }
+	            }	            
     		}
     		
     		String rooStmtId = saveRule(cluId, stmtVO, null);
