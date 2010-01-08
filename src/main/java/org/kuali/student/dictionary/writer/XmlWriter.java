@@ -21,7 +21,7 @@ import java.io.PrintStream;
  * Base class for all XML writers
  * @author nwright
  */
-public abstract class XmlWriter
+public class XmlWriter
 {
 
  private char indentChar = '\t';

@@ -31,21 +31,21 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.kuali.student.dictionary.writer.XmlWriter;
 
 /**
  * This writes out the entire search xml file
  * @author nwright
  */
-public class SearchModelWriter extends XmlWriter
+public class SearchModelWriter
 {
 
- private SearchModel sheet;
+ private SearchModel model;
+ private XmlWriter writer;
 
- public SearchModelWriter (PrintStream out, SearchModel sheet)
+ public SearchModelWriter (PrintStream out, SearchModel model)
  {
-  super (out, 0);
-  this.sheet = sheet;
+  this.writer = new XmlWriter (out, 0);
+  this.model = model;
  }
 
  /**
@@ -54,7 +54,7 @@ public class SearchModelWriter extends XmlWriter
   */
  public void write ()
  {
-  Collection<String> errors = new SearchModelValidator (sheet).validate ();
+  Collection<String> errors = new SearchModelValidator (model).validate ();
   if (errors.size () > 0)
   {
    StringBuffer buf = new StringBuffer ();
@@ -79,10 +79,50 @@ public class SearchModelWriter extends XmlWriter
   writeFooter ();
  }
 
+ private void indentPrint (String str)
+ {
+  writer.indentPrintln (str);
+ }
+
+ private void indentPrintln (String str)
+ {
+  writer.indentPrintln (str);
+ }
+
+ private void println (String str)
+ {
+  writer.indentPrintln (str);
+ }
+
+ private void writeComment (String str)
+ {
+  writer.writeComment (str);
+ }
+
+ private void incrementIndent ()
+ {
+  writer.incrementIndent ();
+ }
+ private void decrementIndent ()
+ {
+  writer.decrementIndent ();
+ }
+
+ private void writeTag (String tag, String value)
+ {
+  writer.writeTag (tag, value);
+ }
+
+ private void writeAttribute (String attribute, String value)
+ {
+  writer.writeAttribute (attribute, value);
+ }
+
+
  /**
-  * write out the header
-  * @param out
-  */
+   * write out the header
+   * @param out
+   */
  protected void writeHeader ()
  {
   indentPrintln ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
@@ -103,7 +143,7 @@ public class SearchModelWriter extends XmlWriter
   buf.append ("\n");
   buf.append ("using: ");
   String comma = "";
-  for (String soureName : sheet.getSourceNames ())
+  for (String soureName : model.getSourceNames ())
   {
    buf.append (soureName);
    buf.append (comma);
@@ -126,11 +166,9 @@ public class SearchModelWriter extends XmlWriter
  {
   println ("");
   writeComment ("Search Types");
-  for (SearchType st : sheet.getSearchTypes ())
+  for (SearchType st : model.getSearchTypes ())
   {
-   SearchTypeWriter writer =
-    new SearchTypeWriter (getOut (), getIndent () + 1, st);
-   writer.write ();
+   new SearchTypeWriter (writer.getOut (), writer.getIndent () + 1, st).write ();
   }
  }
 
@@ -144,9 +182,7 @@ public class SearchModelWriter extends XmlWriter
   writeComment ("Search Results");
   for (SearchResult sr : getSearchResults ())
   {
-   SearchResultWriter writer =
-    new SearchResultWriter (getOut (), getIndent () + 1, sr);
-   writer.write ();
+   new SearchResultWriter (writer.getOut (), writer.getIndent () + 1, sr).write ();
   }
 
  }
@@ -155,7 +191,7 @@ public class SearchModelWriter extends XmlWriter
  {
   List<SearchResult> list = new ArrayList ();
   Set<String> keys = new HashSet ();
-  for (SearchType st : sheet.getSearchTypes ())
+  for (SearchType st : model.getSearchTypes ())
   {
    if (keys.add (st.getSearchResult ().getKey ()))
    {
@@ -175,9 +211,8 @@ public class SearchModelWriter extends XmlWriter
   writeComment ("Search Result Columns");
   for (SearchResultColumn col : getSearchResultColumns ())
   {
-   SearchResultColumnWriter writer =
-    new SearchResultColumnWriter (getOut (), getIndent () + 1, col);
-   writer.write ();
+   new SearchResultColumnWriter (writer.getOut (), writer.getIndent () + 1, col).
+    write ();
   }
  }
 
@@ -209,9 +244,8 @@ public class SearchModelWriter extends XmlWriter
   writeComment ("Search Criteria");
   for (SearchCriteria sr : getSearchCriteria ())
   {
-   SearchCriteriaWriter writer =
-    new SearchCriteriaWriter (getOut (), getIndent () + 1, sr);
-   writer.write ();
+   new SearchCriteriaWriter (writer.getOut (), writer.getIndent () + 1, sr).
+    write ();
   }
  }
 
@@ -219,7 +253,7 @@ public class SearchModelWriter extends XmlWriter
  {
   List<SearchCriteria> list = new ArrayList ();
   Set<String> keys = new HashSet ();
-  for (SearchType st : sheet.getSearchTypes ())
+  for (SearchType st : model.getSearchTypes ())
   {
    if (keys.add (st.getSearchCriteria ().getKey ()))
    {
@@ -239,9 +273,8 @@ public class SearchModelWriter extends XmlWriter
   writeComment ("Search Criteria Parameters");
   for (SearchCriteriaParameter col : getSearchCriteriaParameters ())
   {
-   SearchCriteriaParameterWriter writer =
-    new SearchCriteriaParameterWriter (getOut (), getIndent () + 1, col);
-   writer.write ();
+   new SearchCriteriaParameterWriter (writer.getOut (), writer.getIndent () + 1, col).
+    write ();
   }
  }
 
@@ -299,7 +332,7 @@ public class SearchModelWriter extends XmlWriter
  {
   List<SearchImplementation> list = new ArrayList ();
   Set<String> keys = new HashSet ();
-  for (SearchType st : sheet.getSearchTypes ())
+  for (SearchType st : model.getSearchTypes ())
   {
    if (keys.add (st.getImplementation ().getKey ()))
    {
