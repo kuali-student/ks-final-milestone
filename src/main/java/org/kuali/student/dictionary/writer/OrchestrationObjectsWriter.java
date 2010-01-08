@@ -38,7 +38,8 @@ public class OrchestrationObjectsWriter
  private String directory;
  private String rootPackage;
 
- public OrchestrationObjectsWriter (DictionaryModel model, String directory, String rootPackage)
+ public OrchestrationObjectsWriter (DictionaryModel model, String directory,
+                                    String rootPackage)
  {
   this.model = model;
   this.directory = directory;
@@ -49,7 +50,6 @@ public class OrchestrationObjectsWriter
  {
   return new OrchestrationObjectsLoader (model, rootPackage);
  }
- 
 
  /**
   * Write out the entire file
@@ -60,12 +60,14 @@ public class OrchestrationObjectsWriter
   this.validate ();
 
   // first do from message structures
-  Map<String, OrchestrationObject> orchObjs = getOrchestrationModel ().getOrchestrationObjects ();
+  Map<String, OrchestrationObject> orchObjs = getOrchestrationModel ().
+   getOrchestrationObjects ();
 
   // do the helpers first
   for (OrchestrationObject oo : orchObjs.values ())
   {
-   System.out.println ("Writing out helper class: " + oo.getFullyQualifiedJavaClassHelperName ());
+   System.out.println ("Writing out helper class: " + oo.
+    getFullyQualifiedJavaClassHelperName ());
    OrchestrationObjectHelperWriter writer =
     new OrchestrationObjectHelperWriter (model, directory, orchObjs, oo);
    writer.write ();
@@ -74,7 +76,8 @@ public class OrchestrationObjectsWriter
   // do the helpers first
   for (OrchestrationObject oo : orchObjs.values ())
   {
-   System.out.println ("Writing out constants: " + oo.getFullyQualifiedJavaClassConstantsName ());
+   System.out.println ("Writing out constants: " + oo.
+    getFullyQualifiedJavaClassConstantsName ());
    OrchestrationObjectConstantsWriter writer =
     new OrchestrationObjectConstantsWriter (model, directory, orchObjs, oo);
    writer.write ();
@@ -85,37 +88,19 @@ public class OrchestrationObjectsWriter
   new ConstraintMetadataBankWriter (model, directory, rootPackage).write ();
 
   // do the bank of constraints next
-  new LookupMetadataBankWriter (model, getOrchestrationModel (), directory, rootPackage).write ();
+  new LookupMetadataBankWriter (model, getOrchestrationModel (), directory, rootPackage).
+   write ();
 
   // do the metadata next
   for (OrchestrationObject oo : orchObjs.values ())
   {
-   System.out.println ("Writing out metadata class: " + oo.getFullyQualifiedJavaClassMetadataName ());
+   System.out.println ("Writing out metadata class: " + oo.
+    getFullyQualifiedJavaClassMetadataName ());
    OrchestrationObjectMetadataWriter writer =
     new OrchestrationObjectMetadataWriter (model, directory, rootPackage, orchObjs, oo);
    writer.write ();
   }
 
-    File file =
-   new File (directory + "/" + "orchestration-search-config-generated-excel.xml");
-  PrintStream out;
-  try
-  {
-   out = new PrintStream (file);
-  }
-  catch (FileNotFoundException ex)
-  {
-   throw new DictionaryValidationException (ex);
-  }
-  try
-  {
-   SearchModelWriter instance = new SearchModelWriter (out, model);
-   instance.write ();
-  }
-  finally
-  {
-   out.close ();
-  }
 
 //  // do the assemblers next
 //  for (OrchestrationObject oo : orchObjs.values ())
@@ -151,4 +136,5 @@ public class OrchestrationObjectsWriter
   }
 
  }
+
 }

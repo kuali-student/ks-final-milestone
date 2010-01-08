@@ -15,6 +15,9 @@
  */
 package org.kuali.student.dictionary.writer;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
 import org.kuali.student.dictionary.model.impl.DictionaryModelCache;
 import org.kuali.student.dictionary.model.impl.DictionaryModelLoader;
 import org.kuali.student.dictionary.model.DictionaryModel;
@@ -26,13 +29,15 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.dictionary.TestConstants;
+import org.kuali.student.dictionary.model.validation.DictionaryValidationException;
 import static org.junit.Assert.*;
 
 /**
  *
  * @author nwright
  */
-public class OrchestrationObjectsWriterToComponentSandboxTest implements TestConstants
+public class OrchestrationObjectsWriterToComponentSandboxTest implements
+ TestConstants
 {
 
  public OrchestrationObjectsWriterToComponentSandboxTest ()
@@ -76,18 +81,42 @@ public class OrchestrationObjectsWriterToComponentSandboxTest implements TestCon
   {
    DictionaryModelLoader loader =
     new DictionaryModelLoader (dictReader, orchReader);
-   DictionaryModel cache = new DictionaryModelCache (loader);
+   DictionaryModel model = new DictionaryModelCache (loader);
    OrchestrationObjectsWriter instance =
-    new OrchestrationObjectsWriter (cache,
-                                    COMPONENT_SANDBOX_DIRECTORY_TO_WRITE_SOURCE,
+    new OrchestrationObjectsWriter (model,
+                                    COMPONENT_SANDBOX_DIRECTORY_TO_WRITE_JAVA,
                                     COMPONENT_SANDBOX_ROOT_PACKAGE);
    instance.write ();
+   File file =
+    new File (COMPONENT_SANDBOX_DIRECTORY_TO_WRITE_RESOURCES + "/" +
+    "orchestration-search-config-generated-excel.xml");
+   PrintStream out;
+   try
+   {
+    out = new PrintStream (file);
+   }
+   catch (FileNotFoundException ex)
+   {
+    throw new DictionaryValidationException (ex);
+   }
+   try
+   {
+    SearchModelWriter searchWriter = new SearchModelWriter (out, model);
+    searchWriter.write ();
+   }
+   finally
+   {
+    out.close ();
+   }
   }
   finally
   {
    dictReader.close ();
    orchReader.close ();
   }
+
+
+
   assertEquals (true, true);
  }
 
