@@ -28,8 +28,6 @@ public class LUConstants {
     //TODO These should probably be somewhere else as they are LUM wide constants - not just
     //     UI specific
 
-    public final static String LU_TYPE_CREDIT_COURSE = "luType.shell.course";
-    
     public final static String COURSE_GROUP_NAME = "course";
     public final static String PROPOSAL_TYPE_COURSE_CREATE = "kuali.proposal.type.course.create";
     public final static String CLU_TYPE_CREDIT_COURSE = "kuali.lu.type.CreditCourse";

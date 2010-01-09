@@ -869,7 +869,7 @@ public class RuleComponentEditorView extends ViewComposite {
    		List<QueryParamValue> contextCriteria = new ArrayList<QueryParamValue>();
 		QueryParamValue orgOptionalTypeParam = new QueryParamValue();
 		orgOptionalTypeParam.setKey("lu.queryParam.luOptionalType");
-		orgOptionalTypeParam.setValue("luType.shell.course");   
+		orgOptionalTypeParam.setValue("kuali.lu.type.CreditCourse");   
 		contextCriteria.add(orgOptionalTypeParam); 
     	
     	SearchComponentConfiguration searchConfig = new SearchComponentConfiguration(contextCriteria, basicCriteria, advancedCriteria);

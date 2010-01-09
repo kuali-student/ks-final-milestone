@@ -120,7 +120,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         }
 
         // getCluIdsByLuType
-        ids = client.getCluIdsByLuType("luType.shell.course", "STATE1");
+        ids = client.getCluIdsByLuType("kuali.lu.type.CreditCourse", "STATE1");
         assertTrue(null != ids);
         assertEquals(2, ids.size());
         assertEquals("CLU-1", ids.get(0));
@@ -128,7 +128,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
         ids = client.getCluIdsByLuType("LUTYPE-1X", "STATE1");
         assertTrue(ids == null || ids.size() == 0);
-        ids = client.getCluIdsByLuType("luType.shell.course", "STATE1X");
+        ids = client.getCluIdsByLuType("kuali.lu.type.CreditCourse", "STATE1X");
         assertTrue(ids == null || ids.size() == 0);
 
         try {
@@ -139,21 +139,21 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         }
 
         try {
-            ids = client.getCluIdsByLuType("luType.shell.course", null);
+            ids = client.getCluIdsByLuType("kuali.lu.type.CreditCourse", null);
             assertTrue(false);
         } catch (MissingParameterException e) {
             assertTrue(true);
         }
 
         // getClusByLuType
-        clus = client.getClusByLuType("luType.shell.course", "STATE1");
+        clus = client.getClusByLuType("kuali.lu.type.CreditCourse", "STATE1");
         assertTrue(null != clus);
         assertEquals(2, clus.size());
         assertEquals("CLU-1", clus.get(0).getId());
 
         clus = client.getClusByLuType("LUTYPE-1X", "STATE1");
         assertTrue(clus == null || clus.size() == 0);
-        clus = client.getClusByLuType("luType.shell.course", "STATE1X");
+        clus = client.getClusByLuType("kuali.lu.type.CreditCourse", "STATE1X");
         assertTrue(clus == null || clus.size() == 0);
 
         try {
@@ -164,7 +164,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         }
 
         try {
-            clus = client.getClusByLuType("luType.shell.course", null);
+            clus = client.getClusByLuType("kuali.lu.type.CreditCourse", null);
             assertTrue(false);
         } catch (MissingParameterException e) {
             assertTrue(true);
@@ -606,7 +606,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         createAdminOrgs(clu);
 
         //Do the actual create call
-        CluInfo createdClu = client.createClu("luType.shell.course", clu);
+        CluInfo createdClu = client.createClu("kuali.lu.type.CreditCourse", clu);
         createdClu = client.getClu(createdClu.getId());
         //Validate Results
         assertNotNull(createdClu);
@@ -741,7 +741,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         assertEquals(Integer.valueOf(7867),createdClu.getStdDuration().getTimeQuantity());
 
 
-        assertEquals("luType.shell.course",createdClu.getType());
+        assertEquals("kuali.lu.type.CreditCourse",createdClu.getType());
 
         assertNotNull(createdClu.getMetaInfo());
         assertNotNull(createdClu.getMetaInfo().getVersionInd());
