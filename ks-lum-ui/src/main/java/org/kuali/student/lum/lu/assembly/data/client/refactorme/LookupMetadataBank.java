@@ -75,7 +75,7 @@ public class LookupMetadataBank
 		param.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		param.setDataType (Data.DataType.STRING);
 		param.setOptional (true);
-		param.setUsage (LookupParamMetadata.Usage.DEFAULT);
+		param.setUsage (LookupMetadata.Usage.DEFAULT);
 		param.setWidget (LookupParamMetadata.Widget.SUGGEST_BOX);
 		lookup.getParams ().add (param);
 		
@@ -86,7 +86,7 @@ public class LookupMetadataBank
 		param.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		param.setDataType (Data.DataType.STRING);
 		param.setOptional (true);
-		param.setUsage (LookupParamMetadata.Usage.ADVANCED);
+		param.setUsage (LookupMetadata.Usage.ADVANCED);
 		param.setWidget (LookupParamMetadata.Widget.TEXT_BOX);
 		lookup.getParams ().add (param);
 		
@@ -96,7 +96,7 @@ public class LookupMetadataBank
 		param.setDesc ("List of organization types to search");
 		param.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		param.setDataType (Data.DataType.LIST);
-		param.setUsage (LookupParamMetadata.Usage.CUSTOM);
+		param.setUsage (LookupMetadata.Usage.CUSTOM);
 		param.setWidget (LookupParamMetadata.Widget.DROPDOWN_LIST);
 		param.setCaseSensitive (true);
 		lookup.getParams ().add (param);
@@ -117,7 +117,7 @@ public class LookupMetadataBank
 		param.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		param.setDataType (Data.DataType.INTEGER);
 		param.setOptional (true);
-		param.setUsage (LookupParamMetadata.Usage.ADVANCED);
+		param.setUsage (LookupMetadata.Usage.ADVANCED);
 		param.setWidget (LookupParamMetadata.Widget.TEXT_BOX);
 		param.setCaseSensitive (true);
 		lookup.getParams ().add (param);
@@ -213,7 +213,7 @@ public class LookupMetadataBank
 		param.setWriteAccess (Metadata.WriteAccess.WHEN_NULL);
 		param.setDataType (Data.DataType.LIST);
 		param.setOptional (true);
-		param.setUsage (LookupParamMetadata.Usage.DEFAULT);
+		param.setUsage (LookupMetadata.Usage.DEFAULT);
 		param.setWidget (LookupParamMetadata.Widget.PICKER);
 		param.setCaseSensitive (true);
 		lookup.getParams ().add (param);
@@ -225,7 +225,7 @@ public class LookupMetadataBank
 		param.setWriteAccess (Metadata.WriteAccess.NEVER);
 		param.setDataType (Data.DataType.LIST);
 		param.setOptional (true);
-		param.setUsage (LookupParamMetadata.Usage.ADVANCED);
+		param.setUsage (LookupMetadata.Usage.ADVANCED);
 		param.setCaseSensitive (true);
 		lookup.getParams ().add (param);
 		
@@ -235,7 +235,7 @@ public class LookupMetadataBank
 		param.setDesc ("List of organization types to search");
 		param.setWriteAccess (Metadata.WriteAccess.NEVER);
 		param.setDataType (Data.DataType.LIST);
-		param.setUsage (LookupParamMetadata.Usage.ADVANCED);
+		param.setUsage (LookupMetadata.Usage.ADVANCED);
 		param.setCaseSensitive (true);
 		lookup.getParams ().add (param);
 		
@@ -245,7 +245,7 @@ public class LookupMetadataBank
 		param.setDesc ("List of organization states to search");
 		param.setWriteAccess (Metadata.WriteAccess.NEVER);
 		param.setDataType (Data.DataType.LIST);
-		param.setUsage (LookupParamMetadata.Usage.ADVANCED);
+		param.setUsage (LookupMetadata.Usage.ADVANCED);
 		param.setCaseSensitive (true);
 		lookup.getParams ().add (param);
 		
@@ -256,7 +256,7 @@ public class LookupMetadataBank
 		param.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		param.setDataType (Data.DataType.INTEGER);
 		param.setOptional (true);
-		param.setUsage (LookupParamMetadata.Usage.ADVANCED);
+		param.setUsage (LookupMetadata.Usage.ADVANCED);
 		param.setWidget (LookupParamMetadata.Widget.TEXT_BOX);
 		param.setCaseSensitive (true);
 		lookup.getParams ().add (param);
