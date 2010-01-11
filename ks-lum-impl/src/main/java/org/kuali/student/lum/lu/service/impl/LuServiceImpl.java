@@ -2612,6 +2612,12 @@ public class LuServiceImpl implements LuService {
         return searchManager.getSearchTypesByResult(searchResultTypeKey);
     }
 
+	@Override
+	public SearchResult search(SearchRequest searchRequest) {
+        //checkForMissingParameter(searchRequest, "searchRequest"); TODO
+        return searchManager.search(searchRequest, luDao);
+	}    
+    
     public LuDao getLuDao() {
         return luDao;
     }
@@ -2645,10 +2651,4 @@ public class LuServiceImpl implements LuService {
             throw new MissingParameterException(paramName + " can not be an empty list");
         }
     }
-
-	@Override
-	public SearchResult search(SearchRequest searchRequest) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

@@ -14,6 +14,7 @@
  */
 package org.kuali.student.lum.lu.ui.main.client.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -76,7 +77,10 @@ public class LUMApplicationManager extends Controller{
 	                        initViewCluViewFromCluId(selectedId);                        
 	                    }
 
+	                } else if ((event.getEventSource() != null) && (event.getEventSource() instanceof ArrayList) && (event.getViewType().equals(LUMViews.VIEW_COURSE))){                    
+	                    initViewCluViewFromCluId(((List<String>)event.getEventSource()).get(0));                        
 	                }
+	                
 	                showView(event.getViewType(), NO_OP_CALLBACK);  
 	            }
 	        });
