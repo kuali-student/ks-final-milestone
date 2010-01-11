@@ -84,4 +84,6 @@
 
     <tx:annotation-driven transaction-manager="jtaTxManager" />     
 
+	<import resource="classpath:ks-spring-security.xml" />
+	
 </beans>
