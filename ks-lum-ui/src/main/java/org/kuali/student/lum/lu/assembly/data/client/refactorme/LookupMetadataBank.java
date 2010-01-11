@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.LookupImplMetadata;
 import org.kuali.student.common.assembly.client.LookupMetadata;
@@ -430,7 +431,7 @@ public class LookupMetadataBank
 		param.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		param.setDataType (Data.DataType.STRING);
 		param.setOptional (true);
-		param.setUsage (LookupParamMetadata.Usage.CUSTOM);
+		param.setUsage (LookupMetadata.Usage.CUSTOM);
 		param.setCaseSensitive (true);
 		lookup.getParams ().add (param);
 		
@@ -441,7 +442,7 @@ public class LookupMetadataBank
 		param.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		param.setDataType (Data.DataType.STRING);
 		param.setOptional (true);
-		param.setUsage (LookupParamMetadata.Usage.DEFAULT);
+		param.setUsage (LookupMetadata.Usage.DEFAULT);
 		param.setWidget (LookupParamMetadata.Widget.SUGGEST_BOX);
 		lookup.getParams ().add (param);
 		
@@ -462,7 +463,7 @@ public class LookupMetadataBank
 		param.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		param.setDataType (Data.DataType.STRING);
 		param.setOptional (true);
-		param.setUsage (LookupParamMetadata.Usage.ADVANCED);
+		param.setUsage (LookupMetadata.Usage.ADVANCED);
 		param.setWidget (LookupParamMetadata.Widget.TEXT_BOX);
 		param.setCaseSensitive (true);
 		lookup.getParams ().add (param);
@@ -474,7 +475,7 @@ public class LookupMetadataBank
 		param.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		param.setDataType (Data.DataType.STRING);
 		param.setOptional (true);
-		param.setUsage (LookupParamMetadata.Usage.ADVANCED);
+		param.setUsage (LookupMetadata.Usage.ADVANCED);
 		param.setWidget (LookupParamMetadata.Widget.TEXT_BOX);
 		param.setCaseSensitive (true);
 		lookup.getParams ().add (param);
