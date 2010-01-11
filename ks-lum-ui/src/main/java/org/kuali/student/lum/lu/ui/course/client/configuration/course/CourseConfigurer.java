@@ -338,7 +338,7 @@ public class CourseConfigurer
         addField(description, COURSE + "/" + DESCRIPTION, null);
         
         VerticalSection rationale = initSection(getH3Title(LUConstants.RATIONALE_LABEL_KEY), WITH_DIVIDER);
-        addField(rationale, COURSE + "/" + RATIONALE, null);
+        addField(rationale, PROPOSAL + "/" + RATIONALE, null);
         
         section.addSection(courseNumber);
         section.addSection(shortTitle);
