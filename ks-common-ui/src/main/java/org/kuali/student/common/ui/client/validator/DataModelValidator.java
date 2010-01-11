@@ -17,21 +17,26 @@ import org.kuali.student.common.assembly.client.MetadataInterrogator;
 import org.kuali.student.common.assembly.client.ModelDefinition;
 import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.common.assembly.client.Data.DataType;
+import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.application.ApplicationContext;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.util.MessageUtils;
+
 import org.kuali.student.common.validator.DateParser;
 import org.kuali.student.common.validator.ValidatorUtils;
 import org.kuali.student.core.messages.dto.Message;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
+
 import static org.kuali.student.common.assembly.client.MetadataInterrogator.*;
 import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.*;
 
 public class DataModelValidator {
 	private static final String UNBOUNDED_CHECK = null;
 
-	private Map<String, String> messages = new HashMap<String, String>();
 
 	private Stack<String> elementStack = new Stack<String>();
 	private DateParser dateParser = null;
@@ -55,18 +60,7 @@ public class DataModelValidator {
 		this.dateParser = dateParser;
 	}
 
-	public void addMessages(List<Message> list) {
-		for (Message m : list) {
-			messages.put(m.getId(), m.getValue());
-		}
-	}
-	private String getMessage(String id){
-	    if(messages.get(id) == null){
-	        return id;
-	    }
-	    return messages.get(id);
-	}
-
+	
 
 	public List<ValidationResultContainer> validate(final DataModel model) {
 		List<ValidationResultContainer> results = new ArrayList<ValidationResultContainer>();
@@ -74,11 +68,15 @@ public class DataModelValidator {
 		DataModelDefinition def = (DataModelDefinition) model.getDefinition();
 		doValidate(model, def.getMetadata(), new QueryPath(), results);
 		
+		translateMessages(results);
+		
 		return results;
 	}
 	
 	
-	private void doValidate(final DataModel model, final Metadata meta, final QueryPath path, List<ValidationResultContainer> results) {
+	
+
+    private void doValidate(final DataModel model, final Metadata meta, final QueryPath path, List<ValidationResultContainer> results) {
 		switch (meta.getDataType()) {
 		case DATA:
 			// intentional fallthrough case
@@ -122,6 +120,13 @@ public class DataModelValidator {
 		
 	}
 	
+    private static void addResult(ValidationResultContainer v, List<ValidationResultContainer> list, Metadata meta) {
+        list.add(v);
+        if (!v.isOk()) {
+            populateConstraintInfo(v, meta);
+        }
+    }
+    
 	private void doValidateString(DataModel model, Metadata meta,
 			QueryPath path, List<ValidationResultContainer> results) {
 		
@@ -182,7 +187,7 @@ public class DataModelValidator {
 				}
 			}
 			
-			results.add(v);
+			addResult(v, results, meta);
 		}
 	}
 	
@@ -210,22 +215,23 @@ public class DataModelValidator {
 					v.addError(INTEGER.getKey());
 				}
 				
-				
-				Long min = getLargestMinValue(meta);
-				Long max = getSmallestMaxValue(meta);
-				
-				if (min != null && max != null) {
-					if (i < min || i > max) {
-						v.addError(OUT_OF_RANGE.getKey());
-					}
-				} else if (min != null && i < min) {
-					v.addError(MIN_VALUE.getKey());
-				} else if (max != null && i > max) {
-					v.addError(MAX_VALUE.getKey());
+				if (i != null) {
+    				Long min = getLargestMinValue(meta);
+    				Long max = getSmallestMaxValue(meta);
+    				
+    				if (min != null && max != null) {
+    					if (i < min || i > max) {
+    						v.addError(OUT_OF_RANGE.getKey());
+    					}
+    				} else if (min != null && i < min) {
+    					v.addError(MIN_VALUE.getKey());
+    				} else if (max != null && i > max) {
+    					v.addError(MAX_VALUE.getKey());
+    				}
 				}
 			}
 			
-			results.add(v);
+	        addResult(v, results, meta);
 		}
 	}
 
@@ -253,21 +259,23 @@ public class DataModelValidator {
 				}
 				
 				
-				Long min = getLargestMinValue(meta);
-				Long max = getSmallestMaxValue(meta);
-				
-				if (min != null && max != null) {
-					if (i < min || i > max) {
-						v.addError(OUT_OF_RANGE.getKey());
-					}
-				} else if (min != null && i < min) {
-					v.addError(MIN_VALUE.getKey());
-				} else if (max != null && i > max) {
-					v.addError(MAX_VALUE.getKey());
+				if (i != null) {
+    				Long min = getLargestMinValue(meta);
+    				Long max = getSmallestMaxValue(meta);
+    				
+    				if (min != null && max != null) {
+    					if (i < min || i > max) {
+    						v.addError(OUT_OF_RANGE.getKey());
+    					}
+    				} else if (min != null && i < min) {
+    					v.addError(MIN_VALUE.getKey());
+    				} else if (max != null && i > max) {
+    					v.addError(MAX_VALUE.getKey());
+    				}
 				}
 			}
 			
-			results.add(v);
+	        addResult(v, results, meta);
 		}
 	}
 	
@@ -295,21 +303,23 @@ public class DataModelValidator {
 				}
 				
 				
-				Double min = getLargestMinValueDouble(meta);
-				Double max = getSmallestMaxValueDouble(meta);
-				
-				if (min != null && max != null) {
-					if (d < min || d > max) {
-						v.addError(OUT_OF_RANGE.getKey());
-					}
-				} else if (min != null && d < min) {
-					v.addError(MIN_VALUE.getKey());
-				} else if (max != null && d > max) {
-					v.addError(MAX_VALUE.getKey());
+				if (d != null) {
+    				Double min = getLargestMinValueDouble(meta);
+    				Double max = getSmallestMaxValueDouble(meta);
+    				
+    				if (min != null && max != null) {
+    					if (d < min || d > max) {
+    						v.addError(OUT_OF_RANGE.getKey());
+    					}
+    				} else if (min != null && d < min) {
+    					v.addError(MIN_VALUE.getKey());
+    				} else if (max != null && d > max) {
+    					v.addError(MAX_VALUE.getKey());
+    				}
 				}
 			}
 			
-			results.add(v);
+			addResult(v, results, meta);
 		}
 	}
 	
@@ -336,22 +346,24 @@ public class DataModelValidator {
 					v.addError(FLOAT.getKey());
 				}
 				
-				
-				Double min = getLargestMinValueDouble(meta);
-				Double max = getSmallestMaxValueDouble(meta);
-				
-				if (min != null && max != null) {
-					if (d < min || d > max) {
-						v.addError(OUT_OF_RANGE.getKey());
-					}
-				} else if (min != null && d < min) {
-					v.addError(MIN_VALUE.getKey());
-				} else if (max != null && d > max) {
-					v.addError(MAX_VALUE.getKey());
+
+				if (d != null) {
+    				Double min = getLargestMinValueDouble(meta);
+    				Double max = getSmallestMaxValueDouble(meta);
+    				
+    				if (min != null && max != null) {
+    					if (d < min || d > max) {
+    						v.addError(OUT_OF_RANGE.getKey());
+    					}
+    				} else if (min != null && d < min) {
+    					v.addError(MIN_VALUE.getKey());
+    				} else if (max != null && d > max) {
+    					v.addError(MAX_VALUE.getKey());
+    				}
 				}
 			}
 			
-			results.add(v);
+			addResult(v, results, meta);
 		}
 	}
 	
@@ -377,23 +389,25 @@ public class DataModelValidator {
 				} catch (Exception ex) {
 					v.addError(DATE.getKey());
 				}
+			
 				
-				
-				Date min = getLargestMinValueDate(meta, dateParser);
-				Date max = getSmallestMaxValueDate(meta, dateParser);
-				
-				if (min != null && max != null) {
-					if (d.getTime() < min.getTime() || d.getTime() > max.getTime()) {
-						v.addError(OUT_OF_RANGE.getKey());
-					}
-				} else if (min != null && d.getTime() < min.getTime()) {
-					v.addError(MIN_VALUE.getKey());
-				} else if (max != null && d.getTime() > max.getTime()) {
-					v.addError(MAX_VALUE.getKey());
+				if (d != null) {
+    				Date min = getLargestMinValueDate(meta, dateParser);
+    				Date max = getSmallestMaxValueDate(meta, dateParser);
+    				
+    				if (min != null && max != null) {
+    					if (d.getTime() < min.getTime() || d.getTime() > max.getTime()) {
+    						v.addError(OUT_OF_RANGE.getKey());
+    					}
+    				} else if (min != null && d.getTime() < min.getTime()) {
+    					v.addError(MIN_VALUE.getKey());
+    				} else if (max != null && d.getTime() > max.getTime()) {
+    					v.addError(MAX_VALUE.getKey());
+    				}
 				}
 			}
 			
-			results.add(v);
+			addResult(v, results, meta);
 		}
 	}
 	
@@ -419,7 +433,7 @@ public class DataModelValidator {
 				}
 			}
 			
-			results.add(v);
+			addResult(v, results, meta);
 		}
 	}
 
@@ -440,7 +454,7 @@ public class DataModelValidator {
 			}
 		}
 		
-		results.add(v);
+		addResult(v, results, meta);
 		
 		// validate children
 		String basePath = path.toString();
@@ -470,13 +484,65 @@ public class DataModelValidator {
             } else {
                 v.addError(MAX_OCCURS.getKey());
             }
-            results.add(v);
+            addResult(v, results, meta);
         }
         
 	    return minValid && maxValid;
 	}
 	
+	private void translateMessages(List<ValidationResultContainer> results) {
+        ApplicationContext context = Application.getApplicationContext();
+        
+        for (ValidationResultContainer vrc : results) {
+            if (!vrc.isOk()) {
+                Map<String, Object> constraintInfo = gatherConstraintInfo(vrc); 
+                // don't bother translating "OK" messages for now, maybe later if we have a use case
+                for (ValidationResultInfo v : vrc.getValidationResults()) {
+                    if (v.getLevel() != ErrorLevel.OK) {
+                        String raw = v.getMessage();
+                        String translated = context.getMessage(raw);
+                        if (translated != null && !translated.equals(raw)) {
+                            translated = MessageUtils.interpolate(translated, constraintInfo);
+                            v.setMessage(translated);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+	private static void populateConstraintInfo(ValidationResultContainer results, Metadata meta) {
+	    results.setDataType(asString(meta.getDataType()));
+	    results.setDerivedMaxLength(asString(getSmallestMaxLength(meta)));
+	    results.setDerivedMaxOccurs(asString(getSmallestMaxOccurs(meta)));
+	    results.setDerivedMinLength(getLargestMinLength(meta));
+	    results.setDerivedMinOccurs(getLargestMinOccurs(meta));
+	}
 	
+	private static String asString(Object o) {
+	    if (o == null) {
+	        return null;
+	    } else {
+	        return o.toString();
+	    }
+	}
+	
+    private Map<String, Object> gatherConstraintInfo(ValidationResultContainer vrc) {
+        Map<String, Object> m = new HashMap<String, Object>();
+        put(m, "field", vrc.getElement());
+        put(m, "minOccurs", vrc.getDerivedMinOccurs());
+        put(m, "maxOccurs", vrc.getDerivedMaxOccurs());
+        put(m, "minLength", vrc.getDerivedMinLength());
+        put(m, "maxLength", vrc.getDerivedMaxLength());
+        put(m, "dataType", vrc.getDataType());
+        return m;
+    }
+    
+    private void put(Map<String, Object> m, String key, Object value) {
+        if (value != null) {
+            m.put(key, value);
+        }
+    }
     
 	
 }
