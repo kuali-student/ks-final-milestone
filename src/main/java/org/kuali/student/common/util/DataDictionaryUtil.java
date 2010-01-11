@@ -117,7 +117,7 @@ public class DataDictionaryUtil {
 					sb.append("\n\t\t\t\t<dict:fieldDescriptor>");
 					sb.append("\n\t\t\t\t\t<dict:name>"+name+"</dict:name>");
 					String comment = methodComments.get(pd.getReadMethod().getName());
-					if(comment!=null){
+					if(comment!=null&&!"".equals(comment.trim())){
 						sb.append("\n\t\t\t\t\t<dict:desc>"+comment+"</dict:desc>");
 					}else{
 						sb.append("\n\t\t\t\t\t<dict:desc>"+name+"</dict:desc>");
