@@ -26,12 +26,13 @@ public class UUIDHelper {
 	}
 
 	public static String genStringUUID(String originalUUID) {
-		if (originalUUID != null) {
+		if (originalUUID != null && !originalUUID.isEmpty()) {
 			try {
 				return java.util.UUID.fromString(originalUUID).toString();
 			} catch (IllegalArgumentException e) {
-				LOG.warn("Given ID \""+originalUUID+"\" is not a valid UUID.  A new UUID will replace the given ID.");
+				LOG.warn("Given ID \""+originalUUID+"\" is not a valid UUID. ");
 			}
+			return originalUUID;
 		}
 		return genStringUUID();
 	}

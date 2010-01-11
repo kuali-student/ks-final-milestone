@@ -30,7 +30,7 @@
 		<!--                                           -->
 <%
  MessageRPCPreloader messageRPCPreloader = new MessageRPCPreloader();
- String messageData = messageRPCPreloader.getMessagesByGroupsEncodingString("en",new String[]{"common"});
+ String messageData = messageRPCPreloader.getMessagesByGroupsEncodingString("en",new String[]{"common","org"});
 %>
 
 <script type="text/javascript">

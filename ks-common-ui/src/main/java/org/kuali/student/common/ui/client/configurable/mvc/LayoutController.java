@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.catalina.core.ApplicationContext;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.event.ValidateResultEvent;
 import org.kuali.student.common.ui.client.event.ValidateResultHandler;
@@ -29,8 +28,6 @@ import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
 import org.kuali.student.common.ui.client.validator.ModelDTOConstraintSetupFactory;
-import org.kuali.student.common.ui.client.validator.SectionContraintSetupFactory;
-import org.kuali.student.common.validator.ConstraintSetupFactory;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;

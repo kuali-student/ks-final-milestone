@@ -53,6 +53,7 @@
 		<property name="messageFiles">
 			<list>
 				<value>classpath:org\kuali\student\common\ui\gwt-messages.xml</value>
+				<value>classpath:org\kuali\student\core\ui\gwt-messages.xml</value>
 			</list>
 		</property>
 	</bean>
@@ -83,4 +84,6 @@
 
     <tx:annotation-driven transaction-manager="jtaTxManager" />     
 
+	<import resource="classpath:ks-spring-security.xml" />
+	
 </beans>

@@ -21,7 +21,6 @@ import org.kuali.student.common.ui.client.widgets.KSLabel;
 import com.google.gwt.gen2.table.client.FixedWidthGrid;
 import com.google.gwt.gen2.table.event.client.RowSelectionEvent;
 import com.google.gwt.gen2.table.event.client.RowSelectionHandler;
-import com.google.gwt.gen2.table.event.client.TableEvent.Row;
 
 /**
  * When this event handler is added to a table that extends 

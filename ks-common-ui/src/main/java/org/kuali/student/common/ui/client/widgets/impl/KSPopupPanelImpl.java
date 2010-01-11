@@ -20,8 +20,6 @@ import org.kuali.student.common.ui.client.widgets.KSStyles;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class KSPopupPanelImpl extends KSPopupPanelAbstract{ 

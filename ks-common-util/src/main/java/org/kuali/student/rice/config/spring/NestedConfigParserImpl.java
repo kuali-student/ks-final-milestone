@@ -65,6 +65,7 @@ import org.xml.sax.SAXException;
  *
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
+@Deprecated //Delete this sometime soon
 public class NestedConfigParserImpl implements ConfigParser {
     // keep the same random
     private static final Random RANDOM = new Random();

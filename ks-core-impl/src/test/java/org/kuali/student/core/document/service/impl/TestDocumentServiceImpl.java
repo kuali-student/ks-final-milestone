@@ -57,7 +57,7 @@ import org.kuali.student.core.validation.dto.ValidationResultContainer;
 @Daos( { @Dao(value = "org.kuali.student.core.document.dao.impl.DocumentDaoImpl",testSqlFile="classpath:ks-document.sql" /*, testDataFile = "classpath:test-beans.xml"*/) })
 @PersistenceFileLocation("classpath:META-INF/document-persistence.xml")
 public class TestDocumentServiceImpl extends AbstractServiceTest {
-    @Client(value = "org.kuali.student.core.document.service.impl.DocumentServiceImpl", port = "8181", additionalContextFile="classpath:document-additional-context.xml")
+    @Client(value = "org.kuali.student.core.document.service.impl.DocumentServiceImpl", additionalContextFile="classpath:document-additional-context.xml")
     public DocumentService client;
 
 

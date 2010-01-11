@@ -14,8 +14,8 @@
  */
 package org.kuali.student.common.ui.client.configurable.mvc;
 
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
@@ -37,11 +37,11 @@ public abstract class ToolView extends LazyPanel implements View{
     
     private ModelRequestCallback<ReferenceModel> modelRequestCallback = 
         new ModelRequestCallback<ReferenceModel>(){
-            public void onModelReady(Model<ReferenceModel> model) {
-                reference.setReferenceId(model.get().getReferenceId());
-                reference.setReferenceTypeKey(model.get().getReferenceTypeKey());
-                reference.setReferenceType(model.get().getReferenceType());
-                reference.setReferenceState(model.get().getReferenceState());
+            public void onModelReady(ReferenceModel model) {
+                reference.setReferenceId(model.getReferenceId());
+                reference.setReferenceTypeKey(model.getReferenceTypeKey());
+                reference.setReferenceType(model.getReferenceType());
+                reference.setReferenceState(model.getReferenceState());
                 ToolView.this.setVisible(true);       
             }
     
@@ -68,7 +68,8 @@ public abstract class ToolView extends LazyPanel implements View{
         this.viewName = viewName;
     }
    
-    public void beforeShow(){
+    @Override
+    public void beforeShow(final Callback<Boolean> onReadyCallback){
         if (getWidget() instanceof HasReferenceId){
             reference = (HasReferenceId)getWidget();
             controller.requestModel(ReferenceModel.class, modelRequestCallback);
@@ -78,6 +79,8 @@ public abstract class ToolView extends LazyPanel implements View{
         } else {
             this.setVisible(true);
         }
+        // FIXME ? need to wire onReadyCallback into the model request, so that we aren't indicating that we're ready before the model is available?
+        onReadyCallback.exec(true);
     }
 
     /**

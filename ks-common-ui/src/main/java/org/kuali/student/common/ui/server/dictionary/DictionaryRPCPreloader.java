@@ -150,8 +150,12 @@ public class DictionaryRPCPreloader {
              List<String> result = null;
              result = dictionaryService.getObjectTypes();
              result = getDictionaryService().getObjectTypes();
-             strResult=new String[result.size()];  
-             result.toArray(strResult);
+             if(result!=null){
+            	 strResult=new String[result.size()];  
+            	 result.toArray(strResult);
+             }else{
+            	 strResult=new String[0];
+             }
 
          } catch (SecurityException e) {
              e.printStackTrace();
