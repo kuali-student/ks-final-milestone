@@ -52,7 +52,7 @@ public class LookupParamMetadata implements Serializable {
     private Usage usage;
 
     public enum Widget {
-        SUGGEST_BOX, DROPDOWN_LIST, RADIO_BUTTONS, CHECK_BOXES, TEXT_BOX, PICKER
+        SUGGEST_BOX, DROPDOWN_LIST, RADIO_BUTTONS, CHECK_BOXES, TEXT_BOX, CALENDAR, PICKER
     }
 
     private Widget widget;
