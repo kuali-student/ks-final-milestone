@@ -32,7 +32,10 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  *
  */
 public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteServiceServlet implements BaseDataOrchestrationRpcService {
-	//FIXME The exception handling here needs standardization.  Should RPC errors throw operation failed with just the message and log the message and exception?
+	//FIXME issues:
+	// -The Type/state config is hardcoded here which will cause troubles with different types and states
+	// -Workflow filter should be combined with this for save
+	// -The exception handling here needs standardization.  Should RPC errors throw operation failed with just the message and log the message and exception?
 	// also should calls that return Boolean ever throw exceptions?
 	
 	private static final long serialVersionUID = 1L;
