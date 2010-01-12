@@ -10,7 +10,7 @@
 
     <!-- Search Types -->
     
-	<search:searchType id="org.search.atpTypes">
+	<search:searchType id="atp.search.atpTypes">
 		<search:name>All ATP types</search:name>
 		<search:desc>Returns the list of all ATP Types</search:desc>
 		<search:searchResultTypeInfo>
@@ -93,7 +93,7 @@
 					<dict:fieldDescriptor>
 						<dict:name>Type</dict:name>
 						<dict:desc>Type of the ATP.</dict:desc>
-						<dict:search key="org.search.atpTypes"/>
+						<dict:search key="atp.search.atpTypes"/>
 					</dict:fieldDescriptor>
 				</search:queryParam>			
 			</search:queryParams>
@@ -267,7 +267,7 @@
 	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
 			<map>
-				<entry key="org.search.atpTypes">
+				<entry key="atp.search.atpTypes">
 					<value>SELECT atptype.id, atptype.name FROM AtpType atptype</value>
 				</entry>
 				<entry key="atp.search.atpByShortName">
