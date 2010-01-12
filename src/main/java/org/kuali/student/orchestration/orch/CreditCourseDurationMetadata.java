@@ -60,7 +60,7 @@ public class CreditCourseDurationMetadata
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.setDefaultValue (new Data.StringValue ("kuali.atp.duration.Semester"));
-		childMeta.setLookupMetadata (LookupMetadataBank.LOOKUP_BANK.get ("kuali.lu.lookup.creditCourse.durations".toLowerCase ()));
+		childMeta.setLookupMetadata (LookupMetadataBank.LOOKUP_BANK.get ("kuali.lookup.durations".toLowerCase ()));
 		childMeta.setLookupContextPath (null);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{

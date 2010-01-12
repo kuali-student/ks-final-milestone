@@ -72,7 +72,7 @@ public class CreditCourseProposalKeyDataMetadata
 		mainMeta.getProperties ().put (Properties.PROPOSER.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ON_CREATE);
-		childMeta.setLookupMetadata (LookupMetadataBank.LOOKUP_BANK.get ("kuali.lu.lookup.proposers".toLowerCase ()));
+		childMeta.setLookupMetadata (LookupMetadataBank.LOOKUP_BANK.get ("kuali.lookup.people".toLowerCase ()));
 		childMeta.setLookupContextPath (null);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
