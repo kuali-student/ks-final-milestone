@@ -15,7 +15,6 @@
  */
 package org.kuali.student.dictionary.model.impl;
 
-import org.kuali.student.dictionary.model.*;
 import org.kuali.student.dictionary.model.validation.DictionaryValidationException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -74,6 +73,10 @@ public class SearchTypeToLookupMetadataConverter
    paramMeta.setWriteAccess (calcWriteAccess (asString (param.getWriteAccess ())));
    paramMeta.setUsage (calcParamUsage (param.getUsage ()));
    paramMeta.setWidget (calcParamWidget (param.getWidget ()));
+   // TODO: support default values as lists
+   paramMeta.setDefaultValue (asDataValue (paramMeta.getDataType (),
+                                           param.getDefaultValue (),
+                                           "defaultValue"));
   }
 
   for (SearchResultColumn col :
@@ -88,28 +91,24 @@ public class SearchTypeToLookupMetadataConverter
    if (asBoolean (col.getUsage (), "value"))
    {
     lookupMeta.setResultReturnKey (col.getKey ());
-    if (lookupMeta.getResultDisplayKey () == null)
-    {
-     lookupMeta.setResultDisplayKey (col.getKey ());
-    }
-    if (lookupMeta.getResultSortKey () == null)
-    {
-     lookupMeta.setResultSortKey (col.getKey ());
-    }
    }
    if (asBoolean (col.getUsage (), "display"))
    {
     lookupMeta.setResultDisplayKey (col.getKey ());
-    if (lookupMeta.getResultSortKey () == null)
-    {
-     lookupMeta.setResultSortKey (col.getKey ());
-    }
    }
    if (asBoolean (col.getUsage (), "sort"))
    {
     lookupMeta.setResultSortKey (col.getKey ());
    }
    resultMeta.setHidden (asBoolean (col.getUsage (), "hidden"));
+  }
+  if (lookupMeta.getResultDisplayKey () == null)
+  {
+   lookupMeta.setResultDisplayKey (lookupMeta.getResultReturnKey ());
+  }
+  if (lookupMeta.getResultSortKey () == null)
+  {
+   lookupMeta.setResultSortKey (lookupMeta.getResultDisplayKey ());
   }
   return lookupMeta;
  }
@@ -159,7 +158,7 @@ public class SearchTypeToLookupMetadataConverter
    "]");
  }
 
- private LookupParamMetadata.Usage calcParamUsage (String value)
+ private LookupMetadata.Usage calcParamUsage (String value)
  {
   if (value == null)
   {
@@ -171,15 +170,15 @@ public class SearchTypeToLookupMetadataConverter
   }
   if (value.equalsIgnoreCase ("Default"))
   {
-   return LookupParamMetadata.Usage.DEFAULT;
+   return LookupMetadata.Usage.DEFAULT;
   }
   if (value.equalsIgnoreCase ("Custom"))
   {
-   return LookupParamMetadata.Usage.CUSTOM;
+   return LookupMetadata.Usage.CUSTOM;
   }
   if (value.equalsIgnoreCase ("Advanced"))
   {
-   return LookupParamMetadata.Usage.ADVANCED;
+   return LookupMetadata.Usage.ADVANCED;
   }
   throw new DictionaryValidationException ("search " +
    searchType.getKey () +
@@ -231,6 +230,10 @@ public class SearchTypeToLookupMetadataConverter
  private Data.Value asDataValue (Data.DataType dataType, String value,
                                  String key)
  {
+  if (value == null || value.equals (""))
+  {
+   return null;
+  }
   switch (dataType)
   {
    case STRING:
@@ -243,6 +246,7 @@ public class SearchTypeToLookupMetadataConverter
     return new Data.DateValue (asDate (value));
    case TRUNCATED_DATE:
     return new Data.DateValue (asDate (value));
+    // TODO: parse lists on commas and insert each one
    case LIST:
     Data data = new Data (key);
     data.add (value);

@@ -38,7 +38,6 @@ public class OrchestrationObjectAssemblerWriter extends JavaClassWriter
 
  private DictionaryModel model;
  private String directory;
- public static final String ROOT_PACKAGE = "org.kuali.student.orchestration";
  private OrchestrationObject orchObj;
  private Map<String, OrchestrationObject> orchObjs;
 

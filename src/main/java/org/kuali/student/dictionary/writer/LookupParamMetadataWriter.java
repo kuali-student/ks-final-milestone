@@ -17,6 +17,7 @@ package org.kuali.student.dictionary.writer;
 
 import java.text.SimpleDateFormat;
 import org.kuali.student.common.assembly.client.Data;
+import org.kuali.student.common.assembly.client.LookupMetadata;
 import org.kuali.student.common.assembly.client.LookupParamMetadata;
 import org.kuali.student.common.assembly.client.Metadata;
 
@@ -76,14 +77,14 @@ public class LookupParamMetadataWriter
   writeSetValueInternal (property, "Metadata.WriteAccess." + value);
  }
 
-  private void writeSetValue (String property, LookupParamMetadata.Usage value)
+  private void writeSetValue (String property, LookupMetadata.Usage value)
  {
-  out.imports.add (LookupParamMetadata.class.getName ());
+  out.imports.add (LookupMetadata.class.getName ());
   if (value == null)
   {
    return;
   }
-  writeSetValueInternal (property, "LookupParamMetadata.Usage." + value);
+  writeSetValueInternal (property, "LookupMetadata.Usage." + value);
  }
 
  private void writeSetValue (String property, LookupParamMetadata.Widget value)
