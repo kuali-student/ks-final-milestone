@@ -13,6 +13,7 @@ import org.kuali.student.common.assembly.client.HasChangeCallbacks.ChangeType;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoHelper;
@@ -23,7 +24,6 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCours
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalInfoHelper;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
-import org.kuali.student.lum.lu.ui.course.client.service.DataSaveResult;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;

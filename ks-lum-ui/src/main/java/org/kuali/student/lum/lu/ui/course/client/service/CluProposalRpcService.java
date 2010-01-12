@@ -20,6 +20,7 @@ import java.util.HashMap;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.ui.client.service.BaseRpcService;
+import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
 
