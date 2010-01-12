@@ -7,7 +7,7 @@ http://student.kuali.org/xsd/dictionary-extension dictionary-extension.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Wed Jan 06 14:58:01 EST 2010
+on: Fri Jan 08 15:35:16 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls
  -->
@@ -5726,9 +5726,9 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls
 				<dict:fieldRef bean="course.format.internal.id"/>
 			</dict:state>
 		</dict:type>
-		<dict:type key="kuali.lu.type.activity.Lecture">
-		<!-- Instructor presentation of course materials -->
-		<!-- Classroom based -->
+		<dict:type key="kuali.lu.type.activity.WebDiscuss">
+		<!-- Web-based or technologically-mediated activities replacing standard discussion sections -->
+		<!-- Blog, Chat, Discussion Group, Learning Management System, LMS -->
 			<dict:state key="template">
 			<!-- A template holds configuration for defaults for creating a new course -->
 				
@@ -6999,9 +6999,805 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls
 				<dict:fieldRef bean="course.activity.internal.id"/>
 			</dict:state>
 		</dict:type>
-		<dict:type key="kuali.lu.type.activity.Directed">
-		<!-- Provides students with a way to complete a  class or other area of focussed studies.  Directed study may be individualized method or in a group. -->
-		<!-- Directed Honours, Directed Research, Directed Readings, Honours Essay, Honours Study Semester -->
+		<dict:type key="kuali.lu.type.activity.Tutorial">
+		<!-- Supplementary (or remedial) individualized instruction, Extra meetings for the review or elaboration of course materials -->
+		<!-- Supplement, workshop, TA Help Session, Extra Lessons, Problem Session -->
+			<dict:state key="template">
+			<!-- A template holds configuration for defaults for creating a new course -->
+				<dict:fieldRef bean="course.activity.official"/>
+				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
+				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
+				<dict:fieldRef bean="course.activity.studySubjectArea"/>
+				<dict:fieldRef bean="course.activity.desc"/>
+				<dict:fieldRef bean="course.activity.marketingDesc"/>
+				<dict:fieldRef bean="course.activity.campusLocationList"/>
+				<dict:fieldRef bean="course.activity.accreditation"/>
+				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
+				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
+				<dict:fieldRef bean="course.activity.primaryInstructor"/>
+				<dict:fieldRef bean="course.activity.instructors"/>
+				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
+				<dict:fieldRef bean="course.activity.effectiveDate"/>
+				<dict:fieldRef bean="course.activity.expirationDate"/>
+				<dict:fieldRef bean="course.activity.contact.hours"/>
+				<dict:fieldRef bean="course.activity.duration"/>
+				<dict:fieldRef bean="course.activity.canCreateLui"/>
+				<dict:fieldRef bean="course.activity.referenceURL"/>
+				<dict:fieldRef bean="course.activity.luCodes"/>
+				<dict:fieldRef bean="course.activity.publishingInfo"/>
+				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
+				<dict:fieldRef bean="course.activity.isEnrollable"/>
+				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
+				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
+				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
+				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
+				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
+				<dict:fieldRef bean="course.activity.feeInfo"/>
+				<dict:fieldRef bean="course.activity.accountingInfo"/>
+				<dict:fieldRef bean="course.activity.attributes"/>
+				<dict:fieldRef bean="course.activity.metaInfo"/>
+				<dict:fieldRef bean="course.activity.type"/>
+				<dict:fieldRef bean="course.activity.state"/>
+				<dict:fieldRef bean="course.activity.internal.id"/>
+			</dict:state>
+			<dict:state key="draft.private">
+			<!-- Exploratory/Private scratch pad -->
+				<dict:fieldRef bean="course.activity.official"/>
+				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
+				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
+				<dict:fieldRef bean="course.activity.studySubjectArea"/>
+				<dict:fieldRef bean="course.activity.desc"/>
+				<dict:fieldRef bean="course.activity.marketingDesc"/>
+				<dict:fieldRef bean="course.activity.campusLocationList"/>
+				<dict:fieldRef bean="course.activity.accreditation"/>
+				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
+				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
+				<dict:fieldRef bean="course.activity.primaryInstructor"/>
+				<dict:fieldRef bean="course.activity.instructors"/>
+				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
+				<dict:fieldRef bean="course.activity.effectiveDate"/>
+				<dict:fieldRef bean="course.activity.expirationDate"/>
+				
+				<dict:field key="intensity">
+					<dict:fieldDescriptor>
+						<dict:name>course activity contact hours</dict:name>
+						<dict:desc>contact hours</dict:desc>
+						<dict:dataType>complex</dict:dataType>
+							
+							<dict:objectStructure key="org.kuali.student.core.dto.TimeAmountInfo">
+								<!-- Detailed information about an amount of time including both the type of units and the quantity. -->
+								<dict:type key="kuali.not.applicable">
+								<!-- Not applicable -->
+								<!-- (n/a) -->
+									<dict:state key="(n/a)">
+									<!-- Not applicable -->
+										<dict:fieldRef bean="course.activity.contact.hours.per.draft.private"/>
+										<dict:fieldRef bean="course.activity.contact.hours.no.draft.private"/>
+									</dict:state>
+								</dict:type>
+							</dict:objectStructure>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+							<dict:constraintRef bean="optional"/>
+							<dict:constraintRef bean="single"/>
+							<dict:constraintRef bean="optional"/>
+					</dict:constraintDescriptor>
+				</dict:field>
+				<dict:fieldRef bean="course.activity.duration"/>
+				<dict:fieldRef bean="course.activity.canCreateLui"/>
+				<dict:fieldRef bean="course.activity.referenceURL"/>
+				<dict:fieldRef bean="course.activity.luCodes"/>
+				<dict:fieldRef bean="course.activity.publishingInfo"/>
+				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
+				<dict:fieldRef bean="course.activity.isEnrollable"/>
+				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
+				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
+				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
+				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
+				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
+				<dict:fieldRef bean="course.activity.feeInfo"/>
+				<dict:fieldRef bean="course.activity.accountingInfo"/>
+				<dict:fieldRef bean="course.activity.attributes"/>
+				<dict:fieldRef bean="course.activity.metaInfo"/>
+				<dict:fieldRef bean="course.activity.type"/>
+				<dict:fieldRef bean="course.activity.state"/>
+				<dict:fieldRef bean="course.activity.internal.id"/>
+			</dict:state>
+			<dict:state key="draft.public">
+			<!-- Entered as draft but not yet submitted -->
+				<dict:fieldRef bean="course.activity.official"/>
+				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
+				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
+				<dict:fieldRef bean="course.activity.studySubjectArea"/>
+				<dict:fieldRef bean="course.activity.desc"/>
+				<dict:fieldRef bean="course.activity.marketingDesc"/>
+				<dict:fieldRef bean="course.activity.campusLocationList"/>
+				<dict:fieldRef bean="course.activity.accreditation"/>
+				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
+				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
+				<dict:fieldRef bean="course.activity.primaryInstructor"/>
+				<dict:fieldRef bean="course.activity.instructors"/>
+				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
+				<dict:fieldRef bean="course.activity.effectiveDate"/>
+				<dict:fieldRef bean="course.activity.expirationDate"/>
+				
+				<dict:field key="intensity">
+					<dict:fieldDescriptor>
+						<dict:name>course activity contact hours</dict:name>
+						<dict:desc>contact hours</dict:desc>
+						<dict:dataType>complex</dict:dataType>
+							
+							<dict:objectStructure key="org.kuali.student.core.dto.TimeAmountInfo">
+								<!-- Detailed information about an amount of time including both the type of units and the quantity. -->
+								<dict:type key="kuali.not.applicable">
+								<!-- Not applicable -->
+								<!-- (n/a) -->
+									<dict:state key="(n/a)">
+									<!-- Not applicable -->
+										<dict:fieldRef bean="course.activity.contact.hours.per.draft.public"/>
+										<dict:fieldRef bean="course.activity.contact.hours.no.draft.public"/>
+									</dict:state>
+								</dict:type>
+							</dict:objectStructure>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+							<dict:constraintRef bean="optional"/>
+							<dict:constraintRef bean="single"/>
+							<dict:constraintRef bean="optional"/>
+					</dict:constraintDescriptor>
+				</dict:field>
+				<dict:fieldRef bean="course.activity.duration"/>
+				<dict:fieldRef bean="course.activity.canCreateLui"/>
+				<dict:fieldRef bean="course.activity.referenceURL"/>
+				<dict:fieldRef bean="course.activity.luCodes"/>
+				<dict:fieldRef bean="course.activity.publishingInfo"/>
+				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
+				<dict:fieldRef bean="course.activity.isEnrollable"/>
+				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
+				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
+				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
+				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
+				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
+				<dict:fieldRef bean="course.activity.feeInfo"/>
+				<dict:fieldRef bean="course.activity.accountingInfo"/>
+				<dict:fieldRef bean="course.activity.attributes"/>
+				<dict:fieldRef bean="course.activity.metaInfo"/>
+				<dict:fieldRef bean="course.activity.type"/>
+				<dict:fieldRef bean="course.activity.state"/>
+				<dict:fieldRef bean="course.activity.internal.id"/>
+			</dict:state>
+			<dict:state key="submitted">
+			<!-- Submitted but not yet approved -->
+				<dict:fieldRef bean="course.activity.official"/>
+				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
+				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
+				<dict:fieldRef bean="course.activity.studySubjectArea"/>
+				<dict:fieldRef bean="course.activity.desc"/>
+				<dict:fieldRef bean="course.activity.marketingDesc"/>
+				<dict:fieldRef bean="course.activity.campusLocationList"/>
+				<dict:fieldRef bean="course.activity.accreditation"/>
+				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
+				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
+				<dict:fieldRef bean="course.activity.primaryInstructor"/>
+				<dict:fieldRef bean="course.activity.instructors"/>
+				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
+				<dict:fieldRef bean="course.activity.effectiveDate"/>
+				<dict:fieldRef bean="course.activity.expirationDate"/>
+				<dict:fieldRef bean="course.activity.contact.hours"/>
+				<dict:fieldRef bean="course.activity.duration"/>
+				<dict:fieldRef bean="course.activity.canCreateLui"/>
+				<dict:fieldRef bean="course.activity.referenceURL"/>
+				<dict:fieldRef bean="course.activity.luCodes"/>
+				<dict:fieldRef bean="course.activity.publishingInfo"/>
+				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
+				<dict:fieldRef bean="course.activity.isEnrollable"/>
+				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
+				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
+				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
+				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
+				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
+				<dict:fieldRef bean="course.activity.feeInfo"/>
+				<dict:fieldRef bean="course.activity.accountingInfo"/>
+				<dict:fieldRef bean="course.activity.attributes"/>
+				<dict:fieldRef bean="course.activity.metaInfo"/>
+				<dict:fieldRef bean="course.activity.type"/>
+				<dict:fieldRef bean="course.activity.state"/>
+				<dict:fieldRef bean="course.activity.internal.id"/>
+			</dict:state>
+			<dict:state key="withdrawn">
+			<!-- Withdrawn (anytime before activated) -->
+				<dict:fieldRef bean="course.activity.official"/>
+				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
+				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
+				<dict:fieldRef bean="course.activity.studySubjectArea"/>
+				<dict:fieldRef bean="course.activity.desc"/>
+				<dict:fieldRef bean="course.activity.marketingDesc"/>
+				<dict:fieldRef bean="course.activity.campusLocationList"/>
+				<dict:fieldRef bean="course.activity.accreditation"/>
+				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
+				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
+				<dict:fieldRef bean="course.activity.primaryInstructor"/>
+				<dict:fieldRef bean="course.activity.instructors"/>
+				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
+				<dict:fieldRef bean="course.activity.effectiveDate"/>
+				<dict:fieldRef bean="course.activity.expirationDate"/>
+				<dict:fieldRef bean="course.activity.contact.hours"/>
+				<dict:fieldRef bean="course.activity.duration"/>
+				<dict:fieldRef bean="course.activity.canCreateLui"/>
+				<dict:fieldRef bean="course.activity.referenceURL"/>
+				<dict:fieldRef bean="course.activity.luCodes"/>
+				<dict:fieldRef bean="course.activity.publishingInfo"/>
+				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
+				<dict:fieldRef bean="course.activity.isEnrollable"/>
+				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
+				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
+				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
+				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
+				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
+				<dict:fieldRef bean="course.activity.feeInfo"/>
+				<dict:fieldRef bean="course.activity.accountingInfo"/>
+				<dict:fieldRef bean="course.activity.attributes"/>
+				<dict:fieldRef bean="course.activity.metaInfo"/>
+				<dict:fieldRef bean="course.activity.type"/>
+				<dict:fieldRef bean="course.activity.state"/>
+				<dict:fieldRef bean="course.activity.internal.id"/>
+			</dict:state>
+			<dict:state key="approved">
+			<!-- Approved -->
+				<dict:fieldRef bean="course.activity.official"/>
+				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
+				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
+				<dict:fieldRef bean="course.activity.studySubjectArea"/>
+				<dict:fieldRef bean="course.activity.desc"/>
+				<dict:fieldRef bean="course.activity.marketingDesc"/>
+				<dict:fieldRef bean="course.activity.campusLocationList"/>
+				<dict:fieldRef bean="course.activity.accreditation"/>
+				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
+				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
+				<dict:fieldRef bean="course.activity.primaryInstructor"/>
+				<dict:fieldRef bean="course.activity.instructors"/>
+				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
+				<dict:fieldRef bean="course.activity.effectiveDate"/>
+				<dict:fieldRef bean="course.activity.expirationDate"/>
+				<dict:fieldRef bean="course.activity.contact.hours"/>
+				<dict:fieldRef bean="course.activity.duration"/>
+				<dict:fieldRef bean="course.activity.canCreateLui"/>
+				<dict:fieldRef bean="course.activity.referenceURL"/>
+				<dict:fieldRef bean="course.activity.luCodes"/>
+				<dict:fieldRef bean="course.activity.publishingInfo"/>
+				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
+				<dict:fieldRef bean="course.activity.isEnrollable"/>
+				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
+				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
+				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
+				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
+				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
+				<dict:fieldRef bean="course.activity.feeInfo"/>
+				<dict:fieldRef bean="course.activity.accountingInfo"/>
+				<dict:fieldRef bean="course.activity.attributes"/>
+				<dict:fieldRef bean="course.activity.metaInfo"/>
+				<dict:fieldRef bean="course.activity.type"/>
+				<dict:fieldRef bean="course.activity.state"/>
+				<dict:fieldRef bean="course.activity.internal.id"/>
+			</dict:state>
+			<dict:state key="rejected">
+			<!-- Not approved (rejected) -->
+			<!-- Do we need here some indication of why it was not approved?  I.e. disapproved vs. not acted on because submitted too late, etc. -->
+				<dict:fieldRef bean="course.activity.official"/>
+				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
+				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
+				<dict:fieldRef bean="course.activity.studySubjectArea"/>
+				<dict:fieldRef bean="course.activity.desc"/>
+				<dict:fieldRef bean="course.activity.marketingDesc"/>
+				<dict:fieldRef bean="course.activity.campusLocationList"/>
+				<dict:fieldRef bean="course.activity.accreditation"/>
+				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
+				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
+				<dict:fieldRef bean="course.activity.primaryInstructor"/>
+				<dict:fieldRef bean="course.activity.instructors"/>
+				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
+				<dict:fieldRef bean="course.activity.effectiveDate"/>
+				<dict:fieldRef bean="course.activity.expirationDate"/>
+				<dict:fieldRef bean="course.activity.contact.hours"/>
+				<dict:fieldRef bean="course.activity.duration"/>
+				<dict:fieldRef bean="course.activity.canCreateLui"/>
+				<dict:fieldRef bean="course.activity.referenceURL"/>
+				<dict:fieldRef bean="course.activity.luCodes"/>
+				<dict:fieldRef bean="course.activity.publishingInfo"/>
+				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
+				<dict:fieldRef bean="course.activity.isEnrollable"/>
+				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
+				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
+				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
+				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
+				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
+				<dict:fieldRef bean="course.activity.feeInfo"/>
+				<dict:fieldRef bean="course.activity.accountingInfo"/>
+				<dict:fieldRef bean="course.activity.attributes"/>
+				<dict:fieldRef bean="course.activity.metaInfo"/>
+				<dict:fieldRef bean="course.activity.type"/>
+				<dict:fieldRef bean="course.activity.state"/>
+				<dict:fieldRef bean="course.activity.internal.id"/>
+			</dict:state>
+			<dict:state key="activated">
+			<!-- Activated and ready to be published -->
+				<dict:fieldRef bean="course.activity.official"/>
+				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
+				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
+				<dict:fieldRef bean="course.activity.studySubjectArea"/>
+				<dict:fieldRef bean="course.activity.desc"/>
+				<dict:fieldRef bean="course.activity.marketingDesc"/>
+				<dict:fieldRef bean="course.activity.campusLocationList"/>
+				<dict:fieldRef bean="course.activity.accreditation"/>
+				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
+				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
+				<dict:fieldRef bean="course.activity.primaryInstructor"/>
+				<dict:fieldRef bean="course.activity.instructors"/>
+				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
+				<dict:fieldRef bean="course.activity.effectiveDate"/>
+				<dict:fieldRef bean="course.activity.expirationDate"/>
+				<dict:fieldRef bean="course.activity.contact.hours"/>
+				<dict:fieldRef bean="course.activity.duration"/>
+				<dict:fieldRef bean="course.activity.canCreateLui"/>
+				<dict:fieldRef bean="course.activity.referenceURL"/>
+				<dict:fieldRef bean="course.activity.luCodes"/>
+				<dict:fieldRef bean="course.activity.publishingInfo"/>
+				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
+				<dict:fieldRef bean="course.activity.isEnrollable"/>
+				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
+				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
+				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
+				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
+				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
+				<dict:fieldRef bean="course.activity.feeInfo"/>
+				<dict:fieldRef bean="course.activity.accountingInfo"/>
+				<dict:fieldRef bean="course.activity.attributes"/>
+				<dict:fieldRef bean="course.activity.metaInfo"/>
+				<dict:fieldRef bean="course.activity.type"/>
+				<dict:fieldRef bean="course.activity.state"/>
+				<dict:fieldRef bean="course.activity.internal.id"/>
+			</dict:state>
+			<dict:state key="retired">
+			<!-- Retired/No longer active -->
+			<!-- Do we need/want to differentiate here between retiring a course simply because it will no longer be taught and retiring a version of a course because it has been superceded by a newer version. -->
+				<dict:fieldRef bean="course.activity.official"/>
+				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
+				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
+				<dict:fieldRef bean="course.activity.studySubjectArea"/>
+				<dict:fieldRef bean="course.activity.desc"/>
+				<dict:fieldRef bean="course.activity.marketingDesc"/>
+				<dict:fieldRef bean="course.activity.campusLocationList"/>
+				<dict:fieldRef bean="course.activity.accreditation"/>
+				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
+				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
+				<dict:fieldRef bean="course.activity.primaryInstructor"/>
+				<dict:fieldRef bean="course.activity.instructors"/>
+				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
+				<dict:fieldRef bean="course.activity.effectiveDate"/>
+				<dict:fieldRef bean="course.activity.expirationDate"/>
+				<dict:fieldRef bean="course.activity.contact.hours"/>
+				<dict:fieldRef bean="course.activity.duration"/>
+				<dict:fieldRef bean="course.activity.canCreateLui"/>
+				<dict:fieldRef bean="course.activity.referenceURL"/>
+				<dict:fieldRef bean="course.activity.luCodes"/>
+				<dict:fieldRef bean="course.activity.publishingInfo"/>
+				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
+				<dict:fieldRef bean="course.activity.isEnrollable"/>
+				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
+				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
+				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
+				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
+				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
+				<dict:fieldRef bean="course.activity.feeInfo"/>
+				<dict:fieldRef bean="course.activity.accountingInfo"/>
+				<dict:fieldRef bean="course.activity.attributes"/>
+				<dict:fieldRef bean="course.activity.metaInfo"/>
+				<dict:fieldRef bean="course.activity.type"/>
+				<dict:fieldRef bean="course.activity.state"/>
+				<dict:fieldRef bean="course.activity.internal.id"/>
+			</dict:state>
+		</dict:type>
+		<dict:type key="kuali.lu.type.activity.Discussion">
+		<!-- The exchange of opinions or questions on course material -->
+		<!-- Seminar Style, Roundtable Discussion -->
+			<dict:state key="template">
+			<!-- A template holds configuration for defaults for creating a new course -->
+				<dict:fieldRef bean="course.activity.official"/>
+				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
+				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
+				<dict:fieldRef bean="course.activity.studySubjectArea"/>
+				<dict:fieldRef bean="course.activity.desc"/>
+				<dict:fieldRef bean="course.activity.marketingDesc"/>
+				<dict:fieldRef bean="course.activity.campusLocationList"/>
+				<dict:fieldRef bean="course.activity.accreditation"/>
+				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
+				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
+				<dict:fieldRef bean="course.activity.primaryInstructor"/>
+				<dict:fieldRef bean="course.activity.instructors"/>
+				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
+				<dict:fieldRef bean="course.activity.effectiveDate"/>
+				<dict:fieldRef bean="course.activity.expirationDate"/>
+				<dict:fieldRef bean="course.activity.contact.hours"/>
+				<dict:fieldRef bean="course.activity.duration"/>
+				<dict:fieldRef bean="course.activity.canCreateLui"/>
+				<dict:fieldRef bean="course.activity.referenceURL"/>
+				<dict:fieldRef bean="course.activity.luCodes"/>
+				<dict:fieldRef bean="course.activity.publishingInfo"/>
+				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
+				<dict:fieldRef bean="course.activity.isEnrollable"/>
+				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
+				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
+				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
+				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
+				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
+				<dict:fieldRef bean="course.activity.feeInfo"/>
+				<dict:fieldRef bean="course.activity.accountingInfo"/>
+				<dict:fieldRef bean="course.activity.attributes"/>
+				<dict:fieldRef bean="course.activity.metaInfo"/>
+				<dict:fieldRef bean="course.activity.type"/>
+				<dict:fieldRef bean="course.activity.state"/>
+				<dict:fieldRef bean="course.activity.internal.id"/>
+			</dict:state>
+			<dict:state key="draft.private">
+			<!-- Exploratory/Private scratch pad -->
+				<dict:fieldRef bean="course.activity.official"/>
+				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
+				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
+				<dict:fieldRef bean="course.activity.studySubjectArea"/>
+				<dict:fieldRef bean="course.activity.desc"/>
+				<dict:fieldRef bean="course.activity.marketingDesc"/>
+				<dict:fieldRef bean="course.activity.campusLocationList"/>
+				<dict:fieldRef bean="course.activity.accreditation"/>
+				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
+				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
+				<dict:fieldRef bean="course.activity.primaryInstructor"/>
+				<dict:fieldRef bean="course.activity.instructors"/>
+				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
+				<dict:fieldRef bean="course.activity.effectiveDate"/>
+				<dict:fieldRef bean="course.activity.expirationDate"/>
+				
+				<dict:field key="intensity">
+					<dict:fieldDescriptor>
+						<dict:name>course activity contact hours</dict:name>
+						<dict:desc>contact hours</dict:desc>
+						<dict:dataType>complex</dict:dataType>
+							
+							<dict:objectStructure key="org.kuali.student.core.dto.TimeAmountInfo">
+								<!-- Detailed information about an amount of time including both the type of units and the quantity. -->
+								<dict:type key="kuali.not.applicable">
+								<!-- Not applicable -->
+								<!-- (n/a) -->
+									<dict:state key="(n/a)">
+									<!-- Not applicable -->
+										<dict:fieldRef bean="course.activity.contact.hours.per.draft.private"/>
+										<dict:fieldRef bean="course.activity.contact.hours.no.draft.private"/>
+									</dict:state>
+								</dict:type>
+							</dict:objectStructure>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+							<dict:constraintRef bean="optional"/>
+							<dict:constraintRef bean="single"/>
+							<dict:constraintRef bean="optional"/>
+					</dict:constraintDescriptor>
+				</dict:field>
+				<dict:fieldRef bean="course.activity.duration"/>
+				<dict:fieldRef bean="course.activity.canCreateLui"/>
+				<dict:fieldRef bean="course.activity.referenceURL"/>
+				<dict:fieldRef bean="course.activity.luCodes"/>
+				<dict:fieldRef bean="course.activity.publishingInfo"/>
+				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
+				<dict:fieldRef bean="course.activity.isEnrollable"/>
+				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
+				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
+				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
+				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
+				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
+				<dict:fieldRef bean="course.activity.feeInfo"/>
+				<dict:fieldRef bean="course.activity.accountingInfo"/>
+				<dict:fieldRef bean="course.activity.attributes"/>
+				<dict:fieldRef bean="course.activity.metaInfo"/>
+				<dict:fieldRef bean="course.activity.type"/>
+				<dict:fieldRef bean="course.activity.state"/>
+				<dict:fieldRef bean="course.activity.internal.id"/>
+			</dict:state>
+			<dict:state key="draft.public">
+			<!-- Entered as draft but not yet submitted -->
+				<dict:fieldRef bean="course.activity.official"/>
+				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
+				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
+				<dict:fieldRef bean="course.activity.studySubjectArea"/>
+				<dict:fieldRef bean="course.activity.desc"/>
+				<dict:fieldRef bean="course.activity.marketingDesc"/>
+				<dict:fieldRef bean="course.activity.campusLocationList"/>
+				<dict:fieldRef bean="course.activity.accreditation"/>
+				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
+				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
+				<dict:fieldRef bean="course.activity.primaryInstructor"/>
+				<dict:fieldRef bean="course.activity.instructors"/>
+				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
+				<dict:fieldRef bean="course.activity.effectiveDate"/>
+				<dict:fieldRef bean="course.activity.expirationDate"/>
+				
+				<dict:field key="intensity">
+					<dict:fieldDescriptor>
+						<dict:name>course activity contact hours</dict:name>
+						<dict:desc>contact hours</dict:desc>
+						<dict:dataType>complex</dict:dataType>
+							
+							<dict:objectStructure key="org.kuali.student.core.dto.TimeAmountInfo">
+								<!-- Detailed information about an amount of time including both the type of units and the quantity. -->
+								<dict:type key="kuali.not.applicable">
+								<!-- Not applicable -->
+								<!-- (n/a) -->
+									<dict:state key="(n/a)">
+									<!-- Not applicable -->
+										<dict:fieldRef bean="course.activity.contact.hours.per.draft.public"/>
+										<dict:fieldRef bean="course.activity.contact.hours.no.draft.public"/>
+									</dict:state>
+								</dict:type>
+							</dict:objectStructure>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+							<dict:constraintRef bean="optional"/>
+							<dict:constraintRef bean="single"/>
+							<dict:constraintRef bean="optional"/>
+					</dict:constraintDescriptor>
+				</dict:field>
+				<dict:fieldRef bean="course.activity.duration"/>
+				<dict:fieldRef bean="course.activity.canCreateLui"/>
+				<dict:fieldRef bean="course.activity.referenceURL"/>
+				<dict:fieldRef bean="course.activity.luCodes"/>
+				<dict:fieldRef bean="course.activity.publishingInfo"/>
+				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
+				<dict:fieldRef bean="course.activity.isEnrollable"/>
+				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
+				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
+				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
+				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
+				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
+				<dict:fieldRef bean="course.activity.feeInfo"/>
+				<dict:fieldRef bean="course.activity.accountingInfo"/>
+				<dict:fieldRef bean="course.activity.attributes"/>
+				<dict:fieldRef bean="course.activity.metaInfo"/>
+				<dict:fieldRef bean="course.activity.type"/>
+				<dict:fieldRef bean="course.activity.state"/>
+				<dict:fieldRef bean="course.activity.internal.id"/>
+			</dict:state>
+			<dict:state key="submitted">
+			<!-- Submitted but not yet approved -->
+				<dict:fieldRef bean="course.activity.official"/>
+				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
+				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
+				<dict:fieldRef bean="course.activity.studySubjectArea"/>
+				<dict:fieldRef bean="course.activity.desc"/>
+				<dict:fieldRef bean="course.activity.marketingDesc"/>
+				<dict:fieldRef bean="course.activity.campusLocationList"/>
+				<dict:fieldRef bean="course.activity.accreditation"/>
+				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
+				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
+				<dict:fieldRef bean="course.activity.primaryInstructor"/>
+				<dict:fieldRef bean="course.activity.instructors"/>
+				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
+				<dict:fieldRef bean="course.activity.effectiveDate"/>
+				<dict:fieldRef bean="course.activity.expirationDate"/>
+				<dict:fieldRef bean="course.activity.contact.hours"/>
+				<dict:fieldRef bean="course.activity.duration"/>
+				<dict:fieldRef bean="course.activity.canCreateLui"/>
+				<dict:fieldRef bean="course.activity.referenceURL"/>
+				<dict:fieldRef bean="course.activity.luCodes"/>
+				<dict:fieldRef bean="course.activity.publishingInfo"/>
+				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
+				<dict:fieldRef bean="course.activity.isEnrollable"/>
+				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
+				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
+				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
+				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
+				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
+				<dict:fieldRef bean="course.activity.feeInfo"/>
+				<dict:fieldRef bean="course.activity.accountingInfo"/>
+				<dict:fieldRef bean="course.activity.attributes"/>
+				<dict:fieldRef bean="course.activity.metaInfo"/>
+				<dict:fieldRef bean="course.activity.type"/>
+				<dict:fieldRef bean="course.activity.state"/>
+				<dict:fieldRef bean="course.activity.internal.id"/>
+			</dict:state>
+			<dict:state key="withdrawn">
+			<!-- Withdrawn (anytime before activated) -->
+				<dict:fieldRef bean="course.activity.official"/>
+				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
+				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
+				<dict:fieldRef bean="course.activity.studySubjectArea"/>
+				<dict:fieldRef bean="course.activity.desc"/>
+				<dict:fieldRef bean="course.activity.marketingDesc"/>
+				<dict:fieldRef bean="course.activity.campusLocationList"/>
+				<dict:fieldRef bean="course.activity.accreditation"/>
+				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
+				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
+				<dict:fieldRef bean="course.activity.primaryInstructor"/>
+				<dict:fieldRef bean="course.activity.instructors"/>
+				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
+				<dict:fieldRef bean="course.activity.effectiveDate"/>
+				<dict:fieldRef bean="course.activity.expirationDate"/>
+				<dict:fieldRef bean="course.activity.contact.hours"/>
+				<dict:fieldRef bean="course.activity.duration"/>
+				<dict:fieldRef bean="course.activity.canCreateLui"/>
+				<dict:fieldRef bean="course.activity.referenceURL"/>
+				<dict:fieldRef bean="course.activity.luCodes"/>
+				<dict:fieldRef bean="course.activity.publishingInfo"/>
+				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
+				<dict:fieldRef bean="course.activity.isEnrollable"/>
+				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
+				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
+				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
+				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
+				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
+				<dict:fieldRef bean="course.activity.feeInfo"/>
+				<dict:fieldRef bean="course.activity.accountingInfo"/>
+				<dict:fieldRef bean="course.activity.attributes"/>
+				<dict:fieldRef bean="course.activity.metaInfo"/>
+				<dict:fieldRef bean="course.activity.type"/>
+				<dict:fieldRef bean="course.activity.state"/>
+				<dict:fieldRef bean="course.activity.internal.id"/>
+			</dict:state>
+			<dict:state key="approved">
+			<!-- Approved -->
+				<dict:fieldRef bean="course.activity.official"/>
+				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
+				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
+				<dict:fieldRef bean="course.activity.studySubjectArea"/>
+				<dict:fieldRef bean="course.activity.desc"/>
+				<dict:fieldRef bean="course.activity.marketingDesc"/>
+				<dict:fieldRef bean="course.activity.campusLocationList"/>
+				<dict:fieldRef bean="course.activity.accreditation"/>
+				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
+				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
+				<dict:fieldRef bean="course.activity.primaryInstructor"/>
+				<dict:fieldRef bean="course.activity.instructors"/>
+				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
+				<dict:fieldRef bean="course.activity.effectiveDate"/>
+				<dict:fieldRef bean="course.activity.expirationDate"/>
+				<dict:fieldRef bean="course.activity.contact.hours"/>
+				<dict:fieldRef bean="course.activity.duration"/>
+				<dict:fieldRef bean="course.activity.canCreateLui"/>
+				<dict:fieldRef bean="course.activity.referenceURL"/>
+				<dict:fieldRef bean="course.activity.luCodes"/>
+				<dict:fieldRef bean="course.activity.publishingInfo"/>
+				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
+				<dict:fieldRef bean="course.activity.isEnrollable"/>
+				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
+				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
+				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
+				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
+				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
+				<dict:fieldRef bean="course.activity.feeInfo"/>
+				<dict:fieldRef bean="course.activity.accountingInfo"/>
+				<dict:fieldRef bean="course.activity.attributes"/>
+				<dict:fieldRef bean="course.activity.metaInfo"/>
+				<dict:fieldRef bean="course.activity.type"/>
+				<dict:fieldRef bean="course.activity.state"/>
+				<dict:fieldRef bean="course.activity.internal.id"/>
+			</dict:state>
+			<dict:state key="rejected">
+			<!-- Not approved (rejected) -->
+			<!-- Do we need here some indication of why it was not approved?  I.e. disapproved vs. not acted on because submitted too late, etc. -->
+				<dict:fieldRef bean="course.activity.official"/>
+				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
+				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
+				<dict:fieldRef bean="course.activity.studySubjectArea"/>
+				<dict:fieldRef bean="course.activity.desc"/>
+				<dict:fieldRef bean="course.activity.marketingDesc"/>
+				<dict:fieldRef bean="course.activity.campusLocationList"/>
+				<dict:fieldRef bean="course.activity.accreditation"/>
+				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
+				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
+				<dict:fieldRef bean="course.activity.primaryInstructor"/>
+				<dict:fieldRef bean="course.activity.instructors"/>
+				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
+				<dict:fieldRef bean="course.activity.effectiveDate"/>
+				<dict:fieldRef bean="course.activity.expirationDate"/>
+				<dict:fieldRef bean="course.activity.contact.hours"/>
+				<dict:fieldRef bean="course.activity.duration"/>
+				<dict:fieldRef bean="course.activity.canCreateLui"/>
+				<dict:fieldRef bean="course.activity.referenceURL"/>
+				<dict:fieldRef bean="course.activity.luCodes"/>
+				<dict:fieldRef bean="course.activity.publishingInfo"/>
+				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
+				<dict:fieldRef bean="course.activity.isEnrollable"/>
+				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
+				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
+				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
+				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
+				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
+				<dict:fieldRef bean="course.activity.feeInfo"/>
+				<dict:fieldRef bean="course.activity.accountingInfo"/>
+				<dict:fieldRef bean="course.activity.attributes"/>
+				<dict:fieldRef bean="course.activity.metaInfo"/>
+				<dict:fieldRef bean="course.activity.type"/>
+				<dict:fieldRef bean="course.activity.state"/>
+				<dict:fieldRef bean="course.activity.internal.id"/>
+			</dict:state>
+			<dict:state key="activated">
+			<!-- Activated and ready to be published -->
+				<dict:fieldRef bean="course.activity.official"/>
+				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
+				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
+				<dict:fieldRef bean="course.activity.studySubjectArea"/>
+				<dict:fieldRef bean="course.activity.desc"/>
+				<dict:fieldRef bean="course.activity.marketingDesc"/>
+				<dict:fieldRef bean="course.activity.campusLocationList"/>
+				<dict:fieldRef bean="course.activity.accreditation"/>
+				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
+				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
+				<dict:fieldRef bean="course.activity.primaryInstructor"/>
+				<dict:fieldRef bean="course.activity.instructors"/>
+				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
+				<dict:fieldRef bean="course.activity.effectiveDate"/>
+				<dict:fieldRef bean="course.activity.expirationDate"/>
+				<dict:fieldRef bean="course.activity.contact.hours"/>
+				<dict:fieldRef bean="course.activity.duration"/>
+				<dict:fieldRef bean="course.activity.canCreateLui"/>
+				<dict:fieldRef bean="course.activity.referenceURL"/>
+				<dict:fieldRef bean="course.activity.luCodes"/>
+				<dict:fieldRef bean="course.activity.publishingInfo"/>
+				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
+				<dict:fieldRef bean="course.activity.isEnrollable"/>
+				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
+				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
+				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
+				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
+				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
+				<dict:fieldRef bean="course.activity.feeInfo"/>
+				<dict:fieldRef bean="course.activity.accountingInfo"/>
+				<dict:fieldRef bean="course.activity.attributes"/>
+				<dict:fieldRef bean="course.activity.metaInfo"/>
+				<dict:fieldRef bean="course.activity.type"/>
+				<dict:fieldRef bean="course.activity.state"/>
+				<dict:fieldRef bean="course.activity.internal.id"/>
+			</dict:state>
+			<dict:state key="retired">
+			<!-- Retired/No longer active -->
+			<!-- Do we need/want to differentiate here between retiring a course simply because it will no longer be taught and retiring a version of a course because it has been superceded by a newer version. -->
+				<dict:fieldRef bean="course.activity.official"/>
+				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
+				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
+				<dict:fieldRef bean="course.activity.studySubjectArea"/>
+				<dict:fieldRef bean="course.activity.desc"/>
+				<dict:fieldRef bean="course.activity.marketingDesc"/>
+				<dict:fieldRef bean="course.activity.campusLocationList"/>
+				<dict:fieldRef bean="course.activity.accreditation"/>
+				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
+				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
+				<dict:fieldRef bean="course.activity.primaryInstructor"/>
+				<dict:fieldRef bean="course.activity.instructors"/>
+				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
+				<dict:fieldRef bean="course.activity.effectiveDate"/>
+				<dict:fieldRef bean="course.activity.expirationDate"/>
+				<dict:fieldRef bean="course.activity.contact.hours"/>
+				<dict:fieldRef bean="course.activity.duration"/>
+				<dict:fieldRef bean="course.activity.canCreateLui"/>
+				<dict:fieldRef bean="course.activity.referenceURL"/>
+				<dict:fieldRef bean="course.activity.luCodes"/>
+				<dict:fieldRef bean="course.activity.publishingInfo"/>
+				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
+				<dict:fieldRef bean="course.activity.isEnrollable"/>
+				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
+				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
+				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
+				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
+				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
+				<dict:fieldRef bean="course.activity.feeInfo"/>
+				<dict:fieldRef bean="course.activity.accountingInfo"/>
+				<dict:fieldRef bean="course.activity.attributes"/>
+				<dict:fieldRef bean="course.activity.metaInfo"/>
+				<dict:fieldRef bean="course.activity.type"/>
+				<dict:fieldRef bean="course.activity.state"/>
+				<dict:fieldRef bean="course.activity.internal.id"/>
+			</dict:state>
+		</dict:type>
+		<dict:type key="kuali.lu.type.activity.Lecture">
+		<!-- Instructor presentation of course materials -->
+		<!-- Classroom based -->
 			<dict:state key="template">
 			<!-- A template holds configuration for defaults for creating a new course -->
 				<dict:fieldRef bean="course.activity.official"/>
@@ -7794,9 +8590,9 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls
 				<dict:fieldRef bean="course.activity.internal.id"/>
 			</dict:state>
 		</dict:type>
-		<dict:type key="kuali.lu.type.activity.Tutorial">
-		<!-- Supplementary (or remedial) individualized instruction, Extra meetings for the review or elaboration of course materials -->
-		<!-- Supplement, workshop, TA Help Session, Extra Lessons, Problem Session -->
+		<dict:type key="kuali.lu.type.activity.Directed">
+		<!-- Provides students with a way to complete a  class or other area of focussed studies.  Directed study may be individualized method or in a group. -->
+		<!-- Directed Honours, Directed Research, Directed Readings, Honours Essay, Honours Study Semester -->
 			<dict:state key="template">
 			<!-- A template holds configuration for defaults for creating a new course -->
 				<dict:fieldRef bean="course.activity.official"/>
@@ -8194,802 +8990,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls
 		</dict:type>
 		<dict:type key="kuali.lu.type.activity.Lab">
 		<!-- Student working on projects in a defined laboratory space.  Instructors are on-hand for students to ask questions and guidance. -->
-			<dict:state key="template">
-			<!-- A template holds configuration for defaults for creating a new course -->
-				<dict:fieldRef bean="course.activity.official"/>
-				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
-				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
-				<dict:fieldRef bean="course.activity.studySubjectArea"/>
-				<dict:fieldRef bean="course.activity.desc"/>
-				<dict:fieldRef bean="course.activity.marketingDesc"/>
-				<dict:fieldRef bean="course.activity.campusLocationList"/>
-				<dict:fieldRef bean="course.activity.accreditation"/>
-				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
-				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
-				<dict:fieldRef bean="course.activity.primaryInstructor"/>
-				<dict:fieldRef bean="course.activity.instructors"/>
-				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
-				<dict:fieldRef bean="course.activity.effectiveDate"/>
-				<dict:fieldRef bean="course.activity.expirationDate"/>
-				<dict:fieldRef bean="course.activity.contact.hours"/>
-				<dict:fieldRef bean="course.activity.duration"/>
-				<dict:fieldRef bean="course.activity.canCreateLui"/>
-				<dict:fieldRef bean="course.activity.referenceURL"/>
-				<dict:fieldRef bean="course.activity.luCodes"/>
-				<dict:fieldRef bean="course.activity.publishingInfo"/>
-				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
-				<dict:fieldRef bean="course.activity.isEnrollable"/>
-				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
-				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
-				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
-				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
-				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
-				<dict:fieldRef bean="course.activity.feeInfo"/>
-				<dict:fieldRef bean="course.activity.accountingInfo"/>
-				<dict:fieldRef bean="course.activity.attributes"/>
-				<dict:fieldRef bean="course.activity.metaInfo"/>
-				<dict:fieldRef bean="course.activity.type"/>
-				<dict:fieldRef bean="course.activity.state"/>
-				<dict:fieldRef bean="course.activity.internal.id"/>
-			</dict:state>
-			<dict:state key="draft.private">
-			<!-- Exploratory/Private scratch pad -->
-				<dict:fieldRef bean="course.activity.official"/>
-				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
-				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
-				<dict:fieldRef bean="course.activity.studySubjectArea"/>
-				<dict:fieldRef bean="course.activity.desc"/>
-				<dict:fieldRef bean="course.activity.marketingDesc"/>
-				<dict:fieldRef bean="course.activity.campusLocationList"/>
-				<dict:fieldRef bean="course.activity.accreditation"/>
-				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
-				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
-				<dict:fieldRef bean="course.activity.primaryInstructor"/>
-				<dict:fieldRef bean="course.activity.instructors"/>
-				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
-				<dict:fieldRef bean="course.activity.effectiveDate"/>
-				<dict:fieldRef bean="course.activity.expirationDate"/>
-				
-				<dict:field key="intensity">
-					<dict:fieldDescriptor>
-						<dict:name>course activity contact hours</dict:name>
-						<dict:desc>contact hours</dict:desc>
-						<dict:dataType>complex</dict:dataType>
-							
-							<dict:objectStructure key="org.kuali.student.core.dto.TimeAmountInfo">
-								<!-- Detailed information about an amount of time including both the type of units and the quantity. -->
-								<dict:type key="kuali.not.applicable">
-								<!-- Not applicable -->
-								<!-- (n/a) -->
-									<dict:state key="(n/a)">
-									<!-- Not applicable -->
-										<dict:fieldRef bean="course.activity.contact.hours.per.draft.private"/>
-										<dict:fieldRef bean="course.activity.contact.hours.no.draft.private"/>
-									</dict:state>
-								</dict:type>
-							</dict:objectStructure>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-							<dict:constraintRef bean="optional"/>
-							<dict:constraintRef bean="single"/>
-							<dict:constraintRef bean="optional"/>
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:fieldRef bean="course.activity.duration"/>
-				<dict:fieldRef bean="course.activity.canCreateLui"/>
-				<dict:fieldRef bean="course.activity.referenceURL"/>
-				<dict:fieldRef bean="course.activity.luCodes"/>
-				<dict:fieldRef bean="course.activity.publishingInfo"/>
-				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
-				<dict:fieldRef bean="course.activity.isEnrollable"/>
-				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
-				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
-				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
-				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
-				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
-				<dict:fieldRef bean="course.activity.feeInfo"/>
-				<dict:fieldRef bean="course.activity.accountingInfo"/>
-				<dict:fieldRef bean="course.activity.attributes"/>
-				<dict:fieldRef bean="course.activity.metaInfo"/>
-				<dict:fieldRef bean="course.activity.type"/>
-				<dict:fieldRef bean="course.activity.state"/>
-				<dict:fieldRef bean="course.activity.internal.id"/>
-			</dict:state>
-			<dict:state key="draft.public">
-			<!-- Entered as draft but not yet submitted -->
-				<dict:fieldRef bean="course.activity.official"/>
-				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
-				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
-				<dict:fieldRef bean="course.activity.studySubjectArea"/>
-				<dict:fieldRef bean="course.activity.desc"/>
-				<dict:fieldRef bean="course.activity.marketingDesc"/>
-				<dict:fieldRef bean="course.activity.campusLocationList"/>
-				<dict:fieldRef bean="course.activity.accreditation"/>
-				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
-				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
-				<dict:fieldRef bean="course.activity.primaryInstructor"/>
-				<dict:fieldRef bean="course.activity.instructors"/>
-				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
-				<dict:fieldRef bean="course.activity.effectiveDate"/>
-				<dict:fieldRef bean="course.activity.expirationDate"/>
-				
-				<dict:field key="intensity">
-					<dict:fieldDescriptor>
-						<dict:name>course activity contact hours</dict:name>
-						<dict:desc>contact hours</dict:desc>
-						<dict:dataType>complex</dict:dataType>
-							
-							<dict:objectStructure key="org.kuali.student.core.dto.TimeAmountInfo">
-								<!-- Detailed information about an amount of time including both the type of units and the quantity. -->
-								<dict:type key="kuali.not.applicable">
-								<!-- Not applicable -->
-								<!-- (n/a) -->
-									<dict:state key="(n/a)">
-									<!-- Not applicable -->
-										<dict:fieldRef bean="course.activity.contact.hours.per.draft.public"/>
-										<dict:fieldRef bean="course.activity.contact.hours.no.draft.public"/>
-									</dict:state>
-								</dict:type>
-							</dict:objectStructure>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-							<dict:constraintRef bean="optional"/>
-							<dict:constraintRef bean="single"/>
-							<dict:constraintRef bean="optional"/>
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:fieldRef bean="course.activity.duration"/>
-				<dict:fieldRef bean="course.activity.canCreateLui"/>
-				<dict:fieldRef bean="course.activity.referenceURL"/>
-				<dict:fieldRef bean="course.activity.luCodes"/>
-				<dict:fieldRef bean="course.activity.publishingInfo"/>
-				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
-				<dict:fieldRef bean="course.activity.isEnrollable"/>
-				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
-				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
-				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
-				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
-				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
-				<dict:fieldRef bean="course.activity.feeInfo"/>
-				<dict:fieldRef bean="course.activity.accountingInfo"/>
-				<dict:fieldRef bean="course.activity.attributes"/>
-				<dict:fieldRef bean="course.activity.metaInfo"/>
-				<dict:fieldRef bean="course.activity.type"/>
-				<dict:fieldRef bean="course.activity.state"/>
-				<dict:fieldRef bean="course.activity.internal.id"/>
-			</dict:state>
-			<dict:state key="submitted">
-			<!-- Submitted but not yet approved -->
-				<dict:fieldRef bean="course.activity.official"/>
-				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
-				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
-				<dict:fieldRef bean="course.activity.studySubjectArea"/>
-				<dict:fieldRef bean="course.activity.desc"/>
-				<dict:fieldRef bean="course.activity.marketingDesc"/>
-				<dict:fieldRef bean="course.activity.campusLocationList"/>
-				<dict:fieldRef bean="course.activity.accreditation"/>
-				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
-				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
-				<dict:fieldRef bean="course.activity.primaryInstructor"/>
-				<dict:fieldRef bean="course.activity.instructors"/>
-				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
-				<dict:fieldRef bean="course.activity.effectiveDate"/>
-				<dict:fieldRef bean="course.activity.expirationDate"/>
-				<dict:fieldRef bean="course.activity.contact.hours"/>
-				<dict:fieldRef bean="course.activity.duration"/>
-				<dict:fieldRef bean="course.activity.canCreateLui"/>
-				<dict:fieldRef bean="course.activity.referenceURL"/>
-				<dict:fieldRef bean="course.activity.luCodes"/>
-				<dict:fieldRef bean="course.activity.publishingInfo"/>
-				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
-				<dict:fieldRef bean="course.activity.isEnrollable"/>
-				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
-				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
-				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
-				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
-				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
-				<dict:fieldRef bean="course.activity.feeInfo"/>
-				<dict:fieldRef bean="course.activity.accountingInfo"/>
-				<dict:fieldRef bean="course.activity.attributes"/>
-				<dict:fieldRef bean="course.activity.metaInfo"/>
-				<dict:fieldRef bean="course.activity.type"/>
-				<dict:fieldRef bean="course.activity.state"/>
-				<dict:fieldRef bean="course.activity.internal.id"/>
-			</dict:state>
-			<dict:state key="withdrawn">
-			<!-- Withdrawn (anytime before activated) -->
-				<dict:fieldRef bean="course.activity.official"/>
-				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
-				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
-				<dict:fieldRef bean="course.activity.studySubjectArea"/>
-				<dict:fieldRef bean="course.activity.desc"/>
-				<dict:fieldRef bean="course.activity.marketingDesc"/>
-				<dict:fieldRef bean="course.activity.campusLocationList"/>
-				<dict:fieldRef bean="course.activity.accreditation"/>
-				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
-				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
-				<dict:fieldRef bean="course.activity.primaryInstructor"/>
-				<dict:fieldRef bean="course.activity.instructors"/>
-				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
-				<dict:fieldRef bean="course.activity.effectiveDate"/>
-				<dict:fieldRef bean="course.activity.expirationDate"/>
-				<dict:fieldRef bean="course.activity.contact.hours"/>
-				<dict:fieldRef bean="course.activity.duration"/>
-				<dict:fieldRef bean="course.activity.canCreateLui"/>
-				<dict:fieldRef bean="course.activity.referenceURL"/>
-				<dict:fieldRef bean="course.activity.luCodes"/>
-				<dict:fieldRef bean="course.activity.publishingInfo"/>
-				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
-				<dict:fieldRef bean="course.activity.isEnrollable"/>
-				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
-				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
-				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
-				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
-				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
-				<dict:fieldRef bean="course.activity.feeInfo"/>
-				<dict:fieldRef bean="course.activity.accountingInfo"/>
-				<dict:fieldRef bean="course.activity.attributes"/>
-				<dict:fieldRef bean="course.activity.metaInfo"/>
-				<dict:fieldRef bean="course.activity.type"/>
-				<dict:fieldRef bean="course.activity.state"/>
-				<dict:fieldRef bean="course.activity.internal.id"/>
-			</dict:state>
-			<dict:state key="approved">
-			<!-- Approved -->
-				<dict:fieldRef bean="course.activity.official"/>
-				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
-				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
-				<dict:fieldRef bean="course.activity.studySubjectArea"/>
-				<dict:fieldRef bean="course.activity.desc"/>
-				<dict:fieldRef bean="course.activity.marketingDesc"/>
-				<dict:fieldRef bean="course.activity.campusLocationList"/>
-				<dict:fieldRef bean="course.activity.accreditation"/>
-				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
-				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
-				<dict:fieldRef bean="course.activity.primaryInstructor"/>
-				<dict:fieldRef bean="course.activity.instructors"/>
-				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
-				<dict:fieldRef bean="course.activity.effectiveDate"/>
-				<dict:fieldRef bean="course.activity.expirationDate"/>
-				<dict:fieldRef bean="course.activity.contact.hours"/>
-				<dict:fieldRef bean="course.activity.duration"/>
-				<dict:fieldRef bean="course.activity.canCreateLui"/>
-				<dict:fieldRef bean="course.activity.referenceURL"/>
-				<dict:fieldRef bean="course.activity.luCodes"/>
-				<dict:fieldRef bean="course.activity.publishingInfo"/>
-				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
-				<dict:fieldRef bean="course.activity.isEnrollable"/>
-				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
-				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
-				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
-				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
-				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
-				<dict:fieldRef bean="course.activity.feeInfo"/>
-				<dict:fieldRef bean="course.activity.accountingInfo"/>
-				<dict:fieldRef bean="course.activity.attributes"/>
-				<dict:fieldRef bean="course.activity.metaInfo"/>
-				<dict:fieldRef bean="course.activity.type"/>
-				<dict:fieldRef bean="course.activity.state"/>
-				<dict:fieldRef bean="course.activity.internal.id"/>
-			</dict:state>
-			<dict:state key="rejected">
-			<!-- Not approved (rejected) -->
-			<!-- Do we need here some indication of why it was not approved?  I.e. disapproved vs. not acted on because submitted too late, etc. -->
-				<dict:fieldRef bean="course.activity.official"/>
-				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
-				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
-				<dict:fieldRef bean="course.activity.studySubjectArea"/>
-				<dict:fieldRef bean="course.activity.desc"/>
-				<dict:fieldRef bean="course.activity.marketingDesc"/>
-				<dict:fieldRef bean="course.activity.campusLocationList"/>
-				<dict:fieldRef bean="course.activity.accreditation"/>
-				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
-				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
-				<dict:fieldRef bean="course.activity.primaryInstructor"/>
-				<dict:fieldRef bean="course.activity.instructors"/>
-				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
-				<dict:fieldRef bean="course.activity.effectiveDate"/>
-				<dict:fieldRef bean="course.activity.expirationDate"/>
-				<dict:fieldRef bean="course.activity.contact.hours"/>
-				<dict:fieldRef bean="course.activity.duration"/>
-				<dict:fieldRef bean="course.activity.canCreateLui"/>
-				<dict:fieldRef bean="course.activity.referenceURL"/>
-				<dict:fieldRef bean="course.activity.luCodes"/>
-				<dict:fieldRef bean="course.activity.publishingInfo"/>
-				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
-				<dict:fieldRef bean="course.activity.isEnrollable"/>
-				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
-				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
-				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
-				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
-				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
-				<dict:fieldRef bean="course.activity.feeInfo"/>
-				<dict:fieldRef bean="course.activity.accountingInfo"/>
-				<dict:fieldRef bean="course.activity.attributes"/>
-				<dict:fieldRef bean="course.activity.metaInfo"/>
-				<dict:fieldRef bean="course.activity.type"/>
-				<dict:fieldRef bean="course.activity.state"/>
-				<dict:fieldRef bean="course.activity.internal.id"/>
-			</dict:state>
-			<dict:state key="activated">
-			<!-- Activated and ready to be published -->
-				<dict:fieldRef bean="course.activity.official"/>
-				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
-				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
-				<dict:fieldRef bean="course.activity.studySubjectArea"/>
-				<dict:fieldRef bean="course.activity.desc"/>
-				<dict:fieldRef bean="course.activity.marketingDesc"/>
-				<dict:fieldRef bean="course.activity.campusLocationList"/>
-				<dict:fieldRef bean="course.activity.accreditation"/>
-				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
-				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
-				<dict:fieldRef bean="course.activity.primaryInstructor"/>
-				<dict:fieldRef bean="course.activity.instructors"/>
-				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
-				<dict:fieldRef bean="course.activity.effectiveDate"/>
-				<dict:fieldRef bean="course.activity.expirationDate"/>
-				<dict:fieldRef bean="course.activity.contact.hours"/>
-				<dict:fieldRef bean="course.activity.duration"/>
-				<dict:fieldRef bean="course.activity.canCreateLui"/>
-				<dict:fieldRef bean="course.activity.referenceURL"/>
-				<dict:fieldRef bean="course.activity.luCodes"/>
-				<dict:fieldRef bean="course.activity.publishingInfo"/>
-				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
-				<dict:fieldRef bean="course.activity.isEnrollable"/>
-				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
-				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
-				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
-				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
-				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
-				<dict:fieldRef bean="course.activity.feeInfo"/>
-				<dict:fieldRef bean="course.activity.accountingInfo"/>
-				<dict:fieldRef bean="course.activity.attributes"/>
-				<dict:fieldRef bean="course.activity.metaInfo"/>
-				<dict:fieldRef bean="course.activity.type"/>
-				<dict:fieldRef bean="course.activity.state"/>
-				<dict:fieldRef bean="course.activity.internal.id"/>
-			</dict:state>
-			<dict:state key="retired">
-			<!-- Retired/No longer active -->
-			<!-- Do we need/want to differentiate here between retiring a course simply because it will no longer be taught and retiring a version of a course because it has been superceded by a newer version. -->
-				<dict:fieldRef bean="course.activity.official"/>
-				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
-				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
-				<dict:fieldRef bean="course.activity.studySubjectArea"/>
-				<dict:fieldRef bean="course.activity.desc"/>
-				<dict:fieldRef bean="course.activity.marketingDesc"/>
-				<dict:fieldRef bean="course.activity.campusLocationList"/>
-				<dict:fieldRef bean="course.activity.accreditation"/>
-				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
-				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
-				<dict:fieldRef bean="course.activity.primaryInstructor"/>
-				<dict:fieldRef bean="course.activity.instructors"/>
-				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
-				<dict:fieldRef bean="course.activity.effectiveDate"/>
-				<dict:fieldRef bean="course.activity.expirationDate"/>
-				<dict:fieldRef bean="course.activity.contact.hours"/>
-				<dict:fieldRef bean="course.activity.duration"/>
-				<dict:fieldRef bean="course.activity.canCreateLui"/>
-				<dict:fieldRef bean="course.activity.referenceURL"/>
-				<dict:fieldRef bean="course.activity.luCodes"/>
-				<dict:fieldRef bean="course.activity.publishingInfo"/>
-				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
-				<dict:fieldRef bean="course.activity.isEnrollable"/>
-				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
-				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
-				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
-				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
-				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
-				<dict:fieldRef bean="course.activity.feeInfo"/>
-				<dict:fieldRef bean="course.activity.accountingInfo"/>
-				<dict:fieldRef bean="course.activity.attributes"/>
-				<dict:fieldRef bean="course.activity.metaInfo"/>
-				<dict:fieldRef bean="course.activity.type"/>
-				<dict:fieldRef bean="course.activity.state"/>
-				<dict:fieldRef bean="course.activity.internal.id"/>
-			</dict:state>
-		</dict:type>
-		<dict:type key="kuali.lu.type.activity.WebDiscuss">
-		<!-- Web-based or technologically-mediated activities replacing standard discussion sections -->
-		<!-- Blog, Chat, Discussion Group, Learning Management System, LMS -->
-			<dict:state key="template">
-			<!-- A template holds configuration for defaults for creating a new course -->
-				<dict:fieldRef bean="course.activity.official"/>
-				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
-				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
-				<dict:fieldRef bean="course.activity.studySubjectArea"/>
-				<dict:fieldRef bean="course.activity.desc"/>
-				<dict:fieldRef bean="course.activity.marketingDesc"/>
-				<dict:fieldRef bean="course.activity.campusLocationList"/>
-				<dict:fieldRef bean="course.activity.accreditation"/>
-				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
-				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
-				<dict:fieldRef bean="course.activity.primaryInstructor"/>
-				<dict:fieldRef bean="course.activity.instructors"/>
-				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
-				<dict:fieldRef bean="course.activity.effectiveDate"/>
-				<dict:fieldRef bean="course.activity.expirationDate"/>
-				<dict:fieldRef bean="course.activity.contact.hours"/>
-				<dict:fieldRef bean="course.activity.duration"/>
-				<dict:fieldRef bean="course.activity.canCreateLui"/>
-				<dict:fieldRef bean="course.activity.referenceURL"/>
-				<dict:fieldRef bean="course.activity.luCodes"/>
-				<dict:fieldRef bean="course.activity.publishingInfo"/>
-				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
-				<dict:fieldRef bean="course.activity.isEnrollable"/>
-				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
-				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
-				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
-				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
-				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
-				<dict:fieldRef bean="course.activity.feeInfo"/>
-				<dict:fieldRef bean="course.activity.accountingInfo"/>
-				<dict:fieldRef bean="course.activity.attributes"/>
-				<dict:fieldRef bean="course.activity.metaInfo"/>
-				<dict:fieldRef bean="course.activity.type"/>
-				<dict:fieldRef bean="course.activity.state"/>
-				<dict:fieldRef bean="course.activity.internal.id"/>
-			</dict:state>
-			<dict:state key="draft.private">
-			<!-- Exploratory/Private scratch pad -->
-				<dict:fieldRef bean="course.activity.official"/>
-				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
-				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
-				<dict:fieldRef bean="course.activity.studySubjectArea"/>
-				<dict:fieldRef bean="course.activity.desc"/>
-				<dict:fieldRef bean="course.activity.marketingDesc"/>
-				<dict:fieldRef bean="course.activity.campusLocationList"/>
-				<dict:fieldRef bean="course.activity.accreditation"/>
-				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
-				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
-				<dict:fieldRef bean="course.activity.primaryInstructor"/>
-				<dict:fieldRef bean="course.activity.instructors"/>
-				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
-				<dict:fieldRef bean="course.activity.effectiveDate"/>
-				<dict:fieldRef bean="course.activity.expirationDate"/>
-				
-				<dict:field key="intensity">
-					<dict:fieldDescriptor>
-						<dict:name>course activity contact hours</dict:name>
-						<dict:desc>contact hours</dict:desc>
-						<dict:dataType>complex</dict:dataType>
-							
-							<dict:objectStructure key="org.kuali.student.core.dto.TimeAmountInfo">
-								<!-- Detailed information about an amount of time including both the type of units and the quantity. -->
-								<dict:type key="kuali.not.applicable">
-								<!-- Not applicable -->
-								<!-- (n/a) -->
-									<dict:state key="(n/a)">
-									<!-- Not applicable -->
-										<dict:fieldRef bean="course.activity.contact.hours.per.draft.private"/>
-										<dict:fieldRef bean="course.activity.contact.hours.no.draft.private"/>
-									</dict:state>
-								</dict:type>
-							</dict:objectStructure>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-							<dict:constraintRef bean="optional"/>
-							<dict:constraintRef bean="single"/>
-							<dict:constraintRef bean="optional"/>
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:fieldRef bean="course.activity.duration"/>
-				<dict:fieldRef bean="course.activity.canCreateLui"/>
-				<dict:fieldRef bean="course.activity.referenceURL"/>
-				<dict:fieldRef bean="course.activity.luCodes"/>
-				<dict:fieldRef bean="course.activity.publishingInfo"/>
-				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
-				<dict:fieldRef bean="course.activity.isEnrollable"/>
-				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
-				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
-				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
-				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
-				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
-				<dict:fieldRef bean="course.activity.feeInfo"/>
-				<dict:fieldRef bean="course.activity.accountingInfo"/>
-				<dict:fieldRef bean="course.activity.attributes"/>
-				<dict:fieldRef bean="course.activity.metaInfo"/>
-				<dict:fieldRef bean="course.activity.type"/>
-				<dict:fieldRef bean="course.activity.state"/>
-				<dict:fieldRef bean="course.activity.internal.id"/>
-			</dict:state>
-			<dict:state key="draft.public">
-			<!-- Entered as draft but not yet submitted -->
-				<dict:fieldRef bean="course.activity.official"/>
-				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
-				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
-				<dict:fieldRef bean="course.activity.studySubjectArea"/>
-				<dict:fieldRef bean="course.activity.desc"/>
-				<dict:fieldRef bean="course.activity.marketingDesc"/>
-				<dict:fieldRef bean="course.activity.campusLocationList"/>
-				<dict:fieldRef bean="course.activity.accreditation"/>
-				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
-				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
-				<dict:fieldRef bean="course.activity.primaryInstructor"/>
-				<dict:fieldRef bean="course.activity.instructors"/>
-				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
-				<dict:fieldRef bean="course.activity.effectiveDate"/>
-				<dict:fieldRef bean="course.activity.expirationDate"/>
-				
-				<dict:field key="intensity">
-					<dict:fieldDescriptor>
-						<dict:name>course activity contact hours</dict:name>
-						<dict:desc>contact hours</dict:desc>
-						<dict:dataType>complex</dict:dataType>
-							
-							<dict:objectStructure key="org.kuali.student.core.dto.TimeAmountInfo">
-								<!-- Detailed information about an amount of time including both the type of units and the quantity. -->
-								<dict:type key="kuali.not.applicable">
-								<!-- Not applicable -->
-								<!-- (n/a) -->
-									<dict:state key="(n/a)">
-									<!-- Not applicable -->
-										<dict:fieldRef bean="course.activity.contact.hours.per.draft.public"/>
-										<dict:fieldRef bean="course.activity.contact.hours.no.draft.public"/>
-									</dict:state>
-								</dict:type>
-							</dict:objectStructure>
-					</dict:fieldDescriptor>
-					<dict:constraintDescriptor>
-							<dict:constraintRef bean="optional"/>
-							<dict:constraintRef bean="single"/>
-							<dict:constraintRef bean="optional"/>
-					</dict:constraintDescriptor>
-				</dict:field>
-				<dict:fieldRef bean="course.activity.duration"/>
-				<dict:fieldRef bean="course.activity.canCreateLui"/>
-				<dict:fieldRef bean="course.activity.referenceURL"/>
-				<dict:fieldRef bean="course.activity.luCodes"/>
-				<dict:fieldRef bean="course.activity.publishingInfo"/>
-				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
-				<dict:fieldRef bean="course.activity.isEnrollable"/>
-				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
-				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
-				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
-				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
-				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
-				<dict:fieldRef bean="course.activity.feeInfo"/>
-				<dict:fieldRef bean="course.activity.accountingInfo"/>
-				<dict:fieldRef bean="course.activity.attributes"/>
-				<dict:fieldRef bean="course.activity.metaInfo"/>
-				<dict:fieldRef bean="course.activity.type"/>
-				<dict:fieldRef bean="course.activity.state"/>
-				<dict:fieldRef bean="course.activity.internal.id"/>
-			</dict:state>
-			<dict:state key="submitted">
-			<!-- Submitted but not yet approved -->
-				<dict:fieldRef bean="course.activity.official"/>
-				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
-				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
-				<dict:fieldRef bean="course.activity.studySubjectArea"/>
-				<dict:fieldRef bean="course.activity.desc"/>
-				<dict:fieldRef bean="course.activity.marketingDesc"/>
-				<dict:fieldRef bean="course.activity.campusLocationList"/>
-				<dict:fieldRef bean="course.activity.accreditation"/>
-				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
-				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
-				<dict:fieldRef bean="course.activity.primaryInstructor"/>
-				<dict:fieldRef bean="course.activity.instructors"/>
-				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
-				<dict:fieldRef bean="course.activity.effectiveDate"/>
-				<dict:fieldRef bean="course.activity.expirationDate"/>
-				<dict:fieldRef bean="course.activity.contact.hours"/>
-				<dict:fieldRef bean="course.activity.duration"/>
-				<dict:fieldRef bean="course.activity.canCreateLui"/>
-				<dict:fieldRef bean="course.activity.referenceURL"/>
-				<dict:fieldRef bean="course.activity.luCodes"/>
-				<dict:fieldRef bean="course.activity.publishingInfo"/>
-				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
-				<dict:fieldRef bean="course.activity.isEnrollable"/>
-				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
-				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
-				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
-				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
-				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
-				<dict:fieldRef bean="course.activity.feeInfo"/>
-				<dict:fieldRef bean="course.activity.accountingInfo"/>
-				<dict:fieldRef bean="course.activity.attributes"/>
-				<dict:fieldRef bean="course.activity.metaInfo"/>
-				<dict:fieldRef bean="course.activity.type"/>
-				<dict:fieldRef bean="course.activity.state"/>
-				<dict:fieldRef bean="course.activity.internal.id"/>
-			</dict:state>
-			<dict:state key="withdrawn">
-			<!-- Withdrawn (anytime before activated) -->
-				<dict:fieldRef bean="course.activity.official"/>
-				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
-				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
-				<dict:fieldRef bean="course.activity.studySubjectArea"/>
-				<dict:fieldRef bean="course.activity.desc"/>
-				<dict:fieldRef bean="course.activity.marketingDesc"/>
-				<dict:fieldRef bean="course.activity.campusLocationList"/>
-				<dict:fieldRef bean="course.activity.accreditation"/>
-				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
-				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
-				<dict:fieldRef bean="course.activity.primaryInstructor"/>
-				<dict:fieldRef bean="course.activity.instructors"/>
-				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
-				<dict:fieldRef bean="course.activity.effectiveDate"/>
-				<dict:fieldRef bean="course.activity.expirationDate"/>
-				<dict:fieldRef bean="course.activity.contact.hours"/>
-				<dict:fieldRef bean="course.activity.duration"/>
-				<dict:fieldRef bean="course.activity.canCreateLui"/>
-				<dict:fieldRef bean="course.activity.referenceURL"/>
-				<dict:fieldRef bean="course.activity.luCodes"/>
-				<dict:fieldRef bean="course.activity.publishingInfo"/>
-				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
-				<dict:fieldRef bean="course.activity.isEnrollable"/>
-				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
-				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
-				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
-				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
-				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
-				<dict:fieldRef bean="course.activity.feeInfo"/>
-				<dict:fieldRef bean="course.activity.accountingInfo"/>
-				<dict:fieldRef bean="course.activity.attributes"/>
-				<dict:fieldRef bean="course.activity.metaInfo"/>
-				<dict:fieldRef bean="course.activity.type"/>
-				<dict:fieldRef bean="course.activity.state"/>
-				<dict:fieldRef bean="course.activity.internal.id"/>
-			</dict:state>
-			<dict:state key="approved">
-			<!-- Approved -->
-				<dict:fieldRef bean="course.activity.official"/>
-				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
-				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
-				<dict:fieldRef bean="course.activity.studySubjectArea"/>
-				<dict:fieldRef bean="course.activity.desc"/>
-				<dict:fieldRef bean="course.activity.marketingDesc"/>
-				<dict:fieldRef bean="course.activity.campusLocationList"/>
-				<dict:fieldRef bean="course.activity.accreditation"/>
-				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
-				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
-				<dict:fieldRef bean="course.activity.primaryInstructor"/>
-				<dict:fieldRef bean="course.activity.instructors"/>
-				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
-				<dict:fieldRef bean="course.activity.effectiveDate"/>
-				<dict:fieldRef bean="course.activity.expirationDate"/>
-				<dict:fieldRef bean="course.activity.contact.hours"/>
-				<dict:fieldRef bean="course.activity.duration"/>
-				<dict:fieldRef bean="course.activity.canCreateLui"/>
-				<dict:fieldRef bean="course.activity.referenceURL"/>
-				<dict:fieldRef bean="course.activity.luCodes"/>
-				<dict:fieldRef bean="course.activity.publishingInfo"/>
-				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
-				<dict:fieldRef bean="course.activity.isEnrollable"/>
-				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
-				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
-				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
-				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
-				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
-				<dict:fieldRef bean="course.activity.feeInfo"/>
-				<dict:fieldRef bean="course.activity.accountingInfo"/>
-				<dict:fieldRef bean="course.activity.attributes"/>
-				<dict:fieldRef bean="course.activity.metaInfo"/>
-				<dict:fieldRef bean="course.activity.type"/>
-				<dict:fieldRef bean="course.activity.state"/>
-				<dict:fieldRef bean="course.activity.internal.id"/>
-			</dict:state>
-			<dict:state key="rejected">
-			<!-- Not approved (rejected) -->
-			<!-- Do we need here some indication of why it was not approved?  I.e. disapproved vs. not acted on because submitted too late, etc. -->
-				<dict:fieldRef bean="course.activity.official"/>
-				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
-				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
-				<dict:fieldRef bean="course.activity.studySubjectArea"/>
-				<dict:fieldRef bean="course.activity.desc"/>
-				<dict:fieldRef bean="course.activity.marketingDesc"/>
-				<dict:fieldRef bean="course.activity.campusLocationList"/>
-				<dict:fieldRef bean="course.activity.accreditation"/>
-				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
-				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
-				<dict:fieldRef bean="course.activity.primaryInstructor"/>
-				<dict:fieldRef bean="course.activity.instructors"/>
-				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
-				<dict:fieldRef bean="course.activity.effectiveDate"/>
-				<dict:fieldRef bean="course.activity.expirationDate"/>
-				<dict:fieldRef bean="course.activity.contact.hours"/>
-				<dict:fieldRef bean="course.activity.duration"/>
-				<dict:fieldRef bean="course.activity.canCreateLui"/>
-				<dict:fieldRef bean="course.activity.referenceURL"/>
-				<dict:fieldRef bean="course.activity.luCodes"/>
-				<dict:fieldRef bean="course.activity.publishingInfo"/>
-				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
-				<dict:fieldRef bean="course.activity.isEnrollable"/>
-				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
-				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
-				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
-				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
-				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
-				<dict:fieldRef bean="course.activity.feeInfo"/>
-				<dict:fieldRef bean="course.activity.accountingInfo"/>
-				<dict:fieldRef bean="course.activity.attributes"/>
-				<dict:fieldRef bean="course.activity.metaInfo"/>
-				<dict:fieldRef bean="course.activity.type"/>
-				<dict:fieldRef bean="course.activity.state"/>
-				<dict:fieldRef bean="course.activity.internal.id"/>
-			</dict:state>
-			<dict:state key="activated">
-			<!-- Activated and ready to be published -->
-				<dict:fieldRef bean="course.activity.official"/>
-				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
-				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
-				<dict:fieldRef bean="course.activity.studySubjectArea"/>
-				<dict:fieldRef bean="course.activity.desc"/>
-				<dict:fieldRef bean="course.activity.marketingDesc"/>
-				<dict:fieldRef bean="course.activity.campusLocationList"/>
-				<dict:fieldRef bean="course.activity.accreditation"/>
-				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
-				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
-				<dict:fieldRef bean="course.activity.primaryInstructor"/>
-				<dict:fieldRef bean="course.activity.instructors"/>
-				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
-				<dict:fieldRef bean="course.activity.effectiveDate"/>
-				<dict:fieldRef bean="course.activity.expirationDate"/>
-				<dict:fieldRef bean="course.activity.contact.hours"/>
-				<dict:fieldRef bean="course.activity.duration"/>
-				<dict:fieldRef bean="course.activity.canCreateLui"/>
-				<dict:fieldRef bean="course.activity.referenceURL"/>
-				<dict:fieldRef bean="course.activity.luCodes"/>
-				<dict:fieldRef bean="course.activity.publishingInfo"/>
-				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
-				<dict:fieldRef bean="course.activity.isEnrollable"/>
-				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
-				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
-				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
-				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
-				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
-				<dict:fieldRef bean="course.activity.feeInfo"/>
-				<dict:fieldRef bean="course.activity.accountingInfo"/>
-				<dict:fieldRef bean="course.activity.attributes"/>
-				<dict:fieldRef bean="course.activity.metaInfo"/>
-				<dict:fieldRef bean="course.activity.type"/>
-				<dict:fieldRef bean="course.activity.state"/>
-				<dict:fieldRef bean="course.activity.internal.id"/>
-			</dict:state>
-			<dict:state key="retired">
-			<!-- Retired/No longer active -->
-			<!-- Do we need/want to differentiate here between retiring a course simply because it will no longer be taught and retiring a version of a course because it has been superceded by a newer version. -->
-				<dict:fieldRef bean="course.activity.official"/>
-				<dict:fieldRef bean="course.activity.alternateIdentifiers"/>
-				<dict:fieldRef bean="course.activity.academicSubjectOrgs"/>
-				<dict:fieldRef bean="course.activity.studySubjectArea"/>
-				<dict:fieldRef bean="course.activity.desc"/>
-				<dict:fieldRef bean="course.activity.marketingDesc"/>
-				<dict:fieldRef bean="course.activity.campusLocationList"/>
-				<dict:fieldRef bean="course.activity.accreditation"/>
-				<dict:fieldRef bean="course.activity.primaryAdminOrg"/>
-				<dict:fieldRef bean="course.activity.alternateAdminOrgs"/>
-				<dict:fieldRef bean="course.activity.primaryInstructor"/>
-				<dict:fieldRef bean="course.activity.instructors"/>
-				<dict:fieldRef bean="course.activity.expectedFirstAtp"/>
-				<dict:fieldRef bean="course.activity.effectiveDate"/>
-				<dict:fieldRef bean="course.activity.expirationDate"/>
-				<dict:fieldRef bean="course.activity.contact.hours"/>
-				<dict:fieldRef bean="course.activity.duration"/>
-				<dict:fieldRef bean="course.activity.canCreateLui"/>
-				<dict:fieldRef bean="course.activity.referenceURL"/>
-				<dict:fieldRef bean="course.activity.luCodes"/>
-				<dict:fieldRef bean="course.activity.publishingInfo"/>
-				<dict:fieldRef bean="course.activity.nextReviewPeriod"/>
-				<dict:fieldRef bean="course.activity.isEnrollable"/>
-				<dict:fieldRef bean="course.activity.offeredAtpTypes"/>
-				<dict:fieldRef bean="course.activity.hasEarlyDropDeadline"/>
-				<dict:fieldRef bean="course.activity.defaultEnrollmentEstimate"/>
-				<dict:fieldRef bean="course.activity.defaultMaximumEnrollment"/>
-				<dict:fieldRef bean="course.activity.isHazardousForDisabledStudents"/>
-				<dict:fieldRef bean="course.activity.feeInfo"/>
-				<dict:fieldRef bean="course.activity.accountingInfo"/>
-				<dict:fieldRef bean="course.activity.attributes"/>
-				<dict:fieldRef bean="course.activity.metaInfo"/>
-				<dict:fieldRef bean="course.activity.type"/>
-				<dict:fieldRef bean="course.activity.state"/>
-				<dict:fieldRef bean="course.activity.internal.id"/>
-			</dict:state>
-		</dict:type>
-		<dict:type key="kuali.lu.type.activity.Discussion">
-		<!-- The exchange of opinions or questions on course material -->
-		<!-- Seminar Style, Roundtable Discussion -->
 			<dict:state key="template">
 			<!-- A template holds configuration for defaults for creating a new course -->
 				<dict:fieldRef bean="course.activity.official"/>
@@ -14593,8 +14593,8 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls
 	
 	<dict:objectStructure key="org.kuali.student.lum.lo.dto.LoCategoryInfo">
 		<!-- Detailed information about a learning objective category. -->
-		<dict:type key="kuali.lo.category.type.accreditation">
-		<!-- Categories that are specific to or defined by an accreditation body -->
+		<dict:type key="kuali.lo.category.type.subject">
+		<!-- Categories that are representative of content areas -->
 		<!-- KRU -->
 			<dict:state key="inactive">
 			<!-- Lo Category is inactive -->
@@ -14877,8 +14877,8 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls
 				<dict:fieldRef bean="allCategories.lo.category.id"/>
 			</dict:state>
 		</dict:type>
-		<dict:type key="kuali.lo.category.type.subject">
-		<!-- Categories that are representative of content areas -->
+		<dict:type key="kuali.lo.category.type.skill">
+		<!-- Categories that are representative of skill sets -->
 		<!-- KRU -->
 			<dict:state key="inactive">
 			<!-- Lo Category is inactive -->
@@ -14909,8 +14909,8 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls
 				<dict:fieldRef bean="allCategories.lo.category.id"/>
 			</dict:state>
 		</dict:type>
-		<dict:type key="kuali.lo.category.type.skill">
-		<!-- Categories that are representative of skill sets -->
+		<dict:type key="kuali.lo.category.type.accreditation">
+		<!-- Categories that are specific to or defined by an accreditation body -->
 		<!-- KRU -->
 			<dict:state key="inactive">
 			<!-- Lo Category is inactive -->
@@ -16642,8 +16642,8 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls
 	
 	<dict:objectStructure key="org.kuali.student.lum.lu.dto.LuStatementInfo">
 		<!-- Detailed information about a single LU statement. -->
-		<dict:type key="kuali.luStatementType.req.enrollmentRestriction">
-		<!-- Rules other than perquisites that limit or restrict students from enrolling in a course that do not strictly deal with the student's academic ability to handle the material. -->
+		<dict:type key="kuali.luStatementType.req.corequisite">
+		<!-- Rules that describe the need for concurrent enrollment in two courses. -->
 			<dict:state key="active">
 			<!-- Statement is active -->
 			<!-- TODO: Add to simple spec -->
@@ -16937,8 +16937,8 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls
 				<dict:fieldRef bean="requisite.statement.id"/>
 			</dict:state>
 		</dict:type>
-		<dict:type key="kuali.luStatementType.req.corequisite">
-		<!-- Rules that describe the need for concurrent enrollment in two courses. -->
+		<dict:type key="kuali.luStatementType.req.enrollmentRestriction">
+		<!-- Rules other than perquisites that limit or restrict students from enrolling in a course that do not strictly deal with the student's academic ability to handle the material. -->
 			<dict:state key="active">
 			<!-- Statement is active -->
 			<!-- TODO: Add to simple spec -->
@@ -17003,8 +17003,8 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls
 	
 	<dict:objectStructure key="org.kuali.student.lum.lu.dto.ReqComponentInfo">
 		<!-- Information about a requirement component. -->
-		<dict:type key="kuali.reqCompType.requisite.courseList.nof">
-		<!-- Student must take <n> courses from the specified courses -->
+		<dict:type key="kuali.reqCompType.requisite.courseList.1of2">
+		<!-- Student must take one of two specified courses -->
 			<dict:state key="active">
 			<!-- requirement componenent is active -->
 			<!-- TODO: Add to simple spec -->
@@ -18442,8 +18442,8 @@ are we sure this isn't the operator used for Learning Result Definitions -->
 				<dict:fieldRef bean="requisite.req.component.id"/>
 			</dict:state>
 		</dict:type>
-		<dict:type key="kuali.reqCompType.requisite.courseList.all">
-		<!-- Student must take all of the specified courses -->
+		<dict:type key="kuali.reqCompType.requisite.courseList.coreq.all">
+		<!-- Student must be enrolled in all of the following courses -->
 			<dict:state key="active">
 			<!-- requirement componenent is active -->
 			<!-- TODO: Add to simple spec -->
@@ -18489,8 +18489,102 @@ are we sure this isn't the operator used for Learning Result Definitions -->
 				<dict:fieldRef bean="requisite.req.component.id"/>
 			</dict:state>
 		</dict:type>
-		<dict:type key="kuali.reqCompType.requisite.courseList.coreq.all">
-		<!-- Student must be enrolled in all of the following courses -->
+		<dict:type key="kuali.reqCompType.requisite.courseList.coreq.oneof">
+		<!-- Student must be enrolled in one of the following courses -->
+			<dict:state key="active">
+			<!-- requirement componenent is active -->
+			<!-- TODO: Add to simple spec -->
+				<dict:fieldRef bean="requisite.req.component.desc"/>
+				<dict:fieldRef bean="requisite.req.component.field.none.of.courses"/>
+				<dict:fieldRef bean="requisite.req.component.field.one.of.courses.coreq"/>
+				<dict:fieldRef bean="requisite.req.component.field.all.of.courses.coreq"/>
+				<dict:fieldRef bean="requisite.req.component.field.all.of.courses"/>
+				<dict:fieldRef bean="requisite.req.component.field.one.of.courses"/>
+				<dict:fieldRef bean="requisite.req.component.field.n.of.courses"/>
+				<dict:fieldRef bean="requisite.req.component.field.mininum.overall.gpa"/>
+				<dict:fieldRef bean="requisite.req.component.field.mininum.overall.total.credits"/>
+				<dict:fieldRef bean="requisite.req.component.field.lrd.credit.course.final.grade"/>
+				<dict:fieldRef bean="requisite.req.component.field.one.of.programs"/>
+				<dict:fieldRef bean="requisite.req.component.field.none.of.programs"/>
+				<dict:fieldRef bean="requisite.req.component.effectiveDate"/>
+				<dict:fieldRef bean="requisite.req.component.expirationDate"/>
+				<dict:fieldRef bean="requisite.req.component.metaInfo"/>
+				<dict:fieldRef bean="requisite.req.component.type"/>
+				<dict:fieldRef bean="requisite.req.component.state"/>
+				<dict:fieldRef bean="requisite.req.component.id"/>
+			</dict:state>
+			<dict:state key="inactive">
+			<!-- requirement componenent is inactive -->
+			<!-- TODO: Add to simple spec -->
+				<dict:fieldRef bean="requisite.req.component.desc"/>
+				<dict:fieldRef bean="requisite.req.component.field.none.of.courses"/>
+				<dict:fieldRef bean="requisite.req.component.field.one.of.courses.coreq"/>
+				<dict:fieldRef bean="requisite.req.component.field.all.of.courses.coreq"/>
+				<dict:fieldRef bean="requisite.req.component.field.all.of.courses"/>
+				<dict:fieldRef bean="requisite.req.component.field.one.of.courses"/>
+				<dict:fieldRef bean="requisite.req.component.field.n.of.courses"/>
+				<dict:fieldRef bean="requisite.req.component.field.mininum.overall.gpa"/>
+				<dict:fieldRef bean="requisite.req.component.field.mininum.overall.total.credits"/>
+				<dict:fieldRef bean="requisite.req.component.field.lrd.credit.course.final.grade"/>
+				<dict:fieldRef bean="requisite.req.component.field.one.of.programs"/>
+				<dict:fieldRef bean="requisite.req.component.field.none.of.programs"/>
+				<dict:fieldRef bean="requisite.req.component.effectiveDate"/>
+				<dict:fieldRef bean="requisite.req.component.expirationDate"/>
+				<dict:fieldRef bean="requisite.req.component.metaInfo"/>
+				<dict:fieldRef bean="requisite.req.component.type"/>
+				<dict:fieldRef bean="requisite.req.component.state"/>
+				<dict:fieldRef bean="requisite.req.component.id"/>
+			</dict:state>
+		</dict:type>
+		<dict:type key="kuali.reqCompType.requisite.courseList.nof">
+		<!-- Student must take <n> courses from the specified courses -->
+			<dict:state key="active">
+			<!-- requirement componenent is active -->
+			<!-- TODO: Add to simple spec -->
+				<dict:fieldRef bean="requisite.req.component.desc"/>
+				<dict:fieldRef bean="requisite.req.component.field.none.of.courses"/>
+				<dict:fieldRef bean="requisite.req.component.field.one.of.courses.coreq"/>
+				<dict:fieldRef bean="requisite.req.component.field.all.of.courses.coreq"/>
+				<dict:fieldRef bean="requisite.req.component.field.all.of.courses"/>
+				<dict:fieldRef bean="requisite.req.component.field.one.of.courses"/>
+				<dict:fieldRef bean="requisite.req.component.field.n.of.courses"/>
+				<dict:fieldRef bean="requisite.req.component.field.mininum.overall.gpa"/>
+				<dict:fieldRef bean="requisite.req.component.field.mininum.overall.total.credits"/>
+				<dict:fieldRef bean="requisite.req.component.field.lrd.credit.course.final.grade"/>
+				<dict:fieldRef bean="requisite.req.component.field.one.of.programs"/>
+				<dict:fieldRef bean="requisite.req.component.field.none.of.programs"/>
+				<dict:fieldRef bean="requisite.req.component.effectiveDate"/>
+				<dict:fieldRef bean="requisite.req.component.expirationDate"/>
+				<dict:fieldRef bean="requisite.req.component.metaInfo"/>
+				<dict:fieldRef bean="requisite.req.component.type"/>
+				<dict:fieldRef bean="requisite.req.component.state"/>
+				<dict:fieldRef bean="requisite.req.component.id"/>
+			</dict:state>
+			<dict:state key="inactive">
+			<!-- requirement componenent is inactive -->
+			<!-- TODO: Add to simple spec -->
+				<dict:fieldRef bean="requisite.req.component.desc"/>
+				<dict:fieldRef bean="requisite.req.component.field.none.of.courses"/>
+				<dict:fieldRef bean="requisite.req.component.field.one.of.courses.coreq"/>
+				<dict:fieldRef bean="requisite.req.component.field.all.of.courses.coreq"/>
+				<dict:fieldRef bean="requisite.req.component.field.all.of.courses"/>
+				<dict:fieldRef bean="requisite.req.component.field.one.of.courses"/>
+				<dict:fieldRef bean="requisite.req.component.field.n.of.courses"/>
+				<dict:fieldRef bean="requisite.req.component.field.mininum.overall.gpa"/>
+				<dict:fieldRef bean="requisite.req.component.field.mininum.overall.total.credits"/>
+				<dict:fieldRef bean="requisite.req.component.field.lrd.credit.course.final.grade"/>
+				<dict:fieldRef bean="requisite.req.component.field.one.of.programs"/>
+				<dict:fieldRef bean="requisite.req.component.field.none.of.programs"/>
+				<dict:fieldRef bean="requisite.req.component.effectiveDate"/>
+				<dict:fieldRef bean="requisite.req.component.expirationDate"/>
+				<dict:fieldRef bean="requisite.req.component.metaInfo"/>
+				<dict:fieldRef bean="requisite.req.component.type"/>
+				<dict:fieldRef bean="requisite.req.component.state"/>
+				<dict:fieldRef bean="requisite.req.component.id"/>
+			</dict:state>
+		</dict:type>
+		<dict:type key="kuali.reqCompType.requisite.courseList.all">
+		<!-- Student must take all of the specified courses -->
 			<dict:state key="active">
 			<!-- requirement componenent is active -->
 			<!-- TODO: Add to simple spec -->
@@ -18583,55 +18677,8 @@ are we sure this isn't the operator used for Learning Result Definitions -->
 				<dict:fieldRef bean="requisite.req.component.id"/>
 			</dict:state>
 		</dict:type>
-		<dict:type key="kuali.reqCompType.requisite.courseList.1of2">
-		<!-- Student must take one of two specified courses -->
-			<dict:state key="active">
-			<!-- requirement componenent is active -->
-			<!-- TODO: Add to simple spec -->
-				<dict:fieldRef bean="requisite.req.component.desc"/>
-				<dict:fieldRef bean="requisite.req.component.field.none.of.courses"/>
-				<dict:fieldRef bean="requisite.req.component.field.one.of.courses.coreq"/>
-				<dict:fieldRef bean="requisite.req.component.field.all.of.courses.coreq"/>
-				<dict:fieldRef bean="requisite.req.component.field.all.of.courses"/>
-				<dict:fieldRef bean="requisite.req.component.field.one.of.courses"/>
-				<dict:fieldRef bean="requisite.req.component.field.n.of.courses"/>
-				<dict:fieldRef bean="requisite.req.component.field.mininum.overall.gpa"/>
-				<dict:fieldRef bean="requisite.req.component.field.mininum.overall.total.credits"/>
-				<dict:fieldRef bean="requisite.req.component.field.lrd.credit.course.final.grade"/>
-				<dict:fieldRef bean="requisite.req.component.field.one.of.programs"/>
-				<dict:fieldRef bean="requisite.req.component.field.none.of.programs"/>
-				<dict:fieldRef bean="requisite.req.component.effectiveDate"/>
-				<dict:fieldRef bean="requisite.req.component.expirationDate"/>
-				<dict:fieldRef bean="requisite.req.component.metaInfo"/>
-				<dict:fieldRef bean="requisite.req.component.type"/>
-				<dict:fieldRef bean="requisite.req.component.state"/>
-				<dict:fieldRef bean="requisite.req.component.id"/>
-			</dict:state>
-			<dict:state key="inactive">
-			<!-- requirement componenent is inactive -->
-			<!-- TODO: Add to simple spec -->
-				<dict:fieldRef bean="requisite.req.component.desc"/>
-				<dict:fieldRef bean="requisite.req.component.field.none.of.courses"/>
-				<dict:fieldRef bean="requisite.req.component.field.one.of.courses.coreq"/>
-				<dict:fieldRef bean="requisite.req.component.field.all.of.courses.coreq"/>
-				<dict:fieldRef bean="requisite.req.component.field.all.of.courses"/>
-				<dict:fieldRef bean="requisite.req.component.field.one.of.courses"/>
-				<dict:fieldRef bean="requisite.req.component.field.n.of.courses"/>
-				<dict:fieldRef bean="requisite.req.component.field.mininum.overall.gpa"/>
-				<dict:fieldRef bean="requisite.req.component.field.mininum.overall.total.credits"/>
-				<dict:fieldRef bean="requisite.req.component.field.lrd.credit.course.final.grade"/>
-				<dict:fieldRef bean="requisite.req.component.field.one.of.programs"/>
-				<dict:fieldRef bean="requisite.req.component.field.none.of.programs"/>
-				<dict:fieldRef bean="requisite.req.component.effectiveDate"/>
-				<dict:fieldRef bean="requisite.req.component.expirationDate"/>
-				<dict:fieldRef bean="requisite.req.component.metaInfo"/>
-				<dict:fieldRef bean="requisite.req.component.type"/>
-				<dict:fieldRef bean="requisite.req.component.state"/>
-				<dict:fieldRef bean="requisite.req.component.id"/>
-			</dict:state>
-		</dict:type>
-		<dict:type key="kuali.reqCompType.requisite.overall.credit">
-		<!-- Student needs to have earned a minimum specified Total Credits -->
+		<dict:type key="kuali.reqCompType.requisite.programList.oneof">
+		<!-- Enrollment is limited to students in the following programs -->
 			<dict:state key="active">
 			<!-- requirement componenent is active -->
 			<!-- TODO: Add to simple spec -->
@@ -18724,102 +18771,55 @@ are we sure this isn't the operator used for Learning Result Definitions -->
 				<dict:fieldRef bean="requisite.req.component.id"/>
 			</dict:state>
 		</dict:type>
+		<dict:type key="kuali.reqCompType.requisite.overall.credit">
+		<!-- Student needs to have earned a minimum specified Total Credits -->
+			<dict:state key="active">
+			<!-- requirement componenent is active -->
+			<!-- TODO: Add to simple spec -->
+				<dict:fieldRef bean="requisite.req.component.desc"/>
+				<dict:fieldRef bean="requisite.req.component.field.none.of.courses"/>
+				<dict:fieldRef bean="requisite.req.component.field.one.of.courses.coreq"/>
+				<dict:fieldRef bean="requisite.req.component.field.all.of.courses.coreq"/>
+				<dict:fieldRef bean="requisite.req.component.field.all.of.courses"/>
+				<dict:fieldRef bean="requisite.req.component.field.one.of.courses"/>
+				<dict:fieldRef bean="requisite.req.component.field.n.of.courses"/>
+				<dict:fieldRef bean="requisite.req.component.field.mininum.overall.gpa"/>
+				<dict:fieldRef bean="requisite.req.component.field.mininum.overall.total.credits"/>
+				<dict:fieldRef bean="requisite.req.component.field.lrd.credit.course.final.grade"/>
+				<dict:fieldRef bean="requisite.req.component.field.one.of.programs"/>
+				<dict:fieldRef bean="requisite.req.component.field.none.of.programs"/>
+				<dict:fieldRef bean="requisite.req.component.effectiveDate"/>
+				<dict:fieldRef bean="requisite.req.component.expirationDate"/>
+				<dict:fieldRef bean="requisite.req.component.metaInfo"/>
+				<dict:fieldRef bean="requisite.req.component.type"/>
+				<dict:fieldRef bean="requisite.req.component.state"/>
+				<dict:fieldRef bean="requisite.req.component.id"/>
+			</dict:state>
+			<dict:state key="inactive">
+			<!-- requirement componenent is inactive -->
+			<!-- TODO: Add to simple spec -->
+				<dict:fieldRef bean="requisite.req.component.desc"/>
+				<dict:fieldRef bean="requisite.req.component.field.none.of.courses"/>
+				<dict:fieldRef bean="requisite.req.component.field.one.of.courses.coreq"/>
+				<dict:fieldRef bean="requisite.req.component.field.all.of.courses.coreq"/>
+				<dict:fieldRef bean="requisite.req.component.field.all.of.courses"/>
+				<dict:fieldRef bean="requisite.req.component.field.one.of.courses"/>
+				<dict:fieldRef bean="requisite.req.component.field.n.of.courses"/>
+				<dict:fieldRef bean="requisite.req.component.field.mininum.overall.gpa"/>
+				<dict:fieldRef bean="requisite.req.component.field.mininum.overall.total.credits"/>
+				<dict:fieldRef bean="requisite.req.component.field.lrd.credit.course.final.grade"/>
+				<dict:fieldRef bean="requisite.req.component.field.one.of.programs"/>
+				<dict:fieldRef bean="requisite.req.component.field.none.of.programs"/>
+				<dict:fieldRef bean="requisite.req.component.effectiveDate"/>
+				<dict:fieldRef bean="requisite.req.component.expirationDate"/>
+				<dict:fieldRef bean="requisite.req.component.metaInfo"/>
+				<dict:fieldRef bean="requisite.req.component.type"/>
+				<dict:fieldRef bean="requisite.req.component.state"/>
+				<dict:fieldRef bean="requisite.req.component.id"/>
+			</dict:state>
+		</dict:type>
 		<dict:type key="kuali.reqCompType.requisite.grdCondCourseList">
 		<!-- Student must have completed the specified course with a minium specified grade -->
-			<dict:state key="active">
-			<!-- requirement componenent is active -->
-			<!-- TODO: Add to simple spec -->
-				<dict:fieldRef bean="requisite.req.component.desc"/>
-				<dict:fieldRef bean="requisite.req.component.field.none.of.courses"/>
-				<dict:fieldRef bean="requisite.req.component.field.one.of.courses.coreq"/>
-				<dict:fieldRef bean="requisite.req.component.field.all.of.courses.coreq"/>
-				<dict:fieldRef bean="requisite.req.component.field.all.of.courses"/>
-				<dict:fieldRef bean="requisite.req.component.field.one.of.courses"/>
-				<dict:fieldRef bean="requisite.req.component.field.n.of.courses"/>
-				<dict:fieldRef bean="requisite.req.component.field.mininum.overall.gpa"/>
-				<dict:fieldRef bean="requisite.req.component.field.mininum.overall.total.credits"/>
-				<dict:fieldRef bean="requisite.req.component.field.lrd.credit.course.final.grade"/>
-				<dict:fieldRef bean="requisite.req.component.field.one.of.programs"/>
-				<dict:fieldRef bean="requisite.req.component.field.none.of.programs"/>
-				<dict:fieldRef bean="requisite.req.component.effectiveDate"/>
-				<dict:fieldRef bean="requisite.req.component.expirationDate"/>
-				<dict:fieldRef bean="requisite.req.component.metaInfo"/>
-				<dict:fieldRef bean="requisite.req.component.type"/>
-				<dict:fieldRef bean="requisite.req.component.state"/>
-				<dict:fieldRef bean="requisite.req.component.id"/>
-			</dict:state>
-			<dict:state key="inactive">
-			<!-- requirement componenent is inactive -->
-			<!-- TODO: Add to simple spec -->
-				<dict:fieldRef bean="requisite.req.component.desc"/>
-				<dict:fieldRef bean="requisite.req.component.field.none.of.courses"/>
-				<dict:fieldRef bean="requisite.req.component.field.one.of.courses.coreq"/>
-				<dict:fieldRef bean="requisite.req.component.field.all.of.courses.coreq"/>
-				<dict:fieldRef bean="requisite.req.component.field.all.of.courses"/>
-				<dict:fieldRef bean="requisite.req.component.field.one.of.courses"/>
-				<dict:fieldRef bean="requisite.req.component.field.n.of.courses"/>
-				<dict:fieldRef bean="requisite.req.component.field.mininum.overall.gpa"/>
-				<dict:fieldRef bean="requisite.req.component.field.mininum.overall.total.credits"/>
-				<dict:fieldRef bean="requisite.req.component.field.lrd.credit.course.final.grade"/>
-				<dict:fieldRef bean="requisite.req.component.field.one.of.programs"/>
-				<dict:fieldRef bean="requisite.req.component.field.none.of.programs"/>
-				<dict:fieldRef bean="requisite.req.component.effectiveDate"/>
-				<dict:fieldRef bean="requisite.req.component.expirationDate"/>
-				<dict:fieldRef bean="requisite.req.component.metaInfo"/>
-				<dict:fieldRef bean="requisite.req.component.type"/>
-				<dict:fieldRef bean="requisite.req.component.state"/>
-				<dict:fieldRef bean="requisite.req.component.id"/>
-			</dict:state>
-		</dict:type>
-		<dict:type key="kuali.reqCompType.requisite.programList.oneof">
-		<!-- Enrollment is limited to students in the following programs -->
-			<dict:state key="active">
-			<!-- requirement componenent is active -->
-			<!-- TODO: Add to simple spec -->
-				<dict:fieldRef bean="requisite.req.component.desc"/>
-				<dict:fieldRef bean="requisite.req.component.field.none.of.courses"/>
-				<dict:fieldRef bean="requisite.req.component.field.one.of.courses.coreq"/>
-				<dict:fieldRef bean="requisite.req.component.field.all.of.courses.coreq"/>
-				<dict:fieldRef bean="requisite.req.component.field.all.of.courses"/>
-				<dict:fieldRef bean="requisite.req.component.field.one.of.courses"/>
-				<dict:fieldRef bean="requisite.req.component.field.n.of.courses"/>
-				<dict:fieldRef bean="requisite.req.component.field.mininum.overall.gpa"/>
-				<dict:fieldRef bean="requisite.req.component.field.mininum.overall.total.credits"/>
-				<dict:fieldRef bean="requisite.req.component.field.lrd.credit.course.final.grade"/>
-				<dict:fieldRef bean="requisite.req.component.field.one.of.programs"/>
-				<dict:fieldRef bean="requisite.req.component.field.none.of.programs"/>
-				<dict:fieldRef bean="requisite.req.component.effectiveDate"/>
-				<dict:fieldRef bean="requisite.req.component.expirationDate"/>
-				<dict:fieldRef bean="requisite.req.component.metaInfo"/>
-				<dict:fieldRef bean="requisite.req.component.type"/>
-				<dict:fieldRef bean="requisite.req.component.state"/>
-				<dict:fieldRef bean="requisite.req.component.id"/>
-			</dict:state>
-			<dict:state key="inactive">
-			<!-- requirement componenent is inactive -->
-			<!-- TODO: Add to simple spec -->
-				<dict:fieldRef bean="requisite.req.component.desc"/>
-				<dict:fieldRef bean="requisite.req.component.field.none.of.courses"/>
-				<dict:fieldRef bean="requisite.req.component.field.one.of.courses.coreq"/>
-				<dict:fieldRef bean="requisite.req.component.field.all.of.courses.coreq"/>
-				<dict:fieldRef bean="requisite.req.component.field.all.of.courses"/>
-				<dict:fieldRef bean="requisite.req.component.field.one.of.courses"/>
-				<dict:fieldRef bean="requisite.req.component.field.n.of.courses"/>
-				<dict:fieldRef bean="requisite.req.component.field.mininum.overall.gpa"/>
-				<dict:fieldRef bean="requisite.req.component.field.mininum.overall.total.credits"/>
-				<dict:fieldRef bean="requisite.req.component.field.lrd.credit.course.final.grade"/>
-				<dict:fieldRef bean="requisite.req.component.field.one.of.programs"/>
-				<dict:fieldRef bean="requisite.req.component.field.none.of.programs"/>
-				<dict:fieldRef bean="requisite.req.component.effectiveDate"/>
-				<dict:fieldRef bean="requisite.req.component.expirationDate"/>
-				<dict:fieldRef bean="requisite.req.component.metaInfo"/>
-				<dict:fieldRef bean="requisite.req.component.type"/>
-				<dict:fieldRef bean="requisite.req.component.state"/>
-				<dict:fieldRef bean="requisite.req.component.id"/>
-			</dict:state>
-		</dict:type>
-		<dict:type key="kuali.reqCompType.requisite.courseList.coreq.oneof">
-		<!-- Student must be enrolled in one of the following courses -->
 			<dict:state key="active">
 			<!-- requirement componenent is active -->
 			<!-- TODO: Add to simple spec -->
@@ -20822,9 +20822,9 @@ This field does not make sense. The GradeKey points to the GradeInfo object that
 				<dict:fieldRef bean="all.course.proposals.internal.id"/>
 			</dict:state>
 		</dict:type>
-		<dict:type key="kuali.proposal.type.course.create">
-		<!-- Proposal to create a new Credit Course -->
-		<!-- changed keys - need CHANGE IN SMPLES -->
+		<dict:type key="kuali.proposal.type.course.modify">
+		<!-- Proposal to modify an existing Credit Course -->
+		<!-- do these really need to be course specific? -->
 			<dict:state key="draft.private">
 			<!-- Exploratory/Private scratch pad -->
 				<dict:fieldRef bean="all.course.proposals.name"/>
@@ -20966,9 +20966,9 @@ This field does not make sense. The GradeKey points to the GradeInfo object that
 				<dict:fieldRef bean="all.course.proposals.internal.id"/>
 			</dict:state>
 		</dict:type>
-		<dict:type key="kuali.proposal.type.course.modify">
-		<!-- Proposal to modify an existing Credit Course -->
-		<!-- do these really need to be course specific? -->
+		<dict:type key="kuali.proposal.type.course.create">
+		<!-- Proposal to create a new Credit Course -->
+		<!-- changed keys - need CHANGE IN SMPLES -->
 			<dict:state key="draft.private">
 			<!-- Exploratory/Private scratch pad -->
 				<dict:fieldRef bean="all.course.proposals.name"/>
