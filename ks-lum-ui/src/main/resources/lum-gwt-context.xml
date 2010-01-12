@@ -60,7 +60,7 @@
 					<ref bean="LoRpcGwtServletController" />
 				</entry>
 				<entry
-					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CluProposalRpcService">
+					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService">
 					<ref bean="CluProposalRpcGwtServletController" />
 				</entry>
 				<entry
@@ -95,7 +95,7 @@
 					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/DocumentRelationMockRpcService">
 					<ref bean="documentRelationMockRpcGwtController" />
 				</entry>
-				<entry key="/org.kuali.student.lum.lu.ui.workflow.CollaboratorRequest/rpcservices/CluProposalRpcService">
+				<entry key="/org.kuali.student.lum.lu.ui.workflow.CollaboratorRequest/rpcservices/CreditCourseProposalRpcService">
 					<ref bean="CluProposalRpcGwtServletController"/>
 				</entry>	
 				<entry
@@ -211,17 +211,35 @@
 	</bean>
 
 	<bean id="CluProposalRpcGwtServlet"
-		class="org.kuali.student.lum.lu.ui.course.server.gwt.CluProposalRpcGwtServlet">
-		<property name="service" ref="luClient" />
-		<property name="orgService" ref="orgClient" />
+		class="org.kuali.student.lum.lu.ui.course.server.gwt.CreditCourseProposalRpcGwtServlet">
+		<property name="assembler" ref="creditCourseProposalAssemblerFilterManager"/>
 		<property name="simpleDocService" ref="simpleDocActionsClient" />
 		<property name="workflowUtilityService" ref="workflowUtilityClient" />
-        <property name="proposalService" ref="proposalClient" />
-        <property name="learningObjectiveService" ref="loClient" />
+	</bean>
+
+	<bean id="creditCourseProposalAssembler" class="org.kuali.student.lum.lu.assembly.CreditCourseProposalAssembler">
+		<constructor-arg value="draft"/>
+		<property name="learningObjectiveService" ref="loClient"/>
+		<property name="luService" ref="luClient"/>
 		<property name="permissionService" ref="permissionServiceClient"/>
-		<property name="translationService" ref="translationClient"/>						
-		<!--<property name="simpleDocService" ref="simpleDocClient"/>-->
-        <!--<property name="applicationStateManager" ref="applicationStateManager" />-->
+		<property name="proposalService" ref="proposalClient"/>
+		<property name="translationService" ref="translationClient"/>
+	</bean>
+	
+	<!-- This filter takes care of creating/updated a workflow doc whenever the assembler saves data -->
+	<bean id="workflowAssemblerFilter" class="org.kuali.student.lum.lu.assembly.CreditCourseProposalWorkflowAssemblerFilter">
+		<property name="simpleDocService" ref="simpleDocActionsClient" />
+		<property name="workflowUtilityService" ref="workflowUtilityClient" />
+	</bean>
+	
+	<!-- Filter manager that targets the credit course proposal assembler -->
+	<bean id="creditCourseProposalAssemblerFilterManager" class="org.kuali.student.common.assembly.AssemblerFilterManager">
+		<constructor-arg ref="creditCourseProposalAssembler"/>
+		<property name="filters">
+			<list>
+				<ref bean="workflowAssemblerFilter"/>
+			</list>
+		</property>
 	</bean>
 
 	<bean id="ServerPropertiesServlet"

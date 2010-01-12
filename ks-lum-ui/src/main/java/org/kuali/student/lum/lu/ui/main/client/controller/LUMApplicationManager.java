@@ -29,6 +29,8 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.history.KSHistory
 import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluController;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
+import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
+import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.home.client.view.HomeMenuController;
 import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
 import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateHandler;
@@ -52,8 +54,6 @@ public class LUMApplicationManager extends Controller{
 	    private Controller viewCluController = null;
 	    private DelegatingViewComposite createCluView;
 	    private DelegatingViewComposite viewCluView;
-
-	    private CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);
 
 	    public LUMApplicationManager(){
 	        super();
@@ -206,29 +206,10 @@ public class LUMApplicationManager extends Controller{
 	    @Override
 	    public void showDefaultView(final Callback<Boolean> onReadyCallback) {
 	        final String docId=Window.Location.getParameter("docId");
-	        String backdoorId=Window.Location.getParameter("backdoorId");
+	        
 	        if(docId!=null){
-	            if(backdoorId!=null){
-	                cluProposalRpcServiceAsync.loginBackdoor(backdoorId, new AsyncCallback<Boolean>(){
-	                    public void onFailure(Throwable caught) {
-	                        Window.alert(caught.getMessage());
-	                        onReadyCallback.exec(false);
-	                    }
-
-	                    public void onSuccess(Boolean result) {
-	                        if(!result){
-	                            Window.alert("Error with backdoor login");
-	                            onReadyCallback.exec(false);
-	                        }
-	                        initCluProposalViewFromDocId(LUConstants.PROPOSAL_TYPE_COURSE_CREATE, LUConstants.CLU_TYPE_CREDIT_COURSE, docId);  //FIXME replace with program specific constants
-	                        showView(LUMViews.EDIT_COURSE_PROPOSAL, onReadyCallback);
-	                    }
-
-	                });
-	            }else{
-	                initCluProposalViewFromDocId(LUConstants.PROPOSAL_TYPE_COURSE_CREATE, LUConstants.CLU_TYPE_CREDIT_COURSE, docId);  //FIXME replace with program specific constants
-	                this.showView(LUMViews.EDIT_COURSE_PROPOSAL, onReadyCallback);
-	            }
+                initCluProposalViewFromDocId(LUConstants.PROPOSAL_TYPE_COURSE_CREATE, LUConstants.CLU_TYPE_CREDIT_COURSE, docId);  //FIXME replace with program specific constants
+                this.showView(LUMViews.EDIT_COURSE_PROPOSAL, onReadyCallback);
 	        }
 	        else{
 	            this.showView(LUMViews.HOME_MENU, onReadyCallback);

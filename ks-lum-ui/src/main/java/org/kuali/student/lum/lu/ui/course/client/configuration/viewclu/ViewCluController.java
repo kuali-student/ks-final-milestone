@@ -28,6 +28,8 @@ import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
+import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
+import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
 import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
 
@@ -48,7 +50,7 @@ public class ViewCluController extends PagedSectionLayout{
 
     private String cluId = null;
 
-    private CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);  
+    private CreditCourseProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CreditCourseProposalRpcService.class);  
 
     private KSButton quitButton = new KSButton("Quit", new ClickHandler(){
         public void onClick(ClickEvent event) {
@@ -124,7 +126,7 @@ public class ViewCluController extends PagedSectionLayout{
     private void loadClu() {
     	// TODO need to doublecheck, make sure this is really a proposal ID and not a CLU ID
         if (cluId != null) {
-        	cluProposalRpcServiceAsync.getCreditCourseProposal(cluId, new AsyncCallback<Data>() {
+        	cluProposalRpcServiceAsync.getData(cluId, new AsyncCallback<Data>() {
 
                 @Override
                 public void onFailure(Throwable caught) {

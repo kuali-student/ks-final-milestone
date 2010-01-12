@@ -19,11 +19,11 @@ import java.util.HashMap;
 
 import org.kuali.student.common.ui.client.mvc.AbstractSimpleModel;
 import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.ModelChangeEvent.Action;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcServiceAsync;
+import org.kuali.student.common.ui.client.service.WorkflowRpcService.RequestType;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -32,8 +32,8 @@ import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.KSRadioButtonList;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
-import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
-import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
+import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
+import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -49,7 +49,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class Collaborators extends Composite implements HasWorkflowId{
 
-    CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);
+    CreditCourseProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CreditCourseProposalRpcService.class);
     ServerPropertiesRpcServiceAsync serverProperties = GWT.create(ServerPropertiesRpcService.class);
     
 //    private static final String ricePersonLookupUrl = "http://localhost:8081/ks-rice-dev/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.impl.PersonImpl&docFormKey=88888888&returnLocation="+GWT.getHostPageBaseURL()+"sendResponse.html&hideReturnLink=false";
@@ -312,7 +312,7 @@ public class Collaborators extends Composite implements HasWorkflowId{
 		
 		String proposalId = null==model.getProposalId()?"":model.getProposalId();
 
-		cluProposalRpcServiceAsync.getWorkflowIdFromProposalId(proposalId, new AsyncCallback<String>(){
+		cluProposalRpcServiceAsync.getWorkflowIdFromDataId(proposalId, new AsyncCallback<String>(){
 			@Override
 			public void onFailure(Throwable caught) {
 				Window.alert("Getting workflowId failed");
@@ -409,7 +409,15 @@ public class Collaborators extends Composite implements HasWorkflowId{
             GWT.log("Fyis called with " + ricePersonLookupUrl, null);
             Window.alert("Workflow must be started before Adhocs can be sent");
         } else {
-            cluProposalRpcServiceAsync.adhocRequest(workflowId, recipientPrincipalId,requestType,
+        	RequestType r;
+        	if("Acknowledge".equals(requestType)){
+        		r = RequestType.ACKNOWLEDGE;
+        	}else if("Approve".equals(requestType)){
+        		r = RequestType.APPROVE;
+        	}else{
+        		r = RequestType.FYI;
+        	}
+            cluProposalRpcServiceAsync.adhocRequest(workflowId, recipientPrincipalId,r,
                     annotation,
                     new AsyncCallback<Boolean>() {
                         public void onFailure(Throwable caught) {

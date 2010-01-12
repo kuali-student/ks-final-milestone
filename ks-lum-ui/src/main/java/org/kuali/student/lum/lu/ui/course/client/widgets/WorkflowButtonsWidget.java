@@ -15,17 +15,16 @@
 package org.kuali.student.lum.lu.ui.course.client.widgets;
 
 import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.common.ui.client.event.ActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
-import org.kuali.student.common.ui.client.mvc.ActionCompleteCallback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
+import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
 import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer;
-import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
-import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
+import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
+import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -48,7 +47,7 @@ public class WorkflowButtonsWidget extends Composite {
     SaveActionEvent approveSaveActionEvent;
     SaveActionEvent startWorkflowSaveActionEvent;
     
-    CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);
+    CreditCourseProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CreditCourseProposalRpcService.class);
     
     private VerticalPanel rootPanel = new VerticalPanel();
     
@@ -74,6 +73,7 @@ public class WorkflowButtonsWidget extends Composite {
 	protected void onLoad() {
 		super.onLoad();
 		myController = Controller.findController(this);
+		
 		if(null==cluProposalWorkflowModel){
 			//Get the Model from the controller and register a model change handler when the workflow model is updated
 			myController.requestModel(CourseConfigurer.CLU_PROPOSAL_MODEL, new ModelRequestCallback<DataModel>(){
@@ -115,72 +115,67 @@ public class WorkflowButtonsWidget extends Composite {
 	
 	private void setupWFButtons() {
 
-		startWorkflowSaveActionEvent = new SaveActionEvent("Submitting");
-		startWorkflowSaveActionEvent.setActionCompleteCallback(new ActionCompleteCallback(){
-			public void onActionComplete(ActionEvent action) {
-    			
+    	wfStartWorkflowButton = new KSButton("Submit", new ClickHandler(){
+    		public void onClick(ClickEvent event) {
     			if(cluProposalWorkflowModel==null||((Data)cluProposalWorkflowModel.getRoot().get("course")).get("department")==null){
     				Window.alert("Administering Organization must be entered and saved before workflow can be started.");
     			}else{
-        			cluProposalRpcServiceAsync.submitProposal(cluProposalWorkflowModel.getRoot(), new AsyncCallback<Boolean>(){
+        			cluProposalRpcServiceAsync.submitDocumentWithData(cluProposalWorkflowModel.getRoot(), new AsyncCallback<DataSaveResult>(){
 						public void onFailure(
 								Throwable caught) {
 							Window.alert("Error starting Proposal workflow");
 						}
 						public void onSuccess(
-								Boolean result) {
+								DataSaveResult result) {
+							//Update the model with the saved data
+							cluProposalWorkflowModel.setRoot(result.getValue());
 							Window.alert("Proposal has been routed to workflow");
 							removeButton(wfStartWorkflowButton);
 						}
 					});
     			}
-			}
-		});
-		
-    	wfStartWorkflowButton = new KSButton("Submit", new ClickHandler(){
-    		public void onClick(ClickEvent event) {
-    			myController.fireApplicationEvent(startWorkflowSaveActionEvent);
     		}
     	});
     	wfStartWorkflowButton.setVisible(false);
 
-		approveSaveActionEvent = new SaveActionEvent("Approving");
-		approveSaveActionEvent.setActionCompleteCallback(new ActionCompleteCallback(){
-			public void onActionComplete(ActionEvent action) {
-				cluProposalRpcServiceAsync.approveProposal(cluProposalWorkflowModel.getRoot(), new AsyncCallback<Boolean>(){
+		wfApproveButton = new KSButton("Approve", new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				cluProposalRpcServiceAsync.approveDocumentWithData(cluProposalWorkflowModel.getRoot(), new AsyncCallback<DataSaveResult>(){
 					public void onFailure(
 							Throwable caught) {
 						Window.alert("Error approving Proposal");
 					}
 					public void onSuccess(
-							Boolean result) {
+							DataSaveResult result) {
+						//Update the model with the saved data
+						cluProposalWorkflowModel.setRoot(result.getValue());
 						Window.alert("Proposal was approved");
 						removeButton(wfApproveButton);
 						removeButton(wfDisApproveButton);
 					}
 				});
-			}
-		});
-    	
-		wfApproveButton = new KSButton("Approve", new ClickHandler(){
-			public void onClick(ClickEvent event) {
-				myController.fireApplicationEvent(approveSaveActionEvent);
 			}        
 		});
 		wfApproveButton.setVisible(false);
 
 		wfDisApproveButton = new KSButton("Disapprove", new ClickHandler(){
 	        public void onClick(ClickEvent event) {
-				cluProposalRpcServiceAsync.disapproveProposal(cluProposalWorkflowModel.getRoot(), new AsyncCallback<Boolean>(){
+	        	CreditCourseProposalHelper data = CreditCourseProposalHelper.wrap(cluProposalWorkflowModel.getRoot());
+	        	
+				cluProposalRpcServiceAsync.disapproveDocumentWithId(data.getProposal().getId(), new AsyncCallback<Boolean>(){
 					public void onFailure(
 							Throwable caught) {
 						Window.alert("Error disapproving Proposal");
 					}
 					public void onSuccess(
 							Boolean result) {
-						Window.alert("Proposal was disapproved");
-						removeButton(wfApproveButton);
-						removeButton(wfDisApproveButton);
+						if(result){
+							Window.alert("Proposal was disapproved");
+							removeButton(wfApproveButton);
+							removeButton(wfDisApproveButton);
+						}else{
+							Window.alert("Error disapproving Proposal");
+						}
 					}
 					
 				});
@@ -190,15 +185,21 @@ public class WorkflowButtonsWidget extends Composite {
 		
 		wfAcknowledgeButton= new KSButton("Acknowledge", new ClickHandler(){
 	        public void onClick(ClickEvent event) {
-				cluProposalRpcServiceAsync.acknowledgeProposal(cluProposalWorkflowModel.getRoot(), new AsyncCallback<Boolean>(){
+	        	CreditCourseProposalHelper data = CreditCourseProposalHelper.wrap(cluProposalWorkflowModel.getRoot());
+	        	
+				cluProposalRpcServiceAsync.acknowledgeDocumentWithId(data.getProposal().getId(), new AsyncCallback<Boolean>(){
 					public void onFailure(
 							Throwable caught) {
 						Window.alert("Error acknowledging Proposal");
 					}
 					public void onSuccess(
 							Boolean result) {
-						Window.alert("Proposal was acknowledged");
-						removeButton(wfAcknowledgeButton);
+						if(result){
+							Window.alert("Proposal was acknowledged");
+							removeButton(wfAcknowledgeButton);
+						}else{
+							Window.alert("Error acknowledging Proposal");
+						}
 					}
 					
 				});

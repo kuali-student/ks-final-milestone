@@ -50,6 +50,8 @@ import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LuConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
+import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
+import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
 import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
@@ -87,7 +89,7 @@ public class CourseProposalController extends TabbedSectionLayout {
 	
 	private final String REFERENCE_TYPE = "referenceType.clu";
 	private boolean initialized = false;
-	CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);
+	CreditCourseProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CreditCourseProposalRpcService.class);
 	
 	final KSLightBox progressWindow = new KSLightBox();
 
@@ -199,7 +201,7 @@ public class CourseProposalController extends TabbedSectionLayout {
     		onReadyCallback.exec(true);
     	} else {
     		progressWindow.show();
-	        cluProposalRpcServiceAsync.getCreditCourseProposalMetadata( 
+	        cluProposalRpcServiceAsync.getMetadata( 
 	                new AsyncCallback<Metadata>(){
 	
 	                    @Override
@@ -331,7 +333,7 @@ public class CourseProposalController extends TabbedSectionLayout {
     @SuppressWarnings("unchecked")        
     private void getCluProposalFromWorkflowId(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
        
-        cluProposalRpcServiceAsync.getCluProposalFromWorkflowId(docId, new AsyncCallback<Data>(){
+        cluProposalRpcServiceAsync.getDataFromWorkflowId(docId, new AsyncCallback<Data>(){
 
             @Override
             public void onFailure(Throwable caught) {
@@ -356,7 +358,7 @@ public class CourseProposalController extends TabbedSectionLayout {
     @SuppressWarnings("unchecked")    
     private void getCluProposalFromProposalId(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
     	progressWindow.show();
-    	cluProposalRpcServiceAsync.getCreditCourseProposal(proposalId, new AsyncCallback<Data>(){
+    	cluProposalRpcServiceAsync.getData(proposalId, new AsyncCallback<Data>(){
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -444,7 +446,7 @@ public class CourseProposalController extends TabbedSectionLayout {
         try {
 //	        if(cluProposalModel.get().get("proposal/id") == null){
 	        	// FIXME wilj: find out if/why curriculum oversight retrieving/saving wrong org and admin org is not saving at all
-	            cluProposalRpcServiceAsync.saveCreditCourseProposal(cluProposalModel.getRoot(), new AsyncCallback<DataSaveResult>(){
+	            cluProposalRpcServiceAsync.saveData(cluProposalModel.getRoot(), new AsyncCallback<DataSaveResult>(){
 	                public void onFailure(Throwable caught) {
 	                   saveFailedCallback.exec(caught);                 
 	                }
