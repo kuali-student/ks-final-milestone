@@ -32,10 +32,10 @@ import static org.junit.Assert.*;
  *
  * @author nwright
  */
-public class OrchestrationObjectsAssemblerWriterToLumUITest implements TestConstants
+public class AssemblerWriterToLumUITest implements TestConstants
 {
 
- public OrchestrationObjectsAssemblerWriterToLumUITest ()
+ public AssemblerWriterToLumUITest ()
  {
  }
 

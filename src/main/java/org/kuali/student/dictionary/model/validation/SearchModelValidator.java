@@ -26,6 +26,7 @@ import org.kuali.student.dictionary.model.SearchModel;
 import org.kuali.student.dictionary.model.SearchResult;
 import org.kuali.student.dictionary.model.SearchResultColumn;
 import org.kuali.student.dictionary.model.SearchType;
+import org.kuali.student.dictionary.model.util.ModelFinder;
 
 /**
  * Validates the entire spreadsheet model
@@ -76,8 +77,99 @@ public class SearchModelValidator implements ModelValidator
   {
    if ( ! keys.add (st.getKey ()))
    {
-    addError ("Search type [" + st.getKey () + "] is duplicated");
+    SearchType st2 = new ModelFinder (model).findSearchType (st.getKey ());
+    List<String> differences = findDifferences (st, st2);
+    if (differences.size () > 0)
+    {
+     StringBuffer buf = new StringBuffer ();
+     String comma = "";
+     for (String val : differences)
+     {
+      buf.append (val);
+      buf.append (comma);
+      comma = ", ";
+     }
+     addError ("Search type [" + st.getKey () +
+      "] is duplicated but differences were found: " + buf);
+    }
    }
+  }
+ }
+
+ private List<String> findDifferences (SearchType st1, SearchType st2)
+ {
+  List<String> differences = new ArrayList ();
+  addIfDifferent (differences, st1.getKey (), st2.getKey (), "key");
+  addIfDifferent (differences, st1.getName (), st2.getName (), "name");
+  addIfDifferent (differences, st1.getDescription (), st2.getDescription (), "Description");
+  addIfDifferent (differences, st1.getService (), st2.getService (), "Service");
+
+  SearchCriteria sc1 = st1.getSearchCriteria ();
+  SearchCriteria sc2 = st2.getSearchCriteria ();
+  addIfDifferent (differences, sc1.getKey (), sc2.getKey (), "key");
+  addIfDifferent (differences, sc1.getName (), sc2.getName (), "name");
+  addIfDifferent (differences, sc1.getDescription (), sc2.getDescription (), "Description");
+
+  List<SearchCriteriaParameter> scp1s = sc1.getParameters ();
+  List<SearchCriteriaParameter> scp2s = sc2.getParameters ();
+  addIfDifferent (differences, scp1s.size (), scp2s.size (), "# of parameters");
+
+  if (scp1s.size () == scp2s.size ())
+  {
+   for (int i = 0; i < scp1s.size (); i ++)
+   {
+    SearchCriteriaParameter scp1 = scp1s.get (i);
+    SearchCriteriaParameter scp2 = scp2s.get (i);
+    addIfDifferent (differences, scp1.getKey (), scp2.getKey (), "key");
+    addIfDifferent (differences, scp1.getName (), scp2.getName (), "name");
+    addIfDifferent (differences, scp1.getDescription (), scp2.getDescription (), "Description");
+    addIfDifferent (differences, scp1.getDataType (), scp2.getDataType (), "Datatype");
+    addIfDifferent (differences, scp1.getOptional (), scp2.getOptional (), "Optional");
+    addIfDifferent (differences, scp1.getCaseSensitive (), scp2.getCaseSensitive (), "case");
+   }
+  }
+
+
+  SearchResult sr1 = st1.getSearchResult ();
+  SearchResult sr2 = st2.getSearchResult ();
+  addIfDifferent (differences, sr1.getKey (), sr2.getKey (), "key");
+  addIfDifferent (differences, sr1.getName (), sr2.getName (), "name");
+  addIfDifferent (differences, sr1.getDescription (), sr2.getDescription (), "Description");
+  List<SearchResultColumn> src1s = sr1.getResultColumns ();
+  List<SearchResultColumn> src2s = sr2.getResultColumns ();
+  addIfDifferent (differences, src1s.size (), src2s.size (), "# of result columns");
+  if (src1s.size () == src2s.size ())
+  {
+   for (int i = 0; i < src1s.size (); i ++)
+   {
+    SearchResultColumn src1 = src1s.get (i);
+    SearchResultColumn src2 = src2s.get (i);
+    addIfDifferent (differences, src1.getKey (), src2.getKey (), "key");
+    addIfDifferent (differences, src1.getName (), src2.getName (), "name");
+    addIfDifferent (differences, src1.getDescription (), src2.getDescription (), "Description");
+    addIfDifferent (differences, src1.getDataType (), src2.getDataType (), "Datatype");
+    addIfDifferent (differences, src1.getOptional (), src2.getOptional (), "Optional");
+    addIfDifferent (differences, src1.getCaseSensitive (), src2.getCaseSensitive (), "case");
+   }
+  }
+  return differences;
+ }
+
+ private void addIfDifferent (List<String> differences, Object val1, Object val2,
+                              String difference)
+ {
+  if (val1 == null && val2 == null)
+  {
+   return;
+  }
+  if (val1 == null)
+  {
+   differences.add (difference);
+   return;
+  }
+  if ( ! val1.equals (val2))
+  {
+   differences.add (difference);
   }
  }
 
@@ -171,7 +263,7 @@ public class SearchModelValidator implements ModelValidator
  }
 
  private void compareSearchResultColumns (SearchResultColumn col1,
-                                         SearchResultColumn col2)
+                                          SearchResultColumn col2)
  {
   assert col1.getKey ().equals (col2.getKey ());
   if ( ! col1.getName ().equals (col2.getName ()))

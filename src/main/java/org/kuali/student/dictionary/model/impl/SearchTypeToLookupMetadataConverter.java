@@ -216,6 +216,10 @@ public class SearchTypeToLookupMetadataConverter
   {
    return LookupParamMetadata.Widget.RADIO_BUTTONS;
   }
+  if (value.equalsIgnoreCase ("Calendar"))
+  {
+   return LookupParamMetadata.Widget.CALENDAR;
+  }
   if (value.equalsIgnoreCase ("Text Box"))
   {
    return LookupParamMetadata.Widget.TEXT_BOX;

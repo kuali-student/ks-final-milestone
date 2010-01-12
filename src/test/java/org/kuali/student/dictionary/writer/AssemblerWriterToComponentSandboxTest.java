@@ -32,10 +32,10 @@ import static org.junit.Assert.*;
  *
  * @author nwright
  */
-public class OrchestrationObjectsAssemblerWriterToComponentSandboxTest implements TestConstants
+public class AssemblerWriterToComponentSandboxTest implements TestConstants
 {
 
- public OrchestrationObjectsAssemblerWriterToComponentSandboxTest ()
+ public AssemblerWriterToComponentSandboxTest ()
  {
  }
 

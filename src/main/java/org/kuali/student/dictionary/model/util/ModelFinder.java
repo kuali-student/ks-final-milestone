@@ -30,11 +30,18 @@ import java.util.Set;
 public class ModelFinder
 {
 
+ private SearchModel searchModel;
  private DictionaryModel model;
 
- public ModelFinder (DictionaryModel spreadsheet)
+ public ModelFinder (DictionaryModel model)
  {
-  this.model = spreadsheet;
+  this.model = model;
+  this.searchModel = model;
+ }
+
+ public ModelFinder (SearchModel model)
+ {
+  this.searchModel = model;
  }
 
  public XmlType findXmlType (String xmlTypeName)
@@ -225,8 +232,6 @@ public class ModelFinder
   return null;
  }
 
-
-
  public Project findProject (String key)
  {
   for (Project proj : model.getProjects ())
@@ -234,6 +239,18 @@ public class ModelFinder
    if (proj.getKey ().equalsIgnoreCase (key))
    {
     return proj;
+   }
+  }
+  return null;
+ }
+
+ public SearchType findSearchType (String key)
+ {
+  for (SearchType st : searchModel.getSearchTypes ())
+  {
+   if (st.getKey ().equalsIgnoreCase (key))
+   {
+    return st;
    }
   }
   return null;
