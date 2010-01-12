@@ -10,7 +10,7 @@ public interface BaseDataOrchestrationRpcServiceAsync extends
 		BaseRpcServiceAsync {
 	
 	//Data operations
-	public void getData(AsyncCallback<Data> callback);
+	public void getData(String dataId, AsyncCallback<Data> callback);
 	public void getMetadata(AsyncCallback<Metadata> callback);
 
 	public void saveData(Data data, AsyncCallback<DataSaveResult> callback);
