@@ -11,6 +11,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 
 /**
  * @author wilj
@@ -20,12 +22,10 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
     public enum DataType {
         STRING,
-        CHARACTER,
         INTEGER,
         LONG,
         FLOAT,
         DOUBLE,
-        BYTE,
         BOOLEAN,
         DATE,
         TRUNCATED_DATE,
@@ -33,6 +33,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
         LIST
     }
     
+    @XmlRootElement
     public static class BooleanValue implements Value {
 		Boolean value;
 
@@ -64,68 +65,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 		}
 	}
 
-	public static class ByteValue implements Value {
-		Byte value;
-
-		protected ByteValue() {
-
-		}
-
-		public ByteValue(final Byte value) {
-			this.value = value;
-		}
-
-		@Override
-		public <T> T get() {
-			return (T) value;
-		}
-
-		@Override
-		public Class getType() {
-			return Byte.class;
-		}
-
-		@Override
-		public String toString() {
-			if (value == null) {
-				return null;
-			} else {
-				return String.valueOf(value);
-			}
-		}
-	}
-
-	public static class CharacterValue implements Value {
-		Character value;
-
-		protected CharacterValue() {
-
-		}
-
-		public CharacterValue(final Character value) {
-			this.value = value;
-		}
-
-		@Override
-		public <T> T get() {
-			return (T) value;
-		}
-
-		@Override
-		public Class getType() {
-			return Character.class;
-		}
-
-		@Override
-		public String toString() {
-			if (value == null) {
-				return null;
-			} else {
-				return String.valueOf(value);
-			}
-		}
-	}
-
+	@XmlRootElement
 	public static class DataValue implements Value {
 		Data value;
 
@@ -157,6 +97,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 		}
 	}
 
+	@XmlRootElement
 	public static class DateValue implements Value {
 		Date value;
 
@@ -188,6 +129,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 		}
 	}
 
+	@XmlRootElement
 	public static class DoubleValue implements Value {
 		Double value;
 
@@ -219,6 +161,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 		}
 	}
 
+	@XmlRootElement
 	public static class FloatValue implements Value {
 		Float value;
 
@@ -297,6 +240,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
 	}
 
+	@XmlRootElement
 	public static class IntegerValue implements Value {
 		Integer value;
 
@@ -336,6 +280,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 		Class getType();
 	}
 
+	@XmlRootElement
 	public static class LongValue implements Value {
 		Long value;
 
@@ -377,6 +322,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 		Class getValueType();
 	}
 
+	@XmlRootElement
 	public static class ShortValue implements Value {
 		Short value;
 
@@ -408,6 +354,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 		}
 	}
 
+	@XmlRootElement
 	public static class StringKey implements Key {
 		String key;
 
@@ -455,6 +402,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
 	}
 
+	@XmlRootElement
 	public static class StringValue implements Value {
 		String value;
 
@@ -483,6 +431,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
 	}
 
+	@XmlRootElement
 	public static class TimestampValue implements Value {
 		Timestamp value;
 
@@ -514,6 +463,7 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 		}
 	}
 
+	@XmlRootElement
 	public static class TimeValue implements Value {
 		Time value;
 
@@ -620,14 +570,6 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 	}
 	public void add(final Boolean value) {
 		put(new IntegerKey(map.size()), new BooleanValue(value));
-	}
-
-	public void add(final Byte value) {
-		put(new IntegerKey(map.size()), new ByteValue(value));
-	}
-
-	public void add(final Character value) {
-		put(new IntegerKey(map.size()), new CharacterValue(value));
 	}
 
 	public void add(final Data value) {
@@ -821,13 +763,6 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 		put(new IntegerKey(key), new BooleanValue(value));
 	}
 
-	public void set(final Integer key, final Byte value) {
-		put(new IntegerKey(key), new ByteValue(value));
-	}
-
-	public void set(final Integer key, final Character value) {
-		put(new IntegerKey(key), new CharacterValue(value));
-	}
 
 	public void set(final Integer key, final Data value) {
 		final Key k = new IntegerKey(key);
@@ -876,14 +811,6 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 
 	public void set(final Key key, final Boolean value) {
 		put(key, new BooleanValue(value));
-	}
-
-	public void set(final Key key, final Byte value) {
-		put(key, new ByteValue(value));
-	}
-
-	public void set(final Key key, final Character value) {
-		put(key, new CharacterValue(value));
 	}
 
 	public void set(final Key key, final Data value) {
@@ -945,13 +872,6 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
 		put(new StringKey(key), new BooleanValue(value));
 	}
 
-	public void set(final String key, final Byte value) {
-		put(new StringKey(key), new ByteValue(value));
-	}
-
-	public void set(final String key, final Character value) {
-		put(new StringKey(key), new CharacterValue(value));
-	}
 
 	public void set(final String key, final Data value) {
 		final Key k = new StringKey(key);

@@ -32,7 +32,7 @@ import com.google.gwt.user.client.ui.HasName;
  * @author Kuali Student Team
  *
  */
-public abstract class KSSelectItemWidgetAbstract extends Composite implements HasName, HasFocusHandlers, HasBlurHandlers{
+public abstract class KSSelectItemWidgetAbstract extends Composite implements HasName, HasFocusHandlers, HasBlurHandlers, HasSelectionChangeHandlers{
 	private ListItems listItems = null;
 	private String name;
 	

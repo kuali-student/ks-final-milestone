@@ -3,7 +3,6 @@ package org.kuali.student.common.ui.client.widgets.search;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSThinTitleBar;
@@ -41,6 +40,9 @@ public class AdvancedSearchWindow {
 		searchPanel = panel;
 		//TODO use messages here
 		titleBar = new KSThinTitleBar("Find " + fieldMessageKey);
+		
+		//TODO temporary fix, todo css
+		layout.setWidth("600px");
 		layout.add(titleBar);
 		layout.add(panel);
 		layout.add(buttonPanel);
@@ -52,8 +54,11 @@ public class AdvancedSearchWindow {
 	}
 	
 	public void show(){
-		//TODO Reset panel here??? Also how much reseting
-		
+		//TODO Reset panel here??? Also how much reseting		
 		dialog.show();
+	}
+	
+	public void hide(){	
+		dialog.hide();
 	}
 }

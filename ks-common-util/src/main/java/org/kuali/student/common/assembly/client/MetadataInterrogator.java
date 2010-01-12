@@ -15,7 +15,10 @@
  */
 package org.kuali.student.common.assembly.client;
 
+import java.util.Date;
 import java.util.List;
+
+import org.kuali.student.common.validator.DateParser;
 
 /**
  * 
@@ -240,7 +243,7 @@ public class MetadataInterrogator {
 			if (cons.getMinLength() != null) {
 				if (largestMinLength == null) {
 					largestMinLength = cons.getMinLength();
-				} else if (cons.getMaxOccurs() > largestMinLength) {
+				} else if (cons.getMinLength() > largestMinLength) {
 					largestMinLength = cons.getMinLength();
 				}
 			}
@@ -288,4 +291,142 @@ public class MetadataInterrogator {
 	}
 
 	
+	public static Long getLargestMinValue(Metadata meta) {
+		if (meta == null) {
+			return null;
+		}
+		Long result = null;
+		for (ConstraintMetadata cons : meta.getConstraints()) {
+			Long min = tryParseLong(cons.getMinValue());
+			if (min != null) {
+				if (result == null || min > result) {
+					result = min;
+				}
+			}
+		}
+		return result;
+	}
+
+	public static Long getSmallestMaxValue(Metadata meta) {
+		if (meta == null) {
+			return null;
+		}
+		Long result = null;
+		for (ConstraintMetadata cons : meta.getConstraints()) {
+			Long max = tryParseLong(cons.getMaxValue());
+			if (max != null) {
+				if (result == null || max < result) {
+					result = max;
+				}
+			}
+		}
+		return result;
+	}
+
+	
+	public static Double getLargestMinValueDouble(Metadata meta) {
+		if (meta == null) {
+			return null;
+		}
+		Double result = null;
+		for (ConstraintMetadata cons : meta.getConstraints()) {
+			Double min = tryParseDouble(cons.getMinValue());
+			if (min != null) {
+				if (result == null || min > result) {
+					result = min;
+				}
+			}
+		}
+		return result;
+	}
+
+	public static Double getSmallestMaxValueDouble(Metadata meta) {
+		if (meta == null) {
+			return null;
+		}
+		Double result = null;
+		for (ConstraintMetadata cons : meta.getConstraints()) {
+			Double max = tryParseDouble(cons.getMaxValue());
+			if (max != null) {
+				if (result == null || max < result) {
+					result = max;
+				}
+			}
+		}
+		return result;
+	}
+
+	public static Date getLargestMinValueDate(Metadata meta, DateParser parser) {
+		if (meta == null) {
+			return null;
+		}
+		Date result = null;
+		for (ConstraintMetadata cons : meta.getConstraints()) {
+			Date min = tryParseDate(cons.getMinValue(), parser);
+			if (min != null) {
+				if (result == null || min.getTime() > result.getTime()) {
+					result = min;
+				}
+			}
+		}
+		return result;
+	}
+
+	public static Date getSmallestMaxValueDate(Metadata meta, DateParser parser) {
+		if (meta == null) {
+			return null;
+		}
+		Date result = null;
+		for (ConstraintMetadata cons : meta.getConstraints()) {
+			Date max = tryParseDate(cons.getMaxValue(), parser);
+			if (max != null) {
+				if (result == null || max.getTime() < result.getTime()) {
+					result = max;
+				}
+			}
+		}
+		return result;
+	}
+	
+	private static Long tryParseLong(String s) {
+		Long result = null;
+		
+		if (s != null) {
+			try {
+				result = Long.valueOf(s);
+			} catch (Exception e) {
+				// do nothing
+			}
+		}
+		
+		return result;
+	}
+	
+	private static Double tryParseDouble(String s) {
+		Double result = null;
+		
+		if (s != null) {
+			try {
+				result = Double.valueOf(s);
+			} catch (Exception e) {
+				// do nothing
+			}
+		}
+		
+		return result;
+	}
+	
+	private static Date tryParseDate(String s, DateParser parser) {
+		Date result = null;
+		
+		if (s != null) {
+			try {
+				result = parser.parseDate(s);
+			} catch (Exception e) {
+				// do nothing
+			}
+		}
+		
+		return result;
+	}
 }

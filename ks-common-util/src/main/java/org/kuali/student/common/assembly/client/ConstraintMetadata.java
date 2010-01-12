@@ -18,10 +18,15 @@ package org.kuali.student.common.assembly.client;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
+
 /**
  * 
  * @author nwright
  */
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ConstraintMetadata implements Serializable {
 
 	/**
@@ -49,6 +54,7 @@ public class ConstraintMetadata implements Serializable {
 		this.id = id;
 	}
 
+	@XmlTransient
 	private List<ConstraintMetadata> childConstraints;
 
 	/**

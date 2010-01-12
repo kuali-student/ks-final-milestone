@@ -37,7 +37,7 @@ import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 
-public abstract class LayoutController extends Controller  {
+public abstract class LayoutController extends Controller implements ConfigurableLayout {
     private ModelDTO modelDTO;
     private LayoutController parentLayoutController= null; 
     private Map<String, String> classToObjectKeyMap = new HashMap<String, String>();

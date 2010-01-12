@@ -1,146 +1,149 @@
 /*
- * Copyright 2009 The Kuali Foundation
- *
- * Licensed under the Educational Community License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may	obtain a copy of the License at
- *
- * 	http://www.osedu.org/licenses/ECL-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2009 The Kuali Foundation Licensed under the Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain a copy of the License at
+ * http://www.osedu.org/licenses/ECL-2.0 Unless required by applicable law or agreed to in writing, software distributed
+ * under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the License.
  */
 package org.kuali.student.common.assembly.client;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementRef;
+import javax.xml.bind.annotation.XmlElementRefs;
+
 import org.kuali.student.common.assembly.client.Data.Value;
+import org.kuali.student.common.assembly.client.LookupMetadata.Usage;
 import org.kuali.student.common.assembly.client.Metadata.WriteAccess;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class LookupParamMetadata implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	private String key;
-	private LookupMetadata childLookup;
- private Metadata.WriteAccess writeAccess;
-	private Data.DataType dataType;
-	private boolean optional;
-	private Value defaultValue;
- private String name;
-	private String desc;
- private boolean caseSensitive;
- public enum Usage {
-  DEFAULT,
-  ADVANCED,
-  CUSTOM
- }
- private Usage usage;
+    private static final long serialVersionUID = 1L;
+    
+    private String key;
+    private LookupMetadata childLookup;    
+    private Metadata.WriteAccess writeAccess;    
+    private Data.DataType dataType;    
+    private boolean optional;
+    
+    @XmlAnyElement
+    @XmlElementRefs({
+        @XmlElementRef(type=Data.BooleanValue.class),
+        @XmlElementRef(type=Data.StringValue.class),
+        @XmlElementRef(type=Data.IntegerValue.class),
+        @XmlElementRef(type=Data.DoubleValue.class),
+        @XmlElementRef(type=Data.FloatValue.class),
+        @XmlElementRef(type=Data.LongValue.class),
+        @XmlElementRef(type=Data.ShortValue.class),
+        @XmlElementRef(type=Data.DataValue.class),
+        @XmlElementRef(type=Data.TimestampValue.class),
+        @XmlElementRef(type=Data.TimeValue.class)
+    })
+    private Value defaultValue;
+    
+    private String name;      
+    private String desc;    
+    private boolean caseSensitive;
+    private Usage usage;
 
- public enum Widget {
-  SUGGEST_BOX,
-  DROPDOWN_LIST,
-  RADIO_BUTTONS,
-  CHECK_BOXES,
-  TEXT_BOX,
-  PICKER
- }
- private Widget widget;
+    public enum Widget {
+        SUGGEST_BOX, DROPDOWN_LIST, RADIO_BUTTONS, CHECK_BOXES, TEXT_BOX, CALENDAR, PICKER
+    }
 
-	public LookupMetadata getChildLookup() {
-		return childLookup;
-	}
+    private Widget widget;
 
-	public void setChildLookup(LookupMetadata childLookup) {
-		this.childLookup = childLookup;
-	}
+    public LookupMetadata getChildLookup() {
+        return childLookup;
+    }
 
- public Usage getUsage ()
- {
-  return usage;
- }
+    public void setChildLookup(LookupMetadata childLookup) {
+        this.childLookup = childLookup;
+    }
 
- public void setUsage (Usage usage)
- {
-  this.usage = usage;
- }
+    public Usage getUsage() {
+        return usage;
+    }
 
- public Widget getWidget ()
- {
-  return widget;
- }
+    public void setUsage(Usage usage) {
+        this.usage = usage;
+    }
 
- public void setWidget (Widget widget)
- {
-  this.widget = widget;
- }
+    public Widget getWidget() {
+        return widget;
+    }
 
-	public String getKey() {
-		return key;
-	}
+    public void setWidget(Widget widget) {
+        this.widget = widget;
+    }
 
-	public void setKey(String key) {
-		this.key = key;
-	}
+    public String getKey() {
+        return key;
+    }
 
-	public boolean isOptional() {
-		return optional;
-	}
+    public void setKey(String key) {
+        this.key = key;
+    }
 
-	public void setOptional(boolean optional) {
-		this.optional = optional;
-	}
-	public Data.DataType getDataType() {
-		return dataType;
-	}
+    public boolean isOptional() {
+        return optional;
+    }
 
-	public void setDataType(Data.DataType dataType) {
-		this.dataType = dataType;
-	}
+    public void setOptional(boolean optional) {
+        this.optional = optional;
+    }
 
- 	public WriteAccess getWriteAccess() {
-		return writeAccess;
-	}
+    public Data.DataType getDataType() {
+        return dataType;
+    }
 
-	public void setWriteAccess(WriteAccess writeAccess) {
-		this.writeAccess = writeAccess;
-	}
+    public void setDataType(Data.DataType dataType) {
+        this.dataType = dataType;
+    }
 
- public String getName() {
-		return name;
-	}
+    public WriteAccess getWriteAccess() {
+        return writeAccess;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setWriteAccess(WriteAccess writeAccess) {
+        this.writeAccess = writeAccess;
+    }
 
-	public String getDesc() {
-		return desc;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setDesc(String desc) {
-		this.desc = desc;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public Value getDefaultValue() {
-		return defaultValue;
-	}
+    public String getDesc() {
+        return desc;
+    }
 
-	public void setDefaultValue(Value defaultValue) {
-		this.defaultValue = defaultValue;
-	}
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
 
 
- public boolean isCaseSensitive ()
- {
-  return caseSensitive;
- }
+    public boolean isCaseSensitive() {
+        return caseSensitive;
+    }
 
- public void setCaseSensitive (boolean caseSensitive)
- {
-  this.caseSensitive = caseSensitive;
- }
+    public void setCaseSensitive(boolean caseSensitive) {
+        this.caseSensitive = caseSensitive;
+    }
+
+    public Value getDefaultValue() {
+        return defaultValue;
+    }
+
+    public void setDefaultValue(Value defaultValue) {
+        this.defaultValue = defaultValue;
+    }
 
 }

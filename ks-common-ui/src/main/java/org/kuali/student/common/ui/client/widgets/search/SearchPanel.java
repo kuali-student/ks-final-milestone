@@ -4,28 +4,22 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.LookupMetadata;
 import org.kuali.student.common.assembly.client.LookupParamMetadata;
-import org.kuali.student.common.assembly.client.Data.DataType;
 import org.kuali.student.common.assembly.client.Metadata.WriteAccess;
 import org.kuali.student.common.ui.client.configurable.mvc.DefaultWidgetFactory;
-import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.KSTextBox;
-import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
-import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonGroup;
-import org.kuali.student.common.ui.client.widgets.buttongroups.ConfirmCancelGroup;
-import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ConfirmCancelEnum;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
-import org.kuali.student.common.ui.client.widgets.searchtable.SearchBackedTable;
-import org.kuali.student.core.search.dto.QueryParamValue;
+import org.kuali.student.common.ui.client.widgets.search.TempSearchBackedTable;
 import org.kuali.student.core.search.newdto.SearchParam;
 import org.kuali.student.core.search.newdto.SearchRequest;
 
@@ -36,8 +30,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.HasValue;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -49,7 +41,7 @@ public class SearchPanel extends Composite{
 	private CollapsablePanel modifySearchPanel;
 	private boolean resultsShown = false;
 	//Swap with new table implementation
-	private SearchBackedTable table = null;
+	private TempSearchBackedTable table = null;
 	
 	private static enum SearchStyle{ADVANCED, CUSTOM};
 	
@@ -122,7 +114,7 @@ public class SearchPanel extends Composite{
 	@Deprecated
 	public SearchPanel(BaseRpcServiceAsync searchService, LookupMetadata meta){
 		layout.add(createSearchParamPanel(null, meta));
-		table = new SearchBackedTable(searchService, meta.getKey(), meta.getResultReturnKey());
+		table = new TempSearchBackedTable(searchService, meta.getKey(), meta.getResultReturnKey());
 		tablePanel.add(searchCriteria);
 		tablePanel.add(criteria);
 		tablePanel.add(table);
@@ -221,14 +213,14 @@ public class SearchPanel extends Composite{
 						if(metaParam.getWriteAccess() == WriteAccess.NEVER){
 							SearchParam param = new SearchParam();
 							param.setKey(metaParam.getKey());
-							param.setKey(metaParam.getDefaultValue().toString());
+							param.setValue(metaParam.getDefaultValue().toString());
 							params.add(param);
 						}
 						else if(metaParam.getWriteAccess() == WriteAccess.WHEN_NULL){
 							if(metaParam.getDefaultValue() != null && !(metaParam.getDefaultValue().toString().isEmpty())){
 								SearchParam param = new SearchParam();
 								param.setKey(metaParam.getKey());
-								param.setKey(metaParam.getDefaultValue().toString());
+								param.setValue(metaParam.getDefaultValue().toString());
 								params.add(param);
 							}
 						}
@@ -242,7 +234,7 @@ public class SearchPanel extends Composite{
 					
 					//TODO remove this
 					if(table != null){
-						table.performSearch(convertParams(params));
+						table.performSearch(sr);
 					}
 					tablePanel.setVisible(true);
 					showCriteriaChosen(userCriteria);
@@ -261,21 +253,7 @@ public class SearchPanel extends Composite{
 			this.initWidget(layout);
 		}
 	}
-	
-	//TODO Temporary solution, remove this
-	@Deprecated
-	private List<QueryParamValue> convertParams(List<SearchParam> params){
-		List<QueryParamValue> queryParams = new ArrayList<QueryParamValue>();
-		for(SearchParam p: params){
-			QueryParamValue q = new QueryParamValue();
-			q.setKey(p.getKey());
-			q.setValue((String)p.getValue());
-			queryParams.add(q);
-		}
 		
-		return queryParams;
-	}
-	
 	private interface HasSearchParam{
 		public SearchParam getSearchParam();
 		public String getFieldName();
@@ -301,11 +279,12 @@ public class SearchPanel extends Composite{
 			paramSelector.addSelectionChangeHandler(new SelectionChangeHandler(){
 
 				@Override
-				public void onSelectionChange(KSSelectItemWidgetAbstract w) {
-					String id = w.getSelectedItem();
+				public void onSelectionChange(SelectionChangeEvent event) {
+					String id = ((KSSelectItemWidgetAbstract)event.getWidget()).getSelectedItem();
 					widget = listItems.getWidget(id);
 					widgetPanel.setWidget(widget);
 					key = id;
+					
 				}
 			});
 			layout.add(paramSelector);
@@ -380,9 +359,10 @@ public class SearchPanel extends Composite{
 					List<HasSearchParam> userCriteria = new ArrayList<HasSearchParam>();
 					for(SearchField field: searchFields){
 						SearchParam param = field.getSearchParam();
-						//TODO is this check needed here? probably. assuming string here
+						//TODO is this null check needed here? probably. assuming string here
 						//TODO make check more robust here/inserting params more robust
-						if(param.getValue() != null){
+						//do not pass to the search parameters that are empty
+						if ((param.getValue() != null) && (param.getValue().toString().trim().isEmpty() == false)){
 							params.add(param);
 							userCriteria.add(field);
 						}
@@ -393,14 +373,15 @@ public class SearchPanel extends Composite{
 						if(metaParam.getWriteAccess() == WriteAccess.NEVER){
 							SearchParam param = new SearchParam();
 							param.setKey(metaParam.getKey());
-							param.setKey(metaParam.getDefaultValue().toString());
+							metaParam.setDefaultValue(new Data.StringValue("kuali.lu.type.CreditCourse"));   //FIXME remove when default value is set in lookup bank
+							param.setValue(metaParam.getDefaultValue().toString());
 							params.add(param);
 						}
 						else if(metaParam.getWriteAccess() == WriteAccess.WHEN_NULL){
 							if(metaParam.getDefaultValue() != null && !(metaParam.getDefaultValue().toString().isEmpty())){
 								SearchParam param = new SearchParam();
 								param.setKey(metaParam.getKey());
-								param.setKey(metaParam.getDefaultValue().toString());
+								param.setValue(metaParam.getDefaultValue().toString());
 								params.add(param);
 							}
 						}
@@ -414,7 +395,7 @@ public class SearchPanel extends Composite{
 					
 					//TODO remove this
 					if(table != null){
-						table.performSearch(convertParams(params));
+						table.performSearch(sr);
 					}
 					tablePanel.setVisible(true);
 					showCriteriaChosen(userCriteria);

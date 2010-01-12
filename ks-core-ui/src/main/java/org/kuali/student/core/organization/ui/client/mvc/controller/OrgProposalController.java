@@ -12,6 +12,7 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.WorkQueue;
 import org.kuali.student.common.ui.client.mvc.WorkQueue.WorkItem;
+import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
@@ -19,7 +20,6 @@ import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.ui.client.mvc.view.OrgConfigurerFactory;
 import org.kuali.student.core.organization.ui.client.mvc.view.OrgConfigurerFactory.OrgSections;
-import org.kuali.student.core.organization.ui.client.service.DataSaveResult;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 

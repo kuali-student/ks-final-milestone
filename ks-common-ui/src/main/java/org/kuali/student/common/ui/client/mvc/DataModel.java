@@ -20,7 +20,9 @@ package org.kuali.student.common.ui.client.mvc;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
@@ -35,12 +37,19 @@ import org.kuali.student.common.assembly.client.HasChangeCallbacks.ChangeCallbac
 import org.kuali.student.common.assembly.client.HasChangeCallbacks.ChangeCallbackRegistration;
 import org.kuali.student.common.assembly.client.HasChangeCallbacks.ChangeType;
 import org.kuali.student.common.ui.client.mvc.ModelChangeEvent.Action;
+import org.kuali.student.common.ui.client.validator.ClientDateParser;
+import org.kuali.student.common.ui.client.validator.DataModelValidator;
+import org.kuali.student.common.validator.DateParser;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
+import com.google.gwt.user.client.Window;
 
 /**
  * @author wilj
@@ -58,6 +67,8 @@ public class DataModel implements Model {
 	private static final long serialVersionUID = 1L;
 
 	private ModelDefinition definition;
+	private DataModelValidator validator = new DataModelValidator();
+	
 	private HandlerManager handlers = new HandlerManager(this);
     private ChangeCallbackRegistration bridgeCallbackReg;
 
@@ -68,9 +79,11 @@ public class DataModel implements Model {
 		// do nothing
 	}
 
-	public DataModel(final ModelDefinition definition, final Data root) {
+	@SuppressWarnings("deprecation")
+    public DataModel(final ModelDefinition definition, final Data root) {
 		this.definition = definition;
 		this.root = root;
+		validator.setDateParser((DateParser)GWT.create(ClientDateParser.class));
 	}
 
 
@@ -89,26 +102,31 @@ public class DataModel implements Model {
 		return root;
 	}
 
-	public <T> void query(final QueryPath path, final QueryCallback<T> callback) {
-		queryRelative(root, path, callback);
+	public Map<QueryPath, Object> query(final QueryPath path) {
+		Map<QueryPath, Object> result = new HashMap<QueryPath, Object>(); 
+		queryRelative(root, path, result);
+		return result;
 	}
 
-	public <T> void query(final String path, final QueryCallback<T> callback) {
-		query(QueryPath.parse(path), callback);
+	public Map<QueryPath, Object> query(final String path) {
+		return query(QueryPath.parse(path));
 	}
 
-	@SuppressWarnings("unchecked")
-	private <T> void queryRelative(final Data branch, final QueryPath path, final QueryCallback<T> callback) {
+	private void queryRelative(final Data branch, final QueryPath path, Map<QueryPath, Object> result) {
 		Data d = branch;
 
 		for (int i = 0; i < path.size(); i++) {
+		    if (d == null) {
+		        // dead end
+		        break;
+		    }
 			final Key key = path.get(i);
 			if (key.equals(Data.WILDCARD_KEY)) {
 				final QueryPath relative = path.subPath(i + 1, path.size());
 				for (final Property p : d) {
 					// TODO this won't work with wildcarded leafnodes either
 					if (p.getValueType().equals(Data.class)) {
-						queryRelative((Data) p.getValue(), relative, callback);
+						queryRelative((Data) p.getValue(), relative, result);
 					}
 				}
 			} else if (i < path.size() - 1) {
@@ -117,7 +135,8 @@ public class DataModel implements Model {
 				final QueryPath resultPath = d.getQueryPath();
 				// TODO this won't work for leaf nodes that are wildcarded, e.g. myobj.mysubobj.*, probably need to enable leaf nodes to track their keys
 				resultPath.add(key);
-				callback.onResult(resultPath, (T) d.get(key));
+				Object resultValue = d.get(key);
+				result.put(resultPath, resultValue);
 			}
 		}
 	}
@@ -132,10 +151,6 @@ public class DataModel implements Model {
 
 	public void set(final QueryPath path, final String value) {
 		set(path, new Data.StringValue(value));
-	}
-	
-	public void set(final QueryPath path, final Character value){
-	    set(path, new Data.CharacterValue(value));
 	}
 	
 	public void set(final QueryPath path, final Long value){
@@ -154,9 +169,6 @@ public class DataModel implements Model {
 	    set(path, new Data.FloatValue(value));
 	}
 
-	public void set(final QueryPath path, final Byte value){
-	    set(path, new Data.ByteValue(value));
-	}
 	
 	public void set(final QueryPath path, final Boolean value){	    
 	    set(path, new Data.BooleanValue(value));
@@ -221,12 +233,7 @@ public class DataModel implements Model {
 	
 	
 	public void validate(final Callback<List<ValidationResultContainer>> callback) {
-		DeferredCommand.addCommand(new Command() {
-			@Override
-			public void execute() {
-				// TODO call validator
-				callback.exec(new ArrayList<ValidationResultContainer>());
-			}
-		});
+	    List<ValidationResultContainer> result = validator.validate(this);
+	    callback.exec(result);
 	}
 }

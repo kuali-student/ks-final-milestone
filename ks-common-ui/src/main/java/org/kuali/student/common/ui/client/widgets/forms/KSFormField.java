@@ -28,6 +28,7 @@ import org.kuali.student.common.ui.client.widgets.KSHelpLink;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.forms.EditModeChangeEvent.EditMode;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 
@@ -163,12 +164,14 @@ public class KSFormField implements EditModeChangeHandler, DirtyStateChangeHandl
             //TODO: Would this be better if KSSelectItemWidgetAbstract implemented HasValueChangeHandlers instead
             if (formField instanceof KSSelectItemWidgetAbstract){
                 ((KSSelectItemWidgetAbstract) formField).addSelectionChangeHandler(new SelectionChangeHandler(){
-                    public void onSelectionChange(KSSelectItemWidgetAbstract w) {
-                        List<String> currentSelected = w.getSelectedItems();
+					@Override
+					public void onSelectionChange(SelectionChangeEvent event) {
+                        List<String> currentSelected = ((KSSelectItemWidgetAbstract)event.getWidget()).getSelectedItems();
                         isDirty = !(currentSelected.size() == ((List<String>)initValue).size() &&
                                    currentSelected.containsAll((List<String>)initValue));
                         handlers.fireEvent(new DirtyStateChangeEvent(isDirty));
-                    }                    
+						
+					}                    
                 });
             }
             

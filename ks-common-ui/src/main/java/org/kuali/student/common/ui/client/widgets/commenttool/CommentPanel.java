@@ -41,6 +41,7 @@ import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPane
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.dto.RichTextInfo;
@@ -277,9 +278,8 @@ public class CommentPanel extends ToolView implements HasReferenceId{
     	commentTypes.addSelectionChangeHandler(new SelectionChangeHandler(){
 
 			@Override
-			public void onSelectionChange(KSSelectItemWidgetAbstract w) {
+			public void onSelectionChange(SelectionChangeEvent event) {
 				refreshComments();
-				
 			}
     	});
     	

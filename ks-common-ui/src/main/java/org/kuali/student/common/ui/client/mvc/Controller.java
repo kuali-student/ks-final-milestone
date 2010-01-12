@@ -14,6 +14,9 @@
  */
 package org.kuali.student.common.ui.client.mvc;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.student.common.ui.client.mvc.events.ViewChangeEvent;
 
 import com.google.gwt.core.client.GWT;
@@ -40,6 +43,8 @@ public abstract class Controller extends Composite {
     private Controller parentController = null;
     private View currentView = null;
     private Enum<?> currentViewEnum = null;
+    private String defaultModelId = null;
+    private final Map<String, ModelProvider<? extends Model>> models = new HashMap<String, ModelProvider<? extends Model>>();
 
     private HandlerManager applicationEventHandlers = new HandlerManager(this);
 
@@ -174,21 +179,38 @@ public abstract class Controller extends Composite {
      * @param callback
      */
     @SuppressWarnings("unchecked")
-    public void requestModel(Class modelType, ModelRequestCallback callback) {
-        if (getParentController() != null) {
-            parentController.requestModel(modelType, callback);
-        } else {
-            callback.onRequestFail(new ModelNotFoundException("The requested model was not found", modelType));
-        }
+    public void requestModel(final Class modelType, final ModelRequestCallback callback) {
+        requestModel((modelType == null) ? null : modelType.getName(), callback);
     }
     
     @SuppressWarnings("unchecked")
-    public void requestModel(String modelId, ModelRequestCallback callback) {
-        if (getParentController() != null) {
+    public void requestModel(final String modelId, final ModelRequestCallback callback) {
+        String id = (modelId == null) ? defaultModelId : modelId;
+
+        ModelProvider<? extends Model> p = models.get(id);
+        if (p != null) {
+            p.requestModel(callback);
+        } else if (getParentController() != null) {
             parentController.requestModel(modelId, callback);
         } else {
             callback.onRequestFail(new RuntimeException("The requested model was not found: " + modelId));
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    public void requestModel(final ModelRequestCallback callback) {
+        requestModel((String)null, callback);
+    }
+    
+    public <T extends Model> void registerModel(String modelId, ModelProvider<T> provider) {
+        models.put(modelId, provider);
+    }
+    
+    public String getDefaultModelId() {
+        return defaultModelId;
+    }
+    protected void setDefaultModelId(String defaultModelId) {
+        this.defaultModelId = defaultModelId;
     }
     
     /**

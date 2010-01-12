@@ -15,6 +15,7 @@
 package org.kuali.student.common.ui.client.configurable.mvc;
 
 import org.kuali.student.common.assembly.client.Metadata;
+import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.MultiplicityCompositeBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite;
@@ -52,6 +53,8 @@ public class FieldDescriptor {
     private boolean dirty = false;
     private boolean hasHadFocus = false;
     
+    
+   
     /**
      * @param fieldKey
      * @param fieldLabel
@@ -100,14 +103,6 @@ public class FieldDescriptor {
     		switch (metadata.getDataType()) {
     		case BOOLEAN:
     			this.fieldType = Type.BOOLEAN;
-    			break;
-    			
-    		case BYTE:
-    			this.fieldType = Type.BYTE;
-    			break;
-    			
-    		case CHARACTER:
-    			this.fieldType = Type.CHARACTER;
     			break;
     			
     		case DATE:

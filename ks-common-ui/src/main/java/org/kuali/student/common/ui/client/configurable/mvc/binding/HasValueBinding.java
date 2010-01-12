@@ -37,7 +37,7 @@ public class HasValueBinding implements ModelWidgetBinding<HasValue>{
         if (value instanceof String){
             model.set(qPath, (String)value);
         } else if (value instanceof Character){
-            model.set(qPath, (Character)value);
+            model.set(qPath, value.toString());
         } else if (value instanceof Integer){
             model.set(qPath, (Integer)value);
         } else if (value instanceof Long){
@@ -47,7 +47,7 @@ public class HasValueBinding implements ModelWidgetBinding<HasValue>{
         } else if (value instanceof Double){
             model.set(qPath, (Double)value);
         } else if (value instanceof Byte){
-            model.set(qPath, (Byte)value);
+            model.set(qPath, (Integer) value);
         } else if (value instanceof Boolean){
             model.set(qPath, (Boolean)value);
         } else if (value instanceof Date){

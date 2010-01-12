@@ -121,7 +121,9 @@ public class DictionaryBeanDefinitionParser extends AbstractSingleBeanDefinition
     	if(element.hasAttributes()){
     		for(int i = 0;i<element.getAttributes().getLength();i++){
         		Attr attr = (Attr) element.getAttributes().item(i);
-        		if(!"id".equals(attr.getName())&&!"parent".equals(attr.getName())){
+        		if("abstract".equals(attr.getName())){
+        			builder.setAbstract(true);
+        		}else if(!"id".equals(attr.getName())&&!"parent".equals(attr.getName())){
         			builder.addPropertyValue(attr.getName(), attr.getValue());
         		}
     		}
