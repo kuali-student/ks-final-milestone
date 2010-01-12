@@ -1,5 +1,7 @@
 package org.kuali.student.common.ui.client.service;
 
-public interface BaseDataOrchestrationRpcService extends AssemblerRpcService, WorkflowRpcService{
+import com.google.gwt.user.client.rpc.RemoteService;
+
+public interface BaseDataOrchestrationRpcService extends RemoteService, AssemblerRpcService, WorkflowRpcService{
 
 }
