@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.ui.client.service.BaseRpcService;
+import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
