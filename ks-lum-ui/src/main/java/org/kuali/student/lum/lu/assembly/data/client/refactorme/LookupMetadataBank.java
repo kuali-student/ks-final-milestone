@@ -22,7 +22,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.LookupImplMetadata;
 import org.kuali.student.common.assembly.client.LookupMetadata;
@@ -118,6 +117,7 @@ public class LookupMetadataBank
 		param.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		param.setDataType (Data.DataType.INTEGER);
 		param.setOptional (true);
+		param.setDefaultValue (new Data.IntegerValue (50));
 		param.setUsage (LookupMetadata.Usage.ADVANCED);
 		param.setWidget (LookupParamMetadata.Widget.TEXT_BOX);
 		param.setCaseSensitive (true);
@@ -257,6 +257,7 @@ public class LookupMetadataBank
 		param.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		param.setDataType (Data.DataType.INTEGER);
 		param.setOptional (true);
+		param.setDefaultValue (new Data.IntegerValue (50));
 		param.setUsage (LookupMetadata.Usage.ADVANCED);
 		param.setWidget (LookupParamMetadata.Widget.TEXT_BOX);
 		param.setCaseSensitive (true);
@@ -315,7 +316,7 @@ public class LookupMetadataBank
 		lookup.setDesc ("Returns all org hierarchies, name and id");
 		lookup.setResultReturnKey ("org.resultColumn.key");
 		lookup.setResultDisplayKey ("org.resultColumn.name");
-		lookup.setResultSortKey ("org.resultColumn.key");
+		lookup.setResultSortKey ("org.resultColumn.name");
 		lookup.setUsage (LookupMetadata.Usage.DEFAULT);
 		
 		impl = new LookupImplMetadata ();
@@ -372,7 +373,7 @@ public class LookupMetadataBank
 		lookup.setDesc ("Returns all org hierarchies, name and id");
 		lookup.setResultReturnKey ("person.resultColumn.PersonId");
 		lookup.setResultDisplayKey ("person.resultColumn.GivenName");
-		lookup.setResultSortKey ("person.resultColumn.PersonId");
+		lookup.setResultSortKey ("person.resultColumn.GivenName");
 		lookup.setUsage (LookupMetadata.Usage.DEFAULT);
 		
 		impl = new LookupImplMetadata ();
@@ -415,7 +416,7 @@ public class LookupMetadataBank
 		lookup.setDesc ("Query with multiple optional elements to satisfy most advanced pickers");
 		lookup.setResultReturnKey ("lu.resultColumn.cluId");
 		lookup.setResultDisplayKey ("lu.resultColumn.luOptionalLongName");
-		lookup.setResultSortKey ("lu.resultColumn.cluId");
+		lookup.setResultSortKey ("lu.resultColumn.luOptionalLongName");
 		lookup.setUsage (LookupMetadata.Usage.DEFAULT);
 		
 		impl = new LookupImplMetadata ();
@@ -453,6 +454,7 @@ public class LookupMetadataBank
 		param.setWriteAccess (Metadata.WriteAccess.NEVER);
 		param.setDataType (Data.DataType.STRING);
 		param.setOptional (true);
+		param.setDefaultValue (new Data.StringValue ("kuali.lu.type.CreditCourse"));
 		param.setCaseSensitive (true);
 		lookup.getParams ().add (param);
 		
