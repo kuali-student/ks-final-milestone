@@ -31,6 +31,7 @@ public class CreditCourseHelper
 		ID ("id"),
 		FORMATS ("formats"),
 		TERMS_OFFERED ("termsOffered"),
+		FIRST_EXPECTED_OFFERING ("firstExpectedOffering"),
 		DURATION ("duration"),
 		TRANSCRIPT_TITLE ("transcriptTitle"),
 		COURSE_TITLE ("courseTitle"),
@@ -121,6 +122,18 @@ public class CreditCourseHelper
 	public Data getTermsOffered ()
 	{
 		return (Data) data.get (Properties.TERMS_OFFERED.getKey ());
+	}
+	
+	
+	public void setFirstExpectedOffering (String value)
+	{
+		data.set (Properties.FIRST_EXPECTED_OFFERING.getKey (), value);
+	}
+	
+	
+	public String getFirstExpectedOffering ()
+	{
+		return (String) data.get (Properties.FIRST_EXPECTED_OFFERING.getKey ());
 	}
 	
 	

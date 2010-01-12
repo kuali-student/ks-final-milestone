@@ -95,7 +95,7 @@ public class CreditCourseMetadata
 		mainMeta.getProperties ().put (Properties.TERMS_OFFERED.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.LIST);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		childMeta.setLookupMetadata (LookupMetadataBank.LOOKUP_BANK.get ("kuali.lu.lookup.creditCourse.termsOfferred".toLowerCase ()));
+		childMeta.setLookupMetadata (LookupMetadataBank.LOOKUP_BANK.get ("kuali.lookup.termsOfferred".toLowerCase ()));
 		childMeta.setLookupContextPath (null);
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
@@ -109,6 +109,22 @@ public class CreditCourseMetadata
 		listMeta.setDataType (Data.DataType.STRING);
 		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
+		
+		// metadata for FirstExpectedOffering
+		childMeta = new Metadata ();
+		mainMeta.getProperties ().put (Properties.FIRST_EXPECTED_OFFERING.getKey (), childMeta);
+		childMeta.setDataType (Data.DataType.STRING);
+		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		childMeta.setLookupMetadata (LookupMetadataBank.LOOKUP_BANK.get ("kuali.lookup.terms".toLowerCase ()));
+		childMeta.setLookupContextPath (null);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("atp.types"));
+		}
 		
 		// metadata for Duration
 		childMeta = new Metadata ();
@@ -179,7 +195,6 @@ public class CreditCourseMetadata
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		childMeta.setLookupMetadata (LookupMetadataBank.LOOKUP_BANK.get ("kuali.lu.lookup.admin.departments".toLowerCase ()));
 		childMeta.setLookupContextPath ("proposal.proposerPerson");
-		childMeta.getAdditionalLookups ().add ((LookupMetadataBank.LOOKUP_BANK.get ("kuali.lu.lookup.admin.departments.additional.1".toLowerCase ())));
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
@@ -393,7 +408,7 @@ public class CreditCourseMetadata
 		mainMeta.getProperties ().put (Properties.PRIMARY_INSTRUCTOR.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		childMeta.setLookupMetadata (LookupMetadataBank.LOOKUP_BANK.get ("kuali.lu.lookup.instructors".toLowerCase ()));
+		childMeta.setLookupMetadata (LookupMetadataBank.LOOKUP_BANK.get ("kuali.lookup.people".toLowerCase ()));
 		childMeta.setLookupContextPath ("department");
 		if (this.matches (type, state, "(default)", "(default)"))
 		{

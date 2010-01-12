@@ -47,31 +47,24 @@ public class LookupMetadataBank
 		// new lookup metadata
 		lookup = new LookupMetadata ();
 		lookup.setLookupKey ("kuali.lu.lookup.admin.departments");
-		lookup.setKey ("org.search.NameAndDescription");
-		lookup.setName ("Search by name and/or related person");
-		lookup.setDesc ("Returns a list of organizations with the specified name and with a specified person related to it");
+		lookup.setKey ("org.search.advanced");
+		lookup.setName ("Basic and Advanced Search");
+		lookup.setDesc ("Query with multiple optional elements to satisfy most advanced pickers");
 		lookup.setResultReturnKey ("org.resultColumn.orgId");
 		lookup.setResultDisplayKey ("org.resultColumn.orgShortName");
-		lookup.setResultSortKey ("org.resultColumn.orgSortName");
+		lookup.setResultSortKey ("org.resultColumn.orgShortName");
 		lookup.setUsage (LookupMetadata.Usage.DEFAULT);
 		
 		impl = new LookupImplMetadata ();
 		impl.setService ("organization");
 		impl.setType ("JPQL");
-		impl.setInfo ("select id, type, state, shortName, longName, sortName"
-	 + "from org"
-	 + "where type in PARAM_LIST_OF_TYPES"
-	 + "and state in PARAM_LIST_OF_STATES"
-	 + "and OPTIONALLY "
-	 + "shortName like '%PARAM_NAME%: or longName like '%PARAM_NAME%' or sortName like '%PARAM_NAME%'"
-	 + "and OPTIONALLY "
-	 + "shortDesc like '%PARAM_DESC%: or longDesc like '%PARAM_DESC%'");
+		impl.setInfo ("SELECT org.id, org.shortName, org.longName, org.type.id FROM Org org");
 		lookup.setImpl (impl);
 		
 		param = new LookupParamMetadata ();
-		param.setKey ("org.queryParam.Name");
-		param.setName ("Name of organization");
-		param.setDesc ("Substring to use to search in name fields");
+		param.setKey ("org.queryParam.orgOptionalLongName");
+		param.setName ("Organization Name");
+		param.setDesc ("Long organization name.");
 		param.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		param.setDataType (Data.DataType.STRING);
 		param.setOptional (true);
@@ -80,9 +73,9 @@ public class LookupMetadataBank
 		lookup.getParams ().add (param);
 		
 		param = new LookupParamMetadata ();
-		param.setKey ("org.queryParam.Description");
-		param.setName ("Description");
-		param.setDesc ("Substring to use to search in the short or long description fields");
+		param.setKey ("org.queryParam.orgOptionalLocation");
+		param.setName ("Location");
+		param.setDesc ("Organization location.");
 		param.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		param.setDataType (Data.DataType.STRING);
 		param.setOptional (true);
@@ -91,35 +84,35 @@ public class LookupMetadataBank
 		lookup.getParams ().add (param);
 		
 		param = new LookupParamMetadata ();
-		param.setKey ("org.queryParam.OrganizationTypes");
-		param.setName ("Organization Types");
-		param.setDesc ("List of organization types to search");
+		param.setKey ("org.queryParam.orgOptionalId");
+		param.setName ("Id");
+		param.setDesc ("Unique identifier for an organization.");
 		param.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		param.setDataType (Data.DataType.LIST);
+		param.setDataType (Data.DataType.STRING);
+		param.setOptional (true);
 		param.setUsage (LookupMetadata.Usage.CUSTOM);
-		param.setWidget (LookupParamMetadata.Widget.DROPDOWN_LIST);
 		param.setCaseSensitive (true);
 		lookup.getParams ().add (param);
 		
 		param = new LookupParamMetadata ();
-		param.setKey ("org.queryParam.OrganizationStates");
-		param.setName ("Organization States");
-		param.setDesc ("List of organization states to search");
-		param.setWriteAccess (Metadata.WriteAccess.NEVER);
-		param.setDataType (Data.DataType.LIST);
-		param.setCaseSensitive (true);
-		lookup.getParams ().add (param);
-		
-		param = new LookupParamMetadata ();
-		param.setKey ("kuali.queryParam.MaximumResults");
-		param.setName ("Maximum Results");
-		param.setDesc ("Special parameter that limits the number of result rows that this query will return.");
+		param.setKey ("org.queryParam.orgOptionalShortName");
+		param.setName ("Organization Name");
+		param.setDesc ("Short organization name.");
 		param.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		param.setDataType (Data.DataType.INTEGER);
+		param.setDataType (Data.DataType.STRING);
 		param.setOptional (true);
-		param.setDefaultValue (new Data.IntegerValue (50));
 		param.setUsage (LookupMetadata.Usage.ADVANCED);
-		param.setWidget (LookupParamMetadata.Widget.TEXT_BOX);
+		param.setWidget (LookupParamMetadata.Widget.SUGGEST_BOX);
+		lookup.getParams ().add (param);
+		
+		param = new LookupParamMetadata ();
+		param.setKey ("org.queryParam.orgOptionalType");
+		param.setName ("Org Type");
+		param.setDesc ("Type of an organization.");
+		param.setWriteAccess (Metadata.WriteAccess.NEVER);
+		param.setDataType (Data.DataType.STRING);
+		param.setOptional (true);
+		param.setDefaultValue (new Data.StringValue ("kuali.org.Department"));
 		param.setCaseSensitive (true);
 		lookup.getParams ().add (param);
 		
@@ -131,20 +124,6 @@ public class LookupMetadataBank
 		lookup.getResults ().add (result);
 		
 		result = new LookupResultMetadata ();
-		result.setKey ("org.resultColumn.orgType");
-		result.setName ("Organization Type");
-		result.setDesc ("Organization Type");
-		result.setDataType (Data.DataType.STRING);
-		lookup.getResults ().add (result);
-		
-		result = new LookupResultMetadata ();
-		result.setKey ("org.resultColumn.orgState");
-		result.setName ("Organization State");
-		result.setDesc ("Organization State");
-		result.setDataType (Data.DataType.STRING);
-		lookup.getResults ().add (result);
-		
-		result = new LookupResultMetadata ();
 		result.setKey ("org.resultColumn.orgShortName");
 		result.setName ("Organization Short Name");
 		result.setDesc ("Short name for the organization, recorded as the default listing");
@@ -152,121 +131,9 @@ public class LookupMetadataBank
 		lookup.getResults ().add (result);
 		
 		result = new LookupResultMetadata ();
-		result.setKey ("org.resultColumn.orgLongName");
-		result.setName ("Organization Long Name");
-		result.setDesc ("Long name for the organization, recorded as the default listing");
-		result.setDataType (Data.DataType.STRING);
-		lookup.getResults ().add (result);
-		
-		result = new LookupResultMetadata ();
-		result.setKey ("org.resultColumn.orgSortName");
-		result.setName ("Organization Sort Name");
-		result.setDesc ("Sort name for the organization, recorded as the default listing");
-		result.setDataType (Data.DataType.STRING);
-		lookup.getResults ().add (result);
-		
-		result = new LookupResultMetadata ();
-		result.setKey ("org.resultColumn.orgShortDesc");
-		result.setName ("Organization short description");
-		result.setDesc ("Short description for the organization");
-		result.setDataType (Data.DataType.STRING);
-		lookup.getResults ().add (result);
-		
-		result = new LookupResultMetadata ();
-		result.setKey ("org.resultColumn.orgLongDesc");
-		result.setName ("Organization Long description");
-		result.setDesc ("Long description of the organization");
-		result.setDataType (Data.DataType.STRING);
-		lookup.getResults ().add (result);
-		SEARCH_BANK.put (lookup.getKey ().toLowerCase (), lookup);
-		LOOKUP_BANK.put (lookup.getLookupKey ().toLowerCase (), lookup);
-		
-		//
-		// new lookup metadata
-		lookup = new LookupMetadata ();
-		lookup.setLookupKey ("kuali.lu.lookup.admin.departments.additional.1");
-		lookup.setKey ("org.search.ByRelatedPerson");
-		lookup.setName ("Search by name and/or related person");
-		lookup.setDesc ("Returns a list of organizations with the specified name and with a specified person related to it");
-		lookup.setResultReturnKey ("org.resultColumn.orgId");
-		lookup.setResultDisplayKey ("org.resultColumn.orgShortName");
-		lookup.setResultSortKey ("org.resultColumn.orgSortName");
-		lookup.setUsage (LookupMetadata.Usage.CUSTOM);
-		
-		impl = new LookupImplMetadata ();
-		impl.setService ("organization");
-		impl.setType ("JPQL");
-		impl.setInfo ("select id, type, state, shortName, longName, sortName"
-	 + "from org"
-	 + "where type in PARAM_LIST_OF_TYPES"
-	 + "and state in PARAM_LIST_OF_STATES"
-	 + "and OPTIONALLY"
-	 + "exists (select person_id from org.person.relation"
-	 + "where org.person.relation.org.id = org_d"
-	 + "and org.person.relation.type in LOF_ORG_PERSON_TYPES"
-	 + "and org.persson.relation.person_id in LIST OF_ORG_PERSON_IDS)");
-		lookup.setImpl (impl);
-		
-		param = new LookupParamMetadata ();
-		param.setKey ("org.queryParam.personIds");
-		param.setName ("Ids of a person who must be related to this org");
-		param.setDesc ("The internal identifier of the person or peope");
-		param.setWriteAccess (Metadata.WriteAccess.WHEN_NULL);
-		param.setDataType (Data.DataType.LIST);
-		param.setOptional (true);
-		param.setUsage (LookupMetadata.Usage.DEFAULT);
-		param.setWidget (LookupParamMetadata.Widget.PICKER);
-		param.setCaseSensitive (true);
-		lookup.getParams ().add (param);
-		
-		param = new LookupParamMetadata ();
-		param.setKey ("org.queryParam.orgPersonRelationTypes");
-		param.setName ("Org person relation types to use to match the person");
-		param.setDesc ("Type or types defining the relationship of the person to the org");
-		param.setWriteAccess (Metadata.WriteAccess.NEVER);
-		param.setDataType (Data.DataType.LIST);
-		param.setOptional (true);
-		param.setUsage (LookupMetadata.Usage.ADVANCED);
-		param.setCaseSensitive (true);
-		lookup.getParams ().add (param);
-		
-		param = new LookupParamMetadata ();
-		param.setKey ("org.queryParam.OrganizationTypes");
-		param.setName ("Organization Types");
-		param.setDesc ("List of organization types to search");
-		param.setWriteAccess (Metadata.WriteAccess.NEVER);
-		param.setDataType (Data.DataType.LIST);
-		param.setUsage (LookupMetadata.Usage.ADVANCED);
-		param.setCaseSensitive (true);
-		lookup.getParams ().add (param);
-		
-		param = new LookupParamMetadata ();
-		param.setKey ("org.queryParam.OrganizationStates");
-		param.setName ("Organization States");
-		param.setDesc ("List of organization states to search");
-		param.setWriteAccess (Metadata.WriteAccess.NEVER);
-		param.setDataType (Data.DataType.LIST);
-		param.setUsage (LookupMetadata.Usage.ADVANCED);
-		param.setCaseSensitive (true);
-		lookup.getParams ().add (param);
-		
-		param = new LookupParamMetadata ();
-		param.setKey ("kuali.queryParam.MaximumResults");
-		param.setName ("Maximum Results");
-		param.setDesc ("Special parameter that limits the number of result rows that this query will return.");
-		param.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		param.setDataType (Data.DataType.INTEGER);
-		param.setOptional (true);
-		param.setDefaultValue (new Data.IntegerValue (50));
-		param.setUsage (LookupMetadata.Usage.ADVANCED);
-		param.setWidget (LookupParamMetadata.Widget.TEXT_BOX);
-		param.setCaseSensitive (true);
-		lookup.getParams ().add (param);
-		
-		result = new LookupResultMetadata ();
-		result.setKey ("org.resultColumn.orgId");
-		result.setName ("Organization Identifier");
-		result.setDesc ("Identifier for the organization");
+		result.setKey ("org.resultColumn.orgOptionalLongName");
+		result.setName ("Name");
+		result.setDesc ("Long name for the organization, recorded as the default listing.");
 		result.setDataType (Data.DataType.STRING);
 		lookup.getResults ().add (result);
 		
@@ -274,34 +141,6 @@ public class LookupMetadataBank
 		result.setKey ("org.resultColumn.orgType");
 		result.setName ("Organization Type");
 		result.setDesc ("Organization Type");
-		result.setDataType (Data.DataType.STRING);
-		lookup.getResults ().add (result);
-		
-		result = new LookupResultMetadata ();
-		result.setKey ("org.resultColumn.orgState");
-		result.setName ("Organization State");
-		result.setDesc ("Organization State");
-		result.setDataType (Data.DataType.STRING);
-		lookup.getResults ().add (result);
-		
-		result = new LookupResultMetadata ();
-		result.setKey ("org.resultColumn.orgShortName");
-		result.setName ("Organization Short Name");
-		result.setDesc ("Short name for the organization, recorded as the default listing");
-		result.setDataType (Data.DataType.STRING);
-		lookup.getResults ().add (result);
-		
-		result = new LookupResultMetadata ();
-		result.setKey ("org.resultColumn.orgLongName");
-		result.setName ("Organization Long Name");
-		result.setDesc ("Long name for the organization, recorded as the default listing");
-		result.setDataType (Data.DataType.STRING);
-		lookup.getResults ().add (result);
-		
-		result = new LookupResultMetadata ();
-		result.setKey ("org.resultColumn.orgSortName");
-		result.setName ("Organization Sort Name");
-		result.setDesc ("Sort name for the organization, recorded as the default listing");
 		result.setDataType (Data.DataType.STRING);
 		lookup.getResults ().add (result);
 		SEARCH_BANK.put (lookup.getKey ().toLowerCase (), lookup);
@@ -312,8 +151,8 @@ public class LookupMetadataBank
 		lookup = new LookupMetadata ();
 		lookup.setLookupKey ("kuali.active.org.types");
 		lookup.setKey ("org.search.all.active.org.types");
-		lookup.setName ("All org hierarchies");
-		lookup.setDesc ("Returns all org hierarchies, name and id");
+		lookup.setName ("All Organization Types");
+		lookup.setDesc ("Returns all active organization types");
 		lookup.setResultReturnKey ("org.resultColumn.key");
 		lookup.setResultDisplayKey ("org.resultColumn.name");
 		lookup.setResultSortKey ("org.resultColumn.name");
@@ -329,36 +168,36 @@ public class LookupMetadataBank
 		
 		result = new LookupResultMetadata ();
 		result.setKey ("org.resultColumn.key");
-		result.setName ("Given name of person");
-		result.setDesc ("Internal id");
+		result.setName ("Key of the type");
+		result.setDesc ("The internal key to the org type");
 		result.setDataType (Data.DataType.STRING);
 		lookup.getResults ().add (result);
 		
 		result = new LookupResultMetadata ();
 		result.setKey ("org.resultColumn.name");
-		result.setName ("Given name of person");
-		result.setDesc ("Internal id");
+		result.setName ("Name of type");
+		result.setDesc ("The name of the type");
 		result.setDataType (Data.DataType.STRING);
 		lookup.getResults ().add (result);
 		
 		result = new LookupResultMetadata ();
 		result.setKey ("org.resultColumn.desc");
-		result.setName ("Internal person id");
-		result.setDesc ("Internal id");
+		result.setName ("Description of type");
+		result.setDesc ("The description of the type");
 		result.setDataType (Data.DataType.STRING);
 		lookup.getResults ().add (result);
 		
 		result = new LookupResultMetadata ();
 		result.setKey ("org.resultColumn.effective_date");
-		result.setName ("Given name of person");
-		result.setDesc ("Internal id");
+		result.setName ("Effective date");
+		result.setDesc ("The date the ltype became effective");
 		result.setDataType (Data.DataType.TRUNCATED_DATE);
 		lookup.getResults ().add (result);
 		
 		result = new LookupResultMetadata ();
 		result.setKey ("org.resultColumn.expiration_date");
-		result.setName ("Given name of person");
-		result.setDesc ("Internal id");
+		result.setName ("Expiration date");
+		result.setDesc ("The date the type became non-effective");
 		result.setDataType (Data.DataType.TRUNCATED_DATE);
 		lookup.getResults ().add (result);
 		SEARCH_BANK.put (lookup.getKey ().toLowerCase (), lookup);
@@ -367,7 +206,7 @@ public class LookupMetadataBank
 		//
 		// new lookup metadata
 		lookup = new LookupMetadata ();
-		lookup.setLookupKey ("kuali.lu.lookup.proposers");
+		lookup.setLookupKey ("kuali.lookup.people");
 		lookup.setKey ("person.search.personQuickViewByGivenName");
 		lookup.setName ("All org hierarchies");
 		lookup.setDesc ("Returns all org hierarchies, name and id");
@@ -385,10 +224,20 @@ public class LookupMetadataBank
 		param = new LookupParamMetadata ();
 		param.setKey ("person.queryParam.personGivenName");
 		param.setName ("Name Lookup Field");
-		param.setDesc ("Name of organization");
+		param.setDesc ("Name of person");
 		param.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		param.setDataType (Data.DataType.STRING);
 		param.setWidget (LookupParamMetadata.Widget.SUGGEST_BOX);
+		lookup.getParams ().add (param);
+		
+		param = new LookupParamMetadata ();
+		param.setKey ("person.queryParam.personAffiliation");
+		param.setName ("Affiliatilon Type");
+		param.setDesc ("How the person is affiliated with the school");
+		param.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		param.setDataType (Data.DataType.STRING);
+		param.setOptional (true);
+		param.setCaseSensitive (true);
 		lookup.getParams ().add (param);
 		
 		result = new LookupResultMetadata ();
@@ -402,6 +251,177 @@ public class LookupMetadataBank
 		result.setKey ("person.resultColumn.GivenName");
 		result.setName ("Given name of person");
 		result.setDesc ("Internal id");
+		result.setDataType (Data.DataType.STRING);
+		lookup.getResults ().add (result);
+		SEARCH_BANK.put (lookup.getKey ().toLowerCase (), lookup);
+		LOOKUP_BANK.put (lookup.getLookupKey ().toLowerCase (), lookup);
+		
+		//
+		// new lookup metadata
+		lookup = new LookupMetadata ();
+		lookup.setLookupKey ("kuali.lu.lookup.oversight.orgs");
+		lookup.setKey ("org.search.advanced");
+		lookup.setName ("Basic and Advanced Search");
+		lookup.setDesc ("Query with multiple optional elements to satisfy most advanced pickers");
+		lookup.setResultReturnKey ("org.resultColumn.orgId");
+		lookup.setResultDisplayKey ("org.resultColumn.orgShortName");
+		lookup.setResultSortKey ("org.resultColumn.orgShortName");
+		lookup.setUsage (LookupMetadata.Usage.DEFAULT);
+		
+		impl = new LookupImplMetadata ();
+		impl.setService ("organization");
+		impl.setType ("JPQL");
+		impl.setInfo ("SELECT org.id, org.shortName, org.longName, org.type.id FROM Org org");
+		lookup.setImpl (impl);
+		
+		param = new LookupParamMetadata ();
+		param.setKey ("org.queryParam.orgOptionalLongName");
+		param.setName ("Organization Name");
+		param.setDesc ("Long organization name.");
+		param.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		param.setDataType (Data.DataType.STRING);
+		param.setOptional (true);
+		param.setUsage (LookupMetadata.Usage.DEFAULT);
+		param.setWidget (LookupParamMetadata.Widget.CHECK_BOXES);
+		lookup.getParams ().add (param);
+		
+		param = new LookupParamMetadata ();
+		param.setKey ("org.queryParam.orgOptionalLocation");
+		param.setName ("Location");
+		param.setDesc ("Organization location.");
+		param.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		param.setDataType (Data.DataType.STRING);
+		param.setOptional (true);
+		param.setUsage (LookupMetadata.Usage.ADVANCED);
+		param.setWidget (LookupParamMetadata.Widget.TEXT_BOX);
+		lookup.getParams ().add (param);
+		
+		param = new LookupParamMetadata ();
+		param.setKey ("org.queryParam.orgOptionalId");
+		param.setName ("Id");
+		param.setDesc ("Unique identifier for an organization.");
+		param.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		param.setDataType (Data.DataType.STRING);
+		param.setOptional (true);
+		param.setUsage (LookupMetadata.Usage.CUSTOM);
+		param.setCaseSensitive (true);
+		lookup.getParams ().add (param);
+		
+		param = new LookupParamMetadata ();
+		param.setKey ("org.queryParam.orgOptionalShortName");
+		param.setName ("Organization Name");
+		param.setDesc ("Short organization name.");
+		param.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		param.setDataType (Data.DataType.STRING);
+		param.setOptional (true);
+		param.setUsage (LookupMetadata.Usage.ADVANCED);
+		param.setWidget (LookupParamMetadata.Widget.SUGGEST_BOX);
+		lookup.getParams ().add (param);
+		
+		param = new LookupParamMetadata ();
+		param.setKey ("org.queryParam.orgOptionalType");
+		param.setName ("Org Type");
+		param.setDesc ("Type of an organization.");
+		param.setWriteAccess (Metadata.WriteAccess.NEVER);
+		param.setDataType (Data.DataType.STRING);
+		param.setOptional (true);
+		param.setDefaultValue (new Data.StringValue ("kuali.org.Program"));
+		param.setCaseSensitive (true);
+		lookup.getParams ().add (param);
+		
+		result = new LookupResultMetadata ();
+		result.setKey ("org.resultColumn.orgId");
+		result.setName ("Organization Identifier");
+		result.setDesc ("Identifier for the organization");
+		result.setDataType (Data.DataType.STRING);
+		lookup.getResults ().add (result);
+		
+		result = new LookupResultMetadata ();
+		result.setKey ("org.resultColumn.orgShortName");
+		result.setName ("Organization Short Name");
+		result.setDesc ("Short name for the organization, recorded as the default listing");
+		result.setDataType (Data.DataType.STRING);
+		lookup.getResults ().add (result);
+		
+		result = new LookupResultMetadata ();
+		result.setKey ("org.resultColumn.orgOptionalLongName");
+		result.setName ("Name");
+		result.setDesc ("Long name for the organization, recorded as the default listing.");
+		result.setDataType (Data.DataType.STRING);
+		lookup.getResults ().add (result);
+		
+		result = new LookupResultMetadata ();
+		result.setKey ("org.resultColumn.orgType");
+		result.setName ("Organization Type");
+		result.setDesc ("Organization Type");
+		result.setDataType (Data.DataType.STRING);
+		lookup.getResults ().add (result);
+		SEARCH_BANK.put (lookup.getKey ().toLowerCase (), lookup);
+		LOOKUP_BANK.put (lookup.getLookupKey ().toLowerCase (), lookup);
+		
+		//
+		// new lookup metadata
+		lookup = new LookupMetadata ();
+		lookup.setLookupKey ("kuali.lookup.termsOfferred");
+		lookup.setKey ("atp.search.atpTypes");
+		lookup.setName ("All ATP types");
+		lookup.setDesc ("Returns the list of all ATP Types");
+		lookup.setResultReturnKey ("atp.resultColumn.atpTypeId");
+		lookup.setResultDisplayKey ("atp.resultColumn.atpTypeName");
+		lookup.setResultSortKey ("atp.resultColumn.atpTypeName");
+		lookup.setUsage (LookupMetadata.Usage.DEFAULT);
+		
+		impl = new LookupImplMetadata ();
+		impl.setService ("atp");
+		impl.setType ("JPQL");
+		impl.setInfo ("SELECT atptype.id, atptype.name FROM AtpType atptype");
+		lookup.setImpl (impl);
+		
+		result = new LookupResultMetadata ();
+		result.setKey ("atp.resultColumn.atpTypeId");
+		result.setName ("ATP Type Identifier");
+		result.setDesc ("Identifier for an ATP Type");
+		result.setDataType (Data.DataType.STRING);
+		lookup.getResults ().add (result);
+		
+		result = new LookupResultMetadata ();
+		result.setKey ("atp.resultColumn.atpTypeName");
+		result.setName ("Type Name");
+		result.setDesc ("Type of the ATP.");
+		result.setDataType (Data.DataType.STRING);
+		lookup.getResults ().add (result);
+		SEARCH_BANK.put (lookup.getKey ().toLowerCase (), lookup);
+		LOOKUP_BANK.put (lookup.getLookupKey ().toLowerCase (), lookup);
+		
+		//
+		// new lookup metadata
+		lookup = new LookupMetadata ();
+		lookup.setLookupKey ("kuali.lookup.durations");
+		lookup.setKey ("atp.search.atpDurationTypes");
+		lookup.setName ("All ATP Duration Types");
+		lookup.setDesc ("Returns the list of all ATP Duration Types");
+		lookup.setResultReturnKey ("atp.resultColumn.atpDurationTypeKey");
+		lookup.setResultDisplayKey ("atp.resultColumn.atpDurationTypeName");
+		lookup.setResultSortKey ("atp.resultColumn.atpDurationTypeName");
+		lookup.setUsage (LookupMetadata.Usage.DEFAULT);
+		
+		impl = new LookupImplMetadata ();
+		impl.setService ("atp");
+		impl.setType ("JPQL");
+		impl.setInfo ("TBD");
+		lookup.setImpl (impl);
+		
+		result = new LookupResultMetadata ();
+		result.setKey ("atp.resultColumn.atpDurationTypeKey");
+		result.setName ("ATP Duration Type Key");
+		result.setDesc ("ATP Duration Type Key");
+		result.setDataType (Data.DataType.STRING);
+		lookup.getResults ().add (result);
+		
+		result = new LookupResultMetadata ();
+		result.setKey ("atp.resultColumn.atpDurationTypeName");
+		result.setName ("Duration Type Name");
+		result.setDesc ("Duration Type Name");
 		result.setDataType (Data.DataType.STRING);
 		lookup.getResults ().add (result);
 		SEARCH_BANK.put (lookup.getKey ().toLowerCase (), lookup);
@@ -512,10 +532,179 @@ public class LookupMetadataBank
 		SEARCH_BANK.put (lookup.getKey ().toLowerCase (), lookup);
 		LOOKUP_BANK.put (lookup.getLookupKey ().toLowerCase (), lookup);
 		
-		// set childLookup person.search.personQuickViewByGivenName
-		// on kuali.lu.lookup.admin.departments.additional.1.org.queryParam.personIds
-		param = findParam ("kuali.lu.lookup.admin.departments.additional.1", "org.queryParam.personIds");
-		lookup = LOOKUP_BANK.get ("person.search.personQuickViewByGivenName".toLowerCase ());
+		//
+		// new lookup metadata
+		lookup = new LookupMetadata ();
+		lookup.setLookupKey ("kuali.lu.lookup.activity.types");
+		lookup.setKey ("lu.search.all.lu.types");
+		lookup.setName ("All activity tlypes");
+		lookup.setDesc ("All activity types");
+		lookup.setResultReturnKey ("lu.resultColumn.key");
+		lookup.setResultDisplayKey ("lu.resultColumn.name");
+		lookup.setResultSortKey ("lu.resultColumn.name");
+		lookup.setUsage (LookupMetadata.Usage.DEFAULT);
+		
+		impl = new LookupImplMetadata ();
+		impl.setService ("lu");
+		impl.setType ("JPQL");
+		impl.setInfo ("select key, name, desc, effective_date, expiration_date"
+	 + "from LuType"
+	 + "where expiration_date is null");
+		lookup.setImpl (impl);
+		
+		param = new LookupParamMetadata ();
+		param.setKey ("lu.queryParam.luOptionalType");
+		param.setName ("Type");
+		param.setDesc ("Lu type (course, program etc.)");
+		param.setWriteAccess (Metadata.WriteAccess.NEVER);
+		param.setDataType (Data.DataType.STRING);
+		param.setOptional (true);
+		param.setDefaultValue (new Data.StringValue ("kuali.lu.type.CreditCourse"));
+		param.setCaseSensitive (true);
+		lookup.getParams ().add (param);
+		
+		result = new LookupResultMetadata ();
+		result.setKey ("lu.resultColumn.key");
+		result.setName ("Key of the type");
+		result.setDesc ("The internal key to the org type");
+		result.setDataType (Data.DataType.STRING);
+		lookup.getResults ().add (result);
+		
+		result = new LookupResultMetadata ();
+		result.setKey ("lu.resultColumn.name");
+		result.setName ("Name of type");
+		result.setDesc ("The name of the type");
+		result.setDataType (Data.DataType.STRING);
+		lookup.getResults ().add (result);
+		
+		result = new LookupResultMetadata ();
+		result.setKey ("lu.resultColumn.desc");
+		result.setName ("Description of type");
+		result.setDesc ("The description of the type");
+		result.setDataType (Data.DataType.STRING);
+		lookup.getResults ().add (result);
+		
+		result = new LookupResultMetadata ();
+		result.setKey ("lu.resultColumn.effective_date");
+		result.setName ("Effective date");
+		result.setDesc ("The date the ltype became effective");
+		result.setDataType (Data.DataType.TRUNCATED_DATE);
+		lookup.getResults ().add (result);
+		
+		result = new LookupResultMetadata ();
+		result.setKey ("lu.resultColumn.expiration_date");
+		result.setName ("Expiration date");
+		result.setDesc ("The date the type became non-effective");
+		result.setDataType (Data.DataType.TRUNCATED_DATE);
+		lookup.getResults ().add (result);
+		SEARCH_BANK.put (lookup.getKey ().toLowerCase (), lookup);
+		LOOKUP_BANK.put (lookup.getLookupKey ().toLowerCase (), lookup);
+		
+		//
+		// new lookup metadata
+		lookup = new LookupMetadata ();
+		lookup.setLookupKey ("kuali.lookup.terms");
+		lookup.setKey ("atp.search.advancedAtpSearch");
+		lookup.setName ("Advanced ATP match");
+		lookup.setDesc ("Search by Name, start date, end date, and type");
+		lookup.setResultReturnKey ("atp.resultColumn.atpId");
+		lookup.setResultDisplayKey ("atp.resultColumn.atpSeasonalType");
+		lookup.setResultSortKey ("atp.resultColumn.atpSeasonalType");
+		lookup.setUsage (LookupMetadata.Usage.DEFAULT);
+		
+		impl = new LookupImplMetadata ();
+		impl.setService ("organization");
+		impl.setType ("JPQL");
+		impl.setInfo ("TBD");
+		lookup.setImpl (impl);
+		
+		param = new LookupParamMetadata ();
+		param.setKey ("atp.advancedAtpSearchParam.atpShortName");
+		param.setName ("ATP Short Name");
+		param.setDesc ("Short name for the ATP, recorded as the default listing");
+		param.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		param.setDataType (Data.DataType.STRING);
+		param.setOptional (true);
+		param.setUsage (LookupMetadata.Usage.DEFAULT);
+		param.setWidget (LookupParamMetadata.Widget.SUGGEST_BOX);
+		lookup.getParams ().add (param);
+		
+		param = new LookupParamMetadata ();
+		param.setKey ("atp.advancedAtpSearchParam.atpStartDate");
+		param.setName ("Start Date");
+		param.setDesc ("Start date of the ATP");
+		param.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		param.setDataType (Data.DataType.TRUNCATED_DATE);
+		param.setOptional (true);
+		param.setUsage (LookupMetadata.Usage.ADVANCED);
+		param.setWidget (LookupParamMetadata.Widget.CALENDAR);
+		param.setCaseSensitive (true);
+		lookup.getParams ().add (param);
+		
+		param = new LookupParamMetadata ();
+		param.setKey ("atp.advancedAtpSearchParam.atpEndDate");
+		param.setName ("End Date");
+		param.setDesc ("End date of the ATP.");
+		param.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		param.setDataType (Data.DataType.TRUNCATED_DATE);
+		param.setOptional (true);
+		param.setUsage (LookupMetadata.Usage.CUSTOM);
+		param.setWidget (LookupParamMetadata.Widget.CALENDAR);
+		param.setCaseSensitive (true);
+		lookup.getParams ().add (param);
+		
+		param = new LookupParamMetadata ();
+		param.setKey ("atp.advancedAtpSearchParam.atpType");
+		param.setName ("Type");
+		param.setDesc ("Type of the ATP");
+		param.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		param.setDataType (Data.DataType.STRING);
+		param.setOptional (true);
+		param.setUsage (LookupMetadata.Usage.ADVANCED);
+		param.setWidget (LookupParamMetadata.Widget.DROPDOWN_LIST);
+		lookup.getParams ().add (param);
+		
+		result = new LookupResultMetadata ();
+		result.setKey ("atp.resultColumn.atpId");
+		result.setName ("ATP Identifier");
+		result.setDesc ("Identifier for the ATP");
+		result.setDataType (Data.DataType.STRING);
+		lookup.getResults ().add (result);
+		
+		result = new LookupResultMetadata ();
+		result.setKey ("atp.resultColumn.atpSeasonalType");
+		result.setName ("Season Type");
+		result.setDesc ("Will return Season Type.");
+		result.setDataType (Data.DataType.STRING);
+		lookup.getResults ().add (result);
+		
+		result = new LookupResultMetadata ();
+		result.setKey ("atp.resultColumn.atpDurType");
+		result.setName ("Duration Type");
+		result.setDesc ("Will return Duration Type");
+		result.setDataType (Data.DataType.STRING);
+		lookup.getResults ().add (result);
+		
+		result = new LookupResultMetadata ();
+		result.setKey ("atp.resultColumn.atpStartDate");
+		result.setName ("Start Date");
+		result.setDesc ("Start Date of the ATP");
+		result.setDataType (Data.DataType.TRUNCATED_DATE);
+		lookup.getResults ().add (result);
+		
+		result = new LookupResultMetadata ();
+		result.setKey ("atp.resultColumn.atpTypeName");
+		result.setName ("Type Name");
+		result.setDesc ("Type of the ATP.");
+		result.setDataType (Data.DataType.STRING);
+		lookup.getResults ().add (result);
+		SEARCH_BANK.put (lookup.getKey ().toLowerCase (), lookup);
+		LOOKUP_BANK.put (lookup.getLookupKey ().toLowerCase (), lookup);
+		
+		// set childLookup atp.search.atpTypes
+		// on kuali.lookup.terms.atp.advancedAtpSearchParam.atpType
+		param = findParam ("kuali.lookup.terms", "atp.advancedAtpSearchParam.atpType");
+		lookup = LOOKUP_BANK.get ("atp.search.atpTypes".toLowerCase ());
 		param.setChildLookup (lookup);
 	}
 	

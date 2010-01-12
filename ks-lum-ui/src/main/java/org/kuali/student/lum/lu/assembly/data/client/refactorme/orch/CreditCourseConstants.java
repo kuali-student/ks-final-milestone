@@ -22,6 +22,7 @@ public interface CreditCourseConstants
 	public static final String ID = "id";
 	public static final String FORMATS = "formats";
 	public static final String TERMS_OFFERED = "termsOffered";
+	public static final String FIRST_EXPECTED_OFFERING = "firstExpectedOffering";
 	public static final String DURATION = "duration";
 	public static final String TRANSCRIPT_TITLE = "transcriptTitle";
 	public static final String COURSE_TITLE = "courseTitle";
