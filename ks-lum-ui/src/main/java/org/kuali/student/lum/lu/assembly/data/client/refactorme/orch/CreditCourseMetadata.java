@@ -374,7 +374,7 @@ public class CreditCourseMetadata
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("not.used"));
+			//childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("not.used"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("repeating"));
 		}
@@ -413,7 +413,7 @@ public class CreditCourseMetadata
 		if (this.matches (type, state, "(default)", "(default)"))
 		{
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("not.used"));
+			//childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("not.used"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
 		}

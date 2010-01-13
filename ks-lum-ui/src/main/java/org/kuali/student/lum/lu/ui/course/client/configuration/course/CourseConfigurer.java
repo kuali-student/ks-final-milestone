@@ -41,6 +41,7 @@ import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
 import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
+import org.kuali.student.common.ui.client.widgets.list.HasSelectionChangeHandlers;
 import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
@@ -593,6 +594,13 @@ public class CourseConfigurer
 				ValueChangeHandler<String> handler) {
 			return orgPicker.addValueChangeHandler(handler);
 		}
+		
+		
+		@Override
+		public HandlerRegistration addSelectionChangeHandler(SelectionChangeHandler handler){
+			return orgPicker.addSelectionChangeHandler(handler);
+		}
+
     }
     
     // FIXME uncomment and fix AlternateAdminOrgList and AlternateInstructorList
