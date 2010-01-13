@@ -42,7 +42,7 @@ public class Metadata implements Serializable {
 
     private WriteAccess writeAccess;
       
-    private boolean onChangeRefereshMetadata;
+    private boolean onChangeRefreshMetadata;
 
     private Data.DataType dataType;
     
@@ -207,12 +207,12 @@ public class Metadata implements Serializable {
         this.writeAccess = writeAccess;
     }
 
-    public boolean isOnChangeRefereshMetadata() {
-        return onChangeRefereshMetadata;
+    public boolean isOnChangeRefreshMetadata() {
+        return onChangeRefreshMetadata;
     }
 
-    public void setOnChangeRefereshMetadata(boolean onChangeRefereshMetadata) {
-        this.onChangeRefereshMetadata = onChangeRefereshMetadata;
+    public void setOnChangeRefreshMetadata(boolean onChangeRefereshMetadata) {
+        this.onChangeRefreshMetadata = onChangeRefereshMetadata;
     }
 
 }
