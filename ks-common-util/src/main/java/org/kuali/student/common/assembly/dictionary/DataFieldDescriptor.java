@@ -51,7 +51,7 @@ public class DataFieldDescriptor {
     
     protected LookupMetadata lookups;
     
-    protected List<LookupMetadata> additionaLookups;   
+    protected List<LookupMetadata> additionalLookups;   
     
     protected DataObjectStructure dataObjectStructure;
     
@@ -128,7 +128,7 @@ public class DataFieldDescriptor {
     }
 
     public List<LookupMetadata> getAdditionalLookups() {
-        return additionaLookups;
+        return additionalLookups;
     }
 
     public String getDefaultValuePath() {
@@ -137,14 +137,6 @@ public class DataFieldDescriptor {
 
     public void setDefaultValuePath(String defaultValuePath) {
         this.defaultValuePath = defaultValuePath;
-    }
-
-    public List<LookupMetadata> getAdditionaLookups() {
-        return additionaLookups;
-    }
-
-    public void setAdditionaLookups(List<LookupMetadata> additionaLookups) {
-        this.additionaLookups = additionaLookups;
     }
 
     public DataObjectStructure getDataObjectStructure() {
