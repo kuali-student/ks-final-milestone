@@ -624,7 +624,7 @@ public class AtpServiceImpl implements AtpService {
 	@Override
 	public SearchResult search(SearchRequest searchRequest) {
 		// TODO Auto-generated method stub
-		return null;
+	    return searchManager.search(searchRequest, atpDao);
 	}
 
 }
