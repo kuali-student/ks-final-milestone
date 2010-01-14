@@ -23,6 +23,9 @@ public interface TestConstants
 {
  public static final String RESOURCES_DIRECTORY = "src/test/resources/";
 
+ public static String SERVICE_METHODS_EXCEL_FILE = RESOURCES_DIRECTORY +
+  "service methods.xls";
+
  public static String ORG_SEARCH_EXCEL_FILE = RESOURCES_DIRECTORY +
   "Organization Search Specification.xls";
  public static String ORG_SEARCH_EXCEL_FILE_BAD = RESOURCES_DIRECTORY +

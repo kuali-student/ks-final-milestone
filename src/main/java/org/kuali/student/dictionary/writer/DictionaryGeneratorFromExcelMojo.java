@@ -41,12 +41,14 @@ public class DictionaryGeneratorFromExcelMojo extends AbstractMojo
  public static String DIRECTORY = "src/test/resources/dictionary/";
  public static String DICTIONARY_INPUT_FILE = "type-state configuration.xls";
  public static String ORCHESTRATION_INPUT_FILE = "Orchestration Dictionary.xls";
+ public static String SERVICE_METHODS_INPUT_FILE = "service methods.xls";
  public static String XML_FILE = "lu-dictionary-config-generated-excel.xml";
 
  public DictionaryGeneratorFromExcelMojo ()
  {
   this.dictionaryInputFile = null;
   this.orchestrationInputFile = null;
+  this.serviceMethodsInputFile = null;
   this.xmlOutputFile = null;
  }
 
@@ -56,14 +58,18 @@ public class DictionaryGeneratorFromExcelMojo extends AbstractMojo
   * @parameter
   */
  private File dictionaryInputFile;
-
-  /**
+ /**
   * Path to orchestration excel file.
   *
   * @parameter
   */
  private File orchestrationInputFile;
-
+ /**
+  * Path to orchestration excel file.
+  *
+  * @parameter
+  */
+ private File serviceMethodsInputFile;
  /**
   * Path to the XML file
   *
@@ -87,11 +93,14 @@ public class DictionaryGeneratorFromExcelMojo extends AbstractMojo
    {
     throw new DictionaryExecutionException ("Could  not create ");
    }
-   SpreadsheetReader dictReader = new ExcelSpreadsheetReader (dictionaryInputFile.
-    getCanonicalPath ());
-   SpreadsheetReader orchReader = new ExcelSpreadsheetReader (orchestrationInputFile.
-    getCanonicalPath ());
-   DictionaryModelLoader loader = new DictionaryModelLoader (dictReader, orchReader);
+   SpreadsheetReader dictReader =
+    new ExcelSpreadsheetReader (dictionaryInputFile.getCanonicalPath ());
+   SpreadsheetReader orchReader =
+    new ExcelSpreadsheetReader (orchestrationInputFile.getCanonicalPath ());
+   SpreadsheetReader methodsReader =
+    new ExcelSpreadsheetReader (serviceMethodsInputFile.getCanonicalPath ());
+   DictionaryModelLoader loader =
+    new DictionaryModelLoader (dictReader, orchReader, methodsReader);
    DictionaryModel cache = new DictionaryModelCache (loader);
    DictionaryModelWriter instance = new DictionaryModelWriter (out, cache);
    instance.write ();
@@ -107,7 +116,8 @@ public class DictionaryGeneratorFromExcelMojo extends AbstractMojo
   }
   catch (Exception ex)
   {
-   throw new MojoExecutionException ("Unexpected Exception while trying to generate the dictionary", ex);
+   throw new MojoExecutionException
+    ("Unexpected Exception while trying to generate the dictionary", ex);
   }
  }
 
@@ -116,23 +126,31 @@ public class DictionaryGeneratorFromExcelMojo extends AbstractMojo
   return dictionaryInputFile;
  }
 
- public void setDictionaryInputlFile (File excelFile)
+ public void setDictionaryInputlFile (File file)
  {
-  this.dictionaryInputFile = excelFile;
+  this.dictionaryInputFile = file;
  }
-
 
  public File getOrchestrationInputFile ()
  {
   return orchestrationInputFile;
  }
 
- public void setOrchestrationInputlFile (File excelFile)
+ public void setOrchestrationInputlFile (File file)
  {
-  this.orchestrationInputFile = excelFile;
+  this.orchestrationInputFile = file;
  }
 
 
+  public File getServiceMethodsInputFile ()
+ {
+  return serviceMethodsInputFile;
+ }
+
+ public void setServiceMethosInputlFile (File file)
+ {
+  this.serviceMethodsInputFile = file;
+ }
 
  public File getXmlFile ()
  {

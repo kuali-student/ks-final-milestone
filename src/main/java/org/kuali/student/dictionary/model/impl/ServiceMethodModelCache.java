@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 The Kuali Foundation
+ * Copyright 2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,26 +23,26 @@ import java.util.List;
  * re-read it again.
  * @author nwright
  */
-public class SearchModelCache implements SearchModel
+public class ServiceMethodModelCache implements ServiceMethodModel
 {
 
- private SearchModel model;
+ private ServiceMethodModel model;
  
- public SearchModelCache (SearchModel model)
+ public ServiceMethodModelCache (ServiceMethodModel model)
  {
   this.model = model;
  }
 
- private List<SearchType> searchTypes = null;
+ private List<ServiceMethod> serviceMethods = null;
 
  @Override
- public List<SearchType> getSearchTypes ()
+ public List<ServiceMethod> getServiceMethods ()
  {
-  if (searchTypes == null)
+  if (serviceMethods == null)
   {
-   searchTypes = model.getSearchTypes ();
+   serviceMethods = model.getServiceMethods ();
   }
-  return searchTypes;
+  return serviceMethods;
  }
 
  @Override

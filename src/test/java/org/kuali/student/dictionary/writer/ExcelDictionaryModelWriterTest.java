@@ -87,7 +87,7 @@ public class ExcelDictionaryModelWriterTest implements TestConstants
   SpreadsheetReader reader = new ExcelSpreadsheetReader (TYPE_STATE_DICTIONARY_EXCEL_FILE);
   try
   {
-  DictionaryModelLoader loader = new DictionaryModelLoader (reader, null);
+  DictionaryModelLoader loader = new DictionaryModelLoader (reader, null, null);
   DictionaryModel cache = new DictionaryModelCache (loader);
   DictionaryModelWriter instance = new DictionaryModelWriter (out, cache);
   instance.write ();

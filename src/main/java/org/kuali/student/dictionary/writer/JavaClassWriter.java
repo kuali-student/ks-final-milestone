@@ -61,7 +61,7 @@ public abstract class JavaClassWriter extends XmlWriter
  public void writeHeader ()
  {
   indentPrintln ("/*");
-  indentPrintln (" * Copyright 2009 The Kuali Foundation");
+  indentPrintln (" * Copyright 2010 The Kuali Foundation");
   indentPrintln (" *");
   indentPrintln (" * Licensed under the Educational Community License, Version 2.0 (the \"License\");");
   indentPrintln (" * you may not use this file except in compliance with the License.");

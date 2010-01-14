@@ -15,9 +15,6 @@
  */
 package org.kuali.student.dictionary.writer;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintStream;
 import org.kuali.student.dictionary.model.impl.DictionaryModelCache;
 import org.kuali.student.dictionary.model.impl.DictionaryModelLoader;
 import org.kuali.student.dictionary.model.DictionaryModel;
@@ -29,17 +26,17 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.dictionary.TestConstants;
-import org.kuali.student.dictionary.model.validation.DictionaryValidationException;
 import static org.junit.Assert.*;
 
 /**
  *
  * @author nwright
  */
-public class OrchestrationObjectsWriterToLumUITest implements TestConstants
+public class ServicesWriterToComponentSandboxTest implements
+ TestConstants
 {
 
- public OrchestrationObjectsWriterToLumUITest ()
+ public ServicesWriterToComponentSandboxTest ()
  {
  }
 
@@ -66,7 +63,7 @@ public class OrchestrationObjectsWriterToLumUITest implements TestConstants
  }
 
  /**
-  * Test of write method, of class OrchestrationObjectsDataWriter.
+  * Test of write method, of class ServicesDataWriter.
   */
  @Test
  public void testWrite ()
@@ -83,38 +80,19 @@ public class OrchestrationObjectsWriterToLumUITest implements TestConstants
    DictionaryModelLoader loader =
     new DictionaryModelLoader (dictReader, orchReader, methodsReader);
    DictionaryModel model = new DictionaryModelCache (loader);
-   OrchestrationObjectsWriter instance =
-    new OrchestrationObjectsWriter (model,
-                                    LUM_UI_DIRECTORY_TO_WRITE_JAVA,
-                                    LUM_UI_ROOT_PACKAGE);
+   ServicesWriter instance =
+    new ServicesWriter (model,COMPONENT_SANDBOX_DIRECTORY_TO_WRITE_JAVA);
    instance.write ();
-   File file =
-    new File (LUM_UI_DIRECTORY_TO_WRITE_RESOURCES + "/" +
-    "orchestration-search-config-generated-excel.xml");
-   PrintStream out;
-   try
-   {
-    out = new PrintStream (file);
-   }
-   catch (FileNotFoundException ex)
-   {
-    throw new DictionaryValidationException (ex);
-   }
-   try
-   {
-    SearchModelWriter searchWriter = new SearchModelWriter (out, model);
-    searchWriter.write ();
-   }
-   finally
-   {
-    out.close ();
-   }
   }
   finally
   {
    dictReader.close ();
    orchReader.close ();
+   methodsReader.close ();
   }
+
+
+
   assertEquals (true, true);
  }
 

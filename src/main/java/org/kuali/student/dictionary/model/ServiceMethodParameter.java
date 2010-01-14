@@ -19,80 +19,54 @@ package org.kuali.student.dictionary.model;
  *
  * @author nwright
  */
-public class Service
+public class ServiceMethodParameter
 {
-
- private String key;
-
- public String getKey ()
- {
-  return key;
- }
-
- public void setKey (String key)
- {
-  this.key = key;
- }
 
  private String name;
 
+ /**
+  * Get the value of name
+  *
+  * @return the value of name
+  */
  public String getName ()
  {
   return name;
  }
 
+ /**
+  * Set the value of name
+  *
+  * @param name new value of name
+  */
  public void setName (String name)
  {
   this.name = name;
  }
 
- private String implProject;
+ protected String type;
 
- public String getImplProject ()
+ public String getType ()
  {
-  return implProject;
+  return type;
  }
 
- public void setImplProject (String implProject)
+ public void setType (String type)
  {
-  this.implProject = implProject;
+  this.type = type;
  }
 
- private String status;
 
- public String getStatus ()
+ private String description;
+
+ public String getDescription ()
  {
-  return status;
+  return description;
  }
 
- public void setStatus (String status)
+ public void setDescription (String description)
  {
-  this.status = status;
+  this.description = description;
  }
-
- private String comments;
-
- public String getComments ()
- {
-  return comments;
- }
-
- public void setComments (String comments)
- {
-  this.comments = comments;
- }
-
- private String version;
-
- public String getVersion ()
- {
-  return version;
- }
-
- public void setVersion (String version)
- {
-  this.version = version;
- }
-
 
 }

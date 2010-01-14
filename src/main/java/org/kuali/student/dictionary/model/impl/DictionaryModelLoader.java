@@ -32,22 +32,24 @@ import java.util.regex.PatternSyntaxException;
 public class DictionaryModelLoader implements DictionaryModel
 {
 
- private SpreadsheetReader dictSpreadsheetReader;
- private SpreadsheetReader orchSpreadsheetReader;
+ private SpreadsheetReader dictReader;
+ private SpreadsheetReader orchReader;
+ private SpreadsheetReader methodsReader;
 
  public DictionaryModelLoader (SpreadsheetReader dictReader,
-                               SpreadsheetReader orchReader)
+                               SpreadsheetReader orchReader,
+                               SpreadsheetReader methodsReader)
  {
-  this.dictSpreadsheetReader = dictReader;
-  this.orchSpreadsheetReader = orchReader;
+  this.dictReader = dictReader;
+  this.orchReader = orchReader;
+  this.methodsReader = methodsReader;
  }
-
 
  @Override
  public List<Dictionary> getDictionary ()
  {
   WorksheetReader worksheetReader =
-   dictSpreadsheetReader.getWorksheetReader ("Dictionary");
+   dictReader.getWorksheetReader ("Dictionary");
   List<Dictionary> list = new ArrayList (worksheetReader.getEstimatedRows ());
   while (worksheetReader.next ())
   {
@@ -179,12 +181,11 @@ public class DictionaryModelLoader implements DictionaryModel
   return dict;
  }
 
-
  @Override
  public List<State> getStates ()
  {
   WorksheetReader worksheetReader =
-   dictSpreadsheetReader.getWorksheetReader ("States");
+   dictReader.getWorksheetReader ("States");
   List<State> list = new ArrayList (worksheetReader.getEstimatedRows ());
   while (worksheetReader.next ())
   {
@@ -209,12 +210,11 @@ public class DictionaryModelLoader implements DictionaryModel
   return list;
  }
 
- 
  @Override
  public List<Type> getTypes ()
  {
   WorksheetReader worksheetReader =
-   dictSpreadsheetReader.getWorksheetReader ("Types");
+   dictReader.getWorksheetReader ("Types");
   List<Type> list = new ArrayList (worksheetReader.getEstimatedRows ());
   while (worksheetReader.next ())
   {
@@ -240,12 +240,11 @@ public class DictionaryModelLoader implements DictionaryModel
   return list;
  }
 
-
  @Override
  public List<XmlType> getXmlTypes ()
  {
   WorksheetReader worksheetReader =
-   dictSpreadsheetReader.getWorksheetReader ("XmlTypes");
+   dictReader.getWorksheetReader ("XmlTypes");
   List<XmlType> list = new ArrayList (worksheetReader.getEstimatedRows ());
   while (worksheetReader.next ())
   {
@@ -273,12 +272,11 @@ public class DictionaryModelLoader implements DictionaryModel
   return list;
  }
 
- 
  @Override
  public List<Field> getFields ()
  {
   WorksheetReader worksheetReader =
-   dictSpreadsheetReader.getWorksheetReader ("MessageStructure");
+   dictReader.getWorksheetReader ("MessageStructure");
   List<Field> list = new ArrayList (worksheetReader.getEstimatedRows ());
   while (worksheetReader.next ())
   {
@@ -347,12 +345,11 @@ public class DictionaryModelLoader implements DictionaryModel
   return list;
  }
 
-
  @Override
  public List<Constraint> getConstraints ()
  {
   WorksheetReader worksheetReader =
-   dictSpreadsheetReader.getWorksheetReader ("Constraints");
+   dictReader.getWorksheetReader ("Constraints");
   List<Constraint> list = new ArrayList (worksheetReader.getEstimatedRows ());
   while (worksheetReader.next ())
   {
@@ -402,12 +399,11 @@ public class DictionaryModelLoader implements DictionaryModel
   return new ClassNameDecorator (className).decorate ();
  }
 
-
  @Override
  public List<CrossObjectConstraint> getCrossObjectConstraints ()
  {
   WorksheetReader worksheetReader =
-   dictSpreadsheetReader.getWorksheetReader ("CrossObjectConstraints");
+   dictReader.getWorksheetReader ("CrossObjectConstraints");
   List<CrossObjectConstraint> list = new ArrayList (worksheetReader.
    getEstimatedRows ());
   while (worksheetReader.next ())
@@ -466,23 +462,23 @@ public class DictionaryModelLoader implements DictionaryModel
  public List<String> getSourceNames ()
  {
   List<String> list = new ArrayList ();
-  list.add (dictSpreadsheetReader.getSourceName ());
-  if (orchSpreadsheetReader != null)
+  list.add (dictReader.getSourceName ());
+  if (orchReader != null)
   {
-   list.add (orchSpreadsheetReader.getSourceName ());
+   list.add (orchReader.getSourceName ());
   }
   return list;
  }
 
-  @Override
+ @Override
  public List<OrchObj> getOrchObjs ()
  {
-  if (orchSpreadsheetReader == null)
+  if (orchReader == null)
   {
    return new ArrayList (0);
   }
   WorksheetReader worksheetReader =
-   orchSpreadsheetReader.getWorksheetReader ("OrchObj");
+   orchReader.getWorksheetReader ("OrchObj");
   List<OrchObj> list = new ArrayList (worksheetReader.getEstimatedRows ());
 
   while (worksheetReader.next ())
@@ -579,11 +575,11 @@ public class DictionaryModelLoader implements DictionaryModel
   return list;
  }
 
-  @Override
+ @Override
  public List<MessageStructure> getMessageStructures ()
  {
   WorksheetReader worksheetReader =
-   dictSpreadsheetReader.getWorksheetReader ("MessageStructure");
+   dictReader.getWorksheetReader ("MessageStructure");
   List<MessageStructure> list =
    new ArrayList (worksheetReader.getEstimatedRows ());
   while (worksheetReader.next ())
@@ -614,18 +610,11 @@ public class DictionaryModelLoader implements DictionaryModel
   return list;
  }
 
-  @Override
- public List<SearchType> getSearchTypes ()
- {
-   SearchModelLoader loader = new SearchModelLoader (orchSpreadsheetReader);
-   return loader.getSearchTypes ();
- }
-
  @Override
-  public List<Service> getServices ()
+ public List<Service> getServices ()
  {
   WorksheetReader worksheetReader =
-   dictSpreadsheetReader.getWorksheetReader ("Services");
+   dictReader.getWorksheetReader ("Services");
   List<Service> list =
    new ArrayList (worksheetReader.getEstimatedRows ());
   while (worksheetReader.next ())
@@ -636,6 +625,7 @@ public class DictionaryModelLoader implements DictionaryModel
    {
     continue;
    }
+   serv.setVersion (getFixup (worksheetReader, "version"));
    serv.setStatus (getFixup (worksheetReader, "status"));
    if (serv.getStatus ().equals ("ignore"))
    {
@@ -649,11 +639,11 @@ public class DictionaryModelLoader implements DictionaryModel
   return list;
  }
 
-@Override
-  public List<Project> getProjects ()
+ @Override
+ public List<Project> getProjects ()
  {
   WorksheetReader worksheetReader =
-   dictSpreadsheetReader.getWorksheetReader ("Projects");
+   dictReader.getWorksheetReader ("Projects");
   List<Project> list =
    new ArrayList (worksheetReader.getEstimatedRows ());
   while (worksheetReader.next ())
@@ -680,4 +670,20 @@ public class DictionaryModelLoader implements DictionaryModel
   }
   return list;
  }
+
+ @Override
+ public List<SearchType> getSearchTypes ()
+ {
+  SearchModelLoader loader = new SearchModelLoader (orchReader);
+  return loader.getSearchTypes ();
+ }
+
+ @Override
+ public List<ServiceMethod> getServiceMethods ()
+ {
+  ServiceMethodModelLoader loader =
+   new ServiceMethodModelLoader (methodsReader);
+  return loader.getServiceMethods ();
+ }
+
 }

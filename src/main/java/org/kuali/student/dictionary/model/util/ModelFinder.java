@@ -31,17 +31,24 @@ public class ModelFinder
 {
 
  private SearchModel searchModel;
+ private ServiceMethodModel serviceMethodModel;
  private DictionaryModel model;
 
  public ModelFinder (DictionaryModel model)
  {
   this.model = model;
   this.searchModel = model;
+  this.serviceMethodModel = model;
  }
 
  public ModelFinder (SearchModel model)
  {
   this.searchModel = model;
+ }
+
+ public ModelFinder (ServiceMethodModel model)
+ {
+  this.serviceMethodModel = model;
  }
 
  public XmlType findXmlType (String xmlTypeName)
@@ -254,6 +261,47 @@ public class ModelFinder
    }
   }
   return null;
+ }
+
+ public ServiceMethod findServiceMethod (String service, String name)
+ {
+  for (ServiceMethod method : serviceMethodModel.getServiceMethods ())
+  {
+   if (method.getService ().equalsIgnoreCase (service))
+   {
+    if (method.getName ().equalsIgnoreCase (name))
+    {
+     return method;
+    }
+   }
+  }
+  return null;
+ }
+
+ public List<ServiceMethod> getServiceMethodsInService (String service)
+ {
+  List<ServiceMethod> list = new ArrayList ();
+  for (ServiceMethod method : serviceMethodModel.getServiceMethods ())
+  {
+   if (method.getService ().equalsIgnoreCase (service))
+   {
+    list.add (method);
+   }
+  }
+  return list;
+ }
+
+  public List<MessageStructure> findMessageStructures (String xmlType)
+ {
+  List<MessageStructure> list = new ArrayList ();
+  for (MessageStructure ms : model.getMessageStructures ())
+  {
+   if (ms.getXmlObject ().equalsIgnoreCase (xmlType))
+   {
+    list.add (ms);
+   }
+  }
+  return list;
  }
 
 }

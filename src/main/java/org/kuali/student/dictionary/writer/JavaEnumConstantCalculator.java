@@ -10,6 +10,7 @@ package org.kuali.student.dictionary.writer;
  */
 public class JavaEnumConstantCalculator
 {
+
  private String name;
 
  public JavaEnumConstantCalculator (String name)
@@ -23,8 +24,7 @@ public class JavaEnumConstantCalculator
   // do the first character so we don't prepend the first with a _ if it is upper
   char c = Character.toUpperCase (name.charAt (0));
   buf.append (c);
-  for (int i = 1; i <
-   name.length (); i ++)
+  for (int i = 1; i < name.length (); i ++)
   {
    c = name.charAt (i);
    if (Character.isUpperCase (c))
@@ -33,6 +33,33 @@ public class JavaEnumConstantCalculator
    }
 
    buf.append (Character.toUpperCase (c));
+  }
+
+  return buf.toString ();
+ }
+
+ public String reverse ()
+ {
+  StringBuffer buf = new StringBuffer (name.length ());
+  boolean uppercase = true;
+  for (int i = 0; i < name.length (); i ++)
+  {
+   char c = name.charAt (i);
+   if (uppercase)
+   {
+    c = Character.toUpperCase (c);
+    uppercase = false;
+   }
+   else
+   {
+    c = Character.toLowerCase (c);
+   }
+   if (c == '_')
+   {
+    uppercase = true;
+    continue;
+   }
+   buf.append (c);
   }
 
   return buf.toString ();

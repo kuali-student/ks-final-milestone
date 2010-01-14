@@ -93,29 +93,40 @@ public class DictionaryModelExpanded implements DictionaryModel
   return model.getSourceNames ();
  }
 
+ @Override
  public List<OrchObj> getOrchObjs ()
  {
   return model.getOrchObjs ();
  }
 
+ @Override
  public List<MessageStructure> getMessageStructures ()
  {
   return model.getMessageStructures ();
  }
 
- public List<SearchType> getSearchTypes ()
- {
-  return model.getSearchTypes ();
- }
-
+ @Override
  public List<Service> getServices ()
  {
   return model.getServices ();
  }
 
+ @Override
  public List<Project> getProjects ()
  {
   return model.getProjects ();
+ }
+
+ @Override
+ public List<SearchType> getSearchTypes ()
+ {
+  return model.getSearchTypes ();
+ }
+
+ @Override
+ public List<ServiceMethod> getServiceMethods ()
+ {
+  return model.getServiceMethods ();
  }
 
 }

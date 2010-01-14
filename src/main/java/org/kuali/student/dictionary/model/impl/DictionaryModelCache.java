@@ -183,5 +183,16 @@ public class DictionaryModelCache implements DictionaryModel
   return projects;
  }
 
+ private List<ServiceMethod> serviceMethods = null;
+
+ public List<ServiceMethod> getServiceMethods ()
+ {
+  if (serviceMethods == null)
+  {
+   serviceMethods = model.getServiceMethods ();
+  }
+  return serviceMethods;
+ }
+
 
 }
