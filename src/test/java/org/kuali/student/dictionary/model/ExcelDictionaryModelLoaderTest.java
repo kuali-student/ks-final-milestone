@@ -59,7 +59,7 @@ public class ExcelDictionaryModelLoaderTest implements TestConstants
   System.out.println ("reading " + TYPE_STATE_DICTIONARY_EXCEL_FILE);
   dictReader = new ExcelSpreadsheetReader (TYPE_STATE_DICTIONARY_EXCEL_FILE);
   orchReader = new ExcelSpreadsheetReader (ORCHESTRATION_DICTIONARY_EXCEL_FILE);
-  instance = new DictionaryModelLoader (dictReader, orchReader);
+  instance = new DictionaryModelLoader (dictReader, orchReader, null);
  }
 
  @After

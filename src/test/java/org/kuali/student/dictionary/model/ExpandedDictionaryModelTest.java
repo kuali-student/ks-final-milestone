@@ -61,7 +61,7 @@ public class ExpandedDictionaryModelTest implements TestConstants
  {
   System.out.println ("reading " + TYPE_STATE_DICTIONARY_EXCEL_FILE);
   reader = new ExcelSpreadsheetReader (TYPE_STATE_DICTIONARY_EXCEL_FILE);
-  instance = new DictionaryModelLoader (reader, null);
+  instance = new DictionaryModelLoader (reader, null, null);
   instance = new DictionaryModelCache (instance);
  }
 

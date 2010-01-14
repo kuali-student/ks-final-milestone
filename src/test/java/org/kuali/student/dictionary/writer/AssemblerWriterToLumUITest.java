@@ -68,26 +68,26 @@ public class AssemblerWriterToLumUITest implements TestConstants
  public void testWrite ()
  {
   System.out.println ("write");
-  SpreadsheetReader dictReader =
-   new ExcelSpreadsheetReader (TYPE_STATE_DICTIONARY_EXCEL_FILE);
-  SpreadsheetReader orchReader =
-   new ExcelSpreadsheetReader (ORCHESTRATION_DICTIONARY_EXCEL_FILE);
-  try
-  {
-   DictionaryModelLoader loader =
-    new DictionaryModelLoader (dictReader, orchReader);
-   DictionaryModel model = new DictionaryModelCache (loader);
-   OrchestrationObjectsAssemblerWriter instance =
-    new OrchestrationObjectsAssemblerWriter (model,
-                                    LUM_UI_DIRECTORY_TO_WRITE_JAVA,
-                                    LUM_UI_ROOT_PACKAGE);
-   instance.write ();
-  }
-  finally
-  {
-   dictReader.close ();
-   orchReader.close ();
-  }
+//  SpreadsheetReader dictReader =
+//   new ExcelSpreadsheetReader (TYPE_STATE_DICTIONARY_EXCEL_FILE);
+//  SpreadsheetReader orchReader =
+//   new ExcelSpreadsheetReader (ORCHESTRATION_DICTIONARY_EXCEL_FILE);
+//  try
+//  {
+//   DictionaryModelLoader loader =
+//    new DictionaryModelLoader (dictReader, orchReader, null);
+//   DictionaryModel model = new DictionaryModelCache (loader);
+//   OrchestrationObjectsAssemblerWriter instance =
+//    new OrchestrationObjectsAssemblerWriter (model,
+//                                    LUM_UI_DIRECTORY_TO_WRITE_JAVA,
+//                                    LUM_UI_ROOT_PACKAGE);
+//   instance.write ();
+//  }
+//  finally
+//  {
+//   dictReader.close ();
+//   orchReader.close ();
+//  }
   assertEquals (true, true);
  }
 

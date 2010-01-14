@@ -80,7 +80,7 @@ public class OrchestrationObjectsWriterToComponentSandboxTest implements
   try
   {
    DictionaryModelLoader loader =
-    new DictionaryModelLoader (dictReader, orchReader);
+    new DictionaryModelLoader (dictReader, orchReader, null);
    DictionaryModel model = new DictionaryModelCache (loader);
    OrchestrationObjectsWriter instance =
     new OrchestrationObjectsWriter (model,
