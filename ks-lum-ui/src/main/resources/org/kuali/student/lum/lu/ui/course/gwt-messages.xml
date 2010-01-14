@@ -25,6 +25,7 @@
    	</bean>
 
    	<bean parent="enCourse" p:id="cluProposalInformation"		p:value="Proposal Information"/>
+   	<bean parent="enCourse" p:id="cluCourseInformation"		p:value="Course Information"/>
    	<bean parent="enCourse" p:id="cluProposalTitle"		p:value="Proposal Title"/>
    	<bean parent="enCourse" p:id="cluTitleLiteral"		p:value="Title"/>
    	<bean parent="enCourse" p:id="cluCredit"		p:value="Credit"/>
