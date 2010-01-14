@@ -22,6 +22,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
 import org.kuali.student.core.enumerationmanagement.EnumerationException;
 import org.kuali.student.core.enumerationmanagement.dao.EnumerationManagementDAO;
 import org.kuali.student.core.enumerationmanagement.entity.EnumeratedValueEntity;
@@ -31,7 +32,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
+public class EnumerationManagementDAOImpl extends AbstractSearchableCrudDaoImpl implements EnumerationManagementDAO {
     private EntityManager entityManager;
     
     final static Logger logger = LoggerFactory.getLogger(EnumerationManagementDAOImpl.class);

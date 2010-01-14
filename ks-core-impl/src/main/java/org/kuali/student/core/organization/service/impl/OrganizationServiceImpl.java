@@ -922,7 +922,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	/**
-	 * Check for missing parameter and thow localized exception if missing
+	 * Check for missing parameter and throw localized exception if missing
 	 *
 	 * @param param
 	 * @param parameter name
@@ -962,8 +962,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 	@Override
 	public SearchResult search(SearchRequest searchRequest) {
-		// TODO Auto-generated method stub
-		return null;
+		return searchManager.search(searchRequest, organizationDao);
 	}
 
 
