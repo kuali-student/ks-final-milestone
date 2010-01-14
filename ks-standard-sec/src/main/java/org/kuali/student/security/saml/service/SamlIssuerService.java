@@ -19,10 +19,11 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-@WebService(name = "ProxyTicketValidationService", targetNamespace = "http://org.kuali.student/security/saml")
+@WebService(name = "SamlIssuerService", targetNamespace = "http://student.kuali.org/wsdl/security/saml")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface ProxyTicketValidationService {
+public interface SamlIssuerService {
 
-    public String validateProxyTicket(@WebParam(name="proxyTicketId")String proxyTicketId, 
+    /* takes a CAS proxy ticket, validates it and returns a SAML token */
+    public String validateCasProxyTicket(@WebParam(name="proxyTicketId")String proxyTicketId, 
                                       @WebParam(name="proxyTargetService")String proxyTargetService);
 }

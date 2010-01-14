@@ -17,6 +17,7 @@ package org.kuali.student.security.saml.service;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -25,25 +26,36 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.jws.WebService;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.jasig.cas.client.util.CommonUtils;
 import org.jasig.cas.client.util.XmlUtils;
 import org.kuali.student.security.cxf.interceptors.SamlTokenCxfOutInterceptor;
+import org.kuali.student.security.util.SamlUtils;
+import org.opensaml.SAMLAssertion;
+import org.springframework.security.context.SecurityContextHolder;
+import org.springframework.security.providers.cas.CasAuthenticationToken;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
-@WebService(endpointInterface = "org.kuali.student.security.saml.service.ProxyTicketValidationService", serviceName = "ProxyTicketValidationService", portName = "ProxyTicketValidationService", targetNamespace = "http://org.kuali.student/security/saml")
-public class ProxyTicketValidationServiceImpl implements ProxyTicketValidationService {
+@WebService(endpointInterface = "org.kuali.student.security.saml.service.SamlIssuerService", serviceName = "SamlIssuerService", portName = "SamlIssuerService", targetNamespace = "http://student.kuali.org/wsdl/security/saml")
+public class SamlIssuerServiceImpl implements SamlIssuerService {
     
     private String casServerUrl;
     private SamlTokenCxfOutInterceptor samlTokenCxfOutInterceptor;
     private String samlIssuerForUser;
     
-    public String validateProxyTicket(String proxyTicketId, String proxyTargetService){
+    public String validateCasProxyTicket(String proxyTicketId, String proxyTargetService){
         
         String url = constructUrl(proxyTicketId, proxyTargetService);
         HttpURLConnection conn = null;
         
         try {
             URL constructedUrl = new URL(url);
+            System.out.println("\n\n In the  SamlIssuerService  ...... " + url);
             conn = (HttpURLConnection) constructedUrl.openConnection();
 
             BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -56,7 +68,9 @@ public class ProxyTicketValidationServiceImpl implements ProxyTicketValidationSe
                 stringBuffer.append(line);
             }
             response = stringBuffer.toString();
-
+            
+            System.out.println("\n\n In the  SamlIssuerService  ...... " + response);
+            
             String error = XmlUtils.getTextForElement(response, "authenticationFailure");
 
             if (CommonUtils.isNotEmpty(error)) {
@@ -73,11 +87,53 @@ public class ProxyTicketValidationServiceImpl implements ProxyTicketValidationSe
             samlProperties.put("proxies", proxies);
             samlProperties.put("samlIssuerForUser", samlIssuerForUser);
             
-            if(samlTokenCxfOutInterceptor != null){
-                samlTokenCxfOutInterceptor.setSamlProperties(samlProperties);
-            } 
+            SamlUtils samlUtils = new SamlUtils();
+            samlUtils.setSamlProperties(samlProperties);
+            SAMLAssertion samlAssertion = samlUtils.createAssertion();
             
-            return "Signed SAML Assertion is in soap header for authenticated user";
+            /* If the service was configured with interceptors and called remotely(i.e sending soap message) then
+               the cat.setDetails(samlAssertion) is done at the in Interceptor, see SamlTokenCxfInInterceptor.
+               That's because the SecurityContext is a ThreadLocal and CasAuthenticationToken is null here.
+               
+               For local service calls (i.e not soap, without the interceptors) place SAML in security context here
+               since interceptors will not be called.
+            */
+            /*CasAuthenticationToken cat = (CasAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+            if(cat != null){
+                cat.setDetails(samlAssertion);
+            }else{
+                System.out.println("\n\n In the  ProxyTicketValidationService CasAuthenticationToken is null ...... ");
+            }*/
+            
+            if(samlTokenCxfOutInterceptor != null){
+                samlTokenCxfOutInterceptor.setSamlAssertion(samlAssertion);
+            }
+            
+            /*if(samlTokenCxfOutInterceptor != null){
+                samlTokenCxfOutInterceptor.setSamlProperties(samlProperties);
+            }*/ 
+            
+            Document signedSAML = samlUtils.signAssertion(samlAssertion);
+            System.out.println("\n\n In the  SamlIssuerService about to return ...... ");
+            
+            
+            DOMSource domSource = new DOMSource(signedSAML);
+            StringWriter writer = new StringWriter();
+            StreamResult result = new StreamResult(writer);
+            
+            TransformerFactory tf = TransformerFactory.newInstance();
+            Transformer transformer;
+            try {
+                transformer = tf.newTransformer();
+                transformer.transform(domSource, result);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            writer.flush();
+            System.out.println(writer.toString());
+            
+            //return "Signed SAML Assertion is in soap header for authenticated user";
+            return writer.toString();
             
         } catch (final Exception e) {
             throw new RuntimeException(e);
