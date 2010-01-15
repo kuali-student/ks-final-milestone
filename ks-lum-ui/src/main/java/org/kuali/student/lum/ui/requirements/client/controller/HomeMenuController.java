@@ -154,6 +154,7 @@ public class HomeMenuController extends Controller implements View {
     }
     
     public HomeMenuController(){
+        super(HomeMenuController.class.getName());
         mainPanel.setStyleName("Course-Home-Main-Panel");
         menuPanel.setStyleName("Course-Home-Menu-Panel");
         contentPanel.setStyleName("Course-Home-Content-Panel");   
@@ -235,6 +236,11 @@ public class HomeMenuController extends Controller implements View {
         return MenuViews.class;
     }
 
+    @Override
+    public Enum<?> getViewEnumValue(String enumValue) {
+        return MenuViews.valueOf(enumValue);
+    }
+    
     /**
      * @see org.kuali.student.common.ui.client.mvc.View#clear()
      */

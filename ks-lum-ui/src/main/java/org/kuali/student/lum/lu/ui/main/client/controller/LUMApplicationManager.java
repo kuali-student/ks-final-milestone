@@ -25,7 +25,6 @@ import org.kuali.student.common.ui.client.mvc.events.LogoutEvent;
 import org.kuali.student.common.ui.client.mvc.events.LogoutHandler;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseProposalController;
-import org.kuali.student.lum.lu.ui.course.client.configuration.history.KSHistory;
 import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluController;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
@@ -46,7 +45,6 @@ public class LUMApplicationManager extends Controller{
 
 	   private final SimplePanel viewPanel = new SimplePanel();
 
-	    KSHistory history;
 
 	    private final View homeMenuView = new DelegatingViewComposite(this, new HomeMenuController());
 
@@ -56,8 +54,7 @@ public class LUMApplicationManager extends Controller{
 	    private DelegatingViewComposite viewCluView;
 
 	    public LUMApplicationManager(){
-	        super();
-	        history = new KSHistory(this);
+	        super(LUMApplicationManager.class.getName());
 	        super.initWidget(viewPanel);
 	    }
 
@@ -219,4 +216,8 @@ public class LUMApplicationManager extends Controller{
 	    public Class<? extends Enum<?>> getViewsEnum() {
 	        return LUMViews.class;
 	    }        
+	    @Override
+	    public Enum<?> getViewEnumValue(String enumValue) {
+	        return LUMViews.valueOf(enumValue);
+	    }
 }

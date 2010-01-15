@@ -96,17 +96,17 @@ public class CourseProposalController extends TabbedSectionLayout {
     
         
     public CourseProposalController(){
-        super();
+        super(CourseProposalController.class.getName());
         initialize();
     }
     public CourseProposalController(String proposalType, String cluType){
-        super();
+        super(CourseProposalController.class.getName());
     	this.proposalType = proposalType;
     	this.cluType = cluType;        
         initialize();
     }
     public CourseProposalController(String proposalType, String cluType, String docId) {
-    	super();
+        super(CourseProposalController.class.getName());
     	this.docId = docId;   	
     	this.proposalType = proposalType;
     	this.cluType = cluType;

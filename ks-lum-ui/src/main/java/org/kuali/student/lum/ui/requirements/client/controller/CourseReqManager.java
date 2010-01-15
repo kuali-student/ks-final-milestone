@@ -68,7 +68,7 @@ public class CourseReqManager extends Controller {
     private Map<String, String> cluSetsData = new HashMap<String, String>(); 
     
     public CourseReqManager(VerticalPanel displayPanel) {
-        super();       
+        super(CourseReqManager.class.getName());       
         
         if (displayPanel == null) {        
        	 	super.initWidget(viewPanel);
@@ -216,7 +216,12 @@ public class CourseReqManager extends Controller {
     public Class<? extends Enum<?>> getViewsEnum() {
         return PrereqViews.class;
     }
-     
+
+    @Override
+    public Enum<?> getViewEnumValue(String enumValue) {
+        return PrereqViews.valueOf(enumValue);
+    }
+    
     public void setRule(RuleInfo newRule) {
   		ruleInfo.add(newRule);
     }
@@ -235,5 +240,7 @@ public class CourseReqManager extends Controller {
 
 	public void setComponentToEdit(ReqComponentVO componentToEdit) {
 		this.componentToEdit = componentToEdit;
-	}           
+	}
+
+           
 }

@@ -60,7 +60,7 @@ public class ViewCluController extends PagedSectionLayout{
     });
     
     public ViewCluController(){
-        super();
+        super(ViewCluController.class.getName());
         generateLayout();
         cluProposalModel = null;
         this.setModelDTOType(CluProposalModelDTO.class);  
@@ -77,6 +77,11 @@ public class ViewCluController extends PagedSectionLayout{
     @Override
     public Class<? extends Enum<?>> getViewsEnum() {
         return ViewCluConfigurer.LuSections.class;
+    }
+    
+    @Override
+    public Enum<?> getViewEnumValue(String enumValue) {
+        return ViewCluConfigurer.LuSections.valueOf(enumValue);
     }
 
     @SuppressWarnings("unchecked")

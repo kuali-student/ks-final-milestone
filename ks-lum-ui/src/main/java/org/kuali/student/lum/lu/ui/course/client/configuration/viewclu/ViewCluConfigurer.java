@@ -692,6 +692,8 @@ public class ViewCluConfigurer {
         protected Widget createWidget() {
             return new Collaborators();
         }
+        
+        
 
     }    
 
