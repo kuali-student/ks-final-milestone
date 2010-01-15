@@ -26,6 +26,7 @@ import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.assembly.client.SaveResult;
 import org.kuali.student.common.assembly.client.Data.Property;
 import org.kuali.student.common.assembly.client.Metadata.WriteAccess;
+import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.TimeAmountInfo;
@@ -111,6 +112,7 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 	public static final String PROPOSAL_REFERENCE_TYPE = "kuali.proposal.referenceType.clu"; // <- what the service says, but the dictionary says: "kuali.referenceType.CLU";
 	public static final String PROPOSAL_TYPE_CREATE_COURSE = "kuali.proposal.type.course.create";
 	public static final String JOINT_RELATION_TYPE = "kuali.lu.relation.type.co-located";
+	public static final String CREDIT_COURSE_PROPOSAL_DATA_TYPE = "CreditCourseProposal";
 	
 	final Logger LOG = Logger.getLogger(CreditCourseProposalAssembler.class);
 	
@@ -128,6 +130,8 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
     private TranslationService translationService;
 	
 	private SearchDispatcher searchDispatcher;
+	
+	private MetadataServiceImpl metadataService;
 	
 	public CreditCourseProposalAssembler(String proposalState) {
 		this.proposalState = proposalState;
@@ -463,6 +467,7 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 	public Metadata getMetadata(String type, String state) throws AssemblyException {
 		// TODO overriding the specified type isn't a good thing, but in other cases the type needs to be specified by the caller
 		//this needs to be filtered, but not sure how to do that if an assembler needs metadata itself
+		//Metadata metadata = metadataService.getMetadata(CREDIT_COURSE_PROPOSAL_DATA_TYPE, PROPOSAL_TYPE_CREATE_COURSE, state);
 		Metadata metadata = new CreditCourseProposalMetadata().getMetadata(PROPOSAL_TYPE_CREATE_COURSE, state);
 		
 		//Get permissions for course
@@ -1120,5 +1125,9 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 
 	public void setSearchDispatcher(SearchDispatcher searchDispatcher) {
 		this.searchDispatcher = searchDispatcher;
-	}	
+	}
+
+    public void setMetadataService(MetadataServiceImpl metadataService) {
+        this.metadataService = metadataService;
+    }	
 }

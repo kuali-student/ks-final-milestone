@@ -224,7 +224,15 @@
 		<property name="permissionService" ref="permissionServiceClient"/>
 		<property name="proposalService" ref="proposalClient"/>
 		<property name="translationService" ref="translationClient"/>
+		<property name="metadataService" ref="metadataServiceImpl"/>
 	</bean>
+	
+	
+	<!-- Metadata lookup service -->
+	<bean id="metadataServiceImpl" class="org.kuali.student.common.assembly.dictionary.MetadataServiceImpl">
+        <constructor-arg index="0" value="classpath:lum-orchestration-dictionary.xml" />
+	</bean>
+	
 	
 	<!-- This filter takes care of creating/updated a workflow doc whenever the assembler saves data -->
 	<bean id="workflowAssemblerFilter" class="org.kuali.student.lum.lu.assembly.CreditCourseProposalWorkflowAssemblerFilter">
