@@ -301,7 +301,7 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		searchResult.setSortColumn(searchRequest.getSortColumn());
 		searchResult.setSortDirection(searchRequest.getSortDirection());
 		searchResult.setStartAt(searchRequest.getStartAt());
-		if(searchRequest.getNeededTotalResults()){
+		if(searchRequest.getNeededTotalResults()!=null&&searchRequest.getNeededTotalResults()){
 			//Get count of total rows if needed
 			String regex = "^[Ss][Ee][Ll][Ee][Cc][Tt]\\s*([^,\\s]+).*?[Ff][Rr][Oo][Mm]";
 			String replacement = "SELECT COUNT($1) FROM";

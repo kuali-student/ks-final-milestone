@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:search="http://student.kuali.org/xsd/search-extension"
+	xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+	xsi:schemaLocation="
+    http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/search-extension/search-extension.xsd
+    http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<search:searchType id="enumeration.management.search">
+		<search:name>Get enumerations</search:name>
+		<search:desc>Get enumerated lists of values given context</search:desc>
+		<search:searchResultTypeInfo id="enumeration.result.all">
+			<search:name>All enumeration results</search:name>
+			<search:desc>Enumeration Results</search:desc>
+			<search:resultColumns>
+				<search:resultColumn id="enumeration.resultColumn.code">
+					<search:name>Code</search:name>
+					<search:desc>The internal code of the enumeration value</search:desc>
+					<search:dataType>string</search:dataType>
+				</search:resultColumn>
+				<search:resultColumn id="enumeration.resultColumn.abbrevValue">
+					<search:name>Abbreviation of the code</search:name>
+					<search:desc>An abbreviation of the enumeration value</search:desc>
+					<search:dataType>string</search:dataType>
+				</search:resultColumn>
+				<search:resultColumn id="enumeration.resultColumn.value">
+					<search:name>Description of the code</search:name>
+					<search:desc>The description of the enumeration value</search:desc>
+					<search:dataType>string</search:dataType>
+				</search:resultColumn>
+				<search:resultColumn id="enumeration.resultColumn.effectiveDate">
+					<search:name>Effective date</search:name>
+					<search:desc>The date the enumeration became effective</search:desc>
+					<search:dataType>date</search:dataType>
+				</search:resultColumn>
+				<search:resultColumn id="enumeration.resultColumn.expirationDate">
+					<search:name>Expiration date</search:name>
+					<search:desc>The date the enumeration became non-effective</search:desc>
+					<search:dataType>date</search:dataType>
+				</search:resultColumn>
+				<search:resultColumn id="enumeration.resultColumn.sortKey">
+					<search:name>Key used to sort the results</search:name>
+					<search:desc>A key that the enumeration results are sorted by</search:desc>
+					<search:dataType>int</search:dataType>
+				</search:resultColumn>
+			</search:resultColumns>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo id="enumeration.criteria.context">
+			<search:name>Enumeration Criteria</search:name>
+			<search:desc>Enumeration Criteria</search:desc>
+			<search:queryParams>
+				<search:queryParam id="enumeration.queryParam.enumerationType">
+					<dict:fieldDescriptor>
+						<dict:name>Enumeration Type</dict:name>
+						<dict:desc>The type of the enumeration to search</dict:desc>
+						<dict:dataType>string</dict:dataType>
+					</dict:fieldDescriptor>
+				</search:queryParam>
+				<search:queryParam id="enumeration.queryParam.contextType" optional="true">
+					<dict:fieldDescriptor>
+						<dict:name>Context Type</dict:name>
+						<dict:desc>The type of context being used</dict:desc>
+						<dict:dataType>string</dict:dataType>
+					</dict:fieldDescriptor>
+				</search:queryParam>
+				<search:queryParam id="enumeration.queryParam.contextValue" optional="true">
+					<dict:fieldDescriptor>
+						<dict:name>Context Value</dict:name>
+						<dict:desc>The value of the supplied context</dict:desc>
+						<dict:dataType>string</dict:dataType>
+					</dict:fieldDescriptor>
+				</search:queryParam>
+				<search:queryParam id="enumeration.queryParam.contextDate" optional="true">
+					<dict:fieldDescriptor>
+						<dict:name>Context Date</dict:name>
+						<dict:desc>A date supplied as context</dict:desc>
+						<dict:dataType>dateTime</dict:dataType>
+					</dict:fieldDescriptor>
+				</search:queryParam>
+			</search:queryParams>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+
+	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
+		<property name="sourceMap">
+			<map>
+				<entry key="enumeration.management.search">
+					<value>SELECT enumValue.code, enumValue.abbrevValue, enumValue.value, enumValue.effectiveDate, enumValue.expirationDate, enumValue.sortKey FROM EnumeratedValueEntity enumValue where enumValue.enumerationKey = :enumeration_queryParam_enumerationType</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+</beans>
