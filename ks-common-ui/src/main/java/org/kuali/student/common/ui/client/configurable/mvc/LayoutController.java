@@ -45,7 +45,8 @@ public abstract class LayoutController extends Controller implements Configurabl
     
 	protected final HashMap<String, View> sectionViewMap = new HashMap<String, View>();	
 	
-    public LayoutController(){
+    public LayoutController(String controllerId){
+        super(controllerId);
 		addApplicationEventHandler(ValidateResultEvent.TYPE, new ValidateResultHandler() {
             @Override
             public void onValidateResult(ValidateResultEvent event) {

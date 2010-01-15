@@ -20,6 +20,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.SectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -124,5 +125,15 @@ public class VerticalSectionView extends SectionView {
                 Window.alert("Failed to get model");
             }            
         });
+    }
+
+    @Override
+    public void collectHistory(HistoryStackFrame frame) {
+        // do nothing
+    }
+
+    @Override
+    public void onHistoryEvent(HistoryStackFrame frame) {
+        // do nothing
     }
 }

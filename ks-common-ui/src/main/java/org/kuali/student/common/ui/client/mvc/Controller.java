@@ -18,11 +18,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.mvc.events.ViewChangeEvent;
+import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
+import org.kuali.student.common.ui.client.mvc.history.HistorySupport;
+import org.kuali.student.common.ui.client.mvc.history.HistoryToken;
+import org.kuali.student.common.ui.client.mvc.history.NavigationEvent;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.GwtEvent.Type;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -32,7 +38,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @author Kuali Student Team
  */
-public abstract class Controller extends Composite {
+public abstract class Controller extends Composite implements HistorySupport {
 	public static final Callback<Boolean> NO_OP_CALLBACK = new Callback<Boolean>() {
 		@Override
 		public void exec(Boolean result) {
@@ -40,6 +46,7 @@ public abstract class Controller extends Composite {
 		}
 	};
 	
+	private final String controllerId;
     private Controller parentController = null;
     private View currentView = null;
     private Enum<?> currentViewEnum = null;
@@ -48,6 +55,9 @@ public abstract class Controller extends Composite {
 
     private HandlerManager applicationEventHandlers = new HandlerManager(this);
 
+    protected Controller(final String controllerId) {
+        this.controllerId = controllerId;
+    }
     
     /**
      * Directs the controller to display the specified view. The parameter must be an enum value, based on an enum defined in
@@ -92,6 +102,7 @@ public abstract class Controller extends Composite {
 			            GWT.log("renderView " + viewType.toString(), null);
 			            renderView(view);
 			        	onReadyCallback.exec(true);
+			        	fireNavigationEvent();
 					}
 				}
 			});
@@ -101,6 +112,15 @@ public abstract class Controller extends Composite {
         }
     }
 
+    protected void fireNavigationEvent() {
+        DeferredCommand.addCommand(new Command() {
+            @Override
+            public void execute() {
+                fireApplicationEvent(new NavigationEvent(Controller.this));
+            }
+        });
+    }
+    
     /**
      * Returns the currently displayed view
      * 
@@ -276,5 +296,54 @@ public abstract class Controller extends Composite {
     public abstract void showDefaultView(Callback<Boolean> onReadyCallback);
 
     public abstract Class<? extends Enum<?>> getViewsEnum();
+    
+    public abstract Enum<?> getViewEnumValue(String enumValue);
+    
+    @Override
+    public void collectHistory(HistoryStackFrame frame) {
+        HistoryToken token = getHistoryToken();
+        frame.getTokens().put(token.getKey(), token);
+        if (currentView != null) {
+            currentView.collectHistory(frame);
+        }
+    }
+    
+    protected HistoryToken getHistoryToken() {
+        HistoryToken token = new HistoryToken(controllerId);
+        if (currentViewEnum != null) {
+            token.getParameters().put("view", currentViewEnum.toString());
+        }
+        return token;
+    }
 
+    @Override
+    public void onHistoryEvent(final HistoryStackFrame frame) {
+        HistoryToken token = frame.getTokens().get(controllerId);
+        if (token != null) {
+            String s = token.getParameters().get("view");
+            if (s != null) {
+                Enum<?> viewEnum = getViewEnumValue(s);
+                if (viewEnum != null) {
+                    if (currentViewEnum == null || !viewEnum.equals(currentViewEnum)) {
+                        showView(viewEnum, new Callback<Boolean>() {
+                            @Override
+                            public void exec(Boolean result) {
+                                if (result) {
+                                    currentView.onHistoryEvent(frame);
+                                }
+                            }
+                        });
+                    } else if (currentView != null) {
+                        currentView.onHistoryEvent(frame);
+                    }
+                }
+            }
+        }
+    }
+    
+    
+
+    public String getControllerId() {
+        return this.controllerId;
+    }
 }

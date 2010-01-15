@@ -17,6 +17,7 @@ package org.kuali.student.common.ui.client.configurable.mvc;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
 
 /**
  * 
@@ -112,5 +113,14 @@ public abstract class SectionView extends Section implements View{
     }
 
 
+    @Override
+    public void collectHistory(HistoryStackFrame frame) {
+        // do nothing
+    }
+
+    @Override
+    public void onHistoryEvent(HistoryStackFrame frame) {
+        // do nothing
+    }
     
 }

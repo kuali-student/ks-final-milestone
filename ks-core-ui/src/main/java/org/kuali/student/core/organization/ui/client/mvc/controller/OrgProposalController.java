@@ -43,7 +43,7 @@ public class OrgProposalController extends TabbedSectionLayout{
     OrgRpcServiceAsync orgProposalRpcServiceAsync = GWT.create(OrgRpcService.class);
     public OrgProposalController(){
 
-        super(container);
+        super(OrgProposalController.class.getName(), container);
         
 //        super.initWidget(container);
         init();
