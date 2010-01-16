@@ -17,12 +17,15 @@ package org.kuali.student.lum.lu.ui.course.server.gwt;
 import java.util.List;
 
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
+import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
+import org.kuali.student.core.exceptions.DependentObjectsExistException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
@@ -102,7 +105,7 @@ public class LoRpcGwtServlet extends BaseRpcGwtServletAbstract<LearningObjective
         }
         return null;
     }
-
+    
     /**
      * This overridden method ...
      * 
@@ -111,6 +114,7 @@ public class LoRpcGwtServlet extends BaseRpcGwtServletAbstract<LearningObjective
     @Override
     public LoCategoryInfo getLoCategory(String loCategoryId) {
         try {
+            
             return service.getLoCategory(loCategoryId);
 
         } catch (InvalidParameterException e) {
@@ -146,6 +150,67 @@ public class LoRpcGwtServlet extends BaseRpcGwtServletAbstract<LearningObjective
         }
         return null;
     }
+
+    @Override
+    public List<LoCategoryInfo> getLoCategories(String loRepositoryKey) {
+        try {
+            return service.getLoCategories(loRepositoryKey);
+
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public StatusInfo deleteLoCategory(String loCategoryId) {
+        try {
+             return  service.deleteLoCategory(loCategoryId);
+            } catch (InvalidParameterException e) {
+                e.printStackTrace();
+            } catch (MissingParameterException e) {
+                e.printStackTrace();
+            } catch (OperationFailedException e) {
+                e.printStackTrace();
+            } catch (DoesNotExistException e) {
+                e.printStackTrace();
+            } catch (DependentObjectsExistException e) {
+                e.printStackTrace();
+            } catch (PermissionDeniedException e) {
+                e.printStackTrace();
+            }
+            return null;
+    }
+
+    @Override
+    public LoCategoryInfo updateLoCategory(String loCategoryId, LoCategoryInfo loCategoryInfo) {
+        try {
+            return service.updateLoCategory(loCategoryId, loCategoryInfo);
+
+            } catch (InvalidParameterException e) {
+                e.printStackTrace();
+            } catch (MissingParameterException e) {
+                e.printStackTrace();
+            } catch (OperationFailedException e) {
+                e.printStackTrace();
+            } catch (DoesNotExistException e) {
+                e.printStackTrace();
+            } catch (DataValidationErrorException e) {
+                e.printStackTrace();
+            } catch (PermissionDeniedException e) {
+                e.printStackTrace();
+            } catch (VersionMismatchException e) {
+                e.printStackTrace();
+            }
+            return null;
+    }
+
 }
 
 
