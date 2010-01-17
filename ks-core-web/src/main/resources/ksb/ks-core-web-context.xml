@@ -178,7 +178,7 @@
 
 	<bean id="emDao"
 		class="org.kuali.student.core.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl">
-        <property name="entityManager" ref="emEntityManager" />
+        <property name="em" ref="emEntityManager" />
 	</bean>
 
 	<bean id="emServiceImpl"
