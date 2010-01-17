@@ -425,7 +425,7 @@
 		<repository>
 			<id>kuali.release</id>
 			<name>Internal Release Repository</name>
-			<url>scp://test.kuali.org:/opt/m2/repository</url>
+			<url>scpexe://test.kuali.org:/opt/m2/repository</url>
 		</repository>
 		<snapshotRepository>
 			<id>kuali.snapshots</id>
@@ -437,7 +437,7 @@
 		<site>
 			<id>ks.site</id>
 			<url>
-                scp://student.kuali.org:/opt/www/student/site/core/${project.version}
+                scpexe://student.kuali.org:/opt/www/student/site/core/${project.version}
 			</url>
 		</site>
 	</distributionManagement>
