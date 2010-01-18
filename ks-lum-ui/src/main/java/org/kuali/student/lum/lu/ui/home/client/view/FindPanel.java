@@ -51,7 +51,8 @@ public class FindPanel extends ViewComposite{
     
     LuRpcServiceAsync luServiceAsync = GWT.create(LuRpcService.class);
     ProposalRpcServiceAsync proposalServiceAsync = GWT.create(ProposalRpcService.class);
-    AtpRpcServiceAsync atpRpcServiceAsync = GWT.create(AtpRpcService.class);
+    // TODO please leave on until the atp search has found a home.
+//    AtpRpcServiceAsync atpRpcServiceAsync = GWT.create(AtpRpcService.class);
     
     
     AdvancedSearchWindow courseSearchWindow;
@@ -93,19 +94,19 @@ public class FindPanel extends ViewComposite{
             
             
             // TODO please leave on until the atp search has found a home.
-            KSButton findAtpButton = new KSButton("Find Session", new ClickHandler(){
-                public void onClick(ClickEvent event) {
-                    if (atpSearchWindow == null){
-                        initAtpSearchWindow();
-                    }
-                    atpSearchWindow.show();
-                }            
-            });
+//            KSButton findAtpButton = new KSButton("Find Session", new ClickHandler(){
+//                public void onClick(ClickEvent event) {
+//                    if (atpSearchWindow == null){
+//                        initAtpSearchWindow();
+//                    }
+//                    atpSearchWindow.show();
+//                }            
+//            });
             
             mainPanel.add(new ButtonRow(findCourseButton, "Find an existing course."));
             mainPanel.add(new ButtonRow(findProposalButton, "Find an existing proposal."));
             // TODO Please leave on 
-            mainPanel.add(new ButtonRow(findAtpButton, "Find a Session."));
+//            mainPanel.add(new ButtonRow(findAtpButton, "Find a Session."));
 
             loaded = true;
         }
@@ -147,22 +148,23 @@ public class FindPanel extends ViewComposite{
         });        
     }
     
-    private void initAtpSearchWindow(){
-        
-        Metadata searchMetadata = new CreditCourseMetadata().getMetadata("", "");  //no type or state at this point
-        SearchPanel searchPicker = new SearchPanel(atpRpcServiceAsync, searchMetadata.getProperties().get("firstExpectedOffering").getLookupMetadata());
-        atpSearchWindow = new AdvancedSearchWindow("Find Session", searchPicker);
-            
-        atpSearchWindow.addSelectionCompleteCallback(new Callback<List<String>>(){
-            public void exec(List<String> event) {
-                final String selected = event.get(0);
-                if (selected.length() > 0){
-//                    List<String> selectedItems = event;
-//                    ChangeViewStateEvent tempEvent = new ChangeViewStateEvent(LUMViews.VIEW_COURSE, selectedItems);
-//                    FindPanel.this.getController().fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.VIEW_COURSE, event));
-                    courseSearchWindow.hide();
-                }                
-            }            
-        });        
-    }
+    // TODO please leave on until the atp search has found a home.
+//    private void initAtpSearchWindow(){
+//        
+//        Metadata searchMetadata = new CreditCourseMetadata().getMetadata("", "");  //no type or state at this point
+//        SearchPanel searchPicker = new SearchPanel(atpRpcServiceAsync, searchMetadata.getProperties().get("firstExpectedOffering").getLookupMetadata());
+//        atpSearchWindow = new AdvancedSearchWindow("Find Session", searchPicker);
+//            
+//        atpSearchWindow.addSelectionCompleteCallback(new Callback<List<String>>(){
+//            public void exec(List<String> event) {
+//                final String selected = event.get(0);
+//                if (selected.length() > 0){
+////                    List<String> selectedItems = event;
+////                    ChangeViewStateEvent tempEvent = new ChangeViewStateEvent(LUMViews.VIEW_COURSE, selectedItems);
+////                    FindPanel.this.getController().fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.VIEW_COURSE, event));
+//                    courseSearchWindow.hide();
+//                }                
+//            }            
+//        });        
+//    }
 }
