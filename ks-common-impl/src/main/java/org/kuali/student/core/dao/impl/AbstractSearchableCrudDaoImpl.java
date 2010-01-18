@@ -14,14 +14,18 @@
  */
 package org.kuali.student.core.dao.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Query;
 
+import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.LookupMetadata;
 import org.kuali.student.common.assembly.client.LookupParamMetadata;
 import org.kuali.student.common.assembly.client.LookupResultMetadata;
@@ -42,6 +46,7 @@ import org.kuali.student.core.search.newdto.SortDirection;
 public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		implements SearchableDao {
 
+    private static SimpleDateFormat df = new SimpleDateFormat("EEE MMM dd hh:mm:ss zzz yyyy");
 
     private String getParameterDataType(SearchTypeInfo searchTypeInfo,
             QueryParamValue paramValue) {
@@ -288,8 +293,27 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		//replace all the "." notation with "_" since the "."s in the ids of the queries will cause problems with the jpql  
 		if(searchRequest.getParams()!=null){
 			for (SearchParam searchParam : searchRequest.getParams()) {
-				query.setParameter(searchParam.getKey().replace(".", "_"), searchParam
-						.getValue());
+			    List<LookupParamMetadata> metaParams = lookupMetadata.getParams();
+			    Data.DataType paramDataType;
+			    Object queryParamValue = null;
+			    paramDataType = null;
+			    if (metaParams != null) {
+			        for (LookupParamMetadata metaParam : metaParams) {
+			            if (metaParam.getKey() != null && metaParam.getKey().equals(searchParam.getKey())) {
+			                paramDataType = metaParam.getDataType();
+			            }
+			        }
+			    }
+			    if (paramDataType == Data.DataType.DATE) {
+			        try {
+                        queryParamValue = df.parse((String)searchParam.getValue());
+                    } catch (ParseException e) {
+                        throw new RuntimeException("Failed to parse date value " + searchParam.getValue());
+                    }
+			    } else {
+			        queryParamValue = searchParam.getValue();
+			    }
+			    query.setParameter(searchParam.getKey().replace(".", "_"), queryParamValue);
 			}
 		}
 

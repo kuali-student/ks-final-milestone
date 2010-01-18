@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.LookupMetadata;
 import org.kuali.student.common.assembly.client.LookupParamMetadata;
 import org.kuali.student.common.assembly.client.LookupResultMetadata;
@@ -78,6 +79,13 @@ public class SearchManagerImpl implements SearchManager{
 					LookupParamMetadata param = new LookupParamMetadata();
 					param.setKey(queryParamInfo.getKey());
 					param.setOptional(queryParamInfo.isOptional());
+					if (queryParamInfo.getFieldDescriptor() != null &&
+					        queryParamInfo.getFieldDescriptor().getDataType() != null) {
+					    String queryParamDataType = queryParamInfo.getFieldDescriptor().getDataType();
+					    if (queryParamDataType != null && queryParamDataType.equals("date")) {
+		                    param.setDataType(Data.DataType.DATE);
+					    }
+					}
 					params.add(param);
 				}
 				lookupMetaData.setParams(params);
