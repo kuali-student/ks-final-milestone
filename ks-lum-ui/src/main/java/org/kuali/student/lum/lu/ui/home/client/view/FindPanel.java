@@ -28,7 +28,10 @@ import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 import org.kuali.student.core.proposal.ui.client.service.ProposalRpcService;
 import org.kuali.student.core.proposal.ui.client.service.ProposalRpcServiceAsync;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseMetadata;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FindCourseMetadata;
+import org.kuali.student.lum.lu.ui.course.client.service.AtpRpcService;
+import org.kuali.student.lum.lu.ui.course.client.service.AtpRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.home.client.view.CreateCreditCoursePanel.ButtonRow;
@@ -48,9 +51,13 @@ public class FindPanel extends ViewComposite{
     
     LuRpcServiceAsync luServiceAsync = GWT.create(LuRpcService.class);
     ProposalRpcServiceAsync proposalServiceAsync = GWT.create(ProposalRpcService.class);
+    AtpRpcServiceAsync atpRpcServiceAsync = GWT.create(AtpRpcService.class);
+    
     
     AdvancedSearchWindow courseSearchWindow;
     KSAdvancedSearchWindow proposalSearchWindow;
+    // TODO please leave on until the atp search has found a home.
+    AdvancedSearchWindow atpSearchWindow;
     
     private VerticalPanel mainPanel = new VerticalPanel();
         
@@ -84,8 +91,21 @@ public class FindPanel extends ViewComposite{
                 }            
             });
             
+            
+            // TODO please leave on until the atp search has found a home.
+            KSButton findAtpButton = new KSButton("Find Session", new ClickHandler(){
+                public void onClick(ClickEvent event) {
+                    if (atpSearchWindow == null){
+                        initAtpSearchWindow();
+                    }
+                    atpSearchWindow.show();
+                }            
+            });
+            
             mainPanel.add(new ButtonRow(findCourseButton, "Find an existing course."));
             mainPanel.add(new ButtonRow(findProposalButton, "Find an existing proposal."));
+            // TODO Please leave on 
+            mainPanel.add(new ButtonRow(findAtpButton, "Find a Session."));
 
             loaded = true;
         }
@@ -127,4 +147,22 @@ public class FindPanel extends ViewComposite{
         });        
     }
     
+    private void initAtpSearchWindow(){
+        
+        Metadata searchMetadata = new CreditCourseMetadata().getMetadata("", "");  //no type or state at this point
+        SearchPanel searchPicker = new SearchPanel(atpRpcServiceAsync, searchMetadata.getProperties().get("firstExpectedOffering").getLookupMetadata());
+        atpSearchWindow = new AdvancedSearchWindow("Find Session", searchPicker);
+            
+        atpSearchWindow.addSelectionCompleteCallback(new Callback<List<String>>(){
+            public void exec(List<String> event) {
+                final String selected = event.get(0);
+                if (selected.length() > 0){
+//                    List<String> selectedItems = event;
+//                    ChangeViewStateEvent tempEvent = new ChangeViewStateEvent(LUMViews.VIEW_COURSE, selectedItems);
+//                    FindPanel.this.getController().fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.VIEW_COURSE, event));
+                    courseSearchWindow.hide();
+                }                
+            }            
+        });        
+    }
 }
