@@ -13,6 +13,7 @@
 
 	<import resource="classpath:ksb/ks-core-context.xml" />
 	<import resource="classpath:ksb/ks-lu-context.xml" />
+	<import resource="classpath:ks-spring-security.xml" />
 	
 	<bean id="systemPropertyConfigurer"
 		class="org.kuali.student.common.util.SystemPropertyConfigurer">
