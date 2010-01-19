@@ -17,6 +17,7 @@ package org.kuali.student.lum.lu.ui.course.client.configuration.course;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.assembly.client.LookupMetadata;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.common.ui.client.application.Application;
@@ -54,6 +55,7 @@ import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 import org.kuali.student.core.search.dto.QueryParamValue;
+import org.kuali.student.core.search.newdto.SearchParam;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityConstants;
@@ -62,6 +64,7 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCours
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseDurationConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseFormatConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseMetadata;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoConstants;
@@ -823,20 +826,27 @@ public class CourseConfigurer
     	searchConfig.setRetrievedColumnKey("org.resultColumn.orgOptionalLongName");    	
     	
     	//TODO: following code should be in KSSearchComponent with config parameters set within SearchComponentConfiguration class
-    	final SearchSuggestOracle orgSearchOracle = new SearchSuggestOracle(searchConfig.getSearchService(),
-    	        "org.search.orgByShortNameAndType", 
-    	        "org.queryParam.orgShortName", //field user is entering and we search on... add '%' the parameter
-    	        "org.queryParam.orgId", 		//if one wants to search by ID rather than by name
-    	        "org.resultColumn.orgId", 		
-    	        "org.resultColumn.orgShortName");
+//    	final SearchSuggestOracle orgSearchOracle = new SearchSuggestOracle(searchConfig.getSearchService(),
+//    	        "org.search.orgByShortNameAndType", 
+//    	        "org.queryParam.orgShortName", //field user is entering and we search on... add '%' the parameter
+//    	        "org.queryParam.orgId", 		//if one wants to search by ID rather than by name
+//    	        "org.resultColumn.orgId", 		
+//    	        "org.resultColumn.orgShortName");
+		Metadata searchMetadata = new CreditCourseMetadata().getMetadata("", ""); 
+		LookupMetadata lookupMetaData = searchMetadata.getProperties().get(CreditCourseConstants.DEPARTMENT).getLookupMetadata();
+		final SearchSuggestOracle orgSearchOracle = new SearchSuggestOracle(orgRpcServiceAsync,
+		        "org.queryParam.startswith.orgOptionalShortName",
+		        "org.queryParam.orgOptionalId",
+		        lookupMetaData); 
     	  			
 		//Restrict searches to Department Types
-		ArrayList<QueryParamValue> params = new ArrayList<QueryParamValue>();
-		QueryParamValue orgTypeParam = new QueryParamValue();
+		List<SearchParam> additionalParams = new ArrayList<SearchParam>();
+		SearchParam orgTypeParam = new SearchParam();
 		orgTypeParam.setKey("org.queryParam.orgType");
 		orgTypeParam.setValue("kuali.org.Department");
-		params.add(orgTypeParam);
-		orgSearchOracle.setAdditionalQueryParams(params);	
+		additionalParams.add(orgTypeParam);
+
+    	orgSearchOracle.setAdditionalSearchParams(additionalParams);	
     	
     	return new KSSearchComponent(searchConfig, orgSearchOracle);
     }   

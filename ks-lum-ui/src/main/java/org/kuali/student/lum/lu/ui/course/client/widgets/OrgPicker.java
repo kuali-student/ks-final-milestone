@@ -15,7 +15,10 @@
 package org.kuali.student.lum.lu.ui.course.client.widgets;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import org.kuali.student.common.assembly.client.LookupMetadata;
+import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.ui.client.widgets.focus.FocusGroup;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
@@ -24,30 +27,24 @@ import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle
 import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
-import org.kuali.student.core.search.dto.QueryParamValue;
+import org.kuali.student.core.search.newdto.SearchParam;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseMetadata;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.event.dom.client.HasBlurHandlers;
-import com.google.gwt.event.dom.client.HasFocusHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class OrgPicker extends Composite implements SuggestPicker {
 	
 	private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
-	final SearchSuggestOracle orgSearchOracle = new SearchSuggestOracle(orgRpcServiceAsync,
-	        "org.search.orgByShortNameAndType", 
-	        "org.queryParam.orgShortName",
-	        "org.queryParam.orgId", 
-	        "org.resultColumn.orgId", 
-	        "org.resultColumn.orgShortName");
-    final KSSuggestBox suggestBox = new KSSuggestBox(orgSearchOracle);
+	private final SearchSuggestOracle orgSearchOracle;
+	private final KSSuggestBox suggestBox;;
 	
 	final KSAdvancedSearchWindow orgSearchWidget = new KSAdvancedSearchWindow(orgRpcServiceAsync, "org.search.orgQuickViewByHierarchyShortName","org.resultColumn.orgId");   
     
@@ -58,6 +55,16 @@ public class OrgPicker extends Composite implements SuggestPicker {
 	public OrgPicker() {
 		super();
 
+		Metadata searchMetadata = new CreditCourseMetadata().getMetadata("", ""); 
+		LookupMetadata lookupMetaData = searchMetadata.getProperties().get(CreditCourseConstants.DEPARTMENT).getLookupMetadata();
+		orgSearchOracle = new SearchSuggestOracle(orgRpcServiceAsync,
+		        "org.queryParam.startswith.orgOptionalShortName",
+		        "org.queryParam.orgOptionalId",
+		        lookupMetaData); 
+	    suggestBox = new KSSuggestBox(orgSearchOracle);
+		
+		
+		
 		// FIXME when org search window is displayed, call focus.setSuppressed(true), and set it to false afterwards
 		focus.addWidget(suggestBox);
 		
@@ -65,12 +72,13 @@ public class OrgPicker extends Composite implements SuggestPicker {
 		orgSearchOracle.setTextWidget(suggestBox.getTextBox());
 		
 		//Restrict searches to Department Types
-		ArrayList<QueryParamValue> params = new ArrayList<QueryParamValue>();
-		QueryParamValue orgTypeParam = new QueryParamValue();
-		orgTypeParam.setKey("org.queryParam.orgType");
+		List<SearchParam> additionalParams = new ArrayList<SearchParam>();
+		SearchParam orgTypeParam = new SearchParam();
+		orgTypeParam.setKey("org.queryParam.orgOptionalType");
 		orgTypeParam.setValue("kuali.org.Department");
-		params.add(orgTypeParam);
-		orgSearchOracle.setAdditionalQueryParams(params);
+		additionalParams.add(orgTypeParam);
+
+		orgSearchOracle.setAdditionalSearchParams(additionalParams);
 		
 		root.add(suggestBox);
 

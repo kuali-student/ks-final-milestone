@@ -53,6 +53,7 @@ import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 import org.kuali.student.core.search.dto.QueryParamValue;
+import org.kuali.student.core.search.newdto.SearchParam;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRequisitesSectionView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer;
@@ -223,13 +224,11 @@ public class LuConfigurer {
 //        adminOrgs.addField(new FieldDescriptor("cluInfo/primaryAdminOrg/orgId", null, Type.STRING, new OrgPicker()));
 //        adminOrgs.addField(new FieldDescriptor("cluInfo/alternateAdminOrgs", null, Type.LIST, new AlternateAdminOrgList()));
         
-        
         section.addSection(oversight);
         section.addSection(campus);
         section.addSection(adminOrgs);
         
         return section;
-
     }
     
     public static SectionView generateCourseInfoSection(){
@@ -852,12 +851,18 @@ public class LuConfigurer {
     	        "org.resultColumn.orgShortName");
     	  			
 		//Restrict searches to Department Types
-		ArrayList<QueryParamValue> params = new ArrayList<QueryParamValue>();
-		QueryParamValue orgTypeParam = new QueryParamValue();
+//		ArrayList<QueryParamValue> params = new ArrayList<QueryParamValue>();
+//		QueryParamValue orgTypeParam = new QueryParamValue();
+//		orgTypeParam.setKey("org.queryParam.orgType");
+//		orgTypeParam.setValue("kuali.org.Department");
+//		params.add(orgTypeParam);
+		List<SearchParam> additionalParams = new ArrayList<SearchParam>();
+		SearchParam orgTypeParam = new SearchParam();
 		orgTypeParam.setKey("org.queryParam.orgType");
 		orgTypeParam.setValue("kuali.org.Department");
-		params.add(orgTypeParam);
-		orgSearchOracle.setAdditionalQueryParams(params);
+		additionalParams.add(orgTypeParam);
+
+    	orgSearchOracle.setAdditionalSearchParams(additionalParams);
 		
     	return new KSSearchComponent(searchConfig, orgSearchOracle);
     }       
