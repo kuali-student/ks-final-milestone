@@ -897,7 +897,7 @@ public class LuServiceAssembler extends BaseAssembler {
 
         FieldDescriptor fDTO = new FieldDescriptor();
         BeanUtils.copyProperties(entity.getFieldDescriptor(), fDTO);
-
+        fDTO.setDesc(entity.getFieldDescriptor().getDescr());
         dto.setFieldDescriptor(fDTO);
 
         return dto;
