@@ -45,6 +45,9 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  * @author Kuali Student Team
  *
  */
+/**
+ * @deprecated 
+ */
 public class ViewCluController extends PagedSectionLayout{
     private DataModel cluProposalModel;
 

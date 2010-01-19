@@ -49,6 +49,9 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
+/**
+ * @deprecated
+ */
 public class ViewCluConfigurer {
     
     private static boolean WITH_DIVIDER = true;
