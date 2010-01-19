@@ -456,6 +456,4 @@
 		</aop:aspect>
 	</aop:config>
 
-	<import resource="classpath:ks-spring-security.xml" />
-
 </beans>
