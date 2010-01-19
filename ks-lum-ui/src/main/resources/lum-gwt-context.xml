@@ -106,6 +106,10 @@
 					key="/org.kuali.student.lum.lu.ui.workflow.CollaboratorRequest/rpcservices/RequirementsRpcService">
 					<ref bean="requirementsServiceGwtController" />
 				</entry>
+				<entry
+					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CourseRpcService">
+					<ref bean="CourseRpcGwtServletController" />
+				</entry>
 			</map>
 		</property>
 	</bean>
@@ -197,6 +201,11 @@
 		<property name="servletName" value="documentRelationMockRpcGwtServlet" />
 		<property name="servletInstance" ref="documentRelationMockRpcGwtServlet" />
 	</bean>
+	<bean id="CourseRpcGwtServletController"
+		class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="CourseRpcGwtServlet" />
+		<property name="servletInstance" ref="CourseRpcGwtServlet" />
+	</bean>
 
 	<!-- GWT Servlets -->
 	<bean id="requirementsRpcGwtServlet"
@@ -250,6 +259,22 @@
 		</property>
 	</bean>
 
+	<bean id="courseAssembler" class="org.kuali.student.lum.lu.assembly.CourseAssembler">
+		<property name="loService" ref="loClient"/>
+		<property name="luService" ref="luClient"/>
+		<property name="permissionService" ref="permissionServiceClient"/>
+		<property name="translationService" ref="translationClient"/>
+	</bean>
+	
+	<bean id="CourseRpcGwtServlet"
+		class="org.kuali.student.lum.lu.ui.course.server.gwt.CourseRpcGwtServlet">
+		<property name="assembler" ref="courseAssemblerFilterManager"/>
+	</bean>
+	
+	<bean id="courseAssemblerFilterManager" class="org.kuali.student.common.assembly.AssemblerFilterManager">
+		<constructor-arg ref="courseAssembler"/>
+	</bean>
+	
 	<bean id="ServerPropertiesServlet"
 		class="org.kuali.student.common.ui.server.gwt.ServerPropertiesRpcGwtServlet">
 

@@ -69,7 +69,15 @@ public class LuData extends Data {
 		this.data = data;
 	}
 	
-	/**
+    /**
+     * Get the underlying data
+     * @param data
+     */
+    public Data getData(){
+        return data;
+    }
+    
+    /**
 	 * Gets the application state by key.
 	 * 
 	 * @param key Application state key

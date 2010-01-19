@@ -2,15 +2,11 @@ package org.kuali.student.lum.lu.assembly;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.student.common.assembly.Assembler;
 import org.kuali.student.common.assembly.client.AssemblyException;
-import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.assembly.client.SaveResult;
-import org.kuali.student.core.search.newdto.SearchRequest;
-import org.kuali.student.core.search.newdto.SearchResult;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.CircularReferenceException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -21,6 +17,8 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.core.search.newdto.SearchRequest;
+import org.kuali.student.core.search.newdto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.lu.assembly.data.server.CluInfoHierarchy;
@@ -29,7 +27,11 @@ import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
 
-public class CluInfoHierarchyAssembler implements Assembler<CluInfoHierarchy, Void> {
+/**
+ * 
+ * @deprecated - Functionality moved to CourseAssembler
+ *
+ */public class CluInfoHierarchyAssembler implements Assembler<CluInfoHierarchy, Void> {
 	public static class RelationshipHierarchy {
 		private final String relationshipType;
 		private final String relationshipState;
@@ -111,7 +113,7 @@ public class CluInfoHierarchyAssembler implements Assembler<CluInfoHierarchy, Vo
 		List<CluCluRelationInfo> children = luService.getCluCluRelationsByClu(currentClu.getCluInfo().getId());
 		if (children != null) {
 			for (CluCluRelationInfo rel : children) {
-				if(rel.getType().equals(CreditCourseProposalAssembler.JOINT_RELATION_TYPE)){
+				if(rel.getType().equals(CourseAssembler.JOINT_RELATION_TYPE)){
 					// if the cluclu realtion is of type jointCourses than dont add that as a child to the CluInfoHierarchy object
 					return;
 				}
