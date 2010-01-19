@@ -62,7 +62,7 @@ public class Document extends MetaEntity implements AttributeOwner<DocumentAttri
     
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "RT_DESCR_ID")
-    private RichText desc;
+    private RichText descr;
 
     @Lob
     @Column(name = "DOCUMENT", length=10000000)
@@ -140,15 +140,15 @@ public class Document extends MetaEntity implements AttributeOwner<DocumentAttri
     /**
      * @return the commentText
      */
-    public RichText getDesc() {
-        return desc;
+    public RichText getDescr() {
+        return descr;
     }
 
     /**
      * @param commentText the commentText to set
      */
-    public void setDesc(RichText desc) {
-        this.desc = desc;
+    public void setDescr(RichText descr) {
+        this.descr = descr;
     }
     
     

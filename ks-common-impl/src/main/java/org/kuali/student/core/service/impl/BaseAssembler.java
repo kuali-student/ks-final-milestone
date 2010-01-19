@@ -108,6 +108,9 @@ public class BaseAssembler {
 			// Copy the attributes
 			typeInfo.setAttributes(toAttributeMap(typeEntity.getAttributes()));
 
+			//Copy the description
+			typeInfo.setDesc(typeEntity.getDescr());
+			
 			return typeInfo;
 
 		} catch (Exception e) {

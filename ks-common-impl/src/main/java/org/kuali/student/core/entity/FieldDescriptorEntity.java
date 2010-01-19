@@ -23,7 +23,7 @@ public class FieldDescriptorEntity {
     @Column(name = "NAME", nullable = false)
     protected String name;
     @Column(name = "DESCR", nullable = false)
-    protected String desc;
+    protected String descr;
     @Column(name = "DATA_TYPE", nullable = false)
     protected String dataType;
     @Column(name="MIN_VALUE")
@@ -59,14 +59,14 @@ public class FieldDescriptorEntity {
     /**
      * @return the desc
      */
-    public String getDesc() {
-        return desc;
+    public String getDescr() {
+        return descr;
     }
     /**
      * @param desc the desc to set
      */
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescr(String descr) {
+        this.descr = descr;
     }
     /**
      * @return the dataType
