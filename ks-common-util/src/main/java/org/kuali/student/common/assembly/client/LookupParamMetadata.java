@@ -146,4 +146,13 @@ public class LookupParamMetadata implements Serializable {
         this.defaultValue = defaultValue;
     }
 
+	@Override
+	public String toString() {
+		return "LookupParamMetadata[key=" + key + ", name=" + name
+				+ ", caseSensitive=" + caseSensitive + ", childLookup="
+				+ childLookup + ", dataType=" + dataType + ", defaultValue="
+				+ defaultValue + ", optional=" + optional + ", usage=" + usage
+				+ ", widget=" + widget + ", writeAccess=" + writeAccess + "]";
+	}
+
 }

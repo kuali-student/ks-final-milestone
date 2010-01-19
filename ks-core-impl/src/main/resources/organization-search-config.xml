@@ -545,6 +545,9 @@
 				</entry>	
 				<entry key="org.queryParam.orgOptionalShortName">
 					<value>org.shortName</value>
+				</entry>
+				<entry key="org.queryParam.startswith.orgOptionalShortName">
+				    <value>org.shortName like :org_queryParam_orgOptionalShortName || '%'</value>
 				</entry>	
 				<entry key="org.queryParam.orgOptionalLongName">
 					<value>org.longName</value>

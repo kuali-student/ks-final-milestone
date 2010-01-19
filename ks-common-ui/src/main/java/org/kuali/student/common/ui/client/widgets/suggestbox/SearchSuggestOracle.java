@@ -17,10 +17,13 @@ package org.kuali.student.common.ui.client.widgets.suggestbox;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.assembly.client.LookupMetadata;
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
-import org.kuali.student.core.search.dto.ResultCell;
+import org.kuali.student.core.search.newdto.SearchParam;
+import org.kuali.student.core.search.newdto.SearchRequest;
+import org.kuali.student.core.search.newdto.SearchResult;
+import org.kuali.student.core.search.newdto.SearchResultCell;
+import org.kuali.student.core.search.newdto.SearchResultRow;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasText;
@@ -37,11 +40,13 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
     private Callback pendingCallback;
     private HasText textWidget;
     private String resultDisplayKey;
-    private List<QueryParamValue> additionalParams = new ArrayList<QueryParamValue>();
-    //List of the suggestions appearing in the last query
+    private List<SearchParam> additionalParams = new ArrayList<SearchParam>();
     private List<IdableSuggestion> lastSuggestions = new ArrayList<IdableSuggestion>();
     
+    private LookupMetadata lookupMetaData;
+    
     /**
+     * @deprecated
      * @param searchTypeKey the type to be search on
      * @param searchTextKey the column/key that to search on
      * @param idKey the column/key that is the primary key for this type
@@ -55,7 +60,22 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
         this.resultDisplayKey = resultDisplayKey;
     }
     
-    public void setAdditionalQueryParams(List<QueryParamValue> params){
+    /**
+     * @param searchTypeKey the type to be search on
+     * @param searchTextKey the column/key that to search on
+     * @param idKey the column/key that is the primary key for this type
+     */
+    public SearchSuggestOracle(BaseRpcServiceAsync searchService, String searchTextKey, String searchIdKey, LookupMetadata lookupMetadata) {
+    	this.lookupMetaData = lookupMetadata;
+    	this.searchService = searchService;
+        this.searchTypeKey = lookupMetaData.getKey();
+        this.searchTextKey = searchTextKey;
+        this.searchIdKey = searchIdKey;
+        this.resultIdKey = lookupMetadata.getResultReturnKey();
+        this.resultDisplayKey = lookupMetadata.getResultDisplayKey();
+    }
+
+    public void setAdditionalSearchParams(List<SearchParam> params){
         additionalParams = params;
     }
     
@@ -89,66 +109,100 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
         
     }
     
+    private SearchRequest buildSearchRequest(String query, String searchId) {
+    	SearchRequest sr = new SearchRequest();
+    	sr.setNeededTotalResults(false);
+    	sr.setSearchKey(this.searchTypeKey);
+
+		List<SearchParam> searchParams = new ArrayList<SearchParam>();
+		SearchParam param1 = createParam(this.searchTextKey, query);
+		searchParams.add(param1);
+		
+    	sr.setParams(searchParams);
+    	
+    	sr.getParams().addAll(additionalParams);
+
+        return sr;
+    }
+    
+    private SearchRequest buildSearchRequestById(String query, String searchId) {
+    	SearchRequest sr = new SearchRequest();
+    	sr.setNeededTotalResults(false);
+    	sr.setSearchKey(this.searchTypeKey);
+
+		List<SearchParam> searchParams = new ArrayList<SearchParam>();
+		SearchParam param2 = createParam(this.searchIdKey, searchId);
+		searchParams.add(param2);
+		
+    	sr.setParams(searchParams);
+    	
+    	sr.getParams().addAll(additionalParams);
+
+        return sr;
+    }
+    
+    private SearchParam createParam(String key, String value) {
+    	SearchParam param = new SearchParam();
+    	
+    	if(key == null) {
+			param.setKey("");
+		} else {
+			param.setKey(key);
+		}
+
+    	if(value == null) {
+			param.setValue("");
+		} else {
+			param.setValue(value);
+		}
+    	
+    	return param;
+    }
+
     public void sendRequest(final Request request, final Callback callback){
-        String query = request.getQuery();
-        query = query.trim();
-        List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>();
-        QueryParamValue qv = new QueryParamValue();
-        qv.setKey(searchTextKey);
-        qv.setValue(query + "%");
-        queryParamValues.add(qv);
-        QueryParamValue qv2 = new QueryParamValue();
-        qv2.setKey(searchIdKey);
-        qv2.setValue(" ");
-        queryParamValues.add(qv2);
-        if(!(additionalParams.isEmpty())){
-            queryParamValues.addAll(additionalParams);
-        }
+        String query = request.getQuery().trim();
+        SearchRequest searchRequest = buildSearchRequest(query, null);
+        
         //case-sensitive?
         if(query.length() > 0){
-            searchService.searchForResults(searchTypeKey, queryParamValues, new AsyncCallback<List<Result>>(){
-    
-                @Override
+        	searchService.search(searchRequest, new AsyncCallback<SearchResult>(){
+
+            	@Override
                 public void onFailure(Throwable caught) {
                     // TODO Auto-generated method stub
-                    
                 }
     
                 @Override
-                public void onSuccess(List<Result> results) {
+                public void onSuccess(SearchResult results) {
                     lastSuggestions = createSuggestions(results, request.getLimit());
                     Response response = new Response(lastSuggestions);
                     callback.onSuggestionsReady(request, response);
-                    
                 }
                 
-                private List<IdableSuggestion> createSuggestions(List<Result> results, int limit){
+                private List<IdableSuggestion> createSuggestions(SearchResult results, int limit){
                     List<IdableSuggestion> suggestionsList = new ArrayList<IdableSuggestion>();
                     String query = request.getQuery();
                     query = query.trim();
                     int count = 0;
                     if(results != null){
-                        for(Result r: results){
+                        for (SearchResultRow r: results.getRows()){
                             if(count == limit){
                                 break;
                             }
+
                             IdableSuggestion theSuggestion = new IdableSuggestion();
-                            for(ResultCell c: r.getResultCells()){
-                                //System.out.println("Cell: " + c.getKey() + "-" + c.getValue());
+                            for(SearchResultCell c: r.getCells()){
                                 if(c.getKey().equals(resultDisplayKey)){
                                     String itemText = c.getValue();
-                                    System.out.println("itemText: " + itemText);
                                     theSuggestion.addAttr(c.getKey(), c.getValue());
                                     int index = itemText.toLowerCase().indexOf(query.toLowerCase().trim());
                                     String htmlString = itemText.substring(0,index) + "<b>" + itemText.substring(index, query.length()) + "</b>" + itemText.substring(index + query.length(), itemText.length());
                                     theSuggestion.setDisplayString(htmlString);
                                     theSuggestion.setReplacementString(itemText);
-                                }
-                                else if(c.getKey().equals(resultIdKey)){
+                                } else if(c.getKey().equals(resultIdKey)){
                                      theSuggestion.setId(c.getValue());
                                      theSuggestion.addAttr(c.getKey(), c.getValue());
-                                }
-                                else{
+                                } else{
                                     theSuggestion.addAttr(c.getKey(), c.getValue());
                                 }
                             }
@@ -158,7 +212,6 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
                     }
                     return suggestionsList;
                 }
-                
             });
         }
     }
@@ -203,52 +256,36 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
 
     @Override
     public void getSuggestionByIdSearch(String id, final org.kuali.student.common.ui.client.mvc.Callback<IdableSuggestion> callback) {
-        List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>();
-        QueryParamValue qv = new QueryParamValue();
-        qv.setKey(searchTextKey);
-        qv.setValue("");
-        queryParamValues.add(qv);
-        QueryParamValue qv2 = new QueryParamValue();
-        qv2.setKey(searchIdKey);
-        qv2.setValue(id);
-        queryParamValues.add(qv2);
-        if(!(additionalParams.isEmpty())){
-            queryParamValues.addAll(additionalParams);
-        }
-        searchService.searchForResults(searchTypeKey, queryParamValues, new AsyncCallback<List<Result>>(){
+        SearchRequest searchRequest = buildSearchRequestById(null, id);
+        searchService.search(searchRequest, new AsyncCallback<SearchResult>(){
             
             @Override
             public void onFailure(Throwable caught) {
                 // TODO Auto-generated method stub
-                
             }
 
             @Override
-            public void onSuccess(List<Result> results) {
+            public void onSuccess(SearchResult results) {
                 IdableSuggestion theSuggestion = null;
                 if(results != null){
-                    Result r = results.get(0);
+                	SearchResultRow r = results.getRows().get(0);
                     theSuggestion = new IdableSuggestion();
-                    for(ResultCell c: r.getResultCells()){
+                    for(SearchResultCell c: r.getCells()){
                         if(c.getKey().equals(resultDisplayKey)){
                             String itemText = c.getValue();
                             theSuggestion.addAttr(c.getKey(), c.getValue());
                             theSuggestion.setDisplayString(itemText);
                             theSuggestion.setReplacementString(itemText);
-                        }
-                        else if(c.getKey().equals(resultIdKey)){
+                        } else if(c.getKey().equals(resultIdKey)){
                              theSuggestion.setId(c.getValue());
                              theSuggestion.addAttr(c.getKey(), c.getValue());
-                        }
-                        else{
+                        } else {
                             theSuggestion.addAttr(c.getKey(), c.getValue());
                         }
                     }
-                    
                 }
                 callback.exec(theSuggestion);
             }
         });
-        
     }
 }

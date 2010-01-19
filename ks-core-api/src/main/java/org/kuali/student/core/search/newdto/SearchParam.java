@@ -42,4 +42,10 @@ public class SearchParam implements Serializable {
 	public void setKey(String key) {
 		this.key = key;
 	}
+
+	@Override
+	public String toString() {
+		return "SearchParam[key=" + key + ", value=" + value + ", listValue="
+				+ listValue + "]";
+	}
 }
