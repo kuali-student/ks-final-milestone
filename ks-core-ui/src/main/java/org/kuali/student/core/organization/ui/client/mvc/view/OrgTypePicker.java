@@ -20,58 +20,61 @@ public class OrgTypePicker extends KSDropDown{
 	//How to tie in with model to select hierarchy?
 	
 	private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
+	private boolean loaded=false;
 
 	@Override
 	public void onLoad() {
 		super.onLoad();
-		
-		orgRpcServiceAsync.getOrgTypes(new AsyncCallback<List<OrgTypeInfo>>(){
-			public void onFailure(Throwable caught) {
-				
-			}
-			public void onSuccess(final List<OrgTypeInfo> orgTypes) {
-	               final Map<String, String> ids = new LinkedHashMap<String, String>();
-	                for (OrgTypeInfo orgTypeInfo : orgTypes) {
-	                    ids.put(orgTypeInfo.getId(), orgTypeInfo.getName());
-	                }
-	                ListItems list = new ListItems() {
+		if (!loaded) {
 
-	                    @Override
-	                    public List<String> getAttrKeys() {
-	                        return null; // apparently unused
-	                    }
+            orgRpcServiceAsync.getOrgTypes(new AsyncCallback<List<OrgTypeInfo>>() {
+                public void onFailure(Throwable caught) {
 
-	                    @Override
-	                    public String getItemAttribute(String id, String attrkey) {
-	                        return null; // apparently unused
-	                    }
+                }
 
-	                    @Override
-	                    public int getItemCount() {
-	                        return orgTypes.size();
-	                    }
+                public void onSuccess(final List<OrgTypeInfo> orgTypes) {
+                    final Map<String, String> ids = new LinkedHashMap<String, String>();
+                    for (OrgTypeInfo orgTypeInfo : orgTypes) {
+                        ids.put(orgTypeInfo.getId(), orgTypeInfo.getName());
+                    }
+                    ListItems list = new ListItems() {
 
-	                    @Override
-	                    public List<String> getItemIds() {
-	                        return new ArrayList<String>(ids.keySet());
-	                    }
+                        @Override
+                        public List<String> getAttrKeys() {
+                            return null; // apparently unused
+                        }
 
-	                    @Override
-	                    public String getItemText(String id) {
-	                        return ids.get(id);
-	                    }
+                        @Override
+                        public String getItemAttribute(String id, String attrkey) {
+                            return null; // apparently unused
+                        }
 
-	                };
-	                
-	                setEnabled(true);
-	                setListItems(list);
-/*	                ListItems items = orgTypeDropDown.getListItems();
-	                
-	                if (items != null) {
-	                    orgTypeDropDown.selectItem(((SingleListItem) items).getItemIds().get(0));
-	                }*/
-			}
-		});
+                        @Override
+                        public int getItemCount() {
+                            return orgTypes.size();
+                        }
+
+                        @Override
+                        public List<String> getItemIds() {
+                            return new ArrayList<String>(ids.keySet());
+                        }
+
+                        @Override
+                        public String getItemText(String id) {
+                            return ids.get(id);
+                        }
+
+                    };
+
+                    setEnabled(true);
+                    setListItems(list);
+                    /*
+                     * ListItems items = orgTypeDropDown.getListItems(); if (items != null) {
+                     * orgTypeDropDown.selectItem(((SingleListItem) items).getItemIds().get(0)); }
+                     */
+                }
+            });
+        }
 	}
 	
 	

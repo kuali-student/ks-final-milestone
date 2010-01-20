@@ -21,51 +21,56 @@ public class OrgPositionTypePicker extends KSDropDown{
 	//How to tie in with model to select hierarchy?
     private ListItems orgPosTypeList;
 	private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
+	private boolean loaded = false;
 
 	@Override
 	public void onLoad() {
 		super.onLoad();
 		
-		orgRpcServiceAsync.getOrgPersonRelationTypes(new AsyncCallback<List<OrgPersonRelationTypeInfo>>(){
-			public void onFailure(Throwable caught) {
-				
-			}
-            public void onSuccess(List<OrgPersonRelationTypeInfo> posTypes) {
-                final Map<String,String> map = new LinkedHashMap<String, String>();
-                for(OrgPersonRelationTypeInfo info : posTypes) {
-                    map.put(info.getId(), info.getName());
+		if (!loaded) {
+            orgRpcServiceAsync.getOrgPersonRelationTypes(new AsyncCallback<List<OrgPersonRelationTypeInfo>>() {
+                public void onFailure(Throwable caught) {
+
                 }
-                ListItems list = new ListItems()  {
 
-                    @Override
-                    public List<String> getAttrKeys() {
-                        return null; //apparently unused
+                public void onSuccess(List<OrgPersonRelationTypeInfo> posTypes) {
+                    final Map<String, String> map = new LinkedHashMap<String, String>();
+                    for (OrgPersonRelationTypeInfo info : posTypes) {
+                        map.put(info.getId(), info.getName());
                     }
+                    ListItems list = new ListItems() {
 
-                    @Override
-                    public String getItemAttribute(String id, String attrkey) {
-                        return null; //apparently unused
-                    }
+                        @Override
+                        public List<String> getAttrKeys() {
+                            return null; // apparently unused
+                        }
 
-                    @Override
-                    public int getItemCount() {
-                        return map.size();
-                    }
+                        @Override
+                        public String getItemAttribute(String id, String attrkey) {
+                            return null; // apparently unused
+                        }
 
-                    @Override
-                    public List<String> getItemIds() {
-                        return new ArrayList<String>(map.keySet());
-                    }
+                        @Override
+                        public int getItemCount() {
+                            return map.size();
+                        }
 
-                    @Override
-                    public String getItemText(String id) {
-                        return map.get(id);
-                    }
-                };
-                setEnabled(true);
-                setListItems(list);
-            }
-		});
+                        @Override
+                        public List<String> getItemIds() {
+                            return new ArrayList<String>(map.keySet());
+                        }
+
+                        @Override
+                        public String getItemText(String id) {
+                            return map.get(id);
+                        }
+                    };
+                    loaded=true;
+                    setEnabled(true);
+                    setListItems(list);
+                }
+            });
+        }
 	}
 	
 	
