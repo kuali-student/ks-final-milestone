@@ -1,14 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.kuali.student.core</groupId>
-    <artifactId>ks-core</artifactId>
+    <groupId>org.kuali.student</groupId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>KS Core</name>
-    <description>Kuali Student Parent POM</description>
+    <name>Master Pom</name>
+    <description>Kuali Student Project</description>
 
-    <url>http://student.kuali.org/site/core/${project.version}</url>
+    <url>http://student.kuali.org/site/student</url>
 
     <licenses>
         <license>
@@ -34,25 +33,18 @@
 
 
     <modules>        
-        <module>ks-cxf</module>
-        <module>ks-metro</module>
+        <module>ks-brms</module>
+        <module>ks-commons</module>
         <module>ks-eclipselink</module>
-        <module>ks-hibernate</module>
+        <module>ks-core</module>
         <module>ks-jta</module>
-        <module>ks-rice-lessdep</module>
-        <module>ks-common-util</module>
-        <module>ks-common-ui</module>
-        <module>ks-common-test</module>
-        <module>ks-common-impl</module>
-        <module>ks-core-api</module>
-        <module>ks-core-impl</module>
-        <module>ks-core-ui</module>
-        <module>ks-core-web</module>
+        <module>ks-lum</module>
+        <module>ks-security</module>
     </modules>
 
     <scm>
-        <connection>scm:svn:https://test.kuali.org/svn/student/ks-core/branches/ks-core-dev</connection>
-        <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-core/branches/ks-core-dev</developerConnection>
+        <connection>scm:svn:https://test.kuali.org/svn/student/trunk</connection>
+        <developerConnection>scm:svn:https://test.kuali.org/svn/student/trunk</connection>
     </scm>
 
     <repositories>
