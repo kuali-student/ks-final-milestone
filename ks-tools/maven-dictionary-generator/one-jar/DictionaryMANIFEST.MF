@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Created-By: 1.4.2_04-b05 (Sun Microsystems Inc.)
+Main-Class: com.simontuffs.onejar.Boot
+One-Jar-Main-Class: org.kuali.student.dictionary.DictionaryGeneratorFromCommandLine
