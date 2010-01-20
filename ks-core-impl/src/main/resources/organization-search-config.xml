@@ -63,6 +63,14 @@
 						<dict:readOnly>true</dict:readOnly>
 					</dict:fieldDescriptor>
 				</search:queryParam>									
+				<search:queryParam id="org.queryParam.startswith.orgOptionalShortName" optional="true">
+					<dict:fieldDescriptor>
+						<dict:name>Starts with Organization Short Name</dict:name>
+						<dict:desc>Starts With Short organization name.</dict:desc>
+						<dict:dataType>string</dict:dataType>
+						<dict:readOnly>true</dict:readOnly>
+					</dict:fieldDescriptor>
+				</search:queryParam>
 				<search:queryParam id="org.queryParam.orgOptionalType" optional="true">
 					<dict:fieldDescriptor>
 						<dict:name>Org Type</dict:name>
