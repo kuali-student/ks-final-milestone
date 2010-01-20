@@ -15,7 +15,6 @@
 package org.kuali.student.lum.lu.service.impl;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -33,7 +32,6 @@ import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.entity.RichText;
 import org.kuali.student.core.entity.TimeAmount;
-import org.kuali.student.core.enumerable.dto.EnumeratedValue;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.CircularReferenceException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -2544,13 +2542,6 @@ public class LuServiceImpl implements LuService {
     public boolean validateStructureData(String objectTypeKey, String stateKey,
             String info) {
         return dictionaryServiceDelegate.validateStructureData(objectTypeKey, stateKey, info);
-    }
-
-    @Override
-    public List<EnumeratedValue> getEnumeration(String enumerationKey,
-            String enumContextKey, String contextValue, Date contextDate) {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     @Override

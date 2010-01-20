@@ -14,7 +14,6 @@
  */
 package org.kuali.student.lum.lo.service.impl;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.jws.WebService;
@@ -22,9 +21,7 @@ import javax.jws.WebService;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.enumerable.dto.EnumeratedValue;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
-import org.kuali.student.core.exceptions.CircularReferenceException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DependentObjectsExistException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -545,16 +542,6 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	@Override
 	public boolean validateStructureData(String objectTypeKey, String stateKey, String info) {
         return dictionaryServiceDelegate.validateStructureData(objectTypeKey, stateKey, info);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.core.enumerable.service.EnumerableService#getEnumeration(java.lang.String, java.lang.String, java.lang.String, java.util.Date)
-	 */
-	@Override
-	public List<EnumeratedValue> getEnumeration(String enumerationKey,
-			String enumContextKey, String contextValue, Date contextDate) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	/* (non-Javadoc)
