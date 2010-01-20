@@ -2613,8 +2613,8 @@ public class LuServiceImpl implements LuService {
     }
 
 	@Override
-	public SearchResult search(SearchRequest searchRequest) {
-        //checkForMissingParameter(searchRequest, "searchRequest"); TODO
+	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
+        checkForMissingParameter(searchRequest, "searchRequest");
         return searchManager.search(searchRequest, luDao);
 	}    
     

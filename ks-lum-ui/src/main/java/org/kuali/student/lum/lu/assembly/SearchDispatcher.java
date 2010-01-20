@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.newdto.SearchRequest;
@@ -52,7 +53,14 @@ public class SearchDispatcher {
 			String searchKey = searchRequest.getSearchKey();
 			SearchService searchService = serviceMap.get(searchKey);
 			if(searchService != null){
-				SearchResult searchResult = searchService.search(searchRequest);
+				SearchResult searchResult;
+				try {
+					searchResult = searchService.search(searchRequest);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					LOG.warn("Error invoking search",e);
+					return null;
+				}
 				return searchResult;
 			}
 		}

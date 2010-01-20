@@ -23,6 +23,7 @@ import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.search.AdvancedSearchWindow;
 import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
+import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
@@ -113,21 +114,15 @@ public class FindPanel extends ViewComposite{
         onReadyCallback.exec(true);
     }
     
-    private void initCourseSearchWindow(){
-    	       
+    private void initCourseSearchWindow(){    	       
     	Metadata searchMetadata = new FindCourseMetadata().getMetadata("", "");  //no type or state at this point
         SearchPanel searchPicker = new SearchPanel(luServiceAsync, searchMetadata.getProperties().get("courseId").getLookupMetadata());                
-        courseSearchWindow = new AdvancedSearchWindow("Find Course", searchPicker);
-   	    	
-       // courseSearchWindow = new KSAdvancedSearchWindow(luServiceAsync, "lu.search.clus","lu.resultColumn.cluId", "Find Course");
-        courseSearchWindow.addSelectionCompleteCallback(new Callback<List<String>>(){
+        courseSearchWindow = new AdvancedSearchWindow("Find Course", searchPicker);   	    	
+        courseSearchWindow.addSelectionCompleteCallback(new Callback<List<SelectedResults>>(){
             //FIXME: This should take user to the course view screens
-            public void exec(List<String> event) {
-                final String selected = event.get(0);
-                if (selected.length() > 0){
-                	List<String> selectedItems = event;
-                	ChangeViewStateEvent tempEvent = new ChangeViewStateEvent(LUMViews.VIEW_COURSE, selectedItems);
-                    FindPanel.this.getController().fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.VIEW_COURSE, event));
+            public void exec(List<SelectedResults> results) {
+                if (results.size() > 0){
+                    FindPanel.this.getController().fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.VIEW_COURSE, results));
                     courseSearchWindow.hide();
                 }                
             }            

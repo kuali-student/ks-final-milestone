@@ -36,10 +36,12 @@ import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.Multipli
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.RemovableItem;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.UpdatableMultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
 import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
 import org.kuali.student.common.ui.client.widgets.list.HasSelectionChangeHandlers;
@@ -48,6 +50,10 @@ import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
+import org.kuali.student.common.ui.client.widgets.search.AdvancedSearchWindow;
+import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
+import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
+import org.kuali.student.common.ui.client.widgets.search.SuggestBoxWAdvSearch;
 import org.kuali.student.common.ui.client.widgets.selectors.KSSearchComponent;
 import org.kuali.student.common.ui.client.widgets.selectors.SearchComponentConfiguration;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
@@ -258,12 +264,9 @@ public class CourseConfigurer
 
         VerticalSection adminOrgs = initSection(getH3Title(LUConstants.ADMIN_ORG_LABEL_KEY), WITH_DIVIDER);    
         
-        // FIXME the new OrgAdvSearchPicker doesn't fire selection/value change events correctly, won't work with binding
-//        adminOrgs.addField(new FieldDescriptor("course/department", null, Type.STRING, configureAdminOrgSearch()));
-        String deptKey = COURSE + "/" + DEPARTMENT;
+        /*
         Metadata deptMeta = modelDefinition.getMetadata(QueryPath.parse(deptKey));
         FieldDescriptor deptDescriptor = new FieldDescriptor(deptKey, null, deptMeta);
-        deptDescriptor.setFieldWidget(new OrgListPicker());
         final QueryPath deptPath = QueryPath.parse(deptDescriptor.getFieldKey());
         deptDescriptor.setWidgetBinding(new ModelWidgetBinding<OrgListPicker>() {
         	// FIXME had to create custom binding because the OrgListPicker always returns a list, even of 1
@@ -279,18 +282,32 @@ public class CourseConfigurer
 				widget.setValue((String) model.get(path));
 			}
         });
-        adminOrgs.addField(deptDescriptor);
+        adminOrgs.addField(deptDescriptor); */
         
-//        adminOrgs.addField(new FieldDescriptor("cluInfo/primaryAdminOrg/orgId", null, Type.STRING, new OrgPicker()));
-//        adminOrgs.addField(new FieldDescriptor("cluInfo/alternateAdminOrgs", null, Type.LIST, new AlternateAdminOrgList()));
+        OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
+    	Metadata searchMetadata = new CreditCourseMetadata().getMetadata("", "");  //no type or state at this point
+        SearchPanel adminDepartment = new SearchPanel(orgRpcServiceAsync, searchMetadata.getProperties().get(DEPARTMENT).getLookupMetadata());                
+        final AdvancedSearchWindow courseSearchWindow = new AdvancedSearchWindow("Find Department", adminDepartment);
+        KSTextBox adminDepTextBox = new KSTextBox();   //FIXME this will be suggest box
+        final SuggestBoxWAdvSearch adminDepPicker = new SuggestBoxWAdvSearch(adminDepTextBox, courseSearchWindow);	
         
+        courseSearchWindow.addSelectionCompleteCallback(new Callback<List<SelectedResults>>(){
+            public void exec(List<SelectedResults> results) {
+                if (results.size() > 0){
+                	adminDepPicker.getSuggestBox().setText(results.get(0).getDisplayKey());
+                	adminDepPicker.getSuggestBox().setValue(results.get(0).getReturnKey());
+                    courseSearchWindow.hide();
+                }                
+            }            
+        });               
+        
+        addField(adminOrgs, COURSE + "/" + DEPARTMENT, null, adminDepPicker);
         
         section.addSection(oversight);
         section.addSection(campus);
         section.addSection(adminOrgs);
         
         return section;
-
     }
 
     public SectionView generateCourseInfoSection(){
@@ -790,66 +807,7 @@ public class CourseConfigurer
             
             return ns;
         }
-    }
-
-    private KSSearchComponent configureAdminOrgSearch() {
-    	   
-    	OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
-    	
-    	List<String> basicCriteria = new ArrayList<String>() {
-  		   {
-  		      add("org.queryParam.orgOptionalLongName");
-  		   }
-  		};
-  	
-  		List<String> advancedCriteria = new ArrayList<String>() {
-   		   {
-   			   add("org.queryParam.orgOptionalLongName");
-   			   add("org.queryParam.orgOptionalLocation");
-   			   add("org.queryParam.orgOptionalId");
-   		   }
-   		};    
-   		
-        //set context criteria
-   		List<QueryParamValue> contextCriteria = new ArrayList<QueryParamValue>();   		
-		QueryParamValue orgOptionalTypeParam = new QueryParamValue();
-		orgOptionalTypeParam.setKey("org.queryParam.orgOptionalType");
-		orgOptionalTypeParam.setValue("kuali.org.Department");   
-		contextCriteria.add(orgOptionalTypeParam);      		
-    	
-    	SearchComponentConfiguration searchConfig = new SearchComponentConfiguration(contextCriteria, basicCriteria, advancedCriteria);
-    	
-    	searchConfig.setSearchDialogTitle("Find Organization");
-    	searchConfig.setSearchService(orgRpcServiceAsync);
-    	searchConfig.setSearchTypeKey("org.search.advanced");
-    	searchConfig.setResultIdKey("org.resultColumn.orgId");
-    	searchConfig.setRetrievedColumnKey("org.resultColumn.orgOptionalLongName");    	
-    	
-    	//TODO: following code should be in KSSearchComponent with config parameters set within SearchComponentConfiguration class
-//    	final SearchSuggestOracle orgSearchOracle = new SearchSuggestOracle(searchConfig.getSearchService(),
-//    	        "org.search.orgByShortNameAndType", 
-//    	        "org.queryParam.orgShortName", //field user is entering and we search on... add '%' the parameter
-//    	        "org.queryParam.orgId", 		//if one wants to search by ID rather than by name
-//    	        "org.resultColumn.orgId", 		
-//    	        "org.resultColumn.orgShortName");
-		Metadata searchMetadata = new CreditCourseMetadata().getMetadata("", ""); 
-		LookupMetadata lookupMetaData = searchMetadata.getProperties().get(CreditCourseConstants.DEPARTMENT).getLookupMetadata();
-		final SearchSuggestOracle orgSearchOracle = new SearchSuggestOracle(orgRpcServiceAsync,
-		        "org.queryParam.startswith.orgOptionalShortName",
-		        "org.queryParam.orgOptionalId",
-		        lookupMetaData); 
-    	  			
-		//Restrict searches to Department Types
-		List<SearchParam> additionalParams = new ArrayList<SearchParam>();
-		SearchParam orgTypeParam = new SearchParam();
-		orgTypeParam.setKey("org.queryParam.orgType");
-		orgTypeParam.setValue("kuali.org.Department");
-		additionalParams.add(orgTypeParam);
-
-    	orgSearchOracle.setAdditionalSearchParams(additionalParams);	
-    	
-    	return new KSSearchComponent(searchConfig, orgSearchOracle);
-    }   
+    }  
 
     /*
      * Configuring Program specific screens.

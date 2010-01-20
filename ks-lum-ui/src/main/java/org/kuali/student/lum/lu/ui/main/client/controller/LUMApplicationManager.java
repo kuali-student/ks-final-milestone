@@ -23,6 +23,7 @@ import org.kuali.student.common.ui.client.mvc.DelegatingViewComposite;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.events.LogoutEvent;
 import org.kuali.student.common.ui.client.mvc.events.LogoutHandler;
+import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseProposalController;
 import org.kuali.student.lum.lu.ui.course.client.configuration.course.ViewCourseController;
@@ -70,7 +71,7 @@ public class LUMApplicationManager extends Controller{
 //	                    }
 
 	                } else if ((event.getEventSource() != null) && (event.getEventSource() instanceof ArrayList) && (event.getViewType().equals(LUMViews.VIEW_COURSE))){                    
-	                    initViewCourseFromCourseId(((List<String>)event.getEventSource()).get(0));                        
+	                    initViewCourseFromCourseId(((List<SelectedResults>)event.getEventSource()).get(0).getReturnKey());                        
 	                }
 	                
 	                showView(event.getViewType(), NO_OP_CALLBACK);  
