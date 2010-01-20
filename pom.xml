@@ -487,7 +487,7 @@
 							http://ehcache.sourceforge.net/javadoc/
 						</link>
                         <link>
-                            http://rice.kuali.org/docs/1.0.0/site/apidocs/
+                            http://rice.kuali.org/docs/${kuali.rice.version}/site/apidocs/
                         </link>
 					</links>
 				</configuration>
