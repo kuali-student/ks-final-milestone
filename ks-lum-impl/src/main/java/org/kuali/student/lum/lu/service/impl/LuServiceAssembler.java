@@ -155,7 +155,7 @@ public class LuServiceAssembler extends BaseAssembler {
                 "attributes", "metaInfo" });
         dto.setOfficialIdentifier(toCluIdentifierInfo(entity.getOfficialIdentifier()));
         dto.setAlternateIdentifiers(toCluIdentifierInfos(entity.getAlternateIdentifiers()));
-        dto.setDesc(toRichTextInfo(entity.getDesc()));
+        dto.setDesc(toRichTextInfo(entity.getDescr()));
         dto.setMarketingDesc(toRichTextInfo(entity.getMarketingDesc()));
         // accreditingOrg Deprecated in v  1.0-rc2 Replaced by Primary and Alternate admin orgs
         dto.setAccreditingOrg(entity.getAccreditingOrg());
@@ -241,7 +241,7 @@ public class LuServiceAssembler extends BaseAssembler {
         BeanUtils.copyProperties(entity, dto, new String[] { "desc",
                 "cluCriteria", "cluSets", "clus", "attributes", "metaInfo" });
 
-        dto.setDesc(toRichTextInfo(entity.getDesc()));
+        dto.setDesc(toRichTextInfo(entity.getDescr()));
         // TODO dto.setCluCriteria()
         List<String> cluSetIds = new ArrayList<String>(entity.getCluSets()
                 .size());
@@ -315,7 +315,7 @@ public class LuServiceAssembler extends BaseAssembler {
                 "luDocumentRelationType", "attributes", "metInfo" });
 
         dto.setCluId(entity.getClu().getId());
-        dto.setDesc(toRichTextInfo(entity.getDesc()));
+        dto.setDesc(toRichTextInfo(entity.getDescr()));
         dto.setType(entity.getLuDocumentRelationType().getId());
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
@@ -400,7 +400,7 @@ public class LuServiceAssembler extends BaseAssembler {
                 new String[] { "attributes" });
 
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
-
+        dto.setDesc(entity.getDescr());
         return dto;
     }
 
@@ -454,6 +454,7 @@ public class LuServiceAssembler extends BaseAssembler {
         dto.setName(entity.getName());
         dto.setOperator(entity.getOperator());
         
+        dto.setDesc(entity.getDescr());
         return dto;
     }
 
@@ -533,7 +534,9 @@ public class LuServiceAssembler extends BaseAssembler {
 	        LuStatement parent = dao.fetch(LuStatement.class, stmtInfo.getParentId());
 	        stmt.setParent(parent);
         }
-
+        
+        stmt.setDescr(stmtInfo.getDesc());
+        
         return stmt;
     }
 
@@ -608,7 +611,9 @@ public class LuServiceAssembler extends BaseAssembler {
         stmtTypeInfo.setAllowedLuStatementTypes(luStmtIds);
         
         stmtTypeInfo.setHeaders(toLuStatementTypeHeaderTemplateInfos(entity.getHeaders()));
-
+        
+        stmtTypeInfo.setDesc(entity.getDescr());
+        
         return stmtTypeInfo;
     }
     
@@ -767,7 +772,7 @@ public class LuServiceAssembler extends BaseAssembler {
         dto.setReqCompFields(toReqCompFieldInfos(entity.getReqCompField()));
         dto.setRequiredComponentType(toReqComponentTypeInfo(entity.getRequiredComponentType()));
         dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
-
+        dto.setDesc(entity.getDescr());
         return dto;
     }
 
@@ -808,7 +813,9 @@ public class LuServiceAssembler extends BaseAssembler {
             reqCompFieldList.add(reqCompField);
         }
         reqComp.setReqCompField(reqCompFieldList);
-
+        
+        reqComp.setDescr(reqCompInfo.getDesc());
+        
         return reqComp;
     }
 
@@ -825,6 +832,7 @@ public class LuServiceAssembler extends BaseAssembler {
         ReqComponentTypeInfo dto = toGenericTypeInfo(ReqComponentTypeInfo.class, entity);
         dto.setReqCompFieldTypeInfos(toReqCompFieldTypeInfos(entity.getReqCompFieldTypes()));
         dto.setNlUsageTemplates(toReqComponentTypeNLTemplateInfos(entity.getNlUsageTemplates()));
+        dto.setDesc(entity.getDescr());
         return dto;
     }
     
@@ -972,7 +980,8 @@ public class LuServiceAssembler extends BaseAssembler {
 
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
-
+        dto.setDesc(entity.getDescr());
+        
         return dto;
     }
 

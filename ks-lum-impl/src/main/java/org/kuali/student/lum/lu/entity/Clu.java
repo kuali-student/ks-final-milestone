@@ -84,7 +84,7 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 
     @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "RT_DESCR_ID")
-    private RichText desc;
+    private RichText descr;
 
     @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "RT_MKTG_DESCR_ID")
@@ -273,12 +273,12 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
         this.studySubjectArea = studySubjectArea;
     }
 
-    public RichText getDesc() {
-        return desc;
+    public RichText getDescr() {
+        return descr;
     }
 
-    public void setDesc(RichText desc) {
-        this.desc = desc;
+    public void setDescr(RichText descr) {
+        this.descr = descr;
     }
 
     public RichText getMarketingDesc() {

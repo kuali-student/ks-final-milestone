@@ -361,7 +361,7 @@ public class LuServiceImpl implements LuService {
         }
 
         if(cluInfo.getDesc()!=null){
-            clu.setDesc(LuServiceAssembler.toRichText(cluInfo.getDesc()));
+            clu.setDescr(LuServiceAssembler.toRichText(cluInfo.getDesc()));
         }
 
         if(cluInfo.getMarketingDesc()!=null){
@@ -418,6 +418,7 @@ public class LuServiceImpl implements LuService {
             LuCode luCode = new LuCode();
             luCode.setAttributes(LuServiceAssembler.toGenericAttributes(LuCodeAttribute.class, luCodeInfo.getAttributes(), luCode, luDao));
             BeanUtils.copyProperties(luCodeInfo,luCode,new String[]{"attributes","metaInfo"});
+            luCode.setDescr(luCodeInfo.getDesc());
             luCode.setClu(clu);
             luCodes.add(luCode);
         }
@@ -578,7 +579,7 @@ public class LuServiceImpl implements LuService {
         BeanUtils.copyProperties(cluSetInfo, cluSet, new String[] { "id", "desc", "name", "attributes", "metaInfo" });
         cluSet.setAttributes(LuServiceAssembler.toGenericAttributes(CluSetAttribute.class, cluSetInfo.getAttributes(), cluSet, luDao));
         cluSet.setName(cluSetName);
-        cluSet.setDesc(LuServiceAssembler.toRichText(cluSetInfo.getDesc()));
+        cluSet.setDescr(LuServiceAssembler.toRichText(cluSetInfo.getDesc()));
 
         for(String cluId:cluSetInfo.getCluIds()){
             cluSet.getClus().add(luDao.fetch(Clu.class, cluId));
@@ -612,7 +613,7 @@ public class LuServiceImpl implements LuService {
         BeanUtils.copyProperties(luDocRelationInfo, docRelation, new String[] { "id", "desc", "type", "cluId", "attributes", "documentId", "metaInfo" });
         docRelation.setClu(clu);
         docRelation.setLuDocumentRelationType(docRelationType);
-        docRelation.setDesc(LuServiceAssembler.toRichText(luDocRelationInfo.getDesc()));
+        docRelation.setDescr(LuServiceAssembler.toRichText(luDocRelationInfo.getDesc()));
         docRelation.setDocumentId(documentId);
         docRelation.setAttributes(LuServiceAssembler.toGenericAttributes(LuDocumentRelationAttribute.class, luDocRelationInfo.getAttributes(), docRelation, luDao));
 
@@ -1881,12 +1882,12 @@ public class LuServiceImpl implements LuService {
         }
 
         if(cluInfo.getDesc()!=null){
-            if(clu.getDesc() == null){
-                clu.setDesc(new RichText());
+            if(clu.getDescr() == null){
+                clu.setDescr(new RichText());
             }
-            BeanUtils.copyProperties(cluInfo.getDesc(), clu.getDesc());
-        }else if(clu.getDesc()!=null){
-            luDao.delete(clu.getDesc());
+            BeanUtils.copyProperties(cluInfo.getDesc(), clu.getDescr());
+        }else if(clu.getDescr()!=null){
+            luDao.delete(clu.getDescr());
         }
 
         if(cluInfo.getMarketingDesc()!=null){
@@ -1966,6 +1967,7 @@ public class LuServiceImpl implements LuService {
             luCode.setAttributes(LuServiceAssembler.toGenericAttributes(LuCodeAttribute.class, luCodeInfo.getAttributes(), luCode, luDao));
             BeanUtils.copyProperties(luCodeInfo,luCode,new String[]{"attributes","metaInfo"});
             luCode.setClu(clu);
+            luCode.setDescr(luCodeInfo.getDesc());
             clu.getLuCodes().add(luCode);
         }
 
@@ -2295,7 +2297,7 @@ public class LuServiceImpl implements LuService {
 
         BeanUtils.copyProperties(cluSetInfo, cluSet, new String[] { "desc", "attributes", "metaInfo" });
         cluSet.setAttributes(LuServiceAssembler.toGenericAttributes(CluSetAttribute.class, cluSetInfo.getAttributes(), cluSet, luDao));
-        cluSet.setDesc(LuServiceAssembler.toRichText(cluSetInfo.getDesc()));
+        cluSet.setDescr(LuServiceAssembler.toRichText(cluSetInfo.getDesc()));
 
         CluSet updated = luDao.update(cluSet);
 
@@ -2339,7 +2341,7 @@ public class LuServiceImpl implements LuService {
         BeanUtils.copyProperties(luDocRelationInfo, docRelation, new String[] { "id", "desc", "type", "cluId", "attributes", "metaInfo" });
         docRelation.setClu(clu);
         docRelation.setLuDocumentRelationType(docRelationType);
-        docRelation.setDesc(LuServiceAssembler.toRichText(luDocRelationInfo.getDesc()));
+        docRelation.setDescr(LuServiceAssembler.toRichText(luDocRelationInfo.getDesc()));
         docRelation.setAttributes(LuServiceAssembler.toGenericAttributes(LuDocumentRelationAttribute.class, luDocRelationInfo.getAttributes(), docRelation, luDao));
 
         LuDocumentRelation updated = luDao.update(docRelation);

@@ -244,7 +244,7 @@
 					<value>SELECT lo.id, lo.name FROM Lo lo </value>
 				</entry>
 				<entry key="lo.search.loByDesc">
-                    <value>SELECT lo.id, loDesc.plain FROM Lo lo JOIN lo.desc loDesc WHERE lower(loDesc.plain) like :lo_queryParam_loDescPlain</value>
+                    <value>SELECT lo.id, loDesc.plain FROM Lo lo JOIN lo.descr loDesc WHERE lower(loDesc.plain) like :lo_queryParam_loDescPlain</value>
 				</entry>			
 				<entry key="lo.search.loByName">
 					<value>SELECT lo.id, lo.name FROM Lo lo WHERE lo.name = :lo_queryParam_loName</value>
