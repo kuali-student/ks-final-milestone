@@ -2,23 +2,14 @@ package org.kuali.student.core.organization.ui.client.mvc.view;
 
 import java.util.List;
 
-import org.kuali.student.common.assembly.client.Metadata;
-import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.ConfigurableLayout;
-import org.kuali.student.common.ui.client.configurable.mvc.CustomNestedSection;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.HorizontalSection;
-import org.kuali.student.common.ui.client.configurable.mvc.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.VerticalSection;
-import org.kuali.student.common.ui.client.configurable.mvc.Section.FieldLabelType;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.RemovableItem;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.UpdatableMultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
-import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.Type;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
@@ -28,14 +19,12 @@ import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.ui.client.configuration.OrgConstants;
 import org.kuali.student.core.organization.ui.client.mvc.model.OrgProposalModel;
 
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Widget;
 
 
 public class OrgConfigurerFactory {
@@ -46,16 +35,9 @@ public class OrgConfigurerFactory {
 
 	private static final String STYLE_SECTION_DIVIDER = "STYLE_SECTION_DIVIDER";
 	private static final String STYLE_SECTION = "STYLE_SECTION";
-    private boolean WITH_DIVIDER = true;
-    private boolean NO_DIVIDER = false;
 	public static final String ORG_PROPOSAL_MODEL = "orgProposalModel";
 	private static String groupName;
-    private DataModelDefinition modelDefinition;
-    
-    public void setModelDefinition(DataModelDefinition modelDefinition){
-        this.modelDefinition = modelDefinition;
-    }
-    
+	
 //	public static VerticalSection getOrgInfoSection(){
 //        VerticalSection section = new VerticalSection();
 //        section.addStyleName(STYLE_SECTION_DIVIDER);
@@ -70,35 +52,33 @@ public class OrgConfigurerFactory {
 //        return section;
 //	}
 	
-	public void configureOrgProposal(ConfigurableLayout layout){
+	public static void configureOrgProposal(ConfigurableLayout layout){
 	    groupName = OrgConstants.ORG_GROUP;
 	    layout.addSection(new String[] {"Create", "Create"}, generateOrgCreateSection());
-//	    layout.addSection(new String[] {"Create", "Create"}, generatePositionCreateSection());
-//	    layout.addSection(new String[] {"Create", "Create"}, generateRelationCreateSection());
-//	    layout.addSection(new String[] {"Search", "Search & Modify"}, generateSearchSection());
-//	    layout.addSection(new String[] {"Browse", "Browse"}, generateBrowseTreeSection());
-//	    layout.addSection(new String[] {"Browse", "Browse"}, generateBrowseListSection());
-//	    layout.addSection(new String[] {"Browse", "Browse"}, generateBrowseChartSection());
-//	    layout.addSection(new String[] {"Browse", "Browse"}, generateBrowseNameSection());
+	    layout.addSection(new String[] {"Create", "Create"}, generatePositionCreateSection());
+	    layout.addSection(new String[] {"Create", "Create"}, generateRelationCreateSection());
+	    layout.addSection(new String[] {"Search", "Search & Modify"}, generateSearchSection());
+	    layout.addSection(new String[] {"Browse", "Browse"}, generateBrowseTreeSection());
+	    layout.addSection(new String[] {"Browse", "Browse"}, generateBrowseListSection());
+	    layout.addSection(new String[] {"Browse", "Browse"}, generateBrowseChartSection());
+	    layout.addSection(new String[] {"Browse", "Browse"}, generateBrowseNameSection());
 	    
 	}
 
-	public SectionView generateOrgCreateSection() {
+	public static SectionView generateOrgCreateSection() {
         VerticalSectionView section = initSectionView(OrgSections.ORG_INFO, "Organization");
         // Cross-listed
-//        VerticalSection orgInfo = new VerticalSection();
-        VerticalSection orgInfo = initSection(getH3Title("Organisation"), WITH_DIVIDER);   
+        VerticalSection orgInfo = new VerticalSection();
         orgInfo.setSectionTitle(getH3Title(""));
         // crossListed.setInstructions("Enter Department and/or Subject Code/Course Number.");
-        addField(orgInfo,"org/type", getLabel(OrgConstants.ORG_TYPE_LABEL_KEY), new OrgTypePicker());
-        addField(orgInfo,"org/name", getLabel(OrgConstants.ORG_NAME_LABEL_KEY));
-        addField(orgInfo,"org/abbr", getLabel(OrgConstants.ORG_ABBR_LABEL_KEY));
-        addField(orgInfo,"org/versions", getLabel(OrgConstants.ORG_DESC_LABEL_KEY),new VersionCodeList());
-//        addField(orgInfo,"org/orgDesc", getLabel(OrgConstants.ORG_DESC_LABEL_KEY));
-//        addField(orgInfo,"orgInfo/effectiveDate", getLabel(OrgConstants.ORG_EFF_DATE_LABEL_KEY));
-//        addField(orgInfo,"orgInfo/expirationDate", getLabel(OrgConstants.ORG_EXP_DATE_LABEL_KEY));
+        orgInfo.addField(new FieldDescriptor("orgInfo/orgType", getLabel(OrgConstants.ORG_TYPE_LABEL_KEY), Type.STRING, new OrgTypePicker()));
+        orgInfo.addField(new FieldDescriptor("orgInfo/orgName", getLabel(OrgConstants.ORG_NAME_LABEL_KEY), Type.STRING));
+        orgInfo.addField(new FieldDescriptor("orgInfo/orgAbbr", getLabel(OrgConstants.ORG_ABBR_LABEL_KEY), Type.STRING));
+        orgInfo.addField(new FieldDescriptor("orgInfo/orgDesc", getLabel(OrgConstants.ORG_DESC_LABEL_KEY), Type.STRING));
+        orgInfo.addField(new FieldDescriptor("orgInfo/effectiveDate", getLabel(OrgConstants.ORG_EFF_DATE_LABEL_KEY), Type.DATE, new KSDatePicker()));
+        orgInfo.addField(new FieldDescriptor("orgInfo/expirationDate", getLabel(OrgConstants.ORG_EXP_DATE_LABEL_KEY), Type.DATE, new KSDatePicker()));
         
-        orgInfo.addStyleName("KS-CORE-Section-Divider");
+        orgInfo.addStyleName("KS-LUM-Section-Divider");
         // courseNumber.addSection(crossListed);
         section.addSection(orgInfo);
         return section;
@@ -116,7 +96,7 @@ public class OrgConfigurerFactory {
         orgPosInfo.addField(new FieldDescriptor("orgPosInfo/minPpl", getLabel(OrgConstants.POS_MIN_PPL_LABEL_KEY), Type.STRING));
         orgPosInfo.addField(new FieldDescriptor("orgPosInfo/maxPpl", getLabel(OrgConstants.POS_MAX_PPL_LABEL_KEY), Type.STRING));
         
-        orgPosInfo.addStyleName("KS-CORE-Section-Divider");
+        orgPosInfo.addStyleName("KS-LUM-Section-Divider");
 
         section.addSection(orgPosInfo);
         return section;
@@ -152,7 +132,7 @@ public class OrgConfigurerFactory {
         orgInfo.setSectionTitle(getH3Title(""));
         // crossListed.setInstructions("Enter Department and/or Subject Code/Course Number.");
         orgInfo.addField(new FieldDescriptor("cluInfo/alternateIdentifiers", "Label45", Type.STRING));
-        orgInfo.addStyleName("KS-CORE-Section-Divider");
+        orgInfo.addStyleName("KS-LUM-Section-Divider");
         // courseNumber.addSection(crossListed);
         section.addSection(orgInfo);
         return section;
@@ -166,7 +146,7 @@ public class OrgConfigurerFactory {
         orgInfo.setSectionTitle(getH3Title(""));
         // crossListed.setInstructions("Enter Department and/or Subject Code/Course Number.");
         orgInfo.addField(new FieldDescriptor("cluInfo/alternateIdentifiers", "Label45", Type.STRING));
-        orgInfo.addStyleName("KS-CORE-Section-Divider");
+        orgInfo.addStyleName("KS-LUM-Section-Divider");
         // courseNumber.addSection(crossListed);
         section.addSection(orgInfo);
         return section;
@@ -180,7 +160,7 @@ public class OrgConfigurerFactory {
         orgInfo.setSectionTitle(getH3Title(""));
         // crossListed.setInstructions("Enter Department and/or Subject Code/Course Number.");
         orgInfo.addField(new FieldDescriptor("cluInfo/alternateIdentifiers", "Label45", Type.STRING));
-        orgInfo.addStyleName("KS-CORE-Section-Divider");
+        orgInfo.addStyleName("KS-LUM-Section-Divider");
         // courseNumber.addSection(crossListed);
         section.addSection(orgInfo);
         return section;
@@ -194,7 +174,7 @@ public class OrgConfigurerFactory {
         orgInfo.setSectionTitle(getH3Title(""));
         // crossListed.setInstructions("Enter Department and/or Subject Code/Course Number.");
         orgInfo.addField(new FieldDescriptor("cluInfo/alternateIdentifiers", "Label45", Type.STRING));
-        orgInfo.addStyleName("KS-CORE-Section-Divider");
+        orgInfo.addStyleName("KS-LUM-Section-Divider");
         // courseNumber.addSection(crossListed);
         section.addSection(orgInfo);
         return section;
@@ -208,7 +188,7 @@ public class OrgConfigurerFactory {
         orgInfo.setSectionTitle(getH3Title(""));
         // crossListed.setInstructions("Enter Department and/or Subject Code/Course Number.");
         orgInfo.addField(new FieldDescriptor("cluInfo/alternateIdentifiers", "Label45", Type.STRING));
-        orgInfo.addStyleName("KS-CORE-Section-Divider");
+        orgInfo.addStyleName("KS-LUM-Section-Divider");
         // courseNumber.addSection(crossListed);
         section.addSection(orgInfo);
         return section;
@@ -217,7 +197,7 @@ public class OrgConfigurerFactory {
 	
     private static VerticalSectionView initSectionView (Enum<?> viewEnum, String labelKey) {
         VerticalSectionView section = new VerticalSectionView(viewEnum, labelKey, ORG_PROPOSAL_MODEL);
-        section.addStyleName("KS-CORE-Section");
+        section.addStyleName("KS-LUM-Section");
         section.setSectionTitle(getH1Title(labelKey));
         return section;
 
@@ -228,9 +208,9 @@ public class OrgConfigurerFactory {
         if (title !=  null) {
           section.setSectionTitle(title);
         }
-        section.addStyleName("KS-CORE-Section");
+        section.addStyleName("KS-LUM-Section");
         if (withDivider)
-            section.addStyleName("KS-CORE-Section-Divider");
+            section.addStyleName("KS-LUM-Section-Divider");
         return section;
     }
     
@@ -245,41 +225,5 @@ public class OrgConfigurerFactory {
         return SectionTitle.generateH3Title(getLabel(labelKey));
     } 
     
-    private void addField(Section section, String fieldKey, String fieldLabel) {
-        addField(section, fieldKey, fieldLabel, null);
-    }
-    private void addField(Section section, String fieldKey, String fieldLabel, Widget widget) {
-        addField(section, fieldKey, fieldLabel, widget, null);
-    }
-    private void addField(Section section, String fieldKey, String fieldLabel, Widget widget, String parentPath) {
-        Metadata meta = modelDefinition.getMetadata(QueryPath.concat(parentPath, fieldKey));
-        
-        FieldDescriptor fd = new FieldDescriptor(fieldKey, fieldLabel, meta);
-        if (widget != null) {
-            fd.setFieldWidget(widget);
-        }
-        section.addField(fd);
-    }
-    public class VersionCodeList extends UpdatableMultiplicityComposite {
-        {
-            setAddItemLabel(getLabel("cluAddVersionCode"));
-            setItemLabel(getLabel("cluVersionCode"));
-        }
-
-        @Override
-        public MultiplicityItem getItemDecorator() {
-            return new RemovableItem();
-        }
-
-        @Override
-        public Widget createItem() {
-            CustomNestedSection ns = new CustomNestedSection();
-            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            addField(ns, "versionCode", getLabel("cluCode"));
-            addField(ns, "versionTitle", getLabel("cluTitleLiteral"));
-            
-            return ns;
-        }
-    }
 
 }
