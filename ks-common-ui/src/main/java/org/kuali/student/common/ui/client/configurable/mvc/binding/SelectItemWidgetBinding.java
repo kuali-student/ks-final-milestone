@@ -13,8 +13,12 @@ import java.util.List;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.common.assembly.client.Data.Property;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.WidgetReadyCallback;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
+
+import com.google.gwt.user.client.ui.Widget;
 
 public class SelectItemWidgetBinding extends ModelWidgetBindingSupport<KSSelectItemWidgetAbstract> {
 
@@ -53,19 +57,33 @@ public class SelectItemWidgetBinding extends ModelWidgetBindingSupport<KSSelectI
     }
 
     @Override
-    public void setWidgetValue(KSSelectItemWidgetAbstract object, DataModel model, String path) {
-        QueryPath qPath = QueryPath.parse(path);
-        Object value = model.get(qPath);
-        object.clear();
+    public void setWidgetValue(KSSelectItemWidgetAbstract object, final DataModel model, final String path) {
+        
+        Callback<Widget> selectListItemsCallback = new Callback<Widget>(){
+            @Override
+            public void exec(Widget widget) {
+                QueryPath qPath = QueryPath.parse(path);
+                Object value = model.get(qPath);
 
-        if (value instanceof String) {
-            // is a single id
-            object.selectItem((String) value);
-        } else if (value instanceof Data) {
-            for (Iterator itr = ((Data) value).iterator(); itr.hasNext();) {
-                Property p = (Property) itr.next();
-                object.selectItem((String) p.getValue());
-            }
+                // TODO Will Gomes - THIS METHOD NEEDS JAVADOCS
+                ((KSSelectItemWidgetAbstract)widget).clear();
+                if (value instanceof String) {
+                    // is a single id
+                    ((KSSelectItemWidgetAbstract)widget).selectItem((String) value);
+                } else if (value instanceof Data) {
+                    for (Iterator itr = ((Data) value).iterator(); itr.hasNext();) {
+                        Property p = (Property) itr.next();
+                        ((KSSelectItemWidgetAbstract)widget).selectItem((String) p.getValue());
+                    }
+                }               
+            }            
+        };
+
+        if (!object.isInitialized()){
+            object.addWidgetReadyCallback(selectListItemsCallback);
+        } else{
+            selectListItemsCallback.exec(object);
         }
     }
+    
 }
