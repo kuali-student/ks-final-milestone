@@ -30,6 +30,8 @@ public class LookupMetadata implements Serializable {
     @XmlElementWrapper
     private List<LookupParamMetadata> params;
     
+    @XmlElement(name="result")
+    @XmlElementWrapper
     private List<LookupResultMetadata> results;
     
     private LookupQosMetadata qosMetadata;
