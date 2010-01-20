@@ -420,6 +420,9 @@
 				<entry key="Atp">
 					<value>classpath:ks-atp.sql</value>
 				</entry>
+				<entry key="EnumerationManagement">
+					<value>classpath:ks-em.sql</value>
+				</entry>
            	</map>
         </property>
  	</bean>

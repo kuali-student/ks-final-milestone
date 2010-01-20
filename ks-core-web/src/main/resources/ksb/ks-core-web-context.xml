@@ -13,6 +13,7 @@
 
 
 	<import resource="classpath:ksb/ks-core-context.xml" />
+	<import resource="classpath:ks-spring-security.xml" />
 
 	<bean id="config" class="org.kuali.student.rice.config.spring.NestedConfigFactoryBean" depends-on="systemPropertyConfigurer">
 		<property name="configLocations">
@@ -38,7 +39,5 @@
 			</bean>
 		</property>
 	</bean>
-
-	<import resource="classpath:ks-spring-security.xml" />
 
 </beans>
