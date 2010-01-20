@@ -17,7 +17,6 @@ package org.kuali.student.lum.lu.ui.course.client.configuration.course;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.assembly.client.LookupMetadata;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.common.ui.client.application.Application;
@@ -39,9 +38,9 @@ import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSection
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
 import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
 import org.kuali.student.common.ui.client.widgets.list.HasSelectionChangeHandlers;
@@ -52,8 +51,6 @@ import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.search.AdvancedSearchWindow;
 import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
-import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
-import org.kuali.student.common.ui.client.widgets.search.SuggestBoxWAdvSearch;
 import org.kuali.student.common.ui.client.widgets.selectors.KSSearchComponent;
 import org.kuali.student.common.ui.client.widgets.selectors.SearchComponentConfiguration;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
@@ -61,7 +58,6 @@ import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.newdto.SearchParam;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityConstants;
@@ -80,7 +76,10 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRequisitesS
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LuConfigurer.LuSections;
 import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.service.AtpRpcService;
+import org.kuali.student.lum.lu.ui.course.client.service.AtpRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.widgets.AssemblerTestSection;
+import org.kuali.student.lum.lu.ui.course.client.widgets.AtpPicker;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
 import org.kuali.student.lum.lu.ui.course.client.widgets.LOBuilder;
 import org.kuali.student.lum.lu.ui.course.client.widgets.OfferedJointlyList;
@@ -88,9 +87,12 @@ import org.kuali.student.lum.lu.ui.course.client.widgets.OrgPicker;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -411,9 +413,29 @@ public class CourseConfigurer
 
         VerticalSection scheduling = initSection(getH3Title(LUConstants.SCHEDULING_LABEL_KEY), WITH_DIVIDER);
         // FIXME wilj: termsOffered not currently populated by assembler
-        addField(scheduling, COURSE + "/" + CreditCourseConstants.DURATION + "/" + TERM_TYPE, getLabel(LUConstants.TERM_LITERAL_LABEL_KEY), new AtpTypeList());
+        
+//        addField(scheduling, COURSE + "/" + CreditCourseConstants.DURATION + "/" + TERM_TYPE, getLabel(LUConstants.TERM_LITERAL_LABEL_KEY), new AtpTypeList());
+        String termKey = COURSE + "/" + CreditCourseConstants.DURATION + "/" + TERM_TYPE;
+        Metadata termMeta = modelDefinition.getMetadata(QueryPath.parse(termKey));
+        FieldDescriptor termDescriptor = new FieldDescriptor(termKey, null, termMeta);
+        termDescriptor.setFieldWidget(new TermListPicker());
+        final QueryPath deptPath = QueryPath.parse(termDescriptor.getFieldKey());
+        termDescriptor.setWidgetBinding(new ModelWidgetBinding<TermListPicker>() {
+            // FIXME had to create custom binding because the TermListPicker always returns a list, even of 1
+            @Override
+            public void setModelValue(TermListPicker widget, DataModel model,
+                    String path) {
+                model.set(deptPath, widget.getSelectedItem());
+                
+            }
+            @Override
+            public void setWidgetValue(TermListPicker widget, DataModel model,
+                    String path) {
+                widget.setText((String) model.get(path));
+            }
+        });
+        scheduling.addField(termDescriptor);
         addField(scheduling, COURSE + "/" + CreditCourseConstants.DURATION + "/" + QUANTITY, getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY)); //TODO DURATION ENUMERATION
-
 
         //COURSE FORMATS
         VerticalSection courseFormats = initSection(getH3Title(LUConstants.FORMATS_LABEL_KEY), WITH_DIVIDER);
@@ -427,6 +449,27 @@ public class CourseConfigurer
 
         
         return section;
+    }
+
+    private static AdvancedSearchWindow createAtpSearchWindow(){
+
+        AtpRpcServiceAsync atpRpcServiceAsync = GWT.create(AtpRpcService.class);
+        Metadata searchMetadata = new CreditCourseMetadata().getMetadata("", "");  //no type or state at this point
+        SearchPanel searchPicker = new SearchPanel(atpRpcServiceAsync, searchMetadata.getProperties().get("firstExpectedOffering").getLookupMetadata());
+        final AdvancedSearchWindow atpSearchWindow = new AdvancedSearchWindow("Find Session", searchPicker);
+
+//        atpSearchWindow.addSelectionCompleteCallback(new Callback<List<String>>(){
+//            public void exec(List<String> event) {
+//                final String selected = event.get(0);
+//                if (selected.length() > 0){
+////                  List<String> selectedItems = event;
+////                  ChangeViewStateEvent tempEvent = new ChangeViewStateEvent(LUMViews.VIEW_COURSE, selectedItems);
+////                  FindPanel.this.getController().fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.VIEW_COURSE, event));
+//                    atpSearchWindow.hide();
+//                }                
+//            }            
+//        });
+        return atpSearchWindow;
     }
 
     private SectionView generateLearningObjectivesSection() {
@@ -623,6 +666,75 @@ public class CourseConfigurer
 
     }
     
+    public class TermListPicker extends KSSelectItemWidgetAbstract implements HasText {
+        private AtpPicker atpPicker;
+
+        public TermListPicker(){
+            atpPicker = new AtpPicker();
+            initWidget(atpPicker);
+        }
+
+        public void deSelectItem(String id) {
+            throw new UnsupportedOperationException();
+        }
+
+        public List<String> getSelectedItems() {
+            ArrayList<String> selectedItems = new ArrayList<String>();
+            selectedItems.add(atpPicker.getText());
+            return selectedItems;
+        }
+
+        public boolean isEnabled() {
+            return true;
+        }
+
+        public void onLoad() {
+        }
+
+        public void redraw() {
+            throw new UnsupportedOperationException();
+        }
+
+        public void selectItem(String id) {
+            atpPicker.setText(id);
+        }
+
+        public void setEnabled(boolean b) {
+            throw new UnsupportedOperationException();
+        }
+
+        public boolean isMultipleSelect(){
+            return true;
+        }
+        
+        public void clear(){
+            atpPicker.clear();
+        }
+
+        @Override
+        public HandlerRegistration addFocusHandler(FocusHandler handler) {
+            return atpPicker.addFocusHandler(handler);
+        }
+
+        @Override
+        public HandlerRegistration addBlurHandler(BlurHandler handler) {
+            return atpPicker.addBlurHandler(handler);
+        }
+
+        @Override
+        public String getText() {
+            return atpPicker.getText();
+        }
+
+        @Override
+        public void setText(String value) {
+            atpPicker.setText(value);
+            
+        }
+
+    }
+    
+    
     // FIXME uncomment and fix AlternateAdminOrgList and AlternateInstructorList
 //    public class AlternateAdminOrgList extends MultiplicityCompositeWithLabels {
 //        {
@@ -807,8 +919,8 @@ public class CourseConfigurer
             
             return ns;
         }
-    }  
-
+    }
+    
     /*
      * Configuring Program specific screens.
      */
