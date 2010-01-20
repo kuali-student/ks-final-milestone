@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.service.SearchRpcService;
+import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.newdto.SearchRequest;
@@ -51,9 +52,10 @@ public class SearchDispatchRpcGwtServlet extends RemoteServiceServlet implements
 	 * Delegates to the service responsible for the given search type key
 	 * @param searchRequest
 	 * @return The searchResult from the delegated search or null
+	 * @throws MissingParameterException 
 	 */
 	@Override
-	public SearchResult search(SearchRequest searchRequest) {
+	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
 		//Lookup which service to call for given search key and do the search
 		if(searchRequest != null){
 			String searchKey = searchRequest.getSearchKey();

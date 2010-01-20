@@ -52,7 +52,7 @@ public class TempSearchBackedTable extends Composite{
     private List<AbstractColumnDefinition<ResultRow, ?>> columnDefs = new ArrayList<AbstractColumnDefinition<ResultRow, ?>>();
     private GenericTableModel<ResultRow> tableModel = new GenericTableModel<ResultRow>(resultRows);
     private PagingScrollTableBuilder<ResultRow> builder;
-    private String resultIdKey;
+    private String resultIdColumnKey;
     protected PagingScrollTable<ResultRow> pagingScrollTable;
     private VerticalPanel layout = new VerticalPanel();
     private PagingOptions pagingOptions;
@@ -67,7 +67,7 @@ public class TempSearchBackedTable extends Composite{
     public TempSearchBackedTable(BaseRpcServiceAsync searchService, String searchTypeKey, String resultIdKey){
         super();
         this.searchService = searchService;
-        this.resultIdKey = resultIdKey;
+        this.resultIdColumnKey = resultIdKey;
         builder = new PagingScrollTableBuilder<ResultRow>();
         builder.tablePixelSize(400, 300);
         //builder.cacheTable(10, 10);
@@ -84,7 +84,7 @@ public class TempSearchBackedTable extends Composite{
                     //TODO: use this as a token to get a message from message service instead 
                     String header = r.getName();
                     String key = r.getKey();
-                    if(!(r.getKey().equals(TempSearchBackedTable.this.resultIdKey))){
+                    if(!(r.getKey().equals(TempSearchBackedTable.this.resultIdColumnKey))){
                         columnDefs.add(new SearchColumnDefinition(header, key));
                     }
                 }
@@ -137,7 +137,7 @@ public class TempSearchBackedTable extends Composite{
                     for (SearchResultRow r: results.getRows()){
                         ResultRow theRow = new ResultRow();
                         for(SearchResultCell c: r.getCells()){
-                            if(c.getKey().equals(resultIdKey)){
+                            if(c.getKey().equals(resultIdColumnKey)){
                                 theRow.setId(c.getValue());
                             }
                             theRow.setValue(c.getKey(), c.getValue());

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.LookupMetadata;
 import org.kuali.student.common.assembly.client.LookupParamMetadata;
 import org.kuali.student.common.assembly.client.Metadata.WriteAccess;
@@ -19,7 +18,7 @@ import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstrac
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
-import org.kuali.student.common.ui.client.widgets.search.TempSearchBackedTable;
+import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import org.kuali.student.core.search.newdto.SearchParam;
 import org.kuali.student.core.search.newdto.SearchRequest;
 
@@ -34,15 +33,18 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class SearchPanel extends Composite{
+	
+	//Layout confirguration
 	private VerticalFlowPanel layout = new VerticalFlowPanel();
 	private SimplePanel searchCriteriaPanel = new SimplePanel();
 	private VerticalFlowPanel tablePanel = new VerticalFlowPanel();
 	private HorizontalBlockFlowPanel criteria = new HorizontalBlockFlowPanel();
 	private CollapsablePanel modifySearchPanel;
 	private boolean resultsShown = false;
-	//Swap with new table implementation
-	private TempSearchBackedTable table = null;
 	
+	//Search data
+	private LookupMetadata lookupMetadata;
+    private TempSearchBackedTable table = null;				//FIXME: Swap with new table implementation
 	private static enum SearchStyle{ADVANCED, CUSTOM};
 	
 	//TODO messages
@@ -113,6 +115,7 @@ public class SearchPanel extends Composite{
 	//TODO get rid of this, only in here as intermediate solution
 	@Deprecated
 	public SearchPanel(BaseRpcServiceAsync searchService, LookupMetadata meta){
+		lookupMetadata = meta;
 		layout.add(createSearchParamPanel(null, meta));
 		table = new TempSearchBackedTable(searchService, meta.getKey(), meta.getResultReturnKey());
 		tablePanel.add(searchCriteria);
@@ -124,6 +127,7 @@ public class SearchPanel extends Composite{
 	}
 
 	public SearchPanel(SearchBaseRpc search, LookupMetadata meta){
+		lookupMetadata = meta;		
 		layout.add(createSearchParamPanel(search, meta));
 		tablePanel.add(searchCriteria);
 		tablePanel.add(criteria);
@@ -136,6 +140,7 @@ public class SearchPanel extends Composite{
 	
 	//TODO constructor for list of lookupMeata, is it always a single searchrpc class?
 	public SearchPanel(SearchBaseRpc search, List<LookupMetadata> metas){
+		//lookupMetadata = metas;		
 		
 		LinkedHashMap<String, Widget> searches = new LinkedHashMap<String, Widget>(); 
 		for(LookupMetadata meta: metas){
@@ -373,7 +378,6 @@ public class SearchPanel extends Composite{
 						if(metaParam.getWriteAccess() == WriteAccess.NEVER){
 							SearchParam param = new SearchParam();
 							param.setKey(metaParam.getKey());
-							metaParam.setDefaultValue(new Data.StringValue("kuali.lu.type.CreditCourse"));   //FIXME remove when default value is set in lookup bank
 							param.setValue(metaParam.getDefaultValue().toString());
 							params.add(param);
 						}
@@ -497,6 +501,24 @@ public class SearchPanel extends Composite{
 			ids = table.getSelectedIds();
 		}
 		return ids;
+	}
+	
+	public List<SelectedResults> getSelectedValues() {
+				
+		List<SelectedResults> selectedValues = new ArrayList<SelectedResults>();
+		if (table != null) {			
+			List<ResultRow> selectedRows = table.getSelectedRows();
+			for (ResultRow row : selectedRows) {
+				String displayKey = row.getValue(lookupMetadata.getResultDisplayKey());
+				String returnKey = row.getValue(lookupMetadata.getResultReturnKey());
+				selectedValues.add(new SelectedResults(displayKey, returnKey));
+				if (multiSelect == false) {
+					break;
+				}
+			}
+		}
+			
+		return selectedValues;
 	}
 	
 	public boolean isMultiSelect() {

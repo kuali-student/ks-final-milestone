@@ -57,7 +57,7 @@
 				</search:queryParam>		
 				<search:queryParam id="org.queryParam.orgOptionalShortName" optional="true">
 					<dict:fieldDescriptor>
-						<dict:name>Organization Name</dict:name>
+						<dict:name>Organization Short Name</dict:name>
 						<dict:desc>Short organization name.</dict:desc>
 						<dict:dataType>string</dict:dataType>
 						<dict:readOnly>true</dict:readOnly>

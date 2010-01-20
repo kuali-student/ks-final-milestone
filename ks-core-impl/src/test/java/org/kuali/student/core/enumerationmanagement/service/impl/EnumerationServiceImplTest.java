@@ -56,7 +56,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
     public EnumerationManagementServiceImpl enumService = new EnumerationManagementServiceImpl();
     
     @Test
-    public void testSearch() throws OperationFailedException{
+    public void testSearch() throws OperationFailedException, MissingParameterException{
     	SearchManager searchManager = new SearchManagerImpl("classpath:em-search-config.xml");
     	enumService.setSearchManager(searchManager);
     	enumService.setEnumDAO(enumerationManagementDAO);

@@ -278,7 +278,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 	}
 
 	@Override
-	public SearchResult search(SearchRequest searchRequest) {
+	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
 		return searchManager.search(searchRequest, enumDAO);
 	}
 	

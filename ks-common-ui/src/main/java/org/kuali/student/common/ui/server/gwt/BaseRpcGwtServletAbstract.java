@@ -246,6 +246,11 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
      */
     @Override
     public SearchResult search(SearchRequest searchRequest) {                
-        return ((SearchService)getService()).search(searchRequest);        
+        try {
+			return ((SearchService)getService()).search(searchRequest);
+		} catch (MissingParameterException e) {
+			e.printStackTrace();
+		} 
+		return null;
     }        
 }

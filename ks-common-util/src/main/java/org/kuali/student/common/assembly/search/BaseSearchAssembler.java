@@ -7,6 +7,7 @@ import org.kuali.student.common.assembly.Assembler;
 import org.kuali.student.common.assembly.client.AssemblyException;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.assembly.client.SaveResult;
+import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.search.newdto.SearchRequest;
 import org.kuali.student.core.search.newdto.SearchResult;
 import org.kuali.student.core.search.service.SearchService;
@@ -20,7 +21,13 @@ public class BaseSearchAssembler implements Assembler<String,String> {
 		
 		SearchService searchService = searchKeyToServiceMap.get(searchKey);
 		
-		return searchService.search(searchRequest);
+		try {
+			return searchService.search(searchRequest);
+		} catch (MissingParameterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	@Override

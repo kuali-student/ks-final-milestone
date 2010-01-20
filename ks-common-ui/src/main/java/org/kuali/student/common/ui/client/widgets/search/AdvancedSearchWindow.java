@@ -13,7 +13,7 @@ import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 public class AdvancedSearchWindow {
 	private KSLightBox dialog = new KSLightBox();
 	private KSThinTitleBar titleBar = null;
-	private List<Callback<List<String>>> callbacks = new ArrayList<Callback<List<String>>>();
+	private List<Callback<List<SelectedResults>>> callbacks = new ArrayList<Callback<List<SelectedResults>>>();
 	private SearchPanel searchPanel;
 	private VerticalFlowPanel layout = new VerticalFlowPanel();
 	
@@ -23,8 +23,8 @@ public class AdvancedSearchWindow {
         public void exec(ConfirmCancelEnum result) {
             switch(result){
                 case CONFIRM:
-                    List<String> selectedItems = searchPanel.getSelectedIds();
-                    for(Callback<List<String>> callback: callbacks){
+                    List<SelectedResults> selectedItems = searchPanel.getSelectedValues();
+                    for(Callback<List<SelectedResults>> callback: callbacks){
                     	callback.exec(selectedItems);
                     }
                     dialog.hide();
@@ -49,7 +49,7 @@ public class AdvancedSearchWindow {
 		dialog.setWidget(layout);
 	}
 	
-	public void addSelectionCompleteCallback(Callback<List<String>> callback){
+	public void addSelectionCompleteCallback(Callback<List<SelectedResults>> callback){
 		callbacks.add(callback);
 	}
 	

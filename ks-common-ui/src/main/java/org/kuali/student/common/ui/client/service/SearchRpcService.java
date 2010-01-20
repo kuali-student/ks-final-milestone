@@ -7,5 +7,5 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 @RemoteServiceRelativePath("rpcservices/SearchRpcService")
 public interface SearchRpcService {
-	public SearchResult search(SearchRequest searchRequest);
+	public SearchResult search(SearchRequest searchRequest) throws Exception;
 }

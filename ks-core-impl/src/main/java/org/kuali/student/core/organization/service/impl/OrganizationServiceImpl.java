@@ -961,9 +961,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
-	public SearchResult search(SearchRequest searchRequest) {
-		return searchManager.search(searchRequest, organizationDao);
+	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
+        checkForMissingParameter(searchRequest, "searchRequest");
+        return searchManager.search(searchRequest, organizationDao);
 	}
-
-
 }
