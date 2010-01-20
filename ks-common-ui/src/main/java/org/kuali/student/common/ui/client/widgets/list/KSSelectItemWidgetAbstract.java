@@ -40,23 +40,14 @@ public abstract class KSSelectItemWidgetAbstract extends Composite implements Ha
 	private ListItems listItems = null;
 	private String name;
 	private List<Callback<Widget>> widgetReadyCallbacks;
-	protected boolean initialized = false;
-	
-	
+	private boolean initialized = false;
+		
 	public ListItems getListItems() {
 		return listItems;
 	}
 
 	public <T extends Idable> void setListItems(ListItems listItems) {
-		this.listItems = listItems;
-		
-		initialized = true;		
-
-		//Callbacks might need to be moved after a redraw happens
-		while (widgetReadyCallbacks != null && widgetReadyCallbacks.size() > 0){
-		    Callback<Widget> callback = widgetReadyCallbacks.remove(0);
-		    callback.exec(this);
-		}
+		this.listItems = listItems;		
 	}
 	
 	
@@ -172,7 +163,14 @@ public abstract class KSSelectItemWidgetAbstract extends Composite implements Ha
 
     @Override
     public void setInitialized(boolean initialized) {
-        this.initialized = initialized;        
+        this.initialized = initialized;
+        if (initialized){
+            //Callbacks might need to be moved after a redraw happens
+            while (widgetReadyCallbacks != null && widgetReadyCallbacks.size() > 0){
+                Callback<Widget> callback = widgetReadyCallbacks.remove(0);
+                callback.exec(this);
+            }            
+        }
     }
 
     @Override

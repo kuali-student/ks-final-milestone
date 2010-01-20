@@ -63,7 +63,7 @@ public class KSDropDownImpl extends KSSelectItemWidgetAbstract implements HasFoc
         }
         
         selectItem(selectedItem);
-        
+        setInitialized(true);
 	}
 	
     protected void init() {
