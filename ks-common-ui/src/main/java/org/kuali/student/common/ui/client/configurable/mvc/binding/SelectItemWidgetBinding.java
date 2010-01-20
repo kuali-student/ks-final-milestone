@@ -15,7 +15,6 @@ import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.common.assembly.client.Data.Property;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.common.ui.client.mvc.WidgetReadyCallback;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 
 import com.google.gwt.user.client.ui.Widget;
