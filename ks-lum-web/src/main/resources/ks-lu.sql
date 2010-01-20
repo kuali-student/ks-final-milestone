@@ -712,14 +712,14 @@ INSERT INTO KSLU_LO_JN_CLU (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERS
 INSERT INTO KSLU_LO_JN_CLU (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, LO_ID, CLU_ID) VALUES ('LO-7', 'CREATEID', {ts '2009-12-01 09:00:00.0'}, 'UPDATEID', {ts '2009-12-01 10:00:00.0'},1,'81ABEA67-3BCC-4088-8348-E265F3670145', 'a1c35e82-8a24-495b-aa91-98d9317e3604')
 
 // Test data for View Course
-insert into KSLUM.KSLU_CLU_JN_CAMP_LOC camp (ID, CAMP_LOC, CLU_ID) values ('CAMP-1', 'Campus 1','2f68e422-a54f-4f10-9cf2-37dd4083ce5d');
-insert into KSLUM.KSLU_CLU_JN_CAMP_LOC camp (ID, CAMP_LOC, CLU_ID) values ('CAMP-2', 'Campus 2','2f68e422-a54f-4f10-9cf2-37dd4083ce5d');
+insert into KSLUM.KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('CAMP-1', 'Campus 1','2f68e422-a54f-4f10-9cf2-37dd4083ce5d');
+insert into KSLUM.KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('CAMP-2', 'Campus 2','2f68e422-a54f-4f10-9cf2-37dd4083ce5d');
 insert into kslum.kslu_clu_admin_org (id, org_id) values ('ADMIN-ORG-1','42');
 insert into kslum.kslu_clu_admin_org (id, org_id) values ('ADMIN-ORG-2','44');
-insert into KSLUM.KSLU_CLU_JN_ALT_ADMIN_ORG org (clu_ID, ALT_ORG_ID) values ('2f68e422-a54f-4f10-9cf2-37dd4083ce5d', 'ADMIN-ORG-1');
-insert into KSLUM.KSLU_CLU_JN_ALT_ADMIN_ORG org (clu_ID, alt_ORG_ID) values ('2f68e422-a54f-4f10-9cf2-37dd4083ce5d', 'ADMIN-ORG-2');
-insert into KSLUM.KSLU_CLU_INSTR instr (INSTR.ID, INSTR.ORG_ID, INSTR.PERS_ID) values ('INSTR-3', 'ORG-2','Jack');
-insert into KSLUM.KSLU_CLU_INSTR instr (INSTR.ID, INSTR.ORG_ID, INSTR.PERS_ID) values ('INSTR-4', 'ORG-3','Jill');
-insert into KSLUM.KSLU_CLU_JN_SUBJ_ORG org (id, CLU_ID, org_id) values ('SUBJ-ORG-1', '2f68e422-a54f-4f10-9cf2-37dd4083ce5d', '42');
-insert into KSLUM.KSLU_CLU_JN_SUBJ_ORG org (id, CLU_ID, org_id) values ('SUBJ-ORG-2', '2f68e422-a54f-4f10-9cf2-37dd4083ce5d', '101');
-update KSLUM.KSLU_CLU clu set CLU.PRI_ADMIN_ORG_ID = 'ADMIN-ORG-1',CLU.PRI_INSTR_ID = 'INSTR-3' where CLU.ID = '2f68e422-a54f-4f10-9cf2-37dd4083ce5d';
+insert into KSLUM.KSLU_CLU_JN_ALT_ADMIN_ORG (clu_ID, ALT_ORG_ID) values ('2f68e422-a54f-4f10-9cf2-37dd4083ce5d', 'ADMIN-ORG-1');
+insert into KSLUM.KSLU_CLU_JN_ALT_ADMIN_ORG (clu_ID, alt_ORG_ID) values ('2f68e422-a54f-4f10-9cf2-37dd4083ce5d', 'ADMIN-ORG-2');
+insert into KSLUM.KSLU_CLU_INSTR (ID, ORG_ID, PERS_ID) values ('INSTR-3', 'ORG-2','Jack');
+insert into KSLUM.KSLU_CLU_INSTR (ID, ORG_ID, PERS_ID) values ('INSTR-4', 'ORG-3','Jill');
+insert into KSLUM.KSLU_CLU_JN_SUBJ_ORG (id, CLU_ID, org_id) values ('SUBJ-ORG-1', '2f68e422-a54f-4f10-9cf2-37dd4083ce5d', '42');
+insert into KSLUM.KSLU_CLU_JN_SUBJ_ORG (id, CLU_ID, org_id) values ('SUBJ-ORG-2', '2f68e422-a54f-4f10-9cf2-37dd4083ce5d', '101');
+update KSLUM.KSLU_CLU set PRI_ADMIN_ORG_ID = 'ADMIN-ORG-1',PRI_INSTR_ID = 'INSTR-3' where ID = '2f68e422-a54f-4f10-9cf2-37dd4083ce5d';
