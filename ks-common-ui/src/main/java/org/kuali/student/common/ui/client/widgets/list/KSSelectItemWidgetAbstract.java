@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.HasWidgetReadyCallback;
-import org.kuali.student.common.ui.client.mvc.WidgetReadyCallback;
 import org.kuali.student.core.dto.Idable;
 
 import com.google.gwt.event.dom.client.HasBlurHandlers;
