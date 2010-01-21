@@ -106,10 +106,12 @@ public class MetadataServiceImpl {
             
             //Determine if repeating element, which needs to be wrapped in a '*' property
             boolean isRepeating = false;
-            for (ConstraintMetadata c:field.getConstraints()){
-                if (c.getId() != null && c.getId().equals("repeating")){
-                    isRepeating = true;
-                    break;
+            if (field.getConstraints() != null) {
+                for (ConstraintMetadata c : field.getConstraints()) {
+                    if (c.getId() != null && c.getId().equals("repeating")) {
+                        isRepeating = true;
+                        break;
+                    }
                 }
             }
             
