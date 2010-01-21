@@ -357,6 +357,7 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 
 	@Override
 	public void addTool(final ToolView tool) {
+	    viewEnums.put(tool.getViewEnum().toString(), tool.getViewEnum());
 		String tabKey = tool.getName();
 		
 		TabLayout layout;
