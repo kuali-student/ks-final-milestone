@@ -19,16 +19,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.statement.config.CluInfo;
 import org.kuali.student.core.statement.config.CluSetInfo;
 import org.kuali.student.core.statement.entity.ReqComponent;
-import org.kuali.student.core.statement.entity.ReqComponentField;
-import org.kuali.student.core.statement.naturallanguage.Context;
+import org.kuali.student.core.statement.naturallanguage.AbstractContext;
 import org.kuali.student.core.statement.naturallanguage.util.ReqComponentTypes;
 
-public abstract class AbstractLuContext<T> implements Context<T> {
+public abstract class AbstractLuContext<T> extends AbstractContext<T> {
 
 	private final static Map<String, CluInfo> cluMap = new HashMap<String, CluInfo>();
 	private final static Map<String, CluSetInfo> cluSetMap = new HashMap<String, CluSetInfo>();
@@ -45,9 +43,6 @@ public abstract class AbstractLuContext<T> implements Context<T> {
 	 */
 	protected final static String CLU_TOKEN = "clu";
 	protected final static String CLU_SET_TOKEN = "cluSet";
-	protected final static String EXPECTED_VALUE_TOKEN = "expectedValue";
-	protected final static String FIELDS_TOKEN = "fields";
-	protected final static String OPERATOR_TOKEN = "relationalOperator";
 
 	/*
 	 * Constructor.
@@ -154,42 +149,4 @@ public abstract class AbstractLuContext<T> implements Context<T> {
         }
     	return cluSet;
     }
-
-    /**
-     * Gets requirement component fields as a map.
-     * 
-     * @param reqComponent Requirement component
-     * @return Map of requirement component fields
-     */
-    public Map<String, String> getReqCompField(ReqComponent reqComponent) {
-        List<ReqComponentField> fields = reqComponent.getReqCompFields();
-        Map<String, String> map = new HashMap<String, String>();
-        for (ReqComponentField field : fields) {
-            String key = field.getKey();
-            //String key = field.getId();
-            String value = field.getValue();
-            map.put(key, value);
-        }
-        return map;
-    }
-
-    /**
-     * Gets the value of the ReqCompFieldInfo key. 
-     * See {@link ReqCompFieldInfo#getKey()} 
-     * 
-     * @param reqComponent Requirement component
-     * @param key <code>ReqCompFieldInfo</code> key
-     * @return Value of <code>ReqCompFieldInfo</code>
-     */
-    public String getReqCompFieldValue(ReqComponent reqComponent, String key) {
-        return getReqCompField(reqComponent).get(key);
-    }
-
-    /**
-     * Creates the data context map (template data) for a specific context.
-     * 
-     * @param context Context to create the map from
-     * @throws DoesNotExistException If CLU, CluSet or relation does not exist
-     */
-	public abstract Map<String, Object> createContextMap(T context) throws OperationFailedException;
 }
