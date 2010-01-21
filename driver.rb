@@ -35,7 +35,10 @@ require 'rdoc/usage'
 def setup
   puts "Let's setup your test run config..."
   
+  
+  #
   # Clients
+  #
   print "What clients are you driving your tests from? [hostname1,hostname2,...] "
   clients = gets.chomp!
   while(clients !~ /^(\w+)(\,\w+)*?$/) # validate format
@@ -45,7 +48,10 @@ def setup
   
   @@config[:clients] = clients.split(/,/)
   
+  
+  #
   # Servers
+  #
   print "What servers do you want to test? [hostname1:port,hostname2:port,...] "
   servers = gets.chomp!
   while(servers !~ /^(\w+:\d+)(\,\w+:\d+)*?$/) # validate format
@@ -55,7 +61,10 @@ def setup
   
   @@config[:servers] = servers.split(/,/)
   
+  
+  #
   # Phases
+  #
   @@config[:phases] = {}
   puts "Let's setup your test scenario or phases, you can define multiple phases"
   phase = 0
@@ -65,7 +74,7 @@ def setup
     
     print "Phase #{phase}: How many minutes? "
     min_duration = gets.chomp!
-    while(min_duration !~ /\d/) # validate only digits
+    while(min_duration =~ /\D/) # validate only digits
       print "Please specify only numeric entry: "
       min_duration = gets.chomp!
     end
@@ -77,7 +86,62 @@ def setup
     add_phase = gets.chomp!
   end while (add_phase == 'y')
   
+  
+  #
+  # User Agent
+  #
+  puts "Let's setup what user agents you'd like to test with"
+  probability_total = 0
+  @@config[:agents] = {}
+  agent_list = []
+  
+  File.open("agent_list", "r") do |agent_file|
+    while(line = agent_file.gets)
+      next if(line =~ /^\#/) # skip if it's a comment
+      agent_list << line.chomp
+    end
+  end
+  
+  puts "Here are the agents you can specify..."
+  option = 0
+  agent_list.each {|agent| puts "#{option+=1}: #{agent}"}
+  available_perc = 100
+  
+  # Loop over collecting agents until we have 100%
+  begin
+    print "Specify the number of the agent you'd like to use: "
+    agent_num = gets.chomp
+    while(agent_num =~ /\D/) # validate only digits
+      print "Please specify only numeric entry: "
+      agent_num = gets.chomp
+    end
+    
+    print "Specify the probability that this agent will be used: [1-100] "
+    agent_prob = gets.chomp
+    
+    # validate only digits and doesn't exceed available probability
+    while(agent_prob =~ /\D/ || agent_prob.to_i > available_perc) 
+      print "Please specify only numeric entry that doesn't exceed #{available_perc}: "
+      agent_prob = gets.chomp
+    end
+    
+    # Subtract specified probability from remaining available
+    available_perc-=agent_prob.to_i
+    @@config[:agents][agent_list[agent_num.to_i - 1]] = agent_prob
+  
+    # See if we need another agent
+    if(available_perc > 0)
+      puts "You have #{available_perc}% remaining in agent probability. Please add another agent."
+      add_agent = 'y'
+    else
+      add_agent = 'n'
+    end
+    
+  end while (add_agent == 'y')
+  
 end
+
+########
 
 # Get cmd line options
 opts = GetoptLong.new(
