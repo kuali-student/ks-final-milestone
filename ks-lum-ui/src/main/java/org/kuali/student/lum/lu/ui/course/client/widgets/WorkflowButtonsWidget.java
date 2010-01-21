@@ -100,7 +100,7 @@ public class WorkflowButtonsWidget extends Composite {
 	
 	private String getProposalIdFromModel(DataModel model){
 		String proposalId = "";
-		if(model!=null&&((Data)model.getRoot().get("proposal")).get("id")!=null){
+		if(model!=null&&model.getRoot()!=null&&((Data)model.getRoot().get("proposal"))!=null&&((Data)model.getRoot().get("proposal")).get("id")!=null){
 			proposalId = ((Data)model.getRoot().get("proposal")).get("id");
 		}
 		return proposalId;
