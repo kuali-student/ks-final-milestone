@@ -33,7 +33,7 @@
     </issueManagement>
 
 
-    <modules>        
+    <modules>
         <module>ks-cxf</module>
         <module>ks-metro</module>
         <module>ks-eclipselink</module>
@@ -98,9 +98,10 @@
 		<gwt.codehaus.plugin.version>1.2</gwt.codehaus.plugin.version>
         <war.plugin.version>2.1-beta-1</war.plugin.version>
 		<tomcat.plugin.version>1.0-beta-1</tomcat.plugin.version>
-        
+
         <!-- build properties -->
         <ks-core.version>1.0.0-SNAPSHOT</ks-core.version>
+        <ks-brms.version>1.0.0-SNAPSHOT</ks-brms.version>
         <ks.gwt.compile.phase>process-classes</ks.gwt.compile.phase>
         <ks-standard-security.version>1.0.0-m1</ks-standard-security.version>
     </properties>
@@ -237,14 +238,14 @@
                     <snapshots>
                         <enabled>false</enabled>
                     </snapshots>
-				</pluginRepository>				
+				</pluginRepository>
 				<pluginRepository>
 					<id>ks-public</id>
 					<url>http://archiva.kuali.umd.edu/repository/public</url>
 				</pluginRepository>
 			</pluginRepositories>
 		</profile>
-		
+
 		<!-- GWT Profiles - Dev environment properties -->
 		<profile>
 			<id>gwt-dev-windows</id>
@@ -281,7 +282,7 @@
 					<name>Linux</name>
 				</os>
 			</activation>
-		</profile>		
+		</profile>
 	</profiles>
 
 	<build>
@@ -306,9 +307,9 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>				
+			</plugin>
 		</plugins>
-		
+
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -327,7 +328,7 @@
                     <artifactId>maven-site-plugin</artifactId>
                     <version>${site.plugin.version}</version>
                 </plugin>
-            
+
 				<!-- CXF Java2WS Default Configuration -->
 				<plugin>
 					<groupId>org.apache.cxf</groupId>
@@ -352,7 +353,7 @@
 						<argline>-s ${project.build.directory}/generated/src -classdir ${project.build.outputDirectory}</argline>
 					</configuration>
 				</plugin>
-				
+
 				<!--  Tomcat Plugin Configuration -->
 			    <plugin>
 			        <groupId>org.codehaus.mojo</groupId>
@@ -363,7 +364,7 @@
 	        			<warDirectory>${project.build.directory}/${project.artifactId}-webapp</warDirectory>
 	        		</configuration>
 			    </plugin>
-			    
+
 			    <!-- War Plugin Configuration -->
 			    <plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -373,7 +374,7 @@
 						<webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
 					</configuration>
 				</plugin>
-	
+
 				<!-- Codehaus GWT Maven Plugin Configuration-->
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
@@ -381,7 +382,7 @@
 					<version>${gwt.codehaus.plugin.version}</version>
 					<configuration>
 						<webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
-						<buildOutputDirectory>${project.build.directory}/${project.artifactId}-webapp/WEB-INF/classes</buildOutputDirectory>		          
+						<buildOutputDirectory>${project.build.directory}/${project.artifactId}-webapp/WEB-INF/classes</buildOutputDirectory>
 						<hostedWebapp>${project.build.directory}/${project.artifactId}-webapp</hostedWebapp>
 						<extraJvmArgs>-Xss32m -Xmx512m</extraJvmArgs>
 					</configuration>
@@ -417,8 +418,8 @@
 						</execution>
 					</executions>
 				</plugin>
-			</plugins>				
-		</pluginManagement>		
+			</plugins>
+		</pluginManagement>
 	</build>
 
 	<distributionManagement>
@@ -444,7 +445,7 @@
 
 	<reporting>
 		<plugins>
-			
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>
@@ -459,12 +460,12 @@
 					-->
 				</configuration>
 			</plugin>
- 
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>${javadoc.plugin.version}</version>
-				
+
 				<configuration>
 					<maxmemory>256m</maxmemory>
 					<aggregate>true</aggregate>
@@ -500,7 +501,7 @@
 				</reportSets>
 
 			</plugin>
- 			
+
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>cobertura-maven-plugin</artifactId>
@@ -508,7 +509,7 @@
 				<configuration>
 					<formats>
 						<format>html</format>
-						<!-- 
+						<!--
 						<format>xml</format>
 						-->
 					</formats>
@@ -544,7 +545,7 @@
 				<groupId>org.apache.derby</groupId>
 				<artifactId>derbyclient</artifactId>
 				<version>${derby.version}</version>
-		    </dependency>		
+		    </dependency>
 
 			<dependency>
 				<groupId>org.mortbay.jetty</groupId>
@@ -699,7 +700,7 @@
 				<artifactId>spring-security-cas-client</artifactId>
 				<version>${spring.security.version}</version>
 			</dependency>
-			
+
 			<!-- This jar is only needed if you are using CAS with Spring Security -->
 			<dependency>
 				<groupId>org.springframework.security</groupId>
@@ -712,7 +713,7 @@
                     </exclusion>
                 </exclusions>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.opensaml</groupId>
 				<artifactId>opensaml</artifactId>
@@ -724,7 +725,7 @@
 				<artifactId>xercesImpl</artifactId>
 				<version>${xercesImpl.version}</version>
 			</dependency>
-			
+
 			<!-- Metro Dependencies -->
 			<dependency>
 				<groupId>com.sun.xml.ws</groupId>
@@ -930,12 +931,12 @@
 				<groupId>org.apache.cxf</groupId>
 				<artifactId>cxf-rt-databinding-jaxb</artifactId>
 				<version>${cxf.version}</version>
-			</dependency>				
+			</dependency>
 			<dependency>
 				<groupId>org.apache.cxf</groupId>
 				<artifactId>cxf-rt-databinding-aegis</artifactId>
 				<version>${cxf.version}</version>
-			</dependency>				
+			</dependency>
 			<dependency>
 				<groupId>org.apache.ws.security</groupId>
   				<artifactId>wss4j</artifactId>
@@ -1002,11 +1003,11 @@
 				<artifactId>log4j</artifactId>
 				<version>1.2.14</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>commons-logging</groupId>
 				<artifactId>commons-logging</artifactId>
-				<version>1.1.1</version>			
+				<version>1.1.1</version>
 			</dependency>
 
 			<!-- Velocity (used by cxf & brms) -->
@@ -1047,7 +1048,7 @@
 				<version>1.0.0-SNAPSHOT</version>
 				<type>pom</type>
 			</dependency>
-			
+
 			<!-- GWT Dependencies -->
 			<dependency>
 				<groupId>javax.xml.bind</groupId>
@@ -1093,7 +1094,7 @@
 						<groupId>com.google.gwt</groupId>
 					</exclusion>
 				</exclusions>
-			</dependency>	
+			</dependency>
 			<dependency>
 				<groupId>com.google.gwt</groupId>
 				<artifactId>gwt-visualization</artifactId>
@@ -1106,7 +1107,7 @@
 			    <version>1.5.3</version>
 			    <scope>provided</scope>
 			</dependency>
-            
+
             <dependency>
                 <groupId>org.kuali.rice</groupId>
                 <artifactId>rice-api</artifactId>
@@ -1157,7 +1158,7 @@
 	                    <groupId>org.springmodules</groupId>
 	                    <artifactId>spring-modules-ojb</artifactId>
 	                </exclusion>-->
-	                <!-- 
+	                <!--
 	                <exclusion>
 	                    <groupId>ojb</groupId>
 	                    <artifactId>db-ojb</artifactId>
@@ -1181,8 +1182,8 @@
 	                    <groupId>org.apache.geronimo.specs</groupId>
 	                    <artifactId>geronimo-javamail_1.4_spec</artifactId>
 	                </exclusion>
-	                	                
-	                <!-- 
+
+	                <!--
 	                	These dependencies conflict with gwt-dev for running hosted mode via eclipse launch file.
 	                -->
 	                <exclusion>
@@ -1201,21 +1202,21 @@
 	                	<groupId>org.eclipse.jdt</groupId>
 	                	<artifactId>core</artifactId>
 	                </exclusion>
-	            </exclusions>                   
-            </dependency>          
+	            </exclusions>
+            </dependency>
 
             <dependency>
                 <groupId>commons-beanutils</groupId>
                 <artifactId>commons-beanutils</artifactId>
                 <version>1.7.0</version>
             </dependency>
-                 		
+
             <dependency>
 	            <groupId>xalan</groupId>
 	            <artifactId>xalan</artifactId>
 	            <version>${xalan.version}</version>
-            </dependency>     		
-                 											
+            </dependency>
+
 		</dependencies>
 	</dependencyManagement>
 
