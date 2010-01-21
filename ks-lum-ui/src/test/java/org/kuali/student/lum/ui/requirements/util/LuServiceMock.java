@@ -15,14 +15,12 @@
 package org.kuali.student.lum.ui.requirements.util;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.enumerable.dto.EnumeratedValue;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.CircularReferenceException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -1097,12 +1095,6 @@ public class LuServiceMock implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		return null;
-	}
-
-	@Override
-	public List<EnumeratedValue> getEnumeration(String enumerationKey,
-			String enumContextKey, String contextValue, Date contextDate) {
 		return null;
 	}
 
