@@ -17,6 +17,8 @@ package org.kuali.student.dictionary.model.spreadsheet;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
 import org.kuali.student.dictionary.DictionaryExecutionException;
@@ -59,8 +61,35 @@ public class ExcelSpreadsheetReader implements SpreadsheetReader
  }
 
  @Override
- public WorksheetReader getWorksheetReader (String name)
+ public List<String> getWorksheetNames ()
  {
+  List<String> names = new ArrayList ();
+  for (int i = 0; i < getWorkbook ().getNumberOfSheets (); i++)
+  {
+   names.add (getWorkbook ().getSheet (i).getName ().toLowerCase ());
+  }
+  return names;
+ }
+
+
+
+ @Override
+ public WorksheetReader getWorksheetReader (String name)
+  throws WorksheetNotFoundException
+ {
+  name = name.toLowerCase ();
+  if ( ! getWorksheetNames ().contains (name))
+  {
+   StringBuffer buf = new StringBuffer ();
+   String comma = "";
+   for (String nme : getWorksheetNames ())
+   {
+    buf.append (comma);
+    buf.append (nme);
+    comma = ", ";
+   }
+   throw new WorksheetNotFoundException (name + " not in " + buf.toString ());
+  }
   return new ExcelWorksheetReader (this, name);
  }
 

@@ -22,8 +22,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.dictionary.TestConstants;
-import org.kuali.student.dictionary.model.impl.ServiceMethodModelCache;
-import org.kuali.student.dictionary.model.impl.ServiceMethodModelLoader;
+import org.kuali.student.dictionary.model.impl.ServiceContractModelCache;
+import org.kuali.student.dictionary.model.impl.ServiceContractModelLoader;
 import org.kuali.student.dictionary.model.spreadsheet.ExcelSpreadsheetReader;
 import org.kuali.student.dictionary.model.util.ModelFinder;
 import static org.junit.Assert.*;
@@ -52,14 +52,14 @@ public class ServiceMethodModellLoaderTest implements TestConstants
  }
 
  private ExcelSpreadsheetReader reader;
- private ServiceMethodModel instance;
+ private ServiceContractModel instance;
 
  @Before
  public void setUp ()
  {
   System.out.println ("reading " + SERVICE_METHODS_EXCEL_FILE);
   reader = new ExcelSpreadsheetReader (SERVICE_METHODS_EXCEL_FILE);
-  instance = new ServiceMethodModelCache (new ServiceMethodModelLoader (reader));
+  instance = new ServiceContractModelCache (new ServiceContractModelLoader (reader));
  }
 
  @After

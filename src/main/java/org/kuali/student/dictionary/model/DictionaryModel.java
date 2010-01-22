@@ -22,7 +22,7 @@ import java.util.List;
  * google and excel versions as well as caching and expanding ones.
  * @author nwright
  */
-public interface DictionaryModel extends SearchModel, ServiceMethodModel
+public interface DictionaryModel extends SearchModel, ServiceContractModel
 {
 
  /**
@@ -49,11 +49,6 @@ public interface DictionaryModel extends SearchModel, ServiceMethodModel
   */
  public List<Type> getTypes ();
 
- /**
-  * load xml types
-  * @return
-  */
- public List<XmlType> getXmlTypes ();
 
  /**
   * get fields
@@ -74,23 +69,10 @@ public interface DictionaryModel extends SearchModel, ServiceMethodModel
  public List<CrossObjectConstraint> getCrossObjectConstraints ();
 
  /**
-  * get Message Structure Definitions
-  * @return
-  */
- public List<MessageStructure> getMessageStructures ();
-
- /**
   * get Orchestration Object Definitions
   * @return
   */
  public List<OrchObj> getOrchObjs ();
-
-
-  /**
-   * get the service definitions
-   * @return list of services known to the metadata
-   */
- public List<Service> getServices ();
 
 
   /**

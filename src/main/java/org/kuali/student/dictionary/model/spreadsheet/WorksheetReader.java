@@ -22,6 +22,10 @@ package org.kuali.student.dictionary.model.spreadsheet;
 public interface WorksheetReader
 {
 
+ /**
+  * get estimated number of rows.
+  * @return estimated number of rows
+  */
  public int getEstimatedRows ();
 
  /**
@@ -32,13 +36,12 @@ public interface WorksheetReader
   */
  public String getValue (String name);
 
-  /**
+ /**
   * Get the index to the column with the specified column name.
   * @param name to be compared ignoring case
   * @return -1 if not found
   */
  public int getIndex (String name);
-
 
  /**
   * Move to the next row in the worksheet
@@ -46,9 +49,9 @@ public interface WorksheetReader
   */
  public boolean next ();
 
-/**
+ /**
   * Reopen the resource
- *  Note: the resource is assumed to be automatically opened when created.
+  *  Note: the resource is assumed to be automatically opened when created.
   */
  public void reopen ();
 
@@ -57,4 +60,5 @@ public interface WorksheetReader
   * Do nothing if already closed.
   */
  public void close ();
+
 }

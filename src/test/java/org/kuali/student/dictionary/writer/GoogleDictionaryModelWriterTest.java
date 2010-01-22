@@ -100,7 +100,7 @@ public class GoogleDictionaryModelWriterTest
   reader.setKey (SPREADSHEET_KEY);
   reader.setVisibility ("public");
   reader.setProjection ("values");
-  DictionaryModel spreadsheet = new DictionaryModelLoader (reader, null, null);
+  DictionaryModel spreadsheet = new DictionaryModelLoader (reader);
   spreadsheet = new DictionaryModelCache (spreadsheet);
   DictionaryModelWriter instance = new DictionaryModelWriter (out, spreadsheet);
   instance.write ();

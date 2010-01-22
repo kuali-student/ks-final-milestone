@@ -15,6 +15,7 @@
  */
 package org.kuali.student.dictionary.model.spreadsheet;
 
+import java.util.List;
 
 /**
  * interface that can be implemented for both google and excel spreadsheets
@@ -23,9 +24,31 @@ package org.kuali.student.dictionary.model.spreadsheet;
 public interface SpreadsheetReader
 {
 
- public WorksheetReader getWorksheetReader (String name);
+ /**
+  * get names of all the worksheets in this spreadsheet
+  * @return names mapped to lower case.
+  */
+ public List<String> getWorksheetNames ();
 
+ /**
+  * get a reader to the worksheet with that name
+  * @param name of the worksheet (case ignored)
+  * @return
+  */
+ public WorksheetReader getWorksheetReader (String name)
+  throws WorksheetNotFoundException;
+
+ /**
+  * Close and free any resources
+  * Do nothing if already closed.
+  */
  public void close ();
 
+ /**
+  * get Human readable Information about this spreadsheet.
+  * For example the list of file names or Urls holding these worksheets
+  * @return source of the spreadsheet
+  */
  public String getSourceName ();
+
 }

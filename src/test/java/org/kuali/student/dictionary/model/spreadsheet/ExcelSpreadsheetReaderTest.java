@@ -62,12 +62,12 @@ public class ExcelSpreadsheetReaderTest implements TestConstants
   instance = null;
  }
 
-
  /**
   * Test of getWorksheetReader method, of class ExcelSpreadsheetReader.
   */
  @Test
  public void testGetWorksheetReader ()
+  throws WorksheetNotFoundException
  {
   System.out.println ("getWorksheetReader");
   String name = "Constraints";

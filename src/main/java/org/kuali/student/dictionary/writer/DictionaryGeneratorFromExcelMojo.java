@@ -24,10 +24,13 @@ import org.kuali.student.dictionary.model.spreadsheet.ExcelSpreadsheetReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.kuali.student.dictionary.DictionaryExecutionException;
+import org.kuali.student.dictionary.model.spreadsheet.CompositeSpreadsheetReader;
 
 /**
  * Creates the dictionary XML file from the Excel source file
@@ -93,14 +96,15 @@ public class DictionaryGeneratorFromExcelMojo extends AbstractMojo
    {
     throw new DictionaryExecutionException ("Could  not create ");
    }
-   SpreadsheetReader dictReader =
-    new ExcelSpreadsheetReader (dictionaryInputFile.getCanonicalPath ());
-   SpreadsheetReader orchReader =
-    new ExcelSpreadsheetReader (orchestrationInputFile.getCanonicalPath ());
-   SpreadsheetReader methodsReader =
-    new ExcelSpreadsheetReader (serviceMethodsInputFile.getCanonicalPath ());
+   List<SpreadsheetReader> readers = new ArrayList ();
+   readers.add (new ExcelSpreadsheetReader (dictionaryInputFile.getCanonicalPath ()));
+   readers.add (new ExcelSpreadsheetReader (orchestrationInputFile.
+    getCanonicalPath ()));
+   readers.add (new ExcelSpreadsheetReader (serviceMethodsInputFile.
+    getCanonicalPath ()));
+   SpreadsheetReader reader = new CompositeSpreadsheetReader (readers);
    DictionaryModelLoader loader =
-    new DictionaryModelLoader (dictReader, orchReader, methodsReader);
+    new DictionaryModelLoader (reader);
    DictionaryModel cache = new DictionaryModelCache (loader);
    DictionaryModelWriter instance = new DictionaryModelWriter (out, cache);
    instance.write ();
@@ -116,8 +120,7 @@ public class DictionaryGeneratorFromExcelMojo extends AbstractMojo
   }
   catch (Exception ex)
   {
-   throw new MojoExecutionException
-    ("Unexpected Exception while trying to generate the dictionary", ex);
+   throw new MojoExecutionException ("Unexpected Exception while trying to generate the dictionary", ex);
   }
  }
 
@@ -141,8 +144,7 @@ public class DictionaryGeneratorFromExcelMojo extends AbstractMojo
   this.orchestrationInputFile = file;
  }
 
-
-  public File getServiceMethodsInputFile ()
+ public File getServiceMethodsInputFile ()
  {
   return serviceMethodsInputFile;
  }

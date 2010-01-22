@@ -15,25 +15,24 @@
  */
 package org.kuali.student.dictionary.model.wiki;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.w3c.dom.Document;
+import org.kuali.student.dictionary.TestConstants;
+import org.kuali.student.dictionary.model.ServiceMethod;
+import org.kuali.student.dictionary.model.util.ServiceMethodDumper;
 import org.w3c.dom.Node;
 
 /**
  *
  * @author nwright
  */
-public class ContractReaderTest
+public class ContractPageReaderTest implements TestConstants
 {
 
- public static final String ATP_CONTRACT_PATH =
-  "https://test.kuali.org/confluence/display/KULSTU/Academic+Time+Period+Service";
  //           ***** NOTE *******
  // In firefox to get this you have to do the following:
  // Menu Toools/Options
@@ -45,9 +44,9 @@ public class ContractReaderTest
  // cut and paste the content here.
  // ==> the JSessionID changes everytime you drop out of the browser.
  public static final String JSESSIONID =
-  "892A1381C9F5A588C46ADEE1441E7A5D.Kuali3_1Engine";
+  "D96F7509C0F68188C9DD98195D9800A2.Kuali3_1Engine";
 
- public ContractReaderTest ()
+ public ContractPageReaderTest ()
  {
  }
 
@@ -88,18 +87,18 @@ public class ContractReaderTest
   * Test of getDocument method, of class ContractReader.
   */
  @Test
- public void testAppendMethodTableNodes ()
+ public void testGetMethodTableNodes ()
  {
-  System.out.println ("appendMethodTableNodes");
-  ContractReader instance = new ContractReader (ATP_CONTRACT_PATH, JSESSIONID);
-  Document doc = instance.getDocument ();
-  List<Node> list = instance.getMethodTableNodes (doc);
+  System.out.println ("getMethodTableNodes");
+  ContractPageReader instance =
+   new ContractPageReader (ATP_CONTRACT_PATH_ON_WIKI, JSESSIONID);
+  List<Node> list = instance.getMethodTableNodes ();
   for (Node node : list)
   {
    System.out.println ("method table is " + node.getNodeName () + "=" + node.
     getNodeValue ());
   }
-  new NodeDumper (list.get (0), System.out).dump ();
+  new NodeHelper ().dump (list.get (0), System.out);
 
  }
 
@@ -107,17 +106,34 @@ public class ContractReaderTest
   * Test of getDocument method, of class ContractReader.
   */
  @Test
- public void testGetTdNodesWithClass ()
+ public void testGetNameValuePairsFromMethodTable ()
  {
-  System.out.println ("GetTdNodesWithClass");
-  ContractReader instance = new ContractReader (ATP_CONTRACT_PATH, JSESSIONID);
-  Document doc = instance.getDocument ();
-  List<Node> methodTables = instance.getMethodTableNodes (doc);
-  List<ContractReader.NameValue> nvs =
+  System.out.println ("getNameValuePairsFromMethodTable");
+  ContractPageReader instance =
+   new ContractPageReader (ATP_CONTRACT_PATH_ON_WIKI, JSESSIONID);
+  List<Node> methodTables = instance.getMethodTableNodes ();
+  List<ContractPageReader.NameValue> nvs =
    instance.getNameValuePairsFromMethodTable (methodTables.get (0));
-  for (ContractReader.NameValue nv : nvs)
+  for (ContractPageReader.NameValue nv : nvs)
   {
    System.out.println (nv.name + "=" + nv.value + " - " + nv.url);
+  }
+
+ }
+
+ /**
+  * Test of getDocument method, of class ContractReader.
+  */
+ @Test
+ public void testGetServiceMethods ()
+ {
+  System.out.println ("getServiceMethods");
+  ContractPageReader instance =
+   new ContractPageReader (ATP_CONTRACT_PATH_ON_WIKI, JSESSIONID);
+  List<ServiceMethod> methods = instance.getServiceMethods ();
+  for (ServiceMethod method : methods)
+  {
+   new ServiceMethodDumper (method, System.out).dump ();
   }
 
  }

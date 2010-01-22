@@ -16,6 +16,7 @@
 package org.kuali.student.dictionary.model.impl;
 
 import org.kuali.student.dictionary.model.*;
+import org.kuali.student.dictionary.model.spreadsheet.WorksheetNotFoundException;
 import org.kuali.student.dictionary.writer.ClassNameDecorator;
 import org.kuali.student.dictionary.model.validation.DictionaryValidationException;
 import org.kuali.student.dictionary.model.spreadsheet.SpreadsheetReader;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+import org.kuali.student.dictionary.DictionaryExecutionException;
 
 /**
  * Loads a spreadsheet using either a google or excel reader
@@ -32,24 +34,25 @@ import java.util.regex.PatternSyntaxException;
 public class DictionaryModelLoader implements DictionaryModel
 {
 
- private SpreadsheetReader dictReader;
- private SpreadsheetReader orchReader;
- private SpreadsheetReader methodsReader;
+ private SpreadsheetReader reader;
 
- public DictionaryModelLoader (SpreadsheetReader dictReader,
-                               SpreadsheetReader orchReader,
-                               SpreadsheetReader methodsReader)
+ public DictionaryModelLoader (SpreadsheetReader reader)
  {
-  this.dictReader = dictReader;
-  this.orchReader = orchReader;
-  this.methodsReader = methodsReader;
+  this.reader = reader;
  }
 
  @Override
  public List<Dictionary> getDictionary ()
  {
-  WorksheetReader worksheetReader =
-   dictReader.getWorksheetReader ("Dictionary");
+  WorksheetReader worksheetReader;
+  try
+  {
+   worksheetReader = reader.getWorksheetReader ("Dictionary");
+  }
+  catch (WorksheetNotFoundException ex)
+  {
+   throw new DictionaryExecutionException (ex);
+  }
   List<Dictionary> list = new ArrayList (worksheetReader.getEstimatedRows ());
   while (worksheetReader.next ())
   {
@@ -184,8 +187,15 @@ public class DictionaryModelLoader implements DictionaryModel
  @Override
  public List<State> getStates ()
  {
-  WorksheetReader worksheetReader =
-   dictReader.getWorksheetReader ("States");
+  WorksheetReader worksheetReader;
+  try
+  {
+   worksheetReader = reader.getWorksheetReader ("States");
+  }
+  catch (WorksheetNotFoundException ex)
+  {
+   throw new DictionaryExecutionException (ex);
+  }
   List<State> list = new ArrayList (worksheetReader.getEstimatedRows ());
   while (worksheetReader.next ())
   {
@@ -213,8 +223,15 @@ public class DictionaryModelLoader implements DictionaryModel
  @Override
  public List<Type> getTypes ()
  {
-  WorksheetReader worksheetReader =
-   dictReader.getWorksheetReader ("Types");
+  WorksheetReader worksheetReader;
+  try
+  {
+   worksheetReader = reader.getWorksheetReader ("Types");
+  }
+  catch (WorksheetNotFoundException ex)
+  {
+   throw new DictionaryExecutionException (ex);
+  }
   List<Type> list = new ArrayList (worksheetReader.getEstimatedRows ());
   while (worksheetReader.next ())
   {
@@ -241,42 +258,17 @@ public class DictionaryModelLoader implements DictionaryModel
  }
 
  @Override
- public List<XmlType> getXmlTypes ()
- {
-  WorksheetReader worksheetReader =
-   dictReader.getWorksheetReader ("XmlTypes");
-  List<XmlType> list = new ArrayList (worksheetReader.getEstimatedRows ());
-  while (worksheetReader.next ())
-  {
-   XmlType info = new XmlType ();
-   info.setName (getFixup (worksheetReader, "name"));
-   if (info.getName ().equals (""))
-   {
-    continue;
-   }
-   info.setDesc (getFixup (worksheetReader, "desc"));
-   info.setPrimitive (getFixup (worksheetReader, "primitive"));
-   info.setHasOwnType (getFixup (worksheetReader, "hasOwnType"));
-   info.setHasOwnState (getFixup (worksheetReader, "hasOwnState"));
-   info.setHasOwnCreateUpdate (getFixup (worksheetReader, "hasOwnCreateUpdate"));
-   info.setService (getFixup (worksheetReader, "service"));
-
-   info.setJavaPackage (getFixup (worksheetReader, "javaPackage"));
-   info.setExamples (getFixup (worksheetReader, "examples"));
-   if ( ! info.getDesc ().equals ("ignore this row"))
-   {
-    list.add (info);
-   }
-   info.setComments (getFixup (worksheetReader, "comments"));
-  }
-  return list;
- }
-
- @Override
  public List<Field> getFields ()
  {
-  WorksheetReader worksheetReader =
-   dictReader.getWorksheetReader ("MessageStructure");
+  WorksheetReader worksheetReader;
+  try
+  {
+   worksheetReader = reader.getWorksheetReader ("MessageStructure");
+  }
+  catch (WorksheetNotFoundException ex)
+  {
+   throw new DictionaryExecutionException (ex);
+  }
   List<Field> list = new ArrayList (worksheetReader.getEstimatedRows ());
   while (worksheetReader.next ())
   {
@@ -348,8 +340,15 @@ public class DictionaryModelLoader implements DictionaryModel
  @Override
  public List<Constraint> getConstraints ()
  {
-  WorksheetReader worksheetReader =
-   dictReader.getWorksheetReader ("Constraints");
+  WorksheetReader worksheetReader;
+  try
+  {
+   worksheetReader = reader.getWorksheetReader ("Constraints");
+  }
+  catch (WorksheetNotFoundException ex)
+  {
+   throw new DictionaryExecutionException (ex);
+  }
   List<Constraint> list = new ArrayList (worksheetReader.getEstimatedRows ());
   while (worksheetReader.next ())
   {
@@ -402,8 +401,15 @@ public class DictionaryModelLoader implements DictionaryModel
  @Override
  public List<CrossObjectConstraint> getCrossObjectConstraints ()
  {
-  WorksheetReader worksheetReader =
-   dictReader.getWorksheetReader ("CrossObjectConstraints");
+  WorksheetReader worksheetReader;
+  try
+  {
+   worksheetReader = reader.getWorksheetReader ("CrossObjectConstraints");
+  }
+  catch (WorksheetNotFoundException ex)
+  {
+   throw new DictionaryExecutionException (ex);
+  }
   List<CrossObjectConstraint> list = new ArrayList (worksheetReader.
    getEstimatedRows ());
   while (worksheetReader.next ())
@@ -462,10 +468,10 @@ public class DictionaryModelLoader implements DictionaryModel
  public List<String> getSourceNames ()
  {
   List<String> list = new ArrayList ();
-  list.add (dictReader.getSourceName ());
-  if (orchReader != null)
+  list.add (reader.getSourceName ());
+  if (reader != null)
   {
-   list.add (orchReader.getSourceName ());
+   list.add (reader.getSourceName ());
   }
   return list;
  }
@@ -473,12 +479,19 @@ public class DictionaryModelLoader implements DictionaryModel
  @Override
  public List<OrchObj> getOrchObjs ()
  {
-  if (orchReader == null)
+  if (reader == null)
   {
    return new ArrayList (0);
   }
-  WorksheetReader worksheetReader =
-   orchReader.getWorksheetReader ("OrchObj");
+  WorksheetReader worksheetReader;
+  try
+  {
+   worksheetReader = reader.getWorksheetReader ("OrchObj");
+  }
+  catch (WorksheetNotFoundException ex)
+  {
+   throw new DictionaryExecutionException (ex);
+  }
   List<OrchObj> list = new ArrayList (worksheetReader.getEstimatedRows ());
 
   while (worksheetReader.next ())
@@ -575,75 +588,54 @@ public class DictionaryModelLoader implements DictionaryModel
   return list;
  }
 
+ private transient ServiceContractModel serviceContractModel = null;
+
+ private ServiceContractModel getServiceContractModel ()
+ {
+  if (serviceContractModel == null)
+  {
+   serviceContractModel =
+    new ServiceContractModelCache (new ServiceContractModelLoader (reader));
+  }
+  return serviceContractModel;
+ }
+
+ @Override
+ public List<ServiceMethod> getServiceMethods ()
+ {
+  return this.getServiceContractModel ().getServiceMethods ();
+ }
+
+ @Override
+ public List<XmlType> getXmlTypes ()
+ {
+  return getServiceContractModel ().getXmlTypes ();
+ }
+
  @Override
  public List<MessageStructure> getMessageStructures ()
  {
-  WorksheetReader worksheetReader =
-   dictReader.getWorksheetReader ("MessageStructure");
-  List<MessageStructure> list =
-   new ArrayList (worksheetReader.getEstimatedRows ());
-  while (worksheetReader.next ())
-  {
-   MessageStructure struct = new MessageStructure ();
-   struct.setId (getFixup (worksheetReader, "id"));
-   if (struct.getId ().equals (""))
-   {
-    continue;
-   }
-   struct.setDescription (getFixup (worksheetReader, "description"));
-   if (struct.getDescription ().equals ("ignore this row"))
-   {
-    continue;
-   }
-
-   list.add (struct);
-   struct.setXmlObject (getFixup (worksheetReader, "XmlObject"));
-   struct.setShortName (getFixup (worksheetReader, "ShortName"));
-   struct.setName (getFixup (worksheetReader, "Name"));
-   struct.setType (getFixup (worksheetReader, "Type"));
-   struct.setRequired (getFixup (worksheetReader, "Required"));
-   struct.setCardinality (getFixup (worksheetReader, "Cardinality"));
-   struct.setXmlAttribute (getFixup (worksheetReader, "XMLAttribute"));
-   struct.setStatus (getFixup (worksheetReader, "status"));
-   struct.setFeedback (getFixup (worksheetReader, "comments"));
-  }
-  return list;
+  return getServiceContractModel ().getMessageStructures ();
  }
 
  @Override
  public List<Service> getServices ()
  {
-  WorksheetReader worksheetReader =
-   dictReader.getWorksheetReader ("Services");
-  List<Service> list =
-   new ArrayList (worksheetReader.getEstimatedRows ());
-  while (worksheetReader.next ())
-  {
-   Service serv = new Service ();
-   serv.setKey (getFixup (worksheetReader, "key"));
-   if (serv.getKey ().equals (""))
-   {
-    continue;
-   }
-   serv.setVersion (getFixup (worksheetReader, "version"));
-   serv.setStatus (getFixup (worksheetReader, "status"));
-   if (serv.getStatus ().equals ("ignore"))
-   {
-    continue;
-   }
-   serv.setName (getFixup (worksheetReader, "name"));
-   serv.setImplProject (getFixup (worksheetReader, "implProject"));
-   serv.setComments (getFixup (worksheetReader, "comments"));
-   list.add (serv);
-  }
-  return list;
+  return getServiceContractModel ().getServices ();
  }
 
  @Override
  public List<Project> getProjects ()
  {
-  WorksheetReader worksheetReader =
-   dictReader.getWorksheetReader ("Projects");
+  WorksheetReader worksheetReader;
+  try
+  {
+   worksheetReader = reader.getWorksheetReader ("Projects");
+  }
+  catch (WorksheetNotFoundException ex)
+  {
+   throw new DictionaryExecutionException (ex);
+  }
   List<Project> list =
    new ArrayList (worksheetReader.getEstimatedRows ());
   while (worksheetReader.next ())
@@ -674,16 +666,8 @@ public class DictionaryModelLoader implements DictionaryModel
  @Override
  public List<SearchType> getSearchTypes ()
  {
-  SearchModelLoader loader = new SearchModelLoader (orchReader);
+  SearchModelLoader loader = new SearchModelLoader (reader);
   return loader.getSearchTypes ();
- }
-
- @Override
- public List<ServiceMethod> getServiceMethods ()
- {
-  ServiceMethodModelLoader loader =
-   new ServiceMethodModelLoader (methodsReader);
-  return loader.getServiceMethods ();
  }
 
 }

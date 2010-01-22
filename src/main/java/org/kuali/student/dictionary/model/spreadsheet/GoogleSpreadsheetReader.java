@@ -24,6 +24,7 @@ import com.google.gdata.util.AuthenticationException;
 import com.google.gdata.util.ServiceException;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import org.kuali.student.dictionary.DictionaryExecutionException;
 
@@ -74,8 +75,33 @@ public class GoogleSpreadsheetReader implements SpreadsheetReader
  }
 
  @Override
- public WorksheetReader getWorksheetReader (String name)
+ public List<String> getWorksheetNames ()
  {
+  List<String> names = new ArrayList ();
+  for (WorksheetEntry sheet : getWorksheetEntries ())
+  {
+   names.add (sheet.getTitle ().getPlainText ().toLowerCase ());
+  }
+  return names;
+ }
+
+ @Override
+ public WorksheetReader getWorksheetReader (String name)
+  throws WorksheetNotFoundException
+ {
+  name = name.toLowerCase ();
+  if ( ! getWorksheetNames ().contains (name))
+  {
+   StringBuffer buf = new StringBuffer ();
+   String comma = "";
+   for (String nme : getWorksheetNames ())
+   {
+    buf.append (comma);
+    buf.append (nme);
+    comma = ", ";
+   }
+   throw new WorksheetNotFoundException (name + " not in " + buf.toString ());
+  }
   return new GoogleWorksheetReader (this, name);
  }
 
@@ -108,17 +134,32 @@ public class GoogleSpreadsheetReader implements SpreadsheetReader
 
  protected WorksheetEntry getWorksheetEntry (String worksheetName)
  {
+  List<WorksheetEntry> sheets = getWorksheetEntries ();
+  for (WorksheetEntry sheet : sheets)
+  {
+   if (sheet.getTitle ().getPlainText ().equals (worksheetName))
+   {
+    return sheet;
+   }
+  }
+  return null;
+ }
+
+ private List<WorksheetEntry> getWorksheetEntries ()
+ {
+  List<WorksheetEntry> sheets = null;
   if (key == null)
   {
-   return getWorksheetEntryByUserId (worksheetName);
+   sheets = getWorksheetEntriesByUserId ();
   }
   else
   {
-   return getWorksheetEntryByKey (worksheetName);
+   sheets = getWorksheetEntriesByKey ();
   }
+  return sheets;
  }
 
- private WorksheetEntry getWorksheetEntryByUserId (String worksheetName)
+ private List<WorksheetEntry> getWorksheetEntriesByUserId ()
  {
   SpreadsheetEntry entry = getSpreadsheetEntryByUserId ();
   List<WorksheetEntry> sheets = null;
@@ -134,15 +175,8 @@ public class GoogleSpreadsheetReader implements SpreadsheetReader
   {
    throw new DictionaryExecutionException (e);
   }
+  return sheets;
 
-  for (WorksheetEntry sheet : sheets)
-  {
-   if (sheet.getTitle ().getPlainText ().equals (worksheetName))
-   {
-    return sheet;
-   }
-  }
-  return null;
  }
 
  private SpreadsheetEntry getSpreadsheetEntryByUserId ()
@@ -167,7 +201,7 @@ public class GoogleSpreadsheetReader implements SpreadsheetReader
   List<SpreadsheetEntry> sheets = feed.getEntries ();
   for (SpreadsheetEntry sheet : sheets)
   {
-   System.out.println ("\t" + sheet.getTitle ().getPlainText ());
+   //System.out.println ("\t" + sheet.getTitle ().getPlainText ());
    if (sheet.getTitle ().getPlainText ().equals (spreadsheetTitle))
    {
     return sheet;
@@ -176,12 +210,14 @@ public class GoogleSpreadsheetReader implements SpreadsheetReader
   return null;
  }
 
- private WorksheetEntry getWorksheetEntryByKey (String worksheetName)
+ private List<WorksheetEntry> getWorksheetEntriesByKey ()
  {
   WorksheetFeed feed = null;
   try
   {
-   URL url = new URL (FEEDS_URL + "/worksheets/" + key + "/" + visibility + "/" + projection);
+   URL url =
+    new URL (FEEDS_URL + "/worksheets/" + key + "/" + visibility + "/" +
+    projection);
    feed = getService ().getFeed (url, WorksheetFeed.class);
   }
   catch (IOException e)
@@ -197,14 +233,7 @@ public class GoogleSpreadsheetReader implements SpreadsheetReader
   {
    System.out.println ("\t" + sheet.getTitle ().getPlainText ());
   }
-  for (WorksheetEntry sheet : worksheets)
-  {
-   if (sheet.getTitle ().getPlainText ().equals (worksheetName))
-   {
-    return sheet;
-   }
-  }
-  return null;
+  return worksheets;
  }
 
  @Override
@@ -222,6 +251,5 @@ public class GoogleSpreadsheetReader implements SpreadsheetReader
  {
   return "Google Spreadsheet " + spreadsheetTitle;
  }
-
 
 }

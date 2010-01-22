@@ -16,10 +16,12 @@
 package org.kuali.student.dictionary.model.impl;
 
 import org.kuali.student.dictionary.model.*;
+import org.kuali.student.dictionary.model.spreadsheet.WorksheetNotFoundException;
 import org.kuali.student.dictionary.model.validation.DictionaryValidationException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.kuali.student.dictionary.DictionaryExecutionException;
 import org.kuali.student.dictionary.model.spreadsheet.SpreadsheetReader;
 import org.kuali.student.dictionary.model.spreadsheet.WorksheetReader;
 
@@ -30,17 +32,24 @@ import org.kuali.student.dictionary.model.spreadsheet.WorksheetReader;
 public class SearchModelLoader implements SearchModel
 {
 
- private SpreadsheetReader spreadsheetReader;
+ private SpreadsheetReader reader;
 
- public SearchModelLoader (SpreadsheetReader spreadsheetReader)
+ public SearchModelLoader (SpreadsheetReader reader)
  {
-  this.spreadsheetReader = spreadsheetReader;
+  this.reader = reader;
  }
 
  public List<SearchType> getSearchTypes ()
  {
-  WorksheetReader worksheetReader =
-   spreadsheetReader.getWorksheetReader ("Searches");
+  WorksheetReader worksheetReader;
+  try
+  {
+   worksheetReader = reader.getWorksheetReader ("Searches");
+  }
+  catch (WorksheetNotFoundException ex)
+  {
+   throw new DictionaryExecutionException (ex);
+  }
   List<SearchType> list = new ArrayList ();
   SearchType searchType = null;
   int rowNumber = 1;
@@ -228,7 +237,7 @@ public class SearchModelLoader implements SearchModel
  @Override
  public List<String> getSourceNames ()
  {
-  return Arrays.asList (spreadsheetReader.getSourceName ());
+  return Arrays.asList (reader.getSourceName ());
  }
 
 }

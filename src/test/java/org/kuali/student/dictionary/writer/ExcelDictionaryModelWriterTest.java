@@ -15,7 +15,6 @@
  */
 package org.kuali.student.dictionary.writer;
 
-
 import org.kuali.student.dictionary.model.impl.DictionaryModelCache;
 import org.kuali.student.dictionary.model.impl.DictionaryModelLoader;
 import org.kuali.student.dictionary.model.DictionaryModel;
@@ -24,12 +23,15 @@ import org.kuali.student.dictionary.model.spreadsheet.SpreadsheetReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.dictionary.TestConstants;
+import org.kuali.student.dictionary.model.spreadsheet.CompositeSpreadsheetReader;
 import static org.junit.Assert.*;
 
 /**
@@ -65,7 +67,6 @@ public class ExcelDictionaryModelWriterTest implements TestConstants
  {
  }
 
-
  /**
   * Test of write method, of class DictionaryWriter.
   */
@@ -84,13 +85,16 @@ public class ExcelDictionaryModelWriterTest implements TestConstants
   {
    throw new RuntimeException (ex);
   }
-  SpreadsheetReader reader = new ExcelSpreadsheetReader (TYPE_STATE_DICTIONARY_EXCEL_FILE);
+  List<SpreadsheetReader> list = new ArrayList ();
+  list.add (new ExcelSpreadsheetReader (TYPE_STATE_DICTIONARY_EXCEL_FILE));
+  list.add (new ExcelSpreadsheetReader (SERVICES_EXCEL_FILE));
+  SpreadsheetReader reader = new CompositeSpreadsheetReader (list);
   try
   {
-  DictionaryModelLoader loader = new DictionaryModelLoader (reader, null, null);
-  DictionaryModel cache = new DictionaryModelCache (loader);
-  DictionaryModelWriter instance = new DictionaryModelWriter (out, cache);
-  instance.write ();
+   DictionaryModelLoader loader = new DictionaryModelLoader (reader);
+   DictionaryModel cache = new DictionaryModelCache (loader);
+   DictionaryModelWriter instance = new DictionaryModelWriter (out, cache);
+   instance.write ();
   }
   finally
   {

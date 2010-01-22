@@ -122,7 +122,7 @@ public class DictionaryGeneratorFromCommandLine
   try
   {
    reader = new ExcelSpreadsheetReader (inFile);
-   DictionaryModelLoader loader = new DictionaryModelLoader (reader, null, null);
+   DictionaryModelLoader loader = new DictionaryModelLoader (reader);
    DictionaryModel cache = new DictionaryModelCache (loader);
    DictionaryModelWriter instance = new DictionaryModelWriter (out, cache);
    instance.write ();

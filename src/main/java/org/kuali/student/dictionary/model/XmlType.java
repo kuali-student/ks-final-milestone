@@ -94,6 +94,19 @@ public class XmlType implements Serializable
   this.primitive = primitive;
  }
 
+ private String url;
+
+ public String getUrl ()
+ {
+  return url;
+ }
+
+ public void setUrl (String url)
+ {
+  this.url = url;
+ }
+
+
  private String examples;
 
  /**
@@ -242,5 +255,19 @@ public class XmlType implements Serializable
  {
   this.comments = comments;
  }
+
+
+ private String version;
+
+ public String getVersion ()
+ {
+  return version;
+ }
+
+ public void setVersion (String version)
+ {
+  this.version = version;
+ }
+
 
 }

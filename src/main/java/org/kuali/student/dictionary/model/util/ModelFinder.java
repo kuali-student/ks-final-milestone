@@ -31,7 +31,7 @@ public class ModelFinder
 {
 
  private SearchModel searchModel;
- private ServiceMethodModel serviceMethodModel;
+ private ServiceContractModel serviceMethodModel;
  private DictionaryModel model;
 
  public ModelFinder (DictionaryModel model)
@@ -46,7 +46,7 @@ public class ModelFinder
   this.searchModel = model;
  }
 
- public ModelFinder (ServiceMethodModel model)
+ public ModelFinder (ServiceContractModel model)
  {
   this.serviceMethodModel = model;
  }

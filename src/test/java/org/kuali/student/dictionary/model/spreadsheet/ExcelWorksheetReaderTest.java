@@ -52,7 +52,8 @@ public class ExcelWorksheetReaderTest implements TestConstants
  public void setUp ()
  {
   System.out.println ("reading " + TYPE_STATE_DICTIONARY_EXCEL_FILE);
-  spreadsheetReader = new ExcelSpreadsheetReader (TYPE_STATE_DICTIONARY_EXCEL_FILE);
+  spreadsheetReader =
+   new ExcelSpreadsheetReader (TYPE_STATE_DICTIONARY_EXCEL_FILE);
  }
 
  @After
@@ -63,7 +64,14 @@ public class ExcelWorksheetReaderTest implements TestConstants
 
  private ExcelWorksheetReader getInstance (String name)
  {
-  return (ExcelWorksheetReader) spreadsheetReader.getWorksheetReader (name);
+  try
+  {
+   return (ExcelWorksheetReader) spreadsheetReader.getWorksheetReader (name);
+  }
+  catch (WorksheetNotFoundException ex)
+  {
+   throw new RuntimeException (ex);
+  }
  }
 
  /**

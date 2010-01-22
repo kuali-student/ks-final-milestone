@@ -13,26 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.dictionary.model;
-
-import java.util.List;
+package org.kuali.student.dictionary.model.wiki;
 
 /**
- * Abstration of the spreadsheet that holds the data so we can implement both
- * google and excel versions as well as caching and expanding ones.
+ *
  * @author nwright
  */
-public interface ServiceMethodModel
+public class BodyOnlyPageTrimmer extends BeginEndPageTrimmer
 {
 
- public List<String> getSourceNames ();
-
- /**
-  * get service methods
-  * @return
-  */
- public List<ServiceMethod> getServiceMethods ();
-
- 
+ public BodyOnlyPageTrimmer ()
+ {
+  super ("<body ", "</body>");
+ }
 
 }

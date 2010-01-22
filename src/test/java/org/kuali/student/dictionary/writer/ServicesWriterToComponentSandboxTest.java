@@ -15,6 +15,8 @@
  */
 package org.kuali.student.dictionary.writer;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.kuali.student.dictionary.model.impl.DictionaryModelCache;
 import org.kuali.student.dictionary.model.impl.DictionaryModelLoader;
 import org.kuali.student.dictionary.model.DictionaryModel;
@@ -26,6 +28,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.dictionary.TestConstants;
+import org.kuali.student.dictionary.model.spreadsheet.CompositeSpreadsheetReader;
 import static org.junit.Assert.*;
 
 /**
@@ -69,30 +72,25 @@ public class ServicesWriterToComponentSandboxTest implements
  public void testWrite ()
  {
   System.out.println ("write");
-  SpreadsheetReader dictReader =
-   new ExcelSpreadsheetReader (TYPE_STATE_DICTIONARY_EXCEL_FILE);
-  SpreadsheetReader orchReader =
-   new ExcelSpreadsheetReader (ORCHESTRATION_DICTIONARY_EXCEL_FILE);
-  SpreadsheetReader methodsReader =
-   new ExcelSpreadsheetReader (SERVICE_METHODS_EXCEL_FILE);
+  List<SpreadsheetReader> list = new ArrayList ();
+  list.add (new ExcelSpreadsheetReader (TYPE_STATE_DICTIONARY_EXCEL_FILE));
+  list.add (new ExcelSpreadsheetReader (ORCHESTRATION_DICTIONARY_EXCEL_FILE));
+  list.add (new ExcelSpreadsheetReader (SERVICES_EXCEL_FILE));
+  list.add (new ExcelSpreadsheetReader (SERVICE_METHODS_EXCEL_FILE));
+  SpreadsheetReader reader = new CompositeSpreadsheetReader (list);
   try
   {
    DictionaryModelLoader loader =
-    new DictionaryModelLoader (dictReader, orchReader, methodsReader);
+    new DictionaryModelLoader (reader);
    DictionaryModel model = new DictionaryModelCache (loader);
    ServicesWriter instance =
-    new ServicesWriter (model,COMPONENT_SANDBOX_DIRECTORY_TO_WRITE_JAVA);
+    new ServicesWriter (model, COMPONENT_SANDBOX_DIRECTORY_TO_WRITE_JAVA);
    instance.write ();
   }
   finally
   {
-   dictReader.close ();
-   orchReader.close ();
-   methodsReader.close ();
+   reader.close ();
   }
-
-
-
   assertEquals (true, true);
  }
 

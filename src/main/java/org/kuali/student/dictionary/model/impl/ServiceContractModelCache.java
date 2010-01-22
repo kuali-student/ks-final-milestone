@@ -15,20 +15,24 @@
  */
 package org.kuali.student.dictionary.model.impl;
 
-import org.kuali.student.dictionary.model.*;
 import java.util.List;
+import org.kuali.student.dictionary.model.MessageStructure;
+import org.kuali.student.dictionary.model.Service;
+import org.kuali.student.dictionary.model.ServiceContractModel;
+import org.kuali.student.dictionary.model.ServiceMethod;
+import org.kuali.student.dictionary.model.XmlType;
 
 /**
  * This reads the supplied spreadsheet but then caches it so it doesn't have to
  * re-read it again.
  * @author nwright
  */
-public class ServiceMethodModelCache implements ServiceMethodModel
+public class ServiceContractModelCache implements ServiceContractModel
 {
 
- private ServiceMethodModel model;
- 
- public ServiceMethodModelCache (ServiceMethodModel model)
+ private ServiceContractModel model;
+
+ public ServiceContractModelCache (ServiceContractModel model)
  {
   this.model = model;
  }
@@ -45,9 +49,47 @@ public class ServiceMethodModelCache implements ServiceMethodModel
   return serviceMethods;
  }
 
+ private List<XmlType> xmlTypes;
+
+ @Override
+ public List<XmlType> getXmlTypes ()
+ {
+  if (xmlTypes == null)
+  {
+   xmlTypes = model.getXmlTypes ();
+  }
+  return xmlTypes;
+ }
+
+ private List<MessageStructure> messageStructures = null;
+
+ @Override
+ public List<MessageStructure> getMessageStructures ()
+ {
+  if (messageStructures == null)
+  {
+   messageStructures = model.getMessageStructures ();
+  }
+  return messageStructures;
+ }
+
+ private List<Service> services = null;
+
+ @Override
+ public List<Service> getServices ()
+ {
+  if (services == null)
+  {
+   services = model.getServices ();
+  }
+  return services;
+ }
+
+
  @Override
  public List<String> getSourceNames ()
  {
   return model.getSourceNames ();
  }
+
 }

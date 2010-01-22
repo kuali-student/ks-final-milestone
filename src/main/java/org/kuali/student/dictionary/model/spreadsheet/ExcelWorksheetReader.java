@@ -19,6 +19,7 @@ import org.kuali.student.dictionary.model.validation.DictionaryValidationExcepti
 import java.util.ArrayList;
 import java.util.List;
 import jxl.Sheet;
+import jxl.Workbook;
 
 /**
  * This reads a single tab of an Excel spreadsheet using the JDBC-ODBC bridge
@@ -27,17 +28,17 @@ import jxl.Sheet;
 public class ExcelWorksheetReader implements WorksheetReader
 {
 
- private ExcelSpreadsheetReader jExcelApiSpreadsheetReader;
+ private ExcelSpreadsheetReader reader;
  private String name;
  private Sheet sheet;
  private int row = 0;
  private List<String> columnNames;
 
  public ExcelWorksheetReader (
-  ExcelSpreadsheetReader jExcelApiSpreadsheetReader,
+  ExcelSpreadsheetReader reader,
   String name)
  {
-  this.jExcelApiSpreadsheetReader = jExcelApiSpreadsheetReader;
+  this.reader = reader;
   this.name = name;
   reopen ();
  }
@@ -80,9 +81,22 @@ public class ExcelWorksheetReader implements WorksheetReader
   {
    return sheet;
   }
-  sheet = this.jExcelApiSpreadsheetReader.getWorkbook ().getSheet (name);
-  return sheet;
-
+  Workbook workbook = reader.getWorkbook ();
+  sheet = workbook.getSheet (name);
+  if (sheet != null)
+  {
+   return sheet;
+  }
+  for (int i = 0; i < workbook.getNumberOfSheets (); i ++)
+  {
+   Sheet aSheet = workbook.getSheet (i);
+   if (aSheet.getName ().equalsIgnoreCase (name))
+   {
+    sheet = aSheet;
+    return sheet;
+   }
+  }
+  return null;
  }
 
  @Override

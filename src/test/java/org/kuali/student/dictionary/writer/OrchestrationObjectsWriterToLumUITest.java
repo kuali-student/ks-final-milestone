@@ -18,6 +18,8 @@ package org.kuali.student.dictionary.writer;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 import org.kuali.student.dictionary.model.impl.DictionaryModelCache;
 import org.kuali.student.dictionary.model.impl.DictionaryModelLoader;
 import org.kuali.student.dictionary.model.DictionaryModel;
@@ -29,6 +31,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.dictionary.TestConstants;
+import org.kuali.student.dictionary.model.spreadsheet.CompositeSpreadsheetReader;
 import org.kuali.student.dictionary.model.validation.DictionaryValidationException;
 import static org.junit.Assert.*;
 
@@ -72,16 +75,16 @@ public class OrchestrationObjectsWriterToLumUITest implements TestConstants
  public void testWrite ()
  {
   System.out.println ("write");
-  SpreadsheetReader dictReader =
-   new ExcelSpreadsheetReader (TYPE_STATE_DICTIONARY_EXCEL_FILE);
-  SpreadsheetReader orchReader =
-   new ExcelSpreadsheetReader (ORCHESTRATION_DICTIONARY_EXCEL_FILE);
-  SpreadsheetReader methodsReader =
-   new ExcelSpreadsheetReader (SERVICE_METHODS_EXCEL_FILE);
+  List<SpreadsheetReader> readers = new ArrayList ();
+  readers.add (new ExcelSpreadsheetReader (TYPE_STATE_DICTIONARY_EXCEL_FILE));
+  readers.add (new ExcelSpreadsheetReader (ORCHESTRATION_DICTIONARY_EXCEL_FILE));
+  readers.add (new ExcelSpreadsheetReader (SERVICE_METHODS_EXCEL_FILE));
+  readers.add (new ExcelSpreadsheetReader (SERVICES_EXCEL_FILE));
+  SpreadsheetReader reader = new CompositeSpreadsheetReader (readers);
   try
   {
    DictionaryModelLoader loader =
-    new DictionaryModelLoader (dictReader, orchReader, methodsReader);
+    new DictionaryModelLoader (reader);
    DictionaryModel model = new DictionaryModelCache (loader);
    OrchestrationObjectsWriter instance =
     new OrchestrationObjectsWriter (model,
@@ -112,8 +115,7 @@ public class OrchestrationObjectsWriterToLumUITest implements TestConstants
   }
   finally
   {
-   dictReader.close ();
-   orchReader.close ();
+   reader.close ();
   }
   assertEquals (true, true);
  }

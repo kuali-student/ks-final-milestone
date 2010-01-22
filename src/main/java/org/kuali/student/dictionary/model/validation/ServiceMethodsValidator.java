@@ -19,7 +19,7 @@ import org.kuali.student.dictionary.model.ServiceMethod;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.kuali.student.dictionary.model.DictionaryModel;
-import org.kuali.student.dictionary.model.ServiceMethodModel;
+import org.kuali.student.dictionary.model.ServiceContractModel;
 import org.kuali.student.dictionary.model.Service;
 import org.kuali.student.dictionary.model.ServiceMethodError;
 import org.kuali.student.dictionary.model.ServiceMethodParameter;
@@ -32,9 +32,9 @@ import org.kuali.student.dictionary.model.util.ModelFinder;
 public class ServiceMethodsValidator implements ModelValidator
 {
 
- private ServiceMethodModel model;
+ private ServiceContractModel model;
 
- public ServiceMethodsValidator (ServiceMethodModel model)
+ public ServiceMethodsValidator (ServiceContractModel model)
  {
   this.model = model;
  }

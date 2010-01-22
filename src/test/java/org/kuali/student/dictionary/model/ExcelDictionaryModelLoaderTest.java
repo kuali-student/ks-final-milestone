@@ -15,6 +15,7 @@
  */
 package org.kuali.student.dictionary.model;
 
+import java.util.ArrayList;
 import org.kuali.student.dictionary.model.impl.DictionaryModelLoader;
 import org.kuali.student.dictionary.model.spreadsheet.ExcelSpreadsheetReader;
 import java.util.List;
@@ -24,6 +25,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.dictionary.TestConstants;
+import org.kuali.student.dictionary.model.spreadsheet.CompositeSpreadsheetReader;
+import org.kuali.student.dictionary.model.spreadsheet.SpreadsheetReader;
 import static org.junit.Assert.*;
 
 /**
@@ -49,23 +52,26 @@ public class ExcelDictionaryModelLoaderTest implements TestConstants
  {
  }
 
- private ExcelSpreadsheetReader dictReader;
- private ExcelSpreadsheetReader orchReader;
+ private SpreadsheetReader reader;
  private DictionaryModel instance;
 
  @Before
  public void setUp ()
  {
   System.out.println ("reading " + TYPE_STATE_DICTIONARY_EXCEL_FILE);
-  dictReader = new ExcelSpreadsheetReader (TYPE_STATE_DICTIONARY_EXCEL_FILE);
-  orchReader = new ExcelSpreadsheetReader (ORCHESTRATION_DICTIONARY_EXCEL_FILE);
-  instance = new DictionaryModelLoader (dictReader, orchReader, null);
+  List<SpreadsheetReader> list = new ArrayList ();
+
+  list.add (new ExcelSpreadsheetReader (TYPE_STATE_DICTIONARY_EXCEL_FILE));
+  list.add (new ExcelSpreadsheetReader (SERVICES_EXCEL_FILE));  
+  list.add (new ExcelSpreadsheetReader (ORCHESTRATION_DICTIONARY_EXCEL_FILE));
+  reader = new CompositeSpreadsheetReader (list);
+  instance = new DictionaryModelLoader (reader);
  }
 
  @After
  public void tearDown ()
  {
-  dictReader.close ();
+  reader.close ();
  }
 
  /**
