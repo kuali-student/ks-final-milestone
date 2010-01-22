@@ -25,6 +25,9 @@ import org.kuali.student.core.statement.service.StatementService;
 @PersistenceFileLocation("classpath:META-INF/statement-persistence.xml")
 public class TestStatementServiceImpl extends AbstractServiceTest {
 
+    @Client(value = "org.kuali.student.core.statement.service.impl.StatementServiceImpl", additionalContextFile="classpath:statement-additional-context.xml")
+    public StatementService statementService;
+    
 	@BeforeClass
 	public static void beforeClass() {
 		// Add test data
@@ -44,12 +47,27 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 		CourseListContextImpl.setCluSetInfo(cluSetList);
 	}
 	
-    @Client(value = "org.kuali.student.core.statement.service.impl.StatementServiceImpl", additionalContextFile="classpath:statement-additional-context.xml")
-    public StatementService statementService;
-    
 	@Test
 	public void testTranslateReqComponent() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
     	String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG", "en");
     	assertEquals("Student must have completed 1 of MATH 152, MATH 180", nl);
     }
+
+	@Test
+	public void testGetNaturalLanguageForReqComponent_DefaultEnglish() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		String naturalLanguage = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG", null);
+        assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
+	}
+
+	@Test
+	public void testGetNaturalLanguageForReqComponent_EnglishGerman() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		String naturalLanguage = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG", null);
+        assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
+		
+        naturalLanguage = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG", "de");
+        assertEquals("Student muss abgeschlossen 1 von MATH 152, MATH 180", naturalLanguage);
+
+		naturalLanguage = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG", "en");
+        assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
+	}
 }
