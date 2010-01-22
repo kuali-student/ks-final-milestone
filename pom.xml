@@ -1,29 +1,56 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.kuali.student.security</groupId>
-	<artifactId>ks-security</artifactId>
-	<packaging>pom</packaging>
-	<version>1.0.0-m1</version>
-	
-	<name>KS Security</name>
-	<description>KS Security Parent POM</description>
-    <url>http://student.kuali.org/site/security/${project.version}</url>
-	
-	<modules>
-        <module>ks-standard-sec</module>
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.kuali.student</groupId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>Master Pom</name>
+    <description>Kuali Student Project</description>
+
+    <url>http://student.kuali.org/site/student</url>
+
+    <licenses>
+        <license>
+            <name>
+                Educational Community License 2.0
+			</name>
+            <url>
+                http://www.osedu.org/licenses/ECL-2.0/
+			</url>
+            <distribution>manual</distribution>
+        </license>
+    </licenses>
+
+    <ciManagement>
+        <system>continuum</system>
+        <url>http://continuum.kuali.umd.edu</url>
+    </ciManagement>
+
+    <issueManagement>
+        <system>Jira</system>
+        <url>https://test.kuali.org/jira/browse/KSCOR</url>
+    </issueManagement>
+
+
+    <modules>        
+        <module>ks-brms</module>
+        <module>ks-commons</module>
+        <module>ks-eclipselink</module>
+        <module>ks-core</module>
+        <module>ks-jta</module>
+        <module>ks-lum</module>
+        <module>ks-security</module>
     </modules>
-    
+
     <scm>
-        <connection>scm:svn:https://test.kuali.org/svn/student/ks-security/tags/ks-security-1.0.0-m1</connection>
-        <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-security/tags/ks-security-1.0.0-m1</developerConnection>
+        <connection>scm:svn:https://test.kuali.org/svn/student/trunk</connection>
+        <developerConnection>scm:svn:https://test.kuali.org/svn/student/trunk</connection>
     </scm>
-    
 
     <repositories>
         <repository>
             <id>kuali.release</id>
-            <url>http://archiva.kuali.umd.edu/repository/release</url>
+            <url>https://test.kuali.org/maven</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
@@ -38,6 +65,7 @@
     </repositories>
 
     <properties>
+    	<!-- artifact versions -->
         <atomikos.version>3.4.1</atomikos.version>
         <cxf.version>2.2</cxf.version>
         <gwtVersion>1.6.4</gwtVersion>
@@ -51,14 +79,22 @@
         <jetty.version>6.1.6</jetty.version>
         <eclipselink.version>1.0</eclipselink.version>
         <aspectj.version>1.5.4</aspectj.version>
-        <rice.version>1.0.0-ks-m1</rice.version>
+        <kuali.rice.version>1.0.1</kuali.rice.version>
+        <xalan.version>2.7.1</xalan.version>
+        <xercesImpl.version>2.9.1</xercesImpl.version>
 
         <!-- plugin versions -->
         <cobertura.plugin.version>2.2</cobertura.plugin.version>
         <javadoc.plugin.version>2.4</javadoc.plugin.version>
         <site.plugin.version>2.0-beta-7</site.plugin.version>
-		<gwt.codehaus.plugin.version>1.2-SNAPSHOT</gwt.codehaus.plugin.version>
+		<gwt.codehaus.plugin.version>1.2</gwt.codehaus.plugin.version>
         <war.plugin.version>2.1-beta-1</war.plugin.version>
+		<tomcat.plugin.version>1.0-beta-1</tomcat.plugin.version>
+        
+        <!-- build properties -->
+        <ks-core.version>1.0.0-SNAPSHOT</ks-core.version>
+        <ks.gwt.compile.phase>process-classes</ks.gwt.compile.phase>
+        <ks-standard-security.version>1.0.0-m1</ks-standard-security.version>
     </properties>
 
     <profiles>
@@ -120,6 +156,33 @@
                         http://people.apache.org/repo/m2-incubating-repository
                     </url>
                 </repository>
+                <!-- adding until maven repository resolution fixed (does not work in 2.0.9 or 2.1.0.20080530 embedded) -->
+                <repository>
+                    <id>repository.jboss.org</id>
+                    <url>http://repository.jboss.org/maven2</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+                <repository>
+                    <id>ibiblio.maven</id>
+                    <url>http://www.ibiblio.org/maven</url>
+                </repository>
+                <repository>
+                    <id>EclipseLink Repo</id>
+                    <url>
+                        http://www.eclipse.org/downloads/download.php?r=1&amp;nf=1&amp;file=/rt/eclipselink/maven.repo
+					</url>
+				</repository>
+				<repository>
+					<id>gwt-maven</id>
+					<url>
+						http://gwt-maven.googlecode.com/svn/trunk/mavenrepo
+					</url>
+				</repository>
 				<repository>
                     <id>shibboleth.internet2</id>
                     <url>http://shibboleth.internet2.edu/downloads/maven2/</url>
@@ -156,13 +219,61 @@
                     <snapshots>
                         <enabled>true</enabled>
                     </snapshots>
-				</pluginRepository>		
+				</pluginRepository>
+				<pluginRepository>
+					<id>codehaus</id>
+					<url>http://repository.codehaus.org/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+				</pluginRepository>				
 				<pluginRepository>
 					<id>ks-public</id>
 					<url>http://archiva.kuali.umd.edu/repository/public</url>
 				</pluginRepository>
 			</pluginRepositories>
-		</profile>	
+		</profile>
+		
+		<!-- GWT Profiles - Dev environment properties -->
+		<profile>
+			<id>gwt-dev-windows</id>
+			<properties>
+				<platform>windows</platform>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+				<os>
+					<family>Windows</family>
+				</os>
+			</activation>
+		</profile>
+		<profile>
+			<id>gwt-dev-mac</id>
+			<properties>
+				<platform>mac</platform>
+			</properties>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+				<os>
+					<family>mac</family>
+				</os>
+			</activation>
+		</profile>
+		<profile>
+			<id>gwt-dev-linux</id>
+			<properties>
+				<platform>linux</platform>
+			</properties>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+				<os>
+					<name>Linux</name>
+				</os>
+			</activation>
+		</profile>		
 	</profiles>
 
 	<build>
@@ -201,7 +312,7 @@
 						<compilerArgument>-implicit:none</compilerArgument>
 					</configuration>
 				</plugin>
-				
+
                 <!--  the site plugin is both build and reporting -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -209,13 +320,6 @@
                     <version>${site.plugin.version}</version>
                 </plugin>
             
-                <!--  war plguin, so one version is used regardless of build env :-) -->
-                <plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-war-plugin</artifactId>
-					<version>${war.plugin.version}</version>
-                </plugin>
-
 				<!-- CXF Java2WS Default Configuration -->
 				<plugin>
 					<groupId>org.apache.cxf</groupId>
@@ -245,8 +349,66 @@
 			    <plugin>
 			        <groupId>org.codehaus.mojo</groupId>
 	        		<artifactId>tomcat-maven-plugin</artifactId>
-	        		<version>1.0-beta-1</version>
+	        		<version>${tomcat.plugin.version}</version>
+	        		<configuration>
+	        			<server>${project.artifactId}</server>
+	        			<warDirectory>${project.build.directory}/${project.artifactId}-webapp</warDirectory>
+	        		</configuration>
 			    </plugin>
+			    
+			    <!-- War Plugin Configuration -->
+			    <plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>${war.plugin.version}</version> <!-- so one version is used regardless of build env :-) -->
+					<configuration>
+						<webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
+					</configuration>
+				</plugin>
+	
+				<!-- Codehaus GWT Maven Plugin Configuration-->
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>gwt-maven-plugin</artifactId>
+					<version>${gwt.codehaus.plugin.version}</version>
+					<configuration>
+						<webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
+						<buildOutputDirectory>${project.build.directory}/${project.artifactId}-webapp/WEB-INF/classes</buildOutputDirectory>		          
+						<hostedWebapp>${project.build.directory}/${project.artifactId}-webapp</hostedWebapp>
+						<extraJvmArgs>-Xss32m -Xmx512m</extraJvmArgs>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-dependency-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>unpack</id>
+							<phase>compile</phase>
+							<goals>
+								<goal>unpack</goal>
+							</goals>
+							<configuration>
+								<artifactItems>
+									<artifactItem>
+										<groupId>com.google.gwt</groupId>
+										<artifactId>gwt-dev</artifactId>
+										<version>${gwtVersion}</version>
+										<classifier>
+											${platform}-libs
+										</classifier>
+										<type>zip</type>
+										<overWrite>false</overWrite>
+										<outputDirectory>
+											${settings.localRepository}/com/google/gwt/gwt-dev/${gwtVersion}
+										</outputDirectory>
+									</artifactItem>
+								</artifactItems>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
 			</plugins>				
 		</pluginManagement>		
 	</build>
@@ -254,7 +416,7 @@
 	<distributionManagement>
 		<repository>
 			<id>kuali.release</id>
-			<name>Release Repository</name>
+			<name>Internal Release Repository</name>
 			<url>scp://test.kuali.org:/opt/m2/repository</url>
 		</repository>
 		<snapshotRepository>
@@ -266,8 +428,8 @@
 		</snapshotRepository>
 		<site>
 			<id>ks.site</id>
-			<url> 
-				dav:https://student.kuali.org:8443/student/site/security/${project.version}
+			<url>
+                scp://student.kuali.org:/opt/www/student/site/core/${project.version}
 			</url>
 		</site>
 	</distributionManagement>
@@ -360,16 +522,94 @@
 			</dependency>
 
 			<dependency>
+				<groupId>org.apache.derby</groupId>
+				<artifactId>derby</artifactId>
+				<version>${derby.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.derby</groupId>
+				<artifactId>derbynet</artifactId>
+				<version>${derby.version}</version>
+			</dependency>
+		    <dependency>
+				<groupId>org.apache.derby</groupId>
+				<artifactId>derbyclient</artifactId>
+				<version>${derby.version}</version>
+		    </dependency>		
+
+			<dependency>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty</artifactId>
+				<version>${jetty.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+
+			<dependency>
 				<artifactId>servlet-api</artifactId>
 				<groupId>javax.servlet</groupId>
 				<version>2.5</version>
 				<scope>provided</scope>
 			</dependency>
-			
+			<dependency>
+				<groupId>javax.persistence</groupId>
+				<artifactId>persistence-api</artifactId>
+				<version>1.0</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.transaction</groupId>
+				<artifactId>jta</artifactId>
+				<version>1.0.1B</version>
+			</dependency>
+
+			<dependency>
+				<groupId>cglib</groupId>
+				<artifactId>cglib-nodep</artifactId>
+				<version>2.1_3</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.eclipse.persistence</groupId>
+				<artifactId>eclipselink</artifactId>
+				<version>${eclipselink.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.openjpa</groupId>
+				<artifactId>openjpa</artifactId>
+				<version>1.2.1</version>
+			</dependency>
+
+			<!--  Hibernate -->
+
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-annotations</artifactId>
+				<version>3.4.0.GA</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-entitymanager</artifactId>
+				<version>3.4.0.GA</version>
+			</dependency>
+
+
+			<!-- Hibernate Transitive Dependencies -->
+			<dependency>
+				<groupId>dom4j</groupId>
+				<artifactId>dom4j</artifactId>
+				<version>1.6.1</version>
+			</dependency>
 			<dependency>
 				<groupId>commons-collections</groupId>
 				<artifactId>commons-collections</artifactId>
 				<version>3.2</version>
+			</dependency>
+			<dependency>
+				<groupId>antlr</groupId>
+				<artifactId>antlr</artifactId>
+				<version>2.7.7</version>
 			</dependency>
 
 			<!-- Spring Dependencies -->
@@ -435,6 +675,22 @@
                     </exclusion>
                 </exclusions>
 			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-security-core</artifactId>
+				<version>${spring.security.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-support</artifactId>
+                    </exclusion>
+                </exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-security-cas-client</artifactId>
+				<version>${spring.security.version}</version>
+			</dependency>
 			
 			<!-- This jar is only needed if you are using CAS with Spring Security -->
 			<dependency>
@@ -454,6 +710,11 @@
 				<artifactId>opensaml</artifactId>
 				<version>1.1</version>
 				<!-- <version>2.2.2</version> -->
+			</dependency>
+			<dependency>
+				<groupId>xerces</groupId>
+				<artifactId>xercesImpl</artifactId>
+				<version>${xercesImpl.version}</version>
 			</dependency>
 			
 			<!-- Metro Dependencies -->
@@ -518,11 +779,6 @@
 
 			<!-- CXF Dependencies -->
 			<!-- Libraries not required for Java 1.6_04+ are being excluding (based cxf WHICH_JARS file) -->
-			<dependency>
-				<groupId>org.apache.cxf</groupId>
-				<artifactId>cxf-tools-common</artifactId>
-				<version>${cxf.version}</version>
-			</dependency>
 			<dependency>
 				<groupId>org.apache.cxf</groupId>
 				<artifactId>cxf-rt-frontend-jaxws</artifactId>
@@ -671,30 +927,7 @@
 				<groupId>org.apache.cxf</groupId>
 				<artifactId>cxf-rt-databinding-aegis</artifactId>
 				<version>${cxf.version}</version>
-			</dependency>
-            <dependency>
-                <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-api</artifactId>
-                <version>${cxf.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.apache.geronimo.specs</groupId>
-                        <artifactId>geronimo-activation_1.1_spec</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-rt-core</artifactId>
-                <version>${cxf.version}</version>
-                <exclusions>
-                    <exclusion>
-						<groupId>org.apache.geronimo.specs</groupId>
-						<artifactId>geronimo-javamail_1.4_spec</artifactId>
-					</exclusion>
-                </exclusions>
-            </dependency>
-            
+			</dependency>				
 			<dependency>
 				<groupId>org.apache.ws.security</groupId>
   				<artifactId>wss4j</artifactId>
@@ -704,6 +937,45 @@
             	<groupId>org.apache.santuario</groupId>
             	<artifactId>xmlsec</artifactId>
             	<version>1.4.2</version>
+        	</dependency>
+
+
+			<!--  Atomikos -->
+			<dependency>
+				<groupId>com.atomikos</groupId>
+				<artifactId>transactions-jdbc</artifactId>
+				<version>${atomikos.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.atomikos</groupId>
+				<artifactId>transactions-jta</artifactId>
+				<version>${atomikos.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.atomikos</groupId>
+				<artifactId>transactions-api</artifactId>
+				<version>${atomikos.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.atomikos</groupId>
+				<artifactId>transactions</artifactId>
+				<version>${atomikos.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.atomikos</groupId>
+				<artifactId>atomikos-util</artifactId>
+				<version>${atomikos.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.atomikos</groupId>
+				<artifactId>transactions-hibernate3</artifactId>
+				<version>${atomikos.version}</version>
+				<exclusions>
+					<exclusion>
+			            <groupId>org.hibernate</groupId>
+			            <artifactId>hibernate</artifactId>
+            		</exclusion>
+            	</exclusions>
         	</dependency>
 
 			<!--  Logging -->
@@ -728,21 +1000,222 @@
 				<artifactId>commons-logging</artifactId>
 				<version>1.1.1</version>			
 			</dependency>
+
+			<!-- Velocity (used by cxf & brms) -->
+			<dependency>
+				<groupId>velocity</groupId>
+				<artifactId>velocity</artifactId>
+				<version>1.4</version>
+			</dependency>
+
+			<!-- Pom dependencies for impl specific jars -->
+			<dependency>
+				<groupId>org.kuali.student.core</groupId>
+				<artifactId>ks-jta</artifactId>
+				<version>1.0.0-SNAPSHOT</version>
+				<type>pom</type>
+			</dependency>
+			<dependency>
+				<groupId>org.kuali.student.core</groupId>
+				<artifactId>ks-cxf</artifactId>
+				<version>1.0.0-SNAPSHOT</version>
+				<type>pom</type>
+			</dependency>
+			<dependency>
+				<groupId>org.kuali.student.core</groupId>
+				<artifactId>ks-metro</artifactId>
+				<version>1.0.0-SNAPSHOT</version>
+				<type>pom</type>
+			</dependency>
+			<dependency>
+				<groupId>org.kuali.student.core</groupId>
+				<artifactId>ks-eclipselink</artifactId>
+				<version>1.0.0-SNAPSHOT</version>
+				<type>pom</type>
+			</dependency>
+			<dependency>
+				<groupId>org.kuali.student.core</groupId>
+				<artifactId>ks-hibernate</artifactId>
+				<version>1.0.0-SNAPSHOT</version>
+				<type>pom</type>
+			</dependency>
+			
+			<!-- GWT Dependencies -->
+			<dependency>
+				<groupId>javax.xml.bind</groupId>
+				<artifactId>jaxb-api</artifactId>
+				<version>2.1</version>
+				<classifier>sources</classifier>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.google.gwt</groupId>
+				<artifactId>gwt-incubator</artifactId>
+				<version>1.6</version>
+				<scope>provided</scope>
+	    	</dependency>
+			<dependency>
+				<groupId>com.google.gwt</groupId>
+				<artifactId>gwt-user</artifactId>
+				<version>${gwtVersion}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.google.gwt</groupId>
+				<artifactId>gwt-dev</artifactId>
+				<version>${gwtVersion}</version>
+				<classifier>${platform}-libs</classifier>
+				<type>zip</type>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.google.gwt</groupId>
+				<artifactId>gwt-dev</artifactId>
+				<version>${gwtVersion}</version>
+				<classifier>${platform}</classifier>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.google.gwt</groupId>
+				<artifactId>gwt-servlet</artifactId>
+				<version>${gwtVersion}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>junit</artifactId>
+						<groupId>com.google.gwt</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>	
+			<dependency>
+				<groupId>com.google.gwt</groupId>
+				<artifactId>gwt-visualization</artifactId>
+				<version>1.0</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+			    <groupId>com.google.code.gwtx</groupId>
+			    <artifactId>gwtx</artifactId>
+			    <version>1.5.3</version>
+			    <scope>provided</scope>
+			</dependency>
             
             <dependency>
                 <groupId>org.kuali.rice</groupId>
                 <artifactId>rice-api</artifactId>
-                <version>${rice.version}</version>
+                <version>${kuali.rice.version}</version>
             </dependency>
-            
+            <dependency>
+                <groupId>org.kuali.rice</groupId>
+                <artifactId>rice-impl</artifactId>
+                <version>${kuali.rice.version}</version>
+	            <exclusions>
+	                <exclusion>
+	                    <groupId>org.springframework</groupId>
+	                    <artifactId>spring-dao</artifactId>
+	                </exclusion>
+	                <exclusion>
+	                    <groupId>org.springframework</groupId>
+	                    <artifactId>spring-jpa</artifactId>
+	                </exclusion>
+	                <exclusion>
+	                    <groupId>org.springframework</groupId>
+	                    <artifactId>spring-remoting</artifactId>
+	                </exclusion>
+	                <exclusion>
+	                    <groupId>org.springframework</groupId>
+	                    <artifactId>spring-support</artifactId>
+	                </exclusion>
+	                <exclusion>
+	                    <groupId>org.springframework</groupId>
+	                    <artifactId>spring-jmx</artifactId>
+	                </exclusion>
+	                <exclusion>
+	                    <groupId>org.springframework</groupId>
+	                    <artifactId>spring-mock</artifactId>
+	                </exclusion>
+	                <exclusion>
+	                    <groupId>junit</groupId>
+	                    <artifactId>junit</artifactId>
+	                </exclusion>
+	                <exclusion>
+	                    <groupId>htmlunit</groupId>
+	                    <artifactId>htmlunit</artifactId>
+	                </exclusion>
+	                <exclusion>
+	                    <groupId>org.mortbay.jetty</groupId>
+	                    <artifactId>jetty</artifactId>
+	                </exclusion>
+	                <!--<exclusion>
+	                    <groupId>org.springmodules</groupId>
+	                    <artifactId>spring-modules-ojb</artifactId>
+	                </exclusion>-->
+	                <!-- 
+	                <exclusion>
+	                    <groupId>ojb</groupId>
+	                    <artifactId>db-ojb</artifactId>
+	                </exclusion>
+	                -->
+
+	                <exclusion>
+	                    <groupId>com.oracle</groupId>
+	                    <artifactId>ojdbc14</artifactId>
+	                </exclusion>
+	                <exclusion>
+	                    <groupId>mysql</groupId>
+	                    <artifactId>mysql-connector-java</artifactId>
+	                </exclusion>
+
+	                <exclusion>
+	                    <groupId>org.apache.geronimo.specs</groupId>
+	                    <artifactId>geronimo-activation_1.1_spec</artifactId>
+	                </exclusion>
+	                <exclusion>
+	                    <groupId>org.apache.geronimo.specs</groupId>
+	                    <artifactId>geronimo-javamail_1.4_spec</artifactId>
+	                </exclusion>
+	                	                
+	                <!-- 
+	                	These dependencies conflict with gwt-dev for running hosted mode via eclipse launch file.
+	                -->
+	                <exclusion>
+	                	<groupId>tomcat</groupId>
+	                	<artifactId>jasper-compiler-jdt</artifactId>
+	                </exclusion>
+	                <exclusion>
+	                	<groupId>tomcat</groupId>
+	                	<artifactId>jasper-compiler</artifactId>
+	                </exclusion>
+	                <exclusion>
+	                	<groupId>tomcat</groupId>
+	                	<artifactId>jasper-runtime</artifactId>
+	                </exclusion>
+	                <exclusion>
+	                	<groupId>org.eclipse.jdt</groupId>
+	                	<artifactId>core</artifactId>
+	                </exclusion>
+	            </exclusions>                   
+            </dependency>          
+
             <dependency>
                 <groupId>commons-beanutils</groupId>
                 <artifactId>commons-beanutils</artifactId>
                 <version>1.7.0</version>
             </dependency>
+                 		
+            <dependency>
+	            <groupId>xalan</groupId>
+	            <artifactId>xalan</artifactId>
+	            <version>${xalan.version}</version>
+            </dependency>     		
                  											
 		</dependencies>
 	</dependencyManagement>
 
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+	</dependencies>
 
 </project>

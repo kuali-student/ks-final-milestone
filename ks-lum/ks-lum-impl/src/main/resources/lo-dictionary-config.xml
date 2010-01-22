@@ -1,0 +1,2562 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+	xsi:schemaLocation="
+	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	 ">
+
+	<dict:constraint key="calc.course.no" id="calc.course.no">
+		<dict:minOccurs>0</dict:minOccurs>
+	</dict:constraint>
+
+	<dict:constraint key="calc.copy.course.official.subjectArea"
+		id="calc.copy.course.official.subjectArea">
+		<dict:minOccurs>0</dict:minOccurs>
+	</dict:constraint>
+
+	<dict:constraint key="calc.copy.course.official.numberPart"
+		id="calc.copy.course.official.numberPart">
+		<dict:minOccurs>0</dict:minOccurs>
+	</dict:constraint>
+
+	<dict:constraint key="calc.plain.text" id="calc.plain.text">
+		<dict:minOccurs>0</dict:minOccurs>
+	</dict:constraint>
+
+	<dict:constraint key="calc.meta.versionInd"
+		id="calc.meta.versionInd">
+		<dict:minOccurs>0</dict:minOccurs>
+	</dict:constraint>
+
+	<dict:constraint key="calc.now" id="calc.now">
+		<dict:minOccurs>0</dict:minOccurs>
+	</dict:constraint>
+
+	<dict:constraint key="calc.authenicated.principalId"
+		id="calc.authenicated.principalId">
+		<dict:minOccurs>0</dict:minOccurs>
+	</dict:constraint>
+
+	<dict:constraint key="read.only" id="read.only">
+		<dict:minOccurs>0</dict:minOccurs>
+	</dict:constraint>
+
+	<dict:constraint key="hidden" id="hidden">
+		<dict:minOccurs>0</dict:minOccurs>
+	</dict:constraint>
+
+	<dict:constraint key="default.active" id="default.active">
+		<dict:minOccurs>0</dict:minOccurs>
+	</dict:constraint>
+
+	<dict:constraint key="default.true" id="default.true">
+		<dict:minOccurs>0</dict:minOccurs>
+	</dict:constraint>
+
+	<dict:constraint key="default.authenicated.principalId"
+		id="default.authenicated.principalId">
+		<dict:minOccurs>0</dict:minOccurs>
+	</dict:constraint>
+
+	<dict:constraint key="default.now" id="default.now">
+		<dict:minOccurs>0</dict:minOccurs>
+	</dict:constraint>
+
+	<dict:constraint key="related.resultComponentId"
+		id="related.resultComponentId">
+		<dict:minOccurs>0</dict:minOccurs>
+	</dict:constraint>
+
+	<dict:constraint key="related.resultValueId"
+		id="related.resultValueId">
+		<dict:minOccurs>0</dict:minOccurs>
+	</dict:constraint>
+
+	<dict:constraint key="required" id="required" serverSide="false">
+		<!-- Required -->
+		<dict:minOccurs>1</dict:minOccurs>
+	</dict:constraint>
+
+	<dict:constraint key="optional" id="optional" serverSide="false">
+		<!-- Optional -->
+		<!-- Used to override a previous required constraint.  Also implied by the absence of a required constraint -->
+		<dict:minOccurs>0</dict:minOccurs>
+	</dict:constraint>
+
+	<dict:constraint key="not.used" id="not.used" serverSide="false">
+		<!-- Not Used -->
+		<dict:minOccurs>0</dict:minOccurs>
+		<dict:maxOccurs>0</dict:maxOccurs>
+	</dict:constraint>
+
+	<dict:constraint key="repeating" id="repeating"
+		serverSide="false">
+		<!-- Repeating -->
+		<!-- Nine 9's get translated as "(unbounded)" -->
+		<dict:maxOccurs>(unbounded)</dict:maxOccurs>
+	</dict:constraint>
+
+	<dict:constraint key="single" id="single" serverSide="false">
+		<!-- Single valued (non-repeating) -->
+		<!-- Used to override a repeating constraint -->
+		<dict:maxOccurs>1</dict:maxOccurs>
+	</dict:constraint>
+
+	<dict:constraint key="code" id="code" serverSide="false">
+		<!-- Alphanumeric code, hypen and period. -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:validChars>
+			<dict:value>regex:[A-Za-z0-9.-]*</dict:value>
+		</dict:validChars>
+	</dict:constraint>
+
+	<dict:constraint key="code.uppercase" id="code.uppercase"
+		serverSide="false">
+		<!-- uppercase alphanumeric code, hypen and period. -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:validChars>
+			<dict:value>regex:[A-Z0-9.-]*</dict:value>
+		</dict:validChars>
+	</dict:constraint>
+
+	<dict:constraint key="code.lowercase" id="code.lowercase"
+		serverSide="false">
+		<!-- lowercase alphanumeric code, hypen and period. -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:validChars>
+			<dict:value>regex:[a-z0-9.-]*</dict:value>
+		</dict:validChars>
+	</dict:constraint>
+
+	<dict:constraint key="single.line.text" id="single.line.text"
+		serverSide="false">
+		<!-- A basic single line of text, no embedded carraige returns or tabs limited to 255 -->
+		<!-- old reg ex was "[A-Za-z0-9.-;;'&%$#@!]* -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>255</dict:maxLength>
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:[\p{Print} ]*</dict:value> 
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="letter" id="letter" serverSide="false">
+		<!-- letters only -->
+		<dict:validChars>
+			<dict:value>regex:[A-Za-z]*</dict:value>
+		</dict:validChars>
+	</dict:constraint>
+
+	<dict:constraint key="size.one" id="size.one" serverSide="false">
+		<!-- Only one character -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>1</dict:maxLength>
+	</dict:constraint>
+
+	<dict:constraint key="size.two" id="size.two" serverSide="false">
+		<!-- Two characters both must be filled out. -->
+		<dict:minLength>2</dict:minLength>
+		<dict:maxLength>2</dict:maxLength>
+	</dict:constraint>
+
+	<dict:constraint key="size.up.to.two" id="size.up.to.two"
+		serverSide="false">
+		<!-- Up to 2 characters long -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>2</dict:maxLength>
+	</dict:constraint>
+
+	<dict:constraint key="no.linefeeds" id="no.linefeeds"
+		serverSide="false">
+		<!-- Any character EXCEPT carraige returns and line feeds -->
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:[^\n\r]*</dict:value>
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="no.tabs" id="no.tabs" serverSide="false">
+		<!-- Any character EXCEPT a tab -->
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:[^\t]*</dict:value>
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="multi.line.text" id="multi.line.text"
+		serverSide="false">
+		<!-- Multi-line text field that accepts all printable characters plus tab, carraige-return and linefeed. -->
+		<!-- old reg ex was [A-Za-z0-9.-;;'&%$#@!\n\r\t]* -->
+		<dict:minLength>1</dict:minLength>
+		<!-- 	
+			<dict:validChars>
+			<dict:value>regex:[\p{Print}\p{Blank}\n\r]*</dict:value> 
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="rich.text" id="rich.text"
+		serverSide="false">
+		<!-- Text field that accepts all types of characters using some sort of escaping convention along with the ability to specify bolding, font size, color etc. -->
+		<!-- Not sure if characterset for rich text is the same for regular text but just interpretted differently.  I.e. html is plain text interpreted differently. -->
+		<dict:minLength>1</dict:minLength>
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:[\p{Print}\p{Blank}\n\r]*</dict:value> 
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="date" id="date" serverSide="false">
+		<!-- Date -->
+		<!-- http://regexlib.com/REDetails.aspx?regexp_id=760 (but not sure) -->
+		<dict:minLength>10</dict:minLength>
+		<dict:maxLength>10</dict:maxLength>
+	</dict:constraint>
+
+	<dict:constraint key="date.time" id="date.time"
+		serverSide="false">
+		<!-- Date-Time -->
+		<!-- http://regexlib.com/REDetails.aspx?regexp_id=1966 (but not sure) -->
+		<dict:minLength>19</dict:minLength>
+		<dict:maxLength>19</dict:maxLength>
+	</dict:constraint>
+
+	<dict:constraint key="integer" id="integer" serverSide="false">
+		<!-- Integer -->
+		<!-- http://regexlib.com/REDetails.aspx?regexp_id=14 -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>10</dict:maxLength>
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:^(\+|-)?\d+$</dict:value> 
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="non-negative.integer"
+		id="non-negative.integer" serverSide="false">
+		<!-- Non-Negative Integer -->
+		<!-- http://regexlib.com/REDetails.aspx?regexp_id=13 -->
+		<dict:minValue>0</dict:minValue>
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>10</dict:maxLength>
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:^\d+$</dict:value> 
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="decimal" id="decimal" serverSide="false">
+		<!-- decimal number -->
+		<!-- http://regexlib.com/REDetails.aspx?regexp_id=117 -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>10</dict:maxLength>
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:^[-+]?\d+(\.\d+)?$</dict:value> 
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="non.negative.decimal"
+		id="non.negative.decimal" serverSide="false">
+		<!-- non-negative decimal number -->
+		<!-- http://regexlib.com/REDetails.aspx?regexp_id=117 -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>10</dict:maxLength>
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:^[-+]?\d+(\.\d+)?$</dict:value>
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="amount" id="amount" serverSide="false">
+		<!-- Amount field -->
+		<!-- http://regexlib.com/REDetails.aspx?regexp_id=131 -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>10</dict:maxLength>
+		<!--
+			<dict:validChars>
+			<dict:value>regex:^\$?\d+(\.(\d{2}))?$</dict:value>
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="url" id="url" serverSide="false">
+		<!-- Uniform Resource Locator -->
+		<!-- http://regexlib.com/REDetails.aspx?regexp_id=96 -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>2083</dict:maxLength>
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;amp;:/~\+#]*[\w\-\@?^=%&amp;amp;/~\+#])?</dict:value>
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="boolean" id="boolean" serverSide="false">
+		<!-- True or False -->
+		<!-- http://regexlib.com/REDetails.aspx?regexp_id=905 -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>5</dict:maxLength>
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:[Ff]+(alse)?|[Tt]+(rue)</dict:value>
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="kuali.id" id="kuali.id"
+		className="Special Class to do this?" serverSide="true">
+		<!-- Kuali ID; calculated by service on add, then read-only. -->
+		<!-- MinOccur on ID's of 1 may not work because it is missing on the create -->
+		<dict:minOccurs>1</dict:minOccurs>
+		<dict:maxOccurs>1</dict:maxOccurs>
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>36</dict:maxLength>
+	</dict:constraint>
+
+	<dict:constraint key="kuali.key" id="kuali.key"
+		className="Special Class to do this?" serverSide="true">
+		<!-- Kuali KEY; structured like a type but unique like and ID, used to identify configured objects. -->
+		<dict:minOccurs>1</dict:minOccurs>
+		<dict:maxOccurs>1</dict:maxOccurs>
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:validChars>
+			<dict:value>regex:[A-Za-z0-9.-]*</dict:value>
+		</dict:validChars>
+	</dict:constraint>
+
+	<dict:constraint key="kuali.type" id="kuali.type"
+		serverSide="true">
+		<!-- Kuali TYPE: required on add, then read-only -->
+		<dict:minOccurs>1</dict:minOccurs>
+		<dict:maxOccurs>1</dict:maxOccurs>
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:validChars>
+			<dict:value>regex:[A-Za-z0-9.-]*</dict:value>
+		</dict:validChars>
+	</dict:constraint>
+
+	<dict:constraint key="kuali.state" id="kuali.state"
+		serverSide="true">
+		<!-- Kuali STATE -->
+		<dict:minOccurs>1</dict:minOccurs>
+		<dict:maxOccurs>1</dict:maxOccurs>
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>30</dict:maxLength>
+		<dict:validChars>
+			<dict:value>regex:[A-Za-z0-9.-]*</dict:value>
+		</dict:validChars>
+	</dict:constraint>
+
+	<dict:constraint key="kuali.meta.data" id="kuali.meta.data"
+		className="Special Class to do this?" serverSide="true">
+		<!-- Kuali Meta Data: calculated by service, read-only -->
+		<!-- MinOccur on Meta data structures may not 1 not work because it is not supplied  on the create -->
+		<dict:minOccurs>1</dict:minOccurs>
+		<dict:maxOccurs>1</dict:maxOccurs>
+	</dict:constraint>
+
+	<dict:constraint key="related.cluId" id="related.cluId"
+		className="org.kuali.constraint.CluIdExists" serverSide="true">
+		<!-- Id of an existing CLU -->
+		<!-- Requires special logic to check that the ID supplied actually exists -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>36</dict:maxLength>
+	</dict:constraint>
+
+	<dict:constraint key="related.clu.set.id" id="related.clu.set.id"
+		className="org.kuali.constraint.CluSetIdExists" serverSide="true">
+		<!-- Id of an existing CLU Set Id -->
+		<!-- Requires special logic to check that the ID supplied actually exists -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>36</dict:maxLength>
+	</dict:constraint>
+
+	<dict:constraint key="related.orgId" id="related.orgId"
+		className="org.kuali.constraint.OrgIdExists" serverSide="true">
+		<!-- Id of an existing ORG -->
+		<!-- Requires special logic to check that the ID supplied actually exists -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>36</dict:maxLength>
+	</dict:constraint>
+
+	<dict:constraint key="related.principalId" id="related.principalId"
+		className="org.kuali.constraint.PrincipaldExists" serverSide="true">
+		<!-- Id of an existing PRINCIPAL -->
+		<!-- Requires special logic to check that the ID supplied actually exists -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>36</dict:maxLength>
+	</dict:constraint>
+
+	<dict:constraint key="related.personId" id="related.personId"
+		className="org.kuali.constraint.PersonIddExists" serverSide="true">
+		<!-- Id of an existing PERSON -->
+		<!-- Requires special logic to check that the ID supplied actually exists -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>36</dict:maxLength>
+	</dict:constraint>
+
+	<dict:constraint key="related.gradekey" id="related.gradekey"
+		className="lu.kuali.constrain.gradeExists" serverSide="true">
+		<!-- Key of an existing Grade -->
+		<!-- Requires special logic to check that the key supplied actuall exists -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:validChars>
+			<dict:value>regex:[A-Za-z0-9.-]*</dict:value>
+		</dict:validChars>
+	</dict:constraint>
+
+	<dict:constraint key="related.creditkey" id="related.creditkey"
+		className="lu.kuali.constrain.creditExists" serverSide="true">
+		<!-- Key of an existing Credit -->
+		<!-- Requires special logic to check that the key supplied actuall exists -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:validChars>
+			<dict:value>regex:[A-Za-z0-9.-]*</dict:value>
+		</dict:validChars>
+	</dict:constraint>
+
+	<dict:constraint key="related.credentialkey"
+		id="related.credentialkey"
+		className="lu.kuali.constrain.credentialExists" serverSide="true">
+		<!-- Key of an existin Credential -->
+		<!-- Requires special logic to check that the key supplied actuall exists -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:validChars>
+			<dict:value>regex:[A-Za-z0-9.-]*</dict:value>
+		</dict:validChars>
+	</dict:constraint>
+
+	<dict:constraint key="related.proposal" id="related.proposal"
+		className="proposal.kuali.constraint.ProposalIdExists"
+		serverSide="true">
+		<!-- Id of an existing PROPOSAL -->
+		<!-- Requires special logic to check that the ID supplied actually exists -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>36</dict:maxLength>
+	</dict:constraint>
+
+	<dict:constraint key="related.document" id="related.document"
+		className="document.kuali.constraint.DocumentIdExists"
+		serverSide="true">
+		<!-- Id of an existing DOCUMENT -->
+		<!-- Requires special logic to check that the ID supplied actually exists -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>36</dict:maxLength>
+	</dict:constraint>
+
+	<dict:constraint key="lu.types" id="lu.types" serverSide="false">
+		<!-- In list of configured learning unit types -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.lu.types">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="lu.identifier.types" id="lu.identifier.types"
+		serverSide="false">
+		<!-- In list of configured clu identifier types -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.lu.identifier.types">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="lu.activity.types" id="lu.activity.types"
+		serverSide="false">
+		<!-- In a list of configured activity LuTypes -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.lu.activity.types">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="duration.types" id="duration.types"
+		serverSide="false">
+		<!-- In list of configured duration types -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.durationTypes">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="instructional.format.types"
+		id="instructional.format.types" serverSide="false">
+		<!-- In list of configured instructional formats -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>30</dict:maxLength>
+		<dict:lookup
+			search="kuali.enum.type.instructionalFormatTypes">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="season.types" id="season.types"
+		serverSide="false">
+		<!-- In list of configured seasons -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.seasonTypes">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="atp.types" id="atp.types"
+		serverSide="false">
+		<!-- In list of configured  time period types -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.atpTypes">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="dynamic.field.types" id="dynamic.field.types"
+		serverSide="false">
+		<!-- In list of configured dynamic field types -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.dynamicFieldTypes">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="lu.lu.relation.types"
+		id="lu.lu.relation.types" serverSide="false">
+		<!-- In list of configured lul-lu relation types -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.lu.lu.relation.types">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="lu.code.types" id="lu.code.types"
+		serverSide="false">
+		<!-- In list of configured classification codes used for LU -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.lu.code.type">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="currency.types" id="currency.types"
+		serverSide="false">
+		<!-- In list of configured currency types -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.currency.types">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="resultUsage.types" id="resultUsage.types"
+		serverSide="false">
+		<!-- In list of confured resultUsage types -->
+		<!-- TO DO: add to Simple Spec -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.resultUsage.types">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="proposal.types" id="proposal.types"
+		serverSide="false">
+		<!-- In a list of configured proposal types -->
+		<!-- TO DO: add to SimpleS -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.proposal.types">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="course.proposal.types"
+		id="course.proposal.types" serverSide="false">
+		<!-- In a list of configured course proposal types -->
+		<!-- TO DO: add to SimpleS -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.course.proposal.types">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="reference.types" id="reference.types"
+		serverSide="false">
+		<!-- In a list of configured reference types -->
+		<!-- TO DO: add to SimpleS -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.reference.types">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="lu.states" id="lu.states"
+		serverSide="false">
+		<!-- In list of configured learning unit states -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>30</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.lu.states">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="lu.identifier.states"
+		id="lu.identifier.states" serverSide="false">
+		<!-- In list of configured clu identifier states -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>30</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.lu.identifier.states">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="subject.areas" id="subject.areas"
+		serverSide="false">
+		<!-- In list of configured subject areas -->
+		<dict:minLength>4</dict:minLength>
+		<dict:maxLength>4</dict:maxLength>
+		<dict:validChars>
+			<dict:value>regex:[A-Z]*</dict:value>
+		</dict:validChars>
+		<dict:lookup search="kuali.enum.type.subjectArea">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="available.course.numbers"
+		id="available.course.numbers" serverSide="false">
+		<!-- In list of configured available course numbers -->
+		<dict:minLength>3</dict:minLength>
+		<dict:maxLength>3</dict:maxLength>
+		<dict:validChars>
+			<dict:value>regex:[0-9]*</dict:value>
+		</dict:validChars>
+		<dict:lookup search="kuali.enum.type.availableNumbers">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="offering.campuses" id="offering.campuses"
+		serverSide="false">
+		<!-- In list of configured offering campuses -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>30</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.offeringCampuses">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="unit.types" id="unit.types"
+		serverSide="false">
+		<!-- In list of configured unit types -->
+		<!-- Although called a type, this is not a formal type in kuali student like an lu type, for example it may be changeable after being added. -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>10</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.validUnitTypes">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="eye.colors" id="eye.colors"
+		serverSide="false">
+		<!-- In a list of configured eye colors -->
+		<!-- Blue, Brown, Green, Hazel, etc -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>10</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.validEyeColors">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="grade.scales" id="grade.scales"
+		serverSide="false">
+		<!-- In a list of configured grading scales -->
+		<dict:lookup search="kuali.enum.type.grade.scales">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="effective.date.atps" id="effective.date.atps"
+		serverSide="false">
+		<!-- In a list of configured ATPs -->
+		<!-- Not entirely sure what to call this. There is also a kuali.enum.type.EffectiveDateATPs defined for the which is backed by this enumeration (its further constrained) but I don't know that it needs to be represented that way. -->
+		<dict:lookup search="kuali.enum.type.ATPsByDate">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.type.credit.course"
+		id="hard.coded.type.credit.course"
+		className="org.kuali.constraint.HardCodedValue" serverSide="true">
+		<!-- Must be "kuali.lu.type.CreditCourse" -->
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:kuali\.lu\.type\.CreditCourse</dict:value>
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.type.credit.course.format.shell"
+		id="hard.coded.type.credit.course.format.shell">
+		<!-- Must be "kuali.lu.type.CreditCourseFormatShell" -->
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:kuali\.lu\.type\.CreditCourseFormatShell</dict:value>
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.official" id="hard.coded.official"
+		className="org.kuali.constraint.HardCodedValue" serverSide="true">
+		<!-- Must be "kuali.lu.type.CreditCourse.identifier.official" -->
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:kuali\.lu\.type\.CreditCourse\.identifier\.official</dict:value>
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.active" id="hard.coded.active"
+		className="org.kuali.constraint.HardCodedValue" serverSide="true">
+		<!-- Must be "active" -->
+		<dict:validChars>
+			<dict:value>regex:active</dict:value>
+		</dict:validChars>
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.cross-listed"
+		id="hard.coded.cross-listed"
+		className="org.kuali.constraint.HardCodedValue" serverSide="true">
+		<!-- Must be "kuali.lu.type.CreditCourse.identifier.cross-listed" -->
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:kuali\.lu\.type\.CreditCourse\.identifier\.cross-listed</dict:value>
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.co-located"
+		id="hard.coded.co-located"
+		className="org.kuali.constraint.HardCodedValue" serverSide="true">
+		<!-- Must be "kuali.lu.relation.type.co-located" -->
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:kuali\.lu\.relation\.type\.co-located</dict:value>
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.lulurelation.courseformat"
+		id="hard.coded.lulurelation.courseformat" serverSide="true">
+		<!-- Must be "kuali.lu.lu.relation.type.hasCourseFormat" -->
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:kulai\.lu\.lu\.relation\.type\.hasCourseFormat</dict:value>
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.version" id="hard.coded.version"
+		className="org.kuali.constraint.HardCodedValue" serverSide="true">
+		<!-- Must be "kuali.lu.type.CreditCourse.identifier.version" -->
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:kuali\.lu\.type\.CreditCourse\.identifier\.version</dict:value>
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.zero" id="hard.coded.zero"
+		className="org.kuali.constraint.HardCodedValue" serverSide="true">
+		<!-- Must be 0 -->
+		<dict:validChars>
+			<dict:value>regex:0</dict:value>
+		</dict:validChars>
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.one" id="hard.coded.one"
+		className="org.kuali.constraint.HardCodedValue" serverSide="true">
+		<!-- Must be 1 -->
+		<dict:validChars>
+			<dict:value>regex:1</dict:value>
+		</dict:validChars>
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.true" id="hard.coded.true"
+		className="org.kuali.constraint.HardCodedValue" serverSide="true">
+		<!-- Must be TRUE -->
+		<dict:validChars>
+			<dict:value>regex:true</dict:value>
+		</dict:validChars>
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.false" id="hard.coded.false"
+		className="org.kuali.constraint.HardCodedValue" serverSide="true">
+		<!-- Must be FALSE -->
+		<dict:validChars>
+			<dict:value>regex:false</dict:value>
+		</dict:validChars>
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.eye.color"
+		id="hard.coded.eye.color"
+		className="org.kuali.constraint.HardCodedValue" serverSide="true">
+		<!-- Must be "kuali.lu.type.CreditCourse.dynamic.eye.color" -->
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:kuali\.lu\.type\.CreditCourse\.dynamic\.eye\.color</dict:value>
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.left.handed"
+		id="hard.coded.left.handed"
+		className="org.kuali.constraint.HardCodedValue" serverSide="true">
+		<!-- Must be "kuali.lu.type.CreditCourse.dynamic.left.handed" -->
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:kuali\.lu\.type\.CreditCourse\.dynamic\.left\.handed</dict:value>
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.credit.awarded.resultUsage"
+		id="hard.coded.credit.awarded.resultUsage"
+		className="org.kuali.constraint.HardCodedValue" serverSide="true">
+		<!-- must be "Kuali.resultUsageType.CreditAwarded" -->
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:Kuali\.resultUsageType\.CreditAwarded</dict:value>
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.fixed.credit"
+		id="hard.coded.fixed.credit"
+		className="org.kuali.constraint.HardCodedValue" serverSide="true">
+		<!-- Must be "kuali.resultComponentType.credit.degree.fixed" -->
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:kuali\.resultComponentType\.credit\.degree\.fixed</dict:value>
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.variable.credit"
+		id="hard.coded.variable.credit"
+		className="org.kuali.constraint.HardCodedValue" serverSide="true">
+		<!-- Must be "kuali.resultComponentType.credit.degree.range" -->
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:kuali\.resultComponentType\.credit\.degree\.range</dict:value>
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.final.grade"
+		id="hard.coded.final.grade"
+		className="org.kuali.constraint.HardCodedValue" serverSide="true">
+		<!-- Must be"kuali.resultComponentType.finalGrade" -->
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:kuali\.resultComponentType\.finalGrade</dict:value>
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.academic.credit"
+		id="hard.coded.academic.credit"
+		className="org.kuali.constraint.HardCodedValue" serverSide="true">
+		<!-- Must be "kuali.creditType.credit.degree" -->
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:kuali\.creditType\.credit\.degree</dict:value>
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.final.qualitative.result.Usage"
+		id="hard.coded.final.qualitative.result.Usage"
+		className="org.kuali.constraint.HardCodedValue" serverSide="true">
+		<!-- Must be "kuali.resultComponentType.finalQualitative" -->
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:kuali\.resultComponentType\.finalQualitative</dict:value>
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.final.grad.awarded.resultUsage"
+		id="hard.coded.final.grad.awarded.resultUsage"
+		className="org.kuali.constraint.HardCodedValue" serverSide="true">
+		<!-- Must be "Must be "kuali.resultUsageType.finalGradeAwarded"" -->
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:kuali\.resultUsageType\.finalGradeAwarded</dict:value>
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.letter.grade"
+		id="hard.coded.letter.grade"
+		className="org.kuali.constraint.HardCodedValue" serverSide="true">
+		<!-- Must be "kuali.gradeType.Letter" -->
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:kuali\.gradeType\.Letter</dict:value>
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.pass-fail.grade"
+		id="hard.coded.pass-fail.grade"
+		className="org.kuali.constraint.HardCodedValue" serverSide="true">
+		<!-- Must be "kuali.gradeType.Pass-Fail" -->
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:kuali\.gradeType\.Pass-Fail</dict:value>
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.final.qualitative"
+		id="hard.coded.final.qualitative"
+		className="org.kuali.constraint.HardCodedValue" serverSide="true">
+		<!-- Must be"kuali.resultComponentType.finalQualitative" -->
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:kuali\.resultComponentType\.finalQualitative</dict:value>
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.referenceType.CLU"
+		id="hard.coded.referenceType.CLU"
+		className="proposal.kuali.constraint.HardCodedValue"
+		serverSide="true">
+		<!-- Must be "kuali.referenceType.CLU" -->
+		<dict:validChars>
+			<dict:value>regex:kuali.referenceType.CLU</dict:value>
+		</dict:validChars>
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.referenceType.Proposal"
+		id="hard.coded.referenceType.Proposal"
+		className="proposal.kuali.constraint.HardCodedValue"
+		serverSide="true">
+		<!-- Must be "kuali.referenceType.proposal" -->
+		<dict:validChars>
+			<dict:value>regex:kuali.referenceType.proposal</dict:value>
+		</dict:validChars>
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.group.proposal"
+		id="hard.coded.group.proposal"
+		className="proposal.kuali.constraint.HardCodedValue"
+		serverSide="true">
+		<!-- Must be "kuali.proposal.type.group" -->
+		<dict:validChars>
+			<dict:value>regex:kuali.proposal.type.group</dict:value>
+		</dict:validChars>
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.syllabus" id="hard.coded.syllabus"
+		className="proposal.kuali.constraint.HardCodedValue"
+		serverSide="true">
+		<!-- Must be"kuali.proposal.ProposalDocRelationType.syllabus" -->
+		<dict:validChars>
+			<dict:value>
+				regex:kuali.proposal.ProposalDocRelationType.syllabus
+			</dict:value>
+		</dict:validChars>
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.other.document"
+		id="hard.coded.other.document"
+		className="proposal.kuali.constraint.HardCodedValue"
+		serverSide="true">
+		<!-- Must be"kuali.proposal.ProposalDocRelationType.other" -->
+		<dict:validChars>
+			<dict:value>
+				regex:kuali.proposal.ProposalDocRelationType.other
+			</dict:value>
+		</dict:validChars>
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.file" id="hard.coded.file"
+		className="document.kuali.constraint.HardCodedValue"
+		serverSide="true">
+		<!-- Must be"kuali.document.type.file" -->
+		<dict:validChars>
+			<dict:value>regex:kuali.document.type.file</dict:value>
+		</dict:validChars>
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.course.proposal.doc.category"
+		id="hard.coded.course.proposal.doc.category"
+		className="document.kuali.constraint.HardCodedValue"
+		serverSide="true">
+		<!-- Must be"kuali.document.category.courseProposal.Doc.Category" -->
+		<dict:validChars>
+			<dict:value>
+				regex:kuali.document.category.courseProposal.Doc.Category
+			</dict:value>
+		</dict:validChars>
+	</dict:constraint>
+
+	<dict:constraint key="has.course.format.relation.lu.types"
+		id="has.course.format.relation.lu.types" serverSide="false">
+		<!-- constrains the required LuType of the clu referenced by cluCluRelationInfo.cluID for a Has Course Format relation -->
+		<!-- TO DO: add the enumeration to simples -->
+		<dict:lookup
+			search="kuali.enum.type.validLuTypesForLuLuRelationType">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="is.course.format.relation.lu.types"
+		id="is.course.format.relation.lu.types" serverSide="false">
+		<!-- constrains the required LuType of clu referenced by cluCluRelationInfo.relatedCluId for a has course format relation -->
+		<!-- TO DO: add the enumeration to simples -->
+		<dict:lookup
+			search="kuali.enum.type.validRelatedLuTypesForLuLuRelationType">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="contains.relation.lu.types"
+		id="contains.relation.lu.types" serverSide="false">
+		<!-- constrains the required LuType of the clu referenced by cluCluRelationInfo.cluID for a "Contains" relation -->
+		<!-- TO DO: add the enumeration to simples -->
+		<dict:lookup
+			search="kuali.enum.type.validLuTypesForLuLuRelationType">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="contained.by.relation.lu.types"
+		id="contained.by.relation.lu.types" serverSide="false">
+		<!-- constrains the required LuType of the clu referenced by cluCluRelationInfo.relatedCluID for a "Contain" relation -->
+		<!-- TO DO: add the enumeration to simples -->
+		<dict:lookup
+			search="kuali.enum.type.validRelatedLuTypesForLuLuRelationType">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="valid.duration.types"
+		id="valid.duration.types" serverSide="false">
+		<!-- In a list of duration types configured by LuType -->
+		<dict:lookup search="kuali.enum.type.ValidDurationTypes">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="valid.atp.types" id="valid.atp.types">
+		<!-- In a list of atp types configured by LuType -->
+		<!-- TO DO: add this enumeration to the simples -->
+		<dict:lookup search="kuali.enum.type.validAtpTypes">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="lu.statement.operators"
+		id="lu.statement.operators" serverSide="false">
+		<!-- In list of configured lu statement operators (AND and OR) -->
+		<!-- Hard coded to be AND or OR -->
+		<dict:lookup search="kuali.enum.type.lu.statement.operators">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="lu.statement.types" id="lu.statement.types"
+		serverSide="false">
+		<!-- In list of valid lu statement types -->
+		<!-- See LuStatementInfo types defined on the Types tab -->
+		<dict:lookup search="kuali.enum.type.lu.statement.types">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="lu.statement.states" id="lu.statement.states"
+		serverSide="false">
+		<!-- In list of valid lu statement states -->
+		<!-- See LuStatementInfo states defined on the States tab -->
+		<dict:lookup search="kuali.enum.type.lu.statement.states">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="related.luStatementd"
+		id="related.luStatementd"
+		className="org.kuali.constraint.LuStatementIdExists"
+		serverSide="true">
+		<!-- Id of an existing LU Statement -->
+		<!-- Requires special logic to check that the ID supplied actually exists -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>36</dict:maxLength>
+	</dict:constraint>
+
+	<dict:constraint key="related.requirementComponentId"
+		id="related.requirementComponentId"
+		className="org.kuali.constraint.RequirementComponentIdExists"
+		serverSide="true">
+		<!-- Id of an existing requirement component -->
+		<!-- Requires special logic to check that the ID supplied actually exists -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>36</dict:maxLength>
+	</dict:constraint>
+
+	<dict:constraint key="lu.requirement.component.types"
+		id="lu.requirement.component.types" serverSide="false">
+		<!-- In list of valid lu requirement component types -->
+		<!-- See reqComponentInfo types defined on the Types tab -->
+		<dict:lookup
+			search="kuali.enum.type.lu.requirement.component.types">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="dictionary.field.descriptor.field.types"
+		id="dictionary.field.descriptor.field.types" serverSide="false">
+		<!-- In list of valid data types fof fields that are supported by the validator -->
+		<!-- Valid values are: complex, string, date, dateTime, boolean, integer, & long -->
+		<dict:lookup
+			search="kuali.enum.type.dictionary.field.descriptor.field.types">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="dictionary.enumeration.keys"
+		id="dictionary.enumeration.keys" serverSide="false">
+		<!-- In list of the keys for all valid enumerations known to the system -->
+		<!-- See the lookup column of this spreadsheet!!!!! -->
+		<dict:lookup
+			search="kuali.enum.type.dictionary.enumeration.type.keys">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="dictionary.enumeration.context.keys"
+		id="dictionary.enumeration.context.keys" serverSide="false">
+		<!-- In list of the keys for all valid enumeration contexts known to the system -->
+		<!-- See the lookupContext column of this spreadsheet!!!!! -->
+		<dict:lookup
+			search="kuali.enum.type.dictionary.enumeration.context.type.keys">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="lu.requirement.component.states"
+		id="lu.requirement.component.states" serverSide="false">
+		<!-- In list of valid lu requirement component states -->
+		<!-- See reqComponentInfo states defined on the States tab -->
+		<dict:lookup
+			search="kuali.enum.type.lu.requirement.component.states">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="lu.requirement.component.field.keys"
+		id="lu.requirement.component.field.keys" serverSide="false">
+		<!-- In list of valid lu requirement component field keys -->
+		<!-- See the reqCompFieldTypeInfo keys defined on the Types tab -->
+		<dict:lookup
+			search="kuali.enum.type.lu.requirement.component.field.keys">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="search.types" id="search.types"
+		serverSide="false">
+		<!-- In list of valid search types -->
+		<!-- See all the searches defined in the simple specs -->
+		<dict:lookup search="kuali.enum.type.search.types">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="query.param.value.types"
+		id="query.param.value.types" serverSide="false">
+		<!-- In list of valid query parameter types for searches -->
+		<!-- See all the searches defined in the simple specs -->
+		<dict:lookup search="kuali.enum.type.query.param.value.types">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="lrd.types" id="lrd.types"
+		serverSide="false">
+		<!-- In list of valid learning result definition types -->
+		<!-- See the lrd types defined in this spreadsheet -->
+		<dict:lookup search="kuali.enum.type.lrc.lrd.types">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="learning.result.scale.types"
+		id="learning.result.scale.types" serverSide="false">
+		<!-- In list of valid learning result scale types -->
+		<!-- See the scale types defined in this spreadsheet -->
+		<dict:lookup search="kuali.enum.type.lrc.scale.types">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="lrd.operators" id="lrd.operators"
+		serverSide="false">
+		<!-- In list of configured learning result definition operators (=, >, < etc) -->
+		<!-- Hard coded to be equal_to, not_equal_to, greater_than, less_than, greater_than_or_equal_to, less_than_or_equal_to -->
+		<dict:lookup search="kuali.enum.type.lrd.operators">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="related.lrdId" id="related.lrdId"
+		className="org.kuali.constraint.LearningResultDefinitionIdExists"
+		serverSide="true">
+		<!-- Id of an existing learning result definition -->
+		<!-- Requires special logic to check that the ID supplied actually exists -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>36</dict:maxLength>
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.credit.course.clu"
+		id="hard.coded.credit.course.clu"
+		className="org.kuali.constraint.HardCodedValue" serverSide="true">
+		<!-- Must be"kuali.reqCompFieldType.credit.course" -->
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:kuali\.reqCompFieldType\.credit\.course</dict:value>
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.credit.course.clu.set"
+		id="hard.coded.credit.course.clu.set"
+		className="org.kuali.constraint.HardCodedValue" serverSide="true">
+		<!-- Must be"kuali.reqCompFieldType.credit.course.set" -->
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:kuali\.reqCompFieldType\.credit\.course\.set</dict:value>
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.required.count"
+		id="hard.coded.required.count"
+		className="org.kuali.constraint.HardCodedValue" serverSide="true">
+		<!-- Must be"kuali.reqCompFieldType.requiredCount" -->
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:kuali\.reqCompFieldType\.requiredCount</dict:value>
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.lrd.credit.course.final.grade"
+		id="hard.coded.lrd.credit.course.final.grade"
+		className="org.kuali.constraint.HardCodedValue" serverSide="true">
+		<!-- Must be"kuali.reqCompFieldType. -->
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:kuali\.reqCompFieldType\.lrd\.credit\.course\.final\.grade</dict:value>
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.overall.gpa"
+		id="hard.coded.overall.gpa"
+		className="org.kuali.constraint.HardCodedValue" serverSide="true">
+		<!-- Must be"kuali.reqCompFieldType. -->
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:kuali\.reqCompFieldType\.overall\.gpa</dict:value>
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.overall.totalCredits"
+		id="hard.coded.overall.totalCredits"
+		className="org.kuali.constraint.HardCodedValue" serverSide="true">
+		<!-- Must be"kuali.reqCompFieldType. -->
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:kuali\.reqCompFieldType\.overall\.totalCredits</dict:value>
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.operator" id="hard.coded.operator"
+		className="org.kuali.constraint.HardCodedValue" serverSide="true">
+		<!-- Must be"kuali.reqCompFieldType. -->
+		<!-- 
+			<dict:validChars>
+			<dict:value>regex:kuali\.reqCompFieldType\.operator</dict:value>
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.countType"
+		id="hard.coded.countType"
+		className="org.kuali.constraint.HardCodedValue" serverSide="true">
+		<!-- Must be"kuali.reqCompFieldType. -->
+		<!--
+			<dict:validChars>
+			<dict:value>regex:kuali\.reqCompFieldType\.countType</dict:value>
+			</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="clu.set.types" id="clu.set.types"
+		serverSide="false">
+		<!-- In list of valid clu set types -->
+		<!-- See cluSetInfo states defined on the Types tab -->
+		<dict:lookup search="kuali.enum.type.lu.clu.set.types">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="clu.set.states" id="clu.set.states"
+		serverSide="false">
+		<!-- In list of valid clu set states -->
+		<!-- See cluSetInfo states defined on the States tab -->
+		<dict:lookup search="kuali.enum.type.lu.clu.set.states">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="valid.credit.course.clu.set.search.types"
+		id="valid.credit.course.clu.set.search.types" serverSide="false">
+		<!-- In list of search times that return credit courses or clu sets of credit courses -->
+		<!-- Has just one value for now and that is "kuali.lu.searchTypes.CoursesForDynamicCLUSet" but that will expand in the future. -->
+		<dict:lookup search="kuali.enum.search.type.credit.course">
+			<dict:lookupKey field="(none)" mapsTo="(none)" />
+		</dict:lookup>
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.singleUse.lo"
+		id="hard.coded.singleUse.lo"
+		className="org.kuali.student.core.calculation.HardCodedValueCalculator"
+		serverSide="true">
+		<!-- must be "kuali.lo.type.singleUse" -->
+		<!-- 
+		<dict:validChars>
+			<dict:value>regex:kuali\.lo\.type\.singleUse</dict:value>
+		</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.lulorealtion.includes"
+		id="hard.coded.lulorealtion.includes"
+		className="org.kuali.student.core.calculation.HardCodedValueCalculator"
+		serverSide="true">
+		<!-- Must be "kuali.lu.lo.relation.type.includes" -->
+		<!-- 
+		<dict:validChars>
+			<dict:value>
+				regex:kulai\.lu\.lo\.relation\.type\.includes
+			</dict:value>
+		</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.lolorealtion.includes"
+		id="hard.coded.lolorealtion.includes"
+		className="org.kuali.student.core.calculation.HardCodedValueCalculator"
+		serverSide="true">
+		<!-- Must be "kuali.lo.lo.relation.type.includes" -->
+		<!-- 
+		<dict:validChars>
+			<dict:value>
+				regex:kulai\.lo\.lo\.relation\.type\.includes
+			</dict:value>
+		</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="hard.coded.singleUse.lo.repository"
+		id="hard.coded.singleUse.lo.repository"
+		className="org.kuali.student.core.calculation.HardCodedValueCalculator"
+		serverSide="true">
+		<!-- Must be "kuali.loRepository.key.single.use" -->
+		<!-- 
+		<dict:validChars>
+			<dict:value>
+				regex:kuali\.loRepository\.key\.singleUse
+			</dict:value>
+		</dict:validChars>
+		-->
+	</dict:constraint>
+
+	<dict:constraint key="lo.types" id="lo.types" serverSide="false">
+		<!-- In list of confured lo types -->
+		<!-- TO DO: add to SimpleS -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.lo.types">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="lo.lo.relation.types" id="lo.lo.relation.types" serverSide="false">
+		<!-- In list of configured lo-lo relationship types -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.lo.lo.relation.types">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="lu.lo.relation.types" id="lu.lo.relation.types" serverSide="false">
+		<!-- In list of configured lu-lo relation types -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.lu.lo.relation.types">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+		
+	<dict:constraint key="lo.repositories" id="lo.repositories" serverSide="false">
+		<!-- In list of configured lo repositories -->
+		<!-- TO DO: add to SimpleS -->
+		<dict:minLength>1</dict:minLength>
+		<dict:maxLength>60</dict:maxLength>
+		<dict:lookup search="kuali.enum.type.lo.repositories">
+		<dict:lookupKey field="(none)" mapsTo="(none)"/>
+		</dict:lookup>
+		</dict:constraint>
+		
+	<dict:objectStructure key="loInfo">
+		<!-- Detailed information about a learning objective -->
+		<dict:type key="kuali.lo.type.informal">
+			<!-- LO created in support of programs or courses, e.g., faculty-inspired additional LO for a course that are not intended for others to re-use -->
+			<dict:state key="active">
+				<!-- Lo is active -->
+				<!-- TODO: add to simple spec -->
+
+				<dict:field id="singleUse.lo.name" key="name">
+					<dict:fieldDescriptor>
+						<dict:name>informal lo name</dict:name>
+						<dict:desc>the name of the lo</dict:desc>
+						<dict:dataType>string</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+						<dict:constraintRef bean="required" />
+						<dict:constraintRef bean="single" />
+						<dict:constraintRef bean="single.line.text" />
+					</dict:constraintDescriptor>
+				</dict:field>
+
+				<dict:field id="singleUse.lo.desc" key="desc">
+					<dict:fieldDescriptor>
+						<dict:name>informal lo description</dict:name>
+						<dict:desc>the description of the lo</dict:desc>
+						<dict:dataType>complex</dict:dataType>
+
+						<dict:objectStructure key="richTextInfo">
+							<!-- Complex type supporting both a plain text and formatted version of a string. -->
+							<dict:type key="kuali.not.applicable">
+								<!-- Not applicable -->
+								<!-- (n/a) -->
+								<dict:state key="(n/a)">
+									<!-- Not applicable -->
+
+									<dict:field
+										id="singleUse.lo.desc.plain" key="plain">
+										<dict:fieldDescriptor>
+											<dict:name>
+												informal lo desc plain
+												text
+											</dict:name>
+											<dict:desc>
+												informal lo desc plain
+												text
+											</dict:desc>
+											<dict:dataType>
+												string
+											</dict:dataType>
+											<dict:readOnly>
+												true
+											</dict:readOnly>
+										</dict:fieldDescriptor>
+										<dict:constraintDescriptor>
+											<dict:constraintRef
+												bean="read.only" />
+											<dict:constraintRef
+												bean="single" />
+											<dict:constraintRef
+												bean="multi.line.text" />
+											<dict:constraintRef
+												bean="hidden" />
+											<dict:constraintRef
+												bean="calc.plain.text" />
+											<dict:constraint
+												key="in-line.constraint.for.field.richTextInfo.plain">
+												<dict:maxLength>
+													(unbounded)
+												</dict:maxLength>
+											</dict:constraint>
+										</dict:constraintDescriptor>
+									</dict:field>
+
+									<dict:field
+										id="singleUse.lo.desc.formatted" key="formatted">
+										<dict:fieldDescriptor>
+											<dict:name>
+												informal lo desc
+												formatted
+											</dict:name>
+											<dict:desc>
+												informal lo desc
+												formatted
+											</dict:desc>
+											<dict:dataType>
+												string
+											</dict:dataType>
+										</dict:fieldDescriptor>
+										<dict:constraintDescriptor>
+											<dict:constraintRef
+												bean="optional" />
+											<dict:constraintRef
+												bean="single" />
+											<dict:constraintRef
+												bean="rich.text" />
+											<dict:constraint
+												key="in-line.constraint.for.field.richTextInfo.formatted">
+												<dict:maxLength>
+													(unbounded)
+												</dict:maxLength>
+											</dict:constraint>
+										</dict:constraintDescriptor>
+									</dict:field>
+								</dict:state>
+							</dict:type>
+						</dict:objectStructure>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+						<dict:constraintRef bean="optional" />
+						<dict:constraintRef bean="single" />
+					</dict:constraintDescriptor>
+				</dict:field>
+
+				<dict:field id="singleUse.lo.loRepository"
+					key="loRepositoryKey">
+					<dict:fieldDescriptor>
+						<dict:name>informal lo hierarcy</dict:name>
+						<dict:desc>
+							the name of the hierarchy to which the lo
+							belongs
+						</dict:desc>
+						<dict:dataType>string</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+						<dict:constraintRef bean="required" />
+						<dict:constraintRef bean="single" />
+						<dict:constraintRef bean="lo.repositories" />
+						<dict:constraintRef
+							bean="hard.coded.singleUse.lo.repository" />
+					</dict:constraintDescriptor>
+				</dict:field>
+
+				<dict:field id="singleUse.lo.effectiveDate"
+					key="effectiveDate">
+					<dict:fieldDescriptor>
+						<dict:name>
+							informal lo effective date
+						</dict:name>
+						<dict:desc>
+							the effective date of the lo
+						</dict:desc>
+						<dict:dataType>dateTime</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+						<dict:constraintRef bean="required" />
+						<dict:constraintRef bean="single" />
+						<dict:constraintRef bean="date.time" />
+					</dict:constraintDescriptor>
+				</dict:field>
+
+				<dict:field id="singleUse.lo.expirationDate"
+					key="expirationDate">
+					<dict:fieldDescriptor>
+						<dict:name>
+							informal lo expiration date
+						</dict:name>
+						<dict:desc>
+							the expiration date of the lo
+						</dict:desc>
+						<dict:dataType>dateTime</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+						<dict:constraintRef bean="optional" />
+						<dict:constraintRef bean="single" />
+						<dict:constraintRef bean="date.time" />
+					</dict:constraintDescriptor>
+				</dict:field>
+
+				<dict:field id="singleUse.lo.attributes"
+					key="attributes">
+					<dict:fieldDescriptor>
+						<dict:name>informal lo attributes</dict:name>
+						<dict:desc>attributes</dict:desc>
+						<dict:dataType>complex</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+						<dict:constraintRef bean="optional" />
+						<dict:constraintRef bean="single" />
+						<dict:constraintRef bean="not.used" />
+					</dict:constraintDescriptor>
+					<dict:dynamic>true</dict:dynamic>
+				</dict:field>
+
+				<dict:field id="singleUse.lo.metaInfo" key="metaInfo">
+					<dict:fieldDescriptor>
+						<dict:name>informal lo meta info</dict:name>
+						<dict:desc>meta info</dict:desc>
+						<dict:dataType>complex</dict:dataType>
+
+						<dict:objectStructure key="metaInfo">
+							<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+							<dict:type key="kuali.not.applicable">
+								<!-- Not applicable -->
+								<!-- (n/a) -->
+								<dict:state key="(n/a)">
+									<!-- Not applicable -->
+
+									<dict:field
+										id="singleUse.lo.meta.versionInd" key="versionInd">
+										<dict:fieldDescriptor>
+											<dict:name>
+												informal lo meta
+												versionInd
+											</dict:name>
+											<dict:desc>
+												informal lo meta
+												versionInd
+											</dict:desc>
+											<dict:dataType>
+												string
+											</dict:dataType>
+											<dict:readOnly>
+												true
+											</dict:readOnly>
+										</dict:fieldDescriptor>
+										<dict:constraintDescriptor>
+											<dict:constraintRef
+												bean="required" />
+											<dict:constraintRef
+												bean="single" />
+											<dict:constraintRef
+												bean="calc.meta.versionInd" />
+											<dict:constraintRef
+												bean="read.only" />
+											<dict:constraintRef
+												bean="hidden" />
+										</dict:constraintDescriptor>
+									</dict:field>
+
+									<dict:field
+										id="singleUse.lo.meta.createTime" key="createTime">
+										<dict:fieldDescriptor>
+											<dict:name>
+												informal lo meta
+												createTime
+											</dict:name>
+											<dict:desc>
+												informal lo meta
+												createTime
+											</dict:desc>
+											<dict:dataType>
+												dateTime
+											</dict:dataType>
+										</dict:fieldDescriptor>
+										<dict:constraintDescriptor>
+											<dict:constraintRef
+												bean="required" />
+											<dict:constraintRef
+												bean="single" />
+											<dict:constraintRef
+												bean="date.time" />
+											<dict:constraintRef
+												bean="default.now" />
+										</dict:constraintDescriptor>
+									</dict:field>
+
+									<dict:field
+										id="singleUse.lo.meta.createId" key="createId">
+										<dict:fieldDescriptor>
+											<dict:name>
+												informal lo meta
+												createId
+											</dict:name>
+											<dict:desc>
+												informal lo meta
+												createId
+											</dict:desc>
+											<dict:dataType>
+												string
+											</dict:dataType>
+											<dict:readOnly>
+												true
+											</dict:readOnly>
+										</dict:fieldDescriptor>
+										<dict:constraintDescriptor>
+											<dict:constraintRef
+												bean="read.only" />
+											<dict:constraintRef
+												bean="single" />
+											<dict:constraintRef
+												bean="related.principalId" />
+											<dict:constraintRef
+												bean="default.authenicated.principalId" />
+										</dict:constraintDescriptor>
+									</dict:field>
+
+									<dict:field
+										id="singleUse.lo.meta.updateTime" key="updateTime">
+										<dict:fieldDescriptor>
+											<dict:name>
+												informal lo meta
+												updateTime
+											</dict:name>
+											<dict:desc>
+												informal lo meta
+												updateTime
+											</dict:desc>
+											<dict:dataType>
+												dateTime
+											</dict:dataType>
+										</dict:fieldDescriptor>
+										<dict:constraintDescriptor>
+											<dict:constraintRef
+												bean="required" />
+											<dict:constraintRef
+												bean="single" />
+											<dict:constraintRef
+												bean="date.time" />
+											<dict:constraintRef
+												bean="calc.now" />
+										</dict:constraintDescriptor>
+									</dict:field>
+
+									<dict:field
+										id="singleUse.lo.meta.updateId" key="updateId">
+										<dict:fieldDescriptor>
+											<dict:name>
+												informal lo meta
+												updateId
+											</dict:name>
+											<dict:desc>
+												informal lo meta
+												updateId
+											</dict:desc>
+											<dict:dataType>
+												string
+											</dict:dataType>
+											<dict:readOnly>
+												true
+											</dict:readOnly>
+										</dict:fieldDescriptor>
+										<dict:constraintDescriptor>
+											<dict:constraintRef
+												bean="read.only" />
+											<dict:constraintRef
+												bean="single" />
+											<dict:constraintRef
+												bean="related.principalId" />
+											<dict:constraintRef
+												bean="calc.authenicated.principalId" />
+										</dict:constraintDescriptor>
+									</dict:field>
+								</dict:state>
+							</dict:type>
+						</dict:objectStructure>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+						<dict:constraintRef bean="optional" />
+						<dict:constraintRef bean="single" />
+					</dict:constraintDescriptor>
+				</dict:field>
+
+				<dict:field id="singleUse.lo.type" key="type">
+					<dict:fieldDescriptor>
+						<dict:name>type</dict:name>
+						<dict:desc>the type of the lo</dict:desc>
+						<dict:dataType>string</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+						<dict:constraintRef bean="required" />
+						<dict:constraintRef bean="single" />
+						<dict:constraintRef bean="lo.types" />
+						<dict:constraintRef
+							bean="hard.coded.singleUse.lo" />
+					</dict:constraintDescriptor>
+				</dict:field>
+
+				<dict:field id="singleUse.lo.state" key="state">
+					<dict:fieldDescriptor>
+						<dict:name>informal lo.state</dict:name>
+						<dict:desc>the state of the lo</dict:desc>
+						<dict:dataType>string</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+						<dict:constraintRef bean="required" />
+						<dict:constraintRef bean="single" />
+						<dict:constraintRef bean="kuali.state" />
+					</dict:constraintDescriptor>
+					<dict:selector>true</dict:selector>
+				</dict:field>
+
+				<dict:field id="singleUse.lo.internal.id" key="id">
+					<dict:fieldDescriptor>
+						<dict:name>informal lo internal id</dict:name>
+						<dict:desc>the internal id of the lo</dict:desc>
+						<dict:dataType>string</dict:dataType>
+						<dict:readOnly>true</dict:readOnly>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+						<dict:constraintRef bean="read.only" />
+						<dict:constraintRef bean="single" />
+						<dict:constraintRef bean="kuali.id" />
+						<dict:constraintRef bean="hidden" />
+					</dict:constraintDescriptor>
+				</dict:field>
+			</dict:state>
+			<dict:state key="inactive">
+				<!-- Lo is inactive -->
+				<!-- TODO: add to simple spec -->
+				<dict:fieldRef bean="singleUse.lo.name" />
+				<dict:fieldRef bean="singleUse.lo.desc" />
+				<dict:fieldRef bean="singleUse.lo.loRepository" />
+				<dict:fieldRef bean="singleUse.lo.effectiveDate" />
+				<dict:fieldRef bean="singleUse.lo.expirationDate" />
+				<dict:fieldRef bean="singleUse.lo.attributes" />
+				<dict:fieldRef bean="singleUse.lo.metaInfo" />
+				<dict:fieldRef bean="singleUse.lo.type" />
+				<dict:fieldRef bean="singleUse.lo.state" />
+				<dict:fieldRef bean="singleUse.lo.internal.id" />
+			</dict:state>
+		</dict:type>
+	</dict:objectStructure>
+	<dict:objectStructure key="cluLoRelationInfo">
+		<!-- Detailed information about a CLU to Lo relationship. -->
+		<dict:type key="kuali.lu.lo.relation.type.includes">
+			<!-- Indicates that the content of the clu includes the learning objectives -->
+			<dict:state key="draft">
+				<!-- CLU-Lo relation is in draft until approved then active -->
+				<!-- TODO: add to simple spec -->
+
+				<dict:field id="includes.luLoRelation.loId"
+					key="loId">
+					<dict:fieldDescriptor>
+						<dict:name>includes relation LO id</dict:name>
+						<dict:desc>the clu id</dict:desc>
+						<dict:dataType>string</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+						<dict:constraintRef bean="required" />
+						<dict:constraintRef bean="single" />
+					</dict:constraintDescriptor>
+				</dict:field>
+
+				<dict:field id="includes.luLoRelation.cluId"
+					key="cluId">
+					<dict:fieldDescriptor>
+						<dict:name>includes relation clu id</dict:name>
+						<dict:desc>the associated lo id</dict:desc>
+						<dict:dataType>string</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+						<dict:constraintRef bean="required" />
+						<dict:constraintRef bean="single" />
+					</dict:constraintDescriptor>
+				</dict:field>
+
+				<dict:field id="includes.luLoRelation.effectiveDate"
+					key="effectiveDate">
+					<dict:fieldDescriptor>
+						<dict:name>
+							includes relation effective date
+						</dict:name>
+						<dict:desc>
+							the effective date of the lo reation
+						</dict:desc>
+						<dict:dataType>dateTime</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+						<dict:constraintRef bean="required" />
+						<dict:constraintRef bean="single" />
+						<dict:constraintRef bean="date.time" />
+					</dict:constraintDescriptor>
+				</dict:field>
+
+				<dict:field id="includes.luLoRelation.expirationDate"
+					key="expirationDate">
+					<dict:fieldDescriptor>
+						<dict:name>
+							includes relation expiration date
+						</dict:name>
+						<dict:desc>
+							the expiration date of the relation
+						</dict:desc>
+						<dict:dataType>dateTime</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+						<dict:constraintRef bean="optional" />
+						<dict:constraintRef bean="single" />
+						<dict:constraintRef bean="date.time" />
+					</dict:constraintDescriptor>
+				</dict:field>
+
+				<dict:field id="includes.luLoRelation.attributes"
+					key="attributes">
+					<dict:fieldDescriptor>
+						<dict:name>
+							includes relation attributes
+						</dict:name>
+						<dict:desc>attributes</dict:desc>
+						<dict:dataType>complex</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+						<dict:constraintRef bean="optional" />
+						<dict:constraintRef bean="repeating" />
+						<dict:constraintRef bean="not.used" />
+					</dict:constraintDescriptor>
+				</dict:field>
+
+				<dict:field id="includes.luLoRelation.metaInfo"
+					key="metaInfo">
+					<dict:fieldDescriptor>
+						<dict:name>
+							includes relation meta info
+						</dict:name>
+						<dict:desc>meta info</dict:desc>
+						<dict:dataType>complex</dict:dataType>
+
+						<dict:objectStructure key="metaInfo">
+							<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+							<dict:type key="kuali.not.applicable">
+								<!-- Not applicable -->
+								<!-- (n/a) -->
+								<dict:state key="(n/a)">
+									<!-- Not applicable -->
+
+									<dict:field
+										id="includes.luLoRelation.meta.versionInd" key="versionInd">
+										<dict:fieldDescriptor>
+											<dict:name>
+												includes relationship
+												meta versionInd
+											</dict:name>
+											<dict:desc>
+												includes relationship
+												meta versionInd
+											</dict:desc>
+											<dict:dataType>
+												string
+											</dict:dataType>
+											<dict:readOnly>
+												true
+											</dict:readOnly>
+										</dict:fieldDescriptor>
+										<dict:constraintDescriptor>
+											<dict:constraintRef
+												bean="required" />
+											<dict:constraintRef
+												bean="single" />
+											<dict:constraintRef
+												bean="calc.meta.versionInd" />
+											<dict:constraintRef
+												bean="read.only" />
+											<dict:constraintRef
+												bean="hidden" />
+										</dict:constraintDescriptor>
+									</dict:field>
+
+									<dict:field
+										id="includes.luLoRelation.meta.createTime" key="createTime">
+										<dict:fieldDescriptor>
+											<dict:name>
+												includes relationship
+												meta createTime
+											</dict:name>
+											<dict:desc>
+												includes relationship
+												meta createTime
+											</dict:desc>
+											<dict:dataType>
+												dateTime
+											</dict:dataType>
+										</dict:fieldDescriptor>
+										<dict:constraintDescriptor>
+											<dict:constraintRef
+												bean="required" />
+											<dict:constraintRef
+												bean="single" />
+											<dict:constraintRef
+												bean="date.time" />
+											<dict:constraintRef
+												bean="default.now" />
+										</dict:constraintDescriptor>
+									</dict:field>
+
+									<dict:field
+										id="includes.luLoRelation.meta.createId" key="createId">
+										<dict:fieldDescriptor>
+											<dict:name>
+												includes relationship
+												meta createId
+											</dict:name>
+											<dict:desc>
+												includes relationship
+												meta createId
+											</dict:desc>
+											<dict:dataType>
+												string
+											</dict:dataType>
+											<dict:readOnly>
+												true
+											</dict:readOnly>
+										</dict:fieldDescriptor>
+										<dict:constraintDescriptor>
+											<dict:constraintRef
+												bean="read.only" />
+											<dict:constraintRef
+												bean="single" />
+											<dict:constraintRef
+												bean="related.principalId" />
+											<dict:constraintRef
+												bean="default.authenicated.principalId" />
+										</dict:constraintDescriptor>
+									</dict:field>
+
+									<dict:field
+										id="includes.luLoRelation.meta.updateTime" key="updateTime">
+										<dict:fieldDescriptor>
+											<dict:name>
+												includes relationship
+												meta updateTime
+											</dict:name>
+											<dict:desc>
+												includes relationship
+												meta updateTime
+											</dict:desc>
+											<dict:dataType>
+												dateTime
+											</dict:dataType>
+										</dict:fieldDescriptor>
+										<dict:constraintDescriptor>
+											<dict:constraintRef
+												bean="required" />
+											<dict:constraintRef
+												bean="single" />
+											<dict:constraintRef
+												bean="date.time" />
+											<dict:constraintRef
+												bean="calc.now" />
+										</dict:constraintDescriptor>
+									</dict:field>
+
+									<dict:field
+										id="includes.luLoRelation.meta.updateId" key="updateId">
+										<dict:fieldDescriptor>
+											<dict:name>
+												includes relationship
+												meta updateId
+											</dict:name>
+											<dict:desc>
+												includes relationship
+												meta updateId
+											</dict:desc>
+											<dict:dataType>
+												string
+											</dict:dataType>
+											<dict:readOnly>
+												true
+											</dict:readOnly>
+										</dict:fieldDescriptor>
+										<dict:constraintDescriptor>
+											<dict:constraintRef
+												bean="read.only" />
+											<dict:constraintRef
+												bean="single" />
+											<dict:constraintRef
+												bean="related.principalId" />
+											<dict:constraintRef
+												bean="calc.authenicated.principalId" />
+										</dict:constraintDescriptor>
+									</dict:field>
+								</dict:state>
+							</dict:type>
+						</dict:objectStructure>
+						<dict:readOnly>true</dict:readOnly>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+						<dict:constraintRef bean="read.only" />
+						<dict:constraintRef bean="single" />
+					</dict:constraintDescriptor>
+				</dict:field>
+
+				<dict:field id="includes.luLoRelation.type"
+					key="type">
+					<dict:fieldDescriptor>
+						<dict:name>includes relation type</dict:name>
+						<dict:desc>the type of the relation</dict:desc>
+						<dict:dataType>string</dict:dataType>
+						<dict:readOnly>true</dict:readOnly>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+						<dict:constraintRef bean="required" />
+						<dict:constraintRef bean="single" />
+						<dict:constraintRef bean="kuali.type" />
+						<dict:constraintRef bean="lu.lo.relation.types" />
+						<dict:constraintRef
+							bean="hard.coded.lulorealtion.includes" />
+						<dict:constraintRef bean="read.only" />
+					</dict:constraintDescriptor>
+				</dict:field>
+
+				<dict:field id="includes.luLoRelation.state"
+					key="state">
+					<dict:fieldDescriptor>
+						<dict:name>includes relation state</dict:name>
+						<dict:desc>the state of the relation</dict:desc>
+						<dict:dataType>string</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+						<dict:constraintRef bean="required" />
+						<dict:constraintRef bean="single" />
+						<dict:constraintRef bean="kuali.state" />
+					</dict:constraintDescriptor>
+					<dict:selector>true</dict:selector>
+				</dict:field>
+
+				<dict:field id="includes.luLoRelation.internal.id"
+					key="id">
+					<dict:fieldDescriptor>
+						<dict:name>
+							includes relation internal id
+						</dict:name>
+						<dict:desc>
+							the internal id of the lo-lo relation
+						</dict:desc>
+						<dict:dataType>string</dict:dataType>
+						<dict:readOnly>true</dict:readOnly>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+						<dict:constraintRef bean="read.only" />
+						<dict:constraintRef bean="single" />
+						<dict:constraintRef bean="kuali.id" />
+						<dict:constraintRef bean="hidden" />
+					</dict:constraintDescriptor>
+				</dict:field>
+			</dict:state>
+			<dict:state key="active">
+				<!-- CLU-Lo relation is active -->
+				<!-- TODO: add to simple spec -->
+				<dict:fieldRef bean="includes.luLoRelation.loId" />
+				<dict:fieldRef bean="includes.luLoRelation.cluId" />
+				<dict:fieldRef
+					bean="includes.luLoRelation.effectiveDate" />
+				<dict:fieldRef
+					bean="includes.luLoRelation.expirationDate" />
+				<dict:fieldRef bean="includes.luLoRelation.attributes" />
+				<dict:fieldRef bean="includes.luLoRelation.metaInfo" />
+				<dict:fieldRef bean="includes.luLoRelation.type" />
+				<dict:fieldRef bean="includes.luLoRelation.state" />
+				<dict:fieldRef bean="includes.luLoRelation.internal.id" />
+			</dict:state>
+			<dict:state key="inactive">
+				<!-- CLU-Lo relation is inactive -->
+				<!-- TODO: add to simple spec -->
+				<dict:fieldRef bean="includes.luLoRelation.loId" />
+				<dict:fieldRef bean="includes.luLoRelation.cluId" />
+				<dict:fieldRef
+					bean="includes.luLoRelation.effectiveDate" />
+				<dict:fieldRef
+					bean="includes.luLoRelation.expirationDate" />
+				<dict:fieldRef bean="includes.luLoRelation.attributes" />
+				<dict:fieldRef bean="includes.luLoRelation.metaInfo" />
+				<dict:fieldRef bean="includes.luLoRelation.type" />
+				<dict:fieldRef bean="includes.luLoRelation.state" />
+				<dict:fieldRef bean="includes.luLoRelation.internal.id" />
+			</dict:state>
+		</dict:type>
+	</dict:objectStructure>
+
+	<dict:objectStructure key="loLoRelationInfo">
+		<!-- Detailed information about an LO to LO relationship. -->
+		<dict:type key="kuali.lo.relation.type.includes">
+			<!-- Parent-child relationship between a parent LO and sub LO. Currently used in the context of LOs that are related within a single CLU. -->
+			<dict:state key="draft">
+				<!-- Lo is in draft until approved then active -->
+				<!-- TODO: add to simple spec -->
+
+				<dict:field id="includes.loLoRelation.loId"
+					key="loId">
+					<dict:fieldDescriptor>
+						<dict:name>
+							includes relation parent LO id
+						</dict:name>
+						<dict:desc>the parent lo id</dict:desc>
+						<dict:dataType>string</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+						<dict:constraintRef bean="required" />
+						<dict:constraintRef bean="single" />
+					</dict:constraintDescriptor>
+				</dict:field>
+
+				<dict:field id="includes.loLoRelation.relatedLoId"
+					key="relatedLoId">
+					<dict:fieldDescriptor>
+						<dict:name>
+							includes relation child LO id
+						</dict:name>
+						<dict:desc>the child lo id</dict:desc>
+						<dict:dataType>string</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+						<dict:constraintRef bean="required" />
+						<dict:constraintRef bean="single" />
+					</dict:constraintDescriptor>
+				</dict:field>
+
+				<dict:field id="includes.loLoRelation.effectiveDate"
+					key="effectiveDate">
+					<dict:fieldDescriptor>
+						<dict:name>
+							includes relation effective date
+						</dict:name>
+						<dict:desc>
+							the effective date of the lo reation
+						</dict:desc>
+						<dict:dataType>dateTime</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+						<dict:constraintRef bean="required" />
+						<dict:constraintRef bean="single" />
+						<dict:constraintRef bean="date.time" />
+					</dict:constraintDescriptor>
+				</dict:field>
+
+				<dict:field id="includes.loLoRelation.expirationDate"
+					key="expirationDate">
+					<dict:fieldDescriptor>
+						<dict:name>
+							includes relation expiration date
+						</dict:name>
+						<dict:desc>
+							the expiration date of the relation
+						</dict:desc>
+						<dict:dataType>dateTime</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+						<dict:constraintRef bean="optional" />
+						<dict:constraintRef bean="single" />
+						<dict:constraintRef bean="date.time" />
+					</dict:constraintDescriptor>
+				</dict:field>
+
+				<dict:field id="includes.loLoRelation.attributes"
+					key="attributes">
+					<dict:fieldDescriptor>
+						<dict:name>
+							includes relation attributes
+						</dict:name>
+						<dict:desc>attributes</dict:desc>
+						<dict:dataType>complex</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+						<dict:constraintRef bean="optional" />
+						<dict:constraintRef bean="single" />
+						<dict:constraintRef bean="not.used" />
+					</dict:constraintDescriptor>
+				</dict:field>
+
+				<dict:field id="includes.loLoRelation.metaInfo"
+					key="metaInfo">
+					<dict:fieldDescriptor>
+						<dict:name>
+							includes relation meta info
+						</dict:name>
+						<dict:desc>meta info</dict:desc>
+						<dict:dataType>complex</dict:dataType>
+
+						<dict:objectStructure key="metaInfo">
+							<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+							<dict:type key="kuali.not.applicable">
+								<!-- Not applicable -->
+								<!-- (n/a) -->
+								<dict:state key="(n/a)">
+									<!-- Not applicable -->
+
+									<dict:field
+										id="includes.loLoRelation.meta.versionInd" key="versionInd">
+										<dict:fieldDescriptor>
+											<dict:name>
+												includes relationship
+												meta versionInd
+											</dict:name>
+											<dict:desc>
+												includes relationship
+												meta versionInd
+											</dict:desc>
+											<dict:dataType>
+												string
+											</dict:dataType>
+											<dict:readOnly>
+												true
+											</dict:readOnly>
+										</dict:fieldDescriptor>
+										<dict:constraintDescriptor>
+											<dict:constraintRef
+												bean="required" />
+											<dict:constraintRef
+												bean="single" />
+											<dict:constraintRef
+												bean="calc.meta.versionInd" />
+											<dict:constraintRef
+												bean="read.only" />
+											<dict:constraintRef
+												bean="hidden" />
+										</dict:constraintDescriptor>
+									</dict:field>
+
+									<dict:field
+										id="includes.loLoRelation.meta.createTime" key="createTime">
+										<dict:fieldDescriptor>
+											<dict:name>
+												includes relationship
+												meta createTime
+											</dict:name>
+											<dict:desc>
+												includes relationship
+												meta createTime
+											</dict:desc>
+											<dict:dataType>
+												dateTime
+											</dict:dataType>
+										</dict:fieldDescriptor>
+										<dict:constraintDescriptor>
+											<dict:constraintRef
+												bean="required" />
+											<dict:constraintRef
+												bean="single" />
+											<dict:constraintRef
+												bean="date.time" />
+											<dict:constraintRef
+												bean="default.now" />
+										</dict:constraintDescriptor>
+									</dict:field>
+
+									<dict:field
+										id="includes.loLoRelation.meta.createId" key="createId">
+										<dict:fieldDescriptor>
+											<dict:name>
+												includes relationship
+												meta createId
+											</dict:name>
+											<dict:desc>
+												includes relationship
+												meta createId
+											</dict:desc>
+											<dict:dataType>
+												string
+											</dict:dataType>
+											<dict:readOnly>
+												true
+											</dict:readOnly>
+										</dict:fieldDescriptor>
+										<dict:constraintDescriptor>
+											<dict:constraintRef
+												bean="read.only" />
+											<dict:constraintRef
+												bean="single" />
+											<dict:constraintRef
+												bean="related.principalId" />
+											<dict:constraintRef
+												bean="default.authenicated.principalId" />
+										</dict:constraintDescriptor>
+									</dict:field>
+
+									<dict:field
+										id="includes.loLoRelation.meta.updateTime" key="updateTime">
+										<dict:fieldDescriptor>
+											<dict:name>
+												includes relationship
+												meta updateTime
+											</dict:name>
+											<dict:desc>
+												includes relationship
+												meta updateTime
+											</dict:desc>
+											<dict:dataType>
+												dateTime
+											</dict:dataType>
+										</dict:fieldDescriptor>
+										<dict:constraintDescriptor>
+											<dict:constraintRef
+												bean="required" />
+											<dict:constraintRef
+												bean="single" />
+											<dict:constraintRef
+												bean="date.time" />
+											<dict:constraintRef
+												bean="calc.now" />
+										</dict:constraintDescriptor>
+									</dict:field>
+
+									<dict:field
+										id="includes.loLoRelation.meta.updateId" key="updateId">
+										<dict:fieldDescriptor>
+											<dict:name>
+												includes relationship
+												meta updateId
+											</dict:name>
+											<dict:desc>
+												includes relationship
+												meta updateId
+											</dict:desc>
+											<dict:dataType>
+												string
+											</dict:dataType>
+											<dict:readOnly>
+												true
+											</dict:readOnly>
+										</dict:fieldDescriptor>
+										<dict:constraintDescriptor>
+											<dict:constraintRef
+												bean="read.only" />
+											<dict:constraintRef
+												bean="single" />
+											<dict:constraintRef
+												bean="related.principalId" />
+											<dict:constraintRef
+												bean="calc.authenicated.principalId" />
+										</dict:constraintDescriptor>
+									</dict:field>
+								</dict:state>
+							</dict:type>
+						</dict:objectStructure>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+						<dict:constraintRef bean="optional" />
+						<dict:constraintRef bean="single" />
+					</dict:constraintDescriptor>
+				</dict:field>
+
+				<dict:field id="includes.loLoRelation.type"
+					key="type">
+					<dict:fieldDescriptor>
+						<dict:name>includes relation type</dict:name>
+						<dict:desc>the type of the relation</dict:desc>
+						<dict:dataType>string</dict:dataType>
+						<dict:readOnly>true</dict:readOnly>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+						<dict:constraintRef bean="required" />
+						<dict:constraintRef bean="single" />
+						<dict:constraintRef bean="lo.lo.relation.types" />
+						<dict:constraintRef
+							bean="hard.coded.lolorealtion.includes" />
+						<dict:constraintRef bean="read.only" />
+					</dict:constraintDescriptor>
+				</dict:field>
+
+				<dict:field id="includes.loLoRelation.state"
+					key="state">
+					<dict:fieldDescriptor>
+						<dict:name>includes relation state</dict:name>
+						<dict:desc>the state of the relation</dict:desc>
+						<dict:dataType>string</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+						<dict:constraintRef bean="required" />
+						<dict:constraintRef bean="single" />
+						<dict:constraintRef bean="kuali.state" />
+					</dict:constraintDescriptor>
+					<dict:selector>true</dict:selector>
+				</dict:field>
+
+				<dict:field id="includes.loLoRelation.internal.id"
+					key="id">
+					<dict:fieldDescriptor>
+						<dict:name>
+							includes relation internal id
+						</dict:name>
+						<dict:desc>
+							the internal id of the lo-lo relation
+						</dict:desc>
+						<dict:dataType>string</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+						<dict:constraintRef bean="optional" />
+						<dict:constraintRef bean="single" />
+						<dict:constraintRef bean="kuali.id" />
+						<dict:constraintRef bean="hidden" />
+					</dict:constraintDescriptor>
+				</dict:field>
+			</dict:state>
+			<dict:state key="active">
+				<!-- Lo is active -->
+				<!-- TODO: add to simple spec -->
+				<dict:fieldRef bean="includes.loLoRelation.loId" />
+				<dict:fieldRef bean="includes.loLoRelation.relatedLoId" />
+				<dict:fieldRef
+					bean="includes.loLoRelation.effectiveDate" />
+				<dict:fieldRef
+					bean="includes.loLoRelation.expirationDate" />
+				<dict:fieldRef bean="includes.loLoRelation.attributes" />
+				<dict:fieldRef bean="includes.loLoRelation.metaInfo" />
+				<dict:fieldRef bean="includes.loLoRelation.type" />
+				<dict:fieldRef bean="includes.loLoRelation.state" />
+				<dict:fieldRef bean="includes.loLoRelation.internal.id" />
+			</dict:state>
+			<dict:state key="inactive">
+				<!-- Lo is inactive -->
+				<!-- TODO: add to simple spec -->
+				<dict:fieldRef bean="includes.loLoRelation.loId" />
+				<dict:fieldRef bean="includes.loLoRelation.relatedLoId" />
+				<dict:fieldRef
+					bean="includes.loLoRelation.effectiveDate" />
+				<dict:fieldRef
+					bean="includes.loLoRelation.expirationDate" />
+				<dict:fieldRef bean="includes.loLoRelation.attributes" />
+				<dict:fieldRef bean="includes.loLoRelation.metaInfo" />
+				<dict:fieldRef bean="includes.loLoRelation.type" />
+				<dict:fieldRef bean="includes.loLoRelation.state" />
+				<dict:fieldRef bean="includes.loLoRelation.internal.id" />
+			</dict:state>
+		</dict:type>
+	</dict:objectStructure>
+
+</beans>
