@@ -71,7 +71,6 @@ import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.lum.lu.assembly.CreditCourseProposalAssembler;
 import org.kuali.student.lum.lu.assembly.CreditCourseProposalWorkflowAssemblerFilter;
-import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
@@ -94,6 +93,7 @@ import org.springframework.security.userdetails.User;
  *
  * @author Kuali Student Team
  */
+@Deprecated
 public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuService> implements CluProposalRpcService {
 
 	final Logger logger = Logger.getLogger(CluProposalRpcGwtServlet.class);
