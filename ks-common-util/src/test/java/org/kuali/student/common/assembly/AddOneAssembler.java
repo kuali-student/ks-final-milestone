@@ -26,8 +26,7 @@ public class AddOneAssembler implements Assembler<Integer,Integer>{
 
 	@Override
 	public Integer get(String id) throws AssemblyException {
-		// TODO Auto-generated method stub
-		return null;
+		return new Integer(1);
 	}
 
 	@Override

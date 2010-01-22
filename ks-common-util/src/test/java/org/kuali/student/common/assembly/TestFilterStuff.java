@@ -19,5 +19,6 @@ public class TestFilterStuff {
 		SaveResult<Integer> result = mgr.save(new Integer(4));
 		System.out.println("Final result is:"+result.getValue());
 		assertEquals(28,result.getValue().intValue());
+		
 	}
 }

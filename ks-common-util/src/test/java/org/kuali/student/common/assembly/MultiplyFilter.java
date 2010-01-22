@@ -17,6 +17,18 @@ public class MultiplyFilter extends PassThroughAssemblerFilter<Integer,Integer> 
 		chain.doSaveFilter(request, response);
 		response.getValue().setValue(response.getValue().getValue()*2);
 		System.out.println("In TestMultiplyFilter after chain was called and multiplied by 2. Response:"+response.getValue().getValue());
+		System.out.println("Filtered call to get yields:" + chain.getManager().get("12345"));
+		System.out.println("UnFiltered call to get yields:" + chain.getManager().getTarget().get("12345"));
+		
+	}
+
+	@Override
+	public void doGetFilter(
+			org.kuali.student.common.assembly.AssemblerFilter.FilterParamWrapper<String> id,
+			org.kuali.student.common.assembly.AssemblerFilter.FilterParamWrapper<Integer> response,
+			org.kuali.student.common.assembly.AssemblerFilter.GetFilterChain<Integer, Integer> chain)
+			throws AssemblyException {
+		response.setValue(new Integer(2));
 	}
 
 }

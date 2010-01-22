@@ -31,7 +31,7 @@ public class PassThroughAssemblerFilter <TargetType, SourceType> implements Asse
 	public void doGetFilter(
 			org.kuali.student.common.assembly.AssemblerFilter.FilterParamWrapper<String> id,
 			org.kuali.student.common.assembly.AssemblerFilter.FilterParamWrapper<TargetType> response,
-			org.kuali.student.common.assembly.AssemblerFilter.GetFilterChain<TargetType> chain) throws AssemblyException {
+			org.kuali.student.common.assembly.AssemblerFilter.GetFilterChain<TargetType, SourceType> chain) throws AssemblyException {
 		chain.doGetFilter(id, response);
 	}
 
@@ -39,7 +39,7 @@ public class PassThroughAssemblerFilter <TargetType, SourceType> implements Asse
 	public void doGetMetadataFilter(
 			org.kuali.student.common.assembly.AssemblerFilter.TypeStateFilterParamWrapper request,
 			org.kuali.student.common.assembly.AssemblerFilter.FilterParamWrapper<Metadata> response,
-			org.kuali.student.common.assembly.AssemblerFilter.GetMetadataFilterChain chain) throws AssemblyException {
+			org.kuali.student.common.assembly.AssemblerFilter.GetMetadataFilterChain<TargetType, SourceType> chain) throws AssemblyException {
 		chain.doGetMetadataFilter(request, response);
 	}
 
@@ -56,7 +56,7 @@ public class PassThroughAssemblerFilter <TargetType, SourceType> implements Asse
 	public void doSearchFilter(
 			org.kuali.student.common.assembly.AssemblerFilter.FilterParamWrapper<SearchRequest> request,
 			org.kuali.student.common.assembly.AssemblerFilter.FilterParamWrapper<SearchResult> response,
-			org.kuali.student.common.assembly.AssemblerFilter.SearchFilterChain chain) {
+			org.kuali.student.common.assembly.AssemblerFilter.SearchFilterChain<TargetType, SourceType> chain) {
 		chain.doSearchFilter(request, response);
 	}
 
@@ -64,7 +64,7 @@ public class PassThroughAssemblerFilter <TargetType, SourceType> implements Asse
 	public void doValidateFilter(
 			org.kuali.student.common.assembly.AssemblerFilter.FilterParamWrapper<TargetType> request,
 			org.kuali.student.common.assembly.AssemblerFilter.FilterParamWrapper<List<ValidationResultInfo>> response,
-			org.kuali.student.common.assembly.AssemblerFilter.ValidateFilterChain<TargetType> chain)
+			org.kuali.student.common.assembly.AssemblerFilter.ValidateFilterChain<TargetType, SourceType> chain)
 			throws AssemblyException {
 		chain.doValidateFilter(request, response);
 	}

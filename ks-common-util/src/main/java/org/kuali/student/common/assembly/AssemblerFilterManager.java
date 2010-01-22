@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.cxf.aegis.type.xml.SourceType;
 import org.kuali.student.common.assembly.AssemblerFilter.AssembleFilterChain;
 import org.kuali.student.common.assembly.AssemblerFilter.DisassembleFilterChain;
 import org.kuali.student.common.assembly.AssemblerFilter.GetFilterChain;
@@ -26,6 +25,7 @@ public class AssemblerFilterManager<TargetType, SourceType> implements Assembler
 
 	private List<AssemblerFilter<TargetType, SourceType>> filters = new ArrayList<AssemblerFilter<TargetType, SourceType>>();
 	private Assembler<TargetType, SourceType> target;
+	private AssemblerFilterManager<TargetType, SourceType> self;
 	
 	public void addFilter(AssemblerFilter<TargetType, SourceType> filter){
 		filters.add(filter);
@@ -34,6 +34,7 @@ public class AssemblerFilterManager<TargetType, SourceType> implements Assembler
 	public AssemblerFilterManager(Assembler<TargetType, SourceType> target) {
 		super();
 		this.target = target;
+		self = this;
 	}
 
 	@Override
@@ -54,6 +55,11 @@ public class AssemblerFilterManager<TargetType, SourceType> implements Assembler
 				}else{
 					response.setValue(target.assemble(request.getValue()));
 				}
+			}
+
+			@Override
+			public AssemblerFilterManager<TargetType, SourceType> getManager() {
+				return self;
 			}
 			
 		}.doAssembleFilter(request, response);
@@ -80,7 +86,10 @@ public class AssemblerFilterManager<TargetType, SourceType> implements Assembler
 					response.setValue(target.disassemble(request.getValue()));
 				}
 			}
-			
+			@Override
+			public AssemblerFilterManager<TargetType, SourceType> getManager() {
+				return self;
+			}
 		}.doDisassembleFilter(request, response);
 		
 		return response.getValue();
@@ -95,7 +104,7 @@ public class AssemblerFilterManager<TargetType, SourceType> implements Assembler
 		
 		FilterParamWrapper<TargetType> response  = new FilterParamWrapper<TargetType>();
 		
-		new GetFilterChain<TargetType>(){
+		new GetFilterChain<TargetType, SourceType>(){
 			@Override
 			public void doGetFilter(FilterParamWrapper<String> request,
 					FilterParamWrapper<TargetType> response) throws AssemblyException {
@@ -105,7 +114,10 @@ public class AssemblerFilterManager<TargetType, SourceType> implements Assembler
 					response.setValue(target.get(request.getValue()));
 				}
 			}
-			
+			@Override
+			public AssemblerFilterManager<TargetType, SourceType> getManager() {
+				return self;
+			}
 		}.doGetFilter(request, response);
 		
 		return response.getValue();
@@ -122,7 +134,7 @@ public class AssemblerFilterManager<TargetType, SourceType> implements Assembler
 		
 		FilterParamWrapper<Metadata> response  = new FilterParamWrapper<Metadata>();
 		
-		new GetMetadataFilterChain(){
+		new GetMetadataFilterChain<TargetType, SourceType>(){
 			@Override
 			public void doGetMetadataFilter(TypeStateFilterParamWrapper request,
 					FilterParamWrapper<Metadata> response) throws AssemblyException {
@@ -132,7 +144,10 @@ public class AssemblerFilterManager<TargetType, SourceType> implements Assembler
 					response.setValue(target.getMetadata(request.getType(),request.getState()));
 				}
 			}
-			
+			@Override
+			public AssemblerFilterManager<TargetType, SourceType> getManager() {
+				return self;
+			}
 		}.doGetMetadataFilter(request, response);
 		
 		return response.getValue();
@@ -159,7 +174,10 @@ public class AssemblerFilterManager<TargetType, SourceType> implements Assembler
 					response.setValue(target.save(request.getValue()));
 				}
 			}
-			
+			@Override
+			public AssemblerFilterManager<TargetType, SourceType> getManager() {
+				return self;
+			}
 		}.doSaveFilter(request, response);
 		
 		return response.getValue();
@@ -174,7 +192,7 @@ public class AssemblerFilterManager<TargetType, SourceType> implements Assembler
 		
 		FilterParamWrapper<SearchResult> response  = new FilterParamWrapper<SearchResult>();
 		
-		new SearchFilterChain(){
+		new SearchFilterChain<TargetType, SourceType>(){
 			@Override
 			public void doSearchFilter(FilterParamWrapper<SearchRequest> request,
 					FilterParamWrapper<SearchResult> response) {
@@ -184,7 +202,10 @@ public class AssemblerFilterManager<TargetType, SourceType> implements Assembler
 					response.setValue(target.search(request.getValue()));
 				}
 			}
-			
+			@Override
+			public AssemblerFilterManager<TargetType, SourceType> getManager() {
+				return self;
+			}
 		}.doSearchFilter(request, response);
 		
 		return response.getValue();
@@ -200,7 +221,7 @@ public class AssemblerFilterManager<TargetType, SourceType> implements Assembler
 		
 		FilterParamWrapper<List<ValidationResultInfo>> response  = new FilterParamWrapper<List<ValidationResultInfo>>();
 		
-		new ValidateFilterChain<TargetType>(){
+		new ValidateFilterChain<TargetType, SourceType>(){
 			@Override
 			public void doValidateFilter(FilterParamWrapper<TargetType> request,
 					FilterParamWrapper<List<ValidationResultInfo>> response) throws AssemblyException {
@@ -210,7 +231,10 @@ public class AssemblerFilterManager<TargetType, SourceType> implements Assembler
 					response.setValue(target.validate(request.getValue()));
 				}
 			}
-			
+			@Override
+			public AssemblerFilterManager<TargetType, SourceType> getManager() {
+				return self;
+			}
 		}.doValidateFilter(request, response);
 		
 		return response.getValue();
@@ -219,4 +243,14 @@ public class AssemblerFilterManager<TargetType, SourceType> implements Assembler
 	public void setFilters(List<AssemblerFilter<TargetType, SourceType>> filters) {
 		this.filters = filters;
 	}
+
+	public Assembler<TargetType, SourceType> getTarget() {
+		return target;
+	}
+
+	public void setTarget(Assembler<TargetType, SourceType> target) {
+		this.target = target;
+	}
+	
+
 }
