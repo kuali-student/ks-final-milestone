@@ -1,5 +1,7 @@
 package org.kuali.student.core.statement.service.impl;
 
+import java.util.List;
+
 import javax.jws.WebService;
 
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -8,6 +10,8 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.statement.dao.StatementDao;
+import org.kuali.student.core.statement.dto.NlUsageTypeInfo;
+import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementInfo;
 import org.kuali.student.core.statement.entity.ReqComponent;
@@ -29,6 +33,54 @@ public class StatementServiceImpl implements StatementService {
 	
 	public void setNaturalLanguageTranslator(NaturalLanguageTranslator translator) {
 		this.naturalLanguageTranslator = translator;
+	}
+
+	public NlUsageTypeInfo getNlUsageType(String nlUsageTypeKey)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<NlUsageTypeInfo> getNlUsageTypes()
+			throws OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<String> getRefObjectSubTypes(String objectTypeKey)
+			throws OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<String> getRefObjectTypes() throws OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public RefStatementRelationInfo getRefStatementRelation(
+			String refStatementRelationId) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<RefStatementRelationInfo> getRefStatementRelationsForRef(
+			String refObjectTypeKey, String refObjectId)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<RefStatementRelationInfo> getRefStatementRelationsForStatement(
+			String statementId) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	/**

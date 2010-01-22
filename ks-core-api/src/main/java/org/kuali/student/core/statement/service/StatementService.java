@@ -1,5 +1,7 @@
 package org.kuali.student.core.statement.service;
 
+import java.util.List;
+
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
@@ -9,6 +11,8 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.core.statement.dto.NlUsageTypeInfo;
+import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.core.statement.dto.StatementInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 
@@ -16,7 +20,80 @@ import org.kuali.student.core.statement.dto.ReqComponentInfo;
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface StatementService {
 
-    /**
+	/**
+	 * Retrieves the list of base types which can be connected to a document.
+	 * 
+	 * @return The list of types which can be connected to a document
+	 * @throws OperationFailedException Unable to complete request
+	 */
+	public List<String> getRefObjectTypes() throws OperationFailedException;
+
+	/**
+	 * Retrieves the list of types for a given base type which can be connected to a document.
+	 * 
+	 * @param objectTypeKey Reference Type Identifier
+	 * @return The list of types for the given base type which can be connected to a document
+	 * @throws OperationFailedException Unable to complete request
+	 */
+	public List<String> getRefObjectSubTypes(@WebParam(name="objectTypeKey")String objectTypeKey) throws OperationFailedException;
+	
+	/**
+	 * Retrieves the list of natural language usage types known by the service.
+	 * 
+	 * @return List of natural language usage type information
+	 * @throws OperationFailedException Unable to complete request
+	 */
+	public List<NlUsageTypeInfo> getNlUsageTypes() throws OperationFailedException;
+
+	/**
+	 * Retrieves information about the specified natural language usage type.
+	 * 
+	 * @param nlUsageTypeKey Natural language usage type identifier
+	 * @return Information about a type of natural language usage
+	 * @throws DoesNotExistException nlUsageType not found
+	 * @throws InvalidParameterException Invalid nlUsageTypeKey
+	 * @throws MissingParameterException Missing nlUsageTypeKey
+	 * @throws OperationFailedException Unable to complete request
+	 */
+	public NlUsageTypeInfo getNlUsageType(@WebParam(name="nlUsageTypeKey")String nlUsageTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+	
+	/**
+	 * Retrieves a object statement relationship by its identifier.
+	 * 
+	 * @param refStatementRelationId Object statement relationship identifier
+	 * @return Object statement relationship information
+	 * @throws DoesNotExistException RefStatementRelation not found
+	 * @throws InvalidParameterException Invalid refStatementRelationId
+	 * @throws MissingParameterException RefStatementRelationId not specified
+	 * @throws OperationFailedException Unable to complete request
+	 */
+	public RefStatementRelationInfo getRefStatementRelation(@WebParam(name="refStatementRelationId")String refStatementRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+	/**
+	 * Retrieves a list of object statement relationships for a particular object.
+	 * 
+	 * @param refObjectTypeKey Reference type
+	 * @param refObjectId Reference identifier
+	 * @return List of object statement relationships for a particular object
+	 * @throws DoesNotExistException Object not found
+	 * @throws InvalidParameterException One or more parameters invalid
+	 * @throws MissingParameterException One or more parameters not specified
+	 * @throws OperationFailedException Unable to complete request
+	 */
+	public List<RefStatementRelationInfo> getRefStatementRelationsForRef(@WebParam(name="refObjectTypeKey")String refObjectTypeKey, @WebParam(name="refObjectId")String refObjectId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+	/**
+	 * Retrieves a list of object statement relationships for a particular statement.
+	 * 
+	 * @param statementId Statement identifier
+	 * @return List of object statement relationships for a particular statement
+	 * @throws DoesNotExistException Statement not found
+	 * @throws InvalidParameterException One or more parameters invalid
+	 * @throws MissingParameterException One or more parameters not specified
+	 * @throws OperationFailedException Unable to complete request
+	 */
+	public List<RefStatementRelationInfo> getRefStatementRelationsForStatement(@WebParam(name="statementId")String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+	/**
 	 * <p>Translates and retrieves a statement for a specific usuage type 
 	 * (context) and language into natural language.</p>
 	 * 
