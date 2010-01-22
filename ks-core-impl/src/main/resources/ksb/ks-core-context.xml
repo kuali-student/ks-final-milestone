@@ -168,6 +168,13 @@
     <bean id="atpServiceImpl"
         class="org.kuali.student.core.atp.service.impl.AtpServiceImpl">
         <property name="atpDao" ref="atpDao" />
+        <property name="searchManager" ref="atpSearchManager"/>
+    </bean>
+    
+    <bean id="atpSearchManager"
+        class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
+        autowire="byType">
+        <constructor-arg index="0" value="classpath:atp-search-config.xml" />
     </bean>
 
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
