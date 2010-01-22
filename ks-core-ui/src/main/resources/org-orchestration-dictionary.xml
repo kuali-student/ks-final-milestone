@@ -1,0 +1,597 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<bean id="constraint" abstract="true"
+		class="org.kuali.student.common.assembly.client.ConstraintMetadata" />
+	<bean id="lookup" abstract="true"
+		class="org.kuali.student.common.assembly.client.LookupMetadata" />
+	<bean id="dataObjectStructure" abstract="true"
+		class="org.kuali.student.common.assembly.dictionary.DataObjectStructure" />
+	<bean id="dataFieldDescriptor" abstract="true"
+		class="org.kuali.student.common.assembly.dictionary.DataFieldDescriptor" />
+	<bean id="param" abstract="true"
+		class="org.kuali.student.common.assembly.client.LookupParamMetadata" />
+	<bean id="result" abstract="true"
+		class="org.kuali.student.common.assembly.client.LookupResultMetadata" />
+	<bean id="lookupQos" abstract="true"
+		class="org.kuali.student.common.assembly.client.LookupQosMetadata" />
+	<bean id="lookupImpl" abstract="true"
+		class="org.kuali.student.common.assembly.client.LookupImplMetadata" />
+		
+	<!--Constraints Declarations		-->
+	<bean id="constraint.date.time" parent="constraint">
+		<property name="id" value="date.time" />
+		<property name="messageId" value="kuali.msg.validation.date.time" />
+		<property name="desc" value="Date-Time" />
+		<property name="serverSide" value="false" />
+		<property name="minLength" value="19" />
+		<property name="maxLength" value="19" />
+		<property name="comments"
+			value="http://regexlib.com/REDetails.aspx?regexp_id=1966 (but not sure)" />
+	</bean>
+	<bean id="constraint.repeating" parent="constraint">
+		<property name="id" value="repeating" />
+		<property name="desc" value="Repeating" />
+		<property name="serverSide" value="false" />
+		<property name="comments"
+			value="Nine 9's get translated as &#34;(unbounded)&#34;" />
+	</bean>
+	<bean id="constraint.single" parent="constraint">
+		<property name="id" value="single" />
+		<property name="messageId"
+			value="kuali.msg.validation.single&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;" />
+		<property name="desc" value="Single valued (non-repeating)" />
+		<property name="serverSide" value="false" />
+		<property name="maxOccurs" value="1" />
+		<property name="comments" value="Used to override a repeating constraint" />
+	</bean>
+	<bean id="constraint.not.used" parent="constraint">
+		<property name="id" value="not.used" />
+		<property name="messageId" value="kuali.msg.validation.not.used" />
+		<property name="desc" value="Not Used" />
+		<property name="serverSide" value="false" />
+		<property name="minOccurs" value="0" />
+		<property name="maxOccurs" value="0" />
+	</bean>
+	<bean id="constraint.optional" parent="constraint">
+		<property name="id" value="optional" />
+		<property name="desc" value="Optional" />
+		<property name="serverSide" value="false" />
+		<property name="minOccurs" value="0" />
+		<property name="comments"
+			value="Used to override a previous required constraint.  Also implied by the absence of a required constraint" />
+	</bean>
+	
+	<!--Lookup Parameter definitions	-->
+	<bean id="org.queryParam.orgOptionalLongName" parent="param">
+		<property name="key" value="org.queryParam.orgOptionalLongName" />
+		<property name="name" value="Organization Name" />
+		<property name="desc" value="Long organization name." />
+		<property name="dataType" value="STRING" />
+		<property name="optional" value="true" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="usage" value="DEFAULT" />
+		<property name="widget" value="SUGGEST_BOX" />
+	</bean>
+	<bean id="org.queryParam.orgOptionalLocation" parent="param">
+		<property name="key" value="org.queryParam.orgOptionalLocation" />
+		<property name="name" value="Location" />
+		<property name="desc" value="Organization location." />
+		<property name="dataType" value="STRING" />
+		<property name="optional" value="true" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="usage" value="ADVANCED" />
+		<property name="widget" value="TEXT_BOX" />
+	</bean>
+	<bean id="org.queryParam.orgOptionalId" parent="param">
+		<property name="key" value="org.queryParam.orgOptionalId" />
+		<property name="name" value="Id" />
+		<property name="desc" value="Unique identifier for an organization." />
+		<property name="dataType" value="STRING" />
+		<property name="optional" value="true" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="usage" value="CUSTOM" />
+		<property name="caseSensitive" value="true" />
+	</bean>
+	<bean id="org.queryParam.orgOptionalShortName" parent="param">
+		<property name="key" value="org.queryParam.orgOptionalShortName" />
+		<property name="name" value="Organization Name" />
+		<property name="desc" value="Short organization name." />
+		<property name="dataType" value="STRING" />
+		<property name="optional" value="true" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="usage" value="ADVANCED" />
+		<property name="widget" value="SUGGEST_BOX" />
+	</bean>
+	<bean id="org.queryParam.orgOptionalType" parent="param">
+		<property name="key" value="org.queryParam.orgOptionalType" />
+		<property name="name" value="Org Type" />
+		<property name="desc" value="Type of an organization." />
+		<property name="dataType" value="STRING" />
+		<property name="optional" value="true" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="caseSensitive" value="true" />
+	</bean>
+	<!--End Lookup Parameter definitions	-->
+	
+	<!-- LookupResultMetadata definitions 	-->
+	<bean id="org.resultColumn.orgId" parent="result">
+		<property name="key" value="org.resultColumn.orgId" />
+		<property name="name" value="Organization Identifier" />
+		<property name="desc" value="Identifier for the organization" />
+		<property name="dataType" value="STRING" />
+	</bean>
+	<bean id="org.resultColumn.orgShortName" parent="result">
+		<property name="key" value="org.resultColumn.orgShortName" />
+		<property name="name" value="Organization Short Name" />
+		<property name="desc" value="Short name for the organization, recorded as the default listing" />
+		<property name="dataType" value="STRING" />
+	</bean>	
+	<bean id="org.resultColumn.orgOptionalLongName" parent="result">
+		<property name="key" value="org.resultColumn.orgOptionalLongName" />
+		<property name="name" value="Name" />
+		<property name="desc" value="Long name for the organization, recorded as the default listing." />
+		<property name="dataType" value="STRING" />
+	</bean>
+	<bean id="org.resultColumn.orgType" parent="result">
+		<property name="key" value="org.resultColumn.orgType" />
+		<property name="name" value="Organization Type" />
+		<property name="desc" value="Organization Type" />
+		<property name="dataType" value="STRING" />
+	</bean>
+	
+	
+	<bean id="OrgProposal" parent="dataObjectStructure">
+		<property name="fields">
+			<list>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="orgInfo" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataObjectStructure" ref="orgInfo" />
+					<property name="dataType" value="DATA" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="orgOrgRelationInfo" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataObjectStructure" ref="orgOrgRelationInfo" />
+					<property name="dataType" value="DATA" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.repeating" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="OrgPositionRestrictionInfo" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataObjectStructure" ref="OrgPositionRestrictionInfo" />
+					<property name="dataType" value="DATA" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.repeating" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="name" value="OrgProposal" />
+	</bean>
+	<bean id="_runtimeData" parent="dataObjectStructure">
+		<property name="fields">
+			<list>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="created" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata"
+						value="false&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;" />
+					<property name="dataType" value="BOOLEAN" />
+					<property name="defaultValue" value="FALSE" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="deleted" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata"
+						value="false&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;" />
+					<property name="dataType" value="BOOLEAN" />
+					<property name="defaultValue" value="FALSE" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="updated" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata"
+						value="false&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;" />
+					<property name="dataType" value="BOOLEAN" />
+					<property name="defaultValue" value="FALSE" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="versions" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata"
+						value="false&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;" />
+					<property name="dataObjectStructure" ref="versions" />
+					<property name="dataType" value="DATA" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.repeating" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="name" value="_runtimeData" />
+	</bean>
+	<bean id="versions" parent="dataObjectStructure">
+		<property name="fields">
+			<list>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="type" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="id" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="versionInd" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="name" value="versions" />
+	</bean>
+	<bean id="orgOrgRelationInfo" parent="dataObjectStructure">
+		<property name="fields">
+			<list>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="id" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata"
+						value="false&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="effectiveDate" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata"
+						value="false&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;" />
+					<property name="dataType" value="DATE" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.date.time" />
+
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="expirationDate" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata"
+						value="false&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;" />
+					<property name="dataType" value="DATE" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.date.time" />
+
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="orgId" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata"
+						value="false&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="relatedOrgId" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata"
+						value="false&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="orgOrgRelationTypeKey" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata"
+						value="false&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="_runtimeData" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataObjectStructure" ref="_runtimeData" />
+					<property name="dataType" value="DATA" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="name" value="orgOrgRelationInfo" />
+	</bean>
+	<bean id="OrgPositionRestrictionInfo" parent="dataObjectStructure">
+		<property name="fields">
+			<list>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="id" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata"
+						value="false&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="orgId" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata"
+						value="false&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="orgPersonRelationTypeKey" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata"
+						value="false&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="desc" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata"
+						value="false&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="title" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata"
+						value="false&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="minNumRelations" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata"
+						value="false&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="maxNumRelations" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata"
+						value="false&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="_runtimeData" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataObjectStructure" ref="_runtimeData" />
+					<property name="dataType" value="DATA" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="name" value="OrgPositionRestrictionInfo" />
+	</bean>
+	<bean id="orgInfo" parent="dataObjectStructure">
+		<property name="fields">
+			<list>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="id" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="effectiveDate" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="DATE" />
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="expirationDate" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="DATE" />
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="longDesc" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="longName" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="type" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="shortDesc" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="shortName" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="_runtimeData" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataObjectStructure" ref="_runtimeData" />
+					<property name="dataType" value="DATA" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="searchOrgs" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.repeating" />
+							<ref bean="constraint.not.used" />
+							<ref bean="constraint.optional" />
+							<ref bean="constraint.repeating" />
+						</list>
+					</property>
+					<property name="lookups">
+						<bean parent="lookup">
+							<property name="key" value="org.search.advanced" />
+							<property name="name" value="Basic and Advanced Search" />
+							<property name="desc"
+								value="Query with multiple optional elements to satisfy most advanced pickers" />
+							<property name="resultReturnKey" value="org.resultColumn.orgId" />
+							<property name="resultDisplayKey" value="org.resultColumn.orgShortName" />
+							<property name="resultSortKey" value="org.resultColumn.orgShortName" />
+							<property name="usage" value="DEFAULT" />
+							<property name="lookupKey" value="kuali.lu.lookup.oversight.orgs" />
+							<property name="params">
+								<list>
+									<ref bean="org.queryParam.orgOptionalLongName" />
+									<ref bean="org.queryParam.orgOptionalLocation" />
+									<ref bean="org.queryParam.orgOptionalId" />
+									<ref bean="org.queryParam.orgOptionalShortName" />
+									<ref bean="org.queryParam.orgOptionalType" />
+								</list>
+							</property>
+							<property name="results">
+								<list>
+									<ref bean="org.resultColumn.orgId" />
+									<ref bean="org.resultColumn.orgShortName" />
+									<ref bean="org.resultColumn.orgOptionalLongName" />
+									<ref bean="org.resultColumn.orgType" />
+								</list>
+							</property>
+						</bean>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="name" value="orgInfo" />
+	</bean>
+</beans>
+		
