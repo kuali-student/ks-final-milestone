@@ -43,10 +43,28 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  *
  */
 public class MetadataServiceImpl {
+    final Logger LOG = Logger.getLogger(MetadataServiceImpl.class);
+    
     private String metadataContext;
     private static Map<String, Object> metadataRepository;
     
-    final Logger LOG = Logger.getLogger(MetadataServiceImpl.class);
+    private static class RecursionCounter{
+        public static final int MAX_DEPTH = 4;
+        
+        private Map<String, Integer> recursions = new HashMap<String, Integer>();
+        
+        public int increment(String objectName){
+            Integer hits = recursions.get(objectName);
+            
+            if (hits == null){
+                hits = new Integer(1);
+            } else {
+                hits++;
+            }
+            recursions.put(objectName, hits);
+            return hits;
+        }        
+    }
     
     /**
      * Create a Metadata service initialized using a given classpath metadata context file
@@ -65,8 +83,9 @@ public class MetadataServiceImpl {
         Map<String, DataObjectStructure> beansOfType = (Map<String, DataObjectStructure>) context.getBeansOfType(DataObjectStructure.class);
         metadataRepository = new HashMap<String, Object>();
         for (DataObjectStructure dataObjStr : beansOfType.values()){
-            metadataRepository.put(dataObjStr.getName(), getProperties(dataObjStr));                    
-        }               
+            metadataRepository.put(dataObjStr.getName(), getProperties(dataObjStr, new RecursionCounter()));
+        }
+        
     }
     
     /** 
@@ -93,7 +112,7 @@ public class MetadataServiceImpl {
      * @param properties
      * @param fields
      */
-    protected void loadProperties(Map<String, Metadata> properties, List<DataFieldDescriptor> fields){
+    protected void loadProperties(Map<String, Metadata> properties, List<DataFieldDescriptor> fields, RecursionCounter counter){
 
         for (DataFieldDescriptor field:fields){
             Metadata metadata = new Metadata();
@@ -127,14 +146,14 @@ public class MetadataServiceImpl {
                 repeatingMetadata.setDataType(DataType.valueOf(field.getDataType()));
                                 
                 if (field.getDataObjectStructure() != null){                   
-                    repeatingMetadata.setProperties(getProperties(field.getDataObjectStructure()));
+                    repeatingMetadata.setProperties(getProperties(field.getDataObjectStructure(), counter));
                 }
                 
                 Map<String, Metadata> repeatingProperty = new HashMap<String, Metadata>();
                 repeatingProperty.put("*", repeatingMetadata);
                 metadata.setProperties(repeatingProperty);
             } else if (field.getDataObjectStructure() != null){
-                metadata.setProperties(getProperties(field.getDataObjectStructure()));
+                metadata.setProperties(getProperties(field.getDataObjectStructure(), counter));
             }
 
             properties.put(field.getName(), metadata);
@@ -142,32 +161,22 @@ public class MetadataServiceImpl {
     }
     
     @SuppressWarnings("unchecked")
-    protected Map<String, Metadata> getProperties(DataObjectStructure dataObjectStructure){
-        String objectId = dataObjectStructure.getName();                    
-        if (!metadataRepository.containsKey(objectId)){
+    protected Map<String, Metadata> getProperties(DataObjectStructure dataObjectStructure, RecursionCounter counter){
+        String objectId = dataObjectStructure.getName();
+        int hits = counter.increment(objectId);
+        
+        if (hits == 1 && metadataRepository.containsKey(objectId)){
+            return (Map<String, Metadata>)metadataRepository.get(objectId);
+        } else if (hits < RecursionCounter.MAX_DEPTH){
             Map<String, Metadata> properties = new HashMap<String, Metadata>();
-            metadataRepository.put(objectId, properties);
-            loadProperties(properties, dataObjectStructure.getFields());
+            if (hits == 1){
+                metadataRepository.put(objectId, properties);
+            }
+            loadProperties(properties, dataObjectStructure.getFields(), counter);
             return properties;
-        } else{
-            //FIXME: Circular reference is causing a problem
-            //return (Map<String, Metadata>)metadataRepository.get(objectId);
-            
-            return copyPropertyMap(objectId);        
-        }               
-    }
-
-    @SuppressWarnings("unchecked")
-    /**
-     * This is for testing only to prevent circular references in metadata structures
-     */
-    protected Map<String, Metadata> copyPropertyMap(String objectId){
-        Map<String, Metadata> metaData = (Map<String, Metadata>)metadataRepository.get(objectId); 
-        Map<String, Metadata> newMetadata = new HashMap<String, Metadata>();
-        for (String key:metaData.keySet()){
-            newMetadata.put(key, metaData.get(key));
+        } else {
+            return null;
         }
-        return newMetadata;        
     }
     
     protected Value convertDefaultValue(DataType dataType, Object value){
