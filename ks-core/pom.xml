@@ -1,13 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.kuali.student</groupId>
-    <version>1.0.0-SNAPSHOT</version>
+    <groupId>org.kuali.student.core</groupId>
+    <artifactId>ks-core</artifactId>
+    <version>1.0.0-m3</version>
     <packaging>pom</packaging>
-    <name>Master Pom</name>
-    <description>Kuali Student Project</description>
+    <name>KS Core</name>
+    <description>Kuali Student Parent POM</description>
 
-    <url>http://student.kuali.org/site/student</url>
+    <url>http://student.kuali.org/site/core/${project.version}</url>
 
     <licenses>
         <license>
@@ -33,18 +34,25 @@
 
 
     <modules>        
-        <module>ks-brms</module>
-        <module>ks-commons</module>
+        <module>ks-cxf</module>
+        <module>ks-metro</module>
         <module>ks-eclipselink</module>
-        <module>ks-core</module>
+        <module>ks-hibernate</module>
         <module>ks-jta</module>
-        <module>ks-lum</module>
-        <module>ks-security</module>
+        <module>ks-rice-lessdep</module>
+        <module>ks-common-util</module>
+        <module>ks-common-ui</module>
+        <module>ks-common-test</module>
+        <module>ks-common-impl</module>
+        <module>ks-core-api</module>
+        <module>ks-core-impl</module>
+        <module>ks-core-ui</module>
+        <module>ks-core-web</module>
     </modules>
 
     <scm>
-        <connection>scm:svn:https://test.kuali.org/svn/student/trunk</connection>
-        <developerConnection>scm:svn:https://test.kuali.org/svn/student/trunk</connection>
+        <connection>scm:svn:https://test.kuali.org/svn/student/ks-core/tags/ks-core-1.0.0-m3</connection>
+        <developerConnection>scm:svn:https://test.kuali.org/svn/student/ks-core/tags/ks-core-1.0.0-m3</developerConnection>
     </scm>
 
     <repositories>
@@ -87,12 +95,10 @@
         <cobertura.plugin.version>2.2</cobertura.plugin.version>
         <javadoc.plugin.version>2.4</javadoc.plugin.version>
         <site.plugin.version>2.0-beta-7</site.plugin.version>
-		<gwt.codehaus.plugin.version>1.2</gwt.codehaus.plugin.version>
+		<gwt.codehaus.plugin.version>1.2-20091109</gwt.codehaus.plugin.version>
         <war.plugin.version>2.1-beta-1</war.plugin.version>
-		<tomcat.plugin.version>1.0-beta-1</tomcat.plugin.version>
         
         <!-- build properties -->
-        <ks-core.version>1.0.0-SNAPSHOT</ks-core.version>
         <ks.gwt.compile.phase>process-classes</ks.gwt.compile.phase>
         <ks-standard-security.version>1.0.0-m1</ks-standard-security.version>
     </properties>
@@ -222,18 +228,24 @@
 				</pluginRepository>
 				<pluginRepository>
 					<id>codehaus</id>
-					<url>http://repository.codehaus.org/</url>
+					<url>http://snapshots.repository.codehaus.org/</url>
                     <releases>
-                        <enabled>true</enabled>
+                        <enabled>false</enabled>
                     </releases>
                     <snapshots>
-                        <enabled>false</enabled>
+                        <enabled>true</enabled>
                     </snapshots>
 				</pluginRepository>				
 				<pluginRepository>
 					<id>ks-public</id>
 					<url>http://archiva.kuali.umd.edu/repository/public</url>
 				</pluginRepository>
+                <pluginRepository>
+                    <id>gwt-maven</id>
+                    <url>
+                        http://gwt-maven.googlecode.com/svn/trunk/mavenrepo
+                    </url>
+                </pluginRepository>
 			</pluginRepositories>
 		</profile>
 		
@@ -320,6 +332,13 @@
                     <version>${site.plugin.version}</version>
                 </plugin>
             
+                <!--  war plguin, so one version is used regardless of build env :-) -->
+                <plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>${war.plugin.version}</version>
+                </plugin>
+
 				<!-- CXF Java2WS Default Configuration -->
 				<plugin>
 					<groupId>org.apache.cxf</groupId>
@@ -349,18 +368,17 @@
 			    <plugin>
 			        <groupId>org.codehaus.mojo</groupId>
 	        		<artifactId>tomcat-maven-plugin</artifactId>
-	        		<version>${tomcat.plugin.version}</version>
+	        		<version>1.0-beta-1</version>
 	        		<configuration>
 	        			<server>${project.artifactId}</server>
 	        			<warDirectory>${project.build.directory}/${project.artifactId}-webapp</warDirectory>
 	        		</configuration>
 			    </plugin>
 			    
-			    <!-- War Plugin Configuration -->
+			    <!-- War plugin Configuration -->
 			    <plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-war-plugin</artifactId>
-					<version>${war.plugin.version}</version> <!-- so one version is used regardless of build env :-) -->
 					<configuration>
 						<webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
 					</configuration>
@@ -1012,31 +1030,31 @@
 			<dependency>
 				<groupId>org.kuali.student.core</groupId>
 				<artifactId>ks-jta</artifactId>
-				<version>1.0.0-SNAPSHOT</version>
+				<version>1.0.0-m3</version>
 				<type>pom</type>
 			</dependency>
 			<dependency>
 				<groupId>org.kuali.student.core</groupId>
 				<artifactId>ks-cxf</artifactId>
-				<version>1.0.0-SNAPSHOT</version>
+				<version>1.0.0-m3</version>
 				<type>pom</type>
 			</dependency>
 			<dependency>
 				<groupId>org.kuali.student.core</groupId>
 				<artifactId>ks-metro</artifactId>
-				<version>1.0.0-SNAPSHOT</version>
+				<version>1.0.0-m3</version>
 				<type>pom</type>
 			</dependency>
 			<dependency>
 				<groupId>org.kuali.student.core</groupId>
 				<artifactId>ks-eclipselink</artifactId>
-				<version>1.0.0-SNAPSHOT</version>
+				<version>1.0.0-m3</version>
 				<type>pom</type>
 			</dependency>
 			<dependency>
 				<groupId>org.kuali.student.core</groupId>
 				<artifactId>ks-hibernate</artifactId>
-				<version>1.0.0-SNAPSHOT</version>
+				<version>1.0.0-m3</version>
 				<type>pom</type>
 			</dependency>
 			
