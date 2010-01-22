@@ -1,10 +1,11 @@
 package org.kuali.student.common.assembly.client;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
-public class SaveResult<T> {
+public class SaveResult<T> implements Serializable{
 	private T value;
 	private List<ValidationResultInfo> validationResults;
 	public T getValue() {
