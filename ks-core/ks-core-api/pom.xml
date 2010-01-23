@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.kuali.student.core</groupId>
+	<groupId>org.kuali.student.ks-core</groupId>
 	<artifactId>ks-core-api</artifactId>
 	<version>1.0.0-m3</version>
 	<packaging>jar</packaging>
@@ -9,7 +9,7 @@
 	<description>KS core-api</description>
 
 	<parent>
-		<groupId>org.kuali.student.core</groupId>
+		<groupId>org.kuali.student.ks-core</groupId>
 		<artifactId>ks-core</artifactId>
 		<version>1.0.0-m3</version>
 	</parent>
@@ -32,7 +32,7 @@
 						<phase>process-classes</phase>
 						<configuration>
 							<className>
-								org.kuali.student.core.role.QualifierHierarchyRoleTypeService
+								org.kuali.student.ks-core.role.QualifierHierarchyRoleTypeService
 							</className>
 							<serviceName>QHRoleTypeService</serviceName>
 						</configuration>
@@ -46,7 +46,7 @@
 						<phase>process-classes</phase>
 						<configuration>
 							<className>
-								org.kuali.student.core.organization.service.OrganizationService
+								org.kuali.student.ks-core.organization.service.OrganizationService
 							</className>
 							<serviceName>OrganizationService</serviceName>
 							<targetNameSpace> http://student.kuali.org/wsdl/organization</targetNameSpace>
@@ -60,7 +60,7 @@
 						<phase>process-classes</phase>
 						<configuration>
 							<className>
-								org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService
+								org.kuali.student.ks-core.enumerationmanagement.service.EnumerationManagementService
 							</className>
 							<serviceName>EnumerationManagementService</serviceName>
 							<targetNameSpace>http://student.kuali.org/wsdl/EnumerationManagementService</targetNameSpace>
@@ -74,7 +74,7 @@
 						<phase>process-classes</phase>
 						<configuration>
 							<className>
-								org.kuali.student.core.atp.service.AtpService
+								org.kuali.student.ks-core.atp.service.AtpService
 							</className>
 							<serviceName>AtpService</serviceName>
 							<targetNameSpace>http://student.kuali.org/wsdl/atp</targetNameSpace>
@@ -88,7 +88,7 @@
 						<phase>process-classes</phase>
 						<configuration>
 							<className>
-								org.kuali.student.core.messages.service.MessageService
+								org.kuali.student.ks-core.messages.service.MessageService
 							</className>
 							<serviceName>MessageService</serviceName>
 							<targetNameSpace>http://student.kuali.org/wsdl/messages</targetNameSpace>
@@ -102,7 +102,7 @@
 						<phase>process-classes</phase>
 						<configuration>
 							<className>
-								org.kuali.student.core.document.service.DocumentService
+								org.kuali.student.ks-core.document.service.DocumentService
 							</className>
 							<serviceName>DocumentService</serviceName>
 							<targetNameSpace>http://student.kuali.org/wsdl/document</targetNameSpace>
@@ -116,7 +116,7 @@
 						<phase>process-classes</phase>
 						<configuration>
 							<className>
-								org.kuali.student.core.comment.service.CommentService
+								org.kuali.student.ks-core.comment.service.CommentService
 							</className>
 							<serviceName>CommentService</serviceName>
 							<targetNameSpace>http://student.kuali.org/wsdl/comment</targetNameSpace>
@@ -130,7 +130,7 @@
                         <phase>process-classes</phase>
                         <configuration>
                             <className>
-                                org.kuali.student.core.proposal.service.ProposalService
+                                org.kuali.student.ks-core.proposal.service.ProposalService
                             </className>
                             <serviceName>ProposalService</serviceName>
                             <targetNameSpace>http://student.kuali.org/wsdl/proposal</targetNameSpace>
