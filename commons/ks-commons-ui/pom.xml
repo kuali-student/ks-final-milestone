@@ -3,25 +3,16 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.commons</groupId>
 	<artifactId>ks-commons-ui</artifactId>
-	<version>0.0.3</version>
 	<packaging>jar</packaging>
-	<name>ks-commons-ui</name>
-	<url>http://maven.apache.org</url>
+	<name>KS Commons UI</name>
+	<description>Kuali Student Commons User Interface</description>
 
 	<parent>
-		<!--  TODO point to official parent pom, whenever we make one -->
-		<groupId>org.kuali.student.poc.common</groupId>
-		<artifactId>ks-parent-pom</artifactId>
-		<version>0.0.3</version>
+		<groupId>org.kuali.student.commons</groupId>
+		<artifactId>ks-commons</artifactId>
+		<version>1.0.0-m3-SNAPSHOT</version>
 	</parent>
 
-	<scm>
-		<connection>scm:svn:https://test.kuali.org/svn/student/commons/ks-commons-ui/tags/ks-commons-ui-0.0.3</connection>
-		<developerConnection>scm:svn:https://test.kuali.org/svn/student/commons/ks-commons-ui/tags/ks-commons-ui-0.0.3</developerConnection>
-	</scm>
-
-
- 
 	<build>
 		<resources>
 			<resource>
@@ -37,13 +28,6 @@
 
 
 	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
-
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
