@@ -16,7 +16,7 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.kuali.student.core</groupId>
+			<groupId>org.kuali.student.ks-core</groupId>
 			<artifactId>ks-core-api</artifactId>
 			<version>${ks-core.version}</version>
 		</dependency>

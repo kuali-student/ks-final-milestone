@@ -38,7 +38,7 @@
 			</activation>
 			<dependencies>
 				<dependency>
-					<groupId>org.kuali.student.core</groupId>
+					<groupId>org.kuali.student.ks-core</groupId>
 					<artifactId>ks-hibernate</artifactId>
                     <version>${ks-core.version}</version>
 					<type>pom</type>
@@ -50,7 +50,7 @@
 			<id>ks-eclipselink</id>
 			<dependencies>
 				<dependency>
-					<groupId>org.kuali.student.core</groupId>
+					<groupId>org.kuali.student.ks-core</groupId>
 					<artifactId>ks-eclipselink</artifactId>
                     <version>${ks-core.version}</version>
 					<type>pom</type>
@@ -65,7 +65,7 @@
 			</activation>
 			<dependencies>
 				<dependency>
-					<groupId>org.kuali.student.core</groupId>
+					<groupId>org.kuali.student.ks-core</groupId>
 					<artifactId>ks-cxf</artifactId>
                     <version>${ks-core.version}</version>
 					<type>pom</type>
@@ -97,7 +97,7 @@
 			<id>ks-metro</id>
 			<dependencies>
 				<dependency>
-					<groupId>org.kuali.student.core</groupId>
+					<groupId>org.kuali.student.ks-core</groupId>
 					<artifactId>ks-metro</artifactId>
                     <version>${ks-core.version}</version>
 					<type>pom</type>
@@ -156,27 +156,27 @@
 			<version>1.0.0-m3</version>
 		</dependency>
 		<dependency>
-			<groupId>org.kuali.student.core</groupId>
+			<groupId>org.kuali.student.ks-core</groupId>
 			<artifactId>ks-common-test</artifactId>
 			<version>${ks-core.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.kuali.student.core</groupId>
+			<groupId>org.kuali.student.ks-core</groupId>
 			<artifactId>ks-common-util</artifactId>
 			<version>${ks-core.version}</version>
 		</dependency>
-		
+
         <dependency>
             <groupId>velocity-tools</groupId>
             <artifactId>velocity-tools</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>logkit</groupId>
             <artifactId>logkit</artifactId>
@@ -270,7 +270,7 @@
         	<artifactId>joda-time</artifactId>
         </dependency>
 
-        
+
         <dependency>
         	<groupId>javax.jcr</groupId>
         	<artifactId>jcr</artifactId>
@@ -293,17 +293,17 @@
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
         </dependency>
-			
+
         <dependency>
             <groupId>commons-math</groupId>
             <artifactId>commons-math</artifactId>
         </dependency>
-        
+
         <dependency>
         	<groupId>xerces</groupId>
         	<artifactId>xercesImpl</artifactId>
         </dependency>
-        
+
     </dependencies>
 
 </project>

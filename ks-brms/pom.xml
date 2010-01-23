@@ -8,14 +8,14 @@
 	<description>KS Business Rule Management System</description>
 
     <parent>
-		<groupId>org.kuali.student.core</groupId>
+		<groupId>org.kuali.student.ks-core</groupId>
 		<artifactId>ks-core</artifactId>
 		<version>1.0.0-m3</version>
 	</parent>
 
-    
+
     <url>http://student.kuali.org/site/brms/${project.version}</url>
-	
+
 	<properties>
         <drools.version>5.0.1</drools.version>
         <velocity.version>1.5</velocity.version>
@@ -23,7 +23,7 @@
         <mvel.dep.version>2.0.12</mvel.dep.version>
         <ks-core.version>1.0.0-m3</ks-core.version>
 	</properties>
-	
+
 	<modules>
 		<module>ks-brms-api</module>
 		<module>ks-brms-impl</module>
@@ -32,7 +32,7 @@
         <!-- <module>brms-ui</module> -->
         <module>ks-brms-web</module>
 	</modules>
-	
+
 	<repositories>
 		<repository>
 			<id>kuali.release</id>
@@ -56,12 +56,12 @@
             </snapshots>
         </repository>
 	</repositories>
-	
+
     <scm>
         <connection>scm:svn:https://test.kuali.org/svn/student/brms/tags/ks-brms-1.0.0-m3</connection>
         <developerConnection>scm:svn:https://test.kuali.org/svn/student/brms/tags/ks-brms-1.0.0-m3</developerConnection>
     </scm>
-    
+
     <distributionManagement>
         <site>
             <id>ks.site</id>
@@ -70,14 +70,14 @@
             </url>
         </site>
     </distributionManagement>
-    
+
     <reporting>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>${javadoc.plugin.version}</version>
-                
+
                 <configuration>
                     <maxmemory>256m</maxmemory>
                     <aggregate>true</aggregate>
@@ -123,17 +123,17 @@
 	        <dependency>
 	            <groupId>velocity-tools</groupId>
 	            <artifactId>velocity-tools</artifactId>
-	            <version>${velocity.tools.version}</version>          
+	            <version>${velocity.tools.version}</version>
 	        </dependency>
-	        
+
 	        <dependency>
 	            <groupId>org.apache.velocity</groupId>
 	            <artifactId>velocity</artifactId>
-	            <version>${velocity.version}</version>          
+	            <version>${velocity.version}</version>
 	        </dependency>
 
 	        <!-- Drools Dependencies -->
-	
+
 	        <!-- Drools 5.0.0 Dependencies -->
 	        <dependency>
 	            <groupId>org.drools</groupId>
@@ -204,7 +204,7 @@
 	                </exclusion>
 	            </exclusions>
 	        </dependency>
-	
+
 	        <!-- External dependencies -->
 	        <!-- drools-core -->
 	        <dependency>
@@ -228,7 +228,7 @@
 	            <artifactId>joda-time</artifactId>
 	            <version>1.6</version>
 	        </dependency>
-	
+
 	        <!-- drools-compiler -->
 	        <dependency>
 	            <groupId>org.antlr</groupId>
@@ -241,7 +241,7 @@
 	                </exclusion>
 	            </exclusions>
 	        </dependency>
-	
+
 	        <!-- drools-repository -->
 	        <dependency>
 	            <groupId>org.apache.jackrabbit</groupId>
@@ -271,7 +271,7 @@
 	                </exclusion>
 	            </exclusions>
 	        </dependency>
-	
+
 	        <dependency>
 	            <groupId>javax.jcr</groupId>
 	            <artifactId>jcr</artifactId>
@@ -282,13 +282,13 @@
 	            <artifactId>svnkit</artifactId>
 	            <version>1.1.2</version>
 	        </dependency-->
-	            
+
 	        <dependency>
 	            <groupId>commons-math</groupId>
 	            <artifactId>commons-math</artifactId>
 	            <version>1.2</version>
 	        </dependency>
-	        
+
 	        <dependency>
 	            <groupId>xerces</groupId>
 	            <artifactId>xercesImpl</artifactId>

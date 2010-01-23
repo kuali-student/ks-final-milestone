@@ -17,7 +17,7 @@
 		<artifactId>ks-brms</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-		
+
 	<build>
 		<plugins>
 			<plugin>
@@ -36,7 +36,7 @@
 					<gwtVersion>${gwtVersion}</gwtVersion>
 					<logLevel>INFO</logLevel>
 					<!-- defines which page should be launched when run in hosted mode -->
-					<startupUrl>org.kuali.student.rules.devgui.DevelopersGui/DevelopersGui.html</startupUrl>	
+					<startupUrl>org.kuali.student.rules.devgui.DevelopersGui/DevelopersGui.html</startupUrl>
 					<runTarget>
 						org.kuali.student.rules.devgui.DevelopersGui
 					</runTarget>
@@ -50,7 +50,7 @@
 					<extraJvmArgs>-Xmx512m</extraJvmArgs>
 				</configuration>
 			</plugin>
-			
+
 			<plugin>
 		        <groupId>org.apache.maven.plugins</groupId>
 		        <artifactId>maven-jar-plugin</artifactId>
@@ -67,7 +67,7 @@
             		</configuration>
 		          </execution>
 		        </executions>
-			</plugin>        
+			</plugin>
 
 
 			<plugin>
@@ -142,7 +142,7 @@
 			<version>0.1.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>org.kuali.student.core</groupId>
+			<groupId>org.kuali.student.ks-core</groupId>
 			<artifactId>ks-common-ui</artifactId>
 			<version>${ks-core.version}</version>
 			<classifier>sources</classifier>
@@ -161,10 +161,10 @@
 			<version>0.0.4-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
-		
+
 		<!-- Required dependencies for testing brms-ui -->
 		<dependency>
-			<groupId>org.kuali.student.core</groupId>
+			<groupId>org.kuali.student.ks-core</groupId>
 			<artifactId>ks-cxf</artifactId>
 			<version>${ks-core.version}</version>
 			<type>pom</type>
@@ -174,9 +174,9 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
 			<scope>runtime</scope>
-		</dependency>                
-	</dependencies> 	
-	
+		</dependency>
+	</dependencies>
+
 	<profiles>
 		<profile>
 			<id>ks.ui.external.repositories</id>
@@ -215,7 +215,7 @@
 					</snapshots>
 				</repository>
 			</repositories>
-			
+
 			<pluginRepositories>
 				<pluginRepository>
 					<id>gwt-maven</id>
@@ -224,7 +224,7 @@
 					</url>
 				</pluginRepository>
 			</pluginRepositories>
-			
+
 		</profile>
 		<profile>
 			<id>gwt-dev-windows</id>

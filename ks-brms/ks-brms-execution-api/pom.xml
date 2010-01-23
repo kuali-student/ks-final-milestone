@@ -15,7 +15,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.kuali.student.core</groupId>
+            <groupId>org.kuali.student.ks-core</groupId>
             <artifactId>ks-core-api</artifactId>
             <version>${ks-core.version}</version>
         </dependency>
@@ -48,7 +48,7 @@
                                 org.kuali.student.brms.ruleexecution.service.RuleExecutionService
                             </className>
                             <serviceName>RuleExecutionService</serviceName>
-                            <targetNameSpace>http://student.kuali.org/wsdl/brms/RuleExecution</targetNameSpace>            
+                            <targetNameSpace>http://student.kuali.org/wsdl/brms/RuleExecution</targetNameSpace>
                         </configuration>
                         <goals>
                             <goal>java2ws</goal>

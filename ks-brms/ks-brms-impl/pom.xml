@@ -66,7 +66,7 @@
             </activation>
             <dependencies>
                 <dependency>
-                    <groupId>org.kuali.student.core</groupId>
+                    <groupId>org.kuali.student.ks-core</groupId>
                     <artifactId>ks-hibernate</artifactId>
                     <version>${ks-core.version}</version>
                     <type>pom</type>
@@ -78,7 +78,7 @@
             <id>ks-eclipselink</id>
             <dependencies>
                 <dependency>
-                    <groupId>org.kuali.student.core</groupId>
+                    <groupId>org.kuali.student.ks-core</groupId>
                     <artifactId>ks-eclipselink</artifactId>
                     <version>${ks-core.version}</version>
                     <type>pom</type>
@@ -93,7 +93,7 @@
             </activation>
             <dependencies>
                 <dependency>
-                    <groupId>org.kuali.student.core</groupId>
+                    <groupId>org.kuali.student.ks-core</groupId>
                     <artifactId>ks-cxf</artifactId>
                     <version>${ks-core.version}</version>
                     <type>pom</type>
@@ -105,7 +105,7 @@
             <id>ks-metro</id>
             <dependencies>
                 <dependency>
-                    <groupId>org.kuali.student.core</groupId>
+                    <groupId>org.kuali.student.ks-core</groupId>
                     <artifactId>ks-metro</artifactId>
                     <version>${ks-core.version}</version>
                     <type>pom</type>
@@ -121,42 +121,42 @@
             <artifactId>ks-brms-api</artifactId>
             <version>1.0.0-m3</version>
         </dependency>
-        
+
 		<dependency>
-			<groupId>org.kuali.student.core</groupId>
+			<groupId>org.kuali.student.ks-core</groupId>
 			<artifactId>ks-common-impl</artifactId>
 			<version>${ks-core.version}</version>
 		</dependency>
 
 		<dependency>
-			<groupId>org.kuali.student.core</groupId>
+			<groupId>org.kuali.student.ks-core</groupId>
 			<artifactId>ks-common-util</artifactId>
 			<version>${ks-core.version}</version>
 		</dependency>
 
 		<dependency>
-			<groupId>org.kuali.student.core</groupId>
+			<groupId>org.kuali.student.ks-core</groupId>
 			<artifactId>ks-common-test</artifactId>
 			<version>${ks-core.version}</version>
 			<scope>test</scope>
 		</dependency>
-        
+
         <dependency>
-			<groupId>org.kuali.student.core</groupId>
+			<groupId>org.kuali.student.ks-core</groupId>
 			<artifactId>ks-cxf</artifactId>
 			<version>${ks-core.version}</version>
 			<type>pom</type>
         </dependency>
-        
+
         <dependency>
-			<groupId>org.kuali.student.core</groupId>
+			<groupId>org.kuali.student.ks-core</groupId>
 			<artifactId>ks-hibernate</artifactId>
 			<version>${ks-core.version}</version>
 			<type>pom</type>
         </dependency>
-        
+
         <dependency>
-            <groupId>org.kuali.student.core</groupId>
+            <groupId>org.kuali.student.ks-core</groupId>
             <artifactId>ks-jta</artifactId>
             <version>${ks-core.version}</version>
             <type>pom</type>
@@ -313,17 +313,17 @@
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
         </dependency>
-			
+
         <dependency>
             <groupId>commons-math</groupId>
             <artifactId>commons-math</artifactId>
         </dependency>
-        
+
         <dependency>
         	<groupId>xerces</groupId>
         	<artifactId>xercesImpl</artifactId>
         </dependency>
-        
+
     </dependencies>
 
 </project>

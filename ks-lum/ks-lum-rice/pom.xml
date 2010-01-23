@@ -28,12 +28,12 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.kuali.student.core</groupId>
+			<groupId>org.kuali.student.ks-core</groupId>
 			<artifactId>ks-rice-lessdep</artifactId>
 			<version>${ks-core.version}</version>
 			<type>pom</type>
 			<scope>provided</scope>
-		</dependency>			
+		</dependency>
 		<dependency>
 			<artifactId>servlet-api</artifactId>
 			<groupId>javax.servlet</groupId>

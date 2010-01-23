@@ -85,7 +85,7 @@
             </activation>
             <dependencies>
                 <dependency>
-                    <groupId>org.kuali.student.core</groupId>
+                    <groupId>org.kuali.student.ks-core</groupId>
                     <artifactId>ks-hibernate</artifactId>
                     <version>${ks-core.version}</version>
                     <type>pom</type>
@@ -100,7 +100,7 @@
             </activation>
             <dependencies>
                 <dependency>
-                    <groupId>org.kuali.student.core</groupId>
+                    <groupId>org.kuali.student.ks-core</groupId>
                     <artifactId>ks-cxf</artifactId>
                     <version>${ks-core.version}</version>
                     <type>pom</type>
@@ -137,21 +137,21 @@
             <version>${derby.version}</version>
             <scope>runtime</scope>
         </dependency>
-        
+
 		<dependency>
-			<groupId>org.kuali.student.core</groupId>
+			<groupId>org.kuali.student.ks-core</groupId>
 			<artifactId>ks-cxf</artifactId>
             <version>${ks-core.version}</version>
 			<type>pom</type>
-		</dependency>	
-		
+		</dependency>
+
 		<dependency>
-			<groupId>org.kuali.student.core</groupId>
+			<groupId>org.kuali.student.ks-core</groupId>
 			<artifactId>ks-jta</artifactId>
             <version>${ks-core.version}</version>
 			<type>pom</type>
   		</dependency>
-  		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
