@@ -55,6 +55,27 @@
 			<artifactId>ks-common-util</artifactId>
 			<version>${ks-core.version}</version>
 		</dependency>
+        <dependency>
+            <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-impl</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.derby</groupId>
+          <artifactId>derbyclient</artifactId>
+          <version>10.4.2.0</version>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.core</groupId>
+            <artifactId>ks-core-api</artifactId>
+            <version>${ks-core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.core</groupId>
+            <artifactId>ks-core-impl</artifactId>
+            <version>${ks-core.version}</version>
+        </dependency>
 
 
 		<dependency>
@@ -63,7 +84,6 @@
 			<version>${ks-core.version}</version>
 			<scope>test</scope>
 		</dependency>
-
 
 	</dependencies>
 
