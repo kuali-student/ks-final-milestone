@@ -3,7 +3,6 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.core</groupId>
 	<artifactId>ks-common-util</artifactId>
-	<version>1.0.0-m3</version>
 	<packaging>jar</packaging>
 	<name>KS Common Util</name>
 	<description>KS common utilitiy classes</description>
@@ -11,10 +10,27 @@
 	<parent>
 		<groupId>org.kuali.student.core</groupId>
 		<artifactId>ks-core</artifactId>
-		<version>1.0.0-m3</version>
+		<version>1.0.0-m3-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-core-api</artifactId>
+			<version>1.0.0-m3-SNAPSHOT</version>			
+		</dependency>		
+		<dependency>
+			<groupId>org.kuali.student.security</groupId>
+			<artifactId>ks-standard-sec</artifactId>
+			<version>1.0.0-m3-SNAPSHOT</version>			
+		</dependency>
+
+		<dependency>
+			<groupId>org.kuali.rice</groupId>
+			<artifactId>rice-impl</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
 		<dependency>
 			<groupId>javax.persistence</groupId>
 			<artifactId>persistence-api</artifactId>
@@ -53,7 +69,6 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -79,22 +94,6 @@
 			<version>${aspectj.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.kuali.student.core</groupId>
-			<artifactId>ks-core-api</artifactId>
-			<version>1.0.0-m3</version>			
-		</dependency>		
-		<dependency>
-			<groupId>org.kuali.student.security</groupId>
-			<artifactId>ks-standard-sec</artifactId>
-			<version>${ks-standard-security.version}</version>			
-		</dependency>
-
-		<dependency>
-			<groupId>org.kuali.rice</groupId>
-			<artifactId>rice-impl</artifactId>
-			<scope>provided</scope>
-		</dependency>
 						
         <dependency>
             <groupId>velocity-tools</groupId>

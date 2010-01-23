@@ -3,7 +3,6 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.core</groupId>
 	<artifactId>ks-common-test</artifactId>
-	<version>1.0.0-m3</version>
 	<packaging>jar</packaging>
 	<name>KS Common Test</name>
 	<description>KS test framework for web services</description>
@@ -11,15 +10,68 @@
 	<parent>
 		<groupId>org.kuali.student.core</groupId>
 		<artifactId>ks-core</artifactId>
-		<version>1.0.0-m3</version>
+		<version>1.0.0-m3-SNAPSHOT</version>
 	</parent>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.kuali.student.core</groupId>
+				<artifactId>ks-cxf</artifactId>
+				<type>pom</type>
+				<scope>test</scope>
+				<version>1.0.0-m3-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>org.kuali.student.core</groupId>
+				<artifactId>ks-hibernate</artifactId>
+				<type>pom</type>
+				<scope>test</scope>
+				<version>1.0.0-m3-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>org.kuali.student.core</groupId>
+				<artifactId>ks-jta</artifactId>
+				<type>pom</type>
+				<version>1.0.0-m3-SNAPSHOT</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-util</artifactId>
-			<version>1.0.0-m3</version>
+			<version>1.0.0-m3-SNAPSHOT</version>
+			<type>pom</type>
 		</dependency>
+
+		<!-- Specific impl or use profile? -->
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-cxf</artifactId>
+			<type>pom</type>
+		</dependency>
+
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-hibernate</artifactId>
+			<type>pom</type>
+		</dependency>
+
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-jta</artifactId>
+			<type>pom</type>
+		</dependency>
+		
+
+		<dependency>
+			<groupId>org.apache.openjpa</groupId>
+			<artifactId>openjpa</artifactId>
+			<scope>compile</scope>
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.apache.derby</groupId>
@@ -27,12 +79,14 @@
 			<scope>runtime</scope>
 		</dependency>
 
+        <!--
 		<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc14</artifactId>
 			<version>10.2.0.3.0</version>
 			<scope>runtime</scope>
 		</dependency>
+		-->
 
 		<dependency>
 			<groupId>junit</groupId>
@@ -72,34 +126,6 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 		</dependency>
-
-		<!-- Specific impl or use profile? -->
-		<dependency>
-			<groupId>org.kuali.student.core</groupId>
-			<artifactId>ks-cxf</artifactId>
-			<type>pom</type>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.kuali.student.core</groupId>
-			<artifactId>ks-hibernate</artifactId>
-			<type>pom</type>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.openjpa</groupId>
-			<artifactId>openjpa</artifactId>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.kuali.student.core</groupId>
-			<artifactId>ks-jta</artifactId>
-			<type>pom</type>
-		</dependency>
-		
 
 		<!-- Spring -->
 		<dependency>

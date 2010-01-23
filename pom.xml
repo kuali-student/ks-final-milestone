@@ -5,15 +5,15 @@
     <artifactId>student</artifactId>
     <version>1.0.0-m3-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>Master Pom</name>
+    <name>Master KS Pom</name>
     <description>Kuali Student Project</description>
     <modules>
+        <module>security</module>
         <module>core</module>
         <!--
         <module>ks-commons</module>
         <module>ks-brms</module>
         <module>ks-lum</module>
-        <module>ks-security</module>
         <module>ks-web</module>
         -->
     </modules>
@@ -43,6 +43,7 @@
         <jaxws-api.version>2.1</jaxws-api.version>
         <jaxws.version>2.1.5</jaxws.version>
         <metro.version>1.4</metro.version>
+        <junit.version>4.4</junit.version>
         <spring.version>2.5.4</spring.version>
         <spring.security.version>2.0.4</spring.security.version>
         <derby.version>10.4.2.0</derby.version>
@@ -52,6 +53,7 @@
         <kuali.rice.version>1.0.1</kuali.rice.version>
         <xalan.version>2.7.1</xalan.version>
         <xercesImpl.version>2.9.1</xercesImpl.version>
+        <rice.version>1.0.0-ks-m1</rice.version>
 
         <!-- plugin versions -->
         <cobertura.plugin.version>2.2</cobertura.plugin.version>
@@ -64,7 +66,7 @@
         <!-- build properties -->
         <ks-core.version>1.0.0-SNAPSHOT</ks-core.version>
         <ks.gwt.compile.phase>process-classes</ks.gwt.compile.phase>
-        <ks-standard-security.version>1.0.0-m1</ks-standard-security.version>
+        <!--<ks-standard-security.version>1.0.0-m1</ks-standard-security.version>-->
     </properties>
 
     <profiles>
@@ -311,7 +313,10 @@
 						<genWsdl>true</genWsdl>
 						<genWrapperbean>true</genWrapperbean>
 						<verbose>true</verbose>
+						<!--
+						Don't need this extra stuff if the directory structure is setup right
 						<argline>-s ${project.build.directory}/generated/src -classdir ${project.build.outputDirectory}</argline>
+						-->
 					</configuration>
 				</plugin>
 
@@ -385,6 +390,14 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<!-- Test Framework Dependencies -->
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit.version}</version>
+				<scope>test</scope>
+			</dependency>
+
 			<dependency>
 				<groupId>org.apache.derby</groupId>
 				<artifactId>derby</artifactId>
@@ -1073,11 +1086,11 @@
             </dependency>
 		</dependencies>
 	</dependencyManagement>
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-       		<version>4.4</version>
 		</dependency>
 	</dependencies>
 

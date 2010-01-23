@@ -3,7 +3,6 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.core</groupId>
 	<artifactId>ks-common-ui</artifactId>
-	<version>1.0.0-m3</version>
 	<packaging>jar</packaging>
 	<name>KS Common UI</name>
 	<description>KS common-ui</description>
@@ -11,7 +10,7 @@
 	<parent>
 		<groupId>org.kuali.student.core</groupId>
 		<artifactId>ks-core</artifactId>
-		<version>1.0.0-m3</version>
+		<version>1.0.0-m3-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
@@ -64,39 +63,39 @@
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-api</artifactId>
-			<version>1.0.0-m3</version>
+			<version>1.0.0-m3-SNAPSHOT</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-api</artifactId>
-			<version>1.0.0-m3</version>
+			<version>1.0.0-m3-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-util</artifactId>
-			<version>1.0.0-m3</version>
+			<version>1.0.0-m3-SNAPSHOT</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-util</artifactId>
-			<version>1.0.0-m3</version>
+			<version>1.0.0-m3-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-test</artifactId>
-			<version>1.0.0-m3</version>
+			<version>1.0.0-m3-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-impl</artifactId>
-			<version>1.0.0-m3</version>
+			<version>1.0.0-m3-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
@@ -123,114 +122,6 @@
 	</dependencies>
 
 	<profiles>
-		<profile>
-			<!--
-				mvn -P build-codehaus-gwt org.codehaus.mojo:gwt-maven-plugin:1.1:generateAsync 
-				Run above command to processe java files that match service pattern and write GWT *ServuceAsync.java
-				files to the default generateDirectory: target/generate-sources/gwt. Generated Async.java files have 
-				the same package as the Service.java it's derived from You can copy the generated file to the same
-				directory as the Service file. Important Note: this only generates files when the Service extends RemoteService. 
-				It ignores Services that extend BaseRpcService
-			-->
-			<id>build-codehaus-gwt</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-war-plugin</artifactId>
-						<configuration>
-							<webappDirectory>target/${project.artifactId}-webapp</webappDirectory>
-						</configuration>
-						<executions>
-							<execution>
-								<phase>compile</phase>
-								<goals>
-									<goal>war</goal>
-								</goals>	
-							</execution>							
-						</executions>
-					</plugin>
-					
-					<!--  Copy test resources into proper test war dir -->					
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-antrun-plugin</artifactId>
-						<executions>
-							<execution>
-								<phase>compile</phase>
-								<goals>
-									<goal>run</goal>
-								</goals>
-								<configuration>
-									<tasks>
-										  <copy todir="target/${project.artifactId}-webapp/WEB-INF/classes">
-										    <fileset dir="src/test/resources" />
-										  </copy>
-									</tasks>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>gwt-maven-plugin</artifactId>
-						<configuration>
-							<module>org.kuali.student.common.ui.CommonUITest</module>
-							<runTarget>org.kuali.student.common.ui.CommonUITest/CommonUITest.html</runTarget>
-							<localWorkers>2</localWorkers>
-
-							<failOnError>true</failOnError>
-							<servicePattern>**/common/ui/**/*Service.java</servicePattern>
-						</configuration>
-					</plugin>
-					
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-dependency-plugin</artifactId>
-					</plugin>					
-				</plugins>
-			</build>
-			<dependencies>				
-					<!-- This is required to wire up mock message service while testing -->
-				<dependency>
-					<groupId>org.kuali.student.core</groupId>
-					<artifactId>ks-core-impl</artifactId>
-					<version>0.0.1-SNAPSHOT</version>
-				</dependency>
-
-				<dependency>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-web</artifactId>
-				</dependency>
-			</dependencies>						
-		</profile>
-
-        <profile>
-            <id>ks-hibernate</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>org.kuali.student.core</groupId>
-                    <artifactId>ks-hibernate</artifactId>
-                    <type>pom</type>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-        <profile>
-            <id>ks-eclipselink</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.kuali.student.core</groupId>
-                    <artifactId>ks-eclipselink</artifactId>
-                    <type>pom</type>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-        </profile>
 	</profiles>
 
 </project>
