@@ -13,31 +13,6 @@
 		<version>1.0.0-m3-SNAPSHOT</version>
 	</parent>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.kuali.student.core</groupId>
-				<artifactId>ks-cxf</artifactId>
-				<type>pom</type>
-				<scope>test</scope>
-				<version>1.0.0-m3-SNAPSHOT</version>
-			</dependency>
-			<dependency>
-				<groupId>org.kuali.student.core</groupId>
-				<artifactId>ks-hibernate</artifactId>
-				<type>pom</type>
-				<scope>test</scope>
-				<version>1.0.0-m3-SNAPSHOT</version>
-			</dependency>
-			<dependency>
-				<groupId>org.kuali.student.core</groupId>
-				<artifactId>ks-jta</artifactId>
-				<type>pom</type>
-				<version>1.0.0-m3-SNAPSHOT</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
@@ -51,20 +26,22 @@
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-cxf</artifactId>
 			<type>pom</type>
+			<version>1.0.0-m3-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-hibernate</artifactId>
 			<type>pom</type>
+			<version>1.0.0-m3-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-jta</artifactId>
 			<type>pom</type>
+			<version>1.0.0-m3-SNAPSHOT</version>
 		</dependency>
-		
 
 		<dependency>
 			<groupId>org.apache.openjpa</groupId>
