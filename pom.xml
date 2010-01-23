@@ -3,13 +3,13 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.kuali.student</groupId>
     <artifactId>student</artifactId>
-    <version>1.0.0-m3</version>
+    <version>1.0.0-m3-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Master Pom</name>
     <description>Kuali Student Project</description>
-    <modules> 
-        <module>ks-core</module>
-        <!--       
+    <modules>
+        <module>core</module>
+        <!--
         <module>ks-commons</module>
         <module>ks-brms</module>
         <module>ks-lum</module>
@@ -60,7 +60,7 @@
 		<gwt.codehaus.plugin.version>1.2</gwt.codehaus.plugin.version>
         <war.plugin.version>2.1-beta-1</war.plugin.version>
 		<tomcat.plugin.version>1.0-beta-1</tomcat.plugin.version>
-        
+
         <!-- build properties -->
         <ks-core.version>1.0.0-SNAPSHOT</ks-core.version>
         <ks.gwt.compile.phase>process-classes</ks.gwt.compile.phase>
@@ -199,14 +199,14 @@
                     <snapshots>
                         <enabled>false</enabled>
                     </snapshots>
-				</pluginRepository>				
+				</pluginRepository>
 				<pluginRepository>
 					<id>ks-public</id>
 					<url>http://archiva.kuali.umd.edu/repository/public</url>
 				</pluginRepository>
 			</pluginRepositories>
 		</profile>
-		
+
 		<!-- GWT Profiles - Dev environment properties -->
 		<profile>
 			<id>gwt-dev-windows</id>
@@ -243,7 +243,7 @@
 					<name>Linux</name>
 				</os>
 			</activation>
-		</profile>		
+		</profile>
 	</profiles>
 
 	<build>
@@ -268,9 +268,9 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>				
+			</plugin>
 		</plugins>
-		
+
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -289,7 +289,7 @@
                     <artifactId>maven-site-plugin</artifactId>
                     <version>${site.plugin.version}</version>
                 </plugin>
-            
+
 				<!-- CXF Java2WS Default Configuration -->
 				<plugin>
 					<groupId>org.apache.cxf</groupId>
@@ -314,7 +314,7 @@
 						<argline>-s ${project.build.directory}/generated/src -classdir ${project.build.outputDirectory}</argline>
 					</configuration>
 				</plugin>
-				
+
 				<!--  Tomcat Plugin Configuration -->
 			    <plugin>
 			        <groupId>org.codehaus.mojo</groupId>
@@ -325,7 +325,7 @@
 	        			<warDirectory>${project.build.directory}/${project.artifactId}-webapp</warDirectory>
 	        		</configuration>
 			    </plugin>
-			    
+
 			    <!-- War Plugin Configuration -->
 			    <plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -335,7 +335,7 @@
 						<webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
 					</configuration>
 				</plugin>
-	
+
 				<!-- Codehaus GWT Maven Plugin Configuration-->
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
@@ -343,7 +343,7 @@
 					<version>${gwt.codehaus.plugin.version}</version>
 					<configuration>
 						<webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
-						<buildOutputDirectory>${project.build.directory}/${project.artifactId}-webapp/WEB-INF/classes</buildOutputDirectory>		          
+						<buildOutputDirectory>${project.build.directory}/${project.artifactId}-webapp/WEB-INF/classes</buildOutputDirectory>
 						<hostedWebapp>${project.build.directory}/${project.artifactId}-webapp</hostedWebapp>
 						<extraJvmArgs>-Xss32m -Xmx512m</extraJvmArgs>
 					</configuration>
@@ -379,8 +379,8 @@
 						</execution>
 					</executions>
 				</plugin>
-			</plugins>				
-		</pluginManagement>		
+			</plugins>
+		</pluginManagement>
 	</build>
 
 	<dependencyManagement>
