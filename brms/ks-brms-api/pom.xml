@@ -2,22 +2,21 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.brms</groupId>
 	<artifactId>ks-brms-api</artifactId>
-	<version>1.0.0-m3</version>
 	<packaging>jar</packaging>
 	<name>KS BRMS API</name>
-	<description />
+	<description>Kuali Student Business Rules Management System API</description>
 
     <parent>
         <groupId>org.kuali.student.brms</groupId>
         <artifactId>ks-brms</artifactId>
-        <version>1.0.0-m3</version>
+        <version>1.0.0-m3-SNAPSHOT</version>
     </parent>
 
 	<dependencies>
 		<dependency>
-			<groupId>org.kuali.student.ks-core</groupId>
+			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-api</artifactId>
-			<version>${ks-core.version}</version>
+			<version>1.0.0-m3-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
@@ -73,5 +72,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>

@@ -10,9 +10,9 @@
     <modules>
         <module>security</module>
         <module>core</module>
+        <module>brms</module>
         <!--
-        <module>ks-commons</module>
-        <module>ks-brms</module>
+        <module>commons</module>
         <module>ks-lum</module>
         <module>ks-web</module>
         -->
