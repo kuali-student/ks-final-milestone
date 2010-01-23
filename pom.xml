@@ -1071,7 +1071,6 @@
 	            <artifactId>xalan</artifactId>
 	            <version>${xalan.version}</version>
             </dependency>
-
 		</dependencies>
 	</dependencyManagement>
 	<dependencies>
