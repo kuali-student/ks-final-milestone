@@ -62,7 +62,6 @@
 	</dependencies>
 
 	<profiles>
-	    <!--
 		<profile>
 			<id>ks-hibernate</id>
 			<activation>
@@ -74,6 +73,7 @@
 					<artifactId>ks-hibernate</artifactId>
 					<type>pom</type>
 					<scope>test</scope>
+					<version>1.0.0-m3-SNAPSHOT</version>
 				</dependency>
 			</dependencies>
 		</profile>
@@ -85,6 +85,7 @@
 					<artifactId>ks-eclipselink</artifactId>
 					<type>pom</type>
 					<scope>test</scope>
+					<version>1.0.0-m3-SNAPSHOT</version>
 				</dependency>
 			</dependencies>
 		</profile>
@@ -99,6 +100,7 @@
 					<artifactId>ks-cxf</artifactId>
 					<type>pom</type>
 					<scope>test</scope>
+					<version>1.0.0-m3-SNAPSHOT</version>
 				</dependency>
 			</dependencies>
 		</profile>
@@ -110,10 +112,10 @@
 					<artifactId>ks-metro</artifactId>
 					<type>pom</type>
 					<scope>test</scope>
+					<version>1.0.0-m3-SNAPSHOT</version>
 				</dependency>
 			</dependencies>
 		</profile>
-		-->
 	</profiles>
 
 </project>
