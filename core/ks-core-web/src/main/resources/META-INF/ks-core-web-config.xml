@@ -1,0 +1,60 @@
+<config>
+  
+    <param name="module.name">ks-core-web</param>
+    <param name="db.vendor">derby</param>
+	<param name="jpa.vendor">hibernate</param>
+
+    <!-- ks-config is here so nested property overrides resolve correctly -->
+    <param name="config.location">${user.home}/kuali/main/dev/ks-config.xml</param>
+
+	<!-- KSB Configuration -->
+    <param name="config.location">classpath:META-INF/ks-ksb-config-defaults.xml</param> 
+
+    <!-- Application configuration -->
+    <param name="app.code" override="false">ks-core-web</param>
+	<param name="app.context.name" override="false">${app.code}</param>
+    <param name="http.port" override="false">8181</param>  
+    <param name="rice.logging.configure">true</param>
+    <param name="log4j.settings.path">classpath:log4j.properties</param>
+    <param name="serviceNamespace">KSCore</param>
+    
+    <!-- Overrides required to reset serviceServletUrl -->
+    <param name="application.host" override="false">localhost</param>
+    <param name="application.http.scheme" override="false">http</param>
+    <param name="appserver.url" override="false">${application.http.scheme}://${application.host}:${http.port}</param>
+    <param name="application.url" override="false">${appserver.url}/${app.context.name}</param>   
+	<param name="serviceServletUrl" override="false">${application.url}/services/</param>
+	        
+    <!-- Core datasource configuration -->
+    <param name="ks.core.jpa.DatabasePlatform.derby">org.hibernate.dialect.DerbyDialect</param>
+    <param name="ks.core.datasource.driver.name.derby">org.apache.derby.jdbc.ClientDriver</param>
+    <param name="ks.core.datasource.url.derby">jdbc:derby://localhost:1527/derby/core;create=true</param>
+    <param name="ks.core.datasource.username.derby">kscore</param>
+    <param name="ks.core.datasource.password.derby">kscore</param>
+    <param name="ks.core.datasource.validationQuery.derby">values(1)</param>
+    
+    <param name="ks.core.jpa.DatabasePlatform.oracle">org.hibernate.dialect.Oracle10gDialect</param>
+    <param name="ks.core.datasource.driver.name.oracle">oracle.jdbc.OracleDriver</param>
+    <param name="ks.core.datasource.url.oracle">jdbc:oracle:thin:@localhost:1521:XE</param>
+    <param name="ks.core.datasource.username.oracle">kscore</param>
+    <param name="ks.core.datasource.password.oracle">kscore</param>
+    <param name="ks.core.datasource.validationQuery.oracle">select 1 from dual</param>
+    
+   	<param name="ks.core.jpa.DatabasePlatform">${ks.core.jpa.DatabasePlatform.${db.vendor}}</param>
+    <param name="ks.core.datasource.driver.name">${ks.core.datasource.driver.name.${db.vendor}}</param>
+    <param name="ks.core.datasource.url">${ks.core.datasource.url.${db.vendor}}</param>
+    <param name="ks.core.datasource.username">${ks.core.datasource.username.${db.vendor}}</param>
+    <param name="ks.core.datasource.password">${ks.core.datasource.password.${db.vendor}}</param>
+    <param name="ks.core.datasource.validationQuery">${ks.core.datasource.validationQuery.${db.vendor}}</param>    
+
+	<param name="ks.core.doDataLoad">true</param>
+
+	<!-- Config defaults and overrides -->
+    <param name="config.location">${user.home}/kuali/main/dev/ks-core-config.xml</param> 
+    <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
+    
+    <!-- Rice URLS --> 
+	<param name="ks.rice.personLookup.serviceAddress">http://localhost:8081/ks-rice-dev/kr/lookup.do</param>
+	<param name="ks.rice.actionList.serviceAddress">http://localhost:8081/ks-rice-dev/kew/ActionList.do</param>
+    
+</config>
