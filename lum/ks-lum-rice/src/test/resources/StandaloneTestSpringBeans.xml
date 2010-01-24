@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- this is a bootstrap Spring file that the unit tests use  -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+    <bean class="org.kuali.rice.core.config.spring.ConfigPropertyPlaceholderConfigurer" />
+
+    <bean id="config" class="org.kuali.rice.core.config.spring.ConfigFactoryBean">
+        <property name="configLocations">
+            <list>
+                <value>classpath:META-INF/standalone-test-config.xml</value>
+            </list>
+        </property>
+    </bean>
+    
+    <alias name="dataSource" alias="riceDataSource" />
+    <alias name="nonTransactionalDataSource" alias="riceNonTransactionalDataSource" />
+    <alias name="jotm" alias="jtaTransactionManager"/>
+    <alias name="jotm" alias="jtaUserTransaction"/>
+
+	<bean id="rice" class="org.kuali.rice.core.config.RiceConfigurer">
+		<property name="dataSource" ref="riceDataSource" />
+		<property name="nonTransactionalDataSource" ref="riceNonTransactionalDataSource" />
+		<property name="transactionManager" ref="jtaTransactionManager" />
+		<property name="userTransaction" ref="jtaUserTransaction" />
+		<property name="rootConfig" ref="config" />
+        <property name="environment" value="${environment}"/>
+		<property name="ksbConfigurer">
+			<bean class="org.kuali.rice.ksb.messaging.config.KSBConfigurer"
+				  p:serviceServletUrl="${serviceServletUrl}"
+                  p:runMode="${ksb.mode}"
+                  p:webModuleConfigurationFiles="${rice.ksb.struts.config.files}" />
+		</property>
+		<property name="knsConfigurer">
+	        <bean class="org.kuali.rice.kns.config.KNSConfigurer"
+                  p:loadDataDictionary="true"
+                  p:validateDataDictionary="true" 
+                  p:webModuleConfigurationFiles="${rice.kns.struts.config.files}"/>
+		</property>
+		<property name="kimConfigurer">
+	        <bean class="org.kuali.rice.kim.config.KIMConfigurer" 
+                  p:runMode="${kim.mode}"
+                  p:webModuleConfigurationFiles="${rice.kim.struts.config.files}" />
+		</property>
+		<property name="kcbConfigurer">
+            <bean class="org.kuali.rice.kcb.config.KCBConfigurer" />
+        </property>
+		<property name="kewConfigurer">
+			<bean class="org.kuali.rice.kew.config.KEWConfigurer"
+                p:runMode="${kew.mode}" 
+                p:webModuleConfigurationFiles="${rice.kew.struts.config.files}" />
+		</property>
+		<property name="kenConfigurer">
+        	<bean class="org.kuali.rice.ken.config.KENConfigurer" />
+		</property>
+        <property name="additionalSpringFiles">
+            <list>
+                <value>${rice.additionalSpringFiles}</value>
+            </list>
+        </property>
+	</bean>
+
+</beans>
