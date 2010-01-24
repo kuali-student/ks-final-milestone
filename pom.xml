@@ -12,9 +12,9 @@
         <module>core</module>
         <module>brms</module>
         <module>lum</module>
+        <module>web</module>
         <!--
         <module>commons</module>
-        <module>ks-web</module>
         -->
     </modules>
 

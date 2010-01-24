@@ -1,20 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
 	<modelVersion>4.0.0</modelVersion>
-
-	<groupId>org.kuali.student</groupId>
+	<groupId>org.kuali.student.web</groupId>
 	<artifactId>ks-rice</artifactId>
-	<version>1.0.0-m3</version>
 	<packaging>war</packaging>
+    <parent>
+		<groupId>org.kuali.student.web</groupId>
+		<artifactId>ks-web</artifactId>
+		<version>1.0.0-m3-SNAPSHOT</version>
+	</parent>
 
 	<name>KS Rice</name>
 	<description>Kuali Student Rice Standalone Server project for development</description>
-
-    <parent>
-		<groupId>org.kuali.student</groupId>
-		<artifactId>ks-web</artifactId>
-		<version>1.0.0-m3</version>
-	</parent>
 
 	<build>
 		<plugins>
@@ -60,23 +56,6 @@
 		</plugins>
 	</build>
 
-	<repositories>
-		<repository>
-			<id>kuali.release</id>
-			<url>http://archiva.kuali.umd.edu/repository/release</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>kuali.snapshot</id>
-			<url>http://archiva.kuali.umd.edu/repository/snapshot</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-		</repository>
-	</repositories>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.kuali.rice</groupId>
@@ -93,12 +72,12 @@
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-api</artifactId>
-			<version>${ks-lum.version}</version>
+			<version>1.0.0-m3-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-rice</artifactId>
-			<version>${ks-lum.version}</version>
+			<version>1.0.0-m3-SNAPSHOT</version>
 		</dependency>
         
         <!-- these are needed for rice jsp's to work properly -->
