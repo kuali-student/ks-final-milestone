@@ -11,9 +11,9 @@
         <module>security</module>
         <module>core</module>
         <module>brms</module>
+        <module>lum</module>
         <!--
         <module>commons</module>
-        <module>ks-lum</module>
         <module>ks-web</module>
         -->
     </modules>
