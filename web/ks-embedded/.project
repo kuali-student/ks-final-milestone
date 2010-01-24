@@ -1,6 +1,6 @@
 <projectDescription>
-  <name>ks-standalone</name>
-  <comment>All KS modules combined into one application.</comment>
+  <name>ks-embedded</name>
+  <comment>Contains all KS modules and Rice</comment>
   <projects>
     <project>ks-brms-api</project>
     <project>ks-brms-execution-api</project>
@@ -12,11 +12,10 @@
     <project>ks-core-api</project>
     <project>ks-core-impl</project>
     <project>ks-core-ui</project>
-    <project>ks-hibernate</project>
     <project>ks-lum-api</project>
     <project>ks-lum-impl</project>
+    <project>ks-lum-rice</project>
     <project>ks-lum-ui</project>
-    <project>ks-rice-lessdep</project>
     <project>ks-standard-sec</project>
   </projects>
   <buildSpec>
