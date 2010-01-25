@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+    <publishDate position="left" />
+    <version position="navigation-bottom" />
+
+    <body>
+
+        <menu name="Kuali Student Sites">
+            <item name="Projects" href="http://student.kuali.org/site">
+                <item name="Security" href="http://student.kuali.org/site/security">
+                    <item name="${project.version}"
+                        href="http://student.kuali.org/site/security/${project.version}" />
+                </item>
+            </item>
+        </menu>
+
+        <menu ref="modules" />
+        <menu ref="reports" />
+
+    </body>
+
+</project>
