@@ -18,7 +18,6 @@
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-util</artifactId>
 			<version>1.0.0-m3-SNAPSHOT</version>
-			<type>pom</type>
 		</dependency>
 
 		<!-- Specific impl or use profile? -->

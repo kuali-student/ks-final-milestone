@@ -10,10 +10,10 @@
     <modules>
         <module>security</module>
         <module>core</module>
+        <!--
         <module>brms</module>
         <module>lum</module>
         <module>web</module>
-        <!--
         <module>commons</module>
         -->
     </modules>
@@ -280,7 +280,8 @@
         <artifactId>maven-eclipse-plugin</artifactId>
         <configuration>
           <useProjectReferences>true</useProjectReferences>
-          <downloadSources>false</downloadSources>
+          <downloadSources>true</downloadSources>
+          <ajdtVersion>none</ajdtVersion>
         </configuration>
       </plugin>
 
