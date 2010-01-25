@@ -35,6 +35,7 @@ import javax.persistence.Table;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
+import org.kuali.student.core.entity.RichText;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 
 @Entity
@@ -52,8 +53,9 @@ public class Statement extends MetaEntity implements AttributeOwner<StatementAtt
     @Column(name="NAME")
     private String name;
 
-    @Column(name="DESCR")
-    private String descr;
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name = "RT_DESCR_ID")
+    private RichText descr;
     
     @Column(name="ST")
     private String state;
@@ -157,11 +159,11 @@ public class Statement extends MetaEntity implements AttributeOwner<StatementAtt
         this.name = name;
     }
 
-    public String getDescr() {
+    public RichText getDescr() {
         return descr;
     }
 
-    public void setDescr(String descr) {
+    public void setDescr(RichText descr) {
         this.descr = descr;
     }
 

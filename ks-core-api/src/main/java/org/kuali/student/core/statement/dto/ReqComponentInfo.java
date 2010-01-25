@@ -61,6 +61,9 @@ public class ReqComponentInfo implements Serializable, Idable, HasTypeState {
     @XmlAttribute
     private String id;
 
+    @XmlElement
+    private ReqComponentTypeInfo requiredComponentType;
+    
 	/**
      * Narrative description of the requirement component.
      */
@@ -130,6 +133,17 @@ public class ReqComponentInfo implements Serializable, Idable, HasTypeState {
         this.type = type;
     }
 
+    public ReqComponentTypeInfo getRequiredComponentType() {
+        return requiredComponentType;
+    }
+
+    public void setRequiredComponentType(ReqComponentTypeInfo requiredComponentType) {
+        this.requiredComponentType = requiredComponentType;
+        if(requiredComponentType != null) {
+            setType(requiredComponentType.getId());
+        }
+    }
+    
 	/**
      * The current status of the requirement component. The values for this field are constrained to those in the reqComponentState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.
      */

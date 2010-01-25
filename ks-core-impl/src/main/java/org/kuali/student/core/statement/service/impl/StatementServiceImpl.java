@@ -4,11 +4,27 @@ import java.util.List;
 
 import javax.jws.WebService;
 
+import org.kuali.student.common.validator.Validator;
+import org.kuali.student.core.dictionary.dto.ObjectStructure;
+import org.kuali.student.core.dictionary.service.DictionaryService;
+import org.kuali.student.core.dto.StatusInfo;
+import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.CircularReferenceException;
+import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.core.search.dto.QueryParamValue;
+import org.kuali.student.core.search.dto.Result;
+import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.core.search.dto.SearchResultTypeInfo;
+import org.kuali.student.core.search.dto.SearchTypeInfo;
+import org.kuali.student.core.search.newdto.SearchRequest;
+import org.kuali.student.core.search.newdto.SearchResult;
+import org.kuali.student.core.search.service.impl.SearchManager;
 import org.kuali.student.core.statement.dao.StatementDao;
 import org.kuali.student.core.statement.dto.NlUsageTypeInfo;
 import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
@@ -18,6 +34,7 @@ import org.kuali.student.core.statement.entity.ReqComponent;
 import org.kuali.student.core.statement.entity.Statement;
 import org.kuali.student.core.statement.naturallanguage.NaturalLanguageTranslator;
 import org.kuali.student.core.statement.service.StatementService;
+import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.core.statement.service.StatementService", serviceName = "StatementService", portName = "StatementService", targetNamespace = "http://student.kuali.org/wsdl/statement")
@@ -26,6 +43,8 @@ public class StatementServiceImpl implements StatementService {
 
     private StatementDao statementDao;
 	private NaturalLanguageTranslator naturalLanguageTranslator;
+    private SearchManager searchManager;
+    private DictionaryService dictionaryServiceDelegate;
 
 	public void setStatementDao(StatementDao statementDao) {
 		this.statementDao = statementDao;
@@ -213,4 +232,235 @@ public class StatementServiceImpl implements StatementService {
 			throw new InvalidParameterException(paramName + " can not be empty");
 		}
 	}
+
+    @Override
+    public ReqComponentInfo createReqComponent(String reqComponentType, ReqComponentInfo reqComponentInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        checkForMissingParameter(reqComponentType, "reqComponentType");
+        checkForMissingParameter(reqComponentInfo, "reqComponentInfo");
+
+        ReqComponent reqComp = null;
+
+        try {
+            reqComp = StatementAssembler.toReqComponentRelation(false, reqComponentInfo, statementDao);
+        } catch (VersionMismatchException e) {
+            throw new OperationFailedException("Version Mismatch.", e);
+        }
+
+        reqComp = statementDao.create(reqComp);
+
+        return StatementAssembler.toReqComponentInfo(reqComp);
+    }
+
+    @Override
+    public StatementInfo createStatement(String statementType, StatementInfo statementInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        checkForMissingParameter(statementType, "statementType");
+        checkForMissingParameter(statementInfo, "statementInfo");
+
+        Statement statement = null;
+
+        try {
+            statement = StatementAssembler.toStatementRelation(false, statementInfo, statementDao);
+        } catch (VersionMismatchException e) {
+            throw new OperationFailedException("Version Mismatch.", e);
+        }
+
+        statementDao.create(statement);
+
+        StatementInfo info = StatementAssembler.toStatementInfo(statement);
+
+        return info;
+    }
+
+    @Override
+    public StatusInfo deleteReqComponent(String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        checkForMissingParameter(reqComponentId, "reqComponentId");
+
+        ReqComponent reqComp = statementDao.fetch(ReqComponent.class, reqComponentId);
+
+        if(reqComp==null){
+            throw new DoesNotExistException("ReqComponent does not exist for id: "+reqComponentId);
+        }
+
+        statementDao.delete(reqComp);
+
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(true);
+        return statusInfo;
+    }
+
+    @Override
+    public StatusInfo deleteStatement(String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        checkForMissingParameter(statementId, "statementId");
+
+        Statement stmt = statementDao.fetch(Statement.class, statementId);
+
+        if(stmt==null){
+            throw new DoesNotExistException("Statement does not exist for id: "+statementId);
+        }
+
+        statementDao.delete(stmt);
+
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(true);
+        return statusInfo;
+    }
+
+    @Override
+    public ReqComponentInfo getReqComponent(String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return StatementAssembler.toReqComponentInfo(statementDao.fetch(ReqComponent.class, reqComponentId));
+    }
+
+    @Override
+    public List<ReqComponentInfo> getReqComponentsByType(String reqComponentTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        checkForMissingParameter(reqComponentTypeKey, "reqComponentTypeKey");
+
+        List<ReqComponent> reqComponents = statementDao.getReqComponentsByType(reqComponentTypeKey);
+        return StatementAssembler.toReqComponentInfos(reqComponents);
+    }
+
+    @Override
+    public StatementInfo getStatement(String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return StatementAssembler.toStatementInfo(statementDao.fetch(Statement.class, statementId));
+    }
+
+    @Override
+    public List<StatementInfo> getStatementsByType(String statementTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        checkForMissingParameter(statementTypeKey, "statementTypeKey");
+
+        List<Statement> statements = statementDao.getStatementsForStatementType(statementTypeKey);
+        return StatementAssembler.toStatementInfos(statements);
+    }
+
+    @Override
+    public List<StatementInfo> getStatementsUsingComponent(String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public StatementInfo updateStatement(String statementId, StatementInfo statementInfo) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+        //Check Missing params
+        checkForMissingParameter(statementId, "statementId");
+        checkForMissingParameter(statementInfo, "statementInfo");
+
+        //Set all the values on statementInfo
+        statementInfo.setId(statementId);
+
+        Statement stmt = null;
+
+        //Update persistence entity from the statementInfo
+        stmt = StatementAssembler.toStatementRelation(true, statementInfo, statementDao);
+
+        //Update the statement
+        Statement updatedStmt = statementDao.update(stmt);
+
+        //Copy back to an statementInfo and return
+        StatementInfo updStatementInfo = StatementAssembler.toStatementInfo(updatedStmt);
+        return updStatementInfo;
+    }
+
+    @Override
+    public List<ValidationResultContainer> validateReqComponent(String validationType, ReqComponentInfo reqComponentInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        checkForMissingParameter(validationType, "validationType");
+        checkForMissingParameter(reqComponentInfo, "reqComponentInfo");
+
+        return createValidator().validateTypeStateObject(reqComponentInfo, getObjectStructure("reqComponentInfo"));
+    }
+
+    @Override
+    public List<ValidationResultContainer> validateStatement(String validationType, StatementInfo statementInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        checkForMissingParameter(validationType, "validationType");
+        checkForMissingParameter(statementInfo, "statementInfo");
+
+        return createValidator().validateTypeStateObject(statementInfo, getObjectStructure("statementInfo"));
+    }
+    
+    private Validator createValidator() {
+//      Validator validator = new Validator();
+//      validator.setDateParser(new ServerDateParser());
+////    validator.addMessages(null); //TODO this needs to be loaded somehow
+//      return validator;
+        return null;
+    }
+
+    @Override
+    public ObjectStructure getObjectStructure(String objectTypeKey) {
+        return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
+    }
+
+    @Override
+    public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
+    }
+
+    @Override
+    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() throws OperationFailedException {
+        return searchManager.getSearchCriteriaTypes();
+    }
+
+    @Override
+    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
+        return searchManager.getSearchResultType(searchResultTypeKey);
+    }
+
+    @Override
+    public List<SearchResultTypeInfo> getSearchResultTypes() throws OperationFailedException {
+        return searchManager.getSearchResultTypes();
+    }
+
+    @Override
+    public SearchTypeInfo getSearchType(String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        checkForMissingParameter(searchTypeKey, "searchTypeKey");
+        return searchManager.getSearchType(searchTypeKey);
+    }
+
+    @Override
+    public List<SearchTypeInfo> getSearchTypes() throws OperationFailedException {
+        return searchManager.getSearchTypes();
+    }
+
+    @Override
+    public List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
+        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
+    }
+
+    @Override
+    public List<SearchTypeInfo> getSearchTypesByResult(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
+        return searchManager.getSearchTypesByResult(searchResultTypeKey);
+    }
+
+    @Override
+    public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
+        checkForMissingParameter(searchRequest, "searchRequest");
+        return searchManager.search(searchRequest, statementDao);
+    }
+
+    @Override
+    public List<Result> searchForResults(String searchTypeKey, List<QueryParamValue> queryParamValues) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        checkForMissingParameter(searchTypeKey, "searchTypeKey");
+        checkForMissingParameter(queryParamValues, "queryParamValues");
+
+        return searchManager.searchForResults(searchTypeKey, queryParamValues, statementDao);
+    }
+
+    @Override
+    public List<String> getObjectTypes() {
+        return dictionaryServiceDelegate.getObjectTypes();
+    }
+
+    @Override
+    public boolean validateObject(String objectTypeKey, String stateKey, String info) {
+        return dictionaryServiceDelegate.validateObject(objectTypeKey, stateKey, info);
+    }
+
+    @Override
+    public boolean validateStructureData(String objectTypeKey, String stateKey, String info) {
+        return dictionaryServiceDelegate.validateStructureData(objectTypeKey, stateKey, info);
+    }
+    
+    
+
 }

@@ -37,4 +37,22 @@ public class StatementDaoImpl extends AbstractSearchableCrudDaoImpl implements S
         return resultList;
     }
 
+    @Override
+    public List<ReqComponent> getReqComponentsByType(String reqComponentTypeKey) {
+        Query query = em.createNamedQuery("ReqComponent.getReqComponentsByType");
+        query.setParameter("reqComponentTypeKey", reqComponentTypeKey);
+        @SuppressWarnings("unchecked")
+        List<ReqComponent> resultList = query.getResultList();
+        return resultList;
+    }
+
+    @Override
+    public List<Statement> getStatementsForStatementType(String statementTypeKey) {
+        Query query = em.createNamedQuery("Statement.getStatementsForStatementType");
+        query.setParameter("statementTypeKey", statementTypeKey);
+        @SuppressWarnings("unchecked")
+        List<Statement> resultList = query.getResultList();
+        return resultList;
+    }
+
 }

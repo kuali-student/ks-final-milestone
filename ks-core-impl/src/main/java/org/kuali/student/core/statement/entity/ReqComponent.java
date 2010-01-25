@@ -34,6 +34,7 @@ import javax.persistence.TemporalType;
 
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.MetaEntity;
+import org.kuali.student.core.entity.RichText;
 
 @Entity
 @Table(name="KSSTMT_REQ_COM")
@@ -46,8 +47,9 @@ public class ReqComponent extends MetaEntity {
 	@Column(name = "ID")
 	private String id;
 	
-    @Column(name="DESCR")
-    private String descr;
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name = "RT_DESCR_ID")
+    private RichText descr;
 
     @Column(name="ST")
     private String state;
@@ -92,11 +94,11 @@ public class ReqComponent extends MetaEntity {
 		this.requiredComponentType = requiredComponentType;
 	}
 
-    public String getDescr() {
+    public RichText getDescr() {
         return descr;
     }
 
-    public void setDescr(String descr) {
+    public void setDescr(RichText descr) {
         this.descr = descr;
     }
 
