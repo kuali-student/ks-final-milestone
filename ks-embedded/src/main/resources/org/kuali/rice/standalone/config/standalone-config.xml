@@ -70,7 +70,7 @@
 	<!--Set projects in the override config file at ${user.home}/kuali/main/dev/embedded-config.xml-->
 	<!--Setting this property allows uber war to selectively load lum or core project or both of them	-->
 	<!--Set the came of the context file in order to load the particular project	-->
-	<param name="ks.projects">classpath:ksb/ks-core-context.xml,classpath:ksb/ks-lu-context.xml</param>
+	<param name="ks.projects">classpath:ksb/ks-core-context.xml,classpath:ksb/ks-lu-context.xml,classpath:ks-spring-security-saml.xml</param>
 
 	
 	<!-- additional config files -->
