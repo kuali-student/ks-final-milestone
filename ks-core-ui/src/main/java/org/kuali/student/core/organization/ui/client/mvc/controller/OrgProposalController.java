@@ -138,8 +138,9 @@ public class OrgProposalController extends TabbedSectionLayout{
     
     private void init(){
         commonConfigurer.configureOrgProposal(this);
-//        addButton("Create", getSaveButton());
+        
         if(!initialized){
+        addButton("Create", getSaveButton());
         addApplicationEventHandler(SaveActionEvent.TYPE, new SaveActionHandler(){
             public void doSave(SaveActionEvent saveAction) {
                 GWT.log("OrgController received save action request.", null);
@@ -273,6 +274,7 @@ public class OrgProposalController extends TabbedSectionLayout{
                      if (saveActionEvent.isAcknowledgeRequired()){
                          saveMessage.setText("Save Successful");
                          buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
+                         
                      } else {
                          saveWindow.hide();
                          saveActionEvent.doActionComplete();                        
