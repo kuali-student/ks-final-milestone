@@ -7,6 +7,25 @@
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
   	
 
+	<bean id="config" class="org.kuali.student.rice.config.spring.NestedConfigFactoryBean" depends-on="systemPropertyConfigurer">
+		<property name="configLocations">
+			<list>
+				<value>classpath:META-INF/ks-security-config.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="configProperties"
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject" ref="config" />
+		<property name="targetMethod" value="getProperties" />
+	</bean>
+
+	<bean id="propconfig"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="properties" ref="configProperties" />
+	</bean>
+	
 	<!-- Service for proxy ticket validation and SAML -->
 	<bean id="samlIssuerServiceImpl"
 		class="org.kuali.student.security.saml.service.SamlIssuerServiceImpl">
