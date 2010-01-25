@@ -88,6 +88,7 @@ public class SamlTokenCxfOutInterceptor extends AbstractWSS4JInterceptor {
     // KS : made this a ThreadLocal since we don't know if interceptors are thread-safe.
     //private Map<String,String> samlProperties = new HashMap<String,String>();
     private ThreadLocal<Map<String,String>> samlPropertiesHolder = new ThreadLocal<Map<String,String>>();
+    private ThreadLocal<SAMLAssertion> samlAssertionHolder = new ThreadLocal<SAMLAssertion>();;
     
     public SamlTokenCxfOutInterceptor() {
         super();
@@ -312,7 +313,7 @@ public class SamlTokenCxfOutInterceptor extends AbstractWSS4JInterceptor {
             String wsuId = null;
             Node assertionNode = null;
             
-            String user = getSamlProperties().get("user");
+/*            String user = getSamlProperties().get("user");
             String pgt = getSamlProperties().get("proxyGrantingTicket");
             String proxies = getSamlProperties().get("proxies");
             String issuer = getSamlProperties().get("samlIssuerForUser");
@@ -369,7 +370,14 @@ public class SamlTokenCxfOutInterceptor extends AbstractWSS4JInterceptor {
             } catch(CloneNotSupportedException cnse){
                 Logger log = Logger.getLogger(SamlTokenCxfOutInterceptor.class.getName());
                 throw new Fault("Error when cloning subject : ", log, cnse);
-            }      
+            } */
+            
+            try{
+                assertionNode = getSamlAssertion().toDOM();
+            } catch(SAMLException se){
+                Logger log = Logger.getLogger(SamlTokenCxfOutInterceptor.class.getName());
+                throw new Fault("Error when adding SAML Attributes or Attribute Statement : ", log, se);
+            }
             
             try{
                 // get the envelope and create a header
@@ -424,5 +432,13 @@ public class SamlTokenCxfOutInterceptor extends AbstractWSS4JInterceptor {
     public Map<String, String> getSamlProperties() {
         //return samlProperties;
         return this.samlPropertiesHolder.get();
+    }
+
+    public SAMLAssertion getSamlAssertion() {
+        return this.samlAssertionHolder.get();
+    }
+
+    public void setSamlAssertion(SAMLAssertion samlAssertion) {
+        this.samlAssertionHolder.set(samlAssertion);
     }
 }

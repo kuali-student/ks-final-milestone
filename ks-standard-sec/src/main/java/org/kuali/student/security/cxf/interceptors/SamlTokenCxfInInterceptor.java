@@ -88,6 +88,25 @@ public class SamlTokenCxfInInterceptor extends WSS4JInInterceptor{
                     }
                 }    
             }
+            
+            
+            System.out.println("\n\n THE WHOLE MESSAGE RECEIVED IN INTERCEPTOR ...... ");
+            Node env = msg.getContent(Node.class);
+            DOMSource domSource = new DOMSource(env);
+            StringWriter writer = new StringWriter();
+            StreamResult result = new StreamResult(writer);
+            
+            TransformerFactory tf = TransformerFactory.newInstance();
+            Transformer transformer;
+            try {
+                transformer = tf.newTransformer();
+                transformer.transform(domSource, result);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            writer.flush();
+            System.out.println(writer.toString());
+            
         }
     }
 

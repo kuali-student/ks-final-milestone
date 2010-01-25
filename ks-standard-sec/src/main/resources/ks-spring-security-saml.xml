@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+  	
+
+	<!-- Service for proxy ticket validation and SAML -->
+	<bean id="samlIssuerServiceImpl"
+		class="org.kuali.student.security.saml.service.SamlIssuerServiceImpl">
+		<property name="casServerUrl" value="${ks.default.security.cas.serverAddress}"/>
+		<property name="samlIssuerForUser" value="org.kuali.student.principal"/>
+	</bean>
+
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="samlIssuerServiceImpl" />
+                <property name="serviceInterface" value="org.kuali.student.security.saml.service.SamlIssuerService" />
+                <property name="localServiceName" value="SamlIssuerService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/security/saml" />
+                <property name="busSecurity" value="false"></property>
+            </bean>
+        </property>
+    </bean>
+	
+</beans>

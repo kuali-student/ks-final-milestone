@@ -3,15 +3,16 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.security</groupId>
 	<artifactId>ks-standard-sec</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
+    
 	<name>KS Standard Security</name>
 	<description>KS Standard Security - out of the box</description>
 
 	<parent>
 		<groupId>org.kuali.student.security</groupId>
 		<artifactId>ks-security</artifactId>
-		<version>0.0.2-SNAPSHOT</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
@@ -75,13 +76,13 @@
 				<artifactId>cxf-java2ws-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>ProxyTicketValidation-wsdl</id>
+						<id>SamlIssuerService-wsdl</id>
 						<phase>process-classes</phase>
 						<configuration>
 							<className>
-								org.kuali.student.security.saml.service.ProxyTicketValidationService
+								org.kuali.student.security.saml.service.SamlIssuerService
 							</className>
-							<serviceName>ProxyTicketValidationService</serviceName>
+							<serviceName>SamlIssuerService</serviceName>
 							<targetNameSpace>http://org.kuali.student/security/saml</targetNameSpace>			
 						</configuration>
 						<goals>
