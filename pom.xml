@@ -10,8 +10,8 @@
     <modules>
         <module>security</module>
         <module>core</module>
-        <!--
         <module>brms</module>
+        <!--
         <module>lum</module>
         <module>web</module>
         <module>commons</module>
