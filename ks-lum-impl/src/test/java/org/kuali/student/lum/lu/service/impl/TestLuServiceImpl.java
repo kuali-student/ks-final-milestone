@@ -1493,9 +1493,9 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 			public int compare(LuLuRelationTypeInfo o1, LuLuRelationTypeInfo o2) {
 				return o1.getId().compareTo(o2.getId());
 			}});
-        assertEquals(3, luLuRelTypeInfos.size());
-        assertEquals("luLuType.type1", luLuRelTypeInfos.get(0).getId());
-        assertEquals("manolin", luLuRelTypeInfos.get(2).getName());
+        assertEquals(8, luLuRelTypeInfos.size());
+        assertEquals("kuali.lu.relation.type.co-located", luLuRelTypeInfos.get(0).getId());
+        assertEquals("jim", luLuRelTypeInfos.get(2).getName());
     }
 
     @Test
