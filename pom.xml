@@ -10,10 +10,10 @@
     <modules>
         <module>security</module>
         <module>core</module>
+        <!--
         <module>brms</module>
         <module>lum</module>
         <module>web</module>
-        <!--
         <module>commons</module>
         -->
     </modules>
@@ -330,10 +330,7 @@
 						<genWsdl>true</genWsdl>
 						<genWrapperbean>true</genWrapperbean>
 						<verbose>true</verbose>
-						<!--
-						Don't need this extra stuff if the directory structure is setup right
 						<argline>-s ${project.build.directory}/generated/src -classdir ${project.build.outputDirectory}</argline>
-						-->
 					</configuration>
 				</plugin>
 
