@@ -55,6 +55,7 @@ public class SearchModelLoader implements SearchModel
   int rowNumber = 1;
   String lastLookupKey = null;
   int lastLookupKeySequence = 0;
+  boolean firstSearchFound = false;
   while (worksheetReader.next ())
   {
    rowNumber ++;
@@ -65,15 +66,17 @@ public class SearchModelLoader implements SearchModel
     loadRow (worksheetReader, searchRow, rowNumber);
     lastLookupKey = searchRow.getKey ();
     lastLookupKeySequence = 0;
+    firstSearchFound = false;
    }
    else if (type.equalsIgnoreCase ("Search"))
    {
     searchType = new SearchType ();
     loadRow (worksheetReader, searchType, rowNumber);
     // give the non-default lookups a unique key
-    if (searchType.getUsage ().equalsIgnoreCase ("default"))
+    if ( ! firstSearchFound)
     {
      searchType.setLookupKey (lastLookupKey);
+     firstSearchFound = true;
     }
     else
     {

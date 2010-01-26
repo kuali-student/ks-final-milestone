@@ -316,7 +316,7 @@ public class OrchestrationObjectsLoader implements OrchestrationModel
   field.setAdditionalLookups (list);
  }
 
-  private List<LookupMetadata> findAdditional (String lookupKey)
+ private List<LookupMetadata> findAdditional (String lookupKey)
  {
   List<LookupMetadata> list = new ArrayList ();
   for (LookupMetadata lookup : lookupMetas)

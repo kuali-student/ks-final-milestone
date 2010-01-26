@@ -163,20 +163,21 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
   if (field.getLookup () != null &&  ! field.getLookup ().equals (""))
   {
    imports.add (rootPackage + ".LookupMetadataBank");
-   indentPrintln ("childMeta.setLookupMetadata (LookupMetadataBank.LOOKUP_BANK.get (" +
-    quote (field.getLookup ()) + ".toLowerCase ()));");
+   indentPrintln ("LookupMetadataBank.setLookups (childMeta, " + quote (field.getLookup ()) + ");");
+   //indentPrintln ("childMeta.setLookupMetadata (LookupMetadataBank.LOOKUP_BANK.get (" +
+   // quote (field.getLookup ()) + ".toLowerCase ()));");
    indentPrintln ("childMeta.setLookupContextPath (" +
     quote (replaceEmptyWitNull (field.getLookupContextPath ())) + ");");
   }
-  if (field.getAdditionalLookups () != null)
-  {
-   for (String additinalLookup : field.getAdditionalLookups ())
-   {
-    imports.add (rootPackage + ".LookupMetadataBank");
-    indentPrintln ("childMeta.getAdditionalLookups ().add ((LookupMetadataBank.LOOKUP_BANK.get (" +
-     quote (additinalLookup) + ".toLowerCase ())));");
-   }
-  }
+//  if (field.getAdditionalLookups () != null)
+//  {
+//   for (String additinalLookup : field.getAdditionalLookups ())
+//   {
+//    imports.add (rootPackage + ".LookupMetadataBank");
+//    indentPrintln ("childMeta.getAdditionalLookups ().add ((LookupMetadataBank.LOOKUP_BANK.get (" +
+//     quote (additinalLookup) + ".toLowerCase ())));");
+//   }
+//  }
   String lastType = null;
   String lastState = null;
   boolean closeIf = false;

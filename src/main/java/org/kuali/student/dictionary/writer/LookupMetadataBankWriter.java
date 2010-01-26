@@ -137,7 +137,7 @@ public class LookupMetadataBankWriter extends JavaClassWriter
   indentPrintln ("");
   indentPrintln ("private static LookupParamMetadata findParam (String lookupKey, String paramKey)");
   openBrace ();
-  indentPrintln ("return findParam (LOOKUP_BANK.get (lookupKey), paramKey);");
+  indentPrintln ("return findParam (LOOKUP_BANK.get (lookupKey.toLowerCase()), paramKey);");
   closeBrace ();
 
   indentPrintln ("");
@@ -155,6 +155,34 @@ public class LookupMetadataBankWriter extends JavaClassWriter
 
   imports.add (List.class.getName ());
   imports.add (ArrayList.class.getName ());
+
+  indentPrintln ("");
+  indentPrintln ("public static void setLookups (Metadata meta, String lookupKey)");
+  openBrace ();
+  indentPrintln ("List<LookupMetadata> list = findAdditional (lookupKey);");
+  indentPrintln ("LookupMetadata lookup = LOOKUP_BANK.get (lookupKey.toLowerCase ());");
+  indentPrintln ("if (lookup != null)");
+  openBrace ();
+  indentPrintln ("list.add (0, lookup);");
+  closeBrace ();
+  indentPrintln ("if (list.size () == 0)");
+  openBrace ();
+  indentPrintln ("meta.setLookupMetadata (null);");
+  indentPrintln ("meta.setAdditionalLookups (list);");
+  indentPrintln ("return;");
+  closeBrace ();
+  indentPrintln ("if (list.size () == 1)");
+  openBrace ();
+  indentPrintln ("meta.setLookupMetadata (list.get (0));");
+  indentPrintln ("meta.setAdditionalLookups (new ArrayList ());");
+  indentPrintln ("return;");
+  closeBrace ();
+  indentPrintln ("meta.setLookupMetadata (list.get (0));");
+  indentPrintln ("meta.setAdditionalLookups (list.subList (1, list.size ()));");
+  closeBrace ();
+
+  imports.add (List.class.getName ());
+  imports.add (ArrayList.class.getName ());
   indentPrintln ("");
   indentPrintln ("public static List<LookupMetadata> findAdditional (String lookupKey)");
   openBrace ();
@@ -163,7 +191,7 @@ public class LookupMetadataBankWriter extends JavaClassWriter
   indentPrintln ("while (true)");
   openBrace ();
   indentPrintln ("sequence++;");
-  indentPrintln ("LookupMetadata meta = LOOKUP_BANK.get (lookupKey + \".additional.\" + sequence);");
+  indentPrintln ("LookupMetadata meta = LOOKUP_BANK.get (lookupKey.toLowerCase () + \".additional.\" + sequence);");
   indentPrintln ("if (meta == null)");
   openBrace ();
   indentPrintln ("return list;");
