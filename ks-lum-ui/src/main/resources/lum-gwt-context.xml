@@ -248,6 +248,8 @@
 		<property name="simpleDocService" ref="simpleDocActionsClient" />
 		<property name="workflowUtilityService" ref="workflowUtilityClient" />
 	</bean>
+	<bean id="creditCourseProposalAssemblerFilter" class="org.kuali.student.lum.lu.assembly.CreditCourseProposalAssemblerFilter">
+	</bean>
 	
 	<!-- Filter manager that targets the credit course proposal assembler -->
 	<bean id="creditCourseProposalAssemblerFilterManager" class="org.kuali.student.common.assembly.AssemblerFilterManager">
@@ -255,6 +257,7 @@
 		<property name="filters">
 			<list>
 				<ref bean="workflowAssemblerFilter"/>
+				<ref bean="creditCourseProposalAssemblerFilter" />
 			</list>
 		</property>
 	</bean>

@@ -2,16 +2,10 @@ package org.kuali.student.lum.lu.assembly;
 
 import static org.kuali.student.lum.lu.assembly.AssemblerUtils.addVersionIndicator;
 import static org.kuali.student.lum.lu.assembly.AssemblerUtils.getVersionIndicator;
-import static org.kuali.student.lum.lu.assembly.AssemblerUtils.isCreated;
 import static org.kuali.student.lum.lu.assembly.AssemblerUtils.isDeleted;
 import static org.kuali.student.lum.lu.assembly.AssemblerUtils.isModified;
-import static org.kuali.student.lum.lu.assembly.AssemblerUtils.isUpdated;
-import static org.kuali.student.lum.lu.assembly.AssemblerUtils.setCreated;
-import static org.kuali.student.lum.lu.assembly.AssemblerUtils.setUpdated;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -25,11 +19,10 @@ import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.assembly.client.SaveResult;
 import org.kuali.student.common.assembly.client.Data.Property;
-import org.kuali.student.common.assembly.client.Metadata.WriteAccess;
+import org.kuali.student.common.assembly.client.Metadata.Permission;
 import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.dto.TimeAmountInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DependentObjectsExistException;
@@ -46,36 +39,13 @@ import org.kuali.student.core.search.newdto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
-import org.kuali.student.lum.lu.assembly.CluInfoHierarchyAssembler.RelationshipHierarchy;
-import org.kuali.student.lum.lu.assembly.data.client.LoModelDTO;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.CluInstructorInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoHelper;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.TimeAmountInfoHelper;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityContactHoursHelper;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityDurationHelper;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityHelper;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseCrossListingsHelper;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseDurationHelper;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseFormatHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseHelper;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseJointsHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalInfoHelper;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalMetadata;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseVersionsHelper;
-import org.kuali.student.lum.lu.assembly.data.server.CluInfoHierarchy;
-import org.kuali.student.lum.lu.assembly.data.server.CluInfoHierarchy.ModificationState;
-import org.kuali.student.lum.lu.dto.AdminOrgInfo;
-import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
-import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
-import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.lu.ui.course.server.gwt.LoInfoPersistenceBean;
-import org.kuali.student.lum.lu.ui.course.server.gwt.LuRuleInfoPersistanceBean;
 import org.kuali.student.lum.nlt.service.TranslationService;
-import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 
 /*
  *  ASSEMBLERREVIEW
@@ -276,11 +246,16 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
         return null;
     }
     
+    
+    
+    
     @Override
     public Metadata getMetadata(String type, String state) throws AssemblyException {
         // TODO overriding the specified type isn't a good thing, but in other cases the type needs to be specified by the caller
         //this needs to be filtered, but not sure how to do that if an assembler needs metadata itself
         Metadata metadata = metadataService.getMetadata(CREDIT_COURSE_PROPOSAL_DATA_TYPE, PROPOSAL_TYPE_CREATE_COURSE, state);
+        //Metadata metadata = new CreditCourseProposalMetadata().getMetadata(PROPOSAL_TYPE_CREATE_COURSE, state);
+
         
         //Metadata metadata = new CreditCourseProposalMetadata().getMetadata(PROPOSAL_TYPE_CREATE_COURSE, state);
         
@@ -298,15 +273,22 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
                 String fieldAccessLevel = permission.getValue();
                 Metadata fieldMetadata = courseMetadata.getProperties().get(dtoFieldKey);
                 if(fieldMetadata!=null){
-                    if("edit".equals(fieldAccessLevel)){//TODO better translation of access
-                        //Don't do anything, yield to default behavior
-                    }else{
-                        fieldMetadata.setWriteAccess(WriteAccess.NEVER);
-                    }
+                    Metadata.Permission perm = Metadata.Permission.kimValueOf(fieldAccessLevel);
+                    fieldMetadata.getPermissions().add(perm);
                 }
             }   
         }
+
         
+        //String QUALIFICATION_PROPOSAL_ID = "proposalId";
+        String DOCUMENT_TYPE_NAME = "documentTypeName";
+        AttributeSet qualification = new AttributeSet();
+        //qualification.put(QUALIFICATION_PROPOSAL_ID, proposalInfo.getId());
+        qualification.put(DOCUMENT_TYPE_NAME, "CluDocument");
+        boolean authorized = permissionService.isAuthorized(SecurityUtils.getCurrentUserId(), "KS-LUM", "Edit Document", null, qualification);
+        if(authorized) {
+            metadata.getPermissions().add(Permission.EDIT);
+        }
         return metadata;
     }
 
@@ -505,5 +487,5 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 
     public void setMetadataService(MetadataServiceImpl metadataService) {
         this.metadataService = metadataService;
-    }   
+    }
 }
