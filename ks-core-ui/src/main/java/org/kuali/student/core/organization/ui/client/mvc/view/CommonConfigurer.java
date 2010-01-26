@@ -70,7 +70,7 @@ public class CommonConfigurer {
         List<SectionViewInfo> sectionViewInfoList;
         sectionViewInfoList = sectionConfigInfo.getSectionViewInfoList();
         for(SectionViewInfo sectionViewInfo:sectionViewInfoList){
-          layout.addSection(new String[] {sectionViewInfo.getTab()}, generateSection(sectionViewInfo));
+          layout.addSection(new String[] {sectionViewInfo.getTab(),sectionViewInfo.getMenu()}, generateSection(sectionViewInfo));
 //          layout.addStartSection(generateSection(sectionViewInfo));
         }
         
