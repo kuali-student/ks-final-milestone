@@ -1,0 +1,886 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<metadata>
+	<writeAccess>ALWAYS</writeAccess>
+	<onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+	<dataType>DATA</dataType>
+	<properties>
+		<property name="orgInfo">
+			<metadata>
+				<writeAccess>ALWAYS</writeAccess>
+				<onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+				<dataType>DATA</dataType>
+				<constraints>
+					<constraint>
+						<id>single</id>
+						<messageId>kuali.msg.validation.single
+						</messageId>
+						<desc>Single valued (non-repeating)</desc>
+						<serverSide>false</serverSide>
+						<maxOccurs>1</maxOccurs>
+						<comments>Used to override a repeating constraint</comments>
+					</constraint>
+				</constraints>
+				<properties>
+					<property name="id">
+						<metadata>
+							<writeAccess>ALWAYS</writeAccess>
+							<onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+							<dataType>STRING</dataType>
+						</metadata>
+					</property>
+					<property name="effectiveDate">
+						<metadata>
+							<writeAccess>ALWAYS</writeAccess>
+							<onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+							<dataType>DATE</dataType>
+						</metadata>
+					</property>
+					<property name="expirationDate">
+						<metadata>
+							<writeAccess>ALWAYS</writeAccess>
+							<onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+							<dataType>DATE</dataType>
+						</metadata>
+					</property>
+					<property name="longDesc">
+						<metadata>
+							<writeAccess>ALWAYS</writeAccess>
+							<onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+							<dataType>STRING</dataType>
+						</metadata>
+					</property>
+					<property name="longName">
+						<metadata>
+							<writeAccess>ALWAYS</writeAccess>
+							<onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+							<dataType>STRING</dataType>
+						</metadata>
+					</property>
+					<property name="type">
+						<metadata>
+							<writeAccess>ALWAYS</writeAccess>
+							<onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+							<dataType>STRING</dataType>
+						</metadata>
+					</property>
+					<property name="shortDesc">
+						<metadata>
+							<writeAccess>ALWAYS</writeAccess>
+							<onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+							<dataType>STRING</dataType>
+						</metadata>
+					</property>
+					<property name="shortName">
+						<metadata>
+							<writeAccess>ALWAYS</writeAccess>
+							<onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+							<dataType>STRING</dataType>
+						</metadata>
+					</property>
+					<property name="_runtimeData">
+						<metadata>
+							<writeAccess>NEVER</writeAccess>
+							<onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+							<dataType>DATA</dataType>
+							<constraints>
+								<constraint>
+									<id>single</id>
+									<messageId>kuali.msg.validation.single
+									</messageId>
+									<desc>Single valued (non-repeating)</desc>
+									<serverSide>false</serverSide>
+									<maxOccurs>1</maxOccurs>
+									<comments>Used to override a repeating constraint
+									</comments>
+								</constraint>
+							</constraints>
+							<properties>
+								<property name="created">
+									<metadata>
+										<writeAccess>NEVER</writeAccess>
+										<onChangeRefreshMetadata>false
+										</onChangeRefreshMetadata>
+										<dataType>BOOLEAN</dataType>
+										<booleanValue />
+										<constraints>
+											<constraint>
+												<id>single</id>
+												<messageId>kuali.msg.validation.single
+												</messageId>
+												<desc>Single valued (non-repeating)</desc>
+												<serverSide>false</serverSide>
+												<maxOccurs>1</maxOccurs>
+												<comments>Used to override a repeating constraint
+												</comments>
+											</constraint>
+										</constraints>
+									</metadata>
+								</property>
+								<property name="deleted">
+									<metadata>
+										<writeAccess>NEVER</writeAccess>
+										<onChangeRefreshMetadata>false
+										</onChangeRefreshMetadata>
+										<dataType>BOOLEAN</dataType>
+										<booleanValue />
+										<constraints>
+											<constraint>
+												<id>single</id>
+												<messageId>kuali.msg.validation.single
+												</messageId>
+												<desc>Single valued (non-repeating)</desc>
+												<serverSide>false</serverSide>
+												<maxOccurs>1</maxOccurs>
+												<comments>Used to override a repeating constraint
+												</comments>
+											</constraint>
+										</constraints>
+									</metadata>
+								</property>
+								<property name="updated">
+									<metadata>
+										<writeAccess>NEVER</writeAccess>
+										<onChangeRefreshMetadata>false
+										</onChangeRefreshMetadata>
+										<dataType>BOOLEAN</dataType>
+										<booleanValue />
+										<constraints>
+											<constraint>
+												<id>single</id>
+												<messageId>kuali.msg.validation.single
+												</messageId>
+												<desc>Single valued (non-repeating)</desc>
+												<serverSide>false</serverSide>
+												<maxOccurs>1</maxOccurs>
+												<comments>Used to override a repeating constraint
+												</comments>
+											</constraint>
+										</constraints>
+									</metadata>
+								</property>
+								<property name="versions">
+									<metadata>
+										<writeAccess>NEVER</writeAccess>
+										<onChangeRefreshMetadata>false
+										</onChangeRefreshMetadata>
+										<dataType>LIST</dataType>
+										<constraints>
+											<constraint>
+												<id>repeating</id>
+												<desc>Repeating</desc>
+												<serverSide>false</serverSide>
+												<comments>Nine 9's get translated as &quot;(unbounded)&quot;</comments>
+            </constraint>
+        </constraints>
+        <properties>
+            <property name="*">
+                <metadata>
+                    <writeAccess>NEVER</writeAccess>
+                    <onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+                    <dataType>DATA</dataType>
+                    <properties>
+                        <property name="type">
+                            <metadata>
+<writeAccess>NEVER</writeAccess>
+<onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+<dataType>STRING</dataType>
+<constraints>
+    <constraint>
+        <id>single</id>
+        <messageId>kuali.msg.validation.single</messageId>
+        <desc>Single valued (non-repeating)</desc>
+        <serverSide>false</serverSide>
+        <maxOccurs>1</maxOccurs>
+        <comments>Used to override a repeating constraint</comments>
+    </constraint>
+</constraints>
+                            </metadata>
+                        </property>
+                        <property name="id">
+                            <metadata>
+<writeAccess>NEVER</writeAccess>
+<onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+<dataType>STRING</dataType>
+<constraints>
+    <constraint>
+        <id>single</id>
+        <messageId>kuali.msg.validation.single</messageId>
+        <desc>Single valued (non-repeating)</desc>
+        <serverSide>false</serverSide>
+        <maxOccurs>1</maxOccurs>
+        <comments>Used to override a repeating constraint</comments>
+    </constraint>
+</constraints>
+                            </metadata>
+                        </property>
+                        <property name="versionInd">
+                            <metadata>
+<writeAccess>NEVER</writeAccess>
+<onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+<dataType>STRING</dataType>
+<constraints>
+    <constraint>
+        <id>single</id>
+        <messageId>kuali.msg.validation.single</messageId>
+        <desc>Single valued (non-repeating)</desc>
+        <serverSide>false</serverSide>
+        <maxOccurs>1</maxOccurs>
+        <comments>Used to override a repeating constraint</comments>
+    </constraint>
+</constraints>
+                            </metadata>
+                        </property>
+                    </properties>
+                </metadata>
+            </property>
+        </properties>
+    </metadata>
+</property>
+                            </properties>
+                        </metadata>
+                    </property>
+				</properties>
+			</metadata>
+		</property>
+		<property name="orgOrgRelationInfo">
+			<metadata>
+				<writeAccess>NEVER</writeAccess>
+				<onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+				<dataType>LIST</dataType>
+				<constraints>
+					<constraint>
+						<id>repeating</id>
+						<desc>Repeating</desc>
+						<serverSide>false</serverSide>
+						<comments>Nine 9's get translated as "(unbounded)"</comments>
+					</constraint>
+				</constraints>
+				<properties>
+					<property name="*">
+						<metadata>
+							<writeAccess>NEVER</writeAccess>
+							<onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+							<dataType>DATA</dataType>
+							<properties>
+								<property name="id">
+									<metadata>
+										<writeAccess>NEVER</writeAccess>
+										<onChangeRefreshMetadata>false
+										</onChangeRefreshMetadata>
+										<dataType>STRING</dataType>
+										<constraints>
+											<constraint>
+												<id>single</id>
+												<messageId>kuali.msg.validation.single
+												</messageId>
+												<desc>Single valued (non-repeating)</desc>
+												<serverSide>false</serverSide>
+												<maxOccurs>1</maxOccurs>
+												<comments>Used to override a repeating constraint
+												</comments>
+											</constraint>
+										</constraints>
+									</metadata>
+								</property>
+								<property name="effectiveDate">
+									<metadata>
+										<writeAccess>ALWAYS</writeAccess>
+										<onChangeRefreshMetadata>false
+										</onChangeRefreshMetadata>
+										<dataType>DATE</dataType>
+										<constraints>
+											<constraint>
+												<id>single</id>
+												<messageId>kuali.msg.validation.single
+												</messageId>
+												<desc>Single valued (non-repeating)</desc>
+												<serverSide>false</serverSide>
+												<maxOccurs>1</maxOccurs>
+												<comments>Used to override a repeating constraint
+												</comments>
+											</constraint>
+											<constraint>
+  <id>date.time</id> 
+  <messageId>kuali.msg.validation.date.time</messageId> 
+  <desc>Date-Time</desc> 
+  <serverSide>false</serverSide> 
+  <minLength>19</minLength> 
+  <maxLength>19</maxLength> 
+  <comments>http://regexlib.com/REDetails.aspx?regexp_id=1966 (but not sure)</comments> 
+  </constraint>
+
+										</constraints>
+									</metadata>
+								</property>
+								<property name="expirationDate">
+									<metadata>
+										<writeAccess>ALWAYS</writeAccess>
+										<onChangeRefreshMetadata>false
+										</onChangeRefreshMetadata>
+										<dataType>DATE</dataType>
+										<constraints>
+											<constraint>
+												<id>single</id>
+												<messageId>kuali.msg.validation.single
+												</messageId>
+												<desc>Single valued (non-repeating)</desc>
+												<serverSide>false</serverSide>
+												<maxOccurs>1</maxOccurs>
+												<comments>Used to override a repeating constraint
+												</comments>
+											</constraint>
+											<constraint>
+  <id>date.time</id> 
+  <messageId>kuali.msg.validation.date.time</messageId> 
+  <desc>Date-Time</desc> 
+  <serverSide>false</serverSide> 
+  <minLength>19</minLength> 
+  <maxLength>19</maxLength> 
+  <comments>http://regexlib.com/REDetails.aspx?regexp_id=1966 (but not sure)</comments> 
+  </constraint>
+
+										</constraints>
+									</metadata>
+								</property>
+								<property name="orgId">
+									<metadata>
+										<writeAccess>ALWAYS</writeAccess>
+										<onChangeRefreshMetadata>false
+										</onChangeRefreshMetadata>
+										<dataType>STRING</dataType>
+										<constraints>
+											<constraint>
+												<id>single</id>
+												<messageId>kuali.msg.validation.single
+												</messageId>
+												<desc>Single valued (non-repeating)</desc>
+												<serverSide>false</serverSide>
+												<maxOccurs>1</maxOccurs>
+												<comments>Used to override a repeating constraint
+												</comments>
+											</constraint>
+										</constraints>
+									</metadata>
+								</property>
+								<property name="relatedOrgId">
+									<metadata>
+										<writeAccess>ALWAYS</writeAccess>
+										<onChangeRefreshMetadata>false
+										</onChangeRefreshMetadata>
+										<dataType>STRING</dataType>
+										<constraints>
+											<constraint>
+												<id>single</id>
+												<messageId>kuali.msg.validation.single
+												</messageId>
+												<desc>Single valued (non-repeating)</desc>
+												<serverSide>false</serverSide>
+												<maxOccurs>1</maxOccurs>
+												<comments>Used to override a repeating constraint
+												</comments>
+											</constraint>
+										</constraints>
+									</metadata>
+								</property>
+								<property name="orgOrgRelationTypeKey">
+									<metadata>
+										<writeAccess>ALWAYS</writeAccess>
+										<onChangeRefreshMetadata>false
+										</onChangeRefreshMetadata>
+										<dataType>STRING</dataType>
+										<constraints>
+											<constraint>
+												<id>single</id>
+												<messageId>kuali.msg.validation.single
+												</messageId>
+												<desc>Single valued (non-repeating)</desc>
+												<serverSide>false</serverSide>
+												<maxOccurs>1</maxOccurs>
+												<comments>Used to override a repeating constraint
+												</comments>
+											</constraint>
+										</constraints>
+									</metadata>
+								</property>
+									<property name="_runtimeData">
+		<metadata>
+			<writeAccess>NEVER</writeAccess>
+			<onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+			<dataType>DATA</dataType>
+			<constraints>
+				<constraint>
+					<id>single</id>
+					<messageId>kuali.msg.validation.single
+					</messageId>
+					<desc>Single valued (non-repeating)</desc>
+					<serverSide>false</serverSide>
+					<maxOccurs>1</maxOccurs>
+					<comments>Used to override a repeating constraint</comments>
+				</constraint>
+			</constraints>
+			<properties>
+				<property name="created">
+					<metadata>
+						<writeAccess>NEVER</writeAccess>
+						<onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+						<dataType>BOOLEAN</dataType>
+						<booleanValue />
+						<constraints>
+							<constraint>
+								<id>single</id>
+								<messageId>kuali.msg.validation.single
+								</messageId>
+								<desc>Single valued (non-repeating)</desc>
+								<serverSide>false</serverSide>
+								<maxOccurs>1</maxOccurs>
+								<comments>Used to override a repeating constraint</comments>
+							</constraint>
+						</constraints>
+					</metadata>
+				</property>
+				<property name="deleted">
+					<metadata>
+						<writeAccess>NEVER</writeAccess>
+						<onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+						<dataType>BOOLEAN</dataType>
+						<booleanValue />
+						<constraints>
+							<constraint>
+								<id>single</id>
+								<messageId>kuali.msg.validation.single
+								</messageId>
+								<desc>Single valued (non-repeating)</desc>
+								<serverSide>false</serverSide>
+								<maxOccurs>1</maxOccurs>
+								<comments>Used to override a repeating constraint</comments>
+							</constraint>
+						</constraints>
+					</metadata>
+				</property>
+				<property name="updated">
+					<metadata>
+						<writeAccess>NEVER</writeAccess>
+						<onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+						<dataType>BOOLEAN</dataType>
+						<booleanValue />
+						<constraints>
+							<constraint>
+								<id>single</id>
+								<messageId>kuali.msg.validation.single
+								</messageId>
+								<desc>Single valued (non-repeating)</desc>
+								<serverSide>false</serverSide>
+								<maxOccurs>1</maxOccurs>
+								<comments>Used to override a repeating constraint</comments>
+							</constraint>
+						</constraints>
+					</metadata>
+				</property>
+				<property name="versions">
+					<metadata>
+						<writeAccess>NEVER</writeAccess>
+						<onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+						<dataType>LIST</dataType>
+						<constraints>
+							<constraint>
+								<id>repeating</id>
+								<desc>Repeating</desc>
+								<serverSide>false</serverSide>
+								<comments>Nine 9's get translated as &quot;(unbounded)&quot;</comments>
+            </constraint>
+        </constraints>
+        <properties>
+            <property name="*">
+                <metadata>
+                    <writeAccess>NEVER</writeAccess>
+                    <onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+                    <dataType>DATA</dataType>
+                    <properties>
+                        <property name="type">
+                            <metadata>
+<writeAccess>NEVER</writeAccess>
+<onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+<dataType>STRING</dataType>
+<constraints>
+    <constraint>
+        <id>single</id>
+        <messageId>kuali.msg.validation.single</messageId>
+        <desc>Single valued (non-repeating)</desc>
+        <serverSide>false</serverSide>
+        <maxOccurs>1</maxOccurs>
+        <comments>Used to override a repeating constraint</comments>
+    </constraint>
+</constraints>
+                            </metadata>
+                        </property>
+                        <property name="id">
+                            <metadata>
+<writeAccess>NEVER</writeAccess>
+<onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+<dataType>STRING</dataType>
+<constraints>
+    <constraint>
+        <id>single</id>
+        <messageId>kuali.msg.validation.single</messageId>
+        <desc>Single valued (non-repeating)</desc>
+        <serverSide>false</serverSide>
+        <maxOccurs>1</maxOccurs>
+        <comments>Used to override a repeating constraint</comments>
+    </constraint>
+</constraints>
+                            </metadata>
+                        </property>
+                        <property name="versionInd">
+                            <metadata>
+<writeAccess>NEVER</writeAccess>
+<onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+<dataType>STRING</dataType>
+<constraints>
+    <constraint>
+        <id>single</id>
+        <messageId>kuali.msg.validation.single</messageId>
+        <desc>Single valued (non-repeating)</desc>
+        <serverSide>false</serverSide>
+        <maxOccurs>1</maxOccurs>
+        <comments>Used to override a repeating constraint</comments>
+    </constraint>
+</constraints>
+                            </metadata>
+                        </property>
+                    </properties>
+                </metadata>
+            </property>
+        </properties>
+    </metadata>
+</property>
+                            </properties>
+                        </metadata>
+                    </property>
+							</properties>
+						</metadata>
+					</property>
+				</properties>
+			</metadata>
+		</property>
+		<property name="OrgPositionRestrictionInfo">
+			<metadata>
+				<writeAccess>NEVER</writeAccess>
+				<onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+				<dataType>LIST</dataType>
+				<constraints>
+					<constraint>
+						<id>repeating</id>
+						<desc>Repeating</desc>
+						<serverSide>false</serverSide>
+						<comments>Nine 9's get translated as "(unbounded)"</comments>
+					</constraint>
+				</constraints>
+				<properties>
+					<property name="*">
+						<metadata>
+							<writeAccess>NEVER</writeAccess>
+							<onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+							<dataType>DATA</dataType>
+							<properties>
+								<property name="id">
+									<metadata>
+										<writeAccess>NEVER</writeAccess>
+										<onChangeRefreshMetadata>false
+										</onChangeRefreshMetadata>
+										<dataType>STRING</dataType>
+										<constraints>
+											<constraint>
+												<id>single</id>
+												<messageId>kuali.msg.validation.single
+												</messageId>
+												<desc>Single valued (non-repeating)</desc>
+												<serverSide>false</serverSide>
+												<maxOccurs>1</maxOccurs>
+												<comments>Used to override a repeating constraint
+												</comments>
+											</constraint>
+										</constraints>
+									</metadata>
+								</property>
+								<property name="orgId">
+									<metadata>
+										<writeAccess>NEVER</writeAccess>
+										<onChangeRefreshMetadata>false
+										</onChangeRefreshMetadata>
+										<dataType>STRING</dataType>
+										<constraints>
+											<constraint>
+												<id>single</id>
+												<messageId>kuali.msg.validation.single
+												</messageId>
+												<desc>Single valued (non-repeating)</desc>
+												<serverSide>false</serverSide>
+												<maxOccurs>1</maxOccurs>
+												<comments>Used to override a repeating constraint
+												</comments>
+											</constraint>
+										</constraints>
+									</metadata>
+								</property>
+								<property name="orgPersonRelationTypeKey">
+									<metadata>
+										<writeAccess>ALWAYS</writeAccess>
+										<onChangeRefreshMetadata>false
+										</onChangeRefreshMetadata>
+										<dataType>STRING</dataType>
+										<constraints>
+											<constraint>
+												<id>single</id>
+												<messageId>kuali.msg.validation.single
+												</messageId>
+												<desc>Single valued (non-repeating)</desc>
+												<serverSide>false</serverSide>
+												<maxOccurs>1</maxOccurs>
+												<comments>Used to override a repeating constraint
+												</comments>
+											</constraint>
+										</constraints>
+									</metadata>
+								</property>
+								<property name="desc">
+									<metadata>
+										<writeAccess>ALWAYS</writeAccess>
+										<onChangeRefreshMetadata>false
+										</onChangeRefreshMetadata>
+										<dataType>STRING</dataType>
+										<constraints>
+											<constraint>
+												<id>single</id>
+												<messageId>kuali.msg.validation.single
+												</messageId>
+												<desc>Single valued (non-repeating)</desc>
+												<serverSide>false</serverSide>
+												<maxOccurs>1</maxOccurs>
+												<comments>Used to override a repeating constraint
+												</comments>
+											</constraint>
+										</constraints>
+									</metadata>
+								</property>
+								<property name="title">
+									<metadata>
+										<writeAccess>ALWAYS</writeAccess>
+										<onChangeRefreshMetadata>false
+										</onChangeRefreshMetadata>
+										<dataType>STRING</dataType>
+										<constraints>
+											<constraint>
+												<id>single</id>
+												<messageId>kuali.msg.validation.single
+												</messageId>
+												<desc>Single valued (non-repeating)</desc>
+												<serverSide>false</serverSide>
+												<maxOccurs>1</maxOccurs>
+												<comments>Used to override a repeating constraint
+												</comments>
+											</constraint>
+										</constraints>
+									</metadata>
+								</property>
+								<property name="minNumRelations">
+									<metadata>
+										<writeAccess>ALWAYS</writeAccess>
+										<onChangeRefreshMetadata>false
+										</onChangeRefreshMetadata>
+										<dataType>STRING</dataType>
+										<constraints>
+											<constraint>
+												<id>single</id>
+												<messageId>kuali.msg.validation.single
+												</messageId>
+												<desc>Single valued (non-repeating)</desc>
+												<serverSide>false</serverSide>
+												<maxOccurs>1</maxOccurs>
+												<comments>Used to override a repeating constraint
+												</comments>
+											</constraint>
+										</constraints>
+									</metadata>
+								</property>
+								<property name="maxNumRelations">
+									<metadata>
+										<writeAccess>ALWAYS</writeAccess>
+										<onChangeRefreshMetadata>false
+										</onChangeRefreshMetadata>
+										<dataType>STRING</dataType>
+										<constraints>
+											<constraint>
+												<id>single</id>
+												<messageId>kuali.msg.validation.single
+												</messageId>
+												<desc>Single valued (non-repeating)</desc>
+												<serverSide>false</serverSide>
+												<maxOccurs>1</maxOccurs>
+												<comments>Used to override a repeating constraint
+												</comments>
+											</constraint>
+										</constraints>
+									</metadata>
+								</property>
+									<property name="_runtimeData">
+		<metadata>
+			<writeAccess>NEVER</writeAccess>
+			<onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+			<dataType>DATA</dataType>
+			<constraints>
+				<constraint>
+					<id>single</id>
+					<messageId>kuali.msg.validation.single
+					</messageId>
+					<desc>Single valued (non-repeating)</desc>
+					<serverSide>false</serverSide>
+					<maxOccurs>1</maxOccurs>
+					<comments>Used to override a repeating constraint</comments>
+				</constraint>
+			</constraints>
+			<properties>
+				<property name="created">
+					<metadata>
+						<writeAccess>NEVER</writeAccess>
+						<onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+						<dataType>BOOLEAN</dataType>
+						<booleanValue />
+						<constraints>
+							<constraint>
+								<id>single</id>
+								<messageId>kuali.msg.validation.single
+								</messageId>
+								<desc>Single valued (non-repeating)</desc>
+								<serverSide>false</serverSide>
+								<maxOccurs>1</maxOccurs>
+								<comments>Used to override a repeating constraint</comments>
+							</constraint>
+						</constraints>
+					</metadata>
+				</property>
+				<property name="deleted">
+					<metadata>
+						<writeAccess>NEVER</writeAccess>
+						<onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+						<dataType>BOOLEAN</dataType>
+						<booleanValue />
+						<constraints>
+							<constraint>
+								<id>single</id>
+								<messageId>kuali.msg.validation.single
+								</messageId>
+								<desc>Single valued (non-repeating)</desc>
+								<serverSide>false</serverSide>
+								<maxOccurs>1</maxOccurs>
+								<comments>Used to override a repeating constraint</comments>
+							</constraint>
+						</constraints>
+					</metadata>
+				</property>
+				<property name="updated">
+					<metadata>
+						<writeAccess>NEVER</writeAccess>
+						<onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+						<dataType>BOOLEAN</dataType>
+						<booleanValue />
+						<constraints>
+							<constraint>
+								<id>single</id>
+								<messageId>kuali.msg.validation.single
+								</messageId>
+								<desc>Single valued (non-repeating)</desc>
+								<serverSide>false</serverSide>
+								<maxOccurs>1</maxOccurs>
+								<comments>Used to override a repeating constraint</comments>
+							</constraint>
+						</constraints>
+					</metadata>
+				</property>
+				<property name="versions">
+					<metadata>
+						<writeAccess>NEVER</writeAccess>
+						<onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+						<dataType>LIST</dataType>
+						<constraints>
+							<constraint>
+								<id>repeating</id>
+								<desc>Repeating</desc>
+								<serverSide>false</serverSide>
+								<comments>Nine 9's get translated as &quot;(unbounded)&quot;</comments>
+            </constraint>
+        </constraints>
+        <properties>
+            <property name="*">
+                <metadata>
+                    <writeAccess>NEVER</writeAccess>
+                    <onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+                    <dataType>DATA</dataType>
+                    <properties>
+                        <property name="type">
+                            <metadata>
+<writeAccess>NEVER</writeAccess>
+<onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+<dataType>STRING</dataType>
+<constraints>
+    <constraint>
+        <id>single</id>
+        <messageId>kuali.msg.validation.single</messageId>
+        <desc>Single valued (non-repeating)</desc>
+        <serverSide>false</serverSide>
+        <maxOccurs>1</maxOccurs>
+        <comments>Used to override a repeating constraint</comments>
+    </constraint>
+</constraints>
+                            </metadata>
+                        </property>
+                        <property name="id">
+                            <metadata>
+<writeAccess>NEVER</writeAccess>
+<onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+<dataType>STRING</dataType>
+<constraints>
+    <constraint>
+        <id>single</id>
+        <messageId>kuali.msg.validation.single</messageId>
+        <desc>Single valued (non-repeating)</desc>
+        <serverSide>false</serverSide>
+        <maxOccurs>1</maxOccurs>
+        <comments>Used to override a repeating constraint</comments>
+    </constraint>
+</constraints>
+                            </metadata>
+                        </property>
+                        <property name="versionInd">
+                            <metadata>
+<writeAccess>NEVER</writeAccess>
+<onChangeRefreshMetadata>false</onChangeRefreshMetadata>
+<dataType>STRING</dataType>
+<constraints>
+    <constraint>
+        <id>single</id>
+        <messageId>kuali.msg.validation.single</messageId>
+        <desc>Single valued (non-repeating)</desc>
+        <serverSide>false</serverSide>
+        <maxOccurs>1</maxOccurs>
+        <comments>Used to override a repeating constraint</comments>
+    </constraint>
+</constraints>
+                            </metadata>
+                        </property>
+                    </properties>
+                </metadata>
+            </property>
+        </properties>
+    </metadata>
+</property>
+                            </properties>
+                        </metadata>
+                    </property>
+							</properties>
+						</metadata>
+					</property>
+				</properties>
+			</metadata>
+		</property>
+	</properties>
+</metadata>

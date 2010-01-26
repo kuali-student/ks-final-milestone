@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="2.0"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.w3.org/1999/XSL/Transform http://www.w3.org/2007/schema-for-xslt20.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<xsl:param name="dataObjectName"></xsl:param>
+
+	<xsl:output method="xml" indent="yes" />
+
+
+	<xsl:variable name="allConstraints">
+		<xsl:for-each select="//constraints/constraint">
+			<xsl:sort select="id" />
+			<xsl:copy-of select="." />
+		</xsl:for-each>
+	</xsl:variable>
+
+	<xsl:variable name="allComplexData">
+		<xsl:for-each select="//properties/property">			
+			<xsl:sort select="@name" />
+			<xsl:if test="metadata/dataType='DATA' and not(@name='*')">
+				<xsl:copy-of select="." />
+			</xsl:if>
+		</xsl:for-each>
+	</xsl:variable>	
+
+	<xsl:template match="/">
+		<xsl:text disable-output-escaping="yes">
+			&lt;beans xmlns="http://www.springframework.org/schema/beans"
+				xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+				xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"&gt;
+		</xsl:text>
+		<!-- Abstract beans -->
+		<xsl:element name="bean">
+			<xsl:attribute name="id">constraint</xsl:attribute>
+			<xsl:attribute name="abstract">true</xsl:attribute>
+			<xsl:attribute name="class">org.kuali.student.common.assembly.client.ConstraintMetadata</xsl:attribute>
+		</xsl:element>
+
+		<xsl:element name="bean">
+			<xsl:attribute name="id">lookup</xsl:attribute>
+			<xsl:attribute name="abstract">true</xsl:attribute>
+			<xsl:attribute name="class">org.kuali.student.common.assembly.client.LookupMetadata</xsl:attribute>
+		</xsl:element>
+
+		<xsl:element name="bean">
+			<xsl:attribute name="id">dataObjectStructure</xsl:attribute>
+			<xsl:attribute name="abstract">true</xsl:attribute>
+			<xsl:attribute name="class">org.kuali.student.common.assembly.dictionary.DataObjectStructure</xsl:attribute>
+		</xsl:element>
+
+		<xsl:element name="bean">
+			<xsl:attribute name="id">dataFieldDescriptor</xsl:attribute>
+			<xsl:attribute name="abstract">true</xsl:attribute>
+			<xsl:attribute name="class">org.kuali.student.common.assembly.dictionary.DataFieldDescriptor</xsl:attribute>
+		</xsl:element>
+
+		<xsl:element name="bean">
+			<xsl:attribute name="id">param</xsl:attribute>
+			<xsl:attribute name="abstract">true</xsl:attribute>
+			<xsl:attribute name="class">org.kuali.student.common.assembly.client.LookupParamMetadata</xsl:attribute>
+		</xsl:element>
+
+		<xsl:element name="bean">
+			<xsl:attribute name="id">result</xsl:attribute>
+			<xsl:attribute name="abstract">true</xsl:attribute>
+			<xsl:attribute name="class">org.kuali.student.common.assembly.client.LookupResultMetadata</xsl:attribute>
+		</xsl:element>
+
+		<xsl:element name="bean">
+			<xsl:attribute name="id">lookupQos</xsl:attribute>
+			<xsl:attribute name="abstract">true</xsl:attribute>
+			<xsl:attribute name="class">org.kuali.student.common.assembly.client.LookupQosMetadata</xsl:attribute>
+		</xsl:element>
+
+		<xsl:element name="bean">
+			<xsl:attribute name="id">lookupImpl</xsl:attribute>
+			<xsl:attribute name="abstract">true</xsl:attribute>
+			<xsl:attribute name="class">org.kuali.student.common.assembly.client.LookupImplMetadata</xsl:attribute>
+		</xsl:element>
+
+		<!-- Constraints with ids -->
+		<xsl:for-each select="$allConstraints/constraint">
+			<xsl:if test="id">
+				<xsl:if test="not(preceding-sibling::constraint/id=id)">
+					<xsl:element name="bean">
+						<xsl:attribute name="id">constraint.<xsl:value-of
+							select="id" /></xsl:attribute>
+						<xsl:attribute name="parent">constraint</xsl:attribute>
+						<xsl:for-each select="*">
+							<xsl:element name="property">
+								<xsl:attribute name="name" select="name(.)" />
+								<xsl:attribute name="value" select="." />
+							</xsl:element>
+						</xsl:for-each>
+					</xsl:element>
+				</xsl:if>
+			</xsl:if>
+		</xsl:for-each>
+
+		<!-- Root 'DATA' object structure -->
+		<xsl:element name="bean">
+			<xsl:attribute name="id" select="$dataObjectName"/>
+			<xsl:attribute name="parent">dataObjectStructure</xsl:attribute>
+			<xsl:element name="property">
+				<xsl:attribute name="name">fields</xsl:attribute>
+				<xsl:element name="list">
+					<xsl:apply-templates select="metadata/properties/property" />
+				</xsl:element>
+			</xsl:element>
+			<xsl:element name="property">
+				<xsl:attribute name="name">name</xsl:attribute>
+				<xsl:attribute name="value" select="$dataObjectName"/>
+			</xsl:element>
+		</xsl:element>
+		
+		<!-- Convert all nested 'DATA' type metadata to object structure definitions -->		
+		<xsl:variable name="allComplexObjects">
+			<xsl:for-each select="//properties/property">			
+				<xsl:sort select="@name" />
+				<xsl:if test="metadata/dataType='DATA'">
+					<xsl:apply-templates select="metadata"/>
+				</xsl:if>
+			</xsl:for-each>
+		</xsl:variable>
+
+		<!-- Filter out duplicate object structures -->
+		<xsl:for-each select="$allComplexObjects/bean">
+			<xsl:if test="not(preceding-sibling::bean/@id=@id)">
+				<xsl:copy-of select="."/>
+			</xsl:if>
+		</xsl:for-each>	
+		<xsl:text disable-output-escaping="yes">
+			&lt;/beans&gt;
+		</xsl:text>
+	</xsl:template>
+
+
+	<!-- Convert property elements to FieldDescriptor -->
+	<xsl:template match="property">
+		<xsl:element name="bean">
+			<xsl:attribute name="parent">dataFieldDescriptor</xsl:attribute>
+			<xsl:element name="property">
+				<xsl:attribute name="name">name</xsl:attribute>
+				<xsl:attribute name="value" select="@name" />
+			</xsl:element>
+			<xsl:for-each select="metadata/*[not(self::constraints) and not(self::properties) and not(self::lookupMetadata) and not(self::additionalLookups)]">
+					<xsl:if test="(name(.)='dataType' and(.='DATA' or (.='LIST' and ../properties/property/metadata/dataType='DATA')))">
+						<xsl:element name="property">
+							<xsl:attribute name="name">dataObjectStructure</xsl:attribute>
+							<xsl:attribute name="ref"><xsl:value-of select="../../@name"/></xsl:attribute>
+						</xsl:element>							
+					</xsl:if>
+
+					<xsl:variable name="propertyValue">
+						<xsl:choose>
+							<xsl:when test="name(.)='dataType' and .='LIST' and ../properties/property/metadata/dataType='DATA'">DATA</xsl:when>
+							<xsl:when test="name(.)='dataType' and .='LIST' and not(../properties/property/metadata/dataType='DATA')"><xsl:value-of select="../properties/property/metadata/dataType"/></xsl:when>
+							<xsl:when test="name(.)='booleanValue' and .=''">FALSE</xsl:when>
+							<xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+						</xsl:choose>
+					</xsl:variable>
+					<xsl:element name="property">
+						<xsl:choose>
+							<xsl:when test="name(.)='stringValue' or name(.)='booleanValue'">
+								<xsl:attribute name="name">defaultValue</xsl:attribute>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:attribute name="name" select="name(.)" />
+							</xsl:otherwise>
+						</xsl:choose>
+						<xsl:attribute name="value" select="$propertyValue" />
+					</xsl:element>
+			</xsl:for-each>
+			<xsl:apply-templates select="metadata/constraints"/>
+			<xsl:if test="metadata/lookupMetadata">
+				<xsl:element name="property">
+					<xsl:attribute name="name">lookups</xsl:attribute>
+					<xsl:apply-templates select="metadata/lookupMetadata"/>
+				</xsl:element>
+			</xsl:if>
+			
+			<xsl:apply-templates select="metadata/additionalLookups"/>
+		</xsl:element>
+	</xsl:template>
+
+	<!-- Convert metadata to DataObjectStructure -->
+	<xsl:template match="metadata">
+		<xsl:variable name="objectName">		
+			<xsl:choose>
+				<xsl:when test="../@name='*'">
+					<xsl:value-of select="../../../../@name"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="../@name"/>				
+				</xsl:otherwise>			
+			</xsl:choose>				
+		</xsl:variable>			
+
+		<xsl:element name="bean">
+			<xsl:attribute name="id" select="$objectName"/>
+			<xsl:attribute name="parent">dataObjectStructure</xsl:attribute>
+			<xsl:element name="property">
+				<xsl:attribute name="name">fields</xsl:attribute>
+				<xsl:element name="list">
+					<xsl:apply-templates select="properties/property" />
+				</xsl:element>
+			</xsl:element>
+			<xsl:element name="property">
+				<xsl:attribute name="name">name</xsl:attribute>
+				<xsl:attribute name="value" select="$objectName"/>
+			</xsl:element>
+		</xsl:element>
+	</xsl:template>
+
+	<xsl:template match="constraints">
+		<xsl:element name="property">
+			<xsl:attribute name="name" select="name(.)"/>
+			<xsl:element name="list">
+				<xsl:apply-templates/>
+			</xsl:element>
+		</xsl:element>	
+	</xsl:template>
+	
+	<xsl:template match="constraint">
+		<xsl:choose>
+			<xsl:when test="id">
+				<xsl:element name="ref">
+					<xsl:attribute name="bean">constraint.<xsl:value-of
+						select="id" />
+					</xsl:attribute>
+				</xsl:element>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:element name="bean">
+					<xsl:attribute name="parent">constraint</xsl:attribute>
+					<xsl:for-each select="*">
+						<xsl:element name="property">
+							<xsl:attribute name="name" select="name(.)" />
+							<xsl:attribute name="value" select="." />
+						</xsl:element>
+					</xsl:for-each>
+				</xsl:element>			
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	
+		
+	<xsl:template match="lookupMetadata">
+		<xsl:element name="bean">
+			<xsl:attribute name="parent">lookup</xsl:attribute>
+				<xsl:for-each select="*">
+					<xsl:element name="property">
+						<xsl:attribute name="name" select="name(.)" />
+						<xsl:choose>
+							<xsl:when test="name(.)='params' or name(.)='results'">
+								<xsl:element name="list">								
+									<xsl:apply-templates select="."/>
+								</xsl:element>
+							</xsl:when>
+							<xsl:when test="name(.)='qosMetadata' or name(.)='impl'">							
+								<xsl:apply-templates select="."/>								
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:attribute name="value" select="." />
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:element>
+				</xsl:for-each>
+		</xsl:element>
+	</xsl:template>
+	
+	<xsl:template match="additionalLookups">
+		<xsl:element name="property">
+			<xsl:attribute name="name">additionalLookups</xsl:attribute>		
+			<xsl:element name="list">
+				<xsl:apply-templates select="lookupMetadata"/>
+			</xsl:element>
+		</xsl:element>
+	</xsl:template>
+	
+	<xsl:template match="params">
+		<xsl:for-each select="param">
+			<xsl:element name="bean">
+				<xsl:attribute name="parent">param</xsl:attribute>
+					<xsl:for-each select="*[not(self::stringValue) and not(self::booleanValue)]">
+						<xsl:element name="property">
+							<xsl:choose>
+								<xsl:when test="name(.)='stringValue' or name(.)='booleanValue'">
+									<xsl:attribute name="name">defaultValue</xsl:attribute>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:attribute name="name" select="name(.)" />
+								</xsl:otherwise>
+							</xsl:choose>					
+							<xsl:choose>
+								<xsl:when test="name(.)='lookupMetadata'">
+									<xsl:apply-templates select="."/>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:attribute name="value" select="." />
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:element>
+					</xsl:for-each>					
+			</xsl:element>
+		</xsl:for-each>
+	</xsl:template>
+	
+	<xsl:template match="results">
+		<xsl:for-each select="result">
+			<xsl:element name="bean">
+				<xsl:attribute name="parent">result</xsl:attribute>
+					<xsl:for-each select="*">
+						<xsl:element name="property">
+							<xsl:attribute name="name" select="name(.)" />
+							<xsl:attribute name="value" select="." />
+						</xsl:element>
+					</xsl:for-each>					
+			</xsl:element>
+		</xsl:for-each>
+	</xsl:template>
+
+	<xsl:template match="qosMetadata">
+		<xsl:element name="bean">
+			<xsl:attribute name="parent">lookupQos</xsl:attribute>
+				<xsl:for-each select="*">
+					<xsl:element name="property">
+						<xsl:attribute name="name" select="name(.)" />
+						<xsl:attribute name="value" select="." />
+					</xsl:element>
+				</xsl:for-each>					
+		</xsl:element>
+	</xsl:template>
+	
+	<xsl:template match="impl">
+		<xsl:element name="bean">
+			<xsl:attribute name="parent">lookupImpl</xsl:attribute>
+				<xsl:for-each select="*">
+					<xsl:element name="property">
+						<xsl:attribute name="name" select="name(.)" />
+						<xsl:attribute name="value" select="." />
+					</xsl:element>
+				</xsl:for-each>					
+		</xsl:element>
+	</xsl:template>
+
+</xsl:stylesheet>
