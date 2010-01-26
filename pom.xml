@@ -254,61 +254,34 @@
 			</extension>
 		</extensions>
 		<plugins>
-
-
-      <plugin>
-        <groupId>com.atlassian.maven.plugins</groupId>
-        <artifactId>maven-clover2-plugin</artifactId>
-        <configuration>
-          <targetPercentage>50%</targetPercentage>
-        </configuration>
-        <executions>
-          <execution>
-            <phase>verify</phase>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-
-
-
-      <plugin>
-        <groupId>com.atlassian.maven.plugins</groupId>
-        <artifactId>maven-clover2-plugin</artifactId>
-        <executions>
-          <execution>
-            <goals>
-              <goal>instrument</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-			
-			
+			<plugin>
+				<groupId>com.atlassian.maven.plugins</groupId>
+				<artifactId>maven-clover2-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>instrument</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
-
 		<pluginManagement>
 			<plugins>
-
-      <plugin>
-        <artifactId>maven-eclipse-plugin</artifactId>
-        <configuration>
-          <useProjectReferences>true</useProjectReferences>
-          <downloadSources>true</downloadSources>
-          <ajdtVersion>none</ajdtVersion>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <artifactId>maven-resources-plugin</artifactId>
-        <configuration>
-          <encoding>UTF-8</encoding>
-        </configuration>
-      </plugin>
-
+    			<plugin>
+			        <artifactId>maven-eclipse-plugin</artifactId>
+			        <configuration>
+          				<useProjectReferences>true</useProjectReferences>
+          				<downloadSources>true</downloadSources>
+          				<ajdtVersion>none</ajdtVersion>
+        			</configuration>
+      			</plugin>
+				<plugin>
+		        	<artifactId>maven-resources-plugin</artifactId>
+		        	<configuration>
+        		  	<encoding>UTF-8</encoding>
+		        	</configuration>
+				</plugin>
 				<plugin>
 					<artifactId>maven-compiler-plugin</artifactId>
 					<configuration>
