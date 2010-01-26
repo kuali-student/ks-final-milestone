@@ -9,6 +9,7 @@ package org.kuali.student.common.assembly.client;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.common.assembly.binding.JaxbMetadataPropertyMapAdapter;
+import org.kuali.student.common.assembly.client.masking.Mask;
 
 
 @XmlRootElement
@@ -40,10 +42,36 @@ public class Metadata implements Serializable {
         ALWAYS, NEVER, WHEN_NULL
     }
 
+    public enum Permission {
+        EDIT("edit"), READ_ONLY("readonly"), UNMASK("unmask");
+        final String kimName;
+        private Permission(String kimName) {
+            this.kimName = kimName;
+        }
+        @Override
+        public String toString() {
+            return kimName;
+        }
+        public static Permission kimValueOf(String kimName) {
+            for(Permission p : values()) {
+                if(p.kimName.equals(kimName)) {
+                    return p;
+                }
+            }
+            //fall through
+            throw new IllegalArgumentException("The value " + kimName + " is not enumerated in Permission"); 
+        }
+    }
     private WriteAccess writeAccess;
-      
+    private List<Permission> permissions = new ArrayList<Permission>();
+    
+    private boolean canUnmask;
+    private boolean canView;
+    private boolean canEdit;
+    
     private boolean onChangeRefreshMetadata;
 
+    private Mask mask;
     private Data.DataType dataType;
     
     @XmlAnyElement
@@ -79,6 +107,42 @@ public class Metadata implements Serializable {
     @XmlJavaTypeAdapter(JaxbMetadataPropertyMapAdapter.class)
     private Map<String, Metadata> childProperties;
 
+    
+    
+    
+    
+    public Metadata() {
+        
+    }
+    
+    /**
+     * 
+     * This constructs a new Metadata instance. References to non-Metadata objects are maintained, as no permissions are applied to them.
+     * 
+     * @param toClone the Metadata instance to be cloned
+     */
+    public Metadata(Metadata toClone) {
+        this.additionalLookups = toClone.additionalLookups;
+        this.constraints = toClone.constraints;
+        this.dataType = toClone.dataType;
+        this.defaultValue = toClone.defaultValue;
+        this.defaultValuePath = toClone.defaultValuePath;
+        this.lookupContextPath = toClone.lookupContextPath;
+/*        if(toClone.lookupMetadata != null) {
+            this.lookupMetadata = new LookupMetadata(toClone.lookupMetadata);
+        }*/
+        this.lookupMetadata = toClone.lookupMetadata;
+        this.onChangeRefreshMetadata = toClone.onChangeRefreshMetadata;
+        this.permissions = toClone.permissions;
+        this.writeAccess = toClone.writeAccess;
+        if(toClone.childProperties != null) {
+            this.childProperties = new HashMap<String, Metadata>();
+            for(Map.Entry<String, Metadata> childProperty : toClone.childProperties.entrySet()) {
+                this.childProperties.put(childProperty.getKey(), new Metadata(childProperty.getValue()));
+            }
+            
+        }
+    }
     
     @Override
     public String toString() {
@@ -207,6 +271,14 @@ public class Metadata implements Serializable {
         this.writeAccess = writeAccess;
     }
 
+    public List<Permission> getPermissions() {
+        return permissions;
+    }
+    
+    public void setPermissions(List<Permission> permissions) {
+        this.permissions = permissions;
+    }
+    
     public boolean isOnChangeRefreshMetadata() {
         return onChangeRefreshMetadata;
     }
@@ -215,4 +287,45 @@ public class Metadata implements Serializable {
         this.onChangeRefreshMetadata = onChangeRefereshMetadata;
     }
 
+   /* public boolean canView() {
+        return true;
+    }
+    public boolean canEdit() {
+        return permissions.contains(Permission.EDIT);
+    }
+    public boolean canUnmask() {
+        return permissions.contains(Permission.UNMASK);
+    }*/
+    
+    public Mask getMask() {
+        return mask;
+    }
+
+    public void setMask(Mask mask) {
+        this.mask = mask;
+    }
+
+    public boolean isCanUnmask() {
+        return canUnmask;
+    }
+
+    public void setCanUnmask(boolean canUnmask) {
+        this.canUnmask = canUnmask;
+    }
+
+    public boolean isCanView() {
+        return canView;
+    }
+
+    public void setCanView(boolean canView) {
+        this.canView = canView;
+    }
+
+    public boolean isCanEdit() {
+        return canEdit;
+    }
+
+    public void setCanEdit(boolean canEdit) {
+        this.canEdit = canEdit;
+    }
 }

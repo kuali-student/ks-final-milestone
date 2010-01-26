@@ -22,7 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 import org.apache.log4j.Logger;
 import org.kuali.student.common.assembly.client.ConstraintMetadata;
 import org.kuali.student.common.assembly.client.Data;
@@ -103,7 +102,8 @@ public class MetadataServiceImpl {
         metadata.setOnChangeRefreshMetadata(false);
         metadata.setDataType(DataType.DATA);
         metadata.setProperties((Map<String, Metadata>)metadataRepository.get(objectKey));
-        return metadata;
+        //return the clone
+        return new Metadata(metadata);
     }    
     
     /**
@@ -215,5 +215,7 @@ public class MetadataServiceImpl {
         
         return v;
     }
+    
+    
 
 }

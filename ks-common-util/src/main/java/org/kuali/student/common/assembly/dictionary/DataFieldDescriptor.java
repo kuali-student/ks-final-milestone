@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.kuali.student.common.assembly.client.ConstraintMetadata;
 import org.kuali.student.common.assembly.client.LookupMetadata;
+import org.kuali.student.common.assembly.client.masking.Mask;
 
 
 /**
@@ -37,6 +38,8 @@ public class DataFieldDescriptor {
     
     protected String writeAccess;
     
+    protected String permission;
+    
     protected String dataType;
     
     protected Object defaultValue;
@@ -54,6 +57,8 @@ public class DataFieldDescriptor {
     protected List<LookupMetadata> additionalLookups;   
     
     protected DataObjectStructure dataObjectStructure;
+    
+    protected Mask mask;
     
     public String getName() {
         return name;
@@ -75,6 +80,14 @@ public class DataFieldDescriptor {
         return writeAccess;
     }
 
+    public String getPermission() {
+        return permission;
+    }
+
+    public void setPermission(String permission) {
+        this.permission = permission;
+    }
+    
     public void setWriteAccess(String writeAccess) {
         this.writeAccess = writeAccess;
     }
@@ -147,4 +160,11 @@ public class DataFieldDescriptor {
         this.dataObjectStructure = dataObjectStructure;
     }
 
+    public Mask getMask() {
+        return mask;
+    }
+
+    public void setMask(Mask mask) {
+        this.mask = mask;
+    }
 }
