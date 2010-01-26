@@ -11,6 +11,7 @@
     <param name="config.location">classpath:META-INF/standalone-config-defaults.xml</param>
     <param name="config.location">classpath:META-INF/ks-core-config.xml</param>
     <param name="config.location">classpath:META-INF/ks-lum-config.xml</param>
+    <param name="config.location">classpath:ks-security-config.xml</param>
 
     <!-- BEGIN KUALI STUDENT SETTINGS -->
     
