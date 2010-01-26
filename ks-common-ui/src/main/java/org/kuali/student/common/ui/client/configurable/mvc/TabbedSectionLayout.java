@@ -124,6 +124,11 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 			String path = "";
 			KSMenuItemData current = null;
 			for (int i=1; i<hierarchy.length; i++) {
+			    // For configurable section layout the hierarchy element obtained from XML file might contain
+			   // null element. In such a case we dont require a menu to be displayed on the screen.
+			    if(hierarchy[i]==null){
+			        return;
+			    }
 				path = path + "/" + hierarchy[i];
 				KSMenuItemData item = menuHierarchyMap.get(path);
 				if (item == null) {
