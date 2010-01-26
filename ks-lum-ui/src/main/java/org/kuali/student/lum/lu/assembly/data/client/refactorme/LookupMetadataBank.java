@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.LookupImplMetadata;
 import org.kuali.student.common.assembly.client.LookupMetadata;
@@ -1254,7 +1255,11 @@ public class LookupMetadataBank
 			return;
 		}
 		meta.setLookupMetadata (list.get (0));
-		meta.setAdditionalLookups (list.subList (1, list.size ()));
+		List<LookupMetadata> additional = new ArrayList<LookupMetadata>();
+		for(int i = 1; i < list.size(); i++) {
+		    additional.add(list.get(i));
+		}
+		meta.setAdditionalLookups (additional);
 	}
 	
 	public static List<LookupMetadata> findAdditional (String lookupKey)
