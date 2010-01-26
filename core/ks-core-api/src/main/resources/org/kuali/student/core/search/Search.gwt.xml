@@ -1,6 +1,0 @@
-<module>
-	<inherits name='com.google.gwt.user.User' />
-	<inherits name='org.kuali.student.core.dictionary.Dictionary' />
-	<source path='dto' />
-	<source path='newdto' />
-</module>
