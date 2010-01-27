@@ -16,6 +16,7 @@ package org.kuali.student.core.organization.ui.server.gwt;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -596,8 +597,15 @@ public class OrgRpcGwtServlet extends BaseRpcGwtServletAbstract<OrganizationServ
         try {
             jc = JAXBContext.newInstance( packageName );
             Unmarshaller u = jc.createUnmarshaller();
-            SectionConfig sectionConfig = (SectionConfig)((JAXBElement)u.unmarshal(
+            SectionConfig sectionConfig = null;
+            try{
+                sectionConfig = (SectionConfig)((JAXBElement)u.unmarshal(
                     new FileInputStream( CONFIGURE_XML_PATH ))).getValue();
+            }
+            catch(FileNotFoundException e){
+                InputStream in = OrgRpcGwtServlet.class.getResourceAsStream("/org_configure.xml");
+                sectionConfig = (SectionConfig)((JAXBElement)u.unmarshal(in)).getValue();
+            }
             List<SectionView> sectionViews = sectionConfig.getSectionView();
             List<SectionViewInfo> sectionViewInfoList = new ArrayList<SectionViewInfo>();
             for(SectionView sectionView:sectionViews){
@@ -648,11 +656,24 @@ public class OrgRpcGwtServlet extends BaseRpcGwtServletAbstract<OrganizationServ
             
         } catch (JAXBException e) {
             e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        } 
 
         return sectionConfigInfo;
+    }
+
+    @Override
+    public Data fetchOrg(Data orgSearch) {
+        try {
+            initAssemblers();
+            orgProposalAssembler.fetchOrgInfo(orgSearch);
+//            return orgProposalAssembler.getMetadata(null,"draft");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+//            throw new OperationFailedException("Unable to retrieve metadata for org");
+        }
+        return null;
+
     }
     
 }
