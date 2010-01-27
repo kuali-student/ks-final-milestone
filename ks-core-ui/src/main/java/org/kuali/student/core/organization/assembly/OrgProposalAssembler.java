@@ -1,6 +1,7 @@
 package org.kuali.student.core.organization.assembly;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
@@ -21,10 +22,13 @@ import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.organization.assembly.data.client.OrgMetadata;
 import org.kuali.student.core.organization.assembly.data.client.OrgProposalMetadata;
 import org.kuali.student.core.organization.assembly.data.client.org.OrgHelper;
+import org.kuali.student.core.organization.assembly.data.client.org.OrgSearchHelper;
 import org.kuali.student.core.organization.assembly.data.client.org.OrgorgRelationHelper;
 import org.kuali.student.core.organization.assembly.data.server.OrgInfoData;
 import org.kuali.student.core.organization.assembly.data.server.OrgInfoData.ModificationState;
 import org.kuali.student.core.organization.dto.OrgInfo;
+import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
+import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.search.newdto.SearchRequest;
 import org.kuali.student.core.search.newdto.SearchResult;
@@ -210,6 +214,29 @@ public class OrgProposalAssembler implements Assembler<Data, OrgHelper>{
 	public SearchResult search(SearchRequest searchRequest) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public void fetchOrgInfo(Data orgSearch){
+	    OrgSearchHelper orgSearchHelper = OrgSearchHelper.wrap((Data)orgSearch.get("orgSearchInfo"));
+	    String orgId = orgSearchHelper.getOrgId();
+	    OrgInfo orgInfo = new OrgInfo();
+	    List<OrgPositionRestrictionInfo> positions = new ArrayList<OrgPositionRestrictionInfo>();
+	    List<OrgOrgRelationInfo> relations = new ArrayList<OrgOrgRelationInfo>();
+	    Data result = new Data();
+//	    SaveResult<Data> result = new SaveResult<Data>();
+	    try{
+	        orgInfo = orgService.getOrganization(orgId);
+	        OrgInfoData orgInfoData = new OrgInfoData();
+	        orgInfoData.setOrgInfo(orgInfo);
+	        OrgHelper resultOrg = buildOrgDataMap(orgInfoData);
+//	        result.setValue(resultOrg.getData());
+	        
+	    }
+	    catch(Exception e){
+	        
+	    }
+	    
+	    
 	}
    
 }
