@@ -6,9 +6,9 @@ import java.util.List;
 
 import org.kuali.student.common.assembly.client.LookupMetadata;
 import org.kuali.student.common.assembly.client.LookupParamMetadata;
+import org.kuali.student.common.assembly.client.Data.Value;
 import org.kuali.student.common.assembly.client.Metadata.WriteAccess;
 import org.kuali.student.common.ui.client.configurable.mvc.DefaultWidgetFactory;
-import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -34,7 +34,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class SearchPanel extends Composite{
 	
-	//Layout confirguration
+	//Layout configuration
 	private VerticalFlowPanel layout = new VerticalFlowPanel();
 	private SimplePanel searchCriteriaPanel = new SimplePanel();
 	private VerticalFlowPanel tablePanel = new VerticalFlowPanel();
@@ -112,40 +112,27 @@ public class SearchPanel extends Composite{
 		
 	}
 	
-	//TODO get rid of this, only in here as intermediate solution
-	@Deprecated
-	public SearchPanel(BaseRpcServiceAsync searchService, LookupMetadata meta){
-		lookupMetadata = meta;
-		layout.add(createSearchParamPanel(null, meta));
-		table = new TempSearchBackedTable(searchService, meta.getKey(), meta.getResultReturnKey());
-		tablePanel.add(searchCriteria);
-		tablePanel.add(criteria);
-		tablePanel.add(table);
-		layout.add(tablePanel);
-		tablePanel.setVisible(false);
-		this.initWidget(layout);
-	}
-
-	public SearchPanel(SearchBaseRpc search, LookupMetadata meta){
+	public SearchPanel(LookupMetadata meta){
 		lookupMetadata = meta;		
-		layout.add(createSearchParamPanel(search, meta));
+		layout.add(createSearchParamPanel(meta));
+		table = new TempSearchBackedTable(meta.getResults(), meta.getResultReturnKey());		
 		tablePanel.add(searchCriteria);
 		tablePanel.add(criteria);
 		//TODO new table goes here
-		//tablePanel.add(table);
+		tablePanel.add(table);
 		layout.add(tablePanel);
 		tablePanel.setVisible(false);
 		this.initWidget(layout);
 	}
 	
 	//TODO constructor for list of lookupMeata, is it always a single searchrpc class?
-	public SearchPanel(SearchBaseRpc search, List<LookupMetadata> metas){
+	public SearchPanel(List<LookupMetadata> metas){
 		//lookupMetadata = metas;		
 		
 		LinkedHashMap<String, Widget> searches = new LinkedHashMap<String, Widget>(); 
 		for(LookupMetadata meta: metas){
 			//TODO check for default (?)
-			searches.put(meta.getKey(), createSearchParamPanel(search, meta));
+			searches.put(meta.getKey(), createSearchParamPanel(meta));
 		}
 		SwappablePanel swapPanel = new SwappablePanel(searches);
 		searchCriteriaPanel.setWidget(swapPanel);
@@ -159,12 +146,12 @@ public class SearchPanel extends Composite{
 		this.initWidget(layout);
 	}
 	
-	private Widget createSearchParamPanel(SearchBaseRpc search, LookupMetadata meta){
+	private Widget createSearchParamPanel(LookupMetadata meta){
 		ParamListItems listItems = new ParamListItems(meta);
-		LinkPanel panel = new LinkPanel(SearchStyle.ADVANCED, new AdvancedSearch(search, meta));
+		LinkPanel panel = new LinkPanel(SearchStyle.ADVANCED, new AdvancedSearch(meta));
 		//TODO use messages here and link styling
 		panel.addLinkToPanel(SearchStyle.ADVANCED, "Customize this Search", SearchStyle.CUSTOM);
-		panel.addPanel(SearchStyle.CUSTOM, new CustomizedSearch(search, meta, listItems));
+		panel.addPanel(SearchStyle.CUSTOM, new CustomizedSearch(meta, listItems));
 		panel.addLinkToPanel(SearchStyle.CUSTOM, "Return to Advanced", SearchStyle.ADVANCED);
 		return panel;
 	}
@@ -176,7 +163,7 @@ public class SearchPanel extends Composite{
 		private VerticalFlowPanel linePanel = new VerticalFlowPanel();
 		private VerticalFlowPanel buttonPanel = new VerticalFlowPanel();
 		
-		public CustomizedSearch(SearchBaseRpc search, final LookupMetadata meta, final ParamListItems listItems){
+		public CustomizedSearch(final LookupMetadata meta, final ParamListItems listItems){
 			layout.add(linePanel);
 			CustomLine line = new CustomLine(meta, listItems);
 			linePanel.add(line);
@@ -333,7 +320,7 @@ public class SearchPanel extends Composite{
 	private class AdvancedSearch extends Composite{
 		private List<SearchField> searchFields = new ArrayList<SearchField>();
 		
-		public AdvancedSearch(SearchBaseRpc search, final LookupMetadata meta){
+		public AdvancedSearch(final LookupMetadata meta){
 			VerticalFlowPanel panel = new VerticalFlowPanel();
 			KSLabel instrLabel = new KSLabel(advInstructions);
 			panel.add(instrLabel);
@@ -370,15 +357,20 @@ public class SearchPanel extends Composite{
 						if ((param.getValue() != null) && (param.getValue().toString().trim().isEmpty() == false)){
 							params.add(param);
 							userCriteria.add(field);
-						}
-						
+						}						
 					}
 					
 					for(LookupParamMetadata metaParam: meta.getParams()){
 						if(metaParam.getWriteAccess() == WriteAccess.NEVER){
+							Value defaultValue = metaParam.getDefaultValue();
+							if ((defaultValue == null) || (defaultValue.toString().isEmpty())) {
+								//FIXME throw an exception?
+								GWT.log("Key = " + metaParam.getKey() + " has write access NEVER but has no default value!", null);
+								continue;
+							}
 							SearchParam param = new SearchParam();
 							param.setKey(metaParam.getKey());
-							param.setValue(metaParam.getDefaultValue().toString());
+							param.setValue(defaultValue.toString());
 							params.add(param);
 						}
 						else if(metaParam.getWriteAccess() == WriteAccess.WHEN_NULL){

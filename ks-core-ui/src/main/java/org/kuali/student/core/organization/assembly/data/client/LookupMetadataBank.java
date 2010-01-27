@@ -199,14 +199,14 @@ public class LookupMetadataBank
 		SEARCH_BANK.put (lookup.getKey ().toLowerCase (), lookup);
 		LOOKUP_BANK.put (lookup.getLookupKey ().toLowerCase (), lookup);
 	}
-	
+
 	private static Date asDate (String value)
 	{
 		try
 		{
 			return new SimpleDateFormat ("yyyy-MM-dd").parse (value);
 		}
-		catch (ParseException e)
+		catch (Exception e)
 		{
 			assert (false); // this should never happen
 		}

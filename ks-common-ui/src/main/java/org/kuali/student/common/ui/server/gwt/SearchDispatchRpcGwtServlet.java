@@ -55,14 +55,17 @@ public class SearchDispatchRpcGwtServlet extends RemoteServiceServlet implements
 	 * @throws MissingParameterException 
 	 */
 	@Override
-	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
+	public SearchResult search(SearchRequest searchRequest) {
 		//Lookup which service to call for given search key and do the search
 		if(searchRequest != null){
 			String searchKey = searchRequest.getSearchKey();
 			SearchService searchService = serviceMap.get(searchKey);
 			if(searchService != null){
-				SearchResult searchResult = searchService.search(searchRequest);
-				return searchResult;
+		        try {
+					return searchService.search(searchRequest);
+				} catch (MissingParameterException e) {
+					e.printStackTrace();
+				} 								
 			}
 		}
 		return null;

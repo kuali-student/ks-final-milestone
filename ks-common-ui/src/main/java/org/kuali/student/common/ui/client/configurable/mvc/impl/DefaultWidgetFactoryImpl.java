@@ -1,5 +1,7 @@
 package org.kuali.student.common.ui.client.configurable.mvc.impl;
 
+import java.util.List;
+
 import org.kuali.student.common.assembly.client.LookupMetadata;
 import org.kuali.student.common.assembly.client.LookupParamMetadata;
 import org.kuali.student.common.assembly.client.Metadata;
@@ -9,17 +11,21 @@ import org.kuali.student.common.assembly.client.Metadata.WriteAccess;
 import org.kuali.student.common.assembly.client.MetadataInterrogator.ConstraintIds;
 import org.kuali.student.common.ui.client.configurable.mvc.DefaultWidgetFactory;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSRichEditor;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
+import org.kuali.student.common.ui.client.widgets.search.AdvancedSearchWindow;
+import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
+import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
+import org.kuali.student.common.ui.client.widgets.search.SuggestBoxWAdvSearch;
 
 import com.google.gwt.user.client.ui.Widget;
 
-public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
-	
+public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {	
 
 	@Override
 	public Widget getWidget(FieldDescriptor field) {
@@ -36,6 +42,7 @@ public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
 			config.maxLength = MetadataInterrogator.getSmallestMaxLength(meta);
 			config.type = meta.getDataType();
 			config.lookupMeta = meta.getLookupMetadata();
+			config.additionalLookups = meta.getAdditionalLookups();			
 		}
 		return _getWidget(config);
 	}
@@ -51,13 +58,40 @@ public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
 		return _getWidget(config);
 	}
 
-	// TODO add any other fancy lookups in here
 	private Widget _getWidget(WidgetConfigInfo config) {
 		Widget result = null;
 			
 		if (config.access != null && config.access == WriteAccess.NEVER) {
+			
 			result = new KSLabel();
+			
+		// create a suggest box and/or advanced search widget if lookup metadata exists
+		} else if (config.lookupMeta != null) {
+			
+			SearchPanel picker;
+			if ((config.additionalLookups != null) && (config.additionalLookups.size() > 0)) {
+				//TODO
+				picker = null;
+			} else {
+				picker = new SearchPanel(config.lookupMeta);				
+			}
+	        final AdvancedSearchWindow courseSearchWindow = new AdvancedSearchWindow(config.lookupMeta.getName(), picker);
+	        KSTextBox adminDepTextBox = new KSTextBox();   //FIXME this will be a suggest box
+	        final SuggestBoxWAdvSearch adminDepPicker = new SuggestBoxWAdvSearch(adminDepTextBox, courseSearchWindow);
+	        result = adminDepPicker;
+	        
+	        courseSearchWindow.addSelectionCompleteCallback(new Callback<List<SelectedResults>>(){
+	            public void exec(List<SelectedResults> results) {
+	                if (results.size() > 0){
+	                	adminDepPicker.getSuggestBox().setText(results.get(0).getDisplayKey());
+	                	adminDepPicker.getSuggestBox().setValue(results.get(0).getReturnKey());
+	                    courseSearchWindow.hide();
+	                }                
+	            }            
+	        });
+	        
 		} else {
+			
 			switch (config.type) {
 			case BOOLEAN:
 				result = new KSCheckBox();
@@ -72,11 +106,9 @@ public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
 				if (config.isRichText) {
 					result = new KSRichEditor();
 				}
-				break;
-				
-			}
-		}
-		
+				break;				
+			}			
+		}		
 		
 		if (result == null) {
 			// default to textbox or textarea
@@ -94,7 +126,6 @@ public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
 		return result;
 	}
 
-
 	class WidgetConfigInfo {
 		public DataType type = null;
 		public Integer maxLength = null;
@@ -102,5 +133,6 @@ public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
 		public boolean isRichText = false;
 		public boolean isMultiLine = false;
 		public LookupMetadata lookupMeta = null;
+		public List<LookupMetadata> additionalLookups = null;
 	}
 }
