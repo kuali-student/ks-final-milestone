@@ -7,6 +7,8 @@ import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.ui.client.configurable.mvc.TabbedSectionLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.common.ui.client.event.ModifyActionEvent;
+import org.kuali.student.common.ui.client.event.ModifyActionHandler;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionHandler;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -52,6 +54,7 @@ public class OrgProposalController extends TabbedSectionLayout{
     private static KSTitleContainerImpl container = new KSTitleContainerImpl("Organization Management", "Create, Modify and Browse","");
     private KSTabPanel tabPanel = new KSTabPanel();
     private boolean initialized = false;
+    private boolean modified = false;
     private CommonConfigurer commonConfigurer = new CommonConfigurer();
     final KSLightBox progressWindow = new KSLightBox();
     
@@ -68,6 +71,14 @@ public class OrgProposalController extends TabbedSectionLayout{
         return new KSButton("Save", new ClickHandler(){
                     public void onClick(ClickEvent event) {
                         fireApplicationEvent(new SaveActionEvent());
+                    }
+                });
+    }
+    
+    private KSButton getModifyButton(){
+        return new KSButton("Modify", new ClickHandler(){
+                    public void onClick(ClickEvent event) {
+                        fireApplicationEvent(new ModifyActionEvent());
                     }
                 });
     }
@@ -103,7 +114,7 @@ public class OrgProposalController extends TabbedSectionLayout{
                             setSectionConfig(onReadyCallback);
                             progressWindow.hide();
                             
-                        }                
+                        }
                 });
             
         }
@@ -141,6 +152,16 @@ public class OrgProposalController extends TabbedSectionLayout{
         
         if(!initialized){
         addButton("Create", getSaveButton());
+        addButton("Search", getModifyButton());
+        
+        addApplicationEventHandler(ModifyActionEvent.TYPE, new ModifyActionHandler(){
+            @Override
+            public void onModify(ModifyActionEvent modifyEvent) {
+                GWT.log("OrgController received save action request.", null);
+                doModifyAction(modifyEvent);
+                
+            }            
+        });
         addApplicationEventHandler(SaveActionEvent.TYPE, new SaveActionHandler(){
             public void doSave(SaveActionEvent saveAction) {
                 GWT.log("OrgController received save action request.", null);
@@ -203,9 +224,8 @@ public class OrgProposalController extends TabbedSectionLayout{
 	    public void doSaveAction(SaveActionEvent saveActionEvent){     
 	        System.out.println("Reached save action");
 	        
-
-	        View tempView2 = getCurrentView();
-	        
+	        View tempView2 = getView(CommonConfigurer.SectionsEnum.ORG_INFO);
+	        tempView2.updateModel();
             getCurrentView().updateModel();
             
             System.out.println(" model updated ");
@@ -233,6 +253,42 @@ public class OrgProposalController extends TabbedSectionLayout{
 //	        }       
 	    }
 	    
+	       public void doModifyAction(ModifyActionEvent modifyActionEvent){     
+	            System.out.println("Reached modify action");
+	            
+
+	            View tempView2 = getView(CommonConfigurer.SectionsEnum.ORG_INFO);
+	            
+	            getCurrentView().updateModel();
+	            
+	            System.out.println(" model updated ");
+	            fetchProposalOrg(modifyActionEvent);
+	            System.out.println("Reached summit 1 ");
+      
+	        }
+	       public void fetchProposalOrg(final ModifyActionEvent modifyActionEvent) {
+
+	           orgProposalRpcServiceAsync.fetchOrg(orgProposalModel.getRoot(), new AsyncCallback<Data>() {
+	               public void onFailure(Throwable caught) {
+	                   GWT.log("Fetch Failed.", caught);
+	                   // saveWindow.setWidget(buttonGroup);
+	                   // saveMessage.setText("Save Failed!  Please Try Again.");
+	                   // buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
+	               }
+
+	               public void onSuccess(Data result) {
+	                   // FIXME needs to check validation results and display messages if validation failed
+	                   orgProposalModel.setRoot(result);
+	                   View currentView = getCurrentView();
+	                   View orgView = getView(CommonConfigurer.SectionsEnum.ORG_INFO);
+	                   renderView(orgView);
+	                   if (orgView instanceof VerticalSectionView) {
+	                       ((VerticalSectionView) orgView).redraw();
+	                   }
+	                   modified = true;
+	               }
+	           });
+	       }
 	    public void saveProposalOrg(final SaveActionEvent saveActionEvent){
 	        final KSLightBox saveWindow = new KSLightBox();
 	        final KSLabel saveMessage = new KSLabel(saveActionEvent.getMessage() + "...");

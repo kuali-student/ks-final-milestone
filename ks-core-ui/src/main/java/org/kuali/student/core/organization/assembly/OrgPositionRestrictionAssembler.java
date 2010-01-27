@@ -2,6 +2,7 @@ package org.kuali.student.core.organization.assembly;
 
 import static org.kuali.student.core.assembly.util.AssemblerUtils.isCreated;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.assembly.Assembler;
@@ -10,8 +11,10 @@ import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.assembly.client.SaveResult;
 import org.kuali.student.common.assembly.client.Data.Property;
+import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.organization.assembly.data.client.org.OrgHelper;
 import org.kuali.student.core.organization.assembly.data.client.org.OrgPositionHelper;
+import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.search.newdto.SearchRequest;
@@ -93,6 +96,43 @@ public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPosit
             }
         }
         
+    }
+    
+    public Data fetchOrgPositions(String orgId){
+        List<OrgPositionRestrictionInfo> positions = new ArrayList<OrgPositionRestrictionInfo>();
+        Data orgPositionMap = null;
+        try{
+            positions = orgService.getPositionRestrictionsByOrg(orgId);
+            orgPositionMap = buildOrgPositionMap(positions);
+        }
+        catch(DoesNotExistException dnee){
+            return null;
+            
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return orgPositionMap;
+    }
+    
+    private Data buildOrgPositionMap( List<OrgPositionRestrictionInfo> positions){
+        Data orgPositions = new Data();
+        int count =1;
+        for(OrgPositionRestrictionInfo position:positions){
+            Data positionMap = new Data();
+            OrgPositionHelper orgPositionHelper = OrgPositionHelper.wrap(positionMap);
+            orgPositionHelper.setId(position.getId());
+            orgPositionHelper.setOrgId(position.getOrgId());
+            orgPositionHelper.setPersonRelationType(position.getOrgPersonRelationTypeKey());
+            orgPositionHelper.setTitle(position.getTitle());
+            orgPositionHelper.setDesc(position.getTitle());
+            orgPositionHelper.setMinNumRelations(position.getMinNumRelations());
+            orgPositionHelper.setMaxNumRelations(position.getMaxNumRelations());
+            
+            orgPositions.set(count,orgPositionHelper.getData());
+            count = count +1;
+        }
+        return orgPositions;
     }
 
 }

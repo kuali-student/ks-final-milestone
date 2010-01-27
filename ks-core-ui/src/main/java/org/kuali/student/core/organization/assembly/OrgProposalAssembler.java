@@ -216,7 +216,7 @@ public class OrgProposalAssembler implements Assembler<Data, OrgHelper>{
 		return null;
 	}
 	
-	public void fetchOrgInfo(Data orgSearch){
+	public Data fetchOrgInfo(Data orgSearch){
 	    OrgSearchHelper orgSearchHelper = OrgSearchHelper.wrap((Data)orgSearch.get("orgSearchInfo"));
 	    String orgId = orgSearchHelper.getOrgId();
 	    OrgInfo orgInfo = new OrgInfo();
@@ -229,14 +229,22 @@ public class OrgProposalAssembler implements Assembler<Data, OrgHelper>{
 	        OrgInfoData orgInfoData = new OrgInfoData();
 	        orgInfoData.setOrgInfo(orgInfo);
 	        OrgHelper resultOrg = buildOrgDataMap(orgInfoData);
-//	        result.setValue(resultOrg.getData());
+	        OrgOrgRelationAssembler orgOrgRelationAssembler = new OrgOrgRelationAssembler();
+	        orgOrgRelationAssembler.setOrgService(orgService);
+	        OrgPositionRestrictionAssembler orgPositionRestrictionAssembler= new OrgPositionRestrictionAssembler();
+            orgPositionRestrictionAssembler.setOrgService(orgService);
+	        Data orgOrgRelationMap = orgOrgRelationAssembler.fetchOrgOrgRelationInfo(orgId);
+	        Data orgPositionMap = orgPositionRestrictionAssembler.fetchOrgPositions(orgId);
+	        result.set("orgInfo", resultOrg.getData());
+	        result.set("orgOrgRelationInfo", orgOrgRelationMap);
+	        result.set("OrgPositionRestrictionInfo", orgPositionMap);
 	        
 	    }
 	    catch(Exception e){
 	        
 	    }
 	    
-	    
+	    return result;
 	}
    
 }

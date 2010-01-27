@@ -665,7 +665,7 @@ public class OrgRpcGwtServlet extends BaseRpcGwtServletAbstract<OrganizationServ
     public Data fetchOrg(Data orgSearch) {
         try {
             initAssemblers();
-            orgProposalAssembler.fetchOrgInfo(orgSearch);
+            return orgProposalAssembler.fetchOrgInfo(orgSearch);
 //            return orgProposalAssembler.getMetadata(null,"draft");
         }
         catch(Exception e){

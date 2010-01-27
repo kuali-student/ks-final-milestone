@@ -1,6 +1,7 @@
 package org.kuali.student.core.organization.assembly;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.kuali.student.core.assembly.util.AssemblerUtils.isCreated;
@@ -11,6 +12,7 @@ import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.assembly.client.SaveResult;
 import org.kuali.student.common.assembly.client.Data.Property;
+import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.organization.assembly.data.client.org.OrgHelper;
 import org.kuali.student.core.organization.assembly.data.client.org.OrgorgRelationHelper;
 import org.kuali.student.core.organization.assembly.data.server.OrgOrgRelationInfoData;
@@ -115,6 +117,43 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
             }
         }
 
+    }
+    
+    public Data fetchOrgOrgRelationInfo(String orgId){
+        List<OrgOrgRelationInfo> relations = new ArrayList<OrgOrgRelationInfo>();
+        Data orgOrgRelationMap = null;
+        try{
+            relations = orgService.getOrgOrgRelationsByOrg(orgId);
+            orgOrgRelationMap = buildOrgOrgRelationDataMap(relations);
+        }
+        catch(DoesNotExistException dnee){
+            return null;
+            
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return orgOrgRelationMap;
+    }
+    
+    private Data buildOrgOrgRelationDataMap(List<OrgOrgRelationInfo> relations){
+        Data orgOrgRelations = new Data();
+        int count = 1;
+        for(OrgOrgRelationInfo relation:relations){
+            Data relationMap = new Data();
+            OrgorgRelationHelper orgOrgRelation=  OrgorgRelationHelper.wrap(relationMap);
+            orgOrgRelation.setId(relation.getId());
+            orgOrgRelation.setOrgId(relation.getOrgId());
+            orgOrgRelation.setRelatedOrgId(relation.getRelatedOrgId());
+            orgOrgRelation.setOrgOrgRelationTypeKey(relation.getType());
+            orgOrgRelation.setEffectiveDate(relation.getEffectiveDate());
+            orgOrgRelation.setExpirationDate(relation.getExpirationDate());
+            
+            orgOrgRelations.set(count, orgOrgRelation.getData());
+            count= count+1;
+        }
+        
+        return orgOrgRelations;
     }
 
 }
