@@ -86,9 +86,8 @@ public class AtpPicker extends VerticalPanel implements HasText {
     
     private static AdvancedSearchWindow createAtpSearchWindow(){
 
-        AtpRpcServiceAsync atpRpcServiceAsync = GWT.create(AtpRpcService.class);
         Metadata searchMetadata = new CreditCourseMetadata().getMetadata("", "");  //no type or state at this point
-        SearchPanel searchPicker = new SearchPanel(atpRpcServiceAsync, searchMetadata.getProperties().get("firstExpectedOffering").getLookupMetadata());
+        SearchPanel searchPicker = new SearchPanel(searchMetadata.getProperties().get("firstExpectedOffering").getLookupMetadata());
         final AdvancedSearchWindow atpSearchWindow = new AdvancedSearchWindow("Find Session", searchPicker);
 
 //        atpSearchWindow.addSelectionCompleteCallback(new Callback<List<String>>(){

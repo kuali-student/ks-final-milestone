@@ -210,18 +210,8 @@ public class CourseConfigurer
      */
     private SectionView generateCourseRequisitesSection() {
         CourseRequisitesSectionView section = new CourseRequisitesSectionView(LuSections.COURSE_REQUISITES, getLabel(LUConstants.REQUISITES_LABEL_KEY));
-        section.setSectionTitle(SectionTitle.generateH1Title(getLabel(LUConstants.REQUISITES_LABEL_KEY)));
-
-		/* TODO: Once we have a section that allows for flow between rule screens
-        VerticalSection enrollmentSection = new VerticalSection();
-        enrollmentSection.setSectionTitle(SectionTitle.generateH2Title("Enrollment Restrictions"));
-        enrollmentSection.addField(new FieldDescriptor("rationalle", "Rationalle", Type.STRING));
-        enrollmentSection.addField(new FieldDescriptor("rules", "Rules", Type.STRING));
-        enrollmentSection.addWidget(new KSButton());
-        section.addSection(enrollmentSection);   */
-        
+        section.setSectionTitle(SectionTitle.generateH1Title(getLabel(LUConstants.REQUISITES_LABEL_KEY)));        
         return section;
-
     }
 
     private SectionView generateActiveDatesSection() {
@@ -268,46 +258,8 @@ public class CourseConfigurer
         VerticalSection campus = initSection(getH3Title(LUConstants.CAMPUS_LOCATION_LABEL_KEY), WITH_DIVIDER);    
         addField(campus, COURSE + "/" + CAMPUS_LOCATIONS, null, new CampusLocationList());
 
-        VerticalSection adminOrgs = initSection(getH3Title(LUConstants.ADMIN_ORG_LABEL_KEY), WITH_DIVIDER);    
-        
-        /*
-        Metadata deptMeta = modelDefinition.getMetadata(QueryPath.parse(deptKey));
-        FieldDescriptor deptDescriptor = new FieldDescriptor(deptKey, null, deptMeta);
-        final QueryPath deptPath = QueryPath.parse(deptDescriptor.getFieldKey());
-        deptDescriptor.setWidgetBinding(new ModelWidgetBinding<OrgListPicker>() {
-        	// FIXME had to create custom binding because the OrgListPicker always returns a list, even of 1
-			@Override
-			public void setModelValue(OrgListPicker widget, DataModel model,
-					String path) {
-				model.set(deptPath, widget.getSelectedItem());
-				
-			}
-			@Override
-			public void setWidgetValue(OrgListPicker widget, DataModel model,
-					String path) {
-				widget.setValue((String) model.get(path));
-			}
-        });
-        adminOrgs.addField(deptDescriptor); */
-        
-        OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
-    	Metadata searchMetadata = new CreditCourseMetadata().getMetadata("", "");  //no type or state at this point
-        SearchPanel adminDepartment = new SearchPanel(orgRpcServiceAsync, searchMetadata.getProperties().get(DEPARTMENT).getLookupMetadata());                
-        final AdvancedSearchWindow courseSearchWindow = new AdvancedSearchWindow("Find Department", adminDepartment);
-        KSTextBox adminDepTextBox = new KSTextBox();   //FIXME this will be suggest box
-        final SuggestBoxWAdvSearch adminDepPicker = new SuggestBoxWAdvSearch(adminDepTextBox, courseSearchWindow);	
-        
-        courseSearchWindow.addSelectionCompleteCallback(new Callback<List<SelectedResults>>(){
-            public void exec(List<SelectedResults> results) {
-                if (results.size() > 0){
-                	adminDepPicker.getSuggestBox().setText(results.get(0).getDisplayKey());
-                	adminDepPicker.getSuggestBox().setValue(results.get(0).getReturnKey());
-                    courseSearchWindow.hide();
-                }                
-            }            
-        });               
-        
-        addField(adminOrgs, COURSE + "/" + DEPARTMENT, null, adminDepPicker);
+        VerticalSection adminOrgs = initSection(getH3Title(LUConstants.ADMIN_ORG_LABEL_KEY), WITH_DIVIDER);                    
+        addField(adminOrgs, COURSE + "/" + DEPARTMENT, null);
         
         section.addSection(oversight);
         section.addSection(campus);
@@ -457,9 +409,8 @@ public class CourseConfigurer
 
     private static AdvancedSearchWindow createAtpSearchWindow(){
 
-        AtpRpcServiceAsync atpRpcServiceAsync = GWT.create(AtpRpcService.class);
         Metadata searchMetadata = new CreditCourseMetadata().getMetadata("", "");  //no type or state at this point
-        SearchPanel searchPicker = new SearchPanel(atpRpcServiceAsync, searchMetadata.getProperties().get("firstExpectedOffering").getLookupMetadata());
+        SearchPanel searchPicker = new SearchPanel(searchMetadata.getProperties().get("firstExpectedOffering").getLookupMetadata());
         final AdvancedSearchWindow atpSearchWindow = new AdvancedSearchWindow("Find Session", searchPicker);
 
 //        atpSearchWindow.addSelectionCompleteCallback(new Callback<List<String>>(){

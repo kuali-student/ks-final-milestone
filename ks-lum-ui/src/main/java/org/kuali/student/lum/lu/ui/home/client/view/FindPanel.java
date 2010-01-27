@@ -25,14 +25,9 @@ import org.kuali.student.common.ui.client.widgets.search.AdvancedSearchWindow;
 import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
 import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
-import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
-import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 import org.kuali.student.core.proposal.ui.client.service.ProposalRpcService;
 import org.kuali.student.core.proposal.ui.client.service.ProposalRpcServiceAsync;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseMetadata;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FindCourseMetadata;
-import org.kuali.student.lum.lu.ui.course.client.service.AtpRpcService;
-import org.kuali.student.lum.lu.ui.course.client.service.AtpRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.home.client.view.CreateCreditCoursePanel.ButtonRow;
@@ -114,9 +109,9 @@ public class FindPanel extends ViewComposite{
         onReadyCallback.exec(true);
     }
     
-    private void initCourseSearchWindow(){    	       
+    private void initCourseSearchWindow(){  
     	Metadata searchMetadata = new FindCourseMetadata().getMetadata("", "");  //no type or state at this point
-        SearchPanel searchPicker = new SearchPanel(luServiceAsync, searchMetadata.getProperties().get("courseId").getLookupMetadata());                
+        SearchPanel searchPicker = new SearchPanel(searchMetadata.getProperties().get("courseId").getLookupMetadata());                
         courseSearchWindow = new AdvancedSearchWindow("Find Course", searchPicker);   	    	
         courseSearchWindow.addSelectionCompleteCallback(new Callback<List<SelectedResults>>(){
             //FIXME: This should take user to the course view screens
@@ -126,7 +121,7 @@ public class FindPanel extends ViewComposite{
                     courseSearchWindow.hide();
                 }                
             }            
-        });        
+        });               
     } 
     
     private void initProposalSearchWindow(){
