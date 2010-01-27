@@ -6,7 +6,7 @@
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>KS BRMS Statement Impl</name>
-	<description>KS BRMS Statement Impl</description>
+	<description>KS BRMS Statement Impl. This is an abstract service implementation that would be implemented and configured in a specific business e.g. LuStatementService</description>
 
 	<parent>
 		<groupId>org.kuali.student.core</groupId>
