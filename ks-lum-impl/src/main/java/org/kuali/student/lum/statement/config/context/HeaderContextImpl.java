@@ -19,7 +19,7 @@ import java.util.Map;
 
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.core.statement.naturallanguage.util.LuStatementAnchor;
+import org.kuali.student.brms.statement.naturallanguage.util.LuStatementAnchor;
 
 public class HeaderContextImpl extends AbstractLuContext<LuStatementAnchor> {
     /**

@@ -125,7 +125,7 @@
     </bean>
     
     <bean id="statementDao"
-        class="org.kuali.student.core.statement.dao.impl.StatementDaoImpl">
+        class="org.kuali.student.brms.statement.dao.impl.StatementDaoImpl">
         <property name="em" ref="stmtEntityManager" />        
     </bean>
 
@@ -163,7 +163,7 @@
         <aop:aspect id="dataAccessToBusinessException"
             ref="mapExceptionAdvisor">
             <aop:after-throwing
-                pointcut="execution(* org.kuali.student.core.statement.service.*.*(..))"
+                pointcut="execution(* org.kuali.student.brms.statement.service.*.*(..))"
                 method="afterThrowing" throwing="ex" />
         </aop:aspect>
     </aop:config>
@@ -178,7 +178,7 @@
     </bean>
 
     <bean id="contextRegistryLuStatement"
-        class="org.kuali.student.core.statement.naturallanguage.ContextRegistry">
+        class="org.kuali.student.brms.statement.naturallanguage.ContextRegistry">
         <constructor-arg>
             <map>
                 <!-- Header Contexts-->
@@ -192,7 +192,7 @@
     </bean>
 
     <bean id="contextRegistryReqComponent"
-        class="org.kuali.student.core.statement.naturallanguage.ContextRegistry">
+        class="org.kuali.student.brms.statement.naturallanguage.ContextRegistry">
         <constructor-arg>
             <map>
                 <!-- Pre-Req Contexts-->
@@ -282,20 +282,20 @@
     </bean>
 
     <bean id="naturalLanguageMessageBuilder"
-        class="org.kuali.student.core.statement.naturallanguage.translators.NaturalLanguageMessageBuilder">
+        class="org.kuali.student.brms.statement.naturallanguage.translators.NaturalLanguageMessageBuilder">
         <constructor-arg index="0" ref="droolsExecutor" />
         <constructor-arg index="1" value="en" />
         <constructor-arg index="2" ref="booleanOperatorLanguageMap" />
     </bean>
 
     <bean id="reqComponentTranslator"
-        class="org.kuali.student.core.statement.naturallanguage.translators.ReqComponentTranslator">
+        class="org.kuali.student.brms.statement.naturallanguage.translators.ReqComponentTranslator">
         <property name="contextRegistry" ref="contextRegistryReqComponent" />
         <!--property name="language" value="en" /-->
     </bean>
 
     <bean id="statementTranslator"
-        class="org.kuali.student.core.statement.naturallanguage.translators.StatementTranslator">
+        class="org.kuali.student.brms.statement.naturallanguage.translators.StatementTranslator">
         <property name="contextRegistry" ref="contextRegistryLuStatement" />
         <property name="reqComponentTranslator" ref="reqComponentTranslator" />
         <property name="messageBuilder" ref="naturalLanguageMessageBuilder" />
@@ -303,14 +303,14 @@
     </bean>
 
     <bean id="naturalLanguageTranslator"
-        class="org.kuali.student.core.statement.naturallanguage.translators.NaturalLanguageTranslatorImpl">
+        class="org.kuali.student.brms.statement.naturallanguage.translators.NaturalLanguageTranslatorImpl">
         <property name="reqComponentTranslator" ref="reqComponentTranslator" />
         <property name="statementTranslator" ref="statementTranslator" />
         <property name="language" value="en" />
     </bean>
     
     <bean id="statementService" autowire="byName"
-        class="org.kuali.student.core.statement.service.impl.StatementServiceImpl">
+        class="org.kuali.student.brms.statement.service.impl.StatementServiceImpl">
         <property name="statementDao" ref="statementDao"/>
         <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator"/>
     </bean>

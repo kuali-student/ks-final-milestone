@@ -18,8 +18,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.statement.entity.ReqComponent;
-import org.kuali.student.core.statement.naturallanguage.util.ReqComponentTypes;
+import org.kuali.student.brms.statement.entity.ReqComponent;
+import org.kuali.student.brms.statement.naturallanguage.util.ReqComponentTypes;
 
 /**
  * This class creates the template context for grade condition type.
