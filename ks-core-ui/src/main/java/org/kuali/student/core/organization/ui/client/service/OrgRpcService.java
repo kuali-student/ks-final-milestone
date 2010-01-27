@@ -74,5 +74,6 @@ public interface OrgRpcService extends RemoteService, BaseRpcService {
     public DataSaveResult saveOrgProposal(Data proposal);
     public Metadata getOrgMetaData();
     public SectionConfigInfo getSectionConfig();
+    public Data fetchOrg(Data orgSearch);
 
 }
