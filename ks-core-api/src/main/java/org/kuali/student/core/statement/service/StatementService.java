@@ -21,7 +21,9 @@ import org.kuali.student.core.search.service.SearchService;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.NlUsageTypeInfo;
 import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
+import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.core.statement.dto.StatementInfo;
+import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 
 @WebService(name = "StatementService", targetNamespace = "http://student.kuali.org/wsdl/statement")
@@ -289,4 +291,58 @@ public interface StatementService extends DictionaryService, SearchService {
      */
     public StatusInfo deleteStatement(@WebParam(name="statementId")String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    /** 
+     * Retrieves information for a specified type of statement
+     * @param statementTypeKey statement type identifier
+     * @return statement type information
+     * @throws DoesNotExistException statementTypeKey not found
+     * @throws InvalidParameterException invalid statementTypeKey
+     * @throws MissingParameterException missing statementTypeKey
+     * @throws OperationFailedException unable to complete request
+     */
+    public StatementTypeInfo getStatementType(@WebParam(name="statementTypeKey")String statementTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    
+    /** 
+     * Retrieves the list of requirement component types known by this service.
+     * @return list of requirement component types
+     * @throws OperationFailedException unable to complete request
+     */
+    public List<ReqComponentTypeInfo> getReqComponentTypes() throws OperationFailedException;
+
+    /** 
+     * Retrieves information for a specified fetchReqComponent Types
+     * @param reqComponentTypeKey reqComponent Type Key
+     * @return Requirement component type information
+     * @throws DoesNotExistException reqComponentTypeKey not found
+     * @throws InvalidParameterException invalid reqComponentTypeKey
+     * @throws MissingParameterException missing reqComponentTypeKey
+     * @throws OperationFailedException unable to complete request
+     */
+    public ReqComponentTypeInfo getReqComponentType(@WebParam(name="reqComponentTypeKey")String reqComponentTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /** 
+     * Retrieves the list of types of requirement components which are allowed to be used in a type of statement.
+     * @param luStatementTypeKey identifier for a type of statement
+     * @return list of types of requirement components
+     * @throws DoesNotExistException statementTypeKey not found
+     * @throws InvalidParameterException invalid statementTypeKey
+     * @throws MissingParameterException missing statementTypeKey
+     * @throws OperationFailedException unable to complete request
+     */
+    public List<ReqComponentTypeInfo> getReqComponentTypesForStatementType(@WebParam(name="statementTypeKey")String statementTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /** 
+     * Updates a requirement component
+     * @param reqComponentId identifier of the requirement component to be updated
+     * @param reqComponentInfo information about the requirement component to be updated
+     * @return the updated requirement component information
+     * @throws DataValidationErrorException One or more values invalid for this operation
+     * @throws DoesNotExistException Requirement Component not found
+     * @throws InvalidParameterException invalid reqComponentId, reqComponentInfo
+     * @throws MissingParameterException missing reqComponentId, reqComponentInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws VersionMismatchException The action was attempted on an out of date version.
+     */
+    public ReqComponentInfo updateReqComponent(@WebParam(name="reqComponentId")String reqComponentId, @WebParam(name="reqComponentInfo")ReqComponentInfo reqComponentInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
 }

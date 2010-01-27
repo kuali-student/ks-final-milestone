@@ -17,6 +17,7 @@ import org.kuali.student.core.statement.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.core.statement.dto.StatementInfo;
+import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.statement.entity.ReqComponent;
 import org.kuali.student.core.statement.entity.ReqComponentField;
 import org.kuali.student.core.statement.entity.ReqComponentFieldType;
@@ -24,6 +25,7 @@ import org.kuali.student.core.statement.entity.ReqComponentType;
 import org.kuali.student.core.statement.entity.Statement;
 import org.kuali.student.core.statement.entity.StatementAttribute;
 import org.kuali.student.core.statement.entity.StatementType;
+import org.kuali.student.core.statement.entity.StatementTypeHeaderTemplate;
 import org.springframework.beans.BeanUtils;
 
 public class StatementAssembler extends BaseAssembler {
@@ -310,4 +312,32 @@ public class StatementAssembler extends BaseAssembler {
 
     }
     
+    public static StatementTypeInfo toStatementTypeInfo(StatementType entity) {
+        if(entity==null){
+            return null;
+        }
+        StatementTypeInfo stmtTypeInfo = toGenericTypeInfo(StatementTypeInfo.class, entity);
+
+        // Copy allowed RequiredComponent Types
+        List<String> reqTypeIds = new ArrayList<String>(entity.getAllowedReqComponentTypes().size());
+        for (ReqComponentType reqComponentType : entity.getAllowedReqComponentTypes()) {
+            reqTypeIds.add(reqComponentType.getId());
+        }
+        stmtTypeInfo.setAllowedReqComponentTypes(reqTypeIds);
+
+        // Copy allowed LuStatement Types
+        List<String> stmtIds = new ArrayList<String>(entity.getAllowedStatementTypes().size());
+        for (StatementType stmtType : entity.getAllowedStatementTypes()) {
+            stmtIds.add(stmtType.getId());
+        }
+        stmtTypeInfo.setAllowedLuStatementTypes(stmtIds);
+        
+        // statement type header is no longer defined in specification
+//        stmtTypeInfo.setHeaders(toStatementTypeHeaderTemplateInfos(entity.getHeaders()));
+        
+        stmtTypeInfo.setDesc(entity.getDescr());
+        
+        return stmtTypeInfo;
+    }
+
 }

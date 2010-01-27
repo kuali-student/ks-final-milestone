@@ -2,6 +2,7 @@ package org.kuali.student.core.statement.service.impl;
 
 import java.util.List;
 
+import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import org.kuali.student.common.validator.Validator;
@@ -29,9 +30,13 @@ import org.kuali.student.core.statement.dao.StatementDao;
 import org.kuali.student.core.statement.dto.NlUsageTypeInfo;
 import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.core.statement.dto.StatementInfo;
+import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.statement.entity.ReqComponent;
+import org.kuali.student.core.statement.entity.ReqComponentType;
 import org.kuali.student.core.statement.entity.Statement;
+import org.kuali.student.core.statement.entity.StatementType;
 import org.kuali.student.core.statement.naturallanguage.NaturalLanguageTranslator;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
@@ -460,7 +465,66 @@ public class StatementServiceImpl implements StatementService {
     public boolean validateStructureData(String objectTypeKey, String stateKey, String info) {
         return dictionaryServiceDelegate.validateStructureData(objectTypeKey, stateKey, info);
     }
-    
-    
 
+    @Override
+    public StatementTypeInfo getStatementType(String statementTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return StatementAssembler.toStatementTypeInfo(statementDao.fetch(StatementType.class, statementTypeKey));
+    }
+
+    @Override
+    public List<ReqComponentTypeInfo> getReqComponentTypes()
+    throws OperationFailedException {
+
+        return StatementAssembler.toReqComponentTypeInfos(statementDao.find(ReqComponentType.class));
+    }
+
+    @Override
+    public ReqComponentTypeInfo getReqComponentType(String reqComponentTypeKey)
+    throws DoesNotExistException, InvalidParameterException,
+    MissingParameterException, OperationFailedException {
+
+        return StatementAssembler.toReqComponentTypeInfo(statementDao.fetch(ReqComponentType.class, reqComponentTypeKey));
+    }
+
+    @Override
+    public List<ReqComponentTypeInfo> getReqComponentTypesForStatementType(
+            String statementTypeKey) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+        checkForMissingParameter(statementTypeKey, "statementTypeKey");
+
+        StatementType stmtType = statementDao.fetch(StatementType.class, statementTypeKey);
+        if(null == stmtType) {
+            throw new DoesNotExistException("Statement Type: " + statementTypeKey + " does not exist.");
+        }
+
+        return StatementAssembler.toReqComponentTypeInfos( stmtType.getAllowedReqComponentTypes() );
+    }
+
+    @Override
+    public ReqComponentInfo updateReqComponent(String reqComponentId,
+            ReqComponentInfo reqComponentInfo)
+    throws DataValidationErrorException, DoesNotExistException,
+    InvalidParameterException, MissingParameterException,
+    OperationFailedException, PermissionDeniedException,
+    VersionMismatchException {
+        //Check Missing params
+        checkForMissingParameter(reqComponentId, "reqComponentId");
+        checkForMissingParameter(reqComponentInfo, "reqComponentInfo");
+
+        //Set all the values on reqComponentInfo
+        reqComponentInfo.setId(reqComponentId);
+
+        ReqComponent reqComp = null;
+
+        //Update persistence entity from the reqComponentInfo
+        reqComp = StatementAssembler.toReqComponentRelation(true, reqComponentInfo, statementDao);
+
+        //Update the reqComponen
+        ReqComponent updatedReqComp = statementDao.update(reqComp);
+
+        //Copy back to an reqComponentInfo and return
+        ReqComponentInfo updReqCompInfo = StatementAssembler.toReqComponentInfo(updatedReqComp);
+        return updReqCompInfo;
+    }
 }
