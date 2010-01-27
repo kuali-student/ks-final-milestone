@@ -13,4 +13,5 @@ public interface CreditCourseProposalRpcService extends BaseDataOrchestrationRpc
 	public Boolean addCollaborator(String docId, String recipientPrincipalId, String collabType, boolean participationRequired, String respondBy) throws OperationFailedException;
     public HashMap<String, ArrayList<String>> getCollaborators(String docId) throws OperationFailedException;
 
+    public Boolean hasPermission(String permName);
 }

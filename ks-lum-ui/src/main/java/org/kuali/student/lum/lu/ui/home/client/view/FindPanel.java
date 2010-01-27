@@ -28,6 +28,8 @@ import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWin
 import org.kuali.student.core.proposal.ui.client.service.ProposalRpcService;
 import org.kuali.student.core.proposal.ui.client.service.ProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FindCourseMetadata;
+import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
+import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.home.client.view.CreateCreditCoursePanel.ButtonRow;
@@ -39,7 +41,10 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class FindPanel extends ViewComposite{
     public static final String SEARCH_TYPE_PROPOSALS = "Proposals";
@@ -47,6 +52,8 @@ public class FindPanel extends ViewComposite{
     
     LuRpcServiceAsync luServiceAsync = GWT.create(LuRpcService.class);
     ProposalRpcServiceAsync proposalServiceAsync = GWT.create(ProposalRpcService.class);
+    CreditCourseProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CreditCourseProposalRpcService.class);
+    
     // TODO please leave on until the atp search has found a home.
 //    AtpRpcServiceAsync atpRpcServiceAsync = GWT.create(AtpRpcService.class);
     
@@ -99,8 +106,12 @@ public class FindPanel extends ViewComposite{
 //                }            
 //            });
             
-            mainPanel.add(new ButtonRow(findCourseButton, "Find an existing course."));
-            mainPanel.add(new ButtonRow(findProposalButton, "Find an existing proposal."));
+            ButtonRow findCourseRow = new ButtonRow(findCourseButton, "Find an existing course.");
+            addIfPermitted(mainPanel, findCourseRow, "Lookup Course");
+            
+            ButtonRow findProposalRow = new ButtonRow(findProposalButton, "Find an existing proposal."); 
+            addIfPermitted(mainPanel, findProposalRow, "Lookup Proposal");
+            
             // TODO Please leave on 
 //            mainPanel.add(new ButtonRow(findAtpButton, "Find a Session."));
 
@@ -108,7 +119,21 @@ public class FindPanel extends ViewComposite{
         }
         onReadyCallback.exec(true);
     }
-    
+    private void addIfPermitted(final Panel container, final Widget element, String permName) {
+        cluProposalRpcServiceAsync.hasPermission(permName, new AsyncCallback<Boolean>() {
+            @Override
+            public void onFailure(Throwable caught) {
+                // TODO what to do here?
+            }
+            @Override
+            public void onSuccess(Boolean result) {
+                if(result) {
+                    container.add(element);
+                }
+            }
+            
+        });
+    }
     private void initCourseSearchWindow(){  
     	Metadata searchMetadata = new FindCourseMetadata().getMetadata("", "");  //no type or state at this point
         SearchPanel searchPicker = new SearchPanel(searchMetadata.getProperties().get("courseId").getLookupMetadata());                

@@ -11,5 +11,5 @@ public interface CreditCourseProposalRpcServiceAsync extends BaseDataOrchestrati
 
 	public void addCollaborator(String docId, String recipientPrincipalId, String collabType, boolean participationRequired, String respondBy, AsyncCallback<Boolean> callback);
     public void getCollaborators(String docId, AsyncCallback<HashMap<String, ArrayList<String>>> callback);
-
+    public void hasPermission(String permName, AsyncCallback<Boolean> callback);
 }

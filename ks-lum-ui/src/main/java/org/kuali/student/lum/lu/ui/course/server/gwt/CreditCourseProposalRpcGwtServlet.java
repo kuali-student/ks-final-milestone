@@ -14,6 +14,7 @@ import org.kuali.rice.kew.dto.RouteNodeInstanceDTO;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.webservice.DocumentResponse;
 import org.kuali.rice.kew.webservice.StandardResponse;
+import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.AbstractBaseDataOrchestrationRpcGwtServlet;
@@ -34,7 +35,9 @@ public class CreditCourseProposalRpcGwtServlet extends
 	private static final String DEFAULT_METADATA_STATE = "draft";
 	private static final String DEFAULT_METADATA_TYPE = null;
     
-	@Override
+	private PermissionService permissionService;
+	
+    @Override
 	protected String deriveAppIdFromData(Data data) {
 		CreditCourseProposalHelper cluProposal = CreditCourseProposalHelper.wrap(data);
 		if(cluProposal!=null&&cluProposal.getProposal()!=null){
@@ -206,5 +209,19 @@ public class CreditCourseProposalRpcGwtServlet extends
             throw new OperationFailedException("Error getting actions Requested",e);
 		}
     }
+	
+	@Override
+	public Boolean hasPermission(String permName) {
+	    //FIXME this is just a stub until the KIM perms are defined
+	    //return permissionService.hasPermission(getCurrentUser(), "KS-LUM", permName, null);
+	    return true;
+	}
+	
+	public PermissionService getPermissionService() {
+        return permissionService;
+    }
 
+    public void setPermissionService(PermissionService permissionService) {
+        this.permissionService = permissionService;
+    }
 }
