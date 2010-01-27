@@ -1,6 +1,6 @@
 package org.kuali.student.common.assembly.client.masking;
 
-public class SimpleMask implements Mask {
+public class SimpleMask extends Mask {
     private static final long serialVersionUID = 1L;
 
     @Override
