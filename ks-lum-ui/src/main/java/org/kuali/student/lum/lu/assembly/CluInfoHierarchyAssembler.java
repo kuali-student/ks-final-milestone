@@ -9,6 +9,7 @@ import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.assembly.client.SaveResult;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.CircularReferenceException;
+import org.kuali.student.core.exceptions.CircularRelationshipException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DependentObjectsExistException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -215,7 +216,11 @@ import org.kuali.student.lum.lu.service.LuService;
 			rel.setType(input.getParentRelationType());
 			rel.setState(input.getParentRelationState());
 			System.out.println("Creating relation: " + rel.getCluId() + "\t" + rel.getType() + "\t" + rel.getRelatedCluId());
-			luService.createCluCluRelation(rel.getCluId(), rel.getRelatedCluId(), rel.getType(), rel);
+			try {
+                luService.createCluCluRelation(rel.getCluId(), rel.getRelatedCluId(), rel.getType(), rel);
+            } catch (CircularRelationshipException e) {
+                throw new CircularReferenceException(e);
+            }
 		}
 		for (CluInfoHierarchy h : input.getChildren()) {
 			saveRelations(input.getCluInfo().getId(), h);

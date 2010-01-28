@@ -26,10 +26,12 @@ import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.assembly.client.SaveResult;
 import org.kuali.student.common.assembly.client.Metadata.WriteAccess;
 import org.kuali.student.common.util.security.SecurityUtils;
+import org.kuali.student.core.dto.AmountInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.TimeAmountInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.CircularReferenceException;
+import org.kuali.student.core.exceptions.CircularRelationshipException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DependentObjectsExistException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -43,7 +45,6 @@ import org.kuali.student.core.search.newdto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
-import org.kuali.student.lum.lu.assembly.data.client.LoModelDTO;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.CluInstructorInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoHelper;
@@ -61,6 +62,7 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCours
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseVersionsHelper;
 import org.kuali.student.lum.lu.assembly.data.server.CluInfoHierarchy;
 import org.kuali.student.lum.lu.assembly.data.server.CluInfoHierarchy.ModificationState;
+import org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
@@ -301,17 +303,14 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
             result.setDescription(RichTextInfoHelper.wrap(richtextAssembler.assemble(course.getDescr())));
 //          result.setRationale(RichTextInfoHelper.wrap(richtextAssembler.assemble(course.getMarketingDesc())));
             
-            // FIXME: LUService change - Use Time Amount Info
-            /*
-            TimeAmountInfoHelper time = TimeAmountInfoHelper.wrap(timeamountAssembler.assemble(course.getIntensity()));
+            AmountInfo time = course.getIntensity();
+            //TimeAmountInfoHelper time = TimeAmountInfoHelper.wrap(timeamountAssembler.assemble(course.getIntensity()));
             if (time != null) {
                 CreditCourseDurationHelper duration = CreditCourseDurationHelper.wrap(new Data());
-                duration.setQuantity(time.getTimeQuantity());
-                duration.setTermType(time.getAtpDurationTypeKey());
+                duration.setQuantity(Integer.valueOf(time.getUnitQuantity()));
+                duration.setTermType(time.getUnitType());
                 result.setDuration(duration);
             }
-            */
-            
             CluInstructorInfoHelper instr = CluInstructorInfoHelper.wrap(instructorAssembler.assemble(course.getPrimaryInstructor()));
             if (instr != null) {
                 result.setPrimaryInstructor(instr.getPersonId());
@@ -322,21 +321,15 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
             result.setType(course.getType());
 
             result.setAcademicSubjectOrgs(new Data());
-            //FIXME: LuService Change
-            /*
-            for (String org : course.getAcademicSubjectOrgs()) {
-                result.getAcademicSubjectOrgs().add(org);
+            
+            for (AcademicSubjectOrgInfo org : course.getAcademicSubjectOrgs()) {
+                result.getAcademicSubjectOrgs().add(org.getOrgId());
             }
-            */
-           
+
             result.setCampusLocations(new Data());
-            ///FIXME: LUService Change
-            /*
-            for (String campus : course.getCampusLocationList()) {
+            for (String campus : course.getCampusLocations()) {
                 result.getCampusLocations().add(campus);
             }
-            */
-            
             addVersionIndicator(result.getData(), CluInfo.class.getName(), course.getId(), course.getMetaInfo().getVersionInd());
 
             for (CluInfoHierarchy format : hierarchy.getChildren()) {
@@ -526,16 +519,16 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
                 admin.setOrgId(course.getDepartment());
             }
 
-            List<String> subjectOrgs = new ArrayList<String>();
+            List<AcademicSubjectOrgInfo> subjectOrgs = new ArrayList<AcademicSubjectOrgInfo>();
             if (course.getAcademicSubjectOrgs() != null) {
                 for (Data.Property p : course.getAcademicSubjectOrgs()) {
                     String org = p.getValue();
-                    subjectOrgs.add(org);
+                    AcademicSubjectOrgInfo info = new AcademicSubjectOrgInfo();
+                    info.setOrgId(org);
+                    subjectOrgs.add(info);
                 }
             }
-            
-            //FIXME: LUService Change
-            //courseClu.setAcademicSubjectOrgs(subjectOrgs);
+            courseClu.setAcademicSubjectOrgs(subjectOrgs);
 
             List<String> campuses = new ArrayList<String>();
             if (course.getCampusLocations() != null) {
@@ -544,8 +537,7 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
                     campuses.add(campus);
                 }
             }
-            //FIXME: LUService Change
-            //courseClu.setCampusLocationList(campuses);
+            courseClu.setCampusLocations(campuses);
 
 
 //			mergeAlternateIdentifiers(course, courseClu);
@@ -557,18 +549,17 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
 
             //AuthzCheck
             if(courseMetadata.getProperties().get("duration").getWriteAccess()!=WriteAccess.NEVER){
-                //FIXME: LUService Change
-            	/*
-            	TimeAmountInfo time = courseClu.getIntensity();
+                AmountInfo time = courseClu.getIntensity();
+                //TimeAmountInfo time = courseClu.getIntensity();
                 if (time == null) {
-                    time = new TimeAmountInfo();
+                    time = new AmountInfo();
+                    time.setUnitQuantity(String.valueOf(course.getDuration().getQuantity()));
                     courseClu.setIntensity(time);
                 }
                 if (course.getDuration() != null) {
-                    time.setAtpDurationTypeKey(course.getDuration().getTermType());
-                    time.setTimeQuantity(course.getDuration().getQuantity());
+                    time.setUnitType(course.getDuration().getTermType());
+                    time.setUnitQuantity(String.valueOf(course.getDuration().getQuantity()));
                 }
-                */
             }
 
             courseClu.setEffectiveDate(course.getEffectiveDate());
@@ -680,9 +671,11 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
             rel.setType(input.getParentRelationType());
             rel.setState(input.getParentRelationState());
             System.out.println("Creating relation: " + rel.getCluId() + "\t" + rel.getType() + "\t" + rel.getRelatedCluId());
-         
-            //FIXME: LUService Change
-            //luService.createCluCluRelation(rel.getCluId(), rel.getRelatedCluId(), rel.getType(), rel);
+            try {
+                luService.createCluCluRelation(rel.getCluId(), rel.getRelatedCluId(), rel.getType(), rel);
+            } catch (CircularRelationshipException e) {
+                throw new CircularReferenceException(e);
+            }
         }
         for (CluInfoHierarchy h : input.getChildren()) {
             saveRelations(input.getCluInfo().getId(), h);
@@ -745,13 +738,12 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
         activity.setId(clu.getId());
         activity.setActivityType(clu.getType());
 
-        //FIXME: LUService Change
-        /*
-        TimeAmountInfoHelper time = TimeAmountInfoHelper.wrap(timeamountAssembler.assemble(clu.getIntensity()));
-        if (time != null) {            
-        	CreditCourseActivityContactHoursHelper hours = CreditCourseActivityContactHoursHelper.wrap(new Data());
-            hours.setHrs(time.getTimeQuantity());
-            hours.setPer(time.getAtpDurationTypeKey());
+        //TimeAmountInfoHelper time = TimeAmountInfoHelper.wrap(timeamountAssembler.assemble(clu.getIntensity()));
+        AmountInfo time = clu.getIntensity();
+        if (time != null) {
+            CreditCourseActivityContactHoursHelper hours = CreditCourseActivityContactHoursHelper.wrap(new Data());
+            hours.setHrs(Integer.valueOf(time.getUnitQuantity()));
+            hours.setPer(time.getUnitType());
             activity.setContactHours(hours);
         }
 
@@ -762,7 +754,6 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
             duration.setTimeUnit(stdDuration.getAtpDurationTypeKey());
             activity.setDuration(duration);
         }
-		*/
 
         activity.setDefaultEnrollmentEstimate(clu.getDefaultEnrollmentEstimate());
         activity.setState(clu.getState());
@@ -901,18 +892,15 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
                 activityClu.setType(activity.getActivityType());
 
 
-                //FIXME: LUService Change
-                /*
-                TimeAmountInfo time = activityClu.getIntensity();
+                AmountInfo time = activityClu.getIntensity();
                 if (time == null) {
-                    time = new TimeAmountInfo();
+                    time = new AmountInfo();
                     activityClu.setIntensity(time);
                 }
                 if (activity.getContactHours() != null) {
-                    time.setAtpDurationTypeKey(activity.getContactHours().getPer());
-                    time.setTimeQuantity(activity.getContactHours().getHrs());
+                    time.setUnitType(activity.getContactHours().getPer());
+                    time.setUnitQuantity(String.valueOf(activity.getContactHours().getHrs()));
                 }
-                 */
 
                 TimeAmountInfo stdDuration = activityClu.getStdDuration();
                 if (stdDuration == null){
