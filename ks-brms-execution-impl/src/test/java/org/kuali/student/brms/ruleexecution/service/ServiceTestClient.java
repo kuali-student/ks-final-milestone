@@ -556,7 +556,7 @@ public class ServiceTestClient {
         Assert.assertNotNull(factTypes);
     	for(FactTypeInfo factTypeInfo : factTypes) {
     		System.out.println("Fact type name:        "+factTypeInfo.getName());
-    		System.out.println("Fact type description: "+factTypeInfo.getDesc());
+    		System.out.println("Fact type description: "+factTypeInfo.getDescr());
 //    		System.out.println("Fact type key:         "+factTypeInfo.getFactTypeKey());
     	}
     }
