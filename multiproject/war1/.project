@@ -1,0 +1,15 @@
+<projectDescription>
+  <name>maven-clover2-plugin-sample-multiproject-war1</name>
+  <comment>Maven Clover Plugin Multiproject Sample - WAR 1</comment>
+  <projects>
+    <project>maven-clover2-plugin-sample-multiproject-jar1</project>
+  </projects>
+  <buildSpec>
+    <buildCommand>
+      <name>org.eclipse.jdt.core.javabuilder</name>
+    </buildCommand>
+  </buildSpec>
+  <natures>
+    <nature>org.eclipse.jdt.core.javanature</nature>
+  </natures>
+</projectDescription>
