@@ -300,6 +300,9 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
 //          }
             result.setDescription(RichTextInfoHelper.wrap(richtextAssembler.assemble(course.getDescr())));
 //          result.setRationale(RichTextInfoHelper.wrap(richtextAssembler.assemble(course.getMarketingDesc())));
+            
+            // FIXME: LUService change - Use Time Amount Info
+            /*
             TimeAmountInfoHelper time = TimeAmountInfoHelper.wrap(timeamountAssembler.assemble(course.getIntensity()));
             if (time != null) {
                 CreditCourseDurationHelper duration = CreditCourseDurationHelper.wrap(new Data());
@@ -307,6 +310,8 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
                 duration.setTermType(time.getAtpDurationTypeKey());
                 result.setDuration(duration);
             }
+            */
+            
             CluInstructorInfoHelper instr = CluInstructorInfoHelper.wrap(instructorAssembler.assemble(course.getPrimaryInstructor()));
             if (instr != null) {
                 result.setPrimaryInstructor(instr.getPersonId());
@@ -317,14 +322,21 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
             result.setType(course.getType());
 
             result.setAcademicSubjectOrgs(new Data());
+            //FIXME: LuService Change
+            /*
             for (String org : course.getAcademicSubjectOrgs()) {
                 result.getAcademicSubjectOrgs().add(org);
             }
-
+            */
+           
             result.setCampusLocations(new Data());
+            ///FIXME: LUService Change
+            /*
             for (String campus : course.getCampusLocationList()) {
                 result.getCampusLocations().add(campus);
             }
+            */
+            
             addVersionIndicator(result.getData(), CluInfo.class.getName(), course.getId(), course.getMetaInfo().getVersionInd());
 
             for (CluInfoHierarchy format : hierarchy.getChildren()) {
@@ -521,7 +533,9 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
                     subjectOrgs.add(org);
                 }
             }
-            courseClu.setAcademicSubjectOrgs(subjectOrgs);
+            
+            //FIXME: LUService Change
+            //courseClu.setAcademicSubjectOrgs(subjectOrgs);
 
             List<String> campuses = new ArrayList<String>();
             if (course.getCampusLocations() != null) {
@@ -530,7 +544,8 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
                     campuses.add(campus);
                 }
             }
-            courseClu.setCampusLocationList(campuses);
+            //FIXME: LUService Change
+            //courseClu.setCampusLocationList(campuses);
 
 
 //			mergeAlternateIdentifiers(course, courseClu);
@@ -542,7 +557,9 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
 
             //AuthzCheck
             if(courseMetadata.getProperties().get("duration").getWriteAccess()!=WriteAccess.NEVER){
-                TimeAmountInfo time = courseClu.getIntensity();
+                //FIXME: LUService Change
+            	/*
+            	TimeAmountInfo time = courseClu.getIntensity();
                 if (time == null) {
                     time = new TimeAmountInfo();
                     courseClu.setIntensity(time);
@@ -551,6 +568,7 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
                     time.setAtpDurationTypeKey(course.getDuration().getTermType());
                     time.setTimeQuantity(course.getDuration().getQuantity());
                 }
+                */
             }
 
             courseClu.setEffectiveDate(course.getEffectiveDate());
@@ -662,7 +680,9 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
             rel.setType(input.getParentRelationType());
             rel.setState(input.getParentRelationState());
             System.out.println("Creating relation: " + rel.getCluId() + "\t" + rel.getType() + "\t" + rel.getRelatedCluId());
-            luService.createCluCluRelation(rel.getCluId(), rel.getRelatedCluId(), rel.getType(), rel);
+         
+            //FIXME: LUService Change
+            //luService.createCluCluRelation(rel.getCluId(), rel.getRelatedCluId(), rel.getType(), rel);
         }
         for (CluInfoHierarchy h : input.getChildren()) {
             saveRelations(input.getCluInfo().getId(), h);
@@ -725,9 +745,11 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
         activity.setId(clu.getId());
         activity.setActivityType(clu.getType());
 
+        //FIXME: LUService Change
+        /*
         TimeAmountInfoHelper time = TimeAmountInfoHelper.wrap(timeamountAssembler.assemble(clu.getIntensity()));
-        if (time != null) {
-            CreditCourseActivityContactHoursHelper hours = CreditCourseActivityContactHoursHelper.wrap(new Data());
+        if (time != null) {            
+        	CreditCourseActivityContactHoursHelper hours = CreditCourseActivityContactHoursHelper.wrap(new Data());
             hours.setHrs(time.getTimeQuantity());
             hours.setPer(time.getAtpDurationTypeKey());
             activity.setContactHours(hours);
@@ -740,6 +762,7 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
             duration.setTimeUnit(stdDuration.getAtpDurationTypeKey());
             activity.setDuration(duration);
         }
+		*/
 
         activity.setDefaultEnrollmentEstimate(clu.getDefaultEnrollmentEstimate());
         activity.setState(clu.getState());
@@ -878,6 +901,8 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
                 activityClu.setType(activity.getActivityType());
 
 
+                //FIXME: LUService Change
+                /*
                 TimeAmountInfo time = activityClu.getIntensity();
                 if (time == null) {
                     time = new TimeAmountInfo();
@@ -887,6 +912,7 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
                     time.setAtpDurationTypeKey(activity.getContactHours().getPer());
                     time.setTimeQuantity(activity.getContactHours().getHrs());
                 }
+                 */
 
                 TimeAmountInfo stdDuration = activityClu.getStdDuration();
                 if (stdDuration == null){
