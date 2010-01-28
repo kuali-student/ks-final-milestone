@@ -228,7 +228,7 @@ public class CommonConfigurer {
      * Temporary method to return Org Advance Search 
      */
     private Widget getOrgAdvanceSearch(){
-        Metadata searchMetadata = modelDefinition.getMetadata(QueryPath.parse("orgInfo"));  //no type or state at this point
+        Metadata searchMetadata = modelDefinition.getMetadata(QueryPath.parse("orgSearchInfo"));  //no type or state at this point
         SearchPanel adminDepartment = new SearchPanel(searchMetadata.getProperties().get(ORG_SEARCH).getLookupMetadata());                
         final AdvancedSearchWindow courseSearchWindow = new AdvancedSearchWindow("Find Department", adminDepartment);
         KSTextBox adminDepTextBox = new KSTextBox();   //FIXME this will be suggest box
