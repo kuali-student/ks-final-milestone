@@ -47,6 +47,7 @@ import org.kuali.student.common.assembly.client.SaveResult;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
+import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.applicationstate.ApplicationStateManager;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
@@ -70,7 +71,6 @@ import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.lum.lu.assembly.CreditCourseProposalAssembler;
 import org.kuali.student.lum.lu.assembly.CreditCourseProposalWorkflowAssemblerFilter;
-import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
@@ -81,7 +81,7 @@ import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
 import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
-import org.kuali.student.lum.lu.ui.course.client.service.DataSaveResult;
+import org.kuali.student.lum.nlt.service.TranslationService;
 import org.springframework.security.Authentication;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.context.SecurityContextHolder;
@@ -93,6 +93,7 @@ import org.springframework.security.userdetails.User;
  *
  * @author Kuali Student Team
  */
+@Deprecated
 public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuService> implements CluProposalRpcService {
 
 	final Logger logger = Logger.getLogger(CluProposalRpcGwtServlet.class);
@@ -118,6 +119,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     private OrganizationService orgService;
     private ProposalService proposalService;
     private LearningObjectiveService learningObjectiveService;
+    private TranslationService translationService;
     private ApplicationStateManager applicationStateManager;
     
     /* TODO - this should all go away when
@@ -629,6 +631,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             // save rules
             LuRuleInfoPersistanceBean ruleInfoBean = new LuRuleInfoPersistanceBean();
             ruleInfoBean.setLuService(service);
+            ruleInfoBean.setTranslationService(translationService);            
             ruleInfoBean.updateRules(cluInfo.getId(), cluProposalDTO.getRuleInfos());
             
             // now update the clu with whatever changes were made in save... methods
@@ -756,6 +759,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             // save rules
             LuRuleInfoPersistanceBean ruleInfoBean = new LuRuleInfoPersistanceBean();
             ruleInfoBean.setLuService(service);
+            ruleInfoBean.setTranslationService(translationService);            
             ruleInfoBean.updateRules(cluInfo.getId(), cluProposalDTO.getRuleInfos());
             
             // so now we need to re-load that new version
@@ -1422,6 +1426,14 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         this.learningObjectiveService = learningObjectiveService;
     }
     
+    public TranslationService getTranslationService() {
+		return translationService;
+	}
+
+	public void setTranslationService(TranslationService translationService) {
+		this.translationService = translationService;
+	}    
+        
 //    /**
 //     * This method should return a an empty model with associated model definition for 
 //     * requested model
@@ -1467,6 +1479,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     		targetAssembler.setProposalService(proposalService);   
     		targetAssembler.setPermissionService(permissionService);
     		targetAssembler.setLearningObjectiveService(learningObjectiveService);
+    		targetAssembler.setTranslationService(translationService);
     		
     		CreditCourseProposalWorkflowAssemblerFilter workflowAssemblerFilter = new CreditCourseProposalWorkflowAssemblerFilter();
     		workflowAssemblerFilter.setSimpleDocService(simpleDocService);

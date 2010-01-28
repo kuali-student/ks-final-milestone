@@ -87,11 +87,13 @@ public class TranslationServiceImpl implements TranslationService {
 			if(language != null) {
 				this.naturalLanguageTranslator.setLanguage(language);
 			}
-			LuStatementInfo luStatementInfo = this.luService.getLuStatement(luStatementId);
-			checkCluExistsInLuStatementInfo(cluId, luStatementInfo);
-			CustomLuStatementInfo customInfo = dtoAdapter.toCustomLuStatementInfo(luStatementInfo);
-			String nl = this.naturalLanguageTranslator.translateStatement(cluId, customInfo, nlUsageTypeKey);
-			return nl;
+			//TODO: Fix with LuService RC1.4 changes			
+//			LuStatementInfo luStatementInfo = this.luService.getLuStatement(luStatementId);
+//			checkCluExistsInLuStatementInfo(cluId, luStatementInfo);
+//			CustomLuStatementInfo customInfo = dtoAdapter.toCustomLuStatementInfo(luStatementInfo);
+//			String nl = this.naturalLanguageTranslator.translateStatement(cluId, customInfo, nlUsageTypeKey);
+//			return nl;			
+			return null;
 		} finally {
 			this.naturalLanguageTranslator.setLanguage(lang);
 		}
@@ -171,10 +173,12 @@ public class TranslationServiceImpl implements TranslationService {
 			if(language != null) {
 				this.naturalLanguageTranslator.setLanguage(language);
 			}
-			ReqComponentInfo reqComponentInfo = this.luService.getReqComponent(reqComponentId);
-			CustomReqComponentInfo customReq = this.dtoAdapter.toCustomReqComponentInfo(reqComponentInfo);
-			String nl = this.naturalLanguageTranslator.translateReqComponent(customReq, nlUsageTypeKey);
-			return nl;
+			//TODO: Fix with LuService RC1.4 changes			
+////			ReqComponentInfo reqComponentInfo = this.luService.getReqComponent(reqComponentId);
+//			CustomReqComponentInfo customReq = this.dtoAdapter.toCustomReqComponentInfo(reqComponentInfo);
+//			String nl = this.naturalLanguageTranslator.translateReqComponent(customReq, nlUsageTypeKey);
+//			return nl;
+			return null;
 		} finally {
 			this.naturalLanguageTranslator.setLanguage(lang);
 		}
@@ -203,8 +207,9 @@ public class TranslationServiceImpl implements TranslationService {
 		checkForEmptyParameter(language, "language");
 
 		if(reqComponentInfo.getRequiredComponentType() == null) {
-			ReqComponentTypeInfo type = this.luService.getReqComponentType(reqComponentInfo.getType());
-			reqComponentInfo.setRequiredComponentType(type);
+			//TODO: Fix with LuService RC1.4 changes			
+//			ReqComponentTypeInfo type = this.luService.getReqComponentType(reqComponentInfo.getType());
+//			reqComponentInfo.setRequiredComponentType(type);
 		}
 		
 		final String lang = this.naturalLanguageTranslator.getLanguage();
@@ -251,10 +256,12 @@ public class TranslationServiceImpl implements TranslationService {
 			if(language != null) {
 				this.naturalLanguageTranslator.setLanguage(language);
 			}
-			LuStatementInfo luStatementInfo = this.luService.getLuStatement(luStatementId);
-			checkCluExistsInLuStatementInfo(cluId, luStatementInfo);
-			CustomLuStatementInfo customInfo = this.dtoAdapter.toCustomLuStatementInfo(luStatementInfo);
-			return this.naturalLanguageTranslator.translateToTree(cluId, customInfo, nlUsageTypeKey);
+			//TODO: Fix with LuService RC1.4 changes			
+//			LuStatementInfo luStatementInfo = this.luService.getLuStatement(luStatementId);
+//			checkCluExistsInLuStatementInfo(cluId, luStatementInfo);
+//			CustomLuStatementInfo customInfo = this.dtoAdapter.toCustomLuStatementInfo(luStatementInfo);
+//			return this.naturalLanguageTranslator.translateToTree(cluId, customInfo, nlUsageTypeKey);
+			return null;
 		} finally {
 			this.naturalLanguageTranslator.setLanguage(lang);
 		}

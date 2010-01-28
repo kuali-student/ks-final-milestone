@@ -28,16 +28,13 @@ import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.ResultCell;
 import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.nlt.dto.LuNlStatementInfo;
 import org.kuali.student.lum.nlt.service.TranslationService;
-import org.kuali.student.lum.ui.requirements.client.model.EditHistory;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
-import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcService;
 
@@ -80,15 +77,14 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
         if (error.isEmpty() == false) {
             throw new Exception(error + "cluId: " + cluId + ", usage: " + nlUsageTypeKey);            
         }
-                
-        //then get natural language for the statement
-        String NLStatement = "";
-        
+                       
         //cluId can't be empty
         if ((cluId != null) && cluId.isEmpty()) {
         	cluId = null;
         }
  
+        //then get natural language for the statement
+        String NLStatement = "";        
         try {        
             NLStatement = translationService.getNaturalLanguageForLuStatementInfo(cluId, luNlStatementInfo, nlUsageTypeKey, null);            
         } catch (Exception ex) {
@@ -110,133 +106,7 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
         }
         
         return reqComponentTypeInfoList;
-    }            
-    
-    //retrieve statement based on CLU ID and STATEMENT TYPE
-    public LuStatementInfo getLuStatementForCluAndStatementType(String cluId, String luStatementTypeKey) throws Exception {
-        
-        try {
-            List<LuStatementInfo> stmtInfoList = service.getLuStatementsForClu(cluId);
-            
-            for (LuStatementInfo statementInfo : stmtInfoList) {
-                if (statementInfo.getType().equals(luStatementTypeKey)) {
-                    return statementInfo;
-                }
-            }
-            
-            logger.debug("Did not find LuStatementInfo based on cluid: " + cluId + " and luStatementTypeKey: " + luStatementTypeKey);                                       
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            throw new Exception("Unable to find Lu Statement based on CLU id:" + cluId + " and Statement type key: " + luStatementTypeKey, ex);
-        }
-        
-        return null;
-    }
-    
-    public List<RuleInfo> getRules(String cluId, List<String> applicableLuStatementTypes) throws Exception {
-    	
-    	List<RuleInfo> rules = new ArrayList<RuleInfo>();
-    	
-    	//get all statements of given type associated with this clu 	    	
-        for (String luStatementTypeKey : applicableLuStatementTypes) {
-        	
-        	StatementVO statementVO = getStatementVO(cluId, luStatementTypeKey);
-    	
-        	//if we don't have rule for give rule type
-	        if (statementVO == null) {                   
-	            continue;
-	        }       
-	        
-	        final RuleInfo ruleInfo = new RuleInfo();
-	        ruleInfo.setCluId(cluId);
-	        ruleInfo.setRationale("");  //TODO
-	        ruleInfo.setStatementVO(statementVO);
-	        ruleInfo.setLuStatementTypeKey(luStatementTypeKey);
-	        
-	        EditHistory editHistory = new EditHistory();
-	        editHistory.save(statementVO);
-	        ruleInfo.setEditHistory(editHistory);	                           
-	                                
-	        String statementNaturalLanguage = getNaturalLanguageForStatementVO(cluId, statementVO, "KUALI.CATALOG");        
-	        ruleInfo.setNaturalLanguage(statementNaturalLanguage);   
-	        
-	        rules.add(ruleInfo);
-        }
-    	
-        return rules;
-    }
-    
-    public StatementVO getStatementVO(String cluId, String luStatementTypeKey) throws Exception {
-        
-        LuStatementInfo luStatementInfo = getLuStatementForCluAndStatementType(cluId, luStatementTypeKey);
-        
-        //true if no rule defined for given statement type
-        if (luStatementInfo == null) {
-            return null;
-        }
-        
-        StatementVO rootStatementVO = new StatementVO(luStatementInfo);
-        if (luStatementInfo != null) {
-            String error = composeStatementVO(luStatementInfo, rootStatementVO);
-            if (error.isEmpty() == false) {
-                throw new Exception(error + "cluId: " + cluId + ", luStatementTypeKey: " + luStatementTypeKey);            
-            }
-        }
-        
-        return rootStatementVO;        
-    }      
-    
-    private String composeStatementVO(LuStatementInfo luStatementInfo, StatementVO statementVO) throws Exception {
-        
-        List<String> statementIDs = luStatementInfo.getLuStatementIds();       
-        List<String> reqComponentIDs = luStatementInfo.getReqComponentIds();
-        
-        if ((statementIDs != null) && (reqComponentIDs != null) && (statementIDs.size() > 0) && (reqComponentIDs.size() > 0))
-        {
-            return "Internal error: found both Statements and Requirement Components on the same level of boolean expression";
-        }
-        
-        if ((statementIDs != null) && (statementIDs.size() > 0)) {
-            //retrieve all statements
-            for (String stmtID : statementIDs) {
-                LuStatementInfo tempStmtInfo;                    
-                try {
-                    tempStmtInfo = service.getLuStatement(stmtID);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    throw new Exception("Unable to retrieve Lu Statement based on luStatementID: " + stmtID, ex);
-                }
-                StatementVO tempStmtVO = new StatementVO(tempStmtInfo);
-                composeStatementVO(tempStmtInfo, tempStmtVO);
-                statementVO.addStatementVO(tempStmtVO);
-            }            
-        } else {
-            //retrieve all req. component LEAFS
-            for (String reqCompID : reqComponentIDs) {
-                    
-                ReqComponentInfo tempReqCompInfo;
-                try {
-                    tempReqCompInfo = service.getReqComponent(reqCompID);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    throw new Exception("Unable to retrieve Lu Statemetn based on reqComponentID: " + reqCompID, ex);
-                }
-                
-                ReqComponentVO tempReqCompVO = new ReqComponentVO(tempReqCompInfo);
-                
-                try {
-                    tempReqCompVO.setTypeDesc(getNaturalLanguageForReqComponentInfo(tempReqCompInfo, "KUALI.CATALOG"));
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    throw new Exception("Unable to retrieve Lu Statemetn based on reqComponentID: " + reqCompID, ex);
-                }                                
-
-                statementVO.addReqComponentVO(tempReqCompVO);
-            }               
-        }        
-        
-        return "";
-    }     
+    }                    
     
     private String composeLuNlStatementInfo(StatementVO statementVO, LuNlStatementInfo luNlStatementInfo) throws Exception {
         
@@ -254,7 +124,6 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
             //retrieve all statements
             List<LuNlStatementInfo> stmtInfoList = new ArrayList<LuNlStatementInfo>();
             for (StatementVO statement : statementVOs) {  
-                logger.debug("got STATEMENT witho operator: " + statement.getLuStatementInfo().getOperator());
                 LuNlStatementInfo tempLuNlStmtInfo = new LuNlStatementInfo(); 
                 tempLuNlStmtInfo.setOperator(statement.getLuStatementInfo().getOperator());
                 tempLuNlStmtInfo.setStatementTypeId(statement.getLuStatementInfo().getType());

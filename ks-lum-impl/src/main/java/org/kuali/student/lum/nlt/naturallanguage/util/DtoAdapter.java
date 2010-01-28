@@ -24,10 +24,7 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
-import org.kuali.student.lum.lu.dto.LuStatementTypeInfo;
-import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
-import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.nlt.dto.LuNlStatementInfo;
 
@@ -76,8 +73,9 @@ public class DtoAdapter {
 		custom.setReqCompFields(reqComponentInfo.getReqCompFields());
 		custom.setRequiredComponentType(reqComponentInfo.getRequiredComponentType());
 		if(reqComponentInfo.getRequiredComponentType() == null) {
-			ReqComponentTypeInfo type = this.luService.getReqComponentType(reqComponentInfo.getType());
-			custom.setRequiredComponentType(type);
+			//TODO: Fix with LuService RC1.4 changes
+//			ReqComponentTypeInfo type = this.luService.getReqComponentType(reqComponentInfo.getType());
+//			custom.setRequiredComponentType(type);
 		}
 		return custom;
 	}
@@ -104,7 +102,8 @@ public class DtoAdapter {
 		custom.setName(luStatementInfo.getName());
 		custom.setLuStatementType(luStatementInfo.getLuStatementType());
 		if(luStatementInfo.getLuStatementType() == null) {
-			custom.setLuStatementType(this.luService.getLuStatementType(luStatementInfo.getType()));
+			//TODO: Fix with LuService RC1.4 changes
+//			custom.setLuStatementType(this.luService.getLuStatementType(luStatementInfo.getType()));
 		}
 		custom.setOperator(luStatementInfo.getOperator());
         if (luStatementInfo.getLuStatementIds() == null || luStatementInfo.getLuStatementIds().isEmpty()) {
@@ -135,36 +134,38 @@ public class DtoAdapter {
 		if(stmtInfo.getLuStatementIds() != null && !stmtInfo.getLuStatementIds().isEmpty()) {
             this.idReferenceMap.put(stmtInfo.getId(), stmtInfo.getLuStatementIds().toString());
             checkReference(stmtInfo.getId(), stmtInfo.getLuStatementIds());
-			List<LuStatementInfo> infoList = this.luService.getLuStatements(stmtInfo.getLuStatementIds());
-			for(LuStatementInfo info : infoList) {
-				CustomLuStatementInfo customStmt = new CustomLuStatementInfo();
-				customStmt.setId(info.getId());
-				customStmt.setName(info.getName());
-		        customStmt.setParent(rootCustomLuStatement);
-		        customStmt.setOperator(info.getOperator());
-		        customStmt.setLuStatementType(info.getLuStatementType());
-		        if(info.getLuStatementType() == null) {
-					customStmt.setLuStatementType(this.luService.getLuStatementType(info.getType()));
-				}
-		        if(rootCustomLuStatement.getChildren() == null) {
-		        	rootCustomLuStatement.setChildren(new ArrayList<CustomLuStatementInfo>());
-		        }
-		        rootCustomLuStatement.getChildren().add(customStmt);
-		        if (info.getLuStatementIds() == null || info.getLuStatementIds().isEmpty()) {
-		            List<CustomReqComponentInfo> children = getRequiredComponents(info);
-		            customStmt.setRequiredComponents(children);
-		        } else {
-		        	createChildren(info, customStmt);
-		        }
-			}
+          //TODO: Fix with LuService RC1.4 changes
+            //			List<LuStatementInfo> infoList = this.luService.getLuStatements(stmtInfo.getLuStatementIds());
+//			for(LuStatementInfo info : infoList) {
+//				CustomLuStatementInfo customStmt = new CustomLuStatementInfo();
+//				customStmt.setId(info.getId());
+//				customStmt.setName(info.getName());
+//		        customStmt.setParent(rootCustomLuStatement);
+//		        customStmt.setOperator(info.getOperator());
+//		        customStmt.setLuStatementType(info.getLuStatementType());
+//		        if(info.getLuStatementType() == null) {
+//					customStmt.setLuStatementType(this.luService.getLuStatementType(info.getType()));
+//				}
+//		        if(rootCustomLuStatement.getChildren() == null) {
+//		        	rootCustomLuStatement.setChildren(new ArrayList<CustomLuStatementInfo>());
+//		        }
+//		        rootCustomLuStatement.getChildren().add(customStmt);
+//		        if (info.getLuStatementIds() == null || info.getLuStatementIds().isEmpty()) {
+//		            List<CustomReqComponentInfo> children = getRequiredComponents(info);
+//		            customStmt.setRequiredComponents(children);
+//		        } else {
+//		        	createChildren(info, customStmt);
+//		        }
+//			}
 		}
 	}
 	
 	private List<CustomReqComponentInfo> getRequiredComponents(LuStatementInfo stmtInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		List<CustomReqComponentInfo> list = null;
 		if(stmtInfo.getReqComponentIds() != null && !stmtInfo.getReqComponentIds().isEmpty()) {
-			List<ReqComponentInfo> reqList = this.luService.getReqComponents(stmtInfo.getReqComponentIds());
-			list = toCustomReqComponentInfos(reqList);
+			//TODO: Fix with LuService RC1.4 changes
+//			List<ReqComponentInfo> reqList = this.luService.getReqComponents(stmtInfo.getReqComponentIds());
+//			list = toCustomReqComponentInfos(reqList);
 		}
 		return list;
 	}
@@ -182,8 +183,9 @@ public class DtoAdapter {
 		CustomLuStatementInfo stmt = new CustomLuStatementInfo();
         stmt.setName(statementInfo.getName());
         stmt.setOperator(statementInfo.getOperator());
-        LuStatementTypeInfo stmtType = this.luService.getLuStatementType(statementInfo.getStatementTypeId());
-        stmt.setLuStatementType(stmtType);
+		//TODO: Fix with LuService RC1.4 changes
+        //        LuStatementTypeInfo stmtType = this.luService.getLuStatementType(statementInfo.getStatementTypeId());
+//        stmt.setLuStatementType(stmtType);
         
         if(statementInfo.getChildren() == null || statementInfo.getChildren().isEmpty()) {
         	setReqComponentType(statementInfo.getRequiredComponents());
@@ -204,8 +206,9 @@ public class DtoAdapter {
 
 	private void setReqComponentType(ReqComponentInfo req) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		if(req.getRequiredComponentType() == null) {
-			ReqComponentTypeInfo type = this.luService.getReqComponentType(req.getType());
-			req.setRequiredComponentType(type);
+			//TODO: Fix with LuService RC1.4 changes			
+//			ReqComponentTypeInfo type = this.luService.getReqComponentType(req.getType());
+//			req.setRequiredComponentType(type);
 		}
 	}
 
@@ -216,7 +219,8 @@ public class DtoAdapter {
 	        stmt.setParent(rootLuStatement);
 	        stmt.setOperator(luNlStmt.getOperator());
 			if(luNlStmt.getStatementTypeId() != null) {
-		        stmt.setLuStatementType(this.luService.getLuStatementType(luNlStmt.getStatementTypeId()));
+				//TODO: Fix with LuService RC1.4 changes				
+//		        stmt.setLuStatementType(this.luService.getLuStatementType(luNlStmt.getStatementTypeId()));
 			}
 
 	        if(rootLuStatement.getChildren() == null) {

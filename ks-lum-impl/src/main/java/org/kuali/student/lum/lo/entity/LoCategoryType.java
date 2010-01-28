@@ -49,7 +49,7 @@ public class LoCategoryType implements AttributeOwner<LoCategoryTypeAttribute> {
 	private String name;
 	
 	@Column(name = "DESCR")
-	private String desc;
+	private String descr;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EFF_DT")
@@ -84,12 +84,12 @@ public class LoCategoryType implements AttributeOwner<LoCategoryTypeAttribute> {
 		return name;
 	}
 
-	public String getDesc() {
-		return desc;
+	public String getDescr() {
+		return descr;
 	}
 
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setDescr(String descr) {
+		this.descr = descr;
 	}
 
 	public Date getEffectiveDate() {

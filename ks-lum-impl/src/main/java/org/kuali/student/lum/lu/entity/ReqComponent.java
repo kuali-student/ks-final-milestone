@@ -47,7 +47,7 @@ public class ReqComponent extends MetaEntity {
 	private String id;
 	
     @Column(name="DESCR")
-    private String desc;
+    private String descr;
 
     @Column(name="ST")
     private String state;
@@ -92,12 +92,12 @@ public class ReqComponent extends MetaEntity {
 		this.requiredComponentType = requiredComponentType;
 	}
 
-    public String getDesc() {
-        return desc;
+    public String getDescr() {
+        return descr;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescr(String descr) {
+        this.descr = descr;
     }
 
     public String getState() {

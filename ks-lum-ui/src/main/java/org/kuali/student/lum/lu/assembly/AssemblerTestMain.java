@@ -8,12 +8,9 @@ import javax.xml.namespace.QName;
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.ws.beans.JaxWsClientFactory;
 import org.kuali.student.common.ws.beans.JaxWsClientFactoryBean;
-import org.kuali.student.core.atp.dto.AtpDurationTypeInfo;
-import org.kuali.student.core.atp.service.AtpService;
 import org.kuali.student.core.proposal.dto.ProposalTypeInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
-import org.kuali.student.lum.lu.assembly.CluInfoHierarchyAssembler.RelationshipHierarchy;
-import org.kuali.student.lum.lu.assembly.data.server.CluInfoHierarchy;
+import org.kuali.student.lum.lu.assembly.CourseAssembler.RelationshipHierarchy;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
@@ -53,10 +50,10 @@ public class AssemblerTestMain {
 		luService.createCluCluRelation(clu.getId(), formatClu.getId(),
 				"luLuRelationType.hasCourseFormat", relation);
 
-		CluInfoHierarchyAssembler cluAssembler = getAssembler();
-		cluAssembler.setLuService(luService);
+		CourseAssembler courseAssembler = getAssembler();
+		courseAssembler.setLuService(luService);
 
-		CluInfoHierarchy result = cluAssembler.get(clu.getId());
+		Data result = courseAssembler.get(clu.getId());
 		// TODO finish updating test with new structures
 		
 //		CluInfoHierarchy course = new CluInfoHierarchy();
@@ -78,18 +75,18 @@ public class AssemblerTestMain {
 	}
 
 
-	private static CluInfoHierarchyAssembler getAssembler() {
-		CluInfoHierarchyAssembler cluAssembler = new CluInfoHierarchyAssembler();
+	private static CourseAssembler getAssembler() {
+	    CourseAssembler courseAssembler = new CourseAssembler();
 		RelationshipHierarchy course = new RelationshipHierarchy();
-		RelationshipHierarchy formats = new RelationshipHierarchy(CreditCourseProposalAssembler.FORMAT_RELATION_TYPE, "draft");
-		RelationshipHierarchy activities = new RelationshipHierarchy(CreditCourseProposalAssembler.ACTIVITY_RELATION_TYPE, "draft");
+		RelationshipHierarchy formats = new RelationshipHierarchy(CourseAssembler.FORMAT_RELATION_TYPE, "draft");
+		RelationshipHierarchy activities = new RelationshipHierarchy(CourseAssembler.ACTIVITY_RELATION_TYPE, "draft");
 		
 		course.addChild(formats);
 		formats.addChild(activities);
 		
-		cluAssembler = new CluInfoHierarchyAssembler();
-		cluAssembler.setHierarchy(course);
-		return cluAssembler;
+		courseAssembler = new CourseAssembler();
+//		courseAssembler.setHierarchy(course);
+		return courseAssembler;
 	}
 	private static void dump(final Data e) {
 		dump(e, 0);
