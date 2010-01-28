@@ -109,7 +109,7 @@ public class BaseAssembler {
 			typeInfo.setAttributes(toAttributeMap(typeEntity.getAttributes()));
 
 			//Copy the description
-			typeInfo.setDesc(typeEntity.getDescr());
+			typeInfo.setDescr(typeEntity.getDescr());
 			
 			return typeInfo;
 

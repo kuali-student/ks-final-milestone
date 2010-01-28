@@ -70,7 +70,7 @@ public class OrganizationAssembler extends BaseAssembler{
 		// copy attributes and RootOrg
 		orgHierarchyInfo.setAttributes(toAttributeMap(orgHierarchy.getAttributes()));
 		orgHierarchyInfo.setRootOrgId(orgHierarchy.getRootOrg().getId());
-		orgHierarchyInfo.setDesc(orgHierarchy.getDescr());
+		orgHierarchyInfo.setDescr(orgHierarchy.getDescr());
 		return orgHierarchyInfo;
 	}
 
