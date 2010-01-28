@@ -29,7 +29,6 @@ import org.kuali.student.core.organization.ui.client.mvc.model.FieldInfo;
 import org.kuali.student.core.organization.ui.client.mvc.model.MultipleFieldInfoImpl;
 import org.kuali.student.core.organization.ui.client.mvc.model.SectionConfigInfo;
 import org.kuali.student.core.organization.ui.client.mvc.model.SectionViewInfo;
-import org.kuali.student.core.organization.ui.client.mvc.model.dto.MultipleField;
 import org.kuali.student.core.organization.ui.client.mvc.view.OrgConfigurerFactory.OrgSections;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;

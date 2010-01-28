@@ -17,7 +17,6 @@ import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.ui.client.configuration.OrgConstants;
-import org.kuali.student.core.organization.ui.client.mvc.model.OrgProposalModel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
