@@ -5,14 +5,13 @@
     <artifactId>multiproject</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <groupId>sample.jar2</groupId>
   <artifactId>jar2</artifactId>
   <packaging>jar</packaging>
   <name>JAR 2</name>
   <description>JAR 2</description>
   <dependencies>
     <dependency>
-      <groupId>sample.jar1</groupId>
+      <groupId>sample</groupId>
       <artifactId>jar1</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>

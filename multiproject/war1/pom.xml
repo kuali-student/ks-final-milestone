@@ -12,12 +12,7 @@
   <description>WAR 1</description>
   <dependencies>
     <dependency>
-      <groupId>sample.jar1</groupId>
-      <artifactId>jar1</artifactId>
-      <version>1.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>sample.jar2</groupId>
+      <groupId>sample</groupId>
       <artifactId>jar2</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>
