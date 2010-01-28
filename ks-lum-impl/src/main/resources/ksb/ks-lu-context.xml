@@ -241,11 +241,11 @@
         <property name="shouldLoadData" value="${ks.lum.doDataLoad}"/>
 		<property name="preloadMap">
 			<map>
-				<entry key="Lu">
-					<value>classpath:ks-lu.sql</value>
-				</entry>
 				<entry key="Lo">
 					<value>classpath:ks-lo.sql</value>
+				</entry>
+				<entry key="Lu">
+					<value>classpath:ks-lu.sql</value>
 				</entry>
 			</map>
 		</property>

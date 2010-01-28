@@ -19,15 +19,12 @@ import org.kuali.student.common.assembly.client.SimpleModelDefinition;
 import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
-import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
-import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
+import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
+import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
 import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
 
@@ -43,12 +40,15 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  * @author Kuali Student Team
  *
  */
+/**
+ * @deprecated 
+ */
 public class ViewCluController extends PagedSectionLayout{
     private DataModel cluProposalModel;
 
     private String cluId = null;
 
-    private CluProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CluProposalRpcService.class);  
+    private CreditCourseProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CreditCourseProposalRpcService.class);  
 
     private KSButton quitButton = new KSButton("Quit", new ClickHandler(){
         public void onClick(ClickEvent event) {
@@ -58,7 +58,7 @@ public class ViewCluController extends PagedSectionLayout{
     });
     
     public ViewCluController(){
-        super();
+        super(ViewCluController.class.getName());
         generateLayout();
         cluProposalModel = null;
         this.setModelDTOType(CluProposalModelDTO.class);  
@@ -75,6 +75,11 @@ public class ViewCluController extends PagedSectionLayout{
     @Override
     public Class<? extends Enum<?>> getViewsEnum() {
         return ViewCluConfigurer.LuSections.class;
+    }
+    
+    @Override
+    public Enum<?> getViewEnumValue(String enumValue) {
+        return ViewCluConfigurer.LuSections.valueOf(enumValue);
     }
 
     @SuppressWarnings("unchecked")
@@ -124,7 +129,7 @@ public class ViewCluController extends PagedSectionLayout{
     private void loadClu() {
     	// TODO need to doublecheck, make sure this is really a proposal ID and not a CLU ID
         if (cluId != null) {
-        	cluProposalRpcServiceAsync.getCreditCourseProposal(cluId, new AsyncCallback<Data>() {
+        	cluProposalRpcServiceAsync.getData(cluId, new AsyncCallback<Data>() {
 
                 @Override
                 public void onFailure(Throwable caught) {

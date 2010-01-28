@@ -7,12 +7,12 @@ public class OutlineNode<T> {
 
     T userObject;
 
-    OutlineNodeModel outlineModel;
+    OutlineNodeModel<T> outlineModel;
     
     // TODO M4 - some way to subclass OutlineNode? 
     private Object opaque;
 
-    public void setModel(OutlineNodeModel model) {
+    public void setModel(OutlineNodeModel<T> model) {
       outlineModel = model;
     }
 

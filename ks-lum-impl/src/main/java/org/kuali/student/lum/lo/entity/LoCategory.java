@@ -52,7 +52,7 @@ public class LoCategory extends MetaEntity implements AttributeOwner<LoCategoryA
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "RT_DESCR_ID")
-	private LoRichText desc;
+	private LoRichText descr;
 	
 	@ManyToOne
 	@JoinColumn(name = "LO_REPO_ID")
@@ -106,12 +106,12 @@ public class LoCategory extends MetaEntity implements AttributeOwner<LoCategoryA
 		return name;
 	}
 
-	public LoRichText getDesc() {
-		return desc;
+	public LoRichText getDescr() {
+		return descr;
 	}
 
-	public void setDesc(LoRichText desc) {
-		this.desc = desc;
+	public void setDesc(LoRichText descr) {
+		this.descr = descr;
 	}
 
 	/**

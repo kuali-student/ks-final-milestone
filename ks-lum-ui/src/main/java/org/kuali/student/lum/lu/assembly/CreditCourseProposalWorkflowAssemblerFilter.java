@@ -50,6 +50,7 @@ public class CreditCourseProposalWorkflowAssemblerFilter extends PassThroughAsse
             String title = responseProposal.getProposal().getTitle()==null?"Unnamed":responseProposal.getProposal().getTitle();
             title = title==null?"Unnamed":title;
             
+            /*
             //Create a new workflow document if this is a new proposal 
             if(requestProposal.getProposal().getId()==null){
                 LOG.info("Creating proposal Workflow Document.");
@@ -90,6 +91,7 @@ public class CreditCourseProposalWorkflowAssemblerFilter extends PassThroughAsse
             if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
         		throw new RuntimeException("Error found updating document: " + stdResp.getErrorMessage());
         	}            
+            */
 		}
 	}
 	

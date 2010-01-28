@@ -28,7 +28,6 @@ public class RuleInfo implements Idable, Serializable {
     private String id = new String("0");
     private String cluId;
     private StatementVO statementVO;       //top-level statement (tree ROOT)
-    private String luStatementTypeKey;	   //statement (rule) type
     private String rationale;
     private String naturalLanguage;
     private String expression; // current state of rule expression
@@ -46,7 +45,7 @@ public class RuleInfo implements Idable, Serializable {
     }
     public String getCluId() {
         return cluId;
-    }
+    } 
     public void setCluId(String cluId) {
         this.cluId = cluId;
     }
@@ -69,10 +68,7 @@ public class RuleInfo implements Idable, Serializable {
         this.statementVO = statementVO;
     }        
     public String getLuStatementTypeKey() {
-        return luStatementTypeKey;
-    }
-    public void setLuStatementTypeKey(String luStatementTypeKey) {
-        this.luStatementTypeKey = luStatementTypeKey;
+    	return statementVO.getLuStatementInfo().getType();
     }
     
     public Node getStatementTree() {

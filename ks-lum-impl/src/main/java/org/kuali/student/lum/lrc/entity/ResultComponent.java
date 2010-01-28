@@ -59,7 +59,7 @@ public class ResultComponent extends MetaEntity implements AttributeOwner<Result
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "RT_DESCR_ID")
-    private RichText desc;
+    private RichText descr;
 
     @ManyToMany
     @JoinTable(name="KSLU_LRC_RESCOMP_JN_RESVALUE",
@@ -122,17 +122,17 @@ public class ResultComponent extends MetaEntity implements AttributeOwner<Result
     }
 
     /**
-     * @return the desc
+     * @return the descr
      */
-    public RichText getDesc() {
-        return desc;
+    public RichText getDescr() {
+        return descr;
     }
 
     /**
-     * @param desc the desc to set
+     * @param descr the descr to set
      */
-    public void setDesc(RichText desc) {
-        this.desc = desc;
+    public void setDescr(RichText descr) {
+        this.descr = descr;
     }
 
     /**

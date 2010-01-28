@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 The Kuali Foundation
+ * Copyright 2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +31,7 @@ public class CreditCourseHelper
 		ID ("id"),
 		FORMATS ("formats"),
 		TERMS_OFFERED ("termsOffered"),
+		FIRST_EXPECTED_OFFERING ("firstExpectedOffering"),
 		DURATION ("duration"),
 		TRANSCRIPT_TITLE ("transcriptTitle"),
 		COURSE_TITLE ("courseTitle"),
@@ -121,6 +122,18 @@ public class CreditCourseHelper
 	public Data getTermsOffered ()
 	{
 		return (Data) data.get (Properties.TERMS_OFFERED.getKey ());
+	}
+	
+	
+	public void setFirstExpectedOffering (String value)
+	{
+		data.set (Properties.FIRST_EXPECTED_OFFERING.getKey (), value);
+	}
+	
+	
+	public String getFirstExpectedOffering ()
+	{
+		return (String) data.get (Properties.FIRST_EXPECTED_OFFERING.getKey ());
 	}
 	
 	

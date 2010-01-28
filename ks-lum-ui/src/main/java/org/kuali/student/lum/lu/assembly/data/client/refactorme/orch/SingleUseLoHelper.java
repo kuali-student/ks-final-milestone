@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 The Kuali Foundation
+ * Copyright 2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ public class SingleUseLoHelper
 	{
 		ID ("id"),
 		DESCRIPTION ("description"),
-		CATEGORY ("category"),
+		CATEGORIES ("categories"),
 		LO_REPOSITORY ("loRepository"),
 		CHILD_SINGLE_USE_LOS ("childSingleUseLos"),
 		EFFECTIVE_DATE ("effectiveDate"),
@@ -97,15 +97,15 @@ public class SingleUseLoHelper
 	}
 	
 	
-	public void setCategory (Data value)
+	public void setCategories (Data value)
 	{
-		data.set (Properties.CATEGORY.getKey (), value);
+		data.set (Properties.CATEGORIES.getKey (), value);
 	}
 	
 	
-	public Data getCategory ()
+	public Data getCategories ()
 	{
-		return (Data) data.get (Properties.CATEGORY.getKey ());
+		return (Data) data.get (Properties.CATEGORIES.getKey ());
 	}
 	
 	

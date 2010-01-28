@@ -45,7 +45,7 @@ public class Scale extends MetaEntity implements AttributeOwner<ScaleAttribute>{
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "RT_DESCR_ID")
-    private RichText desc;
+    private RichText descr;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
@@ -87,17 +87,17 @@ public class Scale extends MetaEntity implements AttributeOwner<ScaleAttribute>{
     }
 
     /**
-     * @return the desc
+     * @return the descr
      */
     public RichText getDesc() {
-        return desc;
+        return descr;
     }
 
     /**
-     * @param desc the desc to set
+     * @param descr the descr to set
      */
-    public void setDesc(RichText desc) {
-        this.desc = desc;
+    public void setDesc(RichText descr) {
+        this.descr = descr;
     }
 
     /**

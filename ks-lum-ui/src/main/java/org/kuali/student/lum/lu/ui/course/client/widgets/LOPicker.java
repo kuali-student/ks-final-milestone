@@ -15,6 +15,10 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.widgets;
 
+import java.util.List;
+
+import org.kuali.student.lum.lo.dto.LoCategoryInfo;
+
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.TextBox;
 
@@ -26,17 +30,26 @@ import com.google.gwt.user.client.ui.TextBox;
  */
 public class LOPicker extends HorizontalPanel{ 
     TextBox loTextBox = new TextBox();
-    
-    public LOPicker() {
+    LOCategoryBuilder loCategoryBuilder;
+    public LOPicker(String messageGroup, String type, String state) {
         super();
-        loTextBox.setPixelSize(200, 50);
+        loCategoryBuilder = new LOCategoryBuilder(messageGroup, type, state);
+        
+        loTextBox.setPixelSize(200, 80);
         super.add(loTextBox);
+        super.add(loCategoryBuilder);
     }
-    
+    public void setLOCategories(List<LoCategoryInfo> categories){
+        loCategoryBuilder.setValue(categories);
+    }
+    public List<LoCategoryInfo> getLoCategories(){
+        return loCategoryBuilder.getValue();
+    }
     public String getLOText(){
         return loTextBox.getText();
     }
     public void setLOText(String value){
         loTextBox.setText(value);
     }
+    
 }

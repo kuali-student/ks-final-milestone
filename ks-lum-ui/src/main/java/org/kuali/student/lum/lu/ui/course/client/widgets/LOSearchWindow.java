@@ -38,6 +38,7 @@ import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.SearchResultListItems;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.selectors.SearchComponentConfiguration;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
@@ -161,7 +162,7 @@ public class LOSearchWindow extends Composite {
         loSearches.addSelectionChangeHandler(new SelectionChangeHandler() {
 
             @Override
-            public void onSelectionChange(KSSelectItemWidgetAbstract w) {
+            public void onSelectionChange(SelectionChangeEvent event) {
                 List<String> selectedItems = loSearches.getSelectedItems();
                 if (searchTypesList.getItemText(selectedItems.get(0)).equals(SEARCH_BY_COURSE_CODE)) {
                     cluPicker.clear();                    

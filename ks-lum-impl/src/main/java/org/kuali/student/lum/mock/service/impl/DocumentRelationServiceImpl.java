@@ -39,31 +39,35 @@ public class DocumentRelationServiceImpl implements DocumentRelationService{
 		info.setTitle(relInfo.getTitle());
 		RichTextInfo text = new RichTextInfo();
 		info.setDesc(relInfo.getDesc());
-		service.createLuDocRelationForClu("luDocRelationType.doctype1", docId, refId, info);
+		//TODO: Fix with LuService RC1.4 changes
+		//service.createLuDocRelationForClu("luDocRelationType.doctype1", docId, refId, info);
 		//service.deleteLuDocRelation(luDocRelationId)
 	}
 
 	@Override
 	public List<RefDocRelationInfoMock> getRefDocIdsForRef(String id)
 			throws Exception {
-		List<LuDocRelationInfo> infos = service.getLuDocRelationsByClu(id);
 		List<RefDocRelationInfoMock> relations = new ArrayList<RefDocRelationInfoMock>();
-		for(LuDocRelationInfo i : infos){
-			RefDocRelationInfoMock relInfo = new RefDocRelationInfoMock();
-			relInfo.setRefId(i.getCluId());
-			relInfo.setDocumentId(i.getDocumentId());
-			relInfo.setId(i.getId());
-			relInfo.setMetaInfo(i.getMetaInfo());
-			relInfo.setTitle(i.getTitle());
-			relInfo.setDesc(i.getDesc());
-			relations.add(relInfo);
-		}
+		//TODO: Fix with LuService RC1.4 changes		
+//		List<LuDocRelationInfo> infos = service.getLuDocRelationsByClu(id);
+//		for(LuDocRelationInfo i : infos){
+//			RefDocRelationInfoMock relInfo = new RefDocRelationInfoMock();
+//			relInfo.setRefId(i.getCluId());
+//			relInfo.setDocumentId(i.getDocumentId());
+//			relInfo.setId(i.getId());
+//			relInfo.setMetaInfo(i.getMetaInfo());
+//			relInfo.setTitle(i.getTitle());
+//			relInfo.setDesc(i.getDesc());
+//			relations.add(relInfo);
+//		}
 		return relations;
 	}
 	
 	@Override 
 	public StatusInfo deleteRefDocRelation(String id) throws Exception {
-		return service.deleteLuDocRelation(id);
+		//TODO: Fix with LuService RC1.4 changes		
+//		return service.deleteLuDocRelation(id);
+		return null;
 	}
 
 	public LuService getService() {

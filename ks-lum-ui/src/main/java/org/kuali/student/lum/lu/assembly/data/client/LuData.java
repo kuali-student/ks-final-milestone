@@ -69,7 +69,15 @@ public class LuData extends Data {
 		this.data = data;
 	}
 	
-	/**
+    /**
+     * Get the underlying data
+     * @param data
+     */
+    public Data getData(){
+        return data;
+    }
+    
+    /**
 	 * Gets the application state by key.
 	 * 
 	 * @param key Application state key
@@ -92,14 +100,6 @@ public class LuData extends Data {
 	//The following methods just delegate to the wrapped data object
 		
 	public void add(Boolean value) {
-		data.add(value);
-	}
-
-	public void add(Byte value) {
-		data.add(value);
-	}
-
-	public void add(Character value) {
 		data.add(value);
 	}
 
@@ -219,13 +219,6 @@ public class LuData extends Data {
 		data.set(key, value);
 	}
 
-	public void set(Integer key, Byte value) {
-		data.set(key, value);
-	}
-
-	public void set(Integer key, Character value) {
-		data.set(key, value);
-	}
 
 	public void set(Integer key, Data value) {
 		data.set(key, value);
@@ -271,13 +264,7 @@ public class LuData extends Data {
 		data.set(key, value);
 	}
 
-	public void set(Key key, Byte value) {
-		data.set(key, value);
-	}
-
-	public void set(Key key, Character value) {
-		data.set(key, value);
-	}
+	
 
 	public void set(Key key, Data value) {
 		data.set(key, value);
@@ -327,13 +314,7 @@ public class LuData extends Data {
 		data.set(key, value);
 	}
 
-	public void set(String key, Byte value) {
-		data.set(key, value);
-	}
-
-	public void set(String key, Character value) {
-		data.set(key, value);
-	}
+	
 
 	public void set(String key, Data value) {
 		data.set(key, value);
