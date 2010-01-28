@@ -1,7 +1,7 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>sample</groupId>
-    <artifactId>multiproject</artifactId>
+    <groupId>org.kuali.student.multiproject</groupId>
+    <artifactId>master-pom</artifactId>
     <packaging>pom</packaging>
     <name>Multiproject Sample</name>
     <description>Multiproject Sample</description>
@@ -23,8 +23,7 @@
         </plugins>
     </build>
     <modules>
-        <module>jar1</module>
-        <module>jar2</module>
+        <module>jars</module>
         <module>war1</module>
     </modules>
 </project>

@@ -1,0 +1,17 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.kuali.student.multiproject</groupId>
+    <artifactId>master-pom</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  <groupId>org.kuali.student.multiproject.jars</groupId>
+  <artifactId>jars</artifactId>
+  <packaging>pom</packaging>
+  <name>JARS</name>
+  <description>Holds all the jars for this sample project</description>
+    <modules>
+        <module>jar1</module>
+        <module>jar2</module>
+    </modules>
+</project>
