@@ -290,7 +290,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         
         assertNotNull(rqt);
         assertEquals(rqt.getId(), "kuali.reqCompType.courseList.all");
-        assertEquals(rqt.getDesc(), "Student must have completed all of <reqCompFieldType.cluSet>");
+        assertEquals(rqt.getDescr(), "Student must have completed all of <reqCompFieldType.cluSet>");
         assertEquals(rqt.getName(), "All of required courses");
         assertEquals(rqt.getEffectiveDate(), df.parse("20000101"));
         assertEquals(rqt.getExpirationDate(), df.parse("20001231"));                
@@ -338,7 +338,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
             assertTrue(false);
         }
 
-        assertEquals(rqt.getDesc(), "Student needs a minimum GPA of <reqCompFieldType.gpa>");
+        assertEquals(rqt.getDescr(), "Student needs a minimum GPA of <reqCompFieldType.gpa>");
         assertEquals(rqt.getName(), "Minimum overall GPA");
         assertEquals(rqt.getEffectiveDate(), df.parse("20000101"));
         assertEquals(rqt.getExpirationDate(), df.parse("20011130"));
