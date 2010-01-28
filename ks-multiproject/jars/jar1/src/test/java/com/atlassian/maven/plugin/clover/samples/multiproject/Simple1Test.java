@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 
 public class Simple1Test extends TestCase {
 	public void testSomeMethod() {
-		Simple1 simple = new Simple1();
-		simple.someMethod1();
+		// Simple1 simple = new Simple1();
+		// simple.someMethod1();
 	}
 }
