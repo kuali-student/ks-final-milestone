@@ -110,7 +110,7 @@ public class StatementAssembler extends BaseAssembler {
         ReqComponentTypeInfo dto = toGenericTypeInfo(ReqComponentTypeInfo.class, entity);
         dto.setReqCompFieldTypeInfos(toReqCompFieldTypeInfos(entity.getReqCompFieldTypes()));
 //        dto.setNlUsageTemplates(toReqComponentTypeNLTemplateInfos(entity.getNlUsageTemplates()));
-        dto.setDesc(entity.getDescr());
+        dto.setDescr(entity.getDescr());
         return dto;
     }
     
@@ -334,7 +334,7 @@ public class StatementAssembler extends BaseAssembler {
         // statement type header is no longer defined in specification
 //        stmtTypeInfo.setHeaders(toStatementTypeHeaderTemplateInfos(entity.getHeaders()));
         
-        stmtTypeInfo.setDesc(entity.getDescr());
+        stmtTypeInfo.setDescr(entity.getDescr());
         
         return stmtTypeInfo;
     }
