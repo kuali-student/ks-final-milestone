@@ -19,11 +19,13 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
+import org.kuali.student.security.exceptions.KSSecurityException;
+
 @WebService(name = "SamlIssuerService", targetNamespace = "http://student.kuali.org/wsdl/security/saml")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface SamlIssuerService {
 
     /* takes a CAS proxy ticket, validates it and returns a SAML token */
     public String validateCasProxyTicket(@WebParam(name="proxyTicketId")String proxyTicketId, 
-                                      @WebParam(name="proxyTargetService")String proxyTargetService);
+                                      @WebParam(name="proxyTargetService")String proxyTargetService) throws KSSecurityException;
 }

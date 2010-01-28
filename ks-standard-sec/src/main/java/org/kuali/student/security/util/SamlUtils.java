@@ -15,24 +15,32 @@
 
 package org.kuali.student.security.util;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
-import java.util.logging.Logger;
 
-import org.apache.cxf.interceptor.Fault;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+
+import org.apache.xml.security.exceptions.XMLSecurityException;
+import org.apache.xml.security.keys.KeyInfo;
 import org.apache.xml.security.signature.XMLSignature;
+import org.apache.xml.security.signature.XMLSignatureException;
 import org.apache.xml.security.transforms.Transforms;
 import org.apache.xml.security.utils.Constants;
-import org.apache.xml.security.utils.XMLUtils;
-import org.kuali.student.security.cxf.interceptors.SamlTokenCxfOutInterceptor;
+import org.apache.xpath.XPathAPI;
 import org.opensaml.SAMLAssertion;
 import org.opensaml.SAMLAttribute;
 import org.opensaml.SAMLAttributeStatement;
@@ -40,8 +48,11 @@ import org.opensaml.SAMLAuthenticationStatement;
 import org.opensaml.SAMLException;
 import org.opensaml.SAMLNameIdentifier;
 import org.opensaml.SAMLSubject;
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * This is a description of what this class does - Rich don't forget to fill this in. 
@@ -55,9 +66,17 @@ public class SamlUtils {
         org.apache.xml.security.Init.init();
      }
     
-    private ThreadLocal<Map<String,String>> samlPropertiesHolder = new ThreadLocal<Map<String,String>>();
+    //All the parameters for the keystore
+    private static String keystoreType;
+    private static String keystoreFile;
+    private static String keystorePass;
+    private static String privateKeyAlias;
+    private static String privateKeyPass;
+    private static String certificateAlias;
     
-    public SAMLAssertion createAssertion(){
+    private static ThreadLocal<Map<String,String>> samlPropertiesHolder = new ThreadLocal<Map<String,String>>();
+    
+    public static SAMLAssertion createAssertion() throws SAMLException, CloneNotSupportedException{
         
         String user = getSamlProperties().get("user");
         String pgt = getSamlProperties().get("proxyGrantingTicket");
@@ -68,132 +87,90 @@ public class SamlUtils {
         SAMLAssertion assertion = new SAMLAssertion();
         assertion.setIssuer(issuer);
         
-        try{   
-            // prepare subject
-            SAMLNameIdentifier nameId = new SAMLNameIdentifier(user, nameQualifier, "");
-            String[] confirmationMethods = {SAMLSubject.CONF_SENDER_VOUCHES};
-            SAMLSubject subject = new SAMLSubject();
-            subject.setNameIdentifier(nameId);
-            subject.setConfirmationMethods(Arrays.asList(confirmationMethods));
+        // prepare subject
+        SAMLNameIdentifier nameId = new SAMLNameIdentifier(user, nameQualifier, "");
+        String[] confirmationMethods = {SAMLSubject.CONF_SENDER_VOUCHES};
+        SAMLSubject subject = new SAMLSubject();
+        subject.setNameIdentifier(nameId);
+        subject.setConfirmationMethods(Arrays.asList(confirmationMethods));
+    
+        // prepare auth statement
+        SAMLAuthenticationStatement authStmt = new SAMLAuthenticationStatement();
+        authStmt.setAuthInstant(new Date());
+        authStmt.setAuthMethod(SAMLAuthenticationStatement.AuthenticationMethod_Password);
+        authStmt.setSubject(subject);
+    
+        // prepare attributes
+        SAMLAttributeStatement attrStatement = new SAMLAttributeStatement();
+        SAMLAttribute attr1 = new SAMLAttribute();
+        attr1.setName("proxyGrantingTicket");
+        attr1.setNamespace("Namesapce_of_Attribute1");
+    
+        SAMLAttribute attr2 = new SAMLAttribute();
+        attr2.setName("proxies");
+        attr2.setNamespace("Namesapce_of_Attribute2");
+    
         
-            // prepare auth statement
-            SAMLAuthenticationStatement authStmt = new SAMLAuthenticationStatement();
-            authStmt.setAuthInstant(new Date());
-            authStmt.setAuthMethod(SAMLAuthenticationStatement.AuthenticationMethod_Password);
-            authStmt.setSubject(subject);
+        attr1.addValue(pgt);
+        attr1.addValue("additional value for proxy granting ticket");
+        attr2.addValue(proxies);
+        attr2.addValue("additional value for proxies");
         
-            // prepare attributes
-            SAMLAttributeStatement attrStatement = new SAMLAttributeStatement();
-            SAMLAttribute attr1 = new SAMLAttribute();
-            attr1.setName("proxyGrantingTicket");
-            attr1.setNamespace("Namesapce_of_Attribute1");
+        attrStatement.addAttribute(attr1);
+        attrStatement.addAttribute(attr2);
         
-            SAMLAttribute attr2 = new SAMLAttribute();
-            attr2.setName("proxies");
-            attr2.setNamespace("Namesapce_of_Attribute2");
+        SAMLSubject subjectInAttr = (SAMLSubject)subject.clone();
+        attrStatement.setSubject(subjectInAttr);
         
-            
-            attr1.addValue(pgt);
-            attr1.addValue("additional value for proxy granting ticket");
-            attr2.addValue(proxies);
-            attr2.addValue("additional value for proxies");
-            
-            attrStatement.addAttribute(attr1);
-            attrStatement.addAttribute(attr2);
-            
-            SAMLSubject subjectInAttr = (SAMLSubject)subject.clone();
-            attrStatement.setSubject(subjectInAttr);
-            
-            // prepare Assertion
-            assertion.addStatement(authStmt);
-            assertion.addStatement(attrStatement);
-            
-            return assertion;
-            
-        } catch(SAMLException se){
-            Logger log = Logger.getLogger(SamlTokenCxfOutInterceptor.class.getName());
-            throw new Fault("Error when adding SAML Attributes or Attribute Statement : ", log, se);
-        } catch(CloneNotSupportedException cnse){
-            Logger log = Logger.getLogger(SamlTokenCxfOutInterceptor.class.getName());
-            throw new Fault("Error when cloning subject : ", log, cnse);
-        }      
+        // prepare Assertion
+        assertion.addStatement(authStmt);
+        assertion.addStatement(attrStatement);
+        
+        return assertion;    
     }
     
-    public void setSamlProperties(Map<String, String> samlProperties){
+    public static void setSamlProperties(Map<String, String> samlProperties){
         //this.samlProperties = samlProperties;
-        this.samlPropertiesHolder.set(samlProperties);
+        SamlUtils.samlPropertiesHolder.set(samlProperties);
     }
 
-    public Map<String, String> getSamlProperties() {
+    public static Map<String, String> getSamlProperties() {
         //return samlProperties;
-        return this.samlPropertiesHolder.get();
+        return SamlUtils.samlPropertiesHolder.get();
     }
     
-    public Document signAssertion(SAMLAssertion assertion) throws Exception{
+    public static Document signAssertion(SAMLAssertion assertion) throws XMLSecurityException, KeyStoreException, 
+                            NoSuchAlgorithmException, CertificateException, IOException, UnrecoverableKeyException, 
+                            ParserConfigurationException, DOMException, SAMLException {
         Constants.setSignatureSpecNSprefix("ds");
-
-        //J-
-        //All the parameters for the keystore
-        String keystoreType = "JKS";
-        String keystoreFile = "x509.jks";
-        String keystorePass = "changeit";
-        String privateKeyAlias = "tomcat";
-        String privateKeyPass = "changeit";
-        String certificateAlias = "tomcat";
-        File signatureFile = new File("signature.xml");
-        //J+
-        KeyStore ks = KeyStore.getInstance(keystoreType);
         
-        ClassLoader classLoader = this.getClass().getClassLoader();
+        ClassLoader classLoader = SamlUtils.class.getClassLoader();
         URL url = classLoader.getResource(keystoreFile);
-        
-        //FileInputStream fis = new FileInputStream(keystoreFile);
 
         //load the keystore
+        KeyStore ks = KeyStore.getInstance(keystoreType);
         ks.load(url.openStream(), keystorePass.toCharArray());
 
         //get the private key for signing.
-        PrivateKey privateKey = (PrivateKey) ks.getKey(privateKeyAlias,
-                                               privateKeyPass.toCharArray());
-        javax.xml.parsers.DocumentBuilderFactory dbf =
-           javax.xml.parsers.DocumentBuilderFactory.newInstance();
+        PrivateKey privateKey = (PrivateKey) ks.getKey(privateKeyAlias, privateKeyPass.toCharArray());
+        
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
         //XML Signature needs to be namespace aware
         dbf.setNamespaceAware(true);
 
-        javax.xml.parsers.DocumentBuilder db = dbf.newDocumentBuilder();
+        DocumentBuilder db = dbf.newDocumentBuilder();
         Document doc = db.newDocument();
 
-        //Build a sample document. It will look something like:
-        //<!-- Comment before -->
-        //<apache:RootElement xmlns:apache="http://www.apache.org/ns/#app1">Some simple text
-        //</apache:RootElement>
-        //<!-- Comment after -->
-        doc.appendChild(doc.createComment(" Comment before "));
-
-        Element root = doc.createElementNS("http://www.apache.org/ns/#app1",
-                                           "apache:RootElement");
-
-        root.setAttributeNS(null, "attr1", "test1");
-        root.setAttributeNS(null, "attr2", "test2");
-        root.setAttributeNS(Constants.NamespaceSpecNS, "xmlns:foo", "http://example.org/#foo");
-        root.setAttributeNS("http://example.org/#foo", "foo:attr1", "foo's test");
-
-
-        root.setAttributeNS(Constants.NamespaceSpecNS, "xmlns:apache", "http://www.apache.org/ns/#app1");
-        doc.appendChild(root);
-        root.appendChild(doc.createTextNode("Some simple text\n"));
+        Element root = doc.createElementNS("http://student.kuali.org", "ks:RootElement");
+        root.setAttributeNS(Constants.NamespaceSpecNS, "xmlns:ks", "http://student.kuali.org");
         
+        doc.appendChild(root);
+        // append the SAML assertion to the root.
         root.appendChild(assertion.toDOM(doc));
         
-        //The BaseURI is the URI that's used to prepend to relative URIs
-        String BaseURI = signatureFile.toURL().toString();
-        System.out.println("BaseURI : " + BaseURI);
-        //Create an XML Signature object from the document, BaseURI and
-        //signature algorithm (in this case DSA)
-        XMLSignature sig = new XMLSignature(doc, BaseURI, XMLSignature.ALGO_ID_SIGNATURE_RSA);
+        XMLSignature sig = new XMLSignature(doc, null, XMLSignature.ALGO_ID_SIGNATURE_RSA);
                                                         //XMLSignature.ALGO_ID_SIGNATURE_DSA);
-
 
         //Append the signature element to the root element before signing because
         //this is going to be an enveloped signature.
@@ -203,8 +180,6 @@ public class SamlUtils {
         //Note that they can be mixed in 1 signature with seperate references as
         //shown below.
         root.appendChild(sig.getElement());
-        doc.appendChild(doc.createComment(" Comment after "));
-
         
        //create the transforms object for the Document/Reference
        Transforms transforms = new Transforms(doc);
@@ -220,24 +195,159 @@ public class SamlUtils {
        sig.addDocument("", transforms, Constants.ALGO_ID_DIGEST_SHA1);
         
 
-        
        //Add in the KeyInfo for the certificate that we used the private key of
        X509Certificate cert = (X509Certificate) ks.getCertificate(certificateAlias);
 
        sig.addKeyInfo(cert);
        sig.addKeyInfo(cert.getPublicKey());
-       System.out.println("Start signing");
+       // Sign the document
        sig.sign(privateKey);
-       System.out.println("Finished signing");
         
+       return doc;
+    }
 
-        //FileOutputStream f = new FileOutputStream(signatureFile);
-
-        //XMLUtils.outputDOMc14nWithComments(doc, f);
-
-        //f.close();
-        System.out.println("Wrote signature to " + BaseURI);
+    public static SAMLAssertion unsignAssertion(Document doc) throws TransformerException, XMLSecurityException, SAMLException {
+        boolean validSig = false;
+        Element nscontext = doc.createElementNS(null, "namespaceContext");
+        nscontext.setAttributeNS(Constants.NamespaceSpecNS, "xmlns:ds", Constants.SignatureSpecNS);
         
-        return doc;
+        Element sigElement = (Element) XPathAPI.selectSingleNode(doc, "//ds:Signature[1]", nscontext);
+        
+        XMLSignature signature = new XMLSignature(sigElement, null);
+        
+        KeyInfo ki = signature.getKeyInfo();
+        
+        if (ki != null) {
+           /*if (ki.containsX509Data()) {
+              System.out.println("Could find a X509Data element in the KeyInfo");
+           }*/
+
+           X509Certificate cert = ki.getX509Certificate();
+
+           if (cert != null) {
+              /*System.out.println("The XML signature in file is "
+                                 + (signature.checkSignatureValue(cert)
+                                    ? "valid (good)"
+                                    : "invalid !!!!! (bad)"));*/
+              
+               validSig = signature.checkSignatureValue(cert);
+              
+           } else {
+              PublicKey pk = ki.getPublicKey();
+
+              if (pk != null) {
+                 /*System.out.println("The XML signature in file is "
+                                    + (signature.checkSignatureValue(pk)
+                                       ? "valid (good)"
+                                       : "invalid !!!!! (bad)"));*/
+                 validSig = signature.checkSignatureValue(pk);
+                 
+              } else {
+                 throw new XMLSignatureException("Could not find a certificate or a public key in the message, can't check the signature");
+              }
+           }
+        } else {
+           throw new XMLSignatureException("Could not find a KeyInfo element in message");
+        }
+        
+        // if the signature is valid get the assertion and return it.
+        if(validSig){
+            NodeList nodeList = doc.getDocumentElement().getChildNodes();
+            Node childNode = null;
+            
+            for(int i=0; i < nodeList.getLength(); i++){
+                childNode = nodeList.item(i);
+                if((childNode.getNodeName().equals("Assertion")) && (childNode.getNodeType() == Node.ELEMENT_NODE)){
+                    SAMLAssertion assertion = new SAMLAssertion((Element)childNode);
+                    return assertion;
+                }
+            }
+        }
+        
+        throw new XMLSignatureException("The message signature was invalid");
+    }
+    
+    /**
+     * @return the keystoreType
+     */
+    public String getKeystoreType() {
+        return keystoreType;
+    }
+
+    /**
+     * @param keystoreType the keystoreType to set
+     */
+    public void setKeystoreType(String keystoreType) {
+        SamlUtils.keystoreType = keystoreType;
+    }
+
+    /**
+     * @return the keystoreFile
+     */
+    public String getKeystoreFile() {
+        return keystoreFile;
+    }
+
+    /**
+     * @param keystoreFile the keystoreFile to set
+     */
+    public void setKeystoreFile(String keystoreFile) {
+        SamlUtils.keystoreFile = keystoreFile;
+    }
+
+    /**
+     * @return the keystorePass
+     */
+    public String getKeystorePass() {
+        return keystorePass;
+    }
+
+    /**
+     * @param keystorePass the keystorePass to set
+     */
+    public void setKeystorePass(String keystorePass) {
+        SamlUtils.keystorePass = keystorePass;
+    }
+
+    /**
+     * @return the privateKeyAlias
+     */
+    public String getPrivateKeyAlias() {
+        return privateKeyAlias;
+    }
+
+    /**
+     * @param privateKeyAlias the privateKeyAlias to set
+     */
+    public void setPrivateKeyAlias(String privateKeyAlias) {
+        SamlUtils.privateKeyAlias = privateKeyAlias;
+    }
+
+    /**
+     * @return the privateKeyPass
+     */
+    public String getPrivateKeyPass() {
+        return privateKeyPass;
+    }
+
+    /**
+     * @param privateKeyPass the privateKeyPass to set
+     */
+    public void setPrivateKeyPass(String privateKeyPass) {
+        SamlUtils.privateKeyPass = privateKeyPass;
+    }
+
+    /**
+     * @return the certificateAlias
+     */
+    public String getCertificateAlias() {
+        return certificateAlias;
+    }
+
+    /**
+     * @param certificateAlias the certificateAlias to set
+     */
+    public void setCertificateAlias(String certificateAlias) {
+        SamlUtils.certificateAlias = certificateAlias;
     }
 }
