@@ -97,9 +97,10 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
     
     public List<ReqComponentTypeInfo> getReqComponentTypesForLuStatementType(String luStatementTypeKey) throws Exception {
                 
-        List<ReqComponentTypeInfo> reqComponentTypeInfoList;
-        try {        
-            reqComponentTypeInfoList = service.getReqComponentTypesForLuStatementType(luStatementTypeKey);                                   
+        List<ReqComponentTypeInfo> reqComponentTypeInfoList = null;
+        try { 
+        	//FIXME: LuService API Change
+            //reqComponentTypeInfoList = service.getReqComponentTypesForLuStatementType(luStatementTypeKey);                                   
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new Exception("Unable to find Requirement Component Types based on LU Statement Type Key:" + luStatementTypeKey, ex);
