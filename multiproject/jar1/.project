@@ -1,6 +1,6 @@
 <projectDescription>
-  <name>maven-clover2-plugin-sample-multiproject-jar1</name>
-  <comment>Maven Clover Plugin Multiproject Sample - JAR 1</comment>
+  <name>jar1</name>
+  <comment>JAR 1</comment>
   <projects/>
   <buildSpec>
     <buildCommand>
