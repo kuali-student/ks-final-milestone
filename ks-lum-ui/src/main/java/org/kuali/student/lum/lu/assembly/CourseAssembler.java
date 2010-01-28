@@ -307,7 +307,9 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
             //TimeAmountInfoHelper time = TimeAmountInfoHelper.wrap(timeamountAssembler.assemble(course.getIntensity()));
             if (time != null) {
                 CreditCourseDurationHelper duration = CreditCourseDurationHelper.wrap(new Data());
-                duration.setQuantity(Integer.valueOf(time.getUnitQuantity()));
+                if(time.getUnitQuantity() != null) {
+                    duration.setQuantity(Integer.valueOf(time.getUnitQuantity()));
+                }
                 duration.setTermType(time.getUnitType());
                 result.setDuration(duration);
             }
@@ -743,7 +745,9 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
         AmountInfo time = clu.getIntensity();
         if (time != null) {
             CreditCourseActivityContactHoursHelper hours = CreditCourseActivityContactHoursHelper.wrap(new Data());
-            hours.setHrs(Integer.valueOf(time.getUnitQuantity()));
+            if(time.getUnitQuantity() != null) {
+                hours.setHrs(Integer.valueOf(time.getUnitQuantity()));
+            }
             hours.setPer(time.getUnitType());
             activity.setContactHours(hours);
         }
