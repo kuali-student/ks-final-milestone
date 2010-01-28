@@ -256,8 +256,6 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
         // TODO overriding the specified type isn't a good thing, but in other cases the type needs to be specified by the caller
         //this needs to be filtered, but not sure how to do that if an assembler needs metadata itself
         Metadata metadata = metadataService.getMetadata(CREDIT_COURSE_PROPOSAL_DATA_TYPE, PROPOSAL_TYPE_CREATE_COURSE, state);
-        //Metadata metadata = new CreditCourseProposalMetadata().getMetadata(PROPOSAL_TYPE_CREATE_COURSE, state);
-
         
         //Metadata metadata = new CreditCourseProposalMetadata().getMetadata(PROPOSAL_TYPE_CREATE_COURSE, state);
         

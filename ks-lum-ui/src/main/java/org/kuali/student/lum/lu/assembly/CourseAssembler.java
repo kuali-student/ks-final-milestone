@@ -1089,10 +1089,12 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
             AttributeSet permissionDetails = new AttributeSet("dtoName",dtoName);
             List<KimPermissionInfo> permissions = permissionService.getAuthorizedPermissionsByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, qualification);
             Map<String, String> permMap = new HashMap<String,String>();
-            for(KimPermissionInfo permission:permissions){
-                String dtoFieldKey = permission.getDetails().get("dtoFieldKey");
-                String fieldAccessLevel = permission.getDetails().get("fieldAccessLevel");
-                permMap.put(dtoFieldKey, fieldAccessLevel);
+            if (permissions !=null){
+	            for(KimPermissionInfo permission:permissions){
+	                String dtoFieldKey = permission.getDetails().get("dtoFieldKey");
+	                String fieldAccessLevel = permission.getDetails().get("fieldAccessLevel");
+	                permMap.put(dtoFieldKey, fieldAccessLevel);
+	            }
             }
             return permMap;
         }catch(Exception e){

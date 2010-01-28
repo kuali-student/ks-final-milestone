@@ -245,9 +245,11 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
     private void loadCategoryTypes(List<LoCategoryTypeInfo> categoryTypes) {
         if (categoryTypeMap == null) {
             categoryTypeMap = new HashMap<String, LoCategoryTypeInfo>();
-        }                
-        for (LoCategoryTypeInfo i: categoryTypes) {
-            categoryTypeMap.put(i.getId(), i);
+        }
+        if (categoryTypes != null){
+	        for (LoCategoryTypeInfo i: categoryTypes) {
+	            categoryTypeMap.put(i.getId(), i);
+	        }
         }
     }
 
