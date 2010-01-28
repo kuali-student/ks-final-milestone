@@ -110,7 +110,10 @@ public class LoInfoPersistenceBean {
 	 * but it all goes away next week, right? Too tired to think of the right way to do this.
 	 */
 	public void updateLos(String courseId, LoModelDTO loModelDTO) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, BeanMappingException, DependentObjectsExistException, CircularRelationshipException {
-		List<String> currTopLevelLoIds = luService.getLoIdsByClu(courseId);
+	  //FIXME: LuService Change
+	    //List<String> currTopLevelLoIds = luService.getLoIdsByClu(courseId);
+	    List<String> currTopLevelLoIds = null;
+	    
 		List<String> currChildLoIds = getAllChildLoIds(currTopLevelLoIds);
 		TreeSet<String> topLevelLoSet = new TreeSet<String>(currTopLevelLoIds);
 		TreeSet<String> currChildLoIdSet = new TreeSet<String>(currChildLoIds);
@@ -166,7 +169,8 @@ public class LoInfoPersistenceBean {
 					}
 					if (parentStack.isEmpty()) {
 						try {
-							luService.addOutcomeLoToClu(currLoInfo.getId(), courseId);
+						  //FIXME: LuService Change
+							//luService.addOutcomeLoToClu(currLoInfo.getId(), courseId);
 						} catch (Exception aee) {
 							System.err.println(aee.getMessage());
 						} // no worries
@@ -185,14 +189,16 @@ public class LoInfoPersistenceBean {
 		}
 		// remove any top-level LO's from Clu that user removed
 		for (String loId : topLevelLoSet) {
-			luService.removeOutcomeLoFromClu(loId, courseId);
+		  //FIXME: LuService Change
+			//luService.removeOutcomeLoFromClu(loId, courseId);
 			if ( ! currChildLoIdSet.contains(loId) ) { // didn't get demoted
 				loService.deleteLo(loId);
 			}
 		}
 		// and formerly 'include'ed LO's
 		// TODO - orphan exceptions will happen; keep on radar in LoAssembler design work
-		currTopLevelLoIds = luService.getLoIdsByClu(courseId);
+		//FIXME: LuService Change
+		//currTopLevelLoIds = luService.getLoIdsByClu(courseId);
 		for (String loId : currChildLoIdSet) {
 			if ( ! currTopLevelLoIds.contains(loId) ) { // didn't get promoted
 				loService.deleteLo(loId);
@@ -244,7 +250,9 @@ public class LoInfoPersistenceBean {
 	        logger.debug("Retrieving learning objectives for clu with id: " + courseId);
 		        
 	        // get id's of top-level LOs
-			List<String> loIds = luService.getLoIdsByClu(courseId);
+	      //FIXME: LuService Change
+			//List<String> loIds = luService.getLoIdsByClu(courseId);
+	        List<String> loIds = null;
 	        
 			if (null != loIds && ( ! loIds.isEmpty() )) {
 				// get the LO's themselves
