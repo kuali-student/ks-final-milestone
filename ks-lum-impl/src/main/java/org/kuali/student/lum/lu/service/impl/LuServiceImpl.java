@@ -1008,7 +1008,7 @@ public class LuServiceImpl implements LuService {
 					luDao));
 			BeanUtils.copyProperties(luCodeInfo, luCode, new String[] {
 					"attributes", "metaInfo" });
-            luCode.setDescr(luCodeInfo.getDesc());					
+            luCode.setDescr(luCodeInfo.getDescr());					
 			luCode.setClu(clu);
 			luCodes.add(luCode);
 		}
@@ -1087,11 +1087,11 @@ public class LuServiceImpl implements LuService {
 		// Now copy all not standard properties
 		BeanUtils.copyProperties(cluInfo, clu, new String[] { "luType",
 				"officialIdentifier", "alternateIdentifiers", "descr",
-				"participatingOrgs", "luCodes", "primaryInstructor",
-				"instructors", "stdDuration", "codeInfo", "offeredAtpTypes",
+				 "luCodes", "primaryInstructor",
+				"instructors", "stdDuration", "offeredAtpTypes",
 				"feeInfo", "accountingInfo", "attributes", "metaInfo",
-				"academicSubjectOrgs", "intensity", "campusLocationList",
-				"accreditationList", "primaryAdminOrg", "alternateAdminOrgs" });
+				"academicSubjectOrgs", "intensity", "campusLocations",
+				"accreditations", "primaryAdminOrg", "alternateAdminOrgs" });
 
 		luDao.create(clu);
 
@@ -1269,7 +1269,7 @@ public class LuServiceImpl implements LuService {
 					luDao));
 			BeanUtils.copyProperties(luCodeInfo, luCode, new String[] {
 					"attributes", "metaInfo" });
-            luCode.setDescr(luCodeInfo.getDesc());
+            luCode.setDescr(luCodeInfo.getDescr());
 			luCode.setClu(clu);
 			clu.getLuCodes().add(luCode);
 		}
@@ -1489,12 +1489,12 @@ public class LuServiceImpl implements LuService {
 
 		// Now copy all not standard properties
 		BeanUtils.copyProperties(cluInfo, clu, new String[] { "luType",
-				"officialIdentifier", "alternateIdentifiers", "descr",
-				"participatingOrgs", "luCodes", "primaryInstructor",
-				"instructors", "stdDuration", "codeInfo", "offeredAtpTypes",
-				"feeInfo", "accountingInfo", "attributes", "metaInfo",
-				"academicSubjectOrgs", "intensity", "campusLocationList",
-				"accreditationList", "primaryAdminOrg", "alternateAdminOrgs" });
+                "officialIdentifier", "alternateIdentifiers", "descr",
+                 "luCodes", "primaryInstructor",
+                "instructors", "stdDuration", "offeredAtpTypes",
+                "feeInfo", "accountingInfo", "attributes", "metaInfo",
+                "academicSubjectOrgs", "intensity", "campusLocations",
+                "accreditations", "primaryAdminOrg", "alternateAdminOrgs" });
 		Clu updated = null;
 		try {
 			updated = luDao.update(clu);

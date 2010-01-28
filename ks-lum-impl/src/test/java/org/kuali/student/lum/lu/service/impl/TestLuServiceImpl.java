@@ -563,7 +563,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		LuCodeInfo luCode1 = new LuCodeInfo();
 		luCode1.setId("luCode1.key");
-		luCode1.setDesc("luCode1_desc");
+		luCode1.setDescr("luCode1_desc");
 		luCode1.setValue("luCode1_value");
 		luCode1.getAttributes().put("luCode1AttrKey1", "luCode1AttrValue1");
 		luCode1.getAttributes().put("luCode1AttrKey2", "luCode1AttrValue2");
@@ -571,7 +571,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		LuCodeInfo luCode2 = new LuCodeInfo();
 		luCode2.setId("luCode2.key");
-		luCode2.setDesc("luCode2_desc");
+		luCode2.setDescr("luCode2_desc");
 		luCode2.setValue("luCode2_value");
 		luCode2.getAttributes().put("luCode2AttrKey1", "luCode2AttrValue1");
 		luCode2.getAttributes().put("luCode2AttrKey2", "luCode2AttrValue2");
@@ -760,7 +760,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 				.getAttributes().get("Inst2AttrKey2"));
 
 		assertEquals("luCode1.key", createdClu.getLuCodes().get(0).getId());
-		assertEquals("luCode1_desc", createdClu.getLuCodes().get(0).getDesc());
+		assertEquals("luCode1_desc", createdClu.getLuCodes().get(0).getDescr());
 		assertEquals("luCode1_value", createdClu.getLuCodes().get(0).getValue());
 		assertEquals("luCode1AttrValue1", createdClu.getLuCodes().get(0)
 				.getAttributes().get("luCode1AttrKey1"));
@@ -773,7 +773,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 				.getCreateTime());
 
 		assertEquals("luCode2.key", createdClu.getLuCodes().get(1).getId());
-		assertEquals("luCode2_desc", createdClu.getLuCodes().get(1).getDesc());
+		assertEquals("luCode2_desc", createdClu.getLuCodes().get(1).getDescr());
 		assertEquals("luCode2_value", createdClu.getLuCodes().get(1).getValue());
 		assertEquals("luCode2AttrValue1", createdClu.getLuCodes().get(1)
 				.getAttributes().get("luCode2AttrKey1"));
@@ -921,7 +921,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		instructor3.getAttributes().put("Inst3AttrKey2", "Inst3AttrValue2");
 		createdClu.getInstructors().add(instructor3);
 
-		createdClu.getLuCodes().get(0).setDesc("UPluCode1_desc");
+		createdClu.getLuCodes().get(0).setDescr("UPluCode1_desc");
 		createdClu.getLuCodes().get(0).setValue("UPluCode1_value");
 		createdClu.getLuCodes().get(0).getAttributes().put("luCode1AttrKey1",
 				"luCode1AttrValue1");
@@ -934,7 +934,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		LuCodeInfo luCode3 = new LuCodeInfo();
 		luCode3.setId("luCode3.key");
-		luCode3.setDesc("luCode3_desc");
+		luCode3.setDescr("luCode3_desc");
 		luCode3.setValue("luCode3_value");
 		luCode3.getAttributes().put("luCode3AttrKey1", "luCode3AttrValue1");
 		luCode3.getAttributes().put("luCode3AttrKey2", "luCode3AttrValue2");
@@ -1113,7 +1113,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals(2, updatedClu.getLuCodes().size());
 
 		assertEquals("luCode1.key", updatedClu.getLuCodes().get(0).getId());
-		assertEquals("UPluCode1_desc", updatedClu.getLuCodes().get(0).getDesc());
+		assertEquals("UPluCode1_desc", updatedClu.getLuCodes().get(0).getDescr());
 		assertEquals("UPluCode1_value", updatedClu.getLuCodes().get(0)
 				.getValue());
 		assertEquals("luCode1AttrValue1", updatedClu.getLuCodes().get(0)
@@ -1130,7 +1130,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 				.getUpdateTime());
 
 		assertEquals("luCode3.key", updatedClu.getLuCodes().get(1).getId());
-		assertEquals("luCode3_desc", updatedClu.getLuCodes().get(1).getDesc());
+		assertEquals("luCode3_desc", updatedClu.getLuCodes().get(1).getDescr());
 		assertEquals("luCode3_value", updatedClu.getLuCodes().get(1).getValue());
 		assertEquals("luCode3AttrValue1", updatedClu.getLuCodes().get(1)
 				.getAttributes().get("luCode3AttrKey1"));

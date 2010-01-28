@@ -179,7 +179,7 @@ public class LumCopyUtil {
 
         LuCodeInfo clone = new LuCodeInfo();
 
-        clone.setDesc(old.getDesc());
+        clone.setDescr(old.getDescr());
         clone.setValue(old.getValue());
         clone.setId(old.getId());
         clone.setAttributes(cloneAttributes(old.getAttributes()));
