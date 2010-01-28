@@ -8,11 +8,11 @@
 	<name>KS BRMS Statement API</name>
 	<description>KS BRMS Statement API</description>
 
-	<parent>
-        <groupId>org.kuali.student.core</groupId>
-        <artifactId>ks-core</artifactId>
+    <parent>
+        <groupId>org.kuali.student.brms</groupId>
+        <artifactId>ks-brms</artifactId>
         <version>1.0.0-SNAPSHOT</version>
-	</parent>
+    </parent>
 
     <dependencies>
         <dependency>

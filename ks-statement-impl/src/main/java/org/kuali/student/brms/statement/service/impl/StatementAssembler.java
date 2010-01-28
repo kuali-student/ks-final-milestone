@@ -25,7 +25,6 @@ import org.kuali.student.brms.statement.entity.ReqComponentType;
 import org.kuali.student.brms.statement.entity.Statement;
 import org.kuali.student.brms.statement.entity.StatementAttribute;
 import org.kuali.student.brms.statement.entity.StatementType;
-import org.kuali.student.brms.statement.entity.StatementTypeHeaderTemplate;
 import org.springframework.beans.BeanUtils;
 
 public class StatementAssembler extends BaseAssembler {

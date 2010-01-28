@@ -1,6 +1,194 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions name="StatementService" targetNamespace="http://student.kuali.org/wsdl/statement" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/statement" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/dictionary" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://student.kuali.org/wsdl/dictionary">
+    <xs:element name="fieldDescriptor" type="tns:fieldDescriptor"/>
+    <xs:element name="getObjectStructure" type="tns:getObjectStructure"/>
+    <xs:element name="getObjectStructureResponse" type="tns:getObjectStructureResponse"/>
+    <xs:element name="getObjectTypes" type="tns:getObjectTypes"/>
+    <xs:element name="getObjectTypesResponse" type="tns:getObjectTypesResponse"/>
+    <xs:element name="validateObject" type="tns:validateObject"/>
+    <xs:element name="validateObjectResponse" type="tns:validateObjectResponse"/>
+    <xs:element name="validateStructureData" type="tns:validateStructureData"/>
+    <xs:element name="validateStructureDataResponse" type="tns:validateStructureDataResponse"/>
+    <xs:complexType name="getObjectStructure">
+        <xs:sequence>
+            <xs:element form="unqualified" minOccurs="0" name="objectTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getObjectStructureResponse">
+        <xs:sequence>
+            <xs:element form="unqualified" minOccurs="0" name="return" type="tns:objectStructure"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="objectStructure">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="type" type="tns:type"/>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+        <xs:attribute name="id" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="type">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="state" type="tns:state"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="state">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="field" type="tns:field"/>
+            <xs:element minOccurs="0" name="constraintDescriptor" type="tns:constraintDescriptor"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="field">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="fieldDescriptor" type="tns:fieldDescriptor"/>
+            <xs:element minOccurs="0" name="constraintDescriptor" type="tns:constraintDescriptor"/>
+            <xs:element name="selector" type="xs:boolean"/>
+            <xs:element name="dynamic" type="xs:boolean"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+        <xs:attribute name="id" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="fieldDescriptor">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="desc" type="xs:string"/>
+            <xs:element name="readOnly" type="xs:boolean"/>
+            <xs:element name="dataType" type="xs:string"/>
+            <xs:element minOccurs="0" name="search" type="tns:searchSelector"/>
+            <xs:element minOccurs="0" name="objectStructure" type="tns:objectStructure"/>
+            <xs:element minOccurs="0" name="objectStructureRef" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="searchSelector">
+        <xs:sequence/>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="constraintDescriptor">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="constraint" type="tns:constraintSelector"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+        <xs:attribute name="id" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="constraintSelector">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="minValue" type="xs:string"/>
+            <xs:element minOccurs="0" name="maxValue" type="xs:string"/>
+            <xs:element minOccurs="0" name="minLength" type="xs:int"/>
+            <xs:element minOccurs="0" name="maxLength" type="xs:string"/>
+            <xs:element minOccurs="0" name="validChars" type="tns:validCharsConstraint"/>
+            <xs:element minOccurs="0" name="minOccurs" type="xs:int"/>
+            <xs:element minOccurs="0" name="maxOccurs" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="require" type="tns:requireConstraint"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="case" type="tns:caseConstraint"/>
+            <xs:element minOccurs="0" name="typeStateCase" type="tns:typeStateCaseConstraint"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="lookup" type="tns:lookupConstraint"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="occurs" type="tns:occursConstraint"/>
+        </xs:sequence>
+        <xs:attribute name="className" type="xs:string"/>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="serverSide" type="xs:boolean" use="required"/>
+        <xs:attribute name="locale" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="validCharsConstraint">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="value" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="fields" type="xs:string"/>
+        <xs:attribute name="separator" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="requireConstraint">
+        <xs:sequence/>
+        <xs:attribute name="field" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="caseConstraint">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="when" type="tns:whenConstraint"/>
+        </xs:sequence>
+        <xs:attribute name="field" type="xs:string"/>
+        <xs:attribute name="operator" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="whenConstraint">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="constraint" type="tns:constraintSelector"/>
+        </xs:sequence>
+        <xs:attribute name="value" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="typeStateCaseConstraint">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="typeStateWhen" type="tns:typeStateWhenConstraint"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="typeStateWhenConstraint">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="minOccurs" type="xs:int"/>
+            <xs:element minOccurs="0" name="maxOccurs" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="state" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="lookupConstraint">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="lookupKey" type="tns:lookupKeyConstraint"/>
+        </xs:sequence>
+        <xs:attribute name="search" type="xs:string"/>
+        <xs:attribute name="searchField" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="lookupKeyConstraint">
+        <xs:sequence/>
+        <xs:attribute name="field" type="xs:string"/>
+        <xs:attribute name="mapsTo" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="occursConstraint">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="require" type="tns:requireConstraint"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="occurs" type="tns:occursConstraint"/>
+        </xs:sequence>
+        <xs:attribute name="min" type="xs:int"/>
+        <xs:attribute name="max" type="xs:int"/>
+    </xs:complexType>
+    <xs:complexType name="validateObject">
+        <xs:sequence>
+            <xs:element form="unqualified" minOccurs="0" name="objectTypeKey" type="xs:string"/>
+            <xs:element form="unqualified" minOccurs="0" name="stateKey" type="xs:string"/>
+            <xs:element form="unqualified" minOccurs="0" name="info" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="validateObjectResponse">
+        <xs:sequence>
+            <xs:element form="unqualified" name="return" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="validateStructureData">
+        <xs:sequence>
+            <xs:element form="unqualified" minOccurs="0" name="objectTypeKey" type="xs:string"/>
+            <xs:element form="unqualified" minOccurs="0" name="stateKey" type="xs:string"/>
+            <xs:element form="unqualified" minOccurs="0" name="info" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="validateStructureDataResponse">
+        <xs:sequence>
+            <xs:element form="unqualified" name="return" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getObjectTypes">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="getObjectTypesResponse">
+        <xs:sequence>
+            <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/exceptions" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/exceptions">
     <xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
     <xs:element name="CircularReferenceException" type="tns:CircularReferenceException"/>
@@ -56,580 +244,6 @@
             <xs:element minOccurs="0" name="message" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
-</xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://student.kuali.org/wsdl/exceptions" xmlns:ns1="http://student.kuali.org/wsdl/dictionary" xmlns:ns2="http://student.kuali.org/wsdl/search" xmlns:ns3="http://student.kuali.org/wsdl/organization" xmlns:tns="http://student.kuali.org/wsdl/statement" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/statement">
-    <xs:import namespace="http://student.kuali.org/wsdl/dictionary"/>
-    <xs:element name="createReqComponent" type="tns:createReqComponent"/>
-    <xs:element name="createReqComponentResponse" type="tns:createReqComponentResponse"/>
-    <xs:element name="createStatement" type="tns:createStatement"/>
-    <xs:element name="createStatementResponse" type="tns:createStatementResponse"/>
-    <xs:element name="deleteReqComponent" type="tns:deleteReqComponent"/>
-    <xs:element name="deleteReqComponentResponse" type="tns:deleteReqComponentResponse"/>
-    <xs:element name="deleteStatement" type="tns:deleteStatement"/>
-    <xs:element name="deleteStatementResponse" type="tns:deleteStatementResponse"/>
-    <xs:element name="getNaturalLanguageForReqComponent" type="tns:getNaturalLanguageForReqComponent"/>
-    <xs:element name="getNaturalLanguageForReqComponentResponse" type="tns:getNaturalLanguageForReqComponentResponse"/>
-    <xs:element name="getNaturalLanguageForStatement" type="tns:getNaturalLanguageForStatement"/>
-    <xs:element name="getNaturalLanguageForStatementResponse" type="tns:getNaturalLanguageForStatementResponse"/>
-    <xs:element name="getNlUsageType" type="tns:getNlUsageType"/>
-    <xs:element name="getNlUsageTypeResponse" type="tns:getNlUsageTypeResponse"/>
-    <xs:element name="getNlUsageTypes" type="tns:getNlUsageTypes"/>
-    <xs:element name="getNlUsageTypesResponse" type="tns:getNlUsageTypesResponse"/>
-    <xs:element name="getRefObjectSubTypes" type="tns:getRefObjectSubTypes"/>
-    <xs:element name="getRefObjectSubTypesResponse" type="tns:getRefObjectSubTypesResponse"/>
-    <xs:element name="getRefObjectTypes" type="tns:getRefObjectTypes"/>
-    <xs:element name="getRefObjectTypesResponse" type="tns:getRefObjectTypesResponse"/>
-    <xs:element name="getRefStatementRelation" type="tns:getRefStatementRelation"/>
-    <xs:element name="getRefStatementRelationResponse" type="tns:getRefStatementRelationResponse"/>
-    <xs:element name="getRefStatementRelationsForRef" type="tns:getRefStatementRelationsForRef"/>
-    <xs:element name="getRefStatementRelationsForRefResponse" type="tns:getRefStatementRelationsForRefResponse"/>
-    <xs:element name="getRefStatementRelationsForStatement" type="tns:getRefStatementRelationsForStatement"/>
-    <xs:element name="getRefStatementRelationsForStatementResponse" type="tns:getRefStatementRelationsForStatementResponse"/>
-    <xs:element name="getReqComponent" type="tns:getReqComponent"/>
-    <xs:element name="getReqComponentResponse" type="tns:getReqComponentResponse"/>
-    <xs:element name="getReqComponentType" type="tns:getReqComponentType"/>
-    <xs:element name="getReqComponentTypeResponse" type="tns:getReqComponentTypeResponse"/>
-    <xs:element name="getReqComponentTypes" type="tns:getReqComponentTypes"/>
-    <xs:element name="getReqComponentTypesForStatementType" type="tns:getReqComponentTypesForStatementType"/>
-    <xs:element name="getReqComponentTypesForStatementTypeResponse" type="tns:getReqComponentTypesForStatementTypeResponse"/>
-    <xs:element name="getReqComponentTypesResponse" type="tns:getReqComponentTypesResponse"/>
-    <xs:element name="getReqComponentsByType" type="tns:getReqComponentsByType"/>
-    <xs:element name="getReqComponentsByTypeResponse" type="tns:getReqComponentsByTypeResponse"/>
-    <xs:element name="getStatement" type="tns:getStatement"/>
-    <xs:element name="getStatementResponse" type="tns:getStatementResponse"/>
-    <xs:element name="getStatementType" type="tns:getStatementType"/>
-    <xs:element name="getStatementTypeResponse" type="tns:getStatementTypeResponse"/>
-    <xs:element name="getStatementsByType" type="tns:getStatementsByType"/>
-    <xs:element name="getStatementsByTypeResponse" type="tns:getStatementsByTypeResponse"/>
-    <xs:element name="getStatementsUsingComponent" type="tns:getStatementsUsingComponent"/>
-    <xs:element name="getStatementsUsingComponentResponse" type="tns:getStatementsUsingComponentResponse"/>
-    <xs:element name="updateReqComponent" type="tns:updateReqComponent"/>
-    <xs:element name="updateReqComponentResponse" type="tns:updateReqComponentResponse"/>
-    <xs:element name="updateStatement" type="tns:updateStatement"/>
-    <xs:element name="updateStatementResponse" type="tns:updateStatementResponse"/>
-    <xs:element name="validateReqComponent" type="tns:validateReqComponent"/>
-    <xs:element name="validateReqComponentResponse" type="tns:validateReqComponentResponse"/>
-    <xs:element name="validateStatement" type="tns:validateStatement"/>
-    <xs:element name="validateStatementResponse" type="tns:validateStatementResponse"/>
-    <xs:complexType name="updateStatement">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="statementId" type="xs:string"/>
-            <xs:element minOccurs="0" name="statementInfo" type="tns:statementInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="statementInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="desc" type="tns:richTextInfo"/>
-            <xs:element minOccurs="0" name="operator" type="tns:statementOperatorTypeKey"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="statementIds" type="xs:string"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="reqComponentIds" type="xs:string"/>
-            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
-            <xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
-        </xs:sequence>
-        <xs:attribute name="type" type="xs:string"/>
-        <xs:attribute name="state" type="xs:string"/>
-        <xs:attribute name="id" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="richTextInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="plain" type="xs:string"/>
-            <xs:element minOccurs="0" name="formatted" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="jaxbAttributeList">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="attribute" type="tns:Attribute"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="Attribute">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="value" type="xs:string"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="metaInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="versionInd" type="xs:string"/>
-            <xs:element minOccurs="0" name="createTime" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="createId" type="xs:string"/>
-            <xs:element minOccurs="0" name="updateTime" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="updateId" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="updateStatementResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="tns:statementInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="validateStatement">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="validationType" type="xs:string"/>
-            <xs:element minOccurs="0" name="statementInfo" type="tns:statementInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="validateStatementResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:validationResultContainer"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="validationResultContainer">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="validationResults" type="tns:validationResultInfo"/>
-            <xs:element minOccurs="0" name="errorLevel" type="tns:errorLevel"/>
-            <xs:element minOccurs="0" name="element" type="xs:string"/>
-            <xs:element minOccurs="0" name="derivedMinOccurs" type="xs:int"/>
-            <xs:element minOccurs="0" name="derivedMaxOccurs" type="xs:string"/>
-            <xs:element minOccurs="0" name="derivedMinLength" type="xs:int"/>
-            <xs:element minOccurs="0" name="derivedMaxLength" type="xs:string"/>
-            <xs:element minOccurs="0" name="dataType" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="validationResultInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="level" type="tns:errorLevel"/>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="searchRequest">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="searchKey" type="xs:string"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="params" nillable="true" type="tns:searchParam"/>
-            <xs:element minOccurs="0" name="sortColumn" type="xs:string"/>
-            <xs:element minOccurs="0" name="sortDirection" type="tns:sortDirection"/>
-            <xs:element minOccurs="0" name="startAt" type="xs:int"/>
-            <xs:element minOccurs="0" name="maxResults" type="xs:int"/>
-            <xs:element minOccurs="0" name="neededTotalResults" type="xs:boolean"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="searchParam">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="value" type="xs:string"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="listValue" type="xs:string"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="searchResult">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="startAt" type="xs:int"/>
-            <xs:element minOccurs="0" name="totalResults" type="xs:int"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="rows" nillable="true" type="tns:searchResultRow"/>
-            <xs:element minOccurs="0" name="sortColumn" type="xs:string"/>
-            <xs:element minOccurs="0" name="sortDirection" type="tns:sortDirection"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="searchResultRow">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="cells" nillable="true" type="tns:searchResultCell"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="searchResultCell">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="value" type="xs:string"/>
-            <xs:element minOccurs="0" name="key" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="createReqComponent">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="reqComponentType" type="xs:string"/>
-            <xs:element minOccurs="0" name="reqComponentInfo" type="tns:reqComponentInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="reqComponentInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="desc" type="tns:richTextInfo"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="reqCompFields" type="tns:reqCompFieldInfo"/>
-            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
-            <xs:element minOccurs="0" name="requiredComponentType" type="tns:reqComponentTypeInfo"/>
-        </xs:sequence>
-        <xs:attribute name="type" type="xs:string"/>
-        <xs:attribute name="state" type="xs:string"/>
-        <xs:attribute name="id" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="reqCompFieldInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="value" type="xs:string"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="reqComponentTypeInfo">
-        <xs:complexContent>
-            <xs:extension base="tns:typeInfo">
-                <xs:sequence>
-                    <xs:element minOccurs="0" name="reqCompFieldTypes">
-                        <xs:complexType>
-                            <xs:sequence>
-                                <xs:element maxOccurs="unbounded" minOccurs="0" name="reqCompFieldType" type="tns:reqCompFieldTypeInfo"/>
-                            </xs:sequence>
-                        </xs:complexType>
-                    </xs:element>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-    <xs:complexType abstract="true" name="typeInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="desc" type="xs:string"/>
-            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="reqCompFieldTypeInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" ref="ns1:fieldDescriptor"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="createReqComponentResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="tns:reqComponentInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getRefStatementRelationsForRef">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="refObjectTypeKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="refObjectId" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getRefStatementRelationsForRefResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:refStatementRelationInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="refStatementRelationInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="refObjectTypeKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="refObjectId" type="xs:string"/>
-            <xs:element minOccurs="0" name="statementId" type="xs:string"/>
-            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
-            <xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
-        </xs:sequence>
-        <xs:attribute name="type" type="xs:string"/>
-        <xs:attribute name="state" type="xs:string"/>
-        <xs:attribute name="id" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="getReqComponentType">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="reqComponentTypeKey" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getReqComponentTypeResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="tns:reqComponentTypeInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getStatementType">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="statementTypeKey" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getStatementTypeResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="tns:statementTypeInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="statementTypeInfo">
-        <xs:complexContent>
-            <xs:extension base="tns:typeInfo">
-                <xs:sequence>
-                    <xs:element minOccurs="0" name="allowedReqComponentTypes">
-                        <xs:complexType>
-                            <xs:sequence>
-                                <xs:element maxOccurs="unbounded" minOccurs="0" name="reqComponentTypeKey" type="xs:string"/>
-                            </xs:sequence>
-                        </xs:complexType>
-                    </xs:element>
-                    <xs:element minOccurs="0" name="allowedLuStatementTypes">
-                        <xs:complexType>
-                            <xs:sequence>
-                                <xs:element maxOccurs="unbounded" minOccurs="0" name="luStatementTypeKey" type="xs:string"/>
-                            </xs:sequence>
-                        </xs:complexType>
-                    </xs:element>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-    <xs:complexType name="updateReqComponent">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="reqComponentId" type="xs:string"/>
-            <xs:element minOccurs="0" name="reqComponentInfo" type="tns:reqComponentInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="updateReqComponentResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="tns:reqComponentInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getStatementsUsingComponent">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="reqComponentId" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getStatementsUsingComponentResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:statementInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="createStatement">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="statementType" type="xs:string"/>
-            <xs:element minOccurs="0" name="statementInfo" type="tns:statementInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="createStatementResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="tns:statementInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getRefObjectSubTypes">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="objectTypeKey" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getRefObjectSubTypesResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="deleteStatement">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="statementId" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="deleteStatementResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="tns:statusInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="statusInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="success" type="xs:boolean"/>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="validateReqComponent">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="validationType" type="xs:string"/>
-            <xs:element minOccurs="0" name="reqComponentInfo" type="tns:reqComponentInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="validateReqComponentResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:validationResultContainer"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getRefObjectTypes">
-        <xs:sequence/>
-    </xs:complexType>
-    <xs:complexType name="getRefObjectTypesResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getRefStatementRelation">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="refStatementRelationId" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getRefStatementRelationResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="tns:refStatementRelationInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getStatement">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="statementId" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getStatementResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="tns:statementInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="deleteReqComponent">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="reqComponentId" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="deleteReqComponentResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="tns:statusInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getStatementsByType">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="statementTypeKey" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getStatementsByTypeResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:statementInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getReqComponentTypes">
-        <xs:sequence/>
-    </xs:complexType>
-    <xs:complexType name="getReqComponentTypesResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:reqComponentTypeInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getRefStatementRelationsForStatement">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="statementId" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getRefStatementRelationsForStatementResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:refStatementRelationInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getReqComponentsByType">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="reqComponentTypeKey" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getReqComponentsByTypeResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:reqComponentInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getReqComponentTypesForStatementType">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="statementTypeKey" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getReqComponentTypesForStatementTypeResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:reqComponentTypeInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getNlUsageTypes">
-        <xs:sequence/>
-    </xs:complexType>
-    <xs:complexType name="getNlUsageTypesResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:nlUsageTypeInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="nlUsageTypeInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="desc" type="xs:string"/>
-            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="getReqComponent">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="reqComponentId" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getReqComponentResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="tns:reqComponentInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getNaturalLanguageForReqComponent">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="reqComponentId" type="xs:string"/>
-            <xs:element minOccurs="0" name="nlUsageTypeKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="language" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getNaturalLanguageForReqComponentResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getNlUsageType">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="nlUsageTypeKey" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getNlUsageTypeResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="tns:nlUsageTypeInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getNaturalLanguageForStatement">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="statementId" type="xs:string"/>
-            <xs:element minOccurs="0" name="nlUsageTypeKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="language" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="getNaturalLanguageForStatementResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:simpleType name="statementOperatorTypeKey">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="AND"/>
-            <xs:enumeration value="OR"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:simpleType name="errorLevel">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="OK"/>
-            <xs:enumeration value="WARN"/>
-            <xs:enumeration value="ERROR"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:simpleType name="sortDirection">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="ASC"/>
-            <xs:enumeration value="DESC"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:element name="OperationFailedException" nillable="true" type="ns0:OperationFailedException"/>
-    <xs:element name="VersionMismatchException" nillable="true" type="ns0:VersionMismatchException"/>
-    <xs:element name="MissingParameterException" nillable="true" type="ns0:MissingParameterException"/>
-    <xs:element name="PermissionDeniedException" nillable="true" type="ns0:PermissionDeniedException"/>
-    <xs:element name="DoesNotExistException" nillable="true" type="ns0:DoesNotExistException"/>
-    <xs:element name="DataValidationErrorException" nillable="true" type="ns0:DataValidationErrorException"/>
-    <xs:element name="CircularReferenceException" nillable="true" type="ns0:CircularReferenceException"/>
-    <xs:element name="InvalidParameterException" nillable="true" type="ns0:InvalidParameterException"/>
-    <xs:element name="getObjectStructure" nillable="true" type="ns1:getObjectStructure"/>
-    <xs:element name="getObjectStructureResponse" nillable="true" type="ns1:getObjectStructureResponse"/>
-    <xs:element name="getSearchCriteriaTypes" nillable="true" type="ns2:getSearchCriteriaTypes"/>
-    <xs:element name="getSearchCriteriaTypesResponse" nillable="true" type="ns2:getSearchCriteriaTypesResponse"/>
-    <xs:element name="search" nillable="true" type="ns3:search"/>
-    <xs:element name="searchResponse" nillable="true" type="ns3:searchResponse"/>
-    <xs:element name="AlreadyExistsException" nillable="true" type="ns0:AlreadyExistsException"/>
-    <xs:element name="getSearchType" nillable="true" type="ns2:getSearchType"/>
-    <xs:element name="getSearchTypeResponse" nillable="true" type="ns2:getSearchTypeResponse"/>
-    <xs:element name="validateObject" nillable="true" type="ns1:validateObject"/>
-    <xs:element name="validateObjectResponse" nillable="true" type="ns1:validateObjectResponse"/>
-    <xs:element name="getSearchTypesByCriteria" nillable="true" type="ns2:getSearchTypesByCriteria"/>
-    <xs:element name="getSearchTypesByCriteriaResponse" nillable="true" type="ns2:getSearchTypesByCriteriaResponse"/>
-    <xs:element name="validateStructureData" nillable="true" type="ns1:validateStructureData"/>
-    <xs:element name="validateStructureDataResponse" nillable="true" type="ns1:validateStructureDataResponse"/>
-    <xs:element name="getObjectTypes" nillable="true" type="ns1:getObjectTypes"/>
-    <xs:element name="getObjectTypesResponse" nillable="true" type="ns1:getObjectTypesResponse"/>
-    <xs:element name="searchForResults" nillable="true" type="ns2:searchForResults"/>
-    <xs:element name="searchForResultsResponse" nillable="true" type="ns2:searchForResultsResponse"/>
-    <xs:element name="getSearchCriteriaType" nillable="true" type="ns2:getSearchCriteriaType"/>
-    <xs:element name="getSearchCriteriaTypeResponse" nillable="true" type="ns2:getSearchCriteriaTypeResponse"/>
-    <xs:element name="getSearchTypes" nillable="true" type="ns2:getSearchTypes"/>
-    <xs:element name="getSearchTypesResponse" nillable="true" type="ns2:getSearchTypesResponse"/>
-    <xs:element name="getSearchTypesByResult" nillable="true" type="ns2:getSearchTypesByResult"/>
-    <xs:element name="getSearchTypesByResultResponse" nillable="true" type="ns2:getSearchTypesByResultResponse"/>
-    <xs:element name="getSearchResultTypes" nillable="true" type="ns2:getSearchResultTypes"/>
-    <xs:element name="getSearchResultTypesResponse" nillable="true" type="ns2:getSearchResultTypesResponse"/>
-    <xs:element name="getSearchResultType" nillable="true" type="ns2:getSearchResultType"/>
-    <xs:element name="getSearchResultTypeResponse" nillable="true" type="ns2:getSearchResultTypeResponse"/>
 </xs:schema>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/dictionary" xmlns:tns="http://student.kuali.org/wsdl/search" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://student.kuali.org/wsdl/search">
     <xs:import namespace="http://student.kuali.org/wsdl/dictionary"/>
@@ -835,193 +449,554 @@
         </xs:sequence>
     </xs:complexType>
 </xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/dictionary" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://student.kuali.org/wsdl/dictionary">
-    <xs:element name="fieldDescriptor" type="tns:fieldDescriptor"/>
-    <xs:element name="getObjectStructure" type="tns:getObjectStructure"/>
-    <xs:element name="getObjectStructureResponse" type="tns:getObjectStructureResponse"/>
-    <xs:element name="getObjectTypes" type="tns:getObjectTypes"/>
-    <xs:element name="getObjectTypesResponse" type="tns:getObjectTypesResponse"/>
-    <xs:element name="validateObject" type="tns:validateObject"/>
-    <xs:element name="validateObjectResponse" type="tns:validateObjectResponse"/>
-    <xs:element name="validateStructureData" type="tns:validateStructureData"/>
-    <xs:element name="validateStructureDataResponse" type="tns:validateStructureDataResponse"/>
-    <xs:complexType name="getObjectStructure">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://student.kuali.org/wsdl/exceptions" xmlns:ns1="http://student.kuali.org/wsdl/dictionary" xmlns:ns2="http://student.kuali.org/wsdl/search" xmlns:ns3="http://student.kuali.org/wsdl/organization" xmlns:tns="http://student.kuali.org/wsdl/statement" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/statement">
+    <xs:import namespace="http://student.kuali.org/wsdl/dictionary"/>
+    <xs:element name="createReqComponent" type="tns:createReqComponent"/>
+    <xs:element name="createReqComponentResponse" type="tns:createReqComponentResponse"/>
+    <xs:element name="createStatement" type="tns:createStatement"/>
+    <xs:element name="createStatementResponse" type="tns:createStatementResponse"/>
+    <xs:element name="deleteReqComponent" type="tns:deleteReqComponent"/>
+    <xs:element name="deleteReqComponentResponse" type="tns:deleteReqComponentResponse"/>
+    <xs:element name="deleteStatement" type="tns:deleteStatement"/>
+    <xs:element name="deleteStatementResponse" type="tns:deleteStatementResponse"/>
+    <xs:element name="getNaturalLanguageForReqComponent" type="tns:getNaturalLanguageForReqComponent"/>
+    <xs:element name="getNaturalLanguageForReqComponentResponse" type="tns:getNaturalLanguageForReqComponentResponse"/>
+    <xs:element name="getNaturalLanguageForStatement" type="tns:getNaturalLanguageForStatement"/>
+    <xs:element name="getNaturalLanguageForStatementResponse" type="tns:getNaturalLanguageForStatementResponse"/>
+    <xs:element name="getNlUsageType" type="tns:getNlUsageType"/>
+    <xs:element name="getNlUsageTypeResponse" type="tns:getNlUsageTypeResponse"/>
+    <xs:element name="getNlUsageTypes" type="tns:getNlUsageTypes"/>
+    <xs:element name="getNlUsageTypesResponse" type="tns:getNlUsageTypesResponse"/>
+    <xs:element name="getRefObjectSubTypes" type="tns:getRefObjectSubTypes"/>
+    <xs:element name="getRefObjectSubTypesResponse" type="tns:getRefObjectSubTypesResponse"/>
+    <xs:element name="getRefObjectTypes" type="tns:getRefObjectTypes"/>
+    <xs:element name="getRefObjectTypesResponse" type="tns:getRefObjectTypesResponse"/>
+    <xs:element name="getRefStatementRelation" type="tns:getRefStatementRelation"/>
+    <xs:element name="getRefStatementRelationResponse" type="tns:getRefStatementRelationResponse"/>
+    <xs:element name="getRefStatementRelationsForRef" type="tns:getRefStatementRelationsForRef"/>
+    <xs:element name="getRefStatementRelationsForRefResponse" type="tns:getRefStatementRelationsForRefResponse"/>
+    <xs:element name="getRefStatementRelationsForStatement" type="tns:getRefStatementRelationsForStatement"/>
+    <xs:element name="getRefStatementRelationsForStatementResponse" type="tns:getRefStatementRelationsForStatementResponse"/>
+    <xs:element name="getReqComponent" type="tns:getReqComponent"/>
+    <xs:element name="getReqComponentResponse" type="tns:getReqComponentResponse"/>
+    <xs:element name="getReqComponentType" type="tns:getReqComponentType"/>
+    <xs:element name="getReqComponentTypeResponse" type="tns:getReqComponentTypeResponse"/>
+    <xs:element name="getReqComponentTypes" type="tns:getReqComponentTypes"/>
+    <xs:element name="getReqComponentTypesForStatementType" type="tns:getReqComponentTypesForStatementType"/>
+    <xs:element name="getReqComponentTypesForStatementTypeResponse" type="tns:getReqComponentTypesForStatementTypeResponse"/>
+    <xs:element name="getReqComponentTypesResponse" type="tns:getReqComponentTypesResponse"/>
+    <xs:element name="getReqComponentsByType" type="tns:getReqComponentsByType"/>
+    <xs:element name="getReqComponentsByTypeResponse" type="tns:getReqComponentsByTypeResponse"/>
+    <xs:element name="getStatement" type="tns:getStatement"/>
+    <xs:element name="getStatementResponse" type="tns:getStatementResponse"/>
+    <xs:element name="getStatementType" type="tns:getStatementType"/>
+    <xs:element name="getStatementTypeResponse" type="tns:getStatementTypeResponse"/>
+    <xs:element name="getStatementsByType" type="tns:getStatementsByType"/>
+    <xs:element name="getStatementsByTypeResponse" type="tns:getStatementsByTypeResponse"/>
+    <xs:element name="getStatementsUsingComponent" type="tns:getStatementsUsingComponent"/>
+    <xs:element name="getStatementsUsingComponentResponse" type="tns:getStatementsUsingComponentResponse"/>
+    <xs:element name="updateReqComponent" type="tns:updateReqComponent"/>
+    <xs:element name="updateReqComponentResponse" type="tns:updateReqComponentResponse"/>
+    <xs:element name="updateStatement" type="tns:updateStatement"/>
+    <xs:element name="updateStatementResponse" type="tns:updateStatementResponse"/>
+    <xs:element name="validateReqComponent" type="tns:validateReqComponent"/>
+    <xs:element name="validateReqComponentResponse" type="tns:validateReqComponentResponse"/>
+    <xs:element name="validateStatement" type="tns:validateStatement"/>
+    <xs:element name="validateStatementResponse" type="tns:validateStatementResponse"/>
+    <xs:complexType name="updateStatement">
         <xs:sequence>
-            <xs:element form="unqualified" minOccurs="0" name="objectTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="statementId" type="xs:string"/>
+            <xs:element minOccurs="0" name="statementInfo" type="tns:statementInfo"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="getObjectStructureResponse">
+    <xs:complexType name="statementInfo">
         <xs:sequence>
-            <xs:element form="unqualified" minOccurs="0" name="return" type="tns:objectStructure"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="objectStructure">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" name="type" type="tns:type"/>
             <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="desc" type="xs:string"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string" use="required"/>
-        <xs:attribute name="id" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="type">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" name="state" type="tns:state"/>
-        </xs:sequence>
-        <xs:attribute name="id" type="xs:string"/>
-        <xs:attribute name="key" type="xs:string" use="required"/>
-    </xs:complexType>
-    <xs:complexType name="state">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" name="field" type="tns:field"/>
-            <xs:element minOccurs="0" name="constraintDescriptor" type="tns:constraintDescriptor"/>
-        </xs:sequence>
-        <xs:attribute name="id" type="xs:string"/>
-        <xs:attribute name="key" type="xs:string" use="required"/>
-    </xs:complexType>
-    <xs:complexType name="field">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="fieldDescriptor" type="tns:fieldDescriptor"/>
-            <xs:element minOccurs="0" name="constraintDescriptor" type="tns:constraintDescriptor"/>
-            <xs:element name="selector" type="xs:boolean"/>
-            <xs:element name="dynamic" type="xs:boolean"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string" use="required"/>
-        <xs:attribute name="id" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="fieldDescriptor">
-        <xs:sequence>
-            <xs:element name="name" type="xs:string"/>
-            <xs:element name="desc" type="xs:string"/>
-            <xs:element name="readOnly" type="xs:boolean"/>
-            <xs:element name="dataType" type="xs:string"/>
-            <xs:element minOccurs="0" name="search" type="tns:searchSelector"/>
-            <xs:element minOccurs="0" name="objectStructure" type="tns:objectStructure"/>
-            <xs:element minOccurs="0" name="objectStructureRef" type="xs:string"/>
-        </xs:sequence>
-        <xs:attribute name="id" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="searchSelector">
-        <xs:sequence/>
-        <xs:attribute name="key" type="xs:string" use="required"/>
-    </xs:complexType>
-    <xs:complexType name="constraintDescriptor">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" name="constraint" type="tns:constraintSelector"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string" use="required"/>
-        <xs:attribute name="id" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="constraintSelector">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="minValue" type="xs:string"/>
-            <xs:element minOccurs="0" name="maxValue" type="xs:string"/>
-            <xs:element minOccurs="0" name="minLength" type="xs:int"/>
-            <xs:element minOccurs="0" name="maxLength" type="xs:string"/>
-            <xs:element minOccurs="0" name="validChars" type="tns:validCharsConstraint"/>
-            <xs:element minOccurs="0" name="minOccurs" type="xs:int"/>
-            <xs:element minOccurs="0" name="maxOccurs" type="xs:string"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="require" type="tns:requireConstraint"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="case" type="tns:caseConstraint"/>
-            <xs:element minOccurs="0" name="typeStateCase" type="tns:typeStateCaseConstraint"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="lookup" type="tns:lookupConstraint"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="occurs" type="tns:occursConstraint"/>
-        </xs:sequence>
-        <xs:attribute name="className" type="xs:string"/>
-        <xs:attribute name="key" type="xs:string" use="required"/>
-        <xs:attribute name="id" type="xs:string"/>
-        <xs:attribute name="serverSide" type="xs:boolean" use="required"/>
-        <xs:attribute name="locale" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="validCharsConstraint">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="value" type="xs:string"/>
-        </xs:sequence>
-        <xs:attribute name="fields" type="xs:string"/>
-        <xs:attribute name="separator" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="requireConstraint">
-        <xs:sequence/>
-        <xs:attribute name="field" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="caseConstraint">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="when" type="tns:whenConstraint"/>
-        </xs:sequence>
-        <xs:attribute name="field" type="xs:string"/>
-        <xs:attribute name="operator" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="whenConstraint">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="constraint" type="tns:constraintSelector"/>
-        </xs:sequence>
-        <xs:attribute name="value" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="typeStateCaseConstraint">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="typeStateWhen" type="tns:typeStateWhenConstraint"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="typeStateWhenConstraint">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="minOccurs" type="xs:int"/>
-            <xs:element minOccurs="0" name="maxOccurs" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="tns:richTextInfo"/>
+            <xs:element minOccurs="0" name="operator" type="tns:statementOperatorTypeKey"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="statementIds" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="reqComponentIds" type="xs:string"/>
+            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+            <xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
         </xs:sequence>
         <xs:attribute name="type" type="xs:string"/>
         <xs:attribute name="state" type="xs:string"/>
+        <xs:attribute name="id" type="xs:string"/>
     </xs:complexType>
-    <xs:complexType name="lookupConstraint">
+    <xs:complexType name="richTextInfo">
         <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="lookupKey" type="tns:lookupKeyConstraint"/>
+            <xs:element minOccurs="0" name="plain" type="xs:string"/>
+            <xs:element minOccurs="0" name="formatted" type="xs:string"/>
         </xs:sequence>
-        <xs:attribute name="search" type="xs:string"/>
-        <xs:attribute name="searchField" type="xs:string"/>
     </xs:complexType>
-    <xs:complexType name="lookupKeyConstraint">
+    <xs:complexType name="jaxbAttributeList">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="attribute" type="tns:Attribute"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Attribute">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="value" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="metaInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="versionInd" type="xs:string"/>
+            <xs:element minOccurs="0" name="createTime" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="createId" type="xs:string"/>
+            <xs:element minOccurs="0" name="updateTime" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="updateId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="updateStatementResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:statementInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="validateStatement">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="validationType" type="xs:string"/>
+            <xs:element minOccurs="0" name="statementInfo" type="tns:statementInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="validateStatementResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="searchRequest">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="searchKey" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="params" nillable="true" type="tns:searchParam"/>
+            <xs:element minOccurs="0" name="sortColumn" type="xs:string"/>
+            <xs:element minOccurs="0" name="sortDirection" type="tns:sortDirection"/>
+            <xs:element minOccurs="0" name="startAt" type="xs:int"/>
+            <xs:element minOccurs="0" name="maxResults" type="xs:int"/>
+            <xs:element minOccurs="0" name="neededTotalResults" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="searchParam">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="value" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="listValue" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="searchResult">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="startAt" type="xs:int"/>
+            <xs:element minOccurs="0" name="totalResults" type="xs:int"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="rows" nillable="true" type="tns:searchResultRow"/>
+            <xs:element minOccurs="0" name="sortColumn" type="xs:string"/>
+            <xs:element minOccurs="0" name="sortDirection" type="tns:sortDirection"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="searchResultRow">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="cells" nillable="true" type="tns:searchResultCell"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="searchResultCell">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="value" type="xs:string"/>
+            <xs:element minOccurs="0" name="key" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="createReqComponent">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="reqComponentType" type="xs:string"/>
+            <xs:element minOccurs="0" name="reqComponentInfo" type="tns:reqComponentInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="reqComponentInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="desc" type="tns:richTextInfo"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="reqCompFields" type="tns:reqCompFieldInfo"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
+            <xs:element minOccurs="0" name="requiredComponentType" type="tns:reqComponentTypeInfo"/>
+        </xs:sequence>
+        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="state" type="xs:string"/>
+        <xs:attribute name="id" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="reqCompFieldInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="value" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="reqComponentTypeInfo">
+        <xs:complexContent>
+            <xs:extension base="tns:typeInfo">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="reqCompFieldTypes">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element maxOccurs="unbounded" minOccurs="0" name="reqCompFieldType" type="tns:reqCompFieldTypeInfo"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType abstract="true" name="typeInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="reqCompFieldTypeInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" ref="ns1:fieldDescriptor"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="createReqComponentResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:reqComponentInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getRefStatementRelationsForRef">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="refObjectTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="refObjectId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getRefStatementRelationsForRefResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getReqComponentType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="reqComponentTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getReqComponentTypeResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:reqComponentTypeInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getStatementType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="statementTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getStatementTypeResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:statementTypeInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="statementTypeInfo">
+        <xs:complexContent>
+            <xs:extension base="tns:typeInfo">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="allowedReqComponentTypes">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element maxOccurs="unbounded" minOccurs="0" name="reqComponentTypeKey" type="xs:string"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="allowedLuStatementTypes">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element maxOccurs="unbounded" minOccurs="0" name="luStatementTypeKey" type="xs:string"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="updateReqComponent">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="reqComponentId" type="xs:string"/>
+            <xs:element minOccurs="0" name="reqComponentInfo" type="tns:reqComponentInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="updateReqComponentResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:reqComponentInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getStatementsUsingComponent">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="reqComponentId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getStatementsUsingComponentResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="createStatement">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="statementType" type="xs:string"/>
+            <xs:element minOccurs="0" name="statementInfo" type="tns:statementInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="createStatementResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:statementInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getRefObjectSubTypes">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="objectTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getRefObjectSubTypesResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="deleteStatement">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="statementId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="deleteStatementResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:statusInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="statusInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="success" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="validateReqComponent">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="validationType" type="xs:string"/>
+            <xs:element minOccurs="0" name="reqComponentInfo" type="tns:reqComponentInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="validateReqComponentResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getRefObjectTypes">
         <xs:sequence/>
-        <xs:attribute name="field" type="xs:string"/>
-        <xs:attribute name="mapsTo" type="xs:string"/>
     </xs:complexType>
-    <xs:complexType name="occursConstraint">
+    <xs:complexType name="getRefObjectTypesResponse">
         <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="require" type="tns:requireConstraint"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="occurs" type="tns:occursConstraint"/>
-        </xs:sequence>
-        <xs:attribute name="min" type="xs:int"/>
-        <xs:attribute name="max" type="xs:int"/>
-    </xs:complexType>
-    <xs:complexType name="validateObject">
-        <xs:sequence>
-            <xs:element form="unqualified" minOccurs="0" name="objectTypeKey" type="xs:string"/>
-            <xs:element form="unqualified" minOccurs="0" name="stateKey" type="xs:string"/>
-            <xs:element form="unqualified" minOccurs="0" name="info" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="validateObjectResponse">
+    <xs:complexType name="getRefStatementRelation">
         <xs:sequence>
-            <xs:element form="unqualified" name="return" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="refStatementRelationId" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="validateStructureData">
+    <xs:complexType name="getRefStatementRelationResponse">
         <xs:sequence>
-            <xs:element form="unqualified" minOccurs="0" name="objectTypeKey" type="xs:string"/>
-            <xs:element form="unqualified" minOccurs="0" name="stateKey" type="xs:string"/>
-            <xs:element form="unqualified" minOccurs="0" name="info" type="xs:string"/>
+            <xs:element minOccurs="0" name="return" type="tns:refStatementRelationInfo"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="validateStructureDataResponse">
+    <xs:complexType name="refStatementRelationInfo">
         <xs:sequence>
-            <xs:element form="unqualified" name="return" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="refObjectTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="refObjectId" type="xs:string"/>
+            <xs:element minOccurs="0" name="statementId" type="xs:string"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+            <xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
+        </xs:sequence>
+        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="state" type="xs:string"/>
+        <xs:attribute name="id" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="getStatement">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="statementId" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="getObjectTypes">
+    <xs:complexType name="getStatementResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:statementInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="deleteReqComponent">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="reqComponentId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="deleteReqComponentResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:statusInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getStatementsByType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="statementTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getStatementsByTypeResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getReqComponentTypes">
         <xs:sequence/>
     </xs:complexType>
-    <xs:complexType name="getObjectTypesResponse">
+    <xs:complexType name="getReqComponentTypesResponse">
         <xs:sequence>
-            <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
         </xs:sequence>
     </xs:complexType>
+    <xs:complexType name="getRefStatementRelationsForStatement">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="statementId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getRefStatementRelationsForStatementResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getReqComponentsByType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="reqComponentTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getReqComponentsByTypeResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getReqComponentTypesForStatementType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="statementTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getReqComponentTypesForStatementTypeResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getNlUsageTypes">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="getNlUsageTypesResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getReqComponent">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="reqComponentId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getReqComponentResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:reqComponentInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getNaturalLanguageForReqComponent">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="reqComponentId" type="xs:string"/>
+            <xs:element minOccurs="0" name="nlUsageTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="language" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getNaturalLanguageForReqComponentResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getNlUsageType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="nlUsageTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getNlUsageTypeResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:nlUsageTypeInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="nlUsageTypeInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="getNaturalLanguageForStatement">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="statementId" type="xs:string"/>
+            <xs:element minOccurs="0" name="nlUsageTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="language" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getNaturalLanguageForStatementResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="statementOperatorTypeKey">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="AND"/>
+            <xs:enumeration value="OR"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="sortDirection">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="ASC"/>
+            <xs:enumeration value="DESC"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:element name="OperationFailedException" nillable="true" type="ns0:OperationFailedException"/>
+    <xs:element name="VersionMismatchException" nillable="true" type="ns0:VersionMismatchException"/>
+    <xs:element name="MissingParameterException" nillable="true" type="ns0:MissingParameterException"/>
+    <xs:element name="PermissionDeniedException" nillable="true" type="ns0:PermissionDeniedException"/>
+    <xs:element name="DoesNotExistException" nillable="true" type="ns0:DoesNotExistException"/>
+    <xs:element name="DataValidationErrorException" nillable="true" type="ns0:DataValidationErrorException"/>
+    <xs:element name="CircularReferenceException" nillable="true" type="ns0:CircularReferenceException"/>
+    <xs:element name="InvalidParameterException" nillable="true" type="ns0:InvalidParameterException"/>
+    <xs:element name="getObjectStructure" nillable="true" type="ns1:getObjectStructure"/>
+    <xs:element name="getObjectStructureResponse" nillable="true" type="ns1:getObjectStructureResponse"/>
+    <xs:element name="getSearchCriteriaTypes" nillable="true" type="ns2:getSearchCriteriaTypes"/>
+    <xs:element name="getSearchCriteriaTypesResponse" nillable="true" type="ns2:getSearchCriteriaTypesResponse"/>
+    <xs:element name="search" nillable="true" type="ns3:search"/>
+    <xs:element name="searchResponse" nillable="true" type="ns3:searchResponse"/>
+    <xs:element name="AlreadyExistsException" nillable="true" type="ns0:AlreadyExistsException"/>
+    <xs:element name="getSearchType" nillable="true" type="ns2:getSearchType"/>
+    <xs:element name="getSearchTypeResponse" nillable="true" type="ns2:getSearchTypeResponse"/>
+    <xs:element name="validateObject" nillable="true" type="ns1:validateObject"/>
+    <xs:element name="validateObjectResponse" nillable="true" type="ns1:validateObjectResponse"/>
+    <xs:element name="getSearchTypesByCriteria" nillable="true" type="ns2:getSearchTypesByCriteria"/>
+    <xs:element name="getSearchTypesByCriteriaResponse" nillable="true" type="ns2:getSearchTypesByCriteriaResponse"/>
+    <xs:element name="validateStructureData" nillable="true" type="ns1:validateStructureData"/>
+    <xs:element name="validateStructureDataResponse" nillable="true" type="ns1:validateStructureDataResponse"/>
+    <xs:element name="getObjectTypes" nillable="true" type="ns1:getObjectTypes"/>
+    <xs:element name="getObjectTypesResponse" nillable="true" type="ns1:getObjectTypesResponse"/>
+    <xs:element name="searchForResults" nillable="true" type="ns2:searchForResults"/>
+    <xs:element name="searchForResultsResponse" nillable="true" type="ns2:searchForResultsResponse"/>
+    <xs:element name="getSearchCriteriaType" nillable="true" type="ns2:getSearchCriteriaType"/>
+    <xs:element name="getSearchCriteriaTypeResponse" nillable="true" type="ns2:getSearchCriteriaTypeResponse"/>
+    <xs:element name="getSearchTypes" nillable="true" type="ns2:getSearchTypes"/>
+    <xs:element name="getSearchTypesResponse" nillable="true" type="ns2:getSearchTypesResponse"/>
+    <xs:element name="getSearchTypesByResult" nillable="true" type="ns2:getSearchTypesByResult"/>
+    <xs:element name="getSearchTypesByResultResponse" nillable="true" type="ns2:getSearchTypesByResultResponse"/>
+    <xs:element name="getSearchResultTypes" nillable="true" type="ns2:getSearchResultTypes"/>
+    <xs:element name="getSearchResultTypesResponse" nillable="true" type="ns2:getSearchResultTypesResponse"/>
+    <xs:element name="getSearchResultType" nillable="true" type="ns2:getSearchResultType"/>
+    <xs:element name="getSearchResultTypeResponse" nillable="true" type="ns2:getSearchResultTypeResponse"/>
 </xs:schema>
   </wsdl:types>
   <wsdl:message name="updateStatementResponse">
