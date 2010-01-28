@@ -606,7 +606,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
      * @see org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService#createProposal(org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO)
      */
     @Override
-    public CluProposalModelDTO createProposal(CluProposalModelDTO cluProposalDTO) throws OperationFailedException {        
+    public CluProposalModelDTO createProposal(CluProposalModelDTO cluProposalDTO) throws OperationFailedException {
+/**        
         MapContext ctx = new MapContext();
 
         logger.info("Creating proposal");
@@ -666,7 +667,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             proposalInfo = proposalService.createProposal(proposalInfo.getType(), proposalInfo);
             ModelDTO proposalModelDTO = (ModelDTO)ctx.fromBean(proposalInfo);
             proposalInfoModelDTO.copyFrom(proposalModelDTO);            
-
+**/
             //Convert loInfo model dto to LoInfo
             /*
             ModelDTO loInfoModelDTO = ((ModelDTOType)cluProposalDTO.get(LOInfoModelDTO.DTO_KEY)).get();
@@ -679,6 +680,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
             */
             //Do Workflow Create and save docContent
             //get a user name
+/**
             String username=getCurrentUser();
 
             String title = proposalInfo.getName()==null?"NoLongNameSet":proposalInfo.getName();
@@ -707,6 +709,8 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
         }
 
         return cluProposalDTO;
+**/
+        return null;
     }
 
 	/**
@@ -961,6 +965,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     }
     
     private void saveLearningObjectives(CluInfo cluInfo, CluProposalModelDTO cluProposalDTO) throws Exception {
+        /**
         ModelDTOValue.ListType learningObjectiveListType = (ModelDTOValue.ListType) ((ModelDTOValue.ModelDTOType) cluProposalDTO.get("cluInfo")).get().get("loInfos");
         
         if (null != learningObjectiveListType) {
@@ -1004,6 +1009,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 				}
         	}
         }
+        **/
 	}
 
     
@@ -1013,7 +1019,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 										    				   MissingParameterException,
 										    				   OperationFailedException,
 										    				   org.kuali.student.core.exceptions.OperationFailedException, BeanMappingException, DependentObjectsExistException, PermissionDeniedException {
-		
+		/**
 		List<String> loIds = service.getLoIdsByClu(cluId);
 		Set<String> loIdsFromUser = new TreeSet<String>();
 		
@@ -1040,6 +1046,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
     			}
     		}
     	}
+    	**/
 	}
 
 	/**
@@ -1256,6 +1263,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	}
 
 	private void getLearningObjectives(String parentCluId, ModelDTO cluProposalDTO) {
+	    /**
         ModelDTOValue.ListType loList = new ModelDTOValue.ListType();
     	List<ModelDTOValue> loModelDTOValueList = new ArrayList<ModelDTOValue>();;
 
@@ -1283,6 +1291,7 @@ public class CluProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServic
 	    } catch (Exception e) {
 	        logger.error("Error getting learning objective. ", e);
 	    }
+	    **/
 	}
 
 	private String getCurrentUser() {
