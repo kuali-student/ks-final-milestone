@@ -6,7 +6,7 @@
 //
 
 
-package org.kuali.student.core.organization.ui.client.mvc.model.dto;
+package org.kuali.student.core.organization.dynamic;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
