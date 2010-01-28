@@ -547,18 +547,19 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
                 courseClu.setDescr(getRichText(course.getDescription()));
             }
 
+            
             //AuthzCheck
             if(courseMetadata.getProperties().get("duration").getWriteAccess()!=WriteAccess.NEVER){
                 AmountInfo time = courseClu.getIntensity();
-                //TimeAmountInfo time = courseClu.getIntensity();
                 if (time == null) {
                     time = new AmountInfo();
-                    time.setUnitQuantity(String.valueOf(course.getDuration().getQuantity()));
                     courseClu.setIntensity(time);
                 }
                 if (course.getDuration() != null) {
                     time.setUnitType(course.getDuration().getTermType());
-                    time.setUnitQuantity(String.valueOf(course.getDuration().getQuantity()));
+                    if(course.getDuration().getQuantity() != null) {
+                        time.setUnitQuantity(course.getDuration().getQuantity().toString());
+                    }
                 }
             }
 
