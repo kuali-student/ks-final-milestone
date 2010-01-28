@@ -18,8 +18,6 @@ import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
-import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
 

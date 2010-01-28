@@ -48,8 +48,6 @@ import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LuConfigurer;
-import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
-import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
