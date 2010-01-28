@@ -91,6 +91,8 @@ public class LuRpcGwtServlet extends BaseRpcGwtServletAbstract<LuService> implem
     }
 
     public List<String> getLoIdsByClu(String cluId) {
+      //FIXME: LuService Change
+        /**
         try {
             return service.getLoIdsByClu(cluId);
 
@@ -104,6 +106,7 @@ public class LuRpcGwtServlet extends BaseRpcGwtServletAbstract<LuService> implem
             e.printStackTrace();
 
         }
+        **/
         return null;
     }
 
