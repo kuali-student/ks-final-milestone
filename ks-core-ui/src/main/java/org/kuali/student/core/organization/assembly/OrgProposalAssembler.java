@@ -1,5 +1,14 @@
 package org.kuali.student.core.organization.assembly;
 
+import static org.kuali.student.core.assembly.util.AssemblerUtils.addVersionIndicator;
+import static org.kuali.student.core.assembly.util.AssemblerUtils.getVersionIndicator;
+import static org.kuali.student.core.assembly.util.AssemblerUtils.isCreated;
+import static org.kuali.student.core.assembly.util.AssemblerUtils.isDeleted;
+import static org.kuali.student.core.assembly.util.AssemblerUtils.isModified;
+import static org.kuali.student.core.assembly.util.AssemblerUtils.isUpdated;
+import static org.kuali.student.core.assembly.util.AssemblerUtils.setCreated;
+import static org.kuali.student.core.assembly.util.AssemblerUtils.setUpdated;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,12 +22,15 @@ import org.kuali.student.common.assembly.client.AssemblyException;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.assembly.client.SaveResult;
 import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
+import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.organization.assembly.data.client.OrgMetadata;
 import org.kuali.student.core.organization.assembly.data.client.OrgProposalMetadata;
 import org.kuali.student.core.organization.assembly.data.client.org.OrgHelper;
@@ -108,12 +120,12 @@ public class OrgProposalAssembler implements Assembler<Data, OrgHelper>{
 //        result.setValidationResults(validationResults);
         try {
             saveOrg(orgInfoData);   //orgInfoData contains the dto for OrgInfo
-            OrgHelper resultOrg = buildOrgDataMap(orgInfoData);   //this will create the Data Map for the returned OrgInfo dto
-            Data samp = new Data();
-            Data resultData = new Data();
-            resultData.set("orgInfo", resultOrg.getData());       //Set the map to the key "orgInfo"
+//            OrgHelper resultOrg = buildOrgDataMap(orgInfoData);   //this will create the Data Map for the returned OrgInfo dto
+//            Data samp = new Data();
+//            Data resultData = new Data();
+//            resultData.set("orgInfo", resultOrg.getData());       //Set the map to the key "orgInfo"
             
-            String orgId = resultOrg.getId();
+            String orgId = orgInfoData.getOrgInfo().getId();
             orgHelper.setId(orgId);
             if(orgId!=null&&input.get("orgOrgRelationInfo")!=null){
 //                OrgorgRelationHelper orgOrgRelation=  OrgorgRelationHelper.wrap(input);
@@ -127,8 +139,7 @@ public class OrgProposalAssembler implements Assembler<Data, OrgHelper>{
             if(orgId!=null&&input.get("OrgPositionRestrictionInfo")!=null){
                 OrgPositionRestrictionAssembler orgPositionRestrictionAssembler= new OrgPositionRestrictionAssembler();
                 orgPositionRestrictionAssembler.setOrgService(orgService);
-                orgPositionRestrictionAssembler.save(input);
-                Data relationData = orgPositionRestrictionAssembler.save(input).getValue();
+                Data positionData = orgPositionRestrictionAssembler.save(input).getValue();
                 System.out.println("-- -- --");
             }
            
@@ -158,13 +169,32 @@ public class OrgProposalAssembler implements Assembler<Data, OrgHelper>{
         orgInfo.setLongName(org.getName());
         orgInfo.setEffectiveDate(org.getEffectiveDate());
         orgInfo.setExpirationDate(org.getExpirationDate());
+        if(org.getId()!=null){
+            orgInfo.setId(org.getId());
+        }
         
-        result.setModificationState(ModificationState.CREATED);
+        if (isModified(org.getData())) {
+           if (isUpdated(org.getData())) {
+                MetaInfo metaInfo = new MetaInfo();
+                orgInfo.setMetaInfo(metaInfo);
+                result.setModificationState(ModificationState.UPDATED);
+            } else if (isDeleted(org.getData())) {
+                result.setModificationState(ModificationState.DELETED);
+            }
+        }
+        else{
+            setCreated(org.getData(), true);
+            result.setModificationState(ModificationState.CREATED);
+        }
+        if(orgInfo.getMetaInfo()!=null){
+            orgInfo.getMetaInfo().setVersionInd(getVersionIndicator(org.getData()));
+        }
+//        result.setModificationState(ModificationState.CREATED);
         result.setOrgInfo(orgInfo);
         return result;
     }
 
-    private void saveOrg(OrgInfoData input) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    private void saveOrg(OrgInfoData input) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException {
         OrgInfo result = null;
         OrgInfo orgInfo = input.getOrgInfo();
         if (input.getModificationState() != null) {
@@ -172,6 +202,8 @@ public class OrgProposalAssembler implements Assembler<Data, OrgHelper>{
                 case CREATED:
                     result = orgService.createOrganization(orgInfo.getType(), orgInfo);
                     break;
+                case UPDATED:
+                    result = orgService.updateOrganization(orgInfo.getId(), orgInfo);
                 default:
             }
         }
@@ -206,6 +238,8 @@ public class OrgProposalAssembler implements Assembler<Data, OrgHelper>{
         org.setDescription(orgInfoData.getOrgInfo().getLongDesc());
         org.setEffectiveDate(orgInfoData.getOrgInfo().getEffectiveDate());
         org.setExpirationDate(orgInfoData.getOrgInfo().getExpirationDate());
+        setUpdated(org.getData(), true);
+        addVersionIndicator(org.getData(),OrgInfo.class.getName(),orgInfoData.getOrgInfo().getId(),orgInfoData.getOrgInfo().getMetaInfo().getVersionInd());
 
         return org;
     }

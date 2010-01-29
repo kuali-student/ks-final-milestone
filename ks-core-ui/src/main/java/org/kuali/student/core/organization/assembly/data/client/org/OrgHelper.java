@@ -4,8 +4,11 @@ package org.kuali.student.core.organization.assembly.data.client.org;
 import java.util.Date;
 
 import org.kuali.student.common.assembly.client.Data;
+
 import org.kuali.student.core.organization.assembly.data.client.ModifiableData;
 import org.kuali.student.core.organization.assembly.data.client.PropertyEnum;
+import org.kuali.student.core.organization.assembly.data.client.RuntimeDataHelper;
+
 
 
 public class OrgHelper{
@@ -13,7 +16,7 @@ public class OrgHelper{
 
 	public enum Properties implements PropertyEnum{
 		ID("id"),TYPE("type"),NAME("longName"),ABBREVIATION("shortName"),DESCRIPTION("longDesc"),
-				EFFECTIVE_DATE("effectiveDate"), EXPIRATION_DATE("expirationDate"),
+				EFFECTIVE_DATE("effectiveDate"), EXPIRATION_DATE("expirationDate"),_RUNTIME_DATA ("_runtimeData"),
 				VERSION_CODES("versionCodes");
 
 		private final String key;
@@ -103,6 +106,16 @@ public class OrgHelper{
         data.set(Properties.EXPIRATION_DATE.getKey(), value);
     }
     
+    public void set_runtimeData (RuntimeDataHelper value)
+    {
+        data.set (Properties._RUNTIME_DATA.getKey (), (value == null) ? null : value.getData ());
+    }
+    
+    
+    public RuntimeDataHelper get_runtimeData ()
+    {
+        return RuntimeDataHelper.wrap ((Data) data.get (Properties._RUNTIME_DATA.getKey ()));
+    }
 
 	
 }
