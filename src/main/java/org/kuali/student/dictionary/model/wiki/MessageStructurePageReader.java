@@ -31,7 +31,7 @@ import org.w3c.dom.NodeList;
  *
  * @author nwright
  */
-public class MessageStructurePageReader2
+public class MessageStructurePageReader
 {
 
  private String contractPath;
@@ -60,13 +60,13 @@ public class MessageStructurePageReader2
  }
 
 
- protected MessageStructurePageReader2 (File contractFile)
+ protected MessageStructurePageReader (File contractFile)
  {
   doc = new PageHelper ().getDocument (contractFile);
 
  }
 
- public MessageStructurePageReader2 (String contractPath, String jSessionId)
+ public MessageStructurePageReader (String contractPath, String jSessionId)
  {
   URL url = new UrlHelper (contractPath).getUrl ();
   doc = new PageHelper ().getDocument (url, jSessionId);

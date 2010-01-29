@@ -169,8 +169,8 @@ public class WikiServiceContractModelImpl implements ServiceContractModel
                                               String url)
  {
   Set<String> newUrls = new HashSet ();
-  MessageStructurePageReader2 msReader =
-   new MessageStructurePageReader2 (fixUrl (url), jSessionId);
+  MessageStructurePageReader msReader =
+   new MessageStructurePageReader (fixUrl (url), jSessionId);
   urlDocumentMap.put (url, msReader.getDocument ());
   List<MessageStructure> list = msReader.getMessageStructures ();
   msgs.addAll (list);
