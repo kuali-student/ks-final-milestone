@@ -27,7 +27,7 @@ public class ProxyTicketRetrieverFilter extends SpringSecurityFilter {
     
     @Override
     public void doFilterHttp(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-        System.out.println("\n\n In the  ProxyTicketRetrieverFilter  ...... ");
+
         CasAuthenticationToken cat = (CasAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         
         if(cat != null && !isSAMLInSecurityContext()){
@@ -40,9 +40,6 @@ public class ProxyTicketRetrieverFilter extends SpringSecurityFilter {
             if(casAssertion != null){
                 proxyTicket = casAssertion.getPrincipal().getProxyTicketFor(proxyTargetService);
             }
-            
-            // I think this is the proxyGrantingTicket PGT, not the proxyTicket
-            System.out.println("\n\n In the  ProxyTicketRetrieverFilter proxyTicket = " + proxyTicket);
             
             Document signedSAMLDoc = null;
             SAMLAssertion samlAssertion = null;
@@ -65,8 +62,6 @@ public class ProxyTicketRetrieverFilter extends SpringSecurityFilter {
              
              // place saml in security context
              cat.setDetails(samlAssertion);
-            
-            System.out.println("\n\n In the  ProxyTicketRetrieverFilter finish");
         }
         filterChain.doFilter(request, response);
     }

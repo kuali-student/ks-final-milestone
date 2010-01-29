@@ -43,6 +43,7 @@ public class SamlIssuerServiceImpl implements SamlIssuerService {
     
     private String casServerUrl;
     private String samlIssuerForUser;
+    private String proxyCallBackUrl;
     
     public String validateCasProxyTicket(String proxyTicketId, String proxyTargetService) throws KSSecurityException{
         
@@ -51,7 +52,6 @@ public class SamlIssuerServiceImpl implements SamlIssuerService {
         
         try {
             URL constructedUrl = new URL(url);
-            System.out.println("\n\n In the  SamlIssuerService  validation url = " + url);
             conn = (HttpURLConnection) constructedUrl.openConnection();
 
             BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -63,10 +63,8 @@ public class SamlIssuerServiceImpl implements SamlIssuerService {
             while ((line = in.readLine()) != null) {
                 stringBuffer.append(line);
             }
+            
             response = stringBuffer.toString();
-            
-            System.out.println("\n\n In the  SamlIssuerService  validation respsonse = " + response);
-            
             String error = XmlUtils.getTextForElement(response, "authenticationFailure");
 
             if (CommonUtils.isNotEmpty(error)) {
@@ -78,10 +76,10 @@ public class SamlIssuerServiceImpl implements SamlIssuerService {
             String proxies = XmlUtils.getTextForElement(response, "proxies");
             
             Map<String,String> samlProperties = new HashMap<String,String>();
-            samlProperties.put("user", user);
-            samlProperties.put("proxyGrantingTicket", pgt);
-            samlProperties.put("proxies", proxies);
-            samlProperties.put("samlIssuerForUser", samlIssuerForUser);
+            samlProperties.put("user", user.trim());
+            samlProperties.put("proxyGrantingTicket", pgt.trim());
+            samlProperties.put("proxies", proxies.trim());
+            samlProperties.put("samlIssuerForUser", samlIssuerForUser.trim());
             
             SamlUtils.setSamlProperties(samlProperties);
             SAMLAssertion samlAssertion = SamlUtils.createAssertion();
@@ -101,9 +99,6 @@ public class SamlIssuerServiceImpl implements SamlIssuerService {
             
             writer.flush();
             
-            // for testing printing complete xml message before returning
-            System.out.println(writer.toString());
-            
             return writer.toString();
             
         } catch (final Exception e) {
@@ -118,7 +113,8 @@ public class SamlIssuerServiceImpl implements SamlIssuerService {
     private String constructUrl(String proxyTicketId, String proxyTargetService) throws KSSecurityException{
         try {
             return this.casServerUrl + (this.casServerUrl.endsWith("/") ? "" : "/") + "proxyValidate" + "?ticket=" 
-            + proxyTicketId + "&service=" + URLEncoder.encode(proxyTargetService, "UTF-8");
+            + proxyTicketId + "&service=" + URLEncoder.encode(proxyTargetService, "UTF-8") 
+            + "&pgtUrl=" + URLEncoder.encode(proxyCallBackUrl, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             throw new KSSecurityException(e);
         }
@@ -138,5 +134,13 @@ public class SamlIssuerServiceImpl implements SamlIssuerService {
 
     public void setSamlIssuerForUser(String samlIssuerForUser) {
         this.samlIssuerForUser = samlIssuerForUser;
+    }
+
+    public String getProxyCallBackUrl() {
+        return proxyCallBackUrl;
+    }
+
+    public void setProxyCallBackUrl(String proxyCallBackUrl) {
+        this.proxyCallBackUrl = proxyCallBackUrl;
     }
 }

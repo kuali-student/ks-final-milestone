@@ -11,6 +11,7 @@
 	<bean id="samlIssuerServiceImpl" class="org.kuali.student.security.saml.service.SamlIssuerServiceImpl">
 		<property name="casServerUrl" value="${ks.default.security.cas.serverAddress}"/>
 		<property name="samlIssuerForUser" value="org.kuali.student.principal"/>
+		<property name="proxyCallBackUrl" value="${ks.default.security.cas.webapp.service.context}/secure/receptor"/>
 	</bean>
 
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">

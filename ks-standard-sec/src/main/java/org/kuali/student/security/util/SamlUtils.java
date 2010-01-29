@@ -104,17 +104,14 @@ public class SamlUtils {
         SAMLAttributeStatement attrStatement = new SAMLAttributeStatement();
         SAMLAttribute attr1 = new SAMLAttribute();
         attr1.setName("proxyGrantingTicket");
-        attr1.setNamespace("Namesapce_of_Attribute1");
+        attr1.setNamespace("http://student.kuali.org/wsdl/security/saml");
     
         SAMLAttribute attr2 = new SAMLAttribute();
         attr2.setName("proxies");
-        attr2.setNamespace("Namesapce_of_Attribute2");
+        attr2.setNamespace("http://student.kuali.org/wsdl/security/saml");
     
-        
         attr1.addValue(pgt);
-        attr1.addValue("additional value for proxy granting ticket");
         attr2.addValue(proxies);
-        attr2.addValue("additional value for proxies");
         
         attrStatement.addAttribute(attr1);
         attrStatement.addAttribute(attr2);
@@ -181,29 +178,29 @@ public class SamlUtils {
         //shown below.
         root.appendChild(sig.getElement());
         
-       //create the transforms object for the Document/Reference
-       Transforms transforms = new Transforms(doc);
+        //create the transforms object for the Document/Reference
+        Transforms transforms = new Transforms(doc);
 
-       //First we have to strip away the signature element (it's not part of the
-       //signature calculations). The enveloped transform can be used for this.
-       transforms.addTransform(Transforms.TRANSFORM_ENVELOPED_SIGNATURE);
-       //Part of the signature element needs to be canonicalized. It is a kind
-       //of normalizing algorithm for XML. For more information please take a
-       //look at the W3C XML Digital Signature webpage.
-       transforms.addTransform(Transforms.TRANSFORM_C14N_WITH_COMMENTS);
-       //Add the above Document/Reference
-       sig.addDocument("", transforms, Constants.ALGO_ID_DIGEST_SHA1);
+        //First we have to strip away the signature element (it's not part of the
+        //signature calculations). The enveloped transform can be used for this.
+        transforms.addTransform(Transforms.TRANSFORM_ENVELOPED_SIGNATURE);
+        //Part of the signature element needs to be canonicalized. It is a kind
+        //of normalizing algorithm for XML. For more information please take a
+        //look at the W3C XML Digital Signature webpage.
+        transforms.addTransform(Transforms.TRANSFORM_C14N_WITH_COMMENTS);
+        //Add the above Document/Reference
+        sig.addDocument("", transforms, Constants.ALGO_ID_DIGEST_SHA1);
         
 
-       //Add in the KeyInfo for the certificate that we used the private key of
-       X509Certificate cert = (X509Certificate) ks.getCertificate(certificateAlias);
+        //Add in the KeyInfo for the certificate that we used the private key of
+        X509Certificate cert = (X509Certificate) ks.getCertificate(certificateAlias);
 
-       sig.addKeyInfo(cert);
-       sig.addKeyInfo(cert.getPublicKey());
-       // Sign the document
-       sig.sign(privateKey);
+        sig.addKeyInfo(cert);
+        sig.addKeyInfo(cert.getPublicKey());
+        // Sign the document
+        sig.sign(privateKey);
         
-       return doc;
+        return doc;
     }
 
     public static SAMLAssertion unsignAssertion(Document doc) throws TransformerException, XMLSecurityException, SAMLException {
@@ -218,28 +215,15 @@ public class SamlUtils {
         KeyInfo ki = signature.getKeyInfo();
         
         if (ki != null) {
-           /*if (ki.containsX509Data()) {
-              System.out.println("Could find a X509Data element in the KeyInfo");
-           }*/
-
            X509Certificate cert = ki.getX509Certificate();
 
            if (cert != null) {
-              /*System.out.println("The XML signature in file is "
-                                 + (signature.checkSignatureValue(cert)
-                                    ? "valid (good)"
-                                    : "invalid !!!!! (bad)"));*/
-              
                validSig = signature.checkSignatureValue(cert);
               
            } else {
               PublicKey pk = ki.getPublicKey();
 
               if (pk != null) {
-                 /*System.out.println("The XML signature in file is "
-                                    + (signature.checkSignatureValue(pk)
-                                       ? "valid (good)"
-                                       : "invalid !!!!! (bad)"));*/
                  validSig = signature.checkSignatureValue(pk);
                  
               } else {
