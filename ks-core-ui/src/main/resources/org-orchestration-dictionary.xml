@@ -591,7 +591,7 @@
 										<property name="writeAccess" value="ALWAYS" />
 										<property name="dataType" value="STRING" />
 										<property name="optional" value="true" />
-										<property name="name" value="Organization Name" />
+										<property name="name" value="Organization Long Name" />
 										<property name="desc" value="Long organization name." />
 										<property name="caseSensitive" value="false" />
 										<property name="usage" value="DEFAULT" />
@@ -624,7 +624,7 @@
 										<property name="writeAccess" value="ALWAYS" />
 										<property name="dataType" value="STRING" />
 										<property name="optional" value="true" />
-										<property name="name" value="Organization Name" />
+										<property name="name" value="Organization Short Name" />
 										<property name="desc" value="Short organization name." />
 										<property name="caseSensitive" value="false" />
 										<property name="usage" value="ADVANCED" />

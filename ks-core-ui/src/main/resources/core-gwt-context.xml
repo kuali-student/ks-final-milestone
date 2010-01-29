@@ -27,6 +27,10 @@
 					<ref bean="documentUploadGwtController" />
 				</entry>
 				<entry
+					key="/org.kuali.student.core.organization.ui.OrgEntry/rpcservices/SearchRpcService">
+					<ref bean="searchRpcGwtController" />
+				</entry>	
+				<entry
 					key="/org.kuali.student.core.organization.ui.OrgEntry/rpcservices/UploadStatusRpcService">
 					<ref bean="uploadStatusRpcGwtController" />
 				</entry>
@@ -63,6 +67,11 @@
 		<property name="servletInstance" ref="documentUpload" />
 	</bean>
 	
+	<bean id="searchRpcGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="SearchDispatchRpcGwtServlet" />
+		<property name="servletInstance" ref="SearchDispatchRpcGwtServlet" />
+	</bean>	
+	
 	<bean id="uploadStatusRpcGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
 		<property name="servletName" value="uploadStatusRpcGwtServlet" />
 		<property name="servletInstance" ref="uploadStatusRpcGwtServlet" />
@@ -95,6 +104,15 @@
 	
 	<bean id="documentUpload" class="org.kuali.student.common.ui.server.upload.UploadServlet">
 		<property name="documentService" ref="documentService"/>
+	</bean>
+	
+	<bean id="SearchDispatchRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.SearchDispatchRpcGwtServlet">
+		<constructor-arg>
+	      <list>
+	        <ref bean="orgClient"/>
+	      <!-- <ref bean="atpClient"/> -->	        	        	        
+	      </list>
+		</constructor-arg>						
 	</bean>
 	
 	<bean id="uploadStatusRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.UploadStatusRpcGwtServlet">	
