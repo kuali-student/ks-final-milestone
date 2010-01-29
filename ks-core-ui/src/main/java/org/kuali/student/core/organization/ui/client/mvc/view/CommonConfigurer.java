@@ -229,17 +229,17 @@ public class CommonConfigurer {
      */
     private Widget getOrgAdvanceSearch(){
         Metadata searchMetadata = modelDefinition.getMetadata(QueryPath.parse("orgSearchInfo"));  //no type or state at this point
-        SearchPanel adminDepartment = new SearchPanel(searchMetadata.getProperties().get(ORG_SEARCH).getLookupMetadata());                
-        final AdvancedSearchWindow courseSearchWindow = new AdvancedSearchWindow("Find Department", adminDepartment);
-        KSTextBox adminDepTextBox = new KSTextBox();   //FIXME this will be suggest box
-        final SuggestBoxWAdvSearch adminDepPicker = new SuggestBoxWAdvSearch(adminDepTextBox, courseSearchWindow);  
+        SearchPanel organization = new SearchPanel(searchMetadata.getProperties().get(ORG_SEARCH).getLookupMetadata());                
+        final AdvancedSearchWindow orgSearchWindow = new AdvancedSearchWindow("Organization", organization);
+        KSTextBox orgTextBox = new KSTextBox();   //FIXME this will be suggest box
+        final SuggestBoxWAdvSearch adminDepPicker = new SuggestBoxWAdvSearch(orgTextBox, orgSearchWindow);  
         
-        courseSearchWindow.addSelectionCompleteCallback(new Callback<List<SelectedResults>>(){
+        orgSearchWindow.addSelectionCompleteCallback(new Callback<List<SelectedResults>>(){
             public void exec(List<SelectedResults> results) {
                 if (results.size() > 0){
                     adminDepPicker.getSuggestBox().setText(results.get(0).getDisplayKey());
                     adminDepPicker.getSuggestBox().setValue(results.get(0).getReturnKey());
-                    courseSearchWindow.hide();
+                    orgSearchWindow.hide();
                 }                
             }            
         });               
