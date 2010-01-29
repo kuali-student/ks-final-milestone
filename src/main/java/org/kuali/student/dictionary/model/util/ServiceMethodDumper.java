@@ -27,7 +27,8 @@ public class ServiceMethodDumper
 
  public void dump ()
  {
-  out.println (method.getName () + " - " + method.getDescription ());
+  out.println (method.getService () + "." + method.getName () + " - " + method.
+   getDescription ());
   for (ServiceMethodParameter param : method.getParameters ())
   {
    out.println (" Param: " + param.getName () + " (" + param.getType () + ") " +

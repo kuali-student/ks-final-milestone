@@ -22,7 +22,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.dictionary.TestConstants;
+import org.kuali.student.dictionary.model.Service;
 import org.w3c.dom.Node;
+import static org.junit.Assert.*;
 
 /**
  *
@@ -42,7 +44,7 @@ public class ServiceRepositoryPageReaderTest implements TestConstants
  // cut and paste the content here.
  // ==> the JSessionID changes everytime you drop out of the browser.
  public static final String JSESSIONID =
-  "D96F7509C0F68188C9DD98195D9800A2.Kuali3_1Engine";
+  "EFD3DCBDE8A0820236C270EE6BA1CB5F.Kuali3_1Engine";
 
  public ServiceRepositoryPageReaderTest ()
  {
@@ -70,17 +72,43 @@ public class ServiceRepositoryPageReaderTest implements TestConstants
  {
  }
 
-// /**
-//  * Test of getDocument method, of class ContractReader.
-//  */
-// @Test
-// public void testGetDocument ()
-// {
-//  System.out.println ("getDocument");
-//  ContractReader instance = new ContractReader (ATP_CONTRACT_PATH, JSESSIONID);
-//  Document doc = instance.getDocument ();
-//  new DocumentDumper (doc, System.out).dump ();
-// }
+ /**
+  * Test of getDocument method, of class ContractReader.
+  */
+ @Test
+ public void testGetServices ()
+ {
+  System.out.println ("getServices");
+  ServiceRepositoryPageReader instance =
+   new ServiceRepositoryPageReader (SERVICE_REPOSITORY_PATH_ON_WIKI, JSESSIONID);
+  List<Service> list = instance.getServices ();
+  for (Service service : list)
+  {
+   System.out.println (service.getKey () + "=" + service.getName () + "(" + service.
+    getVersion () + ") " + service.getUrl ());
+  }
+ }
+
+ 
+ @Test
+ public void testExtractLoad ()
+ {
+  System.out.println ("extractLoad");
+  ServiceRepositoryPageReader instance =
+   new ServiceRepositoryPageReader (SERVICE_REPOSITORY_PATH_ON_WIKI, JSESSIONID);
+  Service service = new Service ();
+  instance.extractLoad (service, "Academic Time Period Service v1.0-rc1");
+  assertEquals ("Academic Time Period", service.getName ());
+  assertEquals ("v1.0-rc1", service.getVersion ());
+  assertEquals ("atp", service.getKey ());
+
+  service = new Service ();
+  instance.extractLoad (service, "Comment Service v1.0-rc1");
+  assertEquals ("Comment", service.getName ());
+  assertEquals ("v1.0-rc1", service.getVersion ());
+  assertEquals ("comment", service.getKey ());
+ }
+
  /**
   * Test of getDocument method, of class ContractReader.
   */
@@ -93,11 +121,8 @@ public class ServiceRepositoryPageReaderTest implements TestConstants
   List<Node> list = instance.getHtmlLinkNodes ();
   for (Node node : list)
   {
-   System.out.println ("html link node is " + node.getNodeName () + "=" + node.
-    getNodeValue ());
+   new NodeHelper ().dump (node, System.out);
   }
-  new NodeHelper ().dump (list.get (0), System.out);
-
  }
 
 }

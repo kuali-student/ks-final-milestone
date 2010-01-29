@@ -34,11 +34,10 @@ import org.w3c.dom.NodeList;
  *
  * @author nwright
  */
-public class ContractPageReader
+public class ContractPageReader2
 {
 
- private String contractPath;
- private String jSessionId;
+ private String serviceKey;
  private Document doc;
 
  protected class NameValue
@@ -57,25 +56,25 @@ public class ContractPageReader
 
  }
 
- public ContractPageReader (File contractFile)
+ public ContractPageReader2 (String serviceKey, File contractFile)
  {
-  PageTrimmer trimmer =
-   new BeginEndPageTrimmer ("<em>Setup</em>", "</a>Capabilities</h3>");
+  this.serviceKey = serviceKey;
   doc = new PageHelper ().getDocument (contractFile);
 
  }
 
- public ContractPageReader (String contractPath, String jSessionId)
+ public ContractPageReader2 (String serviceKey, String contractPath, String jSessionId)
  {
-  PageTrimmer trimmer =
-   new BeginEndPageTrimmer ("<em>Setup</em>", "</a>Capabilities</h3>");
+  this.serviceKey = serviceKey;
   URL url = new UrlHelper (contractPath).getUrl ();
   doc = new PageHelper ().getDocument (url, jSessionId);
+
  }
 
  protected ServiceMethod convertMethodTable (Node methodTable)
  {
   ServiceMethod method = new ServiceMethod ();
+  method.setService (serviceKey);
   ServiceMethodParameter param = null;
   ServiceMethodReturnValue retVal = null;
   ServiceMethodError error = null;

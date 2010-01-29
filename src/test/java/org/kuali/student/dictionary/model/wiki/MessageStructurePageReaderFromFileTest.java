@@ -77,8 +77,8 @@ public class MessageStructurePageReaderFromFileTest implements TestConstants
  public void testGetStructureTableNodes ()
  {
   System.out.println ("getStructureTableNodes");
-  MessageStructurePageReader instance =
-   new MessageStructurePageReader (new File (ATP_DURATION_TYPE_CONTRACT_PATH_ON_DISK));
+  MessageStructurePageReader2 instance =
+   new MessageStructurePageReader2 (new File (ATP_DURATION_TYPE_CONTRACT_PATH_ON_DISK));
   List<Node> list = instance.getStructureTableNodes ();
   for (Node node : list)
   {
@@ -96,12 +96,12 @@ public class MessageStructurePageReaderFromFileTest implements TestConstants
  public void testGetNameValuePairsFromMessageStructureTable ()
  {
   System.out.println ("getNameValuePairsFromMessageStructureTable");
-  MessageStructurePageReader instance =
-   new MessageStructurePageReader (new File (ATP_DURATION_TYPE_CONTRACT_PATH_ON_DISK));
+  MessageStructurePageReader2 instance =
+   new MessageStructurePageReader2 (new File (ATP_DURATION_TYPE_CONTRACT_PATH_ON_DISK));
   List<Node> messageStructureTables = instance.getStructureTableNodes ();
-  List<MessageStructurePageReader.NameValue> nvs =
+  List<MessageStructurePageReader2.NameValue> nvs =
    instance.getNameValuePairsFromStructureTable (messageStructureTables.get (0));
-  for (MessageStructurePageReader.NameValue nv : nvs)
+  for (MessageStructurePageReader2.NameValue nv : nvs)
   {
    System.out.println (nv.name + "=" + nv.value + " - " + nv.url);
   }
@@ -115,8 +115,8 @@ public class MessageStructurePageReaderFromFileTest implements TestConstants
  public void testGetServiceMessageStructures ()
  {
   System.out.println ("getServiceMessageStructures");
-  MessageStructurePageReader instance =
-   new MessageStructurePageReader (new File (ATP_DURATION_TYPE_CONTRACT_PATH_ON_DISK));
+  MessageStructurePageReader2 instance =
+   new MessageStructurePageReader2 (new File (ATP_DURATION_TYPE_CONTRACT_PATH_ON_DISK));
   List<MessageStructure> messageStructures = instance.getMessageStructures ();
   for (MessageStructure messageStructure : messageStructures)
   {

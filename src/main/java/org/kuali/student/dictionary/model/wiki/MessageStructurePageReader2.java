@@ -20,6 +20,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import org.kuali.student.dictionary.model.MessageStructure;
+import org.kuali.student.dictionary.model.XmlType;
 import org.kuali.student.dictionary.model.validation.DictionaryValidationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -30,7 +31,7 @@ import org.w3c.dom.NodeList;
  *
  * @author nwright
  */
-public class MessageStructurePageReader
+public class MessageStructurePageReader2
 {
 
  private String contractPath;
@@ -52,21 +53,21 @@ public class MessageStructurePageReader
   }
 
  }
- 
- public MessageStructurePageReader (File contractFile)
+
+ protected Document getDocument ()
  {
-  PageTrimmer trimmer =
-   new BeginEndPageTrimmer ("</a>Structure Definition</h3>",
-                            "</a>Example</h3>");
+  return doc;
+ }
+
+
+ protected MessageStructurePageReader2 (File contractFile)
+ {
   doc = new PageHelper ().getDocument (contractFile);
 
  }
 
- public MessageStructurePageReader (String contractPath, String jSessionId)
+ public MessageStructurePageReader2 (String contractPath, String jSessionId)
  {
- PageTrimmer trimmer =
-   new BeginEndPageTrimmer ("</a>Structure Definition</h3>",
-                            "</a>Example</h3>");
   URL url = new UrlHelper (contractPath).getUrl ();
   doc = new PageHelper ().getDocument (url, jSessionId);
  }
@@ -95,6 +96,7 @@ public class MessageStructurePageReader
    {
     messageStructure = new MessageStructure ();
     list.add (messageStructure);
+    messageStructure.setXmlObject (getXmlType ().getName ());
     messageStructure.setShortName (fixup (nv.value));
    }
    else if (nv.name.equalsIgnoreCase ("structLName"))
@@ -128,7 +130,7 @@ public class MessageStructurePageReader
    }
    else if (nv.name.equalsIgnoreCase ("commentsDesc"))
    {
-    messageStructure.setDescription (fixup (nv.value));
+    messageStructure.setFeedback (fixup (nv.value));
    }
    else
    {
@@ -149,6 +151,18 @@ public class MessageStructurePageReader
  }
 
 
+ private transient XmlType xmlType = null;
+
+ protected XmlType getXmlType ()
+ {
+  if (xmlType != null)
+  {
+   return xmlType;
+  }
+  xmlType = new XmlTypePageReader (contractPath, doc).getXmlType ();
+  return xmlType;
+ }
+
  private transient List<MessageStructure> messageStructures = null;
 
  protected List<MessageStructure> getMessageStructures ()
@@ -157,6 +171,7 @@ public class MessageStructurePageReader
   {
    return messageStructures;
   }
+
   messageStructures = new ArrayList (50);
   for (Node messageStructureTable : getStructureTableNodes ())
   {

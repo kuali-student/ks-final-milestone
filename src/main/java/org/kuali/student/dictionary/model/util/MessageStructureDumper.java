@@ -26,10 +26,12 @@ public class MessageStructureDumper
 
  public void dump ()
  {
-  out.println (messageStructure.getShortName () 
-   + " - " + messageStructure.getName ()
-   + " - " + messageStructure.getType ()
-   + "-" +  messageStructure.getDescription ());
+  out.println (
+   messageStructure.getXmlObject () + "." +
+   messageStructure.getShortName () + " - " + messageStructure.getName () +
+   " - " + messageStructure.getType ()
+   + " http:XXX" + messageStructure.getUrl () + " - " +
+   messageStructure.getDescription ());
  }
 
 }

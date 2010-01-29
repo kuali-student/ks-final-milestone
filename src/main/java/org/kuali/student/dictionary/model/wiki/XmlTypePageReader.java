@@ -59,7 +59,7 @@ public class XmlTypePageReader
   return doc;
  }
 
- public XmlTypePageReader (File contractFile)
+ protected XmlTypePageReader (File contractFile)
  {
   doc = new PageHelper ().getDocument (contractFile);
 
@@ -67,11 +67,14 @@ public class XmlTypePageReader
 
  public XmlTypePageReader (String contractPath, String jSessionId)
  {
-  PageTrimmer trimmer =
-   new BeginEndPageTrimmer ("<!-- wiki content -->",
-                            "</a>Structure Definition</h3>");
   URL url = new UrlHelper (contractPath).getUrl ();
   doc = new PageHelper ().getDocument (url, jSessionId);
+ }
+
+ public XmlTypePageReader (String contractPath, Document doc)
+ {
+  this.contractPath = contractPath;
+  this.doc = doc;
  }
 
  protected XmlType convertStructureMetaTable (Node metaTable)
@@ -83,7 +86,7 @@ public class XmlTypePageReader
   type.setService ("");
   type.setExamples ("");
   type.setComments ("");
-  type.setUrl ("");
+  type.setUrl (contractPath);
   for (NameValue nv : getNameValuePairs ())
   {
    if (nv.name.equalsIgnoreCase ("structureName"))
@@ -103,7 +106,7 @@ public class XmlTypePageReader
    {
     type.setPrimitive (fixup (nv.value));
    }
-    else if (nv.name.equalsIgnoreCase ("description"))
+   else if (nv.name.equalsIgnoreCase ("description"))
    {
     type.setDesc (fixup (nv.value));
    }
@@ -141,7 +144,8 @@ public class XmlTypePageReader
   Node metaTable = getStructureMetaTableNode ();
   if (metaTable == null)
   {
-   throw new DictionaryValidationException ("Could not find table that holds the structureMetaTable");
+   throw new DictionaryValidationException ("Could not find table that holds the structureMetaTable in URL " +
+    contractPath);
   }
   xmlType = this.convertStructureMetaTable (metaTable);
   return xmlType;

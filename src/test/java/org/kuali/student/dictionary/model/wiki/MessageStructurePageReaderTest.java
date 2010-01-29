@@ -15,7 +15,6 @@
  */
 package org.kuali.student.dictionary.model.wiki;
 
-import java.io.File;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -45,7 +44,7 @@ public class MessageStructurePageReaderTest implements TestConstants
  // cut and paste the content here.
  // ==> the JSessionID changes everytime you drop out of the browser.
  public static final String JSESSIONID =
-  "D96F7509C0F68188C9DD98195D9800A2.Kuali3_1Engine";
+  "69164E6A77E6246078B6C92DB3504E1A.Kuali3_1Engine";
 
  public MessageStructurePageReaderTest ()
  {
@@ -91,8 +90,8 @@ public class MessageStructurePageReaderTest implements TestConstants
  public void testGetStructureTableNodes ()
  {
   System.out.println ("getStructureTableNodes");
-  MessageStructurePageReader instance =
-   new MessageStructurePageReader (ATP_DURATION_TYPE_CONTRACT_PATH_ON_WIKI, JSESSIONID);
+  MessageStructurePageReader2 instance =
+   new MessageStructurePageReader2 (ATP_DURATION_TYPE_CONTRACT_PATH_ON_WIKI, JSESSIONID);
   List<Node> list = instance.getStructureTableNodes ();
   for (Node node : list)
   {
@@ -110,17 +109,18 @@ public class MessageStructurePageReaderTest implements TestConstants
  public void testGetNameValuePairsFromMessageStructureTable ()
  {
   System.out.println ("getNameValuePairsFromMessageStructureTable");
-  MessageStructurePageReader instance =
-   new MessageStructurePageReader (ATP_DURATION_TYPE_CONTRACT_PATH_ON_WIKI, JSESSIONID);
+  MessageStructurePageReader2 instance =
+   new MessageStructurePageReader2 (ATP_DURATION_TYPE_CONTRACT_PATH_ON_WIKI, JSESSIONID);
   List<Node> messageStructureTables = instance.getStructureTableNodes ();
-  List<MessageStructurePageReader.NameValue> nvs =
+  List<MessageStructurePageReader2.NameValue> nvs =
    instance.getNameValuePairsFromStructureTable (messageStructureTables.get (0));
-  for (MessageStructurePageReader.NameValue nv : nvs)
+  for (MessageStructurePageReader2.NameValue nv : nvs)
   {
    System.out.println (nv.name + "=" + nv.value + " - " + nv.url);
   }
 
  }
+
 
  /**
   * Test of getDocument messageStructure, of class MessageStructureReader.
@@ -129,14 +129,13 @@ public class MessageStructurePageReaderTest implements TestConstants
  public void testGetServiceMessageStructures ()
  {
   System.out.println ("getServiceMessageStructures");
-  MessageStructurePageReader instance =
-   new MessageStructurePageReader (ATP_DURATION_TYPE_CONTRACT_PATH_ON_WIKI, JSESSIONID);
+  MessageStructurePageReader2 instance =
+   new MessageStructurePageReader2 (ATP_DURATION_TYPE_CONTRACT_PATH_ON_WIKI, JSESSIONID);
   List<MessageStructure> messageStructures = instance.getMessageStructures ();
   for (MessageStructure messageStructure : messageStructures)
   {
    new MessageStructureDumper (messageStructure, System.out).dump ();
   }
-
  }
 
 }

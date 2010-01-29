@@ -15,6 +15,7 @@
  */
 package org.kuali.student.dictionary.model.wiki;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -22,9 +23,15 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.dictionary.TestConstants;
+import org.kuali.student.dictionary.model.MessageStructure;
+import org.kuali.student.dictionary.model.Service;
 import org.kuali.student.dictionary.model.ServiceMethod;
+import org.kuali.student.dictionary.model.XmlType;
+import org.kuali.student.dictionary.model.util.MessageStructureDumper;
+import org.kuali.student.dictionary.model.util.ServiceDumper;
 import org.kuali.student.dictionary.model.util.ServiceMethodDumper;
-
+import org.kuali.student.dictionary.model.util.XmlTypeDumper;
+import static org.junit.Assert.*;
 
 /**
  *
@@ -33,8 +40,6 @@ import org.kuali.student.dictionary.model.util.ServiceMethodDumper;
 public class WikiServiceContractModelImplTest implements TestConstants
 {
 
- public static final String ATP_CONTRACT_PATH =
-  "https://test.kuali.org/confluence/display/KULSTU/Academic+Time+Period+Service";
  //           ***** NOTE *******
  // In firefox to get this you have to do the following:
  // Menu Toools/Options
@@ -46,7 +51,7 @@ public class WikiServiceContractModelImplTest implements TestConstants
  // cut and paste the content here.
  // ==> the JSessionID changes everytime you drop out of the browser.
  public static final String JSESSIONID =
-  "31755CD821B4D4F49110A338E68BF40E.Kuali3_1Engine";
+  "69164E6A77E6246078B6C92DB3504E1A.Kuali3_1Engine";
 
  public WikiServiceContractModelImplTest ()
  {
@@ -56,6 +61,7 @@ public class WikiServiceContractModelImplTest implements TestConstants
  public static void setUpClass ()
   throws Exception
  {
+  getInstance ();
  }
 
  @AfterClass
@@ -74,21 +80,82 @@ public class WikiServiceContractModelImplTest implements TestConstants
  {
  }
 
- /**
-  * Test of getDocument method, of class ContractReader.
-  */
+ private static WikiServiceContractModelImpl instance = null;
+
+ private static WikiServiceContractModelImpl getInstance ()
+ {
+  if (instance != null)
+  {
+   return instance;
+  }
+  System.out.println ("getting instance of WikiServiceContractModelImpl");
+  List<String> serviceKeys = new ArrayList ();
+  serviceKeys.add ("atp");
+  serviceKeys.add ("comment");
+//  serviceKeys.add ("dictionary");
+//  serviceKeys.add ("enumerationmanagement");
+//  serviceKeys.add ("lo");
+//  serviceKeys.add ("lrc");
+//  serviceKeys.add ("lu");
+//  serviceKeys.add ("organization");
+//  serviceKeys.add ("person");
+//  serviceKeys.add ("proposal");
+//  serviceKeys.add ("refdocrelation");
+//  serviceKeys.add ("resource");
+//  serviceKeys.add ("search");
+  instance =
+   new WikiServiceContractModelImpl (serviceKeys, SERVICE_REPOSITORY_PATH_ON_WIKI, JSESSIONID);
+  return instance;
+ }
+
+
+
+ @Test
+ public void testGetServices ()
+ {
+  System.out.println ("getServiceMethods");
+
+  List<Service> services = instance.getServices ();
+  for (Service service : services)
+  {
+   new ServiceDumper (service, System.out).dump ();
+  }
+  //assertEquals (13, services.size ());
+ }
+
+
  @Test
  public void testGetServiceMethods ()
  {
   System.out.println ("getServiceMethods");
-  WikiServiceContractModelImpl instance =
-   new WikiServiceContractModelImpl (ATP_CONTRACT_PATH, JSESSIONID);
+
   List<ServiceMethod> methods = instance.getServiceMethods ();
   for (ServiceMethod method : methods)
   {
    new ServiceMethodDumper (method, System.out).dump ();
   }
-
  }
 
+ @Test
+ public void testGetMessageStructures ()
+ {
+  System.out.println ("getMessageStructures");
+  List<MessageStructure> msgs = instance.getMessageStructures ();
+  for (MessageStructure messageStructure : msgs)
+  {
+   new MessageStructureDumper (messageStructure, System.out).dump ();
+  }
+ }
+
+
+ @Test
+ public void testGetXmlTypes ()
+ {
+  System.out.println ("getXmlTypes");
+  List<XmlType> xmlTypes = instance.getXmlTypes ();
+  for (XmlType xmlType : xmlTypes)
+  {
+   new XmlTypeDumper (xmlType, System.out).dump ();
+  }
+ }
 }

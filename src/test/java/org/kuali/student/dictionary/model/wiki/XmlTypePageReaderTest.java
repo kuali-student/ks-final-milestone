@@ -43,7 +43,7 @@ public class XmlTypePageReaderTest implements TestConstants
  // cut and paste the content here.
  // ==> the JSessionID changes everytime you drop out of the browser.
  public static final String JSESSIONID =
-  "4B9BC8338AF78E2C21C0C84DB0AFBBF6.Kuali3_1Engine";
+  "D557E4EF2550606B81619CDFA08C0C0B.Kuali3_1Engine";
 
 
  public XmlTypePageReaderTest ()

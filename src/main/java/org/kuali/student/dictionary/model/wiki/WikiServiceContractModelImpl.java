@@ -17,16 +17,18 @@ package org.kuali.student.dictionary.model.wiki;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import org.kuali.student.dictionary.model.MessageStructure;
 import org.kuali.student.dictionary.model.Service;
 import org.kuali.student.dictionary.model.ServiceContractModel;
 import org.kuali.student.dictionary.model.ServiceMethod;
 import org.kuali.student.dictionary.model.ServiceMethodParameter;
+import org.kuali.student.dictionary.model.ServiceMethodReturnValue;
 import org.kuali.student.dictionary.model.XmlType;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 
 /**
  *
@@ -35,69 +37,172 @@ import org.w3c.dom.Node;
 public class WikiServiceContractModelImpl implements ServiceContractModel
 {
 
- private String contractPath;
+ private String serviceRepositoryPath;
  private String jSessionId;
- private ContractPageReader contractReader;
+ private List<String> serviceKeys;
 
- public WikiServiceContractModelImpl (String contractPath, String jSessionId)
+ public WikiServiceContractModelImpl (List<String> serviceKeys,
+                                      String serviceRepositoryPath,
+                                      String jSessionId)
  {
-  this.contractPath = contractPath;
+  this.serviceKeys = serviceKeys;
+  this.serviceRepositoryPath = serviceRepositoryPath;
   this.jSessionId = jSessionId;
-  this.contractReader = new ContractPageReader (contractPath, jSessionId);
  }
 
  @Override
  public List<String> getSourceNames ()
  {
   List<String> list = new ArrayList (1);
-  list.add (this.contractPath);
+  list.add (this.serviceRepositoryPath);
   return list;
  }
+
+ List<ServiceMethod> methods = null;
 
  @Override
  public List<ServiceMethod> getServiceMethods ()
  {
-  return contractReader.getServiceMethods ();
+  if (methods != null)
+  {
+   return methods;
+  }
+  List<ServiceMethod> list = new ArrayList ();
+  for (Service service : getServices ())
+  {
+   System.out.println ("getting service methods for " + service.getKey () + "-" +
+    service.getName () + " (" + service.getVersion () + ")");
+   ContractPageReader2 rdr =
+    new ContractPageReader2 (service.getKey (), fixUrl (service.getUrl ()), jSessionId);
+   list.addAll (rdr.getServiceMethods ());
+  }
+  methods = list;
+  return methods;
  }
+
+ public static final String URL_PREFIX =
+  "https://test.kuali.org";
+
+ protected String fixUrl (String url)
+ {
+  if (url.startsWith ("/"))
+  {
+   return URL_PREFIX + url;
+  }
+  return url;
+ }
+
+ private List<XmlType> xmlTypes;
 
  @Override
  public List<XmlType> getXmlTypes ()
  {
-  return null;
+  if (xmlTypes != null)
+  {
+   return xmlTypes;
+  }
+  List<XmlType> list = new ArrayList ();
+  getMessageStructures (); // make sure urlDocumentMap is loaded
+  for (String url : urlDocumentMap.keySet ())
+  {
+   Document doc = urlDocumentMap.get (url);
+   System.out.println ("Getting xmlType at url=" + url);
+   XmlTypePageReader rdr = new XmlTypePageReader (url, doc);
+   list.add (rdr.getXmlType ());
+  }
+  xmlTypes = list;
+  return xmlTypes;
  }
+
+ private List<Service> services = null;
 
  @Override
  public List<Service> getServices ()
  {
-  return null;
+  if (services != null)
+  {
+   return services;
+  }
+  ServiceRepositoryPageReader rdr =
+   new ServiceRepositoryPageReader (serviceRepositoryPath, jSessionId);
+  List<Service> list = rdr.getServices ();
+  List<ServicesFilter> filters = new ArrayList ();
+  filters.add (new ServicesFilterExcludeDev ());
+  filters.add (new ServicesFilterLatestVersionOnly ());
+  filters.add (new ServicesFilterByKeys (serviceKeys));
+  ServicesFilterChained filter = new ServicesFilterChained (filters);
+  services = filter.filter (list);
+  return services;
  }
+
+ private List<MessageStructure> messageStructures = null;
+ private Map<String, Document> urlDocumentMap = null;
 
  @Override
  public List<MessageStructure> getMessageStructures ()
  {
-  Map<String, MessageStructure> map = new HashMap ();
-  for (String url : getLevelOneMessageStructureUrls ())
+  if (messageStructures != null)
   {
-   MessageStructurePageReader msReader =
-    new MessageStructurePageReader (url, jSessionId);
+   return messageStructures;
   }
-  return new ArrayList (map.values ());
+  List<MessageStructure> list = new ArrayList ();
+  Set<String> allUrls = getLevelOneMessageStructureUrls ();
+  urlDocumentMap = new HashMap ();
+  Set<String> urlsToBeProcessed = new HashSet (allUrls);
+  while (urlsToBeProcessed.size () > 0)
+  {
+   Set<String> newUrls = new HashSet ();
+   for (String url : urlsToBeProcessed)
+   {
+    System.out.println ("loading message structures for url " + url);
+    newUrls.addAll (loadMessageStructures (allUrls, urlDocumentMap, list, url));
+   }
+   urlsToBeProcessed = newUrls;
+  }
+  messageStructures = list;
+  return messageStructures;
  }
 
- private List<String> getLevelOneMessageStructureUrls ()
+ protected Set<String> loadMessageStructures (Set<String> allUrls,
+                                              Map<String, Document> urlDocumentMap,
+                                              List<MessageStructure> msgs,
+                                              String url)
  {
-  List<String> urls = new ArrayList ();
+  Set<String> newUrls = new HashSet ();
+  MessageStructurePageReader2 msReader =
+   new MessageStructurePageReader2 (fixUrl (url), jSessionId);
+  urlDocumentMap.put (url, msReader.getDocument ());
+  List<MessageStructure> list = msReader.getMessageStructures ();
+  msgs.addAll (list);
+  // no process sub structures
+  // to find the urls that have not yet been identified
+  for (MessageStructure ms : list)
+  {
+   if (ms.getUrl () != null &&  ! ms.getUrl ().equals (""))
+   {
+    if (allUrls.add (url))
+    {
+     newUrls.add (url);
+    }
+   }
+  }
+  return newUrls;
+ }
+
+ protected Set<String> getLevelOneMessageStructureUrls ()
+ {
+  Set<String> urls = new HashSet ();
   for (ServiceMethod method : getServiceMethods ())
   {
    for (ServiceMethodParameter param : method.getParameters ())
    {
-    if (param.getUrl () != null &&  ! param.getUrl ().endsWith (""))
+    if (param.getUrl () != null &&  ! param.getUrl ().equals (""))
     {
      urls.add (param.getUrl ());
     }
    }
-   if (method.getReturnValue ().getUrl () != null &&  ! method.getReturnValue ().
-    getUrl ().equals (""))
+   ServiceMethodReturnValue retVal = method.getReturnValue ();
+   if (retVal.getUrl () != null &&  ! retVal.getUrl ().equals (""))
    {
     urls.add (method.getReturnValue ().getUrl ());
    }

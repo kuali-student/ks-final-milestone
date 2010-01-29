@@ -181,6 +181,33 @@ public class NodeHelper
   return list;
  }
 
+ public List<Node> findNodesWithAttribute (Node node, String name,
+                                           String attrName)
+ {
+  List<Node> list = new ArrayList ();
+  appendNodesWithAttribute (list, node, name, attrName);
+  return list;
+ }
+
+ private List<Node> appendNodesWithAttribute (List<Node> list, Node node,
+                                              String name, String attrName)
+ {
+  if (node.getNodeName ().equalsIgnoreCase (name))
+  {
+   if (hasAttribute (node, attrName))
+   {
+    list.add (node);
+   }
+  }
+  NodeList children = node.getChildNodes ();
+  for (int i = 0; i < children.getLength (); i ++)
+  {
+   Node child = children.item (i);
+   appendNodesWithAttribute (list, child, name, attrName);
+  }
+  return list;
+ }
+
  public List<Node> findNodesWithNameValue (Node node, String name,
                                            String value)
  {
@@ -207,8 +234,6 @@ public class NodeHelper
   }
   return list;
  }
-
-
 
  public Node getNodeWithAttributeAndValue (Node node, String name,
                                            String attrName,
@@ -254,6 +279,24 @@ public class NodeHelper
     {
      return true;
     }
+   }
+  }
+  return false;
+ }
+
+ public boolean hasAttribute (Node node, String attrName)
+ {
+  NamedNodeMap attributes = node.getAttributes ();
+  if (attributes == null)
+  {
+   return false;
+  }
+  for (int i = 0; i < attributes.getLength (); i ++)
+  {
+   Node attr = attributes.item (i);
+   if (attr.getNodeName ().equalsIgnoreCase (attrName))
+   {
+    return true;
    }
   }
   return false;

@@ -19,6 +19,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.dictionary.DictionaryExecutionException;
 import org.kuali.student.dictionary.model.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -39,12 +40,8 @@ public class ServiceRepositoryPageReader
  {
   this.contractPath = contractPath;
   this.jSessionId = jSessionId;
-  PageTrimmer trimmer =
-   new BeginEndPageTrimmer ("ServiceDescriptionRepository-CurrentReleases",
-                            "ServiceDescriptionRepository-Background");
   URL url = new UrlHelper (contractPath).getUrl ();
-  doc =
-   new PageHelper ().getDocument (url, jSessionId);
+  doc = new PageHelper ().getDocument (url, jSessionId);
  }
 
  protected List<Service> getServices ()
@@ -55,15 +52,35 @@ public class ServiceRepositoryPageReader
    Service service = new Service ();
    Node hrefNode = new NodeHelper ().getAttribute (node, "href");
    service.setUrl (hrefNode.getNodeValue ());
-   if (service.getUrl ().toLowerCase ().contains ("service"))
+   if (service.getUrl ().endsWith ("LU+Stuff+Service"))
+   {
+    System.out.println ("Not processing link because it is a STUFF service" +
+     service.getUrl ());
+    continue;
+   }
+   if ( ! service.getUrl ().contains ("KULSTU"))
+   {
+    System.out.println ("Not processing service because not KULSTU " + service.
+     getUrl ());
+    continue;
+   }
+   if (service.getUrl ().contains ("+Service+v"))
    {
     list.add (service);
     extractLoad (service, node);
+    continue;
    }
+   if (service.getUrl ().endsWith ("+Service"))
+   {
+    list.add (service);
+    extractLoad (service, node);
+    continue;
+   }
+   System.out.println ("Not processing link because not end in [+Service[+v*] " +
+    service.getUrl ());
   }
   return list;
  }
-
 
  private void extractLoad (Service service, Node node)
  {
@@ -73,33 +90,85 @@ public class ServiceRepositoryPageReader
    Node child = children.item (i);
    if (child.getNodeName ().equalsIgnoreCase ("#text"))
    {
-    service.setName (child.getNodeValue ());
+    extractLoad (service, child.getNodeValue ());
    }
   }
  }
 
+ protected void extractLoad (Service service, String value)
+ {
+  int loc = value.indexOf (" Service v");
+  if (loc != -1)
+  {
+   service.setName (value.substring (0, loc).trim ());
+   service.setVersion (value.substring (loc + " Service".length ()).trim ());
+   service.setKey (calculateServiceKey (service.getName ()));
+   return;
+  }
+  loc = value.indexOf (" Service");
+  if (loc == -1)
+  {
+   throw new DictionaryExecutionException ("url does not match pattern value=" +
+    value);
+  }
+  service.setName (value.substring (0, loc).trim ());
+  service.setVersion ("Dev");
+  service.setKey (calculateServiceKey (service.getName ()));
+ }
+
+ protected String calculateServiceKey (String name)
+ {
+  // hard coded maps
+  if (name.equals ("AZ Group"))
+  {
+   return "azgroup";
+  }
+  if (name.equals ("Business Rules Management"))
+  {
+   return "brms";
+  }
+  if (name.equals ("Enumeration Management"))
+  {
+   return "enumerationmanagement";
+  }
+
+  //
+  // only one word just lowercase it
+  if (name.indexOf (" ") == -1)
+  {
+   return name.toLowerCase ();
+  }
+
+  // multiple words
+  // convert to initials
+  // i.e. Academic Time Period => atp
+  // include any internal uppercase
+  StringBuffer key = new StringBuffer ();
+  boolean foundSpace = true;
+  for (int i = 0; i <
+   name.length (); i ++)
+  {
+   char c = name.charAt (i);
+   if (foundSpace)
+   {
+    key.append (c);
+    foundSpace =
+     false;
+   }
+   else if (Character.isUpperCase (c))
+   {
+    key.append (c);
+   }
+
+   foundSpace = Character.isWhitespace (c);
+  }
+
+  return key.toString ().toLowerCase ();
+ }
 
  protected List<Node> getHtmlLinkNodes ()
  {
-  List<Node> list = new ArrayList (50);
-  appendHtmlLinkNodes (list, doc);
-  return list;
- }
-
- protected void appendHtmlLinkNodes (List<Node> list, Node node)
- {
-  if (node.getNodeName ().equalsIgnoreCase ("a"))
-  {
-   list.add (node);
-   // there are no nested method tables
-   return;
-  }
-  NodeList children = node.getChildNodes ();
-  for (int i = 0; i < children.getLength (); i ++)
-  {
-   Node child = children.item (i);
-   appendHtmlLinkNodes (list, child);
-  }
+  return new NodeHelper ().findNodesWithAttribute (doc, "a", "href");
  }
 
 }
