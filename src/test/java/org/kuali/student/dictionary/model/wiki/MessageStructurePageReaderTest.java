@@ -90,8 +90,8 @@ public class MessageStructurePageReaderTest implements TestConstants
  public void testGetStructureTableNodes ()
  {
   System.out.println ("getStructureTableNodes");
-  MessageStructurePageReader2 instance =
-   new MessageStructurePageReader2 (ATP_DURATION_TYPE_CONTRACT_PATH_ON_WIKI, JSESSIONID);
+  MessageStructurePageReader instance =
+   new MessageStructurePageReader (ATP_DURATION_TYPE_CONTRACT_PATH_ON_WIKI, JSESSIONID);
   List<Node> list = instance.getStructureTableNodes ();
   for (Node node : list)
   {
@@ -109,12 +109,12 @@ public class MessageStructurePageReaderTest implements TestConstants
  public void testGetNameValuePairsFromMessageStructureTable ()
  {
   System.out.println ("getNameValuePairsFromMessageStructureTable");
-  MessageStructurePageReader2 instance =
-   new MessageStructurePageReader2 (ATP_DURATION_TYPE_CONTRACT_PATH_ON_WIKI, JSESSIONID);
+  MessageStructurePageReader instance =
+   new MessageStructurePageReader (ATP_DURATION_TYPE_CONTRACT_PATH_ON_WIKI, JSESSIONID);
   List<Node> messageStructureTables = instance.getStructureTableNodes ();
-  List<MessageStructurePageReader2.NameValue> nvs =
+  List<MessageStructurePageReader.NameValue> nvs =
    instance.getNameValuePairsFromStructureTable (messageStructureTables.get (0));
-  for (MessageStructurePageReader2.NameValue nv : nvs)
+  for (MessageStructurePageReader.NameValue nv : nvs)
   {
    System.out.println (nv.name + "=" + nv.value + " - " + nv.url);
   }
@@ -129,8 +129,8 @@ public class MessageStructurePageReaderTest implements TestConstants
  public void testGetServiceMessageStructures ()
  {
   System.out.println ("getServiceMessageStructures");
-  MessageStructurePageReader2 instance =
-   new MessageStructurePageReader2 (ATP_DURATION_TYPE_CONTRACT_PATH_ON_WIKI, JSESSIONID);
+  MessageStructurePageReader instance =
+   new MessageStructurePageReader (ATP_DURATION_TYPE_CONTRACT_PATH_ON_WIKI, JSESSIONID);
   List<MessageStructure> messageStructures = instance.getMessageStructures ();
   for (MessageStructure messageStructure : messageStructures)
   {

@@ -90,8 +90,8 @@ public class ContractPageReaderTest implements TestConstants
  public void testGetMethodTableNodes ()
  {
   System.out.println ("getMethodTableNodes");
-  ContractPageReader2 instance =
-   new ContractPageReader2 ("atp", ATP_CONTRACT_PATH_ON_WIKI, JSESSIONID);
+  ContractPageReader instance =
+   new ContractPageReader ("atp", ATP_CONTRACT_PATH_ON_WIKI, JSESSIONID);
   List<Node> list = instance.getMethodTableNodes ();
   for (Node node : list)
   {
@@ -109,12 +109,12 @@ public class ContractPageReaderTest implements TestConstants
  public void testGetNameValuePairsFromMethodTable ()
  {
   System.out.println ("getNameValuePairsFromMethodTable");
-  ContractPageReader2 instance =
-   new ContractPageReader2 ("atp", ATP_CONTRACT_PATH_ON_WIKI, JSESSIONID);
+  ContractPageReader instance =
+   new ContractPageReader ("atp", ATP_CONTRACT_PATH_ON_WIKI, JSESSIONID);
   List<Node> methodTables = instance.getMethodTableNodes ();
-  List<ContractPageReader2.NameValue> nvs =
+  List<ContractPageReader.NameValue> nvs =
    instance.getNameValuePairsFromMethodTable (methodTables.get (0));
-  for (ContractPageReader2.NameValue nv : nvs)
+  for (ContractPageReader.NameValue nv : nvs)
   {
    System.out.println (nv.name + "=" + nv.value + " - " + nv.url);
   }
@@ -128,8 +128,8 @@ public class ContractPageReaderTest implements TestConstants
  public void testGetServiceMethods ()
  {
   System.out.println ("getServiceMethods");
-  ContractPageReader2 instance =
-   new ContractPageReader2 ("atp", ATP_CONTRACT_PATH_ON_WIKI, JSESSIONID);
+  ContractPageReader instance =
+   new ContractPageReader ("atp", ATP_CONTRACT_PATH_ON_WIKI, JSESSIONID);
   List<ServiceMethod> methods = instance.getServiceMethods ();
   for (ServiceMethod method : methods)
   {
