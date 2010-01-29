@@ -72,8 +72,8 @@ public class WikiServiceContractModelImpl implements ServiceContractModel
   {
    System.out.println ("getting service methods for " + service.getKey () + "-" +
     service.getName () + " (" + service.getVersion () + ")");
-   ContractPageReader2 rdr =
-    new ContractPageReader2 (service.getKey (), fixUrl (service.getUrl ()), jSessionId);
+   ContractPageReader rdr =
+    new ContractPageReader (service.getKey (), fixUrl (service.getUrl ()), jSessionId);
    list.addAll (rdr.getServiceMethods ());
   }
   methods = list;

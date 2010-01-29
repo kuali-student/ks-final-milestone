@@ -34,7 +34,7 @@ import org.w3c.dom.NodeList;
  *
  * @author nwright
  */
-public class ContractPageReader2
+public class ContractPageReader
 {
 
  private String serviceKey;
@@ -56,14 +56,14 @@ public class ContractPageReader2
 
  }
 
- public ContractPageReader2 (String serviceKey, File contractFile)
+ public ContractPageReader (String serviceKey, File contractFile)
  {
   this.serviceKey = serviceKey;
   doc = new PageHelper ().getDocument (contractFile);
 
  }
 
- public ContractPageReader2 (String serviceKey, String contractPath, String jSessionId)
+ public ContractPageReader (String serviceKey, String contractPath, String jSessionId)
  {
   this.serviceKey = serviceKey;
   URL url = new UrlHelper (contractPath).getUrl ();
