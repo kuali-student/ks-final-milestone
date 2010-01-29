@@ -93,7 +93,7 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
     private TimeAmountInfo stdDuration;
 
     @XmlElement
-    private Boolean canCreateLui;
+    private boolean canCreateLui;
 
     @XmlElement
     private String referenceURL;
