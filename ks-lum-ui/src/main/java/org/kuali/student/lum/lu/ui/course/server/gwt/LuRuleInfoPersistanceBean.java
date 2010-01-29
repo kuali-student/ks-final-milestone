@@ -120,35 +120,37 @@ public class LuRuleInfoPersistanceBean {
     		//FIXME - LU Service Change
 			//luStatements = luService.getLuStatementsForClu(cluId);
 			
-			for (LuStatementInfo luStatementInfo:luStatements){
-				
-				//ignore rules not related to our course proposal context
-				if (!courseAcademicReadinessRules.contains(luStatementInfo.getType())) {
-					continue;
+			if (luStatements != null){
+				for (LuStatementInfo luStatementInfo:luStatements){
+					
+					//ignore rules not related to our course proposal context
+					if (!courseAcademicReadinessRules.contains(luStatementInfo.getType())) {
+						continue;
+					}
+					
+					StatementVO statementVO = createStatementVO(luStatementInfo);
+	
+					
+	            	//create a blank root statementVO
+					/*
+	                LuStatementInfo newLuStatementInfo = new LuStatementInfo();
+	                newLuStatementInfo.setOperator(StatementOperatorTypeKey.AND);
+	                newLuStatementInfo.setType(statementType);
+	                StatementVO statementVO = new StatementVO();                            
+	                statementVO.setLuStatementInfo(newLuStatementInfo);         	            	                
+	                newPrereqInfo.setId(Integer.toString(id++));  */				
+					
+					RuleInfo ruleInfo = new RuleInfo();
+					ruleInfo.setCluId(cluId);
+					ruleInfo.setEditHistory(new EditHistory());
+					ruleInfo.setStatementVO(statementVO);
+					
+			        EditHistory editHistory = new EditHistory();
+			        editHistory.save(statementVO);
+			        ruleInfo.setEditHistory(editHistory);
+					
+					ruleInfos.add(ruleInfo);
 				}
-				
-				StatementVO statementVO = createStatementVO(luStatementInfo);
-
-				
-            	//create a blank root statementVO
-				/*
-                LuStatementInfo newLuStatementInfo = new LuStatementInfo();
-                newLuStatementInfo.setOperator(StatementOperatorTypeKey.AND);
-                newLuStatementInfo.setType(statementType);
-                StatementVO statementVO = new StatementVO();                            
-                statementVO.setLuStatementInfo(newLuStatementInfo);         	            	                
-                newPrereqInfo.setId(Integer.toString(id++));  */				
-				
-				RuleInfo ruleInfo = new RuleInfo();
-				ruleInfo.setCluId(cluId);
-				ruleInfo.setEditHistory(new EditHistory());
-				ruleInfo.setStatementVO(statementVO);
-				
-		        EditHistory editHistory = new EditHistory();
-		        editHistory.save(statementVO);
-		        ruleInfo.setEditHistory(editHistory);
-				
-				ruleInfos.add(ruleInfo);
 			}
 		} catch (Exception e) {
 			logger.error("Error fetching rules from luService:" + cluId, e);

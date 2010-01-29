@@ -344,19 +344,21 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
             //Retrieve related clus of type kuali.lu.relation.type.co-located and add the list to the map.
             List<CluInfo> clus = luService.getClusByRelation(course.getId(), JOINT_RELATION_TYPE);
             List<CluCluRelationInfo> cluClus = luService.getCluCluRelationsByClu(course.getId());
-            for(CluCluRelationInfo cluRel:cluClus){
-                if(cluRel.getType().equals(JOINT_RELATION_TYPE)){
-                    CluInfo cluInfo = luService.getClu(cluRel.getRelatedCluId());
-                    CreditCourseJointsHelper joint = CreditCourseJointsHelper
-                            .wrap(new Data());
-                    buildJointsFromCluInfo(cluInfo,joint);
-                    joint.setRelationId(cluRel.getId());
-                    if(result.getJoints()==null){
-                        result.setJoints(new Data());
-                    }
-                    result.getJoints().add(joint.getData());
-
-                }
+            if (cluClus != null){
+	            for(CluCluRelationInfo cluRel:cluClus){
+	                if(cluRel.getType().equals(JOINT_RELATION_TYPE)){
+	                    CluInfo cluInfo = luService.getClu(cluRel.getRelatedCluId());
+	                    CreditCourseJointsHelper joint = CreditCourseJointsHelper
+	                            .wrap(new Data());
+	                    buildJointsFromCluInfo(cluInfo,joint);
+	                    joint.setRelationId(cluRel.getId());
+	                    if(result.getJoints()==null){
+	                        result.setJoints(new Data());
+	                    }
+	                    result.getJoints().add(joint.getData());
+	
+	                }
+	            }
             }
             result.setId(course.getId());
 
