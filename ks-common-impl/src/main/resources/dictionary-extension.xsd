@@ -223,9 +223,10 @@
 				minOccurs="0" maxOccurs="unbounded">
 			</xsd:element>
 		</xsd:choice>
-		<xsd:attribute name="parent" use="optional" type="xsd:string"></xsd:attribute>
 		<xsd:attribute name="key" type="xsd:string"></xsd:attribute>
 		<xsd:attribute name="id" type="xsd:ID"></xsd:attribute>
+		<xsd:attribute name="abstract" type="xsd:boolean"></xsd:attribute>
+		<xsd:attribute name="parent" use="optional" type="xsd:string"></xsd:attribute>
 	</xsd:complexType>
 
 	<xsd:complexType name="constraintSelector">
