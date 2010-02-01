@@ -12,6 +12,29 @@
   	http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
   	http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
   	
+	<bean class="org.kuali.student.common.util.ModPropertyPlaceholderConfigurer">
+		<property name="properties" ref="configProperties" />
+	</bean>
+
+	<bean id="config" class="org.kuali.student.rice.config.spring.NestedConfigFactoryBean">
+		<property name="configLocations">
+			<list>
+				<value>classpath:META-INF/ks-security-config.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="configProperties"
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject" ref="config" />
+		<property name="targetMethod" value="getProperties" />
+	</bean>
+
+	<bean id="propconfig"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="properties" ref="configProperties" />
+	</bean>
+	
 	<import resource="ksss-auth-provider.xml"/>
 		
 	<security:http auto-config="false" entry-point-ref="casProcessingFilterEntryPoint" >
@@ -24,22 +47,19 @@
 
 	<bean id="proxyTicketRetrieverFilter" class="org.kuali.student.security.filter.ProxyTicketRetrieverFilter">
     	<security:custom-filter before="AUTHENTICATION_PROCESSING_FILTER"/>
-    	<property name="proxyTargetService" value="http://localhost:8181/ks-embedded/services/SamlIssuerService"/>
-    	<!-- <property name="proxyTargetService" value="${ks.default.security.saml.samlIssuerServiceAddress}"/> -->
+    	<property name="proxyTargetService" value="${ks.default.security.saml.samlIssuerServiceAddress}"/> 
     	<property name="samlIssuerService" ref="samlIssuerClient"/>
   	</bean>
   	
   	<bean id="serviceProperties" class="org.springframework.security.ui.cas.ServiceProperties">
-  		<property name="service" value="https://localhost:8443/ks-embedded/j_spring_cas_security_check"/>
-		<!-- <property name="service" value="${ks.default.security.cas.webapp.service.context}/j_spring_cas_security_check"/> -->
+		<property name="service" value="${ks.default.security.cas.webapp.service.context}/j_spring_cas_security_check"/>
 		<property name="sendRenew" value="false"/>
 	</bean>
 
 	<security:authentication-manager alias="authenticationManager"/>
 	<bean id="proxyGrantingTicketStorage" class="org.jasig.cas.client.proxy.ProxyGrantingTicketStorageImpl"/>
 	<bean id="proxyRetriever" class="org.jasig.cas.client.proxy.Cas20ProxyRetriever">
-		<constructor-arg index="0" value="https://localhost:8443/cas-server-webapp-3.3.1"/>
-		<!-- <constructor-arg index="0" value="${ks.default.security.cas.serverAddress}"/> -->
+		<constructor-arg index="0" value="${ks.default.security.cas.serverAddress}"/> 
 	</bean>
 
 	<bean id="casProcessingFilter" class="org.springframework.security.ui.cas.CasProcessingFilter">
@@ -52,8 +72,7 @@
 	</bean>
 	
 	<bean id="casProcessingFilterEntryPoint" class="org.springframework.security.ui.cas.CasProcessingFilterEntryPoint">
-		<property name="loginUrl" value="https://localhost:8443/cas-server-webapp-3.3.1/login"/>
-		<!-- <property name="loginUrl" value="${ks.default.security.cas.serverAddress}/login"/> -->
+		<property name="loginUrl" value="${ks.default.security.cas.serverAddress}/login"/>
 		<property name="serviceProperties" ref="serviceProperties"/>
 	</bean>
 	
@@ -63,11 +82,9 @@
 		<property name="serviceProperties" ref="serviceProperties"/>
 		<property name="ticketValidator">
 			<bean class="org.jasig.cas.client.validation.Cas20ProxyTicketValidator">
-				<constructor-arg index="0" value="https://localhost:8443/cas-server-webapp-3.3.1"/>
-				<!-- <constructor-arg index="0" value="${ks.default.security.cas.serverAddress}"/> -->
+				<constructor-arg index="0" value="${ks.default.security.cas.serverAddress}"/> 
 				<property name="proxyGrantingTicketStorage" ref="proxyGrantingTicketStorage"/>
-				<property name="proxyCallbackUrl" value="https://localhost:8443/ks-embedded/secure/receptor"/>
-        		<!-- <property name="proxyCallbackUrl" value="${ks.default.security.cas.webapp.service.context}/secure/receptor"/> -->
+        		<property name="proxyCallbackUrl" value="${ks.default.security.cas.webapp.service.context}/secure/receptor"/> 
         		<property name="proxyRetriever" ref="proxyRetriever"/>
 			</bean>
 		</property>
