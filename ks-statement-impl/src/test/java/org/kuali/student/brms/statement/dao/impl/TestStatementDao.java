@@ -1,6 +1,7 @@
 package org.kuali.student.brms.statement.dao.impl;
 
 import java.util.Arrays;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -17,6 +18,7 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.brms.statement.dao.StatementDao;
+import org.kuali.student.brms.statement.entity.NlUsageType;
 import org.kuali.student.brms.statement.entity.ReqComponent;
 import org.kuali.student.brms.statement.entity.ReqComponentType;
 import org.kuali.student.brms.statement.entity.ReqComponentTypeNLTemplate;
@@ -30,7 +32,40 @@ public class TestStatementDao extends AbstractTransactionalDaoTest {
     public StatementDao dao;
     
     @Test
-    public void testGetLuStatementTypes() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+    public void testGetNlUsageType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+        NlUsageType nlUsageType = dao.fetch(NlUsageType.class, "KUALI.REQCOMP.EXAMPLE");
+
+        GregorianCalendar grepEff = new GregorianCalendar(2010, 00, 01, 1, 1, 1);
+        GregorianCalendar grepExp = new GregorianCalendar(2010, 11, 31, 1, 1, 1);
+        
+        assertNotNull(nlUsageType);
+        assertEquals("NlUsageType[id=KUALI.REQCOMP.EXAMPLE]", nlUsageType.toString());
+        assertEquals("KUALI.REQCOMP.EXAMPLE", nlUsageType.getId());
+        assertEquals("Requirement Component Example", nlUsageType.getName());
+        assertEquals("Kuali Requirement Component Rule Example", nlUsageType.getDescr());
+        assertEquals(grepEff.getTime(), nlUsageType.getEffectiveDate());
+        assertEquals(grepExp.getTime(), nlUsageType.getExpirationDate());
+    }
+    
+    @Test
+    public void testGetNlUsageTypes() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+        List<NlUsageType> nlUsageTypeList = dao.find(NlUsageType.class);
+
+        GregorianCalendar grepEff = new GregorianCalendar(2000, 00, 01, 0, 0, 0);
+        GregorianCalendar grepExp = new GregorianCalendar(2000, 11, 31, 0, 0, 0);
+        
+        assertNotNull(nlUsageTypeList);
+        assertEquals(2, nlUsageTypeList.size());
+        NlUsageType nlUsageType = nlUsageTypeList.get(0);
+        assertEquals("KUALI.COURSE.CATALOG", nlUsageType.getId());
+        assertEquals("Kuali Course Catalog", nlUsageType.getName());
+        assertEquals("Full Kuali Course Catalog", nlUsageType.getDescr());
+        assertEquals(grepEff.getTime(), nlUsageType.getEffectiveDate());
+        assertEquals(grepExp.getTime(), nlUsageType.getExpirationDate());
+    }
+    
+    @Test
+    public void testGetStatementTypes() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
         List<StatementType> stmtTypeList = dao.find(StatementType.class);
         
         assertNotNull(stmtTypeList);

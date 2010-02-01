@@ -33,6 +33,7 @@ import org.kuali.student.brms.statement.dto.ReqComponentInfo;
 import org.kuali.student.brms.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.brms.statement.dto.StatementInfo;
 import org.kuali.student.brms.statement.dto.StatementTypeInfo;
+import org.kuali.student.brms.statement.entity.NlUsageType;
 import org.kuali.student.brms.statement.entity.ReqComponent;
 import org.kuali.student.brms.statement.entity.ReqComponentType;
 import org.kuali.student.brms.statement.entity.Statement;
@@ -60,16 +61,22 @@ public class StatementServiceImpl implements StatementService {
 	}
 
 	public NlUsageTypeInfo getNlUsageType(String nlUsageTypeKey)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+
+		checkForNullOrEmptyParameter(nlUsageTypeKey, "nlUsageTypeKey");
+		checkForEmptyParameter(nlUsageTypeKey, "nlUsageTypeKey");
+
+		NlUsageType entity = this.statementDao.fetch(NlUsageType.class, nlUsageTypeKey);
+		NlUsageTypeInfo info = StatementAssembler.toNlUsageTypeInfo(entity);
+		return info;
 	}
 
 	public List<NlUsageTypeInfo> getNlUsageTypes()
 			throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		List<NlUsageType> entities = this.statementDao.find(NlUsageType.class);
+		List<NlUsageTypeInfo> infos = StatementAssembler.toNlUsageTypeInfos(entities);
+		return infos;
 	}
 
 	public List<String> getRefObjectSubTypes(String objectTypeKey)

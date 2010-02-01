@@ -10,6 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.junit.BeforeClass;
@@ -35,6 +36,7 @@ import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.brms.statement.config.CluInfo;
 import org.kuali.student.brms.statement.config.CluSetInfo;
 import org.kuali.student.brms.statement.config.contexts.CourseListContextImpl;
+import org.kuali.student.brms.statement.dto.NlUsageTypeInfo;
 import org.kuali.student.brms.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.brms.statement.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.brms.statement.dto.ReqComponentInfo;
@@ -94,6 +96,31 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
 	}
 
+
+	
+	@Test
+    public void testGetNlUsageType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		NlUsageTypeInfo info = statementService.getNlUsageType("KUALI.REQCOMP.EXAMPLE");
+
+        GregorianCalendar grepEff = new GregorianCalendar(2010, 00, 01, 1, 1, 1);
+        GregorianCalendar grepExp = new GregorianCalendar(2010, 11, 31, 1, 1, 1);
+        
+        assertNotNull(info);
+        assertEquals("NlUsageTypeInfo[id=KUALI.REQCOMP.EXAMPLE]", info.toString());
+        assertEquals("KUALI.REQCOMP.EXAMPLE", info.getId());
+        assertEquals("Requirement Component Example", info.getName());
+        assertEquals("Kuali Requirement Component Rule Example", info.getDescr());
+        assertEquals(grepEff.getTime(), info.getEffectiveDate());
+        assertEquals(grepExp.getTime(), info.getExpirationDate());
+	}	
+	
+	@Test
+    public void testGetNlUsageTypes() throws OperationFailedException {
+		List<NlUsageTypeInfo> infoList = statementService.getNlUsageTypes();
+		assertEquals(2, infoList.size());
+	}	
+		
+		
     @Test
     public void testGetLuStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
         StatementInfo stmt = statementService.getStatement("STMT-2");

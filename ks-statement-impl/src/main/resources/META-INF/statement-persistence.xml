@@ -11,6 +11,8 @@
 		<class>org.kuali.student.core.entity.RichText</class>
 		<class>org.kuali.student.core.entity.TimeAmount</class>
 
+        <class>org.kuali.student.brms.statement.entity.NlUsageType</class>
+        <class>org.kuali.student.brms.statement.entity.NlUsageTypeAttribute</class>
 		<class>org.kuali.student.brms.statement.entity.Statement</class>
 		<class>org.kuali.student.brms.statement.entity.StatementAttribute</class>
 		<class>org.kuali.student.brms.statement.entity.StatementType</class>

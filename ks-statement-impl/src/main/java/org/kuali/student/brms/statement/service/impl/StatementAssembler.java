@@ -12,12 +12,14 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.service.impl.BaseAssembler;
 import org.kuali.student.brms.statement.dao.StatementDao;
+import org.kuali.student.brms.statement.dto.NlUsageTypeInfo;
 import org.kuali.student.brms.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.brms.statement.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.brms.statement.dto.ReqComponentInfo;
 import org.kuali.student.brms.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.brms.statement.dto.StatementInfo;
 import org.kuali.student.brms.statement.dto.StatementTypeInfo;
+import org.kuali.student.brms.statement.entity.NlUsageType;
 import org.kuali.student.brms.statement.entity.ReqComponent;
 import org.kuali.student.brms.statement.entity.ReqComponentField;
 import org.kuali.student.brms.statement.entity.ReqComponentFieldType;
@@ -29,6 +31,20 @@ import org.springframework.beans.BeanUtils;
 
 public class StatementAssembler extends BaseAssembler {
 
+	public static NlUsageTypeInfo toNlUsageTypeInfo(NlUsageType entity) throws OperationFailedException {
+		NlUsageTypeInfo info = toGenericTypeInfo(NlUsageTypeInfo.class, entity);
+		return info;
+	}
+	
+	public static List<NlUsageTypeInfo> toNlUsageTypeInfos(List<NlUsageType> entities) throws OperationFailedException {
+		List<NlUsageTypeInfo> infoList = new ArrayList<NlUsageTypeInfo>();
+		for(NlUsageType entity : entities) {
+			NlUsageTypeInfo info = toNlUsageTypeInfo(entity);
+			infoList.add(info);
+		}
+		return infoList;
+	}	
+	
     public static ReqComponent toReqComponentRelation(boolean isUpdate,
             ReqComponentInfo reqCompInfo, StatementDao dao) throws DoesNotExistException, VersionMismatchException, InvalidParameterException {
         ReqComponent reqComp;
