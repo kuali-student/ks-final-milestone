@@ -205,6 +205,13 @@
 	<xsd:element
 		xmlns="http://student.kuali.org/xsd/dictionary-extension"
 		name="field" type="fieldSelector" />
+	<xsd:element xmlns="http://student.kuali.org/xsd/dictionary-extension" 
+		name="type" type="typeSelector"/>
+	<xsd:element xmlns="http://student.kuali.org/xsd/dictionary-extension" 
+		name="state" type="stateSelector"/>
+	<xsd:element xmlns="http://student.kuali.org/xsd/dictionary-extension" 
+		name="constraintDescriptor" type="constraintDescriptor"/>		
+		
 	<xsd:element name="enum" type="enumSelector"></xsd:element>
 
 	<xsd:complexType name="constraintDescriptor">
