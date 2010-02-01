@@ -39,7 +39,7 @@ public class DataDictionaryUtil {
 	public static void main(String[] args) throws ClassNotFoundException, SecurityException, NoSuchFieldException, IOException {
 		
 		String dictPackageString="org.kuali.student.core.organization.dto";
-		String outputFileName="org-dict.xml";
+		String outputFileName="atp-dict.xml";
 		
 		if(args!=null&&args.length>0&&args[0]!=null){
 			outputFileName = args[0];
@@ -102,25 +102,44 @@ public class DataDictionaryUtil {
 	    	Set<Class<?>> childStructures = new HashSet<Class<?>>();
 
 	    	//output parent object structure and default type/state
+	    	sb.append("\n\n<!-- "+beanClass.getSimpleName()+" Object Structure -->");
+	    	sb.append("\n<dict:objectStructure key=\""+beanClass.getSimpleName()+"\" id=\""+beanClass.getSimpleName()+"\" parent=\""+beanClass.getSimpleName()+"-parent\"/>");
 	    	sb.append("\n<dict:objectStructure key=\""+beanClass.getSimpleName()+"-parent\" id=\""+beanClass.getSimpleName()+"-parent\" abstract=\"true\">");
-			sb.append("\n\t<dict:type key=\"default\" id=\""+beanClass.getSimpleName()+".type.default\">");
-			sb.append("\n\t\t<dict:state key=\"default\" id=\""+beanClass.getSimpleName()+".state.default\">");
+	    	sb.append("\n\t<dict:typeRef bean=\""+beanClass.getSimpleName()+".type.default\"/>");
 	
+			StringBuilder fieldDescSb = new StringBuilder();			
+			StringBuilder constraintDescSb = new StringBuilder();			
+			StringBuilder fieldSb = new StringBuilder();
+			StringBuilder typeSb = new StringBuilder();
+			StringBuilder stateSb = new StringBuilder();
+
+	    	typeSb.append("\n<dict:type key=\"default\" id=\""+beanClass.getSimpleName()+".type.default\" parent=\""+beanClass.getSimpleName()+".type.default-parent\"/>");
+	    	typeSb.append("\n<dict:type key=\"default-parent\" id=\""+beanClass.getSimpleName()+".type.default-parent\" abstract=\"true\">");
+	    	typeSb.append("\n\t<dict:stateRef bean=\""+beanClass.getSimpleName()+".state.default\"/>");
+	    	typeSb.append("\n</dict:type>\n");
+			
+	    	stateSb.append("\n<dict:state key=\"default\" id=\""+beanClass.getSimpleName()+".state.default\" parent=\""+beanClass.getSimpleName()+".state.default-parent\"/>");
+	    	stateSb.append("\n<dict:state key=\"default-parent\" id=\""+beanClass.getSimpleName()+".state.default-parent\" abstract=\"true\">");
+	    	
 			//Loop through properties and output fields
 			for(PropertyDescriptor pd:PropertyUtils.getPropertyDescriptors(beanClass)){
 				Class<?> type = pd.getPropertyType();
 				String name = pd.getName();
 				
-				//Dont process if not a real field (type,state,id,metaInfo,attributes)
+				//Don't process if not a real field (type,state,id,metaInfo,attributes)
 				if(isFieldDescriptor(type,name)){
-					sb.append("\n\t\t\t<dict:field key=\""+name+"\">");
-					sb.append("\n\t\t\t\t<dict:fieldDescriptor>");
-					sb.append("\n\t\t\t\t\t<dict:name>"+name+"</dict:name>");
+					stateSb.append("\n\t<dict:fieldRef bean=\""+beanClass.getSimpleName()+".default."+name+"\"/>");
+					fieldSb.append("\n<dict:field id=\""+beanClass.getSimpleName()+".default."+name+"\" key=\""+name+"\" parent=\""+beanClass.getSimpleName()+".default."+name+"-parent\"/>");
+					fieldSb.append("\n<dict:field id=\""+beanClass.getSimpleName()+".default."+name+"-parent\" key=\""+name+"-parent\" abstract=\"true\">");
+					fieldSb.append("\n\t<dict:fieldDescriptorRef bean=\""+beanClass.getSimpleName()+".default."+name+".fd\"/>");
+					fieldDescSb.append("\n<dict:fieldDescriptor id=\""+beanClass.getSimpleName()+".default."+name+".fd\" parent=\""+beanClass.getSimpleName()+".default."+name+".fd-parent\"/>");
+					fieldDescSb.append("\n<dict:fieldDescriptor id=\""+beanClass.getSimpleName()+".default."+name+".fd-parent\" abstract=\"true\">");
+					fieldDescSb.append("\n\t<dict:name>"+name+"</dict:name>");
 					String comment = methodComments.get(pd.getReadMethod().getName());
 					if(comment!=null&&!"".equals(comment.trim())){
-						sb.append("\n\t\t\t\t\t<dict:desc>"+comment+"</dict:desc>");
+						fieldDescSb.append("\n\t<dict:desc>"+comment+"</dict:desc>");
 					}else{
-						sb.append("\n\t\t\t\t\t<dict:desc>"+name+"</dict:desc>");
+						fieldDescSb.append("\n\t<dict:desc>"+name+"</dict:desc>");
 					}
 					//Check if it's a list
 					boolean isList = false;
@@ -135,38 +154,51 @@ public class DataDictionaryUtil {
 					if(isComplex(type)){
 						//Add a complex type and reference
 						String complexRef = type.getSimpleName();
-						sb.append("\n\t\t\t\t\t<dict:dataType>complex</dict:dataType>");
-						sb.append("\n\t\t\t\t\t<dict:objectStructureRef bean=\""+complexRef+"\"/>");
+						fieldDescSb.append("\n\t<dict:dataType>complex</dict:dataType>");
+						fieldDescSb.append("\n\t<dict:objectStructureRef bean=\""+complexRef+"\"/>");
 
 						//Add this type to the list of child structures we need to add
 						childStructures.add(type);
 					}else{
 						//Get regular type
-						sb.append("\n\t\t\t\t\t<dict:dataType>"+getTypeString(type)+"</dict:dataType>");
+						fieldDescSb.append("\n\t<dict:dataType>"+getTypeString(type)+"</dict:dataType>");
 					}
 					
 					//Close up field descriptor
-					sb.append("\n\t\t\t\t</dict:fieldDescriptor>");
+					fieldDescSb.append("\n</dict:fieldDescriptor>\n");
 					
 					
 					//Add single/repeating constraints
-					sb.append("\n\t\t\t\t<dict:constraintDescriptor>");
+					fieldSb.append("\n\t<dict:constraintDescriptorRef bean=\""+beanClass.getSimpleName()+".default."+name+".cd\"/>");
+					constraintDescSb.append("\n<dict:constraintDescriptor id=\""+beanClass.getSimpleName()+".default."+name+".cd\" parent=\""+beanClass.getSimpleName()+".default."+name+".cd-parent\"/>");
+					constraintDescSb.append("\n<dict:constraintDescriptor id=\""+beanClass.getSimpleName()+".default."+name+".cd-parent\" abstract=\"true\">");
+
 					if(isList){
-						sb.append("\n\t\t\t\t\t<dict:constraintRef bean=\"repeating\"/>");
+						constraintDescSb.append("\n\t<dict:constraintRef bean=\"repeating\"/>");
 					}else{
-						sb.append("\n\t\t\t\t\t<dict:constraintRef bean=\"single\"/>");
+						constraintDescSb.append("\n\t<dict:constraintRef bean=\"single\"/>");
 					}
-					sb.append("\n\t\t\t\t</dict:constraintDescriptor>");
+					constraintDescSb.append("\n</dict:constraintDescriptor>\n");
 					
-					sb.append("\n\t\t\t</dict:field>");
+					fieldSb.append("\n</dict:field>\n");
 				}
 			}
-			sb.append("\n\t\t</dict:state>");
-			sb.append("\n\t</dict:type>");
-	    	sb.append("\n</dict:objectStructure>");
+			stateSb.append("\n</dict:state>\n");
+
+	    	sb.append("\n</dict:objectStructure>\n");
 	    	
-	    	//Output a child objectstructure
-	    	sb.append("\n<dict:objectStructure key=\""+beanClass.getSimpleName()+"\" id=\""+beanClass.getSimpleName()+"\" parent=\""+beanClass.getSimpleName()+"-parent\"/>");
+    	
+	    	//Output types, states, fields, fieldDescriptors and constraint descriptors
+	    	sb.append("\n\n<!-- "+beanClass.getSimpleName()+" Types -->");
+	    	sb.append(typeSb);
+	    	sb.append("\n\n<!-- "+beanClass.getSimpleName()+" States -->");
+	    	sb.append(stateSb);
+	    	sb.append("\n\n<!-- "+beanClass.getSimpleName()+" Fields -->");
+	    	sb.append(fieldSb);
+	    	sb.append("\n\n<!-- "+beanClass.getSimpleName()+" Field Descriptors -->");
+	    	sb.append(fieldDescSb);
+	    	sb.append("\n\n<!-- "+beanClass.getSimpleName()+" Constraints -->");
+	    	sb.append(constraintDescSb);
 	    	
 	    	//Process any child structures
 	    	for(Class<?> childStructureClass:childStructures){
