@@ -3558,6 +3558,12 @@
             <reference foreign="ID" local="CLU_ID"/>
         </foreign-key>
     </table>
+    <table name="KSLU_CLU_LO_RELTN_TYPE">
+        <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="TYPE_DESC" size="255" type="VARCHAR"/>
+        <column name="EFF_DT" type="TIMESTAMP"/>
+        <column name="EXPIR_DT" type="TIMESTAMP"/>
+    </table>
     <table name="KSLU_CLU_PUBL">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="END_CYCLE" size="255" type="VARCHAR"/>
