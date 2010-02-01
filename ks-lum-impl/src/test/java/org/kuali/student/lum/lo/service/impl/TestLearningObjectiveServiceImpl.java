@@ -473,11 +473,18 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         String categoryId = "054CAA88-C21D-4496-8287-36A311A11D68";
         category = client.getLoCategory(categoryId);
         assertEquals("Test Category 2", category.getName());
+        assertEquals("loCategoryType.subject", category.getType());
         category.setName("LENNY, THE LECHEROUS MILK THIEF");
+        category.setType("loCategoryType.accreditation");
         
         LoCategoryInfo updated = client.updateLoCategory(categoryId, category);
         assertNotNull(updated);
         assertNotNull(updated.getId());
+        
+        // make sure it all stuck
+        updated = client.getLoCategory(categoryId);
+        assertEquals("LENNY, THE LECHEROUS MILK THIEF", updated.getName());
+        assertEquals("loCategoryType.accreditation", updated.getType());
         
         try {
             client.updateLoCategory(categoryId, category);

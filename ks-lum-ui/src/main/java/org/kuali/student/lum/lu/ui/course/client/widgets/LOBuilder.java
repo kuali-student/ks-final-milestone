@@ -235,62 +235,11 @@ public class LOBuilder extends Composite implements HasValue<List<OutlineNode<LO
 
         public List<OutlineNode<LOPicker>> getValue() {
         	return outlineModel.getOutlineNodes();
-        	/*
-            ModelDTOValue.ListType list = new ModelDTOValue.ListType();
-            modelDTOList = new ArrayList<ModelDTO>();
-            // get from outline model
-            OutlineNode[] outlineNodes = outlineModel.toOutlineNodes(); 
-            for(OutlineNode outlineNode: outlineNodes){
-                ModelDTO modelDTO = new ModelDTO();
-                ModelDTOValue.StringType str = new ModelDTOValue.StringType();
-                str.set(((LOPicker)outlineNode.getUserObject()).getLOText());
-                //TODO .set(((LOPicker)outlineNode.getUserObject()).getLOCategory());
-                modelDTO.put("value", str);
-                
-                ModelDTOValue.ModelDTOType lo = new ModelDTOValue.ModelDTOType();
-                Object possibleLo = outlineNode.getOpaque();
-                if (null != possibleLo && possibleLo instanceof ModelDTO) {
-                	lo.set((ModelDTO) possibleLo);
-                	modelDTO.put("lo", lo);
-                }
-
-                ModelDTOValue.IntegerType intT = new ModelDTOValue.IntegerType();
-                intT.set(modelDTOList.size());
-                modelDTO.put("sequence",intT);
-                
-                intT = new ModelDTOValue.IntegerType();
-                intT.set(outlineNode.getIndentLevel());
-                modelDTO.put("level",intT);
-                modelDTOList.add(modelDTO);
-            }
-            // fill the list of ModelDTO to ModelDTOValue.ModelDTOType 
-            List<ModelDTOValue> valueList = new ArrayList<ModelDTOValue>();
-            for(ModelDTO dto:modelDTOList){
-                ModelDTOValue.ModelDTOType dtoValue = new ModelDTOValue.ModelDTOType();
-                dtoValue.set(dto);
-                valueList.add(dtoValue);
-            }
-            list.set(valueList);
-
-            return list;
-            */
         }
         
         public void setValue(List<OutlineNode<LOPicker>> value) {
         	outlineModel.clearNodes();
         	outlineModel.getOutlineNodes().addAll(value);
-        	/*
-            ModelDTOValue.ListType list = (ModelDTOValue.ListType) value;
-            modelDTOList = new ArrayList<ModelDTO>();
-            // fill the ModelDTOValue.ModelDTOType to List<ModelDTO>
-            // when the server hasn't been called yet, there's not list in LoModelDTO
-            if (null != list) {
-	            for(ModelDTOValue dto : list.get()){
-	                ModelDTOValue.ModelDTOType dtoType = (ModelDTOValue.ModelDTOType)dto;
-	                modelDTOList.add(dtoType.get());
-	            }
-            }
-            */
             reDraw();
         }
         
@@ -311,37 +260,11 @@ public class LOBuilder extends Composite implements HasValue<List<OutlineNode<LO
             reDraw();
         }
         private void reDraw(){
-    	/*
-          outlineModel.clearNodes();
-          for (int i = 0; i < modelDTOList.size(); i++) {
-            OutlineNode aNode = new OutlineNode();
-            aNode.setModel(outlineModel);
-            aNode.setUserObject(new LOPicker(messageGroup,type,state));
-            
-            String strvalue = ((ModelDTOValue.StringType)modelDTOList.get(i).get("value")).get();
-            int level = ((ModelDTOValue.IntegerType)modelDTOList.get(i).get("level")).get();
-           // int sequence = ((ModelDTOValue.IntegerType)modelDTOList.get(i).get("sequence")).get();
-            ModelDTOValue possibleLoValue = (ModelDTOValue.ModelDTOType) modelDTOList.get(i).get("lo");
-            Object possibleLo = null;
-            if (null != possibleLoValue) {
-            	possibleLo = ((ModelDTOValue.ModelDTOType) possibleLoValue).get();
-            }
-            // the LO from server should be in the right order
-            ((LOPicker)aNode.getUserObject()).setLOText(strvalue);
-            //TODO ((LOPicker)aNode.getUserObject()).setLOCategory();
-            if (null != possibleLo) {
-            	aNode.setOpaque(possibleLo);
-            }
-            aNode.setIndentLevel(level);
-            outlineModel.addOutlineNode(aNode);
-          }
-		*/
           outlineComposite.render();
         }
         public HandlerRegistration addValueChangeHandler(ValueChangeHandler<List<OutlineNode<LOPicker>>> handler) {
             return new NOOPListValueChangeHandler();
         }
-
             
         private class NOOPListValueChangeHandler implements HandlerRegistration {
             public void removeHandler() {

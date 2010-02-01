@@ -447,8 +447,42 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
             throw new VersionMismatchException("LO to be updated is not the current version");
         }
         
-        loCategory = LearningObjectiveServiceAssembler.toLoCategory(loCategory, loCategoryInfo, loDao);
-        loDao.update(loCategory);
+        if ( ! loCategory.getLoCategoryType().getName().equals(loCategoryInfo.getType()) ) {
+        	// if type is changing, inactivate current LoCategory & clone it w/ its relationships,
+        	// https://test.kuali.org/confluence/display/KULSTG/DS+-+LO+Centrally+Maintain+Categories
+        	LoCategoryType catType = null;
+        	try {
+	        	catType = loDao.fetch(LoCategoryType.class, loCategoryInfo.getType());
+        	} catch (DoesNotExistException dnee) {
+        		throw new DoesNotExistException("Attempt to change LoCategory's type to nonexistent LoCategoryType", dnee);
+        	}
+        	
+        	// clone the existing LO
+        	LoCategoryInfo newLoCategoryInfo = LearningObjectiveServiceAssembler.toLoCategoryInfo(loCategory);
+        	newLoCategoryInfo.setType(catType.getName());
+        	newLoCategoryInfo.setName(loCategoryInfo.getName());
+        	loDao.create(LearningObjectiveServiceAssembler.toLoCategory(newLoCategoryInfo, loDao));
+        	
+        	// clone Lo-LoCategory relations
+        	List<Lo> catsLos = loDao.getLosByLoCategory(loCategory.getId());         	
+        	for (Lo lo : catsLos) {
+        		try {
+					loDao.addLoCategoryToLo(newLoCategoryInfo.getId(), lo.getId());
+				} catch (UnsupportedActionException uae) {
+					throw new OperationFailedException(uae.getMessage(), uae);
+				}
+        		
+        	}
+        	
+        	
+        	
+        	// remove old Clu-Lo &/or Lo-Lo relations
+        	
+        	// inactivate old LoCategory
+        } else {
+	        loCategory = LearningObjectiveServiceAssembler.toLoCategory(loCategory, loCategoryInfo, loDao);
+	        loDao.update(loCategory);
+        }
         return LearningObjectiveServiceAssembler.toLoCategoryInfo(loCategory);
 	}
 

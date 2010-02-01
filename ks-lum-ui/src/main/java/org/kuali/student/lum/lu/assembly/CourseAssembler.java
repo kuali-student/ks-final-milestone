@@ -69,7 +69,6 @@ import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.lu.ui.course.server.gwt.LoInfoPersistenceBean;
 import org.kuali.student.lum.lu.ui.course.server.gwt.LuRuleInfoPersistanceBean;
 import org.kuali.student.lum.nlt.service.TranslationService;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
@@ -89,14 +88,12 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
 	private SingleUseLoInfoAssembler loAssembler;
     private final RichTextInfoAssembler richtextAssembler = new RichTextInfoAssembler();
     private final TimeAmountInfoAssembler timeamountAssembler = new TimeAmountInfoAssembler();
-    private final CluIdentifierInfoAssembler cluIdentifierAssembler = new CluIdentifierInfoAssembler();
     private final CluInstructorInfoDataAssembler instructorAssembler = new CluInstructorInfoDataAssembler();
 
     private LuService luService;
     private PermissionService permissionService;
     private LearningObjectiveService loService;
     private TranslationService translationService;
-    private LoInfoPersistenceBean loInfoBean;
 
     private SearchDispatcher searchDispatcher;
 
@@ -342,7 +339,6 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
             addVersions(result, hierarchy);
 
             //Retrieve related clus of type kuali.lu.relation.type.co-located and add the list to the map.
-            List<CluInfo> clus = luService.getClusByRelation(course.getId(), JOINT_RELATION_TYPE);
             List<CluCluRelationInfo> cluClus = luService.getCluCluRelationsByClu(course.getId());
             if (cluClus != null){
 	            for(CluCluRelationInfo cluRel:cluClus){
@@ -1054,15 +1050,6 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
         ruleInfoBean.setLuService(luService);
         ruleInfoBean.setTranslationService(translationService);
         return ruleInfoBean.fetchRules(courseId);
-    }
-
-    private LoInfoPersistenceBean getLoInfoPersistenceBean() {
-        if (null == loInfoBean) {
-            loInfoBean = new LoInfoPersistenceBean();
-            loInfoBean.setLoService(loService);
-            loInfoBean.setLuService(luService);
-        }
-        return loInfoBean;
     }
 
     private boolean validationFailed(

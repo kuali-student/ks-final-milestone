@@ -19,7 +19,6 @@ import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.assembly.client.SaveResult;
 import org.kuali.student.common.assembly.client.Data.Property;
-import org.kuali.student.common.assembly.client.Metadata.Permission;
 import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.dto.RichTextInfo;
@@ -126,7 +125,6 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
             LuData current = (LuData)course.getData();
             result.setProposal(proposal);
             result.setCourse(CreditCourseHelper.wrap(current.getData()));
-            luData.setLoModelDTO(current.getLoModelDTO());
             luData.setRuleInfos(current.getRuleInfos());
             
         } catch (Exception e) {
@@ -260,7 +258,7 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
         //Metadata metadata = new CreditCourseProposalMetadata().getMetadata(PROPOSAL_TYPE_CREATE_COURSE, state);
         
         //Get permissions for course
-        Map<String, String> permissions = getPermissions("kuali.lu.type.CreditCourse");
+        Map<String, String> permissions = null; // getPermissions("kuali.lu.type.CreditCourse");
         
         
         if(permissions!=null){
@@ -285,10 +283,12 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
         AttributeSet qualification = new AttributeSet();
         //qualification.put(QUALIFICATION_PROPOSAL_ID, proposalInfo.getId());
         qualification.put(DOCUMENT_TYPE_NAME, "CluDocument");
+        /*
         boolean authorized = permissionService.isAuthorized(SecurityUtils.getCurrentUserId(), "KS-LUM", "Edit Document", null, qualification);
         if(authorized) {
-            metadata.getPermissions().add(Permission.EDIT);
+            metadata.getPermissions().add(Metadata.Permission.EDIT);
         }
+        */
         return metadata;
     }
 

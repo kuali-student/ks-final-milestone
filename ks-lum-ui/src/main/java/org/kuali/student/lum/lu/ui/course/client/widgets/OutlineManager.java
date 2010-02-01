@@ -3,7 +3,6 @@ package org.kuali.student.lum.lu.ui.course.client.widgets;
 import java.util.ArrayList;
 
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSLightBox;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -15,37 +14,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-
-//***************************************************
-
-//public class OutlineManager {
-//}
-//  public void onModuleLoad() {
-//    final OutlineManangerComposite outlineComposite = new OutlineManangerComposite();
-//    OutlineNodeModel outlineModel = new OutlineNodeModel();
-//    for (int i = 0; i < 8; i++) {
-//      OutlineNode aNode = new OutlineNode();
-//      aNode.setModel(outlineModel);
-//      aNode.setUserObject(new TextBox());
-//      outlineModel.addOutlineNode(aNode);
-
-//    }
-//    outlineComposite.setModel(outlineModel);
-//    outlineModel.addChangeHandler(new ChangeHandler() {
-//      public void onChange(ChangeEvent event) {
-//        outlineComposite.render();
-//      }
-//    });
-
-//    outlineComposite.render();
-//    RootPanel.get().add(new Label("Outline Manager "));
-//    RootPanel.get().add(new Label(" "));
-//    RootPanel.get().add(new Label(" "));
-    
-//    RootPanel.get().add(outlineComposite);
-//  }
-
-
 
 
 class OutlineManagerToolbar extends HorizontalPanel {

@@ -219,11 +219,10 @@ public class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
 		String loDesc = node.getUserObject().getLOText();
 		rtHelper.setFormatted(loDesc);
 		rtHelper.setPlain(loDesc);
-		if (null != helper.getDescription() && 
-   ! new RichTextInfoComparator ().equalStrVals(helper.getDescription(), rtHelper)) {
+		// if (null != helper.getDescription() && ! new RichTextInfoComparator ().equalStrVals(helper.getDescription(), rtHelper)) {
 			// TODO - how do we setUpdated() on the client?
 			// AssemblerUtils.setUpdated(helper.getData(), true);
-		}
+		// }
 		helper.setDescription(rtHelper);
 		
 		Data categoriesData = new Data();

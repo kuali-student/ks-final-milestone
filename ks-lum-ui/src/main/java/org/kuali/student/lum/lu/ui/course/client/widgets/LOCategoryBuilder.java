@@ -101,8 +101,6 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
         picker = new LOCategoryPicker();
         categoryList = new LOCategoryList();
 
-        initializeCategoryTypeMap();
-        
         initWidget(root);
 
         final VerticalPanel selectedPanel = new VerticalPanel();
@@ -171,8 +169,9 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
             public void onSuccess(List<LoCategoryTypeInfo> result) {
                 final LOCategoryTypeInfoList list = new LOCategoryTypeInfoList(result);
                 typesDropDown.setListItems(list);
-                loadCategoryTypes(result);                    
-                
+                if (categoryTypeMap == null) {
+                    loadCategoryTypes(result);                    
+                }
                 KSThinTitleBar titleBar = new KSThinTitleBar("Create New Category " + picker.getText());//+ enteredWord);
                 main.add(titleBar);
                 main.add(new KSLabel("Select a Type"));
@@ -225,23 +224,6 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
         });
     }
 
-    private void initializeCategoryTypeMap() {
-    	if (null == categoryTypeMap) {
-	        loRpcServiceAsync.getLoCategoryTypes(new AsyncCallback<List<LoCategoryTypeInfo>>() {
-	
-		        @Override
-		        public void onFailure(Throwable caught) {
-		            Window.alert("getLoCategoryTypes failed " + caught.getMessage());
-		        }
-		
-		        @Override
-		        public void onSuccess(List<LoCategoryTypeInfo> result) {
-	                loadCategoryTypes(result);                    
-		        }
-	        });
-	    }
-    }
-    
     private void loadCategoryTypes(List<LoCategoryTypeInfo> categoryTypes) {
         if (categoryTypeMap == null) {
             categoryTypeMap = new HashMap<String, LoCategoryTypeInfo>();
@@ -502,27 +484,51 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
 
          public void redraw() {
 
-             int row = 0;
-             int col = 0;
-
-             categoryTable.clear();
-
-             for (int i = 0; i < categories.size(); i++) {
-                 String name = categories.get(i).getName();
-                 String typeKey = categories.get(i).getType();
-                 // TODO - need to somehow ensure that categoryTypeMap is initialized before redraw() 
-                 String typeName = "ERROR: uninitialized categoryTypeMap";
-                 if (null != categoryTypeMap) {
-                     typeName = categoryTypeMap.get(typeKey).getName();
-                 } 
-                 categoryTable.setWidget(row, col++, new KSLabel(name + CATEGORY_TYPE_SEPARATOR + typeName));
-                 KSLabel deleteLabel = new KSLabel("[x]");
-                 deleteLabel.addStyleName("KS-LOBuilder-Search-Link");
-                 deleteLabel.addClickHandler(deleteHandler);
-                 categoryTable.setWidget(row, col++, deleteLabel);
-                 row++;
-                 col = 0;                                
-             }
+			if (null == categoryTypeMap || categoryTypeMap.isEmpty()) {
+			            	 
+				loRpcServiceAsync.getLoCategoryTypes(new AsyncCallback<List<LoCategoryTypeInfo>>() {
+				
+					@Override
+					public void onFailure(Throwable caught) {
+					Window.alert("getLoCategoryTypes failed " + caught.getMessage());
+					}
+					
+					@Override
+					public void onSuccess(List<LoCategoryTypeInfo> result) {
+						if (categoryTypeMap == null) {
+							loadCategoryTypes(result);                    
+						}
+						redrawCategoryTable();
+					}
+	
+				});
+			} else {
+				redrawCategoryTable();
+			}
+		}
+			
+		private void redrawCategoryTable() {
+			int row = 0;
+			int col = 0;
+			             
+			categoryTable.clear();
+	
+			for (int i = 0; i < categories.size(); i++) {
+		        String name = categories.get(i).getName();
+		        String typeKey = categories.get(i).getType();
+		        // TODO - need to somehow ensure that categoryTypeMap is initialized before redraw() 
+		        String typeName = "ERROR: uninitialized categoryTypeMap";
+		        if (null != categoryTypeMap) {
+		            typeName = categoryTypeMap.get(typeKey).getName();
+		        } 
+		        categoryTable.setWidget(row, col++, new KSLabel(name + CATEGORY_TYPE_SEPARATOR + typeName));
+		        KSLabel deleteLabel = new KSLabel("[x]");
+		        deleteLabel.addStyleName("KS-LOBuilder-Search-Link");
+		        deleteLabel.addClickHandler(deleteHandler);
+		        categoryTable.setWidget(row, col++, deleteLabel);
+		        row++;
+		        col = 0;                                
+			}
          }
 
          public List<LoCategoryInfo> getValue() {
