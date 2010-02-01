@@ -135,6 +135,9 @@ public class StatementServiceImpl implements StatementService {
 		checkForNullOrEmptyParameter(reqComponentId, "reqComponentId");
 		checkForNullOrEmptyParameter(nlUsageTypeKey, "nlUsageTypeKey");
 		checkForEmptyParameter(language, "language");
+
+		// test usage type key exists
+		getNlUsageType(nlUsageTypeKey);
 		
 		final String lang = this.naturalLanguageTranslator.getLanguage();
 		try {

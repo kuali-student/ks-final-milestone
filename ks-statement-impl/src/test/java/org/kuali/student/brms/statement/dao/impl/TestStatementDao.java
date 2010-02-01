@@ -55,8 +55,8 @@ public class TestStatementDao extends AbstractTransactionalDaoTest {
         GregorianCalendar grepExp = new GregorianCalendar(2000, 11, 31, 0, 0, 0);
         
         assertNotNull(nlUsageTypeList);
-        assertEquals(2, nlUsageTypeList.size());
-        NlUsageType nlUsageType = nlUsageTypeList.get(0);
+        assertEquals(4, nlUsageTypeList.size());
+        NlUsageType nlUsageType = nlUsageTypeList.get(2);
         assertEquals("KUALI.COURSE.CATALOG", nlUsageType.getId());
         assertEquals("Kuali Course Catalog", nlUsageType.getName());
         assertEquals("Full Kuali Course Catalog", nlUsageType.getDescr());

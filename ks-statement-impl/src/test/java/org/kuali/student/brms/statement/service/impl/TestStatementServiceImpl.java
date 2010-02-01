@@ -79,6 +79,15 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     }
 
 	@Test
+	public void testTranslateReqComponent_InvalidNlUsageTypeKey() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    	try {
+    		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "xxx", "en");
+    	} catch(DoesNotExistException e) {
+			assertNotNull(e);
+    	}
+    }
+
+	@Test
 	public void testGetNaturalLanguageForReqComponent_DefaultEnglish() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		String naturalLanguage = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG", null);
         assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
@@ -96,8 +105,6 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
 	}
 
-
-	
 	@Test
     public void testGetNlUsageType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		NlUsageTypeInfo info = statementService.getNlUsageType("KUALI.REQCOMP.EXAMPLE");
@@ -115,12 +122,20 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 	}	
 	
 	@Test
+    public void testGetNlUsageType_InvalidType() throws Exception {
+		try {
+			NlUsageTypeInfo info = statementService.getNlUsageType("xxx");
+		} catch(DoesNotExistException e) {
+			assertNotNull(e);
+		}
+	}	
+	
+	@Test
     public void testGetNlUsageTypes() throws OperationFailedException {
 		List<NlUsageTypeInfo> infoList = statementService.getNlUsageTypes();
-		assertEquals(2, infoList.size());
+		assertEquals(4, infoList.size());
 	}	
-		
-		
+
     @Test
     public void testGetLuStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
         StatementInfo stmt = statementService.getStatement("STMT-2");
