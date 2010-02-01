@@ -101,7 +101,8 @@
 
 		<!-- Root 'DATA' object structure -->
 		<xsl:element name="bean">
-			<xsl:attribute name="id" select="$dataObjectName"/>
+			<xsl:attribute name="id"><xsl:value-of select="$dataObjectName"/>-parent</xsl:attribute>
+			<xsl:attribute name="abstract">true</xsl:attribute>
 			<xsl:attribute name="parent">dataObjectStructure</xsl:attribute>
 			<xsl:element name="property">
 				<xsl:attribute name="name">fields</xsl:attribute>
@@ -114,6 +115,11 @@
 				<xsl:attribute name="value" select="$dataObjectName"/>
 			</xsl:element>
 		</xsl:element>
+		<xsl:element name="bean">
+			<xsl:attribute name="id" select="$dataObjectName"/>
+			<xsl:attribute name="parent"><xsl:value-of select="$dataObjectName"/>-parent</xsl:attribute>		
+		</xsl:element>
+
 		
 		<!-- Convert all nested 'DATA' type metadata to object structure definitions -->		
 		<xsl:variable name="allComplexObjects">
@@ -199,7 +205,8 @@
 		</xsl:variable>			
 
 		<xsl:element name="bean">
-			<xsl:attribute name="id" select="$objectName"/>
+			<xsl:attribute name="id"><xsl:value-of select="$objectName"/>-parent</xsl:attribute>
+			<xsl:attribute name="abstract">true</xsl:attribute>
 			<xsl:attribute name="parent">dataObjectStructure</xsl:attribute>
 			<xsl:element name="property">
 				<xsl:attribute name="name">fields</xsl:attribute>
@@ -212,6 +219,12 @@
 				<xsl:attribute name="value" select="$objectName"/>
 			</xsl:element>
 		</xsl:element>
+		
+		<xsl:element name="bean">
+			<xsl:attribute name="id" select="$objectName"/>
+			<xsl:attribute name="parent"><xsl:value-of select="$objectName"/>-parent</xsl:attribute>		
+		</xsl:element>
+		
 	</xsl:template>
 
 	<xsl:template match="constraints">
