@@ -65,9 +65,9 @@ public class Metadata implements Serializable {
     private WriteAccess writeAccess;
     private List<Permission> permissions = new ArrayList<Permission>();
     
-    private boolean canUnmask;
-    private boolean canView;
-    private boolean canEdit;
+    private boolean canUnmask = false;
+    private boolean canView = true;
+    private boolean canEdit = true;
     
     private boolean onChangeRefreshMetadata;
 
