@@ -110,7 +110,9 @@ public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPosit
             }
             if(isDeleted(orgPositionHelper.getData())){
                 try{
-                    StatusInfo  result = orgService.removePositionRestrictionFromOrg(orgPositionHelper.getOrgId(), orgPositionHelper.getPersonRelationType());
+                    if(orgPositionHelper.getId()!=null){
+                        StatusInfo  result = orgService.removePositionRestrictionFromOrg(orgPositionHelper.getOrgId(), orgPositionHelper.getPersonRelationType());
+                    }
                 }
                 catch(Exception e ){
                     e.printStackTrace();

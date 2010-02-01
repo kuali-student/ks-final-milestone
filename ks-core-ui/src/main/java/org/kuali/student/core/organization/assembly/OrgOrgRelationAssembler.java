@@ -142,7 +142,9 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
 //                OrgOrgRelationInfo orgOrgRelationInfo = buildOrgOrgRelationInfo(orgOrgRelation);
 //                orgOrgRelationInfo.setId(orgOrgRelation.getId());
                 try{
-                    StatusInfo  result = orgService.removeOrgOrgRelation(orgOrgRelation.getId());
+                    if(orgOrgRelation.getId()!=null){
+                        StatusInfo  result = orgService.removeOrgOrgRelation(orgOrgRelation.getId());
+                    }
                 }
                 catch(Exception e ){
                     e.printStackTrace();

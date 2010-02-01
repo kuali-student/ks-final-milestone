@@ -89,18 +89,9 @@ public class OrgProposalAssembler implements Assembler<Data, OrgHelper>{
 
     @Override
     public Metadata getMetadata(String type, String state) throws AssemblyException {
-        // 
-//        Metadata metadata = new OrgProposalMetadata().getMetadata("", state);
+
         Metadata metadata = null;
         try{
-
-        
-        Unmarshaller um;
-        JAXBContext context;
-        context = JAXBContext.newInstance(Metadata.class);
-        um = context.createUnmarshaller();
-        InputStream is = OrgProposalAssembler.class.getResourceAsStream( "/org-metadata.xml" ); 
-//        metadata = (Metadata) um.unmarshal(is);
         metadata = metadataService.getMetadata(ORG_PROPOSAL_DATA_TYPE,PROPOSAL_TYPE_CREATE_ORG,state);
 
         }
@@ -132,15 +123,12 @@ public class OrgProposalAssembler implements Assembler<Data, OrgHelper>{
                 OrgOrgRelationAssembler orgOrgRelationAssembler = new OrgOrgRelationAssembler();
                 orgOrgRelationAssembler.setOrgService(orgService);
                 Data relationData = orgOrgRelationAssembler.save(input).getValue();
-                System.out.println("-- -- --");
-//                resultData.set("", value)
 
             }
             if(orgId!=null&&input.get("OrgPositionRestrictionInfo")!=null){
                 OrgPositionRestrictionAssembler orgPositionRestrictionAssembler= new OrgPositionRestrictionAssembler();
                 orgPositionRestrictionAssembler.setOrgService(orgService);
                 Data positionData = orgPositionRestrictionAssembler.save(input).getValue();
-                System.out.println("-- -- --");
             }
            
             result.setValue(input);
