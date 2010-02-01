@@ -3,6 +3,10 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee   http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 	<display-name>Kuali Rice Standalone</display-name>
 
+    <listener>
+      <listener-class>org.kuali.rice.core.web.listener.StandaloneInitializeListener</listener-class>
+    </listener>
+    
 	<context-param>
 	    <param-name>contextConfigLocation</param-name>
       	<param-value>classpath:ks-spring-security.xml</param-value>
@@ -104,9 +108,6 @@
         <servlet-name>edoclite</servlet-name>
     </filter-mapping>
 
-    <listener>
-      <listener-class>org.kuali.rice.core.web.listener.StandaloneInitializeListener</listener-class>
-    </listener>
 
 	<listener>
 		<listener-class>org.kuali.rice.kns.web.listener.JstlConstantsInitListener</listener-class>
