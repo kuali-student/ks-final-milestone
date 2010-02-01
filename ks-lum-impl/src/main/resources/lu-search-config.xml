@@ -172,6 +172,15 @@
 		</dict:fieldDescriptor>
 	</search:queryParam>
 
+	<search:queryParam id="lu.queryParam.startsWith.cluCode">
+		<dict:fieldDescriptor>
+			<dict:name>Starts with Clu Code</dict:name>
+			<dict:desc>Starts With Clu code.</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			<dict:readOnly>true</dict:readOnly>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+				
 	<dict:fieldDescriptor id="parentFieldDescriptor">
 		<dict:name>CLU Identifier</dict:name>
 		<dict:desc>Unique identifier for a Canonical Learning Unit (CLU).</dict:desc>
@@ -198,7 +207,7 @@
 		<search:name>LuByCodeAndStateCriteria</search:name>
 		<search:desc>LuByCodeAndStateCriteria Description</search:desc>
 		<search:queryParams>
-			<ref bean="lu.queryParam.cluCode" />
+			<ref bean="lu.queryParam.startsWith.cluCode" />
 			<ref bean="lu.queryParam.cluState" />
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
@@ -215,7 +224,7 @@
         </entry>
         <entry key="lu.search.cluByCodeAndState">
             <value>SELECT clu.id, clu.officialIdentifier.code FROM Clu clu 
-            WHERE clu.officialIdentifier.code like :lu_queryParam_cluCode 
+            WHERE clu.officialIdentifier.code like :lu_queryParam_startsWith_cluCode || '%'
             and clu.state = :lu_queryParam_cluState
             ORDER BY clu.officialIdentifier.code ASC</value>
         </entry>

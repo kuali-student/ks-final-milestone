@@ -65,7 +65,7 @@
         </search:searchCriteriaTypeInfo>
     </search:searchType>
     
-    <search:searchType id="lo.search.categories">
+    <search:searchType id="lo.search.loCategories">
         <search:name>LO Search for all categories</search:name>
         <search:desc>Returns all matching category names </search:desc>
         <search:searchResultTypeInfo>
@@ -99,7 +99,7 @@
 	<search:searchCriteriaTypeInfo id="lo.criteria.byCategoryName">
 		<search:name>LoByCategoryCriteria</search:name>
 		<search:queryParams>
-			<ref bean="lo.queryParam.loCategoryName" />
+			<ref bean="lo.queryParam.startsWith.loCategoryName" />
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 		
@@ -119,6 +119,12 @@
     </search:queryParam>
        
 	<search:queryParam id="lo.queryParam.loCategoryName">
+        <dict:fieldDescriptor parent="parentFieldDescriptor">
+            <dict:name>Category</dict:name>
+        </dict:fieldDescriptor>
+    </search:queryParam>
+    
+	<search:queryParam id="lo.queryParam.startsWith.loCategoryName">
         <dict:fieldDescriptor parent="parentFieldDescriptor">
             <dict:name>Category</dict:name>
         </dict:fieldDescriptor>
@@ -249,8 +255,8 @@
 				<entry key="lo.search.loByName">
 					<value>SELECT lo.id, lo.name FROM Lo lo WHERE lo.name = :lo_queryParam_loName</value>
 				</entry>
-				<entry key="lo.search.categories">
-                    <value>SELECT cat.id, cat.name, cat.loCategoryType.name, cat.name||' - '||cat.loCategoryType.name FROM LoCategory cat WHERE cat.name like :lo_queryParam_loCategoryName or cat.id = :lo_queryParam_loCategoryId</value>
+				<entry key="lo.search.loCategories">
+                    <value>SELECT cat.id, cat.name, cat.loCategoryType.name, cat.name||' - '||cat.loCategoryType.name FROM LoCategory cat WHERE cat.name like :lo_queryParam_startsWith_loCategoryName || '%' </value>
 				</entry>
 				<!--  These native searches are temporary solutions to allow cross service searches in advance of the KS permanent 
 				      cross service search implementation  -->

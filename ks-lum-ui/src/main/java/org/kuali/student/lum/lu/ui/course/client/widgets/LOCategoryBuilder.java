@@ -323,14 +323,14 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
      */
     private class LOCategoryPicker extends Composite implements SuggestPicker {
 
-         final SearchSuggestOracle luSearchOracle = new SearchSuggestOracle(loRpcServiceAsync,
-                 "lo.search.categories",
-                 "lo.queryParam.loCategoryName",
+         final SearchSuggestOracle loSearchOracle = new SearchSuggestOracle(loRpcServiceAsync,
+                 "lo.search.loCategories",
+                 "lo.queryParam.startsWith.loCategoryName",
                  "lo.queryParam.loCategoryId",
                  "lo.resultColumn.categoryId", 
          "lo.resultColumn.categoryNameAndType");
 
-         final KSSuggestBox suggestBox = new KSSuggestBox(luSearchOracle);
+         final KSSuggestBox suggestBox = new KSSuggestBox(loSearchOracle);
 
          private final FocusGroup focus = new FocusGroup(this);
 
@@ -349,7 +349,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
 
              focus.addWidget(suggestBox);
 
-             luSearchOracle.setTextWidget(suggestBox.getTextBox());
+             loSearchOracle.setTextWidget(suggestBox.getTextBox());
 //           final ArrayList<QueryParamValue> params = new ArrayList<QueryParamValue>();
 //           QueryParamValue luStateParam = new QueryParamValue();
 //           luStateParam.setKey("lu.queryParam.cluState");     

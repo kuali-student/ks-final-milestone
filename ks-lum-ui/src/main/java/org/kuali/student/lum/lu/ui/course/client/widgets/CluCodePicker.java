@@ -58,7 +58,7 @@ public class CluCodePicker extends Composite implements SuggestPicker {
     private LuRpcServiceAsync luRpcServiceAsync = GWT.create(LuRpcService.class);
     final SearchSuggestOracle luSearchOracle = new SearchSuggestOracle(luRpcServiceAsync,
             "lu.search.cluByCodeAndState",
-            "lu.queryParam.cluCode",
+            "lu.queryParam.startsWith.cluCode",
             "lu.queryParam.cluId",
             "lu.resultColumn.cluId", 
     "lu.resultColumn.cluOfficialIdentifier.cluCode");

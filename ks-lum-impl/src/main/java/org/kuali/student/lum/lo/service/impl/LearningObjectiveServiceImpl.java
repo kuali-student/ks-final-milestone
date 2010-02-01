@@ -795,9 +795,9 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	}
 
 	@Override
-	public SearchResult search(SearchRequest searchRequest) {
-		// TODO Auto-generated method stub
-		return null;
+	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
+        checkForMissingParameter(searchRequest, "searchRequest");
+        return searchManager.search(searchRequest, loDao);
 	}
 
 }
