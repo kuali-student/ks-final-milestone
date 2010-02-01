@@ -38,8 +38,8 @@ public class DataDictionaryUtil {
 	 */
 	public static void main(String[] args) throws ClassNotFoundException, SecurityException, NoSuchFieldException, IOException {
 		
-		String dictPackageString="org.kuali.student.core.organization.dto";
-		String outputFileName="atp-dict.xml";
+		String dictPackageString="org.kuali.student.lum.lu.dto";
+		String outputFileName="lu-dict.xml";
 		
 		if(args!=null&&args.length>0&&args[0]!=null){
 			outputFileName = args[0];
@@ -135,7 +135,11 @@ public class DataDictionaryUtil {
 					fieldDescSb.append("\n<dict:fieldDescriptor id=\""+beanClass.getSimpleName()+".default."+name+".fd\" parent=\""+beanClass.getSimpleName()+".default."+name+".fd-parent\"/>");
 					fieldDescSb.append("\n<dict:fieldDescriptor id=\""+beanClass.getSimpleName()+".default."+name+".fd-parent\" abstract=\"true\">");
 					fieldDescSb.append("\n\t<dict:name>"+name+"</dict:name>");
-					String comment = methodComments.get(pd.getReadMethod().getName());
+					
+					String comment = "";
+					if(pd.getReadMethod()!=null){
+						comment = methodComments.get(pd.getReadMethod().getName());
+					}
 					if(comment!=null&&!"".equals(comment.trim())){
 						fieldDescSb.append("\n\t<dict:desc>"+comment+"</dict:desc>");
 					}else{
@@ -145,20 +149,29 @@ public class DataDictionaryUtil {
 					boolean isList = false;
 					if(type.isAssignableFrom(java.util.List.class)){
 						//Get generic Type
-						Type[] actualTypeArguments =  ((ParameterizedType)pd.getReadMethod().getGenericReturnType()).getActualTypeArguments();
-						type = (Class<?>) actualTypeArguments[0];
-						isList = true;
+						try{
+							Type[] actualTypeArguments =  ((ParameterizedType)pd.getReadMethod().getGenericReturnType()).getActualTypeArguments();
+							type = (Class<?>) actualTypeArguments[0];
+							isList = true;
+						}catch(ClassCastException e){
+							System.out.println("[Error] Exception casting type. "+pd.getReadMethod().getGenericReturnType().toString() );
+						}
 					}
 					
 					//see if it's complex
 					if(isComplex(type)){
 						//Add a complex type and reference
 						String complexRef = type.getSimpleName();
-						fieldDescSb.append("\n\t<dict:dataType>complex</dict:dataType>");
-						fieldDescSb.append("\n\t<dict:objectStructureRef bean=\""+complexRef+"\"/>");
-
-						//Add this type to the list of child structures we need to add
-						childStructures.add(type);
+						if(type.equals(Class.class)){
+							System.out.println("[Warning] Class found as a DTO field type.");
+							fieldDescSb.append("\n\t<!-- Warning, objectStructure not defined -->");
+							fieldDescSb.append("\n\t<dict:dataType>complex</dict:dataType>");
+						}else{
+							//Add this type to the list of child structures we need to add
+							childStructures.add(type);
+							fieldDescSb.append("\n\t<dict:dataType>complex</dict:dataType>");
+							fieldDescSb.append("\n\t<dict:objectStructureRef bean=\""+complexRef+"\"/>");
+						}
 					}else{
 						//Get regular type
 						fieldDescSb.append("\n\t<dict:dataType>"+getTypeString(type)+"</dict:dataType>");
