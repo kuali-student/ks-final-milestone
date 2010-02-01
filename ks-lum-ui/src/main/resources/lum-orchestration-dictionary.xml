@@ -2,6 +2,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- This may not be the best place for this -->
+	<bean id="simpleMask" class="org.kuali.student.common.assembly.client.masking.SimpleMask" />
+	
 	<bean id="constraint" abstract="true"
 		class="org.kuali.student.common.assembly.client.ConstraintMetadata" />
 	<bean id="lookup" abstract="true"
@@ -36,6 +40,16 @@
 		<property name="maxLength" value="3" />
 		<property name="validChars" value="regex:[0-9]*" />
 	</bean>
+	<bean id="constraint.calc.authenicated.principalId" parent="constraint">
+		<property name="id" value="calc.authenicated.principalId" />
+		<property name="desc"
+			value="Sets a field to the currently authenticated user" />
+		<property name="serverSide" value="true" />
+		<property name="comments"
+			value="How do we know who the real user is when a service calls another service?" />
+		<property name="specialValidator"
+			value="org.kuali.student.core.auth.calculation.AuthenticatedPrincipalCalculator" />
+	</bean>
 	<bean id="constraint.calc.copy.course.official.numberPart" parent="constraint">
 		<property name="id" value="calc.copy.course.official.numberPart" />
 		<property name="desc"
@@ -57,6 +71,24 @@
 		<property name="specialValidator"
 			value="org.kuali.student.lum.lu.calculation.CopyOfficialCourseSubjectAreaCalculator" />
 	</bean>
+	<bean id="constraint.calc.meta.versionInd" parent="constraint">
+		<property name="id" value="calc.meta.versionInd" />
+		<property name="desc"
+			value="Calculates the version indicator that is used for optimistic locking" />
+		<property name="serverSide" value="true" />
+		<property name="comments"
+			value="This could be as simple as a nano-second date-time stamp of the last update or a sequence number of the object that gets incremented on each update or some other more complex computation." />
+		<property name="specialValidator"
+			value="org.kuali.student.core.calculationVersionIndCalculator" />
+	</bean>
+	<bean id="constraint.calc.now" parent="constraint">
+		<property name="id" value="calc.now" />
+		<property name="desc" value="Sets a field to the current time" />
+		<property name="serverSide" value="true" />
+		<property name="comments" value="Worry about timezone issues" />
+		<property name="specialValidator"
+			value="org.kuali.student.core.calculation.NowCalculator" />
+	</bean>
 	<bean id="constraint.code" parent="constraint">
 		<property name="id" value="code" />
 		<property name="messageId" value="kuali.msg.validation.code" />
@@ -75,6 +107,16 @@
 		<property name="minLength" value="1" />
 		<property name="maxLength" value="60" />
 		<property name="validChars" value="regex:[A-Z0-9.-]*" />
+	</bean>
+	<bean id="constraint.course.proposal.types" parent="constraint">
+		<property name="id" value="course.proposal.types" />
+		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<property name="desc"
+			value="In a list of configured course proposal types" />
+		<property name="serverSide" value="false" />
+		<property name="minLength" value="1" />
+		<property name="maxLength" value="60" />
+		<property name="comments" value="TO DO: add to SimpleS" />
 	</bean>
 	<bean id="constraint.date.time" parent="constraint">
 		<property name="id" value="date.time" />
@@ -96,6 +138,19 @@
 		<property name="validChars" value="regex:^[-+]?\d+(\.\d+)?$" />
 		<property name="comments"
 			value="http://regexlib.com/REDetails.aspx?regexp_id=117" />
+	</bean>
+	<bean id="constraint.default.authenicated.principalId" parent="constraint">
+		<property name="id" value="default.authenicated.principalId" />
+		<property name="desc" value="Defaults to the currently authenticated user" />
+		<property name="serverSide" value="true" />
+		<property name="comments"
+			value="How do we know who the real user is when a service calls another service?" />
+	</bean>
+	<bean id="constraint.default.now" parent="constraint">
+		<property name="id" value="default.now" />
+		<property name="desc" value="Defaults to NOW, when the object is created" />
+		<property name="serverSide" value="true" />
+		<property name="comments" value="Not sure how to implement defaults" />
 	</bean>
 	<bean id="constraint.default.today" parent="constraint">
 		<property name="id" value="default.today" />
@@ -164,6 +219,15 @@
 		<property name="specialValidator"
 			value="org.kuali.student.core.calculation.HardCodedValueCalculator" />
 	</bean>
+	<bean id="constraint.hard.coded.referenceType.CLU" parent="constraint">
+		<property name="id" value="hard.coded.referenceType.CLU" />
+		<property name="messageId" value="kuali.msg.validation.hard.coded" />
+		<property name="desc" value="Must be &#34;kuali.referenceType.CLU&#34;" />
+		<property name="serverSide" value="true" />
+		<property name="validChars" value="regex:kuali\.referenceType\.CLU" />
+		<property name="specialValidator"
+			value="org.kuali.student.core.calculation.HardCodedValueCalculator" />
+	</bean>
 	<bean id="constraint.hard.coded.singleUse.lo" parent="constraint">
 		<property name="id" value="hard.coded.singleUse.lo" />
 		<property name="messageId" value="kuali.msg.validation.hard.coded" />
@@ -226,6 +290,19 @@
 			value="MinOccur on ID's of 1 may not work because it is missing on the create" />
 		<property name="specialValidator"
 			value="org.kuali.student.core.validation.KualiIdValidator" />
+	</bean>
+	<bean id="constraint.kuali.meta.data" parent="constraint">
+		<property name="id" value="kuali.meta.data" />
+		<property name="messageId" value="kuali.msg.validation.kuali.meta.data" />
+		<property name="desc"
+			value="Kuali Meta Data: calculated by service, read-only" />
+		<property name="serverSide" value="true" />
+		<property name="minOccurs" value="1" />
+		<property name="maxOccurs" value="1" />
+		<property name="comments"
+			value="MinOccur on Meta data structures may not 1 not work because it is not supplied  on the create" />
+		<property name="specialValidator"
+			value="org.kuali.student.core.validation.KualiMetaDataValidator" />
 	</bean>
 	<bean id="constraint.kuali.state" parent="constraint">
 		<property name="id" value="kuali.state" />
@@ -387,12 +464,30 @@
 		<property name="comments"
 			value="Used to override a previous required constraint.  Also implied by the absence of a required constraint" />
 	</bean>
+	<bean id="constraint.proposal.types" parent="constraint">
+		<property name="id" value="proposal.types" />
+		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<property name="desc" value="In a list of configured proposal types" />
+		<property name="serverSide" value="false" />
+		<property name="minLength" value="1" />
+		<property name="maxLength" value="60" />
+		<property name="comments" value="TO DO: add to SimpleS" />
+	</bean>
 	<bean id="constraint.read.only" parent="constraint">
 		<property name="id" value="read.only" />
 		<property name="desc" value="Read Only" />
 		<property name="serverSide" value="false" />
 		<property name="comments"
 			value="Read-only isn't really a constraint on the data but is a constraint on the UI. It is here so it can be easily flagged as an attribute so thait can eventually feed the UI." />
+	</bean>
+	<bean id="constraint.reference.types" parent="constraint">
+		<property name="id" value="reference.types" />
+		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<property name="desc" value="In a list of configured reference types" />
+		<property name="serverSide" value="false" />
+		<property name="minLength" value="1" />
+		<property name="maxLength" value="60" />
+		<property name="comments" value="TO DO: add to SimpleS" />
 	</bean>
 	<bean id="constraint.related.cluId" parent="constraint">
 		<property name="id" value="related.cluId" />
@@ -417,6 +512,30 @@
 			value="Requires special logic to check that the ID supplied actually exists" />
 		<property name="specialValidator"
 			value="org.kuali.student.core.org.validation.OrgIdExistsValidator" />
+	</bean>
+	<bean id="constraint.related.personId" parent="constraint">
+		<property name="id" value="related.personId" />
+		<property name="messageId" value="kuali.msg.validation.not.a.valid.related.id" />
+		<property name="desc" value="Id of an existing PERSON" />
+		<property name="serverSide" value="true" />
+		<property name="minLength" value="1" />
+		<property name="maxLength" value="36" />
+		<property name="comments"
+			value="Requires special logic to check that the ID supplied actually exists" />
+		<property name="specialValidator"
+			value="org.kuali.student.core.person.validation.PersonIddExistsValidator" />
+	</bean>
+	<bean id="constraint.related.principalId" parent="constraint">
+		<property name="id" value="related.principalId" />
+		<property name="messageId" value="kuali.msg.validation.not.a.valid.related.id" />
+		<property name="desc" value="Id of an existing PRINCIPAL" />
+		<property name="serverSide" value="true" />
+		<property name="minLength" value="1" />
+		<property name="maxLength" value="36" />
+		<property name="comments"
+			value="Requires special logic to check that the ID supplied actually exists" />
+		<property name="specialValidator"
+			value="org.kuali.student.core.auth.validation.PrincipaldExistsValidator" />
 	</bean>
 	<bean id="constraint.repeating" parent="constraint">
 		<property name="id" value="repeating" />
@@ -497,15 +616,1456 @@
 			value="In a list of duration types configured by LuType" />
 		<property name="serverSide" value="false" />
 	</bean>
-	<bean id="CreditCourse-parent" abstract="true" parent="dataObjectStructure">
+	<bean id="CreditCourseProposal" parent="dataObjectStructure">
+		<property name="fields">
+			<list>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="proposal" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataObjectStructure" ref="proposal" />
+					<property name="dataType" value="DATA" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="course" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataObjectStructure" ref="course" />
+					<property name="dataType" value="DATA" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="state" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="defaultValue" value="" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.required" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.kuali.state" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="type" />
+					<property name="writeAccess" value="ON_CREATE" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.course.proposal.types" />
+							<ref bean="constraint.required" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.proposal.types" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="name" value="CreditCourseProposal" />
+	</bean>
+	<bean id="_runtimeData" parent="dataObjectStructure">
+		<property name="fields">
+			<list>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="created" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="BOOLEAN" />
+					<property name="defaultValue" value="FALSE" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="deleted" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="BOOLEAN" />
+					<property name="defaultValue" value="FALSE" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="updated" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="BOOLEAN" />
+					<property name="defaultValue" value="FALSE" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="versions" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataObjectStructure" ref="versions" />
+					<property name="dataType" value="DATA" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.repeating" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="name" value="_runtimeData" />
+	</bean>
+	<bean id="versions" parent="dataObjectStructure">
+		<property name="fields">
+			<list>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="type" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="id" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="versionInd" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="name" value="versions" />
+	</bean>
+	<bean id="formats" parent="dataObjectStructure">
+		<property name="fields">
+			<list>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="id" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.hidden" />
+							<ref bean="constraint.read.only" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.kuali.id" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="activities" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataObjectStructure" ref="activities" />
+					<property name="dataType" value="DATA" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.repeating" />
+							<bean parent="constraint">
+								<property name="serverSide" value="false" />
+								<property name="minOccurs" value="1" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="state" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="defaultValue" value="" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.required" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.kuali.state" />
+							<ref bean="constraint.lu.states" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="_runtimeData" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataObjectStructure" ref="_runtimeData" />
+					<property name="dataType" value="DATA" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="name" value="formats" />
+	</bean>
+	<bean id="activities" parent="dataObjectStructure">
+		<property name="fields">
+			<list>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="id" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.hidden" />
+							<ref bean="constraint.read.only" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.kuali.id" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="activityType" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.lu.activity.types" />
+							<ref bean="constraint.required" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.kuali.type" />
+							<ref bean="constraint.lu.types" />
+						</list>
+					</property>
+					<property name="lookups">
+						<bean parent="lookup">
+							<property name="key" value="lu.search.all.lu.types" />
+							<property name="name" value="All activity tlypes" />
+							<property name="desc" value="All activity types" />
+							<property name="params">
+								<list>
+									<bean parent="param">
+										<property name="key" value="lu.queryParam.luOptionalType" />
+										<property name="writeAccess" value="NEVER" />
+										<property name="dataType" value="STRING" />
+										<property name="optional" value="true" />
+										<property name="name" value="Type" />
+										<property name="desc" value="Lu type (course, program etc.)" />
+										<property name="caseSensitive" value="true" />
+									</bean>
+								</list>
+							</property>
+							<property name="results">
+								<list>
+									<bean parent="result">
+										<property name="dataType" value="STRING" />
+										<property name="desc" value="The internal key to the org type" />
+										<property name="hidden" value="false" />
+										<property name="key" value="lu.resultColumn.key" />
+										<property name="name" value="Key of the type" />
+									</bean>
+									<bean parent="result">
+										<property name="dataType" value="STRING" />
+										<property name="desc" value="The name of the type" />
+										<property name="hidden" value="false" />
+										<property name="key" value="lu.resultColumn.name" />
+										<property name="name" value="Name of type" />
+									</bean>
+									<bean parent="result">
+										<property name="dataType" value="STRING" />
+										<property name="desc" value="The description of the type" />
+										<property name="hidden" value="false" />
+										<property name="key" value="lu.resultColumn.desc" />
+										<property name="name" value="Description of type" />
+									</bean>
+									<bean parent="result">
+										<property name="dataType" value="TRUNCATED_DATE" />
+										<property name="desc" value="The date the ltype became effective" />
+										<property name="hidden" value="false" />
+										<property name="key" value="lu.resultColumn.effective_date" />
+										<property name="name" value="Effective date" />
+									</bean>
+									<bean parent="result">
+										<property name="dataType" value="TRUNCATED_DATE" />
+										<property name="desc"
+											value="The date the type became non-effective" />
+										<property name="hidden" value="false" />
+										<property name="key" value="lu.resultColumn.expiration_date" />
+										<property name="name" value="Expiration date" />
+									</bean>
+								</list>
+							</property>
+							<property name="resultReturnKey" value="lu.resultColumn.key" />
+							<property name="resultDisplayKey" value="lu.resultColumn.name" />
+							<property name="resultSortKey" value="lu.resultColumn.name" />
+							<property name="impl">
+								<bean parent="lookupImpl">
+									<property name="info"
+										value="select key, name, desc, effective_date, expiration_datefrom LuTypewhere expiration_date is null" />
+									<property name="service" value="lu" />
+									<property name="type" value="JPQL" />
+								</bean>
+							</property>
+							<property name="usage" value="DEFAULT" />
+							<property name="lookupKey" value="kuali.lu.lookup.activity.types" />
+						</bean>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="contactHours" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataObjectStructure" ref="contactHours" />
+					<property name="dataType" value="DATA" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.required" />
+							<ref bean="constraint.optional" />
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="duration" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataObjectStructure" ref="duration" />
+					<property name="dataType" value="DATA" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.optional" />
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="defaultEnrollmentEstimate" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="INTEGER" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.not.used" />
+							<ref bean="constraint.optional" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.non-negative.integer" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="state" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="defaultValue" value="" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.required" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.kuali.state" />
+							<ref bean="constraint.lu.states" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="_runtimeData" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataObjectStructure" ref="_runtimeData" />
+					<property name="dataType" value="DATA" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="name" value="activities" />
+	</bean>
+	<bean id="crossListings" parent="dataObjectStructure">
+		<property name="fields">
+			<list>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="id" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.hidden" />
+							<ref bean="constraint.read.only" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.kuali.id" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="type" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="defaultValue" value="" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.hard.coded.cross-listed" />
+							<ref bean="constraint.read.only" />
+							<ref bean="constraint.required" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.kuali.type" />
+							<ref bean="constraint.lu.identifier.types" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="department" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="lookupContextPath" value="proposal.proposerPerson" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.required" />
+							<ref bean="constraint.optional" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.related.orgId" />
+						</list>
+					</property>
+					<property name="lookups">
+						<bean parent="lookup">
+							<property name="key" value="org.search.advanced" />
+							<property name="name" value="Basic and Advanced Search" />
+							<property name="desc"
+								value="Query with multiple optional elements to satisfy most advanced pickers" />
+							<property name="params">
+								<list>
+									<bean parent="param">
+										<property name="key" value="org.queryParam.orgOptionalLongName" />
+										<property name="writeAccess" value="ALWAYS" />
+										<property name="dataType" value="STRING" />
+										<property name="optional" value="true" />
+										<property name="name" value="Organization Name" />
+										<property name="desc" value="Long organization name." />
+										<property name="caseSensitive" value="false" />
+										<property name="usage" value="DEFAULT" />
+										<property name="widget" value="SUGGEST_BOX" />
+									</bean>
+									<bean parent="param">
+										<property name="key" value="org.queryParam.orgOptionalLocation" />
+										<property name="writeAccess" value="ALWAYS" />
+										<property name="dataType" value="STRING" />
+										<property name="optional" value="true" />
+										<property name="name" value="Location" />
+										<property name="desc" value="Organization location." />
+										<property name="caseSensitive" value="false" />
+										<property name="usage" value="ADVANCED" />
+										<property name="widget" value="TEXT_BOX" />
+									</bean>
+									<bean parent="param">
+										<property name="key" value="org.queryParam.orgOptionalId" />
+										<property name="writeAccess" value="ALWAYS" />
+										<property name="dataType" value="STRING" />
+										<property name="optional" value="true" />
+										<property name="name" value="Id" />
+										<property name="desc"
+											value="Unique identifier for an organization." />
+										<property name="caseSensitive" value="true" />
+										<property name="usage" value="CUSTOM" />
+									</bean>
+									<bean parent="param">
+										<property name="key" value="org.queryParam.orgOptionalShortName" />
+										<property name="writeAccess" value="ALWAYS" />
+										<property name="dataType" value="STRING" />
+										<property name="optional" value="true" />
+										<property name="name" value="Organization Name" />
+										<property name="desc" value="Short organization name." />
+										<property name="caseSensitive" value="false" />
+										<property name="usage" value="ADVANCED" />
+										<property name="widget" value="SUGGEST_BOX" />
+									</bean>
+									<bean parent="param">
+										<property name="key" value="org.queryParam.orgOptionalType" />
+										<property name="writeAccess" value="NEVER" />
+										<property name="dataType" value="STRING" />
+										<property name="optional" value="true" />
+										<property name="name" value="Org Type" />
+										<property name="desc" value="Type of an organization." />
+										<property name="caseSensitive" value="true" />
+									</bean>
+								</list>
+							</property>
+							<property name="results">
+								<list>
+									<bean parent="result">
+										<property name="dataType" value="STRING" />
+										<property name="desc" value="Identifier for the organization" />
+										<property name="hidden" value="false" />
+										<property name="key" value="org.resultColumn.orgId" />
+										<property name="name" value="Organization Identifier" />
+									</bean>
+									<bean parent="result">
+										<property name="dataType" value="STRING" />
+										<property name="desc"
+											value="Short name for the organization, recorded as the default listing" />
+										<property name="hidden" value="false" />
+										<property name="key" value="org.resultColumn.orgShortName" />
+										<property name="name" value="Organization Short Name" />
+									</bean>
+									<bean parent="result">
+										<property name="dataType" value="STRING" />
+										<property name="desc"
+											value="Long name for the organization, recorded as the default listing." />
+										<property name="hidden" value="false" />
+										<property name="key" value="org.resultColumn.orgOptionalLongName" />
+										<property name="name" value="Name" />
+									</bean>
+									<bean parent="result">
+										<property name="dataType" value="STRING" />
+										<property name="desc" value="Organization Type" />
+										<property name="hidden" value="false" />
+										<property name="key" value="org.resultColumn.orgType" />
+										<property name="name" value="Organization Type" />
+									</bean>
+								</list>
+							</property>
+							<property name="resultReturnKey" value="org.resultColumn.orgId" />
+							<property name="resultDisplayKey" value="org.resultColumn.orgShortName" />
+							<property name="resultSortKey" value="org.resultColumn.orgShortName" />
+							<property name="impl">
+								<bean parent="lookupImpl">
+									<property name="info"
+										value="SELECT org.id, org.shortName, org.longName, org.type.id FROM Org org" />
+									<property name="service" value="organization" />
+									<property name="type" value="JPQL" />
+								</bean>
+							</property>
+							<property name="usage" value="DEFAULT" />
+							<property name="lookupKey" value="kuali.lu.lookup.admin.departments" />
+						</bean>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="subjectArea" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="lookupContextPath" value="department" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.required" />
+							<ref bean="constraint.subject.areas" />
+							<ref bean="constraint.optional" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.code" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="courseNumberSuffix" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="lookupContextPath" value="subjectArea" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.required" />
+							<ref bean="constraint.available.course.numbers" />
+							<ref bean="constraint.optional" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.code" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="_runtimeData" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataObjectStructure" ref="_runtimeData" />
+					<property name="dataType" value="DATA" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="name" value="crossListings" />
+	</bean>
+	<bean id="joints" parent="dataObjectStructure">
+		<property name="fields">
+			<list>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="type" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="defaultValue" value="" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.hard.coded.co-located" />
+							<ref bean="constraint.read.only" />
+							<ref bean="constraint.required" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.kuali.type" />
+							<ref bean="constraint.lu.lu.relation.types" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="courseId" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.required" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.related.cluId" />
+						</list>
+					</property>
+					<property name="lookups">
+						<bean parent="lookup">
+							<property name="key" value="lu.search.generic" />
+							<property name="name" value="Basic and Advanced Search" />
+							<property name="desc"
+								value="Query with multiple optional elements to satisfy most advanced pickers" />
+							<property name="params">
+								<list>
+									<bean parent="param">
+										<property name="key" value="lu.queryParam.luOptionalId" />
+										<property name="writeAccess" value="ALWAYS" />
+										<property name="dataType" value="STRING" />
+										<property name="optional" value="true" />
+										<property name="name" value="Id" />
+										<property name="desc" value="Unique identifier for a lu." />
+										<property name="caseSensitive" value="true" />
+										<property name="usage" value="CUSTOM" />
+									</bean>
+									<bean parent="param">
+										<property name="key" value="lu.queryParam.luOptionalLongName" />
+										<property name="writeAccess" value="ALWAYS" />
+										<property name="dataType" value="STRING" />
+										<property name="optional" value="true" />
+										<property name="name" value="Name" />
+										<property name="desc" value="Long name" />
+										<property name="caseSensitive" value="false" />
+										<property name="usage" value="DEFAULT" />
+										<property name="widget" value="SUGGEST_BOX" />
+									</bean>
+									<bean parent="param">
+										<property name="key" value="lu.queryParam.luOptionalType" />
+										<property name="writeAccess" value="NEVER" />
+										<property name="dataType" value="STRING" />
+										<property name="optional" value="true" />
+										<property name="name" value="Type" />
+										<property name="desc" value="Lu type (course, program etc.)" />
+										<property name="caseSensitive" value="true" />
+									</bean>
+									<bean parent="param">
+										<property name="key" value="lu.queryParam.luOptionalCode" />
+										<property name="writeAccess" value="ALWAYS" />
+										<property name="dataType" value="STRING" />
+										<property name="optional" value="true" />
+										<property name="name" value="Code" />
+										<property name="desc" value="Lu code" />
+										<property name="caseSensitive" value="true" />
+										<property name="usage" value="ADVANCED" />
+										<property name="widget" value="TEXT_BOX" />
+									</bean>
+									<bean parent="param">
+										<property name="key" value="lu.queryParam.luOptionalLevel" />
+										<property name="writeAccess" value="ALWAYS" />
+										<property name="dataType" value="STRING" />
+										<property name="optional" value="true" />
+										<property name="name" value="Level" />
+										<property name="desc" value="Lu level grad/undergrad" />
+										<property name="caseSensitive" value="true" />
+										<property name="usage" value="ADVANCED" />
+										<property name="widget" value="TEXT_BOX" />
+									</bean>
+								</list>
+							</property>
+							<property name="results">
+								<list>
+									<bean parent="result">
+										<property name="dataType" value="STRING" />
+										<property name="desc" value="Identifier of a Clu" />
+										<property name="hidden" value="false" />
+										<property name="key" value="lu.resultColumn.cluId" />
+										<property name="name" value="Clu Id" />
+									</bean>
+									<bean parent="result">
+										<property name="dataType" value="STRING" />
+										<property name="desc"
+											value="Long name for the lu, recorded as the default listing." />
+										<property name="hidden" value="false" />
+										<property name="key" value="lu.resultColumn.luOptionalLongName" />
+										<property name="name" value="Name" />
+									</bean>
+									<bean parent="result">
+										<property name="dataType" value="STRING" />
+										<property name="desc" value="Lu code" />
+										<property name="hidden" value="false" />
+										<property name="key" value="lu.resultColumn.luOptionalCode" />
+										<property name="name" value="Code" />
+									</bean>
+									<bean parent="result">
+										<property name="dataType" value="STRING" />
+										<property name="desc" value="Level of Lu" />
+										<property name="hidden" value="false" />
+										<property name="key" value="lu.resultColumn.luOptionalLevel" />
+										<property name="name" value="Level" />
+									</bean>
+								</list>
+							</property>
+							<property name="resultReturnKey" value="lu.resultColumn.cluId" />
+							<property name="resultDisplayKey" value="lu.resultColumn.luOptionalLongName" />
+							<property name="resultSortKey" value="lu.resultColumn.luOptionalLongName" />
+							<property name="impl">
+								<bean parent="lookupImpl">
+									<property name="info" value="TBD already in xml" />
+									<property name="service" value="lu" />
+									<property name="type" value="JPQL" />
+								</bean>
+							</property>
+							<property name="usage" value="DEFAULT" />
+							<property name="lookupKey"
+								value="kuali.lu.lookup.creditCoursesAndProposals" />
+						</bean>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="relationId" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.hidden" />
+							<ref bean="constraint.read.only" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.kuali.id" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="courseTitle" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="mask" ref="simpleMask" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="subjectArea" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="courseNumberSuffix" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="_runtimeData" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataObjectStructure" ref="_runtimeData" />
+					<property name="dataType" value="DATA" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="name" value="joints" />
+	</bean>
+	<bean id="fees" parent="dataObjectStructure">
+		<property name="fields">
+			<list>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="feeType" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="feeAmount" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="taxable" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="feeDesc" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="internalNotation" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="_runtimeData" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataObjectStructure" ref="_runtimeData" />
+					<property name="dataType" value="DATA" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="name" value="fees" />
+	</bean>
+	<bean id="courseSpecificLOs" parent="dataObjectStructure">
+		<property name="fields">
+			<list>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="id" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.hidden" />
+							<ref bean="constraint.read.only" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.kuali.id" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="includedSingleUseLo" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataObjectStructure" ref="SingleUseLo" />
+					<property name="dataType" value="DATA" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="effectiveDate" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="TRUNCATED_DATE" />
+					<property name="defaultValuePath" value="course.effectiveDate" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.required" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.date.time" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="type" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="defaultValue" value="" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.hard.coded.lulorealtion.includes" />
+							<ref bean="constraint.hard.coded.lulorealtion.includes" />
+							<ref bean="constraint.read.only" />
+							<ref bean="constraint.required" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.kuali.type" />
+							<ref bean="constraint.lu.lo.relation.types" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="state" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="defaultValue" value="" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.required" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.kuali.state" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="sequence" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="name" value="courseSpecificLOs" />
+	</bean>
+	<bean id="category" parent="dataObjectStructure">
+		<property name="fields">
+			<list>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="iD" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.hidden" />
+							<ref bean="constraint.read.only" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.kuali.id" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="name" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.single.line.text" />
+							<ref bean="constraint.required" />
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="loRepository" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="defaultValue" value="" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.hard.coded.singleUse.lo.repository" />
+							<ref bean="constraint.hard.coded.singleUse.lo.repository" />
+							<ref bean="constraint.required" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.lo.hierarchy.types" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="typeKey" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.lo.category.types" />
+							<ref bean="constraint.required" />
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="typeName" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="lookupContextPath" value="loRepository" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="state" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="defaultValue" value="" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.required" />
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="effectiveDate" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="TRUNCATED_DATE" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.required" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.date.time" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="expirationDate" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="TRUNCATED_DATE" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.optional" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.date.time" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="_runtimeData" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataObjectStructure" ref="_runtimeData" />
+					<property name="dataType" value="DATA" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="name" value="category" />
+	</bean>
+	<bean id="childSingleUseLos" parent="dataObjectStructure">
+		<property name="fields">
+			<list>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="id" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.hidden" />
+							<ref bean="constraint.optional" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.kuali.id" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="childLo" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataObjectStructure" ref="SingleUseLo" />
+					<property name="dataType" value="DATA" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="effectiveDate" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="TRUNCATED_DATE" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.required" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.date.time" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="type" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="defaultValue" value="" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.hard.coded.lolorealtion.includes" />
+							<ref bean="constraint.hard.coded.lolorealtion.includes" />
+							<ref bean="constraint.read.only" />
+							<ref bean="constraint.required" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.lo.lo.relation.types" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="state" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="defaultValue" value="" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.required" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.kuali.state" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="sequence" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="name" value="childSingleUseLos" />
+	</bean>
+	<bean id="SingleUseLo" parent="dataObjectStructure">
+		<property name="fields">
+			<list>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="id" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.hidden" />
+							<ref bean="constraint.read.only" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.kuali.id" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="description" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataObjectStructure" ref="description" />
+					<property name="dataType" value="DATA" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<bean parent="constraint">
+								<property name="serverSide" value="false" />
+								<property name="minLength" value="1" />
+								<property name="maxLength" value="250" />
+							</bean>
+							<ref bean="constraint.optional" />
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="category" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataObjectStructure" ref="category" />
+					<property name="dataType" value="DATA" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.repeating" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="loRepository" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="defaultValue" value="" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.hard.coded.singleUse.lo.repository" />
+							<ref bean="constraint.hard.coded.singleUse.lo.repository" />
+							<ref bean="constraint.required" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.lo.repositories" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="childSingleUseLos" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataObjectStructure" ref="childSingleUseLos" />
+					<property name="dataType" value="DATA" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.repeating" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="effectiveDate" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="TRUNCATED_DATE" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.required" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.date.time" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="type" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="defaultValue" value="" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.hard.coded.singleUse.lo" />
+							<ref bean="constraint.hard.coded.singleUse.lo" />
+							<ref bean="constraint.required" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.lo.types" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="state" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="defaultValue" value="" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.required" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.kuali.state" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="_runtimeData" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataObjectStructure" ref="_runtimeData" />
+					<property name="dataType" value="DATA" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="name" value="childLo" />
+	</bean>
+	<bean id="contactHours" parent="dataObjectStructure">
+		<property name="fields">
+			<list>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="per" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="defaultValue" value="" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.required" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.unit.types" />
+						</list>
+					</property>
+					<property name="lookups">
+						<bean parent="lookup">
+							<property name="key" value="atp.search.atpDurationTypes" />
+							<property name="name" value="All ATP Duration Types" />
+							<property name="desc"
+								value="Returns the list of all ATP Duration Types" />
+							<property name="results">
+								<list>
+									<bean parent="result">
+										<property name="dataType" value="STRING" />
+										<property name="desc" value="ATP Duration Type Key" />
+										<property name="hidden" value="false" />
+										<property name="key" value="atp.resultColumn.atpDurationTypeKey" />
+										<property name="name" value="ATP Duration Type Key" />
+									</bean>
+									<bean parent="result">
+										<property name="dataType" value="STRING" />
+										<property name="desc" value="Duration Type Name" />
+										<property name="hidden" value="false" />
+										<property name="key" value="atp.resultColumn.atpDurationTypeName" />
+										<property name="name" value="Duration Type Name" />
+									</bean>
+								</list>
+							</property>
+							<property name="resultReturnKey" value="atp.resultColumn.atpDurationTypeKey" />
+							<property name="resultDisplayKey" value="atp.resultColumn.atpDurationTypeName" />
+							<property name="resultSortKey" value="atp.resultColumn.atpDurationTypeName" />
+							<property name="impl">
+								<bean parent="lookupImpl">
+									<property name="info" value="TBD" />
+									<property name="service" value="atp" />
+									<property name="type" value="JPQL" />
+								</bean>
+							</property>
+							<property name="usage" value="DEFAULT" />
+							<property name="lookupKey" value="kuali.lookup.durations" />
+						</bean>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="hrs" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="INTEGER" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.non-negative.integer" />
+							<bean parent="constraint">
+								<property name="serverSide" value="false" />
+								<property name="minLength" value="1" />
+								<property name="maxLength" value="2" />
+								<property name="minValue" value="0" />
+								<property name="maxValue" value="40" />
+							</bean>
+							<ref bean="constraint.required" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.decimal" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="name" value="contactHours" />
+	</bean>
+	<bean id="course" parent="dataObjectStructure">
 		<property name="fields">
 			<list>
 				<bean parent="dataFieldDescriptor">
 					<property name="name" value="id" />
 					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataType" value="STRING" />
 					<property name="constraints">
@@ -521,9 +2081,6 @@
 				<bean parent="dataFieldDescriptor">
 					<property name="name" value="formats" />
 					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataObjectStructure" ref="formats" />
 					<property name="dataType" value="DATA" />
@@ -540,9 +2097,6 @@
 				<bean parent="dataFieldDescriptor">
 					<property name="name" value="termsOffered" />
 					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataType" value="STRING" />
 					<property name="constraints">
@@ -592,16 +2146,10 @@
 							<property name="lookupKey" value="kuali.lookup.termsOfferred" />
 						</bean>
 					</property>
-					<property name="additionalLookups">
-						<list />
-					</property>
 				</bean>
 				<bean parent="dataFieldDescriptor">
 					<property name="name" value="firstExpectedOffering" />
 					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataType" value="STRING" />
 					<property name="constraints">
@@ -724,16 +2272,10 @@
 							<property name="lookupKey" value="kuali.lookup.terms" />
 						</bean>
 					</property>
-					<property name="additionalLookups">
-						<list />
-					</property>
 				</bean>
 				<bean parent="dataFieldDescriptor">
 					<property name="name" value="duration" />
 					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataObjectStructure" ref="duration" />
 					<property name="dataType" value="DATA" />
@@ -749,9 +2291,6 @@
 				<bean parent="dataFieldDescriptor">
 					<property name="name" value="transcriptTitle" />
 					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataType" value="STRING" />
 					<property name="constraints">
@@ -771,9 +2310,6 @@
 				<bean parent="dataFieldDescriptor">
 					<property name="name" value="courseTitle" />
 					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataType" value="STRING" />
 					<property name="constraints">
@@ -793,9 +2329,6 @@
 				<bean parent="dataFieldDescriptor">
 					<property name="name" value="description" />
 					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataObjectStructure" ref="description" />
 					<property name="dataType" value="DATA" />
@@ -811,9 +2344,6 @@
 				<bean parent="dataFieldDescriptor">
 					<property name="name" value="department" />
 					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataType" value="STRING" />
 					<property name="lookupContextPath" value="proposal.proposerPerson" />
@@ -937,16 +2467,10 @@
 							<property name="lookupKey" value="kuali.lu.lookup.admin.departments" />
 						</bean>
 					</property>
-					<property name="additionalLookups">
-						<list />
-					</property>
 				</bean>
 				<bean parent="dataFieldDescriptor">
 					<property name="name" value="subjectArea" />
 					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataType" value="STRING" />
 					<property name="lookupContextPath" value="department" />
@@ -960,131 +2484,10 @@
 							<ref bean="constraint.code" />
 						</list>
 					</property>
-					<property name="lookups">
-						<bean parent="lookup">
-							<property name="key" value="enumeration.management.search" />
-							<property name="name" value="Get enumerations" />
-							<property name="desc"
-								value="Get enumerated lists of values given context" />
-							<property name="params">
-								<list>
-									<bean parent="param">
-										<property name="key"
-											value="enumeration.queryParam.enumerationType" />
-										<property name="writeAccess" value="NEVER" />
-										<property name="dataType" value="STRING" />
-										<property name="optional" value="true" />
-										<property name="name" value="Enumeration Type" />
-										<property name="desc"
-											value="The type of the enumeration to search" />
-										<property name="caseSensitive" value="true" />
-									</bean>
-									<bean parent="param">
-										<property name="key" value="enumeration.queryParam.contextType" />
-										<property name="writeAccess" value="NEVER" />
-										<property name="dataType" value="STRING" />
-										<property name="optional" value="true" />
-										<property name="name" value="Context Type" />
-										<property name="desc" value="The type of context being used" />
-										<property name="caseSensitive" value="true" />
-									</bean>
-									<bean parent="param">
-										<property name="key" value="enumeration.queryParam.contextValue" />
-										<property name="writeAccess" value="NEVER" />
-										<property name="dataType" value="STRING" />
-										<property name="optional" value="true" />
-										<property name="name" value="Context Value" />
-										<property name="desc" value="The value of the supplied context" />
-										<property name="caseSensitive" value="true" />
-									</bean>
-									<bean parent="param">
-										<property name="key" value="enumeration.queryParam.contextDate" />
-										<property name="writeAccess" value="NEVER" />
-										<property name="dataType" value="DATE" />
-										<property name="optional" value="true" />
-										<property name="name" value="Context Date" />
-										<property name="desc" value="A date supplied as context" />
-										<property name="caseSensitive" value="true" />
-									</bean>
-								</list>
-							</property>
-							<property name="results">
-								<list>
-									<bean parent="result">
-										<property name="dataType" value="STRING" />
-										<property name="desc"
-											value="The internal code of the enumeration value" />
-										<property name="hidden" value="false" />
-										<property name="key" value="enumeration.resultColumn.code" />
-										<property name="name" value="Code" />
-									</bean>
-									<bean parent="result">
-										<property name="dataType" value="STRING" />
-										<property name="desc"
-											value="An abbreviation of the enumeration value" />
-										<property name="hidden" value="false" />
-										<property name="key" value="enumeration.resultColumn.abbrevValue" />
-										<property name="name" value="Abbreviation of the code" />
-									</bean>
-									<bean parent="result">
-										<property name="dataType" value="STRING" />
-										<property name="desc"
-											value="The description of the enumeration value" />
-										<property name="hidden" value="false" />
-										<property name="key" value="enumeration.resultColumn.value" />
-										<property name="name" value="Description of the code" />
-									</bean>
-									<bean parent="result">
-										<property name="dataType" value="TRUNCATED_DATE" />
-										<property name="desc"
-											value="The date the enumeration became effective" />
-										<property name="hidden" value="false" />
-										<property name="key"
-											value="enumeration.resultColumn.effectiveDate" />
-										<property name="name" value="Effective date" />
-									</bean>
-									<bean parent="result">
-										<property name="dataType" value="TRUNCATED_DATE" />
-										<property name="desc"
-											value="The date the enumeration became non-effective" />
-										<property name="hidden" value="false" />
-										<property name="key"
-											value="enumeration.resultColumn.expirationDate" />
-										<property name="name" value="Expiration date" />
-									</bean>
-									<bean parent="result">
-										<property name="dataType" value="STRING" />
-										<property name="desc" value="The description of the type" />
-										<property name="hidden" value="false" />
-										<property name="key" value="enumeration.resultColumn.sortKey" />
-										<property name="name" value="Key used to sort the results" />
-									</bean>
-								</list>
-							</property>
-							<property name="resultReturnKey" value="enumeration.resultColumn.code" />
-							<property name="resultDisplayKey" value="enumeration.resultColumn.abbrevValue" />
-							<property name="resultSortKey" value="enumeration.resultColumn.sortKey" />
-							<property name="impl">
-								<bean parent="lookupImpl">
-									<property name="info" value="TBD" />
-									<property name="service" value="enumerationmanagement" />
-									<property name="type" value="JPQL" />
-								</bean>
-							</property>
-							<property name="usage" value="DEFAULT" />
-							<property name="lookupKey" value="kuali.lu.lookup.subjectAreas" />
-						</bean>
-					</property>
-					<property name="additionalLookups">
-						<list />
-					</property>
 				</bean>
 				<bean parent="dataFieldDescriptor">
 					<property name="name" value="courseNumberSuffix" />
 					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataType" value="STRING" />
 					<property name="lookupContextPath" value="subjectArea" />
@@ -1098,16 +2501,10 @@
 							<ref bean="constraint.code" />
 						</list>
 					</property>
-					<property name="additionalLookups">
-						<list />
-					</property>
 				</bean>
 				<bean parent="dataFieldDescriptor">
 					<property name="name" value="crossListings" />
 					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataObjectStructure" ref="crossListings" />
 					<property name="dataType" value="DATA" />
@@ -1120,9 +2517,6 @@
 				<bean parent="dataFieldDescriptor">
 					<property name="name" value="versions" />
 					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataObjectStructure" ref="versions" />
 					<property name="dataType" value="DATA" />
@@ -1135,9 +2529,6 @@
 				<bean parent="dataFieldDescriptor">
 					<property name="name" value="joints" />
 					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataObjectStructure" ref="joints" />
 					<property name="dataType" value="DATA" />
@@ -1150,9 +2541,6 @@
 				<bean parent="dataFieldDescriptor">
 					<property name="name" value="finalResults" />
 					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataType" value="STRING" />
 					<property name="constraints">
@@ -1164,9 +2552,6 @@
 				<bean parent="dataFieldDescriptor">
 					<property name="name" value="fees" />
 					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataObjectStructure" ref="fees" />
 					<property name="dataType" value="DATA" />
@@ -1179,9 +2564,6 @@
 				<bean parent="dataFieldDescriptor">
 					<property name="name" value="state" />
 					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataType" value="STRING" />
 					<property name="defaultValue" value="" />
@@ -1198,9 +2580,6 @@
 				<bean parent="dataFieldDescriptor">
 					<property name="name" value="type" />
 					<property name="writeAccess" value="ON_CREATE" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataType" value="STRING" />
 					<property name="defaultValue" value="" />
@@ -1217,9 +2596,6 @@
 				<bean parent="dataFieldDescriptor">
 					<property name="name" value="effectiveDate" />
 					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataType" value="TRUNCATED_DATE" />
 					<property name="constraints">
@@ -1235,9 +2611,6 @@
 				<bean parent="dataFieldDescriptor">
 					<property name="name" value="expirationDate" />
 					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataType" value="TRUNCATED_DATE" />
 					<property name="constraints">
@@ -1252,15 +2625,11 @@
 				<bean parent="dataFieldDescriptor">
 					<property name="name" value="academicSubjectOrgs" />
 					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataType" value="STRING" />
 					<property name="constraints">
 						<list>
 							<ref bean="constraint.repeating" />
-							<ref bean="constraint.not.used" />
 							<ref bean="constraint.optional" />
 							<ref bean="constraint.repeating" />
 						</list>
@@ -1377,16 +2746,10 @@
 							<property name="lookupKey" value="kuali.lu.lookup.oversight.orgs" />
 						</bean>
 					</property>
-					<property name="additionalLookups">
-						<list />
-					</property>
 				</bean>
 				<bean parent="dataFieldDescriptor">
 					<property name="name" value="campusLocations" />
 					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataType" value="STRING" />
 					<property name="constraints">
@@ -1398,138 +2761,16 @@
 							<ref bean="constraint.code" />
 						</list>
 					</property>
-					<property name="lookups">
-						<bean parent="lookup">
-							<property name="key" value="enumeration.management.search" />
-							<property name="name" value="Get enumerations" />
-							<property name="desc"
-								value="Get enumerated lists of values given context" />
-							<property name="params">
-								<list>
-									<bean parent="param">
-										<property name="key"
-											value="enumeration.queryParam.enumerationType" />
-										<property name="writeAccess" value="NEVER" />
-										<property name="dataType" value="STRING" />
-										<property name="optional" value="true" />
-										<property name="name" value="Enumeration Type" />
-										<property name="desc"
-											value="The type of the enumeration to search" />
-										<property name="caseSensitive" value="true" />
-									</bean>
-									<bean parent="param">
-										<property name="key" value="enumeration.queryParam.contextType" />
-										<property name="writeAccess" value="NEVER" />
-										<property name="dataType" value="STRING" />
-										<property name="optional" value="true" />
-										<property name="name" value="Context Type" />
-										<property name="desc" value="The type of context being used" />
-										<property name="caseSensitive" value="true" />
-									</bean>
-									<bean parent="param">
-										<property name="key" value="enumeration.queryParam.contextValue" />
-										<property name="writeAccess" value="NEVER" />
-										<property name="dataType" value="STRING" />
-										<property name="optional" value="true" />
-										<property name="name" value="Context Value" />
-										<property name="desc" value="The value of the supplied context" />
-										<property name="caseSensitive" value="true" />
-									</bean>
-									<bean parent="param">
-										<property name="key" value="enumeration.queryParam.contextDate" />
-										<property name="writeAccess" value="NEVER" />
-										<property name="dataType" value="DATE" />
-										<property name="optional" value="true" />
-										<property name="name" value="Context Date" />
-										<property name="desc" value="A date supplied as context" />
-										<property name="caseSensitive" value="true" />
-									</bean>
-								</list>
-							</property>
-							<property name="results">
-								<list>
-									<bean parent="result">
-										<property name="dataType" value="STRING" />
-										<property name="desc"
-											value="The internal code of the enumeration value" />
-										<property name="hidden" value="false" />
-										<property name="key" value="enumeration.resultColumn.code" />
-										<property name="name" value="Code" />
-									</bean>
-									<bean parent="result">
-										<property name="dataType" value="STRING" />
-										<property name="desc"
-											value="An abbreviation of the enumeration value" />
-										<property name="hidden" value="false" />
-										<property name="key" value="enumeration.resultColumn.abbrevValue" />
-										<property name="name" value="Abbreviation of the code" />
-									</bean>
-									<bean parent="result">
-										<property name="dataType" value="STRING" />
-										<property name="desc"
-											value="The description of the enumeration value" />
-										<property name="hidden" value="false" />
-										<property name="key" value="enumeration.resultColumn.value" />
-										<property name="name" value="Description of the code" />
-									</bean>
-									<bean parent="result">
-										<property name="dataType" value="TRUNCATED_DATE" />
-										<property name="desc"
-											value="The date the enumeration became effective" />
-										<property name="hidden" value="false" />
-										<property name="key"
-											value="enumeration.resultColumn.effectiveDate" />
-										<property name="name" value="Effective date" />
-									</bean>
-									<bean parent="result">
-										<property name="dataType" value="TRUNCATED_DATE" />
-										<property name="desc"
-											value="The date the enumeration became non-effective" />
-										<property name="hidden" value="false" />
-										<property name="key"
-											value="enumeration.resultColumn.expirationDate" />
-										<property name="name" value="Expiration date" />
-									</bean>
-									<bean parent="result">
-										<property name="dataType" value="STRING" />
-										<property name="desc" value="The description of the type" />
-										<property name="hidden" value="false" />
-										<property name="key" value="enumeration.resultColumn.sortKey" />
-										<property name="name" value="Key used to sort the results" />
-									</bean>
-								</list>
-							</property>
-							<property name="resultReturnKey" value="enumeration.resultColumn.code" />
-							<property name="resultDisplayKey" value="enumeration.resultColumn.value" />
-							<property name="resultSortKey" value="enumeration.resultColumn.sortKey" />
-							<property name="impl">
-								<bean parent="lookupImpl">
-									<property name="info" value="TBD" />
-									<property name="service" value="enumerationmanagement" />
-									<property name="type" value="JPQL" />
-								</bean>
-							</property>
-							<property name="usage" value="DEFAULT" />
-							<property name="lookupKey" value="kuali.lu.lookup.campusLocations" />
-						</bean>
-					</property>
-					<property name="additionalLookups">
-						<list />
-					</property>
 				</bean>
 				<bean parent="dataFieldDescriptor">
 					<property name="name" value="primaryInstructor" />
 					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataType" value="STRING" />
 					<property name="lookupContextPath" value="department" />
 					<property name="constraints">
 						<list>
 							<ref bean="constraint.single" />
-							<ref bean="constraint.not.used" />
 							<ref bean="constraint.optional" />
 							<ref bean="constraint.single" />
 						</list>
@@ -1597,16 +2838,10 @@
 							<property name="lookupKey" value="kuali.lookup.people" />
 						</bean>
 					</property>
-					<property name="additionalLookups">
-						<list />
-					</property>
 				</bean>
 				<bean parent="dataFieldDescriptor">
 					<property name="name" value="courseSpecificLOs" />
 					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataObjectStructure" ref="courseSpecificLOs" />
 					<property name="dataType" value="DATA" />
@@ -1619,9 +2854,6 @@
 				<bean parent="dataFieldDescriptor">
 					<property name="name" value="_runtimeData" />
 					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataObjectStructure" ref="_runtimeData" />
 					<property name="dataType" value="DATA" />
@@ -1633,1827 +2865,14 @@
 				</bean>
 			</list>
 		</property>
-		<property name="name" value="CreditCourse" />
+		<property name="name" value="course" />
 	</bean>
-	<bean id="CreditCourse" parent="CreditCourse-parent" />
-	<bean id="_runtimeData-parent" abstract="true" parent="dataObjectStructure">
-		<property name="fields">
-			<list>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="created" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="BOOLEAN" />
-					<property name="defaultValue" value="FALSE" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="deleted" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="BOOLEAN" />
-					<property name="defaultValue" value="FALSE" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="updated" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="BOOLEAN" />
-					<property name="defaultValue" value="FALSE" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="versions" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataObjectStructure" ref="versions" />
-					<property name="dataType" value="DATA" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.repeating" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
-		<property name="name" value="_runtimeData" />
-	</bean>
-	<bean id="_runtimeData" parent="_runtimeData-parent" />
-	<bean id="formats-parent" abstract="true" parent="dataObjectStructure">
-		<property name="fields">
-			<list>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="id" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.hidden" />
-							<ref bean="constraint.read.only" />
-							<ref bean="constraint.single" />
-							<ref bean="constraint.kuali.id" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="activities" />
-					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataObjectStructure" ref="activities" />
-					<property name="dataType" value="DATA" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.repeating" />
-							<bean parent="constraint">
-								<property name="serverSide" value="false" />
-								<property name="minOccurs" value="1" />
-							</bean>
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="state" />
-					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="defaultValue" value="" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.required" />
-							<ref bean="constraint.single" />
-							<ref bean="constraint.kuali.state" />
-							<ref bean="constraint.lu.states" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="_runtimeData" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataObjectStructure" ref="_runtimeData" />
-					<property name="dataType" value="DATA" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
-		<property name="name" value="formats" />
-	</bean>
-	<bean id="formats" parent="formats-parent" />
-	<bean id="activities-parent" abstract="true" parent="dataObjectStructure">
-		<property name="fields">
-			<list>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="id" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.hidden" />
-							<ref bean="constraint.read.only" />
-							<ref bean="constraint.single" />
-							<ref bean="constraint.kuali.id" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="activityType" />
-					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.lu.activity.types" />
-							<ref bean="constraint.required" />
-							<ref bean="constraint.single" />
-							<ref bean="constraint.kuali.type" />
-							<ref bean="constraint.lu.types" />
-						</list>
-					</property>
-					<property name="lookups">
-						<bean parent="lookup">
-							<property name="key" value="lu.search.all.lu.types" />
-							<property name="name" value="All activity tlypes" />
-							<property name="desc" value="All activity types" />
-							<property name="params">
-								<list>
-									<bean parent="param">
-										<property name="key" value="lu.queryParam.luOptionalType" />
-										<property name="writeAccess" value="NEVER" />
-										<property name="dataType" value="STRING" />
-										<property name="optional" value="true" />
-										<property name="name" value="Type" />
-										<property name="desc" value="Lu type (course, program etc.)" />
-										<property name="caseSensitive" value="true" />
-									</bean>
-								</list>
-							</property>
-							<property name="results">
-								<list>
-									<bean parent="result">
-										<property name="dataType" value="STRING" />
-										<property name="desc" value="The internal key to the org type" />
-										<property name="hidden" value="false" />
-										<property name="key" value="lu.resultColumn.key" />
-										<property name="name" value="Key of the type" />
-									</bean>
-									<bean parent="result">
-										<property name="dataType" value="STRING" />
-										<property name="desc" value="The name of the type" />
-										<property name="hidden" value="false" />
-										<property name="key" value="lu.resultColumn.name" />
-										<property name="name" value="Name of type" />
-									</bean>
-									<bean parent="result">
-										<property name="dataType" value="STRING" />
-										<property name="desc" value="The description of the type" />
-										<property name="hidden" value="false" />
-										<property name="key" value="lu.resultColumn.desc" />
-										<property name="name" value="Description of type" />
-									</bean>
-									<bean parent="result">
-										<property name="dataType" value="TRUNCATED_DATE" />
-										<property name="desc" value="The date the ltype became effective" />
-										<property name="hidden" value="false" />
-										<property name="key" value="lu.resultColumn.effective_date" />
-										<property name="name" value="Effective date" />
-									</bean>
-									<bean parent="result">
-										<property name="dataType" value="TRUNCATED_DATE" />
-										<property name="desc"
-											value="The date the type became non-effective" />
-										<property name="hidden" value="false" />
-										<property name="key" value="lu.resultColumn.expiration_date" />
-										<property name="name" value="Expiration date" />
-									</bean>
-								</list>
-							</property>
-							<property name="resultReturnKey" value="lu.resultColumn.key" />
-							<property name="resultDisplayKey" value="lu.resultColumn.name" />
-							<property name="resultSortKey" value="lu.resultColumn.name" />
-							<property name="impl">
-								<bean parent="lookupImpl">
-									<property name="info"
-										value="select key, name, desc, effective_date, expiration_datefrom LuTypewhere expiration_date is null" />
-									<property name="service" value="lu" />
-									<property name="type" value="JPQL" />
-								</bean>
-							</property>
-							<property name="usage" value="DEFAULT" />
-							<property name="lookupKey" value="kuali.lu.lookup.activity.types" />
-						</bean>
-					</property>
-					<property name="additionalLookups">
-						<list />
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="contactHours" />
-					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataObjectStructure" ref="contactHours" />
-					<property name="dataType" value="DATA" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.required" />
-							<ref bean="constraint.optional" />
-							<ref bean="constraint.single" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="duration" />
-					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataObjectStructure" ref="duration" />
-					<property name="dataType" value="DATA" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.optional" />
-							<ref bean="constraint.single" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="defaultEnrollmentEstimate" />
-					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="INTEGER" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.not.used" />
-							<ref bean="constraint.optional" />
-							<ref bean="constraint.single" />
-							<ref bean="constraint.non-negative.integer" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="state" />
-					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="defaultValue" value="" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.required" />
-							<ref bean="constraint.single" />
-							<ref bean="constraint.kuali.state" />
-							<ref bean="constraint.lu.states" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="_runtimeData" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataObjectStructure" ref="_runtimeData" />
-					<property name="dataType" value="DATA" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
-		<property name="name" value="activities" />
-	</bean>
-	<bean id="activities" parent="activities-parent" />
-	<bean id="versions-parent" abstract="true" parent="dataObjectStructure">
-		<property name="fields">
-			<list>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="type" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="id" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="versionInd" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
-		<property name="name" value="versions" />
-	</bean>
-	<bean id="versions" parent="versions-parent" />
-	<bean id="crossListings-parent" abstract="true" parent="dataObjectStructure">
-		<property name="fields">
-			<list>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="id" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.hidden" />
-							<ref bean="constraint.read.only" />
-							<ref bean="constraint.single" />
-							<ref bean="constraint.kuali.id" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="type" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="defaultValue" value="" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.hard.coded.cross-listed" />
-							<ref bean="constraint.read.only" />
-							<ref bean="constraint.required" />
-							<ref bean="constraint.single" />
-							<ref bean="constraint.kuali.type" />
-							<ref bean="constraint.lu.identifier.types" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="department" />
-					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="lookupContextPath" value="proposal.proposerPerson" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.required" />
-							<ref bean="constraint.optional" />
-							<ref bean="constraint.single" />
-							<ref bean="constraint.related.orgId" />
-						</list>
-					</property>
-					<property name="lookups">
-						<bean parent="lookup">
-							<property name="key" value="org.search.advanced" />
-							<property name="name" value="Basic and Advanced Search" />
-							<property name="desc"
-								value="Query with multiple optional elements to satisfy most advanced pickers" />
-							<property name="params">
-								<list>
-									<bean parent="param">
-										<property name="key" value="org.queryParam.orgOptionalLongName" />
-										<property name="writeAccess" value="ALWAYS" />
-										<property name="dataType" value="STRING" />
-										<property name="optional" value="true" />
-										<property name="name" value="Organization Name" />
-										<property name="desc" value="Long organization name." />
-										<property name="caseSensitive" value="false" />
-										<property name="usage" value="DEFAULT" />
-										<property name="widget" value="SUGGEST_BOX" />
-									</bean>
-									<bean parent="param">
-										<property name="key" value="org.queryParam.orgOptionalLocation" />
-										<property name="writeAccess" value="ALWAYS" />
-										<property name="dataType" value="STRING" />
-										<property name="optional" value="true" />
-										<property name="name" value="Location" />
-										<property name="desc" value="Organization location." />
-										<property name="caseSensitive" value="false" />
-										<property name="usage" value="ADVANCED" />
-										<property name="widget" value="TEXT_BOX" />
-									</bean>
-									<bean parent="param">
-										<property name="key" value="org.queryParam.orgOptionalId" />
-										<property name="writeAccess" value="ALWAYS" />
-										<property name="dataType" value="STRING" />
-										<property name="optional" value="true" />
-										<property name="name" value="Id" />
-										<property name="desc"
-											value="Unique identifier for an organization." />
-										<property name="caseSensitive" value="true" />
-										<property name="usage" value="CUSTOM" />
-									</bean>
-									<bean parent="param">
-										<property name="key" value="org.queryParam.orgOptionalShortName" />
-										<property name="writeAccess" value="ALWAYS" />
-										<property name="dataType" value="STRING" />
-										<property name="optional" value="true" />
-										<property name="name" value="Organization Name" />
-										<property name="desc" value="Short organization name." />
-										<property name="caseSensitive" value="false" />
-										<property name="usage" value="ADVANCED" />
-										<property name="widget" value="SUGGEST_BOX" />
-									</bean>
-									<bean parent="param">
-										<property name="key" value="org.queryParam.orgOptionalType" />
-										<property name="writeAccess" value="NEVER" />
-										<property name="dataType" value="STRING" />
-										<property name="optional" value="true" />
-										<property name="name" value="Org Type" />
-										<property name="desc" value="Type of an organization." />
-										<property name="caseSensitive" value="true" />
-									</bean>
-								</list>
-							</property>
-							<property name="results">
-								<list>
-									<bean parent="result">
-										<property name="dataType" value="STRING" />
-										<property name="desc" value="Identifier for the organization" />
-										<property name="hidden" value="false" />
-										<property name="key" value="org.resultColumn.orgId" />
-										<property name="name" value="Organization Identifier" />
-									</bean>
-									<bean parent="result">
-										<property name="dataType" value="STRING" />
-										<property name="desc"
-											value="Short name for the organization, recorded as the default listing" />
-										<property name="hidden" value="false" />
-										<property name="key" value="org.resultColumn.orgShortName" />
-										<property name="name" value="Organization Short Name" />
-									</bean>
-									<bean parent="result">
-										<property name="dataType" value="STRING" />
-										<property name="desc"
-											value="Long name for the organization, recorded as the default listing." />
-										<property name="hidden" value="false" />
-										<property name="key" value="org.resultColumn.orgOptionalLongName" />
-										<property name="name" value="Name" />
-									</bean>
-									<bean parent="result">
-										<property name="dataType" value="STRING" />
-										<property name="desc" value="Organization Type" />
-										<property name="hidden" value="false" />
-										<property name="key" value="org.resultColumn.orgType" />
-										<property name="name" value="Organization Type" />
-									</bean>
-								</list>
-							</property>
-							<property name="resultReturnKey" value="org.resultColumn.orgId" />
-							<property name="resultDisplayKey" value="org.resultColumn.orgShortName" />
-							<property name="resultSortKey" value="org.resultColumn.orgShortName" />
-							<property name="impl">
-								<bean parent="lookupImpl">
-									<property name="info"
-										value="SELECT org.id, org.shortName, org.longName, org.type.id FROM Org org" />
-									<property name="service" value="organization" />
-									<property name="type" value="JPQL" />
-								</bean>
-							</property>
-							<property name="usage" value="DEFAULT" />
-							<property name="lookupKey" value="kuali.lu.lookup.admin.departments" />
-						</bean>
-					</property>
-					<property name="additionalLookups">
-						<list />
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="subjectArea" />
-					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="lookupContextPath" value="department" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.required" />
-							<ref bean="constraint.subject.areas" />
-							<ref bean="constraint.optional" />
-							<ref bean="constraint.single" />
-							<ref bean="constraint.code" />
-						</list>
-					</property>
-					<property name="lookups">
-						<bean parent="lookup">
-							<property name="key" value="enumeration.management.search" />
-							<property name="name" value="Get enumerations" />
-							<property name="desc"
-								value="Get enumerated lists of values given context" />
-							<property name="params">
-								<list>
-									<bean parent="param">
-										<property name="key"
-											value="enumeration.queryParam.enumerationType" />
-										<property name="writeAccess" value="NEVER" />
-										<property name="dataType" value="STRING" />
-										<property name="optional" value="true" />
-										<property name="name" value="Enumeration Type" />
-										<property name="desc"
-											value="The type of the enumeration to search" />
-										<property name="caseSensitive" value="true" />
-									</bean>
-									<bean parent="param">
-										<property name="key" value="enumeration.queryParam.contextType" />
-										<property name="writeAccess" value="NEVER" />
-										<property name="dataType" value="STRING" />
-										<property name="optional" value="true" />
-										<property name="name" value="Context Type" />
-										<property name="desc" value="The type of context being used" />
-										<property name="caseSensitive" value="true" />
-									</bean>
-									<bean parent="param">
-										<property name="key" value="enumeration.queryParam.contextValue" />
-										<property name="writeAccess" value="NEVER" />
-										<property name="dataType" value="STRING" />
-										<property name="optional" value="true" />
-										<property name="name" value="Context Value" />
-										<property name="desc" value="The value of the supplied context" />
-										<property name="caseSensitive" value="true" />
-									</bean>
-									<bean parent="param">
-										<property name="key" value="enumeration.queryParam.contextDate" />
-										<property name="writeAccess" value="NEVER" />
-										<property name="dataType" value="DATE" />
-										<property name="optional" value="true" />
-										<property name="name" value="Context Date" />
-										<property name="desc" value="A date supplied as context" />
-										<property name="caseSensitive" value="true" />
-									</bean>
-								</list>
-							</property>
-							<property name="results">
-								<list>
-									<bean parent="result">
-										<property name="dataType" value="STRING" />
-										<property name="desc"
-											value="The internal code of the enumeration value" />
-										<property name="hidden" value="false" />
-										<property name="key" value="enumeration.resultColumn.code" />
-										<property name="name" value="Code" />
-									</bean>
-									<bean parent="result">
-										<property name="dataType" value="STRING" />
-										<property name="desc"
-											value="An abbreviation of the enumeration value" />
-										<property name="hidden" value="false" />
-										<property name="key" value="enumeration.resultColumn.abbrevValue" />
-										<property name="name" value="Abbreviation of the code" />
-									</bean>
-									<bean parent="result">
-										<property name="dataType" value="STRING" />
-										<property name="desc"
-											value="The description of the enumeration value" />
-										<property name="hidden" value="false" />
-										<property name="key" value="enumeration.resultColumn.value" />
-										<property name="name" value="Description of the code" />
-									</bean>
-									<bean parent="result">
-										<property name="dataType" value="TRUNCATED_DATE" />
-										<property name="desc"
-											value="The date the enumeration became effective" />
-										<property name="hidden" value="false" />
-										<property name="key"
-											value="enumeration.resultColumn.effectiveDate" />
-										<property name="name" value="Effective date" />
-									</bean>
-									<bean parent="result">
-										<property name="dataType" value="TRUNCATED_DATE" />
-										<property name="desc"
-											value="The date the enumeration became non-effective" />
-										<property name="hidden" value="false" />
-										<property name="key"
-											value="enumeration.resultColumn.expirationDate" />
-										<property name="name" value="Expiration date" />
-									</bean>
-									<bean parent="result">
-										<property name="dataType" value="STRING" />
-										<property name="desc" value="The description of the type" />
-										<property name="hidden" value="false" />
-										<property name="key" value="enumeration.resultColumn.sortKey" />
-										<property name="name" value="Key used to sort the results" />
-									</bean>
-								</list>
-							</property>
-							<property name="resultReturnKey" value="enumeration.resultColumn.code" />
-							<property name="resultDisplayKey" value="enumeration.resultColumn.abbrevValue" />
-							<property name="resultSortKey" value="enumeration.resultColumn.sortKey" />
-							<property name="impl">
-								<bean parent="lookupImpl">
-									<property name="info" value="TBD" />
-									<property name="service" value="enumerationmanagement" />
-									<property name="type" value="JPQL" />
-								</bean>
-							</property>
-							<property name="usage" value="DEFAULT" />
-							<property name="lookupKey" value="kuali.lu.lookup.subjectAreas" />
-						</bean>
-					</property>
-					<property name="additionalLookups">
-						<list />
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="courseNumberSuffix" />
-					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="lookupContextPath" value="subjectArea" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.required" />
-							<ref bean="constraint.available.course.numbers" />
-							<ref bean="constraint.optional" />
-							<ref bean="constraint.single" />
-							<ref bean="constraint.code" />
-						</list>
-					</property>
-					<property name="additionalLookups">
-						<list />
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="_runtimeData" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataObjectStructure" ref="_runtimeData" />
-					<property name="dataType" value="DATA" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
-		<property name="name" value="crossListings" />
-	</bean>
-	<bean id="crossListings" parent="crossListings-parent" />
-	<bean id="joints-parent" abstract="true" parent="dataObjectStructure">
-		<property name="fields">
-			<list>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="type" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="defaultValue" value="" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.hard.coded.co-located" />
-							<ref bean="constraint.read.only" />
-							<ref bean="constraint.required" />
-							<ref bean="constraint.single" />
-							<ref bean="constraint.kuali.type" />
-							<ref bean="constraint.lu.lu.relation.types" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="courseId" />
-					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.required" />
-							<ref bean="constraint.single" />
-							<ref bean="constraint.related.cluId" />
-						</list>
-					</property>
-					<property name="lookups">
-						<bean parent="lookup">
-							<property name="key" value="lu.search.generic" />
-							<property name="name" value="Basic and Advanced Search" />
-							<property name="desc"
-								value="Query with multiple optional elements to satisfy most advanced pickers" />
-							<property name="params">
-								<list>
-									<bean parent="param">
-										<property name="key" value="lu.queryParam.luOptionalId" />
-										<property name="writeAccess" value="ALWAYS" />
-										<property name="dataType" value="STRING" />
-										<property name="optional" value="true" />
-										<property name="name" value="Id" />
-										<property name="desc" value="Unique identifier for a lu." />
-										<property name="caseSensitive" value="true" />
-										<property name="usage" value="CUSTOM" />
-									</bean>
-									<bean parent="param">
-										<property name="key" value="lu.queryParam.luOptionalLongName" />
-										<property name="writeAccess" value="ALWAYS" />
-										<property name="dataType" value="STRING" />
-										<property name="optional" value="true" />
-										<property name="name" value="Name" />
-										<property name="desc" value="Long name" />
-										<property name="caseSensitive" value="false" />
-										<property name="usage" value="DEFAULT" />
-										<property name="widget" value="SUGGEST_BOX" />
-									</bean>
-									<bean parent="param">
-										<property name="key" value="lu.queryParam.luOptionalType" />
-										<property name="writeAccess" value="NEVER" />
-										<property name="dataType" value="STRING" />
-										<property name="optional" value="true" />
-										<property name="name" value="Type" />
-										<property name="desc" value="Lu type (course, program etc.)" />
-										<property name="caseSensitive" value="true" />
-									</bean>
-									<bean parent="param">
-										<property name="key" value="lu.queryParam.luOptionalCode" />
-										<property name="writeAccess" value="ALWAYS" />
-										<property name="dataType" value="STRING" />
-										<property name="optional" value="true" />
-										<property name="name" value="Code" />
-										<property name="desc" value="Lu code" />
-										<property name="caseSensitive" value="true" />
-										<property name="usage" value="ADVANCED" />
-										<property name="widget" value="TEXT_BOX" />
-									</bean>
-									<bean parent="param">
-										<property name="key" value="lu.queryParam.luOptionalLevel" />
-										<property name="writeAccess" value="ALWAYS" />
-										<property name="dataType" value="STRING" />
-										<property name="optional" value="true" />
-										<property name="name" value="Level" />
-										<property name="desc" value="Lu level grad/undergrad" />
-										<property name="caseSensitive" value="true" />
-										<property name="usage" value="ADVANCED" />
-										<property name="widget" value="TEXT_BOX" />
-									</bean>
-								</list>
-							</property>
-							<property name="results">
-								<list>
-									<bean parent="result">
-										<property name="dataType" value="STRING" />
-										<property name="desc" value="Identifier of a Clu" />
-										<property name="hidden" value="false" />
-										<property name="key" value="lu.resultColumn.cluId" />
-										<property name="name" value="Clu Id" />
-									</bean>
-									<bean parent="result">
-										<property name="dataType" value="STRING" />
-										<property name="desc"
-											value="Long name for the lu, recorded as the default listing." />
-										<property name="hidden" value="false" />
-										<property name="key" value="lu.resultColumn.luOptionalLongName" />
-										<property name="name" value="Name" />
-									</bean>
-									<bean parent="result">
-										<property name="dataType" value="STRING" />
-										<property name="desc" value="Lu code" />
-										<property name="hidden" value="false" />
-										<property name="key" value="lu.resultColumn.luOptionalCode" />
-										<property name="name" value="Code" />
-									</bean>
-									<bean parent="result">
-										<property name="dataType" value="STRING" />
-										<property name="desc" value="Level of Lu" />
-										<property name="hidden" value="false" />
-										<property name="key" value="lu.resultColumn.luOptionalLevel" />
-										<property name="name" value="Level" />
-									</bean>
-								</list>
-							</property>
-							<property name="resultReturnKey" value="lu.resultColumn.cluId" />
-							<property name="resultDisplayKey" value="lu.resultColumn.luOptionalLongName" />
-							<property name="resultSortKey" value="lu.resultColumn.luOptionalLongName" />
-							<property name="impl">
-								<bean parent="lookupImpl">
-									<property name="info" value="TBD already in xml" />
-									<property name="service" value="lu" />
-									<property name="type" value="JPQL" />
-								</bean>
-							</property>
-							<property name="usage" value="DEFAULT" />
-							<property name="lookupKey"
-								value="kuali.lu.lookup.creditCoursesAndProposals" />
-						</bean>
-					</property>
-					<property name="additionalLookups">
-						<list />
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="relationId" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.hidden" />
-							<ref bean="constraint.read.only" />
-							<ref bean="constraint.single" />
-							<ref bean="constraint.kuali.id" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="courseTitle" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="subjectArea" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="courseNumberSuffix" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="_runtimeData" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataObjectStructure" ref="_runtimeData" />
-					<property name="dataType" value="DATA" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
-		<property name="name" value="joints" />
-	</bean>
-	<bean id="joints" parent="joints-parent" />
-	<bean id="fees-parent" abstract="true" parent="dataObjectStructure">
-		<property name="fields">
-			<list>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="feeType" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="feeAmount" />
-					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="taxable" />
-					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="feeDesc" />
-					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="internalNotation" />
-					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="_runtimeData" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataObjectStructure" ref="_runtimeData" />
-					<property name="dataType" value="DATA" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
-		<property name="name" value="fees" />
-	</bean>
-	<bean id="fees" parent="fees-parent" />
-	<bean id="courseSpecificLOs-parent" abstract="true" parent="dataObjectStructure">
-		<property name="fields">
-			<list>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="id" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.hidden" />
-							<ref bean="constraint.read.only" />
-							<ref bean="constraint.single" />
-							<ref bean="constraint.kuali.id" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="includedSingleUseLo" />
-					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataObjectStructure" ref="SingleUseLo" />
-					<property name="dataType" value="DATA" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="effectiveDate" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="TRUNCATED_DATE" />
-					<property name="defaultValuePath" value="course.effectiveDate" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.required" />
-							<ref bean="constraint.single" />
-							<ref bean="constraint.date.time" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="type" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="defaultValue" value="" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.hard.coded.lulorealtion.includes" />
-							<ref bean="constraint.hard.coded.lulorealtion.includes" />
-							<ref bean="constraint.read.only" />
-							<ref bean="constraint.required" />
-							<ref bean="constraint.single" />
-							<ref bean="constraint.kuali.type" />
-							<ref bean="constraint.lu.lo.relation.types" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="state" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="defaultValue" value="" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.required" />
-							<ref bean="constraint.single" />
-							<ref bean="constraint.kuali.state" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="sequence" />
-					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
-		<property name="name" value="courseSpecificLOs" />
-	</bean>
-	<bean id="courseSpecificLOs" parent="courseSpecificLOs-parent" />
-	<bean id="categories-parent" abstract="true" parent="dataObjectStructure">
-		<property name="fields">
-			<list>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="iD" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.hidden" />
-							<ref bean="constraint.read.only" />
-							<ref bean="constraint.single" />
-							<ref bean="constraint.kuali.id" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="name" />
-					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.single.line.text" />
-							<ref bean="constraint.required" />
-							<ref bean="constraint.single" />
-						</list>
-					</property>
-					<property name="additionalLookups">
-						<list />
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="loRepository" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="defaultValue" value="" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.hard.coded.singleUse.lo.repository" />
-							<ref bean="constraint.hard.coded.singleUse.lo.repository" />
-							<ref bean="constraint.required" />
-							<ref bean="constraint.single" />
-							<ref bean="constraint.lo.hierarchy.types" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="typeKey" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.lo.category.types" />
-							<ref bean="constraint.required" />
-							<ref bean="constraint.single" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="typeName" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="lookupContextPath" value="loRepository" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-						</list>
-					</property>
-					<property name="additionalLookups">
-						<list />
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="state" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="defaultValue" value="" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.required" />
-							<ref bean="constraint.single" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="effectiveDate" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="TRUNCATED_DATE" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.required" />
-							<ref bean="constraint.single" />
-							<ref bean="constraint.date.time" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="expirationDate" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="TRUNCATED_DATE" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.optional" />
-							<ref bean="constraint.single" />
-							<ref bean="constraint.date.time" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="_runtimeData" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataObjectStructure" ref="_runtimeData" />
-					<property name="dataType" value="DATA" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
-		<property name="name" value="categories" />
-	</bean>
-	<bean id="categories" parent="categories-parent" />
-	<bean id="childSingleUseLos-parent" abstract="true" parent="dataObjectStructure">
-		<property name="fields">
-			<list>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="id" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.hidden" />
-							<ref bean="constraint.optional" />
-							<ref bean="constraint.single" />
-							<ref bean="constraint.kuali.id" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="childLo" />
-					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataObjectStructure" ref="childLo" />
-					<property name="dataType" value="DATA" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="effectiveDate" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="TRUNCATED_DATE" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.required" />
-							<ref bean="constraint.single" />
-							<ref bean="constraint.date.time" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="type" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="defaultValue" value="" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.hard.coded.lolorealtion.includes" />
-							<ref bean="constraint.hard.coded.lolorealtion.includes" />
-							<ref bean="constraint.read.only" />
-							<ref bean="constraint.required" />
-							<ref bean="constraint.single" />
-							<ref bean="constraint.lo.lo.relation.types" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="state" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="defaultValue" value="" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.required" />
-							<ref bean="constraint.single" />
-							<ref bean="constraint.kuali.state" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="sequence" />
-					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
-		<property name="name" value="childSingleUseLos" />
-	</bean>
-	<bean id="childSingleUseLos" parent="childSingleUseLos-parent" />
-	<bean id="SingleUseLo-parent" abstract="true" parent="dataObjectStructure">
-		<property name="fields">
-			<list>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="id" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.hidden" />
-							<ref bean="constraint.read.only" />
-							<ref bean="constraint.single" />
-							<ref bean="constraint.kuali.id" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="description" />
-					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataObjectStructure" ref="description" />
-					<property name="dataType" value="DATA" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<bean parent="constraint">
-								<property name="serverSide" value="false" />
-								<property name="minLength" value="1" />
-								<property name="maxLength" value="250" />
-							</bean>
-							<ref bean="constraint.optional" />
-							<ref bean="constraint.single" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="categories" />
-					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataObjectStructure" ref="categories" />
-					<property name="dataType" value="DATA" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.repeating" />
-						</list>
-					</property>
-					<property name="lookups">
-						<bean parent="lookup">
-							<property name="key" value="lo.search.categories" />
-							<property name="name" value="LO Search for all categories" />
-							<property name="desc" value="Returns all matching category names" />
-							<property name="params">
-								<list>
-									<bean parent="param">
-										<property name="key" value="lo.queryParam.loCategoryName" />
-										<property name="writeAccess" value="ALWAYS" />
-										<property name="dataType" value="STRING" />
-										<property name="optional" value="false" />
-										<property name="name" value="Category" />
-										<property name="desc" value="no description supplied" />
-										<property name="caseSensitive" value="true" />
-									</bean>
-								</list>
-							</property>
-							<property name="results">
-								<list>
-									<bean parent="result">
-										<property name="dataType" value="STRING" />
-										<property name="desc" value="Category to be used for an LO" />
-										<property name="hidden" value="false" />
-										<property name="key" value="lo.resultColumn.categoryId" />
-										<property name="name" value="Category ID" />
-									</bean>
-									<bean parent="result">
-										<property name="dataType" value="STRING" />
-										<property name="desc" value="Category to be used for an LO" />
-										<property name="hidden" value="false" />
-										<property name="key" value="lo.resultColumn.categoryName" />
-										<property name="name" value="Category" />
-									</bean>
-									<bean parent="result">
-										<property name="dataType" value="STRING" />
-										<property name="desc" value="Category type for a category" />
-										<property name="hidden" value="false" />
-										<property name="key" value="lo.resultColumn.categoryType" />
-										<property name="name" value="Category" />
-									</bean>
-									<bean parent="result">
-										<property name="dataType" value="STRING" />
-										<property name="desc"
-											value="Category name concatenated with category type" />
-										<property name="hidden" value="false" />
-										<property name="key" value="lo.resultColumn.categoryNameAndType" />
-										<property name="name" value="Category" />
-									</bean>
-								</list>
-							</property>
-							<property name="resultReturnKey" value="lo.resultColumn.categoryId" />
-							<property name="resultDisplayKey" value="lo.resultColumn.categoryNameAndType" />
-							<property name="resultSortKey" value="lo.resultColumn.categoryNameAndType" />
-							<property name="impl">
-								<bean parent="lookupImpl">
-									<property name="info"
-										value="SELECT cat.id, cat.name, cat.loCategoryType.name, cat.name||' - '||cat.loCategoryType.name FROM LoCategory cat WHERE cat.name like :lo_queryParam_loCategoryName or cat.id = :lo_queryParam_loCategoryId" />
-									<property name="service" value="lo" />
-									<property name="type" value="JPQL" />
-								</bean>
-							</property>
-							<property name="usage" value="DEFAULT" />
-							<property name="lookupKey" value="kuali.lookup.lo.category" />
-						</bean>
-					</property>
-					<property name="additionalLookups">
-						<list />
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="loRepository" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="defaultValue" value="" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.hard.coded.singleUse.lo.repository" />
-							<ref bean="constraint.hard.coded.singleUse.lo.repository" />
-							<ref bean="constraint.required" />
-							<ref bean="constraint.single" />
-							<ref bean="constraint.lo.repositories" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="childSingleUseLos" />
-					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataObjectStructure" ref="childSingleUseLos" />
-					<property name="dataType" value="DATA" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.repeating" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="effectiveDate" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="TRUNCATED_DATE" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.required" />
-							<ref bean="constraint.single" />
-							<ref bean="constraint.date.time" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="type" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="defaultValue" value="" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.hard.coded.singleUse.lo" />
-							<ref bean="constraint.hard.coded.singleUse.lo" />
-							<ref bean="constraint.required" />
-							<ref bean="constraint.single" />
-							<ref bean="constraint.lo.types" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="state" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="defaultValue" value="" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.required" />
-							<ref bean="constraint.single" />
-							<ref bean="constraint.kuali.state" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="_runtimeData" />
-					<property name="writeAccess" value="NEVER" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataObjectStructure" ref="_runtimeData" />
-					<property name="dataType" value="DATA" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
-		<property name="name" value="SingleUseLo" />
-	</bean>
-	<bean id="SingleUseLo" parent="SingleUseLo-parent" />
-	<bean id="contactHours-parent" abstract="true" parent="dataObjectStructure">
-		<property name="fields">
-			<list>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="per" />
-					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="STRING" />
-					<property name="defaultValue" value="" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.required" />
-							<ref bean="constraint.single" />
-							<ref bean="constraint.unit.types" />
-						</list>
-					</property>
-					<property name="lookups">
-						<bean parent="lookup">
-							<property name="key" value="atp.search.atpDurationTypes" />
-							<property name="name" value="All ATP Duration Types" />
-							<property name="desc"
-								value="Returns the list of all ATP Duration Types" />
-							<property name="results">
-								<list>
-									<bean parent="result">
-										<property name="dataType" value="STRING" />
-										<property name="desc" value="ATP Duration Type Key" />
-										<property name="hidden" value="false" />
-										<property name="key" value="atp.resultColumn.atpDurationTypeKey" />
-										<property name="name" value="ATP Duration Type Key" />
-									</bean>
-									<bean parent="result">
-										<property name="dataType" value="STRING" />
-										<property name="desc" value="Duration Type Name" />
-										<property name="hidden" value="false" />
-										<property name="key" value="atp.resultColumn.atpDurationTypeName" />
-										<property name="name" value="Duration Type Name" />
-									</bean>
-								</list>
-							</property>
-							<property name="resultReturnKey" value="atp.resultColumn.atpDurationTypeKey" />
-							<property name="resultDisplayKey" value="atp.resultColumn.atpDurationTypeName" />
-							<property name="resultSortKey" value="atp.resultColumn.atpDurationTypeName" />
-							<property name="impl">
-								<bean parent="lookupImpl">
-									<property name="info" value="TBD" />
-									<property name="service" value="atp" />
-									<property name="type" value="JPQL" />
-								</bean>
-							</property>
-							<property name="usage" value="DEFAULT" />
-							<property name="lookupKey" value="kuali.lookup.durations" />
-						</bean>
-					</property>
-					<property name="additionalLookups">
-						<list />
-					</property>
-				</bean>
-				<bean parent="dataFieldDescriptor">
-					<property name="name" value="hrs" />
-					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
-					<property name="onChangeRefreshMetadata" value="false" />
-					<property name="dataType" value="INTEGER" />
-					<property name="constraints">
-						<list>
-							<ref bean="constraint.single" />
-							<ref bean="constraint.non-negative.integer" />
-							<bean parent="constraint">
-								<property name="serverSide" value="false" />
-								<property name="minLength" value="1" />
-								<property name="maxLength" value="2" />
-								<property name="minValue" value="0" />
-								<property name="maxValue" value="40" />
-							</bean>
-							<ref bean="constraint.required" />
-							<ref bean="constraint.single" />
-							<ref bean="constraint.decimal" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
-		<property name="name" value="contactHours" />
-	</bean>
-	<bean id="contactHours" parent="contactHours-parent" />
-	<bean id="description-parent" abstract="true" parent="dataObjectStructure">
+	<bean id="description" parent="dataObjectStructure">
 		<property name="fields">
 			<list>
 				<bean parent="dataFieldDescriptor">
 					<property name="name" value="plain" />
 					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataType" value="STRING" />
 					<property name="constraints">
@@ -3470,9 +2889,6 @@
 				<bean parent="dataFieldDescriptor">
 					<property name="name" value="formatted" />
 					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataType" value="STRING" />
 					<property name="constraints">
@@ -3490,16 +2906,12 @@
 		</property>
 		<property name="name" value="description" />
 	</bean>
-	<bean id="description" parent="description-parent" />
-	<bean id="duration-parent" abstract="true" parent="dataObjectStructure">
+	<bean id="duration" parent="dataObjectStructure">
 		<property name="fields">
 			<list>
 				<bean parent="dataFieldDescriptor">
 					<property name="name" value="timeUnit" />
 					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataType" value="STRING" />
 					<property name="defaultValue" value="" />
@@ -3550,16 +2962,10 @@
 							<property name="lookupKey" value="kuali.lookup.durations" />
 						</bean>
 					</property>
-					<property name="additionalLookups">
-						<list />
-					</property>
 				</bean>
 				<bean parent="dataFieldDescriptor">
 					<property name="name" value="quantity" />
 					<property name="writeAccess" value="ALWAYS" />
-					<property name="canUnmask" value="false" />
-					<property name="canView" value="false" />
-					<property name="canEdit" value="false" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataType" value="INTEGER" />
 					<property name="constraints">
@@ -3577,6 +2983,268 @@
 		</property>
 		<property name="name" value="duration" />
 	</bean>
-	<bean id="duration" parent="duration-parent" />
+	<bean id="metaInfo" parent="dataObjectStructure">
+		<property name="fields">
+			<list>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="versionInd" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.required" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.calc.meta.versionInd" />
+							<ref bean="constraint.read.only" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="createTime" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="DATE" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.required" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.date.time" />
+							<ref bean="constraint.default.now" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="createId" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.read.only" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.related.principalId" />
+							<ref bean="constraint.default.authenicated.principalId" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="updateTime" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="DATE" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.required" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.date.time" />
+							<ref bean="constraint.calc.now" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="updateId" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.read.only" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.related.principalId" />
+							<ref bean="constraint.calc.authenicated.principalId" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="name" value="metaInfo" />
+	</bean>
+	<bean id="proposal" parent="dataObjectStructure">
+		<property name="fields">
+			<list>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="id" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.hidden" />
+							<ref bean="constraint.optional" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.kuali.id" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="proposerPerson" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.repeating" />
+							<ref bean="constraint.required" />
+							<ref bean="constraint.repeating" />
+							<ref bean="constraint.related.personId" />
+						</list>
+					</property>
+					<property name="lookups">
+						<bean parent="lookup">
+							<property name="key"
+								value="person.search.personQuickViewByGivenName" />
+							<property name="name" value="All org hierarchies" />
+							<property name="desc"
+								value="Returns all org hierarchies, name and id" />
+							<property name="params">
+								<list>
+									<bean parent="param">
+										<property name="key" value="person.queryParam.personGivenName" />
+										<property name="writeAccess" value="ALWAYS" />
+										<property name="dataType" value="STRING" />
+										<property name="optional" value="false" />
+										<property name="name" value="Name Lookup Field" />
+										<property name="desc" value="Name of person" />
+										<property name="caseSensitive" value="false" />
+										<property name="widget" value="SUGGEST_BOX" />
+									</bean>
+									<bean parent="param">
+										<property name="key" value="person.queryParam.personAffiliation" />
+										<property name="writeAccess" value="ALWAYS" />
+										<property name="dataType" value="STRING" />
+										<property name="optional" value="true" />
+										<property name="name" value="Affiliatilon Type" />
+										<property name="desc"
+											value="How the person is affiliated with the school" />
+										<property name="caseSensitive" value="true" />
+									</bean>
+								</list>
+							</property>
+							<property name="results">
+								<list>
+									<bean parent="result">
+										<property name="dataType" value="STRING" />
+										<property name="desc" value="Internal id" />
+										<property name="hidden" value="false" />
+										<property name="key" value="person.resultColumn.PersonId" />
+										<property name="name" value="Internal person id" />
+									</bean>
+									<bean parent="result">
+										<property name="dataType" value="STRING" />
+										<property name="desc" value="Internal id" />
+										<property name="hidden" value="false" />
+										<property name="key" value="person.resultColumn.GivenName" />
+										<property name="name" value="Given name of person" />
+									</bean>
+								</list>
+							</property>
+							<property name="resultReturnKey" value="person.resultColumn.PersonId" />
+							<property name="resultDisplayKey" value="person.resultColumn.GivenName" />
+							<property name="resultSortKey" value="person.resultColumn.GivenName" />
+							<property name="impl">
+								<bean parent="lookupImpl">
+									<property name="info" value="I THINK THIS IS HARD CODED VIA KIM" />
+									<property name="service" value="person" />
+									<property name="type" value="SPECIAL" />
+								</bean>
+							</property>
+							<property name="usage" value="DEFAULT" />
+							<property name="lookupKey" value="kuali.lookup.people" />
+						</bean>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="title" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.single.line.text" />
+							<ref bean="constraint.required" />
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="rationale" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.required" />
+							<ref bean="constraint.optional" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.multi.line.text" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="referenceType" />
+					<property name="writeAccess" value="ON_CREATE" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="defaultValue" value="" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.hard.coded.referenceType.CLU" />
+							<ref bean="constraint.required" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.reference.types" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="references" />
+					<property name="writeAccess" value="ON_CREATE" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.related.cluId" />
+							<ref bean="constraint.related.cluId" />
+							<ref bean="constraint.required" />
+							<ref bean="constraint.repeating" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="metaInfo" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataObjectStructure" ref="metaInfo" />
+					<property name="dataType" value="DATA" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+							<ref bean="constraint.optional" />
+							<ref bean="constraint.single" />
+							<ref bean="constraint.kuali.meta.data" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="dataFieldDescriptor">
+					<property name="name" value="_runtimeData" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="onChangeRefreshMetadata" value="false" />
+					<property name="dataObjectStructure" ref="_runtimeData" />
+					<property name="dataType" value="DATA" />
+					<property name="constraints">
+						<list>
+							<ref bean="constraint.single" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="name" value="proposal" />
+	</bean>
 </beans>
 		
