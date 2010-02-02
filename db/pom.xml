@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.kuali.student.db</groupId>
+    <artifactId>ks-db</artifactId>
+    <packaging>pom</packaging>
+	<parent>
+		<groupId>org.kuali.student</groupId>
+		<artifactId>student</artifactId>
+		<version>1.0.0-m3-SNAPSHOT</version>
+	</parent>
+    <name>KS Database</name>
+    <description>Kuali Student Database</description>
+
+    <modules>      
+        <module>ks-embedded-db</module>
+    </modules>
+<build>
+  <plugins>
+     <plugin>
+      <groupId>org.apache.db.torque</groupId>
+      <artifactId>torque-maven-plugin</artifactId>
+      <configuration>
+        <targetDatabase>oracle</targetDatabase>
+        <targetPackage>org.kuali.student</targetPackage>
+        <driver>oracle.jdbc.OracleDriver</driver>
+        <url>jdbc:oracle:thin:@localhost:1521:XE</url>
+        <user>kuali</user>
+        <password>kuali</password>
+      </configuration>
+      <dependencies>
+        <dependency>
+          <artifactId>commons-beanutils</artifactId>
+          <groupId>commons-beanutils</groupId>
+          <version>1.7.2</version>
+        </dependency>
+      </dependencies>
+    </plugin>
+  </plugins>
+</build>
+
+</project>
