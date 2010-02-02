@@ -38,6 +38,12 @@ public class DataFieldDescriptor {
     
     protected String writeAccess;
     
+    private boolean canUnmask = false;
+
+    private boolean canView = true;
+    
+    private boolean canEdit = true;
+
     protected String permission;
     
     protected String dataType;
@@ -166,5 +172,33 @@ public class DataFieldDescriptor {
 
     public void setMask(Mask mask) {
         this.mask = mask;
+    }
+
+    public boolean isCanUnmask() {
+        return canUnmask;
+    }
+
+    public void setCanUnmask(boolean canUnmask) {
+        this.canUnmask = canUnmask;
+    }
+
+    public boolean isCanView() {
+        return canView;
+    }
+
+    public void setCanView(boolean canView) {
+        this.canView = canView;
+    }
+
+    public boolean isCanEdit() {
+        return canEdit;
+    }
+
+    public void setCanEdit(boolean canEdit) {
+        this.canEdit = canEdit;
+    }
+
+    public void setAdditionalLookups(List<LookupMetadata> additionalLookups) {
+        this.additionalLookups = additionalLookups;
     }
 }
