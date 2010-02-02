@@ -470,10 +470,11 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         category.setAttributes(attributes);
         
         
-        String categoryId = "054CAA88-C21D-4496-8287-36A311A11D68";
+        // String categoryId = "054CAA88-C21D-4496-8287-36A311A11D68";
+        String categoryId = "550e8400-e29b-41d4-a716-446655440000";
         category = client.getLoCategory(categoryId);
-        assertEquals("Test Category 2", category.getName());
-        assertEquals("loCategoryType.subject", category.getType());
+        assertEquals("Perception", category.getName());
+        assertEquals("loCategoryType.skillarea", category.getType());
         category.setName("LENNY, THE LECHEROUS MILK THIEF");
         category.setType("loCategoryType.accreditation");
         
@@ -482,7 +483,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         assertNotNull(updated.getId());
         
         // make sure it all stuck
-        updated = client.getLoCategory(categoryId);
+        updated = client.getLoCategory(updated.getId());
         assertEquals("LENNY, THE LECHEROUS MILK THIEF", updated.getName());
         assertEquals("loCategoryType.accreditation", updated.getType());
         
@@ -491,6 +492,8 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
             fail("VersionMismatchException expected");
         } catch (VersionMismatchException e) {}
         
+        // switch to new LoCategory id; new one was created when we changed its type
+        categoryId = updated.getId();
         List<LoInfo> los = client.getLosByLoCategory(categoryId);
         assertTrue(null == los || los.isEmpty());
         

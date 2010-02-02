@@ -447,38 +447,9 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
             throw new VersionMismatchException("LO to be updated is not the current version");
         }
         
+        // if type is changing
         if ( ! loCategory.getLoCategoryType().getName().equals(loCategoryInfo.getType()) ) {
-        	// if type is changing, inactivate current LoCategory & clone it w/ its relationships,
-        	// https://test.kuali.org/confluence/display/KULSTG/DS+-+LO+Centrally+Maintain+Categories
-        	LoCategoryType catType = null;
-        	try {
-	        	catType = loDao.fetch(LoCategoryType.class, loCategoryInfo.getType());
-        	} catch (DoesNotExistException dnee) {
-        		throw new DoesNotExistException("Attempt to change LoCategory's type to nonexistent LoCategoryType", dnee);
-        	}
-        	
-        	// clone the existing LO
-        	LoCategoryInfo newLoCategoryInfo = LearningObjectiveServiceAssembler.toLoCategoryInfo(loCategory);
-        	newLoCategoryInfo.setType(catType.getName());
-        	newLoCategoryInfo.setName(loCategoryInfo.getName());
-        	loDao.create(LearningObjectiveServiceAssembler.toLoCategory(newLoCategoryInfo, loDao));
-        	
-        	// clone Lo-LoCategory relations
-        	List<Lo> catsLos = loDao.getLosByLoCategory(loCategory.getId());         	
-        	for (Lo lo : catsLos) {
-        		try {
-					loDao.addLoCategoryToLo(newLoCategoryInfo.getId(), lo.getId());
-				} catch (UnsupportedActionException uae) {
-					throw new OperationFailedException(uae.getMessage(), uae);
-				}
-        		
-        	}
-        	
-        	
-        	
-        	// remove old Clu-Lo &/or Lo-Lo relations
-        	
-        	// inactivate old LoCategory
+        	loCategory = cloneLoCategory(loCategory, loCategoryInfo);
         } else {
 	        loCategory = LearningObjectiveServiceAssembler.toLoCategory(loCategory, loCategoryInfo, loDao);
 	        loDao.update(loCategory);
@@ -486,10 +457,44 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
         return LearningObjectiveServiceAssembler.toLoCategoryInfo(loCategory);
 	}
 
-	//
-	// TODO - copy/adapt these from LuServiceImpl
-	//
-	
+    // inactivate current LoCategory & clone it w/ its relationships,
+	// used when changing immutable type of LoCategory
+	// https://test.kuali.org/confluence/display/KULSTG/DS+-+LO+Centrally+Maintain+Categories
+	private LoCategory cloneLoCategory(LoCategory loCategory, LoCategoryInfo loCategoryInfo) throws DoesNotExistException, InvalidParameterException, OperationFailedException {
+    	LoCategoryType catType = null;
+    	
+    	try {
+        	catType = loDao.fetch(LoCategoryType.class, loCategoryInfo.getType());
+    	} catch (DoesNotExistException dnee) {
+    		throw new DoesNotExistException("Attempt to set LoCategory's type to nonexistent LoCategoryType", dnee);
+    	}
+        	
+    	// clone the existing LO
+    	LoCategoryInfo newLoCategoryInfo = LearningObjectiveServiceAssembler.toLoCategoryInfo(loCategory);
+    	newLoCategoryInfo.setType(catType.getId());
+    	newLoCategoryInfo.setName(loCategoryInfo.getName());
+    	LoCategory newLoCategory = loDao.create(LearningObjectiveServiceAssembler.toLoCategory(newLoCategoryInfo, loDao));
+        	
+    	// clone Lo-LoCategory relations
+    	List<Lo> catsLos = loDao.getLosByLoCategory(loCategory.getId());         	
+    	for (Lo lo : catsLos) {
+    		try {
+    			// create the new one
+				loDao.addLoCategoryToLo(newLoCategoryInfo.getId(), lo.getId());
+				// remove the old one
+				loDao.removeLoCategoryFromLo(loCategory.getId(), lo.getId());
+			} catch (UnsupportedActionException uae) {
+				throw new OperationFailedException(uae.getMessage(), uae);
+			}
+    	}
+        	
+    	// inactivate old LoCategory
+    	loCategory.setState("inactive");
+    	loDao.update(loCategory);
+        	
+    	return newLoCategory;
+	}
+
 	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lo.service.LearningObjectiveService#validateLo(java.lang.String, org.kuali.student.lum.lo.dto.LoInfo)
 	 */
