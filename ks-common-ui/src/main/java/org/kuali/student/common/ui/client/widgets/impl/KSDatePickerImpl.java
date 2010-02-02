@@ -67,7 +67,9 @@ public class KSDatePickerImpl extends KSDatePickerAbstract implements HasFocusHa
 		dateField.addBlurHandler(new BlurHandler(){
 			public void onBlur(BlurEvent event) {
 				dateField.removeStyleName(KSStyles.KS_DATEFIELD_FOCUS_STYLE);	
-				
+				if(!picker.isVisible()){
+					focus.setSuppressed(false);
+				}
 			}	
 		});
 		
@@ -185,7 +187,22 @@ public class KSDatePickerImpl extends KSDatePickerAbstract implements HasFocusHa
 	}
 	
 	public Date getValue(){
-		return this.selectedDate;
+		Date date = null;
+		if(dateField.getText() != null 
+				&& dateField.getText().trim().length() == 10)
+		{
+			try{	
+				date = df.parseStrict(dateField.getText().trim());
+			}
+			catch(IllegalArgumentException e){
+				date = null;
+			}
+		}
+		else{
+			dateField.setText("");
+		}
+		return date;
+		//return this.selectedDate;
 	}
 	
 	public void setValue(Date date){
@@ -194,10 +211,24 @@ public class KSDatePickerImpl extends KSDatePickerAbstract implements HasFocusHa
 		}else{
 			dateField.setText(df.format(date));
 	        picker.setCurrentMonth(date);
+	        picker.setValue(date, false);
+		    selectedDate = date;
 		}
-        picker.setValue(date, false);
-	    selectedDate = date;
+        
 	}
+	
+/*	public void setValue(String date){
+		if(date == null || date.equals("")){
+			dateField.setText("");
+		}
+		else{
+			Date newDate = df.parse(date);
+			dateField.setText(date);
+			picker.setCurrentMonth(newDate);
+			picker.setValue(newDate, false);
+		    selectedDate = newDate;
+		}
+	}*/
 
     @Override
     public void setValue(Date date, boolean fireEvents) {

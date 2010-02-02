@@ -8,21 +8,25 @@ import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTMLPanel;
 
 public class KSBlockMenuImpl extends Composite{
-	private HorizontalBlockFlowPanel layout = new HorizontalBlockFlowPanel();
+	private FlowPanel layout = new FlowPanel();
+	private FlowPanel container = new FlowPanel();
 	private List<KSListMenuImpl> menus = new ArrayList<KSListMenuImpl>();
 	
 	public KSBlockMenuImpl(){
-		layout.setStyleName("KS-Block-Menu");
-		this.initWidget(layout);
+		//layout.setStyleName("KS-Block-Menu");
+		layout.setStyleName("ks-page-sub-navigation");
+		container.add(layout);
+		layout.add(new HTMLPanel("<div class=\"clear\">&nbsp;</div>"));
+		this.initWidget(container);
 	}
 	
 	public void addMenu(KSListMenuImpl menu){
-		FlowPanel div = new FlowPanel();
-		div.setStyleName("KS-Block-Menu-Sub");
-		div.add(menu);
-		layout.add(div);
+		menu.setStyleName("ks-page-sub-navigation-menu");
+		layout.insert(menu, layout.getWidgetCount() -1);
+		//layout.add(menu);
 		
 	}
 	

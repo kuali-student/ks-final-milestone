@@ -28,13 +28,14 @@ import com.google.gwt.user.client.ui.Widget;
 public abstract class DisplayMultiplicityComposite extends MultiplicityComposite {
    
     public DisplayMultiplicityComposite(){
+    	super(StyleType.TOP_LEVEL);
     }
     
     /**
      * @see org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite#getItemDecorator()
      */
     @Override
-    public MultiplicityItem getItemDecorator() {
+    public MultiplicityItem getItemDecorator(StyleType style) {
         return new DisplayItem();
     }
     

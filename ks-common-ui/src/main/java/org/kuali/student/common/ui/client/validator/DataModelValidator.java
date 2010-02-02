@@ -460,7 +460,9 @@ public class DataModelValidator {
 		String basePath = path.toString();
 		if (meta.getProperties() != null) {
 			for (Map.Entry<String, Metadata> e : meta.getProperties().entrySet()) {
+				
 				QueryPath childPath = QueryPath.concat(basePath, e.getKey());
+				//System.out.println(childPath.toString());
 				doValidate(model, e.getValue(), childPath, results);
 			}
 		}

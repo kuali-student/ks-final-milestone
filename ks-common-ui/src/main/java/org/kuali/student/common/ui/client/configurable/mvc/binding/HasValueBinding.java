@@ -9,7 +9,9 @@ package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
 import java.util.Date;
 
+import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.QueryPath;
+import org.kuali.student.common.assembly.client.Data.DataValue;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 
 import com.google.gwt.core.client.GWT;
@@ -47,6 +49,9 @@ public class HasValueBinding extends ModelWidgetBindingSupport<HasValue> {
             model.set(qPath, (Boolean) value);
         } else if (value instanceof Date) {
             model.set(qPath, (Date) value);
+        } else if (value == null){
+        	String s = null;
+        	model.set(qPath, s);
         }
 
     }

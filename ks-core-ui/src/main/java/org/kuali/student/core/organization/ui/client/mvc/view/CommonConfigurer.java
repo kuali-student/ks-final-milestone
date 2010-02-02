@@ -5,17 +5,17 @@ import java.util.List;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.common.ui.client.configurable.mvc.ConfigurableLayout;
-import org.kuali.student.common.ui.client.configurable.mvc.CustomNestedSection;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
-import org.kuali.student.common.ui.client.configurable.mvc.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
-import org.kuali.student.common.ui.client.configurable.mvc.SectionView;
-import org.kuali.student.common.ui.client.configurable.mvc.VerticalSection;
-import org.kuali.student.common.ui.client.configurable.mvc.Section.FieldLabelType;
+import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.RemovableItem;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.UpdatableMultiplicityComposite;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
+import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
@@ -122,7 +122,8 @@ public class CommonConfigurer {
         orgInfo.addStyleName("KS-CORE-Section-Divider");
         // courseNumber.addSection(crossListed);
         section.addSection(orgInfo);
-        return section;
+        //section.addSection(orgInfo);
+        return section; 
         }
         catch(Exception e){
             e.printStackTrace();
@@ -188,6 +189,7 @@ public class CommonConfigurer {
         
         public CommonMultiplicityList(String addItemLabel, String itemLabel,List<FieldInfo> fieldList,String parentPath)
         {
+        	super(StyleType.SUB_LEVEL);
             setAddItemLabel(getLabel(addItemLabel));
             setItemLabel(getLabel(itemLabel));
             this.fieldList=fieldList;
@@ -195,15 +197,15 @@ public class CommonConfigurer {
         }
 
         @Override
-        public MultiplicityItem getItemDecorator() {
+        public MultiplicityItem getItemDecorator(StyleType style) {
             return new RemovableItem();
         }
 
         @Override
         public Widget createItem() {
             String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
-            CustomNestedSection ns = new CustomNestedSection();
-            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
+            GroupSection ns = new GroupSection();
+            //ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
             for (FieldInfo field : fieldList) {
                 Widget widget = null;
                 //Define specific widgets as they are defined in the xml config.

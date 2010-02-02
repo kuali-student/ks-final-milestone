@@ -20,6 +20,7 @@ import java.util.List;
 import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.SectionBinding;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
 import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -323,11 +324,11 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
     }
 
     public void updateModel(DataModel model){
-        SectionBinding.INSTANCE.setModelValue(this, model, "");
+        //SectionBinding.INSTANCE.setModelValue(this, model, "");
     }
 
     public void updateView(DataModel model) {
-        SectionBinding.INSTANCE.setWidgetValue(this, model, "");
+        //SectionBinding.INSTANCE.setWidgetValue(this, model, "");
     }
 
     public void clear(){
@@ -355,7 +356,18 @@ public abstract class Section extends Composite implements ConfigurableLayoutSec
                     }
 
                 }
+                else if(f.getFieldWidget() instanceof org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite){
+                	org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite mc = (org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite) f.getFieldWidget();
+                	
+                	for(MultiplicityItem item: mc.getItems()){
+                		if(item.getItemWidget() instanceof Section){
+                			((Section)item.getItemWidget()).processValidationResults(results);
+                		}
+                	}
+                }
             }
+            
+            //for()
         }
 
         for(Section s: sections){

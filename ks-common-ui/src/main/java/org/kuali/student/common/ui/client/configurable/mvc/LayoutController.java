@@ -59,8 +59,8 @@ public abstract class LayoutController extends Controller implements Configurabl
     public void processValidationResults(List<ValidationResultContainer> list){
     	Collection<View> sections = sectionViewMap.values();
         for(View v: sections){
-     	   if(v instanceof SectionView){
-     		   ((SectionView) v).processValidationResults(list);
+     	   if(v instanceof org.kuali.student.common.ui.client.configurable.mvc.views.SectionView){
+     		   ((org.kuali.student.common.ui.client.configurable.mvc.views.SectionView) v).processValidationResults(list);
      	   }
         }
     }

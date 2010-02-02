@@ -8,8 +8,8 @@
 package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
 import org.kuali.student.common.assembly.client.QueryPath;
-import org.kuali.student.common.ui.client.configurable.mvc.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 
 import com.google.gwt.core.client.GWT;
@@ -38,8 +38,11 @@ public class MultiplicityItemBinding extends ModelWidgetBindingSupport<Multiplic
     public void setModelValue(MultiplicityItem multiplicityItem, DataModel model, String path) {
         // TODO modify this method to use QueryPath.add to build paths, rather than string manipulation
         String itemPath = path + QueryPath.getPathSeparator() + multiplicityItem.getItemKey();
+    	
         Widget widget = multiplicityItem.getItemWidget();
         if (widget instanceof Section) {
+        	//FIXME temporary fix
+        	itemPath = "";
             SectionBinding.INSTANCE.setModelValue((Section) widget, model, itemPath);
         } else if (widget instanceof ModelWidgetBinding) {
             ((ModelWidgetBinding) widget).setModelValue(widget, model, path);
@@ -48,7 +51,7 @@ public class MultiplicityItemBinding extends ModelWidgetBindingSupport<Multiplic
         }
 
         // Multiplicity metadata?
-        QueryPath qPath;
+/*        QueryPath qPath;
         if (multiplicityItem.isCreated()) {
             qPath = QueryPath.parse(itemPath + QueryPath.getPathSeparator() + RT_CREATED);
         } else if (multiplicityItem.isDeleted()) {
@@ -61,7 +64,7 @@ public class MultiplicityItemBinding extends ModelWidgetBindingSupport<Multiplic
         if (!nullsafeEquals(oldValue, newValue)) {
             model.set(qPath, newValue);
             setDirtyFlag(model, qPath);
-        }
+        }*/
 
     }
 
