@@ -14,13 +14,13 @@
 
 
 .KS-LUM-Section {
-	margin: 5px;
-	padding: 5px 5px 10px 5px;
-	width: 95%;
+	/*margin: 5px;
+	padding: 5px 5px 10px 5px;*/
+	/*width: 95%;*/
 }
 
 .KS-LUM-Section-Divider {
-	border-top: 1px solid orange;
+	/*border-top: 1px solid orange;*/
 }
 
 .KS-FormLayout-Label {
@@ -38,7 +38,7 @@
 
 .KS-Textbox{
 	width: 200px;
-	font-size: 16px; 	
+	/*font-size: 16px; 	*/
 }
 
 .KS-Course-Section-Header {

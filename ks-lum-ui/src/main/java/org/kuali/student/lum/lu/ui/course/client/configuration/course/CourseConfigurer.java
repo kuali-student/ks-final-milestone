@@ -20,20 +20,21 @@ import java.util.List;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.common.ui.client.configurable.mvc.ConfigurableLayout;
-import org.kuali.student.common.ui.client.configurable.mvc.CustomNestedSection;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.HasModelDTOValueBinding;
-import org.kuali.student.common.ui.client.configurable.mvc.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
-import org.kuali.student.common.ui.client.configurable.mvc.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
-import org.kuali.student.common.ui.client.configurable.mvc.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.Section.FieldLabelType;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
+import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.RemovableItem;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.UpdatableMultiplicityComposite;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite.StyleType;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
+import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -274,11 +275,10 @@ public class CourseConfigurer
         //FIXME: Label should be key to messaging, field type should come from dictionary?
 
         //COURSE NUMBER
-        CustomNestedSection courseNumber = new CustomNestedSection();
+        GroupSection courseNumber = new GroupSection();
         courseNumber.addStyleName(LUConstants.STYLE_SECTION);
         courseNumber.addStyleName(LUConstants.STYLE_SECTION_DIVIDER);
         courseNumber.setSectionTitle(getH3Title(LUConstants.IDENTIFIER_LABEL_KEY)); 
-        courseNumber.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
         addField(courseNumber, COURSE + "/" + SUBJECT_AREA, null);
         addField(courseNumber, COURSE + "/" + COURSE_NUMBER_SUFFIX, null);
         
@@ -289,22 +289,22 @@ public class CourseConfigurer
         VerticalSection crossListed = new VerticalSection();
         crossListed.setSectionTitle(getH3Title(LUConstants.CROSS_LISTED_ALT_LABEL_KEY));
         // crossListed.setInstructions("Enter Department and/or Subject Code/Course Number.");
-        addField(crossListed, COURSE + "/" + CROSS_LISTINGS, null, new CrossListedList());
-        crossListed.addStyleName("KS-LUM-Section-Divider");
+        addField(crossListed, COURSE + "/" + CROSS_LISTINGS, null, new CrossListedList(COURSE + "/" + CROSS_LISTINGS));
+        //crossListed.addStyleName("KS-LUM-Section-Divider");
         courseNumber.addSection(crossListed);
 
         // Offered jointly
         VerticalSection offeredJointly = new VerticalSection();
         offeredJointly.setSectionTitle(getH3Title(LUConstants.JOINT_OFFERINGS_ALT_LABEL_KEY));
         addField(offeredJointly, COURSE + "/" + JOINTS, null, new OfferedJointlyList());
-        offeredJointly.addStyleName("KS-LUM-Section-Divider");
+        //offeredJointly.addStyleName("KS-LUM-Section-Divider");
         courseNumber.addSection(offeredJointly);
 
         //Version Codes
         VerticalSection versionCodes = new VerticalSection();
         versionCodes.setSectionTitle(getH3Title(LUConstants.VERSION_CODES_LABEL_KEY));
-        addField(versionCodes, COURSE + "/" + VERSIONS, null, new VersionCodeList());
-        versionCodes.addStyleName("KS-LUM-Section-Divider");
+        addField(versionCodes, COURSE + "/" + VERSIONS, null, new VersionCodeList(COURSE + "/" + VERSIONS));
+        //versionCodes.addStyleName("KS-LUM-Section-Divider");
         courseNumber.addSection(versionCodes);
 
         VerticalSection longTitle = initSection(getH3Title(LUConstants.TITLE_LABEL_KEY), WITH_DIVIDER);
@@ -450,6 +450,7 @@ public class CourseConfigurer
     public class CourseFormatList extends UpdatableMultiplicityComposite {
     	private final String parentPath;
         public CourseFormatList(String parentPath){
+        	super(StyleType.TOP_LEVEL);
         	this.parentPath = parentPath;
             setAddItemLabel(getLabel(LUConstants.COURSE_ADD_FORMAT_LABEL_KEY));
             setItemLabel(getLabel(LUConstants.FORMAT_LABEL_KEY));
@@ -457,7 +458,8 @@ public class CourseConfigurer
 
         public Widget createItem() {
         	VerticalSection item = new VerticalSection();
-            addField(item, ACTIVITIES, null, new CourseActivityList(QueryPath.concat(parentPath, String.valueOf(itemCount-1), ACTIVITIES).toString()), parentPath);
+            addField(item, ACTIVITIES, null, new CourseActivityList(QueryPath.concat(parentPath, String.valueOf(itemCount-1), ACTIVITIES).toString()), 
+            		parentPath + "/" + String.valueOf(itemCount -1));
             return item;
         }
     }
@@ -466,6 +468,7 @@ public class CourseConfigurer
 
     	private final String parentPath;
         public CourseActivityList(String parentPath){
+        	super(StyleType.SUB_LEVEL);
         	this.parentPath = parentPath;
             setAddItemLabel(getLabel(LUConstants.ADD_ACTIVITY_LABEL_KEY));
             setItemLabel(getLabel(LUConstants.ACTIVITY_LITERAL_LABEL_KEY));
@@ -473,27 +476,25 @@ public class CourseConfigurer
 
         public Widget createItem() {
             String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
-            CustomNestedSection activity = new CustomNestedSection();
-            addField(activity, ACTIVITY_TYPE, getLabel(LUConstants.ACTIVITY_TYPE_LABEL_KEY), new CluActivityType(), parentPath);
-            activity.nextRow();
+            GroupSection activity = new GroupSection();
+            addField(activity, ACTIVITY_TYPE, getLabel(LUConstants.ACTIVITY_TYPE_LABEL_KEY), new CluActivityType(), path);
+            activity.nextLine();
 
             /* CreditInfo is deprecated, needs to be replaced with learning results
             activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
             activity.addField(new FieldDescriptor("creditInfo", "Credit Value", Type.STRING));
-            activity.nextRow();
+            activity.nextLine();
             activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
             activity.addField(new FieldDescriptor("evalType", "Learning Result", Type.STRING));
-            activity.nextRow();
+            activity.nextLine();
             */
 
-            activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
             // FIXME need to get the term offered added to the activity metadata?
 //            activity.addField(new FieldDescriptor("term", getLabel(LUConstants.TERM_LITERAL_LABEL_KEY), Type.STRING, new AtpTypeList())); 
             addField(activity, CreditCourseActivityConstants.DURATION + "/" + CreditCourseActivityDurationConstants.QUANTITY, getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY), path);
             addField(activity, CreditCourseActivityConstants.DURATION + "/" + CreditCourseActivityDurationConstants.TIME_UNIT, "Duration Type", new DurationAtpTypeList(), path);
 
-            activity.nextRow();
-            activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
+            activity.nextLine();
             addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.HRS, "Contact Hours" , path);
             // FIXME look up what the label and implement as dropdown
             addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.PER, null,  new ContactHoursAtpTypeList(), path);
@@ -703,7 +704,7 @@ public class CourseConfigurer
 //        public Widget createItem() {
 //            MultiplicitySection multi = new MultiplicitySection("");
 //            
-//            CustomNestedSection ns = new CustomNestedSection();
+//            GroupSection ns = new GroupSection();
 //            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
 //            ns.addField(new FieldDescriptor("orgId", "Organization ID", Type.STRING, new OrgPicker() ));
 //            multi.addSection(ns);
@@ -722,7 +723,7 @@ public class CourseConfigurer
 //        public Widget createItem() {
 //            MultiplicitySection multi = new MultiplicitySection("");
 //            
-//            CustomNestedSection ns = new CustomNestedSection();
+//            GroupSection ns = new GroupSection();
 //            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
 //            ns.addField(new FieldDescriptor("personId", "Instructor ID", Type.STRING /*, new InstructorPicker() */ ));
 //            multi.addSection(ns);
@@ -835,20 +836,25 @@ public class CourseConfigurer
             setItemLabel(getLabel(LUConstants.CROSS_LISTED_ITEM_LABEL_KEY));
         }
         
-        @Override
-        public MultiplicityItem getItemDecorator() {
-            return new RemovableItem();
+        private final String parentPath;
+        public CrossListedList(String parentPath){
+        	super(StyleType.TOP_LEVEL);
+        	this.parentPath = parentPath;
         }
+        
+/*        @Override
+        public MultiplicityItem getItemDecorator(StyleType style) {
+            return new RemovableItem();
+        }*/
 
         @Override
         public Widget createItem() {
-            CustomNestedSection ns = new CustomNestedSection();
-            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            addField(ns, DEPARTMENT, getLabel(LUConstants.DEPT_LABEL_KEY), new OrgPicker());
-            ns.nextRow();
-            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            addField(ns, SUBJECT_AREA, getLabel(LUConstants.SUBJECT_CODE_LABEL_KEY));
-            addField(ns, COURSE_NUMBER_SUFFIX, getLabel(LUConstants.COURSE_NUMBER_LABEL_KEY));
+        	String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
+            GroupSection ns = new GroupSection();
+            addField(ns, DEPARTMENT, getLabel(LUConstants.DEPT_LABEL_KEY), new OrgPicker(), path);
+            ns.nextLine();
+            addField(ns, SUBJECT_AREA, getLabel(LUConstants.SUBJECT_CODE_LABEL_KEY), path);
+            addField(ns, COURSE_NUMBER_SUFFIX, getLabel(LUConstants.COURSE_NUMBER_LABEL_KEY), path);
                         
             return ns;
         }
@@ -861,18 +867,23 @@ public class CourseConfigurer
             setAddItemLabel(getLabel(LUConstants.ADD_VERSION_CODE_LABEL_KEY));
             setItemLabel(getLabel(LUConstants.VERSION_CODE_LABEL_KEY));
         }
-
-        @Override
-        public MultiplicityItem getItemDecorator() {
-            return new RemovableItem();
+        private final String parentPath;
+        public VersionCodeList(String parentPath){
+        	super(StyleType.TOP_LEVEL);
+        	this.parentPath = parentPath;
         }
+
+/*        @Override
+        public MultiplicityItem getItemDecorator(StyleType style) {
+            return new RemovableItem();
+        }*/
 
         @Override
         public Widget createItem() {
-            CustomNestedSection ns = new CustomNestedSection();
-            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            addField(ns, "versionCode", getLabel(LUConstants.CODE_LABEL_KEY));
-            addField(ns, "versionTitle", getLabel(LUConstants.TITLE_LITERAL_LABEL_KEY));
+        	String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
+            GroupSection ns = new GroupSection();
+            addField(ns, "versionCode", getLabel(LUConstants.CODE_LABEL_KEY), path);
+            addField(ns, "versionTitle", getLabel(LUConstants.TITLE_LITERAL_LABEL_KEY), path);
             
             return ns;
         }
@@ -921,7 +932,9 @@ public class CourseConfigurer
     private VerticalSectionView initSectionView (Enum<?> viewEnum, String labelKey) {
         VerticalSectionView section = new VerticalSectionView(viewEnum, getLabel(labelKey), CLU_PROPOSAL_MODEL);
         section.addStyleName(LUConstants.STYLE_SECTION);
-        section.setSectionTitle(getH1Title(labelKey));
+        SectionTitle viewTitle = getH2Title(labelKey);
+        viewTitle.addStyleName("ks-heading-page-title");
+        section.setSectionTitle(viewTitle);
         
         return section;
     }
@@ -930,6 +943,7 @@ public class CourseConfigurer
     private VerticalSection initSection(SectionTitle title, boolean withDivider) {
         VerticalSection section = new VerticalSection();
         if (title !=  null) {
+          title.addStyleName("ks-heading-page-section");
           section.setSectionTitle(title);
         }
         section.addStyleName(LUConstants.STYLE_SECTION);

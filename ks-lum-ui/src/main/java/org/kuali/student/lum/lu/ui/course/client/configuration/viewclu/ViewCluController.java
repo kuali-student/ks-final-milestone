@@ -19,10 +19,15 @@ import org.kuali.student.common.assembly.client.SimpleModelDefinition;
 import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
+import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
+//import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
+//import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
@@ -158,9 +163,11 @@ public class ViewCluController extends PagedSectionLayout{
         }
     }
 
+    @Deprecated
     private void generateLayout() {
-        super.removeSections();        
-        ViewCluConfigurer.generateLayout(this);
+        super.removeSections();
+        //FIXME commented out for commit, class is believe to be unused
+        //ViewCluConfigurer.generateLayout(this);
     }
     
     public void clear(){

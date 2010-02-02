@@ -18,7 +18,8 @@ import java.util.List;
 
 import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.assembly.client.Metadata;
-import org.kuali.student.common.ui.client.configurable.mvc.TabbedSectionLayout;
+import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionHandler;
@@ -248,7 +249,7 @@ public class CourseProposalController extends TabbedSectionLayout {
 	            }            
 	        });
 	        
-	        addApplicationEventHandler(ValidateResultEvent.TYPE, new ValidateResultHandler() {
+/*	        addApplicationEventHandler(ValidateResultEvent.TYPE, new ValidateResultHandler() {
 	            @Override
 	            public void onValidateResult(ValidateResultEvent event) {
 	            	if(processingSave){
@@ -269,7 +270,7 @@ public class CourseProposalController extends TabbedSectionLayout {
 	            		currentSaveEvent = null;
 	            	}
 	            }
-	        });
+	        });*/
         }
         
         initialized = true;
@@ -384,26 +385,69 @@ public class CourseProposalController extends TabbedSectionLayout {
     }
 
     
-    public void doSaveAction(SaveActionEvent saveActionEvent){       
-        String proposalName = cluProposalModel.get(CLU_PROPOSAL_NAME_KEY);
-        currentSaveEvent = saveActionEvent;
-        if (proposalName == null){
-            showStartSection(NO_OP_CALLBACK);
-        } else {
-            getStartSection().updateModel();
+    public void doSaveAction(final SaveActionEvent saveActionEvent){       
+    	currentSaveEvent = saveActionEvent;
+    	if(CourseProposalController.this.isStartSectionShowing()){
+    		getStartSection().updateModel();
+    	}
+    	else{
+    		getCurrentView().updateModel();
+            //CourseProposalController.this.updateModel();
+    	}
+    	
+        requestModel(new ModelRequestCallback<DataModel>() {
+            @Override
+            public void onModelReady(DataModel model) {
+                model.validate(new Callback<List<ValidationResultContainer>>() {
+                    @Override
+                    public void exec(List<ValidationResultContainer> result) {
+                    	
+                    	boolean save = true;
+                    	if(CourseProposalController.this.isStartSectionShowing()){
+                    		CourseProposalController.this.getStartSection().setFieldHasHadFocusFlags(true);
+                    		ErrorLevel status = CourseProposalController.this.getStartSection().processValidationResults(result);
+                    		if(status == ErrorLevel.ERROR){
+                    			save = false;
+                    		}
+                    	}
+                    	else{
+                    		View v = getCurrentView();
+                        	if(v instanceof Section){
+                        		((Section) v).setFieldHasHadFocusFlags(true);
+                        		ErrorLevel status = ((Section) v).processValidationResults(result);
+                        		if(status == ErrorLevel.ERROR){
+                        			save = false;
+                        		}
+                        	}
+                    	}
+                    	
+                    	if(save){
+                            String proposalName = cluProposalModel.get(CLU_PROPOSAL_NAME_KEY);
+                            if (proposalName == null && !CourseProposalController.this.isStartSectionShowing()){
+                                showStartSection(NO_OP_CALLBACK);
+                            }
+                            else{
+	                    		getStartSection().updateModel();
+	                            getCurrentView().updateModel();
+	                            CourseProposalController.this.updateModel();
+	                            saveProposalClu(saveActionEvent);
+                            }
+                    	}
+                    	else{
+                    		Window.alert("Save failed.  Please check fields for errors.");
+                    	}
+                        
+                    }
+                });
+            }
+
+            @Override
+            public void onRequestFail(Throwable cause) {
+                GWT.log("Unable to retrieve model for validation and save", cause);
+            }
             
-            getCurrentView().updateModel();
-            
-            this.updateModel();
-            
-            saveProposalClu(saveActionEvent);
-//            processingSave=true;
-//            View v = getCurrentView();
-//        	if(v instanceof SectionView){
-//        		((SectionView) v).setFieldHasHadFocusFlags(true);
-//        		this.validate((SectionView)v);
-//        	}
-        }       
+        });
+           
     }
     
     public void saveProposalClu(final SaveActionEvent saveActionEvent){

@@ -15,18 +15,20 @@
 package org.kuali.student.lum.lu.ui.course.client.configuration.viewclu;
 
 import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.common.ui.client.configurable.mvc.ConfigurableLayout;
+
 import org.kuali.student.common.ui.client.configurable.mvc.CustomNestedSection;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.MultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.MultiplicitySection;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
-import org.kuali.student.common.ui.client.configurable.mvc.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.SimpleMultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
-import org.kuali.student.common.ui.client.configurable.mvc.VerticalSection;
-import org.kuali.student.common.ui.client.configurable.mvc.VerticalSectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.Section.FieldLabelType;
+import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
+import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
+import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.dictionary.DictionaryManager;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.Type;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -48,9 +50,6 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @author Kuali Student Team
  *
- */
-/**
- * @deprecated
  */
 public class ViewCluConfigurer {
     
@@ -308,10 +307,9 @@ public class ViewCluConfigurer {
     private static VerticalSection generateScheduling(SectionTitle title, boolean withDivider) {
         VerticalSection section = initSection(title, withDivider);
         
-        CustomNestedSection ns = new CustomNestedSection();
-        ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
+        GroupSection ns = new GroupSection();
         ns.addField(new FieldDescriptor("cluInfo/offeredAtpTypes", getLabel(LUConstants.TERM_LITERAL_LABEL_KEY), Type.LIST, new OfferedAtpTypeList())); 
-        ns.nextRow();
+        ns.nextLine();
  
         section.addSection(ns);
         section.addField(new FieldDescriptor("cluInfo/stdDuration/atpDurationTypeKey", "Duration Type :   ", Type.STRING, new KSLabel())); 
@@ -695,8 +693,6 @@ public class ViewCluConfigurer {
         protected Widget createWidget() {
             return new Collaborators();
         }
-        
-        
 
     }    
 

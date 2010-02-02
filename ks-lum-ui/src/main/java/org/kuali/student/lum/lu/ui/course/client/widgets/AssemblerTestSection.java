@@ -10,8 +10,10 @@ import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.common.assembly.client.Data.Property;
 import org.kuali.student.common.assembly.client.HasChangeCallbacks.ChangeCallback;
 import org.kuali.student.common.assembly.client.HasChangeCallbacks.ChangeType;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
-import org.kuali.student.common.ui.client.configurable.mvc.SectionView;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
+import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
@@ -22,6 +24,8 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCours
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalInfoHelper;
+//import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
+//import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
 
@@ -42,6 +46,7 @@ import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
+import com.google.gwt.user.client.ui.Widget;
 
 
 /**
@@ -71,11 +76,6 @@ public class AssemblerTestSection extends SectionView {
 	@Override
 	public void redraw() {
 		// do nothing
-	}
-
-	@Override
-	public void validate(Callback<ErrorLevel> callback) {
-		callback.exec(ErrorLevel.OK);
 	}
 
 	@Override
@@ -533,6 +533,30 @@ public class AssemblerTestSection extends SectionView {
 			d.set("_runtimeData", runtime);
 		}
 		runtime.set(key, value);
+	}
+
+	@Override
+	protected void addFieldToLayout(FieldDescriptor f) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void addSectionToLayout(BaseSection s) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void addWidgetToLayout(Widget w) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

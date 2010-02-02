@@ -115,7 +115,8 @@ public class LuConfigurer {
         layout.addSection(new String[] {"Edit Proposal",getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateActiveDatesSection());
         layout.addSection(new String[] {"Edit Proposal",getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateFinancialsSection());        
         layout.addSection(new String[] {getLabel(LUConstants.SUMMARY_LABEL_KEY)}, generateSummarySection());
-        layout.addSection(new String[] {"Assembler Test"}, new AssemblerTestSection(LuSections.ASSEMBLER_TEST, "Assembler Test"));
+        //FIXME commented out for commit, class is deprecated (believed to be ok)
+        //layout.addSection(new String[] {"Assembler Test"}, new AssemblerTestSection(LuSections.ASSEMBLER_TEST, "Assembler Test"));
 
         layout.addTool(new CollaboratorTool());
         layout.addTool(new CommentPanel(LuSections.COMMENTS, LUConstants.TOOL_COMMENTS));
@@ -126,7 +127,8 @@ public class LuConfigurer {
         VerticalSectionView section = initSectionView(LuSections.SUMMARY, LUConstants.SUMMARY_LABEL_KEY); 
             
         section.addSection(generateSummaryBrief(getH3Title(LUConstants.BRIEF_LABEL_KEY)));
-        section.addSection(ViewCluConfigurer.generateSummaryDetails(getH3Title(LUConstants.FULL_VIEW_LABEL_KEY)));
+        //FIXME commented out for commit, class is deprecated (believed to be ok)
+        //section.addSection(ViewCluConfigurer.generateSummaryDetails(getH3Title(LUConstants.FULL_VIEW_LABEL_KEY)));
         
         return section;
     }
@@ -166,7 +168,9 @@ public class LuConfigurer {
     private static SectionView generateCourseRequisitesSection() {
         CourseRequisitesSectionView section = new CourseRequisitesSectionView(LuSections.COURSE_REQUISITES, getLabel(LUConstants.REQUISITES_LABEL_KEY), CluProposalModelDTO.class);
         section.setSectionTitle(SectionTitle.generateH1Title(getLabel(LUConstants.REQUISITES_LABEL_KEY)));
-        return section;
+        //FIXME commented out for commit, class is deprecated (believed to be ok)
+        //return section;
+        return null;
     }
 
     private static SectionView generateActiveDatesSection() {
