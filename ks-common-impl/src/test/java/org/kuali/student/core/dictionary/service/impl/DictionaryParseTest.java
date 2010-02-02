@@ -31,4 +31,19 @@ public class DictionaryParseTest {
 		Map<?, ?> map = context.getBeansOfType(ObjectStructure.class);
 		assertEquals(133,map.size());
 	}
+
+	
+	@Test
+	public void test2(){
+		//Test that the context does not break
+		ApplicationContext baseCtx = new ClassPathXmlApplicationContext("base-org-dict-config.xml");
+		ApplicationContext customCtx = new ClassPathXmlApplicationContext("custom-org-dict-config.xml");
+		
+		Map<?, ?> baseCtxMap = baseCtx.getBeansOfType(ObjectStructure.class);
+		Map<?, ?> customCtxMap = customCtx.getBeansOfType(ObjectStructure.class);
+		
+		assertEquals(11,baseCtxMap.size());
+		assertEquals(11,customCtxMap.size());
+	}
+
 }

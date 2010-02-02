@@ -28,6 +28,16 @@ public class SearchNamespaceHandler extends NamespaceHandlerSupport {
 		this.registerBeanDefinitionParser("resultColumn", parser);
 		this.registerBeanDefinitionParser("searchType", parser);
 		this.registerBeanDefinitionParser("searchResultTypeInfo", parser);
+		
+		this.registerBeanDefinitionParser("crossSearchType", parser);		
+		this.registerBeanDefinitionParser("subSearch", parser);
+		this.registerBeanDefinitionParser("subSearchParamMappings", parser);
+		this.registerBeanDefinitionParser("joinCriteria", parser);
+		this.registerBeanDefinitionParser("comparison", parser);
+		this.registerBeanDefinitionParser("leftHandSide", parser);
+		this.registerBeanDefinitionParser("rightHandSide", parser);
+		this.registerBeanDefinitionParser("joinResultMapping", parser);
+
 	}
 
 }
