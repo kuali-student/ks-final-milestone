@@ -68,67 +68,71 @@ public class SingleUseLoInfoAssembler implements Assembler<Data, LoInfo> {
 		RichTextInfoAssembler rtAssembler = new RichTextInfoAssembler();
 		
 		try {
-			for (CluLoRelationInfo cluLoRltnInfo : luService.getCluLoRelationsByClu(cluId)) {
-				
-				CreditCourseCourseSpecificLOsHelper cccsLoHelper = CreditCourseCourseSpecificLOsHelper.wrap(new Data());
-				SingleUseLoHelper topLevelLoHelper = SingleUseLoHelper.wrap(new Data());
-				LoInfo lo = loService.getLo(cluLoRltnInfo.getLoId());
-				if (lo != null) {
-					
-					topLevelLoHelper.setId(lo.getId());
-					topLevelLoHelper.setDescription(RichTextInfoHelper.wrap(rtAssembler.assemble(lo.getDesc())));
-					topLevelLoHelper.setLoRepository(lo.getLoRepositoryKey());
-					topLevelLoHelper.setEffectiveDate(lo.getEffectiveDate());
-					topLevelLoHelper.setState(lo.getState());
-					topLevelLoHelper.setType(lo.getType());
-					List<LoCategoryInfo> loCategories = loService.getLoCategoriesForLo(lo.getId());
-					
-					Data categoriesData = new Data();
-					if (null != loCategories) {
-						for (LoCategoryInfo loCategory : loCategories) {
-							LoCategoryInfoHelper catHelper = LoCategoryInfoHelper.wrap(new Data());
-							catHelper.setId(loCategory.getId());
-							catHelper.setName(loCategory.getName());
-							// there must be a more efficient way to do this; creating two RichTextInfoHelpers in this call
-							catHelper.setDesc(RichTextInfoHelper.wrap(rtAssembler.assemble(loCategory.getDesc())));
-							catHelper.setLoRepository(loCategory.getLoRepository());
-							catHelper.setEffectiveDate(loCategory.getEffectiveDate());
-							catHelper.setExpirationDate(loCategory.getExpirationDate());
-							AttributesAssembler attAssembler = new AttributesAssembler();
-							catHelper.setAttributes(attAssembler.assemble(loCategory.getAttributes()));
-							catHelper.setState(loCategory.getState());
-							catHelper.setType(loCategory.getType());
-							
-							// TODO - do we need  MetaInfo communicated to the client, and hence a MetaInfoAssembler?
-							/*
-							MetaInfo mInfo = loCategory.getMetaInfo();
-							MetaInfoHelper metaHelper = MetaInfoHelper.wrap(new Data());
-							metaHelper.setCreateId(mInfo.getCreateId());
-							...
-							*/
-							
-							categoriesData.add(catHelper.getData());
-						}
-					}
-					topLevelLoHelper.setCategories(categoriesData);
-					cccsLoHelper.setSequence(lo.getAttributes().get("sequence"));
-					/* Until there's an actual CluLoRelation retrieved from LUService, this stuff
-					 * is probably moot. And, the hard-coded values should perhaps come from
-					 * something like a CluInfoHierarchyAssembler.RelationshipHierarchy, that's
-					 * initialized with the right values from metadata
-					 */
-					cccsLoHelper.setEffectiveDate(lo.getEffectiveDate());
-					cccsLoHelper.setId(null);
-					cccsLoHelper.setState("draft");
-					cccsLoHelper.setType("kuali.lu.lo.relation.type.includes");
-					
-					// retrieve child hierarchy
-					// TODO - factor out common code here and in getChildLos()
-					topLevelLoHelper.setChildSingleUseLos(getChildLos(lo.getId()));
-				}
-				cccsLoHelper.setIncludedSingleUseLo(topLevelLoHelper);
-				losData.add(cccsLoHelper.getData());
-			}
+		    List<CluLoRelationInfo> cluRelations = luService.getCluLoRelationsByClu(cluId); 
+		    
+		    if (cluRelations != null){
+    			for (CluLoRelationInfo cluLoRltnInfo : cluRelations) {
+    				
+    				CreditCourseCourseSpecificLOsHelper cccsLoHelper = CreditCourseCourseSpecificLOsHelper.wrap(new Data());
+    				SingleUseLoHelper topLevelLoHelper = SingleUseLoHelper.wrap(new Data());
+    				LoInfo lo = loService.getLo(cluLoRltnInfo.getLoId());
+    				if (lo != null) {
+    					
+    					topLevelLoHelper.setId(lo.getId());
+    					topLevelLoHelper.setDescription(RichTextInfoHelper.wrap(rtAssembler.assemble(lo.getDesc())));
+    					topLevelLoHelper.setLoRepository(lo.getLoRepositoryKey());
+    					topLevelLoHelper.setEffectiveDate(lo.getEffectiveDate());
+    					topLevelLoHelper.setState(lo.getState());
+    					topLevelLoHelper.setType(lo.getType());
+    					List<LoCategoryInfo> loCategories = loService.getLoCategoriesForLo(lo.getId());
+    					
+    					Data categoriesData = new Data();
+    					if (null != loCategories) {
+    						for (LoCategoryInfo loCategory : loCategories) {
+    							LoCategoryInfoHelper catHelper = LoCategoryInfoHelper.wrap(new Data());
+    							catHelper.setId(loCategory.getId());
+    							catHelper.setName(loCategory.getName());
+    							// there must be a more efficient way to do this; creating two RichTextInfoHelpers in this call
+    							catHelper.setDesc(RichTextInfoHelper.wrap(rtAssembler.assemble(loCategory.getDesc())));
+    							catHelper.setLoRepository(loCategory.getLoRepository());
+    							catHelper.setEffectiveDate(loCategory.getEffectiveDate());
+    							catHelper.setExpirationDate(loCategory.getExpirationDate());
+    							AttributesAssembler attAssembler = new AttributesAssembler();
+    							catHelper.setAttributes(attAssembler.assemble(loCategory.getAttributes()));
+    							catHelper.setState(loCategory.getState());
+    							catHelper.setType(loCategory.getType());
+    							
+    							// TODO - do we need  MetaInfo communicated to the client, and hence a MetaInfoAssembler?
+    							/*
+    							MetaInfo mInfo = loCategory.getMetaInfo();
+    							MetaInfoHelper metaHelper = MetaInfoHelper.wrap(new Data());
+    							metaHelper.setCreateId(mInfo.getCreateId());
+    							...
+    							*/
+    							
+    							categoriesData.add(catHelper.getData());
+    						}
+    					}
+    					topLevelLoHelper.setCategories(categoriesData);
+    					cccsLoHelper.setSequence(lo.getAttributes().get("sequence"));
+    					/* Until there's an actual CluLoRelation retrieved from LUService, this stuff
+    					 * is probably moot. And, the hard-coded values should perhaps come from
+    					 * something like a CluInfoHierarchyAssembler.RelationshipHierarchy, that's
+    					 * initialized with the right values from metadata
+    					 */
+    					cccsLoHelper.setEffectiveDate(lo.getEffectiveDate());
+    					cccsLoHelper.setId(null);
+    					cccsLoHelper.setState("draft");
+    					cccsLoHelper.setType("kuali.lu.lo.relation.type.includes");
+    					
+    					// retrieve child hierarchy
+    					// TODO - factor out common code here and in getChildLos()
+    					topLevelLoHelper.setChildSingleUseLos(getChildLos(lo.getId()));
+    				}
+    				cccsLoHelper.setIncludedSingleUseLo(topLevelLoHelper);
+    				losData.add(cccsLoHelper.getData());
+    			}
+		    }
 		} catch (Exception e) {
 			throw new AssemblyException(e);
 		}
