@@ -62,12 +62,14 @@ public class MessageStructurePageReader
 
  protected MessageStructurePageReader (File contractFile)
  {
+  contractPath = contractFile.getName ();
   doc = new PageHelper ().getDocument (contractFile);
 
  }
 
  public MessageStructurePageReader (String contractPath, String jSessionId)
  {
+  this.contractPath = contractPath;
   URL url = new UrlHelper (contractPath).getUrl ();
   doc = new PageHelper ().getDocument (url, jSessionId);
  }

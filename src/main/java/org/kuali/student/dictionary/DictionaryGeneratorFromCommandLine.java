@@ -73,11 +73,11 @@ public class DictionaryGeneratorFromCommandLine
 
  public void displayUsage (PrintStream out)
  {
-  out.println ("Usage: java -jar kuali-dictionary-generator.jar <inputExcel> <outputXML>");
+  out.println ("Usage: java -jar kuali-dictionary-generator.jar <inputExcel> <outputXMLDirectory>");
   out.println ("\t@param inputExcel the fully qualified file name for the input excel file");
-  out.println ("\t@param outputXML the fully qualified file name for the output xml file");
+  out.println ("\t@param outputXMLDirectory the fully qualified directory name where the output xml files should be written");
   out.println ("\t@note both / and \\ are allowed in directory path name");
-  out.println ("ex: java -jar kuali-dictionary-generator.jar mydir/org.kuali.student.dictionary.xls mydir\\lu-dictionary-config.xml");
+  out.println ("ex: java -jar kuali-dictionary-generator.jar mydir/org.kuali.student.dictionary.xls mydir\\");
  }
 
  private void generate (String[] args)
@@ -103,20 +103,9 @@ public class DictionaryGeneratorFromCommandLine
   generate (in, out);
  }
 
- protected void generate (String inFile, String outFile)
+ protected void generate (String inFile, String outDir)
  {
-  displayParameters (inFile, outFile);
-  File file = new File (outFile);
-  PrintStream out;
-  try
-  {
-   out = new PrintStream (file);
-  }
-  catch (FileNotFoundException ex)
-  {
-   throw new RuntimeException (ex);
-  }
-
+  displayParameters (inFile, outDir);
   SpreadsheetReader reader = null;
 
   try
@@ -124,12 +113,11 @@ public class DictionaryGeneratorFromCommandLine
    reader = new ExcelSpreadsheetReader (inFile);
    DictionaryModelLoader loader = new DictionaryModelLoader (reader);
    DictionaryModel cache = new DictionaryModelCache (loader);
-   DictionaryModelWriter instance = new DictionaryModelWriter (out, cache);
+   DictionaryModelWriter instance = new DictionaryModelWriter (outDir, cache);
    instance.write ();
   }
   finally
   {
-   out.close ();
    if (reader != null)
    {
     reader.close ();

@@ -15,7 +15,6 @@
  */
 package org.kuali.student.dictionary.model.wiki;
 
-import java.io.File;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -24,7 +23,7 @@ import org.junit.Test;
 import org.kuali.student.dictionary.TestConstants;
 import org.kuali.student.dictionary.model.XmlType;
 import org.kuali.student.dictionary.model.util.XmlTypeDumper;
-import static org.junit.Assert.*;
+import org.w3c.dom.Document;
 
 /**
  *
@@ -43,7 +42,7 @@ public class XmlTypePageReaderTest implements TestConstants
  // cut and paste the content here.
  // ==> the JSessionID changes everytime you drop out of the browser.
  public static final String JSESSIONID =
-  "D557E4EF2550606B81619CDFA08C0C0B.Kuali3_1Engine";
+  "D3E272B66BF8EE6630D5BF7018DCD575.Kuali3_1Engine";
 
 
  public XmlTypePageReaderTest ()
@@ -85,22 +84,7 @@ public class XmlTypePageReaderTest implements TestConstants
 //  new NodeHelper ().dump (doc, System.out);
 // }
 
-// /**
-//  * Test of getDocument xmlType, of class XmlTypeReader.
-//  */
-// @Test
-// public void testGetStructureTableNode ()
-// {
-//  System.out.println ("getStructureTableNode");
-//  XmlTypePageReader instance =
-//   new XmlTypePageReader (ATP_DURATION_TYPE_CONTRACT_PATH_ON_WIKI, JSESSIONID);
-//  Node node = instance.getStructureMetaTableNode ();
-//  System.out.println ("Structure table is " + node.getNodeName () + "=" + node.
-//   getNodeValue ());
-//  new NodeHelper ().dump (node, System.out);
-//
-// }
-//
+
 // /**
 //  * Test of getDocument xmlType, of class XmlTypeReader.
 //  */
@@ -119,21 +103,56 @@ public class XmlTypePageReaderTest implements TestConstants
 //  }
 // }
 
- /**
+// /**
+//  * Test of getDocument xmlType, of class XmlTypeReader.
+//  */
+// @Test
+// public void testGetXmlTypeMapped ()
+// {
+//  System.out.println ("getXmlTypeMapped");
+//  XmlTypePageReader instance =
+//   new XmlTypePageReader (ATP_DURATION_TYPE_KEY_CONTRACT_PATH_ON_WIKI, JSESSIONID);
+//  XmlType xmlType = instance.getXmlType ();
+//  new XmlTypeDumper (xmlType, System.out).dump ();
+//  assertEquals ("atpDurationTypeKey", xmlType.getName ());
+//  assertEquals ("Dev (1.0-rc1)", xmlType.getVersion ());
+//  assertEquals ("/confluence/display/KULSTU/atpDurationTypeKey+Structure+v1.0-rc1", xmlType.getUrl ());
+//  assertEquals ("Unique identifier for an academic time period duration type.", xmlType.getDesc ());
+//  assertEquals ("Mapped String", xmlType.getPrimitive ());
+// }
+//
+//
+// /**
+//  * Test of getDocument xmlType, of class XmlTypeReader.
+//  */
+// @Test
+// public void testGetXmlTypeComplex ()
+// {
+//  System.out.println ("getXmlTypeComplex");
+//  XmlTypePageReader instance =
+//   new XmlTypePageReader (ATP_DURATION_TYPE_CONTRACT_PATH_ON_WIKI, JSESSIONID);
+//  XmlType xmlType = instance.getXmlType ();
+//  new XmlTypeDumper (xmlType, System.out).dump ();
+//  assertEquals ("atpDurationTypeInfo", xmlType.getName ());
+//  assertEquals ("Dev (1.0-rc2)", xmlType.getVersion ());
+//  assertEquals ("/confluence/display/KULSTU/atpDurationTypeInfo+Structure+v1.0-rc2", xmlType.getUrl ());
+//  assertEquals ("Information about an academic time period duration type.", xmlType.getDesc ());
+//  assertEquals ("Complex", xmlType.getPrimitive ());
+// }
+
+  /**
   * Test of getDocument xmlType, of class XmlTypeReader.
   */
  @Test
- public void testGetXmlType ()
+ public void testGetXmlTypeOrgPositionRestriction ()
  {
-  System.out.println ("getXmlType");
+  System.out.println ("getXmlTypeOrgPositionRestriction");
   XmlTypePageReader instance =
-   new XmlTypePageReader (ATP_DURATION_TYPE_CONTRACT_PATH_ON_WIKI, JSESSIONID);
+   new XmlTypePageReader (ORG_POSITION_RESTRICTION_CONTRACT_PATH_ON_WIKI, JSESSIONID);
+  Document doc = instance.getDocument ();
+  new NodeHelper ().dump (doc, System.out);
   XmlType xmlType = instance.getXmlType ();
   new XmlTypeDumper (xmlType, System.out).dump ();
-  assertEquals ("atpDurationTypeInfo", xmlType.getName ());
-  assertEquals ("Dev (1.0-rc2)", xmlType.getVersion ());
-  assertEquals ("/confluence/display/KULSTU/atpDurationTypeInfo+Structure+v1.0-rc2", xmlType.getUrl ());
-  assertEquals ("Information about an academic time period duration type.", xmlType.getDesc ());
  }
 
 }

@@ -44,7 +44,7 @@ public class MessageStructurePageReaderTest implements TestConstants
  // cut and paste the content here.
  // ==> the JSessionID changes everytime you drop out of the browser.
  public static final String JSESSIONID =
-  "69164E6A77E6246078B6C92DB3504E1A.Kuali3_1Engine";
+  "1BDFD210C59231F650A842CF3A2F6688.Kuali3_1Engine";
 
  public MessageStructurePageReaderTest ()
  {

@@ -15,39 +15,45 @@
  */
 package org.kuali.student.dictionary.writer;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import org.kuali.student.dictionary.model.util.ModelFinder;
 import org.kuali.student.dictionary.model.validation.DictionaryModelValidator;
 import org.kuali.student.dictionary.model.validation.DictionaryValidationException;
-import org.kuali.student.dictionary.model.impl.DictionarySubTypeExpander;
 import org.kuali.student.dictionary.model.XmlType;
-import org.kuali.student.dictionary.model.impl.DictionaryModelExpanded;
 import org.kuali.student.dictionary.model.CrossObjectConstraint;
 import org.kuali.student.dictionary.model.Dictionary;
 import org.kuali.student.dictionary.model.DictionaryModel;
 import org.kuali.student.dictionary.model.Constraint;
-import org.kuali.student.dictionary.model.impl.DictionaryMainTypeExpander;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import org.kuali.student.dictionary.DictionaryExecutionException;
 
 /**
  * This writes out the entire dictionary xml file
  * @author nwright
  */
-public class DictionaryModelWriter extends XmlWriter
+public class DictionaryModelWriter
 {
 
  private DictionaryModel sheet;
  private ModelFinder finder;
+ private XmlWriter writer;
+ private String directory;
 
- public DictionaryModelWriter (PrintStream out, DictionaryModel sheet)
+ public DictionaryModelWriter (String directory, DictionaryModel sheet)
  {
-  super (out, 0);
+  this.directory = directory;
   this.sheet = sheet;
   this.finder = new ModelFinder (sheet);
  }
+
+ private static String CONSTRAINT_BANK_FILE_NAME = "constraints-dictionary-config-generated-excel.xml";
 
  /**
   * Write out the entire file
@@ -59,8 +65,8 @@ public class DictionaryModelWriter extends XmlWriter
   if (errors.size () > 0)
   {
    StringBuffer buf = new StringBuffer ();
-   buf.append (errors.size () +
-    " errors found while validating the spreadsheet.");
+   buf.append (errors.size ()
+    + " errors found while validating the spreadsheet.");
    int cnt = 0;
    for (String msg : errors)
    {
@@ -70,23 +76,38 @@ public class DictionaryModelWriter extends XmlWriter
    }
    throw new DictionaryValidationException (buf.toString ());
   }
-  sheet = new DictionaryModelExpanded (sheet, new DictionaryMainTypeExpander (sheet));
-  sheet = new DictionaryModelExpanded (sheet, new DictionarySubTypeExpander (sheet));
-  this.finder = new ModelFinder (sheet);
-  for (Dictionary d : sheet.getDictionary ())
+
+  writeNamedConstraints ();
+
+  for (String service : calcServicesThatHaveXMLTypesThatHaveOwnCreateUpdate ())
   {
-   if (d.getMainType ().endsWith ("*") || d.getMainType ().indexOf (",") != -1)
+   File file =
+    new File (directory + service + "-dictionary-config-generated-excel.xml");
+   PrintStream out;
+   try
    {
-    throw new DictionaryValidationException
-     ("Main type was not expanded " + d.getId () + ":" + d.getMainType ());
+    out = new PrintStream (file);
+   }
+   catch (FileNotFoundException ex)
+   {
+    throw new DictionaryExecutionException (ex);
+   }
+   try
+   {
+    this.writer = new XmlWriter (out, 0);
+    writeHeader ();
+    writer.indentPrintln ("import " + directory
+     + CONSTRAINT_BANK_FILE_NAME);
+    writeObjectStructures (service);
+    writeFooter ();
+   }
+   finally
+   {
+    this.writer.getOut ().close ();
    }
   }
-  writeHeader ();
-  writeNamedConstraints ();
-  writeObjectStructures ();
-  writeFooter ();
-  writeNotUsedDictionary ();
-  writeNotUsedCrossObjectConstraints ();
+  checkNotUsedDictionary ();
+  checkNotUsedCrossObjectConstraints ();
  }
 
  /**
@@ -95,16 +116,16 @@ public class DictionaryModelWriter extends XmlWriter
   */
  protected void writeHeader ()
  {
-  indentPrintln ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-  indentPrintln ("<beans xmlns=\"http://www.springframework.org/schema/beans\"");
-  indentPrintln ("xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"");
-  indentPrintln ("xmlns:dict=\"http://student.kuali.org/xsd/dictionary-extension\"");
-  indentPrint ("xsi:schemaLocation=\"\nhttp://student.kuali.org/xsd/dictionary-extension ");
-  indentPrintln ("dictionary-extension.xsd");
+  writer.indentPrintln ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+  writer.indentPrintln ("<beans xmlns=\"http://www.springframework.org/schema/beans\"");
+  writer.indentPrintln ("xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"");
+  writer.indentPrintln ("xmlns:dict=\"http://student.kuali.org/xsd/dictionary-extension\"");
+  writer.indentPrint ("xsi:schemaLocation=\"\nhttp://student.kuali.org/xsd/dictionary-extension ");
+  writer.indentPrintln ("dictionary-extension.xsd");
   //indentPrintln ("https://test.kuali.org/svn/student/ks-core/branches/ks-core-dev/ks-common-impl/src/main/resources/dictionary-extension.xsd");
-  indentPrintln ("http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd");
-  indentPrintln ("\">");
-   StringBuffer buf = new StringBuffer ();
+  writer.indentPrintln ("http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd");
+  writer.indentPrintln ("\">");
+  StringBuffer buf = new StringBuffer ();
   buf.append ("*** Automatically Generated ***");
   buf.append ("\n");
   buf.append ("on: " + (new Date ()));
@@ -114,17 +135,17 @@ public class DictionaryModelWriter extends XmlWriter
   String prefix = "Using:";
   for (String name : sheet.getSourceNames ())
   {
-  buf.append (prefix + name);
-  prefix = "   and: ";
+   buf.append (prefix + name);
+   prefix = "   and: ";
   }
 
   buf.append ("\n");
-  writeComment (buf.toString ());
+  writer.writeComment (buf.toString ());
  }
 
  protected void writeFooter ()
  {
-  indentPrintln ("</beans>");
+  writer.indentPrintln ("</beans>");
  }
 
  /**
@@ -133,11 +154,32 @@ public class DictionaryModelWriter extends XmlWriter
   */
  protected void writeNamedConstraints ()
  {
-  for (Constraint constraint : sheet.getConstraints ())
+  File file =
+   new File (directory + CONSTRAINT_BANK_FILE_NAME);
+  PrintStream out;
+  try
   {
-   ConstraintWriter fw =
-    new ConstraintWriter (getOut (), getIndent () + 1, constraint);
-   fw.write ();
+   out = new PrintStream (file);
+  }
+  catch (FileNotFoundException ex)
+  {
+   throw new DictionaryExecutionException (ex);
+  }
+  try
+  {
+   this.writer = new XmlWriter (out, 0);
+   writeHeader ();
+   for (Constraint constraint : sheet.getConstraints ())
+   {
+    ConstraintWriter fw =
+     new ConstraintWriter (writer.getOut (), writer.getIndent () + 1, constraint);
+    fw.write ();
+   }
+   writeFooter ();
+  }
+  finally
+  {
+   this.writer.getOut ().close ();
   }
  }
 
@@ -145,20 +187,53 @@ public class DictionaryModelWriter extends XmlWriter
   * write out the the object structure
   * @param out
   */
- protected void writeObjectStructures ()
+ protected void writeObjectStructures (String service)
  {
-  for (XmlType xmlType : calcXMLTypesThatHaveOwnCreateUpdate ())
+  for (XmlType xmlType : calcXMLTypesForServiceThatHaveOwnCreateUpdate (service))
   {
    List<Dictionary> dictEntries = getDictionaryEntriees (xmlType);
-   ObjectStructureWriter writer =
-    new ObjectStructureWriter (getOut (), getIndent () + 1, sheet, 
-    xmlType, dictEntries, false, null);
-   writer.write ();
+   ObjectStructureWriter osw =
+    new ObjectStructureWriter (writer.getOut (), writer.getIndent () + 1, sheet,
+                               xmlType, dictEntries, false, null);
+   osw.write ();
   }
  }
 
+ private Set<String> calcServicesThatHaveXMLTypesThatHaveOwnCreateUpdate ()
+ {
+  Set<String> set = new HashSet ();
+  for (XmlType xmlType : calcXMLTypesThatHaveOwnCreateUpdate ())
+  {
+   if (xmlType.getService () != null &&  ! xmlType.getService ().equals (""))
+   {
+    set.add (xmlType.getService ());
+   }
+  }
+  return set;
+ }
+
+ private List<XmlType> calcXMLTypesForServiceThatHaveOwnCreateUpdate (
+  String service)
+ {
+  List list = new ArrayList ();
+  for (XmlType xmlType : calcXMLTypesThatHaveOwnCreateUpdate ())
+  {
+   if (xmlType.getService ().equalsIgnoreCase (service))
+   {
+    list.add (xmlType);
+   }
+  }
+  return list;
+ }
+
+ private List<XmlType> xmlTypes = null;
+
  private List<XmlType> calcXMLTypesThatHaveOwnCreateUpdate ()
  {
+  if (xmlTypes != null)
+  {
+   return xmlTypes;
+  }
   List list = new ArrayList ();
   for (XmlType xmlType : sheet.getXmlTypes ())
   {
@@ -167,7 +242,8 @@ public class DictionaryModelWriter extends XmlWriter
     list.add (xmlType);
    }
   }
-  return list;
+  xmlTypes = list;
+  return xmlTypes;
  }
 
  private List<Dictionary> getDictionaryEntriees (XmlType xmlType)
@@ -182,13 +258,13 @@ public class DictionaryModelWriter extends XmlWriter
   }
   if (list.size () == 0)
   {
-   throw new DictionaryValidationException ("No default dictionary entries found for " +
-    xmlType.getName ());
+   throw new DictionaryValidationException ("No default dictionary entries found for " + xmlType.
+    getName ());
   }
   return list;
  }
 
- private void writeNotUsedDictionary ()
+ private void checkNotUsedDictionary ()
  {
   List<Dictionary> notUsed = calcNotUsedDictionary ();
   if (notUsed.size () == 0)
@@ -205,8 +281,8 @@ public class DictionaryModelWriter extends XmlWriter
    sb.append (dict.getId ());
    sb.append ("\n");
   }
-  throw new DictionaryValidationException (notUsed.size () +
-   " dictionary entries were never written out." + sb.toString ());
+  throw new DictionaryValidationException (notUsed.size ()
+   + " dictionary entries were never written out." + sb.toString ());
  }
 
  private List<Dictionary> calcNotUsedDictionary ()
@@ -238,7 +314,7 @@ public class DictionaryModelWriter extends XmlWriter
   return list;
  }
 
- private void writeNotUsedCrossObjectConstraints ()
+ private void checkNotUsedCrossObjectConstraints ()
  {
   List<CrossObjectConstraint> notUsed = calcNotUsedCrossObjectConstraints ();
   if (notUsed.size () == 0)
@@ -251,8 +327,8 @@ public class DictionaryModelWriter extends XmlWriter
   {
    System.out.println (coc.getId ());
   }
-  throw new DictionaryValidationException (notUsed.size () +
-   " cross-object constraints were never written out.");
+  throw new DictionaryValidationException (notUsed.size ()
+   + " cross-object constraints were never written out.");
  }
 
 }

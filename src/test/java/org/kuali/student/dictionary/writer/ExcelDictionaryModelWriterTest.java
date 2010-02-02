@@ -20,9 +20,6 @@ import org.kuali.student.dictionary.model.impl.DictionaryModelLoader;
 import org.kuali.student.dictionary.model.DictionaryModel;
 import org.kuali.student.dictionary.model.spreadsheet.ExcelSpreadsheetReader;
 import org.kuali.student.dictionary.model.spreadsheet.SpreadsheetReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
@@ -74,17 +71,6 @@ public class ExcelDictionaryModelWriterTest implements TestConstants
  public void testWriteExcelDictionary ()
  {
   System.out.println ("writeExcelDictionary");
-  File file =
-   new File (RESOURCES_DIRECTORY + "lu-dictionary-config-generated-excel.xml");
-  PrintStream out;
-  try
-  {
-   out = new PrintStream (file);
-  }
-  catch (FileNotFoundException ex)
-  {
-   throw new RuntimeException (ex);
-  }
   List<SpreadsheetReader> list = new ArrayList ();
   list.add (new ExcelSpreadsheetReader (TYPE_STATE_DICTIONARY_EXCEL_FILE));
   list.add (new ExcelSpreadsheetReader (SERVICES_EXCEL_FILE));
@@ -93,12 +79,12 @@ public class ExcelDictionaryModelWriterTest implements TestConstants
   {
    DictionaryModelLoader loader = new DictionaryModelLoader (reader);
    DictionaryModel cache = new DictionaryModelCache (loader);
-   DictionaryModelWriter instance = new DictionaryModelWriter (out, cache);
+   DictionaryModelWriter instance =
+    new DictionaryModelWriter (RESOURCES_DIRECTORY, cache);
    instance.write ();
   }
   finally
   {
-   out.close ();
    reader.close ();
   }
   assertEquals (true, true);

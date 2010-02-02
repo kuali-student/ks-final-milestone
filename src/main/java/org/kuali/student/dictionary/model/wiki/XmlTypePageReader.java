@@ -59,18 +59,34 @@ public class XmlTypePageReader
   return doc;
  }
 
- protected XmlTypePageReader (File contractFile)
+ /**
+  * used for testing based on contract stored in a file
+  * @param contractPath
+  * @param contractFile
+  */
+ protected XmlTypePageReader (String contractPath, File contractFile)
  {
+  this.contractPath = contractPath;
   doc = new PageHelper ().getDocument (contractFile);
-
  }
 
+ /**
+  * used to read contract from the wiki
+  * @param contractPath
+  * @param jSessionId
+  */
  public XmlTypePageReader (String contractPath, String jSessionId)
  {
+  this.contractPath = contractPath;
   URL url = new UrlHelper (contractPath).getUrl ();
   doc = new PageHelper ().getDocument (url, jSessionId);
  }
 
+ /**
+  * used if already have the parsed document because we parsed it for the message structure.
+  * @param contractPath
+  * @param doc
+  */
  public XmlTypePageReader (String contractPath, Document doc)
  {
   this.contractPath = contractPath;
@@ -92,15 +108,12 @@ public class XmlTypePageReader
    if (nv.name.equalsIgnoreCase ("structureName"))
    {
     type = new XmlType ();
+    type.setUrl (contractPath);
     type.setName (fixup (nv.value));
    }
    else if (nv.name.equalsIgnoreCase ("structureVersion"))
    {
     type.setVersion (fixup (nv.value));
-    if (nv.url != null)
-    {
-     type.setUrl (fixup (nv.url));
-    }
    }
    else if (nv.name.equalsIgnoreCase ("type"))
    {
@@ -218,10 +231,36 @@ public class XmlTypePageReader
    throw new DictionaryExecutionException ("Type value node was not a TD as expected was " +
     typeTdNode.getNodeName ());
   }
+  //new NodeHelper ().dump (typeTdNode, System.out);
   Node firstChild = typeTdNode.getFirstChild ();
   if (firstChild.getNodeName ().equalsIgnoreCase ("#Text"))
   {
-   return firstChild.getNodeValue ();
+   String primitive = firstChild.getNodeValue ();
+   if ( ! primitive.toLowerCase ().startsWith ("mapped"))
+   {
+    return primitive;
+   }
+   Node nextSibling = firstChild.getNextSibling ();
+   if (nextSibling == null)
+   {
+    new NodeHelper ().dump (typeTdNode, System.out);
+    throw new DictionaryExecutionException ("Type value node started with 'mapped' but it didn't have a sibling that described what it was mapped to " +
+     typeTdNode.getNodeName ());
+   }
+   Node firstChildOfSibling = nextSibling.getFirstChild ();
+   if (firstChildOfSibling == null)
+   {
+    new NodeHelper ().dump (typeTdNode, System.out);
+    throw new DictionaryExecutionException ("Type value node started with 'mapped' but it's sibling didn't have a first child to hold what it was mapped to " +
+     typeTdNode.getNodeName ());
+   }
+   if (firstChildOfSibling.getNodeName ().equalsIgnoreCase ("#Text"))
+   {
+    return "Mapped " + firstChildOfSibling.getNodeValue ();
+   }
+   new NodeHelper ().dump (typeTdNode, System.out);
+   throw new DictionaryExecutionException ("Type value node started with 'mapped' but it's sibling didn't have a first child named #Text to hold what it was mapped to " +
+    typeTdNode.getNodeName ());
   }
   throw new DictionaryExecutionException ("type value node does not have a first child named #Text, was " +
    firstChild.getNodeName ());
@@ -233,7 +272,8 @@ public class XmlTypePageReader
    new NodeHelper ().findNodesWithNameValue (doc, "#text", "Description");
   if (list.size () == 0)
   {
-   throw new DictionaryExecutionException ("No text nodes with description found");
+   throw new DictionaryExecutionException ("No text nodes with description found for xmltype " +
+    contractPath);
   }
   for (Node node : list)
   {
@@ -243,20 +283,25 @@ public class XmlTypePageReader
     Node pNode = h3Node.getNextSibling ();
     if (pNode != null)
     {
-     Node textNode = pNode.getFirstChild ();
-     if (textNode.getNodeName ().equalsIgnoreCase ("#Text"))
+     NodeList children = pNode.getChildNodes ();
+     for (int i = 0; i < children.getLength (); i ++)
      {
-      return textNode.getNodeValue ();
+      Node textNode = children.item (i);
+      if (textNode.getNodeName ().equalsIgnoreCase ("#Text"))
+      {
+       return textNode.getNodeValue ();
+      }
      }
     }
    }
   }
-  System.out.println ("these are the nodes that I did find");
+  System.out.println ("these are the nodes that I did find...");
   for (Node node : list)
   {
    new NodeHelper ().dump (node, System.out);
   }
-  throw new DictionaryExecutionException ("Could not locate description");
+  throw new DictionaryExecutionException ("Could not locate description of xmlType " +
+   contractPath);
  }
 
  protected List<NameValue> getNameValuePairs ()

@@ -13,30 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.dictionary.writer;
-
-import java.io.PrintStream;
+package org.kuali.student.dictionary.model.spreadsheet;
 
 /**
- * This writes a reference to a previously written constraint.
+ * Interface required to get data from a single tab of a spreadsheet
  * @author nwright
  */
-public class ConstraintRefWriter extends XmlWriter
+public interface WorksheetWriter extends WorksheetReader
 {
 
- private String refId;
 
- public ConstraintRefWriter (PrintStream out, int indent, String refId)
- {
-  super (out, indent);
-  this.refId = refId;
- }
+ /**
+  * set the value with the specified column name.
+  * 
+  * @param name of the column heading to be compared to ignoring case.
+  * @param value value to set
+  * @throws DictionaryValidationException if name is not a valid column name
+  */
+ public void setValue (String name, String value);
 
- public void write ()
- {
-  indentPrint ("<dict:constraintRef");
-  writeAttribute ("bean", "constraint." + refId);
-  println ("/>");
- }
+ /**
+  * insert a new row after the current row and make that row current
+  */
+ public void insert ();
 
+ 
 }

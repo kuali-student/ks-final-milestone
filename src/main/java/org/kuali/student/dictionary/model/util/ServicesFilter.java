@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 The Kuali Foundation
+ * Copyright 2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,30 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.dictionary.writer;
+package org.kuali.student.dictionary.model.util;
 
-import java.io.PrintStream;
+import java.util.List;
+import org.kuali.student.dictionary.model.Service;
 
 /**
- * This writes a reference to a previously written constraint.
+ *
  * @author nwright
  */
-public class ConstraintRefWriter extends XmlWriter
+public interface ServicesFilter
 {
 
- private String refId;
-
- public ConstraintRefWriter (PrintStream out, int indent, String refId)
- {
-  super (out, indent);
-  this.refId = refId;
- }
-
- public void write ()
- {
-  indentPrint ("<dict:constraintRef");
-  writeAttribute ("bean", "constraint." + refId);
-  println ("/>");
- }
+ public List<Service> filter (List<Service> services);
 
 }

@@ -51,7 +51,7 @@ public class WikiServiceContractModelImplTest implements TestConstants
  // cut and paste the content here.
  // ==> the JSessionID changes everytime you drop out of the browser.
  public static final String JSESSIONID =
-  "69164E6A77E6246078B6C92DB3504E1A.Kuali3_1Engine";
+  "D3E272B66BF8EE6630D5BF7018DCD575.Kuali3_1Engine";
 
  public WikiServiceContractModelImplTest ()
  {
@@ -92,17 +92,17 @@ public class WikiServiceContractModelImplTest implements TestConstants
   List<String> serviceKeys = new ArrayList ();
   serviceKeys.add ("atp");
   serviceKeys.add ("comment");
-//  serviceKeys.add ("dictionary");
-//  serviceKeys.add ("enumerationmanagement");
-//  serviceKeys.add ("lo");
-//  serviceKeys.add ("lrc");
-//  serviceKeys.add ("lu");
-//  serviceKeys.add ("organization");
-//  serviceKeys.add ("person");
-//  serviceKeys.add ("proposal");
-//  serviceKeys.add ("refdocrelation");
-//  serviceKeys.add ("resource");
-//  serviceKeys.add ("search");
+  serviceKeys.add ("dictionary");
+  serviceKeys.add ("enumerationmanagement");
+  serviceKeys.add ("lo");
+  serviceKeys.add ("lrc");
+  serviceKeys.add ("lu");
+  serviceKeys.add ("organization");
+  serviceKeys.add ("person");
+  serviceKeys.add ("proposal");
+  serviceKeys.add ("refdocrelation");
+  serviceKeys.add ("resource");
+  serviceKeys.add ("search");
   instance =
    new WikiServiceContractModelImpl (serviceKeys, SERVICE_REPOSITORY_PATH_ON_WIKI, JSESSIONID);
   return instance;
@@ -148,14 +148,14 @@ public class WikiServiceContractModelImplTest implements TestConstants
  }
 
 
- @Test
- public void testGetXmlTypes ()
- {
-  System.out.println ("getXmlTypes");
-  List<XmlType> xmlTypes = instance.getXmlTypes ();
-  for (XmlType xmlType : xmlTypes)
-  {
-   new XmlTypeDumper (xmlType, System.out).dump ();
-  }
- }
+// @Test
+// public void testGetXmlTypes ()
+// {
+//  System.out.println ("getXmlTypes");
+//  List<XmlType> xmlTypes = instance.getXmlTypes ();
+//  for (XmlType xmlType : xmlTypes)
+//  {
+//   new XmlTypeDumper (xmlType, System.out).dump ();
+//  }
+// }
 }

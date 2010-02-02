@@ -44,7 +44,7 @@ public class ContractPageReaderTest implements TestConstants
  // cut and paste the content here.
  // ==> the JSessionID changes everytime you drop out of the browser.
  public static final String JSESSIONID =
-  "D96F7509C0F68188C9DD98195D9800A2.Kuali3_1Engine";
+  "1BDFD210C59231F650A842CF3A2F6688.Kuali3_1Engine";
 
  public ContractPageReaderTest ()
  {
@@ -98,7 +98,7 @@ public class ContractPageReaderTest implements TestConstants
    System.out.println ("method table is " + node.getNodeName () + "=" + node.
     getNodeValue ());
   }
-  new NodeHelper ().dump (list.get (0), System.out);
+  new NodeHelper ().dump (list.get (1), System.out);
 
  }
 
@@ -113,7 +113,7 @@ public class ContractPageReaderTest implements TestConstants
    new ContractPageReader ("atp", ATP_CONTRACT_PATH_ON_WIKI, JSESSIONID);
   List<Node> methodTables = instance.getMethodTableNodes ();
   List<ContractPageReader.NameValue> nvs =
-   instance.getNameValuePairsFromMethodTable (methodTables.get (0));
+   instance.getNameValuePairsFromMethodTable (methodTables.get (1));
   for (ContractPageReader.NameValue nv : nvs)
   {
    System.out.println (nv.name + "=" + nv.value + " - " + nv.url);

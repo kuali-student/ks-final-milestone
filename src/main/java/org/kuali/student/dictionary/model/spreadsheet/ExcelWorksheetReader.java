@@ -31,7 +31,7 @@ public class ExcelWorksheetReader implements WorksheetReader
  private ExcelSpreadsheetReader reader;
  private String name;
  private Sheet sheet;
- private int row = 0;
+ protected int row = 0;
  private List<String> columnNames;
 
  public ExcelWorksheetReader (
@@ -42,6 +42,7 @@ public class ExcelWorksheetReader implements WorksheetReader
   this.name = name;
   reopen ();
  }
+ 
 
  @Override
  public void reopen ()

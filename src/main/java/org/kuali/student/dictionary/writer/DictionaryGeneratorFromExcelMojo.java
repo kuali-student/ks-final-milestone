@@ -45,14 +45,13 @@ public class DictionaryGeneratorFromExcelMojo extends AbstractMojo
  public static String DICTIONARY_INPUT_FILE = "type-state configuration.xls";
  public static String ORCHESTRATION_INPUT_FILE = "Orchestration Dictionary.xls";
  public static String SERVICE_METHODS_INPUT_FILE = "service methods.xls";
- public static String XML_FILE = "lu-dictionary-config-generated-excel.xml";
 
  public DictionaryGeneratorFromExcelMojo ()
  {
   this.dictionaryInputFile = null;
   this.orchestrationInputFile = null;
   this.serviceMethodsInputFile = null;
-  this.xmlOutputFile = null;
+  this.xmlOutputDirectory = null;
  }
 
  /**
@@ -78,7 +77,7 @@ public class DictionaryGeneratorFromExcelMojo extends AbstractMojo
   *
   * @parameter
   */
- private File xmlOutputFile;
+ private File xmlOutputDirectory;
 
  @Override
  public void execute ()
@@ -87,15 +86,6 @@ public class DictionaryGeneratorFromExcelMojo extends AbstractMojo
  {
   try
   {
-   PrintStream out;
-   try
-   {
-    out = new PrintStream (xmlOutputFile);
-   }
-   catch (FileNotFoundException ex)
-   {
-    throw new DictionaryExecutionException ("Could  not create ");
-   }
    List<SpreadsheetReader> readers = new ArrayList ();
    readers.add (new ExcelSpreadsheetReader (dictionaryInputFile.getCanonicalPath ()));
    readers.add (new ExcelSpreadsheetReader (orchestrationInputFile.
@@ -106,9 +96,9 @@ public class DictionaryGeneratorFromExcelMojo extends AbstractMojo
    DictionaryModelLoader loader =
     new DictionaryModelLoader (reader);
    DictionaryModel cache = new DictionaryModelCache (loader);
-   DictionaryModelWriter instance = new DictionaryModelWriter (out, cache);
+   DictionaryModelWriter instance = new DictionaryModelWriter (xmlOutputDirectory.
+    getCanonicalPath (), cache);
    instance.write ();
-   out.close ();
   }
   catch (DictionaryValidationException ex)
   {
@@ -122,46 +112,62 @@ public class DictionaryGeneratorFromExcelMojo extends AbstractMojo
   {
    throw new MojoExecutionException ("Unexpected Exception while trying to generate the dictionary", ex);
   }
+
  }
 
  public File getDictionaryInputFile ()
  {
   return dictionaryInputFile;
+
+
  }
 
  public void setDictionaryInputlFile (File file)
  {
   this.dictionaryInputFile = file;
+
+
  }
 
  public File getOrchestrationInputFile ()
  {
   return orchestrationInputFile;
+
+
  }
 
  public void setOrchestrationInputlFile (File file)
  {
   this.orchestrationInputFile = file;
+
+
  }
 
  public File getServiceMethodsInputFile ()
  {
   return serviceMethodsInputFile;
+
+
  }
 
  public void setServiceMethosInputlFile (File file)
  {
   this.serviceMethodsInputFile = file;
+
+
  }
 
- public File getXmlFile ()
+ public File getXmlOutputDirectory ()
  {
-  return xmlOutputFile;
+  return xmlOutputDirectory;
+
+
  }
 
- public void setXmlFile (File xmlFile)
+ public void setXmlOutputDirectory (File xmlFile)
  {
-  this.xmlOutputFile = xmlFile;
+  this.xmlOutputDirectory = xmlFile;
+
  }
 
 }

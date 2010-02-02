@@ -105,14 +105,14 @@ public class ContractPageReader
     param = new ServiceMethodParameter ();
     method.getParameters ().add (param);
     param.setType (fixup (nv.value));
-   }
-   else if (nv.name.equalsIgnoreCase ("methodParamName"))
-   {
-    param.setName (fixup (nv.value));
     if (nv.url != null)
     {
      param.setUrl (fixup (nv.url));
     }
+   }
+   else if (nv.name.equalsIgnoreCase ("methodParamName"))
+   {
+    param.setName (fixup (nv.value));
    }
    else if (nv.name.equalsIgnoreCase ("methodParamDesc"))
    {

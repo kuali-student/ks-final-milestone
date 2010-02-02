@@ -29,7 +29,7 @@ public class XmlTypeDumper
   out.println (xmlType.getName ()
    + " - " + xmlType.getPrimitive ()
    + " - " +  xmlType.getDesc ()
-   + " - " + xmlType.getUrl ());
+   + " - Http://XXX" + xmlType.getUrl ());
  }
 
 }

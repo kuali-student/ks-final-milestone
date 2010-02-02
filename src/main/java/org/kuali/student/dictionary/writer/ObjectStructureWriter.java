@@ -31,7 +31,7 @@ import java.util.List;
  * Writes an object structure entity in the output XML document, either the in-line or root ones.
  * @author nwright
  */
-public class ObjectStructureWriter extends XmlWriter
+public class ObjectStructureWriter
 {
 
  private DictionaryModel spreadsheet;
@@ -40,6 +40,7 @@ public class ObjectStructureWriter extends XmlWriter
  private List<Dictionary> dictionary;
  private boolean inline;
  private State mainState;
+ private XmlWriter writer;
 
  /**
   * construct writer for a particular type
@@ -52,7 +53,7 @@ public class ObjectStructureWriter extends XmlWriter
                                List<Dictionary> dictionary, boolean inline,
                                State mainState)
  {
-  super (out, indent);
+  this.writer = new XmlWriter (out, indent);
   this.spreadsheet = spreadsheet;
   this.finder = new ModelFinder (spreadsheet);
   this.xmlType = xmlType;
@@ -67,55 +68,56 @@ public class ObjectStructureWriter extends XmlWriter
   */
  public void write ()
  {
-  indentPrintln ("");
-  indentPrint ("<dict:objectStructure");
-  String fullName = new XmlTypeNameBuilder (xmlType.getName (), xmlType.getJavaPackage ()).build ();
-  writeAttribute ("key", fullName);
-  println (">");
-  incrementIndent ();
-  writeComment (xmlType.getDesc ());
+  writer.indentPrintln ("");
+  writer.indentPrint ("<dict:objectStructure");
+  String fullName = new XmlTypeNameBuilder (xmlType.getName (), xmlType.
+   getJavaPackage ()).build ();
+  writer.writeAttribute ("key", fullName);
+  writer.println (">");
+  writer.incrementIndent ();
+  writer.writeComment (xmlType.getDesc ());
   for (Type type : filterTypes ())
   {
-   indentPrint ("<dict:type");
-   writeAttribute ("key", type.getTypeKey ());
-   indent (System.out, ' ');
+   writer.indentPrint ("<dict:type");
+   writer.writeAttribute ("key", type.getTypeKey ());
+   writer.indent (System.out, ' ');
    System.out.println ("Writing out TYPE: " + xmlType.getName () + "." + type.
     getTypeKey ());
-   println (">");
-   writeComment (type.getDesc ());
-   writeComment (type.getAliases ());
-   writeComment (type.getComments ());
-   incrementIndent ();
+   writer.println (">");
+   writer.writeComment (type.getDesc ());
+   writer.writeComment (type.getAliases ());
+   writer.writeComment (type.getComments ());
+   writer.incrementIndent ();
    for (State state : filterStates ())
    {
     if ( ! inline)
     {
      mainState = state;
     }
-    indentPrint ("<dict:state");
-    writeAttribute ("key", state.getName ());
-    indent (System.out, ' ');
-    System.out.println ("Writing out STATE: " + xmlType.getName () + "." +
-     state.getName ());
-    println (">");
-    writeComment (state.getDesc ());
-    writeComment (state.getComments ());
+    writer.indentPrint ("<dict:state");
+    writer.writeAttribute ("key", state.getName ());
+    writer.indent (System.out, ' ');
+    System.out.println ("Writing out STATE: " + xmlType.getName () + "." + state.
+     getName ());
+    writer.println (">");
+    writer.writeComment (state.getDesc ());
+    writer.writeComment (state.getComments ());
     for (Dictionary dict : dictionary)
     {
      if (matchesType (dict, type))
      {
       FieldWriter fw =
-       new FieldWriter (getOut (), getIndent () + 1, spreadsheet, dict, mainState, inline);
+       new FieldWriter (writer.getOut (), writer.getIndent () + 1, spreadsheet, dict, mainState, inline);
       fw.write ();
      }
     }
-    indentPrintln ("</dict:state>");
+    writer.indentPrintln ("</dict:state>");
    }
-   decrementIndent ();
-   indentPrintln ("</dict:type>");
+   writer.decrementIndent ();
+   writer.indentPrintln ("</dict:type>");
   }
-  decrementIndent ();
-  indentPrintln ("</dict:objectStructure>");
+  writer.decrementIndent ();
+  writer.indentPrintln ("</dict:objectStructure>");
  }
 
  private boolean matchesType (Dictionary dict, Type type)
@@ -159,8 +161,8 @@ public class ObjectStructureWriter extends XmlWriter
   }
   if (list.size () == 0)
   {
-   throw new DictionaryValidationException ("No main types found in dictionary for " +
-    xmlType.getName ());
+   throw new DictionaryValidationException ("No main types found in dictionary for " + xmlType.
+    getName ());
   }
   return list;
  }
@@ -180,8 +182,8 @@ public class ObjectStructureWriter extends XmlWriter
   }
   if (list.size () == 0)
   {
-   throw new DictionaryValidationException ("No sub-types found in dictionary for " +
-    xmlType.getName ());
+   throw new DictionaryValidationException ("No sub-types found in dictionary for " + xmlType.
+    getName ());
   }
   return list;
  }
@@ -191,9 +193,8 @@ public class ObjectStructureWriter extends XmlWriter
   Type type = finder.findType (xmlObject, name);
   if (type == null)
   {
-   throw new DictionaryValidationException ("Could not find type for: " +
-    xmlObject + "." +
-    name);
+   throw new DictionaryValidationException ("Could not find type for: "
+    + xmlObject + "." + name);
   }
   return type;
  }

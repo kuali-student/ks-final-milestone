@@ -15,12 +15,16 @@
  */
 package org.kuali.student.dictionary.model.wiki;
 
+import org.kuali.student.dictionary.model.util.ServicesFilterLatestVersionOnly;
+import org.kuali.student.dictionary.model.util.ServicesFilterExcludeDev;
+import org.kuali.student.dictionary.model.util.ServicesFilterByKeys;
+import org.kuali.student.dictionary.model.util.ServicesFilterChained;
+import org.kuali.student.dictionary.model.util.ServicesFilter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
+import org.kuali.student.dictionary.DictionaryExecutionException;
 import org.kuali.student.dictionary.model.MessageStructure;
 import org.kuali.student.dictionary.model.Service;
 import org.kuali.student.dictionary.model.ServiceContractModel;
@@ -28,7 +32,6 @@ import org.kuali.student.dictionary.model.ServiceMethod;
 import org.kuali.student.dictionary.model.ServiceMethodParameter;
 import org.kuali.student.dictionary.model.ServiceMethodReturnValue;
 import org.kuali.student.dictionary.model.XmlType;
-import org.w3c.dom.Document;
 
 /**
  *
@@ -101,16 +104,7 @@ public class WikiServiceContractModelImpl implements ServiceContractModel
   {
    return xmlTypes;
   }
-  List<XmlType> list = new ArrayList ();
-  getMessageStructures (); // make sure urlDocumentMap is loaded
-  for (String url : urlDocumentMap.keySet ())
-  {
-   Document doc = urlDocumentMap.get (url);
-   System.out.println ("Getting xmlType at url=" + url);
-   XmlTypePageReader rdr = new XmlTypePageReader (url, doc);
-   list.add (rdr.getXmlType ());
-  }
-  xmlTypes = list;
+  getMessageStructures (); // this loads xmlTypes as well
   return xmlTypes;
  }
 
@@ -136,7 +130,6 @@ public class WikiServiceContractModelImpl implements ServiceContractModel
  }
 
  private List<MessageStructure> messageStructures = null;
- private Map<String, Document> urlDocumentMap = null;
 
  @Override
  public List<MessageStructure> getMessageStructures ()
@@ -145,45 +138,60 @@ public class WikiServiceContractModelImpl implements ServiceContractModel
   {
    return messageStructures;
   }
-  List<MessageStructure> list = new ArrayList ();
+  List<XmlType> types = new ArrayList ();
+  List<MessageStructure> msgs = new ArrayList ();
   Set<String> allUrls = getLevelOneMessageStructureUrls ();
-  urlDocumentMap = new HashMap ();
-  Set<String> urlsToBeProcessed = new HashSet (allUrls);
-  while (urlsToBeProcessed.size () > 0)
+  Set<String> newUrlsToBeProcessed = new HashSet (allUrls);
+  int loop = 0;
+  while (newUrlsToBeProcessed.size () > 0)
   {
+   loop ++;
+   System.out.println ("Loop " + loop + " has " + newUrlsToBeProcessed.size () +
+    " new url's to be processed.");
    Set<String> newUrls = new HashSet ();
-   for (String url : urlsToBeProcessed)
+   for (String url : newUrlsToBeProcessed)
    {
-    System.out.println ("loading message structures for url " + url);
-    newUrls.addAll (loadMessageStructures (allUrls, urlDocumentMap, list, url));
+    //System.out.println ("loading message structures for url " + url);
+    Set<String> newUrlsFromThisLoad =
+     loadMessageStructures (allUrls, msgs, types, url);
+    //System.out.println ("   " + newUrlsFromThisLoad.size () + " new urls found");
+    newUrls.addAll (newUrlsFromThisLoad);
    }
-   urlsToBeProcessed = newUrls;
+   newUrlsToBeProcessed = newUrls;
   }
-  messageStructures = list;
+  messageStructures = msgs;
+  xmlTypes = types;
   return messageStructures;
  }
 
  protected Set<String> loadMessageStructures (Set<String> allUrls,
-                                              Map<String, Document> urlDocumentMap,
                                               List<MessageStructure> msgs,
+                                              List<XmlType> types,
                                               String url)
  {
   Set<String> newUrls = new HashSet ();
   MessageStructurePageReader msReader =
    new MessageStructurePageReader (fixUrl (url), jSessionId);
-  urlDocumentMap.put (url, msReader.getDocument ());
-  List<MessageStructure> list = msReader.getMessageStructures ();
-  msgs.addAll (list);
-  // no process sub structures
+  List<MessageStructure> newMsgs = msReader.getMessageStructures ();
+  types.add (msReader.getXmlType ());
+  msgs.addAll (newMsgs);
+  // nos process for sub structures
   // to find the urls that have not yet been identified
-  for (MessageStructure ms : list)
+  for (MessageStructure ms : newMsgs)
   {
-   if (ms.getUrl () != null &&  ! ms.getUrl ().equals (""))
+   if (ms.getUrl () == null)
    {
-    if (allUrls.add (url))
-    {
-     newUrls.add (url);
-    }
+    throw new DictionaryExecutionException (ms.getXmlObject () + "." + ms.
+     getShortName () + " has null for the url for the type");
+   }
+   if (ms.getUrl ().equals (""))
+   {
+    throw new DictionaryExecutionException (ms.getXmlObject () + "." + ms.
+     getShortName () + " has an empty url for the type");
+   }
+   if (allUrls.add (ms.getUrl ()))
+   {
+    newUrls.add (ms.getUrl ());
    }
   }
   return newUrls;
@@ -206,6 +214,7 @@ public class WikiServiceContractModelImpl implements ServiceContractModel
    {
     urls.add (method.getReturnValue ().getUrl ());
    }
+
   }
   return urls;
  }

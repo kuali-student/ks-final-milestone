@@ -15,26 +15,23 @@
  */
 package org.kuali.student.dictionary.writer;
 
-import org.kuali.student.dictionary.writer.DictionaryModelWriter;
 import org.kuali.student.dictionary.model.impl.DictionaryModelCache;
 import org.kuali.student.dictionary.model.impl.DictionaryModelLoader;
 import org.kuali.student.dictionary.model.DictionaryModel;
 import org.kuali.student.dictionary.model.spreadsheet.GoogleSpreadsheetReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintStream;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.kuali.student.dictionary.TestConstants;
 import static org.junit.Assert.*;
 
 /**
  *
  * @author nwright
  */
-public class GoogleDictionaryModelWriterTest
+public class GoogleDictionaryModelWriterTest implements TestConstants
 {
 
  public GoogleDictionaryModelWriterTest ()
@@ -83,17 +80,7 @@ public class GoogleDictionaryModelWriterTest
  public void testWriteGoogleDictionary ()
  {
   System.out.println ("writeGoogleDictionary");
-  File file =
-   new File ("src/resources/dictionary/lu-dictionary-config-generated-google.xml");
-  PrintStream out;
-  try
-  {
-   out = new PrintStream (file);
-  }
-  catch (FileNotFoundException ex)
-  {
-   throw new RuntimeException (ex);
-  }
+  
   GoogleSpreadsheetReader reader = new GoogleSpreadsheetReader ();
   // don't need user name and password if spreadsheet is published
   //reader.setUserCredentials (USER_ID, PASSWORD);
@@ -102,9 +89,8 @@ public class GoogleDictionaryModelWriterTest
   reader.setProjection ("values");
   DictionaryModel spreadsheet = new DictionaryModelLoader (reader);
   spreadsheet = new DictionaryModelCache (spreadsheet);
-  DictionaryModelWriter instance = new DictionaryModelWriter (out, spreadsheet);
+  DictionaryModelWriter instance = new DictionaryModelWriter (RESOURCES_DIRECTORY, spreadsheet);
   instance.write ();
-  out.close ();
   assertEquals (true, true);
  }
 

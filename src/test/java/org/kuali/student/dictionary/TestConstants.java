@@ -58,6 +58,10 @@ public interface TestConstants
   "https://test.kuali.org/confluence/display/KULSTU/Service+Description+Repository";
  public static final String ATP_DURATION_TYPE_CONTRACT_PATH_ON_WIKI =
   "https://test.kuali.org/confluence/display/KULSTU/atpDurationTypeInfo+Structure";
+ public static final String ATP_DURATION_TYPE_KEY_CONTRACT_PATH_ON_WIKI =
+  "https://test.kuali.org/confluence/display/KULSTU/atpDurationTypeKey+Structure";
+ public static final String ORG_POSITION_RESTRICTION_CONTRACT_PATH_ON_WIKI =
+ "https://test.kuali.org/confluence/display/KULSTU/orgPositionRestrictionInfo+Structure+v1.0-rc2";
  public static final String ATP_DURATION_TYPE_CONTRACT_PATH_ON_DISK =
   RESOURCES_DIRECTORY  + "atpDurationTypeInfo+Structure.html";
   public static final String ATP_DURATION_TYPE_SAVED_CONTRACT_PATH_ON_DISK =

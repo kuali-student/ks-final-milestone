@@ -32,7 +32,7 @@ public class ServiceMethodDumper
   for (ServiceMethodParameter param : method.getParameters ())
   {
    out.println (" Param: " + param.getName () + " (" + param.getType () + ") " +
-    param.getDescription ());
+    param.getDescription () + " http://XXX" + param.getUrl ());
   }
   for (ServiceMethodError param : method.getErrors ())
   {
@@ -40,7 +40,7 @@ public class ServiceMethodDumper
     param.getDescription ());
   }
   out.println (" return: " + method.getReturnValue ().getType () + " - " + method.getReturnValue ().
-   getDescription ());
+   getDescription () + " http://XXX" + method.getReturnValue ().getUrl ());
  }
 
 }

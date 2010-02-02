@@ -117,7 +117,8 @@ public class XmlTypePageReaderFromFileTest implements TestConstants
  {
   System.out.println ("getXmlType");
   XmlTypePageReader instance =
-   new XmlTypePageReader (new File (ATP_DURATION_TYPE_CONTRACT_PATH_ON_DISK));
+   new XmlTypePageReader (ATP_DURATION_TYPE_CONTRACT_PATH_ON_DISK,
+   new File (ATP_DURATION_TYPE_CONTRACT_PATH_ON_DISK));
   XmlType xmlType = instance.getXmlType ();
   new XmlTypeDumper (xmlType, System.out).dump ();
   assertEquals ("atpDurationTypeInfo", xmlType.getName ());

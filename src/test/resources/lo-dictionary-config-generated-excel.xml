@@ -1,0 +1,894 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+xsi:schemaLocation="
+http://student.kuali.org/xsd/dictionary-extension dictionary-extension.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+">
+<!-- *** Automatically Generated ***
+on: Tue Feb 02 13:57:45 EST 2010
+by: org.kuali.student.dictionary.writer.DictionaryModelWriter
+Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
+ -->
+import src/test/resources/constraints-dictionary-config-generated-excel.xml
+	
+	<dict:objectStructure key="org.kuali.student.lum.lo.dto.LoInfo">
+		<!-- Detailed information about a learning objective -->
+		<dict:type key="kuali.lo.type.singleUse">
+		<!-- LO created in support of programs or courses, e.g., faculty-inspired additional LO for a course that are not intended for others to re-use -->
+			<dict:state key="draft">
+			<!-- Lo is in draft until approved then active -->
+			<!-- TODO: add to simple spec -->
+				
+				<dict:field id="singleUse.lo.name" key="name">
+					<dict:fieldDescriptor>
+						<dict:name>informal lo name</dict:name>
+						<dict:desc>the name of the lo</dict:desc>
+						<dict:dataType>string</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+							<dict:constraintRef bean="constraint.required"/>
+							<dict:constraintRef bean="constraint.single"/>
+							<dict:constraintRef bean="constraint.single.line.text"/>
+					</dict:constraintDescriptor>
+				</dict:field>
+				
+				<dict:field id="singleUse.lo.desc" key="desc">
+					<dict:fieldDescriptor>
+						<dict:name>informal lo description</dict:name>
+						<dict:desc>the description of the lo</dict:desc>
+						<dict:dataType>complex</dict:dataType>
+							
+							<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo">
+								<!-- Complex type supporting both a plain text and formatted version of a string. -->
+								<dict:type key="kuali.not.applicable">
+								<!-- Not applicable -->
+								<!-- (n/a) -->
+									<dict:state key="(n/a)">
+									<!-- Not applicable -->
+										
+										<dict:field id="singleUse.lo.desc.plain" key="plain">
+											<dict:fieldDescriptor>
+												<dict:name>informal lo desc plain text</dict:name>
+												<dict:desc>informal lo desc plain text</dict:desc>
+												<dict:dataType>string</dict:dataType>
+												<dict:readOnly>true</dict:readOnly>
+											</dict:fieldDescriptor>
+											<dict:constraintDescriptor>
+													<dict:constraintRef bean="constraint.read.only"/>
+													<dict:constraintRef bean="constraint.single"/>
+													<dict:constraintRef bean="constraint.multi.line.text"/>
+													<dict:constraintRef bean="constraint.hidden"/>
+													<dict:constraintRef bean="constraint.calc.plain.text"/>
+													<dict:constraint key="in-line.constraint.for.field.richTextInfo.plain" id="constraint.">
+														<dict:maxLength>(unbounded)</dict:maxLength>
+														</dict:constraint>
+											</dict:constraintDescriptor>
+										</dict:field>
+										
+										<dict:field id="singleUse.lo.desc.formatted" key="formatted">
+											<dict:fieldDescriptor>
+												<dict:name>informal lo desc formatted</dict:name>
+												<dict:desc>informal lo desc formatted</dict:desc>
+												<dict:dataType>string</dict:dataType>
+											</dict:fieldDescriptor>
+											<dict:constraintDescriptor>
+													<dict:constraintRef bean="constraint.optional"/>
+													<dict:constraintRef bean="constraint.single"/>
+													<dict:constraintRef bean="constraint.rich.text"/>
+													<dict:constraint key="in-line.constraint.for.field.richTextInfo.formatted" id="constraint.">
+														<dict:maxLength>(unbounded)</dict:maxLength>
+														</dict:constraint>
+											</dict:constraintDescriptor>
+										</dict:field>
+									</dict:state>
+								</dict:type>
+							</dict:objectStructure>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+							<dict:constraintRef bean="constraint.optional"/>
+							<dict:constraintRef bean="constraint.single"/>
+					</dict:constraintDescriptor>
+				</dict:field>
+				
+				<dict:field id="singleUse.lo.loRepository" key="loRepositoryKey">
+					<dict:fieldDescriptor>
+						<dict:name>informal lo hierarcy</dict:name>
+						<dict:desc>the name of the hierarchy to which the lo belongs</dict:desc>
+						<dict:dataType>string</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+							<dict:constraintRef bean="constraint.required"/>
+							<dict:constraintRef bean="constraint.single"/>
+							<dict:constraintRef bean="constraint.lo.repositories"/>
+							<dict:constraintRef bean="constraint.hard.coded.singleUse.lo.repository"/>
+					</dict:constraintDescriptor>
+				</dict:field>
+				
+				<dict:field id="singleUse.lo.effectiveDate" key="effectiveDate">
+					<dict:fieldDescriptor>
+						<dict:name>informal lo effective date</dict:name>
+						<dict:desc>the effective date of the lo</dict:desc>
+						<dict:dataType>dateTime</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+							<dict:constraintRef bean="constraint.required"/>
+							<dict:constraintRef bean="constraint.single"/>
+							<dict:constraintRef bean="constraint.date.time"/>
+					</dict:constraintDescriptor>
+				</dict:field>
+				
+				<dict:field id="singleUse.lo.expirationDate" key="expirationDate">
+					<dict:fieldDescriptor>
+						<dict:name>single use lo attribute sequence key</dict:name>
+						<dict:desc>the expiration date of the lo</dict:desc>
+						<dict:dataType>dateTime</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+							<dict:constraintRef bean="constraint.optional"/>
+							<dict:constraintRef bean="constraint.single"/>
+							<dict:constraintRef bean="constraint.date.time"/>
+					</dict:constraintDescriptor>
+				</dict:field>
+				
+				<dict:field id="singleUse.lo.attributes" key="attributes">
+					<dict:fieldDescriptor>
+						<dict:name>informal lo attributes</dict:name>
+						<dict:desc>attributes</dict:desc>
+						<dict:dataType>complex</dict:dataType>
+							
+							<dict:objectStructure key=".AttributeInfo">
+								<!-- List of key/value pairs, typically used for dynamic attributes. -->
+								<dict:type key="kuali.lo.type.SingleUse.dynamic.sequence">
+								<!-- Captures the sequence of an LO within a Credit Course -->
+								<!-- This sequence really belongs on both on CLU-LO and LO-LO relationships for Single Use Los - but the most recent version of the services with the relationships as not in use yet, so it has been put here as a temporary solution -->
+									<dict:state key="(n/a)">
+									<!-- Not applicable -->
+										
+										<dict:field id="singleUse.lo.attributes.sequence.key" key="key">
+											<!-- Shouldn't this be a "type" not a "key"?  I type describes the value, a key is just a pointer. -->
+											<dict:fieldDescriptor>
+												<dict:name>single use lo attribute sequence key</dict:name>
+												<dict:desc>Key to capture the sequence of the Lo</dict:desc>
+												<dict:dataType>string</dict:dataType>
+												<dict:readOnly>true</dict:readOnly>
+											</dict:fieldDescriptor>
+											<dict:constraintDescriptor>
+													<dict:constraintRef bean="constraint.required"/>
+													<dict:constraintRef bean="constraint.single"/>
+													<dict:constraintRef bean="constraint.kuali.type"/>
+													<dict:constraintRef bean="constraint.dynamic.field.types"/>
+													<dict:constraintRef bean="constraint.hard.coded.singleUse.lo.sequence"/>
+													<dict:constraintRef bean="constraint.read.only"/>
+											</dict:constraintDescriptor>
+											<dict:dynamic>true</dict:dynamic>
+										</dict:field>
+										
+										<dict:field id="singleUse.lo.attributes.sequence.value" key="value">
+											<dict:fieldDescriptor>
+												<dict:name>single use lo attribute sequence value</dict:name>
+												<dict:desc>Value to capture the sequence of the Lo</dict:desc>
+												<dict:dataType>string</dict:dataType>
+											</dict:fieldDescriptor>
+											<dict:constraintDescriptor>
+													<dict:constraintRef bean="constraint.required"/>
+													<dict:constraintRef bean="constraint.single"/>
+													<dict:constraint key="in-line.constraint.for.field.attributeInfo.value" id="constraint.">
+														<dict:maxLength>(unbounded)</dict:maxLength>
+														</dict:constraint>
+											</dict:constraintDescriptor>
+											<dict:dynamic>true</dict:dynamic>
+										</dict:field>
+									</dict:state>
+								</dict:type>
+							</dict:objectStructure>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+							<dict:constraintRef bean="constraint.optional"/>
+							<dict:constraintRef bean="constraint.single"/>
+							<dict:constraintRef bean="constraint.optional"/>
+					</dict:constraintDescriptor>
+					<dict:dynamic>true</dict:dynamic>
+				</dict:field>
+				
+				<dict:field id="singleUse.lo.metaInfo" key="metaInfo">
+					<dict:fieldDescriptor>
+						<dict:name>informal lo meta info</dict:name>
+						<dict:desc>meta info</dict:desc>
+						<dict:dataType>complex</dict:dataType>
+							
+							<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo">
+								<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+								<dict:type key="kuali.not.applicable">
+								<!-- Not applicable -->
+								<!-- (n/a) -->
+									<dict:state key="(n/a)">
+									<!-- Not applicable -->
+										
+										<dict:field id="singleUse.lo.meta.versionInd" key="versionInd">
+											<dict:fieldDescriptor>
+												<dict:name>informal lo meta versionInd</dict:name>
+												<dict:desc>informal lo meta versionInd</dict:desc>
+												<dict:dataType>string</dict:dataType>
+												<dict:readOnly>true</dict:readOnly>
+											</dict:fieldDescriptor>
+											<dict:constraintDescriptor>
+													<dict:constraintRef bean="constraint.required"/>
+													<dict:constraintRef bean="constraint.single"/>
+													<dict:constraintRef bean="constraint.calc.meta.versionInd"/>
+													<dict:constraintRef bean="constraint.read.only"/>
+													<dict:constraintRef bean="constraint.hidden"/>
+											</dict:constraintDescriptor>
+										</dict:field>
+										
+										<dict:field id="singleUse.lo.meta.createTime" key="createTime">
+											<dict:fieldDescriptor>
+												<dict:name>informal lo meta createTime</dict:name>
+												<dict:desc>informal lo meta createTime</dict:desc>
+												<dict:dataType>dateTime</dict:dataType>
+											</dict:fieldDescriptor>
+											<dict:constraintDescriptor>
+													<dict:constraintRef bean="constraint.required"/>
+													<dict:constraintRef bean="constraint.single"/>
+													<dict:constraintRef bean="constraint.date.time"/>
+													<dict:constraintRef bean="constraint.default.now"/>
+											</dict:constraintDescriptor>
+										</dict:field>
+										
+										<dict:field id="singleUse.lo.meta.createId" key="createId">
+											<dict:fieldDescriptor>
+												<dict:name>informal lo meta createId</dict:name>
+												<dict:desc>informal lo meta createId</dict:desc>
+												<dict:dataType>string</dict:dataType>
+												<dict:readOnly>true</dict:readOnly>
+											</dict:fieldDescriptor>
+											<dict:constraintDescriptor>
+													<dict:constraintRef bean="constraint.read.only"/>
+													<dict:constraintRef bean="constraint.single"/>
+													<dict:constraintRef bean="constraint.related.principalId"/>
+													<dict:constraintRef bean="constraint.default.authenicated.principalId"/>
+											</dict:constraintDescriptor>
+										</dict:field>
+										
+										<dict:field id="singleUse.lo.meta.updateTime" key="updateTime">
+											<dict:fieldDescriptor>
+												<dict:name>informal lo meta updateTime</dict:name>
+												<dict:desc>informal lo meta updateTime</dict:desc>
+												<dict:dataType>dateTime</dict:dataType>
+											</dict:fieldDescriptor>
+											<dict:constraintDescriptor>
+													<dict:constraintRef bean="constraint.required"/>
+													<dict:constraintRef bean="constraint.single"/>
+													<dict:constraintRef bean="constraint.date.time"/>
+													<dict:constraintRef bean="constraint.calc.now"/>
+											</dict:constraintDescriptor>
+										</dict:field>
+										
+										<dict:field id="singleUse.lo.meta.updateId" key="updateId">
+											<dict:fieldDescriptor>
+												<dict:name>informal lo meta updateId</dict:name>
+												<dict:desc>informal lo meta updateId</dict:desc>
+												<dict:dataType>string</dict:dataType>
+												<dict:readOnly>true</dict:readOnly>
+											</dict:fieldDescriptor>
+											<dict:constraintDescriptor>
+													<dict:constraintRef bean="constraint.read.only"/>
+													<dict:constraintRef bean="constraint.single"/>
+													<dict:constraintRef bean="constraint.related.principalId"/>
+													<dict:constraintRef bean="constraint.calc.authenicated.principalId"/>
+											</dict:constraintDescriptor>
+										</dict:field>
+									</dict:state>
+								</dict:type>
+							</dict:objectStructure>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+							<dict:constraintRef bean="constraint.optional"/>
+							<dict:constraintRef bean="constraint.single"/>
+					</dict:constraintDescriptor>
+				</dict:field>
+				
+				<dict:field id="singleUse.lo.type" key="type">
+					<dict:fieldDescriptor>
+						<dict:name>type</dict:name>
+						<dict:desc>the type of the lo</dict:desc>
+						<dict:dataType>string</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+							<dict:constraintRef bean="constraint.required"/>
+							<dict:constraintRef bean="constraint.single"/>
+							<dict:constraintRef bean="constraint.lo.types"/>
+							<dict:constraintRef bean="constraint.hard.coded.singleUse.lo"/>
+					</dict:constraintDescriptor>
+				</dict:field>
+				
+				<dict:field id="singleUse.lo.state" key="state">
+					<dict:fieldDescriptor>
+						<dict:name>informal lo.state</dict:name>
+						<dict:desc>the state of the lo</dict:desc>
+						<dict:dataType>string</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+							<dict:constraintRef bean="constraint.required"/>
+							<dict:constraintRef bean="constraint.single"/>
+							<dict:constraintRef bean="constraint.kuali.state"/>
+					</dict:constraintDescriptor>
+					<dict:selector>true</dict:selector>
+				</dict:field>
+				
+				<dict:field id="singleUse.lo.internal.id" key="id">
+					<dict:fieldDescriptor>
+						<dict:name>informal lo internal id</dict:name>
+						<dict:desc>the internal id of the lo</dict:desc>
+						<dict:dataType>string</dict:dataType>
+						<dict:readOnly>true</dict:readOnly>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+							<dict:constraintRef bean="constraint.read.only"/>
+							<dict:constraintRef bean="constraint.single"/>
+							<dict:constraintRef bean="constraint.kuali.id"/>
+							<dict:constraintRef bean="constraint.hidden"/>
+					</dict:constraintDescriptor>
+				</dict:field>
+			</dict:state>
+			<dict:state key="active">
+			<!-- Lo is active -->
+			<!-- TODO: add to simple spec -->
+				<dict:fieldRef bean="singleUse.lo.name"/>
+				<dict:fieldRef bean="singleUse.lo.desc"/>
+				<dict:fieldRef bean="singleUse.lo.loRepository"/>
+				<dict:fieldRef bean="singleUse.lo.effectiveDate"/>
+				<dict:fieldRef bean="singleUse.lo.expirationDate"/>
+				<dict:fieldRef bean="singleUse.lo.attributes"/>
+				<dict:fieldRef bean="singleUse.lo.metaInfo"/>
+				<dict:fieldRef bean="singleUse.lo.type"/>
+				<dict:fieldRef bean="singleUse.lo.state"/>
+				<dict:fieldRef bean="singleUse.lo.internal.id"/>
+			</dict:state>
+			<dict:state key="inactive">
+			<!-- Lo is inactive -->
+			<!-- TODO: add to simple spec -->
+				<dict:fieldRef bean="singleUse.lo.name"/>
+				<dict:fieldRef bean="singleUse.lo.desc"/>
+				<dict:fieldRef bean="singleUse.lo.loRepository"/>
+				<dict:fieldRef bean="singleUse.lo.effectiveDate"/>
+				<dict:fieldRef bean="singleUse.lo.expirationDate"/>
+				<dict:fieldRef bean="singleUse.lo.attributes"/>
+				<dict:fieldRef bean="singleUse.lo.metaInfo"/>
+				<dict:fieldRef bean="singleUse.lo.type"/>
+				<dict:fieldRef bean="singleUse.lo.state"/>
+				<dict:fieldRef bean="singleUse.lo.internal.id"/>
+			</dict:state>
+		</dict:type>
+	</dict:objectStructure>
+	
+	<dict:objectStructure key="org.kuali.student.lum.lo.dto.LoLoRelationInfo">
+		<!-- Detailed information about an LO to LO relationship. -->
+		<dict:type key="kuali.lo.relation.type.includes">
+		<!-- Parent-child relationship between a parent LO and sub LO. Currently used in the context of LOs that are related within a single CLU. -->
+			<dict:state key="draft">
+			<!-- Lo is in draft until approved then active -->
+			<!-- TODO: add to simple spec -->
+				
+				<dict:field id="includes.loLoRelation.loId" key="loId">
+					<dict:fieldDescriptor>
+						<dict:name>includes relation parent LO id</dict:name>
+						<dict:desc>the parent lo id</dict:desc>
+						<dict:dataType>string</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+							<dict:constraintRef bean="constraint.required"/>
+							<dict:constraintRef bean="constraint.single"/>
+					</dict:constraintDescriptor>
+				</dict:field>
+				
+				<dict:field id="includes.loLoRelation.relatedLoId" key="relatedLoId">
+					<dict:fieldDescriptor>
+						<dict:name>includes relation child LO id</dict:name>
+						<dict:desc>the child lo id</dict:desc>
+						<dict:dataType>string</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+							<dict:constraintRef bean="constraint.required"/>
+							<dict:constraintRef bean="constraint.single"/>
+					</dict:constraintDescriptor>
+				</dict:field>
+				
+				<dict:field id="includes.loLoRelation.effectiveDate" key="effectiveDate">
+					<dict:fieldDescriptor>
+						<dict:name>includes relation effective date</dict:name>
+						<dict:desc>the effective date of the lo reation</dict:desc>
+						<dict:dataType>dateTime</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+							<dict:constraintRef bean="constraint.required"/>
+							<dict:constraintRef bean="constraint.single"/>
+							<dict:constraintRef bean="constraint.date.time"/>
+					</dict:constraintDescriptor>
+				</dict:field>
+				
+				<dict:field id="includes.loLoRelation.expirationDate" key="expirationDate">
+					<dict:fieldDescriptor>
+						<dict:name>includes relation expiration date</dict:name>
+						<dict:desc>the expiration date of the relation</dict:desc>
+						<dict:dataType>dateTime</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+							<dict:constraintRef bean="constraint.optional"/>
+							<dict:constraintRef bean="constraint.single"/>
+							<dict:constraintRef bean="constraint.date.time"/>
+					</dict:constraintDescriptor>
+				</dict:field>
+				
+				<dict:field id="includes.loLoRelation.attributes" key="attributes">
+					<dict:fieldDescriptor>
+						<dict:name>includes relation attributes</dict:name>
+						<dict:desc>attributes</dict:desc>
+						<dict:dataType>complex</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+							<dict:constraintRef bean="constraint.optional"/>
+							<dict:constraintRef bean="constraint.single"/>
+							<dict:constraintRef bean="constraint.not.used"/>
+					</dict:constraintDescriptor>
+				</dict:field>
+				
+				<dict:field id="includes.loLoRelation.metaInfo" key="metaInfo">
+					<dict:fieldDescriptor>
+						<dict:name>includes relation meta info</dict:name>
+						<dict:desc>meta info</dict:desc>
+						<dict:dataType>complex</dict:dataType>
+							
+							<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo">
+								<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+								<dict:type key="kuali.not.applicable">
+								<!-- Not applicable -->
+								<!-- (n/a) -->
+									<dict:state key="(n/a)">
+									<!-- Not applicable -->
+										
+										<dict:field id="includes.loLoRelation.meta.versionInd" key="versionInd">
+											<dict:fieldDescriptor>
+												<dict:name>includes relationship meta versionInd</dict:name>
+												<dict:desc>includes relationship meta versionInd</dict:desc>
+												<dict:dataType>string</dict:dataType>
+												<dict:readOnly>true</dict:readOnly>
+											</dict:fieldDescriptor>
+											<dict:constraintDescriptor>
+													<dict:constraintRef bean="constraint.required"/>
+													<dict:constraintRef bean="constraint.single"/>
+													<dict:constraintRef bean="constraint.calc.meta.versionInd"/>
+													<dict:constraintRef bean="constraint.read.only"/>
+													<dict:constraintRef bean="constraint.hidden"/>
+											</dict:constraintDescriptor>
+										</dict:field>
+										
+										<dict:field id="includes.loLoRelation.meta.createTime" key="createTime">
+											<dict:fieldDescriptor>
+												<dict:name>includes relationship meta createTime</dict:name>
+												<dict:desc>includes relationship meta createTime</dict:desc>
+												<dict:dataType>dateTime</dict:dataType>
+											</dict:fieldDescriptor>
+											<dict:constraintDescriptor>
+													<dict:constraintRef bean="constraint.required"/>
+													<dict:constraintRef bean="constraint.single"/>
+													<dict:constraintRef bean="constraint.date.time"/>
+													<dict:constraintRef bean="constraint.default.now"/>
+											</dict:constraintDescriptor>
+										</dict:field>
+										
+										<dict:field id="includes.loLoRelation.meta.createId" key="createId">
+											<dict:fieldDescriptor>
+												<dict:name>includes relationship meta createId</dict:name>
+												<dict:desc>includes relationship meta createId</dict:desc>
+												<dict:dataType>string</dict:dataType>
+												<dict:readOnly>true</dict:readOnly>
+											</dict:fieldDescriptor>
+											<dict:constraintDescriptor>
+													<dict:constraintRef bean="constraint.read.only"/>
+													<dict:constraintRef bean="constraint.single"/>
+													<dict:constraintRef bean="constraint.related.principalId"/>
+													<dict:constraintRef bean="constraint.default.authenicated.principalId"/>
+											</dict:constraintDescriptor>
+										</dict:field>
+										
+										<dict:field id="includes.loLoRelation.meta.updateTime" key="updateTime">
+											<dict:fieldDescriptor>
+												<dict:name>includes relationship meta updateTime</dict:name>
+												<dict:desc>includes relationship meta updateTime</dict:desc>
+												<dict:dataType>dateTime</dict:dataType>
+											</dict:fieldDescriptor>
+											<dict:constraintDescriptor>
+													<dict:constraintRef bean="constraint.required"/>
+													<dict:constraintRef bean="constraint.single"/>
+													<dict:constraintRef bean="constraint.date.time"/>
+													<dict:constraintRef bean="constraint.calc.now"/>
+											</dict:constraintDescriptor>
+										</dict:field>
+										
+										<dict:field id="includes.loLoRelation.meta.updateId" key="updateId">
+											<dict:fieldDescriptor>
+												<dict:name>includes relationship meta updateId</dict:name>
+												<dict:desc>includes relationship meta updateId</dict:desc>
+												<dict:dataType>string</dict:dataType>
+												<dict:readOnly>true</dict:readOnly>
+											</dict:fieldDescriptor>
+											<dict:constraintDescriptor>
+													<dict:constraintRef bean="constraint.read.only"/>
+													<dict:constraintRef bean="constraint.single"/>
+													<dict:constraintRef bean="constraint.related.principalId"/>
+													<dict:constraintRef bean="constraint.calc.authenicated.principalId"/>
+											</dict:constraintDescriptor>
+										</dict:field>
+									</dict:state>
+								</dict:type>
+							</dict:objectStructure>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+							<dict:constraintRef bean="constraint.optional"/>
+							<dict:constraintRef bean="constraint.single"/>
+					</dict:constraintDescriptor>
+				</dict:field>
+				
+				<dict:field id="includes.loLoRelation.type" key="type">
+					<dict:fieldDescriptor>
+						<dict:name>includes relation type</dict:name>
+						<dict:desc>the type of the relation</dict:desc>
+						<dict:dataType>string</dict:dataType>
+						<dict:readOnly>true</dict:readOnly>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+							<dict:constraintRef bean="constraint.required"/>
+							<dict:constraintRef bean="constraint.single"/>
+							<dict:constraintRef bean="constraint.lo.lo.relation.types"/>
+							<dict:constraintRef bean="constraint.hard.coded.lolorealtion.includes"/>
+							<dict:constraintRef bean="constraint.read.only"/>
+					</dict:constraintDescriptor>
+				</dict:field>
+				
+				<dict:field id="includes.loLoRelation.state" key="state">
+					<dict:fieldDescriptor>
+						<dict:name>includes relation state</dict:name>
+						<dict:desc>the state of the relation</dict:desc>
+						<dict:dataType>string</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+							<dict:constraintRef bean="constraint.required"/>
+							<dict:constraintRef bean="constraint.single"/>
+							<dict:constraintRef bean="constraint.kuali.state"/>
+					</dict:constraintDescriptor>
+					<dict:selector>true</dict:selector>
+				</dict:field>
+				
+				<dict:field id="includes.loLoRelation.internal.id" key="id">
+					<dict:fieldDescriptor>
+						<dict:name>includes relation internal id</dict:name>
+						<dict:desc>the internal id of the lo-lo relation</dict:desc>
+						<dict:dataType>string</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+							<dict:constraintRef bean="constraint.optional"/>
+							<dict:constraintRef bean="constraint.single"/>
+							<dict:constraintRef bean="constraint.kuali.id"/>
+							<dict:constraintRef bean="constraint.hidden"/>
+					</dict:constraintDescriptor>
+				</dict:field>
+			</dict:state>
+			<dict:state key="active">
+			<!-- Lo is active -->
+			<!-- TODO: add to simple spec -->
+				<dict:fieldRef bean="includes.loLoRelation.loId"/>
+				<dict:fieldRef bean="includes.loLoRelation.relatedLoId"/>
+				<dict:fieldRef bean="includes.loLoRelation.effectiveDate"/>
+				<dict:fieldRef bean="includes.loLoRelation.expirationDate"/>
+				<dict:fieldRef bean="includes.loLoRelation.attributes"/>
+				<dict:fieldRef bean="includes.loLoRelation.metaInfo"/>
+				<dict:fieldRef bean="includes.loLoRelation.type"/>
+				<dict:fieldRef bean="includes.loLoRelation.state"/>
+				<dict:fieldRef bean="includes.loLoRelation.internal.id"/>
+			</dict:state>
+			<dict:state key="inactive">
+			<!-- Lo is inactive -->
+			<!-- TODO: add to simple spec -->
+				<dict:fieldRef bean="includes.loLoRelation.loId"/>
+				<dict:fieldRef bean="includes.loLoRelation.relatedLoId"/>
+				<dict:fieldRef bean="includes.loLoRelation.effectiveDate"/>
+				<dict:fieldRef bean="includes.loLoRelation.expirationDate"/>
+				<dict:fieldRef bean="includes.loLoRelation.attributes"/>
+				<dict:fieldRef bean="includes.loLoRelation.metaInfo"/>
+				<dict:fieldRef bean="includes.loLoRelation.type"/>
+				<dict:fieldRef bean="includes.loLoRelation.state"/>
+				<dict:fieldRef bean="includes.loLoRelation.internal.id"/>
+			</dict:state>
+		</dict:type>
+	</dict:objectStructure>
+	
+	<dict:objectStructure key="org.kuali.student.lum.lo.dto.LoCategoryInfo">
+		<!-- Detailed information about a learning objective category. -->
+		<dict:type key="kuali.lo.category.type.*">
+		<!-- all lo categories -->
+		<!-- This is really a grouping of types -->
+			<dict:state key="inactive">
+			<!-- Lo Category is inactive -->
+			<!-- KS -->
+				
+				<dict:field id="allCategories.lo.category.name" key="name">
+					<dict:fieldDescriptor>
+						<dict:name>lo category name</dict:name>
+						<dict:desc>category name</dict:desc>
+						<dict:dataType>string</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+							<dict:constraintRef bean="constraint.required"/>
+							<dict:constraintRef bean="constraint.single"/>
+							<dict:constraintRef bean="constraint.single.line.text"/>
+					</dict:constraintDescriptor>
+				</dict:field>
+				
+				<dict:field id="allCategories.lo.category.desc" key="desc">
+					<dict:fieldDescriptor>
+						<dict:name>lo category description</dict:name>
+						<dict:desc>the description of the category</dict:desc>
+						<dict:dataType>complex</dict:dataType>
+							
+							<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo">
+								<!-- Complex type supporting both a plain text and formatted version of a string. -->
+								<dict:type key="kuali.not.applicable">
+								<!-- Not applicable -->
+								<!-- (n/a) -->
+									<dict:state key="(n/a)">
+									<!-- Not applicable -->
+										
+										<dict:field id="allCategories.lo.category.desc.plain" key="plain">
+											<dict:fieldDescriptor>
+												<dict:name>lo category desc plain text</dict:name>
+												<dict:desc>lo category desc plain text</dict:desc>
+												<dict:dataType>string</dict:dataType>
+												<dict:readOnly>true</dict:readOnly>
+											</dict:fieldDescriptor>
+											<dict:constraintDescriptor>
+													<dict:constraintRef bean="constraint.read.only"/>
+													<dict:constraintRef bean="constraint.single"/>
+													<dict:constraintRef bean="constraint.multi.line.text"/>
+													<dict:constraintRef bean="constraint.hidden"/>
+													<dict:constraintRef bean="constraint.calc.plain.text"/>
+													<dict:constraint key="in-line.constraint.for.field.richTextInfo.plain" id="constraint.">
+														<dict:maxLength>(unbounded)</dict:maxLength>
+														</dict:constraint>
+											</dict:constraintDescriptor>
+										</dict:field>
+										
+										<dict:field id="allCategories.lo.category.desc.formatted" key="formatted">
+											<dict:fieldDescriptor>
+												<dict:name>lo category desc formatted</dict:name>
+												<dict:desc>lo category desc formatted</dict:desc>
+												<dict:dataType>string</dict:dataType>
+											</dict:fieldDescriptor>
+											<dict:constraintDescriptor>
+													<dict:constraintRef bean="constraint.optional"/>
+													<dict:constraintRef bean="constraint.single"/>
+													<dict:constraintRef bean="constraint.rich.text"/>
+													<dict:constraint key="in-line.constraint.for.field.richTextInfo.formatted" id="constraint.">
+														<dict:maxLength>(unbounded)</dict:maxLength>
+														</dict:constraint>
+											</dict:constraintDescriptor>
+										</dict:field>
+									</dict:state>
+								</dict:type>
+							</dict:objectStructure>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+							<dict:constraintRef bean="constraint.optional"/>
+							<dict:constraintRef bean="constraint.single"/>
+					</dict:constraintDescriptor>
+				</dict:field>
+				
+				<dict:field id="allCategories.lo.category.loRepository" key="loRepository">
+					<dict:fieldDescriptor>
+						<dict:name>lo category repository</dict:name>
+						<dict:desc>the lo repository to which the lo category belongs</dict:desc>
+						<dict:dataType>string</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+							<dict:constraintRef bean="constraint.required"/>
+							<dict:constraintRef bean="constraint.single"/>
+							<dict:constraintRef bean="constraint.lo.hierarchy.types"/>
+							<dict:constraintRef bean="constraint.hard.coded.singleUse.lo.repository"/>
+					</dict:constraintDescriptor>
+				</dict:field>
+				
+				<dict:field id="allCategories.lo.category.effectiveDate" key="effectiveDate">
+					<dict:fieldDescriptor>
+						<dict:name>lo category effective date</dict:name>
+						<dict:desc>the effective date of the lo category</dict:desc>
+						<dict:dataType>dateTime</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+							<dict:constraintRef bean="constraint.required"/>
+							<dict:constraintRef bean="constraint.single"/>
+							<dict:constraintRef bean="constraint.date.time"/>
+					</dict:constraintDescriptor>
+				</dict:field>
+				
+				<dict:field id="allCategories.lo.category.expirationDate" key="expirationDate">
+					<dict:fieldDescriptor>
+						<dict:name>lo category expiration date</dict:name>
+						<dict:desc>the expiration date of the lo category</dict:desc>
+						<dict:dataType>dateTime</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+							<dict:constraintRef bean="constraint.optional"/>
+							<dict:constraintRef bean="constraint.single"/>
+							<dict:constraintRef bean="constraint.date.time"/>
+					</dict:constraintDescriptor>
+				</dict:field>
+				
+				<dict:field id="allCategories.lo.category.attributes" key="attributes">
+					<dict:fieldDescriptor>
+						<dict:name>lo category attributes</dict:name>
+						<dict:desc>attributes</dict:desc>
+						<dict:dataType>complex</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+							<dict:constraintRef bean="constraint.optional"/>
+							<dict:constraintRef bean="constraint.single"/>
+							<dict:constraintRef bean="constraint.not.used"/>
+					</dict:constraintDescriptor>
+				</dict:field>
+				
+				<dict:field id="allCategories.lo.category.metaInfo" key="metaInfo">
+					<dict:fieldDescriptor>
+						<dict:name>lo category meta into</dict:name>
+						<dict:desc>meta info</dict:desc>
+						<dict:dataType>complex</dict:dataType>
+							
+							<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo">
+								<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+								<dict:type key="kuali.not.applicable">
+								<!-- Not applicable -->
+								<!-- (n/a) -->
+									<dict:state key="(n/a)">
+									<!-- Not applicable -->
+										
+										<dict:field id="allCategories.lo.category.meta.versionInd" key="versionInd">
+											<dict:fieldDescriptor>
+												<dict:name>lo category meta versionInd</dict:name>
+												<dict:desc>lo category meta versionInd</dict:desc>
+												<dict:dataType>string</dict:dataType>
+												<dict:readOnly>true</dict:readOnly>
+											</dict:fieldDescriptor>
+											<dict:constraintDescriptor>
+													<dict:constraintRef bean="constraint.required"/>
+													<dict:constraintRef bean="constraint.single"/>
+													<dict:constraintRef bean="constraint.calc.meta.versionInd"/>
+													<dict:constraintRef bean="constraint.read.only"/>
+													<dict:constraintRef bean="constraint.hidden"/>
+											</dict:constraintDescriptor>
+										</dict:field>
+										
+										<dict:field id="allCategories.lo.category.meta.createTime" key="createTime">
+											<dict:fieldDescriptor>
+												<dict:name>lo category  meta createTime</dict:name>
+												<dict:desc>lo category meta createTime</dict:desc>
+												<dict:dataType>dateTime</dict:dataType>
+											</dict:fieldDescriptor>
+											<dict:constraintDescriptor>
+													<dict:constraintRef bean="constraint.required"/>
+													<dict:constraintRef bean="constraint.single"/>
+													<dict:constraintRef bean="constraint.date.time"/>
+													<dict:constraintRef bean="constraint.default.now"/>
+											</dict:constraintDescriptor>
+										</dict:field>
+										
+										<dict:field id="allCategories.lo.category.meta.createId" key="createId">
+											<dict:fieldDescriptor>
+												<dict:name>lo category meta createId</dict:name>
+												<dict:desc>lo category meta createId</dict:desc>
+												<dict:dataType>string</dict:dataType>
+												<dict:readOnly>true</dict:readOnly>
+											</dict:fieldDescriptor>
+											<dict:constraintDescriptor>
+													<dict:constraintRef bean="constraint.read.only"/>
+													<dict:constraintRef bean="constraint.single"/>
+													<dict:constraintRef bean="constraint.related.principalId"/>
+													<dict:constraintRef bean="constraint.default.authenicated.principalId"/>
+											</dict:constraintDescriptor>
+										</dict:field>
+										
+										<dict:field id="allCategories.lo.category.meta.updateTime" key="updateTime">
+											<dict:fieldDescriptor>
+												<dict:name>lo category meta updateTime</dict:name>
+												<dict:desc>lo category meta updateTime</dict:desc>
+												<dict:dataType>dateTime</dict:dataType>
+											</dict:fieldDescriptor>
+											<dict:constraintDescriptor>
+													<dict:constraintRef bean="constraint.required"/>
+													<dict:constraintRef bean="constraint.single"/>
+													<dict:constraintRef bean="constraint.date.time"/>
+													<dict:constraintRef bean="constraint.calc.now"/>
+											</dict:constraintDescriptor>
+										</dict:field>
+										
+										<dict:field id="allCategories.lo.category.meta.updateId" key="updateId">
+											<dict:fieldDescriptor>
+												<dict:name>lo category meta updateId</dict:name>
+												<dict:desc>lo category meta updateId</dict:desc>
+												<dict:dataType>string</dict:dataType>
+												<dict:readOnly>true</dict:readOnly>
+											</dict:fieldDescriptor>
+											<dict:constraintDescriptor>
+													<dict:constraintRef bean="constraint.read.only"/>
+													<dict:constraintRef bean="constraint.single"/>
+													<dict:constraintRef bean="constraint.related.principalId"/>
+													<dict:constraintRef bean="constraint.calc.authenicated.principalId"/>
+											</dict:constraintDescriptor>
+										</dict:field>
+									</dict:state>
+								</dict:type>
+							</dict:objectStructure>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+							<dict:constraintRef bean="constraint.optional"/>
+							<dict:constraintRef bean="constraint.single"/>
+					</dict:constraintDescriptor>
+				</dict:field>
+				
+				<dict:field id="allCategories.lo.category.type" key="type">
+					<dict:fieldDescriptor>
+						<dict:name>lo category type</dict:name>
+						<dict:desc>the type of the lo category</dict:desc>
+						<dict:dataType>string</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+							<dict:constraintRef bean="constraint.required"/>
+							<dict:constraintRef bean="constraint.single"/>
+							<dict:constraintRef bean="constraint.lo.category.types"/>
+					</dict:constraintDescriptor>
+				</dict:field>
+				
+				<dict:field id="allCategories.lo.category.state" key="state">
+					<dict:fieldDescriptor>
+						<dict:name>lo category state</dict:name>
+						<dict:desc>the state of the lo category</dict:desc>
+						<dict:dataType>string</dict:dataType>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+							<dict:constraintRef bean="constraint.required"/>
+							<dict:constraintRef bean="constraint.single"/>
+					</dict:constraintDescriptor>
+					<dict:selector>true</dict:selector>
+				</dict:field>
+				
+				<dict:field id="allCategories.lo.category.id" key="id">
+					<dict:fieldDescriptor>
+						<dict:name>lo category id</dict:name>
+						<dict:desc>the id of the lo category</dict:desc>
+						<dict:dataType>string</dict:dataType>
+						<dict:readOnly>true</dict:readOnly>
+					</dict:fieldDescriptor>
+					<dict:constraintDescriptor>
+							<dict:constraintRef bean="constraint.read.only"/>
+							<dict:constraintRef bean="constraint.single"/>
+							<dict:constraintRef bean="constraint.kuali.id"/>
+							<dict:constraintRef bean="constraint.hidden"/>
+					</dict:constraintDescriptor>
+				</dict:field>
+			</dict:state>
+			<dict:state key="active">
+			<!-- Lo Category is active -->
+			<!-- KS -->
+				<dict:fieldRef bean="allCategories.lo.category.name"/>
+				<dict:fieldRef bean="allCategories.lo.category.desc"/>
+				<dict:fieldRef bean="allCategories.lo.category.loRepository"/>
+				<dict:fieldRef bean="allCategories.lo.category.effectiveDate"/>
+				<dict:fieldRef bean="allCategories.lo.category.expirationDate"/>
+				<dict:fieldRef bean="allCategories.lo.category.attributes"/>
+				<dict:fieldRef bean="allCategories.lo.category.metaInfo"/>
+				<dict:fieldRef bean="allCategories.lo.category.type"/>
+				<dict:fieldRef bean="allCategories.lo.category.state"/>
+				<dict:fieldRef bean="allCategories.lo.category.id"/>
+			</dict:state>
+		</dict:type>
+	</dict:objectStructure>
+</beans>
