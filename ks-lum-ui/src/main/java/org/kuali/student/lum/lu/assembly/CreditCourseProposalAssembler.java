@@ -258,7 +258,7 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
         //Metadata metadata = new CreditCourseProposalMetadata().getMetadata(PROPOSAL_TYPE_CREATE_COURSE, state);
         
         //Get permissions for course
-        Map<String, String> permissions = null; // getPermissions("kuali.lu.type.CreditCourse");
+        Map<String, String> permissions = getPermissions("kuali.lu.type.CreditCourse");
         
         
         if(permissions!=null){
@@ -283,12 +283,10 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
         AttributeSet qualification = new AttributeSet();
         //qualification.put(QUALIFICATION_PROPOSAL_ID, proposalInfo.getId());
         qualification.put(DOCUMENT_TYPE_NAME, "CluDocument");
-        /*
         boolean authorized = permissionService.isAuthorized(SecurityUtils.getCurrentUserId(), "KS-LUM", "Edit Document", null, qualification);
         if(authorized) {
             metadata.getPermissions().add(Metadata.Permission.EDIT);
         }
-        */
         return metadata;
     }
 
