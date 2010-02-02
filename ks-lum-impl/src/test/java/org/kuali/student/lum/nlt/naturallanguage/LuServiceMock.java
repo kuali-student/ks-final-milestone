@@ -334,8 +334,7 @@ public class LuServiceMock implements LuService {
 	public CluInfo getClu(String cluId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+        return (CluInfo) map.get(cluId);
 	}
 
 	@Override
@@ -515,8 +514,7 @@ public class LuServiceMock implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+        return (CluSetInfo) map.get(cluSetId);
 	}
 
 	@Override
