@@ -35,6 +35,13 @@ public class MultiplicityCompositeBinding extends ModelWidgetBindingSupport<Mult
         for (MultiplicityItem item : mcWidget.getItems()) {
             MultiplicityItemBinding.INSTANCE.setModelValue(item, model, path);
         }
+        for (MultiplicityItem item : mcWidget.getRemovedItems()) {
+            //Check flag to add model binding for only those elements that are either added to the DB or 
+            // loading frm the DB. 
+            if(item.isCreated()==false){
+                MultiplicityItemBinding.INSTANCE.setModelValue(item, model, path);
+            }
+        }
     }
 
     /**

@@ -51,7 +51,8 @@ public abstract class MultiplicityComposite extends Composite {
     protected Callback<MultiplicityItem> removeCallback = new Callback<MultiplicityItem>(){
 
         public void exec(MultiplicityItem itemToRemove) {
-            //items.remove(itemToRemove);
+            items.remove(itemToRemove);
+//            itemCount--;    
             itemToRemove.setDeleted(true);
             removed.add(itemToRemove);
             itemsPanel.remove(itemToRemove);
