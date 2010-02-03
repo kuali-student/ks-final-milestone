@@ -32,6 +32,7 @@
             <!--<dataXmlFile>${project.build.directory}/data/torque/torque-ks-all-data.xml</dataXmlFile>-->
             <!--<dataXmlFile>${project.basedir}/src/main/torque/data/KR_COUNTRY_T.xml</dataXmlFile>-->
             <dataXmlFile>${project.basedir}/src/main/torque/data/KR_COUNTY_T.xml</dataXmlFile>
+            <reportFile>KR_COUNTY_T.sql</reportFile >
           </configuration>
           <dependencies>
             <dependency>
