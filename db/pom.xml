@@ -29,7 +29,8 @@
             <runOnlyOnSchemaChange>false</runOnlyOnSchemaChange>
             <xmlFile>${project.basedir}/src/main/torque/schema/schema.xml</xmlFile>
             <dataDtd>${project.build.directory}/data/torque/torque-data.dtd</dataDtd>
-            <dataXmlFile>${project.build.directory}/data/torque/torque-ks-all-data.xml</dataXmlFile>
+            <!--<dataXmlFile>${project.build.directory}/data/torque/torque-ks-all-data.xml</dataXmlFile>-->
+            <dataXmlFile>${project.basedir}/KR_COUNTRY_T.xml</dataXmlFile>
           </configuration>
           <dependencies>
             <dependency>
