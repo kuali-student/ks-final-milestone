@@ -74,7 +74,8 @@ public class MultiplicityItemBinding extends ModelWidgetBindingSupport<Multiplic
      */
     @Override
     public void setWidgetValue(MultiplicityItem multiplicityItem, DataModel model, String path) {
-        String itemPath = path + QueryPath.getPathSeparator() + multiplicityItem.getItemKey();
+//        String itemPath = path + QueryPath.getPathSeparator() + multiplicityItem.getItemKey();
+        String itemPath ="";
         Widget widget = multiplicityItem.getItemWidget();
         if (widget instanceof Section) {
             SectionBinding.INSTANCE.setWidgetValue((Section) widget, model, itemPath);
