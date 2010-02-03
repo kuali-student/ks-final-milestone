@@ -9,10 +9,10 @@ package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
 import java.util.Date;
 
-import org.kuali.student.common.assembly.client.QueryPath;
-import org.kuali.student.common.assembly.client.Data.DataType;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.validator.ClientDateParser;
+import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.assembly.data.Data.DataType;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HasText;

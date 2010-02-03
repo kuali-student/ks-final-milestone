@@ -2,13 +2,6 @@ package org.kuali.student.common.ui.client.configurable.mvc.impl;
 
 import java.util.List;
 
-import org.kuali.student.common.assembly.client.LookupMetadata;
-import org.kuali.student.common.assembly.client.LookupParamMetadata;
-import org.kuali.student.common.assembly.client.Metadata;
-import org.kuali.student.common.assembly.client.MetadataInterrogator;
-import org.kuali.student.common.assembly.client.Data.DataType;
-import org.kuali.student.common.assembly.client.Metadata.WriteAccess;
-import org.kuali.student.common.assembly.client.MetadataInterrogator.ConstraintIds;
 import org.kuali.student.common.ui.client.configurable.mvc.DefaultWidgetFactory;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -22,6 +15,13 @@ import org.kuali.student.common.ui.client.widgets.search.AdvancedSearchWindow;
 import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
 import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.common.ui.client.widgets.search.SuggestBoxWAdvSearch;
+import org.kuali.student.core.assembly.data.LookupMetadata;
+import org.kuali.student.core.assembly.data.LookupParamMetadata;
+import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.MetadataInterrogator;
+import org.kuali.student.core.assembly.data.Data.DataType;
+import org.kuali.student.core.assembly.data.Metadata.WriteAccess;
+import org.kuali.student.core.assembly.data.MetadataInterrogator.ConstraintIds;
 
 import com.google.gwt.user.client.ui.Widget;
 

@@ -20,7 +20,8 @@ import static org.junit.Assert.assertTrue;
 import java.util.Map;
 
 import org.junit.Test;
-import org.kuali.student.common.assembly.client.Metadata;
+import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl;
 
 /**

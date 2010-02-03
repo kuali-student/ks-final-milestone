@@ -16,7 +16,7 @@
 package org.kuali.student.core.assembly.helper;
 
 
-import org.kuali.student.common.assembly.client.Data;
+import org.kuali.student.core.assembly.data.Data;
 
 
 

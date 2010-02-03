@@ -1,8 +1,8 @@
 package org.kuali.student.common.ui.client.configurable.mvc.multiplicity;
 
-import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.common.ui.client.configurable.mvc.Section;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.QueryPath;
 
 public abstract class MultiplicitySection extends Section {
 	private final QueryPath path;

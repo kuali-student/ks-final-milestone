@@ -3,8 +3,8 @@ package org.kuali.student.core.organization.ui.client.service;
 import java.io.Serializable;
 import java.util.List;
 
-import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.common.assembly.client.SaveResult;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 

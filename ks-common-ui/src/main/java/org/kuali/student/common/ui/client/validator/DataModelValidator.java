@@ -10,13 +10,6 @@ import java.util.Map;
 import java.util.Stack;
 import java.util.Map.Entry;
 
-import org.kuali.student.common.assembly.client.ConstraintMetadata;
-import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.common.assembly.client.Metadata;
-import org.kuali.student.common.assembly.client.MetadataInterrogator;
-import org.kuali.student.common.assembly.client.ModelDefinition;
-import org.kuali.student.common.assembly.client.QueryPath;
-import org.kuali.student.common.assembly.client.Data.DataType;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ApplicationContext;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -26,13 +19,20 @@ import org.kuali.student.common.util.MessageUtils;
 
 import org.kuali.student.common.validator.DateParser;
 import org.kuali.student.common.validator.ValidatorUtils;
+import org.kuali.student.core.assembly.data.ConstraintMetadata;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.MetadataInterrogator;
+import org.kuali.student.core.assembly.data.ModelDefinition;
+import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.assembly.data.Data.DataType;
 import org.kuali.student.core.messages.dto.Message;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
-import static org.kuali.student.common.assembly.client.MetadataInterrogator.*;
 import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.*;
+import static org.kuali.student.core.assembly.data.MetadataInterrogator.*;
 
 public class DataModelValidator {
 	private static final String UNBOUNDED_CHECK = null;

@@ -1,10 +1,7 @@
 package org.kuali.student.core.organization.assembly.data.client.org;
 
-import java.util.Date;
-
-import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.core.organization.assembly.data.client.PropertyEnum;
-import org.kuali.student.core.organization.assembly.data.client.org.OrgorgRelationHelper.Properties;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.helper.PropertyEnum;
 
 public class OrgPositionHelper {
     private static final long serialVersionUID = 1L;

@@ -17,8 +17,8 @@ package org.kuali.student.common.ui.client.widgets.suggestbox;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.assembly.client.LookupMetadata;
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
+import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.search.newdto.SearchParam;
 import org.kuali.student.core.search.newdto.SearchRequest;
 import org.kuali.student.core.search.newdto.SearchResult;

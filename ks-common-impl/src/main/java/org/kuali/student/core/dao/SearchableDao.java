@@ -17,7 +17,7 @@ package org.kuali.student.core.dao;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.assembly.client.LookupMetadata;
+import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.SearchTypeInfo;

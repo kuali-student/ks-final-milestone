@@ -9,12 +9,12 @@ package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
 import java.util.Iterator;
 
-import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.common.assembly.client.QueryPath;
-import org.kuali.student.common.assembly.client.Data.Key;
-import org.kuali.student.common.assembly.client.Data.Property;
-import org.kuali.student.common.assembly.client.Data.StringKey;
 import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.assembly.data.Data.Key;
+import org.kuali.student.core.assembly.data.Data.Property;
+import org.kuali.student.core.assembly.data.Data.StringKey;
 
 /**
  * Exposes common functionality to binding classes.

@@ -7,9 +7,9 @@
  */
 package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
-import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.widgets.RichTextEditor;
+import org.kuali.student.core.assembly.data.QueryPath;
 
 public class RichTextBinding extends ModelWidgetBindingSupport<RichTextEditor> {
     public static RichTextBinding INSTANCE = new RichTextBinding();

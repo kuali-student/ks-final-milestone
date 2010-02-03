@@ -1,7 +1,7 @@
 package org.kuali.student.common.ui.client.service;
 
-import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
+import org.kuali.student.core.assembly.data.Data;
 
 public interface WorkflowRpcService {
 	

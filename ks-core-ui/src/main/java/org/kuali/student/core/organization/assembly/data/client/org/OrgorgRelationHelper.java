@@ -1,11 +1,9 @@
 package org.kuali.student.core.organization.assembly.data.client.org;
 
-import java.io.Serializable;
 import java.util.Date;
 
-import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.core.organization.assembly.data.client.ModifiableData;
-import org.kuali.student.core.organization.assembly.data.client.PropertyEnum;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.helper.PropertyEnum;
 
 
 public class OrgorgRelationHelper{

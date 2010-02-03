@@ -16,12 +16,12 @@ import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 
-import org.kuali.student.common.assembly.Assembler;
-import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.common.assembly.client.AssemblyException;
-import org.kuali.student.common.assembly.client.Metadata;
-import org.kuali.student.common.assembly.client.SaveResult;
-import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.core.assembly.Assembler;
+import org.kuali.student.core.assembly.data.AssemblyException;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.SaveResult;
+import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;

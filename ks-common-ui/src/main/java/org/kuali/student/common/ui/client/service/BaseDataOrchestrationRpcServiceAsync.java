@@ -1,8 +1,8 @@
 package org.kuali.student.common.ui.client.service;
 
-import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.ui.client.service.WorkflowRpcService.RequestType;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.Metadata;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 

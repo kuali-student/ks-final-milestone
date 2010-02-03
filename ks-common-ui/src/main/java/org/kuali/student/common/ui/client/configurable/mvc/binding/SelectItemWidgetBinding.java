@@ -10,12 +10,12 @@ package org.kuali.student.common.ui.client.configurable.mvc.binding;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.common.assembly.client.QueryPath;
-import org.kuali.student.common.assembly.client.Data.Property;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.assembly.data.Data.Property;
 
 import com.google.gwt.user.client.ui.Widget;
 
