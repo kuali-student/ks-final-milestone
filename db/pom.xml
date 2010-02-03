@@ -1,5 +1,4 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.kuali.student.db</groupId>
     <artifactId>ks-db</artifactId>
@@ -11,7 +10,6 @@
 	</parent>
     <name>KS Database</name>
     <description>Kuali Student Database</description>
-
     <modules>
         <module>ks-embedded-db</module>
     </modules>
@@ -43,27 +41,6 @@
             <replace file="${project.build.directory}/generated-sql/torque/schema.sql" summary="true" token="default 'SYSDATE'" value="default SYSDATE"/>
            </tasks>
           </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>sql-maven-plugin</artifactId>
-          <configuration>
-            <driver>oracle.jdbc.OracleDriver</driver>
-            <url>jdbc:oracle:thin:@localhost:1521:XE</url>
-            <username>kuali</username>
-            <password>kuali</password>
-            <onError>continue</onError>
-            <srcFiles>
-              <srcFile>${project.build.directory}/generated-sql/torque/schema.sql</srcFile>
-            </srcFiles>
-          </configuration>
-          <dependencies>
-            <dependency>
-              <artifactId>commons-beanutils</artifactId>
-              <groupId>commons-beanutils</groupId>
-              <version>1.7.2</version>
-            </dependency>
-          </dependencies>
         </plugin>
       </plugins>
     </build>
