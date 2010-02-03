@@ -135,7 +135,7 @@
         <constructor-arg index="0" value="classpath:org-orchestration-dictionary.xml" />
 	</bean>
 	
-	<bean id="orgAssemblerFilterManager" class="org.kuali.student.common.assembly.AssemblerFilterManager">
+	<bean id="orgAssemblerFilterManager" class="org.kuali.student.core.assembly.AssemblerFilterManager">
 		<constructor-arg ref="orgProposalAssembler"/>
 	</bean>
 
