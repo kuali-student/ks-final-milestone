@@ -21,18 +21,23 @@ public class TorqueHelper {
 			sb.append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\" standalone=\"no\" ?>\n");
 			sb.append("<!DOCTYPE dataset SYSTEM \"file://torque-data.dtd\">\n");
 			sb.append("<dataset name=\"all\">\n");
+			int count = 0;
 			for (String table : tables) {
 				String filename = dir + "/" + table + ".xml";
 				File file = new File(filename);
 				if (file.exists()) {
+					count++;
 					System.out.println(table);
-					String contents = IOUtil.getInstance().read(filename);
+					String contents = io.read(filename);
 					String data = StringUtils.substringBetween(contents, "<dataset>", "</dataset>");
 					sb.append("\n<!-- Start of data for table '" + table + "' -->");
 					if (!StringUtils.isEmpty(data)) {
 						sb.append(data);
 					}
 					sb.append("<!-- End of data for table '" + table + "' -->\n");
+				}
+				if (count > 5) {
+					break;
 				}
 			}
 			sb.append("</dataset>\n");
