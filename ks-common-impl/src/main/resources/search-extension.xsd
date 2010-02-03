@@ -98,10 +98,10 @@
 	<xsd:complexType name="searchCriteriaTypeInfo">
 		<xsd:complexContent>
 			<xsd:extension base="beans:identifiedType">
-				<xsd:choice>
+				<xsd:choice minOccurs="0" maxOccurs="1">
 					<xsd:sequence>
 						<xsd:element name="name" type="xsd:string" maxOccurs="1"
-							minOccurs="1"></xsd:element>
+							minOccurs="0"></xsd:element>
 						<xsd:element name="desc" type="xsd:string" maxOccurs="1"
 							minOccurs="0"></xsd:element>
 						<xsd:element name="queryParams" type="queryParams"
@@ -109,6 +109,8 @@
 					</xsd:sequence>
 					<xsd:element ref="beans:ref" />
 				</xsd:choice>
+				<xsd:attribute name="abstract" type="xsd:boolean"/>
+				<xsd:attribute name="parent" use="optional" type="xsd:string"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -116,13 +118,15 @@
 	<xsd:complexType name="queryParam">
 		<xsd:complexContent>
 			<xsd:extension base="beans:identifiedType">
-				<xsd:choice>
+				<xsd:choice minOccurs="0">
 					<xsd:sequence>
 						<xsd:element ref="dict:fieldDescriptor" />
 					</xsd:sequence>
 					<xsd:element ref="beans:ref" />
 				</xsd:choice>
 				<xsd:attribute name="optional" type="xsd:boolean" />
+				<xsd:attribute name="abstract" type="xsd:boolean"/>
+				<xsd:attribute name="parent" use="optional" type="xsd:string"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -130,13 +134,15 @@
 	<xsd:complexType name="resultColumn">
 		<xsd:complexContent>
 			<xsd:extension base="beans:identifiedType">
-				<xsd:sequence>
+				<xsd:sequence minOccurs="0">
 					<xsd:element name="name" type="xsd:string" maxOccurs="1"
-						minOccurs="1"></xsd:element>
+						minOccurs="0"></xsd:element>
 					<xsd:element name="desc" type="xsd:string" maxOccurs="1"
 						minOccurs="0"></xsd:element>
 					<xsd:element name="dataType" type="xsd:string"></xsd:element>
 				</xsd:sequence>
+				<xsd:attribute name="abstract" type="xsd:boolean"/>
+				<xsd:attribute name="parent" use="optional" type="xsd:string"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -153,7 +159,7 @@
 	<xsd:complexType name="searchResultTypeInfo">
 		<xsd:complexContent>
 			<xsd:extension base="beans:identifiedType">
-				<xsd:choice>
+				<xsd:choice minOccurs="0">
 					<xsd:sequence>
 						<xsd:element name="name" type="xsd:string"></xsd:element>
 						<xsd:element name="desc" type="xsd:string"></xsd:element>
@@ -161,6 +167,8 @@
 					</xsd:sequence>
 					<xsd:element ref="beans:ref" />
 				</xsd:choice>
+				<xsd:attribute name="abstract" type="xsd:boolean"/>
+				<xsd:attribute name="parent" use="optional" type="xsd:string"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -168,9 +176,9 @@
 	<xsd:complexType name="searchType">
 		<xsd:complexContent>
 			<xsd:extension base="beans:identifiedType">
-				<xsd:sequence>
+				<xsd:sequence minOccurs="0">
 					<xsd:element name="name" type="xsd:string" maxOccurs="1"
-						minOccurs="1">
+						minOccurs="0">
 					</xsd:element>
 					<xsd:element name="desc" type="xsd:string" maxOccurs="1"
 						minOccurs="0">
@@ -178,6 +186,8 @@
 					<xsd:element name="searchResultTypeInfo" type="searchResultTypeInfo"></xsd:element>
 					<xsd:element name="searchCriteriaTypeInfo" type="searchCriteriaTypeInfo"></xsd:element>
 				</xsd:sequence>
+				<xsd:attribute name="abstract" type="xsd:boolean"/>
+				<xsd:attribute name="parent" use="optional" type="xsd:string"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
