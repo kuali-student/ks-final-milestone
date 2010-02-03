@@ -15,7 +15,8 @@ private ApplicationContext context = new ClassPathXmlApplicationContext("test-cr
 	@Test
 	public void test1(){
 		Map<?, ?> map = context.getBeansOfType(SearchTypeInfo.class);
-		assertEquals(15,map.size());
+		//SearchTypeInfo search = (SearchTypeInfo) context.getBean("org.search.advanced");
+		assertEquals(14,map.size());
 	}
 
 }

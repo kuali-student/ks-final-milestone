@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.junit.Test;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
+import org.kuali.student.core.dictionary.dto.Type;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -44,6 +45,10 @@ public class DictionaryParseTest {
 		
 		assertEquals(11,baseCtxMap.size());
 		assertEquals(11,customCtxMap.size());
+		
+		Type doubleInheritanceType = (Type)customCtx.getBean("DoubleInheritance");
+		assertEquals("NEW",doubleInheritanceType.getName());
+		assertEquals("Default Description",doubleInheritanceType.getDesc());
 	}
 
 }

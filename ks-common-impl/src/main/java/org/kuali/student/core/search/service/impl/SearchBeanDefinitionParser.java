@@ -251,6 +251,14 @@ public class SearchBeanDefinitionParser extends
 	}
 	
 	@Override
+	protected String getParentName(Element element) {
+		if(element.hasAttribute("parent")){
+            return element.getAttribute("parent");
+		}
+		return super.getParentName(element);
+	}
+	
+	@Override
 	protected boolean shouldGenerateIdAsFallback() {
 		return true;
 	}

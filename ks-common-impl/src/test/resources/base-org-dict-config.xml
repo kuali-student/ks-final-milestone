@@ -30,6 +30,11 @@
 	<dict:stateRef bean="OrgCodeInfo.state.default"/>
 </dict:type>
 
+<dict:type key="default2" id="DoubleInheritance" parent="DoubleInheritance-parent"/>
+<dict:type key="default2-parent" id="DoubleInheritance-parent" abstract="true" parent="OrgCodeInfo.type.default-parent" modifiable="false">
+	<dict:name>NEW</dict:name>
+</dict:type>
+
 
 <!-- OrgCodeInfo States -->
 <dict:state key="default" id="OrgCodeInfo.state.default" parent="OrgCodeInfo.state.default-parent"/>
