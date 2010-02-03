@@ -16,7 +16,6 @@ package org.kuali.student.lum.lu.ui.home.client.view;
 
 import java.util.List;
 
-import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
@@ -25,6 +24,7 @@ import org.kuali.student.common.ui.client.widgets.search.AdvancedSearchWindow;
 import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
 import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
+import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.proposal.ui.client.service.ProposalRpcService;
 import org.kuali.student.core.proposal.ui.client.service.ProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FindCourseMetadata;

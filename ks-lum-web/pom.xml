@@ -186,7 +186,15 @@
 			<version>${ks-core.version}</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
-		</dependency>	
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-common-impl</artifactId>
+			<version>${ks-core.version}</version>
+			<classifier>sources</classifier>
+			<scope>provided</scope>
+		</dependency>
+			
 	</dependencies>
 	
 </project>

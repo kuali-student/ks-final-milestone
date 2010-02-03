@@ -5,9 +5,9 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.ws.beans.JaxWsClientFactory;
 import org.kuali.student.common.ws.beans.JaxWsClientFactoryBean;
+import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.proposal.dto.ProposalTypeInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
 import org.kuali.student.lum.lu.assembly.CourseAssembler;

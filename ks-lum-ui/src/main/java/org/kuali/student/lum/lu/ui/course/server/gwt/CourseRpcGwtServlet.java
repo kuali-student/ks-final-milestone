@@ -15,8 +15,8 @@
  */
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
-import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.ui.server.gwt.AbstractBaseDataOrchestrationRpcGwtServlet;
+import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseHelper;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 

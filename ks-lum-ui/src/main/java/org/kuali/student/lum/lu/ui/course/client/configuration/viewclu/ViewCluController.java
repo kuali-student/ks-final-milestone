@@ -14,8 +14,6 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.configuration.viewclu;
 
-import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.common.assembly.client.SimpleModelDefinition;
 import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -25,6 +23,8 @@ import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.SimpleModelDefinition;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
 //import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcService;
 //import org.kuali.student.lum.lu.ui.course.client.service.CluProposalRpcServiceAsync;

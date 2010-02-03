@@ -17,8 +17,9 @@ package org.kuali.student.lum.lu.assembly.data.client.refactorme.base;
 
 
 import java.util.Date;
-import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
+
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.helper.PropertyEnum;
 
 
 public class DateRangeInfoHelper
