@@ -17,16 +17,16 @@ package org.kuali.student.lum.lu.ui.course.client.configuration.course;
 import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.common.ui.client.configurable.mvc.ConfigurableLayout;
-import org.kuali.student.common.ui.client.configurable.mvc.CustomNestedSection;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
-import org.kuali.student.common.ui.client.configurable.mvc.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
-import org.kuali.student.common.ui.client.configurable.mvc.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
-import org.kuali.student.common.ui.client.configurable.mvc.VerticalSection;
-import org.kuali.student.common.ui.client.configurable.mvc.Section.FieldLabelType;
+import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.DisplayMultiplicityComposite;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
+import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -244,11 +244,11 @@ LearningObjectiveConstants
         //FIXME: Label should be key to messaging, field type should come from dictionary?
 
         //COURSE NUMBER
-        CustomNestedSection courseIdentifier = new CustomNestedSection();
+        GroupSection courseIdentifier = new GroupSection();
         courseIdentifier.addStyleName(LUConstants.STYLE_SECTION);
         courseIdentifier.addStyleName(LUConstants.STYLE_SECTION_DIVIDER);
         courseIdentifier.setSectionTitle(getH3Title(LUConstants.IDENTIFIER_LABEL_KEY)); 
-        courseIdentifier.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
+        //courseIdentifier.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
         addField(courseIdentifier, SUBJECT_AREA, null, new KSLabel());
         addField(courseIdentifier,  COURSE_NUMBER_SUFFIX, null, new KSLabel());
 
@@ -442,9 +442,9 @@ LearningObjectiveConstants
 
         public Widget createItem() {
             String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
-            CustomNestedSection activity = new CustomNestedSection();
+            GroupSection activity = new GroupSection();
             addField(activity, ACTIVITY_TYPE, getLabel(LUConstants.ACTIVITY_TYPE_LABEL_KEY), new CluActivityTypeList(), parentPath);
-            activity.nextRow();
+            activity.nextLine();
 
             /* CreditInfo is deprecated, needs to be replaced with learning results
             activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
@@ -455,14 +455,14 @@ LearningObjectiveConstants
             activity.nextRow();
              */
 
-            activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
+            //activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
             // FIXME need to get the term offered added to the activity metadata?
 //          activity.addField(new FieldDescriptor("term", getLabel(LUConstants.TERM_LITERAL_LABEL_KEY), Type.STRING, new AtpTypeList())); 
             addField(activity, CreditCourseActivityConstants.DURATION + "/" + CreditCourseActivityDurationConstants.QUANTITY, getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY), path);
             addField(activity, CreditCourseActivityConstants.DURATION + "/" + CreditCourseActivityDurationConstants.TIME_UNIT, "Duration Type", new DurationAtpTypeList(), path);
 
-            activity.nextRow();
-            activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
+            activity.nextLine();
+            //activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
             addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.HRS, "Contact Hours" , path);
             // FIXME look up what the label and implement as dropdown
             addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.PER, null,  new ContactHoursAtpTypeList(), path);
@@ -494,11 +494,11 @@ LearningObjectiveConstants
 
         @Override
         public Widget createItem() {
-            CustomNestedSection ns = new CustomNestedSection();
-            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
+            GroupSection ns = new GroupSection();
+            //ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
             addField(ns, DEPARTMENT, getLabel(LUConstants.DEPT_LABEL_KEY), new KSLabel());
-            ns.nextRow();
-            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
+            ns.nextLine();
+            //ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
             addField(ns, SUBJECT_AREA, getLabel(LUConstants.SUBJECT_CODE_LABEL_KEY), new KSLabel());
             addField(ns, COURSE_NUMBER_SUFFIX, getLabel(LUConstants.COURSE_NUMBER_LABEL_KEY), new KSLabel());
 
@@ -515,8 +515,8 @@ LearningObjectiveConstants
         }
 
         public Widget createItem() {
-            CustomNestedSection ns = new CustomNestedSection();
-            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
+            GroupSection ns = new GroupSection();
+            //ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
             addField(ns, CONSTANT_ORG_ID, null, new KSLabel());
                          
             return ns;
@@ -540,8 +540,8 @@ LearningObjectiveConstants
 
         @Override
         public Widget createItem() {
-            CustomNestedSection ns = new CustomNestedSection();
-            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
+            GroupSection ns = new GroupSection();
+            //ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
             addField(ns, "desc", getLabel(LUConstants.LEARNING_OBJECTIVE_LABEL_KEY));
 
             return ns;
@@ -555,8 +555,8 @@ LearningObjectiveConstants
 
         @Override
         public Widget createItem() {
-            CustomNestedSection ns = new CustomNestedSection();
-            ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
+            GroupSection ns = new GroupSection();
+            //ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
             addField(ns, "versionCode", getLabel(LUConstants.CODE_LABEL_KEY), new KSLabel());
             addField(ns, "versionTitle", getLabel(LUConstants.TITLE_LITERAL_LABEL_KEY), new KSLabel());
 
