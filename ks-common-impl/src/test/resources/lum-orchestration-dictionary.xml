@@ -4,24 +4,24 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<!-- This may not be the best place for this -->
-	<bean id="simpleMask" class="org.kuali.student.common.assembly.client.masking.SimpleMask" />
+	<bean id="simpleMask" class="org.kuali.student.core.assembly.data.masking.SimpleMask" />
 	
 	<bean id="constraint" abstract="true"
 		class="org.kuali.student.common.assembly.client.ConstraintMetadata" />
 	<bean id="lookup" abstract="true"
-		class="org.kuali.student.common.assembly.client.LookupMetadata" />
+		class="org.kuali.student.core.assembly.data.LookupMetadata" />
 	<bean id="dataObjectStructure" abstract="true"
-		class="org.kuali.student.common.assembly.dictionary.DataObjectStructure" />
+		class="org.kuali.student.core.assembly.dictionary.DataObjectStructure" />
 	<bean id="dataFieldDescriptor" abstract="true"
-		class="org.kuali.student.common.assembly.dictionary.DataFieldDescriptor" />
+		class="org.kuali.student.core.assembly.dictionary.DataFieldDescriptor" />
 	<bean id="param" abstract="true"
-		class="org.kuali.student.common.assembly.client.LookupParamMetadata" />
+		class="org.kuali.student.core.assembly.data.LookupParamMetadata" />
 	<bean id="result" abstract="true"
-		class="org.kuali.student.common.assembly.client.LookupResultMetadata" />
+		class="org.kuali.student.core.assembly.data.LookupResultMetadata" />
 	<bean id="lookupQos" abstract="true"
-		class="org.kuali.student.common.assembly.client.LookupQosMetadata" />
+		class="org.kuali.student.core.assembly.data.LookupQosMetadata" />
 	<bean id="lookupImpl" abstract="true"
-		class="org.kuali.student.common.assembly.client.LookupImplMetadata" />
+		class="org.kuali.student.core.assembly.data.LookupImplMetadata" />
 	<bean id="constraint.atp.types" parent="constraint">
 		<property name="id" value="atp.types" />
 		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
