@@ -18,16 +18,24 @@ public class TorqueHelper {
 			List<String> tables = getTables();
 			String dir = "C:/workspace/1.0.0-m3/db/ks-embedded-db/src/main/torque/data";
 			StringBuffer sb = new StringBuffer();
+			sb.append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\" standalone=\"no\" ?>\n");
+			sb.append("<!DOCTYPE dataset SYSTEM \"file://torque-data.dtd\">\n");
+			sb.append("<dataset name=\"all\">\n");
 			for (String table : tables) {
 				String filename = dir + "/" + table + ".xml";
 				File file = new File(filename);
-				System.out.println(table + " " + file.exists());
 				if (file.exists()) {
+					System.out.println(table);
 					String contents = IOUtil.getInstance().read(filename);
 					String data = StringUtils.substringBetween(contents, "<dataset>", "</dataset>");
-					sb.append(data);
+					sb.append("\n<!-- Start of data for table '" + table + "' -->");
+					if (!StringUtils.isEmpty(data)) {
+						sb.append(data);
+					}
+					sb.append("<!-- End of data for table '" + table + "' -->\n");
 				}
 			}
+			sb.append("</dataset>\n");
 			io.write(sb.toString(), "C:/workspace/1.0.0-m3/db/ks-embedded-db/target/data/torque/torque-ks-all-data.xml");
 		} catch (Throwable e) {
 			e.printStackTrace();
