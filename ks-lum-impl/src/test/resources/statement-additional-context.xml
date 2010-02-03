@@ -139,7 +139,7 @@
                     <value>classpath:ks-statement.sql</value>
                 </entry>
                 <entry key="Lu">
-                    <value>classpath:ks-nl.sql</value>
+                    <value>classpath:ks-statement-lu.sql</value>
                 </entry>
             </map>
         </property>

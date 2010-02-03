@@ -40,7 +40,7 @@ import org.kuali.student.lum.nlt.dto.NLTranslationNodeInfo;
 import org.kuali.student.lum.nlt.naturallanguage.NaturalLanguageUtil;
 import org.kuali.student.lum.nlt.service.TranslationService;
 
-//@Daos({@Dao(value = "org.kuali.student.lum.lu.dao.impl.LuDaoImpl", testSqlFile = "classpath:ks-nl.sql")})
+//@Daos({@Dao(value = "org.kuali.student.lum.lu.dao.impl.LuDaoImpl", testSqlFile = "classpath:ks-statement-lu.sql")})
 //@PersistenceFileLocation("classpath:META-INF/lu-persistence.xml")
 public class TestTranslationServiceImpl { //extends AbstractServiceTest {
 //    @Client(value = "org.kuali.student.lum.nlt.service.impl.TranslationServiceImpl", additionalContextFile="classpath:nl-additional-context.xml")
