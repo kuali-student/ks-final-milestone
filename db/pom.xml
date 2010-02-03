@@ -18,6 +18,7 @@
        <plugin>
           <groupId>org.apache.torque</groupId>
           <artifactId>torque-maven-plugin</artifactId>
+          <version>3.3</version>
           <configuration>
             <targetDatabase>oracle</targetDatabase>
             <targetPackage>org.kuali.student</targetPackage>
