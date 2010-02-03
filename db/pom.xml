@@ -18,7 +18,6 @@
        <plugin>
           <groupId>org.apache.torque</groupId>
           <artifactId>torque-maven-plugin</artifactId>
-          <version>3.3</version>
           <configuration>
             <targetDatabase>oracle</targetDatabase>
             <targetPackage>org.kuali.student</targetPackage>
@@ -28,7 +27,8 @@
             <password>kuali</password>
             <runOnlyOnSchemaChange>false</runOnlyOnSchemaChange>
             <dataDtd>${project.build.directory}/data/torque/torque-data.dtd</dataDtd>
-            <dataXmlFile>${project.build.directory}/data/torque/torque-ks-all-data.xml</dataXmlFile>
+            <!--<dataXmlFile>${project.build.directory}/data/torque/torque-ks-all-data.xml</dataXmlFile>-->
+            <dataXmlFile>${project.basedir}/KR_COUNTRY_T.xml</dataXmlFile>
             <xmlFile>${project.basedir}/src/main/torque/schema/schema.xml</xmlFile>
           </configuration>
           <dependencies>
