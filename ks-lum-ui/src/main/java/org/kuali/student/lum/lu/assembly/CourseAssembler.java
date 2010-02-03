@@ -1,13 +1,13 @@
 package org.kuali.student.lum.lu.assembly;
 
-import static org.kuali.student.lum.lu.assembly.AssemblerUtils.addVersionIndicator;
-import static org.kuali.student.lum.lu.assembly.AssemblerUtils.getVersionIndicator;
-import static org.kuali.student.lum.lu.assembly.AssemblerUtils.isCreated;
-import static org.kuali.student.lum.lu.assembly.AssemblerUtils.isDeleted;
-import static org.kuali.student.lum.lu.assembly.AssemblerUtils.isModified;
-import static org.kuali.student.lum.lu.assembly.AssemblerUtils.isUpdated;
-import static org.kuali.student.lum.lu.assembly.AssemblerUtils.setCreated;
-import static org.kuali.student.lum.lu.assembly.AssemblerUtils.setUpdated;
+import static org.kuali.student.core.assembly.util.AssemblerUtils.addVersionIndicator;
+import static org.kuali.student.core.assembly.util.AssemblerUtils.getVersionIndicator;
+import static org.kuali.student.core.assembly.util.AssemblerUtils.isCreated;
+import static org.kuali.student.core.assembly.util.AssemblerUtils.isDeleted;
+import static org.kuali.student.core.assembly.util.AssemblerUtils.isModified;
+import static org.kuali.student.core.assembly.util.AssemblerUtils.isUpdated;
+import static org.kuali.student.core.assembly.util.AssemblerUtils.setCreated;
+import static org.kuali.student.core.assembly.util.AssemblerUtils.setUpdated;
 
 import java.util.ArrayList;
 import java.util.HashMap;
