@@ -1,4 +1,4 @@
-package org.kuali.student.lum.lu.assembly;
+package org.kuali.student.lum.assembly;
 
 import java.util.Date;
 import java.util.List;
@@ -10,6 +10,7 @@ import org.kuali.student.common.ws.beans.JaxWsClientFactory;
 import org.kuali.student.common.ws.beans.JaxWsClientFactoryBean;
 import org.kuali.student.core.proposal.dto.ProposalTypeInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
+import org.kuali.student.lum.lu.assembly.CourseAssembler;
 import org.kuali.student.lum.lu.assembly.CourseAssembler.RelationshipHierarchy;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
