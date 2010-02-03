@@ -24,6 +24,7 @@ package org.kuali.student.core.dictionary.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -66,6 +67,17 @@ public class Type implements Serializable{
     @XmlAttribute(required = true)
     protected String key;
 
+	@XmlElement
+	private String name;
+	@XmlElement
+	private String desc;
+	@XmlElement
+	private Date effectiveDate;
+	@XmlElement
+	private Date expirationDate;
+	@XmlElement
+	private boolean modifiable;
+	
     /**
      * Gets the value of the state property.
      * 
@@ -121,6 +133,46 @@ public class Type implements Serializable{
 
 	public void setState(List<State> state) {
 		this.state = state;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDesc() {
+		return desc;
+	}
+
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
+
+	public Date getEffectiveDate() {
+		return effectiveDate;
+	}
+
+	public void setEffectiveDate(Date effectiveDate) {
+		this.effectiveDate = effectiveDate;
+	}
+
+	public Date getExpirationDate() {
+		return expirationDate;
+	}
+
+	public void setExpirationDate(Date expirationDate) {
+		this.expirationDate = expirationDate;
+	}
+
+	public boolean isModifiable() {
+		return modifiable;
+	}
+
+	public void setModifiable(boolean modifiable) {
+		this.modifiable = modifiable;
 	}
 
 }

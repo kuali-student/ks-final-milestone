@@ -74,18 +74,29 @@
 	</xsd:complexType>
 
 	<xsd:complexType name="typeSelector">
-		<xsd:choice minOccurs="1" maxOccurs="unbounded">
-			<xsd:element name="state" type="stateSelector" minOccurs="0"
-				maxOccurs="unbounded">
-			</xsd:element>
-			<xsd:element name="stateRef" type="refSelector" minOccurs="0"
-				maxOccurs="unbounded">
-			</xsd:element>
-		</xsd:choice>
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string" minOccurs="0"
+				maxOccurs="1"/>
+			<xsd:element name="desc" type="xsd:string" minOccurs="0"
+				maxOccurs="1"/>
+			<xsd:element name="effectiveDate" type="xsd:date" minOccurs="0"
+				maxOccurs="1"/>
+			<xsd:element name="expirationDate" type="xsd:date" minOccurs="0"
+				maxOccurs="1"/>
+			<xsd:choice minOccurs="1" maxOccurs="unbounded">
+				<xsd:element name="state" type="stateSelector" minOccurs="0"
+					maxOccurs="unbounded">
+				</xsd:element>
+				<xsd:element name="stateRef" type="refSelector" minOccurs="0"
+					maxOccurs="unbounded">
+				</xsd:element>
+			</xsd:choice>
+		</xsd:sequence>
 		<xsd:attribute name="parent" use="optional" type="xsd:string"></xsd:attribute>
 		<xsd:attribute name="key" use="required" type="xsd:string"></xsd:attribute>
 		<xsd:attribute name="id" type="xsd:ID"></xsd:attribute>
 		<xsd:attribute name="abstract" type="xsd:boolean"></xsd:attribute>
+		<xsd:attribute name="modifiable" type="xsd:boolean" />	
 	</xsd:complexType>
 
 	<xsd:complexType name="objectStructure">

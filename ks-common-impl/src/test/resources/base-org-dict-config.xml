@@ -22,7 +22,11 @@
 
 <!-- OrgCodeInfo Types -->
 <dict:type key="default" id="OrgCodeInfo.type.default" parent="OrgCodeInfo.type.default-parent"/>
-<dict:type key="default-parent" id="OrgCodeInfo.type.default-parent" abstract="true">
+<dict:type key="default-parent" id="OrgCodeInfo.type.default-parent" abstract="true" modifiable="false">
+	<dict:name>Default Name</dict:name>
+	<dict:desc>Default Description</dict:desc>
+	<dict:effectiveDate>2000-01-01</dict:effectiveDate>
+	<dict:expirationDate>2100-01-01</dict:expirationDate>
 	<dict:stateRef bean="OrgCodeInfo.state.default"/>
 </dict:type>
 
