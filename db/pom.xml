@@ -30,9 +30,8 @@
             <xmlFile>${project.basedir}/src/main/torque/schema/schema.xml</xmlFile>
             <dataDtd>${project.build.directory}/data/torque/torque-data.dtd</dataDtd>
             <!--<dataXmlFile>${project.build.directory}/data/torque/torque-ks-all-data.xml</dataXmlFile>-->
-            <!--<dataXmlFile>${project.basedir}/src/main/torque/data/KR_COUNTRY_T.xml</dataXmlFile>-->
-            <dataXmlFile>${project.basedir}/src/main/torque/data/KR_COUNTY_T.xml</dataXmlFile>
-            <reportFile>KR_COUNTY_T.sql</reportFile >
+            <dataXmlFile>${project.basedir}/src/main/torque/data/${torque.tablename}.xml</dataXmlFile>
+            <reportFile>${torque.tablename}.sql</reportFile >
           </configuration>
           <dependencies>
             <dependency>
