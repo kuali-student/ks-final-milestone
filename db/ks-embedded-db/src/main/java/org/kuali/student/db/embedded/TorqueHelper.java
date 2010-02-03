@@ -36,12 +36,11 @@ public class TorqueHelper {
 					}
 					sb.append("<!-- End of data for table '" + table + "' -->\n");
 				}
-				if (count > 5) {
-					break;
-				}
 			}
 			sb.append("</dataset>\n");
-			io.write(sb.toString(), "C:/workspace/1.0.0-m3/db/ks-embedded-db/target/data/torque/torque-ks-all-data.xml");
+			// io.write(sb.toString(),
+			// "C:/workspace/1.0.0-m3/db/ks-embedded-db/target/data/torque/torque-ks-all-data.xml");
+			io.write(sb.toString(), "C:/workspace/1.0.0-m3/db/ks-embedded-db/src/main/torque/data/torque-ks-all-data.xml");
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
