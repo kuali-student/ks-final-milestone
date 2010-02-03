@@ -16,8 +16,9 @@
     <build>
       <plugins>
        <plugin>
-          <groupId>org.apache.db.torque</groupId>
+          <groupId>org.apache.torque</groupId>
           <artifactId>torque-maven-plugin</artifactId>
+          <version>3.3</version>
           <configuration>
             <targetDatabase>oracle</targetDatabase>
             <targetPackage>org.kuali.student</targetPackage>
@@ -25,6 +26,10 @@
             <url>jdbc:oracle:thin:@localhost:1521:XE</url>
             <user>kuali</user>
             <password>kuali</password>
+            <runOnlyOnSchemaChange>false</runOnlyOnSchemaChange>
+            <dataDtd>${project.build.directory}/data/torque/torque-data.dtd</dataDtd>
+            <dataXmlFile>${project.build.directory}/data/torque/torque-ks-all-data.xml</dataXmlFile>
+            <xmlFile>${project.basedir}/src/main/torque/schema/schema.xml</xmlFile>
           </configuration>
           <dependencies>
             <dependency>
@@ -38,6 +43,7 @@
           <artifactId>maven-antrun-plugin</artifactId>
           <configuration>
            <tasks>
+            <echo>${project.build.directory}</echo>
             <replace file="${project.build.directory}/generated-sql/torque/schema.sql" summary="true" token="default 'SYSDATE'" value="default SYSDATE"/>
            </tasks>
           </configuration>
