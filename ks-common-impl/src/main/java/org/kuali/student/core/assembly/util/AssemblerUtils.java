@@ -1,9 +1,15 @@
 package org.kuali.student.core.assembly.util;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.student.common.assembly.client.Data;
+import org.kuali.student.common.assembly.client.Metadata;
+import org.kuali.student.common.assembly.client.QueryPath;
+import org.kuali.student.common.assembly.client.Data.Key;
 import org.kuali.student.core.assembly.helper.PropertyEnum;
 import org.kuali.student.core.assembly.helper.RuntimeDataHelper;
-
 
 public class AssemblerUtils {
 	public enum VersionProperties implements PropertyEnum {
@@ -122,9 +128,8 @@ public class AssemblerUtils {
 	}
 	
 	public static boolean isModified(Data data) {
-		return isCreated(data) || isUpdated(data) || isDeleted(data);
+		return isCreated(data) || isUpdated(data) || isDeleted(data); //|| isFlagSet(data, RuntimeDataHelper.Properties.DIRTY.getKey());
 	}
-	
 	
 	public static void setCreated(Data data, boolean flag) {
 		setFlag(data, RuntimeDataHelper.Properties.CREATED.getKey(), flag);
@@ -160,4 +165,60 @@ public class AssemblerUtils {
 		
 		return result;
 	}
+	
+	
+	 public static List<QueryPath> findDirtyElements(Data data) {
+	     List<QueryPath> results = new ArrayList<QueryPath>();
+	     _findDirtyElements(data, results, new QueryPath());
+	     return results;
+	 }
+	 private static void _findDirtyElements(Data data, List<QueryPath> results, QueryPath currentFrame) {
+	     if (data == null) {
+	         return;
+	     }
+	     
+	     Data flags = getDirtyFlags(data);
+	     if (flags != null && flags.size() > 0) {
+	         for (Data.Property p : flags) {
+	             QueryPath q = new QueryPath();
+	             q.addAll(currentFrame);
+	             Key key = p.getWrappedKey();
+	             q.add(key);
+	             results.add(q);
+	         }
+	     }
+	     
+	     for (Data.Property p : data) {
+	         if (p.getValueType().equals(Data.class) && p.getValue() != null) { 
+	                QueryPath q = new QueryPath();
+	                q.addAll(currentFrame);
+	                Key key = p.getWrappedKey();
+	                q.add(key);
+	                
+	                _findDirtyElements((Data) p.getValue(), results, q);
+	         }
+	     }
+	 }
+	 public static Data getDirtyFlags(Data data) {
+	     Data result = null;
+	     Data runtime = data.get("_runtimeData");
+	     if (runtime != null) {
+	         result = runtime.get("dirty");
+	         
+	     }
+	     return result;
+	 }
+	 /*public static Metadata get(Metadata metadata, QueryPath path) {
+	     
+	 }*/
+	 public static Metadata get(Metadata metadata, QueryPath frame) {
+	     if(frame.size() == 1) {
+	         return metadata.getProperties().get(frame.get(0).get());
+	     } else {
+	         Map<String, Metadata> children = metadata.getProperties();
+	         
+	         
+	         return get(metadata.getProperties().get(frame.get(0).get()), frame.subPath(1, frame.size()));
+	     }
+	 }
 }
