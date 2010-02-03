@@ -43,7 +43,7 @@
           <artifactId>maven-antrun-plugin</artifactId>
           <configuration>
            <tasks>
-            <echo>${project.build.directory}</echo>
+            <echo>Replacing 'SYSDATE' with SYSDATE</echo>
             <replace file="${project.build.directory}/generated-sql/torque/schema.sql" summary="true" token="default 'SYSDATE'" value="default SYSDATE"/>
            </tasks>
           </configuration>
