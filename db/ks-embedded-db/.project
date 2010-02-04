@@ -1,0 +1,13 @@
+<projectDescription>
+  <name>ks-embedded-db</name>
+  <comment>Kuali Student Embedded Database</comment>
+  <projects/>
+  <buildSpec>
+    <buildCommand>
+      <name>org.eclipse.jdt.core.javabuilder</name>
+    </buildCommand>
+  </buildSpec>
+  <natures>
+    <nature>org.eclipse.jdt.core.javanature</nature>
+  </natures>
+</projectDescription>

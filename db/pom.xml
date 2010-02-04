@@ -1,0 +1,81 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.kuali.student.db</groupId>
+    <artifactId>ks-db</artifactId>
+    <packaging>pom</packaging>
+	<parent>
+		<groupId>org.kuali.student</groupId>
+		<artifactId>student</artifactId>
+		<version>1.0.0-m3-SNAPSHOT</version>
+	</parent>
+    <name>KS Database</name>
+    <description>Kuali Student Database</description>
+    <modules>
+        <module>ks-embedded-db</module>
+    </modules>
+    <build>
+      <plugins>
+       <plugin>
+          <groupId>org.apache.torque</groupId>
+          <artifactId>torque-maven-plugin</artifactId>
+          <version>3.3</version>
+          <configuration>
+            <targetDatabase>oracle</targetDatabase>
+            <targetPackage>org.kuali.student</targetPackage>
+            <driver>oracle.jdbc.OracleDriver</driver>
+            <url>jdbc:oracle:thin:@localhost:1521:XE</url>
+            <user>kuali</user>
+            <password>kuali</password>
+            <runOnlyOnSchemaChange>false</runOnlyOnSchemaChange>
+            <xmlFile>${project.basedir}/src/main/torque/schema/schema.xml</xmlFile>
+            <dataDtd>${project.build.directory}/data/torque/torque-data.dtd</dataDtd>
+            <dataXmlFile>${project.basedir}/src/main/torque/data/torque-ks-all-data.xml</dataXmlFile>
+          </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>com.oracle</groupId>
+              <artifactId>ojdbc14</artifactId>
+              <version>10.2.0.3</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+        <plugin>
+          <artifactId>maven-antrun-plugin</artifactId>
+          <configuration>
+           <tasks>
+            <echo>Replacing 'SYSDATE' with SYSDATE</echo>
+            <replace file="${project.build.directory}/generated-sql/torque/schema.sql" summary="true" token="default 'SYSDATE'" value="default SYSDATE"/>
+
+            <copy file="${project.build.directory}/generated-sql/torque/ks-embedded-db-data.sql" toFile="${project.build.directory}/generated-sql/torque/ks-embedded-db-data.sql.out">
+             <filterchain>
+              <ignoreblank/>
+             </filterchain>
+            </copy>
+            
+           </tasks>
+          </configuration>
+        </plugin>
+        <plugin>
+         <groupId>org.codehaus.mojo</groupId>
+         <artifactId>sql-maven-plugin</artifactId>
+         <configuration>
+          <driver>oracle.jdbc.OracleDriver</driver>
+          <url>jdbc:oracle:thin:@localhost:1521:XE</url>
+          <username>kuali</username>
+          <password>kuali</password>
+          <autocommit>false</autocommit>
+          <srcFiles>
+           <srcFile>${project.build.directory}/generated-sql/torque/ks-embedded-db-data.sql</srcFile>
+          </srcFiles>
+         </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>com.oracle</groupId>
+              <artifactId>ojdbc14</artifactId>
+              <version>10.2.0.3</version>
+            </dependency>
+          </dependencies>
+       </plugin>
+      </plugins>
+    </build>
+</project>
