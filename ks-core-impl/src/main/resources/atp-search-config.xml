@@ -71,7 +71,7 @@
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>	
 	
-	<search:queryParam id="atp.advancedAtpSearchParam.atpShortName" parent="atp.advancedAtpSearchParam.atpShortName"/>
+	<search:queryParam id="atp.advancedAtpSearchParam.atpShortName" parent="atp.advancedAtpSearchParam.atpShortName-parent"/>
 	<search:queryParam id="atp.advancedAtpSearchParam.atpShortName-parent" optional="true" abstract="true">
 		<ref bean="atp.fieldDescriptor.shortName"/>
 	</search:queryParam>			
