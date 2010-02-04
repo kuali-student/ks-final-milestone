@@ -67,6 +67,7 @@ public class SearchManagerImpl implements SearchManager{
 		
 		//Copy what data we have into the LookupMetadata Structure and store it in a map
 		//TODO, need to initialize more here
+		//TODO Add sublookups if queryparams have lookups
 		for(SearchTypeInfo searchTypeInfo:searchInfoTypeMap.values()){
 			LookupMetadata lookupMetaData = new LookupMetadata();
 			lookupMetaData.setDesc(searchTypeInfo.getDesc());

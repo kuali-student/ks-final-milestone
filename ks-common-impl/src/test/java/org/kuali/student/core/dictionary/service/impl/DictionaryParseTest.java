@@ -49,6 +49,10 @@ public class DictionaryParseTest {
 		Type doubleInheritanceType = (Type)customCtx.getBean("DoubleInheritance");
 		assertEquals("NEW",doubleInheritanceType.getName());
 		assertEquals("Default Description",doubleInheritanceType.getDesc());
+		
+		Type attrType = (Type)customCtx.getBean("OrgCodeInfo.type.default");
+		assertEquals("value1",attrType.getAttributes().get("attr1"));
+		assertEquals("value2",attrType.getAttributes().get("attr2"));
 	}
 
 }
