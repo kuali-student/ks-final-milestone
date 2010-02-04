@@ -15,7 +15,7 @@
     </modules>
     <properties>
      <!-- Always retain existing data, unless they
-          override this by supplying -Dretain.existing.data=false 
+          override it by supplying -Dretain.existing.data=false 
           on the command line -->
      <retain.existing.data>true</retain.existing.data>
     </properties>
