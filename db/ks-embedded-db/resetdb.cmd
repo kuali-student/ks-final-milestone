@@ -1,1 +1,1 @@
-call mvn -o sql:execute
+call mvn -o process-sources
