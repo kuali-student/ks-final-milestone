@@ -22,8 +22,8 @@
 		<module>ks-brms-impl</module>
 		<module>ks-brms-execution-api</module>
 		<module>ks-brms-execution-impl</module>
-        <!--<module>ks-brms-ui</module>-->
-        <module>ks-brms-web</module>
+        <!--<module>ks-brms-ui</module>
+        <module>ks-brms-web</module>-->
 	</modules>
 	<dependencyManagement>
 		<dependencies>
