@@ -83,7 +83,7 @@
 	</bean>
 
     <!-- Default JPA EntityManagerFactory -->
-    <bean id="defaultEntityManagerFactory" abstract="true"
+    <bean id="lumDefaultEntityManagerFactory" abstract="true"
         class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
@@ -102,7 +102,7 @@
     </bean>
 
 	<!-- Learning Service Config -->
-	<bean id="luEntityManagerFactory" parent="defaultEntityManagerFactory">
+	<bean id="luEntityManagerFactory" parent="lumDefaultEntityManagerFactory">
 		<property name="persistenceUnitName" value="Lu"/>
 		<property name="persistenceXmlLocation"
 			value="classpath:META-INF/lu-persistence.xml" />
@@ -168,7 +168,7 @@
     </bean>
 
 	<!-- Learning Objective service config -->
-	<bean id="loEntityManagerFactory" parent="defaultEntityManagerFactory">
+	<bean id="loEntityManagerFactory" parent="lumDefaultEntityManagerFactory">
 		<property name="persistenceUnitName" value="Lo"/>
 		<property name="persistenceXmlLocation"
 			value="classpath:META-INF/lo-persistence.xml" />
