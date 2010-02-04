@@ -21,6 +21,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -30,31 +31,22 @@ import org.kuali.student.core.entity.Type;
 @Table(name = "KSSTMT_STMT_TYPE")
 public class StatementType extends Type<StatementTypeAttribute> {
 
-//	@ManyToMany
-//	@JoinTable(name = "KSSTMT_LU_STMT_TYPE_JN_LU_TYPE", joinColumns = @JoinColumn(name = "LU_STMT_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "LU_TYPE_ID"))
-//	private List<LuType> luTypes;
-   
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<StatementTypeAttribute> attributes;
     
     @OneToMany
-    @JoinTable(name = "KSSTMT_STY_JN_RQTY", joinColumns = @JoinColumn(name = "STMT_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "REQ_COM_TYPE_ID"))
+    @JoinTable(name = "KSSTMT_STMT_TYP_JN_RC_TYP", joinColumns = @JoinColumn(name = "STMT_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "REQ_COM_TYPE_ID"))
     private List<ReqComponentType> allowedReqComponentTypes;
     
     @OneToMany
-    @JoinTable(name = "KSSTMT_STY_JN_LUSTY", joinColumns = @JoinColumn(name = "STMT_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "CHLD_STMT_TYPE_ID"))
+    @JoinTable(name = "KSSTMT_STMT_TYP_JN_STMT_TYP", joinColumns = @JoinColumn(name = "STMT_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "CHLD_STMT_TYPE_ID"))
     private List<StatementType> allowedStatementTypes;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<StatementTypeHeaderTemplate> statementHeader;
-
-//	public List<LuType> getLuTypes() {
-//		return luTypes;
-//	}
-//
-//	public void setLuTypes(List<LuType> luTypes) {
-//		this.luTypes = luTypes;
-//	}
+    private List<StatementTypeHeaderTemplate> statementHeaders;
+    
+    @ManyToMany(cascade = {CascadeType.ALL}, mappedBy = "statementTypeList") //, fetch = FetchType.EAGER)
+    private List<RefStatementRelationType> refStatementRelationTypes = new ArrayList<RefStatementRelationType>();
 
 	public List<StatementTypeAttribute> getAttributes() {
         if(null == attributes){
@@ -91,12 +83,21 @@ public class StatementType extends Type<StatementTypeAttribute> {
         this.allowedStatementTypes = allowedStatementTypes;
     }
 
-	public List<StatementTypeHeaderTemplate> getHeaders() {
-		return statementHeader;
+	public List<StatementTypeHeaderTemplate> getStatementHeaders() {
+		return statementHeaders;
 	}
 
-	public void setHeaders(List<StatementTypeHeaderTemplate> header) {
-		this.statementHeader = header;
+	public void setStatementHeaders(List<StatementTypeHeaderTemplate> header) {
+		this.statementHeaders = header;
+	}
+
+	public List<RefStatementRelationType> getRefStatementRelationTypes() {
+		return refStatementRelationTypes;
+	}
+
+	public void setRefStatementRelationTypes(
+			List<RefStatementRelationType> refStatementRelationTypes) {
+		this.refStatementRelationTypes = refStatementRelationTypes;
 	}
 
 	@Override

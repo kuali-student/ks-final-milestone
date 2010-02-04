@@ -42,7 +42,6 @@ import org.kuali.student.brms.statement.dto.StatementOperatorTypeKey;
 @Table(name = "KSSTMT_STMT")
 @NamedQueries( {
     @NamedQuery(name = "Statement.getStatementsForStatementType", query = "SELECT ls FROM Statement ls WHERE ls.statementType.id = :statementTypeKey"),
-    //@NamedQuery(name = "Statement.getStatementsForClu", query = "SELECT ls FROM LuStatement ls JOIN ls.clus clu WHERE clu.id = :cluId"),
     @NamedQuery(name = "Statement.getStatements", query = "SELECT ls FROM Statement ls WHERE ls.id IN (:statementIdList)")
 })
 public class Statement extends MetaEntity implements AttributeOwner<StatementAttribute>{
@@ -78,10 +77,6 @@ public class Statement extends MetaEntity implements AttributeOwner<StatementAtt
     @ManyToOne
     @JoinColumn(name = "STMT_TYPE_ID")
     private StatementType statementType;
-
-//    @ManyToMany
-//    @JoinTable(name = "KSSTMT_CLU_JN_STMT", joinColumns = @JoinColumn(name = "STMT_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_ID"))
-//    private List<Clu> clus;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "OWNER")
@@ -134,14 +129,6 @@ public class Statement extends MetaEntity implements AttributeOwner<StatementAtt
     public void setStatementType(StatementType statementType) {
         this.statementType = statementType;
     }
-
-//    public List<Clu> getClus() {
-//        return clus;
-//    }
-//
-//    public void setClus(List<Clu> clus) {
-//        this.clus = clus;
-//    }
 
     public StatementOperatorTypeKey getOperator() {
         return operator;

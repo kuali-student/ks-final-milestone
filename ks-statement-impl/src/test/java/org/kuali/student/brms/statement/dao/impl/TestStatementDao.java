@@ -19,6 +19,10 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.brms.statement.dao.StatementDao;
 import org.kuali.student.brms.statement.entity.NlUsageType;
+import org.kuali.student.brms.statement.entity.ObjectSubType;
+import org.kuali.student.brms.statement.entity.ObjectType;
+import org.kuali.student.brms.statement.entity.RefStatementRelation;
+import org.kuali.student.brms.statement.entity.RefStatementRelationType;
 import org.kuali.student.brms.statement.entity.ReqComponent;
 import org.kuali.student.brms.statement.entity.ReqComponentType;
 import org.kuali.student.brms.statement.entity.ReqComponentTypeNLTemplate;
@@ -30,29 +34,104 @@ import org.kuali.student.brms.statement.entity.StatementTypeHeaderTemplate;
 public class TestStatementDao extends AbstractTransactionalDaoTest {
     @Dao(value = "org.kuali.student.brms.statement.dao.impl.StatementDaoImpl", testSqlFile = "classpath:ks-statement.sql")
     public StatementDao dao;
-    
+
+    @Test
+    public void testGetRefStatementRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+    	RefStatementRelation refStmtRel = dao.fetch(RefStatementRelation.class, "ref-stmt-rel-1") ;
+
+        GregorianCalendar gregEff = new GregorianCalendar(2000, 00, 01, 0, 0, 0);
+        GregorianCalendar gregExp = new GregorianCalendar(2100, 11, 31, 0, 0, 0);
+
+        assertNotNull(refStmtRel);
+        assertEquals("ref-stmt-rel-1", refStmtRel.getId());
+        // RefStatementRelationType
+        RefStatementRelationType type = refStmtRel.getRefStatementRelationType();
+        assertEquals("clu.prerequisites", type.getId());
+        assertEquals("CLU Prereq", type.getName());
+        assertEquals(gregEff.getTime(), type.getEffectiveDate());
+        assertEquals(gregExp.getTime(), type.getExpirationDate());
+        // ObjectSubTypes
+        assertEquals(1, type.getObjectSubTypeList().size());
+        // StatementTypes
+        assertEquals(1, type.getStatementTypeList().size());
+        // Statement
+        Statement stmt = refStmtRel.getStatement();
+        assertEquals("STMT-1", stmt.getId());
+    }
+
+    @Test
+    public void testGetRefStatementRelationType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+    	RefStatementRelationType refStmtRelType = dao.fetch(RefStatementRelationType.class, "clu.prerequisites") ;
+
+        GregorianCalendar gregEff = new GregorianCalendar(2000, 00, 01, 0, 0, 0);
+        GregorianCalendar gregExp = new GregorianCalendar(2100, 11, 31, 0, 0, 0);
+
+        assertNotNull(refStmtRelType);
+        assertEquals("clu.prerequisites", refStmtRelType.getId());
+        assertEquals("CLU Prereq", refStmtRelType.getName());
+        assertEquals("CLU Prerequisites", refStmtRelType.getDescr());
+        assertEquals(gregEff.getTime(), refStmtRelType.getEffectiveDate());
+        assertEquals(gregExp.getTime(), refStmtRelType.getExpirationDate());
+        // ObjectSubTypes
+        assertEquals(1, refStmtRelType.getObjectSubTypeList().size());
+        // StatementTypes
+        assertEquals(1, refStmtRelType.getStatementTypeList().size());
+    }
+
+    @Test
+    public void testGetObjectTypes() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+    	ObjectType objectType = dao.fetch(ObjectType.class, "clu") ;
+
+        GregorianCalendar gregEff = new GregorianCalendar(2000, 00, 01, 0, 0, 0);
+        GregorianCalendar gregExp = new GregorianCalendar(2100, 11, 31, 0, 0, 0);
+
+        assertNotNull(objectType);
+        assertEquals("clu", objectType.getId());
+        assertEquals("Kuali CLU", objectType.getName());
+        assertEquals("Kuali CLU", objectType.getDescr());
+        assertEquals(gregEff.getTime(), objectType.getEffectiveDate());
+        assertEquals(gregExp.getTime(), objectType.getExpirationDate());
+        // ObjectSubTypes
+        assertEquals(2, objectType.getObjectSubTypes().size());
+    }
+
+    @Test
+    public void testGetObjectSubTypes() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+    	ObjectSubType objectSubType = dao.fetch(ObjectSubType.class, "program");
+
+        GregorianCalendar gregEff = new GregorianCalendar(2000, 00, 01, 0, 0, 0);
+        GregorianCalendar gregExp = new GregorianCalendar(2100, 11, 31, 0, 0, 0);
+
+        assertNotNull(objectSubType);
+        assertEquals("program", objectSubType.getId());
+        assertEquals("Kuali Program", objectSubType.getName());
+        assertEquals("Kuali Program", objectSubType.getDescr());
+        assertEquals(gregEff.getTime(), objectSubType.getEffectiveDate());
+        assertEquals(gregExp.getTime(), objectSubType.getExpirationDate());
+    }
+
     @Test
     public void testGetNlUsageType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
         NlUsageType nlUsageType = dao.fetch(NlUsageType.class, "KUALI.REQCOMP.EXAMPLE");
 
-        GregorianCalendar grepEff = new GregorianCalendar(2010, 00, 01, 1, 1, 1);
-        GregorianCalendar grepExp = new GregorianCalendar(2010, 11, 31, 1, 1, 1);
+        GregorianCalendar gregEff = new GregorianCalendar(2010, 00, 01, 1, 1, 1);
+        GregorianCalendar gregExp = new GregorianCalendar(2010, 11, 31, 1, 1, 1);
         
         assertNotNull(nlUsageType);
         assertEquals("NlUsageType[id=KUALI.REQCOMP.EXAMPLE]", nlUsageType.toString());
         assertEquals("KUALI.REQCOMP.EXAMPLE", nlUsageType.getId());
         assertEquals("Requirement Component Example", nlUsageType.getName());
         assertEquals("Kuali Requirement Component Rule Example", nlUsageType.getDescr());
-        assertEquals(grepEff.getTime(), nlUsageType.getEffectiveDate());
-        assertEquals(grepExp.getTime(), nlUsageType.getExpirationDate());
+        assertEquals(gregEff.getTime(), nlUsageType.getEffectiveDate());
+        assertEquals(gregExp.getTime(), nlUsageType.getExpirationDate());
     }
     
     @Test
     public void testGetNlUsageTypes() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
         List<NlUsageType> nlUsageTypeList = dao.find(NlUsageType.class);
 
-        GregorianCalendar grepEff = new GregorianCalendar(2000, 00, 01, 0, 0, 0);
-        GregorianCalendar grepExp = new GregorianCalendar(2000, 11, 31, 0, 0, 0);
+        GregorianCalendar gregEff = new GregorianCalendar(2000, 00, 01, 0, 0, 0);
+        GregorianCalendar gregExp = new GregorianCalendar(2000, 11, 31, 0, 0, 0);
         
         assertNotNull(nlUsageTypeList);
         assertEquals(4, nlUsageTypeList.size());
@@ -60,9 +139,20 @@ public class TestStatementDao extends AbstractTransactionalDaoTest {
         assertEquals("KUALI.COURSE.CATALOG", nlUsageType.getId());
         assertEquals("Kuali Course Catalog", nlUsageType.getName());
         assertEquals("Full Kuali Course Catalog", nlUsageType.getDescr());
-        assertEquals(grepEff.getTime(), nlUsageType.getEffectiveDate());
-        assertEquals(grepExp.getTime(), nlUsageType.getExpirationDate());
+        assertEquals(gregEff.getTime(), nlUsageType.getEffectiveDate());
+        assertEquals(gregExp.getTime(), nlUsageType.getExpirationDate());
     }
+    
+    @Test
+    public void testGetStatementType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+        StatementType stmtType = dao.fetch(StatementType.class, "kuali.luStatementType.prereqAcademicReadiness");
+        
+        assertNotNull(stmtType);
+        assertEquals(1, stmtType.getRefStatementRelationTypes().size());
+        RefStatementRelationType type = stmtType.getRefStatementRelationTypes().get(0);
+        assertEquals("clu.prerequisites", type.getId());
+        assertEquals("CLU Prereq", type.getName());
+    }   
     
     @Test
     public void testGetStatementTypes() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
@@ -102,7 +192,7 @@ public class TestStatementDao extends AbstractTransactionalDaoTest {
     public void testGetStatementHeaderTemplate() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
         StatementType stmtType  = dao.fetch(StatementType.class, "kuali.luStatementType.prereqAcademicReadiness");
 
-        List<StatementTypeHeaderTemplate> templates = stmtType.getHeaders();
+        List<StatementTypeHeaderTemplate> templates = stmtType.getStatementHeaders();
 
         StatementTypeHeaderTemplate header = templates.get(0);
         assertEquals(templates.size(), 2);

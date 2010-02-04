@@ -22,19 +22,19 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Attribute;
 
 @Entity
-@Table(name = "KSSTMT_STMT_TYPE_ATTR")
-public class StatementTypeAttribute extends Attribute<StatementType> {
+@Table(name = "KSSTMT_OBJECT_TYPE_ATTR")
+public class ObjectTypeAttribute extends Attribute<ObjectType> {
 	@ManyToOne
 	@JoinColumn(name = "OWNER")
-	private StatementType owner;
+	private ObjectType owner;
 
 	@Override
-	public StatementType getOwner() {
+	public ObjectType getOwner() {
 		return owner;
 	}
 
 	@Override
-	public void setOwner(StatementType owner) {
+	public void setOwner(ObjectType owner) {
 		this.owner = owner;
 	}
 }

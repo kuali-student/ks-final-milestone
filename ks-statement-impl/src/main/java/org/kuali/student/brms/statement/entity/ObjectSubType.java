@@ -14,27 +14,35 @@
  */
 package org.kuali.student.brms.statement.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.kuali.student.core.entity.Attribute;
+import org.kuali.student.core.entity.Type;
 
 @Entity
-@Table(name = "KSSTMT_STMT_TYPE_ATTR")
-public class StatementTypeAttribute extends Attribute<StatementType> {
-	@ManyToOne
-	@JoinColumn(name = "OWNER")
-	private StatementType owner;
+@Table(name = "KSSTMT_OBJECT_SUB_TYPE")
+public class ObjectSubType extends Type<ObjectSubTypeAttribute> {
 
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+	private List<ObjectSubTypeAttribute> attributes = new ArrayList<ObjectSubTypeAttribute>();
+	
 	@Override
-	public StatementType getOwner() {
-		return owner;
+	public List<ObjectSubTypeAttribute> getAttributes() {
+		return this.attributes;
 	}
 
 	@Override
-	public void setOwner(StatementType owner) {
-		this.owner = owner;
+	public void setAttributes(List<ObjectSubTypeAttribute> attributes) {
+		this.attributes = attributes;
+	}
+
+	@Override
+	public String toString() {
+		return "ObjectSubType[id=" + super.getId() + "]";
 	}
 }

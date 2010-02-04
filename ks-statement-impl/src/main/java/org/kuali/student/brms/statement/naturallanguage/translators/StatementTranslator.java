@@ -242,7 +242,7 @@ public class StatementTranslator {
 	 * @throws DoesNotExistException Header template does not exist
 	 */
 	private String getHeaderTemplate(Statement luStatement, String nlUsageTypeKey) throws DoesNotExistException {
-		for(StatementTypeHeaderTemplate header : luStatement.getStatementType().getHeaders()) {
+		for(StatementTypeHeaderTemplate header : luStatement.getStatementType().getStatementHeaders()) {
 			if(header.getNlUsageTypeKey().equals(nlUsageTypeKey) && header.getLanguage().equals(this.language)) {
 				return (header.getTemplate() == null ? "" : header.getTemplate());
 			}
