@@ -52,5 +52,5 @@
   <classpathentry kind="var" path="M2_REPO/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar" sourcepath="M2_REPO/xml-resolver/xml-resolver/1.2/xml-resolver-1.2-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/ws/commons/schema/XmlSchema/1.4.4/XmlSchema-1.4.4.jar" sourcepath="M2_REPO/org/apache/ws/commons/schema/XmlSchema/1.4.4/XmlSchema-1.4.4-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/santuario/xmlsec/1.4.2/xmlsec-1.4.2.jar"/>
-  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 </classpath>
