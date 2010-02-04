@@ -45,9 +45,37 @@
            <tasks>
             <echo>Replacing 'SYSDATE' with SYSDATE</echo>
             <replace file="${project.build.directory}/generated-sql/torque/schema.sql" summary="true" token="default 'SYSDATE'" value="default SYSDATE"/>
+
+            <copy file="${project.build.directory}/generated-sql/torque/ks-embedded-db-data.sql" toFile="${project.build.directory}/generated-sql/torque/ks-embedded-db-data.sql.out">
+             <filterchain>
+              <ignoreblank/>
+             </filterchain>
+            </copy>
+            
            </tasks>
           </configuration>
         </plugin>
+        <plugin>
+         <groupId>org.codehaus.mojo</groupId>
+         <artifactId>sql-maven-plugin</artifactId>
+         <configuration>
+          <driver>oracle.jdbc.OracleDriver</driver>
+          <url>jdbc:oracle:thin:@localhost:1521:XE</url>
+          <username>kuali</username>
+          <password>kuali</password>
+          <autocommit>false</autocommit>
+          <srcFiles>
+           <srcFile>${project.build.directory}/generated-sql/torque/ks-embedded-db-data.sql</srcFile>
+          </srcFiles>
+         </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>com.oracle</groupId>
+              <artifactId>ojdbc14</artifactId>
+              <version>10.2.0.3</version>
+            </dependency>
+          </dependencies>
+       </plugin>
       </plugins>
     </build>
 </project>
