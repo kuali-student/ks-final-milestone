@@ -14,6 +14,7 @@
         <module>ks-embedded-db</module>
     </modules>
     <properties>
+     <!-- Always retain any existing data, unless -Dretain.existing.data=false is given on the command line -->
      <retain.existing.data>true</retain.existing.data>
     </properties>
     <build>
