@@ -1,16 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.brms</groupId>
 	<artifactId>ks-brms-ui</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>KS BRMS UI</name>
-	<description>
-		GUI used by developers to develop, test and troubleshoot rules in BRMS system
-	</description>
+	<description>GUI used by developers to develop, test and troubleshoot rules in BRMS system</description>
 
 	<parent>
 		<groupId>org.kuali.student.brms</groupId>
@@ -119,54 +115,54 @@
 		<dependency>
 			<groupId>org.kuali.student.brms</groupId>
 			<artifactId>ks-brms-api</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0-m3-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.brms</groupId>
 			<artifactId>ks-brms-impl</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0-m3-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.brms</groupId>
 			<artifactId>ks-brms-execution-impl</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0-m3-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.brms</groupId>
 			<artifactId>ks-brms-execution-api</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0-m3-SNAPSHOT</version>
 		</dependency>
+		<!--
 		<dependency>
 			<groupId>org.kuali.student.poc.common</groupId>
 			<artifactId>common-ws</artifactId>
 			<version>0.1.0-SNAPSHOT</version>
 		</dependency>
+		-->
 		<dependency>
 			<groupId>org.kuali.student.ks-core</groupId>
 			<artifactId>ks-common-ui</artifactId>
-			<version>${ks-core.version}</version>
+			<version>1.0.0-m3-SNAPSHOT</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.commons</groupId>
 			<artifactId>ks-commons-ui</artifactId>
-			<version>0.0.4-SNAPSHOT</version>
+			<version>1.0.0-m3-SNAPSHOT</version>
 			<classifier>sources</classifier>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.commons</groupId>
 			<artifactId>ks-commons-ui</artifactId>
-			<version>0.0.4-SNAPSHOT</version>
+			<version>1.0.0-m3-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
-
-		<!-- Required dependencies for testing brms-ui -->
 		<dependency>
 			<groupId>org.kuali.student.ks-core</groupId>
 			<artifactId>ks-cxf</artifactId>
-			<version>${ks-core.version}</version>
+			<version>1.0.0-m3-SNAPSHOT</version>
 			<type>pom</type>
 			<scope>runtime</scope>
 		</dependency>
@@ -176,56 +172,7 @@
 			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
-
 	<profiles>
-		<profile>
-			<id>ks.ui.external.repositories</id>
-			<activation>
-				<property>
-					<name>!ks.use.proxy</name>
-				</property>
-			</activation>
-			<repositories>
-				<repository>
-					<id>com.gwtext</id>
-					<url>http://www.gwt-ext.com/maven2</url>
-				</repository>
-				<repository>
-					<id>gwt-maven</id>
-					<url>
-						http://gwt-maven.googlecode.com/svn/trunk/mavenrepo
-					</url>
-				</repository>
-				<repository>
-					<id>kuali.external-free</id>
-					<url>
-						http://kuali.umd.edu/archiva/repository/external-free
-					</url>
-					<snapshots>
-						<enabled>true</enabled>
-					</snapshots>
-				</repository>
-				<repository>
-					<id>kuali.dev</id>
-					<url>
-						http://archiva.kuali.umd.edu/repository/dev
-					</url>
-					<snapshots>
-						<enabled>true</enabled>
-					</snapshots>
-				</repository>
-			</repositories>
-
-			<pluginRepositories>
-				<pluginRepository>
-					<id>gwt-maven</id>
-					<url>
-						http://kuali.umd.edu/archiva/repository/snapshot
-					</url>
-				</pluginRepository>
-			</pluginRepositories>
-
-		</profile>
 		<profile>
 			<id>gwt-dev-windows</id>
 			<properties>
@@ -262,23 +209,5 @@
 				</os>
 			</activation>
 		</profile>
-
 	</profiles>
-
-	<repositories>
-		<repository>
-			<id>kuali.release</id>
-			<url>http://archiva.kuali.umd.edu/repository/release</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>kuali.snapshot</id>
-			<url>http://archiva.kuali.umd.edu/repository/snapshot</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-		</repository>
-	</repositories>
 </project>
