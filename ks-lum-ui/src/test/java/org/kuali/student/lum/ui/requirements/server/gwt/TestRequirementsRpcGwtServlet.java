@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.brms.ruleexecution.runtime.drools.DroolsKnowledgeBase;
 import org.kuali.student.brms.ruleexecution.runtime.drools.SimpleExecutorDroolsImpl;
@@ -144,12 +145,14 @@ public class TestRequirementsRpcGwtServlet {
         return reqCompInfo;
     }
     
+    @Ignore
     @Test
     public void testGetNaturalLanguageForReqComponentInfo() throws Exception {
     	String naturalLanguage = requirementsRpcGwtServlet.getNaturalLanguageForReqComponentInfo(reqComp1, "KUALI.CATALOG");
         assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
     }
 
+    @Ignore
     @Test
     public void testGetNaturalLanguageForStatementVO() throws Exception {
 		LuStatementInfo statementInfo = new LuStatementInfo();
