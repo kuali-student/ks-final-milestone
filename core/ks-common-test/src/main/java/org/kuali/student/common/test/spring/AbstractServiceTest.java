@@ -54,16 +54,16 @@ import org.junit.runner.RunWith;
  * <p>
  * 
  * <pre>
- *  @Daos( {   @Dao(value = &quot;org.kuali.student.MyDaoImpl&quot;, 
+ *  &#064;Daos( {   &#064;Dao(value = &quot;org.kuali.student.MyDaoImpl&quot;, 
  *               testDataFile = &quot;classpath:META-INF/pretest-data-beans.xml&quot;),
- *            @Dao(&quot;org.kuali.student.OtherDaoImpl&quot;) })
- *  @PersistenceFileLocation(&quot;classpath:META-INF/custom-persistence.xml&quot;)
+ *            &#064;Dao(&quot;org.kuali.student.OtherDaoImpl&quot;) })
+ *  &#064;PersistenceFileLocation(&quot;classpath:META-INF/custom-persistence.xml&quot;)
  * public class ServiceCommonTest extends AbstractServiceTest {
  * 
- *  @Client(&quot;org.kuali.student.MyServiceImpl&quot;)
+ *  &#064;Client(&quot;org.kuali.student.MyServiceImpl&quot;)
  * public MyService client;
  * 
- *  @Test
+ *  &#064;Test
  * public void test1() {
  * 	client.foo();
  * }
