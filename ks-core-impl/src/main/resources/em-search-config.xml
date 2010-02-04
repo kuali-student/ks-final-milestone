@@ -27,7 +27,7 @@
 			<ref bean="enumeration.resultColumn.code" />
 			<ref bean="enumeration.resultColumn.abbrevValue" />
 			<ref bean="enumeration.resultColumn.value" />
-			<ref bean="enum/eration.resultColumn.effectiveDate" />
+			<ref bean="enumeration.resultColumn.effectiveDate" />
 			<ref bean="enumeration.resultColumn.expirationDate" />
 			<ref bean="enumeration.resultColumn.sortKey" />
 		</search:resultColumns>
