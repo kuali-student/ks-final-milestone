@@ -1017,7 +1017,6 @@
 		<property name="constraints">
 			<list>
 				<ref bean="constraint.single" />
-				<ref bean="constraint.not.used" />
 				<ref bean="constraint.optional" />
 				<ref bean="constraint.single" />
 				<ref bean="constraint.non-negative.integer" />
@@ -1400,8 +1399,6 @@
 		<property name="dataType" value="STRING" />
 		<property name="constraints">
 			<list>
-				<ref bean="constraint.single" />
-				<ref bean="constraint.not.used" />
 				<ref bean="constraint.optional" />
 				<ref bean="constraint.single" />
 				<ref bean="constraint.single.line.text" />
@@ -1418,7 +1415,6 @@
 			<list>
 				<ref bean="constraint.single" />
 				<ref bean="constraint.calc.copy.course.official.subjectArea" />
-				<ref bean="constraint.optional" />
 				<ref bean="constraint.single" />
 				<ref bean="constraint.code" />
 			</list>
@@ -3145,8 +3141,6 @@
 		<property name="dataType" value="STRING" />
 		<property name="constraints">
 			<list>
-				<ref bean="constraint.repeating" />
-				<ref bean="constraint.not.used" />
 				<ref bean="constraint.optional" />
 				<ref bean="constraint.repeating" />
 			</list>
@@ -3404,9 +3398,7 @@
 		<property name="constraints">
 			<list>
 				<ref bean="constraint.single" />
-				<ref bean="constraint.not.used" />
 				<ref bean="constraint.optional" />
-				<ref bean="constraint.single" />
 			</list>
 		</property>
 		<property name="lookups">
