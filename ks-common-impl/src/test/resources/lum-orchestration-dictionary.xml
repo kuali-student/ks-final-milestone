@@ -7,7 +7,7 @@
 	<bean id="simpleMask" class="org.kuali.student.core.assembly.data.masking.SimpleMask" />
 	
 	<bean id="constraint" abstract="true"
-		class="org.kuali.student.common.assembly.client.ConstraintMetadata" />
+		class="org.kuali.student.core.assembly.data.ConstraintMetadata" />
 	<bean id="lookup" abstract="true"
 		class="org.kuali.student.core.assembly.data.LookupMetadata" />
 	<bean id="dataObjectStructure" abstract="true"
