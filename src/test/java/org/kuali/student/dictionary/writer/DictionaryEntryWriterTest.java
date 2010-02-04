@@ -33,10 +33,10 @@ import static org.junit.Assert.*;
  *
  * @author nwright
  */
-public class FieldWriterTest
+public class DictionaryEntryWriterTest
 {
 
- public FieldWriterTest ()
+ public DictionaryEntryWriterTest ()
  {
  }
 
@@ -76,7 +76,7 @@ public class FieldWriterTest
   DictionaryModel spreadsheet = new DictionaryModelCache (new MockDictionaryModel ());
   Dictionary dict = spreadsheet.getDictionary ().get (0);
   State state = spreadsheet.getStates ().get (0);
-  FieldWriter instance = new FieldWriter (out, 0, spreadsheet, dict, state, false);
+  DictionaryEntryWriter instance = new DictionaryEntryWriter (out, 0, spreadsheet, dict, state, false);
   instance.write ();
   System.out.println ("|||||||");
   System.out.println (baos.toString ());

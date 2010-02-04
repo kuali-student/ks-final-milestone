@@ -227,6 +227,19 @@ public class ModelFinder
   return null;
  }
 
+ public List<Field> findFields (String xmlTypeName)
+ {
+  List<Field> list = new ArrayList ();
+  for (Field field : model.getFields ())
+  {
+   if (field.getXmlObject ().equalsIgnoreCase (xmlTypeName))
+   {
+    list.add (field);
+   }
+  }
+  return list;
+ }
+
  public Service findService (String key)
  {
   for (Service serv : model.getServices ())

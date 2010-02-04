@@ -34,7 +34,7 @@ import java.util.Set;
  * This writes out a single field entry and all of it's constraints into the XML output document
  * @author nwright
  */
-public class FieldWriter extends XmlWriter
+public class DictionaryEntryWriter extends XmlWriter
 {
 
  private DictionaryModel spreadsheet;
@@ -45,7 +45,7 @@ public class FieldWriter extends XmlWriter
  private Field field;
  private boolean inline;
 
- public FieldWriter (PrintStream out, int indent, DictionaryModel spreadsheet,
+ public DictionaryEntryWriter (PrintStream out, int indent, DictionaryModel spreadsheet,
                      Dictionary origDict, State mainState, boolean inline)
  {
   super (out, indent);

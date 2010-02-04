@@ -29,10 +29,13 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.kuali.student.dictionary.DictionaryExecutionException;
+import org.kuali.student.dictionary.model.MessageStructure;
 
 /**
  * This writes out the entire dictionary xml file
@@ -53,13 +56,49 @@ public class DictionaryModelWriter
   this.finder = new ModelFinder (sheet);
  }
 
- private static String CONSTRAINT_BANK_FILE_NAME = "constraints-dictionary-config-generated-excel.xml";
+ private static String CONSTRAINT_BANK_FILE_NAME =
+  "constraints-dictionary-config.xml";
 
  /**
   * Write out the entire file
   * @param out
   */
  public void write ()
+ {
+  validate ();
+  writeNamedConstraints ();
+
+  for (String service : calcServicesThatHaveXMLTypesThatHaveOwnCreateUpdate ())
+  {
+   File file =
+    new File (directory + service + "-dictionary-config.xml");
+   PrintStream out;
+   try
+   {
+    out = new PrintStream (file);
+   }
+   catch (FileNotFoundException ex)
+   {
+    throw new DictionaryExecutionException (ex);
+   }
+   try
+   {
+    this.writer = new XmlWriter (out, 0);
+    writeHeader ();
+    writeImportBankOfConstraints ();
+    writeObjectStructures (service);
+    writeFooter ();
+   }
+   finally
+   {
+    this.writer.getOut ().close ();
+   }
+  }
+  checkNotWrittenDictionary ();
+  checkNotUsedCrossObjectConstraints ();
+ }
+
+ private void validate ()
  {
   Collection<String> errors = new DictionaryModelValidator (sheet).validate ();
   if (errors.size () > 0)
@@ -76,38 +115,6 @@ public class DictionaryModelWriter
    }
    throw new DictionaryValidationException (buf.toString ());
   }
-
-  writeNamedConstraints ();
-
-  for (String service : calcServicesThatHaveXMLTypesThatHaveOwnCreateUpdate ())
-  {
-   File file =
-    new File (directory + service + "-dictionary-config-generated-excel.xml");
-   PrintStream out;
-   try
-   {
-    out = new PrintStream (file);
-   }
-   catch (FileNotFoundException ex)
-   {
-    throw new DictionaryExecutionException (ex);
-   }
-   try
-   {
-    this.writer = new XmlWriter (out, 0);
-    writeHeader ();
-    writer.indentPrintln ("import " + directory
-     + CONSTRAINT_BANK_FILE_NAME);
-    writeObjectStructures (service);
-    writeFooter ();
-   }
-   finally
-   {
-    this.writer.getOut ().close ();
-   }
-  }
-  checkNotUsedDictionary ();
-  checkNotUsedCrossObjectConstraints ();
  }
 
  /**
@@ -143,6 +150,17 @@ public class DictionaryModelWriter
   writer.writeComment (buf.toString ());
  }
 
+ /**
+  * write out the header
+  * @param out
+  */
+ protected void writeImportBankOfConstraints ()
+ {
+  writer.indentPrint ("<import");
+  writer.writeAttribute ("resource", CONSTRAINT_BANK_FILE_NAME);
+  writer.println ("/>");
+ }
+
  protected void writeFooter ()
  {
   writer.indentPrintln ("</beans>");
@@ -154,6 +172,7 @@ public class DictionaryModelWriter
   */
  protected void writeNamedConstraints ()
  {
+  System.out.println ("Writing out bank of constraints");
   File file =
    new File (directory + CONSTRAINT_BANK_FILE_NAME);
   PrintStream out;
@@ -189,19 +208,73 @@ public class DictionaryModelWriter
   */
  protected void writeObjectStructures (String service)
  {
-  for (XmlType xmlType : calcXMLTypesForServiceThatHaveOwnCreateUpdate (service))
+  for (XmlType xmlType : calcXMLTypesUsedByService (service))
   {
    List<Dictionary> dictEntries = getDictionaryEntriees (xmlType);
    ObjectStructureWriter osw =
-    new ObjectStructureWriter (writer.getOut (), writer.getIndent () + 1, sheet,
+    new ObjectStructureWriter (writer.getOut (), writer.getIndent (), sheet,
                                xmlType, dictEntries, false, null);
    osw.write ();
   }
  }
 
+ private List<XmlType> calcXMLTypesUsedByService (String service)
+ {
+  Map<String, XmlType> map = new LinkedHashMap ();
+  for (XmlType xmlType : calcXMLTypesForServiceThatHaveOwnCreateUpdate (service))
+  {
+   if ( ! map.containsKey (xmlType.getName ().toLowerCase ()))
+   {
+    map.put (xmlType.getName ().toLowerCase (), xmlType);
+   }
+  }
+  List<XmlType> newXmlTypes = new ArrayList (map.values ());
+  while (newXmlTypes.size () > 0)
+  {
+   newXmlTypes = loadComplexSubXMLTypes (map, newXmlTypes);
+  }
+  return new ArrayList (map.values ());
+ }
+
+ private List<XmlType> loadComplexSubXMLTypes (Map<String, XmlType> map,
+                                               List<XmlType> xmlTypesToProcess)
+ {
+  List<XmlType> newXmlTypes = new ArrayList ();
+  for (XmlType xmlType : xmlTypesToProcess)
+  {
+   for (MessageStructure ms : finder.findMessageStructures (xmlType.getName ()))
+   {
+    XmlType subType = finder.findXmlType (fixupType (ms.getType ()));
+    if (subType == null)
+    {
+     throw new DictionaryExecutionException ("Message structure " + ms.getId ()
+      + " has a type " + ms.getType () + " that does not exist");
+    }
+    if (subType.getPrimitive ().equalsIgnoreCase ("complex"))
+    {
+     if (map.put (subType.getName ().toLowerCase (), subType) == null)
+     {
+      newXmlTypes.add (xmlType);
+     }
+    }
+   }
+  }
+  return newXmlTypes;
+ }
+
+ private String fixupType (String type)
+ {
+  // special fix up because lists are not explicitly handled
+  if (type.toLowerCase ().endsWith ("list"))
+  {
+   return type.substring (0, type.length () - "list".length ());
+  }
+  return type;
+ }
+
  private Set<String> calcServicesThatHaveXMLTypesThatHaveOwnCreateUpdate ()
  {
-  Set<String> set = new HashSet ();
+  Set<String> set = new LinkedHashSet ();
   for (XmlType xmlType : calcXMLTypesThatHaveOwnCreateUpdate ())
   {
    if (xmlType.getService () != null &&  ! xmlType.getService ().equals (""))
@@ -226,13 +299,13 @@ public class DictionaryModelWriter
   return list;
  }
 
- private List<XmlType> xmlTypes = null;
+ private List<XmlType> xmlTypesThatHaveOwnCreateUpdate = null;
 
  private List<XmlType> calcXMLTypesThatHaveOwnCreateUpdate ()
  {
-  if (xmlTypes != null)
+  if (xmlTypesThatHaveOwnCreateUpdate != null)
   {
-   return xmlTypes;
+   return xmlTypesThatHaveOwnCreateUpdate;
   }
   List list = new ArrayList ();
   for (XmlType xmlType : sheet.getXmlTypes ())
@@ -242,8 +315,8 @@ public class DictionaryModelWriter
     list.add (xmlType);
    }
   }
-  xmlTypes = list;
-  return xmlTypes;
+  xmlTypesThatHaveOwnCreateUpdate = list;
+  return xmlTypesThatHaveOwnCreateUpdate;
  }
 
  private List<Dictionary> getDictionaryEntriees (XmlType xmlType)
@@ -256,15 +329,16 @@ public class DictionaryModelWriter
     list.add (dict);
    }
   }
-  if (list.size () == 0)
-  {
-   throw new DictionaryValidationException ("No default dictionary entries found for " + xmlType.
-    getName ());
-  }
+// TODO: uncomment this when/if all substructures are used OR check if substructure is ever used
+//  if (list.size () == 0)
+//  {
+//   throw new DictionaryValidationException ("No default dictionary entries found for " + xmlType.
+//    getName ());
+//  }
   return list;
  }
 
- private void checkNotUsedDictionary ()
+ private void checkNotWrittenDictionary ()
  {
   List<Dictionary> notUsed = calcNotUsedDictionary ();
   if (notUsed.size () == 0)
@@ -290,7 +364,8 @@ public class DictionaryModelWriter
   List<Dictionary> list = new ArrayList ();
   for (Dictionary dict : sheet.getDictionary ())
   {
-   if ( ! FieldWriter.getDictionaryEntriesWritten ().contains (dict.getId ()))
+   if ( ! DictionaryEntryWriter.getDictionaryEntriesWritten ().contains (dict.
+    getId ()))
    {
     list.add (dict);
    }
@@ -303,7 +378,8 @@ public class DictionaryModelWriter
   List<CrossObjectConstraint> list = new ArrayList ();
   for (CrossObjectConstraint coc : sheet.getCrossObjectConstraints ())
   {
-   if ( ! FieldWriter.getCrossObjectConstraintsWritten ().contains (coc.getId ()))
+   if ( ! DictionaryEntryWriter.getCrossObjectConstraintsWritten ().contains (coc.
+    getId ()))
    {
     if ( ! coc.getImplementation ().equals (""))
     {

@@ -50,7 +50,10 @@ public class ConstraintWriter extends XmlWriter
   //TODO: not sure what to put in the key attribute
   incrementIndent ();
   writeAttribute ("key", constraint.getKey ());
-  writeAttribute ("id", "constraint." + constraint.getId ());
+  if ( ! constraint.getId ().equals (""))
+  {
+   writeAttribute ("id", "constraint." + constraint.getId ());
+  }
   writeAttribute ("className", constraint.getClassName ());
   writeAttribute ("serverSide", constraint.getServerSide ());
   println (">");
@@ -66,7 +69,7 @@ public class ConstraintWriter extends XmlWriter
   writeTag ("dict:maxValue", constraint.getMaxValue ());
   writeTag ("dict:minOccurs", constraint.getMinOccurs ());
   writeTag ("dict:maxOccurs", constraint.getMaxOccurs ());
- writeTag ("dict:minLength", constraint.getMinLength ());
+  writeTag ("dict:minLength", constraint.getMinLength ());
   writeTag ("dict:maxLength", constraint.getMaxLength ());
   if ( ! calcValidChars ().equals (""))
   {
@@ -141,4 +144,5 @@ public class ConstraintWriter extends XmlWriter
   }
   return "regex:" + validChars;
  }
+
 }

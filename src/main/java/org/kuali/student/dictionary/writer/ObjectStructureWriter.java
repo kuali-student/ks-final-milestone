@@ -26,6 +26,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import org.kuali.student.dictionary.model.Field;
 
 /**
  * Writes an object structure entity in the output XML document, either the in-line or root ones.
@@ -34,7 +35,7 @@ import java.util.List;
 public class ObjectStructureWriter
 {
 
- private DictionaryModel spreadsheet;
+ private DictionaryModel model;
  private ModelFinder finder;
  private XmlType xmlType;
  private List<Dictionary> dictionary;
@@ -44,18 +45,18 @@ public class ObjectStructureWriter
 
  /**
   * construct writer for a particular type
-  * @param spreadsheet holds the entire spreadsheet information
+  * @param model holds the entire spreadsheet information
   * @param xmlType data structure to write out
   * @param dictionary list of entries to write out
   */
  public ObjectStructureWriter (PrintStream out, int indent,
-                               DictionaryModel spreadsheet, XmlType xmlType,
+                               DictionaryModel model, XmlType xmlType,
                                List<Dictionary> dictionary, boolean inline,
                                State mainState)
  {
   this.writer = new XmlWriter (out, indent);
-  this.spreadsheet = spreadsheet;
-  this.finder = new ModelFinder (spreadsheet);
+  this.model = model;
+  this.finder = new ModelFinder (model);
   this.xmlType = xmlType;
   this.dictionary = dictionary;
   this.inline = inline;
@@ -69,55 +70,144 @@ public class ObjectStructureWriter
  public void write ()
  {
   writer.indentPrintln ("");
-  writer.indentPrint ("<dict:objectStructure");
+  writeObjectStructure ();
+  writeTypeStructure ();
+  writeStateStructure ();
+  writeFields ();
+ }
+
+ private void writeObjectStructure ()
+ {
   String fullName = new XmlTypeNameBuilder (xmlType.getName (), xmlType.
    getJavaPackage ()).build ();
+  writer.writeComment (xmlType.getDesc ());
+  writer.indentPrint ("<dict:objectStructure");
   writer.writeAttribute ("key", fullName);
+  writer.writeAttribute ("id", "object." + xmlType.getName () + ".abstract");
+  writer.writeAttribute ("abstract", "true");
   writer.println (">");
   writer.incrementIndent ();
-  writer.writeComment (xmlType.getDesc ());
+  writer.indentPrint ("<dict:typeRef");
+  writer.writeAttribute ("bean", "object." + xmlType.getName () + ".type");
+  writer.println ("/>");
+  writer.decrementIndent ();
+  writer.indentPrintln ("</dict:objectStructure>");
+  writer.indentPrint ("<dict:objectStructure");
+  writer.writeAttribute ("key", fullName);
+  writer.writeAttribute ("id", "object." + xmlType.getName ());
+  writer.writeAttribute ("parent", "object." + xmlType.getName () + ".abstract");
+  writer.println ("/>");
+ }
+
+ private void writeTypeStructure ()
+ {
+  // now write out the default for the type
+  writer.indentPrintln ("");
+  writer.indentPrint ("<dict:type");
+  writer.writeAttribute ("key", "(default)");
+  writer.writeAttribute ("id", "object." + xmlType.getName () + ".type.abstract");
+  writer.writeAttribute ("abstract", "true");
+  writer.println (">");
+  writer.incrementIndent ();
+  writer.indentPrint ("<dict:stateRef");
+  writer.writeAttribute ("bean", "object." + xmlType.getName () + ".state");
+  writer.println ("/>");
+  writer.decrementIndent ();
+  writer.indentPrintln ("</dict:type>");
+  writer.indentPrint ("<dict:type");
+  writer.writeAttribute ("key", "(default)");
+  writer.writeAttribute ("id", "object." + xmlType.getName () + ".type");
+  writer.writeAttribute ("parent", "object." + xmlType.getName () + ".type.abstract");
+  writer.println ("/>");
+ }
+
+ private void writeStateStructure ()
+ {
+  // now write out the default for the state
+  writer.indentPrintln ("");
+  writer.indentPrint ("<dict:state");
+  writer.writeAttribute ("key", "(default)");
+  writer.writeAttribute ("id", "object." + xmlType.getName () + ".state.abstract");
+  writer.writeAttribute ("abstract", "true");
+  writer.println (">");
+  writer.incrementIndent ();
+  for (Field field : finder.findFields (xmlType.getName ()))
+  {
+   writer.indentPrint ("<dict:fieldRef");
+   writer.writeAttribute ("bean", "field." + field.getId ());
+   writer.println ("/>");
+  }
+  writer.decrementIndent ();
+  writer.indentPrintln ("</dict:state>");
+  writer.indentPrint ("<dict:state");
+  writer.writeAttribute ("key", "(default)");
+  writer.writeAttribute ("id", "object." + xmlType.getName () + ".state");
+  writer.writeAttribute ("parent", xmlType.getName () + ".state.abstract");
+  writer.println ("/>");
+ }
+
+ private void writeFields ()
+ {
+  // no write out each field
+  for (Field field : finder.findFields (xmlType.getName ()))
+  {
+   FieldEntryWriter few = new FieldEntryWriter (writer, model, field);
+   few.write ();
+  }
+ }
+
+ private void writeRestOfObjectStructure ()
+ {
+  writer.indentPrintln ("");
+  writer.indentPrint ("<dict:state");
+  writer.writeAttribute ("key", "(default)");
+  writer.writeAttribute ("id", xmlType.getName () + ".type");
+  writer.println ("/>");
+  writer.incrementIndent ();
+
+
   for (Type type : filterTypes ())
   {
-   writer.indentPrint ("<dict:type");
-   writer.writeAttribute ("key", type.getTypeKey ());
    writer.indent (System.out, ' ');
    System.out.println ("Writing out TYPE: " + xmlType.getName () + "." + type.
     getTypeKey ());
-   writer.println (">");
+
+   writer.indentPrintln ("");
    writer.writeComment (type.getDesc ());
    writer.writeComment (type.getAliases ());
    writer.writeComment (type.getComments ());
-   writer.incrementIndent ();
+   writer.indentPrint ("<dict:type");
+   writer.writeAttribute ("key", type.getTypeKey ());
+   writer.writeAttribute ("id", xmlType.getName () + "." + type.getTypeKey ());
+   writer.println ("/>");
+   writer.indentPrintln ("</dict:type>");
+
    for (State state : filterStates ())
    {
     if ( ! inline)
     {
      mainState = state;
     }
+    writer.writeComment (state.getDesc ());
+    writer.writeComment (state.getComments ());
     writer.indentPrint ("<dict:state");
     writer.writeAttribute ("key", state.getName ());
     writer.indent (System.out, ' ');
     System.out.println ("Writing out STATE: " + xmlType.getName () + "." + state.
      getName ());
     writer.println (">");
-    writer.writeComment (state.getDesc ());
-    writer.writeComment (state.getComments ());
     for (Dictionary dict : dictionary)
     {
      if (matchesType (dict, type))
      {
-      FieldWriter fw =
-       new FieldWriter (writer.getOut (), writer.getIndent () + 1, spreadsheet, dict, mainState, inline);
+      DictionaryEntryWriter fw =
+       new DictionaryEntryWriter (writer.getOut (), writer.getIndent () + 1, model, dict, mainState, inline);
       fw.write ();
      }
     }
     writer.indentPrintln ("</dict:state>");
    }
-   writer.decrementIndent ();
-   writer.indentPrintln ("</dict:type>");
   }
-  writer.decrementIndent ();
-  writer.indentPrintln ("</dict:objectStructure>");
  }
 
  private boolean matchesType (Dictionary dict, Type type)
@@ -202,7 +292,7 @@ public class ObjectStructureWriter
  private List<State> filterStates ()
  {
   List list = new ArrayList ();
-  for (State state : spreadsheet.getStates ())
+  for (State state : model.getStates ())
   {
    if (state.getXmlObject ().equals (xmlType.getName ()))
    {
