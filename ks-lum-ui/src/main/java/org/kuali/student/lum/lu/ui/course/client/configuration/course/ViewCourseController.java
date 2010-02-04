@@ -37,10 +37,8 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
-import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LuConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
-import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
 import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
 
@@ -58,7 +56,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public class ViewCourseController extends TabbedSectionLayout { 
     private final DataModel cluModel = new DataModel(); 
-    private Collaborators.CollaboratorModel collaboratorModel;
+//    private RequirementsDisplayWidget.RequirementsModel requirementsModel;
     
     private WorkQueue modelRequestQueue;
 
@@ -66,6 +64,7 @@ public class ViewCourseController extends TabbedSectionLayout {
     private String courseId = null;
     
     private final String CLU_STATE = "active";
+    private final String CLU_ID_KEY   = "course/id";
     
     private final String REFERENCE_TYPE = "referenceType.clu";
     private boolean initialized = false;
@@ -178,11 +177,13 @@ public class ViewCourseController extends TabbedSectionLayout {
     }
     private void init(DataModelDefinition modelDefinition){
         ViewCourseConfigurer cfg = new ViewCourseConfigurer();
+        super.setUpdateableSection(false);
+
         cfg.setModelDefinition(modelDefinition);
         cfg.generateLayout(this);
              
         if (!initialized) {
-            addButton("Course Details", getQuitButton());
+            addButton(ViewCourseConfigurer.COURSE_INFORMATION, getQuitButton());
         }
         initialized = true;
     }
@@ -192,7 +193,7 @@ public class ViewCourseController extends TabbedSectionLayout {
      */
     @Override
     public Class<? extends Enum<?>> getViewsEnum() {
-        return LuConfigurer.LuSections.class;
+        return ViewCourseConfigurer.Sections.class;
     }
 
    
@@ -219,18 +220,15 @@ public class ViewCourseController extends TabbedSectionLayout {
                 
                 callback.onModelReady(ref);
             }
-//        } else if(modelType == Collaborators.CollaboratorModel.class){
-//            //Update the collabmodel with info from the CluProposal Model
-//            //Create a new one if it does not yet exist
-//            if(null==collaboratorModel){
-//                collaboratorModel = new Collaborators.CollaboratorModel();
+//        } else if(modelType == RequirementsDisplayWidget.RequirementsModel.class){
+//            if(null==requirementsModel){
+//                requirementsModel = new RequirementsDisplayWidget.RequirementsModel();
 //            }
-//            String proposalId="";
-//            if(cluModel!=null && cluModel.get(CLU_PROPOSAL_ID_KEY)!=null){
-//                proposalId=cluModel.get(CLU_PROPOSAL_ID_KEY);
+//            if(cluModel!=null && cluModel.get(CLU_ID_KEY)!=null){
+//                courseId=cluModel.get(CLU_ID_KEY);
 //            }
-//            collaboratorModel.setProposalId(proposalId);    
-//            callback.onModelReady(collaboratorModel);
+//            requirementsModel.setCluId(courseId);    
+//            callback.onModelReady(requirementsModel);
         }else if (modelType == LuData.class){
             requestModel(CourseConfigurer.CLU_PROPOSAL_MODEL, callback);
         } else /*
@@ -253,6 +251,7 @@ public class ViewCourseController extends TabbedSectionLayout {
 
             @Override
             public void onSuccess(Data result) {
+                layoutTitle.setTitle("Updated course");
                 cluModel.setRoot(result);
                 callback.onModelReady(cluModel);
                 workCompleteCallback.exec(true);

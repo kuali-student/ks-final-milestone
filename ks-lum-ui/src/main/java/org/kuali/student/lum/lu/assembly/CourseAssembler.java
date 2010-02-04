@@ -300,14 +300,13 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
             result.setDescription(RichTextInfoHelper.wrap(richtextAssembler.assemble(course.getDescr())));
 //          result.setRationale(RichTextInfoHelper.wrap(richtextAssembler.assemble(course.getMarketingDesc())));
             
-            AmountInfo time = course.getIntensity();
-            //TimeAmountInfoHelper time = TimeAmountInfoHelper.wrap(timeamountAssembler.assemble(course.getIntensity()));
+            TimeAmountInfoHelper time = TimeAmountInfoHelper.wrap(timeamountAssembler.assemble(course.getStdDuration()));
             if (time != null) {
                 CreditCourseDurationHelper duration = CreditCourseDurationHelper.wrap(new Data());
-                if(time.getUnitQuantity() != null) {
-                    duration.setQuantity(Integer.valueOf(time.getUnitQuantity()));
+                if(time.getTimeQuantity() != null) {
+                    duration.setQuantity(Integer.valueOf(time.getTimeQuantity()));
                 }
-                duration.setTermType(time.getUnitType());
+                duration.setTermType(time.getAtpDurationTypeKey());
                 result.setDuration(duration);
             }
             CluInstructorInfoHelper instr = CluInstructorInfoHelper.wrap(instructorAssembler.assemble(course.getPrimaryInstructor()));
