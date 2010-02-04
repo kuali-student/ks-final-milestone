@@ -464,4 +464,4 @@ insert into KSLU_CLU_INSTR (ID, ORG_ID, PERS_ID) values ('INSTR-3', 'ORG-2','Jac
 insert into KSLU_CLU_INSTR (ID, ORG_ID, PERS_ID) values ('INSTR-4', 'ORG-3','Jill');
 insert into KSLU_CLU_JN_SUBJ_ORG (id, CLU_ID, org_id) values ('SUBJ-ORG-1', '2f68e422-a54f-4f10-9cf2-37dd4083ce5d', '42');
 insert into KSLU_CLU_JN_SUBJ_ORG (id, CLU_ID, org_id) values ('SUBJ-ORG-2', '2f68e422-a54f-4f10-9cf2-37dd4083ce5d', '101');
-update KSLU_CLU set PRI_ADMIN_ORG_ID = 'ADMIN-ORG-1',PRI_INSTR_ID = 'INSTR-3', FEE_ID = 'FEE-1', ATPDURATIONTYPEKEY = 'atpType.semester.fall', TIMEQUANTITY = '100' where ID = '2f68e422-a54f-4f10-9cf2-37dd4083ce5d';
+update KSLU_CLU set PRI_ADMIN_ORG_ID = 'ADMIN-ORG-1',PRI_INSTR_ID = 'INSTR-3', FEE_ID = 'FEE-1', ATPDURATIONTYPEKEY = 'atpType.semester.fall', TIMEQUANTITY = 100 where ID = '2f68e422-a54f-4f10-9cf2-37dd4083ce5d';
