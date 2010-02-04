@@ -22,12 +22,9 @@ import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImp
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.menus.impl.KSBlockMenuImpl;
-import org.kuali.student.common.ui.client.widgets.menus.impl.KSListMenuImpl;
 import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel;
 import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel.TabPosition;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
-import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
-import org.kuali.student.common.ui.client.mvc.history.HistoryToken;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -60,6 +57,8 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 	
 	private KSTabPanel tabPanel = new KSTabPanel();
 	private KSTitleContainerImpl container = new KSTitleContainerImpl();
+	
+	private boolean updateableSection = true;
 	
 	private class TabLayout extends Composite{
 		private FlowPanel layout = new FlowPanel();
@@ -108,7 +107,9 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 		);
 		
 		public TabLayout(){
-			sectionButtonPanel.add(nextButton);
+		    if (updateableSection) {
+	            sectionButtonPanel.add(nextButton);		        
+		    }
 			menu.setTopLevelItems(topLevelMenuItems);
 			contentLayout.add(content);
 			contentLayout.add(sectionButtonPanel);
@@ -287,7 +288,15 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
         return viewEnums.get(enumValue);
     }
 	
-	@Override
+	public boolean isUpdateableSection() {
+        return updateableSection;
+    }
+
+    public void setUpdateableSection(boolean isUpdateable) {
+        this.updateableSection = isUpdateable;
+    }
+
+    @Override
 	protected void hideView(View view) {
 		//Does nothing: no need to hide, it view is always replaced in this layout
 /*		String tabName = sectionNameTabMap.get(view.getName());
