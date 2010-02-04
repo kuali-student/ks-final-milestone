@@ -85,7 +85,7 @@
 	</bean>
 
     <!-- Default JPA EntityManagerFactory -->
-    <bean id="defaultEntityManagerFactory" abstract="true"
+    <bean id="coreDefaultEntityManagerFactory" abstract="true"
         class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
@@ -104,7 +104,7 @@
     </bean>
 
     <!--  Organization Service Config -->
-    <bean id="orgEntityManagerFactory" parent="defaultEntityManagerFactory">
+    <bean id="orgEntityManagerFactory" parent="coreDefaultEntityManagerFactory">
         <property name="persistenceUnitName" value="Organization"/>
         <property name="persistenceXmlLocation" value="classpath:META-INF/organization-persistence.xml" />
         <property name="dataSource" ref="coreDataSource" />
@@ -151,7 +151,7 @@
     </bean>
 
 	<!-- Atp Service Config -->
-	<bean id="atpEntityManagerFactory" parent="defaultEntityManagerFactory">
+	<bean id="atpEntityManagerFactory" parent="coreDefaultEntityManagerFactory">
         <property name="persistenceUnitName" value="Atp"/>
         <property name="persistenceXmlLocation" value="classpath:META-INF/atp-persistence.xml" />
         <property name="dataSource" ref="coreDataSource" />
@@ -192,7 +192,7 @@
     </bean>
 
 	<!-- Enumeration Service Config -->
-	<bean id="emEntityManagerFactory" parent="defaultEntityManagerFactory">
+	<bean id="emEntityManagerFactory" parent="coreDefaultEntityManagerFactory">
 		<property name="persistenceUnitName" value="EnumerationManagement"/>
 		<property name="persistenceXmlLocation"
 			value="classpath:META-INF/enumeration-persistence.xml" />
@@ -228,7 +228,7 @@
 
     <!-- Comment Service Config -->
 
-	<bean id="commentEntityManagerFactory" parent="defaultEntityManagerFactory">
+	<bean id="commentEntityManagerFactory" parent="coreDefaultEntityManagerFactory">
 		<property name="persistenceUnitName" value="Comment"/>
 		<property name="persistenceXmlLocation"
 			value="classpath:META-INF/comment-persistence.xml" />
@@ -276,7 +276,7 @@
     
     <!-- Document Service Config -->
     
-	<bean id="documentEntityManagerFactory" parent="defaultEntityManagerFactory">
+	<bean id="documentEntityManagerFactory" parent="coreDefaultEntityManagerFactory">
 		<property name="persistenceUnitName" value="Document"/>
 		<property name="persistenceXmlLocation"
 			value="classpath:META-INF/document-persistence.xml" />
@@ -323,7 +323,7 @@
     </bean>
 
 	<!-- Message service config -->
-	<bean id="messageEntityManagerFactory" parent="defaultEntityManagerFactory">
+	<bean id="messageEntityManagerFactory" parent="coreDefaultEntityManagerFactory">
 		<property name="persistenceUnitName" value="MessageManagement"/>
 		<property name="persistenceXmlLocation"
 			value="classpath:META-INF/messages-persistence.xml" />
@@ -358,7 +358,7 @@
     </bean>
 
     <!-- Proposal Service -->
-    <bean id="proposalEntityManagerFactory" parent="defaultEntityManagerFactory">
+    <bean id="proposalEntityManagerFactory" parent="coreDefaultEntityManagerFactory">
         <property name="persistenceUnitName" value="Proposal"/>
         <property name="persistenceXmlLocation"
             value="classpath:META-INF/proposal-persistence.xml" />
