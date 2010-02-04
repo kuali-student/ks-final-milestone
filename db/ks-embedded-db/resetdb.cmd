@@ -1,1 +1,1 @@
-call mvn -o process-sources
+call mvn -o -Dretain.existing.data=false process-sources
