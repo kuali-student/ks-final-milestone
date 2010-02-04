@@ -13,6 +13,9 @@
     <modules>
         <module>ks-embedded-db</module>
     </modules>
+    <properties>
+     <retain.existing.data>true</retain.existing.data>
+    </properties>
     <build>
       <plugins>
         <plugin>
@@ -34,6 +37,7 @@
           <delimiter>/</delimiter>
           <delimiterType>row</delimiterType>
           <onError>continue</onError>
+          <skip>${retain.existing.data}</skip>
          </configuration>
          <executions>
            <execution>
