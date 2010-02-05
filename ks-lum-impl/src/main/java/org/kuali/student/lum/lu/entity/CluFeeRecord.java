@@ -50,7 +50,7 @@ public class CluFeeRecord extends MetaEntity implements
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<CluFeeRecordAttribute> attributes;
 
-	@ManyToMany
+	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "KSLU_CLU_FEEREC_JN_AFFIL_ORG", joinColumns = @JoinColumn(name = "CLU_FEE_REC_ID"), inverseJoinColumns = @JoinColumn(name = "AFFIL_ORG_ID"))
 	private List<AffiliatedOrg> affiliatedOrgs;
 

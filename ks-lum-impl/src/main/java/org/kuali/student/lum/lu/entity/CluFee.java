@@ -41,7 +41,7 @@ public class CluFee extends MetaEntity implements
 	@Column(name = "ID")
 	private String id;
 
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "KSLU_CLU_FEE_JN_CLU_FEE_REC", joinColumns = @JoinColumn(name = "CLU_FEE_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_FEE_REC_ID"))
 	private List<CluFeeRecord> cluFeeRecords;
 
