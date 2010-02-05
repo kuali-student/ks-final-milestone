@@ -32,6 +32,7 @@ import org.kuali.student.core.organization.ui.client.mvc.model.SectionViewInfo;
 import org.kuali.student.core.organization.ui.client.mvc.view.OrgConfigurerFactory.OrgSections;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
+import org.kuali.student.core.organization.ui.client.view.OrgLocateTree;
 import org.kuali.student.core.organization.ui.client.view.OrgUpdatePanel;
 
 import com.google.gwt.core.client.GWT;
@@ -110,6 +111,9 @@ public class CommonConfigurer {
 //                                widget = new OrgUpdatePanel();
                                 widget = getOrgAdvanceSearch();
                             }
+                            if (field.getWidget().equals("OrgLocateTree")) {
+                                widget = new OrgLocateTree();
+                            }
 
                         }
                         addField(orgInfo, field.getKey(), getLabel(field.getLabel()), widget);
@@ -166,9 +170,10 @@ public class CommonConfigurer {
         addField(section, fieldKey, fieldLabel, widget, null);
     }
     private void addField(Section section, String fieldKey, String fieldLabel, Widget widget, String parentPath) {
-        Metadata meta = modelDefinition.getMetadata(QueryPath.concat(parentPath, fieldKey));
+        QueryPath path = QueryPath.concat(parentPath, fieldKey);
+        Metadata meta = modelDefinition.getMetadata(path);
         
-        FieldDescriptor fd = new FieldDescriptor(fieldKey, fieldLabel, meta);
+        FieldDescriptor fd = new FieldDescriptor(path.toString(), fieldLabel, meta);
         if (widget != null) {
             fd.setFieldWidget(widget);
         }
@@ -189,7 +194,7 @@ public class CommonConfigurer {
         
         public CommonMultiplicityList(String addItemLabel, String itemLabel,List<FieldInfo> fieldList,String parentPath)
         {
-        	super(StyleType.SUB_LEVEL);
+        	super(StyleType.TOP_LEVEL);
             setAddItemLabel(getLabel(addItemLabel));
             setItemLabel(getLabel(itemLabel));
             this.fieldList=fieldList;
@@ -242,8 +247,8 @@ public class CommonConfigurer {
                     adminDepPicker.getSuggestBox().setText(results.get(0).getDisplayKey());
                     adminDepPicker.getSuggestBox().setValue(results.get(0).getReturnKey());
                     orgSearchWindow.hide();
-                }                
-            }            
+                }
+            }
         });               
         return adminDepPicker;
     }

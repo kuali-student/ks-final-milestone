@@ -39,8 +39,7 @@
 	</bean>
 	<bean id="constraint.single" parent="constraint">
 		<property name="id" value="single" />
-		<property name="messageId"
-			value="kuali.msg.validation.single&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;" />
+		<property name="messageId" value="kuali.msg.validation.single" />
 		<property name="desc" value="Single valued (non-repeating)" />
 		<property name="serverSide" value="false" />
 		<property name="maxOccurs" value="1" />
@@ -61,6 +60,13 @@
 		<property name="minOccurs" value="0" />
 		<property name="comments"
 			value="Used to override a previous required constraint.  Also implied by the absence of a required constraint" />
+	</bean>
+	<bean id="constraint.required" parent="constraint">
+		<property name="id" value="required" />
+		<property name="messageId" value="kuali.msg.validation.required" />
+		<property name="desc" value="Required" />
+		<property name="serverSide" value="false" />
+		<property name="minOccurs" value="1" />
 	</bean>
 	
 	<!--Lookup Parameter definitions	-->
@@ -360,6 +366,7 @@
 					<property name="constraints">
 						<list>
 							<ref bean="constraint.single" />
+							<ref bean="constraint.required" />
 						</list>
 					</property>
 				</bean>
@@ -372,6 +379,7 @@
 					<property name="constraints">
 						<list>
 							<ref bean="constraint.single" />
+							<ref bean="constraint.required" />
 						</list>
 					</property>
 				</bean>
@@ -427,6 +435,7 @@
 					<property name="constraints">
 						<list>
 							<ref bean="constraint.single" />
+							<ref bean="constraint.required" />
 						</list>
 					</property>
 				</bean>
@@ -520,30 +529,53 @@
 					<property name="writeAccess" value="ALWAYS" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+						<ref bean="constraint.single" />
+						</list>
+					</property>		
 				</bean>
 				<bean parent="dataFieldDescriptor">
 					<property name="name" value="longName" />
 					<property name="writeAccess" value="ALWAYS" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+						<ref bean="constraint.single" />
+						<ref bean="constraint.required" />
+						</list>
+					</property>		
 				</bean>
 				<bean parent="dataFieldDescriptor">
 					<property name="name" value="type" />
 					<property name="writeAccess" value="ALWAYS" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+						<ref bean="constraint.single" />
+						<ref bean="constraint.required" />
+						</list>
+					</property>					
 				</bean>
 				<bean parent="dataFieldDescriptor">
 					<property name="name" value="shortDesc" />
 					<property name="writeAccess" value="ALWAYS" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataType" value="STRING" />
+
 				</bean>
 				<bean parent="dataFieldDescriptor">
 					<property name="name" value="shortName" />
 					<property name="writeAccess" value="ALWAYS" />
 					<property name="onChangeRefreshMetadata" value="false" />
 					<property name="dataType" value="STRING" />
+					<property name="constraints">
+						<list>
+						<ref bean="constraint.single" />
+						</list>
+					</property>		
 				</bean>
 				<bean parent="dataFieldDescriptor">
 					<property name="name" value="_runtimeData" />

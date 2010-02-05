@@ -45,13 +45,15 @@ import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.search.newdto.SearchRequest;
 import org.kuali.student.core.search.newdto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional(rollbackFor={Throwable.class})
 public class OrgProposalAssembler implements Assembler<Data, OrgHelper>{
     
     private OrganizationService orgService;
     private MetadataServiceImpl metadataService;
-    public static final String PROPOSAL_TYPE_CREATE_ORG = "kuali.proposal.type.org.create";
-    public static final String ORG_PROPOSAL_DATA_TYPE = "OrgProposal";
+    public static  String PROPOSAL_TYPE_CREATE_ORG = "kuali.proposal.type.org.create";
+    public static  String ORG_PROPOSAL_DATA_TYPE = "OrgProposal";
 
     public OrgProposalAssembler(){
 

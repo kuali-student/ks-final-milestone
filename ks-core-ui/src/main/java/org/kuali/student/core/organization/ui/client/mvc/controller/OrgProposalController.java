@@ -4,15 +4,20 @@ package org.kuali.student.core.organization.ui.client.mvc.controller;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.event.ModifyActionEvent;
 import org.kuali.student.common.ui.client.event.ModifyActionHandler;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionHandler;
+import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
+import org.kuali.student.common.ui.client.event.ValidateRequestHandler;
+import org.kuali.student.common.ui.client.event.ValidateResultEvent;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.mvc.ModelProvider;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.WorkQueue;
@@ -36,6 +41,10 @@ import org.kuali.student.core.organization.ui.client.mvc.view.OrgConfigurerFacto
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 import org.kuali.student.core.organization.ui.client.mvc.model.SectionConfigInfo;
+import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
+
+
 
 
 
@@ -64,7 +73,67 @@ public class OrgProposalController extends TabbedSectionLayout{
         super(OrgProposalController.class.getName(), container);
         
 //        super.initWidget(container);
-//        init();
+        initialize();
+    }
+    
+    private void initialize() {
+        super.setDefaultModelId(CommonConfigurer.ORG_PROPOSAL_MODEL);
+        super.registerModel(CommonConfigurer.ORG_PROPOSAL_MODEL, new ModelProvider<DataModel>() {
+
+            @Override
+            public void requestModel(final ModelRequestCallback<DataModel> callback) {
+                if (modelRequestQueue == null){
+                    modelRequestQueue = new WorkQueue();
+                }
+
+                WorkItem workItem = new WorkItem(){
+                    @Override
+                    public void exec(Callback<Boolean> workCompleteCallback) {
+//                        if (cluProposalModel.getRoot() == null || cluProposalModel.getRoot().size() == 0){
+//                            if(docId!=null){
+//                                getCluProposalFromWorkflowId(callback, workCompleteCallback);
+//                            } else if (proposalId != null){
+//                                getCluProposalFromProposalId(callback, workCompleteCallback);
+//                            } else{
+//                                createNewCluProposalModel(callback, workCompleteCallback);
+//                            }                
+//                        } else {
+//                            callback.onModelReady(cluProposalModel);
+//                            workCompleteCallback.exec(true);
+//                        }
+                    }               
+                };
+                modelRequestQueue.submit(workItem);
+                
+            }
+            
+        });
+        super.addApplicationEventHandler(ValidateRequestEvent.TYPE, new ValidateRequestHandler() {
+
+            @Override
+            public void onValidateRequest(ValidateRequestEvent event) {
+                requestModel(new ModelRequestCallback<DataModel>() {
+                    @Override
+                    public void onModelReady(DataModel model) {
+                        model.validate(new Callback<List<ValidationResultContainer>>() {
+                            @Override
+                            public void exec(List<ValidationResultContainer> result) {
+                                ValidateResultEvent e = new ValidateResultEvent();
+                                e.setValidationResult(result);
+                                fireApplicationEvent(e);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onRequestFail(Throwable cause) {
+                        GWT.log("Unable to retrieve model for validation", cause);
+                    }
+                    
+                });
+            }
+            
+        });
     }
     
     private KSButton getSaveButton(){
@@ -82,6 +151,8 @@ public class OrgProposalController extends TabbedSectionLayout{
                     }
                 });
     }
+    
+    
     
     private void init(final Callback<Boolean> onReadyCallback){
         KSProgressIndicator progressInd = new KSProgressIndicator();
@@ -189,10 +260,11 @@ public class OrgProposalController extends TabbedSectionLayout{
 	  @SuppressWarnings("unchecked")
 	    @Override
 	    public void requestModel(String modelId, final ModelRequestCallback modelRequestCallback) {
+	      String id = (modelId == null) ? super.getDefaultModelId() : modelId;
 	        if (modelRequestQueue == null){
 	            modelRequestQueue = new WorkQueue();
 	        }
-	        if (modelId.equals(OrgConfigurerFactory.ORG_PROPOSAL_MODEL)){
+	        if (id.equals(OrgConfigurerFactory.ORG_PROPOSAL_MODEL)){
 	            WorkItem workItem = new WorkItem(){
 	                @Override
 	                public void exec(Callback<Boolean> workCompleteCallback) {
@@ -207,7 +279,7 @@ public class OrgProposalController extends TabbedSectionLayout{
 	            };
 	            modelRequestQueue.submit(workItem);
 	        } else{
-	            super.requestModel(modelId, modelRequestCallback);
+	            super.requestModel(id, modelRequestCallback);
 	        }
 	    }
 	  
@@ -221,16 +293,55 @@ public class OrgProposalController extends TabbedSectionLayout{
 
 	    }
 	  
-	    public void doSaveAction(SaveActionEvent saveActionEvent){     
+	    public void doSaveAction(final SaveActionEvent saveActionEvent){     
 	        System.out.println("Reached save action");
 	        
 	        View tempView2 = getView(CommonConfigurer.SectionsEnum.ORG_INFO);
 	        tempView2.updateModel();
             getCurrentView().updateModel();
             
-            System.out.println(" model updated ");
-            saveProposalOrg(saveActionEvent);
-            System.out.println("Reached summit 1 ");
+            
+            
+            requestModel(new ModelRequestCallback<DataModel>() {
+                @Override
+                public void onModelReady(DataModel model) {
+                    model.validate(new Callback<List<ValidationResultContainer>>() {
+
+                        @Override
+                        public void exec(List<ValidationResultContainer> result) {
+                            boolean save = true;
+                                View v = getCurrentView();
+                                if(v instanceof Section){
+                                    ((Section) v).setFieldHasHadFocusFlags(true);
+                                    ErrorLevel status = ((Section) v).processValidationResults(result);
+                                    if(status == ErrorLevel.ERROR){
+                                        save = false;
+                                    }
+                                }
+                                
+                                if(save){
+                                    System.out.println(" model updated ");
+                                    saveProposalOrg(saveActionEvent);
+                                    System.out.println("Reached summit 1 ");
+                                }
+                        }
+                    
+                    });
+                }
+
+                @Override
+                public void onRequestFail(Throwable cause) {
+                    GWT.log("Unable to retrieve model for validation and save", cause);
+                    
+                }
+            });
+            
+            
+            
+            
+            
+            
+
 //            this.updateModel();
 //	        String proposalName = cluProposalModel.get().get(CLU_PROPOSAL_NAME_KEY);
 //	        currentSaveEvent = saveActionEvent;

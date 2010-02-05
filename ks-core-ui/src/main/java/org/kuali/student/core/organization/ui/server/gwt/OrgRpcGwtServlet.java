@@ -524,10 +524,11 @@ public class OrgRpcGwtServlet extends BaseRpcGwtServletAbstract<OrganizationServ
     private synchronized void initAssemblers() {
         if (orgProposalAssembler == null) {
             orgProposalAssembler = new OrgProposalAssembler();
+        }            
             orgProposalAssembler.setOrgService(service);
             MetadataServiceImpl metadataServiceImpl = new MetadataServiceImpl("/org-orchestration-dictionary.xml");
             
-        }
+
     }
     
 // TODO rewrite this method to use the metadata structures from the assembler
@@ -590,7 +591,7 @@ public class OrgRpcGwtServlet extends BaseRpcGwtServletAbstract<OrganizationServ
 
     @Override
     public SectionConfigInfo getSectionConfig() {
-        // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
+        // Move this into Common UI
         SectionConfigInfo sectionConfigInfo = new SectionConfigInfo();
         String packageName = SectionConfig.class.getPackage().getName();
         JAXBContext jc;
