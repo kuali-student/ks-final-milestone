@@ -191,6 +191,7 @@ public class LoRpcGwtServlet extends BaseRpcGwtServletAbstract<LearningObjective
     @Override
     public LoCategoryInfo updateLoCategory(String loCategoryId, LoCategoryInfo loCategoryInfo) {
         try {
+            
             return service.updateLoCategory(loCategoryId, loCategoryInfo);
 
             } catch (InvalidParameterException e) {
@@ -210,7 +211,24 @@ public class LoRpcGwtServlet extends BaseRpcGwtServletAbstract<LearningObjective
             }
             return null;
     }
-
+    @Override
+    public List<LoInfo> getLosByLoCategory(String loCategoryId){
+        try {
+            return service.getLosByLoCategory(loCategoryId);
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    
+    
 }
 
 

@@ -32,6 +32,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public interface LoRpcServiceAsync extends BaseRpcServiceAsync{
     public void getLoByIdList(List<String> loId,  AsyncCallback<List<LoInfo>> callback);
+    public void getLosByLoCategory(String loCategoryId,  AsyncCallback<List<LoInfo>> callback);
+    
     public void  updateLoCategory(String loCategoryId, LoCategoryInfo loCategoryInfo,AsyncCallback<LoCategoryInfo> callback);
     public void  deleteLoCategory(String loCategoryId,AsyncCallback<StatusInfo> callback);
     

@@ -18,10 +18,11 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSLightBox;
+import org.kuali.student.lum.lu.ui.course.client.widgets.CategoryManagement;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
 import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
 
-import com.google.gwt.dom.client.HRElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
@@ -31,7 +32,6 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -45,6 +45,7 @@ public class CreateCreditCoursePanel extends ViewComposite{
     private KSButton selectTemplate = new KSButton("Select Proposal Template");
     private KSButton copyProposal = new KSButton("Copy Course Proposal");
     private KSButton copyCourse = new KSButton("Copy Existing Course");
+    private KSButton categoryManagement = new KSButton("Category Management");
     
     private ButtonEventHandler handler = new ButtonEventHandler();
     
@@ -112,18 +113,29 @@ public class CreateCreditCoursePanel extends ViewComposite{
         mainPanel.add(new ButtonRow(copyProposal, "Create a proposal by copying an existing course proposal."));
         copyProposal.addClickHandler(handler);
         mainPanel.add(new ButtonRow(copyCourse, "Create a proposal by copying an existing course."));
+
+        mainPanel.add(new ButtonRow(categoryManagement, "Manage the category"));
+        categoryManagement.addClickHandler(new ClickHandler(){
+            @Override
+            public void onClick(ClickEvent event) {
+                KSLightBox pop = new KSLightBox();
+                pop.setWidget(new CategoryManagement());
+                pop.show();
+            }
+        });
+        
         copyCourse.addClickHandler(handler);
         Hyperlink helpMeDecide = new Hyperlink("Help Me Decide", "HelpMe");
         helpMeDecide.addStyleName("Home-Small-Hyperlink");
         helpMeDecide.addStyleName("Content-Left-Margin");
         helpMeDecide.addClickHandler(new ClickHandler(){
-
             @Override
             public void onClick(ClickEvent event) {
                 Window.alert("Function not yet implemented.");                
             }
         });
         mainPanel.add(helpMeDecide);
+
         this.initWidget(mainPanel);
     }
 }

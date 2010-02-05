@@ -43,4 +43,6 @@ public interface LoRpcService extends BaseRpcService {
     public LoCategoryInfo getLoCategory(String loCategoryId);
     
     public LoCategoryTypeInfo getLoCategoryType(String loCategoryTypeKey);
+    
+    public List<LoInfo> getLosByLoCategory(String loCategoryId);
 }
