@@ -246,7 +246,9 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
             @Override
             public void onValidateResult(ValidateResultEvent event) {
                List<ValidationResultContainer> list = event.getValidationResult();
-               startSectionView.processValidationResults(list);
+               if(startSectionView!=null){
+                   startSectionView.processValidationResults(list);
+               }
             }
         });
 	}
