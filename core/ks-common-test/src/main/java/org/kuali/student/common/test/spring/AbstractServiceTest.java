@@ -17,7 +17,7 @@ package org.kuali.student.common.test.spring;
 import org.junit.runner.RunWith;
 
 /**
- * This test will start a jetty server and deploy the service define in the
+ * This test will start a jetty server and deploy the service defined in the
  * &#064;Client. It will also initialize a client based on the annotations in
  * the &#064;Client Service implementation class. Also passes the &#064;Daos and
  * &#064;PersistenceFileLocation to system properties from the annotations.
