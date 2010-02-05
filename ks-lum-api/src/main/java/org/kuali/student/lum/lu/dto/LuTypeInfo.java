@@ -16,6 +16,7 @@ package org.kuali.student.lum.lu.dto;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 
 import org.kuali.student.core.dto.TypeInfo;
 
@@ -27,6 +28,27 @@ public class LuTypeInfo extends TypeInfo{
 
     private static final long serialVersionUID = 1L;
 
+    @XmlElement
+    private String instructionalFormat;
+
+    @XmlElement
+    private String deliveryMethod;
+    
+	public String getInstructionalFormat() {
+		return instructionalFormat;
+	}
+
+	public void setInstructionalFormat(String instructionalFormat) {
+		this.instructionalFormat = instructionalFormat;
+	}
+
+	public String getDeliveryMethod() {
+		return deliveryMethod;
+	}
+
+	public void setDeliveryMethod(String deliveryMethod) {
+		this.deliveryMethod = deliveryMethod;
+	}
 
 	@Override
 	public String toString() {

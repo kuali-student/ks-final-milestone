@@ -169,7 +169,6 @@ public class TestLumCopyUtil {
         CluInfo clu1 = new CluInfo();
 
         CluIdentifierInfo idInfo = new CluIdentifierInfo();
-        idInfo.setCluId("CHEM100");
         idInfo.setCode("CHEM100");
         idInfo.setDivision("UGRAD");
         idInfo.setId("1234-dfgh");

@@ -311,7 +311,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		RichTextInfo desc = new RichTextInfo();
 		desc.setFormatted("<p>Formatted Desc</p>");
 		desc.setPlain("plain");
-		cluSetInfo.setDesc(desc);
+		cluSetInfo.setDescr(desc);
 		cluSetInfo.setEffectiveDate(DF.parse("20080101"));
 		cluSetInfo.setExpirationDate(DF.parse("20180101"));
 		cluSetInfo.setName("");

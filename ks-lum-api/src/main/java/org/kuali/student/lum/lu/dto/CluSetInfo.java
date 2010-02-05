@@ -57,6 +57,9 @@ public class CluSetInfo implements Serializable, Idable, HasAttributes {
 //    private CluCriteriaInfo cluCriteria;
 
     @XmlElement
+    private MembershipQueryInfo membershipQuery;
+
+    @XmlElement
     private List<String> cluSetIds;
 
     @XmlElement
@@ -90,7 +93,7 @@ public class CluSetInfo implements Serializable, Idable, HasAttributes {
         return descr;
     }
 
-    public void setDesc(RichTextInfo descr) {
+    public void setDescr(RichTextInfo descr) {
         this.descr = descr;
     }
 
@@ -190,4 +193,12 @@ public class CluSetInfo implements Serializable, Idable, HasAttributes {
     public void setId(String id) {
         this.id = id;
     }
+
+	public MembershipQueryInfo getMembershipQuery() {
+		return membershipQuery;
+	}
+
+	public void setMembershipQuery(MembershipQueryInfo membershipQuery) {
+		this.membershipQuery = membershipQuery;
+	}    
 }

@@ -13,72 +13,92 @@
  * permissions and limitations under the License.
  */
 package org.kuali.student.lum.lu.entity;
- 
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
+import org.kuali.student.core.entity.CurrencyAmount;
+import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
-@Table(name = "KSLU_CLU_ACCT")
-public class CluAccounting implements AttributeOwner<CluAccountingAttribute> {
+@Table(name = "KSLU_CLU_FEE_REC")
+public class CluFeeRecord extends MetaEntity implements
+		AttributeOwner<CluFeeRecordAttribute> {
+	@Id
+	@Column(name = "ID")
+	private String id;
 
-    @Id
-    @Column(name = "ID")
-    private String id;
-    
+	@Column(name = "FEE_TYPE")
+	private String feeType;
+
+    @Embedded
+    private CurrencyAmount currencyAmmount;
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<CluAccountingAttribute> attributes;
+	private List<CluFeeRecordAttribute> attributes;
 
 	@ManyToMany
-	@JoinTable(name = "KSLU_CLU_ACCT_JN_AFFIL_ORG", joinColumns = @JoinColumn(name = "CLU_ACCT_ID"), inverseJoinColumns = @JoinColumn(name = "AFFIL_ORG_ID"))
+	@JoinTable(name = "KSLU_CLU_FEEREC_JN_AFFIL_ORG", joinColumns = @JoinColumn(name = "CLU_FEE_REC_ID"), inverseJoinColumns = @JoinColumn(name = "AFFIL_ORG_ID"))
 	private List<AffiliatedOrg> affiliatedOrgs;
-	
-	@PrePersist
-	public  void prePersist() {
+
+	@Override
+    public void onPrePersist() {
 		this.id = UUIDHelper.genStringUUID(this.id);
 	}
 	
-    public List<CluAccountingAttribute> getAttributes() {
-        if (attributes == null) {
-            attributes = new ArrayList<CluAccountingAttribute>();
-        }
-        return attributes;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public void setAttributes(List<CluAccountingAttribute> attributes) {
-        this.attributes = attributes;
-    }
-    
-    public String getId() {
-        return id;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public String getFeeType() {
+		return feeType;
+	}
+
+	public void setFeeType(String feeType) {
+		this.feeType = feeType;
+	}
+
+	public CurrencyAmount getCurrencyAmmount() {
+		return currencyAmmount;
+	}
+
+	public void setCurrencyAmmount(CurrencyAmount currencyAmmount) {
+		this.currencyAmmount = currencyAmmount;
+	}
+
+	public List<CluFeeRecordAttribute> getAttributes() {
+		return attributes;
+	}
+
+	public void setAttributes(List<CluFeeRecordAttribute> attributes) {
+		this.attributes = attributes;
+	}
 
 	public List<AffiliatedOrg> getAffiliatedOrgs() {
-		if(null == this.affiliatedOrgs) {
+		if(null == affiliatedOrgs) {
 			this.affiliatedOrgs = new ArrayList<AffiliatedOrg>();
 		}
-		
-		return this.affiliatedOrgs;
+		return affiliatedOrgs;
 	}
 
 	public void setAffiliatedOrgs(List<AffiliatedOrg> affiliatedOrgs) {
 		this.affiliatedOrgs = affiliatedOrgs;
-	}        
+	}
 }

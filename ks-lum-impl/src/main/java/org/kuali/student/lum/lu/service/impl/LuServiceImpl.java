@@ -286,9 +286,10 @@ public class LuServiceImpl implements LuService {
 	public CluResultTypeInfo getCluResultType(String cluResultTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		return LuServiceAssembler.toCluResultTypeInfo(luDao.fetch(CluResultType.class, cluResultTypeKey));
+		return LuServiceAssembler.toCluResultTypeInfo(luDao.fetch(
+				CluResultType.class, cluResultTypeKey));
 	}
-		
+
 	@Override
 	public List<CluResultTypeInfo> getCluResultTypesForLuType(String luTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
@@ -453,7 +454,7 @@ public class LuServiceImpl implements LuService {
 
 		List<Clu> clus = luDao.getClusByRelation(relatedCluId,
 				luLuRelationTypeKey);
-		List<CluInfo> result = LuServiceAssembler.toCluInfos(clus); 
+		List<CluInfo> result = LuServiceAssembler.toCluInfos(clus);
 		return result;
 
 	}
@@ -1008,7 +1009,7 @@ public class LuServiceImpl implements LuService {
 					luDao));
 			BeanUtils.copyProperties(luCodeInfo, luCode, new String[] {
 					"attributes", "metaInfo" });
-            luCode.setDescr(luCodeInfo.getDescr());					
+			luCode.setDescr(luCodeInfo.getDescr());
 			luCode.setClu(clu);
 			luCodes.add(luCode);
 		}
@@ -1024,11 +1025,15 @@ public class LuServiceImpl implements LuService {
 			offeredAtpTypes.add(cluAtpTypeKey);
 		}
 
+		// FEE INFO
 		if (cluInfo.getFeeInfo() != null) {
-			CluFee cluFee = new CluFee();
-			cluFee.setAttributes(LuServiceAssembler.toGenericAttributes(
-					CluFeeAttribute.class,
-					cluInfo.getFeeInfo().getAttributes(), cluFee, luDao));
+			CluFee cluFee = null;
+			try {
+				cluFee = LuServiceAssembler.toCluFee(false, cluInfo
+						.getFeeInfo(), luDao);
+			} catch (VersionMismatchException e) {
+				// Version Mismatch Should Happen only for updates
+			}
 			clu.setFee(cluFee);
 		}
 
@@ -1037,6 +1042,10 @@ public class LuServiceImpl implements LuService {
 			cluAccounting.setAttributes(LuServiceAssembler.toGenericAttributes(
 					CluAccountingAttribute.class, cluInfo.getAccountingInfo()
 							.getAttributes(), cluAccounting, luDao));
+			cluAccounting.setAffiliatedOrgs(LuServiceAssembler
+					.toAffiliatedOrgs(false, cluAccounting.getAffiliatedOrgs(),
+							cluInfo.getAccountingInfo().getAffiliatedOrgs(),
+							luDao));
 			clu.setAccounting(cluAccounting);
 		}
 
@@ -1087,11 +1096,11 @@ public class LuServiceImpl implements LuService {
 		// Now copy all not standard properties
 		BeanUtils.copyProperties(cluInfo, clu, new String[] { "luType",
 				"officialIdentifier", "alternateIdentifiers", "descr",
-				 "luCodes", "primaryInstructor",
-				"instructors", "stdDuration", "offeredAtpTypes",
-				"feeInfo", "accountingInfo", "attributes", "metaInfo",
-				"academicSubjectOrgs", "intensity", "campusLocations",
-				"accreditations", "primaryAdminOrg", "alternateAdminOrgs" });
+				"luCodes", "primaryInstructor", "instructors", "stdDuration",
+				"offeredAtpTypes", "feeInfo", "accountingInfo", "attributes",
+				"metaInfo", "academicSubjectOrgs", "intensity",
+				"campusLocations", "accreditations", "primaryAdminOrg",
+				"alternateAdminOrgs" });
 
 		luDao.create(clu);
 
@@ -1269,7 +1278,7 @@ public class LuServiceImpl implements LuService {
 					luDao));
 			BeanUtils.copyProperties(luCodeInfo, luCode, new String[] {
 					"attributes", "metaInfo" });
-            luCode.setDescr(luCodeInfo.getDescr());
+			luCode.setDescr(luCodeInfo.getDescr());
 			luCode.setClu(clu);
 			clu.getLuCodes().add(luCode);
 		}
@@ -1312,12 +1321,12 @@ public class LuServiceImpl implements LuService {
 
 		if (cluInfo.getFeeInfo() != null) {
 			if (clu.getFee() == null) {
-				clu.setFee(new CluFee());
+				clu.setFee(LuServiceAssembler.toCluFee(false, cluInfo
+						.getFeeInfo(), luDao));
+			} else {
+				clu.setFee(LuServiceAssembler.toCluFee(true, cluInfo
+						.getFeeInfo(), luDao));
 			}
-			clu.getFee().setAttributes(
-					LuServiceAssembler.toGenericAttributes(
-							CluFeeAttribute.class, cluInfo.getFeeInfo()
-									.getAttributes(), clu.getFee(), luDao));
 		} else if (clu.getFee() != null) {
 			luDao.delete(clu.getFee());
 		}
@@ -1331,6 +1340,11 @@ public class LuServiceImpl implements LuService {
 							CluAccountingAttribute.class, cluInfo
 									.getAccountingInfo().getAttributes(), clu
 									.getAccounting(), luDao));
+			clu.getAccounting().setAffiliatedOrgs(LuServiceAssembler
+					.toAffiliatedOrgs(true, clu.getAccounting().getAffiliatedOrgs(),
+							cluInfo.getAccountingInfo().getAffiliatedOrgs(),
+							luDao));
+			
 		} else if (clu.getAccounting() != null) {
 			luDao.delete(clu.getAccounting());
 		}
@@ -1489,12 +1503,12 @@ public class LuServiceImpl implements LuService {
 
 		// Now copy all not standard properties
 		BeanUtils.copyProperties(cluInfo, clu, new String[] { "luType",
-                "officialIdentifier", "alternateIdentifiers", "descr",
-                 "luCodes", "primaryInstructor",
-                "instructors", "stdDuration", "offeredAtpTypes",
-                "feeInfo", "accountingInfo", "attributes", "metaInfo",
-                "academicSubjectOrgs", "intensity", "campusLocations",
-                "accreditations", "primaryAdminOrg", "alternateAdminOrgs" });
+				"officialIdentifier", "alternateIdentifiers", "descr",
+				"luCodes", "primaryInstructor", "instructors", "stdDuration",
+				"offeredAtpTypes", "feeInfo", "accountingInfo", "attributes",
+				"metaInfo", "academicSubjectOrgs", "intensity",
+				"campusLocations", "accreditations", "primaryAdminOrg",
+				"alternateAdminOrgs" });
 		Clu updated = null;
 		try {
 			updated = luDao.update(clu);
@@ -1967,13 +1981,15 @@ public class LuServiceImpl implements LuService {
 
 		CluSet cluSet = new CluSet();
 		BeanUtils.copyProperties(cluSetInfo, cluSet, new String[] { "id",
-				"descr", "name", "attributes", "metaInfo" });
+				"descr", "name", "attributes", "metaInfo", "membershipQuery" });
 		cluSet.setAttributes(LuServiceAssembler.toGenericAttributes(
 				CluSetAttribute.class, cluSetInfo.getAttributes(), cluSet,
 				luDao));
 		cluSet.setName(cluSetName);
 		cluSet.setDescr(LuServiceAssembler.toRichText(cluSetInfo.getDescr()));
 
+		// TODO: set membership query information based on how the queryparamvalue is to be persisted
+		
 		for (String cluId : cluSetInfo.getCluIds()) {
 			cluSet.getClus().add(luDao.fetch(Clu.class, cluId));
 		}
@@ -2045,6 +2061,8 @@ public class LuServiceImpl implements LuService {
 			}
 		}
 
+		// TODO: set membership query information based on how the queryparamvalue is to be persisted
+		
 		BeanUtils.copyProperties(cluSetInfo, cluSet, new String[] { "descr",
 				"attributes", "metaInfo" });
 		cluSet.setAttributes(LuServiceAssembler.toGenericAttributes(

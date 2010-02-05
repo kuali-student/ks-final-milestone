@@ -12,6 +12,7 @@
 		<class>org.kuali.student.core.entity.TimeAmount</class>
 		<class>org.kuali.student.core.entity.Amount</class>
 
+		<class>org.kuali.student.lum.lu.entity.AffiliatedOrg</class>
 		<class>org.kuali.student.lum.lu.entity.AllowedCluLoRelationType</class>
 		<class>org.kuali.student.lum.lu.entity.AllowedCluResultLuType</class>		
 		<class>org.kuali.student.lum.lu.entity.AllowedLuLuRelationType</class>				
@@ -33,6 +34,8 @@
 		<class>org.kuali.student.lum.lu.entity.CluCredit</class>
 		<class>org.kuali.student.lum.lu.entity.CluFee</class>
 		<class>org.kuali.student.lum.lu.entity.CluFeeAttribute</class>
+		<class>org.kuali.student.lum.lu.entity.CluFeeRecord</class>
+		<class>org.kuali.student.lum.lu.entity.CluFeeRecordAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.CluIdentifier</class>
 		<class>org.kuali.student.lum.lu.entity.CluInstructor</class>
 		<class>org.kuali.student.lum.lu.entity.CluInstructorAttribute</class>
