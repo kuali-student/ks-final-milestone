@@ -202,9 +202,9 @@ public class DynamicTableImplDefault<T> extends Composite implements Focusable, 
 	private class ColumnHeaderWidget extends Composite {
 		private final HorizontalPanel panel = new HorizontalPanel();
 		private final FlowPanel iconPanel = new FlowPanel();
-		private final Image arrowDown = Theme.INSTANCE.getTableImages().getSortArrowDown();
-		private final Image arrowUp = Theme.INSTANCE.getTableImages().getSortArrowUp();
-		private final Image arrowUnsorted = Theme.INSTANCE.getTableImages().getSortArrowUnsorted();
+		private final Image arrowDown = new Image();//Theme.INSTANCE.getTableImages().getSortArrowDown();
+		private final Image arrowUp = new Image();//Theme.INSTANCE.getTableImages().getSortArrowUp();
+		private final Image arrowUnsorted = new Image();//Theme.INSTANCE.getTableImages().getSortArrowUnsorted();
 
 		private final Widget widget;
 
@@ -1038,14 +1038,14 @@ public class DynamicTableImplDefault<T> extends Composite implements Focusable, 
 					}
 				}
 			});
-			if (topImagePanel.getWidgetCount() == 0) {
-				spinnerTop = Theme.INSTANCE.getTableImages().getBusySpinner();
-				spinnerTop.setVisible(false);
-				topImagePanel.add(optionsTop);
-				topImagePanel.add(spinnerTop);
-			}
+//			if (topImagePanel.getWidgetCount() == 0) {
+				//spinnerTop = Theme.INSTANCE.getTableImages().getBusySpinner();
+				//spinnerTop.setVisible(false);
+	//			topImagePanel.add(optionsTop);
+		//		topImagePanel.add(spinnerTop);
+			//}
 		}
-
+/*
 		if (definition.isShowFooter()) {
 			optionsBottom = Theme.INSTANCE.getTableImages().getOptionsButton();
 
@@ -1075,7 +1075,7 @@ public class DynamicTableImplDefault<T> extends Composite implements Focusable, 
 				bottomImagePanel.add(spinnerBottom);
 			}
 		}
-
+*/
 		buildTable();
 		if (isAttached()) {
 			model.refresh();
@@ -1147,7 +1147,7 @@ public class DynamicTableImplDefault<T> extends Composite implements Focusable, 
 		for (int row = bodyRange.getStartRow(); row < bodyRange.getIteratorEndRow(); row++) {
 			grid.getRowFormatter().setVisible(row, false);
 		}
-		setNoRecordsIndicatorText(Theme.INSTANCE.getTableMessages().getNoRecordsFound(), true);
+//		setNoRecordsIndicatorText(Theme.INSTANCE.getTableMessages().getNoRecordsFound(), true);
 	}
 
 	protected void toggleSelected(final int row) {

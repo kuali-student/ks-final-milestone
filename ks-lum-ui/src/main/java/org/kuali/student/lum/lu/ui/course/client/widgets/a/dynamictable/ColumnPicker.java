@@ -34,7 +34,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import org.kuali.student.lum.lu.ui.course.client.widgets.a.common.LightBox;
-import org.kuali.student.lum.lu.ui.course.client.widgets.a.themes.Theme;
+//import org.kuali.student.lum.lu.ui.course.client.widgets.a.themes.Theme;
 import org.kuali.student.lum.lu.ui.course.client.widgets.a.util.Callback;
 import org.kuali.student.lum.lu.ui.course.client.widgets.a.util.StyleEnum;
 
@@ -103,8 +103,8 @@ public class ColumnPicker<T> {
 		final VerticalPanel columnList = new VerticalPanel();
 		final Label instr = new Label(instructions);
 		final HorizontalPanel buttons = new HorizontalPanel();
-		final Hyperlink selectAll = new Hyperlink(Theme.INSTANCE.getTableMessages().getSelectAll(), "");
-		final Label mustSelectOne = new Label(Theme.INSTANCE.getTableMessages().getMustSelectAtLeastOneColumn());
+		final Hyperlink selectAll = new Hyperlink("SelectAll", "");
+		final Label mustSelectOne = new Label("MustSelectAtLeastOneColumn");
 
 		final Map<CheckBox, ColumnDefinition<T>> map = new HashMap<CheckBox, ColumnDefinition<T>>();
 		for (final ColumnDefinition<T> col : columns) {
@@ -115,7 +115,7 @@ public class ColumnPicker<T> {
 			map.put(check, col);
 		}
 
-		final Button ok = new Button(Theme.INSTANCE.getCommonMessages().getOK(), new ClickHandler() {
+		final Button ok = new Button("OK", new ClickHandler() {
 			@Override
 			public void onClick(final ClickEvent event) {
 				selection.clear();
@@ -138,7 +138,7 @@ public class ColumnPicker<T> {
 				}
 			}
 		});
-		final Button cancel = new Button(Theme.INSTANCE.getCommonMessages().getCancel(), new ClickHandler() {
+		final Button cancel = new Button("Cancel", new ClickHandler() {
 			@Override
 			public void onClick(final ClickEvent event) {
 				box.hide();

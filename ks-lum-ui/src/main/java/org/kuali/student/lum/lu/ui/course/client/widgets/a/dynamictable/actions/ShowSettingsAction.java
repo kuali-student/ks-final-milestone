@@ -55,7 +55,7 @@ public class ShowSettingsAction<T> implements ActionHandler<T> {
 				cols.add(col);
 			}
 		}
-		final ColumnPicker<T> picker = new ColumnPicker<T>(cols, Theme.INSTANCE
+/*		final ColumnPicker<T> picker = new ColumnPicker<T>(cols, Theme.INSTANCE
 				.getTableMessages().getSelectColumns(),
 				new ColumnPicker.IsSelectedAdapter<T>() {
 			@Override
@@ -75,6 +75,7 @@ public class ShowSettingsAction<T> implements ActionHandler<T> {
 				}
 			}
 		});
+*/
 	}
 
 }

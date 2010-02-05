@@ -40,7 +40,6 @@ import com.google.gwt.user.client.ui.Widget;
 import org.kuali.student.lum.lu.ui.course.client.widgets.a.common.events.ScrollEvent;
 import org.kuali.student.lum.lu.ui.course.client.widgets.a.common.events.ScrollHandler;
 import org.kuali.student.lum.lu.ui.course.client.widgets.a.common.events.ScrollEvent.ScrollEventType;
-import org.kuali.student.lum.lu.ui.course.client.widgets.a.themes.Theme;
 import org.kuali.student.lum.lu.ui.course.client.widgets.a.util.A11y;
 import org.kuali.student.lum.lu.ui.course.client.widgets.a.util.Elements;
 import org.kuali.student.lum.lu.ui.course.client.widgets.a.util.StyleEnum;

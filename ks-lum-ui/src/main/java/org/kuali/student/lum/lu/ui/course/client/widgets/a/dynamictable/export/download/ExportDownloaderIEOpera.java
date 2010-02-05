@@ -41,15 +41,15 @@ public class ExportDownloaderIEOpera implements ExportDownloader {
 	@Override
 	public void download(final String url) {
 		final LightBox box = new LightBox(RootPanel.get());
-		final ExportMessages msg = Theme.INSTANCE.getExportMessages();
+		//final ExportMessages msg = Theme.INSTANCE.getExportMessages();
 		final String id = HTMLPanel.createUniqueId();
-		final String html = msg.getDownloadIsReadyText() + "<br/><a id='" + id + "' href='" + url
-				+ "' target='_blank'>" + msg.getDownloadLinkText() + "</a>";
+		final String html = "ReadyText<br/><a id='" + id + "' href='" + url
+				+ "' target='_blank'>" + "</a>";
 		final HTMLPanel linkPanel = new HTMLPanel(html);
 		final VerticalPanel panel = new VerticalPanel();
 		panel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		panel.add(linkPanel);
-		panel.add(new Button(msg.getDownloadWindowCloseButtonText(), new ClickHandler() {
+		panel.add(new Button("ButtonText", new ClickHandler() {
 			@Override
 			public void onClick(final ClickEvent arg0) {
 				box.hide();

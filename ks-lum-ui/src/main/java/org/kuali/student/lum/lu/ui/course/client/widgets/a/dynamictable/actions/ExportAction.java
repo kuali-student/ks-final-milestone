@@ -64,10 +64,10 @@ public class ExportAction<T> implements ActionHandler<T> {
 		public FormatSelector(final Callback<ExportFormatDefinition<T>> selectionCallback) {
 			final VerticalPanel panel = new VerticalPanel();
 			final Set<RadioButton> formats = new HashSet<RadioButton>();
-			final Label warning = new Label(Theme.INSTANCE.getExportMessages().getNoOptionSelected());
+			final Label warning = new Label("NoOptionSelected");
 			final HorizontalPanel buttons = new HorizontalPanel();
 
-			panel.add(new Label(Theme.INSTANCE.getExportMessages().getSelectExportFormat()));
+			panel.add(new Label("SelectExportFormat"));
 			for (final String key : supportedFormats.keySet()) {
 				final RadioButton radio = new RadioButton("EXPORT_FORMAT", key);
 				panel.add(radio);
@@ -78,7 +78,7 @@ public class ExportAction<T> implements ActionHandler<T> {
 			warning.setVisible(false);
 			panel.add(warning);
 
-			buttons.add(new Button(Theme.INSTANCE.getCommonMessages().getOK(), new ClickHandler() {
+			buttons.add(new Button("OK", new ClickHandler() {
 				@Override
 				public void onClick(final ClickEvent event) {
 					ExportFormatDefinition<T> selected = null;
@@ -95,7 +95,7 @@ public class ExportAction<T> implements ActionHandler<T> {
 					}
 				}
 			}));
-			buttons.add(new Button(Theme.INSTANCE.getCommonMessages().getCancel(), new ClickHandler() {
+			buttons.add(new Button("Cancel", new ClickHandler() {
 				@Override
 				public void onClick(final ClickEvent event) {
 					selectionCallback.exec(null);
@@ -216,7 +216,7 @@ public class ExportAction<T> implements ActionHandler<T> {
 					// user canceled
 					box.hide();
 				} else {
-					box.setWidget(Theme.INSTANCE.getExportImages().getExportSpinner());
+					//box.setWidget(ExportSpinner());
 
 					final ExportRequestBuilder<T> builder = definition.getBuilder();
 					builder.setTable(table)

@@ -56,7 +56,7 @@ public class Notifier {
 	}
 
 	private class NotificationPanel extends Composite {
-		private final Image close = Theme.INSTANCE.getNotificationImages().getClose();
+		private final Image close = new Image();//Theme.INSTANCE.getNotificationImages().getClose();
 		private final FocusPanel focus = new FocusPanel();
 		private final AbsolutePanel panel = new AbsolutePanel();
 

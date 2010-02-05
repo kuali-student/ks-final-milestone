@@ -34,7 +34,7 @@ import org.kuali.student.lum.lu.ui.course.client.widgets.a.notifications.Notific
  *
  */
 public interface Theme {
-	public static final Theme INSTANCE = GWT.create(Theme.class);
+	//public static final Theme INSTANCE = GWT.create(Theme.class);
 
 	CommonImages getCommonImages();
 

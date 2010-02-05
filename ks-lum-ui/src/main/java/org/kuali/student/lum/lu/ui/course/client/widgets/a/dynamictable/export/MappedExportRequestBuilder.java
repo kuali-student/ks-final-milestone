@@ -82,7 +82,7 @@ public class MappedExportRequestBuilder<T> extends ExportRequestBuilder<T> {
 	protected void showColumnPicker(final ExportRequestBuilder.BuilderCallback<T> callback,
 			final MappedExportRequest<T> request) {
 
-		final ColumnPicker<T> picker = new ColumnPicker<T>(super.getColumns(), Theme.INSTANCE.getExportMessages()
+/*		final ColumnPicker<T> picker = new ColumnPicker<T>(super.getColumns(), Theme.INSTANCE.getExportMessages()
 				.getSelectColumns(),
 				new ColumnPicker.IsSelectedAdapter<T>() {
 			@Override
@@ -109,6 +109,7 @@ public class MappedExportRequestBuilder<T> extends ExportRequestBuilder<T> {
 				}
 			}
 		});
+*/
 	}
 
 }
