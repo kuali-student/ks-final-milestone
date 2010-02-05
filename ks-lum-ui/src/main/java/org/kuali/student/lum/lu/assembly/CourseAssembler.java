@@ -954,7 +954,6 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
         for (Data.Property p : course.getCrossListings()) {
             CreditCourseCrossListingsHelper xListings = CreditCourseCrossListingsHelper.wrap((Data)p.getValue());
             CluIdentifierInfo cluIdentifier = new CluIdentifierInfo();
-            cluIdentifier.setCluId(xListings.getId());
             cluIdentifier.setType("kuali.lu.type.CreditCourse.identifier.cross-listed");
             cluIdentifier.setOrgId(xListings.getDepartment());
             cluIdentifier.setDivision(xListings.getSubjectArea());
@@ -988,7 +987,6 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
         for (Data.Property p : course.getVersions()) {
             CreditCourseVersionsHelper versions = CreditCourseVersionsHelper.wrap((Data)p.getValue());
             CluIdentifierInfo cluIdentifier = new CluIdentifierInfo();
-            cluIdentifier.setCluId(versions.getId());
             cluIdentifier.setType("kuali.lu.type.CreditCourse.identifier.version");
             cluIdentifier.setLongName(versions.getVersionTitle());
             cluIdentifier.setVariation(versions.getVersionCode());

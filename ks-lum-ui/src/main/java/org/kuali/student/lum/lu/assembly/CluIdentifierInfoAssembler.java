@@ -23,7 +23,6 @@ public class CluIdentifierInfoAssembler implements Assembler<Data, CluIdentifier
 			return null;
 		}
 		CluIdentifierInfoHelper result = CluIdentifierInfoHelper.wrap(new Data());
-		result.setId(input.getCluId());
 		result.setCode(input.getCode());
 		result.setDivision(input.getDivision());
 		result.setId(input.getId());
@@ -46,7 +45,6 @@ public class CluIdentifierInfoAssembler implements Assembler<Data, CluIdentifier
 		}
 		CluIdentifierInfo result = new CluIdentifierInfo();
 		CluIdentifierInfoHelper hlp = CluIdentifierInfoHelper.wrap(input);
-		result.setCluId(hlp.getId());
 		result.setCode(hlp.getCode());
 		result.setDivision(hlp.getDivision());
 		result.setId(hlp.getId());
