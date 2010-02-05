@@ -16,6 +16,8 @@
 package org.kuali.student.dictionary.model;
 
 import java.io.Serializable;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Models the type object in the spreadsheets
@@ -228,6 +230,46 @@ public class Type implements Serializable
  public void setComments (String comments)
  {
   this.comments = comments;
+ }
+
+ private Map<String, String> attributes;
+
+ public Map<String, String> getAttributes ()
+ {
+  if (attributes == null)
+  {
+   attributes = new LinkedHashMap ();
+  }
+  return attributes;
+ }
+
+ public void setAttributes (Map<String, String> attributes)
+ {
+  this.attributes = attributes;
+ }
+
+ private String effectiveDate;
+
+ public String getEffectiveDate ()
+ {
+  return effectiveDate;
+ }
+
+ public void setEffectiveDate (String effectiveDate)
+ {
+  this.effectiveDate = effectiveDate;
+ }
+
+ private String expirationDate;
+
+ public String getExpirationDate ()
+ {
+  return expirationDate;
+ }
+
+ public void setExpirationDate (String expirationDate)
+ {
+  this.expirationDate = expirationDate;
  }
 
 }

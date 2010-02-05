@@ -26,12 +26,15 @@ import org.kuali.student.dictionary.TestConstants;
 import org.kuali.student.dictionary.model.MessageStructure;
 import org.kuali.student.dictionary.model.Service;
 import org.kuali.student.dictionary.model.ServiceMethod;
-import org.kuali.student.dictionary.model.XmlType;
 import org.kuali.student.dictionary.model.util.MessageStructureDumper;
 import org.kuali.student.dictionary.model.util.ServiceDumper;
 import org.kuali.student.dictionary.model.util.ServiceMethodDumper;
-import org.kuali.student.dictionary.model.util.XmlTypeDumper;
-import static org.junit.Assert.*;
+import org.kuali.student.dictionary.model.util.ServicesFilter;
+import org.kuali.student.dictionary.model.util.ServicesFilterArrangeByKeys;
+import org.kuali.student.dictionary.model.util.ServicesFilterByKeys;
+import org.kuali.student.dictionary.model.util.ServicesFilterChained;
+import org.kuali.student.dictionary.model.util.ServicesFilterExcludeDev;
+import org.kuali.student.dictionary.model.util.ServicesFilterLatestVersionOnly;
 
 /**
  *
@@ -51,7 +54,7 @@ public class WikiServiceContractModelImplTest implements TestConstants
  // cut and paste the content here.
  // ==> the JSessionID changes everytime you drop out of the browser.
  public static final String JSESSIONID =
-  "D3E272B66BF8EE6630D5BF7018DCD575.Kuali3_1Engine";
+  "E57EE794C130D9988427FF144196B4F9.Kuali3_1Engine";
 
  public WikiServiceContractModelImplTest ()
  {
@@ -96,15 +99,21 @@ public class WikiServiceContractModelImplTest implements TestConstants
   serviceKeys.add ("enumerationmanagement");
   serviceKeys.add ("lo");
   serviceKeys.add ("lrc");
-  serviceKeys.add ("lu");
   serviceKeys.add ("organization");
   serviceKeys.add ("person");
   serviceKeys.add ("proposal");
   serviceKeys.add ("refdocrelation");
   serviceKeys.add ("resource");
   serviceKeys.add ("search");
+//  serviceKeys.add ("lu");
+  List<ServicesFilter> filters = new ArrayList ();
+  filters.add (new ServicesFilterExcludeDev ());
+  filters.add (new ServicesFilterLatestVersionOnly ());
+  filters.add (new ServicesFilterByKeys (serviceKeys));
+  filters.add (new ServicesFilterArrangeByKeys (serviceKeys));
+  ServicesFilterChained filter = new ServicesFilterChained (filters);
   instance =
-   new WikiServiceContractModelImpl (serviceKeys, SERVICE_REPOSITORY_PATH_ON_WIKI, JSESSIONID);
+   new WikiServiceContractModelImpl (filter, SERVICE_REPOSITORY_PATH_ON_WIKI, JSESSIONID);
   return instance;
  }
 

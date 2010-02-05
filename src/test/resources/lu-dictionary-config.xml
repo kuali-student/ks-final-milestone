@@ -7,7 +7,7 @@ http://student.kuali.org/xsd/dictionary-extension dictionary-extension.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Wed Feb 03 21:19:44 EST 2010
+on: Thu Feb 04 18:38:24 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -22,7 +22,191 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.cluInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.cluInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.cluInfo.type" parent="object.cluInfo.type.abstract"/>
+<dict:type key="kuali.lu.type.CreditCourse" id="object.cluInfo.type.kuali.lu.type.CreditCourse" parent="object.cluInfo.type.abstract">
+	<dict:name>Credit Course</dict:name>
+	<dict:desc>A course offered for academic credit</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.NonCreditCourse" id="object.cluInfo.type.kuali.lu.type.NonCreditCourse" parent="object.cluInfo.type.abstract">
+	<dict:name>Non-Credit Course</dict:name>
+	<dict:desc>A course that is not offered for regular academic credit.</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.CreditCourseFormatShell" id="object.cluInfo.type.kuali.lu.type.CreditCourseFormatShell" parent="object.cluInfo.type.abstract">
+	<dict:name>Credit Course Format Shell</dict:name>
+	<dict:desc>This is really just a container to attach the activities for a given course format (each credit course can have multiple course formats each with a set of activities)</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.Program" id="object.cluInfo.type.kuali.lu.type.Program" parent="object.cluInfo.type.abstract">
+	<dict:name>Program</dict:name>
+	<dict:desc>A non-specific program used for grouping</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.ProgramLevel" id="object.cluInfo.type.kuali.lu.type.ProgramLevel" parent="object.cluInfo.type.abstract">
+	<dict:name>Program Level</dict:name>
+	<dict:desc>The program level</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.ProgramType" id="object.cluInfo.type.kuali.lu.type.ProgramType" parent="object.cluInfo.type.abstract">
+	<dict:name>Program Type</dict:name>
+	<dict:desc>The type of program</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.DegreeLevel" id="object.cluInfo.type.kuali.lu.type.DegreeLevel" parent="object.cluInfo.type.abstract">
+	<dict:name>Degree Level</dict:name>
+	<dict:desc>The level of the degree program</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.DegreeType" id="object.cluInfo.type.kuali.lu.type.DegreeType" parent="object.cluInfo.type.abstract">
+	<dict:name>Degree Type</dict:name>
+	<dict:desc>The type of degree</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.CertificateType" id="object.cluInfo.type.kuali.lu.type.CertificateType" parent="object.cluInfo.type.abstract">
+	<dict:name>Certificate Type</dict:name>
+	<dict:desc>The type of certificate</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.Major" id="object.cluInfo.type.kuali.lu.type.Major" parent="object.cluInfo.type.abstract">
+	<dict:name>Major Program</dict:name>
+	<dict:desc>A major program of study</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.Minor" id="object.cluInfo.type.kuali.lu.type.Minor" parent="object.cluInfo.type.abstract">
+	<dict:name>Minor Program</dict:name>
+	<dict:desc>A minor program of study</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.GeneralEd" id="object.cluInfo.type.kuali.lu.type.GeneralEd" parent="object.cluInfo.type.abstract">
+	<dict:name>General Education Program</dict:name>
+	<dict:desc>A program of study composed of general education requirements</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.Honors" id="object.cluInfo.type.kuali.lu.type.Honors" parent="object.cluInfo.type.abstract">
+	<dict:name>Honors Program</dict:name>
+	<dict:desc>An honors program of study</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.ContinuingEd" id="object.cluInfo.type.kuali.lu.type.ContinuingEd" parent="object.cluInfo.type.abstract">
+	<dict:name>Continuing Education Program</dict:name>
+	<dict:desc>A continuing education program of study</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.activity.*" id="object.cluInfo.type.kuali.lu.type.activity._" parent="object.cluInfo.type.abstract">
+	<dict:name>All Activity Types</dict:name>
+	<dict:desc>All of these types of activities: Lecture, Lab, Discussion, etc.</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.activity.Lecture" id="object.cluInfo.type.kuali.lu.type.activity.Lecture" parent="object.cluInfo.type.abstract">
+	<dict:name>Lecture</dict:name>
+	<dict:desc>Instructor presentation of course materials</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.activity.Lab" id="object.cluInfo.type.kuali.lu.type.activity.Lab" parent="object.cluInfo.type.abstract">
+	<dict:name>Lab</dict:name>
+	<dict:desc>Student working on projects in a defined laboratory space.  Instructors are on-hand for students to ask questions and guidance.</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.activity.Discussion" id="object.cluInfo.type.kuali.lu.type.activity.Discussion" parent="object.cluInfo.type.abstract">
+	<dict:name>Discussion</dict:name>
+	<dict:desc>The exchange of opinions or questions on course material</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.activity.Tutorial" id="object.cluInfo.type.kuali.lu.type.activity.Tutorial" parent="object.cluInfo.type.abstract">
+	<dict:name>Tutorial</dict:name>
+	<dict:desc>Supplementary (or remedial) individualized instruction, Extra meetings for the review or elaboration of course materials</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.activity.Studio" id="object.cluInfo.type.kuali.lu.type.activity.Studio" parent="object.cluInfo.type.abstract">
+	<dict:name>Studio</dict:name>
+	<dict:desc>Student practice of studio skills and/or tasks</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.activity.WebLecture" id="object.cluInfo.type.kuali.lu.type.activity.WebLecture" parent="object.cluInfo.type.abstract">
+	<dict:name>Web Lecture</dict:name>
+	<dict:desc>Web-based or technologically-mediated activities replacing standard lectures</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.activity.WebDiscuss" id="object.cluInfo.type.kuali.lu.type.activity.WebDiscuss" parent="object.cluInfo.type.abstract">
+	<dict:name>Web Discuss</dict:name>
+	<dict:desc>Web-based or technologically-mediated activities replacing standard discussion sections</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.activity.Correspond" id="object.cluInfo.type.kuali.lu.type.activity.Correspond" parent="object.cluInfo.type.abstract">
+	<dict:name>Correspond</dict:name>
+	<dict:desc>Correspondence</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.activity.Activity" id="object.cluInfo.type.kuali.lu.type.activity.Activity" parent="object.cluInfo.type.abstract">
+	<dict:name>Activity</dict:name>
+	<dict:desc>Physical activity and participation are incorporated into the class.</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.activity.Colloquium" id="object.cluInfo.type.kuali.lu.type.activity.Colloquium" parent="object.cluInfo.type.abstract">
+	<dict:name>Colloquium</dict:name>
+	<dict:desc>A seminar led by different instructors</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.activity.Demonstration" id="object.cluInfo.type.kuali.lu.type.activity.Demonstration" parent="object.cluInfo.type.abstract">
+	<dict:name>Demonstration</dict:name>
+	<dict:desc>Student observation of an instructional display or performance</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.activity.Directed" id="object.cluInfo.type.kuali.lu.type.activity.Directed" parent="object.cluInfo.type.abstract">
+	<dict:name>Directed</dict:name>
+	<dict:desc>Provides students with a way to complete a  class or other area of focussed studies.  Directed study may be individualized method or in a group.</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.activity.Field" id="object.cluInfo.type.kuali.lu.type.activity.Field" parent="object.cluInfo.type.abstract">
+	<dict:name>Field</dict:name>
+	<dict:desc>Instructional activity in non-classroom settings</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.activity.Homework" id="object.cluInfo.type.kuali.lu.type.activity.Homework" parent="object.cluInfo.type.abstract">
+	<dict:name>Homework</dict:name>
+	<dict:desc>Student&apos;s doing homework, problem sets and reading assignments and writing</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.activity.Independ" id="object.cluInfo.type.kuali.lu.type.activity.Independ" parent="object.cluInfo.type.abstract">
+	<dict:name>Independ</dict:name>
+	<dict:desc>Student-initiated educational activity. Supervised special project undertaken with the direction of an assigned faculty member.</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.activity.Internship" id="object.cluInfo.type.kuali.lu.type.activity.Internship" parent="object.cluInfo.type.abstract">
+	<dict:name>Internship</dict:name>
+	<dict:desc>Individual activity in authentic non-academic setting arranged by instructor</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.activity.Private" id="object.cluInfo.type.kuali.lu.type.activity.Private" parent="object.cluInfo.type.abstract">
+	<dict:name>Private</dict:name>
+	<dict:desc>Individually scheduled classes, typically music.</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.activity.Recitation" id="object.cluInfo.type.kuali.lu.type.activity.Recitation" parent="object.cluInfo.type.abstract">
+	<dict:name>Recitation</dict:name>
+	<dict:desc>Oral review of course material by students, often in small groups and often lead by TAs</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.activity.Research" id="object.cluInfo.type.kuali.lu.type.activity.Research" parent="object.cluInfo.type.abstract">
+	<dict:name>Research</dict:name>
+	<dict:desc>Research</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.activity.SelfPaced" id="object.cluInfo.type.kuali.lu.type.activity.SelfPaced" parent="object.cluInfo.type.abstract">
+	<dict:name>Self Paced</dict:name>
+	<dict:desc>Student-paced coverage, usually with individualized attention, of assigned course material</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.activity.CompBased" id="object.cluInfo.type.kuali.lu.type.activity.CompBased" parent="object.cluInfo.type.abstract">
+	<dict:name>Comp Based</dict:name>
+	<dict:desc>Materials are available in electronic format for the student to explore on their own with no or minimal involvement by faculty</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.activity.VideoConf" id="object.cluInfo.type.kuali.lu.type.activity.VideoConf" parent="object.cluInfo.type.abstract">
+	<dict:name>Video Conf</dict:name>
+	<dict:desc>Often interactive instruction between campuses delivered through closed-circuit TV cameras, screens and microphones. Students are able to interact as if they were in the same classroom.</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
 
 <dict:state key="(default)" id="object.cluInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.cluInfo.officialIdentifier"/>
@@ -61,7 +245,15 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.cluInfo.state"/>
 	<dict:fieldRef bean="field.cluInfo.id"/>
 </dict:state>
-<dict:state key="(default)" id="object.cluInfo.state" parent="cluInfo.state.abstract"/>
+<dict:state key="template" id="object.cluInfo.state.template" parent="object.cluInfo.state.abstract"/>
+<dict:state key="draft.private" id="object.cluInfo.state.draft.private" parent="object.cluInfo.state.abstract"/>
+<dict:state key="draft.public" id="object.cluInfo.state.draft.public" parent="object.cluInfo.state.abstract"/>
+<dict:state key="submitted" id="object.cluInfo.state.submitted" parent="object.cluInfo.state.abstract"/>
+<dict:state key="withdrawn" id="object.cluInfo.state.withdrawn" parent="object.cluInfo.state.abstract"/>
+<dict:state key="approved" id="object.cluInfo.state.approved" parent="object.cluInfo.state.abstract"/>
+<dict:state key="rejected" id="object.cluInfo.state.rejected" parent="object.cluInfo.state.abstract"/>
+<dict:state key="activated" id="object.cluInfo.state.activated" parent="object.cluInfo.state.abstract"/>
+<dict:state key="retired" id="object.cluInfo.state.retired" parent="object.cluInfo.state.abstract"/>
 
 <dict:field key="officialIdentifier" id="field.cluInfo.officialIdentifier.abstract" abstract="true">
 	<dict:fieldDescriptor>
@@ -597,7 +789,18 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.cluResultInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.cluResultInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.cluResultInfo.type" parent="object.cluResultInfo.type.abstract"/>
+<dict:type key="kuali.resultType.creditCourseResult" id="object.cluResultInfo.type.kuali.resultType.creditCourseResult" parent="object.cluResultInfo.type.abstract">
+	<dict:name>Credit Course Final Results</dict:name>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.resultType.nonCreditCourseResult" id="object.cluResultInfo.type.kuali.resultType.nonCreditCourseResult" parent="object.cluResultInfo.type.abstract">
+	<dict:name>Non-Credit Course Final Results</dict:name>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.resultType.Program" id="object.cluResultInfo.type.kuali.resultType.Program" parent="object.cluResultInfo.type.abstract">
+	<dict:name>Program Final Results</dict:name>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
 
 <dict:state key="(default)" id="object.cluResultInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.cluResultInfo.desc"/>
@@ -610,7 +813,8 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.cluResultInfo.state"/>
 	<dict:fieldRef bean="field.cluResultInfo.id"/>
 </dict:state>
-<dict:state key="(default)" id="object.cluResultInfo.state" parent="cluResultInfo.state.abstract"/>
+<dict:state key="active" id="object.cluResultInfo.state.active" parent="object.cluResultInfo.state.abstract"/>
+<dict:state key="inactive" id="object.cluResultInfo.state.inactive" parent="object.cluResultInfo.state.abstract"/>
 
 <dict:field key="desc" id="field.cluResultInfo.desc.abstract" abstract="true">
 	<dict:fieldDescriptor>
@@ -755,7 +959,11 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.cluLoRelationInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.cluLoRelationInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.cluLoRelationInfo.type" parent="object.cluLoRelationInfo.type.abstract"/>
+<dict:type key="kuali.lu.lo.relation.type.includes" id="object.cluLoRelationInfo.type.kuali.lu.lo.relation.type.includes" parent="object.cluLoRelationInfo.type.abstract">
+	<dict:name>includes</dict:name>
+	<dict:desc>Indicates that the content of the clu includes the learning objectives</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
 
 <dict:state key="(default)" id="object.cluLoRelationInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.cluLoRelationInfo.cluId"/>
@@ -768,7 +976,9 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.cluLoRelationInfo.state"/>
 	<dict:fieldRef bean="field.cluLoRelationInfo.id"/>
 </dict:state>
-<dict:state key="(default)" id="object.cluLoRelationInfo.state" parent="cluLoRelationInfo.state.abstract"/>
+<dict:state key="draft" id="object.cluLoRelationInfo.state.draft" parent="object.cluLoRelationInfo.state.abstract"/>
+<dict:state key="active" id="object.cluLoRelationInfo.state.active" parent="object.cluLoRelationInfo.state.abstract"/>
+<dict:state key="inactive" id="object.cluLoRelationInfo.state.inactive" parent="object.cluLoRelationInfo.state.abstract"/>
 
 <dict:field key="cluId" id="field.cluLoRelationInfo.cluId.abstract" abstract="true">
 	<dict:fieldDescriptor>
@@ -914,7 +1124,31 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.cluCluRelationInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.cluCluRelationInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.cluCluRelationInfo.type" parent="object.cluCluRelationInfo.type.abstract"/>
+<dict:type key="kuali.lu.relation.type.course.format" id="object.cluCluRelationInfo.type.kuali.lu.relation.type.course.format" parent="object.cluCluRelationInfo.type.abstract">
+	<dict:name>Has Course Format</dict:name>
+	<dict:desc>Maintains relation betrween a course and the course format shell</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.relation.type.course.activity" id="object.cluCluRelationInfo.type.kuali.lu.relation.type.course.activity" parent="object.cluCluRelationInfo.type.abstract">
+	<dict:name>Has Course Activity</dict:name>
+	<dict:desc>Maintains relation betrween a course format shell and each individual activity</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.relation.type.co-located" id="object.cluCluRelationInfo.type.kuali.lu.relation.type.co-located" parent="object.cluCluRelationInfo.type.abstract">
+	<dict:name>Co-Located</dict:name>
+	<dict:desc>Maintains relations betrween different courses the meet together (are co-located)</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.lu.relation.type.program.level" id="object.cluCluRelationInfo.type.kuali.lu.lu.relation.type.program.level" parent="object.cluCluRelationInfo.type.abstract">
+	<dict:name>Has Program Level</dict:name>
+	<dict:desc>Miantains relationship between a program and program level</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.lu.relation.type.program.type" id="object.cluCluRelationInfo.type.kuali.lu.lu.relation.type.program.type" parent="object.cluCluRelationInfo.type.abstract">
+	<dict:name>Has Program Type</dict:name>
+	<dict:desc>Miantains relationship between a program and program type</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
 
 <dict:state key="(default)" id="object.cluCluRelationInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.cluCluRelationInfo.cluId"/>
@@ -928,7 +1162,8 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.cluCluRelationInfo.state"/>
 	<dict:fieldRef bean="field.cluCluRelationInfo.id"/>
 </dict:state>
-<dict:state key="(default)" id="object.cluCluRelationInfo.state" parent="cluCluRelationInfo.state.abstract"/>
+<dict:state key="active" id="object.cluCluRelationInfo.state.active" parent="object.cluCluRelationInfo.state.abstract"/>
+<dict:state key="inactive" id="object.cluCluRelationInfo.state.inactive" parent="object.cluCluRelationInfo.state.abstract"/>
 
 <dict:field key="cluId" id="field.cluCluRelationInfo.cluId.abstract" abstract="true">
 	<dict:fieldDescriptor>
@@ -1092,7 +1327,43 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.luStatementInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.luStatementInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.luStatementInfo.type" parent="object.luStatementInfo.type.abstract"/>
+<dict:type key="kuali.luStatementType.req.*" id="object.luStatementInfo.type.kuali.luStatementType.req._" parent="object.luStatementInfo.type.abstract">
+	<dict:name>Requisite Type Rules</dict:name>
+	<dict:desc>Group that includes all the &quot;requisite&quot; rules, pre,co,anti and enrollment restrictions</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.luStatementType.prerequisite,kuali.luStatementType.antirequisite" id="object.luStatementInfo.type.kuali.luStatementType.prerequisite_kuali.luStatementType.antirequisite" parent="object.luStatementInfo.type.abstract">
+	<dict:name>Prereq,Coreq</dict:name>
+	<dict:desc>Group that includes prerequisite rules and corequisite rules</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.luStatementType.req.prerequisite" id="object.luStatementInfo.type.kuali.luStatementType.req.prerequisite" parent="object.luStatementInfo.type.abstract">
+	<dict:name>Prerequisite Rule</dict:name>
+	<dict:desc>Rules that describe the academic readiness or preparedness required to be able to enroll in a course and effectively master the material. Also called
+
+Should not include rules that restrict enrollment for other purposes other than academic preparedness, these should be captured as enrollment restrictions</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.luStatementType.req.corequisite" id="object.luStatementInfo.type.kuali.luStatementType.req.corequisite" parent="object.luStatementInfo.type.abstract">
+	<dict:name>Corequisite Rule</dict:name>
+	<dict:desc>Rules that describe the need for concurrent enrollment in two courses.</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.luStatementType.req.enrollmentRestriction" id="object.luStatementInfo.type.kuali.luStatementType.req.enrollmentRestriction" parent="object.luStatementInfo.type.abstract">
+	<dict:name>Enrollment Restriction</dict:name>
+	<dict:desc>Rules other than perquisites that limit or restrict students from enrolling in a course that do not strictly deal with the student&apos;s academic ability to handle the material.</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.luStatementType.req.antirequisite" id="object.luStatementInfo.type.kuali.luStatementType.req.antirequisite" parent="object.luStatementInfo.type.abstract">
+	<dict:name>Antirequisite Rule</dict:name>
+	<dict:desc>Rules identifying a specific course or level of attainment which, if already successfully completed, does not permit registration for credit in another desired course, or which may not be taken for credit concurrently with another course</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.luStatementType.CourseRepeatCreditApplication" id="object.luStatementInfo.type.kuali.luStatementType.CourseRepeatCreditApplication" parent="object.luStatementInfo.type.abstract">
+	<dict:name>Credit Application Rule for repeated courses</dict:name>
+	<dict:desc>Rules that govern or constrain the amount of credit that can be earned when a person takes and completes a credit courses multiple times.</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
 
 <dict:state key="(default)" id="object.luStatementInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.luStatementInfo.name"/>
@@ -1106,7 +1377,8 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.luStatementInfo.state"/>
 	<dict:fieldRef bean="field.luStatementInfo.id"/>
 </dict:state>
-<dict:state key="(default)" id="object.luStatementInfo.state" parent="luStatementInfo.state.abstract"/>
+<dict:state key="active" id="object.luStatementInfo.state.active" parent="object.luStatementInfo.state.abstract"/>
+<dict:state key="inactive" id="object.luStatementInfo.state.inactive" parent="object.luStatementInfo.state.abstract"/>
 
 <dict:field key="name" id="field.luStatementInfo.name.abstract" abstract="true">
 	<dict:fieldDescriptor>
@@ -1273,7 +1545,66 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.reqComponentInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.reqComponentInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.reqComponentInfo.type" parent="object.reqComponentInfo.type.abstract"/>
+<dict:type key="kuali.reqCompType.requisite.*" id="object.reqComponentInfo.type.kuali.reqCompType.requisite._" parent="object.reqComponentInfo.type.abstract">
+	<dict:name>Requisite Requirement Components</dict:name>
+	<dict:desc>This is a grouping of all the types that refer to a list of courses</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.reqCompType.requisite.courseList.none" id="object.reqComponentInfo.type.kuali.reqCompType.requisite.courseList.none" parent="object.reqComponentInfo.type.abstract">
+	<dict:name>None of these courses</dict:name>
+	<dict:desc>Student must have completed none of the specified courses</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.reqCompType.requisite.courseList.coreq.oneof" id="object.reqComponentInfo.type.kuali.reqCompType.requisite.courseList.coreq.oneof" parent="object.reqComponentInfo.type.abstract">
+	<dict:name>One of these courses (coreq)</dict:name>
+	<dict:desc>Student must be enrolled in one of the following courses</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.reqCompType.requisite.courseList.coreq.all" id="object.reqComponentInfo.type.kuali.reqCompType.requisite.courseList.coreq.all" parent="object.reqComponentInfo.type.abstract">
+	<dict:name>All of these courses (coreq)</dict:name>
+	<dict:desc>Student must be enrolled in all of the following courses</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.reqCompType.requisite.courseList.all" id="object.reqComponentInfo.type.kuali.reqCompType.requisite.courseList.all" parent="object.reqComponentInfo.type.abstract">
+	<dict:name>All of these courses</dict:name>
+	<dict:desc>Student must take all of the specified courses</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.reqCompType.requisite.courseList.1of2" id="object.reqComponentInfo.type.kuali.reqCompType.requisite.courseList.1of2" parent="object.reqComponentInfo.type.abstract">
+	<dict:name>One of these two courses</dict:name>
+	<dict:desc>Student must take one of two specified courses</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.reqCompType.requisite.courseList.nof" id="object.reqComponentInfo.type.kuali.reqCompType.requisite.courseList.nof" parent="object.reqComponentInfo.type.abstract">
+	<dict:name>N of these courses</dict:name>
+	<dict:desc>Student must take &lt;n&gt; courses from the specified courses</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.reqCompType.requisite.overall.gpa" id="object.reqComponentInfo.type.kuali.reqCompType.requisite.overall.gpa" parent="object.reqComponentInfo.type.abstract">
+	<dict:name>Minimum overall GPA</dict:name>
+	<dict:desc>Student needs to have attained a minimum specified GPA</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.reqCompType.requisite.overall.credit" id="object.reqComponentInfo.type.kuali.reqCompType.requisite.overall.credit" parent="object.reqComponentInfo.type.abstract">
+	<dict:name>Minimum overall total credits</dict:name>
+	<dict:desc>Student needs to have earned a minimum specified Total Credits</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.reqCompType.requisite.grdCondCourseList" id="object.reqComponentInfo.type.kuali.reqCompType.requisite.grdCondCourseList" parent="object.reqComponentInfo.type.abstract">
+	<dict:name>Course completed with minimum specified grade</dict:name>
+	<dict:desc>Student must have completed the specified course with a minium specified grade</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.reqCompType.requisite.programList.oneof" id="object.reqComponentInfo.type.kuali.reqCompType.requisite.programList.oneof" parent="object.reqComponentInfo.type.abstract">
+	<dict:name>One of these programs</dict:name>
+	<dict:desc>Enrollment is limited to students in the following programs</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.reqCompType.requisite.programList.none" id="object.reqComponentInfo.type.kuali.reqCompType.requisite.programList.none" parent="object.reqComponentInfo.type.abstract">
+	<dict:name>None of these programs</dict:name>
+	<dict:desc>Enrollment is not available to students in the following programs</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
 
 <dict:state key="(default)" id="object.reqComponentInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.reqComponentInfo.desc"/>
@@ -1285,7 +1616,8 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.reqComponentInfo.state"/>
 	<dict:fieldRef bean="field.reqComponentInfo.id"/>
 </dict:state>
-<dict:state key="(default)" id="object.reqComponentInfo.state" parent="reqComponentInfo.state.abstract"/>
+<dict:state key="active" id="object.reqComponentInfo.state.active" parent="object.reqComponentInfo.state.abstract"/>
+<dict:state key="inactive" id="object.reqComponentInfo.state.inactive" parent="object.reqComponentInfo.state.abstract"/>
 
 <dict:field key="desc" id="field.reqComponentInfo.desc.abstract" abstract="true">
 	<dict:fieldDescriptor>
@@ -1417,7 +1749,11 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.cluSetInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.cluSetInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.cluSetInfo.type" parent="object.cluSetInfo.type.abstract"/>
+<dict:type key="kuali.cluSet.type.CreditCourse" id="object.cluSetInfo.type.kuali.cluSet.type.CreditCourse" parent="object.cluSetInfo.type.abstract">
+	<dict:name>Credit Course Clu Sets</dict:name>
+	<dict:desc>Sets composed of credit courses</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
 
 <dict:state key="(default)" id="object.cluSetInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.cluSetInfo.name"/>
@@ -1433,7 +1769,8 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.cluSetInfo.state"/>
 	<dict:fieldRef bean="field.cluSetInfo.id"/>
 </dict:state>
-<dict:state key="(default)" id="object.cluSetInfo.state" parent="cluSetInfo.state.abstract"/>
+<dict:state key="active" id="object.cluSetInfo.state.active" parent="object.cluSetInfo.state.abstract"/>
+<dict:state key="inactive" id="object.cluSetInfo.state.inactive" parent="object.cluSetInfo.state.abstract"/>
 
 <dict:field key="name" id="field.cluSetInfo.name.abstract" abstract="true">
 	<dict:fieldDescriptor>
@@ -1624,7 +1961,26 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.cluIdentifierInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.cluIdentifierInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.cluIdentifierInfo.type" parent="object.cluIdentifierInfo.type.abstract"/>
+<dict:type key="kuali.lu.type.CreditCourse.identifier.*" id="object.cluIdentifierInfo.type.kuali.lu.type.CreditCourse.identifier._" parent="object.cluIdentifierInfo.type.abstract">
+	<dict:name>All Course Identifier Types</dict:name>
+	<dict:desc>This is really just a container to attach the all the identifiers for a course</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="object.cluIdentifierInfo.type.kuali.lu.type.CreditCourse.identifier.official" parent="object.cluIdentifierInfo.type.abstract">
+	<dict:name>Official</dict:name>
+	<dict:desc>This identifier holds the official identifier for this course</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.CreditCourse.identifier.cross-listed" id="object.cluIdentifierInfo.type.kuali.lu.type.CreditCourse.identifier.cross-listed" parent="object.cluIdentifierInfo.type.abstract">
+	<dict:name>Cross-listed</dict:name>
+	<dict:desc>This identifier holds the cross-listed identifiers for this course</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.CreditCourse.identifier.version" id="object.cluIdentifierInfo.type.kuali.lu.type.CreditCourse.identifier.version" parent="object.cluIdentifierInfo.type.abstract">
+	<dict:name>Version</dict:name>
+	<dict:desc>This identifier holds the version information for courses that have multiple versions</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
 
 <dict:state key="(default)" id="object.cluIdentifierInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.cluIdentifierInfo.code"/>
@@ -1639,7 +1995,8 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.cluIdentifierInfo.state"/>
 	<dict:fieldRef bean="field.cluIdentifierInfo.id"/>
 </dict:state>
-<dict:state key="(default)" id="object.cluIdentifierInfo.state" parent="cluIdentifierInfo.state.abstract"/>
+<dict:state key="active" id="object.cluIdentifierInfo.state.active" parent="object.cluIdentifierInfo.state.abstract"/>
+<dict:state key="inactive" id="object.cluIdentifierInfo.state.inactive" parent="object.cluIdentifierInfo.state.abstract"/>
 
 <dict:field key="code" id="field.cluIdentifierInfo.code.abstract" abstract="true">
 	<dict:fieldDescriptor>
@@ -1827,12 +2184,16 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.academicSubjectOrgInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.academicSubjectOrgInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.academicSubjectOrgInfo.type" parent="object.academicSubjectOrgInfo.type.abstract"/>
+<dict:type key="kuali.not.applicable" id="object.academicSubjectOrgInfo.type.kuali.not.applicable" parent="object.academicSubjectOrgInfo.type.abstract">
+	<dict:name>(n/a)</dict:name>
+	<dict:desc>Not applicable</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
 
 <dict:state key="(default)" id="object.academicSubjectOrgInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.academicSubjectOrgInfo.orgId"/>
 </dict:state>
-<dict:state key="(default)" id="object.academicSubjectOrgInfo.state" parent="academicSubjectOrgInfo.state.abstract"/>
+<dict:state key="(n/a)" id="object.academicSubjectOrgInfo.state.NA" parent="object.academicSubjectOrgInfo.state.abstract"/>
 
 <dict:field key="orgId" id="field.academicSubjectOrgInfo.orgId.abstract" abstract="true">
 	<dict:fieldDescriptor>
@@ -1858,13 +2219,17 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.richTextInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.richTextInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.richTextInfo.type" parent="object.richTextInfo.type.abstract"/>
+<dict:type key="kuali.not.applicable" id="object.richTextInfo.type.kuali.not.applicable" parent="object.richTextInfo.type.abstract">
+	<dict:name>(n/a)</dict:name>
+	<dict:desc>Not applicable</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
 
 <dict:state key="(default)" id="object.richTextInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.richTextInfo.plain"/>
 	<dict:fieldRef bean="field.richTextInfo.formatted"/>
 </dict:state>
-<dict:state key="(default)" id="object.richTextInfo.state" parent="richTextInfo.state.abstract"/>
+<dict:state key="(n/a)" id="object.richTextInfo.state.NA" parent="object.richTextInfo.state.abstract"/>
 
 <dict:field key="plain" id="field.richTextInfo.plain.abstract" abstract="true">
 	<dict:fieldDescriptor>
@@ -1918,7 +2283,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.accreditationInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.accreditationInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.accreditationInfo.type" parent="object.accreditationInfo.type.abstract"/>
 
 <dict:state key="(default)" id="object.accreditationInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.accreditationInfo.orgId"/>
@@ -1928,7 +2292,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.accreditationInfo.metaInfo"/>
 	<dict:fieldRef bean="field.accreditationInfo.id"/>
 </dict:state>
-<dict:state key="(default)" id="object.accreditationInfo.state" parent="accreditationInfo.state.abstract"/>
 
 <dict:field key="orgId" id="field.accreditationInfo.orgId.abstract" abstract="true">
 	<dict:fieldDescriptor>
@@ -2029,13 +2392,17 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.adminOrgInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.adminOrgInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.adminOrgInfo.type" parent="object.adminOrgInfo.type.abstract"/>
+<dict:type key="kuali.not.applicable" id="object.adminOrgInfo.type.kuali.not.applicable" parent="object.adminOrgInfo.type.abstract">
+	<dict:name>(n/a)</dict:name>
+	<dict:desc>Not applicable</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
 
 <dict:state key="(default)" id="object.adminOrgInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.adminOrgInfo.orgId"/>
 	<dict:fieldRef bean="field.adminOrgInfo.attributes"/>
 </dict:state>
-<dict:state key="(default)" id="object.adminOrgInfo.state" parent="adminOrgInfo.state.abstract"/>
+<dict:state key="(n/a)" id="object.adminOrgInfo.state.NA" parent="object.adminOrgInfo.state.abstract"/>
 
 <dict:field key="orgId" id="field.adminOrgInfo.orgId.abstract" abstract="true">
 	<dict:fieldDescriptor>
@@ -2075,14 +2442,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.cluInstructorInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.cluInstructorInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.cluInstructorInfo.type" parent="object.cluInstructorInfo.type.abstract"/>
 
 <dict:state key="(default)" id="object.cluInstructorInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.cluInstructorInfo.orgId"/>
 	<dict:fieldRef bean="field.cluInstructorInfo.personId"/>
 	<dict:fieldRef bean="field.cluInstructorInfo.attributes"/>
 </dict:state>
-<dict:state key="(default)" id="object.cluInstructorInfo.state" parent="cluInstructorInfo.state.abstract"/>
 
 <dict:field key="orgId" id="field.cluInstructorInfo.orgId.abstract" abstract="true">
 	<dict:fieldDescriptor>
@@ -2137,13 +2502,17 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.timeAmountInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.timeAmountInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.timeAmountInfo.type" parent="object.timeAmountInfo.type.abstract"/>
+<dict:type key="kuali.not.applicable" id="object.timeAmountInfo.type.kuali.not.applicable" parent="object.timeAmountInfo.type.abstract">
+	<dict:name>(n/a)</dict:name>
+	<dict:desc>Not applicable</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
 
 <dict:state key="(default)" id="object.timeAmountInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.timeAmountInfo.atpDurationTypeKey"/>
 	<dict:fieldRef bean="field.timeAmountInfo.timeQuantity"/>
 </dict:state>
-<dict:state key="(default)" id="object.timeAmountInfo.state" parent="timeAmountInfo.state.abstract"/>
+<dict:state key="(n/a)" id="object.timeAmountInfo.state.NA" parent="object.timeAmountInfo.state.abstract"/>
 
 <!-- services has this flagged as mandatory but don't think it shoujld be because in a draft state a user may specify the units but not yet specify the amount -->
 <!-- services has this flagged as mandatory but don't think it shoujld be because in a draft state a user may specify the units but not yet specify the amount -->
@@ -2188,7 +2557,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.luCodeInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.luCodeInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.luCodeInfo.type" parent="object.luCodeInfo.type.abstract"/>
 
 <dict:state key="(default)" id="object.luCodeInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.luCodeInfo.desc"/>
@@ -2197,7 +2565,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.luCodeInfo.metaInfo"/>
 	<dict:fieldRef bean="field.luCodeInfo.type"/>
 </dict:state>
-<dict:state key="(default)" id="object.luCodeInfo.state" parent="luCodeInfo.state.abstract"/>
 
 <dict:field key="desc" id="field.luCodeInfo.desc.abstract" abstract="true">
 	<dict:fieldDescriptor>
@@ -2287,7 +2654,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.cluPublishingInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.cluPublishingInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.cluPublishingInfo.type" parent="object.cluPublishingInfo.type.abstract"/>
 
 <dict:state key="(default)" id="object.cluPublishingInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.cluPublishingInfo.startCycle"/>
@@ -2299,7 +2665,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.cluPublishingInfo.state"/>
 	<dict:fieldRef bean="field.cluPublishingInfo.id"/>
 </dict:state>
-<dict:state key="(default)" id="object.cluPublishingInfo.state" parent="cluPublishingInfo.state.abstract"/>
 
 <dict:field key="startCycle" id="field.cluPublishingInfo.startCycle.abstract" abstract="true">
 	<dict:fieldDescriptor>
@@ -2430,13 +2795,11 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.cluFeeInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.cluFeeInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.cluFeeInfo.type" parent="object.cluFeeInfo.type.abstract"/>
 
 <dict:state key="(default)" id="object.cluFeeInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.cluFeeInfo.cluFeeRecordInfoList"/>
 	<dict:fieldRef bean="field.cluFeeInfo.attributes"/>
 </dict:state>
-<dict:state key="(default)" id="object.cluFeeInfo.state" parent="cluFeeInfo.state.abstract"/>
 
 <dict:field key="cluFeeRecordInfoList" id="field.cluFeeInfo.cluFeeRecordInfoList.abstract" abstract="true">
 	<dict:fieldDescriptor>
@@ -2475,13 +2838,11 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.cluAccountingInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.cluAccountingInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.cluAccountingInfo.type" parent="object.cluAccountingInfo.type.abstract"/>
 
 <dict:state key="(default)" id="object.cluAccountingInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.cluAccountingInfo.affiliatedOrgInfoList"/>
 	<dict:fieldRef bean="field.cluAccountingInfo.attributes"/>
 </dict:state>
-<dict:state key="(default)" id="object.cluAccountingInfo.state" parent="cluAccountingInfo.state.abstract"/>
 
 <dict:field key="affiliatedOrgInfoList" id="field.cluAccountingInfo.affiliatedOrgInfoList.abstract" abstract="true">
 	<dict:fieldDescriptor>
@@ -2520,13 +2881,27 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.attributeInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.attributeInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.attributeInfo.type" parent="object.attributeInfo.type.abstract"/>
+<dict:type key="kuali.lu.type.CreditCourse.dynamic.eye.color" id="object.attributeInfo.type.kuali.lu.type.CreditCourse.dynamic.eye.color" parent="object.attributeInfo.type.abstract">
+	<dict:name>Eye Color</dict:name>
+	<dict:desc>Captures the eye color of students expected to take this course</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.CreditCourse.dynamic.left.handed" id="object.attributeInfo.type.kuali.lu.type.CreditCourse.dynamic.left.handed" parent="object.attributeInfo.type.abstract">
+	<dict:name>Left Handed</dict:name>
+	<dict:desc>Captures if the students are expected to be left handed who take this course</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lo.type.SingleUse.dynamic.sequence" id="object.attributeInfo.type.kuali.lo.type.SingleUse.dynamic.sequence" parent="object.attributeInfo.type.abstract">
+	<dict:name>Sequence</dict:name>
+	<dict:desc>Captures the sequence of an LO within a Credit Course</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
 
 <dict:state key="(default)" id="object.attributeInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.attributeInfo.value"/>
 	<dict:fieldRef bean="field.attributeInfo.key"/>
 </dict:state>
-<dict:state key="(default)" id="object.attributeInfo.state" parent="attributeInfo.state.abstract"/>
+<dict:state key="(n/a)" id="object.attributeInfo.state.NA" parent="object.attributeInfo.state.abstract"/>
 
 <dict:field key="value" id="field.attributeInfo.value.abstract" abstract="true">
 	<dict:fieldDescriptor>
@@ -2577,7 +2952,11 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.metaInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.metaInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.metaInfo.type" parent="object.metaInfo.type.abstract"/>
+<dict:type key="kuali.not.applicable" id="object.metaInfo.type.kuali.not.applicable" parent="object.metaInfo.type.abstract">
+	<dict:name>(n/a)</dict:name>
+	<dict:desc>Not applicable</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
 
 <dict:state key="(default)" id="object.metaInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.metaInfo.versionInd"/>
@@ -2586,7 +2965,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.metaInfo.updateTime"/>
 	<dict:fieldRef bean="field.metaInfo.updateId"/>
 </dict:state>
-<dict:state key="(default)" id="object.metaInfo.state" parent="metaInfo.state.abstract"/>
+<dict:state key="(n/a)" id="object.metaInfo.state.NA" parent="object.metaInfo.state.abstract"/>
 
 <dict:field key="versionInd" id="field.metaInfo.versionInd.abstract" abstract="true">
 	<dict:fieldDescriptor>
@@ -2680,7 +3059,36 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.resultOptionInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.resultOptionInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.resultOptionInfo.type" parent="object.resultOptionInfo.type.abstract"/>
+<dict:type key="Kuali.resultUsageType.CreditAwarded" id="object.resultOptionInfo.type.Kuali.resultUsageType.CreditAwarded" parent="object.resultOptionInfo.type.abstract">
+	<dict:name>Credit to be awarded</dict:name>
+	<dict:desc>The amount of credit to be awarded if student passes the course</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.resultUsageType.FinalGradeAwarded" id="object.resultOptionInfo.type.kuali.resultUsageType.FinalGradeAwarded" parent="object.resultOptionInfo.type.abstract">
+	<dict:name>Final Grade to be Awarded</dict:name>
+	<dict:desc>The final grade to be awarded to a student</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.resultUsageType.QualitativeAssess" id="object.resultOptionInfo.type.kuali.resultUsageType.QualitativeAssess" parent="object.resultOptionInfo.type.abstract">
+	<dict:name>Final Qualitative Assessment</dict:name>
+	<dict:desc>The final qualitative assessment to be given to a student</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.resultUsageType.CeuAwarded" id="object.resultOptionInfo.type.kuali.resultUsageType.CeuAwarded" parent="object.resultOptionInfo.type.abstract">
+	<dict:name>CEU to be Awarded</dict:name>
+	<dict:desc>The continuing education units to be awarded to a student if they complete</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.resultUsageType.DegreeAwarded" id="object.resultOptionInfo.type.kuali.resultUsageType.DegreeAwarded" parent="object.resultOptionInfo.type.abstract">
+	<dict:name>Degree to be Awarded</dict:name>
+	<dict:desc>The degree to be awarded if the student completes the program</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.resultUsageType.CertificateAwarded" id="object.resultOptionInfo.type.kuali.resultUsageType.CertificateAwarded" parent="object.resultOptionInfo.type.abstract">
+	<dict:name>Certificate to be Awarded</dict:name>
+	<dict:desc>The certificate to be awarded if the student completes the program</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
 
 <dict:state key="(default)" id="object.resultOptionInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.resultOptionInfo.desc"/>
@@ -2692,7 +3100,8 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.resultOptionInfo.state"/>
 	<dict:fieldRef bean="field.resultOptionInfo.id"/>
 </dict:state>
-<dict:state key="(default)" id="object.resultOptionInfo.state" parent="resultOptionInfo.state.abstract"/>
+<dict:state key="active" id="object.resultOptionInfo.state.active" parent="object.resultOptionInfo.state.abstract"/>
+<dict:state key="inactive" id="object.resultOptionInfo.state.inactive" parent="object.resultOptionInfo.state.abstract"/>
 
 <dict:field key="desc" id="field.resultOptionInfo.desc.abstract" abstract="true">
 	<dict:fieldDescriptor>
@@ -2823,13 +3232,52 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.reqCompFieldInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.reqCompFieldInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.reqCompFieldInfo.type" parent="object.reqCompFieldInfo.type.abstract"/>
+<dict:type key="kuali.reqCompFieldType.credit.course" id="object.reqCompFieldInfo.type.kuali.reqCompFieldType.credit.course" parent="object.reqCompFieldInfo.type.abstract">
+	<dict:name>Credit Course Clu</dict:name>
+	<dict:desc>An Id of a Clu of type Credit Course</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.reqCompFieldType.credit.course.set" id="object.reqCompFieldInfo.type.kuali.reqCompFieldType.credit.course.set" parent="object.reqCompFieldInfo.type.abstract">
+	<dict:name>Credit Course Clu Set</dict:name>
+	<dict:desc>An Id of a Set of Credit Course Clus</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.reqCompFieldType.requiredCount" id="object.reqCompFieldInfo.type.kuali.reqCompFieldType.requiredCount" parent="object.reqCompFieldInfo.type.abstract">
+	<dict:name>Required Count</dict:name>
+	<dict:desc>A number to be compared to a count of clu&apos;s</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.reqCompFieldType.lrd.credit.course.final.grade" id="object.reqCompFieldInfo.type.kuali.reqCompFieldType.lrd.credit.course.final.grade" parent="object.reqCompFieldInfo.type.abstract">
+	<dict:name>Credit Course Final Grade Learning Result Definition</dict:name>
+	<dict:desc>A credit course paired with a minimum grade</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.reqCompFieldType.overall.gpa" id="object.reqCompFieldInfo.type.kuali.reqCompFieldType.overall.gpa" parent="object.reqCompFieldInfo.type.abstract">
+	<dict:name>GPA</dict:name>
+	<dict:desc>GPA</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.reqCompFieldType.overall.totalCredits" id="object.reqCompFieldInfo.type.kuali.reqCompFieldType.overall.totalCredits" parent="object.reqCompFieldInfo.type.abstract">
+	<dict:name>Total Credits</dict:name>
+	<dict:desc>Total Credits</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.reqCompFieldType.operator" id="object.reqCompFieldInfo.type.kuali.reqCompFieldType.operator" parent="object.reqCompFieldInfo.type.abstract">
+	<dict:name>Operator</dict:name>
+	<dict:desc>The operator use to compare other data fields</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.reqCompFieldType.countType" id="object.reqCompFieldInfo.type.kuali.reqCompFieldType.countType" parent="object.reqCompFieldInfo.type.abstract">
+	<dict:name>Count Type</dict:name>
+	<dict:desc>Type of counting</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
 
 <dict:state key="(default)" id="object.reqCompFieldInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.reqCompFieldInfo.value"/>
 	<dict:fieldRef bean="field.reqCompFieldInfo.key"/>
 </dict:state>
-<dict:state key="(default)" id="object.reqCompFieldInfo.state" parent="reqCompFieldInfo.state.abstract"/>
+<dict:state key="(n/a)" id="object.reqCompFieldInfo.state.NA" parent="object.reqCompFieldInfo.state.abstract"/>
 
 <dict:field key="value" id="field.reqCompFieldInfo.value.abstract" abstract="true">
 	<dict:fieldDescriptor>
@@ -2869,13 +3317,17 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.membershipQueryInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.membershipQueryInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.membershipQueryInfo.type" parent="object.membershipQueryInfo.type.abstract"/>
+<dict:type key="kuali.lu.searchTypes.CoursesForDynamicCLUSet" id="object.membershipQueryInfo.type.kuali.lu.searchTypes.CoursesForDynamicCLUSet" parent="object.membershipQueryInfo.type.abstract">
+	<dict:name>Dynamic Clu Set Search</dict:name>
+	<dict:desc>Named Search Associated with Dynamic CLU Sets to select Courses when the dynamic CLU Set is executed</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
 
 <dict:state key="(default)" id="object.membershipQueryInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.membershipQueryInfo.searchTypeKey"/>
 	<dict:fieldRef bean="field.membershipQueryInfo.queryParamValueList"/>
 </dict:state>
-<dict:state key="(default)" id="object.membershipQueryInfo.state" parent="membershipQueryInfo.state.abstract"/>
+<dict:state key="(n/a)" id="object.membershipQueryInfo.state.NA" parent="object.membershipQueryInfo.state.abstract"/>
 
 <dict:field key="searchTypeKey" id="field.membershipQueryInfo.searchTypeKey.abstract" abstract="true">
 	<dict:fieldDescriptor>

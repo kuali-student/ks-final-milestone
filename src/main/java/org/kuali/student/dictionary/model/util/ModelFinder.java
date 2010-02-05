@@ -63,6 +63,33 @@ public class ModelFinder
   return null;
  }
 
+
+ public List<State> findStates (String xmlObject)
+ {
+  List <State> list = new ArrayList ();
+  for (State state : model.getStates ())
+  {
+   if (state.getXmlObject ().equalsIgnoreCase (xmlObject))
+   {
+    list.add (state);
+   }
+  }
+  return list;
+ }
+
+ public List<Type> findTypes (String xmlObject)
+ {
+  List <Type> list = new ArrayList ();
+  for (Type type : model.getTypes ())
+  {
+   if (type.getXmlObject ().equalsIgnoreCase (xmlObject))
+   {
+    list.add (type);
+   }
+  }
+  return list;
+ }
+
  public Type findType (String xmlObject, String typeName)
  {
   for (Type type : model.getTypes ())

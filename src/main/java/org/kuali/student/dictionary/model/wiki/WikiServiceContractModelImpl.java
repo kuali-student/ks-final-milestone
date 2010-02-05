@@ -15,11 +15,6 @@
  */
 package org.kuali.student.dictionary.model.wiki;
 
-import org.kuali.student.dictionary.model.util.ServicesFilterLatestVersionOnly;
-import org.kuali.student.dictionary.model.util.ServicesFilterExcludeDev;
-import org.kuali.student.dictionary.model.util.ServicesFilterByKeys;
-import org.kuali.student.dictionary.model.util.ServicesFilterChained;
-import org.kuali.student.dictionary.model.util.ServicesFilter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -32,6 +27,7 @@ import org.kuali.student.dictionary.model.ServiceMethod;
 import org.kuali.student.dictionary.model.ServiceMethodParameter;
 import org.kuali.student.dictionary.model.ServiceMethodReturnValue;
 import org.kuali.student.dictionary.model.XmlType;
+import org.kuali.student.dictionary.model.util.ServicesFilter;
 
 /**
  *
@@ -42,13 +38,13 @@ public class WikiServiceContractModelImpl implements ServiceContractModel
 
  private String serviceRepositoryPath;
  private String jSessionId;
- private List<String> serviceKeys;
+ private ServicesFilter filter;
 
- public WikiServiceContractModelImpl (List<String> serviceKeys,
+ public WikiServiceContractModelImpl (ServicesFilter filter,
                                       String serviceRepositoryPath,
                                       String jSessionId)
  {
-  this.serviceKeys = serviceKeys;
+  this.filter = filter;
   this.serviceRepositoryPath = serviceRepositoryPath;
   this.jSessionId = jSessionId;
  }
@@ -120,11 +116,6 @@ public class WikiServiceContractModelImpl implements ServiceContractModel
   ServiceRepositoryPageReader rdr =
    new ServiceRepositoryPageReader (serviceRepositoryPath, jSessionId);
   List<Service> list = rdr.getServices ();
-  List<ServicesFilter> filters = new ArrayList ();
-  filters.add (new ServicesFilterExcludeDev ());
-  filters.add (new ServicesFilterLatestVersionOnly ());
-  filters.add (new ServicesFilterByKeys (serviceKeys));
-  ServicesFilterChained filter = new ServicesFilterChained (filters);
   services = filter.filter (list);
   return services;
  }

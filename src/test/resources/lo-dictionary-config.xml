@@ -7,7 +7,7 @@ http://student.kuali.org/xsd/dictionary-extension dictionary-extension.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Wed Feb 03 21:19:46 EST 2010
+on: Thu Feb 04 18:38:32 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -22,7 +22,26 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.loInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.loInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.loInfo.type" parent="object.loInfo.type.abstract"/>
+<dict:type key="kuali.lo.type.external" id="object.loInfo.type.kuali.lo.type.external" parent="object.loInfo.type.abstract">
+	<dict:name>Externally-created</dict:name>
+	<dict:desc>LO created by external organization, e.g., state or accrediting organization</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lo.type.formal" id="object.loInfo.type.kuali.lo.type.formal" parent="object.loInfo.type.abstract">
+	<dict:name>Formal</dict:name>
+	<dict:desc>LO created as part of an established, &quot;official&quot; curriculum or program, typically requires separate approval process to add to hierarchy</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lo.type.singleUse" id="object.loInfo.type.kuali.lo.type.singleUse" parent="object.loInfo.type.abstract">
+	<dict:name>singleUse</dict:name>
+	<dict:desc>LO created in support of programs or courses, e.g., faculty-inspired additional LO for a course that are not intended for others to re-use</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lo.type.personal" id="object.loInfo.type.kuali.lo.type.personal" parent="object.loInfo.type.abstract">
+	<dict:name>Personal</dict:name>
+	<dict:desc>LO created by individuals in support of personal goals, e.g., student LO in Learning Plan</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
 
 <dict:state key="(default)" id="object.loInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.loInfo.name"/>
@@ -36,7 +55,9 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.loInfo.state"/>
 	<dict:fieldRef bean="field.loInfo.id"/>
 </dict:state>
-<dict:state key="(default)" id="object.loInfo.state" parent="loInfo.state.abstract"/>
+<dict:state key="draft" id="object.loInfo.state.draft" parent="object.loInfo.state.abstract"/>
+<dict:state key="active" id="object.loInfo.state.active" parent="object.loInfo.state.abstract"/>
+<dict:state key="inactive" id="object.loInfo.state.inactive" parent="object.loInfo.state.abstract"/>
 
 <dict:field key="name" id="field.loInfo.name.abstract" abstract="true">
 	<dict:fieldDescriptor>
@@ -196,7 +217,11 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.loLoRelationInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.loLoRelationInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.loLoRelationInfo.type" parent="object.loLoRelationInfo.type.abstract"/>
+<dict:type key="kuali.lo.relation.type.includes" id="object.loLoRelationInfo.type.kuali.lo.relation.type.includes" parent="object.loLoRelationInfo.type.abstract">
+	<dict:name>includes</dict:name>
+	<dict:desc>Parent-child relationship between a parent LO and sub LO. Currently used in the context of LOs that are related within a single CLU.</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
 
 <dict:state key="(default)" id="object.loLoRelationInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.loLoRelationInfo.loId"/>
@@ -209,7 +234,9 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.loLoRelationInfo.state"/>
 	<dict:fieldRef bean="field.loLoRelationInfo.id"/>
 </dict:state>
-<dict:state key="(default)" id="object.loLoRelationInfo.state" parent="loLoRelationInfo.state.abstract"/>
+<dict:state key="draft" id="object.loLoRelationInfo.state.draft" parent="object.loLoRelationInfo.state.abstract"/>
+<dict:state key="active" id="object.loLoRelationInfo.state.active" parent="object.loLoRelationInfo.state.abstract"/>
+<dict:state key="inactive" id="object.loLoRelationInfo.state.inactive" parent="object.loLoRelationInfo.state.abstract"/>
 
 <dict:field key="loId" id="field.loLoRelationInfo.loId.abstract" abstract="true">
 	<dict:fieldDescriptor>
@@ -351,7 +378,26 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.loCategoryInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.loCategoryInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.loCategoryInfo.type" parent="object.loCategoryInfo.type.abstract"/>
+<dict:type key="kuali.lo.category.type.*" id="object.loCategoryInfo.type.kuali.lo.category.type._" parent="object.loCategoryInfo.type.abstract">
+	<dict:name>all categories</dict:name>
+	<dict:desc>all lo categories</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lo.category.type.accreditation" id="object.loCategoryInfo.type.kuali.lo.category.type.accreditation" parent="object.loCategoryInfo.type.abstract">
+	<dict:name>accreditation</dict:name>
+	<dict:desc>Categories that are specific to or defined by an accreditation body</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lo.category.type.skill" id="object.loCategoryInfo.type.kuali.lo.category.type.skill" parent="object.loCategoryInfo.type.abstract">
+	<dict:name>skill</dict:name>
+	<dict:desc>Categories that are representative of skill sets</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lo.category.type.subject" id="object.loCategoryInfo.type.kuali.lo.category.type.subject" parent="object.loCategoryInfo.type.abstract">
+	<dict:name>subject</dict:name>
+	<dict:desc>Categories that are representative of content areas</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
 
 <dict:state key="(default)" id="object.loCategoryInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.loCategoryInfo.name"/>
@@ -365,7 +411,8 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.loCategoryInfo.state"/>
 	<dict:fieldRef bean="field.loCategoryInfo.id"/>
 </dict:state>
-<dict:state key="(default)" id="object.loCategoryInfo.state" parent="loCategoryInfo.state.abstract"/>
+<dict:state key="inactive" id="object.loCategoryInfo.state.inactive" parent="object.loCategoryInfo.state.abstract"/>
+<dict:state key="active" id="object.loCategoryInfo.state.active" parent="object.loCategoryInfo.state.abstract"/>
 
 <dict:field key="name" id="field.loCategoryInfo.name.abstract" abstract="true">
 	<dict:fieldDescriptor>
@@ -521,13 +568,17 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.richTextInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.richTextInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.richTextInfo.type" parent="object.richTextInfo.type.abstract"/>
+<dict:type key="kuali.not.applicable" id="object.richTextInfo.type.kuali.not.applicable" parent="object.richTextInfo.type.abstract">
+	<dict:name>(n/a)</dict:name>
+	<dict:desc>Not applicable</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
 
 <dict:state key="(default)" id="object.richTextInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.richTextInfo.plain"/>
 	<dict:fieldRef bean="field.richTextInfo.formatted"/>
 </dict:state>
-<dict:state key="(default)" id="object.richTextInfo.state" parent="richTextInfo.state.abstract"/>
+<dict:state key="(n/a)" id="object.richTextInfo.state.NA" parent="object.richTextInfo.state.abstract"/>
 
 <dict:field key="plain" id="field.richTextInfo.plain.abstract" abstract="true">
 	<dict:fieldDescriptor>
@@ -581,13 +632,27 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.attributeInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.attributeInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.attributeInfo.type" parent="object.attributeInfo.type.abstract"/>
+<dict:type key="kuali.lu.type.CreditCourse.dynamic.eye.color" id="object.attributeInfo.type.kuali.lu.type.CreditCourse.dynamic.eye.color" parent="object.attributeInfo.type.abstract">
+	<dict:name>Eye Color</dict:name>
+	<dict:desc>Captures the eye color of students expected to take this course</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.CreditCourse.dynamic.left.handed" id="object.attributeInfo.type.kuali.lu.type.CreditCourse.dynamic.left.handed" parent="object.attributeInfo.type.abstract">
+	<dict:name>Left Handed</dict:name>
+	<dict:desc>Captures if the students are expected to be left handed who take this course</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lo.type.SingleUse.dynamic.sequence" id="object.attributeInfo.type.kuali.lo.type.SingleUse.dynamic.sequence" parent="object.attributeInfo.type.abstract">
+	<dict:name>Sequence</dict:name>
+	<dict:desc>Captures the sequence of an LO within a Credit Course</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
 
 <dict:state key="(default)" id="object.attributeInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.attributeInfo.value"/>
 	<dict:fieldRef bean="field.attributeInfo.key"/>
 </dict:state>
-<dict:state key="(default)" id="object.attributeInfo.state" parent="attributeInfo.state.abstract"/>
+<dict:state key="(n/a)" id="object.attributeInfo.state.NA" parent="object.attributeInfo.state.abstract"/>
 
 <dict:field key="value" id="field.attributeInfo.value.abstract" abstract="true">
 	<dict:fieldDescriptor>
@@ -638,7 +703,11 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.metaInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.metaInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.metaInfo.type" parent="object.metaInfo.type.abstract"/>
+<dict:type key="kuali.not.applicable" id="object.metaInfo.type.kuali.not.applicable" parent="object.metaInfo.type.abstract">
+	<dict:name>(n/a)</dict:name>
+	<dict:desc>Not applicable</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
 
 <dict:state key="(default)" id="object.metaInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.metaInfo.versionInd"/>
@@ -647,7 +716,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.metaInfo.updateTime"/>
 	<dict:fieldRef bean="field.metaInfo.updateId"/>
 </dict:state>
-<dict:state key="(default)" id="object.metaInfo.state" parent="metaInfo.state.abstract"/>
+<dict:state key="(n/a)" id="object.metaInfo.state.NA" parent="object.metaInfo.state.abstract"/>
 
 <dict:field key="versionInd" id="field.metaInfo.versionInd.abstract" abstract="true">
 	<dict:fieldDescriptor>

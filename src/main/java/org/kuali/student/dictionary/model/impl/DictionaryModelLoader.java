@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import org.kuali.student.dictionary.DictionaryExecutionException;
+import org.kuali.student.dictionary.model.util.DateUtility;
 
 /**
  * Loads a spreadsheet using either a google or excel reader
@@ -172,8 +173,8 @@ public class DictionaryModelLoader implements DictionaryModel
   inline.setValidChars (getFixup (worksheetReader, "validChars"));
   if ( ! isValidChars (inline.getValidChars ()))
   {
-   throw new DictionaryValidationException ("Field " + dict.getId () +
-    " contains an invalid regular expression " + inline.getValidChars ());
+   throw new DictionaryValidationException ("Field " + dict.getId ()
+    + " contains an invalid regular expression " + inline.getValidChars ());
   }
   inline.setLookup (getFixup (worksheetReader, "lookup"));
   dict.setInlineConstraint (inline);
@@ -206,16 +207,20 @@ public class DictionaryModelLoader implements DictionaryModel
     continue;
    }
    state.setDesc (getFixup (worksheetReader, "desc"));
-
+   if (state.getDesc ().equals ("ignore this row"))
+   {
+    continue;
+   }
+   list.add (state);
    state.setXmlObject (getFixup (worksheetReader, "xmlObject"));
    state.setXmlObjectDesc (getFixup (worksheetReader, "xmlObjectDesc"));
+   state.setStateKey (getFixup (worksheetReader, "stateKey"));
+   state.setEffectiveDate (getFixupDate (worksheetReader, "effective"));
+   state.setExpirationDate (getFixupDate (worksheetReader, "expiration"));
    state.setInclude (getFixup (worksheetReader, "include"));
    state.setStatus (getFixup (worksheetReader, "status"));
    state.setComments (getFixup (worksheetReader, "comments"));
-   if ( ! state.getDesc ().equals ("ignore this row"))
-   {
-    list.add (state);
-   }
+
   }
   return list;
  }
@@ -242,19 +247,37 @@ public class DictionaryModelLoader implements DictionaryModel
     continue;
    }
    type.setDesc (getFixup (worksheetReader, "desc"));
+   if (type.getDesc ().equals ("ignore this row"))
+   {
+    continue;
+   }
+   list.add (type);
    type.setXmlObject (getFixup (worksheetReader, "xmlObject"));
    type.setPrimitive (getFixup (worksheetReader, "primitive"));
    type.setInclude (getFixup (worksheetReader, "include"));
    type.setTypeKey (get (worksheetReader, "typeKey"));
+   type.setEffectiveDate (getFixupDate (worksheetReader, "effective"));
+   type.setExpirationDate (getFixupDate (worksheetReader, "expiration"));
    type.setAliases (getFixup (worksheetReader, "aliases"));
    type.setStatus (getFixup (worksheetReader, "status"));
    type.setComments (getFixup (worksheetReader, "comments"));
-   if ( ! type.getDesc ().equals ("ignore this row"))
-   {
-    list.add (type);
-   }
+
   }
   return list;
+ }
+
+ private String getFixupDate (WorksheetReader reader, String name)
+ {
+  String date = getFixup (reader, name);
+  if (date == null)
+  {
+   return "";
+  }
+  if (date.equals (""))
+  {
+   return "";
+  }
+  return new DateUtility ().asYMD (date);
  }
 
  @Override
@@ -321,8 +344,8 @@ public class DictionaryModelLoader implements DictionaryModel
    inline.setValidChars (getFixup (worksheetReader, "validChars"));
    if ( ! isValidChars (inline.getValidChars ()))
    {
-    throw new DictionaryValidationException ("Field " + field.getId () +
-     " contains an invalid regular expression " + inline.getValidChars ());
+    throw new DictionaryValidationException ("Field " + field.getId ()
+     + " contains an invalid regular expression " + inline.getValidChars ());
    }
    inline.setLookup (getFixup (worksheetReader, "lookup"));
    field.setInlineConstraint (inline);
@@ -379,8 +402,8 @@ public class DictionaryModelLoader implements DictionaryModel
    constraint.setValidChars (getFixup (worksheetReader, "validChars"));
    if ( ! isValidChars (constraint.getValidChars ()))
    {
-    throw new DictionaryValidationException ("Constraint " + constraint.getId () +
-     " contains an invalid regular expression " + constraint.getValidChars ());
+    throw new DictionaryValidationException ("Constraint " + constraint.getId ()
+     + " contains an invalid regular expression " + constraint.getValidChars ());
    }
    constraint.setClassName (decorateClassName (getFixup (worksheetReader, "className")));
    constraint.setLookup (getFixup (worksheetReader, "lookup"));
@@ -554,8 +577,8 @@ public class DictionaryModelLoader implements DictionaryModel
    inline.setValidChars (getFixup (worksheetReader, "validChars"));
    if ( ! isValidChars (inline.getValidChars ()))
    {
-    throw new DictionaryValidationException ("Field " + orchObj.getId () +
-     " contains an invalid regular expression " + inline.getValidChars ());
+    throw new DictionaryValidationException ("Field " + orchObj.getId ()
+     + " contains an invalid regular expression " + inline.getValidChars ());
    }
    // removed from constraint because lookup is now it's own thing
    // and is on the orchObj directly

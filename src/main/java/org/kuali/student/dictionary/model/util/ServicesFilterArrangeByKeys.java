@@ -16,6 +16,8 @@
 package org.kuali.student.dictionary.model.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import org.kuali.student.dictionary.model.Service;
 
@@ -23,27 +25,45 @@ import org.kuali.student.dictionary.model.Service;
  *
  * @author nwright
  */
-public class ServicesFilterByKeys implements ServicesFilter
+public class ServicesFilterArrangeByKeys implements ServicesFilter
 {
-List <String> keys;
 
- public ServicesFilterByKeys (List<String> keys)
+ List<String> keys;
+
+ public ServicesFilterArrangeByKeys (List<String> keys)
  {
   this.keys = keys;
+  for (int i = 0; i < keys.size (); i ++)
+  {
+   keys.set (i, keys.get (i).toLowerCase ());
+  }
  }
 
- 
  @Override
  public List<Service> filter (List<Service> services)
  {
-  List <Service> list = new ArrayList ();
-  for (Service target : services)
+  List<Service> sorted = new ArrayList (services);
+  Collections.sort (sorted, new CompareService ());
+  return sorted;
+ }
+
+ public class CompareService implements Comparator<Service>
+ {
+
+  public int compare (Service service1, Service service2)
   {
-   if (keys.contains (target.getKey ()))
+   int index1 = keys.indexOf (service1.getKey ().toLowerCase ());
+   int index2 = keys.indexOf (service2.getKey ().toLowerCase ());
+   if (index1 < index2)
    {
-    list.add (target);
+    return -1;
    }
+   if (index2 < index1)
+   {
+    return +1;
+   }
+   return 0;
   }
-  return list;
+
  }
 }

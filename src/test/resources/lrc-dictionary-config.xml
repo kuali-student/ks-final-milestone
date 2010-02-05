@@ -7,7 +7,7 @@ http://student.kuali.org/xsd/dictionary-extension dictionary-extension.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Wed Feb 03 21:19:46 EST 2010
+on: Thu Feb 04 18:38:32 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -22,7 +22,16 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.creditInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.creditInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.creditInfo.type" parent="object.creditInfo.type.abstract"/>
+<dict:type key="kuali.creditType.credit.degree" id="object.creditInfo.type.kuali.creditType.credit.degree" parent="object.creditInfo.type.abstract">
+	<dict:name>Academic Credit</dict:name>
+	<dict:desc>College level credit that can typically be applied by a student to complete a degree</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.creditType.credit.notDegreeApplicable" id="object.creditInfo.type.kuali.creditType.credit.notDegreeApplicable" parent="object.creditInfo.type.abstract">
+	<dict:name>Credit - Not Degree Applicable</dict:name>
+	<dict:desc>Non-Degree Applicable courses do not apply toward a degree, and are designed to provide the fundamental skills necessary for successful completion of other college courses.</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
 
 <dict:state key="(default)" id="object.creditInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.creditInfo.name"/>
@@ -34,7 +43,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.creditInfo.type"/>
 	<dict:fieldRef bean="field.creditInfo.id"/>
 </dict:state>
-<dict:state key="(default)" id="object.creditInfo.state" parent="creditInfo.state.abstract"/>
+<dict:state key="(n/a)" id="object.creditInfo.state.NA" parent="object.creditInfo.state.abstract"/>
 
 <dict:field key="name" id="field.creditInfo.name.abstract" abstract="true">
 	<dict:fieldDescriptor>
@@ -163,7 +172,26 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.gradeInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.gradeInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.gradeInfo.type" parent="object.gradeInfo.type.abstract"/>
+<dict:type key="kuali.gradeType.Qualitative" id="object.gradeInfo.type.kuali.gradeType.Qualitative" parent="object.gradeInfo.type.abstract">
+	<dict:name>Qualitative</dict:name>
+	<dict:desc>A qualitative grade type</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.gradeType.Letter" id="object.gradeInfo.type.kuali.gradeType.Letter" parent="object.gradeInfo.type.abstract">
+	<dict:name>Letter</dict:name>
+	<dict:desc>A Letter used as a grade (e.g. A, B, C, D, F)</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.gradeType.Pass-Fail" id="object.gradeInfo.type.kuali.gradeType.Pass-Fail" parent="object.gradeInfo.type.abstract">
+	<dict:name>Pass-Fail</dict:name>
+	<dict:desc>Pass or Fail</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.gradeType.Letter, kuali.gradeType.Pass-Fail" id="object.gradeInfo.type.kuali.gradeType.Letter_ kuali.gradeType.Pass-Fail" parent="object.gradeInfo.type.abstract">
+	<dict:name>FinalGradeTypes</dict:name>
+	<dict:desc>the set of grade types that can be used at the CLU level</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
 
 <dict:state key="(default)" id="object.gradeInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.gradeInfo.name"/>
@@ -176,7 +204,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.gradeInfo.type"/>
 	<dict:fieldRef bean="field.gradeInfo.key"/>
 </dict:state>
-<dict:state key="(default)" id="object.gradeInfo.state" parent="gradeInfo.state.abstract"/>
+<dict:state key="(n/a)" id="object.gradeInfo.state.NA" parent="object.gradeInfo.state.abstract"/>
 
 <dict:field key="name" id="field.gradeInfo.name.abstract" abstract="true">
 	<dict:fieldDescriptor>
@@ -321,7 +349,46 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.resultComponentInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.resultComponentInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.resultComponentInfo.type" parent="object.resultComponentInfo.type.abstract"/>
+<dict:type key="kuali.resultComponentType.credit.degree.fixed" id="object.resultComponentInfo.type.kuali.resultComponentType.credit.degree.fixed" parent="object.resultComponentInfo.type.abstract">
+	<dict:name>Fixed Number</dict:name>
+	<dict:desc>This records a single fixed number of credits that are awarded if the student passes the course.</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.resultComponentType.credit.degree.range" id="object.resultComponentInfo.type.kuali.resultComponentType.credit.degree.range" parent="object.resultComponentInfo.type.abstract">
+	<dict:name>Variable Number</dict:name>
+	<dict:desc>This records a range of number of credits that can be awarded for this course.</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.resultComponentType.credit.degree.fixed, kuali.resultComponentType.credit.degree.range" id="object.resultComponentInfo.type.kuali.resultComponentType.credit.degree.fixed_ kuali.resultComponentType.credit.degree.range" parent="object.resultComponentInfo.type.abstract">
+	<dict:name>Credit Number Types</dict:name>
+	<dict:desc>This records a range of number of credits that can be awarded for this course.</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.resultComponentType.finalQualitative" id="object.resultComponentInfo.type.kuali.resultComponentType.finalQualitative" parent="object.resultComponentInfo.type.abstract">
+	<dict:name>Final Qualitative</dict:name>
+	<dict:desc>This records that a Qualitative assessment is possible for this course</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.resultComponentType.finalGrade" id="object.resultComponentInfo.type.kuali.resultComponentType.finalGrade" parent="object.resultComponentInfo.type.abstract">
+	<dict:name>Final Grade</dict:name>
+	<dict:desc>This records that a final grade is a result for this course</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.resultComponentType.gpa" id="object.resultComponentInfo.type.kuali.resultComponentType.gpa" parent="object.resultComponentInfo.type.abstract">
+	<dict:name>Overall GPA</dict:name>
+	<dict:desc>This records the overall GPA of a student in a program</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.resultComponentType.degree" id="object.resultComponentInfo.type.kuali.resultComponentType.degree" parent="object.resultComponentInfo.type.abstract">
+	<dict:name>Degree</dict:name>
+	<dict:desc>This records a degree is awarded if the student completes the program</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.resultComponentType.certificate" id="object.resultComponentInfo.type.kuali.resultComponentType.certificate" parent="object.resultComponentInfo.type.abstract">
+	<dict:name>Certificate</dict:name>
+	<dict:desc>This records an awarded certificate</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
 
 <dict:state key="(default)" id="object.resultComponentInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.resultComponentInfo.name"/>
@@ -335,7 +402,8 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.resultComponentInfo.state"/>
 	<dict:fieldRef bean="field.resultComponentInfo.id"/>
 </dict:state>
-<dict:state key="(default)" id="object.resultComponentInfo.state" parent="resultComponentInfo.state.abstract"/>
+<dict:state key="active" id="object.resultComponentInfo.state.active" parent="object.resultComponentInfo.state.abstract"/>
+<dict:state key="inactive" id="object.resultComponentInfo.state.inactive" parent="object.resultComponentInfo.state.abstract"/>
 
 <dict:field key="name" id="field.resultComponentInfo.name.abstract" abstract="true">
 	<dict:fieldDescriptor>
@@ -494,7 +562,26 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.lrDefinitionInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.lrDefinitionInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.lrDefinitionInfo.type" parent="object.lrDefinitionInfo.type.abstract"/>
+<dict:type key="kuali.lrc.lrd.CreditCourseFinalGrade" id="object.lrDefinitionInfo.type.kuali.lrc.lrd.CreditCourseFinalGrade" parent="object.lrDefinitionInfo.type.abstract">
+	<dict:name>Credit Course Final Grade</dict:name>
+	<dict:desc>This defines getting the result of a final grade in a credi course</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lrc.lrd.OverallProgramGPA" id="object.lrDefinitionInfo.type.kuali.lrc.lrd.OverallProgramGPA" parent="object.lrDefinitionInfo.type.abstract">
+	<dict:name>Overall Program GPA</dict:name>
+	<dict:desc>This defines the calculated GPA result of enrollment in the overall program</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lrc.lrd.OverallProgramTotalCredits" id="object.lrDefinitionInfo.type.kuali.lrc.lrd.OverallProgramTotalCredits" parent="object.lrDefinitionInfo.type.abstract">
+	<dict:name>Overall Program Total Credits</dict:name>
+	<dict:desc>This defines the calculated Total Credits result of enrollment in the overall program.</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.not.applicable" id="object.lrDefinitionInfo.type.kuali.not.applicable" parent="object.lrDefinitionInfo.type.abstract">
+	<dict:name>(n/a)</dict:name>
+	<dict:desc>N/A for now but really should list the valid search types right?</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
 
 <dict:state key="(default)" id="object.lrDefinitionInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.lrDefinitionInfo.name"/>
@@ -507,7 +594,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.lrDefinitionInfo.metaInfo"/>
 	<dict:fieldRef bean="field.lrDefinitionInfo.lrDefinitionId"/>
 </dict:state>
-<dict:state key="(default)" id="object.lrDefinitionInfo.state" parent="lrDefinitionInfo.state.abstract"/>
+<dict:state key="(n/a)" id="object.lrDefinitionInfo.state.NA" parent="object.lrDefinitionInfo.state.abstract"/>
 
 <dict:field key="name" id="field.lrDefinitionInfo.name.abstract" abstract="true">
 	<dict:fieldDescriptor>
@@ -662,13 +749,17 @@ This field does not make sense. The GradeKey points to the GradeInfo object that
 <dict:type key="(default)" id="object.richTextInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.richTextInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.richTextInfo.type" parent="object.richTextInfo.type.abstract"/>
+<dict:type key="kuali.not.applicable" id="object.richTextInfo.type.kuali.not.applicable" parent="object.richTextInfo.type.abstract">
+	<dict:name>(n/a)</dict:name>
+	<dict:desc>Not applicable</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
 
 <dict:state key="(default)" id="object.richTextInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.richTextInfo.plain"/>
 	<dict:fieldRef bean="field.richTextInfo.formatted"/>
 </dict:state>
-<dict:state key="(default)" id="object.richTextInfo.state" parent="richTextInfo.state.abstract"/>
+<dict:state key="(n/a)" id="object.richTextInfo.state.NA" parent="object.richTextInfo.state.abstract"/>
 
 <dict:field key="plain" id="field.richTextInfo.plain.abstract" abstract="true">
 	<dict:fieldDescriptor>
@@ -722,13 +813,27 @@ This field does not make sense. The GradeKey points to the GradeInfo object that
 <dict:type key="(default)" id="object.attributeInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.attributeInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.attributeInfo.type" parent="object.attributeInfo.type.abstract"/>
+<dict:type key="kuali.lu.type.CreditCourse.dynamic.eye.color" id="object.attributeInfo.type.kuali.lu.type.CreditCourse.dynamic.eye.color" parent="object.attributeInfo.type.abstract">
+	<dict:name>Eye Color</dict:name>
+	<dict:desc>Captures the eye color of students expected to take this course</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.CreditCourse.dynamic.left.handed" id="object.attributeInfo.type.kuali.lu.type.CreditCourse.dynamic.left.handed" parent="object.attributeInfo.type.abstract">
+	<dict:name>Left Handed</dict:name>
+	<dict:desc>Captures if the students are expected to be left handed who take this course</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lo.type.SingleUse.dynamic.sequence" id="object.attributeInfo.type.kuali.lo.type.SingleUse.dynamic.sequence" parent="object.attributeInfo.type.abstract">
+	<dict:name>Sequence</dict:name>
+	<dict:desc>Captures the sequence of an LO within a Credit Course</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
 
 <dict:state key="(default)" id="object.attributeInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.attributeInfo.value"/>
 	<dict:fieldRef bean="field.attributeInfo.key"/>
 </dict:state>
-<dict:state key="(default)" id="object.attributeInfo.state" parent="attributeInfo.state.abstract"/>
+<dict:state key="(n/a)" id="object.attributeInfo.state.NA" parent="object.attributeInfo.state.abstract"/>
 
 <dict:field key="value" id="field.attributeInfo.value.abstract" abstract="true">
 	<dict:fieldDescriptor>
@@ -779,7 +884,11 @@ This field does not make sense. The GradeKey points to the GradeInfo object that
 <dict:type key="(default)" id="object.metaInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.metaInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.metaInfo.type" parent="object.metaInfo.type.abstract"/>
+<dict:type key="kuali.not.applicable" id="object.metaInfo.type.kuali.not.applicable" parent="object.metaInfo.type.abstract">
+	<dict:name>(n/a)</dict:name>
+	<dict:desc>Not applicable</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
 
 <dict:state key="(default)" id="object.metaInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.metaInfo.versionInd"/>
@@ -788,7 +897,7 @@ This field does not make sense. The GradeKey points to the GradeInfo object that
 	<dict:fieldRef bean="field.metaInfo.updateTime"/>
 	<dict:fieldRef bean="field.metaInfo.updateId"/>
 </dict:state>
-<dict:state key="(default)" id="object.metaInfo.state" parent="metaInfo.state.abstract"/>
+<dict:state key="(n/a)" id="object.metaInfo.state.NA" parent="object.metaInfo.state.abstract"/>
 
 <dict:field key="versionInd" id="field.metaInfo.versionInd.abstract" abstract="true">
 	<dict:fieldDescriptor>

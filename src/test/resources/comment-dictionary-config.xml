@@ -7,7 +7,7 @@ http://student.kuali.org/xsd/dictionary-extension dictionary-extension.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Wed Feb 03 21:19:47 EST 2010
+on: Thu Feb 04 18:38:32 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -22,7 +22,16 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.commentInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.commentInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.commentInfo.type" parent="object.commentInfo.type.abstract"/>
+<dict:type key="kuali.comment.type.proposal.private" id="object.commentInfo.type.kuali.comment.type.proposal.private" parent="object.commentInfo.type.abstract">
+	<dict:name>Private Proposal</dict:name>
+	<dict:desc>Private coments that are only visible to specific people</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.comment.type.proposal.public" id="object.commentInfo.type.kuali.comment.type.proposal.public" parent="object.commentInfo.type.abstract">
+	<dict:name>Public Proposal</dict:name>
+	<dict:desc>Comments that are visible to anyone who can view the associated proposal</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
 
 <dict:state key="(default)" id="object.commentInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.commentInfo.commentText"/>
@@ -36,7 +45,8 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.commentInfo.state"/>
 	<dict:fieldRef bean="field.commentInfo.id"/>
 </dict:state>
-<dict:state key="(default)" id="object.commentInfo.state" parent="commentInfo.state.abstract"/>
+<dict:state key="active" id="object.commentInfo.state.active" parent="object.commentInfo.state.abstract"/>
+<dict:state key="inactive" id="object.commentInfo.state.inactive" parent="object.commentInfo.state.abstract"/>
 
 <dict:field key="commentText" id="field.commentInfo.commentText.abstract" abstract="true">
 	<dict:fieldDescriptor>
@@ -194,13 +204,17 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.richTextInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.richTextInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.richTextInfo.type" parent="object.richTextInfo.type.abstract"/>
+<dict:type key="kuali.not.applicable" id="object.richTextInfo.type.kuali.not.applicable" parent="object.richTextInfo.type.abstract">
+	<dict:name>(n/a)</dict:name>
+	<dict:desc>Not applicable</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
 
 <dict:state key="(default)" id="object.richTextInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.richTextInfo.plain"/>
 	<dict:fieldRef bean="field.richTextInfo.formatted"/>
 </dict:state>
-<dict:state key="(default)" id="object.richTextInfo.state" parent="richTextInfo.state.abstract"/>
+<dict:state key="(n/a)" id="object.richTextInfo.state.NA" parent="object.richTextInfo.state.abstract"/>
 
 <dict:field key="plain" id="field.richTextInfo.plain.abstract" abstract="true">
 	<dict:fieldDescriptor>
@@ -254,13 +268,27 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.attributeInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.attributeInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.attributeInfo.type" parent="object.attributeInfo.type.abstract"/>
+<dict:type key="kuali.lu.type.CreditCourse.dynamic.eye.color" id="object.attributeInfo.type.kuali.lu.type.CreditCourse.dynamic.eye.color" parent="object.attributeInfo.type.abstract">
+	<dict:name>Eye Color</dict:name>
+	<dict:desc>Captures the eye color of students expected to take this course</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.CreditCourse.dynamic.left.handed" id="object.attributeInfo.type.kuali.lu.type.CreditCourse.dynamic.left.handed" parent="object.attributeInfo.type.abstract">
+	<dict:name>Left Handed</dict:name>
+	<dict:desc>Captures if the students are expected to be left handed who take this course</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lo.type.SingleUse.dynamic.sequence" id="object.attributeInfo.type.kuali.lo.type.SingleUse.dynamic.sequence" parent="object.attributeInfo.type.abstract">
+	<dict:name>Sequence</dict:name>
+	<dict:desc>Captures the sequence of an LO within a Credit Course</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
 
 <dict:state key="(default)" id="object.attributeInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.attributeInfo.value"/>
 	<dict:fieldRef bean="field.attributeInfo.key"/>
 </dict:state>
-<dict:state key="(default)" id="object.attributeInfo.state" parent="attributeInfo.state.abstract"/>
+<dict:state key="(n/a)" id="object.attributeInfo.state.NA" parent="object.attributeInfo.state.abstract"/>
 
 <dict:field key="value" id="field.attributeInfo.value.abstract" abstract="true">
 	<dict:fieldDescriptor>
@@ -311,7 +339,11 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.metaInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.metaInfo.state"/>
 </dict:type>
-<dict:type key="(default)" id="object.metaInfo.type" parent="object.metaInfo.type.abstract"/>
+<dict:type key="kuali.not.applicable" id="object.metaInfo.type.kuali.not.applicable" parent="object.metaInfo.type.abstract">
+	<dict:name>(n/a)</dict:name>
+	<dict:desc>Not applicable</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
 
 <dict:state key="(default)" id="object.metaInfo.state.abstract" abstract="true">
 	<dict:fieldRef bean="field.metaInfo.versionInd"/>
@@ -320,7 +352,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.metaInfo.updateTime"/>
 	<dict:fieldRef bean="field.metaInfo.updateId"/>
 </dict:state>
-<dict:state key="(default)" id="object.metaInfo.state" parent="metaInfo.state.abstract"/>
+<dict:state key="(n/a)" id="object.metaInfo.state.NA" parent="object.metaInfo.state.abstract"/>
 
 <dict:field key="versionInd" id="field.metaInfo.versionInd.abstract" abstract="true">
 	<dict:fieldDescriptor>
