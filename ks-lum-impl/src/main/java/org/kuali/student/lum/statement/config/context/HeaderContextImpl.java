@@ -19,17 +19,17 @@ import java.util.Map;
 
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.brms.statement.naturallanguage.util.LuStatementAnchor;
+import org.kuali.student.brms.statement.naturallanguage.util.StatementAnchor;
 
-public class HeaderContextImpl extends AbstractLuContext<LuStatementAnchor> {
+public class HeaderContextImpl extends AbstractLuContext<StatementAnchor> {
     /**
      * Creates the context map (template data) for the requirement component.
      * 
      * @param reqComponent Requirement component
      * @throws DoesNotExistException If CLU, CluSet or relation does not exist
      */
-    public Map<String, Object> createContextMap(LuStatementAnchor statementAnchor) throws OperationFailedException {
-        CluInfo clu = getCluInfo(statementAnchor.getCluAnchorId());
+    public Map<String, Object> createContextMap(StatementAnchor statementAnchor) throws OperationFailedException {
+        CluInfo clu = getCluInfo(statementAnchor.getRefObjectId());
     	Map<String, Object> contextMap = new HashMap<String, Object>();
         contextMap.put(CLU_TOKEN, clu);
         return contextMap;
