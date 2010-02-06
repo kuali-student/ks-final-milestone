@@ -19,21 +19,37 @@ import org.kuali.student.brms.statement.entity.Statement;
 /**
  * This class attaches a CLU id anchor to a {@link CustomLuStatementInfo}.
  */
-public class LuStatementAnchor {
+public class StatementAnchor {
 //	private CustomLuStatementInfo luStatement;
-	private Statement luStatement;
-	private String cluAnchorId;
+	private Statement statement;
+//	private String cluAnchorId;
+	private String refObjectTypeKey;
+	private String refObjectId;
 
-	public LuStatementAnchor(Statement luStatement, String cluAnchorId) {
-		this.luStatement = luStatement;
-		this.cluAnchorId = cluAnchorId;
+//	public StatementAnchor(Statement statement, String cluAnchorId) {
+//		this.statement = statement;
+//		this.cluAnchorId = cluAnchorId;
+//	}
+
+	public StatementAnchor(Statement statement, String refObjectTypeKey, String refObjectId) {
+		this.statement = statement;
+		this.refObjectTypeKey = refObjectTypeKey;
+		this.refObjectId = refObjectId;
 	}
 
-	public Statement getLuStatement() {
-		return this.luStatement;
+	public Statement getStatement() {
+		return this.statement;
 	}
 
-	public String getCluAnchorId() {
-		return this.cluAnchorId;
+//	public String getCluAnchorId() {
+//		return this.cluAnchorId;
+//	}
+
+	public String getRefObjectTypeKey() {
+		return refObjectTypeKey;
+	}
+
+	public String getRefObjectId() {
+		return refObjectId;
 	}
 }

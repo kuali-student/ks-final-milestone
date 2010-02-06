@@ -113,15 +113,14 @@ public class NaturalLanguageTranslatorImpl implements NaturalLanguageTranslator 
 	 * Translates a statement for a specific natural language 
 	 * usuage type (context) into natural language.
 	 * 
-	 * @param cluId Anchor CLU id
 	 * @param statement Statement to be translated 
 	 * @param nlUsageTypeKey Natural language usage type key (context)
 	 * @return Natural language statement translation
 	 * @throws DoesNotExistException CLU does not exists
 	 * @throws OperationFailedException Translation fails
 	 */
-	public String translateStatement(final String cluId, final Statement statement, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
-		return this.statementTranslator.translate(cluId, statement, nlUsageTypeKey);
+	public String translateStatement(final Statement statement, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
+		return this.statementTranslator.translate(statement, nlUsageTypeKey);
 	}
 
 	/**

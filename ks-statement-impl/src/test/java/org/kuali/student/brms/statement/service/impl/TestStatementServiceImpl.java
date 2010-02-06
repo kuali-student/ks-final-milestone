@@ -37,6 +37,7 @@ import org.kuali.student.brms.statement.config.CluInfo;
 import org.kuali.student.brms.statement.config.CluSetInfo;
 import org.kuali.student.brms.statement.config.contexts.CourseListContextImpl;
 import org.kuali.student.brms.statement.dto.NlUsageTypeInfo;
+import org.kuali.student.brms.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.brms.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.brms.statement.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.brms.statement.dto.ReqComponentInfo;
@@ -58,29 +59,65 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 	public static void beforeClass() {
 		// Add test data
 
+		CluInfo clu1 = new CluInfo("CLU-NL-1", "MATH152", "MATH 152", "MATH 152 Linear Systems");
+		CluInfo clu2 = new CluInfo("CLU-NL-3", "MATH180", "MATH 180", "MATH 180 Differential Calculus with Physical Applications");
+		CluInfo clu3 = new CluInfo("CLU-NL-2", "MATH221", "MATH 221", "MATH 221 Matrix Algebra");
+		
 		// Add CLUs
-		List<CluInfo> cluList = new ArrayList<CluInfo>();
-		CluInfo clu1 = new CluInfo("1", "MATH152", "MATH 152", "MATH 152 Linear Systems");
-		cluList.add(clu1);
-		CluInfo clu2 = new CluInfo("2", "MATH180", "MATH 180", "MATH 180 Differential Calculus with Physical Applications");
-		cluList.add(clu2);
-		CourseListContextImpl.setCluInfo(cluList);
+		List<CluInfo> cluList1 = new ArrayList<CluInfo>();
+		cluList1.add(clu1);
+		cluList1.add(clu2);
+
+		// FIXME - Investigate why adding clu1, clu2, clu3 doesn't work for method testGetNaturalLanguageForStatement()
+		List<CluInfo> cluList2 = new ArrayList<CluInfo>();
+		cluList2.add(clu1);
+		cluList2.add(clu3);
+		cluList2.add(clu2);
+
+		List<CluInfo> cluListAll = new ArrayList<CluInfo>();
+		cluListAll.addAll(cluList1);
+		cluListAll.addAll(cluList2);
+		
+		CourseListContextImpl.setCluInfo(cluListAll);
 		
 		// Add CLU Sets
 		List<CluSetInfo> cluSetList = new ArrayList<CluSetInfo>();
-		CluSetInfo cluSet1 = new CluSetInfo("CLUSET-NL-1", cluList);
+		CluSetInfo cluSet1 = new CluSetInfo("CLUSET-NL-1", cluList1);
+		CluSetInfo cluSet2 = new CluSetInfo("CLUSET-NL-2", cluList2);
 		cluSetList.add(cluSet1);
+		cluSetList.add(cluSet2);
 		CourseListContextImpl.setCluSetInfo(cluSetList);
 	}
 	
 	@Test
-	public void testTranslateReqComponent() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+	// FIXME - Investigate why adding clu1, clu2, clu3 doesn't work but adding clu1, clu3, clu2 works
+	public void testGetNaturalLanguageForStatement() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        GregorianCalendar effDate = new GregorianCalendar(2000, 00, 01, 0, 0, 0);
+        GregorianCalendar expDate = new GregorianCalendar(2100, 11, 31, 0, 0, 0);
+
+    	RefStatementRelationInfo dto = new RefStatementRelationInfo();
+    	dto.setRefObjectId("CLU-NL-1"); //MATH152
+    	dto.setRefObjectTypeKey("clu"); // CLU
+    	dto.setState("ACTIVE");
+    	dto.setStatementId("STMT-1");
+    	dto.setType("clu.prerequisites");
+    	dto.setEffectiveDate(effDate.getTime());
+    	dto.setExpirationDate(expDate.getTime());
+
+    	RefStatementRelationInfo newDto = statementService.createRefStatementRelation(dto);
+
+    	String nl = statementService.getNaturalLanguageForStatement("STMT-5", "KUALI.CATALOG", "en");
+		assertEquals("Requirement for MATH 152 Linear Systems: Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 2 of MATH 152, MATH 221, MATH 180", nl);
+	}
+
+	@Test
+	public void testGetNaturalLanguageForReqComponent() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
     	String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG", "en");
     	assertEquals("Student must have completed 1 of MATH 152, MATH 180", nl);
     }
 
 	@Test
-	public void testTranslateReqComponent_InvalidNlUsageTypeKey() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+	public void testGetNaturalLanguageForReqComponent_InvalidNlUsageTypeKey() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
     	try {
     		String nl = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "xxx", "en");
     	} catch(DoesNotExistException e) {
@@ -703,6 +740,68 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         } catch (DoesNotExistException e) {
             fail("LuService.deleteReqComponent() failed deleting pre existing req component");
         }
+    }
+    
+    @Test
+    public void testGetRefObjectTypes() throws OperationFailedException {
+    	List<String> objectTypeIds = statementService.getRefObjectTypes();
+        assertNotNull(objectTypeIds);
+        assertEquals(1, objectTypeIds.size());
+        assertEquals("clu", objectTypeIds.get(0));
+    }
+
+    @Test
+    public void testGetRefObjectSubTypes() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    	List<String> objectSubTypeIds = statementService.getRefObjectSubTypes("clu");
+        assertNotNull(objectSubTypeIds);
+        assertEquals(2, objectSubTypeIds.size());
+        assertEquals("course", objectSubTypeIds.get(0));
+        assertEquals("program", objectSubTypeIds.get(1));
+    }
+    
+    @Test
+    public void testCreateRefStatementRelation() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        GregorianCalendar effDate = new GregorianCalendar(2000, 00, 01, 0, 0, 0);
+        GregorianCalendar expDate = new GregorianCalendar(2100, 11, 31, 0, 0, 0);
+
+    	RefStatementRelationInfo dto = new RefStatementRelationInfo();
+    	dto.setRefObjectId("CLU-NL-1"); //MATH152
+    	dto.setRefObjectTypeKey("clu"); // CLU
+    	dto.setState("ACTIVE");
+    	dto.setStatementId("STMT-1");
+    	dto.setType("clu.prerequisites");
+    	dto.setEffectiveDate(effDate.getTime());
+    	dto.setExpirationDate(expDate.getTime());
+    	
+    	RefStatementRelationInfo newDto = statementService.createRefStatementRelation(dto);
+    	assertNotNull(newDto);
+    	assertNotNull(newDto.getId());
+    	assertNotNull(newDto.getMetaInfo());
+        assertEquals("CLU-NL-1", newDto.getRefObjectId());
+        assertEquals("clu", newDto.getRefObjectTypeKey());
+        assertEquals("ACTIVE", newDto.getState());
+        assertEquals("STMT-1", newDto.getStatementId());
+        assertEquals("clu.prerequisites", newDto.getType());
+        assertEquals(effDate.getTime(), newDto.getEffectiveDate());
+        assertEquals(expDate.getTime(), newDto.getExpirationDate());
+    }
+
+    @Test
+    public void testGetRefStatementRelation() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        GregorianCalendar effDate = new GregorianCalendar(2000, 00, 01, 0, 0, 0);
+        GregorianCalendar expDate = new GregorianCalendar(2100, 11, 31, 0, 0, 0);
+
+    	RefStatementRelationInfo newDto = statementService.getRefStatementRelation("ref-stmt-rel-1");
+    	assertNotNull(newDto);
+    	assertNotNull(newDto.getId());
+    	assertNotNull(newDto.getMetaInfo());
+        assertEquals("CLU-NL-1", newDto.getRefObjectId());
+        assertEquals("clu", newDto.getRefObjectTypeKey());
+        assertEquals("ACTIVE", newDto.getState());
+        assertEquals("STMT-1", newDto.getStatementId());
+        assertEquals("clu.prerequisites", newDto.getType());
+        assertEquals(effDate.getTime(), newDto.getEffectiveDate());
+        assertEquals(expDate.getTime(), newDto.getExpirationDate());
     }
     
     @Test

@@ -39,17 +39,29 @@ public class TestStatementDao extends AbstractTransactionalDaoTest {
     public void testGetRefStatementRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
     	RefStatementRelation refStmtRel = dao.fetch(RefStatementRelation.class, "ref-stmt-rel-1") ;
 
-        GregorianCalendar gregEff = new GregorianCalendar(2000, 00, 01, 0, 0, 0);
-        GregorianCalendar gregExp = new GregorianCalendar(2100, 11, 31, 0, 0, 0);
+        GregorianCalendar effDate = new GregorianCalendar(2000, 00, 01, 0, 0, 0);
+        GregorianCalendar expDate = new GregorianCalendar(2100, 11, 31, 0, 0, 0);
+        GregorianCalendar createTime = new GregorianCalendar(2000, 00, 01, 0, 0, 0);
+        GregorianCalendar updateTime = new GregorianCalendar(2001, 00, 01, 0, 0, 0);
 
         assertNotNull(refStmtRel);
         assertEquals("ref-stmt-rel-1", refStmtRel.getId());
+        assertEquals(effDate.getTime(), refStmtRel.getEffectiveDate());
+        assertEquals(expDate.getTime(), refStmtRel.getExpirationDate());
+        assertEquals("CREATEID", refStmtRel.getMeta().getCreateId());
+        assertEquals(createTime.getTime(), refStmtRel.getMeta().getCreateTime());
+        assertEquals("UPDATEID", refStmtRel.getMeta().getUpdateId());
+        assertEquals(updateTime.getTime(), refStmtRel.getMeta().getUpdateTime());
+        assertEquals(1, refStmtRel.getVersionInd());
+        // Ref object type and object id
+        assertEquals("CLU-NL-1", refStmtRel.getRefObjectId());
+        assertEquals("clu", refStmtRel.getRefObjectTypeKey());
         // RefStatementRelationType
         RefStatementRelationType type = refStmtRel.getRefStatementRelationType();
         assertEquals("clu.prerequisites", type.getId());
         assertEquals("CLU Prereq", type.getName());
-        assertEquals(gregEff.getTime(), type.getEffectiveDate());
-        assertEquals(gregExp.getTime(), type.getExpirationDate());
+        assertEquals(effDate.getTime(), type.getEffectiveDate());
+        assertEquals(expDate.getTime(), type.getExpirationDate());
         // ObjectSubTypes
         assertEquals(1, type.getObjectSubTypeList().size());
         // StatementTypes

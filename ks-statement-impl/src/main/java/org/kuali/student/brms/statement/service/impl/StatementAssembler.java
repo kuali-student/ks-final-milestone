@@ -29,6 +29,7 @@ import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.service.impl.BaseAssembler;
 import org.kuali.student.brms.statement.dao.StatementDao;
 import org.kuali.student.brms.statement.dto.NlUsageTypeInfo;
+import org.kuali.student.brms.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.brms.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.brms.statement.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.brms.statement.dto.ReqComponentInfo;
@@ -37,6 +38,9 @@ import org.kuali.student.brms.statement.dto.StatementInfo;
 import org.kuali.student.brms.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.brms.statement.dto.StatementTypeInfo;
 import org.kuali.student.brms.statement.entity.NlUsageType;
+import org.kuali.student.brms.statement.entity.ObjectSubType;
+import org.kuali.student.brms.statement.entity.ObjectType;
+import org.kuali.student.brms.statement.entity.RefStatementRelation;
 import org.kuali.student.brms.statement.entity.ReqComponent;
 import org.kuali.student.brms.statement.entity.ReqComponentField;
 import org.kuali.student.brms.statement.entity.ReqComponentFieldType;
@@ -48,6 +52,30 @@ import org.springframework.beans.BeanUtils;
 
 public class StatementAssembler extends BaseAssembler {
 
+	public static RefStatementRelationInfo toRefStatementRelationInfo(RefStatementRelation entity) {
+		RefStatementRelationInfo dto = new RefStatementRelationInfo();
+		
+        BeanUtils.copyProperties(entity, dto, new String[]{
+        		"refStatementRelationType", "statement", "attributes", "metaInfo"});
+
+        // Copy generic attributes
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+        dto.setStatementId(entity.getStatement().getId());
+        dto.setType(entity.getRefStatementRelationType().getId());
+        //dto.setRefObjectTypeKey(entity.getRefStatementRelationType().getObjectSubTypeList().get(0).g)
+        
+        return dto;
+	}
+	
+	public static List<String> toRefObjectSubTypeIds(ObjectType objectType) {
+		List<String> ids = new ArrayList<String>();
+		for(ObjectSubType objectSubType : objectType.getObjectSubTypes()) {
+			ids.add(objectSubType.getId());
+		}
+		return ids;
+	}
+	
 	public static NlUsageTypeInfo toNlUsageTypeInfo(NlUsageType entity) throws OperationFailedException {
 		NlUsageTypeInfo info = toGenericTypeInfo(NlUsageTypeInfo.class, entity);
 		return info;

@@ -53,14 +53,13 @@ public interface NaturalLanguageTranslator {
 	 * Translates a statement for a specific natural language 
 	 * usuage type (context) into natural language.
 	 * 
-	 * @param cluId Anchor CLU id
 	 * @param statement Statement 
 	 * @param nlUsageTypeKey Natural language usage type key (context)
 	 * @return Natural language statement translation
 	 * @throws DoesNotExistException CLU id does not exists
 	 * @throws OperationFailedException
 	 */
-	public String translateStatement(String cluId, Statement statement, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException;
+	public String translateStatement(Statement statement, String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException;
 
 	/**
 	 * Translates a statement for a specific natural language 

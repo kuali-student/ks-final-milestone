@@ -12,6 +12,7 @@
 		<class>org.kuali.student.core.entity.TimeAmount</class>
 
         <class>org.kuali.student.brms.statement.entity.RefStatementRelation</class>
+        <class>org.kuali.student.brms.statement.entity.RefStatementRelationAttribute</class>
         <class>org.kuali.student.brms.statement.entity.RefStatementRelationType</class>
         <class>org.kuali.student.brms.statement.entity.RefStatementRelationTypeAttribute</class>
         <class>org.kuali.student.brms.statement.entity.ObjectType</class>

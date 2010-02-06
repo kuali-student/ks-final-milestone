@@ -46,7 +46,7 @@ public interface StatementService extends DictionaryService, SearchService {
 	 * @return The list of types for the given base type which can be connected to a document
 	 * @throws OperationFailedException Unable to complete request
 	 */
-	public List<String> getRefObjectSubTypes(@WebParam(name="objectTypeKey")String objectTypeKey) throws OperationFailedException;
+	public List<String> getRefObjectSubTypes(@WebParam(name="objectTypeKey")String objectTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 	
 	/**
 	 * Retrieves the list of natural language usage types known by the service.
@@ -67,7 +67,21 @@ public interface StatementService extends DictionaryService, SearchService {
 	 * @throws OperationFailedException Unable to complete request
 	 */
 	public NlUsageTypeInfo getNlUsageType(@WebParam(name="nlUsageTypeKey")String nlUsageTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-	
+
+	/**
+	 * Creates a relationship between a statement and an object.
+	 * 
+	 * @param refStatementRelationInfo
+	 * @return New object statement relationship
+	 * @throws AlreadyExistsException connection between object and statement already exists
+	 * @throws DoesNotExistException E.g. cluId, statementId, refStatementRelationType not found
+	 * @throws InvalidParameterException One or more parameters invalid
+	 * @throws MissingParameterException One or more parameters not specified
+	 * @throws OperationFailedException Unable to complete request
+	 * @throws PermissionDeniedException Authorization failure
+	 */
+	public RefStatementRelationInfo createRefStatementRelation(RefStatementRelationInfo refStatementRelationInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
 	/**
 	 * Retrieves a object statement relationship by its identifier.
 	 * 

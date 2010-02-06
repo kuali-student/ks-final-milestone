@@ -62,6 +62,10 @@ import org.kuali.student.brms.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.brms.statement.dto.StatementInfo;
 import org.kuali.student.brms.statement.dto.StatementTypeInfo;
 import org.kuali.student.brms.statement.entity.NlUsageType;
+import org.kuali.student.brms.statement.entity.ObjectType;
+import org.kuali.student.brms.statement.entity.RefStatementRelation;
+import org.kuali.student.brms.statement.entity.RefStatementRelationAttribute;
+import org.kuali.student.brms.statement.entity.RefStatementRelationType;
 import org.kuali.student.brms.statement.entity.ReqComponent;
 import org.kuali.student.brms.statement.entity.ReqComponentType;
 import org.kuali.student.brms.statement.entity.Statement;
@@ -69,6 +73,7 @@ import org.kuali.student.brms.statement.entity.StatementType;
 import org.kuali.student.brms.statement.naturallanguage.NaturalLanguageTranslator;
 import org.kuali.student.brms.statement.service.StatementService;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.brms.statement.service.StatementService", serviceName = "StatementService", portName = "StatementService", targetNamespace = "http://student.kuali.org/wsdl/statement")
@@ -131,23 +136,38 @@ public class StatementServiceImpl implements StatementService {
 		return infos;
 	}
 
-	public List<String> getRefObjectSubTypes(String objectTypeKey)
-			throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public List<String> getRefObjectTypes() throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<ObjectType> objectTypes = this.statementDao.find(ObjectType.class);
+		List<String> ids = new ArrayList<String>();
+		for(ObjectType objectType : objectTypes) {
+			ids.add(objectType.getId());
+		}
+		return ids;
 	}
 
-	public RefStatementRelationInfo getRefStatementRelation(
-			String refStatementRelationId) throws DoesNotExistException,
+	public List<String> getRefObjectSubTypes(String objectTypeKey)
+			throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		checkForNullOrEmptyParameter(objectTypeKey, "objectTypeKey");
+		checkForEmptyParameter(objectTypeKey, "objectTypeKey");
+
+		ObjectType objectType = this.statementDao.fetch(ObjectType.class, objectTypeKey);
+		List<String> ids = StatementAssembler.toRefObjectSubTypeIds(objectType);
+		return ids;
+	}
+
+	public RefStatementRelationInfo getRefStatementRelation(String refStatementRelationId) 
+			throws DoesNotExistException, InvalidParameterException, 
+			MissingParameterException, OperationFailedException {
+
+		checkForNullOrEmptyParameter(refStatementRelationId, "refStatementRelationId");
+		checkForEmptyParameter(refStatementRelationId, "refStatementRelationId");
+
+    	RefStatementRelation entity = this.statementDao.fetch(RefStatementRelation.class, refStatementRelationId);
+    	RefStatementRelationInfo dto = StatementAssembler.toRefStatementRelationInfo(entity);
+		return dto;
 	}
 
 	public List<RefStatementRelationInfo> getRefStatementRelationsForRef(
@@ -229,12 +249,11 @@ public class StatementServiceImpl implements StatementService {
      * @throws OperationFailedException Unable to complete request
      * @throws VersionMismatchException The action was attempted on an out of date version.
 	 */
-	public String getNaturalLanguageForStatement(String statementId,
-			String nlUsageTypeKey, String language)
+	public String getNaturalLanguageForStatement(String statementId, String nlUsageTypeKey, String language)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 
-/*		checkForNullOrEmptyParameter(statementId, "statementId");
+		checkForNullOrEmptyParameter(statementId, "statementId");
 		checkForNullOrEmptyParameter(nlUsageTypeKey, "nlUsageTypeKey");
 		checkForEmptyParameter(language, "language");
 		
@@ -251,8 +270,7 @@ public class StatementServiceImpl implements StatementService {
 			return nl;
 		} finally {
 			this.naturalLanguageTranslator.setLanguage(lang);
-		}*/
-		return null;
+		}
 	}
 
 	/**
@@ -567,12 +585,8 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    public ReqComponentInfo updateReqComponent(String reqComponentId,
-            ReqComponentInfo reqComponentInfo)
-    throws DataValidationErrorException, DoesNotExistException,
-    InvalidParameterException, MissingParameterException,
-    OperationFailedException, PermissionDeniedException,
-    VersionMismatchException {
+    public ReqComponentInfo updateReqComponent(String reqComponentId, ReqComponentInfo reqComponentInfo)
+    	throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         //Check Missing params
         checkForMissingParameter(reqComponentId, "reqComponentId");
         checkForMissingParameter(reqComponentInfo, "reqComponentInfo");
@@ -593,6 +607,28 @@ public class StatementServiceImpl implements StatementService {
         return updReqCompInfo;
     }
     
+	public RefStatementRelationInfo createRefStatementRelation(RefStatementRelationInfo refStatementRelationInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+		Statement statement = this.statementDao.fetch(Statement.class, refStatementRelationInfo.getStatementId());
+		RefStatementRelationType type = this.statementDao.fetch(RefStatementRelationType.class, refStatementRelationInfo.getType());
+
+		RefStatementRelation entity = new RefStatementRelation();
+
+		BeanUtils.copyProperties(refStatementRelationInfo, entity, new String[] {
+				"statementId", "attributes", "metaInfo", "type", "id"});
+
+		entity.setRefStatementRelationType(type);
+		entity.setStatement(statement);
+
+		List<RefStatementRelationAttribute> attributes = StatementAssembler.toGenericAttributes(RefStatementRelationAttribute.class, refStatementRelationInfo.getAttributes(), entity, this.statementDao);
+		entity.setAttributes(attributes);
+
+		RefStatementRelation newEntity = this.statementDao.create(entity);
+		
+		RefStatementRelationInfo newDto = StatementAssembler.toRefStatementRelationInfo(newEntity);
+		
+		return newDto;
+	}
+
     @Override
     public StatementTreeViewInfo getStatementTreeView(String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         StatementTreeViewInfo statementTreeViewInfo = null;
@@ -804,6 +840,4 @@ public class StatementServiceImpl implements StatementService {
             StatementAssembler.copyValues(statementTreeViewInfo, newStatementInfo);
         }
     }
-
-    
 }

@@ -82,6 +82,9 @@ public class Statement extends MetaEntity implements AttributeOwner<StatementAtt
     @JoinColumn(name = "OWNER")
     private List<StatementAttribute> attributes;
     
+    @OneToMany(mappedBy = "statement")
+    private List<RefStatementRelation> refStatementRelations = new ArrayList<RefStatementRelation>();
+
     /**
      * AutoGenerate the Id
      */
@@ -174,6 +177,15 @@ public class Statement extends MetaEntity implements AttributeOwner<StatementAtt
     public void setState(String state) {
         this.state = state;
     }
+
+	public List<RefStatementRelation> getRefStatementRelations() {
+		return refStatementRelations;
+	}
+
+	public void setRefStatementRelations(
+			List<RefStatementRelation> refStatementRelations) {
+		this.refStatementRelations = refStatementRelations;
+	}
 
 	@Override
 	public String toString() {

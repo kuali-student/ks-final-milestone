@@ -21,12 +21,13 @@ import java.util.Map;
 import org.kuali.student.brms.internal.common.runtime.BooleanMessage;
 import org.kuali.student.brms.internal.common.runtime.MessageContainer;
 import org.kuali.student.brms.internal.common.runtime.ast.BooleanMessageImpl;
+import org.kuali.student.brms.statement.entity.RefStatementRelation;
 import org.kuali.student.brms.statement.entity.Statement;
 import org.kuali.student.brms.statement.entity.StatementTypeHeaderTemplate;
 import org.kuali.student.brms.statement.naturallanguage.Context;
 import org.kuali.student.brms.statement.naturallanguage.ContextRegistry;
 //import org.kuali.student.core.statement.naturallanguage.util.CustomLuStatementInfo;
-import org.kuali.student.brms.statement.naturallanguage.util.LuStatementAnchor;
+import org.kuali.student.brms.statement.naturallanguage.util.StatementAnchor;
 import org.kuali.student.brms.statement.naturallanguage.util.ReqComponentReference;
 import org.kuali.student.brms.statement.naturallanguage.util.TemplateTranslator;
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -46,7 +47,7 @@ public class StatementTranslator {
 	private StatementParser statementParser = new StatementParser("*", "+");
 	private ReqComponentTranslator reqComponentTranslator;
 	private NaturalLanguageMessageBuilder messageBuilder;
-    private ContextRegistry<Context<LuStatementAnchor>> contextRegistry;
+    private ContextRegistry<Context<StatementAnchor>> contextRegistry;
     private TemplateTranslator templateTranslator = new TemplateTranslator();
     
 	/**
@@ -87,7 +88,7 @@ public class StatementTranslator {
      * 
      * @param contextRegistry Template context registry
      */
-    public void setContextRegistry(final ContextRegistry<Context<LuStatementAnchor>> contextRegistry) {
+    public void setContextRegistry(final ContextRegistry<Context<StatementAnchor>> contextRegistry) {
     	this.contextRegistry = contextRegistry;
     }
 
@@ -115,25 +116,25 @@ public class StatementTranslator {
 	 * Translates a statement directly attached to a CLU (anchor) for a 
 	 * specific natural language usuage type (context) into natural language.
 	 * 
-	 * @param cluId CLU anchor
-	 * @param luStatement LU Statement
+	 * @param statement LU Statement
 	 * @param nlUsageTypeKey Usuage type key (context)
 	 * @return Natural language statement translation
 	 * @throws DoesNotExistException CLU or statement id does not exists
 	 * @throws OperationFailedException Translation fails
 	 */
-	public String translate(final String cluId, final Statement luStatement, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
-		if(luStatement == null) {
-    		throw new DoesNotExistException("LuStatement cannot be null");
+	public String translate(final Statement statement, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
+		if(statement == null) {
+    		throw new DoesNotExistException("Statement cannot be null");
 		}
 
-		String booleanExpression = this.statementParser.getBooleanExpressionAsReqComponents(luStatement);
-		List<ReqComponentReference> reqComponentList = this.statementParser.getLeafReqComponents(luStatement);
+		String booleanExpression = this.statementParser.getBooleanExpressionAsReqComponents(statement);
+		List<ReqComponentReference> reqComponentList = this.statementParser.getLeafReqComponents(statement);
 		String message = buildMessage(nlUsageTypeKey, booleanExpression, reqComponentList);
-		String header = "";
-		if(cluId != null && !cluId.isEmpty()) {
-			header = getHeader(luStatement, nlUsageTypeKey, cluId);
-		}
+//		String header = "";
+//		if(cluId != null && !cluId.isEmpty()) {
+//			header = getHeader(statement, nlUsageTypeKey, cluId);
+//		}
+		String header = getHeader(statement, nlUsageTypeKey);
 		
 		return header + message;
 	}
@@ -194,20 +195,20 @@ public class StatementTranslator {
 	/**
 	 * Gets header for root <code>luStatement</code>.
 	 * 
-	 * @param luStatement LU statement
+	 * @param statement LU statement
 	 * @param nlUsageTypeKey Natural language usuage type context key
 	 * @param cluId Anchor CLU id
 	 * @return Statement header
 	 * @throws DoesNotExistException CLU or header template does not exist
 	 */
-	private String getHeader(Statement luStatement, String nlUsageTypeKey, String cluId) throws OperationFailedException, DoesNotExistException {
-        if(cluId == null) {
-        	return "";
-        }
+	private String getHeader(Statement statement, String nlUsageTypeKey) throws OperationFailedException, DoesNotExistException {
+//        if(cluId == null) {
+//        	return "";
+//        }
         
-        String template = getHeaderTemplate(luStatement, nlUsageTypeKey);
+        String template = getHeaderTemplate(statement, nlUsageTypeKey);
 		
-        Map<String, Object> contextMap = buildContextMap(luStatement, cluId);
+        Map<String, Object> contextMap = buildContextMap(statement);
         String header = this.templateTranslator.translate(contextMap, template);
         
         return header;
@@ -216,15 +217,20 @@ public class StatementTranslator {
     /**
      * Builds a statement type context map.
      * 
-	 * @param luStatement Lu statement
-	 * @param cluId Lu statement's anchor CLU id
+	 * @param statement Statement
 	 * @return Context map 
 	 * @throws DoesNotExistException
 	 */
-	private Map<String, Object> buildContextMap(Statement luStatement, String cluId) throws OperationFailedException, DoesNotExistException {
-		LuStatementAnchor lua = new LuStatementAnchor(luStatement, cluId);
-		String statementTypeKey = luStatement.getStatementType().getId();
-		Context<LuStatementAnchor> context = this.contextRegistry.get(statementTypeKey);
+	private Map<String, Object> buildContextMap(Statement statement) throws OperationFailedException, DoesNotExistException {
+		RefStatementRelation refStmtRel = statement.getRefStatementRelations().get(0);
+		if(refStmtRel == null) {
+        	throw new DoesNotExistException("Reference statement relation not found for statement id: " + statement.getId());
+		}
+
+		StatementAnchor lua = new StatementAnchor(statement, refStmtRel.getRefObjectTypeKey(), refStmtRel.getRefObjectId());
+
+		String statementTypeKey = statement.getStatementType().getId();
+		Context<StatementAnchor> context = this.contextRegistry.get(statementTypeKey);
     	if(context == null) {
         	throw new DoesNotExistException("Header context not found in registry for statement type key: " + statementTypeKey);
     	}
@@ -234,15 +240,15 @@ public class StatementTranslator {
 	}
 
 	/**
-	 * Gets header template for root <code>luStatement</code>.
+	 * Gets header template for root <code>statement</code>.
 	 * 
-	 * @param luStatement LU statement
+	 * @param statement LU statement
 	 * @param nlUsageTypeKey Natural language usuage type context key
 	 * @return Header template
 	 * @throws DoesNotExistException Header template does not exist
 	 */
-	private String getHeaderTemplate(Statement luStatement, String nlUsageTypeKey) throws DoesNotExistException {
-		for(StatementTypeHeaderTemplate header : luStatement.getStatementType().getStatementHeaders()) {
+	private String getHeaderTemplate(Statement statement, String nlUsageTypeKey) throws DoesNotExistException {
+		for(StatementTypeHeaderTemplate header : statement.getStatementType().getStatementHeaders()) {
 			if(header.getNlUsageTypeKey().equals(nlUsageTypeKey) && header.getLanguage().equals(this.language)) {
 				return (header.getTemplate() == null ? "" : header.getTemplate());
 			}
