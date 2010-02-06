@@ -72,6 +72,9 @@ public class StatementInfo implements Serializable, Idable, HasTypeState, HasAtt
     @XmlAttribute
     private String id;
     
+    @XmlAttribute
+    private String parentId;
+    
     /**
      * Friendly name for the LU statement.
      */
@@ -108,15 +111,15 @@ public class StatementInfo implements Serializable, Idable, HasTypeState, HasAtt
     /**
      * List of LU statement identifiers.
      */
-    public List<String> getLuStatementIds() {
+    public List<String> getStatementIds() {
         if (statementIds == null) {
             statementIds = new ArrayList<String>();
         }
         return statementIds;
     }
 
-    public void setLuStatementIds(List<String> luStatementIds) {
-        this.statementIds = luStatementIds;
+    public void setStatementIds(List<String> statementIds) {
+        this.statementIds = statementIds;
     }
 
     /**
@@ -190,8 +193,16 @@ public class StatementInfo implements Serializable, Idable, HasTypeState, HasAtt
     public void setId(String id) {
         this.id = id;
     }
+    
+	public String getParentId() {
+        return parentId;
+    }
 
-	@Override
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+
+    @Override
 	public String toString() {
 		return "StatementInfo[id=" + id + ", operator=" + operator + ", type="
 				+ type + ", state=" + state + "]";

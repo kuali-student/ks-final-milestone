@@ -15,7 +15,9 @@
 package org.kuali.student.brms.statement.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.core.dto.RichTextInfo;
@@ -32,6 +34,7 @@ import org.kuali.student.brms.statement.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.brms.statement.dto.ReqComponentInfo;
 import org.kuali.student.brms.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.brms.statement.dto.StatementInfo;
+import org.kuali.student.brms.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.brms.statement.dto.StatementTypeInfo;
 import org.kuali.student.brms.statement.entity.NlUsageType;
 import org.kuali.student.brms.statement.entity.ReqComponent;
@@ -226,7 +229,7 @@ public class StatementAssembler extends BaseAssembler {
 
         // Copy nested statements
         List<Statement> stmtList = new ArrayList<Statement>();
-        for(String stmtId : stmtInfo.getLuStatementIds()) {
+        for(String stmtId : stmtInfo.getStatementIds()) {
             if(stmtId == stmtInfo.getId()) {
                 throw new OperationFailedException("LuStatement nested within itself. LuStatement Id: " + stmtInfo.getId());
             }
@@ -239,6 +242,10 @@ public class StatementAssembler extends BaseAssembler {
             stmtList.add(nestedStmt);
         }
         stmt.setChildren(stmtList);
+        if (stmtInfo.getParentId() != null) {
+            Statement parentStatement = dao.fetch(Statement.class, stmtInfo.getParentId());
+            stmt.setParent(parentStatement);
+        }
 
         // Copy nested requirements
         List<ReqComponent> reqCompList = new ArrayList<ReqComponent>();
@@ -289,7 +296,7 @@ public class StatementAssembler extends BaseAssembler {
         for (Statement statement : entity.getChildren()) {
             statementIds.add(statement.getId());
         }
-        dto.setLuStatementIds(statementIds);
+        dto.setStatementIds(statementIds);
 
         List<String> componentIds = new ArrayList<String>(entity.getRequiredComponents().size());
         for (ReqComponent reqComponent : entity.getRequiredComponents()) {
@@ -368,5 +375,54 @@ public class StatementAssembler extends BaseAssembler {
         
         return stmtTypeInfo;
     }
-
+    
+    public static StatementInfo toStatementInfo(final StatementTreeViewInfo statementTreeViewInfo) {
+        StatementInfo statementInfo = null;
+        if (statementTreeViewInfo == null) return null;
+        statementInfo = new StatementInfo();
+        statementInfo.setAttributes(statementTreeViewInfo.getAttributes());
+        statementInfo.setDesc(statementTreeViewInfo.getDesc());
+        statementInfo.setId(statementTreeViewInfo.getId());
+        statementInfo.setMetaInfo(statementTreeViewInfo.getMetaInfo());
+        statementInfo.setName(statementTreeViewInfo.getName());
+        statementInfo.setOperator(statementTreeViewInfo.getOperator());
+        statementInfo.setParentId(statementTreeViewInfo.getParentId());
+        // goes through the list of reqComponents in statementTreeViewInfo and extract the reqComponent ids
+        if (statementTreeViewInfo.getReqComponents() != null) {
+            List<String> reqCompIds = new ArrayList<String>(7);
+            for (ReqComponentInfo reqComponentInfo : statementTreeViewInfo.getReqComponents()) {
+                reqCompIds.add(reqComponentInfo.getId());
+            }
+            statementInfo.setReqComponentIds(reqCompIds);
+        }
+        statementInfo.setState(statementTreeViewInfo.getState());
+        // TODO goes through the list of statements in statementTreeViewInfo and extract the statement ids
+        if (statementTreeViewInfo.getStatements() != null) {
+            List<String> statementIds = new ArrayList<String>(7);
+            for (StatementTreeViewInfo subStatementTreeViewInfo : statementTreeViewInfo.getStatements()) {
+                statementIds.add(subStatementTreeViewInfo.getId());
+            }
+            statementInfo.setStatementIds(statementIds);
+        }
+        statementInfo.setType(statementTreeViewInfo.getType());
+        return statementInfo;
+    }
+    
+    /**
+     * copies the values in statementInfo into statementTreeViewInfo.  Only the values of the root statement will
+     * be affected.
+     * @param statementTreeViewInfo
+     * @param statementInfo
+     */
+    public static void copyValues(final StatementTreeViewInfo statementTreeViewInfo, StatementInfo statementInfo) {
+        statementTreeViewInfo.setAttributes(statementInfo.getAttributes());
+        statementTreeViewInfo.setDesc(statementInfo.getDesc());
+        statementTreeViewInfo.setId(statementInfo.getId());
+        statementTreeViewInfo.setMetaInfo(statementInfo.getMetaInfo());
+        statementTreeViewInfo.setName(statementInfo.getName());
+        statementTreeViewInfo.setOperator(statementInfo.getOperator());
+        statementTreeViewInfo.setState(statementInfo.getState());
+        statementTreeViewInfo.setType(statementInfo.getType());
+    }
+    
 }

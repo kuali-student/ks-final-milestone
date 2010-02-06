@@ -14,10 +14,25 @@
  */
 package org.kuali.student.brms.statement.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.jws.WebService;
 
+import org.kuali.student.brms.statement.dao.StatementDao;
+import org.kuali.student.brms.statement.dto.NlUsageTypeInfo;
+import org.kuali.student.brms.statement.dto.RefStatementRelationInfo;
+import org.kuali.student.brms.statement.dto.ReqComponentInfo;
+import org.kuali.student.brms.statement.dto.ReqComponentTypeInfo;
+import org.kuali.student.brms.statement.dto.StatementInfo;
+import org.kuali.student.brms.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.brms.statement.dto.StatementTypeInfo;
+import org.kuali.student.brms.statement.entity.ReqComponent;
+import org.kuali.student.brms.statement.entity.ReqComponentType;
+import org.kuali.student.brms.statement.entity.Statement;
+import org.kuali.student.brms.statement.entity.StatementType;
+import org.kuali.student.brms.statement.naturallanguage.NaturalLanguageTranslator;
+import org.kuali.student.brms.statement.service.StatementService;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.service.DictionaryService;
@@ -64,8 +79,32 @@ public class StatementServiceImpl implements StatementService {
 	private NaturalLanguageTranslator naturalLanguageTranslator;
     private SearchManager searchManager;
     private DictionaryService dictionaryServiceDelegate;
+    
+	public SearchManager getSearchManager() {
+        return searchManager;
+    }
 
-	public void setStatementDao(StatementDao statementDao) {
+    public void setSearchManager(SearchManager searchManager) {
+        this.searchManager = searchManager;
+    }
+
+    public DictionaryService getDictionaryServiceDelegate() {
+        return dictionaryServiceDelegate;
+    }
+
+    public void setDictionaryServiceDelegate(DictionaryService dictionaryServiceDelegate) {
+        this.dictionaryServiceDelegate = dictionaryServiceDelegate;
+    }
+
+    public StatementDao getStatementDao() {
+        return statementDao;
+    }
+
+    public NaturalLanguageTranslator getNaturalLanguageTranslator() {
+        return naturalLanguageTranslator;
+    }
+
+    public void setStatementDao(StatementDao statementDao) {
 		this.statementDao = statementDao;
 	}
 	
@@ -348,7 +387,10 @@ public class StatementServiceImpl implements StatementService {
 
     @Override
     public StatementInfo getStatement(String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return StatementAssembler.toStatementInfo(statementDao.fetch(Statement.class, statementId));
+        StatementInfo statementInfo = null;
+        checkForMissingParameter(statementId, "statementId");
+        statementInfo = StatementAssembler.toStatementInfo(statementDao.fetch(Statement.class, statementId));
+        return statementInfo;
     }
 
     @Override
@@ -550,4 +592,218 @@ public class StatementServiceImpl implements StatementService {
         ReqComponentInfo updReqCompInfo = StatementAssembler.toReqComponentInfo(updatedReqComp);
         return updReqCompInfo;
     }
+    
+    @Override
+    public StatementTreeViewInfo getStatementTreeView(String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        StatementTreeViewInfo statementTreeViewInfo = null;
+        StatementInfo statementInfo = getStatement(statementId);
+        if (statementInfo == null) return null;
+        statementTreeViewInfo = new StatementTreeViewInfo();
+        getStatementTreeViewHelper(statementInfo, statementTreeViewInfo);
+        return statementTreeViewInfo;
+    }
+    
+    
+    /**
+     * Goes through the list of reqComponentIds in statementInfo and retrieves the reqComponentInfos being referenced
+     * @param statementInfo
+     * @return list of reqComponentInfo referenced by the list of reqComponentIds in statementInfo
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
+    private List<ReqComponentInfo> getReqComponentInfos(final StatementInfo statementInfo) 
+    throws DoesNotExistException, InvalidParameterException, MissingParameterException, 
+    OperationFailedException {
+        List<ReqComponentInfo> reqComponentInfos = null;
+        if (statementInfo == null) return null;
+        if (statementInfo.getReqComponentIds() != null) {
+            for (String reqComponentId : statementInfo.getReqComponentIds()) {
+                ReqComponentInfo reqCompInfo = getReqComponent(reqComponentId);
+                reqComponentInfos = (reqComponentInfos == null)? new ArrayList<ReqComponentInfo>(5) : 
+                    reqComponentInfos;
+                reqComponentInfos.add(reqCompInfo);
+            }
+        }
+        return reqComponentInfos;
+    }
+    
+    /**
+     * Goes through the list of statementIds in statementInfo and retrieves all 
+     * information regarding to the current statementInfo and all the 
+     * sub-statements referenced by statementIds.  Data will be populated into
+     * statementTreeViewInfo
+     * @param statementInfo
+     * @return void
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
+    private void getStatementTreeViewHelper(
+            final StatementInfo statementInfo, final StatementTreeViewInfo statementTreeViewInfo) 
+    throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        if (statementInfo == null) return;
+        
+        StatementAssembler.copyValues(statementTreeViewInfo, statementInfo);
+        statementTreeViewInfo.setReqComponents(getReqComponentInfos(statementInfo));
+        // get statements recursively and convert them into statementTreeViewInfo
+        if (statementInfo.getStatementIds() != null) {
+            for (String statementId : statementInfo.getStatementIds()) {
+                StatementInfo subStatement = getStatement(statementId);
+                List<StatementTreeViewInfo> statements = 
+                    (statementTreeViewInfo.getStatements() == null)? 
+                            new ArrayList<StatementTreeViewInfo>(5) : statementTreeViewInfo.getStatements();
+                StatementTreeViewInfo subStatementTreeViewInfo = new StatementTreeViewInfo();
+                // recursive call to get subStatementTreeViewInfo
+                getStatementTreeViewHelper(subStatement, subStatementTreeViewInfo);
+                statements.add(subStatementTreeViewInfo);
+                statementTreeViewInfo.setStatements(statements);
+            }
+        }
+    }
+
+    @Override
+    public StatementTreeViewInfo updateStatementTreeView(final String statementId, final StatementTreeViewInfo statementTreeViewInfo) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+        StatementTreeViewInfo origTree = getStatementTreeView(statementId);
+        
+        if (origTree == null) {
+            throw new DoesNotExistException("Statement " + statementId + " does not exist!");
+        }
+        // insert statements and reqComponents if they do not already exists in database
+        updateSTVHelperCreateStatements(statementTreeViewInfo);
+        // check the two lists of relationships for ones that need to be deleted/created
+        List<String> toBeDeleted = notIn(origTree, statementTreeViewInfo);
+        for (String delStatementId : toBeDeleted) {
+            deleteStatement(delStatementId);
+        }
+        updateStatementTreeViewHelper(statementTreeViewInfo);
+        StatementTreeViewInfo test = getStatementTreeView(statementId);
+        
+        return test;
+    }
+    
+    /**
+     * 
+     * @return a list of relationships in the first list but not in the second
+     */
+    private List<String> notIn(
+            StatementTreeViewInfo oldTree,
+            StatementTreeViewInfo newTree) {
+        List<String> results = new ArrayList<String>(17);
+        List<String> oldStatementIds = new ArrayList<String>(17);
+        List<String> newStatementIds = new ArrayList<String>(17);
+        getStatementIds(oldTree, oldStatementIds);
+        getStatementIds(newTree, newStatementIds);
+        if (oldStatementIds != null) {
+            for (String oldStatementId : oldStatementIds) {
+                boolean inNewStatementIds = false;
+                if (newStatementIds != null) {
+                    for (String newStatementId : newStatementIds) {
+                        if (oldStatementId.equals(newStatementId)) {
+                            inNewStatementIds = true;
+                        }
+                    }
+                }
+                if (!inNewStatementIds) {
+                    results.add(oldStatementId);
+                }
+            }
+        }
+        return results;
+    }
+    
+    private void getStatementIds(StatementTreeViewInfo statementTreeViewInfo, List<String> statementIds) {
+        if (statementTreeViewInfo.getStatements() != null) {
+            for (StatementTreeViewInfo subTree : statementTreeViewInfo.getStatements()) {
+                getStatementIds(subTree, statementIds);
+            }
+        }
+        statementIds.add(statementTreeViewInfo.getId());
+    }
+    
+    private void updateStatementTreeViewHelper(StatementTreeViewInfo statementTreeViewInfo) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+        if (statementTreeViewInfo.getStatements() != null) {
+            for (StatementTreeViewInfo subStatement : statementTreeViewInfo.getStatements()) {
+                subStatement.setParentId(statementTreeViewInfo.getId());
+                updateStatementTreeViewHelper(subStatement);
+            }
+        }
+        if (statementTreeViewInfo.getReqComponents() != null) {
+            List<ReqComponentInfo> updatedReqComponentInfos = new ArrayList<ReqComponentInfo>(7);
+            for (ReqComponentInfo reqComponentInfo : statementTreeViewInfo.getReqComponents()) {
+                ReqComponentInfo updatedReqComponentInfo = updateReqComponent(reqComponentInfo.getId(), reqComponentInfo);
+                updatedReqComponentInfos.add(updatedReqComponentInfo);
+            }
+            statementTreeViewInfo.setReqComponents(updatedReqComponentInfos);
+        }
+        StatementInfo updatedStatementInfo = updateStatement(statementTreeViewInfo.getId(), StatementAssembler.toStatementInfo(
+                statementTreeViewInfo));
+        StatementAssembler.copyValues(statementTreeViewInfo, updatedStatementInfo);
+    }
+    
+    private void updateSTVHelperCreateStatements(StatementTreeViewInfo statementTreeViewInfo) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+        String statementId = null;
+        StatementInfo origStatementInfo = null;
+        StatementInfo newStatementInfo = null;
+        if (statementTreeViewInfo.getStatements() != null) {
+            for (StatementTreeViewInfo subTreeInfo : statementTreeViewInfo.getStatements()) {
+                subTreeInfo.setParentId(statementTreeViewInfo.getId());
+                updateSTVHelperCreateStatements(subTreeInfo);
+            }
+        }
+        if (statementTreeViewInfo.getReqComponents() != null) {
+            List<ReqComponentInfo> rcsAfterInserts = new ArrayList<ReqComponentInfo>(7);
+            for (ReqComponentInfo reqComponentInfo : statementTreeViewInfo.getReqComponents()) {
+                String reqComponentId = reqComponentInfo.getId();
+                ReqComponentInfo origReqComponentInfo = null;
+                ReqComponentInfo rcAfterInsert = null;
+                // determine the original reqComponentInfo
+                if (reqComponentId != null) {
+                    try {
+                        origReqComponentInfo = getReqComponent(reqComponentId);
+                    } catch (DoesNotExistException dnee) {
+                        origReqComponentInfo = null;
+                    }
+                }
+                if (origReqComponentInfo == null) {
+                    // The reqComponentInfo is a new one so create it
+                    try {
+                        rcAfterInsert = createReqComponent(reqComponentInfo.getType(), reqComponentInfo);
+                    } catch (AlreadyExistsException e) {
+                        // shouldn't happen because of all the check that has been done up to this point
+                        // if this exception is thrown it should be an error!
+                        throw new OperationFailedException("Tried to create a reqComponent that already exists");
+                    }
+                } else {
+                    rcAfterInsert = reqComponentInfo;
+                }
+                rcsAfterInserts.add(rcAfterInsert);
+            }
+            statementTreeViewInfo.setReqComponents(rcsAfterInserts);
+        }
+        // check if statementTreeViewInfo already exist if not create it.
+        statementId = statementTreeViewInfo.getId();
+        if (statementId != null) {
+            try {
+                origStatementInfo = getStatement(statementId);
+            } catch(DoesNotExistException dnee) {
+                origStatementInfo = null;
+            }
+        }
+        if (origStatementInfo == null) {
+            newStatementInfo = StatementAssembler.toStatementInfo(statementTreeViewInfo);
+            try {
+                newStatementInfo = createStatement(newStatementInfo.getType(), newStatementInfo);
+            } catch (AlreadyExistsException e) {
+                // shouldn't happen because of all the check that has been done up to this point
+                // if this exception is thrown it should be an error!
+                throw new OperationFailedException("Tried to create a statement that already exists");
+            }
+            StatementAssembler.copyValues(statementTreeViewInfo, newStatementInfo);
+        }
+    }
+
+    
 }

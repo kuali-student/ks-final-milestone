@@ -23,6 +23,7 @@ import org.kuali.student.brms.statement.dto.NlUsageTypeInfo;
 import org.kuali.student.brms.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.brms.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.brms.statement.dto.StatementInfo;
+import org.kuali.student.brms.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.brms.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 
@@ -345,4 +346,31 @@ public interface StatementService extends DictionaryService, SearchService {
      * @throws VersionMismatchException The action was attempted on an out of date version.
      */
     public ReqComponentInfo updateReqComponent(@WebParam(name="reqComponentId")String reqComponentId, @WebParam(name="reqComponentInfo")ReqComponentInfo reqComponentInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+
+    /**
+     * Retrieves a view of a statement by its identifier with its referenced statements and requirement components expanded
+     * @param statementId statement identifier
+     * @return view of statement information with the referenced statements and requirement components expanded
+     * @throws DoesNotExistException statement not found
+     * @throws InvalidParameterException invalid statementId
+     * @throws MissingParameterException statementId not specified
+     * @throws OperationFailedException unable to complete request
+     */
+    public StatementTreeViewInfo getStatementTreeView(@WebParam(name="statementId")String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    
+    /**
+     * Updates an entire Statement Tree. Fails unless everything can be done. Updates Statements, RequirementComponents and any relations between them. If there are "deletes", the relations are removed, but the object is not deleted unless used no where else
+     * @param statementId identifier of the statement to be updated
+     * @param statementTreeViewInfo The StatementTreeInfo to be updated
+     * @return the updated StatementTree information
+     * @throws CircularRelationshipException    included statement references the current statement
+     * @throws DataValidationErrorException One or more values invalid for this operation
+     * @throws DoesNotExistException Statement not found
+     * @throws InvalidParameterException invalid statementId, statementTreeViewInfo
+     * @throws MissingParameterException missing statementId, statementTreeViewInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws VersionMismatchException The action was attempted on an out of date version.
+     */
+    public StatementTreeViewInfo updateStatementTreeView(@WebParam(name="statementId")String statementId, @WebParam(name="statementTreeViewInfo")StatementTreeViewInfo statementTreeViewInfo) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
 }

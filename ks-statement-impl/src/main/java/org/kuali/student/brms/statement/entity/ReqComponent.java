@@ -67,7 +67,7 @@ public class ReqComponent extends MetaEntity {
     private ReqComponentType requiredComponentType;
     
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    @JoinTable(name = "KSSTMT_REQ_COM_JN_REQ_COM_FIELD", joinColumns = @JoinColumn(name = "REQ_COM_ID"), inverseJoinColumns = @JoinColumn(name = "REQ_COM_FIELD_ID"))
+    @JoinTable(name = "KSSTMT_RC_JN_RC_FIELD", joinColumns = @JoinColumn(name = "REQ_COM_ID"), inverseJoinColumns = @JoinColumn(name = "REQ_COM_FIELD_ID"))
     private List<ReqComponentField> reqCompField;
     
     /**
