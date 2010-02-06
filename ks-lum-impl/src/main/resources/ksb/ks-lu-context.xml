@@ -149,7 +149,25 @@
     </bean>
 
 	<!-- Statement Service Config -->
-	<bean id="statementEntityManagerFactory" parent="defaultEntityManagerFactory">
+    <bean id="statementDefaultEntityManagerFactory" abstract="true"
+        class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="databasePlatform"
+                    value="${ks.lum.jpa.DatabasePlatform}" />
+                <property name="showSql" value="${ks.lum.jpa.showSql}" />
+                <property name="generateDdl" value="${ks.lum.jpa.generateDdl}" />
+            </bean>
+        </property>
+        <property name="jpaPropertyMap">
+            <map>
+                <entry key="hibernate.transaction.manager_lookup_class" value="${ks.lum.jpa.JpaProperties.hibernate.transaction.manager_lookup_class}"/>
+                <entry key="hibernate.hbm2ddl.auto" value="${ks.lum.jpa.JpaProperties.hibernate.hbm2ddl.auto}"/>
+            </map>
+        </property>
+    </bean>
+
+	<bean id="statementEntityManagerFactory" parent="statementDefaultEntityManagerFactory">
 		<property name="persistenceUnitName" value="Statement"/>
 		<property name="persistenceXmlLocation"
 			value="classpath:META-INF/statement-persistence.xml" />
