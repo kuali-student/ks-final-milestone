@@ -286,16 +286,13 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
         AttributeSet qualification = new AttributeSet();
         //qualification.put(QUALIFICATION_PROPOSAL_ID, proposalInfo.getId());
         qualification.put(DOCUMENT_TYPE_NAME, "CluDocument");
-        try {
-            boolean authorized = permissionService.isAuthorized(SecurityUtils.getCurrentUserId(), "KS-LUM", "Edit Document", null, qualification);
-            if(authorized) {
-                metadata.getPermissions().add(Metadata.Permission.EDIT);
-            }
 
+        boolean authorized = permissionService.isAuthorized(SecurityUtils.getCurrentUserId(), "KS-LUM", "Edit Document", null, qualification);
+        if(authorized) {
+            metadata.getPermissions().add(Metadata.Permission.EDIT);
         }
-        catch (Exception e) {
-            LOG.warn("Error calling permission service.",e);
-        }
+
+
         return metadata;
     }
 
