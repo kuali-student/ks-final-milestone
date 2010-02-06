@@ -31,6 +31,7 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
 import org.kuali.student.core.search.newdto.SearchRequest;
@@ -78,9 +79,9 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
     public static final String PROPOSAL_REFERENCE_TYPE = "kuali.proposal.referenceType.clu"; // <- what the service says, but the dictionary says: "kuali.referenceType.CLU";
     public static final String PROPOSAL_TYPE_CREATE_COURSE = "kuali.proposal.type.course.create";
     public static final String CREDIT_COURSE_PROPOSAL_DATA_TYPE = "CreditCourseProposal";
-    
+
     final Logger LOG = Logger.getLogger(CreditCourseProposalAssembler.class);
-    
+
     private final String proposalState;
     private CourseAssembler courseAssembler ;
     private CluInfoHierarchyAssembler cluHierarchyAssembler;
@@ -93,15 +94,16 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
     private PermissionService permissionService;
     private LearningObjectiveService loService;
     private TranslationService translationService;
-    
+    private OrganizationService orgService;
+
     private SearchDispatcher searchDispatcher;
-    
+
     private MetadataServiceImpl metadataService;
-    
+
     public CreditCourseProposalAssembler(String proposalState) {
         this.proposalState = proposalState;
     }
-    
+
     @Override
     public Data get(String id) throws AssemblyException {
         LuData luData = new LuData();
@@ -112,13 +114,13 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
                 return null;
             }
             Data references = proposal.getReferences();
-                if (references.size() != 1) {
-                    throw new AssemblyException(
-                            "Invalid number of referenced courses for proposal: "
-                                    + references.size());
-                }
+            if (references.size() != 1) {
+                throw new AssemblyException(
+                        "Invalid number of referenced courses for proposal: "
+                        + references.size());
+            }
             String cluId = references.get(0);
-            
+
             CreditCourseHelper course = getCourse(cluId);
             //FIXME: This is a bit clunky. Think of a better way to do this!    
             // Maybe UI shouldn't expect LuData as the top level container?           
@@ -126,7 +128,7 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
             result.setProposal(proposal);
             result.setCourse(CreditCourseHelper.wrap(current.getData()));
             luData.setRuleInfos(current.getRuleInfos());
-            
+
         } catch (Exception e) {
             throw new AssemblyException(
                     "Could not assemble credit course proposal", e);
@@ -142,52 +144,53 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
             courseAssembler.setLoService(loService);
             courseAssembler.setTranslationService(translationService);
             courseAssembler.setPermissionService(permissionService);
+            courseAssembler.setOrgService(orgService);
         }
         return courseAssembler;
     }
 
     private CreditCourseHelper getCourse(String cluId)
-            throws AssemblyException, DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
+    throws AssemblyException, DoesNotExistException,
+    InvalidParameterException, MissingParameterException,
+    OperationFailedException {
 
 
         //Get permissions for course
         Map<String, String> permissions = getPermissions("kuali.lu.type.CreditCourse");
-        
+
         CreditCourseHelper course = CreditCourseHelper.wrap(getCourseAssembler().get(cluId));
 
         //TODO what to do about auth checks
 //      //Authz Check
 //      if(permissions==null||permissions.get("department")==null||"edit".equals(permissions.get("department"))||"readOnly".equals(permissions.get("department"))){
-//          AdminOrgInfo admin = result.getPrimaryAdminOrg();
-//          if (admin != null) {
-//              result.setDepartment(admin.getOrgId());
-//          }
+//      AdminOrgInfo admin = result.getPrimaryAdminOrg();
+//      if (admin != null) {
+//      result.setDepartment(admin.getOrgId());
 //      }
-//
+//      }
+
 //      if(permissions==null||permissions.get("description")==null||"edit".equals(permissions.get("description"))||"readOnly".equals(permissions.get("description"))){
-//          result.setDescription(RichTextInfoHelper.wrap(richtextAssembler.assemble(course.getDesc())));
+//      result.setDescription(RichTextInfoHelper.wrap(richtextAssembler.assemble(course.getDesc())));
 //      }
-//
+
 //      if(permissions==null||permissions.get("duration")==null||"edit".equals(permissions.get("duration"))||"readOnly".equals(permissions.get("duration"))){
-//          TimeAmountInfoHelper time = TimeAmountInfoHelper.wrap(timeamountAssembler.assemble(course.getIntensity()));
-//          if (time != null) {
-//              CreditCourseDurationHelper duration = CreditCourseDurationHelper.wrap(new Data());
-//              duration.setQuantity(time.getTimeQuantity());
-//              duration.setTermType(time.getAtpDurationTypeKey());
-//              result.setDuration(duration);
-//          }
+//      TimeAmountInfoHelper time = TimeAmountInfoHelper.wrap(timeamountAssembler.assemble(course.getIntensity()));
+//      if (time != null) {
+//      CreditCourseDurationHelper duration = CreditCourseDurationHelper.wrap(new Data());
+//      duration.setQuantity(time.getTimeQuantity());
+//      duration.setTermType(time.getAtpDurationTypeKey());
+//      result.setDuration(duration);
+//      }
 //      }
 
 
         return course;
 
     }
-   
+
     private CreditCourseProposalInfoHelper getProposal(String id)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException {
+    throws DoesNotExistException, InvalidParameterException,
+    MissingParameterException, OperationFailedException {
         CreditCourseProposalInfoHelper result = null;
 
         ProposalInfo prop = proposalService.getProposal(id);
@@ -216,7 +219,7 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
         for (String s : prop.getProposalReference()) {
             result.getReferences().add(s);
         }
-        
+
         addVersionIndicator(result.getData(), ProposalInfo.class.getName(), prop.getId(), prop.getMetaInfo().getVersionInd());
 
         return result;
@@ -233,11 +236,11 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
             List<KimPermissionInfo> permissions = permissionService.getAuthorizedPermissionsByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, qualification);
             Map<String, String> permMap = new HashMap<String,String>();
             if (permissions != null){
-	            for(KimPermissionInfo permission:permissions){
-	                String dtoFieldKey = permission.getDetails().get("dtoFieldKey");
-	                String fieldAccessLevel = permission.getDetails().get("fieldAccessLevel");
-	                permMap.put(dtoFieldKey, fieldAccessLevel);
-	            }
+                for(KimPermissionInfo permission:permissions){
+                    String dtoFieldKey = permission.getDetails().get("dtoFieldKey");
+                    String fieldAccessLevel = permission.getDetails().get("fieldAccessLevel");
+                    permMap.put(dtoFieldKey, fieldAccessLevel);
+                }
             }
             return permMap;
         }catch(Exception e){
@@ -245,26 +248,26 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
         }
         return null;
     }
-    
-    
-    
-    
+
+
+
+
     @Override
     public Metadata getMetadata(String type, String state) throws AssemblyException {
         // TODO overriding the specified type isn't a good thing, but in other cases the type needs to be specified by the caller
         //this needs to be filtered, but not sure how to do that if an assembler needs metadata itself
         Metadata metadata = metadataService.getMetadata(CREDIT_COURSE_PROPOSAL_DATA_TYPE, PROPOSAL_TYPE_CREATE_COURSE, state);
-        
+
         //Metadata metadata = new CreditCourseProposalMetadata().getMetadata(PROPOSAL_TYPE_CREATE_COURSE, state);
-        
+
         //Get permissions for course
         Map<String, String> permissions = getPermissions("kuali.lu.type.CreditCourse");
-        
-        
+
+
         if(permissions!=null){
             //Get course metadata
             Metadata courseMetadata = metadata.getProperties().get("course");
-            
+
             //Apply permissions to course metadata access...
             for(Map.Entry<String, String> permission:permissions.entrySet()){
                 String dtoFieldKey = permission.getKey();
@@ -277,22 +280,28 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
             }   
         }
 
-        
+
         //String QUALIFICATION_PROPOSAL_ID = "proposalId";
         String DOCUMENT_TYPE_NAME = "documentTypeName";
         AttributeSet qualification = new AttributeSet();
         //qualification.put(QUALIFICATION_PROPOSAL_ID, proposalInfo.getId());
         qualification.put(DOCUMENT_TYPE_NAME, "CluDocument");
-        boolean authorized = permissionService.isAuthorized(SecurityUtils.getCurrentUserId(), "KS-LUM", "Edit Document", null, qualification);
-        if(authorized) {
-            metadata.getPermissions().add(Metadata.Permission.EDIT);
+        try {
+            boolean authorized = permissionService.isAuthorized(SecurityUtils.getCurrentUserId(), "KS-LUM", "Edit Document", null, qualification);
+            if(authorized) {
+                metadata.getPermissions().add(Metadata.Permission.EDIT);
+            }
+
+        }
+        catch (Exception e) {
+            LOG.warn("Error calling permission service.",e);
         }
         return metadata;
     }
 
     @Override
     public SaveResult<Data> save(Data data)
-            throws AssemblyException {
+    throws AssemblyException {
         try {
             SaveResult<Data> result = new SaveResult<Data>();
             List<ValidationResultInfo> validationResults = validate(data);
@@ -303,9 +312,9 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
             }
 
             CreditCourseProposalHelper root = CreditCourseProposalHelper.wrap(data);
-             if (root.getCourse() == null) {
-                    throw new AssemblyException("Cannot save proposal without course");
-                }
+            if (root.getCourse() == null) {
+                throw new AssemblyException("Cannot save proposal without course");
+            }
             // first save all of the clus and relations
             SaveResult<Data> courseResult = saveCourse(data);
             if (result.getValidationResults() == null) {
@@ -321,7 +330,7 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
             if (courseId == null) {
                 throw new AssemblyException("Course ID was null after save");
             }
-            
+
             // make sure that the proposal's reference info is properly set
             CreditCourseProposalInfoHelper inputProposal = root.getProposal();
             inputProposal.setReferenceType(PROPOSAL_REFERENCE_TYPE);
@@ -335,18 +344,18 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
             }
 
             String proposalId = saveProposal(root);
-                    
+
             result.setValidationResults(validationResults);
-            
+
             result.setValue((proposalId == null) ? null : get(proposalId));
-            
+
             return result;
         } catch (Exception e) {
             throw new AssemblyException("Unable to save proposal", e);
         }
     }
 
-    
+
     private boolean validationFailed(
             List<ValidationResultInfo> validationResults) {
         boolean result = false;
@@ -369,7 +378,7 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
             ProposalInfo prop = null;
             // FIXME wilj: use modification flags once the client enforces them
             if (inputProposal.getProposal().getId() == null) {
-//          if (inputProposal.getModifications().isCreated()) {
+//              if (inputProposal.getModifications().isCreated()) {
                 prop = new ProposalInfo();
                 prop.setType(PROPOSAL_TYPE_CREATE_COURSE);
                 prop.setProposalReferenceType("kuali.proposal.referenceType.clu");
@@ -389,11 +398,11 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
             if (prop.getMetaInfo() != null) {
                 prop.getMetaInfo().setVersionInd(getVersionIndicator(inputProposal.getProposal().getData()));
             }
-            
+
             ProposalInfo saved = null;
             // FIXME wilj: use modification flags once the client enforces them
             if (inputProposal.getProposal().getId() == null) {
-//          if (inputProposal.getModifications().isCreated()) {
+//              if (inputProposal.getModifications().isCreated()) {
                 saved = proposalService.createProposal(prop.getType(), prop);
             } else {
                 saved = proposalService.updateProposal(prop.getId(), prop);
@@ -409,9 +418,9 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 
     private SaveResult<Data> saveCourse(Data data) throws AssemblyException {
 
-        
+
         SaveResult<Data> result = getCourseAssembler().save(data);
-                    
+
         return result;
     }
 
@@ -430,7 +439,7 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 
     @Override
     public List<ValidationResultInfo> validate(Data data)
-            throws AssemblyException {
+    throws AssemblyException {
         // TODO validate CreditCourseProposal
         return null;
     }
@@ -442,7 +451,7 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 
     @Override
     public Void disassemble(Data input)
-            throws AssemblyException {
+    throws AssemblyException {
         throw new UnsupportedOperationException("CreditCourseProposalAssember does not support disassembly to source type");
     }
 
@@ -454,7 +463,7 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
         }
         return searchDispatcher.dispatchSearch(searchRequest);
     }   
-    
+
     public LuService getLuService() {
         return luService;
     }
@@ -466,15 +475,15 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
     public void setProposalService(ProposalService proposalService) {
         this.proposalService = proposalService;
     }       
-    
+
     public void setPermissionService(PermissionService permissionService) {
         this.permissionService = permissionService;
     }
-    
+
     public void setLearningObjectiveService(LearningObjectiveService loService) {
         this.loService = loService;
     }   
-    
+
     public void setTranslationService(TranslationService translationService) {
         this.translationService = translationService;
     }
@@ -485,5 +494,13 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
 
     public void setMetadataService(MetadataServiceImpl metadataService) {
         this.metadataService = metadataService;
+    }  
+
+    public OrganizationService getOrgService() {
+        return orgService;
+    }
+
+    public void setOrgService(OrganizationService orgService) {
+        this.orgService = orgService;
     }
 }

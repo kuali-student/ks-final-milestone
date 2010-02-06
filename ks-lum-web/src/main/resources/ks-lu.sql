@@ -389,13 +389,13 @@ insert into KSLU_LUI (ID, CLU_ID, ATP_ID, LUI_CODE, MAX_SEATS, EFF_DT, EXP_DT, S
 insert into KSLU_LUI (ID, CLU_ID, ATP_ID, LUI_CODE, MAX_SEATS, EFF_DT, EXP_DT, ST, VERSIONIND) values ('LUI-4', 'CLU-2', 'ATP-1', 'BENG 471 section 101', 75, {ts '2000-01-01 00:00:00.0'}, {ts '2000-06-01 00:00:00.0'}, 'Retired', 1)
 
 // CluAtpTypeKey
-insert into KSLU_CLU_ATP_TYPE_KEY (ID, ATP_TYPE_KEY) values ('ATP-1', 'atpType.semester.fall')
-insert into KSLU_CLU_ATP_TYPE_KEY (ID, ATP_TYPE_KEY) values ('ATP-2', 'atpType.semester.spring')
-insert into KSLU_CLU_ATP_TYPE_KEY (ID, ATP_TYPE_KEY) values ('ATP-3', 'atpType.semester.summer')
-insert into KSLU_CLU_ATP_TYPE_KEY (ID, ATP_TYPE_KEY) values ('ATP-4', 'atpType.quarter.fall')
-insert into KSLU_CLU_ATP_TYPE_KEY (ID, ATP_TYPE_KEY) values ('ATP-5', 'atpType.quarter.winter')
-insert into KSLU_CLU_ATP_TYPE_KEY (ID, ATP_TYPE_KEY) values ('ATP-6', 'atpType.quarter.spring')
-insert into KSLU_CLU_ATP_TYPE_KEY (ID, ATP_TYPE_KEY) values ('ATP-7', 'atpType.quarter.summer')
+insert into KSLU_CLU_ATP_TYPE_KEY (ID, ATP_TYPE_KEY, clu_id) values ('ATP-1', 'atpType.semester.fall', '2f68e422-a54f-4f10-9cf2-37dd4083ce5d')
+insert into KSLU_CLU_ATP_TYPE_KEY (ID, ATP_TYPE_KEY, clu_id) values ('ATP-2', 'atpType.semester.spring', '2f68e422-a54f-4f10-9cf2-37dd4083ce5d')
+insert into KSLU_CLU_ATP_TYPE_KEY (ID, ATP_TYPE_KEY, clu_id) values ('ATP-3', 'atpType.semester.summer', 'f77befe3-c76c-4963-b4c2-104197f51e96')
+insert into KSLU_CLU_ATP_TYPE_KEY (ID, ATP_TYPE_KEY, clu_id) values ('ATP-4', 'atpType.quarter.fall', 'f77befe3-c76c-4963-b4c2-104197f51e96')
+insert into KSLU_CLU_ATP_TYPE_KEY (ID, ATP_TYPE_KEY, clu_id) values ('ATP-5', 'atpType.quarter.winter', 'f77befe3-c76c-4963-b4c2-104197f51e96')
+insert into KSLU_CLU_ATP_TYPE_KEY (ID, ATP_TYPE_KEY, clu_id) values ('ATP-6', 'atpType.quarter.spring', '8e108d5e-44d0-40eb-bd3e-01c4e8dd7472')
+insert into KSLU_CLU_ATP_TYPE_KEY (ID, ATP_TYPE_KEY, clu_id) values ('ATP-7', 'atpType.quarter.summer', '8e108d5e-44d0-40eb-bd3e-01c4e8dd7472')
 
 // CluSet
 INSERT INTO KSLU_CLU_SET (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, EFF_DT, EXPIR_DT, NAME, RT_DESCR_ID, CRIT_SET) VALUES ('CLUSET-1', 'CREATEID', {ts '2000-01-01 00:00:00.0'}, 'UPDATEID', {ts '2001-01-01 00:00:00.0'}, 0, {ts '2003-01-01 00:00:00.0'}, {ts '2004-01-01 00:00:00.0'}, 'Core Cluset Name', 'RICHTEXT-501', 0)
@@ -470,7 +470,7 @@ INSERT INTO KSLU_CLU_LO_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, V
 INSERT INTO KSLU_CLU_LO_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, LO_ID, CLU_ID, EFF_DT, EXPIR_DT, ST, TYPE) VALUES ('LO-6', 'CREATEID', {ts '2009-12-01 09:00:00.0'}, 'UPDATEID', {ts '2009-12-01 10:00:00.0'},1,'91A91860-D796-4A17-976B-A6165B1A0B05', 'a1c35e82-8a24-495b-aa91-98d9317e3604', {ts '2008-01-01 00:00:00.0'}, null, 'active', 'cluLuType.default')
 INSERT INTO KSLU_CLU_LO_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, LO_ID, CLU_ID, EFF_DT, EXPIR_DT, ST, TYPE) VALUES ('LO-7', 'CREATEID', {ts '2009-12-01 09:00:00.0'}, 'UPDATEID', {ts '2009-12-01 10:00:00.0'},1,'81ABEA67-3BCC-4088-8348-E265F3670145', 'a1c35e82-8a24-495b-aa91-98d9317e3604', {ts '2009-01-01 00:00:00.0'}, null, 'active', 'cluLuType.default')
 
-insert into KSLU_CLU_JN_CLU_IDENT (CLU_ID, ALT_CLU_ID) VALUES('2f68e422-a54f-4f10-9cf2-37dd4083ce5d','8ed5ea45-55f8-4bd3-bcf1-7f0e22e5e327');
+insert into KSLU_CLU_JN_CLU_IDENT (CLU_ID, ALT_CLU_ID) VALUES('2f68e422-a54f-4f10-9cf2-37dd4083ce5d','a47e2d88-cb6d-4c52-901c-cc7b630a0d24');
 insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('CAMP-1', 'Campus 1','2f68e422-a54f-4f10-9cf2-37dd4083ce5d');
 insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('CAMP-2', 'Campus 2','2f68e422-a54f-4f10-9cf2-37dd4083ce5d');
 insert into kslu_clu_admin_org (id, org_id) values ('ADMIN-ORG-1','42');
@@ -481,4 +481,4 @@ insert into KSLU_CLU_INSTR (ID, ORG_ID, PERS_ID) values ('INSTR-3', 'ORG-2','Jac
 insert into KSLU_CLU_INSTR (ID, ORG_ID, PERS_ID) values ('INSTR-4', 'ORG-3','Jill');
 insert into KSLU_CLU_JN_SUBJ_ORG (id, CLU_ID, org_id) values ('SUBJ-ORG-1', '2f68e422-a54f-4f10-9cf2-37dd4083ce5d', '42');
 insert into KSLU_CLU_JN_SUBJ_ORG (id, CLU_ID, org_id) values ('SUBJ-ORG-2', '2f68e422-a54f-4f10-9cf2-37dd4083ce5d', '101');
-update KSLU_CLU set PRI_ADMIN_ORG_ID = 'ADMIN-ORG-1',PRI_INSTR_ID = 'INSTR-3', FEE_ID = 'FEE-1', ATPDURATIONTYPEKEY = 'atpType.semester.fall', TIMEQUANTITY = 100 where ID = '2f68e422-a54f-4f10-9cf2-37dd4083ce5d';
+update KSLU_CLU set PRI_ADMIN_ORG_ID = 'ADMIN-ORG-1',PRI_INSTR_ID = 'INSTR-3', FEE_ID = 'FEE-1', ATPDURATIONTYPEKEY = 'weeks', TIMEQUANTITY = 10 where ID = '2f68e422-a54f-4f10-9cf2-37dd4083ce5d';

@@ -111,7 +111,7 @@ public class LUConstants {
     
     // Governance labels
     public static final String GOVERNANCE_LABEL_KEY = "cluGovernance";
-    public static final String CURRICULUM_OVERSIGHT_LABEL_KEY = "cluCurriculumOversight";
+    public static final String ACADEMIC_SUBJECT_ORGS_KEY = "cluCurriculumOversight";
     public static final String CAMPUS_LOCATION_LABEL_KEY = "cluCampusLocation";
     public static final String ADMIN_ORGS_LABEL_KEY = "cluAdminOrgs";
     public static final String ADMIN_ORG_LABEL_KEY = "cluAdminOrg";

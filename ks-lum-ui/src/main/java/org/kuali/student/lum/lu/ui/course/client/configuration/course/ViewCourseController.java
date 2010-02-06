@@ -183,7 +183,7 @@ public class ViewCourseController extends TabbedSectionLayout {
         cfg.generateLayout(this);
              
         if (!initialized) {
-            addButton(ViewCourseConfigurer.COURSE_INFORMATION, getQuitButton());
+            addButton(ViewCourseConfigurer.COURSE_DETAILS_TAB, getQuitButton());
         }
         initialized = true;
     }

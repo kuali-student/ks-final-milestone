@@ -40,6 +40,8 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.core.organization.dto.OrgInfo;
+import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.search.newdto.SearchRequest;
 import org.kuali.student.core.search.newdto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
@@ -74,7 +76,7 @@ import org.kuali.student.lum.nlt.service.TranslationService;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 
 public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
-//TODO Split out CluInfo assembly to its own class
+//  TODO Split out CluInfo assembly to its own class
 
     final Logger LOG = Logger.getLogger(CourseAssembler.class);
 
@@ -85,7 +87,7 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
     public static final String FORMAT_RELATION_TYPE = "luLuRelationType.hasCourseFormat";
     public static final String ACTIVITY_RELATION_TYPE = "luLuRelationType.contains";
 
-	private SingleUseLoInfoAssembler loAssembler;
+    private SingleUseLoInfoAssembler loAssembler;
     private final RichTextInfoAssembler richtextAssembler = new RichTextInfoAssembler();
     private final TimeAmountInfoAssembler timeamountAssembler = new TimeAmountInfoAssembler();
     private final CluInstructorInfoDataAssembler instructorAssembler = new CluInstructorInfoDataAssembler();
@@ -94,6 +96,7 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
     private PermissionService permissionService;
     private LearningObjectiveService loService;
     private TranslationService translationService;
+    private OrganizationService orgService;
 
     private SearchDispatcher searchDispatcher;
 
@@ -108,14 +111,14 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
             CluInfoHierarchy hierarchy = getCluInfoHierarchyFromId(id);
 
             CreditCourseHelper course = buildCourseFromCluInfo(hierarchy);
-            
+
             luData.setData(course.getData());
 
             luData.setRuleInfos(getRules(id));
 
-		    // TODO - need a SingleUseLoListAssembler that calls SingleUseLoAssembler once for each LO
-		    // associated with the course
-    		result.setCourseSpecificLOs(getSingleUseLoAssembler().get(course.getId()));
+            // TODO - need a SingleUseLoListAssembler that calls SingleUseLoAssembler once for each LO
+            // associated with the course
+            result.setCourseSpecificLOs(getSingleUseLoAssembler().get(course.getId()));
 
         } catch (Exception e) {
             throw new AssemblyException(
@@ -173,7 +176,7 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
                 course = CreditCourseHelper.wrap(helper.getCourse().getData());               
             }
             else {
-              course = CreditCourseHelper.wrap(input);
+                course = CreditCourseHelper.wrap(input);
             }
             // first save all of the clus and relations
             SaveResult<CluInfoHierarchy> courseResult = saveHierarchy(course);
@@ -201,17 +204,17 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
             }
 
             result.setValidationResults(validationResults);
-            
+
             if (courseId != null) {
-               Data d = get(courseId);     
-               result.setValue(d);
-               
+                Data d = get(courseId);     
+                result.setValue(d);
+
             }
             else {
                 result.setValue(null);
             }
-            
-//            result.setValue((courseId == null) ? null : get(courseId));
+
+//          result.setValue((courseId == null) ? null : get(courseId));
 
             return result;
         } catch (Exception e) {
@@ -228,13 +231,13 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
     public CluInfoHierarchy disassemble(Data input) throws AssemblyException {
         throw new UnsupportedOperationException("Data disassembly not supported");
     }
-    
+
     @Override
     public List<ValidationResultInfo> validate(Data data)  throws AssemblyException {
         // TODO validate CreditCourseProposal
         return null;
     }
-    
+
     @Override
     public SearchResult search(SearchRequest searchRequest) {
         //TODO Might want to be synchronized, or services should be dependency injected...
@@ -290,7 +293,7 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
 
             AdminOrgInfo admin = course.getPrimaryAdminOrg();
             if (admin != null) {
-                result.setDepartment(admin.getOrgId());
+                result.setDepartment(getOrgName(admin.getOrgId()));
             }
 
             // FIXME wilj: figure out how to retrieve the version codes and cross listings 
@@ -298,8 +301,7 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
 //          result.getAlternateIdentifiers().add(cluIdentifierAssembler.assemble(alt));
 //          }
             result.setDescription(RichTextInfoHelper.wrap(richtextAssembler.assemble(course.getDescr())));
-//          result.setRationale(RichTextInfoHelper.wrap(richtextAssembler.assemble(course.getMarketingDesc())));
-            
+
             TimeAmountInfoHelper time = TimeAmountInfoHelper.wrap(timeamountAssembler.assemble(course.getStdDuration()));
             if (time != null) {
                 CreditCourseDurationHelper duration = CreditCourseDurationHelper.wrap(new Data());
@@ -309,6 +311,12 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
                 duration.setTermType(time.getAtpDurationTypeKey());
                 result.setDuration(duration);
             }
+
+            result.setTermsOffered(new Data());
+            for (String atpType : course.getOfferedAtpTypes()) {
+                result.getTermsOffered().add(atpType);
+            }
+            
             CluInstructorInfoHelper instr = CluInstructorInfoHelper.wrap(instructorAssembler.assemble(course.getPrimaryInstructor()));
             if (instr != null) {
                 result.setPrimaryInstructor(instr.getPersonId());
@@ -319,9 +327,9 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
             result.setType(course.getType());
 
             result.setAcademicSubjectOrgs(new Data());
-            
+
             for (AcademicSubjectOrgInfo org : course.getAcademicSubjectOrgs()) {
-                result.getAcademicSubjectOrgs().add(org.getOrgId());
+                result.getAcademicSubjectOrgs().add(getOrgName(org.getOrgId()));
             }
 
             result.setCampusLocations(new Data());
@@ -340,35 +348,22 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
             //Retrieve related clus of type kuali.lu.relation.type.co-located and add the list to the map.
             List<CluCluRelationInfo> cluClus = luService.getCluCluRelationsByClu(course.getId());
             if (cluClus != null){
-	            for(CluCluRelationInfo cluRel:cluClus){
-	                if(cluRel.getType().equals(JOINT_RELATION_TYPE)){
-	                    CluInfo cluInfo = luService.getClu(cluRel.getRelatedCluId());
-	                    CreditCourseJointsHelper joint = CreditCourseJointsHelper
-	                            .wrap(new Data());
-	                    buildJointsFromCluInfo(cluInfo,joint);
-	                    joint.setRelationId(cluRel.getId());
-	                    if(result.getJoints()==null){
-	                        result.setJoints(new Data());
-	                    }
-	                    result.getJoints().add(joint.getData());
-	
-	                }
-	            }
+                for(CluCluRelationInfo cluRel:cluClus){
+                    if(cluRel.getType().equals(JOINT_RELATION_TYPE)){
+                        CluInfo cluInfo = luService.getClu(cluRel.getRelatedCluId());
+                        CreditCourseJointsHelper joint = CreditCourseJointsHelper
+                        .wrap(new Data());
+                        buildJointsFromCluInfo(cluInfo,joint);
+                        joint.setRelationId(cluRel.getId());
+                        if(result.getJoints()==null){
+                            result.setJoints(new Data());
+                        }
+                        result.getJoints().add(joint.getData());
+
+                    }
+                }
             }
             result.setId(course.getId());
-
-//          if (clus != null) {
-
-//          for (CluInfo clu : clus) {
-//          CreditCourseJointsHelper joint = CreditCourseJointsHelper
-//          .wrap(new Data());
-//          buildJointsFromCluInfo(clu,joint);
-//          if(result.getJoints()==null){
-//          result.setJoints(new Data());
-//          }
-//          result.getJoints().add(joint.getData());
-//          }
-//          }
 
         }
         catch (Exception e) {
@@ -429,8 +424,8 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
             throw new AssemblyException("Unable to save CluInfoHierarchy", e);
         }
 
-//        CluInfoHierarchyAssembler cluHierarchyAssembler = new CluInfoHierarchyAssembler();
-//        cluHierarchyAssembler.setHierarchy(hierarchy);
+//      CluInfoHierarchyAssembler cluHierarchyAssembler = new CluInfoHierarchyAssembler();
+//      cluHierarchyAssembler.setHierarchy(hierarchy);
 
         buildJointsFromData(result.getValue().getCluInfo().getId(),course);
 
@@ -539,14 +534,14 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
             courseClu.setCampusLocations(campuses);
 
 
-//			mergeAlternateIdentifiers(course, courseClu);
+//          mergeAlternateIdentifiers(course, courseClu);
 
             //AuthzCheck
             if(courseMetadata.getProperties().get("description").getWriteAccess()!=WriteAccess.NEVER){
                 courseClu.setDescr(getRichText(course.getDescription()));
             }
 
-            
+
             //AuthzCheck
             if(courseMetadata.getProperties().get("duration").getWriteAccess()!=WriteAccess.NEVER){
                 AmountInfo time = courseClu.getIntensity();
@@ -590,7 +585,7 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
             // CreditCourseJointsHelper.wrap(course.getJoints());
             for (Data.Property p : course.getJoints()) {
                 CreditCourseJointsHelper joint = CreditCourseJointsHelper
-                        .wrap((Data) p.getValue());
+                .wrap((Data) p.getValue());
                 //If user has not entered a joint course on the screen then return back
                 if(joint.getCourseId()==null){
                     return;
@@ -599,8 +594,8 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
                     CluCluRelationInfo rel = new CluCluRelationInfo();
                     rel.setCluId(parentCourseId);
                     rel.setRelatedCluId(joint.getCourseId());
-//					rel.setType(joint.getType());
-//					Remove hardcoded Type
+//                  rel.setType(joint.getType());
+//                  Remove hardcoded Type
                     rel.setType(JOINT_RELATION_TYPE);
 
                     CluCluRelationInfo result= luService.createCluCluRelation(parentCourseId, joint
@@ -711,8 +706,8 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
     }
 
     private void buildFormatsFromCluInfo(CreditCourseHelper course, CluInfoHierarchy cluHierarchy) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, AssemblyException {
+    InvalidParameterException, MissingParameterException,
+    OperationFailedException, AssemblyException {
 
         CreditCourseFormatHelper format = CreditCourseFormatHelper.wrap(new Data());
         CluInfo clu = cluHierarchy.getCluInfo();
@@ -729,8 +724,8 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
     }
 
     private void addActivities(CreditCourseFormatHelper format, CluInfoHierarchy cluHierarchy)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, AssemblyException {
+    throws DoesNotExistException, InvalidParameterException,
+    MissingParameterException, OperationFailedException, AssemblyException {
 
         CreditCourseActivityHelper activity = CreditCourseActivityHelper.wrap(new Data());
         CluInfo clu = cluHierarchy.getCluInfo();
@@ -768,8 +763,8 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
     }
 
     private void addCrossListings(CreditCourseHelper course, CluInfoHierarchy cluHierarchy)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, AssemblyException {
+    throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    OperationFailedException, AssemblyException {
 
         CreditCourseCrossListingsHelper xListings = null;
         CluInfo clu = cluHierarchy.getCluInfo();
@@ -793,8 +788,8 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
     }
 
     private void addVersions(CreditCourseHelper course, CluInfoHierarchy cluHierarchy)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, AssemblyException {
+    throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    OperationFailedException, AssemblyException {
 
         CreditCourseVersionsHelper versions = null;
         CluInfo clu = cluHierarchy.getCluInfo();
@@ -863,7 +858,7 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
 
 
     private void buildActivityUpdates(CluInfoHierarchy formatHierarchy,
-                                      CreditCourseFormatHelper format) throws AssemblyException {
+            CreditCourseFormatHelper format) throws AssemblyException {
         if (format.getActivities() == null) {
             return;
         }
@@ -997,41 +992,41 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
 
     // TODO rewrite alternate identifier code to create separate properties per alternate identifier type
 //  private void mergeAlternateIdentifiers(CreditCourse course,
-//          CluInfo courseClu) throws AssemblyException {
-//      // create map of existing identifiers
-//      Map<String, CluIdentifierInfo> ids = new HashMap<String, CluIdentifierInfo>();
-//      for (CluIdentifierInfo id : courseClu.getAlternateIdentifiers()) {
-//          if (id.getId() != null) {
-//              ids.put(id.getId(), id);
-//          }
-//      }
-//      for (Property p : course.getAlternateIdentifiers()) {
-//          CluIdentifierInfoData data = p.getValue();
-//          CluIdentifierInfo idSource = cluIdentifierAssembler.disassemble(data);
-//          CluIdentifierInfo idTarget = ids.get(idSource.getId());
-//          if (idTarget == null) {
-//              // newly created
-//              courseClu.getAlternateIdentifiers().add(idSource);
-//          } else {
-//              // modified
-//              // skipping some fields that shouldn't be reassigned like id, cluId, etc
-//              idTarget.setCode(idSource.getCode());
-//              idTarget.setDivision(idSource.getDivision());
-//              idTarget.setLevel(idSource.getLevel());
-//              idTarget.setLongName(idSource.getLongName());
-//              idTarget.setOrgId(idSource.getOrgId());
-//              idTarget.setShortName(idSource.getShortName());
-//              idTarget.setSuffixCode(idSource.getSuffixCode());
-//              idTarget.setVariation(idSource.getVariation());
-//              
-//              ids.remove(idTarget.getId());
-//          }
-//      }
-//      
-//      // anything left in the ids map is something that was deleted by the client
-//      for (CluIdentifierInfo c : ids.values()) {
-//          courseClu.getAlternateIdentifiers().remove(c);
-//      }
+//  CluInfo courseClu) throws AssemblyException {
+//  // create map of existing identifiers
+//  Map<String, CluIdentifierInfo> ids = new HashMap<String, CluIdentifierInfo>();
+//  for (CluIdentifierInfo id : courseClu.getAlternateIdentifiers()) {
+//  if (id.getId() != null) {
+//  ids.put(id.getId(), id);
+//  }
+//  }
+//  for (Property p : course.getAlternateIdentifiers()) {
+//  CluIdentifierInfoData data = p.getValue();
+//  CluIdentifierInfo idSource = cluIdentifierAssembler.disassemble(data);
+//  CluIdentifierInfo idTarget = ids.get(idSource.getId());
+//  if (idTarget == null) {
+//  // newly created
+//  courseClu.getAlternateIdentifiers().add(idSource);
+//  } else {
+//  // modified
+//  // skipping some fields that shouldn't be reassigned like id, cluId, etc
+//  idTarget.setCode(idSource.getCode());
+//  idTarget.setDivision(idSource.getDivision());
+//  idTarget.setLevel(idSource.getLevel());
+//  idTarget.setLongName(idSource.getLongName());
+//  idTarget.setOrgId(idSource.getOrgId());
+//  idTarget.setShortName(idSource.getShortName());
+//  idTarget.setSuffixCode(idSource.getSuffixCode());
+//  idTarget.setVariation(idSource.getVariation());
+
+//  ids.remove(idTarget.getId());
+//  }
+//  }
+
+//  // anything left in the ids map is something that was deleted by the client
+//  for (CluIdentifierInfo c : ids.values()) {
+//  courseClu.getAlternateIdentifiers().remove(c);
+//  }
 //  }
     private CluInfoHierarchy findChildByCluId(CluInfoHierarchy parent, String cluId) {
         for (CluInfoHierarchy c : parent.getChildren()) {
@@ -1041,6 +1036,23 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
         }
         return null;
     }
+
+    private String getOrgName(String orgId) throws AssemblyException {
+        
+        return orgId;
+
+        //FIXME: Once    orgName fields have been defined to the DOL uncomment this code     
+//        if (orgId != null) {
+//            OrgInfo org;
+//            try {
+//                org = getOrgService().getOrganization(orgId);
+//            } catch (Exception e) {
+//                throw new AssemblyException("Unable to get org name for id " + orgId, e);
+//            }
+//            return org.getLongName();        
+//        }
+//        return null;
+    }   
 
     private List<RuleInfo> getRules(String courseId) throws Exception{
         LuRuleInfoPersistanceBean ruleInfoBean = new LuRuleInfoPersistanceBean();
@@ -1081,11 +1093,11 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
             List<KimPermissionInfo> permissions = permissionService.getAuthorizedPermissionsByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, qualification);
             Map<String, String> permMap = new HashMap<String,String>();
             if (permissions !=null){
-	            for(KimPermissionInfo permission:permissions){
-	                String dtoFieldKey = permission.getDetails().get("dtoFieldKey");
-	                String fieldAccessLevel = permission.getDetails().get("fieldAccessLevel");
-	                permMap.put(dtoFieldKey, fieldAccessLevel);
-	            }
+                for(KimPermissionInfo permission:permissions){
+                    String dtoFieldKey = permission.getDetails().get("dtoFieldKey");
+                    String fieldAccessLevel = permission.getDetails().get("fieldAccessLevel");
+                    permMap.put(dtoFieldKey, fieldAccessLevel);
+                }
             }
             return permMap;
         }catch(Exception e){
@@ -1094,14 +1106,14 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
         return null;
     }
 
-	private SingleUseLoInfoAssembler getSingleUseLoAssembler() {
-		if (loAssembler == null) {
-			loAssembler = new SingleUseLoInfoAssembler();
-			loAssembler.setLoService(loService);
-			loAssembler.setLuService(luService);
-		}
-		return loAssembler;
-	}
+    private SingleUseLoInfoAssembler getSingleUseLoAssembler() {
+        if (loAssembler == null) {
+            loAssembler = new SingleUseLoInfoAssembler();
+            loAssembler.setLoService(loService);
+            loAssembler.setLuService(luService);
+        }
+        return loAssembler;
+    }
 
     public LuService getLuService() {
         return luService;
@@ -1125,6 +1137,14 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
 
     public void setSearchDispatcher(SearchDispatcher searchDispatcher) {
         this.searchDispatcher = searchDispatcher;
+    }
+
+    public OrganizationService getOrgService() {
+        return orgService;
+    }
+
+    public void setOrgService(OrganizationService orgService) {
+        this.orgService = orgService;
     }
 
     public static class RelationshipHierarchy {
