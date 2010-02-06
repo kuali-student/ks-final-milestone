@@ -28,12 +28,12 @@ import org.junit.Test;
 import org.kuali.student.brms.ruleexecution.runtime.drools.DroolsKnowledgeBase;
 import org.kuali.student.brms.ruleexecution.runtime.drools.SimpleExecutorDroolsImpl;
 import org.kuali.student.brms.ruleexecution.runtime.report.ast.BooleanOperators;
-import org.kuali.student.lum.lu.dto.LuStatementInfo;
-import org.kuali.student.lum.lu.dto.LuStatementTypeInfo;
-import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
-import org.kuali.student.lum.lu.dto.ReqComponentInfo;
-import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
-import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
+import org.kuali.student.brms.statement.dto.StatementInfo;
+import org.kuali.student.brms.statement.dto.StatementTypeInfo;
+import org.kuali.student.brms.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.brms.statement.dto.ReqComponentInfo;
+import org.kuali.student.brms.statement.dto.ReqComponentTypeInfo;
+import org.kuali.student.brms.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.lum.nlt.naturallanguage.ContextRegistry;
 import org.kuali.student.lum.nlt.naturallanguage.context.Context;
 import org.kuali.student.lum.nlt.naturallanguage.translators.NaturalLanguageMessageBuilder;
@@ -47,10 +47,11 @@ import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 import org.kuali.student.lum.ui.requirements.util.LuServiceMock;
 import org.kuali.student.lum.ui.requirements.util.RequirementsUtil;
+import org.kuali.student.lum.ui.requirements.util.StatementServiceMock;
 
 public class TestRequirementsRpcGwtServlet {
 
-	private static LuServiceMock luService = new LuServiceMock();
+	private static StatementServiceMock statementService = new StatementServiceMock();
 	private static TranslationServiceImpl translationService = new TranslationServiceImpl();
 	private static RequirementsRpcGwtServlet requirementsRpcGwtServlet = new RequirementsRpcGwtServlet();
 	
@@ -76,74 +77,75 @@ public class TestRequirementsRpcGwtServlet {
 		return new NaturalLanguageMessageBuilder(executor, "en", booleanLanguageMap);
     }
 
+    @Ignore
     private static void createTranslator() {
-    	ContextRegistry<Context<CustomReqComponentInfo>> reqComponentContextRegistry = RequirementsUtil.getReqComponentContextRegistry(luService);
-    	ContextRegistry<Context<LuStatementAnchor>> statementContextRegistry = RequirementsUtil.getStatementContextRegistry(luService);
-
-    	ReqComponentTranslator englishReqComponentTranslator = new ReqComponentTranslator();
-    	englishReqComponentTranslator.setContextRegistry(reqComponentContextRegistry);
-    	englishReqComponentTranslator.setLanguage("en");
-
-    	StatementTranslator englishStatementTranslator = new StatementTranslator();
-    	englishStatementTranslator.setContextRegistry(statementContextRegistry);
-    	englishStatementTranslator.setReqComponentTranslator(englishReqComponentTranslator);
-    	englishStatementTranslator.setMessageBuilder(createMessageBuilder());
-    	englishStatementTranslator.setLanguage("en");
-
-    	NaturalLanguageTranslatorImpl englishTranslator = new NaturalLanguageTranslatorImpl();
-    	englishTranslator.setLanguage("en");
-    	englishTranslator.setReqComponentTranslator(englishReqComponentTranslator);
-    	englishTranslator.setStatementTranslator(englishStatementTranslator);
-
-		translationService.setLuService(luService);
-		translationService.setNaturalLanguageTranslator(englishTranslator);
+//    	ContextRegistry<Context<CustomReqComponentInfo>> reqComponentContextRegistry = RequirementsUtil.getReqComponentContextRegistry(statementService);
+//    	ContextRegistry<Context<LuStatementAnchor>> statementContextRegistry = RequirementsUtil.getStatementContextRegistry(statementService);
+//
+//    	ReqComponentTranslator englishReqComponentTranslator = new ReqComponentTranslator();
+//    	englishReqComponentTranslator.setContextRegistry(reqComponentContextRegistry);
+//    	englishReqComponentTranslator.setLanguage("en");
+//
+//    	StatementTranslator englishStatementTranslator = new StatementTranslator();
+//    	englishStatementTranslator.setContextRegistry(statementContextRegistry);
+//    	englishStatementTranslator.setReqComponentTranslator(englishReqComponentTranslator);
+//    	englishStatementTranslator.setMessageBuilder(createMessageBuilder());
+//    	englishStatementTranslator.setLanguage("en");
+//
+//    	NaturalLanguageTranslatorImpl englishTranslator = new NaturalLanguageTranslatorImpl();
+//    	englishTranslator.setLanguage("en");
+//    	englishTranslator.setReqComponentTranslator(englishReqComponentTranslator);
+//    	englishTranslator.setStatementTranslator(englishStatementTranslator);
+//
+////		translationService.setLuService(luService);
+//		translationService.setNaturalLanguageTranslator(englishTranslator);
     }
 
     private static void createLuData() throws Exception {
-    	luService.addAll(RequirementsUtil.createData());
-		reqComp1 = createReqComponent("req-1", "CLUSET-NL-1");
-		reqComp2 = createReqComponent("req-2", "CLUSET-NL-2");
-
-		luService.addObject(reqComp1.getId(), reqComp1);
-		luService.addObject(reqComp2.getId(), reqComp2);
-		
-		ReqComponentTypeInfo reqType = RequirementsUtil.createDefaultReqComponentType("KUALI.CATALOG", "kuali.reqCompType.courseList.nof");
-		luService.addObject(reqType.getId(), reqType);
-		
-		LuStatementTypeInfo luStatementTypeInfo = RequirementsUtil.createLuStatementTypeInfo("kuali.luStatementType.prereqAcademicReadiness");
-		luService.addObject(luStatementTypeInfo.getId(), luStatementTypeInfo);
+//    	statementService.addAll(RequirementsUtil.createData());
+//		reqComp1 = createReqComponent("req-1", "CLUSET-NL-1");
+//		reqComp2 = createReqComponent("req-2", "CLUSET-NL-2");
+//
+//		statementService.addObject(reqComp1.getId(), reqComp1);
+//		statementService.addObject(reqComp2.getId(), reqComp2);
+//		
+//		ReqComponentTypeInfo reqType = RequirementsUtil.createDefaultReqComponentType("KUALI.CATALOG", "kuali.reqCompType.courseList.nof");
+//		statementService.addObject(reqType.getId(), reqType);
+//		
+//		StatementTypeInfo statementTypeInfo = RequirementsUtil.createLuStatementTypeInfo("kuali.luStatementType.prereqAcademicReadiness");
+//		statementService.addObject(statementTypeInfo.getId(), statementTypeInfo);
     }
     
     private static void setRpcGwtServices() {
-		requirementsRpcGwtServlet.setService(luService);
+		requirementsRpcGwtServlet.setStatementService(statementService);
 		requirementsRpcGwtServlet.setTranslationService(translationService);
     }
     
-    private static ReqComponentInfo createReqComponent(String reqComponentId, String cluSetId) throws Exception {
-        ReqComponentInfo reqCompInfo = RequirementsUtil.createReqComponent(
-        		"KUALI.CATALOG", "kuali.reqCompType.courseList.nof");
-        reqCompInfo.setId(reqComponentId);
-        
-        List<ReqCompFieldInfo> fieldList = new ArrayList<ReqCompFieldInfo>();
-        
-        ReqCompFieldInfo field1 = new ReqCompFieldInfo();
-        field1.setId("reqCompFieldType.requiredCount");
-        field1.setValue("1");
-        fieldList.add(field1);
-        
-        ReqCompFieldInfo field2 = new ReqCompFieldInfo();
-        field2.setId("reqCompFieldType.operator");
-        field2.setValue("greater_than_or_equal_to");
-        fieldList.add(field2);
-        
-        ReqCompFieldInfo field3 = new ReqCompFieldInfo();
-        field3.setId("reqCompFieldType.cluSet");
-        field3.setValue(cluSetId);
-        fieldList.add(field3);
-        
-        reqCompInfo.setReqCompFields(fieldList);
-        return reqCompInfo;
-    }
+//    private static ReqComponentInfo createReqComponent(String reqComponentId, String cluSetId) throws Exception {
+//        ReqComponentInfo reqCompInfo = RequirementsUtil.createReqComponent(
+//        		"KUALI.CATALOG", "kuali.reqCompType.courseList.nof");
+//        reqCompInfo.setId(reqComponentId);
+//        
+//        List<ReqCompFieldInfo> fieldList = new ArrayList<ReqCompFieldInfo>();
+//        
+//        ReqCompFieldInfo field1 = new ReqCompFieldInfo();
+//        field1.setId("reqCompFieldType.requiredCount");
+//        field1.setValue("1");
+//        fieldList.add(field1);
+//        
+//        ReqCompFieldInfo field2 = new ReqCompFieldInfo();
+//        field2.setId("reqCompFieldType.operator");
+//        field2.setValue("greater_than_or_equal_to");
+//        fieldList.add(field2);
+//        
+//        ReqCompFieldInfo field3 = new ReqCompFieldInfo();
+//        field3.setId("reqCompFieldType.cluSet");
+//        field3.setValue(cluSetId);
+//        fieldList.add(field3);
+//        
+//        reqCompInfo.setReqCompFields(fieldList);
+//        return reqCompInfo;
+//    }
     
     @Ignore
     @Test
@@ -155,7 +157,7 @@ public class TestRequirementsRpcGwtServlet {
     @Ignore
     @Test
     public void testGetNaturalLanguageForStatementVO() throws Exception {
-		LuStatementInfo statementInfo = new LuStatementInfo();
+		StatementInfo statementInfo = new StatementInfo();
 		statementInfo.setType("kuali.luStatementType.prereqAcademicReadiness");
 		statementInfo.setOperator(StatementOperatorTypeKey.OR);
 		statementInfo.setReqComponentIds(Arrays.asList("req-1", "req-2"));

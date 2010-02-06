@@ -30,7 +30,7 @@ import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.KSTabPanel;
 import org.kuali.student.common.ui.client.widgets.table.Node;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
-import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
+import org.kuali.student.brms.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager.PrereqViews;
@@ -143,14 +143,14 @@ public class ManageRulesView extends ViewComposite {
                     StatementVO statementVO = (StatementVO) userObject;
                     if (statementVO != null) {
                         StatementOperatorTypeKey currentOp =
-                            (statementVO.getLuStatementInfo().getOperator());
+                            (statementVO.getStatementInfo().getOperator());
                         StatementOperatorTypeKey newOp = null;
                         if (currentOp == StatementOperatorTypeKey.AND) {
                             newOp = StatementOperatorTypeKey.OR;
                         } else {
                             newOp = StatementOperatorTypeKey.AND;
                         }
-                        statementVO.getLuStatementInfo().setOperator(newOp);
+                        statementVO.getStatementInfo().setOperator(newOp);
                         RuleInfo prereqInfo = model.getValue();
                         StatementVO unsimplified = ObjectClonerUtil.clone(prereqInfo.getStatementVO());
                         boolean structureChanged = prereqInfo.getStatementVO().simplify();
@@ -612,7 +612,7 @@ public class ManageRulesView extends ViewComposite {
     }
     
     private String getRuleTypeName() {
-    	String luStatementTypeKey = model.getValue().getLuStatementTypeKey();
+    	String luStatementTypeKey = model.getValue().getStatementTypeKey();
         if (luStatementTypeKey.contains("enroll")) return "Enrollment Restriction";
         if (luStatementTypeKey.contains("prereq")) return "Prerequisite";
         if (luStatementTypeKey.contains("coreq")) return "Corequisite";

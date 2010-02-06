@@ -36,6 +36,11 @@
         <property name="luDao" ref="LuDaoImpl"/>
     </bean>
 
+    <bean id="StatementServiceImpl"
+        class="org.kuali.student.brms.statement.service.impl.StatementServiceImpl">
+        <property name="statementDao" ref="StatementDaoImpl"/>
+    </bean>
+
     <bean id="courseListContext" class="org.kuali.student.lum.nlt.naturallanguage.context.CourseListContextImpl">
         <property name="luService" ref="LuServiceImpl" />
     </bean>

@@ -20,6 +20,11 @@
 			<artifactId>ks-core-api</artifactId>
 			<version>${ks-core.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.brms.statement</groupId>
+			<artifactId>ks-statement-api</artifactId>
+			<version>${ks-statement-api.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>

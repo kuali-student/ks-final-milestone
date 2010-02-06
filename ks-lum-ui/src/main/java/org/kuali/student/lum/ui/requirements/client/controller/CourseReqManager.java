@@ -27,8 +27,8 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
-import org.kuali.student.lum.lu.dto.LuStatementInfo;
-import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
+import org.kuali.student.brms.statement.dto.StatementInfo;
+import org.kuali.student.brms.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer;
 import org.kuali.student.lum.ui.requirements.client.model.EditHistory;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
@@ -144,7 +144,7 @@ public class CourseReqManager extends Controller {
     private RuleInfo getRuleInfo(String luStatementTypeKey) {
         if (ruleInfo.getValues() != null && !ruleInfo.getValues().isEmpty()) {
             for (RuleInfo oneRuleInfo : ruleInfo.getValues()) {
-                if (oneRuleInfo.getLuStatementTypeKey().equals(luStatementTypeKey)) {
+                if (oneRuleInfo.getStatementTypeKey().equals(luStatementTypeKey)) {
                     return oneRuleInfo;
                 }                
             }
@@ -190,11 +190,11 @@ public class CourseReqManager extends Controller {
 
 	//create a blank root statementVO
     public void addNewRule(String statementType) {
-        LuStatementInfo newLuStatementInfo = new LuStatementInfo();
-        newLuStatementInfo.setOperator(StatementOperatorTypeKey.AND);
-        newLuStatementInfo.setType(statementType);
+        StatementInfo newStatementInfo = new StatementInfo();
+        newStatementInfo.setOperator(StatementOperatorTypeKey.AND);
+        newStatementInfo.setType(statementType);
         StatementVO statementVO = new StatementVO();                            
-        statementVO.setLuStatementInfo(newLuStatementInfo);         	            	
+        statementVO.setStatementInfo(newStatementInfo);         	            	
         RuleInfo newPrereqInfo = new RuleInfo();
         newPrereqInfo.setStatementVO(statementVO); 
         newPrereqInfo.setCluId(cluId);

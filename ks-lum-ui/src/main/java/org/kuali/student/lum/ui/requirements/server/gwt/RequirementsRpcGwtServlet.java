@@ -18,7 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.brms.statement.service.StatementService;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
+import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.core.entity.RichText;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
@@ -28,9 +31,9 @@ import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.ResultCell;
 import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
-import org.kuali.student.lum.lu.dto.ReqComponentInfo;
-import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
+import org.kuali.student.brms.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.brms.statement.dto.ReqComponentInfo;
+import org.kuali.student.brms.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.nlt.dto.LuNlStatementInfo;
 import org.kuali.student.lum.nlt.service.TranslationService;
@@ -46,24 +49,25 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
     final Logger logger = Logger.getLogger(RequirementsRpcGwtServlet.class);
     
     private TranslationService translationService;
+    private StatementService statementService;
     
     private static final long serialVersionUID = 822326113643828855L;
-
+    
     public String getNaturalLanguageForReqComponentInfo(ReqComponentInfo compInfo, String nlUsageTypeKey) throws Exception {
         
         String naturalLanguage = "";           
-        
-        try {             
-            naturalLanguage = translationService.getNaturalLanguageForReqComponentInfo(compInfo, nlUsageTypeKey, null);            
-        } catch (DoesNotExistException e) {
-            e.printStackTrace();
-        } catch (InvalidParameterException e) {
-            e.printStackTrace();
-        } catch (MissingParameterException e) {
-            e.printStackTrace();
-        } catch (OperationFailedException e) {
-            e.printStackTrace();
-        }                      
+        // FIXME use the new translation service that is compatible with statementservice R4.0 here
+//        try {             
+//            naturalLanguage = translationService.getNaturalLanguageForReqComponentInfo(compInfo, nlUsageTypeKey, null);            
+//        } catch (DoesNotExistException e) {
+//            e.printStackTrace();
+//        } catch (InvalidParameterException e) {
+//            e.printStackTrace();
+//        } catch (MissingParameterException e) {
+//            e.printStackTrace();
+//        } catch (OperationFailedException e) {
+//            e.printStackTrace();
+//        }                      
         
         return naturalLanguage;
     }   
@@ -99,8 +103,7 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
                 
         List<ReqComponentTypeInfo> reqComponentTypeInfoList = null;
         try { 
-        	//FIXME: LuService API Change
-            //reqComponentTypeInfoList = service.getReqComponentTypesForLuStatementType(luStatementTypeKey);                                   
+            reqComponentTypeInfoList = statementService.getReqComponentTypesForStatementType(luStatementTypeKey);
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new Exception("Unable to find Requirement Component Types based on LU Statement Type Key:" + luStatementTypeKey, ex);
@@ -114,8 +117,8 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
         List<StatementVO> statementVOs = statementVO.getStatementVOs();       
         List<ReqComponentVO> reqComponentVOs = statementVO.getReqComponentVOs();
         
-        luNlStatementInfo.setOperator(statementVO.getLuStatementInfo().getOperator());
-        luNlStatementInfo.setStatementTypeId(statementVO.getLuStatementInfo().getType());
+//        luNlStatementInfo.setOperator(statementVO.getStatementInfo().getOperator());
+        luNlStatementInfo.setStatementTypeId(statementVO.getStatementInfo().getType());
         if ((statementVOs != null) && (reqComponentVOs != null) && (statementVOs.size() > 0) && (reqComponentVOs.size() > 0))
         {
             return "Internal error: found both Statements and Requirement Components on the same level of boolean expression";
@@ -126,8 +129,8 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
             List<LuNlStatementInfo> stmtInfoList = new ArrayList<LuNlStatementInfo>();
             for (StatementVO statement : statementVOs) {  
                 LuNlStatementInfo tempLuNlStmtInfo = new LuNlStatementInfo(); 
-                tempLuNlStmtInfo.setOperator(statement.getLuStatementInfo().getOperator());
-                tempLuNlStmtInfo.setStatementTypeId(statement.getLuStatementInfo().getType());
+//                tempLuNlStmtInfo.setOperator(statement.getStatementInfo().getOperator());
+                tempLuNlStmtInfo.setStatementTypeId(statement.getStatementInfo().getType());
                 composeLuNlStatementInfo(statement, tempLuNlStmtInfo);  //inside set the children of this LuNlStatementInfo
                 stmtInfoList.add(tempLuNlStmtInfo);
             }   
@@ -139,11 +142,16 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
                 ReqComponentInfo newReqComp = new ReqComponentInfo();
                 newReqComp.setId(reqComponent.getReqComponentInfo().getId());
                 newReqComp.setType(reqComponent.getReqComponentInfo().getType());
-                newReqComp.setDesc(reqComponent.getTypeDesc());
+                if (reqComponent.getTypeDesc() != null) {
+                    RichTextInfo desc = new RichTextInfo();
+                    desc.setPlain(reqComponent.getTypeDesc());
+                    desc.setFormatted("<p>" + reqComponent.getTypeDesc() + "</p>");
+                    newReqComp.setDesc(desc);
+                }
                 newReqComp.setReqCompFields(reqComponent.getReqComponentInfo().getReqCompFields());
                 reqComponentList.add(newReqComp);
             }  
-            luNlStatementInfo.setRequiredComponents(reqComponentList);
+//            luNlStatementInfo.setRequiredComponents(reqComponentList);
         }        
         
         return "";
@@ -232,4 +240,8 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
     public void setTranslationService(TranslationService translationService) {
         this.translationService = translationService;
     } 
+    
+    public void setStatementService(StatementService statementService) {
+        this.statementService = statementService;
+    }
 }

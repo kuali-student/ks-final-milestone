@@ -216,7 +216,7 @@ public class CourseRequisiteView extends ViewComposite {
     private RuleInfo getRuleInfo(String luStatementTypeKey) { 	
         if ((courseRules != null) && !courseRules.isEmpty()) {
             for (RuleInfo ruleInfo : courseRules) {
-                if (ruleInfo.getLuStatementTypeKey().equals(luStatementTypeKey)) {              	
+                if (ruleInfo.getStatementTypeKey().equals(luStatementTypeKey)) {              	
                     return ruleInfo;
                 }                
             }

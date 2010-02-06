@@ -222,6 +222,7 @@
 		class="org.kuali.student.lum.ui.requirements.server.gwt.RequirementsRpcGwtServlet">
 		<property name="service" ref="luClient" />
 		<property name="translationService" ref="translationClient"/>
+		<property name="statementService" ref="statementServiceClient"/>
 	</bean>
 
 	<bean id="LuRpcGwtServlet"
@@ -377,6 +378,11 @@
 	<bean id="translationClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.student.lum.nlt.service.TranslationService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/nlt}TranslationService" />
+	</bean>
+	
+	<bean id="statementServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface" value="org.kuali.student.brms.statement.service.StatementService" />
+		<property name="serviceQName" value="{http://student.kuali.org/wsdl/statement}StatementService" />
 	</bean>
 
 	<bean id="orgClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">

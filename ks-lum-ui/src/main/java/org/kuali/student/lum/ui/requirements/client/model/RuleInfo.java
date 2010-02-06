@@ -19,8 +19,8 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.table.Node;
 import org.kuali.student.core.dto.Idable;
-import org.kuali.student.lum.lu.dto.LuStatementInfo;
-import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
+import org.kuali.student.brms.statement.dto.StatementInfo;
+import org.kuali.student.brms.statement.dto.StatementOperatorTypeKey;
 
 public class RuleInfo implements Idable, Serializable {
 
@@ -67,8 +67,8 @@ public class RuleInfo implements Idable, Serializable {
     public void setStatementVO(StatementVO statementVO) {
         this.statementVO = statementVO;
     }        
-    public String getLuStatementTypeKey() {
-    	return statementVO.getLuStatementInfo().getType();
+    public String getStatementTypeKey() {
+    	return statementVO.getStatementInfo().getType();
     }
     
     public Node getStatementTree() {
@@ -164,9 +164,9 @@ public class RuleInfo implements Idable, Serializable {
                 selectedReqComponentVOs.get(0));
         // create new statement to hold the new OR group
         StatementVO newStatementVO = new StatementVO();
-        LuStatementInfo newLuStatementInfo = new LuStatementInfo();
+        StatementInfo newLuStatementInfo = new StatementInfo();
         newLuStatementInfo.setOperator(StatementOperatorTypeKey.OR);
-        newStatementVO.setLuStatementInfo(newLuStatementInfo);
+        newStatementVO.setStatementInfo(newLuStatementInfo);
         // remove the selected RCs from original statement and move them into the new
         // StatementVO
         for (ReqComponentVO selectedReqComponentVO : selectedReqComponentVOs) {
@@ -191,9 +191,9 @@ public class RuleInfo implements Idable, Serializable {
                 selectedReqComponentVOs.get(0));
         // create new statement to hold the new OR group
         StatementVO newStatementVO = new StatementVO();
-        LuStatementInfo newLuStatementInfo = new LuStatementInfo();
+        StatementInfo newLuStatementInfo = new StatementInfo();
         newLuStatementInfo.setOperator(StatementOperatorTypeKey.AND);
-        newStatementVO.setLuStatementInfo(newLuStatementInfo);
+        newStatementVO.setStatementInfo(newLuStatementInfo);
         // remove the selected RCs from original statement and move them into the new
         // StatementVO
         for (ReqComponentVO selectedReqComponentVO : selectedReqComponentVOs) {

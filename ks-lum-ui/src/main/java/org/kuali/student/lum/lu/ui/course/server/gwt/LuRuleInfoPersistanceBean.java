@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.lum.lu.dto.LuStatementInfo;
-import org.kuali.student.lum.lu.dto.ReqComponentInfo;
+import org.kuali.student.brms.statement.dto.StatementInfo;
+import org.kuali.student.brms.statement.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.nlt.service.TranslationService;
 import org.kuali.student.lum.ui.requirements.client.model.EditHistory;
@@ -58,7 +58,7 @@ public class LuRuleInfoPersistanceBean {
     		//deleteRule(cluId, origLuStatementInfo, true);
         	//for now just remove the top statement from clu    	
     		StatusInfo status;
-    		LuStatementInfo topStmt = stmtVO.getLuStatementInfo();
+    		StatementInfo topStmt = stmtVO.getStatementInfo();
     		if (topStmt.getId() != null){
 
     			//FIXME: LU Service API Change
@@ -66,15 +66,15 @@ public class LuRuleInfoPersistanceBean {
 //	            if (!status.getSuccess()) {
 //	            	throw new Exception("Unable to remove statement with id: " + stmtVO.getLuStatementInfo().getId() + " from clu with id: " + cluId);	
 //	            }
-	            
-	            List<String> cluList = topStmt.getCluIds();
-	            List<String> cluListTemp = new ArrayList<String>(cluList);	            
-	            for(String cluIId : cluListTemp) {
-	                if (cluIId.equals(cluId))  {
-	                    cluList.remove(cluIId);
-	                    topStmt.setCluIds(cluList);
-	                }
-	            }	            
+	            //FIXME: CLU ids are no longer in StatementInfo
+//	            List<String> cluList = topStmt.getCluIds();
+//	            List<String> cluListTemp = new ArrayList<String>(cluList);	            
+//	            for(String cluIId : cluListTemp) {
+//	                if (cluIId.equals(cluId))  {
+//	                    cluList.remove(cluIId);
+//	                    topStmt.setCluIds(cluList);
+//	                }
+//	            }	            
     		}
     		
     		String rooStmtId = saveRule(cluId, stmtVO, null);
@@ -116,19 +116,19 @@ public class LuRuleInfoPersistanceBean {
 		
 		try {
 		
-			List<LuStatementInfo> luStatements = null;
+			List<StatementInfo> statements = null;
     		//FIXME - LU Service Change
 			//luStatements = luService.getLuStatementsForClu(cluId);
 			
-			if (luStatements != null){
-				for (LuStatementInfo luStatementInfo:luStatements){
+			if (statements != null){
+				for (StatementInfo statementInfo:statements){
 					
 					//ignore rules not related to our course proposal context
-					if (!courseAcademicReadinessRules.contains(luStatementInfo.getType())) {
+					if (!courseAcademicReadinessRules.contains(statementInfo.getType())) {
 						continue;
 					}
 					
-					StatementVO statementVO = createStatementVO(luStatementInfo);
+					StatementVO statementVO = createStatementVO(statementInfo);
 	
 					
 	            	//create a blank root statementVO
@@ -160,10 +160,10 @@ public class LuRuleInfoPersistanceBean {
 		return ruleInfos;
 	}
     
-	private StatementVO createStatementVO(LuStatementInfo luStatementInfo) throws Exception{
-		StatementVO statementVO = new StatementVO(luStatementInfo);
-        List<String> statementIDs = luStatementInfo.getLuStatementIds();       
-        List<String> reqComponentIDs = luStatementInfo.getReqComponentIds();	
+	private StatementVO createStatementVO(StatementInfo statementInfo) throws Exception{
+		StatementVO statementVO = new StatementVO(statementInfo);
+        List<String> statementIDs = statementInfo.getStatementIds();       
+        List<String> reqComponentIDs = statementInfo.getReqComponentIds();	
         
         //each statement can contain EITHER child statements or child req. components but not both
         if ((statementIDs != null) && (reqComponentIDs != null) && (statementIDs.size() > 0) && (reqComponentIDs.size() > 0))
@@ -216,7 +216,7 @@ public class LuRuleInfoPersistanceBean {
         // then just disconnect it from the clu and we are done
         if (topLevel) {
         	
-        	LuStatementInfo topStmt = statement.getLuStatementInfo();
+        	StatementInfo topStmt = statement.getStatementInfo();
         	
         	//remove the statement from clu    	
 
@@ -245,7 +245,7 @@ public class LuRuleInfoPersistanceBean {
             //remove children belonging to each statement
             for (StatementVO stmtVO : stmtVOs) {            	          	
             	
-            	LuStatementInfo stmt = stmtVO.getLuStatementInfo();
+            	StatementInfo stmt = stmtVO.getStatementInfo();
             	
             	//remove association with the parent statement
             	//TODO
@@ -301,7 +301,7 @@ public class LuRuleInfoPersistanceBean {
     //work in progress
     private String saveRule(String cluId, StatementVO statementVO, String parentId) throws Exception {
         
-        LuStatementInfo parentStmt = statementVO.getLuStatementInfo();
+        StatementInfo parentStmt = statementVO.getStatementInfo();
     	List<StatementVO> stmtVOs = statementVO.getStatementVOs();       
         List<ReqComponentVO> reqCompVOs = statementVO.getReqComponentVOs();
         

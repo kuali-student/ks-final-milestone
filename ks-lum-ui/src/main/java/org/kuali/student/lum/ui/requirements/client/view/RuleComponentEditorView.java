@@ -39,10 +39,11 @@ import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.selectors.KSSearchComponent;
 import org.kuali.student.common.ui.client.widgets.selectors.SearchComponentConfiguration;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
+import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
-import org.kuali.student.lum.lu.dto.ReqComponentInfo;
-import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
+import org.kuali.student.brms.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.brms.statement.dto.ReqComponentInfo;
+import org.kuali.student.brms.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeNLTemplateInfo;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcServiceAsync;
@@ -301,12 +302,14 @@ public class RuleComponentEditorView extends ViewComposite {
     }
     
     private String getTemplate(String nlUsageTypeKey, String language) {
-    	for(ReqComponentTypeNLTemplateInfo template : editedReqComp.getRequiredComponentType().getNlUsageTemplates()) {
-    		if(nlUsageTypeKey.equals(template.getNlUsageTypeKey()) && language.equals(template.getLanguage())) {
-    			return template.getTemplate();
-    		}
-    	}
-    	return null;
+        //FIXME: templates are no longer in ReqComponentType
+//    	for(ReqComponentTypeNLTemplateInfo template : editedReqComp.getRequiredComponentType().getNlUsageTemplates()) {
+//    		if(nlUsageTypeKey.equals(template.getNlUsageTypeKey()) && language.equals(template.getLanguage())) {
+//    			return template.getTemplate();
+//    		}
+//    	}
+//    	return null;
+        return "";
     }
     
     private void displayReqComponentDetailsCont() {
@@ -762,7 +765,10 @@ public class RuleComponentEditorView extends ViewComposite {
 
     private void setupNewEditedReqComp(ReqComponentTypeInfo reqCompTypeInfo) {
         editedReqComp = new ReqComponentInfo();
-        editedReqComp.setDesc("");      							//will be set after user is finished with all changes
+        RichTextInfo desc = new RichTextInfo();
+        desc.setPlain("");
+        desc.setFormatted("");
+        editedReqComp.setDesc(desc);      							//will be set after user is finished with all changes
         editedReqComp.setId(Integer.toString(tempCounterID++));  //TODO
         editedReqComp.setReqCompFields(null); //fieldList);                       
         editedReqComp.setRequiredComponentType(reqCompTypeInfo);

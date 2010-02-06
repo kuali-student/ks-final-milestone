@@ -21,13 +21,13 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.table.Node;
 import org.kuali.student.common.ui.client.widgets.table.Token;
-import org.kuali.student.lum.lu.dto.LuStatementInfo;
-import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
+import org.kuali.student.brms.statement.dto.StatementInfo;
+import org.kuali.student.brms.statement.dto.StatementOperatorTypeKey;
 
 public class StatementVO extends Token implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private LuStatementInfo luStatementInfo;
+    private StatementInfo statementInfo;
     private List<ReqComponentVO> reqComponentVOs = new ArrayList<ReqComponentVO>();
     private List<StatementVO> statementVOs = new ArrayList<StatementVO>();
     private boolean checkBoxOn;
@@ -35,8 +35,8 @@ public class StatementVO extends Token implements Serializable {
     public StatementVO() {        
     }
     
-    public StatementVO(LuStatementInfo luStatementInfo) {        
-        setLuStatementInfo(luStatementInfo);
+    public StatementVO(StatementInfo statementInfo) {        
+        setStatementInfo(statementInfo);
     }        
     
     public boolean isCheckBoxOn() {
@@ -225,7 +225,7 @@ public class StatementVO extends Token implements Serializable {
             List<ReqComponentVO> tempReqComponentVOs = 
                 new ArrayList<ReqComponentVO>(reqComponentVOs);
             for (ReqComponentVO currReqComponentVO : tempReqComponentVOs) {
-                StatementVO wrapStatementVO = new StatementVO(luStatementInfo);
+                StatementVO wrapStatementVO = new StatementVO(statementInfo);
                 wrapStatementVO.addReqComponentVO(currReqComponentVO);
                 reqComponentVOs.remove(currReqComponentVO);
                 statementVOs.add(wrapStatementVO);
@@ -244,10 +244,10 @@ public class StatementVO extends Token implements Serializable {
         // add a new sub statement with the same operator as this statement
         // and a the requirement component
         if (statementVOs != null && !statementVOs.isEmpty()) {
-            LuStatementInfo newLuStatementInfo = new LuStatementInfo();
+            StatementInfo newStatementInfo = new StatementInfo();
             StatementVO newStatementVO = new StatementVO();
-            newLuStatementInfo.setOperator(luStatementInfo.getOperator());
-            newStatementVO.setLuStatementInfo(newLuStatementInfo);
+            newStatementInfo.setOperator(statementInfo.getOperator());
+            newStatementVO.setStatementInfo(newStatementInfo);
             newStatementVO.getReqComponentVOs().add(reqComponentVO);
             statementVOs.add(newStatementVO);
         } else {
@@ -284,12 +284,12 @@ public class StatementVO extends Token implements Serializable {
         }
     }
     
-    public LuStatementInfo getLuStatementInfo() {
-        return luStatementInfo;
+    public StatementInfo getStatementInfo() {
+        return statementInfo;
     }
 
-    public void setLuStatementInfo(LuStatementInfo luStatementInfo) {
-        this.luStatementInfo = luStatementInfo;
+    public void setStatementInfo(StatementInfo statementInfo) {
+        this.statementInfo = statementInfo;
     }    
     
     public List<ReqComponentVO> getReqComponentVOs() {
@@ -465,14 +465,14 @@ public class StatementVO extends Token implements Serializable {
     }
     
     private void setOperatorNode(Node node, StatementVO statementVO) {
-        if (statementVO.getLuStatementInfo() != null &&
-                statementVO.getLuStatementInfo().getOperator() ==
+        if (statementVO.getStatementInfo() != null &&
+                statementVO.getStatementInfo().getOperator() ==
                     StatementOperatorTypeKey.AND) {
             statementVO.type = Token.And;
             statementVO.value = "and";
             node.setUserObject(statementVO);
-        } else if (statementVO.getLuStatementInfo() != null &&
-                statementVO.getLuStatementInfo().getOperator() ==
+        } else if (statementVO.getStatementInfo() != null &&
+                statementVO.getStatementInfo().getOperator() ==
                     StatementOperatorTypeKey.OR) {
             statementVO.type = Token.Or;
             statementVO.value = "or";
@@ -646,11 +646,11 @@ public class StatementVO extends Token implements Serializable {
     private boolean doSimplify(StatementVO statementVO, StatementVO parent) {
         boolean structureChanged = false;
         StatementOperatorTypeKey op =
-            (statementVO == null || statementVO.getLuStatementInfo() == null)? null :
-                statementVO.getLuStatementInfo().getOperator();
+            (statementVO == null || statementVO.getStatementInfo() == null)? null :
+                statementVO.getStatementInfo().getOperator();
         StatementOperatorTypeKey
-        parentOp = (parent == null || parent.getLuStatementInfo() == null)? null :
-            parent.getLuStatementInfo().getOperator();
+        parentOp = (parent == null || parent.getStatementInfo() == null)? null :
+            parent.getStatementInfo().getOperator();
         if (parentOp == op && !statementVO.isWrapperStatementVO()) {
             structureChanged = true;
             if (statementVO.getReqComponentVOCount() > 0) {
@@ -769,8 +769,8 @@ public class StatementVO extends Token implements Serializable {
                 if (statementCounter > 0) {
                     StatementOperatorTypeKey operator =
                         (statementVO == null ||
-                                statementVO.getLuStatementInfo() == null)? null :
-                                    statementVO.getLuStatementInfo().getOperator();
+                                statementVO.getStatementInfo() == null)? null :
+                                    statementVO.getStatementInfo().getOperator();
                     inSbResult.append(" " + operator + " ");
                 }
                 if (extraBrackets || !childStatementVO.isWrapperStatementVO()) {
@@ -789,8 +789,8 @@ public class StatementVO extends Token implements Serializable {
                 if (rcCounter > 0) {
                     StatementOperatorTypeKey operator =
                         (statementVO == null ||
-                                statementVO.getLuStatementInfo() == null)? null :
-                                    statementVO.getLuStatementInfo().getOperator();
+                                statementVO.getStatementInfo() == null)? null :
+                                    statementVO.getStatementInfo().getOperator();
                     inSbResult.append(" " + operator.toString().toLowerCase() + " ");
                 }
                 inSbResult.append(childReqComponentInfo.getGuiReferenceLabelId());
