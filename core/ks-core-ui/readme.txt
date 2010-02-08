@@ -18,7 +18,7 @@ Run/Debug hosted mode using launch script
 	
 Run hosted mode using gwt maven plugin
 --------------------------------------
-	NOTE: Running gwt hosted mode via the plugin does work yet due do dependencies on Kuali Rice 
+	NOTE: Running gwt hosted mode via the plugin does not work yet due do dependencies on Kuali Rice 
 	
 	Run either of the following from command line or maven run configuration in eclipse
 	
