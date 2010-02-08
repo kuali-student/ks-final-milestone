@@ -1,0 +1,16 @@
+<projectDescription>
+  <name>war1</name>
+  <comment>WAR 1</comment>
+  <projects>
+    <project>jar1</project>
+    <project>jar2</project>
+  </projects>
+  <buildSpec>
+    <buildCommand>
+      <name>org.eclipse.jdt.core.javabuilder</name>
+    </buildCommand>
+  </buildSpec>
+  <natures>
+    <nature>org.eclipse.jdt.core.javanature</nature>
+  </natures>
+</projectDescription>
