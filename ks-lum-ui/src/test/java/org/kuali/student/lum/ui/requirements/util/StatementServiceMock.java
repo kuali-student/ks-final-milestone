@@ -308,6 +308,22 @@ public class StatementServiceMock implements StatementService {
 			throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 		return null;
 	}
+
+	@Override
+	public List<StatementTypeInfo> getStatementTypes()
+			throws OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getStatementTypesForStatementType(
+			String statementTypeKey) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
 
     //from before the service contract change:
