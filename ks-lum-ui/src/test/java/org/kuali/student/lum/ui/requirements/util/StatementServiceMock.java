@@ -276,6 +276,48 @@ public class StatementServiceMock implements StatementService {
     public RefStatementRelationInfo createRefStatementRelation(RefStatementRelationInfo refStatementRelationInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;
     }
+
+	@Override
+	public StatusInfo deleteRefStatementRelation(String refStatementRelationId)
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+		return null;
+	}
+
+	@Override
+	public String getNaturalLanguageForRefStatementRelation(String refStatementRelationId, String nlUsageTypeKey, String language) 
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		return null;
+	}
+
+	@Override
+	public List<RefStatementRelationInfo> getRefStatementRelationsByRef(String refObjectTypeKey, String refObjectId)
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		return null;
+	}
+
+	@Override
+	public List<RefStatementRelationInfo> getRefStatementRelationsByStatement(String statementId) 
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		return null;
+	}
+
+	@Override
+	public String translateReqComponentToNL(ReqComponentInfo reqComponentInfo, String nlUsageTypeKey, String language)
+			throws InvalidParameterException, MissingParameterException, OperationFailedException {
+		return null;
+	}
+
+	@Override
+	public String translateStatementTreeViewToNL(StatementTreeViewInfo statementTreeViewInfo, String nlUsageTypeKey, String language) 
+			throws InvalidParameterException, MissingParameterException, OperationFailedException {
+		return null;
+	}
+
+	@Override
+	public RefStatementRelationInfo updateRefStatementRelation(String refStatementRelationId, RefStatementRelationInfo refStatementRelationInfo)
+			throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+		return null;
+	}
     
 
     //from before the service contract change:
