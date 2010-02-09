@@ -23,10 +23,9 @@ import java.util.Map;
 import javax.jws.WebService;
 
 import org.apache.log4j.Logger;
+import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kim.util.KIMPropertyConstants;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
@@ -54,8 +53,7 @@ import org.kuali.student.core.search.newdto.SearchResultRow;
 @WebService(endpointInterface = "org.kuali.student.core.ksperson.service.KsPersonService", serviceName = "KsPersonService", portName = "KsPersonService", targetNamespace = "http://student.kuali.org/wsdl/ksperson")
 public class KsPersonServiceImpl implements KsPersonService {
     protected static final Logger LOG = Logger.getLogger(KsPersonServiceImpl.class);
-
-
+        
     private interface MySearch {
         public SearchResult search(SearchRequest searchRequest);
 
@@ -68,6 +66,10 @@ public class KsPersonServiceImpl implements KsPersonService {
                     final private String affiliationParam = "person.queryParam.personAffiliation";
                     final private String idResult = "person.resultColumn.PersonId";
                     final private String nameResult = "person.resultColumn.GivenName";
+                    final private String KIM_PERSON_FIRST_NAME = "firstName";
+                    final private String KIM_PERSON_MIDDLE_NAME = "middleName";
+                    final private String KIM_PERSON_LAST_NAME = "lastName";
+                    final private String KIM_PERSON_AFFILIATION_TYPE_CODE = "affiliationTypeCode";
 
                     private List<Person> findPersons(final SearchRequest searchRequest) {
                         String nameSearch = null;
@@ -96,15 +98,15 @@ public class KsPersonServiceImpl implements KsPersonService {
                         final List<Map<String, String>> searches = new ArrayList<Map<String, String>>();
                         if (nameSearch != null) {
                             Map<String, String> criteria1 = new HashMap<String, String>();
-                            criteria1.put(KIMPropertyConstants.Person.FIRST_NAME, nameSearch);
+                            criteria1.put(KIM_PERSON_FIRST_NAME, nameSearch);
                             searches.add(criteria1);
 
                             Map<String, String> criteria2 = new HashMap<String, String>();
-                            criteria2.put(KIMPropertyConstants.Person.MIDDLE_NAME, nameSearch);
+                            criteria2.put(KIM_PERSON_MIDDLE_NAME, nameSearch);
                             searches.add(criteria2);
 
                             Map<String, String> criteria3 = new HashMap<String, String>();
-                            criteria3.put(KIMPropertyConstants.Person.LAST_NAME, nameSearch);
+                            criteria3.put(KIM_PERSON_LAST_NAME, nameSearch);
                             searches.add(criteria3);
                         }
                         if (affilSearch != null) {
@@ -112,15 +114,17 @@ public class KsPersonServiceImpl implements KsPersonService {
                                 searches.add(new HashMap<String, String>());
                             }
                             for (Map<String, String> search : searches) {
-                                search.put(KIMPropertyConstants.Person.AFFILIATION_TYPE_CODE, affilSearch);
+                                search.put(KIM_PERSON_AFFILIATION_TYPE_CODE, affilSearch);
                             }
                         }
                         if (searches.isEmpty()) {
                             searches.add(new HashMap<String, String>());
                         }
-
-                        final PersonService<?> ps = KIMServiceLocator.getPersonService();
-
+                        
+                        //TODO: Inject this instead
+                        //final PersonService<?> ps = KIMServiceLocator.getPersonService();
+                        final PersonService<?> ps = (PersonService<?>)GlobalResourceLoader.getService("personService");
+                        
                         final List<Person> persons = new ArrayList<Person>();
                         for (Map<String, String> criteria : searches) {
                             final List<? extends Person> hits = ps.findPeople(criteria);
