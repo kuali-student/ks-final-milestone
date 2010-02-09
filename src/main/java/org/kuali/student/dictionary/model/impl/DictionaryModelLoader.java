@@ -15,6 +15,7 @@
  */
 package org.kuali.student.dictionary.model.impl;
 
+import java.text.ParseException;
 import org.kuali.student.dictionary.model.*;
 import org.kuali.student.dictionary.model.spreadsheet.WorksheetNotFoundException;
 import org.kuali.student.dictionary.writer.ClassNameDecorator;
@@ -23,10 +24,12 @@ import org.kuali.student.dictionary.model.spreadsheet.SpreadsheetReader;
 import org.kuali.student.dictionary.model.spreadsheet.WorksheetReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import org.kuali.student.dictionary.DictionaryExecutionException;
 import org.kuali.student.dictionary.model.util.DateUtility;
+import org.kuali.student.dictionary.model.util.ModelFinder;
 
 /**
  * Loads a spreadsheet using either a google or excel reader
@@ -55,58 +58,78 @@ public class DictionaryModelLoader implements DictionaryModel
    throw new DictionaryExecutionException (ex);
   }
   List<Dictionary> list = new ArrayList (worksheetReader.getEstimatedRows ());
+  Stack<Dictionary> parents = new Stack ();
+  Stack<String> xmlObjects = new Stack ();
+  Dictionary lastDict = null;
+  ModelFinder finder = new ModelFinder (this);
   while (worksheetReader.next ())
   {
    Dictionary dict = this.loadDictionaryObject (worksheetReader);
    if (dict != null)
    {
+    dict.setParent (null);
     list.add (dict);
+    String xmlObject = dict.getXmlObject ().toLowerCase ();
+    XmlType xmlType = finder.findXmlType (xmlObject);
+    if (xmlType == null)
+    {
+     throw new DictionaryExecutionException ("Dictionary entry, " + dict.getId () + " has no entry in XmlTypes");
+    }
+    if (xmlType.hasOwnCreateUpdate ())
+    {
+     lastDict = dict;
+     parents.push (lastDict);
+     xmlObjects.push (lastDict.getXmlObject ().toLowerCase ());
+     System.out.println (dict.getId () + " " + xmlObject + " first row");
+     continue;
+    }
+     //  check if the object changed
+    if (xmlObject.equals (lastDict.getXmlObject ().toLowerCase ()))
+    {
+     if ( ! parents.empty ())
+     {
+      dict.setParent (parents.peek ());
+     }
+     System.out.println (dict.getId () + " " + xmlObject
+      + " no change in object -- keep the same parent");
+     lastDict = dict;
+     continue;
+    }
+    // if going down the hierarchy
+    if (xmlObjects.search (xmlObject) == -1)
+    {
+     parents.push (lastDict);
+     xmlObjects.push (lastDict.getXmlObject ().toLowerCase ());
+     dict.setParent (parents.peek ());
+     System.out.println (dict.getId () + " " + xmlObject
+      + " new object is not on stack so must be going down hierarchy " + xmlObjects.
+      peek ());
+     lastDict = dict;
+     continue;
+    }
+    // if coming back up the stack pop until you are back to the object
+    while (xmlObjects.search (xmlObject) != -1)
+    {
+     System.out.println (dict.getId () + " " + xmlObject
+      + " not on stack - so popping parents off the stack - "
+      + xmlObjects.peek ());
+     parents.pop ();
+     xmlObjects.pop ();
+    }
+    if (parents.empty ())
+    {
+     dict.setParent (null);
+     System.out.println (dict.getId () + " " + xmlObject
+      + " popped everything off the stack");
+     lastDict = dict;
+     continue;
+    }
+    dict.setParent (parents.peek ());
+    lastDict = dict;
+    continue;
    }
   }
   return list;
- }
-
- private String get (WorksheetReader worksheetReader, String colName)
- {
-  String value = worksheetReader.getValue (colName);
-  if (value == null)
-  {
-   return "";
-  }
-  value = value.trim ();
-  return value;
- }
-
- private String getFixup (WorksheetReader worksheetReader, String colName)
- {
-  return fixup (get (worksheetReader, colName));
- }
-
- private String fixup (String str)
- {
-  if (str == null)
-  {
-   return "";
-  }
-  // TODO: figure out why I am getting an unprintable character that gets translated to a 63 which is a ?
-  //       when there is a calculation that returns null
-  if (str.length () == 1)
-  {
-   byte[] bytes = str.getBytes ();
-   if (bytes[0] == 63)
-   {
-    return "";
-   }
-  }
-  if (str.equalsIgnoreCase ("FALSE"))
-  {
-   return "false";
-  }
-  if (str.equalsIgnoreCase ("TRUE"))
-  {
-   return "true";
-  }
-  return str;
  }
 
  private Dictionary loadDictionaryObject (WorksheetReader worksheetReader)
@@ -117,17 +140,14 @@ public class DictionaryModelLoader implements DictionaryModel
   {
    return null;
   }
-  dict.setParentId (getFixup (worksheetReader, "parentId"));
   dict.setName (getFixup (worksheetReader, "name"));
   dict.setDesc (getFixup (worksheetReader, "desc"));
   if (dict.getDesc ().equals ("ignore this row"))
   {
    return null;
   }
-  dict.setMainType (getFixup (worksheetReader, "mainType"));
-  dict.setMainState (getFixup (worksheetReader, "mainState"));
-  dict.setParentObject (getFixup (worksheetReader, "parentObject"));
-  dict.setParentShortName (getFixup (worksheetReader, "parentShortName"));
+  dict.setType (getFixup (worksheetReader, "type"));
+  dict.setState (getFixup (worksheetReader, "state"));
   dict.setSubType (getFixup (worksheetReader, "subType"));
   dict.setSubState (getFixup (worksheetReader, "subState"));
   dict.setXmlObject (getFixup (worksheetReader, "xmlObject"));
@@ -207,6 +227,8 @@ public class DictionaryModelLoader implements DictionaryModel
     continue;
    }
    state.setDesc (getFixup (worksheetReader, "desc"));
+
+
    if (state.getDesc ().equals ("ignore this row"))
    {
     continue;
@@ -217,12 +239,79 @@ public class DictionaryModelLoader implements DictionaryModel
    state.setStateKey (getFixup (worksheetReader, "stateKey"));
    state.setEffectiveDate (getFixupDate (worksheetReader, "effective"));
    state.setExpirationDate (getFixupDate (worksheetReader, "expiration"));
-   state.setInclude (getFixup (worksheetReader, "include"));
+   state.setInclude (getFixupBoolean (worksheetReader, "include"));
    state.setStatus (getFixup (worksheetReader, "status"));
    state.setComments (getFixup (worksheetReader, "comments"));
 
   }
   return list;
+ }
+
+ private String get (WorksheetReader worksheetReader, String colName)
+ {
+  String value = worksheetReader.getValue (colName);
+  if (value == null)
+  {
+   return "";
+  }
+  value = value.trim ();
+  return value;
+ }
+
+ private String getFixup (WorksheetReader worksheetReader, String colName)
+ {
+  return fixup (get (worksheetReader, colName));
+ }
+
+ private String fixup (String str)
+ {
+  if (str == null)
+  {
+   return "";
+  }
+
+  // TODO: figure out why I am getting an unprintable character that gets translated to a 63 which is a ?
+  //       when there is a calculation that returns null
+  if (str.length () == 1)
+  {
+   byte[] bytes = str.getBytes ();
+   if (bytes[0] == 63)
+   {
+    return "";
+   }
+  }
+  if (str.equalsIgnoreCase ("FALSE"))
+  {
+   return "false";
+  }
+  if (str.equalsIgnoreCase ("TRUE"))
+  {
+   return "true";
+  }
+  return str;
+ }
+
+ private boolean getFixupBoolean (WorksheetReader reader, String name)
+ {
+  String str = getFixup (reader, name);
+  if (str == null)
+  {
+   return false;
+  }
+  if (str.equals (""))
+  {
+   return false;
+  }
+  if (str.equalsIgnoreCase ("true"))
+  {
+   return true;
+  }
+  if (str.equalsIgnoreCase ("false"))
+  {
+   return false;
+  }
+  throw new DictionaryExecutionException ("Could not parse " + name
+   + " as a boolean");
  }
 
  @Override
@@ -254,30 +343,37 @@ public class DictionaryModelLoader implements DictionaryModel
    list.add (type);
    type.setXmlObject (getFixup (worksheetReader, "xmlObject"));
    type.setPrimitive (getFixup (worksheetReader, "primitive"));
-   type.setInclude (getFixup (worksheetReader, "include"));
+   type.setInclude (getFixupBoolean (worksheetReader, "include"));
    type.setTypeKey (get (worksheetReader, "typeKey"));
    type.setEffectiveDate (getFixupDate (worksheetReader, "effective"));
    type.setExpirationDate (getFixupDate (worksheetReader, "expiration"));
    type.setAliases (getFixup (worksheetReader, "aliases"));
    type.setStatus (getFixup (worksheetReader, "status"));
    type.setComments (getFixup (worksheetReader, "comments"));
-
   }
   return list;
  }
 
  private String getFixupDate (WorksheetReader reader, String name)
  {
-  String date = getFixup (reader, name);
-  if (date == null)
+  String dateStr = getFixup (reader, name);
+  if (dateStr == null)
   {
    return "";
   }
-  if (date.equals (""))
+  if (dateStr.equals (""))
   {
    return "";
   }
-  return new DateUtility ().asYMD (date);
+  try
+  {
+   return new DateUtility ().asYMD (dateStr);
+  }
+  catch (ParseException ex)
+  {
+   throw new DictionaryExecutionException ("Could not parse " + name
+    + " as a date");
+  }
  }
 
  @Override
@@ -586,7 +682,6 @@ public class DictionaryModelLoader implements DictionaryModel
    //inline.setLookup (getFixup (worksheetReader, "lookup"));
    orchObj.setInlineConstraint (inline);
    orchObj.setComments (getFixup (worksheetReader, "comments"));
-
   }
   // set the id of this thing
   String parent = null;
@@ -684,6 +779,8 @@ public class DictionaryModelLoader implements DictionaryModel
    list.add (proj);
   }
   return list;
+
+
  }
 
  @Override

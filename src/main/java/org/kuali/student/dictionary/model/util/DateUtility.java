@@ -29,6 +29,7 @@ public class DateUtility
 {
 
  public String asYMD (String date)
+  throws ParseException
  {
   if (date == null)
   {
@@ -38,6 +39,7 @@ public class DateUtility
  }
 
  public Date asDate (String date)
+  throws ParseException
  {
   if (date == null)
   {
@@ -48,6 +50,7 @@ public class DateUtility
    "MM/dd/yyyy",
    "yyyy-MM-dd"
   };
+  ParseException pe = null;
   for (int i = 0; i < formats.length; i ++)
   {
    DateFormat df = new SimpleDateFormat (formats[i]);
@@ -57,12 +60,10 @@ public class DateUtility
    }
    catch (ParseException e)
    {
-    // ignore
+    pe = e;
    }
   }
-  throw new DictionaryExecutionException ("Could not parse as a date ["
-   + date
-   + "]");
+  throw pe;
  }
 
  public String asYMD (Date date)

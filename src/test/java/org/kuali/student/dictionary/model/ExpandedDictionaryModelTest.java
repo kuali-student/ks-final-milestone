@@ -93,7 +93,7 @@ public class ExpandedDictionaryModelTest implements TestConstants
     found = true;
     assertEquals ("0", dict.getInlineConstraint ().getMinValue ());
     assertEquals ("40", dict.getInlineConstraint ().getMaxValue ());
-    if (dict.getMainType ().equals ("All Activity Types"))
+    if (dict.getType ().equals ("All Activity Types"))
     {
      fail ("All activity types was not fully expanded");
     }
@@ -138,7 +138,7 @@ public class ExpandedDictionaryModelTest implements TestConstants
     found = true;
     assertEquals ("0", dict.getInlineConstraint ().getMinValue ());
     assertEquals ("40", dict.getInlineConstraint ().getMaxValue ());
-    if (dict.getMainType ().equals ("All Activity Types"))
+    if (dict.getType ().equals ("All Activity Types"))
     {
      fail ("All activity types was not fully expanded");
     }

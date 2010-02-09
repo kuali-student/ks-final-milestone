@@ -15,6 +15,7 @@
  */
 package org.kuali.student.dictionary.writer;
 
+import java.util.Set;
 import org.kuali.student.dictionary.DictionaryExecutionException;
 import org.kuali.student.dictionary.model.util.ModelFinder;
 import org.kuali.student.dictionary.model.validation.DictionaryValidationException;
@@ -23,7 +24,6 @@ import org.kuali.student.dictionary.model.Field;
 import org.kuali.student.dictionary.model.State;
 import org.kuali.student.dictionary.model.Type;
 import org.kuali.student.dictionary.model.XmlType;
-import org.kuali.student.dictionary.model.util.DateUtility;
 
 /**
  * This writes out a single field entry and all of it's constraints into the XML output document
@@ -35,27 +35,35 @@ public class FieldEntryWriter
  private DictionaryModel model;
  private ModelFinder finder;
  private Field field;
- private XmlWriter writer;
+ private XmlWriter writer2;
+ private XmlWriter writer3;
  private Type type;
  private State state;
  private ObjectStructureWriter parentObjectStructureWriter;
+ private Set<String> dictionaryEntriesWritten;
+ private Set<String> crossObjectConstraintsWritten;
 
- public FieldEntryWriter (XmlWriter writer,
+ public FieldEntryWriter (XmlWriter writer2,
+                          XmlWriter writer3,
                           DictionaryModel model,
                           Field field,
                           Type type,
                           State state,
-                          ObjectStructureWriter parentObjectStructureWriter)
+                          ObjectStructureWriter parentObjectStructureWriter,
+                          Set<String> dictionaryEntriesWritten,
+                          Set<String> crossObjectConstraintsWritten)
  {
-  this.writer = writer;
+  this.writer2 = writer2;
+  this.writer3 = writer3;
   this.model = model;
   this.finder = new ModelFinder (model);
   this.field = field;
   this.type = type;
   this.state = state;
   this.parentObjectStructureWriter = parentObjectStructureWriter;
+  this.dictionaryEntriesWritten = dictionaryEntriesWritten;
+  this.crossObjectConstraintsWritten = crossObjectConstraintsWritten;
  }
-
 
  protected Field getField ()
  {
@@ -72,7 +80,6 @@ public class FieldEntryWriter
   return state;
  }
 
-
  protected ObjectStructureWriter getParentObjectStructureWriter ()
  {
   return parentObjectStructureWriter;
@@ -80,14 +87,13 @@ public class FieldEntryWriter
 
  public void write ()
  {
-  // write it out
   writeField ();
   writeFieldDescriptor ();
   writeConstraintDescriptor ();
-  writeSubFields ();
+  writeSubObjectStructure ();
  }
 
- private void writeSubFields ()
+ private void writeSubObjectStructure ()
  {
   XmlType xmlType = finder.findXmlType (field.getXmlType ());
   if (xmlType == null)
@@ -100,8 +106,36 @@ public class FieldEntryWriter
    System.out.println ("Writing out subfield object structure for " + field.
     getId () + " " + xmlType.getName ());
    ObjectStructureWriter osw =
-    new ObjectStructureWriter (writer, model, xmlType, this);
+    new ObjectStructureWriter (writer2,
+                               writer3,
+                               model,
+                               xmlType,
+                               this,
+                               dictionaryEntriesWritten,
+                               crossObjectConstraintsWritten);
    osw.write ();
+  }
+ }
+
+ private void writeSubObjectStructureRef ()
+ {
+  XmlType xmlType = finder.findXmlType (field.getXmlType ());
+  if (xmlType == null)
+  {
+   throw new DictionaryExecutionException ("Could not find field's type in list of xmltypes "
+    + field.getId () + "." + field.getXmlType ());
+  }
+  if (xmlType.getPrimitive ().equalsIgnoreCase ("Complex"))
+  {
+   ObjectStructureWriter osw =
+    new ObjectStructureWriter (writer2,
+                               writer3,
+                               model,
+                               xmlType,
+                               this,
+                               dictionaryEntriesWritten,
+                               crossObjectConstraintsWritten);
+   osw.writeRef ();
   }
  }
 
@@ -110,96 +144,97 @@ public class FieldEntryWriter
   return parentObjectStructureWriter.calcFieldId (field, type, state);
  }
 
- private String calcFieldDescriptorId ()
+ protected String calcFieldDescriptorId ()
  {
   return calcFieldId () + ".fd";
  }
 
- private String calcFieldConstraintDescriptorId ()
+ protected String calcFieldConstraintDescriptorId ()
  {
   return calcFieldId () + ".cd";
  }
 
  private void writeField ()
  {
-  writer.indentPrintln ("");
-  writer.writeComment (field.getComments ());
-  writer.indentPrint ("<dict:field");
-  writer.writeAttribute ("key", field.getShortName ());
+  writer2.indentPrintln ("");
+  writer2.writeComment (field.getComments ());
+  writer2.indentPrint ("<dict:field");
+  writer2.writeAttribute ("key", field.getShortName ());
   writeAbstractAttributeId (calcFieldId ());
-  writer.println (">");
-  writeRefBean ("dict:fieldDescriptor", calcFieldDescriptorId ());
-  writeRefBean ("dict:constraintDescriptor", calcFieldConstraintDescriptorId ());
-  writer.writeTag ("dict:selector", calcSelector ());
-  writer.writeTag ("dict:dynamic", calcDynamic ());
-  writer.indentPrintln ("</dict:field>");
+  writer2.println (">");
+  writeRefBean ("dict:fieldDescriptorRef", calcFieldDescriptorId ());
+  writeRefBean ("dict:constraintDescriptorRef", calcFieldConstraintDescriptorId ());
+  writer2.writeTag ("dict:selector", calcSelector ());
+  writer2.writeTag ("dict:dynamic", calcDynamic ());
+  writer2.indentPrintln ("</dict:field>");
   // now write the non-abstract one
-  writer.indentPrint ("<dict:field");
-  writer.writeAttribute ("key", field.getShortName ());
+  writer2.indentPrint ("<dict:field");
+  writer2.writeAttribute ("key", field.getShortName ());
   writeAttributeId (calcFieldId ());
   writeParentToAbstract (calcFieldId ());
-  writer.println ("/>");
+  writer2.println ("/>");
  }
 
  private void writeFieldDescriptor ()
  {
-  writer.indentPrint ("<dict:fieldDescriptor");
-  writer.writeAttribute ("key", field.getShortName ());
+  writer2.indentPrint ("<dict:fieldDescriptor");
+  writer2.writeAttribute ("key", field.getShortName ());
   writeAbstractAttributeId (calcFieldDescriptorId ());
-  writer.indentPrintln (">");
-  writer.incrementIndent ();
-  writer.writeTag ("dict:name", field.getName ());
-  writer.writeTag ("dict:desc", field.getDesc ());
-  writer.writeTag ("dict:dataType", calcDataType ());
-  writer.writeTag ("dict:readOnly", calcReadOnly ());
-  writer.decrementIndent ();
-  writer.indentPrintln ("</dict:fieldDescriptor>");
+  writer2.indentPrintln (">");
+  writer2.incrementIndent ();
+  writer2.writeTag ("dict:name", field.getName ());
+  writer2.writeTag ("dict:desc", field.getDesc ());
+  writer2.writeTag ("dict:dataType", calcDataType ());
+  writeSubObjectStructureRef ();
+  writer2.writeTag ("dict:readOnly", calcReadOnly ());
+  writer2.decrementIndent ();
+  writer2.indentPrintln ("</dict:fieldDescriptor>");
   // concrete one
-  writer.indentPrint ("<dict:fieldDescriptor");
-  writer.writeAttribute ("key", field.getShortName ());
+  writer2.indentPrint ("<dict:fieldDescriptor");
+  writer2.writeAttribute ("key", field.getShortName ());
   writeAttributeId (calcFieldDescriptorId ());
   writeParentToAbstract (calcFieldDescriptorId ());
-  writer.indentPrintln ("/>");
+  writer2.indentPrintln ("/>");
  }
 
  private void writeConstraintDescriptor ()
  {
-  writer.writeComment (field.getConstraintDescription ());
-  writer.indentPrint ("<dict:constraintDescriptor");
+  writer2.writeComment (field.getConstraintDescription ());
+  writer2.indentPrint ("<dict:constraintDescriptor");
   writeAbstractAttributeId (calcFieldConstraintDescriptorId ());
-  writer.indentPrintln (">");
-  writer.incrementIndent ();
+  writer2.indentPrintln (">");
+  writer2.incrementIndent ();
   // write out referenced constraints
   for (String id : field.getConstraintIds ())
   {
-   ConstraintRefWriter crw = new ConstraintRefWriter (writer, id);
+   ConstraintRefWriter crw = new ConstraintRefWriter (writer2, id);
    crw.write ();
   }
 
 // write out in-line constraint
   ConstraintWriter cw =
-   new ConstraintWriter (writer,
+   new ConstraintWriter (writer2,
                          field.getInlineConstraint ());
   cw.write ();
-  cw = new ConstraintWriter (writer,
+  cw = new ConstraintWriter (writer2,
                              field.getInlineConstraint ());
   cw.write ();
-  writer.decrementIndent ();
-  writer.indentPrintln ("</dict:constraintDescriptor>");
+  writer2.decrementIndent ();
+  writer2.indentPrintln ("</dict:constraintDescriptor>");
   // concrete one
-  writer.indentPrint ("<dict:constraintDescriptor");
-  writer.writeAttribute ("key", field.getShortName ());
+  writer2.indentPrint ("<dict:constraintDescriptor");
+  writer2.writeAttribute ("key", field.getShortName ());
   writeAttributeId (calcFieldConstraintDescriptorId ());
   writeParentToAbstract (calcFieldConstraintDescriptorId ());
-  writer.indentPrintln ("/>");
+  writer2.indentPrintln ("/>");
  }
 
- private String calcDataType ()
+ protected String calcDataType ()
  {
   return calcDataType (field);
  }
 
- private String calcDataType (Field f)
+ protected String calcDataType (Field f)
  {
   if (f.getPrimitive ().equalsIgnoreCase ("complex"))
   {
@@ -220,7 +255,7 @@ public class FieldEntryWriter
    getPrimitive () + " on field " + f.getId ());
  }
 
- private String calcReadOnly ()
+ protected String calcReadOnly ()
  {
   if (field.getConstraintIds ().contains ("read.only"))
   {
@@ -238,7 +273,7 @@ public class FieldEntryWriter
   return "";
  }
 
- private String calcSelector ()
+ protected String calcSelector ()
  {
   if (field != null)
   {
@@ -251,7 +286,7 @@ public class FieldEntryWriter
   return "";
  }
 
- private String calcDynamic ()
+ protected String calcDynamic ()
  {
   if (field != null)
   {
@@ -266,35 +301,22 @@ public class FieldEntryWriter
 
  private void writeAbstractAttributeId (String id)
  {
-  new AttributeIdUtil ().writeAbstractAttribute (writer, id);
+  new AttributeIdUtil ().writeAbstractAttribute (writer2, id);
  }
 
  private void writeParentToAbstract (String id)
  {
-  new AttributeIdUtil ().writeParentToAbstract (writer, id);
+  new AttributeIdUtil ().writeParentToAbstract (writer2, id);
  }
 
  private void writeAttributeId (String id)
  {
-  new AttributeIdUtil ().writeAttribute (writer, id);
+  new AttributeIdUtil ().writeAttribute (writer2, id);
  }
 
  private void writeRefBean (String refType, String id)
  {
-  new AttributeIdUtil ().writeRefBean (writer, refType, id);
- }
-
- private String fixupDate (String date)
- {
-  if (date == null)
-  {
-   return "";
-  }
-  if (date.equals (""))
-  {
-   return "";
-  }
-  return new DateUtility ().asYMD (date);
+  new AttributeIdUtil ().writeRefBean (writer2, refType, id);
  }
 
 }

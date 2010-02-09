@@ -69,11 +69,11 @@ public class DictionaryMainTypeExpander implements DictionaryExpander
  private Type getMainType (Dictionary dict)
  {
   Dictionary root = finder.findRoot (dict);
-  Type type = finder.findType (root.getXmlObject (), dict.getMainType ());
+  Type type = finder.findType (root.getXmlObject (), dict.getType ());
   if (type == null)
   {
    throw new DictionaryValidationException ("Could not find main type for dictionary entry " +
-    dict.getId () + ": " + root.getXmlObject () + "." + dict.getMainType ());
+    dict.getId () + ": " + root.getXmlObject () + "." + dict.getType ());
   }
   return type;
  }
@@ -87,7 +87,7 @@ public class DictionaryMainTypeExpander implements DictionaryExpander
     System.out.println ("Expanding dictionary entry " + d.getId () +
      " with type " + type.getName () + "  to " + t.getName ());
     Dictionary clone = (Dictionary) d.clone ();
-    clone.setMainType (t.getName ());
+    clone.setType (t.getName ());
     newDicts.add (clone);
    }
    catch (CloneNotSupportedException ex)

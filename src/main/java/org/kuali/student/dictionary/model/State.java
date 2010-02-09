@@ -100,14 +100,14 @@ public class State implements Serializable
   this.xmlObjectDesc = xmlObjectDesc;
  }
 
- private String include;
+ private boolean include;
 
  /**
   * Get the value of include
   *
   * @return the value of include
   */
- public String getInclude ()
+ public boolean getInclude ()
  {
   return include;
  }
@@ -117,7 +117,7 @@ public class State implements Serializable
   *
   * @param include new value of include
   */
- public void setInclude (String include)
+ public void setInclude (boolean include)
  {
   this.include = include;
  }

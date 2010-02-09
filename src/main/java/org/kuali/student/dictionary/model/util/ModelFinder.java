@@ -107,33 +107,13 @@ public class ModelFinder
 
  public Dictionary findRoot (Dictionary dict)
  {
-  if (dict.getParentObject ().equalsIgnoreCase (Type.NA))
+  if (dict.getParent () == null)
   {
    return dict;
   }
-  Dictionary parent = findParent (dict);
-  if (parent == null)
-  {
-   throw new DictionaryValidationException ("dictionary entry " + dict.getId ()
-    + " has no parent but parent object is not " + Type.NA);
-  }
-  return findRoot (parent);
+  return findRoot (dict.getParent ());
  }
 
- public Dictionary findParent (Dictionary dict)
- {
-  for (Dictionary d : model.getDictionary ())
-  {
-   if (d.getXmlObject ().equalsIgnoreCase (dict.getParentObject ()))
-   {
-    if (d.getShortName ().equalsIgnoreCase (dict.getParentShortName ()))
-    {
-     return d;
-    }
-   }
-  }
-  return null;
- }
 
  /**
   * get dictionary entry for the id
@@ -160,7 +140,7 @@ public class ModelFinder
   List<Dictionary> list = new ArrayList (model.getDictionary ().size ());
   for (Dictionary d : model.getDictionary ())
   {
-   if (d.getMainState ().equalsIgnoreCase (State.DEFAULT))
+   if (d.getState ().equalsIgnoreCase (State.DEFAULT))
    {
     list.add (d);
    }
@@ -203,7 +183,7 @@ public class ModelFinder
   List<Dictionary> list = new ArrayList (model.getDictionary ().size ());
   for (Dictionary d : model.getDictionary ())
   {
-   if ( ! d.getMainState ().equalsIgnoreCase (State.DEFAULT))
+   if ( ! d.getState ().equalsIgnoreCase (State.DEFAULT))
    {
     list.add (d);
    }
@@ -231,7 +211,7 @@ public class ModelFinder
     System.out.println ("skipping itself " + type.getName ());
     continue;
    }
-   if (t.getInclude ().equalsIgnoreCase ("false"))
+   if (t.getInclude ())
    {
     continue;
    }

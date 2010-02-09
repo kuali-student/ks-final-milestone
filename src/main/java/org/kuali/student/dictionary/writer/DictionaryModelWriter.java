@@ -29,7 +29,9 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.kuali.student.dictionary.DictionaryExecutionException;
 
 /**
@@ -42,6 +44,8 @@ public class DictionaryModelWriter
  private DictionaryModel model;
  private ModelFinder finder;
  private String directory;
+ private Set<String> dictionaryEntriesWritten = new HashSet ();
+ private Set<String> crossObjectConstraintsWritten = new HashSet ();
 
  public DictionaryModelWriter (String directory, DictionaryModel sheet)
  {
@@ -67,8 +71,7 @@ public class DictionaryModelWriter
   //TODO: repace below with above once testing is done
   for (String service : getLuServiceAsListForTesting ())
   {
-   File file =
-    new File (directory + service + "-dictionary-config.xml");
+   File file = new File (directory + service + "-message-structure-config.xml");
    PrintStream out;
    try
    {
@@ -147,7 +150,6 @@ public class DictionaryModelWriter
   writer.writeComment (buf.toString ());
  }
 
-
  /**
   * write out the header
   * @param out
@@ -158,7 +160,6 @@ public class DictionaryModelWriter
   writer.writeAttribute ("resource", fileName);
   writer.println ("/>");
  }
-
 
  protected void writeFooter (XmlWriter writer)
  {
@@ -212,34 +213,49 @@ public class DictionaryModelWriter
  {
   for (XmlType xmlType : calcXMLTypesForServiceThatHaveOwnCreateUpdate (service))
   {
-   String fileName = service + "-" + xmlType.getName () + "-dictionary-config.xml";
-   writeImport (writer, fileName);
-   File file = new File (directory + fileName);
-   PrintStream out;
+   String fileName2 = service + "-" + xmlType.getName ()
+    + "-message-structure-config.xml";
+   String fileName3 = service + "-" + xmlType.getName ()
+    + "-dictionary-override-config.xml";
+   writeImport (writer, fileName3);
+   File file2 = new File (directory + fileName2);
+   File file3 = new File (directory + fileName3);
+   PrintStream out2;
+   PrintStream out3;
    try
    {
-    out = new PrintStream (file);
+    out2 = new PrintStream (file2);
+    out3 = new PrintStream (file3);
    }
    catch (FileNotFoundException ex)
    {
     throw new DictionaryExecutionException (ex);
    }
-   XmlWriter writer2 = new XmlWriter (out, 0);
+   XmlWriter writer2 = new XmlWriter (out2, 0);
+   XmlWriter writer3 = new XmlWriter (out3, 0);
    try
    {
     writeHeader (writer2);
+    writeHeader (writer3);
     writeImport (writer2, CONSTRAINT_BANK_FILE_NAME);
+    writeImport (writer3, CONSTRAINT_BANK_FILE_NAME);
+    writeImport (writer3, fileName2);
     ObjectStructureWriter osw =
      new ObjectStructureWriter (writer2,
+                                writer3,
                                 model,
                                 xmlType,
-                                null);
+                                null,
+                                dictionaryEntriesWritten,
+                                crossObjectConstraintsWritten);
     osw.write ();
     writeFooter (writer2);
+    writeFooter (writer3);
    }
    finally
    {
     writer2.getOut ().close ();
+    writer3.getOut ().close ();
    }
   }
  }
@@ -371,13 +387,13 @@ public class DictionaryModelWriter
    + " dictionary entries were never written out." + sb.toString ());
  }
 
+
  private List<Dictionary> calcNotUsedDictionary ()
  {
   List<Dictionary> list = new ArrayList ();
   for (Dictionary dict : model.getDictionary ())
   {
-   if ( ! DictionaryEntryWriter.getDictionaryEntriesWritten ().contains (dict.
-    getId ()))
+   if ( ! dictionaryEntriesWritten.contains (dict.getId ()))
    {
     list.add (dict);
    }
@@ -390,8 +406,7 @@ public class DictionaryModelWriter
   List<CrossObjectConstraint> list = new ArrayList ();
   for (CrossObjectConstraint coc : model.getCrossObjectConstraints ())
   {
-   if ( ! DictionaryEntryWriter.getCrossObjectConstraintsWritten ().contains (coc.
-    getId ()))
+   if ( ! crossObjectConstraintsWritten.contains (coc.getId ()))
    {
     if ( ! coc.getImplementation ().equals (""))
     {

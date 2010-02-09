@@ -17,16 +17,12 @@ package org.kuali.student.dictionary.writer;
 
 import org.kuali.student.dictionary.model.util.ModelFinder;
 import org.kuali.student.dictionary.model.TypeStateCaseConstraint;
-import org.kuali.student.dictionary.model.validation.DictionaryValidationException;
-import org.kuali.student.dictionary.model.XmlType;
 import org.kuali.student.dictionary.model.CrossObjectConstraint;
 import org.kuali.student.dictionary.model.Dictionary;
 import org.kuali.student.dictionary.model.DictionaryModel;
 import org.kuali.student.dictionary.model.Field;
 import org.kuali.student.dictionary.model.State;
-import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -34,179 +30,104 @@ import java.util.Set;
  * This writes out a single field entry and all of it's constraints into the XML output document
  * @author nwright
  */
-public class DictionaryEntryWriter 
+public class DictionaryEntryWriter
 {
 
  private DictionaryModel model;
  private ModelFinder finder;
  private Dictionary dict;
  private Field field;
- private ObjectStructureWriter parent;
+ private FieldEntryWriter few;
  private XmlWriter writer;
+ private Set<String> crossObjectConstraintsWritten;
 
  public DictionaryEntryWriter (XmlWriter writer,
                                DictionaryModel model,
                                Dictionary dict,
-                               ObjectStructureWriter parent)
+                               Field field,
+                               FieldEntryWriter few,
+                               Set<String> crossObjectConstraintsWritten)
  {
-  super ();
   this.writer = writer;
   this.model = model;
   this.finder = new ModelFinder (model);
   this.dict = dict;
-  this.parent = parent;
-  field = getField (dict);
- }
-
- private Field getField (Dictionary d)
- {
-  Field field = finder.findField (d.getXmlObject (), d.getShortName ());
-  if (field == null)
-  {
-   throw new DictionaryValidationException ("No field entry found for dictionary entry, " + d.
-    getId () + ", pointing to field " + d.getXmlObject () + "."
-    + d.getShortName ());
-  }
-  return field;
- }
-
- private Dictionary getDictStateOverride (Dictionary d, State ms)
- {
-  for (Dictionary override : finder.findStateOverrideDictionary ())
-  {
-   // if you find yourself in the list then you are the override
-   // and there is no other
-   if (override.getId ().equals (d.getId ()))
-   {
-    return null;
-   }
-   if ( ! override.getXmlObject ().equals (d.getXmlObject ()))
-   {
-    continue;
-   }
-   if ( ! override.getShortName ().equals (d.getShortName ()))
-   {
-    continue;
-   }
-   if ( ! override.getParentObject ().equals (d.getParentObject ()))
-   {
-    continue;
-   }
-   if ( ! override.getParentShortName ().equals (d.getParentShortName ()))
-   {
-    continue;
-   }
-   if ( ! override.getMainType ().equals (d.getMainType ()))
-   {
-    continue;
-   }
-   if ( ! override.getMainState ().equals (ms.getName ()))
-   {
-    continue;
-   }
-   return override;
-  }
-  return null;
- }
-
- private static Set<String> dictionaryEntriesWritten = new HashSet ();
-
- public static Set<String> getDictionaryEntriesWritten ()
- {
-  return dictionaryEntriesWritten;
+  this.few = few;
+  this.field = field;
+  this.crossObjectConstraintsWritten = crossObjectConstraintsWritten;
  }
 
  public void write ()
  {
-  // subsequent use of the exact same dictionary field
- 
-  // write it out
-  writeFieldHeader ();
+  writeField ();
   writeFieldDescriptor ();
   writeConstraintDescriptor ();
-  writeSelector ();
-  writeDynamic ();
-  writeFieldFooter ();
  }
 
-
- private void writeFieldRef ()
+ protected String calcFieldId ()
  {
-  //indent (System.out, ' ');
-  //System.out.writer.println ("Writing out: " + dict.getId () + " as ref");
-  writer.indentPrint ("<dict:fieldRef");
-  writer.writeAttribute ("bean", dict.getId ());
-  writer.println ("/>");
+  return dict.getId ();
  }
 
- private void writeFieldHeader ()
+ protected String calcFieldDescriptorId ()
+ {
+  return calcFieldId () + ".fd";
+ }
+
+ protected String calcFieldConstraintDescriptorId ()
+ {
+  return calcFieldId () + ".cd";
+ }
+
+ private void writeField ()
  {
   writer.indentPrintln ("");
-  writer.indentPrint ("<dict:field");
-  if (dictionaryEntriesWritten.contains (dict.getId ()))
-  {
-   //indent (System.out, ' ');
-   //System.out.writer.println ("Writing out: " + dict.getId () + " w/o id");
-  }
-  else
-  {
-   writer.writeAttribute ("id", dict.getId ());
-   // remember that this field was written before
-   dictionaryEntriesWritten.add (dict.getId ());
-   //indent (System.out, ' ');
-   //System.out.writer.println ("Writing out: " + dict.getId () + " with id");
-  }
-  writer.writeAttribute ("key", dict.getShortName ());
-  writer.println (">");
-
-  writer.incrementIndent ();
-  writer.writeComment (field.getComments ());
   writer.writeComment (dict.getComments ());
- }
-
- private void writeFieldFooter ()
- {
-  writer.decrementIndent ();
-  writer.indentPrintln ("</dict:field>");
+  writer.indentPrint ("<dict:field");
+  writer.writeAttribute ("key", field.getShortName ());
+  writeAbstractAttributeId (calcFieldId ());
+  writeParentToAbstract (few.calcFieldId ());
+  writer.println (">");
+  writeRefBean ("dict:fieldDescriptorRef", calcFieldDescriptorId ());
+  writeRefBean ("dict:constraintDescriptorRef", calcFieldConstraintDescriptorId ());
+  writer.writeTag ("dict:selector", calcSelector ());
+  writer.writeTag ("dict:dynamic", calcDynamic ());
+  writer.indentPrint ("</dict:field>");
+  // now write the non-abstract one
+  writer.indentPrint ("<dict:field");
+  writer.writeAttribute ("key", field.getShortName ());
+  writeAttributeId (calcFieldId ());
+  writeParentToAbstract (calcFieldId ());
+  writer.println ("/>");
  }
 
  private void writeFieldDescriptor ()
  {
-  writer.indentPrintln ("<dict:fieldDescriptor>");
+  writer.indentPrintln ("<dict:fieldDescriptor");
+  writer.writeAttribute ("key", field.getShortName ());
+  writeParentToAbstract (few.calcFieldDescriptorId ());
+  writeAbstractAttributeId (calcFieldDescriptorId ());
+  writer.println (">");
   writer.incrementIndent ();
   writer.writeTag ("dict:name", dict.getName ());
   writer.writeTag ("dict:desc", dict.getDesc ());
-  writer.writeTag ("dict:dataType", calcDataType ());
-  // Inline-ObjectStructure to write out the structure of this fields sub-fields
-  if (shouldInsertInLineObjectStructure ())
-  {
-   writer.indent (System.out, ' ');
-   System.out.println ("Writing out sub-structure for: " + dict.getId ());
-   ObjectStructureWriter osw =
-    new ObjectStructureWriter (writer,
-                               model,
-                               getXmlType (),
-                               null);
-   osw.write ();
-  }
   writer.writeTag ("dict:readOnly", calcReadOnly ());
   writer.decrementIndent ();
   writer.indentPrintln ("</dict:fieldDescriptor>");
- }
-
- private void writeSelector ()
- {
-  writer.writeTag ("dict:selector", calcSelector ());
- }
-
- private void writeDynamic ()
- {
-  writer.writeTag ("dict:dynamic", calcDynamic ());
+  // concrete one
+  writer.indentPrint ("<dict:fieldDescriptor");
+  writer.writeAttribute ("key", field.getShortName ());
+  writeAttributeId (calcFieldDescriptorId ());
+  writeParentToAbstract (calcFieldDescriptorId ());
+  writer.indentPrintln ("/>");
  }
 
  private void writeConstraintDescriptor ()
  {
-  writer.indentPrintln ("<dict:constraintDescriptor>");
+  writer.writeComment (dict.getCombinedConstraintDescription ());
+  writer.indentPrint ("<dict:constraintDescriptor");
+  writeAbstractAttributeId (calcFieldConstraintDescriptorId ());
+  writer.indentPrintln (">");
   writer.incrementIndent ();
   // write out referenced constraints
   for (String id : field.getConstraintIds ())
@@ -215,25 +136,21 @@ public class DictionaryEntryWriter
    crw.write ();
   }
 
-
+  // write out referenced constraints
   for (String id : dict.getAdditionalConstraintIds ())
   {
-   writer.incrementIndent ();
    ConstraintRefWriter crw = new ConstraintRefWriter (writer, id);
    crw.write ();
-   writer.decrementIndent ();
   }
 
-// write out in-line constraint
-  writer.incrementIndent ();
+// write out in-line constraints
   ConstraintWriter cw =
-   new ConstraintWriter (writer, field.getInlineConstraint ());
+   new ConstraintWriter (writer,
+                         field.getInlineConstraint ());
   cw.write ();
-  cw = new ConstraintWriter (writer, dict.
-   getInlineConstraint ());
+  cw = new ConstraintWriter (writer,
+                             dict.getInlineConstraint ());
   cw.write ();
-  writer.decrementIndent ();
-
   // write out cross-object constraints tha are tied to this field
   TypeStateCaseConstraint tscc =
    new TypeStateCaseConstraint (getTypeStateWhens ());
@@ -244,105 +161,13 @@ public class DictionaryEntryWriter
   writer.decrementIndent ();
   writer.decrementIndent ();
   writer.indentPrintln ("</dict:constraintDescriptor>");
- }
-
- private List<Dictionary> getSubFields (Dictionary d)
- {
-  List<Dictionary> list = new ArrayList ();
-  for (Dictionary sub : finder.findDefaultDictionary ())
-  {
-   if ( ! sub.getParentObject ().equals (d.getXmlObject ()))
-   {
-    continue;
-   }
-
-   if ( ! sub.getParentShortName ().equals (d.getShortName ()))
-   {
-    continue;
-   }
-
-   if ( ! sub.getMainType ().equals (d.getMainType ()))
-   {
-    continue;
-   }
-   list.add (sub);
-  }
-
-  if (list.size () == 0)
-  {
-   if (calcNotUsed (d, getField (d)))
-   {
-    return list;
-   }
-   throw new DictionaryValidationException ("No sub-fields found in default dictionary for dictionary entry " + d.
-    getId ());
-  }
-  return list;
- }
-
- private String calcDataType ()
- {
-  return calcDataType (field);
- }
-
- private String calcDataType (Dictionary d)
- {
-  Field f = getField (d);
-  return calcDataType (f);
- }
-
- private String calcDataType (Field f)
- {
-  if (f.getPrimitive ().equalsIgnoreCase ("complex"))
-  {
-   return "complex";
-  }
-
-  if (f.getPrimitive ().equalsIgnoreCase ("mapped string"))
-  {
-   return "string";
-  }
-
-  if (f.getPrimitive ().equalsIgnoreCase ("primitive"))
-  {
-   return field.getXmlType ();
-  }
-
-  throw new DictionaryValidationException ("Unexpected data value for the primitive column in field.  Found " + f.
-   getPrimitive () + " on field " + f.getId ());
- }
-
- private boolean calcNotUsed (Dictionary d, Field f)
- {
-  if (f.getConstraintIds ().contains ("not.used"))
-  {
-   return true;
-  }
-
-  if (d != null)
-  {
-   if (d.getAdditionalConstraintIds ().contains ("not.used"))
-   {
-    return true;
-   }
-
-  }
-  return false;
- }
-
- private boolean shouldInsertInLineObjectStructure ()
- {
-  if ( ! calcDataType ().equals ("complex"))
-  {
-   return false;
-  }
-
-  if (calcNotUsed (dict, field))
-  {
-   return false;
-  }
-
-  return true;
+  // concrete one
+  writer.indentPrint ("<dict:constraintDescriptor");
+  writer.writeAttribute ("key", field.getShortName ());
+  writeAttributeId (calcFieldConstraintDescriptorId ());
+  writeParentToAbstract (calcFieldConstraintDescriptorId ());
+  writer.indentPrintln ("/>");
+  writer.decrementIndent ();
  }
 
  private String calcReadOnly ()
@@ -371,7 +196,6 @@ public class DictionaryEntryWriter
    {
     return "true";
    }
-
   }
   return "";
  }
@@ -389,27 +213,6 @@ public class DictionaryEntryWriter
   return "";
  }
 
- private XmlType getXmlType ()
- {
-  for (XmlType x : model.getXmlTypes ())
-  {
-   if (x.getName ().equals (field.getXmlType ()))
-   {
-    return x;
-   }
-
-  }
-  throw new DictionaryValidationException ("Unexpected value for the xmlType column in field.  Found " + field.
-   getXmlType () + " on field " + field.getId ());
- }
-
- private static Set<String> crossObjectConstraintsWritten = new HashSet ();
-
- public static Set<String> getCrossObjectConstraintsWritten ()
- {
-  return crossObjectConstraintsWritten;
- }
-
  private List<CrossObjectConstraint> getTypeStateWhens ()
  {
   List<CrossObjectConstraint> list = new ArrayList ();
@@ -417,12 +220,12 @@ public class DictionaryEntryWriter
   {
    if (coc.getDictionaryId ().equals (dict.getId ()))
    {
-    if (coc.getImplementation ().equals (CrossObjectConstraint.IMPLEMENTATION_TYPE_STATE_WHEN))
+    if (coc.getImplementation ().equalsIgnoreCase (CrossObjectConstraint.IMPLEMENTATION_TYPE_STATE_WHEN))
     {
-     if (coc.getType1 ().equals (dict.getMainType ()))
+     if (coc.getType1 ().equals (dict.getType ()))
      {
-      if (coc.getState1 ().equals (dict.getMainState ()) || coc.getState1 ().
-       equals (State.DEFAULT))
+      if (coc.getState1 ().equals (dict.getState ())
+       || coc.getState1 ().equals (State.DEFAULT))
       {
        list.add (coc);
        crossObjectConstraintsWritten.add (coc.getId ());
@@ -432,6 +235,26 @@ public class DictionaryEntryWriter
    }
   }
   return list;
+ }
+
+ private void writeAbstractAttributeId (String id)
+ {
+  new AttributeIdUtil ().writeAbstractAttribute (writer, id);
+ }
+
+ private void writeParentToAbstract (String id)
+ {
+  new AttributeIdUtil ().writeParentToAbstract (writer, id);
+ }
+
+ private void writeAttributeId (String id)
+ {
+  new AttributeIdUtil ().writeAttribute (writer, id);
+ }
+
+ private void writeRefBean (String refType, String id)
+ {
+  new AttributeIdUtil ().writeRefBean (writer, refType, id);
  }
 
 }

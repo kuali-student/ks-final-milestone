@@ -17,6 +17,7 @@ package org.kuali.student.dictionary.model;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * Models a single dictionary entry
@@ -52,118 +53,63 @@ public class Dictionary implements Serializable, Cloneable
   this.id = id;
  }
 
-
- private String parentId;
+ private String type;
 
  /**
-  * Get the value of parentId
+  * Get the value of type
   *
-  * @return the value of parentId
+  * @return the value of type
   */
- public String getParentId ()
+ public String getType ()
  {
-  return parentId;
+  return type;
  }
 
  /**
-  * Set the value of parentId
+  * Set the value of type
   *
-  * @param parentId new value of parentId
+  * @param type new value of type
   */
- public void setParentId (String parentId)
+ public void setType (String type)
  {
-  this.parentId = parentId;
+  this.type = type;
  }
 
 
- private String mainType;
+ private String state;
 
  /**
-  * Get the value of mainType
+  * Get the value of state
   *
-  * @return the value of mainType
+  * @return the value of state
   */
- public String getMainType ()
+ public String getState ()
  {
-  return mainType;
- }
-
- /**
-  * Set the value of mainType
-  *
-  * @param mainType new value of mainType
-  */
- public void setMainType (String mainType)
- {
-  this.mainType = mainType;
- }
-
-
- private String mainState;
-
- /**
-  * Get the value of mainState
-  *
-  * @return the value of mainState
-  */
- public String getMainState ()
- {
-  return mainState;
+  return state;
  }
 
  /**
-  * Set the value of mainState
+  * Set the value of state
   *
-  * @param mainState new value of mainState
+  * @param state new value of state
   */
- public void setMainState (String mainState)
+ public void setState (String state)
  {
-  this.mainState = mainState;
+  this.state = state;
  }
 
- private String parentObject;
+ private Dictionary parent;
 
- /**
-  * Get the value of parentObject
-  *
-  * @return the value of parentObject
-  */
- public String getParentObject ()
+ public Dictionary getParent ()
  {
-  return parentObject;
+  return parent;
  }
 
- /**
-  * Set the value of parentObject
-  *
-  * @param parentObject new value of parentObject
-  */
- public void setParentObject (String parentObject)
+ public void setParent (Dictionary parent)
  {
-  this.parentObject = parentObject;
+  this.parent = parent;
  }
 
- private String parentShortName;
-
- /**
-  * Get the value of parentShortName
-  *
-  * @return the value of parentShortName
-  */
- public String getParentShortName ()
- {
-  return parentShortName;
- }
-
- /**
-  * Set the value of parentShortName
-  *
-  * @param parentShortName new value of parentShortName
-  */
- public void setParentShortName (String parentShortName)
- {
-  this.parentShortName = parentShortName;
- }
 
  private String subType;
 

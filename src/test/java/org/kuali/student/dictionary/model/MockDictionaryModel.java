@@ -53,13 +53,10 @@ public class MockDictionaryModel implements DictionaryModel
  {
   Dictionary dict = new Dictionary ();
   dict.setId ("test.id");
-  dict.setParentId ("test.parentId");
   dict.setName ("test.name");
   dict.setDesc ("test.desc");
-  dict.setMainType ("test.mainType");
-  dict.setMainState ("test.mainState");
-  dict.setParentObject ("test.parentObject");
-  dict.setParentShortName ("test.parentShortName");
+  dict.setType ("test.mainType");
+  dict.setState ("test.mainState");
   dict.setSubType ("test.subType");
   dict.setSubState ("test.subState");
   dict.setXmlObject ("test.xmlObject");
