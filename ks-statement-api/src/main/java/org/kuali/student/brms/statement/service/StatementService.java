@@ -435,7 +435,7 @@ public interface StatementService extends DictionaryService, SearchService {
      * @throws MissingParameterException Missing statementTypeKey
      * @throws OperationFailedException Unable to complete request
      */
-    public List<String> getStatementTypesForStatementType(String statementTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<String> getStatementTypesForStatementType(@WebParam(name="statementTypeKey")String statementTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
     
     /** 
      * Retrieves the list of requirement component types known by this service.
