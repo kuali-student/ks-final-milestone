@@ -17,7 +17,6 @@ package org.kuali.rice.kim;
 
 import org.kuali.student.security.spring.KSRiceDefaultUserDetailsService;
 import org.springframework.dao.DataAccessException;
-import org.springframework.security.Authentication;
 import org.springframework.security.AuthenticationException;
 import org.springframework.security.AuthenticationServiceException;
 import org.springframework.security.BadCredentialsException;
@@ -36,146 +35,145 @@ import org.springframework.util.Assert;
 
 /**
  * An {@link AuthenticationProvider} implementation that retrieves user details
- * from an {@link UserDetailsService}. Slightly modified from {@link DaoAuthenticationProvider}
+ * from an {@link UserDetailsService}. Slightly modified from
+ * {@link DaoAuthenticationProvider}
  * 
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
- *
+ * 
  */
 public class KimAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
-    
-    //~ Instance fields ================================================================================================
 
-    private PasswordEncoder passwordEncoder = new PlaintextPasswordEncoder();
+	// ~ Instance fields
+	// ================================================================================================
 
-    private SaltSource saltSource;
+	private PasswordEncoder passwordEncoder = new PlaintextPasswordEncoder();
 
-    private UserDetailsService userDetailsService;
+	private SaltSource saltSource;
 
-    private boolean includeDetailsObject = true;
+	private UserDetailsService userDetailsService;
 
-    //~ Methods ========================================================================================================
+	private boolean includeDetailsObject = true;
 
-    protected void additionalAuthenticationChecks(UserDetails userDetails,
-            UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
-        Object salt = null;
+	// ~ Methods
+	// ========================================================================================================
 
-        if (this.saltSource != null) {
-            salt = this.saltSource.getSalt(userDetails);
-        }
+	protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
+		Object salt = null;
 
-        if (authentication.getCredentials() == null) {
-            throw new BadCredentialsException(messages.getMessage(
-                    "AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"),
-                    includeDetailsObject ? userDetails : null);
-        }
+		if (this.saltSource != null) {
+			salt = this.saltSource.getSalt(userDetails);
+		}
 
-        String presentedPassword = authentication.getCredentials().toString();
+		if (authentication.getCredentials() == null) {
+			throw new BadCredentialsException(messages.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"), includeDetailsObject ? userDetails : null);
+		}
 
-        if (!passwordEncoder.isPasswordValid(userDetails.getPassword(), presentedPassword, salt)) {
-            throw new BadCredentialsException(messages.getMessage(
-                    "AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"),
-                    includeDetailsObject ? userDetails : null);
-        }
-    }
+		String presentedPassword = authentication.getCredentials().toString();
 
-    protected void doAfterPropertiesSet() throws Exception {
-        Assert.notNull(this.userDetailsService, "A UserDetailsService must be set");
-    }
+		if (!passwordEncoder.isPasswordValid(userDetails.getPassword(), presentedPassword, salt)) {
+			throw new BadCredentialsException(messages.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"), includeDetailsObject ? userDetails : null);
+		}
+	}
 
-    protected final UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication)
-            throws AuthenticationException {
-        UserDetails loadedUser;
+	protected void doAfterPropertiesSet() throws Exception {
+		Assert.notNull(this.userDetailsService, "A UserDetailsService must be set");
+	}
 
-        UserDetailsService ksRiceDefaultUserDetailsService = this.getUserDetailsService();
-        if(!(ksRiceDefaultUserDetailsService instanceof KSRiceDefaultUserDetailsService)){
-            throw new AuthenticationServiceException(
-                "UserDetailsService is not an an instance of KSRiceDefaultUserDetailsService");
-        }
-        
-        try {
-            //loadedUser = this.getUserDetailsService().loadUserByUsername(username);
-            loadedUser = ((KSRiceDefaultUserDetailsService)ksRiceDefaultUserDetailsService).loadUserByUsernameAndToken(username, authentication);
-        }
-        catch (DataAccessException repositoryProblem) {
-            throw new AuthenticationServiceException(repositoryProblem.getMessage(), repositoryProblem);
-        }
+	protected final UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
+		UserDetails loadedUser;
 
-        if (loadedUser == null) {
-            throw new AuthenticationServiceException(
-                    "UserDetailsService returned null, which is an interface contract violation");
-        }
-        return loadedUser;
-    }
+		UserDetailsService ksRiceDefaultUserDetailsService = this.getUserDetailsService();
+		if (!(ksRiceDefaultUserDetailsService instanceof KSRiceDefaultUserDetailsService)) {
+			throw new AuthenticationServiceException("UserDetailsService is not an an instance of KSRiceDefaultUserDetailsService");
+		}
 
-    /**
-     * Sets the PasswordEncoder instance to be used to encode and validate passwords.
-     * If not set, {@link PlaintextPasswordEncoder} will be used by default.
-     *
-     * @param passwordEncoder The passwordEncoder to use
-     */
-    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
+		try {
+			// loadedUser =
+			// this.getUserDetailsService().loadUserByUsername(username);
+			loadedUser = ((KSRiceDefaultUserDetailsService) ksRiceDefaultUserDetailsService).loadUserByUsernameAndToken(username, authentication);
+		} catch (DataAccessException repositoryProblem) {
+			throw new AuthenticationServiceException(repositoryProblem.getMessage(), repositoryProblem);
+		}
 
-    protected PasswordEncoder getPasswordEncoder() {
-        return passwordEncoder;
-    }
+		if (loadedUser == null) {
+			throw new AuthenticationServiceException("UserDetailsService returned null, which is an interface contract violation");
+		}
+		return loadedUser;
+	}
 
-    /**
-     * The source of salts to use when decoding passwords. <code>null</code>
-     * is a valid value, meaning the <code>DaoAuthenticationProvider</code>
-     * will present <code>null</code> to the relevant <code>PasswordEncoder</code>.
-     *
-     * @param saltSource to use when attempting to decode passwords via the <code>PasswordEncoder</code>
-     */
-    public void setSaltSource(SaltSource saltSource) {
-        this.saltSource = saltSource;
-    }
+	/**
+	 * Sets the PasswordEncoder instance to be used to encode and validate
+	 * passwords. If not set, {@link PlaintextPasswordEncoder} will be used by
+	 * default.
+	 * 
+	 * @param passwordEncoder
+	 *            The passwordEncoder to use
+	 */
+	public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+		this.passwordEncoder = passwordEncoder;
+	}
 
-    protected SaltSource getSaltSource() {
-        return saltSource;
-    }
+	protected PasswordEncoder getPasswordEncoder() {
+		return passwordEncoder;
+	}
 
-    public void setUserDetailsService(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
+	/**
+	 * The source of salts to use when decoding passwords. <code>null</code> is
+	 * a valid value, meaning the <code>DaoAuthenticationProvider</code> will
+	 * present <code>null</code> to the relevant <code>PasswordEncoder</code>.
+	 * 
+	 * @param saltSource
+	 *            to use when attempting to decode passwords via the
+	 *            <code>PasswordEncoder</code>
+	 */
+	public void setSaltSource(SaltSource saltSource) {
+		this.saltSource = saltSource;
+	}
 
-    protected UserDetailsService getUserDetailsService() {
-        return userDetailsService;
-    }
+	protected SaltSource getSaltSource() {
+		return saltSource;
+	}
 
-    protected boolean isIncludeDetailsObject() {
-        return includeDetailsObject;
-    }
-    
-    public static class UserWithId extends User{
+	public void setUserDetailsService(UserDetailsService userDetailsService) {
+		this.userDetailsService = userDetailsService;
+	}
+
+	protected UserDetailsService getUserDetailsService() {
+		return userDetailsService;
+	}
+
+	protected boolean isIncludeDetailsObject() {
+		return includeDetailsObject;
+	}
+
+	public static class UserWithId extends User {
 		private static final long serialVersionUID = 1L;
 		private String userId;
-		public UserWithId(String username, String password,
-				boolean enabled, boolean accountNonExpired,
-				boolean credentialsNonExpired, boolean accountNonLocked,
-				GrantedAuthority[] authorities) throws IllegalArgumentException {
-			super(username, password, enabled, accountNonExpired, credentialsNonExpired,
-					accountNonLocked, authorities);
+
+		public UserWithId(String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, GrantedAuthority[] authorities) throws IllegalArgumentException {
+			super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
 		}
+
 		public String getUserId() {
 			return userId;
 		}
+
 		public void setUserId(String userId) {
 			this.userId = userId;
 		}
-    }
+	}
 
-//	@Override
-//	protected Authentication createSuccessAuthentication(Object principal,
-//			Authentication authentication, UserDetails user) {
-//		UsernamePasswordAuthenticationToken result = new UsernamePasswordAuthenticationToken(principal,
-//                authentication.getCredentials(), user.getAuthorities());
-//        result.setDetails(authentication.getDetails());
-//        //Add the userId back in here
-//		if(user instanceof UserWithId){
-//			result.setDetails(((UserWithId)user).getUserId());
-//		}
-//		return result;
-//	}
+	// @Override
+	// protected Authentication createSuccessAuthentication(Object principal,
+	// Authentication authentication, UserDetails user) {
+	// UsernamePasswordAuthenticationToken result = new
+	// UsernamePasswordAuthenticationToken(principal,
+	// authentication.getCredentials(), user.getAuthorities());
+	// result.setDetails(authentication.getDetails());
+	// //Add the userId back in here
+	// if(user instanceof UserWithId){
+	// result.setDetails(((UserWithId)user).getUserId());
+	// }
+	// return result;
+	// }
 }
