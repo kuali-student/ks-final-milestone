@@ -21,6 +21,30 @@
     </properties>
     <build>
       <plugins>
+       <plugin>
+          <groupId>org.apache.torque</groupId>
+          <artifactId>torque-maven-plugin</artifactId>
+          <version>3.3</version>
+          <configuration>
+            <targetDatabase>oracle</targetDatabase>
+            <targetPackage>org.kuali.student</targetPackage>
+            <driver>oracle.jdbc.OracleDriver</driver>
+            <url>jdbc:oracle:thin:@driver-1.ks.kuali.net:1521:XE</url>
+            <user>kuali</user>
+            <password>kuali</password>
+            <runOnlyOnSchemaChange>false</runOnlyOnSchemaChange>
+            <xmlFile>${project.basedir}/src/main/torque/schema/schema.xml</xmlFile>
+            <dataDtd>${project.build.directory}/data/torque/torque-data.dtd</dataDtd>
+            <dataXmlFile>${project.basedir}/src/main/torque/data/torque-ks-all-data.xml</dataXmlFile>
+          </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>com.oracle</groupId>
+              <artifactId>ojdbc14</artifactId>
+              <version>10.2.0.3</version>
+            </dependency>
+          </dependencies>
+        </plugin>
         <plugin>
          <groupId>org.codehaus.mojo</groupId>
          <artifactId>sql-maven-plugin</artifactId>
