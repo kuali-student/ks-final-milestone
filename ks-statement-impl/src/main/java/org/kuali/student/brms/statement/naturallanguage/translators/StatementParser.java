@@ -75,19 +75,19 @@ public class StatementParser {
 	 * Generates a reduced boolean expression (unneeded brackets removed) of 
 	 * the LU statement tree.
 	 * Traverses the LU statement and its children starting from the 
-	 * <code>rootLuStatement</code> to generate the boolean expression. 
+	 * <code>rootStatement</code> to generate the boolean expression. 
 	 * No requirement components are included in this boolean expression.
 	 * E.g. Boolean expression: 'S1 AND (S2 OR S3)'
 	 * 
-	 * @param rootLuStatement Starting (root) LU statement node
+	 * @param rootStatement Starting (root) LU statement node
 	 * @return A boolean expression of the LU statement tree
 	 */
-	public String getBooleanExpressionAsStatements(final Statement rootLuStatement) throws OperationFailedException {
+	public String getBooleanExpressionAsStatements(final Statement rootStatement) throws OperationFailedException {
 		init();
-		if(rootLuStatement.getChildren() == null || rootLuStatement.getChildren().isEmpty()) {
-			return parseReqComponents(rootLuStatement, false);
+		if(rootStatement.getChildren() == null || rootStatement.getChildren().isEmpty()) {
+			return parseReqComponents(rootStatement, false);
 		} else {
-			traverseStatementTreeAndReduce(rootLuStatement, false);
+			traverseStatementTreeAndReduce(rootStatement, false);
 		}
 		return sb.toString();
 	}
@@ -96,19 +96,19 @@ public class StatementParser {
 	 * Generates a reduced boolean expression (unneeded brackets removed) of 
 	 * the LU statement tree with leaf requirement components.
 	 * Traverses the LU statement and its children starting from the 
-	 * <code>rootLuStatement</code> to generate the boolean expression. 
+	 * <code>rootStatement</code> to generate the boolean expression. 
 	 * No requirement components are included in this boolean expression.
 	 * E.g. Boolean expression: 'R1 AND (R2 OR (R3 AND R4))'
 	 * 
-	 * @param rootLuStatement Starting (root) LU statement node
+	 * @param rootStatement Starting (root) LU statement node
 	 * @return A boolean expression of the LU statement tree
 	 */
-	public String getBooleanExpressionAsReqComponents(final Statement rootLuStatement) throws OperationFailedException {
+	public String getBooleanExpressionAsReqComponents(final Statement rootStatement) throws OperationFailedException {
 		init();
-		if(rootLuStatement.getChildren() == null || rootLuStatement.getChildren().isEmpty()) {
-			return parseReqComponents(rootLuStatement, true);
+		if(rootStatement.getChildren() == null || rootStatement.getChildren().isEmpty()) {
+			return parseReqComponents(rootStatement, true);
 		} else {
-			traverseStatementTreeAndReduce(rootLuStatement, true);
+			traverseStatementTreeAndReduce(rootStatement, true);
 		}
 		return sb.toString();
 	}
@@ -125,16 +125,16 @@ public class StatementParser {
 	/**
 	 * Gets a list of all leaf requirement components.
 	 * 
-	 * @param rootLuStatement Starting (root) LU statement node
+	 * @param rootStatement Starting (root) LU statement node
 	 * @return List of all requirement components
 	 */
-	public List<ReqComponentReference> getLeafReqComponents(final Statement rootLuStatement) throws OperationFailedException {
+	public List<ReqComponentReference> getLeafReqComponents(final Statement rootStatement) throws OperationFailedException {
 		init();
 		this.reqComponentList = new ArrayList<ReqComponentReference>();
-		if(rootLuStatement.getChildren() == null || rootLuStatement.getChildren().isEmpty()) {
-			this.reqComponentList.addAll(getCustomReqComponents(rootLuStatement.getRequiredComponents()));
+		if(rootStatement.getChildren() == null || rootStatement.getChildren().isEmpty()) {
+			this.reqComponentList.addAll(getCustomReqComponents(rootStatement.getRequiredComponents()));
 		} else {
-			traverseStatementTree(rootLuStatement);
+			traverseStatementTree(rootStatement);
 		}
 		return this.reqComponentList;
 	}
@@ -142,11 +142,11 @@ public class StatementParser {
 	/**
 	 * Traverses statement tree.
 	 * 
-	 * @param rootLuStatement Root LU statement
+	 * @param rootStatement Root LU statement
 	 * @throws OperationFailedException
 	 */
-	private void traverseStatementTree(Statement rootLuStatement) throws OperationFailedException {
-		for(Iterator<Statement> it = rootLuStatement.getChildren().iterator(); it.hasNext();) {
+	private void traverseStatementTree(Statement rootStatement) throws OperationFailedException {
+		for(Iterator<Statement> it = rootStatement.getChildren().iterator(); it.hasNext();) {
 			Statement stmt = it.next();
 			if (stmt.getChildren() == null || stmt.getChildren().isEmpty()) {
 				this.reqComponentList.addAll(getCustomReqComponents(stmt.getRequiredComponents()));
@@ -174,17 +174,17 @@ public class StatementParser {
 	/**
 	 * Traverses statement tree.
 	 * 
-	 * @param rootLuStatement Root LU statement
+	 * @param rootStatement Root LU statement
 	 * @param parseReqComponent if true parses requirement component
 	 * @throws OperationFailedException
 	 */
-	private void traverseStatementTreeAndReduce(Statement rootLuStatement, boolean parseReqComponent) throws OperationFailedException {
-		if(rootLuStatement.getChildren() != null && 
-			(rootLuStatement.getOperator() == StatementOperatorTypeKey.OR || 
-			(rootLuStatement.getParent() != null && rootLuStatement.getParent().getOperator() == StatementOperatorTypeKey.OR)) ) {
+	private void traverseStatementTreeAndReduce(Statement rootStatement, boolean parseReqComponent) throws OperationFailedException {
+		if(rootStatement.getChildren() != null && 
+			(rootStatement.getOperator() == StatementOperatorTypeKey.OR || 
+			(rootStatement.getParent() != null && rootStatement.getParent().getOperator() == StatementOperatorTypeKey.OR)) ) {
 			this.sb.append("(");
 		}
-		for(Iterator<Statement> it = rootLuStatement.getChildren().iterator(); it.hasNext();) {
+		for(Iterator<Statement> it = rootStatement.getChildren().iterator(); it.hasNext();) {
 			Statement stmt = it.next();
 			if (stmt.getChildren() == null || stmt.getChildren().isEmpty()) {
 				if (parseReqComponent) {
@@ -203,9 +203,9 @@ public class StatementParser {
 				this.sb.append(" ");
 			}
 		}
-		if(rootLuStatement.getChildren() != null && 
-			(rootLuStatement.getOperator() == StatementOperatorTypeKey.OR || 
-			(rootLuStatement.getParent() != null && rootLuStatement.getParent().getOperator() == StatementOperatorTypeKey.OR)) ) {
+		if(rootStatement.getChildren() != null && 
+			(rootStatement.getOperator() == StatementOperatorTypeKey.OR || 
+			(rootStatement.getParent() != null && rootStatement.getParent().getOperator() == StatementOperatorTypeKey.OR)) ) {
 			this.sb.append(")");
 		}
 	}
@@ -213,31 +213,31 @@ public class StatementParser {
 	/**
 	 * Parses requirement components for LU statement.
 	 * 
-	 * @param luStatement LU statement
+	 * @param statement LU statement
 	 * @param reduce If true, reduces unneeded brackets
 	 * @return Parsed requirement components
 	 * @throws OperationFailedException
 	 */
-	private String parseReqComponents(Statement luStatement, boolean reduce) throws OperationFailedException {
-		if (luStatement.getRequiredComponents() == null) {
+	private String parseReqComponents(Statement statement, boolean reduce) throws OperationFailedException {
+		if (statement.getRequiredComponents() == null) {
 			return "";
 		}
 
 		StringBuilder sb = new StringBuilder();
-		if(!reduce && luStatement.getRequiredComponents().size() > 1)
+		if(!reduce && statement.getRequiredComponents().size() > 1)
 		{
 			sb.append("(");
 		}
-		for(Iterator<ReqComponent> it = luStatement.getRequiredComponents().iterator(); it.hasNext(); ) {
+		for(Iterator<ReqComponent> it = statement.getRequiredComponents().iterator(); it.hasNext(); ) {
 			ReqComponent reqComponent = it.next();
 			sb.append(getReqComponentReferenceId(reqComponent));
 			if (it.hasNext()) {
 				sb.append(" ");
-				sb.append(getOperator(luStatement.getOperator()));
+				sb.append(getOperator(statement.getOperator()));
 				sb.append(" ");
 			}
 		}
-		if(!reduce && luStatement.getRequiredComponents().size() > 1)
+		if(!reduce && statement.getRequiredComponents().size() > 1)
 		{
 			sb.append(")");
 		}
@@ -265,20 +265,20 @@ public class StatementParser {
 	/**
 	 * Gets the statement reference identifier.
 	 * 
-	 * @param luStatement LU statement
+	 * @param statement LU statement
 	 * @return Statement reference identifier
 	 * @throws OperationFailedException Statement id is null
 	 */
-	private String getStatementReferenceId(Statement luStatement) throws OperationFailedException {
-		if(luStatement.getId() == null || luStatement.getId().isEmpty()) {
+	private String getStatementReferenceId(Statement statement) throws OperationFailedException {
+		if(statement.getId() == null || statement.getId().isEmpty()) {
 			throw new OperationFailedException("Statement id cannot be null");
 		}
 		
-		if(this.idMap.containsKey(luStatement.getId())) {
-			return this.idMap.get(luStatement.getId());
+		if(this.idMap.containsKey(statement.getId())) {
+			return this.idMap.get(statement.getId());
 		}
 		String id = STATEMENT_ID + this.idCounter++;
-		this.idMap.put(luStatement.getId(), id);
+		this.idMap.put(statement.getId(), id);
 		return id;
 	}
 

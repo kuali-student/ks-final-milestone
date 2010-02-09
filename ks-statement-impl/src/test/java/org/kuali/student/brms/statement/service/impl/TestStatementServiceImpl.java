@@ -24,6 +24,7 @@ import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.StatusInfo;
+import org.kuali.student.core.dto.TypeInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.CircularReferenceException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -45,6 +46,7 @@ import org.kuali.student.brms.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.brms.statement.dto.StatementInfo;
 import org.kuali.student.brms.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.brms.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.brms.statement.dto.StatementTypeInfo;
 import org.kuali.student.brms.statement.service.StatementService;
 
 @Daos({@Dao(value = "org.kuali.student.brms.statement.dao.impl.StatementDaoImpl", testSqlFile = "classpath:ks-statement.sql")})
@@ -214,6 +216,50 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 		assertEquals(4, infoList.size());
 	}	
 
+	private boolean containsTypeId(List<? extends TypeInfo> types, String id) {
+		for(TypeInfo type : types) {
+			if(type.getId().equals(id)) return true;
+		}
+		return false;
+	}
+
+    @Test
+	public void testGetStatementTypes() throws OperationFailedException {
+    	List<StatementTypeInfo> types = statementService.getStatementTypes();
+		assertEquals(3, types.size());
+		assertTrue(containsTypeId(types, "kuali.luStatementType.createCourseAcademicReadiness"));
+		assertTrue(containsTypeId(types, "kuali.luStatementType.prereqAcademicReadiness"));
+		assertTrue(containsTypeId(types, "kuali.luStatementType.coreqAcademicReadiness"));
+	}
+
+    @Test
+	public void testGetStatementType() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException {
+    	StatementTypeInfo type = statementService.getStatementType("kuali.luStatementType.createCourseAcademicReadiness");
+
+        GregorianCalendar effDate = new GregorianCalendar(2000, 00, 01, 0, 0, 0);
+        GregorianCalendar expDate = new GregorianCalendar(2000, 11, 31, 0, 0, 0);
+    	
+    	assertNotNull(type);
+		assertEquals("kuali.luStatementType.createCourseAcademicReadiness", type.getId());
+		assertNotNull(type.getAllowedStatementTypes());
+		assertEquals(2, type.getAllowedStatementTypes().size());
+		assertEquals(0, type.getAllowedReqComponentTypes().size());
+		assertEquals(0, type.getAttributes().size());
+		assertEquals("Rules used in the evaluation of a person's academic readiness for enrollment in a LU.", type.getDescr());
+		assertEquals(effDate.getTime(), type.getEffectiveDate());
+		assertEquals(expDate.getTime(), type.getExpirationDate());
+		assertEquals("Overall Academic Readiness Rules", type.getName());
+	}
+
+    @Test
+    public void testGetStatementTypesForStatementType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    	List<String> allowedTypes = statementService.getStatementTypesForStatementType("kuali.luStatementType.createCourseAcademicReadiness");
+
+		assertEquals(2, allowedTypes.size());
+		assertTrue(allowedTypes.contains("kuali.luStatementType.prereqAcademicReadiness"));
+		assertTrue(allowedTypes.contains("kuali.luStatementType.coreqAcademicReadiness"));
+    }
+    
     @Test
     public void testGetLuStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
         StatementInfo stmt = statementService.getStatement("STMT-2");

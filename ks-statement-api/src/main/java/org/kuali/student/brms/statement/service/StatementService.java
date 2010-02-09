@@ -154,8 +154,8 @@ public interface StatementService extends DictionaryService, SearchService {
 	 * 
 	 * <p>If <code>language</code> is null default language is used.</p>
 	 * 
-	 * <p>An <code>LuStatementInfo</code> can either have a list of
-	 * <code>LuStatementInfo</code>s as children or a list of
+	 * <p>An <code>StatementInfo</code> can either have a list of
+	 * <code>StatementInfo</code>s as children or a list of
 	 * <code>ReqComponentInfo</code>s but not both. This means that all leaf 
 	 * nodes must be <code>ReqComponentInfo</code>s.</p>
 	 * 
@@ -164,7 +164,7 @@ public interface StatementService extends DictionaryService, SearchService {
 	 * @param language Translation language
      * @throws DoesNotExistException Statement not found
      * @throws InvalidParameterException Invalid nlUsageTypeKey 
-     * @throws MissingParameterException Missing luStatementId or nlUsageTypeKey
+     * @throws MissingParameterException Missing statementId or nlUsageTypeKey
      * @throws OperationFailedException Unable to complete request
      * @throws VersionMismatchException The action was attempted on an out of date version.
      */
@@ -415,6 +415,27 @@ public interface StatementService extends DictionaryService, SearchService {
      * @throws OperationFailedException unable to complete request
      */
     public StatementTypeInfo getStatementType(@WebParam(name="statementTypeKey")String statementTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * 	Retrieves the list of all types of statements.
+     * 
+     * @return List of types of statements
+     * @throws OperationFailedException Unable to complete request
+     */
+    public List<StatementTypeInfo> getStatementTypes() throws OperationFailedException;
+
+    /**
+     * Retrieves the list of statement types which are allowed to be used in 
+     * a statement type. This controls the nesting of statements.
+     * 
+     * @param statementTypeKey Identifier for a type of statement
+     * @return List of statement type
+     * @throws DoesNotExistException statementTypeKey not found
+     * @throws InvalidParameterException Invalid statementTypeKey
+     * @throws MissingParameterException Missing statementTypeKey
+     * @throws OperationFailedException Unable to complete request
+     */
+    public List<String> getStatementTypesForStatementType(String statementTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
     
     /** 
      * Retrieves the list of requirement component types known by this service.
@@ -436,7 +457,7 @@ public interface StatementService extends DictionaryService, SearchService {
 
     /** 
      * Retrieves the list of types of requirement components which are allowed to be used in a type of statement.
-     * @param luStatementTypeKey identifier for a type of statement
+     * @param statementTypeKey identifier for a type of statement
      * @return list of types of requirement components
      * @throws DoesNotExistException statementTypeKey not found
      * @throws InvalidParameterException invalid statementTypeKey

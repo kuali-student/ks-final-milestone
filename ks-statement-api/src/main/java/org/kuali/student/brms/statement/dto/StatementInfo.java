@@ -173,7 +173,7 @@ public class StatementInfo implements Serializable, Idable, HasTypeState, HasAtt
     }
 
     /**
-     * The current status of the LU statement. The values for this field are constrained to those in the luStatementState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.
+     * The current status of the statement. The values for this field are constrained to those in the StatementState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.
      */
     public String getState() {
         return state;

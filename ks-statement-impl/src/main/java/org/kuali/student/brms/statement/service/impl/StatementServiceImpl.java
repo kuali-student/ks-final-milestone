@@ -17,7 +17,6 @@ package org.kuali.student.brms.statement.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import org.kuali.student.brms.statement.dao.StatementDao;
@@ -55,24 +54,11 @@ import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.newdto.SearchRequest;
 import org.kuali.student.core.search.newdto.SearchResult;
 import org.kuali.student.core.search.service.impl.SearchManager;
-import org.kuali.student.brms.statement.dao.StatementDao;
-import org.kuali.student.brms.statement.dto.NlUsageTypeInfo;
-import org.kuali.student.brms.statement.dto.RefStatementRelationInfo;
-import org.kuali.student.brms.statement.dto.ReqComponentInfo;
-import org.kuali.student.brms.statement.dto.ReqComponentTypeInfo;
-import org.kuali.student.brms.statement.dto.StatementInfo;
-import org.kuali.student.brms.statement.dto.StatementTypeInfo;
 import org.kuali.student.brms.statement.entity.NlUsageType;
 import org.kuali.student.brms.statement.entity.ObjectType;
 import org.kuali.student.brms.statement.entity.RefStatementRelation;
 import org.kuali.student.brms.statement.entity.RefStatementRelationAttribute;
 import org.kuali.student.brms.statement.entity.RefStatementRelationType;
-import org.kuali.student.brms.statement.entity.ReqComponent;
-import org.kuali.student.brms.statement.entity.ReqComponentType;
-import org.kuali.student.brms.statement.entity.Statement;
-import org.kuali.student.brms.statement.entity.StatementType;
-import org.kuali.student.brms.statement.naturallanguage.NaturalLanguageTranslator;
-import org.kuali.student.brms.statement.service.StatementService;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -232,17 +218,17 @@ public class StatementServiceImpl implements StatementService {
 	 * 
 	 * <p>If <code>language</code> is null default language is used.</p>
 	 * 
-	 * <p>An <code>LuStatementInfo</code> can either have a list of
-	 * <code>LuStatementInfo</code>s as children or a list of
+	 * <p>An <code>StatementInfo</code> can either have a list of
+	 * <code>StatementInfo</code>s as children or a list of
 	 * <code>ReqComponentInfo</code>s but not both. This means that all leaf 
 	 * nodes must be <code>ReqComponentInfo</code>s.</p>
 	 * 
-	 * @param luStatementId Statement to translate
+	 * @param statementId Statement to translate
 	 * @param nlUsageTypeKey Natural language usage type key (context)
 	 * @param language Translation language
      * @throws DoesNotExistException Statement not found or Clu anchor not found in statement
      * @throws InvalidParameterException Invalid nlUsageTypeKey 
-     * @throws MissingParameterException Missing luStatementId or nlUsageTypeKey
+     * @throws MissingParameterException Missing statementId or nlUsageTypeKey
      * @throws OperationFailedException Unable to complete request
      * @throws VersionMismatchException The action was attempted on an out of date version.
 	 */
@@ -609,17 +595,22 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    public List<ReqComponentTypeInfo> getReqComponentTypes()
-    throws OperationFailedException {
+    public List<StatementTypeInfo> getStatementTypes() throws OperationFailedException {
+        return StatementAssembler.toStatementTypeInfos(statementDao.find(StatementType.class));
+    }
 
+    public List<String> getStatementTypesForStatementType(String statementTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    	StatementTypeInfo type = StatementAssembler.toStatementTypeInfo(statementDao.fetch(StatementType.class, statementTypeKey));
+    	return type.getAllowedStatementTypes();
+    }
+    
+    @Override
+    public List<ReqComponentTypeInfo> getReqComponentTypes() throws OperationFailedException {
         return StatementAssembler.toReqComponentTypeInfos(statementDao.find(ReqComponentType.class));
     }
 
     @Override
-    public ReqComponentTypeInfo getReqComponentType(String reqComponentTypeKey)
-    throws DoesNotExistException, InvalidParameterException,
-    MissingParameterException, OperationFailedException {
-
+    public ReqComponentTypeInfo getReqComponentType(String reqComponentTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return StatementAssembler.toReqComponentTypeInfo(statementDao.fetch(ReqComponentType.class, reqComponentTypeKey));
     }
 

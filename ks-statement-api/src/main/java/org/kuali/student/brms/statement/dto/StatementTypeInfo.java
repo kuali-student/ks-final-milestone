@@ -32,9 +32,9 @@ public class StatementTypeInfo extends TypeInfo {
     @XmlElementWrapper(name = "allowedReqComponentTypes")
 	private List<String> allowedReqComponentTypes;
 	
-    @XmlElement(name = "luStatementTypeKey")
-    @XmlElementWrapper(name = "allowedLuStatementTypes")
-	private List<String> allowedLuStatementTypes;
+    @XmlElement(name = "statementTypeKey")
+    @XmlElementWrapper(name = "allowedStatementTypes")
+	private List<String> allowedStatementTypes;
 
 //    @XmlElement
 //    private List<LuStatementTypeHeaderTemplateInfo> statementHeader;
@@ -48,12 +48,12 @@ public class StatementTypeInfo extends TypeInfo {
         this.allowedReqComponentTypes = allowedReqComponentTypes;
     }
 
-    public List<String> getAllowedLuStatementTypes() {
-        return allowedLuStatementTypes;
+    public List<String> getAllowedStatementTypes() {
+        return allowedStatementTypes;
     }
 
-    public void setAllowedLuStatementTypes(List<String> allowedLuStatementTypes) {
-        this.allowedLuStatementTypes = allowedLuStatementTypes;
+    public void setAllowedStatementTypes(List<String> allowedLuStatementTypes) {
+        this.allowedStatementTypes = allowedLuStatementTypes;
     }    
 
 //	public List<LuStatementTypeHeaderTemplateInfo> getHeaders() {
@@ -66,6 +66,6 @@ public class StatementTypeInfo extends TypeInfo {
 
 	@Override
 	public String toString() {
-		return "LuStatementTypeInfo[id=" + getId() + "]";
+		return "StatementTypeInfo[id=" + getId() + "]";
 	}
 }

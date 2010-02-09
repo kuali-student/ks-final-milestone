@@ -225,18 +225,18 @@ public class StatementAssembler extends BaseAssembler {
         if (isUpdate) {
             stmt = dao.fetch(Statement.class, stmtInfo.getId());
             if (stmt == null) {
-                throw new DoesNotExistException("LuStatement does not exist for id: " + stmtInfo.getId());
+                throw new DoesNotExistException("Statement does not exist for id: " + stmtInfo.getId());
             }
             if (!String.valueOf(stmt.getVersionInd()).equals(stmtInfo.getMetaInfo().getVersionInd())) {
-                throw new VersionMismatchException("LuStatement to be updated is not the current version");
+                throw new VersionMismatchException("Statement to be updated is not the current version");
             }
         } else {
             stmt = new Statement();
         }
 
-        BeanUtils.copyProperties(stmtInfo, stmt, new String[]{"cluIds", "luStatementIds", 
+        BeanUtils.copyProperties(stmtInfo, stmt, new String[]{"cluIds", "statementIds", 
                 "reqComponentIds", "attributes", "metaInfo", "type", 
-                "parent", "children", "requiredComponents", "luStatementType"});
+                "parent", "children", "requiredComponents", "statementType"});
 
         // Copy generic attributes
         stmt.setAttributes(toGenericAttributes(StatementAttribute.class, stmtInfo.getAttributes(), stmt, dao));
@@ -251,7 +251,7 @@ public class StatementAssembler extends BaseAssembler {
         StatementType stmtType = dao.fetch(StatementType.class, stmtInfo.getType());
         if (stmtType == null) {
             throw new InvalidParameterException(
-                    "LuStatementType does not exist for id: " + stmtInfo.getType());
+                    "StatementType does not exist for id: " + stmtInfo.getType());
         }
         stmt.setStatementType(stmtType);
 
@@ -259,12 +259,12 @@ public class StatementAssembler extends BaseAssembler {
         List<Statement> stmtList = new ArrayList<Statement>();
         for(String stmtId : stmtInfo.getStatementIds()) {
             if(stmtId == stmtInfo.getId()) {
-                throw new OperationFailedException("LuStatement nested within itself. LuStatement Id: " + stmtInfo.getId());
+                throw new OperationFailedException("Statement nested within itself. Statement Id: " + stmtInfo.getId());
             }
 
             Statement nestedStmt = dao.fetch(Statement.class, stmtId);
             if (null == nestedStmt) {
-                throw new DoesNotExistException("Nested LuStatement does not exist for id: " + stmtId + ". Parent LuStatement: " + stmtInfo.getId());
+                throw new DoesNotExistException("Nested Statement does not exist for id: " + stmtId + ". Parent Statement: " + stmtInfo.getId());
             }
 
             stmtList.add(nestedStmt);
@@ -281,7 +281,7 @@ public class StatementAssembler extends BaseAssembler {
             ReqComponent reqComp = dao.fetch(ReqComponent.class, reqId);
 
             if(null == reqComp) {
-                throw new DoesNotExistException("Nested Requirement does not exist for id: " + reqId + ". Parent LuStatement Id: " + stmtInfo.getId());
+                throw new DoesNotExistException("Nested Requirement does not exist for id: " + reqId + ". Parent Statement Id: " + stmtInfo.getId());
             }
 
             reqCompList.add(reqComp);
@@ -306,7 +306,7 @@ public class StatementAssembler extends BaseAssembler {
         StatementInfo dto = new StatementInfo();
 
         BeanUtils.copyProperties(entity, dto, new String[] { "parent", "children",
-                "requiredComponents", "luStatementType", "attributes", "metaInfo" });
+                "requiredComponents", "statementType", "attributes", "metaInfo" });
 
 //        if(entity.getClus() != null) {
 //            List<String> cluIds = new ArrayList<String>(entity.getClus().size());
@@ -375,6 +375,15 @@ public class StatementAssembler extends BaseAssembler {
         return dto;
 
     }
+
+    public static List<StatementTypeInfo> toStatementTypeInfos(List<StatementType> entities) {
+    	List<StatementTypeInfo> list = new ArrayList<StatementTypeInfo>();
+    	for(StatementType type : entities) {
+    		StatementTypeInfo dto = toStatementTypeInfo(type);
+    		list.add(dto);
+    	}
+    	return list;
+    }
     
     public static StatementTypeInfo toStatementTypeInfo(StatementType entity) {
         if(entity==null){
@@ -389,12 +398,12 @@ public class StatementAssembler extends BaseAssembler {
         }
         stmtTypeInfo.setAllowedReqComponentTypes(reqTypeIds);
 
-        // Copy allowed LuStatement Types
+        // Copy allowed Statement Types
         List<String> stmtIds = new ArrayList<String>(entity.getAllowedStatementTypes().size());
         for (StatementType stmtType : entity.getAllowedStatementTypes()) {
             stmtIds.add(stmtType.getId());
         }
-        stmtTypeInfo.setAllowedLuStatementTypes(stmtIds);
+        stmtTypeInfo.setAllowedStatementTypes(stmtIds);
         
         // statement type header is no longer defined in specification
 //        stmtTypeInfo.setHeaders(toStatementTypeHeaderTemplateInfos(entity.getHeaders()));
