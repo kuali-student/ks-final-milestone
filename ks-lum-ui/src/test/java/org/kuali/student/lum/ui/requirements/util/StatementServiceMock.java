@@ -118,16 +118,6 @@ public class StatementServiceMock implements StatementService {
     }
 
     @Override
-    public List<RefStatementRelationInfo> getRefStatementRelationsForRef(String refObjectTypeKey, String refObjectId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return null;
-    }
-
-    @Override
-    public List<RefStatementRelationInfo> getRefStatementRelationsForStatement(String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return null;
-    }
-
-    @Override
     public ReqComponentInfo getReqComponent(String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return null;
     }
