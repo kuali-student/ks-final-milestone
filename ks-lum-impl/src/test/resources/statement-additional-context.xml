@@ -136,7 +136,10 @@
         <property name="preloadMap">
             <map>
                 <entry key="Statement">
-                    <value>classpath:ks-statement.sql</value>
+                    <list>
+                        <value>classpath:ks-statement-config.sql</value>
+	                    <value>classpath:ks-statement.sql</value>
+                    </list>
                 </entry>
                 <entry key="Lu">
                     <value>classpath:ks-statement-lu.sql</value>
@@ -175,20 +178,6 @@
 
     <bean id="courseListContext" class="org.kuali.student.lum.statement.config.context.CourseListContextImpl">
         <property name="luService" ref="LuServiceImpl" />
-    </bean>
-
-    <bean id="contextRegistryLuStatement"
-        class="org.kuali.student.brms.statement.naturallanguage.ContextRegistry">
-        <constructor-arg>
-            <map>
-                <!-- Header Contexts-->
-                <entry key="kuali.luStatementType.prereqAcademicReadiness">
-                    <bean class="org.kuali.student.lum.statement.config.context.HeaderContextImpl">
-                        <property name="luService" ref="LuServiceImpl" />
-                    </bean>
-                </entry>
-            </map>
-        </constructor-arg>
     </bean>
 
     <bean id="contextRegistryReqComponent"
@@ -296,7 +285,6 @@
 
     <bean id="statementTranslator"
         class="org.kuali.student.brms.statement.naturallanguage.translators.StatementTranslator">
-        <property name="contextRegistry" ref="contextRegistryLuStatement" />
         <property name="reqComponentTranslator" ref="reqComponentTranslator" />
         <property name="messageBuilder" ref="naturalLanguageMessageBuilder" />
         <!--property name="language" value="en" /-->
