@@ -57,7 +57,7 @@
          </dependencies>
          <configuration>
           <driver>oracle.jdbc.OracleDriver</driver>
-          <url>jdbc:oracle:thin:@localhost:1521:XE</url>
+          <url>jdbc:oracle:thin:@appserv-2.ks.kuali.net:1521:XE</url>
           <username>kuali</username>
           <password>kuali</password>
           <autocommit>false</autocommit>
@@ -75,7 +75,10 @@
             </goals>
             <configuration>
               <username>system</username>
+              <password>ksAdminPass</password>
+              <!--
               <password>gw570229</password>
+              -->
               <sqlCommand>
                 DROP USER kuali CASCADE
                 /
