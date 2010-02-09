@@ -17,6 +17,7 @@ package org.kuali.student.brms.statement.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import org.kuali.student.brms.statement.dao.StatementDao;
@@ -170,18 +171,14 @@ public class StatementServiceImpl implements StatementService {
 		return dto;
 	}
 
-	public List<RefStatementRelationInfo> getRefStatementRelationsForRef(
-			String refObjectTypeKey, String refObjectId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
+	public List<RefStatementRelationInfo> getRefStatementRelationsByRef(String refObjectTypeKey, String refObjectId)
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public List<RefStatementRelationInfo> getRefStatementRelationsForStatement(
-			String statementId) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
+	public List<RefStatementRelationInfo> getRefStatementRelationsByStatement(String statementId) 
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -271,6 +268,61 @@ public class StatementServiceImpl implements StatementService {
 		} finally {
 			this.naturalLanguageTranslator.setLanguage(lang);
 		}
+	}
+
+    public String getNaturalLanguageForRefStatementRelation(String refStatementRelationId, String nlUsageTypeKey, String language) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		checkForNullOrEmptyParameter(refStatementRelationId, "refStatementRelationId");
+		checkForNullOrEmptyParameter(nlUsageTypeKey, "nlUsageTypeKey");
+		checkForEmptyParameter(language, "language");
+		
+		final String lang = this.naturalLanguageTranslator.getLanguage();
+		try {
+			if(language != null) {
+				this.naturalLanguageTranslator.setLanguage(language);
+			}
+			RefStatementRelation refStatementRelation = this.statementDao.fetch(RefStatementRelation.class, refStatementRelationId);
+			Statement statement = refStatementRelation.getStatement();
+			String nl = this.naturalLanguageTranslator.translateStatement(statement, nlUsageTypeKey);
+			return nl;
+		} finally {
+			this.naturalLanguageTranslator.setLanguage(lang);
+		}
+	}
+
+	@Override
+	public String translateReqComponentToNL(ReqComponentInfo reqComponentInfo, String nlUsageTypeKey, String language)
+			throws InvalidParameterException, MissingParameterException, OperationFailedException {
+		checkForMissingParameter(reqComponentInfo, "reqComponentInfo");
+		checkForNullOrEmptyParameter(nlUsageTypeKey, "nlUsageTypeKey");
+		checkForEmptyParameter(language, "language");
+
+		final String lang = this.naturalLanguageTranslator.getLanguage();
+		try {
+			// test usage type key exists
+			getNlUsageType(nlUsageTypeKey);
+			
+			if(language != null) {
+				this.naturalLanguageTranslator.setLanguage(language);
+			}
+			
+			ReqComponent req = StatementAssembler.toReqComponentRelation(false, reqComponentInfo, this.statementDao);
+			
+			String nl = this.naturalLanguageTranslator.translateReqComponent(req, nlUsageTypeKey);
+			return nl;
+		} catch (DoesNotExistException e) {
+			throw new OperationFailedException("Requirement component translation failed: " + e.getMessage());
+		} catch (VersionMismatchException e) {
+			throw new OperationFailedException("Requirement component translation failed: " + e.getMessage());
+		} finally {
+			this.naturalLanguageTranslator.setLanguage(lang);
+		}
+	}
+
+	@Override
+	public String translateStatementTreeViewToNL(StatementTreeViewInfo statementTreeViewInfo, String nlUsageTypeKey, String language) 
+			throws InvalidParameterException, MissingParameterException, OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	/**
@@ -370,6 +422,7 @@ public class StatementServiceImpl implements StatementService {
 
         StatusInfo statusInfo = new StatusInfo();
         statusInfo.setSuccess(true);
+        statusInfo.setMessage("Requirement component successfully deleted");
         return statusInfo;
     }
 
@@ -387,6 +440,7 @@ public class StatementServiceImpl implements StatementService {
 
         StatusInfo statusInfo = new StatusInfo();
         statusInfo.setSuccess(true);
+        statusInfo.setMessage("Statement successfully deleted");
         return statusInfo;
     }
 
@@ -608,6 +662,8 @@ public class StatementServiceImpl implements StatementService {
     }
     
 	public RefStatementRelationInfo createRefStatementRelation(RefStatementRelationInfo refStatementRelationInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+		checkForMissingParameter(refStatementRelationInfo, "refStatementRelationInfo");
+
 		Statement statement = this.statementDao.fetch(Statement.class, refStatementRelationInfo.getStatementId());
 		RefStatementRelationType type = this.statementDao.fetch(RefStatementRelationType.class, refStatementRelationInfo.getType());
 
@@ -627,6 +683,28 @@ public class StatementServiceImpl implements StatementService {
 		RefStatementRelationInfo newDto = StatementAssembler.toRefStatementRelationInfo(newEntity);
 		
 		return newDto;
+	}
+
+	@Override
+	public RefStatementRelationInfo updateRefStatementRelation(String refStatementRelationId, RefStatementRelationInfo refStatementRelationInfo)
+			throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+		checkForNullOrEmptyParameter(refStatementRelationId, "refStatementRelationId");
+		checkForMissingParameter(refStatementRelationInfo, "refStatementRelationInfo");
+
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusInfo deleteRefStatementRelation(String refStatementRelationId)
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+		checkForNullOrEmptyParameter(refStatementRelationId, "refStatementRelationId");
+		this.statementDao.delete(RefStatementRelation.class, refStatementRelationId);
+
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(true);
+        statusInfo.setMessage("Reference statement relation successfully deleted"); 
+        return statusInfo;
 	}
 
     @Override

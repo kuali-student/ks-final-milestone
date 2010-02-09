@@ -90,24 +90,31 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 	}
 	
 	@Test
-	// FIXME - Investigate why adding clu1, clu2, clu3 doesn't work but adding clu1, clu3, clu2 works
+	// FIXME - Investigate why adding clu1, clu3, clu2 works but adding clu1, clu2, clu3 doesn't work
 	public void testGetNaturalLanguageForStatement() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        GregorianCalendar effDate = new GregorianCalendar(2000, 00, 01, 0, 0, 0);
-        GregorianCalendar expDate = new GregorianCalendar(2100, 11, 31, 0, 0, 0);
+//        GregorianCalendar effDate = new GregorianCalendar(2000, 00, 01, 0, 0, 0);
+//        GregorianCalendar expDate = new GregorianCalendar(2100, 11, 31, 0, 0, 0);
 
-    	RefStatementRelationInfo dto = new RefStatementRelationInfo();
-    	dto.setRefObjectId("CLU-NL-1"); //MATH152
-    	dto.setRefObjectTypeKey("clu"); // CLU
-    	dto.setState("ACTIVE");
-    	dto.setStatementId("STMT-1");
-    	dto.setType("clu.prerequisites");
-    	dto.setEffectiveDate(effDate.getTime());
-    	dto.setExpirationDate(expDate.getTime());
-
-    	RefStatementRelationInfo newDto = statementService.createRefStatementRelation(dto);
+//    	RefStatementRelationInfo dto = new RefStatementRelationInfo();
+//    	dto.setRefObjectId("CLU-NL-1"); //MATH152
+//    	dto.setRefObjectTypeKey("clu"); // CLU
+//    	dto.setState("ACTIVE");
+//    	dto.setStatementId("STMT-1");
+//    	dto.setType("clu.prerequisites");
+//    	dto.setEffectiveDate(effDate.getTime());
+//    	dto.setExpirationDate(expDate.getTime());
+//
+//    	RefStatementRelationInfo newDto = statementService.createRefStatementRelation(dto);
 
     	String nl = statementService.getNaturalLanguageForStatement("STMT-5", "KUALI.CATALOG", "en");
-		assertEquals("Requirement for MATH 152 Linear Systems: Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 2 of MATH 152, MATH 221, MATH 180", nl);
+//		assertEquals("Requirement for MATH 152 Linear Systems: Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 2 of MATH 152, MATH 221, MATH 180", nl);
+		assertEquals("Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 2 of MATH 152, MATH 221, MATH 180", nl);
+	}
+
+	@Test
+	public void testGetNaturalLanguageForRefStatementRelation() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+		String nl = statementService.getNaturalLanguageForRefStatementRelation("ref-stmt-rel-5", "KUALI.CATALOG", "en");
+		assertEquals("Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 2 of MATH 152, MATH 221, MATH 180", nl);
 	}
 
 	@Test
@@ -124,7 +131,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 			assertNotNull(e);
     	}
     }
-
+	
 	@Test
 	public void testGetNaturalLanguageForReqComponent_DefaultEnglish() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		String naturalLanguage = statementService.getNaturalLanguageForReqComponent("REQCOMP-NL-1", "KUALI.CATALOG", null);
@@ -143,6 +150,39 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
 	}
 
+	private ReqComponentInfo createReqComponent1() {
+		ReqComponentInfo reqCompInfo = new ReqComponentInfo();
+		reqCompInfo.setId("REQCOMP-NL-1");
+		reqCompInfo.setType("kuali.reqCompType.courseList.nof");
+
+		List<ReqCompFieldInfo> fieldList = new ArrayList<ReqCompFieldInfo>();
+
+		ReqCompFieldInfo field1 = new ReqCompFieldInfo();
+		field1.setId("reqCompFieldType.requiredCount");
+		field1.setValue("1");
+		fieldList.add(field1);
+
+		ReqCompFieldInfo field2 = new ReqCompFieldInfo();
+		field2.setId("reqCompFieldType.operator");
+		field2.setValue("greater_than_or_equal_to");
+		fieldList.add(field2);
+
+		ReqCompFieldInfo field3 = new ReqCompFieldInfo();
+		field3.setId("reqCompFieldType.cluSet");
+		field3.setValue("CLUSET-NL-1");
+		fieldList.add(field3);
+
+		reqCompInfo.setReqCompFields(fieldList);
+		return reqCompInfo;
+	}
+
+	@Test
+	public void testTranslateReqComponentToNL() throws InvalidParameterException, MissingParameterException, OperationFailedException {
+		ReqComponentInfo reqCompInfo = createReqComponent1();
+		String naturalLanguage = statementService.translateReqComponentToNL(reqCompInfo, "KUALI.CATALOG", "en");
+		assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
+	}
+	
 	@Test
     public void testGetNlUsageType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		NlUsageTypeInfo info = statementService.getNlUsageType("KUALI.REQCOMP.EXAMPLE");
@@ -620,9 +660,11 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         StatementInfo stmt = statementService.getStatement("STMT-2");
         try {
             si = statementService.deleteStatement(stmt.getId());
+    		assertNotNull(si);
             assertTrue(si.getSuccess());
+    		assertNotNull(si.getMessage());
         } catch (DoesNotExistException e) {
-            fail("LuService.deleteLuStatement() failed deleting pre existing statement");
+            fail("StatementService.deleteLuStatement() failed deleting pre existing statement");
         }
     }
 
@@ -736,9 +778,11 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         ReqComponentInfo req = statementService.getReqComponent("REQCOMP-1");
         try {
             si = statementService.deleteReqComponent(req.getId());
+    		assertNotNull(si);
             assertTrue(si.getSuccess());
+    		assertNotNull(si.getMessage());
         } catch (DoesNotExistException e) {
-            fail("LuService.deleteReqComponent() failed deleting pre existing req component");
+            fail("StatementService.deleteReqComponent() failed deleting pre existing req component");
         }
     }
     
@@ -786,22 +830,99 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         assertEquals(expDate.getTime(), newDto.getExpirationDate());
     }
 
-    @Test
-    public void testGetRefStatementRelation() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    private RefStatementRelationInfo createRefStatementRelation() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         GregorianCalendar effDate = new GregorianCalendar(2000, 00, 01, 0, 0, 0);
         GregorianCalendar expDate = new GregorianCalendar(2100, 11, 31, 0, 0, 0);
 
-    	RefStatementRelationInfo newDto = statementService.getRefStatementRelation("ref-stmt-rel-1");
-    	assertNotNull(newDto);
-    	assertNotNull(newDto.getId());
-    	assertNotNull(newDto.getMetaInfo());
-        assertEquals("CLU-NL-1", newDto.getRefObjectId());
-        assertEquals("clu", newDto.getRefObjectTypeKey());
-        assertEquals("ACTIVE", newDto.getState());
-        assertEquals("STMT-1", newDto.getStatementId());
-        assertEquals("clu.prerequisites", newDto.getType());
-        assertEquals(effDate.getTime(), newDto.getEffectiveDate());
-        assertEquals(expDate.getTime(), newDto.getExpirationDate());
+        RefStatementRelationInfo dto = new RefStatementRelationInfo();
+    	dto.setRefObjectId("CLU-NL-1"); //MATH152
+    	dto.setRefObjectTypeKey("clu"); // CLU
+    	dto.setState("ACTIVE");
+    	dto.setStatementId("STMT-1");
+    	dto.setType("clu.prerequisites");
+    	dto.setEffectiveDate(effDate.getTime());
+    	dto.setExpirationDate(expDate.getTime());
+    	
+    	RefStatementRelationInfo newDto = statementService.createRefStatementRelation(dto);
+
+		return newDto;
+    }
+
+    @Test
+    public void testGetRefStatementRelation() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    	RefStatementRelationInfo newDto = null;
+    	try {
+			newDto = createRefStatementRelation();
+		} catch (AlreadyExistsException e) {
+			fail("RefStatementRelation already exists: "+e.getMessage());
+		}
+
+		GregorianCalendar effDate = new GregorianCalendar(2000, 00, 01, 0, 0, 0);
+        GregorianCalendar expDate = new GregorianCalendar(2100, 11, 31, 0, 0, 0);
+
+    	RefStatementRelationInfo dto = statementService.getRefStatementRelation(newDto.getId());
+    	
+    	assertNotNull(dto);
+    	assertNotNull(dto.getId());
+    	assertNotNull(dto.getMetaInfo());
+        assertEquals("CLU-NL-1", dto.getRefObjectId());
+        assertEquals("clu", dto.getRefObjectTypeKey());
+        assertEquals("ACTIVE", dto.getState());
+        assertEquals("STMT-1", dto.getStatementId());
+        assertEquals("clu.prerequisites", dto.getType());
+        assertEquals(effDate.getTime(), dto.getEffectiveDate());
+        assertEquals(expDate.getTime(), dto.getExpirationDate());
+    }
+    
+    @Test
+    public void testDeleteRefStatementRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    	RefStatementRelationInfo newDto = null;
+    	try {
+			newDto = createRefStatementRelation();
+		} catch (AlreadyExistsException e) {
+			fail("RefStatementRelation already exists: "+e.getMessage());
+		}
+		
+		StatusInfo status = null;
+		try {
+			status = this.statementService.deleteRefStatementRelation(newDto.getId());
+        } catch (DoesNotExistException e) {
+            fail("StatementService.deleteRefStatementRelation() failed deleting pre existing req component");
+        }
+
+		assertNotNull(status);
+		assertTrue(status.getSuccess());
+		assertNotNull(status.getMessage());
+    }
+    
+    @Test
+    public void testDeleteRefStatementRelation_InvalidId() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+		try {
+			this.statementService.deleteRefStatementRelation("xxx");
+			fail("StatementService.deleteRefStatementRelation should have thrown a DoesNotExistException");
+        } catch (DoesNotExistException e) {
+    		assertTrue(true);
+        }
+    }
+    
+    @Test
+    public void testDeleteRefStatementRelation_InvalidParameter() throws DoesNotExistException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+		try {
+			this.statementService.deleteRefStatementRelation("");
+			fail("StatementService.deleteRefStatementRelation should have thrown a InvalidParameterException");
+        } catch (InvalidParameterException e) {
+    		assertTrue(true);
+        }
+    }
+    
+    @Test
+    public void testDeleteRefStatementRelation_MissingParameter() throws DoesNotExistException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
+		try {
+			this.statementService.deleteRefStatementRelation(null);
+			fail("StatementService.deleteRefStatementRelation should have thrown a MissingParameterException");
+        } catch (MissingParameterException e) {
+    		assertTrue(true);
+        }
     }
     
     @Test

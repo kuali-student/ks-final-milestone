@@ -47,8 +47,8 @@ public class StatementTranslator {
 	private StatementParser statementParser = new StatementParser("*", "+");
 	private ReqComponentTranslator reqComponentTranslator;
 	private NaturalLanguageMessageBuilder messageBuilder;
-    private ContextRegistry<Context<StatementAnchor>> contextRegistry;
-    private TemplateTranslator templateTranslator = new TemplateTranslator();
+//    private ContextRegistry<Context<StatementAnchor>> contextRegistry;
+//    private TemplateTranslator templateTranslator = new TemplateTranslator();
     
 	/**
 	 * Constructs a new natural language translator in the 
@@ -88,9 +88,9 @@ public class StatementTranslator {
      * 
      * @param contextRegistry Template context registry
      */
-    public void setContextRegistry(final ContextRegistry<Context<StatementAnchor>> contextRegistry) {
-    	this.contextRegistry = contextRegistry;
-    }
+//    public void setContextRegistry(final ContextRegistry<Context<StatementAnchor>> contextRegistry) {
+//    	this.contextRegistry = contextRegistry;
+//    }
 
 	/**
 	 * Sets the requirement component translator.
@@ -134,9 +134,10 @@ public class StatementTranslator {
 //		if(cluId != null && !cluId.isEmpty()) {
 //			header = getHeader(statement, nlUsageTypeKey, cluId);
 //		}
-		String header = getHeader(statement, nlUsageTypeKey);
-		
-		return header + message;
+//		String header = getHeader(statement, nlUsageTypeKey);
+//		
+//		return header + message;
+		return message;
 	}
 
 	/**
@@ -197,22 +198,17 @@ public class StatementTranslator {
 	 * 
 	 * @param statement LU statement
 	 * @param nlUsageTypeKey Natural language usuage type context key
-	 * @param cluId Anchor CLU id
 	 * @return Statement header
 	 * @throws DoesNotExistException CLU or header template does not exist
 	 */
-	private String getHeader(Statement statement, String nlUsageTypeKey) throws OperationFailedException, DoesNotExistException {
-//        if(cluId == null) {
-//        	return "";
-//        }
-        
+	/*private String getHeader(Statement statement, String nlUsageTypeKey) throws OperationFailedException, DoesNotExistException {
         String template = getHeaderTemplate(statement, nlUsageTypeKey);
 		
         Map<String, Object> contextMap = buildContextMap(statement);
         String header = this.templateTranslator.translate(contextMap, template);
         
         return header;
-	}
+	}*/
 
     /**
      * Builds a statement type context map.
@@ -221,7 +217,7 @@ public class StatementTranslator {
 	 * @return Context map 
 	 * @throws DoesNotExistException
 	 */
-	private Map<String, Object> buildContextMap(Statement statement) throws OperationFailedException, DoesNotExistException {
+	/*private Map<String, Object> buildContextMap(Statement statement) throws OperationFailedException, DoesNotExistException {
 		RefStatementRelation refStmtRel = statement.getRefStatementRelations().get(0);
 		if(refStmtRel == null) {
         	throw new DoesNotExistException("Reference statement relation not found for statement id: " + statement.getId());
@@ -237,7 +233,7 @@ public class StatementTranslator {
 		Map<String, Object> contextMap = context.createContextMap(lua);
     	
         return contextMap;
-	}
+	}*/
 
 	/**
 	 * Gets header template for root <code>statement</code>.
@@ -247,7 +243,7 @@ public class StatementTranslator {
 	 * @return Header template
 	 * @throws DoesNotExistException Header template does not exist
 	 */
-	private String getHeaderTemplate(Statement statement, String nlUsageTypeKey) throws DoesNotExistException {
+	/*private String getHeaderTemplate(Statement statement, String nlUsageTypeKey) throws DoesNotExistException {
 		for(StatementTypeHeaderTemplate header : statement.getStatementType().getStatementHeaders()) {
 			if(header.getNlUsageTypeKey().equals(nlUsageTypeKey) && header.getLanguage().equals(this.language)) {
 				return (header.getTemplate() == null ? "" : header.getTemplate());
@@ -255,7 +251,7 @@ public class StatementTranslator {
 		}
         throw new DoesNotExistException("Natural language usage type key '" + nlUsageTypeKey + "'" +
         		" and language code '" + this.language + "' for statement type header not found");
-	}
+	}*/
 
 	/**
 	 * Create a statement tree as <code>NLTranslationNodeInfo</code>.

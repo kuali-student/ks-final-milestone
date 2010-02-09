@@ -33,17 +33,17 @@
 
     <bean id="courseListContext" class="org.kuali.student.brms.statement.config.contexts.CourseListContextImpl" />
 
-    <bean id="contextRegistryLuStatement"
+    <!--bean id="contextRegistryLuStatement"
         class="org.kuali.student.brms.statement.naturallanguage.ContextRegistry">
         <constructor-arg>
-            <map>
+            <map-->
                 <!-- Header Contexts-->
-                <entry key="kuali.luStatementType.prereqAcademicReadiness">
+                <!--entry key="kuali.luStatementType.prereqAcademicReadiness">
                     <bean class="org.kuali.student.brms.statement.config.contexts.HeaderContextImpl" />
                 </entry>
             </map>
         </constructor-arg>
-    </bean>
+    </bean-->
 
     <bean id="contextRegistryReqComponent"
         class="org.kuali.student.brms.statement.naturallanguage.ContextRegistry">
@@ -140,7 +140,7 @@
 
     <bean id="statementTranslator"
         class="org.kuali.student.brms.statement.naturallanguage.translators.StatementTranslator">
-        <property name="contextRegistry" ref="contextRegistryLuStatement" />
+        <!--property name="contextRegistry" ref="contextRegistryLuStatement" /-->
         <property name="reqComponentTranslator" ref="reqComponentTranslator" />
         <property name="messageBuilder" ref="naturalLanguageMessageBuilder" />
         <!--property name="language" value="en" /-->
