@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.kuali.student.brms.statement.dto.NlUsageTypeInfo;
 import org.kuali.student.brms.statement.dto.RefStatementRelationInfo;
+import org.kuali.student.brms.statement.dto.RefStatementRelationTypeInfo;
 import org.kuali.student.brms.statement.dto.ReqComponentInfo;
 import org.kuali.student.brms.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.brms.statement.dto.StatementInfo;
@@ -45,6 +46,7 @@ import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.newdto.SearchRequest;
 import org.kuali.student.core.search.newdto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class StatementServiceMock implements StatementService {
 
@@ -153,7 +155,7 @@ public class StatementServiceMock implements StatementService {
     }
 
     @Override
-    public List<StatementInfo> getStatementsUsingComponent(String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<StatementInfo> getStatementsUsingReqComponent(String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return null;
     }
 
@@ -312,16 +314,48 @@ public class StatementServiceMock implements StatementService {
 	@Override
 	public List<StatementTypeInfo> getStatementTypes()
 			throws OperationFailedException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<String> getStatementTypesForStatementType(
-			String statementTypeKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		// TODO Auto-generated method stub
+	public List<String> getStatementTypesForStatementType(String statementTypeKey) 
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		return null;
+	}
+
+	@Override
+	public RefStatementRelationTypeInfo getRefStatementRelationType(String refStatementRelationTypeKey) 
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		return null;
+	}
+
+	@Override
+	public List<RefStatementRelationTypeInfo> getRefStatementRelationTypes()
+			throws OperationFailedException {
+		return null;
+	}
+
+	@Override
+	public List<String> getRefStatementRelationTypesForRefObjectSubType(String refSubTypeKey) 
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		return null;
+	}
+
+	@Override
+	public List<String> getStatementTypesForRefStatementRelationType(String refStatementRelationTypeKey) 
+		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		return null;
+	}
+
+	@Override
+	public List<StatementInfo> getStatementsUsingStatement(String statementId)
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		return null;
+	}
+
+	@Override
+	public List<ValidationResultInfo> validateRefStatementRelation(String validationType, RefStatementRelationInfo refStatementRelationInfo)
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		return null;
 	}
     
