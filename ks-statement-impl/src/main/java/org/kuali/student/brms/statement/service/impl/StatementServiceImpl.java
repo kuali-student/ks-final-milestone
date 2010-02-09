@@ -22,6 +22,7 @@ import javax.jws.WebService;
 import org.kuali.student.brms.statement.dao.StatementDao;
 import org.kuali.student.brms.statement.dto.NlUsageTypeInfo;
 import org.kuali.student.brms.statement.dto.RefStatementRelationInfo;
+import org.kuali.student.brms.statement.dto.RefStatementRelationTypeInfo;
 import org.kuali.student.brms.statement.dto.ReqComponentInfo;
 import org.kuali.student.brms.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.brms.statement.dto.StatementInfo;
@@ -60,6 +61,7 @@ import org.kuali.student.brms.statement.entity.RefStatementRelation;
 import org.kuali.student.brms.statement.entity.RefStatementRelationAttribute;
 import org.kuali.student.brms.statement.entity.RefStatementRelationType;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -460,7 +462,7 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    public List<StatementInfo> getStatementsUsingComponent(String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<StatementInfo> getStatementsUsingReqComponent(String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         // TODO Auto-generated method stub
         return null;
     }
@@ -508,6 +510,7 @@ public class StatementServiceImpl implements StatementService {
 //      validator.setDateParser(new ServerDateParser());
 ////    validator.addMessages(null); //TODO this needs to be loaded somehow
 //      return validator;
+		// TODO Auto-generated method stub
         return null;
     }
 
@@ -698,6 +701,13 @@ public class StatementServiceImpl implements StatementService {
         return statusInfo;
 	}
 
+	@Override
+	public List<ValidationResultInfo> validateRefStatementRelation(String validationType, RefStatementRelationInfo refStatementRelationInfo)
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
     @Override
     public StatementTreeViewInfo getStatementTreeView(String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         StatementTreeViewInfo statementTreeViewInfo = null;
@@ -909,4 +919,46 @@ public class StatementServiceImpl implements StatementService {
             StatementAssembler.copyValues(statementTreeViewInfo, newStatementInfo);
         }
     }
+
+	@Override
+	public RefStatementRelationTypeInfo getRefStatementRelationType(
+			String refStatementRelationTypeKey) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<RefStatementRelationTypeInfo> getRefStatementRelationTypes()
+			throws OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getRefStatementRelationTypesForRefObjectSubType(
+			String refSubTypeKey) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getStatementTypesForRefStatementRelationType(
+			String refStatementRelationTypeKey) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<StatementInfo> getStatementsUsingStatement(String statementId)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

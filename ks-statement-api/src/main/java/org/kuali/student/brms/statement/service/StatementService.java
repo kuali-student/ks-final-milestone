@@ -18,6 +18,7 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.search.service.SearchService;
+import org.kuali.student.brms.statement.dto.RefStatementRelationTypeInfo;
 import org.kuali.student.brms.statement.dto.ReqComponentInfo;
 import org.kuali.student.brms.statement.dto.NlUsageTypeInfo;
 import org.kuali.student.brms.statement.dto.RefStatementRelationInfo;
@@ -26,6 +27,7 @@ import org.kuali.student.brms.statement.dto.StatementInfo;
 import org.kuali.student.brms.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.brms.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 @WebService(name = "StatementService", targetNamespace = "http://student.kuali.org/wsdl/statement")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
@@ -110,6 +112,29 @@ public interface StatementService extends DictionaryService, SearchService {
 	 * @throws PermissionDeniedException Authorization failure
 	 */
 	public StatusInfo deleteRefStatementRelation(@WebParam(name="refStatementRelationId")String refStatementRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+	/**
+	 * Validates a refStatementRelation. Depending on the value of 
+	 * validationType, this validation could be limited to tests on just 
+	 * the current object and its directly contained sub-objects or expanded 
+	 * to perform all tests related to this object. If an identifier is 
+	 * present for the relationship (and/or one of its contained sub-objects) 
+	 * and a record is found for that identifier, the validation checks if 
+	 * the relationship can be shifted to the new values. If an identifier is 
+	 * not present or a record cannot be found for the identifier, it is 
+	 * assumed that the record does not exist and as such, the checks 
+	 * performed will be much shallower, typically mimicking those performed 
+	 * by setting the validationType to the current object.
+	 * 
+	 * @param validationType Identifier of the extent of validation
+	 * @param refStatementRelationInfo Object statement relationship information to be tested
+	 * @return Results from performing the validation
+	 * @throws DoesNotExistException validationTypeKey not found
+	 * @throws InvalidParameterException Invalid validationTypeKey, refStatementRelationInfo
+	 * @throws MissingParameterException Missing validationTypeKey, refStatementRelationInfo
+	 * @throws OperationFailedException Unable to complete request
+	 */
+	public List<ValidationResultInfo> validateRefStatementRelation(@WebParam(name="validationType")String validationType, @WebParam(name="refStatementRelationInfo")RefStatementRelationInfo refStatementRelationInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 	
 	/**
 	 * Retrieves a object statement relationship by its identifier.
@@ -333,8 +358,22 @@ public interface StatementService extends DictionaryService, SearchService {
      * @throws MissingParameterException reqComponentId not specified
      * @throws OperationFailedException unable to complete request
      */
-    public List<StatementInfo> getStatementsUsingComponent(@WebParam(name="reqComponentId")String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<StatementInfo> getStatementsUsingReqComponent(@WebParam(name="reqComponentId")String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
+    /**
+     * Retrieves a list of child statements that include a particular statement. 
+     * Note: The reference may not be direct, but through an 
+     * intermediate object definition (e.g. nested statements).
+     * 
+     * @param statementId statement identifier
+     * @return List of child statements using the specified statement
+     * @throws DoesNotExistException Statement not found
+     * @throws InvalidParameterException Invalid statementId
+     * @throws MissingParameterException statementId not specified
+     * @throws OperationFailedException Unable to complete request
+     */
+    public List<StatementInfo> getStatementsUsingStatement(@WebParam(name="statementId")String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    
     /** 
      * Creates a requirement component.
      * @param reqComponentType identifier of the type of requirement component
@@ -465,6 +504,54 @@ public interface StatementService extends DictionaryService, SearchService {
      * @throws OperationFailedException unable to complete request
      */
     public List<ReqComponentTypeInfo> getReqComponentTypesForStatementType(@WebParam(name="statementTypeKey")String statementTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * Retrieves the list of all types of relationships between statements and 
+     * other objects.
+     * 
+     * @return List of object statement relation types
+     * @throws OperationFailedException Unable to complete request
+     */
+    public List<RefStatementRelationTypeInfo> getRefStatementRelationTypes() throws OperationFailedException;
+
+    /**
+     * Retrieves information for a specified type of relationship between 
+     * a statement and object.
+     * 
+     * @param refStatementRelationTypeKey Object statement relation type identifier
+     * @return Object statement relation type information
+     * @throws DoesNotExistException refStatementRelationTypeKey not found
+     * @throws InvalidParameterException Invalid refStatementRelationTypeKey
+     * @throws MissingParameterException Missing refStatementRelationTypeKey
+     * @throws OperationFailedException Unable to complete request
+     */
+    public RefStatementRelationTypeInfo getRefStatementRelationType(@WebParam(name="refStatementRelationTypeKey")String refStatementRelationTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * Retrieves the list of statement types which are allowed to be used for 
+     * a specified type of object statement relationship.
+     * 
+     * @param refStatementRelationTypeKey Identifier for a type of object statement relationship
+     * @return List of statement types
+     * @throws DoesNotExistException refStatementRelationTypeKey not found
+     * @throws InvalidParameterException Invalid refStatementRelationTypeKey
+     * @throws MissingParameterException Missing refStatementRelationTypeKey
+     * @throws OperationFailedException Unable to complete request
+     */
+    public List<String> getStatementTypesForRefStatementRelationType(@WebParam(name="refStatementRelationTypeKey")String refStatementRelationTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * Retrieves the list of types of object statement relationships which 
+     * are allowed to be used for a subtype of object.
+     * 
+     * @param refSubTypeKey Identifier for the subtype of object
+     * @return
+     * @throws DoesNotExistException refSubType not found
+     * @throws InvalidParameterException Invalid refSubTypeKey
+     * @throws MissingParameterException Missing refSubTypeKey
+     * @throws OperationFailedException Unable to complete request
+     */
+    public List<String> getRefStatementRelationTypesForRefObjectSubType(@WebParam(name="refSubTypeKey")String refSubTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Updates a requirement component
