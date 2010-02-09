@@ -20,7 +20,7 @@
             <targetDatabase>oracle</targetDatabase>
             <targetPackage>org.kuali.student</targetPackage>
             <driver>oracle.jdbc.OracleDriver</driver>
-            <url>jdbc:oracle:thin:@driver-1.ks.kuali.net:1521:XE</url>
+            <url>jdbc:oracle:thin:@appserv-2.ks.kuali.net:1521:XE</url>
             <user>kuali</user>
             <password>kuali</password>
             <runOnlyOnSchemaChange>false</runOnlyOnSchemaChange>
