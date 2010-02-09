@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.kuali.student.dictionary.DictionaryExecutionException;
 
 /**
  * Untility that implements searches of the spreadsheet model that are needed
@@ -63,10 +64,9 @@ public class ModelFinder
   return null;
  }
 
-
  public List<State> findStates (String xmlObject)
  {
-  List <State> list = new ArrayList ();
+  List<State> list = new ArrayList ();
   for (State state : model.getStates ())
   {
    if (state.getXmlObject ().equalsIgnoreCase (xmlObject))
@@ -79,7 +79,7 @@ public class ModelFinder
 
  public List<Type> findTypes (String xmlObject)
  {
-  List <Type> list = new ArrayList ();
+  List<Type> list = new ArrayList ();
   for (Type type : model.getTypes ())
   {
    if (type.getXmlObject ().equalsIgnoreCase (xmlObject))
@@ -114,8 +114,8 @@ public class ModelFinder
   Dictionary parent = findParent (dict);
   if (parent == null)
   {
-   throw new DictionaryValidationException ("dictionary entry " + dict.getId () +
-    " has no parent but parent object is not " + Type.NA);
+   throw new DictionaryValidationException ("dictionary entry " + dict.getId ()
+    + " has no parent but parent object is not " + Type.NA);
   }
   return findRoot (parent);
  }
@@ -163,6 +163,32 @@ public class ModelFinder
    if (d.getMainState ().equalsIgnoreCase (State.DEFAULT))
    {
     list.add (d);
+   }
+  }
+  return list;
+ }
+
+ public List<Dictionary> findDictionaryEntriees (String xmlTypeName)
+ {
+  List<Dictionary> list = new ArrayList ();
+  for (Dictionary dict : model.getDictionary ())
+  {
+   if (dict.getXmlObject ().equalsIgnoreCase (xmlTypeName))
+   {
+    list.add (dict);
+   }
+  }
+  return list;
+ }
+
+ public List<Dictionary> findDefaultDictionaryEntriees (String xmlTypeName)
+ {
+  List<Dictionary> list = new ArrayList ();
+  for (Dictionary dict : this.findDefaultDictionary ())
+  {
+   if (dict.getXmlObject ().equalsIgnoreCase (xmlTypeName))
+   {
+    list.add (dict);
    }
   }
   return list;
@@ -254,6 +280,11 @@ public class ModelFinder
   return null;
  }
 
+ public Field findField (String xmlTypeName, String shortName)
+ {
+  return findField (xmlTypeName + "." + shortName);
+ }
+
  public List<Field> findFields (String xmlTypeName)
  {
   List<Field> list = new ArrayList ();
@@ -331,7 +362,7 @@ public class ModelFinder
   return list;
  }
 
-  public List<MessageStructure> findMessageStructures (String xmlType)
+ public List<MessageStructure> findMessageStructures (String xmlType)
  {
   List<MessageStructure> list = new ArrayList ();
   for (MessageStructure ms : model.getMessageStructures ())
@@ -342,6 +373,48 @@ public class ModelFinder
    }
   }
   return list;
+ }
+
+ private Type defaultType = null;
+
+ public Type getDefaultType ()
+ {
+  if (defaultType != null)
+  {
+   return defaultType;
+  }
+  List<Type> list = findTypes (Type.DEFAULT);
+  if (list.size () == 0)
+  {
+   throw new DictionaryExecutionException ("No default Type found");
+  }
+    if (list.size () > 1)
+  {
+   throw new DictionaryExecutionException ("More than one default Type found");
+  }
+  defaultType = list.get (0);
+  return defaultType;
+ }
+
+ private State defaultState = null;
+
+ public State getDefaultState ()
+ {
+  if (defaultState != null)
+  {
+   return defaultState;
+  }
+  List<State> list = findStates (State.DEFAULT);
+  if (list.size () == 0)
+  {
+   throw new DictionaryExecutionException ("No default State found");
+  }
+  if (list.size () > 1)
+  {
+   throw new DictionaryExecutionException ("More than one default State found");
+  }
+  defaultState = list.get (0);
+  return defaultState;
  }
 
 }

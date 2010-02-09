@@ -190,4 +190,17 @@ public class XmlWriter
   return sb.toString ();
  }
 
+
+ public void writeCommentBox (String comment)
+ {
+  String border = "***************************************************************";
+  while (border.length () < comment.length ())
+  {
+   border = border + border;
+  }
+  border = border.substring (0, comment.length ());
+  writeComment (border);
+  writeComment (comment);
+  writeComment (border);
+ }
 }

@@ -7,7 +7,7 @@ http://student.kuali.org/xsd/dictionary-extension dictionary-extension.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Thu Feb 04 18:38:32 EST 2010
+on: Fri Feb 05 10:08:21 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -22,6 +22,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.proposalInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.proposalInfo.state"/>
 </dict:type>
+<dict:type key="(default)" id="object.proposalInfo.type" parent="object.proposalInfo.type.abstract"/>
 <dict:type key="kuali.proposal.type.course.*" id="object.proposalInfo.type.kuali.proposal.type.course._" parent="object.proposalInfo.type.abstract">
 	<dict:name>All Course Proposal Types</dict:name>
 	<dict:desc>All course proposal types</dict:desc>
@@ -84,21 +85,23 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.proposalInfo.state"/>
 	<dict:fieldRef bean="field.proposalInfo.id"/>
 </dict:state>
-<dict:state key="draft.private" id="object.proposalInfo.state.draft.private" parent="object.proposalInfo.state.abstract"/>
-<dict:state key="draft.public" id="object.proposalInfo.state.draft.public" parent="object.proposalInfo.state.abstract"/>
-<dict:state key="submitted" id="object.proposalInfo.state.submitted" parent="object.proposalInfo.state.abstract"/>
-<dict:state key="approved" id="object.proposalInfo.state.approved" parent="object.proposalInfo.state.abstract"/>
-<dict:state key="rejected" id="object.proposalInfo.state.rejected" parent="object.proposalInfo.state.abstract"/>
-<dict:state key="withdrawn" id="object.proposalInfo.state.withdrawn" parent="object.proposalInfo.state.abstract"/>
-<dict:state key="retired" id="object.proposalInfo.state.retired" parent="object.proposalInfo.state.abstract"/>
-<dict:state key="inactive" id="object.proposalInfo.state.inactive" parent="object.proposalInfo.state.abstract"/>
+<dict:state key="(default)" id="object.proposalInfo.state" parent="object.proposalInfo.state.abstract"/>
+<dict:state key="draft.private" id="object.proposalInfo.state.draft.private.abstract" abstract="true" parent="object.proposalInfo.state.abstract"/>
+<dict:state key="draft.public" id="object.proposalInfo.state.draft.public.abstract" abstract="true" parent="object.proposalInfo.state.abstract"/>
+<dict:state key="submitted" id="object.proposalInfo.state.submitted.abstract" abstract="true" parent="object.proposalInfo.state.abstract"/>
+<dict:state key="approved" id="object.proposalInfo.state.approved.abstract" abstract="true" parent="object.proposalInfo.state.abstract"/>
+<dict:state key="rejected" id="object.proposalInfo.state.rejected.abstract" abstract="true" parent="object.proposalInfo.state.abstract"/>
+<dict:state key="withdrawn" id="object.proposalInfo.state.withdrawn.abstract" abstract="true" parent="object.proposalInfo.state.abstract"/>
+<dict:state key="retired" id="object.proposalInfo.state.retired.abstract" abstract="true" parent="object.proposalInfo.state.abstract"/>
+<dict:state key="inactive" id="object.proposalInfo.state.inactive.abstract" abstract="true" parent="object.proposalInfo.state.abstract"/>
 
 <dict:field key="name" id="field.proposalInfo.name.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="name" id="field.proposalInfo.name.fd.abstract" abstract="true"	/>
 		<dict:name>Proposal Name</dict:name>
 		<dict:desc>The name or title of the proposal. Any finite sequence of characters with letters, numerals, symbols and punctuation marks. The length can be any natural number between zero or any positive integer.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="name" id="field.proposalInfo.name.fd" parent="field.proposalInfo.name.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -108,11 +111,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="proposerPerson" id="field.proposalInfo.proposerPerson.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="proposerPerson" id="field.proposalInfo.proposerPerson.fd.abstract" abstract="true"	/>
 		<dict:name>Proposer Person</dict:name>
 		<dict:desc>List of person identifiers. Structure should contain a proposerPerson OR a proposerOrg.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="proposerPerson" id="field.proposalInfo.proposerPerson.fd" parent="field.proposalInfo.proposerPerson.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.repeating"/>
@@ -123,11 +127,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="proposerOrg" id="field.proposalInfo.proposerOrg.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="proposerOrg" id="field.proposalInfo.proposerOrg.fd.abstract" abstract="true"	/>
 		<dict:name>Proposer Organization</dict:name>
 		<dict:desc>List of organization identifiers. Structure should contain a proposerPerson OR a proposerOrg</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="proposerOrg" id="field.proposalInfo.proposerOrg.fd" parent="field.proposalInfo.proposerOrg.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.repeating"/>
@@ -138,11 +143,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="proposalReferenceType" id="field.proposalInfo.proposalReferenceType.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="proposalReferenceType" id="field.proposalInfo.proposalReferenceType.fd.abstract" abstract="true"	/>
 		<dict:name>Proposal Reference Type</dict:name>
 		<dict:desc>Unique identifier for a reference type.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="proposalReferenceType" id="field.proposalInfo.proposalReferenceType.fd" parent="field.proposalInfo.proposalReferenceType.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -153,11 +159,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="proposalReference" id="field.proposalInfo.proposalReference.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="proposalReference" id="field.proposalInfo.proposalReference.fd.abstract" abstract="true"	/>
 		<dict:name>Proposal Reference</dict:name>
 		<dict:desc>List of reference identifiers.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="proposalReference" id="field.proposalInfo.proposalReference.fd" parent="field.proposalInfo.proposalReference.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.repeating"/>
@@ -169,11 +176,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- Made this optional even though the service says its requried -->
 <!-- Made this optional even though the service says its requried -->
 <dict:field key="rationale" id="field.proposalInfo.rationale.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="rationale" id="field.proposalInfo.rationale.fd.abstract" abstract="true"	/>
 		<dict:name>Rationale</dict:name>
 		<dict:desc>Brief explanation of the reason for the proposal</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="rationale" id="field.proposalInfo.rationale.fd" parent="field.proposalInfo.rationale.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.optional"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -186,11 +194,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- Made this optional even though the service says its requried -->
 <!-- Made this optional even though the service says its requried -->
 <dict:field key="detailDesc" id="field.proposalInfo.detailDesc.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="detailDesc" id="field.proposalInfo.detailDesc.fd.abstract" abstract="true"	/>
 		<dict:name>Detailed Description</dict:name>
 		<dict:desc>Detailed description of the proposed changes.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="detailDesc" id="field.proposalInfo.detailDesc.fd" parent="field.proposalInfo.detailDesc.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.optional"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -201,11 +210,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="effectiveDate" id="field.proposalInfo.effectiveDate.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="effectiveDate" id="field.proposalInfo.effectiveDate.fd.abstract" abstract="true"	/>
 		<dict:name>Effective Date</dict:name>
 		<dict:desc>Date and time that this proposal became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
 		<dict:dataType>dateTime</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="effectiveDate" id="field.proposalInfo.effectiveDate.fd" parent="field.proposalInfo.effectiveDate.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -216,11 +226,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="expirationDate" id="field.proposalInfo.expirationDate.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="expirationDate" id="field.proposalInfo.expirationDate.fd.abstract" abstract="true"	/>
 		<dict:name>Expiration Date</dict:name>
 		<dict:desc>Date and time that this proposal expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:desc>
 		<dict:dataType>dateTime</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="expirationDate" id="field.proposalInfo.expirationDate.fd" parent="field.proposalInfo.expirationDate.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.optional"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -231,11 +242,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="attributes" id="field.proposalInfo.attributes.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="attributes" id="field.proposalInfo.attributes.fd.abstract" abstract="true"	/>
 		<dict:name>Generic/dynamic attributes</dict:name>
 		<dict:desc>List of key/value pairs, typically used for dynamic attributes.</dict:desc>
 		<dict:dataType>complex</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="attributes" id="field.proposalInfo.attributes.fd" parent="field.proposalInfo.attributes.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.optional"/>
 			<dict:constraintRef bean="constraint.repeating"/>
@@ -246,11 +258,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="metaInfo" id="field.proposalInfo.metaInfo.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="metaInfo" id="field.proposalInfo.metaInfo.fd.abstract" abstract="true"	/>
 		<dict:name>Create/Update meta info</dict:name>
 		<dict:desc>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:desc>
 		<dict:dataType>complex</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="metaInfo" id="field.proposalInfo.metaInfo.fd" parent="field.proposalInfo.metaInfo.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.optional"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -261,11 +274,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="type" id="field.proposalInfo.type.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="type" id="field.proposalInfo.type.fd.abstract" abstract="true"	/>
 		<dict:name>Proposal Type</dict:name>
 		<dict:desc>Unique identifier for a proposal type.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="type" id="field.proposalInfo.type.fd" parent="field.proposalInfo.type.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -276,11 +290,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="state" id="field.proposalInfo.state.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="state" id="field.proposalInfo.state.fd.abstract" abstract="true"	/>
 		<dict:name>Proposal State</dict:name>
 		<dict:desc>The current status of the proposal. The values for this field are constrained to those in the proposalState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="state" id="field.proposalInfo.state.fd" parent="field.proposalInfo.state.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -292,11 +307,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="id" id="field.proposalInfo.id.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="id" id="field.proposalInfo.id.fd.abstract" abstract="true"	/>
 		<dict:name>Proposal Identifier</dict:name>
 		<dict:desc>Unique identifier for a Proposal. This is optional, due to the identifier being set at the time of creation. Once the proposal has been created, this should be seen as required.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="id" id="field.proposalInfo.id.fd" parent="field.proposalInfo.id.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.optional"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -315,6 +331,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.proposalDocRelationInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.proposalDocRelationInfo.state"/>
 </dict:type>
+<dict:type key="(default)" id="object.proposalDocRelationInfo.type" parent="object.proposalDocRelationInfo.type.abstract"/>
 <dict:type key="kuali.proposal.ProposalDocRelationType.syllabus" id="object.proposalDocRelationInfo.type.kuali.proposal.ProposalDocRelationType.syllabus" parent="object.proposalDocRelationInfo.type.abstract">
 	<dict:name>Syllabus</dict:name>
 	<dict:desc>a syllabus for the clu being proposed</dict:desc>
@@ -344,15 +361,17 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.proposalDocRelationInfo.state"/>
 	<dict:fieldRef bean="field.proposalDocRelationInfo.id"/>
 </dict:state>
-<dict:state key="Active" id="object.proposalDocRelationInfo.state.Active" parent="object.proposalDocRelationInfo.state.abstract"/>
-<dict:state key="Inactive" id="object.proposalDocRelationInfo.state.Inactive" parent="object.proposalDocRelationInfo.state.abstract"/>
+<dict:state key="(default)" id="object.proposalDocRelationInfo.state" parent="object.proposalDocRelationInfo.state.abstract"/>
+<dict:state key="Active" id="object.proposalDocRelationInfo.state.Active.abstract" abstract="true" parent="object.proposalDocRelationInfo.state.abstract"/>
+<dict:state key="Inactive" id="object.proposalDocRelationInfo.state.Inactive.abstract" abstract="true" parent="object.proposalDocRelationInfo.state.abstract"/>
 
 <dict:field key="proposalId" id="field.proposalDocRelationInfo.proposalId.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="proposalId" id="field.proposalDocRelationInfo.proposalId.fd.abstract" abstract="true"	/>
 		<dict:name>Proposal Identifier</dict:name>
 		<dict:desc>Unique identifier for a Proposal.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="proposalId" id="field.proposalDocRelationInfo.proposalId.fd" parent="field.proposalDocRelationInfo.proposalId.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -363,11 +382,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="documentId" id="field.proposalDocRelationInfo.documentId.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="documentId" id="field.proposalDocRelationInfo.documentId.fd.abstract" abstract="true"	/>
 		<dict:name>Document Identifier</dict:name>
 		<dict:desc>Unique identifier for a document.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="documentId" id="field.proposalDocRelationInfo.documentId.fd" parent="field.proposalDocRelationInfo.documentId.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -378,11 +398,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="title" id="field.proposalDocRelationInfo.title.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="title" id="field.proposalDocRelationInfo.title.fd.abstract" abstract="true"	/>
 		<dict:name>Document Title</dict:name>
 		<dict:desc>The title of the document usage in the context of the Proposal.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="title" id="field.proposalDocRelationInfo.title.fd" parent="field.proposalDocRelationInfo.title.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -392,11 +413,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="desc" id="field.proposalDocRelationInfo.desc.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="desc" id="field.proposalDocRelationInfo.desc.fd.abstract" abstract="true"	/>
 		<dict:name>Document Description</dict:name>
 		<dict:desc>The description of the document usage in the context of the Proposal.</dict:desc>
 		<dict:dataType>complex</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="desc" id="field.proposalDocRelationInfo.desc.fd" parent="field.proposalDocRelationInfo.desc.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.optional"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -406,11 +428,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="effectiveDate" id="field.proposalDocRelationInfo.effectiveDate.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="effectiveDate" id="field.proposalDocRelationInfo.effectiveDate.fd.abstract" abstract="true"	/>
 		<dict:name>Effective Date</dict:name>
 		<dict:desc>Date and time that this Proposal Doc Relation became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
 		<dict:dataType>dateTime</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="effectiveDate" id="field.proposalDocRelationInfo.effectiveDate.fd" parent="field.proposalDocRelationInfo.effectiveDate.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -421,11 +444,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="expirationDate" id="field.proposalDocRelationInfo.expirationDate.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="expirationDate" id="field.proposalDocRelationInfo.expirationDate.fd.abstract" abstract="true"	/>
 		<dict:name>Expiration Date</dict:name>
 		<dict:desc>Date and time that this Proposal Doc Relation expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:desc>
 		<dict:dataType>dateTime</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="expirationDate" id="field.proposalDocRelationInfo.expirationDate.fd" parent="field.proposalDocRelationInfo.expirationDate.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.optional"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -436,11 +460,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="attributes" id="field.proposalDocRelationInfo.attributes.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="attributes" id="field.proposalDocRelationInfo.attributes.fd.abstract" abstract="true"	/>
 		<dict:name>Generic/dynamic attributes</dict:name>
 		<dict:desc>List of key/value pairs, typically used for dynamic attributes.</dict:desc>
 		<dict:dataType>complex</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="attributes" id="field.proposalDocRelationInfo.attributes.fd" parent="field.proposalDocRelationInfo.attributes.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.optional"/>
 			<dict:constraintRef bean="constraint.repeating"/>
@@ -451,11 +476,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="metaInfo" id="field.proposalDocRelationInfo.metaInfo.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="metaInfo" id="field.proposalDocRelationInfo.metaInfo.fd.abstract" abstract="true"	/>
 		<dict:name>Create/Update meta info</dict:name>
 		<dict:desc>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:desc>
 		<dict:dataType>complex</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="metaInfo" id="field.proposalDocRelationInfo.metaInfo.fd" parent="field.proposalDocRelationInfo.metaInfo.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.optional"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -466,11 +492,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="type" id="field.proposalDocRelationInfo.type.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="type" id="field.proposalDocRelationInfo.type.fd.abstract" abstract="true"	/>
 		<dict:name>Proposal Document Relation Type Key</dict:name>
 		<dict:desc>Unique identifier for a proposal document relation type. Describes the type of usage of the document.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="type" id="field.proposalDocRelationInfo.type.fd" parent="field.proposalDocRelationInfo.type.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -480,11 +507,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="state" id="field.proposalDocRelationInfo.state.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="state" id="field.proposalDocRelationInfo.state.fd.abstract" abstract="true"	/>
 		<dict:name>Proposal Document Relation State Key</dict:name>
 		<dict:desc>The current status of the Proposal to document relationship. The values for this field are constrained to those in the proposalDocRelationState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="state" id="field.proposalDocRelationInfo.state.fd" parent="field.proposalDocRelationInfo.state.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -496,11 +524,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="id" id="field.proposalDocRelationInfo.id.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="id" id="field.proposalDocRelationInfo.id.fd.abstract" abstract="true"	/>
 		<dict:name>Proposal Document Relation Identifier</dict:name>
 		<dict:desc>Unique identifier for a proposal to document relation. This is optional, due to the identifier being set at the time of creation. Once the connection has been created, this should be seen as required.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="id" id="field.proposalDocRelationInfo.id.fd" parent="field.proposalDocRelationInfo.id.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.optional"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -519,6 +548,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.attributeInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.attributeInfo.state"/>
 </dict:type>
+<dict:type key="(default)" id="object.attributeInfo.type" parent="object.attributeInfo.type.abstract"/>
 <dict:type key="kuali.lu.type.CreditCourse.dynamic.eye.color" id="object.attributeInfo.type.kuali.lu.type.CreditCourse.dynamic.eye.color" parent="object.attributeInfo.type.abstract">
 	<dict:name>Eye Color</dict:name>
 	<dict:desc>Captures the eye color of students expected to take this course</dict:desc>
@@ -539,14 +569,16 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.attributeInfo.value"/>
 	<dict:fieldRef bean="field.attributeInfo.key"/>
 </dict:state>
-<dict:state key="(n/a)" id="object.attributeInfo.state.NA" parent="object.attributeInfo.state.abstract"/>
+<dict:state key="(default)" id="object.attributeInfo.state" parent="object.attributeInfo.state.abstract"/>
+<dict:state key="(n/a)" id="object.attributeInfo.state.NA.abstract" abstract="true" parent="object.attributeInfo.state.abstract"/>
 
 <dict:field key="value" id="field.attributeInfo.value.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="value" id="field.attributeInfo.value.fd.abstract" abstract="true"	/>
 		<dict:name>Attribute Value</dict:name>
 		<dict:desc>The value for this dynamic attribute.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="value" id="field.attributeInfo.value.fd" parent="field.attributeInfo.value.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -565,11 +597,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- Shouldn't this be a "type" not a "key"?  I type describes the value, a key is just a pointer. -->
 <!-- Shouldn't this be a "type" not a "key"?  I type describes the value, a key is just a pointer. -->
 <dict:field key="key" id="field.attributeInfo.key.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="key" id="field.attributeInfo.key.fd.abstract" abstract="true"	/>
 		<dict:name>Attribute Type Identifier</dict:name>
 		<dict:desc>The identifier for this attribute.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="key" id="field.attributeInfo.key.fd" parent="field.attributeInfo.key.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -590,6 +623,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.metaInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.metaInfo.state"/>
 </dict:type>
+<dict:type key="(default)" id="object.metaInfo.type" parent="object.metaInfo.type.abstract"/>
 <dict:type key="kuali.not.applicable" id="object.metaInfo.type.kuali.not.applicable" parent="object.metaInfo.type.abstract">
 	<dict:name>(n/a)</dict:name>
 	<dict:desc>Not applicable</dict:desc>
@@ -603,15 +637,17 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.metaInfo.updateTime"/>
 	<dict:fieldRef bean="field.metaInfo.updateId"/>
 </dict:state>
-<dict:state key="(n/a)" id="object.metaInfo.state.NA" parent="object.metaInfo.state.abstract"/>
+<dict:state key="(default)" id="object.metaInfo.state" parent="object.metaInfo.state.abstract"/>
+<dict:state key="(n/a)" id="object.metaInfo.state.NA.abstract" abstract="true" parent="object.metaInfo.state.abstract"/>
 
 <dict:field key="versionInd" id="field.metaInfo.versionInd.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="versionInd" id="field.metaInfo.versionInd.fd.abstract" abstract="true"	/>
 		<dict:name>Version Indicator</dict:name>
 		<dict:desc>An indicator of the version of the thing being described with this meta information. This is set by the service implementation and will be used to determine conflicts in updates.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 		<dict:readOnly>true</dict:readOnly>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="versionInd" id="field.metaInfo.versionInd.fd" parent="field.metaInfo.versionInd.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -623,11 +659,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="createTime" id="field.metaInfo.createTime.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="createTime" id="field.metaInfo.createTime.fd.abstract" abstract="true"	/>
 		<dict:name>Date/Time Created</dict:name>
 		<dict:desc>The date and time the thing being described with this meta information was created</dict:desc>
 		<dict:dataType>dateTime</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="createTime" id="field.metaInfo.createTime.fd" parent="field.metaInfo.createTime.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -639,12 +676,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="createId" id="field.metaInfo.createId.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="createId" id="field.metaInfo.createId.fd.abstract" abstract="true"	/>
 		<dict:name>Created By Identifier</dict:name>
 		<dict:desc>The principal who created the thing being described with this meta information</dict:desc>
 		<dict:dataType>string</dict:dataType>
 		<dict:readOnly>true</dict:readOnly>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="createId" id="field.metaInfo.createId.fd" parent="field.metaInfo.createId.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.read.only"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -656,11 +694,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="updateTime" id="field.metaInfo.updateTime.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="updateTime" id="field.metaInfo.updateTime.fd.abstract" abstract="true"	/>
 		<dict:name>Date/Time Last Updated</dict:name>
 		<dict:desc>The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.</dict:desc>
 		<dict:dataType>dateTime</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="updateTime" id="field.metaInfo.updateTime.fd" parent="field.metaInfo.updateTime.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -672,12 +711,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="updateId" id="field.metaInfo.updateId.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="updateId" id="field.metaInfo.updateId.fd.abstract" abstract="true"	/>
 		<dict:name>Updated By Identifier</dict:name>
 		<dict:desc>The principal who last updated the thing being described with this meta information. This would be filled in on initial creation as well.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 		<dict:readOnly>true</dict:readOnly>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="updateId" id="field.metaInfo.updateId.fd" parent="field.metaInfo.updateId.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.read.only"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -697,6 +737,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.richTextInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.richTextInfo.state"/>
 </dict:type>
+<dict:type key="(default)" id="object.richTextInfo.type" parent="object.richTextInfo.type.abstract"/>
 <dict:type key="kuali.not.applicable" id="object.richTextInfo.type.kuali.not.applicable" parent="object.richTextInfo.type.abstract">
 	<dict:name>(n/a)</dict:name>
 	<dict:desc>Not applicable</dict:desc>
@@ -707,15 +748,17 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.richTextInfo.plain"/>
 	<dict:fieldRef bean="field.richTextInfo.formatted"/>
 </dict:state>
-<dict:state key="(n/a)" id="object.richTextInfo.state.NA" parent="object.richTextInfo.state.abstract"/>
+<dict:state key="(default)" id="object.richTextInfo.state" parent="object.richTextInfo.state.abstract"/>
+<dict:state key="(n/a)" id="object.richTextInfo.state.NA.abstract" abstract="true" parent="object.richTextInfo.state.abstract"/>
 
 <dict:field key="plain" id="field.richTextInfo.plain.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="plain" id="field.richTextInfo.plain.fd.abstract" abstract="true"	/>
 		<dict:name>Plain Text</dict:name>
 		<dict:desc>Plain version of the text. This may be used for searching.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 		<dict:readOnly>true</dict:readOnly>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="plain" id="field.richTextInfo.plain.fd" parent="field.richTextInfo.plain.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.read.only"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -732,11 +775,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="formatted" id="field.richTextInfo.formatted.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="formatted" id="field.richTextInfo.formatted.fd.abstract" abstract="true"	/>
 		<dict:name>Formatted Text</dict:name>
 		<dict:desc>Formatted version of the text.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="formatted" id="field.richTextInfo.formatted.fd" parent="field.richTextInfo.formatted.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.optional"/>
 			<dict:constraintRef bean="constraint.single"/>

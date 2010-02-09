@@ -7,7 +7,7 @@ http://student.kuali.org/xsd/dictionary-extension dictionary-extension.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Thu Feb 04 18:38:32 EST 2010
+on: Fri Feb 05 10:08:20 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -22,6 +22,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.loInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.loInfo.state"/>
 </dict:type>
+<dict:type key="(default)" id="object.loInfo.type" parent="object.loInfo.type.abstract"/>
 <dict:type key="kuali.lo.type.external" id="object.loInfo.type.kuali.lo.type.external" parent="object.loInfo.type.abstract">
 	<dict:name>Externally-created</dict:name>
 	<dict:desc>LO created by external organization, e.g., state or accrediting organization</dict:desc>
@@ -55,16 +56,18 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.loInfo.state"/>
 	<dict:fieldRef bean="field.loInfo.id"/>
 </dict:state>
-<dict:state key="draft" id="object.loInfo.state.draft" parent="object.loInfo.state.abstract"/>
-<dict:state key="active" id="object.loInfo.state.active" parent="object.loInfo.state.abstract"/>
-<dict:state key="inactive" id="object.loInfo.state.inactive" parent="object.loInfo.state.abstract"/>
+<dict:state key="(default)" id="object.loInfo.state" parent="object.loInfo.state.abstract"/>
+<dict:state key="draft" id="object.loInfo.state.draft.abstract" abstract="true" parent="object.loInfo.state.abstract"/>
+<dict:state key="active" id="object.loInfo.state.active.abstract" abstract="true" parent="object.loInfo.state.abstract"/>
+<dict:state key="inactive" id="object.loInfo.state.inactive.abstract" abstract="true" parent="object.loInfo.state.abstract"/>
 
 <dict:field key="name" id="field.loInfo.name.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="name" id="field.loInfo.name.fd.abstract" abstract="true"	/>
 		<dict:name>Learning Objective Name</dict:name>
 		<dict:desc>Friendly name of the learning objective</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="name" id="field.loInfo.name.fd" parent="field.loInfo.name.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -74,11 +77,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="desc" id="field.loInfo.desc.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="desc" id="field.loInfo.desc.fd.abstract" abstract="true"	/>
 		<dict:name>Learning Objective Description</dict:name>
 		<dict:desc>Narrative description of the learning objective</dict:desc>
 		<dict:dataType>complex</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="desc" id="field.loInfo.desc.fd" parent="field.loInfo.desc.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.optional"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -88,11 +92,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="loRepositoryKey" id="field.loInfo.loRepositoryKey.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="loRepositoryKey" id="field.loInfo.loRepositoryKey.fd.abstract" abstract="true"	/>
 		<dict:name>Learning Objective Repository Key</dict:name>
 		<dict:desc>Unique identifier for a learning objective Repository. This value is immutable once set during creation.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="loRepositoryKey" id="field.loInfo.loRepositoryKey.fd" parent="field.loInfo.loRepositoryKey.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -103,11 +108,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="effectiveDate" id="field.loInfo.effectiveDate.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="effectiveDate" id="field.loInfo.effectiveDate.fd.abstract" abstract="true"	/>
 		<dict:name>Effective Date</dict:name>
 		<dict:desc>Date and time that this learning objective became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
 		<dict:dataType>dateTime</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="effectiveDate" id="field.loInfo.effectiveDate.fd" parent="field.loInfo.effectiveDate.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -118,11 +124,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="expirationDate" id="field.loInfo.expirationDate.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="expirationDate" id="field.loInfo.expirationDate.fd.abstract" abstract="true"	/>
 		<dict:name>Expiration Date</dict:name>
 		<dict:desc>Date and time that this learning objective expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:desc>
 		<dict:dataType>dateTime</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="expirationDate" id="field.loInfo.expirationDate.fd" parent="field.loInfo.expirationDate.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.optional"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -133,11 +140,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="attributes" id="field.loInfo.attributes.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="attributes" id="field.loInfo.attributes.fd.abstract" abstract="true"	/>
 		<dict:name>Generic/dynamic attributes</dict:name>
 		<dict:desc>List of key/value pairs, typically used for dynamic attributes.</dict:desc>
 		<dict:dataType>complex</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="attributes" id="field.loInfo.attributes.fd" parent="field.loInfo.attributes.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.optional"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -148,11 +156,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="metaInfo" id="field.loInfo.metaInfo.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="metaInfo" id="field.loInfo.metaInfo.fd.abstract" abstract="true"	/>
 		<dict:name>Create/Update meta info</dict:name>
 		<dict:desc>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:desc>
 		<dict:dataType>complex</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="metaInfo" id="field.loInfo.metaInfo.fd" parent="field.loInfo.metaInfo.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.optional"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -162,11 +171,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="type" id="field.loInfo.type.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="type" id="field.loInfo.type.fd.abstract" abstract="true"	/>
 		<dict:name>Learning Objective Type</dict:name>
 		<dict:desc>Unique identifier for a learning objective type.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="type" id="field.loInfo.type.fd" parent="field.loInfo.type.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -177,11 +187,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="state" id="field.loInfo.state.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="state" id="field.loInfo.state.fd.abstract" abstract="true"	/>
 		<dict:name>Learning Objective State</dict:name>
 		<dict:desc>The current status of the learning objective. The values for this field are constrained to those in the loState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="state" id="field.loInfo.state.fd" parent="field.loInfo.state.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -193,12 +204,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="id" id="field.loInfo.id.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="id" id="field.loInfo.id.fd.abstract" abstract="true"	/>
 		<dict:name>Learning Objective Id</dict:name>
 		<dict:desc>Unique identifier for a learning objective record. This is optional, due to the identifier being set at the time of creation. Once the learning objective has been created, this should be seen as required.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 		<dict:readOnly>true</dict:readOnly>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="id" id="field.loInfo.id.fd" parent="field.loInfo.id.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.read.only"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -217,6 +229,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.loLoRelationInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.loLoRelationInfo.state"/>
 </dict:type>
+<dict:type key="(default)" id="object.loLoRelationInfo.type" parent="object.loLoRelationInfo.type.abstract"/>
 <dict:type key="kuali.lo.relation.type.includes" id="object.loLoRelationInfo.type.kuali.lo.relation.type.includes" parent="object.loLoRelationInfo.type.abstract">
 	<dict:name>includes</dict:name>
 	<dict:desc>Parent-child relationship between a parent LO and sub LO. Currently used in the context of LOs that are related within a single CLU.</dict:desc>
@@ -234,16 +247,18 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.loLoRelationInfo.state"/>
 	<dict:fieldRef bean="field.loLoRelationInfo.id"/>
 </dict:state>
-<dict:state key="draft" id="object.loLoRelationInfo.state.draft" parent="object.loLoRelationInfo.state.abstract"/>
-<dict:state key="active" id="object.loLoRelationInfo.state.active" parent="object.loLoRelationInfo.state.abstract"/>
-<dict:state key="inactive" id="object.loLoRelationInfo.state.inactive" parent="object.loLoRelationInfo.state.abstract"/>
+<dict:state key="(default)" id="object.loLoRelationInfo.state" parent="object.loLoRelationInfo.state.abstract"/>
+<dict:state key="draft" id="object.loLoRelationInfo.state.draft.abstract" abstract="true" parent="object.loLoRelationInfo.state.abstract"/>
+<dict:state key="active" id="object.loLoRelationInfo.state.active.abstract" abstract="true" parent="object.loLoRelationInfo.state.abstract"/>
+<dict:state key="inactive" id="object.loLoRelationInfo.state.inactive.abstract" abstract="true" parent="object.loLoRelationInfo.state.abstract"/>
 
 <dict:field key="loId" id="field.loLoRelationInfo.loId.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="loId" id="field.loLoRelationInfo.loId.fd.abstract" abstract="true"	/>
 		<dict:name>LO Identifier</dict:name>
 		<dict:desc>Unique identifier for a learning objective record. This is the &quot;From&quot; or &quot;Parent&quot; in the relation.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="loId" id="field.loLoRelationInfo.loId.fd" parent="field.loLoRelationInfo.loId.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -253,11 +268,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="relatedLoId" id="field.loLoRelationInfo.relatedLoId.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="relatedLoId" id="field.loLoRelationInfo.relatedLoId.fd.abstract" abstract="true"	/>
 		<dict:name>Related LO Identifier</dict:name>
 		<dict:desc>Unique identifier for a learning objective record. This is the &quot;To&quot; or &quot;Child&quot; of the relation.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="relatedLoId" id="field.loLoRelationInfo.relatedLoId.fd" parent="field.loLoRelationInfo.relatedLoId.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -267,11 +283,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="effectiveDate" id="field.loLoRelationInfo.effectiveDate.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="effectiveDate" id="field.loLoRelationInfo.effectiveDate.fd.abstract" abstract="true"	/>
 		<dict:name>Effective Date</dict:name>
 		<dict:desc>Date and time that this LO to LO relationship became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
 		<dict:dataType>dateTime</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="effectiveDate" id="field.loLoRelationInfo.effectiveDate.fd" parent="field.loLoRelationInfo.effectiveDate.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -282,11 +299,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="expirationDate" id="field.loLoRelationInfo.expirationDate.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="expirationDate" id="field.loLoRelationInfo.expirationDate.fd.abstract" abstract="true"	/>
 		<dict:name>Expiration Date</dict:name>
 		<dict:desc>Date and time that this LO to LO relationship expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:desc>
 		<dict:dataType>dateTime</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="expirationDate" id="field.loLoRelationInfo.expirationDate.fd" parent="field.loLoRelationInfo.expirationDate.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.optional"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -297,11 +315,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="attributes" id="field.loLoRelationInfo.attributes.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="attributes" id="field.loLoRelationInfo.attributes.fd.abstract" abstract="true"	/>
 		<dict:name>Generic/dynamic attributes</dict:name>
 		<dict:desc>List of key/value pairs, typically used for dynamic attributes.</dict:desc>
 		<dict:dataType>complex</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="attributes" id="field.loLoRelationInfo.attributes.fd" parent="field.loLoRelationInfo.attributes.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.optional"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -311,11 +330,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="metaInfo" id="field.loLoRelationInfo.metaInfo.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="metaInfo" id="field.loLoRelationInfo.metaInfo.fd.abstract" abstract="true"	/>
 		<dict:name>Create/Update meta info</dict:name>
 		<dict:desc>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:desc>
 		<dict:dataType>complex</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="metaInfo" id="field.loLoRelationInfo.metaInfo.fd" parent="field.loLoRelationInfo.metaInfo.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.optional"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -325,11 +345,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="type" id="field.loLoRelationInfo.type.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="type" id="field.loLoRelationInfo.type.fd.abstract" abstract="true"	/>
 		<dict:name>LO to LO Relation Type</dict:name>
 		<dict:desc>Unique identifier for the LO to LO relation type.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="type" id="field.loLoRelationInfo.type.fd" parent="field.loLoRelationInfo.type.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -340,11 +361,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="state" id="field.loLoRelationInfo.state.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="state" id="field.loLoRelationInfo.state.fd.abstract" abstract="true"	/>
 		<dict:name>LO to LO Relation State</dict:name>
 		<dict:desc>Identifier for the current status of a LO to LO relationship. The values for this field are constrained to those in the luLuRelationState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="state" id="field.loLoRelationInfo.state.fd" parent="field.loLoRelationInfo.state.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -355,11 +377,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="id" id="field.loLoRelationInfo.id.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="id" id="field.loLoRelationInfo.id.fd.abstract" abstract="true"	/>
 		<dict:name>LO to LO Relation Identifier</dict:name>
 		<dict:desc>Unique identifier for a LO to LO relationship. This is optional, due to the identifier being set at the time of creation. Once the relation has been created, this should be seen as required.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="id" id="field.loLoRelationInfo.id.fd" parent="field.loLoRelationInfo.id.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.optional"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -378,6 +401,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.loCategoryInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.loCategoryInfo.state"/>
 </dict:type>
+<dict:type key="(default)" id="object.loCategoryInfo.type" parent="object.loCategoryInfo.type.abstract"/>
 <dict:type key="kuali.lo.category.type.*" id="object.loCategoryInfo.type.kuali.lo.category.type._" parent="object.loCategoryInfo.type.abstract">
 	<dict:name>all categories</dict:name>
 	<dict:desc>all lo categories</dict:desc>
@@ -411,15 +435,17 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.loCategoryInfo.state"/>
 	<dict:fieldRef bean="field.loCategoryInfo.id"/>
 </dict:state>
-<dict:state key="inactive" id="object.loCategoryInfo.state.inactive" parent="object.loCategoryInfo.state.abstract"/>
-<dict:state key="active" id="object.loCategoryInfo.state.active" parent="object.loCategoryInfo.state.abstract"/>
+<dict:state key="(default)" id="object.loCategoryInfo.state" parent="object.loCategoryInfo.state.abstract"/>
+<dict:state key="inactive" id="object.loCategoryInfo.state.inactive.abstract" abstract="true" parent="object.loCategoryInfo.state.abstract"/>
+<dict:state key="active" id="object.loCategoryInfo.state.active.abstract" abstract="true" parent="object.loCategoryInfo.state.abstract"/>
 
 <dict:field key="name" id="field.loCategoryInfo.name.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="name" id="field.loCategoryInfo.name.fd.abstract" abstract="true"	/>
 		<dict:name>Learning Objective Category Name</dict:name>
 		<dict:desc>Friendly name of the category</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="name" id="field.loCategoryInfo.name.fd" parent="field.loCategoryInfo.name.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -429,11 +455,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="desc" id="field.loCategoryInfo.desc.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="desc" id="field.loCategoryInfo.desc.fd.abstract" abstract="true"	/>
 		<dict:name>Learning Objective Category Description</dict:name>
 		<dict:desc>Narrative description of the learning objective category</dict:desc>
 		<dict:dataType>complex</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="desc" id="field.loCategoryInfo.desc.fd" parent="field.loCategoryInfo.desc.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.optional"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -443,11 +470,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="loRepository" id="field.loCategoryInfo.loRepository.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="loRepository" id="field.loCategoryInfo.loRepository.fd.abstract" abstract="true"	/>
 		<dict:name>Learning Objective Repository Key</dict:name>
 		<dict:desc>Unique identifier for a learning objective repository. Once set in creation, this is immutable.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="loRepository" id="field.loCategoryInfo.loRepository.fd" parent="field.loCategoryInfo.loRepository.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -458,11 +486,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="effectiveDate" id="field.loCategoryInfo.effectiveDate.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="effectiveDate" id="field.loCategoryInfo.effectiveDate.fd.abstract" abstract="true"	/>
 		<dict:name>Effective Date</dict:name>
 		<dict:desc>Date and time that this learning objective category became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
 		<dict:dataType>dateTime</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="effectiveDate" id="field.loCategoryInfo.effectiveDate.fd" parent="field.loCategoryInfo.effectiveDate.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -473,11 +502,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="expirationDate" id="field.loCategoryInfo.expirationDate.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="expirationDate" id="field.loCategoryInfo.expirationDate.fd.abstract" abstract="true"	/>
 		<dict:name>Expiration Date</dict:name>
 		<dict:desc>Date and time that this learning objective category expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:desc>
 		<dict:dataType>dateTime</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="expirationDate" id="field.loCategoryInfo.expirationDate.fd" parent="field.loCategoryInfo.expirationDate.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.optional"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -488,11 +518,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="attributes" id="field.loCategoryInfo.attributes.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="attributes" id="field.loCategoryInfo.attributes.fd.abstract" abstract="true"	/>
 		<dict:name>Generic/dynamic attributes</dict:name>
 		<dict:desc>List of key/value pairs, typically used for dynamic attributes.</dict:desc>
 		<dict:dataType>complex</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="attributes" id="field.loCategoryInfo.attributes.fd" parent="field.loCategoryInfo.attributes.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.optional"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -502,11 +533,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="metaInfo" id="field.loCategoryInfo.metaInfo.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="metaInfo" id="field.loCategoryInfo.metaInfo.fd.abstract" abstract="true"	/>
 		<dict:name>Create/Update meta info</dict:name>
 		<dict:desc>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:desc>
 		<dict:dataType>complex</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="metaInfo" id="field.loCategoryInfo.metaInfo.fd" parent="field.loCategoryInfo.metaInfo.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.optional"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -516,11 +548,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="type" id="field.loCategoryInfo.type.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="type" id="field.loCategoryInfo.type.fd.abstract" abstract="true"	/>
 		<dict:name>Learning Objective Category Type</dict:name>
 		<dict:desc>Unique identifier for a learning objective category type.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="type" id="field.loCategoryInfo.type.fd" parent="field.loCategoryInfo.type.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -530,11 +563,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="state" id="field.loCategoryInfo.state.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="state" id="field.loCategoryInfo.state.fd.abstract" abstract="true"	/>
 		<dict:name>Learning Objective Category State</dict:name>
 		<dict:desc>The current status of the learning objective category. The values for this field are constrained to those in the loCategoryState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="state" id="field.loCategoryInfo.state.fd" parent="field.loCategoryInfo.state.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -544,12 +578,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="id" id="field.loCategoryInfo.id.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="id" id="field.loCategoryInfo.id.fd.abstract" abstract="true"	/>
 		<dict:name>Learning Objective Category Identifier</dict:name>
 		<dict:desc>Unique identifier for a learning objective category record. This is optional, due to the identifier being set at the time of creation. Once the learning objective category has been created, this should be seen as required.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 		<dict:readOnly>true</dict:readOnly>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="id" id="field.loCategoryInfo.id.fd" parent="field.loCategoryInfo.id.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.read.only"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -568,6 +603,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.richTextInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.richTextInfo.state"/>
 </dict:type>
+<dict:type key="(default)" id="object.richTextInfo.type" parent="object.richTextInfo.type.abstract"/>
 <dict:type key="kuali.not.applicable" id="object.richTextInfo.type.kuali.not.applicable" parent="object.richTextInfo.type.abstract">
 	<dict:name>(n/a)</dict:name>
 	<dict:desc>Not applicable</dict:desc>
@@ -578,15 +614,17 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.richTextInfo.plain"/>
 	<dict:fieldRef bean="field.richTextInfo.formatted"/>
 </dict:state>
-<dict:state key="(n/a)" id="object.richTextInfo.state.NA" parent="object.richTextInfo.state.abstract"/>
+<dict:state key="(default)" id="object.richTextInfo.state" parent="object.richTextInfo.state.abstract"/>
+<dict:state key="(n/a)" id="object.richTextInfo.state.NA.abstract" abstract="true" parent="object.richTextInfo.state.abstract"/>
 
 <dict:field key="plain" id="field.richTextInfo.plain.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="plain" id="field.richTextInfo.plain.fd.abstract" abstract="true"	/>
 		<dict:name>Plain Text</dict:name>
 		<dict:desc>Plain version of the text. This may be used for searching.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 		<dict:readOnly>true</dict:readOnly>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="plain" id="field.richTextInfo.plain.fd" parent="field.richTextInfo.plain.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.read.only"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -603,11 +641,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="formatted" id="field.richTextInfo.formatted.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="formatted" id="field.richTextInfo.formatted.fd.abstract" abstract="true"	/>
 		<dict:name>Formatted Text</dict:name>
 		<dict:desc>Formatted version of the text.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="formatted" id="field.richTextInfo.formatted.fd" parent="field.richTextInfo.formatted.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.optional"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -632,6 +671,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.attributeInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.attributeInfo.state"/>
 </dict:type>
+<dict:type key="(default)" id="object.attributeInfo.type" parent="object.attributeInfo.type.abstract"/>
 <dict:type key="kuali.lu.type.CreditCourse.dynamic.eye.color" id="object.attributeInfo.type.kuali.lu.type.CreditCourse.dynamic.eye.color" parent="object.attributeInfo.type.abstract">
 	<dict:name>Eye Color</dict:name>
 	<dict:desc>Captures the eye color of students expected to take this course</dict:desc>
@@ -652,14 +692,16 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.attributeInfo.value"/>
 	<dict:fieldRef bean="field.attributeInfo.key"/>
 </dict:state>
-<dict:state key="(n/a)" id="object.attributeInfo.state.NA" parent="object.attributeInfo.state.abstract"/>
+<dict:state key="(default)" id="object.attributeInfo.state" parent="object.attributeInfo.state.abstract"/>
+<dict:state key="(n/a)" id="object.attributeInfo.state.NA.abstract" abstract="true" parent="object.attributeInfo.state.abstract"/>
 
 <dict:field key="value" id="field.attributeInfo.value.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="value" id="field.attributeInfo.value.fd.abstract" abstract="true"	/>
 		<dict:name>Attribute Value</dict:name>
 		<dict:desc>The value for this dynamic attribute.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="value" id="field.attributeInfo.value.fd" parent="field.attributeInfo.value.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -678,11 +720,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- Shouldn't this be a "type" not a "key"?  I type describes the value, a key is just a pointer. -->
 <!-- Shouldn't this be a "type" not a "key"?  I type describes the value, a key is just a pointer. -->
 <dict:field key="key" id="field.attributeInfo.key.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="key" id="field.attributeInfo.key.fd.abstract" abstract="true"	/>
 		<dict:name>Attribute Type Identifier</dict:name>
 		<dict:desc>The identifier for this attribute.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="key" id="field.attributeInfo.key.fd" parent="field.attributeInfo.key.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -703,6 +746,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="(default)" id="object.metaInfo.type.abstract" abstract="true">
 	<dict:stateRef bean="object.metaInfo.state"/>
 </dict:type>
+<dict:type key="(default)" id="object.metaInfo.type" parent="object.metaInfo.type.abstract"/>
 <dict:type key="kuali.not.applicable" id="object.metaInfo.type.kuali.not.applicable" parent="object.metaInfo.type.abstract">
 	<dict:name>(n/a)</dict:name>
 	<dict:desc>Not applicable</dict:desc>
@@ -716,15 +760,17 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.metaInfo.updateTime"/>
 	<dict:fieldRef bean="field.metaInfo.updateId"/>
 </dict:state>
-<dict:state key="(n/a)" id="object.metaInfo.state.NA" parent="object.metaInfo.state.abstract"/>
+<dict:state key="(default)" id="object.metaInfo.state" parent="object.metaInfo.state.abstract"/>
+<dict:state key="(n/a)" id="object.metaInfo.state.NA.abstract" abstract="true" parent="object.metaInfo.state.abstract"/>
 
 <dict:field key="versionInd" id="field.metaInfo.versionInd.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="versionInd" id="field.metaInfo.versionInd.fd.abstract" abstract="true"	/>
 		<dict:name>Version Indicator</dict:name>
 		<dict:desc>An indicator of the version of the thing being described with this meta information. This is set by the service implementation and will be used to determine conflicts in updates.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 		<dict:readOnly>true</dict:readOnly>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="versionInd" id="field.metaInfo.versionInd.fd" parent="field.metaInfo.versionInd.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -736,11 +782,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="createTime" id="field.metaInfo.createTime.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="createTime" id="field.metaInfo.createTime.fd.abstract" abstract="true"	/>
 		<dict:name>Date/Time Created</dict:name>
 		<dict:desc>The date and time the thing being described with this meta information was created</dict:desc>
 		<dict:dataType>dateTime</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="createTime" id="field.metaInfo.createTime.fd" parent="field.metaInfo.createTime.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -752,12 +799,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="createId" id="field.metaInfo.createId.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="createId" id="field.metaInfo.createId.fd.abstract" abstract="true"	/>
 		<dict:name>Created By Identifier</dict:name>
 		<dict:desc>The principal who created the thing being described with this meta information</dict:desc>
 		<dict:dataType>string</dict:dataType>
 		<dict:readOnly>true</dict:readOnly>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="createId" id="field.metaInfo.createId.fd" parent="field.metaInfo.createId.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.read.only"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -769,11 +817,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="updateTime" id="field.metaInfo.updateTime.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="updateTime" id="field.metaInfo.updateTime.fd.abstract" abstract="true"	/>
 		<dict:name>Date/Time Last Updated</dict:name>
 		<dict:desc>The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.</dict:desc>
 		<dict:dataType>dateTime</dict:dataType>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="updateTime" id="field.metaInfo.updateTime.fd" parent="field.metaInfo.updateTime.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.required"/>
 			<dict:constraintRef bean="constraint.single"/>
@@ -785,12 +834,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:field>
 
 <dict:field key="updateId" id="field.metaInfo.updateId.abstract" abstract="true">
-	<dict:fieldDescriptor>
+	<dict:fieldDescriptor key="updateId" id="field.metaInfo.updateId.fd.abstract" abstract="true"	/>
 		<dict:name>Updated By Identifier</dict:name>
 		<dict:desc>The principal who last updated the thing being described with this meta information. This would be filled in on initial creation as well.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 		<dict:readOnly>true</dict:readOnly>
 	</dict:fieldDescriptor>
+	<dict:fieldDescriptor key="updateId" id="field.metaInfo.updateId.fd" parent="field.metaInfo.updateId.fd.abstract"	>
 	<dict:constraintDescriptor>
 			<dict:constraintRef bean="constraint.read.only"/>
 			<dict:constraintRef bean="constraint.single"/>

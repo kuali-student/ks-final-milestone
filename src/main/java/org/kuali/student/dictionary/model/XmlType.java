@@ -129,14 +129,14 @@ public class XmlType implements Serializable
   this.examples = examples;
  }
 
-  private String hasOwnType;
+  private boolean hasOwnType;
 
  /**
   * Get the value of hasOwnType
   *
   * @return the value of hasOwnType
   */
- public String getHasOwnType ()
+ public boolean hasOwnType ()
  {
   return hasOwnType;
  }
@@ -146,21 +146,21 @@ public class XmlType implements Serializable
   *
   * @param hasOwnType new value of hasOwnType
   */
- public void setHasOwnType (String hasOwnType)
+ public void setHasOwnType (boolean hasOwnType)
  {
   this.hasOwnState = hasOwnType;
  }
 
 
 
- private String hasOwnState;
+ private boolean hasOwnState;
 
  /**
   * Get the value of hasOwnState
   *
   * @return the value of hasOwnState
   */
- public String getHasOwnState ()
+ public boolean hasOwnState ()
  {
   return hasOwnState;
  }
@@ -170,21 +170,21 @@ public class XmlType implements Serializable
   *
   * @param hasOwnState new value of hasOwnState
   */
- public void setHasOwnState (String hasOwnState)
+ public void setHasOwnState (boolean hasOwnState)
  {
   this.hasOwnState = hasOwnState;
  }
 
 
 
- private String hasOwnCreateUpdate;
+ private boolean hasOwnCreateUpdate;
 
  /**
   * Get the value of hasOwnCreateUpdate
   *
   * @return the value of hasOwnCreateUpdate
   */
- public String getHasOwnCreateUpdate ()
+ public boolean hasOwnCreateUpdate ()
  {
   return hasOwnCreateUpdate;
  }
@@ -194,7 +194,7 @@ public class XmlType implements Serializable
   *
   * @param hasOwnCreateUpdate new value of hasOwnCreateUpdate
   */
- public void setHasOwnCreateUpdate (String hasOwnCreateUpdate)
+ public void setHasOwnCreateUpdate (boolean hasOwnCreateUpdate)
  {
   this.hasOwnCreateUpdate = hasOwnCreateUpdate;
  }

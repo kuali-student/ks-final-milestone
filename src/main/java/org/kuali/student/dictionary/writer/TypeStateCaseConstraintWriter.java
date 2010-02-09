@@ -29,17 +29,19 @@ import java.util.Set;
  * Writes a single constraint for the type-state when case statement
  * @author nwright
  */
-public class TypeStateCaseConstraintWriter extends XmlWriter
+public class TypeStateCaseConstraintWriter 
 {
 
  private TypeStateCaseConstraint constraint;
  private DictionaryModel spreadsheet;
+ private XmlWriter writer;
 
- public TypeStateCaseConstraintWriter (PrintStream out, int indent,
+ public TypeStateCaseConstraintWriter (XmlWriter writer,
                                        TypeStateCaseConstraint constraint,
                                        DictionaryModel spreadsheet)
  {
-  super (out, indent);
+  super ();
+  this.writer = writer;
   this.constraint = constraint;
   this.spreadsheet = spreadsheet;
  }
@@ -57,23 +59,23 @@ public class TypeStateCaseConstraintWriter extends XmlWriter
   if (typeStateCaseConstraintsWritten.contains (constraint.getId ()))
   {
    ConstraintRefWriter crw =
-    new ConstraintRefWriter (getOut (), getIndent (), constraint.getId ());
+    new ConstraintRefWriter (writer, constraint.getId ());
    crw.write ();
    return;
   }
   typeStateCaseConstraintsWritten.add (constraint.getId ());
 
-  indentPrint ("<dict:constraint");
-  writeAttribute ("key", constraint.getKey ());
-  writeAttribute ("id", constraint.getId ());
-  println (">");
+  writer.indentPrint ("<dict:constraint");
+  writer.writeAttribute ("key", constraint.getKey ());
+  writer.writeAttribute ("id", constraint.getId ());
+  writer.println (">");
 
-  indentPrintln ("<dict:typeStateCase>");
+  writer.indentPrintln ("<dict:typeStateCase>");
 
-  incrementIndent ();
+  writer.incrementIndent ();
   for (CrossObjectConstraint when : constraint.getTypeStateWhens ())
   {
-   indentPrint ("<dict:typeStateWhen");
+   writer.indentPrint ("<dict:typeStateWhen");
    Type type = getType (when.getType2 (), when.getObject2 ());
    if (type == null)
    {
@@ -82,26 +84,26 @@ public class TypeStateCaseConstraintWriter extends XmlWriter
      ", that does not exist for the object, " + when.getObject2 ());
 
    }
-   writeAttribute ("type", type.getTypeKey ());
+   writer.writeAttribute ("type", type.getTypeKey ());
    if ( ! when.getState2 ().equals (State.DEFAULT))
    {
-    writeAttribute ("state", when.getState2 ());
+    writer.writeAttribute ("state", when.getState2 ());
    }
-   println (">");
+   writer.println (">");
    // write out description as comments as there is no field for this
-   writeComment (when.getDesc ());
-   writeComment (when.getComments ());
-   incrementIndent ();
-   writeTag ("dict:minOccurs", when.getMinOccurs ());
-   writeTag ("dict:maxOccurs", when.getMaxOccurs ());
-   decrementIndent ();
-   indentPrintln ("</dict:typeStateWhen>");
+   writer.writeComment (when.getDesc ());
+   writer.writeComment (when.getComments ());
+   writer.incrementIndent ();
+   writer.writeTag ("dict:minOccurs", when.getMinOccurs ());
+   writer.writeTag ("dict:maxOccurs", when.getMaxOccurs ());
+   writer.decrementIndent ();
+   writer.indentPrintln ("</dict:typeStateWhen>");
   }
-  decrementIndent ();
-  indentPrintln ("</dict:typeStateCase>");
+  writer.decrementIndent ();
+  writer.indentPrintln ("</dict:typeStateCase>");
 
   // end the constraint
-  indentPrintln ("</dict:constraint>");
+  writer.indentPrintln ("</dict:constraint>");
  }
 
  private Type getType (String name, String xmlObject)

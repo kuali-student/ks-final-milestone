@@ -22,14 +22,15 @@ import java.io.PrintStream;
  * Writes out a constraint in XML format.
  * @author nwright
  */
-public class ConstraintWriter extends XmlWriter
+public class ConstraintWriter 
 {
 
  private Constraint constraint;
+ private XmlWriter writer;
 
- public ConstraintWriter (PrintStream out, int indent, Constraint constraint)
+ public ConstraintWriter (XmlWriter writer, Constraint constraint)
  {
-  super (out, indent);
+  this.writer = writer;
   this.constraint = constraint;
  }
 
@@ -43,55 +44,55 @@ public class ConstraintWriter extends XmlWriter
   // inline constraints shouldn't be separated
   if ( ! constraint.getId ().equals (""))
   {
-   println ("");
+   writer.println ("");
   }
 
-  indentPrint ("<dict:constraint");
+  writer.indentPrint ("<dict:constraint");
   //TODO: not sure what to put in the key attribute
-  incrementIndent ();
-  writeAttribute ("key", constraint.getKey ());
+  writer.incrementIndent ();
+  writer.writeAttribute ("key", constraint.getKey ());
   if ( ! constraint.getId ().equals (""))
   {
-   writeAttribute ("id", "constraint." + constraint.getId ());
+   writer.writeAttribute ("id", "constraint." + constraint.getId ());
   }
-  writeAttribute ("className", constraint.getClassName ());
-  writeAttribute ("serverSide", constraint.getServerSide ());
-  println (">");
+  writer.writeAttribute ("className", constraint.getClassName ());
+  writer.writeAttribute ("serverSide", constraint.getServerSide ());
+  writer.println (">");
 
   // write out description as comments as there is no field for this
-  writeComment (constraint.getDesc ());
-  writeComment (constraint.getComments ());
+  writer.writeComment (constraint.getDesc ());
+  writer.writeComment (constraint.getComments ());
 
 
   //TODO: deal with locale
   //writeAttribute ("locale", constraint.getLocale ());
-  writeTag ("dict:minValue", constraint.getMinValue ());
-  writeTag ("dict:maxValue", constraint.getMaxValue ());
-  writeTag ("dict:minOccurs", constraint.getMinOccurs ());
-  writeTag ("dict:maxOccurs", constraint.getMaxOccurs ());
-  writeTag ("dict:minLength", constraint.getMinLength ());
-  writeTag ("dict:maxLength", constraint.getMaxLength ());
+  writer.writeTag ("dict:minValue", constraint.getMinValue ());
+  writer.writeTag ("dict:maxValue", constraint.getMaxValue ());
+  writer.writeTag ("dict:minOccurs", constraint.getMinOccurs ());
+  writer.writeTag ("dict:maxOccurs", constraint.getMaxOccurs ());
+  writer.writeTag ("dict:minLength", constraint.getMinLength ());
+  writer.writeTag ("dict:maxLength", constraint.getMaxLength ());
   if ( ! calcValidChars ().equals (""))
   {
-   indentPrintln ("<dict:validChars>");
-   writeTag ("dict:value", calcValidChars ());
-   indentPrintln ("</dict:validChars>");
+   writer.indentPrintln ("<dict:validChars>");
+   writer.writeTag ("dict:value", calcValidChars ());
+   writer.indentPrintln ("</dict:validChars>");
   }
 
   if ( ! constraint.getLookup ().equals (""))
   {
-   indentPrint ("<dict:lookup");
-   writeAttribute ("search", constraint.getLookup ());
-   println (">");
+   writer.indentPrint ("<dict:lookup");
+   writer.writeAttribute ("search", constraint.getLookup ());
+   writer.println (">");
    // TODO: Deal with search field and lookupKey
    //<dict:lookupKey field="addressCountry" mapsTo="country.code" />
-   indentPrintln ("<dict:lookupKey field=\"(none)\" mapsTo=\"(none)\"/>");
-   indentPrintln ("</dict:lookup>");
+   writer.indentPrintln ("<dict:lookupKey field=\"(none)\" mapsTo=\"(none)\"/>");
+   writer.indentPrintln ("</dict:lookup>");
   }
 
   // end the constraint
-  indentPrintln ("</dict:constraint>");
-  decrementIndent ();
+  writer.indentPrintln ("</dict:constraint>");
+  writer.decrementIndent ();
  }
 
  private boolean isEmptyConstraint ()

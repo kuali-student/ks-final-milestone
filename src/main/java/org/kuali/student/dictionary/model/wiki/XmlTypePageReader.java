@@ -96,9 +96,9 @@ public class XmlTypePageReader
  protected XmlType convertStructureMetaTable (Node metaTable)
  {
   XmlType type = new XmlType ();
-  type.setHasOwnType ("false");
-  type.setHasOwnState ("false");
-  type.setHasOwnCreateUpdate ("false");
+  type.setHasOwnType (false);
+  type.setHasOwnState (false);
+  type.setHasOwnCreateUpdate (false);
   type.setService ("");
   type.setExamples ("");
   type.setComments ("");

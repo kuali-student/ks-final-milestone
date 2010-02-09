@@ -95,7 +95,7 @@ public class OrchestrationObjectsLoader implements OrchestrationModel
     obj.setInfoPackagePath (xmlType.getJavaPackage ());
     obj.setOrchestrationPackagePath (rootPackage + ".base");
 
-    obj.setHasOwnCreateUpdate (xmlType.getHasOwnCreateUpdate ().equals ("true"));
+    obj.setHasOwnCreateUpdate (xmlType.hasOwnCreateUpdate ());
     List<OrchestrationObjectField> fields = new ArrayList ();
     obj.setFields (fields);
     for (MessageStructure ms : model.getMessageStructures ())

@@ -21,22 +21,24 @@ import java.io.PrintStream;
  * This writes a reference to a previously written constraint.
  * @author nwright
  */
-public class ConstraintRefWriter extends XmlWriter
+public class ConstraintRefWriter 
 {
 
  private String refId;
+ private XmlWriter writer;
 
- public ConstraintRefWriter (PrintStream out, int indent, String refId)
+ public ConstraintRefWriter (XmlWriter writer, String refId)
  {
-  super (out, indent);
+  super ();
+  this.writer = writer;
   this.refId = refId;
  }
 
  public void write ()
  {
-  indentPrint ("<dict:constraintRef");
-  writeAttribute ("bean", "constraint." + refId);
-  println ("/>");
+  writer.indentPrint ("<dict:constraintRef");
+  writer.writeAttribute ("bean", "constraint." + refId);
+  writer.println ("/>");
  }
 
 }

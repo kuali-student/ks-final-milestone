@@ -211,16 +211,32 @@ public class ServiceContractModelLoader implements ServiceContractModel
 
  private String fixup (String str)
  {
-  if (str.equals ("FALSE"))
+  if (str == null)
+  {
+   return "";
+  }
+  // TODO: figure out why I am getting an unprintable character that gets translated to a 63 which is a ?
+  //       when there is a calculation that returns null
+  if (str.length () == 1)
+  {
+   byte[] bytes = str.getBytes ();
+   if (bytes[0] == 63)
+   {
+    return "";
+   }
+  }
+  if (str.equalsIgnoreCase ("FALSE"))
   {
    return "false";
   }
-  if (str.equals ("TRUE"))
+  if (str.equalsIgnoreCase ("TRUE"))
   {
    return "true";
   }
   return str;
  }
+
+
 
  @Override
  public List<String> getSourceNames ()
@@ -288,9 +304,9 @@ public class ServiceContractModelLoader implements ServiceContractModel
    }
    info.setDesc (getFixup (worksheetReader, "desc"));
    info.setPrimitive (getFixup (worksheetReader, "primitive"));
-   info.setHasOwnType (getFixup (worksheetReader, "hasOwnType"));
-   info.setHasOwnState (getFixup (worksheetReader, "hasOwnState"));
-   info.setHasOwnCreateUpdate (getFixup (worksheetReader, "hasOwnCreateUpdate"));
+   info.setHasOwnType (getFixup (worksheetReader, "hasOwnType").equalsIgnoreCase ("true"));
+   info.setHasOwnState (getFixup (worksheetReader, "hasOwnState").equalsIgnoreCase ("true"));
+   info.setHasOwnCreateUpdate (getFixup (worksheetReader, "hasOwnCreateUpdate").equalsIgnoreCase ("true"));
    info.setService (getFixup (worksheetReader, "service"));
 
    info.setJavaPackage (getFixup (worksheetReader, "javaPackage"));

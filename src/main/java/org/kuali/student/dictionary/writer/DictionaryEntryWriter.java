@@ -34,58 +34,40 @@ import java.util.Set;
  * This writes out a single field entry and all of it's constraints into the XML output document
  * @author nwright
  */
-public class DictionaryEntryWriter extends XmlWriter
+public class DictionaryEntryWriter 
 {
 
- private DictionaryModel spreadsheet;
+ private DictionaryModel model;
  private ModelFinder finder;
- private State mainState;
- private Dictionary origDict;
  private Dictionary dict;
  private Field field;
- private boolean inline;
+ private ObjectStructureWriter parent;
+ private XmlWriter writer;
 
- public DictionaryEntryWriter (PrintStream out, int indent, DictionaryModel spreadsheet,
-                     Dictionary origDict, State mainState, boolean inline)
+ public DictionaryEntryWriter (XmlWriter writer,
+                               DictionaryModel model,
+                               Dictionary dict,
+                               ObjectStructureWriter parent)
  {
-  super (out, indent);
-  this.spreadsheet = spreadsheet;
-  this.finder = new ModelFinder (spreadsheet);
-  this.origDict = origDict;
-  this.mainState = mainState;
-  this.inline = inline;
-  field = getField (origDict);
-  loadDictStateOverride ();
+  super ();
+  this.writer = writer;
+  this.model = model;
+  this.finder = new ModelFinder (model);
+  this.dict = dict;
+  this.parent = parent;
+  field = getField (dict);
  }
 
  private Field getField (Dictionary d)
  {
-  for (Field f : spreadsheet.getFields ())
+  Field field = finder.findField (d.getXmlObject (), d.getShortName ());
+  if (field == null)
   {
-   if (f.getXmlObject ().equals (d.getXmlObject ()))
-   {
-    if (f.getShortName ().equals (d.getShortName ()))
-    {
-     return f;
-    }
-   }
+   throw new DictionaryValidationException ("No field entry found for dictionary entry, " + d.
+    getId () + ", pointing to field " + d.getXmlObject () + "."
+    + d.getShortName ());
   }
-  throw new DictionaryValidationException ("No field entry found for dictionary entry, " +
-   d.getId () + ", pointing to field " +
-   d.getXmlObject () + "." + d.getShortName ());
- }
-
- private void loadDictStateOverride ()
- {
-  this.dict = origDict;
-  Dictionary override = getDictStateOverride (dict, mainState);
-  if (override != null)
-  {
-   //indent (System.out, ' ');
-   //System.out.println ("Overriding " + dict.getId () + " in state " + mainState.
-   // getName () + " with " + override.getId ());
-   dict = override;
-  }
+  return field;
  }
 
  private Dictionary getDictStateOverride (Dictionary d, State ms)
@@ -137,12 +119,7 @@ public class DictionaryEntryWriter extends XmlWriter
  public void write ()
  {
   // subsequent use of the exact same dictionary field
-  if (calcCanUseRef ())
-  {
-   writeFieldRef ();
-   return;
-  }
-
+ 
   // write it out
   writeFieldHeader ();
   writeFieldDescriptor ();
@@ -152,153 +129,121 @@ public class DictionaryEntryWriter extends XmlWriter
   writeFieldFooter ();
  }
 
- private boolean calcCanUseRef ()
- {
-  // if not already written then cannot use ref because there is
-  // no previous field to refer to!
-  if ( ! dictionaryEntriesWritten.contains (dict.getId ()))
-  {
-   return false;
-  }
-  // for complex fields.. can simply use ref if no sub-field is overridden
-  // otherwise have re-do the whole thing so the sub-field can be properly overridden
-  if (isOverriddenOrAnySubFieldOverriden (dict))
-  {
-   return false;
-  }
-  return true;
- }
-
- private boolean isOverriddenOrAnySubFieldOverriden (Dictionary d)
- {
-  Dictionary override = getDictStateOverride (d, mainState);
-  if (override != null)
-  {
-   return true;
-  }
-  // if not complex a complex type and it was not overriden itself then there are no sub-fields to be overridden
-  if ( ! calcDataType (d).equals ("complex"))
-  {
-   return false;
-  }
-  // Recursively check sub-fields to see if  any of  those fields are overridden
-  for (Dictionary sub : getSubFields (d))
-  {
-   if (isOverriddenOrAnySubFieldOverriden (sub))
-   {
-    return true;
-   }
-  }
-  return false;
- }
 
  private void writeFieldRef ()
  {
   //indent (System.out, ' ');
-  //System.out.println ("Writing out: " + dict.getId () + " as ref");
-  indentPrint ("<dict:fieldRef");
-  writeAttribute ("bean", dict.getId ());
-  println ("/>");
+  //System.out.writer.println ("Writing out: " + dict.getId () + " as ref");
+  writer.indentPrint ("<dict:fieldRef");
+  writer.writeAttribute ("bean", dict.getId ());
+  writer.println ("/>");
  }
 
  private void writeFieldHeader ()
  {
-  indentPrintln ("");
-  indentPrint ("<dict:field");
+  writer.indentPrintln ("");
+  writer.indentPrint ("<dict:field");
   if (dictionaryEntriesWritten.contains (dict.getId ()))
   {
    //indent (System.out, ' ');
-   //System.out.println ("Writing out: " + dict.getId () + " w/o id");
+   //System.out.writer.println ("Writing out: " + dict.getId () + " w/o id");
   }
   else
   {
-   writeAttribute ("id", dict.getId ());
+   writer.writeAttribute ("id", dict.getId ());
    // remember that this field was written before
    dictionaryEntriesWritten.add (dict.getId ());
-  //indent (System.out, ' ');
-  //System.out.println ("Writing out: " + dict.getId () + " with id");
+   //indent (System.out, ' ');
+   //System.out.writer.println ("Writing out: " + dict.getId () + " with id");
   }
-  writeAttribute ("key", dict.getShortName ());
-  println (">");
+  writer.writeAttribute ("key", dict.getShortName ());
+  writer.println (">");
 
-  incrementIndent ();
-  writeComment (field.getComments ());
-  writeComment (dict.getComments ());
+  writer.incrementIndent ();
+  writer.writeComment (field.getComments ());
+  writer.writeComment (dict.getComments ());
  }
 
  private void writeFieldFooter ()
  {
-  decrementIndent ();
-  indentPrintln ("</dict:field>");
+  writer.decrementIndent ();
+  writer.indentPrintln ("</dict:field>");
  }
 
  private void writeFieldDescriptor ()
  {
-  indentPrintln ("<dict:fieldDescriptor>");
-  incrementIndent ();
-  writeTag ("dict:name", dict.getName ());
-  writeTag ("dict:desc", dict.getDesc ());
-  writeTag ("dict:dataType", calcDataType ());
+  writer.indentPrintln ("<dict:fieldDescriptor>");
+  writer.incrementIndent ();
+  writer.writeTag ("dict:name", dict.getName ());
+  writer.writeTag ("dict:desc", dict.getDesc ());
+  writer.writeTag ("dict:dataType", calcDataType ());
   // Inline-ObjectStructure to write out the structure of this fields sub-fields
   if (shouldInsertInLineObjectStructure ())
   {
-   indent (System.out, ' ');
+   writer.indent (System.out, ' ');
    System.out.println ("Writing out sub-structure for: " + dict.getId ());
    ObjectStructureWriter osw =
-    new ObjectStructureWriter (getOut (), getIndent () + 1, spreadsheet, getXmlType (), getSubFields (dict), true, mainState);
+    new ObjectStructureWriter (writer,
+                               model,
+                               getXmlType (),
+                               null);
    osw.write ();
   }
-  writeTag ("dict:readOnly", calcReadOnly ());
-  decrementIndent ();
-  indentPrintln ("</dict:fieldDescriptor>");
+  writer.writeTag ("dict:readOnly", calcReadOnly ());
+  writer.decrementIndent ();
+  writer.indentPrintln ("</dict:fieldDescriptor>");
  }
 
  private void writeSelector ()
  {
-  writeTag ("dict:selector", calcSelector ());
+  writer.writeTag ("dict:selector", calcSelector ());
  }
 
  private void writeDynamic ()
  {
-  writeTag ("dict:dynamic", calcDynamic ());
+  writer.writeTag ("dict:dynamic", calcDynamic ());
  }
 
  private void writeConstraintDescriptor ()
  {
-  indentPrintln ("<dict:constraintDescriptor>");
-  incrementIndent ();
+  writer.indentPrintln ("<dict:constraintDescriptor>");
+  writer.incrementIndent ();
   // write out referenced constraints
   for (String id : field.getConstraintIds ())
   {
-   ConstraintRefWriter crw = new ConstraintRefWriter (getOut (), getIndent () +
-    1, id);
+   ConstraintRefWriter crw = new ConstraintRefWriter (writer, id);
    crw.write ();
   }
 
 
   for (String id : dict.getAdditionalConstraintIds ())
   {
-   ConstraintRefWriter crw = new ConstraintRefWriter (getOut (), getIndent () +
-    1, id);
+   writer.incrementIndent ();
+   ConstraintRefWriter crw = new ConstraintRefWriter (writer, id);
    crw.write ();
+   writer.decrementIndent ();
   }
 
 // write out in-line constraint
+  writer.incrementIndent ();
   ConstraintWriter cw =
-   new ConstraintWriter (getOut (), getIndent () + 1, field.getInlineConstraint ());
+   new ConstraintWriter (writer, field.getInlineConstraint ());
   cw.write ();
-  cw = new ConstraintWriter (getOut (), getIndent () + 1, dict.
+  cw = new ConstraintWriter (writer, dict.
    getInlineConstraint ());
   cw.write ();
+  writer.decrementIndent ();
 
   // write out cross-object constraints tha are tied to this field
   TypeStateCaseConstraint tscc =
    new TypeStateCaseConstraint (getTypeStateWhens ());
+  writer.incrementIndent ();
   TypeStateCaseConstraintWriter tsccw =
-   new TypeStateCaseConstraintWriter (getOut (), getIndent () + 1, tscc, spreadsheet);
+   new TypeStateCaseConstraintWriter (writer, tscc, model);
   tsccw.write ();
-  decrementIndent ();
-  indentPrintln ("</dict:constraintDescriptor>");
+  writer.decrementIndent ();
+  writer.decrementIndent ();
+  writer.indentPrintln ("</dict:constraintDescriptor>");
  }
 
  private List<Dictionary> getSubFields (Dictionary d)
@@ -329,8 +274,8 @@ public class DictionaryEntryWriter extends XmlWriter
    {
     return list;
    }
-   throw new DictionaryValidationException ("No sub-fields found in default dictionary for dictionary entry " +
-    d.getId ());
+   throw new DictionaryValidationException ("No sub-fields found in default dictionary for dictionary entry " + d.
+    getId ());
   }
   return list;
  }
@@ -363,8 +308,8 @@ public class DictionaryEntryWriter extends XmlWriter
    return field.getXmlType ();
   }
 
-  throw new DictionaryValidationException ("Unexpected data value for the primitive column in field.  Found " +
-   f.getPrimitive () + " on field " + f.getId ());
+  throw new DictionaryValidationException ("Unexpected data value for the primitive column in field.  Found " + f.
+   getPrimitive () + " on field " + f.getId ());
  }
 
  private boolean calcNotUsed (Dictionary d, Field f)
@@ -446,7 +391,7 @@ public class DictionaryEntryWriter extends XmlWriter
 
  private XmlType getXmlType ()
  {
-  for (XmlType x : spreadsheet.getXmlTypes ())
+  for (XmlType x : model.getXmlTypes ())
   {
    if (x.getName ().equals (field.getXmlType ()))
    {
@@ -454,8 +399,8 @@ public class DictionaryEntryWriter extends XmlWriter
    }
 
   }
-  throw new DictionaryValidationException ("Unexpected value for the xmlType column in field.  Found " +
-   field.getXmlType () + " on field " + field.getId ());
+  throw new DictionaryValidationException ("Unexpected value for the xmlType column in field.  Found " + field.
+   getXmlType () + " on field " + field.getId ());
  }
 
  private static Set<String> crossObjectConstraintsWritten = new HashSet ();
@@ -468,7 +413,7 @@ public class DictionaryEntryWriter extends XmlWriter
  private List<CrossObjectConstraint> getTypeStateWhens ()
  {
   List<CrossObjectConstraint> list = new ArrayList ();
-  for (CrossObjectConstraint coc : spreadsheet.getCrossObjectConstraints ())
+  for (CrossObjectConstraint coc : model.getCrossObjectConstraints ())
   {
    if (coc.getDictionaryId ().equals (dict.getId ()))
    {

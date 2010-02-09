@@ -73,10 +73,12 @@ public class DictionaryEntryWriterTest
   // The test fields don't match the spreadsheet info.
   ByteArrayOutputStream baos = new ByteArrayOutputStream ();
   PrintStream out = new PrintStream (baos);
-  DictionaryModel spreadsheet = new DictionaryModelCache (new MockDictionaryModel ());
-  Dictionary dict = spreadsheet.getDictionary ().get (0);
-  State state = spreadsheet.getStates ().get (0);
-  DictionaryEntryWriter instance = new DictionaryEntryWriter (out, 0, spreadsheet, dict, state, false);
+  DictionaryModel model = new DictionaryModelCache (new MockDictionaryModel ());
+  Dictionary dict = model.getDictionary ().get (0);
+  State state = model.getStates ().get (0);
+  XmlWriter writer = new XmlWriter (out, 0);
+  DictionaryEntryWriter instance =
+   new DictionaryEntryWriter (writer, model, dict, null);
   instance.write ();
   System.out.println ("|||||||");
   System.out.println (baos.toString ());
