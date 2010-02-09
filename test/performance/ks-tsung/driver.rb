@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+
 # 
 # == Synopsis
 #
@@ -6,7 +7,7 @@
 #
 # == Usage
 #
-# tsung-driver.rb [OPTIONS] ... SUITE_FILE_NAME
+# driver.rb [OPTIONS] ... SUITE_FILE_NAME APP_CONTEXT
 #
 # -h, --help:
 #     show help
@@ -20,175 +21,129 @@
 # -x, --execute:
 #     start the load after generating the XML. If not specified, only XML will be generated.
 #
+# -o, --output:
+#     filename(path) that you want to use for output XML
+#
 # SUITE_FILE_NAME:
 #     suite file name containg list of tests. File must exist in suites directory
+#
+# APP_CONTEXT:
+#     context for the app , e.g. ks-embedded
 #
 # == Examples
 #
 #
 
-require 'getoptlong'
+require 'optparse'
 require 'rdoc/usage'
-
-
-# Interactive config setup
-def setup
-  puts "Let's setup your test run config..."
-  
-  
-  #
-  # Clients
-  #
-  print "What clients are you driving your tests from? [hostname1,hostname2,...] "
-  clients = gets.chomp!
-  while(clients !~ /^(\w+)(\,\w+)*?$/) # validate format
-    print "Please use correct csv format [hostname1,hostname2,...] "
-    clients = gets.chomp!
-  end
-  
-  @@config[:clients] = clients.split(/,/)
-  
-  
-  #
-  # Servers
-  #
-  print "What servers do you want to test? [hostname1:port,hostname2:port,...] "
-  servers = gets.chomp!
-  while(servers !~ /^(\w+:\d+)(\,\w+:\d+)*?$/) # validate format
-    print "Please use correct format [hostname1:port,hostname2:port,...] "
-    servers = gets.chomp!
-  end
-  
-  @@config[:servers] = servers.split(/,/)
-  
-  
-  #
-  # Phases
-  #
-  @@config[:phases] = {}
-  puts "Let's setup your test scenario or phases, you can define multiple phases"
-  phase = 0
-  begin
-    phase += 1
-    @@config[:phases][phase] = {}
-    
-    print "Phase #{phase}: How many minutes? "
-    min_duration = gets.chomp!
-    while(min_duration =~ /\D/) # validate only digits
-      print "Please specify only numeric entry: "
-      min_duration = gets.chomp!
-    end
-    
-    @@config[:phases][phase][:duration] = min_duration
-    @@config[:phases][phase][:unit] = 'minute' # hardcoded for now for simplicity
-    
-    print "Do you want to add another phase? [y/n] "
-    add_phase = gets.chomp!
-  end while (add_phase == 'y')
-  
-  
-  #
-  # User Agent
-  #
-  puts "Let's setup what user agents you'd like to test with"
-  probability_total = 0
-  @@config[:agents] = {}
-  agent_list = []
-  
-  File.open("agent_list", "r") do |agent_file|
-    while(line = agent_file.gets)
-      next if(line =~ /^\#/) # skip if it's a comment
-      agent_list << line.chomp
-    end
-  end
-  
-  puts "Here are the agents you can specify..."
-  option = 0
-  agent_list.each {|agent| puts "#{option+=1}: #{agent}"}
-  available_perc = 100
-  
-  # Loop over collecting agents until we have 100%
-  begin
-    print "Specify the number of the agent you'd like to use: "
-    agent_num = gets.chomp
-    while(agent_num =~ /\D/) # validate only digits
-      print "Please specify only numeric entry: "
-      agent_num = gets.chomp
-    end
-    
-    print "Specify the probability that this agent will be used: [1-100] "
-    agent_prob = gets.chomp
-    
-    # validate only digits and doesn't exceed available probability
-    while(agent_prob =~ /\D/ || agent_prob.to_i > available_perc) 
-      print "Please specify only numeric entry that doesn't exceed #{available_perc}: "
-      agent_prob = gets.chomp
-    end
-    
-    # Subtract specified probability from remaining available
-    available_perc-=agent_prob.to_i
-    @@config[:agents][agent_list[agent_num.to_i - 1]] = agent_prob
-  
-    # See if we need another agent
-    if(available_perc > 0)
-      puts "You have #{available_perc}% remaining in agent probability. Please add another agent."
-      add_agent = 'y'
-    else
-      add_agent = 'n'
-    end
-    
-  end while (add_agent == 'y')
-  
-end
+require File.dirname(__FILE__) + '/lib/common.rb'
+require File.dirname(__FILE__) + '/lib/config.rb'
+require 'drb'
+include Common
 
 ########
-
-# Get cmd line options
-opts = GetoptLong.new(
-  [ '--help', '-h', GetoptLong::NO_ARGUMENT ],
-  [ '--config', '-c', GetoptLong::REQUIRED_ARGUMENT ],
-  [ '--debug', '-d', GetoptLong::NO_ARGUMENT ],
-  [ '--execute', '-x', GetoptLong::NO_ARGUMENT ]
-)
 
 errors = [] # Gather arg validation errors
 
 # Initialize true/false vars
-@@config = {}
-@@config[:debug] = false
-@@config[:execute] = false
+config = AutoConfig.new
+option = false
 
-opts.each do |opt, arg|
-  case opt
-    when '--help'
-      RDoc::usage
-    when '--config'
-      @@config[:intro_xml] = arg
-      errors.push("#{opt} must be numeric") unless(File.file?(@@config[intro_xml]))
-    when '--debug'
-      @@config[:debug] = true
-    when '--execute'
-      @@config[:execute] = true
+# Get cmd line options
+optparse = OptionParser.new do |opts|
+  
+  # Banner
+  opts.banner = "Usage: driver.rb [OPTIONS] ... SUITE_FILE_NAME APP_CONTEXT"
+  
+  # Definition of options
+  opts.on('-h', '--help', 'Display help screen') do
+    puts opts
+    exit
   end
+  
+  # Config file
+  opts.on('-c', '--config FILE', 'path to xml config file for everything after <tsung> and before <sessions>') do |file|
+    config.intro_xml = file
+    errors.push("#{opt} does not exist") unless(File.file?(config.intro_xml))
+    option = true
+  end
+  
+  # Output xml file
+  opts.on('-o', '--output FILE', 'path to xml output') do |file|
+    config.output = file
+  end
+  
+  # Log file
+  opts.on('-l', '--log FILE', 'path to log output from this framework') do |file|
+    config.log_path = file
+  end
+  
+  # Execute tests after generating xml
+  opts.on('-x', '--execute', 'start the load after generating the XML') do
+    config.execute = true
+  end
+  
+  # Enable debug
+  opts.on('-d', '--debug', 'enable debug logging') do
+    config.debug = true
+  end
+  
+  
 end
 
-if(ARGV.length != 1)
-  puts "Must specify test suite"
-  exit 0
-end
+optparse.parse!
 
-@@config[:suite] = ARGV.shift
+# Need to collect drb port
+config.drb_port = ENV['DRB_PORT']
+errors << "Must specify DRB_PORT in shell environment" unless(!config.drb_port.nil?)
 
-# Validate suite file in suites dir
-# Should use env var for suite dir
 # Exit if we have problems
 if(!errors.empty?)
-  errors.each { |err| puts "Error> #{err}" }
+  errors.each { |err| puts "#{err}" }
   exit
 end
 
-# If no options are passed then we'll use interactive setup
-setup if(!opts.get)
+if(ARGV.length != 2)
+  puts "Must specify test suite and app context"
+  exit 2
+end
 
-# Default strings
-puts @@config.inspect
+# Validate suite file in suites dir
+config.suite = ARGV.shift
+config.context = ARGV.shift
+exit 3 if(!config.validate_suite)
+config.parse_suite
+
+# If no options are passed then we'll use interactive setup
+config.initialize_logs
+config.setup if(!option)
+
+# write initial config XML here before we get to tests if no -c option was secified
+config.initialize_output_xml
+
+
+config.log.debug_msg("----------CONFIG----------")
+config.log.debug_msg(config.inspect)
+config.log.debug_msg("--------------------------")
+#
+# EXECUTE TESTS
+#
+
+# Fire up service for tests to read config information from
+DRb.start_service "druby://localhost:#{config.drb_port}", config
+config.log.debug_msg("DRB service running at #{DRb.uri}")
+
+begin
+  
+  config.tests.each_key do |test|
+    puts `#{config.test_dir}/#{test}`
+  end
+  
+end
+
+config.xml_obj.write($stdout, 2) if(config.debug)
+config.xml_obj.write(config.xml_writer.file, 2)
+
+#trap("INT") {DRb.stop_service}
+#DRb.thread.join
+DRb.stop_service
