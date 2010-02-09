@@ -21,9 +21,9 @@
 			</map>
 		</property>
 	</bean>
-	
+
 	<bean id="jotm" class="org.springframework.transaction.jta.JotmFactoryBean"/>
-	
+
 	<bean class="org.kuali.student.common.util.ModPropertyPlaceholderConfigurer">
 		<property name="properties" ref="configProperties" />
 	</bean>
@@ -171,7 +171,7 @@
         <property name="atpDao" ref="atpDao" />
         <property name="searchManager" ref="atpSearchManager"/>
     </bean>
-    
+
     <bean id="atpSearchManager"
         class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
         autowire="byType">
@@ -186,6 +186,24 @@
                 <property name="serviceInterface" value="org.kuali.student.core.atp.service.AtpService" />
                 <property name="localServiceName" value="AtpService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/atp" />
+                <property name="busSecurity" value="${ks.core.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
+    <!-- KsPersonService -->
+    <bean id="personServiceImpl"
+        class="org.kuali.student.core.ksperson.service.impl.KsPersonServiceImpl">
+    </bean>
+
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="personServiceImpl" />
+                <property name="serviceInterface" value="org.kuali.student.core.ksperson.service.KsPersonService" />
+                <property name="localServiceName" value="KsPersonService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/ksperson" />
                 <property name="busSecurity" value="${ks.core.bus.security}" />
             </bean>
         </property>
@@ -273,9 +291,9 @@
             </bean>
         </property>
     </bean>
-    
+
     <!-- Document Service Config -->
-    
+
 	<bean id="documentEntityManagerFactory" parent="coreDefaultEntityManagerFactory">
 		<property name="persistenceUnitName" value="Document"/>
 		<property name="persistenceXmlLocation"
@@ -289,7 +307,7 @@
 
     <bean id="documentDao1"
         class="org.kuali.student.core.document.dao.impl.DocumentDaoImpl">
-        <property name="em" ref="documentEntityManager" />        
+        <property name="em" ref="documentEntityManager" />
     </bean>
 
     <bean id="documentDictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
@@ -310,7 +328,7 @@
     </bean>
 
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-        <property name="serviceDefinition">     
+        <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true" />
                 <property name="service" ref="documentServiceImpl" />
@@ -379,14 +397,14 @@
         <property name="proposalDao" ref="proposalDao"/>
         <!-- <property name="dictionaryServiceDelegate" ref="proposalDictionaryServiceDelegate"/> -->
         <property name="searchManager" ref="proposalSearchManager"/>
-	</bean>        
+	</bean>
 
-<!-- 
+<!--
     <bean id="proposalDictionaryServiceDelegate"
         class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
         <constructor-arg index="0" value="classpath:proposal-dictionary-config.xml" />
     </bean>
--->    
+-->
 
     <bean id="proposalSearchManager"
         class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
@@ -456,7 +474,7 @@
 				pointcut="execution(* org.kuali.student.core.organization.service.*.*(..))"
 				method="afterThrowing" throwing="ex" />
 			<aop:after-throwing
-				pointcut="execution(* org.kuali.student.core.person.service.*.*(..))"
+				pointcut="execution(* org.kuali.student.core.ksperson.service.*.*(..))"
 				method="afterThrowing" throwing="ex" />
 			<aop:after-throwing
 				pointcut="execution(* org.kuali.student.core.atp.service.*.*(..))"
