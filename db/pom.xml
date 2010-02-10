@@ -22,7 +22,7 @@
      <!-- DB for the KS data -->
      <oracle.ks.jdbc.url>jdbc:oracle:thin:@localhost:1521:XE</oracle.ks.jdbc.url>
  
-     <!-- This user drops/recreates the KS user and db -->
+     <!-- This user drops/recreates the KS user and database -->
      <oracle.dba.username>system</oracle.dba.username>
      <oracle.dba.password>ksAdminPass</oracle.dba.password>
 
