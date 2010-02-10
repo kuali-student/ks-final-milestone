@@ -16,7 +16,7 @@
     <properties>
      <!-- Always retain existing data, unless they explicitly indicate they no longer 
           need it by supplying -Dretain.existing.data=false on the command line -->
-     <retain.existing.data>true</retain.existing.data>
+     <oracle.retain.data>true</oracle.retain.data>
      
      <!-- Oracle settings -->
 
