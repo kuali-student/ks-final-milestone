@@ -14,6 +14,11 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	
+	<properties>
+		<ks.gwt.module.lum>org.kuali.student.lum.lu.ui.main.LUMMain</ks.gwt.module.lum>
+		<ks.gwt.module.collab>org.kuali.student.lum.lu.ui.workflow.CollaboratorRequest</ks.gwt.module.collab>
+	</properties>
+	
 	<build>	
 		<plugins>
 			<!--  Use KS version of codehaus gwt plugin, until compilation required patch accepted -->
@@ -30,9 +35,9 @@
 				</executions>
 				<configuration>
 					<modules>
-						<module>org.kuali.student.lum.lu.ui.main.LUMMain</module>
+						<module>${ks.gwt.module.lum}</module>
 						<!-- <module>org.kuali.student.lum.ui.requirements.Requirements</module> -->
-						<module>org.kuali.student.lum.lu.ui.workflow.CollaboratorRequest</module>
+						<module>${ks.gwt.module.collab}</module>
 					</modules>
 				</configuration>
 			</plugin>
