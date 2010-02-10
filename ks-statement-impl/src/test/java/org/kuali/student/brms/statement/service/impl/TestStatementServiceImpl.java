@@ -13,6 +13,8 @@ import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
@@ -59,6 +61,8 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     @Client(value = "org.kuali.student.brms.statement.service.impl.StatementServiceImpl", additionalContextFile="classpath:statement-additional-context.xml")
     public StatementService statementService;
     
+    private RefStatementRelationInfo newDto; 
+    
 	@BeforeClass
 	public static void beforeClass() {
 		// Add test data
@@ -93,23 +97,39 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 		CourseListContextImpl.setCluSetInfo(cluSetList);
 	}
 	
+	@After
+	public void afterTest() throws Exception {
+		if(newDto != null) {
+			try {
+				statementService.deleteRefStatementRelation(newDto.getId());
+			} catch (DoesNotExistException e) {
+				System.out.println("statementService.deleteRefStatementRelation: " + e.getMessage());
+			}
+			newDto = null;
+		}
+	}
+
+    private RefStatementRelationInfo createRefStatementRelation() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        GregorianCalendar effDate = new GregorianCalendar(2000, 00, 01, 0, 0, 0);
+        GregorianCalendar expDate = new GregorianCalendar(2100, 11, 31, 0, 0, 0);
+
+        RefStatementRelationInfo dto = new RefStatementRelationInfo();
+    	dto.setRefObjectId("CLU-NL-1"); //MATH152
+    	dto.setRefObjectTypeKey("clu"); // CLU
+    	dto.setState("ACTIVE");
+    	dto.setStatementId("STMT-1");
+    	dto.setType("clu.prerequisites");
+    	dto.setEffectiveDate(effDate.getTime());
+    	dto.setExpirationDate(expDate.getTime());
+    	
+    	newDto = statementService.createRefStatementRelation(dto);
+
+		return newDto;
+    }
+
 	@Test
 	// FIXME - Investigate why adding clu1, clu3, clu2 works but adding clu1, clu2, clu3 doesn't work
 	public void testGetNaturalLanguageForStatement() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-//        GregorianCalendar effDate = new GregorianCalendar(2000, 00, 01, 0, 0, 0);
-//        GregorianCalendar expDate = new GregorianCalendar(2100, 11, 31, 0, 0, 0);
-
-//    	RefStatementRelationInfo dto = new RefStatementRelationInfo();
-//    	dto.setRefObjectId("CLU-NL-1"); //MATH152
-//    	dto.setRefObjectTypeKey("clu"); // CLU
-//    	dto.setState("ACTIVE");
-//    	dto.setStatementId("STMT-1");
-//    	dto.setType("clu.prerequisites");
-//    	dto.setEffectiveDate(effDate.getTime());
-//    	dto.setExpirationDate(expDate.getTime());
-//
-//    	RefStatementRelationInfo newDto = statementService.createRefStatementRelation(dto);
-
     	String nl = statementService.getNaturalLanguageForStatement("STMT-5", "KUALI.CATALOG", "en");
 //		assertEquals("Requirement for MATH 152 Linear Systems: Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 2 of MATH 152, MATH 221, MATH 180", nl);
 		assertEquals("Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 2 of MATH 152, MATH 221, MATH 180", nl);
@@ -883,16 +903,8 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         GregorianCalendar effDate = new GregorianCalendar(2000, 00, 01, 0, 0, 0);
         GregorianCalendar expDate = new GregorianCalendar(2100, 11, 31, 0, 0, 0);
 
-    	RefStatementRelationInfo dto = new RefStatementRelationInfo();
-    	dto.setRefObjectId("CLU-NL-1"); //MATH152
-    	dto.setRefObjectTypeKey("clu"); // CLU
-    	dto.setState("ACTIVE");
-    	dto.setStatementId("STMT-1");
-    	dto.setType("clu.prerequisites");
-    	dto.setEffectiveDate(effDate.getTime());
-    	dto.setExpirationDate(expDate.getTime());
-    	
-    	RefStatementRelationInfo newDto = statementService.createRefStatementRelation(dto);
+        RefStatementRelationInfo newDto = createRefStatementRelation();
+        
     	assertNotNull(newDto);
     	assertNotNull(newDto.getId());
     	assertNotNull(newDto.getMetaInfo());
@@ -904,25 +916,6 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         assertEquals(effDate.getTime(), newDto.getEffectiveDate());
         assertEquals(expDate.getTime(), newDto.getExpirationDate());
     }
-
-    private RefStatementRelationInfo createRefStatementRelation() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        GregorianCalendar effDate = new GregorianCalendar(2000, 00, 01, 0, 0, 0);
-        GregorianCalendar expDate = new GregorianCalendar(2100, 11, 31, 0, 0, 0);
-
-        RefStatementRelationInfo dto = new RefStatementRelationInfo();
-    	dto.setRefObjectId("CLU-NL-1"); //MATH152
-    	dto.setRefObjectTypeKey("clu"); // CLU
-    	dto.setState("ACTIVE");
-    	dto.setStatementId("STMT-1");
-    	dto.setType("clu.prerequisites");
-    	dto.setEffectiveDate(effDate.getTime());
-    	dto.setExpirationDate(expDate.getTime());
-    	
-    	RefStatementRelationInfo newDto = statementService.createRefStatementRelation(dto);
-
-		return newDto;
-    }
-
     @Test
     public void testGetRefStatementRelation() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	RefStatementRelationInfo newDto = null;
@@ -1131,5 +1124,107 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     	assertEquals(2, types.size());
     	assertTrue(containsId(types, "clu.prerequisites"));
     	assertTrue(containsId(types, "clu.corequisites"));
+    }
+    
+    @Test
+    public void testGetRefStatementRelationsByStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    	List<RefStatementRelationInfo> list = this.statementService.getRefStatementRelationsByStatement("STMT-1");
+
+        assertNotNull(list);
+        assertEquals(1, list.size());
+        assertEquals("ref-stmt-rel-1", list.get(0).getId());
+    }
+
+    @Test
+    public void testGetRefStatementRelationsByStatement_NullStatementId() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		try {
+			this.statementService.getRefStatementRelationsByStatement(null);
+			fail("statementService.getRefStatementRelationsByStatement should have thrown a MissingParameterException");
+		} catch (MissingParameterException e) {
+			assertNotNull(e.getMessage());
+		}
+    }
+
+    @Test
+    public void testGetRefStatementRelationsByStatement_EmptyStatementId() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		try {
+			this.statementService.getRefStatementRelationsByStatement("");
+			fail("statementService.getRefStatementRelationsByStatement should have thrown an InvalidParameterException");
+		} catch (InvalidParameterException e) {
+			assertNotNull(e.getMessage());
+		}
+    }
+    
+    @Test
+    public void testUpdateRefStatementRelation() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+        GregorianCalendar effDate = new GregorianCalendar(2100, 00, 01, 0, 0, 0);
+        GregorianCalendar expDate = new GregorianCalendar(2200, 11, 31, 0, 0, 0);
+
+    	RefStatementRelationInfo refInfo = createRefStatementRelation();
+    	
+    	refInfo.setEffectiveDate(effDate.getTime());
+    	refInfo.setExpirationDate(expDate.getTime());
+    	refInfo.setRefObjectId("123");
+    	refInfo.setRefObjectTypeKey("clu");
+    	refInfo.setState("INACTIVE");
+    	refInfo.setStatementId("STMT-101");
+    	refInfo.setType("clu.corequisites");
+    	
+    	RefStatementRelationInfo updatedRefInfo = this.statementService.updateRefStatementRelation(refInfo.getId(), refInfo);
+		
+    	assertNotNull(updatedRefInfo);
+    	assertEquals(refInfo.getEffectiveDate(), updatedRefInfo.getEffectiveDate());
+    	assertEquals(refInfo.getExpirationDate(), updatedRefInfo.getExpirationDate());
+    	assertEquals(refInfo.getRefObjectId(), updatedRefInfo.getRefObjectId());
+    	assertEquals(refInfo.getRefObjectTypeKey(), updatedRefInfo.getRefObjectTypeKey());
+    	assertEquals(refInfo.getState(), updatedRefInfo.getState());
+    	assertEquals(refInfo.getStatementId(), updatedRefInfo.getStatementId());
+    	assertEquals(refInfo.getType(), updatedRefInfo.getType());
+    }
+
+    @Test
+    public void testUpdateRefStatementRelation_InvalidRefObjectTypeKey() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+        GregorianCalendar effDate = new GregorianCalendar(2100, 00, 01, 0, 0, 0);
+        GregorianCalendar expDate = new GregorianCalendar(2200, 11, 31, 0, 0, 0);
+
+    	RefStatementRelationInfo refInfo = createRefStatementRelation();
+    	
+    	refInfo.setEffectiveDate(effDate.getTime());
+    	refInfo.setExpirationDate(expDate.getTime());
+    	refInfo.setRefObjectId("123");
+    	refInfo.setRefObjectTypeKey("x.invalid.clu.key.x");
+    	refInfo.setState("INACTIVE");
+    	refInfo.setStatementId("STMT-101");
+    	refInfo.setType("clu.corequisites");
+    	
+    	try {
+			this.statementService.updateRefStatementRelation(refInfo.getId(), refInfo);
+			fail("statementService.updateRefStatementRelation should have thrown a DoesNotExistException");
+		} catch (DoesNotExistException e) {
+			assertNotNull(e.getMessage());
+		}
+    }
+
+    @Test
+    public void testUpdateRefStatementRelation_InvalidRefStatementRelationType() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+        GregorianCalendar effDate = new GregorianCalendar(2100, 00, 01, 0, 0, 0);
+        GregorianCalendar expDate = new GregorianCalendar(2200, 11, 31, 0, 0, 0);
+
+    	RefStatementRelationInfo refInfo = createRefStatementRelation();
+    	
+    	refInfo.setEffectiveDate(effDate.getTime());
+    	refInfo.setExpirationDate(expDate.getTime());
+    	refInfo.setRefObjectId("123");
+    	refInfo.setRefObjectTypeKey("clu");
+    	refInfo.setState("INACTIVE");
+    	refInfo.setStatementId("STMT-101");
+    	refInfo.setType("x.invalid.type.x");
+    	
+    	try {
+			this.statementService.updateRefStatementRelation(refInfo.getId(), refInfo);
+			fail("statementService.updateRefStatementRelation should have thrown a DoesNotExistException");
+		} catch (DoesNotExistException e) {
+			assertNotNull(e.getMessage());
+		}
     }
 }

@@ -40,6 +40,7 @@ import org.kuali.student.brms.statement.entity.NlUsageType;
 import org.kuali.student.brms.statement.entity.ObjectSubType;
 import org.kuali.student.brms.statement.entity.ObjectType;
 import org.kuali.student.brms.statement.entity.RefStatementRelation;
+import org.kuali.student.brms.statement.entity.RefStatementRelationAttribute;
 import org.kuali.student.brms.statement.entity.RefStatementRelationType;
 import org.kuali.student.brms.statement.entity.ReqComponent;
 import org.kuali.student.brms.statement.entity.ReqComponentField;
@@ -52,6 +53,14 @@ import org.springframework.beans.BeanUtils;
 
 public class StatementAssembler extends BaseAssembler {
 
+	public static List<RefStatementRelationInfo> toRefStatementRelationInfos(List<RefStatementRelation> entities) {
+		List<RefStatementRelationInfo> list = new ArrayList<RefStatementRelationInfo>();
+		for(RefStatementRelation entity : entities) {
+			list.add(toRefStatementRelationInfo(entity));
+		}
+		return list;
+	}
+	
 	public static RefStatementRelationInfo toRefStatementRelationInfo(RefStatementRelation entity) {
 		RefStatementRelationInfo dto = new RefStatementRelationInfo();
 		
@@ -238,6 +247,37 @@ public class StatementAssembler extends BaseAssembler {
         dto.setId(entity.getKey());
         dto.setValue(entity.getValue());
         return dto;
+    }
+
+    public static RefStatementRelation toRefStatementRelation(boolean isUpdate, RefStatementRelationInfo refStatementRelationInfo, StatementDao dao) throws DoesNotExistException, VersionMismatchException, InvalidParameterException {
+    	RefStatementRelation refStatement;
+        if (isUpdate) {
+            refStatement = dao.fetch(RefStatementRelation.class, refStatementRelationInfo.getId());
+            if (refStatement == null) {
+                throw new DoesNotExistException("RefStatementRelation does not exist for id: " + refStatementRelationInfo.getId());
+            }
+            if (!String.valueOf(refStatement.getVersionInd()).equals(refStatementRelationInfo.getMetaInfo().getVersionInd())) {
+                throw new VersionMismatchException("RefStatementRelation to be updated is not the current version");
+            }
+        } else {
+            refStatement = new RefStatementRelation();
+        }
+    	
+        BeanUtils.copyProperties(refStatementRelationInfo, refStatement, new String[]{
+        		"attributes", "metaInfo", "type", "statementId"});
+
+        // make sure refObjectType exist
+        dao.fetch(ObjectType.class, refStatementRelationInfo.getRefObjectTypeKey());
+        
+        // Copy generic attributes
+        refStatement.setAttributes(toGenericAttributes(RefStatementRelationAttribute.class, refStatementRelationInfo.getAttributes(), refStatement, dao));
+        RefStatementRelationType type = dao.fetch(RefStatementRelationType.class, refStatementRelationInfo.getType());
+
+        refStatement.setRefStatementRelationType(type);
+        Statement statement = dao.fetch(Statement.class, refStatementRelationInfo.getStatementId());
+        refStatement.setStatement(statement);
+        
+        return refStatement;
     }
 
     public static Statement toStatementRelation(boolean isUpdate, StatementInfo stmtInfo, StatementDao dao) throws DoesNotExistException, VersionMismatchException, InvalidParameterException, OperationFailedException {

@@ -137,5 +137,10 @@ public class StatementTreeViewInfo implements Serializable, Idable, HasTypeState
     public void setParentId(String parentId) {
         this.parentId = parentId;
     }
+
+	@Override
+	public String toString() {
+		return "StatementTreeViewInfo[id=" + id + "]";
+	}
     
 }

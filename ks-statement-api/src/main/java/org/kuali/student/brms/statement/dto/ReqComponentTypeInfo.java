@@ -46,7 +46,12 @@ public class ReqComponentTypeInfo extends TypeInfo {
      */
     public void setReqCompFieldTypeInfos(List<ReqCompFieldTypeInfo> reqCompFieldTypeInfos) {
         this.reqCompFieldTypeInfos = reqCompFieldTypeInfos;
-    }        
+    }
+
+	@Override
+	public String toString() {
+		return "ReqComponentTypeInfo [id=" + getId() + "]";
+	}        
 
 //    public List<ReqComponentTypeNLTemplateInfo> getNlUsageTemplates() {
 //		return nlUsageTemplates;

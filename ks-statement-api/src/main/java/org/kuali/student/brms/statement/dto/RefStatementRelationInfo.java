@@ -282,4 +282,11 @@ public class RefStatementRelationInfo implements Serializable, Idable, HasTypeSt
 	public void setId(String id) {
 		this.id = id;
 	}
+
+	@Override
+	public String toString() {
+		return "RefStatementRelationInfo[id=" + id + ", type=" + type
+				+ ", statementId=" + statementId + ", refObjectId="
+				+ refObjectId + "]";
+	}
 }

@@ -176,4 +176,9 @@ public class RefStatementRelationTypeInfo implements Serializable, Idable, HasAt
 	public void setId(String id) {
 		this.id = id;
 	}
+
+	@Override
+	public String toString() {
+		return "RefStatementRelationTypeInfo[id=" + id + "]";
+	}
 }

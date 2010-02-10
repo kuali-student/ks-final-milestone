@@ -86,7 +86,7 @@ public class StatementServiceImpl implements StatementService {
         return dictionaryServiceDelegate;
     }
 
-    public void setDictionaryServiceDelegate(DictionaryService dictionaryServiceDelegate) {
+    public void setDictionaryServiceDelegate(final DictionaryService dictionaryServiceDelegate) {
         this.dictionaryServiceDelegate = dictionaryServiceDelegate;
     }
 
@@ -98,15 +98,15 @@ public class StatementServiceImpl implements StatementService {
         return naturalLanguageTranslator;
     }
 
-    public void setStatementDao(StatementDao statementDao) {
+    public void setStatementDao(final StatementDao statementDao) {
 		this.statementDao = statementDao;
 	}
 	
-	public void setNaturalLanguageTranslator(NaturalLanguageTranslator translator) {
+	public void setNaturalLanguageTranslator(final NaturalLanguageTranslator translator) {
 		this.naturalLanguageTranslator = translator;
 	}
 
-	public NlUsageTypeInfo getNlUsageType(String nlUsageTypeKey)
+	public NlUsageTypeInfo getNlUsageType(final String nlUsageTypeKey)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
 		checkForNullOrEmptyParameter(nlUsageTypeKey, "nlUsageTypeKey");
@@ -134,7 +134,7 @@ public class StatementServiceImpl implements StatementService {
 		return ids;
 	}
 
-	public List<String> getRefObjectSubTypes(String objectTypeKey)
+	public List<String> getRefObjectSubTypes(final String objectTypeKey)
 			throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
@@ -147,7 +147,7 @@ public class StatementServiceImpl implements StatementService {
 		return ids;
 	}
 
-	public RefStatementRelationInfo getRefStatementRelation(String refStatementRelationId) 
+	public RefStatementRelationInfo getRefStatementRelation(final String refStatementRelationId) 
 			throws DoesNotExistException, InvalidParameterException, 
 			MissingParameterException, OperationFailedException {
 
@@ -159,16 +159,20 @@ public class StatementServiceImpl implements StatementService {
 		return dto;
 	}
 
-	public List<RefStatementRelationInfo> getRefStatementRelationsByRef(String refObjectTypeKey, String refObjectId)
+	public List<RefStatementRelationInfo> getRefStatementRelationsByRef(final String refObjectTypeKey, final String refObjectId)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
-	public List<RefStatementRelationInfo> getRefStatementRelationsByStatement(String statementId) 
+	public List<RefStatementRelationInfo> getRefStatementRelationsByStatement(final String statementId) 
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		checkForNullOrEmptyParameter(statementId, "statementId");
+
+		Statement statement = this.statementDao.fetch(Statement.class, statementId);
+		List<RefStatementRelation> entities = statement.getRefStatementRelations();
+		List<RefStatementRelationInfo> dtoList = StatementAssembler.toRefStatementRelationInfos(entities);
+		return dtoList;
 	}
 
 	/**
@@ -186,7 +190,7 @@ public class StatementServiceImpl implements StatementService {
      * @throws OperationFailedException Unable to complete request
      * @throws VersionMismatchException The action was attempted on an out of date version.
 	 */
-	public String getNaturalLanguageForReqComponent(String reqComponentId, String nlUsageTypeKey, String language)
+	public String getNaturalLanguageForReqComponent(final String reqComponentId, final String nlUsageTypeKey, final String language)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
 		checkForNullOrEmptyParameter(reqComponentId, "reqComponentId");
@@ -234,7 +238,7 @@ public class StatementServiceImpl implements StatementService {
      * @throws OperationFailedException Unable to complete request
      * @throws VersionMismatchException The action was attempted on an out of date version.
 	 */
-	public String getNaturalLanguageForStatement(String statementId, String nlUsageTypeKey, String language)
+	public String getNaturalLanguageForStatement(final String statementId, final String nlUsageTypeKey, final String language)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 
@@ -258,7 +262,7 @@ public class StatementServiceImpl implements StatementService {
 		}
 	}
 
-    public String getNaturalLanguageForRefStatementRelation(String refStatementRelationId, String nlUsageTypeKey, String language) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public String getNaturalLanguageForRefStatementRelation(final String refStatementRelationId, final String nlUsageTypeKey, final String language) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForNullOrEmptyParameter(refStatementRelationId, "refStatementRelationId");
 		checkForNullOrEmptyParameter(nlUsageTypeKey, "nlUsageTypeKey");
 		checkForEmptyParameter(language, "language");
@@ -278,7 +282,7 @@ public class StatementServiceImpl implements StatementService {
 	}
 
 	@Override
-	public String translateReqComponentToNL(ReqComponentInfo reqComponentInfo, String nlUsageTypeKey, String language)
+	public String translateReqComponentToNL(final ReqComponentInfo reqComponentInfo, final String nlUsageTypeKey, final String language)
 			throws InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForMissingParameter(reqComponentInfo, "reqComponentInfo");
 		checkForNullOrEmptyParameter(nlUsageTypeKey, "nlUsageTypeKey");
@@ -307,7 +311,7 @@ public class StatementServiceImpl implements StatementService {
 	}
 
 	@Override
-	public String translateStatementTreeViewToNL(StatementTreeViewInfo statementTreeViewInfo, String nlUsageTypeKey, String language) 
+	public String translateStatementTreeViewToNL(final StatementTreeViewInfo statementTreeViewInfo, final String nlUsageTypeKey, final String language) 
 			throws InvalidParameterException, MissingParameterException, OperationFailedException {
 		// TODO Auto-generated method stub
 		return null;
@@ -359,7 +363,7 @@ public class StatementServiceImpl implements StatementService {
 	}
 
     @Override
-    public ReqComponentInfo createReqComponent(String reqComponentType, ReqComponentInfo reqComponentInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public ReqComponentInfo createReqComponent(final String reqComponentType, final ReqComponentInfo reqComponentInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(reqComponentType, "reqComponentType");
         checkForMissingParameter(reqComponentInfo, "reqComponentInfo");
 
@@ -377,7 +381,7 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    public StatementInfo createStatement(String statementType, StatementInfo statementInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatementInfo createStatement(final String statementType, final StatementInfo statementInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(statementType, "statementType");
         checkForMissingParameter(statementInfo, "statementInfo");
 
@@ -397,7 +401,7 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    public StatusInfo deleteReqComponent(String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteReqComponent(final String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(reqComponentId, "reqComponentId");
 
         ReqComponent reqComp = statementDao.fetch(ReqComponent.class, reqComponentId);
@@ -415,7 +419,7 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    public StatusInfo deleteStatement(String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteStatement(final String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(statementId, "statementId");
 
         Statement stmt = statementDao.fetch(Statement.class, statementId);
@@ -433,12 +437,12 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    public ReqComponentInfo getReqComponent(String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public ReqComponentInfo getReqComponent(final String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return StatementAssembler.toReqComponentInfo(statementDao.fetch(ReqComponent.class, reqComponentId));
     }
 
     @Override
-    public List<ReqComponentInfo> getReqComponentsByType(String reqComponentTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<ReqComponentInfo> getReqComponentsByType(final String reqComponentTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(reqComponentTypeKey, "reqComponentTypeKey");
 
         List<ReqComponent> reqComponents = statementDao.getReqComponentsByType(reqComponentTypeKey);
@@ -446,7 +450,7 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    public StatementInfo getStatement(String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public StatementInfo getStatement(final String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         StatementInfo statementInfo = null;
         checkForMissingParameter(statementId, "statementId");
         statementInfo = StatementAssembler.toStatementInfo(statementDao.fetch(Statement.class, statementId));
@@ -454,7 +458,7 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    public List<StatementInfo> getStatementsByType(String statementTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<StatementInfo> getStatementsByType(final String statementTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(statementTypeKey, "statementTypeKey");
 
         List<Statement> statements = statementDao.getStatementsForStatementType(statementTypeKey);
@@ -462,7 +466,7 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    public List<StatementInfo> getStatementsUsingReqComponent(String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<StatementInfo> getStatementsUsingReqComponent(final String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForNullOrEmptyParameter(reqComponentId, "reqComponentId");
 
         List<Statement> list = statementDao.getStatementsForReqComponent(reqComponentId);
@@ -470,7 +474,7 @@ public class StatementServiceImpl implements StatementService {
     }
 
 	@Override
-	public List<StatementInfo> getStatementsUsingStatement(String statementId)
+	public List<StatementInfo> getStatementsUsingStatement(final String statementId)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForNullOrEmptyParameter(statementId, "statementId");
 		
@@ -480,7 +484,7 @@ public class StatementServiceImpl implements StatementService {
 	}
 
     @Override
-    public StatementInfo updateStatement(String statementId, StatementInfo statementInfo) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+    public StatementInfo updateStatement(final String statementId, final StatementInfo statementInfo) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         //Check Missing params
         checkForMissingParameter(statementId, "statementId");
         checkForMissingParameter(statementInfo, "statementInfo");
@@ -488,10 +492,8 @@ public class StatementServiceImpl implements StatementService {
         //Set all the values on statementInfo
         statementInfo.setId(statementId);
 
-        Statement stmt = null;
-
         //Update persistence entity from the statementInfo
-        stmt = StatementAssembler.toStatementRelation(true, statementInfo, statementDao);
+        Statement stmt = StatementAssembler.toStatementRelation(true, statementInfo, statementDao);
 
         //Update the statement
         Statement updatedStmt = statementDao.update(stmt);
@@ -502,7 +504,7 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    public List<ValidationResultContainer> validateReqComponent(String validationType, ReqComponentInfo reqComponentInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<ValidationResultContainer> validateReqComponent(final String validationType, final ReqComponentInfo reqComponentInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(validationType, "validationType");
         checkForMissingParameter(reqComponentInfo, "reqComponentInfo");
 
@@ -510,7 +512,7 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    public List<ValidationResultContainer> validateStatement(String validationType, StatementInfo statementInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<ValidationResultContainer> validateStatement(final String validationType, final StatementInfo statementInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(validationType, "validationType");
         checkForMissingParameter(statementInfo, "statementInfo");
 
@@ -527,12 +529,12 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    public ObjectStructure getObjectStructure(String objectTypeKey) {
+    public ObjectStructure getObjectStructure(final String objectTypeKey) {
         return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
     }
 
     @Override
-    public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public SearchCriteriaTypeInfo getSearchCriteriaType(final String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
     }
 
@@ -542,7 +544,7 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public SearchResultTypeInfo getSearchResultType(final String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
         return searchManager.getSearchResultType(searchResultTypeKey);
     }
@@ -553,7 +555,7 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    public SearchTypeInfo getSearchType(String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public SearchTypeInfo getSearchType(final String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(searchTypeKey, "searchTypeKey");
         return searchManager.getSearchType(searchTypeKey);
     }
@@ -564,25 +566,25 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    public List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<SearchTypeInfo> getSearchTypesByCriteria(final String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
         return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
     }
 
     @Override
-    public List<SearchTypeInfo> getSearchTypesByResult(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<SearchTypeInfo> getSearchTypesByResult(final String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
         return searchManager.getSearchTypesByResult(searchResultTypeKey);
     }
 
     @Override
-    public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
+    public SearchResult search(final SearchRequest searchRequest) throws MissingParameterException {
         checkForMissingParameter(searchRequest, "searchRequest");
         return searchManager.search(searchRequest, statementDao);
     }
 
     @Override
-    public List<Result> searchForResults(String searchTypeKey, List<QueryParamValue> queryParamValues) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<Result> searchForResults(final String searchTypeKey, final List<QueryParamValue> queryParamValues) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(searchTypeKey, "searchTypeKey");
         checkForMissingParameter(queryParamValues, "queryParamValues");
 
@@ -595,17 +597,17 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    public boolean validateObject(String objectTypeKey, String stateKey, String info) {
+    public boolean validateObject(final String objectTypeKey, final String stateKey, final String info) {
         return dictionaryServiceDelegate.validateObject(objectTypeKey, stateKey, info);
     }
 
     @Override
-    public boolean validateStructureData(String objectTypeKey, String stateKey, String info) {
+    public boolean validateStructureData(final String objectTypeKey, final String stateKey, final String info) {
         return dictionaryServiceDelegate.validateStructureData(objectTypeKey, stateKey, info);
     }
 
     @Override
-    public StatementTypeInfo getStatementType(String statementTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public StatementTypeInfo getStatementType(final String statementTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return StatementAssembler.toStatementTypeInfo(statementDao.fetch(StatementType.class, statementTypeKey));
     }
 
@@ -614,7 +616,7 @@ public class StatementServiceImpl implements StatementService {
         return StatementAssembler.toStatementTypeInfos(statementDao.find(StatementType.class));
     }
 
-    public List<String> getStatementTypesForStatementType(String statementTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<String> getStatementTypesForStatementType(final String statementTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
     	StatementTypeInfo type = StatementAssembler.toStatementTypeInfo(statementDao.fetch(StatementType.class, statementTypeKey));
     	return type.getAllowedStatementTypes();
     }
@@ -625,15 +627,14 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    public ReqComponentTypeInfo getReqComponentType(String reqComponentTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public ReqComponentTypeInfo getReqComponentType(final String reqComponentTypeKey) 
+    		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return StatementAssembler.toReqComponentTypeInfo(statementDao.fetch(ReqComponentType.class, reqComponentTypeKey));
     }
 
     @Override
-    public List<ReqComponentTypeInfo> getReqComponentTypesForStatementType(
-            String statementTypeKey) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
+    public List<ReqComponentTypeInfo> getReqComponentTypesForStatementType(final String statementTypeKey) 
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(statementTypeKey, "statementTypeKey");
 
         StatementType stmtType = statementDao.fetch(StatementType.class, statementTypeKey);
@@ -645,8 +646,8 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    public ReqComponentInfo updateReqComponent(String reqComponentId, ReqComponentInfo reqComponentInfo)
-    	throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+    public ReqComponentInfo updateReqComponent(final String reqComponentId, final ReqComponentInfo reqComponentInfo)
+    		throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         //Check Missing params
         checkForMissingParameter(reqComponentId, "reqComponentId");
         checkForMissingParameter(reqComponentInfo, "reqComponentInfo");
@@ -667,7 +668,8 @@ public class StatementServiceImpl implements StatementService {
         return updReqCompInfo;
     }
     
-	public RefStatementRelationInfo createRefStatementRelation(RefStatementRelationInfo refStatementRelationInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	public RefStatementRelationInfo createRefStatementRelation(final RefStatementRelationInfo refStatementRelationInfo) 
+			throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		checkForMissingParameter(refStatementRelationInfo, "refStatementRelationInfo");
 
 		Statement statement = this.statementDao.fetch(Statement.class, refStatementRelationInfo.getStatementId());
@@ -692,17 +694,21 @@ public class StatementServiceImpl implements StatementService {
 	}
 
 	@Override
-	public RefStatementRelationInfo updateRefStatementRelation(String refStatementRelationId, RefStatementRelationInfo refStatementRelationInfo)
+	public RefStatementRelationInfo updateRefStatementRelation(final String refStatementRelationId, final RefStatementRelationInfo refStatementRelationInfo)
 			throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 		checkForNullOrEmptyParameter(refStatementRelationId, "refStatementRelationId");
 		checkForMissingParameter(refStatementRelationInfo, "refStatementRelationInfo");
 
-		// TODO Auto-generated method stub
-		return null;
+		refStatementRelationInfo.setId(refStatementRelationId);
+		RefStatementRelation refStatementRel = StatementAssembler.toRefStatementRelation(true, refStatementRelationInfo, statementDao);
+		RefStatementRelation updatedRefStatementRel = statementDao.update(refStatementRel);
+		
+		RefStatementRelationInfo dto = StatementAssembler.toRefStatementRelationInfo(updatedRefStatementRel);
+		return dto;
 	}
 
 	@Override
-	public StatusInfo deleteRefStatementRelation(String refStatementRelationId)
+	public StatusInfo deleteRefStatementRelation(final String refStatementRelationId)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		checkForNullOrEmptyParameter(refStatementRelationId, "refStatementRelationId");
 		this.statementDao.delete(RefStatementRelation.class, refStatementRelationId);
@@ -714,14 +720,14 @@ public class StatementServiceImpl implements StatementService {
 	}
 
 	@Override
-	public List<ValidationResultInfo> validateRefStatementRelation(String validationType, RefStatementRelationInfo refStatementRelationInfo)
+	public List<ValidationResultInfo> validateRefStatementRelation(final String validationType, RefStatementRelationInfo refStatementRelationInfo)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 	
     @Override
-    public StatementTreeViewInfo getStatementTreeView(String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public StatementTreeViewInfo getStatementTreeView(final String statementId) 
+    	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         StatementTreeViewInfo statementTreeViewInfo = null;
         StatementInfo statementInfo = getStatement(statementId);
         if (statementInfo == null) return null;
@@ -741,8 +747,7 @@ public class StatementServiceImpl implements StatementService {
      * @throws OperationFailedException
      */
     private List<ReqComponentInfo> getReqComponentInfos(final StatementInfo statementInfo) 
-    throws DoesNotExistException, InvalidParameterException, MissingParameterException, 
-    OperationFailedException {
+    	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         List<ReqComponentInfo> reqComponentInfos = null;
         if (statementInfo == null) return null;
         if (statementInfo.getReqComponentIds() != null) {
@@ -768,9 +773,8 @@ public class StatementServiceImpl implements StatementService {
      * @throws MissingParameterException
      * @throws OperationFailedException
      */
-    private void getStatementTreeViewHelper(
-            final StatementInfo statementInfo, final StatementTreeViewInfo statementTreeViewInfo) 
-    throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    private void getStatementTreeViewHelper(final StatementInfo statementInfo, final StatementTreeViewInfo statementTreeViewInfo) 
+    	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         if (statementInfo == null) return;
         
         StatementAssembler.copyValues(statementTreeViewInfo, statementInfo);
@@ -792,7 +796,8 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    public StatementTreeViewInfo updateStatementTreeView(final String statementId, final StatementTreeViewInfo statementTreeViewInfo) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+    public StatementTreeViewInfo updateStatementTreeView(final String statementId, final StatementTreeViewInfo statementTreeViewInfo) 
+    	throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         StatementTreeViewInfo origTree = getStatementTreeView(statementId);
         
         if (origTree == null) {
@@ -933,7 +938,7 @@ public class StatementServiceImpl implements StatementService {
     }
 
 	@Override
-	public RefStatementRelationTypeInfo getRefStatementRelationType(String refStatementRelationTypeKey) 
+	public RefStatementRelationTypeInfo getRefStatementRelationType(final String refStatementRelationTypeKey) 
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForNullOrEmptyParameter(refStatementRelationTypeKey, "refStatementRelationTypeKey");
 
@@ -950,20 +955,14 @@ public class StatementServiceImpl implements StatementService {
 	}
 
 	@Override
-	public List<String> getRefStatementRelationTypesForRefObjectSubType(
-			String refSubTypeKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<String> getRefStatementRelationTypesForRefObjectSubType(final String refSubTypeKey) 
+		throws DoesNotExistException,InvalidParameterException, MissingParameterException, OperationFailedException {
+		throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
 	@Override
-	public List<String> getStatementTypesForRefStatementRelationType(
-			String refStatementRelationTypeKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<String> getStatementTypesForRefStatementRelationType(final String refStatementRelationTypeKey) 
+		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 }
