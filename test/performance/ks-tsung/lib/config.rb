@@ -17,7 +17,7 @@ include Common
 class AutoConfig
 
   attr_accessor :config_dir, :suite_dir, :test_dir, :log_dir, :output, :clients, :servers, :phases, :agents,
-    :debug, :execute, :intro_xml, :suite, :tests, :drb_port, :log, :log_path, :xml_writer, :xml_obj, :context
+    :debug, :execute, :intro_xml, :suite, :tests, :drb_port, :log, :log_path, :xml_writer, :xml_obj, :context, :verbose
 
   
   def initialize
@@ -154,6 +154,16 @@ class AutoConfig
       end
     
     end while (add_agent == 'y')
+    
+    #
+    # Execute
+    #
+    print "Do you want to execute tsung now? [y/n] "
+    self.execute = (gets.chomp == 'y' ? true : false)
+    
+    print "Do you want to dump http traffic from tsung? [y/n] "
+    self.verbose = (gets.chomp == 'y' ? true : false)
+    
   end
 
   # Validate the suite exists and has proper format
@@ -205,6 +215,7 @@ class AutoConfig
     # Output path
     self.log_path = "#{self.log_dir}/#{Time.now.to_i}_#{self.suite}.log" if(!self.log)
     self.log        = LogWriter.new(self)
+    self.log.info_msg("Your log file is here: #{self.log_path}")
     
   end
 
@@ -275,8 +286,13 @@ class AutoConfig
     # Store xml doc object in config 
     self.xml_obj = xml_doc
     
+    tsung_opts = {
+      "loglevel" => "notice",
+      "version" => "1.0"
+    }
+    tsung_opts["dumptraffic"] = "true" if(self.verbose)
     
-    tsung = xml_doc.add_element('tsung', {"loglevel" => "notice", "version" => "1.0"})
+    tsung = xml_doc.add_element('tsung', tsung_opts)
     
     # Clients
     clients = tsung.add_element('clients')

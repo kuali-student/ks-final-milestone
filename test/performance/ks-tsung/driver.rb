@@ -18,6 +18,9 @@
 # -d, --debug:
 #     enable debug logging
 #
+# -v, --verbose:
+#     will dump http traffic from tsung, only is in effect in -x is used
+#
 # -x, --execute:
 #     start the load after generating the XML. If not specified, only XML will be generated.
 #
@@ -83,6 +86,11 @@ optparse = OptionParser.new do |opts|
     config.execute = true
   end
   
+  # Verbose option for tsung
+  opts.on('-v', '--verbose', 'dumps http traffice from tsung') do
+    config.verbose = true
+  end
+  
   # Enable debug
   opts.on('-d', '--debug', 'enable debug logging') do
     config.debug = true
@@ -141,8 +149,14 @@ begin
   
 end
 
-config.xml_obj.write($stdout, 2) if(config.debug)
-config.xml_obj.write(config.xml_writer.file, 2)
+config.xml_obj.write($stdout, 2) if(config.debug) # Dump out xml
+config.xml_obj.write(config.xml_writer.file, 2) # Write xml to file
+config.xml_writer.file.close # Need to close so Tsung can open the file
+
+if(config.execute)
+  config.log.info_msg("Starting tsung with command [tsung -f #{config.xml_writer.file_path} start]...")
+  puts `tsung -f #{config.xml_writer.file_path} start`
+end
 
 #trap("INT") {DRb.stop_service}
 #DRb.thread.join
