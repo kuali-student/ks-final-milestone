@@ -15,6 +15,13 @@
 		<artifactId>ks-web</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
+	
+	<properties>
+		<ks.gwt.module.org>org.kuali.student.core.organization.ui.OrgEntry</ks.gwt.module.org>
+		<ks.gwt.module.lum>org.kuali.student.lum.lu.ui.main.LUMMain</ks.gwt.module.lum>
+		<ks.gwt.module.collab>org.kuali.student.lum.lu.ui.workflow.CollaboratorRequest</ks.gwt.module.collab>		
+	</properties>			
+	
 	<build>
 	
 		<plugins>
@@ -35,8 +42,9 @@
 				</executions>
 				<configuration>
 					<modules>
-						<module>org.kuali.student.lum.lu.ui.main.LUMMain</module>
-						<module>org.kuali.student.core.organization.ui.OrgEntry</module>
+						<module>${ks.gwt.module.org}</module>
+						<module>${ks.gwt.module.lum}</module>
+						<module>${ks.gwt.module.collab}</module>
 					</modules>
 				</configuration>
 			</plugin>
