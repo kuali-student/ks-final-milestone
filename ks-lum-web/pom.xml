@@ -194,7 +194,13 @@
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
-			
+		<dependency>
+			<groupId>org.kuali.student.brms.statement</groupId>
+			<artifactId>ks-statement-api</artifactId>
+            <version>${ks-brms.version}</version>
+            <classifier>sources</classifier>
+            <scope>provided</scope>
+        </dependency>	
 	</dependencies>
 	
 </project>
