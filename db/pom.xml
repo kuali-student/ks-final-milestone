@@ -18,8 +18,8 @@
           remove the data supplying -Dretain.existing.data=false on the command line -->
      <retain.existing.data>true</retain.existing.data>
      
-     <!-- Oracle specific settings -->
-     <!-- DB for the KS data -->
+     <!-- Oracle settings -->
+     <!-- JDBC url for the KS database -->
      <oracle.ks.jdbc.url>jdbc:oracle:thin:@localhost:1521:XE</oracle.ks.jdbc.url>
  
      <!-- This user drops/recreates the KS user and database -->
