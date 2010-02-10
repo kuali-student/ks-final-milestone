@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><module>
-
 	<!-- Inherit the core Web Toolkit stuff.                  -->
 	<inherits name="com.google.gwt.user.User"/>
-	
-	
 	
 	<!-- Specify the app entry point class.                   -->
 	<entry-point class="org.kuali.student.common.ui.client.CommonUI"/>
@@ -76,5 +73,8 @@
     <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSStackPanelImpl">
         <when-type-is class="org.kuali.student.common.ui.client.widgets.KSStackPanel"/>
     </replace-with> -->
+    
+    <set-property name="user.agent" value="gecko1_8" />
+    <set-property name="locale" value="default" />
 
 </module>
