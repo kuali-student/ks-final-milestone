@@ -76,6 +76,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
 
     private String type;
     private String state;
+    private String repoKey;
     private String messageGroup;
 
     private LoRpcServiceAsync loRpcServiceAsync ;
@@ -90,11 +91,12 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
 
     private KSLightBox createCategoryWindow;
 
-    public LOCategoryBuilder(String messageGroup, String type, String state) {
+    public LOCategoryBuilder(String messageGroup, String type, String state, String loRepoKey) {
         super();
 
         this.type = type;
         this.state = state;
+        this.repoKey = loRepoKey;
         this.messageGroup = messageGroup;
 
         loRpcServiceAsync = GWT.create(LoRpcService.class);
@@ -185,9 +187,10 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
                                 final LoCategoryInfo loCategoryInfo = new LoCategoryInfo();
                                 loCategoryInfo.setName(picker.getText());
                                 loCategoryInfo.setState("active");
+                                loCategoryInfo.setLoRepository(repoKey);
                                 loCategoryInfo.setType(typesDropDown.getSelectedItem());
 
-                                loRpcServiceAsync.createLoCategory("kuali.loRepository.key.singleUse", typesDropDown.getSelectedItem(),
+                                loRpcServiceAsync.createLoCategory(repoKey, typesDropDown.getSelectedItem(),
                                         loCategoryInfo, new AsyncCallback<LoCategoryInfo>() {
 
                                     @Override

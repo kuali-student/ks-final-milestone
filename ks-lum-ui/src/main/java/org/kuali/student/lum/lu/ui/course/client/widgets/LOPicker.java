@@ -31,9 +31,9 @@ import com.google.gwt.user.client.ui.TextBox;
 public class LOPicker extends HorizontalPanel{ 
     TextBox loTextBox = new TextBox();
     LOCategoryBuilder loCategoryBuilder;
-    public LOPicker(String messageGroup, String type, String state) {
+    public LOPicker(String messageGroup, String type, String state, String loRepoKey) {
         super();
-        loCategoryBuilder = new LOCategoryBuilder(messageGroup, type, state);
+        loCategoryBuilder = new LOCategoryBuilder(messageGroup, type, state, loRepoKey);
         
         loTextBox.setPixelSize(200, 80);
         super.add(loTextBox);

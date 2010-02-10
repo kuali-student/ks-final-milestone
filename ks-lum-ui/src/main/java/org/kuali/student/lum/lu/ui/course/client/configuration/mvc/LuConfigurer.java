@@ -364,7 +364,8 @@ public class LuConfigurer {
 
         VerticalSection los = initSection(null, NO_DIVIDER);    
 
-        los.addField(new FieldDescriptor("cluInfo/loInfos", null, Type.MODELDTO, new LOBuilder(type, state, groupName)));
+        // FIXME - where should repo key come from?
+        los.addField(new FieldDescriptor("cluInfo/loInfos", null, Type.MODELDTO, new LOBuilder(type, state, groupName, "kauli.loRepository.key.singleUse")));
         los.addStyleName("KS-LUM-Section-Divider");
         
         section.addSection(los);

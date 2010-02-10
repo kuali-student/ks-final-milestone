@@ -414,10 +414,11 @@ public class CourseConfigurer
         VerticalSectionView section = initSectionView(LuSections.LEARNING_OBJECTIVES, LUConstants.LEARNING_OBJECTIVES_LABEL_KEY);
 
         VerticalSection los = initSection(null, NO_DIVIDER);
+        // FIXME - where should repo key come from?
         FieldDescriptor fd = addField(los,
         								CreditCourseConstants.COURSE_SPECIFIC_L_OS,
         								null,
-        								new LOBuilder(type, state, groupName),
+        								new LOBuilder(type, state, groupName, "kuali.loRepository.key.singleUse"),
         								CreditCourseProposalConstants.COURSE);
 
         // have to do this here, because decision on binding is done in ks-core,

@@ -316,7 +316,7 @@ public class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
             	
                 SingleUseLoHelper helper = cccsLoHelper.getIncludedSingleUseLo();
                 
-                LOPicker picker = new LOPicker(LOBuilder.getMessageGroup(), LOBuilder.getType(), LOBuilder.getState());
+                LOPicker picker = new LOPicker(LOBuilder.getMessageGroup(), LOBuilder.getType(), LOBuilder.getState(), LOBuilder.getRepoKey());
                 picker.setLOText(helper.getDescription().getPlain());
                 
                 List<LoCategoryInfo> categories = getCategoryList(helper);
@@ -354,7 +354,7 @@ public class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
             	
                 SingleUseLoHelper helper = suLoChildHelper.getChildLo();
                 
-                LOPicker picker = new LOPicker(LOBuilder.getMessageGroup(), LOBuilder.getType(), LOBuilder.getState());
+                LOPicker picker = new LOPicker(LOBuilder.getMessageGroup(), LOBuilder.getType(), LOBuilder.getState(), LOBuilder.getRepoKey());
                 picker.setLOText(helper.getDescription().getPlain());
                 
                 List<LoCategoryInfo> categories = getCategoryList(helper);

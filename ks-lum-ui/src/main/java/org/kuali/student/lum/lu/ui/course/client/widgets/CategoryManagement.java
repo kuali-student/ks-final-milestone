@@ -430,7 +430,7 @@ public class CategoryManagement extends Composite {
                 public void onClick(ClickEvent event) {
                     LoCategoryInfo cate = getCategory();
                     // Window.alert(cate.getName());
-                    CategoryManagement.loRpcServiceAsync.createLoCategory("kuali.loRepository.key.singleUse", cate.getType(), cate, new AsyncCallback<LoCategoryInfo>() {
+                    CategoryManagement.loRpcServiceAsync.createLoCategory(cate.getLoRepository(), cate.getType(), cate, new AsyncCallback<LoCategoryInfo>() {
                         @Override
                         public void onFailure(Throwable caught) {
                             Window.alert("create LoCategory failed " + caught.getMessage());
@@ -471,6 +471,8 @@ public class CategoryManagement extends Composite {
             info.setName(nameTextBox.getText());
             info.setType(typeListBox.getSelectedItem());
             info.setState("active");
+            info.setLoRepository("kuali.loRepository.key.singleUse");
+            // FIXME - user needs to specify what LoRepository they want category to tagged with
             return info;
         }
     }

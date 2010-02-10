@@ -54,6 +54,7 @@ public class LOBuilder extends Composite implements HasValue<List<OutlineNode<LO
     
     private static String type;
     private static String state;
+    private static String repoKey;
     private static String messageGroup;
     
     LOSearchWindow searchWindow;   
@@ -76,12 +77,13 @@ public class LOBuilder extends Composite implements HasValue<List<OutlineNode<LO
         //TODO: should this be an error?  Can we set realistic defaults?
     }
 
-    public LOBuilder(String luType, String luState, String luGroup) {
+    public LOBuilder(String luType, String luState, String luGroup, String loRepoKey) {
         super();
         initWidget(main);
 
         type = luType;
         state = luState;
+        repoKey = loRepoKey;
         messageGroup = luGroup;
 
         ClickHandler searchClickHandler = new ClickHandler() {
@@ -195,6 +197,10 @@ public class LOBuilder extends Composite implements HasValue<List<OutlineNode<LO
 		return state;
 	}
 
+	public static String getRepoKey() {
+		return repoKey;
+	}
+
 	/**
 	 * @return the messageGroup
 	 */
@@ -245,7 +251,7 @@ public class LOBuilder extends Composite implements HasValue<List<OutlineNode<LO
         
         private void appendLO(String loValue){
             OutlineNode<LOPicker> aNode = new OutlineNode<LOPicker>();
-            LOPicker newPicker = new LOPicker(messageGroup, type, state);
+            LOPicker newPicker = new LOPicker(messageGroup, type, state, repoKey);
             
             newPicker.setLOText(loValue);
             aNode.setUserObject(newPicker);
