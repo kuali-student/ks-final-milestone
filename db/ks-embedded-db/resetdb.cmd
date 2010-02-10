@@ -1,1 +1,1 @@
-call mvn -o -Dretain.existing.data=false process-sources
+call mvn -o -Doracle.retain.data=false process-sources
