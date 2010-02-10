@@ -14,10 +14,21 @@
         <module>ks-embedded-db</module>
     </modules>
     <properties>
-     <!-- Always retain existing data, unless they
-          override it by supplying -Dretain.existing.data=false 
-          on the command line -->
+     <!-- Always retain existing data, unless they explicitly indicate they wish to 
+          remove the data supplying -Dretain.existing.data=false on the command line -->
      <retain.existing.data>true</retain.existing.data>
+     
+     <!-- Oracle specific settings -->
+     <!-- DB for the KS data -->
+     <oracle.ks.jdbc.url>jdbc:oracle:thin:@localhost:1521:XE</oracle.ks.jdbc.url>
+ 
+     <!-- This user drops/recreates the KS user and db -->
+     <oracle.dba.username>system</oracle.dba.username>
+     <oracle.dba.password>ksAdminPass</oracle.dba.password>
+
+     <!-- This is the KS user -->
+     <oracle.ks.username>kuali</oracle.ks.username>
+     <oracle.ks.password>kuali</oracle.ks.password>
     </properties>
     <build>
       <plugins>
@@ -29,9 +40,9 @@
             <targetDatabase>oracle</targetDatabase>
             <targetPackage>org.kuali.student</targetPackage>
             <driver>oracle.jdbc.OracleDriver</driver>
-            <url>jdbc:oracle:thin:@driver-1.ks.kuali.net:1521:XE</url>
-            <user>kuali</user>
-            <password>kuali</password>
+            <url>${oracle.ks.jdbc.url}</url>
+            <user>${oracle.ks.username}</user>
+            <password>${oracle.ks.password}</password>
             <runOnlyOnSchemaChange>false</runOnlyOnSchemaChange>
             <xmlFile>${project.basedir}/src/main/torque/schema/schema.xml</xmlFile>
             <dataDtd>${project.build.directory}/data/torque/torque-data.dtd</dataDtd>
@@ -57,9 +68,9 @@
          </dependencies>
          <configuration>
           <driver>oracle.jdbc.OracleDriver</driver>
-          <url>jdbc:oracle:thin:@appserv-2.ks.kuali.net:1521:XE</url>
-          <username>kuali</username>
-          <password>kuali</password>
+          <url>${oracle.ks.jdbc.url}</url>
+          <username>${oracle.ks.username}</username>
+          <password>${oracle.ks.password}</password>
           <autocommit>false</autocommit>
           <delimiter>/</delimiter>
           <delimiterType>row</delimiterType>
@@ -74,11 +85,8 @@
               <goal>execute</goal>
             </goals>
             <configuration>
-              <username>system</username>
-              <password>ksAdminPass</password>
-              <!--
-              <password>gw570229</password>
-              -->
+              <username>${oracle.dba.username}</username>
+              <password>${oracle.dba.password}</password>
               <sqlCommand>
                 DROP USER kuali CASCADE
                 /
