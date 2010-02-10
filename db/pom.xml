@@ -14,8 +14,8 @@
         <module>ks-embedded-db</module>
     </modules>
     <properties>
-     <!-- Always retain existing data, unless they explicitly indicate they wish to 
-          remove the data supplying -Dretain.existing.data=false on the command line -->
+     <!-- Always retain existing data, unless they explicitly indicate they no longer 
+          need it by supplying -Dretain.existing.data=false on the command line -->
      <retain.existing.data>true</retain.existing.data>
      
      <!-- Oracle settings -->
