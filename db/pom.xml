@@ -14,11 +14,7 @@
         <module>ks-embedded-db</module>
     </modules>
     <properties>
-     <!-- Always retain existing data, unless they explicitly indicate they no longer 
-          need it by supplying -Doracle.retain.data=false on the command line -->
-     <oracle.retain.data>true</oracle.retain.data>
-     
-     <!-- Oracle settings -->
+     <!-- Default Oracle settings -->
 
      <!-- This user drops/recreates the KS user and database -->
      <oracle.dba.username>system</oracle.dba.username>
@@ -30,6 +26,10 @@
      <!-- This is the KS user -->
      <oracle.ks.username>kuali</oracle.ks.username>
      <oracle.ks.password>kuali</oracle.ks.password>
+
+     <!-- Always retain existing data, unless they explicitly indicate they no longer 
+          need it by supplying -Doracle.retain.data=false on the command line -->
+     <oracle.retain.data>true</oracle.retain.data>
     </properties>
     <build>
       <plugins>
