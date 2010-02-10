@@ -43,70 +43,69 @@ import static org.junit.Assert.assertNotNull;
  */
 
 public class Page {
-	
+
 	private WebClient webClient = new WebClient();
 	private HtmlPage page;
-	
-	public Page(){
+
+	public Page() {
 	}
-	
-	public Page(String url) throws FailingHttpStatusCodeException, MalformedURLException, IOException{
+
+	public Page(String url) throws FailingHttpStatusCodeException, MalformedURLException, IOException {
 		page = webClient.getPage(url);
 		webClient.waitForBackgroundJavaScript(10000);
 	}
-	
-	public Page(URL url) throws FailingHttpStatusCodeException, IOException{
+
+	public Page(URL url) throws FailingHttpStatusCodeException, IOException {
 		page = webClient.getPage(url);
 		webClient.waitForBackgroundJavaScript(10000);
 	}
-	
-	public void setPage(String url) throws FailingHttpStatusCodeException, MalformedURLException, IOException{
+
+	public void setPage(String url) throws FailingHttpStatusCodeException, MalformedURLException, IOException {
 		page = webClient.getPage(url);
 		webClient.waitForBackgroundJavaScript(10000);
 	}
-	
-	public void setPage(URL url) throws FailingHttpStatusCodeException, IOException{
+
+	public void setPage(URL url) throws FailingHttpStatusCodeException, IOException {
 		page = webClient.getPage(url);
 		webClient.waitForBackgroundJavaScript(10000);
 	}
-	
-	public HtmlPage getPage(){
+
+	public HtmlPage getPage() {
 		return page;
 	}
-	
-	public void setWebClient(WebClient webClient){
+
+	public void setWebClient(WebClient webClient) {
 		this.webClient = webClient;
 	}
-	
-	public WebClient getWebClient(){
+
+	public WebClient getWebClient() {
 		return webClient;
 	}
-	
-	public HtmlPage logIn(String user, String password) throws IOException{
+
+	public HtmlPage logIn(String user, String password) throws IOException {
 		HtmlForm form = page.getElementByName("f");
 		HtmlTextInput userInput = form.getInputByName("j_username");
 		HtmlPasswordInput passwordInput = form.getInputByName("j_password");
 		HtmlInput submit = form.getInputByName("submit");
-		
+
 		userInput.setValueAttribute(user);
 		passwordInput.setValueAttribute(password);
-		
+
 		page = submit.click();
-		
+
 		webClient.waitForBackgroundJavaScript(10000);
-		
+
 		return page;
 	}
-	
-	//use to automatically log in for now
-	public HtmlPage bypass() throws IOException{
+
+	// use to automatically log in for now
+	public HtmlPage bypass() throws IOException {
 		return this.logIn("a", "a");
 	}
-	
+
 	@Test
-	public void defaultTest(){
+	public void defaultTest() {
 		assertNotNull(this.webClient);
 	}
 
 }
-
