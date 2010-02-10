@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
@@ -232,5 +233,24 @@ public class TestStatementDao extends AbstractTransactionalDaoTest {
         
         assertNotNull(stmtList);
         assertEquals(2, stmtList.size());
+    }   
+
+    private boolean containsStatement(List<Statement> StatementList, String id) {
+    	for(Statement statement : StatementList) {
+    		if(statement.getId().equals(id)) return true;
+    	}
+    	return false;
+    }
+
+    @Test
+    public void testGetStatementsForReqComponent() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+        List<Statement> stmtList = dao.getStatementsForReqComponent("REQCOMP-NL-1");
+        
+        assertNotNull(stmtList);
+        assertEquals(4, stmtList.size());
+    	assertTrue(containsStatement(stmtList, "STMT-3"));
+    	assertTrue(containsStatement(stmtList, "STMT-5"));
+    	assertTrue(containsStatement(stmtList, "STMT-104"));
+    	assertTrue(containsStatement(stmtList, "STMT-106"));
     }   
 }

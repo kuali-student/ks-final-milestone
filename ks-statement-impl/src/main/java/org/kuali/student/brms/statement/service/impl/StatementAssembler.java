@@ -15,9 +15,7 @@
 package org.kuali.student.brms.statement.service.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.core.dto.RichTextInfo;
@@ -30,6 +28,7 @@ import org.kuali.student.core.service.impl.BaseAssembler;
 import org.kuali.student.brms.statement.dao.StatementDao;
 import org.kuali.student.brms.statement.dto.NlUsageTypeInfo;
 import org.kuali.student.brms.statement.dto.RefStatementRelationInfo;
+import org.kuali.student.brms.statement.dto.RefStatementRelationTypeInfo;
 import org.kuali.student.brms.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.brms.statement.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.brms.statement.dto.ReqComponentInfo;
@@ -41,6 +40,7 @@ import org.kuali.student.brms.statement.entity.NlUsageType;
 import org.kuali.student.brms.statement.entity.ObjectSubType;
 import org.kuali.student.brms.statement.entity.ObjectType;
 import org.kuali.student.brms.statement.entity.RefStatementRelation;
+import org.kuali.student.brms.statement.entity.RefStatementRelationType;
 import org.kuali.student.brms.statement.entity.ReqComponent;
 import org.kuali.student.brms.statement.entity.ReqComponentField;
 import org.kuali.student.brms.statement.entity.ReqComponentFieldType;
@@ -64,6 +64,26 @@ public class StatementAssembler extends BaseAssembler {
         dto.setStatementId(entity.getStatement().getId());
         dto.setType(entity.getRefStatementRelationType().getId());
         //dto.setRefObjectTypeKey(entity.getRefStatementRelationType().getObjectSubTypeList().get(0).g)
+        
+        return dto;
+	}
+
+	public static List<RefStatementRelationTypeInfo> toRefStatementRelationTypeInfos(List<RefStatementRelationType> entities) {
+		List<RefStatementRelationTypeInfo> list = new ArrayList<RefStatementRelationTypeInfo>();
+		for(RefStatementRelationType entity : entities) {
+			list.add(toRefStatementRelationTypeInfo(entity));
+		}
+		return list;
+	}
+	
+	public static RefStatementRelationTypeInfo toRefStatementRelationTypeInfo(RefStatementRelationType entity) {
+		RefStatementRelationTypeInfo dto = new RefStatementRelationTypeInfo();
+		
+        BeanUtils.copyProperties(entity, dto, new String[]{
+        		"attributes", "metaInfo", "objectSubTypeList", "statementTypeList"});
+        
+        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setDesc(entity.getDescr());
         
         return dto;
 	}

@@ -42,7 +42,8 @@ import org.kuali.student.brms.statement.dto.StatementOperatorTypeKey;
 @Table(name = "KSSTMT_STMT")
 @NamedQueries( {
     @NamedQuery(name = "Statement.getStatementsForStatementType", query = "SELECT ls FROM Statement ls WHERE ls.statementType.id = :statementTypeKey"),
-    @NamedQuery(name = "Statement.getStatements", query = "SELECT ls FROM Statement ls WHERE ls.id IN (:statementIdList)")
+    @NamedQuery(name = "Statement.getStatements", query = "SELECT ls FROM Statement ls WHERE ls.id IN (:statementIdList)"),
+    @NamedQuery(name = "Statement.getStatementsForReqComponent", query = "SELECT ls FROM Statement ls JOIN ls.requiredComponents req WHERE req.id = :reqComponentId")
 })
 public class Statement extends MetaEntity implements AttributeOwner<StatementAttribute>{
     @Id

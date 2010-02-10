@@ -55,4 +55,13 @@ public class StatementDaoImpl extends AbstractSearchableCrudDaoImpl implements S
         return resultList;
     }
 
+    @Override
+    public List<Statement> getStatementsForReqComponent(String reqComponentId) {
+        Query query = em.createNamedQuery("Statement.getStatementsForReqComponent");
+        query.setParameter("reqComponentId", reqComponentId);
+        @SuppressWarnings("unchecked")
+        List<Statement> resultList = query.getResultList();
+        return resultList;
+    }
+
 }

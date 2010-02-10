@@ -463,9 +463,21 @@ public class StatementServiceImpl implements StatementService {
 
     @Override
     public List<StatementInfo> getStatementsUsingReqComponent(String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
+        checkForNullOrEmptyParameter(reqComponentId, "reqComponentId");
+
+        List<Statement> list = statementDao.getStatementsForReqComponent(reqComponentId);
+        return StatementAssembler.toStatementInfos(list);
     }
+
+	@Override
+	public List<StatementInfo> getStatementsUsingStatement(String statementId)
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        checkForNullOrEmptyParameter(statementId, "statementId");
+		
+		Statement statement = statementDao.fetch(Statement.class, statementId);
+		List<StatementInfo> list = StatementAssembler.toStatementInfos(statement.getChildren());
+		return list;
+	}
 
     @Override
     public StatementInfo updateStatement(String statementId, StatementInfo statementInfo) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
@@ -921,19 +933,20 @@ public class StatementServiceImpl implements StatementService {
     }
 
 	@Override
-	public RefStatementRelationTypeInfo getRefStatementRelationType(
-			String refStatementRelationTypeKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	public RefStatementRelationTypeInfo getRefStatementRelationType(String refStatementRelationTypeKey) 
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		checkForNullOrEmptyParameter(refStatementRelationTypeKey, "refStatementRelationTypeKey");
+
+		RefStatementRelationType type = this.statementDao.fetch(RefStatementRelationType.class, refStatementRelationTypeKey);
+		
+		return StatementAssembler.toRefStatementRelationTypeInfo(type);
 	}
 
 	@Override
 	public List<RefStatementRelationTypeInfo> getRefStatementRelationTypes()
 			throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<RefStatementRelationType> entities = this.statementDao.find(RefStatementRelationType.class);
+		return StatementAssembler.toRefStatementRelationTypeInfos(entities);
 	}
 
 	@Override
@@ -950,14 +963,6 @@ public class StatementServiceImpl implements StatementService {
 			String refStatementRelationTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<StatementInfo> getStatementsUsingStatement(String statementId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -21,6 +21,7 @@ import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
+import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.StatusInfo;
@@ -39,6 +40,7 @@ import org.kuali.student.brms.statement.config.CluSetInfo;
 import org.kuali.student.brms.statement.config.contexts.CourseListContextImpl;
 import org.kuali.student.brms.statement.dto.NlUsageTypeInfo;
 import org.kuali.student.brms.statement.dto.RefStatementRelationInfo;
+import org.kuali.student.brms.statement.dto.RefStatementRelationTypeInfo;
 import org.kuali.student.brms.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.brms.statement.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.brms.statement.dto.ReqComponentInfo;
@@ -261,7 +263,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     }
     
     @Test
-    public void testGetLuStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
+    public void testGetStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
         StatementInfo stmt = statementService.getStatement("STMT-2");
 
         assertNotNull(stmt);
@@ -286,6 +288,35 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         assertEquals(mf.getUpdateId(), "UPDATEID");
         assertEquals(mf.getCreateTime(), df.parse("20000101"));
         assertEquals(mf.getUpdateTime(), df.parse("20010101"));
+    }
+
+    private boolean containsId(List<? extends Idable> idList, String id) {
+    	for(Idable iden : idList) {
+    		if(iden.getId().equals(id)) return true;
+    	}
+    	return false;
+    }
+    
+    @Test
+    public void testGetStatementsUsingStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    	List<StatementInfo> stmtList = statementService.getStatementsUsingStatement("STMT-101");
+    	
+    	assertNotNull(stmtList);
+    	assertEquals(2, stmtList.size());
+    	assertTrue(containsId(stmtList, "STMT-102"));
+    	assertTrue(containsId(stmtList, "STMT-103"));
+    }
+    
+    @Test
+    public void testGetStatementsUsingReqComponent() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    	List<StatementInfo> stmtList = statementService.getStatementsUsingReqComponent("REQCOMP-NL-1");
+    	
+        assertNotNull(stmtList);
+        assertEquals(4, stmtList.size());
+    	assertTrue(containsId(stmtList, "STMT-3"));
+    	assertTrue(containsId(stmtList, "STMT-5"));
+    	assertTrue(containsId(stmtList, "STMT-104"));
+    	assertTrue(containsId(stmtList, "STMT-106"));
     }
     
     private StatementInfo getStatement(List<StatementInfo> stmtList, String id) {
@@ -326,9 +357,9 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     }
 
     @Test
-    public void testGetLuStatements_DetailInfo() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
-        List<String> luStatementIdList = Arrays.asList(new String[] {"STMT-2"});
-        List<StatementInfo> stmtList = getStatements(luStatementIdList);
+    public void testGetStatements_DetailInfo() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
+        List<String> statementIdList = Arrays.asList(new String[] {"STMT-2"});
+        List<StatementInfo> stmtList = getStatements(statementIdList);
 
         assertNotNull(stmtList);
         assertEquals(1, stmtList.size());
@@ -361,7 +392,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     }
 
     @Test
-    public void testGetLuStatementsByType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
+    public void testGetStatementsByType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
         List<StatementInfo> stmtList = statementService.getStatementsByType("kuali.luStatementType.prereqAcademicReadiness");
 
         assertNotNull(stmtList);
@@ -392,26 +423,24 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     }
 
     @Test
-    public void testGetInvldStmt() throws InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
+    public void testGetStatement_InvalidStatementId() throws InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
         try {
-            statementService.getStatement("invalid.stmt");
+            statementService.getStatement("invalid.stmt.id");
+            fail("statementService.getStatement should have failed getting a statement by an invalid id");
         } catch (DoesNotExistException dne) {
             assertTrue(true);
-            return;
         }
-
-        assertTrue(false);
     }
 
     @Test
-    public void testGetStmtByInvldType() throws InvalidParameterException, MissingParameterException, OperationFailedException, ParseException, DoesNotExistException {
+    public void testGetStatementByType_InvalidType() throws InvalidParameterException, MissingParameterException, OperationFailedException, ParseException, DoesNotExistException {
         List<StatementInfo> stmtList = statementService.getStatementsByType("invalid.stmttype");
 
         assertNull(stmtList);
     }
 
     @Test
-    public void testStmtStmtRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
+    public void testStatementStatementRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
         StatementInfo stmt = statementService.getStatement("STMT-1");
 
         assertNotNull(stmt);
@@ -610,7 +639,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 
 
     @Test
-    public void testGetReqCompByInvldType() throws InvalidParameterException, MissingParameterException, OperationFailedException, ParseException, DoesNotExistException {
+    public void testGetReqCompByInvalidType() throws InvalidParameterException, MissingParameterException, OperationFailedException, ParseException, DoesNotExistException {
         List<ReqComponentInfo> reqCompList = statementService.getReqComponentsByType("invalid.reqcomptype");
 
         assertNull(reqCompList);
@@ -629,7 +658,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     }
 
     @Test
-    public void testCreateLuStatement() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ParseException {
+    public void testCreateStatement() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ParseException {
 
         StatementInfo stmt = new StatementInfo();
         RichTextInfo statement3 = new RichTextInfo();
@@ -701,7 +730,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     }
 
     @Test
-    public void testDeleteLuStatement() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ParseException, CircularReferenceException, VersionMismatchException {
+    public void testDeleteStatement() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ParseException, CircularReferenceException, VersionMismatchException {
         StatusInfo si;
         StatementInfo stmt = statementService.getStatement("STMT-2");
         try {
@@ -710,7 +739,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
             assertTrue(si.getSuccess());
     		assertNotNull(si.getMessage());
         } catch (DoesNotExistException e) {
-            fail("StatementService.deleteLuStatement() failed deleting pre existing statement");
+            fail("StatementService.deleteStatement() failed deleting pre existing statement");
         }
     }
 
@@ -1076,5 +1105,31 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         richTextInfo.setPlain(text);
         richTextInfo.setFormatted("<p>" + text + "</p>");
         return richTextInfo;
+    }
+    
+    @Test
+    public void testGetRefStatementRelationType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    	RefStatementRelationTypeInfo type = this.statementService.getRefStatementRelationType("clu.prerequisites");
+    	
+        GregorianCalendar effDate = new GregorianCalendar(2000, 00, 01, 0, 0, 0);
+        GregorianCalendar expDate = new GregorianCalendar(2100, 11, 31, 0, 0, 0);
+
+        assertNotNull(type);
+    	assertEquals("clu.prerequisites", type.getId());
+    	assertEquals(0, type.getAttributes().size());
+    	assertEquals("CLU Prerequisites", type.getDesc());
+    	assertEquals(effDate.getTime(), type.getEffectiveDate());
+    	assertEquals(expDate.getTime(), type.getExpirationDate());
+    	assertEquals("CLU Prereq", type.getName());
+    }
+
+    @Test
+    public void testGetRefStatementRelationTypes() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    	List<RefStatementRelationTypeInfo> types = this.statementService.getRefStatementRelationTypes();
+
+        assertNotNull(types);
+    	assertEquals(2, types.size());
+    	assertTrue(containsId(types, "clu.prerequisites"));
+    	assertTrue(containsId(types, "clu.corequisites"));
     }
 }
