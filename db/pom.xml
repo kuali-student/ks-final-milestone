@@ -19,13 +19,14 @@
      <retain.existing.data>true</retain.existing.data>
      
      <!-- Oracle settings -->
-     <!-- JDBC url for the KS database -->
-     <oracle.ks.jdbc.url>jdbc:oracle:thin:@localhost:1521:XE</oracle.ks.jdbc.url>
- 
+
      <!-- This user drops/recreates the KS user and database -->
      <oracle.dba.username>system</oracle.dba.username>
      <oracle.dba.password>ksAdminPass</oracle.dba.password>
 
+     <!-- JDBC url for the KS database -->
+     <oracle.ks.jdbc.url>jdbc:oracle:thin:@localhost:1521:XE</oracle.ks.jdbc.url>
+ 
      <!-- This is the KS user -->
      <oracle.ks.username>kuali</oracle.ks.username>
      <oracle.ks.password>kuali</oracle.ks.password>
