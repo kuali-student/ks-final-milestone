@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Tracks information about HttpSession
+ * Tracks information about an HttpSession
  * 
  * @author Jeff Caddel
  */
