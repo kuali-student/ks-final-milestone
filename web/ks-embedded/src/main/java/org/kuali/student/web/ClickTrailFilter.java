@@ -46,7 +46,7 @@ public class ClickTrailFilter implements Filter {
 	 * Execute the filter logic
 	 */
 	public void doFilter(ServletRequest req, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		log.info("sequence=" + (sequence++));
+		log.info("Request Count: " + (sequence++));
 		HttpServletRequest request = (HttpServletRequest) req;
 		RecordedRequest rr = recordRequest(request);
 		rr.setStartTime(new Date());
