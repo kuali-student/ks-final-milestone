@@ -27,7 +27,7 @@ public class RecordedRequest implements Serializable {
 	/**
 	 * Request parameters (if any)
 	 */
-	List<NameValueBean> parameters;
+	List<NameValuesBean> parameters;
 
 	public String getPath() {
 		return path;
@@ -53,11 +53,11 @@ public class RecordedRequest implements Serializable {
 		this.finishTime = finishTime;
 	}
 
-	public List<NameValueBean> getParameters() {
+	public List<NameValuesBean> getParameters() {
 		return parameters;
 	}
 
-	public void setParameters(List<NameValueBean> parameters) {
+	public void setParameters(List<NameValuesBean> parameters) {
 		this.parameters = parameters;
 	}
 

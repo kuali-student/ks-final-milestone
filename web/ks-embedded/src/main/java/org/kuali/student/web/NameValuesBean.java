@@ -3,17 +3,18 @@ package org.kuali.student.web;
 import java.io.Serializable;
 
 /**
- * Represents one parameter passed into an HttpServletRequest
+ * Represents a named set of data where there may be multiple values associated
+ * with the same name.
  * 
  * @author Jeff Caddel
  */
-public class NameValueBean implements Comparable<NameValueBean>, Serializable {
+public class NameValuesBean implements Comparable<NameValuesBean>, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	String name;
 	String[] values;
 
-	public int compareTo(NameValueBean bean) {
+	public int compareTo(NameValuesBean bean) {
 		return name.compareTo(bean.getName());
 	}
 

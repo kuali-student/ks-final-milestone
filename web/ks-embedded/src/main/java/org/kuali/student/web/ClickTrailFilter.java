@@ -74,7 +74,7 @@ public class ClickTrailFilter implements Filter {
 		}
 
 		// Copy the parameter list
-		List<NameValueBean> parameters = getParameters(request);
+		List<NameValuesBean> parameters = getParameters(request);
 
 		// Get a recorded request object
 		RecordedRequest rr = getRecordedRequest(request, parameters);
@@ -92,13 +92,13 @@ public class ClickTrailFilter implements Filter {
 		return rr;
 	}
 
-	protected List<NameValueBean> getParameters(HttpServletRequest request) {
-		List<NameValueBean> parameters = new ArrayList<NameValueBean>();
+	protected List<NameValuesBean> getParameters(HttpServletRequest request) {
+		List<NameValuesBean> parameters = new ArrayList<NameValuesBean>();
 		Map<?, ?> parameterMap = request.getParameterMap();
 		for (Map.Entry<?, ?> pair : parameterMap.entrySet()) {
 			String key = (String) pair.getKey();
 			String[] values = (String[]) pair.getValue();
-			NameValueBean bean = new NameValueBean();
+			NameValuesBean bean = new NameValuesBean();
 			bean.setName(key);
 			bean.setValues(values);
 			parameters.add(bean);
@@ -107,7 +107,7 @@ public class ClickTrailFilter implements Filter {
 		return parameters;
 	}
 
-	protected RecordedRequest getRecordedRequest(HttpServletRequest request, List<NameValueBean> parameters) {
+	protected RecordedRequest getRecordedRequest(HttpServletRequest request, List<NameValuesBean> parameters) {
 		// Create and populate a RecordedRequest object
 		RecordedRequest rr = new RecordedRequest();
 		rr.setPath(request.getRequestURL() + "");
