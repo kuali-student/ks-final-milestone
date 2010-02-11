@@ -47,8 +47,21 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
 
     @Override
     public Data get(String id) throws AssemblyException {
-        // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        List<OrgOrgRelationInfo> relations = new ArrayList<OrgOrgRelationInfo>();
+        Data orgOrgRelationMap = null;
+        try{
+            relations = orgService.getOrgOrgRelationsByOrg(id);
+            orgOrgRelationMap = buildOrgOrgRelationDataMap(relations);
+        }
+        catch(DoesNotExistException dnee){
+            return null;
+            
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return orgOrgRelationMap;
     }
 
     @Override
@@ -109,7 +122,7 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
         return orgOrgRelationInfo;
     }
     
-    private void addOrgOrgRelations(Data input){
+    private void addOrgOrgRelations(Data input) throws AssemblyException{
         if (input == null) {
             return;
         }
@@ -126,6 +139,7 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
                 }
                 catch(Exception e ){
                     e.printStackTrace();
+                    throw(new AssemblyException());
                 }
             }
             if(isUpdated(orgOrgRelation.getData())){
@@ -136,6 +150,7 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
                 }
                 catch(Exception e ){
                     e.printStackTrace();
+                    throw(new AssemblyException());
                 }
             }
             if(isDeleted(orgOrgRelation.getData())){
@@ -148,6 +163,7 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
                 }
                 catch(Exception e ){
                     e.printStackTrace();
+                    throw(new AssemblyException());
                 }
             }
             
@@ -156,26 +172,10 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
 
     }
     
-    public Data fetchOrgOrgRelationInfo(String orgId){
-        List<OrgOrgRelationInfo> relations = new ArrayList<OrgOrgRelationInfo>();
-        Data orgOrgRelationMap = null;
-        try{
-            relations = orgService.getOrgOrgRelationsByOrg(orgId);
-            orgOrgRelationMap = buildOrgOrgRelationDataMap(relations);
-        }
-        catch(DoesNotExistException dnee){
-            return null;
-            
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
-        return orgOrgRelationMap;
-    }
     
     private Data buildOrgOrgRelationDataMap(List<OrgOrgRelationInfo> relations){
         Data orgOrgRelations = new Data();
-        int count = 1;
+        int count = 0;
         for(OrgOrgRelationInfo relation:relations){
             Data relationMap = new Data();
             OrgorgRelationHelper orgOrgRelation=  OrgorgRelationHelper.wrap(relationMap);

@@ -45,6 +45,7 @@ import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.search.newdto.SearchRequest;
 import org.kuali.student.core.search.newdto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(rollbackFor={Throwable.class})
@@ -85,8 +86,32 @@ public class OrgProposalAssembler implements Assembler<Data, OrgHelper>{
 
     @Override
     public Data get(String id) throws AssemblyException {
-        // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        OrgInfo orgInfo = new OrgInfo();
+        List<OrgPositionRestrictionInfo> positions = new ArrayList<OrgPositionRestrictionInfo>();
+        List<OrgOrgRelationInfo> relations = new ArrayList<OrgOrgRelationInfo>();
+        Data result = new Data();
+//      SaveResult<Data> result = new SaveResult<Data>();
+        try{
+            orgInfo = orgService.getOrganization(id);
+            OrgInfoData orgInfoData = new OrgInfoData();
+            orgInfoData.setOrgInfo(orgInfo);
+            OrgHelper resultOrg = buildOrgDataMap(orgInfoData);
+            OrgOrgRelationAssembler orgOrgRelationAssembler = new OrgOrgRelationAssembler();
+            orgOrgRelationAssembler.setOrgService(orgService);
+            OrgPositionRestrictionAssembler orgPositionRestrictionAssembler= new OrgPositionRestrictionAssembler();
+            orgPositionRestrictionAssembler.setOrgService(orgService);
+            Data orgOrgRelationMap = orgOrgRelationAssembler.get(id);
+            Data orgPositionMap = orgPositionRestrictionAssembler.get(id);
+            result.set("orgInfo", resultOrg.getData());
+            result.set("orgOrgRelationInfo", orgOrgRelationMap);
+            result.set("OrgPositionRestrictionInfo", orgPositionMap);
+            
+        }
+        catch(Exception e){
+            
+        }
+        
+        return result;
     }
 
     @Override
@@ -135,7 +160,7 @@ public class OrgProposalAssembler implements Assembler<Data, OrgHelper>{
            
             result.setValue(input);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw(new AssemblyException());
         }
         
         return result;
@@ -240,35 +265,6 @@ public class OrgProposalAssembler implements Assembler<Data, OrgHelper>{
 		return null;
 	}
 	
-	public Data fetchOrgInfo(Data orgSearch){
-	    OrgSearchHelper orgSearchHelper = OrgSearchHelper.wrap((Data)orgSearch.get("orgSearchInfo"));
-	    String orgId = orgSearchHelper.getOrgId();
-	    OrgInfo orgInfo = new OrgInfo();
-	    List<OrgPositionRestrictionInfo> positions = new ArrayList<OrgPositionRestrictionInfo>();
-	    List<OrgOrgRelationInfo> relations = new ArrayList<OrgOrgRelationInfo>();
-	    Data result = new Data();
-//	    SaveResult<Data> result = new SaveResult<Data>();
-	    try{
-	        orgInfo = orgService.getOrganization(orgId);
-	        OrgInfoData orgInfoData = new OrgInfoData();
-	        orgInfoData.setOrgInfo(orgInfo);
-	        OrgHelper resultOrg = buildOrgDataMap(orgInfoData);
-	        OrgOrgRelationAssembler orgOrgRelationAssembler = new OrgOrgRelationAssembler();
-	        orgOrgRelationAssembler.setOrgService(orgService);
-	        OrgPositionRestrictionAssembler orgPositionRestrictionAssembler= new OrgPositionRestrictionAssembler();
-            orgPositionRestrictionAssembler.setOrgService(orgService);
-	        Data orgOrgRelationMap = orgOrgRelationAssembler.fetchOrgOrgRelationInfo(orgId);
-	        Data orgPositionMap = orgPositionRestrictionAssembler.fetchOrgPositions(orgId);
-	        result.set("orgInfo", resultOrg.getData());
-	        result.set("orgOrgRelationInfo", orgOrgRelationMap);
-	        result.set("OrgPositionRestrictionInfo", orgPositionMap);
-	        
-	    }
-	    catch(Exception e){
-	        
-	    }
-	    
-	    return result;
-	}
+
    
 }

@@ -44,8 +44,20 @@ public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPosit
 
     @Override
     public Data get(String id) throws AssemblyException {
-        // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<OrgPositionRestrictionInfo> positions = new ArrayList<OrgPositionRestrictionInfo>();
+        Data orgPositionMap = null;
+        try{
+            positions = orgService.getPositionRestrictionsByOrg(id);
+            orgPositionMap = buildOrgPositionMap(positions);
+        }
+        catch(DoesNotExistException dnee){
+            return null;
+            
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return orgPositionMap;
     }
 
     @Override
@@ -79,7 +91,7 @@ public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPosit
         return null;
     }
     
-    private void addPositionRestriction(Data input){
+    private void addPositionRestriction(Data input) throws AssemblyException{
         if (input == null) {
             return;
         }
@@ -95,6 +107,7 @@ public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPosit
                 }
                 catch(Exception e ){
                     e.printStackTrace();
+                    throw new AssemblyException();
                 }
             }
             if(isUpdated(orgPositionHelper.getData())){
@@ -105,7 +118,7 @@ public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPosit
                             orgPositionRestrictionInfo.getOrgPersonRelationTypeKey(), orgPositionRestrictionInfo);
                 }
                 catch(Exception e ){
-                    e.printStackTrace();
+                    throw new AssemblyException();
                 }
             }
             if(isDeleted(orgPositionHelper.getData())){
@@ -116,32 +129,17 @@ public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPosit
                 }
                 catch(Exception e ){
                     e.printStackTrace();
+                    throw(new AssemblyException());
                 }
             }
         }
         
     }
     
-    public Data fetchOrgPositions(String orgId){
-        List<OrgPositionRestrictionInfo> positions = new ArrayList<OrgPositionRestrictionInfo>();
-        Data orgPositionMap = null;
-        try{
-            positions = orgService.getPositionRestrictionsByOrg(orgId);
-            orgPositionMap = buildOrgPositionMap(positions);
-        }
-        catch(DoesNotExistException dnee){
-            return null;
-            
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
-        return orgPositionMap;
-    }
     
     private Data buildOrgPositionMap( List<OrgPositionRestrictionInfo> positions){
         Data orgPositions = new Data();
-        int count =1;
+        int count =0;
         for(OrgPositionRestrictionInfo position:positions){
             Data positionMap = new Data();
             OrgPositionHelper orgPositionHelper = OrgPositionHelper.wrap(positionMap);
