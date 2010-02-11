@@ -38,7 +38,7 @@ public class MultiplicityItemBinding extends ModelWidgetBindingSupport<Multiplic
     public void setModelValue(MultiplicityItem multiplicityItem, DataModel model, String path) {
         // TODO modify this method to use QueryPath.add to build paths, rather than string manipulation
         String itemPath = path + QueryPath.getPathSeparator() + multiplicityItem.getItemKey();
-    	
+    	String mutiRuntimePath = itemPath;
         Widget widget = multiplicityItem.getItemWidget();
         if (widget instanceof Section) {
         	//FIXME temporary fix
@@ -51,20 +51,20 @@ public class MultiplicityItemBinding extends ModelWidgetBindingSupport<Multiplic
         }
 
         // Multiplicity metadata?
-/*        QueryPath qPath;
+       QueryPath qPath;
         if (multiplicityItem.isCreated()) {
-            qPath = QueryPath.parse(itemPath + QueryPath.getPathSeparator() + RT_CREATED);
+            qPath = QueryPath.parse(mutiRuntimePath + QueryPath.getPathSeparator() + RT_CREATED);
         } else if (multiplicityItem.isDeleted()) {
-            qPath = QueryPath.parse(itemPath + QueryPath.getPathSeparator() + RT_DELETED);
+            qPath = QueryPath.parse(mutiRuntimePath + QueryPath.getPathSeparator() + RT_DELETED);
         } else {
-            qPath = QueryPath.parse(itemPath + QueryPath.getPathSeparator() + RT_UPDATED);
+            qPath = QueryPath.parse(mutiRuntimePath + QueryPath.getPathSeparator() + RT_UPDATED);
         }
         Boolean oldValue = model.get(qPath);
         Boolean newValue = true;
         if (!nullsafeEquals(oldValue, newValue)) {
             model.set(qPath, newValue);
             setDirtyFlag(model, qPath);
-        }*/
+        }
 
     }
 
