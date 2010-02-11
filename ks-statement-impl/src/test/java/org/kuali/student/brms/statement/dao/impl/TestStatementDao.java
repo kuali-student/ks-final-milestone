@@ -12,7 +12,6 @@ import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
@@ -33,7 +32,7 @@ import org.kuali.student.brms.statement.entity.StatementTypeHeaderTemplate;
 
 @PersistenceFileLocation("classpath:META-INF/statement-persistence.xml")
 public class TestStatementDao extends AbstractTransactionalDaoTest {
-    @Dao(value = "org.kuali.student.brms.statement.dao.impl.StatementDaoImpl", testSqlFile = "classpath:ks-statement.sql")
+    @Dao(value = "org.kuali.student.brms.statement.dao.impl.StatementDaoImpl", testSqlFile = "classpath:ks-statement-config.sql,ks-statement-data.sql")
     public StatementDao dao;
 
     @Test

@@ -14,7 +14,6 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
@@ -53,7 +52,7 @@ import org.kuali.student.brms.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.brms.statement.dto.StatementTypeInfo;
 import org.kuali.student.brms.statement.service.StatementService;
 
-@Daos({@Dao(value = "org.kuali.student.brms.statement.dao.impl.StatementDaoImpl", testSqlFile = "classpath:ks-statement.sql")})
+@Daos({@Dao(value = "org.kuali.student.brms.statement.dao.impl.StatementDaoImpl"/*, testSqlFile = "classpath:ks-statement.sql"*/)})
 @PersistenceFileLocation("classpath:META-INF/statement-persistence.xml")
 public class TestStatementServiceImpl extends AbstractServiceTest {
     SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
@@ -206,6 +205,74 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 		String naturalLanguage = statementService.translateReqComponentToNL(reqCompInfo, "KUALI.CATALOG", "en");
 		assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
 	}
+	
+//	@Test
+//	public void testTranslateStatementTreeViewToNL() throws InvalidParameterException, MissingParameterException, OperationFailedException {
+//		ReqComponentInfo reqCompInfo = createReqComponent1();
+//		String naturalLanguage = statementService.translateStatementTreeViewToNL(statementTreeViewInfo, "KUALI.CATALOG", "en");
+//		assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
+//	}
+
+	
+	
+
+    public static List<ReqCompFieldInfo> createReqComponentFields(String expectedValue, String operator, String reqCompFieldType, String id) {
+		List<ReqCompFieldInfo> fieldList = new ArrayList<ReqCompFieldInfo>();
+		ReqCompFieldInfo field1 = new ReqCompFieldInfo();
+		field1.setId("reqCompFieldType.requiredCount");
+		field1.setValue(expectedValue);
+		fieldList.add(field1);
+		
+		ReqCompFieldInfo field2 = new ReqCompFieldInfo();
+		field2.setId("reqCompFieldType.operator");
+		field2.setValue(operator);
+		fieldList.add(field2);
+		
+		ReqCompFieldInfo field3 = new ReqCompFieldInfo();
+		field3.setId(reqCompFieldType);
+		field3.setValue(id);
+		fieldList.add(field3);
+		
+		return fieldList;
+    }
+    
+    public static ReqComponentInfo createReqComponent(String reqComponentType, List<ReqCompFieldInfo> fieldList) {
+    	ReqComponentTypeInfo reqCompType = new ReqComponentTypeInfo();
+    	reqCompType.setId(reqComponentType);
+		
+		ReqComponentInfo reqComp = new ReqComponentInfo();
+		reqComp.setReqCompFields(fieldList);
+		reqComp.setType(reqComponentType);
+		reqComp.setRequiredComponentType(reqCompType);
+		
+		return reqComp;
+    }
+	
+	@Test
+	public void testGetNaturalLanguageForLuStatementInfo1_Simple_Clu() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException {
+		StatementTreeViewInfo statementInfo = new StatementTreeViewInfo();
+		statementInfo.setType("kuali.luStatementType.prereqAcademicReadiness");
+		statementInfo.setOperator(StatementOperatorTypeKey.OR);
+
+		List<ReqCompFieldInfo> fieldList1 = createReqComponentFields("1", "greater_than_or_equal_to", "reqCompFieldType.clu", "CLU-NL-1,CLU-NL-3");
+		ReqComponentInfo reqComp1 = createReqComponent("kuali.reqCompType.courseList.nof", fieldList1);
+		reqComp1.setId("req-1");
+		List<ReqCompFieldInfo> fieldList2 = createReqComponentFields("2", "greater_than_or_equal_to", "reqCompFieldType.cluSet", "CLUSET-NL-2");
+		ReqComponentInfo reqComp2 = createReqComponent("kuali.reqCompType.courseList.nof", fieldList2);
+		reqComp2.setId("req-2");
+		
+		statementInfo.setReqComponents(Arrays.asList(reqComp1, reqComp2));
+		
+		String naturalLanguage = statementService.translateStatementTreeViewToNL(statementInfo, "KUALI.CATALOG", "en");
+
+		assertEquals("Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 2 of MATH 152, MATH 221, MATH 180", naturalLanguage);
+	}
+	
+	
+	
+	
+	
+	
 	
 	@Test
     public void testGetNlUsageType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
