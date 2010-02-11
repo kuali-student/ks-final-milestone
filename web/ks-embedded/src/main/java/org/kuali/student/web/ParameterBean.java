@@ -3,6 +3,7 @@ package org.kuali.student.web;
 import java.io.Serializable;
 
 /**
+ * Represents one parameter passed into an HttpServletRequest
  * 
  * @author Jeff Caddel
  */
