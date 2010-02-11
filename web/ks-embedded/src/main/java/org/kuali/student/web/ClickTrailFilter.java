@@ -33,6 +33,7 @@ public class ClickTrailFilter implements Filter {
 
 	private static final Log log = LogFactory.getLog(ClickTrailFilter.class);
 	Runtime runtime = Runtime.getRuntime();
+	long sequence = 0;
 
 	/**
 	 * Servlet container is starting up
@@ -45,11 +46,13 @@ public class ClickTrailFilter implements Filter {
 	 * Execute the filter logic
 	 */
 	public void doFilter(ServletRequest req, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+		sequence++;
 		HttpServletRequest request = (HttpServletRequest) req;
 		RecordedRequest rr = recordRequest(request);
 		rr.setStartTime(new Date());
 		chain.doFilter(request, response);
 		rr.setFinishTime(new Date());
+		log.info("sequence=" + sequence);
 	}
 
 	/**
