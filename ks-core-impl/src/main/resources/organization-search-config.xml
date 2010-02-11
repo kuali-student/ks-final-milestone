@@ -633,7 +633,7 @@
 					<value>org.shortName</value>
 				</entry>
 				<entry key="org.queryParam.startswith.orgOptionalShortName">
-				    <value>org.shortName like :org_queryParam_startswith_orgOptionalShortName || '%'</value>
+				    <value>org.shortName like :org_queryParam_startswith_orgOptionalShortName || '%' OR org.shortName like '% ' || :org_queryParam_startswith_orgOptionalShortName || '%'</value>
 				</entry>	
 				<entry key="org.queryParam.orgOptionalLongName">
 					<value>org.longName</value>

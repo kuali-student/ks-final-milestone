@@ -118,6 +118,7 @@
 		<property name="optional" value="true" />
 		<property name="writeAccess" value="NEVER" />
 		<property name="caseSensitive" value="true" />
+		<!-- <property name="defaultValue" value="kuali.org.Department" />		-->
 	</bean>
 	<!--End Lookup Parameter definitions	-->
 	

@@ -4,17 +4,13 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.mvc.DefaultWidgetFactory;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
-import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSRichEditor;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
-import org.kuali.student.common.ui.client.widgets.search.AdvancedSearchWindow;
-import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
-import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
-import org.kuali.student.common.ui.client.widgets.search.SuggestBoxWAdvSearch;
+import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.assembly.data.LookupParamMetadata;
 import org.kuali.student.core.assembly.data.Metadata;
@@ -61,37 +57,13 @@ public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
 	private Widget _getWidget(WidgetConfigInfo config) {
 		Widget result = null;
 			
-		if (config.access != null && config.access == WriteAccess.NEVER) {
-			
-			result = new KSLabel();
-			
-		// create a suggest box and/or advanced search widget if lookup metadata exists
-		} else if (config.lookupMeta != null) {
-			
-			SearchPanel picker;
-			if ((config.additionalLookups != null) && (config.additionalLookups.size() > 0)) {
-				//TODO
-				picker = null;
-			} else {
-				picker = new SearchPanel(config.lookupMeta);				
-			}
-	        final AdvancedSearchWindow courseSearchWindow = new AdvancedSearchWindow(config.lookupMeta.getName(), picker);
-	        KSTextBox adminDepTextBox = new KSTextBox();   //FIXME this will be a suggest box
-	        final SuggestBoxWAdvSearch adminDepPicker = new SuggestBoxWAdvSearch(adminDepTextBox, courseSearchWindow);
-	        result = adminDepPicker;
-	        
-	        courseSearchWindow.addSelectionCompleteCallback(new Callback<List<SelectedResults>>(){
-	            public void exec(List<SelectedResults> results) {
-	                if (results.size() > 0){
-	                	adminDepPicker.getSuggestBox().setText(results.get(0).getDisplayKey());
-	                	adminDepPicker.getSuggestBox().setValue(results.get(0).getReturnKey());
-	                    courseSearchWindow.hide();
-	                }                
-	            }            
-	        });
-	        
-		} else {
-			
+		if (config.access != null && config.access == WriteAccess.NEVER) {			
+			result = new KSLabel();					
+		}
+		// create a picker (suggest box/advanced search widget) if lookup metadata exists
+		else if (config.lookupMeta != null) {					        	        	        
+	        result = new KSPicker(config.lookupMeta, config.additionalLookups);	       	        
+		} else {			
 			switch (config.type) {
 			case BOOLEAN:
 				result = new KSCheckBox();

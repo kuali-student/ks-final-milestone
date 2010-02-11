@@ -48,6 +48,11 @@ public class LookupMetadata implements Serializable {
     }
 
     private Usage usage;
+    
+    public enum Widget {
+        SUGGEST_BOX, ADVANCED_LIGHTBOX
+    }
+    private Widget widget;    
 
     public String getName() {
         return name;
@@ -153,6 +158,14 @@ public class LookupMetadata implements Serializable {
         this.usage = usage;
     }
     
+    public Widget getWidget() {
+		return widget;
+	}
+
+	public void setWidget(Widget widget) {
+		this.widget = widget;
+	}
+
     public String toString(){
         StringBuffer sb = new StringBuffer();
         

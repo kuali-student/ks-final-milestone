@@ -25,7 +25,6 @@ import org.kuali.student.common.ui.client.widgets.pagetable.PagingScrollTableBui
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import org.kuali.student.common.ui.client.widgets.searchtable.SearchColumnDefinition;
 import org.kuali.student.core.assembly.data.LookupResultMetadata;
-import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.search.newdto.SearchRequest;
 import org.kuali.student.core.search.newdto.SearchResult;
 import org.kuali.student.core.search.newdto.SearchResultCell;
@@ -47,13 +46,13 @@ public class TempSearchBackedTable extends Composite{
     private List<ResultRow> resultRows = new ArrayList<ResultRow>();
     private List<AbstractColumnDefinition<ResultRow, ?>> columnDefs = new ArrayList<AbstractColumnDefinition<ResultRow, ?>>();
     private GenericTableModel<ResultRow> tableModel = new GenericTableModel<ResultRow>(resultRows);
-    private PagingScrollTableBuilder<ResultRow> builder;
+    private PagingScrollTableBuilder<ResultRow> builder = new PagingScrollTableBuilder<ResultRow>();
     private String resultIdColumnKey;
     protected PagingScrollTable<ResultRow> pagingScrollTable;
     private VerticalPanel layout = new VerticalPanel();
     private PagingOptions pagingOptions;
     
-    SearchRpcServiceAsync searchRpcServiceAsync = GWT.create(SearchRpcService.class);
+    private SearchRpcServiceAsync searchRpcServiceAsync = GWT.create(SearchRpcService.class);
     
     private PagingOptions createPagingOptions(PagingScrollTable<ResultRow> pagingScrollTable) {
         PagingOptions pagingOptions = new PagingOptions(pagingScrollTable); 
@@ -61,27 +60,8 @@ public class TempSearchBackedTable extends Composite{
         return pagingOptions;
     }
     
-    public TempSearchBackedTable(List<LookupResultMetadata> listResultMetadata, String resultIdKey){
-        super();        
-        this.resultIdColumnKey = resultIdKey;
-        builder = new PagingScrollTableBuilder<ResultRow>();
-        builder.tablePixelSize(400, 300);
-        //builder.cacheTable(10, 10);
-
-        for (LookupResultMetadata r: listResultMetadata){
-            //TODO: use this as a token to get a message from message service instead 
-            String header = r.getName();
-            String key = r.getKey();
-            if(!(r.getKey().equals(TempSearchBackedTable.this.resultIdColumnKey))){
-                columnDefs.add(new SearchColumnDefinition(header, key));
-            }
-        }
-        if(columnDefs.size() == 1){
-            //FIXME auto adjusting width to fill table does not work with 1 column bug in incubator???
-            columnDefs.get(0).setMinimumColumnWidth(370);
-        }
-        builder.columnDefinitions(columnDefs);
-        
+    public TempSearchBackedTable(){
+        super();                
         redraw();               
         layout.setWidth("100%");
         initWidget(layout);
@@ -89,8 +69,7 @@ public class TempSearchBackedTable extends Composite{
     
     public void clearTable(){
         resultRows.clear();
-        this.redraw();
-        
+        this.redraw();        
     }
     
     public void removeSelected(){
@@ -100,7 +79,9 @@ public class TempSearchBackedTable extends Composite{
         this.redraw();
     }
     
-    public void performSearch(SearchRequest searchRequest){
+    public void performSearch(SearchRequest searchRequest, List<LookupResultMetadata> listResultMetadata, String resultIdKey){
+    	
+    	initializeTable(listResultMetadata, resultIdKey);
     	
     	searchRequest.setNeededTotalResults(false);
     	
@@ -135,6 +116,31 @@ public class TempSearchBackedTable extends Composite{
 		        redraw();
 		    }
 		});
+    }
+    
+    public void initializeTable(List<LookupResultMetadata> listResultMetadata, String resultIdKey) {
+    	clearTable();
+    	
+        this.resultIdColumnKey = resultIdKey;
+        builder = new PagingScrollTableBuilder<ResultRow>();
+        builder.tablePixelSize(400, 300);
+
+        columnDefs = new ArrayList<AbstractColumnDefinition<ResultRow, ?>>();        
+        for (LookupResultMetadata r: listResultMetadata){
+            //TODO: use this as a token to get a message from message service instead 
+            String header = r.getName();
+            String key = r.getKey();
+            if(!(r.getKey().equals(TempSearchBackedTable.this.resultIdColumnKey))){
+                columnDefs.add(new SearchColumnDefinition(header, key));
+            }
+        }
+        if(columnDefs.size() == 1){
+            //FIXME auto adjusting width to fill table does not work with 1 column bug in incubator???
+            columnDefs.get(0).setMinimumColumnWidth(370);
+        }
+        builder.columnDefinitions(columnDefs);
+        
+        redraw(); 
     }
     
     public void redraw(){

@@ -227,10 +227,12 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 					if (condition.trim().contains(":")) {
 						optionalQueryString += queryMap.get(searchParam.getKey());
 					} else {
-						//comparison should be case insensitive and include wild card 
-						//FIXME SQL injection can occur here
+						//comparison should be case insensitive and include wild card such that we match beginning of a text 
+						//and each word within text
+						//FIXME SQL injection can occur here - or NOT if we need to assemble SQL to cover various ways one can compare criteria to a text
 						optionalQueryString += 
-							"LOWER(" + queryMap.get(searchParam.getKey()) + ") LIKE '%' || LOWER('" + searchParam.getValue() + "') || '%'"; 
+							"(LOWER(" + queryMap.get(searchParam.getKey()) + ") LIKE LOWER('" + searchParam.getValue() + "') || '%' OR " +
+							"LOWER(" + queryMap.get(searchParam.getKey()) + ") LIKE '% ' || LOWER('" + searchParam.getValue() + "') || '%')"; 
 						searchRequest.getParams().remove(searchParam);
 					}
 				}
@@ -261,7 +263,7 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 			for(LookupResultMetadata results : lookupMetadata.getResults()){
 				if(results.getKey().equals(searchRequest.getSortColumn())){
 					orderByClause = " ORDER BY "+jpqlResultColumns[i]+" ";
-					if(searchRequest.getSortDirection()!=null&&searchRequest.getSortDirection()==SortDirection.DESC){
+					if(searchRequest.getSortDirection()!=null && searchRequest.getSortDirection()==SortDirection.DESC){
 						orderByClause += "DESC ";
 					}else{
 						orderByClause += "ASC ";
@@ -273,7 +275,6 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		
 		//Create the query
 		String finalQueryString = queryString + optionalQueryString + orderByClause;
-		System.out.println("Executing query: "+finalQueryString);
 		
 		Query query;
 		if(isNative){
@@ -325,7 +326,7 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		searchResult.setSortColumn(searchRequest.getSortColumn());
 		searchResult.setSortDirection(searchRequest.getSortDirection());
 		searchResult.setStartAt(searchRequest.getStartAt());
-		if(searchRequest.getNeededTotalResults()!=null&&searchRequest.getNeededTotalResults()){
+		if(searchRequest.getNeededTotalResults()!=null && searchRequest.getNeededTotalResults()){
 			//Get count of total rows if needed
 			String regex = "^[Ss][Ee][Ll][Ee][Cc][Tt]\\s*([^,\\s]+).*?[Ff][Rr][Oo][Mm]";
 			String replacement = "SELECT COUNT($1) FROM";
@@ -378,7 +379,5 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		}
 		return results;
 	}
-
-
 
 }

@@ -52,10 +52,7 @@ public class OrgPicker extends Composite implements SuggestPicker {
 	public OrgPicker(LookupMetadata lookupMetaData) {
 		super();
 
-		orgSearchOracle = new SearchSuggestOracle(orgRpcServiceAsync,
-		        "org.queryParam.startswith.orgOptionalShortName",
-		        "org.queryParam.orgOptionalId",
-		        lookupMetaData); 
+		orgSearchOracle = new SearchSuggestOracle(lookupMetaData); 
 	    suggestBox = new KSSuggestBox(orgSearchOracle);
 
 	    // FIXME when org search window is displayed, call focus.setSuppressed(true), and set it to false afterwards

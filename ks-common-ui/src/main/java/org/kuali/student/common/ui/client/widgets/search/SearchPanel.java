@@ -36,7 +36,7 @@ public class SearchPanel extends Composite{
 	
 	//Layout configuration
 	private VerticalFlowPanel layout = new VerticalFlowPanel();
-	private SimplePanel searchCriteriaPanel = new SimplePanel();
+	private SimplePanel searchSelectorPanel = new SimplePanel();
 	private VerticalFlowPanel tablePanel = new VerticalFlowPanel();
 	private HorizontalBlockFlowPanel criteria = new HorizontalBlockFlowPanel();
 	private CollapsablePanel modifySearchPanel;
@@ -52,95 +52,34 @@ public class SearchPanel extends Composite{
 	private KSLabel searchCriteria = new KSLabel("Search Criteria:");
 	private boolean multiSelect = false;
 	
-	private class ParamListItems implements ListItems{
-
-		private List<LookupParamMetadata> params = new ArrayList<LookupParamMetadata>();
-		
-		public ParamListItems(LookupMetadata meta){
-			params = meta.getParams();
-		}
-		
-		@Override
-		public List<String> getAttrKeys() {
-			return new ArrayList<String>();
-		}
-
-		@Override
-		public String getItemAttribute(String id, String attrkey) {
-			return "";
-		}
-
-		@Override
-		public int getItemCount() {
-			return params.size();
-		}
-
-		@Override
-		public List<String> getItemIds() {
-			List<String> ids = new ArrayList<String>();
-			for(LookupParamMetadata param: params){
-				ids.add(param.getKey());
-			}
-			return ids;
-		}
-
-		@Override
-		public String getItemText(String id) {
-			String itemText = id;
-			for(LookupParamMetadata param: params){
-				if(param.getKey().equals(id)){
-					//TODO this should be a message key
-					itemText = param.getName();
-					break;
-				}
-				
-			}
-			return itemText;
-		}
-		
-		public Widget getWidget(String id){
-			Widget w = null;
-			for(LookupParamMetadata param: params){
-				if(param.getKey().equals(id)){
-					w = DefaultWidgetFactory.getInstance().getWidget(param);
-					break;
-				}
-				
-			}
-			return w;
-		}
-		
-	}
-	
-	public SearchPanel(LookupMetadata meta){
+	public SearchPanel(LookupMetadata meta){		
 		lookupMetadata = meta;		
 		layout.add(createSearchParamPanel(meta));
-		table = new TempSearchBackedTable(meta.getResults(), meta.getResultReturnKey());		
+		
 		tablePanel.add(searchCriteria);
 		tablePanel.add(criteria);
-		//TODO new table goes here
+
+		table = new TempSearchBackedTable();
 		tablePanel.add(table);
 		layout.add(tablePanel);
 		tablePanel.setVisible(false);
 		this.initWidget(layout);
 	}
 	
-	//TODO constructor for list of lookupMeata, is it always a single searchrpc class?
-	public SearchPanel(List<LookupMetadata> metas){
-		//lookupMetadata = metas;		
-		
-		LinkedHashMap<String, Widget> searches = new LinkedHashMap<String, Widget>(); 
+	public SearchPanel(List<LookupMetadata> metas){		
+		LinkedHashMap<String, Widget> searches = new LinkedHashMap<String, Widget>();
+		int i = 0;  //temporary hack
 		for(LookupMetadata meta: metas){
-			//TODO check for default (?)
-			searches.put(meta.getKey(), createSearchParamPanel(meta));
+			searches.put(meta.getKey() + Integer.toString(i++), createSearchParamPanel(meta));
 		}
 		SwappablePanel swapPanel = new SwappablePanel(searches);
-		searchCriteriaPanel.setWidget(swapPanel);
-		layout.add(searchCriteriaPanel);
+		searchSelectorPanel.setWidget(swapPanel);
+		layout.add(searchSelectorPanel);
 		tablePanel.add(searchCriteria);
-		tablePanel.add(criteria);
-		//TODO new table goes here
-		//tablePanel.add(table);
+		tablePanel.add(criteria);	
+		
+		table = new TempSearchBackedTable();		
+		tablePanel.add(table);
 		layout.add(tablePanel);
 		tablePanel.setVisible(false);
 		this.initWidget(layout);
@@ -222,17 +161,16 @@ public class SearchPanel extends Composite{
 					for(SearchParam p: params){
 						GWT.log("Key = " + p.getKey() + "  Value = " + p.getValue().toString(), null);
 					}
-					sr.setSearchKey(meta.getKey());
+					sr.setSearchKey(meta.getKey());				
 					
-					//TODO remove this
-					if(table != null){
-						table.performSearch(sr);
-					}
+					lookupMetadata = meta;					
+					table.performSearch(sr, meta.getResults(), meta.getResultReturnKey()); //temporary hack before we get a new table					
 					tablePanel.setVisible(true);
 					showCriteriaChosen(userCriteria);
+					
 					if(!resultsShown){
-						searchCriteriaPanel.removeFromParent();
-						modifySearchPanel = new CollapsablePanel("Modify Search", searchCriteriaPanel, false);
+						searchSelectorPanel.removeFromParent();
+						modifySearchPanel = new CollapsablePanel("Modify Search", searchSelectorPanel, false);
 						SearchPanel.this.layout.insert(modifySearchPanel, 0);
 					}
 					else{
@@ -383,21 +321,21 @@ public class SearchPanel extends Composite{
 						}
 					}
 					sr.setParams(params);
+					
 					//TODO remove this
 					for(SearchParam p: params){
 						GWT.log("Key = " + p.getKey() + "  Value = " + p.getValue().toString(), null);
 					}
 					sr.setSearchKey(meta.getKey());
-					
-					//TODO remove this
-					if(table != null){
-						table.performSearch(sr);
-					}
+
+					lookupMetadata = meta;
+					table.performSearch(sr, meta.getResults(), meta.getResultReturnKey());					
 					tablePanel.setVisible(true);
 					showCriteriaChosen(userCriteria);
+					
 					if(!resultsShown){
-						searchCriteriaPanel.removeFromParent();
-						modifySearchPanel = new CollapsablePanel("Modify Search", searchCriteriaPanel, false);
+						searchSelectorPanel.removeFromParent();
+						modifySearchPanel = new CollapsablePanel("Modify Search", searchSelectorPanel, false);
 						SearchPanel.this.layout.insert(modifySearchPanel, 0);
 					}
 					else{
@@ -469,9 +407,7 @@ public class SearchPanel extends Composite{
 		
 		public String getFieldName() {
 			return fieldName;
-		}
-
-		
+		}		
 	}
 	
 	private void showCriteriaChosen(List<HasSearchParam> fields){
@@ -520,4 +456,64 @@ public class SearchPanel extends Composite{
 	public void setMultiSelect(boolean multiSelect) {
 		this.multiSelect = multiSelect;
 	}
+	
+	private class ParamListItems implements ListItems{
+
+		private List<LookupParamMetadata> params = new ArrayList<LookupParamMetadata>();
+		
+		public ParamListItems(LookupMetadata meta){
+			params = meta.getParams();
+		}
+		
+		@Override
+		public List<String> getAttrKeys() {
+			return new ArrayList<String>();
+		}
+
+		@Override
+		public String getItemAttribute(String id, String attrkey) {
+			return "";
+		}
+
+		@Override
+		public int getItemCount() {
+			return params.size();
+		}
+
+		@Override
+		public List<String> getItemIds() {
+			List<String> ids = new ArrayList<String>();
+			for(LookupParamMetadata param: params){
+				ids.add(param.getKey());
+			}
+			return ids;
+		}
+
+		@Override
+		public String getItemText(String id) {
+			String itemText = id;
+			for(LookupParamMetadata param: params){
+				if(param.getKey().equals(id)){
+					//TODO this should be a message key
+					itemText = param.getName();
+					break;
+				}
+				
+			}
+			return itemText;
+		}
+		
+		public Widget getWidget(String id){
+			Widget w = null;
+			for(LookupParamMetadata param: params){
+				if(param.getKey().equals(id)){
+					w = DefaultWidgetFactory.getInstance().getWidget(param);
+					break;
+				}
+				
+			}
+			return w;
+		}
+		
+	}	
 }

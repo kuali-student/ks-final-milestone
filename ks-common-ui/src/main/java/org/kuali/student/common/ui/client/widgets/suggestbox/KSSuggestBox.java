@@ -75,11 +75,11 @@ public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandle
                 	currentSuggestion.setReplacementString("");
                 	
                 }
+                
                 if(!KSSuggestBox.this.getSelectedId().equals(currentId)){
                 	currentId = KSSuggestBox.this.getSelectedId();
                 	SelectionChangeEvent.fire(KSSuggestBox.this);
-                }
-                
+                }                
             }
         });
     }
@@ -91,9 +91,7 @@ public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandle
 
     public IdableSuggestion getSelectedSuggestion() {
         return currentSuggestion;
-    }
-    
-
+    }   
     
     public String getSelectedId() {
         String id = null;
@@ -133,7 +131,7 @@ public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandle
 	        });
     	}
     	currentId = KSSuggestBox.this.getSelectedId();
-    }
+    }   
     
     public void setValue(String id, final Callback<IdableSuggestion> callback) {
     	if(id == null || id.equals("")){
@@ -183,9 +181,17 @@ public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandle
 	    	}
 	    	
     	}
-    	else{
+    	else
+    	{
     		this.setValue(id);
     	}
+    	currentId = KSSuggestBox.this.getSelectedId();
+    }
+    
+    public void setValue(IdableSuggestion theSuggestion) {
+    	currentSuggestion = theSuggestion;
+    	SelectionChangeEvent.fire(KSSuggestBox.this);
+    	KSSuggestBox.this.setText((currentSuggestion == null) ? "" : currentSuggestion.getReplacementString());
     	currentId = KSSuggestBox.this.getSelectedId();
     }
     
@@ -193,7 +199,5 @@ public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandle
 	public HandlerRegistration addSelectionChangeHandler(
 			SelectionChangeHandler handler) {
 		return addHandler(handler, SelectionChangeEvent.getType());
-	}
-    
-    
+	}        
 }

@@ -17,20 +17,22 @@ package org.kuali.student.common.ui.client.widgets.suggestbox;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
+import org.kuali.student.common.ui.client.service.SearchRpcService;
+import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
 import org.kuali.student.core.assembly.data.LookupMetadata;
+import org.kuali.student.core.assembly.data.LookupParamMetadata;
 import org.kuali.student.core.search.newdto.SearchParam;
 import org.kuali.student.core.search.newdto.SearchRequest;
 import org.kuali.student.core.search.newdto.SearchResult;
 import org.kuali.student.core.search.newdto.SearchResultCell;
 import org.kuali.student.core.search.newdto.SearchResultRow;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasText;
 
 public class SearchSuggestOracle extends IdableSuggestOracle{
     
-    private BaseRpcServiceAsync searchService;
     private String searchTypeKey;
     private String searchIdKey;
     private String searchTextKey;
@@ -44,6 +46,7 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
     private List<IdableSuggestion> lastSuggestions = new ArrayList<IdableSuggestion>();
     
     private LookupMetadata lookupMetaData;
+    private SearchRpcServiceAsync searchRpcServiceAsync = GWT.create(SearchRpcService.class);    
     
     /**
      * @deprecated
@@ -51,8 +54,7 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
      * @param searchTextKey the column/key that to search on
      * @param idKey the column/key that is the primary key for this type
      */
-    public SearchSuggestOracle(BaseRpcServiceAsync searchService, String searchTypeKey, String searchTextKey, String searchIdKey, String resultIdKey, String resultDisplayKey){
-        this.searchService = searchService;
+    public SearchSuggestOracle(String searchTypeKey, String searchTextKey, String searchIdKey, String resultIdKey, String resultDisplayKey){
         this.searchTypeKey = searchTypeKey;
         this.searchTextKey = searchTextKey;
         this.searchIdKey = searchIdKey;
@@ -60,17 +62,25 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
         this.resultDisplayKey = resultDisplayKey;
     }
     
-    /**
-     * @param searchTypeKey the type to be search on
-     * @param searchTextKey the column/key that to search on
-     * @param idKey the column/key that is the primary key for this type
+    /*
+     * 
      */
-    public SearchSuggestOracle(BaseRpcServiceAsync searchService, String searchTextKey, String searchIdKey, LookupMetadata lookupMetadata) {
+    public SearchSuggestOracle(LookupMetadata lookupMetadata) {
     	this.lookupMetaData = lookupMetadata;
-    	this.searchService = searchService;
         this.searchTypeKey = lookupMetaData.getKey();
-        this.searchTextKey = searchTextKey;
-        this.searchIdKey = searchIdKey;
+        
+        for (LookupParamMetadata param : lookupMetadata.getParams()) {
+        	if ((param.getUsage() != null) && param.getUsage().name().equals("DEFAULT")) {
+        		this.searchTextKey = param.getKey();
+        		break;
+        	}
+        }
+        if (this.searchTextKey == null) {
+        	//FIXME deal with missing default key
+        	GWT.log("Cannot find searchTextKey for " + searchTypeKey, null);
+        }
+        
+        //this.searchIdKey = searchIdKey;  FIXME
         this.resultIdKey = lookupMetadata.getResultReturnKey();
         this.resultDisplayKey = lookupMetadata.getResultDisplayKey();
     }
@@ -105,8 +115,7 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
         } else {
           pendingRequest = request;
           pendingCallback = callback;
-        }
-        
+        }        
     }
     
     private SearchRequest buildSearchRequest(String query, String searchId) {
@@ -165,7 +174,7 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
         
         //case-sensitive?
         if(query.length() > 0){
-        	searchService.search(searchRequest, new AsyncCallback<SearchResult>(){
+        	searchRpcServiceAsync.search(searchRequest, new AsyncCallback<SearchResult>(){
 
             	@Override
                 public void onFailure(Throwable caught) {
@@ -196,7 +205,12 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
                                     String itemText = c.getValue();
                                     theSuggestion.addAttr(c.getKey(), c.getValue());
                                     int index = itemText.toLowerCase().indexOf(query.toLowerCase().trim());
-                                    String htmlString = itemText.substring(0,index) + "<b>" + itemText.substring(index, query.length()) + "</b>" + itemText.substring(index + query.length(), itemText.length());
+                                    
+                                    if (index < 0) {
+                                    	//FIXME handle case when search for text is not appearing within search result - should not happen (misconfiguration)
+                                    }
+                                    
+                                    String htmlString = itemText.substring(0,index) + "<b>" + itemText.substring(index, index + query.length()) + "</b>" + itemText.substring(index + query.length(), itemText.length());
                                     theSuggestion.setDisplayString(htmlString);
                                     theSuggestion.setReplacementString(itemText);
                                 } else if(c.getKey().equals(resultIdKey)){
@@ -257,7 +271,7 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
     @Override
     public void getSuggestionByIdSearch(String id, final org.kuali.student.common.ui.client.mvc.Callback<IdableSuggestion> callback) {
         SearchRequest searchRequest = buildSearchRequestById(null, id);
-        searchService.search(searchRequest, new AsyncCallback<SearchResult>(){
+        searchRpcServiceAsync.search(searchRequest, new AsyncCallback<SearchResult>(){
             
             @Override
             public void onFailure(Throwable caught) {

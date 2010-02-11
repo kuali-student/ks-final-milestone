@@ -433,7 +433,10 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
         public String toString() {
             return value;
         }
-
+        
+        public void setValue(String value) {
+			this.value = value;
+		}
     }
 
     @XmlRootElement
