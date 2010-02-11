@@ -8,13 +8,10 @@ import java.util.List;
  * Tracks information about an HttpServletRequest.
  * 
  * @author Jeff Caddel
- * 
- * @since Apr 26, 2005 3:34:31 PM
- * @version $Revision: 19450 $ $Date: 2009-06-05 08:50:09 -0700 (Fri, 05 Jun
- *          2009) $
  */
 public class RecordedRequest implements Serializable {
 	private static final long serialVersionUID = 1L;
+	int sequence;
 
 	/**
 	 * URL for this request
@@ -62,6 +59,14 @@ public class RecordedRequest implements Serializable {
 
 	public void setParameters(List<ParameterBean> parameters) {
 		this.parameters = parameters;
+	}
+
+	public int getSequence() {
+		return sequence;
+	}
+
+	public void setSequence(int sequence) {
+		this.sequence = sequence;
 	}
 
 }

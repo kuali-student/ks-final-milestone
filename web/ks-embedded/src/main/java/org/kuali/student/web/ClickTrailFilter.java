@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -29,7 +29,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class ClickTrailFilter implements Filter {
 
-	private static final String SESSION_RECORDER_KEY = "org.kuali.student.RECORDED_SESSTION";
+	private static final String SESSION_RECORDER_KEY = "recordedSession";
 
 	private static final Log log = LogFactory.getLog(ClickTrailFilter.class);
 	Runtime runtime = Runtime.getRuntime();
@@ -46,13 +46,12 @@ public class ClickTrailFilter implements Filter {
 	 * Execute the filter logic
 	 */
 	public void doFilter(ServletRequest req, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		sequence++;
+		log.info("sequence=" + (sequence++));
 		HttpServletRequest request = (HttpServletRequest) req;
 		RecordedRequest rr = recordRequest(request);
 		rr.setStartTime(new Date());
 		chain.doFilter(request, response);
 		rr.setFinishTime(new Date());
-		log.info("sequence=" + sequence);
 	}
 
 	/**
@@ -80,8 +79,14 @@ public class ClickTrailFilter implements Filter {
 		// Get a recorded request object
 		RecordedRequest rr = getRecordedRequest(request, parameters);
 
-		// Add the request to our list
-		rs.getRecordedRequests().add(rr);
+		// GWT spews asynchronous requests
+		synchronized (rr) {
+			// Add the request to our list
+			rs.getRecordedRequests().add(rr);
+
+			// Set the sequence
+			rr.setSequence(rs.getRecordedRequests().size());
+		}
 
 		// return the recorded request object
 		return rr;
@@ -89,10 +94,10 @@ public class ClickTrailFilter implements Filter {
 
 	protected List<ParameterBean> getParameters(HttpServletRequest request) {
 		List<ParameterBean> parameters = new ArrayList<ParameterBean>();
-		Enumeration<?> e = request.getParameterNames();
-		while (e.hasMoreElements()) {
-			String key = (String) e.nextElement();
-			String[] values = (String[]) request.getParameterValues(key);
+		Map<?, ?> parameterMap = request.getParameterMap();
+		for (Map.Entry<?, ?> pair : parameterMap.entrySet()) {
+			String key = (String) pair.getKey();
+			String[] values = (String[]) pair.getValue();
 			ParameterBean bean = new ParameterBean();
 			bean.setName(key);
 			bean.setValues(values);
