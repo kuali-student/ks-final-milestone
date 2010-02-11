@@ -36,6 +36,7 @@ import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
 import org.kuali.student.core.search.newdto.SearchRequest;
 import org.kuali.student.core.search.newdto.SearchResult;
+import org.kuali.student.core.search.service.impl.SearchDispatcherImpl;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
@@ -96,7 +97,7 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
     private TranslationService translationService;
     private OrganizationService orgService;
 
-    private SearchDispatcher searchDispatcher;
+    private SearchDispatcherImpl searchDispatcher;
 
     private MetadataServiceImpl metadataService;
 
@@ -456,7 +457,7 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
     public SearchResult search(SearchRequest searchRequest) {
         //TODO Might want to be synchronized, or services should be dependency injected...
         if(null == searchDispatcher){
-            searchDispatcher = new SearchDispatcher(luService, loService, proposalService);
+            searchDispatcher = new SearchDispatcherImpl(luService, loService, proposalService);
         }
         return searchDispatcher.dispatchSearch(searchRequest);
     }   
@@ -485,7 +486,7 @@ public class CreditCourseProposalAssembler implements Assembler<Data, Void> {
         this.translationService = translationService;
     }
 
-    public void setSearchDispatcher(SearchDispatcher searchDispatcher) {
+    public void setSearchDispatcher(SearchDispatcherImpl searchDispatcher) {
         this.searchDispatcher = searchDispatcher;
     }
 

@@ -40,10 +40,10 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.search.newdto.SearchRequest;
 import org.kuali.student.core.search.newdto.SearchResult;
+import org.kuali.student.core.search.service.impl.SearchDispatcherImpl;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
@@ -98,7 +98,7 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
     private TranslationService translationService;
     private OrganizationService orgService;
 
-    private SearchDispatcher searchDispatcher;
+    private SearchDispatcherImpl searchDispatcher;
 
     @Override
     public Data get(String id) throws AssemblyException {
@@ -242,7 +242,7 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
     public SearchResult search(SearchRequest searchRequest) {
         //TODO Might want to be synchronized, or services should be dependency injected...
         if(null == searchDispatcher){
-            searchDispatcher = new SearchDispatcher(luService, loService);
+            searchDispatcher = new SearchDispatcherImpl(luService, loService);
         }
         return searchDispatcher.dispatchSearch(searchRequest);
     }
@@ -1135,7 +1135,7 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
         this.translationService = translationService;
     }
 
-    public void setSearchDispatcher(SearchDispatcher searchDispatcher) {
+    public void setSearchDispatcher(SearchDispatcherImpl searchDispatcher) {
         this.searchDispatcher = searchDispatcher;
     }
 
