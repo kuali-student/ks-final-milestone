@@ -27,6 +27,7 @@ import javax.xml.bind.Unmarshaller;
 
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
+import org.kuali.student.core.assembly.Assembler;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
@@ -42,6 +43,7 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.organization.assembly.OrgProposalAssembler;
+import org.kuali.student.core.organization.assembly.data.client.org.OrgSearchHelper;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
@@ -515,9 +517,9 @@ public class OrgRpcGwtServlet extends BaseRpcGwtServletAbstract<OrganizationServ
         }
         return null;
     }	
-    private OrgProposalAssembler orgProposalAssembler;
+    private Assembler orgProposalAssembler;
     
-    public void setOrgProposalAssembler(OrgProposalAssembler orgProposalAssembler){
+    public void setOrgProposalAssembler(Assembler orgProposalAssembler){
         this.orgProposalAssembler=orgProposalAssembler;
     }
     
@@ -525,9 +527,9 @@ public class OrgRpcGwtServlet extends BaseRpcGwtServletAbstract<OrganizationServ
         if (orgProposalAssembler == null) {
             orgProposalAssembler = new OrgProposalAssembler();
         }            
-            orgProposalAssembler.setOrgService(service);
+//            orgProposalAssembler.setOrgService(service);
             MetadataServiceImpl metadataServiceImpl = new MetadataServiceImpl("/org-orchestration-dictionary.xml");
-            orgProposalAssembler.setMetadataService(metadataServiceImpl);
+//            orgProposalAssembler.setMetadataService(metadataServiceImpl);
 
     }
     
@@ -549,7 +551,7 @@ public class OrgRpcGwtServlet extends BaseRpcGwtServletAbstract<OrganizationServ
 //    }
     
     @Override
-    public DataSaveResult saveOrgProposal(Data proposal) {
+    public DataSaveResult saveOrgProposal(Data proposal) throws AssemblyException {
 
         try {
             initAssemblers();
@@ -566,7 +568,7 @@ public class OrgRpcGwtServlet extends BaseRpcGwtServletAbstract<OrganizationServ
                 return dsr;
             }
         } catch (AssemblyException e) {
-            e.printStackTrace();
+            throw e;
         }
         catch(Exception e){
             e.printStackTrace();
@@ -666,7 +668,9 @@ public class OrgRpcGwtServlet extends BaseRpcGwtServletAbstract<OrganizationServ
     public Data fetchOrg(Data orgSearch) {
         try {
             initAssemblers();
-            return orgProposalAssembler.fetchOrgInfo(orgSearch);
+            OrgSearchHelper orgSearchHelper = OrgSearchHelper.wrap((Data)orgSearch.get("orgSearchInfo"));
+            String orgId = orgSearchHelper.getOrgId();
+            return (Data)orgProposalAssembler.get(orgId);
 //            return orgProposalAssembler.getMetadata(null,"draft");
         }
         catch(Exception e){

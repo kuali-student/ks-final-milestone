@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.service.BaseRpcService;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.dto.StatusInfo;
@@ -71,7 +72,7 @@ public interface OrgRpcService extends RemoteService, BaseRpcService {
     public StatusInfo removeOrgOrgRelation(String orgOrgRelationId);
     public StatusInfo removePositionRestrictionFromOrg(String orgId, String orgPersonRelationTypeKey);
 //    public DataModel getOrgProposalModelDefinition(String modelId);
-    public DataSaveResult saveOrgProposal(Data proposal);
+    public DataSaveResult saveOrgProposal(Data proposal) throws AssemblyException;
     public Metadata getOrgMetaData();
     public SectionConfigInfo getSectionConfig();
     public Data fetchOrg(Data orgSearch);
