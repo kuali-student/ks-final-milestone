@@ -261,6 +261,20 @@
 		class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
 		autowire="byType">
 		<constructor-arg index="0" value="classpath:lo-search-config.xml" />
+		<property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
+	</bean>
+
+	<bean id="lumCrossServiceSearchManager" class="org.kuali.student.core.search.service.impl.CrossSearchManager">
+		<property name="searchDispatcher" ref="lumSearchDispatcher"/>
+	</bean>
+	
+	<bean id="lumSearchDispatcher" class="org.kuali.student.core.search.service.impl.SearchDispatcherImpl">
+		<constructor-arg>
+			<list>
+				<ref bean="loServiceImpl"/>
+				<ref bean="luServiceImpl"/>
+			</list>
+		</constructor-arg>
 	</bean>
 
 	<bean id="loDictionary" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">

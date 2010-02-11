@@ -94,6 +94,35 @@
         </search:searchCriteriaTypeInfo>
     </search:searchType>
 
+	<search:searchType id="lu.search.allLoQuickView">
+        <search:name>Lum Search for Clus Ids and Codes</search:name>
+        <search:desc>Returns all available Clus Ids and Codes</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="lu.result.allLoQuickView" />
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<search:name>Empty Search</search:name>
+			<search:desc>Empty Search</search:desc>
+			<search:queryParams>
+			</search:queryParams>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+
+    <search:searchResultTypeInfo id="lu.result.allLoQuickView">
+		<search:name>LU Quick View with LO ids</search:name>
+		<search:desc>Quick view of the CLU with LO ids</search:desc>
+		<search:resultColumns>
+			<ref bean="lu.resultColumn.cluId" />
+			<ref bean="lu.resultColumn.cluOfficialIdentifier.cluCode" />
+			<ref bean="lu.resultColumn.loId" />
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+	<search:resultColumn id="lu.resultColumn.loId">
+		<search:name>Lo Id</search:name>
+		<search:desc>Learning Objective Identifier</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+
     <search:searchType id="lu.search.cluByCode">
         <search:name>Search for clu id by its code</search:name>
         <search:desc>Returns clu id</search:desc>
@@ -245,6 +274,10 @@
 				</entry>
 				<entry key="lu.queryParam.luOptionalLevel">
 					<value>clu.officialIdentifier.level</value>
+				</entry>
+				
+				<entry key="lu.search.allLoQuickView">
+					<value>SELECT lo.clu.id, lo.clu.officialIdentifier.code, lo.learningObjectiveId FROM LearningObjective lo</value>
 				</entry>
             </map>
 		</property>

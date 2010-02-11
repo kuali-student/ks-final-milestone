@@ -10,6 +10,31 @@
 	 
 	<import resource="lo-dictionary-config.xml" />
 	
+	<search:crossSearchType id="lo.search.loByDescCrossSearch">
+        <search:name>LO Search for all LOs and related Clus matching supplied word</search:name>
+        <search:desc>Returns all matching LOs ids and related Clu ids and codes</search:desc>
+        <search:searchResultTypeInfo>
+        	<ref bean="lo.result.loClu" />
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+        	<ref bean="lo.criteria.loByDesc"/>
+        </search:searchCriteriaTypeInfo>
+        <search:subSearch searchkey="lo.search.loByDesc" key="lo">
+	        <search:subSearchParamMappings crossSearchParam="lo.queryParam.loDescPlain" subSearchParam="lo.queryParam.loDescPlain"/>
+        </search:subSearch>
+        <search:subSearch searchkey="lu.search.allLoQuickView" key="clu"/>
+		<search:joinCriteria type="AND">
+			<search:comparison type="EQUALS">
+				<search:leftHandSide subSearchKey="lo" param="lo.resultColumn.loDescId"/>
+				<search:rightHandSide subSearchKey="clu" param="lu.resultColumn.loId"/>
+			</search:comparison>
+		</search:joinCriteria>
+		<search:joinResultMapping subSearchResultParam="lo.resultColumn.loDescId" subSearchKey="lo" resultParam="lo.resultColumn.loId"/>
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.cluId" subSearchKey="clu" resultParam="lo.resultColumn.loCluId"/>
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.cluOfficialIdentifier.cluCode" subSearchKey="clu" resultParam="lo.resultColumn.loCluCode"/>
+		<search:joinResultMapping subSearchResultParam="lo.resultColumn.loDescPlain" subSearchKey="lo" resultParam="lo.resultColumn.loDescPlain"/>
+	</search:crossSearchType>
+	
     <search:searchType id="lo.search.loByName">
         <search:name>LoSearchByName</search:name>
         <search:desc>Retrieve LO by name</search:desc>
@@ -260,6 +285,7 @@
 				</entry>
 				<!--  These native searches are temporary solutions to allow cross service searches in advance of the KS permanent 
 				      cross service search implementation  -->
+				      
 				<entry key="lo.search.loCluByDesc">
 					<value>NATIVE:SELECT 
     lo.id lo_id, 
