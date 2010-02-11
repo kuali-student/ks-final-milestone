@@ -18,13 +18,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Query;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.assembly.data.LookupParamMetadata;
@@ -45,7 +45,7 @@ import org.kuali.student.core.search.newdto.SortDirection;
 
 public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		implements SearchableDao {
-
+	final Logger LOG = Logger.getLogger(AbstractSearchableCrudDaoImpl.class);
     private static SimpleDateFormat df = new SimpleDateFormat("EEE MMM dd hh:mm:ss zzz yyyy");
 
     private String getParameterDataType(SearchTypeInfo searchTypeInfo,
@@ -207,7 +207,9 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		//retrieve the SELECT statement from search type definition
 		String queryString = queryMap.get(searchKey);
 		String optionalQueryString = "";
-		
+		if(null==queryString){
+			LOG.error("No SQL query was found for searchKey:"+searchKey);
+		}
 		if(queryString.toUpperCase().startsWith("NATIVE:")){
 			queryString = queryString.substring("NATIVE:".length());
 			isNative = true;
