@@ -637,14 +637,9 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
                     result = luService.updateClu(clu.getId(), clu);
                     break;
                 case DELETED:
-                    // back out any relationships in case of RI
-                    if (parentId != null){
-                        List<CluCluRelationInfo> relations = luService.getCluCluRelationsByClu(parentId);
-                        for (CluCluRelationInfo rel : relations) {
-                            luService.deleteCluCluRelation(rel.getId());
-                        }
-                        luService.deleteClu(clu.getId());
-                    }
+                    //old comment: back out any relationships in case of RI
+                    deleteCluHierarchy(input, parentId);
+
                     break;
                 default:
                     // do nothing
@@ -656,6 +651,26 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
         for (CluInfoHierarchy child : input.getChildren()) {
             saveClus(child, input.getCluInfo().getId());
         }
+    }
+    
+    private void deleteCluHierarchy(CluInfoHierarchy input, String parentId) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException {
+    	CluInfo clu = input.getCluInfo();
+    	if (parentId != null){
+        	//getCluCluRelationsByClu doesnt get clus by related clu type?
+            List<CluCluRelationInfo> relations = luService.getCluCluRelationsByClu(parentId);
+            if(relations != null){
+                for (CluCluRelationInfo rel : relations) {
+                	if(rel.getRelatedCluId().equals(clu.getId())){
+                		luService.deleteCluCluRelation(rel.getId());
+                	}
+                }
+            }
+    	}
+    	for (CluInfoHierarchy child : input.getChildren()) {
+    		deleteCluHierarchy(child, clu.getId());
+    	}
+    	input.setChildren(new ArrayList<CluInfoHierarchy>());
+    	luService.deleteClu(clu.getId());
     }
 
     private void saveRelations(String parentId, CluInfoHierarchy input) throws AlreadyExistsException, CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -822,36 +837,46 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
             CluInfoHierarchy formatHierarchy = null;
             CluInfo formatClu = null;
 
-            if (isCreated(format.getData())) {
-                formatHierarchy = new CluInfoHierarchy();
-                formatClu = new CluInfo();
-                formatHierarchy.setCluInfo(formatClu);
-                courseHierarchy.getChildren().add(formatHierarchy);
-            } else {
-                formatHierarchy = findChildByCluId(courseHierarchy, format.getId());
-                formatClu = formatHierarchy.getCluInfo();
-            }
 
             if (isModified(format.getData())) {
                 if (isCreated(format.getData())) {
+                    formatHierarchy = new CluInfoHierarchy();
+                    formatClu = new CluInfo();
+                    formatHierarchy.setCluInfo(formatClu);
+                    courseHierarchy.getChildren().add(formatHierarchy);
+                    
                     formatHierarchy.setModificationState(ModificationState.CREATED);
-                } else if (isUpdated(format.getData())) {
-                    formatHierarchy.setModificationState(ModificationState.UPDATED);
                 } else if (isDeleted(format.getData())) {
-                    formatHierarchy.setModificationState(ModificationState.DELETED);
-                }
+                	formatHierarchy = findChildByCluId(courseHierarchy, format.getId());
+                	if(formatHierarchy != null){
+                		formatClu = formatHierarchy.getCluInfo();
+                    	formatHierarchy.setModificationState(ModificationState.DELETED);
+                	}
+                } else if (isUpdated(format.getData())) {
+                    formatHierarchy = findChildByCluId(courseHierarchy, format.getId());
+                    if(formatHierarchy != null){
+	                    formatClu = formatHierarchy.getCluInfo();
+	                    formatHierarchy.setModificationState(ModificationState.UPDATED);
+                    }
+                } 
+                
+                if(formatClu != null){
+	                // TODO un-hardcode
+	                formatClu.setState("draft");
+	                formatClu.setType(FORMAT_LU_TYPE);
+	                formatHierarchy.setParentRelationType(FORMAT_RELATION_TYPE);
+	                formatHierarchy.setParentRelationState("Active");
+	                if (formatClu.getMetaInfo() != null) {
+	                    formatClu.getMetaInfo().setVersionInd(getVersionIndicator(format.getData()));
+	                }
 
-                // TODO un-hardcode
-                formatClu.setState("draft");
-                formatClu.setType(FORMAT_LU_TYPE);
-                formatHierarchy.setParentRelationType(FORMAT_RELATION_TYPE);
-                formatHierarchy.setParentRelationState("Active");
-                if (formatClu.getMetaInfo() != null) {
-                    formatClu.getMetaInfo().setVersionInd(getVersionIndicator(format.getData()));
+                }
+                
+                if(formatHierarchy != null){
+                	buildActivityUpdates(formatHierarchy, format);
                 }
 
             }
-            buildActivityUpdates(formatHierarchy, format);
         }
     }
 
@@ -867,59 +892,66 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
             CluInfoHierarchy activityHierarchy = null;
             CluInfo activityClu = null;
 
-            if (isCreated(activity.getData())) {
-                activityHierarchy = new CluInfoHierarchy();
-                activityClu = new CluInfo();
-                activityHierarchy.setCluInfo(activityClu);
-                formatHierarchy.getChildren().add(activityHierarchy);
-            } else {
-                activityHierarchy = findChildByCluId(formatHierarchy, activity.getId());
-                activityClu = activityHierarchy.getCluInfo();
-            }
 
             if (isModified(activity.getData())) {
                 if (isCreated(activity.getData())) {
+                    activityHierarchy = new CluInfoHierarchy();
+                    activityClu = new CluInfo();
+                    activityHierarchy.setCluInfo(activityClu);
+                    formatHierarchy.getChildren().add(activityHierarchy);
+                    
                     activityHierarchy.setModificationState(ModificationState.CREATED);
-                } else if (isUpdated(activity.getData())) {
-                    activityHierarchy.setModificationState(ModificationState.UPDATED);
                 } else if (isDeleted(activity.getData())) {
-                    activityHierarchy.setModificationState(ModificationState.DELETED);
-                }
+                	activityHierarchy = findChildByCluId(formatHierarchy, activity.getId());
+                	if(activityHierarchy != null){
+                		activityClu = activityHierarchy.getCluInfo();
+                		activityHierarchy.setModificationState(ModificationState.DELETED);
+                	}     	
+                    
+                } else if (isUpdated(activity.getData())) {
+                    activityHierarchy = findChildByCluId(formatHierarchy, activity.getId());
+                    if(activityHierarchy != null){
+	                    activityClu = activityHierarchy.getCluInfo();
+	                    activityHierarchy.setModificationState(ModificationState.UPDATED);
+                    }
+                } 
+                
+                if(activityClu != null){
 
-                activityClu.setType(activity.getActivityType());
-
-
-                AmountInfo time = activityClu.getIntensity();
-                if (time == null) {
-                    time = new AmountInfo();
-                    activityClu.setIntensity(time);
-                }
-                if (activity.getContactHours() != null) {
-                    time.setUnitType(activity.getContactHours().getPer());
-                    time.setUnitQuantity(String.valueOf(activity.getContactHours().getHrs()));
-                }
-
-                TimeAmountInfo stdDuration = activityClu.getStdDuration();
-                if (stdDuration == null){
-                    stdDuration = new TimeAmountInfo();
-                    activityClu.setStdDuration(stdDuration);
-                }
-                if (activity.getDuration() != null){
-                    stdDuration.setAtpDurationTypeKey(activity.getDuration().getTimeUnit());
-                    stdDuration.setTimeQuantity(activity.getDuration().getQuantity());
-                }
-
-                Integer enrEst = activity.getDefaultEnrollmentEstimate();
-                activityClu.setDefaultEnrollmentEstimate(enrEst == null ? 0 : enrEst);
-
-                // TODO un-hardcode
-                activityClu.setState("draft");
-                activityHierarchy.setParentRelationType(ACTIVITY_RELATION_TYPE);
-                activityHierarchy.setParentRelationState("Active");
-
-
-                if (activityClu.getMetaInfo() != null) {
-                    activityClu.getMetaInfo().setVersionInd(getVersionIndicator(activity.getData()));
+	                activityClu.setType(activity.getActivityType());
+	
+	                AmountInfo time = activityClu.getIntensity();
+	                if (time == null) {
+	                    time = new AmountInfo();
+	                    activityClu.setIntensity(time);
+	                }
+	                if (activity.getContactHours() != null) {
+	                    time.setUnitType(activity.getContactHours().getPer());
+	                    time.setUnitQuantity(String.valueOf(activity.getContactHours().getHrs()));
+	                }
+	
+	                TimeAmountInfo stdDuration = activityClu.getStdDuration();
+	                if (stdDuration == null){
+	                    stdDuration = new TimeAmountInfo();
+	                    activityClu.setStdDuration(stdDuration);
+	                }
+	                if (activity.getDuration() != null){
+	                    stdDuration.setAtpDurationTypeKey(activity.getDuration().getTimeUnit());
+	                    stdDuration.setTimeQuantity(activity.getDuration().getQuantity());
+	                }
+	
+	                Integer enrEst = activity.getDefaultEnrollmentEstimate();
+	                activityClu.setDefaultEnrollmentEstimate(enrEst == null ? 0 : enrEst);
+	
+	                // TODO un-hardcode
+	                activityClu.setState("draft");
+	                activityHierarchy.setParentRelationType(ACTIVITY_RELATION_TYPE);
+	                activityHierarchy.setParentRelationState("Active");
+	
+	
+	                if (activityClu.getMetaInfo() != null) {
+	                    activityClu.getMetaInfo().setVersionInd(getVersionIndicator(activity.getData()));
+	                }
                 }
             }
         }

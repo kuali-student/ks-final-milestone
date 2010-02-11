@@ -354,7 +354,8 @@ public class CourseConfigurer
         // FIXME wilj: termsOffered not currently populated by assembler
 
 //        addField(scheduling, COURSE + "/" + CreditCourseConstants.DURATION + "/" + TERM_TYPE, getLabel(LUConstants.TERM_LITERAL_LABEL_KEY), new AtpTypeList());
-        String termKey = COURSE + "/" + CreditCourseConstants.DURATION + "/" + TERM_TYPE;
+//FIXME Why is this timeUnit now and not termType, this widget did not work when this comment was written
+        String termKey = COURSE + "/" + CreditCourseConstants.DURATION + "/" + "timeUnit";
         Metadata termMeta = modelDefinition.getMetadata(QueryPath.parse(termKey));
         FieldDescriptor termDescriptor = new FieldDescriptor(termKey, null, termMeta);
         termDescriptor.setFieldWidget(new TermListPicker());
@@ -481,7 +482,8 @@ public class CourseConfigurer
             activity.nextLine();
             addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.HRS, "Contact Hours" , path);
             // FIXME look up what the label and implement as dropdown
-            addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.PER, null,  new ContactHoursAtpTypeList(), path);
+            //FIXME this fields constraints are wrong in its metadata, temporarily commented out
+            //addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.PER, null,  new ContactHoursAtpTypeList(), path);
             addField(activity, DEFAULT_ENROLLMENT_ESTIMATE, getLabel(LUConstants.CLASS_SIZE_LABEL_KEY), path);
 
             return activity;
