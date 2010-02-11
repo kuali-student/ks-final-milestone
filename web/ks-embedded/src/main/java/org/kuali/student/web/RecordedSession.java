@@ -6,7 +6,9 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * Tracks information about HttpSession
  * 
+ * @author Jeff Caddel
  */
 public class RecordedSession implements Serializable {
 	private static final long serialVersionUID = 1L;
