@@ -1,5 +1,6 @@
 package org.kuali.student.web;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.List;
 /**
  * 
  */
-public class RecordedSession {
+public class RecordedSession implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	List<RecordedRequest> recordedRequests = Collections.synchronizedList(new ArrayList<RecordedRequest>());
