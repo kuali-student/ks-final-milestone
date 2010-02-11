@@ -2,7 +2,6 @@ package org.kuali.student.web;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -13,10 +12,7 @@ public class RecordedSession {
 
 	List<RecordedRequest> recordedRequests = Collections.synchronizedList(new ArrayList<RecordedRequest>());
 	String remoteAddress;
-	String remoteHost;
 	String browser;
-	Date destroyed;
-	String login;
 
 	public List<RecordedRequest> getRecordedRequests() {
 		return recordedRequests;
@@ -34,14 +30,6 @@ public class RecordedSession {
 		this.remoteAddress = remoteAddress;
 	}
 
-	public String getRemoteHost() {
-		return remoteHost;
-	}
-
-	public void setRemoteHost(String remoteHost) {
-		this.remoteHost = remoteHost;
-	}
-
 	public String getBrowser() {
 		return browser;
 	}
@@ -49,21 +37,4 @@ public class RecordedSession {
 	public void setBrowser(String browser) {
 		this.browser = browser;
 	}
-
-	public Date getDestroyed() {
-		return destroyed;
-	}
-
-	public void setDestroyed(Date destroyed) {
-		this.destroyed = destroyed;
-	}
-
-	public String getLogin() {
-		return login;
-	}
-
-	public void setLogin(String login) {
-		this.login = login;
-	}
-
 }
