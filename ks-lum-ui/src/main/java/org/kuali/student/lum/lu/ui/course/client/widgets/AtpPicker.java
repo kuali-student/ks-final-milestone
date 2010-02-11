@@ -38,7 +38,7 @@ public class AtpPicker extends VerticalPanel implements HasText {
     }
     
     private void init() {
-        oracle = new SearchSuggestOracle((BaseRpcServiceAsync)atpRpcServiceAsync,  "atp.search.atpByShortName", "atp.queryParam.atpShortName",
+        oracle = new SearchSuggestOracle("atp.search.atpByShortName", "atp.queryParam.atpShortName",
                 "atp.queryParam.atpId", "atp.resultColumn.atpId", "atp.resultColumn.atpShortName");     //
         sb = new KSSuggestBox(oracle);
         oracle.setTextWidget(sb.getTextBox());

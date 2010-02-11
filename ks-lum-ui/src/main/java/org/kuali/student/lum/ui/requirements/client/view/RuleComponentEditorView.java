@@ -887,7 +887,7 @@ public class RuleComponentEditorView extends ViewComposite {
     	searchConfig.setRetrievedColumnKey("lu.resultColumn.luOptionalCode");
     	
     	//TODO: following code should be in KSSearchComponent with config parameters set within SearchComponentConfiguration class
-    	final SearchSuggestOracle cluSearchOracle = new SearchSuggestOracle(searchConfig.getSearchService(),
+    	final SearchSuggestOracle cluSearchOracle = new SearchSuggestOracle(
     	        "lu.search.generic", 
     	        "lu.queryParam.luOptionalCode", //field user is entering and we search on... add '%' the parameter
     	        "lu.queryParam.luOptionalId", 		//if one wants to search by ID rather than by name

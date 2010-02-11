@@ -848,7 +848,7 @@ public class LuConfigurer {
     	searchConfig.setRetrievedColumnKey("org.resultColumn.orgShortName");
     	
     	//TODO: following code should be in KSSearchComponent with config parameters set within SearchComponentConfiguration class
-    	final SearchSuggestOracle orgSearchOracle = new SearchSuggestOracle(searchConfig.getSearchService(),
+    	final SearchSuggestOracle orgSearchOracle = new SearchSuggestOracle(
     	        "org.search.orgByShortNameAndType", 
     	        "org.queryParam.orgShortName", //field user is entering and we search on... add '%' the parameter
     	        "org.queryParam.orgId", 		//if one wants to search by ID rather than by name
@@ -908,7 +908,7 @@ public class LuConfigurer {
         searchConfig.setResultIdKey("atp.resultColumn.atpId");
 
         //TODO: following code should be in KSSearchComponent with config parameters set within SearchComponentConfiguration class
-        final SearchSuggestOracle atpSearchOracle = new SearchSuggestOracle(searchConfig.getSearchService(),
+        final SearchSuggestOracle atpSearchOracle = new SearchSuggestOracle(
                 "atp.search.atpByShortName", 
                 "atp.queryParam.atpShortName", //field user is entering and we search on... add '%' the parameter
                 "atp.queryParam.atpId",         //if one wants to search by ID rather than by name

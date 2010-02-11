@@ -308,7 +308,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
      */
     private class LOCategoryPicker extends Composite implements SuggestPicker {
 
-         final SearchSuggestOracle loSearchOracle = new SearchSuggestOracle(loRpcServiceAsync,
+         final SearchSuggestOracle loSearchOracle = new SearchSuggestOracle(
                  "lo.search.loCategories",
                  "lo.queryParam.startsWith.loCategoryName",
                  "lo.queryParam.loCategoryId",
