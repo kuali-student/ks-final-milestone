@@ -1,6 +1,5 @@
 package org.kuali.student.web;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -11,8 +10,6 @@ import java.util.List;
  */
 public class RecordedSession {
 	private static final long serialVersionUID = 1L;
-	private static SimpleDateFormat timezoneFormat = new SimpleDateFormat("zz");
-	private static Date example = new Date();
 
 	List<RecordedRequest> recordedRequests = Collections.synchronizedList(new ArrayList<RecordedRequest>());
 	String remoteAddress;
@@ -20,21 +17,6 @@ public class RecordedSession {
 	String browser;
 	Date destroyed;
 	String login;
-
-	/**
-	 * 
-	 */
-	public String getTimezone() {
-		return timezoneFormat.format(example);
-	}
-
-	public static SimpleDateFormat getTimezoneFormat() {
-		return timezoneFormat;
-	}
-
-	public static void setTimezoneFormat(SimpleDateFormat timezoneFormat) {
-		RecordedSession.timezoneFormat = timezoneFormat;
-	}
 
 	public List<RecordedRequest> getRecordedRequests() {
 		return recordedRequests;
