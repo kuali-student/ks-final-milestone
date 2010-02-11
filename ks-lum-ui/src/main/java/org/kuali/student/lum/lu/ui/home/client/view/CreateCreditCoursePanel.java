@@ -118,8 +118,21 @@ public class CreateCreditCoursePanel extends ViewComposite{
         categoryManagement.addClickHandler(new ClickHandler(){
             @Override
             public void onClick(ClickEvent event) {
-                KSLightBox pop = new KSLightBox();
-                pop.setWidget(new CategoryManagement());
+                Button closeButton = new Button("Close");
+                
+                final KSLightBox pop = new KSLightBox();
+                VerticalPanel mainPanel = new VerticalPanel();
+                mainPanel.add(new CategoryManagement());
+                mainPanel.add(closeButton);
+                
+                closeButton.addClickHandler(new ClickHandler(){
+                    @Override
+                    public void onClick(ClickEvent event) {
+                        pop.hide();
+                    }
+                });
+                
+                pop.setWidget(mainPanel);
                 pop.show();
             }
         });
