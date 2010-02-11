@@ -3,16 +3,45 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:simple="http://cxf.apache.org/simple"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="
           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
 		  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-		  http://cxf.apache.org/simple http://cxf.apache.org/schemas/simple.xsd">
+		  http://cxf.apache.org/simple http://cxf.apache.org/schemas/simple.xsd http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd   http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
+		<!-- Service Clients -->	
+	<bean id="orgClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface" value="org.kuali.student.core.organization.service.OrganizationService" />
+		<property name="serviceQName" value="{http://student.kuali.org/wsdl/organization}OrganizationService" />
+	</bean>
+	
+	<bean id="documentService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface" value="org.kuali.student.core.document.service.DocumentService" />
+		<property name="serviceQName" value="{http://student.kuali.org/wsdl/document}DocumentService" />
+	</bean>
+	
+<!--	<tx:advice id="txAdvice" transaction-manager="jtaTxManager">-->
+<!--		<tx:attributes>-->
+<!--			<tx:method name="*" />-->
+<!--		</tx:attributes>-->
+<!--	</tx:advice>-->
+<!---->
+<!--	<aop:config proxy-target-class="false" >-->
+<!--		<aop:pointcut id="fooServiceOperation"-->
+<!--			expression="execution(* org.kuali.student.core.organization.assembly.OrgProposalAssembler.*(..))" />-->
+<!--		<aop:advisor advice-ref="txAdvice" pointcut-ref="fooServiceOperation" />-->
+<!--	</aop:config>-->
+	
+    
+    
 	<!-- Spring to GWT servlet mapping -->
 	<bean id="urlMappingCore" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 		<property name="alwaysUseFullPath" value="true" />
 		<property name="urlMap">
-			<map>
+			<map> 
 				<entry key="/org.kuali.student.core.organization.ui.OrgEntry/rpcservices/OrgRpcService">
 					<ref bean="orgRpcServiceGwtController"/>
 				</entry>
@@ -91,7 +120,7 @@
 	<!-- GWT Servlets -->
 	<bean id="orgRpcGwtServlet" class="org.kuali.student.core.organization.ui.server.gwt.OrgRpcGwtServlet">
 		<property name="service" ref="orgClient"/>
-		<property name="orgProposalAssembler" ref="orgProposalAssembler"/>
+<!--		<property name="orgProposalAssembler" ref="orgProposalAssembler"/>-->
 	</bean>
 
 	<bean id="personRpcGwtServlet" class="org.kuali.student.core.person.ui.server.gwt.PersonRpcGwtServlet">	
@@ -109,7 +138,7 @@
 	<bean id="SearchDispatchRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.SearchDispatchRpcGwtServlet">
 		<constructor-arg>
 	      <list>
-	        <ref bean="orgClient"/>
+<!--	        <ref bean="orgClient"/>-->
 	      <!-- <ref bean="atpClient"/> -->	        	        	        
 	      </list>
 		</constructor-arg>						
@@ -126,7 +155,7 @@
 	</bean>
 	
 	<bean id="orgProposalAssembler" class="org.kuali.student.core.organization.assembly.OrgProposalAssembler">
-		<property name="orgService" ref="orgClient"/>
+<!--		<property name="orgService" ref="orgClient"/>-->
 		<property name="metadataService" ref="metadataServiceImpl"/>
 	</bean>
 	
@@ -139,15 +168,6 @@
 		<constructor-arg ref="orgProposalAssembler"/>
 	</bean>
 
-	<!-- Service Clients -->	
-	<bean id="orgClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-		<property name="serviceEndpointInterface" value="org.kuali.student.core.organization.service.OrganizationService" />
-		<property name="serviceQName" value="{http://student.kuali.org/wsdl/organization}OrganizationService" />
-	</bean>
-	
-	<bean id="documentService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-		<property name="serviceEndpointInterface" value="org.kuali.student.core.document.service.DocumentService" />
-		<property name="serviceQName" value="{http://student.kuali.org/wsdl/document}DocumentService" />
-	</bean>
+
 			
 </beans>
