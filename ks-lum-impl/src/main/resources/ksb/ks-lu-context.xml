@@ -193,8 +193,14 @@
 		<constructor-arg index="0" value="classpath:lu-dictionary-config.xml" />	
 	</bean>
 
+    <bean id="statementAssembler"
+        class="org.kuali.student.brms.statement.service.impl.StatementAssembler">
+        <property name="statementDao" ref="statementDao"/>
+    </bean>
+    
 	<bean id="statementServiceImpl"
 		class="org.kuali.student.brms.statement.service.impl.StatementServiceImpl">
+        <property name="statementAssembler" ref="statementAssembler"/>
 		<property name="statementDao" ref="statementDao" />
         <property name="searchManager" ref="statementSearchManager" />
         <property name="dictionaryServiceDelegate" ref="statementDictionary" />

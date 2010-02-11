@@ -297,8 +297,14 @@
         <property name="language" value="en" />
     </bean>
     
+    <bean id="statementAssembler"
+        class="org.kuali.student.brms.statement.service.impl.StatementAssembler">
+        <property name="statementDao" ref="statementDao"/>
+    </bean>
+    
     <bean id="statementService" autowire="byName"
         class="org.kuali.student.brms.statement.service.impl.StatementServiceImpl">
+        <property name="statementAssembler" ref="statementAssembler"/>
         <property name="statementDao" ref="statementDao"/>
         <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator"/>
     </bean>
