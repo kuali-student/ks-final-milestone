@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
@@ -95,6 +96,30 @@ public class ClickTrailFilter implements Filter {
 
 		// return the recorded request object
 		return rr;
+	}
+
+	protected List<NameValuesBean> getHeaders(HttpServletRequest request) {
+		List<NameValuesBean> parameters = new ArrayList<NameValuesBean>();
+		Enumeration<?> e = request.getHeaderNames();
+		while (e.hasMoreElements()) {
+			String name = (String) e.nextElement();
+			String value = request.getHeader(name);
+			NameValuesBean bean = new NameValuesBean();
+			bean.setName(name);
+			bean.setValues(new String[] { value });
+			parameters.add(bean);
+		}
+		Collections.sort(parameters);
+		return parameters;
+	}
+
+	protected String[] getValues(Enumeration<?> e) {
+		List<String> values = new ArrayList<String>();
+		while (e.hasMoreElements()) {
+			String value = (String) e.nextElement();
+			values.add(value);
+		}
+		return values.toArray(new String[0]);
 	}
 
 	protected List<NameValuesBean> getParameters(HttpServletRequest request) {
