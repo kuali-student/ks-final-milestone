@@ -164,13 +164,7 @@ public class CategoryManagement extends Composite {
                 filterCategoryByType();
             }
         });
-//        filterButton.addClickHandler(new ClickHandler() {
-  //          @Override
-    //        public void onClick(ClickEvent event) {
 
-      //      }
-
-        //});
         addButton.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
@@ -182,7 +176,7 @@ public class CategoryManagement extends Composite {
         deleteButton.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                LoCategoryInfo cate = categoryTable.getSelectedData();
+                LoCategoryInfo cate = categoryTable.getSelectedItem();
                 DeleteConfirmationDialog dialog = new DeleteConfirmationDialog();
                 dialog.setCategory(cate);
                 dialog.show();
@@ -191,7 +185,7 @@ public class CategoryManagement extends Composite {
         updateButton.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                LoCategoryInfo cate = categoryTable.getSelectedData();
+                LoCategoryInfo cate = categoryTable.getSelectedItem();
                 UpdateCategoryDialog dialog = new UpdateCategoryDialog();
                 dialog.setCategoryType(categoryTypeList);
 
@@ -200,6 +194,9 @@ public class CategoryManagement extends Composite {
             }
         });
         loadDataAndRefresh();
+    }
+    public List<LoCategoryInfo> getSelectedCategoryList(){
+        return categoryTable.getSelectedItems();
     }
     private void loadDataAndRefresh(){
         loRpcServiceAsync.getLoCategories("kuali.loRepository.key.singleUse", new AsyncCallback<List<LoCategoryInfo>>() {
@@ -314,7 +311,7 @@ public class CategoryManagement extends Composite {
         FlexTable layoutTable = new FlexTable();
         KSTextBox nameTextBox = new KSTextBox();
         //ListBox typeListBox = new ListBox();
-         KSDropDown typeListBox = new KSDropDown();
+        KSDropDown typeListBox = new KSDropDown();
         KSButton okButton = new KSButton("OK");
         KSButton cancelButton = new KSButton("Cancel");
         LoCategoryInfo categoryInfo;
@@ -339,7 +336,7 @@ public class CategoryManagement extends Composite {
                 @Override
                 public void onClick(ClickEvent event) {
                     LoCategoryInfo cate = getCategory();
-                    Window.alert(cate.getType());
+                  //  Window.alert(cate.getType());
                     CategoryManagement.loRpcServiceAsync.updateLoCategory(cate.getId(), cate, new AsyncCallback<LoCategoryInfo>() {
                         @Override
                         public void onFailure(Throwable caught) {
@@ -429,22 +426,18 @@ public class CategoryManagement extends Composite {
                 @Override
                 public void onClick(ClickEvent event) {
                     LoCategoryInfo cate = getCategory();
-                    // Window.alert(cate.getName());
                     CategoryManagement.loRpcServiceAsync.createLoCategory(cate.getLoRepository(), cate.getType(), cate, new AsyncCallback<LoCategoryInfo>() {
                         @Override
                         public void onFailure(Throwable caught) {
                             Window.alert("create LoCategory failed " + caught.getMessage());
                         }
-
                         @Override
                         public void onSuccess(LoCategoryInfo result) {
                             loadDataAndRefresh();
-                            //Window.alert("create LoCategory successfully");
                         }
                     });
                     CreateCategoryDialog.this.hide();
                 }
-
             });
             cancelButton.addClickHandler(new ClickHandler() {
 
@@ -485,7 +478,7 @@ public class CategoryManagement extends Composite {
         final FlowPanel panel = new FlowPanel();
         TableModel<LoCategoryInfo> model = new MyTableModel();
 
-        public LoCategoryInfo getSelectedData() {
+        public LoCategoryInfo getSelectedItem() {
             Set<String> ids = model.getSelection().getIds();
             for (String id : ids) {
                 for (LoCategoryInfo cate : categoryList) {
@@ -496,6 +489,18 @@ public class CategoryManagement extends Composite {
             }
             return null;
         }
+        public List<LoCategoryInfo> getSelectedItems() {
+            Set<String> ids = model.getSelection().getIds();
+            List<LoCategoryInfo> list = new ArrayList<LoCategoryInfo>();
+            for (String id : ids) {
+                for (LoCategoryInfo cate : categoryList) {
+                    if (cate.getId().equals(id)) {
+                        list.add(cate);
+                    }
+                }
+            }
+            return list;
+        }
 
         public void setData(List<LoCategoryInfo> l) {
             categoryList = l;
@@ -505,7 +510,6 @@ public class CategoryManagement extends Composite {
             this.showHeader = false;
             this.showFooter = false;
             super.initWidget(panel);
-            // model.setFilter(new MockFilter());
             TableDefinition<LoCategoryInfo> definition = new MyTableDefinition(SelectionMode.MULTI_ITEM);
             definition.setShowHeader(showHeader);
             definition.setShowFooter(showFooter);
@@ -514,7 +518,7 @@ public class CategoryManagement extends Composite {
                 @Override
                 public void onSelection(SelectionEvent<Selection<LoCategoryInfo>> event) {
                    // Selection<LoCategoryInfo> sel = event.getSelectedItem();
-                    LoCategoryInfo cate = getSelectedData();
+                    LoCategoryInfo cate = getSelectedItem();
                     loRpcServiceAsync.getLosByLoCategory(cate.getId(), new AsyncCallback<List<LoInfo>>() {
                         @Override
                         public void onFailure(Throwable caught) {

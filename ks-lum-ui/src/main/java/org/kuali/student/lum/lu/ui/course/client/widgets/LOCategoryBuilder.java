@@ -60,6 +60,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 
@@ -90,6 +91,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
     private KSButton addButton = new KSButton("Add");
 
     private KSLightBox createCategoryWindow;
+    Hyperlink browseCategoryLink = new Hyperlink("Browse categories", "BrowseCategories");
 
     public LOCategoryBuilder(String messageGroup, String type, String state, String loRepoKey) {
         super();
@@ -113,15 +115,66 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
                 addEnteredCategory();
             }
         });
+        browseCategoryLink.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                final CategoryManagement categoryManagement = new CategoryManagement();
+                categoryManagement.setDeleteButtonEnabled(false);
+                categoryManagement.setInsertButtonEnabled(false);
+                categoryManagement.setUpdateButtonEnabled(false);
+                
+                final KSLightBox pop = new KSLightBox();
+                KSButton addButton = new KSButton("Add");
+                KSButton cancelButton = new KSButton("Cancel");
+                HorizontalPanel buttonPanel = new HorizontalPanel();
+                buttonPanel.add(addButton);
+                buttonPanel.add(cancelButton);
+                
+                
+                VerticalPanel mainPanel = new VerticalPanel();
+                mainPanel.add(categoryManagement);
+                mainPanel.add(buttonPanel);
+                
+                addButton.addClickHandler(new ClickHandler(){
+                    @Override
+                    public void onClick(ClickEvent event) {
+                        List<LoCategoryInfo> list = categoryManagement.getSelectedCategoryList();        
+                        for(LoCategoryInfo info: list){
+                            addCategory(info);
+                        }
+                        pop.hide();
+                    }
+                });
+                
+                cancelButton.addClickHandler(new ClickHandler(){
+                    @Override
+                    public void onClick(ClickEvent event) {
+                        pop.hide();
+                    }
+                });
+                
+                
+                pop.setWidget(mainPanel);
+                pop.show();
+                
+                
+                
+            }
+        }); 
 
         VerticalPanel main = new VerticalPanel();
         HorizontalPanel suggestPanel = new HorizontalPanel();
         suggestPanel.add(picker);
         suggestPanel.add(addButton);
+        
+        VerticalPanel suggestAndBrowsePanel = new VerticalPanel();
+        suggestAndBrowsePanel.add(suggestPanel);
+        suggestAndBrowsePanel.add(browseCategoryLink);
 
+        
         selectedPanel.add(categoryList);
         main.add(getLabel(LUConstants.LO_CATEGORY_KEY));
-        main.add(suggestPanel);
+        main.add(suggestAndBrowsePanel);
         main.add(selectedPanel);
         root.add(main);
 
