@@ -79,7 +79,8 @@ public class ClickTrailFilter implements Filter {
 		// Get a recorded request object
 		RecordedRequest rr = getRecordedRequest(request, parameters);
 
-		// GWT spews asynchronous requests
+		// GWT spews asynchronous requests so synchronize on the RecordedSession
+		// object for safety
 		synchronized (rs) {
 			// Add the request to our list
 			rs.getRecordedRequests().add(rr);
