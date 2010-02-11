@@ -3,16 +3,13 @@
 	<groupId>org.kuali.student.web</groupId>
 	<artifactId>ks-embedded</artifactId>
 	<packaging>war</packaging>
-
 	<name>KS Embedded</name>
 	<description>Contains all KS modules and Rice</description>
-
 	<parent>
 		<groupId>org.kuali.student.web</groupId>
 		<artifactId>ks-web</artifactId>
 		<version>1.0.0-m3-SNAPSHOT</version>
 	</parent>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -70,7 +67,6 @@
 			</plugin>
 		</plugins>
 	</build>
-
 	<dependencies>
        <dependency>
          <groupId>commons-lang</groupId>
@@ -80,7 +76,6 @@
          <groupId>commons-logging</groupId>
          <artifactId>commons-logging</artifactId>
        </dependency>
-
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aspects</artifactId>
@@ -97,7 +92,6 @@
 			<artifactId>rice-impl</artifactId>
 			<version>${kuali.rice.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-rice</artifactId>
@@ -118,7 +112,6 @@
 			<artifactId>ks-lum-ui</artifactId>
 			<version>1.0.0-m3-SNAPSHOT</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-impl</artifactId>
@@ -129,7 +122,6 @@
 			<artifactId>ks-common-ui</artifactId>
 			<version>1.0.0-m3-SNAPSHOT</version>
 		</dependency>
-
         <!-- these are needed for rice jsp's to work properly -->
 		<dependency>
       		<groupId>tomcat</groupId>
@@ -155,7 +147,6 @@
       		<version>3.1.1</version>
       		<scope>runtime</scope>
     	</dependency>
-
 		<!--  Sources for GWT Compile -->
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
@@ -185,7 +176,6 @@
             <classifier>sources</classifier>
             <scope>provided</scope>
         </dependency>
-
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-ui</artifactId>
@@ -201,5 +191,4 @@
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
-
 </project>
