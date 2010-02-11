@@ -7,6 +7,7 @@ import java.util.Map;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.assembly.data.Data.DataType;
 import org.kuali.student.core.assembly.data.Data.Key;
 import org.kuali.student.core.assembly.helper.PropertyEnum;
 import org.kuali.student.core.assembly.helper.RuntimeDataHelper;
@@ -217,8 +218,21 @@ public class AssemblerUtils {
 	     } else {
 	         Map<String, Metadata> children = metadata.getProperties();
 	         
-	         
-	         return get(metadata.getProperties().get(frame.get(0).get()), frame.subPath(1, frame.size()));
+	         if (metadata.getDataType() == DataType.LIST){
+	        	 return get(metadata, frame, DataType.LIST);
+	         }
+	         else{
+	        	 return get(metadata.getProperties().get(frame.get(0).get()), frame.subPath(1, frame.size()));
+	         }
 	     }
+	 }
+	 
+	 private static Metadata get(Metadata metadata, QueryPath frame, DataType type){
+		 if(type == DataType.LIST){
+			 return get(metadata.getProperties().get(QueryPath.getWildCard()), frame.subPath(1, frame.size()));
+		 }
+		 else{
+			return get(metadata.getProperties().get(frame.get(0).get()), frame.subPath(1, frame.size()));
+		 }
 	 }
 }

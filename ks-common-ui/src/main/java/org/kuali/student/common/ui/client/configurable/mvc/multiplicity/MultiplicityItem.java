@@ -72,6 +72,8 @@ public abstract class MultiplicityItem extends Composite{
 
     public void setDeleted(boolean isDeleted) {
         this.isDeleted = isDeleted;
+        if(isDeleted)
+            this.isCreated = false; 
     }
     
     public abstract void redraw();
