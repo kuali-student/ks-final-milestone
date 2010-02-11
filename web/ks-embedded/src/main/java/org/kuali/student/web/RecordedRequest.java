@@ -28,6 +28,7 @@ public class RecordedRequest implements Serializable {
 	 * Request parameters (if any)
 	 */
 	List<NameValuesBean> parameters;
+	List<NameValuesBean> headers;
 
 	public String getPath() {
 		return path;
@@ -67,6 +68,14 @@ public class RecordedRequest implements Serializable {
 
 	public void setSequence(int sequence) {
 		this.sequence = sequence;
+	}
+
+	public List<NameValuesBean> getHeaders() {
+		return headers;
+	}
+
+	public void setHeaders(List<NameValuesBean> headers) {
+		this.headers = headers;
 	}
 
 }

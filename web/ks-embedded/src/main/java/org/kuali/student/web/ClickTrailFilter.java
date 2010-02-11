@@ -74,11 +74,8 @@ public class ClickTrailFilter implements Filter {
 			session.setAttribute(SESSION_RECORDER_KEY, rs);
 		}
 
-		// Copy the parameter list
-		List<NameValuesBean> parameters = getParameters(request);
-
 		// Get a recorded request object
-		RecordedRequest rr = getRecordedRequest(request, parameters);
+		RecordedRequest rr = getRecordedRequest(request);
 
 		/**
 		 * GWT spews lots of asynchronous requests. Synchronize on the
@@ -113,15 +110,6 @@ public class ClickTrailFilter implements Filter {
 		return parameters;
 	}
 
-	protected String[] getValues(Enumeration<?> e) {
-		List<String> values = new ArrayList<String>();
-		while (e.hasMoreElements()) {
-			String value = (String) e.nextElement();
-			values.add(value);
-		}
-		return values.toArray(new String[0]);
-	}
-
 	protected List<NameValuesBean> getParameters(HttpServletRequest request) {
 		List<NameValuesBean> parameters = new ArrayList<NameValuesBean>();
 		Map<?, ?> parameterMap = request.getParameterMap();
@@ -137,11 +125,18 @@ public class ClickTrailFilter implements Filter {
 		return parameters;
 	}
 
-	protected RecordedRequest getRecordedRequest(HttpServletRequest request, List<NameValuesBean> parameters) {
+	protected RecordedRequest getRecordedRequest(HttpServletRequest request) {
+		// Copy the parameter list
+		List<NameValuesBean> parameters = getParameters(request);
+
+		// Copy the headers
+		List<NameValuesBean> headers = getHeaders(request);
+
 		// Create and populate a RecordedRequest object
 		RecordedRequest rr = new RecordedRequest();
 		rr.setPath(request.getRequestURL() + "");
 		rr.setParameters(parameters);
+		rr.setHeaders(headers);
 		return rr;
 	}
 

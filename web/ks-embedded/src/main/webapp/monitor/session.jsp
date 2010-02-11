@@ -29,6 +29,17 @@ pageContext.setAttribute("rs",rs);
        </c:forEach>
      </table>
    </td>
+   <td>
+     <table border=0>
+       <c:forEach var="header" items="${rr.headers}">
+		 <tr>
+		   <td align=right>${header.name}</td>
+		   <td>=</td>
+		   <td>${header.value}</td>
+		 </tr>
+       </c:forEach>
+     </table>
+   </td>
  </tr>
 </c:forEach>
 </table>
