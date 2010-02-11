@@ -1,10 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.kuali.student.core</groupId>
     <artifactId>ks-core</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+
     <name>KS Core</name>
     <description>Kuali Student Parent POM</description>
 
@@ -73,7 +75,7 @@
     </repositories>
 
     <properties>
-    	<!-- artifact versions -->
+        <!-- artifact versions -->
         <atomikos.version>3.4.1</atomikos.version>
         <cxf.version>2.2</cxf.version>
         <gwtVersion>1.6.4</gwtVersion>
@@ -95,9 +97,9 @@
         <cobertura.plugin.version>2.2</cobertura.plugin.version>
         <javadoc.plugin.version>2.4</javadoc.plugin.version>
         <site.plugin.version>2.0-beta-7</site.plugin.version>
-		<gwt.codehaus.plugin.version>1.2</gwt.codehaus.plugin.version>
+        <gwt.codehaus.plugin.version>1.2</gwt.codehaus.plugin.version>
         <war.plugin.version>2.1-beta-1</war.plugin.version>
-		<tomcat.plugin.version>1.0-beta-1</tomcat.plugin.version>
+        <tomcat.plugin.version>1.0-beta-1</tomcat.plugin.version>
 
         <!-- build properties -->
         <ks-core.version>1.0.0-SNAPSHOT</ks-core.version>
@@ -118,6 +120,10 @@
             </activation>
 
             <repositories>
+                <!--
+                    central defined here to ensure maven checks it first as it has the best chance
+                    at finding dependencies
+                -->
                 <repository>
                     <id>central</id>
                     <url>http://repo1.maven.org/maven2/</url>
@@ -131,6 +137,9 @@
                 <repository>
                     <id>maven2-repository.dev.java.net</id>
                     <url>http://download.java.net/maven/2</url>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
                 </repository>
                 <repository>
                     <id>maven-repository.dev.java.net</id>
@@ -144,28 +153,15 @@
                     </snapshots>
                 </repository>
                 <repository>
-                    <id>kuali.rice</id>
-                    <url>https://test.kuali.org/maven</url>
-                    <releases>
-                        <enabled>true</enabled>
-                    </releases>
-                    <snapshots>
-                        <enabled>false</enabled>
-                    </snapshots>
-                </repository>
-                <repository>
                     <id>ks.public</id>
                     <url>
                         http://archiva.kuali.umd.edu/repository/public/
 					</url>
                 </repository>
-                <repository>
-                    <id>apache.incubating</id>
-                    <url>
-                        http://people.apache.org/repo/m2-incubating-repository
-                    </url>
-                </repository>
-                <!-- adding until maven repository resolution fixed (does not work in 2.0.9 or 2.1.0.20080530 embedded) -->
+                <!--
+                    adding until maven repository resolution fixed (does not work in 2.0.9 or
+                    2.1.0.20080530 embedded)
+                -->
                 <repository>
                     <id>repository.jboss.org</id>
                     <url>http://repository.jboss.org/maven2</url>
@@ -179,16 +175,23 @@
                 <repository>
                     <id>ibiblio.maven</id>
                     <url>http://www.ibiblio.org/maven</url>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
                 </repository>
                 <repository>
                     <id>EclipseLink Repo</id>
-                    <url>
-                        http://www.eclipse.org/downloads/download.php?r=1&amp;nf=1&amp;file=/rt/eclipselink/maven.repo
-					</url>
+                    <url>http://www.eclipse.org/downloads/download.php?r=1&amp;nf=1&amp;file=/rt/eclipselink/maven.repo</url>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
 				</repository>
 				<repository>
                     <id>shibboleth.internet2</id>
                     <url>http://shibboleth.internet2.edu/downloads/maven2/</url>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
                 </repository>
 			</repositories>
 
@@ -431,9 +434,7 @@
 		</snapshotRepository>
 		<site>
 			<id>ks.site</id>
-			<url>
-                scp://student.kuali.org:/opt/www/student/site/core/${project.version}
-			</url>
+			<url>scp://student.kuali.org:/opt/www/student/site/core/${project.version}</url>
 		</site>
 	</distributionManagement>
 
@@ -469,21 +470,11 @@
 					<source>1.6</source>
 					<links>
 						<link>http://cxf.apache.org/javadoc/${cxf.version}/</link>
-						<link>
-							http://java.sun.com/javase/6/docs/api/
-						</link>
-						<link>
-							http://java.sun.com/javaee/5/docs/api/
-						</link>
-						<link>
-							http://static.springframework.org/spring/docs/${spring.version}/api/
-						</link>
-						<link>
-							http://ehcache.sourceforge.net/javadoc/
-						</link>
-                        <link>
-                            http://rice.kuali.org/docs/${kuali.rice.version}/site/apidocs/
-                        </link>
+						<link>http://java.sun.com/javase/6/docs/api/</link>
+						<link>http://java.sun.com/javaee/5/docs/api/</link>
+						<link>http://static.springframework.org/spring/docs/${spring.version}/api/</link>
+						<link>http://ehcache.sourceforge.net/javadoc/</link>
+                        <link>http://rice.kuali.org/docs/${kuali.rice.version}/site/apidocs/</link>
 					</links>
 				</configuration>
 				<reportSets>
@@ -585,7 +576,6 @@
 			</dependency>
 
 			<!--  Hibernate -->
-
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-annotations</artifactId>
