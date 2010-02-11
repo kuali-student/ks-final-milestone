@@ -23,18 +23,8 @@
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/document}DocumentService" />
 	</bean>
 	
-<!--	<tx:advice id="txAdvice" transaction-manager="jtaTxManager">-->
-<!--		<tx:attributes>-->
-<!--			<tx:method name="*" />-->
-<!--		</tx:attributes>-->
-<!--	</tx:advice>-->
-<!---->
-<!--	<aop:config proxy-target-class="false" >-->
-<!--		<aop:pointcut id="fooServiceOperation"-->
-<!--			expression="execution(* org.kuali.student.core.organization.assembly.OrgProposalAssembler.*(..))" />-->
-<!--		<aop:advisor advice-ref="txAdvice" pointcut-ref="fooServiceOperation" />-->
-<!--	</aop:config>-->
-	
+
+	 <tx:annotation-driven transaction-manager="jtaTxManager" />
     
     
 	<!-- Spring to GWT servlet mapping -->
@@ -120,7 +110,7 @@
 	<!-- GWT Servlets -->
 	<bean id="orgRpcGwtServlet" class="org.kuali.student.core.organization.ui.server.gwt.OrgRpcGwtServlet">
 		<property name="service" ref="orgClient"/>
-<!--		<property name="orgProposalAssembler" ref="orgProposalAssembler"/>-->
+		<property name="orgProposalAssembler" ref="orgProposalAssembler"/>
 	</bean>
 
 	<bean id="personRpcGwtServlet" class="org.kuali.student.core.person.ui.server.gwt.PersonRpcGwtServlet">	
@@ -138,7 +128,7 @@
 	<bean id="SearchDispatchRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.SearchDispatchRpcGwtServlet">
 		<constructor-arg>
 	      <list>
-<!--	        <ref bean="orgClient"/>-->
+	        <ref bean="orgClient"/>
 	      <!-- <ref bean="atpClient"/> -->	        	        	        
 	      </list>
 		</constructor-arg>						
@@ -155,7 +145,7 @@
 	</bean>
 	
 	<bean id="orgProposalAssembler" class="org.kuali.student.core.organization.assembly.OrgProposalAssembler">
-<!--		<property name="orgService" ref="orgClient"/>-->
+		<property name="orgService" ref="orgClient"/>
 		<property name="metadataService" ref="metadataServiceImpl"/>
 	</bean>
 	
