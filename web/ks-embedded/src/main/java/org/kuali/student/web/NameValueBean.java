@@ -7,13 +7,13 @@ import java.io.Serializable;
  * 
  * @author Jeff Caddel
  */
-public class ParameterBean implements Comparable<ParameterBean>, Serializable {
+public class NameValueBean implements Comparable<NameValueBean>, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	String name;
 	String[] values;
 
-	public int compareTo(ParameterBean bean) {
+	public int compareTo(NameValueBean bean) {
 		return name.compareTo(bean.getName());
 	}
 
