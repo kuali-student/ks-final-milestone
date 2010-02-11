@@ -8,6 +8,7 @@ import org.kuali.student.common.assembly.client.SaveResult;
 import org.kuali.student.core.search.newdto.SearchRequest;
 import org.kuali.student.core.search.newdto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
+
 /*
  *	ASSEMBLERREVIEW
  *  1) The combination of persistence and translation methods (assemble/disassemble vs get/save):
@@ -22,7 +23,7 @@ import org.kuali.student.core.validation.dto.ValidationResultInfo;
  *  		cluInfo/officialIdentifier/shortName -> proposal/transcriptTitle  
  */
 public interface Assembler<TargetType, SourceType> {
-	
+
 	TargetType get(String id) throws AssemblyException;
 
 	Metadata getMetadata(String type, String state) throws AssemblyException;
@@ -34,6 +35,6 @@ public interface Assembler<TargetType, SourceType> {
 	SourceType disassemble(TargetType input) throws AssemblyException;
 
 	List<ValidationResultInfo> validate(TargetType input) throws AssemblyException;
-	
+
 	SearchResult search(SearchRequest searchRequest);
 }
