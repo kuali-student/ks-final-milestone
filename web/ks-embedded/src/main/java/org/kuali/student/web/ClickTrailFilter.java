@@ -69,6 +69,7 @@ public class ClickTrailFilter implements Filter {
 		HttpSession session = request.getSession(true);
 		RecordedSession rs = (RecordedSession) session.getAttribute(SESSION_RECORDER_KEY);
 		if (rs == null) {
+			log.info("Recording a new HTTP session: " + session.getId());
 			rs = new RecordedSession();
 			session.setAttribute(SESSION_RECORDER_KEY, rs);
 		}
