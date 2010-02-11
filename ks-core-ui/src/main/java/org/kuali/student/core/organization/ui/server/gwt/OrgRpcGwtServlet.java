@@ -527,7 +527,7 @@ public class OrgRpcGwtServlet extends BaseRpcGwtServletAbstract<OrganizationServ
         }            
             orgProposalAssembler.setOrgService(service);
             MetadataServiceImpl metadataServiceImpl = new MetadataServiceImpl("/org-orchestration-dictionary.xml");
-            
+            orgProposalAssembler.setMetadataService(metadataServiceImpl);
 
     }
     
