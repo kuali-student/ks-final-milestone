@@ -6,7 +6,7 @@ import static org.kuali.student.web.Constants.*;
 
 public class KualiRemoteServiceServlet extends RemoteServiceServlet {
 	private static final long serialVersionUID = 1L;
-	GWTUtils utils = new GWTUtils();
+	RPCUtils utils = new RPCUtils();
 
 	/**
 	 * Extract information about the RPC call, transform it into a human

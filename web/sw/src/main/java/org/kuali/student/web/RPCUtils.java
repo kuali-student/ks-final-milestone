@@ -8,7 +8,7 @@ import java.lang.reflect.Modifier;
 /**
  * Some convenience methods for GWT related things
  */
-public class GWTUtils {
+public class RPCUtils {
 	private static final int LANGUAGE_MODIFIERS = Modifier.PUBLIC | Modifier.PROTECTED | Modifier.PRIVATE | Modifier.ABSTRACT | Modifier.STATIC | Modifier.FINAL | Modifier.SYNCHRONIZED | Modifier.NATIVE;
 
 	/**
