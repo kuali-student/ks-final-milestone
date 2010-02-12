@@ -8,8 +8,8 @@ import static org.kuali.student.common.ui.server.gwt.Constants.*;
  * Base class that extends RemoteServiceServlet so KS has a chance to extend the
  * behavior of the baseline RemoteServiceServlet
  */
+@SuppressWarnings("serial")
 public abstract class BaseRemoteServiceServletAbstract extends RemoteServiceServlet {
-	private static final long serialVersionUID = 1L;
 	RPCUtils utils = new RPCUtils();
 
 	/**
