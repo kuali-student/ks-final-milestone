@@ -1,0 +1,20 @@
+.KS-Horizontal-Block-Flow{
+	/*Firefox and others*/
+	display: inline-block;
+}
+
+@if user.agent ie6 ie7 {  
+	.KS-Horizontal-Block-Flow{
+		/*This is an IE hack for inline block format*/
+		zoom: 1; /*activates HasFormat*/
+		display: inline;
+	}
+}
+
+.KS-Horizontal-Inline-Flow{
+	display: inline;
+}
+
+.KS-Vertical-Flow{
+	display: block;
+}
