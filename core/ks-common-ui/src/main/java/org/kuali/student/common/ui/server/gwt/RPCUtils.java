@@ -25,8 +25,8 @@ public class RPCUtils {
 	}
 
 	/**
-	 * Convert a Method object to a String that is easy for humans to read. This
-	 * is mostly copied from Method.toString();
+	 * Convert a Method object to a string format that is easy to read. This is
+	 * mostly copied from Method.toString();
 	 */
 	public String toString(Method m) {
 		try {
