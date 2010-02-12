@@ -139,7 +139,12 @@ public class StockWatcher implements EntryPoint {
 		};
 
 		// Make the call to the stock price service.
-		stockPriceSvc.getPrices(stocks.toArray(new String[0]), callback);
+		StockPrice[] stockPrices = new StockPrice[stocks.size()];
+		for (int i = 0; i < stockPrices.length; i++) {
+			stockPrices[i] = new StockPrice();
+			stockPrices[i].setSymbol(stocks.get(i));
+		}
+		stockPriceSvc.getPrices(stockPrices, callback);
 	}
 
 	/**
