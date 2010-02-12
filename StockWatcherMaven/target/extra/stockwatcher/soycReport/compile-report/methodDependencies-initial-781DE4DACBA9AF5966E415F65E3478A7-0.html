@@ -1,0 +1,735 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>
+Method Dependencies for Initially Live Code
+</title>
+<style type="text/css" media="screen">
+@import url('goog.css');
+@import url('inlay.css');
+@import url('soyc.css');
+</style>
+</head>
+<body>
+<div class="g-doc">
+<div id="hd" class="g-section g-tpl-50-50 g-split">
+<div class="g-unit g-first">
+<p>
+<a href="index.html" id="gwt-logo" class="soyc-ir"><span>Google Web Toolkit</span></a>
+</p>
+</div>
+<div class="g-unit">
+</div>
+</div>
+<div id="soyc-appbar-lrg">
+<div class="g-section g-tpl-75-25 g-split">
+<div class="g-unit g-first">
+<h1>Method Dependencies for Initially Live Code</h1>
+</div>
+<div class="g-unit"></div>
+</div>
+</div>
+<div id="bd">
+<h2>Showing Package: com.google.gwt.i18n.client.constants</h2>
+<a name="com.google.gwt.i18n.client.constants.DateTimeConstants"><h3 class="soyc-class-header">Class: com.google.gwt.i18n.client.constants.DateTimeConstants</a></h3>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.i18n.client.constants.DateTimeConstants</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.i18n.client.constants.DateTimeConstantsImpl::$clinit</li>
+<li>com.google.gwt.i18n.client.LocaleInfo::$ensureDateTimeConstants</li>
+<li>com.google.gwt.i18n.client.LocaleInfo::$getDateTimeConstants</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::getMediumDateFormat</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcherMessages_::$lastUpdate</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$updateTable</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$4::$onSuccess</li>
+<li>com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter::$onResponseReceived</li>
+<li>com.google.gwt.http.client.Request::$fireOnResponseReceived</li>
+<li>com.google.gwt.http.client.RequestBuilder$1::onReadyStateChange</li>
+<li>com.google.gwt.xhr.client.ReadyStateChangeHandler::$clinit</li>
+<li>com.google.gwt.http.client.RequestBuilder::$doSend</li>
+<li>com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::$doInvoke</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<a name="com.google.gwt.i18n.client.constants.DateTimeConstantsImpl"><h3 class="soyc-class-header">Class: com.google.gwt.i18n.client.constants.DateTimeConstantsImpl</a></h3>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.i18n.client.constants.DateTimeConstantsImpl</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.i18n.client.LocaleInfo::$ensureDateTimeConstants</li>
+<li>com.google.gwt.i18n.client.LocaleInfo::$getDateTimeConstants</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::getMediumDateFormat</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcherMessages_::$lastUpdate</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$updateTable</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$4::$onSuccess</li>
+<li>com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter::$onResponseReceived</li>
+<li>com.google.gwt.http.client.Request::$fireOnResponseReceived</li>
+<li>com.google.gwt.http.client.RequestBuilder$1::onReadyStateChange</li>
+<li>com.google.gwt.xhr.client.ReadyStateChangeHandler::$clinit</li>
+<li>com.google.gwt.http.client.RequestBuilder::$doSend</li>
+<li>com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::$doInvoke</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<a name="com.google.gwt.i18n.client.constants.DateTimeConstantsImpl_"><h3 class="soyc-class-header">Class: com.google.gwt.i18n.client.constants.DateTimeConstantsImpl_</a></h3>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.i18n.client.constants.DateTimeConstantsImpl_</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.i18n.client.constants.DateTimeConstantsImpl_::$DateTimeConstantsImpl_</li>
+<li>com.google.gwt.i18n.client.LocaleInfo::$ensureDateTimeConstants</li>
+<li>com.google.gwt.i18n.client.LocaleInfo::$getDateTimeConstants</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::getMediumDateFormat</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcherMessages_::$lastUpdate</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$updateTable</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$4::$onSuccess</li>
+<li>com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter::$onResponseReceived</li>
+<li>com.google.gwt.http.client.Request::$fireOnResponseReceived</li>
+<li>com.google.gwt.http.client.RequestBuilder$1::onReadyStateChange</li>
+<li>com.google.gwt.xhr.client.ReadyStateChangeHandler::$clinit</li>
+<li>com.google.gwt.http.client.RequestBuilder::$doSend</li>
+<li>com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::$doInvoke</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.i18n.client.constants.DateTimeConstantsImpl_::$DateTimeConstantsImpl_</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.i18n.client.LocaleInfo::$ensureDateTimeConstants</li>
+<li>com.google.gwt.i18n.client.LocaleInfo::$getDateTimeConstants</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::getMediumDateFormat</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcherMessages_::$lastUpdate</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$updateTable</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$4::$onSuccess</li>
+<li>com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter::$onResponseReceived</li>
+<li>com.google.gwt.http.client.Request::$fireOnResponseReceived</li>
+<li>com.google.gwt.http.client.RequestBuilder$1::onReadyStateChange</li>
+<li>com.google.gwt.xhr.client.ReadyStateChangeHandler::$clinit</li>
+<li>com.google.gwt.http.client.RequestBuilder::$doSend</li>
+<li>com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::$doInvoke</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.i18n.client.constants.DateTimeConstantsImpl_::$ampms</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.i18n.client.DateTimeFormat::$formatAmPm</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$subFormat</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$format</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcherMessages_::$lastUpdate</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$updateTable</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$4::$onSuccess</li>
+<li>com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter::$onResponseReceived</li>
+<li>com.google.gwt.http.client.Request::$fireOnResponseReceived</li>
+<li>com.google.gwt.http.client.RequestBuilder$1::onReadyStateChange</li>
+<li>com.google.gwt.xhr.client.ReadyStateChangeHandler::$clinit</li>
+<li>com.google.gwt.http.client.RequestBuilder::$doSend</li>
+<li>com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::$doInvoke</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.i18n.client.constants.DateTimeConstantsImpl_::$clinit</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.i18n.client.constants.DateTimeConstantsImpl_::$eraNames</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$formatEra</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$subFormat</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$format</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcherMessages_::$lastUpdate</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$updateTable</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$4::$onSuccess</li>
+<li>com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter::$onResponseReceived</li>
+<li>com.google.gwt.http.client.Request::$fireOnResponseReceived</li>
+<li>com.google.gwt.http.client.RequestBuilder$1::onReadyStateChange</li>
+<li>com.google.gwt.xhr.client.ReadyStateChangeHandler::$clinit</li>
+<li>com.google.gwt.http.client.RequestBuilder::$doSend</li>
+<li>com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::$doInvoke</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.i18n.client.constants.DateTimeConstantsImpl_::$dateFormats</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.i18n.client.DateTimeFormat::getMediumDateFormat</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcherMessages_::$lastUpdate</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$updateTable</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$4::$onSuccess</li>
+<li>com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter::$onResponseReceived</li>
+<li>com.google.gwt.http.client.Request::$fireOnResponseReceived</li>
+<li>com.google.gwt.http.client.RequestBuilder$1::onReadyStateChange</li>
+<li>com.google.gwt.xhr.client.ReadyStateChangeHandler::$clinit</li>
+<li>com.google.gwt.http.client.RequestBuilder::$doSend</li>
+<li>com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::$doInvoke</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.i18n.client.constants.DateTimeConstantsImpl_::$eraNames</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.i18n.client.DateTimeFormat::$formatEra</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$subFormat</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$format</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcherMessages_::$lastUpdate</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$updateTable</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$4::$onSuccess</li>
+<li>com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter::$onResponseReceived</li>
+<li>com.google.gwt.http.client.Request::$fireOnResponseReceived</li>
+<li>com.google.gwt.http.client.RequestBuilder$1::onReadyStateChange</li>
+<li>com.google.gwt.xhr.client.ReadyStateChangeHandler::$clinit</li>
+<li>com.google.gwt.http.client.RequestBuilder::$doSend</li>
+<li>com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::$doInvoke</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.i18n.client.constants.DateTimeConstantsImpl_::$eras</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.i18n.client.DateTimeFormat::$formatEra</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$subFormat</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$format</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcherMessages_::$lastUpdate</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$updateTable</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$4::$onSuccess</li>
+<li>com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter::$onResponseReceived</li>
+<li>com.google.gwt.http.client.Request::$fireOnResponseReceived</li>
+<li>com.google.gwt.http.client.RequestBuilder$1::onReadyStateChange</li>
+<li>com.google.gwt.xhr.client.ReadyStateChangeHandler::$clinit</li>
+<li>com.google.gwt.http.client.RequestBuilder::$doSend</li>
+<li>com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::$doInvoke</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.i18n.client.constants.DateTimeConstantsImpl_::$months</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.i18n.client.DateTimeFormat::$formatMonth</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$subFormat</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$format</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcherMessages_::$lastUpdate</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$updateTable</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$4::$onSuccess</li>
+<li>com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter::$onResponseReceived</li>
+<li>com.google.gwt.http.client.Request::$fireOnResponseReceived</li>
+<li>com.google.gwt.http.client.RequestBuilder$1::onReadyStateChange</li>
+<li>com.google.gwt.xhr.client.ReadyStateChangeHandler::$clinit</li>
+<li>com.google.gwt.http.client.RequestBuilder::$doSend</li>
+<li>com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::$doInvoke</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.i18n.client.constants.DateTimeConstantsImpl_::$narrowMonths</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.i18n.client.DateTimeFormat::$formatMonth</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$subFormat</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$format</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcherMessages_::$lastUpdate</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$updateTable</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$4::$onSuccess</li>
+<li>com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter::$onResponseReceived</li>
+<li>com.google.gwt.http.client.Request::$fireOnResponseReceived</li>
+<li>com.google.gwt.http.client.RequestBuilder$1::onReadyStateChange</li>
+<li>com.google.gwt.xhr.client.ReadyStateChangeHandler::$clinit</li>
+<li>com.google.gwt.http.client.RequestBuilder::$doSend</li>
+<li>com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::$doInvoke</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.i18n.client.constants.DateTimeConstantsImpl_::$narrowWeekdays</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.i18n.client.DateTimeFormat::$formatDayOfWeek</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$subFormat</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$format</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcherMessages_::$lastUpdate</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$updateTable</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$4::$onSuccess</li>
+<li>com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter::$onResponseReceived</li>
+<li>com.google.gwt.http.client.Request::$fireOnResponseReceived</li>
+<li>com.google.gwt.http.client.RequestBuilder$1::onReadyStateChange</li>
+<li>com.google.gwt.xhr.client.ReadyStateChangeHandler::$clinit</li>
+<li>com.google.gwt.http.client.RequestBuilder::$doSend</li>
+<li>com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::$doInvoke</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.i18n.client.constants.DateTimeConstantsImpl_::$quarters</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.i18n.client.DateTimeFormat::$formatQuarter</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$subFormat</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$format</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcherMessages_::$lastUpdate</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$updateTable</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$4::$onSuccess</li>
+<li>com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter::$onResponseReceived</li>
+<li>com.google.gwt.http.client.Request::$fireOnResponseReceived</li>
+<li>com.google.gwt.http.client.RequestBuilder$1::onReadyStateChange</li>
+<li>com.google.gwt.xhr.client.ReadyStateChangeHandler::$clinit</li>
+<li>com.google.gwt.http.client.RequestBuilder::$doSend</li>
+<li>com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::$doInvoke</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.i18n.client.constants.DateTimeConstantsImpl_::$shortMonths</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.i18n.client.DateTimeFormat::$formatMonth</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$subFormat</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$format</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcherMessages_::$lastUpdate</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$updateTable</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$4::$onSuccess</li>
+<li>com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter::$onResponseReceived</li>
+<li>com.google.gwt.http.client.Request::$fireOnResponseReceived</li>
+<li>com.google.gwt.http.client.RequestBuilder$1::onReadyStateChange</li>
+<li>com.google.gwt.xhr.client.ReadyStateChangeHandler::$clinit</li>
+<li>com.google.gwt.http.client.RequestBuilder::$doSend</li>
+<li>com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::$doInvoke</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.i18n.client.constants.DateTimeConstantsImpl_::$shortQuarters</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.i18n.client.DateTimeFormat::$formatQuarter</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$subFormat</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$format</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcherMessages_::$lastUpdate</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$updateTable</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$4::$onSuccess</li>
+<li>com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter::$onResponseReceived</li>
+<li>com.google.gwt.http.client.Request::$fireOnResponseReceived</li>
+<li>com.google.gwt.http.client.RequestBuilder$1::onReadyStateChange</li>
+<li>com.google.gwt.xhr.client.ReadyStateChangeHandler::$clinit</li>
+<li>com.google.gwt.http.client.RequestBuilder::$doSend</li>
+<li>com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::$doInvoke</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.i18n.client.constants.DateTimeConstantsImpl_::$shortWeekdays</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.i18n.client.DateTimeFormat::$formatDayOfWeek</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$subFormat</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$format</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcherMessages_::$lastUpdate</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$updateTable</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$4::$onSuccess</li>
+<li>com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter::$onResponseReceived</li>
+<li>com.google.gwt.http.client.Request::$fireOnResponseReceived</li>
+<li>com.google.gwt.http.client.RequestBuilder$1::onReadyStateChange</li>
+<li>com.google.gwt.xhr.client.ReadyStateChangeHandler::$clinit</li>
+<li>com.google.gwt.http.client.RequestBuilder::$doSend</li>
+<li>com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::$doInvoke</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.i18n.client.constants.DateTimeConstantsImpl_::$standaloneMonths</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.i18n.client.DateTimeFormat::$formatStandaloneMonth</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$subFormat</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$format</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcherMessages_::$lastUpdate</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$updateTable</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$4::$onSuccess</li>
+<li>com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter::$onResponseReceived</li>
+<li>com.google.gwt.http.client.Request::$fireOnResponseReceived</li>
+<li>com.google.gwt.http.client.RequestBuilder$1::onReadyStateChange</li>
+<li>com.google.gwt.xhr.client.ReadyStateChangeHandler::$clinit</li>
+<li>com.google.gwt.http.client.RequestBuilder::$doSend</li>
+<li>com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::$doInvoke</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.i18n.client.constants.DateTimeConstantsImpl_::$standaloneNarrowMonths</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.i18n.client.DateTimeFormat::$formatStandaloneMonth</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$subFormat</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$format</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcherMessages_::$lastUpdate</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$updateTable</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$4::$onSuccess</li>
+<li>com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter::$onResponseReceived</li>
+<li>com.google.gwt.http.client.Request::$fireOnResponseReceived</li>
+<li>com.google.gwt.http.client.RequestBuilder$1::onReadyStateChange</li>
+<li>com.google.gwt.xhr.client.ReadyStateChangeHandler::$clinit</li>
+<li>com.google.gwt.http.client.RequestBuilder::$doSend</li>
+<li>com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::$doInvoke</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.i18n.client.constants.DateTimeConstantsImpl_::$standaloneNarrowWeekdays</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.i18n.client.DateTimeFormat::$formatStandaloneDay</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$subFormat</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$format</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcherMessages_::$lastUpdate</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$updateTable</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$4::$onSuccess</li>
+<li>com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter::$onResponseReceived</li>
+<li>com.google.gwt.http.client.Request::$fireOnResponseReceived</li>
+<li>com.google.gwt.http.client.RequestBuilder$1::onReadyStateChange</li>
+<li>com.google.gwt.xhr.client.ReadyStateChangeHandler::$clinit</li>
+<li>com.google.gwt.http.client.RequestBuilder::$doSend</li>
+<li>com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::$doInvoke</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.i18n.client.constants.DateTimeConstantsImpl_::$standaloneShortMonths</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.i18n.client.DateTimeFormat::$formatStandaloneMonth</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$subFormat</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$format</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcherMessages_::$lastUpdate</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$updateTable</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$4::$onSuccess</li>
+<li>com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter::$onResponseReceived</li>
+<li>com.google.gwt.http.client.Request::$fireOnResponseReceived</li>
+<li>com.google.gwt.http.client.RequestBuilder$1::onReadyStateChange</li>
+<li>com.google.gwt.xhr.client.ReadyStateChangeHandler::$clinit</li>
+<li>com.google.gwt.http.client.RequestBuilder::$doSend</li>
+<li>com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::$doInvoke</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.i18n.client.constants.DateTimeConstantsImpl_::$standaloneShortWeekdays</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.i18n.client.DateTimeFormat::$formatStandaloneDay</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$subFormat</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$format</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcherMessages_::$lastUpdate</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$updateTable</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$4::$onSuccess</li>
+<li>com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter::$onResponseReceived</li>
+<li>com.google.gwt.http.client.Request::$fireOnResponseReceived</li>
+<li>com.google.gwt.http.client.RequestBuilder$1::onReadyStateChange</li>
+<li>com.google.gwt.xhr.client.ReadyStateChangeHandler::$clinit</li>
+<li>com.google.gwt.http.client.RequestBuilder::$doSend</li>
+<li>com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::$doInvoke</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.i18n.client.constants.DateTimeConstantsImpl_::$standaloneWeekdays</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.i18n.client.DateTimeFormat::$formatStandaloneDay</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$subFormat</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$format</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcherMessages_::$lastUpdate</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$updateTable</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$4::$onSuccess</li>
+<li>com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter::$onResponseReceived</li>
+<li>com.google.gwt.http.client.Request::$fireOnResponseReceived</li>
+<li>com.google.gwt.http.client.RequestBuilder$1::onReadyStateChange</li>
+<li>com.google.gwt.xhr.client.ReadyStateChangeHandler::$clinit</li>
+<li>com.google.gwt.http.client.RequestBuilder::$doSend</li>
+<li>com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::$doInvoke</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.i18n.client.constants.DateTimeConstantsImpl_::$timeFormats</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.i18n.client.DateTimeFormat::getMediumTimeFormat</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcherMessages_::$lastUpdate</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$updateTable</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$4::$onSuccess</li>
+<li>com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter::$onResponseReceived</li>
+<li>com.google.gwt.http.client.Request::$fireOnResponseReceived</li>
+<li>com.google.gwt.http.client.RequestBuilder$1::onReadyStateChange</li>
+<li>com.google.gwt.xhr.client.ReadyStateChangeHandler::$clinit</li>
+<li>com.google.gwt.http.client.RequestBuilder::$doSend</li>
+<li>com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::$doInvoke</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.i18n.client.constants.DateTimeConstantsImpl_::$weekdays</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.i18n.client.DateTimeFormat::$formatDayOfWeek</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$subFormat</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::$format</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcherMessages_::$lastUpdate</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$updateTable</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$4::$onSuccess</li>
+<li>com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter::$onResponseReceived</li>
+<li>com.google.gwt.http.client.Request::$fireOnResponseReceived</li>
+<li>com.google.gwt.http.client.RequestBuilder$1::onReadyStateChange</li>
+<li>com.google.gwt.xhr.client.ReadyStateChangeHandler::$clinit</li>
+<li>com.google.gwt.http.client.RequestBuilder::$doSend</li>
+<li>com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::$doInvoke</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.i18n.client.constants.DateTimeConstantsImpl_::getClass</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.i18n.client.LocaleInfo::$ensureDateTimeConstants</li>
+<li>com.google.gwt.i18n.client.LocaleInfo::$getDateTimeConstants</li>
+<li>com.google.gwt.i18n.client.DateTimeFormat::getMediumDateFormat</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcherMessages_::$lastUpdate</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$updateTable</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$4::$onSuccess</li>
+<li>com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter::$onResponseReceived</li>
+<li>com.google.gwt.http.client.Request::$fireOnResponseReceived</li>
+<li>com.google.gwt.http.client.RequestBuilder$1::onReadyStateChange</li>
+<li>com.google.gwt.xhr.client.ReadyStateChangeHandler::$clinit</li>
+<li>com.google.gwt.http.client.RequestBuilder::$doSend</li>
+<li>com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::$doInvoke</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<a name="com.google.gwt.i18n.client.constants.NumberConstants"><h3 class="soyc-class-header">Class: com.google.gwt.i18n.client.constants.NumberConstants</a></h3>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.i18n.client.constants.NumberConstants</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.i18n.client.constants.NumberConstantsImpl::$clinit</li>
+<li>com.google.gwt.i18n.client.LocaleInfo::$ensureNumberConstants</li>
+<li>com.google.gwt.i18n.client.NumberFormat::$clinit</li>
+<li>com.google.gwt.i18n.client.NumberFormat::$format</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$updateTable</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$4::$onSuccess</li>
+<li>com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter::$onResponseReceived</li>
+<li>com.google.gwt.http.client.Request::$fireOnResponseReceived</li>
+<li>com.google.gwt.http.client.RequestBuilder$1::onReadyStateChange</li>
+<li>com.google.gwt.xhr.client.ReadyStateChangeHandler::$clinit</li>
+<li>com.google.gwt.http.client.RequestBuilder::$doSend</li>
+<li>com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::$doInvoke</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<a name="com.google.gwt.i18n.client.constants.NumberConstantsImpl"><h3 class="soyc-class-header">Class: com.google.gwt.i18n.client.constants.NumberConstantsImpl</a></h3>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.i18n.client.constants.NumberConstantsImpl</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.i18n.client.LocaleInfo::$ensureNumberConstants</li>
+<li>com.google.gwt.i18n.client.NumberFormat::$clinit</li>
+<li>com.google.gwt.i18n.client.NumberFormat::$format</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$updateTable</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$4::$onSuccess</li>
+<li>com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter::$onResponseReceived</li>
+<li>com.google.gwt.http.client.Request::$fireOnResponseReceived</li>
+<li>com.google.gwt.http.client.RequestBuilder$1::onReadyStateChange</li>
+<li>com.google.gwt.xhr.client.ReadyStateChangeHandler::$clinit</li>
+<li>com.google.gwt.http.client.RequestBuilder::$doSend</li>
+<li>com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::$doInvoke</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<a name="com.google.gwt.i18n.client.constants.NumberConstantsImpl_"><h3 class="soyc-class-header">Class: com.google.gwt.i18n.client.constants.NumberConstantsImpl_</a></h3>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.i18n.client.constants.NumberConstantsImpl_</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.i18n.client.LocaleInfo::$ensureNumberConstants</li>
+<li>com.google.gwt.i18n.client.NumberFormat::$clinit</li>
+<li>com.google.gwt.i18n.client.NumberFormat::$format</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$updateTable</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$4::$onSuccess</li>
+<li>com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter::$onResponseReceived</li>
+<li>com.google.gwt.http.client.Request::$fireOnResponseReceived</li>
+<li>com.google.gwt.http.client.RequestBuilder$1::onReadyStateChange</li>
+<li>com.google.gwt.xhr.client.ReadyStateChangeHandler::$clinit</li>
+<li>com.google.gwt.http.client.RequestBuilder::$doSend</li>
+<li>com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::$doInvoke</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.i18n.client.constants.NumberConstantsImpl_::getClass</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.i18n.client.LocaleInfo::$ensureNumberConstants</li>
+<li>com.google.gwt.i18n.client.NumberFormat::$clinit</li>
+<li>com.google.gwt.i18n.client.NumberFormat::$format</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$updateTable</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$4::$onSuccess</li>
+<li>com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter::$onResponseReceived</li>
+<li>com.google.gwt.http.client.Request::$fireOnResponseReceived</li>
+<li>com.google.gwt.http.client.RequestBuilder$1::onReadyStateChange</li>
+<li>com.google.gwt.xhr.client.ReadyStateChangeHandler::$clinit</li>
+<li>com.google.gwt.http.client.RequestBuilder::$doSend</li>
+<li>com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::$doInvoke</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<module>
-  	<inherits name="org.kuali.student.lum.lu.ui.course.Course"/>
-  	<inherits name="org.kuali.student.lum.lu.ui.main.LUMMain"/>
-  	
-	<entry-point class="org.kuali.student.lum.lu.ui.workflow.client.CollaboratorRequestEntryPoint"/>
-</module>

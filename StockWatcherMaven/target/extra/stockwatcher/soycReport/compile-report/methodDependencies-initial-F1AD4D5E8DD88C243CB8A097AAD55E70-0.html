@@ -1,0 +1,747 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>
+Method Dependencies for Initially Live Code
+</title>
+<style type="text/css" media="screen">
+@import url('goog.css');
+@import url('inlay.css');
+@import url('soyc.css');
+</style>
+</head>
+<body>
+<div class="g-doc">
+<div id="hd" class="g-section g-tpl-50-50 g-split">
+<div class="g-unit g-first">
+<p>
+<a href="index.html" id="gwt-logo" class="soyc-ir"><span>Google Web Toolkit</span></a>
+</p>
+</div>
+<div class="g-unit">
+</div>
+</div>
+<div id="soyc-appbar-lrg">
+<div class="g-section g-tpl-75-25 g-split">
+<div class="g-unit g-first">
+<h1>Method Dependencies for Initially Live Code</h1>
+</div>
+<div class="g-unit"></div>
+</div>
+</div>
+<div id="bd">
+<h2>Showing Package: com.google.gwt.core.client.impl</h2>
+<a name="com.google.gwt.core.client.impl.Impl"><h3 class="soyc-class-header">Class: com.google.gwt.core.client.impl.Impl</a></h3>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.Impl</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.Impl::getHashCode</li>
+<li>java.lang.Object::hashCode</li>
+<li>com.google.gwt.core.client.JavaScriptObject::hashCode__devirtual$</li>
+<li>java.util.HashMap::getHashCode</li>
+<li>java.util.AbstractHashMap::$put</li>
+<li>java.util.HashSet::$add</li>
+<li>java.util.HashSet::add</li>
+<li>java.util.AbstractHashMap::$addAllStringEntries</li>
+<li>java.util.AbstractHashMap$EntrySetIterator::$AbstractHashMap$EntrySetIterator</li>
+<li>java.util.AbstractMap::equals</li>
+<li>com.google.gwt.core.client.JavaScriptObject::equals__devirtual$</li>
+<li>java.util.HashMap::equals</li>
+<li>java.util.AbstractHashMap::equalsBridge</li>
+<li>java.util.AbstractHashMap::$hasHashValue</li>
+<li>java.util.AbstractHashMap::$containsKey</li>
+<li>java.util.HashSet::$contains</li>
+<li>com.google.gwt.user.client.ui.Widget::$removeFromParent</li>
+<li>com.google.gwt.user.client.ui.ComplexPanel::$add</li>
+<li>com.google.gwt.user.client.ui.AbsolutePanel::$add</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.Impl::apply</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.Impl::entry0</li>
+<li>com.google.gwt.core.client.impl.Impl::entry</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.Impl::entry</a>
+<ul class="soyc-call-stack-list">
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.Impl::entry0</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.Impl::entry</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.Impl::exit</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.Impl::entry0</li>
+<li>com.google.gwt.core.client.impl.Impl::entry</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.Impl::getHashCode</a>
+<ul class="soyc-call-stack-list">
+<li>java.lang.Object::hashCode</li>
+<li>com.google.gwt.core.client.JavaScriptObject::hashCode__devirtual$</li>
+<li>java.util.HashMap::getHashCode</li>
+<li>java.util.AbstractHashMap::$put</li>
+<li>java.util.HashSet::$add</li>
+<li>java.util.HashSet::add</li>
+<li>java.util.AbstractHashMap::$addAllStringEntries</li>
+<li>java.util.AbstractHashMap$EntrySetIterator::$AbstractHashMap$EntrySetIterator</li>
+<li>java.util.AbstractMap::equals</li>
+<li>com.google.gwt.core.client.JavaScriptObject::equals__devirtual$</li>
+<li>java.util.HashMap::equals</li>
+<li>java.util.AbstractHashMap::equalsBridge</li>
+<li>java.util.AbstractHashMap::$hasHashValue</li>
+<li>java.util.AbstractHashMap::$containsKey</li>
+<li>java.util.HashSet::$contains</li>
+<li>com.google.gwt.user.client.ui.Widget::$removeFromParent</li>
+<li>com.google.gwt.user.client.ui.ComplexPanel::$add</li>
+<li>com.google.gwt.user.client.ui.AbsolutePanel::$add</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.Impl::getModuleBaseURL</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$StockPriceService_Proxy</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.Impl::getModuleName</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.GWT::getModuleName</li>
+<li>com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::timeStat</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.Impl::getNextHashId</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.Impl::getHashCode</li>
+<li>java.lang.Object::hashCode</li>
+<li>com.google.gwt.core.client.JavaScriptObject::hashCode__devirtual$</li>
+<li>java.util.HashMap::getHashCode</li>
+<li>java.util.AbstractHashMap::$put</li>
+<li>java.util.HashSet::$add</li>
+<li>java.util.HashSet::add</li>
+<li>java.util.AbstractHashMap::$addAllStringEntries</li>
+<li>java.util.AbstractHashMap$EntrySetIterator::$AbstractHashMap$EntrySetIterator</li>
+<li>java.util.AbstractMap::equals</li>
+<li>com.google.gwt.core.client.JavaScriptObject::equals__devirtual$</li>
+<li>java.util.HashMap::equals</li>
+<li>java.util.AbstractHashMap::equalsBridge</li>
+<li>java.util.AbstractHashMap::$hasHashValue</li>
+<li>java.util.AbstractHashMap::$containsKey</li>
+<li>java.util.HashSet::$contains</li>
+<li>com.google.gwt.user.client.ui.Widget::$removeFromParent</li>
+<li>com.google.gwt.user.client.ui.ComplexPanel::$add</li>
+<li>com.google.gwt.user.client.ui.AbsolutePanel::$add</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.Impl::getPermutationStrongName</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.user.client.rpc.RpcRequestBuilder::$doFinish</li>
+<li>com.google.gwt.user.client.rpc.RpcRequestBuilder::$finish</li>
+<li>com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::$doPrepareRequestBuilderImpl</li>
+<li>com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::$doInvoke</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<a name="com.google.gwt.core.client.impl.SchedulerImpl$1"><h3 class="soyc-class-header">Class: com.google.gwt.core.client.impl.SchedulerImpl$1</a></h3>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.SchedulerImpl$1</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$$init</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$SchedulerImpl</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$clinit</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$flushFinallyCommands</li>
+<li>com.google.gwt.core.client.impl.Impl::exit</li>
+<li>com.google.gwt.core.client.impl.Impl::entry0</li>
+<li>com.google.gwt.core.client.impl.Impl::entry</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.SchedulerImpl$1::$clinit</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.SchedulerImpl$1::$SchedulerImpl$1</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$$init</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$SchedulerImpl</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$clinit</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$flushFinallyCommands</li>
+<li>com.google.gwt.core.client.impl.Impl::exit</li>
+<li>com.google.gwt.core.client.impl.Impl::entry0</li>
+<li>com.google.gwt.core.client.impl.Impl::entry</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.SchedulerImpl$1::execute</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.SchedulerImpl::runScheduledTasks</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$flushFinallyCommands</li>
+<li>com.google.gwt.core.client.impl.Impl::exit</li>
+<li>com.google.gwt.core.client.impl.Impl::entry0</li>
+<li>com.google.gwt.core.client.impl.Impl::entry</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.SchedulerImpl$1::getClass</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$$init</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$SchedulerImpl</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$clinit</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$flushFinallyCommands</li>
+<li>com.google.gwt.core.client.impl.Impl::exit</li>
+<li>com.google.gwt.core.client.impl.Impl::entry0</li>
+<li>com.google.gwt.core.client.impl.Impl::entry</li>
+</ul>
+</div>
+<a name="com.google.gwt.core.client.impl.SchedulerImpl$2"><h3 class="soyc-class-header">Class: com.google.gwt.core.client.impl.SchedulerImpl$2</a></h3>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.SchedulerImpl$2</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$$init</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$SchedulerImpl</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$clinit</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$flushFinallyCommands</li>
+<li>com.google.gwt.core.client.impl.Impl::exit</li>
+<li>com.google.gwt.core.client.impl.Impl::entry0</li>
+<li>com.google.gwt.core.client.impl.Impl::entry</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.SchedulerImpl$2::$clinit</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.SchedulerImpl$2::$SchedulerImpl$2</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$$init</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$SchedulerImpl</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$clinit</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$flushFinallyCommands</li>
+<li>com.google.gwt.core.client.impl.Impl::exit</li>
+<li>com.google.gwt.core.client.impl.Impl::entry0</li>
+<li>com.google.gwt.core.client.impl.Impl::entry</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.SchedulerImpl$2::execute</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.SchedulerImpl::runScheduledTasks</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$flushFinallyCommands</li>
+<li>com.google.gwt.core.client.impl.Impl::exit</li>
+<li>com.google.gwt.core.client.impl.Impl::entry0</li>
+<li>com.google.gwt.core.client.impl.Impl::entry</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.SchedulerImpl$2::getClass</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$$init</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$SchedulerImpl</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$clinit</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$flushFinallyCommands</li>
+<li>com.google.gwt.core.client.impl.Impl::exit</li>
+<li>com.google.gwt.core.client.impl.Impl::entry0</li>
+<li>com.google.gwt.core.client.impl.Impl::entry</li>
+</ul>
+</div>
+<a name="com.google.gwt.core.client.impl.SchedulerImpl$Task"><h3 class="soyc-class-header">Class: com.google.gwt.core.client.impl.SchedulerImpl$Task</a></h3>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.SchedulerImpl$Task</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.SchedulerImpl$Task::$isRepeating</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::runScheduledTasks</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$flushFinallyCommands</li>
+<li>com.google.gwt.core.client.impl.Impl::exit</li>
+<li>com.google.gwt.core.client.impl.Impl::entry0</li>
+<li>com.google.gwt.core.client.impl.Impl::entry</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.SchedulerImpl$Task::$getRepeating</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.SchedulerImpl::runRepeatingTasks</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$flushPostEventPumpCommands</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl$1::execute</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::runScheduledTasks</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$flushFinallyCommands</li>
+<li>com.google.gwt.core.client.impl.Impl::exit</li>
+<li>com.google.gwt.core.client.impl.Impl::entry0</li>
+<li>com.google.gwt.core.client.impl.Impl::entry</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.SchedulerImpl$Task::$getScheduled</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.SchedulerImpl::runScheduledTasks</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$flushFinallyCommands</li>
+<li>com.google.gwt.core.client.impl.Impl::exit</li>
+<li>com.google.gwt.core.client.impl.Impl::entry0</li>
+<li>com.google.gwt.core.client.impl.Impl::entry</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.SchedulerImpl$Task::$isRepeating</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.SchedulerImpl::runScheduledTasks</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$flushFinallyCommands</li>
+<li>com.google.gwt.core.client.impl.Impl::exit</li>
+<li>com.google.gwt.core.client.impl.Impl::entry0</li>
+<li>com.google.gwt.core.client.impl.Impl::entry</li>
+</ul>
+</div>
+<a name="com.google.gwt.core.client.impl.SchedulerImpl"><h3 class="soyc-class-header">Class: com.google.gwt.core.client.impl.SchedulerImpl</a></h3>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.SchedulerImpl</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$SchedulerImpl</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$clinit</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$flushFinallyCommands</li>
+<li>com.google.gwt.core.client.impl.Impl::exit</li>
+<li>com.google.gwt.core.client.impl.Impl::entry0</li>
+<li>com.google.gwt.core.client.impl.Impl::entry</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.SchedulerImpl::$SchedulerImpl</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$clinit</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$flushFinallyCommands</li>
+<li>com.google.gwt.core.client.impl.Impl::exit</li>
+<li>com.google.gwt.core.client.impl.Impl::entry0</li>
+<li>com.google.gwt.core.client.impl.Impl::entry</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.SchedulerImpl::$clinit</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$flushFinallyCommands</li>
+<li>com.google.gwt.core.client.impl.Impl::exit</li>
+<li>com.google.gwt.core.client.impl.Impl::entry0</li>
+<li>com.google.gwt.core.client.impl.Impl::entry</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.SchedulerImpl::$flushFinallyCommands</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.Impl::exit</li>
+<li>com.google.gwt.core.client.impl.Impl::entry0</li>
+<li>com.google.gwt.core.client.impl.Impl::entry</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.SchedulerImpl::$flushPostEventPumpCommands</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.SchedulerImpl$1::execute</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::runScheduledTasks</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$flushFinallyCommands</li>
+<li>com.google.gwt.core.client.impl.Impl::exit</li>
+<li>com.google.gwt.core.client.impl.Impl::entry0</li>
+<li>com.google.gwt.core.client.impl.Impl::entry</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.SchedulerImpl::$isWorkQueued</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.SchedulerImpl$1::execute</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::runScheduledTasks</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$flushFinallyCommands</li>
+<li>com.google.gwt.core.client.impl.Impl::exit</li>
+<li>com.google.gwt.core.client.impl.Impl::entry0</li>
+<li>com.google.gwt.core.client.impl.Impl::entry</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.SchedulerImpl::execute</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.SchedulerImpl::scheduleFixedDelayImpl</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl$2::execute</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::runScheduledTasks</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$flushFinallyCommands</li>
+<li>com.google.gwt.core.client.impl.Impl::exit</li>
+<li>com.google.gwt.core.client.impl.Impl::entry0</li>
+<li>com.google.gwt.core.client.impl.Impl::entry</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.SchedulerImpl::getClass</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$clinit</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$flushFinallyCommands</li>
+<li>com.google.gwt.core.client.impl.Impl::exit</li>
+<li>com.google.gwt.core.client.impl.Impl::entry0</li>
+<li>com.google.gwt.core.client.impl.Impl::entry</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.SchedulerImpl::runRepeatingTasks</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$flushPostEventPumpCommands</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl$1::execute</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::runScheduledTasks</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$flushFinallyCommands</li>
+<li>com.google.gwt.core.client.impl.Impl::exit</li>
+<li>com.google.gwt.core.client.impl.Impl::entry0</li>
+<li>com.google.gwt.core.client.impl.Impl::entry</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.SchedulerImpl::runScheduledTasks</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$flushFinallyCommands</li>
+<li>com.google.gwt.core.client.impl.Impl::exit</li>
+<li>com.google.gwt.core.client.impl.Impl::entry0</li>
+<li>com.google.gwt.core.client.impl.Impl::entry</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.SchedulerImpl::scheduleFixedDelayImpl</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.SchedulerImpl$2::execute</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::runScheduledTasks</li>
+<li>com.google.gwt.core.client.impl.SchedulerImpl::$flushFinallyCommands</li>
+<li>com.google.gwt.core.client.impl.Impl::exit</li>
+<li>com.google.gwt.core.client.impl.Impl::entry0</li>
+<li>com.google.gwt.core.client.impl.Impl::entry</li>
+</ul>
+</div>
+<a name="com.google.gwt.core.client.impl.StackTraceCreator$Collector"><h3 class="soyc-class-header">Class: com.google.gwt.core.client.impl.StackTraceCreator$Collector</a></h3>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.StackTraceCreator$Collector</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.StackTraceCreator$Collector::$fillInStackTrace</li>
+<li>java.lang.ClassCastException::$ClassCastException</li>
+<li>com.google.gwt.lang.Cast::dynamicCast</li>
+<li>java.util.AbstractHashMap::$containsKey</li>
+<li>java.util.HashSet::$contains</li>
+<li>com.google.gwt.user.client.ui.Widget::$removeFromParent</li>
+<li>com.google.gwt.user.client.ui.ComplexPanel::$add</li>
+<li>com.google.gwt.user.client.ui.AbsolutePanel::$add</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.StackTraceCreator$Collector::$createStackTrace</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.JavaScriptException::$JavaScriptException</li>
+<li>com.google.gwt.lang.Exceptions::caught</li>
+<li>com.google.gwt.user.client.ui.AttachDetachException::tryCommand</li>
+<li>com.google.gwt.user.client.ui.RootPanel::detachWidgets</li>
+<li>com.google.gwt.user.client.ui.RootPanel$2::onClose</li>
+<li>com.google.gwt.event.logical.shared.CloseHandler::$clinit</li>
+<li>com.google.gwt.user.client.ui.RootPanel::get</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.StackTraceCreator$Collector::$fillInStackTrace</a>
+<ul class="soyc-call-stack-list">
+<li>java.lang.ClassCastException::$ClassCastException</li>
+<li>com.google.gwt.lang.Cast::dynamicCast</li>
+<li>java.util.AbstractHashMap::$containsKey</li>
+<li>java.util.HashSet::$contains</li>
+<li>com.google.gwt.user.client.ui.Widget::$removeFromParent</li>
+<li>com.google.gwt.user.client.ui.ComplexPanel::$add</li>
+<li>com.google.gwt.user.client.ui.AbsolutePanel::$add</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.StackTraceCreator$Collector::$makeException</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.StackTraceCreator$Collector::$fillInStackTrace</li>
+<li>java.lang.ClassCastException::$ClassCastException</li>
+<li>com.google.gwt.lang.Cast::dynamicCast</li>
+<li>java.util.AbstractHashMap::$containsKey</li>
+<li>java.util.HashSet::$contains</li>
+<li>com.google.gwt.user.client.ui.Widget::$removeFromParent</li>
+<li>com.google.gwt.user.client.ui.ComplexPanel::$add</li>
+<li>com.google.gwt.user.client.ui.AbsolutePanel::$add</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<a name="com.google.gwt.core.client.impl.StackTraceCreator$CollectorMoz"><h3 class="soyc-class-header">Class: com.google.gwt.core.client.impl.StackTraceCreator$CollectorMoz</a></h3>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.StackTraceCreator$CollectorMoz</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.StackTraceCreator$CollectorMoz::$inferFrom</li>
+<li>com.google.gwt.core.client.impl.StackTraceCreator$Collector::$fillInStackTrace</li>
+<li>java.lang.ClassCastException::$ClassCastException</li>
+<li>com.google.gwt.lang.Cast::dynamicCast</li>
+<li>java.util.AbstractHashMap::$containsKey</li>
+<li>java.util.HashSet::$contains</li>
+<li>com.google.gwt.user.client.ui.Widget::$removeFromParent</li>
+<li>com.google.gwt.user.client.ui.ComplexPanel::$add</li>
+<li>com.google.gwt.user.client.ui.AbsolutePanel::$add</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.StackTraceCreator$CollectorMoz::$getStack</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.StackTraceCreator$CollectorMoz::$inferFrom</li>
+<li>com.google.gwt.core.client.impl.StackTraceCreator$Collector::$fillInStackTrace</li>
+<li>java.lang.ClassCastException::$ClassCastException</li>
+<li>com.google.gwt.lang.Cast::dynamicCast</li>
+<li>java.util.AbstractHashMap::$containsKey</li>
+<li>java.util.HashSet::$contains</li>
+<li>com.google.gwt.user.client.ui.Widget::$removeFromParent</li>
+<li>com.google.gwt.user.client.ui.ComplexPanel::$add</li>
+<li>com.google.gwt.user.client.ui.AbsolutePanel::$add</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.StackTraceCreator$CollectorMoz::$inferFrom</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.StackTraceCreator$Collector::$fillInStackTrace</li>
+<li>java.lang.ClassCastException::$ClassCastException</li>
+<li>com.google.gwt.lang.Cast::dynamicCast</li>
+<li>java.util.AbstractHashMap::$containsKey</li>
+<li>java.util.HashSet::$contains</li>
+<li>com.google.gwt.user.client.ui.Widget::$removeFromParent</li>
+<li>com.google.gwt.user.client.ui.ComplexPanel::$add</li>
+<li>com.google.gwt.user.client.ui.AbsolutePanel::$add</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<a name="com.google.gwt.core.client.impl.StackTraceCreator"><h3 class="soyc-class-header">Class: com.google.gwt.core.client.impl.StackTraceCreator</a></h3>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.StackTraceCreator</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.StackTraceCreator::splice</li>
+<li>com.google.gwt.core.client.impl.StackTraceCreator$Collector::$fillInStackTrace</li>
+<li>java.lang.ClassCastException::$ClassCastException</li>
+<li>com.google.gwt.lang.Cast::dynamicCast</li>
+<li>java.util.AbstractHashMap::$containsKey</li>
+<li>java.util.HashSet::$contains</li>
+<li>com.google.gwt.user.client.ui.Widget::$removeFromParent</li>
+<li>com.google.gwt.user.client.ui.ComplexPanel::$add</li>
+<li>com.google.gwt.user.client.ui.AbsolutePanel::$add</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.StackTraceCreator::extractNameFromToString</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.StackTraceCreator$CollectorMoz::$inferFrom</li>
+<li>com.google.gwt.core.client.impl.StackTraceCreator$Collector::$fillInStackTrace</li>
+<li>java.lang.ClassCastException::$ClassCastException</li>
+<li>com.google.gwt.lang.Cast::dynamicCast</li>
+<li>java.util.AbstractHashMap::$containsKey</li>
+<li>java.util.HashSet::$contains</li>
+<li>com.google.gwt.user.client.ui.Widget::$removeFromParent</li>
+<li>com.google.gwt.user.client.ui.ComplexPanel::$add</li>
+<li>com.google.gwt.user.client.ui.AbsolutePanel::$add</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.StackTraceCreator::splice</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.StackTraceCreator$Collector::$fillInStackTrace</li>
+<li>java.lang.ClassCastException::$ClassCastException</li>
+<li>com.google.gwt.lang.Cast::dynamicCast</li>
+<li>java.util.AbstractHashMap::$containsKey</li>
+<li>java.util.HashSet::$contains</li>
+<li>com.google.gwt.user.client.ui.Widget::$removeFromParent</li>
+<li>com.google.gwt.user.client.ui.ComplexPanel::$add</li>
+<li>com.google.gwt.user.client.ui.AbsolutePanel::$add</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<a name="com.google.gwt.core.client.impl.StringBufferImpl"><h3 class="soyc-class-header">Class: com.google.gwt.core.client.impl.StringBufferImpl</a></h3>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.StringBufferImpl</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.StringBufferImplAppend::$append</li>
+<li>com.google.gwt.user.client.rpc.impl.ClientSerializationStreamWriter::append</li>
+<li>com.google.gwt.user.client.rpc.impl.ClientSerializationStreamWriter::$append</li>
+<li>com.google.gwt.user.client.rpc.impl.AbstractSerializationStreamWriter::$writeString</li>
+<li>com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException_FieldSerializer::serialize</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_TypeSerializer::registerMethods</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_TypeSerializer::$clinit</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$clinit</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$StockPriceService_Proxy</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.StringBufferImpl::getClass</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.JavaScriptObject::getClass__devirtual$</li>
+<li>com.google.gwt.user.client.rpc.impl.ClientSerializationStreamWriter::$getObjectTypeSignature</li>
+<li>com.google.gwt.user.client.rpc.impl.AbstractSerializationStreamWriter::$writeObject</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<a name="com.google.gwt.core.client.impl.StringBufferImplAppend"><h3 class="soyc-class-header">Class: com.google.gwt.core.client.impl.StringBufferImplAppend</a></h3>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.StringBufferImplAppend</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.StringBufferImplAppend::$StringBufferImplAppend</li>
+<li>java.lang.StringBuffer::$$init</li>
+<li>java.lang.StringBuffer::$StringBuffer</li>
+<li>com.google.gwt.user.client.rpc.impl.ClientSerializationStreamWriter::$prepareToWrite</li>
+<li>com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::$createStreamWriter</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.StringBufferImplAppend::$StringBufferImplAppend</a>
+<ul class="soyc-call-stack-list">
+<li>java.lang.StringBuffer::$$init</li>
+<li>java.lang.StringBuffer::$StringBuffer</li>
+<li>com.google.gwt.user.client.rpc.impl.ClientSerializationStreamWriter::$prepareToWrite</li>
+<li>com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::$createStreamWriter</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.StringBufferImplAppend::$append</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.user.client.rpc.impl.ClientSerializationStreamWriter::append</li>
+<li>com.google.gwt.user.client.rpc.impl.ClientSerializationStreamWriter::$append</li>
+<li>com.google.gwt.user.client.rpc.impl.AbstractSerializationStreamWriter::$writeString</li>
+<li>com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException_FieldSerializer::serialize</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_TypeSerializer::registerMethods</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_TypeSerializer::$clinit</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$clinit</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$StockPriceService_Proxy</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.StringBufferImplAppend::$appendNonNull</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.user.client.rpc.impl.ClientSerializationStreamWriter::append</li>
+<li>com.google.gwt.user.client.rpc.impl.ClientSerializationStreamWriter::$append</li>
+<li>com.google.gwt.user.client.rpc.impl.AbstractSerializationStreamWriter::$writeString</li>
+<li>com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException_FieldSerializer::serialize</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_TypeSerializer::registerMethods</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_TypeSerializer::$clinit</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$clinit</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$StockPriceService_Proxy</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.StringBufferImplAppend::$clinit</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.impl.StringBufferImplAppend::$append</li>
+<li>com.google.gwt.user.client.rpc.impl.ClientSerializationStreamWriter::append</li>
+<li>com.google.gwt.user.client.rpc.impl.ClientSerializationStreamWriter::$append</li>
+<li>com.google.gwt.user.client.rpc.impl.AbstractSerializationStreamWriter::$writeString</li>
+<li>com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException_FieldSerializer::serialize</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_TypeSerializer::registerMethods</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_TypeSerializer::$clinit</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$clinit</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$StockPriceService_Proxy</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.StringBufferImplAppend::$replace</a>
+<ul class="soyc-call-stack-list">
+<li>java.lang.StringBuffer::$replace</li>
+<li>com.google.gwt.i18n.client.NumberFormat::$parseAffix</li>
+<li>com.google.gwt.i18n.client.NumberFormat::$parsePattern</li>
+<li>com.google.gwt.i18n.client.NumberFormat::$NumberFormat</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$updateTable</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$4::$onSuccess</li>
+<li>com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter::$onResponseReceived</li>
+<li>com.google.gwt.http.client.Request::$fireOnResponseReceived</li>
+<li>com.google.gwt.http.client.RequestBuilder$1::onReadyStateChange</li>
+<li>com.google.gwt.xhr.client.ReadyStateChangeHandler::$clinit</li>
+<li>com.google.gwt.http.client.RequestBuilder::$doSend</li>
+<li>com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::$doInvoke</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+<div class='main'>
+<a class='toggle soyc-call-stack-link' onclick='toggle.call(this)'><span class='calledBy'> Call stack: </span>com.google.gwt.core.client.impl.StringBufferImplAppend::getClass</a>
+<ul class="soyc-call-stack-list">
+<li>com.google.gwt.core.client.JavaScriptObject::getClass__devirtual$</li>
+<li>com.google.gwt.user.client.rpc.impl.ClientSerializationStreamWriter::$getObjectTypeSignature</li>
+<li>com.google.gwt.user.client.rpc.impl.AbstractSerializationStreamWriter::$writeObject</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockPriceService_Proxy::$getPrices</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$refreshWatchList</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher$3::run</li>
+<li>com.google.gwt.user.client.Timer::fire</li>
+<li>com.google.gwt.user.client.Timer::createInterval</li>
+<li>com.google.gwt.user.client.Timer::$scheduleRepeating</li>
+<li>com.google.gwt.sample.stockwatcher.client.StockWatcher::$onModuleLoad</li>
+</ul>
+</div>
+</div>
+</body>
+</html>
