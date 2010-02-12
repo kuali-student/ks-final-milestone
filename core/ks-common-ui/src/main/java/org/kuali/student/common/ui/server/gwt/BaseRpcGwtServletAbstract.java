@@ -39,7 +39,7 @@ import org.kuali.student.core.search.service.SearchService;
  * @author Kuali Student Team
  * 
  */
-public abstract class BaseRpcGwtServletAbstract<SEI> extends BaseRemoteServiceServletAbstract implements BaseRpcService {
+public abstract class BaseRpcGwtServletAbstract<SEI> extends BaseRemoteAbstractServiceServlet implements BaseRpcService {
 
 	private static final long serialVersionUID = 1L;
 

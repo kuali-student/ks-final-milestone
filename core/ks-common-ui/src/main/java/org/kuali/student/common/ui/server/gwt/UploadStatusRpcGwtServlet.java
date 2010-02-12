@@ -20,7 +20,7 @@ import org.kuali.student.common.ui.client.dto.UploadStatus;
 import org.kuali.student.common.ui.client.service.UploadStatusRpcService;
 
 @SuppressWarnings("serial")
-public class UploadStatusRpcGwtServlet extends BaseRemoteServiceServletAbstract implements UploadStatusRpcService {
+public class UploadStatusRpcGwtServlet extends BaseRemoteAbstractServiceServlet implements UploadStatusRpcService {
 
 	@Override
 	public UploadStatus getUploadStatus(String uploadId) {

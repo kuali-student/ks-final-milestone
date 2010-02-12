@@ -19,7 +19,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.service.LogRpcService;
 
-public class LogRpcGwtServlet extends BaseRemoteServiceServletAbstract implements LogRpcService {
+public class LogRpcGwtServlet extends BaseRemoteAbstractServiceServlet implements LogRpcService {
 	private static final long serialVersionUID = 1L;
 
 	final Logger logger = Logger.getLogger(LogRpcGwtServlet.class);

@@ -9,7 +9,7 @@ import static org.kuali.student.common.ui.server.gwt.Constants.*;
  * behavior of the baseline RemoteServiceServlet
  */
 @SuppressWarnings("serial")
-public abstract class BaseRemoteServiceServletAbstract extends RemoteServiceServlet {
+public abstract class BaseRemoteAbstractServiceServlet extends RemoteServiceServlet {
 	RPCUtils utils = new RPCUtils();
 
 	/**

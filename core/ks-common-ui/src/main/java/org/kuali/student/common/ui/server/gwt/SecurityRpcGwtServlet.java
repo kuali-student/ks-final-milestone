@@ -25,7 +25,7 @@ import org.springframework.security.userdetails.UserDetails;
  * @author Kuali Student Team
  * 
  */
-public class SecurityRpcGwtServlet extends BaseRemoteServiceServletAbstract implements SecurityRpcService {
+public class SecurityRpcGwtServlet extends BaseRemoteAbstractServiceServlet implements SecurityRpcService {
 
 	private static final long serialVersionUID = 1L;
 
