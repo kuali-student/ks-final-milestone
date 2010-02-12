@@ -7,8 +7,8 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import static org.kuali.student.common.ui.server.gwt.Constants.*;
 
 /**
- * Base class that extends RemoteServiceServlet so KS has a chance to extend the
- * behavior of the baseline RemoteServiceServlet
+ * Base class that extends RemoteServiceServlet so we can extend the behavior of
+ * GWT's RemoteServiceServlet
  */
 @SuppressWarnings("serial")
 public abstract class BaseRemoteAbstractServiceServlet extends RemoteServiceServlet {
