@@ -18,8 +18,6 @@ import org.kuali.student.common.ui.client.service.SecurityRpcService;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.userdetails.UserDetails;
 
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-
 /**
  * This is a description of what this class does - Will Gomes don't forget to
  * fill this in.
@@ -27,7 +25,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * @author Kuali Student Team
  * 
  */
-public class SecurityRpcGwtServlet extends RemoteServiceServlet implements SecurityRpcService {
+public class SecurityRpcGwtServlet extends BaseRemoteServiceServletAbstract implements SecurityRpcService {
 
 	private static final long serialVersionUID = 1L;
 

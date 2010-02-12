@@ -20,9 +20,7 @@ import org.kuali.student.core.messages.dto.MessageGroupKeyList;
 import org.kuali.student.core.messages.dto.MessageList;
 import org.kuali.student.core.messages.service.MessageService;
 
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-
-public class MessagesRpcGwtServlet extends RemoteServiceServlet implements org.kuali.student.common.ui.client.service.MessagesRpcService {
+public class MessagesRpcGwtServlet extends BaseRemoteServiceServletAbstract implements org.kuali.student.common.ui.client.service.MessagesRpcService {
 
 	private static final long serialVersionUID = 1L;
 

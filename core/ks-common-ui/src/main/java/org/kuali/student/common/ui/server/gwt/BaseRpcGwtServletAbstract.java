@@ -31,8 +31,6 @@ import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.service.SearchService;
 
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-
 /**
  * This abstract service delegates search & dictionary operations to the web
  * service being remoted. Extend this class for gwt servlets only if the service
@@ -41,7 +39,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * @author Kuali Student Team
  * 
  */
-public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServlet implements BaseRpcService {
+public abstract class BaseRpcGwtServletAbstract<SEI> extends BaseRemoteServiceServletAbstract implements BaseRpcService {
 
 	private static final long serialVersionUID = 1L;
 

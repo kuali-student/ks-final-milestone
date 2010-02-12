@@ -23,10 +23,8 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
 
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-
 @SuppressWarnings("serial")
-public class ServerPropertiesRpcGwtServlet extends RemoteServiceServlet implements ServerPropertiesRpcService {
+public class ServerPropertiesRpcGwtServlet extends BaseRemoteServiceServletAbstract implements ServerPropertiesRpcService {
 
 	final Logger logger = Logger.getLogger(ServerPropertiesRpcGwtServlet.class);
 
