@@ -36,9 +36,9 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
-import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.dto.CluSetInfo;
+import org.kuali.student.brms.statement.config.context.lu.CluInfo;
+import org.kuali.student.brms.statement.config.context.lu.CluSetInfo;
+import org.kuali.student.brms.statement.config.context.lu.CourseListContextImpl;
 import org.kuali.student.brms.statement.dto.NlUsageTypeInfo;
 import org.kuali.student.brms.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.brms.statement.dto.RefStatementRelationTypeInfo;
@@ -65,30 +65,9 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 	@BeforeClass
 	public static void beforeClass() {
 		// Add test data
-
-		CluIdentifierInfo cluId1 = new CluIdentifierInfo();
-		cluId1.setCode("MATH152");
-		cluId1.setShortName("MATH 152");
-		cluId1.setLongName("MATH 152 Linear Systems");
-		CluInfo clu1 = new CluInfo();
-		clu1.setId("CLU-NL-1");
-		clu1.setOfficialIdentifier(cluId1);
-
-		CluIdentifierInfo cluId2 = new CluIdentifierInfo();
-		cluId2.setCode("MATH180");
-		cluId2.setShortName("MATH 180");
-		cluId2.setLongName("MATH 180 Differential Calculus with Physical Applications");
-		CluInfo clu2 = new CluInfo();
-		clu2.setId("CLU-NL-3");
-		clu2.setOfficialIdentifier(cluId2);
-
-		CluIdentifierInfo cluId3 = new CluIdentifierInfo();
-		cluId3.setCode("MATH221");
-		cluId3.setShortName("MATH 221");
-		cluId3.setLongName("MATH 221 Matrix Algebra");
-		CluInfo clu3 = new CluInfo();
-		clu3.setId("CLU-NL-2");
-		clu3.setOfficialIdentifier(cluId3);
+		CluInfo clu1 = new CluInfo("CLU-NL-1", "MATH152", "MATH 152", "MATH 152 Linear Systems");
+		CluInfo clu2 = new CluInfo("CLU-NL-3", "MATH180", "MATH 180", "MATH 180 Differential Calculus with Physical Applications");
+		CluInfo clu3 = new CluInfo("CLU-NL-2", "MATH221", "MATH 221", "MATH 221 Matrix Algebra");
 		
 		// Add CLUs
 		List<CluInfo> cluList1 = new ArrayList<CluInfo>();
@@ -98,29 +77,22 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 		// FIXME - Investigate why adding clu1, clu2, clu3 doesn't work for method testGetNaturalLanguageForStatement()
 		List<CluInfo> cluList2 = new ArrayList<CluInfo>();
 		cluList2.add(clu1);
-		cluList2.add(clu2);
 		cluList2.add(clu3);
+		cluList2.add(clu2);
 
 		List<CluInfo> cluListAll = new ArrayList<CluInfo>();
-		cluListAll.add(clu1);
-		cluListAll.add(clu2);
-		cluListAll.add(clu3);
-		LuServiceMock.setCluInfo(cluListAll);
+		cluListAll.addAll(cluList1);
+		cluListAll.addAll(cluList2);
+		
+		CourseListContextImpl.setCluInfo(cluListAll);
 		
 		// Add CLU Sets
 		List<CluSetInfo> cluSetList = new ArrayList<CluSetInfo>();
-//		CluSetInfo cluSet1 = new CluSetInfo("CLUSET-NL-1", cluList1);
-		CluSetInfo cluSet1 = new CluSetInfo();
-		cluSet1.setId("CLUSET-NL-1");
-		cluSet1.setCluIds(Arrays.asList(new String[] {"CLU-NL-1", "CLU-NL-3"}));
-//		CluSetInfo cluSet2 = new CluSetInfo("CLUSET-NL-2", cluList2);
-		CluSetInfo cluSet2 = new CluSetInfo();
-		cluSet2.setId("CLUSET-NL-2");
-		cluSet2.setCluIds(Arrays.asList(new String[] {"CLU-NL-1", "CLU-NL-2", "CLU-NL-3"}));
-
+		CluSetInfo cluSet1 = new CluSetInfo("CLUSET-NL-1", cluList1);
+		CluSetInfo cluSet2 = new CluSetInfo("CLUSET-NL-2", cluList2);
 		cluSetList.add(cluSet1);
 		cluSetList.add(cluSet2);
-		LuServiceMock.setCluSetInfo(cluSetList);
+		CourseListContextImpl.setCluSetInfo(cluSetList);
 	}
 	
 	@After

@@ -50,11 +50,7 @@
     </aop:config>
 
 
-    <bean id="courseListContext" class="org.kuali.student.brms.statement.config.contexts.CourseListContextImpl">
-        <property name="luService">
-            <bean class="org.kuali.student.brms.statement.service.impl.LuServiceMock" />
-        </property>
-    </bean>
+    <bean id="courseListContext" class="org.kuali.student.brms.statement.config.context.lu.CourseListContextImpl" />
 
     <!--bean id="contextRegistryLuStatement"
         class="org.kuali.student.brms.statement.naturallanguage.ContextRegistry">

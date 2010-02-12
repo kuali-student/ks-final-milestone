@@ -12,45 +12,55 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.brms.statement.config.contexts;
+package org.kuali.student.brms.statement.config.context.lu;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import org.kuali.student.lum.lu.dto.CluInfo;
 
 /**
  * {@link CluSetInfo} wrapper class.
  */
-public class CustomCluSetInfo {
+public class CluSetInfo {
 
-	private String cluSetId;
+	private String id;
 	private List<CluInfo> cluList;
+    private List<String> cluIds = new ArrayList<String>();
 	
-	public CustomCluSetInfo(String cluSetId, List<CluInfo> cluList) {
-		this.cluSetId = cluSetId;
+	public CluSetInfo(String cluSetId, List<CluInfo> cluList) {
+		this.id = cluSetId;
 		this.cluList = cluList;
+		for(CluInfo clu : cluList) {
+			cluIds.add(clu.getId());
+		}
 	}
 
-	public String getCluSetId() {
-		return cluSetId;
+	public String getId() {
+		return id;
 	}
 
 	public List<CluInfo> getCluList() {
 		return this.cluList;
 	}
 	
-	public String getCluAsShortName(int index) {
-		return this.cluList.get(index).getOfficialIdentifier().getShortName();
+    public List<String> getCluIds() {
+        if (cluIds == null) {
+            cluIds = new ArrayList<String>();
+        }
+        return cluIds;
+    }
+
+    public String getCluAsShortName(int index) {
+		return this.cluList.get(index).getShortName();
 	}
 	
 	public String getCluAsCode(int index) {
-		return this.cluList.get(index).getOfficialIdentifier().getCode();
+		return this.cluList.get(index).getCode();
 	}
 	
 	public String getCluSetAsShortName() {
 		StringBuilder sb = new StringBuilder();
 		for(CluInfo clu : this.cluList) {
-			sb.append(clu.getOfficialIdentifier().getShortName());
+			sb.append(clu.getShortName());
 			sb.append(", ");
 		}
 		return getString(sb);
@@ -59,7 +69,7 @@ public class CustomCluSetInfo {
 	public String getCluSetAsLongName() {
 		StringBuilder sb = new StringBuilder();
 		for(CluInfo clu : this.cluList) {
-			sb.append(clu.getOfficialIdentifier().getShortName());
+			sb.append(clu.getShortName());
 			sb.append(", ");
 		}
 		return getString(sb);
@@ -68,7 +78,7 @@ public class CustomCluSetInfo {
 	public String getCluSetAsCode() {
 		StringBuilder sb = new StringBuilder();
 		for(CluInfo clu : this.cluList) {
-			sb.append(clu.getOfficialIdentifier().getCode());
+			sb.append(clu.getCode());
 			sb.append(", ");
 		}
 		return getString(sb);
@@ -82,6 +92,6 @@ public class CustomCluSetInfo {
 		if(this.cluList == null) {
 			return "Null CluSet";
 		}
-		return "id=" + this.cluSetId;
+		return "id=" + this.id;
 	}
 }

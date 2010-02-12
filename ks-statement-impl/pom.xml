@@ -59,12 +59,6 @@
           <artifactId>ks-brms-execution-impl</artifactId>
           <version>${ks-brms.version}</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.kuali.student.lum</groupId>
-            <artifactId>ks-lum-api</artifactId>
-            <version>${ks-lum.version}</version>
-        </dependency>
 	</dependencies>
 
 	<profiles>
