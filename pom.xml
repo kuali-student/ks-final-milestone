@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.security</groupId>
@@ -23,7 +25,7 @@
     <repositories>
         <repository>
             <id>kuali.release</id>
-            <url>http://archiva.kuali.umd.edu/repository/release</url>
+            <url>https://test.kuali.org/maven</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
@@ -51,7 +53,9 @@
         <jetty.version>6.1.6</jetty.version>
         <eclipselink.version>1.0</eclipselink.version>
         <aspectj.version>1.5.4</aspectj.version>
-        <rice.version>1.0.0-ks-m1</rice.version>
+        <kuali.rice.version>1.0.1</kuali.rice.version>
+        <xalan.version>2.7.1</xalan.version>
+        <xercesImpl.version>2.9.1</xercesImpl.version>
 
         <!-- plugin versions -->
         <cobertura.plugin.version>2.2</cobertura.plugin.version>
@@ -86,6 +90,9 @@
                 <repository>
                     <id>maven2-repository.dev.java.net</id>
                     <url>http://download.java.net/maven/2</url>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
                 </repository>
                 <repository>
                     <id>maven-repository.dev.java.net</id>
@@ -99,30 +106,15 @@
                     </snapshots>
                 </repository>
                 <repository>
-                    <id>kuali.rice</id>
-                    <url>https://test.kuali.org/maven</url>
-                    <releases>
-                        <enabled>true</enabled>
-                    </releases>
-                    <snapshots>
-                        <enabled>false</enabled>
-                    </snapshots>
-                </repository>
-                <repository>
                     <id>ks.public</id>
-                    <url>
-                        http://archiva.kuali.umd.edu/repository/public/
-					</url>
-                </repository>
-                <repository>
-                    <id>apache.incubating</id>
-                    <url>
-                        http://people.apache.org/repo/m2-incubating-repository
-                    </url>
+                    <url>http://archiva.kuali.umd.edu/repository/public/</url>
                 </repository>
 				<repository>
                     <id>shibboleth.internet2</id>
                     <url>http://shibboleth.internet2.edu/downloads/maven2/</url>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
                 </repository>
 			</repositories>
 
@@ -266,9 +258,7 @@
 		</snapshotRepository>
 		<site>
 			<id>ks.site</id>
-			<url> 
-				dav:https://student.kuali.org:8443/student/site/security/${project.version}
-			</url>
+			<url> scp://student.kuali.org:/opt/www/student/site/security/${project.version}</url>
 		</site>
 	</distributionManagement>
 
@@ -304,21 +294,11 @@
 					<source>1.6</source>
 					<links>
 						<link>http://cxf.apache.org/javadoc/${cxf.version}/</link>
-						<link>
-							http://java.sun.com/javase/6/docs/api/
-						</link>
-						<link>
-							http://java.sun.com/javaee/5/docs/api/
-						</link>
-						<link>
-							http://static.springframework.org/spring/docs/${spring.version}/api/
-						</link>
-						<link>
-							http://ehcache.sourceforge.net/javadoc/
-						</link>
-                        <link>
-                            http://rice.kuali.org/docs/1.0.0/site/apidocs/
-                        </link>
+						<link>http://java.sun.com/javase/6/docs/api/</link>
+						<link>http://java.sun.com/javaee/5/docs/api/</link>
+						<link>http://static.springframework.org/spring/docs/${spring.version}/api/</link>
+						<link>http://ehcache.sourceforge.net/javadoc/</link>
+                        <link>http://rice.kuali.org/docs/${kuali.rice.version}/site/apidocs/</link>
 					</links>
 				</configuration>
 				<reportSets>
@@ -732,7 +712,7 @@
             <dependency>
                 <groupId>org.kuali.rice</groupId>
                 <artifactId>rice-api</artifactId>
-                <version>${rice.version}</version>
+                <version>${kuali.rice.version}</version>
             </dependency>
             
             <dependency>
@@ -740,6 +720,20 @@
                 <artifactId>commons-beanutils</artifactId>
                 <version>1.7.0</version>
             </dependency>
+            
+            <dependency>
+                <groupId>xalan</groupId>
+                <artifactId>xalan</artifactId>
+                <version>${xalan.version}</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>xerces</groupId>
+                <artifactId>xercesImpl</artifactId>
+                <version>${xercesImpl.version}</version>
+            </dependency>
+            
+            
                  											
 		</dependencies>
 	</dependencyManagement>
