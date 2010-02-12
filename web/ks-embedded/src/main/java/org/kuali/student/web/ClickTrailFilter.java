@@ -21,6 +21,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.rice.core.config.ConfigContext;
 
 import static org.kuali.student.common.ui.server.gwt.Constants.*;
 
@@ -36,6 +37,7 @@ public class ClickTrailFilter implements Filter {
 	private static final Log log = LogFactory.getLog(ClickTrailFilter.class);
 	Runtime runtime = Runtime.getRuntime();
 	long sequence = 0;
+	boolean debugMode = "true".equalsIgnoreCase(ConfigContext.getCurrentContextConfig().getProperty(HTTP_REQUEST_DEBUG_MODE));
 
 	/**
 	 * Servlet container is starting up
@@ -66,6 +68,9 @@ public class ClickTrailFilter implements Filter {
 	 * Record information about this HttpRequest.<br>
 	 */
 	public void onAfterDoFilter(HttpServletRequest request, RecordedRequest rr) {
+		if (!debugMode) {
+			return;
+		}
 		rr.setFinishTime(new Date());
 		handleRPC(request, rr);
 	}
@@ -98,6 +103,9 @@ public class ClickTrailFilter implements Filter {
 	 * Record information about this HttpRequest.<br>
 	 */
 	public RecordedRequest onBeforeDoFilter(HttpServletRequest request) {
+		if (!debugMode) {
+			return null;
+		}
 		HttpSession session = request.getSession(true);
 		RecordedSession rs = (RecordedSession) session.getAttribute(SESSION_RECORDER_KEY);
 		if (rs == null) {
