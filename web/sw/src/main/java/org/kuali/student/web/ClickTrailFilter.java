@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
@@ -49,7 +48,7 @@ public class ClickTrailFilter implements Filter {
 	 * Execute the filter logic
 	 */
 	public void doFilter(ServletRequest req, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		log.info("Request Count: " + (++sequence));
+		log.debug("Request Count: " + (++sequence));
 		HttpServletRequest request = (HttpServletRequest) req;
 		RecordedRequest rr = onBeforeDoFilter(request);
 		chain.doFilter(request, response);
@@ -68,21 +67,31 @@ public class ClickTrailFilter implements Filter {
 	 */
 	public void onAfterDoFilter(HttpServletRequest request, RecordedRequest rr) {
 		rr.setFinishTime(new Date());
+		handleRPC(request, rr);
+	}
+
+	/**
+	 * Detect if this is an GWT RPC call. If so, record the RPC data
+	 */
+	protected void handleRPC(HttpServletRequest request, RecordedRequest rr) {
 		if (request.getAttribute(RPC_METHOD_KEY) == null) {
 			return;
 		}
-		String method = (String) request.getAttribute(RPC_METHOD_KEY);
-		String parameters = (String) request.getAttribute(RPC_PARAMETERS_KEY);
-		NameValuesBean one = new NameValuesBean();
-		one.setName(RPC_METHOD_KEY);
-		one.setValues(new String[] { method });
-		NameValuesBean two = new NameValuesBean();
-		two.setName(RPC_PARAMETERS_KEY);
-		two.setValues(new String[] { parameters });
-		List<NameValuesBean> list = new ArrayList<NameValuesBean>();
-		list.add(one);
-		list.add(two);
-		rr.setParameters(list);
+		List<NameValuesBean> parameters = new ArrayList<NameValuesBean>();
+		parameters.add(getNameValuesBean(request, RPC_METHOD_KEY));
+		parameters.add(getNameValuesBean(request, RPC_PARAMETERS_KEY));
+		rr.setParameters(parameters);
+	}
+
+	/**
+	 * Convert a request attribute to a NameValuesBean
+	 */
+	protected NameValuesBean getNameValuesBean(HttpServletRequest request, String name) {
+		String parameters = (String) request.getAttribute(name);
+		NameValuesBean bean = new NameValuesBean();
+		bean.setName(name);
+		bean.setValues(new String[] { parameters });
+		return bean;
 	}
 
 	/**
@@ -101,7 +110,7 @@ public class ClickTrailFilter implements Filter {
 		RecordedRequest rr = getRecordedRequest(request);
 
 		/**
-		 * GWT spews lots of asynchronous requests. Synchronize on the
+		 * GWT can spew lots of asynchronous requests. Synchronize on the
 		 * RecordedSession object to insure that the modification to the list of
 		 * recorded requests and the setting of the sequence number is thread
 		 * safe.
@@ -116,21 +125,6 @@ public class ClickTrailFilter implements Filter {
 
 		// return the recorded request object
 		return rr;
-	}
-
-	protected List<NameValuesBean> getHeaders(HttpServletRequest request) {
-		List<NameValuesBean> headers = new ArrayList<NameValuesBean>();
-		Enumeration<?> e = request.getHeaderNames();
-		while (e.hasMoreElements()) {
-			String name = (String) e.nextElement();
-			String value = request.getHeader(name);
-			NameValuesBean bean = new NameValuesBean();
-			bean.setName(name);
-			bean.setValues(new String[] { value });
-			headers.add(bean);
-		}
-		Collections.sort(headers);
-		return headers;
 	}
 
 	protected List<NameValuesBean> getParameters(HttpServletRequest request) {
@@ -152,15 +146,11 @@ public class ClickTrailFilter implements Filter {
 		// Copy the parameter list
 		List<NameValuesBean> parameters = getParameters(request);
 
-		// Copy the headers
-		List<NameValuesBean> headers = getHeaders(request);
-
 		// Create and populate a RecordedRequest object
 		RecordedRequest rr = new RecordedRequest();
 		rr.setStartTime(new Date());
 		rr.setPath(request.getRequestURL() + "");
 		rr.setParameters(parameters);
-		rr.setHeaders(headers);
 		return rr;
 	}
 
