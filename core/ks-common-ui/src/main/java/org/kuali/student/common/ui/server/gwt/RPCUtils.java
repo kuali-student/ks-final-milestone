@@ -36,7 +36,7 @@ public class RPCUtils {
 				sb.append(Modifier.toString(mod) + " ");
 			}
 			sb.append(getTypeName(m.getReturnType()) + " ");
-			sb.append(getTypeName(m.getDeclaringClass()) + ".");
+			sb.append(m.getDeclaringClass().getName() + ".");
 			sb.append(m.getName() + "(");
 			Class<?>[] params = m.getParameterTypes();
 			for (int j = 0; j < params.length; j++) {
