@@ -4,7 +4,7 @@
 	<artifactId>sw</artifactId>
 	<packaging>war</packaging>
 	<version>1.0.0-SNAPSHOT</version>
-	<name>Maven'ized version of the GWT Stockwatcher application</name>
+	<name>sw</name>
 	<build>
 		<plugins>
 		    <!-- War Plugin Configuration -->
