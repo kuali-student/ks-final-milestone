@@ -38,13 +38,16 @@ class OutlineManagerToolbar extends HorizontalPanel {
   OutlineManagerToolbar() {
     //super(true, false);
     HorizontalPanel buttonPanel = new HorizontalPanel();
-    super.setPixelSize(100, 22);
+    //super.setWidth("100%");
+    //super.setHeight("22px");
+    this.setStyleName("KS-LOOutlineManagerToolbar");
     super.add(buttonPanel);
     buttonPanel.add(moveUpButton);
     buttonPanel.add(moveDownButton);
     buttonPanel.add(indentButton);
     buttonPanel.add(outdentButton);
     buttonPanel.add(deleteButton);
+    buttonPanel.addStyleName("KS-LOButtonPanel");
 //    buttonPanel.add(addPeerButton);
   //  buttonPanel.add(addChildButton);
     sinkEvents(Event.ONMOUSEMOVE);
@@ -166,6 +169,7 @@ public class OutlineManager extends Composite {
 
   public OutlineManager() {
     super.initWidget(mainPanel);
+    mainPanel.setStyleName("KS-LOMainPanel");
   }
 
   public void setModel(OutlineNodeModel model) {
@@ -178,6 +182,7 @@ public class OutlineManager extends Composite {
     OutlineNode[] outlineNodes = outlineModel.toOutlineNodes();
     for (final OutlineNode aNode : outlineNodes) {
       NodePanel nodePanel = new NodePanel();
+      nodePanel.setStyleName("KS-LONodePanel");
   //    nodePanel.setToolbar(toolbar);
       nodePanel.setOutlineNode(aNode);
    //   nodePanel.addMouseMoveHandler(new MouseMoveHandler() {
@@ -198,12 +203,13 @@ public class OutlineManager extends Composite {
   }
   class NodePanel extends  VerticalPanel{
    OutlineManagerToolbar toolbar = new OutlineManagerToolbar();
-
+    
     ArrayList<MouseMoveHandler> mouseMoveHandlerList = new ArrayList<MouseMoveHandler>();
     HorizontalPanel horitonalPanel = new HorizontalPanel();
     OutlineNode currentNode; 
     NodePanel() {
       toolbar.setModel(outlineModel);
+      horitonalPanel.setStyleName("KS-LOHNodePanel");
       super.sinkEvents(Event.ONMOUSEMOVE);
       super.sinkEvents(Event.ONMOUSEOUT);
     }
@@ -212,16 +218,16 @@ public class OutlineManager extends Composite {
         currentNode = aNode;
       for (int i = 0; i < aNode.getIndentLevel(); i++) {
         Label label = new Label();
-        label.setPixelSize(50,10);
+        label.setStyleName("KS-LONodeIndent");
         horitonalPanel.add(label);
         
         // space for toolbar
         label = new Label();
-        label.setPixelSize(50,10);
+        label.setStyleName("KS-LONodeIndentToolbar");
         toolbar.insert(label, 0);
       }
       Widget userWidget = (Widget) aNode.getUserObject();
-      userWidget.setPixelSize(200, 50);
+      userWidget.setStyleName("KS-LOaNode");
       horitonalPanel.add(userWidget);
 
       add(horitonalPanel);
