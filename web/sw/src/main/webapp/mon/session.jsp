@@ -9,6 +9,20 @@
 RecordedSession rs = (RecordedSession) session.getAttribute("recordedSession");
 pageContext.setAttribute("rs",rs);
 %>
+<html>
+<head>
+ <title>Request Log</title>
+<style type="text/css">
+  h4 {color:sienna;}
+  pre {
+    font-weight:normal;
+    color:black;
+    font-family:Times New Roman;
+    margin:0px 0px 0px 0px;
+  }
+</style> 
+</head>
+<body>
 <h4>Request Log for HttpSession: <%=session.getId()%></h4>
 <table border=1>
 <th>Seq</th>
@@ -32,4 +46,5 @@ pageContext.setAttribute("rs",rs);
  </tr>
 </c:forEach>
 </table>
-
+</body>
+</html>
