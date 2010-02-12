@@ -17,8 +17,8 @@ public abstract class BaseRemoteAbstractServiceServlet extends RemoteServiceServ
 
 	/**
 	 * Extract information about the RPC call, transform it into a human
-	 * friendly format and place it on the request so ClickTrailFilter can store
-	 * it in the session
+	 * friendly format and place it on the request so it can be processed later
+	 * on
 	 */
 	@Override
 	protected void onAfterRequestDeserialized(RPCRequest rpcRequest) {
