@@ -15,6 +15,17 @@ public class RPCUtils {
 	 * Convert a parameter list to an XML string
 	 */
 	public String toXML(Object[] parameters) {
+		if (parameters == null || parameters.length == 0) {
+			return "";
+		}
+
+		if (parameters.length == 1) {
+			Object parameter = parameters[0];
+			if (parameter instanceof String) {
+				return parameter + "";
+			}
+		}
+
 		StringBuffer sb = new StringBuffer();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		XMLEncoder e = new XMLEncoder(out);
