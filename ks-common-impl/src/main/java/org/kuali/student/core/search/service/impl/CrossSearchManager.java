@@ -2,6 +2,8 @@ package org.kuali.student.core.search.service.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +22,7 @@ import org.kuali.student.core.search.newdto.SearchRequest;
 import org.kuali.student.core.search.newdto.SearchResult;
 import org.kuali.student.core.search.newdto.SearchResultCell;
 import org.kuali.student.core.search.newdto.SearchResultRow;
+import org.kuali.student.core.search.newdto.SortDirection;
 
 /**
  * This still needs a few things
@@ -28,6 +31,10 @@ import org.kuali.student.core.search.newdto.SearchResultRow;
  * (for example if searching for LO and the related CLU by the LO description, we need to match ALL CLUs 
  * with just the LOs that match, meaning if we had 1000 clus, and 10 LOs we would be comparing 10000 results)
  * 
+ *
+ */
+/**
+ * @author Daniel Epstein
  *
  */
 public class CrossSearchManager {
@@ -53,21 +60,68 @@ public class CrossSearchManager {
 //		joinCriteria.getComparisons().add(comparison);
 //		crossSearch.setJoinCriteria(joinCriteria);
 //		
-//		JoinResultMappingInfo joinResultMapping = new JoinResultMappingInfo();
+//		JoinResultMappingInfo joinResultMapping;
+//		joinResultMapping = new JoinResultMappingInfo();
 //		joinResultMapping.setResultParam("Animal");
 //		joinResultMapping.setSubSearchKey("Search1");
 //		joinResultMapping.setSubSearchResultParam("Ks1c1");
 //		crossSearch.getJoinResultMappings().add(joinResultMapping);
 //		
+//		joinResultMapping = new JoinResultMappingInfo();
+//		joinResultMapping.setResultParam("Sound");
+//		joinResultMapping.setSubSearchKey("Search1");
+//		joinResultMapping.setSubSearchResultParam("Ks1c2");
+//		crossSearch.getJoinResultMappings().add(joinResultMapping);
+//		
+//		joinResultMapping = new JoinResultMappingInfo();
+//		joinResultMapping.setResultParam("Key");
+//		joinResultMapping.setSubSearchKey("Search3");
+//		joinResultMapping.setSubSearchResultParam("Ks3c2");
+//		crossSearch.getJoinResultMappings().add(joinResultMapping);
+//		
 //		List <Map<String,SearchResultRow>> allPermutations = new CrossSearchManager().unionOfAllRows(getTestData());
+//		SearchResult result = new SearchResult();
 //		for(Map<String,SearchResultRow> permutation:allPermutations){
 //			if(new CrossSearchManager().meetsCriteria(permutation,crossSearch,crossSearch.getJoinCriteria())){
 //				SearchResultRow mappedResult = new CrossSearchManager().mapResultRow(permutation,crossSearch);
-//				System.out.println(mappedResult.getCells().get(0).getValue());
+//				result.getRows().add(mappedResult);
 //			}
 //		}
+//		SearchRequest request = new SearchRequest();
+//		request.setSortColumn("Sound");
+//		request.setSortDirection(SortDirection.ASC);
+//		new CrossSearchManager().metaFilter(result,request);
+//		prettyPrint(result);
+//		
+//		request.setSortColumn("Key");
+//		request.setSortDirection(SortDirection.ASC);
+//		new CrossSearchManager().metaFilter(result,request);
+//		prettyPrint(result);
+//		
+//		request.setSortColumn("Key");
+//		request.setSortDirection(SortDirection.DESC);
+//		new CrossSearchManager().metaFilter(result,request);
+//		prettyPrint(result);
+//		
+//		request.setSortColumn("Key");
+//		request.setSortDirection(SortDirection.DESC);
+//		request.setStartAt(new Integer(1));
+//		request.setMaxResults(new Integer(4));
+//		new CrossSearchManager().metaFilter(result,request);
+//		prettyPrint(result);
 //		
 //	}
+//	
+//	private static void prettyPrint(SearchResult s){
+//		for(SearchResultRow r:s.getRows()){
+//			for(SearchResultCell c:r.getCells()){
+//				System.out.print("'"+c.getKey()+"'=>'"+c.getValue()+"' ");
+//			}
+//			System.out.print("\n");
+//		}
+//		System.out.print("\n");
+//	}
+//	
 //	private static Map<String, SearchResult> getTestData() {
 //		Map<String, SearchResult> results = new HashMap<String, SearchResult>();		
 //		SearchResult result;
@@ -80,12 +134,20 @@ public class CrossSearchManager {
 //		cell.setKey("Ks1c1");
 //		cell.setValue("Cat");
 //		row.getCells().add(cell);
+//		cell = new SearchResultCell();
+//		cell.setKey("Ks1c2");
+//		cell.setValue("Meow");
+//		row.getCells().add(cell);
 //		result.getRows().add(row);
 //		
 //		row = new SearchResultRow();
 //		cell = new SearchResultCell();
 //		cell.setKey("Ks1c1");
 //		cell.setValue("Dog");
+//		row.getCells().add(cell);
+//		cell = new SearchResultCell();
+//		cell.setKey("Ks1c2");
+//		cell.setValue("Bark");
 //		row.getCells().add(cell);
 //		result.getRows().add(row);
 //		
@@ -116,6 +178,10 @@ public class CrossSearchManager {
 //		cell.setKey("Ks3c1");
 //		cell.setValue("Cat");
 //		row.getCells().add(cell);
+//		cell = new SearchResultCell();
+//		cell.setKey("Ks3c2");
+//		cell.setValue("111");
+//		row.getCells().add(cell);
 //		result.getRows().add(row);
 //		
 //		row = new SearchResultRow();
@@ -123,12 +189,20 @@ public class CrossSearchManager {
 //		cell.setKey("Ks3c1");
 //		cell.setValue("Dog");
 //		row.getCells().add(cell);
+//		cell = new SearchResultCell();
+//		cell.setKey("Ks3c2");
+//		cell.setValue("222");
+//		row.getCells().add(cell);
 //		result.getRows().add(row);
 //
 //		row = new SearchResultRow();
 //		cell = new SearchResultCell();
 //		cell.setKey("Ks3c1");
 //		cell.setValue("Fish");
+//		row.getCells().add(cell);
+//		cell = new SearchResultCell();
+//		cell.setKey("Ks3c2");
+//		cell.setValue("333");
 //		row.getCells().add(cell);
 //		result.getRows().add(row);
 //
@@ -180,11 +254,111 @@ public class CrossSearchManager {
 				searchResult.getRows().add(mappedResult);
 			}
 		}
-		return searchResult;
+		return metaFilter(searchResult,searchRequest);
 	}
 	
 	
 	
+	
+	/**
+	 * @param searchResult
+	 * @param searchRequest
+	 * @return a sorted and paginated result
+	 */
+	private SearchResult metaFilter(SearchResult searchResult,
+		SearchRequest searchRequest) {
+		
+		searchResult.setTotalResults(searchResult.getRows().size());
+		final String sortColumn = searchRequest.getSortColumn();
+		final SortDirection sortDirection = searchRequest.getSortDirection();
+		
+		//Sort if we need to
+		if(sortColumn!=null){
+			Collections.sort(searchResult.getRows(), new SearchResultRowComparator(sortColumn,sortDirection));
+		}
+		
+		//Paginate if we need to
+		if(searchRequest.getMaxResults()!=null){
+			int fromIndex=0;
+			if(searchRequest.getStartAt()!=null){
+				fromIndex=searchRequest.getStartAt();
+			}
+			int toIndex = fromIndex+searchRequest.getMaxResults();
+			searchResult.setRows(searchResult.getRows().subList(fromIndex, toIndex));
+		}
+		return searchResult;
+	}
+
+	
+	/**
+	 * Compares two SearchResultRow rows with a given sort direction and column
+	 *
+	 */
+	public class SearchResultRowComparator implements Comparator<SearchResultRow> {
+		private String sortColumn;
+		private SortDirection sortDirection;
+		
+		public SearchResultRowComparator(String sortColumn,
+				SortDirection sortDirection) {
+			super();
+			this.sortColumn = sortColumn;
+			this.sortDirection = sortDirection;
+		}
+		
+		@Override
+		public int compare(SearchResultRow r1, SearchResultRow r2) {
+			int compareResult = 0;
+			
+			//Pares out the cell values to compare
+			String v1=null;
+			String v2=null;
+			for(SearchResultCell c:r1.getCells()){
+				if(sortColumn.equals(c.getKey())){
+					v1=c.getValue();
+					break;
+				}
+			}
+			for(SearchResultCell c:r2.getCells()){
+				if(sortColumn.equals(c.getKey())){
+					v2=c.getValue();
+					break;
+				}
+			}
+			
+			//Compare the values wiuth the right type (SHould be done more efficiently
+			try{
+				Integer v1Integer = Integer.parseInt(v1);
+				Integer v2Integer = Integer.parseInt(v2);
+				compareResult = v1Integer.compareTo(v2Integer);
+			}catch(Exception e1){
+				if(("true".equals(v1.toLowerCase())||"false".equals(v1.toLowerCase()))&&
+				   ("true".equals(v2.toLowerCase())||"false".equals(v2.toLowerCase()))){
+					Boolean v1Boolean = Boolean.parseBoolean(v1);
+					Boolean v2Boolean = Boolean.parseBoolean(v2);
+					compareResult = v1Boolean.compareTo(v2Boolean);
+				}else{
+					try{
+						SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+						Date v1Date = df.parse(v1);
+						Date v2Date = df.parse(v2);
+						compareResult = v1Date.compareTo(v2Date);
+					}catch(Exception e){
+						compareResult = v1.compareTo(v2);
+					}
+				}
+			}
+			
+			//Sort reverse if order is descending
+			if(SortDirection.DESC.equals(sortDirection)){
+				return -1 * compareResult;
+			}
+			return compareResult;
+		}
+		
+	}
+
+
+
 	/**
 	 * Maps results from multiple searches into a single result row
 	 *
@@ -251,6 +425,9 @@ public class CrossSearchManager {
 			
 			//Get the compare type for the 
 			//TODO get the types for the params!
+			if(leftResultValue==null||rightResultValue==null){
+				int i=0;i++;
+			}
 			if(compare(null, leftResultValue,rightResultValue,comparison.getType())){
 				if(JoinType.OR.equals(joinType)){
 					return true;
