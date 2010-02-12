@@ -26,43 +26,42 @@ import org.kuali.student.core.search.dto.SearchTypeInfo;
 import com.google.gwt.user.client.rpc.RemoteService;
 
 /**
- *  A base RPC service interface that exposes dictionary and search interfaces
- *  of a service endpoint interface SEI
+ * A base RPC service interface that exposes dictionary and search interfaces of
+ * a service endpoint interface SEI
  * 
  * @author Kuali Student Team
- *
+ * 
  */
-public interface BaseRpcService extends RemoteService{
+public interface BaseRpcService extends RemoteService {
 
-    /* Dictionary Operations */
-    
-    public List<String> getObjectTypes();
+	/* Dictionary Operations */
 
-    public ObjectStructure getObjectStructure(String objectTypeKey);
+	public List<String> getObjectTypes();
 
-    public boolean validateObject(String objectTypeKey, String stateKey, String info);
+	public ObjectStructure getObjectStructure(String objectTypeKey);
 
-    public boolean validateStructureData(String objectTypeKey, String stateKey, String info);
-    
-    
-    /* Search Operations */
-    
-    public List<Result> searchForResults(String searchTypeKey, List<QueryParamValue> queryParamValues);
+	public boolean validateObject(String objectTypeKey, String stateKey, String info);
 
-    public List<SearchTypeInfo> getSearchTypes();
+	public boolean validateStructureData(String objectTypeKey, String stateKey, String info);
 
-    public SearchTypeInfo getSearchType(String searchTypeKey);
+	/* Search Operations */
 
-    public List<SearchTypeInfo> getSearchTypesByResult(String searchResultTypeKey);
+	public List<Result> searchForResults(String searchTypeKey, List<QueryParamValue> queryParamValues);
 
-    public List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey);
+	public List<SearchTypeInfo> getSearchTypes();
 
-    public List<SearchResultTypeInfo> getSearchResultTypes();
+	public SearchTypeInfo getSearchType(String searchTypeKey);
 
-    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey);
+	public List<SearchTypeInfo> getSearchTypesByResult(String searchResultTypeKey);
 
-    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes();
+	public List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey);
 
-    public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey);
+	public List<SearchResultTypeInfo> getSearchResultTypes();
+
+	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey);
+
+	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes();
+
+	public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey);
 
 }
