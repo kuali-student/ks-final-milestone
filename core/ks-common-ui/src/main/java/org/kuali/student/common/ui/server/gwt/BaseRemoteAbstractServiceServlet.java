@@ -13,7 +13,7 @@ import static org.kuali.student.common.ui.server.gwt.Constants.*;
 @SuppressWarnings("serial")
 public abstract class BaseRemoteAbstractServiceServlet extends RemoteServiceServlet {
 	RPCUtils utils = new RPCUtils();
-	String debugMode = ConfigContext.getCurrentContextConfig().getProperty(HTTP_REQUEST_DEBUG_MODE);
+	boolean httpRequestDebugMode = "true".equalsIgnoreCase(ConfigContext.getCurrentContextConfig().getProperty(HTTP_REQUEST_DEBUG_MODE));
 
 	/**
 	 * Extract information about the RPC call, transform it into a human
@@ -22,7 +22,7 @@ public abstract class BaseRemoteAbstractServiceServlet extends RemoteServiceServ
 	 */
 	@Override
 	protected void onAfterRequestDeserialized(RPCRequest rpcRequest) {
-		if ("true".equalsIgnoreCase(debugMode)) {
+		if (httpRequestDebugMode) {
 			getThreadLocalRequest().setAttribute(RPC_METHOD_KEY, utils.toString(rpcRequest.getMethod()));
 			getThreadLocalRequest().setAttribute(RPC_PARAMETERS_KEY, utils.toXML(rpcRequest.getParameters()));
 		}

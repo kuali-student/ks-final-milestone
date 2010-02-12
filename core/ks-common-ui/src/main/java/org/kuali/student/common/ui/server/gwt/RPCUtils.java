@@ -15,6 +15,17 @@ public class RPCUtils {
 	 * Convert a parameter list to an XML string
 	 */
 	public String toXML(Object[] parameters) {
+		// No parameters
+		if (parameters == null || parameters.length == 0) {
+			return "";
+		}
+
+		// All the parameters are primitive
+		if (isPrimitivesOrStringsOnly(parameters)) {
+			return getPrimitivesAndStrings(parameters);
+		}
+
+		// Otherwise use an XMLEncoder
 		StringBuffer sb = new StringBuffer();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		XMLEncoder e = new XMLEncoder(out);
@@ -22,6 +33,60 @@ public class RPCUtils {
 		e.close();
 		sb.append(out.toString());
 		return sb.toString();
+	}
+
+	protected String getPrimitivesAndStrings(Object[] parameters) {
+		if (parameters.length == 1) {
+			return parameters[0] + "";
+		}
+		StringBuffer sb = new StringBuffer();
+		for (Object parameter : parameters) {
+			sb.append("<value>" + parameter + "</value>\n");
+		}
+		return sb.toString();
+	}
+
+	protected boolean isPrimitivesOrStringsOnly(Object[] parameters) {
+		for (Object parameter : parameters) {
+			if (!isPrimitiveOrString(parameter)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * 
+	 */
+	protected boolean isPrimitiveOrString(Object object) {
+		if (object instanceof Byte) {
+			return true;
+		}
+		if (object instanceof Short) {
+			return true;
+		}
+		if (object instanceof Integer) {
+			return true;
+		}
+		if (object instanceof Long) {
+			return true;
+		}
+		if (object instanceof Float) {
+			return true;
+		}
+		if (object instanceof Double) {
+			return true;
+		}
+		if (object instanceof Boolean) {
+			return true;
+		}
+		if (object instanceof Character) {
+			return true;
+		}
+		if (object instanceof String) {
+			return true;
+		}
+		return false;
 	}
 
 	/**

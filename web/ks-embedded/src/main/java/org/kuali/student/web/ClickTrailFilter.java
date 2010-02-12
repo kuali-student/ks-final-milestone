@@ -37,7 +37,7 @@ public class ClickTrailFilter implements Filter {
 	private static final Log log = LogFactory.getLog(ClickTrailFilter.class);
 	Runtime runtime = Runtime.getRuntime();
 	long sequence = 0;
-	boolean debugMode = "true".equalsIgnoreCase(ConfigContext.getCurrentContextConfig().getProperty(HTTP_REQUEST_DEBUG_MODE));
+	boolean httpRequestDebugMode = "true".equalsIgnoreCase(ConfigContext.getCurrentContextConfig().getProperty(HTTP_REQUEST_DEBUG_MODE));
 
 	/**
 	 * Servlet container is starting up
@@ -68,7 +68,7 @@ public class ClickTrailFilter implements Filter {
 	 * Record information about this HttpRequest.<br>
 	 */
 	public void onAfterDoFilter(HttpServletRequest request, RecordedRequest rr) {
-		if (!debugMode) {
+		if (!httpRequestDebugMode) {
 			return;
 		}
 		rr.setFinishTime(new Date());
@@ -76,7 +76,7 @@ public class ClickTrailFilter implements Filter {
 	}
 
 	/**
-	 * Detect if this is an GWT RPC call. If so, record the RPC data
+	 * Detect if this is a GWT RPC call. If so, record the RPC data
 	 */
 	protected void handleRPC(HttpServletRequest request, RecordedRequest rr) {
 		if (request.getAttribute(RPC_METHOD_KEY) == null) {
@@ -84,8 +84,20 @@ public class ClickTrailFilter implements Filter {
 		}
 		List<NameValuesBean> parameters = new ArrayList<NameValuesBean>();
 		parameters.add(getNameValuesBean(request, RPC_METHOD_KEY));
-		parameters.add(getNameValuesBean(request, RPC_PARAMETERS_KEY));
+		if (!isEmpty(request.getAttribute(RPC_PARAMETERS_KEY))) {
+			parameters.add(getNameValuesBean(request, RPC_PARAMETERS_KEY));
+		}
 		rr.setParameters(parameters);
+	}
+
+	protected boolean isEmpty(Object object) {
+		if (object == null) {
+			return true;
+		}
+		if (object.toString().trim().equals("")) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -103,7 +115,7 @@ public class ClickTrailFilter implements Filter {
 	 * Record information about this HttpRequest.<br>
 	 */
 	public RecordedRequest onBeforeDoFilter(HttpServletRequest request) {
-		if (!debugMode) {
+		if (!httpRequestDebugMode) {
 			return null;
 		}
 		HttpSession session = request.getSession(true);
