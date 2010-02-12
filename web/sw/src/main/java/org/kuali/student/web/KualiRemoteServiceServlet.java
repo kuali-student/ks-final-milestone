@@ -28,17 +28,16 @@ public class KualiRemoteServiceServlet extends RemoteServiceServlet {
 
 	@Override
 	protected void onAfterRequestDeserialized(RPCRequest rpcRequest) {
-		getThreadLocalRequest().setAttribute(REQUEST_PAYLOAD_KEY, toXML(rpcRequest));
+		getThreadLocalRequest().setAttribute(RPC_METHOD_KEY, toString(rpcRequest.getMethod()));
+		getThreadLocalRequest().setAttribute(RPC_PARAMETERS_KEY, toXML(rpcRequest.getParameters()));
 		super.onAfterRequestDeserialized(rpcRequest);
 	}
 
-	protected String toXML(RPCRequest rpcRequest) {
+	protected String toXML(Object[] parameters) {
 		StringBuffer sb = new StringBuffer();
-		sb.append(toString(rpcRequest.getMethod()));
-		sb.append("\n\n");
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		XMLEncoder e = new XMLEncoder(out);
-		e.writeObject(rpcRequest.getParameters());
+		e.writeObject(parameters);
 		e.close();
 		sb.append(out.toString());
 		return sb.toString();

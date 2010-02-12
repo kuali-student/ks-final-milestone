@@ -68,21 +68,21 @@ public class ClickTrailFilter implements Filter {
 	 */
 	public void onAfterDoFilter(HttpServletRequest request, RecordedRequest rr) {
 		rr.setFinishTime(new Date());
-		if (request.getAttribute(REQUEST_PAYLOAD_KEY) == null) {
+		if (request.getAttribute(RPC_METHOD_KEY) == null) {
 			return;
 		}
-		String requestPayload = (String) request.getAttribute(REQUEST_PAYLOAD_KEY);
-		String responsePayload = (String) request.getAttribute(RESPONSE_PAYLOAD_KEY);
+		String method = (String) request.getAttribute(RPC_METHOD_KEY);
+		String parameters = (String) request.getAttribute(RPC_PARAMETERS_KEY);
 		NameValuesBean one = new NameValuesBean();
-		one.setName("requestPayload");
-		one.setValues(new String[] { requestPayload });
+		one.setName(RPC_METHOD_KEY);
+		one.setValues(new String[] { method });
 		NameValuesBean two = new NameValuesBean();
-		two.setName("responsePayload");
-		two.setValues(new String[] { responsePayload });
-		List<NameValuesBean> parameters = new ArrayList<NameValuesBean>();
-		parameters.add(one);
-		//parameters.add(two);
-		rr.setParameters(parameters);
+		two.setName(RPC_PARAMETERS_KEY);
+		two.setValues(new String[] { parameters });
+		List<NameValuesBean> list = new ArrayList<NameValuesBean>();
+		list.add(one);
+		list.add(two);
+		rr.setParameters(list);
 	}
 
 	/**

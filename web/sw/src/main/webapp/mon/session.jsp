@@ -11,40 +11,24 @@ pageContext.setAttribute("rs",rs);
 %>
 <h4>Request Log for HttpSession: <%=session.getId()%></h4>
 <table border=1>
-<th>Sequence</th>
+<th>Seq</th>
 <th>Request</th>
 <th>Params</th>
-<%--<th>Headers</th>--%>
 <c:forEach var="rr" items="${rs.recordedRequests}">
  <tr>
-   <td>${rr.sequence}</td>
+   <td align=center>${rr.sequence}</td>
    <td>${rr.path}</td>
    <td>
      <table border=0>
        <c:forEach var="parameter" items="${rr.parameters}">
-		 <tr>
-		   <%--
-		   <td align=right>${parameter.name}</td>
-		   <td>=</td>
-		   --%>
+		 <tr valign=top>
+		   <td align=right><pre>${parameter.name}</pre></td>
+		   <td><pre>=</pre></td>
 		   <td><pre><c:out value="${parameter.value}" escapeXml="true"/></pre></td>
 		 </tr>
        </c:forEach>
      </table>
    </td>
-   <%--
-   <td>
-     <table border=0>
-       <c:forEach var="myHeader" items="${rr.headers}">
-		 <tr>
-		   <td align=right>${myHeader.name}</td>
-		   <td>=</td>
-		   <td>${myHeader.value}</td>
-		 </tr>
-       </c:forEach>
-     </table>
-   </td>
-   --%>
  </tr>
 </c:forEach>
 </table>
