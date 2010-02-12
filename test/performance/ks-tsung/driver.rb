@@ -82,15 +82,29 @@ optparse = OptionParser.new do |opts|
   end
   
   # Execute tests after generating xml
+  config.execute = false
   opts.on('-x', '--execute', 'start the load after generating the XML') do
     config.execute = true
   end
   
   # Verbose option for tsung
-  opts.on('-v', '--verbose', 'dumps http traffice from tsung') do
+  config.verbose = false
+  opts.on('-v', '--verbose', 'dumps http traffic from tsung') do
     config.verbose = true
   end
   
+  # Log level for Tsung
+  config.tsung_log_level = 'notice'
+  opts.on('-t', '--tsung_log_level LEVEL', 'sets the log level for tsung. Available levels: emergency, critical, error, warning, notice (default), info, debug') do |level|
+    if(level != 'emergency' and level != 'critical' and level != 'error' and level != 'warning' and level != 'notice' and level != 'info' and level != 'debug')
+      puts "Invalid setting for -t"
+      puts opts
+      exit
+    else
+      config.tsung_log_level = level
+    end
+  end
+
   # Enable debug
   opts.on('-d', '--debug', 'enable debug logging') do
     config.debug = true
@@ -154,10 +168,8 @@ config.xml_obj.write(config.xml_writer.file, 2) # Write xml to file
 config.xml_writer.file.close # Need to close so Tsung can open the file
 
 if(config.execute)
-  config.log.info_msg("Starting tsung with command [tsung -f #{config.xml_writer.file_path} start]...")
+  config.log.info_msg("Starting tsung with command [tsung -f #{config.xml_writer.file_path} start]")
   puts `tsung -f #{config.xml_writer.file_path} start`
 end
 
-#trap("INT") {DRb.stop_service}
-#DRb.thread.join
 DRb.stop_service

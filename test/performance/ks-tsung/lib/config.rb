@@ -17,7 +17,8 @@ include Common
 class AutoConfig
 
   attr_accessor :config_dir, :suite_dir, :test_dir, :log_dir, :output, :clients, :servers, :phases, :agents,
-    :debug, :execute, :intro_xml, :suite, :tests, :drb_port, :log, :log_path, :xml_writer, :xml_obj, :context, :verbose
+    :debug, :execute, :intro_xml, :suite, :tests, :drb_port, :log, :log_path, :xml_writer, :xml_obj, :context, :verbose,
+    :tsung_log_level
 
   
   def initialize
@@ -287,7 +288,7 @@ class AutoConfig
     self.xml_obj = xml_doc
     
     tsung_opts = {
-      "loglevel" => "notice",
+      "loglevel" => "#{self.tsung_log_level}",
       "version" => "1.0"
     }
     tsung_opts["dumptraffic"] = "true" if(self.verbose)
