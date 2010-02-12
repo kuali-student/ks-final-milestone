@@ -21,7 +21,7 @@ import org.kuali.student.common.ui.client.service.UploadStatusRpcService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-public class UploadStatusRpcGwtServlet extends RemoteServiceServlet implements UploadStatusRpcService{
+public class UploadStatusRpcGwtServlet extends RemoteServiceServlet implements UploadStatusRpcService {
 	private static final long serialVersionUID = 1L;
 
 	@Override

@@ -21,30 +21,31 @@ import org.springframework.security.userdetails.UserDetails;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
- * This is a description of what this class does - Will Gomes don't forget to fill this in. 
+ * This is a description of what this class does - Will Gomes don't forget to
+ * fill this in.
  * 
  * @author Kuali Student Team
- *
+ * 
  */
-public class SecurityRpcGwtServlet extends RemoteServiceServlet implements SecurityRpcService{
+public class SecurityRpcGwtServlet extends RemoteServiceServlet implements SecurityRpcService {
 
-    private static final long serialVersionUID = 1L;
-       
-    public String getPrincipalUsername(){
-        String username = "unknown";
-        
-        try{
-            Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if (obj instanceof UserDetails) {
-                username = ((UserDetails)obj).getUsername();
-              } else {
-                username = obj.toString();
-              }
-        } catch (Exception e){
-            //TODO: How do we handle this?
-        }
-        
-        return username;
-    }
+	private static final long serialVersionUID = 1L;
+
+	public String getPrincipalUsername() {
+		String username = "unknown";
+
+		try {
+			Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if (obj instanceof UserDetails) {
+				username = ((UserDetails) obj).getUsername();
+			} else {
+				username = obj.toString();
+			}
+		} catch (Exception e) {
+			// TODO: How do we handle this?
+		}
+
+		return username;
+	}
 
 }

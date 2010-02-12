@@ -27,39 +27,33 @@ public class CommentRpcGwtServlet extends BaseRpcGwtServletAbstract<CommentServi
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public CommentInfo addComment(String referenceId, String referenceTypeKey,
-			CommentInfo commentInfo) throws Exception {
+	public CommentInfo addComment(String referenceId, String referenceTypeKey, CommentInfo commentInfo) throws Exception {
 		return service.addComment(referenceId, referenceTypeKey, commentInfo);
 	}
 
 	@Override
-	public List<CommentInfo> getComments(String referenceId,
-			String referenceTypeKey) throws Exception {
+	public List<CommentInfo> getComments(String referenceId, String referenceTypeKey) throws Exception {
 		return service.getComments(referenceId, referenceTypeKey);
 	}
 
 	@Override
-	public List<CommentInfo> getCommentsByType(String referenceId,
-			String referenceTypeKey, String commentTypeKey) throws Exception {
+	public List<CommentInfo> getCommentsByType(String referenceId, String referenceTypeKey, String commentTypeKey) throws Exception {
 		return service.getCommentsByType(referenceId, referenceTypeKey, commentTypeKey);
 	}
 
 	@Override
-	public CommentInfo updateComment(String referenceId,
-			String referenceTypeKey, CommentInfo commentInfo) throws Exception {
+	public CommentInfo updateComment(String referenceId, String referenceTypeKey, CommentInfo commentInfo) throws Exception {
 		return service.updateComment(referenceId, referenceTypeKey, commentInfo);
 	}
 
 	@Override
-	public StatusInfo removeComment(String commentId, String referenceId,
-			String referenceTypeKey) throws Exception {
+	public StatusInfo removeComment(String commentId, String referenceId, String referenceTypeKey) throws Exception {
 		return service.removeComment(commentId, referenceId, referenceTypeKey);
 	}
-	
+
 	@Override
 	public List<CommentTypeInfo> getCommentTypesForReferenceType(String referenceTypeKey) throws Exception {
 		return service.getCommentTypesForReferenceType(referenceTypeKey);
 	}
-
 
 }

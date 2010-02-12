@@ -24,51 +24,51 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class MessagesRpcGwtServlet extends RemoteServiceServlet implements org.kuali.student.common.ui.client.service.MessagesRpcService {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private MessageService serviceImpl; 
-    
-    @Override
-    public Message addMessage(Message messageInfo) {
-        return serviceImpl.addMessage(messageInfo);
-    }
+	private MessageService serviceImpl;
 
-    @Override
-    public LocaleKeyList getLocales() {
-        return serviceImpl.getLocales();
-    }
+	@Override
+	public Message addMessage(Message messageInfo) {
+		return serviceImpl.addMessage(messageInfo);
+	}
 
-    @Override
-    public Message getMessage(String localeKey, String messageGroupKey, String messageKey) {
-        return serviceImpl.getMessage(localeKey, messageGroupKey, messageKey);
-    }
+	@Override
+	public LocaleKeyList getLocales() {
+		return serviceImpl.getLocales();
+	}
 
-    @Override
-    public MessageGroupKeyList getMessageGroups() {
-        return serviceImpl.getMessageGroups();
-    }
+	@Override
+	public Message getMessage(String localeKey, String messageGroupKey, String messageKey) {
+		return serviceImpl.getMessage(localeKey, messageGroupKey, messageKey);
+	}
 
-    @Override
-    public MessageList getMessages(String localeKey, String messageGroupKey) {
-        return serviceImpl.getMessages(localeKey, messageGroupKey);
-    }
+	@Override
+	public MessageGroupKeyList getMessageGroups() {
+		return serviceImpl.getMessageGroups();
+	}
 
-    @Override
-    public MessageList getMessagesByGroups(String localeKey, MessageGroupKeyList messageGroupKeyList) {
-        return serviceImpl.getMessagesByGroups(localeKey, messageGroupKeyList);
-    }
+	@Override
+	public MessageList getMessages(String localeKey, String messageGroupKey) {
+		return serviceImpl.getMessages(localeKey, messageGroupKey);
+	}
 
-    @Override
-    public Message updateMessage(String localeKey, String messageGroupKey, String messageKey, Message messageInfo) {
-        return serviceImpl.updateMessage(localeKey, messageGroupKey, messageKey, messageInfo);
-    }
+	@Override
+	public MessageList getMessagesByGroups(String localeKey, MessageGroupKeyList messageGroupKeyList) {
+		return serviceImpl.getMessagesByGroups(localeKey, messageGroupKeyList);
+	}
 
-    public MessageService getServiceImpl() {
-        return serviceImpl;
-    }
+	@Override
+	public Message updateMessage(String localeKey, String messageGroupKey, String messageKey, Message messageInfo) {
+		return serviceImpl.updateMessage(localeKey, messageGroupKey, messageKey, messageInfo);
+	}
 
-    public void setServiceImpl(MessageService impl) {
-        this.serviceImpl = impl;
-    }
+	public MessageService getServiceImpl() {
+		return serviceImpl;
+	}
+
+	public void setServiceImpl(MessageService impl) {
+		this.serviceImpl = impl;
+	}
 
 }

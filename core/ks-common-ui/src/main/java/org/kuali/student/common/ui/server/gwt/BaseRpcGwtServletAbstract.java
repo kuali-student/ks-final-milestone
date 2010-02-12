@@ -34,209 +34,211 @@ import org.kuali.student.core.search.service.SearchService;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
- * This abstract service delegates search & dictionary operations to the web service being remoted.
- * Extend this class for gwt servlets only if you the service being remoted has dictionary
- * and search operations 
+ * This abstract service delegates search & dictionary operations to the web
+ * service being remoted. Extend this class for gwt servlets only if the service
+ * being remoted has dictionary and search operations
  * 
  * @author Kuali Student Team
- *
+ * 
  */
-public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServlet implements BaseRpcService{
+public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServlet implements BaseRpcService {
 
-    private static final long serialVersionUID = 1L;
-    
-    protected SEI service;
-        
-    
-    public SEI getService(){
-        return this.service;
-    }
-       
-    public void setService(SEI service) {
-        this.service = service;
-    };
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * @see org.kuali.student.core.dictionary.service.DictionaryService#getObjectStructure(java.lang.String)
-     */
-    @Override
-    public ObjectStructure getObjectStructure(String objectTypeKey) {
-        return ((DictionaryService)getService()).getObjectStructure(objectTypeKey);        
-    }
+	protected SEI service;
 
-    /**
-     * @see org.kuali.student.core.dictionary.service.DictionaryService#getObjectTypes()
-     */
-    @Override
-    public List<String> getObjectTypes() {
-        return ((DictionaryService)getService()).getObjectTypes();
-    }
-    
-    /**
-     * @see org.kuali.student.core.dictionary.service.DictionaryService#validateObject(java.lang.String, java.lang.String, java.lang.String)
-     */
-    @Override
-    public boolean validateObject(String objectTypeKey, String stateKey, String info) {
-        return ((DictionaryService)getService()).validateObject(objectTypeKey, stateKey, info);
-    }
-    
-    /**
-     * @see org.kuali.student.core.dictionary.service.DictionaryService#validateStructureData(java.lang.String, java.lang.String, java.lang.String)
-     */
-    @Override
-    public boolean validateStructureData(String objectTypeKey, String stateKey, String info) {
-        return ((DictionaryService)getService()).validateStructureData(objectTypeKey, stateKey, info);
-    }
-    
-    /**
-     * @see org.kuali.student.core.search.service.SearchService#getSearchCriteriaType(java.lang.String)
-     */
-    @Override
-    public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey){
-        try {
-            return ((SearchService)getService()).getSearchCriteriaType(searchCriteriaTypeKey);
-        } catch (DoesNotExistException e) {
-            e.printStackTrace();
-        } catch (InvalidParameterException e) {
-            e.printStackTrace();
-        } catch (MissingParameterException e) {
-            e.printStackTrace();
-        } catch (OperationFailedException e) {
-            e.printStackTrace();
-        }
-        
-        return null;
-    }
-    
-    /**
-     * @throws OperationFailedException 
-     * @see org.kuali.student.core.search.service.SearchService#getSearchCriteriaTypes()
-     */
-    @Override
-    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes(){
-        try {
-            return ((SearchService)getService()).getSearchCriteriaTypes();
-        } catch (OperationFailedException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-    
-    /**
-     * @see org.kuali.student.core.search.service.SearchService#getSearchResultType(java.lang.String)
-     */
-    @Override
-    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey){
-        try {
-            return ((SearchService)getService()).getSearchResultType(searchResultTypeKey);
-        } catch (DoesNotExistException e) {
-            e.printStackTrace();
-        } catch (InvalidParameterException e) {
-            e.printStackTrace();
-        } catch (MissingParameterException e) {
-            e.printStackTrace();
-        } catch (OperationFailedException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-    
-    /**
-     * @see org.kuali.student.core.search.service.SearchService#getSearchResultTypes()
-     */
-    @Override
-    public List<SearchResultTypeInfo> getSearchResultTypes(){
-        try {
-            return ((SearchService)getService()).getSearchResultTypes();
-        } catch (OperationFailedException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-    
-    /**
-     * @see org.kuali.student.core.search.service.SearchService#getSearchType(java.lang.String)
-     */
-    @Override
-    public SearchTypeInfo getSearchType(String searchTypeKey){
-        try {
-            return ((SearchService)getService()).getSearchType(searchTypeKey);
-        } catch (DoesNotExistException e) {
-            e.printStackTrace();
-        } catch (InvalidParameterException e) {
-            e.printStackTrace();
-        } catch (MissingParameterException e) {
-            e.printStackTrace();
-        } catch (OperationFailedException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-    
-    /**
-     * @see org.kuali.student.core.search.service.SearchService#getSearchTypes()
-     */
-    @Override
-    public List<SearchTypeInfo> getSearchTypes(){
-        try {
-            return ((SearchService)getService()).getSearchTypes();
-        } catch (OperationFailedException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-    
-    /**
-     * @see org.kuali.student.core.search.service.SearchService#getSearchTypesByCriteria(java.lang.String)
-     */
-    @Override
-    public List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey){
-        try {
-            return ((SearchService)getService()).getSearchTypes();
-        } catch (OperationFailedException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-    
-    /**
-     * @see org.kuali.student.core.search.service.SearchService#getSearchTypesByResult(java.lang.String)
-     */
-    @Override
-    public List<SearchTypeInfo> getSearchTypesByResult(String searchResultTypeKey){
-        try {
-            return ((SearchService)getService()).getSearchTypesByResult(searchResultTypeKey);
-        } catch (DoesNotExistException e) {
-            e.printStackTrace();
-        } catch (InvalidParameterException e) {
-            e.printStackTrace();
-        } catch (MissingParameterException e) {
-            e.printStackTrace();
-        } catch (OperationFailedException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-    
-    /**
-     * @see org.kuali.student.core.search.service.SearchService#searchForResults(java.lang.String, java.util.List)
-     */
-    @Override
-    public List<Result> searchForResults(String searchTypeKey, List<QueryParamValue> queryParamValues){        
-        try {
-            return ((SearchService)getService()).searchForResults(searchTypeKey, queryParamValues);
-        } catch (DoesNotExistException e) {
-            e.printStackTrace();
-        } catch (InvalidParameterException e) {
-            e.printStackTrace();
-        } catch (MissingParameterException e) {
-            e.printStackTrace();
-        } catch (OperationFailedException e) {
-            e.printStackTrace();
-        } catch (PermissionDeniedException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+	public SEI getService() {
+		return this.service;
+	}
+
+	public void setService(SEI service) {
+		this.service = service;
+	};
+
+	/**
+	 * @see org.kuali.student.core.dictionary.service.DictionaryService#getObjectStructure(java.lang.String)
+	 */
+	@Override
+	public ObjectStructure getObjectStructure(String objectTypeKey) {
+		return ((DictionaryService) getService()).getObjectStructure(objectTypeKey);
+	}
+
+	/**
+	 * @see org.kuali.student.core.dictionary.service.DictionaryService#getObjectTypes()
+	 */
+	@Override
+	public List<String> getObjectTypes() {
+		return ((DictionaryService) getService()).getObjectTypes();
+	}
+
+	/**
+	 * @see org.kuali.student.core.dictionary.service.DictionaryService#validateObject(java.lang.String,
+	 *      java.lang.String, java.lang.String)
+	 */
+	@Override
+	public boolean validateObject(String objectTypeKey, String stateKey, String info) {
+		return ((DictionaryService) getService()).validateObject(objectTypeKey, stateKey, info);
+	}
+
+	/**
+	 * @see org.kuali.student.core.dictionary.service.DictionaryService#validateStructureData(java.lang.String,
+	 *      java.lang.String, java.lang.String)
+	 */
+	@Override
+	public boolean validateStructureData(String objectTypeKey, String stateKey, String info) {
+		return ((DictionaryService) getService()).validateStructureData(objectTypeKey, stateKey, info);
+	}
+
+	/**
+	 * @see org.kuali.student.core.search.service.SearchService#getSearchCriteriaType(java.lang.String)
+	 */
+	@Override
+	public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey) {
+		try {
+			return ((SearchService) getService()).getSearchCriteriaType(searchCriteriaTypeKey);
+		} catch (DoesNotExistException e) {
+			e.printStackTrace();
+		} catch (InvalidParameterException e) {
+			e.printStackTrace();
+		} catch (MissingParameterException e) {
+			e.printStackTrace();
+		} catch (OperationFailedException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	/**
+	 * @throws OperationFailedException
+	 * @see org.kuali.student.core.search.service.SearchService#getSearchCriteriaTypes()
+	 */
+	@Override
+	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() {
+		try {
+			return ((SearchService) getService()).getSearchCriteriaTypes();
+		} catch (OperationFailedException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**
+	 * @see org.kuali.student.core.search.service.SearchService#getSearchResultType(java.lang.String)
+	 */
+	@Override
+	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey) {
+		try {
+			return ((SearchService) getService()).getSearchResultType(searchResultTypeKey);
+		} catch (DoesNotExistException e) {
+			e.printStackTrace();
+		} catch (InvalidParameterException e) {
+			e.printStackTrace();
+		} catch (MissingParameterException e) {
+			e.printStackTrace();
+		} catch (OperationFailedException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**
+	 * @see org.kuali.student.core.search.service.SearchService#getSearchResultTypes()
+	 */
+	@Override
+	public List<SearchResultTypeInfo> getSearchResultTypes() {
+		try {
+			return ((SearchService) getService()).getSearchResultTypes();
+		} catch (OperationFailedException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**
+	 * @see org.kuali.student.core.search.service.SearchService#getSearchType(java.lang.String)
+	 */
+	@Override
+	public SearchTypeInfo getSearchType(String searchTypeKey) {
+		try {
+			return ((SearchService) getService()).getSearchType(searchTypeKey);
+		} catch (DoesNotExistException e) {
+			e.printStackTrace();
+		} catch (InvalidParameterException e) {
+			e.printStackTrace();
+		} catch (MissingParameterException e) {
+			e.printStackTrace();
+		} catch (OperationFailedException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**
+	 * @see org.kuali.student.core.search.service.SearchService#getSearchTypes()
+	 */
+	@Override
+	public List<SearchTypeInfo> getSearchTypes() {
+		try {
+			return ((SearchService) getService()).getSearchTypes();
+		} catch (OperationFailedException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**
+	 * @see org.kuali.student.core.search.service.SearchService#getSearchTypesByCriteria(java.lang.String)
+	 */
+	@Override
+	public List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey) {
+		try {
+			return ((SearchService) getService()).getSearchTypes();
+		} catch (OperationFailedException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**
+	 * @see org.kuali.student.core.search.service.SearchService#getSearchTypesByResult(java.lang.String)
+	 */
+	@Override
+	public List<SearchTypeInfo> getSearchTypesByResult(String searchResultTypeKey) {
+		try {
+			return ((SearchService) getService()).getSearchTypesByResult(searchResultTypeKey);
+		} catch (DoesNotExistException e) {
+			e.printStackTrace();
+		} catch (InvalidParameterException e) {
+			e.printStackTrace();
+		} catch (MissingParameterException e) {
+			e.printStackTrace();
+		} catch (OperationFailedException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**
+	 * @see org.kuali.student.core.search.service.SearchService#searchForResults(java.lang.String,
+	 *      java.util.List)
+	 */
+	@Override
+	public List<Result> searchForResults(String searchTypeKey, List<QueryParamValue> queryParamValues) {
+		try {
+			return ((SearchService) getService()).searchForResults(searchTypeKey, queryParamValues);
+		} catch (DoesNotExistException e) {
+			e.printStackTrace();
+		} catch (InvalidParameterException e) {
+			e.printStackTrace();
+		} catch (MissingParameterException e) {
+			e.printStackTrace();
+		} catch (OperationFailedException e) {
+			e.printStackTrace();
+		} catch (PermissionDeniedException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 }

@@ -22,26 +22,26 @@ import org.springframework.security.userdetails.UserDetails;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-public class AuthorizationRpcGwtServlet extends RemoteServiceServlet implements AuthorizationRpcService{
+public class AuthorizationRpcGwtServlet extends RemoteServiceServlet implements AuthorizationRpcService {
 
 	private static final long serialVersionUID = 8568346881191827247L;
 	private PermissionService permissionService;
-	
+
 	@Override
 	public Boolean hasPermission(String namespace, String permissionTemplateName) {
-		
-        Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username;
-    	if(obj instanceof KimAuthenticationProvider.UserWithId){
-    		//This is actually the user Id
-    		username = ((KimAuthenticationProvider.UserWithId)obj).getUserId();
-    	}else if (obj instanceof UserDetails) {
-            username = ((UserDetails)obj).getUsername();
-          } else {
-            username = obj.toString();
-          }
+
+		Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String username;
+		if (obj instanceof KimAuthenticationProvider.UserWithId) {
+			// This is actually the user Id
+			username = ((KimAuthenticationProvider.UserWithId) obj).getUserId();
+		} else if (obj instanceof UserDetails) {
+			username = ((UserDetails) obj).getUsername();
+		} else {
+			username = obj.toString();
+		}
 		boolean result = permissionService.hasPermissionByTemplateName(username, namespace, permissionTemplateName, null);
-		
+
 		return new Boolean(result);
 	}
 
