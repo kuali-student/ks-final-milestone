@@ -23,9 +23,11 @@ pageContext.setAttribute("rs",rs);
      <table border=0>
        <c:forEach var="parameter" items="${rr.parameters}">
 		 <tr>
+		   <%--
 		   <td align=right>${parameter.name}</td>
 		   <td>=</td>
-		   <td>${parameter.value}</td>
+		   --%>
+		   <td><pre><c:out value="${parameter.value}" escapeXml="true"/></pre></td>
 		 </tr>
        </c:forEach>
      </table>

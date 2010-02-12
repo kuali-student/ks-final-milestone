@@ -81,7 +81,7 @@ public class ClickTrailFilter implements Filter {
 		two.setValues(new String[] { responsePayload });
 		List<NameValuesBean> parameters = new ArrayList<NameValuesBean>();
 		parameters.add(one);
-		parameters.add(two);
+		//parameters.add(two);
 		rr.setParameters(parameters);
 	}
 
