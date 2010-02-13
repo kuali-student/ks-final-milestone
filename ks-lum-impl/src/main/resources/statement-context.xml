@@ -20,7 +20,7 @@
 		</property>
 	</bean>
 
-    <bean id="courseListContext" class="org.kuali.student.lum.statement.config.context.CourseListContextImpl">
+    <bean id="courseListContext" class="org.kuali.student.lum.statement.config.context.lu.CourseListContextImpl">
         <property name="luService" ref="luServiceImpl" />
     </bean>
 
@@ -42,12 +42,12 @@
                     <ref local="courseListContext"/>
                 </entry>
                 <entry key="kuali.reqCompType.grdCondCourseList">
-                    <bean class="org.kuali.student.lum.statement.config.context.GradeConditionCourseListContextImpl">
+                    <bean class="org.kuali.student.lum.statement.config.context.lu.GradeConditionCourseListContextImpl">
 				        <property name="luService" ref="luServiceImpl" />
                     </bean>
                 </entry>
                 <entry key="kuali.reqCompType.gradecheck">
-                    <bean class="org.kuali.student.lum.statement.config.context.GradeCheckContextImpl">
+                    <bean class="org.kuali.student.lum.statement.config.context.lu.GradeCheckContextImpl">
 				        <property name="luService" ref="luServiceImpl" />
                     </bean>
                 </entry>
