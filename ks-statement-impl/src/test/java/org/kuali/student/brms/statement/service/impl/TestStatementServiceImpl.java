@@ -70,19 +70,21 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 		CluInfo clu3 = new CluInfo("CLU-NL-2", "MATH221", "MATH 221", "MATH 221 Matrix Algebra");
 		
 		// Add CLUs
+		// TODO - Investigate why adding clu2, clu1 doesn't work for method testGetNaturalLanguageForStatement()
 		List<CluInfo> cluList1 = new ArrayList<CluInfo>();
 		cluList1.add(clu1);
 		cluList1.add(clu2);
 
-		// FIXME - Investigate why adding clu1, clu2, clu3 doesn't work for method testGetNaturalLanguageForStatement()
+		// TODO - Investigate why adding clu1, clu2, clu3 doesn't work for method testGetNaturalLanguageForStatement()
 		List<CluInfo> cluList2 = new ArrayList<CluInfo>();
 		cluList2.add(clu1);
 		cluList2.add(clu3);
 		cluList2.add(clu2);
 
 		List<CluInfo> cluListAll = new ArrayList<CluInfo>();
-		cluListAll.addAll(cluList1);
-		cluListAll.addAll(cluList2);
+		cluListAll.add(clu1);
+		cluListAll.add(clu2);
+		cluListAll.add(clu3);
 		
 		CourseListContextImpl.setCluInfo(cluListAll);
 		
