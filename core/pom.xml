@@ -25,8 +25,8 @@
         <module>ks-common-impl</module>
         <module>ks-core-impl</module>
         <module>ks-common-ui</module>
-        <!--
         <module>ks-core-ui</module>
+        <!--
         <module>ks-core-web</module>
         -->
     </modules>
