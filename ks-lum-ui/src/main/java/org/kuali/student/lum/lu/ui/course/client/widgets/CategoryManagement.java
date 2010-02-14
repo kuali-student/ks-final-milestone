@@ -2,8 +2,11 @@ package org.kuali.student.lum.lu.ui.course.client.widgets;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Set;
 
+import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
+import org.kuali.student.common.ui.client.service.ServerPropertiesRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
@@ -12,6 +15,7 @@ import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.core.dto.StatusInfo;
+import org.kuali.student.core.search.newdto.SearchRequest;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
@@ -41,7 +45,6 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -59,7 +62,11 @@ public class CategoryManagement extends Composite {
 
     VerticalPanel mainPanel = new VerticalPanel();
     KSLabel messageLabel = new KSLabel();
+	private Boolean displayOnlyActiveCategories;
+	
     static LoRpcServiceAsync loRpcServiceAsync = GWT.create(LoRpcService.class);
+    static ServerPropertiesRpcServiceAsync serverProperties = GWT.create(ServerPropertiesRpcService.class);
+    
     List<LoCategoryInfo> categoryList;
     List<LoCategoryTypeInfo> categoryTypeList;
     public CategoryManagement() {
@@ -195,10 +202,12 @@ public class CategoryManagement extends Composite {
         });
         loadDataAndRefresh();
     }
+    
     public List<LoCategoryInfo> getSelectedCategoryList(){
         return categoryTable.getSelectedItems();
     }
-    private void loadDataAndRefresh(){
+    
+    private void loadDataAndRefresh() {
         loRpcServiceAsync.getLoCategories("kuali.loRepository.key.singleUse", new AsyncCallback<List<LoCategoryInfo>>() {
             @Override
             public void onFailure(Throwable caught) {
@@ -208,12 +217,46 @@ public class CategoryManagement extends Composite {
             @Override
             public void onSuccess(List<LoCategoryInfo> result) {
                 categoryList = result;
-                categoryTable.setData(result);
+                
+                if (null == displayOnlyActiveCategories) {
+			        serverProperties.get("ks.lum.ui.displayOnlyActiveLoCategories", new AsyncCallback<String>() {
+						@Override
+						public void onFailure(Throwable caught) {
+							displayOnlyActiveCategories = new Boolean("false");
+                            Window.alert("Unable to retrieve displayOnlyActiveLoCategories setting: " + caught.getMessage());
+			                setCatTableData(categoryList);
+						}
+			
+						@Override
+						public void onSuccess(String result) {
+							displayOnlyActiveCategories = Boolean.parseBoolean(result);
+			                setCatTableData(categoryList);
+						}
+			        });
+                }
+                else {
+	                setCatTableData(categoryList);
+                }
             }
         });
-
     }
-    private void filterCategoryByType() {
+    
+	private void setCatTableData(List<LoCategoryInfo> cats) {
+        // FIXME - need a custom search for LoCateogies of the proper repo and state == active
+        // then we can get rid of this removal loop
+        if (null != displayOnlyActiveCategories && displayOnlyActiveCategories.equals(Boolean.TRUE)) {
+        	ListIterator<LoCategoryInfo> iter = categoryList.listIterator();
+        	while (iter.hasNext()) {
+        		LoCategoryInfo catInfo = iter.next();
+        		if ( ! catInfo.getState().equals("active") ) {
+        			iter.remove();
+        		}
+        	}
+        }
+        categoryTable.setData(cats);
+	}
+    	
+	private void filterCategoryByType() {
       
         List<LoCategoryInfo> bufferList = new ArrayList<LoCategoryInfo>();
             if(subjectCheckBox.getValue() == true){
