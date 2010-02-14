@@ -166,7 +166,7 @@ public class CourseRequisiteView extends ViewComposite {
     		rulesText.add(new KSLabel(ruleText));
     	} else {
             rulesText.clear();
-            requirementsRpcServiceAsync.getNaturalLanguageForStatementVO(rule.getCluId(), rule.getStatementVO(), "KUALI.CATALOG", RuleComponentEditorView.TEMLATE_LANGUAGE, new AsyncCallback<String>() {
+            requirementsRpcServiceAsync.getNaturalLanguageForStatementVO(rule.getCluId(), rule.getStatementVO(), "KUALI.CATALOG", new AsyncCallback<String>() {
 				public void onFailure(Throwable cause) {
 	            	GWT.log("Failed to get NL for " + rule.getCluId(), cause);
 	                Window.alert("Failed to get NL for " + rule.getCluId());

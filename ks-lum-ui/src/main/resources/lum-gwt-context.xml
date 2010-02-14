@@ -231,6 +231,7 @@
 	<bean id="requirementsRpcGwtServlet"
 		class="org.kuali.student.lum.ui.requirements.server.gwt.RequirementsRpcGwtServlet">
 		<property name="service" ref="luClient" />
+		<property name="translationService" ref="translationClient"/>
 		<property name="statementService" ref="statementServiceClient"/>
 	</bean>
 

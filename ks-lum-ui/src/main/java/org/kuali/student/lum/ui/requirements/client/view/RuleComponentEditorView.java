@@ -74,7 +74,7 @@ public class RuleComponentEditorView extends ViewComposite {
 
     //view's widgets
     private static final int NOF_BASIC_RULE_TYPES = 3;
-    public static final String TEMLATE_LANGUAGE = "en";
+    private static final String TEMLATE_LANGUAGE = "en";
     private static final String CATALOG_TEMLATE = "KUALI.CATALOG";
     private static final String EXAMPLE_TEMLATE = "KUALI.EXAMPLE";
     private static final String COMPOSITION_TEMLATE = "KUALI.COMPOSITION";
@@ -297,11 +297,11 @@ public class RuleComponentEditorView extends ViewComposite {
         displayReqComponentDetailsCont();
     }
 
-//    private String getTemplate(String nlUsageTypeKey) {
-//    	return getTemplate(nlUsageTypeKey, TEMLATE_LANGUAGE);
-//    }
+    private String getTemplate(String nlUsageTypeKey) {
+    	return getTemplate(nlUsageTypeKey, TEMLATE_LANGUAGE);
+    }
     
-//    private String getTemplate(String nlUsageTypeKey, String language) {
+    private String getTemplate(String nlUsageTypeKey, String language) {
         //FIXME: templates are no longer in ReqComponentType
 //    	for(ReqComponentTypeNLTemplateInfo template : editedReqComp.getRequiredComponentType().getNlUsageTemplates()) {
 //    		if(nlUsageTypeKey.equals(template.getNlUsageTypeKey()) && language.equals(template.getLanguage())) {
@@ -309,8 +309,8 @@ public class RuleComponentEditorView extends ViewComposite {
 //    		}
 //    	}
 //    	return null;
-//        return null;
-//    }
+        return "";
+    }
     
     private void displayReqComponentDetailsCont() {
         //show heading
@@ -321,48 +321,25 @@ public class RuleComponentEditorView extends ViewComposite {
 
         //show details
         HorizontalPanel reqCompDetailsExamplePanel = new HorizontalPanel();
-        final SimplePanel reqCompDetailsPanel = new SimplePanel();
+        SimplePanel reqCompDetailsPanel = new SimplePanel();
         reqCompDetailsPanel.setStyleName("KS-Rules-ReqCompEdit-Width");
 
-        requirementsRpcServiceAsync.getNaturalLanguageForReqComponentInfo(editedReqComp, COMPOSITION_TEMLATE, TEMLATE_LANGUAGE,
-                new AsyncCallback<String>() {
-            public void onFailure(Throwable caught) {
-                Window.alert(caught.getMessage());
-                caught.printStackTrace();
-            }
-
-            public void onSuccess(final String reqCompNaturalLanguage) {
-                editedReqCompVO.setTypeDesc(reqCompNaturalLanguage);
-                editedReqCompVO.setCheckBoxOn(true);                
-                editedStatementVO.clearSelections();
-                ((CourseReqManager)getController()).saveEditHistory(editedStatementVO);
-//                getController().showView(PrereqViews.MANAGE_RULES, Controller.NO_OP_CALLBACK);
-                displayReqComponentText(reqCompNaturalLanguage, reqCompDesc, (editedReqComp == null ? null : editedReqComp.getReqCompFields()));
-                reqCompDetailsPanel.add(reqCompDesc);
-            }
-        });
+        String compositionTemplate = getTemplate(COMPOSITION_TEMLATE);
+        displayReqComponentText(compositionTemplate, reqCompDesc, (editedReqComp == null ? null : editedReqComp.getReqCompFields()));
+        reqCompDetailsPanel.add(reqCompDesc);
 
         reqCompDetailsExamplePanel.add(reqCompDetailsPanel);
 
         //show example
-        final VerticalPanel examplePanel = new VerticalPanel();
+        VerticalPanel examplePanel = new VerticalPanel();
         examplePanel.setSpacing(0);
         KSLabel exampleText1 = new KSLabel("Example:");
         exampleText1.setStyleName("KS-RuleEditor-ExampleText1");
         examplePanel.add(exampleText1);
-        requirementsRpcServiceAsync.getNaturalLanguageForReqComponentInfo(editedReqComp, EXAMPLE_TEMLATE, TEMLATE_LANGUAGE,
-                new AsyncCallback<String>() {
-            public void onFailure(Throwable caught) {
-                Window.alert(caught.getMessage());
-                caught.printStackTrace();
-            }
-
-            public void onSuccess(final String reqCompNaturalLanguage) {
-                exampleText.setText(reqCompNaturalLanguage);
-                exampleText.setStyleName("KS-RuleEditor-ExampleText2");
-                examplePanel.add(exampleText);
-            }
-        });
+        String exampleTemplate = getTemplate(EXAMPLE_TEMLATE);
+        exampleText.setText(exampleTemplate);
+        exampleText.setStyleName("KS-RuleEditor-ExampleText2");
+        examplePanel.add(exampleText);
         reqCompDetailsExamplePanel.add(examplePanel);
 
         reqCompDetailsExampleContainerPanel.add(reqCompDetailsExamplePanel);
@@ -800,7 +777,7 @@ public class RuleComponentEditorView extends ViewComposite {
     }
 
     private void updateNLAndExit() {    	            	
-        requirementsRpcServiceAsync.getNaturalLanguageForReqComponentInfo(editedReqComp, "KUALI.CATALOG", TEMLATE_LANGUAGE, new AsyncCallback<String>() {
+        requirementsRpcServiceAsync.getNaturalLanguageForReqComponentInfo(editedReqComp, "KUALI.CATALOG", new AsyncCallback<String>() {
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
                 caught.printStackTrace();

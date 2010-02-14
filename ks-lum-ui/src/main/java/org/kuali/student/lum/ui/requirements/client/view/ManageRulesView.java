@@ -597,7 +597,7 @@ public class ManageRulesView extends ViewComposite {
     private void updateNaturalLanguage() {                 
         
         requirementsRpcServiceAsync.getNaturalLanguageForStatementVO(model.getValue().getCluId(),
-        									model.getValue().getStatementVO(), "KUALI.CATALOG", RuleComponentEditorView.TEMLATE_LANGUAGE, new AsyncCallback<String>() {
+        									model.getValue().getStatementVO(), "KUALI.CATALOG", new AsyncCallback<String>() {
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
                 caught.printStackTrace();
