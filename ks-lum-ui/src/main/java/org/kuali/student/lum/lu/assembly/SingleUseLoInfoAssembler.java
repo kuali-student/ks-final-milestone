@@ -1,8 +1,10 @@
 package org.kuali.student.lum.lu.assembly;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -17,6 +19,7 @@ import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.search.newdto.SearchRequest;
 import org.kuali.student.core.search.newdto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
@@ -247,6 +250,22 @@ public class SingleUseLoInfoAssembler implements Assembler<Data, LoInfo> {
 		
         Iterator<Property> iter = input.iterator();
         Data loData;
+        
+        List<CluLoRelationInfo> cluLoRelations = null;
+        Map<String, CluLoRelationInfo> loIdToCluLoReltnMap = new HashMap<String, CluLoRelationInfo>();
+		try {
+			cluLoRelations = luService.getCluLoRelationsByClu(cluId);
+		} catch (DoesNotExistException e1) {
+			// Pretty bogus to throw instead of returning an empty list,
+			// but swallow it and move on
+		} catch (Exception e) {
+			throw new AssemblyException(e);
+		}
+        if (null != cluLoRelations) {
+        	for (CluLoRelationInfo clrInfo : cluLoRelations) {
+        		loIdToCluLoReltnMap.put(clrInfo.getLoId(), clrInfo);
+        	}
+        }
         while (iter.hasNext()) {
 	    	LoInfo loToSave;
         	loData = iter.next().getValue();
@@ -275,31 +294,40 @@ public class SingleUseLoInfoAssembler implements Assembler<Data, LoInfo> {
 	    	LoInfo resultLoInfo;
     		try {
 		    	if (null == loId || loId.length() == 0) {
-						resultLoInfo = loService.createLo(loToSave.getLoRepositoryKey(), loToSave.getType(), loToSave);
-		    	} else {
-						resultLoInfo = loService.updateLo(loToSave.getId(), loToSave);
+					resultLoInfo = loService.createLo(loToSave.getLoRepositoryKey(), loToSave.getType(), loToSave);
+		    	} else { // might have to update due to sequence # change
+	    			 // FIXME - when persisting sequence # to app state db or elsewhere, updating should be unnecessary
+					resultLoInfo = loService.updateLo(loToSave.getId(), loToSave);
 		    	}
 		    	String resultLoId = resultLoInfo.getId(); // make things a tad more readable
-		    	saveCategoryAssociations(resultLoId, loHelper);
-
-		    	CluLoRelationInfo clRltnInfo = new CluLoRelationInfo();
-		    	clRltnInfo.setCluId(cluId);
-		    	clRltnInfo.setEffectiveDate(new Date());
-		    	clRltnInfo.setLoId(resultLoId);
-		    	clRltnInfo.setState("active");
-		    	clRltnInfo.setType("cluLuType.default");
-		    	try {
+		    	if ( null == loIdToCluLoReltnMap.get(resultLoId) ) {
+			    	saveCategoryAssociations(resultLoId, loHelper);
+	
+			    	CluLoRelationInfo clRltnInfo = new CluLoRelationInfo();
+			    	clRltnInfo.setCluId(cluId);
+			    	clRltnInfo.setEffectiveDate(new Date());
+			    	clRltnInfo.setLoId(resultLoId);
+			    	clRltnInfo.setState("active");
+			    	clRltnInfo.setType("cluLuType.default");
 		    		// TODO - "cluLuType.default" is only type so far; fix when there's more than one
 					luService.createCluLoRelation(cluId, resultLoId, "cluLuType.default", clRltnInfo);
-		    	} catch (AlreadyExistsException aee) {
-		    		// no worries
+		    	} else { // keep track of those no longer associated w/ the Clu, by removing those that are
+		    		loIdToCluLoReltnMap.remove(resultLoId);
 		    	}
 	    	} catch (Exception e) {
 					throw new AssemblyException(e);
 			} 
-	    	
 	    	saveChildLos(resultLoInfo.getId(), loHelper);
         }
+        // remove CluLoRelations that no longer exist
+    	for (CluLoRelationInfo clrInfo : loIdToCluLoReltnMap.values()) {
+    		try {
+				luService.deleteCluLoRelation(clrInfo.getId());
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new AssemblyException(e);
+			}
+    	}
 	}
 	
 	private void saveCategoryAssociations(String loId , SingleUseLoHelper loHelper) throws Exception {
@@ -370,25 +398,6 @@ public class SingleUseLoInfoAssembler implements Assembler<Data, LoInfo> {
 		    	loToSave.setDesc(rtAssembler.disassemble(loHelper.getDescription().getData()));
 		    	loToSave.getAttributes().put("sequence", childLosHelper.getSequence());
 		    	
-	    	/*
-		    	String loId = loHelper.getId();
-		    	if (null != loId && loId.length() > 0) {
-		    		try {
-						loToSave = loService.getLo(loId);
-					} catch (Exception e) {
-						throw new AssemblyException(e);
-					} 
-		    	} else {
-			    	loToSave = new LoInfo();
-		    	}
-		    	// TODO - seems pretty convoluted to get a RichTextInfo
-		    	loToSave.setDesc(rtAssembler.disassemble(loHelper.getDescription().getData()));
-		    	loToSave.setEffectiveDate(loHelper.getEffectiveDate());
-		    	loToSave.setLoRepositoryKey(loHelper.getLoRepository());
-		    	loToSave.setState(loHelper.getState());
-		    	loToSave.setType(loHelper.getType());
-		    	loToSave.getAttributes().put("sequence", childLosHelper.getSequence());
-		    */	
 		    	LoInfo currLo;
 	    		try {
 			    	if (null == loId || loId.length() == 0) {

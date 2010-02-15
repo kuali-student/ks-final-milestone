@@ -14,8 +14,6 @@ import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
-import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.search.newdto.SearchRequest;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
@@ -58,14 +56,16 @@ public class CategoryManagement extends Composite {
     KSCheckBox subjectCheckBox = new KSCheckBox("Subject");
     KSTextBox wordsInCategoryTextBox = new KSTextBox();
 
+	private Boolean displayOnlyActiveCategories;
+	private Boolean canDeleteLoCatAssociatedWithActiveLo;
+	
+    static LoRpcServiceAsync loRpcServiceAsync = GWT.create(LoRpcService.class);
+    static ServerPropertiesRpcServiceAsync serverProperties = GWT.create(ServerPropertiesRpcService.class);
+    
     CategoryTable categoryTable = new CategoryTable();
 
     VerticalPanel mainPanel = new VerticalPanel();
     KSLabel messageLabel = new KSLabel();
-	private Boolean displayOnlyActiveCategories;
-	
-    static LoRpcServiceAsync loRpcServiceAsync = GWT.create(LoRpcService.class);
-    static ServerPropertiesRpcServiceAsync serverProperties = GWT.create(ServerPropertiesRpcService.class);
     
     List<LoCategoryInfo> categoryList;
     List<LoCategoryTypeInfo> categoryTypeList;
@@ -122,10 +122,6 @@ public class CategoryManagement extends Composite {
         
         mainPanel.add(messageLabel);
 
-        // loRpcServiceAsync.
-        // LearningObjectiveService.getLosByRepository
-        // must active
-        // comments out for config
         loRpcServiceAsync.getLoCategoryTypes(new AsyncCallback<List<LoCategoryTypeInfo>>() {
             @Override
             public void onFailure(Throwable caught) {}
@@ -314,15 +310,16 @@ public class CategoryManagement extends Composite {
             deleteButton.addClickHandler(new ClickHandler() {
                 @Override
                 public void onClick(ClickEvent event) {
-                    // okButtonClicked = true;
-                    CategoryManagement.loRpcServiceAsync.deleteLoCategory(categoryInfo.getId(), new AsyncCallback<StatusInfo>() {
+                    // not really deleting; rather 'retiring' LoCategory, but switching state to "inactive"
+                	categoryInfo.setState("inactive");
+                    CategoryManagement.loRpcServiceAsync.updateLoCategory(categoryInfo.getId(), categoryInfo, new AsyncCallback<LoCategoryInfo>() {
                         @Override
                         public void onFailure(Throwable caught) {
                             Window.alert("delete LoCategory failed " + caught.getMessage());
                         }
 
                         @Override
-                        public void onSuccess(StatusInfo result) {
+                        public void onSuccess(LoCategoryInfo updatedLo) {
                             //Window.alert("delete LoCategory successfully");
                             loadDataAndRefresh();
                         }
@@ -520,6 +517,7 @@ public class CategoryManagement extends Composite {
         private final boolean showFooter;
         final FlowPanel panel = new FlowPanel();
         TableModel<LoCategoryInfo> model = new MyTableModel();
+      
 
         public LoCategoryInfo getSelectedItem() {
             Set<String> ids = model.getSelection().getIds();
@@ -549,6 +547,7 @@ public class CategoryManagement extends Composite {
             categoryList = l;
             model.refresh();
         }
+        
         public CategoryTable() {
             this.showHeader = false;
             this.showFooter = false;
@@ -557,11 +556,43 @@ public class CategoryManagement extends Composite {
             definition.setShowHeader(showHeader);
             definition.setShowFooter(showFooter);
             DynamicTable<LoCategoryInfo> table = new DynamicTable<LoCategoryInfo>(10, definition, model);
-            model.addSelectionHandler(new SelectionHandler<Selection<LoCategoryInfo>>() {
+            
+            if ( null == canDeleteLoCatAssociatedWithActiveLo ) { 
+		        serverProperties.get("ks.lum.ui.canDeleteLoCatAssociatedWithActiveLo", new AsyncCallback<String>() {
+					@Override
+					public void onFailure(Throwable caught) {
+						canDeleteLoCatAssociatedWithActiveLo = new Boolean("false");
+                        Window.alert("Unable to retrieve canDeleteLoCatAssociatedWithActiveLo setting: " + caught.getMessage());
+                        // Confirm that this can be done async, probably happening after table's added to panel
+                        model.addSelectionHandler(getDeleteButtonToggleHandler());
+					}
+		
+					@Override
+					public void onSuccess(String result) {
+						canDeleteLoCatAssociatedWithActiveLo = Boolean.parseBoolean(result);
+						if ( ! canDeleteLoCatAssociatedWithActiveLo ) {
+	                        // Confirm that this can be done async, probably happening after table's added to panel
+	                        model.addSelectionHandler(getDeleteButtonToggleHandler());
+						}
+					}
+		        });
+            }
+
+            panel.add(table);
+        }
+        
+		private SelectionHandler<Selection<LoCategoryInfo>> getDeleteButtonToggleHandler() {
+            SelectionHandler<Selection<LoCategoryInfo>> returnHandler = new SelectionHandler<Selection<LoCategoryInfo>>() {
                 @Override
                 public void onSelection(SelectionEvent<Selection<LoCategoryInfo>> event) {
-                   // Selection<LoCategoryInfo> sel = event.getSelectedItem();
+                	// Selection<LoCategoryInfo> sel = event.getSelectedItem();
                     LoCategoryInfo cate = getSelectedItem();
+                    if (null == cate) { // nothing selected
+                        deleteButton.setEnabled( true );
+                    }
+                    // FIXME - either need to make list single-select, or we need to somehow get
+                    // see if there any LOs associated with any of the selected LoCategories
+                    // List<LoCategoryInfo> los = getSelectedItems();
                     loRpcServiceAsync.getLosByLoCategory(cate.getId(), new AsyncCallback<List<LoInfo>>() {
                         @Override
                         public void onFailure(Throwable caught) {
@@ -571,18 +602,17 @@ public class CategoryManagement extends Composite {
                         @Override
                         public void onSuccess(List<LoInfo> result) {
                             if(result == null || result.size() == 0){
-                                deleteButton.setEnabled(true);
+                                deleteButton.setEnabled( true );
                             }else{
-                                deleteButton.setEnabled(false);
+                                deleteButton.setEnabled( false );
                             }
                         }
                     });
                     
                 }
-            });
-
-            panel.add(table);
-        }
+            };
+            return returnHandler;
+		}
 
         class MyTableModel extends TableModel<LoCategoryInfo> {
             @Override
@@ -675,28 +705,52 @@ public class CategoryManagement extends Composite {
                     cell.setText(getDisplayName());
                 }
             }));
-            //TODO if configuration is set to display the state
-            if(false){
-                super.addColumn(new ColumnDefinition<LoCategoryInfo>("State", true, true, new ColumnRenderer<LoCategoryInfo>() {
-
-                    @Override
-                    public String getDisplayName() {
-                        return "State";
-                    }
-                    @Override
-                    public void onRedraw(final DynamicTable<LoCategoryInfo> table, final Widget headerFooterWidget) {
-                    }
-                    @Override
-                    public void renderCell(final DynamicTable<LoCategoryInfo> table, final TableCell cell, final LoCategoryInfo value) {
-                        cell.setText(value.getState());
-                    }
-                    @Override
-                    public void renderHeader(final DynamicTable<LoCategoryInfo> table, final TableCell cell) {
-                        cell.setText(getDisplayName());
-                    }
-                }));
+            
+            if (null == displayOnlyActiveCategories) {
+		        serverProperties.get("ks.lum.ui.displayOnlyActiveLoCategories", new AsyncCallback<String>() {
+					@Override
+					public void onFailure(Throwable caught) {
+						displayOnlyActiveCategories = new Boolean("false");
+                        Window.alert("Unable to retrieve displayOnlyActiveLoCategories setting: " + caught.getMessage());
+		                MyTableDefinition.super.addColumn(buildLoCatStateColumnDefinition());
+					}
+		
+					@Override
+					public void onSuccess(String result) {
+						displayOnlyActiveCategories = Boolean.parseBoolean(result);
+						if ( ! displayOnlyActiveCategories ) {
+			                MyTableDefinition.super.addColumn(buildLoCatStateColumnDefinition());
+						}
+					}
+		        });
+            }
+            else {
+				if ( ! displayOnlyActiveCategories ) {
+	                MyTableDefinition.super.addColumn(buildLoCatStateColumnDefinition());
+				}
             }
         }
+        
+		private ColumnDefinition<LoCategoryInfo> buildLoCatStateColumnDefinition() {
+	        return new ColumnDefinition<LoCategoryInfo>("State", true, true, new ColumnRenderer<LoCategoryInfo>() {
+	
+	            @Override
+	            public String getDisplayName() {
+	                return "State";
+	            }
+	            @Override
+	            public void onRedraw(final DynamicTable<LoCategoryInfo> table, final Widget headerFooterWidget) {
+	            }
+	            @Override
+	            public void renderCell(final DynamicTable<LoCategoryInfo> table, final TableCell cell, final LoCategoryInfo value) {
+	                cell.setText(value.getState());
+	            }
+	            @Override
+	            public void renderHeader(final DynamicTable<LoCategoryInfo> table, final TableCell cell) {
+	                cell.setText(getDisplayName());
+	            }
+	        });
+		}
     }
 }
 

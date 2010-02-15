@@ -447,8 +447,27 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
             throw new VersionMismatchException("LO to be updated is not the current version");
         }
         
+        // if state is changing from "active"
+        if (loCategory.getState().equals("active") && ( ! loCategoryInfo.getState().equals("active") )) {
+    		// N.B. - ability to 'retire' LoCategory's that are still associated w/ active
+    		// LO's is configured and enforced on the client
+        	List<LoInfo> loInfos = getLosByLoCategory(loCategoryId);
+    		if (null != loInfos) {
+				// remove associations of this LoCategory from active LO's
+    			for (LoInfo info : loInfos) {
+    				if (info.getState().equals("active"))  {
+	    				try {
+							removeLoCategoryFromLo(loCategoryId, info.getId());
+						} catch (UnsupportedActionException uaee) {
+				    		throw new OperationFailedException("Unable to update LoCategory: could not remove association with active LearningObjective", uaee);
+						}
+    				}
+    			}
+    		}
+        }
+        	
         // if type is changing
-        if ( ! loCategory.getLoCategoryType().getName().equals(loCategoryInfo.getType()) ) {
+        if ( ! loCategory.getLoCategoryType().getId().equals(loCategoryInfo.getType()) ) {
         	loCategory = cloneLoCategory(loCategory, loCategoryInfo);
         } else {
 	        loCategory = LearningObjectiveServiceAssembler.toLoCategory(loCategory, loCategoryInfo, loDao);
@@ -480,7 +499,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     	for (Lo lo : catsLos) {
     		try {
     			// create the new one
-				loDao.addLoCategoryToLo(newLoCategoryInfo.getId(), lo.getId());
+				loDao.addLoCategoryToLo(newLoCategory.getId(), lo.getId());
 				// remove the old one
 				loDao.removeLoCategoryFromLo(loCategory.getId(), lo.getId());
 			} catch (UnsupportedActionException uae) {
