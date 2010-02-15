@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSLU_REQ_COM_FIELD ID="FIELD-1"
+        REQ_COM_FIELD_KEY="reqCompFieldType.requiredCount" VALUE="1"/>
+    <KSLU_REQ_COM_FIELD ID="FIELD-10"
+        REQ_COM_FIELD_KEY="reqCompFieldType.cluSet" VALUE="CLUSET-NL-2"/>
+    <KSLU_REQ_COM_FIELD ID="FIELD-11"
+        REQ_COM_FIELD_KEY="reqCompFieldType.cluSet" VALUE="CLUSET-NL-2"/>
+    <KSLU_REQ_COM_FIELD ID="FIELD-12"
+        REQ_COM_FIELD_KEY="reqCompFieldType.cluSet" VALUE="CLUSET-NL-4"/>
+    <KSLU_REQ_COM_FIELD ID="FIELD-13"
+        REQ_COM_FIELD_KEY="reqCompFieldType.cluSet" VALUE="CLUSET-NL-5"/>
+    <KSLU_REQ_COM_FIELD ID="FIELD-14"
+        REQ_COM_FIELD_KEY="reqCompFieldType.cluSet" VALUE="CLUSET-NL-2"/>
+    <KSLU_REQ_COM_FIELD ID="FIELD-2"
+        REQ_COM_FIELD_KEY="reqCompFieldType.operator" VALUE="greater_than_or_equal_to"/>
+    <KSLU_REQ_COM_FIELD ID="FIELD-3"
+        REQ_COM_FIELD_KEY="reqCompFieldType.cluSet" VALUE="CLUSET-NL-1"/>
+    <KSLU_REQ_COM_FIELD ID="FIELD-4"
+        REQ_COM_FIELD_KEY="reqCompFieldType.gpa" VALUE="3.5"/>
+    <KSLU_REQ_COM_FIELD ID="FIELD-5"
+        REQ_COM_FIELD_KEY="reqCompFieldType.requiredCount" VALUE="1"/>
+    <KSLU_REQ_COM_FIELD ID="FIELD-6"
+        REQ_COM_FIELD_KEY="reqCompFieldType.operator" VALUE="greater_than_or_equal_to"/>
+    <KSLU_REQ_COM_FIELD ID="FIELD-7"
+        REQ_COM_FIELD_KEY="reqCompFieldType.clu" VALUE="CLU-NL-3, CLU-NL-4"/>
+    <KSLU_REQ_COM_FIELD ID="FIELD-8"
+        REQ_COM_FIELD_KEY="reqCompFieldType.operator" VALUE="greater_than_or_equal_to"/>
+    <KSLU_REQ_COM_FIELD ID="FIELD-9"
+        REQ_COM_FIELD_KEY="reqCompFieldType.requiredCount" VALUE="2"/>
+</dataset>
