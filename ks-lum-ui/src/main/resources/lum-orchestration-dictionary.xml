@@ -437,7 +437,7 @@
 			value="Multi-line text field that accepts all printable characters plus tab, carraige-return and linefeed." />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
-		<property name="validChars" value="regex:[\p{Print}\p{Blank}\n\r]*" />
+		<property name="validChars" value="regex:[\x20-\x7E \t\n\r]*" />
 		<property name="comments"
 			value="old reg ex was [A-Za-z0-9.-;;'&amp;%$#@!\n\r\t]*" />
 	</bean>
@@ -563,7 +563,7 @@
 			value="Text field that accepts all types of characters using some sort of escaping convention along with the ability to specify bolding, font size, color etc." />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
-		<property name="validChars" value="regex:[\p{Print}\p{Blank}\n\r]*" />
+		<property name="validChars" value="regex:[\x20-\x7E \t\n\r]*" />
 		<property name="comments"
 			value="Not sure if characterset for rich text is the same for regular text but just interpretted differently.  I.e. html is plain text interpreted differently." />
 	</bean>
@@ -583,7 +583,7 @@
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
 		<property name="maxLength" value="255" />
-		<property name="validChars" value="regex:[\p{Print} ]*" />
+		<property name="validChars" value="regex:[\x20-\x7E ]*" />
 		<property name="comments"
 			value="old reg ex was &#34;[A-Za-z0-9.-;;'&amp;%$#@!]*" />
 	</bean>
