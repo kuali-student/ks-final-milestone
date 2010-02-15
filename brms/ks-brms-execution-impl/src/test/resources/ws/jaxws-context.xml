@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:ws="http://jax-ws.dev.java.net/spring/core"
+	xmlns:wss="http://jax-ws.dev.java.net/spring/servlet"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+		  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
+          http://jax-ws.dev.java.net/spring/core http://jax-ws.dev.java.net/spring/core.xsd 
+          http://jax-ws.dev.java.net/spring/servlet http://jax-ws.dev.java.net/spring/servlet.xsd">
+
+    <import resource="classpath:ws/rule-execution-service-context.xml" />
+
+    <wss:binding url="/factFinderService" service="#factFinderServiceWS" />
+	<ws:service id="factFinderServiceWS" bean="#factFinderService" 
+	   impl="org.kuali.student.brms.factfinder.service.impl.FactFinderServiceImpl" />
+
+    <wss:binding url="/ruleRepositoryService" service="#ruleRepositoryServiceWS" />
+    <ws:service id="ruleRepositoryServiceWS" bean="#ruleRepositoryService" 
+        impl="org.kuali.student.brms.repository.service.impl.RuleRepositoryServiceImpl" />
+
+    <wss:binding url="/ruleManagementService" service="#ruleManagementServiceWS" />
+    <ws:service id="ruleManagementServiceWS" bean="#ruleManagementService"
+        impl="org.kuali.student.brms.rulemanagement.service.impl.RuleManagementServiceImpl" />
+
+    <wss:binding url="/ruleExecutionService" service="#ruleExecutionServiceWS" />
+    <ws:service id="ruleExecutionServiceWS" bean="#ruleExecutionService"
+        impl="org.kuali.student.brms.ruleexecution.service.impl.RuleExecutionServiceImpl" />
+
+</beans>

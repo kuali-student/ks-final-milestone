@@ -1,0 +1,122 @@
+TRUNCATE TABLE KSAP_ATP_TYPE DROP STORAGE
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.Year',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'AY','kuali.atp.season.AY','Full Academic Year','kuali.atp.type.AY')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.TBD',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Adhoc','kuali.atp.season.Any','Ad hoc session','kuali.atp.type.Adhoc')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.Year',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Even Years','kuali.atp.season.EvenYears','Even Numbered Years','kuali.atp.type.EvenYears')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.Year',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'FY','kuali.atp.season.FY','Fiscal Year','kuali.atp.type.FY')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.Semester',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Fall','kuali.atp.season.Fall','Fall Semester','kuali.atp.type.Fall')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.Semester',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Fall Even Years','kuali.atp.season.Fall','Fall Even Years','kuali.atp.type.FallEvenYears')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.Semester',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Fall Odd Years','kuali.atp.season.Fall','Fall Odd Years','kuali.atp.type.FallOddYears')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.Year',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Freshman Year','kuali.atp.season.Year1','Freshman Year','kuali.atp.type.FreshmanYear')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.Semester',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Freshman Year Term 1','kuali.atp.season.Term1','1st Term Freshman','kuali.atp.type.FreshmanYearTerm1')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.Semester',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Freshman Year Term 2','kuali.atp.season.Term2','2nd Term Freshman','kuali.atp.type.FreshmanYearTerm2')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.HalfSemester',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Half Fall 1','kuali.atp.season.Fall1','1st Half Semester in Fall','kuali.atp.type.HalfFall1')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.HalfSemester',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Half Fall 2','kuali.atp.season.Fall2','2nd Half Semester in Fall','kuali.atp.type.HalfFall2')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.HalfSemester',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Half Spring 1','kuali.atp.season.Spring1','1st Half Semester in Spring','kuali.atp.type.HalfSpring1')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.HalfSemester',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Half Spring 2','kuali.atp.season.Spring2','2nd Half Semester in Spring','kuali.atp.type.HalfSpring2')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.Year',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Junior Year','kuali.atp.season.Year1','Junior Year','kuali.atp.type.JuniorYear')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.Semester',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Junior Year Term 1','kuali.atp.season.Term1','1st Term Junior','kuali.atp.type.JuniorYearTerm1')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.Semester',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Junior Year Term 2','kuali.atp.season.Term2','2nd Term Junior','kuali.atp.type.JuniorYearTerm2')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.Mini-mester',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Mini-mester 1A','kuali.atp.season.Summer1A','Summer Mini-mester 1A','kuali.atp.type.Mini-mester1A')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.Mini-mester',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Mini-mester 1B','kuali.atp.season.Summer1B','Summer Mini-mester 1B','kuali.atp.type.Mini-mester1B')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.Mini-mester',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Mini-mester 2C','kuali.atp.season.Summer2C','Summer Mini-mester 2C','kuali.atp.type.Mini-mester2C')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.Mini-mester',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Mini-mester 2D','kuali.atp.season.Summer2D','Summer Mini-mester 2D','kuali.atp.type.Mini-mester2D')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.Year',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Odd Years','kuali.atp.season.OddYears','Odd Numbered Years','kuali.atp.type.OddYears')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.Year',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Senior Year','kuali.atp.season.Year4','Senior Year','kuali.atp.type.SeniorYear')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.Semester',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Senior Year Term 1','kuali.atp.season.Term1','1st Term Senior','kuali.atp.type.SeniorYearTerm1')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.Semester',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Senior Year Term 2','kuali.atp.season.Term2','2nd Term Senior','kuali.atp.type.SeniorYearTerm2')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.Session',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Session 1','kuali.atp.season.Summer1','1st Summer Session','kuali.atp.type.Session1')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.Session',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Session 2','kuali.atp.season.Summer2','2nd Summer Session','kuali.atp.type.Session2')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.Session',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Session G1','kuali.atp.season.Summer1','1st Grad Summer Session','kuali.atp.type.SessionG1')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.Session',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Session G2','kuali.atp.season.Summer2','2nd Grad Summer Session','kuali.atp.type.SessionG2')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.Year',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Sophomore Year','kuali.atp.season.Year2','Sophomore Year','kuali.atp.type.SophomoreYear')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.Semester',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Sophomore Year Term 1','kuali.atp.season.Term1','1st Term Sophomore','kuali.atp.type.SophomoreYearTerm1')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.Semester',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Sophomore Year Term 2','kuali.atp.season.Term2','2nd Term Sophomore','kuali.atp.type.SophomoreYearTerm2')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.Semester',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Spring','kuali.atp.season.Spring','Spring Semester','kuali.atp.type.Spring')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.Week',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Spring Break','kuali.atp.season.SpringBreak','Spring Break Experiential','kuali.atp.type.SpringBreak')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.Semester',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Spring Even Years','kuali.atp.season.Spring','Spring Even Years','kuali.atp.type.SpringEvenYears')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.Semester',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Spring Odd Years','kuali.atp.season.Spring','Spring Odd Years','kuali.atp.type.SpringOddYears')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.Term',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Summer','kuali.atp.season.Summer','Summer','kuali.atp.type.Summer')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.Term',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Summer Eve','kuali.atp.season.Summer','Summer Evening','kuali.atp.type.SummerEve')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.FourYears',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Undergrad Program','kuali.atp.season.FourYearCycle','Four Year Undergraduate','kuali.atp.type.UndergradProgram')
+/
+INSERT INTO KSAP_ATP_TYPE (DUR_TYPE,EFF_DT,EXPIR_DT,NAME,SEASONAL_TYPE,TYPE_DESC,TYPE_KEY)
+  VALUES ('kuali.atp.duration.Period',TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '21000101000000', 'YYYYMMDDHH24MISS' ),'Winter','kuali.atp.season.Winter','Winter Activity Period','kuali.atp.type.Winter')
+/
