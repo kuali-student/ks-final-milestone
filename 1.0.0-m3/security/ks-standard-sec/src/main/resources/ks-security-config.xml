@@ -1,7 +1,0 @@
-<config>
-	<param name="ks.default.security.saml.proxyTicket.serviceAddress">http://localhost:8181/ks-core-web/cxf-services/ProxyTicketValidationService</param>
-	<param name="ks.default.security.cas.webapp.service.context">https://localhost:8443/ks-core-web</param>
-	<param name="ks.default.security.cas.serverAddress">https://localhost:8443/cas-server-webapp-3.3.1</param>
-	
-	<param name="ks.defualt.security.rice.identityServiceAddress">http://localhost:8081/ks-rice-dev/remoting/kimIdentityServiceSOAPUnsecure</param>
-</config>
