@@ -1057,9 +1057,9 @@
 		</dependency>
 	</dependencies>
     <scm>
-      <connection>scm:svn:https://test.kuali.org/svn/student/branches/1.0.0-m3</connection>
-      <developerConnection>scm:svn:https://test.kuali.org/svn/student/branches/1.0.0-m3</developerConnection>
-      <url>https://test.kuali.org/svn/student/branches/1.0.0-m3</url>
+      <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/branches/1.0.0-m3</connection>
+      <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/branches/1.0.0-m3</developerConnection>
+      <url>https://test.kuali.org/svn/student/deploymentlab/branches/1.0.0-m3</url>
     </scm>
     <distributionManagement>
       <repository>
