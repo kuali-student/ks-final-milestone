@@ -216,7 +216,7 @@ public class SingleUseLoInfoAssembler implements Assembler<Data, LoInfo> {
 	}
 
 	@Override
-	public Metadata getMetadata(String type, String state) throws AssemblyException {
+	public Metadata getMetadata(String id, String type, String state) throws AssemblyException {
 		throw new UnsupportedOperationException("Assembler is not type/state specific");
 	}
 

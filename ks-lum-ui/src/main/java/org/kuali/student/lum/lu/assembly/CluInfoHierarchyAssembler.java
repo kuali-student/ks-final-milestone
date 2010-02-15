@@ -132,7 +132,7 @@ import org.kuali.student.lum.lu.service.LuService;
 	}
 
 	@Override
-	public Metadata getMetadata(String type, String state) throws AssemblyException {
+	public Metadata getMetadata(String id, String type, String state) throws AssemblyException {
 		throw new UnsupportedOperationException("Assembler is not type/state specific");
 	}
 

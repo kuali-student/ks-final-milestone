@@ -47,7 +47,7 @@ public class RichTextInfoAssembler implements Assembler<Data, RichTextInfo>{
 	}
 
 	@Override
-	public Metadata getMetadata(String type, String state) throws AssemblyException {
+	public Metadata getMetadata(String id, String type, String state) throws AssemblyException {
 		return new RichTextInfoMetadata().getMetadata(type, state);
 	}
 

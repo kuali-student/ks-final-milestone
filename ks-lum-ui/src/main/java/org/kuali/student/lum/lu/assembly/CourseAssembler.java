@@ -10,17 +10,13 @@ import static org.kuali.student.core.assembly.util.AssemblerUtils.setCreated;
 import static org.kuali.student.core.assembly.util.AssemblerUtils.setUpdated;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.kim.bo.role.dto.KimPermissionInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.PermissionService;
-import org.kuali.student.common.util.security.SecurityUtils;
-import org.kuali.student.core.assembly.Assembler;
+import org.kuali.student.core.assembly.BaseAssembler;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
@@ -60,7 +56,6 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCours
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseJointsHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalMetadata;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseVersionsHelper;
 import org.kuali.student.lum.lu.assembly.data.server.CluInfoHierarchy;
 import org.kuali.student.lum.lu.assembly.data.server.CluInfoHierarchy.ModificationState;
@@ -75,7 +70,7 @@ import org.kuali.student.lum.lu.ui.course.server.gwt.LuRuleInfoPersistanceBean;
 import org.kuali.student.lum.nlt.service.TranslationService;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 
-public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
+public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 //  TODO Split out CluInfo assembly to its own class
 
     final Logger LOG = Logger.getLogger(CourseAssembler.class);
@@ -87,13 +82,17 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
     public static final String FORMAT_RELATION_TYPE = "luLuRelationType.hasCourseFormat";
     public static final String ACTIVITY_RELATION_TYPE = "luLuRelationType.contains";
 
+    public static final String PROPOSAL_REFERENCE_TYPE = "kuali.proposal.referenceType.clu"; // <- what the service says, but the dictionary says: "kuali.referenceType.CLU";
+    public static final String CREDIT_COURSE_PROPOSAL_DATA_TYPE = "CreditCourseProposal";
+
+    
+    
     private SingleUseLoInfoAssembler loAssembler;
     private final RichTextInfoAssembler richtextAssembler = new RichTextInfoAssembler();
     private final TimeAmountInfoAssembler timeamountAssembler = new TimeAmountInfoAssembler();
     private final CluInstructorInfoDataAssembler instructorAssembler = new CluInstructorInfoDataAssembler();
 
     private LuService luService;
-    private PermissionService permissionService;
     private LearningObjectiveService loService;
     private TranslationService translationService;
     private OrganizationService orgService;
@@ -128,31 +127,7 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
         return result.getData();
     }
 
-    @Override
-    public Metadata getMetadata(String type, String state) throws AssemblyException {
-        //TODO: Is there a more specific type we can use?
-        Metadata metadata = new CreditCourseProposalMetadata().getMetadata(PROPOSAL_TYPE_CREATE_COURSE, state);
 
-        Map<String, String> permissions = getPermissions("kuali.lu.type.CreditCourse");
-
-        if(permissions!=null){
-            Metadata courseMetadata = metadata.getProperties().get("course");
-
-            for(Map.Entry<String, String> permission:permissions.entrySet()){
-                String dtoFieldKey = permission.getKey();
-                String fieldAccessLevel = permission.getValue();
-                Metadata fieldMetadata = courseMetadata.getProperties().get(dtoFieldKey);
-                if(fieldMetadata!=null){
-                    if("edit".equals(fieldAccessLevel)){//TODO better translation of access
-                        //Don't do anything, yield to default behavior
-                    }else{
-                        fieldMetadata.setWriteAccess(WriteAccess.NEVER);
-                    }
-                }
-            }
-        }
-        return metadata;
-    }
 
     @Override
     public SaveResult<Data> save(Data input)     throws AssemblyException {
@@ -456,8 +431,8 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
 
     private CluInfoHierarchy buildCluInfoHierarchyFromData(CreditCourseHelper course) throws AssemblyException {
         //metadata for authz
-        Metadata courseMetadata = this.getMetadata(course.getType(), course.getState()).getProperties().get("course");//TODO cache the metadata
-
+        Metadata courseMetadata = getMetadata(course.getId(), course.getType(), course.getState()).getProperties().get("course");//TODO cache the metadata
+        //Metadata courseMetadata = getMetadata(CREDIT_COURSE_PROPOSAL_DATA_TYPE, course.getType(), course.getState()).getProperties().get("course");
         CluInfoHierarchy result = null;
         CluInfo courseClu = null;
         // FIXME wilj: temp check for id, client needs to enforce modification flags once we get the basics working
@@ -1114,30 +1089,6 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
         return richtextAssembler.disassemble(hlp.getData());
     }
 
-    private Map<String,String> getPermissions(String dtoName){
-        try{
-            //get permissions and turn into a map of fieldName=>access
-            String principalId = SecurityUtils.getCurrentUserId();
-            String namespaceCode = "KS-SYS";
-            String permissionTemplateName = "Field Access";
-            AttributeSet qualification = null;
-            AttributeSet permissionDetails = new AttributeSet("dtoName",dtoName);
-            List<KimPermissionInfo> permissions = permissionService.getAuthorizedPermissionsByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, qualification);
-            Map<String, String> permMap = new HashMap<String,String>();
-            if (permissions !=null){
-                for(KimPermissionInfo permission:permissions){
-                    String dtoFieldKey = permission.getDetails().get("dtoFieldKey");
-                    String fieldAccessLevel = permission.getDetails().get("fieldAccessLevel");
-                    permMap.put(dtoFieldKey, fieldAccessLevel);
-                }
-            }
-            return permMap;
-        }catch(Exception e){
-            LOG.warn("Error calling permission service.",e);
-        }
-        return null;
-    }
-
     private SingleUseLoInfoAssembler getSingleUseLoAssembler() {
         if (loAssembler == null) {
             loAssembler = new SingleUseLoInfoAssembler();
@@ -1205,5 +1156,30 @@ public class CourseAssembler implements Assembler<Data, CluInfoHierarchy> {
             return relationshipState;
         }
 
+    }
+
+    @Override
+    protected String getDataType() {
+        return CREDIT_COURSE_PROPOSAL_DATA_TYPE;
+    }
+
+    @Override
+    protected String getDocumentPropertyName() {
+        return "course";
+    }
+
+    @Override
+    protected String getDtoName() {
+        return "kuali.lu.type.CreditCourse";
+    }
+
+    @Override
+    protected AttributeSet getQualification(String id) {
+        String QUALIFICATION_PROPOSAL_ID = "courseId";
+        String DOCUMENT_TYPE_NAME = "documentTypeName";
+        AttributeSet qualification = new AttributeSet();
+        qualification.put(DOCUMENT_TYPE_NAME, "CluCreditCourse");
+        qualification.put(QUALIFICATION_PROPOSAL_ID, id);
+        return qualification;
     }
 }

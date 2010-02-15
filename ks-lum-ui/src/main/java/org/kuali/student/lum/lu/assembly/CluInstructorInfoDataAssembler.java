@@ -47,7 +47,7 @@ public class CluInstructorInfoDataAssembler implements Assembler<Data, CluInstru
 	}
 
 	@Override
-	public Metadata getMetadata(String type, String state) throws AssemblyException {
+	public Metadata getMetadata(String id, String type, String state) throws AssemblyException {
 		return new CluInstructorInfoMetadata().getMetadata(type, state);
 	}
 
