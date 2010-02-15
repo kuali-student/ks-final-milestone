@@ -148,7 +148,7 @@ public class KSWrapper extends Composite{
     	);
     	items.add(new KSMenuItemData("Logout",
     			new WrapperNavigationHandler(
-    					"/j_spring_security_logout"))
+    					"j_spring_security_logout"))
     	);
     	userDropDown.setArrowImage(Theme.INSTANCE.getCommonImages().getDropDownIconWhite());
     	userDropDown.setItems(items);
