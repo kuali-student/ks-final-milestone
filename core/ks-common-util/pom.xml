@@ -10,19 +10,19 @@
 	<parent>
 		<groupId>org.kuali.student.core</groupId>
 		<artifactId>ks-core</artifactId>
-		<version>1.0.0-m3-SNAPSHOT</version>
+		<version>1.0.0-m3</version>
 	</parent>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-api</artifactId>
-			<version>1.0.0-m3-SNAPSHOT</version>			
+			<version>1.0.0-m3</version>			
 		</dependency>		
 		<dependency>
 			<groupId>org.kuali.student.security</groupId>
 			<artifactId>ks-standard-sec</artifactId>
-			<version>1.0.0-m3-SNAPSHOT</version>			
+			<version>1.0.0-m3</version>			
 		</dependency>
 
 		<dependency>
