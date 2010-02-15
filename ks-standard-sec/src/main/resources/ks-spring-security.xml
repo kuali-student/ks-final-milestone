@@ -16,8 +16,12 @@
     	<security:intercept-url pattern="/logout.html*" filters="none"/>
     	<security:intercept-url pattern="/services/*" filters="none"/>
         <security:intercept-url pattern="/**" access="ROLE_KS_USER"/>
-        <security:form-login />
-        <security:logout/>
+		<security:form-login />
+<!--  	<security:logout/>  -->
     </security:http>
     
+    <bean id="ksLogoutFilter" class="org.kuali.student.security.filter.KSLogoutFilter">
+    	<security:custom-filter position="LOGOUT_FILTER"/>
+  	</bean>
+  	
 </beans>
