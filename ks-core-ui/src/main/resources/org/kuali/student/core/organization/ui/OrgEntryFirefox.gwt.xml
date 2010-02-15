@@ -1,4 +1,4 @@
-<module rename-to="org.kuali.student.core.organization.OrgEntry">
+<module rename-to="org.kuali.student.core.organization.ui.OrgEntry">
 	
 	<inherits name="org.kuali.student.core.organization.ui.OrgUI"/>
 
