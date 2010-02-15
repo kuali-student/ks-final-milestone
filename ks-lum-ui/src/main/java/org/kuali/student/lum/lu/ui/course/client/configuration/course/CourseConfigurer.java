@@ -24,6 +24,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.UpdatableMultiplicityComposite;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
@@ -146,12 +147,15 @@ public class CourseConfigurer
         VerticalSectionView section = initSectionView(LuSections.SUMMARY, LUConstants.SUMMARY_LABEL_KEY);
 
         section.addSection(generateSummaryBrief(getH3Title(LUConstants.BRIEF_LABEL_KEY)));
-        section.addSection(ViewCluConfigurer.generateSummaryDetails(getH3Title(LUConstants.FULL_VIEW_LABEL_KEY)));
-
+        section.addSection(generateSummaryDetails(getH3Title(LUConstants.FULL_VIEW_LABEL_KEY)));
         return section;
     }
 
-    private VerticalSection generateSummaryBrief(SectionTitle title) {
+    private VerticalSection generateSummaryDetails(SectionTitle title) {
+       return  ViewCluConfigurer.generateSummaryDetails(title);
+	}
+
+	private VerticalSection generateSummaryBrief(SectionTitle title) {
         VerticalSection section = new VerticalSection();
         section.addStyleName(LUConstants.STYLE_SECTION_DIVIDER);
         section.addStyleName(LUConstants.STYLE_SECTION);
@@ -201,62 +205,97 @@ public class CourseConfigurer
     private SectionView generateActiveDatesSection() {
         VerticalSectionView section = initSectionView(LuSections.ACTIVE_DATES, LUConstants.ACTIVE_DATES_LABEL_KEY);
 
-        VerticalSection startDate = initSection(getH3Title(LUConstants.START_DATE_LABEL_KEY), WITH_DIVIDER);
-        addField(startDate, COURSE + "/" + EFFECTIVE_DATE, getLabel(LUConstants.EFFECTIVE_DATE_LABEL_KEY));
-
-        VerticalSection endDate = initSection(getH3Title(LUConstants.END_DATE_LABEL_KEY), WITH_DIVIDER);
-        addField(endDate, COURSE + "/" + EXPIRATION_DATE, getLabel(LUConstants.EXPIRATION_DATE_LABEL_KEY));
-
-
-        section.addSection(startDate);
-        section.addSection(endDate);
+        section.addSection(generateActiveDateStartSection());
+        section.addSection(generateActiveDateEndSection());
 
         return section;
     }
 
-    private SectionView generateFinancialsSection() {
+    private VerticalSection generateActiveDateEndSection() {
+        VerticalSection endDate = initSection(getH3Title(LUConstants.END_DATE_LABEL_KEY), WITH_DIVIDER);
+        addField(endDate, COURSE + "/" + EXPIRATION_DATE, getLabel(LUConstants.EXPIRATION_DATE_LABEL_KEY));
+        return endDate;
+	}
+
+	private VerticalSection generateActiveDateStartSection() {
+        VerticalSection startDate = initSection(getH3Title(LUConstants.START_DATE_LABEL_KEY), WITH_DIVIDER);
+        addField(startDate, COURSE + "/" + EFFECTIVE_DATE, getLabel(LUConstants.EFFECTIVE_DATE_LABEL_KEY));
+        return startDate;
+	}
+
+	private SectionView generateFinancialsSection() {
         VerticalSectionView section = initSectionView(LuSections.FINANCIALS, LUConstants.FINANCIALS_LABEL_KEY);
 
         //TODO ALL KEYS in this section are place holders until we know actual keys
+        section.addSection(generateFeeTypeSection());
+        section.addSection(generateFeeAmountSection());
+
+        return section;
+    }
+	
+	
+
+    private VerticalSection generateFeeTypeSection() {
+        //TODO ALL KEYS in this section are place holders until we know actual keys
         VerticalSection feeType = initSection(getH3Title(LUConstants.FEE_TYPE_LABEL_KEY), WITH_DIVIDER);
         addField(feeType, "cluInfo/feeType", null);
+        return feeType;
+	}
 
+	private VerticalSection generateFeeAmountSection() {
+        //TODO ALL KEYS in this section are place holders until we know actual keys
         VerticalSection feeAmount = initSection(getH3Title(LUConstants.FEE_DESC_LABEL_KEY), WITH_DIVIDER);
         addField(feeAmount, FEES +"/" + FEE_AMOUNT, getLabel(LUConstants.CURRENCY_SYMBOL_LABEL_KEY));
         addField(feeAmount, FEES + "/" + TAXABLE, getLabel(LUConstants.TAXABLE_SYMBOL_LABEL_KEY));//TODO checkboxes go here instead
         addField(feeAmount, FEES + "/" + FEE_DESC, getLabel(LUConstants.FEE_DESC_LABEL_KEY));
         addField(feeAmount, FEES + "/" + INTERNAL_NOTATION, getLabel(LUConstants.INTERNAL_FEE_NOTIFICATION_LABEL_KEY));
+		return feeAmount;
+	}
 
-        section.addSection(feeType);
-        section.addSection(feeAmount);
-
-        return section;
-    }
-
-    public SectionView generateGovernanceSection(){
+	public SectionView generateGovernanceSection(){
         VerticalSectionView section = initSectionView(LuSections.GOVERNANCE, LUConstants.GOVERNANCE_LABEL_KEY);
 
-        VerticalSection oversight = initSection(getH3Title(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY), WITH_DIVIDER);
-        addField(oversight, COURSE + "/" + ACADEMIC_SUBJECT_ORGS, null, new OrgListPicker());
-
-        VerticalSection campus = initSection(getH3Title(LUConstants.CAMPUS_LOCATION_LABEL_KEY), WITH_DIVIDER);
-        addField(campus, COURSE + "/" + CAMPUS_LOCATIONS, null, new CampusLocationList());
-
-        VerticalSection adminOrgs = initSection(getH3Title(LUConstants.ADMIN_ORG_LABEL_KEY), WITH_DIVIDER);
-        addField(adminOrgs, COURSE + "/" + DEPARTMENT, null);
-
-        section.addSection(oversight);
-        section.addSection(campus);
-        section.addSection(adminOrgs);
+        section.addSection(generateOversightSection());
+        section.addSection(generateCampusSection());
+        section.addSection(generateAdminOrgsSection());
 
         return section;
     }
+	
+    private VerticalSection generateOversightSection() {
+        VerticalSection oversight = initSection(getH3Title(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY), WITH_DIVIDER);
+        addField(oversight, COURSE + "/" + ACADEMIC_SUBJECT_ORGS, null, new OrgListPicker());
+        return oversight;
+	}
 
-    public SectionView generateCourseInfoSection(){
+	private VerticalSection generateCampusSection() {
+        VerticalSection campus = initSection(getH3Title(LUConstants.CAMPUS_LOCATION_LABEL_KEY), WITH_DIVIDER);
+        addField(campus, COURSE + "/" + CAMPUS_LOCATIONS, null, new CampusLocationList());
+        return campus;
+	}
+
+	private VerticalSection generateAdminOrgsSection() {
+        VerticalSection adminOrgs = initSection(getH3Title(LUConstants.ADMIN_ORG_LABEL_KEY), WITH_DIVIDER);
+        addField(adminOrgs, COURSE + "/" + DEPARTMENT, null);
+        return adminOrgs;
+	}
+
+	public SectionView generateCourseInfoSection(){
         VerticalSectionView section = initSectionView(LuSections.COURSE_INFO, LUConstants.INFORMATION_LABEL_KEY);
 
         //FIXME: Label should be key to messaging, field type should come from dictionary?
 
+        section.addSection(generateCourseNumberSection());
+        section.addSection(generateCourseInfoShortTitleSection());
+        section.addSection(generateLongTitleSection());
+        section.addSection(generateDescriptionSection());
+        section.addSection(generateRationaleSection());
+
+        return section;
+    }
+
+	private GroupSection generateCourseNumberSection() {
+       
         //COURSE NUMBER
         GroupSection courseNumber = new GroupSection();
         courseNumber.addStyleName(LUConstants.STYLE_SECTION);
@@ -267,82 +306,71 @@ public class CourseConfigurer
 
         // TODO - hide cross-listed, offered jointly and version codes initially, with
         // clickable label to disclose them
+        courseNumber.addSection(generateCrossListedSection());
+        courseNumber.addSection(generateOfferedJointlySection());
+        courseNumber.addSection(generateVersionCodesSection());
+        
+        return courseNumber;
+	}
 
+	private VerticalSection generateVersionCodesSection() {
+        //Version Codes
+        VerticalSection versionCodes = new VerticalSection();
+        versionCodes.setSectionTitle(getH3Title(LUConstants.VERSION_CODES_LABEL_KEY));
+        addField(versionCodes, COURSE + "/" + VERSIONS, null, new VersionCodeList(COURSE + "/" + VERSIONS));
+        //versionCodes.addStyleName("KS-LUM-Section-Divider");
+        return versionCodes;
+	}
+
+	private VerticalSection generateOfferedJointlySection() {
+        // Offered jointly
+        VerticalSection offeredJointly = new VerticalSection();
+        offeredJointly.setSectionTitle(getH3Title(LUConstants.JOINT_OFFERINGS_ALT_LABEL_KEY));
+        addField(offeredJointly, COURSE + "/" + JOINTS, null, new OfferedJointlyList());
+        //offeredJointly.addStyleName("KS-LUM-Section-Divider");
+        return offeredJointly;
+	}
+
+	private VerticalSection generateCrossListedSection() {
         // Cross-listed
         VerticalSection crossListed = new VerticalSection();
         crossListed.setSectionTitle(getH3Title(LUConstants.CROSS_LISTED_ALT_LABEL_KEY));
         // crossListed.setInstructions("Enter Department and/or Subject Code/Course Number.");
         addField(crossListed, COURSE + "/" + CROSS_LISTINGS, null, new CrossListedList(COURSE + "/" + CROSS_LISTINGS));
         //crossListed.addStyleName("KS-LUM-Section-Divider");
-        courseNumber.addSection(crossListed);
+        return crossListed;
+	}
 
-        // Offered jointly
-        VerticalSection offeredJointly = new VerticalSection();
-        offeredJointly.setSectionTitle(getH3Title(LUConstants.JOINT_OFFERINGS_ALT_LABEL_KEY));
-        addField(offeredJointly, COURSE + "/" + JOINTS, null, new OfferedJointlyList());
-        //offeredJointly.addStyleName("KS-LUM-Section-Divider");
-        courseNumber.addSection(offeredJointly);
-
-        //Version Codes
-        VerticalSection versionCodes = new VerticalSection();
-        versionCodes.setSectionTitle(getH3Title(LUConstants.VERSION_CODES_LABEL_KEY));
-        addField(versionCodes, COURSE + "/" + VERSIONS, null, new VersionCodeList(COURSE + "/" + VERSIONS));
-        //versionCodes.addStyleName("KS-LUM-Section-Divider");
-        courseNumber.addSection(versionCodes);
-
-        VerticalSection longTitle = initSection(getH3Title(LUConstants.TITLE_LABEL_KEY), WITH_DIVIDER);
-        addField(longTitle, COURSE + "/" + COURSE_TITLE, null);
-
+	private VerticalSection generateCourseInfoShortTitleSection() {
         VerticalSection shortTitle = initSection(getH3Title(LUConstants.SHORT_TITLE_LABEL_KEY), WITH_DIVIDER);
         addField(shortTitle, COURSE + "/" + TRANSCRIPT_TITLE, null);
+        return shortTitle;
+	}
 
+	private VerticalSection generateLongTitleSection() {
+        VerticalSection longTitle = initSection(getH3Title(LUConstants.TITLE_LABEL_KEY), WITH_DIVIDER);
+        addField(longTitle, COURSE + "/" + COURSE_TITLE, null);
+        return longTitle;
+	}
+
+	private VerticalSection generateDescriptionSection() {
         VerticalSection description = initSection(getH3Title(LUConstants.DESCRIPTION_LABEL_KEY), WITH_DIVIDER);
         addField(description, COURSE + "/" + DESCRIPTION, null);
+        return description;
+	}
 
+	private VerticalSection generateRationaleSection() {
         VerticalSection rationale = initSection(getH3Title(LUConstants.RATIONALE_LABEL_KEY), WITH_DIVIDER);
         addField(rationale, PROPOSAL + "/" + RATIONALE, null);
-
-        section.addSection(courseNumber);
-        section.addSection(shortTitle);
-        section.addSection(longTitle);
-        section.addSection(description);
-        section.addSection(rationale);
-
-        return section;
-    }
-
-//    public Callback<Boolean> getSubjectValidationCallback(final FieldDescriptor subjectFD, final String objectKey){
-  //      return new Callback<Boolean>() {
-    //        @Override
-      //      public void exec(Boolean result) {
-        //        ModelDTOConstraintSetupFactory bc = new ModelDTOConstraintSetupFactory();
-          //      final Validator val = new Validator(bc, true);
-            //    final ValidateResultEvent e = new ValidateResultEvent();
-              //          ObjectStructure objStructure = Application.getApplicationContext().getDictionaryData(objectKey);
-                //        if(objStructure == null){
-                  //          Window.alert("Cannot load dictionary(object structure)");
-                    //    }
-                      //  List<ValidationResultContainer> results = val.validateTypeStateObject((ModelDTO) m.get(), objStructure);
-                        //e.setValidationResult(results);// filled by calling the real validate code
-                        //Controller.findController(subjectFD.getFieldWidget()).fireApplicationEvent(e);
-
-
-//            }
-  //      };
-   // }
-
-
+        return rationale;
+	}
 
     public SectionView generateCourseLogisticsSection() {
         VerticalSectionView section = initSectionView(LuSections.COURSE_LOGISTICS, LUConstants.LOGISTICS_LABEL_KEY);
 
-        VerticalSection instructors = initSection(getH3Title(LUConstants.INSTRUCTOR_LABEL_KEY), WITH_DIVIDER);
-        // FIXME wilj: do we need to set the instructor's orgId? or can we default it at the assembler level?
-        addField(instructors, COURSE + "/" + PRIMARY_INSTRUCTOR, null);
 //      instructors.addField(new FieldDescriptor("cluInfo/instructors", null, Type.LIST, new AlternateInstructorList()));
-
-        //CREDITS
-        //TODO: These needs to be mapped to learning results
+//        //CREDITS
+//        //TODO: These needs to be mapped to learning results
 //        VerticalSection credits = initSection(getH3Title(LUConstants.CREDITS_LABEL_KEY), WITH_DIVIDER);
 //        credits.addField(new FieldDescriptor("cluInfo/creditType", getLabel(LUConstants.CREDIT_LABEL_KEY), Type.STRING));
 //        credits.addField(new FieldDescriptor("cluInfo/creditValue", getLabel(LUConstants.CREDIT_VALUE_LABEL_KEY), Type.STRING));
@@ -350,11 +378,29 @@ public class CourseConfigurer
 //        VerticalSection learningResults = initSection(getH3Title(LUConstants.LEARNING_RESULTS_LABEL_KEY), WITH_DIVIDER);
 //        learningResults.addField(new FieldDescriptor("cluInfo/evalType", getLabel(LUConstants.EVALUATION_TYPE_LABEL_KEY), Type.STRING)); //TODO EVAL TYPE ENUMERATION ????
 
-        VerticalSection scheduling = initSection(getH3Title(LUConstants.SCHEDULING_LABEL_KEY), WITH_DIVIDER);
-        // FIXME wilj: termsOffered not currently populated by assembler
+        section.addSection(generateInstructorsSection());
+//        section.addSection(credits);
+//        section.addSection(learningResults);
+        section.addSection(generateSchedulingSection());
+        section.addSection(generateCourseFormatsSection());
 
-//        addField(scheduling, COURSE + "/" + CreditCourseConstants.DURATION + "/" + TERM_TYPE, getLabel(LUConstants.TERM_LITERAL_LABEL_KEY), new AtpTypeList());
-//FIXME Why is this timeUnit now and not termType, this widget did not work when this comment was written
+
+        return section;
+    }
+
+    private VerticalSection generateCourseFormatsSection() {
+        //COURSE FORMATS
+        VerticalSection courseFormats = initSection(getH3Title(LUConstants.FORMATS_LABEL_KEY), WITH_DIVIDER);
+        addField(courseFormats, COURSE + "/" + FORMATS, null, new CourseFormatList(COURSE + "/" + FORMATS));
+        return courseFormats;
+	}
+
+	private VerticalSection generateSchedulingSection() {
+        VerticalSection scheduling = initSection(getH3Title(LUConstants.SCHEDULING_LABEL_KEY), WITH_DIVIDER);
+        //FIXME wilj: termsOffered not currently populated by assembler
+
+        //addField(scheduling, COURSE + "/" + CreditCourseConstants.DURATION + "/" + TERM_TYPE, getLabel(LUConstants.TERM_LITERAL_LABEL_KEY), new AtpTypeList());
+        //FIXME Why is this timeUnit now and not termType, this widget did not work when this comment was written
         String termKey = COURSE + "/" + CreditCourseConstants.DURATION + "/" + "timeUnit";
         Metadata termMeta = modelDefinition.getMetadata(QueryPath.parse(termKey));
         FieldDescriptor termDescriptor = new FieldDescriptor(termKey, null, termMeta);
@@ -376,22 +422,17 @@ public class CourseConfigurer
         });
         scheduling.addField(termDescriptor);
         addField(scheduling, COURSE + "/" + CreditCourseConstants.DURATION + "/" + QUANTITY, getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY)); //TODO DURATION ENUMERATION
+        return scheduling;
+	}
 
-        //COURSE FORMATS
-        VerticalSection courseFormats = initSection(getH3Title(LUConstants.FORMATS_LABEL_KEY), WITH_DIVIDER);
-        addField(courseFormats, COURSE + "/" + FORMATS, null, new CourseFormatList(COURSE + "/" + FORMATS));
+	private VerticalSection generateInstructorsSection() {
+        VerticalSection instructors = initSection(getH3Title(LUConstants.INSTRUCTOR_LABEL_KEY), WITH_DIVIDER);
+        // FIXME wilj: do we need to set the instructor's orgId? or can we default it at the assembler level?
+        addField(instructors, COURSE + "/" + PRIMARY_INSTRUCTOR, null);
+        return instructors;
+	}
 
-        section.addSection(instructors);
-//        section.addSection(credits);
-//        section.addSection(learningResults);
-        section.addSection(scheduling);
-        section.addSection(courseFormats);
-
-
-        return section;
-    }
-
-    private static AdvancedSearchWindow createAtpSearchWindow(){
+	private static AdvancedSearchWindow createAtpSearchWindow(){
 
         Metadata searchMetadata = new CreditCourseMetadata().getMetadata("", "");  //no type or state at this point
         SearchPanel searchPicker = new SearchPanel(searchMetadata.getProperties().get("firstExpectedOffering").getLookupMetadata());
@@ -413,7 +454,11 @@ public class CourseConfigurer
 
     private SectionView generateLearningObjectivesSection() {
         VerticalSectionView section = initSectionView(LuSections.LEARNING_OBJECTIVES, LUConstants.LEARNING_OBJECTIVES_LABEL_KEY);
+        section.addSection(generateLearningObjectivesNestedSection());
+        return section;
+    }
 
+    private VerticalSection generateLearningObjectivesNestedSection() {
         VerticalSection los = initSection(null, NO_DIVIDER);
         // FIXME - where should repo key come from?
         FieldDescriptor fd = addField(los,
@@ -427,12 +472,10 @@ public class CourseConfigurer
         fd.setWidgetBinding(LOBuilderBinding.INSTANCE);
 
         los.addStyleName("KS-LUM-Section-Divider");
-
-        section.addSection(los);
-        return section;
+        return los;
     }
 
-    public class CourseFormatList extends UpdatableMultiplicityComposite {
+	public class CourseFormatList extends UpdatableMultiplicityComposite {
     	private final String parentPath;
         public CourseFormatList(String parentPath){
         	super(StyleType.TOP_LEVEL);
@@ -911,16 +954,17 @@ public class CourseConfigurer
 
     public SectionView generateProgramInfoSection(){
         VerticalSectionView section = initSectionView(LuSections.PROGRAM_INFO, LUConstants.INFORMATION_LABEL_KEY);
-
-        VerticalSection shortTitle = initSection(getH3Title(LUConstants.SHORT_TITLE_LABEL_KEY), WITH_DIVIDER);
-        addField(shortTitle, "cluInfo/officialIdentifier/shortName", null);
-
-        section.addSection(shortTitle);
-
+        section.addSection(generateShortTitleSection());
         return section;
     }
 
-    public class CollaboratorTool extends ToolView{
+    private VerticalSection generateShortTitleSection() {
+        VerticalSection shortTitle = initSection(getH3Title(LUConstants.SHORT_TITLE_LABEL_KEY), WITH_DIVIDER);
+        addField(shortTitle, "cluInfo/officialIdentifier/shortName", null);
+        return shortTitle;
+	}
+
+	public class CollaboratorTool extends ToolView{
         public CollaboratorTool(){
             super(LuSections.AUTHOR, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS);
         }
