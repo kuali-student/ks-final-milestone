@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="RuleExecutionService" targetNamespace="http://student.kuali.org/wsdl/brms/RuleExecution" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/brms/RuleExecution" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://org.kuali.student/core/exceptions" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://org.kuali.student/core/exceptions">
+    <xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
+    <xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
+    <xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
+    <xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
+    <xs:complexType name="OperationFailedException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="MissingParameterException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DoesNotExistException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="InvalidParameterException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://org.kuali.student/core/exceptions" xmlns:tns="http://student.kuali.org/wsdl/brms/RuleExecution" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/brms/RuleExecution">
+    <xs:element name="agendaExecutionResultInfo" type="tns:agendaExecutionResultInfo"/>
+    <xs:element name="executeAgenda" type="tns:executeAgenda"/>
+    <xs:element name="executeAgendaResponse" type="tns:executeAgendaResponse"/>
+    <xs:element name="executeBusinessRule" type="tns:executeBusinessRule"/>
+    <xs:element name="executeBusinessRuleResponse" type="tns:executeBusinessRuleResponse"/>
+    <xs:element name="executeBusinessRuleTest" type="tns:executeBusinessRuleTest"/>
+    <xs:element name="executeBusinessRuleTestResponse" type="tns:executeBusinessRuleTestResponse"/>
+    <xs:element name="executionResultInfo" type="tns:executionResultInfo"/>
+    <xs:element name="parameterMapInfo" type="tns:parameterMapInfo"/>
+    <xs:element name="propositionReportInfo" type="tns:propositionReportInfo"/>
+    <xs:element name="ruleReportInfo" type="tns:ruleReportInfo"/>
+    <xs:complexType name="executeBusinessRuleTest">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="businessRule" type="tns:businessRuleInfo"/>
+            <xs:element minOccurs="0" name="exectionParamMap" type="tns:parameterMapInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="businessRuleInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="originalRuleId" type="xs:string"/>
+            <xs:element minOccurs="0" name="type" type="xs:string"/>
+            <xs:element minOccurs="0" name="anchor" type="xs:string"/>
+            <xs:element minOccurs="0" name="anchorTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element minOccurs="0" name="successMessage" type="xs:string"/>
+            <xs:element minOccurs="0" name="failureMessage" type="xs:string"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="state" type="xs:string"/>
+            <xs:element minOccurs="0" name="compiledId" type="xs:string"/>
+            <xs:element minOccurs="0" name="repositorySnapshotName" type="xs:string"/>
+            <xs:element minOccurs="0" name="businessRuleElementList">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="businessRuleElement" type="tns:ruleElementInfo"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+            <xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="ruleElementInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="businessRuleElemnetTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="ordinalPosition" type="xs:int"/>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element minOccurs="0" name="businessRuleProposition" type="tns:rulePropositionInfo"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="rulePropositionInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element minOccurs="0" name="successMessage" type="xs:string"/>
+            <xs:element minOccurs="0" name="failureMessage" type="xs:string"/>
+            <xs:element minOccurs="0" name="comparisonDataTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="leftHandSide" type="tns:leftHandSideInfo"/>
+            <xs:element minOccurs="0" name="comparisonOperatorTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="rightHandSide" type="tns:rightHandSideInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="leftHandSideInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="yieldValueFunction" type="tns:yieldValueFunctionInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="yieldValueFunctionInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="yieldValueFunctionType" type="xs:string"/>
+            <xs:element minOccurs="0" name="factStructureList">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="factStructure" type="tns:factStructureInfo"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="factStructureInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="criteriaTypeInfo" type="tns:factCriteriaTypeInfo"/>
+            <xs:element minOccurs="0" name="anchorFlag" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="resultColumnKeyTranslations" type="tns:jaxbAttributeList"/>
+            <xs:element minOccurs="0" name="paramValueMap" type="tns:jaxbAttributeList"/>
+            <xs:element minOccurs="0" name="staticValueDataType" type="xs:string"/>
+            <xs:element minOccurs="0" name="staticValue" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="factStructureId" type="xs:string"/>
+        <xs:attribute name="factTypeKey" type="xs:string"/>
+        <xs:attribute name="staticFact" type="xs:boolean"/>
+    </xs:complexType>
+    <xs:complexType name="factCriteriaTypeInfo">
+        <xs:complexContent>
+            <xs:extension base="tns:typeInfo">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="factParamMap" type="tns:factParamList"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType abstract="true" name="typeInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="factParamList">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="entry" type="tns:factParamMapEntry"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="factParamMapEntry">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="value" type="tns:factParamInfo"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="factParamInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="description" type="xs:string"/>
+            <xs:element minOccurs="0" name="dataType" type="xs:string"/>
+            <xs:element minOccurs="0" name="minLength" type="xs:int"/>
+            <xs:element minOccurs="0" name="maxLength" type="xs:int"/>
+            <xs:element minOccurs="0" name="validCharacters" type="xs:string"/>
+            <xs:element minOccurs="0" name="minOccurs" type="xs:int"/>
+            <xs:element minOccurs="0" name="maxOccurs" type="xs:int"/>
+            <xs:element minOccurs="0" name="defTime" type="tns:factParamDefTimeKey"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="jaxbAttributeList">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="attribute" type="tns:Attribute"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Attribute">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="value" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="rightHandSideInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="expectedValue" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="metaInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="versionInd" type="xs:string"/>
+            <xs:element minOccurs="0" name="createTime" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="createId" type="xs:string"/>
+            <xs:element minOccurs="0" name="updateTime" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="updateId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="parameterMapInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="paramMap" type="tns:jaxbAttributeList"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="executeBusinessRuleTestResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:executionResultInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="executionResultInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="executionResult" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="report" type="tns:ruleReportInfo"/>
+            <xs:element minOccurs="0" name="executionLog" type="xs:string"/>
+            <xs:element minOccurs="0" name="errorMessage" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ruleReportInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="successful" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="successMessage" type="xs:string"/>
+            <xs:element minOccurs="0" name="failureMessage" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="propositionReportList" type="tns:propositionReportInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="propositionReportInfo">
+        <xs:sequence>
+            <xs:element name="successful" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+            <xs:element minOccurs="0" name="criteria" type="tns:factResultInfo"/>
+            <xs:element minOccurs="0" name="fact" type="tns:factResultInfo"/>
+            <xs:element minOccurs="0" name="propositionResult" type="tns:factResultInfo"/>
+        </xs:sequence>
+        <xs:attribute name="propositionName" type="xs:string"/>
+        <xs:attribute name="propositionType" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="factResultInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="factResultTypeInfo" type="tns:factResultTypeInfo"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="resultList" type="tns:jaxbAttributeList"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="factResultTypeInfo">
+        <xs:complexContent>
+            <xs:extension base="tns:typeInfo">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="resultColumnsMap" type="tns:factResultColumnInfoList"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="factResultColumnInfoList">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="entry" type="tns:factResultColumnInfoMapEntry"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="factResultColumnInfoMapEntry">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="value" type="tns:factResultColumnInfo"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="factResultColumnInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="description" type="xs:string"/>
+            <xs:element minOccurs="0" name="dataType" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="executeAgenda">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="businessRuleAnchorInfoList" type="tns:businessRuleAnchorInfo"/>
+            <xs:element minOccurs="0" name="exectionParamMap" type="tns:parameterMapInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="businessRuleAnchorInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="businessRuleTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="anchorTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="anchorValue" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="executeAgendaResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:agendaExecutionResultInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="agendaExecutionResultInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="id" type="xs:string"/>
+            <xs:element minOccurs="0" name="executionSuccessful" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="agendaReportSuccessful" type="xs:boolean"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="executionResultList" type="tns:executionResultInfo"/>
+            <xs:element minOccurs="0" name="successMessageSummary" type="xs:string"/>
+            <xs:element minOccurs="0" name="failureMessageSummary" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="executeBusinessRule">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="businessRuleId" type="xs:string"/>
+            <xs:element minOccurs="0" name="exectionParamMap" type="tns:parameterMapInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="executeBusinessRuleResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:executionResultInfo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="factParamDefTimeKey">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="KUALI_FACT_DEFINITION_TIME_KEY"/>
+            <xs:enumeration value="KUALI_FACT_EXECUTION_TIME_KEY"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:element name="OperationFailedException" nillable="true" type="ns0:OperationFailedException"/>
+    <xs:element name="MissingParameterException" nillable="true" type="ns0:MissingParameterException"/>
+    <xs:element name="DoesNotExistException" nillable="true" type="ns0:DoesNotExistException"/>
+    <xs:element name="InvalidParameterException" nillable="true" type="ns0:InvalidParameterException"/>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="executeAgenda">
+    <wsdl:part name="parameters" element="tns:executeAgenda">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="OperationFailedException">
+    <wsdl:part name="OperationFailedException" element="tns:OperationFailedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="executeBusinessRuleResponse">
+    <wsdl:part name="parameters" element="tns:executeBusinessRuleResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="executeAgendaResponse">
+    <wsdl:part name="parameters" element="tns:executeAgendaResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DoesNotExistException">
+    <wsdl:part name="DoesNotExistException" element="tns:DoesNotExistException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="InvalidParameterException">
+    <wsdl:part name="InvalidParameterException" element="tns:InvalidParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="executeBusinessRule">
+    <wsdl:part name="parameters" element="tns:executeBusinessRule">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="executeBusinessRuleTestResponse">
+    <wsdl:part name="parameters" element="tns:executeBusinessRuleTestResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="executeBusinessRuleTest">
+    <wsdl:part name="parameters" element="tns:executeBusinessRuleTest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="MissingParameterException">
+    <wsdl:part name="MissingParameterException" element="tns:MissingParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="RuleExecutionService">
+    <wsdl:operation name="executeBusinessRuleTest">
+      <wsdl:input name="executeBusinessRuleTest" message="tns:executeBusinessRuleTest">
+    </wsdl:input>
+      <wsdl:output name="executeBusinessRuleTestResponse" message="tns:executeBusinessRuleTestResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="executeAgenda">
+      <wsdl:input name="executeAgenda" message="tns:executeAgenda">
+    </wsdl:input>
+      <wsdl:output name="executeAgendaResponse" message="tns:executeAgendaResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="executeBusinessRule">
+      <wsdl:input name="executeBusinessRule" message="tns:executeBusinessRule">
+    </wsdl:input>
+      <wsdl:output name="executeBusinessRuleResponse" message="tns:executeBusinessRuleResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="RuleExecutionServiceServiceSoapBinding" type="tns:RuleExecutionService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="executeBusinessRuleTest">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="executeBusinessRuleTest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="executeBusinessRuleTestResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="executeAgenda">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="executeAgenda">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="executeAgendaResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="executeBusinessRule">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="executeBusinessRule">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="executeBusinessRuleResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="RuleExecutionService">
+    <wsdl:port name="RuleExecutionServicePort" binding="tns:RuleExecutionServiceServiceSoapBinding">
+      <soap:address location="http://localhost:9090/RuleExecutionServicePort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
