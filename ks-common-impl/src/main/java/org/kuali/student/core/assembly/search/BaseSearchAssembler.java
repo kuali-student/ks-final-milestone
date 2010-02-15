@@ -49,7 +49,7 @@ public class BaseSearchAssembler implements Assembler<String,String> {
 	}
 
 	@Override
-	public Metadata getMetadata(String type, String state)
+	public Metadata getMetadata(String id, String type, String state)
 			throws AssemblyException {
 		// TODO Auto-generated method stub
 		return null;

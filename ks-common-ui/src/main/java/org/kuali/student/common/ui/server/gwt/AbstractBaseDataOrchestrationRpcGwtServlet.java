@@ -61,7 +61,8 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 	public Metadata getMetadata() {
 
 		try {
-			return assembler.getMetadata(getDefaultMetaDataType(), getDefaultMetaDataState());
+		    //FIXME: should not pass empty id. What to do here?
+			return assembler.getMetadata("", getDefaultMetaDataType(), getDefaultMetaDataState());
 		} catch (AssemblyException e) {
 			LOG.error("Error getting Metadata.",e);
 		}

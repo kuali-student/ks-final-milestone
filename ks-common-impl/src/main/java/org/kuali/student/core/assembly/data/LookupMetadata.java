@@ -168,8 +168,11 @@ public class LookupMetadata implements Serializable {
 
     public String toString(){
         StringBuffer sb = new StringBuffer();
-        
-        sb.append("");
+        sb.append(key);
+        sb.append(",");
+        sb.append(name);
+        sb.append(",");
+        sb.append(desc);
         return sb.toString();
     }
 

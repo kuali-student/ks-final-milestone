@@ -3,9 +3,9 @@ package org.kuali.student.core.organization.assembly;
 import static org.kuali.student.core.assembly.util.AssemblerUtils.addVersionIndicator;
 import static org.kuali.student.core.assembly.util.AssemblerUtils.getVersionIndicator;
 import static org.kuali.student.core.assembly.util.AssemblerUtils.isCreated;
+import static org.kuali.student.core.assembly.util.AssemblerUtils.isDeleted;
 import static org.kuali.student.core.assembly.util.AssemblerUtils.isModified;
 import static org.kuali.student.core.assembly.util.AssemblerUtils.isUpdated;
-import static org.kuali.student.core.assembly.util.AssemblerUtils.isDeleted;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,6 @@ import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.organization.assembly.data.client.org.OrgHelper;
 import org.kuali.student.core.organization.assembly.data.client.org.OrgPositionHelper;
-import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.search.newdto.SearchRequest;
@@ -61,7 +60,7 @@ public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPosit
     }
 
     @Override
-    public Metadata getMetadata(String type, String state) throws AssemblyException {
+    public Metadata getMetadata(String id, String type, String state) throws AssemblyException {
         // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
         return null;
     }

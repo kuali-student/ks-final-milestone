@@ -158,7 +158,10 @@ public class MetadataServiceImpl {
             metadata.setLookupContextPath(field.getLookupContextPath());
             
             metadata.setConstraints(field.getConstraints());
-                       
+            metadata.setName(field.getName());
+            metadata.setCanEdit(field.isCanEdit());
+            metadata.setCanView(field.isCanView());
+            metadata.setCanUnmask(field.isCanUnmask());
             metadata.setDefaultValue(convertDefaultValue(metadata.getDataType(), field.getDefaultValue()));
             metadata.setLookupMetadata(field.getLookups());
             
@@ -268,6 +271,7 @@ public class MetadataServiceImpl {
             metadata.setWriteAccess(WriteAccess.ALWAYS);
             metadata.setDataType(convertDictionaryDataType(fd.getDataType()));
             metadata.setConstraints(copyConstraints(field.getConstraintDescriptor()));            
+            
             //Where to get values for defaultValue, lookupMetdata (SearchSelector,fd.getSearch()), 
                                    
             Map<String, Metadata> nestedProperties = null;

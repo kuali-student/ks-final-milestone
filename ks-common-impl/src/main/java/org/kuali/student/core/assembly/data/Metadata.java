@@ -62,8 +62,8 @@ public class Metadata implements Serializable {
             throw new IllegalArgumentException("The value " + kimName + " is not enumerated in Permission"); 
         }
     }
+    private String name;
     private WriteAccess writeAccess;
-    private List<Permission> permissions = new ArrayList<Permission>();
     
     private boolean canUnmask = false;
     private boolean canView = true;
@@ -133,8 +133,11 @@ public class Metadata implements Serializable {
         }*/
         this.lookupMetadata = toClone.lookupMetadata;
         this.onChangeRefreshMetadata = toClone.onChangeRefreshMetadata;
-        this.permissions = toClone.permissions;
+        this.name = toClone.name;
         this.writeAccess = toClone.writeAccess;
+        this.canEdit = toClone.canEdit;
+        this.canView = toClone.canView; 
+        this.canUnmask = toClone.canUnmask;
         if(toClone.childProperties != null) {
             this.childProperties = new HashMap<String, Metadata>();
             for(Map.Entry<String, Metadata> childProperty : toClone.childProperties.entrySet()) {
@@ -271,13 +274,6 @@ public class Metadata implements Serializable {
         this.writeAccess = writeAccess;
     }
 
-    public List<Permission> getPermissions() {
-        return permissions;
-    }
-    
-    public void setPermissions(List<Permission> permissions) {
-        this.permissions = permissions;
-    }
     
     public boolean isOnChangeRefreshMetadata() {
         return onChangeRefreshMetadata;
@@ -287,16 +283,6 @@ public class Metadata implements Serializable {
         this.onChangeRefreshMetadata = onChangeRefereshMetadata;
     }
 
-   /* public boolean canView() {
-        return true;
-    }
-    public boolean canEdit() {
-        return permissions.contains(Permission.EDIT);
-    }
-    public boolean canUnmask() {
-        return permissions.contains(Permission.UNMASK);
-    }*/
-    
     public Mask getMask() {
         return mask;
     }
@@ -327,5 +313,13 @@ public class Metadata implements Serializable {
 
     public void setCanEdit(boolean canEdit) {
         this.canEdit = canEdit;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

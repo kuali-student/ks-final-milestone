@@ -7,6 +7,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSPlaceholder;
 import org.kuali.student.common.ui.client.widgets.KSRichEditor;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
@@ -38,8 +39,12 @@ public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
 			config.maxLength = MetadataInterrogator.getSmallestMaxLength(meta);
 			config.type = meta.getDataType();
 			config.lookupMeta = meta.getLookupMetadata();
-			config.additionalLookups = meta.getAdditionalLookups();			
+			config.additionalLookups = meta.getAdditionalLookups();
+			config.canEdit = meta.isCanEdit();
+			config.canUnmask = meta.isCanUnmask();
+			config.canView = meta.isCanView();
 		}
+		
 		return _getWidget(config);
 	}
 
@@ -56,45 +61,44 @@ public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
 
 	private Widget _getWidget(WidgetConfigInfo config) {
 		Widget result = null;
-			
-		if (config.access != null && config.access == WriteAccess.NEVER) {			
-			result = new KSLabel();					
-		}
-		// create a picker (suggest box/advanced search widget) if lookup metadata exists
-		else if (config.lookupMeta != null) {					        	        	        
-	        result = new KSPicker(config.lookupMeta, config.additionalLookups);	       	        
-		} else {			
-			switch (config.type) {
-			case BOOLEAN:
-				result = new KSCheckBox();
-				break;
-				
-			case DATE:
-			case TRUNCATED_DATE:
-				result = new KSDatePicker();
-				break;
-				
-			case DATA:
-				if (config.isRichText) {
-					result = new KSRichEditor();
-				}
-				break;				
-			}			
-		}		
-		
-		if (result == null) {
-			// default to textbox or textarea
-			if (config.isMultiLine) {
-				result = new KSTextArea();
-			} else {
-				KSTextBox text = new KSTextBox();
-				if (config.maxLength != null) {
-					text.setMaxLength(config.maxLength);
-				}
-				result = text;
-			}
-		}
-		
+		if(!config.canView) {
+		    result =  new KSPlaceholder();
+		} else if(!config.canEdit) {
+		    result = new KSLabel();
+		} else {
+		    if(config.lookupMeta != null) {
+		        result = new KSPicker(config.lookupMeta, config.additionalLookups);
+		    } else {
+                switch (config.type) {
+                    case BOOLEAN:
+                        result = new KSCheckBox();
+                        break;
+    
+                    case DATE:
+                        // fall through
+    
+                    case TRUNCATED_DATE:
+                        result = new KSDatePicker();
+                        break;
+    
+                    case DATA:
+                        if (config.isRichText) {
+                            result = new KSRichEditor();
+                            break;
+                        }
+                    default:
+                        if (config.isMultiLine) {
+                            result = new KSTextArea();
+                        } else {
+                            KSTextBox text = new KSTextBox();
+                            if (config.maxLength != null) {
+                                text.setMaxLength(config.maxLength);
+                            }
+                            result = text;
+                        }
+                    }
+		    }
+        }
 		return result;
 	}
 
@@ -106,5 +110,8 @@ public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
 		public boolean isMultiLine = false;
 		public LookupMetadata lookupMeta = null;
 		public List<LookupMetadata> additionalLookups = null;
+		public boolean canEdit = true;
+		public boolean canUnmask = false;
+		public boolean canView = true;
 	}
 }

@@ -53,13 +53,13 @@ import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
-import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.organization.dynamic.Field;
 import org.kuali.student.core.organization.dynamic.Fields;
 import org.kuali.student.core.organization.dynamic.MultipleField;
 import org.kuali.student.core.organization.dynamic.Section;
 import org.kuali.student.core.organization.dynamic.SectionConfig;
 import org.kuali.student.core.organization.dynamic.SectionView;
+import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.organization.ui.client.mvc.model.FieldInfo;
 import org.kuali.student.core.organization.ui.client.mvc.model.FieldInfoImpl;
 import org.kuali.student.core.organization.ui.client.mvc.model.MultipleFieldInfoImpl;
@@ -581,7 +581,8 @@ public class OrgRpcGwtServlet extends BaseRpcGwtServletAbstract<OrganizationServ
     public Metadata getOrgMetaData() {
         try {
             initAssemblers();
-            return orgProposalAssembler.getMetadata(null,"draft");
+            //FIXME: where to get the ID?
+            return orgProposalAssembler.getMetadata(null, null,"draft");
         }
         catch(Exception e){
             e.printStackTrace();

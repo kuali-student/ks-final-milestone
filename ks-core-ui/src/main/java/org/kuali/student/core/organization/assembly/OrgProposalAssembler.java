@@ -2,21 +2,17 @@ package org.kuali.student.core.organization.assembly;
 
 import static org.kuali.student.core.assembly.util.AssemblerUtils.addVersionIndicator;
 import static org.kuali.student.core.assembly.util.AssemblerUtils.getVersionIndicator;
-import static org.kuali.student.core.assembly.util.AssemblerUtils.isCreated;
 import static org.kuali.student.core.assembly.util.AssemblerUtils.isDeleted;
 import static org.kuali.student.core.assembly.util.AssemblerUtils.isModified;
 import static org.kuali.student.core.assembly.util.AssemblerUtils.isUpdated;
 import static org.kuali.student.core.assembly.util.AssemblerUtils.setCreated;
 import static org.kuali.student.core.assembly.util.AssemblerUtils.setUpdated;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Unmarshaller;
-
-import org.kuali.student.core.assembly.Assembler;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.student.core.assembly.BaseAssembler;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
@@ -31,11 +27,8 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.organization.assembly.data.client.OrgMetadata;
-import org.kuali.student.core.organization.assembly.data.client.OrgProposalMetadata;
 import org.kuali.student.core.organization.assembly.data.client.org.OrgHelper;
 import org.kuali.student.core.organization.assembly.data.client.org.OrgSearchHelper;
-import org.kuali.student.core.organization.assembly.data.client.org.OrgorgRelationHelper;
 import org.kuali.student.core.organization.assembly.data.server.OrgInfoData;
 import org.kuali.student.core.organization.assembly.data.server.OrgInfoData.ModificationState;
 import org.kuali.student.core.organization.dto.OrgInfo;
@@ -49,7 +42,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(rollbackFor={Throwable.class})
-public class OrgProposalAssembler implements Assembler<Data, OrgHelper>{
+public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
     
     private OrganizationService orgService;
     private MetadataServiceImpl metadataService;
@@ -115,7 +108,7 @@ public class OrgProposalAssembler implements Assembler<Data, OrgHelper>{
     }
 
     @Override
-    public Metadata getMetadata(String type, String state) throws AssemblyException {
+    public Metadata getMetadata(String id, String type, String state) throws AssemblyException {
 
         Metadata metadata = null;
         try{
@@ -266,5 +259,31 @@ public class OrgProposalAssembler implements Assembler<Data, OrgHelper>{
 	}
 	
 
+    
+	@Override
+    protected String getDataType() {
+        return ORG_PROPOSAL_DATA_TYPE;
+    }
+
+    @Override
+    protected String getDocumentPropertyName() {
+        return "course";
+    }
+
+    @Override
+    protected String getDtoName() {
+        //FIXME: this is not the correct value
+        return "kuali.lu.type.CreditCourse";
+    }
+
+    @Override
+    protected AttributeSet getQualification(String id) {
+        String QUALIFICATION_PROPOSAL_ID = "proposalId";
+        String DOCUMENT_TYPE_NAME = "documentTypeName";
+        AttributeSet qualification = new AttributeSet();
+        qualification.put(DOCUMENT_TYPE_NAME, "CluCreditCourseProposal");
+        qualification.put(QUALIFICATION_PROPOSAL_ID, id);
+        return qualification;
+    }
    
 }
