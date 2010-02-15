@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+	xsi:schemaLocation="
+	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	 ">
+
+	<dict:fieldDescriptor id="baseString" parent="baseString-parent"/>
+	<dict:fieldDescriptor id="baseString-parent"  abstract="true">
+		<dict:dataType>string</dict:dataType>
+		<dict:readOnly>false</dict:readOnly>
+	</dict:fieldDescriptor>
+
+    <dict:fieldDescriptor id="htmlString" parent="htmlString-parent"/>
+	<dict:fieldDescriptor id="htmlString-parent"  abstract="true">
+        <dict:dataType>string</dict:dataType>
+        <dict:readOnly>false</dict:readOnly>
+    </dict:fieldDescriptor>
+
+	<dict:fieldDescriptor id="baseDate" parent="baseDate-parent"/>
+	<dict:fieldDescriptor id="baseDate-parent"  abstract="true">
+		<dict:dataType>date</dict:dataType>
+		<dict:readOnly>false</dict:readOnly>
+	</dict:fieldDescriptor>
+
+	<dict:objectStructure id="commentInfo" key="commentInfo" parent="commentInfo-parent"/>
+	<dict:objectStructure id="commentInfo-parent" key="commentInfo-parent" abstract="true">
+		<dict:typeRef bean="kuali.org.Comment.type"/>
+	</dict:objectStructure>
+	
+	<dict:type id="kuali.org.Comment.type" key="kuali.org.Comment" parent="kuali.org.Comment.type-parent"/>
+	<dict:type id="kuali.org.Comment.type-parent" key="kuali.org.Comment-parent" abstract="true">
+		<dict:stateRef bean="kuali.org.commentInfo.Comment.active"/>
+		<dict:stateRef bean="kuali.org.commentInfo.Comment.proposed"/>
+	</dict:type>
+	
+	
+	<dict:state id="kuali.org.commentInfo.Comment.active" key="active" parent="kuali.org.commentInfo.Comment.active-parent"/>
+	<dict:state id="kuali.org.commentInfo.Comment.active-parent"  key="active" abstract="true">
+		<dict:fieldRef bean="kuali.org.commentInfo.Comment.active.commentText"/>
+        <dict:fieldRef bean="kuali.org.commentInfo.Comment.active.referenceTypeKey"/>
+        <dict:fieldRef bean="kuali.org.commentInfo.Comment.active.referenceId"/>
+		<dict:fieldRef bean="kuali.org.commentInfo.Comment.active.effectiveDate"/>
+		<dict:fieldRef bean="kuali.org.commentInfo.Comment.active.expirationDate"/>
+	</dict:state>
+
+	<dict:state id="kuali.org.commentInfo.Comment.proposed" key="proposed" parent="kuali.org.commentInfo.Comment.proposed-parent"/>
+	<dict:state id="kuali.org.commentInfo.Comment.proposed-parent" key="proposed" parent="kuali.org.commentInfo.Comment.active" abstract="true"/>
+
+	<dict:field id="kuali.org.commentInfo.Comment.active.commentText" key="commentText" parent="kuali.org.commentInfo.Comment.active.commentText-parent"/>
+	<dict:field id="kuali.org.commentInfo.Comment.active.commentText-parent" 
+		key="commentText" abstract="true">
+		<dict:fieldDescriptorRef
+			bean="kuali.org.commentInfo.Comment.active.commentText.fd" />
+	</dict:field>
+	<dict:field id="kuali.org.commentInfo.Comment.active.referenceTypeKey" key="referenceTypeKey" parent="kuali.org.commentInfo.Comment.active.referenceTypeKey-parent"/>
+	<dict:field id="kuali.org.commentInfo.Comment.active.referenceTypeKey-parent" 
+		key="referenceTypeKey" abstract="true">
+		<dict:fieldDescriptorRef
+			bean="kuali.org.commentInfo.Comment.active.referenceTypeKey.fd" />
+	</dict:field>
+	<dict:field id="kuali.org.commentInfo.Comment.active.referenceId" key="referenceId" parent="kuali.org.commentInfo.Comment.active.referenceId-parent"/>
+	<dict:field id="kuali.org.commentInfo.Comment.active.referenceId-parent" 
+		key="referenceId" abstract="true">
+		<dict:fieldDescriptorRef
+			bean="kuali.org.commentInfo.Comment.active.referenceId.fd" />
+	</dict:field>
+
+	<dict:field id="kuali.org.commentInfo.Comment.active.effectiveDate" key="effectiveDate" parent="kuali.org.commentInfo.Comment.active.effectiveDate-parent"/>
+	<dict:field id="kuali.org.commentInfo.Comment.active.effectiveDate-parent" 
+		key="effectiveDate" abstract="true">
+		<dict:fieldDescriptorRef
+			bean="kuali.org.commentInfo.Comment.active.effectiveDate.fd" />
+	</dict:field>
+	<dict:field id="kuali.org.commentInfo.Comment.active.expirationDate" key="expirationDate" parent="kuali.org.commentInfo.Comment.active.expirationDate-parent"/>
+	<dict:field id="kuali.org.commentInfo.Comment.active.expirationDate-parent" 
+		key="expirationDate" abstract="true">
+		<dict:fieldDescriptorRef
+			bean="kuali.org.commentInfo.Comment.active.expirationDate.fd" />
+	</dict:field>
+
+	<dict:fieldDescriptor id="kuali.org.commentInfo.Comment.active.commentText.fd" parent="kuali.org.commentInfo.Comment.active.commentText.fd-parent"/>
+	<dict:fieldDescriptor id="kuali.org.commentInfo.Comment.active.commentText.fd-parent"  abstract="true">
+		<dict:dataType>complex</dict:dataType>
+		<dict:objectStructureRef bean="richTextInfo" />
+	</dict:fieldDescriptor>
+	<dict:fieldDescriptor id="kuali.org.commentInfo.Comment.active.referenceTypeKey.fd" parent="kuali.org.commentInfo.Comment.active.referenceTypeKey.fd-parent"/>
+	<dict:fieldDescriptor id="kuali.org.commentInfo.Comment.active.referenceTypeKey.fd-parent"  parent="baseString" abstract="true">
+		<dict:name>Reference Type</dict:name>
+		<dict:desc>Unique identifier for a reference type.</dict:desc>
+	</dict:fieldDescriptor>
+	<dict:fieldDescriptor id="kuali.org.commentInfo.Comment.active.referenceId.fd" parent="kuali.org.commentInfo.Comment.active.referenceId.fd-parent"/>
+	<dict:fieldDescriptor id="kuali.org.commentInfo.Comment.active.referenceId.fd-parent"  parent="baseString" abstract="true">
+		<dict:name>Reference Id</dict:name>
+		<dict:desc>Identifier component for a reference. This is an external identifier and such may not uniquely identify a particular reference unless combined with the type. A referenceId could be a cluId, a luiId, an orgId, a documentId, etc.</dict:desc>
+	</dict:fieldDescriptor>
+	<dict:fieldDescriptor id="kuali.org.commentInfo.Comment.active.effectiveDate.fd" parent="kuali.org.commentInfo.Comment.active.effectiveDate.fd-parent"/>
+	<dict:fieldDescriptor id="kuali.org.commentInfo.Comment.active.effectiveDate.fd-parent"  parent="baseDate" abstract="true">
+		<dict:name>Effective Date</dict:name>
+		<dict:desc>Date on which an org becomes active.</dict:desc>
+	</dict:fieldDescriptor>
+	<dict:fieldDescriptor id="kuali.org.commentInfo.Comment.active.expirationDate.fd" parent="kuali.org.commentInfo.Comment.active.expirationDate.fd-parent"/>
+	<dict:fieldDescriptor id="kuali.org.commentInfo.Comment.active.expirationDate.fd-parent"  parent="baseDate" abstract="true">
+		<dict:name>Expiration Date</dict:name>
+		<dict:desc>Date on which an org becomes inactive.</dict:desc>
+	</dict:fieldDescriptor>
+			
+    <dict:objectStructure id="tagInfo" key="tagInfo" parent="tagInfo-parent"/>
+	<dict:objectStructure id="tagInfo-parent"  key="tagInfo" abstract="true">
+		<dict:typeRef bean="kuali.org.Tag.type"/>
+    </dict:objectStructure>
+    <dict:type id="kuali.org.Tag.type"  key="kuali.org.Tag" parent="kuali.org.Tag.type-parent"/>
+	<dict:type id="kuali.org.Tag.type-parent"  key="kuali.org.Tag" abstract="true">
+		<dict:stateRef bean="kuali.org.tagInfo.Tag.active"/>
+		<dict:stateRef bean="kuali.org.tagInfo.Tag.proposed"/>
+    </dict:type>
+
+    <dict:state id="kuali.org.tagInfo.Tag.active"  key="active" parent="kuali.org.tagInfo.Tag.active-parent"/>
+	<dict:state id="kuali.org.tagInfo.Tag.active-parent"  key="active" abstract="true">
+        <dict:fieldRef bean="kuali.org.tagInfo.Tag.active.namespace"/>
+        <dict:fieldRef bean="kuali.org.tagInfo.Tag.active.predicate"/>
+        <dict:fieldRef bean="kuali.org.tagInfo.Tag.active.value"/>
+        <dict:fieldRef bean="kuali.org.tagInfo.Tag.active.referenceTypeKey"/>
+        <dict:fieldRef bean="kuali.org.tagInfo.Tag.active.referenceId"/>
+        <dict:fieldRef bean="kuali.org.tagInfo.Tag.active.effectiveDate"/>
+        <dict:fieldRef bean="kuali.org.tagInfo.Tag.active.expirationDate"/>
+    </dict:state>
+    
+    <dict:state id="kuali.org.tagInfo.Tag.proposed" key="proposed" parent="kuali.org.tagInfo.Tag.proposed-parent"/>
+	<dict:state id="kuali.org.tagInfo.Tag.proposed-parent"  key="proposed" parent="kuali.org.tagInfo.Tag.active" abstract="true"/>
+
+	<dict:field id="kuali.org.tagInfo.Tag.active.namespace" key="namespace" parent="kuali.org.tagInfo.Tag.active.namespace-parent"/>
+	<dict:field id="kuali.org.tagInfo.Tag.active.namespace-parent"  key="namespace" abstract="true">
+		<dict:fieldDescriptorRef bean="kuali.org.tagInfo.Tag.active.namespace.fd" />
+	</dict:field>
+	<dict:field id="kuali.org.tagInfo.Tag.active.predicate"  key="predicate" parent="kuali.org.tagInfo.Tag.active.predicate-parent"/>
+	<dict:field id="kuali.org.tagInfo.Tag.active.predicate-parent"  key="predicate" abstract="true">
+		<dict:fieldDescriptorRef bean="kuali.org.tagInfo.Tag.active.predicate.fd" />
+	</dict:field>
+	<dict:field id="kuali.org.tagInfo.Tag.active.value" key="value" parent="kuali.org.tagInfo.Tag.active.value-parent"/>
+	<dict:field id="kuali.org.tagInfo.Tag.active.value-parent"  key="value" abstract="true">
+		<dict:fieldDescriptorRef bean="kuali.org.tagInfo.Tag.active.value.fd" />
+	</dict:field>
+	<dict:field id="kuali.org.tagInfo.Tag.active.referenceTypeKey" key="referenceTypeKey" parent="kuali.org.tagInfo.Tag.active.referenceTypeKey-parent"/>
+	<dict:field id="kuali.org.tagInfo.Tag.active.referenceTypeKey-parent" 
+		key="referenceTypeKey" abstract="true">
+		<dict:fieldDescriptorRef
+			bean="kuali.org.tagInfo.Tag.active.referenceTypeKey.fd" />
+	</dict:field>
+	<dict:field id="kuali.org.tagInfo.Tag.active.referenceId" key="referenceId" parent="kuali.org.tagInfo.Tag.active.referenceId-parent"/>
+	<dict:field id="kuali.org.tagInfo.Tag.active.referenceId-parent" 
+		key="referenceId" abstract="true">
+		<dict:fieldDescriptorRef bean="kuali.org.tagInfo.Tag.active.referenceId.fd" />
+	</dict:field>
+	<dict:field id="kuali.org.tagInfo.Tag.active.effectiveDate" key="effectiveDate" parent="kuali.org.tagInfo.Tag.active.effectiveDate-parent"/>
+	<dict:field id="kuali.org.tagInfo.Tag.active.effectiveDate-parent" 
+		key="effectiveDate" abstract="true">
+		<dict:fieldDescriptorRef
+			bean="kuali.org.tagInfo.Tag.active.effectiveDate.fd" />
+	</dict:field>
+	<dict:field id="kuali.org.tagInfo.Tag.active.expirationDate" key="expirationDate" parent="kuali.org.tagInfo.Tag.active.expirationDate-parent"/>
+	<dict:field id="kuali.org.tagInfo.Tag.active.expirationDate-parent" 
+		key="expirationDate" abstract="true">
+		<dict:fieldDescriptorRef
+			bean="kuali.org.tagInfo.Tag.active.expirationDate.fd" />
+	</dict:field>
+
+	<dict:fieldDescriptor id="kuali.org.tagInfo.Tag.active.namespace.fd" parent="kuali.org.tagInfo.Tag.active.namespace.fd-parent"/>
+	<dict:fieldDescriptor id="kuali.org.tagInfo.Tag.active.namespace.fd-parent" 
+		parent="baseString" abstract="true">
+		<dict:name>Namespace</dict:name>
+	</dict:fieldDescriptor>
+	<dict:fieldDescriptor id="kuali.org.tagInfo.Tag.active.predicate.fd" parent="kuali.org.tagInfo.Tag.active.predicate.fd-parent"/>
+	<dict:fieldDescriptor id="kuali.org.tagInfo.Tag.active.predicate.fd-parent" 
+		parent="baseString" abstract="true">
+		<dict:name>Predicate</dict:name>
+	</dict:fieldDescriptor>
+	<dict:fieldDescriptor id="kuali.org.tagInfo.Tag.active.value.fd" parent="kuali.org.tagInfo.Tag.active.value.fd-parent"/>
+	<dict:fieldDescriptor id="kuali.org.tagInfo.Tag.active.value.fd-parent" 
+		parent="baseString" abstract="true">
+		<dict:name>Value</dict:name>
+	</dict:fieldDescriptor>
+	<dict:fieldDescriptor id="kuali.org.tagInfo.Tag.active.referenceTypeKey.fd" parent="kuali.org.tagInfo.Tag.active.referenceTypeKey.fd-parent"/>
+	<dict:fieldDescriptor id="kuali.org.tagInfo.Tag.active.referenceTypeKey.fd-parent"  parent="baseString" abstract="true">
+		<dict:name>Reference Type</dict:name>
+		<dict:desc>Unique identifier for a reference type.</dict:desc>
+	</dict:fieldDescriptor>
+	<dict:fieldDescriptor id="kuali.org.tagInfo.Tag.active.referenceId.fd" parent="kuali.org.tagInfo.Tag.active.referenceId.fd-parent"/>
+	<dict:fieldDescriptor id="kuali.org.tagInfo.Tag.active.referenceId.fd-parent" 
+		parent="baseString" abstract="true">
+		<dict:name>Reference Id</dict:name>
+		<dict:desc>Identifier component for a reference. This is an external identifier and such may not uniquely identify a particular reference unless combined with the type. A referenceId could be a cluId, a luiId, an orgId, a documentId, etc.</dict:desc>
+	</dict:fieldDescriptor>
+	<dict:fieldDescriptor id="kuali.org.tagInfo.Tag.active.effectiveDate.fd" parent="kuali.org.tagInfo.Tag.active.effectiveDate.fd-parent"/>
+	<dict:fieldDescriptor id="kuali.org.tagInfo.Tag.active.effectiveDate.fd-parent" 
+		parent="baseDate" abstract="true">
+		<dict:name>Effective Date</dict:name>
+		<dict:desc>Date on which an org becomes active.</dict:desc>
+	</dict:fieldDescriptor>
+	<dict:fieldDescriptor id="kuali.org.tagInfo.Tag.active.expirationDate.fd" parent="kuali.org.tagInfo.Tag.active.expirationDate.fd-parent"/>
+	<dict:fieldDescriptor id="kuali.org.tagInfo.Tag.active.expirationDate.fd-parent" 
+		parent="baseDate" abstract="true">
+		<dict:name>Expiration Date</dict:name>
+		<dict:desc>Date on which an org becomes inactive.</dict:desc>
+	</dict:fieldDescriptor>
+
+	<dict:objectStructure key="richTextInfo" id="richTextInfo">
+		<dict:typeRef bean="richTextInfo.type.default"/>		
+	</dict:objectStructure>
+	<dict:type id="richTextInfo.type.default" key="default" parent="richTextInfo.type.default-parent"/>
+	<dict:type id="richTextInfo.type.default-parent"  key="default" abstract="true">
+		<dict:stateRef bean="richTextInfo.state.default"/>
+	</dict:type>
+
+	<dict:state id="richTextInfo.state.default"  key="default" parent="richTextInfo.state.default-parent"/>
+	<dict:state id="richTextInfo.state.default-parent"  key="default" abstract="true">
+		<dict:fieldRef bean="richTextInfo.default.plain"/>
+		<dict:fieldRef bean="richTextInfo.state.formatted"/>
+	</dict:state>
+	<dict:field id="richTextInfo.default.plain" key="plain" parent="richTextInfo.default.plain-parent"/>
+	<dict:field id="richTextInfo.default.plain-parent"  key="plain" abstract="true">
+		<dict:fieldDescriptorRef bean="richTextInfo.default.plain.fd"/>
+	</dict:field>
+	<dict:field id="richTextInfo.state.formatted" key="formatted" parent="richTextInfo.state.formatted-parent"/>
+	<dict:field id="richTextInfo.state.formatted-parent"  key="formatted" abstract="true">
+		<dict:fieldDescriptorRef bean="richTextInfo.state.formatted.fd"/>
+	</dict:field>
+	<dict:fieldDescriptor id="richTextInfo.default.plain.fd" parent="richTextInfo.default.plain.fd-parent"/>
+	<dict:fieldDescriptor id="richTextInfo.default.plain.fd-parent" 
+		parent="baseString" abstract="true">
+		<dict:name>Plain text</dict:name>
+		<dict:desc>Simple formatting</dict:desc>
+	</dict:fieldDescriptor>
+	<dict:fieldDescriptor id="richTextInfo.state.formatted.fd" parent="richTextInfo.state.formatted.fd-parent"/>
+	<dict:fieldDescriptor id="richTextInfo.state.formatted.fd-parent" 
+		parent="htmlString" abstract="true">
+		<dict:name>Formatted Text</dict:name>
+		<dict:desc>Fancy rendering</dict:desc>
+	</dict:fieldDescriptor>
+</beans>
