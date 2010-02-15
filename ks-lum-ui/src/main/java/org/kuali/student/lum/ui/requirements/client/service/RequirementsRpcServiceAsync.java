@@ -28,8 +28,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  * @author zzraly
  */
 public interface RequirementsRpcServiceAsync extends BaseRpcServiceAsync {
-    public void getNaturalLanguageForReqComponentInfo(ReqComponentInfo compInfo, String nlUsageTypeKey, AsyncCallback<String> asyncCallback);
-    public void getNaturalLanguageForStatementVO(String cluId, StatementVO statementVO, String nlUsageTypeKey, AsyncCallback<String> asyncCallback);
+    public void getNaturalLanguageForReqComponentInfo(ReqComponentInfo compInfo, String nlUsageTypeKey, String language, AsyncCallback<String> asyncCallback);
+    public void getNaturalLanguageForStatementVO(String cluId, StatementVO statementVO, String nlUsageTypeKey, String language, AsyncCallback<String> asyncCallback);
     public void getReqComponentTypesForLuStatementType(String luStatementTypeKey, AsyncCallback<List<ReqComponentTypeInfo>> asyncCallback);  
 	public void verifyFieldsAndSetIds(List<ReqCompFieldInfo> editedFields, AsyncCallback<List<ReqCompFieldInfo>> asyncCallback);
 	public void retrieveCluCode(String cluId, AsyncCallback<String> asyncCallback);

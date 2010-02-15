@@ -34,9 +34,8 @@ import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.brms.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.brms.statement.dto.ReqComponentInfo;
 import org.kuali.student.brms.statement.dto.ReqComponentTypeInfo;
+import org.kuali.student.brms.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.nlt.dto.LuNlStatementInfo;
-import org.kuali.student.lum.nlt.service.TranslationService;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcService;
@@ -48,55 +47,42 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
 
     final Logger logger = Logger.getLogger(RequirementsRpcGwtServlet.class);
     
-    private TranslationService translationService;
     private StatementService statementService;
     
     private static final long serialVersionUID = 822326113643828855L;
     
-    public String getNaturalLanguageForReqComponentInfo(ReqComponentInfo compInfo, String nlUsageTypeKey) throws Exception {
+    public String getNaturalLanguageForReqComponentInfo(ReqComponentInfo compInfo, String nlUsageTypeKey, String language) throws Exception {
         
-        String naturalLanguage = "";           
-        // FIXME use the new translation service that is compatible with statementservice R4.0 here
-//        try {             
-//            naturalLanguage = translationService.getNaturalLanguageForReqComponentInfo(compInfo, nlUsageTypeKey, null);            
-//        } catch (DoesNotExistException e) {
-//            e.printStackTrace();
-//        } catch (InvalidParameterException e) {
-//            e.printStackTrace();
-//        } catch (MissingParameterException e) {
-//            e.printStackTrace();
-//        } catch (OperationFailedException e) {
-//            e.printStackTrace();
-//        }                      
-        
+        String naturalLanguage = "";   
+        naturalLanguage = statementService.translateReqComponentToNL(compInfo, nlUsageTypeKey, language);
+
         return naturalLanguage;
     }   
         
-    public String getNaturalLanguageForStatementVO(String cluId, StatementVO statementVO, String nlUsageTypeKey) throws Exception {
-                     
-        LuNlStatementInfo luNlStatementInfo = new LuNlStatementInfo();
+    public String getNaturalLanguageForStatementVO(String cluId, StatementVO statementVO, String nlUsageTypeKey, String language) throws Exception {
+        StatementTreeViewInfo statementTreeViewInfo = new StatementTreeViewInfo();
         
-        //first translate StatementVO to LuNlStatementInfo object
-        String error = composeLuNlStatementInfo(statementVO, luNlStatementInfo);
+        // first translate StatementVO to StatementTreeViewInfo object
+        String error = composeStatementTreeViewInfo(statementVO, statementTreeViewInfo);
         if (error.isEmpty() == false) {
-            throw new Exception(error + "cluId: " + cluId + ", usage: " + nlUsageTypeKey);            
+            throw new Exception(error + "cluId: " + cluId + ", usage: " + nlUsageTypeKey);
         }
-                       
-        //cluId can't be empty
+
+        // cluId can't be empty
         if ((cluId != null) && cluId.isEmpty()) {
-        	cluId = null;
+            cluId = null;
         }
- 
-        //then get natural language for the statement
-        String NLStatement = "";        
-        try {        
-            NLStatement = translationService.getNaturalLanguageForLuStatementInfo(cluId, luNlStatementInfo, nlUsageTypeKey, null);            
+        
+        // the get natural language for the statement
+        String nlStatement = "";
+        try {
+            nlStatement = statementService.translateStatementTreeViewToNL(statementTreeViewInfo, nlUsageTypeKey, language);
         } catch (Exception ex) {
             ex.printStackTrace();
-            throw new Exception("Unable to get natural language for clu: " + cluId + " and nlUsageTypeKey: " + nlUsageTypeKey, ex);
-        }; 
+            throw new Exception("Unable to get natural language for clu: " + cluId + " and nlUsageTypeKey: " + nlUsageTypeKey);
+        }
         
-        return NLStatement;
+        return nlStatement;
     }
     
     public List<ReqComponentTypeInfo> getReqComponentTypesForLuStatementType(String luStatementTypeKey) throws Exception {
@@ -110,35 +96,34 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
         }
         
         return reqComponentTypeInfoList;
-    }                    
+    }
     
-    private String composeLuNlStatementInfo(StatementVO statementVO, LuNlStatementInfo luNlStatementInfo) throws Exception {
-        
-        List<StatementVO> statementVOs = statementVO.getStatementVOs();       
+    private String composeStatementTreeViewInfo(StatementVO statementVO, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
+        List<StatementVO> statementVOs = statementVO.getStatementVOs();
         List<ReqComponentVO> reqComponentVOs = statementVO.getReqComponentVOs();
         
-//        luNlStatementInfo.setOperator(statementVO.getStatementInfo().getOperator());
-        luNlStatementInfo.setStatementTypeId(statementVO.getStatementInfo().getType());
+        statementTreeViewInfo.setOperator(statementVO.getStatementInfo().getOperator());
+        statementTreeViewInfo.setType(statementVO.getStatementInfo().getType());
         if ((statementVOs != null) && (reqComponentVOs != null) && (statementVOs.size() > 0) && (reqComponentVOs.size() > 0))
         {
             return "Internal error: found both Statements and Requirement Components on the same level of boolean expression";
-        } 
+        }
         
         if ((statementVOs != null) && (statementVOs.size() > 0)) {
-            //retrieve all statements
-            List<LuNlStatementInfo> stmtInfoList = new ArrayList<LuNlStatementInfo>();
-            for (StatementVO statement : statementVOs) {  
-                LuNlStatementInfo tempLuNlStmtInfo = new LuNlStatementInfo(); 
-//                tempLuNlStmtInfo.setOperator(statement.getStatementInfo().getOperator());
-                tempLuNlStmtInfo.setStatementTypeId(statement.getStatementInfo().getType());
-                composeLuNlStatementInfo(statement, tempLuNlStmtInfo);  //inside set the children of this LuNlStatementInfo
-                stmtInfoList.add(tempLuNlStmtInfo);
-            }   
-            luNlStatementInfo.setChildren(stmtInfoList);
+            // retrieve all statements
+            List<StatementTreeViewInfo> subStatementTVInfos = new ArrayList<StatementTreeViewInfo>();
+            for (StatementVO statement : statementVOs) {
+                StatementTreeViewInfo subStatementTVInfo = new StatementTreeViewInfo();
+                subStatementTVInfo.setOperator(statement.getStatementInfo().getOperator());
+                subStatementTVInfo.setType(statement.getStatementInfo().getType());
+                composeStatementTreeViewInfo(statement, subStatementTVInfo); // inside set the children of this statementTreeViewInfo
+                subStatementTVInfos.add(subStatementTVInfo);
+            }
+            statementTreeViewInfo.setStatements(subStatementTVInfos);
         } else {
-            //retrieve all req. component LEAFS
+            // retrieve all req. component LEAFS
             List<ReqComponentInfo> reqComponentList = new ArrayList<ReqComponentInfo>();
-            for (ReqComponentVO reqComponent : reqComponentVOs) {                                    
+            for (ReqComponentVO reqComponent : reqComponentVOs) {
                 ReqComponentInfo newReqComp = new ReqComponentInfo();
                 newReqComp.setId(reqComponent.getReqComponentInfo().getId());
                 newReqComp.setType(reqComponent.getReqComponentInfo().getType());
@@ -150,12 +135,12 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
                 }
                 newReqComp.setReqCompFields(reqComponent.getReqComponentInfo().getReqCompFields());
                 reqComponentList.add(newReqComp);
-            }  
-//            luNlStatementInfo.setRequiredComponents(reqComponentList);
-        }        
+            }
+            statementTreeViewInfo.setReqComponents(reqComponentList);
+        }
         
         return "";
-    }                   
+    }
     
     /**
      * @throws Exception 
@@ -237,10 +222,6 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
      *
      *******************************************************************************************************************/         
 
-    public void setTranslationService(TranslationService translationService) {
-        this.translationService = translationService;
-    } 
-    
     public void setStatementService(StatementService statementService) {
         this.statementService = statementService;
     }

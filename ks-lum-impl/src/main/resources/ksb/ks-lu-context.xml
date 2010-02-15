@@ -11,7 +11,7 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
-    <import resource="classpath:ks-nl-context.xml"/>
+    <import resource="classpath:statement-context.xml"/>
 	
 	<bean id="systemPropertyConfigurer"
 		class="org.kuali.student.common.util.SystemPropertyConfigurer">
@@ -204,6 +204,7 @@
 		<property name="statementDao" ref="statementDao" />
         <property name="searchManager" ref="statementSearchManager" />
         <property name="dictionaryServiceDelegate" ref="statementDictionary" />
+        <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator" />
 	</bean>
 	
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
@@ -220,13 +221,14 @@
     </bean>
 
     <!-- Translation Service config -->
-
-	<bean id="translationServiceImpl"
-        class="org.kuali.student.lum.nlt.service.impl.TranslationServiceImpl">
-        <property name="luService" ref="luServiceImpl" />
-        <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator" />
+<!-- 
+    <bean id="translationServiceImpl"
+    	class="org.kuali.student.lum.nlt.service.impl.TranslationServiceImpl">
+    	<property name="luService" ref="luServiceImpl" />
+    	<property name="naturalLanguageTranslator"
+    		ref="naturalLanguageTranslator" />
     </bean>
-	
+
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="serviceDefinition">     
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
@@ -239,7 +241,7 @@
             </bean>
         </property>
     </bean>
-
+ -->
 	<!-- Learning Objective service config -->
 	<bean id="loEntityManagerFactory" parent="lumDefaultEntityManagerFactory">
 		<property name="persistenceUnitName" value="Lo"/>

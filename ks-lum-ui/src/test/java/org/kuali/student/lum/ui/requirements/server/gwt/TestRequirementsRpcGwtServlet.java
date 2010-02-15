@@ -42,7 +42,6 @@ import org.kuali.student.lum.nlt.naturallanguage.translators.ReqComponentTransla
 import org.kuali.student.lum.nlt.naturallanguage.translators.StatementTranslator;
 import org.kuali.student.lum.nlt.naturallanguage.util.CustomReqComponentInfo;
 import org.kuali.student.lum.nlt.naturallanguage.util.LuStatementAnchor;
-import org.kuali.student.lum.nlt.service.impl.TranslationServiceImpl;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 import org.kuali.student.lum.ui.requirements.util.LuServiceMock;
@@ -52,7 +51,6 @@ import org.kuali.student.lum.ui.requirements.util.StatementServiceMock;
 public class TestRequirementsRpcGwtServlet {
 
 	private static StatementServiceMock statementService = new StatementServiceMock();
-	private static TranslationServiceImpl translationService = new TranslationServiceImpl();
 	private static RequirementsRpcGwtServlet requirementsRpcGwtServlet = new RequirementsRpcGwtServlet();
 	
 	private static ReqComponentInfo reqComp1;
@@ -118,7 +116,6 @@ public class TestRequirementsRpcGwtServlet {
     
     private static void setRpcGwtServices() {
 		requirementsRpcGwtServlet.setStatementService(statementService);
-		requirementsRpcGwtServlet.setTranslationService(translationService);
     }
     
 //    private static ReqComponentInfo createReqComponent(String reqComponentId, String cluSetId) throws Exception {
@@ -150,7 +147,7 @@ public class TestRequirementsRpcGwtServlet {
     @Ignore
     @Test
     public void testGetNaturalLanguageForReqComponentInfo() throws Exception {
-    	String naturalLanguage = requirementsRpcGwtServlet.getNaturalLanguageForReqComponentInfo(reqComp1, "KUALI.CATALOG");
+    	String naturalLanguage = requirementsRpcGwtServlet.getNaturalLanguageForReqComponentInfo(reqComp1, "KUALI.CATALOG", "en");
         assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
     }
 
@@ -171,7 +168,7 @@ public class TestRequirementsRpcGwtServlet {
     	statementVO.addReqComponentVO(reqVo1);
     	statementVO.addReqComponentVO(reqVo2);
     	
-    	String naturalLanguage = requirementsRpcGwtServlet.getNaturalLanguageForStatementVO("CLU-NL-1", statementVO, "KUALI.CATALOG");
+    	String naturalLanguage = requirementsRpcGwtServlet.getNaturalLanguageForStatementVO("CLU-NL-1", statementVO, "KUALI.CATALOG", "en");
 		assertEquals("Requirement for MATH 152 Linear Systems: Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 1 of MATH 152, MATH 221, MATH 180", naturalLanguage);
     }
 }

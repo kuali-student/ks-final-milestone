@@ -231,7 +231,6 @@
 	<bean id="requirementsRpcGwtServlet"
 		class="org.kuali.student.lum.ui.requirements.server.gwt.RequirementsRpcGwtServlet">
 		<property name="service" ref="luClient" />
-		<property name="translationService" ref="translationClient"/>
 		<property name="statementService" ref="statementServiceClient"/>
 	</bean>
 
@@ -252,6 +251,7 @@
 		<constructor-arg value="draft"/>
 		<property name="learningObjectiveService" ref="loClient"/>
 		<property name="luService" ref="luClient"/>
+		<property name="statementService" ref="statementServiceClient"/>
 		<property name="permissionService" ref="permissionServiceClient"/>
 		<property name="proposalService" ref="proposalClient"/>
 		<property name="translationService" ref="translationClient"/>
@@ -294,6 +294,7 @@
 	<bean id="courseAssembler" class="org.kuali.student.lum.lu.assembly.CourseAssembler">
 		<property name="loService" ref="loClient"/>
 		<property name="luService" ref="luClient"/>
+		<property name="statementService" ref="statementServiceClient"/>
 		<property name="permissionService" ref="permissionServiceClient"/>
 		<property name="translationService" ref="translationClient"/>
 		<property name="orgService" ref="orgClient"/>
