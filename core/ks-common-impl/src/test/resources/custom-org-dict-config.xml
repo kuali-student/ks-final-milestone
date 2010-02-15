@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dict="http://student.kuali.org/xsd/dictionary-extension" xsi:schemaLocation=" http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+<!-- Import the base configuration -->
+<import resource="base-org-dict-config.xml"/>
+
+<!-- Override the OrgCodeInfo.default.desc -->
+<dict:field key="OrgCodeInfo.default.desc" id="OrgCodeInfo.default.desc" parent="OrgCodeInfo.default.desc-parent">
+	<dict:constraintDescriptor>
+		<dict:constraint key="maxChars">
+			<dict:maxLength>30</dict:maxLength>
+		</dict:constraint>
+		<dict:constraintRef bean="single"/>
+	</dict:constraintDescriptor>
+</dict:field>
+	
+</beans>

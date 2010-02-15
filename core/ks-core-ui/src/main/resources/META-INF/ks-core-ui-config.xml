@@ -1,0 +1,29 @@
+<config>
+
+    <param name="module.name">ks-core-ui</param>
+    <param name="db.vendor">derby</param>
+	<param name="jpa.vendor">hibernate</param>
+  
+    <!-- ks-config is here so nested property overrides resolve correctly -->
+    <param name="config.location">${user.home}/kuali/main/dev/ks-config.xml</param>
+
+	<!-- KSB Configuration -->
+    <param name="config.location">classpath:META-INF/ks-ksb-config-defaults.xml</param> 
+
+    <!-- Application configuration -->    
+    <param name="app.code" override="false">ks-core-ui</param>
+	<param name="app.context.name" override="false">${app.code}</param>
+    <param name="http.port" override="false">8888</param>  
+    <param name="rice.logging.configure">true</param>
+    <param name="log4j.settings.path">classpath:META-INF/log4j.properties</param>
+    <param name="serviceNamespace">KSCoreUI</param>    
+
+    <!-- Keystore Configuration -->
+    <param name="keystore.file">rice.keystore</param>
+    <param name="keystore.alias">rice</param>
+    <param name="keystore.password">r1c3pw</param>
+    
+    <param name="config.location">${user.home}/kuali/main/dev/ks-core-ui-config.xml</param> 
+    <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
+    
+</config>
