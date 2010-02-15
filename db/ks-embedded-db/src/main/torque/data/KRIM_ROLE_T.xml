@@ -1,0 +1,145 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KRIM_ROLE_T ACTV_IND="Y"
+        DESC_TXT="This role derives its members from the users in the Principal table. This role gives users high-level permissions to interact with RICE documents and to login to KUALI."
+        KIM_TYP_ID="2" LAST_UPDT_DT="20081104143710" NMSPC_CD="KUALI"
+        OBJ_ID="5ADF18B6D4847954E0404F8189D85002" ROLE_ID="1"
+        ROLE_NM="User" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y"
+        DESC_TXT="This role derives its members from users with that have received an action request for a given document."
+        KIM_TYP_ID="42" LAST_UPDT_DT="20081114141017"
+        NMSPC_CD="KR-WKFLW" OBJ_ID="5BABFACC4F62A8EEE0404F8189D8770F"
+        ROLE_ID="59" ROLE_NM="Approve Request Recipient" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y"
+        DESC_TXT="This role derives its members from the initiator listed within the route log of a given document."
+        KIM_TYP_ID="43" LAST_UPDT_DT="20081114141017"
+        NMSPC_CD="KR-WKFLW" OBJ_ID="5BABFACC4F63A8EEE0404F8189D8770F"
+        ROLE_ID="60" ROLE_NM="Initiator" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y"
+        DESC_TXT="This role derives its members from the initiator and action request recipients listed within the route log of a given document."
+        KIM_TYP_ID="43" LAST_UPDT_DT="20081114141017"
+        NMSPC_CD="KR-WKFLW" OBJ_ID="5BABFACC4F64A8EEE0404F8189D8770F"
+        ROLE_ID="61" ROLE_NM="Initiator or Reviewer" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y"
+        DESC_TXT="This role can take superuser actions and blanket approve RICE documents as well as being able to modify and assign permissions, responsibilities and roles belonging to the KR namespaces."
+        KIM_TYP_ID="1" LAST_UPDT_DT="20081108115522" NMSPC_CD="KR-SYS"
+        OBJ_ID="5B31640F0105ADF1E0404F8189D84647" ROLE_ID="63"
+        ROLE_NM="Technical Administrator" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y"
+        DESC_TXT="This role derives its members from users with the Edit Document permission for a given document type.,"
+        KIM_TYP_ID="45" LAST_UPDT_DT="20081114141017" NMSPC_CD="KR-NS"
+        OBJ_ID="5BABFACC4F61A8EEE0404F8189D8770F" ROLE_ID="66"
+        ROLE_NM="Document Editor" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y"
+        DESC_TXT="This role derives its members from the user who took the Complete action on a given document."
+        KIM_TYP_ID="43" LAST_UPDT_DT="20081114141017"
+        NMSPC_CD="KR-WKFLW" OBJ_ID="5BABFACC4F65A8EEE0404F8189D8770F"
+        ROLE_ID="67" ROLE_NM="Router" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y"
+        DESC_TXT="This role derives its members from users with the Open Document permission for a given document type.,"
+        KIM_TYP_ID="60" LAST_UPDT_DT="20090113192616" NMSPC_CD="KR-NS"
+        OBJ_ID="606763510FBF96D3E0404F8189D857A2" ROLE_ID="83"
+        ROLE_NM="Document Opener" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y"
+        DESC_TXT="This role derives its members from users with an acknowledge action request in the route log of a given document."
+        KIM_TYP_ID="42" LAST_UPDT_DT="20090121130202"
+        NMSPC_CD="KR-WKFLW" OBJ_ID="6102F3FA08CE45CFE0404F8189D8317E"
+        ROLE_ID="88" ROLE_NM="Acknowledge Request Recipient" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y"
+        DESC_TXT="This role derives its members from users with an FYI action request in the route log of a given document."
+        KIM_TYP_ID="42" LAST_UPDT_DT="20090121130203"
+        NMSPC_CD="KR-WKFLW" OBJ_ID="6102F3FA08CF45CFE0404F8189D8317E"
+        ROLE_ID="89" ROLE_NM="FYI Request Recipient" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="1"
+        LAST_UPDT_DT="20091130171545" NMSPC_CD="KS-SYS"
+        OBJ_ID="DEPARUUUNTADMINREVIEWER00000ROLE" ROLE_ID="899"
+        ROLE_NM="Student System User Role" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y"
+        DESC_TXT="This role represents the KR System User, that is the user ID RICE uses when it takes programmed actions."
+        KIM_TYP_ID="1" LAST_UPDT_DT="20090821035258" NMSPC_CD="KR-SYS"
+        OBJ_ID="61815E6C62D0B647E0404F8189D873B3" ROLE_ID="90"
+        ROLE_NM="System User" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="102"
+        LAST_UPDT_DT="20091130171545" NMSPC_CD="KS-LUM"
+        OBJ_ID="DEPARTMENTADMINREVIEWER00000ROLE" ROLE_ID="900"
+        ROLE_NM="Department Admin Reviewer" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="103"
+        LAST_UPDT_DT="20091130171545" NMSPC_CD="KS-LUM"
+        OBJ_ID="DIVISIONADMINREVIEWER0000000ROLE" ROLE_ID="901"
+        ROLE_NM="Division Admin Reviewer" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="103"
+        LAST_UPDT_DT="20091130171545" NMSPC_CD="KS-LUM"
+        OBJ_ID="DIVISIONCOMMITTEEREVIEWER000ROLE" ROLE_ID="902"
+        ROLE_NM="Division Committee Reviewer" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="101"
+        LAST_UPDT_DT="20091130171545" NMSPC_CD="KS-LUM"
+        OBJ_ID="COLLEGEADMINREVIEWER00000000ROLE" ROLE_ID="905"
+        ROLE_NM="College Admin Reviewer" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="101"
+        LAST_UPDT_DT="20091130171545" NMSPC_CD="KS-LUM"
+        OBJ_ID="COLLEGECOMMITTEEREVIEWER0000ROLE" ROLE_ID="906"
+        ROLE_NM="College Committee Reviewer" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="1"
+        LAST_UPDT_DT="20091130171545" NMSPC_CD="KS-LUM"
+        OBJ_ID="SENATEADMINREVIEWER000000000ROLE" ROLE_ID="907"
+        ROLE_NM="Senate Admin Reviewer" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="1"
+        LAST_UPDT_DT="20091130171545" NMSPC_CD="KS-LUM"
+        OBJ_ID="SENATECOMMITTEEREVIEWER00000ROLE" ROLE_ID="908"
+        ROLE_NM="Senate Committee Reviewer" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="1"
+        LAST_UPDT_DT="20091130171545" NMSPC_CD="KS-LUM"
+        OBJ_ID="PUBLICATIONREVIEWER000000000ROLE" ROLE_ID="909"
+        ROLE_NM="Publication Reviewer" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="107"
+        LAST_UPDT_DT="20091130171545" NMSPC_CD="KS-LUM"
+        OBJ_ID="OrgAdminReviewer000000000000ROLE" ROLE_ID="910"
+        ROLE_NM="Org Admin Reviewer" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="108"
+        LAST_UPDT_DT="20091130171545" NMSPC_CD="KS-LUM"
+        OBJ_ID="OrgCommitteeReviewer00000000ROLE" ROLE_ID="911"
+        ROLE_NM="Org Committee Reviewer" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="109"
+        LAST_UPDT_DT="20091130171545" NMSPC_CD="KS-SYS"
+        OBJ_ID="DEPARTMENTFDMINREVIEWER00000ROLE" ROLE_ID="912"
+        ROLE_NM="Approve Request Recipient" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="109"
+        LAST_UPDT_DT="20091130171546" NMSPC_CD="KS-SYS"
+        OBJ_ID="DEPARTMENTGDMINREVIEWER00000ROLE" ROLE_ID="913"
+        ROLE_NM="Acknowledge Request Recipient" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="109"
+        LAST_UPDT_DT="20091130171546" NMSPC_CD="KS-SYS"
+        OBJ_ID="DEPARTMENTHDMINREVIEWER00000ROLE" ROLE_ID="914"
+        ROLE_NM="FYI Request Recipient" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="110"
+        LAST_UPDT_DT="20091130171546" NMSPC_CD="KS-SYS"
+        OBJ_ID="DEPARTMENTRDMINREVIEWER00000ROLE" ROLE_ID="915"
+        ROLE_NM="Initiator or Reviewer" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="110"
+        LAST_UPDT_DT="20091130171546" NMSPC_CD="KS-SYS"
+        OBJ_ID="DEPARTMENTWDMINREVIEWER00000ROLE" ROLE_ID="916"
+        ROLE_NM="Router" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="102"
+        LAST_UPDT_DT="20091130171545" NMSPC_CD="KS-LUM"
+        OBJ_ID="DEPARTMENTCOMITREVIEWER00000ROLE" ROLE_ID="917"
+        ROLE_NM="Department Committee Reviewer" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="1"
+        LAST_UPDT_DT="20091216111952" NMSPC_CD="KS-SYS"
+        OBJ_ID="DEPARTMENTWDMINREVIEWER20000ROLE" ROLE_ID="920"
+        ROLE_NM="Global Field Editor" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="1"
+        LAST_UPDT_DT="20091216111952" NMSPC_CD="KS-SYS"
+        OBJ_ID="DEPARTMANTWDMINREVIEWER20000ROLE" ROLE_ID="921"
+        ROLE_NM="Title/Description Field Editor" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y"
+        DESC_TXT="This role derives its members from users with the Initiate Document permission for a given document type."
+        KIM_TYP_ID="66" LAST_UPDT_DT="20090821035258" NMSPC_CD="KR-SYS"
+        OBJ_ID="67F145466E8B9160E0404F8189D86771" ROLE_ID="95"
+        ROLE_NM="Document Initiator" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y"
+        DESC_TXT="This role derives its members from users with an Approval action request (that was not generated via the ad-hoc recipients tab) in the route log of a given document."
+        KIM_TYP_ID="42" LAST_UPDT_DT="20090821035258"
+        NMSPC_CD="KR-WKFLW" OBJ_ID="67F145466EB09160E0404F8189D86771"
+        ROLE_ID="97" ROLE_NM="Non-Ad Hoc Approve Request Recipient" VER_NBR="1"/>
+</dataset>
