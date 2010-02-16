@@ -73,7 +73,17 @@ public class MetadataServiceImpl {
             }
             recursions.put(objectName, hits);
             return hits;
-        }        
+        }
+        
+        public int decrement(String objectName){
+            Integer hits = recursions.get(objectName);
+             if (hits >= 1){
+                 hits--;
+             }
+
+             recursions.put(objectName, hits);
+             return hits;
+        }
     }
     
     /**
@@ -210,18 +220,20 @@ public class MetadataServiceImpl {
         String objectId = dataObjectStructure.getName();
         int hits = counter.increment(objectId);
         
+        Map<String, Metadata> properties = null;
+        
         if (hits == 1 && metadataRepository.containsKey(objectId)){
-            return (Map<String, Metadata>)metadataRepository.get(objectId);
+            properties =  (Map<String, Metadata>)metadataRepository.get(objectId);
         } else if (hits < RecursionCounter.MAX_DEPTH){
-            Map<String, Metadata> properties = new HashMap<String, Metadata>();
+            properties = new HashMap<String, Metadata>();
             if (hits == 1){
                 metadataRepository.put(objectId, properties);
             }
             loadProperties(properties, dataObjectStructure.getFields(), counter);
-            return properties;
-        } else {
-            return null;
         }
+        
+        counter.decrement(objectId);
+        return properties;
     }
     
     

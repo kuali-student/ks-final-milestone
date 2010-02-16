@@ -54,7 +54,7 @@ public class TestMetadataServiceImpl {
     @Test
     public void testOrchestrationDictionaryMetadata(){
         MetadataServiceImpl metadataService = new MetadataServiceImpl(ORCH_DICTIONARY_CONFIG_LOCATION);
-        
+                      
         Metadata metadata = metadataService.getMetadata("CreditCourseProposal", "default", "default");
         
         Map<String, Metadata> properties = metadata.getProperties();        
@@ -68,9 +68,15 @@ public class TestMetadataServiceImpl {
         properties = metadata.getProperties();
         assertTrue(properties.containsKey("*"));
         metadata = properties.get("*");
-        
+               
         properties = metadata.getProperties();
         assertTrue(properties.containsKey("activities"));
         
+        metadata = metadataService.getMetadata("joints", "default", "default");
+        properties = metadata.getProperties();
+        
+        metadata = properties.get("_runtimeData");
+        properties = metadata.getProperties();
+        assertTrue(properties.containsKey("created"));
     }
 }
