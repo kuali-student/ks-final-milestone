@@ -3,7 +3,7 @@
     <groupId>org.kuali.student.test.performance.ui.ks-cuke</groupId>
     <artifactId>ks-cuke</artifactId>
     <packaging>pom</packaging>
-    <name>KS Cuke</name>
+    <name>UI - Cucumber</name>
     <description>This module is testing framework based on Cucumber</description>
 	<parent>
 		<groupId>org.kuali.student.test.ui</groupId>

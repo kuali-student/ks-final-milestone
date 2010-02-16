@@ -3,7 +3,7 @@
     <groupId>org.kuali.student.test.performance.ws.ks-groovyws</groupId>
     <artifactId>ks-groovyws</artifactId>
     <packaging>pom</packaging>
-    <name>KS GroovyWS</name>
+    <name>WS - GroovyWS</name>
     <description>This is a testing framework based on GroovyWS</description>
 	<parent>
 		<groupId>org.kuali.student.test.ws</groupId>
