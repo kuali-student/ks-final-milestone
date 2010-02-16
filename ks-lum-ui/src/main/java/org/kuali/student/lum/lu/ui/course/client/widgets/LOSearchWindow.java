@@ -31,9 +31,9 @@ import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.KSThinTitleBar;
-import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.SearchCancelEnum;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ConfirmCancelGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.SearchCancelGroup;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.SearchCancelEnum;
 import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
@@ -48,6 +48,7 @@ import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
+import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.service.LoRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.LoRpcServiceAsync;
@@ -233,7 +234,7 @@ public class LOSearchWindow extends Composite {
 
 
     private void getLOsForClu() {
-        luRpcServiceAsync.getLoIdsByClu(cluPicker.getValue(), new AsyncCallback<List<String>>() {
+        luRpcServiceAsync.getCluLoRelationsByClu(cluPicker.getValue(), new AsyncCallback<List<CluLoRelationInfo>>() {
 
             @Override
             public void onFailure(Throwable caught) {
@@ -241,7 +242,7 @@ public class LOSearchWindow extends Composite {
             }
 
             @Override
-            public void onSuccess(List<String> result) {
+            public void onSuccess(List<CluLoRelationInfo> result) {
                 showCourseSearchResultsWindow(cluPicker.getText(), result);
 
             }
@@ -316,7 +317,7 @@ public class LOSearchWindow extends Composite {
 
         List<String> basicCriteria = new ArrayList<String>() {
             {
-                add("lo.queryParam.loCategoryName");
+                add("lo.queryParam.startsWith.loCategoryName");
             }
         };
 
@@ -352,8 +353,13 @@ public class LOSearchWindow extends Composite {
         return main;
     }
 
-    private void showCourseSearchResultsWindow(final String selectedCluCode, final List<String> loIds) {
-        if (loIds != null && !loIds.isEmpty()) {
+    private void showCourseSearchResultsWindow(final String selectedCluCode, final List<CluLoRelationInfo> loRelations) {
+        if (loRelations != null && !loRelations.isEmpty()) {
+            List<String> loIds = new ArrayList<String>();
+            for (CluLoRelationInfo info : loRelations ) {
+                loIds.add(info.getLoId());
+                
+            }
             loRpcServiceAsync.getLoByIdList(loIds, new AsyncCallback<List<LoInfo>>() {
 
                 @Override
@@ -786,6 +792,7 @@ public class LOSearchWindow extends Composite {
     public void clear() {
 
         loSearches.setListItems(searchTypesList);
+        loSearches.deSelectItem(loSearches.getSelectedItem());
         searchParamPanel.clear();
         cluPicker.clear();        
     }

@@ -295,7 +295,7 @@
 FROM 
     KSLU_CLU clu 
 JOIN 
-    KSLU_LO_JN_CLU jn 
+    KSLU_CLU_LO_RELTN jn 
     ON 
     jn.CLU_ID = clu.ID 
 JOIN 
@@ -323,7 +323,7 @@ WHERE
 FROM 
     KSLU_CLU clu 
 JOIN 
-    KSLU_LO_JN_CLU jn 
+    KSLU_CLU_LO_RELTN jn 
     ON 
     jn.CLU_ID = clu.ID 
 JOIN 
@@ -348,7 +348,7 @@ JOIN
     cat.id = jncat.locategory_id
 
 WHERE 
-    lower(cat.name) like :lo_queryParam_loCategoryName
+    lower(cat.name) like :lo_queryParam_startsWith_loCategoryName
 					</value>
 				</entry>
             </map>
