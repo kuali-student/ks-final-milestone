@@ -13,10 +13,42 @@
         <!--<module>ui</module>-->
         <!--<module>web-services</module>-->
     </modules>
+
+<build>
+		<pluginManagement>
+			<plugins>
+		      	<plugin>
+        			<artifactId>maven-release-plugin</artifactId>
+				    <configuration>
+					    <username>${maven.release.username}</username>
+				        <password>${maven.release.password}</password>
+			    	    <arguments>-Dmaven.test.skip=true</arguments>
+			        	<preparationGoals>clean install</preparationGoals>
+				        <goals>clean deploy</goals>
+				    </configuration>
+      			</plugin>
+			</plugins>
+		</pluginManagement>
+</build>
+  <reporting>
+    <plugins>
+      <plugin>
+        <artifactId>maven-plugin-plugin</artifactId>
+        <version>2.5</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.1.2</version>
+      </plugin>
+    </plugins>
+  </reporting>
+    
+    
     <scm>
-      <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/test/trunk</connection>
-      <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/test/trunk</developerConnection>
-      <url>https://test.kuali.org/svn/student/deploymentlab/test/trunk</url>
+      <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/test</connection>
+      <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/test</developerConnection>
+      <url>https://test.kuali.org/svn/student/deploymentlab/trunk/test</url>
     </scm>
     <distributionManagement>
       <site>
