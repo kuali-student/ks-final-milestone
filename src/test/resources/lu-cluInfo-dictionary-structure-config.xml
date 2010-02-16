@@ -7,7 +7,7 @@ http://student.kuali.org/xsd/dictionary-extension dictionary-extension.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Tue Feb 16 13:05:30 EST 2010
+on: Tue Feb 16 18:00:50 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -40,9 +40,8 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.cluInfo.academicSubjectOrgs"/>
 	<dict:fieldRef bean="field.cluInfo.studySubjectArea"/>
 	<dict:fieldRef bean="field.cluInfo.desc"/>
-	<dict:fieldRef bean="field.cluInfo.marketingDesc"/>
-	<dict:fieldRef bean="field.cluInfo.campusLocationList"/>
-	<dict:fieldRef bean="field.cluInfo.accreditation"/>
+	<dict:fieldRef bean="field.cluInfo.campusLocations"/>
+	<dict:fieldRef bean="field.cluInfo.accreditations"/>
 	<dict:fieldRef bean="field.cluInfo.primaryAdminOrg"/>
 	<dict:fieldRef bean="field.cluInfo.alternateAdminOrgs"/>
 	<dict:fieldRef bean="field.cluInfo.primaryInstructor"/>
@@ -55,7 +54,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.cluInfo.canCreateLui"/>
 	<dict:fieldRef bean="field.cluInfo.referenceURL"/>
 	<dict:fieldRef bean="field.cluInfo.luCodes"/>
-	<dict:fieldRef bean="field.cluInfo.publishingInfo"/>
 	<dict:fieldRef bean="field.cluInfo.nextReviewPeriod"/>
 	<dict:fieldRef bean="field.cluInfo.isEnrollable"/>
 	<dict:fieldRef bean="field.cluInfo.offeredAtpTypes"/>
@@ -795,397 +793,305 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="formatted" id="field.cluInfo.desc.formatted.cd" parent="field.cluInfo.desc.formatted.cd.abstract"/>
 
-<dict:field key="marketingDesc" id="field.cluInfo.marketingDesc.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.marketingDesc.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.marketingDesc.cd"/>
+<dict:field key="campusLocations" id="field.cluInfo.campusLocations.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluInfo.campusLocations.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluInfo.campusLocations.cd"/>
 </dict:field>
-<dict:field key="marketingDesc" id="field.cluInfo.marketingDesc" parent="field.cluInfo.marketingDesc.abstract"/>
-<dict:fieldDescriptor key="marketingDesc" id="field.cluInfo.marketingDesc.fd.abstract" abstract="true">
-	<dict:name>Marketing Description</dict:name>
-	<dict:desc>A publishable description of the LU to be used for advertising or marketing purposes</dict:desc>
-	<dict:dataType>Complex</dict:dataType>
-		<dict:objectStructureRef bean="object.field.cluInfo.marketingDesc"/>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="marketingDesc" id="field.cluInfo.marketingDesc.fd" parent="field.cluInfo.marketingDesc.fd.abstract"/>
-<!-- Optional; Single valued (non-repeating) -->
-<dict:constraintDescriptor id="field.cluInfo.marketingDesc.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.optional"/>
-	<dict:constraintRef bean="constraint.single"/>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="marketingDesc" id="field.cluInfo.marketingDesc.cd" parent="field.cluInfo.marketingDesc.cd.abstract"/>
-
-<!-- *************************************************************************** -->
-<!-- object structure for object.field.cluInfo.marketingDesc.(default).(default) -->
-<!-- *************************************************************************** -->
-<!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.marketingDesc.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.marketingDesc"/>
-</dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.marketingDesc" parent="object.field.cluInfo.marketingDesc.abstract"/>
-
-<dict:type key="*" id="type.field.cluInfo.marketingDesc.abstract" abstract="true">
-	<dict:name>(default)</dict:name>
-	<dict:desc>Default</dict:desc>
-	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-	<dict:stateRef bean="state.field.cluInfo.marketingDesc"/>
-</dict:type>
-<dict:type key="*" id="type.field.cluInfo.marketingDesc" parent="type.field.cluInfo.marketingDesc.abstract"/>
-
-<!-- *********************************************************************************** -->
-<!-- State for state.field.cluInfo.marketingDesc.(default).(default).(default).(default) -->
-<!-- *********************************************************************************** -->
-
-<dict:state key="*" id="state.field.cluInfo.marketingDesc.abstract" abstract="true">
-	<dict:fieldRef bean="field.cluInfo.marketingDesc.plain"/>
-	<dict:fieldRef bean="field.cluInfo.marketingDesc.formatted"/>
-</dict:state>
-<dict:state key="*" id="state.field.cluInfo.marketingDesc" parent="state.field.cluInfo.marketingDesc.abstract"/>
-
-
-<dict:field key="plain" id="field.cluInfo.marketingDesc.plain.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.marketingDesc.plain.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.marketingDesc.plain.cd"/>
-</dict:field>
-<dict:field key="plain" id="field.cluInfo.marketingDesc.plain" parent="field.cluInfo.marketingDesc.plain.abstract"/>
-<dict:fieldDescriptor key="plain" id="field.cluInfo.marketingDesc.plain.fd.abstract" abstract="true">
-	<dict:name>Plain Text</dict:name>
-	<dict:desc>Plain version of the text. This may be used for searching.</dict:desc>
-	<dict:dataType>string</dict:dataType>
-	<dict:readOnly>true</dict:readOnly>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="plain" id="field.cluInfo.marketingDesc.plain.fd" parent="field.cluInfo.marketingDesc.plain.fd.abstract"/>
-<!-- Read Only; Single valued (non-repeating); Multi-line text field that accepts all printable characters plus tab, carraige-return and linefeed. -->
-<dict:constraintDescriptor id="field.cluInfo.marketingDesc.plain.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
-	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.multi.line.text"/>
-	<dict:constraint key="in-line.constraint.for.field.richTextInfo.plain">
-		<dict:maxLength>(unbounded)</dict:maxLength>
-		</dict:constraint>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="plain" id="field.cluInfo.marketingDesc.plain.cd" parent="field.cluInfo.marketingDesc.plain.cd.abstract"/>
-
-<dict:field key="formatted" id="field.cluInfo.marketingDesc.formatted.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.marketingDesc.formatted.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.marketingDesc.formatted.cd"/>
-</dict:field>
-<dict:field key="formatted" id="field.cluInfo.marketingDesc.formatted" parent="field.cluInfo.marketingDesc.formatted.abstract"/>
-<dict:fieldDescriptor key="formatted" id="field.cluInfo.marketingDesc.formatted.fd.abstract" abstract="true">
-	<dict:name>Formatted Text</dict:name>
-	<dict:desc>Formatted version of the text.</dict:desc>
-	<dict:dataType>string</dict:dataType>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="formatted" id="field.cluInfo.marketingDesc.formatted.fd" parent="field.cluInfo.marketingDesc.formatted.fd.abstract"/>
-<!-- Optional; Single valued (non-repeating); Text field that accepts all types of characters using some sort of escaping convention along with the ability to specify bolding, font size, color etc. -->
-<dict:constraintDescriptor id="field.cluInfo.marketingDesc.formatted.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.optional"/>
-	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.rich.text"/>
-	<dict:constraint key="in-line.constraint.for.field.richTextInfo.formatted">
-		<dict:maxLength>(unbounded)</dict:maxLength>
-		</dict:constraint>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="formatted" id="field.cluInfo.marketingDesc.formatted.cd" parent="field.cluInfo.marketingDesc.formatted.cd.abstract"/>
-
-<dict:field key="campusLocationList" id="field.cluInfo.campusLocationList.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.campusLocationList.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.campusLocationList.cd"/>
-</dict:field>
-<dict:field key="campusLocationList" id="field.cluInfo.campusLocationList" parent="field.cluInfo.campusLocationList.abstract"/>
-<dict:fieldDescriptor key="campusLocationList" id="field.cluInfo.campusLocationList.fd.abstract" abstract="true">
+<dict:field key="campusLocations" id="field.cluInfo.campusLocations" parent="field.cluInfo.campusLocations.abstract"/>
+<dict:fieldDescriptor key="campusLocations" id="field.cluInfo.campusLocations.fd.abstract" abstract="true">
 	<dict:name>List of Campus Locations</dict:name>
 	<dict:desc>Places where this clu might be offered</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="campusLocationList" id="field.cluInfo.campusLocationList.fd" parent="field.cluInfo.campusLocationList.fd.abstract"/>
+<dict:fieldDescriptor key="campusLocations" id="field.cluInfo.campusLocations.fd" parent="field.cluInfo.campusLocations.fd.abstract"/>
 <!-- Optional; Repeating; Alphanumeric code, hypen and period. -->
-<dict:constraintDescriptor id="field.cluInfo.campusLocationList.cd.abstract" abstract="true">
+<dict:constraintDescriptor id="field.cluInfo.campusLocations.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.repeating"/>
 	<dict:constraintRef bean="constraint.code"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="campusLocationList" id="field.cluInfo.campusLocationList.cd" parent="field.cluInfo.campusLocationList.cd.abstract"/>
+<dict:constraintDescriptor key="campusLocations" id="field.cluInfo.campusLocations.cd" parent="field.cluInfo.campusLocations.cd.abstract"/>
 
-<dict:field key="accreditation" id="field.cluInfo.accreditation.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.accreditation.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.accreditation.cd"/>
+<dict:field key="accreditations" id="field.cluInfo.accreditations.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluInfo.accreditations.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluInfo.accreditations.cd"/>
 </dict:field>
-<dict:field key="accreditation" id="field.cluInfo.accreditation" parent="field.cluInfo.accreditation.abstract"/>
-<dict:fieldDescriptor key="accreditation" id="field.cluInfo.accreditation.fd.abstract" abstract="true">
-	<dict:name>Accreditation</dict:name>
+<dict:field key="accreditations" id="field.cluInfo.accreditations" parent="field.cluInfo.accreditations.abstract"/>
+<dict:fieldDescriptor key="accreditations" id="field.cluInfo.accreditations.fd.abstract" abstract="true">
+	<dict:name>Accreditations</dict:name>
 	<dict:desc>Information around the accreditation of the clu.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-		<dict:objectStructureRef bean="object.field.cluInfo.accreditation"/>
+		<dict:objectStructureRef bean="object.field.cluInfo.accreditations"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="accreditation" id="field.cluInfo.accreditation.fd" parent="field.cluInfo.accreditation.fd.abstract"/>
+<dict:fieldDescriptor key="accreditations" id="field.cluInfo.accreditations.fd" parent="field.cluInfo.accreditations.fd.abstract"/>
 <!-- Optional; Repeating -->
-<dict:constraintDescriptor id="field.cluInfo.accreditation.cd.abstract" abstract="true">
+<dict:constraintDescriptor id="field.cluInfo.accreditations.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.repeating"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="accreditation" id="field.cluInfo.accreditation.cd" parent="field.cluInfo.accreditation.cd.abstract"/>
+<dict:constraintDescriptor key="accreditations" id="field.cluInfo.accreditations.cd" parent="field.cluInfo.accreditations.cd.abstract"/>
 
-<!-- *************************************************************************** -->
-<!-- object structure for object.field.cluInfo.accreditation.(default).(default) -->
-<!-- *************************************************************************** -->
+<!-- **************************************************************************** -->
+<!-- object structure for object.field.cluInfo.accreditations.(default).(default) -->
+<!-- **************************************************************************** -->
 <!-- Accreditation information about a learning unit. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AccreditationInfo" id="object.field.cluInfo.accreditation.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.accreditation"/>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.AccreditationInfo" id="object.field.cluInfo.accreditations.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.accreditations"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AccreditationInfo" id="object.field.cluInfo.accreditation" parent="object.field.cluInfo.accreditation.abstract"/>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.AccreditationInfo" id="object.field.cluInfo.accreditations" parent="object.field.cluInfo.accreditations.abstract"/>
 
-<dict:type key="*" id="type.field.cluInfo.accreditation.abstract" abstract="true">
+<dict:type key="*" id="type.field.cluInfo.accreditations.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
 	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-	<dict:stateRef bean="state.field.cluInfo.accreditation"/>
+	<dict:stateRef bean="state.field.cluInfo.accreditations"/>
 </dict:type>
-<dict:type key="*" id="type.field.cluInfo.accreditation" parent="type.field.cluInfo.accreditation.abstract"/>
+<dict:type key="*" id="type.field.cluInfo.accreditations" parent="type.field.cluInfo.accreditations.abstract"/>
 
-<!-- *********************************************************************************** -->
-<!-- State for state.field.cluInfo.accreditation.(default).(default).(default).(default) -->
-<!-- *********************************************************************************** -->
+<!-- ************************************************************************************ -->
+<!-- State for state.field.cluInfo.accreditations.(default).(default).(default).(default) -->
+<!-- ************************************************************************************ -->
 
-<dict:state key="*" id="state.field.cluInfo.accreditation.abstract" abstract="true">
-	<dict:fieldRef bean="field.cluInfo.accreditation.orgId"/>
-	<dict:fieldRef bean="field.cluInfo.accreditation.effectiveDate"/>
-	<dict:fieldRef bean="field.cluInfo.accreditation.expirationDate"/>
-	<dict:fieldRef bean="field.cluInfo.accreditation.metaInfo"/>
-	<dict:fieldRef bean="field.cluInfo.accreditation.id"/>
+<dict:state key="*" id="state.field.cluInfo.accreditations.abstract" abstract="true">
+	<dict:fieldRef bean="field.cluInfo.accreditations.orgId"/>
+	<dict:fieldRef bean="field.cluInfo.accreditations.effectiveDate"/>
+	<dict:fieldRef bean="field.cluInfo.accreditations.expirationDate"/>
+	<dict:fieldRef bean="field.cluInfo.accreditations.metaInfo"/>
+	<dict:fieldRef bean="field.cluInfo.accreditations.id"/>
 </dict:state>
-<dict:state key="*" id="state.field.cluInfo.accreditation" parent="state.field.cluInfo.accreditation.abstract"/>
+<dict:state key="*" id="state.field.cluInfo.accreditations" parent="state.field.cluInfo.accreditations.abstract"/>
 
 
-<dict:field key="orgId" id="field.cluInfo.accreditation.orgId.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.accreditation.orgId.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.accreditation.orgId.cd"/>
+<dict:field key="orgId" id="field.cluInfo.accreditations.orgId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluInfo.accreditations.orgId.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluInfo.accreditations.orgId.cd"/>
 </dict:field>
-<dict:field key="orgId" id="field.cluInfo.accreditation.orgId" parent="field.cluInfo.accreditation.orgId.abstract"/>
-<dict:fieldDescriptor key="orgId" id="field.cluInfo.accreditation.orgId.fd.abstract" abstract="true">
+<dict:field key="orgId" id="field.cluInfo.accreditations.orgId" parent="field.cluInfo.accreditations.orgId.abstract"/>
+<dict:fieldDescriptor key="orgId" id="field.cluInfo.accreditations.orgId.fd.abstract" abstract="true">
 	<dict:name>Organization Identifier</dict:name>
 	<dict:desc>Unique identifier for an organization. This organization is the body behind the accreditation.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="orgId" id="field.cluInfo.accreditation.orgId.fd" parent="field.cluInfo.accreditation.orgId.fd.abstract"/>
+<dict:fieldDescriptor key="orgId" id="field.cluInfo.accreditations.orgId.fd" parent="field.cluInfo.accreditations.orgId.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Id of an existing ORG -->
-<dict:constraintDescriptor id="field.cluInfo.accreditation.orgId.cd.abstract" abstract="true">
+<dict:constraintDescriptor id="field.cluInfo.accreditations.orgId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.related.orgId"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="orgId" id="field.cluInfo.accreditation.orgId.cd" parent="field.cluInfo.accreditation.orgId.cd.abstract"/>
+<dict:constraintDescriptor key="orgId" id="field.cluInfo.accreditations.orgId.cd" parent="field.cluInfo.accreditations.orgId.cd.abstract"/>
 
-<dict:field key="effectiveDate" id="field.cluInfo.accreditation.effectiveDate.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.accreditation.effectiveDate.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.accreditation.effectiveDate.cd"/>
+<dict:field key="effectiveDate" id="field.cluInfo.accreditations.effectiveDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluInfo.accreditations.effectiveDate.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluInfo.accreditations.effectiveDate.cd"/>
 </dict:field>
-<dict:field key="effectiveDate" id="field.cluInfo.accreditation.effectiveDate" parent="field.cluInfo.accreditation.effectiveDate.abstract"/>
-<dict:fieldDescriptor key="effectiveDate" id="field.cluInfo.accreditation.effectiveDate.fd.abstract" abstract="true">
+<dict:field key="effectiveDate" id="field.cluInfo.accreditations.effectiveDate" parent="field.cluInfo.accreditations.effectiveDate.abstract"/>
+<dict:fieldDescriptor key="effectiveDate" id="field.cluInfo.accreditations.effectiveDate.fd.abstract" abstract="true">
 	<dict:name>Effective Date</dict:name>
 	<dict:desc>Date and time the accreditation became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="effectiveDate" id="field.cluInfo.accreditation.effectiveDate.fd" parent="field.cluInfo.accreditation.effectiveDate.fd.abstract"/>
+<dict:fieldDescriptor key="effectiveDate" id="field.cluInfo.accreditations.effectiveDate.fd" parent="field.cluInfo.accreditations.effectiveDate.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Date-Time -->
-<dict:constraintDescriptor id="field.cluInfo.accreditation.effectiveDate.cd.abstract" abstract="true">
+<dict:constraintDescriptor id="field.cluInfo.accreditations.effectiveDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="effectiveDate" id="field.cluInfo.accreditation.effectiveDate.cd" parent="field.cluInfo.accreditation.effectiveDate.cd.abstract"/>
+<dict:constraintDescriptor key="effectiveDate" id="field.cluInfo.accreditations.effectiveDate.cd" parent="field.cluInfo.accreditations.effectiveDate.cd.abstract"/>
 
-<dict:field key="expirationDate" id="field.cluInfo.accreditation.expirationDate.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.accreditation.expirationDate.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.accreditation.expirationDate.cd"/>
+<dict:field key="expirationDate" id="field.cluInfo.accreditations.expirationDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluInfo.accreditations.expirationDate.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluInfo.accreditations.expirationDate.cd"/>
 </dict:field>
-<dict:field key="expirationDate" id="field.cluInfo.accreditation.expirationDate" parent="field.cluInfo.accreditation.expirationDate.abstract"/>
-<dict:fieldDescriptor key="expirationDate" id="field.cluInfo.accreditation.expirationDate.fd.abstract" abstract="true">
+<dict:field key="expirationDate" id="field.cluInfo.accreditations.expirationDate" parent="field.cluInfo.accreditations.expirationDate.abstract"/>
+<dict:fieldDescriptor key="expirationDate" id="field.cluInfo.accreditations.expirationDate.fd.abstract" abstract="true">
 	<dict:name>Expiration Date</dict:name>
 	<dict:desc>Date and time that this accreditation expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="expirationDate" id="field.cluInfo.accreditation.expirationDate.fd" parent="field.cluInfo.accreditation.expirationDate.fd.abstract"/>
+<dict:fieldDescriptor key="expirationDate" id="field.cluInfo.accreditations.expirationDate.fd" parent="field.cluInfo.accreditations.expirationDate.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Date-Time -->
-<dict:constraintDescriptor id="field.cluInfo.accreditation.expirationDate.cd.abstract" abstract="true">
+<dict:constraintDescriptor id="field.cluInfo.accreditations.expirationDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="expirationDate" id="field.cluInfo.accreditation.expirationDate.cd" parent="field.cluInfo.accreditation.expirationDate.cd.abstract"/>
+<dict:constraintDescriptor key="expirationDate" id="field.cluInfo.accreditations.expirationDate.cd" parent="field.cluInfo.accreditations.expirationDate.cd.abstract"/>
 
-<dict:field key="metaInfo" id="field.cluInfo.accreditation.metaInfo.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.accreditation.metaInfo.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.accreditation.metaInfo.cd"/>
+<dict:field key="metaInfo" id="field.cluInfo.accreditations.metaInfo.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluInfo.accreditations.metaInfo.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluInfo.accreditations.metaInfo.cd"/>
 </dict:field>
-<dict:field key="metaInfo" id="field.cluInfo.accreditation.metaInfo" parent="field.cluInfo.accreditation.metaInfo.abstract"/>
-<dict:fieldDescriptor key="metaInfo" id="field.cluInfo.accreditation.metaInfo.fd.abstract" abstract="true">
+<dict:field key="metaInfo" id="field.cluInfo.accreditations.metaInfo" parent="field.cluInfo.accreditations.metaInfo.abstract"/>
+<dict:fieldDescriptor key="metaInfo" id="field.cluInfo.accreditations.metaInfo.fd.abstract" abstract="true">
 	<dict:name>Create/Update meta info</dict:name>
 	<dict:desc>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-		<dict:objectStructureRef bean="object.field.cluInfo.accreditation.metaInfo"/>
+		<dict:objectStructureRef bean="object.field.cluInfo.accreditations.metaInfo"/>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="metaInfo" id="field.cluInfo.accreditation.metaInfo.fd" parent="field.cluInfo.accreditation.metaInfo.fd.abstract"/>
+<dict:fieldDescriptor key="metaInfo" id="field.cluInfo.accreditations.metaInfo.fd" parent="field.cluInfo.accreditations.metaInfo.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating) -->
-<dict:constraintDescriptor id="field.cluInfo.accreditation.metaInfo.cd.abstract" abstract="true">
+<dict:constraintDescriptor id="field.cluInfo.accreditations.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="metaInfo" id="field.cluInfo.accreditation.metaInfo.cd" parent="field.cluInfo.accreditation.metaInfo.cd.abstract"/>
+<dict:constraintDescriptor key="metaInfo" id="field.cluInfo.accreditations.metaInfo.cd" parent="field.cluInfo.accreditations.metaInfo.cd.abstract"/>
 
-<!-- ******************************************************************************************************** -->
-<!-- object structure for object.field.cluInfo.accreditation.(default).(default).metaInfo.(default).(default) -->
-<!-- ******************************************************************************************************** -->
+<!-- ********************************************************************************************************* -->
+<!-- object structure for object.field.cluInfo.accreditations.(default).(default).metaInfo.(default).(default) -->
+<!-- ********************************************************************************************************* -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluInfo.accreditation.metaInfo.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.accreditation.metaInfo"/>
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluInfo.accreditations.metaInfo.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.accreditations.metaInfo"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluInfo.accreditation.metaInfo" parent="object.field.cluInfo.accreditation.metaInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluInfo.accreditations.metaInfo" parent="object.field.cluInfo.accreditations.metaInfo.abstract"/>
 
-<dict:type key="*" id="type.field.cluInfo.accreditation.metaInfo.abstract" abstract="true">
+<dict:type key="*" id="type.field.cluInfo.accreditations.metaInfo.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
 	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-	<dict:stateRef bean="state.field.cluInfo.accreditation.metaInfo"/>
+	<dict:stateRef bean="state.field.cluInfo.accreditations.metaInfo"/>
 </dict:type>
-<dict:type key="*" id="type.field.cluInfo.accreditation.metaInfo" parent="type.field.cluInfo.accreditation.metaInfo.abstract"/>
+<dict:type key="*" id="type.field.cluInfo.accreditations.metaInfo" parent="type.field.cluInfo.accreditations.metaInfo.abstract"/>
 
-<!-- **************************************************************************************************************** -->
-<!-- State for state.field.cluInfo.accreditation.(default).(default).metaInfo.(default).(default).(default).(default) -->
-<!-- **************************************************************************************************************** -->
+<!-- ***************************************************************************************************************** -->
+<!-- State for state.field.cluInfo.accreditations.(default).(default).metaInfo.(default).(default).(default).(default) -->
+<!-- ***************************************************************************************************************** -->
 
-<dict:state key="*" id="state.field.cluInfo.accreditation.metaInfo.abstract" abstract="true">
-	<dict:fieldRef bean="field.cluInfo.accreditation.metaInfo.versionInd"/>
-	<dict:fieldRef bean="field.cluInfo.accreditation.metaInfo.createTime"/>
-	<dict:fieldRef bean="field.cluInfo.accreditation.metaInfo.createId"/>
-	<dict:fieldRef bean="field.cluInfo.accreditation.metaInfo.updateTime"/>
-	<dict:fieldRef bean="field.cluInfo.accreditation.metaInfo.updateId"/>
+<dict:state key="*" id="state.field.cluInfo.accreditations.metaInfo.abstract" abstract="true">
+	<dict:fieldRef bean="field.cluInfo.accreditations.metaInfo.versionInd"/>
+	<dict:fieldRef bean="field.cluInfo.accreditations.metaInfo.createTime"/>
+	<dict:fieldRef bean="field.cluInfo.accreditations.metaInfo.createId"/>
+	<dict:fieldRef bean="field.cluInfo.accreditations.metaInfo.updateTime"/>
+	<dict:fieldRef bean="field.cluInfo.accreditations.metaInfo.updateId"/>
 </dict:state>
-<dict:state key="*" id="state.field.cluInfo.accreditation.metaInfo" parent="state.field.cluInfo.accreditation.metaInfo.abstract"/>
+<dict:state key="*" id="state.field.cluInfo.accreditations.metaInfo" parent="state.field.cluInfo.accreditations.metaInfo.abstract"/>
 
 
-<dict:field key="versionInd" id="field.cluInfo.accreditation.metaInfo.versionInd.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.accreditation.metaInfo.versionInd.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.accreditation.metaInfo.versionInd.cd"/>
+<dict:field key="versionInd" id="field.cluInfo.accreditations.metaInfo.versionInd.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluInfo.accreditations.metaInfo.versionInd.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluInfo.accreditations.metaInfo.versionInd.cd"/>
 </dict:field>
-<dict:field key="versionInd" id="field.cluInfo.accreditation.metaInfo.versionInd" parent="field.cluInfo.accreditation.metaInfo.versionInd.abstract"/>
-<dict:fieldDescriptor key="versionInd" id="field.cluInfo.accreditation.metaInfo.versionInd.fd.abstract" abstract="true">
+<dict:field key="versionInd" id="field.cluInfo.accreditations.metaInfo.versionInd" parent="field.cluInfo.accreditations.metaInfo.versionInd.abstract"/>
+<dict:fieldDescriptor key="versionInd" id="field.cluInfo.accreditations.metaInfo.versionInd.fd.abstract" abstract="true">
 	<dict:name>Version Indicator</dict:name>
 	<dict:desc>An indicator of the version of the thing being described with this meta information. This is set by the service implementation and will be used to determine conflicts in updates.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="versionInd" id="field.cluInfo.accreditation.metaInfo.versionInd.fd" parent="field.cluInfo.accreditation.metaInfo.versionInd.fd.abstract"/>
+<dict:fieldDescriptor key="versionInd" id="field.cluInfo.accreditations.metaInfo.versionInd.fd" parent="field.cluInfo.accreditations.metaInfo.versionInd.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Calculates the version indicator that is used for optimistic locking; Read Only -->
-<dict:constraintDescriptor id="field.cluInfo.accreditation.metaInfo.versionInd.cd.abstract" abstract="true">
+<dict:constraintDescriptor id="field.cluInfo.accreditations.metaInfo.versionInd.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.calc.meta.versionInd"/>
 	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="versionInd" id="field.cluInfo.accreditation.metaInfo.versionInd.cd" parent="field.cluInfo.accreditation.metaInfo.versionInd.cd.abstract"/>
+<dict:constraintDescriptor key="versionInd" id="field.cluInfo.accreditations.metaInfo.versionInd.cd" parent="field.cluInfo.accreditations.metaInfo.versionInd.cd.abstract"/>
 
-<dict:field key="createTime" id="field.cluInfo.accreditation.metaInfo.createTime.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.accreditation.metaInfo.createTime.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.accreditation.metaInfo.createTime.cd"/>
+<dict:field key="createTime" id="field.cluInfo.accreditations.metaInfo.createTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluInfo.accreditations.metaInfo.createTime.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluInfo.accreditations.metaInfo.createTime.cd"/>
 </dict:field>
-<dict:field key="createTime" id="field.cluInfo.accreditation.metaInfo.createTime" parent="field.cluInfo.accreditation.metaInfo.createTime.abstract"/>
-<dict:fieldDescriptor key="createTime" id="field.cluInfo.accreditation.metaInfo.createTime.fd.abstract" abstract="true">
+<dict:field key="createTime" id="field.cluInfo.accreditations.metaInfo.createTime" parent="field.cluInfo.accreditations.metaInfo.createTime.abstract"/>
+<dict:fieldDescriptor key="createTime" id="field.cluInfo.accreditations.metaInfo.createTime.fd.abstract" abstract="true">
 	<dict:name>Date/Time Created</dict:name>
 	<dict:desc>The date and time the thing being described with this meta information was created</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createTime" id="field.cluInfo.accreditation.metaInfo.createTime.fd" parent="field.cluInfo.accreditation.metaInfo.createTime.fd.abstract"/>
+<dict:fieldDescriptor key="createTime" id="field.cluInfo.accreditations.metaInfo.createTime.fd" parent="field.cluInfo.accreditations.metaInfo.createTime.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Date-Time; Defaults to NOW, when the object is created -->
-<dict:constraintDescriptor id="field.cluInfo.accreditation.metaInfo.createTime.cd.abstract" abstract="true">
+<dict:constraintDescriptor id="field.cluInfo.accreditations.metaInfo.createTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
 	<dict:constraintRef bean="constraint.default.now"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="createTime" id="field.cluInfo.accreditation.metaInfo.createTime.cd" parent="field.cluInfo.accreditation.metaInfo.createTime.cd.abstract"/>
+<dict:constraintDescriptor key="createTime" id="field.cluInfo.accreditations.metaInfo.createTime.cd" parent="field.cluInfo.accreditations.metaInfo.createTime.cd.abstract"/>
 
-<dict:field key="createId" id="field.cluInfo.accreditation.metaInfo.createId.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.accreditation.metaInfo.createId.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.accreditation.metaInfo.createId.cd"/>
+<dict:field key="createId" id="field.cluInfo.accreditations.metaInfo.createId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluInfo.accreditations.metaInfo.createId.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluInfo.accreditations.metaInfo.createId.cd"/>
 </dict:field>
-<dict:field key="createId" id="field.cluInfo.accreditation.metaInfo.createId" parent="field.cluInfo.accreditation.metaInfo.createId.abstract"/>
-<dict:fieldDescriptor key="createId" id="field.cluInfo.accreditation.metaInfo.createId.fd.abstract" abstract="true">
+<dict:field key="createId" id="field.cluInfo.accreditations.metaInfo.createId" parent="field.cluInfo.accreditations.metaInfo.createId.abstract"/>
+<dict:fieldDescriptor key="createId" id="field.cluInfo.accreditations.metaInfo.createId.fd.abstract" abstract="true">
 	<dict:name>Created By Identifier</dict:name>
 	<dict:desc>The principal who created the thing being described with this meta information</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createId" id="field.cluInfo.accreditation.metaInfo.createId.fd" parent="field.cluInfo.accreditation.metaInfo.createId.fd.abstract"/>
+<dict:fieldDescriptor key="createId" id="field.cluInfo.accreditations.metaInfo.createId.fd" parent="field.cluInfo.accreditations.metaInfo.createId.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Defaults to the currently authenticated user -->
-<dict:constraintDescriptor id="field.cluInfo.accreditation.metaInfo.createId.cd.abstract" abstract="true">
+<dict:constraintDescriptor id="field.cluInfo.accreditations.metaInfo.createId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.related.principalId"/>
 	<dict:constraintRef bean="constraint.default.authenicated.principalId"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="createId" id="field.cluInfo.accreditation.metaInfo.createId.cd" parent="field.cluInfo.accreditation.metaInfo.createId.cd.abstract"/>
+<dict:constraintDescriptor key="createId" id="field.cluInfo.accreditations.metaInfo.createId.cd" parent="field.cluInfo.accreditations.metaInfo.createId.cd.abstract"/>
 
-<dict:field key="updateTime" id="field.cluInfo.accreditation.metaInfo.updateTime.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.accreditation.metaInfo.updateTime.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.accreditation.metaInfo.updateTime.cd"/>
+<dict:field key="updateTime" id="field.cluInfo.accreditations.metaInfo.updateTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluInfo.accreditations.metaInfo.updateTime.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluInfo.accreditations.metaInfo.updateTime.cd"/>
 </dict:field>
-<dict:field key="updateTime" id="field.cluInfo.accreditation.metaInfo.updateTime" parent="field.cluInfo.accreditation.metaInfo.updateTime.abstract"/>
-<dict:fieldDescriptor key="updateTime" id="field.cluInfo.accreditation.metaInfo.updateTime.fd.abstract" abstract="true">
+<dict:field key="updateTime" id="field.cluInfo.accreditations.metaInfo.updateTime" parent="field.cluInfo.accreditations.metaInfo.updateTime.abstract"/>
+<dict:fieldDescriptor key="updateTime" id="field.cluInfo.accreditations.metaInfo.updateTime.fd.abstract" abstract="true">
 	<dict:name>Date/Time Last Updated</dict:name>
 	<dict:desc>The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateTime" id="field.cluInfo.accreditation.metaInfo.updateTime.fd" parent="field.cluInfo.accreditation.metaInfo.updateTime.fd.abstract"/>
+<dict:fieldDescriptor key="updateTime" id="field.cluInfo.accreditations.metaInfo.updateTime.fd" parent="field.cluInfo.accreditations.metaInfo.updateTime.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Date-Time; Sets a field to the current time -->
-<dict:constraintDescriptor id="field.cluInfo.accreditation.metaInfo.updateTime.cd.abstract" abstract="true">
+<dict:constraintDescriptor id="field.cluInfo.accreditations.metaInfo.updateTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
 	<dict:constraintRef bean="constraint.calc.now"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="updateTime" id="field.cluInfo.accreditation.metaInfo.updateTime.cd" parent="field.cluInfo.accreditation.metaInfo.updateTime.cd.abstract"/>
+<dict:constraintDescriptor key="updateTime" id="field.cluInfo.accreditations.metaInfo.updateTime.cd" parent="field.cluInfo.accreditations.metaInfo.updateTime.cd.abstract"/>
 
-<dict:field key="updateId" id="field.cluInfo.accreditation.metaInfo.updateId.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.accreditation.metaInfo.updateId.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.accreditation.metaInfo.updateId.cd"/>
+<dict:field key="updateId" id="field.cluInfo.accreditations.metaInfo.updateId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluInfo.accreditations.metaInfo.updateId.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluInfo.accreditations.metaInfo.updateId.cd"/>
 </dict:field>
-<dict:field key="updateId" id="field.cluInfo.accreditation.metaInfo.updateId" parent="field.cluInfo.accreditation.metaInfo.updateId.abstract"/>
-<dict:fieldDescriptor key="updateId" id="field.cluInfo.accreditation.metaInfo.updateId.fd.abstract" abstract="true">
+<dict:field key="updateId" id="field.cluInfo.accreditations.metaInfo.updateId" parent="field.cluInfo.accreditations.metaInfo.updateId.abstract"/>
+<dict:fieldDescriptor key="updateId" id="field.cluInfo.accreditations.metaInfo.updateId.fd.abstract" abstract="true">
 	<dict:name>Updated By Identifier</dict:name>
 	<dict:desc>The principal who last updated the thing being described with this meta information. This would be filled in on initial creation as well.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateId" id="field.cluInfo.accreditation.metaInfo.updateId.fd" parent="field.cluInfo.accreditation.metaInfo.updateId.fd.abstract"/>
+<dict:fieldDescriptor key="updateId" id="field.cluInfo.accreditations.metaInfo.updateId.fd" parent="field.cluInfo.accreditations.metaInfo.updateId.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Sets a field to the currently authenticated user -->
-<dict:constraintDescriptor id="field.cluInfo.accreditation.metaInfo.updateId.cd.abstract" abstract="true">
+<dict:constraintDescriptor id="field.cluInfo.accreditations.metaInfo.updateId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.related.principalId"/>
 	<dict:constraintRef bean="constraint.calc.authenicated.principalId"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="updateId" id="field.cluInfo.accreditation.metaInfo.updateId.cd" parent="field.cluInfo.accreditation.metaInfo.updateId.cd.abstract"/>
+<dict:constraintDescriptor key="updateId" id="field.cluInfo.accreditations.metaInfo.updateId.cd" parent="field.cluInfo.accreditations.metaInfo.updateId.cd.abstract"/>
 
-<dict:field key="id" id="field.cluInfo.accreditation.id.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.accreditation.id.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.accreditation.id.cd"/>
+<dict:field key="id" id="field.cluInfo.accreditations.id.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluInfo.accreditations.id.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluInfo.accreditations.id.cd"/>
 </dict:field>
-<dict:field key="id" id="field.cluInfo.accreditation.id" parent="field.cluInfo.accreditation.id.abstract"/>
-<dict:fieldDescriptor key="id" id="field.cluInfo.accreditation.id.fd.abstract" abstract="true">
+<dict:field key="id" id="field.cluInfo.accreditations.id" parent="field.cluInfo.accreditations.id.abstract"/>
+<dict:fieldDescriptor key="id" id="field.cluInfo.accreditations.id.fd.abstract" abstract="true">
 	<dict:name>Accreditation Identifier</dict:name>
 	<dict:desc>Identifier for the accreditation.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="id" id="field.cluInfo.accreditation.id.fd" parent="field.cluInfo.accreditation.id.fd.abstract"/>
+<dict:fieldDescriptor key="id" id="field.cluInfo.accreditations.id.fd" parent="field.cluInfo.accreditations.id.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only. -->
-<dict:constraintDescriptor id="field.cluInfo.accreditation.id.cd.abstract" abstract="true">
+<dict:constraintDescriptor id="field.cluInfo.accreditations.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="id" id="field.cluInfo.accreditation.id.cd" parent="field.cluInfo.accreditation.id.cd.abstract"/>
+<dict:constraintDescriptor key="id" id="field.cluInfo.accreditations.id.cd" parent="field.cluInfo.accreditations.id.cd.abstract"/>
 
 <dict:field key="primaryAdminOrg" id="field.cluInfo.primaryAdminOrg.abstract" abstract="true">
 	<dict:fieldDescriptorRef bean="field.cluInfo.primaryAdminOrg.fd"/>
@@ -2016,326 +1922,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.lu.code.types"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="type" id="field.cluInfo.luCodes.type.cd" parent="field.cluInfo.luCodes.type.cd.abstract"/>
-
-<dict:field key="publishingInfo" id="field.cluInfo.publishingInfo.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.publishingInfo.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.publishingInfo.cd"/>
-</dict:field>
-<dict:field key="publishingInfo" id="field.cluInfo.publishingInfo" parent="field.cluInfo.publishingInfo.abstract"/>
-<dict:fieldDescriptor key="publishingInfo" id="field.cluInfo.publishingInfo.fd.abstract" abstract="true">
-	<dict:name>publishingInfo</dict:name>
-	<dict:desc>Publishing information associated with this CLU.</dict:desc>
-	<dict:dataType>Complex</dict:dataType>
-		<dict:objectStructureRef bean="object.field.cluInfo.publishingInfo"/>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="publishingInfo" id="field.cluInfo.publishingInfo.fd" parent="field.cluInfo.publishingInfo.fd.abstract"/>
-<!-- Optional; Repeating -->
-<dict:constraintDescriptor id="field.cluInfo.publishingInfo.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.optional"/>
-	<dict:constraintRef bean="constraint.repeating"/>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="publishingInfo" id="field.cluInfo.publishingInfo.cd" parent="field.cluInfo.publishingInfo.cd.abstract"/>
-
-<!-- **************************************************************************** -->
-<!-- object structure for object.field.cluInfo.publishingInfo.(default).(default) -->
-<!-- **************************************************************************** -->
-<!-- Detailed information about publishing a clu. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluPublishingInfo" id="object.field.cluInfo.publishingInfo.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.publishingInfo"/>
-</dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluPublishingInfo" id="object.field.cluInfo.publishingInfo" parent="object.field.cluInfo.publishingInfo.abstract"/>
-
-<dict:type key="*" id="type.field.cluInfo.publishingInfo.abstract" abstract="true">
-	<dict:name>(default)</dict:name>
-	<dict:desc>Default</dict:desc>
-	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-	<dict:stateRef bean="state.field.cluInfo.publishingInfo"/>
-</dict:type>
-<dict:type key="*" id="type.field.cluInfo.publishingInfo" parent="type.field.cluInfo.publishingInfo.abstract"/>
-
-<!-- ************************************************************************************ -->
-<!-- State for state.field.cluInfo.publishingInfo.(default).(default).(default).(default) -->
-<!-- ************************************************************************************ -->
-
-<dict:state key="*" id="state.field.cluInfo.publishingInfo.abstract" abstract="true">
-	<dict:fieldRef bean="field.cluInfo.publishingInfo.startCycle"/>
-	<dict:fieldRef bean="field.cluInfo.publishingInfo.endCycle"/>
-	<dict:fieldRef bean="field.cluInfo.publishingInfo.primaryInstructor"/>
-	<dict:fieldRef bean="field.cluInfo.publishingInfo.instructors"/>
-	<dict:fieldRef bean="field.cluInfo.publishingInfo.type"/>
-	<dict:fieldRef bean="field.cluInfo.publishingInfo.state"/>
-	<dict:fieldRef bean="field.cluInfo.publishingInfo.id"/>
-</dict:state>
-<dict:state key="*" id="state.field.cluInfo.publishingInfo" parent="state.field.cluInfo.publishingInfo.abstract"/>
-
-
-<dict:field key="startCycle" id="field.cluInfo.publishingInfo.startCycle.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.publishingInfo.startCycle.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.publishingInfo.startCycle.cd"/>
-</dict:field>
-<dict:field key="startCycle" id="field.cluInfo.publishingInfo.startCycle" parent="field.cluInfo.publishingInfo.startCycle.abstract"/>
-<dict:fieldDescriptor key="startCycle" id="field.cluInfo.publishingInfo.startCycle.fd.abstract" abstract="true">
-	<dict:name>Publication Start Cycle</dict:name>
-	<dict:desc>The start academic time period for when the CLU should be published in this type of usage. Should be less than or equal to endCycle.</dict:desc>
-	<dict:dataType>string</dict:dataType>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="startCycle" id="field.cluInfo.publishingInfo.startCycle.fd" parent="field.cluInfo.publishingInfo.startCycle.fd.abstract"/>
-<!-- Required; Single valued (non-repeating); In list of configured  time period types -->
-<dict:constraintDescriptor id="field.cluInfo.publishingInfo.startCycle.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.required"/>
-	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.atp.types"/>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="startCycle" id="field.cluInfo.publishingInfo.startCycle.cd" parent="field.cluInfo.publishingInfo.startCycle.cd.abstract"/>
-
-<dict:field key="endCycle" id="field.cluInfo.publishingInfo.endCycle.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.publishingInfo.endCycle.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.publishingInfo.endCycle.cd"/>
-</dict:field>
-<dict:field key="endCycle" id="field.cluInfo.publishingInfo.endCycle" parent="field.cluInfo.publishingInfo.endCycle.abstract"/>
-<dict:fieldDescriptor key="endCycle" id="field.cluInfo.publishingInfo.endCycle.fd.abstract" abstract="true">
-	<dict:name>Publication End Cycle</dict:name>
-	<dict:desc>The end academic time period for when the CLU should be published in this type of usage. If specified, should be greater than or equal to startCycle.</dict:desc>
-	<dict:dataType>string</dict:dataType>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="endCycle" id="field.cluInfo.publishingInfo.endCycle.fd" parent="field.cluInfo.publishingInfo.endCycle.fd.abstract"/>
-<!-- Optional; Single valued (non-repeating); In list of configured  time period types -->
-<dict:constraintDescriptor id="field.cluInfo.publishingInfo.endCycle.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.optional"/>
-	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.atp.types"/>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="endCycle" id="field.cluInfo.publishingInfo.endCycle.cd" parent="field.cluInfo.publishingInfo.endCycle.cd.abstract"/>
-
-<dict:field key="primaryInstructor" id="field.cluInfo.publishingInfo.primaryInstructor.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.publishingInfo.primaryInstructor.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.publishingInfo.primaryInstructor.cd"/>
-</dict:field>
-<dict:field key="primaryInstructor" id="field.cluInfo.publishingInfo.primaryInstructor" parent="field.cluInfo.publishingInfo.primaryInstructor.abstract"/>
-<dict:fieldDescriptor key="primaryInstructor" id="field.cluInfo.publishingInfo.primaryInstructor.fd.abstract" abstract="true">
-	<dict:name>Primary Instructor</dict:name>
-	<dict:desc>Primary potential instructor for the clu for the purpose of this publication.</dict:desc>
-	<dict:dataType>Complex</dict:dataType>
-		<dict:objectStructureRef bean="object.field.cluInfo.publishingInfo.primaryInstructor"/>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="primaryInstructor" id="field.cluInfo.publishingInfo.primaryInstructor.fd" parent="field.cluInfo.publishingInfo.primaryInstructor.fd.abstract"/>
-<!-- Optional; Single valued (non-repeating) -->
-<dict:constraintDescriptor id="field.cluInfo.publishingInfo.primaryInstructor.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.optional"/>
-	<dict:constraintRef bean="constraint.single"/>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="primaryInstructor" id="field.cluInfo.publishingInfo.primaryInstructor.cd" parent="field.cluInfo.publishingInfo.primaryInstructor.cd.abstract"/>
-
-<!-- ****************************************************************************************************************** -->
-<!-- object structure for object.field.cluInfo.publishingInfo.(default).(default).primaryInstructor.(default).(default) -->
-<!-- ****************************************************************************************************************** -->
-<!-- Information about a potential instructor for a clu. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluInstructorInfo" id="object.field.cluInfo.publishingInfo.primaryInstructor.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.publishingInfo.primaryInstructor"/>
-</dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluInstructorInfo" id="object.field.cluInfo.publishingInfo.primaryInstructor" parent="object.field.cluInfo.publishingInfo.primaryInstructor.abstract"/>
-
-<dict:type key="*" id="type.field.cluInfo.publishingInfo.primaryInstructor.abstract" abstract="true">
-	<dict:name>(default)</dict:name>
-	<dict:desc>Default</dict:desc>
-	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-	<dict:stateRef bean="state.field.cluInfo.publishingInfo.primaryInstructor"/>
-</dict:type>
-<dict:type key="*" id="type.field.cluInfo.publishingInfo.primaryInstructor" parent="type.field.cluInfo.publishingInfo.primaryInstructor.abstract"/>
-
-<!-- ************************************************************************************************************************** -->
-<!-- State for state.field.cluInfo.publishingInfo.(default).(default).primaryInstructor.(default).(default).(default).(default) -->
-<!-- ************************************************************************************************************************** -->
-
-<dict:state key="*" id="state.field.cluInfo.publishingInfo.primaryInstructor.abstract" abstract="true">
-	<dict:fieldRef bean="field.cluInfo.publishingInfo.primaryInstructor.orgId"/>
-	<dict:fieldRef bean="field.cluInfo.publishingInfo.primaryInstructor.personId"/>
-</dict:state>
-<dict:state key="*" id="state.field.cluInfo.publishingInfo.primaryInstructor" parent="state.field.cluInfo.publishingInfo.primaryInstructor.abstract"/>
-
-
-<dict:field key="orgId" id="field.cluInfo.publishingInfo.primaryInstructor.orgId.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.publishingInfo.primaryInstructor.orgId.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.publishingInfo.primaryInstructor.orgId.cd"/>
-</dict:field>
-<dict:field key="orgId" id="field.cluInfo.publishingInfo.primaryInstructor.orgId" parent="field.cluInfo.publishingInfo.primaryInstructor.orgId.abstract"/>
-<dict:fieldDescriptor key="orgId" id="field.cluInfo.publishingInfo.primaryInstructor.orgId.fd.abstract" abstract="true">
-	<dict:name>Organization Identifier</dict:name>
-	<dict:desc>Unique identifier for an organization. This indicates which organization this individual is associated with for the purposes of this clu.</dict:desc>
-	<dict:dataType>string</dict:dataType>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="orgId" id="field.cluInfo.publishingInfo.primaryInstructor.orgId.fd" parent="field.cluInfo.publishingInfo.primaryInstructor.orgId.fd.abstract"/>
-<!-- Optional; Single valued (non-repeating); Id of an existing ORG -->
-<dict:constraintDescriptor id="field.cluInfo.publishingInfo.primaryInstructor.orgId.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.optional"/>
-	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.related.orgId"/>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="orgId" id="field.cluInfo.publishingInfo.primaryInstructor.orgId.cd" parent="field.cluInfo.publishingInfo.primaryInstructor.orgId.cd.abstract"/>
-
-<dict:field key="personId" id="field.cluInfo.publishingInfo.primaryInstructor.personId.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.publishingInfo.primaryInstructor.personId.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.publishingInfo.primaryInstructor.personId.cd"/>
-</dict:field>
-<dict:field key="personId" id="field.cluInfo.publishingInfo.primaryInstructor.personId" parent="field.cluInfo.publishingInfo.primaryInstructor.personId.abstract"/>
-<dict:fieldDescriptor key="personId" id="field.cluInfo.publishingInfo.primaryInstructor.personId.fd.abstract" abstract="true">
-	<dict:name>Person Identifier</dict:name>
-	<dict:desc>Unique identifier for a person record.</dict:desc>
-	<dict:dataType>string</dict:dataType>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="personId" id="field.cluInfo.publishingInfo.primaryInstructor.personId.fd" parent="field.cluInfo.publishingInfo.primaryInstructor.personId.fd.abstract"/>
-<!-- Required; Single valued (non-repeating); Id of an existing PERSON -->
-<dict:constraintDescriptor id="field.cluInfo.publishingInfo.primaryInstructor.personId.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.required"/>
-	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.related.personId"/>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="personId" id="field.cluInfo.publishingInfo.primaryInstructor.personId.cd" parent="field.cluInfo.publishingInfo.primaryInstructor.personId.cd.abstract"/>
-
-<dict:field key="instructors" id="field.cluInfo.publishingInfo.instructors.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.publishingInfo.instructors.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.publishingInfo.instructors.cd"/>
-</dict:field>
-<dict:field key="instructors" id="field.cluInfo.publishingInfo.instructors" parent="field.cluInfo.publishingInfo.instructors.abstract"/>
-<dict:fieldDescriptor key="instructors" id="field.cluInfo.publishingInfo.instructors.fd.abstract" abstract="true">
-	<dict:name>Instructors</dict:name>
-	<dict:desc>Potential instructors associated with this clu for the purposes of this publication.</dict:desc>
-	<dict:dataType>Complex</dict:dataType>
-		<dict:objectStructureRef bean="object.field.cluInfo.publishingInfo.instructors"/>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="instructors" id="field.cluInfo.publishingInfo.instructors.fd" parent="field.cluInfo.publishingInfo.instructors.fd.abstract"/>
-<!-- Optional; Single valued (non-repeating) -->
-<dict:constraintDescriptor id="field.cluInfo.publishingInfo.instructors.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.optional"/>
-	<dict:constraintRef bean="constraint.single"/>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="instructors" id="field.cluInfo.publishingInfo.instructors.cd" parent="field.cluInfo.publishingInfo.instructors.cd.abstract"/>
-
-<!-- ************************************************************************************************************ -->
-<!-- object structure for object.field.cluInfo.publishingInfo.(default).(default).instructors.(default).(default) -->
-<!-- ************************************************************************************************************ -->
-<!-- Information about a potential instructor for a clu. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluInstructorInfo" id="object.field.cluInfo.publishingInfo.instructors.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.publishingInfo.instructors"/>
-</dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluInstructorInfo" id="object.field.cluInfo.publishingInfo.instructors" parent="object.field.cluInfo.publishingInfo.instructors.abstract"/>
-
-<dict:type key="*" id="type.field.cluInfo.publishingInfo.instructors.abstract" abstract="true">
-	<dict:name>(default)</dict:name>
-	<dict:desc>Default</dict:desc>
-	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-	<dict:stateRef bean="state.field.cluInfo.publishingInfo.instructors"/>
-</dict:type>
-<dict:type key="*" id="type.field.cluInfo.publishingInfo.instructors" parent="type.field.cluInfo.publishingInfo.instructors.abstract"/>
-
-<!-- ******************************************************************************************************************** -->
-<!-- State for state.field.cluInfo.publishingInfo.(default).(default).instructors.(default).(default).(default).(default) -->
-<!-- ******************************************************************************************************************** -->
-
-<dict:state key="*" id="state.field.cluInfo.publishingInfo.instructors.abstract" abstract="true">
-	<dict:fieldRef bean="field.cluInfo.publishingInfo.instructors.orgId"/>
-	<dict:fieldRef bean="field.cluInfo.publishingInfo.instructors.personId"/>
-</dict:state>
-<dict:state key="*" id="state.field.cluInfo.publishingInfo.instructors" parent="state.field.cluInfo.publishingInfo.instructors.abstract"/>
-
-
-<dict:field key="orgId" id="field.cluInfo.publishingInfo.instructors.orgId.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.publishingInfo.instructors.orgId.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.publishingInfo.instructors.orgId.cd"/>
-</dict:field>
-<dict:field key="orgId" id="field.cluInfo.publishingInfo.instructors.orgId" parent="field.cluInfo.publishingInfo.instructors.orgId.abstract"/>
-<dict:fieldDescriptor key="orgId" id="field.cluInfo.publishingInfo.instructors.orgId.fd.abstract" abstract="true">
-	<dict:name>Organization Identifier</dict:name>
-	<dict:desc>Unique identifier for an organization. This indicates which organization this individual is associated with for the purposes of this clu.</dict:desc>
-	<dict:dataType>string</dict:dataType>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="orgId" id="field.cluInfo.publishingInfo.instructors.orgId.fd" parent="field.cluInfo.publishingInfo.instructors.orgId.fd.abstract"/>
-<!-- Optional; Single valued (non-repeating); Id of an existing ORG -->
-<dict:constraintDescriptor id="field.cluInfo.publishingInfo.instructors.orgId.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.optional"/>
-	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.related.orgId"/>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="orgId" id="field.cluInfo.publishingInfo.instructors.orgId.cd" parent="field.cluInfo.publishingInfo.instructors.orgId.cd.abstract"/>
-
-<dict:field key="personId" id="field.cluInfo.publishingInfo.instructors.personId.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.publishingInfo.instructors.personId.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.publishingInfo.instructors.personId.cd"/>
-</dict:field>
-<dict:field key="personId" id="field.cluInfo.publishingInfo.instructors.personId" parent="field.cluInfo.publishingInfo.instructors.personId.abstract"/>
-<dict:fieldDescriptor key="personId" id="field.cluInfo.publishingInfo.instructors.personId.fd.abstract" abstract="true">
-	<dict:name>Person Identifier</dict:name>
-	<dict:desc>Unique identifier for a person record.</dict:desc>
-	<dict:dataType>string</dict:dataType>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="personId" id="field.cluInfo.publishingInfo.instructors.personId.fd" parent="field.cluInfo.publishingInfo.instructors.personId.fd.abstract"/>
-<!-- Required; Single valued (non-repeating); Id of an existing PERSON -->
-<dict:constraintDescriptor id="field.cluInfo.publishingInfo.instructors.personId.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.required"/>
-	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.related.personId"/>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="personId" id="field.cluInfo.publishingInfo.instructors.personId.cd" parent="field.cluInfo.publishingInfo.instructors.personId.cd.abstract"/>
-
-<dict:field key="type" id="field.cluInfo.publishingInfo.type.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.publishingInfo.type.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.publishingInfo.type.cd"/>
-</dict:field>
-<dict:field key="type" id="field.cluInfo.publishingInfo.type" parent="field.cluInfo.publishingInfo.type.abstract"/>
-<dict:fieldDescriptor key="type" id="field.cluInfo.publishingInfo.type.fd.abstract" abstract="true">
-	<dict:name>Publication Type</dict:name>
-	<dict:desc>Type of publication for which this information should be used. This type should correspond more with usage than media.</dict:desc>
-	<dict:dataType>string</dict:dataType>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="type" id="field.cluInfo.publishingInfo.type.fd" parent="field.cluInfo.publishingInfo.type.fd.abstract"/>
-<!-- Required; Single valued (non-repeating); Kuali TYPE: required on add, then read-only; Alphanumeric code, hypen and period. -->
-<dict:constraintDescriptor id="field.cluInfo.publishingInfo.type.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.required"/>
-	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.kuali.type"/>
-	<dict:constraintRef bean="constraint.code"/>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="type" id="field.cluInfo.publishingInfo.type.cd" parent="field.cluInfo.publishingInfo.type.cd.abstract"/>
-
-<dict:field key="state" id="field.cluInfo.publishingInfo.state.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.publishingInfo.state.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.publishingInfo.state.cd"/>
-<dict:selector>true</dict:selector>
-</dict:field>
-<dict:field key="state" id="field.cluInfo.publishingInfo.state" parent="field.cluInfo.publishingInfo.state.abstract"/>
-<dict:fieldDescriptor key="state" id="field.cluInfo.publishingInfo.state.fd.abstract" abstract="true">
-	<dict:name>Publication State</dict:name>
-	<dict:desc>Current state of the information for this publication type. This value should be constrained to those within the cluPublishingState enumeration. In general, an &quot;active&quot; record for a type indicates that the clu should be published within that media, though that may be further constrained by the cycle information included.</dict:desc>
-	<dict:dataType>string</dict:dataType>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="state" id="field.cluInfo.publishingInfo.state.fd" parent="field.cluInfo.publishingInfo.state.fd.abstract"/>
-<!-- Required; Single valued (non-repeating); Kuali STATE -->
-<dict:constraintDescriptor id="field.cluInfo.publishingInfo.state.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.required"/>
-	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.kuali.state"/>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="state" id="field.cluInfo.publishingInfo.state.cd" parent="field.cluInfo.publishingInfo.state.cd.abstract"/>
-
-<dict:field key="id" id="field.cluInfo.publishingInfo.id.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.publishingInfo.id.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.publishingInfo.id.cd"/>
-</dict:field>
-<dict:field key="id" id="field.cluInfo.publishingInfo.id" parent="field.cluInfo.publishingInfo.id.abstract"/>
-<dict:fieldDescriptor key="id" id="field.cluInfo.publishingInfo.id.fd.abstract" abstract="true">
-	<dict:name>Publishing Information Identifier</dict:name>
-	<dict:desc>Identifier for the publishing information. This is set by the service to be able to determine changes and alterations to the structure as well as provides a handle for searches. This structure is not currently accessible through unique operations, and it is strongly recommended that no external references to this particular identifier be maintained.</dict:desc>
-	<dict:dataType>string</dict:dataType>
-	<dict:readOnly>true</dict:readOnly>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="id" id="field.cluInfo.publishingInfo.id.fd" parent="field.cluInfo.publishingInfo.id.fd.abstract"/>
-<!-- Read Only; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only. -->
-<dict:constraintDescriptor id="field.cluInfo.publishingInfo.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
-	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.kuali.id"/>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="id" id="field.cluInfo.publishingInfo.id.cd" parent="field.cluInfo.publishingInfo.id.cd.abstract"/>
 
 <dict:field key="nextReviewPeriod" id="field.cluInfo.nextReviewPeriod.abstract" abstract="true">
 	<dict:fieldDescriptorRef bean="field.cluInfo.nextReviewPeriod.fd"/>

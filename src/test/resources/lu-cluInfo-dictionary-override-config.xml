@@ -7,7 +7,7 @@ http://student.kuali.org/xsd/dictionary-extension dictionary-extension.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Tue Feb 16 13:05:35 EST 2010
+on: Tue Feb 16 18:00:55 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -155,9 +155,8 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.academicSubjectOrgs"/>
 	<dict:fieldRef bean="dict.course.studySubjectArea"/>
 	<dict:fieldRef bean="dict.course.desc"/>
-	<dict:fieldRef bean="dict.course.rationale"/>
-	<dict:fieldRef bean="dict.course.campusLocation"/>
-	<dict:fieldRef bean="dict.course.accreditation"/>
+	<dict:fieldRef bean="dict.course.campusLocations"/>
+	<dict:fieldRef bean="dict.course.accreditations"/>
 	<dict:fieldRef bean="dict.course.primaryAdminOrg"/>
 	<dict:fieldRef bean="dict.course.alternateAdminOrgs"/>
 	<dict:fieldRef bean="dict.course.primaryInstructor"/>
@@ -170,7 +169,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.canCreateLui"/>
 	<dict:fieldRef bean="dict.course.referenceURL"/>
 	<dict:fieldRef bean="dict.course.luCodes"/>
-	<dict:fieldRef bean="dict.course.publishingInfo"/>
 	<dict:fieldRef bean="dict.course.nextReviewPeriod"/>
 	<dict:fieldRef bean="dict.course.isEnrollable"/>
 	<dict:fieldRef bean="dict.course.seasons"/>
@@ -197,9 +195,8 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.academicSubjectOrgs"/>
 	<dict:fieldRef bean="dict.course.studySubjectArea"/>
 	<dict:fieldRef bean="dict.course.desc.template"/>
-	<dict:fieldRef bean="dict.course.rationale"/>
-	<dict:fieldRef bean="dict.course.campusLocation"/>
-	<dict:fieldRef bean="dict.course.accreditation"/>
+	<dict:fieldRef bean="dict.course.campusLocations"/>
+	<dict:fieldRef bean="dict.course.accreditations"/>
 	<dict:fieldRef bean="dict.course.primaryAdminOrg"/>
 	<dict:fieldRef bean="dict.course.alternateAdminOrgs"/>
 	<dict:fieldRef bean="dict.course.primaryInstructor"/>
@@ -212,7 +209,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.canCreateLui"/>
 	<dict:fieldRef bean="dict.course.referenceURL"/>
 	<dict:fieldRef bean="dict.course.luCodes"/>
-	<dict:fieldRef bean="dict.course.publishingInfo"/>
 	<dict:fieldRef bean="dict.course.nextReviewPeriod"/>
 	<dict:fieldRef bean="dict.course.isEnrollable"/>
 	<dict:fieldRef bean="dict.course.seasons"/>
@@ -235,14 +231,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- ******************************************* -->
 
 <dict:state key="draft.*" parent="state.cluInfo.CreditCourse.abstract" id="state.cluInfo.CreditCourse.draft.abstract" abstract="true">
-	<dict:fieldRef bean="dict.course.official"/>
+	<dict:fieldRef bean="dict.course.official.draft"/>
 	<dict:fieldRef bean="dict.course.alternateIdentifiers"/>
 	<dict:fieldRef bean="dict.course.academicSubjectOrgs"/>
 	<dict:fieldRef bean="dict.course.studySubjectArea"/>
 	<dict:fieldRef bean="dict.course.desc.draft"/>
-	<dict:fieldRef bean="dict.course.rationale.draft"/>
-	<dict:fieldRef bean="dict.course.campusLocation.draft"/>
-	<dict:fieldRef bean="dict.course.accreditation"/>
+	<dict:fieldRef bean="dict.course.campusLocations.draft"/>
+	<dict:fieldRef bean="dict.course.accreditations"/>
 	<dict:fieldRef bean="dict.course.primaryAdminOrg"/>
 	<dict:fieldRef bean="dict.course.alternateAdminOrgs"/>
 	<dict:fieldRef bean="dict.course.primaryInstructor"/>
@@ -255,7 +250,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.canCreateLui"/>
 	<dict:fieldRef bean="dict.course.referenceURL"/>
 	<dict:fieldRef bean="dict.course.luCodes"/>
-	<dict:fieldRef bean="dict.course.publishingInfo"/>
 	<dict:fieldRef bean="dict.course.nextReviewPeriod"/>
 	<dict:fieldRef bean="dict.course.isEnrollable"/>
 	<dict:fieldRef bean="dict.course.seasons.draft"/>
@@ -277,14 +271,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- *********************************************** -->
 
 <dict:state key="submitted" parent="state.cluInfo.CreditCourse.abstract" id="state.cluInfo.CreditCourse.submitted.abstract" abstract="true">
-	<dict:fieldRef bean="dict.course.official"/>
+	<dict:fieldRef bean="dict.course.official.submitted"/>
 	<dict:fieldRef bean="dict.course.alternateIdentifiers"/>
 	<dict:fieldRef bean="dict.course.academicSubjectOrgs"/>
 	<dict:fieldRef bean="dict.course.studySubjectArea"/>
 	<dict:fieldRef bean="dict.course.desc"/>
-	<dict:fieldRef bean="dict.course.rationale"/>
-	<dict:fieldRef bean="dict.course.campusLocation"/>
-	<dict:fieldRef bean="dict.course.accreditation"/>
+	<dict:fieldRef bean="dict.course.campusLocations"/>
+	<dict:fieldRef bean="dict.course.accreditations"/>
 	<dict:fieldRef bean="dict.course.primaryAdminOrg"/>
 	<dict:fieldRef bean="dict.course.alternateAdminOrgs"/>
 	<dict:fieldRef bean="dict.course.primaryInstructor"/>
@@ -297,7 +290,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.canCreateLui"/>
 	<dict:fieldRef bean="dict.course.referenceURL"/>
 	<dict:fieldRef bean="dict.course.luCodes"/>
-	<dict:fieldRef bean="dict.course.publishingInfo"/>
 	<dict:fieldRef bean="dict.course.nextReviewPeriod"/>
 	<dict:fieldRef bean="dict.course.isEnrollable"/>
 	<dict:fieldRef bean="dict.course.seasons"/>
@@ -320,14 +312,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- *********************************************** -->
 
 <dict:state key="withdrawn" parent="state.cluInfo.CreditCourse.abstract" id="state.cluInfo.CreditCourse.withdrawn.abstract" abstract="true">
-	<dict:fieldRef bean="dict.course.official"/>
+	<dict:fieldRef bean="dict.course.official.withdrawn"/>
 	<dict:fieldRef bean="dict.course.alternateIdentifiers"/>
 	<dict:fieldRef bean="dict.course.academicSubjectOrgs"/>
 	<dict:fieldRef bean="dict.course.studySubjectArea"/>
 	<dict:fieldRef bean="dict.course.desc"/>
-	<dict:fieldRef bean="dict.course.rationale"/>
-	<dict:fieldRef bean="dict.course.campusLocation"/>
-	<dict:fieldRef bean="dict.course.accreditation"/>
+	<dict:fieldRef bean="dict.course.campusLocations"/>
+	<dict:fieldRef bean="dict.course.accreditations"/>
 	<dict:fieldRef bean="dict.course.primaryAdminOrg"/>
 	<dict:fieldRef bean="dict.course.alternateAdminOrgs"/>
 	<dict:fieldRef bean="dict.course.primaryInstructor"/>
@@ -340,7 +331,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.canCreateLui"/>
 	<dict:fieldRef bean="dict.course.referenceURL"/>
 	<dict:fieldRef bean="dict.course.luCodes"/>
-	<dict:fieldRef bean="dict.course.publishingInfo"/>
 	<dict:fieldRef bean="dict.course.nextReviewPeriod"/>
 	<dict:fieldRef bean="dict.course.isEnrollable"/>
 	<dict:fieldRef bean="dict.course.seasons"/>
@@ -364,14 +354,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <!-- Do we need here some indication of why it was not approved?  I.e. disapproved vs. not acted on because submitted too late, etc. -->
 <dict:state key="rejected" parent="state.cluInfo.CreditCourse.abstract" id="state.cluInfo.CreditCourse.rejected.abstract" abstract="true">
-	<dict:fieldRef bean="dict.course.official"/>
+	<dict:fieldRef bean="dict.course.official.rejected"/>
 	<dict:fieldRef bean="dict.course.alternateIdentifiers"/>
 	<dict:fieldRef bean="dict.course.academicSubjectOrgs"/>
 	<dict:fieldRef bean="dict.course.studySubjectArea"/>
 	<dict:fieldRef bean="dict.course.desc"/>
-	<dict:fieldRef bean="dict.course.rationale"/>
-	<dict:fieldRef bean="dict.course.campusLocation"/>
-	<dict:fieldRef bean="dict.course.accreditation"/>
+	<dict:fieldRef bean="dict.course.campusLocations"/>
+	<dict:fieldRef bean="dict.course.accreditations"/>
 	<dict:fieldRef bean="dict.course.primaryAdminOrg"/>
 	<dict:fieldRef bean="dict.course.alternateAdminOrgs"/>
 	<dict:fieldRef bean="dict.course.primaryInstructor"/>
@@ -384,7 +373,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.canCreateLui"/>
 	<dict:fieldRef bean="dict.course.referenceURL"/>
 	<dict:fieldRef bean="dict.course.luCodes"/>
-	<dict:fieldRef bean="dict.course.publishingInfo"/>
 	<dict:fieldRef bean="dict.course.nextReviewPeriod"/>
 	<dict:fieldRef bean="dict.course.isEnrollable"/>
 	<dict:fieldRef bean="dict.course.seasons"/>
@@ -413,9 +401,8 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.academicSubjectOrgs"/>
 	<dict:fieldRef bean="dict.course.studySubjectArea"/>
 	<dict:fieldRef bean="dict.course.desc"/>
-	<dict:fieldRef bean="dict.course.rationale"/>
-	<dict:fieldRef bean="dict.course.campusLocation"/>
-	<dict:fieldRef bean="dict.course.accreditation"/>
+	<dict:fieldRef bean="dict.course.campusLocations"/>
+	<dict:fieldRef bean="dict.course.accreditations"/>
 	<dict:fieldRef bean="dict.course.primaryAdminOrg"/>
 	<dict:fieldRef bean="dict.course.alternateAdminOrgs"/>
 	<dict:fieldRef bean="dict.course.primaryInstructor"/>
@@ -428,7 +415,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.canCreateLui"/>
 	<dict:fieldRef bean="dict.course.referenceURL"/>
 	<dict:fieldRef bean="dict.course.luCodes"/>
-	<dict:fieldRef bean="dict.course.publishingInfo"/>
 	<dict:fieldRef bean="dict.course.nextReviewPeriod"/>
 	<dict:fieldRef bean="dict.course.isEnrollable"/>
 	<dict:fieldRef bean="dict.course.seasons"/>
@@ -488,9 +474,8 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.format.academicSubjectOrgs"/>
 	<dict:fieldRef bean="dict.course.format.studySubjectArea"/>
 	<dict:fieldRef bean="dict.course.format.desc"/>
-	<dict:fieldRef bean="dict.course.format.marketingDesc"/>
 	<dict:fieldRef bean="dict.course.format.campusLocations"/>
-	<dict:fieldRef bean="dict.course.format.accreditation"/>
+	<dict:fieldRef bean="dict.course.format.accreditations"/>
 	<dict:fieldRef bean="dict.course.format.primaryAdminOrg"/>
 	<dict:fieldRef bean="dict.course.format.alternateAdminOrgs"/>
 	<dict:fieldRef bean="dict.course.format.primaryInstructor"/>
@@ -503,7 +488,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.format.canCreateLui"/>
 	<dict:fieldRef bean="dict.course.format.referenceURL"/>
 	<dict:fieldRef bean="dict.course.format.luCodes"/>
-	<dict:fieldRef bean="dict.course.format.publishingInfo"/>
 	<dict:fieldRef bean="dict.course.format.nextReviewPeriod"/>
 	<dict:fieldRef bean="dict.course.format.isEnrollable"/>
 	<dict:fieldRef bean="dict.course.format.offeredAtpTypes"/>
@@ -610,9 +594,8 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.academicSubjectOrgs"/>
 	<dict:fieldRef bean="dict.program.studySubjectArea"/>
 	<dict:fieldRef bean="dict.program.desc"/>
-	<dict:fieldRef bean="dict.program.rationale"/>
-	<dict:fieldRef bean="dict.program.campusLocation"/>
-	<dict:fieldRef bean="dict.program.accreditation"/>
+	<dict:fieldRef bean="dict.program.campusLocations"/>
+	<dict:fieldRef bean="dict.program.accreditations"/>
 	<dict:fieldRef bean="dict.program.primaryAdminOrg"/>
 	<dict:fieldRef bean="dict.program.alternateAdminOrgs"/>
 	<dict:fieldRef bean="dict.program.primaryInstructor"/>
@@ -625,7 +608,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.canCreateLui"/>
 	<dict:fieldRef bean="dict.program.referenceURL"/>
 	<dict:fieldRef bean="dict.program.luCodes"/>
-	<dict:fieldRef bean="dict.program.publishingInfo"/>
 	<dict:fieldRef bean="dict.program.nextReviewPeriod"/>
 	<dict:fieldRef bean="dict.program.isEnrollable"/>
 	<dict:fieldRef bean="dict.program.seasons"/>
@@ -651,9 +633,8 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.academicSubjectOrgs"/>
 	<dict:fieldRef bean="dict.program.studySubjectArea"/>
 	<dict:fieldRef bean="dict.program.desc.template"/>
-	<dict:fieldRef bean="dict.program.rationale"/>
-	<dict:fieldRef bean="dict.program.campusLocation"/>
-	<dict:fieldRef bean="dict.program.accreditation"/>
+	<dict:fieldRef bean="dict.program.campusLocations"/>
+	<dict:fieldRef bean="dict.program.accreditations"/>
 	<dict:fieldRef bean="dict.program.primaryAdminOrg"/>
 	<dict:fieldRef bean="dict.program.alternateAdminOrgs"/>
 	<dict:fieldRef bean="dict.program.primaryInstructor"/>
@@ -666,7 +647,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.canCreateLui"/>
 	<dict:fieldRef bean="dict.program.referenceURL"/>
 	<dict:fieldRef bean="dict.program.luCodes"/>
-	<dict:fieldRef bean="dict.program.publishingInfo"/>
 	<dict:fieldRef bean="dict.program.nextReviewPeriod"/>
 	<dict:fieldRef bean="dict.program.isEnrollable"/>
 	<dict:fieldRef bean="dict.program.seasons"/>
@@ -693,9 +673,8 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.academicSubjectOrgs"/>
 	<dict:fieldRef bean="dict.program.studySubjectArea"/>
 	<dict:fieldRef bean="dict.program.desc.draft"/>
-	<dict:fieldRef bean="dict.program.rationale.draft"/>
-	<dict:fieldRef bean="dict.program.campusLocation.draft"/>
-	<dict:fieldRef bean="dict.program.accreditation"/>
+	<dict:fieldRef bean="dict.program.campusLocations.draft"/>
+	<dict:fieldRef bean="dict.program.accreditations"/>
 	<dict:fieldRef bean="dict.program.primaryAdminOrg"/>
 	<dict:fieldRef bean="dict.program.alternateAdminOrgs"/>
 	<dict:fieldRef bean="dict.program.primaryInstructor"/>
@@ -708,7 +687,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.canCreateLui"/>
 	<dict:fieldRef bean="dict.program.referenceURL"/>
 	<dict:fieldRef bean="dict.program.luCodes"/>
-	<dict:fieldRef bean="dict.program.publishingInfo"/>
 	<dict:fieldRef bean="dict.program.nextReviewPeriod"/>
 	<dict:fieldRef bean="dict.program.isEnrollable"/>
 	<dict:fieldRef bean="dict.program.seasons.draft"/>
@@ -734,9 +712,8 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.academicSubjectOrgs"/>
 	<dict:fieldRef bean="dict.program.studySubjectArea"/>
 	<dict:fieldRef bean="dict.program.desc"/>
-	<dict:fieldRef bean="dict.program.rationale"/>
-	<dict:fieldRef bean="dict.program.campusLocation"/>
-	<dict:fieldRef bean="dict.program.accreditation"/>
+	<dict:fieldRef bean="dict.program.campusLocations"/>
+	<dict:fieldRef bean="dict.program.accreditations"/>
 	<dict:fieldRef bean="dict.program.primaryAdminOrg"/>
 	<dict:fieldRef bean="dict.program.alternateAdminOrgs"/>
 	<dict:fieldRef bean="dict.program.primaryInstructor"/>
@@ -749,7 +726,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.canCreateLui"/>
 	<dict:fieldRef bean="dict.program.referenceURL"/>
 	<dict:fieldRef bean="dict.program.luCodes"/>
-	<dict:fieldRef bean="dict.program.publishingInfo"/>
 	<dict:fieldRef bean="dict.program.nextReviewPeriod"/>
 	<dict:fieldRef bean="dict.program.isEnrollable"/>
 	<dict:fieldRef bean="dict.program.seasons"/>
@@ -776,9 +752,8 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.academicSubjectOrgs"/>
 	<dict:fieldRef bean="dict.program.studySubjectArea"/>
 	<dict:fieldRef bean="dict.program.desc"/>
-	<dict:fieldRef bean="dict.program.rationale"/>
-	<dict:fieldRef bean="dict.program.campusLocation"/>
-	<dict:fieldRef bean="dict.program.accreditation"/>
+	<dict:fieldRef bean="dict.program.campusLocations"/>
+	<dict:fieldRef bean="dict.program.accreditations"/>
 	<dict:fieldRef bean="dict.program.primaryAdminOrg"/>
 	<dict:fieldRef bean="dict.program.alternateAdminOrgs"/>
 	<dict:fieldRef bean="dict.program.primaryInstructor"/>
@@ -791,7 +766,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.canCreateLui"/>
 	<dict:fieldRef bean="dict.program.referenceURL"/>
 	<dict:fieldRef bean="dict.program.luCodes"/>
-	<dict:fieldRef bean="dict.program.publishingInfo"/>
 	<dict:fieldRef bean="dict.program.nextReviewPeriod"/>
 	<dict:fieldRef bean="dict.program.isEnrollable"/>
 	<dict:fieldRef bean="dict.program.seasons"/>
@@ -819,9 +793,8 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.academicSubjectOrgs"/>
 	<dict:fieldRef bean="dict.program.studySubjectArea"/>
 	<dict:fieldRef bean="dict.program.desc"/>
-	<dict:fieldRef bean="dict.program.rationale"/>
-	<dict:fieldRef bean="dict.program.campusLocation"/>
-	<dict:fieldRef bean="dict.program.accreditation"/>
+	<dict:fieldRef bean="dict.program.campusLocations"/>
+	<dict:fieldRef bean="dict.program.accreditations"/>
 	<dict:fieldRef bean="dict.program.primaryAdminOrg"/>
 	<dict:fieldRef bean="dict.program.alternateAdminOrgs"/>
 	<dict:fieldRef bean="dict.program.primaryInstructor"/>
@@ -834,7 +807,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.canCreateLui"/>
 	<dict:fieldRef bean="dict.program.referenceURL"/>
 	<dict:fieldRef bean="dict.program.luCodes"/>
-	<dict:fieldRef bean="dict.program.publishingInfo"/>
 	<dict:fieldRef bean="dict.program.nextReviewPeriod"/>
 	<dict:fieldRef bean="dict.program.isEnrollable"/>
 	<dict:fieldRef bean="dict.program.seasons"/>
@@ -862,9 +834,8 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.academicSubjectOrgs"/>
 	<dict:fieldRef bean="dict.program.studySubjectArea"/>
 	<dict:fieldRef bean="dict.program.desc"/>
-	<dict:fieldRef bean="dict.program.rationale"/>
-	<dict:fieldRef bean="dict.program.campusLocation"/>
-	<dict:fieldRef bean="dict.program.accreditation"/>
+	<dict:fieldRef bean="dict.program.campusLocations"/>
+	<dict:fieldRef bean="dict.program.accreditations"/>
 	<dict:fieldRef bean="dict.program.primaryAdminOrg"/>
 	<dict:fieldRef bean="dict.program.alternateAdminOrgs"/>
 	<dict:fieldRef bean="dict.program.primaryInstructor"/>
@@ -877,7 +848,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.canCreateLui"/>
 	<dict:fieldRef bean="dict.program.referenceURL"/>
 	<dict:fieldRef bean="dict.program.luCodes"/>
-	<dict:fieldRef bean="dict.program.publishingInfo"/>
 	<dict:fieldRef bean="dict.program.nextReviewPeriod"/>
 	<dict:fieldRef bean="dict.program.isEnrollable"/>
 	<dict:fieldRef bean="dict.program.seasons"/>
@@ -936,9 +906,8 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.activity.academicSubjectOrgs"/>
 	<dict:fieldRef bean="dict.course.activity.studySubjectArea"/>
 	<dict:fieldRef bean="dict.course.activity.desc"/>
-	<dict:fieldRef bean="dict.course.activity.marketingDesc"/>
-	<dict:fieldRef bean="dict.course.activity.campusLocationList"/>
-	<dict:fieldRef bean="dict.course.activity.accreditation"/>
+	<dict:fieldRef bean="dict.course.activity.campusLocations"/>
+	<dict:fieldRef bean="dict.course.activity.accreditations"/>
 	<dict:fieldRef bean="dict.course.activity.primaryAdminOrg"/>
 	<dict:fieldRef bean="dict.course.activity.alternateAdminOrgs"/>
 	<dict:fieldRef bean="dict.course.activity.primaryInstructor"/>
@@ -951,7 +920,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.activity.canCreateLui"/>
 	<dict:fieldRef bean="dict.course.activity.referenceURL"/>
 	<dict:fieldRef bean="dict.course.activity.luCodes"/>
-	<dict:fieldRef bean="dict.course.activity.publishingInfo"/>
 	<dict:fieldRef bean="dict.course.activity.nextReviewPeriod"/>
 	<dict:fieldRef bean="dict.course.activity.isEnrollable"/>
 	<dict:fieldRef bean="dict.course.activity.offeredAtpTypes"/>
@@ -977,9 +945,8 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.activity.academicSubjectOrgs"/>
 	<dict:fieldRef bean="dict.course.activity.studySubjectArea"/>
 	<dict:fieldRef bean="dict.course.activity.desc"/>
-	<dict:fieldRef bean="dict.course.activity.marketingDesc"/>
-	<dict:fieldRef bean="dict.course.activity.campusLocationList"/>
-	<dict:fieldRef bean="dict.course.activity.accreditation"/>
+	<dict:fieldRef bean="dict.course.activity.campusLocations"/>
+	<dict:fieldRef bean="dict.course.activity.accreditations"/>
 	<dict:fieldRef bean="dict.course.activity.primaryAdminOrg"/>
 	<dict:fieldRef bean="dict.course.activity.alternateAdminOrgs"/>
 	<dict:fieldRef bean="dict.course.activity.primaryInstructor"/>
@@ -992,7 +959,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.activity.canCreateLui"/>
 	<dict:fieldRef bean="dict.course.activity.referenceURL"/>
 	<dict:fieldRef bean="dict.course.activity.luCodes"/>
-	<dict:fieldRef bean="dict.course.activity.publishingInfo"/>
 	<dict:fieldRef bean="dict.course.activity.nextReviewPeriod"/>
 	<dict:fieldRef bean="dict.course.activity.isEnrollable"/>
 	<dict:fieldRef bean="dict.course.activity.offeredAtpTypes"/>
@@ -2094,91 +2060,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="formatted" id="dict.course.desc.formatted.cd" parent="dict.course.desc.formatted.cd.abstract"/>
 
-<!-- ******************************************************************************* -->
-<!-- object structure for object.field.cluInfo.marketingDesc.Credit Course.(default) -->
-<!-- ******************************************************************************* -->
-<!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.marketingDesc.CreditCourse.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.marketingDesc.CreditCourse"/>
-</dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.marketingDesc.CreditCourse" parent="object.field.cluInfo.marketingDesc.CreditCourse.abstract"/>
-
-<dict:type key="*" id="type.field.cluInfo.marketingDesc.CreditCourse.abstract" abstract="true">
-	<dict:name>(default)</dict:name>
-	<dict:desc>Default</dict:desc>
-	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.field.cluInfo.marketingDesc.CreditCourse"/>
-</dict:type>
-
-<!-- *************************************************************************************** -->
-<!-- State for state.field.cluInfo.marketingDesc.Credit Course.(default).(default).(default) -->
-<!-- *************************************************************************************** -->
-
-<dict:state key="*" id="state.field.cluInfo.marketingDesc.CreditCourse.abstract" abstract="true">
-	<dict:fieldRef bean="dict.course.rationale.plain"/>
-	<dict:fieldRef bean="dict.course.rationale.formatted"/>
-</dict:state>
-
-
-<!-- *************************** -->
-<!-- dict.course.rationale.plain -->
-<!-- *************************** -->
-<!-- calculated by stripping out formatting -->
-<dict:field key="plain" id="dict.course.rationale.plain.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.course.rationale.plain.fd"/>
-	<dict:constraintDescriptorRef bean="dict.course.rationale.plain.cd"/>
-</dict:field>
-<dict:field key="plain" id="dict.course.rationale.plain" parent="dict.course.rationale.plain.abstract"/>
-<dict:fieldDescriptor key="plain" id="dict.course.rationale.plain.fd.abstract" abstract="true">
-	<dict:name>course rationale plain</dict:name>
-	<dict:desc>plain text version of rationale</dict:desc>
-	<dict:dataType>string</dict:dataType>
-	<dict:readOnly>true</dict:readOnly>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="plain" id="dict.course.rationale.plain.fd" parent="dict.course.rationale.plain.fd.abstract"/>
-<dict:constraintDescriptor id="dict.course.rationale.plain.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
-	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.multi.line.text"/>
-	<dict:constraintRef bean="constraint.hidden"/>
-	<dict:constraintRef bean="constraint.calc.plain.text"/>
-	<dict:constraint key="in-line.constraint.for.field.richTextInfo.plain">
-		<dict:maxLength>(unbounded)</dict:maxLength>
-		</dict:constraint>
-	<dict:constraint key="in-line.constraint.for.dictionary.course.rationale.plain">
-		<dict:maxLength>14000</dict:maxLength>
-		</dict:constraint>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="plain" id="dict.course.rationale.plain.cd" parent="dict.course.rationale.plain.cd.abstract"/>
-
-<!-- ******************************* -->
-<!-- dict.course.rationale.formatted -->
-<!-- ******************************* -->
-<!-- the rationale is stored in the marketing description for now -->
-<dict:field key="formatted" id="dict.course.rationale.formatted.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.course.rationale.formatted.fd"/>
-	<dict:constraintDescriptorRef bean="dict.course.rationale.formatted.cd"/>
-</dict:field>
-<dict:field key="formatted" id="dict.course.rationale.formatted" parent="dict.course.rationale.formatted.abstract"/>
-<dict:fieldDescriptor key="formatted" id="dict.course.rationale.formatted.fd.abstract" abstract="true">
-	<dict:name>course rationale formatted</dict:name>
-	<dict:desc>rich text version of rationale</dict:desc>
-	<dict:dataType>string</dict:dataType>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="formatted" id="dict.course.rationale.formatted.fd" parent="dict.course.rationale.formatted.fd.abstract"/>
-<dict:constraintDescriptor id="dict.course.rationale.formatted.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.optional"/>
-	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.rich.text"/>
-	<dict:constraint key="in-line.constraint.for.field.richTextInfo.formatted">
-		<dict:maxLength>(unbounded)</dict:maxLength>
-		</dict:constraint>
-	<dict:constraint key="in-line.constraint.for.dictionary.course.rationale.formatted">
-		<dict:maxLength>14000</dict:maxLength>
-		</dict:constraint>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="formatted" id="dict.course.rationale.formatted.cd" parent="dict.course.rationale.formatted.cd.abstract"/>
-
 <!-- ********************************************************************************* -->
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Credit Course.(default) -->
 <!-- ********************************************************************************* -->
@@ -2506,31 +2387,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:state key="*" id="state.field.cluInfo.desc.CreditCourse.template.abstract" abstract="true">
 	<dict:fieldRef bean="dict.course.desc.plain"/>
 	<dict:fieldRef bean="dict.course.desc.formatted"/>
-</dict:state>
-
-<!-- ****************************************************************************** -->
-<!-- object structure for object.field.cluInfo.marketingDesc.Credit Course.template -->
-<!-- ****************************************************************************** -->
-<!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.marketingDesc.CreditCourse.template.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.marketingDesc.CreditCourse.template"/>
-</dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.marketingDesc.CreditCourse.template" parent="object.field.cluInfo.marketingDesc.CreditCourse.template.abstract"/>
-
-<dict:type key="*" id="type.field.cluInfo.marketingDesc.CreditCourse.template.abstract" abstract="true">
-	<dict:name>(default)</dict:name>
-	<dict:desc>Default</dict:desc>
-	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.field.cluInfo.marketingDesc.CreditCourse.template"/>
-</dict:type>
-
-<!-- ************************************************************************************** -->
-<!-- State for state.field.cluInfo.marketingDesc.Credit Course.template.(default).(default) -->
-<!-- ************************************************************************************** -->
-
-<dict:state key="*" id="state.field.cluInfo.marketingDesc.CreditCourse.template.abstract" abstract="true">
-	<dict:fieldRef bean="dict.course.rationale.plain"/>
-	<dict:fieldRef bean="dict.course.rationale.formatted"/>
 </dict:state>
 
 <!-- ******************************************************************************** -->
@@ -3068,91 +2924,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="formatted" id="dict.course.desc.formatted.draft.cd" parent="dict.course.desc.formatted.draft.cd.abstract"/>
 
-<!-- *************************************************************************** -->
-<!-- object structure for object.field.cluInfo.marketingDesc.Credit Course.draft -->
-<!-- *************************************************************************** -->
-<!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.marketingDesc.CreditCourse.draft.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.marketingDesc.CreditCourse.draft"/>
-</dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.marketingDesc.CreditCourse.draft" parent="object.field.cluInfo.marketingDesc.CreditCourse.draft.abstract"/>
-
-<dict:type key="*" id="type.field.cluInfo.marketingDesc.CreditCourse.draft.abstract" abstract="true">
-	<dict:name>(default)</dict:name>
-	<dict:desc>Default</dict:desc>
-	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.field.cluInfo.marketingDesc.CreditCourse.draft"/>
-</dict:type>
-
-<!-- *********************************************************************************** -->
-<!-- State for state.field.cluInfo.marketingDesc.Credit Course.draft.(default).(default) -->
-<!-- *********************************************************************************** -->
-
-<dict:state key="*" id="state.field.cluInfo.marketingDesc.CreditCourse.draft.abstract" abstract="true">
-	<dict:fieldRef bean="dict.course.rationale.plain.draft"/>
-	<dict:fieldRef bean="dict.course.rationale.formatted.draft"/>
-</dict:state>
-
-
-<!-- ********************************* -->
-<!-- dict.course.rationale.plain.draft -->
-<!-- ********************************* -->
-<!-- Nine 9's gets translated to (unbounded) -->
-<dict:field key="plain" id="dict.course.rationale.plain.draft.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.course.rationale.plain.draft.fd"/>
-	<dict:constraintDescriptorRef bean="dict.course.rationale.plain.draft.cd"/>
-</dict:field>
-<dict:field key="plain" id="dict.course.rationale.plain.draft" parent="dict.course.rationale.plain.draft.abstract"/>
-<dict:fieldDescriptor key="plain" id="dict.course.rationale.plain.draft.fd.abstract" abstract="true">
-	<dict:name>course rationale plain</dict:name>
-	<dict:desc>plain text version of rationale</dict:desc>
-	<dict:dataType>string</dict:dataType>
-	<dict:readOnly>true</dict:readOnly>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="plain" id="dict.course.rationale.plain.draft.fd" parent="dict.course.rationale.plain.draft.fd.abstract"/>
-<dict:constraintDescriptor id="dict.course.rationale.plain.draft.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
-	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.multi.line.text"/>
-	<dict:constraintRef bean="constraint.hidden"/>
-	<dict:constraintRef bean="constraint.calc.plain.text"/>
-	<dict:constraint key="in-line.constraint.for.field.richTextInfo.plain">
-		<dict:maxLength>(unbounded)</dict:maxLength>
-		</dict:constraint>
-	<dict:constraint key="in-line.constraint.for.dictionary.course.rationale.plain.draft">
-		<dict:maxLength>(unbounded)</dict:maxLength>
-		</dict:constraint>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="plain" id="dict.course.rationale.plain.draft.cd" parent="dict.course.rationale.plain.draft.cd.abstract"/>
-
-<!-- ************************************* -->
-<!-- dict.course.rationale.formatted.draft -->
-<!-- ************************************* -->
-<!-- Nine 9's gets translated to (unbounded) -->
-<dict:field key="formatted" id="dict.course.rationale.formatted.draft.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.course.rationale.formatted.draft.fd"/>
-	<dict:constraintDescriptorRef bean="dict.course.rationale.formatted.draft.cd"/>
-</dict:field>
-<dict:field key="formatted" id="dict.course.rationale.formatted.draft" parent="dict.course.rationale.formatted.draft.abstract"/>
-<dict:fieldDescriptor key="formatted" id="dict.course.rationale.formatted.draft.fd.abstract" abstract="true">
-	<dict:name>course rationale formatted</dict:name>
-	<dict:desc>rich text version of rationale</dict:desc>
-	<dict:dataType>string</dict:dataType>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="formatted" id="dict.course.rationale.formatted.draft.fd" parent="dict.course.rationale.formatted.draft.fd.abstract"/>
-<dict:constraintDescriptor id="dict.course.rationale.formatted.draft.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.optional"/>
-	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.rich.text"/>
-	<dict:constraint key="in-line.constraint.for.field.richTextInfo.formatted">
-		<dict:maxLength>(unbounded)</dict:maxLength>
-		</dict:constraint>
-	<dict:constraint key="in-line.constraint.for.dictionary.course.rationale.formatted.draft">
-		<dict:maxLength>(unbounded)</dict:maxLength>
-		</dict:constraint>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="formatted" id="dict.course.rationale.formatted.draft.cd" parent="dict.course.rationale.formatted.draft.cd.abstract"/>
-
 <!-- ***************************************************************************** -->
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Credit Course.draft -->
 <!-- ***************************************************************************** -->
@@ -3484,31 +3255,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.desc.formatted"/>
 </dict:state>
 
-<!-- ******************************************************************************* -->
-<!-- object structure for object.field.cluInfo.marketingDesc.Credit Course.submitted -->
-<!-- ******************************************************************************* -->
-<!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.marketingDesc.CreditCourse.submitted.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.marketingDesc.CreditCourse.submitted"/>
-</dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.marketingDesc.CreditCourse.submitted" parent="object.field.cluInfo.marketingDesc.CreditCourse.submitted.abstract"/>
-
-<dict:type key="*" id="type.field.cluInfo.marketingDesc.CreditCourse.submitted.abstract" abstract="true">
-	<dict:name>(default)</dict:name>
-	<dict:desc>Default</dict:desc>
-	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.field.cluInfo.marketingDesc.CreditCourse.submitted"/>
-</dict:type>
-
-<!-- *************************************************************************************** -->
-<!-- State for state.field.cluInfo.marketingDesc.Credit Course.submitted.(default).(default) -->
-<!-- *************************************************************************************** -->
-
-<dict:state key="*" id="state.field.cluInfo.marketingDesc.CreditCourse.submitted.abstract" abstract="true">
-	<dict:fieldRef bean="dict.course.rationale.plain"/>
-	<dict:fieldRef bean="dict.course.rationale.formatted"/>
-</dict:state>
-
 <!-- ********************************************************************************* -->
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Credit Course.submitted -->
 <!-- ********************************************************************************* -->
@@ -3813,31 +3559,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:state key="*" id="state.field.cluInfo.desc.CreditCourse.withdrawn.abstract" abstract="true">
 	<dict:fieldRef bean="dict.course.desc.plain"/>
 	<dict:fieldRef bean="dict.course.desc.formatted"/>
-</dict:state>
-
-<!-- ******************************************************************************* -->
-<!-- object structure for object.field.cluInfo.marketingDesc.Credit Course.withdrawn -->
-<!-- ******************************************************************************* -->
-<!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.marketingDesc.CreditCourse.withdrawn.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.marketingDesc.CreditCourse.withdrawn"/>
-</dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.marketingDesc.CreditCourse.withdrawn" parent="object.field.cluInfo.marketingDesc.CreditCourse.withdrawn.abstract"/>
-
-<dict:type key="*" id="type.field.cluInfo.marketingDesc.CreditCourse.withdrawn.abstract" abstract="true">
-	<dict:name>(default)</dict:name>
-	<dict:desc>Default</dict:desc>
-	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.field.cluInfo.marketingDesc.CreditCourse.withdrawn"/>
-</dict:type>
-
-<!-- *************************************************************************************** -->
-<!-- State for state.field.cluInfo.marketingDesc.Credit Course.withdrawn.(default).(default) -->
-<!-- *************************************************************************************** -->
-
-<dict:state key="*" id="state.field.cluInfo.marketingDesc.CreditCourse.withdrawn.abstract" abstract="true">
-	<dict:fieldRef bean="dict.course.rationale.plain"/>
-	<dict:fieldRef bean="dict.course.rationale.formatted"/>
 </dict:state>
 
 <!-- ********************************************************************************* -->
@@ -4146,31 +3867,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.desc.formatted"/>
 </dict:state>
 
-<!-- ****************************************************************************** -->
-<!-- object structure for object.field.cluInfo.marketingDesc.Credit Course.rejected -->
-<!-- ****************************************************************************** -->
-<!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.marketingDesc.CreditCourse.rejected.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.marketingDesc.CreditCourse.rejected"/>
-</dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.marketingDesc.CreditCourse.rejected" parent="object.field.cluInfo.marketingDesc.CreditCourse.rejected.abstract"/>
-
-<dict:type key="*" id="type.field.cluInfo.marketingDesc.CreditCourse.rejected.abstract" abstract="true">
-	<dict:name>(default)</dict:name>
-	<dict:desc>Default</dict:desc>
-	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.field.cluInfo.marketingDesc.CreditCourse.rejected"/>
-</dict:type>
-
-<!-- ************************************************************************************** -->
-<!-- State for state.field.cluInfo.marketingDesc.Credit Course.rejected.(default).(default) -->
-<!-- ************************************************************************************** -->
-
-<dict:state key="*" id="state.field.cluInfo.marketingDesc.CreditCourse.rejected.abstract" abstract="true">
-	<dict:fieldRef bean="dict.course.rationale.plain"/>
-	<dict:fieldRef bean="dict.course.rationale.formatted"/>
-</dict:state>
-
 <!-- ******************************************************************************** -->
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Credit Course.rejected -->
 <!-- ******************************************************************************** -->
@@ -4289,31 +3985,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:state key="*" id="state.field.cluInfo.desc.CreditCourse.retired.abstract" abstract="true">
 	<dict:fieldRef bean="dict.course.desc.plain"/>
 	<dict:fieldRef bean="dict.course.desc.formatted"/>
-</dict:state>
-
-<!-- ***************************************************************************** -->
-<!-- object structure for object.field.cluInfo.marketingDesc.Credit Course.retired -->
-<!-- ***************************************************************************** -->
-<!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.marketingDesc.CreditCourse.retired.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.marketingDesc.CreditCourse.retired"/>
-</dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.marketingDesc.CreditCourse.retired" parent="object.field.cluInfo.marketingDesc.CreditCourse.retired.abstract"/>
-
-<dict:type key="*" id="type.field.cluInfo.marketingDesc.CreditCourse.retired.abstract" abstract="true">
-	<dict:name>(default)</dict:name>
-	<dict:desc>Default</dict:desc>
-	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.field.cluInfo.marketingDesc.CreditCourse.retired"/>
-</dict:type>
-
-<!-- ************************************************************************************* -->
-<!-- State for state.field.cluInfo.marketingDesc.Credit Course.retired.(default).(default) -->
-<!-- ************************************************************************************* -->
-
-<dict:state key="*" id="state.field.cluInfo.marketingDesc.CreditCourse.retired.abstract" abstract="true">
-	<dict:fieldRef bean="dict.course.rationale.plain"/>
-	<dict:fieldRef bean="dict.course.rationale.formatted"/>
 </dict:state>
 
 <!-- ******************************************************************************* -->
@@ -5637,91 +5308,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="formatted" id="dict.program.desc.formatted.cd" parent="dict.program.desc.formatted.cd.abstract"/>
 
-<!-- ************************************************************************* -->
-<!-- object structure for object.field.cluInfo.marketingDesc.Program.(default) -->
-<!-- ************************************************************************* -->
-<!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.marketingDesc.Program.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.marketingDesc.Program"/>
-</dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.marketingDesc.Program" parent="object.field.cluInfo.marketingDesc.Program.abstract"/>
-
-<dict:type key="*" id="type.field.cluInfo.marketingDesc.Program.abstract" abstract="true">
-	<dict:name>(default)</dict:name>
-	<dict:desc>Default</dict:desc>
-	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.field.cluInfo.marketingDesc.Program"/>
-</dict:type>
-
-<!-- ********************************************************************************* -->
-<!-- State for state.field.cluInfo.marketingDesc.Program.(default).(default).(default) -->
-<!-- ********************************************************************************* -->
-
-<dict:state key="*" id="state.field.cluInfo.marketingDesc.Program.abstract" abstract="true">
-	<dict:fieldRef bean="dict.program.rationale.plain"/>
-	<dict:fieldRef bean="dict.program.rationale.formatted"/>
-</dict:state>
-
-
-<!-- **************************** -->
-<!-- dict.program.rationale.plain -->
-<!-- **************************** -->
-<!-- calculated by stripping out formatting -->
-<dict:field key="plain" id="dict.program.rationale.plain.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.program.rationale.plain.fd"/>
-	<dict:constraintDescriptorRef bean="dict.program.rationale.plain.cd"/>
-</dict:field>
-<dict:field key="plain" id="dict.program.rationale.plain" parent="dict.program.rationale.plain.abstract"/>
-<dict:fieldDescriptor key="plain" id="dict.program.rationale.plain.fd.abstract" abstract="true">
-	<dict:name>program rationale plain</dict:name>
-	<dict:desc>plain text version of rationale</dict:desc>
-	<dict:dataType>string</dict:dataType>
-	<dict:readOnly>true</dict:readOnly>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="plain" id="dict.program.rationale.plain.fd" parent="dict.program.rationale.plain.fd.abstract"/>
-<dict:constraintDescriptor id="dict.program.rationale.plain.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
-	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.multi.line.text"/>
-	<dict:constraintRef bean="constraint.hidden"/>
-	<dict:constraintRef bean="constraint.calc.plain.text"/>
-	<dict:constraint key="in-line.constraint.for.field.richTextInfo.plain">
-		<dict:maxLength>(unbounded)</dict:maxLength>
-		</dict:constraint>
-	<dict:constraint key="in-line.constraint.for.dictionary.program.rationale.plain">
-		<dict:maxLength>14000</dict:maxLength>
-		</dict:constraint>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="plain" id="dict.program.rationale.plain.cd" parent="dict.program.rationale.plain.cd.abstract"/>
-
-<!-- ******************************** -->
-<!-- dict.program.rationale.formatted -->
-<!-- ******************************** -->
-<!-- the rationale is stored in the marketing description for now -->
-<dict:field key="formatted" id="dict.program.rationale.formatted.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.program.rationale.formatted.fd"/>
-	<dict:constraintDescriptorRef bean="dict.program.rationale.formatted.cd"/>
-</dict:field>
-<dict:field key="formatted" id="dict.program.rationale.formatted" parent="dict.program.rationale.formatted.abstract"/>
-<dict:fieldDescriptor key="formatted" id="dict.program.rationale.formatted.fd.abstract" abstract="true">
-	<dict:name>program rationale formatted</dict:name>
-	<dict:desc>rich text version of rationale</dict:desc>
-	<dict:dataType>string</dict:dataType>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="formatted" id="dict.program.rationale.formatted.fd" parent="dict.program.rationale.formatted.fd.abstract"/>
-<dict:constraintDescriptor id="dict.program.rationale.formatted.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.optional"/>
-	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.rich.text"/>
-	<dict:constraint key="in-line.constraint.for.field.richTextInfo.formatted">
-		<dict:maxLength>(unbounded)</dict:maxLength>
-		</dict:constraint>
-	<dict:constraint key="in-line.constraint.for.dictionary.program.rationale.formatted">
-		<dict:maxLength>14000</dict:maxLength>
-		</dict:constraint>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="formatted" id="dict.program.rationale.formatted.cd" parent="dict.program.rationale.formatted.cd.abstract"/>
-
 <!-- *************************************************************************** -->
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Program.(default) -->
 <!-- *************************************************************************** -->
@@ -6101,31 +5687,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:state key="*" id="state.field.cluInfo.desc.Program.template.abstract" abstract="true">
 	<dict:fieldRef bean="dict.program.desc.plain"/>
 	<dict:fieldRef bean="dict.program.desc.formatted"/>
-</dict:state>
-
-<!-- ************************************************************************ -->
-<!-- object structure for object.field.cluInfo.marketingDesc.Program.template -->
-<!-- ************************************************************************ -->
-<!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.marketingDesc.Program.template.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.marketingDesc.Program.template"/>
-</dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.marketingDesc.Program.template" parent="object.field.cluInfo.marketingDesc.Program.template.abstract"/>
-
-<dict:type key="*" id="type.field.cluInfo.marketingDesc.Program.template.abstract" abstract="true">
-	<dict:name>(default)</dict:name>
-	<dict:desc>Default</dict:desc>
-	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.field.cluInfo.marketingDesc.Program.template"/>
-</dict:type>
-
-<!-- ******************************************************************************** -->
-<!-- State for state.field.cluInfo.marketingDesc.Program.template.(default).(default) -->
-<!-- ******************************************************************************** -->
-
-<dict:state key="*" id="state.field.cluInfo.marketingDesc.Program.template.abstract" abstract="true">
-	<dict:fieldRef bean="dict.program.rationale.plain"/>
-	<dict:fieldRef bean="dict.program.rationale.formatted"/>
 </dict:state>
 
 <!-- ************************************************************************** -->
@@ -6549,91 +6110,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="formatted" id="dict.program.desc.formatted.draft.cd" parent="dict.program.desc.formatted.draft.cd.abstract"/>
 
-<!-- ********************************************************************* -->
-<!-- object structure for object.field.cluInfo.marketingDesc.Program.draft -->
-<!-- ********************************************************************* -->
-<!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.marketingDesc.Program.draft.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.marketingDesc.Program.draft"/>
-</dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.marketingDesc.Program.draft" parent="object.field.cluInfo.marketingDesc.Program.draft.abstract"/>
-
-<dict:type key="*" id="type.field.cluInfo.marketingDesc.Program.draft.abstract" abstract="true">
-	<dict:name>(default)</dict:name>
-	<dict:desc>Default</dict:desc>
-	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.field.cluInfo.marketingDesc.Program.draft"/>
-</dict:type>
-
-<!-- ***************************************************************************** -->
-<!-- State for state.field.cluInfo.marketingDesc.Program.draft.(default).(default) -->
-<!-- ***************************************************************************** -->
-
-<dict:state key="*" id="state.field.cluInfo.marketingDesc.Program.draft.abstract" abstract="true">
-	<dict:fieldRef bean="dict.program.rationale.plain.draft"/>
-	<dict:fieldRef bean="dict.program.rationale.formatted.draft"/>
-</dict:state>
-
-
-<!-- ********************************** -->
-<!-- dict.program.rationale.plain.draft -->
-<!-- ********************************** -->
-<!-- Nine 9's gets translated to (unbounded) -->
-<dict:field key="plain" id="dict.program.rationale.plain.draft.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.program.rationale.plain.draft.fd"/>
-	<dict:constraintDescriptorRef bean="dict.program.rationale.plain.draft.cd"/>
-</dict:field>
-<dict:field key="plain" id="dict.program.rationale.plain.draft" parent="dict.program.rationale.plain.draft.abstract"/>
-<dict:fieldDescriptor key="plain" id="dict.program.rationale.plain.draft.fd.abstract" abstract="true">
-	<dict:name>program rationale plain</dict:name>
-	<dict:desc>plain text version of rationale</dict:desc>
-	<dict:dataType>string</dict:dataType>
-	<dict:readOnly>true</dict:readOnly>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="plain" id="dict.program.rationale.plain.draft.fd" parent="dict.program.rationale.plain.draft.fd.abstract"/>
-<dict:constraintDescriptor id="dict.program.rationale.plain.draft.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
-	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.multi.line.text"/>
-	<dict:constraintRef bean="constraint.hidden"/>
-	<dict:constraintRef bean="constraint.calc.plain.text"/>
-	<dict:constraint key="in-line.constraint.for.field.richTextInfo.plain">
-		<dict:maxLength>(unbounded)</dict:maxLength>
-		</dict:constraint>
-	<dict:constraint key="in-line.constraint.for.dictionary.program.rationale.plain.draft">
-		<dict:maxLength>(unbounded)</dict:maxLength>
-		</dict:constraint>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="plain" id="dict.program.rationale.plain.draft.cd" parent="dict.program.rationale.plain.draft.cd.abstract"/>
-
-<!-- ************************************** -->
-<!-- dict.program.rationale.formatted.draft -->
-<!-- ************************************** -->
-<!-- Nine 9's gets translated to (unbounded) -->
-<dict:field key="formatted" id="dict.program.rationale.formatted.draft.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.program.rationale.formatted.draft.fd"/>
-	<dict:constraintDescriptorRef bean="dict.program.rationale.formatted.draft.cd"/>
-</dict:field>
-<dict:field key="formatted" id="dict.program.rationale.formatted.draft" parent="dict.program.rationale.formatted.draft.abstract"/>
-<dict:fieldDescriptor key="formatted" id="dict.program.rationale.formatted.draft.fd.abstract" abstract="true">
-	<dict:name>program rationale formatted</dict:name>
-	<dict:desc>rich text version of rationale</dict:desc>
-	<dict:dataType>string</dict:dataType>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="formatted" id="dict.program.rationale.formatted.draft.fd" parent="dict.program.rationale.formatted.draft.fd.abstract"/>
-<dict:constraintDescriptor id="dict.program.rationale.formatted.draft.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.optional"/>
-	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.rich.text"/>
-	<dict:constraint key="in-line.constraint.for.field.richTextInfo.formatted">
-		<dict:maxLength>(unbounded)</dict:maxLength>
-		</dict:constraint>
-	<dict:constraint key="in-line.constraint.for.dictionary.program.rationale.formatted.draft">
-		<dict:maxLength>(unbounded)</dict:maxLength>
-		</dict:constraint>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="formatted" id="dict.program.rationale.formatted.draft.cd" parent="dict.program.rationale.formatted.draft.cd.abstract"/>
-
 <!-- *********************************************************************** -->
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Program.draft -->
 <!-- *********************************************************************** -->
@@ -6872,31 +6348,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.desc.formatted"/>
 </dict:state>
 
-<!-- ************************************************************************* -->
-<!-- object structure for object.field.cluInfo.marketingDesc.Program.submitted -->
-<!-- ************************************************************************* -->
-<!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.marketingDesc.Program.submitted.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.marketingDesc.Program.submitted"/>
-</dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.marketingDesc.Program.submitted" parent="object.field.cluInfo.marketingDesc.Program.submitted.abstract"/>
-
-<dict:type key="*" id="type.field.cluInfo.marketingDesc.Program.submitted.abstract" abstract="true">
-	<dict:name>(default)</dict:name>
-	<dict:desc>Default</dict:desc>
-	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.field.cluInfo.marketingDesc.Program.submitted"/>
-</dict:type>
-
-<!-- ********************************************************************************* -->
-<!-- State for state.field.cluInfo.marketingDesc.Program.submitted.(default).(default) -->
-<!-- ********************************************************************************* -->
-
-<dict:state key="*" id="state.field.cluInfo.marketingDesc.Program.submitted.abstract" abstract="true">
-	<dict:fieldRef bean="dict.program.rationale.plain"/>
-	<dict:fieldRef bean="dict.program.rationale.formatted"/>
-</dict:state>
-
 <!-- *************************************************************************** -->
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Program.submitted -->
 <!-- *************************************************************************** -->
@@ -7109,31 +6560,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:state key="*" id="state.field.cluInfo.desc.Program.withdrawn.abstract" abstract="true">
 	<dict:fieldRef bean="dict.program.desc.plain"/>
 	<dict:fieldRef bean="dict.program.desc.formatted"/>
-</dict:state>
-
-<!-- ************************************************************************* -->
-<!-- object structure for object.field.cluInfo.marketingDesc.Program.withdrawn -->
-<!-- ************************************************************************* -->
-<!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.marketingDesc.Program.withdrawn.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.marketingDesc.Program.withdrawn"/>
-</dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.marketingDesc.Program.withdrawn" parent="object.field.cluInfo.marketingDesc.Program.withdrawn.abstract"/>
-
-<dict:type key="*" id="type.field.cluInfo.marketingDesc.Program.withdrawn.abstract" abstract="true">
-	<dict:name>(default)</dict:name>
-	<dict:desc>Default</dict:desc>
-	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.field.cluInfo.marketingDesc.Program.withdrawn"/>
-</dict:type>
-
-<!-- ********************************************************************************* -->
-<!-- State for state.field.cluInfo.marketingDesc.Program.withdrawn.(default).(default) -->
-<!-- ********************************************************************************* -->
-
-<dict:state key="*" id="state.field.cluInfo.marketingDesc.Program.withdrawn.abstract" abstract="true">
-	<dict:fieldRef bean="dict.program.rationale.plain"/>
-	<dict:fieldRef bean="dict.program.rationale.formatted"/>
 </dict:state>
 
 <!-- *************************************************************************** -->
@@ -7350,31 +6776,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.desc.formatted"/>
 </dict:state>
 
-<!-- ************************************************************************ -->
-<!-- object structure for object.field.cluInfo.marketingDesc.Program.rejected -->
-<!-- ************************************************************************ -->
-<!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.marketingDesc.Program.rejected.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.marketingDesc.Program.rejected"/>
-</dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.marketingDesc.Program.rejected" parent="object.field.cluInfo.marketingDesc.Program.rejected.abstract"/>
-
-<dict:type key="*" id="type.field.cluInfo.marketingDesc.Program.rejected.abstract" abstract="true">
-	<dict:name>(default)</dict:name>
-	<dict:desc>Default</dict:desc>
-	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.field.cluInfo.marketingDesc.Program.rejected"/>
-</dict:type>
-
-<!-- ******************************************************************************** -->
-<!-- State for state.field.cluInfo.marketingDesc.Program.rejected.(default).(default) -->
-<!-- ******************************************************************************** -->
-
-<dict:state key="*" id="state.field.cluInfo.marketingDesc.Program.rejected.abstract" abstract="true">
-	<dict:fieldRef bean="dict.program.rationale.plain"/>
-	<dict:fieldRef bean="dict.program.rationale.formatted"/>
-</dict:state>
-
 <!-- ************************************************************************** -->
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Program.rejected -->
 <!-- ************************************************************************** -->
@@ -7517,31 +6918,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:state key="*" id="state.field.cluInfo.desc.Program.retired.abstract" abstract="true">
 	<dict:fieldRef bean="dict.program.desc.plain"/>
 	<dict:fieldRef bean="dict.program.desc.formatted"/>
-</dict:state>
-
-<!-- *********************************************************************** -->
-<!-- object structure for object.field.cluInfo.marketingDesc.Program.retired -->
-<!-- *********************************************************************** -->
-<!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.marketingDesc.Program.retired.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.marketingDesc.Program.retired"/>
-</dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.marketingDesc.Program.retired" parent="object.field.cluInfo.marketingDesc.Program.retired.abstract"/>
-
-<dict:type key="*" id="type.field.cluInfo.marketingDesc.Program.retired.abstract" abstract="true">
-	<dict:name>(default)</dict:name>
-	<dict:desc>Default</dict:desc>
-	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.field.cluInfo.marketingDesc.Program.retired"/>
-</dict:type>
-
-<!-- ******************************************************************************* -->
-<!-- State for state.field.cluInfo.marketingDesc.Program.retired.(default).(default) -->
-<!-- ******************************************************************************* -->
-
-<dict:state key="*" id="state.field.cluInfo.marketingDesc.Program.retired.abstract" abstract="true">
-	<dict:fieldRef bean="dict.program.rationale.plain"/>
-	<dict:fieldRef bean="dict.program.rationale.formatted"/>
 </dict:state>
 
 <!-- ************************************************************************* -->
@@ -8494,72 +7870,49 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="desc" id="dict.course.desc.cd" parent="dict.course.desc.cd.abstract"/>
 
-<!-- ********************* -->
-<!-- dict.course.rationale -->
-<!-- ********************* -->
-<!-- Rationale is stored in the Marketing Description for now -->
-<dict:field key="marketingDesc" id="dict.course.rationale.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.course.rationale.fd"/>
-	<dict:constraintDescriptorRef bean="dict.course.rationale.cd"/>
+<!-- *************************** -->
+<!-- dict.course.campusLocations -->
+<!-- *************************** -->
+<dict:field key="campusLocations" id="dict.course.campusLocations.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.campusLocations.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.campusLocations.cd"/>
 </dict:field>
-<dict:field key="marketingDesc" id="dict.course.rationale" parent="dict.course.rationale.abstract"/>
-<dict:fieldDescriptor key="marketingDesc" id="dict.course.rationale.fd.abstract" abstract="true">
-	<dict:name>course rationale</dict:name>
-	<dict:desc>rationale</dict:desc>
-	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.marketingDesc.CreditCourse"/>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="marketingDesc" id="dict.course.rationale.fd" parent="dict.course.rationale.fd.abstract"/>
-<dict:constraintDescriptor id="dict.course.rationale.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.optional"/>
-	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.required"/>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="marketingDesc" id="dict.course.rationale.cd" parent="dict.course.rationale.cd.abstract"/>
-
-<!-- ************************** -->
-<!-- dict.course.campusLocation -->
-<!-- ************************** -->
-<dict:field key="campusLocationList" id="dict.course.campusLocation.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.course.campusLocation.fd"/>
-	<dict:constraintDescriptorRef bean="dict.course.campusLocation.cd"/>
-</dict:field>
-<dict:field key="campusLocationList" id="dict.course.campusLocation" parent="dict.course.campusLocation.abstract"/>
-<dict:fieldDescriptor key="campusLocationList" id="dict.course.campusLocation.fd.abstract" abstract="true">
-	<dict:name>course campusLocation</dict:name>
-	<dict:desc>campus location</dict:desc>
+<dict:field key="campusLocations" id="dict.course.campusLocations" parent="dict.course.campusLocations.abstract"/>
+<dict:fieldDescriptor key="campusLocations" id="dict.course.campusLocations.fd.abstract" abstract="true">
+	<dict:name>course campusLocations</dict:name>
+	<dict:desc>campus locations</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="campusLocationList" id="dict.course.campusLocation.fd" parent="dict.course.campusLocation.fd.abstract"/>
-<dict:constraintDescriptor id="dict.course.campusLocation.cd.abstract" abstract="true">
+<dict:fieldDescriptor key="campusLocations" id="dict.course.campusLocations.fd" parent="dict.course.campusLocations.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.campusLocations.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.repeating"/>
 	<dict:constraintRef bean="constraint.code"/>
 	<dict:constraintRef bean="constraint.required"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="campusLocationList" id="dict.course.campusLocation.cd" parent="dict.course.campusLocation.cd.abstract"/>
+<dict:constraintDescriptor key="campusLocations" id="dict.course.campusLocations.cd" parent="dict.course.campusLocations.cd.abstract"/>
 
-<!-- ************************* -->
-<!-- dict.course.accreditation -->
-<!-- ************************* -->
-<dict:field key="accreditation" id="dict.course.accreditation.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.course.accreditation.fd"/>
-	<dict:constraintDescriptorRef bean="dict.course.accreditation.cd"/>
+<!-- ************************** -->
+<!-- dict.course.accreditations -->
+<!-- ************************** -->
+<dict:field key="accreditations" id="dict.course.accreditations.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.accreditations.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.accreditations.cd"/>
 </dict:field>
-<dict:field key="accreditation" id="dict.course.accreditation" parent="dict.course.accreditation.abstract"/>
-<dict:fieldDescriptor key="accreditation" id="dict.course.accreditation.fd.abstract" abstract="true">
-	<dict:name>course accreditation</dict:name>
-	<dict:desc>course accreditation</dict:desc>
+<dict:field key="accreditations" id="dict.course.accreditations" parent="dict.course.accreditations.abstract"/>
+<dict:fieldDescriptor key="accreditations" id="dict.course.accreditations.fd.abstract" abstract="true">
+	<dict:name>course accreditations</dict:name>
+	<dict:desc>course accreditations</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.accreditation.CreditCourse"/>
+	<dict:objectStructureRef bean="object.field.cluInfo.accreditations.CreditCourse"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="accreditation" id="dict.course.accreditation.fd" parent="dict.course.accreditation.fd.abstract"/>
-<dict:constraintDescriptor id="dict.course.accreditation.cd.abstract" abstract="true">
+<dict:fieldDescriptor key="accreditations" id="dict.course.accreditations.fd" parent="dict.course.accreditations.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.accreditations.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.repeating"/>
 	<dict:constraintRef bean="constraint.not.used"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="accreditation" id="dict.course.accreditation.cd" parent="dict.course.accreditation.cd.abstract"/>
+<dict:constraintDescriptor key="accreditations" id="dict.course.accreditations.cd" parent="dict.course.accreditations.cd.abstract"/>
 
 <!-- *************************** -->
 <!-- dict.course.primaryAdminOrg -->
@@ -8825,28 +8178,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.not.used"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="luCodes" id="dict.course.luCodes.cd" parent="dict.course.luCodes.cd.abstract"/>
-
-<!-- ************************** -->
-<!-- dict.course.publishingInfo -->
-<!-- ************************** -->
-<dict:field key="publishingInfo" id="dict.course.publishingInfo.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.course.publishingInfo.fd"/>
-	<dict:constraintDescriptorRef bean="dict.course.publishingInfo.cd"/>
-</dict:field>
-<dict:field key="publishingInfo" id="dict.course.publishingInfo" parent="dict.course.publishingInfo.abstract"/>
-<dict:fieldDescriptor key="publishingInfo" id="dict.course.publishingInfo.fd.abstract" abstract="true">
-	<dict:name>course publishingInfo</dict:name>
-	<dict:desc>course publishingInfo</dict:desc>
-	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.publishingInfo.CreditCourse"/>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="publishingInfo" id="dict.course.publishingInfo.fd" parent="dict.course.publishingInfo.fd.abstract"/>
-<dict:constraintDescriptor id="dict.course.publishingInfo.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.optional"/>
-	<dict:constraintRef bean="constraint.repeating"/>
-	<dict:constraintRef bean="constraint.not.used"/>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="publishingInfo" id="dict.course.publishingInfo.cd" parent="dict.course.publishingInfo.cd.abstract"/>
 
 <!-- **************************** -->
 <!-- dict.course.nextReviewPeriod -->
@@ -9182,6 +8513,27 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="desc" id="dict.course.desc.template.cd" parent="dict.course.desc.template.cd.abstract"/>
 
+<!-- ************************** -->
+<!-- dict.course.official.draft -->
+<!-- ************************** -->
+<dict:field key="officialIdentifier" id="dict.course.official.draft.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.official.draft.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.official.draft.cd"/>
+</dict:field>
+<dict:field key="officialIdentifier" id="dict.course.official.draft" parent="dict.course.official.draft.abstract"/>
+<dict:fieldDescriptor key="officialIdentifier" id="dict.course.official.draft.fd.abstract" abstract="true">
+	<dict:name>course no</dict:name>
+	<dict:desc>course no</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+	<dict:objectStructureRef bean="object.field.cluInfo.officialIdentifier.CreditCourse.draft"/>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor key="officialIdentifier" id="dict.course.official.draft.fd" parent="dict.course.official.draft.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.official.draft.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="officialIdentifier" id="dict.course.official.draft.cd" parent="dict.course.official.draft.cd.abstract"/>
+
 <!-- ********************** -->
 <!-- dict.course.desc.draft -->
 <!-- ********************** -->
@@ -9204,50 +8556,27 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="desc" id="dict.course.desc.draft.cd" parent="dict.course.desc.draft.cd.abstract"/>
 
-<!-- *************************** -->
-<!-- dict.course.rationale.draft -->
-<!-- *************************** -->
-<!-- Rationale is stored in the Marketing Description for now -->
-<dict:field key="marketingDesc" id="dict.course.rationale.draft.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.course.rationale.draft.fd"/>
-	<dict:constraintDescriptorRef bean="dict.course.rationale.draft.cd"/>
+<!-- ********************************* -->
+<!-- dict.course.campusLocations.draft -->
+<!-- ********************************* -->
+<dict:field key="campusLocations" id="dict.course.campusLocations.draft.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.campusLocations.draft.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.campusLocations.draft.cd"/>
 </dict:field>
-<dict:field key="marketingDesc" id="dict.course.rationale.draft" parent="dict.course.rationale.draft.abstract"/>
-<dict:fieldDescriptor key="marketingDesc" id="dict.course.rationale.draft.fd.abstract" abstract="true">
-	<dict:name>course rationale</dict:name>
-	<dict:desc>rationale</dict:desc>
-	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.marketingDesc.CreditCourse.draft"/>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="marketingDesc" id="dict.course.rationale.draft.fd" parent="dict.course.rationale.draft.fd.abstract"/>
-<dict:constraintDescriptor id="dict.course.rationale.draft.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.optional"/>
-	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.required"/>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="marketingDesc" id="dict.course.rationale.draft.cd" parent="dict.course.rationale.draft.cd.abstract"/>
-
-<!-- ******************************** -->
-<!-- dict.course.campusLocation.draft -->
-<!-- ******************************** -->
-<dict:field key="campusLocationList" id="dict.course.campusLocation.draft.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.course.campusLocation.draft.fd"/>
-	<dict:constraintDescriptorRef bean="dict.course.campusLocation.draft.cd"/>
-</dict:field>
-<dict:field key="campusLocationList" id="dict.course.campusLocation.draft" parent="dict.course.campusLocation.draft.abstract"/>
-<dict:fieldDescriptor key="campusLocationList" id="dict.course.campusLocation.draft.fd.abstract" abstract="true">
-	<dict:name>course campusLocation</dict:name>
-	<dict:desc>campus location</dict:desc>
+<dict:field key="campusLocations" id="dict.course.campusLocations.draft" parent="dict.course.campusLocations.draft.abstract"/>
+<dict:fieldDescriptor key="campusLocations" id="dict.course.campusLocations.draft.fd.abstract" abstract="true">
+	<dict:name>course campusLocations</dict:name>
+	<dict:desc>campus locations</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="campusLocationList" id="dict.course.campusLocation.draft.fd" parent="dict.course.campusLocation.draft.fd.abstract"/>
-<dict:constraintDescriptor id="dict.course.campusLocation.draft.cd.abstract" abstract="true">
+<dict:fieldDescriptor key="campusLocations" id="dict.course.campusLocations.draft.fd" parent="dict.course.campusLocations.draft.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.campusLocations.draft.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.repeating"/>
 	<dict:constraintRef bean="constraint.code"/>
 	<dict:constraintRef bean="constraint.required"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="campusLocationList" id="dict.course.campusLocation.draft.cd" parent="dict.course.campusLocation.draft.cd.abstract"/>
+<dict:constraintDescriptor key="campusLocations" id="dict.course.campusLocations.draft.cd" parent="dict.course.campusLocations.draft.cd.abstract"/>
 
 <!-- ********************************** -->
 <!-- dict.course.expectedFirstAtp.draft -->
@@ -9314,6 +8643,69 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="offeredAtpTypes" id="dict.course.seasons.draft.cd" parent="dict.course.seasons.draft.cd.abstract"/>
+
+<!-- ****************************** -->
+<!-- dict.course.official.submitted -->
+<!-- ****************************** -->
+<dict:field key="officialIdentifier" id="dict.course.official.submitted.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.official.submitted.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.official.submitted.cd"/>
+</dict:field>
+<dict:field key="officialIdentifier" id="dict.course.official.submitted" parent="dict.course.official.submitted.abstract"/>
+<dict:fieldDescriptor key="officialIdentifier" id="dict.course.official.submitted.fd.abstract" abstract="true">
+	<dict:name>course no</dict:name>
+	<dict:desc>course no</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+	<dict:objectStructureRef bean="object.field.cluInfo.officialIdentifier.CreditCourse.submitted"/>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor key="officialIdentifier" id="dict.course.official.submitted.fd" parent="dict.course.official.submitted.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.official.submitted.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="officialIdentifier" id="dict.course.official.submitted.cd" parent="dict.course.official.submitted.cd.abstract"/>
+
+<!-- ****************************** -->
+<!-- dict.course.official.withdrawn -->
+<!-- ****************************** -->
+<dict:field key="officialIdentifier" id="dict.course.official.withdrawn.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.official.withdrawn.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.official.withdrawn.cd"/>
+</dict:field>
+<dict:field key="officialIdentifier" id="dict.course.official.withdrawn" parent="dict.course.official.withdrawn.abstract"/>
+<dict:fieldDescriptor key="officialIdentifier" id="dict.course.official.withdrawn.fd.abstract" abstract="true">
+	<dict:name>course no</dict:name>
+	<dict:desc>course no</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+	<dict:objectStructureRef bean="object.field.cluInfo.officialIdentifier.CreditCourse.withdrawn"/>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor key="officialIdentifier" id="dict.course.official.withdrawn.fd" parent="dict.course.official.withdrawn.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.official.withdrawn.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="officialIdentifier" id="dict.course.official.withdrawn.cd" parent="dict.course.official.withdrawn.cd.abstract"/>
+
+<!-- ***************************** -->
+<!-- dict.course.official.rejected -->
+<!-- ***************************** -->
+<dict:field key="officialIdentifier" id="dict.course.official.rejected.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.official.rejected.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.official.rejected.cd"/>
+</dict:field>
+<dict:field key="officialIdentifier" id="dict.course.official.rejected" parent="dict.course.official.rejected.abstract"/>
+<dict:fieldDescriptor key="officialIdentifier" id="dict.course.official.rejected.fd.abstract" abstract="true">
+	<dict:name>course no</dict:name>
+	<dict:desc>course no</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+	<dict:objectStructureRef bean="object.field.cluInfo.officialIdentifier.CreditCourse.rejected"/>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor key="officialIdentifier" id="dict.course.official.rejected.fd" parent="dict.course.official.rejected.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.official.rejected.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="officialIdentifier" id="dict.course.official.rejected.cd" parent="dict.course.official.rejected.cd.abstract"/>
 
 <!-- ********************************** -->
 <!-- dict.course.expirationDate.retired -->
@@ -9446,71 +8838,49 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="desc" id="dict.course.format.desc.cd" parent="dict.course.format.desc.cd.abstract"/>
 
-<!-- ******************************** -->
-<!-- dict.course.format.marketingDesc -->
-<!-- ******************************** -->
-<dict:field key="marketingDesc" id="dict.course.format.marketingDesc.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.course.format.marketingDesc.fd"/>
-	<dict:constraintDescriptorRef bean="dict.course.format.marketingDesc.cd"/>
-</dict:field>
-<dict:field key="marketingDesc" id="dict.course.format.marketingDesc" parent="dict.course.format.marketingDesc.abstract"/>
-<dict:fieldDescriptor key="marketingDesc" id="dict.course.format.marketingDesc.fd.abstract" abstract="true">
-	<dict:name>course format marketingDesc</dict:name>
-	<dict:desc>course format marketingDesc</dict:desc>
-	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.marketingDesc.CreditCourseFormatShell"/>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="marketingDesc" id="dict.course.format.marketingDesc.fd" parent="dict.course.format.marketingDesc.fd.abstract"/>
-<dict:constraintDescriptor id="dict.course.format.marketingDesc.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.optional"/>
-	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.not.used"/>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="marketingDesc" id="dict.course.format.marketingDesc.cd" parent="dict.course.format.marketingDesc.cd.abstract"/>
-
 <!-- ********************************** -->
 <!-- dict.course.format.campusLocations -->
 <!-- ********************************** -->
-<dict:field key="campusLocationList" id="dict.course.format.campusLocations.abstract" abstract="true">
+<dict:field key="campusLocations" id="dict.course.format.campusLocations.abstract" abstract="true">
 	<dict:fieldDescriptorRef bean="dict.course.format.campusLocations.fd"/>
 	<dict:constraintDescriptorRef bean="dict.course.format.campusLocations.cd"/>
 </dict:field>
-<dict:field key="campusLocationList" id="dict.course.format.campusLocations" parent="dict.course.format.campusLocations.abstract"/>
-<dict:fieldDescriptor key="campusLocationList" id="dict.course.format.campusLocations.fd.abstract" abstract="true">
-	<dict:name>course format campusLocationList</dict:name>
-	<dict:desc>course format campusLocationList</dict:desc>
+<dict:field key="campusLocations" id="dict.course.format.campusLocations" parent="dict.course.format.campusLocations.abstract"/>
+<dict:fieldDescriptor key="campusLocations" id="dict.course.format.campusLocations.fd.abstract" abstract="true">
+	<dict:name>course format campusLocations</dict:name>
+	<dict:desc>course format campusLocations</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="campusLocationList" id="dict.course.format.campusLocations.fd" parent="dict.course.format.campusLocations.fd.abstract"/>
+<dict:fieldDescriptor key="campusLocations" id="dict.course.format.campusLocations.fd" parent="dict.course.format.campusLocations.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.format.campusLocations.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.repeating"/>
 	<dict:constraintRef bean="constraint.code"/>
 	<dict:constraintRef bean="constraint.not.used"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="campusLocationList" id="dict.course.format.campusLocations.cd" parent="dict.course.format.campusLocations.cd.abstract"/>
+<dict:constraintDescriptor key="campusLocations" id="dict.course.format.campusLocations.cd" parent="dict.course.format.campusLocations.cd.abstract"/>
 
-<!-- ******************************** -->
-<!-- dict.course.format.accreditation -->
-<!-- ******************************** -->
-<dict:field key="accreditation" id="dict.course.format.accreditation.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.course.format.accreditation.fd"/>
-	<dict:constraintDescriptorRef bean="dict.course.format.accreditation.cd"/>
+<!-- ********************************* -->
+<!-- dict.course.format.accreditations -->
+<!-- ********************************* -->
+<dict:field key="accreditations" id="dict.course.format.accreditations.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.format.accreditations.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.format.accreditations.cd"/>
 </dict:field>
-<dict:field key="accreditation" id="dict.course.format.accreditation" parent="dict.course.format.accreditation.abstract"/>
-<dict:fieldDescriptor key="accreditation" id="dict.course.format.accreditation.fd.abstract" abstract="true">
-	<dict:name>course format accreditation</dict:name>
-	<dict:desc>course format accreditation</dict:desc>
+<dict:field key="accreditations" id="dict.course.format.accreditations" parent="dict.course.format.accreditations.abstract"/>
+<dict:fieldDescriptor key="accreditations" id="dict.course.format.accreditations.fd.abstract" abstract="true">
+	<dict:name>course format accreditations</dict:name>
+	<dict:desc>course format accreditations</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.accreditation.CreditCourseFormatShell"/>
+	<dict:objectStructureRef bean="object.field.cluInfo.accreditations.CreditCourseFormatShell"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="accreditation" id="dict.course.format.accreditation.fd" parent="dict.course.format.accreditation.fd.abstract"/>
-<dict:constraintDescriptor id="dict.course.format.accreditation.cd.abstract" abstract="true">
+<dict:fieldDescriptor key="accreditations" id="dict.course.format.accreditations.fd" parent="dict.course.format.accreditations.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.format.accreditations.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.repeating"/>
 	<dict:constraintRef bean="constraint.not.used"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="accreditation" id="dict.course.format.accreditation.cd" parent="dict.course.format.accreditation.cd.abstract"/>
+<dict:constraintDescriptor key="accreditations" id="dict.course.format.accreditations.cd" parent="dict.course.format.accreditations.cd.abstract"/>
 
 <!-- ********************************** -->
 <!-- dict.course.format.primaryAdminOrg -->
@@ -9771,28 +9141,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.not.used"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="luCodes" id="dict.course.format.luCodes.cd" parent="dict.course.format.luCodes.cd.abstract"/>
-
-<!-- ********************************* -->
-<!-- dict.course.format.publishingInfo -->
-<!-- ********************************* -->
-<dict:field key="publishingInfo" id="dict.course.format.publishingInfo.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.course.format.publishingInfo.fd"/>
-	<dict:constraintDescriptorRef bean="dict.course.format.publishingInfo.cd"/>
-</dict:field>
-<dict:field key="publishingInfo" id="dict.course.format.publishingInfo" parent="dict.course.format.publishingInfo.abstract"/>
-<dict:fieldDescriptor key="publishingInfo" id="dict.course.format.publishingInfo.fd.abstract" abstract="true">
-	<dict:name>course format publishingInfo</dict:name>
-	<dict:desc>course format publishingInfo</dict:desc>
-	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.publishingInfo.CreditCourseFormatShell"/>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="publishingInfo" id="dict.course.format.publishingInfo.fd" parent="dict.course.format.publishingInfo.fd.abstract"/>
-<dict:constraintDescriptor id="dict.course.format.publishingInfo.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.optional"/>
-	<dict:constraintRef bean="constraint.repeating"/>
-	<dict:constraintRef bean="constraint.not.used"/>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="publishingInfo" id="dict.course.format.publishingInfo.cd" parent="dict.course.format.publishingInfo.cd.abstract"/>
 
 <!-- *********************************** -->
 <!-- dict.course.format.nextReviewPeriod -->
@@ -10191,72 +9539,49 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="desc" id="dict.program.desc.cd" parent="dict.program.desc.cd.abstract"/>
 
-<!-- ********************** -->
-<!-- dict.program.rationale -->
-<!-- ********************** -->
-<!-- Rationale is stored in the Marketing Description for now -->
-<dict:field key="marketingDesc" id="dict.program.rationale.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.program.rationale.fd"/>
-	<dict:constraintDescriptorRef bean="dict.program.rationale.cd"/>
+<!-- **************************** -->
+<!-- dict.program.campusLocations -->
+<!-- **************************** -->
+<dict:field key="campusLocations" id="dict.program.campusLocations.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.program.campusLocations.fd"/>
+	<dict:constraintDescriptorRef bean="dict.program.campusLocations.cd"/>
 </dict:field>
-<dict:field key="marketingDesc" id="dict.program.rationale" parent="dict.program.rationale.abstract"/>
-<dict:fieldDescriptor key="marketingDesc" id="dict.program.rationale.fd.abstract" abstract="true">
-	<dict:name>program rationale</dict:name>
-	<dict:desc>rationale</dict:desc>
-	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.marketingDesc.Program"/>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="marketingDesc" id="dict.program.rationale.fd" parent="dict.program.rationale.fd.abstract"/>
-<dict:constraintDescriptor id="dict.program.rationale.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.optional"/>
-	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.required"/>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="marketingDesc" id="dict.program.rationale.cd" parent="dict.program.rationale.cd.abstract"/>
-
-<!-- *************************** -->
-<!-- dict.program.campusLocation -->
-<!-- *************************** -->
-<dict:field key="campusLocationList" id="dict.program.campusLocation.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.program.campusLocation.fd"/>
-	<dict:constraintDescriptorRef bean="dict.program.campusLocation.cd"/>
-</dict:field>
-<dict:field key="campusLocationList" id="dict.program.campusLocation" parent="dict.program.campusLocation.abstract"/>
-<dict:fieldDescriptor key="campusLocationList" id="dict.program.campusLocation.fd.abstract" abstract="true">
-	<dict:name>program campusLocation</dict:name>
-	<dict:desc>campus location</dict:desc>
+<dict:field key="campusLocations" id="dict.program.campusLocations" parent="dict.program.campusLocations.abstract"/>
+<dict:fieldDescriptor key="campusLocations" id="dict.program.campusLocations.fd.abstract" abstract="true">
+	<dict:name>program campusLocations</dict:name>
+	<dict:desc>campus locations</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="campusLocationList" id="dict.program.campusLocation.fd" parent="dict.program.campusLocation.fd.abstract"/>
-<dict:constraintDescriptor id="dict.program.campusLocation.cd.abstract" abstract="true">
+<dict:fieldDescriptor key="campusLocations" id="dict.program.campusLocations.fd" parent="dict.program.campusLocations.fd.abstract"/>
+<dict:constraintDescriptor id="dict.program.campusLocations.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.repeating"/>
 	<dict:constraintRef bean="constraint.code"/>
 	<dict:constraintRef bean="constraint.required"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="campusLocationList" id="dict.program.campusLocation.cd" parent="dict.program.campusLocation.cd.abstract"/>
+<dict:constraintDescriptor key="campusLocations" id="dict.program.campusLocations.cd" parent="dict.program.campusLocations.cd.abstract"/>
 
-<!-- ************************** -->
-<!-- dict.program.accreditation -->
-<!-- ************************** -->
-<dict:field key="accreditation" id="dict.program.accreditation.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.program.accreditation.fd"/>
-	<dict:constraintDescriptorRef bean="dict.program.accreditation.cd"/>
+<!-- *************************** -->
+<!-- dict.program.accreditations -->
+<!-- *************************** -->
+<dict:field key="accreditations" id="dict.program.accreditations.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.program.accreditations.fd"/>
+	<dict:constraintDescriptorRef bean="dict.program.accreditations.cd"/>
 </dict:field>
-<dict:field key="accreditation" id="dict.program.accreditation" parent="dict.program.accreditation.abstract"/>
-<dict:fieldDescriptor key="accreditation" id="dict.program.accreditation.fd.abstract" abstract="true">
-	<dict:name>program accreditation</dict:name>
-	<dict:desc>program accreditation</dict:desc>
+<dict:field key="accreditations" id="dict.program.accreditations" parent="dict.program.accreditations.abstract"/>
+<dict:fieldDescriptor key="accreditations" id="dict.program.accreditations.fd.abstract" abstract="true">
+	<dict:name>program accreditations</dict:name>
+	<dict:desc>program accreditations</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.accreditation.Program"/>
+	<dict:objectStructureRef bean="object.field.cluInfo.accreditations.Program"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="accreditation" id="dict.program.accreditation.fd" parent="dict.program.accreditation.fd.abstract"/>
-<dict:constraintDescriptor id="dict.program.accreditation.cd.abstract" abstract="true">
+<dict:fieldDescriptor key="accreditations" id="dict.program.accreditations.fd" parent="dict.program.accreditations.fd.abstract"/>
+<dict:constraintDescriptor id="dict.program.accreditations.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.repeating"/>
 	<dict:constraintRef bean="constraint.not.used"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="accreditation" id="dict.program.accreditation.cd" parent="dict.program.accreditation.cd.abstract"/>
+<dict:constraintDescriptor key="accreditations" id="dict.program.accreditations.cd" parent="dict.program.accreditations.cd.abstract"/>
 
 <!-- **************************** -->
 <!-- dict.program.primaryAdminOrg -->
@@ -10521,28 +9846,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.not.used"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="luCodes" id="dict.program.luCodes.cd" parent="dict.program.luCodes.cd.abstract"/>
-
-<!-- *************************** -->
-<!-- dict.program.publishingInfo -->
-<!-- *************************** -->
-<dict:field key="publishingInfo" id="dict.program.publishingInfo.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.program.publishingInfo.fd"/>
-	<dict:constraintDescriptorRef bean="dict.program.publishingInfo.cd"/>
-</dict:field>
-<dict:field key="publishingInfo" id="dict.program.publishingInfo" parent="dict.program.publishingInfo.abstract"/>
-<dict:fieldDescriptor key="publishingInfo" id="dict.program.publishingInfo.fd.abstract" abstract="true">
-	<dict:name>program publishingInfo</dict:name>
-	<dict:desc>program publishingInfo</dict:desc>
-	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.publishingInfo.Program"/>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="publishingInfo" id="dict.program.publishingInfo.fd" parent="dict.program.publishingInfo.fd.abstract"/>
-<dict:constraintDescriptor id="dict.program.publishingInfo.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.optional"/>
-	<dict:constraintRef bean="constraint.repeating"/>
-	<dict:constraintRef bean="constraint.not.used"/>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="publishingInfo" id="dict.program.publishingInfo.cd" parent="dict.program.publishingInfo.cd.abstract"/>
 
 <!-- ***************************** -->
 <!-- dict.program.nextReviewPeriod -->
@@ -10877,50 +10180,27 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="desc" id="dict.program.desc.draft.cd" parent="dict.program.desc.draft.cd.abstract"/>
 
-<!-- **************************** -->
-<!-- dict.program.rationale.draft -->
-<!-- **************************** -->
-<!-- Rationale is stored in the Marketing Description for now -->
-<dict:field key="marketingDesc" id="dict.program.rationale.draft.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.program.rationale.draft.fd"/>
-	<dict:constraintDescriptorRef bean="dict.program.rationale.draft.cd"/>
+<!-- ********************************** -->
+<!-- dict.program.campusLocations.draft -->
+<!-- ********************************** -->
+<dict:field key="campusLocations" id="dict.program.campusLocations.draft.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.program.campusLocations.draft.fd"/>
+	<dict:constraintDescriptorRef bean="dict.program.campusLocations.draft.cd"/>
 </dict:field>
-<dict:field key="marketingDesc" id="dict.program.rationale.draft" parent="dict.program.rationale.draft.abstract"/>
-<dict:fieldDescriptor key="marketingDesc" id="dict.program.rationale.draft.fd.abstract" abstract="true">
-	<dict:name>program rationale</dict:name>
-	<dict:desc>rationale</dict:desc>
-	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.marketingDesc.Program.draft"/>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="marketingDesc" id="dict.program.rationale.draft.fd" parent="dict.program.rationale.draft.fd.abstract"/>
-<dict:constraintDescriptor id="dict.program.rationale.draft.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.optional"/>
-	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.optional"/>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="marketingDesc" id="dict.program.rationale.draft.cd" parent="dict.program.rationale.draft.cd.abstract"/>
-
-<!-- ********************************* -->
-<!-- dict.program.campusLocation.draft -->
-<!-- ********************************* -->
-<dict:field key="campusLocationList" id="dict.program.campusLocation.draft.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.program.campusLocation.draft.fd"/>
-	<dict:constraintDescriptorRef bean="dict.program.campusLocation.draft.cd"/>
-</dict:field>
-<dict:field key="campusLocationList" id="dict.program.campusLocation.draft" parent="dict.program.campusLocation.draft.abstract"/>
-<dict:fieldDescriptor key="campusLocationList" id="dict.program.campusLocation.draft.fd.abstract" abstract="true">
-	<dict:name>program campusLocation</dict:name>
-	<dict:desc>campus location</dict:desc>
+<dict:field key="campusLocations" id="dict.program.campusLocations.draft" parent="dict.program.campusLocations.draft.abstract"/>
+<dict:fieldDescriptor key="campusLocations" id="dict.program.campusLocations.draft.fd.abstract" abstract="true">
+	<dict:name>program campusLocations</dict:name>
+	<dict:desc>campus locations</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="campusLocationList" id="dict.program.campusLocation.draft.fd" parent="dict.program.campusLocation.draft.fd.abstract"/>
-<dict:constraintDescriptor id="dict.program.campusLocation.draft.cd.abstract" abstract="true">
+<dict:fieldDescriptor key="campusLocations" id="dict.program.campusLocations.draft.fd" parent="dict.program.campusLocations.draft.fd.abstract"/>
+<dict:constraintDescriptor id="dict.program.campusLocations.draft.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.repeating"/>
 	<dict:constraintRef bean="constraint.code"/>
 	<dict:constraintRef bean="constraint.optional"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="campusLocationList" id="dict.program.campusLocation.draft.cd" parent="dict.program.campusLocation.draft.cd.abstract"/>
+<dict:constraintDescriptor key="campusLocations" id="dict.program.campusLocations.draft.cd" parent="dict.program.campusLocations.draft.cd.abstract"/>
 
 <!-- *********************************** -->
 <!-- dict.program.expectedFirstAtp.draft -->
@@ -11118,71 +10398,49 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="desc" id="dict.course.activity.desc.cd" parent="dict.course.activity.desc.cd.abstract"/>
 
-<!-- ********************************** -->
-<!-- dict.course.activity.marketingDesc -->
-<!-- ********************************** -->
-<dict:field key="marketingDesc" id="dict.course.activity.marketingDesc.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.course.activity.marketingDesc.fd"/>
-	<dict:constraintDescriptorRef bean="dict.course.activity.marketingDesc.cd"/>
+<!-- ************************************ -->
+<!-- dict.course.activity.campusLocations -->
+<!-- ************************************ -->
+<dict:field key="campusLocations" id="dict.course.activity.campusLocations.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.activity.campusLocations.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.activity.campusLocations.cd"/>
 </dict:field>
-<dict:field key="marketingDesc" id="dict.course.activity.marketingDesc" parent="dict.course.activity.marketingDesc.abstract"/>
-<dict:fieldDescriptor key="marketingDesc" id="dict.course.activity.marketingDesc.fd.abstract" abstract="true">
-	<dict:name>course activity marketingDesc</dict:name>
-	<dict:desc>course activity marketingDesc</dict:desc>
-	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.marketingDesc.AllActivityTypes"/>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="marketingDesc" id="dict.course.activity.marketingDesc.fd" parent="dict.course.activity.marketingDesc.fd.abstract"/>
-<dict:constraintDescriptor id="dict.course.activity.marketingDesc.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.optional"/>
-	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.not.used"/>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="marketingDesc" id="dict.course.activity.marketingDesc.cd" parent="dict.course.activity.marketingDesc.cd.abstract"/>
-
-<!-- *************************************** -->
-<!-- dict.course.activity.campusLocationList -->
-<!-- *************************************** -->
-<dict:field key="campusLocationList" id="dict.course.activity.campusLocationList.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.course.activity.campusLocationList.fd"/>
-	<dict:constraintDescriptorRef bean="dict.course.activity.campusLocationList.cd"/>
-</dict:field>
-<dict:field key="campusLocationList" id="dict.course.activity.campusLocationList" parent="dict.course.activity.campusLocationList.abstract"/>
-<dict:fieldDescriptor key="campusLocationList" id="dict.course.activity.campusLocationList.fd.abstract" abstract="true">
-	<dict:name>course activity campusLocationList</dict:name>
-	<dict:desc>course activity campusLocationList</dict:desc>
+<dict:field key="campusLocations" id="dict.course.activity.campusLocations" parent="dict.course.activity.campusLocations.abstract"/>
+<dict:fieldDescriptor key="campusLocations" id="dict.course.activity.campusLocations.fd.abstract" abstract="true">
+	<dict:name>course activity campusLocations</dict:name>
+	<dict:desc>course activity campusLocations</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="campusLocationList" id="dict.course.activity.campusLocationList.fd" parent="dict.course.activity.campusLocationList.fd.abstract"/>
-<dict:constraintDescriptor id="dict.course.activity.campusLocationList.cd.abstract" abstract="true">
+<dict:fieldDescriptor key="campusLocations" id="dict.course.activity.campusLocations.fd" parent="dict.course.activity.campusLocations.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.activity.campusLocations.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.repeating"/>
 	<dict:constraintRef bean="constraint.code"/>
 	<dict:constraintRef bean="constraint.not.used"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="campusLocationList" id="dict.course.activity.campusLocationList.cd" parent="dict.course.activity.campusLocationList.cd.abstract"/>
+<dict:constraintDescriptor key="campusLocations" id="dict.course.activity.campusLocations.cd" parent="dict.course.activity.campusLocations.cd.abstract"/>
 
-<!-- ********************************** -->
-<!-- dict.course.activity.accreditation -->
-<!-- ********************************** -->
-<dict:field key="accreditation" id="dict.course.activity.accreditation.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.course.activity.accreditation.fd"/>
-	<dict:constraintDescriptorRef bean="dict.course.activity.accreditation.cd"/>
+<!-- *********************************** -->
+<!-- dict.course.activity.accreditations -->
+<!-- *********************************** -->
+<dict:field key="accreditations" id="dict.course.activity.accreditations.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.activity.accreditations.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.activity.accreditations.cd"/>
 </dict:field>
-<dict:field key="accreditation" id="dict.course.activity.accreditation" parent="dict.course.activity.accreditation.abstract"/>
-<dict:fieldDescriptor key="accreditation" id="dict.course.activity.accreditation.fd.abstract" abstract="true">
-	<dict:name>course activity accreditation</dict:name>
-	<dict:desc>course activity accreditation</dict:desc>
+<dict:field key="accreditations" id="dict.course.activity.accreditations" parent="dict.course.activity.accreditations.abstract"/>
+<dict:fieldDescriptor key="accreditations" id="dict.course.activity.accreditations.fd.abstract" abstract="true">
+	<dict:name>course activity accreditations</dict:name>
+	<dict:desc>course activity accreditations</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.accreditation.AllActivityTypes"/>
+	<dict:objectStructureRef bean="object.field.cluInfo.accreditations.AllActivityTypes"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="accreditation" id="dict.course.activity.accreditation.fd" parent="dict.course.activity.accreditation.fd.abstract"/>
-<dict:constraintDescriptor id="dict.course.activity.accreditation.cd.abstract" abstract="true">
+<dict:fieldDescriptor key="accreditations" id="dict.course.activity.accreditations.fd" parent="dict.course.activity.accreditations.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.activity.accreditations.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.repeating"/>
 	<dict:constraintRef bean="constraint.not.used"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="accreditation" id="dict.course.activity.accreditation.cd" parent="dict.course.activity.accreditation.cd.abstract"/>
+<dict:constraintDescriptor key="accreditations" id="dict.course.activity.accreditations.cd" parent="dict.course.activity.accreditations.cd.abstract"/>
 
 <!-- ************************************ -->
 <!-- dict.course.activity.primaryAdminOrg -->
@@ -11442,28 +10700,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.not.used"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="luCodes" id="dict.course.activity.luCodes.cd" parent="dict.course.activity.luCodes.cd.abstract"/>
-
-<!-- *********************************** -->
-<!-- dict.course.activity.publishingInfo -->
-<!-- *********************************** -->
-<dict:field key="publishingInfo" id="dict.course.activity.publishingInfo.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.course.activity.publishingInfo.fd"/>
-	<dict:constraintDescriptorRef bean="dict.course.activity.publishingInfo.cd"/>
-</dict:field>
-<dict:field key="publishingInfo" id="dict.course.activity.publishingInfo" parent="dict.course.activity.publishingInfo.abstract"/>
-<dict:fieldDescriptor key="publishingInfo" id="dict.course.activity.publishingInfo.fd.abstract" abstract="true">
-	<dict:name>course activity publishingInfo</dict:name>
-	<dict:desc>course activity publishingInfo</dict:desc>
-	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.publishingInfo.AllActivityTypes"/>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="publishingInfo" id="dict.course.activity.publishingInfo.fd" parent="dict.course.activity.publishingInfo.fd.abstract"/>
-<dict:constraintDescriptor id="dict.course.activity.publishingInfo.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.optional"/>
-	<dict:constraintRef bean="constraint.repeating"/>
-	<dict:constraintRef bean="constraint.not.used"/>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="publishingInfo" id="dict.course.activity.publishingInfo.cd" parent="dict.course.activity.publishingInfo.cd.abstract"/>
 
 <!-- ************************************* -->
 <!-- dict.course.activity.nextReviewPeriod -->

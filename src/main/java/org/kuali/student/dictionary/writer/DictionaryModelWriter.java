@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import org.kuali.student.dictionary.DictionaryExecutionException;
@@ -64,12 +65,12 @@ public class DictionaryModelWriter
  public void write ()
  {
   //TODO: remember to uncomment these two before going to productions just did this to speed up testing
-//  validate ();
-//  writeNamedConstraints ();
+  validate ();
+  writeNamedConstraints ();
 
-//  for (String service : calcServicesThatHaveXMLTypesThatHaveOwnCreateUpdate ())
+  for (String service : calcServicesThatHaveXMLTypesThatHaveOwnCreateUpdate ())
   //TODO: repace below with above once testing is done
-  for (String service : getLuServiceAsListForTesting ())
+//  for (String service : getLuServiceAsListForTesting ())
   {
    File file = new File (directory + service
     + "-dictionary-structure-config.xml");
@@ -328,18 +329,18 @@ public class DictionaryModelWriter
   return list;
  }
 
-// private Set<String> calcServicesThatHaveXMLTypesThatHaveOwnCreateUpdate ()
-// {
-//  Set<String> set = new LinkedHashSet ();
-//  for (XmlType xmlType : calcXMLTypesThatHaveOwnCreateUpdate ())
-//  {
-//   if (xmlType.getService () != null &&  ! xmlType.getService ().equals (""))
-//   {
-//    set.add (xmlType.getService ());
-//   }
-//  }
-//  return set;
-// }
+ private Set<String> calcServicesThatHaveXMLTypesThatHaveOwnCreateUpdate ()
+ {
+  Set<String> set = new LinkedHashSet ();
+  for (XmlType xmlType : calcXMLTypesThatHaveOwnCreateUpdate ())
+  {
+   if (xmlType.getService () != null &&  ! xmlType.getService ().equals (""))
+   {
+    set.add (xmlType.getService ());
+   }
+  }
+  return set;
+ }
  private List<XmlType> calcXMLTypesForServiceThatHaveOwnCreateUpdate (
   String service)
  {

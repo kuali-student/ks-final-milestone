@@ -35,12 +35,13 @@ public class DictionaryValidator implements ModelValidator
 {
 
  private Dictionary dict;
- private DictionaryModel sheet;
-
- public DictionaryValidator (Dictionary dict, DictionaryModel sheet)
+ private DictionaryModel model;
+ private ModelFinder finder;
+ public DictionaryValidator (Dictionary dict, DictionaryModel model)
  {
   this.dict = dict;
-  this.sheet = sheet;
+  this.model = model;
+  this.finder = new ModelFinder (model);
  }
 
  private Collection errors;
@@ -117,7 +118,7 @@ public class DictionaryValidator implements ModelValidator
 
  private Constraint findConstraint (String id)
  {
-  Constraint cons = new ModelFinder (this.sheet).findConstraint (id);
+  Constraint cons = new ModelFinder (this.model).findConstraint (id);
   if (cons != null)
   {
    return cons;
@@ -147,16 +148,13 @@ public class DictionaryValidator implements ModelValidator
 
  private Field findField ()
  {
-  String id = dict.getXmlObject () + "." + dict.getShortName ();
-  for (Field field : this.sheet.getFields ())
+  Field field = finder.findField (dict);
+  if (field != null)
   {
-   if (field.getId ().equals (id))
-   {
-    return field;
-   }
+   return field;
   }
-  addError ("Field id, " + id +
-   " is not defined in the list of fields");
+  addError ("Dictionary with id , " + dict.getId () +
+   " does not have a corresponding field defined in the message structure.");
   return null;
  }
 

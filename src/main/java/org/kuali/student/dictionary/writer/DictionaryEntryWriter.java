@@ -217,14 +217,14 @@ public class DictionaryEntryWriter
   List<CrossObjectConstraint> list = new ArrayList ();
   for (CrossObjectConstraint coc : model.getCrossObjectConstraints ())
   {
-   if (coc.getDictionaryId ().equals (dict.getId ()))
+   if (coc.getDictionaryId ().equalsIgnoreCase (dict.getId ()))
    {
     if (coc.getImplementation ().equalsIgnoreCase (CrossObjectConstraint.IMPLEMENTATION_TYPE_STATE_WHEN))
     {
-     if (coc.getType1 ().equals (dict.getType ()))
+     if (coc.getType1 ().equalsIgnoreCase (dict.getType ()))
      {
-      if (coc.getState1 ().equals (dict.getState ())
-       || coc.getState1 ().equals (State.DEFAULT))
+      if (coc.getState1 ().equalsIgnoreCase (dict.getState ())
+       || coc.getState1 ().equalsIgnoreCase (State.DEFAULT))
       {
        list.add (coc);
        crossObjectConstraintsWritten.add (coc.getId ());

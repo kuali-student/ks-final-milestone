@@ -67,6 +67,16 @@ public class DictionaryOverrideWriter
   this.dictionaryEntriesWritten = dictionaryEntriesWritten;
  }
 
+ protected DictionaryOverrideFieldWriter getParentField ()
+ {
+  return parentField;
+ }
+
+ protected XmlType getXmlType ()
+ {
+  return xmlType;
+ }
+
  /**
   * Write out the entire file
   * @param out
@@ -769,10 +779,20 @@ public class DictionaryOverrideWriter
    right.subState = state.getName ();
    return right;
   }
-  right.type = this.parentField.getType ().getName ();
-  right.state = this.parentField.getState ().getName ();
-  right.subType = finder.getDefaultType ().getName ();
-  right.subState = finder.getDefaultState ().getName ();
+  if (this.parentField.getParentObject ().getXmlType ().hasOwnCreateUpdate ())
+  {
+   right.type = this.parentField.getType ().getName ();
+   right.state = this.parentField.getState ().getName ();
+   right.subType = finder.getDefaultType ().getName ();
+   right.subState = finder.getDefaultState ().getName ();
+   return right;
+  }
+  DictionaryOverrideFieldWriter grandParent = this.parentField.getParentObject ().
+   getParentField ();
+  right.type = grandParent.getType ().getName ();
+  right.state = grandParent.getState ().getName ();
+  right.subType = this.parentField.getType ().getName ();
+  right.subState = this.parentField.getState ().getName ();
   return right;
  }
 
