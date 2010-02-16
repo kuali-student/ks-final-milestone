@@ -12,4 +12,18 @@
         <!--<module>ui</module>-->
         <!--<module>web-services</module>-->
     </modules>
+    <scm>
+      <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/test/trunk</connection>
+      <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/test/trunk</developerConnection>
+      <url>https://test.kuali.org/svn/student/deploymentlab/test/trunk</url>
+    </scm>
+    <distributionManagement>
+      <repository>
+        <uniqueVersion>true</uniqueVersion>
+        <id>internal</id>
+        <name>Kuali Student Repository</name>
+        <url>file://C:/maven2</url>
+        <layout>default</layout>
+      </repository>
+    </distributionManagement>
 </project>
