@@ -34,7 +34,7 @@ public class SearchDispatcherImpl implements SearchDispatcher{
 				this.services.add(service);
 			}
 		}
-		init();
+//		init();
 	}
 	
 	public void init(){
