@@ -5,8 +5,11 @@
     <packaging>pom</packaging>
     <name>KS Testing Pom</name>
     <description>Kuali Student Testing Project</description>
+    <version>1.0.0-SNAPSHOT</version>
     <modules>
+        <!--<module>driver</module>-->
         <module>performance</module>
-        <module>UI</module>
+        <!--<module>ui</module>-->
+        <!--<module>web-services</module>-->
     </modules>
 </project>
