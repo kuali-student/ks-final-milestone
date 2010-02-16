@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KREW_DOC_HDR_EXT_T DOC_HDR_EXT_ID="2063" DOC_HDR_ID="3017"
+        KEY_CD="id" VAL="Biology"/>
+    <KREW_DOC_HDR_EXT_T DOC_HDR_EXT_ID="2067" DOC_HDR_ID="3018"
+        KEY_CD="id" VAL="Botany"/>
+    <KREW_DOC_HDR_EXT_T DOC_HDR_EXT_ID="2071" DOC_HDR_ID="3019"
+        KEY_CD="id" VAL="Botany"/>
+</dataset>
