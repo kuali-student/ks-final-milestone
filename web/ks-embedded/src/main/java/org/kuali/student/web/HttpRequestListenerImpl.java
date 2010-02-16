@@ -18,7 +18,7 @@ public class HttpRequestListenerImpl implements RequestRecorderFilterListener, G
 	private static final String RPC_REQUEST_METHOD = "rpc.method";
 	private static final String RPC_REQUEST_PARAMETERS = "rpc.params";
 	private static final String RPC_REQUEST = "rpc.request";
-	private static final String RPC_RESPONSE = "rpc.response";
+	// private static final String RPC_RESPONSE = "rpc.response";
 	private static final String RPC_EXCEPTION_TRAPPED = "rpc.exception.trapped";
 	private static final String RPC_EXCEPTION_UNEXPECTED = "rpc.exception.unexpected";
 	private static final String RPC_RESPONSE_SERIALIZED = "rpc.response.serialized";
@@ -112,7 +112,9 @@ public class HttpRequestListenerImpl implements RequestRecorderFilterListener, G
 		NameValuesBean parametersBean = utils.getNameValuesBean(RPC_REQUEST_PARAMETERS, parameters);
 
 		rr.getParameters().add(methodBean);
-		rr.getParameters().add(parametersBean);
+		if (!parameters.equals("")) {
+			rr.getParameters().add(parametersBean);
+		}
 	}
 
 	protected void handleRpcResponse(HttpServletRequest request, RecordedRequest rr) {
@@ -120,9 +122,12 @@ public class HttpRequestListenerImpl implements RequestRecorderFilterListener, G
 		if (result == null) {
 			return;
 		}
-		String xml = utils.toXML(result);
-		NameValuesBean bean = utils.getNameValuesBean(RPC_RESPONSE, xml);
-		rr.getParameters().add(bean);
+		/**
+		 * XMLEncoder had issues converting complex return types to XML
+		 */
+		// String xml = utils.toXML(result);
+		// NameValuesBean bean = utils.getNameValuesBean(RPC_RESPONSE, xml);
+		// rr.getParameters().add(bean);
 	}
 
 	protected void handleRpcExceptions(HttpServletRequest request, RecordedRequest rr) {

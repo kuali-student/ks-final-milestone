@@ -25,6 +25,7 @@ import org.kuali.rice.kim.bo.entity.KimPrincipal;
 import org.kuali.rice.kim.bo.entity.dto.KimEntityDefaultInfo;
 import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
 import org.kuali.rice.kim.service.IdentityService;
+import org.kuali.student.common.ui.server.gwt.rpc.BaseRemoteAbstractServiceServlet;
 import org.kuali.student.core.person.dto.PersonInfo;
 import org.kuali.student.core.person.dto.PersonNameInfo;
 import org.kuali.student.core.person.service.PersonService;
@@ -33,9 +34,7 @@ import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.ResultCell;
 
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-
-public class PersonRpcGwtServlet extends RemoteServiceServlet implements PersonRpcService {
+public class PersonRpcGwtServlet extends BaseRemoteAbstractServiceServlet implements PersonRpcService {
 	protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PersonRpcGwtServlet.class);
 	private static final long serialVersionUID = 3797505861921543183L;
 

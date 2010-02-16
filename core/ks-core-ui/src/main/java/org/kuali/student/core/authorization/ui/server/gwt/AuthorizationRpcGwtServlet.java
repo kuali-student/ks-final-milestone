@@ -16,13 +16,12 @@ package org.kuali.student.core.authorization.ui.server.gwt;
 
 import org.kuali.rice.kim.KimAuthenticationProvider;
 import org.kuali.rice.kim.service.PermissionService;
+import org.kuali.student.common.ui.server.gwt.rpc.BaseRemoteAbstractServiceServlet;
 import org.kuali.student.core.authorization.ui.client.service.AuthorizationRpcService;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.userdetails.UserDetails;
 
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-
-public class AuthorizationRpcGwtServlet extends RemoteServiceServlet implements AuthorizationRpcService {
+public class AuthorizationRpcGwtServlet extends BaseRemoteAbstractServiceServlet implements AuthorizationRpcService {
 
 	private static final long serialVersionUID = 8568346881191827247L;
 	private PermissionService permissionService;

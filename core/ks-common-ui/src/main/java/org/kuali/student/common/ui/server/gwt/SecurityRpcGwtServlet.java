@@ -26,9 +26,8 @@ import org.springframework.security.userdetails.UserDetails;
  * @author Kuali Student Team
  * 
  */
+@SuppressWarnings("serial")
 public class SecurityRpcGwtServlet extends BaseRemoteAbstractServiceServlet implements SecurityRpcService {
-
-	private static final long serialVersionUID = 1L;
 
 	public String getPrincipalUsername() {
 		String username = "unknown";

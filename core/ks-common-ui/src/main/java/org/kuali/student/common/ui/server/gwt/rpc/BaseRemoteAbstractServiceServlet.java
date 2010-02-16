@@ -38,7 +38,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  */
 @SuppressWarnings("serial")
 public abstract class BaseRemoteAbstractServiceServlet extends RemoteServiceServlet {
-	GwtRpcRequestListener listener = new DefaultGwtRpcRequestListenerImpl();
+	GwtRpcRequestListener gwtRpcRequestListener = new DefaultGwtRpcRequestListenerImpl();
 
 	RpcUtils utils = new RpcUtils();
 
@@ -63,41 +63,41 @@ public abstract class BaseRemoteAbstractServiceServlet extends RemoteServiceServ
 
 	@Override
 	protected void onBeforeRequestDeserialized(String requestPayload) {
-		listener.onBeforeRequestDeserialized(getThreadLocalRequest(), requestPayload);
+		gwtRpcRequestListener.onBeforeRequestDeserialized(getThreadLocalRequest(), requestPayload);
 		super.onBeforeRequestDeserialized(requestPayload);
 	}
 
 	@Override
 	protected void onAfterRequestDeserialized(RPCRequest rpcRequest) {
-		listener.onAfterRequestDeserialized(getThreadLocalRequest(), rpcRequest);
+		gwtRpcRequestListener.onAfterRequestDeserialized(getThreadLocalRequest(), rpcRequest);
 		super.onAfterRequestDeserialized(rpcRequest);
 	}
 
 	protected void onBeforeResponseSerialized(Object result) {
-		listener.onBeforeResponseSerialized(getThreadLocalRequest(), result);
+		gwtRpcRequestListener.onBeforeResponseSerialized(getThreadLocalRequest(), result);
 	}
 
 	@Override
 	protected void onAfterResponseSerialized(String responsePayload) {
-		listener.onAfterResponseSerialized(getThreadLocalRequest(), responsePayload);
+		gwtRpcRequestListener.onAfterResponseSerialized(getThreadLocalRequest(), responsePayload);
 		super.onAfterResponseSerialized(responsePayload);
 	}
 
 	@Override
 	protected void doUnexpectedFailure(Throwable e) {
-		listener.doUnexpectedFailure(getThreadLocalRequest(), e);
+		gwtRpcRequestListener.doUnexpectedFailure(getThreadLocalRequest(), e);
 		super.doUnexpectedFailure(e);
 	}
 
 	protected void doTrappedException(Exception e) {
-		listener.doTrappedException(getThreadLocalRequest(), e);
+		gwtRpcRequestListener.doTrappedException(getThreadLocalRequest(), e);
 	}
 
-	public GwtRpcRequestListener getListener() {
-		return listener;
+	public GwtRpcRequestListener getGwtRpcRequestListener() {
+		return gwtRpcRequestListener;
 	}
 
-	public void setListener(GwtRpcRequestListener listener) {
-		this.listener = listener;
+	public void setGwtRpcRequestListener(GwtRpcRequestListener listener) {
+		this.gwtRpcRequestListener = listener;
 	}
 }
