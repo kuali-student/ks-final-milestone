@@ -5,13 +5,16 @@ import java.io.StringWriter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.rice.kew.dto.DocumentDetailDTO;
 import org.kuali.rice.kew.service.WorkflowUtility;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kew.webservice.DocumentResponse;
 import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
+import org.kuali.rice.kew.webservice.StandardResponse;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.assembly.PassThroughAssemblerFilter;
-import org.kuali.student.core.assembly.AssemblerFilter.FilterParamWrapper;
-import org.kuali.student.core.assembly.AssemblerFilter.SaveFilterChain;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.SaveResult;
@@ -47,7 +50,6 @@ public class CreditCourseProposalWorkflowAssemblerFilter extends PassThroughAsse
             String title = responseProposal.getProposal().getTitle()==null?"Unnamed":responseProposal.getProposal().getTitle();
             title = title==null?"Unnamed":title;
             
-            /*
             //Create a new workflow document if this is a new proposal 
             if(requestProposal.getProposal().getId()==null){
                 LOG.info("Creating proposal Workflow Document.");
@@ -88,7 +90,6 @@ public class CreditCourseProposalWorkflowAssemblerFilter extends PassThroughAsse
             if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
         		throw new RuntimeException("Error found updating document: " + stdResp.getErrorMessage());
         	}            
-            */
 		}
 	}
 	
