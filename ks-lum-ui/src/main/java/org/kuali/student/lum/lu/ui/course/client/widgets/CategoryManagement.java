@@ -698,7 +698,11 @@ public class CategoryManagement extends Composite {
                 }
                 @Override
                 public void renderCell(final DynamicTable<LoCategoryInfo> table, final TableCell cell, final LoCategoryInfo value) {
-                    cell.setText(value.getType());
+                    for(LoCategoryTypeInfo typeInfo : categoryTypeList){
+                        if(typeInfo.getId().equals(value.getType())){
+                            cell.setText(typeInfo.getDesc());
+                        }
+                    }
                 }
                 @Override
                 public void renderHeader(final DynamicTable<LoCategoryInfo> table, final TableCell cell) {
