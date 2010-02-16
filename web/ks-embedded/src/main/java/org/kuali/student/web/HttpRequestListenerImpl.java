@@ -102,6 +102,9 @@ public class HttpRequestListenerImpl implements RequestRecorderFilterListener, G
 
 	protected void handleRpcRequest(HttpServletRequest request, RecordedRequest rr) {
 		RPCRequest rpcRequest = (RPCRequest) request.getAttribute(RPC_REQUEST);
+		if (rpcRequest == null) {
+			return;
+		}
 		String method = utils.toString(rpcRequest.getMethod());
 		String parameters = utils.toXML(rpcRequest.getParameters());
 
@@ -113,8 +116,11 @@ public class HttpRequestListenerImpl implements RequestRecorderFilterListener, G
 	}
 
 	protected void handleRpcResponse(HttpServletRequest request, RecordedRequest rr) {
-		Object object = (Object) request.getAttribute(RPC_RESPONSE_OBJECT);
-		String xml = utils.toXML(object);
+		Object result = (Object) request.getAttribute(RPC_RESPONSE_OBJECT);
+		if (result == null) {
+			return;
+		}
+		String xml = utils.toXML(result);
 		NameValuesBean bean = utils.getNameValuesBean(RPC_RESPONSE, xml);
 		rr.getParameters().add(bean);
 	}
@@ -126,6 +132,9 @@ public class HttpRequestListenerImpl implements RequestRecorderFilterListener, G
 
 	protected void handleException(HttpServletRequest request, RecordedRequest rr, String name) {
 		Throwable e = (Throwable) request.getAttribute(name);
+		if (e == null) {
+			return;
+		}
 		String s = utils.toString(e);
 		NameValuesBean bean = utils.getNameValuesBean(name, s);
 		rr.getParameters().add(bean);

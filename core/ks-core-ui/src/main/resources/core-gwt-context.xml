@@ -79,17 +79,22 @@
 		<property name="servletInstance" ref="ServerPropertiesServlet" />
 	</bean>
 	
+
 	<!-- GWT Servlets -->
+	<bean id="httpRequestListener" class="org.kuali.student.web.HttpRequestListenerImpl"/>
 	<bean id="orgRpcGwtServlet" class="org.kuali.student.core.organization.ui.server.gwt.OrgRpcGwtServlet">
 		<property name="service" ref="orgClient"/>
+		<property name="listener" ref="httpRequestListener"/>
 	</bean>
 
 	<bean id="personRpcGwtServlet" class="org.kuali.student.core.person.ui.server.gwt.PersonRpcGwtServlet">	
+		<property name="listener" ref="httpRequestListener"/>
 	</bean>
 	
 	<bean id="authorizationRpcGwtServlet"
 		class="org.kuali.student.core.authorization.ui.server.gwt.AuthorizationRpcGwtServlet">
 		<!--<property name="permissionService" ref="permissionClient" />-->
+		<property name="listener" ref="httpRequestListener"/>
 	</bean>
 	
 	<bean id="documentUpload" class="org.kuali.student.common.ui.server.upload.UploadServlet">
@@ -97,13 +102,16 @@
 	</bean>
 	
 	<bean id="uploadStatusRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.UploadStatusRpcGwtServlet">	
+		<property name="listener" ref="httpRequestListener"/>
 	</bean>
 	
 	<bean id="SecurityGwtServlet" class="org.kuali.student.common.ui.server.gwt.SecurityRpcGwtServlet">
+		<property name="listener" ref="httpRequestListener"/>
 	</bean>
 
 	<bean id="ServerPropertiesServlet"
 		class="org.kuali.student.common.ui.server.gwt.ServerPropertiesRpcGwtServlet">
+		<property name="listener" ref="httpRequestListener"/>
 	</bean>
 
 	<!-- Service Clients -->	
