@@ -3,8 +3,8 @@
     <groupId>org.kuali.student.test.performance</groupId>
     <artifactId>performance</artifactId>
     <packaging>pom</packaging>
-    <name>KS Performance Testing Pom</name>
-    <description>Kuali Student Performance Testing Project</description>
+    <name>Performance Testing</name>
+    <description>This set of projects is dedicated to performance testing of the Kuali Student application</description>
 	<parent>
 		<groupId>org.kuali.student.test</groupId>
 		<artifactId>test</artifactId>

@@ -3,8 +3,8 @@
     <groupId>org.kuali.student.test.performance.ks-tsung</groupId>
     <artifactId>ks-tsung</artifactId>
     <packaging>pom</packaging>
-    <name>KS Performance Testing Pom - TSung</name>
-    <description>Kuali Student Performance Testing Project based on tsung</description>
+    <name>TSung</name>
+    <description>This module is an automated load testing framework based on TSung</description>
 	<parent>
 		<groupId>org.kuali.student.test.performance</groupId>
 		<artifactId>performance</artifactId>
