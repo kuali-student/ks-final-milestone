@@ -36,8 +36,8 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.apache.log4j.Logger;
-import org.kuali.student.common.assembly.client.Metadata;
-import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
 
 
 /**
@@ -72,6 +72,7 @@ public class MetaTransformer {
         options = new Options();
         options.addOption(SOURCE_XML, true, "Metadata source xml file.");
         options.addOption(SOURCE_CLASS, true, "Metadata source class name");
+        options.addOption(SOURCE_SPRING, true, "Orchestration dictionary source file");
         options.addOption(SOURCE_PACKAGE, true, "Metadata source package");
         options.addOption(OUTPUT_FILE_OPTION, true, "Dictionary output file (" + DEFAULT_OUTPUT_FILE + " by default)");
     }
@@ -124,6 +125,10 @@ public class MetaTransformer {
     }
     
     private void process() throws Exception{
+        if (cmd.hasOption(SOURCE_SPRING)){
+            loadMetadataSpringXML(srcClass, cmd.getOptionValue(SOURCE_SPRING));
+            return;
+        }
         
         if (cmd.hasOption(SOURCE_CLASS) || (!cmd.hasOption(SOURCE_XML) && !cmd.hasOption(SOURCE_CLASS))){
             if (cmd.hasOption(SOURCE_CLASS)){
@@ -208,7 +213,7 @@ public class MetaTransformer {
         trans.transform(xmlSource, result);
         trans.transform(xmlSource, result2);
         
-        //loadMetadataSpringXML(outputFile);
+        loadMetadataSpringXML(dataObjectName, targetFile);
     }
     
     /** 
@@ -241,12 +246,12 @@ public class MetaTransformer {
      * 
      * @throws Exception
      */
-    public void loadMetadataSpringXML(String targetFile) throws Exception{
+    public void loadMetadataSpringXML(String dataObjectName, String targetFile) throws Exception{
         MetadataServiceImpl metadataService = new MetadataServiceImpl(targetFile);
         
-        Metadata metadata = metadataService.getMetadata("CreditCourseProposal", "default", "default");
+        Metadata metadata = metadataService.getMetadata(dataObjectName, "default", "default");
         
-        generateMetadataXML(metadata, "spring-loaded-metadata.xml");
+        generateMetadataXML(metadata, dataObjectName + "_metadata.xml");
         
     }
      
