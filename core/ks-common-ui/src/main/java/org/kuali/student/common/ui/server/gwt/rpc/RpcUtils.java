@@ -24,8 +24,9 @@ import com.google.gwt.user.server.rpc.RPC;
 import com.google.gwt.user.server.rpc.SerializationPolicy;
 
 /**
- * This is based on Google's RPC.java source. The improvement here is that
- * invokeAndEncode is broken up into separate invoke() and encode() methods.
+ * This is based on Google's RPC.java source. The improvement here is that the
+ * invokeAndEncodeResponse() is broken up into separate invoke() and
+ * encodeResponse() methods.
  */
 public class RpcUtils {
 
@@ -79,10 +80,16 @@ public class RpcUtils {
 		return RPC.encodeResponseForSuccess(serviceMethod, result, serializationPolicy);
 	}
 
+	/**
+	 * Copied from Google's RPC.java
+	 */
 	protected String getSourceRepresentation(Method method) {
 		return method.toString().replace('$', '.');
 	}
 
+	/**
+	 * Copied from Google's RPC.java
+	 */
 	protected String formatIllegalAccessErrorMessage(Object target, Method serviceMethod) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("Blocked attempt to access inaccessible method '");
@@ -97,6 +104,9 @@ public class RpcUtils {
 		return sb.toString();
 	}
 
+	/**
+	 * Copied from Google's RPC.java
+	 */
 	protected String formatIllegalArgumentErrorMessage(Object target, Method serviceMethod, Object[] args) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("Blocked attempt to invoke method '");
@@ -117,6 +127,9 @@ public class RpcUtils {
 		return sb.toString();
 	}
 
+	/**
+	 * Copied from Google's RPC.java
+	 */
 	protected String printTypeName(Class<?> type) {
 		// Primitives
 		if (type.equals(Integer.TYPE)) {
