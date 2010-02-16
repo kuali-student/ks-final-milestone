@@ -6,7 +6,7 @@
     <name>KS Testing Pom</name>
     <url>http://localhost/docs</url>
     <description>Kuali Student Testing Project</description>
-    <version>1.0.0</version>
+    <version>1.0.0-SNAPSHOT</version>
     <modules>
         <!--<module>driver</module>-->
         <module>performance</module>
@@ -46,9 +46,9 @@
     
     
     <scm>
-      <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/tsung-trunk-1.0.0</connection>
-      <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/tsung-trunk-1.0.0</developerConnection>
-      <url>https://test.kuali.org/svn/student/deploymentlab/tags/tsung-trunk-1.0.0</url>
+      <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/test</connection>
+      <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/test</developerConnection>
+      <url>https://test.kuali.org/svn/student/deploymentlab/trunk/test</url>
     </scm>
     <distributionManagement>
       <site>
