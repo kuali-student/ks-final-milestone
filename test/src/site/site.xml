@@ -6,7 +6,9 @@
     <href>http://student.kuali.org/</href>
   </bannerLeft>
   <bannerRight>
+    <name>${project.name}</name>
     <src>http://maven.apache.org/images/maven-logo-2.gif</src>
+    <href>http://student.kuali.org/</href>
   </bannerRight>
 
   <skin>
