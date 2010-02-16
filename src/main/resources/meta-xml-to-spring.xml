@@ -35,49 +35,69 @@
 		<xsl:element name="bean">
 			<xsl:attribute name="id">constraint</xsl:attribute>
 			<xsl:attribute name="abstract">true</xsl:attribute>
-			<xsl:attribute name="class">org.kuali.student.common.assembly.client.ConstraintMetadata</xsl:attribute>
+			<xsl:attribute name="class">org.kuali.student.core.assembly.data.ConstraintMetadata</xsl:attribute>
 		</xsl:element>
 
 		<xsl:element name="bean">
 			<xsl:attribute name="id">lookup</xsl:attribute>
 			<xsl:attribute name="abstract">true</xsl:attribute>
-			<xsl:attribute name="class">org.kuali.student.common.assembly.client.LookupMetadata</xsl:attribute>
+			<xsl:attribute name="class">org.kuali.student.core.assembly.data.LookupMetadata</xsl:attribute>
 		</xsl:element>
 
 		<xsl:element name="bean">
 			<xsl:attribute name="id">dataObjectStructure</xsl:attribute>
 			<xsl:attribute name="abstract">true</xsl:attribute>
-			<xsl:attribute name="class">org.kuali.student.common.assembly.dictionary.DataObjectStructure</xsl:attribute>
+			<xsl:attribute name="class">org.kuali.student.core.assembly.dictionary.DataObjectStructure</xsl:attribute>
 		</xsl:element>
 
 		<xsl:element name="bean">
 			<xsl:attribute name="id">dataFieldDescriptor</xsl:attribute>
 			<xsl:attribute name="abstract">true</xsl:attribute>
-			<xsl:attribute name="class">org.kuali.student.common.assembly.dictionary.DataFieldDescriptor</xsl:attribute>
+			<xsl:attribute name="class">org.kuali.student.core.assembly.dictionary.DataFieldDescriptor</xsl:attribute>
+			<xsl:element name="property">
+				<xsl:attribute name="name">writeAccess</xsl:attribute>
+				<xsl:attribute name="value">ALWAYS</xsl:attribute>
+			</xsl:element>
+			<xsl:element name="property">
+				<xsl:attribute name="name">canUnmask</xsl:attribute>
+				<xsl:attribute name="value">false</xsl:attribute>
+			</xsl:element>			
+			<xsl:element name="property">
+				<xsl:attribute name="name">canEdit</xsl:attribute>
+				<xsl:attribute name="value">true</xsl:attribute>
+			</xsl:element>
+			<xsl:element name="property">
+				<xsl:attribute name="name">canView</xsl:attribute>
+				<xsl:attribute name="value">true</xsl:attribute>
+			</xsl:element>
+			<xsl:element name="property">
+				<xsl:attribute name="name">onChangeRefreshMetadata</xsl:attribute>
+				<xsl:attribute name="value">false</xsl:attribute>
+			</xsl:element>
 		</xsl:element>
 
 		<xsl:element name="bean">
 			<xsl:attribute name="id">param</xsl:attribute>
 			<xsl:attribute name="abstract">true</xsl:attribute>
-			<xsl:attribute name="class">org.kuali.student.common.assembly.client.LookupParamMetadata</xsl:attribute>
+			<xsl:attribute name="class">org.kuali.student.core.assembly.data.LookupParamMetadata</xsl:attribute>
 		</xsl:element>
 
 		<xsl:element name="bean">
 			<xsl:attribute name="id">result</xsl:attribute>
 			<xsl:attribute name="abstract">true</xsl:attribute>
-			<xsl:attribute name="class">org.kuali.student.common.assembly.client.LookupResultMetadata</xsl:attribute>
+			<xsl:attribute name="class">org.kuali.student.core.assembly.data.LookupResultMetadata</xsl:attribute>
 		</xsl:element>
 
 		<xsl:element name="bean">
 			<xsl:attribute name="id">lookupQos</xsl:attribute>
 			<xsl:attribute name="abstract">true</xsl:attribute>
-			<xsl:attribute name="class">org.kuali.student.common.assembly.client.LookupQosMetadata</xsl:attribute>
+			<xsl:attribute name="class">org.kuali.student.core.assembly.data.LookupQosMetadata</xsl:attribute>
 		</xsl:element>
 
 		<xsl:element name="bean">
 			<xsl:attribute name="id">lookupImpl</xsl:attribute>
 			<xsl:attribute name="abstract">true</xsl:attribute>
-			<xsl:attribute name="class">org.kuali.student.common.assembly.client.LookupImplMetadata</xsl:attribute>
+			<xsl:attribute name="class">org.kuali.student.core.assembly.data.LookupImplMetadata</xsl:attribute>
 		</xsl:element>
 
 		<!-- Constraints with ids -->
@@ -105,16 +125,24 @@
 			<xsl:attribute name="abstract">true</xsl:attribute>
 			<xsl:attribute name="parent">dataObjectStructure</xsl:attribute>
 			<xsl:element name="property">
-				<xsl:attribute name="name">fields</xsl:attribute>
-				<xsl:element name="list">
-					<xsl:apply-templates select="metadata/properties/property" />
-				</xsl:element>
-			</xsl:element>
-			<xsl:element name="property">
 				<xsl:attribute name="name">name</xsl:attribute>
 				<xsl:attribute name="value" select="$dataObjectName"/>
 			</xsl:element>
+			<xsl:element name="property">
+				<xsl:attribute name="name">fields</xsl:attribute>
+				<xsl:element name="list">
+					<xsl:call-template name="process-properties-ref">
+						<xsl:with-param name="propertyList" select="metadata/properties"/>
+						<xsl:with-param name="parentObject" select="$dataObjectName"></xsl:with-param>
+					</xsl:call-template>
+				</xsl:element>
+			</xsl:element>
 		</xsl:element>
+		<xsl:call-template name="process-properties">
+			<xsl:with-param name="propertyList" select="metadata/properties"/>
+			<xsl:with-param name="parentObject" select="$dataObjectName"/>
+		</xsl:call-template>
+		
 		<xsl:element name="bean">
 			<xsl:attribute name="id" select="$dataObjectName"/>
 			<xsl:attribute name="parent"><xsl:value-of select="$dataObjectName"/>-parent</xsl:attribute>		
@@ -144,21 +172,27 @@
 
 
 	<!-- Convert property elements to FieldDescriptor -->
-	<xsl:template match="property">
-		<xsl:element name="bean">
-			<xsl:attribute name="parent">dataFieldDescriptor</xsl:attribute>
-			<xsl:element name="property">
-				<xsl:attribute name="name">name</xsl:attribute>
-				<xsl:attribute name="value" select="@name" />
-			</xsl:element>
-			<xsl:for-each select="metadata/*[not(self::constraints) and not(self::properties) and not(self::lookupMetadata) and not(self::additionalLookups)]">
+	<xsl:template name="process-properties">
+		<xsl:param name="propertyList"/>
+		<xsl:param name="parentObject"/>
+		<xsl:for-each select="$propertyList/property">
+			<xsl:element name="bean">
+				<xsl:attribute name="id"><xsl:value-of select="$parentObject"/>.<xsl:value-of select="@name"/></xsl:attribute>
+				<xsl:attribute name="parent">dataFieldDescriptor</xsl:attribute>
+				<xsl:element name="property">
+					<xsl:attribute name="name">name</xsl:attribute>
+					<xsl:attribute name="value" select="@name" />
+				</xsl:element>
+				
+				<!-- Process all standard properties -->
+				<xsl:for-each select="metadata/*[not(self::constraints) and not(self::properties) and not(self::lookupMetadata) and not(self::additionalLookups) and not(self::canUnmask) and not(self::canEdit) and not (self::canView)]">			
 					<xsl:if test="(name(.)='dataType' and(.='DATA' or (.='LIST' and ../properties/property/metadata/dataType='DATA')))">
 						<xsl:element name="property">
 							<xsl:attribute name="name">dataObjectStructure</xsl:attribute>
 							<xsl:attribute name="ref"><xsl:value-of select="../../@name"/></xsl:attribute>
 						</xsl:element>							
 					</xsl:if>
-
+	
 					<xsl:variable name="propertyValue">
 						<xsl:choose>
 							<xsl:when test="name(.)='dataType' and .='LIST' and ../properties/property/metadata/dataType='DATA'">DATA</xsl:when>
@@ -167,6 +201,7 @@
 							<xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
 						</xsl:choose>
 					</xsl:variable>
+									
 					<xsl:element name="property">
 						<xsl:choose>
 							<xsl:when test="name(.)='stringValue' or name(.)='booleanValue'">
@@ -177,19 +212,31 @@
 							</xsl:otherwise>
 						</xsl:choose>
 						<xsl:attribute name="value" select="$propertyValue" />
+					</xsl:element>						
+				</xsl:for-each>
+				<xsl:apply-templates select="metadata/constraints"/>
+				<xsl:if test="metadata/lookupMetadata">
+					<xsl:element name="property">
+						<xsl:attribute name="name">lookups</xsl:attribute>
+						<xsl:apply-templates select="metadata/lookupMetadata"/>
 					</xsl:element>
-			</xsl:for-each>
-			<xsl:apply-templates select="metadata/constraints"/>
-			<xsl:if test="metadata/lookupMetadata">
-				<xsl:element name="property">
-					<xsl:attribute name="name">lookups</xsl:attribute>
-					<xsl:apply-templates select="metadata/lookupMetadata"/>
-				</xsl:element>
-			</xsl:if>
-			
-			<xsl:apply-templates select="metadata/additionalLookups"/>
-		</xsl:element>
+				</xsl:if>
+				
+				<xsl:apply-templates select="metadata/additionalLookups"/>
+			</xsl:element>
+		</xsl:for-each>
 	</xsl:template>
+
+	<xsl:template name="process-properties-ref">
+		<xsl:param name="propertyList"/>
+		<xsl:param name="parentObject"/>
+		
+		<xsl:for-each select="$propertyList/property">
+			<xsl:element name="ref">
+				<xsl:attribute name="bean"><xsl:value-of select="$parentObject"/>.<xsl:value-of select="@name"/></xsl:attribute>
+			</xsl:element>
+		</xsl:for-each>
+	</xsl:template>		
 
 	<!-- Convert metadata to DataObjectStructure -->
 	<xsl:template match="metadata">
@@ -203,22 +250,30 @@
 				</xsl:otherwise>			
 			</xsl:choose>				
 		</xsl:variable>			
-
+		
 		<xsl:element name="bean">
 			<xsl:attribute name="id"><xsl:value-of select="$objectName"/>-parent</xsl:attribute>
 			<xsl:attribute name="abstract">true</xsl:attribute>
 			<xsl:attribute name="parent">dataObjectStructure</xsl:attribute>
 			<xsl:element name="property">
-				<xsl:attribute name="name">fields</xsl:attribute>
-				<xsl:element name="list">
-					<xsl:apply-templates select="properties/property" />
-				</xsl:element>
-			</xsl:element>
-			<xsl:element name="property">
 				<xsl:attribute name="name">name</xsl:attribute>
 				<xsl:attribute name="value" select="$objectName"/>
 			</xsl:element>
+			<xsl:element name="property">
+				<xsl:attribute name="name">fields</xsl:attribute>
+				<xsl:element name="list">
+					<xsl:call-template name="process-properties-ref">
+						<xsl:with-param name="propertyList" select="properties"/>
+						<xsl:with-param name="parentObject" select="$objectName"/>
+					</xsl:call-template>
+				</xsl:element>
+			</xsl:element>
 		</xsl:element>
+		<xsl:call-template name="process-properties">
+			<xsl:with-param name="propertyList" select="properties"/>
+			<xsl:with-param name="parentObject" select="$objectName"/>
+		</xsl:call-template>
+
 		
 		<xsl:element name="bean">
 			<xsl:attribute name="id" select="$objectName"/>
