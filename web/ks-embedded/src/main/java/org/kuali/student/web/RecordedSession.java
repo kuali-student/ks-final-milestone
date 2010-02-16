@@ -16,6 +16,7 @@ public class RecordedSession implements Serializable {
 	List<RecordedRequest> recordedRequests = Collections.synchronizedList(new ArrayList<RecordedRequest>());
 	String remoteAddress;
 	String browser;
+	String httpSessionId;
 
 	public List<RecordedRequest> getRecordedRequests() {
 		return recordedRequests;
@@ -39,5 +40,13 @@ public class RecordedSession implements Serializable {
 
 	public void setBrowser(String browser) {
 		this.browser = browser;
+	}
+
+	public String getHttpSessionId() {
+		return httpSessionId;
+	}
+
+	public void setHttpSessionId(String httpSessionId) {
+		this.httpSessionId = httpSessionId;
 	}
 }
