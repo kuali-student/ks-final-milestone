@@ -22,6 +22,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
+import org.kuali.student.common.ui.server.gwt.rpc.BaseRemoteAbstractServiceServlet;
 
 @SuppressWarnings("serial")
 public class ServerPropertiesRpcGwtServlet extends BaseRemoteAbstractServiceServlet implements ServerPropertiesRpcService {

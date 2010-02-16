@@ -17,6 +17,7 @@ package org.kuali.student.common.ui.server.gwt;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.service.BaseRpcService;
+import org.kuali.student.common.ui.server.gwt.rpc.BaseRemoteAbstractServiceServlet;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.exceptions.DoesNotExistException;

@@ -14,6 +14,7 @@
  */
 package org.kuali.student.common.ui.server.gwt;
 
+import org.kuali.student.common.ui.server.gwt.rpc.BaseRemoteAbstractServiceServlet;
 import org.kuali.student.core.messages.dto.LocaleKeyList;
 import org.kuali.student.core.messages.dto.Message;
 import org.kuali.student.core.messages.dto.MessageGroupKeyList;

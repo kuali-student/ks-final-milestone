@@ -10,8 +10,8 @@ import java.util.List;
  * 
  * @author Jeff Caddel
  */
+@SuppressWarnings("serial")
 public class RecordedSession implements Serializable {
-	private static final long serialVersionUID = 1L;
 
 	List<RecordedRequest> recordedRequests = Collections.synchronizedList(new ArrayList<RecordedRequest>());
 	String remoteAddress;

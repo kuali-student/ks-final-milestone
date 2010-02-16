@@ -1,15 +1,83 @@
-package org.kuali.student.common.ui.server.gwt;
+package org.kuali.student.web;
 
 import java.beans.XMLEncoder;
 import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Some convenience methods for GWT/RPC related things
  */
-public class RPCUtils {
+public class RequestUtils {
 	private static final int LANGUAGE_MODIFIERS = Modifier.PUBLIC | Modifier.PROTECTED | Modifier.PRIVATE | Modifier.ABSTRACT | Modifier.STATIC | Modifier.FINAL | Modifier.SYNCHRONIZED | Modifier.NATIVE;
+
+	public List<NameValuesBean> getSortedParameters(Map<?, ?> parameterMap) {
+		List<NameValuesBean> parameters = new ArrayList<NameValuesBean>();
+		for (Map.Entry<?, ?> pair : parameterMap.entrySet()) {
+			String key = (String) pair.getKey();
+			String[] values = (String[]) pair.getValue();
+			NameValuesBean bean = new NameValuesBean();
+			bean.setName(key);
+			bean.setValues(values);
+			parameters.add(bean);
+		}
+		Collections.sort(parameters);
+		return parameters;
+	}
+
+	/**
+	 * Convert a request attribute to a NameValuesBean
+	 */
+	public NameValuesBean getNameValuesBean(HttpServletRequest request, String name) {
+		String params = request.getAttribute(name) + "";
+		return getNameValuesBean(name, params);
+	}
+
+	/**
+	 * Convert a string to a NameValuesBean
+	 */
+	public NameValuesBean getNameValuesBean(String name, String params) {
+		NameValuesBean bean = new NameValuesBean();
+		bean.setName(name);
+		bean.setValues(new String[] { params });
+		return bean;
+	}
+
+	/**
+	 * Store the stacktrace for this exception into a string
+	 */
+	public String toString(Throwable e) {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		PrintStream out = new PrintStream(baos);
+		e.printStackTrace(out);
+		return baos.toString();
+	}
+
+	/**
+	 * Convert a parameter list to an XML string
+	 */
+	public String toXML(Object object) {
+		// No parameters
+		if (object == null) {
+			return "";
+		}
+
+		// Otherwise use an XMLEncoder
+		StringBuffer sb = new StringBuffer();
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		XMLEncoder e = new XMLEncoder(out);
+		e.writeObject(object);
+		e.close();
+		sb.append(out.toString());
+		return sb.toString();
+	}
 
 	/**
 	 * Convert a parameter list to an XML string
@@ -26,13 +94,7 @@ public class RPCUtils {
 		}
 
 		// Otherwise use an XMLEncoder
-		StringBuffer sb = new StringBuffer();
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		XMLEncoder e = new XMLEncoder(out);
-		e.writeObject(parameters);
-		e.close();
-		sb.append(out.toString());
-		return sb.toString();
+		return toXML((Object) parameters);
 	}
 
 	protected String getPrimitivesAndStrings(Object[] parameters) {
@@ -155,6 +217,16 @@ public class RPCUtils {
 			return s;
 		}
 		return s.substring(pos + 1);
+	}
+
+	protected boolean isEmpty(Object object) {
+		if (object == null) {
+			return true;
+		}
+		if (object.toString().trim().equals("")) {
+			return true;
+		}
+		return false;
 	}
 
 }

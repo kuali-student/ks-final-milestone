@@ -8,8 +8,8 @@ import java.io.Serializable;
  * 
  * @author Jeff Caddel
  */
+@SuppressWarnings("serial")
 public class NameValuesBean implements Comparable<NameValuesBean>, Serializable {
-	private static final long serialVersionUID = 1L;
 
 	String name;
 	String[] values;

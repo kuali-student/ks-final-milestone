@@ -6,11 +6,9 @@ import java.util.List;
 
 /**
  * Tracks information about an HttpServletRequest.
- * 
- * @author Jeff Caddel
  */
+@SuppressWarnings("serial")
 public class RecordedRequest implements Serializable {
-	private static final long serialVersionUID = 1L;
 	int sequence;
 
 	/**
@@ -29,6 +27,7 @@ public class RecordedRequest implements Serializable {
 	 */
 	List<NameValuesBean> parameters;
 	List<NameValuesBean> headers;
+	List<NameValuesBean> attributes;
 
 	public String getPath() {
 		return path;
@@ -76,6 +75,14 @@ public class RecordedRequest implements Serializable {
 
 	public void setHeaders(List<NameValuesBean> headers) {
 		this.headers = headers;
+	}
+
+	public List<NameValuesBean> getAttributes() {
+		return attributes;
+	}
+
+	public void setAttributes(List<NameValuesBean> attributes) {
+		this.attributes = attributes;
 	}
 
 }

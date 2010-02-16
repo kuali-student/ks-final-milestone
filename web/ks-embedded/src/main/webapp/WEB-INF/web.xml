@@ -23,12 +23,12 @@
 	</filter-mapping>
 
     <filter>
-	  	<filter-name>clickTrailFilter</filter-name>
-	  	<filter-class>org.kuali.student.web.ClickTrailFilter</filter-class>
+	  	<filter-name>requestRecorderFilter</filter-name>
+	  	<filter-class>org.kuali.student.web.RequestRecorderFilter</filter-class>
 	</filter>
 
 	<filter-mapping>
-	  <filter-name>clickTrailFilter</filter-name>
+	  <filter-name>requestRecorderFilter</filter-name>
 	  <url-pattern>/*</url-pattern>
 	</filter-mapping>
 

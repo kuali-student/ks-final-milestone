@@ -15,6 +15,7 @@
 package org.kuali.student.common.ui.server.gwt;
 
 import org.kuali.student.common.ui.client.service.SecurityRpcService;
+import org.kuali.student.common.ui.server.gwt.rpc.BaseRemoteAbstractServiceServlet;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.userdetails.UserDetails;
 
