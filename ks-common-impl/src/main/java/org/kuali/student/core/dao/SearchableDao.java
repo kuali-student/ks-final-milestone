@@ -25,6 +25,10 @@ import org.kuali.student.core.search.newdto.SearchRequest;
 import org.kuali.student.core.search.newdto.SearchResult;
 
 public interface SearchableDao {
+	@Deprecated
+	/**
+	 * Use search(SearchRequest searchRequest, Map<String, String> queryMap, LookupMetadata lookupMetadata) instead
+	 */
 	public List<Result> searchForResults(String searchTypeKey, Map<String, String> queryMap, SearchTypeInfo searchTypeInfo, List<QueryParamValue> queryParamValues);
 
 	public SearchResult search(SearchRequest searchRequest,
