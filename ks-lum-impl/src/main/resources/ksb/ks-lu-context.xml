@@ -11,6 +11,8 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
+	<!-- This context requires that a spring Transaction Manager named 'transactionManager' be defined -->
+
     <import resource="classpath:statement-context.xml"/>
 	
 	<bean id="systemPropertyConfigurer"
@@ -23,7 +25,7 @@
 		</property>
 	</bean>
 	
-	<bean id="jotm" class="org.springframework.transaction.jta.JotmFactoryBean"/>
+	<!--<bean id="jotm" class="org.springframework.transaction.jta.JotmFactoryBean"/>-->
 
 	<bean class="org.kuali.student.common.util.ModPropertyPlaceholderConfigurer">
 		<property name="properties" ref="configProperties" />
@@ -62,16 +64,10 @@
 	</bean>
 
     <!-- JTA -->
-    <bean id="jtaTxManager" class="org.springframework.transaction.jta.JtaTransactionManager">
-        <property name="transactionManager" ref="jotm" />
-        <property name="userTransaction" ref="jotm"/>
-        <property name="allowCustomIsolationLevels" value="true"/>
-    </bean> 
-
-    <tx:annotation-driven transaction-manager="jtaTxManager" />
+    <tx:annotation-driven transaction-manager="transactionManager" />
 	
 	<bean id="lumDataSource" class="org.kuali.rice.core.database.DerbyXAPoolDataSource" depends-on="systemPropertyConfigurer">
-       <property name="transactionManager" ref="jotm" />
+       <property name="transactionManager" ref="userTransaction" />
         <property name="driverClassName" value="${ks.lum.datasource.driver.name}" />
         <property name="maxSize" value="${ks.lum.datasource.maxSize}" />
         <property name="minSize" value="${ks.lum.datasource.minSize}" />
@@ -271,12 +267,12 @@
 	</bean>
 	
 	<bean id="lumSearchDispatcher" class="org.kuali.student.core.search.service.impl.SearchDispatcherImpl">
-		<constructor-arg>
+		<property name="services">
 			<list>
 				<ref bean="loServiceImpl"/>
 				<ref bean="luServiceImpl"/>
 			</list>
-		</constructor-arg>
+		</property>
 	</bean>
 
 	<bean id="loDictionary" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
@@ -326,7 +322,7 @@
 
 	<!--  Preloaded data -->
 	<bean id="dataLoadListenerLum" class="org.kuali.student.common.util.jpa.LoadSqlListener">
-		<property name="jtaTxManager" ref="jtaTxManager"/>
+		<property name="jtaTxManager" ref="transactionManager"/>
         <property name="shouldLoadData" value="${ks.lum.doDataLoad}"/>
 		<property name="preloadMap">
 			<map>

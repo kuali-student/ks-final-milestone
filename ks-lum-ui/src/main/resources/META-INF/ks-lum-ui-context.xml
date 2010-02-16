@@ -75,13 +75,14 @@
 	</bean>
 
     <!-- JTA -->
-    <bean id="jtaTxManager" class="org.springframework.transaction.jta.JtaTransactionManager">
-        <property name="transactionManager" ref="jotm" />
-        <property name="userTransaction" ref="jotm"/>
+	<alias name="jtaUserTransaction" alias="userTransaction"/>    
+    <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" lazy-init="true"> 
+		<property name="userTransaction" ref="jtaUserTransaction"/>
+		<property name="transactionManager" ref="jtaTransactionManager"/>
         <property name="allowCustomIsolationLevels" value="true"/>
     </bean> 
 
-    <tx:annotation-driven transaction-manager="jtaTxManager" />     
+    <tx:annotation-driven transaction-manager="transactionManager" />     
 	
 	<import resource="classpath:ks-spring-security.xml" />
 	
