@@ -93,6 +93,10 @@ public class DictionaryStructureFieldWriter
   }
   if (xmlType.getPrimitive ().equalsIgnoreCase (XmlType.COMPLEX))
   {
+   if (field.getXmlType ().equalsIgnoreCase ("attributeInfo"))
+   {
+    return;
+   }
    System.out.println ("Writing out subfield object structure for " + field.
     getId () + " " + xmlType.getName ());
    DictionaryStructureWriter osw =
@@ -210,30 +214,25 @@ public class DictionaryStructureFieldWriter
   writer.indentPrintln ("/>");
  }
 
- protected String calcDataType ()
+ private String calcDataType ()
  {
-  return calcDataType (field);
- }
-
- protected String calcDataType (Field f)
- {
-  if (f.getPrimitive ().equalsIgnoreCase (XmlType.COMPLEX))
+  if (field.getPrimitive ().equalsIgnoreCase (XmlType.COMPLEX))
   {
    return XmlType.COMPLEX;
   }
 
-  if (f.getPrimitive ().equalsIgnoreCase ("mapped string"))
+  if (field.getPrimitive ().equalsIgnoreCase ("mapped string"))
   {
    return "string";
   }
 
-  if (f.getPrimitive ().equalsIgnoreCase ("primitive"))
+  if (field.getPrimitive ().equalsIgnoreCase ("primitive"))
   {
    return field.getXmlType ();
   }
 
-  throw new DictionaryValidationException ("Unexpected data value for the primitive column in field.  Found " + f.
-   getPrimitive () + " on field " + f.getId ());
+  throw new DictionaryValidationException ("Unexpected data value for the primitive column in field.  Found " + field.
+   getPrimitive () + " on field " + field.getId ());
  }
 
  protected String calcReadOnly ()
@@ -249,7 +248,7 @@ public class DictionaryStructureFieldWriter
  {
   if (field != null)
   {
-   if (field.getSelector ().equals ("true"))
+   if (field.isSelector ())
    {
     return "true";
    }
@@ -262,7 +261,7 @@ public class DictionaryStructureFieldWriter
  {
   if (field != null)
   {
-   if (field.getDynamic ().equals ("true"))
+   if (field.isDynamic ())
    {
     return "true";
    }

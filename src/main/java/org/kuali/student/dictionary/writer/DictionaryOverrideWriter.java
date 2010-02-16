@@ -117,7 +117,7 @@ public class DictionaryOverrideWriter
   return id;
  }
 
- protected String calcFieldId (Dictionary dict)
+ protected String calcDictionaryFieldId (Dictionary dict)
  {
   return "dict." + dict.getId ();
  }
@@ -135,16 +135,23 @@ public class DictionaryOverrideWriter
   writer.writeAttribute ("key", key);
   writeAbstractAttributeId (id);
   writer.println (">");
-  Set<Type> expanded = getExpandedConfiguredTypes ();
-  for (Type type : getIncludedTypes ())
+  if (xmlType.hasOwnType ())
   {
-   if ( ! type.getStatus ().equalsIgnoreCase (Type.GROUPING))
+   Set<Type> expanded = getExpandedConfiguredTypes ();
+   for (Type type : getIncludedTypes ())
    {
-    if (expanded.contains (type))
+    if ( ! type.getStatus ().equalsIgnoreCase (Type.GROUPING))
     {
-     writeRefBean ("dict:typeRef", calcTypeId (type));
+     if (expanded.contains (type))
+     {
+      writeRefBean ("dict:typeRef", calcTypeId (type));
+     }
     }
    }
+  }
+  else
+  {
+   writeRefBean ("dict:typeRef", calcTypeId (finder.getDefaultType ()));
   }
   writer.indentPrintln ("</dict:objectStructure>");
   // concrete version
@@ -236,15 +243,15 @@ public class DictionaryOverrideWriter
   {
    return includedStates;
   }
-  Set<State> list = new LinkedHashSet ();
+  Set<State> set = new LinkedHashSet ();
   for (State state : finder.findStates (xmlType.getName ()))
   {
    if (state.getInclude ())
    {
-    list.add (state);
+    set.add (state);
    }
   }
-  includedStates = list;
+  includedStates = set;
   return includedStates;
  }
 
@@ -255,9 +262,18 @@ public class DictionaryOverrideWriter
 
  private void writeTypeStructures ()
  {
-  String parentId = calcTypeId (finder.getDefaultType ());
-
   Set<String> alreadyWritten = new HashSet ();
+  if ( ! xmlType.hasOwnType ())
+  {
+   writeTypeStructure (finder.getDefaultType (), null, true);
+   return;
+  }
+  String parentId = calcTypeId (finder.getDefaultType ());
+//  if (alreadyWritten.add (finder.getDefaultState ().getName ().toLowerCase ()))
+//  {
+//   writeTypeStructure (finder.getDefaultType (), parentId, true);
+//  }
+  parentId = calcTypeId (finder.getDefaultType ());
   for (Type type : getConfiguredTypes ())
   {
    if (alreadyWritten.add (type.getName ().toLowerCase ()))
@@ -291,8 +307,20 @@ public class DictionaryOverrideWriter
   }
   Set<Type> set = new LinkedHashSet ();
   Set<String> alreadyFound = new HashSet ();
+  if (getMatchingDictionaryEntries (finder.getDefaultType (),
+                                    finder.getDefaultState (), true).size () > 0)
+  {
+   if (alreadyFound.add (finder.getDefaultType ().getName ().toLowerCase ()))
+   {
+    set.add (finder.getDefaultType ());
+   }
+  }
   for (Type type : getIncludedTypes ())
   {
+   if (alreadyFound.contains (type.getName ().toLowerCase ()))
+   {
+    continue;
+   }
    List<Dictionary> dicts = getMatchingDictionaryEntries (type, finder.
     getDefaultState (), true);
    if (dicts.size () > 0)
@@ -301,6 +329,7 @@ public class DictionaryOverrideWriter
     {
      set.add (type);
     }
+    continue;
    }
   }
   configuredTypes = set;
@@ -344,14 +373,21 @@ public class DictionaryOverrideWriter
   }
   if (writeStateRefs)
   {
-   Set<State> expandedConfiguredStates = getExpandedConfiguredStates (type);
-   for (State state : getIncludedStates ())
+   if ( ! xmlType.hasOwnState ())
    {
-    if ( ! state.getStatus ().equalsIgnoreCase (State.GROUPING))
+    writeRefBean ("dict:stateRef", calcStateId (type, finder.getDefaultState ()));
+   }
+   else
+   {
+    Set<State> expandedConfiguredStates = getExpandedConfiguredStates (type);
+    for (State state : getIncludedStates ())
     {
-     if (expandedConfiguredStates.contains (state))
+     if ( ! state.getStatus ().equalsIgnoreCase (State.GROUPING))
      {
-      writeRefBean ("dict:stateRef", calcStateId (type, state));
+      if (expandedConfiguredStates.contains (state))
+      {
+       writeRefBean ("dict:stateRef", calcStateId (type, state));
+      }
      }
     }
    }
@@ -372,6 +408,11 @@ public class DictionaryOverrideWriter
 
  private void writeStateStructures ()
  {
+  if ( ! xmlType.hasOwnType ())
+  {
+   writeStateStructures (finder.getDefaultType ());
+   return;
+  }
   for (Type type : getConfiguredTypes ())
   {
    writeStateStructures (type);
@@ -381,13 +422,13 @@ public class DictionaryOverrideWriter
  private void writeStateStructures (Type type)
  {
   Set<String> alreadyWritten = new HashSet ();
-  String parentId = calcStateId (finder.getDefaultType (), finder.
-   getDefaultState ());
+//  String parentId = calcStateId (finder.getDefaultType (), finder.
+//   getDefaultState ());
   if (alreadyWritten.add (finder.getDefaultState ().getName ().toLowerCase ()))
   {
-   writeStateStructure (type, finder.getDefaultState (), parentId, true);
+   writeStateStructure (type, finder.getDefaultState (), null, true);
   }
-  parentId = calcStateId (type, finder.getDefaultState ());
+  String parentId = calcStateId (type, finder.getDefaultState ());
   Set<State> configuredStates = getConfiguredStates (type);
   for (State state : configuredStates)
   {
@@ -421,7 +462,20 @@ public class DictionaryOverrideWriter
   Set<String> alreadyFound = new HashSet ();
   for (State state : statesToCheck)
   {
+   if (alreadyFound.contains (state.getName ().toLowerCase ()))
+   {
+    continue;
+   }
    List<Dictionary> dicts = getMatchingDictionaryEntries (type, state, true);
+   if (dicts.size () > 0)
+   {
+    if (alreadyFound.add (state.getName ().toLowerCase ()))
+    {
+     set.add (state);
+    }
+    continue;
+   }
+   dicts = getSubjObjectsEntriesThatUseState (type, state);
    if (dicts.size () > 0)
    {
     if (alreadyFound.add (state.getName ().toLowerCase ()))
@@ -431,6 +485,35 @@ public class DictionaryOverrideWriter
    }
   }
   return set;
+ }
+
+ private List<Dictionary> getSubjObjectsEntriesThatUseState (Type type,
+                                                             State state)
+ {
+  List<Dictionary> list = new ArrayList ();
+  for (Dictionary dict : getMatchingDictionaryEntries (type, state, false))
+  {
+   for (Dictionary d : finder.findChildDictionaryEntries (dict))
+   {
+    if (matchesMainTypeState (d, type, state))
+    {
+     list.add (d);
+    }
+   }
+  }
+  return list;
+ }
+
+ protected boolean matchesMainTypeState (Dictionary dict, Type type, State state)
+ {
+  if (type.getName ().equalsIgnoreCase (dict.getType ()))
+  {
+   if (state.getName ().equalsIgnoreCase (dict.getState ()))
+   {
+    return true;
+   }
+  }
+  return false;
  }
 
  private void writeStateStructure (Type type,
@@ -501,7 +584,7 @@ public class DictionaryOverrideWriter
   checkIfGotAllTheRightFields (dicts, type, state);
   for (Dictionary dict : dicts)
   {
-   writeRefBean ("dict:fieldRef", calcFieldId (dict));
+   writeRefBean ("dict:fieldRef", calcDictionaryFieldId (dict));
   }
  }
 
@@ -596,21 +679,28 @@ public class DictionaryOverrideWriter
   Set<String> matchingFields = new LinkedHashSet (dicts.size ());
   for (Dictionary dict : dicts)
   {
-   if ( ! matchingFields.add (dict.getShortName ().toLowerCase ()))
+   // don't try to compare dynamic fields
+   if ( ! dict.isDynamic ())
    {
-    throw new DictionaryExecutionException ("Dictionary entry " + dict.getId ()
-     + " in the default dictionary entries for "
-     + xmlType.getName () + " is a repeat of field " + dict.getShortName ());
+    if ( ! matchingFields.add (dict.getShortName ().toLowerCase ()))
+    {
+     throw new DictionaryExecutionException ("Dictionary entry " + dict.getId ()
+      + " in the default dictionary entries for "
+      + xmlType.getName () + " is a repeat of field " + dict.getShortName ());
+    }
    }
   }
   Set<String> allFields = new LinkedHashSet ();
   for (Field field : finder.findFields (xmlType.getName ()))
   {
-   if ( ! allFields.add (field.getShortName ().toLowerCase ()))
+   if ( ! field.getShortName ().equalsIgnoreCase ("attributes"))
    {
-    throw new DictionaryExecutionException ("Field entry " + field.getId ()
-     + " for "
-     + xmlType.getName () + " is a repeat of field " + field.getShortName ());
+    if ( ! allFields.add (field.getShortName ().toLowerCase ()))
+    {
+     throw new DictionaryExecutionException ("Field entry " + field.getId ()
+      + " for "
+      + xmlType.getName () + " is a repeat of field " + field.getShortName ());
+    }
    }
   }
   if (matchingFields.equals (allFields))
@@ -733,50 +823,31 @@ public class DictionaryOverrideWriter
 
  private void writeDictionaryEntries ()
  {
-  for (Dictionary dict : this.getDictionaryEntries ())
+  Set<Type> types = new LinkedHashSet ();
+  types.add (finder.getDefaultType ());
+  types.addAll (getConfiguredTypes ());
+  for (Type type : types)
   {
-   Field field = finder.findField (dict.getXmlObject (), dict.getShortName ());
-   if (field.getPrimitive ().equalsIgnoreCase (XmlType.COMPLEX))
+   Set<State> states = new LinkedHashSet ();
+   states.add (finder.getDefaultState ());
+   states.addAll (getConfiguredStates (type));
+   for (State state : states)
    {
-    Type type = findType (dict.getXmlObject (), dict.getType ());
-    if (type == null)
+    for (Dictionary dict : getMatchingDictionaryEntries (type, state, true))
     {
-     throw new DictionaryExecutionException ("could not find type for " + dict.getId ());
+     DictionaryOverrideFieldWriter few =
+      new DictionaryOverrideFieldWriter (writer,
+                                         model,
+                                         dict,
+                                         type,
+                                         state,
+                                         this,
+                                         dictionaryEntriesWritten);
+     dictionaryEntriesWritten.add (dict.getId ());
+     few.writeFieldStructure ();
     }
-    State state = findState (dict.getXmlObject (), dict.getState ());
-    if (state == null)
-    {
-     throw new DictionaryExecutionException ("could not find state for " + dict.getId ());
-    }
-    DictionaryOverrideFieldWriter few =
-     new DictionaryOverrideFieldWriter (writer,
-                                        model,
-                                        dict,
-                                        type,
-                                        state,
-                                        this,
-                                        dictionaryEntriesWritten);
-    few.write ();
    }
   }
- }
-
- private Type findType (String xmlObject, String type)
- {
-  if (type.equalsIgnoreCase (Type.DEFAULT))
-  {
-   return finder.getDefaultType ();
-  }
-  return finder.findType (xmlObject, type);
- }
-
- private State findState (String xmlObject, String state)
- {
-  if (state.equalsIgnoreCase (State.DEFAULT))
-  {
-   return finder.getDefaultState ();
-  }
-  return finder.findState (xmlObject, state);
  }
 
  private void writeSubStructureObjects ()
@@ -796,9 +867,12 @@ public class DictionaryOverrideWriter
   // no write out each field
   for (Dictionary dict : getMatchingDictionaryEntries (type, state, false))
   {
-   Field field = finder.findField (dict.getXmlObject (), dict.getShortName ());
-   if (field.getPrimitive ().equalsIgnoreCase (XmlType.COMPLEX))
+   if (dict.getPrimitive ().equalsIgnoreCase (XmlType.COMPLEX))
    {
+    if (isNotUsed (dict))
+    {
+     continue;
+    }
     DictionaryOverrideFieldWriter few =
      new DictionaryOverrideFieldWriter (writer,
                                         model,
@@ -812,6 +886,15 @@ public class DictionaryOverrideWriter
   }
  }
 
+ private boolean isNotUsed (Dictionary dict)
+ {
+  if (dict.getAdditionalConstraintIds ().contains ("not.used"))
+  {
+   return true;
+  }
+  return false;
+ }
+
  private void writeAbstractAttributeId (String id)
  {
   new AttributeIdUtil ().writeAbstractAttribute (writer, id);
@@ -819,7 +902,10 @@ public class DictionaryOverrideWriter
 
  private void writeParentToAbstract (String id)
  {
-  new AttributeIdUtil ().writeParentToAbstract (writer, id);
+  if (id != null)
+  {
+   new AttributeIdUtil ().writeParentToAbstract (writer, id);
+  }
  }
 
  private void writeAttributeId (String id)

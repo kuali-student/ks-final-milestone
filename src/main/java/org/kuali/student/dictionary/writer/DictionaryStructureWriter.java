@@ -248,6 +248,10 @@ public class DictionaryStructureWriter
   writer.println (">");
   for (Field field : finder.findFields (xmlType.getName ()))
   {
+   if (field.getXmlType ().equalsIgnoreCase ("attributeInfo"))
+   {
+    continue;
+   }
    // always reference the default field definitions
    writeRefBean ("dict:fieldRef", calcFieldId (field, defaultType, defaultState));
   }
@@ -269,6 +273,10 @@ public class DictionaryStructureWriter
   // no write out each field
   for (Field field : finder.findFields (xmlType.getName ()))
   {
+   if (field.getXmlType ().equalsIgnoreCase ("attributeInfo"))
+   {
+    continue;
+   }
    DictionaryStructureFieldWriter few =
     new DictionaryStructureFieldWriter (writer,
                                         model,

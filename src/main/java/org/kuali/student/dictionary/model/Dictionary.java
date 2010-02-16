@@ -288,14 +288,14 @@ public class Dictionary implements Serializable, Cloneable
  }
 
 
- private String selector;
+ private boolean selector;
 
  /**
   * Get the value of selector
   *
   * @return the value of selector
   */
- public String getSelector ()
+ public boolean isSelector ()
  {
   return selector;
  }
@@ -305,10 +305,24 @@ public class Dictionary implements Serializable, Cloneable
   *
   * @param selector new value of selector
   */
- public void setSelector (String selector)
+ public void setSelector (boolean selector)
  {
   this.selector = selector;
  }
+
+
+ private boolean dynamic;
+
+ public boolean isDynamic ()
+ {
+  return dynamic;
+ }
+
+ public void setDynamic (boolean dynamic)
+ {
+  this.dynamic = dynamic;
+ }
+
 
  private String comments;
 

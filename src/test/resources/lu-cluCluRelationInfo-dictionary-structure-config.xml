@@ -7,7 +7,7 @@ http://student.kuali.org/xsd/dictionary-extension dictionary-extension.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Mon Feb 15 22:34:38 EST 2010
+on: Tue Feb 16 13:05:39 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -40,7 +40,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.cluCluRelationInfo.isCluRelationRequired"/>
 	<dict:fieldRef bean="field.cluCluRelationInfo.effectiveDate"/>
 	<dict:fieldRef bean="field.cluCluRelationInfo.expirationDate"/>
-	<dict:fieldRef bean="field.cluCluRelationInfo.attributes"/>
 	<dict:fieldRef bean="field.cluCluRelationInfo.metaInfo"/>
 	<dict:fieldRef bean="field.cluCluRelationInfo.type"/>
 	<dict:fieldRef bean="field.cluCluRelationInfo.state"/>
@@ -144,97 +143,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.date.time"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="field.cluCluRelationInfo.expirationDate.cd" parent="field.cluCluRelationInfo.expirationDate.cd.abstract"/>
-
-<dict:field key="attributes" id="field.cluCluRelationInfo.attributes.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluCluRelationInfo.attributes.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluCluRelationInfo.attributes.cd"/>
-</dict:field>
-<dict:field key="attributes" id="field.cluCluRelationInfo.attributes" parent="field.cluCluRelationInfo.attributes.abstract"/>
-<dict:fieldDescriptor key="attributes" id="field.cluCluRelationInfo.attributes.fd.abstract" abstract="true">
-	<dict:name>Generic/dynamic attributes</dict:name>
-	<dict:desc>List of key/value pairs, typically used for dynamic attributes.</dict:desc>
-	<dict:dataType>Complex</dict:dataType>
-		<dict:objectStructureRef bean="object.field.cluCluRelationInfo.attributes"/>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="attributes" id="field.cluCluRelationInfo.attributes.fd" parent="field.cluCluRelationInfo.attributes.fd.abstract"/>
-<!-- Optional; Repeating -->
-<dict:constraintDescriptor id="field.cluCluRelationInfo.attributes.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.optional"/>
-	<dict:constraintRef bean="constraint.repeating"/>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="attributes" id="field.cluCluRelationInfo.attributes.cd" parent="field.cluCluRelationInfo.attributes.cd.abstract"/>
-
-<!-- *********************************************************************************** -->
-<!-- object structure for object.field.cluCluRelationInfo.attributes.(default).(default) -->
-<!-- *********************************************************************************** -->
-<!-- List of key/value pairs, typically used for dynamic attributes. -->
-<dict:objectStructure key=".AttributeInfo" id="object.field.cluCluRelationInfo.attributes.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluCluRelationInfo.attributes"/>
-</dict:objectStructure>
-<dict:objectStructure key=".AttributeInfo" id="object.field.cluCluRelationInfo.attributes" parent="object.field.cluCluRelationInfo.attributes.abstract"/>
-
-<dict:type key="*" id="type.field.cluCluRelationInfo.attributes.abstract" abstract="true">
-	<dict:name>(default)</dict:name>
-	<dict:desc>Default</dict:desc>
-	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-	<dict:stateRef bean="state.field.cluCluRelationInfo.attributes"/>
-</dict:type>
-<dict:type key="*" id="type.field.cluCluRelationInfo.attributes" parent="type.field.cluCluRelationInfo.attributes.abstract"/>
-
-<!-- ******************************************************************************************* -->
-<!-- State for state.field.cluCluRelationInfo.attributes.(default).(default).(default).(default) -->
-<!-- ******************************************************************************************* -->
-
-<dict:state key="*" id="state.field.cluCluRelationInfo.attributes.abstract" abstract="true">
-	<dict:fieldRef bean="field.cluCluRelationInfo.attributes.value"/>
-	<dict:fieldRef bean="field.cluCluRelationInfo.attributes.key"/>
-</dict:state>
-<dict:state key="*" id="state.field.cluCluRelationInfo.attributes" parent="state.field.cluCluRelationInfo.attributes.abstract"/>
-
-
-<dict:field key="value" id="field.cluCluRelationInfo.attributes.value.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluCluRelationInfo.attributes.value.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluCluRelationInfo.attributes.value.cd"/>
-<dict:dynamic>true</dict:dynamic>
-</dict:field>
-<dict:field key="value" id="field.cluCluRelationInfo.attributes.value" parent="field.cluCluRelationInfo.attributes.value.abstract"/>
-<dict:fieldDescriptor key="value" id="field.cluCluRelationInfo.attributes.value.fd.abstract" abstract="true">
-	<dict:name>Attribute Value</dict:name>
-	<dict:desc>The value for this dynamic attribute.</dict:desc>
-	<dict:dataType>string</dict:dataType>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="value" id="field.cluCluRelationInfo.attributes.value.fd" parent="field.cluCluRelationInfo.attributes.value.fd.abstract"/>
-<!-- Required; Single valued (non-repeating) -->
-<dict:constraintDescriptor id="field.cluCluRelationInfo.attributes.value.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.required"/>
-	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraint key="in-line.constraint.for.field.attributeInfo.value">
-		<dict:maxLength>(unbounded)</dict:maxLength>
-		</dict:constraint>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="value" id="field.cluCluRelationInfo.attributes.value.cd" parent="field.cluCluRelationInfo.attributes.value.cd.abstract"/>
-
-<!-- Shouldn't this be a "type" not a "key"?  I type describes the value, a key is just a pointer. -->
-<dict:field key="key" id="field.cluCluRelationInfo.attributes.key.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluCluRelationInfo.attributes.key.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluCluRelationInfo.attributes.key.cd"/>
-<dict:dynamic>true</dict:dynamic>
-</dict:field>
-<dict:field key="key" id="field.cluCluRelationInfo.attributes.key" parent="field.cluCluRelationInfo.attributes.key.abstract"/>
-<dict:fieldDescriptor key="key" id="field.cluCluRelationInfo.attributes.key.fd.abstract" abstract="true">
-	<dict:name>Attribute Type Identifier</dict:name>
-	<dict:desc>The identifier for this attribute.</dict:desc>
-	<dict:dataType>string</dict:dataType>
-</dict:fieldDescriptor>
-<dict:fieldDescriptor key="key" id="field.cluCluRelationInfo.attributes.key.fd" parent="field.cluCluRelationInfo.attributes.key.fd.abstract"/>
-<!-- Required; Single valued (non-repeating); Kuali TYPE: required on add, then read-only; In list of configured dynamic field types -->
-<dict:constraintDescriptor id="field.cluCluRelationInfo.attributes.key.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.required"/>
-	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.kuali.type"/>
-	<dict:constraintRef bean="constraint.dynamic.field.types"/>
-</dict:constraintDescriptor>
-<dict:constraintDescriptor key="key" id="field.cluCluRelationInfo.attributes.key.cd" parent="field.cluCluRelationInfo.attributes.key.cd.abstract"/>
 
 <dict:field key="metaInfo" id="field.cluCluRelationInfo.metaInfo.abstract" abstract="true">
 	<dict:fieldDescriptorRef bean="field.cluCluRelationInfo.metaInfo.fd"/>

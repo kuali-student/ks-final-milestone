@@ -230,14 +230,14 @@ public class Field implements Serializable
  }
 
 
-  private String dynamic;
+  private boolean dynamic;
 
  /**
   * Get the value of dynamic
   *
   * @return the value of dynamic
   */
- public String getDynamic ()
+ public boolean isDynamic ()
  {
   return dynamic;
  }
@@ -247,19 +247,19 @@ public class Field implements Serializable
   *
   * @param dynamic new value of dynamic
   */
- public void setDynamic (String dynamic)
+ public void setDynamic (boolean dynamic)
  {
   this.dynamic = dynamic;
  }
  
- private String selector;
+ private boolean selector;
 
  /**
   * Get the value of selector
   *
   * @return the value of selector
   */
- public String getSelector ()
+ public boolean isSelector ()
  {
   return selector;
  }
@@ -269,7 +269,7 @@ public class Field implements Serializable
   *
   * @param selector new value of selector
   */
- public void setSelector (String selector)
+ public void setSelector (boolean selector)
  {
   this.selector = selector;
  }

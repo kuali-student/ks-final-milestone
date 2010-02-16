@@ -192,7 +192,7 @@ public class DictionaryEntryWriter
  {
   if (dict != null)
   {
-   if (dict.getSelector ().equals ("true"))
+   if (dict.isSelector ())
    {
     return "true";
    }
@@ -204,11 +204,10 @@ public class DictionaryEntryWriter
  {
   if (dict != null)
   {
-   if (field.getDynamic ().equals ("true"))
+   if (dict.isDynamic ())
    {
     return "true";
    }
-
   }
   return "";
  }

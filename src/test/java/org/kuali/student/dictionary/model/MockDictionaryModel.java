@@ -61,9 +61,9 @@ public class MockDictionaryModel implements DictionaryModel
   dict.setSubState ("test.subState");
   dict.setXmlObject ("test.xmlObject");
   dict.setShortName ("test.shortName");
-  dict.setPrimitive ("test.primitive");
+  dict.setPrimitive ("Primitive");
   dict.setBaseConstraintDescription ("test.baseConstraintDescription");
-  dict.setSelector ("test.selector");
+  dict.setSelector (true);
   List addlConstraints = new ArrayList (4);
   dict.setAdditionalConstraintIds (addlConstraints);
   addlConstraints.add ("test.additionalConstraintId1");
@@ -112,7 +112,7 @@ public class MockDictionaryModel implements DictionaryModel
   constraints.add ("test.additionalConstraintId3");
   constraints.add ("test.additionalConstraintId4");
   field.setConstraintDescription ("test.constraintDescription");
-  field.setDynamic ("test.dynamic");
+  field.setDynamic (true);
   Constraint inline = new Constraint ();
   inline.setInline (true);
   field.setInlineConstraint (inline);

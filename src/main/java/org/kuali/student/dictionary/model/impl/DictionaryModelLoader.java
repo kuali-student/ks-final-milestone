@@ -89,7 +89,8 @@ public class DictionaryModelLoader implements DictionaryModel
   dict.setShortName (getFixup (worksheetReader, "shortName"));
   dict.setPrimitive (getFixup (worksheetReader, "primitive"));
   dict.setBaseConstraintDescription (getFixup (worksheetReader, "baseConstraintDescription"));
-  dict.setSelector (getFixup (worksheetReader, "selector"));
+  dict.setSelector (getFixupBoolean (worksheetReader, "selector"));
+  dict.setDynamic (getFixupBoolean (worksheetReader, "dynamic"));
 
   // do additional constriants
   List<String> additionalConstraintIds = new ArrayList (4);
@@ -349,8 +350,8 @@ public class DictionaryModelLoader implements DictionaryModel
    }
    field.setConstraintIds (constraintIds);
    field.setConstraintDescription (getFixup (worksheetReader, "constraintDescription"));
-   field.setDynamic (getFixup (worksheetReader, "dynamic"));
-   field.setSelector (getFixup (worksheetReader, "selector"));
+   field.setDynamic (getFixupBoolean (worksheetReader, "dynamic"));
+   field.setSelector (getFixupBoolean (worksheetReader, "selector"));
 
    // do in-line constraint
    Constraint inline = new Constraint ();

@@ -55,7 +55,7 @@ public class DictionaryOverrideFieldWriter
   this.model = model;
   this.finder = new ModelFinder (model);
   this.dict = dict;
-  this.field = finder.findField (dict.getXmlObject (), dict.getShortName ());
+  this.field = finder.findField (dict);
   this.type = type;
   this.state = state;
   this.parentObject = parentObject;
@@ -82,7 +82,7 @@ public class DictionaryOverrideFieldWriter
   return parentObject;
  }
 
- public void write ()
+ public void writeFieldStructure ()
  {
   writeField ();
   writeFieldDescriptor ();
@@ -132,7 +132,7 @@ public class DictionaryOverrideFieldWriter
   }
  }
 
- protected String calcDefaultFieldId ()
+ private String calcDefaultFieldId ()
  {
   return parentObject.calcFieldId (field, finder.getDefaultType (), finder.getDefaultState ());
  }
@@ -143,17 +143,17 @@ public class DictionaryOverrideFieldWriter
  }
 
 
- protected String calcDictionaryFieldId ()
+ private String calcDictionaryFieldId ()
  {
-  return parentObject.calcFieldId (dict);
+  return parentObject.calcDictionaryFieldId (dict);
  }
 
- protected String calcFieldDescriptorId ()
+ private String calcDictionaryFieldDescriptorId ()
  {
   return calcDictionaryFieldId () + ".fd";
  }
 
- protected String calcFieldConstraintDescriptorId ()
+ private String calcDictinoaryFieldConstraintDescriptorId ()
  {
   return calcDictionaryFieldId () + ".cd";
  }
@@ -165,11 +165,11 @@ public class DictionaryOverrideFieldWriter
   writer.writeComment (dict.getComments ());
   writer.indentPrint ("<dict:field");
   writer.writeAttribute ("key", dict.getShortName ());
-  writeParentToAbstract (calcDefaultFieldId ());
+  //writeParentToAbstract (calcDefaultFieldId ());
   writeAbstractAttributeId (calcDictionaryFieldId ());
   writer.println (">");
-  writeRefBean ("dict:fieldDescriptorRef", calcFieldDescriptorId ());
-  writeRefBean ("dict:constraintDescriptorRef", calcFieldConstraintDescriptorId ());
+  writeRefBean ("dict:fieldDescriptorRef", calcDictionaryFieldDescriptorId ());
+  writeRefBean ("dict:constraintDescriptorRef", calcDictinoaryFieldConstraintDescriptorId ());
   writer.writeTag ("dict:selector", calcSelector ());
   writer.writeTag ("dict:dynamic", calcDynamic ());
   writer.indentPrintln ("</dict:field>");
@@ -185,7 +185,7 @@ public class DictionaryOverrideFieldWriter
  {
   writer.indentPrint ("<dict:fieldDescriptor");
   writer.writeAttribute ("key", dict.getShortName ());
-  writeAbstractAttributeId (calcFieldDescriptorId ());
+  writeAbstractAttributeId (calcDictionaryFieldDescriptorId ());
   writer.indentPrintln (">");
   writer.incrementIndent ();
   writer.writeTag ("dict:name", dict.getName ());
@@ -198,8 +198,8 @@ public class DictionaryOverrideFieldWriter
   // concrete one
   writer.indentPrint ("<dict:fieldDescriptor");
   writer.writeAttribute ("key", dict.getShortName ());
-  writeAttributeId (calcFieldDescriptorId ());
-  writeParentToAbstract (calcFieldDescriptorId ());
+  writeAttributeId (calcDictionaryFieldDescriptorId ());
+  writeParentToAbstract (calcDictionaryFieldDescriptorId ());
   writer.indentPrintln ("/>");
  }
 
@@ -207,7 +207,7 @@ public class DictionaryOverrideFieldWriter
  {
   writer.writeComment (dict.getCombinedConstraintDescription ());
   writer.indentPrint ("<dict:constraintDescriptor");
-  writeAbstractAttributeId (calcFieldConstraintDescriptorId ());
+  writeAbstractAttributeId (calcDictinoaryFieldConstraintDescriptorId ());
   writer.indentPrintln (">");
   writer.incrementIndent ();
   // write out referenced constraints
@@ -235,35 +235,34 @@ public class DictionaryOverrideFieldWriter
   // concrete one
   writer.indentPrint ("<dict:constraintDescriptor");
   writer.writeAttribute ("key", dict.getShortName ());
-  writeAttributeId (calcFieldConstraintDescriptorId ());
-  writeParentToAbstract (calcFieldConstraintDescriptorId ());
+  writeAttributeId (calcDictinoaryFieldConstraintDescriptorId ());
+  writeParentToAbstract (calcDictinoaryFieldConstraintDescriptorId ());
   writer.indentPrintln ("/>");
  }
 
- protected String calcDataType ()
+ private String calcDataType ()
  {
-  return calcDataType (field);
- }
-
- protected String calcDataType (Field f)
- {
-  if (f.getPrimitive ().equalsIgnoreCase (XmlType.COMPLEX))
+  if (dict.getPrimitive ().equalsIgnoreCase (XmlType.COMPLEX))
   {
    return XmlType.COMPLEX;
   }
-
-  if (f.getPrimitive ().equalsIgnoreCase ("mapped string"))
+  if (dict.isDynamic ())
   {
    return "string";
   }
 
-  if (f.getPrimitive ().equalsIgnoreCase ("primitive"))
+  if (dict.getPrimitive ().equalsIgnoreCase ("mapped string"))
+  {
+   return "string";
+  }
+
+  if (dict.getPrimitive ().equalsIgnoreCase ("primitive"))
   {
    return field.getXmlType ();
   }
 
-  throw new DictionaryValidationException ("Unexpected data value for the primitive column in field.  Found " + f.
-   getPrimitive () + " on field " + f.getId ());
+  throw new DictionaryValidationException ("Unexpected data value for the primitive column in field.  Found " + dict.
+   getPrimitive () + " on dictionary entry " + dict.getId ());
  }
 
  protected String calcReadOnly ()
@@ -282,7 +281,7 @@ public class DictionaryOverrideFieldWriter
 
  protected String calcSelector ()
  {
-  if (dict.getSelector ().equals ("true"))
+  if (dict.isSelector ())
   {
    return "true";
   }
@@ -291,7 +290,7 @@ public class DictionaryOverrideFieldWriter
 
  protected String calcDynamic ()
  {
-  if (field.getDynamic ().equals ("true"))
+  if (dict.isDynamic ())
   {
    return "true";
   }
