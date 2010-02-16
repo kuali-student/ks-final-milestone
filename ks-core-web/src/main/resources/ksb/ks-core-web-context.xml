@@ -26,6 +26,13 @@
     <import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml"/>
 	<import resource="classpath:org/kuali/rice/core/RiceDerbyDataSourceSpringBeans.xml" />
 
+	<alias name="jtaUserTransaction" alias="userTransaction"/>    
+    <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" lazy-init="true"> 
+		<property name="userTransaction" ref="jtaUserTransaction"/>
+		<property name="transactionManager" ref="jtaTransactionManager"/>
+        <property name="allowCustomIsolationLevels" value="true"/>
+    </bean> 
+	
 	<bean id="rice" class="org.kuali.rice.core.config.RiceConfigurer" depends-on="propconfig">
 		<property name="dataSource" ref="riceDataSource" />
 		<property name="nonTransactionalDataSource" ref="riceNonTransactionalDataSource" />
