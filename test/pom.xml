@@ -4,7 +4,7 @@
     <artifactId>test</artifactId>
     <packaging>pom</packaging>
     <name>KS Testing Pom</name>
-    <url>http://${project.url}/docs</url>
+    <url>http://driver-1.ks.kuali.net/docs</url>
     <description>Kuali Student Testing Project</description>
     <version>1.0.0-SNAPSHOT</version>
     <modules>
@@ -13,8 +13,7 @@
         <!--<module>ui</module>-->
         <!--<module>web-services</module>-->
     </modules>
-
-<build>
+    <build>
 		<pluginManagement>
 			<plugins>
 		      	<plugin>
@@ -29,22 +28,20 @@
       			</plugin>
 			</plugins>
 		</pluginManagement>
-</build>
-  <reporting>
-    <plugins>
-      <plugin>
-        <artifactId>maven-plugin-plugin</artifactId>
-        <version>2.5</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.1.2</version>
-      </plugin>
-    </plugins>
-  </reporting>
-    
-    
+	</build>
+	<reporting>
+    	<plugins>
+      		<plugin>
+        		<artifactId>maven-plugin-plugin</artifactId>
+        		<version>2.5</version>
+			</plugin>
+			<plugin>
+        		<groupId>org.apache.maven.plugins</groupId>
+        		<artifactId>maven-project-info-reports-plugin</artifactId>
+        		<version>2.1.2</version>
+      		</plugin>
+    	</plugins>
+	</reporting>
     <scm>
       <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/test</connection>
       <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/test</developerConnection>
