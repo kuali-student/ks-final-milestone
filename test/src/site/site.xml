@@ -3,7 +3,7 @@
   <bannerLeft>
     <name>${project.name}</name>
     <src>http://maven.apache.org/images/apache-maven-project-2.png</src>
-    <href>https://test.kuali.org/confluence/display/KULSTP</href>
+    <href>http://student.kuali.org/</href>
   </bannerLeft>
   <bannerRight>
     <src>http://maven.apache.org/images/maven-logo-2.gif</src>
@@ -21,7 +21,8 @@
   <body>
     <!-- Breadcrumbs that every project will inherit -->
     <breadcrumbs>
-      <item name="Kuali Student" href="https://test.kuali.org/confluence/display/KULSTP" />
+      <item name="Kuali Student" href="https://student.kuali.org/" />
+      <item name="KS Testing" href="http://driver-1.ks.kuali.net/" />
     </breadcrumbs>
 
     <!-- Menus that every project will inherit -->
