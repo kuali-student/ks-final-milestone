@@ -86,7 +86,7 @@ public class OrchestrationObjectsLoader implements OrchestrationModel
   Map<String, OrchestrationObject> map = new HashMap ();
   for (XmlType xmlType : model.getXmlTypes ())
   {
-   if (xmlType.getPrimitive ().equals ("Complex"))
+   if (xmlType.getPrimitive ().equalsIgnoreCase (XmlType.COMPLEX))
    {
     OrchestrationObject obj = new OrchestrationObject ();
     obj.setSource (OrchestrationObject.Source.MESSAGE_STRUCTURE);

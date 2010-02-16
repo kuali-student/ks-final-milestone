@@ -37,7 +37,7 @@ public class DictionaryEntryWriter
  private ModelFinder finder;
  private Dictionary dict;
  private Field field;
- private FieldEntryWriter few;
+ private DictionaryStructureFieldWriter few;
  private XmlWriter writer;
  private Set<String> crossObjectConstraintsWritten;
 
@@ -45,7 +45,7 @@ public class DictionaryEntryWriter
                                DictionaryModel model,
                                Dictionary dict,
                                Field field,
-                               FieldEntryWriter few,
+                               DictionaryStructureFieldWriter few,
                                Set<String> crossObjectConstraintsWritten)
  {
   this.writer = writer;

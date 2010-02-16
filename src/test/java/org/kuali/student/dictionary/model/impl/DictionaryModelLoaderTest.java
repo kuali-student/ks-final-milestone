@@ -37,6 +37,8 @@ import org.kuali.student.dictionary.model.Type;
 import org.kuali.student.dictionary.model.XmlType;
 import org.kuali.student.dictionary.model.spreadsheet.CompositeSpreadsheetReader;
 import org.kuali.student.dictionary.model.spreadsheet.SpreadsheetReader;
+import org.kuali.student.dictionary.model.util.DictionaryParentSetter;
+import org.kuali.student.dictionary.model.util.ModelFinder;
 import static org.junit.Assert.*;
 
 /**
@@ -50,23 +52,13 @@ public class DictionaryModelLoaderTest implements TestConstants
  {
  }
 
+ private static SpreadsheetReader reader;
+ private static DictionaryModel model;
+
+
  @BeforeClass
  public static void setUpClass ()
   throws Exception
- {
- }
-
- @AfterClass
- public static void tearDownClass ()
-  throws Exception
- {
- }
-
- private SpreadsheetReader reader;
- private DictionaryModel instance;
-
- @Before
- public void setUp ()
  {
   System.out.println ("reading " + TYPE_STATE_DICTIONARY_EXCEL_FILE);
   List<SpreadsheetReader> list = new ArrayList ();
@@ -75,13 +67,29 @@ public class DictionaryModelLoaderTest implements TestConstants
   list.add (new ExcelSpreadsheetReader (SERVICES_EXCEL_FILE));
   list.add (new ExcelSpreadsheetReader (ORCHESTRATION_DICTIONARY_EXCEL_FILE));
   reader = new CompositeSpreadsheetReader (list);
-  instance = new DictionaryModelLoader (reader);
+  model = new DictionaryModelLoader (reader);
+  model = new DictionaryModelCache (model);
+  DictionaryParentSetter parentSetter = new DictionaryParentSetter (model);
+  parentSetter.set ();
+ }
+
+ @AfterClass
+ public static void tearDownClass ()
+  throws Exception
+ {
+  reader.close ();
+ }
+
+
+ @Before
+ public void setUp ()
+ {
+
  }
 
  @After
  public void tearDown ()
  {
-  reader.close ();
  }
 
  /**
@@ -93,7 +101,7 @@ public class DictionaryModelLoaderTest implements TestConstants
   System.out.println ("getDictionary");
 
 //  List<Field> expResult = new ArrayList ();
-  List<Dictionary> result = instance.getDictionary ();
+  List<Dictionary> result = model.getDictionary ();
   boolean found = false;
   for (Dictionary dict : result)
   {
@@ -110,7 +118,39 @@ public class DictionaryModelLoaderTest implements TestConstants
    fail ("course.activity.contact.hours.no was not in default dictionary");
   }
 //   assertEquals (713, result.size ());
-  assertEquals (true, true);
+  ModelFinder finder = new ModelFinder (model);
+  Dictionary parent = null;
+  Dictionary child = null;
+
+  parent = finder.findDictionaryEntry ("course.official");
+  assertNull (parent.getParent ());
+  child = finder.findDictionaryEntry ("course.official.no");
+  assertEquals (child.getParent ().getId (), parent.getId ());
+  child =
+   finder.findDictionaryEntry ("course.official.transcriptTitle.draft.private");
+  assertEquals (child.getParent ().getId (), parent.getId ());
+
+  parent = finder.findDictionaryEntry ("course.desc");
+  assertNull (parent.getParent ());
+  child = finder.findDictionaryEntry ("course.desc.plain");
+  assertEquals (child.getParent ().getId (), parent.getId ());
+  child = finder.findDictionaryEntry ("course.desc.plain.draft.public");
+  assertEquals (child.getParent ().getId (), parent.getId ());
+
+  parent = finder.findDictionaryEntry ("course.alternateIdentifiers");
+  assertNull (parent.getParent ());
+  child = finder.findDictionaryEntry ("course.cross-listed.version");
+  assertEquals (child.getParent ().getId (), parent.getId ());
+  child = finder.findDictionaryEntry ("course.cross-listed.no");
+  assertEquals (child.getParent ().getId (), parent.getId ());
+
+  parent = finder.findDictionaryEntry ("program.official");
+  assertNull (parent.getParent ());
+  child = finder.findDictionaryEntry ("program.official.no");
+  assertEquals (child.getParent ().getId (), parent.getId ());
+  child =
+   finder.findDictionaryEntry ("program.official.transcriptTitle.draft.private");
+  assertEquals (child.getParent ().getId (), parent.getId ());
  }
 
  /**
@@ -121,7 +161,7 @@ public class DictionaryModelLoaderTest implements TestConstants
  {
   System.out.println ("getStates");
 //  List<State> expResult = new ArrayList ();
-  List<State> result = instance.getStates ();
+  List<State> result = model.getStates ();
 // assertEquals (26, result.size ());
   assertEquals (true, true);
  }
@@ -134,11 +174,11 @@ public class DictionaryModelLoaderTest implements TestConstants
  {
   System.out.println ("getTypes");
 //  List<Type> expResult = new ArrayList ();
-  List<Type> result = instance.getTypes ();
+  List<Type> result = model.getTypes ();
   for (Type type : result)
   {
-   System.out.println (type.getName () + " " + type.getXmlObject () +
-    " include=" + type.getInclude ());
+   System.out.println (type.getName () + " " + type.getXmlObject ()
+    + " include=" + type.getInclude ());
   }
 //  assertEquals (111, result.size ());
   assertEquals (true, true);
@@ -152,12 +192,38 @@ public class DictionaryModelLoaderTest implements TestConstants
  {
   System.out.println ("getXmlTypes");
 //  List<Type> expResult = new ArrayList ();
-  List<XmlType> result = instance.getXmlTypes ();
-//  for (XmlType info : result)
-//  {
-//   System.out.println (info.getObject ());
-//  }
-//  assertEquals (57, result.size ());
+  List<XmlType> result = model.getXmlTypes ();
+  boolean foundCluInfo = false;
+  boolean foundCluIdentifierInfo = false;
+  boolean foundRichTextInfo = false;
+  for (XmlType info : result)
+  {
+   if (info.getName ().equalsIgnoreCase ("cluInfo"))
+   {
+    assertEquals (true, info.hasOwnType ());
+    assertEquals (true, info.hasOwnState ());
+    assertEquals (true, info.hasOwnCreateUpdate ());
+    foundCluInfo = true;
+   }
+   if (info.getName ().equalsIgnoreCase ("cluIdentifierInfo"))
+   {
+    assertEquals (true, info.hasOwnType ());
+    assertEquals (true, info.hasOwnState ());
+    assertEquals (false, info.hasOwnCreateUpdate ());
+    foundCluIdentifierInfo = true;
+   }
+   if (info.getName ().equalsIgnoreCase ("richTextInfo"))
+   {
+    assertEquals (false, info.hasOwnType ());
+    assertEquals (false, info.hasOwnState ());
+    assertEquals (false, info.hasOwnCreateUpdate ());
+    foundRichTextInfo = true;
+   }
+  }
+  assertEquals (true, foundCluInfo);
+  assertEquals (true, foundCluIdentifierInfo);
+  assertEquals (true, foundRichTextInfo);
+  //assertEquals (57, result.size ());
   assertEquals (true, true);
  }
 
@@ -169,7 +235,7 @@ public class DictionaryModelLoaderTest implements TestConstants
  {
   System.out.println ("getFields");
 //  List<Type> expResult = new ArrayList ();
-  List<Field> result = instance.getFields ();
+  List<Field> result = model.getFields ();
 //  for (MessageStructureField field : result)
 //  {
 //   System.out.println (field.getObjectField ());
@@ -186,7 +252,7 @@ public class DictionaryModelLoaderTest implements TestConstants
  {
   System.out.println ("getConstraints");
 //  List<Type> expResult = new ArrayList ();
-  List<Constraint> result = instance.getConstraints ();
+  List<Constraint> result = model.getConstraints ();
 //  for (MessageStructureField field : result)
 //  {
 //   System.out.println (field.getObjectField ());
@@ -203,7 +269,7 @@ public class DictionaryModelLoaderTest implements TestConstants
  {
   System.out.println ("getCrossObjectConstraints");
 //  List<Type> expResult = new ArrayList ();
-  List<CrossObjectConstraint> result = instance.getCrossObjectConstraints ();
+  List<CrossObjectConstraint> result = model.getCrossObjectConstraints ();
 //  for (MessageStructureField field : result)
 //  {
 //   System.out.println (field.getObjectField ());
@@ -221,7 +287,7 @@ public class DictionaryModelLoaderTest implements TestConstants
  {
   System.out.println ("getOrchObjs");
 //  List<Type> expResult = new ArrayList ();
-  List<OrchObj> result = instance.getOrchObjs ();
+  List<OrchObj> result = model.getOrchObjs ();
   for (OrchObj orch : result)
   {
    System.out.println (orch.getId ());
@@ -241,7 +307,7 @@ public class DictionaryModelLoaderTest implements TestConstants
  {
   System.out.println ("getMessageStructures");
 //  List<Type> expResult = new ArrayList ();
-  List<MessageStructure> result = instance.getMessageStructures ();
+  List<MessageStructure> result = model.getMessageStructures ();
 //  for (MessageStructureField field : result)
 //  {
 //   System.out.println (field.getObjectField ());
@@ -271,10 +337,11 @@ public class DictionaryModelLoaderTest implements TestConstants
  {
   System.out.println ("getSearchTypes");
 //  List<Type> expResult = new ArrayList ();
-  List<SearchType> result = instance.getSearchTypes ();
+  List<SearchType> result = model.getSearchTypes ();
   for (SearchType searchType : result)
   {
-   System.out.println (searchType.getLookupKey () + " ==> " + searchType.getKey ());
+   System.out.println (searchType.getLookupKey () + " ==> "
+    + searchType.getKey ());
   }
   if (result.size () < 2)
   {
@@ -282,4 +349,5 @@ public class DictionaryModelLoaderTest implements TestConstants
   }
   assertEquals (true, true);
  }
+
 }

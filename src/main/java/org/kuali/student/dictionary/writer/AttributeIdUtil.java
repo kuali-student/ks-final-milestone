@@ -43,10 +43,15 @@ public class AttributeIdUtil
  public void writeRefBean (XmlWriter writer, String refType, String id)
  {
   writer.incrementIndent ();
+  writeRefBeanNoIndent (writer, refType, id);
+  writer.decrementIndent ();
+ }
+
+ public void writeRefBeanNoIndent (XmlWriter writer, String refType, String id)
+ {
   writer.indentPrint ("<" + refType);
   writer.writeAttribute ("bean", fixId (id));
   writer.println ("/>");
-  writer.decrementIndent ();
  }
 
  public String fixId (String id)
@@ -54,12 +59,13 @@ public class AttributeIdUtil
   id = id.replace (" ", "");
   id = id.replace ('*', '_');
   id = id.replace (',', '_');
-  id = id.replace (Type.NA, "NA");
   id = id.replace (Type.DEFAULT, "DEFAULT");
-  if (id.startsWith ("field."))
-  {
-   id = id.replace (".type.DEFAULT.state.DEFAULT", "");
-  }
+//  if (id.startsWith ("field."))
+//  {
+   id = id.replace (".DEFAULT.DEFAULT", "");
+   id = id.replace (".DEFAULT", "");
+   id = id.replace (".DEFAULT", "");
+//  }
   return id;
  }
 

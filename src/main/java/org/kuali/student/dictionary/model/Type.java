@@ -25,8 +25,6 @@ import java.util.Map;
  */
 public class Type implements Serializable
 {
-
- public static final String NA = "(n/a)";
  public static final String GROUPING = "Grouping";
  public static final String DEFAULT = "(default)";
  

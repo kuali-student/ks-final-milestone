@@ -29,6 +29,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.dictionary.TestConstants;
 import org.kuali.student.dictionary.model.spreadsheet.CompositeSpreadsheetReader;
+import org.kuali.student.dictionary.model.util.DictionaryParentSetter;
 import static org.junit.Assert.*;
 
 /**
@@ -79,6 +80,8 @@ public class DictionaryModelWriterTest implements TestConstants
   {
    DictionaryModelLoader loader = new DictionaryModelLoader (reader);
    DictionaryModel cache = new DictionaryModelCache (loader);
+   DictionaryParentSetter setter = new DictionaryParentSetter (cache);
+   setter.set ();
    DictionaryModelWriter instance =
     new DictionaryModelWriter (RESOURCES_DIRECTORY, cache);
    instance.write ();
@@ -89,5 +92,4 @@ public class DictionaryModelWriterTest implements TestConstants
   }
   assertEquals (true, true);
  }
-
 }

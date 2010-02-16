@@ -15,6 +15,7 @@
  */
 package org.kuali.student.dictionary.writer;
 
+import java.lang.reflect.Field;
 import org.kuali.student.dictionary.model.util.ModelFinder;
 import org.kuali.student.dictionary.model.validation.DictionaryValidationException;
 import org.kuali.student.dictionary.model.XmlType;
@@ -82,7 +83,7 @@ public class FieldTypeCategoryCalculator
    return FieldTypeCategory.MAPPED_STRING;
   }
 
-  if (xmlType.getPrimitive ().equalsIgnoreCase ("Complex"))
+  if (xmlType.getPrimitive ().equalsIgnoreCase (XmlType.COMPLEX))
   {
    return FieldTypeCategory.COMPLEX;
   }

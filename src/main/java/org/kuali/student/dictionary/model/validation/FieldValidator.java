@@ -20,6 +20,7 @@ import org.kuali.student.dictionary.model.DictionaryModel;
 import org.kuali.student.dictionary.model.Constraint;
 import org.kuali.student.dictionary.model.Field;
 import java.util.Collection;
+import org.kuali.student.dictionary.model.XmlType;
 
 /**
  * This validates a single field definition
@@ -45,7 +46,7 @@ public class FieldValidator implements ModelValidator
   ConstraintValidator cv =
    new ConstraintValidator (field.getInlineConstraint ());
   errors = cv.validate ();
-  if (field.getPrimitive ().equals ("complex"))
+  if (field.getPrimitive ().equalsIgnoreCase (XmlType.COMPLEX))
   {
    validateComplexConstraint (field.getInlineConstraint ());
    for (String id : field.getConstraintIds ())

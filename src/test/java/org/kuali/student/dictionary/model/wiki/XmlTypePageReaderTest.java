@@ -137,7 +137,7 @@ public class XmlTypePageReaderTest implements TestConstants
 //  assertEquals ("Dev (1.0-rc2)", xmlType.getVersion ());
 //  assertEquals ("/confluence/display/KULSTU/atpDurationTypeInfo+Structure+v1.0-rc2", xmlType.getUrl ());
 //  assertEquals ("Information about an academic time period duration type.", xmlType.getDesc ());
-//  assertEquals ("Complex", xmlType.getPrimitive ());
+//  assertEquals (XmlType.COMPLEX, xmlType.getPrimitive ());
 // }
 
   /**

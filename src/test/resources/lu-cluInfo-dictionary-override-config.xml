@@ -7,10 +7,1075 @@ http://student.kuali.org/xsd/dictionary-extension dictionary-extension.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Tue Feb 09 17:01:13 EST 2010
+on: Mon Feb 15 23:03:56 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
 <import resource="constraints-dictionary-config.xml"/>
-<import resource="lu-cluInfo-message-structure-config.xml"/>
-</beans>
+<import resource="lu-cluInfo-dictionary-structure-config.xml"/>
+
+<!-- *********************************** -->
+<!-- object structure for object.cluInfo -->
+<!-- *********************************** -->
+<!-- Detailed information about a single CLU. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluInfo" id="object.cluInfo.abstract" abstract="true">
+	<dict:typeRef bean="type.cluInfo.CreditCourse"/>
+	<dict:typeRef bean="type.cluInfo.CreditCourseFormatShell"/>
+	<dict:typeRef bean="type.cluInfo.Program"/>
+	<dict:typeRef bean="type.cluInfo.Lecture"/>
+	<dict:typeRef bean="type.cluInfo.Lab"/>
+	<dict:typeRef bean="type.cluInfo.Discussion"/>
+	<dict:typeRef bean="type.cluInfo.Tutorial"/>
+	<dict:typeRef bean="type.cluInfo.WebLecture"/>
+	<dict:typeRef bean="type.cluInfo.WebDiscuss"/>
+	<dict:typeRef bean="type.cluInfo.Directed"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluInfo" id="object.cluInfo" parent="object.cluInfo.abstract"/>
+
+<dict:type key="kuali.lu.type.CreditCourse" id="type.cluInfo.CreditCourse.abstract" abstract="true" parent="type.cluInfo.abstract">
+	<dict:name>Credit Course</dict:name>
+	<dict:desc>A course offered for academic credit</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.cluInfo.CreditCourse.template"/>
+		<dict:stateRef bean="state.cluInfo.CreditCourse.draft.private"/>
+		<dict:stateRef bean="state.cluInfo.CreditCourse.draft.public"/>
+		<dict:stateRef bean="state.cluInfo.CreditCourse.submitted"/>
+		<dict:stateRef bean="state.cluInfo.CreditCourse.withdrawn"/>
+		<dict:stateRef bean="state.cluInfo.CreditCourse.approved"/>
+		<dict:stateRef bean="state.cluInfo.CreditCourse.rejected"/>
+		<dict:stateRef bean="state.cluInfo.CreditCourse.activated"/>
+		<dict:stateRef bean="state.cluInfo.CreditCourse.retired"/>
+</dict:type>
+<dict:type key="kuali.lu.type.CreditCourse" id="type.cluInfo.CreditCourse" parent="type.cluInfo.CreditCourse.abstract"/>
+
+<dict:type key="kuali.lu.type.CreditCourseFormatShell" id="type.cluInfo.CreditCourseFormatShell.abstract" abstract="true" parent="type.cluInfo.abstract">
+	<dict:name>Credit Course Format Shell</dict:name>
+	<dict:desc>This is really just a container to attach the activities for a given course format (each credit course can have multiple course formats each with a set of activities)</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.cluInfo.CreditCourseFormatShell.template"/>
+		<dict:stateRef bean="state.cluInfo.CreditCourseFormatShell.draft.private"/>
+		<dict:stateRef bean="state.cluInfo.CreditCourseFormatShell.draft.public"/>
+		<dict:stateRef bean="state.cluInfo.CreditCourseFormatShell.submitted"/>
+		<dict:stateRef bean="state.cluInfo.CreditCourseFormatShell.withdrawn"/>
+		<dict:stateRef bean="state.cluInfo.CreditCourseFormatShell.approved"/>
+		<dict:stateRef bean="state.cluInfo.CreditCourseFormatShell.rejected"/>
+		<dict:stateRef bean="state.cluInfo.CreditCourseFormatShell.activated"/>
+		<dict:stateRef bean="state.cluInfo.CreditCourseFormatShell.retired"/>
+</dict:type>
+<dict:type key="kuali.lu.type.CreditCourseFormatShell" id="type.cluInfo.CreditCourseFormatShell" parent="type.cluInfo.CreditCourseFormatShell.abstract"/>
+
+<dict:type key="kuali.lu.type.Program" id="type.cluInfo.Program.abstract" abstract="true" parent="type.cluInfo.abstract">
+	<dict:name>Program</dict:name>
+	<dict:desc>A non-specific program used for grouping</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.cluInfo.Program.template"/>
+		<dict:stateRef bean="state.cluInfo.Program.draft.private"/>
+		<dict:stateRef bean="state.cluInfo.Program.draft.public"/>
+		<dict:stateRef bean="state.cluInfo.Program.submitted"/>
+		<dict:stateRef bean="state.cluInfo.Program.withdrawn"/>
+		<dict:stateRef bean="state.cluInfo.Program.approved"/>
+		<dict:stateRef bean="state.cluInfo.Program.rejected"/>
+		<dict:stateRef bean="state.cluInfo.Program.activated"/>
+		<dict:stateRef bean="state.cluInfo.Program.retired"/>
+</dict:type>
+<dict:type key="kuali.lu.type.Program" id="type.cluInfo.Program" parent="type.cluInfo.Program.abstract"/>
+
+<!-- This is really a grouping of types -->
+<dict:type key="kuali.lu.type.activity.*" id="type.cluInfo.AllActivityTypes.abstract" abstract="true" parent="type.cluInfo.abstract">
+	<dict:name>All Activity Types</dict:name>
+	<dict:desc>All of these types of activities: Lecture, Lab, Discussion, etc.</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.cluInfo.AllActivityTypes.template"/>
+		<dict:stateRef bean="state.cluInfo.AllActivityTypes.draft.private"/>
+		<dict:stateRef bean="state.cluInfo.AllActivityTypes.draft.public"/>
+		<dict:stateRef bean="state.cluInfo.AllActivityTypes.submitted"/>
+		<dict:stateRef bean="state.cluInfo.AllActivityTypes.withdrawn"/>
+		<dict:stateRef bean="state.cluInfo.AllActivityTypes.approved"/>
+		<dict:stateRef bean="state.cluInfo.AllActivityTypes.rejected"/>
+		<dict:stateRef bean="state.cluInfo.AllActivityTypes.activated"/>
+		<dict:stateRef bean="state.cluInfo.AllActivityTypes.retired"/>
+</dict:type>
+
+<dict:type key="kuali.lu.type.activity.Lecture" id="type.cluInfo.Lecture.abstract" abstract="true" parent="type.cluInfo.AllActivityTypes.abstract">
+	<dict:name>Lecture</dict:name>
+	<dict:desc>Instructor presentation of course materials</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.activity.Lecture" id="type.cluInfo.Lecture" parent="type.cluInfo.Lecture.abstract"/>
+
+<dict:type key="kuali.lu.type.activity.Lab" id="type.cluInfo.Lab.abstract" abstract="true" parent="type.cluInfo.AllActivityTypes.abstract">
+	<dict:name>Lab</dict:name>
+	<dict:desc>Student working on projects in a defined laboratory space.  Instructors are on-hand for students to ask questions and guidance.</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.activity.Lab" id="type.cluInfo.Lab" parent="type.cluInfo.Lab.abstract"/>
+
+<dict:type key="kuali.lu.type.activity.Discussion" id="type.cluInfo.Discussion.abstract" abstract="true" parent="type.cluInfo.AllActivityTypes.abstract">
+	<dict:name>Discussion</dict:name>
+	<dict:desc>The exchange of opinions or questions on course material</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.activity.Discussion" id="type.cluInfo.Discussion" parent="type.cluInfo.Discussion.abstract"/>
+
+<dict:type key="kuali.lu.type.activity.Tutorial" id="type.cluInfo.Tutorial.abstract" abstract="true" parent="type.cluInfo.AllActivityTypes.abstract">
+	<dict:name>Tutorial</dict:name>
+	<dict:desc>Supplementary (or remedial) individualized instruction, Extra meetings for the review or elaboration of course materials</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.activity.Tutorial" id="type.cluInfo.Tutorial" parent="type.cluInfo.Tutorial.abstract"/>
+
+<dict:type key="kuali.lu.type.activity.WebLecture" id="type.cluInfo.WebLecture.abstract" abstract="true" parent="type.cluInfo.AllActivityTypes.abstract">
+	<dict:name>Web Lecture</dict:name>
+	<dict:desc>Web-based or technologically-mediated activities replacing standard lectures</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.activity.WebLecture" id="type.cluInfo.WebLecture" parent="type.cluInfo.WebLecture.abstract"/>
+
+<dict:type key="kuali.lu.type.activity.WebDiscuss" id="type.cluInfo.WebDiscuss.abstract" abstract="true" parent="type.cluInfo.AllActivityTypes.abstract">
+	<dict:name>Web Discuss</dict:name>
+	<dict:desc>Web-based or technologically-mediated activities replacing standard discussion sections</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.activity.WebDiscuss" id="type.cluInfo.WebDiscuss" parent="type.cluInfo.WebDiscuss.abstract"/>
+
+<dict:type key="kuali.lu.type.activity.Directed" id="type.cluInfo.Directed.abstract" abstract="true" parent="type.cluInfo.AllActivityTypes.abstract">
+	<dict:name>Directed</dict:name>
+	<dict:desc>Provides students with a way to complete a  class or other area of focussed studies.  Directed study may be individualized method or in a group.</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.lu.type.activity.Directed" id="type.cluInfo.Directed" parent="type.cluInfo.Directed.abstract"/>
+
+<!-- *********************************************** -->
+<!-- State for state.cluInfo.Credit Course.(default) -->
+<!-- *********************************************** -->
+
+<dict:state key="*" parent="state.cluInfo.abstract" id="state.cluInfo.CreditCourse.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.official"/>
+	<dict:fieldRef bean="dict.course.alternateIdentifiers"/>
+	<dict:fieldRef bean="dict.course.academicSubjectOrgs"/>
+	<dict:fieldRef bean="dict.course.studySubjectArea"/>
+	<dict:fieldRef bean="dict.course.desc"/>
+	<dict:fieldRef bean="dict.course.rationale"/>
+	<dict:fieldRef bean="dict.course.campusLocation"/>
+	<dict:fieldRef bean="dict.course.accreditation"/>
+	<dict:fieldRef bean="dict.course.primaryAdminOrg"/>
+	<dict:fieldRef bean="dict.course.alternateAdminOrgs"/>
+	<dict:fieldRef bean="dict.course.primaryInstructor"/>
+	<dict:fieldRef bean="dict.course.instructors"/>
+	<dict:fieldRef bean="dict.course.expectedFirstAtp"/>
+	<dict:fieldRef bean="dict.course.effectiveDate"/>
+	<dict:fieldRef bean="dict.course.expirationDate"/>
+	<dict:fieldRef bean="dict.course.total.contact.hours"/>
+	<dict:fieldRef bean="dict.course.duration"/>
+	<dict:fieldRef bean="dict.course.canCreateLui"/>
+	<dict:fieldRef bean="dict.course.referenceURL"/>
+	<dict:fieldRef bean="dict.course.luCodes"/>
+	<dict:fieldRef bean="dict.course.publishingInfo"/>
+	<dict:fieldRef bean="dict.course.nextReviewPeriod"/>
+	<dict:fieldRef bean="dict.course.isEnrollable"/>
+	<dict:fieldRef bean="dict.course.seasons"/>
+	<dict:fieldRef bean="dict.course.hasEarlyDropDeadline"/>
+	<dict:fieldRef bean="dict.course.defaultEnrollmentEstimate"/>
+	<dict:fieldRef bean="dict.course.defaultMaximumEnrollment"/>
+	<dict:fieldRef bean="dict.course.isHazardousForDisabledStudents"/>
+	<dict:fieldRef bean="dict.course.feeInfo"/>
+	<dict:fieldRef bean="dict.course.accountingInfo"/>
+	<dict:fieldRef bean="dict.course.dynamic.attributes"/>
+	<dict:fieldRef bean="dict.course.meta"/>
+	<dict:fieldRef bean="dict.course.type"/>
+	<dict:fieldRef bean="dict.course.state"/>
+	<dict:fieldRef bean="dict.course.internal.id"/>
+</dict:state>
+
+<!-- ********************************************** -->
+<!-- State for state.cluInfo.Credit Course.template -->
+<!-- ********************************************** -->
+
+<dict:state key="template" parent="state.cluInfo.CreditCourse.abstract" id="state.cluInfo.CreditCourse.template.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.official"/>
+	<dict:fieldRef bean="dict.course.alternateIdentifiers"/>
+	<dict:fieldRef bean="dict.course.academicSubjectOrgs"/>
+	<dict:fieldRef bean="dict.course.studySubjectArea"/>
+	<dict:fieldRef bean="dict.course.desc.template"/>
+	<dict:fieldRef bean="dict.course.rationale"/>
+	<dict:fieldRef bean="dict.course.campusLocation"/>
+	<dict:fieldRef bean="dict.course.accreditation"/>
+	<dict:fieldRef bean="dict.course.primaryAdminOrg"/>
+	<dict:fieldRef bean="dict.course.alternateAdminOrgs"/>
+	<dict:fieldRef bean="dict.course.primaryInstructor"/>
+	<dict:fieldRef bean="dict.course.instructors"/>
+	<dict:fieldRef bean="dict.course.expectedFirstAtp"/>
+	<dict:fieldRef bean="dict.course.effectiveDate"/>
+	<dict:fieldRef bean="dict.course.expirationDate"/>
+	<dict:fieldRef bean="dict.course.total.contact.hours"/>
+	<dict:fieldRef bean="dict.course.duration"/>
+	<dict:fieldRef bean="dict.course.canCreateLui"/>
+	<dict:fieldRef bean="dict.course.referenceURL"/>
+	<dict:fieldRef bean="dict.course.luCodes"/>
+	<dict:fieldRef bean="dict.course.publishingInfo"/>
+	<dict:fieldRef bean="dict.course.nextReviewPeriod"/>
+	<dict:fieldRef bean="dict.course.isEnrollable"/>
+	<dict:fieldRef bean="dict.course.seasons"/>
+	<dict:fieldRef bean="dict.course.hasEarlyDropDeadline"/>
+	<dict:fieldRef bean="dict.course.defaultEnrollmentEstimate"/>
+	<dict:fieldRef bean="dict.course.defaultMaximumEnrollment"/>
+	<dict:fieldRef bean="dict.course.isHazardousForDisabledStudents"/>
+	<dict:fieldRef bean="dict.course.feeInfo"/>
+	<dict:fieldRef bean="dict.course.accountingInfo"/>
+	<dict:fieldRef bean="dict.course.dynamic.attributes"/>
+	<dict:fieldRef bean="dict.course.meta"/>
+	<dict:fieldRef bean="dict.course.type"/>
+	<dict:fieldRef bean="dict.course.state"/>
+	<dict:fieldRef bean="dict.course.internal.id"/>
+</dict:state>
+<dict:state key="template" id="state.cluInfo.CreditCourse.template" parent="state.cluInfo.CreditCourse.template.abstract"/>
+
+<!-- ******************************************* -->
+<!-- State for state.cluInfo.Credit Course.draft -->
+<!-- ******************************************* -->
+
+<dict:state key="draft.*" parent="state.cluInfo.CreditCourse.abstract" id="state.cluInfo.CreditCourse.draft.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.official"/>
+	<dict:fieldRef bean="dict.course.alternateIdentifiers"/>
+	<dict:fieldRef bean="dict.course.academicSubjectOrgs"/>
+	<dict:fieldRef bean="dict.course.studySubjectArea"/>
+	<dict:fieldRef bean="dict.course.desc.draft"/>
+	<dict:fieldRef bean="dict.course.rationale.draft"/>
+	<dict:fieldRef bean="dict.course.campusLocation.draft"/>
+	<dict:fieldRef bean="dict.course.accreditation"/>
+	<dict:fieldRef bean="dict.course.primaryAdminOrg"/>
+	<dict:fieldRef bean="dict.course.alternateAdminOrgs"/>
+	<dict:fieldRef bean="dict.course.primaryInstructor"/>
+	<dict:fieldRef bean="dict.course.instructors"/>
+	<dict:fieldRef bean="dict.course.expectedFirstAtp.draft"/>
+	<dict:fieldRef bean="dict.course.effectiveDate"/>
+	<dict:fieldRef bean="dict.course.expirationDate"/>
+	<dict:fieldRef bean="dict.course.total.contact.hours"/>
+	<dict:fieldRef bean="dict.course.duration.draft"/>
+	<dict:fieldRef bean="dict.course.canCreateLui"/>
+	<dict:fieldRef bean="dict.course.referenceURL"/>
+	<dict:fieldRef bean="dict.course.luCodes"/>
+	<dict:fieldRef bean="dict.course.publishingInfo"/>
+	<dict:fieldRef bean="dict.course.nextReviewPeriod"/>
+	<dict:fieldRef bean="dict.course.isEnrollable"/>
+	<dict:fieldRef bean="dict.course.seasons.draft"/>
+	<dict:fieldRef bean="dict.course.hasEarlyDropDeadline"/>
+	<dict:fieldRef bean="dict.course.defaultEnrollmentEstimate"/>
+	<dict:fieldRef bean="dict.course.defaultMaximumEnrollment"/>
+	<dict:fieldRef bean="dict.course.isHazardousForDisabledStudents"/>
+	<dict:fieldRef bean="dict.course.feeInfo"/>
+	<dict:fieldRef bean="dict.course.accountingInfo"/>
+	<dict:fieldRef bean="dict.course.dynamic.attributes"/>
+	<dict:fieldRef bean="dict.course.meta"/>
+	<dict:fieldRef bean="dict.course.type"/>
+	<dict:fieldRef bean="dict.course.state"/>
+	<dict:fieldRef bean="dict.course.internal.id"/>
+</dict:state>
+
+<!-- ********************************************* -->
+<!-- State for state.cluInfo.Credit Course.retired -->
+<!-- ********************************************* -->
+
+<!-- Do we need/want to differentiate here between retiring a course simply because it will no longer be taught and retiring a version of a course because it has been superceded by a newer version. -->
+<dict:state key="retired" parent="state.cluInfo.CreditCourse.abstract" id="state.cluInfo.CreditCourse.retired.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.official"/>
+	<dict:fieldRef bean="dict.course.alternateIdentifiers"/>
+	<dict:fieldRef bean="dict.course.academicSubjectOrgs"/>
+	<dict:fieldRef bean="dict.course.studySubjectArea"/>
+	<dict:fieldRef bean="dict.course.desc"/>
+	<dict:fieldRef bean="dict.course.rationale"/>
+	<dict:fieldRef bean="dict.course.campusLocation"/>
+	<dict:fieldRef bean="dict.course.accreditation"/>
+	<dict:fieldRef bean="dict.course.primaryAdminOrg"/>
+	<dict:fieldRef bean="dict.course.alternateAdminOrgs"/>
+	<dict:fieldRef bean="dict.course.primaryInstructor"/>
+	<dict:fieldRef bean="dict.course.instructors"/>
+	<dict:fieldRef bean="dict.course.expectedFirstAtp"/>
+	<dict:fieldRef bean="dict.course.effectiveDate"/>
+	<dict:fieldRef bean="dict.course.expirationDate.retired"/>
+	<dict:fieldRef bean="dict.course.total.contact.hours"/>
+	<dict:fieldRef bean="dict.course.duration"/>
+	<dict:fieldRef bean="dict.course.canCreateLui"/>
+	<dict:fieldRef bean="dict.course.referenceURL"/>
+	<dict:fieldRef bean="dict.course.luCodes"/>
+	<dict:fieldRef bean="dict.course.publishingInfo"/>
+	<dict:fieldRef bean="dict.course.nextReviewPeriod"/>
+	<dict:fieldRef bean="dict.course.isEnrollable"/>
+	<dict:fieldRef bean="dict.course.seasons"/>
+	<dict:fieldRef bean="dict.course.hasEarlyDropDeadline"/>
+	<dict:fieldRef bean="dict.course.defaultEnrollmentEstimate"/>
+	<dict:fieldRef bean="dict.course.defaultMaximumEnrollment"/>
+	<dict:fieldRef bean="dict.course.isHazardousForDisabledStudents"/>
+	<dict:fieldRef bean="dict.course.feeInfo"/>
+	<dict:fieldRef bean="dict.course.accountingInfo"/>
+	<dict:fieldRef bean="dict.course.dynamic.attributes"/>
+	<dict:fieldRef bean="dict.course.meta"/>
+	<dict:fieldRef bean="dict.course.type"/>
+	<dict:fieldRef bean="dict.course.state"/>
+	<dict:fieldRef bean="dict.course.internal.id"/>
+</dict:state>
+<dict:state key="retired" id="state.cluInfo.CreditCourse.retired" parent="state.cluInfo.CreditCourse.retired.abstract"/>
+
+<!-- *************************************************** -->
+<!-- State for state.cluInfo.Credit Course.draft.private -->
+<!-- *************************************************** -->
+
+<dict:state key="draft.private" parent="state.cluInfo.CreditCourse.abstract" id="state.cluInfo.CreditCourse.draft.private.abstract" abstract="true">
+</dict:state>
+<dict:state key="draft.private" id="state.cluInfo.CreditCourse.draft.private" parent="state.cluInfo.CreditCourse.draft.private.abstract"/>
+
+<!-- ************************************************** -->
+<!-- State for state.cluInfo.Credit Course.draft.public -->
+<!-- ************************************************** -->
+
+<dict:state key="draft.public" parent="state.cluInfo.CreditCourse.abstract" id="state.cluInfo.CreditCourse.draft.public.abstract" abstract="true">
+</dict:state>
+<dict:state key="draft.public" id="state.cluInfo.CreditCourse.draft.public" parent="state.cluInfo.CreditCourse.draft.public.abstract"/>
+
+<!-- *********************************************** -->
+<!-- State for state.cluInfo.Credit Course.submitted -->
+<!-- *********************************************** -->
+
+<dict:state key="submitted" parent="state.cluInfo.CreditCourse.abstract" id="state.cluInfo.CreditCourse.submitted.abstract" abstract="true">
+</dict:state>
+<dict:state key="submitted" id="state.cluInfo.CreditCourse.submitted" parent="state.cluInfo.CreditCourse.submitted.abstract"/>
+
+<!-- *********************************************** -->
+<!-- State for state.cluInfo.Credit Course.withdrawn -->
+<!-- *********************************************** -->
+
+<dict:state key="withdrawn" parent="state.cluInfo.CreditCourse.abstract" id="state.cluInfo.CreditCourse.withdrawn.abstract" abstract="true">
+</dict:state>
+<dict:state key="withdrawn" id="state.cluInfo.CreditCourse.withdrawn" parent="state.cluInfo.CreditCourse.withdrawn.abstract"/>
+
+<!-- ********************************************** -->
+<!-- State for state.cluInfo.Credit Course.approved -->
+<!-- ********************************************** -->
+
+<dict:state key="approved" parent="state.cluInfo.CreditCourse.abstract" id="state.cluInfo.CreditCourse.approved.abstract" abstract="true">
+</dict:state>
+<dict:state key="approved" id="state.cluInfo.CreditCourse.approved" parent="state.cluInfo.CreditCourse.approved.abstract"/>
+
+<!-- ********************************************** -->
+<!-- State for state.cluInfo.Credit Course.rejected -->
+<!-- ********************************************** -->
+
+<!-- Do we need here some indication of why it was not approved?  I.e. disapproved vs. not acted on because submitted too late, etc. -->
+<dict:state key="rejected" parent="state.cluInfo.CreditCourse.abstract" id="state.cluInfo.CreditCourse.rejected.abstract" abstract="true">
+</dict:state>
+<dict:state key="rejected" id="state.cluInfo.CreditCourse.rejected" parent="state.cluInfo.CreditCourse.rejected.abstract"/>
+
+<!-- *********************************************** -->
+<!-- State for state.cluInfo.Credit Course.activated -->
+<!-- *********************************************** -->
+
+<dict:state key="activated" parent="state.cluInfo.CreditCourse.abstract" id="state.cluInfo.CreditCourse.activated.abstract" abstract="true">
+</dict:state>
+<dict:state key="activated" id="state.cluInfo.CreditCourse.activated" parent="state.cluInfo.CreditCourse.activated.abstract"/>
+
+<!-- ************************************************************ -->
+<!-- State for state.cluInfo.Credit Course Format Shell.(default) -->
+<!-- ************************************************************ -->
+
+<dict:state key="*" parent="state.cluInfo.abstract" id="state.cluInfo.CreditCourseFormatShell.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.format.official"/>
+	<dict:fieldRef bean="dict.course.format.alternateIdentifiers"/>
+	<dict:fieldRef bean="dict.course.format.academicSubjectOrgs"/>
+	<dict:fieldRef bean="dict.course.format.studySubjectArea"/>
+	<dict:fieldRef bean="dict.course.format.desc"/>
+	<dict:fieldRef bean="dict.course.format.marketingDesc"/>
+	<dict:fieldRef bean="dict.course.format.campusLocations"/>
+	<dict:fieldRef bean="dict.course.format.accreditation"/>
+	<dict:fieldRef bean="dict.course.format.primaryAdminOrg"/>
+	<dict:fieldRef bean="dict.course.format.alternateAdminOrgs"/>
+	<dict:fieldRef bean="dict.course.format.primaryInstructor"/>
+	<dict:fieldRef bean="dict.course.format.instructors"/>
+	<dict:fieldRef bean="dict.course.format.expectedFirstAtp"/>
+	<dict:fieldRef bean="dict.course.format.effectiveDate"/>
+	<dict:fieldRef bean="dict.course.format.expirationDate"/>
+	<dict:fieldRef bean="dict.course.format.total.contact.hours"/>
+	<dict:fieldRef bean="dict.course.format.duration"/>
+	<dict:fieldRef bean="dict.course.format.canCreateLui"/>
+	<dict:fieldRef bean="dict.course.format.referenceURL"/>
+	<dict:fieldRef bean="dict.course.format.luCodes"/>
+	<dict:fieldRef bean="dict.course.format.publishingInfo"/>
+	<dict:fieldRef bean="dict.course.format.nextReviewPeriod"/>
+	<dict:fieldRef bean="dict.course.format.isEnrollable"/>
+	<dict:fieldRef bean="dict.course.format.offeredAtpTypes"/>
+	<dict:fieldRef bean="dict.course.format.hasEarlyDropDeadline"/>
+	<dict:fieldRef bean="dict.course.format.defaultEnrollmentEstimate"/>
+	<dict:fieldRef bean="dict.course.format.defaultMaximumEnrollment"/>
+	<dict:fieldRef bean="dict.course.format.isHazardousForDisabledStudents"/>
+	<dict:fieldRef bean="dict.course.format.feeInfo"/>
+	<dict:fieldRef bean="dict.course.format.accountingInfo"/>
+	<dict:fieldRef bean="dict.course.format.attributes"/>
+	<dict:fieldRef bean="dict.course.format.metaInfo"/>
+	<dict:fieldRef bean="dict.course.format.type"/>
+	<dict:fieldRef bean="dict.course.format.state"/>
+	<dict:fieldRef bean="dict.course.format.internal.id"/>
+</dict:state>
+
+<!-- *********************************************************** -->
+<!-- State for state.cluInfo.Credit Course Format Shell.template -->
+<!-- *********************************************************** -->
+
+<dict:state key="template" parent="state.cluInfo.CreditCourseFormatShell.abstract" id="state.cluInfo.CreditCourseFormatShell.template.abstract" abstract="true">
+</dict:state>
+<dict:state key="template" id="state.cluInfo.CreditCourseFormatShell.template" parent="state.cluInfo.CreditCourseFormatShell.template.abstract"/>
+
+<!-- ******************************************************** -->
+<!-- State for state.cluInfo.Credit Course Format Shell.draft -->
+<!-- ******************************************************** -->
+
+<dict:state key="draft.*" parent="state.cluInfo.CreditCourseFormatShell.abstract" id="state.cluInfo.CreditCourseFormatShell.draft.abstract" abstract="true">
+</dict:state>
+
+<!-- **************************************************************** -->
+<!-- State for state.cluInfo.Credit Course Format Shell.draft.private -->
+<!-- **************************************************************** -->
+
+<dict:state key="draft.private" parent="state.cluInfo.CreditCourseFormatShell.abstract" id="state.cluInfo.CreditCourseFormatShell.draft.private.abstract" abstract="true">
+</dict:state>
+<dict:state key="draft.private" id="state.cluInfo.CreditCourseFormatShell.draft.private" parent="state.cluInfo.CreditCourseFormatShell.draft.private.abstract"/>
+
+<!-- *************************************************************** -->
+<!-- State for state.cluInfo.Credit Course Format Shell.draft.public -->
+<!-- *************************************************************** -->
+
+<dict:state key="draft.public" parent="state.cluInfo.CreditCourseFormatShell.abstract" id="state.cluInfo.CreditCourseFormatShell.draft.public.abstract" abstract="true">
+</dict:state>
+<dict:state key="draft.public" id="state.cluInfo.CreditCourseFormatShell.draft.public" parent="state.cluInfo.CreditCourseFormatShell.draft.public.abstract"/>
+
+<!-- ************************************************************ -->
+<!-- State for state.cluInfo.Credit Course Format Shell.submitted -->
+<!-- ************************************************************ -->
+
+<dict:state key="submitted" parent="state.cluInfo.CreditCourseFormatShell.abstract" id="state.cluInfo.CreditCourseFormatShell.submitted.abstract" abstract="true">
+</dict:state>
+<dict:state key="submitted" id="state.cluInfo.CreditCourseFormatShell.submitted" parent="state.cluInfo.CreditCourseFormatShell.submitted.abstract"/>
+
+<!-- ************************************************************ -->
+<!-- State for state.cluInfo.Credit Course Format Shell.withdrawn -->
+<!-- ************************************************************ -->
+
+<dict:state key="withdrawn" parent="state.cluInfo.CreditCourseFormatShell.abstract" id="state.cluInfo.CreditCourseFormatShell.withdrawn.abstract" abstract="true">
+</dict:state>
+<dict:state key="withdrawn" id="state.cluInfo.CreditCourseFormatShell.withdrawn" parent="state.cluInfo.CreditCourseFormatShell.withdrawn.abstract"/>
+
+<!-- *********************************************************** -->
+<!-- State for state.cluInfo.Credit Course Format Shell.approved -->
+<!-- *********************************************************** -->
+
+<dict:state key="approved" parent="state.cluInfo.CreditCourseFormatShell.abstract" id="state.cluInfo.CreditCourseFormatShell.approved.abstract" abstract="true">
+</dict:state>
+<dict:state key="approved" id="state.cluInfo.CreditCourseFormatShell.approved" parent="state.cluInfo.CreditCourseFormatShell.approved.abstract"/>
+
+<!-- *********************************************************** -->
+<!-- State for state.cluInfo.Credit Course Format Shell.rejected -->
+<!-- *********************************************************** -->
+
+<!-- Do we need here some indication of why it was not approved?  I.e. disapproved vs. not acted on because submitted too late, etc. -->
+<dict:state key="rejected" parent="state.cluInfo.CreditCourseFormatShell.abstract" id="state.cluInfo.CreditCourseFormatShell.rejected.abstract" abstract="true">
+</dict:state>
+<dict:state key="rejected" id="state.cluInfo.CreditCourseFormatShell.rejected" parent="state.cluInfo.CreditCourseFormatShell.rejected.abstract"/>
+
+<!-- ************************************************************ -->
+<!-- State for state.cluInfo.Credit Course Format Shell.activated -->
+<!-- ************************************************************ -->
+
+<dict:state key="activated" parent="state.cluInfo.CreditCourseFormatShell.abstract" id="state.cluInfo.CreditCourseFormatShell.activated.abstract" abstract="true">
+</dict:state>
+<dict:state key="activated" id="state.cluInfo.CreditCourseFormatShell.activated" parent="state.cluInfo.CreditCourseFormatShell.activated.abstract"/>
+
+<!-- ********************************************************** -->
+<!-- State for state.cluInfo.Credit Course Format Shell.retired -->
+<!-- ********************************************************** -->
+
+<!-- Do we need/want to differentiate here between retiring a course simply because it will no longer be taught and retiring a version of a course because it has been superceded by a newer version. -->
+<dict:state key="retired" parent="state.cluInfo.CreditCourseFormatShell.abstract" id="state.cluInfo.CreditCourseFormatShell.retired.abstract" abstract="true">
+</dict:state>
+<dict:state key="retired" id="state.cluInfo.CreditCourseFormatShell.retired" parent="state.cluInfo.CreditCourseFormatShell.retired.abstract"/>
+
+<!-- ***************************************** -->
+<!-- State for state.cluInfo.Program.(default) -->
+<!-- ***************************************** -->
+
+<dict:state key="*" parent="state.cluInfo.abstract" id="state.cluInfo.Program.abstract" abstract="true">
+	<dict:fieldRef bean="dict.program.official"/>
+	<dict:fieldRef bean="dict.program.alternateIdentifiers"/>
+	<dict:fieldRef bean="dict.program.academicSubjectOrgs"/>
+	<dict:fieldRef bean="dict.program.studySubjectArea"/>
+	<dict:fieldRef bean="dict.program.desc"/>
+	<dict:fieldRef bean="dict.program.rationale"/>
+	<dict:fieldRef bean="dict.program.campusLocation"/>
+	<dict:fieldRef bean="dict.program.accreditation"/>
+	<dict:fieldRef bean="dict.program.primaryAdminOrg"/>
+	<dict:fieldRef bean="dict.program.alternateAdminOrgs"/>
+	<dict:fieldRef bean="dict.program.primaryInstructor"/>
+	<dict:fieldRef bean="dict.program.instructors"/>
+	<dict:fieldRef bean="dict.program.expectedFirstAtp"/>
+	<dict:fieldRef bean="dict.program.effectiveDate"/>
+	<dict:fieldRef bean="dict.program.expirationDate"/>
+	<dict:fieldRef bean="dict.program.intensity"/>
+	<dict:fieldRef bean="dict.program.duration"/>
+	<dict:fieldRef bean="dict.program.canCreateLui"/>
+	<dict:fieldRef bean="dict.program.referenceURL"/>
+	<dict:fieldRef bean="dict.program.luCodes"/>
+	<dict:fieldRef bean="dict.program.publishingInfo"/>
+	<dict:fieldRef bean="dict.program.nextReviewPeriod"/>
+	<dict:fieldRef bean="dict.program.isEnrollable"/>
+	<dict:fieldRef bean="dict.program.seasons"/>
+	<dict:fieldRef bean="dict.program.hasEarlyDropDeadline"/>
+	<dict:fieldRef bean="dict.program.defaultEnrollmentEstimate"/>
+	<dict:fieldRef bean="dict.program.defaultMaximumEnrollment"/>
+	<dict:fieldRef bean="dict.program.isHazardousForDisabledStudents"/>
+	<dict:fieldRef bean="dict.program.feeInfo"/>
+	<dict:fieldRef bean="dict.program.accountingInfo"/>
+	<dict:fieldRef bean="dict.program.dynamic.attributes"/>
+	<dict:fieldRef bean="dict.program.meta"/>
+	<dict:fieldRef bean="dict.program.type"/>
+	<dict:fieldRef bean="dict.program.state"/>
+	<dict:fieldRef bean="dict.program.internal.id"/>
+</dict:state>
+
+<!-- **************************************** -->
+<!-- State for state.cluInfo.Program.template -->
+<!-- **************************************** -->
+
+<dict:state key="template" parent="state.cluInfo.Program.abstract" id="state.cluInfo.Program.template.abstract" abstract="true">
+	<dict:fieldRef bean="dict.program.official"/>
+	<dict:fieldRef bean="dict.program.alternateIdentifiers"/>
+	<dict:fieldRef bean="dict.program.academicSubjectOrgs"/>
+	<dict:fieldRef bean="dict.program.studySubjectArea"/>
+	<dict:fieldRef bean="dict.program.desc.template"/>
+	<dict:fieldRef bean="dict.program.rationale"/>
+	<dict:fieldRef bean="dict.program.campusLocation"/>
+	<dict:fieldRef bean="dict.program.accreditation"/>
+	<dict:fieldRef bean="dict.program.primaryAdminOrg"/>
+	<dict:fieldRef bean="dict.program.alternateAdminOrgs"/>
+	<dict:fieldRef bean="dict.program.primaryInstructor"/>
+	<dict:fieldRef bean="dict.program.instructors"/>
+	<dict:fieldRef bean="dict.program.expectedFirstAtp"/>
+	<dict:fieldRef bean="dict.program.effectiveDate"/>
+	<dict:fieldRef bean="dict.program.expirationDate"/>
+	<dict:fieldRef bean="dict.program.intensity"/>
+	<dict:fieldRef bean="dict.program.duration"/>
+	<dict:fieldRef bean="dict.program.canCreateLui"/>
+	<dict:fieldRef bean="dict.program.referenceURL"/>
+	<dict:fieldRef bean="dict.program.luCodes"/>
+	<dict:fieldRef bean="dict.program.publishingInfo"/>
+	<dict:fieldRef bean="dict.program.nextReviewPeriod"/>
+	<dict:fieldRef bean="dict.program.isEnrollable"/>
+	<dict:fieldRef bean="dict.program.seasons"/>
+	<dict:fieldRef bean="dict.program.hasEarlyDropDeadline"/>
+	<dict:fieldRef bean="dict.program.defaultEnrollmentEstimate"/>
+	<dict:fieldRef bean="dict.program.defaultMaximumEnrollment"/>
+	<dict:fieldRef bean="dict.program.isHazardousForDisabledStudents"/>
+	<dict:fieldRef bean="dict.program.feeInfo"/>
+	<dict:fieldRef bean="dict.program.accountingInfo"/>
+	<dict:fieldRef bean="dict.program.dynamic.attributes"/>
+	<dict:fieldRef bean="dict.program.meta"/>
+	<dict:fieldRef bean="dict.program.type"/>
+	<dict:fieldRef bean="dict.program.state"/>
+	<dict:fieldRef bean="dict.program.internal.id"/>
+</dict:state>
+<dict:state key="template" id="state.cluInfo.Program.template" parent="state.cluInfo.Program.template.abstract"/>
+
+<!-- ************************************* -->
+<!-- State for state.cluInfo.Program.draft -->
+<!-- ************************************* -->
+
+<dict:state key="draft.*" parent="state.cluInfo.Program.abstract" id="state.cluInfo.Program.draft.abstract" abstract="true">
+	<dict:fieldRef bean="dict.program.official"/>
+	<dict:fieldRef bean="dict.program.alternateIdentifiers"/>
+	<dict:fieldRef bean="dict.program.academicSubjectOrgs"/>
+	<dict:fieldRef bean="dict.program.studySubjectArea"/>
+	<dict:fieldRef bean="dict.program.desc.draft"/>
+	<dict:fieldRef bean="dict.program.rationale.draft"/>
+	<dict:fieldRef bean="dict.program.campusLocation.draft"/>
+	<dict:fieldRef bean="dict.program.accreditation"/>
+	<dict:fieldRef bean="dict.program.primaryAdminOrg"/>
+	<dict:fieldRef bean="dict.program.alternateAdminOrgs"/>
+	<dict:fieldRef bean="dict.program.primaryInstructor"/>
+	<dict:fieldRef bean="dict.program.instructors"/>
+	<dict:fieldRef bean="dict.program.expectedFirstAtp.draft"/>
+	<dict:fieldRef bean="dict.program.effectiveDate"/>
+	<dict:fieldRef bean="dict.program.expirationDate"/>
+	<dict:fieldRef bean="dict.program.intensity"/>
+	<dict:fieldRef bean="dict.program.duration.draft"/>
+	<dict:fieldRef bean="dict.program.canCreateLui"/>
+	<dict:fieldRef bean="dict.program.referenceURL"/>
+	<dict:fieldRef bean="dict.program.luCodes"/>
+	<dict:fieldRef bean="dict.program.publishingInfo"/>
+	<dict:fieldRef bean="dict.program.nextReviewPeriod"/>
+	<dict:fieldRef bean="dict.program.isEnrollable"/>
+	<dict:fieldRef bean="dict.program.seasons.draft"/>
+	<dict:fieldRef bean="dict.program.hasEarlyDropDeadline"/>
+	<dict:fieldRef bean="dict.program.defaultEnrollmentEstimate"/>
+	<dict:fieldRef bean="dict.program.defaultMaximumEnrollment"/>
+	<dict:fieldRef bean="dict.program.isHazardousForDisabledStudents"/>
+	<dict:fieldRef bean="dict.program.feeInfo"/>
+	<dict:fieldRef bean="dict.program.accountingInfo"/>
+	<dict:fieldRef bean="dict.program.dynamic.attributes"/>
+	<dict:fieldRef bean="dict.program.meta"/>
+	<dict:fieldRef bean="dict.program.type"/>
+	<dict:fieldRef bean="dict.program.state"/>
+	<dict:fieldRef bean="dict.program.internal.id"/>
+</dict:state>
+
+<!-- *************************************** -->
+<!-- State for state.cluInfo.Program.retired -->
+<!-- *************************************** -->
+
+<!-- Do we need/want to differentiate here between retiring a course simply because it will no longer be taught and retiring a version of a course because it has been superceded by a newer version. -->
+<dict:state key="retired" parent="state.cluInfo.Program.abstract" id="state.cluInfo.Program.retired.abstract" abstract="true">
+	<dict:fieldRef bean="dict.program.official"/>
+	<dict:fieldRef bean="dict.program.alternateIdentifiers"/>
+	<dict:fieldRef bean="dict.program.academicSubjectOrgs"/>
+	<dict:fieldRef bean="dict.program.studySubjectArea"/>
+	<dict:fieldRef bean="dict.program.desc"/>
+	<dict:fieldRef bean="dict.program.rationale"/>
+	<dict:fieldRef bean="dict.program.campusLocation"/>
+	<dict:fieldRef bean="dict.program.accreditation"/>
+	<dict:fieldRef bean="dict.program.primaryAdminOrg"/>
+	<dict:fieldRef bean="dict.program.alternateAdminOrgs"/>
+	<dict:fieldRef bean="dict.program.primaryInstructor"/>
+	<dict:fieldRef bean="dict.program.instructors"/>
+	<dict:fieldRef bean="dict.program.expectedFirstAtp"/>
+	<dict:fieldRef bean="dict.program.effectiveDate"/>
+	<dict:fieldRef bean="dict.program.expirationDate.retired"/>
+	<dict:fieldRef bean="dict.program.intensity"/>
+	<dict:fieldRef bean="dict.program.duration"/>
+	<dict:fieldRef bean="dict.program.canCreateLui"/>
+	<dict:fieldRef bean="dict.program.referenceURL"/>
+	<dict:fieldRef bean="dict.program.luCodes"/>
+	<dict:fieldRef bean="dict.program.publishingInfo"/>
+	<dict:fieldRef bean="dict.program.nextReviewPeriod"/>
+	<dict:fieldRef bean="dict.program.isEnrollable"/>
+	<dict:fieldRef bean="dict.program.seasons"/>
+	<dict:fieldRef bean="dict.program.hasEarlyDropDeadline"/>
+	<dict:fieldRef bean="dict.program.defaultEnrollmentEstimate"/>
+	<dict:fieldRef bean="dict.program.defaultMaximumEnrollment"/>
+	<dict:fieldRef bean="dict.program.isHazardousForDisabledStudents"/>
+	<dict:fieldRef bean="dict.program.feeInfo"/>
+	<dict:fieldRef bean="dict.program.accountingInfo"/>
+	<dict:fieldRef bean="dict.program.dynamic.attributes"/>
+	<dict:fieldRef bean="dict.program.meta"/>
+	<dict:fieldRef bean="dict.program.type"/>
+	<dict:fieldRef bean="dict.program.state"/>
+	<dict:fieldRef bean="dict.program.internal.id"/>
+</dict:state>
+<dict:state key="retired" id="state.cluInfo.Program.retired" parent="state.cluInfo.Program.retired.abstract"/>
+
+<!-- ********************************************* -->
+<!-- State for state.cluInfo.Program.draft.private -->
+<!-- ********************************************* -->
+
+<dict:state key="draft.private" parent="state.cluInfo.Program.abstract" id="state.cluInfo.Program.draft.private.abstract" abstract="true">
+</dict:state>
+<dict:state key="draft.private" id="state.cluInfo.Program.draft.private" parent="state.cluInfo.Program.draft.private.abstract"/>
+
+<!-- ******************************************** -->
+<!-- State for state.cluInfo.Program.draft.public -->
+<!-- ******************************************** -->
+
+<dict:state key="draft.public" parent="state.cluInfo.Program.abstract" id="state.cluInfo.Program.draft.public.abstract" abstract="true">
+</dict:state>
+<dict:state key="draft.public" id="state.cluInfo.Program.draft.public" parent="state.cluInfo.Program.draft.public.abstract"/>
+
+<!-- ***************************************** -->
+<!-- State for state.cluInfo.Program.submitted -->
+<!-- ***************************************** -->
+
+<dict:state key="submitted" parent="state.cluInfo.Program.abstract" id="state.cluInfo.Program.submitted.abstract" abstract="true">
+</dict:state>
+<dict:state key="submitted" id="state.cluInfo.Program.submitted" parent="state.cluInfo.Program.submitted.abstract"/>
+
+<!-- ***************************************** -->
+<!-- State for state.cluInfo.Program.withdrawn -->
+<!-- ***************************************** -->
+
+<dict:state key="withdrawn" parent="state.cluInfo.Program.abstract" id="state.cluInfo.Program.withdrawn.abstract" abstract="true">
+</dict:state>
+<dict:state key="withdrawn" id="state.cluInfo.Program.withdrawn" parent="state.cluInfo.Program.withdrawn.abstract"/>
+
+<!-- **************************************** -->
+<!-- State for state.cluInfo.Program.approved -->
+<!-- **************************************** -->
+
+<dict:state key="approved" parent="state.cluInfo.Program.abstract" id="state.cluInfo.Program.approved.abstract" abstract="true">
+</dict:state>
+<dict:state key="approved" id="state.cluInfo.Program.approved" parent="state.cluInfo.Program.approved.abstract"/>
+
+<!-- **************************************** -->
+<!-- State for state.cluInfo.Program.rejected -->
+<!-- **************************************** -->
+
+<!-- Do we need here some indication of why it was not approved?  I.e. disapproved vs. not acted on because submitted too late, etc. -->
+<dict:state key="rejected" parent="state.cluInfo.Program.abstract" id="state.cluInfo.Program.rejected.abstract" abstract="true">
+</dict:state>
+<dict:state key="rejected" id="state.cluInfo.Program.rejected" parent="state.cluInfo.Program.rejected.abstract"/>
+
+<!-- ***************************************** -->
+<!-- State for state.cluInfo.Program.activated -->
+<!-- ***************************************** -->
+
+<dict:state key="activated" parent="state.cluInfo.Program.abstract" id="state.cluInfo.Program.activated.abstract" abstract="true">
+</dict:state>
+<dict:state key="activated" id="state.cluInfo.Program.activated" parent="state.cluInfo.Program.activated.abstract"/>
+
+<!-- **************************************************** -->
+<!-- State for state.cluInfo.All Activity Types.(default) -->
+<!-- **************************************************** -->
+
+<dict:state key="*" parent="state.cluInfo.abstract" id="state.cluInfo.AllActivityTypes.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.activity.official"/>
+	<dict:fieldRef bean="dict.course.activity.alternateIdentifiers"/>
+	<dict:fieldRef bean="dict.course.activity.academicSubjectOrgs"/>
+	<dict:fieldRef bean="dict.course.activity.studySubjectArea"/>
+	<dict:fieldRef bean="dict.course.activity.desc"/>
+	<dict:fieldRef bean="dict.course.activity.marketingDesc"/>
+	<dict:fieldRef bean="dict.course.activity.campusLocationList"/>
+	<dict:fieldRef bean="dict.course.activity.accreditation"/>
+	<dict:fieldRef bean="dict.course.activity.primaryAdminOrg"/>
+	<dict:fieldRef bean="dict.course.activity.alternateAdminOrgs"/>
+	<dict:fieldRef bean="dict.course.activity.primaryInstructor"/>
+	<dict:fieldRef bean="dict.course.activity.instructors"/>
+	<dict:fieldRef bean="dict.course.activity.expectedFirstAtp"/>
+	<dict:fieldRef bean="dict.course.activity.effectiveDate"/>
+	<dict:fieldRef bean="dict.course.activity.expirationDate"/>
+	<dict:fieldRef bean="dict.course.activity.contact.hours"/>
+	<dict:fieldRef bean="dict.course.activity.duration"/>
+	<dict:fieldRef bean="dict.course.activity.canCreateLui"/>
+	<dict:fieldRef bean="dict.course.activity.referenceURL"/>
+	<dict:fieldRef bean="dict.course.activity.luCodes"/>
+	<dict:fieldRef bean="dict.course.activity.publishingInfo"/>
+	<dict:fieldRef bean="dict.course.activity.nextReviewPeriod"/>
+	<dict:fieldRef bean="dict.course.activity.isEnrollable"/>
+	<dict:fieldRef bean="dict.course.activity.offeredAtpTypes"/>
+	<dict:fieldRef bean="dict.course.activity.hasEarlyDropDeadline"/>
+	<dict:fieldRef bean="dict.course.activity.defaultEnrollmentEstimate"/>
+	<dict:fieldRef bean="dict.course.activity.defaultMaximumEnrollment"/>
+	<dict:fieldRef bean="dict.course.activity.isHazardousForDisabledStudents"/>
+	<dict:fieldRef bean="dict.course.activity.feeInfo"/>
+	<dict:fieldRef bean="dict.course.activity.accountingInfo"/>
+	<dict:fieldRef bean="dict.course.activity.attributes"/>
+	<dict:fieldRef bean="dict.course.activity.metaInfo"/>
+	<dict:fieldRef bean="dict.course.activity.type"/>
+	<dict:fieldRef bean="dict.course.activity.state"/>
+	<dict:fieldRef bean="dict.course.activity.internal.id"/>
+</dict:state>
+
+<!-- ************************************************ -->
+<!-- State for state.cluInfo.All Activity Types.draft -->
+<!-- ************************************************ -->
+
+<dict:state key="draft.*" parent="state.cluInfo.AllActivityTypes.abstract" id="state.cluInfo.AllActivityTypes.draft.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.activity.official"/>
+	<dict:fieldRef bean="dict.course.activity.alternateIdentifiers"/>
+	<dict:fieldRef bean="dict.course.activity.academicSubjectOrgs"/>
+	<dict:fieldRef bean="dict.course.activity.studySubjectArea"/>
+	<dict:fieldRef bean="dict.course.activity.desc"/>
+	<dict:fieldRef bean="dict.course.activity.marketingDesc"/>
+	<dict:fieldRef bean="dict.course.activity.campusLocationList"/>
+	<dict:fieldRef bean="dict.course.activity.accreditation"/>
+	<dict:fieldRef bean="dict.course.activity.primaryAdminOrg"/>
+	<dict:fieldRef bean="dict.course.activity.alternateAdminOrgs"/>
+	<dict:fieldRef bean="dict.course.activity.primaryInstructor"/>
+	<dict:fieldRef bean="dict.course.activity.instructors"/>
+	<dict:fieldRef bean="dict.course.activity.expectedFirstAtp"/>
+	<dict:fieldRef bean="dict.course.activity.effectiveDate"/>
+	<dict:fieldRef bean="dict.course.activity.expirationDate"/>
+	<dict:fieldRef bean="dict.course.activity.contact.hours.draft"/>
+	<dict:fieldRef bean="dict.course.activity.duration"/>
+	<dict:fieldRef bean="dict.course.activity.canCreateLui"/>
+	<dict:fieldRef bean="dict.course.activity.referenceURL"/>
+	<dict:fieldRef bean="dict.course.activity.luCodes"/>
+	<dict:fieldRef bean="dict.course.activity.publishingInfo"/>
+	<dict:fieldRef bean="dict.course.activity.nextReviewPeriod"/>
+	<dict:fieldRef bean="dict.course.activity.isEnrollable"/>
+	<dict:fieldRef bean="dict.course.activity.offeredAtpTypes"/>
+	<dict:fieldRef bean="dict.course.activity.hasEarlyDropDeadline"/>
+	<dict:fieldRef bean="dict.course.activity.defaultEnrollmentEstimate"/>
+	<dict:fieldRef bean="dict.course.activity.defaultMaximumEnrollment"/>
+	<dict:fieldRef bean="dict.course.activity.isHazardousForDisabledStudents"/>
+	<dict:fieldRef bean="dict.course.activity.feeInfo"/>
+	<dict:fieldRef bean="dict.course.activity.accountingInfo"/>
+	<dict:fieldRef bean="dict.course.activity.attributes"/>
+	<dict:fieldRef bean="dict.course.activity.metaInfo"/>
+	<dict:fieldRef bean="dict.course.activity.type"/>
+	<dict:fieldRef bean="dict.course.activity.state"/>
+	<dict:fieldRef bean="dict.course.activity.internal.id"/>
+</dict:state>
+
+<!-- *************************************************** -->
+<!-- State for state.cluInfo.All Activity Types.template -->
+<!-- *************************************************** -->
+
+<dict:state key="template" parent="state.cluInfo.AllActivityTypes.abstract" id="state.cluInfo.AllActivityTypes.template.abstract" abstract="true">
+</dict:state>
+<dict:state key="template" id="state.cluInfo.AllActivityTypes.template" parent="state.cluInfo.AllActivityTypes.template.abstract"/>
+
+<!-- ******************************************************** -->
+<!-- State for state.cluInfo.All Activity Types.draft.private -->
+<!-- ******************************************************** -->
+
+<dict:state key="draft.private" parent="state.cluInfo.AllActivityTypes.abstract" id="state.cluInfo.AllActivityTypes.draft.private.abstract" abstract="true">
+</dict:state>
+<dict:state key="draft.private" id="state.cluInfo.AllActivityTypes.draft.private" parent="state.cluInfo.AllActivityTypes.draft.private.abstract"/>
+
+<!-- ******************************************************* -->
+<!-- State for state.cluInfo.All Activity Types.draft.public -->
+<!-- ******************************************************* -->
+
+<dict:state key="draft.public" parent="state.cluInfo.AllActivityTypes.abstract" id="state.cluInfo.AllActivityTypes.draft.public.abstract" abstract="true">
+</dict:state>
+<dict:state key="draft.public" id="state.cluInfo.AllActivityTypes.draft.public" parent="state.cluInfo.AllActivityTypes.draft.public.abstract"/>
+
+<!-- **************************************************** -->
+<!-- State for state.cluInfo.All Activity Types.submitted -->
+<!-- **************************************************** -->
+
+<dict:state key="submitted" parent="state.cluInfo.AllActivityTypes.abstract" id="state.cluInfo.AllActivityTypes.submitted.abstract" abstract="true">
+</dict:state>
+<dict:state key="submitted" id="state.cluInfo.AllActivityTypes.submitted" parent="state.cluInfo.AllActivityTypes.submitted.abstract"/>
+
+<!-- **************************************************** -->
+<!-- State for state.cluInfo.All Activity Types.withdrawn -->
+<!-- **************************************************** -->
+
+<dict:state key="withdrawn" parent="state.cluInfo.AllActivityTypes.abstract" id="state.cluInfo.AllActivityTypes.withdrawn.abstract" abstract="true">
+</dict:state>
+<dict:state key="withdrawn" id="state.cluInfo.AllActivityTypes.withdrawn" parent="state.cluInfo.AllActivityTypes.withdrawn.abstract"/>
+
+<!-- *************************************************** -->
+<!-- State for state.cluInfo.All Activity Types.approved -->
+<!-- *************************************************** -->
+
+<dict:state key="approved" parent="state.cluInfo.AllActivityTypes.abstract" id="state.cluInfo.AllActivityTypes.approved.abstract" abstract="true">
+</dict:state>
+<dict:state key="approved" id="state.cluInfo.AllActivityTypes.approved" parent="state.cluInfo.AllActivityTypes.approved.abstract"/>
+
+<!-- *************************************************** -->
+<!-- State for state.cluInfo.All Activity Types.rejected -->
+<!-- *************************************************** -->
+
+<!-- Do we need here some indication of why it was not approved?  I.e. disapproved vs. not acted on because submitted too late, etc. -->
+<dict:state key="rejected" parent="state.cluInfo.AllActivityTypes.abstract" id="state.cluInfo.AllActivityTypes.rejected.abstract" abstract="true">
+</dict:state>
+<dict:state key="rejected" id="state.cluInfo.AllActivityTypes.rejected" parent="state.cluInfo.AllActivityTypes.rejected.abstract"/>
+
+<!-- **************************************************** -->
+<!-- State for state.cluInfo.All Activity Types.activated -->
+<!-- **************************************************** -->
+
+<dict:state key="activated" parent="state.cluInfo.AllActivityTypes.abstract" id="state.cluInfo.AllActivityTypes.activated.abstract" abstract="true">
+</dict:state>
+<dict:state key="activated" id="state.cluInfo.AllActivityTypes.activated" parent="state.cluInfo.AllActivityTypes.activated.abstract"/>
+
+<!-- ************************************************** -->
+<!-- State for state.cluInfo.All Activity Types.retired -->
+<!-- ************************************************** -->
+
+<!-- Do we need/want to differentiate here between retiring a course simply because it will no longer be taught and retiring a version of a course because it has been superceded by a newer version. -->
+<dict:state key="retired" parent="state.cluInfo.AllActivityTypes.abstract" id="state.cluInfo.AllActivityTypes.retired.abstract" abstract="true">
+</dict:state>
+<dict:state key="retired" id="state.cluInfo.AllActivityTypes.retired" parent="state.cluInfo.AllActivityTypes.retired.abstract"/>
+
+
+<!-- ************************************************************************************ -->
+<!-- object structure for object.field.cluInfo.officialIdentifier.Credit Course.(default) -->
+<!-- ************************************************************************************ -->
+<!-- Detailed information about the human readable form of a CLU Identifier -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourse.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.officialIdentifier.CreditCourse.Official"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourse" parent="object.field.cluInfo.officialIdentifier.CreditCourse.abstract"/>
+
+<dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.CreditCourse.Official.abstract" abstract="true" parent="type.field.cluInfo.officialIdentifier.CreditCourse.abstract">
+	<dict:name>Official</dict:name>
+	<dict:desc>This identifier holds the official identifier for this course</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.cluInfo.officialIdentifier.CreditCourse.Official.active"/>
+		<dict:stateRef bean="state.field.cluInfo.officialIdentifier.CreditCourse.Official.inactive"/>
+</dict:type>
+<dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.CreditCourse.Official" parent="type.field.cluInfo.officialIdentifier.CreditCourse.Official.abstract"/>
+
+<!-- ******************************************************************************************* -->
+<!-- State for state.field.cluInfo.officialIdentifier.Credit Course.(default).Official.(default) -->
+<!-- ******************************************************************************************* -->
+
+<dict:state key="*" parent="state.field.cluInfo.officialIdentifier.CreditCourse.abstract" id="state.field.cluInfo.officialIdentifier.CreditCourse.Official.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.official.no"/>
+	<dict:fieldRef bean="dict.course.official.transcriptTitle"/>
+	<dict:fieldRef bean="dict.course.official.catalogTitle"/>
+	<dict:fieldRef bean="dict.course.official.level"/>
+	<dict:fieldRef bean="dict.course.official.subjectArea"/>
+	<dict:fieldRef bean="dict.course.official.numberPart"/>
+	<dict:fieldRef bean="dict.course.official.version"/>
+	<dict:fieldRef bean="dict.course.official.adminOrg"/>
+	<dict:fieldRef bean="dict.course.official.type"/>
+	<dict:fieldRef bean="dict.course.official.state"/>
+	<dict:fieldRef bean="dict.course.official.internal.id"/>
+</dict:state>
+
+<!-- **************************************************************************************** -->
+<!-- State for state.field.cluInfo.officialIdentifier.Credit Course.(default).Official.active -->
+<!-- **************************************************************************************** -->
+
+<!-- TODO: Add to simple spec -->
+<dict:state key="active" parent="state.field.cluInfo.officialIdentifier.CreditCourse.Official.abstract" id="state.field.cluInfo.officialIdentifier.CreditCourse.Official.active.abstract" abstract="true">
+</dict:state>
+<dict:state key="active" id="state.field.cluInfo.officialIdentifier.CreditCourse.Official.active" parent="state.field.cluInfo.officialIdentifier.CreditCourse.Official.active.abstract"/>
+
+<!-- ****************************************************************************************** -->
+<!-- State for state.field.cluInfo.officialIdentifier.Credit Course.(default).Official.inactive -->
+<!-- ****************************************************************************************** -->
+
+<!-- TODO: Add to simple spec -->
+<dict:state key="inactive" parent="state.field.cluInfo.officialIdentifier.CreditCourse.Official.abstract" id="state.field.cluInfo.officialIdentifier.CreditCourse.Official.inactive.abstract" abstract="true">
+</dict:state>
+<dict:state key="inactive" id="state.field.cluInfo.officialIdentifier.CreditCourse.Official.inactive" parent="state.field.cluInfo.officialIdentifier.CreditCourse.Official.inactive.abstract"/>
+
+
+<!-- ************************************************************************************** -->
+<!-- object structure for object.field.cluInfo.alternateIdentifiers.Credit Course.(default) -->
+<!-- ************************************************************************************** -->
+<!-- Detailed information about the human readable form of a CLU Identifier -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.alternateIdentifiers.CreditCourse.Cross-listed"/>
+	<dict:typeRef bean="type.field.cluInfo.alternateIdentifiers.CreditCourse.Version"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse" parent="object.field.cluInfo.alternateIdentifiers.CreditCourse.abstract"/>
+
+<dict:type key="kuali.lu.type.CreditCourse.identifier.cross-listed" id="type.field.cluInfo.alternateIdentifiers.CreditCourse.Cross-listed.abstract" abstract="true" parent="type.field.cluInfo.alternateIdentifiers.CreditCourse.abstract">
+	<dict:name>Cross-listed</dict:name>
+	<dict:desc>This identifier holds the cross-listed identifiers for this course</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.cluInfo.alternateIdentifiers.CreditCourse.Cross-listed.active"/>
+		<dict:stateRef bean="state.field.cluInfo.alternateIdentifiers.CreditCourse.Cross-listed.inactive"/>
+</dict:type>
+<dict:type key="kuali.lu.type.CreditCourse.identifier.cross-listed" id="type.field.cluInfo.alternateIdentifiers.CreditCourse.Cross-listed" parent="type.field.cluInfo.alternateIdentifiers.CreditCourse.Cross-listed.abstract"/>
+
+<dict:type key="kuali.lu.type.CreditCourse.identifier.version" id="type.field.cluInfo.alternateIdentifiers.CreditCourse.Version.abstract" abstract="true" parent="type.field.cluInfo.alternateIdentifiers.CreditCourse.abstract">
+	<dict:name>Version</dict:name>
+	<dict:desc>This identifier holds the version information for courses that have multiple versions</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.cluInfo.alternateIdentifiers.CreditCourse.Version.active"/>
+		<dict:stateRef bean="state.field.cluInfo.alternateIdentifiers.CreditCourse.Version.inactive"/>
+</dict:type>
+<dict:type key="kuali.lu.type.CreditCourse.identifier.version" id="type.field.cluInfo.alternateIdentifiers.CreditCourse.Version" parent="type.field.cluInfo.alternateIdentifiers.CreditCourse.Version.abstract"/>
+
+<!-- ************************************************************************************************* -->
+<!-- State for state.field.cluInfo.alternateIdentifiers.Credit Course.(default).Cross-listed.(default) -->
+<!-- ************************************************************************************************* -->
+
+<dict:state key="*" parent="state.field.cluInfo.alternateIdentifiers.CreditCourse.abstract" id="state.field.cluInfo.alternateIdentifiers.CreditCourse.Cross-listed.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.cross-listed.no"/>
+	<dict:fieldRef bean="dict.course.cross-listed.transcriptTitle"/>
+	<dict:fieldRef bean="dict.course.cross-listed.catalogTitle"/>
+	<dict:fieldRef bean="dict.course.cross-listed.level"/>
+	<dict:fieldRef bean="dict.course.cross-listed.subjectArea"/>
+	<dict:fieldRef bean="dict.course.cross-listed.numberPart"/>
+	<dict:fieldRef bean="dict.course.cross-listed.version"/>
+	<dict:fieldRef bean="dict.course.cross-listed.adminOrg"/>
+	<dict:fieldRef bean="dict.course.cross-listed.type"/>
+	<dict:fieldRef bean="dict.course.cross-listed.state"/>
+	<dict:fieldRef bean="dict.course.cross-listed.internal.id"/>
+</dict:state>
+
+<!-- ********************************************************************************************** -->
+<!-- State for state.field.cluInfo.alternateIdentifiers.Credit Course.(default).Cross-listed.active -->
+<!-- ********************************************************************************************** -->
+
+<!-- TODO: Add to simple spec -->
+<dict:state key="active" parent="state.field.cluInfo.alternateIdentifiers.CreditCourse.Cross-listed.abstract" id="state.field.cluInfo.alternateIdentifiers.CreditCourse.Cross-listed.active.abstract" abstract="true">
+</dict:state>
+<dict:state key="active" id="state.field.cluInfo.alternateIdentifiers.CreditCourse.Cross-listed.active" parent="state.field.cluInfo.alternateIdentifiers.CreditCourse.Cross-listed.active.abstract"/>
+
+<!-- ************************************************************************************************ -->
+<!-- State for state.field.cluInfo.alternateIdentifiers.Credit Course.(default).Cross-listed.inactive -->
+<!-- ************************************************************************************************ -->
+
+<!-- TODO: Add to simple spec -->
+<dict:state key="inactive" parent="state.field.cluInfo.alternateIdentifiers.CreditCourse.Cross-listed.abstract" id="state.field.cluInfo.alternateIdentifiers.CreditCourse.Cross-listed.inactive.abstract" abstract="true">
+</dict:state>
+<dict:state key="inactive" id="state.field.cluInfo.alternateIdentifiers.CreditCourse.Cross-listed.inactive" parent="state.field.cluInfo.alternateIdentifiers.CreditCourse.Cross-listed.inactive.abstract"/>
+
+<!-- ******************************************************************************************** -->
+<!-- State for state.field.cluInfo.alternateIdentifiers.Credit Course.(default).Version.(default) -->
+<!-- ******************************************************************************************** -->
+
+<dict:state key="*" parent="state.field.cluInfo.alternateIdentifiers.CreditCourse.abstract" id="state.field.cluInfo.alternateIdentifiers.CreditCourse.Version.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.version.no"/>
+	<dict:fieldRef bean="dict.course.version.transcriptTitle"/>
+	<dict:fieldRef bean="dict.course.version.catalogTitle"/>
+	<dict:fieldRef bean="dict.course.version.level"/>
+	<dict:fieldRef bean="dict.course.version.subjectArea"/>
+	<dict:fieldRef bean="dict.course.version.numberPart"/>
+	<dict:fieldRef bean="dict.course.version.version"/>
+	<dict:fieldRef bean="dict.course.version.adminOrg"/>
+	<dict:fieldRef bean="dict.course.version.type"/>
+	<dict:fieldRef bean="dict.course.version.state"/>
+	<dict:fieldRef bean="dict.course.version.internal.id"/>
+</dict:state>
+
+<!-- ***************************************************************************************** -->
+<!-- State for state.field.cluInfo.alternateIdentifiers.Credit Course.(default).Version.active -->
+<!-- ***************************************************************************************** -->
+
+<!-- TODO: Add to simple spec -->
+<dict:state key="active" parent="state.field.cluInfo.alternateIdentifiers.CreditCourse.Version.abstract" id="state.field.cluInfo.alternateIdentifiers.CreditCourse.Version.active.abstract" abstract="true">
+</dict:state>
+<dict:state key="active" id="state.field.cluInfo.alternateIdentifiers.CreditCourse.Version.active" parent="state.field.cluInfo.alternateIdentifiers.CreditCourse.Version.active.abstract"/>
+
+<!-- ******************************************************************************************* -->
+<!-- State for state.field.cluInfo.alternateIdentifiers.Credit Course.(default).Version.inactive -->
+<!-- ******************************************************************************************* -->
+
+<!-- TODO: Add to simple spec -->
+<dict:state key="inactive" parent="state.field.cluInfo.alternateIdentifiers.CreditCourse.Version.abstract" id="state.field.cluInfo.alternateIdentifiers.CreditCourse.Version.inactive.abstract" abstract="true">
+</dict:state>
+<dict:state key="inactive" id="state.field.cluInfo.alternateIdentifiers.CreditCourse.Version.inactive" parent="state.field.cluInfo.alternateIdentifiers.CreditCourse.Version.inactive.abstract"/>
+
+
+
+<!-- ************************************************************************************* -->
+<!-- object structure for object.field.cluInfo.academicSubjectOrgs.Credit Course.(default) -->
+<!-- ************************************************************************************* -->
+<!-- Information about an organization that represents the Academic Subject for a learning unit. This often would be the same as the primaryAdminOrg. -->
+<dict:objectStructure key=".AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.abstract" abstract="true">
+</dict:objectStructure>
+<dict:objectStructure key=".AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse" parent="object.field.cluInfo.academicSubjectOrgs.CreditCourse.abstract"/>
+
+<!-- ********************************************************************** -->
+<!-- object structure for object.field.cluInfo.desc.Credit Course.(default) -->
+<!-- ********************************************************************** -->
+<!-- Complex type supporting both a plain text and formatted version of a string. -->
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.desc.CreditCourse.abstract" abstract="true">
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.desc.CreditCourse" parent="object.field.cluInfo.desc.CreditCourse.abstract"/>
+
+<!-- ******************************************************************************* -->
+<!-- object structure for object.field.cluInfo.marketingDesc.Credit Course.(default) -->
+<!-- ******************************************************************************* -->
+<!-- Complex type supporting both a plain text and formatted version of a string. -->
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.marketingDesc.CreditCourse.abstract" abstract="true">
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluInfo.marketingDesc.CreditCourse" parent="object.field.cluInfo.marketingDesc.CreditCourse.abstract"/>
+
+<!-- ******************************************************************************* -->
+<!-- object structure for object.field.cluInfo.accreditation.Credit Course.(default) -->
+<!-- ******************************************************************************* -->
+<!-- Accreditation information about a learning unit. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.AccreditationInfo" id="object.field.cluInfo.accreditation.CreditCourse.abstract" abstract="true">
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.AccreditationInfo" id="object.field.cluInfo.accreditation.CreditCourse" parent="object.field.cluInfo.accreditation.CreditCourse.abstract"/>
+
+<!-- ********************************************************************************* -->
+<!-- object structure for object.field.cluInfo.primaryAdminOrg.Credit Course.(default) -->
+<!-- ********************************************************************************* -->
+<!-- Information about an organization acting in administrative capacity for a learning unit. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.CreditCourse.abstract" abstract="true">
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.CreditCourse" parent="object.field.cluInfo.primaryAdminOrg.CreditCourse.abstract"/>

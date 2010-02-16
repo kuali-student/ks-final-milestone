@@ -135,7 +135,7 @@ public class ServiceWriter
 
  private void addTypeAndAllSubTypes (Set<XmlType> set, XmlType xmlType)
  {
-  if (xmlType.getPrimitive ().equalsIgnoreCase ("Complex"))
+  if (xmlType.getPrimitive ().equalsIgnoreCase (XmlType.COMPLEX))
   {
    if (set.add (xmlType))
    {

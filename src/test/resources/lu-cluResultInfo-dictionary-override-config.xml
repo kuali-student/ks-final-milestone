@@ -7,10 +7,87 @@ http://student.kuali.org/xsd/dictionary-extension dictionary-extension.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Tue Feb 09 17:01:42 EST 2010
+on: Mon Feb 15 22:34:38 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
 <import resource="constraints-dictionary-config.xml"/>
-<import resource="lu-cluResultInfo-message-structure-config.xml"/>
+<import resource="lu-cluResultInfo-dictionary-structure-config.xml"/>
+
+<!-- ***************************************** -->
+<!-- object structure for object.cluResultInfo -->
+<!-- ***************************************** -->
+<!-- information about a CLU result. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluResultInfo" id="object.cluResultInfo.abstract" abstract="true">
+	<dict:typeRef bean="type.cluResultInfo.CreditCourseResults"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluResultInfo" id="object.cluResultInfo" parent="object.cluResultInfo.abstract"/>
+
+<dict:type key="kuali.resultType.creditCourseResult" id="type.cluResultInfo.CreditCourseResults.abstract" abstract="true" parent="type.cluResultInfo.abstract">
+	<dict:name>Credit Course Results</dict:name>
+	<dict:desc>The results of a credit course</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.cluResultInfo.CreditCourseResults.active"/>
+		<dict:stateRef bean="state.cluResultInfo.CreditCourseResults.inactive"/>
+</dict:type>
+<dict:type key="kuali.resultType.creditCourseResult" id="type.cluResultInfo.CreditCourseResults" parent="type.cluResultInfo.CreditCourseResults.abstract"/>
+
+<!-- ************************************************************* -->
+<!-- State for state.cluResultInfo.Credit Course Results.(default) -->
+<!-- ************************************************************* -->
+
+<dict:state key="*" parent="state.cluResultInfo.abstract" id="state.cluResultInfo.CreditCourseResults.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.final.results.desc"/>
+	<dict:fieldRef bean="dict.course.final.results.cluId"/>
+	<dict:fieldRef bean="dict.course.final.results.options"/>
+	<dict:fieldRef bean="dict.course.final.results.effectiveDate"/>
+	<dict:fieldRef bean="dict.course.final.results.expirationDate"/>
+	<dict:fieldRef bean="dict.course.final.results.metaInfo"/>
+	<dict:fieldRef bean="dict.course.final.results.state"/>
+	<dict:fieldRef bean="dict.course.final.results.type"/>
+	<dict:fieldRef bean="dict.course.final.results.internal.id"/>
+</dict:state>
+
+<!-- ********************************************************** -->
+<!-- State for state.cluResultInfo.Credit Course Results.active -->
+<!-- ********************************************************** -->
+
+<!-- States have not been thought through for results, these are intial stakes - will need to ADD TO Simples -->
+<dict:state key="active" parent="state.cluResultInfo.CreditCourseResults.abstract" id="state.cluResultInfo.CreditCourseResults.active.abstract" abstract="true">
+</dict:state>
+<dict:state key="active" id="state.cluResultInfo.CreditCourseResults.active" parent="state.cluResultInfo.CreditCourseResults.active.abstract"/>
+
+<!-- ************************************************************ -->
+<!-- State for state.cluResultInfo.Credit Course Results.inactive -->
+<!-- ************************************************************ -->
+
+<!-- States have not been thought through for results, these are intial stakes - will need to ADD TO Simples -->
+<dict:state key="inactive" parent="state.cluResultInfo.CreditCourseResults.abstract" id="state.cluResultInfo.CreditCourseResults.inactive.abstract" abstract="true">
+</dict:state>
+<dict:state key="inactive" id="state.cluResultInfo.CreditCourseResults.inactive" parent="state.cluResultInfo.CreditCourseResults.inactive.abstract"/>
+
+
+<!-- ************************************************************************************ -->
+<!-- object structure for object.field.cluResultInfo.desc.Credit Course Results.(default) -->
+<!-- ************************************************************************************ -->
+<!-- Complex type supporting both a plain text and formatted version of a string. -->
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluResultInfo.desc.CreditCourseResults.abstract" abstract="true">
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluResultInfo.desc.CreditCourseResults" parent="object.field.cluResultInfo.desc.CreditCourseResults.abstract"/>
+
+<!-- ********************************************************************************************* -->
+<!-- object structure for object.field.cluResultInfo.resultOptions.Credit Course Results.(default) -->
+<!-- ********************************************************************************************* -->
+<!-- information about a result option. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.ResultOptionInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.abstract" abstract="true">
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.ResultOptionInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults" parent="object.field.cluResultInfo.resultOptions.CreditCourseResults.abstract"/>
+
+<!-- **************************************************************************************** -->
+<!-- object structure for object.field.cluResultInfo.metaInfo.Credit Course Results.(default) -->
+<!-- **************************************************************************************** -->
+<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluResultInfo.metaInfo.CreditCourseResults.abstract" abstract="true">
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluResultInfo.metaInfo.CreditCourseResults" parent="object.field.cluResultInfo.metaInfo.CreditCourseResults.abstract"/>
 </beans>

@@ -127,8 +127,8 @@ public class ServiceContractModelLoader implements ServiceContractModel
    }
    else
    {
-    throw new DictionaryValidationException ("Spreadsheet row #" + rowNumber +
-     " has an unknown key,[" + key + "]");
+    throw new DictionaryValidationException ("Spreadsheet row #" + rowNumber
+     + " has an unknown key,[" + key + "]");
    }
   }
   return list;
@@ -198,15 +198,32 @@ public class ServiceContractModelLoader implements ServiceContractModel
   }
  }
 
+ private boolean getFixupBoolean (WorksheetReader reader, String name)
+ {
+  String str = getFixup (reader, name);
+  if (str == null)
+  {
+   return false;
+  }
+  if (str.equals (""))
+  {
+   return false;
+  }
+  if (str.equalsIgnoreCase ("true"))
+  {
+   return true;
+  }
+  if (str.equalsIgnoreCase ("false"))
+  {
+   return false;
+  }
+  throw new DictionaryExecutionException ("Could not parse " + name
+   + " as a boolean");
+ }
+
  private String getFixup (WorksheetReader worksheetReader, String colName)
  {
   return fixup (get (worksheetReader, colName));
- }
-
- private String getFixup (WorksheetReader worksheetReader, String colName,
-                          String colName2)
- {
-  return fixup (get (worksheetReader, colName, colName2));
  }
 
  private String fixup (String str)
@@ -235,8 +252,6 @@ public class ServiceContractModelLoader implements ServiceContractModel
   }
   return str;
  }
-
-
 
  @Override
  public List<String> getSourceNames ()
@@ -304,9 +319,9 @@ public class ServiceContractModelLoader implements ServiceContractModel
    }
    info.setDesc (getFixup (worksheetReader, "desc"));
    info.setPrimitive (getFixup (worksheetReader, "primitive"));
-   info.setHasOwnType (getFixup (worksheetReader, "hasOwnType").equalsIgnoreCase ("true"));
-   info.setHasOwnState (getFixup (worksheetReader, "hasOwnState").equalsIgnoreCase ("true"));
-   info.setHasOwnCreateUpdate (getFixup (worksheetReader, "hasOwnCreateUpdate").equalsIgnoreCase ("true"));
+   info.setHasOwnType (getFixupBoolean (worksheetReader, "hasOwnType"));
+   info.setHasOwnState (getFixupBoolean (worksheetReader, "hasOwnState"));
+   info.setHasOwnCreateUpdate (getFixupBoolean (worksheetReader, "hasOwnCreateUpdate"));
    info.setService (getFixup (worksheetReader, "service"));
 
    info.setJavaPackage (getFixup (worksheetReader, "javaPackage"));

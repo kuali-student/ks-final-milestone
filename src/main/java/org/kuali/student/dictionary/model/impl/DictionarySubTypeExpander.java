@@ -74,7 +74,7 @@ public class DictionarySubTypeExpander implements DictionaryExpander
 
  private Type getSubType (Dictionary dict)
  {
-  if (dict.getSubType ().equals (Type.NA))
+  if (dict.getSubType ().equalsIgnoreCase (Type.DEFAULT))
   {
    return null;
   }
@@ -94,7 +94,7 @@ public class DictionarySubTypeExpander implements DictionaryExpander
  private List<Dictionary> expandSubType (Dictionary d, Type type)
  {
   List<Dictionary> list = new ArrayList ();
-  for (Type t : finder.findExpandedTypes (type))
+  for (Type t : finder.expandType (type))
   {
    try
    {

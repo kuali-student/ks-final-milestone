@@ -7,10 +7,121 @@ http://student.kuali.org/xsd/dictionary-extension dictionary-extension.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Tue Feb 09 17:01:44 EST 2010
+on: Mon Feb 15 22:34:38 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
 <import resource="constraints-dictionary-config.xml"/>
-<import resource="lu-luStatementInfo-message-structure-config.xml"/>
+<import resource="lu-luStatementInfo-dictionary-structure-config.xml"/>
+
+<!-- ******************************************* -->
+<!-- object structure for object.luStatementInfo -->
+<!-- ******************************************* -->
+<!-- Detailed information about a single LU statement. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.LuStatementInfo" id="object.luStatementInfo.abstract" abstract="true">
+	<dict:typeRef bean="type.luStatementInfo.PrerequisiteRule"/>
+	<dict:typeRef bean="type.luStatementInfo.CorequisiteRule"/>
+	<dict:typeRef bean="type.luStatementInfo.EnrollmentRestriction"/>
+	<dict:typeRef bean="type.luStatementInfo.AntirequisiteRule"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.LuStatementInfo" id="object.luStatementInfo" parent="object.luStatementInfo.abstract"/>
+
+<dict:type key="kuali.luStatementType.req.*" id="type.luStatementInfo.RequisiteRules.abstract" abstract="true" parent="type.luStatementInfo.abstract">
+	<dict:name>Requisite Rules</dict:name>
+	<dict:desc>Group that includes all the &quot;requisite&quot; rules, pre,co,anti and enrollment restrictions</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.luStatementInfo.RequisiteRules.active"/>
+		<dict:stateRef bean="state.luStatementInfo.RequisiteRules.inactive"/>
+</dict:type>
+
+<!-- How to indicate the advisory nature of the prerequisite, whether the rule is hard or soft has not been clarified. I.e. whether this rule will be enforced or not. This may be indicated as a new type "Advisories" or as a flag on the statement or requirement component's themselves. -->
+<dict:type key="kuali.luStatementType.req.prerequisite" id="type.luStatementInfo.PrerequisiteRule.abstract" abstract="true" parent="type.luStatementInfo.RequisiteRules.abstract">
+	<dict:name>Prerequisite Rule</dict:name>
+	<dict:desc>Rules that describe the academic readiness or preparedness required to be able to enroll in a course and effectively master the material. Also called
+
+Should not include rules that restrict enrollment for other purposes other than academic preparedness, these should be captured as enrollment restrictions</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.luStatementType.req.prerequisite" id="type.luStatementInfo.PrerequisiteRule" parent="type.luStatementInfo.PrerequisiteRule.abstract"/>
+
+<dict:type key="kuali.luStatementType.req.corequisite" id="type.luStatementInfo.CorequisiteRule.abstract" abstract="true" parent="type.luStatementInfo.RequisiteRules.abstract">
+	<dict:name>Corequisite Rule</dict:name>
+	<dict:desc>Rules that describe the need for concurrent enrollment in two courses.</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.luStatementType.req.corequisite" id="type.luStatementInfo.CorequisiteRule" parent="type.luStatementInfo.CorequisiteRule.abstract"/>
+
+<dict:type key="kuali.luStatementType.req.enrollmentRestriction" id="type.luStatementInfo.EnrollmentRestriction.abstract" abstract="true" parent="type.luStatementInfo.RequisiteRules.abstract">
+	<dict:name>Enrollment Restriction</dict:name>
+	<dict:desc>Rules other than perquisites that limit or restrict students from enrolling in a course that do not strictly deal with the student&apos;s academic ability to handle the material.</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.luStatementType.req.enrollmentRestriction" id="type.luStatementInfo.EnrollmentRestriction" parent="type.luStatementInfo.EnrollmentRestriction.abstract"/>
+
+<dict:type key="kuali.luStatementType.req.antirequisite" id="type.luStatementInfo.AntirequisiteRule.abstract" abstract="true" parent="type.luStatementInfo.RequisiteRules.abstract">
+	<dict:name>Antirequisite Rule</dict:name>
+	<dict:desc>Rules identifying a specific course or level of attainment which, if already successfully completed, does not permit registration for credit in another desired course, or which may not be taken for credit concurrently with another course</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+</dict:type>
+<dict:type key="kuali.luStatementType.req.antirequisite" id="type.luStatementInfo.AntirequisiteRule" parent="type.luStatementInfo.AntirequisiteRule.abstract"/>
+
+<!-- ********************************************************* -->
+<!-- State for state.luStatementInfo.Requisite Rules.(default) -->
+<!-- ********************************************************* -->
+
+<dict:state key="*" parent="state.luStatementInfo.abstract" id="state.luStatementInfo.RequisiteRules.abstract" abstract="true">
+	<dict:fieldRef bean="dict.requisite.statement.name"/>
+	<dict:fieldRef bean="dict.requisite.statement.desc"/>
+	<dict:fieldRef bean="dict.requisite.statement.operator"/>
+	<dict:fieldRef bean="dict.requisite.statement.sub.statements"/>
+	<dict:fieldRef bean="dict.requisite.statement.components"/>
+	<dict:fieldRef bean="dict.requisite.statement.attributes"/>
+	<dict:fieldRef bean="dict.requisite.statement.metainfo"/>
+	<dict:fieldRef bean="dict.requisite.statement.type"/>
+	<dict:fieldRef bean="dict.requisite.statement.state"/>
+	<dict:fieldRef bean="dict.requisite.statement.id"/>
+</dict:state>
+
+<!-- ****************************************************** -->
+<!-- State for state.luStatementInfo.Requisite Rules.active -->
+<!-- ****************************************************** -->
+
+<!-- TODO: Add to simple spec -->
+<dict:state key="active" parent="state.luStatementInfo.RequisiteRules.abstract" id="state.luStatementInfo.RequisiteRules.active.abstract" abstract="true">
+</dict:state>
+<dict:state key="active" id="state.luStatementInfo.RequisiteRules.active" parent="state.luStatementInfo.RequisiteRules.active.abstract"/>
+
+<!-- ******************************************************** -->
+<!-- State for state.luStatementInfo.Requisite Rules.inactive -->
+<!-- ******************************************************** -->
+
+<!-- TODO: Add to simple spec -->
+<dict:state key="inactive" parent="state.luStatementInfo.RequisiteRules.abstract" id="state.luStatementInfo.RequisiteRules.inactive.abstract" abstract="true">
+</dict:state>
+<dict:state key="inactive" id="state.luStatementInfo.RequisiteRules.inactive" parent="state.luStatementInfo.RequisiteRules.inactive.abstract"/>
+
+
+<!-- ******************************************************************************** -->
+<!-- object structure for object.field.luStatementInfo.desc.Requisite Rules.(default) -->
+<!-- ******************************************************************************** -->
+<!-- Complex type supporting both a plain text and formatted version of a string. -->
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.luStatementInfo.desc.RequisiteRules.abstract" abstract="true">
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.luStatementInfo.desc.RequisiteRules" parent="object.field.luStatementInfo.desc.RequisiteRules.abstract"/>
+
+<!-- ************************************************************************************** -->
+<!-- object structure for object.field.luStatementInfo.attributes.Requisite Rules.(default) -->
+<!-- ************************************************************************************** -->
+<!-- List of key/value pairs, typically used for dynamic attributes. -->
+<dict:objectStructure key=".AttributeInfo" id="object.field.luStatementInfo.attributes.RequisiteRules.abstract" abstract="true">
+</dict:objectStructure>
+<dict:objectStructure key=".AttributeInfo" id="object.field.luStatementInfo.attributes.RequisiteRules" parent="object.field.luStatementInfo.attributes.RequisiteRules.abstract"/>
+
+<!-- ************************************************************************************ -->
+<!-- object structure for object.field.luStatementInfo.metaInfo.Requisite Rules.(default) -->
+<!-- ************************************************************************************ -->
+<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.luStatementInfo.metaInfo.RequisiteRules.abstract" abstract="true">
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.luStatementInfo.metaInfo.RequisiteRules" parent="object.field.luStatementInfo.metaInfo.RequisiteRules.abstract"/>
 </beans>

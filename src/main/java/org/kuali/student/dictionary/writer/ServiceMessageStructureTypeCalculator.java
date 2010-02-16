@@ -87,7 +87,7 @@ public class ServiceMessageStructureTypeCalculator
    return "String";
   }
 
-  if (xmlType.getPrimitive ().equalsIgnoreCase ("Complex"))
+  if (xmlType.getPrimitive ().equalsIgnoreCase (XmlType.COMPLEX))
   {
    return type.substring (0, 1).toUpperCase () + type.substring (1);
   }

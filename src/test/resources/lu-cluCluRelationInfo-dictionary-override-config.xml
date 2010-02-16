@@ -7,10 +7,207 @@ http://student.kuali.org/xsd/dictionary-extension dictionary-extension.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Tue Feb 09 17:01:43 EST 2010
+on: Mon Feb 15 22:34:38 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
 <import resource="constraints-dictionary-config.xml"/>
-<import resource="lu-cluCluRelationInfo-message-structure-config.xml"/>
+<import resource="lu-cluCluRelationInfo-dictionary-structure-config.xml"/>
+
+<!-- ********************************************** -->
+<!-- object structure for object.cluCluRelationInfo -->
+<!-- ********************************************** -->
+<!-- Detailed information about a CLU to CLU relationship. -->
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluCluRelationInfo" id="object.cluCluRelationInfo.abstract" abstract="true">
+	<dict:typeRef bean="type.cluCluRelationInfo.HasCourseFormat"/>
+	<dict:typeRef bean="type.cluCluRelationInfo.HasCourseActivity"/>
+	<dict:typeRef bean="type.cluCluRelationInfo.Co-Located"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluCluRelationInfo" id="object.cluCluRelationInfo" parent="object.cluCluRelationInfo.abstract"/>
+
+<!-- TODO: cross-check w/ SIMPLE -->
+<dict:type key="kuali.lu.relation.type.course.format" id="type.cluCluRelationInfo.HasCourseFormat.abstract" abstract="true" parent="type.cluCluRelationInfo.abstract">
+	<dict:name>Has Course Format</dict:name>
+	<dict:desc>Maintains relation betrween a course and the course format shell</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.cluCluRelationInfo.HasCourseFormat.active"/>
+		<dict:stateRef bean="state.cluCluRelationInfo.HasCourseFormat.inactive"/>
+</dict:type>
+<dict:type key="kuali.lu.relation.type.course.format" id="type.cluCluRelationInfo.HasCourseFormat" parent="type.cluCluRelationInfo.HasCourseFormat.abstract"/>
+
+<!-- TODO: cross-check w/ SIMPLE -->
+<dict:type key="kuali.lu.relation.type.course.activity" id="type.cluCluRelationInfo.HasCourseActivity.abstract" abstract="true" parent="type.cluCluRelationInfo.abstract">
+	<dict:name>Has Course Activity</dict:name>
+	<dict:desc>Maintains relation betrween a course format shell and each individual activity</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.cluCluRelationInfo.HasCourseActivity.active"/>
+		<dict:stateRef bean="state.cluCluRelationInfo.HasCourseActivity.inactive"/>
+</dict:type>
+<dict:type key="kuali.lu.relation.type.course.activity" id="type.cluCluRelationInfo.HasCourseActivity" parent="type.cluCluRelationInfo.HasCourseActivity.abstract"/>
+
+<!-- TODO: cross-check w/ SIMPLE -->
+<dict:type key="kuali.lu.relation.type.co-located" id="type.cluCluRelationInfo.Co-Located.abstract" abstract="true" parent="type.cluCluRelationInfo.abstract">
+	<dict:name>Co-Located</dict:name>
+	<dict:desc>Maintains relations betrween different courses the meet together (are co-located)</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.cluCluRelationInfo.Co-Located.active"/>
+		<dict:stateRef bean="state.cluCluRelationInfo.Co-Located.inactive"/>
+</dict:type>
+<dict:type key="kuali.lu.relation.type.co-located" id="type.cluCluRelationInfo.Co-Located" parent="type.cluCluRelationInfo.Co-Located.abstract"/>
+
+<!-- ************************************************************** -->
+<!-- State for state.cluCluRelationInfo.Has Course Format.(default) -->
+<!-- ************************************************************** -->
+
+<dict:state key="*" parent="state.cluCluRelationInfo.abstract" id="state.cluCluRelationInfo.HasCourseFormat.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.format.relation.course.internal.id"/>
+	<dict:fieldRef bean="dict.course.format.relation.formatshell.internal.id"/>
+	<dict:fieldRef bean="dict.course.format.relation.required"/>
+	<dict:fieldRef bean="dict.course.format.relation.expirationDate"/>
+	<dict:fieldRef bean="dict.course.format.relation.effectiveDate"/>
+	<dict:fieldRef bean="dict.course.format.relation.attributes"/>
+	<dict:fieldRef bean="dict.course.format.relation.metainfo"/>
+	<dict:fieldRef bean="dict.course.format.relation.relation.type"/>
+	<dict:fieldRef bean="dict.course.format.relation.relation.state"/>
+	<dict:fieldRef bean="dict.course.format.relation.relation.internal.id"/>
+</dict:state>
+
+<!-- *********************************************************** -->
+<!-- State for state.cluCluRelationInfo.Has Course Format.active -->
+<!-- *********************************************************** -->
+
+<!-- TODO: Add to simple spec -->
+<dict:state key="active" parent="state.cluCluRelationInfo.HasCourseFormat.abstract" id="state.cluCluRelationInfo.HasCourseFormat.active.abstract" abstract="true">
+</dict:state>
+<dict:state key="active" id="state.cluCluRelationInfo.HasCourseFormat.active" parent="state.cluCluRelationInfo.HasCourseFormat.active.abstract"/>
+
+<!-- ************************************************************* -->
+<!-- State for state.cluCluRelationInfo.Has Course Format.inactive -->
+<!-- ************************************************************* -->
+
+<!-- TODO: Add to simple spec -->
+<dict:state key="inactive" parent="state.cluCluRelationInfo.HasCourseFormat.abstract" id="state.cluCluRelationInfo.HasCourseFormat.inactive.abstract" abstract="true">
+</dict:state>
+<dict:state key="inactive" id="state.cluCluRelationInfo.HasCourseFormat.inactive" parent="state.cluCluRelationInfo.HasCourseFormat.inactive.abstract"/>
+
+<!-- **************************************************************** -->
+<!-- State for state.cluCluRelationInfo.Has Course Activity.(default) -->
+<!-- **************************************************************** -->
+
+<dict:state key="*" parent="state.cluCluRelationInfo.abstract" id="state.cluCluRelationInfo.HasCourseActivity.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.activity.relation.course.internal.id"/>
+	<dict:fieldRef bean="dict.course.activity.relation.activityshell.internal.id"/>
+	<dict:fieldRef bean="dict.course.activity.relation.required"/>
+	<dict:fieldRef bean="dict.course.activity.relation.expirationDate"/>
+	<dict:fieldRef bean="dict.course.activity.relation.effectiveDate"/>
+	<dict:fieldRef bean="dict.course.activity.relation.attributes"/>
+	<dict:fieldRef bean="dict.course.activity.relation.metainfo"/>
+	<dict:fieldRef bean="dict.course.activity.relation.relation.type"/>
+	<dict:fieldRef bean="dict.course.activity.relation.relation.state"/>
+	<dict:fieldRef bean="dict.course.activity.relation.relation.internal.id"/>
+</dict:state>
+
+<!-- ************************************************************* -->
+<!-- State for state.cluCluRelationInfo.Has Course Activity.active -->
+<!-- ************************************************************* -->
+
+<!-- TODO: Add to simple spec -->
+<dict:state key="active" parent="state.cluCluRelationInfo.HasCourseActivity.abstract" id="state.cluCluRelationInfo.HasCourseActivity.active.abstract" abstract="true">
+</dict:state>
+<dict:state key="active" id="state.cluCluRelationInfo.HasCourseActivity.active" parent="state.cluCluRelationInfo.HasCourseActivity.active.abstract"/>
+
+<!-- *************************************************************** -->
+<!-- State for state.cluCluRelationInfo.Has Course Activity.inactive -->
+<!-- *************************************************************** -->
+
+<!-- TODO: Add to simple spec -->
+<dict:state key="inactive" parent="state.cluCluRelationInfo.HasCourseActivity.abstract" id="state.cluCluRelationInfo.HasCourseActivity.inactive.abstract" abstract="true">
+</dict:state>
+<dict:state key="inactive" id="state.cluCluRelationInfo.HasCourseActivity.inactive" parent="state.cluCluRelationInfo.HasCourseActivity.inactive.abstract"/>
+
+<!-- ******************************************************* -->
+<!-- State for state.cluCluRelationInfo.Co-Located.(default) -->
+<!-- ******************************************************* -->
+
+<dict:state key="*" parent="state.cluCluRelationInfo.abstract" id="state.cluCluRelationInfo.Co-Located.abstract" abstract="true">
+	<dict:fieldRef bean="dict.colocated.course.relation.course.internal.id1"/>
+	<dict:fieldRef bean="dict.colocated.course.relation.course.internal.id2"/>
+	<dict:fieldRef bean="dict.colocated.course.relation.required"/>
+	<dict:fieldRef bean="dict.colocated.course.relation.expirationDate"/>
+	<dict:fieldRef bean="dict.colocated.course.relation.effectiveDate"/>
+	<dict:fieldRef bean="dict.colocated.course.relation.attributes"/>
+	<dict:fieldRef bean="dict.colocated.course.relation.metainfo"/>
+	<dict:fieldRef bean="dict.colocated.course.relation.relation.type"/>
+	<dict:fieldRef bean="dict.colocated.course.relation.relation.state"/>
+	<dict:fieldRef bean="dict.colocated.course.relation.relation.id"/>
+</dict:state>
+
+<!-- **************************************************** -->
+<!-- State for state.cluCluRelationInfo.Co-Located.active -->
+<!-- **************************************************** -->
+
+<!-- TODO: Add to simple spec -->
+<dict:state key="active" parent="state.cluCluRelationInfo.Co-Located.abstract" id="state.cluCluRelationInfo.Co-Located.active.abstract" abstract="true">
+</dict:state>
+<dict:state key="active" id="state.cluCluRelationInfo.Co-Located.active" parent="state.cluCluRelationInfo.Co-Located.active.abstract"/>
+
+<!-- ****************************************************** -->
+<!-- State for state.cluCluRelationInfo.Co-Located.inactive -->
+<!-- ****************************************************** -->
+
+<!-- TODO: Add to simple spec -->
+<dict:state key="inactive" parent="state.cluCluRelationInfo.Co-Located.abstract" id="state.cluCluRelationInfo.Co-Located.inactive.abstract" abstract="true">
+</dict:state>
+<dict:state key="inactive" id="state.cluCluRelationInfo.Co-Located.inactive" parent="state.cluCluRelationInfo.Co-Located.inactive.abstract"/>
+
+
+<!-- ******************************************************************************************* -->
+<!-- object structure for object.field.cluCluRelationInfo.attributes.Has Course Format.(default) -->
+<!-- ******************************************************************************************* -->
+<!-- List of key/value pairs, typically used for dynamic attributes. -->
+<dict:objectStructure key=".AttributeInfo" id="object.field.cluCluRelationInfo.attributes.HasCourseFormat.abstract" abstract="true">
+</dict:objectStructure>
+<dict:objectStructure key=".AttributeInfo" id="object.field.cluCluRelationInfo.attributes.HasCourseFormat" parent="object.field.cluCluRelationInfo.attributes.HasCourseFormat.abstract"/>
+
+<!-- ***************************************************************************************** -->
+<!-- object structure for object.field.cluCluRelationInfo.metaInfo.Has Course Format.(default) -->
+<!-- ***************************************************************************************** -->
+<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.HasCourseFormat.abstract" abstract="true">
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.HasCourseFormat" parent="object.field.cluCluRelationInfo.metaInfo.HasCourseFormat.abstract"/>
+
+
+<!-- ********************************************************************************************* -->
+<!-- object structure for object.field.cluCluRelationInfo.attributes.Has Course Activity.(default) -->
+<!-- ********************************************************************************************* -->
+<!-- List of key/value pairs, typically used for dynamic attributes. -->
+<dict:objectStructure key=".AttributeInfo" id="object.field.cluCluRelationInfo.attributes.HasCourseActivity.abstract" abstract="true">
+</dict:objectStructure>
+<dict:objectStructure key=".AttributeInfo" id="object.field.cluCluRelationInfo.attributes.HasCourseActivity" parent="object.field.cluCluRelationInfo.attributes.HasCourseActivity.abstract"/>
+
+<!-- ******************************************************************************************* -->
+<!-- object structure for object.field.cluCluRelationInfo.metaInfo.Has Course Activity.(default) -->
+<!-- ******************************************************************************************* -->
+<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.HasCourseActivity.abstract" abstract="true">
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.HasCourseActivity" parent="object.field.cluCluRelationInfo.metaInfo.HasCourseActivity.abstract"/>
+
+
+<!-- ************************************************************************************ -->
+<!-- object structure for object.field.cluCluRelationInfo.attributes.Co-Located.(default) -->
+<!-- ************************************************************************************ -->
+<!-- List of key/value pairs, typically used for dynamic attributes. -->
+<dict:objectStructure key=".AttributeInfo" id="object.field.cluCluRelationInfo.attributes.Co-Located.abstract" abstract="true">
+</dict:objectStructure>
+<dict:objectStructure key=".AttributeInfo" id="object.field.cluCluRelationInfo.attributes.Co-Located" parent="object.field.cluCluRelationInfo.attributes.Co-Located.abstract"/>
+
+<!-- ********************************************************************************** -->
+<!-- object structure for object.field.cluCluRelationInfo.metaInfo.Co-Located.(default) -->
+<!-- ********************************************************************************** -->
+<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.Co-Located.abstract" abstract="true">
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.Co-Located" parent="object.field.cluCluRelationInfo.metaInfo.Co-Located.abstract"/>
 </beans>

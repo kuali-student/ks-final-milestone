@@ -25,6 +25,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.kuali.student.dictionary.model.XmlType;
 
 /**
  * This validates a single dictinoary entry
@@ -50,7 +51,7 @@ public class DictionaryValidator implements ModelValidator
   ConstraintValidator cv = new ConstraintValidator (dict.getInlineConstraint ());
   errors = cv.validate ();
   validateForDuplicates ();
-  if (dict.getPrimitive ().equals ("Complex"))
+  if (dict.getPrimitive ().equalsIgnoreCase (XmlType.COMPLEX))
   {
    for (Constraint cons : getAllConstraints ())
    {

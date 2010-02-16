@@ -24,6 +24,8 @@ import java.io.Serializable;
 public class XmlType implements Serializable
 {
 
+ public static final String COMPLEX = "Complex";
+ 
  public XmlType ()
  {
  }
@@ -148,7 +150,7 @@ public class XmlType implements Serializable
   */
  public void setHasOwnType (boolean hasOwnType)
  {
-  this.hasOwnState = hasOwnType;
+  this.hasOwnType = hasOwnType;
  }
 
 

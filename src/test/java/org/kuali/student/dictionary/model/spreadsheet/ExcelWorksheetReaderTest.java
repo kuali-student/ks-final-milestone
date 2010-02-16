@@ -266,39 +266,43 @@ public class ExcelWorksheetReaderTest implements TestConstants
    }
 
    // double check all fields
-   instance.getValue ("name");
-   instance.getValue ("desc");
-   instance.getValue ("mainType");
-   instance.getValue ("ok1");
-   instance.getValue ("parentObject");
-   instance.getValue ("parentShortName");
-   instance.getValue ("ok2");
-   instance.getValue ("subType");
-   instance.getValue ("subState");
-   instance.getValue ("ok3");
-   instance.getValue ("xmlObject");
-   instance.getValue ("shortName");
-   instance.getValue ("primitive");
-   instance.getValue ("baseConstraintDescription");
-   instance.getValue ("selector");
-   instance.getValue ("additionalConstraintId1");
-   instance.getValue ("additionalConstraintId2");
-   instance.getValue ("additionalConstraintId3");
-   instance.getValue ("additionalConstraintId4");
-   instance.getValue ("additionalConstraintDescription");
-   instance.getValue ("combinedConstraintDescription");
-   instance.getValue ("minLength");
-   instance.getValue ("maxLength");
-   instance.getValue ("minOccurs");
-   instance.getValue ("maxOccurs");
-   instance.getValue ("validChars");
-   instance.getValue ("lookup");
+   println (instance, "name");
+   println (instance, "desc");
+   println (instance, "Type");
+   println (instance, "State");
+   println (instance, "ok1");
+   println (instance, "subType");
+   println (instance, "subState");
+   println (instance, "ok3");
+   println (instance, "xmlObject");
+   println (instance, "shortName");
+   println (instance, "primitive");
+   println (instance, "baseConstraintDescription");
+   println (instance, "selector");
+   println (instance, "additionalConstraintId1");
+   println (instance, "additionalConstraintId2");
+   println (instance, "additionalConstraintId3");
+   println (instance, "additionalConstraintId4");
+   println (instance, "additionalConstraintDescription");
+   println (instance, "combinedConstraintDescription");
+   println (instance, "minLength");
+   println (instance, "maxLength");
+   println (instance, "minOccurs");
+   println (instance, "maxOccurs");
+   println (instance, "validChars");
+   println (instance, "lookup");
+
    String result = instance.getValue ("comments");
 
    System.out.println (i + ") " + id + "=" + result);
    assertEquals (id + "=" + expResult, id + "=" + result);
   }
   assertEquals (true, true);
+ }
+
+ private void println (ExcelWorksheetReader instance, String field)
+ {
+  System.out.println (field + "=" + instance.getValue (field));
  }
 
 }

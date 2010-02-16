@@ -16,9 +16,8 @@
 package org.kuali.student.dictionary.model.util;
 
 import org.kuali.student.dictionary.model.*;
-import org.kuali.student.dictionary.model.validation.DictionaryValidationException;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import org.kuali.student.dictionary.DictionaryExecutionException;
@@ -92,6 +91,10 @@ public class ModelFinder
 
  public Type findType (String xmlObject, String typeName)
  {
+  if (typeName.equalsIgnoreCase (State.DEFAULT))
+  {
+   return this.getDefaultType ();
+  }
   for (Type type : model.getTypes ())
   {
    if (type.getXmlObject ().equalsIgnoreCase (xmlObject))
@@ -99,6 +102,25 @@ public class ModelFinder
     if (type.getName ().equalsIgnoreCase (typeName))
     {
      return type;
+    }
+   }
+  }
+  return null;
+ }
+
+ public State findState (String xmlObject, String stateName)
+ {
+  if (stateName.equalsIgnoreCase (State.DEFAULT))
+  {
+   return this.getDefaultState ();
+  }
+  for (State state : model.getStates ())
+  {
+   if (state.getXmlObject ().equalsIgnoreCase (xmlObject))
+   {
+    if (state.getName ().equalsIgnoreCase (stateName))
+    {
+     return state;
     }
    }
   }
@@ -113,7 +135,6 @@ public class ModelFinder
   }
   return findRoot (dict.getParent ());
  }
-
 
  /**
   * get dictionary entry for the id
@@ -130,6 +151,28 @@ public class ModelFinder
   }
   return null;
  }
+
+  /**
+  * get dictionary entries for the state overries
+  * @return
+  */
+ public List<Dictionary> findChildDictionaryEntries (Dictionary parent)
+ {
+  List<Dictionary> list = new ArrayList ();
+  for (Dictionary d : model.getDictionary ())
+  {
+   if (d.getParent () == null)
+   {
+    continue;
+   }
+   if (d.getParent ().equals (parent))
+   {
+    list.add (d);
+   }
+  }
+  return list;
+ }
+
 
  /**
   * get dictionary entries for the state overries
@@ -194,12 +237,17 @@ public class ModelFinder
  /**
   * Expands a type that has a status of Type.GROUPING.
   * A group can contain another group
-  * @param type
+  * @param state
   * @return
   */
- public Set<Type> findExpandedTypes (Type type)
+ public Set<Type> expandType (Type type)
  {
-  Set<Type> types = new HashSet ();
+  Set<Type> types = new LinkedHashSet ();
+  if ( ! type.getStatus ().equalsIgnoreCase (Type.GROUPING))
+  {
+   types.add (type);
+   return types;
+  }
   String pattern = type.getTypeKey ();
   GroupTypeStatePatternMatcher matcher =
    new GroupTypeStatePatternMatcher (pattern);
@@ -208,10 +256,10 @@ public class ModelFinder
    // can't match yourself
    if (t == type)
    {
-    System.out.println ("skipping itself " + type.getName ());
+    //System.out.println ("skipping itself " + type.getName ());
     continue;
    }
-   if (t.getInclude ())
+   if ( ! t.getInclude ())
    {
     continue;
    }
@@ -224,7 +272,7 @@ public class ModelFinder
      if (t.getStatus ().equalsIgnoreCase (Type.GROUPING))
      {
       //TODO: Worry about self-recursion
-      types.addAll (findExpandedTypes (t));
+      types.addAll (expandType (t));
      }
      else
      {
@@ -234,6 +282,56 @@ public class ModelFinder
    }
   }
   return types;
+ }
+
+ /**
+  * Expands a type that has a status of Type.GROUPING.
+  * A group can contain another group
+  * @param state
+  * @return
+  */
+ public Set<State> expandState (State state)
+ {
+  Set<State> states = new LinkedHashSet ();
+  if ( ! state.getStatus ().equalsIgnoreCase (State.GROUPING))
+  {
+   states.add (state);
+   return states;
+  }
+  String pattern = state.getStateKey ();
+  GroupTypeStatePatternMatcher matcher =
+   new GroupTypeStatePatternMatcher (pattern);
+  for (State s : model.getStates ())
+  {
+   // can't match yourself
+   if (s == state)
+   {
+    //System.out.println ("skipping itself " + state.getName ());
+    continue;
+   }
+   if ( ! s.getInclude ())
+   {
+    continue;
+   }
+
+   // must match the same type of object
+   if (state.getXmlObject ().equalsIgnoreCase (s.getXmlObject ()))
+   {
+    if (matcher.matches (s.getStateKey ()))
+    {
+     if (s.getStatus ().equalsIgnoreCase (Type.GROUPING))
+     {
+      //TODO: Worry about self-recursion
+      states.addAll (expandState (s));
+     }
+     else
+     {
+      states.add (s);
+     }
+    }
+   }
+  }
+  return states;
  }
 
  public Constraint findConstraint (String id)
@@ -368,7 +466,7 @@ public class ModelFinder
   {
    throw new DictionaryExecutionException ("No default Type found");
   }
-    if (list.size () > 1)
+  if (list.size () > 1)
   {
    throw new DictionaryExecutionException ("More than one default Type found");
   }

@@ -24,12 +24,10 @@ import org.kuali.student.dictionary.model.spreadsheet.SpreadsheetReader;
 import org.kuali.student.dictionary.model.spreadsheet.WorksheetReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import org.kuali.student.dictionary.DictionaryExecutionException;
 import org.kuali.student.dictionary.model.util.DateUtility;
-import org.kuali.student.dictionary.model.util.ModelFinder;
 
 /**
  * Loads a spreadsheet using either a google or excel reader
@@ -58,75 +56,12 @@ public class DictionaryModelLoader implements DictionaryModel
    throw new DictionaryExecutionException (ex);
   }
   List<Dictionary> list = new ArrayList (worksheetReader.getEstimatedRows ());
-  Stack<Dictionary> parents = new Stack ();
-  Stack<String> xmlObjects = new Stack ();
-  Dictionary lastDict = null;
-  ModelFinder finder = new ModelFinder (this);
   while (worksheetReader.next ())
   {
    Dictionary dict = this.loadDictionaryObject (worksheetReader);
    if (dict != null)
    {
-    dict.setParent (null);
     list.add (dict);
-    String xmlObject = dict.getXmlObject ().toLowerCase ();
-    XmlType xmlType = finder.findXmlType (xmlObject);
-    if (xmlType == null)
-    {
-     throw new DictionaryExecutionException ("Dictionary entry, " + dict.getId () + " has no entry in XmlTypes");
-    }
-    if (xmlType.hasOwnCreateUpdate ())
-    {
-     lastDict = dict;
-     parents.push (lastDict);
-     xmlObjects.push (lastDict.getXmlObject ().toLowerCase ());
-     System.out.println (dict.getId () + " " + xmlObject + " first row");
-     continue;
-    }
-     //  check if the object changed
-    if (xmlObject.equals (lastDict.getXmlObject ().toLowerCase ()))
-    {
-     if ( ! parents.empty ())
-     {
-      dict.setParent (parents.peek ());
-     }
-     System.out.println (dict.getId () + " " + xmlObject
-      + " no change in object -- keep the same parent");
-     lastDict = dict;
-     continue;
-    }
-    // if going down the hierarchy
-    if (xmlObjects.search (xmlObject) == -1)
-    {
-     parents.push (lastDict);
-     xmlObjects.push (lastDict.getXmlObject ().toLowerCase ());
-     dict.setParent (parents.peek ());
-     System.out.println (dict.getId () + " " + xmlObject
-      + " new object is not on stack so must be going down hierarchy " + xmlObjects.
-      peek ());
-     lastDict = dict;
-     continue;
-    }
-    // if coming back up the stack pop until you are back to the object
-    while (xmlObjects.search (xmlObject) != -1)
-    {
-     System.out.println (dict.getId () + " " + xmlObject
-      + " not on stack - so popping parents off the stack - "
-      + xmlObjects.peek ());
-     parents.pop ();
-     xmlObjects.pop ();
-    }
-    if (parents.empty ())
-    {
-     dict.setParent (null);
-     System.out.println (dict.getId () + " " + xmlObject
-      + " popped everything off the stack");
-     lastDict = dict;
-     continue;
-    }
-    dict.setParent (parents.peek ());
-    lastDict = dict;
-    continue;
    }
   }
   return list;

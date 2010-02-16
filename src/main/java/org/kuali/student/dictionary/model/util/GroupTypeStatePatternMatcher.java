@@ -22,6 +22,7 @@ package org.kuali.student.dictionary.model.util;
  */
 public class GroupTypeStatePatternMatcher
 {
+
  private String pattern;
 
  public GroupTypeStatePatternMatcher (String pattern)
@@ -31,10 +32,15 @@ public class GroupTypeStatePatternMatcher
 
  public boolean matches (String key)
  {
+  if (pattern.equals ("*"))
+  {
+   return true;
+  }
   // check for wildcard * at the end
   if (pattern.endsWith ("*"))
   {
-   if (key.startsWith (pattern.substring (0, pattern.length () - 1)))
+   if (key.toLowerCase ().startsWith (pattern.substring (0, pattern.length ()
+    - 1).toLowerCase ()))
    {
     return true;
    }
@@ -47,7 +53,8 @@ public class GroupTypeStatePatternMatcher
    String[] patterns = pattern.split (",");
    for (String pat : patterns)
    {
-    GroupTypeStatePatternMatcher matcher = new GroupTypeStatePatternMatcher (pat);
+    GroupTypeStatePatternMatcher matcher =
+     new GroupTypeStatePatternMatcher (pat);
     if (matcher.matches (key))
     {
      return true;
@@ -55,10 +62,11 @@ public class GroupTypeStatePatternMatcher
    }
   }
   //ok the pattern is the key so just compare
-  if (pattern.equals (key))
+  if (pattern.equalsIgnoreCase (key))
   {
    return true;
   }
   return false;
  }
+
 }

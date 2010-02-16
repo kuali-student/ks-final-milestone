@@ -27,7 +27,7 @@ public class State implements Serializable
 {
 
  public static final String DEFAULT = "(default)";
- public static final String NA = "(n/a)";
+ public static final String GROUPING = "Grouping";
  
  public State ()
  {

@@ -71,7 +71,8 @@ public class DictionaryModelWriter
   //TODO: repace below with above once testing is done
   for (String service : getLuServiceAsListForTesting ())
   {
-   File file = new File (directory + service + "-message-structure-config.xml");
+   File file = new File (directory + service
+    + "-dictionary-structure-config.xml");
    PrintStream out;
    try
    {
@@ -214,7 +215,7 @@ public class DictionaryModelWriter
   for (XmlType xmlType : calcXMLTypesForServiceThatHaveOwnCreateUpdate (service))
   {
    String fileName2 = service + "-" + xmlType.getName ()
-    + "-message-structure-config.xml";
+    + "-dictionary-structure-config.xml";
    String fileName3 = service + "-" + xmlType.getName ()
     + "-dictionary-override-config.xml";
    writeImport (writer, fileName3);
@@ -235,20 +236,27 @@ public class DictionaryModelWriter
    XmlWriter writer3 = new XmlWriter (out3, 0);
    try
    {
+    // first write the default structure
     writeHeader (writer2);
-    writeHeader (writer3);
     writeImport (writer2, CONSTRAINT_BANK_FILE_NAME);
+    DictionaryStructureWriter dsw =
+     new DictionaryStructureWriter (writer2,
+                                    model,
+                                    xmlType,
+                                    null);
+    dsw.write ();
+
+    // now do the dictinoary overrides
+    writeHeader (writer3);
     writeImport (writer3, CONSTRAINT_BANK_FILE_NAME);
     writeImport (writer3, fileName2);
-    ObjectStructureWriter osw =
-     new ObjectStructureWriter (writer2,
-                                writer3,
-                                model,
-                                xmlType,
-                                null,
-                                dictionaryEntriesWritten,
-                                crossObjectConstraintsWritten);
-    osw.write ();
+    DictionaryOverrideWriter dow =
+     new DictionaryOverrideWriter (writer3,
+                                   model,
+                                   xmlType,
+                                   null,
+                                   dictionaryEntriesWritten);
+    dow.write ();
     writeFooter (writer2);
     writeFooter (writer3);
    }
@@ -292,7 +300,7 @@ public class DictionaryModelWriter
 //     throw new DictionaryExecutionException ("Message structure " + ms.getId ()
 //      + " has a type " + ms.getType () + " that does not exist");
 //    }
-//    if (subType.getPrimitive ().equalsIgnoreCase ("complex"))
+//    if (subType.getPrimitive ().equalsIgnoreCase (XmlType.COMPLEX))
 //    {
 //     if (map.put (subType.getName ().toLowerCase (), subType) == null)
 //     {
@@ -386,7 +394,6 @@ public class DictionaryModelWriter
   throw new DictionaryValidationException (notUsed.size ()
    + " dictionary entries were never written out." + sb.toString ());
  }
-
 
  private List<Dictionary> calcNotUsedDictionary ()
  {
