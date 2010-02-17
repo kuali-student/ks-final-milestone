@@ -6,7 +6,7 @@
   <name>Kuali Student Testing</name>
   <url>http://driver-1.ks.kuali.net/</url>
   <description>Kuali Student Testing</description>
-  <version>1.0.0</version>
+  <version>1.0.1-SNAPSHOT</version>
   <modules>
     <!--<module>driver</module>-->
     <module>performance</module>
@@ -51,9 +51,9 @@
     </plugins>
   </reporting>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/test-tsung-trunk-1.0.0</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/test-tsung-trunk-1.0.0</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/tags/test-tsung-trunk-1.0.0</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/test</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/test</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/test</url>
   </scm>
   <distributionManagement>
     <site>
