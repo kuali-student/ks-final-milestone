@@ -77,6 +77,8 @@
   </distributionManagement>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <compiler.source.version>1.6</compiler.source.version>
+    <compiler.target.version>1.6</compiler.target.version>
     <sourceReleaseAssemblyDescriptor>source-release</sourceReleaseAssemblyDescriptor>
   </properties>
   <scm>
@@ -109,8 +111,8 @@
           <artifactId>maven-compiler-plugin</artifactId>
           <version>2.0.2</version>
           <configuration>
-            <source>1.6</source>
-            <target>1.6</target>
+            <source>${compiler.source.version}</source>
+            <target>${compiler.target.version}</target>
             <encoding>${project.build.sourceEncoding}</encoding>
           </configuration>
         </plugin>
