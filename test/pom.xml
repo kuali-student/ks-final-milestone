@@ -13,6 +13,16 @@
     <module>ui</module>
     <module>ws</module>
   </modules>
+  <licenses>
+    <license>
+      <name>Educational Community License, Version 1.0</name>
+      <url>LICENSE.txt</url>
+    </license>
+  </licenses>  
+  <issueManagement>
+    <system>JIRA</system>
+    <url>https://test.kuali.org/jira/browse/KSLAB</url>
+  </issueManagement>       
   <build>
     <pluginManagement>
       <plugins>
