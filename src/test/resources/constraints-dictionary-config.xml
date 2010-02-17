@@ -7,7 +7,7 @@ http://student.kuali.org/xsd/dictionary-extension dictionary-extension.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Fri Feb 05 09:55:42 EST 2010
+on: Wed Feb 17 09:41:30 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -74,7 +74,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:minLength>1</dict:minLength>
 		<dict:maxLength>255</dict:maxLength>
 		<dict:validChars>
-		<dict:value>regex:[\p{Print} ]*</dict:value>
+		<dict:value>regex:[A-Za-z0-9.-;:&quot;&apos;&amp;%$#@!\t]*</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
@@ -122,7 +122,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<!-- old reg ex was [A-Za-z0-9.-;;'&%$#@!\n\r\t]* -->
 		<dict:minLength>1</dict:minLength>
 		<dict:validChars>
-		<dict:value>regex:[\p{Print}\p{Blank}\n\r]*</dict:value>
+		<dict:value>regex:[A-Za-z0-9.-;:&quot;&apos;&amp;%$#@!\n\r\t]*</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
@@ -131,7 +131,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<!-- Not sure if characterset for rich text is the same for regular text but just interpretted differently.  I.e. html is plain text interpreted differently. -->
 		<dict:minLength>1</dict:minLength>
 		<dict:validChars>
-		<dict:value>regex:[\p{Print}\p{Blank}\n\r]*</dict:value>
+		<dict:value>regex:[A-Za-z0-9.-;:&quot;&apos;&amp;%$#@!\n\r\t]*</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
@@ -155,7 +155,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:minLength>1</dict:minLength>
 		<dict:maxLength>10</dict:maxLength>
 		<dict:validChars>
-		<dict:value>regex:^(\+|-)?\d+$</dict:value>
+		<dict:value>regex:^(\+|-)?[0-9]+$</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
@@ -166,7 +166,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:minLength>1</dict:minLength>
 		<dict:maxLength>10</dict:maxLength>
 		<dict:validChars>
-		<dict:value>regex:^\d+$</dict:value>
+		<dict:value>regex:^[0-9]+$</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
@@ -176,7 +176,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:minLength>1</dict:minLength>
 		<dict:maxLength>10</dict:maxLength>
 		<dict:validChars>
-		<dict:value>regex:^[-+]?\d+(\.\d+)?$</dict:value>
+		<dict:value>regex:^[-+]?[0-9]+(\.[0-9]+)?$</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
@@ -186,7 +186,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:minLength>1</dict:minLength>
 		<dict:maxLength>10</dict:maxLength>
 		<dict:validChars>
-		<dict:value>regex:^[-+]?\d+(\.\d+)?$</dict:value>
+		<dict:value>regex:^[-+]?[0-9]+(\.[0-9]+)?$</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
@@ -196,7 +196,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:minLength>1</dict:minLength>
 		<dict:maxLength>10</dict:maxLength>
 		<dict:validChars>
-		<dict:value>regex:^\$?\d+(\.(\d{2}))?$</dict:value>
+		<dict:value>regex:^\$?[0-9]+(\.([0-9]{2}))?$</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
@@ -206,7 +206,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:minLength>1</dict:minLength>
 		<dict:maxLength>2083</dict:maxLength>
 		<dict:validChars>
-		<dict:value>regex:(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;amp;:/~\+#]*[\w\-\@?^=%&amp;amp;/~\+#])?</dict:value>
+		<dict:value>regex:(http|ftp|https):\/\/[A-Za-z0-9.-]*</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
@@ -222,8 +222,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 	<dict:constraint key="kuali.id" id="constraint.kuali.id" className="org.kuali.student.core.validation.KualiIdValidator" serverSide="true">
 		<!-- Kuali ID; calculated by service on add, then read-only. -->
-		<!-- MinOccur on ID's of 1 may not work because it is missing on the create -->
-		<dict:minOccurs>1</dict:minOccurs>
 		<dict:maxOccurs>1</dict:maxOccurs>
 		<dict:minLength>1</dict:minLength>
 		<dict:maxLength>36</dict:maxLength>
@@ -264,8 +262,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 	<dict:constraint key="kuali.meta.data" id="constraint.kuali.meta.data" className="org.kuali.student.core.validation.KualiMetaDataValidator" serverSide="true">
 		<!-- Kuali Meta Data: calculated by service, read-only -->
-		<!-- MinOccur on Meta data structures may not 1 not work because it is not supplied  on the create -->
-		<dict:minOccurs>1</dict:minOccurs>
 		<dict:maxOccurs>1</dict:maxOccurs>
 		</dict:constraint>
 
@@ -851,7 +847,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraint key="hard.coded.singleUse.lo.sequence" id="constraint.hard.coded.singleUse.lo.sequence" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- must be "kuali.lo.type.SingleUse.dynamic.sequence" -->
 		<dict:validChars>
-		<dict:value>regex:kuali\.lo\.type\.singleUse\dynamic\sequence</dict:value>
+		<dict:value>regex:kuali\.lo\.type\.singleUse\.dynamic\.sequence</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
@@ -1070,32 +1066,32 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		</dict:lookup>
 		</dict:constraint>
 
-	<dict:constraint key="lu.statement.operators" id="constraint.lu.statement.operators" serverSide="false">
-		<!-- In list of configured lu statement operators (AND and OR) -->
+	<dict:constraint key="statement.operators" id="constraint.statement.operators" serverSide="false">
+		<!-- In list of configured statement operators (AND and OR) -->
 		<!-- Hard coded to be AND or OR -->
 		<dict:lookup search="kuali.enum.type.lu.statement.operators">
 		<dict:lookupKey field="(none)" mapsTo="(none)"/>
 		</dict:lookup>
 		</dict:constraint>
 
-	<dict:constraint key="lu.statement.types" id="constraint.lu.statement.types" serverSide="false">
-		<!-- In list of valid lu statement types -->
+	<dict:constraint key="statement.types" id="constraint.statement.types" serverSide="false">
+		<!-- In list of valid statement types -->
 		<!-- See LuStatementInfo types defined on the Types tab -->
 		<dict:lookup search="kuali.enum.type.lu.statement.types">
 		<dict:lookupKey field="(none)" mapsTo="(none)"/>
 		</dict:lookup>
 		</dict:constraint>
 
-	<dict:constraint key="lu.statement.states" id="constraint.lu.statement.states" serverSide="false">
-		<!-- In list of valid lu statement states -->
+	<dict:constraint key="statement.states" id="constraint.statement.states" serverSide="false">
+		<!-- In list of valid statement states -->
 		<!-- See LuStatementInfo states defined on the States tab -->
 		<dict:lookup search="kuali.enum.type.lu.statement.states">
 		<dict:lookupKey field="(none)" mapsTo="(none)"/>
 		</dict:lookup>
 		</dict:constraint>
 
-	<dict:constraint key="related.luStatementd" id="constraint.related.luStatementd" className="org.kuali.student.lum.lu.validation.LuStatementIdExistsValidator" serverSide="true">
-		<!-- Id of an existing LU Statement -->
+	<dict:constraint key="related.Statementd" id="constraint.related.Statementd" className="org.kuali.student.lum.lu.validation.LuStatementIdExistsValidator" serverSide="true">
+		<!-- Id of an existing Statement -->
 		<!-- Requires special logic to check that the ID supplied actually exists -->
 		<dict:minLength>1</dict:minLength>
 		<dict:maxLength>36</dict:maxLength>
