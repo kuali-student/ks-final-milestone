@@ -16,43 +16,27 @@
  -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
   <parent>
-    <groupId>org.kuali.common</groupId>
-    <artifactId>common-parent</artifactId>
+    <groupId>org.kuali.maven</groupId>
+    <artifactId>maven-parent</artifactId>
     <version>1</version>
-    <relativePath>../pom/common/pom.xml</relativePath>
+    <relativePath>../pom/maven/pom.xml</relativePath>
   </parent>
-
   <groupId>org.kuali.kuali.resources</groupId>
   <artifactId>kuali-resource-bundles</artifactId>
   <version>1-SNAPSHOT</version>
   <packaging>pom</packaging>
-
   <name>Kuali Resource Bundles</name>
   <inceptionYear>2007</inceptionYear>
-
   <modules>
     <module>kuali-jar-resource-bundle</module>
   </modules>
-
   <scm>
-    <connection>scm:svn:http://test.kuali.org/svn/student/deploymentlab/pom/trunk/maven/resources/trunk</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/maven/resources/trunk</developerConnection>
-    <url>http://svn.apache.org/viewcvs.cgi/maven/resources/trunk</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/resources/trunk</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/resources/trunk</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/maven/resources/trunk</url>
   </scm>
-
   <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <artifactId>maven-release-plugin</artifactId>
-          <configuration>
-            <tagBase>https://svn.apache.org/repos/asf/maven/resources/tags</tagBase>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
     <plugins>
       <plugin>      
         <artifactId>maven-remote-resources-plugin</artifactId>        
