@@ -19,6 +19,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.DisplayMultiplicityComposite;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite.StyleType;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
@@ -44,6 +45,9 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoCons
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.LearningObjectiveConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRequisitesSectionView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
+import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer.CluActivityType;
+import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer.CourseActivityList;
+import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer.DurationAtpTypeList;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LuConfigurer.LuSections;
 
 import com.google.gwt.user.client.ui.Widget;
@@ -229,13 +233,14 @@ LearningObjectiveConstants
     private class CourseFormatList extends DisplayMultiplicityComposite {
         private final String parentPath;
         public CourseFormatList(String parentPath){
+//            super(StyleType.TOP_LEVEL);
             this.parentPath = parentPath;
         }
 
         public Widget createItem() {
-            String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
             VerticalSection item = new VerticalSection();
-            addField(item, ACTIVITIES, null, new CourseActivityList(QueryPath.concat(parentPath, String.valueOf(itemCount-1), ACTIVITIES).toString()), path);
+            addField(item, ACTIVITIES, null, new CourseActivityList(QueryPath.concat(parentPath, String.valueOf(itemCount-1), ACTIVITIES).toString()),
+                    parentPath + "/" + String.valueOf(itemCount -1));
             return item;
         }
     }
@@ -245,40 +250,25 @@ LearningObjectiveConstants
 
         private final String parentPath;
         public CourseActivityList(String parentPath){
+//            super(StyleType.SUB_LEVEL);
             this.parentPath = parentPath;
         }
 
         public Widget createItem() {
             String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
             GroupSection activity = new GroupSection();
-            addField(activity, ACTIVITY_TYPE, getLabel(LUConstants.ACTIVITY_TYPE_LABEL_KEY), new CluActivityTypeList(), parentPath);
-            activity.nextLine();
-
-            /* CreditInfo is deprecated, needs to be replaced with learning results
-            activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            activity.addField(new FieldDescriptor("creditInfo", "Credit Value", Type.STRING));
-            activity.nextRow();
-            activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            activity.addField(new FieldDescriptor("evalType", "Learning Result", Type.STRING));
-            activity.nextRow();
-             */
-
-            //activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            // FIXME need to get the term offered added to the activity metadata?
-//          activity.addField(new FieldDescriptor("term", getLabel(LUConstants.TERM_LITERAL_LABEL_KEY), Type.STRING, new AtpTypeList())); 
-            addField(activity, CreditCourseActivityConstants.DURATION + "/" + CreditCourseActivityDurationConstants.QUANTITY, getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY), path);
-            addField(activity, CreditCourseActivityConstants.DURATION + "/" + CreditCourseActivityDurationConstants.TIME_UNIT, "Duration Type", new DurationAtpTypeList(), path);
-
-            activity.nextLine();
-            //activity.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
-            addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.HRS, "Contact Hours" , path);
-            // FIXME look up what the label and implement as dropdown
-            addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.PER, null,  new ContactHoursAtpTypeList(), path);
-            addField(activity, DEFAULT_ENROLLMENT_ESTIMATE, getLabel(LUConstants.CLASS_SIZE_LABEL_KEY), path);
+            addField(activity, ACTIVITY_TYPE, null, new KSLabel(), path);
+//            activity.nextLine();
+//
+//            addField(activity, CreditCourseActivityConstants.DURATION + "/" + CreditCourseActivityDurationConstants.QUANTITY, getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY), new KSLabel(), path);
+//            addField(activity, CreditCourseActivityConstants.DURATION + "/" + CreditCourseActivityDurationConstants.TIME_UNIT, "Duration Type", new KSLabel(), path);
+//
+//            activity.nextLine();
+//            addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.HRS, "Contact Hours" , new KSLabel(), path);
+//            addField(activity, DEFAULT_ENROLLMENT_ESTIMATE, getLabel(LUConstants.CLASS_SIZE_LABEL_KEY), new KSLabel(), path);
 
             return activity;
         }
-
     }
 
     private class CrossListedList extends DisplayMultiplicityComposite {

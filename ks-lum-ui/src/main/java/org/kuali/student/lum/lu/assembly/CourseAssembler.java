@@ -682,7 +682,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 
     private void buildJointsFromCluInfo(CluInfo clu,CreditCourseJointsHelper joint) throws AssemblyException{
         try{
-//          List<CluInfo> clus = luService.getClusByRelation(parentCourseId, JOINT_RELATION_TYPE);
+          List<CluInfo> clus = luService.getClusByRelation(clu.getId(), JOINT_RELATION_TYPE);
             joint.setCourseId(clu.getId());
             joint.setType(JOINT_RELATION_TYPE);
             joint.setSubjectArea(clu.getStudySubjectArea());
