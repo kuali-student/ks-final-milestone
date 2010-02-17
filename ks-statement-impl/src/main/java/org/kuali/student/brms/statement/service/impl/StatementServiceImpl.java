@@ -548,8 +548,7 @@ public class StatementServiceImpl implements StatementService {
 //      validator.setDateParser(new ServerDateParser());
 ////    validator.addMessages(null); //TODO this needs to be loaded somehow
 //      return validator;
-		// TODO Auto-generated method stub
-        return null;
+		throw new UnsupportedOperationException("Method not yet implemented!");
     }
 
     @Override

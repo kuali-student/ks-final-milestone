@@ -21,8 +21,6 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.brms.statement.entity.ReqComponent;
 import org.kuali.student.brms.statement.entity.Statement;
 import org.kuali.student.brms.statement.naturallanguage.NaturalLanguageTranslator;
-//import org.kuali.student.core.statement.naturallanguage.util.CustomLuStatementInfo;
-//import org.kuali.student.core.statement.naturallanguage.util.CustomReqComponentInfo;
 
 /**
  * This class translates requirement components and LU (learning unit) 
@@ -122,19 +120,4 @@ public class NaturalLanguageTranslatorImpl implements NaturalLanguageTranslator 
 	public String translateStatement(final Statement statement, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
 		return this.statementTranslator.translate(statement, nlUsageTypeKey);
 	}
-
-	/**
-	 * Translates a statement directly attached to a CLU for a specific natural 
-	 * language usuage type (context) into natural language tree structure.
-	 * 
-	 * @param cluId Clu anchor
-	 * @param statement Statement to be translated
-	 * @param nlUsageTypeKey Natural language usage type key (context)
-	 * @return Natural language root tree node
-	 * @throws DoesNotExistException CLU or statement does not exist
-	 * @throws OperationFailedException Translation fails
-	 */
-//	public NLTranslationNodeInfo translateToTree(final String cluId, final CustomLuStatementInfo statement, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
-//		return this.statementTranslator.translateToTree(cluId, statement, nlUsageTypeKey);
-//	}
 }
