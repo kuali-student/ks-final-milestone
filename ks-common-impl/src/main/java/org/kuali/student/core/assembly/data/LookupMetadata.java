@@ -35,6 +35,8 @@ public class LookupMetadata implements Serializable {
     
     private LookupQosMetadata qosMetadata;
     
+    private String searchIdParamKey;
+    
     private String resultReturnKey;
     
     private String resultDisplayKey;
@@ -175,5 +177,13 @@ public class LookupMetadata implements Serializable {
         sb.append(desc);
         return sb.toString();
     }
+
+	public String getSearchIdParamKey() {
+		return searchIdParamKey;
+	}
+
+	public void setSearchIdParamKey(String searchIdParamKey) {
+		this.searchIdParamKey = searchIdParamKey;
+	}
 
 }

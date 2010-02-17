@@ -79,8 +79,8 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
         	//FIXME deal with missing default key
         	GWT.log("Cannot find searchTextKey for " + searchTypeKey, null);
         }
-        
-        //this.searchIdKey = searchIdKey;  FIXME
+
+        this.searchIdKey = lookupMetadata.getSearchIdParamKey();
         this.resultIdKey = lookupMetadata.getResultReturnKey();
         this.resultDisplayKey = lookupMetadata.getResultDisplayKey();
     }
