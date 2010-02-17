@@ -128,14 +128,6 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
     }
 
     private CourseAssembler getCourseAssembler() {
-       /* if (courseAssembler == null) {
-            courseAssembler = new CourseAssembler();
-            courseAssembler.setLuService(luService);
-            courseAssembler.setLoService(loService);
-            courseAssembler.setTranslationService(translationService);
-            courseAssembler.setPermissionService(permissionService);
-            courseAssembler.setOrgService(orgService);
-        }*/
         return courseAssembler;
     }
 
@@ -216,28 +208,25 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
     }
 
     @Override
-    public SaveResult<Data> save(Data data)
-            throws AssemblyException {
+    public SaveResult<Data> save(Data data) throws AssemblyException {
         try {
             SaveResult<Data> result = new SaveResult<Data>();
             List<ValidationResultInfo> validationResults = validate(data);
-            result.setValidationResults(validationResults);
             if (hasValidationErrors(validationResults)) {
-                result.setValue(data);
+                result.setValidationResults(validationResults);
+            	result.setValue(data);
                 return result;
             }
 
             CreditCourseProposalHelper root = CreditCourseProposalHelper.wrap(data);
-             if (root.getCourse() == null) {
-                    throw new AssemblyException("Cannot save proposal without course");
-                }
-            // first save all of the clus and relations
-            SaveResult<Data> courseResult = saveCourse(data);
-            if (result.getValidationResults() == null) {
-                result.setValidationResults(courseResult.getValidationResults());
-            } else if (courseResult.getValidationResults() != null){
-                result.getValidationResults().addAll(courseResult.getValidationResults());
+            if (root.getCourse() == null) {
+            	throw new AssemblyException("Cannot save proposal without course");
             }
+            
+	        // first save all of the clus and relations
+            SaveResult<Data> courseResult = saveCourse(data);
+            result.addValidationResults(courseResult.getValidationResults());
+
             String courseId = null;
             if (courseResult.getValue() != null) {
                 CreditCourseHelper helper = CreditCourseHelper.wrap(courseResult.getValue());
@@ -260,9 +249,7 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
             }
 
             String proposalId = saveProposal(root);
-                    
-            result.setValidationResults(validationResults);
-            
+                                
             result.setValue((proposalId == null) ? null : get(proposalId));
             
             return result;
@@ -317,9 +304,7 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
         return result;
     }
 
-    private SaveResult<Data> saveCourse(Data data) throws AssemblyException {
-
-        
+    private SaveResult<Data> saveCourse(Data data) throws AssemblyException {        
         SaveResult<Data> result = getCourseAssembler().save(data);
                     
         return result;

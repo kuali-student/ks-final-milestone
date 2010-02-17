@@ -41,7 +41,6 @@ import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.service.impl.SearchDispatcherImpl;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.CluInstructorInfoHelper;
@@ -134,10 +133,12 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 
         try {
             SaveResult<Data> result = new SaveResult<Data>();
+            
+            //Run orchestration layer validation, if errors just return and don't bother trying to persist 
             List<ValidationResultInfo> validationResults = validate(input);
-            result.setValidationResults(validationResults);
-            if (validationFailed(validationResults)) {
-                result.setValue(input);
+            if (hasValidationErrors(validationResults)) {
+                result.setValidationResults(validationResults);
+            	result.setValue(input);
                 return result;
             }
 
@@ -149,47 +150,39 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
                 LuData luData = (LuData)input;
                 CreditCourseProposalHelper helper = CreditCourseProposalHelper.wrap(luData.getData());
                 course = CreditCourseHelper.wrap(helper.getCourse().getData());               
-            }
-            else {
+            } else {
                 course = CreditCourseHelper.wrap(input);
             }
+            
             // first save all of the clus and relations
             SaveResult<CluInfoHierarchy> courseResult = saveHierarchy(course);
-            if (result.getValidationResults() == null) {
-                result.setValidationResults(courseResult.getValidationResults());
-            } else if (courseResult.getValidationResults() != null){
-                result.getValidationResults().addAll(courseResult.getValidationResults());
-            }
+            result.addValidationResults(courseResult.getValidationResults());
+            
+            //If there were no validation errors, we should get back a course id
             String courseId = null;
-            if (courseResult.getValue() != null && courseResult.getValue().getCluInfo() != null) {
-                courseId = courseResult.getValue().getCluInfo().getId();
+            if (!hasValidationErrors(result.getValidationResults())){
+	            if (courseResult.getValue() != null && courseResult.getValue().getCluInfo() != null) {
+	                courseId = courseResult.getValue().getCluInfo().getId();
+	            }
+	            if (courseId == null) {
+	                throw new AssemblyException("Course ID was null after save");
+	            }
             }
-            if (courseId == null) {
-                throw new AssemblyException("Course ID was null after save");
-            }
-
+	            
             saveRules(courseId, (LuData)input);
 
             // save the Learning Objective(s)
             // TODO - Need a SingleUseLoListAssembler w/ standard save() method that in turn calls
             // a new single-LO save() method in SingleUseLoAssembler
             SaveResult<Data> loResult = getSingleUseLoAssembler().save(courseId, course.getCourseSpecificLOs());
-            if (loResult.getValidationResults() != null){
-                validationResults.addAll(loResult.getValidationResults());
-            }
-
-            result.setValidationResults(validationResults);
-
+            result.addValidationResults(loResult.getValidationResults());
+            
             if (courseId != null) {
                 Data d = get(courseId);     
                 result.setValue(d);
-
-            }
-            else {
+            } else {
                 result.setValue(null);
             }
-
-//          result.setValue((courseId == null) ? null : get(courseId));
 
             return result;
         } catch (Exception e) {
@@ -205,12 +198,6 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
     @Override
     public CluInfoHierarchy disassemble(Data input) throws AssemblyException {
         throw new UnsupportedOperationException("Data disassembly not supported");
-    }
-
-    @Override
-    public List<ValidationResultInfo> validate(Data data)  throws AssemblyException {
-        // TODO validate CreditCourseProposal
-        return null;
     }
 
     @Override
@@ -432,7 +419,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
     private CluInfoHierarchy buildCluInfoHierarchyFromData(CreditCourseHelper course) throws AssemblyException {
         //metadata for authz
         Metadata courseMetadata = getMetadata(course.getId(), course.getType(), course.getState()).getProperties().get("course");//TODO cache the metadata
-        //Metadata courseMetadata = getMetadata(CREDIT_COURSE_PROPOSAL_DATA_TYPE, course.getType(), course.getState()).getProperties().get("course");
+
         CluInfoHierarchy result = null;
         CluInfo courseClu = null;
         // FIXME wilj: temp check for id, client needs to enforce modification flags once we get the basics working
@@ -1053,20 +1040,6 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
         ruleInfoBean.setLuService(luService);
         ruleInfoBean.setTranslationService(translationService);
         return ruleInfoBean.fetchRules(courseId);
-    }
-
-    private boolean validationFailed(
-            List<ValidationResultInfo> validationResults) {
-        boolean result = false;
-        if (validationResults != null) {
-            for (ValidationResultInfo info : validationResults) {
-                if (info.getLevel() == ErrorLevel.ERROR) {
-                    result = true;
-                    break;
-                }
-            }
-        }
-        return result;
     }
 
     private RichTextInfo getRichText(RichTextInfoHelper hlp) throws AssemblyException {
