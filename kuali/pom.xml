@@ -48,9 +48,15 @@
   <url>http://www.kuali.org/</url>
   <repositories>
     <repository>
-      <id>kuali.snapshots</id>
-      <name>Kuali Snapshot Repository</name>
-      <url>http://repository.kuali.org/snapshots</url>
+      <id>kuali.release</id>
+      <url>https://test.kuali.org/maven</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>kuali.snapshot</id>
+      <url>http://archiva.kuali.umd.edu/repository/snapshot</url>
       <releases>
         <enabled>false</enabled>
       </releases>
