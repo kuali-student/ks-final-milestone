@@ -233,7 +233,7 @@
             </goals>
             <configuration>
               <resourceBundles>
-                <resourceBundle>org.kuali:kuali-jar-resource-bundle:1.4</resourceBundle>
+                <resourceBundle>org.kuali.kuali.resources:kuali-jar-resource-bundle:1.0-SNAPSHOT</resourceBundle>
               </resourceBundles>
             </configuration>
           </execution>
