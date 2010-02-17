@@ -66,7 +66,6 @@ import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.ui.course.server.gwt.LuRuleInfoPersistanceBean;
-import org.kuali.student.lum.nlt.service.TranslationService;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 
 public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
@@ -93,7 +92,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 
     private LuService luService;
     private LearningObjectiveService loService;
-    private TranslationService translationService;
+//    private TranslationService translationService;
     private OrganizationService orgService;
 
     private SearchDispatcherImpl searchDispatcher;
@@ -412,7 +411,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
     private void saveRules(String courseId, LuData luData) throws Exception{
         LuRuleInfoPersistanceBean ruleInfoBean = new LuRuleInfoPersistanceBean();
         ruleInfoBean.setLuService(luService);
-        ruleInfoBean.setTranslationService(translationService);
+//        ruleInfoBean.setTranslationService(translationService);
         ruleInfoBean.updateRules(courseId, luData.getRuleInfos());
     }
 
@@ -1038,7 +1037,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
     private List<RuleInfo> getRules(String courseId) throws Exception{
         LuRuleInfoPersistanceBean ruleInfoBean = new LuRuleInfoPersistanceBean();
         ruleInfoBean.setLuService(luService);
-        ruleInfoBean.setTranslationService(translationService);
+//        ruleInfoBean.setTranslationService(translationService);
         return ruleInfoBean.fetchRules(courseId);
     }
 
@@ -1074,9 +1073,9 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
         this.loService = loService;
     }
 
-    public void setTranslationService(TranslationService translationService) {
-        this.translationService = translationService;
-    }
+//    public void setTranslationService(TranslationService translationService) {
+//        this.translationService = translationService;
+//    }
 
     public void setSearchDispatcher(SearchDispatcherImpl searchDispatcher) {
         this.searchDispatcher = searchDispatcher;

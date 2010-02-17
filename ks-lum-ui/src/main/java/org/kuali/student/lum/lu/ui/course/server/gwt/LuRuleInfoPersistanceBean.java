@@ -7,7 +7,6 @@ import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.brms.statement.dto.StatementInfo;
 import org.kuali.student.brms.statement.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.nlt.service.TranslationService;
 import org.kuali.student.lum.ui.requirements.client.model.EditHistory;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
@@ -17,7 +16,6 @@ public class LuRuleInfoPersistanceBean {
 	final Logger logger = Logger.getLogger(LuRuleInfoPersistanceBean.class);
 	
 	private LuService luService;
-    private TranslationService translationService;	
 
 	public LuService getLuService() {
 		return luService;
@@ -26,14 +24,6 @@ public class LuRuleInfoPersistanceBean {
 	public void setLuService(LuService luService) {
 		this.luService = luService;
 	}
-	
-	public TranslationService getTranslationService() {
-		return translationService;
-	}
-
-	public void setTranslationService(TranslationService translationService) {
-		this.translationService = translationService;
-	}	
 	
 	//eventually this all needs to be one transaction
     public String saveRules(String cluId, List<RuleInfo> rules) throws Exception {

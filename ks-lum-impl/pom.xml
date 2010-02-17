@@ -35,11 +35,6 @@
 	<dependencies>
 
         <dependency>
-          <groupId>org.kuali.student.brms</groupId>
-          <artifactId>ks-brms-execution-impl</artifactId>
-          <version>${ks-brms.version}</version>
-        </dependency>
-        <dependency>
           <groupId>org.kuali.student.brms.statement</groupId>
           <artifactId>ks-statement-api</artifactId>
           <version>${ks-brms.version}</version>

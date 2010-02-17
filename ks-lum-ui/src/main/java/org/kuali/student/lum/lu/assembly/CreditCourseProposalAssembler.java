@@ -38,7 +38,6 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCours
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalInfoHelper;
 import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.nlt.service.TranslationService;
 
 /*
  *  ASSEMBLERREVIEW
@@ -84,7 +83,7 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
     private ProposalService proposalService;
     private LuService luService;
     private LearningObjectiveService loService;
-    private TranslationService translationService;
+//    private TranslationService translationService;
     private OrganizationService orgService;
     
     private SearchDispatcherImpl searchDispatcher;
@@ -367,9 +366,9 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
         this.loService = loService;
     }   
     
-    public void setTranslationService(TranslationService translationService) {
-        this.translationService = translationService;
-    }
+//    public void setTranslationService(TranslationService translationService) {
+//        this.translationService = translationService;
+//    }
 
     public void setSearchDispatcher(SearchDispatcherImpl searchDispatcher) {
         this.searchDispatcher = searchDispatcher;

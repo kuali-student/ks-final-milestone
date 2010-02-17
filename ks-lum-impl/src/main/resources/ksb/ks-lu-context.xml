@@ -221,28 +221,6 @@
         </property>
     </bean>
 
-    <!-- Translation Service config -->
-<!-- 
-    <bean id="translationServiceImpl"
-    	class="org.kuali.student.lum.nlt.service.impl.TranslationServiceImpl">
-    	<property name="luService" ref="luServiceImpl" />
-    	<property name="naturalLanguageTranslator"
-    		ref="naturalLanguageTranslator" />
-    </bean>
-
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-        <property name="serviceDefinition">     
-            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
-                <property name="jaxWsService" value="true" />
-                <property name="service" ref="translationServiceImpl" />
-                <property name="serviceInterface" value="org.kuali.student.lum.nlt.service.TranslationService" />
-                <property name="localServiceName" value="TranslationService" />
-                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/nlt" />
-                <property name="busSecurity" value="${ks.lum.bus.security}" />
-            </bean>
-        </property>
-    </bean>
- -->
 	<!-- Learning Objective service config -->
 	<bean id="loEntityManagerFactory" parent="lumDefaultEntityManagerFactory">
 		<property name="persistenceUnitName" value="Lo"/>
