@@ -1178,6 +1178,7 @@
 						</bean>
 					</list>
 				</property>
+				<property name="searchIdParamKey" value="org.queryParam.orgOptionalId"/>
 				<property name="results">
 					<list>
 						<bean parent="result">
@@ -2796,6 +2797,7 @@
 						</bean>
 					</list>
 				</property>
+				<property name="searchIdParamKey" value="org.queryParam.orgOptionalId"/>
 				<property name="results">
 					<list>
 						<bean parent="result">
@@ -2912,6 +2914,7 @@
 							</bean>
 						</list>
 					</property>
+					<property name="searchIdParamKey" value="org.queryParam.orgOptionalId"/>
 					<property name="results">
 						<list>
 							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
@@ -3304,6 +3307,7 @@
 						</bean>
 					</list>
 				</property>
+				<property name="searchIdParamKey" value="org.queryParam.orgOptionalId"/>
 				<property name="results">
 					<list>
 						<bean parent="result">
