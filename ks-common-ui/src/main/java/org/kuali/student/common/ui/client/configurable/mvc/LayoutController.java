@@ -81,6 +81,12 @@ public abstract class LayoutController extends Controller implements Configurabl
     	
     }
     
+    /**
+     * ModelDTO no longer supported in UI and will be removed at some point.
+     * Any code referencing it should not be used.
+     * @param section
+     */
+    @Deprecated
     public void setModelDTO(ModelDTO dto, Map<String, String> classToObjectKeyMap){
         modelDTO = dto;
         this.classToObjectKeyMap = classToObjectKeyMap;
@@ -107,6 +113,13 @@ public abstract class LayoutController extends Controller implements Configurabl
     public ModelDTO getModel(){
         return modelDTO;
     }
+    
+    /**
+     * ModelDTO no longer supported in UI and will be removed at some point.
+     * Any code referencing it should not be used.
+     * @param section
+     */
+    @Deprecated
     public void validate(Section section){
         ModelDTOConstraintSetupFactory bc = new ModelDTOConstraintSetupFactory();
         List<String> skip = new ArrayList<String>();
@@ -138,7 +151,6 @@ public abstract class LayoutController extends Controller implements Configurabl
             
             //ConstraintSetupFactory sectionbc = new SectionContraintSetupFactory(section,bc.getDataProvider(currentModel));
             //Validator val = new Validator(sectionbc, true);
-            Validator val = new Validator();
 
 //            List<ValidationResultContainer> results = val.validateTypeStateObject(currentModel, objStructure);
 //           e.addValidationResult(results);// filled by calling the real validate code
