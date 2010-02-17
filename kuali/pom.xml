@@ -80,9 +80,9 @@
     <sourceReleaseAssemblyDescriptor>source-release</sourceReleaseAssemblyDescriptor>
   </properties>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/pom/trunk/kuali</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/pom/trunk/kuali</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/pom/trunk/kuali</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/pom/trunk/kuali</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/pom/trunk/kuali</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/maven/pom/trunk/kuali</url>
   </scm>
   <build>
      <pluginManagement>
