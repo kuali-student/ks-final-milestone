@@ -78,9 +78,15 @@
 	
 	<!-- additional config files -->
 	<param name="rice.additionalSpringFiles">${ks.projects},classpath:StudentStandaloneSpringBeans.xml</param>
+    
+<!-- enable these when using RiceConfigContextLoaderListener -->
+<!--    <param name="ks.authentication.context">classpath:ks-spring-security.xml</param> -->
+<!--    <param name="rice.additionalSpringFiles">${ks.projects},${ks.authentication.context},classpath:StudentStandaloneSpringBeans.xml,${ks.institutional.context}</param>-->
 	
 	<!-- default config files -->
     <param name="config.location">${user.home}/kuali/main/${environment}/ks-embedded-config.xml</param>
+    
+    <!-- additional config files -->
     <param name="config.location">${additional.config.locations}</param>
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
 	
