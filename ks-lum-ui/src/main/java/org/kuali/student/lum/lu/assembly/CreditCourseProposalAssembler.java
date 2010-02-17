@@ -31,7 +31,6 @@ import org.kuali.student.core.search.newdto.SearchRequest;
 import org.kuali.student.core.search.newdto.SearchResult;
 import org.kuali.student.core.search.service.impl.SearchDispatcherImpl;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoHelper;
@@ -223,7 +222,7 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
             SaveResult<Data> result = new SaveResult<Data>();
             List<ValidationResultInfo> validationResults = validate(data);
             result.setValidationResults(validationResults);
-            if (validationFailed(validationResults)) {
+            if (hasValidationErrors(validationResults)) {
                 result.setValue(data);
                 return result;
             }
@@ -271,22 +270,7 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
             throw new AssemblyException("Unable to save proposal", e);
         }
     }
-
     
-    private boolean validationFailed(
-            List<ValidationResultInfo> validationResults) {
-        boolean result = false;
-        if (validationResults != null) {
-            for (ValidationResultInfo info : validationResults) {
-                if (info.getLevel() == ErrorLevel.ERROR) {
-                    result = true;
-                    break;
-                }
-            }
-        }
-        return result;
-    }
-
     private String saveProposal(CreditCourseProposalHelper inputProposal) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, DependentObjectsExistException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException, VersionMismatchException {
         String result = null;
         if (isDeleted(inputProposal.getProposal().getData())) {

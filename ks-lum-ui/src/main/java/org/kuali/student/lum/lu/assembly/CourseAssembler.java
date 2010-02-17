@@ -387,7 +387,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
             List<ValidationResultInfo> val = validate(null);
             result.setValidationResults(val);
 
-            if (isValid(val)) {
+            if (!hasValidationErrors(val)) {
                 saveClus(clus, null);
                 saveRelations(null, clus);
                 result.setValue(removeOrphans(clus));
@@ -665,19 +665,6 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
         for (CluInfoHierarchy h : input.getChildren()) {
             saveRelations(input.getCluInfo().getId(), h);
         }
-    }
-
-    private boolean isValid(List<ValidationResultInfo> val) {
-        boolean result = true;
-        if (val != null) {
-            for (ValidationResultInfo v : val) {
-                if (v.getLevel() == ErrorLevel.ERROR) {
-                    result = false;
-                    break;
-                }
-            }
-        }
-        return result;
     }
 
     private void buildJointsFromCluInfo(CluInfo clu,CreditCourseJointsHelper joint) throws AssemblyException{
