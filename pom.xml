@@ -19,7 +19,7 @@
   <parent>
     <groupId>org.kuali</groupId>
     <artifactId>kuali-parent</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <relativePath>../pom/kuali/pom.xml</relativePath>
   </parent>
   <groupId>org.kuali.kuali.resources</groupId>
