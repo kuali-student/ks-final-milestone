@@ -33,6 +33,10 @@
     requirements of any higher education institution.  The student-centric design will help students, faculty, 
     and institutions deal with the dynamic learning environment.
   </description>
+  <organization>
+    <name>Kuali Student</name>
+    <url>http://student.kuali.org/</url>
+  </organization>
   <url>http://student.kuali.org/</url>
   <inceptionYear>2006</inceptionYear>
   <scm>
