@@ -27,7 +27,7 @@
   <packaging>pom</packaging>
   <name>Kuali Student</name>
   <description>
-    Kuali Student is a next-generation student system currently under development.
+    Kuali Student is a next-generation student system.
     Kuali Student offers a flexible, scalable, cost-effective system that can be configured to meet the business 
     requirements of any higher education institution.  The student-centric design will help students, faculty, 
     and institutions deal with the dynamic learning environment.
