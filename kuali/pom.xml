@@ -229,6 +229,7 @@
     </pluginManagement>
     <plugins>
       <!-- We want to package up license resources in the JARs produced -->
+      <!-- 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-remote-resources-plugin</artifactId>
@@ -245,6 +246,7 @@
           </execution>
         </executions>
       </plugin>
+      -->
     </plugins>
   </build>
   <reporting>
