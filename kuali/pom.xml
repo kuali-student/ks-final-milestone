@@ -24,7 +24,7 @@
 -->
   <groupId>org.kuali</groupId>
   <artifactId>kuali-parent</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
   <packaging>pom</packaging>
   <name>The Kuali Foundation</name>
   <description>
@@ -80,9 +80,9 @@
     <sourceReleaseAssemblyDescriptor>source-release</sourceReleaseAssemblyDescriptor>
   </properties>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/pom/trunk/kuali</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/pom/trunk/kuali</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/pom/trunk/kuali</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/pom/tags/kuali-parent-1.0</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/pom/tags/kuali-parent-1.0</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/pom/tags/kuali-parent-1.0</url>
   </scm>
   <build>
      <pluginManagement>
