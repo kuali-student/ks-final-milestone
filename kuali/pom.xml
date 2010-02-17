@@ -262,7 +262,7 @@
   </reporting>
   <profiles>
     <profile>
-      <id>apache-release</id>
+      <id>kuali-release</id>
       <build>
         <plugins>
           <!-- Create a source-release artifact that contains the fully buildable 
