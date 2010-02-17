@@ -8,9 +8,9 @@ import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.service.SearchRpcService;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
-import org.kuali.student.core.search.newdto.SearchRequest;
-import org.kuali.student.core.search.newdto.SearchResult;
 import org.kuali.student.core.search.service.SearchService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;

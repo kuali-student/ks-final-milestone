@@ -13,16 +13,16 @@ import org.kuali.student.core.search.dto.CrossSearchTypeInfo;
 import org.kuali.student.core.search.dto.JoinComparisonInfo;
 import org.kuali.student.core.search.dto.JoinCriteriaInfo;
 import org.kuali.student.core.search.dto.JoinResultMappingInfo;
+import org.kuali.student.core.search.dto.SearchParam;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
+import org.kuali.student.core.search.dto.SearchResultCell;
+import org.kuali.student.core.search.dto.SearchResultRow;
+import org.kuali.student.core.search.dto.SortDirection;
 import org.kuali.student.core.search.dto.SubSearchInfo;
 import org.kuali.student.core.search.dto.SubSearchParamMappingInfo;
 import org.kuali.student.core.search.dto.JoinComparisonInfo.ComparisonType;
 import org.kuali.student.core.search.dto.JoinCriteriaInfo.JoinType;
-import org.kuali.student.core.search.newdto.SearchParam;
-import org.kuali.student.core.search.newdto.SearchRequest;
-import org.kuali.student.core.search.newdto.SearchResult;
-import org.kuali.student.core.search.newdto.SearchResultCell;
-import org.kuali.student.core.search.newdto.SearchResultRow;
-import org.kuali.student.core.search.newdto.SortDirection;
 
 /**
  * This still needs a few things

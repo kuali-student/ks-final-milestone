@@ -25,10 +25,11 @@ import org.kuali.student.common.ui.client.widgets.pagetable.PagingScrollTableBui
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import org.kuali.student.common.ui.client.widgets.searchtable.SearchColumnDefinition;
 import org.kuali.student.core.assembly.data.LookupResultMetadata;
-import org.kuali.student.core.search.newdto.SearchRequest;
-import org.kuali.student.core.search.newdto.SearchResult;
-import org.kuali.student.core.search.newdto.SearchResultCell;
-import org.kuali.student.core.search.newdto.SearchResultRow;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
+import org.kuali.student.core.search.dto.SearchResultCell;
+import org.kuali.student.core.search.dto.SearchResultRow;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.gen2.table.client.AbstractColumnDefinition;
 import com.google.gwt.gen2.table.client.PagingOptions;
