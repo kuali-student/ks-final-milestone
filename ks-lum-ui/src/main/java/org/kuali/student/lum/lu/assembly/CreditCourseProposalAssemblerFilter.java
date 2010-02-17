@@ -9,8 +9,8 @@ import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.assembly.util.AssemblerUtils;
-import org.kuali.student.core.search.newdto.SearchRequest;
-import org.kuali.student.core.search.newdto.SearchResult;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class CreditCourseProposalAssemblerFilter implements AssemblerFilter<Data, Void> {

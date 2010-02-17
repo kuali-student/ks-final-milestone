@@ -14,7 +14,7 @@ import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.newdto.SearchParam;
+import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
