@@ -18,10 +18,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -35,16 +37,21 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public abstract class MultiplicityComposite extends Composite {
 
-    protected VerticalFlowPanel mainPanel = new VerticalFlowPanel();
-    protected VerticalFlowPanel itemsPanel = new VerticalFlowPanel();
+    protected FlowPanel mainPanel = new FlowPanel();
+    protected FlowPanel itemsPanel = new FlowPanel();
     protected boolean loaded = false;
     protected int itemCount = 0;
+    protected int visualItemCount = 0;
     protected int minEmptyItems = 0;
     protected List<MultiplicityItem> items = new ArrayList<MultiplicityItem>();
     protected List<MultiplicityItem> removed = new ArrayList<MultiplicityItem>();
     protected Set<Integer> itemKeys;
+    public static enum StyleType{TOP_LEVEL, SUB_LEVEL};
+    protected StyleType style;
+    protected SectionTitle titleWidget = SectionTitle.generateEmptyTitle();
     
-    public MultiplicityComposite(){
+    public MultiplicityComposite(StyleType style){
+    	this.style = style;
         initWidget(mainPanel);
     }
         
@@ -52,6 +59,7 @@ public abstract class MultiplicityComposite extends Composite {
 
         public void exec(MultiplicityItem itemToRemove) {
             //items.remove(itemToRemove);
+        	visualItemCount--;
             itemToRemove.setDeleted(true);
             removed.add(itemToRemove);
             itemsPanel.remove(itemToRemove);
@@ -60,16 +68,19 @@ public abstract class MultiplicityComposite extends Composite {
         
 
 	public MultiplicityItem addItem(){
-	    itemCount++;	    
-	    MultiplicityItem item = getItemDecorator();
+		itemCount++;
+		visualItemCount++;
+	    //itemCount = itemsPanel.getWidgetCount();
+	    MultiplicityItem item = getItemDecorator(style);
 	    Widget itemWidget = createItem();
+    	
 	    if (item != null){
-		    item.setItemKey(new Integer(itemCount));
+		    item.setItemKey(new Integer(itemCount -1));
 		    item.setItemWidget(itemWidget);
 		    item.setRemoveCallback(removeCallback);
 	    } else if (itemWidget instanceof MultiplicityItem){
 	    	item = (MultiplicityItem)itemWidget;
-	    	item.setItemKey(new Integer(itemCount));
+	    	item.setItemKey(new Integer(itemCount -1));
 	    }
 	    items.add(item);
 	    item.redraw();
@@ -80,7 +91,8 @@ public abstract class MultiplicityComposite extends Composite {
        
     public void onLoad() {
         if (!loaded) {            
-            mainPanel.addStyleName("KS-Multiplicity-Composite");
+            //mainPanel.addStyleName("KS-Multiplicity-Composite");
+        	//mainPanel.add(titleWidget);
             mainPanel.add(itemsPanel);
            
             Widget addWidget = generateAddWidget();
@@ -129,7 +141,7 @@ public abstract class MultiplicityComposite extends Composite {
     /**
      * Method used to get the item decorator for each multiplicity item 
      */
-    public abstract MultiplicityItem getItemDecorator();
+    public abstract MultiplicityItem getItemDecorator(StyleType style);
 
     
     /**

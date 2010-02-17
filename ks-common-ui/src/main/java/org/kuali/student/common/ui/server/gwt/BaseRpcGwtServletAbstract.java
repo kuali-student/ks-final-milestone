@@ -29,6 +29,8 @@ import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
+import org.kuali.student.core.search.newdto.SearchRequest;
+import org.kuali.student.core.search.newdto.SearchResult;
 import org.kuali.student.core.search.service.SearchService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -239,4 +241,16 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
         return null;
     }
 
+    /**
+     * @see org.kuali.student.core.search.service.SearchService#search(org.kuali.student.core.search.newdto.SearchRequest)
+     */
+    @Override
+    public SearchResult search(SearchRequest searchRequest) {                
+        try {
+			return ((SearchService)getService()).search(searchRequest);
+		} catch (MissingParameterException e) {
+			e.printStackTrace();
+		} 
+		return null;
+    }        
 }

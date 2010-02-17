@@ -51,7 +51,7 @@ public class Atp extends MetaEntity implements AttributeOwner<AtpAttribute> {
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "RT_DESCR_ID")
-	private RichText desc;
+	private RichText descr;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EFF_DT")
@@ -93,12 +93,12 @@ public class Atp extends MetaEntity implements AttributeOwner<AtpAttribute> {
 		this.name = name;
 	}
 
-	public RichText getDesc() {
-		return desc;
+	public RichText getDescr() {
+		return descr;
 	}
 
-	public void setDesc(RichText desc) {
-		this.desc = desc;
+	public void setDescr(RichText descr) {
+		this.descr = descr;
 	}
 
 	public Date getEffectiveDate() {

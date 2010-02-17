@@ -26,4 +26,10 @@ public class CommonCssImpl implements CommonCss {
 		return null;
 	}
 
+	@Override
+	public String getInitializeCssString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

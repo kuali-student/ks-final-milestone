@@ -69,5 +69,5 @@ public interface SearchManager {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException;
 	
-	public SearchResult search(SearchRequest searchRequest, SearchableDao dao);
+	public SearchResult search(SearchRequest searchRequest, SearchableDao dao) throws MissingParameterException;
 }

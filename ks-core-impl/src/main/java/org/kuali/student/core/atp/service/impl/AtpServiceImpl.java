@@ -622,9 +622,9 @@ public class AtpServiceImpl implements AtpService {
 	}
 
 	@Override
-	public SearchResult search(SearchRequest searchRequest) {
+	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException  {
 		// TODO Auto-generated method stub
-		return null;
+	    return searchManager.search(searchRequest, atpDao);
 	}
 
 }

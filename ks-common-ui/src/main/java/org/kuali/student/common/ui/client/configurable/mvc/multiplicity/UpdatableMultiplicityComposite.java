@@ -17,6 +17,11 @@ package org.kuali.student.common.ui.client.configurable.mvc.multiplicity;
 
 
 
+import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite.StyleType;
+import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton;
+import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton.ButtonStyle;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Label;
@@ -30,18 +35,24 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public abstract class UpdatableMultiplicityComposite extends MultiplicityComposite {
     protected String addItemLabel;
-    protected String itemLabel;    
+    protected String itemLabel;
     
-    public UpdatableMultiplicityComposite(){
+    
+    public UpdatableMultiplicityComposite(StyleType style){
+    	super(style);
+/*    	if(style == StyleType.TOP_LEVEL){
+    		this.titleWidget = SectionTitle.generateH3Title(title);
+    		this.titleWidget.addStyleName("ks-heading-page-section");
+    	}*/
     }
     
     /**
      * @see org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite#getItemDecorator()
      */
     @Override
-    public MultiplicityItem getItemDecorator() {
-        RemovableItemWithHeader item = new RemovableItemWithHeader();
-        item.setItemLabel(itemLabel);            
+    public MultiplicityItem getItemDecorator(StyleType style) {
+        org.kuali.student.common.ui.client.configurable.mvc.sections.RemovableItemWithHeader item = new org.kuali.student.common.ui.client.configurable.mvc.sections.RemovableItemWithHeader(style);
+        item.setItemLabel(itemLabel + " " + visualItemCount);            
 
         return item;
     }
@@ -50,8 +61,15 @@ public abstract class UpdatableMultiplicityComposite extends MultiplicityComposi
      * @see org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite#generateAddWidget()
      */
     public Widget generateAddWidget() {
-        Label addWidget =  new Label(addItemLabel);
-        addWidget.addStyleName("KS-Multiplicity-Link-Label");
+        //Label addWidget =  new Label(addItemLabel);
+        //addWidget.addStyleName("KS-Multiplicity-Link-Label");
+    	KSLinkButton addWidget;
+    	if(style == StyleType.TOP_LEVEL){
+    		addWidget = new KSLinkButton(addItemLabel, ButtonStyle.FORM_LARGE);
+    	}
+    	else{
+    		addWidget = new KSLinkButton(addItemLabel, ButtonStyle.FORM_SMALL);
+    	}
         addWidget.addClickHandler(new ClickHandler(){
             public void onClick(ClickEvent event) {
                 addItem();

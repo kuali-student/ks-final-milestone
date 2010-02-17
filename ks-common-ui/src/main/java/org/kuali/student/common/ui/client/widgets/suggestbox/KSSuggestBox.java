@@ -16,21 +16,25 @@ package org.kuali.student.common.ui.client.widgets.suggestbox;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
+import org.kuali.student.common.ui.client.widgets.list.HasSelectionChangeHandlers;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.suggestbox.IdableSuggestOracle.IdableSuggestion;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
 
 // TODO implement some form of focus handling for SuggestBox
-public class KSSuggestBox extends SuggestBox{
+public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandlers{
     
     private IdableSuggestion currentSuggestion = null;
     private IdableSuggestOracle oracle;
+    private String currentId = "";
     
     public KSSuggestBox(IdableSuggestOracle oracle){
 
@@ -41,7 +45,8 @@ public class KSSuggestBox extends SuggestBox{
             @Override
             public void onSelection(SelectionEvent<SuggestOracle.Suggestion> event) {
                 currentSuggestion = (IdableSuggestion)(event.getSelectedItem());
-                ValueChangeEvent.fire(KSSuggestBox.this, KSSuggestBox.this.getSelectedId());
+                currentId = KSSuggestBox.this.getSelectedId();
+                SelectionChangeEvent.fire(KSSuggestBox.this);
             }
         });
         
@@ -50,23 +55,31 @@ public class KSSuggestBox extends SuggestBox{
             @Override
             public void onBlur(BlurEvent event) {
                 String currentText = KSSuggestBox.this.getText();
-                if(currentText != null && !currentText.equals("") && currentSuggestion == null){
-                    currentSuggestion = KSSuggestBox.this.oracle.getSuggestionByText(currentText);
+                if(currentText != null && !currentText.equals("")){
+                	if((currentSuggestion != null && !KSSuggestBox.this.getText().equals(currentSuggestion.getReplacementString()))
+                			|| currentSuggestion == null){
+                		currentSuggestion = KSSuggestBox.this.oracle.getSuggestionByText(currentText);
+                	}
+                    
                     if(currentSuggestion == null){
                     	currentSuggestion = new IdableSuggestion();
                     	currentSuggestion.setId("");
                     	currentSuggestion.setDisplayString("");
                     	currentSuggestion.setReplacementString("");
                     }
-                    ValueChangeEvent.fire(KSSuggestBox.this, KSSuggestBox.this.getSelectedId());
                 }
                 else if(currentText == null || currentText.equals("")){
                 	currentSuggestion = new IdableSuggestion();
                 	currentSuggestion.setId("");
                 	currentSuggestion.setDisplayString("");
                 	currentSuggestion.setReplacementString("");
-                	ValueChangeEvent.fire(KSSuggestBox.this, KSSuggestBox.this.getSelectedId());
+                	
                 }
+                
+                if(!KSSuggestBox.this.getSelectedId().equals(currentId)){
+                	currentId = KSSuggestBox.this.getSelectedId();
+                	SelectionChangeEvent.fire(KSSuggestBox.this);
+                }                
             }
         });
     }
@@ -78,7 +91,7 @@ public class KSSuggestBox extends SuggestBox{
 
     public IdableSuggestion getSelectedSuggestion() {
         return currentSuggestion;
-    }
+    }   
     
     public String getSelectedId() {
         String id = null;
@@ -117,7 +130,8 @@ public class KSSuggestBox extends SuggestBox{
 	            }
 	        });
     	}
-    }
+    	currentId = KSSuggestBox.this.getSelectedId();
+    }   
     
     public void setValue(String id, final Callback<IdableSuggestion> callback) {
     	if(id == null || id.equals("")){
@@ -138,17 +152,19 @@ public class KSSuggestBox extends SuggestBox{
 	            }
 	        });
     	}
+    	currentId = KSSuggestBox.this.getSelectedId();
     }
     
     @Override
     public void setValue(String id, boolean fireEvents) {
     	if(fireEvents == true){
+    		
 	    	if(id == null || id.equals("")){
 	        	currentSuggestion = new IdableSuggestion();
 	        	currentSuggestion.setId("");
 	        	currentSuggestion.setDisplayString("");
 	        	currentSuggestion.setReplacementString("");
-	        	ValueChangeEvent.fire(KSSuggestBox.this, KSSuggestBox.this.getSelectedId());
+	        	SelectionChangeEvent.fire(KSSuggestBox.this);
 	    	}
 	    	else
 	    	{
@@ -157,17 +173,31 @@ public class KSSuggestBox extends SuggestBox{
 		            @Override
 		            public void exec(IdableSuggestion result) {
 		                currentSuggestion = result;
-		                ValueChangeEvent.fire(KSSuggestBox.this, KSSuggestBox.this.getSelectedId());
+		                SelectionChangeEvent.fire(KSSuggestBox.this);
 		                KSSuggestBox.this.setText((currentSuggestion == null) ? "" : currentSuggestion.getReplacementString());
 		                
 		            }
 		        });
 	    	}
+	    	
     	}
-    	else{
+    	else
+    	{
     		this.setValue(id);
     	}
+    	currentId = KSSuggestBox.this.getSelectedId();
     }
     
+    public void setValue(IdableSuggestion theSuggestion) {
+    	currentSuggestion = theSuggestion;
+    	SelectionChangeEvent.fire(KSSuggestBox.this);
+    	KSSuggestBox.this.setText((currentSuggestion == null) ? "" : currentSuggestion.getReplacementString());
+    	currentId = KSSuggestBox.this.getSelectedId();
+    }
     
+	@Override
+	public HandlerRegistration addSelectionChangeHandler(
+			SelectionChangeHandler handler) {
+		return addHandler(handler, SelectionChangeEvent.getType());
+	}        
 }

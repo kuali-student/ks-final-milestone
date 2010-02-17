@@ -30,7 +30,7 @@ import javax.persistence.Table;
 import org.kuali.student.common.util.UUIDHelper;
 
 @Entity
-@Table(name="ENUM_VAL_FLD_ENT")
+@Table(name="KSEM_ENUM_VAL_FLD_ENT")
 public class EnumeratedValueFieldEntity {
     @Id
     @Column(name="ID")

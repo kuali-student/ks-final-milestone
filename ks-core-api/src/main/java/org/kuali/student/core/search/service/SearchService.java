@@ -150,6 +150,6 @@ public interface SearchService {
 
     @RequestWrapper(className="org.kuali.student.core.search.service.jaxws.Search", targetNamespace="http://student.kuali.org/wsdl/search")    
     @ResponseWrapper(className="org.kuali.student.core.search.service.jaxws.SearchResponse", targetNamespace="http://student.kuali.org/wsdl/search")
-	public SearchResult search(SearchRequest searchRequest);
+	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException;
 
 }

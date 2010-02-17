@@ -1,5 +1,6 @@
 package org.kuali.student.core.search.newdto;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,8 +8,9 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class SearchRequest {
-	private String searchKey;//TODO How to figure out which service to call? maybe we just look through each service the assembler has and find the key
+public class SearchRequest implements Serializable {
+	private static final long serialVersionUID = 1L;
+	private String searchKey;
 	private List<SearchParam> params;
 	private String sortColumn;
 	private SortDirection sortDirection;

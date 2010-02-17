@@ -128,6 +128,8 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract implements Click
                 row += ((col + 1 )/ maxCols) * 1;
             }
         }
+        
+        super.setInitialized(true);
     }
 
     @Override

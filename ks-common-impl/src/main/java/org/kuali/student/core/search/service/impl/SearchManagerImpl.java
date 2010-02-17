@@ -19,15 +19,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.assembly.client.LookupMetadata;
-import org.kuali.student.common.assembly.client.LookupParamMetadata;
-import org.kuali.student.common.assembly.client.LookupResultMetadata;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.LookupMetadata;
+import org.kuali.student.core.assembly.data.LookupParamMetadata;
+import org.kuali.student.core.assembly.data.LookupResultMetadata;
 import org.kuali.student.core.dao.SearchableDao;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.search.dto.CrossSearchTypeInfo;
 import org.kuali.student.core.search.dto.QueryParamInfo;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
@@ -54,6 +56,8 @@ public class SearchManagerImpl implements SearchManager{
 	
 	private Map<String, LookupMetadata> lookupMetadataMap;
 
+	private CrossSearchManager crossSearchManager;
+	
 	@SuppressWarnings("unchecked")
 	private void init() {
 		ApplicationContext ac = new FileSystemXmlApplicationContext(searchContextFile);
@@ -66,6 +70,7 @@ public class SearchManagerImpl implements SearchManager{
 		
 		//Copy what data we have into the LookupMetadata Structure and store it in a map
 		//TODO, need to initialize more here
+		//TODO Add sublookups if queryparams have lookups
 		for(SearchTypeInfo searchTypeInfo:searchInfoTypeMap.values()){
 			LookupMetadata lookupMetaData = new LookupMetadata();
 			lookupMetaData.setDesc(searchTypeInfo.getDesc());
@@ -78,6 +83,13 @@ public class SearchManagerImpl implements SearchManager{
 					LookupParamMetadata param = new LookupParamMetadata();
 					param.setKey(queryParamInfo.getKey());
 					param.setOptional(queryParamInfo.isOptional());
+					if (queryParamInfo.getFieldDescriptor() != null &&
+					        queryParamInfo.getFieldDescriptor().getDataType() != null) {
+					    String queryParamDataType = queryParamInfo.getFieldDescriptor().getDataType();
+					    if (queryParamDataType != null && queryParamDataType.equals("date")) {
+		                    param.setDataType(Data.DataType.DATE);
+					    }
+					}
 					params.add(param);
 				}
 				lookupMetaData.setParams(params);
@@ -190,10 +202,24 @@ public class SearchManagerImpl implements SearchManager{
 
 	@Override
 	public SearchResult search(SearchRequest searchRequest, SearchableDao dao) {
-
+		
 		String searchKey = searchRequest.getSearchKey();
+		
+		//Check if the search is a cross search
+		SearchTypeInfo searchType = searchInfoTypeMap.get(searchKey);
+		if(searchType instanceof CrossSearchTypeInfo){
+			if(crossSearchManager == null){
+				throw new RuntimeException("Requested cross service search:"+searchKey+", but no cross service search manager was defined.");
+			}
+			return crossSearchManager.doCrossSearch(searchRequest, (CrossSearchTypeInfo) searchType);
+		}
+		
 		LookupMetadata lookupMetadata = lookupMetadataMap.get(searchKey);
 		return dao.search(searchRequest, queryMap, lookupMetadata);
+	}
+
+	public void setCrossSearchManager(CrossSearchManager crossSearchManager) {
+		this.crossSearchManager = crossSearchManager;
 	}
 
 }

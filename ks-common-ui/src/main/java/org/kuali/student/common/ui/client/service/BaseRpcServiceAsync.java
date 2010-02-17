@@ -22,6 +22,8 @@ import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
+import org.kuali.student.core.search.newdto.SearchRequest;
+import org.kuali.student.core.search.newdto.SearchResult;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -59,4 +61,5 @@ public interface BaseRpcServiceAsync {
     
     void getSearchTypesByResult(String searchResultTypeKey, AsyncCallback<List<SearchTypeInfo>> callback);
     
+    public void search(SearchRequest searchRequest, AsyncCallback<SearchResult> callback);
 }
