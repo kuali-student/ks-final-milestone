@@ -18,7 +18,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.kuali</groupId>
-    <artifactId>kuali</artifactId>
+    <artifactId>kuali-parent</artifactId>
     <version>1.2</version>
   </parent>
   <groupId>org.kuali.student</groupId>
