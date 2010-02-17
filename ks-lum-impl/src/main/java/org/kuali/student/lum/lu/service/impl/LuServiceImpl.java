@@ -133,7 +133,7 @@ public class LuServiceImpl implements LuService {
 	private DictionaryService dictionaryServiceDelegate;
 	private Validator validator;
 	
-	void setSearchManager(SearchManager searchManager) {
+	public void setSearchManager(SearchManager searchManager) {
 		this.searchManager = searchManager;
 	}
 
