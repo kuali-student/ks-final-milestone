@@ -837,7 +837,7 @@ public interface LuService extends DictionaryService, SearchService {
      * @throws MissingParameterException missing cluId, cluInfo
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
-     * @throws VersionMismatchException The action was attempted on an out of date version.
+     * @throws VersionMismatchException The action was attempted on an out of date version
 	 */
     public CluInfo updateClu(@WebParam(name="cluId")String cluId, @WebParam(name="cluInfo")CluInfo cluInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
 
@@ -1061,8 +1061,9 @@ public interface LuService extends DictionaryService, SearchService {
      * @throws MissingParameterException one or more parameters not specified
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
+     * @throws DataValidationErrorException data validation error
 	 */
-    public CluLoRelationInfo createCluLoRelation(@WebParam(name="cluId")String cluId, @WebParam(name="loId")String loId, @WebParam(name="cluLoRelationType")String cluLoRelationType, @WebParam(name="cluLoRelationInfo")CluLoRelationInfo cluLoRelationInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public CluLoRelationInfo createCluLoRelation(@WebParam(name="cluId")String cluId, @WebParam(name="loId")String loId, @WebParam(name="cluLoRelationType")String cluLoRelationType, @WebParam(name="cluLoRelationInfo")CluLoRelationInfo cluLoRelationInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException;
 
     /** 
      * Updates a relationship between a clu and learning objective
