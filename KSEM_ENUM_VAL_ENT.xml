@@ -79,6 +79,12 @@
     <KSEM_ENUM_VAL_ENT ABBREV_VAL="SOWK" CD="SOWK"
         EFF_DT="20000101000000" ENUM_KEY="kuali.lu.subjectArea"
         EXPIR_DT="20000101000000" ID="32" SORT_KEY="32" VAL="Social Work"/>
+    <KSEM_ENUM_VAL_ENT ABBREV_VAL="North" CD="NORTH"
+        EFF_DT="20000101000000" ENUM_KEY="kuali.lu.campusLocation"
+        EXPIR_DT="20000101000000" ID="33" SORT_KEY="31" VAL="North Campus"/>
+    <KSEM_ENUM_VAL_ENT ABBREV_VAL="South" CD="SOUTH"
+        EFF_DT="20000101000000" ENUM_KEY="kuali.lu.campusLocation"
+        EXPIR_DT="20000101000000" ID="34" SORT_KEY="32" VAL="South Campus"/>
     <KSEM_ENUM_VAL_ENT ABBREV_VAL="AACH" CD="AACH"
         EFF_DT="20000101000000" ENUM_KEY="kuali.lu.subjectArea"
         EXPIR_DT="20000101000000" ID="4" SORT_KEY="4" VAL="Architecture"/>
