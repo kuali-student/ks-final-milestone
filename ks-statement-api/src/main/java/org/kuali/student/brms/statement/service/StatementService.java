@@ -280,7 +280,7 @@ public interface StatementService extends DictionaryService, SearchService {
      * @throws MissingParameterException missing validationTypeKey, reqComponentInfo
      * @throws OperationFailedException unable to complete request
      */
-    public List<ValidationResultContainer> validateReqComponent(@WebParam(name="validationType")String validationType, @WebParam(name="reqComponentInfo")ReqComponentInfo reqComponentInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultInfo> validateReqComponent(@WebParam(name="validationType")String validationType, @WebParam(name="reqComponentInfo")ReqComponentInfo reqComponentInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Validates a statement. Depending on the value of validationType, 
@@ -303,7 +303,7 @@ public interface StatementService extends DictionaryService, SearchService {
      * @throws MissingParameterException missing validationTypeKey, statementInfo
      * @throws OperationFailedException unable to complete request
      */
-    public List<ValidationResultContainer> validateStatement(@WebParam(name="validationType")String validationType, @WebParam(name="statementInfo")StatementInfo statementInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultInfo> validateStatement(@WebParam(name="validationType")String validationType, @WebParam(name="statementInfo")StatementInfo statementInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Retrieves a statement by its identifier

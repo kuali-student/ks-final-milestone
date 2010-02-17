@@ -528,7 +528,7 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    public List<ValidationResultContainer> validateReqComponent(final String validationType, final ReqComponentInfo reqComponentInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<ValidationResultInfo> validateReqComponent(final String validationType, final ReqComponentInfo reqComponentInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(validationType, "validationType");
         checkForMissingParameter(reqComponentInfo, "reqComponentInfo");
 
@@ -536,7 +536,7 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    public List<ValidationResultContainer> validateStatement(final String validationType, final StatementInfo statementInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<ValidationResultInfo> validateStatement(final String validationType, final StatementInfo statementInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(validationType, "validationType");
         checkForMissingParameter(statementInfo, "statementInfo");
 
