@@ -610,7 +610,7 @@
 		<property name="desc" value="In list of configured unit types" />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
-		<property name="maxLength" value="10" />
+		<property name="maxLength" value="50" />
 		<property name="comments"
 			value="Although called a type, this is not a formal type in kuali student like an lu type, for example it may be changeable after being added." />
 	</bean>
@@ -755,6 +755,11 @@
 				<ref bean="versions.type" />
 				<ref bean="versions.id" />
 				<ref bean="versions.versionInd" />
+				<ref bean="versions.versionCode" />
+				<ref bean="versions.versionTitle" />
+				<ref bean="versions.subjectArea" />
+				<ref bean="versions.courseNumberSuffix" />
+				<ref bean="versions._runtimeData" />
 			</list>
 		</property>
 	</bean>

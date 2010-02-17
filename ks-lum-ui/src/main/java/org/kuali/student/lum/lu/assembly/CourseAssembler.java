@@ -272,7 +272,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
                 duration.setTermType(time.getAtpDurationTypeKey());
                 result.setDuration(duration);
             }
-
+            
             result.setTermsOffered(new Data());
             for (String atpType : course.getOfferedAtpTypes()) {
                 result.getTermsOffered().add(atpType);
@@ -505,15 +505,15 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 
             //AuthzCheck
             if(courseMetadata.getProperties().get("duration").getWriteAccess()!=WriteAccess.NEVER){
-                AmountInfo time = courseClu.getIntensity();
+                TimeAmountInfo time = courseClu.getStdDuration();
                 if (time == null) {
-                    time = new AmountInfo();
-                    courseClu.setIntensity(time);
+                    time = new TimeAmountInfo();
+                    courseClu.setStdDuration(time);
                 }
                 if (course.getDuration() != null) {
-                    time.setUnitType(course.getDuration().getTermType());
+                    time.setAtpDurationTypeKey(course.getDuration().getTermType());
                     if(course.getDuration().getQuantity() != null) {
-                        time.setUnitQuantity(course.getDuration().getQuantity().toString());
+                        time.setTimeQuantity(course.getDuration().getQuantity());
                     }
                 }
             }
@@ -734,19 +734,22 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
         List<CluIdentifierInfo> cluIdentifiers = clu.getAlternateIdentifiers();
 
         for(CluIdentifierInfo cluIdentifier : cluIdentifiers){
-            xListings = CreditCourseCrossListingsHelper.wrap(new Data());
-            xListings.setId(cluIdentifier.getId());
-            xListings.setType(cluIdentifier.getType());
-            xListings.setDepartment(cluIdentifier.getOrgId());
-            xListings.setSubjectArea(cluIdentifier.getDivision());
-            xListings.setCourseNumberSuffix(cluIdentifier.getSuffixCode());
-
-            Data data = course.getCrossListings();
-            if(data == null){
-                data = new Data();
-                course.setCrossListings(data);
+        	String identifierType = cluIdentifier.getType();
+            if(identifierType.equals("kuali.lu.type.CreditCourse.identifier.cross-listed")){
+	            xListings = CreditCourseCrossListingsHelper.wrap(new Data());
+	            xListings.setId(cluIdentifier.getId());
+	            xListings.setType(cluIdentifier.getType());
+	            xListings.setDepartment(cluIdentifier.getOrgId());
+	            xListings.setSubjectArea(cluIdentifier.getDivision());
+	            xListings.setCourseNumberSuffix(cluIdentifier.getSuffixCode());
+	
+	            Data data = course.getCrossListings();
+	            if(data == null){
+	                data = new Data();
+	                course.setCrossListings(data);
+	            }
+	            data.add(xListings.getData());
             }
-            data.add(xListings.getData());
         }
     }
 
@@ -759,20 +762,23 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
         List<CluIdentifierInfo> cluIdentifiers = clu.getAlternateIdentifiers();
 
         for(CluIdentifierInfo cluIdentifier : cluIdentifiers){
-            versions = CreditCourseVersionsHelper.wrap(new Data());
-            versions.setId(cluIdentifier.getId());
-            versions.setType(cluIdentifier.getType());
-            versions.setVersionTitle(cluIdentifier.getLongName());
-            versions.setSubjectArea(cluIdentifier.getDivision());
-            versions.setCourseNumberSuffix(cluIdentifier.getSuffixCode());
-            versions.setVersionCode(cluIdentifier.getVariation());
-
-            Data data = course.getVersions();
-            if(data == null){
-                data = new Data();
-                course.setVersions(data);
+        	String identifierType = cluIdentifier.getType();
+            if(identifierType.equals("kuali.lu.type.CreditCourse.identifier.version")){
+	            versions = CreditCourseVersionsHelper.wrap(new Data());
+	            versions.setId(cluIdentifier.getId());
+	            versions.setType(cluIdentifier.getType());
+	            versions.setVersionTitle(cluIdentifier.getLongName());
+	            versions.setSubjectArea(cluIdentifier.getDivision());
+	            versions.setCourseNumberSuffix(cluIdentifier.getSuffixCode());
+	            versions.setVersionCode(cluIdentifier.getVariation());
+	
+	            Data data = course.getVersions();
+	            if(data == null){
+	                data = new Data();
+	                course.setVersions(data);
+	            }
+	            data.add(versions.getData());
             }
-            data.add(versions.getData());
         }
     }
 
@@ -913,6 +919,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
         CluInfo cluInfoToStore = courseHierarchy.getCluInfo();
         List<CluIdentifierInfo> alternateIdentifiers = cluInfoToStore.getAlternateIdentifiers();
 
+        List<CluIdentifierInfo> clearedIdInfos = new ArrayList<CluIdentifierInfo>();
         if (isModified(course.getData())) {
             // clear the list because the screen should have all loaded all these AltIdentifiers and
             // they may have been modified by the user and will be populated in for() below.
@@ -921,19 +928,22 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
                 CluIdentifierInfo cluIdentifierInfo = iterator.next();
                 String identifierType = cluIdentifierInfo.getType();
                 if(identifierType.equals("kuali.lu.type.CreditCourse.identifier.cross-listed")){
-                    alternateIdentifiers.remove(cluIdentifierInfo);
+                	clearedIdInfos.add(cluIdentifierInfo);
                 }
             }
         }
+        alternateIdentifiers.removeAll(clearedIdInfos);
 
         for (Data.Property p : course.getCrossListings()) {
             CreditCourseCrossListingsHelper xListings = CreditCourseCrossListingsHelper.wrap((Data)p.getValue());
-            CluIdentifierInfo cluIdentifier = new CluIdentifierInfo();
-            cluIdentifier.setType("kuali.lu.type.CreditCourse.identifier.cross-listed");
-            cluIdentifier.setOrgId(xListings.getDepartment());
-            cluIdentifier.setDivision(xListings.getSubjectArea());
-            cluIdentifier.setSuffixCode(xListings.getCourseNumberSuffix());
-            alternateIdentifiers.add(cluIdentifier);
+            if(!(xListings.get_runtimeData().isDeleted())){
+	            CluIdentifierInfo cluIdentifier = new CluIdentifierInfo();
+	            cluIdentifier.setType("kuali.lu.type.CreditCourse.identifier.cross-listed");
+	            cluIdentifier.setOrgId(xListings.getDepartment());
+	            cluIdentifier.setDivision(xListings.getSubjectArea());
+	            cluIdentifier.setSuffixCode(xListings.getCourseNumberSuffix());
+	            alternateIdentifiers.add(cluIdentifier);
+            }
         }
         cluInfoToStore.setAlternateIdentifiers(alternateIdentifiers);
     }
@@ -946,6 +956,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
         CluInfo cluInfoToStore = courseHierarchy.getCluInfo();
         List<CluIdentifierInfo> alternateIdentifiers = cluInfoToStore.getAlternateIdentifiers();
 
+        List<CluIdentifierInfo> clearedIdInfos = new ArrayList<CluIdentifierInfo>();
         if (isModified(course.getData())) {
             // clear the list because the screen should have all loaded all these AltIdentifiers and
             // they may have been modified by the user and will be populated in for() below.
@@ -954,18 +965,25 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
                 CluIdentifierInfo cluIdentifierInfo = iterator.next();
                 String identifierType = cluIdentifierInfo.getType();
                 if(identifierType.equals("kuali.lu.type.CreditCourse.identifier.version")){
-                    alternateIdentifiers.remove(cluIdentifierInfo);
+                    clearedIdInfos.add(cluIdentifierInfo);
                 }
             }
         }
+        alternateIdentifiers.removeAll(clearedIdInfos);
 
         for (Data.Property p : course.getVersions()) {
             CreditCourseVersionsHelper versions = CreditCourseVersionsHelper.wrap((Data)p.getValue());
-            CluIdentifierInfo cluIdentifier = new CluIdentifierInfo();
-            cluIdentifier.setType("kuali.lu.type.CreditCourse.identifier.version");
-            cluIdentifier.setLongName(versions.getVersionTitle());
-            cluIdentifier.setVariation(versions.getVersionCode());
-            alternateIdentifiers.add(cluIdentifier);
+            //Don't add to AlternateIdentifiers if it is deleted
+            if(!(versions.get_runtimeData().isDeleted())){
+	            CluIdentifierInfo cluIdentifier = new CluIdentifierInfo();
+	            cluIdentifier.setId(versions.getId());
+	            cluIdentifier.setDivision(versions.getSubjectArea());
+	            cluIdentifier.setSuffixCode(versions.getCourseNumberSuffix());
+	            cluIdentifier.setType("kuali.lu.type.CreditCourse.identifier.version");
+	            cluIdentifier.setLongName(versions.getVersionTitle());
+	            cluIdentifier.setVariation(versions.getVersionCode());
+	            alternateIdentifiers.add(cluIdentifier);
+            }
         }
         cluInfoToStore.setAlternateIdentifiers(alternateIdentifiers);
     }

@@ -62,7 +62,13 @@ public class RuntimeDataHelper {
     }
 
     public Boolean isCreated() {
-        return (Boolean) data.get(Properties.CREATED.getKey());
+        Boolean b = (Boolean) data.get(Properties.CREATED.getKey());
+    	if(b == null){
+    		return false;
+    	}
+    	else{
+    		return b;
+    	}  
     }
 
     public void setDeleted(Boolean value) {
@@ -70,7 +76,13 @@ public class RuntimeDataHelper {
     }
 
     public Boolean isDeleted() {
-        return (Boolean) data.get(Properties.DELETED.getKey());
+    	Boolean b = (Boolean) data.get(Properties.DELETED.getKey());
+    	if(b == null){
+    		return false;
+    	}
+    	else{
+    		return b;
+    	}  
     }
 
     public void setUpdated(Boolean value) {
@@ -78,7 +90,13 @@ public class RuntimeDataHelper {
     }
 
     public Boolean isUpdated() {
-        return (Boolean) data.get(Properties.UPDATED.getKey());
+    	Boolean b = (Boolean) data.get(Properties.UPDATED.getKey());
+    	if(b == null){
+    		return false;
+    	}
+    	else{
+    		return b;
+    	}  
     }
 
     public void setVersions(Data value) {

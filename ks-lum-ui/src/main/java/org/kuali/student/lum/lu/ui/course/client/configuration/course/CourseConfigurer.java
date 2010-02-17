@@ -355,7 +355,8 @@ public class CourseConfigurer
 
 	private VerticalSection generateDescriptionSection() {
         VerticalSection description = initSection(getH3Title(LUConstants.DESCRIPTION_LABEL_KEY), WITH_DIVIDER);
-        addField(description, COURSE + "/" + DESCRIPTION, null);
+        //Temporary fix til we have a real rich text editor
+        addField(description, COURSE + "/" + DESCRIPTION + "/" + PLAIN, null);
         return description;
 	}
 
@@ -401,7 +402,7 @@ public class CourseConfigurer
 
         //addField(scheduling, COURSE + "/" + CreditCourseConstants.DURATION + "/" + TERM_TYPE, getLabel(LUConstants.TERM_LITERAL_LABEL_KEY), new AtpTypeList());
         //FIXME Why is this timeUnit now and not termType, this widget did not work when this comment was written
-        String termKey = COURSE + "/" + CreditCourseConstants.DURATION + "/" + "timeUnit";
+/*        String termKey = COURSE + "/" + CreditCourseConstants.DURATION + "/" + "timeUnit";
         Metadata termMeta = modelDefinition.getMetadata(QueryPath.parse(termKey));
         FieldDescriptor termDescriptor = new FieldDescriptor(termKey, null, termMeta);
         termDescriptor.setFieldWidget(new TermListPicker());
@@ -419,9 +420,12 @@ public class CourseConfigurer
                     String path) {
                 widget.setText((String) model.get(path));
             }
-        });
-        scheduling.addField(termDescriptor);
-        addField(scheduling, COURSE + "/" + CreditCourseConstants.DURATION + "/" + QUANTITY, getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY)); //TODO DURATION ENUMERATION
+        });*/
+        //scheduling.addField(termDescriptor);
+        GroupSection duration = new GroupSection();
+        addField(duration, COURSE + "/" + CreditCourseConstants.DURATION + "/" + QUANTITY, getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY)); //TODO DURATION ENUMERATION
+        addField(duration, COURSE + "/" + CreditCourseConstants.DURATION + "/" + "timeUnit", "Duration Type", new DurationAtpTypeList());
+        scheduling.addSection(duration);
         return scheduling;
 	}
 
@@ -526,7 +530,7 @@ public class CourseConfigurer
             addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.HRS, "Contact Hours" , path);
             // FIXME look up what the label and implement as dropdown
             //FIXME this fields constraints are wrong in its metadata, temporarily commented out
-            //addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.PER, null,  new ContactHoursAtpTypeList(), path);
+            addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.PER, null,  new ContactHoursAtpTypeList(), path);
             addField(activity, DEFAULT_ENROLLMENT_ESTIMATE, getLabel(LUConstants.CLASS_SIZE_LABEL_KEY), path);
 
             return activity;
