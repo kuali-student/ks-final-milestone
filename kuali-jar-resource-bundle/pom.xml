@@ -22,7 +22,6 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <artifactId>kuali-jar-resource-bundle</artifactId>
-  <version>1.0-SNAPSHOT</version>
   <name>Kuali JAR Resource Bundle</name>
   <description>
     An archive which contains templates for generating the necessary license files and notices for all Kuali releases.
