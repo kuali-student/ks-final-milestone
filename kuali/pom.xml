@@ -67,13 +67,13 @@
     <repository>
       <id>kuali.releases</id>
       <name>Kuali Release Distribution Repository</name>
-      <url>file://C:/maven2</url>
+      <url>file://C:/maven2/releases</url>
       <!--<url>scp://test.kuali.org:/opt/m2/repository</url>-->
     </repository>
     <snapshotRepository>
       <id>kuali.snapshots</id>
       <name>Internal Snapshot Repository</name>
-      <url>file://C:/maven2Snapshots</url>
+      <url>file://C:/maven2/snapshots</url>
       <!--<url>dav:http://archiva.kuali.umd.edu/repository/snapshot</url>-->
     </snapshotRepository>
   </distributionManagement>
