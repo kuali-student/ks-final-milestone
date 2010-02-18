@@ -9,9 +9,12 @@ public class TestNewDictionary implements TestConstants
  @Test
  public void testDictionaryLoad ()
  {
-  DictionaryServiceSpringImpl dict =
+  DictionaryServiceSpringImpl lu =
    new DictionaryServiceSpringImpl (RESOURCES_DIRECTORY
    + "/" + "lu-dictionary-config.xml");
+    DictionaryServiceSpringImpl lo =
+   new DictionaryServiceSpringImpl (RESOURCES_DIRECTORY
+   + "/" + "lo-dictionary-config.xml");
   org.kuali.student.core.dictionary.dto.Type type = null;
  }
 
