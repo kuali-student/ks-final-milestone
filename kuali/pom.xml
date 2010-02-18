@@ -48,7 +48,7 @@
   <url>http://www.kuali.org/</url>
   <repositories>
     <repository>
-      <!-- Note this is a temporary location pending approval from Kuali Foundation on the location of a master pom -->
+      <!-- Note this is a temporary repository pending approval from Kuali Foundation on the location of a master pom -->
       <id>kuali.release.lab</id>
       <url>https://test.kuali.org/svn/student/deploymentlab/m2/repository</url>
       <snapshots>
