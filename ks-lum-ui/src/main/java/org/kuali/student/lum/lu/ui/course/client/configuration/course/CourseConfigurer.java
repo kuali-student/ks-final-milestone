@@ -355,8 +355,8 @@ public class CourseConfigurer
 
 	private VerticalSection generateDescriptionSection() {
         VerticalSection description = initSection(getH3Title(LUConstants.DESCRIPTION_LABEL_KEY), WITH_DIVIDER);
-        //Temporary fix til we have a real rich text editor
-        addField(description, COURSE + "/" + DESCRIPTION + "/" + PLAIN, null);
+        //FIXME Temporary fix til we have a real rich text editor
+        addField(description, COURSE + "/" + DESCRIPTION + "/" + RichTextInfoConstants.PLAIN, null);
         return description;
 	}
 
