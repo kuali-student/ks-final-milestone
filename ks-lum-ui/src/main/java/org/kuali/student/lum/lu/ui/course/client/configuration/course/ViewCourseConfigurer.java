@@ -112,7 +112,6 @@ LearningObjectiveConstants
     private BaseSection generateTitle() {
                
         GroupSection section = new GroupSection();
-        
         addField(section, SUBJECT_AREA, null, new KSLabel());
         addField(section, COURSE_NUMBER_SUFFIX, null, new KSLabel());
         addField(section, TRANSCRIPT_TITLE, null, new KSLabel());
@@ -124,7 +123,9 @@ LearningObjectiveConstants
     private SectionView generateBasicSection() {
         VerticalSectionView section = initSectionView(Sections.BASIC_INFO, BASIC_VIEW);
 
-        section.addSection(generateTitle());
+//        section.addSection(generateTitle());
+        
+        addField(section, "fees/0/attributes/CourseCode", getLabel(LUConstants.CODE_LABEL_KEY), new KSLabel());
         
         addField(section, CreditCourseConstants.COURSE_TITLE, getLabel(LUConstants.TITLE_LABEL_KEY), new KSLabel());
         addField(section, DESCRIPTION+ "/" + "plain", getLabel(LUConstants.DESCRIPTION_LABEL_KEY), new KSLabel());
@@ -154,6 +155,8 @@ LearningObjectiveConstants
 
     private VerticalSectionView generateComprehensiveSection() {
         VerticalSectionView section = initSectionView(Sections.COMPREHENSIVE_INFO, COMPREHENSIVE_VIEW);
+
+        addField(section, "fees/0/attributes/CourseCode", getLabel(LUConstants.CODE_LABEL_KEY), new KSLabel());
 
         addField(section, CreditCourseConstants.TERMS_OFFERED, "Terms Offered", new TermsOfferedList());
         addField(section, CreditCourseConstants.DURATION + "/" + TERM_TYPE, "Term Type", new KSLabel());
@@ -298,6 +301,22 @@ LearningObjectiveConstants
         }
 
     }
+
+//    private class TermsOfferedList extends DisplayMultiplicityComposite{
+//        private final String parentPath;
+//        public TermsOfferedList(String parentPath){
+//            this.parentPath = parentPath;
+//        }
+//
+//        @Override
+//        public Widget createItem() {
+//            String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
+//            GroupSection group = new GroupSection();
+//            addField(group, String.valueOf(itemCount-1), null, new KSLabel(), path);
+//
+//            return group;
+//        }
+//    }
 
     private class TermsOfferedList extends KSLabelList{
         public TermsOfferedList(){

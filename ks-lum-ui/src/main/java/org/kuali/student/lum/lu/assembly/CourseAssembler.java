@@ -252,10 +252,6 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 
         CluInfo course = hierarchy.getCluInfo();
 
-        //FIXME: Temp hack to send id and type translations to UI. Once fields added to DOL, fix!!
-        Map<String,String> lookupFields = new HashMap<String, String>();
-        int i = 0;
-
         try {
 
             //TODO move bulk of this logic to new CluInfoAssembler
@@ -267,11 +263,6 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
             result.setEffectiveDate(course.getEffectiveDate());
             result.setExpirationDate(course.getExpirationDate());
 
-            AdminOrgInfo admin = course.getPrimaryAdminOrg();
-            if (admin != null) {
-                result.setDepartment(admin.getOrgId());
-                lookupFields.put("DeptOrgName", getOrgName(admin.getOrgId()));
-            }
 
             result.setDescription(RichTextInfoHelper.wrap(richtextAssembler.assemble(course.getDescr())));
 
@@ -285,12 +276,6 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
                 result.setDuration(duration);
             }
             
-            i=0;
-            result.setTermsOffered(new Data());
-            for (String atpType : course.getOfferedAtpTypes()) {
-                result.getTermsOffered().add(atpType);
-                lookupFields.put("TermsOffered"+i++, getAtpTypeName(atpType));
-            }
             
             CluInstructorInfoHelper instr = CluInstructorInfoHelper.wrap(instructorAssembler.assemble(course.getPrimaryInstructor()));
             if (instr != null) {
@@ -299,17 +284,8 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
             result.setState(course.getState());
             result.setSubjectArea(course.getOfficialIdentifier().getDivision());
             result.setTranscriptTitle(course.getOfficialIdentifier().getShortName());
-            result.setType(course.getType());
-            lookupFields.put("CourseType", getCluTypeName(course.getType()));
 
             result.setAcademicSubjectOrgs(new Data());
-
-            i=0;
-            for (AcademicSubjectOrgInfo org : course.getAcademicSubjectOrgs()) {
-                result.getAcademicSubjectOrgs().add(org.getOrgId());
-                lookupFields.put("OversightName"+i++, getOrgName(org.getOrgId()));
-
-            }
 
             result.setCampusLocations(new Data());
             for (String campus : course.getCampusLocations()) {
@@ -347,6 +323,41 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
             //FIXME: Temp hack to send id and type translations back to View Course UI. Once fields added to DOL, fix!!
             // Sending the lookup values back as dynamic attributes in the fee structure (fees not in M4). 
             // Attributes don't seem to be implemented in CluInfo DOL yet
+            Map<String,String> lookupFields = new HashMap<String, String>();
+
+            result.setType(course.getType());
+            lookupFields.put("CourseType", getCluTypeName(course.getType()));
+
+            lookupFields.put("CourseCode", course.getOfficialIdentifier().getCode());
+
+            int i = 0;
+            AdminOrgInfo admin = course.getPrimaryAdminOrg();
+            if (admin != null) {
+                result.setDepartment(admin.getOrgId());
+                lookupFields.put("DeptOrgName", getOrgName(admin.getOrgId()));
+            }
+            i=0;
+            result.setTermsOffered(new Data());
+            for (String atpType : course.getOfferedAtpTypes()) {
+                result.getTermsOffered().add(atpType);
+                lookupFields.put("TermsOffered"+i++, getAtpTypeName(atpType));
+            }
+            i=0;
+            for (AcademicSubjectOrgInfo org : course.getAcademicSubjectOrgs()) {
+                result.getAcademicSubjectOrgs().add(org.getOrgId());
+                lookupFields.put("OversightName"+i++, getOrgName(org.getOrgId()));
+
+            }
+            i=0;
+            CreditCourseFormatHelper formats = CreditCourseFormatHelper.wrap(result.getFormats());
+            CreditCourseActivityHelper activities = CreditCourseActivityHelper.wrap(formats.getActivities());
+
+//            
+//            for (String s: activities.getActivityType()) {
+//                
+//            }
+
+            
             result.setFees(new Data());
             CluFeeInfoHelper feeHelper = CluFeeInfoHelper.wrap(new Data());
             feeHelper.setAttributes(new Data());
