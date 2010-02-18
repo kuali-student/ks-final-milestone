@@ -23,7 +23,6 @@ import org.kuali.student.brms.statement.entity.ReqComponent;
  */
 public class ReqComponentReference {
 	private String booleanId;
-//	private CustomReqComponentInfo reqComponent;
 	private ReqComponent reqComponent;
 	
 	public ReqComponentReference(ReqComponent reqComponent, String booleanId) {
@@ -38,6 +37,4 @@ public class ReqComponentReference {
 	public ReqComponent getReqComponent() {
 		return this.reqComponent;
 	}
-	
-	
 }

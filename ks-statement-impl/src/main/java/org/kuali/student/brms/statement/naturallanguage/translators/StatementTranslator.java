@@ -29,7 +29,6 @@ import org.kuali.student.brms.statement.naturallanguage.ContextRegistry;
 //import org.kuali.student.core.statement.naturallanguage.util.CustomLuStatementInfo;
 import org.kuali.student.brms.statement.naturallanguage.util.StatementAnchor;
 import org.kuali.student.brms.statement.naturallanguage.util.ReqComponentReference;
-import org.kuali.student.brms.statement.naturallanguage.util.TemplateTranslator;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.slf4j.Logger;

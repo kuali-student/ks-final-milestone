@@ -6,6 +6,9 @@ public class CluInfo {
 	private String shortName;
 	private String longName;
 	
+	public CluInfo() {
+	}
+
 	public CluInfo(String id, String code, String shortName, String longName) {
 		this.id = id;
 		this.code = code;
@@ -16,17 +19,33 @@ public class CluInfo {
 	public String getId() {
 		return id;
 	}
-	
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public String getCode() {
-		return this.code;
+		return code;
 	}
-	
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
 	public String getShortName() {
-		return this.shortName;
+		return shortName;
 	}
-	
+
+	public void setShortName(String shortName) {
+		this.shortName = shortName;
+	}
+
 	public String getLongName() {
-		return this.longName;
+		return longName;
+	}
+
+	public void setLongName(String longName) {
+		this.longName = longName;
 	}
 
 	@Override

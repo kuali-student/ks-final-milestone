@@ -126,11 +126,11 @@ public class ReqComponent extends MetaEntity {
         this.expirationDate = expirationDate;
     }
 
-    public List<ReqComponentField> getReqCompFields() {
+    public List<ReqComponentField> getReqComponentFields() {
         return reqCompField;
     }
 
-    public void setReqCompField(List<ReqComponentField> reqCompField) {
+    public void setReqComponentFields(List<ReqComponentField> reqCompField) {
         this.reqCompField = reqCompField;
     }
 

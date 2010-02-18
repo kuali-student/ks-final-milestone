@@ -45,7 +45,7 @@ public abstract class AbstractContext<T> implements Context<T> {
      * @return Map of requirement component fields
      */
     public Map<String, String> getReqCompField(ReqComponent reqComponent) {
-        List<ReqComponentField> fields = reqComponent.getReqCompFields();
+        List<ReqComponentField> fields = reqComponent.getReqComponentFields();
         Map<String, String> map = new HashMap<String, String>();
         for (ReqComponentField field : fields) {
             String key = field.getKey();

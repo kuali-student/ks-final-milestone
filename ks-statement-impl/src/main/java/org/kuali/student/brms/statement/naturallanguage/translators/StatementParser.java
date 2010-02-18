@@ -24,8 +24,6 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.brms.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.brms.statement.entity.ReqComponent;
 import org.kuali.student.brms.statement.entity.Statement;
-//import org.kuali.student.core.statement.naturallanguage.util.CustomLuStatementInfo;
-//import org.kuali.student.core.statement.naturallanguage.util.CustomReqComponentInfo;
 import org.kuali.student.brms.statement.naturallanguage.util.ReqComponentReference;
 
 /**
@@ -132,7 +130,7 @@ public class StatementParser {
 		init();
 		this.reqComponentList = new ArrayList<ReqComponentReference>();
 		if(rootStatement.getChildren() == null || rootStatement.getChildren().isEmpty()) {
-			this.reqComponentList.addAll(getCustomReqComponents(rootStatement.getRequiredComponents()));
+			this.reqComponentList.addAll(getReqComponents(rootStatement.getRequiredComponents()));
 		} else {
 			traverseStatementTree(rootStatement);
 		}
@@ -149,7 +147,7 @@ public class StatementParser {
 		for(Iterator<Statement> it = rootStatement.getChildren().iterator(); it.hasNext();) {
 			Statement stmt = it.next();
 			if (stmt.getChildren() == null || stmt.getChildren().isEmpty()) {
-				this.reqComponentList.addAll(getCustomReqComponents(stmt.getRequiredComponents()));
+				this.reqComponentList.addAll(getReqComponents(stmt.getRequiredComponents()));
 			} else {
 				traverseStatementTree(stmt);
 			}
@@ -160,10 +158,10 @@ public class StatementParser {
 	 * Gets custom requirement components.
 	 * 
 	 * @param list List of requirement components
-	 * @return List of custom requirement components
+	 * @return List of requirement components
 	 * @throws OperationFailedException
 	 */
-	private List<ReqComponentReference> getCustomReqComponents(List<ReqComponent > list) throws OperationFailedException {
+	private List<ReqComponentReference> getReqComponents(List<ReqComponent > list) throws OperationFailedException {
 		List<ReqComponentReference> newList = new ArrayList<ReqComponentReference>(list.size());
 		for(ReqComponent reqComp : list) {
 			newList.add(new ReqComponentReference(reqComp, getReqComponentReferenceId(reqComp)));

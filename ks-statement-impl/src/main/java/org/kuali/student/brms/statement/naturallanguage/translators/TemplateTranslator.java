@@ -12,7 +12,7 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.brms.statement.naturallanguage.util;
+package org.kuali.student.brms.statement.naturallanguage.translators;
 
 import java.util.Map;
 
@@ -20,12 +20,20 @@ import org.apache.velocity.exception.VelocityException;
 import org.kuali.student.common.util.VelocityTemplateEngine;
 import org.kuali.student.core.exceptions.OperationFailedException;
 
+/**
+ * This class merges an Apache Velocity template with a map of data to produce
+ * natural language.
+ */
 public class TemplateTranslator {
 
+	/**
+	 * Velocity template engine.
+	 */
 	private VelocityTemplateEngine templateEngine = new VelocityTemplateEngine();
 
     /**
-     * Translates the template and context map (data) into natural language.
+     * Translates an Apache Velocity template and context map (data) into 
+     * natural language.
      * 
      * @param contextMap Context map (template data)
      * @param template Velocity template

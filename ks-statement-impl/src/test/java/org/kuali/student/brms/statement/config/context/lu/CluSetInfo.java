@@ -25,6 +25,9 @@ public class CluSetInfo {
 	private String id;
 	private List<CluInfo> cluList;
     private List<String> cluIds = new ArrayList<String>();
+
+	public CluSetInfo() {
+	}
 	
 	public CluSetInfo(String cluSetId, List<CluInfo> cluList) {
 		this.id = cluSetId;
@@ -38,8 +41,16 @@ public class CluSetInfo {
 		return id;
 	}
 
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public List<CluInfo> getCluList() {
 		return this.cluList;
+	}
+
+	public void setCluList(List<CluInfo> cluList) {
+		this.cluList = cluList;
 	}
 	
     public List<String> getCluIds() {
@@ -48,6 +59,10 @@ public class CluSetInfo {
         }
         return cluIds;
     }
+
+	public void setCluIds(List<String> cluIds) {
+		this.cluIds = cluIds;
+	}
 
     public String getCluAsShortName(int index) {
 		return this.cluList.get(index).getShortName();

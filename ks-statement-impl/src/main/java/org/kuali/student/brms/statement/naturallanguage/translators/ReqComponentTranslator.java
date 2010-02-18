@@ -27,7 +27,6 @@ import org.kuali.student.brms.statement.entity.ReqComponentTypeNLTemplate;
 import org.kuali.student.brms.statement.naturallanguage.Context;
 import org.kuali.student.brms.statement.naturallanguage.ContextRegistry;
 //import org.kuali.student.core.statement.naturallanguage.util.CustomReqComponentInfo;
-import org.kuali.student.brms.statement.naturallanguage.util.TemplateTranslator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

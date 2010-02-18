@@ -137,7 +137,7 @@ public class StatementAssembler extends BaseAssembler {
             if (!String.valueOf(reqComp.getVersionInd()).equals(reqCompInfo.getMetaInfo().getVersionInd())) {
                 throw new VersionMismatchException("ReqComponent to be updated is not the current version");
             }
-            for(ReqComponentField reqCompField : reqComp.getReqCompFields()) {
+            for(ReqComponentField reqCompField : reqComp.getReqComponentFields()) {
             	this.statementDao.delete(reqCompField);
             }
         } else {
@@ -162,7 +162,7 @@ public class StatementAssembler extends BaseAssembler {
             reqCompField.setValue(reqCompFieldInfo.getValue());
             reqCompFieldList.add(reqCompField);
         }
-        reqComp.setReqCompField(reqCompFieldList);
+        reqComp.setReqComponentFields(reqCompFieldList);
         
         reqComp.setDescr(toRichText(reqCompInfo.getDesc()));
         
@@ -187,7 +187,7 @@ public class StatementAssembler extends BaseAssembler {
                 "requiredComponentType", "reqCompField", "metaInfo" });
 
         dto.setType(entity.getRequiredComponentType().getId());
-        dto.setReqCompFields(toReqCompFieldInfos(entity.getReqCompFields()));
+        dto.setReqCompFields(toReqCompFieldInfos(entity.getReqComponentFields()));
         dto.setRequiredComponentType(toReqComponentTypeInfo(entity.getRequiredComponentType()));
         dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
         dto.setDesc(toRichTextInfo(entity.getDescr()));
