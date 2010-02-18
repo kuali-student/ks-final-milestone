@@ -24,7 +24,7 @@
 -->
   <groupId>org.kuali</groupId>
   <artifactId>kuali-parent</artifactId>
-  <version>2-SNAPSHOT</version>
+  <version>1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>The Kuali Foundation</name>
   <description>
@@ -49,6 +49,7 @@
   <repositories>
     <repository>
       <!-- NOTE:  This is a temporary repository pending approval from Kuali Foundation on publishing the master pom to the main SVN repo -->
+      <!-- Once that has been approved and the master pom's have been moved to the main SVN repo area, this entry can be removed. -->
       <id>kuali.release.lab</id>
       <url>https://test.kuali.org/svn/student/deploymentlab/m2/repository</url>
       <snapshots>
@@ -90,7 +91,7 @@
     <sourceReleaseAssemblyDescriptor>source-release</sourceReleaseAssemblyDescriptor>
   </properties>
   <scm>
-    <!-- NOTE:  This is a temporary SVN location pending approval from Kuali Foundation on the location of a master pom -->
+    <!-- NOTE:  After approval from Kuali Foundation on the concept and location of a master pom, this should be changed to https://test.kuali.org/svn/maven/trunk/kuali -->
     <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/trunk/kuali</connection>
     <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/trunk/kuali</developerConnection>
     <url>https://test.kuali.org/svn/student/deploymentlab/maven/trunk/kuali</url>
@@ -149,7 +150,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-gpg-plugin</artifactId>
-          <version>1.0-alpha-4</version>
+          <version>1.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -300,6 +301,7 @@
         </plugins>
       </build>
     </profile>
+    <!-- This profile can be removed after Kuali Foundation approves a master pom -->
     <profile>
       <id>kuali-release-lab</id>
       <distributionManagement>
