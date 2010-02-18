@@ -338,19 +338,22 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
             }
             i=0;
             result.setTermsOffered(new Data());
-            for (String atpType : course.getOfferedAtpTypes()) {
-                result.getTermsOffered().add(atpType);
-                lookupFields.put("TermsOffered"+i++, getAtpTypeName(atpType));
-            }
+//FIXME  In M4 user can only create one term offered. Put this iteration back when they can have multiples
+//          for (String atpType : course.getOfferedAtpTypes()) {
+                result.getTermsOffered().add(course.getOfferedAtpTypes().get(0));
+                lookupFields.put("TermOffered",getAtpTypeName(course.getOfferedAtpTypes().get(0)));
+//            }
             i=0;
-            for (AcademicSubjectOrgInfo org : course.getAcademicSubjectOrgs()) {
-                result.getAcademicSubjectOrgs().add(org.getOrgId());
-                lookupFields.put("OversightName"+i++, getOrgName(org.getOrgId()));
 
-            }
-            i=0;
-            CreditCourseFormatHelper formats = CreditCourseFormatHelper.wrap(result.getFormats());
-            CreditCourseActivityHelper activities = CreditCourseActivityHelper.wrap(formats.getActivities());
+//FIXME  In M4 user can only create one academic subject org. Put this iteration back when they can have multiples           
+//            for (AcademicSubjectOrgInfo org : course.getAcademicSubjectOrgs()) {
+                result.getAcademicSubjectOrgs().add(course.getAcademicSubjectOrgs().get(0).getOrgId());
+                lookupFields.put("OversightName", getOrgName(course.getAcademicSubjectOrgs().get(0).getOrgId()));
+
+//            }
+//            i=0;
+//            CreditCourseFormatHelper formats = CreditCourseFormatHelper.wrap(result.getFormats());
+//            CreditCourseActivityHelper activities = CreditCourseActivityHelper.wrap(formats.getActivities());
 
 //            
 //            for (String s: activities.getActivityType()) {

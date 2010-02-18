@@ -158,19 +158,24 @@ LearningObjectiveConstants
 
         addField(section, "fees/0/attributes/CourseCode", getLabel(LUConstants.CODE_LABEL_KEY), new KSLabel());
 
-        addField(section, CreditCourseConstants.TERMS_OFFERED, "Terms Offered", new TermsOfferedList());
+//FIXME  In M4 Only one term offered can be set so don't need a list here. Fix for M5
+//      addField(section, CreditCourseConstants.TERMS_OFFERED, "Terms Offered", new TermsOfferedList());
+        addField(section, "fees/0/attributes/TermOffered", "Terms Offered", new KSLabel());
         addField(section, CreditCourseConstants.DURATION + "/" + TERM_TYPE, "Term Type", new KSLabel());
         addField(section, CreditCourseConstants.DURATION + "/" + QUANTITY, "Quantity", new KSLabel());
         addField(section, CreditCourseConstants.TRANSCRIPT_TITLE, getLabel(LUConstants.SHORT_TITLE_LABEL_KEY), new KSLabel());
 
-//FIXME        addField(section, CreditCourseConstants.ALT_ADMIN_ORGS, null, new AlternateAdminOrgList(ALT_ADMIN_ORGS));
+//FIXME  In M4 Only one primary admin org can be set so don't need a list here. Fix for M5
+//      addField(section, CreditCourseConstants.ALT_ADMIN_ORGS, null, new AlternateAdminOrgList(ALT_ADMIN_ORGS));
         addField(section,  VERSIONS, getLabel(LUConstants.VERSION_CODES_LABEL_KEY), new VersionCodeList(VERSIONS));
         addField(section,  JOINTS, getLabel(LUConstants.JOINT_OFFERINGS_LABEL_KEY), new OfferedJointlyList(JOINTS));
 
         addField(section, EFFECTIVE_DATE, getLabel(LUConstants.EFFECTIVE_DATE_LABEL_KEY), new KSLabel());
         addField(section, EXPIRATION_DATE, getLabel(LUConstants.EXPIRATION_DATE_LABEL_KEY), new KSLabel());
 
-        addField(section, ACADEMIC_SUBJECT_ORGS, getLabel(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY), new AcademicSubjectOrgList());
+//FIXME  In M4 Only one academic subject org can be set so don't need a list here. Fix for M5
+//      addField(section, ACADEMIC_SUBJECT_ORGS, getLabel(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY), new AcademicSubjectOrgList());
+        addField(section, "fees/0/attributes/OversightName", getLabel(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY), new KSLabel());
 
         addField(section, COURSE_SPECIFIC_L_OS,  getLabel(LUConstants.LEARNING_OBJECTIVES_LABEL_KEY),  new LearningObjectiveList(COURSE_SPECIFIC_L_OS));
         
