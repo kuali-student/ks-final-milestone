@@ -281,6 +281,7 @@
               </execution>
             </executions>
           </plugin>
+          <!-- TODO: Use maven-gpg-plugin to sign all kuali artifacts (poms, jars, etc) -->
         </plugins>
       </build>
     </profile>
