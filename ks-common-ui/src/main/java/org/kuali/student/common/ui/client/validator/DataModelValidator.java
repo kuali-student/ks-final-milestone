@@ -524,6 +524,8 @@ public class DataModelValidator {
 						size++;
 					}
 				}
+			} else {
+				size = values.size();
 			}
 		} else {
 			size = values.size();
