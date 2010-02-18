@@ -19,12 +19,12 @@
   <parent>
     <groupId>org.kuali</groupId>
     <artifactId>kuali-parent</artifactId>
-    <version>1.3</version>
+    <version>1</version>
     <relativePath>../kuali/pom.xml</relativePath>
   </parent>
   <groupId>org.kuali.student</groupId>
   <artifactId>student-parent</artifactId>
-  <version>1.2-SNAPSHOT</version>
+  <version>1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Kuali Student</name>
   <description>
