@@ -122,7 +122,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 
             luData.setData(course.getData());
 
-            luData.setRuleInfos(getRules(id));
+//            luData.setRuleInfos(getRules(id));
 
             // TODO - need a SingleUseLoListAssembler that calls SingleUseLoAssembler once for each LO
             // associated with the course
@@ -338,19 +338,20 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
             }
             i=0;
             result.setTermsOffered(new Data());
-//FIXME  In M4 user can only create one term offered. Put this iteration back when they can have multiples
-//          for (String atpType : course.getOfferedAtpTypes()) {
-                result.getTermsOffered().add(course.getOfferedAtpTypes().get(0));
-                lookupFields.put("TermOffered",getAtpTypeName(course.getOfferedAtpTypes().get(0)));
-//            }
+            for (String atpType : course.getOfferedAtpTypes()) {
+                result.getTermsOffered().add(atpType);
+                lookupFields.put("TermOffered",getAtpTypeName(atpType));
+//FIXME  In M4 user can only create one term offered. Remove this break when they can have multiples
+                break;
+            }
             i=0;
 
-//FIXME  In M4 user can only create one academic subject org. Put this iteration back when they can have multiples           
-//            for (AcademicSubjectOrgInfo org : course.getAcademicSubjectOrgs()) {
-                result.getAcademicSubjectOrgs().add(course.getAcademicSubjectOrgs().get(0).getOrgId());
-                lookupFields.put("OversightName", getOrgName(course.getAcademicSubjectOrgs().get(0).getOrgId()));
-
-//            }
+            for (AcademicSubjectOrgInfo org : course.getAcademicSubjectOrgs()) {
+                result.getAcademicSubjectOrgs().add(org.getOrgId());
+                lookupFields.put("OversightName", getOrgName(org.getOrgId()));
+//FIXME  In M4 user can only create one academic subject org. Remove this break when they can have multiples           
+                break; 
+            }
 //            i=0;
 //            CreditCourseFormatHelper formats = CreditCourseFormatHelper.wrap(result.getFormats());
 //            CreditCourseActivityHelper activities = CreditCourseActivityHelper.wrap(formats.getActivities());
