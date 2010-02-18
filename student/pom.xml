@@ -19,7 +19,7 @@
   <parent>
     <groupId>org.kuali</groupId>
     <artifactId>kuali-parent</artifactId>
-    <version>1</version>
+    <version>2-SNAPSHOT</version>
     <relativePath>../kuali/pom.xml</relativePath>
   </parent>
   <groupId>org.kuali.student</groupId>
@@ -44,4 +44,16 @@
     <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/trunk/student</developerConnection>
     <url>https://test.kuali.org/svn/student/deploymentlab/maven/trunk/student</url>
   </scm>
+  <profiles>
+    <!-- This profile can be removed after Kuali Foundation approves a master pom -->
+    <profile>
+      <id>kuali-release-lab</id>
+      <distributionManagement>
+        <repository>
+          <id>kuali.releases.lab</id>
+          <url>svn:https://test.kuali.org/svn/student/deploymentlab/m2/repository</url>
+        </repository>
+      </distributionManagement>
+    </profile>
+  </profiles>
 </project>
