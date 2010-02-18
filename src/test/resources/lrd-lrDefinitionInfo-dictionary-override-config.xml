@@ -7,7 +7,7 @@ http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/d
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Thu Feb 18 13:33:56 EST 2010
+on: Thu Feb 18 14:41:09 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -68,6 +68,7 @@ TODO: update simples -->
 	<dict:fieldRef bean="dict.credit.course.with.final.grade.metaInfo"/>
 	<dict:fieldRef bean="dict.credit.course.with.final.grade.internal.id"/>
 </dict:state>
+<dict:state key="*" id="state.lrDefinitionInfo.CreditCourseFinalGrade" parent="state.lrDefinitionInfo.CreditCourseFinalGrade.abstract"/>
 
 <!-- ************************************************************** -->
 <!-- State for state.lrDefinitionInfo.Overall Program GPA.(default) -->
@@ -83,6 +84,7 @@ TODO: update simples -->
 	<dict:fieldRef bean="dict.gpa.in.overall.program.metaInfo"/>
 	<dict:fieldRef bean="dict.gpa.in.overall.program.internal.id"/>
 </dict:state>
+<dict:state key="*" id="state.lrDefinitionInfo.OverallProgramGPA" parent="state.lrDefinitionInfo.OverallProgramGPA.abstract"/>
 
 <!-- ************************************************************************ -->
 <!-- State for state.lrDefinitionInfo.Overall Program Total Credits.(default) -->
@@ -98,6 +100,7 @@ TODO: update simples -->
 	<dict:fieldRef bean="dict.total.credits.in.overall.program.metaInfo"/>
 	<dict:fieldRef bean="dict.total.credits.in.overall.program.internal.id"/>
 </dict:state>
+<dict:state key="*" id="state.lrDefinitionInfo.OverallProgramTotalCredits" parent="state.lrDefinitionInfo.OverallProgramTotalCredits.abstract"/>
 
 
 <!-- *********************************************************************************************** -->
@@ -128,6 +131,7 @@ TODO: update simples -->
 	<dict:fieldRef bean="dict.credit.course.with.final.grade.meta.updateTime"/>
 	<dict:fieldRef bean="dict.credit.course.with.final.grade.meta.updateId"/>
 </dict:state>
+<dict:state key="*" id="state.field.lrDefinitionInfo.metaInfo.CreditCourseFinalGrade" parent="state.field.lrDefinitionInfo.metaInfo.CreditCourseFinalGrade.abstract"/>
 
 
 <!-- *************************************************** -->
@@ -273,6 +277,7 @@ TODO: update simples -->
 	<dict:fieldRef bean="dict.gpa.in.overall.program.meta.updateTime"/>
 	<dict:fieldRef bean="dict.gpa.in.overall.program.meta.updateId"/>
 </dict:state>
+<dict:state key="*" id="state.field.lrDefinitionInfo.metaInfo.OverallProgramGPA" parent="state.field.lrDefinitionInfo.metaInfo.OverallProgramGPA.abstract"/>
 
 
 <!-- ******************************************* -->
@@ -418,6 +423,7 @@ TODO: update simples -->
 	<dict:fieldRef bean="dict.total.credits.in.overall.program.meta.updateTime"/>
 	<dict:fieldRef bean="dict.total.credits.in.overall.program.meta.updateId"/>
 </dict:state>
+<dict:state key="*" id="state.field.lrDefinitionInfo.metaInfo.OverallProgramTotalCredits" parent="state.field.lrDefinitionInfo.metaInfo.OverallProgramTotalCredits.abstract"/>
 
 
 <!-- ***************************************************** -->

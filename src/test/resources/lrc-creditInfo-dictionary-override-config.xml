@@ -7,7 +7,7 @@ http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/d
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Thu Feb 18 13:33:55 EST 2010
+on: Thu Feb 18 14:41:08 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -44,6 +44,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.academic.credit.type"/>
 	<dict:fieldRef bean="dict.academic.credit.internal.id"/>
 </dict:state>
+<dict:state key="*" id="state.creditInfo.AcademicCredit" parent="state.creditInfo.AcademicCredit.abstract"/>
 
 
 <!-- *************************************************************************** -->
@@ -71,6 +72,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.academic.credit.desc.plain"/>
 	<dict:fieldRef bean="dict.academic.credit.desc.formatted"/>
 </dict:state>
+<dict:state key="*" id="state.field.creditInfo.desc.AcademicCredit" parent="state.field.creditInfo.desc.AcademicCredit.abstract"/>
 
 
 <!-- ******************************* -->

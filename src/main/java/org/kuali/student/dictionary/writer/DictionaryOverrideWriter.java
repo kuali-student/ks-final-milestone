@@ -423,6 +423,9 @@ public class DictionaryOverrideWriter
   {
    return true;
   }
+  // this is for xmlTypes like RichTextInfo that don't have a type so we
+  // use Default as a proxy but in this situation Default is not really
+  // used as a Group it is really it.
   if ( ! xmlType.hasOwnType ())
   {
    return true;
@@ -564,7 +567,7 @@ public class DictionaryOverrideWriter
   writer.indentPrintln ("</dict:state>");
 
 // write concrete version
-  if ( ! state.getStatus ().equalsIgnoreCase (State.GROUPING))
+  if (shouldWriteConcreteVersion (state))
   {
    writer.indentPrint ("<dict:state");
    writer.writeAttribute ("key", key);
@@ -573,6 +576,22 @@ public class DictionaryOverrideWriter
    writer.println ("/>");
   }
  }
+
+ private boolean shouldWriteConcreteVersion (State state)
+ {
+  if ( ! state.getStatus ().equalsIgnoreCase (State.GROUPING))
+  {
+   return true;
+  }
+  // this is to cover things like RichText that don't have a state so the default is used
+  // as a proxy so it isn't really a grouping.
+  if ( ! xmlType.hasOwnState ())
+  {
+   return true;
+  }
+  return false;
+ }
+
 
  public class RightTypeState
  {

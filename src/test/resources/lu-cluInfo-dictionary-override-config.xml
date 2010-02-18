@@ -7,7 +7,7 @@ http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/d
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Thu Feb 18 13:33:50 EST 2010
+on: Thu Feb 18 14:41:04 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -2001,6 +2001,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.desc.plain"/>
 	<dict:fieldRef bean="dict.course.desc.formatted"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.desc.CreditCourse" parent="state.field.cluInfo.desc.CreditCourse.abstract"/>
 
 
 <!-- ********************** -->
@@ -2086,6 +2087,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.primaryAdminOrg.Id"/>
 	<dict:fieldRef bean="dict.course.primaryAdminOrg.left.handed"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.primaryAdminOrg.CreditCourse" parent="state.field.cluInfo.primaryAdminOrg.CreditCourse.abstract"/>
 
 
 <!-- ****************************** -->
@@ -2157,6 +2159,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.duration.units"/>
 	<dict:fieldRef bean="dict.course.duration.no"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.stdDuration.CreditCourse" parent="state.field.cluInfo.stdDuration.CreditCourse.abstract"/>
 
 
 <!-- ************************** -->
@@ -2235,6 +2238,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.meta.updateTime"/>
 	<dict:fieldRef bean="dict.course.meta.updateId"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.metaInfo.CreditCourse" parent="state.field.cluInfo.metaInfo.CreditCourse.abstract"/>
 
 
 <!-- *************************** -->
@@ -2393,6 +2397,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.desc.plain"/>
 	<dict:fieldRef bean="dict.course.desc.formatted"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.desc.CreditCourse.template" parent="state.field.cluInfo.desc.CreditCourse.template.abstract"/>
 
 <!-- ******************************************************************************** -->
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Credit Course.template -->
@@ -2419,6 +2424,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.primaryAdminOrg.Id"/>
 	<dict:fieldRef bean="dict.course.primaryAdminOrg.left.handed"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.primaryAdminOrg.CreditCourse.template" parent="state.field.cluInfo.primaryAdminOrg.CreditCourse.template.abstract"/>
 
 <!-- **************************************************************************** -->
 <!-- object structure for object.field.cluInfo.stdDuration.Credit Course.template -->
@@ -2445,6 +2451,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.duration.units"/>
 	<dict:fieldRef bean="dict.course.duration.no"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.stdDuration.CreditCourse.template" parent="state.field.cluInfo.stdDuration.CreditCourse.template.abstract"/>
 
 <!-- ************************************************************************* -->
 <!-- object structure for object.field.cluInfo.metaInfo.Credit Course.template -->
@@ -2474,6 +2481,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.meta.updateTime"/>
 	<dict:fieldRef bean="dict.course.meta.updateId"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.metaInfo.CreditCourse.template" parent="state.field.cluInfo.metaInfo.CreditCourse.template.abstract"/>
 
 
 <!-- ******************************************************************************** -->
@@ -2872,6 +2880,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.desc.plain.draft"/>
 	<dict:fieldRef bean="dict.course.desc.formatted.draft"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.desc.CreditCourse.draft" parent="state.field.cluInfo.desc.CreditCourse.draft.abstract"/>
 
 
 <!-- **************************** -->
@@ -2958,6 +2967,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.primaryAdminOrg.Id"/>
 	<dict:fieldRef bean="dict.course.primaryAdminOrg.left.handed"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.primaryAdminOrg.CreditCourse.draft" parent="state.field.cluInfo.primaryAdminOrg.CreditCourse.draft.abstract"/>
 
 <!-- ************************************************************************* -->
 <!-- object structure for object.field.cluInfo.stdDuration.Credit Course.draft -->
@@ -2984,6 +2994,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.duration.units.draft"/>
 	<dict:fieldRef bean="dict.course.duration.no"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.stdDuration.CreditCourse.draft" parent="state.field.cluInfo.stdDuration.CreditCourse.draft.abstract"/>
 
 
 <!-- ******************************** -->
@@ -3037,6 +3048,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.meta.updateTime"/>
 	<dict:fieldRef bean="dict.course.meta.updateId"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.metaInfo.CreditCourse.draft" parent="state.field.cluInfo.metaInfo.CreditCourse.draft.abstract"/>
 
 
 <!-- ************************************************************************************ -->
@@ -3267,6 +3279,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.desc.plain"/>
 	<dict:fieldRef bean="dict.course.desc.formatted"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.desc.CreditCourse.submitted" parent="state.field.cluInfo.desc.CreditCourse.submitted.abstract"/>
 
 <!-- ********************************************************************************* -->
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Credit Course.submitted -->
@@ -3293,6 +3306,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.primaryAdminOrg.Id"/>
 	<dict:fieldRef bean="dict.course.primaryAdminOrg.left.handed"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.primaryAdminOrg.CreditCourse.submitted" parent="state.field.cluInfo.primaryAdminOrg.CreditCourse.submitted.abstract"/>
 
 <!-- ***************************************************************************** -->
 <!-- object structure for object.field.cluInfo.stdDuration.Credit Course.submitted -->
@@ -3319,6 +3333,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.duration.units"/>
 	<dict:fieldRef bean="dict.course.duration.no"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.stdDuration.CreditCourse.submitted" parent="state.field.cluInfo.stdDuration.CreditCourse.submitted.abstract"/>
 
 <!-- ************************************************************************** -->
 <!-- object structure for object.field.cluInfo.metaInfo.Credit Course.submitted -->
@@ -3348,6 +3363,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.meta.updateTime"/>
 	<dict:fieldRef bean="dict.course.meta.updateId"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.metaInfo.CreditCourse.submitted" parent="state.field.cluInfo.metaInfo.CreditCourse.submitted.abstract"/>
 
 
 <!-- ************************************************************************************ -->
@@ -3577,6 +3593,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.desc.plain"/>
 	<dict:fieldRef bean="dict.course.desc.formatted"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.desc.CreditCourse.withdrawn" parent="state.field.cluInfo.desc.CreditCourse.withdrawn.abstract"/>
 
 <!-- ********************************************************************************* -->
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Credit Course.withdrawn -->
@@ -3603,6 +3620,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.primaryAdminOrg.Id"/>
 	<dict:fieldRef bean="dict.course.primaryAdminOrg.left.handed"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.primaryAdminOrg.CreditCourse.withdrawn" parent="state.field.cluInfo.primaryAdminOrg.CreditCourse.withdrawn.abstract"/>
 
 <!-- ***************************************************************************** -->
 <!-- object structure for object.field.cluInfo.stdDuration.Credit Course.withdrawn -->
@@ -3629,6 +3647,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.duration.units"/>
 	<dict:fieldRef bean="dict.course.duration.no"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.stdDuration.CreditCourse.withdrawn" parent="state.field.cluInfo.stdDuration.CreditCourse.withdrawn.abstract"/>
 
 <!-- ************************************************************************** -->
 <!-- object structure for object.field.cluInfo.metaInfo.Credit Course.withdrawn -->
@@ -3658,6 +3677,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.meta.updateTime"/>
 	<dict:fieldRef bean="dict.course.meta.updateId"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.metaInfo.CreditCourse.withdrawn" parent="state.field.cluInfo.metaInfo.CreditCourse.withdrawn.abstract"/>
 
 
 <!-- *********************************************************************************** -->
@@ -3887,6 +3907,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.desc.plain"/>
 	<dict:fieldRef bean="dict.course.desc.formatted"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.desc.CreditCourse.rejected" parent="state.field.cluInfo.desc.CreditCourse.rejected.abstract"/>
 
 <!-- ******************************************************************************** -->
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Credit Course.rejected -->
@@ -3913,6 +3934,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.primaryAdminOrg.Id"/>
 	<dict:fieldRef bean="dict.course.primaryAdminOrg.left.handed"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.primaryAdminOrg.CreditCourse.rejected" parent="state.field.cluInfo.primaryAdminOrg.CreditCourse.rejected.abstract"/>
 
 <!-- **************************************************************************** -->
 <!-- object structure for object.field.cluInfo.stdDuration.Credit Course.rejected -->
@@ -3939,6 +3961,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.duration.units"/>
 	<dict:fieldRef bean="dict.course.duration.no"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.stdDuration.CreditCourse.rejected" parent="state.field.cluInfo.stdDuration.CreditCourse.rejected.abstract"/>
 
 <!-- ************************************************************************* -->
 <!-- object structure for object.field.cluInfo.metaInfo.Credit Course.rejected -->
@@ -3968,6 +3991,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.meta.updateTime"/>
 	<dict:fieldRef bean="dict.course.meta.updateId"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.metaInfo.CreditCourse.rejected" parent="state.field.cluInfo.metaInfo.CreditCourse.rejected.abstract"/>
 
 
 <!-- ********************************************************************************** -->
@@ -4011,6 +4035,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.desc.plain"/>
 	<dict:fieldRef bean="dict.course.desc.formatted"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.desc.CreditCourse.retired" parent="state.field.cluInfo.desc.CreditCourse.retired.abstract"/>
 
 <!-- ******************************************************************************* -->
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Credit Course.retired -->
@@ -4037,6 +4062,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.primaryAdminOrg.Id"/>
 	<dict:fieldRef bean="dict.course.primaryAdminOrg.left.handed"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.primaryAdminOrg.CreditCourse.retired" parent="state.field.cluInfo.primaryAdminOrg.CreditCourse.retired.abstract"/>
 
 <!-- *************************************************************************** -->
 <!-- object structure for object.field.cluInfo.stdDuration.Credit Course.retired -->
@@ -4063,6 +4089,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.duration.units"/>
 	<dict:fieldRef bean="dict.course.duration.no"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.stdDuration.CreditCourse.retired" parent="state.field.cluInfo.stdDuration.CreditCourse.retired.abstract"/>
 
 <!-- ************************************************************************ -->
 <!-- object structure for object.field.cluInfo.metaInfo.Credit Course.retired -->
@@ -4092,6 +4119,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.meta.updateTime"/>
 	<dict:fieldRef bean="dict.course.meta.updateId"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.metaInfo.CreditCourse.retired" parent="state.field.cluInfo.metaInfo.CreditCourse.retired.abstract"/>
 
 
 <!-- ************************************************************************************************* -->
@@ -4430,6 +4458,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.format.duration.units"/>
 	<dict:fieldRef bean="dict.course.format.duration.no"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.stdDuration.CreditCourseFormatShell" parent="state.field.cluInfo.stdDuration.CreditCourseFormatShell.abstract"/>
 
 
 <!-- ********************************* -->
@@ -4507,6 +4536,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.format.meta.updateTime"/>
 	<dict:fieldRef bean="dict.course.format.meta.updateId"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.metaInfo.CreditCourseFormatShell" parent="state.field.cluInfo.metaInfo.CreditCourseFormatShell.abstract"/>
 
 
 <!-- ********************************** -->
@@ -5279,6 +5309,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.desc.plain"/>
 	<dict:fieldRef bean="dict.program.desc.formatted"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.desc.Program" parent="state.field.cluInfo.desc.Program.abstract"/>
 
 
 <!-- *********************** -->
@@ -5363,6 +5394,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:state key="*" id="state.field.cluInfo.primaryAdminOrg.Program.abstract" abstract="true">
 	<dict:fieldRef bean="dict.program.primaryAdminOrg.Id"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.primaryAdminOrg.Program" parent="state.field.cluInfo.primaryAdminOrg.Program.abstract"/>
 
 
 <!-- ******************************* -->
@@ -5412,6 +5444,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.intensity.units"/>
 	<dict:fieldRef bean="dict.program.intensity.quantity"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.intensity.Program" parent="state.field.cluInfo.intensity.Program.abstract"/>
 
 
 <!-- **************************** -->
@@ -5488,6 +5521,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.duration.units"/>
 	<dict:fieldRef bean="dict.program.duration.no"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.stdDuration.Program" parent="state.field.cluInfo.stdDuration.Program.abstract"/>
 
 
 <!-- *************************** -->
@@ -5566,6 +5600,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.meta.updateTime"/>
 	<dict:fieldRef bean="dict.program.meta.updateId"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.metaInfo.Program" parent="state.field.cluInfo.metaInfo.Program.abstract"/>
 
 
 <!-- **************************** -->
@@ -5724,6 +5759,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.desc.plain"/>
 	<dict:fieldRef bean="dict.program.desc.formatted"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.desc.Program.template" parent="state.field.cluInfo.desc.Program.template.abstract"/>
 
 <!-- ************************************************************************** -->
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Program.template -->
@@ -5749,6 +5785,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:state key="*" id="state.field.cluInfo.primaryAdminOrg.Program.template.abstract" abstract="true">
 	<dict:fieldRef bean="dict.program.primaryAdminOrg.Id"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.primaryAdminOrg.Program.template" parent="state.field.cluInfo.primaryAdminOrg.Program.template.abstract"/>
 
 <!-- ******************************************************************** -->
 <!-- object structure for object.field.cluInfo.intensity.Program.template -->
@@ -5775,6 +5812,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.intensity.units"/>
 	<dict:fieldRef bean="dict.program.intensity.quantity"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.intensity.Program.template" parent="state.field.cluInfo.intensity.Program.template.abstract"/>
 
 <!-- ********************************************************************** -->
 <!-- object structure for object.field.cluInfo.stdDuration.Program.template -->
@@ -5801,6 +5839,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.duration.units"/>
 	<dict:fieldRef bean="dict.program.duration.no"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.stdDuration.Program.template" parent="state.field.cluInfo.stdDuration.Program.template.abstract"/>
 
 <!-- ******************************************************************* -->
 <!-- object structure for object.field.cluInfo.metaInfo.Program.template -->
@@ -5830,6 +5869,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.meta.updateTime"/>
 	<dict:fieldRef bean="dict.program.meta.updateId"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.metaInfo.Program.template" parent="state.field.cluInfo.metaInfo.Program.template.abstract"/>
 
 
 <!-- ************************************************************************** -->
@@ -6090,6 +6130,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.desc.plain.draft"/>
 	<dict:fieldRef bean="dict.program.desc.formatted.draft"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.desc.Program.draft" parent="state.field.cluInfo.desc.Program.draft.abstract"/>
 
 
 <!-- ***************************** -->
@@ -6175,6 +6216,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:state key="*" id="state.field.cluInfo.primaryAdminOrg.Program.draft.abstract" abstract="true">
 	<dict:fieldRef bean="dict.program.primaryAdminOrg.Id"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.primaryAdminOrg.Program.draft" parent="state.field.cluInfo.primaryAdminOrg.Program.draft.abstract"/>
 
 <!-- ***************************************************************** -->
 <!-- object structure for object.field.cluInfo.intensity.Program.draft -->
@@ -6201,6 +6243,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.intensity.units"/>
 	<dict:fieldRef bean="dict.program.intensity.quantity"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.intensity.Program.draft" parent="state.field.cluInfo.intensity.Program.draft.abstract"/>
 
 <!-- ******************************************************************* -->
 <!-- object structure for object.field.cluInfo.stdDuration.Program.draft -->
@@ -6227,6 +6270,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.duration.units.draft"/>
 	<dict:fieldRef bean="dict.program.duration.no"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.stdDuration.Program.draft" parent="state.field.cluInfo.stdDuration.Program.draft.abstract"/>
 
 
 <!-- ********************************* -->
@@ -6280,6 +6324,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.meta.updateTime"/>
 	<dict:fieldRef bean="dict.program.meta.updateId"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.metaInfo.Program.draft" parent="state.field.cluInfo.metaInfo.Program.draft.abstract"/>
 
 
 <!-- ****************************************************************************** -->
@@ -6393,6 +6438,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.desc.plain"/>
 	<dict:fieldRef bean="dict.program.desc.formatted"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.desc.Program.submitted" parent="state.field.cluInfo.desc.Program.submitted.abstract"/>
 
 <!-- *************************************************************************** -->
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Program.submitted -->
@@ -6418,6 +6464,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:state key="*" id="state.field.cluInfo.primaryAdminOrg.Program.submitted.abstract" abstract="true">
 	<dict:fieldRef bean="dict.program.primaryAdminOrg.Id"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.primaryAdminOrg.Program.submitted" parent="state.field.cluInfo.primaryAdminOrg.Program.submitted.abstract"/>
 
 <!-- ********************************************************************* -->
 <!-- object structure for object.field.cluInfo.intensity.Program.submitted -->
@@ -6444,6 +6491,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.intensity.units"/>
 	<dict:fieldRef bean="dict.program.intensity.quantity"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.intensity.Program.submitted" parent="state.field.cluInfo.intensity.Program.submitted.abstract"/>
 
 <!-- *********************************************************************** -->
 <!-- object structure for object.field.cluInfo.stdDuration.Program.submitted -->
@@ -6470,6 +6518,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.duration.units"/>
 	<dict:fieldRef bean="dict.program.duration.no"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.stdDuration.Program.submitted" parent="state.field.cluInfo.stdDuration.Program.submitted.abstract"/>
 
 <!-- ******************************************************************** -->
 <!-- object structure for object.field.cluInfo.metaInfo.Program.submitted -->
@@ -6499,6 +6548,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.meta.updateTime"/>
 	<dict:fieldRef bean="dict.program.meta.updateId"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.metaInfo.Program.submitted" parent="state.field.cluInfo.metaInfo.Program.submitted.abstract"/>
 
 
 <!-- ****************************************************************************** -->
@@ -6612,6 +6662,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.desc.plain"/>
 	<dict:fieldRef bean="dict.program.desc.formatted"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.desc.Program.withdrawn" parent="state.field.cluInfo.desc.Program.withdrawn.abstract"/>
 
 <!-- *************************************************************************** -->
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Program.withdrawn -->
@@ -6637,6 +6688,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:state key="*" id="state.field.cluInfo.primaryAdminOrg.Program.withdrawn.abstract" abstract="true">
 	<dict:fieldRef bean="dict.program.primaryAdminOrg.Id"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.primaryAdminOrg.Program.withdrawn" parent="state.field.cluInfo.primaryAdminOrg.Program.withdrawn.abstract"/>
 
 <!-- ********************************************************************* -->
 <!-- object structure for object.field.cluInfo.intensity.Program.withdrawn -->
@@ -6663,6 +6715,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.intensity.units"/>
 	<dict:fieldRef bean="dict.program.intensity.quantity"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.intensity.Program.withdrawn" parent="state.field.cluInfo.intensity.Program.withdrawn.abstract"/>
 
 <!-- *********************************************************************** -->
 <!-- object structure for object.field.cluInfo.stdDuration.Program.withdrawn -->
@@ -6689,6 +6742,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.duration.units"/>
 	<dict:fieldRef bean="dict.program.duration.no"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.stdDuration.Program.withdrawn" parent="state.field.cluInfo.stdDuration.Program.withdrawn.abstract"/>
 
 <!-- ******************************************************************** -->
 <!-- object structure for object.field.cluInfo.metaInfo.Program.withdrawn -->
@@ -6718,6 +6772,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.meta.updateTime"/>
 	<dict:fieldRef bean="dict.program.meta.updateId"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.metaInfo.Program.withdrawn" parent="state.field.cluInfo.metaInfo.Program.withdrawn.abstract"/>
 
 
 <!-- ***************************************************************************** -->
@@ -6831,6 +6886,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.desc.plain"/>
 	<dict:fieldRef bean="dict.program.desc.formatted"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.desc.Program.rejected" parent="state.field.cluInfo.desc.Program.rejected.abstract"/>
 
 <!-- ************************************************************************** -->
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Program.rejected -->
@@ -6856,6 +6912,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:state key="*" id="state.field.cluInfo.primaryAdminOrg.Program.rejected.abstract" abstract="true">
 	<dict:fieldRef bean="dict.program.primaryAdminOrg.Id"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.primaryAdminOrg.Program.rejected" parent="state.field.cluInfo.primaryAdminOrg.Program.rejected.abstract"/>
 
 <!-- ******************************************************************** -->
 <!-- object structure for object.field.cluInfo.intensity.Program.rejected -->
@@ -6882,6 +6939,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.intensity.units"/>
 	<dict:fieldRef bean="dict.program.intensity.quantity"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.intensity.Program.rejected" parent="state.field.cluInfo.intensity.Program.rejected.abstract"/>
 
 <!-- ********************************************************************** -->
 <!-- object structure for object.field.cluInfo.stdDuration.Program.rejected -->
@@ -6908,6 +6966,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.duration.units"/>
 	<dict:fieldRef bean="dict.program.duration.no"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.stdDuration.Program.rejected" parent="state.field.cluInfo.stdDuration.Program.rejected.abstract"/>
 
 <!-- ******************************************************************* -->
 <!-- object structure for object.field.cluInfo.metaInfo.Program.rejected -->
@@ -6937,6 +6996,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.meta.updateTime"/>
 	<dict:fieldRef bean="dict.program.meta.updateId"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.metaInfo.Program.rejected" parent="state.field.cluInfo.metaInfo.Program.rejected.abstract"/>
 
 
 <!-- **************************************************************************** -->
@@ -6980,6 +7040,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.desc.plain"/>
 	<dict:fieldRef bean="dict.program.desc.formatted"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.desc.Program.retired" parent="state.field.cluInfo.desc.Program.retired.abstract"/>
 
 <!-- ************************************************************************* -->
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Program.retired -->
@@ -7005,6 +7066,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:state key="*" id="state.field.cluInfo.primaryAdminOrg.Program.retired.abstract" abstract="true">
 	<dict:fieldRef bean="dict.program.primaryAdminOrg.Id"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.primaryAdminOrg.Program.retired" parent="state.field.cluInfo.primaryAdminOrg.Program.retired.abstract"/>
 
 <!-- ******************************************************************* -->
 <!-- object structure for object.field.cluInfo.intensity.Program.retired -->
@@ -7031,6 +7093,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.intensity.units"/>
 	<dict:fieldRef bean="dict.program.intensity.quantity"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.intensity.Program.retired" parent="state.field.cluInfo.intensity.Program.retired.abstract"/>
 
 <!-- ********************************************************************* -->
 <!-- object structure for object.field.cluInfo.stdDuration.Program.retired -->
@@ -7057,6 +7120,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.duration.units"/>
 	<dict:fieldRef bean="dict.program.duration.no"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.stdDuration.Program.retired" parent="state.field.cluInfo.stdDuration.Program.retired.abstract"/>
 
 <!-- ****************************************************************** -->
 <!-- object structure for object.field.cluInfo.metaInfo.Program.retired -->
@@ -7086,6 +7150,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.program.meta.updateTime"/>
 	<dict:fieldRef bean="dict.program.meta.updateId"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.metaInfo.Program.retired" parent="state.field.cluInfo.metaInfo.Program.retired.abstract"/>
 
 
 <!-- ***************************************************************************************** -->
@@ -7424,6 +7489,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.activity.contact.hours.per"/>
 	<dict:fieldRef bean="dict.course.activity.contact.hours.no"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.intensity.AllActivityTypes" parent="state.field.cluInfo.intensity.AllActivityTypes.abstract"/>
 
 
 <!-- ************************************** -->
@@ -7500,6 +7566,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.activity.duration.units"/>
 	<dict:fieldRef bean="dict.course.activity.duration.no"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.stdDuration.AllActivityTypes" parent="state.field.cluInfo.stdDuration.AllActivityTypes.abstract"/>
 
 
 <!-- *********************************** -->
@@ -7577,6 +7644,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.activity.meta.updateTime"/>
 	<dict:fieldRef bean="dict.course.activity.meta.updateId"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.metaInfo.AllActivityTypes" parent="state.field.cluInfo.metaInfo.AllActivityTypes.abstract"/>
 
 
 <!-- ************************************ -->
@@ -7727,6 +7795,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.activity.contact.hours.per.draft"/>
 	<dict:fieldRef bean="dict.course.activity.contact.hours.no.draft"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.intensity.AllActivityTypes.draft" parent="state.field.cluInfo.intensity.AllActivityTypes.draft.abstract"/>
 
 
 <!-- ******************************************** -->
@@ -7803,6 +7872,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.activity.duration.units"/>
 	<dict:fieldRef bean="dict.course.activity.duration.no"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.stdDuration.AllActivityTypes.draft" parent="state.field.cluInfo.stdDuration.AllActivityTypes.draft.abstract"/>
 
 <!-- *************************************************************************** -->
 <!-- object structure for object.field.cluInfo.metaInfo.All Activity Types.draft -->
@@ -7832,6 +7902,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.activity.meta.updateTime"/>
 	<dict:fieldRef bean="dict.course.activity.meta.updateId"/>
 </dict:state>
+<dict:state key="*" id="state.field.cluInfo.metaInfo.AllActivityTypes.draft" parent="state.field.cluInfo.metaInfo.AllActivityTypes.draft.abstract"/>
 
 <!-- ******************** -->
 <!-- dict.course.official -->
