@@ -122,7 +122,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 
             luData.setData(course.getData());
 
-//            luData.setRuleInfos(getRules(id));
+            luData.setRuleInfos(getRules(id));
 
             // TODO - need a SingleUseLoListAssembler that calls SingleUseLoAssembler once for each LO
             // associated with the course
