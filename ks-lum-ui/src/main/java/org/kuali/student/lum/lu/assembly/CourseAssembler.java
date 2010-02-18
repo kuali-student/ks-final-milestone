@@ -17,8 +17,6 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.student.brms.statement.service.StatementService;
-import org.kuali.student.common.util.security.SecurityUtils;
-import org.kuali.student.core.assembly.Assembler;
 import org.kuali.student.core.assembly.BaseAssembler;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
@@ -95,7 +93,6 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 
     private LuService luService;
     private StatementService statementService;
-    private PermissionService permissionService;
     private LearningObjectiveService loService;
 //    private TranslationService translationService;
     private OrganizationService orgService;
