@@ -149,7 +149,6 @@
 			</xsd:element>
 		</xsd:sequence>
 		<xsd:attribute name="parent" use="optional" type="xsd:string"></xsd:attribute>
-		<xsd:attribute name="key" use="optional" type="xsd:string"></xsd:attribute>
 		<xsd:attribute name="id" type="xsd:ID"></xsd:attribute>
 		<xsd:attribute name="abstract" type="xsd:boolean"></xsd:attribute>
 	</xsd:complexType>
