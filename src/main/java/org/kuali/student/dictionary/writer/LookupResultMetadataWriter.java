@@ -16,9 +16,9 @@
 package org.kuali.student.dictionary.writer;
 
 import java.text.SimpleDateFormat;
-import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.common.assembly.client.LookupResultMetadata;
-import org.kuali.student.common.assembly.client.Metadata;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.LookupResultMetadata;
+import org.kuali.student.core.assembly.data.Metadata;
 
 /**
  *

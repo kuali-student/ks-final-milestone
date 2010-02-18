@@ -6,7 +6,7 @@ package org.kuali.student.dictionary.model;
 
 import java.util.List;
 import java.util.Map;
-import org.kuali.student.common.assembly.client.LookupMetadata;
+import org.kuali.student.core.assembly.data.LookupMetadata;
 
 /**
  *

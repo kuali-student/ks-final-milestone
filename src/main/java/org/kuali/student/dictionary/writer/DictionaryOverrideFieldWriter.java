@@ -111,7 +111,7 @@ public class DictionaryOverrideFieldWriter
   }
  }
 
- private void writeSubObjectStructureRef ()
+ private void writeSubObjectStructureRefIfNeeded ()
  {
   XmlType xmlType = finder.findXmlType (field.getXmlType ());
   if (xmlType == null)
@@ -119,16 +119,34 @@ public class DictionaryOverrideFieldWriter
    throw new DictionaryExecutionException ("Could not find dictionary field's type in list of xmltypes "
     + dict.getId () + "." + field.getXmlType ());
   }
-  if (xmlType.getPrimitive ().equalsIgnoreCase (XmlType.COMPLEX))
+  if ( ! xmlType.getPrimitive ().equalsIgnoreCase (XmlType.COMPLEX))
   {
-   DictionaryOverrideWriter osw =
-    new DictionaryOverrideWriter (writer,
-                                  model,
-                                  xmlType,
-                                  this,
-                                  dictionaryEntriesWritten);
-   osw.writeRef ();
+   return;
   }
+  if (xmlType.getName ().equalsIgnoreCase ("attributeInfo"))
+  {
+   return;
+  }
+  if (isNotUsed ())
+  {
+   return;
+  }
+  DictionaryOverrideWriter osw =
+   new DictionaryOverrideWriter (writer,
+                                 model,
+                                 xmlType,
+                                 this,
+                                 dictionaryEntriesWritten);
+  osw.writeRef ();
+ }
+
+ private boolean isNotUsed ()
+ {
+  if (dict.getAdditionalConstraintIds ().contains ("not.used"))
+  {
+   return true;
+  }
+  return false;
  }
 
  private String calcDefaultFieldId ()
@@ -189,7 +207,7 @@ public class DictionaryOverrideFieldWriter
   writer.writeTag ("dict:name", dict.getName ());
   writer.writeTag ("dict:desc", dict.getDesc ());
   writer.writeTag ("dict:dataType", calcDataType ());
-  writeSubObjectStructureRef ();
+  writeSubObjectStructureRefIfNeeded ();
   writer.writeTag ("dict:readOnly", calcReadOnly ());
   writer.decrementIndent ();
   writer.indentPrintln ("</dict:fieldDescriptor>");
@@ -198,15 +216,6 @@ public class DictionaryOverrideFieldWriter
   writeAttributeId (calcDictionaryFieldDescriptorId ());
   writeParentToAbstract (calcDictionaryFieldDescriptorId ());
   writer.indentPrintln ("/>");
- }
-
- private boolean isNotUsed ()
- {
-  if (dict.getAdditionalConstraintIds ().contains ("not.used"))
-  {
-   return true;
-  }
-  return false;
  }
 
  private void writeConstraintDescriptor ()

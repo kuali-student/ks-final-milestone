@@ -15,7 +15,7 @@
  */
 package org.kuali.student.dictionary.writer;
 
-import org.kuali.student.common.assembly.client.ConstraintMetadata;
+import org.kuali.student.core.assembly.data.ConstraintMetadata;
 
 /**
  *

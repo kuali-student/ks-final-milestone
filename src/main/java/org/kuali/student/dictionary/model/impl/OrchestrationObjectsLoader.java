@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.kuali.student.common.assembly.client.LookupMetadata;
+import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.dictionary.model.Constraint;
 import org.kuali.student.dictionary.model.Dictionary;
 import org.kuali.student.dictionary.model.DictionaryModel;

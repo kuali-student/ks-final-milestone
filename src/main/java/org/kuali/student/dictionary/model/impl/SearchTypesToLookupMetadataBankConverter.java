@@ -8,8 +8,8 @@ import org.kuali.student.dictionary.model.*;
 import org.kuali.student.dictionary.model.validation.DictionaryValidationException;
 import java.util.ArrayList;
 import java.util.List;
-import org.kuali.student.common.assembly.client.LookupMetadata;
-import org.kuali.student.common.assembly.client.LookupParamMetadata;
+import org.kuali.student.core.assembly.data.LookupMetadata;
+import org.kuali.student.core.assembly.data.LookupParamMetadata;
 import org.kuali.student.dictionary.DictionaryExecutionException;
 
 /**

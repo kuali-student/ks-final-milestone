@@ -19,7 +19,7 @@ import org.kuali.student.dictionary.model.DictionaryModel;
 import org.kuali.student.dictionary.model.Constraint;
 import java.util.HashMap;
 import java.util.Map;
-import org.kuali.student.common.assembly.client.ConstraintMetadata;
+import org.kuali.student.core.assembly.data.ConstraintMetadata;
 
 /**
  *

@@ -21,11 +21,10 @@ import org.kuali.student.dictionary.model.OrchestrationObjectField;
 import org.kuali.student.dictionary.model.validation.DictionaryValidationException;
 import org.kuali.student.dictionary.model.DictionaryModel;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
-import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.common.assembly.client.Metadata;
-import org.kuali.student.common.assembly.client.QueryPath;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.dictionary.DictionaryExecutionException;
 
 /**
