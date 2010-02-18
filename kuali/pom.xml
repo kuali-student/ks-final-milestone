@@ -48,7 +48,7 @@
   <url>http://www.kuali.org/</url>
   <repositories>
     <repository>
-      <!-- Note this is a temporary repository pending approval from Kuali Foundation on the location of a master pom -->
+      <!-- NOTE:  This is a temporary repository pending approval from Kuali Foundation on publishing the master pom to the main SVN repo -->
       <id>kuali.release.lab</id>
       <url>https://test.kuali.org/svn/student/deploymentlab/m2/repository</url>
       <snapshots>
@@ -90,7 +90,7 @@
     <sourceReleaseAssemblyDescriptor>source-release</sourceReleaseAssemblyDescriptor>
   </properties>
   <scm>
-    <!-- The master kuali pom should live in https://test.kuali.org/svn/maven instead of here -->
+    <!-- NOTE:  This is a temporary SVN location pending approval from Kuali Foundation on the location of a master pom -->
     <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/trunk/kuali</connection>
     <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/trunk/kuali</developerConnection>
     <url>https://test.kuali.org/svn/student/deploymentlab/maven/trunk/kuali</url>
