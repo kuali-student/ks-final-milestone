@@ -20,11 +20,11 @@
     Shared parent. 
     Contains settings common to all projects at Kuali 
     This includes a standard release profile that all projects should use when producing released artifacts 
-    Standard versions of plugins are also defined, these may be overridden by individual projects as needed
+    Standard versions of plugins are also defined but may be overridden by individual projects as needed
 -->
   <groupId>org.kuali</groupId>
   <artifactId>kuali-parent</artifactId>
-  <version>3-SNAPSHOT</version>
+  <version>1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>The Kuali Foundation</name>
   <description>
@@ -48,16 +48,19 @@
   <url>http://www.kuali.org/</url>
   <repositories>
     <repository>
-      <id>kuali.release</id>
-      <url>https://test.kuali.org/maven</url>
+      <!-- Note this is a temporary location pending approval from Kuali Foundation on the location of a master pom -->
+      <id>kuali.release.lab</id>
+      <url>https://test.kuali.org/svn/student/deploymentlab/m2/repository</url>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
     </repository>
     <repository>
-      <id>maven2-repository.dev.java.net</id>
-      <name>Java.net Repository for Maven</name>
-      <url>http://download.java.net/maven/2/</url>
+      <id>kuali.release</id>
+      <url>https://test.kuali.org/maven</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
     </repository>
     <repository>
       <id>kuali.snapshot</id>
@@ -68,16 +71,16 @@
     </repository>
   </repositories>
   <distributionManagement>
-    <!-- Site omitted - each project must provide their own -->
+    <!-- Site omitted - each Kuali project must provide their own -->
     <repository>
-     <id>kuali.releases.lab</id>
-     <url>svn:https://test.kuali.org/svn/student/deploymentlab/m2/repository</url>
+      <id>kuali.releases</id>
+      <name>Kuali Release Distribution Repository</name>
+      <url>scp://test.kuali.org:/opt/m2/repository</url>
     </repository>
     <snapshotRepository>
       <id>kuali.snapshots</id>
       <name>Internal Snapshot Repository</name>
-      <url>file://C:/maven2/snapshots</url>
-      <!--<url>dav:http://archiva.kuali.umd.edu/repository/snapshot</url>-->
+      <url>dav:http://archiva.kuali.umd.edu/repository/snapshot</url>
     </snapshotRepository>
   </distributionManagement>
   <properties>
@@ -87,7 +90,7 @@
     <sourceReleaseAssemblyDescriptor>source-release</sourceReleaseAssemblyDescriptor>
   </properties>
   <scm>
-    <!-- The master kuali pom should really be in a higher level svn area. eg https://test.kuali.org/svn/maven -->
+    <!-- The master kuali pom should live in https://test.kuali.org/svn/maven instead of here -->
     <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/trunk/kuali</connection>
     <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/trunk/kuali</developerConnection>
     <url>https://test.kuali.org/svn/student/deploymentlab/maven/trunk/kuali</url>
@@ -97,6 +100,7 @@
        <extension>
          <groupId>org.jvnet.wagon-svn</groupId>
          <artifactId>wagon-svn</artifactId>
+         <version>1.9</version>
        </extension>
      </extensions>
      <pluginManagement>
@@ -188,7 +192,7 @@
           <configuration>
             <useReleaseProfile>false</useReleaseProfile>
             <goals>deploy</goals>
-            <arguments>-Papache-release</arguments>
+            <releaseProfiles>kuali-release</releaseProfiles>
           </configuration>
         </plugin>
         <plugin>
@@ -292,8 +296,18 @@
           </plugin>
           <!-- TODO: Use maven-gpg-plugin to sign all kuali artifacts (poms, jars, etc) -->
           <!-- TODO: Resource plugin for bundling license files inside the .jars -->
+          <!-- TODO: Assembler thing -->
         </plugins>
       </build>
+    </profile>
+    <profile>
+      <id>kuali-release-lab</id>
+      <distributionManagement>
+        <repository>
+          <id>kuali.releases.lab</id>
+          <url>svn:https://test.kuali.org/svn/student/deploymentlab/m2/repository</url>
+        </repository>
+      </distributionManagement>
     </profile>
   </profiles>
 </project>
