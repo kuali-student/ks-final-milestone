@@ -1,10 +1,37 @@
 package org.kuali.student.common.ui.client.validator;
 
+import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.BOOLEAN;
+import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.DATE;
+import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.DOUBLE;
+import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.FLOAT;
+import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.INTEGER;
+import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.LENGTH_OUT_OF_RANGE;
+import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.LONG;
+import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.MAX_LENGTH;
+import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.MAX_OCCURS;
+import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.MAX_VALUE;
+import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.MIN_LENGTH;
+import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.MIN_OCCURS;
+import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.MIN_VALUE;
+import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.OCCURS;
+import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.OUT_OF_RANGE;
+import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.REQUIRED;
+import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.VALID_CHARS;
+import static org.kuali.student.core.assembly.data.MetadataInterrogator.getLargestMinLength;
+import static org.kuali.student.core.assembly.data.MetadataInterrogator.getLargestMinOccurs;
+import static org.kuali.student.core.assembly.data.MetadataInterrogator.getLargestMinValue;
+import static org.kuali.student.core.assembly.data.MetadataInterrogator.getLargestMinValueDate;
+import static org.kuali.student.core.assembly.data.MetadataInterrogator.getLargestMinValueDouble;
+import static org.kuali.student.core.assembly.data.MetadataInterrogator.getSmallestMaxLength;
+import static org.kuali.student.core.assembly.data.MetadataInterrogator.getSmallestMaxOccurs;
+import static org.kuali.student.core.assembly.data.MetadataInterrogator.getSmallestMaxValue;
+import static org.kuali.student.core.assembly.data.MetadataInterrogator.getSmallestMaxValueDate;
+import static org.kuali.student.core.assembly.data.MetadataInterrogator.getSmallestMaxValueDouble;
+import static org.kuali.student.core.assembly.data.MetadataInterrogator.isRequired;
+
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
@@ -12,37 +39,25 @@ import java.util.Map.Entry;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ApplicationContext;
-import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.util.MessageUtils;
-
 import org.kuali.student.common.validator.DateParser;
-import org.kuali.student.common.validator.ValidatorUtils;
 import org.kuali.student.core.assembly.data.ConstraintMetadata;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.MetadataInterrogator;
-import org.kuali.student.core.assembly.data.ModelDefinition;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.Data.DataType;
-import org.kuali.student.core.messages.dto.Message;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
-import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.*;
-import static org.kuali.student.core.assembly.data.MetadataInterrogator.*;
-
 public class DataModelValidator {
+	private static final String RUNTIME_DELETED_KEY = "_runtimeData/deleted";
 	private static final String UNBOUNDED_CHECK = null;
-
 
 	private Stack<String> elementStack = new Stack<String>();
 	private DateParser dateParser = null;
-
-
-
 
 
 	/**
@@ -417,7 +432,7 @@ public class DataModelValidator {
 		
 	    Map<QueryPath, Object> values = model.query(path);
 
-        validateOccurs(path, values, meta, results);
+	    validateOccurs(path, values, meta, results);
         
         for (Entry<QueryPath, Object> e : values.entrySet()) {
 			ValidationResultContainer v = new ValidationResultContainer(e.getKey().toString());
@@ -442,15 +457,14 @@ public class DataModelValidator {
 		ValidationResultContainer v = new ValidationResultContainer(path.toString());
 		if (values.isEmpty() && isRequired(meta)) {
 			v.addError(REQUIRED.getKey());
-		} else {
-			// do min/max occurs checks
-			Integer min = getLargestMinOccurs(meta);
-			if (min != null && values.size() < min) {
-				v.addError(MIN_OCCURS.getKey());
-			}
-			Integer max = getSmallestMaxOccurs(meta);
-			if (max != null && values.size() > max) {
-				v.addError(MAX_OCCURS.getKey());
+		} else if (meta.getDataType().equals(DataType.LIST)){
+			for (Map.Entry<QueryPath, Object> e:values.entrySet()){
+				QueryPath listPath = QueryPath.parse(e.getKey().toString());
+				listPath.add(Data.WILDCARD_KEY);
+				values = model.query(listPath);
+	
+				// do min/max occurs checks
+				validateOccurs(e.getKey(), values, meta, results);
 			}
 		}
 		
@@ -468,16 +482,19 @@ public class DataModelValidator {
 		}
 	
 	}
-
+	
 	private static boolean validateOccurs(QueryPath path, Map<QueryPath, Object> values, Metadata meta, List<ValidationResultContainer> results) {
+	    
+	    int size = getListSize(values, meta);
+		
 	    Integer min = getLargestMinOccurs(meta);
-	    boolean minValid = min == null || min <= values.size();
+	    boolean minValid = min == null || min <= size;
 	 
 	    Integer max = getSmallestMaxOccurs(meta);
-        boolean maxValid = max == null || max >= values.size();
+        boolean maxValid = max == null || max >= size;
 	    
         
-        if (!minValid || !maxValid) {
+		if (!minValid || !maxValid) {
             ValidationResultContainer v = new ValidationResultContainer(path.toString());
             if (!minValid && !maxValid) {
                 v.addError(OCCURS.getKey());
@@ -490,6 +507,29 @@ public class DataModelValidator {
         }
         
 	    return minValid && maxValid;
+	}
+	
+	private static int getListSize(Map<QueryPath, Object> values, Metadata meta){
+	    int size = 0;
+
+	    //Check to see if a complex data element in list has been deleted
+	    Map<String, Metadata> properties = meta.getProperties();		
+		if (properties.containsKey(Data.WILDCARD_KEY.toString())){
+			Metadata listMeta = properties.get(Data.WILDCARD_KEY.toString());
+			if (listMeta != null && listMeta.getDataType().equals(DataType.DATA)){
+				for (Object value:values.values()){
+					Data d = (Data)value;
+					Boolean deleted = d.query(RUNTIME_DELETED_KEY);
+					if (deleted == null || !deleted){
+						size++;
+					}
+				}
+			}
+		} else {
+			size = values.size();
+		}
+		
+		return size;
 	}
 	
 	private void translateMessages(List<ValidationResultContainer> results) {

@@ -967,4 +967,10 @@ public class Data implements Serializable, Iterable<Data.Property>, HasChangeCal
         return map.containsValue(value);
     }
 
+    /**
+     * @return set of top level keys known to this data branch
+     */
+    public Set keySet(){
+    	return map.keySet();
+    }
 }

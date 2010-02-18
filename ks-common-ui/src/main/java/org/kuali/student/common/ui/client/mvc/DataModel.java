@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.student.common.ui.client.mvc.ModelChangeEvent.Action;
 import org.kuali.student.common.ui.client.validator.ClientDateParser;
@@ -106,11 +107,21 @@ public class DataModel implements Model {
             final Key key = path.get(i);
             if (key.equals(Data.WILDCARD_KEY)) {
                 final QueryPath relative = path.subPath(i + 1, path.size());
-                for (final Property p : d) {
-                    // TODO this won't work with wildcarded leafnodes either
-                    if (p.getValueType().equals(Data.class)) {
-                        queryRelative((Data) p.getValue(), relative, result);
-                    }
+                if (!relative.isEmpty()){
+	                for (final Property p : d) {
+	                    // TODO this won't work with wildcarded leafnodes either
+	                    if (p.getValueType().equals(Data.class)) {
+	                        queryRelative((Data) p.getValue(), relative, result);
+	                    }
+	                }
+                } else {
+                	//The wildcard is last element in path, so add all sub-elements to result
+                	Set<Key> keys = d.keySet();
+                	for (Key wildcardKey:keys){
+                		QueryPath wildcardPath = path.subPath(0, path.size()-1);
+                		wildcardPath.add(wildcardKey);
+                		result.put(wildcardPath, d.get(wildcardKey));
+                	}
                 }
             } else if (i < path.size() - 1) {
                 d = d.get(key);
