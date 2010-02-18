@@ -109,6 +109,7 @@ public class RuleComponentEditorView extends ViewComposite {
     private Map<String, String> cluSetsData = new HashMap<String, String>();
     private static int tempCounterID = 2000;
     private List<TmpCoursePicker> valueWidgets = new ArrayList<TmpCoursePicker>();    
+    private CollectionModel<RuleInfo> model;
 
     public RuleComponentEditorView(Controller controller) {
         super(controller, "Clause Editor View");
@@ -120,6 +121,15 @@ public class RuleComponentEditorView extends ViewComposite {
     public void beforeShow(final Callback<Boolean> onReadyCallback) {   
         setupReqCompTypesList();
 
+        getController().requestModel(RuleInfo.class, new ModelRequestCallback<CollectionModel<RuleInfo>>() {
+            public void onModelReady(CollectionModel<RuleInfo> theModel) {
+                model = theModel;    
+            }
+
+            public void onRequestFail(Throwable cause) {
+                throw new RuntimeException("Unable to connect to model", cause);
+            }
+        }); 
         requirementsRpcServiceAsync.getReqComponentTypesForLuStatementType(getSelectedStatementType(), new AsyncCallback<List<ReqComponentTypeInfo>>() {
             public void onFailure(Throwable cause) {
             	GWT.log("Failed to get req. component types for statement of type:" + getSelectedStatementType(), cause);
@@ -412,7 +422,6 @@ public class RuleComponentEditorView extends ViewComposite {
                         
                         //4. create new req. component and possibly new statement if none exists yet                      
                         editedStatementVO.addReqComponentVO(editedReqCompVO);
-                        
                         updateNLAndExit();                    	                    	
                     }
                 });	    	            	                    	                    
@@ -810,6 +819,7 @@ public class RuleComponentEditorView extends ViewComposite {
                 editedReqCompVO.setTypeDesc(reqCompNaturalLanguage);
                 editedReqCompVO.setCheckBoxOn(true);                
                 editedStatementVO.clearSelections();
+                model.getValue().setStatementVO(editedStatementVO);
                 ((CourseReqManager)getController()).saveEditHistory(editedStatementVO);
                 getController().showView(PrereqViews.MANAGE_RULES, Controller.NO_OP_CALLBACK);
             }

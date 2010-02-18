@@ -256,6 +256,7 @@
 		<constructor-arg value="draft"/>
 		<property name="learningObjectiveService" ref="loClient"/>
 		<property name="luService" ref="luClient"/>
+		<property name="statementService" ref="statementServiceClient"/>
 		<property name="proposalService" ref="proposalClient"/>
 		<!--property name="translationService" ref="translationClient"/-->
 		<property name="orgService" ref="orgClient"/>
@@ -297,6 +298,7 @@
 	<bean id="courseAssembler" class="org.kuali.student.lum.lu.assembly.CourseAssembler" parent="baseAssembler">
 		<property name="loService" ref="loClient"/>
 		<property name="luService" ref="luClient"/>
+		<property name="statementService" ref="statementServiceClient"/>
 		<!--property name="translationService" ref="translationClient"/-->
 		<property name="orgService" ref="orgClient"/>
 	</bean>

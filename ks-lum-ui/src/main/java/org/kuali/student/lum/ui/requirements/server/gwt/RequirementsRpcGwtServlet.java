@@ -63,7 +63,7 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
         StatementTreeViewInfo statementTreeViewInfo = new StatementTreeViewInfo();
         
         // first translate StatementVO to StatementTreeViewInfo object
-        String error = composeStatementTreeViewInfo(statementVO, statementTreeViewInfo);
+        String error = statementVO.composeStatementTreeViewInfo(statementVO, statementTreeViewInfo);
         if (error.isEmpty() == false) {
             throw new Exception(error + "cluId: " + cluId + ", usage: " + nlUsageTypeKey);
         }
@@ -97,51 +97,7 @@ public class RequirementsRpcGwtServlet extends BaseRpcGwtServletAbstract<LuServi
         
         return reqComponentTypeInfoList;
     }
-    
-    private String composeStatementTreeViewInfo(StatementVO statementVO, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
-        List<StatementVO> statementVOs = statementVO.getStatementVOs();
-        List<ReqComponentVO> reqComponentVOs = statementVO.getReqComponentVOs();
         
-        statementTreeViewInfo.setOperator(statementVO.getStatementInfo().getOperator());
-        statementTreeViewInfo.setType(statementVO.getStatementInfo().getType());
-        if ((statementVOs != null) && (reqComponentVOs != null) && (statementVOs.size() > 0) && (reqComponentVOs.size() > 0))
-        {
-            return "Internal error: found both Statements and Requirement Components on the same level of boolean expression";
-        }
-        
-        if ((statementVOs != null) && (statementVOs.size() > 0)) {
-            // retrieve all statements
-            List<StatementTreeViewInfo> subStatementTVInfos = new ArrayList<StatementTreeViewInfo>();
-            for (StatementVO statement : statementVOs) {
-                StatementTreeViewInfo subStatementTVInfo = new StatementTreeViewInfo();
-                subStatementTVInfo.setOperator(statement.getStatementInfo().getOperator());
-                subStatementTVInfo.setType(statement.getStatementInfo().getType());
-                composeStatementTreeViewInfo(statement, subStatementTVInfo); // inside set the children of this statementTreeViewInfo
-                subStatementTVInfos.add(subStatementTVInfo);
-            }
-            statementTreeViewInfo.setStatements(subStatementTVInfos);
-        } else {
-            // retrieve all req. component LEAFS
-            List<ReqComponentInfo> reqComponentList = new ArrayList<ReqComponentInfo>();
-            for (ReqComponentVO reqComponent : reqComponentVOs) {
-                ReqComponentInfo newReqComp = new ReqComponentInfo();
-                newReqComp.setId(reqComponent.getReqComponentInfo().getId());
-                newReqComp.setType(reqComponent.getReqComponentInfo().getType());
-                if (reqComponent.getTypeDesc() != null) {
-                    RichTextInfo desc = new RichTextInfo();
-                    desc.setPlain(reqComponent.getTypeDesc());
-                    desc.setFormatted("<p>" + reqComponent.getTypeDesc() + "</p>");
-                    newReqComp.setDesc(desc);
-                }
-                newReqComp.setReqCompFields(reqComponent.getReqComponentInfo().getReqCompFields());
-                reqComponentList.add(newReqComp);
-            }
-            statementTreeViewInfo.setReqComponents(reqComponentList);
-        }
-        
-        return "";
-    }
-    
     /**
      * @throws Exception 
      * @see org.kuali.student.lum.lu.ui.course.client.service.LuRemoteService#updateClu(java.lang.String, org.kuali.student.lum.lu.dto.CluInfo)

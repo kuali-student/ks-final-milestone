@@ -252,10 +252,10 @@ public class RuleExpressionParser {
         return validToken;
     }
     
-    public Node parseExpressionIntoTree(String expression, StatementVO statementVO) {
+    public Node parseExpressionIntoTree(String expression, StatementVO statementVO, String statementType) {
         Node tree = null;
         if (expression != null && expression.trim().length() > 0) {
-            StatementVO parsedS = parseExpressionIntoStatementVO(expression, statementVO);
+            StatementVO parsedS = parseExpressionIntoStatementVO(expression, statementVO, statementType);
             if (parsedS != null) {
                 tree = parsedS.getTree();
             }
@@ -263,9 +263,9 @@ public class RuleExpressionParser {
         return tree;
     }
     
-    public StatementVO parseExpressionIntoStatementVO(String expression,
-            StatementVO statementVO) {
+    public StatementVO parseExpressionIntoStatementVO(String expression, StatementVO statementVO, String statementType) {
         StatementVO parsedS = null;
+
         List<ReqComponentVO> rcs = statementVO.getAllReqComponentVOs();
         try {
             List<String> tokenValueList = getTokenValue(expression);
@@ -273,7 +273,7 @@ public class RuleExpressionParser {
             if (!doValidateExpression(new ArrayList<String>(), tokenList, rcs)) return null;
             List<Node<Token>> nodeList = toNodeList(tokenList);
             List<Node<Token>> rpnList = getRPN(nodeList);
-            parsedS = statementVOFromRPN(rpnList, rcs, statementVO.getStatementInfo().getType());
+            parsedS = statementVOFromRPN(rpnList, rcs, statementType);
 
             if (parsedS != null) {
                 parsedS.simplify();
@@ -325,6 +325,7 @@ public class RuleExpressionParser {
                 }
                 StatementInfo statementInfo = new StatementInfo();
                 statementInfo.setOperator(op);
+                statementInfo.setType(statementType);
                 subS.setStatementInfo(statementInfo);
                 Token right = conditionStack.pop().getUserObject();
                 Token left = conditionStack.pop().getUserObject();
@@ -375,6 +376,7 @@ public class RuleExpressionParser {
         StatementVO wrapS = new StatementVO();
         StatementInfo wrapStatementInfo = new StatementInfo();
         wrapStatementInfo.setOperator(op);
+        wrapStatementInfo.setType(statementType);
         wrapS.setStatementInfo(wrapStatementInfo);
         wrapS.addReqComponentVO(rc);
         return wrapS;

@@ -16,6 +16,9 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.PermissionService;
+import org.kuali.student.brms.statement.service.StatementService;
+import org.kuali.student.common.util.security.SecurityUtils;
+import org.kuali.student.core.assembly.Assembler;
 import org.kuali.student.core.assembly.BaseAssembler;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
@@ -91,6 +94,8 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
     private final CluInstructorInfoDataAssembler instructorAssembler = new CluInstructorInfoDataAssembler();
 
     private LuService luService;
+    private StatementService statementService;
+    private PermissionService permissionService;
     private LearningObjectiveService loService;
 //    private TranslationService translationService;
     private OrganizationService orgService;
@@ -411,8 +416,9 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
     private void saveRules(String courseId, LuData luData) throws Exception{
         LuRuleInfoPersistanceBean ruleInfoBean = new LuRuleInfoPersistanceBean();
         ruleInfoBean.setLuService(luService);
+        ruleInfoBean.setStatementService(statementService);
 //        ruleInfoBean.setTranslationService(translationService);
-        ruleInfoBean.updateRules(courseId, luData.getRuleInfos());
+        ruleInfoBean.updateRules(courseId, luData);
     }
 
     private CluInfoHierarchy buildCluInfoHierarchyFromData(CreditCourseHelper course) throws AssemblyException {
@@ -1055,6 +1061,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
     private List<RuleInfo> getRules(String courseId) throws Exception{
         LuRuleInfoPersistanceBean ruleInfoBean = new LuRuleInfoPersistanceBean();
         ruleInfoBean.setLuService(luService);
+        ruleInfoBean.setStatementService(statementService);
 //        ruleInfoBean.setTranslationService(translationService);
         return ruleInfoBean.fetchRules(courseId);
     }
@@ -1081,6 +1088,14 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 
     public void setLuService(LuService luService) {
         this.luService = luService;
+    }
+    
+    public StatementService getStatementService() {
+        return statementService;
+    }
+
+    public void setStatementService(StatementService statementService) {
+        this.statementService = statementService;
     }
 
     public void setPermissionService(PermissionService permissionService) {

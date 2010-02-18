@@ -4,8 +4,12 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.core.dto.StatusInfo;
+import org.kuali.student.brms.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.brms.statement.dto.StatementInfo;
 import org.kuali.student.brms.statement.dto.ReqComponentInfo;
+import org.kuali.student.brms.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.brms.statement.service.StatementService;
+import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.ui.requirements.client.model.EditHistory;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
@@ -16,6 +20,8 @@ public class LuRuleInfoPersistanceBean {
 	final Logger logger = Logger.getLogger(LuRuleInfoPersistanceBean.class);
 	
 	private LuService luService;
+	private StatementService statementService;
+    private static final String STATEMENT_REF_TYPE_ID = "clu.rule";
 
 	public LuService getLuService() {
 		return luService;
@@ -25,56 +31,59 @@ public class LuRuleInfoPersistanceBean {
 		this.luService = luService;
 	}
 	
-	//eventually this all needs to be one transaction
-    public String saveRules(String cluId, List<RuleInfo> rules) throws Exception {
-    	for (RuleInfo ruleInfo : rules) {
-    		String rooStmtId = saveRule(cluId, ruleInfo.getStatementVO(), null);        
-    		
-    		//FIXME - LU Service Change
-//    		StatusInfo status = luService.addLuStatementToClu(cluId, rooStmtId);
-//            
-//            if (!status.getSuccess()) {
-//            	throw new Exception("Unable to add lu statement with id: " + rooStmtId + " to clu with id: " + cluId);	
-//            } 
-    	}
-		return "";
-    }	
-	
-    public String updateRules(String cluId, List<RuleInfo> newRules) throws Exception {
+	public StatementService getStatementService() {
+        return statementService;
+    }
+
+    public void setStatementService(StatementService statementService) {
+        this.statementService = statementService;
+    }
+
+    public String updateRules(String cluId, LuData luData) throws Exception {
+        List<RuleInfo> newRules = luData.getRuleInfos();
     	for (RuleInfo ruleInfo : newRules) {
     		StatementVO stmtVO = ruleInfo.getStatementVO();
+            StatementTreeViewInfo statementTreeViewInfo = new StatementTreeViewInfo();
+            StatementTreeViewInfo updatedSTVInfo = null;
+            RefStatementRelationInfo refStatementRelationInfo = null;
     		
-    		//TODO remove the original rule i.e. first retrieve the original statement from clu 
-    		//deleteRule(cluId, origLuStatementInfo, true);
-        	//for now just remove the top statement from clu    	
-    		StatusInfo status;
-    		StatementInfo topStmt = stmtVO.getStatementInfo();
-    		if (topStmt.getId() != null){
-
-    			//FIXME: LU Service API Change
-//	    		status = luService.removeLuStatementFromClu(cluId, topStmt.getId());
-//	            if (!status.getSuccess()) {
-//	            	throw new Exception("Unable to remove statement with id: " + stmtVO.getLuStatementInfo().getId() + " from clu with id: " + cluId);	
-//	            }
-	            //FIXME: CLU ids are no longer in StatementInfo
-//	            List<String> cluList = topStmt.getCluIds();
-//	            List<String> cluListTemp = new ArrayList<String>(cluList);	            
-//	            for(String cluIId : cluListTemp) {
-//	                if (cluIId.equals(cluId))  {
-//	                    cluList.remove(cluIId);
-//	                    topStmt.setCluIds(cluList);
-//	                }
-//	            }	            
-    		}
+            List<RefStatementRelationInfo> referencedObjects = statementService.getRefStatementRelationsByRef("clu", cluId);
+            
+            // delete the statements with the same type referenced by this clu
+            if (referencedObjects != null) {
+                for (RefStatementRelationInfo referencedObject : referencedObjects) {
+                    String refId = referencedObject.getId();
+                    String refTypeId = referencedObject.getType();
+                    if (refTypeId.equals(STATEMENT_REF_TYPE_ID)) {
+                        StatementInfo refedS = statementService.getStatement(referencedObject.getStatementId());
+                        if (stmtVO == null || stmtVO.getStatementInfo().getType().equals(
+                                refedS.getType())) {
+                            StatusInfo status = statementService.deleteRefStatementRelation(refId);
+                            if (!status.getSuccess()) {
+                                throw new Exception("Unable to remove statement with id: " + 
+                                        stmtVO.getStatementInfo().getId() + " from clu with id: " + cluId);  
+                            }
+                        }
+                    }
+                }
+            }
     		
-    		String rooStmtId = saveRule(cluId, stmtVO, null);
+            if (stmtVO != null) {
+                stmtVO.composeStatementTreeViewInfo(stmtVO, statementTreeViewInfo);
+                updatedSTVInfo = statementService.updateStatementTreeView(stmtVO.getStatementInfo().getId(), statementTreeViewInfo);
+                refStatementRelationInfo = new RefStatementRelationInfo();
+                refStatementRelationInfo.setRefObjectId(cluId); //MATH152
+                refStatementRelationInfo.setRefObjectTypeKey("clu"); // CLU
+                refStatementRelationInfo.setState("ACTIVE");
+                refStatementRelationInfo.setStatementId(updatedSTVInfo.getId());
+                refStatementRelationInfo.setType(STATEMENT_REF_TYPE_ID);
+//              refStatementRelationInfo.setEffectiveDate(effDate.getTime());
+//              refStatementRelationInfo.setExpirationDate(expDate.getTime());
 
-    		//FIXME - LU Service Change
-//    		status = luService.addLuStatementToClu(cluId, rooStmtId);
-//            if (!status.getSuccess()) {
-//            	throw new Exception("Unable to add lu statement with id: " + rooStmtId + " to clu with id: " + cluId);	
-//            }     		
+                statementService.createRefStatementRelation(refStatementRelationInfo);
+            }
     	}
+        luData.setRuleInfos(fetchRules(cluId));
 		return "";
     }
 
@@ -107,9 +116,20 @@ public class LuRuleInfoPersistanceBean {
 		try {
 		
 			List<StatementInfo> statements = null;
-    		//FIXME - LU Service Change
-			//luStatements = luService.getLuStatementsForClu(cluId);
+			List<RefStatementRelationInfo> referencedObjects = statementService.getRefStatementRelationsByRef("clu", cluId);
 			
+			if (referencedObjects != null) {
+			    for (RefStatementRelationInfo referencedObject : referencedObjects) {
+			        String statementId = referencedObject.getStatementId();
+			        String refTypeId = referencedObject.getType();
+			        if (refTypeId.equals(STATEMENT_REF_TYPE_ID)) {
+			            StatementInfo statement = statementService.getStatement(statementId);
+			            statements = (statements == null)? new ArrayList<StatementInfo>(7) : statements;
+			            statements.add(statement);
+			        }
+			    }
+			}
+
 			if (statements != null){
 				for (StatementInfo statementInfo:statements){
 					
@@ -134,6 +154,7 @@ public class LuRuleInfoPersistanceBean {
 					ruleInfo.setCluId(cluId);
 					ruleInfo.setEditHistory(new EditHistory());
 					ruleInfo.setStatementVO(statementVO);
+					ruleInfo.setSelectedStatementType(statementInfo.getType());
 					
 			        EditHistory editHistory = new EditHistory();
 			        editHistory.save(statementVO);
@@ -163,32 +184,53 @@ public class LuRuleInfoPersistanceBean {
 		
 		//Fetch child statements
 
-        //FIXME - LU Service Change
-//		if (statementIDs != null && statementIDs.size() > 0){
-//			List<LuStatementInfo> childStatements = luService.getLuStatements(luStatementInfo.getLuStatementIds());
-//			for (LuStatementInfo childStatement:childStatements){
-//				StatementVO childStatementVO = createStatementVO(childStatement);
-//				statementVO.addStatementVO(childStatementVO);
-//			}
-//		} else { //Fetch child requirement components		
-//			List<ReqComponentInfo> childReqComponents = luService.getReqComponents(luStatementInfo.getReqComponentIds());
-//			for (ReqComponentInfo childReqComponent:childReqComponents){
-//				ReqComponentVO reqComponentVO = new ReqComponentVO(childReqComponent);
-//					
-//				String nl;
-//				try {
-//					nl = translationService.getNaturalLanguageForReqComponentInfo(childReqComponent, "KUALI.CATALOG", null);
-//				} catch(Exception e) {
-//					logger.error("Error fetching NL for req. component:" + childReqComponent.getRequiredComponentType().getId(), e);
-//					throw new RuntimeException("Error fetching NL for req. component:" + childReqComponent.getRequiredComponentType().getId());
-//				} 				
-//				reqComponentVO.setTypeDesc(nl);
-//				
-//				statementVO.addReqComponentVO(reqComponentVO);
-//			}
-//		}
+		if (statementIDs != null && statementIDs.size() > 0){
+			List<StatementInfo> childStatements = getStatements(statementInfo.getStatementIds());
+			for (StatementInfo childStatement:childStatements){
+				StatementVO childStatementVO = createStatementVO(childStatement);
+				statementVO.addStatementVO(childStatementVO);
+			}
+		} else { //Fetch child requirement components		
+			List<ReqComponentInfo> childReqComponents = getReqComponents(statementInfo.getReqComponentIds());
+			for (ReqComponentInfo childReqComponent:childReqComponents){
+				ReqComponentVO reqComponentVO = new ReqComponentVO(childReqComponent);
+					
+				String nl;
+				try {
+				    nl = statementService.translateReqComponentToNL(childReqComponent, "KUALI.CATALOG", "en");
+				} catch(Exception e) {
+					logger.error("Error fetching NL for req. component:" + childReqComponent.getRequiredComponentType().getId(), e);
+					throw new RuntimeException("Error fetching NL for req. component:" + childReqComponent.getRequiredComponentType().getId());
+				} 				
+				reqComponentVO.setTypeDesc(nl);
+				
+				statementVO.addReqComponentVO(reqComponentVO);
+			}
+		}
 		
 		return statementVO;
+	}
+	
+	private List<StatementInfo> getStatements(List<String> statementIds) throws Exception {
+	    List<StatementInfo> result = null;
+	    if (statementIds != null) {
+	        for (String statementId : statementIds) {
+	            result = (result == null)? new ArrayList<StatementInfo>(7) : result;
+	            result.add(statementService.getStatement(statementId));
+	        }
+	    }
+	    return result;
+	}
+	
+	private List<ReqComponentInfo> getReqComponents(List<String> reqComponentIds) throws Exception {
+	    List<ReqComponentInfo> result = null;
+        if (reqComponentIds != null) {
+            for (String reqComponentId : reqComponentIds) {
+                result = (result == null)? new ArrayList<ReqComponentInfo>(7) : result;
+                result.add(statementService.getReqComponent(reqComponentId));
+            }
+        }
+        return result;
 	}
 	
     //work in progress
@@ -288,82 +330,4 @@ public class LuRuleInfoPersistanceBean {
         return;
     }     
 
-    //work in progress
-    private String saveRule(String cluId, StatementVO statementVO, String parentId) throws Exception {
-        
-        StatementInfo parentStmt = statementVO.getStatementInfo();
-    	List<StatementVO> stmtVOs = statementVO.getStatementVOs();       
-        List<ReqComponentVO> reqCompVOs = statementVO.getReqComponentVOs();
-        
-        if ((stmtVOs != null) && (reqCompVOs != null) && (stmtVOs.size() > 0) && (reqCompVOs.size() > 0))
-        {
-        	throw new Exception("Internal error: found both Lu Statements and Requirement Components on the same level of boolean expression");
-        }               
-        
-        //create this statement first             
-        parentStmt.setParentId(parentId);
-        parentStmt.setId(null);
-
-		//FIXME - LU Service Change
-//        LuStatementInfo newParentStmt = luService.createLuStatement(parentStmt.getType(), parentStmt);
-//        if (newParentStmt == null) {
-//        	throw new Exception("Unable to create Statement: " + parentStmt.getName());	
-//        }          
-        
-        //next save contained statements or req. components
-        if ((stmtVOs != null) && (stmtVOs.size() > 0)) {        	        
-
-            //save children belonging to each statement
-
-        	//FIXME - LU Service Change
-//        	newParentStmt.setLuStatementIds(new ArrayList<String>());
-//            for (StatementVO stmtVO : stmtVOs) {            	          	
-//            	            	 
-//                //Set statement type
-//            	stmtVO.getLuStatementInfo().setType(newParentStmt.getType());
-//            	/*
-//                if (newParentStmt.getLuStatementType() == null){
-//        			LuStatementTypeInfo luStatementTypeInfo = new LuStatementTypeInfo();
-//        			luStatementTypeInfo.setId(newParentStmt.getLuStatementType().getId());
-//        			newParentStmt.setLuStatementType(luStatementTypeInfo);
-//        			newParentStmt.setType(luStatementTypeInfo.getId());
-//                } */            	
-//            	
-//            	//save this statement and all its children and leaves
-//                String childStmtId = saveRule(cluId, stmtVO, newParentStmt.getId());
-//                
-//                //add the child statement id to the parent statement
-//                newParentStmt.getLuStatementIds().add(childStmtId);                                               
-//            }             
-//            
-//        } else {
-//        	           
-//            //create each req. component
-//        	newParentStmt.setReqComponentIds(new ArrayList<String>());
-//            for (ReqComponentVO reqCompVO : reqCompVOs) {             
-//            	ReqComponentInfo reqComp = reqCompVO.getReqComponentInfo();
-//            	
-//            	logger.info("CREATING Req. Component with id: " + reqComp.getId());
-//            	reqComp.setId(null);
-//            	ReqComponentInfo newReqCmp = luService.createReqComponent(reqComp.getType(), reqComp);
-//            	if (newReqCmp == null) {            	
-//                    throw new Exception("Unable to create Req. Component with id: " + reqComp.getId());
-//            	}
-//            	
-//            	//add the new req. comp id to the statement
-//            	newParentStmt.getReqComponentIds().add(newReqCmp.getId());
-//            	
-//            	reqCompVO.setReqComponentInfo(newReqCmp);
-//            	reqCompVO.setId(newReqCmp.getId());            	
-//            }             
-        }                                                 
-//        
-//        //update statement with children ids
-//        newParentStmt = luService.updateLuStatement(newParentStmt.getId(), newParentStmt);         
-//        
-//        statementVO.setLuStatementInfo(newParentStmt);        
-//        
-//        return newParentStmt.getId();
-        	return null;
-    }
 }

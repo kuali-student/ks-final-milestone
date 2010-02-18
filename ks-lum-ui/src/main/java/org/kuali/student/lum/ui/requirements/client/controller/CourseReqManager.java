@@ -190,17 +190,13 @@ public class CourseReqManager extends Controller {
 
 	//create a blank root statementVO
     public void addNewRule(String statementType) {
-        StatementInfo newStatementInfo = new StatementInfo();
-        newStatementInfo.setOperator(StatementOperatorTypeKey.AND);
-        newStatementInfo.setType(statementType);
-        StatementVO statementVO = new StatementVO();                            
-        statementVO.setStatementInfo(newStatementInfo);         	            	
         RuleInfo newPrereqInfo = new RuleInfo();
-        newPrereqInfo.setStatementVO(statementVO); 
         newPrereqInfo.setCluId(cluId);
         newPrereqInfo.setId(Integer.toString(id++));
         newPrereqInfo.setEditHistory(new EditHistory());
-        ruleInfo.add(newPrereqInfo);    	
+        newPrereqInfo.setSelectedStatementType(statementType);
+        newPrereqInfo.setStatementVO(newPrereqInfo.createNewStatementVO());
+        ruleInfo.add(newPrereqInfo);
     }
 
     private void loadSearchBoxData() {        

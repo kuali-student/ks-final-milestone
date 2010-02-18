@@ -10,6 +10,10 @@ import java.util.Map;
 
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.student.core.assembly.BaseAssembler;
+import org.kuali.rice.kim.service.PermissionService;
+import org.kuali.student.brms.statement.service.StatementService;
+import org.kuali.student.common.util.security.SecurityUtils;
+import org.kuali.student.core.assembly.Assembler;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.SaveResult;
@@ -82,6 +86,7 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
     private final CluInstructorInfoDataAssembler instructorAssembler = new CluInstructorInfoDataAssembler();
     private ProposalService proposalService;
     private LuService luService;
+    private StatementService statementService;
     private LearningObjectiveService loService;
 //    private TranslationService translationService;
     private OrganizationService orgService;
@@ -355,6 +360,14 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
 
     public void setLuService(LuService luService) {
         this.luService = luService;
+    }
+    
+    public StatementService getStatementService() {
+        return statementService;
+    }
+
+    public void setStatementService(StatementService statementService) {
+        this.statementService = statementService;
     }
 
     public void setProposalService(ProposalService proposalService) {

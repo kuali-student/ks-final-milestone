@@ -120,7 +120,7 @@ public class ObjectClonerUtil {
         return clonedReqComponentVO;
     }
     
-    private static ReqComponentInfo clone(ReqComponentInfo inReqComponentInfo) {
+    public static ReqComponentInfo clone(ReqComponentInfo inReqComponentInfo) {
         ReqComponentInfo clonedReqComponentInfo = null;
         if (inReqComponentInfo != null) {
             clonedReqComponentInfo = new ReqComponentInfo();

@@ -204,7 +204,7 @@ public class CourseRequisiteView extends ViewComposite {
             
             RuleInfo rule = getRuleInfo(sender.getTitle());
             //true if user is adding a new rule
-            if ((rule == null) || (rule.getNaturalLanguage() == null) || (rule.getNaturalLanguage().isEmpty())) {                
+            if ((rule == null) || rule.getStatementVO() == null) {                
                 courseReqManager.addNewRule(statementType);
                 courseReqManager.showView(PrereqViews.RULE_COMPONENT_EDITOR, Controller.NO_OP_CALLBACK);
             } else {
@@ -216,7 +216,8 @@ public class CourseRequisiteView extends ViewComposite {
     private RuleInfo getRuleInfo(String luStatementTypeKey) { 	
         if ((courseRules != null) && !courseRules.isEmpty()) {
             for (RuleInfo ruleInfo : courseRules) {
-                if (ruleInfo.getStatementTypeKey().equals(luStatementTypeKey)) {              	
+                if (ruleInfo.getStatementTypeKey() != null &&
+                        ruleInfo.getStatementTypeKey().equals(luStatementTypeKey)) {              	
                     return ruleInfo;
                 }                
             }

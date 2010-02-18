@@ -612,7 +612,7 @@ public class ManageRulesView extends ViewComposite {
     }
     
     private String getRuleTypeName() {
-    	String luStatementTypeKey = model.getValue().getStatementTypeKey();
+    	String luStatementTypeKey = model.getValue().getSelectedStatementType();
         if (luStatementTypeKey.contains("enroll")) return "Enrollment Restriction";
         if (luStatementTypeKey.contains("prereq")) return "Prerequisite";
         if (luStatementTypeKey.contains("coreq")) return "Corequisite";

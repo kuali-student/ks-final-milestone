@@ -34,7 +34,25 @@ public class RuleInfo implements Idable, Serializable {
     private String previewedExpression; // the state of the expression when it was previewed
     private EditHistory editHistory;
     private boolean simplifying;
+    private String selectedStatementType;
     
+    public String getSelectedStatementType() {
+        return selectedStatementType;
+    }
+    public void setSelectedStatementType(String selectedStatementType) {
+        this.selectedStatementType = selectedStatementType;
+    }
+    public StatementVO createNewStatementVO() {
+        if (selectedStatementType == null) {
+            throw new java.lang.IllegalStateException("selectedStatementType must not be null");
+        }
+        StatementInfo newStatementInfo = new StatementInfo();
+        newStatementInfo.setOperator(StatementOperatorTypeKey.AND);
+        newStatementInfo.setType(selectedStatementType);
+        StatementVO statementVO = new StatementVO();                            
+        statementVO.setStatementInfo(newStatementInfo);                             
+        return statementVO;
+    }
     @Override
     public String getId() {
         return id;
@@ -68,7 +86,9 @@ public class RuleInfo implements Idable, Serializable {
         this.statementVO = statementVO;
     }        
     public String getStatementTypeKey() {
-    	return statementVO.getStatementInfo().getType();
+        String statementType = (statementVO == null || statementVO.getStatementInfo() == null)? null :
+            statementVO.getStatementInfo().getType();
+    	return statementType;
     }
     
     public Node getStatementTree() {
@@ -163,8 +183,8 @@ public class RuleInfo implements Idable, Serializable {
         StatementVO enclosingStatementVO = statementVO.getEnclosingStatementVO(statementVO,
                 selectedReqComponentVOs.get(0));
         // create new statement to hold the new OR group
-        StatementVO newStatementVO = new StatementVO();
-        StatementInfo newLuStatementInfo = new StatementInfo();
+        StatementVO newStatementVO = createNewStatementVO();
+        StatementInfo newLuStatementInfo = newStatementVO.getStatementInfo();
         newLuStatementInfo.setOperator(StatementOperatorTypeKey.OR);
         newStatementVO.setStatementInfo(newLuStatementInfo);
         // remove the selected RCs from original statement and move them into the new
@@ -190,8 +210,8 @@ public class RuleInfo implements Idable, Serializable {
         StatementVO enclosingStatementVO = statementVO.getEnclosingStatementVO(statementVO,
                 selectedReqComponentVOs.get(0));
         // create new statement to hold the new OR group
-        StatementVO newStatementVO = new StatementVO();
-        StatementInfo newLuStatementInfo = new StatementInfo();
+        StatementVO newStatementVO = createNewStatementVO();
+        StatementInfo newLuStatementInfo = newStatementVO.getStatementInfo();
         newLuStatementInfo.setOperator(StatementOperatorTypeKey.AND);
         newStatementVO.setStatementInfo(newLuStatementInfo);
         // remove the selected RCs from original statement and move them into the new

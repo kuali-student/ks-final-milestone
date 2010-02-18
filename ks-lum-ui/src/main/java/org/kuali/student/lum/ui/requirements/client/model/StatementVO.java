@@ -18,11 +18,21 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.common.ui.client.widgets.table.Node;
 import org.kuali.student.common.ui.client.widgets.table.Token;
+import org.kuali.student.core.dto.MetaInfo;
+import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+import org.kuali.student.brms.statement.dto.ReqComponentInfo;
 import org.kuali.student.brms.statement.dto.StatementInfo;
 import org.kuali.student.brms.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.brms.statement.dto.StatementTreeViewInfo;
 
 public class StatementVO extends Token implements Serializable {
 
@@ -831,5 +841,50 @@ public class StatementVO extends Token implements Serializable {
             simple = true;
         }
         return simple;
+    }
+    
+    private void setFieldsTo(final StatementTreeViewInfo stvInfo) {
+        stvInfo.setAttributes(getStatementInfo().getAttributes());
+        stvInfo.setDesc(getStatementInfo().getDesc());
+        stvInfo.setId(getStatementInfo().getId());
+        stvInfo.setMetaInfo(getStatementInfo().getMetaInfo());
+        stvInfo.setName(getStatementInfo().getName());
+        stvInfo.setOperator(getStatementInfo().getOperator());
+        stvInfo.setState(getStatementInfo().getState());
+        stvInfo.setType(getStatementInfo().getType());
+    }
+    
+    public String composeStatementTreeViewInfo(StatementVO statementVO, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
+        List<StatementVO> statementVOs = statementVO.getStatementVOs();
+        List<ReqComponentVO> reqComponentVOs = statementVO.getReqComponentVOs();
+        
+        statementVO.setFieldsTo(statementTreeViewInfo);
+        if ((statementVOs != null) && (reqComponentVOs != null) && (statementVOs.size() > 0) && (reqComponentVOs.size() > 0))
+        {
+            return "Internal error: found both Statements and Requirement Components on the same level of boolean expression";
+        }
+        
+        if ((statementVOs != null) && (statementVOs.size() > 0)) {
+            // retrieve all statements
+            List<StatementTreeViewInfo> subStatementTVInfos = new ArrayList<StatementTreeViewInfo>();
+            for (StatementVO statement : statementVOs) {
+                StatementTreeViewInfo subStatementTVInfo = new StatementTreeViewInfo();
+                subStatementTVInfo.setParentId(statementVO.getStatementInfo().getId());
+                statement.setFieldsTo(subStatementTVInfo);
+                composeStatementTreeViewInfo(statement, subStatementTVInfo); // inside set the children of this statementTreeViewInfo
+                subStatementTVInfos.add(subStatementTVInfo);
+            }
+            statementTreeViewInfo.setStatements(subStatementTVInfos);
+        } else {
+            // retrieve all req. component LEAFS
+            List<ReqComponentInfo> reqComponentList = new ArrayList<ReqComponentInfo>();
+            for (ReqComponentVO reqComponent : reqComponentVOs) {
+                ReqComponentInfo newReqComp = ObjectClonerUtil.clone(reqComponent.getReqComponentInfo());
+                reqComponentList.add(newReqComp);
+            }
+            statementTreeViewInfo.setReqComponents(reqComponentList);
+        }
+        
+        return "";
     }
 }

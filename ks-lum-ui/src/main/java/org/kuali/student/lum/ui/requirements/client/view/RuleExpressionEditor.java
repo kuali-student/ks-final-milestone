@@ -126,8 +126,7 @@ public class RuleExpressionEditor extends ViewComposite {
                 
                 if (validExpression && missingRCs.isEmpty()) {
                     StatementVO newStatementVO = ruleExpressionParser.parseExpressionIntoStatementVO(
-                            prereqInfo.getExpression(),
-                            prereqInfo.getStatementVO());
+                            prereqInfo.getExpression(), prereqInfo.getStatementVO(), prereqInfo.getSelectedStatementType());
                     prereqInfo.setStatementVO(newStatementVO);
                     prereqInfo.setPreviewedExpression(null);
                     prereqInfo.getEditHistory().save(prereqInfo.getStatementVO());
@@ -245,7 +244,7 @@ public class RuleExpressionEditor extends ViewComposite {
                     showErrors(errorMessages);
                 } else {
                     Node tree = ruleExpressionParser.parseExpressionIntoTree(
-                        previewExpression, prereqInfo.getStatementVO());
+                        previewExpression, prereqInfo.getStatementVO(), prereqInfo.getSelectedStatementType());
                     if (tree != null) {
                         ruleTable.buildTable(tree);
                     }
