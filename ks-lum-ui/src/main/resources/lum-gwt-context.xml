@@ -261,6 +261,7 @@
 		<!--property name="translationService" ref="translationClient"/-->
 		<property name="orgService" ref="orgClient"/>
 		<property name="courseAssembler" ref="courseAssembler" />
+		<property name="atpService" ref="atpClient"/>
 	</bean>
 
 
@@ -301,6 +302,7 @@
 		<property name="statementService" ref="statementServiceClient"/>
 		<!--property name="translationService" ref="translationClient"/-->
 		<property name="orgService" ref="orgClient"/>
+		<property name="atpService" ref="atpClient"/>
 	</bean>
 
 	<bean id="CourseRpcGwtServlet"

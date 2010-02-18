@@ -18,6 +18,7 @@ import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.assembly.data.Data.Property;
+import org.kuali.student.core.atp.service.AtpService;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -90,6 +91,7 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
     private LearningObjectiveService loService;
 //    private TranslationService translationService;
     private OrganizationService orgService;
+    private AtpService atpService;
     
     private SearchDispatcherImpl searchDispatcher;
     
@@ -396,6 +398,14 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
         this.orgService = orgService;
     }
 
+    public AtpService getAtpService() {
+        return atpService;
+    }
+
+    public void setAtpService(AtpService atpService) {
+        this.atpService = atpService;
+    }
+    
     @Override
     protected String getDataType() {
         return CREDIT_COURSE_PROPOSAL_DATA_TYPE;

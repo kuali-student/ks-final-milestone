@@ -130,9 +130,10 @@ LearningObjectiveConstants
         addField(section, DESCRIPTION+ "/" + "plain", getLabel(LUConstants.DESCRIPTION_LABEL_KEY), new KSLabel());
 
         addField(section,  CreditCourseConstants.STATE, "State", new KSLabel());
-        addField(section,  CreditCourseConstants.TYPE, "Type", new KSLabel());
-
-        addField(section, DEPARTMENT, getLabel(LUConstants.DEPT_LABEL_KEY), new KSLabel());
+        
+        //FIXME: This is a hack to return id/key field names rather than the id/key. Fix in M5
+        addField(section,  "fees/0/attributes/CourseType", "Type", new KSLabel());
+        addField(section, "fees/0/attributes/DeptOrgName", getLabel(LUConstants.DEPT_LABEL_KEY), new KSLabel());
 
 //FIXME        addField(section, CREDITS,  getLabel(LUConstants.CREDITS_LABEL_KEY), new KSLabel());
 //FIXME        addField(section, "statements", getLabel(LUConstants.REQUISITES_LABEL_KEY), new StatementList());

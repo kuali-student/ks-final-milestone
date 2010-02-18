@@ -146,7 +146,7 @@ insert into KS_RICH_TEXT_T (ID, FORMATTED, PLAIN) values ('cf94f50b-3313-4f1d-a6
 // CluIdentifier
 INSERT INTO KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) VALUES ('IDENT-1', 'Code', 'Division', 'Level', 'SUFX_CD', 'Long Name', 'Shortname', 'State', 'Type', 'Variation')
 INSERT INTO KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) VALUES ('IDENT-2', 'Code', 'Division', 'Level', 'SUFX_CD', 'Long Name', 'Shortname', 'State', 'Type', 'Variation')
-insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('37ecfd9e-b65d-4909-bdc5-6b1300447889', 'AAST233', 'AAST', '200', '233',  'Introduction to Asian American Literature', 'INTRO ASIAN AMERICAN LIT', null, null, null)
+insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('37ecfd9e-b65d-4909-bdc5-6b1300447889', 'AAST233', 'AAST', '200', '233',  'Introduction to Asian American Literature', 'INTRO ASIAN AMERICAN LIT', null, 'kuali.lu.type.CreditCourse.identifier.cross-listed', null)
 insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('4abfaa4f-fce3-44db-83ec-e3845f9b5749', 'AAST298', 'AAST', '200', '298',  'Special Topics in Asian American Studies; Filipino American Studies', 'FILIPINO AMER STUDIES', null, null, null)
 insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('050e4960-e099-4fba-b0dc-37fadb0e7a1a', 'AAST378', 'AAST', '300', '378', 'Experiential Learning', 'EXPERIENTIAL LEARNING', null, null, null)
 insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('d54ab513-eb6e-4d6d-9099-6bc75472d526', 'AAST388', 'AAST', '300', '388','Independent Research', 'INDEPENDENT RESEARCH', null, null, null)
@@ -200,7 +200,7 @@ insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, 
 insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('61930772-3059-4056-8403-23e8d63328d0', 'AMST398', 'AMST', '300', '398', 'Independent Studies', 'INDEPENDENT STUDY', null, null, null)
 insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('588eb62b-4ff4-4760-8559-56e1d46db34d', 'AMST418', 'AMST', '400', '418', 'Cultural Themes in America; The Civil Rights Movement: An Awakened America', 'CIVIL RIGHTS MOVEMENT', null, null, null)
 insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('42cbe058-3926-49ee-bea4-261872e8d1d1', 'AMST429', 'AMST', '400', '429', 'Perspectives on Popular Culture; Global Concerns/Global Cities', 'GLOBAL CONCERNS/CITIES', null, null, null)
-insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('a47e2d88-cb6d-4c52-901c-cc7b630a0d24', 'AMSC452', 'AMSC', '400', '452', 'Introduction to Dynamics and Chaos', 'INTRO TO DYNAMICS&CHAOS', null, null, null)
+insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('a47e2d88-cb6d-4c52-901c-cc7b630a0d24', 'AMSC452', 'AMSC', '400', '452', 'Introduction to Dynamics and Chaos', 'INTRO TO DYNAMICS&CHAOS', null, 'kuali.lu.type.CreditCourse.identifier.version', null)
 insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('12d0fd2d-6a3c-4597-a190-6cc79968890f', 'AMSC460', 'AMSC', '400', '460', 'Computational Methods', 'COMPUTATIONAL METHODS', null, null, null)
 insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('74a409fc-a5c6-485e-8888-84fe8a0849a2', 'AMSC466', 'AMSC', '400', '466', 'Introduction to Numerical Analysis I', 'INTRO NUMERICAL ANLYS I', null, null, null)
 insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, SUFX_CD, LNG_NAME, SHRT_NAME, ST, TYPE, VARTN) values ('ccb116d5-a7b5-45df-8384-0265c9d19588', 'AMSC600', 'AMSC', '600', '600', 'Advanced Linear Numerical Analysis', 'ADV LINR NUM ANALY', null, null, null)
@@ -388,8 +388,8 @@ insert into KSLU_LUI (ID, CLU_ID, ATP_ID, LUI_CODE, MAX_SEATS, EFF_DT, EXP_DT, S
 insert into KSLU_LUI (ID, CLU_ID, ATP_ID, LUI_CODE, MAX_SEATS, EFF_DT, EXP_DT, ST, VERSIONIND) values ('LUI-4', 'CLU-2', 'ATP-1', 'BENG 471 section 101', 75, {ts '2000-01-01 00:00:00.0'}, {ts '2000-06-01 00:00:00.0'}, 'Retired', 1)
 
 // CluAtpTypeKey
-insert into KSLU_CLU_ATP_TYPE_KEY (ID, ATP_TYPE_KEY, clu_id) values ('ATP-1', 'atpType.semester.fall', '2f68e422-a54f-4f10-9cf2-37dd4083ce5d')
-insert into KSLU_CLU_ATP_TYPE_KEY (ID, ATP_TYPE_KEY, clu_id) values ('ATP-2', 'atpType.semester.spring', '2f68e422-a54f-4f10-9cf2-37dd4083ce5d')
+insert into KSLU_CLU_ATP_TYPE_KEY (ID, ATP_TYPE_KEY, clu_id) values ('ATP-1', 'atpType.semester.fall', 'f77befe3-c76c-4963-b4c2-104197f51e96')
+insert into KSLU_CLU_ATP_TYPE_KEY (ID, ATP_TYPE_KEY, clu_id) values ('ATP-2', 'atpType.semester.spring', '8e108d5e-44d0-40eb-bd3e-01c4e8dd7472')
 insert into KSLU_CLU_ATP_TYPE_KEY (ID, ATP_TYPE_KEY, clu_id) values ('ATP-3', 'atpType.semester.summer', 'f77befe3-c76c-4963-b4c2-104197f51e96')
 insert into KSLU_CLU_ATP_TYPE_KEY (ID, ATP_TYPE_KEY, clu_id) values ('ATP-4', 'atpType.quarter.fall', 'f77befe3-c76c-4963-b4c2-104197f51e96')
 insert into KSLU_CLU_ATP_TYPE_KEY (ID, ATP_TYPE_KEY, clu_id) values ('ATP-5', 'atpType.quarter.winter', 'f77befe3-c76c-4963-b4c2-104197f51e96')
@@ -470,6 +470,8 @@ INSERT INTO KSLU_CLU_LO_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, V
 INSERT INTO KSLU_CLU_LO_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, LO_ID, CLU_ID, EFF_DT, EXPIR_DT, ST, TYPE) VALUES ('LO-7', 'CREATEID', {ts '2009-12-01 09:00:00.0'}, 'UPDATEID', {ts '2009-12-01 10:00:00.0'},1,'81ABEA67-3BCC-4088-8348-E265F3670145', 'a1c35e82-8a24-495b-aa91-98d9317e3604', {ts '2009-01-01 00:00:00.0'}, null, 'active', 'cluLuType.default')
 
 insert into KSLU_CLU_JN_CLU_IDENT (CLU_ID, ALT_CLU_ID) VALUES('2f68e422-a54f-4f10-9cf2-37dd4083ce5d','a47e2d88-cb6d-4c52-901c-cc7b630a0d24');
+insert into KSLU_CLU_JN_CLU_IDENT (CLU_ID, ALT_CLU_ID) VALUES('2f68e422-a54f-4f10-9cf2-37dd4083ce5d','37ecfd9e-b65d-4909-bdc5-6b1300447889');
+
 insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('CAMP-1', 'Campus 1','2f68e422-a54f-4f10-9cf2-37dd4083ce5d');
 insert into KSLU_CLU_JN_CAMP_LOC (ID, CAMP_LOC, CLU_ID) values ('CAMP-2', 'Campus 2','2f68e422-a54f-4f10-9cf2-37dd4083ce5d');
 insert into kslu_clu_admin_org (id, org_id) values ('ADMIN-ORG-1','42');
@@ -480,6 +482,9 @@ insert into KSLU_CLU_INSTR (ID, ORG_ID, PERS_ID) values ('INSTR-3', 'ORG-2','Jac
 insert into KSLU_CLU_INSTR (ID, ORG_ID, PERS_ID) values ('INSTR-4', 'ORG-3','Jill');
 insert into KSLU_CLU_JN_SUBJ_ORG (id, CLU_ID, org_id) values ('SUBJ-ORG-1', '2f68e422-a54f-4f10-9cf2-37dd4083ce5d', '42');
 insert into KSLU_CLU_JN_SUBJ_ORG (id, CLU_ID, org_id) values ('SUBJ-ORG-2', '2f68e422-a54f-4f10-9cf2-37dd4083ce5d', '101');
+
+insert into KSLU_CLU_ATP_TYPE_KEY (ID, ATP_TYPE_KEY, clu_id) values ('ATP-11', 'kuali.atp.type.Fall', '2f68e422-a54f-4f10-9cf2-37dd4083ce5d')
+insert into KSLU_CLU_ATP_TYPE_KEY (ID, ATP_TYPE_KEY, clu_id) values ('ATP-12', 'kuali.atp.type.Spring', '2f68e422-a54f-4f10-9cf2-37dd4083ce5d')
 
 // CLU <-> CLU join
 insert into KSLU_CLU (ID, CREATEID, CREATETIME,  VERSIONIND, CAN_CREATE_LUI, DEF_ENRL_EST, DEF_MAX_ENRL, EFF_DT, HAS_EARLY_DROP_DEDLN, CLU_INTSTY_QTY, IS_ENRL, IS_HAZR_DISBLD_STU, ST, ATPDURATIONTYPEKEY, TIMEQUANTITY, LUTYPE_ID) values ('3142b5bb-899a-4f59-8022-cf9b411040c0', 'CREATEID', {ts '2010-02-16 00:00:00.0'}, 0, 0, 20, 0, {ts '2010-01-16 00:00:00.0'}, 0, '15', 0, 0, 'Activated', 'atpType.semester.day', 10, 'kuali.lu.type.activity.Lecture')

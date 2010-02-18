@@ -10,8 +10,10 @@ import static org.kuali.student.core.assembly.util.AssemblerUtils.setCreated;
 import static org.kuali.student.core.assembly.util.AssemblerUtils.setUpdated;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
@@ -23,6 +25,8 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.assembly.data.Metadata.WriteAccess;
+import org.kuali.student.core.atp.dto.AtpTypeInfo;
+import org.kuali.student.core.atp.service.AtpService;
 import org.kuali.student.core.dto.AmountInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.TimeAmountInfo;
@@ -37,6 +41,7 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
@@ -44,6 +49,8 @@ import org.kuali.student.core.search.service.impl.SearchDispatcherImpl;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.AttributeInfoHelper;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.CluFeeInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.CluInstructorInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.TimeAmountInfoHelper;
@@ -65,6 +72,7 @@ import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
+import org.kuali.student.lum.lu.dto.LuTypeInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.ui.course.server.gwt.LuRuleInfoPersistanceBean;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
@@ -96,6 +104,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
     private LearningObjectiveService loService;
 //    private TranslationService translationService;
     private OrganizationService orgService;
+    private AtpService atpService;
 
     private SearchDispatcherImpl searchDispatcher;
 
@@ -243,6 +252,10 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 
         CluInfo course = hierarchy.getCluInfo();
 
+        //FIXME: Temp hack to send id and type translations to UI. Once fields added to DOL, fix!!
+        Map<String,String> lookupFields = new HashMap<String, String>();
+        int i = 0;
+
         try {
 
             //TODO move bulk of this logic to new CluInfoAssembler
@@ -256,13 +269,10 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 
             AdminOrgInfo admin = course.getPrimaryAdminOrg();
             if (admin != null) {
-                result.setDepartment(getOrgName(admin.getOrgId()));
+                result.setDepartment(admin.getOrgId());
+                lookupFields.put("DeptOrgName", getOrgName(admin.getOrgId()));
             }
 
-            // FIXME wilj: figure out how to retrieve the version codes and cross listings 
-//          for (CluIdentifierInfo alt : course.getAlternateIdentifiers()) {
-//          result.getAlternateIdentifiers().add(cluIdentifierAssembler.assemble(alt));
-//          }
             result.setDescription(RichTextInfoHelper.wrap(richtextAssembler.assemble(course.getDescr())));
 
             TimeAmountInfoHelper time = TimeAmountInfoHelper.wrap(timeamountAssembler.assemble(course.getStdDuration()));
@@ -275,9 +285,11 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
                 result.setDuration(duration);
             }
             
+            i=0;
             result.setTermsOffered(new Data());
             for (String atpType : course.getOfferedAtpTypes()) {
                 result.getTermsOffered().add(atpType);
+                lookupFields.put("TermsOffered"+i++, getAtpTypeName(atpType));
             }
             
             CluInstructorInfoHelper instr = CluInstructorInfoHelper.wrap(instructorAssembler.assemble(course.getPrimaryInstructor()));
@@ -288,11 +300,15 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
             result.setSubjectArea(course.getOfficialIdentifier().getDivision());
             result.setTranscriptTitle(course.getOfficialIdentifier().getShortName());
             result.setType(course.getType());
+            lookupFields.put("CourseType", getCluTypeName(course.getType()));
 
             result.setAcademicSubjectOrgs(new Data());
 
+            i=0;
             for (AcademicSubjectOrgInfo org : course.getAcademicSubjectOrgs()) {
-                result.getAcademicSubjectOrgs().add(getOrgName(org.getOrgId()));
+                result.getAcademicSubjectOrgs().add(org.getOrgId());
+                lookupFields.put("OversightName"+i++, getOrgName(org.getOrgId()));
+
             }
 
             result.setCampusLocations(new Data());
@@ -327,7 +343,21 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
                 }
             }
             result.setId(course.getId());
-
+            
+            //FIXME: Temp hack to send id and type translations back to View Course UI. Once fields added to DOL, fix!!
+            // Sending the lookup values back as dynamic attributes in the fee structure (fees not in M4). 
+            // Attributes don't seem to be implemented in CluInfo DOL yet
+            result.setFees(new Data());
+            CluFeeInfoHelper feeHelper = CluFeeInfoHelper.wrap(new Data());
+            feeHelper.setAttributes(new Data());
+ 
+            Data data = new Data();
+            AttributeInfoHelper hlp = AttributeInfoHelper.wrap(data);
+            for (Map.Entry<String, String> entry : lookupFields.entrySet()) {
+                data.set(entry.getKey(), entry.getValue());
+            }
+            feeHelper.setAttributes(hlp.getData());
+            result.getFees().add(feeHelper.getData());         
         }
         catch (Exception e) {
             throw new AssemblyException(
@@ -1038,21 +1068,43 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
         return null;
     }
 
-    private String getOrgName(String orgId) throws AssemblyException {
-        
-        return orgId;
+    private String getCluTypeName(String cluTypeKey) throws AssemblyException {
+        if (cluTypeKey != null) {
+            LuTypeInfo cluType;
+            try {
+                cluType = getLuService().getLuType(cluTypeKey);
+                return cluType.getName();        
+            } catch (Exception e) {
+                LOG.warn("Unable to get clu type for key " + cluTypeKey, e);
+            }
+        }
+        return cluTypeKey;
+    }
+    
+    private String getAtpTypeName(String atpTypeKey) throws AssemblyException {
+        if (atpTypeKey != null) {
+            AtpTypeInfo atp;
+            try {
+                atp = getAtpService().getAtpType(atpTypeKey);
+                return atp.getName();        
+            } catch (Exception e) {
+                LOG.warn("Unable to get atp type for key " + atpTypeKey, e);
+            }
+        }
+        return atpTypeKey;
+    }
 
-        //FIXME: Once    orgName fields have been defined to the DOL uncomment this code     
-//        if (orgId != null) {
-//            OrgInfo org;
-//            try {
-//                org = getOrgService().getOrganization(orgId);
-//            } catch (Exception e) {
-//                throw new AssemblyException("Unable to get org name for id " + orgId, e);
-//            }
-//            return org.getLongName();        
-//        }
-//        return null;
+    private String getOrgName(String orgId) throws AssemblyException {
+        if (orgId != null) {
+            OrgInfo org;
+            try {
+                org = getOrgService().getOrganization(orgId);
+                return org.getLongName();        
+            } catch (Exception e) {
+                LOG.warn("Unable to get org name for id " + orgId, e);
+            }
+        }
+        return orgId;
     }   
 
     private List<RuleInfo> getRules(String courseId) throws Exception{
@@ -1119,6 +1171,14 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
         this.orgService = orgService;
     }
 
+    public AtpService getAtpService() {
+        return atpService;
+    }
+
+    public void setAtpService(AtpService atpService) {
+        this.atpService = atpService;
+    }
+    
     public static class RelationshipHierarchy {
         private final String relationshipType;
         private final String relationshipState;
