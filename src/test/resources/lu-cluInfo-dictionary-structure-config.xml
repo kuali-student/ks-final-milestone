@@ -7,7 +7,7 @@ http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/d
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Thu Feb 18 11:39:54 EST 2010
+on: Thu Feb 18 13:33:44 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -82,7 +82,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.officialIdentifier"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="officialIdentifier" id="field.cluInfo.officialIdentifier.fd" parent="field.cluInfo.officialIdentifier.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.officialIdentifier.fd" parent="field.cluInfo.officialIdentifier.fd.abstract"/>
 <!-- Required; Single valued (non-repeating) -->
 <dict:constraintDescriptor id="field.cluInfo.officialIdentifier.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -137,7 +137,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>The composite string that is used to officially reference or publish the CLU. Note it may have an internal structure that each Institution may want to enforce. This structure may be composed from the other parts of the structure such as Level &amp; Division, but may include items such as cluType.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="code" id="field.cluInfo.officialIdentifier.code.fd" parent="field.cluInfo.officialIdentifier.code.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.officialIdentifier.code.fd" parent="field.cluInfo.officialIdentifier.code.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Alphanumeric code, hypen and period. -->
 <dict:constraintDescriptor id="field.cluInfo.officialIdentifier.code.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -157,7 +157,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Abbreviated name of the CLU, commonly used on transcripts</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="shortName" id="field.cluInfo.officialIdentifier.shortName.fd" parent="field.cluInfo.officialIdentifier.shortName.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.officialIdentifier.shortName.fd" parent="field.cluInfo.officialIdentifier.shortName.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); A basic single line of text, no embedded carraige returns or tabs limited to 255 -->
 <dict:constraintDescriptor id="field.cluInfo.officialIdentifier.shortName.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -177,7 +177,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Full name of the CLU, commonly used on catalogues</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="longName" id="field.cluInfo.officialIdentifier.longName.fd" parent="field.cluInfo.officialIdentifier.longName.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.officialIdentifier.longName.fd" parent="field.cluInfo.officialIdentifier.longName.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); A basic single line of text, no embedded carraige returns or tabs limited to 255 -->
 <dict:constraintDescriptor id="field.cluInfo.officialIdentifier.longName.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -196,7 +196,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>A code that indicates whether this is introductory, advanced, etc.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="level" id="field.cluInfo.officialIdentifier.level.fd" parent="field.cluInfo.officialIdentifier.level.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.officialIdentifier.level.fd" parent="field.cluInfo.officialIdentifier.level.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Alphanumeric code, hypen and period. -->
 <dict:constraintDescriptor id="field.cluInfo.officialIdentifier.level.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -215,7 +215,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>A code that indicates what school, program, major, subject area, etc. Examples: &quot;Chem&quot;, &quot;18&quot;</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="division" id="field.cluInfo.officialIdentifier.division.fd" parent="field.cluInfo.officialIdentifier.division.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.officialIdentifier.division.fd" parent="field.cluInfo.officialIdentifier.division.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Alphanumeric code, hypen and period. -->
 <dict:constraintDescriptor id="field.cluInfo.officialIdentifier.division.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -234,7 +234,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>The &quot;extra&quot; portion of the code, which usually corresponds with the most detailed part of the number. Ex. at MIT we might map Division to subject area(Ex:6) but overall we need to say the code is 6.120. This field would represent the 120 part.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="suffixCode" id="field.cluInfo.officialIdentifier.suffixCode.fd" parent="field.cluInfo.officialIdentifier.suffixCode.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.officialIdentifier.suffixCode.fd" parent="field.cluInfo.officialIdentifier.suffixCode.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Alphanumeric code, hypen and period. -->
 <dict:constraintDescriptor id="field.cluInfo.officialIdentifier.suffixCode.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -253,7 +253,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>A number that indicates the sequence or order of versions in cases where several different Clus have the same offical Identifier</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="variation" id="field.cluInfo.officialIdentifier.variation.fd" parent="field.cluInfo.officialIdentifier.variation.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.officialIdentifier.variation.fd" parent="field.cluInfo.officialIdentifier.variation.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Alphanumeric code, hypen and period. -->
 <dict:constraintDescriptor id="field.cluInfo.officialIdentifier.variation.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -272,7 +272,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>The identifier of the organization associated with this cluIdentifier.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="orgId" id="field.cluInfo.officialIdentifier.orgId.fd" parent="field.cluInfo.officialIdentifier.orgId.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.officialIdentifier.orgId.fd" parent="field.cluInfo.officialIdentifier.orgId.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Id of an existing ORG -->
 <dict:constraintDescriptor id="field.cluInfo.officialIdentifier.orgId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -292,7 +292,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Identifies the type of usage for the identifier. While most usages will have the same data constraints, this may provide some context around what the specific intent is for this identifier. (Ex. Why does this alternate identifier exist?)</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="type" id="field.cluInfo.officialIdentifier.type.fd" parent="field.cluInfo.officialIdentifier.type.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.officialIdentifier.type.fd" parent="field.cluInfo.officialIdentifier.type.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Kuali TYPE: required on add, then read-only; In list of configured clu identifier types -->
 <dict:constraintDescriptor id="field.cluInfo.officialIdentifier.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -313,7 +313,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Identifies the state of the identifier. Values for this field are constrained to values present within the cluIdentifierState enumeration.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="state" id="field.cluInfo.officialIdentifier.state.fd" parent="field.cluInfo.officialIdentifier.state.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.officialIdentifier.state.fd" parent="field.cluInfo.officialIdentifier.state.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Kuali STATE; In list of configured clu identifier states -->
 <dict:constraintDescriptor id="field.cluInfo.officialIdentifier.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -335,7 +335,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="id" id="field.cluInfo.officialIdentifier.id.fd" parent="field.cluInfo.officialIdentifier.id.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.officialIdentifier.id.fd" parent="field.cluInfo.officialIdentifier.id.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only. -->
 <dict:constraintDescriptor id="field.cluInfo.officialIdentifier.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
@@ -355,7 +355,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.alternateIdentifiers"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="alternateIdentifiers" id="field.cluInfo.alternateIdentifiers.fd" parent="field.cluInfo.alternateIdentifiers.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.alternateIdentifiers.fd" parent="field.cluInfo.alternateIdentifiers.fd.abstract"/>
 <!-- Optional; Repeating -->
 <dict:constraintDescriptor id="field.cluInfo.alternateIdentifiers.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -410,7 +410,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>The composite string that is used to officially reference or publish the CLU. Note it may have an internal structure that each Institution may want to enforce. This structure may be composed from the other parts of the structure such as Level &amp; Division, but may include items such as cluType.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="code" id="field.cluInfo.alternateIdentifiers.code.fd" parent="field.cluInfo.alternateIdentifiers.code.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.alternateIdentifiers.code.fd" parent="field.cluInfo.alternateIdentifiers.code.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Alphanumeric code, hypen and period. -->
 <dict:constraintDescriptor id="field.cluInfo.alternateIdentifiers.code.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -430,7 +430,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Abbreviated name of the CLU, commonly used on transcripts</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="shortName" id="field.cluInfo.alternateIdentifiers.shortName.fd" parent="field.cluInfo.alternateIdentifiers.shortName.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.alternateIdentifiers.shortName.fd" parent="field.cluInfo.alternateIdentifiers.shortName.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); A basic single line of text, no embedded carraige returns or tabs limited to 255 -->
 <dict:constraintDescriptor id="field.cluInfo.alternateIdentifiers.shortName.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -450,7 +450,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Full name of the CLU, commonly used on catalogues</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="longName" id="field.cluInfo.alternateIdentifiers.longName.fd" parent="field.cluInfo.alternateIdentifiers.longName.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.alternateIdentifiers.longName.fd" parent="field.cluInfo.alternateIdentifiers.longName.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); A basic single line of text, no embedded carraige returns or tabs limited to 255 -->
 <dict:constraintDescriptor id="field.cluInfo.alternateIdentifiers.longName.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -469,7 +469,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>A code that indicates whether this is introductory, advanced, etc.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="level" id="field.cluInfo.alternateIdentifiers.level.fd" parent="field.cluInfo.alternateIdentifiers.level.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.alternateIdentifiers.level.fd" parent="field.cluInfo.alternateIdentifiers.level.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Alphanumeric code, hypen and period. -->
 <dict:constraintDescriptor id="field.cluInfo.alternateIdentifiers.level.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -488,7 +488,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>A code that indicates what school, program, major, subject area, etc. Examples: &quot;Chem&quot;, &quot;18&quot;</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="division" id="field.cluInfo.alternateIdentifiers.division.fd" parent="field.cluInfo.alternateIdentifiers.division.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.alternateIdentifiers.division.fd" parent="field.cluInfo.alternateIdentifiers.division.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Alphanumeric code, hypen and period. -->
 <dict:constraintDescriptor id="field.cluInfo.alternateIdentifiers.division.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -507,7 +507,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>The &quot;extra&quot; portion of the code, which usually corresponds with the most detailed part of the number. Ex. at MIT we might map Division to subject area(Ex:6) but overall we need to say the code is 6.120. This field would represent the 120 part.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="suffixCode" id="field.cluInfo.alternateIdentifiers.suffixCode.fd" parent="field.cluInfo.alternateIdentifiers.suffixCode.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.alternateIdentifiers.suffixCode.fd" parent="field.cluInfo.alternateIdentifiers.suffixCode.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Alphanumeric code, hypen and period. -->
 <dict:constraintDescriptor id="field.cluInfo.alternateIdentifiers.suffixCode.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -526,7 +526,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>A number that indicates the sequence or order of versions in cases where several different Clus have the same offical Identifier</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="variation" id="field.cluInfo.alternateIdentifiers.variation.fd" parent="field.cluInfo.alternateIdentifiers.variation.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.alternateIdentifiers.variation.fd" parent="field.cluInfo.alternateIdentifiers.variation.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Alphanumeric code, hypen and period. -->
 <dict:constraintDescriptor id="field.cluInfo.alternateIdentifiers.variation.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -545,7 +545,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>The identifier of the organization associated with this cluIdentifier.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="orgId" id="field.cluInfo.alternateIdentifiers.orgId.fd" parent="field.cluInfo.alternateIdentifiers.orgId.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.alternateIdentifiers.orgId.fd" parent="field.cluInfo.alternateIdentifiers.orgId.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Id of an existing ORG -->
 <dict:constraintDescriptor id="field.cluInfo.alternateIdentifiers.orgId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -565,7 +565,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Identifies the type of usage for the identifier. While most usages will have the same data constraints, this may provide some context around what the specific intent is for this identifier. (Ex. Why does this alternate identifier exist?)</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="type" id="field.cluInfo.alternateIdentifiers.type.fd" parent="field.cluInfo.alternateIdentifiers.type.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.alternateIdentifiers.type.fd" parent="field.cluInfo.alternateIdentifiers.type.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Kuali TYPE: required on add, then read-only; In list of configured clu identifier types -->
 <dict:constraintDescriptor id="field.cluInfo.alternateIdentifiers.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -586,7 +586,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Identifies the state of the identifier. Values for this field are constrained to values present within the cluIdentifierState enumeration.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="state" id="field.cluInfo.alternateIdentifiers.state.fd" parent="field.cluInfo.alternateIdentifiers.state.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.alternateIdentifiers.state.fd" parent="field.cluInfo.alternateIdentifiers.state.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Kuali STATE; In list of configured clu identifier states -->
 <dict:constraintDescriptor id="field.cluInfo.alternateIdentifiers.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -608,7 +608,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="id" id="field.cluInfo.alternateIdentifiers.id.fd" parent="field.cluInfo.alternateIdentifiers.id.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.alternateIdentifiers.id.fd" parent="field.cluInfo.alternateIdentifiers.id.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only. -->
 <dict:constraintDescriptor id="field.cluInfo.alternateIdentifiers.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
@@ -628,7 +628,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.academicSubjectOrgs"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="academicSubjectOrgs" id="field.cluInfo.academicSubjectOrgs.fd" parent="field.cluInfo.academicSubjectOrgs.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.academicSubjectOrgs.fd" parent="field.cluInfo.academicSubjectOrgs.fd.abstract"/>
 <!-- Optional; Repeating -->
 <dict:constraintDescriptor id="field.cluInfo.academicSubjectOrgs.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -673,7 +673,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Unique identifier for an organization.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="orgId" id="field.cluInfo.academicSubjectOrgs.orgId.fd" parent="field.cluInfo.academicSubjectOrgs.orgId.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.academicSubjectOrgs.orgId.fd" parent="field.cluInfo.academicSubjectOrgs.orgId.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Id of an existing ORG -->
 <dict:constraintDescriptor id="field.cluInfo.academicSubjectOrgs.orgId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -692,7 +692,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>The Study Subject Area is used to identify the area of study associated with the clu. It may be a general study area (e.g. Chemistry) or very specific (e.g. Naval Architecture) depending on the level of specificity of the clu.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="studySubjectArea" id="field.cluInfo.studySubjectArea.fd" parent="field.cluInfo.studySubjectArea.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.studySubjectArea.fd" parent="field.cluInfo.studySubjectArea.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Alphanumeric code, hypen and period. -->
 <dict:constraintDescriptor id="field.cluInfo.studySubjectArea.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -712,7 +712,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.desc"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="desc" id="field.cluInfo.desc.fd" parent="field.cluInfo.desc.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.desc.fd" parent="field.cluInfo.desc.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating) -->
 <dict:constraintDescriptor id="field.cluInfo.desc.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -759,7 +759,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="plain" id="field.cluInfo.desc.plain.fd" parent="field.cluInfo.desc.plain.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.desc.plain.fd" parent="field.cluInfo.desc.plain.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating); Multi-line text field that accepts all printable characters plus tab, carraige-return and linefeed. -->
 <dict:constraintDescriptor id="field.cluInfo.desc.plain.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
@@ -781,7 +781,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Formatted version of the text.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="formatted" id="field.cluInfo.desc.formatted.fd" parent="field.cluInfo.desc.formatted.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.desc.formatted.fd" parent="field.cluInfo.desc.formatted.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Text field that accepts all types of characters using some sort of escaping convention along with the ability to specify bolding, font size, color etc. -->
 <dict:constraintDescriptor id="field.cluInfo.desc.formatted.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -803,7 +803,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Places where this clu might be offered</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="campusLocations" id="field.cluInfo.campusLocations.fd" parent="field.cluInfo.campusLocations.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.campusLocations.fd" parent="field.cluInfo.campusLocations.fd.abstract"/>
 <!-- Optional; Repeating; Alphanumeric code, hypen and period. -->
 <dict:constraintDescriptor id="field.cluInfo.campusLocations.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -823,7 +823,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.accreditations"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="accreditations" id="field.cluInfo.accreditations.fd" parent="field.cluInfo.accreditations.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.accreditations.fd" parent="field.cluInfo.accreditations.fd.abstract"/>
 <!-- Optional; Repeating -->
 <dict:constraintDescriptor id="field.cluInfo.accreditations.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -872,7 +872,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Unique identifier for an organization. This organization is the body behind the accreditation.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="orgId" id="field.cluInfo.accreditations.orgId.fd" parent="field.cluInfo.accreditations.orgId.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.accreditations.orgId.fd" parent="field.cluInfo.accreditations.orgId.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Id of an existing ORG -->
 <dict:constraintDescriptor id="field.cluInfo.accreditations.orgId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -891,7 +891,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Date and time the accreditation became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="effectiveDate" id="field.cluInfo.accreditations.effectiveDate.fd" parent="field.cluInfo.accreditations.effectiveDate.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.accreditations.effectiveDate.fd" parent="field.cluInfo.accreditations.effectiveDate.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Date-Time -->
 <dict:constraintDescriptor id="field.cluInfo.accreditations.effectiveDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -910,7 +910,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Date and time that this accreditation expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="expirationDate" id="field.cluInfo.accreditations.expirationDate.fd" parent="field.cluInfo.accreditations.expirationDate.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.accreditations.expirationDate.fd" parent="field.cluInfo.accreditations.expirationDate.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Date-Time -->
 <dict:constraintDescriptor id="field.cluInfo.accreditations.expirationDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -931,7 +931,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:objectStructureRef bean="object.field.cluInfo.accreditations.metaInfo"/>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="metaInfo" id="field.cluInfo.accreditations.metaInfo.fd" parent="field.cluInfo.accreditations.metaInfo.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.accreditations.metaInfo.fd" parent="field.cluInfo.accreditations.metaInfo.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating) -->
 <dict:constraintDescriptor id="field.cluInfo.accreditations.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
@@ -981,7 +981,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="versionInd" id="field.cluInfo.accreditations.metaInfo.versionInd.fd" parent="field.cluInfo.accreditations.metaInfo.versionInd.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.accreditations.metaInfo.versionInd.fd" parent="field.cluInfo.accreditations.metaInfo.versionInd.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Calculates the version indicator that is used for optimistic locking; Read Only -->
 <dict:constraintDescriptor id="field.cluInfo.accreditations.metaInfo.versionInd.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -1001,7 +1001,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>The date and time the thing being described with this meta information was created</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createTime" id="field.cluInfo.accreditations.metaInfo.createTime.fd" parent="field.cluInfo.accreditations.metaInfo.createTime.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.accreditations.metaInfo.createTime.fd" parent="field.cluInfo.accreditations.metaInfo.createTime.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Date-Time; Defaults to NOW, when the object is created -->
 <dict:constraintDescriptor id="field.cluInfo.accreditations.metaInfo.createTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -1022,7 +1022,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createId" id="field.cluInfo.accreditations.metaInfo.createId.fd" parent="field.cluInfo.accreditations.metaInfo.createId.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.accreditations.metaInfo.createId.fd" parent="field.cluInfo.accreditations.metaInfo.createId.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Defaults to the currently authenticated user -->
 <dict:constraintDescriptor id="field.cluInfo.accreditations.metaInfo.createId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
@@ -1042,7 +1042,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateTime" id="field.cluInfo.accreditations.metaInfo.updateTime.fd" parent="field.cluInfo.accreditations.metaInfo.updateTime.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.accreditations.metaInfo.updateTime.fd" parent="field.cluInfo.accreditations.metaInfo.updateTime.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Date-Time; Sets a field to the current time -->
 <dict:constraintDescriptor id="field.cluInfo.accreditations.metaInfo.updateTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -1063,7 +1063,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateId" id="field.cluInfo.accreditations.metaInfo.updateId.fd" parent="field.cluInfo.accreditations.metaInfo.updateId.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.accreditations.metaInfo.updateId.fd" parent="field.cluInfo.accreditations.metaInfo.updateId.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Sets a field to the currently authenticated user -->
 <dict:constraintDescriptor id="field.cluInfo.accreditations.metaInfo.updateId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
@@ -1084,7 +1084,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="id" id="field.cluInfo.accreditations.id.fd" parent="field.cluInfo.accreditations.id.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.accreditations.id.fd" parent="field.cluInfo.accreditations.id.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only. -->
 <dict:constraintDescriptor id="field.cluInfo.accreditations.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
@@ -1104,7 +1104,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.primaryAdminOrg"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="primaryAdminOrg" id="field.cluInfo.primaryAdminOrg.fd" parent="field.cluInfo.primaryAdminOrg.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.primaryAdminOrg.fd" parent="field.cluInfo.primaryAdminOrg.fd.abstract"/>
 <!-- Required; Single valued (non-repeating) -->
 <dict:constraintDescriptor id="field.cluInfo.primaryAdminOrg.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -1149,7 +1149,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Unique identifier for an organization.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="orgId" id="field.cluInfo.primaryAdminOrg.orgId.fd" parent="field.cluInfo.primaryAdminOrg.orgId.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.primaryAdminOrg.orgId.fd" parent="field.cluInfo.primaryAdminOrg.orgId.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Id of an existing ORG -->
 <dict:constraintDescriptor id="field.cluInfo.primaryAdminOrg.orgId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -1169,7 +1169,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.alternateAdminOrgs"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="alternateAdminOrgs" id="field.cluInfo.alternateAdminOrgs.fd" parent="field.cluInfo.alternateAdminOrgs.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.alternateAdminOrgs.fd" parent="field.cluInfo.alternateAdminOrgs.fd.abstract"/>
 <!-- Optional; Repeating -->
 <dict:constraintDescriptor id="field.cluInfo.alternateAdminOrgs.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -1214,7 +1214,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Unique identifier for an organization.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="orgId" id="field.cluInfo.alternateAdminOrgs.orgId.fd" parent="field.cluInfo.alternateAdminOrgs.orgId.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.alternateAdminOrgs.orgId.fd" parent="field.cluInfo.alternateAdminOrgs.orgId.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Id of an existing ORG -->
 <dict:constraintDescriptor id="field.cluInfo.alternateAdminOrgs.orgId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -1234,7 +1234,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.primaryInstructor"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="primaryInstructor" id="field.cluInfo.primaryInstructor.fd" parent="field.cluInfo.primaryInstructor.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.primaryInstructor.fd" parent="field.cluInfo.primaryInstructor.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating) -->
 <dict:constraintDescriptor id="field.cluInfo.primaryInstructor.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -1280,7 +1280,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Unique identifier for an organization. This indicates which organization this individual is associated with for the purposes of this clu.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="orgId" id="field.cluInfo.primaryInstructor.orgId.fd" parent="field.cluInfo.primaryInstructor.orgId.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.primaryInstructor.orgId.fd" parent="field.cluInfo.primaryInstructor.orgId.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Id of an existing ORG -->
 <dict:constraintDescriptor id="field.cluInfo.primaryInstructor.orgId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -1299,7 +1299,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Unique identifier for a person record.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="personId" id="field.cluInfo.primaryInstructor.personId.fd" parent="field.cluInfo.primaryInstructor.personId.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.primaryInstructor.personId.fd" parent="field.cluInfo.primaryInstructor.personId.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Id of an existing PERSON -->
 <dict:constraintDescriptor id="field.cluInfo.primaryInstructor.personId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -1319,7 +1319,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.instructors"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="instructors" id="field.cluInfo.instructors.fd" parent="field.cluInfo.instructors.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.instructors.fd" parent="field.cluInfo.instructors.fd.abstract"/>
 <!-- Optional; Repeating -->
 <dict:constraintDescriptor id="field.cluInfo.instructors.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -1365,7 +1365,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Unique identifier for an organization. This indicates which organization this individual is associated with for the purposes of this clu.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="orgId" id="field.cluInfo.instructors.orgId.fd" parent="field.cluInfo.instructors.orgId.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.instructors.orgId.fd" parent="field.cluInfo.instructors.orgId.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Id of an existing ORG -->
 <dict:constraintDescriptor id="field.cluInfo.instructors.orgId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -1384,7 +1384,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Unique identifier for a person record.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="personId" id="field.cluInfo.instructors.personId.fd" parent="field.cluInfo.instructors.personId.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.instructors.personId.fd" parent="field.cluInfo.instructors.personId.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Id of an existing PERSON -->
 <dict:constraintDescriptor id="field.cluInfo.instructors.personId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -1403,7 +1403,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>The expected first academic time period that this clu would be effective. This may not reflect the first &quot;real&quot; academic time period for this clu.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="expectedFirstAtp" id="field.cluInfo.expectedFirstAtp.fd" parent="field.cluInfo.expectedFirstAtp.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.expectedFirstAtp.fd" parent="field.cluInfo.expectedFirstAtp.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); In list of configured  time period types -->
 <dict:constraintDescriptor id="field.cluInfo.expectedFirstAtp.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -1422,7 +1422,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Date and time the CLU became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="effectiveDate" id="field.cluInfo.effectiveDate.fd" parent="field.cluInfo.effectiveDate.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.effectiveDate.fd" parent="field.cluInfo.effectiveDate.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Date-Time -->
 <dict:constraintDescriptor id="field.cluInfo.effectiveDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -1441,7 +1441,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Date and time that this CLU expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="expirationDate" id="field.cluInfo.expirationDate.fd" parent="field.cluInfo.expirationDate.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.expirationDate.fd" parent="field.cluInfo.expirationDate.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Date-Time -->
 <dict:constraintDescriptor id="field.cluInfo.expirationDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -1461,7 +1461,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.intensity"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="intensity" id="field.cluInfo.intensity.fd" parent="field.cluInfo.intensity.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.intensity.fd" parent="field.cluInfo.intensity.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating) -->
 <dict:constraintDescriptor id="field.cluInfo.intensity.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -1508,7 +1508,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>The kind of units associated with the quantity, such as hours/week. It is expected that in usage in other structures, this value will always be enumerated based on that context.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="unitType" id="field.cluInfo.intensity.unitType.fd" parent="field.cluInfo.intensity.unitType.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.intensity.unitType.fd" parent="field.cluInfo.intensity.unitType.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); In list of configured unit types -->
 <dict:constraintDescriptor id="field.cluInfo.intensity.unitType.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -1527,7 +1527,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>The amount of units. Allowed values consist of numeric values as well as the string &quot;unbounded&quot;.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="unitQuantity" id="field.cluInfo.intensity.unitQuantity.fd" parent="field.cluInfo.intensity.unitQuantity.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.intensity.unitQuantity.fd" parent="field.cluInfo.intensity.unitQuantity.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); decimal number -->
 <dict:constraintDescriptor id="field.cluInfo.intensity.unitQuantity.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -1547,7 +1547,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.stdDuration"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="stdDuration" id="field.cluInfo.stdDuration.fd" parent="field.cluInfo.stdDuration.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.stdDuration.fd" parent="field.cluInfo.stdDuration.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating) -->
 <dict:constraintDescriptor id="field.cluInfo.stdDuration.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -1594,7 +1594,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>The kind of units associated with the quantity, such as Semesters</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="atpDurationTypeKey" id="field.cluInfo.stdDuration.atpDurationTypeKey.fd" parent="field.cluInfo.stdDuration.atpDurationTypeKey.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.stdDuration.atpDurationTypeKey.fd" parent="field.cluInfo.stdDuration.atpDurationTypeKey.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); In list of configured duration types -->
 <dict:constraintDescriptor id="field.cluInfo.stdDuration.atpDurationTypeKey.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -1614,7 +1614,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>The amount of time</dict:desc>
 	<dict:dataType>integer</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="timeQuantity" id="field.cluInfo.stdDuration.timeQuantity.fd" parent="field.cluInfo.stdDuration.timeQuantity.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.stdDuration.timeQuantity.fd" parent="field.cluInfo.stdDuration.timeQuantity.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Integer -->
 <dict:constraintDescriptor id="field.cluInfo.stdDuration.timeQuantity.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -1633,7 +1633,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Indicates if the CLU can be used to instantiate LUIs (offerings).</dict:desc>
 	<dict:dataType>boolean</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="canCreateLui" id="field.cluInfo.canCreateLui.fd" parent="field.cluInfo.canCreateLui.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.canCreateLui.fd" parent="field.cluInfo.canCreateLui.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); True or False -->
 <dict:constraintDescriptor id="field.cluInfo.canCreateLui.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -1652,7 +1652,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>An URL for additional information about the CLU. This could be a reference to a document which might in turn have references to other documents (e.g. course syllabus provided by the faculty or department, standard schedule of classes, etc.).</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="referenceURL" id="field.cluInfo.referenceURL.fd" parent="field.cluInfo.referenceURL.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.referenceURL.fd" parent="field.cluInfo.referenceURL.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Uniform Resource Locator -->
 <dict:constraintDescriptor id="field.cluInfo.referenceURL.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -1672,7 +1672,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.luCodes"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="luCodes" id="field.cluInfo.luCodes.fd" parent="field.cluInfo.luCodes.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.luCodes.fd" parent="field.cluInfo.luCodes.fd.abstract"/>
 <!-- Optional; Repeating -->
 <dict:constraintDescriptor id="field.cluInfo.luCodes.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -1720,7 +1720,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>The description of the code.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="desc" id="field.cluInfo.luCodes.desc.fd" parent="field.cluInfo.luCodes.desc.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.luCodes.desc.fd" parent="field.cluInfo.luCodes.desc.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); A basic single line of text, no embedded carraige returns or tabs limited to 255 -->
 <dict:constraintDescriptor id="field.cluInfo.luCodes.desc.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -1740,7 +1740,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>The code value.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="value" id="field.cluInfo.luCodes.value.fd" parent="field.cluInfo.luCodes.value.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.luCodes.value.fd" parent="field.cluInfo.luCodes.value.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Alphanumeric code, hypen and period. -->
 <dict:constraintDescriptor id="field.cluInfo.luCodes.value.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -1761,7 +1761,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:objectStructureRef bean="object.field.cluInfo.luCodes.metaInfo"/>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="metaInfo" id="field.cluInfo.luCodes.metaInfo.fd" parent="field.cluInfo.luCodes.metaInfo.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.luCodes.metaInfo.fd" parent="field.cluInfo.luCodes.metaInfo.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating) -->
 <dict:constraintDescriptor id="field.cluInfo.luCodes.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
@@ -1811,7 +1811,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="versionInd" id="field.cluInfo.luCodes.metaInfo.versionInd.fd" parent="field.cluInfo.luCodes.metaInfo.versionInd.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.luCodes.metaInfo.versionInd.fd" parent="field.cluInfo.luCodes.metaInfo.versionInd.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Calculates the version indicator that is used for optimistic locking; Read Only -->
 <dict:constraintDescriptor id="field.cluInfo.luCodes.metaInfo.versionInd.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -1831,7 +1831,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>The date and time the thing being described with this meta information was created</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createTime" id="field.cluInfo.luCodes.metaInfo.createTime.fd" parent="field.cluInfo.luCodes.metaInfo.createTime.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.luCodes.metaInfo.createTime.fd" parent="field.cluInfo.luCodes.metaInfo.createTime.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Date-Time; Defaults to NOW, when the object is created -->
 <dict:constraintDescriptor id="field.cluInfo.luCodes.metaInfo.createTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -1852,7 +1852,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createId" id="field.cluInfo.luCodes.metaInfo.createId.fd" parent="field.cluInfo.luCodes.metaInfo.createId.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.luCodes.metaInfo.createId.fd" parent="field.cluInfo.luCodes.metaInfo.createId.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Defaults to the currently authenticated user -->
 <dict:constraintDescriptor id="field.cluInfo.luCodes.metaInfo.createId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
@@ -1872,7 +1872,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateTime" id="field.cluInfo.luCodes.metaInfo.updateTime.fd" parent="field.cluInfo.luCodes.metaInfo.updateTime.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.luCodes.metaInfo.updateTime.fd" parent="field.cluInfo.luCodes.metaInfo.updateTime.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Date-Time; Sets a field to the current time -->
 <dict:constraintDescriptor id="field.cluInfo.luCodes.metaInfo.updateTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -1893,7 +1893,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateId" id="field.cluInfo.luCodes.metaInfo.updateId.fd" parent="field.cluInfo.luCodes.metaInfo.updateId.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.luCodes.metaInfo.updateId.fd" parent="field.cluInfo.luCodes.metaInfo.updateId.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Sets a field to the currently authenticated user -->
 <dict:constraintDescriptor id="field.cluInfo.luCodes.metaInfo.updateId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
@@ -1913,7 +1913,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Unique identifier for a learning unit code type.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="type" id="field.cluInfo.luCodes.type.fd" parent="field.cluInfo.luCodes.type.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.luCodes.type.fd" parent="field.cluInfo.luCodes.type.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Kuali TYPE: required on add, then read-only; In list of configured classification codes used for LU -->
 <dict:constraintDescriptor id="field.cluInfo.luCodes.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -1933,7 +1933,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>When the next review should be</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="nextReviewPeriod" id="field.cluInfo.nextReviewPeriod.fd" parent="field.cluInfo.nextReviewPeriod.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.nextReviewPeriod.fd" parent="field.cluInfo.nextReviewPeriod.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); In list of configured  time period types -->
 <dict:constraintDescriptor id="field.cluInfo.nextReviewPeriod.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -1953,7 +1953,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Indicates if Luis generated from this Clu are intended to be enrolled in by Students directly</dict:desc>
 	<dict:dataType>boolean</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="isEnrollable" id="field.cluInfo.isEnrollable.fd" parent="field.cluInfo.isEnrollable.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.isEnrollable.fd" parent="field.cluInfo.isEnrollable.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); True or False; Defaults a boolean to TRUE -->
 <dict:constraintDescriptor id="field.cluInfo.isEnrollable.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -1974,7 +1974,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>The academic time period types in which this CLU is typically offered. Standard usage would equate to terms. It can define a timeframe that a clu with of a certain stdDuration would fall in.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="offeredAtpTypes" id="field.cluInfo.offeredAtpTypes.fd" parent="field.cluInfo.offeredAtpTypes.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.offeredAtpTypes.fd" parent="field.cluInfo.offeredAtpTypes.fd.abstract"/>
 <!-- Optional; Repeating; In list of configured  time period types -->
 <dict:constraintDescriptor id="field.cluInfo.offeredAtpTypes.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -1993,7 +1993,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Indicates if the CLU has an Early Drop Deadline (EDD). Certain courses are designated as such to maximize access to courses that have historically experienced high demand and high attrition. Default is &quot;false&quot;.</dict:desc>
 	<dict:dataType>boolean</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="hasEarlyDropDeadline" id="field.cluInfo.hasEarlyDropDeadline.fd" parent="field.cluInfo.hasEarlyDropDeadline.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.hasEarlyDropDeadline.fd" parent="field.cluInfo.hasEarlyDropDeadline.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); True or False -->
 <dict:constraintDescriptor id="field.cluInfo.hasEarlyDropDeadline.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -2012,7 +2012,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Default enrollment estimate for this CLU.</dict:desc>
 	<dict:dataType>integer</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="defaultEnrollmentEstimate" id="field.cluInfo.defaultEnrollmentEstimate.fd" parent="field.cluInfo.defaultEnrollmentEstimate.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.defaultEnrollmentEstimate.fd" parent="field.cluInfo.defaultEnrollmentEstimate.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Non-Negative Integer -->
 <dict:constraintDescriptor id="field.cluInfo.defaultEnrollmentEstimate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -2031,7 +2031,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Default maximum enrollment for this CLU.</dict:desc>
 	<dict:dataType>integer</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="defaultMaximumEnrollment" id="field.cluInfo.defaultMaximumEnrollment.fd" parent="field.cluInfo.defaultMaximumEnrollment.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.defaultMaximumEnrollment.fd" parent="field.cluInfo.defaultMaximumEnrollment.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Non-Negative Integer -->
 <dict:constraintDescriptor id="field.cluInfo.defaultMaximumEnrollment.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -2050,7 +2050,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Indicates if the CLU may be hazardous for students with disabilities. Would default to &quot;false&quot;.</dict:desc>
 	<dict:dataType>boolean</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="isHazardousForDisabledStudents" id="field.cluInfo.isHazardousForDisabledStudents.fd" parent="field.cluInfo.isHazardousForDisabledStudents.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.isHazardousForDisabledStudents.fd" parent="field.cluInfo.isHazardousForDisabledStudents.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); True or False -->
 <dict:constraintDescriptor id="field.cluInfo.isHazardousForDisabledStudents.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -2070,7 +2070,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.feeInfo"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="feeInfo" id="field.cluInfo.feeInfo.fd" parent="field.cluInfo.feeInfo.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.feeInfo.fd" parent="field.cluInfo.feeInfo.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating) -->
 <dict:constraintDescriptor id="field.cluInfo.feeInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -2116,7 +2116,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.feeInfo.cluFeeRecordInfoList"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="cluFeeRecordInfoList" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.fd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.fd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.fd.abstract"/>
 <!-- Optional; Repeating -->
 <dict:constraintDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -2164,7 +2164,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Any finite sequence of characters with letters, numerals, symbols and punctuation marks. The length can be any natural number between zero or any positive integer.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="feeType" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeType.fd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeType.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeType.fd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeType.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Alphanumeric code, hypen and period. -->
 <dict:constraintDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeType.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -2184,7 +2184,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="feeAmount" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.fd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.fd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating) -->
 <dict:constraintDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -2230,7 +2230,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>The kind of units associated with the quantity, such as US Dollars</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="currencyTypeKey" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.currencyTypeKey.fd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.currencyTypeKey.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.currencyTypeKey.fd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.currencyTypeKey.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); In list of configured currency types -->
 <dict:constraintDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.currencyTypeKey.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -2250,7 +2250,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>The amount of currency</dict:desc>
 	<dict:dataType>integer</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="currencyQuantity" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.currencyQuantity.fd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.currencyQuantity.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.currencyQuantity.fd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.currencyQuantity.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Integer -->
 <dict:constraintDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.currencyQuantity.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -2270,7 +2270,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="affiliatedOrgInfoList" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.fd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.fd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating) -->
 <dict:constraintDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -2318,7 +2318,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Unique identifier for an organization.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="orgId" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.orgId.fd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.orgId.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.orgId.fd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.orgId.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Id of an existing ORG -->
 <dict:constraintDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.orgId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -2337,7 +2337,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Specifies a date with no time component.</dict:desc>
 	<dict:dataType>date</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="effectiveDate" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.effectiveDate.fd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.effectiveDate.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.effectiveDate.fd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.effectiveDate.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Date -->
 <dict:constraintDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.effectiveDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -2356,7 +2356,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Specifies a date with no time component.</dict:desc>
 	<dict:dataType>date</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="expirationDate" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.expirationDate.fd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.expirationDate.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.expirationDate.fd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.expirationDate.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Date -->
 <dict:constraintDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.expirationDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -2376,7 +2376,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>A long numeric value without a fractional component.</dict:desc>
 	<dict:dataType>long</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="percentage" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.percentage.fd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.percentage.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.percentage.fd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.percentage.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Integer -->
 <dict:constraintDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.percentage.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -2396,7 +2396,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="id" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.id.fd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.id.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.id.fd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.id.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only. -->
 <dict:constraintDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
@@ -2416,7 +2416,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.accountingInfo"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="accountingInfo" id="field.cluInfo.accountingInfo.fd" parent="field.cluInfo.accountingInfo.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.accountingInfo.fd" parent="field.cluInfo.accountingInfo.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating) -->
 <dict:constraintDescriptor id="field.cluInfo.accountingInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -2462,7 +2462,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.accountingInfo.affiliatedOrgInfoList"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="affiliatedOrgInfoList" id="field.cluInfo.accountingInfo.affiliatedOrgInfoList.fd" parent="field.cluInfo.accountingInfo.affiliatedOrgInfoList.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.accountingInfo.affiliatedOrgInfoList.fd" parent="field.cluInfo.accountingInfo.affiliatedOrgInfoList.fd.abstract"/>
 <!-- Optional; Repeating -->
 <dict:constraintDescriptor id="field.cluInfo.accountingInfo.affiliatedOrgInfoList.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -2510,7 +2510,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Unique identifier for an organization.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="orgId" id="field.cluInfo.accountingInfo.affiliatedOrgInfoList.orgId.fd" parent="field.cluInfo.accountingInfo.affiliatedOrgInfoList.orgId.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.accountingInfo.affiliatedOrgInfoList.orgId.fd" parent="field.cluInfo.accountingInfo.affiliatedOrgInfoList.orgId.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Id of an existing ORG -->
 <dict:constraintDescriptor id="field.cluInfo.accountingInfo.affiliatedOrgInfoList.orgId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -2529,7 +2529,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Specifies a date with no time component.</dict:desc>
 	<dict:dataType>date</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="effectiveDate" id="field.cluInfo.accountingInfo.affiliatedOrgInfoList.effectiveDate.fd" parent="field.cluInfo.accountingInfo.affiliatedOrgInfoList.effectiveDate.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.accountingInfo.affiliatedOrgInfoList.effectiveDate.fd" parent="field.cluInfo.accountingInfo.affiliatedOrgInfoList.effectiveDate.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Date -->
 <dict:constraintDescriptor id="field.cluInfo.accountingInfo.affiliatedOrgInfoList.effectiveDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -2548,7 +2548,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Specifies a date with no time component.</dict:desc>
 	<dict:dataType>date</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="expirationDate" id="field.cluInfo.accountingInfo.affiliatedOrgInfoList.expirationDate.fd" parent="field.cluInfo.accountingInfo.affiliatedOrgInfoList.expirationDate.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.accountingInfo.affiliatedOrgInfoList.expirationDate.fd" parent="field.cluInfo.accountingInfo.affiliatedOrgInfoList.expirationDate.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Date -->
 <dict:constraintDescriptor id="field.cluInfo.accountingInfo.affiliatedOrgInfoList.expirationDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -2568,7 +2568,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>A long numeric value without a fractional component.</dict:desc>
 	<dict:dataType>long</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="percentage" id="field.cluInfo.accountingInfo.affiliatedOrgInfoList.percentage.fd" parent="field.cluInfo.accountingInfo.affiliatedOrgInfoList.percentage.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.accountingInfo.affiliatedOrgInfoList.percentage.fd" parent="field.cluInfo.accountingInfo.affiliatedOrgInfoList.percentage.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Integer -->
 <dict:constraintDescriptor id="field.cluInfo.accountingInfo.affiliatedOrgInfoList.percentage.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -2590,7 +2590,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:objectStructureRef bean="object.field.cluInfo.metaInfo"/>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="metaInfo" id="field.cluInfo.metaInfo.fd" parent="field.cluInfo.metaInfo.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.metaInfo.fd" parent="field.cluInfo.metaInfo.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating) -->
 <dict:constraintDescriptor id="field.cluInfo.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
@@ -2640,7 +2640,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="versionInd" id="field.cluInfo.metaInfo.versionInd.fd" parent="field.cluInfo.metaInfo.versionInd.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.metaInfo.versionInd.fd" parent="field.cluInfo.metaInfo.versionInd.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Calculates the version indicator that is used for optimistic locking; Read Only -->
 <dict:constraintDescriptor id="field.cluInfo.metaInfo.versionInd.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -2660,7 +2660,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>The date and time the thing being described with this meta information was created</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createTime" id="field.cluInfo.metaInfo.createTime.fd" parent="field.cluInfo.metaInfo.createTime.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.metaInfo.createTime.fd" parent="field.cluInfo.metaInfo.createTime.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Date-Time; Defaults to NOW, when the object is created -->
 <dict:constraintDescriptor id="field.cluInfo.metaInfo.createTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -2681,7 +2681,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createId" id="field.cluInfo.metaInfo.createId.fd" parent="field.cluInfo.metaInfo.createId.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.metaInfo.createId.fd" parent="field.cluInfo.metaInfo.createId.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Defaults to the currently authenticated user -->
 <dict:constraintDescriptor id="field.cluInfo.metaInfo.createId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
@@ -2701,7 +2701,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateTime" id="field.cluInfo.metaInfo.updateTime.fd" parent="field.cluInfo.metaInfo.updateTime.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.metaInfo.updateTime.fd" parent="field.cluInfo.metaInfo.updateTime.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Date-Time; Sets a field to the current time -->
 <dict:constraintDescriptor id="field.cluInfo.metaInfo.updateTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -2722,7 +2722,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateId" id="field.cluInfo.metaInfo.updateId.fd" parent="field.cluInfo.metaInfo.updateId.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.metaInfo.updateId.fd" parent="field.cluInfo.metaInfo.updateId.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Sets a field to the currently authenticated user -->
 <dict:constraintDescriptor id="field.cluInfo.metaInfo.updateId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
@@ -2743,7 +2743,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Unique identifier for a learning unit type. Once set at create time, this field may not be updated.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="type" id="field.cluInfo.type.fd" parent="field.cluInfo.type.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.type.fd" parent="field.cluInfo.type.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Kuali TYPE: required on add, then read-only; In list of configured learning unit types -->
 <dict:constraintDescriptor id="field.cluInfo.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -2764,7 +2764,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>The current status of the clu. The values for this field are constrained to those in the luState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value. This field may not be updated through updating this structure and must instead be updated through a dedicated operation.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="state" id="field.cluInfo.state.fd" parent="field.cluInfo.state.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.state.fd" parent="field.cluInfo.state.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Kuali STATE; In list of configured learning unit states -->
 <dict:constraintDescriptor id="field.cluInfo.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -2786,7 +2786,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="id" id="field.cluInfo.id.fd" parent="field.cluInfo.id.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.id.fd" parent="field.cluInfo.id.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only. -->
 <dict:constraintDescriptor id="field.cluInfo.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>

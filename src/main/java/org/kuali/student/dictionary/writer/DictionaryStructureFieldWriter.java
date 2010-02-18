@@ -178,7 +178,6 @@ public class DictionaryStructureFieldWriter
   writer.indentPrintln ("</dict:fieldDescriptor>");
   // concrete one
   writer.indentPrint ("<dict:fieldDescriptor");
-  writer.writeAttribute ("key", field.getShortName ());
   writeAttributeId (calcFieldDescriptorId ());
   writeParentToAbstract (calcFieldDescriptorId ());
   writer.indentPrintln ("/>");

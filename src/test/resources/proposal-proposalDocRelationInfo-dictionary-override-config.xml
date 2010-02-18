@@ -7,7 +7,7 @@ http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/d
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Thu Feb 18 11:40:07 EST 2010
+on: Thu Feb 18 13:33:57 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -128,6 +128,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.proposalDocRelationInfo.desc.Syllabus"/>
 </dict:type>
+<dict:type key="*" id="type.field.proposalDocRelationInfo.desc.Syllabus" parent="type.field.proposalDocRelationInfo.desc.Syllabus.abstract"/>
 
 <!-- ***************************************************************************************** -->
 <!-- State for state.field.proposalDocRelationInfo.desc.Syllabus.(default).(default).(default) -->
@@ -147,13 +148,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.syllabus.desc.plain.cd"/>
 </dict:field>
 <dict:field key="plain" id="dict.syllabus.desc.plain" parent="dict.syllabus.desc.plain.abstract"/>
-<dict:fieldDescriptor key="plain" id="dict.syllabus.desc.plain.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.syllabus.desc.plain.fd.abstract" abstract="true">
 	<dict:name>syllabus desc plain text</dict:name>
 	<dict:desc>syllabus desc plain text</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="plain" id="dict.syllabus.desc.plain.fd" parent="dict.syllabus.desc.plain.fd.abstract"/>
+<dict:fieldDescriptor id="dict.syllabus.desc.plain.fd" parent="dict.syllabus.desc.plain.fd.abstract"/>
 <dict:constraintDescriptor id="dict.syllabus.desc.plain.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -176,12 +177,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.syllabus.desc.formatted.cd"/>
 </dict:field>
 <dict:field key="formatted" id="dict.syllabus.desc.formatted" parent="dict.syllabus.desc.formatted.abstract"/>
-<dict:fieldDescriptor key="formatted" id="dict.syllabus.desc.formatted.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.syllabus.desc.formatted.fd.abstract" abstract="true">
 	<dict:name>syllabus desc formatted</dict:name>
 	<dict:desc>syllabus desc formatted</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="formatted" id="dict.syllabus.desc.formatted.fd" parent="dict.syllabus.desc.formatted.fd.abstract"/>
+<dict:fieldDescriptor id="dict.syllabus.desc.formatted.fd" parent="dict.syllabus.desc.formatted.fd.abstract"/>
 <dict:constraintDescriptor id="dict.syllabus.desc.formatted.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -212,6 +213,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.proposalDocRelationInfo.metaInfo.Syllabus"/>
 </dict:type>
+<dict:type key="*" id="type.field.proposalDocRelationInfo.metaInfo.Syllabus" parent="type.field.proposalDocRelationInfo.metaInfo.Syllabus.abstract"/>
 
 <!-- ********************************************************************************************* -->
 <!-- State for state.field.proposalDocRelationInfo.metaInfo.Syllabus.(default).(default).(default) -->
@@ -234,13 +236,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.syllabus.meta.versionInd.cd"/>
 </dict:field>
 <dict:field key="versionInd" id="dict.syllabus.meta.versionInd" parent="dict.syllabus.meta.versionInd.abstract"/>
-<dict:fieldDescriptor key="versionInd" id="dict.syllabus.meta.versionInd.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.syllabus.meta.versionInd.fd.abstract" abstract="true">
 	<dict:name>syllabus meta versionInd</dict:name>
 	<dict:desc>Version number for this syllabus</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="versionInd" id="dict.syllabus.meta.versionInd.fd" parent="dict.syllabus.meta.versionInd.fd.abstract"/>
+<dict:fieldDescriptor id="dict.syllabus.meta.versionInd.fd" parent="dict.syllabus.meta.versionInd.fd.abstract"/>
 <dict:constraintDescriptor id="dict.syllabus.meta.versionInd.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -258,12 +260,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.syllabus.meta.createTime.cd"/>
 </dict:field>
 <dict:field key="createTime" id="dict.syllabus.meta.createTime" parent="dict.syllabus.meta.createTime.abstract"/>
-<dict:fieldDescriptor key="createTime" id="dict.syllabus.meta.createTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.syllabus.meta.createTime.fd.abstract" abstract="true">
 	<dict:name>syllabus meta createTime</dict:name>
 	<dict:desc>Date-time this syllabus was created</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createTime" id="dict.syllabus.meta.createTime.fd" parent="dict.syllabus.meta.createTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.syllabus.meta.createTime.fd" parent="dict.syllabus.meta.createTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.syllabus.meta.createTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -280,13 +282,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.syllabus.meta.createId.cd"/>
 </dict:field>
 <dict:field key="createId" id="dict.syllabus.meta.createId" parent="dict.syllabus.meta.createId.abstract"/>
-<dict:fieldDescriptor key="createId" id="dict.syllabus.meta.createId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.syllabus.meta.createId.fd.abstract" abstract="true">
 	<dict:name>syllabus meta createId</dict:name>
 	<dict:desc>Principal of the persion who first created this syllabus</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createId" id="dict.syllabus.meta.createId.fd" parent="dict.syllabus.meta.createId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.syllabus.meta.createId.fd" parent="dict.syllabus.meta.createId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.syllabus.meta.createId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -303,12 +305,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.syllabus.meta.updateTime.cd"/>
 </dict:field>
 <dict:field key="updateTime" id="dict.syllabus.meta.updateTime" parent="dict.syllabus.meta.updateTime.abstract"/>
-<dict:fieldDescriptor key="updateTime" id="dict.syllabus.meta.updateTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.syllabus.meta.updateTime.fd.abstract" abstract="true">
 	<dict:name>syllabus meta updateTime</dict:name>
 	<dict:desc>Date-time this  syllabus was last updated</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateTime" id="dict.syllabus.meta.updateTime.fd" parent="dict.syllabus.meta.updateTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.syllabus.meta.updateTime.fd" parent="dict.syllabus.meta.updateTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.syllabus.meta.updateTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -325,13 +327,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.syllabus.meta.updateId.cd"/>
 </dict:field>
 <dict:field key="updateId" id="dict.syllabus.meta.updateId" parent="dict.syllabus.meta.updateId.abstract"/>
-<dict:fieldDescriptor key="updateId" id="dict.syllabus.meta.updateId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.syllabus.meta.updateId.fd.abstract" abstract="true">
 	<dict:name>syllabus meta updateId</dict:name>
 	<dict:desc>Principal of the persion who last updated this  syllabus</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateId" id="dict.syllabus.meta.updateId.fd" parent="dict.syllabus.meta.updateId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.syllabus.meta.updateId.fd" parent="dict.syllabus.meta.updateId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.syllabus.meta.updateId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -356,6 +358,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.proposalDocRelationInfo.desc.Other"/>
 </dict:type>
+<dict:type key="*" id="type.field.proposalDocRelationInfo.desc.Other" parent="type.field.proposalDocRelationInfo.desc.Other.abstract"/>
 
 <!-- ************************************************************************************** -->
 <!-- State for state.field.proposalDocRelationInfo.desc.Other.(default).(default).(default) -->
@@ -375,13 +378,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.other.attachment.desc.plain.cd"/>
 </dict:field>
 <dict:field key="plain" id="dict.other.attachment.desc.plain" parent="dict.other.attachment.desc.plain.abstract"/>
-<dict:fieldDescriptor key="plain" id="dict.other.attachment.desc.plain.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.other.attachment.desc.plain.fd.abstract" abstract="true">
 	<dict:name>other desc plain text</dict:name>
 	<dict:desc>other desc plain text</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="plain" id="dict.other.attachment.desc.plain.fd" parent="dict.other.attachment.desc.plain.fd.abstract"/>
+<dict:fieldDescriptor id="dict.other.attachment.desc.plain.fd" parent="dict.other.attachment.desc.plain.fd.abstract"/>
 <dict:constraintDescriptor id="dict.other.attachment.desc.plain.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -404,12 +407,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.other.attachment.desc.formatted.cd"/>
 </dict:field>
 <dict:field key="formatted" id="dict.other.attachment.desc.formatted" parent="dict.other.attachment.desc.formatted.abstract"/>
-<dict:fieldDescriptor key="formatted" id="dict.other.attachment.desc.formatted.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.other.attachment.desc.formatted.fd.abstract" abstract="true">
 	<dict:name>other desc formatted</dict:name>
 	<dict:desc>other desc formatted</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="formatted" id="dict.other.attachment.desc.formatted.fd" parent="dict.other.attachment.desc.formatted.fd.abstract"/>
+<dict:fieldDescriptor id="dict.other.attachment.desc.formatted.fd" parent="dict.other.attachment.desc.formatted.fd.abstract"/>
 <dict:constraintDescriptor id="dict.other.attachment.desc.formatted.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -440,6 +443,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.proposalDocRelationInfo.metaInfo.Other"/>
 </dict:type>
+<dict:type key="*" id="type.field.proposalDocRelationInfo.metaInfo.Other" parent="type.field.proposalDocRelationInfo.metaInfo.Other.abstract"/>
 
 <!-- ****************************************************************************************** -->
 <!-- State for state.field.proposalDocRelationInfo.metaInfo.Other.(default).(default).(default) -->
@@ -462,13 +466,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.other.attachment.meta.versionInd.cd"/>
 </dict:field>
 <dict:field key="versionInd" id="dict.other.attachment.meta.versionInd" parent="dict.other.attachment.meta.versionInd.abstract"/>
-<dict:fieldDescriptor key="versionInd" id="dict.other.attachment.meta.versionInd.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.other.attachment.meta.versionInd.fd.abstract" abstract="true">
 	<dict:name>other meta versionInd</dict:name>
 	<dict:desc>Version number for this other</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="versionInd" id="dict.other.attachment.meta.versionInd.fd" parent="dict.other.attachment.meta.versionInd.fd.abstract"/>
+<dict:fieldDescriptor id="dict.other.attachment.meta.versionInd.fd" parent="dict.other.attachment.meta.versionInd.fd.abstract"/>
 <dict:constraintDescriptor id="dict.other.attachment.meta.versionInd.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -486,12 +490,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.other.attachment.meta.createTime.cd"/>
 </dict:field>
 <dict:field key="createTime" id="dict.other.attachment.meta.createTime" parent="dict.other.attachment.meta.createTime.abstract"/>
-<dict:fieldDescriptor key="createTime" id="dict.other.attachment.meta.createTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.other.attachment.meta.createTime.fd.abstract" abstract="true">
 	<dict:name>other meta createTime</dict:name>
 	<dict:desc>Date-time this other was created</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createTime" id="dict.other.attachment.meta.createTime.fd" parent="dict.other.attachment.meta.createTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.other.attachment.meta.createTime.fd" parent="dict.other.attachment.meta.createTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.other.attachment.meta.createTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -508,13 +512,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.other.attachment.meta.createId.cd"/>
 </dict:field>
 <dict:field key="createId" id="dict.other.attachment.meta.createId" parent="dict.other.attachment.meta.createId.abstract"/>
-<dict:fieldDescriptor key="createId" id="dict.other.attachment.meta.createId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.other.attachment.meta.createId.fd.abstract" abstract="true">
 	<dict:name>other meta createId</dict:name>
 	<dict:desc>Principal of the persion who first created this other</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createId" id="dict.other.attachment.meta.createId.fd" parent="dict.other.attachment.meta.createId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.other.attachment.meta.createId.fd" parent="dict.other.attachment.meta.createId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.other.attachment.meta.createId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -531,12 +535,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.other.attachment.meta.updateTime.cd"/>
 </dict:field>
 <dict:field key="updateTime" id="dict.other.attachment.meta.updateTime" parent="dict.other.attachment.meta.updateTime.abstract"/>
-<dict:fieldDescriptor key="updateTime" id="dict.other.attachment.meta.updateTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.other.attachment.meta.updateTime.fd.abstract" abstract="true">
 	<dict:name>other meta updateTime</dict:name>
 	<dict:desc>Date-time this  other was last updated</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateTime" id="dict.other.attachment.meta.updateTime.fd" parent="dict.other.attachment.meta.updateTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.other.attachment.meta.updateTime.fd" parent="dict.other.attachment.meta.updateTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.other.attachment.meta.updateTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -553,13 +557,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.other.attachment.meta.updateId.cd"/>
 </dict:field>
 <dict:field key="updateId" id="dict.other.attachment.meta.updateId" parent="dict.other.attachment.meta.updateId.abstract"/>
-<dict:fieldDescriptor key="updateId" id="dict.other.attachment.meta.updateId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.other.attachment.meta.updateId.fd.abstract" abstract="true">
 	<dict:name>other meta updateId</dict:name>
 	<dict:desc>Principal of the persion who last updated this  other</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateId" id="dict.other.attachment.meta.updateId.fd" parent="dict.other.attachment.meta.updateId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.other.attachment.meta.updateId.fd" parent="dict.other.attachment.meta.updateId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.other.attachment.meta.updateId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -576,12 +580,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.syllabus.proposalId.cd"/>
 </dict:field>
 <dict:field key="proposalId" id="dict.syllabus.proposalId" parent="dict.syllabus.proposalId.abstract"/>
-<dict:fieldDescriptor key="proposalId" id="dict.syllabus.proposalId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.syllabus.proposalId.fd.abstract" abstract="true">
 	<dict:name>syllabus proposalId</dict:name>
 	<dict:desc>syllabus proposalId</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="proposalId" id="dict.syllabus.proposalId.fd" parent="dict.syllabus.proposalId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.syllabus.proposalId.fd" parent="dict.syllabus.proposalId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.syllabus.proposalId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -597,12 +601,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.syllabus.documentId.cd"/>
 </dict:field>
 <dict:field key="documentId" id="dict.syllabus.documentId" parent="dict.syllabus.documentId.abstract"/>
-<dict:fieldDescriptor key="documentId" id="dict.syllabus.documentId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.syllabus.documentId.fd.abstract" abstract="true">
 	<dict:name>syllabus documentId</dict:name>
 	<dict:desc>syllabus documentId</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="documentId" id="dict.syllabus.documentId.fd" parent="dict.syllabus.documentId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.syllabus.documentId.fd" parent="dict.syllabus.documentId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.syllabus.documentId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -618,12 +622,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.syllabus.title.cd"/>
 </dict:field>
 <dict:field key="title" id="dict.syllabus.title" parent="dict.syllabus.title.abstract"/>
-<dict:fieldDescriptor key="title" id="dict.syllabus.title.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.syllabus.title.fd.abstract" abstract="true">
 	<dict:name>syllabus title</dict:name>
 	<dict:desc>syllabus title</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="title" id="dict.syllabus.title.fd" parent="dict.syllabus.title.fd.abstract"/>
+<dict:fieldDescriptor id="dict.syllabus.title.fd" parent="dict.syllabus.title.fd.abstract"/>
 <dict:constraintDescriptor id="dict.syllabus.title.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -643,13 +647,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.syllabus.desc.cd"/>
 </dict:field>
 <dict:field key="desc" id="dict.syllabus.desc" parent="dict.syllabus.desc.abstract"/>
-<dict:fieldDescriptor key="desc" id="dict.syllabus.desc.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.syllabus.desc.fd.abstract" abstract="true">
 	<dict:name>syllabus desc</dict:name>
 	<dict:desc>syllabus desc</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.proposalDocRelationInfo.desc.Syllabus"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="desc" id="dict.syllabus.desc.fd" parent="dict.syllabus.desc.fd.abstract"/>
+<dict:fieldDescriptor id="dict.syllabus.desc.fd" parent="dict.syllabus.desc.fd.abstract"/>
 <dict:constraintDescriptor id="dict.syllabus.desc.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -664,12 +668,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.syllabus.effectiveDate.cd"/>
 </dict:field>
 <dict:field key="effectiveDate" id="dict.syllabus.effectiveDate" parent="dict.syllabus.effectiveDate.abstract"/>
-<dict:fieldDescriptor key="effectiveDate" id="dict.syllabus.effectiveDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.syllabus.effectiveDate.fd.abstract" abstract="true">
 	<dict:name>syllabus effectiveDate</dict:name>
 	<dict:desc>syllabus effectiveDate</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="effectiveDate" id="dict.syllabus.effectiveDate.fd" parent="dict.syllabus.effectiveDate.fd.abstract"/>
+<dict:fieldDescriptor id="dict.syllabus.effectiveDate.fd" parent="dict.syllabus.effectiveDate.fd.abstract"/>
 <dict:constraintDescriptor id="dict.syllabus.effectiveDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -685,12 +689,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.syllabus.expirationDate.cd"/>
 </dict:field>
 <dict:field key="expirationDate" id="dict.syllabus.expirationDate" parent="dict.syllabus.expirationDate.abstract"/>
-<dict:fieldDescriptor key="expirationDate" id="dict.syllabus.expirationDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.syllabus.expirationDate.fd.abstract" abstract="true">
 	<dict:name>syllabus expirationDate</dict:name>
 	<dict:desc>syllabus expirationDate</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="expirationDate" id="dict.syllabus.expirationDate.fd" parent="dict.syllabus.expirationDate.fd.abstract"/>
+<dict:fieldDescriptor id="dict.syllabus.expirationDate.fd" parent="dict.syllabus.expirationDate.fd.abstract"/>
 <dict:constraintDescriptor id="dict.syllabus.expirationDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -706,13 +710,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.syllabus.metaInfo.cd"/>
 </dict:field>
 <dict:field key="metaInfo" id="dict.syllabus.metaInfo" parent="dict.syllabus.metaInfo.abstract"/>
-<dict:fieldDescriptor key="metaInfo" id="dict.syllabus.metaInfo.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.syllabus.metaInfo.fd.abstract" abstract="true">
 	<dict:name>syllabus metaInfo</dict:name>
 	<dict:desc>syllabus metaInfo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.proposalDocRelationInfo.metaInfo.Syllabus"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="metaInfo" id="dict.syllabus.metaInfo.fd" parent="dict.syllabus.metaInfo.fd.abstract"/>
+<dict:fieldDescriptor id="dict.syllabus.metaInfo.fd" parent="dict.syllabus.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.syllabus.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -728,12 +732,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.syllabus.type.cd"/>
 </dict:field>
 <dict:field key="type" id="dict.syllabus.type" parent="dict.syllabus.type.abstract"/>
-<dict:fieldDescriptor key="type" id="dict.syllabus.type.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.syllabus.type.fd.abstract" abstract="true">
 	<dict:name>syllabus proposalId</dict:name>
 	<dict:desc>syllabus proposalId</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="type" id="dict.syllabus.type.fd" parent="dict.syllabus.type.fd.abstract"/>
+<dict:fieldDescriptor id="dict.syllabus.type.fd" parent="dict.syllabus.type.fd.abstract"/>
 <dict:constraintDescriptor id="dict.syllabus.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -750,12 +754,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:selector>true</dict:selector>
 </dict:field>
 <dict:field key="state" id="dict.syllabus.state" parent="dict.syllabus.state.abstract"/>
-<dict:fieldDescriptor key="state" id="dict.syllabus.state.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.syllabus.state.fd.abstract" abstract="true">
 	<dict:name>syllabus documentId</dict:name>
 	<dict:desc>syllabus documentId</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="state" id="dict.syllabus.state.fd" parent="dict.syllabus.state.fd.abstract"/>
+<dict:fieldDescriptor id="dict.syllabus.state.fd" parent="dict.syllabus.state.fd.abstract"/>
 <dict:constraintDescriptor id="dict.syllabus.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -771,12 +775,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.syllabus.internal.id.cd"/>
 </dict:field>
 <dict:field key="id" id="dict.syllabus.internal.id" parent="dict.syllabus.internal.id.abstract"/>
-<dict:fieldDescriptor key="id" id="dict.syllabus.internal.id.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.syllabus.internal.id.fd.abstract" abstract="true">
 	<dict:name>syllabus title</dict:name>
 	<dict:desc>syllabus title</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="id" id="dict.syllabus.internal.id.fd" parent="dict.syllabus.internal.id.fd.abstract"/>
+<dict:fieldDescriptor id="dict.syllabus.internal.id.fd" parent="dict.syllabus.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.syllabus.internal.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -793,12 +797,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.other.attachment.proposalId.cd"/>
 </dict:field>
 <dict:field key="proposalId" id="dict.other.attachment.proposalId" parent="dict.other.attachment.proposalId.abstract"/>
-<dict:fieldDescriptor key="proposalId" id="dict.other.attachment.proposalId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.other.attachment.proposalId.fd.abstract" abstract="true">
 	<dict:name>other proposalId</dict:name>
 	<dict:desc>other proposalId</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="proposalId" id="dict.other.attachment.proposalId.fd" parent="dict.other.attachment.proposalId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.other.attachment.proposalId.fd" parent="dict.other.attachment.proposalId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.other.attachment.proposalId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -814,12 +818,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.other.attachment.documentId.cd"/>
 </dict:field>
 <dict:field key="documentId" id="dict.other.attachment.documentId" parent="dict.other.attachment.documentId.abstract"/>
-<dict:fieldDescriptor key="documentId" id="dict.other.attachment.documentId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.other.attachment.documentId.fd.abstract" abstract="true">
 	<dict:name>other documentId</dict:name>
 	<dict:desc>other documentId</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="documentId" id="dict.other.attachment.documentId.fd" parent="dict.other.attachment.documentId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.other.attachment.documentId.fd" parent="dict.other.attachment.documentId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.other.attachment.documentId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -835,12 +839,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.other.attachment.title.cd"/>
 </dict:field>
 <dict:field key="title" id="dict.other.attachment.title" parent="dict.other.attachment.title.abstract"/>
-<dict:fieldDescriptor key="title" id="dict.other.attachment.title.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.other.attachment.title.fd.abstract" abstract="true">
 	<dict:name>other title</dict:name>
 	<dict:desc>other title</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="title" id="dict.other.attachment.title.fd" parent="dict.other.attachment.title.fd.abstract"/>
+<dict:fieldDescriptor id="dict.other.attachment.title.fd" parent="dict.other.attachment.title.fd.abstract"/>
 <dict:constraintDescriptor id="dict.other.attachment.title.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -860,13 +864,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.other.attachment.desc.cd"/>
 </dict:field>
 <dict:field key="desc" id="dict.other.attachment.desc" parent="dict.other.attachment.desc.abstract"/>
-<dict:fieldDescriptor key="desc" id="dict.other.attachment.desc.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.other.attachment.desc.fd.abstract" abstract="true">
 	<dict:name>other desc</dict:name>
 	<dict:desc>other desc</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.proposalDocRelationInfo.desc.Other"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="desc" id="dict.other.attachment.desc.fd" parent="dict.other.attachment.desc.fd.abstract"/>
+<dict:fieldDescriptor id="dict.other.attachment.desc.fd" parent="dict.other.attachment.desc.fd.abstract"/>
 <dict:constraintDescriptor id="dict.other.attachment.desc.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -881,12 +885,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.other.attachment.effectiveDate.cd"/>
 </dict:field>
 <dict:field key="effectiveDate" id="dict.other.attachment.effectiveDate" parent="dict.other.attachment.effectiveDate.abstract"/>
-<dict:fieldDescriptor key="effectiveDate" id="dict.other.attachment.effectiveDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.other.attachment.effectiveDate.fd.abstract" abstract="true">
 	<dict:name>other effectiveDate</dict:name>
 	<dict:desc>other effectiveDate</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="effectiveDate" id="dict.other.attachment.effectiveDate.fd" parent="dict.other.attachment.effectiveDate.fd.abstract"/>
+<dict:fieldDescriptor id="dict.other.attachment.effectiveDate.fd" parent="dict.other.attachment.effectiveDate.fd.abstract"/>
 <dict:constraintDescriptor id="dict.other.attachment.effectiveDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -902,12 +906,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.other.attachment.expirationDate.cd"/>
 </dict:field>
 <dict:field key="expirationDate" id="dict.other.attachment.expirationDate" parent="dict.other.attachment.expirationDate.abstract"/>
-<dict:fieldDescriptor key="expirationDate" id="dict.other.attachment.expirationDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.other.attachment.expirationDate.fd.abstract" abstract="true">
 	<dict:name>other expirationDate</dict:name>
 	<dict:desc>other expirationDate</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="expirationDate" id="dict.other.attachment.expirationDate.fd" parent="dict.other.attachment.expirationDate.fd.abstract"/>
+<dict:fieldDescriptor id="dict.other.attachment.expirationDate.fd" parent="dict.other.attachment.expirationDate.fd.abstract"/>
 <dict:constraintDescriptor id="dict.other.attachment.expirationDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -923,13 +927,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.other.attachment.metaInfo.cd"/>
 </dict:field>
 <dict:field key="metaInfo" id="dict.other.attachment.metaInfo" parent="dict.other.attachment.metaInfo.abstract"/>
-<dict:fieldDescriptor key="metaInfo" id="dict.other.attachment.metaInfo.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.other.attachment.metaInfo.fd.abstract" abstract="true">
 	<dict:name>other metaInfo</dict:name>
 	<dict:desc>other metaInfo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.proposalDocRelationInfo.metaInfo.Other"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="metaInfo" id="dict.other.attachment.metaInfo.fd" parent="dict.other.attachment.metaInfo.fd.abstract"/>
+<dict:fieldDescriptor id="dict.other.attachment.metaInfo.fd" parent="dict.other.attachment.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.other.attachment.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -945,12 +949,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.other.attachment.type.cd"/>
 </dict:field>
 <dict:field key="type" id="dict.other.attachment.type" parent="dict.other.attachment.type.abstract"/>
-<dict:fieldDescriptor key="type" id="dict.other.attachment.type.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.other.attachment.type.fd.abstract" abstract="true">
 	<dict:name>other proposalId</dict:name>
 	<dict:desc>other proposalId</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="type" id="dict.other.attachment.type.fd" parent="dict.other.attachment.type.fd.abstract"/>
+<dict:fieldDescriptor id="dict.other.attachment.type.fd" parent="dict.other.attachment.type.fd.abstract"/>
 <dict:constraintDescriptor id="dict.other.attachment.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -967,12 +971,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:selector>true</dict:selector>
 </dict:field>
 <dict:field key="state" id="dict.other.attachment.state" parent="dict.other.attachment.state.abstract"/>
-<dict:fieldDescriptor key="state" id="dict.other.attachment.state.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.other.attachment.state.fd.abstract" abstract="true">
 	<dict:name>other documentId</dict:name>
 	<dict:desc>other documentId</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="state" id="dict.other.attachment.state.fd" parent="dict.other.attachment.state.fd.abstract"/>
+<dict:fieldDescriptor id="dict.other.attachment.state.fd" parent="dict.other.attachment.state.fd.abstract"/>
 <dict:constraintDescriptor id="dict.other.attachment.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -988,12 +992,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.other.attachment.internal.id.cd"/>
 </dict:field>
 <dict:field key="id" id="dict.other.attachment.internal.id" parent="dict.other.attachment.internal.id.abstract"/>
-<dict:fieldDescriptor key="id" id="dict.other.attachment.internal.id.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.other.attachment.internal.id.fd.abstract" abstract="true">
 	<dict:name>other title</dict:name>
 	<dict:desc>other title</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="id" id="dict.other.attachment.internal.id.fd" parent="dict.other.attachment.internal.id.fd.abstract"/>
+<dict:fieldDescriptor id="dict.other.attachment.internal.id.fd" parent="dict.other.attachment.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.other.attachment.internal.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>

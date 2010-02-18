@@ -184,7 +184,6 @@ public class DictionaryOverrideFieldWriter
  private void writeFieldDescriptor ()
  {
   writer.indentPrint ("<dict:fieldDescriptor");
-  writer.writeAttribute ("key", dict.getShortName ());
   writeAbstractAttributeId (calcDictionaryFieldDescriptorId ());
   writer.indentPrintln (">");
   writer.incrementIndent ();
@@ -197,7 +196,6 @@ public class DictionaryOverrideFieldWriter
   writer.indentPrintln ("</dict:fieldDescriptor>");
   // concrete one
   writer.indentPrint ("<dict:fieldDescriptor");
-  writer.writeAttribute ("key", dict.getShortName ());
   writeAttributeId (calcDictionaryFieldDescriptorId ());
   writeParentToAbstract (calcDictionaryFieldDescriptorId ());
   writer.indentPrintln ("/>");

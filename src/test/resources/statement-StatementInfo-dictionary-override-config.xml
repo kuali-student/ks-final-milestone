@@ -7,7 +7,7 @@ http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/d
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Thu Feb 18 11:40:05 EST 2010
+on: Thu Feb 18 13:33:56 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -115,6 +115,7 @@ Should not include rules that restrict enrollment for other purposes other than 
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.statementInfo.desc.RequisiteRules"/>
 </dict:type>
+<dict:type key="*" id="type.field.statementInfo.desc.RequisiteRules" parent="type.field.statementInfo.desc.RequisiteRules.abstract"/>
 
 <!-- ************************************************************************************** -->
 <!-- State for state.field.statementInfo.desc.Requisite Rules.(default).(default).(default) -->
@@ -135,13 +136,13 @@ Should not include rules that restrict enrollment for other purposes other than 
 	<dict:constraintDescriptorRef bean="dict.requisite.statement.desc.plain.cd"/>
 </dict:field>
 <dict:field key="plain" id="dict.requisite.statement.desc.plain" parent="dict.requisite.statement.desc.plain.abstract"/>
-<dict:fieldDescriptor key="plain" id="dict.requisite.statement.desc.plain.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.requisite.statement.desc.plain.fd.abstract" abstract="true">
 	<dict:name>requisite statement desc plain</dict:name>
 	<dict:desc>requisite statement desc plain</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="plain" id="dict.requisite.statement.desc.plain.fd" parent="dict.requisite.statement.desc.plain.fd.abstract"/>
+<dict:fieldDescriptor id="dict.requisite.statement.desc.plain.fd" parent="dict.requisite.statement.desc.plain.fd.abstract"/>
 <dict:constraintDescriptor id="dict.requisite.statement.desc.plain.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -165,12 +166,12 @@ Should not include rules that restrict enrollment for other purposes other than 
 	<dict:constraintDescriptorRef bean="dict.requisite.statement.desc.formatted.cd"/>
 </dict:field>
 <dict:field key="formatted" id="dict.requisite.statement.desc.formatted" parent="dict.requisite.statement.desc.formatted.abstract"/>
-<dict:fieldDescriptor key="formatted" id="dict.requisite.statement.desc.formatted.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.requisite.statement.desc.formatted.fd.abstract" abstract="true">
 	<dict:name>requisite statement desc formatted</dict:name>
 	<dict:desc>requisite statement desc formatted</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="formatted" id="dict.requisite.statement.desc.formatted.fd" parent="dict.requisite.statement.desc.formatted.fd.abstract"/>
+<dict:fieldDescriptor id="dict.requisite.statement.desc.formatted.fd" parent="dict.requisite.statement.desc.formatted.fd.abstract"/>
 <dict:constraintDescriptor id="dict.requisite.statement.desc.formatted.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -199,6 +200,7 @@ Should not include rules that restrict enrollment for other purposes other than 
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.statementInfo.metaInfo.RequisiteRules"/>
 </dict:type>
+<dict:type key="*" id="type.field.statementInfo.metaInfo.RequisiteRules" parent="type.field.statementInfo.metaInfo.RequisiteRules.abstract"/>
 
 <!-- ****************************************************************************************** -->
 <!-- State for state.field.statementInfo.metaInfo.Requisite Rules.(default).(default).(default) -->
@@ -221,13 +223,13 @@ Should not include rules that restrict enrollment for other purposes other than 
 	<dict:constraintDescriptorRef bean="dict.requisite.statement.meta.versionInd.cd"/>
 </dict:field>
 <dict:field key="versionInd" id="dict.requisite.statement.meta.versionInd" parent="dict.requisite.statement.meta.versionInd.abstract"/>
-<dict:fieldDescriptor key="versionInd" id="dict.requisite.statement.meta.versionInd.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.requisite.statement.meta.versionInd.fd.abstract" abstract="true">
 	<dict:name>requisite statement meta versionInd</dict:name>
 	<dict:desc>requisite statement meta versionInd</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="versionInd" id="dict.requisite.statement.meta.versionInd.fd" parent="dict.requisite.statement.meta.versionInd.fd.abstract"/>
+<dict:fieldDescriptor id="dict.requisite.statement.meta.versionInd.fd" parent="dict.requisite.statement.meta.versionInd.fd.abstract"/>
 <dict:constraintDescriptor id="dict.requisite.statement.meta.versionInd.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -245,12 +247,12 @@ Should not include rules that restrict enrollment for other purposes other than 
 	<dict:constraintDescriptorRef bean="dict.requisite.statement.meta.createTime.cd"/>
 </dict:field>
 <dict:field key="createTime" id="dict.requisite.statement.meta.createTime" parent="dict.requisite.statement.meta.createTime.abstract"/>
-<dict:fieldDescriptor key="createTime" id="dict.requisite.statement.meta.createTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.requisite.statement.meta.createTime.fd.abstract" abstract="true">
 	<dict:name>requisite statement meta createTime</dict:name>
 	<dict:desc>requisite statement meta createTime</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createTime" id="dict.requisite.statement.meta.createTime.fd" parent="dict.requisite.statement.meta.createTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.requisite.statement.meta.createTime.fd" parent="dict.requisite.statement.meta.createTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.requisite.statement.meta.createTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -267,13 +269,13 @@ Should not include rules that restrict enrollment for other purposes other than 
 	<dict:constraintDescriptorRef bean="dict.requisite.statement.meta.createId.cd"/>
 </dict:field>
 <dict:field key="createId" id="dict.requisite.statement.meta.createId" parent="dict.requisite.statement.meta.createId.abstract"/>
-<dict:fieldDescriptor key="createId" id="dict.requisite.statement.meta.createId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.requisite.statement.meta.createId.fd.abstract" abstract="true">
 	<dict:name>requisite statement meta createId</dict:name>
 	<dict:desc>requisite statement meta createId</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createId" id="dict.requisite.statement.meta.createId.fd" parent="dict.requisite.statement.meta.createId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.requisite.statement.meta.createId.fd" parent="dict.requisite.statement.meta.createId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.requisite.statement.meta.createId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -290,12 +292,12 @@ Should not include rules that restrict enrollment for other purposes other than 
 	<dict:constraintDescriptorRef bean="dict.requisite.statement.meta.updateTime.cd"/>
 </dict:field>
 <dict:field key="updateTime" id="dict.requisite.statement.meta.updateTime" parent="dict.requisite.statement.meta.updateTime.abstract"/>
-<dict:fieldDescriptor key="updateTime" id="dict.requisite.statement.meta.updateTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.requisite.statement.meta.updateTime.fd.abstract" abstract="true">
 	<dict:name>requisite statement meta updateTime</dict:name>
 	<dict:desc>requisite statement meta updateTime</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateTime" id="dict.requisite.statement.meta.updateTime.fd" parent="dict.requisite.statement.meta.updateTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.requisite.statement.meta.updateTime.fd" parent="dict.requisite.statement.meta.updateTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.requisite.statement.meta.updateTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -312,13 +314,13 @@ Should not include rules that restrict enrollment for other purposes other than 
 	<dict:constraintDescriptorRef bean="dict.requisite.statement.meta.updateId.cd"/>
 </dict:field>
 <dict:field key="updateId" id="dict.requisite.statement.meta.updateId" parent="dict.requisite.statement.meta.updateId.abstract"/>
-<dict:fieldDescriptor key="updateId" id="dict.requisite.statement.meta.updateId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.requisite.statement.meta.updateId.fd.abstract" abstract="true">
 	<dict:name>requisite statement meta updateId</dict:name>
 	<dict:desc>requisite statement meta updateId</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateId" id="dict.requisite.statement.meta.updateId.fd" parent="dict.requisite.statement.meta.updateId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.requisite.statement.meta.updateId.fd" parent="dict.requisite.statement.meta.updateId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.requisite.statement.meta.updateId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -335,12 +337,12 @@ Should not include rules that restrict enrollment for other purposes other than 
 	<dict:constraintDescriptorRef bean="dict.requisite.statement.name.cd"/>
 </dict:field>
 <dict:field key="name" id="dict.requisite.statement.name" parent="dict.requisite.statement.name.abstract"/>
-<dict:fieldDescriptor key="name" id="dict.requisite.statement.name.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.requisite.statement.name.fd.abstract" abstract="true">
 	<dict:name>requisite statement name</dict:name>
 	<dict:desc>requisite statement name</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="name" id="dict.requisite.statement.name.fd" parent="dict.requisite.statement.name.fd.abstract"/>
+<dict:fieldDescriptor id="dict.requisite.statement.name.fd" parent="dict.requisite.statement.name.fd.abstract"/>
 <dict:constraintDescriptor id="dict.requisite.statement.name.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -356,13 +358,13 @@ Should not include rules that restrict enrollment for other purposes other than 
 	<dict:constraintDescriptorRef bean="dict.requisite.statement.desc.cd"/>
 </dict:field>
 <dict:field key="desc" id="dict.requisite.statement.desc" parent="dict.requisite.statement.desc.abstract"/>
-<dict:fieldDescriptor key="desc" id="dict.requisite.statement.desc.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.requisite.statement.desc.fd.abstract" abstract="true">
 	<dict:name>requisite statement desc</dict:name>
 	<dict:desc>requisite statement desc</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.statementInfo.desc.RequisiteRules"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="desc" id="dict.requisite.statement.desc.fd" parent="dict.requisite.statement.desc.fd.abstract"/>
+<dict:fieldDescriptor id="dict.requisite.statement.desc.fd" parent="dict.requisite.statement.desc.fd.abstract"/>
 <dict:constraintDescriptor id="dict.requisite.statement.desc.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -377,12 +379,12 @@ Should not include rules that restrict enrollment for other purposes other than 
 	<dict:constraintDescriptorRef bean="dict.requisite.statement.operator.cd"/>
 </dict:field>
 <dict:field key="operator" id="dict.requisite.statement.operator" parent="dict.requisite.statement.operator.abstract"/>
-<dict:fieldDescriptor key="operator" id="dict.requisite.statement.operator.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.requisite.statement.operator.fd.abstract" abstract="true">
 	<dict:name>requisite statement operator</dict:name>
 	<dict:desc>requisite statement operator</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="operator" id="dict.requisite.statement.operator.fd" parent="dict.requisite.statement.operator.fd.abstract"/>
+<dict:fieldDescriptor id="dict.requisite.statement.operator.fd" parent="dict.requisite.statement.operator.fd.abstract"/>
 <dict:constraintDescriptor id="dict.requisite.statement.operator.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -399,12 +401,12 @@ Should not include rules that restrict enrollment for other purposes other than 
 	<dict:constraintDescriptorRef bean="dict.requisite.statement.sub.statements.cd"/>
 </dict:field>
 <dict:field key="statementIds" id="dict.requisite.statement.sub.statements" parent="dict.requisite.statement.sub.statements.abstract"/>
-<dict:fieldDescriptor key="statementIds" id="dict.requisite.statement.sub.statements.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.requisite.statement.sub.statements.fd.abstract" abstract="true">
 	<dict:name>requisite statement sub statements</dict:name>
 	<dict:desc>requisite statement sub statements</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="statementIds" id="dict.requisite.statement.sub.statements.fd" parent="dict.requisite.statement.sub.statements.fd.abstract"/>
+<dict:fieldDescriptor id="dict.requisite.statement.sub.statements.fd" parent="dict.requisite.statement.sub.statements.fd.abstract"/>
 <dict:constraintDescriptor id="dict.requisite.statement.sub.statements.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.repeating"/>
@@ -420,12 +422,12 @@ Should not include rules that restrict enrollment for other purposes other than 
 	<dict:constraintDescriptorRef bean="dict.requisite.statement.components.cd"/>
 </dict:field>
 <dict:field key="reqComponentIds" id="dict.requisite.statement.components" parent="dict.requisite.statement.components.abstract"/>
-<dict:fieldDescriptor key="reqComponentIds" id="dict.requisite.statement.components.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.requisite.statement.components.fd.abstract" abstract="true">
 	<dict:name>requisite statement components</dict:name>
 	<dict:desc>requisite statement components</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="reqComponentIds" id="dict.requisite.statement.components.fd" parent="dict.requisite.statement.components.fd.abstract"/>
+<dict:fieldDescriptor id="dict.requisite.statement.components.fd" parent="dict.requisite.statement.components.fd.abstract"/>
 <dict:constraintDescriptor id="dict.requisite.statement.components.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.repeating"/>
@@ -441,14 +443,14 @@ Should not include rules that restrict enrollment for other purposes other than 
 	<dict:constraintDescriptorRef bean="dict.requisite.statement.metainfo.cd"/>
 </dict:field>
 <dict:field key="metaInfo" id="dict.requisite.statement.metainfo" parent="dict.requisite.statement.metainfo.abstract"/>
-<dict:fieldDescriptor key="metaInfo" id="dict.requisite.statement.metainfo.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.requisite.statement.metainfo.fd.abstract" abstract="true">
 	<dict:name>requisite statement metainfo</dict:name>
 	<dict:desc>requisite statement metainfo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.statementInfo.metaInfo.RequisiteRules"/>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="metaInfo" id="dict.requisite.statement.metainfo.fd" parent="dict.requisite.statement.metainfo.fd.abstract"/>
+<dict:fieldDescriptor id="dict.requisite.statement.metainfo.fd" parent="dict.requisite.statement.metainfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.requisite.statement.metainfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -463,12 +465,12 @@ Should not include rules that restrict enrollment for other purposes other than 
 	<dict:constraintDescriptorRef bean="dict.requisite.statement.type.cd"/>
 </dict:field>
 <dict:field key="type" id="dict.requisite.statement.type" parent="dict.requisite.statement.type.abstract"/>
-<dict:fieldDescriptor key="type" id="dict.requisite.statement.type.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.requisite.statement.type.fd.abstract" abstract="true">
 	<dict:name>requisite statement type</dict:name>
 	<dict:desc>requisite statement type</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="type" id="dict.requisite.statement.type.fd" parent="dict.requisite.statement.type.fd.abstract"/>
+<dict:fieldDescriptor id="dict.requisite.statement.type.fd" parent="dict.requisite.statement.type.fd.abstract"/>
 <dict:constraintDescriptor id="dict.requisite.statement.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -486,12 +488,12 @@ Should not include rules that restrict enrollment for other purposes other than 
 <dict:selector>true</dict:selector>
 </dict:field>
 <dict:field key="state" id="dict.requisite.statement.state" parent="dict.requisite.statement.state.abstract"/>
-<dict:fieldDescriptor key="state" id="dict.requisite.statement.state.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.requisite.statement.state.fd.abstract" abstract="true">
 	<dict:name>requisite statement state</dict:name>
 	<dict:desc>requisite statement state</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="state" id="dict.requisite.statement.state.fd" parent="dict.requisite.statement.state.fd.abstract"/>
+<dict:fieldDescriptor id="dict.requisite.statement.state.fd" parent="dict.requisite.statement.state.fd.abstract"/>
 <dict:constraintDescriptor id="dict.requisite.statement.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -509,13 +511,13 @@ Should not include rules that restrict enrollment for other purposes other than 
 	<dict:constraintDescriptorRef bean="dict.requisite.statement.id.cd"/>
 </dict:field>
 <dict:field key="id" id="dict.requisite.statement.id" parent="dict.requisite.statement.id.abstract"/>
-<dict:fieldDescriptor key="id" id="dict.requisite.statement.id.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.requisite.statement.id.fd.abstract" abstract="true">
 	<dict:name>requisite statement id</dict:name>
 	<dict:desc>requisite statement id</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="id" id="dict.requisite.statement.id.fd" parent="dict.requisite.statement.id.fd.abstract"/>
+<dict:fieldDescriptor id="dict.requisite.statement.id.fd" parent="dict.requisite.statement.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.requisite.statement.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>

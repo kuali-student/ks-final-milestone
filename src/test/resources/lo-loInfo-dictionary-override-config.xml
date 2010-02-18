@@ -7,7 +7,7 @@ http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/d
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Thu Feb 18 11:40:03 EST 2010
+on: Thu Feb 18 13:33:54 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -93,6 +93,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.loInfo.desc.singleUse"/>
 </dict:type>
+<dict:type key="*" id="type.field.loInfo.desc.singleUse" parent="type.field.loInfo.desc.singleUse.abstract"/>
 
 <!-- ************************************************************************* -->
 <!-- State for state.field.loInfo.desc.singleUse.(default).(default).(default) -->
@@ -112,13 +113,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.singleUse.lo.desc.plain.cd"/>
 </dict:field>
 <dict:field key="plain" id="dict.singleUse.lo.desc.plain" parent="dict.singleUse.lo.desc.plain.abstract"/>
-<dict:fieldDescriptor key="plain" id="dict.singleUse.lo.desc.plain.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.singleUse.lo.desc.plain.fd.abstract" abstract="true">
 	<dict:name>informal lo desc plain text</dict:name>
 	<dict:desc>informal lo desc plain text</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="plain" id="dict.singleUse.lo.desc.plain.fd" parent="dict.singleUse.lo.desc.plain.fd.abstract"/>
+<dict:fieldDescriptor id="dict.singleUse.lo.desc.plain.fd" parent="dict.singleUse.lo.desc.plain.fd.abstract"/>
 <dict:constraintDescriptor id="dict.singleUse.lo.desc.plain.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -139,12 +140,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.singleUse.lo.desc.formatted.cd"/>
 </dict:field>
 <dict:field key="formatted" id="dict.singleUse.lo.desc.formatted" parent="dict.singleUse.lo.desc.formatted.abstract"/>
-<dict:fieldDescriptor key="formatted" id="dict.singleUse.lo.desc.formatted.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.singleUse.lo.desc.formatted.fd.abstract" abstract="true">
 	<dict:name>informal lo desc formatted</dict:name>
 	<dict:desc>informal lo desc formatted</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="formatted" id="dict.singleUse.lo.desc.formatted.fd" parent="dict.singleUse.lo.desc.formatted.fd.abstract"/>
+<dict:fieldDescriptor id="dict.singleUse.lo.desc.formatted.fd" parent="dict.singleUse.lo.desc.formatted.fd.abstract"/>
 <dict:constraintDescriptor id="dict.singleUse.lo.desc.formatted.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -170,6 +171,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.loInfo.metaInfo.singleUse"/>
 </dict:type>
+<dict:type key="*" id="type.field.loInfo.metaInfo.singleUse" parent="type.field.loInfo.metaInfo.singleUse.abstract"/>
 
 <!-- ***************************************************************************** -->
 <!-- State for state.field.loInfo.metaInfo.singleUse.(default).(default).(default) -->
@@ -192,13 +194,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.singleUse.lo.meta.versionInd.cd"/>
 </dict:field>
 <dict:field key="versionInd" id="dict.singleUse.lo.meta.versionInd" parent="dict.singleUse.lo.meta.versionInd.abstract"/>
-<dict:fieldDescriptor key="versionInd" id="dict.singleUse.lo.meta.versionInd.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.singleUse.lo.meta.versionInd.fd.abstract" abstract="true">
 	<dict:name>informal lo meta versionInd</dict:name>
 	<dict:desc>informal lo meta versionInd</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="versionInd" id="dict.singleUse.lo.meta.versionInd.fd" parent="dict.singleUse.lo.meta.versionInd.fd.abstract"/>
+<dict:fieldDescriptor id="dict.singleUse.lo.meta.versionInd.fd" parent="dict.singleUse.lo.meta.versionInd.fd.abstract"/>
 <dict:constraintDescriptor id="dict.singleUse.lo.meta.versionInd.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -216,12 +218,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.singleUse.lo.meta.createTime.cd"/>
 </dict:field>
 <dict:field key="createTime" id="dict.singleUse.lo.meta.createTime" parent="dict.singleUse.lo.meta.createTime.abstract"/>
-<dict:fieldDescriptor key="createTime" id="dict.singleUse.lo.meta.createTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.singleUse.lo.meta.createTime.fd.abstract" abstract="true">
 	<dict:name>informal lo meta createTime</dict:name>
 	<dict:desc>informal lo meta createTime</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createTime" id="dict.singleUse.lo.meta.createTime.fd" parent="dict.singleUse.lo.meta.createTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.singleUse.lo.meta.createTime.fd" parent="dict.singleUse.lo.meta.createTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.singleUse.lo.meta.createTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -238,13 +240,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.singleUse.lo.meta.createId.cd"/>
 </dict:field>
 <dict:field key="createId" id="dict.singleUse.lo.meta.createId" parent="dict.singleUse.lo.meta.createId.abstract"/>
-<dict:fieldDescriptor key="createId" id="dict.singleUse.lo.meta.createId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.singleUse.lo.meta.createId.fd.abstract" abstract="true">
 	<dict:name>informal lo meta createId</dict:name>
 	<dict:desc>informal lo meta createId</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createId" id="dict.singleUse.lo.meta.createId.fd" parent="dict.singleUse.lo.meta.createId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.singleUse.lo.meta.createId.fd" parent="dict.singleUse.lo.meta.createId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.singleUse.lo.meta.createId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -261,12 +263,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.singleUse.lo.meta.updateTime.cd"/>
 </dict:field>
 <dict:field key="updateTime" id="dict.singleUse.lo.meta.updateTime" parent="dict.singleUse.lo.meta.updateTime.abstract"/>
-<dict:fieldDescriptor key="updateTime" id="dict.singleUse.lo.meta.updateTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.singleUse.lo.meta.updateTime.fd.abstract" abstract="true">
 	<dict:name>informal lo meta updateTime</dict:name>
 	<dict:desc>informal lo meta updateTime</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateTime" id="dict.singleUse.lo.meta.updateTime.fd" parent="dict.singleUse.lo.meta.updateTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.singleUse.lo.meta.updateTime.fd" parent="dict.singleUse.lo.meta.updateTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.singleUse.lo.meta.updateTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -283,13 +285,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.singleUse.lo.meta.updateId.cd"/>
 </dict:field>
 <dict:field key="updateId" id="dict.singleUse.lo.meta.updateId" parent="dict.singleUse.lo.meta.updateId.abstract"/>
-<dict:fieldDescriptor key="updateId" id="dict.singleUse.lo.meta.updateId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.singleUse.lo.meta.updateId.fd.abstract" abstract="true">
 	<dict:name>informal lo meta updateId</dict:name>
 	<dict:desc>informal lo meta updateId</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateId" id="dict.singleUse.lo.meta.updateId.fd" parent="dict.singleUse.lo.meta.updateId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.singleUse.lo.meta.updateId.fd" parent="dict.singleUse.lo.meta.updateId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.singleUse.lo.meta.updateId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -306,12 +308,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.singleUse.lo.name.cd"/>
 </dict:field>
 <dict:field key="name" id="dict.singleUse.lo.name" parent="dict.singleUse.lo.name.abstract"/>
-<dict:fieldDescriptor key="name" id="dict.singleUse.lo.name.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.singleUse.lo.name.fd.abstract" abstract="true">
 	<dict:name>informal lo name</dict:name>
 	<dict:desc>the name of the lo</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="name" id="dict.singleUse.lo.name.fd" parent="dict.singleUse.lo.name.fd.abstract"/>
+<dict:fieldDescriptor id="dict.singleUse.lo.name.fd" parent="dict.singleUse.lo.name.fd.abstract"/>
 <dict:constraintDescriptor id="dict.singleUse.lo.name.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -327,13 +329,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.singleUse.lo.desc.cd"/>
 </dict:field>
 <dict:field key="desc" id="dict.singleUse.lo.desc" parent="dict.singleUse.lo.desc.abstract"/>
-<dict:fieldDescriptor key="desc" id="dict.singleUse.lo.desc.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.singleUse.lo.desc.fd.abstract" abstract="true">
 	<dict:name>informal lo description</dict:name>
 	<dict:desc>the description of the lo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.loInfo.desc.singleUse"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="desc" id="dict.singleUse.lo.desc.fd" parent="dict.singleUse.lo.desc.fd.abstract"/>
+<dict:fieldDescriptor id="dict.singleUse.lo.desc.fd" parent="dict.singleUse.lo.desc.fd.abstract"/>
 <dict:constraintDescriptor id="dict.singleUse.lo.desc.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -348,12 +350,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.singleUse.lo.loRepository.cd"/>
 </dict:field>
 <dict:field key="loRepositoryKey" id="dict.singleUse.lo.loRepository" parent="dict.singleUse.lo.loRepository.abstract"/>
-<dict:fieldDescriptor key="loRepositoryKey" id="dict.singleUse.lo.loRepository.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.singleUse.lo.loRepository.fd.abstract" abstract="true">
 	<dict:name>informal lo hierarcy</dict:name>
 	<dict:desc>the name of the hierarchy to which the lo belongs</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="loRepositoryKey" id="dict.singleUse.lo.loRepository.fd" parent="dict.singleUse.lo.loRepository.fd.abstract"/>
+<dict:fieldDescriptor id="dict.singleUse.lo.loRepository.fd" parent="dict.singleUse.lo.loRepository.fd.abstract"/>
 <dict:constraintDescriptor id="dict.singleUse.lo.loRepository.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -370,12 +372,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.singleUse.lo.effectiveDate.cd"/>
 </dict:field>
 <dict:field key="effectiveDate" id="dict.singleUse.lo.effectiveDate" parent="dict.singleUse.lo.effectiveDate.abstract"/>
-<dict:fieldDescriptor key="effectiveDate" id="dict.singleUse.lo.effectiveDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.singleUse.lo.effectiveDate.fd.abstract" abstract="true">
 	<dict:name>informal lo effective date</dict:name>
 	<dict:desc>the effective date of the lo</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="effectiveDate" id="dict.singleUse.lo.effectiveDate.fd" parent="dict.singleUse.lo.effectiveDate.fd.abstract"/>
+<dict:fieldDescriptor id="dict.singleUse.lo.effectiveDate.fd" parent="dict.singleUse.lo.effectiveDate.fd.abstract"/>
 <dict:constraintDescriptor id="dict.singleUse.lo.effectiveDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -391,12 +393,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.singleUse.lo.expirationDate.cd"/>
 </dict:field>
 <dict:field key="expirationDate" id="dict.singleUse.lo.expirationDate" parent="dict.singleUse.lo.expirationDate.abstract"/>
-<dict:fieldDescriptor key="expirationDate" id="dict.singleUse.lo.expirationDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.singleUse.lo.expirationDate.fd.abstract" abstract="true">
 	<dict:name>informal lo expiration date</dict:name>
 	<dict:desc>the expiration date of the lo</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="expirationDate" id="dict.singleUse.lo.expirationDate.fd" parent="dict.singleUse.lo.expirationDate.fd.abstract"/>
+<dict:fieldDescriptor id="dict.singleUse.lo.expirationDate.fd" parent="dict.singleUse.lo.expirationDate.fd.abstract"/>
 <dict:constraintDescriptor id="dict.singleUse.lo.expirationDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -413,13 +415,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:dynamic>true</dict:dynamic>
 </dict:field>
 <dict:field key="sequence" id="dict.singleUse.lo.sequence" parent="dict.singleUse.lo.sequence.abstract"/>
-<dict:fieldDescriptor key="sequence" id="dict.singleUse.lo.sequence.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.singleUse.lo.sequence.fd.abstract" abstract="true">
 	<dict:name>single use lo sequence</dict:name>
 	<dict:desc>Value to capture the sequence of the Lo</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:objectStructureRef bean="object.field.loInfo.attributes.singleUse"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="sequence" id="dict.singleUse.lo.sequence.fd" parent="dict.singleUse.lo.sequence.fd.abstract"/>
+<dict:fieldDescriptor id="dict.singleUse.lo.sequence.fd" parent="dict.singleUse.lo.sequence.fd.abstract"/>
 <dict:constraintDescriptor id="dict.singleUse.lo.sequence.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -434,13 +436,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.singleUse.lo.metaInfo.cd"/>
 </dict:field>
 <dict:field key="metaInfo" id="dict.singleUse.lo.metaInfo" parent="dict.singleUse.lo.metaInfo.abstract"/>
-<dict:fieldDescriptor key="metaInfo" id="dict.singleUse.lo.metaInfo.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.singleUse.lo.metaInfo.fd.abstract" abstract="true">
 	<dict:name>informal lo meta info</dict:name>
 	<dict:desc>meta info</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.loInfo.metaInfo.singleUse"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="metaInfo" id="dict.singleUse.lo.metaInfo.fd" parent="dict.singleUse.lo.metaInfo.fd.abstract"/>
+<dict:fieldDescriptor id="dict.singleUse.lo.metaInfo.fd" parent="dict.singleUse.lo.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.singleUse.lo.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -455,12 +457,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.singleUse.lo.type.cd"/>
 </dict:field>
 <dict:field key="type" id="dict.singleUse.lo.type" parent="dict.singleUse.lo.type.abstract"/>
-<dict:fieldDescriptor key="type" id="dict.singleUse.lo.type.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.singleUse.lo.type.fd.abstract" abstract="true">
 	<dict:name>type</dict:name>
 	<dict:desc>the type of the lo</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="type" id="dict.singleUse.lo.type.fd" parent="dict.singleUse.lo.type.fd.abstract"/>
+<dict:fieldDescriptor id="dict.singleUse.lo.type.fd" parent="dict.singleUse.lo.type.fd.abstract"/>
 <dict:constraintDescriptor id="dict.singleUse.lo.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -478,12 +480,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:selector>true</dict:selector>
 </dict:field>
 <dict:field key="state" id="dict.singleUse.lo.state" parent="dict.singleUse.lo.state.abstract"/>
-<dict:fieldDescriptor key="state" id="dict.singleUse.lo.state.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.singleUse.lo.state.fd.abstract" abstract="true">
 	<dict:name>informal lo.state</dict:name>
 	<dict:desc>the state of the lo</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="state" id="dict.singleUse.lo.state.fd" parent="dict.singleUse.lo.state.fd.abstract"/>
+<dict:fieldDescriptor id="dict.singleUse.lo.state.fd" parent="dict.singleUse.lo.state.fd.abstract"/>
 <dict:constraintDescriptor id="dict.singleUse.lo.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -499,13 +501,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.singleUse.lo.internal.id.cd"/>
 </dict:field>
 <dict:field key="id" id="dict.singleUse.lo.internal.id" parent="dict.singleUse.lo.internal.id.abstract"/>
-<dict:fieldDescriptor key="id" id="dict.singleUse.lo.internal.id.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.singleUse.lo.internal.id.fd.abstract" abstract="true">
 	<dict:name>informal lo internal id</dict:name>
 	<dict:desc>the internal id of the lo</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="id" id="dict.singleUse.lo.internal.id.fd" parent="dict.singleUse.lo.internal.id.fd.abstract"/>
+<dict:fieldDescriptor id="dict.singleUse.lo.internal.id.fd" parent="dict.singleUse.lo.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.singleUse.lo.internal.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>

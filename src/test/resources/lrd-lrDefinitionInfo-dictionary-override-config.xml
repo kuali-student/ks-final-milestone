@@ -7,7 +7,7 @@ http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/d
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Thu Feb 18 11:40:05 EST 2010
+on: Thu Feb 18 13:33:56 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -115,6 +115,7 @@ TODO: update simples -->
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.lrDefinitionInfo.metaInfo.CreditCourseFinalGrade"/>
 </dict:type>
+<dict:type key="*" id="type.field.lrDefinitionInfo.metaInfo.CreditCourseFinalGrade" parent="type.field.lrDefinitionInfo.metaInfo.CreditCourseFinalGrade.abstract"/>
 
 <!-- ******************************************************************************************************* -->
 <!-- State for state.field.lrDefinitionInfo.metaInfo.Credit Course Final Grade.(default).(default).(default) -->
@@ -137,13 +138,13 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.credit.course.with.final.grade.meta.versionInd.cd"/>
 </dict:field>
 <dict:field key="versionInd" id="dict.credit.course.with.final.grade.meta.versionInd" parent="dict.credit.course.with.final.grade.meta.versionInd.abstract"/>
-<dict:fieldDescriptor key="versionInd" id="dict.credit.course.with.final.grade.meta.versionInd.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.meta.versionInd.fd.abstract" abstract="true">
 	<dict:name>credit course with final grade meta versionInd</dict:name>
 	<dict:desc>credit course with final grade meta versionInd</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="versionInd" id="dict.credit.course.with.final.grade.meta.versionInd.fd" parent="dict.credit.course.with.final.grade.meta.versionInd.fd.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.meta.versionInd.fd" parent="dict.credit.course.with.final.grade.meta.versionInd.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.with.final.grade.meta.versionInd.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -161,12 +162,12 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.credit.course.with.final.grade.meta.createTime.cd"/>
 </dict:field>
 <dict:field key="createTime" id="dict.credit.course.with.final.grade.meta.createTime" parent="dict.credit.course.with.final.grade.meta.createTime.abstract"/>
-<dict:fieldDescriptor key="createTime" id="dict.credit.course.with.final.grade.meta.createTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.meta.createTime.fd.abstract" abstract="true">
 	<dict:name>credit course with final grade meta createTime</dict:name>
 	<dict:desc>credit course with final grade meta createTime</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createTime" id="dict.credit.course.with.final.grade.meta.createTime.fd" parent="dict.credit.course.with.final.grade.meta.createTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.meta.createTime.fd" parent="dict.credit.course.with.final.grade.meta.createTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.with.final.grade.meta.createTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -183,13 +184,13 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.credit.course.with.final.grade.meta.createId.cd"/>
 </dict:field>
 <dict:field key="createId" id="dict.credit.course.with.final.grade.meta.createId" parent="dict.credit.course.with.final.grade.meta.createId.abstract"/>
-<dict:fieldDescriptor key="createId" id="dict.credit.course.with.final.grade.meta.createId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.meta.createId.fd.abstract" abstract="true">
 	<dict:name>credit course with final grade meta createId</dict:name>
 	<dict:desc>credit course with final grade meta createId</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createId" id="dict.credit.course.with.final.grade.meta.createId.fd" parent="dict.credit.course.with.final.grade.meta.createId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.meta.createId.fd" parent="dict.credit.course.with.final.grade.meta.createId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.with.final.grade.meta.createId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -206,12 +207,12 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.credit.course.with.final.grade.meta.updateTime.cd"/>
 </dict:field>
 <dict:field key="updateTime" id="dict.credit.course.with.final.grade.meta.updateTime" parent="dict.credit.course.with.final.grade.meta.updateTime.abstract"/>
-<dict:fieldDescriptor key="updateTime" id="dict.credit.course.with.final.grade.meta.updateTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.meta.updateTime.fd.abstract" abstract="true">
 	<dict:name>credit course with final grade meta updateTime</dict:name>
 	<dict:desc>credit course with final grade meta updateTime</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateTime" id="dict.credit.course.with.final.grade.meta.updateTime.fd" parent="dict.credit.course.with.final.grade.meta.updateTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.meta.updateTime.fd" parent="dict.credit.course.with.final.grade.meta.updateTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.with.final.grade.meta.updateTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -228,13 +229,13 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.credit.course.with.final.grade.meta.updateId.cd"/>
 </dict:field>
 <dict:field key="updateId" id="dict.credit.course.with.final.grade.meta.updateId" parent="dict.credit.course.with.final.grade.meta.updateId.abstract"/>
-<dict:fieldDescriptor key="updateId" id="dict.credit.course.with.final.grade.meta.updateId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.meta.updateId.fd.abstract" abstract="true">
 	<dict:name>credit course with final grade meta updateId</dict:name>
 	<dict:desc>credit course with final grade meta updateId</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateId" id="dict.credit.course.with.final.grade.meta.updateId.fd" parent="dict.credit.course.with.final.grade.meta.updateId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.meta.updateId.fd" parent="dict.credit.course.with.final.grade.meta.updateId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.with.final.grade.meta.updateId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -259,6 +260,7 @@ TODO: update simples -->
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.lrDefinitionInfo.metaInfo.OverallProgramGPA"/>
 </dict:type>
+<dict:type key="*" id="type.field.lrDefinitionInfo.metaInfo.OverallProgramGPA" parent="type.field.lrDefinitionInfo.metaInfo.OverallProgramGPA.abstract"/>
 
 <!-- ************************************************************************************************* -->
 <!-- State for state.field.lrDefinitionInfo.metaInfo.Overall Program GPA.(default).(default).(default) -->
@@ -281,13 +283,13 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.gpa.in.overall.program.meta.versionInd.cd"/>
 </dict:field>
 <dict:field key="versionInd" id="dict.gpa.in.overall.program.meta.versionInd" parent="dict.gpa.in.overall.program.meta.versionInd.abstract"/>
-<dict:fieldDescriptor key="versionInd" id="dict.gpa.in.overall.program.meta.versionInd.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.meta.versionInd.fd.abstract" abstract="true">
 	<dict:name>gpa in overall program meta versionInd</dict:name>
 	<dict:desc>gpa in overall program meta versionInd</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="versionInd" id="dict.gpa.in.overall.program.meta.versionInd.fd" parent="dict.gpa.in.overall.program.meta.versionInd.fd.abstract"/>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.meta.versionInd.fd" parent="dict.gpa.in.overall.program.meta.versionInd.fd.abstract"/>
 <dict:constraintDescriptor id="dict.gpa.in.overall.program.meta.versionInd.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -305,12 +307,12 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.gpa.in.overall.program.meta.createTime.cd"/>
 </dict:field>
 <dict:field key="createTime" id="dict.gpa.in.overall.program.meta.createTime" parent="dict.gpa.in.overall.program.meta.createTime.abstract"/>
-<dict:fieldDescriptor key="createTime" id="dict.gpa.in.overall.program.meta.createTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.meta.createTime.fd.abstract" abstract="true">
 	<dict:name>gpa in overall program meta createTime</dict:name>
 	<dict:desc>gpa in overall program meta createTime</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createTime" id="dict.gpa.in.overall.program.meta.createTime.fd" parent="dict.gpa.in.overall.program.meta.createTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.meta.createTime.fd" parent="dict.gpa.in.overall.program.meta.createTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.gpa.in.overall.program.meta.createTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -327,13 +329,13 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.gpa.in.overall.program.meta.createId.cd"/>
 </dict:field>
 <dict:field key="createId" id="dict.gpa.in.overall.program.meta.createId" parent="dict.gpa.in.overall.program.meta.createId.abstract"/>
-<dict:fieldDescriptor key="createId" id="dict.gpa.in.overall.program.meta.createId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.meta.createId.fd.abstract" abstract="true">
 	<dict:name>gpa in overall program meta createId</dict:name>
 	<dict:desc>gpa in overall program meta createId</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createId" id="dict.gpa.in.overall.program.meta.createId.fd" parent="dict.gpa.in.overall.program.meta.createId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.meta.createId.fd" parent="dict.gpa.in.overall.program.meta.createId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.gpa.in.overall.program.meta.createId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -350,12 +352,12 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.gpa.in.overall.program.meta.updateTime.cd"/>
 </dict:field>
 <dict:field key="updateTime" id="dict.gpa.in.overall.program.meta.updateTime" parent="dict.gpa.in.overall.program.meta.updateTime.abstract"/>
-<dict:fieldDescriptor key="updateTime" id="dict.gpa.in.overall.program.meta.updateTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.meta.updateTime.fd.abstract" abstract="true">
 	<dict:name>gpa in overall program meta updateTime</dict:name>
 	<dict:desc>gpa in overall program meta updateTime</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateTime" id="dict.gpa.in.overall.program.meta.updateTime.fd" parent="dict.gpa.in.overall.program.meta.updateTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.meta.updateTime.fd" parent="dict.gpa.in.overall.program.meta.updateTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.gpa.in.overall.program.meta.updateTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -372,13 +374,13 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.gpa.in.overall.program.meta.updateId.cd"/>
 </dict:field>
 <dict:field key="updateId" id="dict.gpa.in.overall.program.meta.updateId" parent="dict.gpa.in.overall.program.meta.updateId.abstract"/>
-<dict:fieldDescriptor key="updateId" id="dict.gpa.in.overall.program.meta.updateId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.meta.updateId.fd.abstract" abstract="true">
 	<dict:name>gpa in overall program meta updateId</dict:name>
 	<dict:desc>gpa in overall program meta updateId</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateId" id="dict.gpa.in.overall.program.meta.updateId.fd" parent="dict.gpa.in.overall.program.meta.updateId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.meta.updateId.fd" parent="dict.gpa.in.overall.program.meta.updateId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.gpa.in.overall.program.meta.updateId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -403,6 +405,7 @@ TODO: update simples -->
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.lrDefinitionInfo.metaInfo.OverallProgramTotalCredits"/>
 </dict:type>
+<dict:type key="*" id="type.field.lrDefinitionInfo.metaInfo.OverallProgramTotalCredits" parent="type.field.lrDefinitionInfo.metaInfo.OverallProgramTotalCredits.abstract"/>
 
 <!-- *********************************************************************************************************** -->
 <!-- State for state.field.lrDefinitionInfo.metaInfo.Overall Program Total Credits.(default).(default).(default) -->
@@ -425,13 +428,13 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.total.credits.in.overall.program.meta.versionInd.cd"/>
 </dict:field>
 <dict:field key="versionInd" id="dict.total.credits.in.overall.program.meta.versionInd" parent="dict.total.credits.in.overall.program.meta.versionInd.abstract"/>
-<dict:fieldDescriptor key="versionInd" id="dict.total.credits.in.overall.program.meta.versionInd.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.meta.versionInd.fd.abstract" abstract="true">
 	<dict:name>total credits in overall program meta versionInd</dict:name>
 	<dict:desc>total credits in overall program meta versionInd</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="versionInd" id="dict.total.credits.in.overall.program.meta.versionInd.fd" parent="dict.total.credits.in.overall.program.meta.versionInd.fd.abstract"/>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.meta.versionInd.fd" parent="dict.total.credits.in.overall.program.meta.versionInd.fd.abstract"/>
 <dict:constraintDescriptor id="dict.total.credits.in.overall.program.meta.versionInd.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -449,12 +452,12 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.total.credits.in.overall.program.meta.createTime.cd"/>
 </dict:field>
 <dict:field key="createTime" id="dict.total.credits.in.overall.program.meta.createTime" parent="dict.total.credits.in.overall.program.meta.createTime.abstract"/>
-<dict:fieldDescriptor key="createTime" id="dict.total.credits.in.overall.program.meta.createTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.meta.createTime.fd.abstract" abstract="true">
 	<dict:name>total credits in overall program meta createTime</dict:name>
 	<dict:desc>total credits in overall program meta createTime</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createTime" id="dict.total.credits.in.overall.program.meta.createTime.fd" parent="dict.total.credits.in.overall.program.meta.createTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.meta.createTime.fd" parent="dict.total.credits.in.overall.program.meta.createTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.total.credits.in.overall.program.meta.createTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -471,13 +474,13 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.total.credits.in.overall.program.meta.createId.cd"/>
 </dict:field>
 <dict:field key="createId" id="dict.total.credits.in.overall.program.meta.createId" parent="dict.total.credits.in.overall.program.meta.createId.abstract"/>
-<dict:fieldDescriptor key="createId" id="dict.total.credits.in.overall.program.meta.createId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.meta.createId.fd.abstract" abstract="true">
 	<dict:name>total credits in overall program meta createId</dict:name>
 	<dict:desc>total credits in overall program meta createId</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createId" id="dict.total.credits.in.overall.program.meta.createId.fd" parent="dict.total.credits.in.overall.program.meta.createId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.meta.createId.fd" parent="dict.total.credits.in.overall.program.meta.createId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.total.credits.in.overall.program.meta.createId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -494,12 +497,12 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.total.credits.in.overall.program.meta.updateTime.cd"/>
 </dict:field>
 <dict:field key="updateTime" id="dict.total.credits.in.overall.program.meta.updateTime" parent="dict.total.credits.in.overall.program.meta.updateTime.abstract"/>
-<dict:fieldDescriptor key="updateTime" id="dict.total.credits.in.overall.program.meta.updateTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.meta.updateTime.fd.abstract" abstract="true">
 	<dict:name>total credits in overall program meta updateTime</dict:name>
 	<dict:desc>total credits in overall program meta updateTime</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateTime" id="dict.total.credits.in.overall.program.meta.updateTime.fd" parent="dict.total.credits.in.overall.program.meta.updateTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.meta.updateTime.fd" parent="dict.total.credits.in.overall.program.meta.updateTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.total.credits.in.overall.program.meta.updateTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -516,13 +519,13 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.total.credits.in.overall.program.meta.updateId.cd"/>
 </dict:field>
 <dict:field key="updateId" id="dict.total.credits.in.overall.program.meta.updateId" parent="dict.total.credits.in.overall.program.meta.updateId.abstract"/>
-<dict:fieldDescriptor key="updateId" id="dict.total.credits.in.overall.program.meta.updateId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.meta.updateId.fd.abstract" abstract="true">
 	<dict:name>total credits in overall program meta updateId</dict:name>
 	<dict:desc>total credits in overall program meta updateId</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateId" id="dict.total.credits.in.overall.program.meta.updateId.fd" parent="dict.total.credits.in.overall.program.meta.updateId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.meta.updateId.fd" parent="dict.total.credits.in.overall.program.meta.updateId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.total.credits.in.overall.program.meta.updateId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -539,12 +542,12 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.credit.course.with.final.grade.name.cd"/>
 </dict:field>
 <dict:field key="name" id="dict.credit.course.with.final.grade.name" parent="dict.credit.course.with.final.grade.name.abstract"/>
-<dict:fieldDescriptor key="name" id="dict.credit.course.with.final.grade.name.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.name.fd.abstract" abstract="true">
 	<dict:name>credit course with final grade name</dict:name>
 	<dict:desc>credit course with final grade name</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="name" id="dict.credit.course.with.final.grade.name.fd" parent="dict.credit.course.with.final.grade.name.fd.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.name.fd" parent="dict.credit.course.with.final.grade.name.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.with.final.grade.name.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -560,12 +563,12 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.credit.course.with.final.grade.desc.cd"/>
 </dict:field>
 <dict:field key="desc" id="dict.credit.course.with.final.grade.desc" parent="dict.credit.course.with.final.grade.desc.abstract"/>
-<dict:fieldDescriptor key="desc" id="dict.credit.course.with.final.grade.desc.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.desc.fd.abstract" abstract="true">
 	<dict:name>credit course with final grade desc</dict:name>
 	<dict:desc>credit course with final grade desc</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="desc" id="dict.credit.course.with.final.grade.desc.fd" parent="dict.credit.course.with.final.grade.desc.fd.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.desc.fd" parent="dict.credit.course.with.final.grade.desc.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.with.final.grade.desc.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -583,12 +586,12 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.credit.course.with.final.grade.type.cd"/>
 </dict:field>
 <dict:field key="lrType" id="dict.credit.course.with.final.grade.type" parent="dict.credit.course.with.final.grade.type.abstract"/>
-<dict:fieldDescriptor key="lrType" id="dict.credit.course.with.final.grade.type.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.type.fd.abstract" abstract="true">
 	<dict:name>credit course with final grade type</dict:name>
 	<dict:desc>credit course with final grade type</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="lrType" id="dict.credit.course.with.final.grade.type.fd" parent="dict.credit.course.with.final.grade.type.fd.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.type.fd" parent="dict.credit.course.with.final.grade.type.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.with.final.grade.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -610,12 +613,12 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.credit.course.with.final.grade.scale.cd"/>
 </dict:field>
 <dict:field key="lrScale" id="dict.credit.course.with.final.grade.scale" parent="dict.credit.course.with.final.grade.scale.abstract"/>
-<dict:fieldDescriptor key="lrScale" id="dict.credit.course.with.final.grade.scale.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.scale.fd.abstract" abstract="true">
 	<dict:name>credit course with final grade scale</dict:name>
 	<dict:desc>credit course with final grade scale</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="lrScale" id="dict.credit.course.with.final.grade.scale.fd" parent="dict.credit.course.with.final.grade.scale.fd.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.scale.fd" parent="dict.credit.course.with.final.grade.scale.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.with.final.grade.scale.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -633,12 +636,12 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.credit.course.with.final.grade.gradeKey.cd"/>
 </dict:field>
 <dict:field key="value" id="dict.credit.course.with.final.grade.gradeKey" parent="dict.credit.course.with.final.grade.gradeKey.abstract"/>
-<dict:fieldDescriptor key="value" id="dict.credit.course.with.final.grade.gradeKey.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.gradeKey.fd.abstract" abstract="true">
 	<dict:name>credit course with final grade gradeKey</dict:name>
 	<dict:desc>credit course with final grade gradeKey</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="value" id="dict.credit.course.with.final.grade.gradeKey.fd" parent="dict.credit.course.with.final.grade.gradeKey.fd.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.gradeKey.fd" parent="dict.credit.course.with.final.grade.gradeKey.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.with.final.grade.gradeKey.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -654,12 +657,12 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.credit.course.with.final.grade.operator.cd"/>
 </dict:field>
 <dict:field key="operator" id="dict.credit.course.with.final.grade.operator" parent="dict.credit.course.with.final.grade.operator.abstract"/>
-<dict:fieldDescriptor key="operator" id="dict.credit.course.with.final.grade.operator.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.operator.fd.abstract" abstract="true">
 	<dict:name>credit course with final grade operator</dict:name>
 	<dict:desc>credit course with final grade operator</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="operator" id="dict.credit.course.with.final.grade.operator.fd" parent="dict.credit.course.with.final.grade.operator.fd.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.operator.fd" parent="dict.credit.course.with.final.grade.operator.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.with.final.grade.operator.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -676,13 +679,13 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.credit.course.with.final.grade.metaInfo.cd"/>
 </dict:field>
 <dict:field key="metaInfo" id="dict.credit.course.with.final.grade.metaInfo" parent="dict.credit.course.with.final.grade.metaInfo.abstract"/>
-<dict:fieldDescriptor key="metaInfo" id="dict.credit.course.with.final.grade.metaInfo.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.metaInfo.fd.abstract" abstract="true">
 	<dict:name>credit course with final grade metaInfo</dict:name>
 	<dict:desc>credit course with final grade metaInfo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.lrDefinitionInfo.metaInfo.CreditCourseFinalGrade"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="metaInfo" id="dict.credit.course.with.final.grade.metaInfo.fd" parent="dict.credit.course.with.final.grade.metaInfo.fd.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.metaInfo.fd" parent="dict.credit.course.with.final.grade.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.with.final.grade.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -698,12 +701,12 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.credit.course.with.final.grade.internal.id.cd"/>
 </dict:field>
 <dict:field key="lrDefinitionId" id="dict.credit.course.with.final.grade.internal.id" parent="dict.credit.course.with.final.grade.internal.id.abstract"/>
-<dict:fieldDescriptor key="lrDefinitionId" id="dict.credit.course.with.final.grade.internal.id.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.internal.id.fd.abstract" abstract="true">
 	<dict:name>credit course with final grade internal id</dict:name>
 	<dict:desc>credit course with final grade internal id</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="lrDefinitionId" id="dict.credit.course.with.final.grade.internal.id.fd" parent="dict.credit.course.with.final.grade.internal.id.fd.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.with.final.grade.internal.id.fd" parent="dict.credit.course.with.final.grade.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.with.final.grade.internal.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -719,12 +722,12 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.gpa.in.overall.program.name.cd"/>
 </dict:field>
 <dict:field key="name" id="dict.gpa.in.overall.program.name" parent="dict.gpa.in.overall.program.name.abstract"/>
-<dict:fieldDescriptor key="name" id="dict.gpa.in.overall.program.name.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.name.fd.abstract" abstract="true">
 	<dict:name>gpa in overall program name</dict:name>
 	<dict:desc>gpa in overall program name</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="name" id="dict.gpa.in.overall.program.name.fd" parent="dict.gpa.in.overall.program.name.fd.abstract"/>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.name.fd" parent="dict.gpa.in.overall.program.name.fd.abstract"/>
 <dict:constraintDescriptor id="dict.gpa.in.overall.program.name.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -740,12 +743,12 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.gpa.in.overall.program.desc.cd"/>
 </dict:field>
 <dict:field key="desc" id="dict.gpa.in.overall.program.desc" parent="dict.gpa.in.overall.program.desc.abstract"/>
-<dict:fieldDescriptor key="desc" id="dict.gpa.in.overall.program.desc.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.desc.fd.abstract" abstract="true">
 	<dict:name>gpa in overall program desc</dict:name>
 	<dict:desc>gpa in overall program desc</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="desc" id="dict.gpa.in.overall.program.desc.fd" parent="dict.gpa.in.overall.program.desc.fd.abstract"/>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.desc.fd" parent="dict.gpa.in.overall.program.desc.fd.abstract"/>
 <dict:constraintDescriptor id="dict.gpa.in.overall.program.desc.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -763,12 +766,12 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.gpa.in.overall.program.type.cd"/>
 </dict:field>
 <dict:field key="lrType" id="dict.gpa.in.overall.program.type" parent="dict.gpa.in.overall.program.type.abstract"/>
-<dict:fieldDescriptor key="lrType" id="dict.gpa.in.overall.program.type.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.type.fd.abstract" abstract="true">
 	<dict:name>gpa in overall program type</dict:name>
 	<dict:desc>gpa in overall program type</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="lrType" id="dict.gpa.in.overall.program.type.fd" parent="dict.gpa.in.overall.program.type.fd.abstract"/>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.type.fd" parent="dict.gpa.in.overall.program.type.fd.abstract"/>
 <dict:constraintDescriptor id="dict.gpa.in.overall.program.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -790,12 +793,12 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.gpa.in.overall.program.scale.cd"/>
 </dict:field>
 <dict:field key="lrScale" id="dict.gpa.in.overall.program.scale" parent="dict.gpa.in.overall.program.scale.abstract"/>
-<dict:fieldDescriptor key="lrScale" id="dict.gpa.in.overall.program.scale.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.scale.fd.abstract" abstract="true">
 	<dict:name>gpa in overall program scale</dict:name>
 	<dict:desc>gpa in overall program scale</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="lrScale" id="dict.gpa.in.overall.program.scale.fd" parent="dict.gpa.in.overall.program.scale.fd.abstract"/>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.scale.fd" parent="dict.gpa.in.overall.program.scale.fd.abstract"/>
 <dict:constraintDescriptor id="dict.gpa.in.overall.program.scale.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -814,12 +817,12 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.gpa.in.overall.program.gpa.cd"/>
 </dict:field>
 <dict:field key="value" id="dict.gpa.in.overall.program.gpa" parent="dict.gpa.in.overall.program.gpa.abstract"/>
-<dict:fieldDescriptor key="value" id="dict.gpa.in.overall.program.gpa.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.gpa.fd.abstract" abstract="true">
 	<dict:name>gpa in overall program gpa</dict:name>
 	<dict:desc>gpa in overall program gpa</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="value" id="dict.gpa.in.overall.program.gpa.fd" parent="dict.gpa.in.overall.program.gpa.fd.abstract"/>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.gpa.fd" parent="dict.gpa.in.overall.program.gpa.fd.abstract"/>
 <dict:constraintDescriptor id="dict.gpa.in.overall.program.gpa.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -835,12 +838,12 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.gpa.in.overall.program.operator.cd"/>
 </dict:field>
 <dict:field key="operator" id="dict.gpa.in.overall.program.operator" parent="dict.gpa.in.overall.program.operator.abstract"/>
-<dict:fieldDescriptor key="operator" id="dict.gpa.in.overall.program.operator.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.operator.fd.abstract" abstract="true">
 	<dict:name>gpa in overall program operator</dict:name>
 	<dict:desc>gpa in overall program operator</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="operator" id="dict.gpa.in.overall.program.operator.fd" parent="dict.gpa.in.overall.program.operator.fd.abstract"/>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.operator.fd" parent="dict.gpa.in.overall.program.operator.fd.abstract"/>
 <dict:constraintDescriptor id="dict.gpa.in.overall.program.operator.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -857,13 +860,13 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.gpa.in.overall.program.metaInfo.cd"/>
 </dict:field>
 <dict:field key="metaInfo" id="dict.gpa.in.overall.program.metaInfo" parent="dict.gpa.in.overall.program.metaInfo.abstract"/>
-<dict:fieldDescriptor key="metaInfo" id="dict.gpa.in.overall.program.metaInfo.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.metaInfo.fd.abstract" abstract="true">
 	<dict:name>gpa in overall program metaInfo</dict:name>
 	<dict:desc>gpa in overall program metaInfo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.lrDefinitionInfo.metaInfo.OverallProgramGPA"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="metaInfo" id="dict.gpa.in.overall.program.metaInfo.fd" parent="dict.gpa.in.overall.program.metaInfo.fd.abstract"/>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.metaInfo.fd" parent="dict.gpa.in.overall.program.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.gpa.in.overall.program.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -879,12 +882,12 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.gpa.in.overall.program.internal.id.cd"/>
 </dict:field>
 <dict:field key="lrDefinitionId" id="dict.gpa.in.overall.program.internal.id" parent="dict.gpa.in.overall.program.internal.id.abstract"/>
-<dict:fieldDescriptor key="lrDefinitionId" id="dict.gpa.in.overall.program.internal.id.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.internal.id.fd.abstract" abstract="true">
 	<dict:name>gpa in overall program internal id</dict:name>
 	<dict:desc>gpa in overall program internal id</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="lrDefinitionId" id="dict.gpa.in.overall.program.internal.id.fd" parent="dict.gpa.in.overall.program.internal.id.fd.abstract"/>
+<dict:fieldDescriptor id="dict.gpa.in.overall.program.internal.id.fd" parent="dict.gpa.in.overall.program.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.gpa.in.overall.program.internal.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -900,12 +903,12 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.total.credits.in.overall.program.name.cd"/>
 </dict:field>
 <dict:field key="name" id="dict.total.credits.in.overall.program.name" parent="dict.total.credits.in.overall.program.name.abstract"/>
-<dict:fieldDescriptor key="name" id="dict.total.credits.in.overall.program.name.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.name.fd.abstract" abstract="true">
 	<dict:name>total credits in overall program name</dict:name>
 	<dict:desc>total credits in overall program name</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="name" id="dict.total.credits.in.overall.program.name.fd" parent="dict.total.credits.in.overall.program.name.fd.abstract"/>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.name.fd" parent="dict.total.credits.in.overall.program.name.fd.abstract"/>
 <dict:constraintDescriptor id="dict.total.credits.in.overall.program.name.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -921,12 +924,12 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.total.credits.in.overall.program.desc.cd"/>
 </dict:field>
 <dict:field key="desc" id="dict.total.credits.in.overall.program.desc" parent="dict.total.credits.in.overall.program.desc.abstract"/>
-<dict:fieldDescriptor key="desc" id="dict.total.credits.in.overall.program.desc.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.desc.fd.abstract" abstract="true">
 	<dict:name>total credits in overall program desc</dict:name>
 	<dict:desc>total credits in overall program desc</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="desc" id="dict.total.credits.in.overall.program.desc.fd" parent="dict.total.credits.in.overall.program.desc.fd.abstract"/>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.desc.fd" parent="dict.total.credits.in.overall.program.desc.fd.abstract"/>
 <dict:constraintDescriptor id="dict.total.credits.in.overall.program.desc.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -944,12 +947,12 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.total.credits.in.overall.program.type.cd"/>
 </dict:field>
 <dict:field key="lrType" id="dict.total.credits.in.overall.program.type" parent="dict.total.credits.in.overall.program.type.abstract"/>
-<dict:fieldDescriptor key="lrType" id="dict.total.credits.in.overall.program.type.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.type.fd.abstract" abstract="true">
 	<dict:name>total credits in overall program type</dict:name>
 	<dict:desc>total credits in overall program type</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="lrType" id="dict.total.credits.in.overall.program.type.fd" parent="dict.total.credits.in.overall.program.type.fd.abstract"/>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.type.fd" parent="dict.total.credits.in.overall.program.type.fd.abstract"/>
 <dict:constraintDescriptor id="dict.total.credits.in.overall.program.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -971,12 +974,12 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.total.credits.in.overall.program.scale.cd"/>
 </dict:field>
 <dict:field key="lrScale" id="dict.total.credits.in.overall.program.scale" parent="dict.total.credits.in.overall.program.scale.abstract"/>
-<dict:fieldDescriptor key="lrScale" id="dict.total.credits.in.overall.program.scale.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.scale.fd.abstract" abstract="true">
 	<dict:name>total credits in overall program scale</dict:name>
 	<dict:desc>total credits in overall program scale</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="lrScale" id="dict.total.credits.in.overall.program.scale.fd" parent="dict.total.credits.in.overall.program.scale.fd.abstract"/>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.scale.fd" parent="dict.total.credits.in.overall.program.scale.fd.abstract"/>
 <dict:constraintDescriptor id="dict.total.credits.in.overall.program.scale.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -995,12 +998,12 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.total.credits.in.overall.program.gpa.cd"/>
 </dict:field>
 <dict:field key="value" id="dict.total.credits.in.overall.program.gpa" parent="dict.total.credits.in.overall.program.gpa.abstract"/>
-<dict:fieldDescriptor key="value" id="dict.total.credits.in.overall.program.gpa.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.gpa.fd.abstract" abstract="true">
 	<dict:name>total credits in overall program gpa</dict:name>
 	<dict:desc>total credits in overall program gpa</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="value" id="dict.total.credits.in.overall.program.gpa.fd" parent="dict.total.credits.in.overall.program.gpa.fd.abstract"/>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.gpa.fd" parent="dict.total.credits.in.overall.program.gpa.fd.abstract"/>
 <dict:constraintDescriptor id="dict.total.credits.in.overall.program.gpa.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1016,12 +1019,12 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.total.credits.in.overall.program.operator.cd"/>
 </dict:field>
 <dict:field key="operator" id="dict.total.credits.in.overall.program.operator" parent="dict.total.credits.in.overall.program.operator.abstract"/>
-<dict:fieldDescriptor key="operator" id="dict.total.credits.in.overall.program.operator.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.operator.fd.abstract" abstract="true">
 	<dict:name>total credits in overall program operator</dict:name>
 	<dict:desc>total credits in overall program operator</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="operator" id="dict.total.credits.in.overall.program.operator.fd" parent="dict.total.credits.in.overall.program.operator.fd.abstract"/>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.operator.fd" parent="dict.total.credits.in.overall.program.operator.fd.abstract"/>
 <dict:constraintDescriptor id="dict.total.credits.in.overall.program.operator.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1038,13 +1041,13 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.total.credits.in.overall.program.metaInfo.cd"/>
 </dict:field>
 <dict:field key="metaInfo" id="dict.total.credits.in.overall.program.metaInfo" parent="dict.total.credits.in.overall.program.metaInfo.abstract"/>
-<dict:fieldDescriptor key="metaInfo" id="dict.total.credits.in.overall.program.metaInfo.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.metaInfo.fd.abstract" abstract="true">
 	<dict:name>total credits in overall program metaInfo</dict:name>
 	<dict:desc>total credits in overall program metaInfo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.lrDefinitionInfo.metaInfo.OverallProgramTotalCredits"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="metaInfo" id="dict.total.credits.in.overall.program.metaInfo.fd" parent="dict.total.credits.in.overall.program.metaInfo.fd.abstract"/>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.metaInfo.fd" parent="dict.total.credits.in.overall.program.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.total.credits.in.overall.program.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1060,12 +1063,12 @@ TODO: update simples -->
 	<dict:constraintDescriptorRef bean="dict.total.credits.in.overall.program.internal.id.cd"/>
 </dict:field>
 <dict:field key="lrDefinitionId" id="dict.total.credits.in.overall.program.internal.id" parent="dict.total.credits.in.overall.program.internal.id.abstract"/>
-<dict:fieldDescriptor key="lrDefinitionId" id="dict.total.credits.in.overall.program.internal.id.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.internal.id.fd.abstract" abstract="true">
 	<dict:name>total credits in overall program internal id</dict:name>
 	<dict:desc>total credits in overall program internal id</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="lrDefinitionId" id="dict.total.credits.in.overall.program.internal.id.fd" parent="dict.total.credits.in.overall.program.internal.id.fd.abstract"/>
+<dict:fieldDescriptor id="dict.total.credits.in.overall.program.internal.id.fd" parent="dict.total.credits.in.overall.program.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.total.credits.in.overall.program.internal.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>

@@ -7,7 +7,7 @@ http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/d
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Thu Feb 18 11:40:04 EST 2010
+on: Thu Feb 18 13:33:55 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -218,6 +218,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.resultComponentInfo.desc.FixedNumber"/>
 </dict:type>
+<dict:type key="*" id="type.field.resultComponentInfo.desc.FixedNumber" parent="type.field.resultComponentInfo.desc.FixedNumber.abstract"/>
 
 <!-- ***************************************************************************************** -->
 <!-- State for state.field.resultComponentInfo.desc.Fixed Number.(default).(default).(default) -->
@@ -237,13 +238,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.fixed.credits.desc.plain.cd"/>
 </dict:field>
 <dict:field key="plain" id="dict.fixed.credits.desc.plain" parent="dict.fixed.credits.desc.plain.abstract"/>
-<dict:fieldDescriptor key="plain" id="dict.fixed.credits.desc.plain.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.fixed.credits.desc.plain.fd.abstract" abstract="true">
 	<dict:name>fixed.credits.desc.plain</dict:name>
 	<dict:desc>fixed.credits.desc.plain</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="plain" id="dict.fixed.credits.desc.plain.fd" parent="dict.fixed.credits.desc.plain.fd.abstract"/>
+<dict:fieldDescriptor id="dict.fixed.credits.desc.plain.fd" parent="dict.fixed.credits.desc.plain.fd.abstract"/>
 <dict:constraintDescriptor id="dict.fixed.credits.desc.plain.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -264,12 +265,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.fixed.credits.desc.formatted.cd"/>
 </dict:field>
 <dict:field key="formatted" id="dict.fixed.credits.desc.formatted" parent="dict.fixed.credits.desc.formatted.abstract"/>
-<dict:fieldDescriptor key="formatted" id="dict.fixed.credits.desc.formatted.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.fixed.credits.desc.formatted.fd.abstract" abstract="true">
 	<dict:name>fixed.credits.desc.formatted</dict:name>
 	<dict:desc>fixed.credits.desc.formatted</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="formatted" id="dict.fixed.credits.desc.formatted.fd" parent="dict.fixed.credits.desc.formatted.fd.abstract"/>
+<dict:fieldDescriptor id="dict.fixed.credits.desc.formatted.fd" parent="dict.fixed.credits.desc.formatted.fd.abstract"/>
 <dict:constraintDescriptor id="dict.fixed.credits.desc.formatted.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -295,6 +296,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.resultComponentInfo.metaInfo.FixedNumber"/>
 </dict:type>
+<dict:type key="*" id="type.field.resultComponentInfo.metaInfo.FixedNumber" parent="type.field.resultComponentInfo.metaInfo.FixedNumber.abstract"/>
 
 <!-- ********************************************************************************************* -->
 <!-- State for state.field.resultComponentInfo.metaInfo.Fixed Number.(default).(default).(default) -->
@@ -317,13 +319,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.fixed.credits.meta.versionInd.cd"/>
 </dict:field>
 <dict:field key="versionInd" id="dict.fixed.credits.meta.versionInd" parent="dict.fixed.credits.meta.versionInd.abstract"/>
-<dict:fieldDescriptor key="versionInd" id="dict.fixed.credits.meta.versionInd.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.fixed.credits.meta.versionInd.fd.abstract" abstract="true">
 	<dict:name>fixed credits meta versionInd</dict:name>
 	<dict:desc>Version number for this resultComponent info</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="versionInd" id="dict.fixed.credits.meta.versionInd.fd" parent="dict.fixed.credits.meta.versionInd.fd.abstract"/>
+<dict:fieldDescriptor id="dict.fixed.credits.meta.versionInd.fd" parent="dict.fixed.credits.meta.versionInd.fd.abstract"/>
 <dict:constraintDescriptor id="dict.fixed.credits.meta.versionInd.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -341,12 +343,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.fixed.credits.meta.createTime.cd"/>
 </dict:field>
 <dict:field key="createTime" id="dict.fixed.credits.meta.createTime" parent="dict.fixed.credits.meta.createTime.abstract"/>
-<dict:fieldDescriptor key="createTime" id="dict.fixed.credits.meta.createTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.fixed.credits.meta.createTime.fd.abstract" abstract="true">
 	<dict:name>fixed credits meta createTime</dict:name>
 	<dict:desc>Date-time this resultComponent was created</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createTime" id="dict.fixed.credits.meta.createTime.fd" parent="dict.fixed.credits.meta.createTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.fixed.credits.meta.createTime.fd" parent="dict.fixed.credits.meta.createTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.fixed.credits.meta.createTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -363,13 +365,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.fixed.credits.meta.createId.cd"/>
 </dict:field>
 <dict:field key="createId" id="dict.fixed.credits.meta.createId" parent="dict.fixed.credits.meta.createId.abstract"/>
-<dict:fieldDescriptor key="createId" id="dict.fixed.credits.meta.createId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.fixed.credits.meta.createId.fd.abstract" abstract="true">
 	<dict:name>fixed credits meta createId</dict:name>
 	<dict:desc>Principal of the persion who first created this resultComponent</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createId" id="dict.fixed.credits.meta.createId.fd" parent="dict.fixed.credits.meta.createId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.fixed.credits.meta.createId.fd" parent="dict.fixed.credits.meta.createId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.fixed.credits.meta.createId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -386,12 +388,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.fixed.credits.meta.updateTime.cd"/>
 </dict:field>
 <dict:field key="updateTime" id="dict.fixed.credits.meta.updateTime" parent="dict.fixed.credits.meta.updateTime.abstract"/>
-<dict:fieldDescriptor key="updateTime" id="dict.fixed.credits.meta.updateTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.fixed.credits.meta.updateTime.fd.abstract" abstract="true">
 	<dict:name>fixed credits meta updateTime</dict:name>
 	<dict:desc>Date-time this resultComponent was last updated</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateTime" id="dict.fixed.credits.meta.updateTime.fd" parent="dict.fixed.credits.meta.updateTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.fixed.credits.meta.updateTime.fd" parent="dict.fixed.credits.meta.updateTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.fixed.credits.meta.updateTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -408,13 +410,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.fixed.credits.meta.updateId.cd"/>
 </dict:field>
 <dict:field key="updateId" id="dict.fixed.credits.meta.updateId" parent="dict.fixed.credits.meta.updateId.abstract"/>
-<dict:fieldDescriptor key="updateId" id="dict.fixed.credits.meta.updateId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.fixed.credits.meta.updateId.fd.abstract" abstract="true">
 	<dict:name>fixed credits meta updateId</dict:name>
 	<dict:desc>Principal of the persion who last updated this resultComponent</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateId" id="dict.fixed.credits.meta.updateId.fd" parent="dict.fixed.credits.meta.updateId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.fixed.credits.meta.updateId.fd" parent="dict.fixed.credits.meta.updateId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.fixed.credits.meta.updateId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -439,6 +441,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.resultComponentInfo.desc.VariableNumber"/>
 </dict:type>
+<dict:type key="*" id="type.field.resultComponentInfo.desc.VariableNumber" parent="type.field.resultComponentInfo.desc.VariableNumber.abstract"/>
 
 <!-- ******************************************************************************************** -->
 <!-- State for state.field.resultComponentInfo.desc.Variable Number.(default).(default).(default) -->
@@ -458,13 +461,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.variable.credits.desc.plain.cd"/>
 </dict:field>
 <dict:field key="plain" id="dict.variable.credits.desc.plain" parent="dict.variable.credits.desc.plain.abstract"/>
-<dict:fieldDescriptor key="plain" id="dict.variable.credits.desc.plain.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.variable.credits.desc.plain.fd.abstract" abstract="true">
 	<dict:name>variable.credits.desc.plain</dict:name>
 	<dict:desc>variable.credits.desc.plain</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="plain" id="dict.variable.credits.desc.plain.fd" parent="dict.variable.credits.desc.plain.fd.abstract"/>
+<dict:fieldDescriptor id="dict.variable.credits.desc.plain.fd" parent="dict.variable.credits.desc.plain.fd.abstract"/>
 <dict:constraintDescriptor id="dict.variable.credits.desc.plain.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -485,12 +488,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.variable.credits.desc.formatted.cd"/>
 </dict:field>
 <dict:field key="formatted" id="dict.variable.credits.desc.formatted" parent="dict.variable.credits.desc.formatted.abstract"/>
-<dict:fieldDescriptor key="formatted" id="dict.variable.credits.desc.formatted.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.variable.credits.desc.formatted.fd.abstract" abstract="true">
 	<dict:name>variable.credits.desc.formatted</dict:name>
 	<dict:desc>variable.credits.desc.formatted</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="formatted" id="dict.variable.credits.desc.formatted.fd" parent="dict.variable.credits.desc.formatted.fd.abstract"/>
+<dict:fieldDescriptor id="dict.variable.credits.desc.formatted.fd" parent="dict.variable.credits.desc.formatted.fd.abstract"/>
 <dict:constraintDescriptor id="dict.variable.credits.desc.formatted.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -516,6 +519,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.resultComponentInfo.metaInfo.VariableNumber"/>
 </dict:type>
+<dict:type key="*" id="type.field.resultComponentInfo.metaInfo.VariableNumber" parent="type.field.resultComponentInfo.metaInfo.VariableNumber.abstract"/>
 
 <!-- ************************************************************************************************ -->
 <!-- State for state.field.resultComponentInfo.metaInfo.Variable Number.(default).(default).(default) -->
@@ -538,13 +542,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.variable.credits.meta.versionInd.cd"/>
 </dict:field>
 <dict:field key="versionInd" id="dict.variable.credits.meta.versionInd" parent="dict.variable.credits.meta.versionInd.abstract"/>
-<dict:fieldDescriptor key="versionInd" id="dict.variable.credits.meta.versionInd.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.variable.credits.meta.versionInd.fd.abstract" abstract="true">
 	<dict:name>variable credits meta versionInd</dict:name>
 	<dict:desc>Version number for this resultComponent info</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="versionInd" id="dict.variable.credits.meta.versionInd.fd" parent="dict.variable.credits.meta.versionInd.fd.abstract"/>
+<dict:fieldDescriptor id="dict.variable.credits.meta.versionInd.fd" parent="dict.variable.credits.meta.versionInd.fd.abstract"/>
 <dict:constraintDescriptor id="dict.variable.credits.meta.versionInd.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -562,12 +566,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.variable.credits.meta.createTime.cd"/>
 </dict:field>
 <dict:field key="createTime" id="dict.variable.credits.meta.createTime" parent="dict.variable.credits.meta.createTime.abstract"/>
-<dict:fieldDescriptor key="createTime" id="dict.variable.credits.meta.createTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.variable.credits.meta.createTime.fd.abstract" abstract="true">
 	<dict:name>variable credits meta createTime</dict:name>
 	<dict:desc>Date-time this resultComponent was created</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createTime" id="dict.variable.credits.meta.createTime.fd" parent="dict.variable.credits.meta.createTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.variable.credits.meta.createTime.fd" parent="dict.variable.credits.meta.createTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.variable.credits.meta.createTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -584,13 +588,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.variable.credits.meta.createId.cd"/>
 </dict:field>
 <dict:field key="createId" id="dict.variable.credits.meta.createId" parent="dict.variable.credits.meta.createId.abstract"/>
-<dict:fieldDescriptor key="createId" id="dict.variable.credits.meta.createId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.variable.credits.meta.createId.fd.abstract" abstract="true">
 	<dict:name>variable credits meta createId</dict:name>
 	<dict:desc>Principal of the persion who first created this resultComponent</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createId" id="dict.variable.credits.meta.createId.fd" parent="dict.variable.credits.meta.createId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.variable.credits.meta.createId.fd" parent="dict.variable.credits.meta.createId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.variable.credits.meta.createId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -607,12 +611,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.variable.credits.meta.updateTime.cd"/>
 </dict:field>
 <dict:field key="updateTime" id="dict.variable.credits.meta.updateTime" parent="dict.variable.credits.meta.updateTime.abstract"/>
-<dict:fieldDescriptor key="updateTime" id="dict.variable.credits.meta.updateTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.variable.credits.meta.updateTime.fd.abstract" abstract="true">
 	<dict:name>variable credits meta updateTime</dict:name>
 	<dict:desc>Date-time this resultComponent was last updated</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateTime" id="dict.variable.credits.meta.updateTime.fd" parent="dict.variable.credits.meta.updateTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.variable.credits.meta.updateTime.fd" parent="dict.variable.credits.meta.updateTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.variable.credits.meta.updateTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -629,13 +633,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.variable.credits.meta.updateId.cd"/>
 </dict:field>
 <dict:field key="updateId" id="dict.variable.credits.meta.updateId" parent="dict.variable.credits.meta.updateId.abstract"/>
-<dict:fieldDescriptor key="updateId" id="dict.variable.credits.meta.updateId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.variable.credits.meta.updateId.fd.abstract" abstract="true">
 	<dict:name>variable credits meta updateId</dict:name>
 	<dict:desc>Principal of the persion who last updated this resultComponent</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateId" id="dict.variable.credits.meta.updateId.fd" parent="dict.variable.credits.meta.updateId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.variable.credits.meta.updateId.fd" parent="dict.variable.credits.meta.updateId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.variable.credits.meta.updateId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -660,6 +664,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.resultComponentInfo.desc.FinalQualitative"/>
 </dict:type>
+<dict:type key="*" id="type.field.resultComponentInfo.desc.FinalQualitative" parent="type.field.resultComponentInfo.desc.FinalQualitative.abstract"/>
 
 <!-- ********************************************************************************************** -->
 <!-- State for state.field.resultComponentInfo.desc.Final Qualitative.(default).(default).(default) -->
@@ -679,13 +684,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.final.qualitative.desc.plain.cd"/>
 </dict:field>
 <dict:field key="plain" id="dict.final.qualitative.desc.plain" parent="dict.final.qualitative.desc.plain.abstract"/>
-<dict:fieldDescriptor key="plain" id="dict.final.qualitative.desc.plain.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.final.qualitative.desc.plain.fd.abstract" abstract="true">
 	<dict:name>final.qualitative.desc.plain</dict:name>
 	<dict:desc>final.grades.desc.plain</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="plain" id="dict.final.qualitative.desc.plain.fd" parent="dict.final.qualitative.desc.plain.fd.abstract"/>
+<dict:fieldDescriptor id="dict.final.qualitative.desc.plain.fd" parent="dict.final.qualitative.desc.plain.fd.abstract"/>
 <dict:constraintDescriptor id="dict.final.qualitative.desc.plain.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -706,12 +711,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.final.qualitative.desc.formatted.cd"/>
 </dict:field>
 <dict:field key="formatted" id="dict.final.qualitative.desc.formatted" parent="dict.final.qualitative.desc.formatted.abstract"/>
-<dict:fieldDescriptor key="formatted" id="dict.final.qualitative.desc.formatted.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.final.qualitative.desc.formatted.fd.abstract" abstract="true">
 	<dict:name>final.qualitative.desc.formatted</dict:name>
 	<dict:desc>final.grades.desc.formatted</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="formatted" id="dict.final.qualitative.desc.formatted.fd" parent="dict.final.qualitative.desc.formatted.fd.abstract"/>
+<dict:fieldDescriptor id="dict.final.qualitative.desc.formatted.fd" parent="dict.final.qualitative.desc.formatted.fd.abstract"/>
 <dict:constraintDescriptor id="dict.final.qualitative.desc.formatted.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -737,6 +742,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.resultComponentInfo.metaInfo.FinalQualitative"/>
 </dict:type>
+<dict:type key="*" id="type.field.resultComponentInfo.metaInfo.FinalQualitative" parent="type.field.resultComponentInfo.metaInfo.FinalQualitative.abstract"/>
 
 <!-- ************************************************************************************************** -->
 <!-- State for state.field.resultComponentInfo.metaInfo.Final Qualitative.(default).(default).(default) -->
@@ -759,13 +765,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.final.qualitative.meta.versionInd.cd"/>
 </dict:field>
 <dict:field key="versionInd" id="dict.final.qualitative.meta.versionInd" parent="dict.final.qualitative.meta.versionInd.abstract"/>
-<dict:fieldDescriptor key="versionInd" id="dict.final.qualitative.meta.versionInd.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.final.qualitative.meta.versionInd.fd.abstract" abstract="true">
 	<dict:name>final qualitative meta versionInd</dict:name>
 	<dict:desc>Version number for this resultComponent info</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="versionInd" id="dict.final.qualitative.meta.versionInd.fd" parent="dict.final.qualitative.meta.versionInd.fd.abstract"/>
+<dict:fieldDescriptor id="dict.final.qualitative.meta.versionInd.fd" parent="dict.final.qualitative.meta.versionInd.fd.abstract"/>
 <dict:constraintDescriptor id="dict.final.qualitative.meta.versionInd.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -783,12 +789,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.final.qualitative.meta.createTime.cd"/>
 </dict:field>
 <dict:field key="createTime" id="dict.final.qualitative.meta.createTime" parent="dict.final.qualitative.meta.createTime.abstract"/>
-<dict:fieldDescriptor key="createTime" id="dict.final.qualitative.meta.createTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.final.qualitative.meta.createTime.fd.abstract" abstract="true">
 	<dict:name>final qualitative meta createTime</dict:name>
 	<dict:desc>Date-time this resultComponent was created</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createTime" id="dict.final.qualitative.meta.createTime.fd" parent="dict.final.qualitative.meta.createTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.final.qualitative.meta.createTime.fd" parent="dict.final.qualitative.meta.createTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.final.qualitative.meta.createTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -805,13 +811,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.final.qualitative.meta.createId.cd"/>
 </dict:field>
 <dict:field key="createId" id="dict.final.qualitative.meta.createId" parent="dict.final.qualitative.meta.createId.abstract"/>
-<dict:fieldDescriptor key="createId" id="dict.final.qualitative.meta.createId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.final.qualitative.meta.createId.fd.abstract" abstract="true">
 	<dict:name>final qualitative meta createId</dict:name>
 	<dict:desc>Principal of the persion who first created this resultComponent</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createId" id="dict.final.qualitative.meta.createId.fd" parent="dict.final.qualitative.meta.createId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.final.qualitative.meta.createId.fd" parent="dict.final.qualitative.meta.createId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.final.qualitative.meta.createId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -828,12 +834,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.final.qualitative.meta.updateTime.cd"/>
 </dict:field>
 <dict:field key="updateTime" id="dict.final.qualitative.meta.updateTime" parent="dict.final.qualitative.meta.updateTime.abstract"/>
-<dict:fieldDescriptor key="updateTime" id="dict.final.qualitative.meta.updateTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.final.qualitative.meta.updateTime.fd.abstract" abstract="true">
 	<dict:name>final qualitative meta updateTime</dict:name>
 	<dict:desc>Date-time this resultComponent was last updated</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateTime" id="dict.final.qualitative.meta.updateTime.fd" parent="dict.final.qualitative.meta.updateTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.final.qualitative.meta.updateTime.fd" parent="dict.final.qualitative.meta.updateTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.final.qualitative.meta.updateTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -850,13 +856,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.final.qualitative.meta.updateId.cd"/>
 </dict:field>
 <dict:field key="updateId" id="dict.final.qualitative.meta.updateId" parent="dict.final.qualitative.meta.updateId.abstract"/>
-<dict:fieldDescriptor key="updateId" id="dict.final.qualitative.meta.updateId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.final.qualitative.meta.updateId.fd.abstract" abstract="true">
 	<dict:name>final qualitative meta updateId</dict:name>
 	<dict:desc>Principal of the persion who last updated this resultComponent</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateId" id="dict.final.qualitative.meta.updateId.fd" parent="dict.final.qualitative.meta.updateId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.final.qualitative.meta.updateId.fd" parent="dict.final.qualitative.meta.updateId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.final.qualitative.meta.updateId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -881,6 +887,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.resultComponentInfo.desc.FinalGrade"/>
 </dict:type>
+<dict:type key="*" id="type.field.resultComponentInfo.desc.FinalGrade" parent="type.field.resultComponentInfo.desc.FinalGrade.abstract"/>
 
 <!-- **************************************************************************************** -->
 <!-- State for state.field.resultComponentInfo.desc.Final Grade.(default).(default).(default) -->
@@ -900,13 +907,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.final.grades.desc.plain.cd"/>
 </dict:field>
 <dict:field key="plain" id="dict.final.grades.desc.plain" parent="dict.final.grades.desc.plain.abstract"/>
-<dict:fieldDescriptor key="plain" id="dict.final.grades.desc.plain.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.final.grades.desc.plain.fd.abstract" abstract="true">
 	<dict:name>final.grades.desc.plain</dict:name>
 	<dict:desc>final.grades.desc.plain</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="plain" id="dict.final.grades.desc.plain.fd" parent="dict.final.grades.desc.plain.fd.abstract"/>
+<dict:fieldDescriptor id="dict.final.grades.desc.plain.fd" parent="dict.final.grades.desc.plain.fd.abstract"/>
 <dict:constraintDescriptor id="dict.final.grades.desc.plain.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -927,12 +934,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.final.grades.desc.formatted.cd"/>
 </dict:field>
 <dict:field key="formatted" id="dict.final.grades.desc.formatted" parent="dict.final.grades.desc.formatted.abstract"/>
-<dict:fieldDescriptor key="formatted" id="dict.final.grades.desc.formatted.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.final.grades.desc.formatted.fd.abstract" abstract="true">
 	<dict:name>final.grades.desc.formatted</dict:name>
 	<dict:desc>final.grades.desc.formatted</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="formatted" id="dict.final.grades.desc.formatted.fd" parent="dict.final.grades.desc.formatted.fd.abstract"/>
+<dict:fieldDescriptor id="dict.final.grades.desc.formatted.fd" parent="dict.final.grades.desc.formatted.fd.abstract"/>
 <dict:constraintDescriptor id="dict.final.grades.desc.formatted.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -958,6 +965,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.resultComponentInfo.metaInfo.FinalGrade"/>
 </dict:type>
+<dict:type key="*" id="type.field.resultComponentInfo.metaInfo.FinalGrade" parent="type.field.resultComponentInfo.metaInfo.FinalGrade.abstract"/>
 
 <!-- ******************************************************************************************** -->
 <!-- State for state.field.resultComponentInfo.metaInfo.Final Grade.(default).(default).(default) -->
@@ -980,13 +988,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.final.grades.meta.versionInd.cd"/>
 </dict:field>
 <dict:field key="versionInd" id="dict.final.grades.meta.versionInd" parent="dict.final.grades.meta.versionInd.abstract"/>
-<dict:fieldDescriptor key="versionInd" id="dict.final.grades.meta.versionInd.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.final.grades.meta.versionInd.fd.abstract" abstract="true">
 	<dict:name>final grade meta versionInd</dict:name>
 	<dict:desc>Version number for this resultComponent info</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="versionInd" id="dict.final.grades.meta.versionInd.fd" parent="dict.final.grades.meta.versionInd.fd.abstract"/>
+<dict:fieldDescriptor id="dict.final.grades.meta.versionInd.fd" parent="dict.final.grades.meta.versionInd.fd.abstract"/>
 <dict:constraintDescriptor id="dict.final.grades.meta.versionInd.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1004,12 +1012,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.final.grades.meta.createTime.cd"/>
 </dict:field>
 <dict:field key="createTime" id="dict.final.grades.meta.createTime" parent="dict.final.grades.meta.createTime.abstract"/>
-<dict:fieldDescriptor key="createTime" id="dict.final.grades.meta.createTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.final.grades.meta.createTime.fd.abstract" abstract="true">
 	<dict:name>final grade meta createTime</dict:name>
 	<dict:desc>Date-time this resultComponent was created</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createTime" id="dict.final.grades.meta.createTime.fd" parent="dict.final.grades.meta.createTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.final.grades.meta.createTime.fd" parent="dict.final.grades.meta.createTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.final.grades.meta.createTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1026,13 +1034,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.final.grades.meta.createId.cd"/>
 </dict:field>
 <dict:field key="createId" id="dict.final.grades.meta.createId" parent="dict.final.grades.meta.createId.abstract"/>
-<dict:fieldDescriptor key="createId" id="dict.final.grades.meta.createId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.final.grades.meta.createId.fd.abstract" abstract="true">
 	<dict:name>final grade meta createId</dict:name>
 	<dict:desc>Principal of the persion who first created this resultComponent</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createId" id="dict.final.grades.meta.createId.fd" parent="dict.final.grades.meta.createId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.final.grades.meta.createId.fd" parent="dict.final.grades.meta.createId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.final.grades.meta.createId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1049,12 +1057,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.final.grades.meta.updateTime.cd"/>
 </dict:field>
 <dict:field key="updateTime" id="dict.final.grades.meta.updateTime" parent="dict.final.grades.meta.updateTime.abstract"/>
-<dict:fieldDescriptor key="updateTime" id="dict.final.grades.meta.updateTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.final.grades.meta.updateTime.fd.abstract" abstract="true">
 	<dict:name>final grade meta updateTime</dict:name>
 	<dict:desc>Date-time this resultComponent was last updated</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateTime" id="dict.final.grades.meta.updateTime.fd" parent="dict.final.grades.meta.updateTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.final.grades.meta.updateTime.fd" parent="dict.final.grades.meta.updateTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.final.grades.meta.updateTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1071,13 +1079,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.final.grades.meta.updateId.cd"/>
 </dict:field>
 <dict:field key="updateId" id="dict.final.grades.meta.updateId" parent="dict.final.grades.meta.updateId.abstract"/>
-<dict:fieldDescriptor key="updateId" id="dict.final.grades.meta.updateId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.final.grades.meta.updateId.fd.abstract" abstract="true">
 	<dict:name>final grade meta updateId</dict:name>
 	<dict:desc>Principal of the persion who last updated this resultComponent</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateId" id="dict.final.grades.meta.updateId.fd" parent="dict.final.grades.meta.updateId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.final.grades.meta.updateId.fd" parent="dict.final.grades.meta.updateId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.final.grades.meta.updateId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1094,12 +1102,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.fixed.credits.name.cd"/>
 </dict:field>
 <dict:field key="name" id="dict.fixed.credits.name" parent="dict.fixed.credits.name.abstract"/>
-<dict:fieldDescriptor key="name" id="dict.fixed.credits.name.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.fixed.credits.name.fd.abstract" abstract="true">
 	<dict:name>fixed credits name</dict:name>
 	<dict:desc>fixed credits name</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="name" id="dict.fixed.credits.name.fd" parent="dict.fixed.credits.name.fd.abstract"/>
+<dict:fieldDescriptor id="dict.fixed.credits.name.fd" parent="dict.fixed.credits.name.fd.abstract"/>
 <dict:constraintDescriptor id="dict.fixed.credits.name.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1114,13 +1122,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.fixed.credits.desc.cd"/>
 </dict:field>
 <dict:field key="desc" id="dict.fixed.credits.desc" parent="dict.fixed.credits.desc.abstract"/>
-<dict:fieldDescriptor key="desc" id="dict.fixed.credits.desc.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.fixed.credits.desc.fd.abstract" abstract="true">
 	<dict:name>fixed credits desc</dict:name>
 	<dict:desc>fixed credits desc</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.resultComponentInfo.desc.FixedNumber"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="desc" id="dict.fixed.credits.desc.fd" parent="dict.fixed.credits.desc.fd.abstract"/>
+<dict:fieldDescriptor id="dict.fixed.credits.desc.fd" parent="dict.fixed.credits.desc.fd.abstract"/>
 <dict:constraintDescriptor id="dict.fixed.credits.desc.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1135,12 +1143,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.fixed.credits.resultValueIds.cd"/>
 </dict:field>
 <dict:field key="resultValueIds" id="dict.fixed.credits.resultValueIds" parent="dict.fixed.credits.resultValueIds.abstract"/>
-<dict:fieldDescriptor key="resultValueIds" id="dict.fixed.credits.resultValueIds.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.fixed.credits.resultValueIds.fd.abstract" abstract="true">
 	<dict:name>fixed credits result value Ids</dict:name>
 	<dict:desc>the list of ids correspondign to the available credits values for fixed credit</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="resultValueIds" id="dict.fixed.credits.resultValueIds.fd" parent="dict.fixed.credits.resultValueIds.fd.abstract"/>
+<dict:fieldDescriptor id="dict.fixed.credits.resultValueIds.fd" parent="dict.fixed.credits.resultValueIds.fd.abstract"/>
 <dict:constraintDescriptor id="dict.fixed.credits.resultValueIds.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.repeating"/>
@@ -1156,12 +1164,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.fixed.credits.effectiveDate.cd"/>
 </dict:field>
 <dict:field key="effectiveDate" id="dict.fixed.credits.effectiveDate" parent="dict.fixed.credits.effectiveDate.abstract"/>
-<dict:fieldDescriptor key="effectiveDate" id="dict.fixed.credits.effectiveDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.fixed.credits.effectiveDate.fd.abstract" abstract="true">
 	<dict:name>fixed credits effective date</dict:name>
 	<dict:desc>fixed credits effective date</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="effectiveDate" id="dict.fixed.credits.effectiveDate.fd" parent="dict.fixed.credits.effectiveDate.fd.abstract"/>
+<dict:fieldDescriptor id="dict.fixed.credits.effectiveDate.fd" parent="dict.fixed.credits.effectiveDate.fd.abstract"/>
 <dict:constraintDescriptor id="dict.fixed.credits.effectiveDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1177,12 +1185,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.fixed.credits.expirationDate.cd"/>
 </dict:field>
 <dict:field key="expirationDate" id="dict.fixed.credits.expirationDate" parent="dict.fixed.credits.expirationDate.abstract"/>
-<dict:fieldDescriptor key="expirationDate" id="dict.fixed.credits.expirationDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.fixed.credits.expirationDate.fd.abstract" abstract="true">
 	<dict:name>fixed credits expiration date</dict:name>
 	<dict:desc>fixed credits expiration date</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="expirationDate" id="dict.fixed.credits.expirationDate.fd" parent="dict.fixed.credits.expirationDate.fd.abstract"/>
+<dict:fieldDescriptor id="dict.fixed.credits.expirationDate.fd" parent="dict.fixed.credits.expirationDate.fd.abstract"/>
 <dict:constraintDescriptor id="dict.fixed.credits.expirationDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1198,13 +1206,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.fixed.credits.metaInfo.cd"/>
 </dict:field>
 <dict:field key="metaInfo" id="dict.fixed.credits.metaInfo" parent="dict.fixed.credits.metaInfo.abstract"/>
-<dict:fieldDescriptor key="metaInfo" id="dict.fixed.credits.metaInfo.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.fixed.credits.metaInfo.fd.abstract" abstract="true">
 	<dict:name>fixed credits metainfo</dict:name>
 	<dict:desc>fixed credits metainfo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.resultComponentInfo.metaInfo.FixedNumber"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="metaInfo" id="dict.fixed.credits.metaInfo.fd" parent="dict.fixed.credits.metaInfo.fd.abstract"/>
+<dict:fieldDescriptor id="dict.fixed.credits.metaInfo.fd" parent="dict.fixed.credits.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.fixed.credits.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1220,12 +1228,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.fixed.credits.type.cd"/>
 </dict:field>
 <dict:field key="type" id="dict.fixed.credits.type" parent="dict.fixed.credits.type.abstract"/>
-<dict:fieldDescriptor key="type" id="dict.fixed.credits.type.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.fixed.credits.type.fd.abstract" abstract="true">
 	<dict:name>fixed credits type</dict:name>
 	<dict:desc>fixed credits type</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="type" id="dict.fixed.credits.type.fd" parent="dict.fixed.credits.type.fd.abstract"/>
+<dict:fieldDescriptor id="dict.fixed.credits.type.fd" parent="dict.fixed.credits.type.fd.abstract"/>
 <dict:constraintDescriptor id="dict.fixed.credits.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1243,12 +1251,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:selector>true</dict:selector>
 </dict:field>
 <dict:field key="state" id="dict.fixed.credits.state" parent="dict.fixed.credits.state.abstract"/>
-<dict:fieldDescriptor key="state" id="dict.fixed.credits.state.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.fixed.credits.state.fd.abstract" abstract="true">
 	<dict:name>fixed credits state</dict:name>
 	<dict:desc>fixed credits state</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="state" id="dict.fixed.credits.state.fd" parent="dict.fixed.credits.state.fd.abstract"/>
+<dict:fieldDescriptor id="dict.fixed.credits.state.fd" parent="dict.fixed.credits.state.fd.abstract"/>
 <dict:constraintDescriptor id="dict.fixed.credits.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1264,12 +1272,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.fixed.credits.internal.id.cd"/>
 </dict:field>
 <dict:field key="id" id="dict.fixed.credits.internal.id" parent="dict.fixed.credits.internal.id.abstract"/>
-<dict:fieldDescriptor key="id" id="dict.fixed.credits.internal.id.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.fixed.credits.internal.id.fd.abstract" abstract="true">
 	<dict:name>fixed credits internal id</dict:name>
 	<dict:desc>fixed credits internal id</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="id" id="dict.fixed.credits.internal.id.fd" parent="dict.fixed.credits.internal.id.fd.abstract"/>
+<dict:fieldDescriptor id="dict.fixed.credits.internal.id.fd" parent="dict.fixed.credits.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.fixed.credits.internal.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1286,12 +1294,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.variable.credits.name.cd"/>
 </dict:field>
 <dict:field key="name" id="dict.variable.credits.name" parent="dict.variable.credits.name.abstract"/>
-<dict:fieldDescriptor key="name" id="dict.variable.credits.name.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.variable.credits.name.fd.abstract" abstract="true">
 	<dict:name>variable credits name</dict:name>
 	<dict:desc>variable credits name</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="name" id="dict.variable.credits.name.fd" parent="dict.variable.credits.name.fd.abstract"/>
+<dict:fieldDescriptor id="dict.variable.credits.name.fd" parent="dict.variable.credits.name.fd.abstract"/>
 <dict:constraintDescriptor id="dict.variable.credits.name.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1306,13 +1314,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.variable.credits.desc.cd"/>
 </dict:field>
 <dict:field key="desc" id="dict.variable.credits.desc" parent="dict.variable.credits.desc.abstract"/>
-<dict:fieldDescriptor key="desc" id="dict.variable.credits.desc.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.variable.credits.desc.fd.abstract" abstract="true">
 	<dict:name>variable credits desc</dict:name>
 	<dict:desc>variable credits desc</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.resultComponentInfo.desc.VariableNumber"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="desc" id="dict.variable.credits.desc.fd" parent="dict.variable.credits.desc.fd.abstract"/>
+<dict:fieldDescriptor id="dict.variable.credits.desc.fd" parent="dict.variable.credits.desc.fd.abstract"/>
 <dict:constraintDescriptor id="dict.variable.credits.desc.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1327,12 +1335,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.variable.credits.resultValueIds.cd"/>
 </dict:field>
 <dict:field key="resultValueIds" id="dict.variable.credits.resultValueIds" parent="dict.variable.credits.resultValueIds.abstract"/>
-<dict:fieldDescriptor key="resultValueIds" id="dict.variable.credits.resultValueIds.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.variable.credits.resultValueIds.fd.abstract" abstract="true">
 	<dict:name>variable credits result value Ids</dict:name>
 	<dict:desc>the list of ids correspondign to the available credits values for variable credit</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="resultValueIds" id="dict.variable.credits.resultValueIds.fd" parent="dict.variable.credits.resultValueIds.fd.abstract"/>
+<dict:fieldDescriptor id="dict.variable.credits.resultValueIds.fd" parent="dict.variable.credits.resultValueIds.fd.abstract"/>
 <dict:constraintDescriptor id="dict.variable.credits.resultValueIds.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.repeating"/>
@@ -1348,12 +1356,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.variable.credits.effectiveDate.cd"/>
 </dict:field>
 <dict:field key="effectiveDate" id="dict.variable.credits.effectiveDate" parent="dict.variable.credits.effectiveDate.abstract"/>
-<dict:fieldDescriptor key="effectiveDate" id="dict.variable.credits.effectiveDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.variable.credits.effectiveDate.fd.abstract" abstract="true">
 	<dict:name>variable credits effective date</dict:name>
 	<dict:desc>variable credits effective date</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="effectiveDate" id="dict.variable.credits.effectiveDate.fd" parent="dict.variable.credits.effectiveDate.fd.abstract"/>
+<dict:fieldDescriptor id="dict.variable.credits.effectiveDate.fd" parent="dict.variable.credits.effectiveDate.fd.abstract"/>
 <dict:constraintDescriptor id="dict.variable.credits.effectiveDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1369,12 +1377,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.variable.credits.expirationDate.cd"/>
 </dict:field>
 <dict:field key="expirationDate" id="dict.variable.credits.expirationDate" parent="dict.variable.credits.expirationDate.abstract"/>
-<dict:fieldDescriptor key="expirationDate" id="dict.variable.credits.expirationDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.variable.credits.expirationDate.fd.abstract" abstract="true">
 	<dict:name>variable credits expiration date</dict:name>
 	<dict:desc>variable credits expiration date</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="expirationDate" id="dict.variable.credits.expirationDate.fd" parent="dict.variable.credits.expirationDate.fd.abstract"/>
+<dict:fieldDescriptor id="dict.variable.credits.expirationDate.fd" parent="dict.variable.credits.expirationDate.fd.abstract"/>
 <dict:constraintDescriptor id="dict.variable.credits.expirationDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1390,13 +1398,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.variable.credits.metaInfo.cd"/>
 </dict:field>
 <dict:field key="metaInfo" id="dict.variable.credits.metaInfo" parent="dict.variable.credits.metaInfo.abstract"/>
-<dict:fieldDescriptor key="metaInfo" id="dict.variable.credits.metaInfo.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.variable.credits.metaInfo.fd.abstract" abstract="true">
 	<dict:name>variable credits metainfo</dict:name>
 	<dict:desc>variable credits metainfo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.resultComponentInfo.metaInfo.VariableNumber"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="metaInfo" id="dict.variable.credits.metaInfo.fd" parent="dict.variable.credits.metaInfo.fd.abstract"/>
+<dict:fieldDescriptor id="dict.variable.credits.metaInfo.fd" parent="dict.variable.credits.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.variable.credits.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1412,12 +1420,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.variable.credits.type.cd"/>
 </dict:field>
 <dict:field key="type" id="dict.variable.credits.type" parent="dict.variable.credits.type.abstract"/>
-<dict:fieldDescriptor key="type" id="dict.variable.credits.type.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.variable.credits.type.fd.abstract" abstract="true">
 	<dict:name>variable credits type</dict:name>
 	<dict:desc>variable credits type</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="type" id="dict.variable.credits.type.fd" parent="dict.variable.credits.type.fd.abstract"/>
+<dict:fieldDescriptor id="dict.variable.credits.type.fd" parent="dict.variable.credits.type.fd.abstract"/>
 <dict:constraintDescriptor id="dict.variable.credits.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1435,12 +1443,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:selector>true</dict:selector>
 </dict:field>
 <dict:field key="state" id="dict.variable.credits.state" parent="dict.variable.credits.state.abstract"/>
-<dict:fieldDescriptor key="state" id="dict.variable.credits.state.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.variable.credits.state.fd.abstract" abstract="true">
 	<dict:name>variable credits state</dict:name>
 	<dict:desc>variable credits state</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="state" id="dict.variable.credits.state.fd" parent="dict.variable.credits.state.fd.abstract"/>
+<dict:fieldDescriptor id="dict.variable.credits.state.fd" parent="dict.variable.credits.state.fd.abstract"/>
 <dict:constraintDescriptor id="dict.variable.credits.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1456,12 +1464,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.variable.credits.internal.id.cd"/>
 </dict:field>
 <dict:field key="id" id="dict.variable.credits.internal.id" parent="dict.variable.credits.internal.id.abstract"/>
-<dict:fieldDescriptor key="id" id="dict.variable.credits.internal.id.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.variable.credits.internal.id.fd.abstract" abstract="true">
 	<dict:name>variable credits internal id</dict:name>
 	<dict:desc>variable credits internal id</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="id" id="dict.variable.credits.internal.id.fd" parent="dict.variable.credits.internal.id.fd.abstract"/>
+<dict:fieldDescriptor id="dict.variable.credits.internal.id.fd" parent="dict.variable.credits.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.variable.credits.internal.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1478,12 +1486,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.final.qualitative.name.cd"/>
 </dict:field>
 <dict:field key="name" id="dict.final.qualitative.name" parent="dict.final.qualitative.name.abstract"/>
-<dict:fieldDescriptor key="name" id="dict.final.qualitative.name.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.final.qualitative.name.fd.abstract" abstract="true">
 	<dict:name>final qualitative name</dict:name>
 	<dict:desc>final grade name</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="name" id="dict.final.qualitative.name.fd" parent="dict.final.qualitative.name.fd.abstract"/>
+<dict:fieldDescriptor id="dict.final.qualitative.name.fd" parent="dict.final.qualitative.name.fd.abstract"/>
 <dict:constraintDescriptor id="dict.final.qualitative.name.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1498,13 +1506,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.final.qualitative.desc.cd"/>
 </dict:field>
 <dict:field key="desc" id="dict.final.qualitative.desc" parent="dict.final.qualitative.desc.abstract"/>
-<dict:fieldDescriptor key="desc" id="dict.final.qualitative.desc.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.final.qualitative.desc.fd.abstract" abstract="true">
 	<dict:name>final qualitative desc</dict:name>
 	<dict:desc>final grade desc</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.resultComponentInfo.desc.FinalQualitative"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="desc" id="dict.final.qualitative.desc.fd" parent="dict.final.qualitative.desc.fd.abstract"/>
+<dict:fieldDescriptor id="dict.final.qualitative.desc.fd" parent="dict.final.qualitative.desc.fd.abstract"/>
 <dict:constraintDescriptor id="dict.final.qualitative.desc.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1519,12 +1527,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.final.qualitative.resultValueIds.cd"/>
 </dict:field>
 <dict:field key="resultValueIds" id="dict.final.qualitative.resultValueIds" parent="dict.final.qualitative.resultValueIds.abstract"/>
-<dict:fieldDescriptor key="resultValueIds" id="dict.final.qualitative.resultValueIds.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.final.qualitative.resultValueIds.fd.abstract" abstract="true">
 	<dict:name>final qualitative result value Ids</dict:name>
 	<dict:desc>the list of ids correspondign to the available credits values for fixed credit</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="resultValueIds" id="dict.final.qualitative.resultValueIds.fd" parent="dict.final.qualitative.resultValueIds.fd.abstract"/>
+<dict:fieldDescriptor id="dict.final.qualitative.resultValueIds.fd" parent="dict.final.qualitative.resultValueIds.fd.abstract"/>
 <dict:constraintDescriptor id="dict.final.qualitative.resultValueIds.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.repeating"/>
@@ -1540,12 +1548,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.final.qualitative.effectiveDate.cd"/>
 </dict:field>
 <dict:field key="effectiveDate" id="dict.final.qualitative.effectiveDate" parent="dict.final.qualitative.effectiveDate.abstract"/>
-<dict:fieldDescriptor key="effectiveDate" id="dict.final.qualitative.effectiveDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.final.qualitative.effectiveDate.fd.abstract" abstract="true">
 	<dict:name>final qualitative effective date</dict:name>
 	<dict:desc>final grade effective date</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="effectiveDate" id="dict.final.qualitative.effectiveDate.fd" parent="dict.final.qualitative.effectiveDate.fd.abstract"/>
+<dict:fieldDescriptor id="dict.final.qualitative.effectiveDate.fd" parent="dict.final.qualitative.effectiveDate.fd.abstract"/>
 <dict:constraintDescriptor id="dict.final.qualitative.effectiveDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1561,12 +1569,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.final.qualitative.expirationDate.cd"/>
 </dict:field>
 <dict:field key="expirationDate" id="dict.final.qualitative.expirationDate" parent="dict.final.qualitative.expirationDate.abstract"/>
-<dict:fieldDescriptor key="expirationDate" id="dict.final.qualitative.expirationDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.final.qualitative.expirationDate.fd.abstract" abstract="true">
 	<dict:name>final qualitative expiration date</dict:name>
 	<dict:desc>final grade expiration date</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="expirationDate" id="dict.final.qualitative.expirationDate.fd" parent="dict.final.qualitative.expirationDate.fd.abstract"/>
+<dict:fieldDescriptor id="dict.final.qualitative.expirationDate.fd" parent="dict.final.qualitative.expirationDate.fd.abstract"/>
 <dict:constraintDescriptor id="dict.final.qualitative.expirationDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1582,13 +1590,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.final.qualitative.metaInfo.cd"/>
 </dict:field>
 <dict:field key="metaInfo" id="dict.final.qualitative.metaInfo" parent="dict.final.qualitative.metaInfo.abstract"/>
-<dict:fieldDescriptor key="metaInfo" id="dict.final.qualitative.metaInfo.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.final.qualitative.metaInfo.fd.abstract" abstract="true">
 	<dict:name>final qualitative metainfo</dict:name>
 	<dict:desc>final grade metainfo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.resultComponentInfo.metaInfo.FinalQualitative"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="metaInfo" id="dict.final.qualitative.metaInfo.fd" parent="dict.final.qualitative.metaInfo.fd.abstract"/>
+<dict:fieldDescriptor id="dict.final.qualitative.metaInfo.fd" parent="dict.final.qualitative.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.final.qualitative.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1604,12 +1612,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.final.qualitative.type.cd"/>
 </dict:field>
 <dict:field key="type" id="dict.final.qualitative.type" parent="dict.final.qualitative.type.abstract"/>
-<dict:fieldDescriptor key="type" id="dict.final.qualitative.type.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.final.qualitative.type.fd.abstract" abstract="true">
 	<dict:name>final qualitative type</dict:name>
 	<dict:desc>final grade type</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="type" id="dict.final.qualitative.type.fd" parent="dict.final.qualitative.type.fd.abstract"/>
+<dict:fieldDescriptor id="dict.final.qualitative.type.fd" parent="dict.final.qualitative.type.fd.abstract"/>
 <dict:constraintDescriptor id="dict.final.qualitative.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1627,12 +1635,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:selector>true</dict:selector>
 </dict:field>
 <dict:field key="state" id="dict.final.qualitative.state" parent="dict.final.qualitative.state.abstract"/>
-<dict:fieldDescriptor key="state" id="dict.final.qualitative.state.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.final.qualitative.state.fd.abstract" abstract="true">
 	<dict:name>final qualitative state</dict:name>
 	<dict:desc>final grade state</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="state" id="dict.final.qualitative.state.fd" parent="dict.final.qualitative.state.fd.abstract"/>
+<dict:fieldDescriptor id="dict.final.qualitative.state.fd" parent="dict.final.qualitative.state.fd.abstract"/>
 <dict:constraintDescriptor id="dict.final.qualitative.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1648,12 +1656,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.final.qualitative.internal.id.cd"/>
 </dict:field>
 <dict:field key="id" id="dict.final.qualitative.internal.id" parent="dict.final.qualitative.internal.id.abstract"/>
-<dict:fieldDescriptor key="id" id="dict.final.qualitative.internal.id.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.final.qualitative.internal.id.fd.abstract" abstract="true">
 	<dict:name>final qualitative internal id</dict:name>
 	<dict:desc>final grade internal id</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="id" id="dict.final.qualitative.internal.id.fd" parent="dict.final.qualitative.internal.id.fd.abstract"/>
+<dict:fieldDescriptor id="dict.final.qualitative.internal.id.fd" parent="dict.final.qualitative.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.final.qualitative.internal.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1670,12 +1678,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.final.grades.name.cd"/>
 </dict:field>
 <dict:field key="name" id="dict.final.grades.name" parent="dict.final.grades.name.abstract"/>
-<dict:fieldDescriptor key="name" id="dict.final.grades.name.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.final.grades.name.fd.abstract" abstract="true">
 	<dict:name>final grade name</dict:name>
 	<dict:desc>final grade name</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="name" id="dict.final.grades.name.fd" parent="dict.final.grades.name.fd.abstract"/>
+<dict:fieldDescriptor id="dict.final.grades.name.fd" parent="dict.final.grades.name.fd.abstract"/>
 <dict:constraintDescriptor id="dict.final.grades.name.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1690,13 +1698,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.final.grades.desc.cd"/>
 </dict:field>
 <dict:field key="desc" id="dict.final.grades.desc" parent="dict.final.grades.desc.abstract"/>
-<dict:fieldDescriptor key="desc" id="dict.final.grades.desc.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.final.grades.desc.fd.abstract" abstract="true">
 	<dict:name>final grade desc</dict:name>
 	<dict:desc>final grade desc</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.resultComponentInfo.desc.FinalGrade"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="desc" id="dict.final.grades.desc.fd" parent="dict.final.grades.desc.fd.abstract"/>
+<dict:fieldDescriptor id="dict.final.grades.desc.fd" parent="dict.final.grades.desc.fd.abstract"/>
 <dict:constraintDescriptor id="dict.final.grades.desc.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1711,12 +1719,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.final.grades.resultValueIds.cd"/>
 </dict:field>
 <dict:field key="resultValueIds" id="dict.final.grades.resultValueIds" parent="dict.final.grades.resultValueIds.abstract"/>
-<dict:fieldDescriptor key="resultValueIds" id="dict.final.grades.resultValueIds.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.final.grades.resultValueIds.fd.abstract" abstract="true">
 	<dict:name>final grade result value Ids</dict:name>
 	<dict:desc>the list of ids correspondign to the available credits values for fixed credit</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="resultValueIds" id="dict.final.grades.resultValueIds.fd" parent="dict.final.grades.resultValueIds.fd.abstract"/>
+<dict:fieldDescriptor id="dict.final.grades.resultValueIds.fd" parent="dict.final.grades.resultValueIds.fd.abstract"/>
 <dict:constraintDescriptor id="dict.final.grades.resultValueIds.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.repeating"/>
@@ -1732,12 +1740,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.final.grades.effectiveDate.cd"/>
 </dict:field>
 <dict:field key="effectiveDate" id="dict.final.grades.effectiveDate" parent="dict.final.grades.effectiveDate.abstract"/>
-<dict:fieldDescriptor key="effectiveDate" id="dict.final.grades.effectiveDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.final.grades.effectiveDate.fd.abstract" abstract="true">
 	<dict:name>final grade effective date</dict:name>
 	<dict:desc>final grade effective date</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="effectiveDate" id="dict.final.grades.effectiveDate.fd" parent="dict.final.grades.effectiveDate.fd.abstract"/>
+<dict:fieldDescriptor id="dict.final.grades.effectiveDate.fd" parent="dict.final.grades.effectiveDate.fd.abstract"/>
 <dict:constraintDescriptor id="dict.final.grades.effectiveDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1753,12 +1761,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.final.grades.expirationDate.cd"/>
 </dict:field>
 <dict:field key="expirationDate" id="dict.final.grades.expirationDate" parent="dict.final.grades.expirationDate.abstract"/>
-<dict:fieldDescriptor key="expirationDate" id="dict.final.grades.expirationDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.final.grades.expirationDate.fd.abstract" abstract="true">
 	<dict:name>final grade expiration date</dict:name>
 	<dict:desc>final grade expiration date</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="expirationDate" id="dict.final.grades.expirationDate.fd" parent="dict.final.grades.expirationDate.fd.abstract"/>
+<dict:fieldDescriptor id="dict.final.grades.expirationDate.fd" parent="dict.final.grades.expirationDate.fd.abstract"/>
 <dict:constraintDescriptor id="dict.final.grades.expirationDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1774,13 +1782,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.final.grades.metaInfo.cd"/>
 </dict:field>
 <dict:field key="metaInfo" id="dict.final.grades.metaInfo" parent="dict.final.grades.metaInfo.abstract"/>
-<dict:fieldDescriptor key="metaInfo" id="dict.final.grades.metaInfo.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.final.grades.metaInfo.fd.abstract" abstract="true">
 	<dict:name>final grade metainfo</dict:name>
 	<dict:desc>final grade metainfo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.resultComponentInfo.metaInfo.FinalGrade"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="metaInfo" id="dict.final.grades.metaInfo.fd" parent="dict.final.grades.metaInfo.fd.abstract"/>
+<dict:fieldDescriptor id="dict.final.grades.metaInfo.fd" parent="dict.final.grades.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.final.grades.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1796,12 +1804,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.final.grades.type.cd"/>
 </dict:field>
 <dict:field key="type" id="dict.final.grades.type" parent="dict.final.grades.type.abstract"/>
-<dict:fieldDescriptor key="type" id="dict.final.grades.type.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.final.grades.type.fd.abstract" abstract="true">
 	<dict:name>final grade type</dict:name>
 	<dict:desc>final grade type</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="type" id="dict.final.grades.type.fd" parent="dict.final.grades.type.fd.abstract"/>
+<dict:fieldDescriptor id="dict.final.grades.type.fd" parent="dict.final.grades.type.fd.abstract"/>
 <dict:constraintDescriptor id="dict.final.grades.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1819,12 +1827,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:selector>true</dict:selector>
 </dict:field>
 <dict:field key="state" id="dict.final.grades.state" parent="dict.final.grades.state.abstract"/>
-<dict:fieldDescriptor key="state" id="dict.final.grades.state.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.final.grades.state.fd.abstract" abstract="true">
 	<dict:name>final grade state</dict:name>
 	<dict:desc>final grade state</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="state" id="dict.final.grades.state.fd" parent="dict.final.grades.state.fd.abstract"/>
+<dict:fieldDescriptor id="dict.final.grades.state.fd" parent="dict.final.grades.state.fd.abstract"/>
 <dict:constraintDescriptor id="dict.final.grades.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1840,12 +1848,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.final.grades.internal.id.cd"/>
 </dict:field>
 <dict:field key="id" id="dict.final.grades.internal.id" parent="dict.final.grades.internal.id.abstract"/>
-<dict:fieldDescriptor key="id" id="dict.final.grades.internal.id.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.final.grades.internal.id.fd.abstract" abstract="true">
 	<dict:name>final grade internal id</dict:name>
 	<dict:desc>final grade internal id</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="id" id="dict.final.grades.internal.id.fd" parent="dict.final.grades.internal.id.fd.abstract"/>
+<dict:fieldDescriptor id="dict.final.grades.internal.id.fd" parent="dict.final.grades.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.final.grades.internal.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>

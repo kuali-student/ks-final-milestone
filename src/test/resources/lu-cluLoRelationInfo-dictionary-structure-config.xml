@@ -7,7 +7,7 @@ http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/d
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Thu Feb 18 11:40:02 EST 2010
+on: Thu Feb 18 13:33:54 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -57,7 +57,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Unique identifier for a Canonical Learning Unit (CLU).</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="cluId" id="field.cluLoRelationInfo.cluId.fd" parent="field.cluLoRelationInfo.cluId.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluLoRelationInfo.cluId.fd" parent="field.cluLoRelationInfo.cluId.fd.abstract"/>
 <!-- Required; Single valued (non-repeating) -->
 <dict:constraintDescriptor id="field.cluLoRelationInfo.cluId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -75,7 +75,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Unique identifier for a learning objective record.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="loId" id="field.cluLoRelationInfo.loId.fd" parent="field.cluLoRelationInfo.loId.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluLoRelationInfo.loId.fd" parent="field.cluLoRelationInfo.loId.fd.abstract"/>
 <!-- Required; Single valued (non-repeating) -->
 <dict:constraintDescriptor id="field.cluLoRelationInfo.loId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -93,7 +93,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Date and time that this CLU to LO relationship became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="effectiveDate" id="field.cluLoRelationInfo.effectiveDate.fd" parent="field.cluLoRelationInfo.effectiveDate.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluLoRelationInfo.effectiveDate.fd" parent="field.cluLoRelationInfo.effectiveDate.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Date-Time -->
 <dict:constraintDescriptor id="field.cluLoRelationInfo.effectiveDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -112,7 +112,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Date and time that this CLU to LO relationship expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="expirationDate" id="field.cluLoRelationInfo.expirationDate.fd" parent="field.cluLoRelationInfo.expirationDate.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluLoRelationInfo.expirationDate.fd" parent="field.cluLoRelationInfo.expirationDate.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Date-Time -->
 <dict:constraintDescriptor id="field.cluLoRelationInfo.expirationDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -133,7 +133,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:objectStructureRef bean="object.field.cluLoRelationInfo.metaInfo"/>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="metaInfo" id="field.cluLoRelationInfo.metaInfo.fd" parent="field.cluLoRelationInfo.metaInfo.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluLoRelationInfo.metaInfo.fd" parent="field.cluLoRelationInfo.metaInfo.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating) -->
 <dict:constraintDescriptor id="field.cluLoRelationInfo.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
@@ -183,7 +183,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="versionInd" id="field.cluLoRelationInfo.metaInfo.versionInd.fd" parent="field.cluLoRelationInfo.metaInfo.versionInd.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluLoRelationInfo.metaInfo.versionInd.fd" parent="field.cluLoRelationInfo.metaInfo.versionInd.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Calculates the version indicator that is used for optimistic locking; Read Only -->
 <dict:constraintDescriptor id="field.cluLoRelationInfo.metaInfo.versionInd.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -203,7 +203,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>The date and time the thing being described with this meta information was created</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createTime" id="field.cluLoRelationInfo.metaInfo.createTime.fd" parent="field.cluLoRelationInfo.metaInfo.createTime.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluLoRelationInfo.metaInfo.createTime.fd" parent="field.cluLoRelationInfo.metaInfo.createTime.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Date-Time; Defaults to NOW, when the object is created -->
 <dict:constraintDescriptor id="field.cluLoRelationInfo.metaInfo.createTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -224,7 +224,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createId" id="field.cluLoRelationInfo.metaInfo.createId.fd" parent="field.cluLoRelationInfo.metaInfo.createId.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluLoRelationInfo.metaInfo.createId.fd" parent="field.cluLoRelationInfo.metaInfo.createId.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Defaults to the currently authenticated user -->
 <dict:constraintDescriptor id="field.cluLoRelationInfo.metaInfo.createId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
@@ -244,7 +244,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateTime" id="field.cluLoRelationInfo.metaInfo.updateTime.fd" parent="field.cluLoRelationInfo.metaInfo.updateTime.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluLoRelationInfo.metaInfo.updateTime.fd" parent="field.cluLoRelationInfo.metaInfo.updateTime.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Date-Time; Sets a field to the current time -->
 <dict:constraintDescriptor id="field.cluLoRelationInfo.metaInfo.updateTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -265,7 +265,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateId" id="field.cluLoRelationInfo.metaInfo.updateId.fd" parent="field.cluLoRelationInfo.metaInfo.updateId.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluLoRelationInfo.metaInfo.updateId.fd" parent="field.cluLoRelationInfo.metaInfo.updateId.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Sets a field to the currently authenticated user -->
 <dict:constraintDescriptor id="field.cluLoRelationInfo.metaInfo.updateId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
@@ -285,7 +285,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Unique identifier for a clu lo relation type.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="type" id="field.cluLoRelationInfo.type.fd" parent="field.cluLoRelationInfo.type.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluLoRelationInfo.type.fd" parent="field.cluLoRelationInfo.type.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Kuali TYPE: required on add, then read-only; In list of configured lu-lo relation types -->
 <dict:constraintDescriptor id="field.cluLoRelationInfo.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -306,7 +306,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Identifier for the current status of a CLU to LO relationship. The values for this field are constrained to those in the luLoRelationState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="state" id="field.cluLoRelationInfo.state.fd" parent="field.cluLoRelationInfo.state.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluLoRelationInfo.state.fd" parent="field.cluLoRelationInfo.state.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Kuali STATE -->
 <dict:constraintDescriptor id="field.cluLoRelationInfo.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -326,7 +326,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="id" id="field.cluLoRelationInfo.id.fd" parent="field.cluLoRelationInfo.id.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluLoRelationInfo.id.fd" parent="field.cluLoRelationInfo.id.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only. -->
 <dict:constraintDescriptor id="field.cluLoRelationInfo.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>

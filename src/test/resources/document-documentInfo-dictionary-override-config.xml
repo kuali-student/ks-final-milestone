@@ -7,7 +7,7 @@ http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/d
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Thu Feb 18 11:40:07 EST 2010
+on: Thu Feb 18 13:33:58 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -84,6 +84,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.documentInfo.desc.File"/>
 </dict:type>
+<dict:type key="*" id="type.field.documentInfo.desc.File" parent="type.field.documentInfo.desc.File.abstract"/>
 
 <!-- ************************************************************************** -->
 <!-- State for state.field.documentInfo.desc.File.(default).(default).(default) -->
@@ -103,13 +104,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.file.desc.plain.cd"/>
 </dict:field>
 <dict:field key="plain" id="dict.file.desc.plain" parent="dict.file.desc.plain.abstract"/>
-<dict:fieldDescriptor key="plain" id="dict.file.desc.plain.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.file.desc.plain.fd.abstract" abstract="true">
 	<dict:name>file desc plain text</dict:name>
 	<dict:desc>file desc plain text</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="plain" id="dict.file.desc.plain.fd" parent="dict.file.desc.plain.fd.abstract"/>
+<dict:fieldDescriptor id="dict.file.desc.plain.fd" parent="dict.file.desc.plain.fd.abstract"/>
 <dict:constraintDescriptor id="dict.file.desc.plain.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -128,12 +129,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.file.desc.formatted.cd"/>
 </dict:field>
 <dict:field key="formatted" id="dict.file.desc.formatted" parent="dict.file.desc.formatted.abstract"/>
-<dict:fieldDescriptor key="formatted" id="dict.file.desc.formatted.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.file.desc.formatted.fd.abstract" abstract="true">
 	<dict:name>file desc formatted</dict:name>
 	<dict:desc>file desc formatted</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="formatted" id="dict.file.desc.formatted.fd" parent="dict.file.desc.formatted.fd.abstract"/>
+<dict:fieldDescriptor id="dict.file.desc.formatted.fd" parent="dict.file.desc.formatted.fd.abstract"/>
 <dict:constraintDescriptor id="dict.file.desc.formatted.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -159,6 +160,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.documentInfo.documentBinaryInfo.File"/>
 </dict:type>
+<dict:type key="*" id="type.field.documentInfo.documentBinaryInfo.File" parent="type.field.documentInfo.documentBinaryInfo.File.abstract"/>
 
 <!-- **************************************************************************************** -->
 <!-- State for state.field.documentInfo.documentBinaryInfo.File.(default).(default).(default) -->
@@ -177,12 +179,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.file.binary.data.cd"/>
 </dict:field>
 <dict:field key="binary" id="dict.file.binary.data" parent="dict.file.binary.data.abstract"/>
-<dict:fieldDescriptor key="binary" id="dict.file.binary.data.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.file.binary.data.fd.abstract" abstract="true">
 	<dict:name>file binary</dict:name>
 	<dict:desc>file binary</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="binary" id="dict.file.binary.data.fd" parent="dict.file.binary.data.fd.abstract"/>
+<dict:fieldDescriptor id="dict.file.binary.data.fd" parent="dict.file.binary.data.fd.abstract"/>
 <dict:constraintDescriptor id="dict.file.binary.data.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -204,6 +206,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.documentInfo.metaInfo.File"/>
 </dict:type>
+<dict:type key="*" id="type.field.documentInfo.metaInfo.File" parent="type.field.documentInfo.metaInfo.File.abstract"/>
 
 <!-- ****************************************************************************** -->
 <!-- State for state.field.documentInfo.metaInfo.File.(default).(default).(default) -->
@@ -226,13 +229,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.file.meta.versionInd.cd"/>
 </dict:field>
 <dict:field key="versionInd" id="dict.file.meta.versionInd" parent="dict.file.meta.versionInd.abstract"/>
-<dict:fieldDescriptor key="versionInd" id="dict.file.meta.versionInd.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.file.meta.versionInd.fd.abstract" abstract="true">
 	<dict:name>file meta versionInd</dict:name>
 	<dict:desc>Version number for this file</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="versionInd" id="dict.file.meta.versionInd.fd" parent="dict.file.meta.versionInd.fd.abstract"/>
+<dict:fieldDescriptor id="dict.file.meta.versionInd.fd" parent="dict.file.meta.versionInd.fd.abstract"/>
 <dict:constraintDescriptor id="dict.file.meta.versionInd.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -250,12 +253,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.file.meta.createTime.cd"/>
 </dict:field>
 <dict:field key="createTime" id="dict.file.meta.createTime" parent="dict.file.meta.createTime.abstract"/>
-<dict:fieldDescriptor key="createTime" id="dict.file.meta.createTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.file.meta.createTime.fd.abstract" abstract="true">
 	<dict:name>file meta createTime</dict:name>
 	<dict:desc>Date-time this file was created</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createTime" id="dict.file.meta.createTime.fd" parent="dict.file.meta.createTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.file.meta.createTime.fd" parent="dict.file.meta.createTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.file.meta.createTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -272,13 +275,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.file.meta.createId.cd"/>
 </dict:field>
 <dict:field key="createId" id="dict.file.meta.createId" parent="dict.file.meta.createId.abstract"/>
-<dict:fieldDescriptor key="createId" id="dict.file.meta.createId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.file.meta.createId.fd.abstract" abstract="true">
 	<dict:name>file meta createId</dict:name>
 	<dict:desc>Principal of the persion who first created this file</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createId" id="dict.file.meta.createId.fd" parent="dict.file.meta.createId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.file.meta.createId.fd" parent="dict.file.meta.createId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.file.meta.createId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -295,12 +298,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.file.meta.updateTime.cd"/>
 </dict:field>
 <dict:field key="updateTime" id="dict.file.meta.updateTime" parent="dict.file.meta.updateTime.abstract"/>
-<dict:fieldDescriptor key="updateTime" id="dict.file.meta.updateTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.file.meta.updateTime.fd.abstract" abstract="true">
 	<dict:name>file meta updateTime</dict:name>
 	<dict:desc>Date-time this  file was last updated</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateTime" id="dict.file.meta.updateTime.fd" parent="dict.file.meta.updateTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.file.meta.updateTime.fd" parent="dict.file.meta.updateTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.file.meta.updateTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -317,13 +320,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.file.meta.updateId.cd"/>
 </dict:field>
 <dict:field key="updateId" id="dict.file.meta.updateId" parent="dict.file.meta.updateId.abstract"/>
-<dict:fieldDescriptor key="updateId" id="dict.file.meta.updateId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.file.meta.updateId.fd.abstract" abstract="true">
 	<dict:name>file meta updateId</dict:name>
 	<dict:desc>Principal of the persion who last updated this  file</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateId" id="dict.file.meta.updateId.fd" parent="dict.file.meta.updateId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.file.meta.updateId.fd" parent="dict.file.meta.updateId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.file.meta.updateId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -340,12 +343,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.file.name.cd"/>
 </dict:field>
 <dict:field key="name" id="dict.file.name" parent="dict.file.name.abstract"/>
-<dict:fieldDescriptor key="name" id="dict.file.name.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.file.name.fd.abstract" abstract="true">
 	<dict:name>file name</dict:name>
 	<dict:desc>file name</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="name" id="dict.file.name.fd" parent="dict.file.name.fd.abstract"/>
+<dict:fieldDescriptor id="dict.file.name.fd" parent="dict.file.name.fd.abstract"/>
 <dict:constraintDescriptor id="dict.file.name.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -361,12 +364,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.file.fileName.cd"/>
 </dict:field>
 <dict:field key="fileName" id="dict.file.fileName" parent="dict.file.fileName.abstract"/>
-<dict:fieldDescriptor key="fileName" id="dict.file.fileName.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.file.fileName.fd.abstract" abstract="true">
 	<dict:name>file fileName</dict:name>
 	<dict:desc>file fileName</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="fileName" id="dict.file.fileName.fd" parent="dict.file.fileName.fd.abstract"/>
+<dict:fieldDescriptor id="dict.file.fileName.fd" parent="dict.file.fileName.fd.abstract"/>
 <dict:constraintDescriptor id="dict.file.fileName.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -381,13 +384,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.file.desc.cd"/>
 </dict:field>
 <dict:field key="desc" id="dict.file.desc" parent="dict.file.desc.abstract"/>
-<dict:fieldDescriptor key="desc" id="dict.file.desc.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.file.desc.fd.abstract" abstract="true">
 	<dict:name>file desc</dict:name>
 	<dict:desc>file desc</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.documentInfo.desc.File"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="desc" id="dict.file.desc.fd" parent="dict.file.desc.fd.abstract"/>
+<dict:fieldDescriptor id="dict.file.desc.fd" parent="dict.file.desc.fd.abstract"/>
 <dict:constraintDescriptor id="dict.file.desc.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -403,13 +406,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.file.binary.info.cd"/>
 </dict:field>
 <dict:field key="documentBinaryInfo" id="dict.file.binary.info" parent="dict.file.binary.info.abstract"/>
-<dict:fieldDescriptor key="documentBinaryInfo" id="dict.file.binary.info.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.file.binary.info.fd.abstract" abstract="true">
 	<dict:name>file binary info</dict:name>
 	<dict:desc>file binary info</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.documentInfo.documentBinaryInfo.File"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="documentBinaryInfo" id="dict.file.binary.info.fd" parent="dict.file.binary.info.fd.abstract"/>
+<dict:fieldDescriptor id="dict.file.binary.info.fd" parent="dict.file.binary.info.fd.abstract"/>
 <dict:constraintDescriptor id="dict.file.binary.info.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -424,12 +427,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.file.effectiveDate.cd"/>
 </dict:field>
 <dict:field key="effectiveDate" id="dict.file.effectiveDate" parent="dict.file.effectiveDate.abstract"/>
-<dict:fieldDescriptor key="effectiveDate" id="dict.file.effectiveDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.file.effectiveDate.fd.abstract" abstract="true">
 	<dict:name>file effectiveDate</dict:name>
 	<dict:desc>file effectiveDate</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="effectiveDate" id="dict.file.effectiveDate.fd" parent="dict.file.effectiveDate.fd.abstract"/>
+<dict:fieldDescriptor id="dict.file.effectiveDate.fd" parent="dict.file.effectiveDate.fd.abstract"/>
 <dict:constraintDescriptor id="dict.file.effectiveDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -445,12 +448,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.file.expirationDate.cd"/>
 </dict:field>
 <dict:field key="expirationDate" id="dict.file.expirationDate" parent="dict.file.expirationDate.abstract"/>
-<dict:fieldDescriptor key="expirationDate" id="dict.file.expirationDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.file.expirationDate.fd.abstract" abstract="true">
 	<dict:name>file expirationDate</dict:name>
 	<dict:desc>file expirationDate</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="expirationDate" id="dict.file.expirationDate.fd" parent="dict.file.expirationDate.fd.abstract"/>
+<dict:fieldDescriptor id="dict.file.expirationDate.fd" parent="dict.file.expirationDate.fd.abstract"/>
 <dict:constraintDescriptor id="dict.file.expirationDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -466,13 +469,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.file.metaInfo.cd"/>
 </dict:field>
 <dict:field key="metaInfo" id="dict.file.metaInfo" parent="dict.file.metaInfo.abstract"/>
-<dict:fieldDescriptor key="metaInfo" id="dict.file.metaInfo.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.file.metaInfo.fd.abstract" abstract="true">
 	<dict:name>file metaInfo</dict:name>
 	<dict:desc>file metaInfo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.documentInfo.metaInfo.File"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="metaInfo" id="dict.file.metaInfo.fd" parent="dict.file.metaInfo.fd.abstract"/>
+<dict:fieldDescriptor id="dict.file.metaInfo.fd" parent="dict.file.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.file.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -488,12 +491,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.file.type.cd"/>
 </dict:field>
 <dict:field key="type" id="dict.file.type" parent="dict.file.type.abstract"/>
-<dict:fieldDescriptor key="type" id="dict.file.type.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.file.type.fd.abstract" abstract="true">
 	<dict:name>file type</dict:name>
 	<dict:desc>file type</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="type" id="dict.file.type.fd" parent="dict.file.type.fd.abstract"/>
+<dict:fieldDescriptor id="dict.file.type.fd" parent="dict.file.type.fd.abstract"/>
 <dict:constraintDescriptor id="dict.file.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -511,12 +514,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:selector>true</dict:selector>
 </dict:field>
 <dict:field key="state" id="dict.file.state" parent="dict.file.state.abstract"/>
-<dict:fieldDescriptor key="state" id="dict.file.state.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.file.state.fd.abstract" abstract="true">
 	<dict:name>file state</dict:name>
 	<dict:desc>file state</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="state" id="dict.file.state.fd" parent="dict.file.state.fd.abstract"/>
+<dict:fieldDescriptor id="dict.file.state.fd" parent="dict.file.state.fd.abstract"/>
 <dict:constraintDescriptor id="dict.file.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -532,12 +535,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.file.internal.id.cd"/>
 </dict:field>
 <dict:field key="id" id="dict.file.internal.id" parent="dict.file.internal.id.abstract"/>
-<dict:fieldDescriptor key="id" id="dict.file.internal.id.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.file.internal.id.fd.abstract" abstract="true">
 	<dict:name>file internal id</dict:name>
 	<dict:desc>file internal id</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="id" id="dict.file.internal.id.fd" parent="dict.file.internal.id.fd.abstract"/>
+<dict:fieldDescriptor id="dict.file.internal.id.fd" parent="dict.file.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.file.internal.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>

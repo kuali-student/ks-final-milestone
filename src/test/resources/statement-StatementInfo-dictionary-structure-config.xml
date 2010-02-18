@@ -7,7 +7,7 @@ http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/d
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Thu Feb 18 11:40:05 EST 2010
+on: Thu Feb 18 13:33:56 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -58,7 +58,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Friendly name for the statement.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="name" id="field.statementInfo.name.fd" parent="field.statementInfo.name.fd.abstract"/>
+<dict:fieldDescriptor id="field.statementInfo.name.fd" parent="field.statementInfo.name.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); A basic single line of text, no embedded carraige returns or tabs limited to 255 -->
 <dict:constraintDescriptor id="field.statementInfo.name.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -78,7 +78,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.statementInfo.desc"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="desc" id="field.statementInfo.desc.fd" parent="field.statementInfo.desc.fd.abstract"/>
+<dict:fieldDescriptor id="field.statementInfo.desc.fd" parent="field.statementInfo.desc.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating) -->
 <dict:constraintDescriptor id="field.statementInfo.desc.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -125,7 +125,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="plain" id="field.statementInfo.desc.plain.fd" parent="field.statementInfo.desc.plain.fd.abstract"/>
+<dict:fieldDescriptor id="field.statementInfo.desc.plain.fd" parent="field.statementInfo.desc.plain.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating); Multi-line text field that accepts all printable characters plus tab, carraige-return and linefeed. -->
 <dict:constraintDescriptor id="field.statementInfo.desc.plain.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
@@ -147,7 +147,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Formatted version of the text.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="formatted" id="field.statementInfo.desc.formatted.fd" parent="field.statementInfo.desc.formatted.fd.abstract"/>
+<dict:fieldDescriptor id="field.statementInfo.desc.formatted.fd" parent="field.statementInfo.desc.formatted.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Text field that accepts all types of characters using some sort of escaping convention along with the ability to specify bolding, font size, color etc. -->
 <dict:constraintDescriptor id="field.statementInfo.desc.formatted.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -169,7 +169,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Logical operator used to assemble statements. Acceptable values are restricted to AND and OR. This operator applies to both the statements and requirement components contained within this statement.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="operator" id="field.statementInfo.operator.fd" parent="field.statementInfo.operator.fd.abstract"/>
+<dict:fieldDescriptor id="field.statementInfo.operator.fd" parent="field.statementInfo.operator.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Alphanumeric code, hypen and period.; In list of configured statement operators (AND and OR) -->
 <dict:constraintDescriptor id="field.statementInfo.operator.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -190,7 +190,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>List of statement identifiers.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="statementIds" id="field.statementInfo.statementIds.fd" parent="field.statementInfo.statementIds.fd.abstract"/>
+<dict:fieldDescriptor id="field.statementInfo.statementIds.fd" parent="field.statementInfo.statementIds.fd.abstract"/>
 <!-- Optional; Repeating; Id of an existing Statement -->
 <dict:constraintDescriptor id="field.statementInfo.statementIds.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -210,7 +210,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>List of requirement component identifiers.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="reqComponentIds" id="field.statementInfo.reqComponentIds.fd" parent="field.statementInfo.reqComponentIds.fd.abstract"/>
+<dict:fieldDescriptor id="field.statementInfo.reqComponentIds.fd" parent="field.statementInfo.reqComponentIds.fd.abstract"/>
 <!-- Optional; Repeating; Id of an existing requirement component -->
 <dict:constraintDescriptor id="field.statementInfo.reqComponentIds.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -231,7 +231,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:objectStructureRef bean="object.field.statementInfo.metaInfo"/>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="metaInfo" id="field.statementInfo.metaInfo.fd" parent="field.statementInfo.metaInfo.fd.abstract"/>
+<dict:fieldDescriptor id="field.statementInfo.metaInfo.fd" parent="field.statementInfo.metaInfo.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating) -->
 <dict:constraintDescriptor id="field.statementInfo.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
@@ -281,7 +281,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="versionInd" id="field.statementInfo.metaInfo.versionInd.fd" parent="field.statementInfo.metaInfo.versionInd.fd.abstract"/>
+<dict:fieldDescriptor id="field.statementInfo.metaInfo.versionInd.fd" parent="field.statementInfo.metaInfo.versionInd.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Calculates the version indicator that is used for optimistic locking; Read Only -->
 <dict:constraintDescriptor id="field.statementInfo.metaInfo.versionInd.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -301,7 +301,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>The date and time the thing being described with this meta information was created</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createTime" id="field.statementInfo.metaInfo.createTime.fd" parent="field.statementInfo.metaInfo.createTime.fd.abstract"/>
+<dict:fieldDescriptor id="field.statementInfo.metaInfo.createTime.fd" parent="field.statementInfo.metaInfo.createTime.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Date-Time; Defaults to NOW, when the object is created -->
 <dict:constraintDescriptor id="field.statementInfo.metaInfo.createTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -322,7 +322,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createId" id="field.statementInfo.metaInfo.createId.fd" parent="field.statementInfo.metaInfo.createId.fd.abstract"/>
+<dict:fieldDescriptor id="field.statementInfo.metaInfo.createId.fd" parent="field.statementInfo.metaInfo.createId.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Defaults to the currently authenticated user -->
 <dict:constraintDescriptor id="field.statementInfo.metaInfo.createId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
@@ -342,7 +342,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateTime" id="field.statementInfo.metaInfo.updateTime.fd" parent="field.statementInfo.metaInfo.updateTime.fd.abstract"/>
+<dict:fieldDescriptor id="field.statementInfo.metaInfo.updateTime.fd" parent="field.statementInfo.metaInfo.updateTime.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Date-Time; Sets a field to the current time -->
 <dict:constraintDescriptor id="field.statementInfo.metaInfo.updateTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -363,7 +363,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateId" id="field.statementInfo.metaInfo.updateId.fd" parent="field.statementInfo.metaInfo.updateId.fd.abstract"/>
+<dict:fieldDescriptor id="field.statementInfo.metaInfo.updateId.fd" parent="field.statementInfo.metaInfo.updateId.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Sets a field to the currently authenticated user -->
 <dict:constraintDescriptor id="field.statementInfo.metaInfo.updateId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
@@ -383,7 +383,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Unique identifier for an statement type.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="type" id="field.statementInfo.type.fd" parent="field.statementInfo.type.fd.abstract"/>
+<dict:fieldDescriptor id="field.statementInfo.type.fd" parent="field.statementInfo.type.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Kuali TYPE: required on add, then read-only; In list of valid statement types -->
 <dict:constraintDescriptor id="field.statementInfo.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -403,7 +403,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>The current status of the statement. The values for this field are constrained to those in the StatementState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="state" id="field.statementInfo.state.fd" parent="field.statementInfo.state.fd.abstract"/>
+<dict:fieldDescriptor id="field.statementInfo.state.fd" parent="field.statementInfo.state.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Kuali STATE; In list of valid statement states -->
 <dict:constraintDescriptor id="field.statementInfo.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -424,7 +424,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="id" id="field.statementInfo.id.fd" parent="field.statementInfo.id.fd.abstract"/>
+<dict:fieldDescriptor id="field.statementInfo.id.fd" parent="field.statementInfo.id.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only. -->
 <dict:constraintDescriptor id="field.statementInfo.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>

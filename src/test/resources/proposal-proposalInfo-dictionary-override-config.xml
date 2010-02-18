@@ -7,7 +7,7 @@ http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/d
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Thu Feb 18 11:40:06 EST 2010
+on: Thu Feb 18 13:33:57 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -384,6 +384,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.proposalInfo.metaInfo.AllCourseProposalTypes"/>
 </dict:type>
+<dict:type key="*" id="type.field.proposalInfo.metaInfo.AllCourseProposalTypes" parent="type.field.proposalInfo.metaInfo.AllCourseProposalTypes.abstract"/>
 
 <!-- *************************************************************************************************** -->
 <!-- State for state.field.proposalInfo.metaInfo.All Course Proposal Types.(default).(default).(default) -->
@@ -406,13 +407,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.course.proposals.meta.versionInd.cd"/>
 </dict:field>
 <dict:field key="versionInd" id="dict.all.course.proposals.meta.versionInd" parent="dict.all.course.proposals.meta.versionInd.abstract"/>
-<dict:fieldDescriptor key="versionInd" id="dict.all.course.proposals.meta.versionInd.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.course.proposals.meta.versionInd.fd.abstract" abstract="true">
 	<dict:name>all course proposals meta versionInd</dict:name>
 	<dict:desc>Version number for this all course proposals</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="versionInd" id="dict.all.course.proposals.meta.versionInd.fd" parent="dict.all.course.proposals.meta.versionInd.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.meta.versionInd.fd" parent="dict.all.course.proposals.meta.versionInd.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.course.proposals.meta.versionInd.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -430,12 +431,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.course.proposals.meta.createTime.cd"/>
 </dict:field>
 <dict:field key="createTime" id="dict.all.course.proposals.meta.createTime" parent="dict.all.course.proposals.meta.createTime.abstract"/>
-<dict:fieldDescriptor key="createTime" id="dict.all.course.proposals.meta.createTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.course.proposals.meta.createTime.fd.abstract" abstract="true">
 	<dict:name>all course proposals meta createTime</dict:name>
 	<dict:desc>Date-time this all course proposals was created</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createTime" id="dict.all.course.proposals.meta.createTime.fd" parent="dict.all.course.proposals.meta.createTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.meta.createTime.fd" parent="dict.all.course.proposals.meta.createTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.course.proposals.meta.createTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -452,13 +453,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.course.proposals.meta.createId.cd"/>
 </dict:field>
 <dict:field key="createId" id="dict.all.course.proposals.meta.createId" parent="dict.all.course.proposals.meta.createId.abstract"/>
-<dict:fieldDescriptor key="createId" id="dict.all.course.proposals.meta.createId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.course.proposals.meta.createId.fd.abstract" abstract="true">
 	<dict:name>all course proposals meta createId</dict:name>
 	<dict:desc>Principal of the persion who first created this all course proposals</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createId" id="dict.all.course.proposals.meta.createId.fd" parent="dict.all.course.proposals.meta.createId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.meta.createId.fd" parent="dict.all.course.proposals.meta.createId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.course.proposals.meta.createId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -475,12 +476,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.course.proposals.meta.updateTime.cd"/>
 </dict:field>
 <dict:field key="updateTime" id="dict.all.course.proposals.meta.updateTime" parent="dict.all.course.proposals.meta.updateTime.abstract"/>
-<dict:fieldDescriptor key="updateTime" id="dict.all.course.proposals.meta.updateTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.course.proposals.meta.updateTime.fd.abstract" abstract="true">
 	<dict:name>all course proposals meta updateTime</dict:name>
 	<dict:desc>Date-time this  all course proposals was last updated</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateTime" id="dict.all.course.proposals.meta.updateTime.fd" parent="dict.all.course.proposals.meta.updateTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.meta.updateTime.fd" parent="dict.all.course.proposals.meta.updateTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.course.proposals.meta.updateTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -497,13 +498,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.course.proposals.meta.updateId.cd"/>
 </dict:field>
 <dict:field key="updateId" id="dict.all.course.proposals.meta.updateId" parent="dict.all.course.proposals.meta.updateId.abstract"/>
-<dict:fieldDescriptor key="updateId" id="dict.all.course.proposals.meta.updateId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.course.proposals.meta.updateId.fd.abstract" abstract="true">
 	<dict:name>all course proposals meta updateId</dict:name>
 	<dict:desc>Principal of the persion who last updated this  all course proposals</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateId" id="dict.all.course.proposals.meta.updateId.fd" parent="dict.all.course.proposals.meta.updateId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.meta.updateId.fd" parent="dict.all.course.proposals.meta.updateId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.course.proposals.meta.updateId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -528,6 +529,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.proposalInfo.metaInfo.AllCourseProposalTypes.draft"/>
 </dict:type>
+<dict:type key="*" id="type.field.proposalInfo.metaInfo.AllCourseProposalTypes.draft" parent="type.field.proposalInfo.metaInfo.AllCourseProposalTypes.draft.abstract"/>
 
 <!-- *********************************************************************************************** -->
 <!-- State for state.field.proposalInfo.metaInfo.All Course Proposal Types.draft.(default).(default) -->
@@ -557,6 +559,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.proposalInfo.metaInfo.AllProgramProposalTypes"/>
 </dict:type>
+<dict:type key="*" id="type.field.proposalInfo.metaInfo.AllProgramProposalTypes" parent="type.field.proposalInfo.metaInfo.AllProgramProposalTypes.abstract"/>
 
 <!-- **************************************************************************************************** -->
 <!-- State for state.field.proposalInfo.metaInfo.All Program Proposal Types.(default).(default).(default) -->
@@ -579,13 +582,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.program.proposals.meta.versionInd.cd"/>
 </dict:field>
 <dict:field key="versionInd" id="dict.all.program.proposals.meta.versionInd" parent="dict.all.program.proposals.meta.versionInd.abstract"/>
-<dict:fieldDescriptor key="versionInd" id="dict.all.program.proposals.meta.versionInd.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.program.proposals.meta.versionInd.fd.abstract" abstract="true">
 	<dict:name>all program proposals meta versionInd</dict:name>
 	<dict:desc>Version number for this all program proposals</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="versionInd" id="dict.all.program.proposals.meta.versionInd.fd" parent="dict.all.program.proposals.meta.versionInd.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.meta.versionInd.fd" parent="dict.all.program.proposals.meta.versionInd.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.program.proposals.meta.versionInd.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -603,12 +606,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.program.proposals.meta.createTime.cd"/>
 </dict:field>
 <dict:field key="createTime" id="dict.all.program.proposals.meta.createTime" parent="dict.all.program.proposals.meta.createTime.abstract"/>
-<dict:fieldDescriptor key="createTime" id="dict.all.program.proposals.meta.createTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.program.proposals.meta.createTime.fd.abstract" abstract="true">
 	<dict:name>all program proposals meta createTime</dict:name>
 	<dict:desc>Date-time this all program proposals was created</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createTime" id="dict.all.program.proposals.meta.createTime.fd" parent="dict.all.program.proposals.meta.createTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.meta.createTime.fd" parent="dict.all.program.proposals.meta.createTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.program.proposals.meta.createTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -625,13 +628,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.program.proposals.meta.createId.cd"/>
 </dict:field>
 <dict:field key="createId" id="dict.all.program.proposals.meta.createId" parent="dict.all.program.proposals.meta.createId.abstract"/>
-<dict:fieldDescriptor key="createId" id="dict.all.program.proposals.meta.createId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.program.proposals.meta.createId.fd.abstract" abstract="true">
 	<dict:name>all program proposals meta createId</dict:name>
 	<dict:desc>Principal of the persion who first created this all program proposals</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createId" id="dict.all.program.proposals.meta.createId.fd" parent="dict.all.program.proposals.meta.createId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.meta.createId.fd" parent="dict.all.program.proposals.meta.createId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.program.proposals.meta.createId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -648,12 +651,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.program.proposals.meta.updateTime.cd"/>
 </dict:field>
 <dict:field key="updateTime" id="dict.all.program.proposals.meta.updateTime" parent="dict.all.program.proposals.meta.updateTime.abstract"/>
-<dict:fieldDescriptor key="updateTime" id="dict.all.program.proposals.meta.updateTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.program.proposals.meta.updateTime.fd.abstract" abstract="true">
 	<dict:name>all program proposals meta updateTime</dict:name>
 	<dict:desc>Date-time this  all program proposals was last updated</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateTime" id="dict.all.program.proposals.meta.updateTime.fd" parent="dict.all.program.proposals.meta.updateTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.meta.updateTime.fd" parent="dict.all.program.proposals.meta.updateTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.program.proposals.meta.updateTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -670,13 +673,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.program.proposals.meta.updateId.cd"/>
 </dict:field>
 <dict:field key="updateId" id="dict.all.program.proposals.meta.updateId" parent="dict.all.program.proposals.meta.updateId.abstract"/>
-<dict:fieldDescriptor key="updateId" id="dict.all.program.proposals.meta.updateId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.program.proposals.meta.updateId.fd.abstract" abstract="true">
 	<dict:name>all program proposals meta updateId</dict:name>
 	<dict:desc>Principal of the persion who last updated this  all program proposals</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateId" id="dict.all.program.proposals.meta.updateId.fd" parent="dict.all.program.proposals.meta.updateId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.meta.updateId.fd" parent="dict.all.program.proposals.meta.updateId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.program.proposals.meta.updateId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -701,6 +704,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.proposalInfo.metaInfo.AllProgramProposalTypes.draft"/>
 </dict:type>
+<dict:type key="*" id="type.field.proposalInfo.metaInfo.AllProgramProposalTypes.draft" parent="type.field.proposalInfo.metaInfo.AllProgramProposalTypes.draft.abstract"/>
 
 <!-- ************************************************************************************************ -->
 <!-- State for state.field.proposalInfo.metaInfo.All Program Proposal Types.draft.(default).(default) -->
@@ -730,6 +734,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.proposalInfo.metaInfo.Grouped"/>
 </dict:type>
+<dict:type key="*" id="type.field.proposalInfo.metaInfo.Grouped" parent="type.field.proposalInfo.metaInfo.Grouped.abstract"/>
 
 <!-- ********************************************************************************* -->
 <!-- State for state.field.proposalInfo.metaInfo.Grouped.(default).(default).(default) -->
@@ -752,13 +757,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.group.proposal.meta.versionInd.cd"/>
 </dict:field>
 <dict:field key="versionInd" id="dict.group.proposal.meta.versionInd" parent="dict.group.proposal.meta.versionInd.abstract"/>
-<dict:fieldDescriptor key="versionInd" id="dict.group.proposal.meta.versionInd.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.group.proposal.meta.versionInd.fd.abstract" abstract="true">
 	<dict:name>create course proposal meta versionInd</dict:name>
 	<dict:desc>Version number for this create course proposal</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="versionInd" id="dict.group.proposal.meta.versionInd.fd" parent="dict.group.proposal.meta.versionInd.fd.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.meta.versionInd.fd" parent="dict.group.proposal.meta.versionInd.fd.abstract"/>
 <dict:constraintDescriptor id="dict.group.proposal.meta.versionInd.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -776,12 +781,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.group.proposal.meta.createTime.cd"/>
 </dict:field>
 <dict:field key="createTime" id="dict.group.proposal.meta.createTime" parent="dict.group.proposal.meta.createTime.abstract"/>
-<dict:fieldDescriptor key="createTime" id="dict.group.proposal.meta.createTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.group.proposal.meta.createTime.fd.abstract" abstract="true">
 	<dict:name>create course proposal meta createTime</dict:name>
 	<dict:desc>Date-time this create course proposal was created</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createTime" id="dict.group.proposal.meta.createTime.fd" parent="dict.group.proposal.meta.createTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.meta.createTime.fd" parent="dict.group.proposal.meta.createTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.group.proposal.meta.createTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -798,13 +803,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.group.proposal.meta.createId.cd"/>
 </dict:field>
 <dict:field key="createId" id="dict.group.proposal.meta.createId" parent="dict.group.proposal.meta.createId.abstract"/>
-<dict:fieldDescriptor key="createId" id="dict.group.proposal.meta.createId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.group.proposal.meta.createId.fd.abstract" abstract="true">
 	<dict:name>create course proposal meta createId</dict:name>
 	<dict:desc>Principal of the persion who first created this create course proposal</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createId" id="dict.group.proposal.meta.createId.fd" parent="dict.group.proposal.meta.createId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.meta.createId.fd" parent="dict.group.proposal.meta.createId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.group.proposal.meta.createId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -821,12 +826,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.group.proposal.meta.updateTime.cd"/>
 </dict:field>
 <dict:field key="updateTime" id="dict.group.proposal.meta.updateTime" parent="dict.group.proposal.meta.updateTime.abstract"/>
-<dict:fieldDescriptor key="updateTime" id="dict.group.proposal.meta.updateTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.group.proposal.meta.updateTime.fd.abstract" abstract="true">
 	<dict:name>create course proposal meta updateTime</dict:name>
 	<dict:desc>Date-time this  create course proposal was last updated</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateTime" id="dict.group.proposal.meta.updateTime.fd" parent="dict.group.proposal.meta.updateTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.meta.updateTime.fd" parent="dict.group.proposal.meta.updateTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.group.proposal.meta.updateTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -843,13 +848,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.group.proposal.meta.updateId.cd"/>
 </dict:field>
 <dict:field key="updateId" id="dict.group.proposal.meta.updateId" parent="dict.group.proposal.meta.updateId.abstract"/>
-<dict:fieldDescriptor key="updateId" id="dict.group.proposal.meta.updateId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.group.proposal.meta.updateId.fd.abstract" abstract="true">
 	<dict:name>create course proposal meta updateId</dict:name>
 	<dict:desc>Principal of the persion who last updated this  create course proposal</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateId" id="dict.group.proposal.meta.updateId.fd" parent="dict.group.proposal.meta.updateId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.meta.updateId.fd" parent="dict.group.proposal.meta.updateId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.group.proposal.meta.updateId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -874,6 +879,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.proposalInfo.metaInfo.Grouped.draft"/>
 </dict:type>
+<dict:type key="*" id="type.field.proposalInfo.metaInfo.Grouped.draft" parent="type.field.proposalInfo.metaInfo.Grouped.draft.abstract"/>
 
 <!-- ***************************************************************************** -->
 <!-- State for state.field.proposalInfo.metaInfo.Grouped.draft.(default).(default) -->
@@ -895,12 +901,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.course.proposals.name.cd"/>
 </dict:field>
 <dict:field key="name" id="dict.all.course.proposals.name" parent="dict.all.course.proposals.name.abstract"/>
-<dict:fieldDescriptor key="name" id="dict.all.course.proposals.name.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.course.proposals.name.fd.abstract" abstract="true">
 	<dict:name>all course proposals name</dict:name>
 	<dict:desc>all course proposals name</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="name" id="dict.all.course.proposals.name.fd" parent="dict.all.course.proposals.name.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.name.fd" parent="dict.all.course.proposals.name.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.course.proposals.name.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -916,12 +922,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.course.proposals.proposerPerson.cd"/>
 </dict:field>
 <dict:field key="proposerPerson" id="dict.all.course.proposals.proposerPerson" parent="dict.all.course.proposals.proposerPerson.abstract"/>
-<dict:fieldDescriptor key="proposerPerson" id="dict.all.course.proposals.proposerPerson.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.course.proposals.proposerPerson.fd.abstract" abstract="true">
 	<dict:name>all course proposals proposerPerson</dict:name>
 	<dict:desc>all course proposals proposerPerson</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="proposerPerson" id="dict.all.course.proposals.proposerPerson.fd" parent="dict.all.course.proposals.proposerPerson.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.proposerPerson.fd" parent="dict.all.course.proposals.proposerPerson.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.course.proposals.proposerPerson.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.repeating"/>
@@ -937,12 +943,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.course.proposals.proposerOrg.cd"/>
 </dict:field>
 <dict:field key="proposerOrg" id="dict.all.course.proposals.proposerOrg" parent="dict.all.course.proposals.proposerOrg.abstract"/>
-<dict:fieldDescriptor key="proposerOrg" id="dict.all.course.proposals.proposerOrg.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.course.proposals.proposerOrg.fd.abstract" abstract="true">
 	<dict:name>all course proposals proposerOrg</dict:name>
 	<dict:desc>all course proposals proposerOrg</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="proposerOrg" id="dict.all.course.proposals.proposerOrg.fd" parent="dict.all.course.proposals.proposerOrg.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.proposerOrg.fd" parent="dict.all.course.proposals.proposerOrg.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.course.proposals.proposerOrg.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.repeating"/>
@@ -958,12 +964,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.course.proposals.proposalReferenceType.cd"/>
 </dict:field>
 <dict:field key="proposalReferenceType" id="dict.all.course.proposals.proposalReferenceType" parent="dict.all.course.proposals.proposalReferenceType.abstract"/>
-<dict:fieldDescriptor key="proposalReferenceType" id="dict.all.course.proposals.proposalReferenceType.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.course.proposals.proposalReferenceType.fd.abstract" abstract="true">
 	<dict:name>all course proposals proposalReferenceType</dict:name>
 	<dict:desc>all course proposals proposalReferenceType</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="proposalReferenceType" id="dict.all.course.proposals.proposalReferenceType.fd" parent="dict.all.course.proposals.proposalReferenceType.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.proposalReferenceType.fd" parent="dict.all.course.proposals.proposalReferenceType.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.course.proposals.proposalReferenceType.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -980,12 +986,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.course.proposals.proposalReference.cd"/>
 </dict:field>
 <dict:field key="proposalReference" id="dict.all.course.proposals.proposalReference" parent="dict.all.course.proposals.proposalReference.abstract"/>
-<dict:fieldDescriptor key="proposalReference" id="dict.all.course.proposals.proposalReference.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.course.proposals.proposalReference.fd.abstract" abstract="true">
 	<dict:name>all course proposals proposalReference</dict:name>
 	<dict:desc>all course proposals proposalReference</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="proposalReference" id="dict.all.course.proposals.proposalReference.fd" parent="dict.all.course.proposals.proposalReference.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.proposalReference.fd" parent="dict.all.course.proposals.proposalReference.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.course.proposals.proposalReference.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.repeating"/>
@@ -1001,12 +1007,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.course.proposals.rationale.cd"/>
 </dict:field>
 <dict:field key="rationale" id="dict.all.course.proposals.rationale" parent="dict.all.course.proposals.rationale.abstract"/>
-<dict:fieldDescriptor key="rationale" id="dict.all.course.proposals.rationale.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.course.proposals.rationale.fd.abstract" abstract="true">
 	<dict:name>all course proposals rationale</dict:name>
 	<dict:desc>all course proposals rationale</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="rationale" id="dict.all.course.proposals.rationale.fd" parent="dict.all.course.proposals.rationale.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.rationale.fd" parent="dict.all.course.proposals.rationale.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.course.proposals.rationale.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1023,12 +1029,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.course.proposals.detailDesc.cd"/>
 </dict:field>
 <dict:field key="detailDesc" id="dict.all.course.proposals.detailDesc" parent="dict.all.course.proposals.detailDesc.abstract"/>
-<dict:fieldDescriptor key="detailDesc" id="dict.all.course.proposals.detailDesc.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.course.proposals.detailDesc.fd.abstract" abstract="true">
 	<dict:name>all course proposals detailDesc</dict:name>
 	<dict:desc>all course proposals detailDesc</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="detailDesc" id="dict.all.course.proposals.detailDesc.fd" parent="dict.all.course.proposals.detailDesc.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.detailDesc.fd" parent="dict.all.course.proposals.detailDesc.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.course.proposals.detailDesc.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1045,12 +1051,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.course.proposals.effectiveDate.cd"/>
 </dict:field>
 <dict:field key="effectiveDate" id="dict.all.course.proposals.effectiveDate" parent="dict.all.course.proposals.effectiveDate.abstract"/>
-<dict:fieldDescriptor key="effectiveDate" id="dict.all.course.proposals.effectiveDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.course.proposals.effectiveDate.fd.abstract" abstract="true">
 	<dict:name>all course proposals effectiveDate</dict:name>
 	<dict:desc>all course proposals effectiveDate</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="effectiveDate" id="dict.all.course.proposals.effectiveDate.fd" parent="dict.all.course.proposals.effectiveDate.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.effectiveDate.fd" parent="dict.all.course.proposals.effectiveDate.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.course.proposals.effectiveDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1066,12 +1072,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.course.proposals.expirationDate.cd"/>
 </dict:field>
 <dict:field key="expirationDate" id="dict.all.course.proposals.expirationDate" parent="dict.all.course.proposals.expirationDate.abstract"/>
-<dict:fieldDescriptor key="expirationDate" id="dict.all.course.proposals.expirationDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.course.proposals.expirationDate.fd.abstract" abstract="true">
 	<dict:name>all course proposals expirationDate</dict:name>
 	<dict:desc>all course proposals expirationDate</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="expirationDate" id="dict.all.course.proposals.expirationDate.fd" parent="dict.all.course.proposals.expirationDate.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.expirationDate.fd" parent="dict.all.course.proposals.expirationDate.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.course.proposals.expirationDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1087,13 +1093,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.course.proposals.metaInfo.cd"/>
 </dict:field>
 <dict:field key="metaInfo" id="dict.all.course.proposals.metaInfo" parent="dict.all.course.proposals.metaInfo.abstract"/>
-<dict:fieldDescriptor key="metaInfo" id="dict.all.course.proposals.metaInfo.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.course.proposals.metaInfo.fd.abstract" abstract="true">
 	<dict:name>all course proposals metaInfo</dict:name>
 	<dict:desc>all course proposals metaInfo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.proposalInfo.metaInfo.AllCourseProposalTypes"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="metaInfo" id="dict.all.course.proposals.metaInfo.fd" parent="dict.all.course.proposals.metaInfo.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.metaInfo.fd" parent="dict.all.course.proposals.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.course.proposals.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1109,12 +1115,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.course.proposals.type.cd"/>
 </dict:field>
 <dict:field key="type" id="dict.all.course.proposals.type" parent="dict.all.course.proposals.type.abstract"/>
-<dict:fieldDescriptor key="type" id="dict.all.course.proposals.type.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.course.proposals.type.fd.abstract" abstract="true">
 	<dict:name>all course proposals type</dict:name>
 	<dict:desc>all course proposals type</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="type" id="dict.all.course.proposals.type.fd" parent="dict.all.course.proposals.type.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.type.fd" parent="dict.all.course.proposals.type.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.course.proposals.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1132,12 +1138,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:selector>true</dict:selector>
 </dict:field>
 <dict:field key="state" id="dict.all.course.proposals.state" parent="dict.all.course.proposals.state.abstract"/>
-<dict:fieldDescriptor key="state" id="dict.all.course.proposals.state.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.course.proposals.state.fd.abstract" abstract="true">
 	<dict:name>all course proposals state</dict:name>
 	<dict:desc>all course proposals state</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="state" id="dict.all.course.proposals.state.fd" parent="dict.all.course.proposals.state.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.state.fd" parent="dict.all.course.proposals.state.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.course.proposals.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1153,12 +1159,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.course.proposals.internal.id.cd"/>
 </dict:field>
 <dict:field key="id" id="dict.all.course.proposals.internal.id" parent="dict.all.course.proposals.internal.id.abstract"/>
-<dict:fieldDescriptor key="id" id="dict.all.course.proposals.internal.id.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.course.proposals.internal.id.fd.abstract" abstract="true">
 	<dict:name>all course proposals internal id</dict:name>
 	<dict:desc>all course proposals internal id</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="id" id="dict.all.course.proposals.internal.id.fd" parent="dict.all.course.proposals.internal.id.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.internal.id.fd" parent="dict.all.course.proposals.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.course.proposals.internal.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1175,12 +1181,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.course.proposals.rationale.draft.cd"/>
 </dict:field>
 <dict:field key="rationale" id="dict.all.course.proposals.rationale.draft" parent="dict.all.course.proposals.rationale.draft.abstract"/>
-<dict:fieldDescriptor key="rationale" id="dict.all.course.proposals.rationale.draft.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.course.proposals.rationale.draft.fd.abstract" abstract="true">
 	<dict:name>all course proposals rationale</dict:name>
 	<dict:desc>all course proposals rationale</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="rationale" id="dict.all.course.proposals.rationale.draft.fd" parent="dict.all.course.proposals.rationale.draft.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.course.proposals.rationale.draft.fd" parent="dict.all.course.proposals.rationale.draft.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.course.proposals.rationale.draft.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1197,12 +1203,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.program.proposals.name.cd"/>
 </dict:field>
 <dict:field key="name" id="dict.all.program.proposals.name" parent="dict.all.program.proposals.name.abstract"/>
-<dict:fieldDescriptor key="name" id="dict.all.program.proposals.name.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.program.proposals.name.fd.abstract" abstract="true">
 	<dict:name>all program proposals name</dict:name>
 	<dict:desc>all program proposals name</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="name" id="dict.all.program.proposals.name.fd" parent="dict.all.program.proposals.name.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.name.fd" parent="dict.all.program.proposals.name.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.program.proposals.name.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1218,12 +1224,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.program.proposals.proposerPerson.cd"/>
 </dict:field>
 <dict:field key="proposerPerson" id="dict.all.program.proposals.proposerPerson" parent="dict.all.program.proposals.proposerPerson.abstract"/>
-<dict:fieldDescriptor key="proposerPerson" id="dict.all.program.proposals.proposerPerson.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.program.proposals.proposerPerson.fd.abstract" abstract="true">
 	<dict:name>all program proposals proposerPerson</dict:name>
 	<dict:desc>all program proposals proposerPerson</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="proposerPerson" id="dict.all.program.proposals.proposerPerson.fd" parent="dict.all.program.proposals.proposerPerson.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.proposerPerson.fd" parent="dict.all.program.proposals.proposerPerson.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.program.proposals.proposerPerson.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.repeating"/>
@@ -1239,12 +1245,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.program.proposals.proposerOrg.cd"/>
 </dict:field>
 <dict:field key="proposerOrg" id="dict.all.program.proposals.proposerOrg" parent="dict.all.program.proposals.proposerOrg.abstract"/>
-<dict:fieldDescriptor key="proposerOrg" id="dict.all.program.proposals.proposerOrg.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.program.proposals.proposerOrg.fd.abstract" abstract="true">
 	<dict:name>all program proposals proposerOrg</dict:name>
 	<dict:desc>all program proposals proposerOrg</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="proposerOrg" id="dict.all.program.proposals.proposerOrg.fd" parent="dict.all.program.proposals.proposerOrg.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.proposerOrg.fd" parent="dict.all.program.proposals.proposerOrg.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.program.proposals.proposerOrg.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.repeating"/>
@@ -1260,12 +1266,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.program.proposals.proposalReferenceType.cd"/>
 </dict:field>
 <dict:field key="proposalReferenceType" id="dict.all.program.proposals.proposalReferenceType" parent="dict.all.program.proposals.proposalReferenceType.abstract"/>
-<dict:fieldDescriptor key="proposalReferenceType" id="dict.all.program.proposals.proposalReferenceType.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.program.proposals.proposalReferenceType.fd.abstract" abstract="true">
 	<dict:name>all program proposals proposalReferenceType</dict:name>
 	<dict:desc>all program proposals proposalReferenceType</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="proposalReferenceType" id="dict.all.program.proposals.proposalReferenceType.fd" parent="dict.all.program.proposals.proposalReferenceType.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.proposalReferenceType.fd" parent="dict.all.program.proposals.proposalReferenceType.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.program.proposals.proposalReferenceType.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1282,12 +1288,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.program.proposals.proposalReference.cd"/>
 </dict:field>
 <dict:field key="proposalReference" id="dict.all.program.proposals.proposalReference" parent="dict.all.program.proposals.proposalReference.abstract"/>
-<dict:fieldDescriptor key="proposalReference" id="dict.all.program.proposals.proposalReference.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.program.proposals.proposalReference.fd.abstract" abstract="true">
 	<dict:name>all program proposals proposalReference</dict:name>
 	<dict:desc>all program proposals proposalReference</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="proposalReference" id="dict.all.program.proposals.proposalReference.fd" parent="dict.all.program.proposals.proposalReference.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.proposalReference.fd" parent="dict.all.program.proposals.proposalReference.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.program.proposals.proposalReference.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.repeating"/>
@@ -1303,12 +1309,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.program.proposals.rationale.cd"/>
 </dict:field>
 <dict:field key="rationale" id="dict.all.program.proposals.rationale" parent="dict.all.program.proposals.rationale.abstract"/>
-<dict:fieldDescriptor key="rationale" id="dict.all.program.proposals.rationale.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.program.proposals.rationale.fd.abstract" abstract="true">
 	<dict:name>all program proposals rationale</dict:name>
 	<dict:desc>all program proposals rationale</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="rationale" id="dict.all.program.proposals.rationale.fd" parent="dict.all.program.proposals.rationale.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.rationale.fd" parent="dict.all.program.proposals.rationale.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.program.proposals.rationale.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1325,12 +1331,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.program.proposals.detailDesc.cd"/>
 </dict:field>
 <dict:field key="detailDesc" id="dict.all.program.proposals.detailDesc" parent="dict.all.program.proposals.detailDesc.abstract"/>
-<dict:fieldDescriptor key="detailDesc" id="dict.all.program.proposals.detailDesc.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.program.proposals.detailDesc.fd.abstract" abstract="true">
 	<dict:name>all program proposals detailDesc</dict:name>
 	<dict:desc>all program proposals detailDesc</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="detailDesc" id="dict.all.program.proposals.detailDesc.fd" parent="dict.all.program.proposals.detailDesc.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.detailDesc.fd" parent="dict.all.program.proposals.detailDesc.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.program.proposals.detailDesc.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1347,12 +1353,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.program.proposals.effectiveDate.cd"/>
 </dict:field>
 <dict:field key="effectiveDate" id="dict.all.program.proposals.effectiveDate" parent="dict.all.program.proposals.effectiveDate.abstract"/>
-<dict:fieldDescriptor key="effectiveDate" id="dict.all.program.proposals.effectiveDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.program.proposals.effectiveDate.fd.abstract" abstract="true">
 	<dict:name>all program proposals effectiveDate</dict:name>
 	<dict:desc>all program proposals effectiveDate</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="effectiveDate" id="dict.all.program.proposals.effectiveDate.fd" parent="dict.all.program.proposals.effectiveDate.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.effectiveDate.fd" parent="dict.all.program.proposals.effectiveDate.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.program.proposals.effectiveDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1368,12 +1374,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.program.proposals.expirationDate.cd"/>
 </dict:field>
 <dict:field key="expirationDate" id="dict.all.program.proposals.expirationDate" parent="dict.all.program.proposals.expirationDate.abstract"/>
-<dict:fieldDescriptor key="expirationDate" id="dict.all.program.proposals.expirationDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.program.proposals.expirationDate.fd.abstract" abstract="true">
 	<dict:name>all program proposals expirationDate</dict:name>
 	<dict:desc>all program proposals expirationDate</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="expirationDate" id="dict.all.program.proposals.expirationDate.fd" parent="dict.all.program.proposals.expirationDate.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.expirationDate.fd" parent="dict.all.program.proposals.expirationDate.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.program.proposals.expirationDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1389,13 +1395,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.program.proposals.metaInfo.cd"/>
 </dict:field>
 <dict:field key="metaInfo" id="dict.all.program.proposals.metaInfo" parent="dict.all.program.proposals.metaInfo.abstract"/>
-<dict:fieldDescriptor key="metaInfo" id="dict.all.program.proposals.metaInfo.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.program.proposals.metaInfo.fd.abstract" abstract="true">
 	<dict:name>all program proposals metaInfo</dict:name>
 	<dict:desc>all program proposals metaInfo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.proposalInfo.metaInfo.AllProgramProposalTypes"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="metaInfo" id="dict.all.program.proposals.metaInfo.fd" parent="dict.all.program.proposals.metaInfo.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.metaInfo.fd" parent="dict.all.program.proposals.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.program.proposals.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1411,12 +1417,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.program.proposals.type.cd"/>
 </dict:field>
 <dict:field key="type" id="dict.all.program.proposals.type" parent="dict.all.program.proposals.type.abstract"/>
-<dict:fieldDescriptor key="type" id="dict.all.program.proposals.type.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.program.proposals.type.fd.abstract" abstract="true">
 	<dict:name>all program proposals type</dict:name>
 	<dict:desc>all program proposals type</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="type" id="dict.all.program.proposals.type.fd" parent="dict.all.program.proposals.type.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.type.fd" parent="dict.all.program.proposals.type.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.program.proposals.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1434,12 +1440,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:selector>true</dict:selector>
 </dict:field>
 <dict:field key="state" id="dict.all.program.proposals.state" parent="dict.all.program.proposals.state.abstract"/>
-<dict:fieldDescriptor key="state" id="dict.all.program.proposals.state.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.program.proposals.state.fd.abstract" abstract="true">
 	<dict:name>all program proposals state</dict:name>
 	<dict:desc>all program proposals state</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="state" id="dict.all.program.proposals.state.fd" parent="dict.all.program.proposals.state.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.state.fd" parent="dict.all.program.proposals.state.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.program.proposals.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1455,12 +1461,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.program.proposals.internal.id.cd"/>
 </dict:field>
 <dict:field key="id" id="dict.all.program.proposals.internal.id" parent="dict.all.program.proposals.internal.id.abstract"/>
-<dict:fieldDescriptor key="id" id="dict.all.program.proposals.internal.id.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.program.proposals.internal.id.fd.abstract" abstract="true">
 	<dict:name>all program proposals internal id</dict:name>
 	<dict:desc>all program proposals internal id</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="id" id="dict.all.program.proposals.internal.id.fd" parent="dict.all.program.proposals.internal.id.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.internal.id.fd" parent="dict.all.program.proposals.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.program.proposals.internal.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1477,12 +1483,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.all.program.proposals.rationale.draft.cd"/>
 </dict:field>
 <dict:field key="rationale" id="dict.all.program.proposals.rationale.draft" parent="dict.all.program.proposals.rationale.draft.abstract"/>
-<dict:fieldDescriptor key="rationale" id="dict.all.program.proposals.rationale.draft.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.all.program.proposals.rationale.draft.fd.abstract" abstract="true">
 	<dict:name>all program proposals rationale</dict:name>
 	<dict:desc>all program proposals rationale</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="rationale" id="dict.all.program.proposals.rationale.draft.fd" parent="dict.all.program.proposals.rationale.draft.fd.abstract"/>
+<dict:fieldDescriptor id="dict.all.program.proposals.rationale.draft.fd" parent="dict.all.program.proposals.rationale.draft.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.program.proposals.rationale.draft.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1499,12 +1505,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.group.proposal.name.cd"/>
 </dict:field>
 <dict:field key="name" id="dict.group.proposal.name" parent="dict.group.proposal.name.abstract"/>
-<dict:fieldDescriptor key="name" id="dict.group.proposal.name.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.group.proposal.name.fd.abstract" abstract="true">
 	<dict:name>group proposal name</dict:name>
 	<dict:desc>group proposal name</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="name" id="dict.group.proposal.name.fd" parent="dict.group.proposal.name.fd.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.name.fd" parent="dict.group.proposal.name.fd.abstract"/>
 <dict:constraintDescriptor id="dict.group.proposal.name.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1520,12 +1526,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.group.proposal.proposerPerson.cd"/>
 </dict:field>
 <dict:field key="proposerPerson" id="dict.group.proposal.proposerPerson" parent="dict.group.proposal.proposerPerson.abstract"/>
-<dict:fieldDescriptor key="proposerPerson" id="dict.group.proposal.proposerPerson.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.group.proposal.proposerPerson.fd.abstract" abstract="true">
 	<dict:name>group proposal proposerPerson</dict:name>
 	<dict:desc>group proposal proposerPerson</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="proposerPerson" id="dict.group.proposal.proposerPerson.fd" parent="dict.group.proposal.proposerPerson.fd.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.proposerPerson.fd" parent="dict.group.proposal.proposerPerson.fd.abstract"/>
 <dict:constraintDescriptor id="dict.group.proposal.proposerPerson.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.repeating"/>
@@ -1541,12 +1547,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.group.proposal.proposerOrg.cd"/>
 </dict:field>
 <dict:field key="proposerOrg" id="dict.group.proposal.proposerOrg" parent="dict.group.proposal.proposerOrg.abstract"/>
-<dict:fieldDescriptor key="proposerOrg" id="dict.group.proposal.proposerOrg.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.group.proposal.proposerOrg.fd.abstract" abstract="true">
 	<dict:name>group proposal proposerOrg</dict:name>
 	<dict:desc>group proposal proposerOrg</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="proposerOrg" id="dict.group.proposal.proposerOrg.fd" parent="dict.group.proposal.proposerOrg.fd.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.proposerOrg.fd" parent="dict.group.proposal.proposerOrg.fd.abstract"/>
 <dict:constraintDescriptor id="dict.group.proposal.proposerOrg.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.repeating"/>
@@ -1562,12 +1568,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.group.proposal.proposalReferenceType.cd"/>
 </dict:field>
 <dict:field key="proposalReferenceType" id="dict.group.proposal.proposalReferenceType" parent="dict.group.proposal.proposalReferenceType.abstract"/>
-<dict:fieldDescriptor key="proposalReferenceType" id="dict.group.proposal.proposalReferenceType.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.group.proposal.proposalReferenceType.fd.abstract" abstract="true">
 	<dict:name>group proposal proposalReferenceType</dict:name>
 	<dict:desc>group proposal proposalReferenceType</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="proposalReferenceType" id="dict.group.proposal.proposalReferenceType.fd" parent="dict.group.proposal.proposalReferenceType.fd.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.proposalReferenceType.fd" parent="dict.group.proposal.proposalReferenceType.fd.abstract"/>
 <dict:constraintDescriptor id="dict.group.proposal.proposalReferenceType.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1584,12 +1590,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.group.proposal.proposalReference.cd"/>
 </dict:field>
 <dict:field key="proposalReference" id="dict.group.proposal.proposalReference" parent="dict.group.proposal.proposalReference.abstract"/>
-<dict:fieldDescriptor key="proposalReference" id="dict.group.proposal.proposalReference.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.group.proposal.proposalReference.fd.abstract" abstract="true">
 	<dict:name>group proposal proposalReference</dict:name>
 	<dict:desc>group proposal proposalReference</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="proposalReference" id="dict.group.proposal.proposalReference.fd" parent="dict.group.proposal.proposalReference.fd.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.proposalReference.fd" parent="dict.group.proposal.proposalReference.fd.abstract"/>
 <dict:constraintDescriptor id="dict.group.proposal.proposalReference.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.repeating"/>
@@ -1605,12 +1611,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.group.proposal.rationale.cd"/>
 </dict:field>
 <dict:field key="rationale" id="dict.group.proposal.rationale" parent="dict.group.proposal.rationale.abstract"/>
-<dict:fieldDescriptor key="rationale" id="dict.group.proposal.rationale.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.group.proposal.rationale.fd.abstract" abstract="true">
 	<dict:name>group proposal rationale</dict:name>
 	<dict:desc>group proposal rationale</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="rationale" id="dict.group.proposal.rationale.fd" parent="dict.group.proposal.rationale.fd.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.rationale.fd" parent="dict.group.proposal.rationale.fd.abstract"/>
 <dict:constraintDescriptor id="dict.group.proposal.rationale.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1627,12 +1633,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.group.proposal.detailDesc.cd"/>
 </dict:field>
 <dict:field key="detailDesc" id="dict.group.proposal.detailDesc" parent="dict.group.proposal.detailDesc.abstract"/>
-<dict:fieldDescriptor key="detailDesc" id="dict.group.proposal.detailDesc.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.group.proposal.detailDesc.fd.abstract" abstract="true">
 	<dict:name>group proposal detailDesc</dict:name>
 	<dict:desc>group proposal detailDesc</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="detailDesc" id="dict.group.proposal.detailDesc.fd" parent="dict.group.proposal.detailDesc.fd.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.detailDesc.fd" parent="dict.group.proposal.detailDesc.fd.abstract"/>
 <dict:constraintDescriptor id="dict.group.proposal.detailDesc.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1649,12 +1655,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.group.proposal.effectiveDate.cd"/>
 </dict:field>
 <dict:field key="effectiveDate" id="dict.group.proposal.effectiveDate" parent="dict.group.proposal.effectiveDate.abstract"/>
-<dict:fieldDescriptor key="effectiveDate" id="dict.group.proposal.effectiveDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.group.proposal.effectiveDate.fd.abstract" abstract="true">
 	<dict:name>group proposal effectiveDate</dict:name>
 	<dict:desc>group proposal effectiveDate</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="effectiveDate" id="dict.group.proposal.effectiveDate.fd" parent="dict.group.proposal.effectiveDate.fd.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.effectiveDate.fd" parent="dict.group.proposal.effectiveDate.fd.abstract"/>
 <dict:constraintDescriptor id="dict.group.proposal.effectiveDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1671,12 +1677,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.group.proposal.expirationDate.cd"/>
 </dict:field>
 <dict:field key="expirationDate" id="dict.group.proposal.expirationDate" parent="dict.group.proposal.expirationDate.abstract"/>
-<dict:fieldDescriptor key="expirationDate" id="dict.group.proposal.expirationDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.group.proposal.expirationDate.fd.abstract" abstract="true">
 	<dict:name>group proposal expirationDate</dict:name>
 	<dict:desc>group proposal expirationDate</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="expirationDate" id="dict.group.proposal.expirationDate.fd" parent="dict.group.proposal.expirationDate.fd.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.expirationDate.fd" parent="dict.group.proposal.expirationDate.fd.abstract"/>
 <dict:constraintDescriptor id="dict.group.proposal.expirationDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1692,13 +1698,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.group.proposal.metaInfo.cd"/>
 </dict:field>
 <dict:field key="metaInfo" id="dict.group.proposal.metaInfo" parent="dict.group.proposal.metaInfo.abstract"/>
-<dict:fieldDescriptor key="metaInfo" id="dict.group.proposal.metaInfo.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.group.proposal.metaInfo.fd.abstract" abstract="true">
 	<dict:name>group proposal metaInfo</dict:name>
 	<dict:desc>group proposal metaInfo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.proposalInfo.metaInfo.Grouped"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="metaInfo" id="dict.group.proposal.metaInfo.fd" parent="dict.group.proposal.metaInfo.fd.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.metaInfo.fd" parent="dict.group.proposal.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.group.proposal.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1714,12 +1720,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.group.proposal.type.cd"/>
 </dict:field>
 <dict:field key="type" id="dict.group.proposal.type" parent="dict.group.proposal.type.abstract"/>
-<dict:fieldDescriptor key="type" id="dict.group.proposal.type.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.group.proposal.type.fd.abstract" abstract="true">
 	<dict:name>group proposal type</dict:name>
 	<dict:desc>group proposal type</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="type" id="dict.group.proposal.type.fd" parent="dict.group.proposal.type.fd.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.type.fd" parent="dict.group.proposal.type.fd.abstract"/>
 <dict:constraintDescriptor id="dict.group.proposal.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1737,12 +1743,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:selector>true</dict:selector>
 </dict:field>
 <dict:field key="state" id="dict.group.proposal.state" parent="dict.group.proposal.state.abstract"/>
-<dict:fieldDescriptor key="state" id="dict.group.proposal.state.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.group.proposal.state.fd.abstract" abstract="true">
 	<dict:name>group proposal state</dict:name>
 	<dict:desc>group proposal state</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="state" id="dict.group.proposal.state.fd" parent="dict.group.proposal.state.fd.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.state.fd" parent="dict.group.proposal.state.fd.abstract"/>
 <dict:constraintDescriptor id="dict.group.proposal.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1758,12 +1764,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.group.proposal.internal.id.cd"/>
 </dict:field>
 <dict:field key="id" id="dict.group.proposal.internal.id" parent="dict.group.proposal.internal.id.abstract"/>
-<dict:fieldDescriptor key="id" id="dict.group.proposal.internal.id.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.group.proposal.internal.id.fd.abstract" abstract="true">
 	<dict:name>group proposal internal id</dict:name>
 	<dict:desc>group proposal internal id</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="id" id="dict.group.proposal.internal.id.fd" parent="dict.group.proposal.internal.id.fd.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.internal.id.fd" parent="dict.group.proposal.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.group.proposal.internal.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1780,12 +1786,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.group.proposal.rationale.draft.cd"/>
 </dict:field>
 <dict:field key="rationale" id="dict.group.proposal.rationale.draft" parent="dict.group.proposal.rationale.draft.abstract"/>
-<dict:fieldDescriptor key="rationale" id="dict.group.proposal.rationale.draft.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.group.proposal.rationale.draft.fd.abstract" abstract="true">
 	<dict:name>group proposal rationale</dict:name>
 	<dict:desc>group proposal rationale</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="rationale" id="dict.group.proposal.rationale.draft.fd" parent="dict.group.proposal.rationale.draft.fd.abstract"/>
+<dict:fieldDescriptor id="dict.group.proposal.rationale.draft.fd" parent="dict.group.proposal.rationale.draft.fd.abstract"/>
 <dict:constraintDescriptor id="dict.group.proposal.rationale.draft.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>

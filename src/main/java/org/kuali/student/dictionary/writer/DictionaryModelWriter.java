@@ -73,7 +73,7 @@ public class DictionaryModelWriter
 //  for (String service : getLuServiceAsListForTesting ())
   {
    File file = new File (directory + service
-    + "-dictionary-structure-config.xml");
+    + "-dictionary-config.xml");
    PrintStream out;
    try
    {

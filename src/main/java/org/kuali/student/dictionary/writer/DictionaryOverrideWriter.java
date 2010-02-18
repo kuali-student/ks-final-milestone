@@ -407,7 +407,7 @@ public class DictionaryOverrideWriter
   writer.println ("</dict:type>");
 
   // write concrete version if not a grouping
-  if ( ! type.getStatus ().equalsIgnoreCase (Type.GROUPING))
+  if (shouldWriteConcreteVersion (type))
   {
    writer.indentPrint ("<dict:type");
    writer.writeAttribute ("key", key);
@@ -415,6 +415,19 @@ public class DictionaryOverrideWriter
    writeParentToAbstract (id);
    writer.println ("/>");
   }
+ }
+
+ private boolean shouldWriteConcreteVersion (Type type)
+ {
+  if ( ! type.getStatus ().equalsIgnoreCase (Type.GROUPING))
+  {
+   return true;
+  }
+  if ( ! xmlType.hasOwnType ())
+  {
+   return true;
+  }
+  return false;
  }
 
  private void writeStateStructures ()

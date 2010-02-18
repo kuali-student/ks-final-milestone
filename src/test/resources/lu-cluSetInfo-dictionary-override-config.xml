@@ -7,7 +7,7 @@ http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/d
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Thu Feb 18 11:40:02 EST 2010
+on: Thu Feb 18 13:33:54 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -84,6 +84,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.cluSetInfo.desc.CreditCourseCluSets"/>
 </dict:type>
+<dict:type key="*" id="type.field.cluSetInfo.desc.CreditCourseCluSets" parent="type.field.cluSetInfo.desc.CreditCourseCluSets.abstract"/>
 
 <!-- ****************************************************************************************** -->
 <!-- State for state.field.cluSetInfo.desc.Credit Course Clu Sets.(default).(default).(default) -->
@@ -103,13 +104,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.credit.course.set.description.plain.cd"/>
 </dict:field>
 <dict:field key="plain" id="dict.credit.course.set.description.plain" parent="dict.credit.course.set.description.plain.abstract"/>
-<dict:fieldDescriptor key="plain" id="dict.credit.course.set.description.plain.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.credit.course.set.description.plain.fd.abstract" abstract="true">
 	<dict:name>credit course set description plain</dict:name>
 	<dict:desc>credit course set description plain</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="plain" id="dict.credit.course.set.description.plain.fd" parent="dict.credit.course.set.description.plain.fd.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.set.description.plain.fd" parent="dict.credit.course.set.description.plain.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.set.description.plain.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -131,12 +132,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.credit.course.set.description.formatted.cd"/>
 </dict:field>
 <dict:field key="formatted" id="dict.credit.course.set.description.formatted" parent="dict.credit.course.set.description.formatted.abstract"/>
-<dict:fieldDescriptor key="formatted" id="dict.credit.course.set.description.formatted.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.credit.course.set.description.formatted.fd.abstract" abstract="true">
 	<dict:name>credit course set description formatted</dict:name>
 	<dict:desc>credit course set description formatted</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="formatted" id="dict.credit.course.set.description.formatted.fd" parent="dict.credit.course.set.description.formatted.fd.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.set.description.formatted.fd" parent="dict.credit.course.set.description.formatted.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.set.description.formatted.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -165,6 +166,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.cluSetInfo.metaInfo.CreditCourseCluSets"/>
 </dict:type>
+<dict:type key="*" id="type.field.cluSetInfo.metaInfo.CreditCourseCluSets" parent="type.field.cluSetInfo.metaInfo.CreditCourseCluSets.abstract"/>
 
 <!-- ********************************************************************************************** -->
 <!-- State for state.field.cluSetInfo.metaInfo.Credit Course Clu Sets.(default).(default).(default) -->
@@ -187,13 +189,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.credit.course.set.metaInfo.versionInd.cd"/>
 </dict:field>
 <dict:field key="versionInd" id="dict.credit.course.set.metaInfo.versionInd" parent="dict.credit.course.set.metaInfo.versionInd.abstract"/>
-<dict:fieldDescriptor key="versionInd" id="dict.credit.course.set.metaInfo.versionInd.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.credit.course.set.metaInfo.versionInd.fd.abstract" abstract="true">
 	<dict:name>credit course set metaInfo versionInd</dict:name>
 	<dict:desc>credit course set metaInfo versionInd</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="versionInd" id="dict.credit.course.set.metaInfo.versionInd.fd" parent="dict.credit.course.set.metaInfo.versionInd.fd.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.set.metaInfo.versionInd.fd" parent="dict.credit.course.set.metaInfo.versionInd.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.set.metaInfo.versionInd.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -211,12 +213,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.credit.course.set.metaInfo.createTime.cd"/>
 </dict:field>
 <dict:field key="createTime" id="dict.credit.course.set.metaInfo.createTime" parent="dict.credit.course.set.metaInfo.createTime.abstract"/>
-<dict:fieldDescriptor key="createTime" id="dict.credit.course.set.metaInfo.createTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.credit.course.set.metaInfo.createTime.fd.abstract" abstract="true">
 	<dict:name>credit course set metaInfo createTime</dict:name>
 	<dict:desc>credit course set metaInfo createTime</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createTime" id="dict.credit.course.set.metaInfo.createTime.fd" parent="dict.credit.course.set.metaInfo.createTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.set.metaInfo.createTime.fd" parent="dict.credit.course.set.metaInfo.createTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.set.metaInfo.createTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -233,13 +235,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.credit.course.set.metaInfo.creditId.cd"/>
 </dict:field>
 <dict:field key="createId" id="dict.credit.course.set.metaInfo.creditId" parent="dict.credit.course.set.metaInfo.creditId.abstract"/>
-<dict:fieldDescriptor key="createId" id="dict.credit.course.set.metaInfo.creditId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.credit.course.set.metaInfo.creditId.fd.abstract" abstract="true">
 	<dict:name>credit course set metaInfo creditId</dict:name>
 	<dict:desc>credit course set metaInfo creditId</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createId" id="dict.credit.course.set.metaInfo.creditId.fd" parent="dict.credit.course.set.metaInfo.creditId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.set.metaInfo.creditId.fd" parent="dict.credit.course.set.metaInfo.creditId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.set.metaInfo.creditId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -256,12 +258,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.credit.course.set.metaInfo.updateTime.cd"/>
 </dict:field>
 <dict:field key="updateTime" id="dict.credit.course.set.metaInfo.updateTime" parent="dict.credit.course.set.metaInfo.updateTime.abstract"/>
-<dict:fieldDescriptor key="updateTime" id="dict.credit.course.set.metaInfo.updateTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.credit.course.set.metaInfo.updateTime.fd.abstract" abstract="true">
 	<dict:name>credit course set metaInfo updateTime</dict:name>
 	<dict:desc>credit course set metaInfo updateTime</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateTime" id="dict.credit.course.set.metaInfo.updateTime.fd" parent="dict.credit.course.set.metaInfo.updateTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.set.metaInfo.updateTime.fd" parent="dict.credit.course.set.metaInfo.updateTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.set.metaInfo.updateTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -278,13 +280,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.credit.course.set.metaInfo.updateId.cd"/>
 </dict:field>
 <dict:field key="updateId" id="dict.credit.course.set.metaInfo.updateId" parent="dict.credit.course.set.metaInfo.updateId.abstract"/>
-<dict:fieldDescriptor key="updateId" id="dict.credit.course.set.metaInfo.updateId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.credit.course.set.metaInfo.updateId.fd.abstract" abstract="true">
 	<dict:name>credit course set metaInfo updateId</dict:name>
 	<dict:desc>credit course set metaInfo updateId</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateId" id="dict.credit.course.set.metaInfo.updateId.fd" parent="dict.credit.course.set.metaInfo.updateId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.set.metaInfo.updateId.fd" parent="dict.credit.course.set.metaInfo.updateId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.set.metaInfo.updateId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -301,12 +303,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.credit.course.set.name.cd"/>
 </dict:field>
 <dict:field key="name" id="dict.credit.course.set.name" parent="dict.credit.course.set.name.abstract"/>
-<dict:fieldDescriptor key="name" id="dict.credit.course.set.name.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.credit.course.set.name.fd.abstract" abstract="true">
 	<dict:name>credit course set name</dict:name>
 	<dict:desc>credit course set name</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="name" id="dict.credit.course.set.name.fd" parent="dict.credit.course.set.name.fd.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.set.name.fd" parent="dict.credit.course.set.name.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.set.name.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -325,13 +327,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.credit.course.set.description.cd"/>
 </dict:field>
 <dict:field key="desc" id="dict.credit.course.set.description" parent="dict.credit.course.set.description.abstract"/>
-<dict:fieldDescriptor key="desc" id="dict.credit.course.set.description.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.credit.course.set.description.fd.abstract" abstract="true">
 	<dict:name>credit course set description</dict:name>
 	<dict:desc>credit course set description</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.cluSetInfo.desc.CreditCourseCluSets"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="desc" id="dict.credit.course.set.description.fd" parent="dict.credit.course.set.description.fd.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.set.description.fd" parent="dict.credit.course.set.description.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.set.description.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -346,12 +348,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.credit.course.set.effectiveDate.cd"/>
 </dict:field>
 <dict:field key="effectiveDate" id="dict.credit.course.set.effectiveDate" parent="dict.credit.course.set.effectiveDate.abstract"/>
-<dict:fieldDescriptor key="effectiveDate" id="dict.credit.course.set.effectiveDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.credit.course.set.effectiveDate.fd.abstract" abstract="true">
 	<dict:name>credit course set effectiveDate</dict:name>
 	<dict:desc>credit course set effectiveDate</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="effectiveDate" id="dict.credit.course.set.effectiveDate.fd" parent="dict.credit.course.set.effectiveDate.fd.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.set.effectiveDate.fd" parent="dict.credit.course.set.effectiveDate.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.set.effectiveDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -367,12 +369,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.credit.course.set.expirationDate.cd"/>
 </dict:field>
 <dict:field key="expirationDate" id="dict.credit.course.set.expirationDate" parent="dict.credit.course.set.expirationDate.abstract"/>
-<dict:fieldDescriptor key="expirationDate" id="dict.credit.course.set.expirationDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.credit.course.set.expirationDate.fd.abstract" abstract="true">
 	<dict:name>credit course set expirationDate</dict:name>
 	<dict:desc>credit course set expirationDate</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="expirationDate" id="dict.credit.course.set.expirationDate.fd" parent="dict.credit.course.set.expirationDate.fd.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.set.expirationDate.fd" parent="dict.credit.course.set.expirationDate.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.set.expirationDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -389,13 +391,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.credit.course.set.dynanic.cd"/>
 </dict:field>
 <dict:field key="membershipQuery" id="dict.credit.course.set.dynanic" parent="dict.credit.course.set.dynanic.abstract"/>
-<dict:fieldDescriptor key="membershipQuery" id="dict.credit.course.set.dynanic.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.credit.course.set.dynanic.fd.abstract" abstract="true">
 	<dict:name>credit course set dynanic set</dict:name>
 	<dict:desc>credit course set dynanic set</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.cluSetInfo.membershipQuery.CreditCourseCluSets"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="membershipQuery" id="dict.credit.course.set.dynanic.fd" parent="dict.credit.course.set.dynanic.fd.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.set.dynanic.fd" parent="dict.credit.course.set.dynanic.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.set.dynanic.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -411,12 +413,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.credit.course.set.credit.course.set.ids.cd"/>
 </dict:field>
 <dict:field key="cluSetIds" id="dict.credit.course.set.credit.course.set.ids" parent="dict.credit.course.set.credit.course.set.ids.abstract"/>
-<dict:fieldDescriptor key="cluSetIds" id="dict.credit.course.set.credit.course.set.ids.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.credit.course.set.credit.course.set.ids.fd.abstract" abstract="true">
 	<dict:name>credit course set credit course set ids</dict:name>
 	<dict:desc>credit course set credit course set ids</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="cluSetIds" id="dict.credit.course.set.credit.course.set.ids.fd" parent="dict.credit.course.set.credit.course.set.ids.fd.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.set.credit.course.set.ids.fd" parent="dict.credit.course.set.credit.course.set.ids.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.set.credit.course.set.ids.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.repeating"/>
@@ -433,12 +435,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.credit.course.set.credit.course.ids.cd"/>
 </dict:field>
 <dict:field key="cluIds" id="dict.credit.course.set.credit.course.ids" parent="dict.credit.course.set.credit.course.ids.abstract"/>
-<dict:fieldDescriptor key="cluIds" id="dict.credit.course.set.credit.course.ids.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.credit.course.set.credit.course.ids.fd.abstract" abstract="true">
 	<dict:name>credit course set credit course ids</dict:name>
 	<dict:desc>credit course set credit course ids</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="cluIds" id="dict.credit.course.set.credit.course.ids.fd" parent="dict.credit.course.set.credit.course.ids.fd.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.set.credit.course.ids.fd" parent="dict.credit.course.set.credit.course.ids.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.set.credit.course.ids.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.repeating"/>
@@ -455,14 +457,14 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.credit.course.set.metaInfo.cd"/>
 </dict:field>
 <dict:field key="metaInfo" id="dict.credit.course.set.metaInfo" parent="dict.credit.course.set.metaInfo.abstract"/>
-<dict:fieldDescriptor key="metaInfo" id="dict.credit.course.set.metaInfo.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.credit.course.set.metaInfo.fd.abstract" abstract="true">
 	<dict:name>credit course set metaInfo</dict:name>
 	<dict:desc>credit course set metaInfo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.cluSetInfo.metaInfo.CreditCourseCluSets"/>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="metaInfo" id="dict.credit.course.set.metaInfo.fd" parent="dict.credit.course.set.metaInfo.fd.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.set.metaInfo.fd" parent="dict.credit.course.set.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.set.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -477,12 +479,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.credit.course.set.type.cd"/>
 </dict:field>
 <dict:field key="type" id="dict.credit.course.set.type" parent="dict.credit.course.set.type.abstract"/>
-<dict:fieldDescriptor key="type" id="dict.credit.course.set.type.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.credit.course.set.type.fd.abstract" abstract="true">
 	<dict:name>credit course set type</dict:name>
 	<dict:desc>credit course set type</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="type" id="dict.credit.course.set.type.fd" parent="dict.credit.course.set.type.fd.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.set.type.fd" parent="dict.credit.course.set.type.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.set.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -501,12 +503,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:selector>true</dict:selector>
 </dict:field>
 <dict:field key="state" id="dict.credit.course.set.state" parent="dict.credit.course.set.state.abstract"/>
-<dict:fieldDescriptor key="state" id="dict.credit.course.set.state.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.credit.course.set.state.fd.abstract" abstract="true">
 	<dict:name>credit course set state</dict:name>
 	<dict:desc>credit course set state</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="state" id="dict.credit.course.set.state.fd" parent="dict.credit.course.set.state.fd.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.set.state.fd" parent="dict.credit.course.set.state.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.set.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -523,13 +525,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.credit.course.set.id.cd"/>
 </dict:field>
 <dict:field key="id" id="dict.credit.course.set.id" parent="dict.credit.course.set.id.abstract"/>
-<dict:fieldDescriptor key="id" id="dict.credit.course.set.id.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.credit.course.set.id.fd.abstract" abstract="true">
 	<dict:name>credit course set id</dict:name>
 	<dict:desc>credit course set id</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="id" id="dict.credit.course.set.id.fd" parent="dict.credit.course.set.id.fd.abstract"/>
+<dict:fieldDescriptor id="dict.credit.course.set.id.fd" parent="dict.credit.course.set.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.set.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>

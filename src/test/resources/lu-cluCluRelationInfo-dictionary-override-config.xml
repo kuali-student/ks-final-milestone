@@ -7,7 +7,7 @@ http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/d
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Thu Feb 18 11:40:02 EST 2010
+on: Thu Feb 18 13:33:54 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -173,6 +173,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.cluCluRelationInfo.metaInfo.HasCourseFormat"/>
 </dict:type>
+<dict:type key="*" id="type.field.cluCluRelationInfo.metaInfo.HasCourseFormat" parent="type.field.cluCluRelationInfo.metaInfo.HasCourseFormat.abstract"/>
 
 <!-- ************************************************************************************************* -->
 <!-- State for state.field.cluCluRelationInfo.metaInfo.Has Course Format.(default).(default).(default) -->
@@ -195,13 +196,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.course.format.relation.meta.versionInd.cd"/>
 </dict:field>
 <dict:field key="versionInd" id="dict.course.format.relation.meta.versionInd" parent="dict.course.format.relation.meta.versionInd.abstract"/>
-<dict:fieldDescriptor key="versionInd" id="dict.course.format.relation.meta.versionInd.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.format.relation.meta.versionInd.fd.abstract" abstract="true">
 	<dict:name>course format meta versionInd</dict:name>
 	<dict:desc>Version number for this format course relationship info</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="versionInd" id="dict.course.format.relation.meta.versionInd.fd" parent="dict.course.format.relation.meta.versionInd.fd.abstract"/>
+<dict:fieldDescriptor id="dict.course.format.relation.meta.versionInd.fd" parent="dict.course.format.relation.meta.versionInd.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.format.relation.meta.versionInd.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -219,12 +220,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.course.format.relation.meta.createTime.cd"/>
 </dict:field>
 <dict:field key="createTime" id="dict.course.format.relation.meta.createTime" parent="dict.course.format.relation.meta.createTime.abstract"/>
-<dict:fieldDescriptor key="createTime" id="dict.course.format.relation.meta.createTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.format.relation.meta.createTime.fd.abstract" abstract="true">
 	<dict:name>course format meta createTime</dict:name>
 	<dict:desc>Date-time this co-located course relationship was created</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createTime" id="dict.course.format.relation.meta.createTime.fd" parent="dict.course.format.relation.meta.createTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.course.format.relation.meta.createTime.fd" parent="dict.course.format.relation.meta.createTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.format.relation.meta.createTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -241,13 +242,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.course.format.relation.meta.createId.cd"/>
 </dict:field>
 <dict:field key="createId" id="dict.course.format.relation.meta.createId" parent="dict.course.format.relation.meta.createId.abstract"/>
-<dict:fieldDescriptor key="createId" id="dict.course.format.relation.meta.createId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.format.relation.meta.createId.fd.abstract" abstract="true">
 	<dict:name>course format meta createId</dict:name>
 	<dict:desc>Principal of the persion who first created this co-located course relationship</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createId" id="dict.course.format.relation.meta.createId.fd" parent="dict.course.format.relation.meta.createId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.course.format.relation.meta.createId.fd" parent="dict.course.format.relation.meta.createId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.format.relation.meta.createId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -264,12 +265,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.course.format.relation.meta.updateTime.cd"/>
 </dict:field>
 <dict:field key="updateTime" id="dict.course.format.relation.meta.updateTime" parent="dict.course.format.relation.meta.updateTime.abstract"/>
-<dict:fieldDescriptor key="updateTime" id="dict.course.format.relation.meta.updateTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.format.relation.meta.updateTime.fd.abstract" abstract="true">
 	<dict:name>course format meta updateTime</dict:name>
 	<dict:desc>Date-time this co-located course relationship was last updated</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateTime" id="dict.course.format.relation.meta.updateTime.fd" parent="dict.course.format.relation.meta.updateTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.course.format.relation.meta.updateTime.fd" parent="dict.course.format.relation.meta.updateTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.format.relation.meta.updateTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -286,13 +287,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.course.format.relation.meta.updateId.cd"/>
 </dict:field>
 <dict:field key="updateId" id="dict.course.format.relation.meta.updateId" parent="dict.course.format.relation.meta.updateId.abstract"/>
-<dict:fieldDescriptor key="updateId" id="dict.course.format.relation.meta.updateId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.format.relation.meta.updateId.fd.abstract" abstract="true">
 	<dict:name>course format meta updateId</dict:name>
 	<dict:desc>Principal of the persion who last updated this co-located course relationship</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateId" id="dict.course.format.relation.meta.updateId.fd" parent="dict.course.format.relation.meta.updateId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.course.format.relation.meta.updateId.fd" parent="dict.course.format.relation.meta.updateId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.format.relation.meta.updateId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -317,6 +318,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.cluCluRelationInfo.metaInfo.HasCourseActivity"/>
 </dict:type>
+<dict:type key="*" id="type.field.cluCluRelationInfo.metaInfo.HasCourseActivity" parent="type.field.cluCluRelationInfo.metaInfo.HasCourseActivity.abstract"/>
 
 <!-- *************************************************************************************************** -->
 <!-- State for state.field.cluCluRelationInfo.metaInfo.Has Course Activity.(default).(default).(default) -->
@@ -339,13 +341,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.course.activity.relation.meta.versionInd.cd"/>
 </dict:field>
 <dict:field key="versionInd" id="dict.course.activity.relation.meta.versionInd" parent="dict.course.activity.relation.meta.versionInd.abstract"/>
-<dict:fieldDescriptor key="versionInd" id="dict.course.activity.relation.meta.versionInd.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.activity.relation.meta.versionInd.fd.abstract" abstract="true">
 	<dict:name>course activity meta versionInd</dict:name>
 	<dict:desc>Version number for this activity course relationship info</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="versionInd" id="dict.course.activity.relation.meta.versionInd.fd" parent="dict.course.activity.relation.meta.versionInd.fd.abstract"/>
+<dict:fieldDescriptor id="dict.course.activity.relation.meta.versionInd.fd" parent="dict.course.activity.relation.meta.versionInd.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.activity.relation.meta.versionInd.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -363,12 +365,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.course.activity.relation.meta.createTime.cd"/>
 </dict:field>
 <dict:field key="createTime" id="dict.course.activity.relation.meta.createTime" parent="dict.course.activity.relation.meta.createTime.abstract"/>
-<dict:fieldDescriptor key="createTime" id="dict.course.activity.relation.meta.createTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.activity.relation.meta.createTime.fd.abstract" abstract="true">
 	<dict:name>course activity meta createTime</dict:name>
 	<dict:desc>Date-time this co-located course relationship was created</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createTime" id="dict.course.activity.relation.meta.createTime.fd" parent="dict.course.activity.relation.meta.createTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.course.activity.relation.meta.createTime.fd" parent="dict.course.activity.relation.meta.createTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.activity.relation.meta.createTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -385,13 +387,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.course.activity.relation.meta.createId.cd"/>
 </dict:field>
 <dict:field key="createId" id="dict.course.activity.relation.meta.createId" parent="dict.course.activity.relation.meta.createId.abstract"/>
-<dict:fieldDescriptor key="createId" id="dict.course.activity.relation.meta.createId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.activity.relation.meta.createId.fd.abstract" abstract="true">
 	<dict:name>course activity meta createId</dict:name>
 	<dict:desc>Principal of the persion who first created this co-located course relationship</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createId" id="dict.course.activity.relation.meta.createId.fd" parent="dict.course.activity.relation.meta.createId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.course.activity.relation.meta.createId.fd" parent="dict.course.activity.relation.meta.createId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.activity.relation.meta.createId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -408,12 +410,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.course.activity.relation.meta.updateTime.cd"/>
 </dict:field>
 <dict:field key="updateTime" id="dict.course.activity.relation.meta.updateTime" parent="dict.course.activity.relation.meta.updateTime.abstract"/>
-<dict:fieldDescriptor key="updateTime" id="dict.course.activity.relation.meta.updateTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.activity.relation.meta.updateTime.fd.abstract" abstract="true">
 	<dict:name>course activity meta updateTime</dict:name>
 	<dict:desc>Date-time this co-located course relationship was last updated</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateTime" id="dict.course.activity.relation.meta.updateTime.fd" parent="dict.course.activity.relation.meta.updateTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.course.activity.relation.meta.updateTime.fd" parent="dict.course.activity.relation.meta.updateTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.activity.relation.meta.updateTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -430,13 +432,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.course.activity.relation.meta.updateId.cd"/>
 </dict:field>
 <dict:field key="updateId" id="dict.course.activity.relation.meta.updateId" parent="dict.course.activity.relation.meta.updateId.abstract"/>
-<dict:fieldDescriptor key="updateId" id="dict.course.activity.relation.meta.updateId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.activity.relation.meta.updateId.fd.abstract" abstract="true">
 	<dict:name>course activity meta updateId</dict:name>
 	<dict:desc>Principal of the persion who last updated this co-located course relationship</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateId" id="dict.course.activity.relation.meta.updateId.fd" parent="dict.course.activity.relation.meta.updateId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.course.activity.relation.meta.updateId.fd" parent="dict.course.activity.relation.meta.updateId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.activity.relation.meta.updateId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -461,6 +463,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.cluCluRelationInfo.metaInfo.Co-Located"/>
 </dict:type>
+<dict:type key="*" id="type.field.cluCluRelationInfo.metaInfo.Co-Located" parent="type.field.cluCluRelationInfo.metaInfo.Co-Located.abstract"/>
 
 <!-- ****************************************************************************************** -->
 <!-- State for state.field.cluCluRelationInfo.metaInfo.Co-Located.(default).(default).(default) -->
@@ -483,13 +486,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.course.colocated.meta.versionInd.cd"/>
 </dict:field>
 <dict:field key="versionInd" id="dict.course.colocated.meta.versionInd" parent="dict.course.colocated.meta.versionInd.abstract"/>
-<dict:fieldDescriptor key="versionInd" id="dict.course.colocated.meta.versionInd.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.colocated.meta.versionInd.fd.abstract" abstract="true">
 	<dict:name>course colocated meta versionInd</dict:name>
 	<dict:desc>Version number for this colocated course relationship info</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="versionInd" id="dict.course.colocated.meta.versionInd.fd" parent="dict.course.colocated.meta.versionInd.fd.abstract"/>
+<dict:fieldDescriptor id="dict.course.colocated.meta.versionInd.fd" parent="dict.course.colocated.meta.versionInd.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.colocated.meta.versionInd.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -507,12 +510,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.course.colocated.meta.createTime.cd"/>
 </dict:field>
 <dict:field key="createTime" id="dict.course.colocated.meta.createTime" parent="dict.course.colocated.meta.createTime.abstract"/>
-<dict:fieldDescriptor key="createTime" id="dict.course.colocated.meta.createTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.colocated.meta.createTime.fd.abstract" abstract="true">
 	<dict:name>course colocated meta createTime</dict:name>
 	<dict:desc>Date-time this co-located course relationship was created</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createTime" id="dict.course.colocated.meta.createTime.fd" parent="dict.course.colocated.meta.createTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.course.colocated.meta.createTime.fd" parent="dict.course.colocated.meta.createTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.colocated.meta.createTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -529,13 +532,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.course.colocated.meta.createId.cd"/>
 </dict:field>
 <dict:field key="createId" id="dict.course.colocated.meta.createId" parent="dict.course.colocated.meta.createId.abstract"/>
-<dict:fieldDescriptor key="createId" id="dict.course.colocated.meta.createId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.colocated.meta.createId.fd.abstract" abstract="true">
 	<dict:name>course colocated meta createId</dict:name>
 	<dict:desc>Principal of the persion who first created this co-located course relationship</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createId" id="dict.course.colocated.meta.createId.fd" parent="dict.course.colocated.meta.createId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.course.colocated.meta.createId.fd" parent="dict.course.colocated.meta.createId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.colocated.meta.createId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -552,12 +555,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.course.colocated.meta.updateTime.cd"/>
 </dict:field>
 <dict:field key="updateTime" id="dict.course.colocated.meta.updateTime" parent="dict.course.colocated.meta.updateTime.abstract"/>
-<dict:fieldDescriptor key="updateTime" id="dict.course.colocated.meta.updateTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.colocated.meta.updateTime.fd.abstract" abstract="true">
 	<dict:name>course colocated meta updateTime</dict:name>
 	<dict:desc>Date-time this co-located course relationship was last updated</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateTime" id="dict.course.colocated.meta.updateTime.fd" parent="dict.course.colocated.meta.updateTime.fd.abstract"/>
+<dict:fieldDescriptor id="dict.course.colocated.meta.updateTime.fd" parent="dict.course.colocated.meta.updateTime.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.colocated.meta.updateTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -574,13 +577,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.course.colocated.meta.updateId.cd"/>
 </dict:field>
 <dict:field key="updateId" id="dict.course.colocated.meta.updateId" parent="dict.course.colocated.meta.updateId.abstract"/>
-<dict:fieldDescriptor key="updateId" id="dict.course.colocated.meta.updateId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.colocated.meta.updateId.fd.abstract" abstract="true">
 	<dict:name>course colocated meta updateId</dict:name>
 	<dict:desc>Principal of the persion who last updated this co-located course relationship</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateId" id="dict.course.colocated.meta.updateId.fd" parent="dict.course.colocated.meta.updateId.fd.abstract"/>
+<dict:fieldDescriptor id="dict.course.colocated.meta.updateId.fd" parent="dict.course.colocated.meta.updateId.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.colocated.meta.updateId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -597,12 +600,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.course.format.relation.course.internal.id.cd"/>
 </dict:field>
 <dict:field key="cluId" id="dict.course.format.relation.course.internal.id" parent="dict.course.format.relation.course.internal.id.abstract"/>
-<dict:fieldDescriptor key="cluId" id="dict.course.format.relation.course.internal.id.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.format.relation.course.internal.id.fd.abstract" abstract="true">
 	<dict:name>course format course id</dict:name>
 	<dict:desc>course format course id</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="cluId" id="dict.course.format.relation.course.internal.id.fd" parent="dict.course.format.relation.course.internal.id.fd.abstract"/>
+<dict:fieldDescriptor id="dict.course.format.relation.course.internal.id.fd" parent="dict.course.format.relation.course.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.format.relation.course.internal.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -618,12 +621,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.course.format.relation.formatshell.internal.id.cd"/>
 </dict:field>
 <dict:field key="relatedCluId" id="dict.course.format.relation.formatshell.internal.id" parent="dict.course.format.relation.formatshell.internal.id.abstract"/>
-<dict:fieldDescriptor key="relatedCluId" id="dict.course.format.relation.formatshell.internal.id.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.format.relation.formatshell.internal.id.fd.abstract" abstract="true">
 	<dict:name>course format format shell id</dict:name>
 	<dict:desc>course format format shell id</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="relatedCluId" id="dict.course.format.relation.formatshell.internal.id.fd" parent="dict.course.format.relation.formatshell.internal.id.fd.abstract"/>
+<dict:fieldDescriptor id="dict.course.format.relation.formatshell.internal.id.fd" parent="dict.course.format.relation.formatshell.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.format.relation.formatshell.internal.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -639,13 +642,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.course.format.relation.required.cd"/>
 </dict:field>
 <dict:field key="isCluRelationRequired" id="dict.course.format.relation.required" parent="dict.course.format.relation.required.abstract"/>
-<dict:fieldDescriptor key="isCluRelationRequired" id="dict.course.format.relation.required.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.format.relation.required.fd.abstract" abstract="true">
 	<dict:name>course format required</dict:name>
 	<dict:desc>indicates that colocation is required or not, hard coded to be false</dict:desc>
 	<dict:dataType>boolean</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="isCluRelationRequired" id="dict.course.format.relation.required.fd" parent="dict.course.format.relation.required.fd.abstract"/>
+<dict:fieldDescriptor id="dict.course.format.relation.required.fd" parent="dict.course.format.relation.required.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.format.relation.required.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -666,12 +669,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.course.format.relation.expirationDate.cd"/>
 </dict:field>
 <dict:field key="effectiveDate" id="dict.course.format.relation.expirationDate" parent="dict.course.format.relation.expirationDate.abstract"/>
-<dict:fieldDescriptor key="effectiveDate" id="dict.course.format.relation.expirationDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.format.relation.expirationDate.fd.abstract" abstract="true">
 	<dict:name>course format expirationDate</dict:name>
 	<dict:desc>expiration date</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="effectiveDate" id="dict.course.format.relation.expirationDate.fd" parent="dict.course.format.relation.expirationDate.fd.abstract"/>
+<dict:fieldDescriptor id="dict.course.format.relation.expirationDate.fd" parent="dict.course.format.relation.expirationDate.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.format.relation.expirationDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -688,12 +691,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.course.format.relation.effectiveDate.cd"/>
 </dict:field>
 <dict:field key="expirationDate" id="dict.course.format.relation.effectiveDate" parent="dict.course.format.relation.effectiveDate.abstract"/>
-<dict:fieldDescriptor key="expirationDate" id="dict.course.format.relation.effectiveDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.format.relation.effectiveDate.fd.abstract" abstract="true">
 	<dict:name>course format effectiveDate</dict:name>
 	<dict:desc>effective date</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="expirationDate" id="dict.course.format.relation.effectiveDate.fd" parent="dict.course.format.relation.effectiveDate.fd.abstract"/>
+<dict:fieldDescriptor id="dict.course.format.relation.effectiveDate.fd" parent="dict.course.format.relation.effectiveDate.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.format.relation.effectiveDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -709,14 +712,14 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.course.format.relation.metainfo.cd"/>
 </dict:field>
 <dict:field key="metaInfo" id="dict.course.format.relation.metainfo" parent="dict.course.format.relation.metainfo.abstract"/>
-<dict:fieldDescriptor key="metaInfo" id="dict.course.format.relation.metainfo.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.format.relation.metainfo.fd.abstract" abstract="true">
 	<dict:name>course format metainfo</dict:name>
 	<dict:desc>audit trail info</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.cluCluRelationInfo.metaInfo.HasCourseFormat"/>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="metaInfo" id="dict.course.format.relation.metainfo.fd" parent="dict.course.format.relation.metainfo.fd.abstract"/>
+<dict:fieldDescriptor id="dict.course.format.relation.metainfo.fd" parent="dict.course.format.relation.metainfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.format.relation.metainfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -731,13 +734,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.course.format.relation.relation.type.cd"/>
 </dict:field>
 <dict:field key="type" id="dict.course.format.relation.relation.type" parent="dict.course.format.relation.relation.type.abstract"/>
-<dict:fieldDescriptor key="type" id="dict.course.format.relation.relation.type.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.format.relation.relation.type.fd.abstract" abstract="true">
 	<dict:name>course format relation type</dict:name>
 	<dict:desc>type of the relationship, hard coded to be course format</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="type" id="dict.course.format.relation.relation.type.fd" parent="dict.course.format.relation.relation.type.fd.abstract"/>
+<dict:fieldDescriptor id="dict.course.format.relation.relation.type.fd" parent="dict.course.format.relation.relation.type.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.format.relation.relation.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -757,13 +760,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:selector>true</dict:selector>
 </dict:field>
 <dict:field key="state" id="dict.course.format.relation.relation.state" parent="dict.course.format.relation.relation.state.abstract"/>
-<dict:fieldDescriptor key="state" id="dict.course.format.relation.relation.state.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.format.relation.relation.state.fd.abstract" abstract="true">
 	<dict:name>course format relation state</dict:name>
 	<dict:desc>state of the relationship</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="state" id="dict.course.format.relation.relation.state.fd" parent="dict.course.format.relation.relation.state.fd.abstract"/>
+<dict:fieldDescriptor id="dict.course.format.relation.relation.state.fd" parent="dict.course.format.relation.relation.state.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.format.relation.relation.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -781,13 +784,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.course.format.relation.relation.internal.id.cd"/>
 </dict:field>
 <dict:field key="id" id="dict.course.format.relation.relation.internal.id" parent="dict.course.format.relation.relation.internal.id.abstract"/>
-<dict:fieldDescriptor key="id" id="dict.course.format.relation.relation.internal.id.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.format.relation.relation.internal.id.fd.abstract" abstract="true">
 	<dict:name>course format relation id</dict:name>
 	<dict:desc>relationship id</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="id" id="dict.course.format.relation.relation.internal.id.fd" parent="dict.course.format.relation.relation.internal.id.fd.abstract"/>
+<dict:fieldDescriptor id="dict.course.format.relation.relation.internal.id.fd" parent="dict.course.format.relation.relation.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.format.relation.relation.internal.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -804,12 +807,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.course.activity.relation.course.internal.id.cd"/>
 </dict:field>
 <dict:field key="cluId" id="dict.course.activity.relation.course.internal.id" parent="dict.course.activity.relation.course.internal.id.abstract"/>
-<dict:fieldDescriptor key="cluId" id="dict.course.activity.relation.course.internal.id.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.activity.relation.course.internal.id.fd.abstract" abstract="true">
 	<dict:name>course activity course id</dict:name>
 	<dict:desc>course activity course id</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="cluId" id="dict.course.activity.relation.course.internal.id.fd" parent="dict.course.activity.relation.course.internal.id.fd.abstract"/>
+<dict:fieldDescriptor id="dict.course.activity.relation.course.internal.id.fd" parent="dict.course.activity.relation.course.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.activity.relation.course.internal.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -825,12 +828,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.course.activity.relation.activityshell.internal.id.cd"/>
 </dict:field>
 <dict:field key="relatedCluId" id="dict.course.activity.relation.activityshell.internal.id" parent="dict.course.activity.relation.activityshell.internal.id.abstract"/>
-<dict:fieldDescriptor key="relatedCluId" id="dict.course.activity.relation.activityshell.internal.id.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.activity.relation.activityshell.internal.id.fd.abstract" abstract="true">
 	<dict:name>course activity activity shell id</dict:name>
 	<dict:desc>course activity activity shell id</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="relatedCluId" id="dict.course.activity.relation.activityshell.internal.id.fd" parent="dict.course.activity.relation.activityshell.internal.id.fd.abstract"/>
+<dict:fieldDescriptor id="dict.course.activity.relation.activityshell.internal.id.fd" parent="dict.course.activity.relation.activityshell.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.activity.relation.activityshell.internal.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -846,13 +849,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.course.activity.relation.required.cd"/>
 </dict:field>
 <dict:field key="isCluRelationRequired" id="dict.course.activity.relation.required" parent="dict.course.activity.relation.required.abstract"/>
-<dict:fieldDescriptor key="isCluRelationRequired" id="dict.course.activity.relation.required.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.activity.relation.required.fd.abstract" abstract="true">
 	<dict:name>course activity required</dict:name>
 	<dict:desc>indicates that colocation is required or not, hard coded to be false</dict:desc>
 	<dict:dataType>boolean</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="isCluRelationRequired" id="dict.course.activity.relation.required.fd" parent="dict.course.activity.relation.required.fd.abstract"/>
+<dict:fieldDescriptor id="dict.course.activity.relation.required.fd" parent="dict.course.activity.relation.required.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.activity.relation.required.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -870,12 +873,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.course.activity.relation.expirationDate.cd"/>
 </dict:field>
 <dict:field key="effectiveDate" id="dict.course.activity.relation.expirationDate" parent="dict.course.activity.relation.expirationDate.abstract"/>
-<dict:fieldDescriptor key="effectiveDate" id="dict.course.activity.relation.expirationDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.activity.relation.expirationDate.fd.abstract" abstract="true">
 	<dict:name>course activity expirationDate</dict:name>
 	<dict:desc>expiration date</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="effectiveDate" id="dict.course.activity.relation.expirationDate.fd" parent="dict.course.activity.relation.expirationDate.fd.abstract"/>
+<dict:fieldDescriptor id="dict.course.activity.relation.expirationDate.fd" parent="dict.course.activity.relation.expirationDate.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.activity.relation.expirationDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -892,12 +895,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.course.activity.relation.effectiveDate.cd"/>
 </dict:field>
 <dict:field key="expirationDate" id="dict.course.activity.relation.effectiveDate" parent="dict.course.activity.relation.effectiveDate.abstract"/>
-<dict:fieldDescriptor key="expirationDate" id="dict.course.activity.relation.effectiveDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.activity.relation.effectiveDate.fd.abstract" abstract="true">
 	<dict:name>course activity effectiveDate</dict:name>
 	<dict:desc>effective date</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="expirationDate" id="dict.course.activity.relation.effectiveDate.fd" parent="dict.course.activity.relation.effectiveDate.fd.abstract"/>
+<dict:fieldDescriptor id="dict.course.activity.relation.effectiveDate.fd" parent="dict.course.activity.relation.effectiveDate.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.activity.relation.effectiveDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -913,14 +916,14 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.course.activity.relation.metainfo.cd"/>
 </dict:field>
 <dict:field key="metaInfo" id="dict.course.activity.relation.metainfo" parent="dict.course.activity.relation.metainfo.abstract"/>
-<dict:fieldDescriptor key="metaInfo" id="dict.course.activity.relation.metainfo.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.activity.relation.metainfo.fd.abstract" abstract="true">
 	<dict:name>course activity metainfo</dict:name>
 	<dict:desc>audit trail info</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.cluCluRelationInfo.metaInfo.HasCourseActivity"/>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="metaInfo" id="dict.course.activity.relation.metainfo.fd" parent="dict.course.activity.relation.metainfo.fd.abstract"/>
+<dict:fieldDescriptor id="dict.course.activity.relation.metainfo.fd" parent="dict.course.activity.relation.metainfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.activity.relation.metainfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -935,13 +938,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.course.activity.relation.relation.type.cd"/>
 </dict:field>
 <dict:field key="type" id="dict.course.activity.relation.relation.type" parent="dict.course.activity.relation.relation.type.abstract"/>
-<dict:fieldDescriptor key="type" id="dict.course.activity.relation.relation.type.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.activity.relation.relation.type.fd.abstract" abstract="true">
 	<dict:name>course activity relation type</dict:name>
 	<dict:desc>type of the relationship, hard coded to be course activity</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="type" id="dict.course.activity.relation.relation.type.fd" parent="dict.course.activity.relation.relation.type.fd.abstract"/>
+<dict:fieldDescriptor id="dict.course.activity.relation.relation.type.fd" parent="dict.course.activity.relation.relation.type.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.activity.relation.relation.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -961,13 +964,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:selector>true</dict:selector>
 </dict:field>
 <dict:field key="state" id="dict.course.activity.relation.relation.state" parent="dict.course.activity.relation.relation.state.abstract"/>
-<dict:fieldDescriptor key="state" id="dict.course.activity.relation.relation.state.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.activity.relation.relation.state.fd.abstract" abstract="true">
 	<dict:name>course activity relation state</dict:name>
 	<dict:desc>state of the relationship</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="state" id="dict.course.activity.relation.relation.state.fd" parent="dict.course.activity.relation.relation.state.fd.abstract"/>
+<dict:fieldDescriptor id="dict.course.activity.relation.relation.state.fd" parent="dict.course.activity.relation.relation.state.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.activity.relation.relation.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -985,13 +988,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.course.activity.relation.relation.internal.id.cd"/>
 </dict:field>
 <dict:field key="id" id="dict.course.activity.relation.relation.internal.id" parent="dict.course.activity.relation.relation.internal.id.abstract"/>
-<dict:fieldDescriptor key="id" id="dict.course.activity.relation.relation.internal.id.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.activity.relation.relation.internal.id.fd.abstract" abstract="true">
 	<dict:name>course activity relation id</dict:name>
 	<dict:desc>relationship id</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="id" id="dict.course.activity.relation.relation.internal.id.fd" parent="dict.course.activity.relation.relation.internal.id.fd.abstract"/>
+<dict:fieldDescriptor id="dict.course.activity.relation.relation.internal.id.fd" parent="dict.course.activity.relation.relation.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.activity.relation.relation.internal.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1008,12 +1011,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.colocated.course.relation.course.internal.id1.cd"/>
 </dict:field>
 <dict:field key="cluId" id="dict.colocated.course.relation.course.internal.id1" parent="dict.colocated.course.relation.course.internal.id1.abstract"/>
-<dict:fieldDescriptor key="cluId" id="dict.colocated.course.relation.course.internal.id1.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.colocated.course.relation.course.internal.id1.fd.abstract" abstract="true">
 	<dict:name>course colocated course id1</dict:name>
 	<dict:desc>course id 1</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="cluId" id="dict.colocated.course.relation.course.internal.id1.fd" parent="dict.colocated.course.relation.course.internal.id1.fd.abstract"/>
+<dict:fieldDescriptor id="dict.colocated.course.relation.course.internal.id1.fd" parent="dict.colocated.course.relation.course.internal.id1.fd.abstract"/>
 <dict:constraintDescriptor id="dict.colocated.course.relation.course.internal.id1.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1029,12 +1032,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.colocated.course.relation.course.internal.id2.cd"/>
 </dict:field>
 <dict:field key="relatedCluId" id="dict.colocated.course.relation.course.internal.id2" parent="dict.colocated.course.relation.course.internal.id2.abstract"/>
-<dict:fieldDescriptor key="relatedCluId" id="dict.colocated.course.relation.course.internal.id2.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.colocated.course.relation.course.internal.id2.fd.abstract" abstract="true">
 	<dict:name>course colocated course id2</dict:name>
 	<dict:desc>course id 2</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="relatedCluId" id="dict.colocated.course.relation.course.internal.id2.fd" parent="dict.colocated.course.relation.course.internal.id2.fd.abstract"/>
+<dict:fieldDescriptor id="dict.colocated.course.relation.course.internal.id2.fd" parent="dict.colocated.course.relation.course.internal.id2.fd.abstract"/>
 <dict:constraintDescriptor id="dict.colocated.course.relation.course.internal.id2.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1050,13 +1053,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.colocated.course.relation.required.cd"/>
 </dict:field>
 <dict:field key="isCluRelationRequired" id="dict.colocated.course.relation.required" parent="dict.colocated.course.relation.required.abstract"/>
-<dict:fieldDescriptor key="isCluRelationRequired" id="dict.colocated.course.relation.required.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.colocated.course.relation.required.fd.abstract" abstract="true">
 	<dict:name>course colocated required</dict:name>
 	<dict:desc>indicates that colocation is required or not, hard coded to be false</dict:desc>
 	<dict:dataType>boolean</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="isCluRelationRequired" id="dict.colocated.course.relation.required.fd" parent="dict.colocated.course.relation.required.fd.abstract"/>
+<dict:fieldDescriptor id="dict.colocated.course.relation.required.fd" parent="dict.colocated.course.relation.required.fd.abstract"/>
 <dict:constraintDescriptor id="dict.colocated.course.relation.required.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1077,12 +1080,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.colocated.course.relation.expirationDate.cd"/>
 </dict:field>
 <dict:field key="effectiveDate" id="dict.colocated.course.relation.expirationDate" parent="dict.colocated.course.relation.expirationDate.abstract"/>
-<dict:fieldDescriptor key="effectiveDate" id="dict.colocated.course.relation.expirationDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.colocated.course.relation.expirationDate.fd.abstract" abstract="true">
 	<dict:name>course colocated expirationDate</dict:name>
 	<dict:desc>expiration date</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="effectiveDate" id="dict.colocated.course.relation.expirationDate.fd" parent="dict.colocated.course.relation.expirationDate.fd.abstract"/>
+<dict:fieldDescriptor id="dict.colocated.course.relation.expirationDate.fd" parent="dict.colocated.course.relation.expirationDate.fd.abstract"/>
 <dict:constraintDescriptor id="dict.colocated.course.relation.expirationDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1099,12 +1102,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.colocated.course.relation.effectiveDate.cd"/>
 </dict:field>
 <dict:field key="expirationDate" id="dict.colocated.course.relation.effectiveDate" parent="dict.colocated.course.relation.effectiveDate.abstract"/>
-<dict:fieldDescriptor key="expirationDate" id="dict.colocated.course.relation.effectiveDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.colocated.course.relation.effectiveDate.fd.abstract" abstract="true">
 	<dict:name>course colocated effectiveDate</dict:name>
 	<dict:desc>effective date</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="expirationDate" id="dict.colocated.course.relation.effectiveDate.fd" parent="dict.colocated.course.relation.effectiveDate.fd.abstract"/>
+<dict:fieldDescriptor id="dict.colocated.course.relation.effectiveDate.fd" parent="dict.colocated.course.relation.effectiveDate.fd.abstract"/>
 <dict:constraintDescriptor id="dict.colocated.course.relation.effectiveDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1120,14 +1123,14 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.colocated.course.relation.metainfo.cd"/>
 </dict:field>
 <dict:field key="metaInfo" id="dict.colocated.course.relation.metainfo" parent="dict.colocated.course.relation.metainfo.abstract"/>
-<dict:fieldDescriptor key="metaInfo" id="dict.colocated.course.relation.metainfo.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.colocated.course.relation.metainfo.fd.abstract" abstract="true">
 	<dict:name>course colocated metainfo</dict:name>
 	<dict:desc>audit trail info</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.cluCluRelationInfo.metaInfo.Co-Located"/>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="metaInfo" id="dict.colocated.course.relation.metainfo.fd" parent="dict.colocated.course.relation.metainfo.fd.abstract"/>
+<dict:fieldDescriptor id="dict.colocated.course.relation.metainfo.fd" parent="dict.colocated.course.relation.metainfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.colocated.course.relation.metainfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1142,13 +1145,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.colocated.course.relation.relation.type.cd"/>
 </dict:field>
 <dict:field key="type" id="dict.colocated.course.relation.relation.type" parent="dict.colocated.course.relation.relation.type.abstract"/>
-<dict:fieldDescriptor key="type" id="dict.colocated.course.relation.relation.type.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.colocated.course.relation.relation.type.fd.abstract" abstract="true">
 	<dict:name>course colocated relation type</dict:name>
 	<dict:desc>type of the relationship, hard coded to be co-located</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="type" id="dict.colocated.course.relation.relation.type.fd" parent="dict.colocated.course.relation.relation.type.fd.abstract"/>
+<dict:fieldDescriptor id="dict.colocated.course.relation.relation.type.fd" parent="dict.colocated.course.relation.relation.type.fd.abstract"/>
 <dict:constraintDescriptor id="dict.colocated.course.relation.relation.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1168,13 +1171,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:selector>true</dict:selector>
 </dict:field>
 <dict:field key="state" id="dict.colocated.course.relation.relation.state" parent="dict.colocated.course.relation.relation.state.abstract"/>
-<dict:fieldDescriptor key="state" id="dict.colocated.course.relation.relation.state.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.colocated.course.relation.relation.state.fd.abstract" abstract="true">
 	<dict:name>course colocated relation state</dict:name>
 	<dict:desc>state of the relationship</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="state" id="dict.colocated.course.relation.relation.state.fd" parent="dict.colocated.course.relation.relation.state.fd.abstract"/>
+<dict:fieldDescriptor id="dict.colocated.course.relation.relation.state.fd" parent="dict.colocated.course.relation.relation.state.fd.abstract"/>
 <dict:constraintDescriptor id="dict.colocated.course.relation.relation.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
@@ -1192,13 +1195,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.colocated.course.relation.relation.id.cd"/>
 </dict:field>
 <dict:field key="id" id="dict.colocated.course.relation.relation.id" parent="dict.colocated.course.relation.relation.id.abstract"/>
-<dict:fieldDescriptor key="id" id="dict.colocated.course.relation.relation.id.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.colocated.course.relation.relation.id.fd.abstract" abstract="true">
 	<dict:name>course colocated relation id</dict:name>
 	<dict:desc>relationship id</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="id" id="dict.colocated.course.relation.relation.id.fd" parent="dict.colocated.course.relation.relation.id.fd.abstract"/>
+<dict:fieldDescriptor id="dict.colocated.course.relation.relation.id.fd" parent="dict.colocated.course.relation.relation.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.colocated.course.relation.relation.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>

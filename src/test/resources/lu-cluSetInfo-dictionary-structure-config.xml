@@ -7,7 +7,7 @@ http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/d
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Thu Feb 18 11:40:02 EST 2010
+on: Thu Feb 18 13:33:54 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -60,7 +60,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Friendly name of the CLU Set.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="name" id="field.cluSetInfo.name.fd" parent="field.cluSetInfo.name.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.name.fd" parent="field.cluSetInfo.name.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); A basic single line of text, no embedded carraige returns or tabs limited to 255 -->
 <dict:constraintDescriptor id="field.cluSetInfo.name.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -80,7 +80,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluSetInfo.desc"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="desc" id="field.cluSetInfo.desc.fd" parent="field.cluSetInfo.desc.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.desc.fd" parent="field.cluSetInfo.desc.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating) -->
 <dict:constraintDescriptor id="field.cluSetInfo.desc.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -127,7 +127,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="plain" id="field.cluSetInfo.desc.plain.fd" parent="field.cluSetInfo.desc.plain.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.desc.plain.fd" parent="field.cluSetInfo.desc.plain.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating); Multi-line text field that accepts all printable characters plus tab, carraige-return and linefeed. -->
 <dict:constraintDescriptor id="field.cluSetInfo.desc.plain.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
@@ -149,7 +149,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Formatted version of the text.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="formatted" id="field.cluSetInfo.desc.formatted.fd" parent="field.cluSetInfo.desc.formatted.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.desc.formatted.fd" parent="field.cluSetInfo.desc.formatted.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Text field that accepts all types of characters using some sort of escaping convention along with the ability to specify bolding, font size, color etc. -->
 <dict:constraintDescriptor id="field.cluSetInfo.desc.formatted.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -171,7 +171,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Date and time that this CLU Set became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="effectiveDate" id="field.cluSetInfo.effectiveDate.fd" parent="field.cluSetInfo.effectiveDate.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.effectiveDate.fd" parent="field.cluSetInfo.effectiveDate.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Date-Time -->
 <dict:constraintDescriptor id="field.cluSetInfo.effectiveDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -190,7 +190,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Date and time that this CLU Set expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="expirationDate" id="field.cluSetInfo.expirationDate.fd" parent="field.cluSetInfo.expirationDate.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.expirationDate.fd" parent="field.cluSetInfo.expirationDate.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Date-Time -->
 <dict:constraintDescriptor id="field.cluSetInfo.expirationDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -210,7 +210,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluSetInfo.membershipQuery"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="membershipQuery" id="field.cluSetInfo.membershipQuery.fd" parent="field.cluSetInfo.membershipQuery.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.membershipQuery.fd" parent="field.cluSetInfo.membershipQuery.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating) -->
 <dict:constraintDescriptor id="field.cluSetInfo.membershipQuery.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -256,7 +256,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Identifier for a search type.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="searchTypeKey" id="field.cluSetInfo.membershipQuery.searchTypeKey.fd" parent="field.cluSetInfo.membershipQuery.searchTypeKey.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.membershipQuery.searchTypeKey.fd" parent="field.cluSetInfo.membershipQuery.searchTypeKey.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Kuali TYPE: required on add, then read-only; In list of valid search types -->
 <dict:constraintDescriptor id="field.cluSetInfo.membershipQuery.searchTypeKey.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -277,7 +277,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluSetInfo.membershipQuery.queryParamValueList"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="queryParamValueList" id="field.cluSetInfo.membershipQuery.queryParamValueList.fd" parent="field.cluSetInfo.membershipQuery.queryParamValueList.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.membershipQuery.queryParamValueList.fd" parent="field.cluSetInfo.membershipQuery.queryParamValueList.fd.abstract"/>
 <!-- Optional; Repeating -->
 <dict:constraintDescriptor id="field.cluSetInfo.membershipQuery.queryParamValueList.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -324,7 +324,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Value(s) for the query parameter.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="value" id="field.cluSetInfo.membershipQuery.queryParamValueList.value.fd" parent="field.cluSetInfo.membershipQuery.queryParamValueList.value.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.membershipQuery.queryParamValueList.value.fd" parent="field.cluSetInfo.membershipQuery.queryParamValueList.value.fd.abstract"/>
 <!-- Optional; Repeating -->
 <dict:constraintDescriptor id="field.cluSetInfo.membershipQuery.queryParamValueList.value.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -342,7 +342,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Identifier for a query parameter.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="key" id="field.cluSetInfo.membershipQuery.queryParamValueList.key.fd" parent="field.cluSetInfo.membershipQuery.queryParamValueList.key.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.membershipQuery.queryParamValueList.key.fd" parent="field.cluSetInfo.membershipQuery.queryParamValueList.key.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Kuali TYPE: required on add, then read-only; In list of valid query parameter types for searches -->
 <dict:constraintDescriptor id="field.cluSetInfo.membershipQuery.queryParamValueList.key.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -362,7 +362,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>List of identifiers of directly contained CLU Sets. Present for enumerated CLU Sets.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="cluSetIds" id="field.cluSetInfo.cluSetIds.fd" parent="field.cluSetInfo.cluSetIds.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.cluSetIds.fd" parent="field.cluSetInfo.cluSetIds.fd.abstract"/>
 <!-- Optional; Repeating; Id of an existing CLU Set Id -->
 <dict:constraintDescriptor id="field.cluSetInfo.cluSetIds.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -381,7 +381,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>List of identifiers of directly contained CLUs. Present for enumerated CLU Sets.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="cluIds" id="field.cluSetInfo.cluIds.fd" parent="field.cluSetInfo.cluIds.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.cluIds.fd" parent="field.cluSetInfo.cluIds.fd.abstract"/>
 <!-- Optional; Repeating; Id of an existing CLU -->
 <dict:constraintDescriptor id="field.cluSetInfo.cluIds.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
@@ -402,7 +402,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:objectStructureRef bean="object.field.cluSetInfo.metaInfo"/>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="metaInfo" id="field.cluSetInfo.metaInfo.fd" parent="field.cluSetInfo.metaInfo.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.metaInfo.fd" parent="field.cluSetInfo.metaInfo.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating) -->
 <dict:constraintDescriptor id="field.cluSetInfo.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
@@ -452,7 +452,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="versionInd" id="field.cluSetInfo.metaInfo.versionInd.fd" parent="field.cluSetInfo.metaInfo.versionInd.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.metaInfo.versionInd.fd" parent="field.cluSetInfo.metaInfo.versionInd.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Calculates the version indicator that is used for optimistic locking; Read Only -->
 <dict:constraintDescriptor id="field.cluSetInfo.metaInfo.versionInd.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -472,7 +472,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>The date and time the thing being described with this meta information was created</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createTime" id="field.cluSetInfo.metaInfo.createTime.fd" parent="field.cluSetInfo.metaInfo.createTime.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.metaInfo.createTime.fd" parent="field.cluSetInfo.metaInfo.createTime.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Date-Time; Defaults to NOW, when the object is created -->
 <dict:constraintDescriptor id="field.cluSetInfo.metaInfo.createTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -493,7 +493,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="createId" id="field.cluSetInfo.metaInfo.createId.fd" parent="field.cluSetInfo.metaInfo.createId.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.metaInfo.createId.fd" parent="field.cluSetInfo.metaInfo.createId.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Defaults to the currently authenticated user -->
 <dict:constraintDescriptor id="field.cluSetInfo.metaInfo.createId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
@@ -513,7 +513,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateTime" id="field.cluSetInfo.metaInfo.updateTime.fd" parent="field.cluSetInfo.metaInfo.updateTime.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.metaInfo.updateTime.fd" parent="field.cluSetInfo.metaInfo.updateTime.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Date-Time; Sets a field to the current time -->
 <dict:constraintDescriptor id="field.cluSetInfo.metaInfo.updateTime.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -534,7 +534,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="updateId" id="field.cluSetInfo.metaInfo.updateId.fd" parent="field.cluSetInfo.metaInfo.updateId.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.metaInfo.updateId.fd" parent="field.cluSetInfo.metaInfo.updateId.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Sets a field to the currently authenticated user -->
 <dict:constraintDescriptor id="field.cluSetInfo.metaInfo.updateId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
@@ -554,7 +554,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Unique identifier for a clu set type. Once set at create time, this field may not be updated.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="type" id="field.cluSetInfo.type.fd" parent="field.cluSetInfo.type.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.type.fd" parent="field.cluSetInfo.type.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Kuali TYPE: required on add, then read-only; In list of valid clu set types -->
 <dict:constraintDescriptor id="field.cluSetInfo.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -574,7 +574,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>The current status of the clu set. The values for this field are constrained to those in the cluSetState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="state" id="field.cluSetInfo.state.fd" parent="field.cluSetInfo.state.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.state.fd" parent="field.cluSetInfo.state.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Kuali STATE; In list of valid clu set states -->
 <dict:constraintDescriptor id="field.cluSetInfo.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
@@ -595,7 +595,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor key="id" id="field.cluSetInfo.id.fd" parent="field.cluSetInfo.id.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.id.fd" parent="field.cluSetInfo.id.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only. -->
 <dict:constraintDescriptor id="field.cluSetInfo.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
