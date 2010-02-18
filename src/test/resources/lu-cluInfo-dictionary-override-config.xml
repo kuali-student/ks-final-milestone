@@ -7,7 +7,7 @@ http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/d
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Thu Feb 18 14:41:04 EST 2010
+on: Thu Feb 18 17:12:34 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -7958,7 +7958,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course academicSubjectOrgs</dict:name>
 	<dict:desc>course ademicSubjectOrgs</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.academicSubjectOrgs.CreditCourse"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.academicSubjectOrgs.fd" parent="dict.course.academicSubjectOrgs.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.academicSubjectOrgs.cd.abstract" abstract="true">
@@ -8046,7 +8045,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course accreditations</dict:name>
 	<dict:desc>course accreditations</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.accreditations.CreditCourse"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.accreditations.fd" parent="dict.course.accreditations.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.accreditations.cd.abstract" abstract="true">
@@ -8090,7 +8088,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course alternateAdminOrgs</dict:name>
 	<dict:desc>not used</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.alternateAdminOrgs.CreditCourse"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.alternateAdminOrgs.fd" parent="dict.course.alternateAdminOrgs.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.alternateAdminOrgs.cd.abstract" abstract="true">
@@ -8112,7 +8109,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course primaryInstructor</dict:name>
 	<dict:desc>course primaryInstructor</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.primaryInstructor.CreditCourse"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.primaryInstructor.fd" parent="dict.course.primaryInstructor.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.primaryInstructor.cd.abstract" abstract="true">
@@ -8134,7 +8130,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course instructors</dict:name>
 	<dict:desc>course instructors</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.instructors.CreditCourse"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.instructors.fd" parent="dict.course.instructors.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.instructors.cd.abstract" abstract="true">
@@ -8223,7 +8218,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course contact hours</dict:name>
 	<dict:desc>contact hours</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.intensity.CreditCourse"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.total.contact.hours.fd" parent="dict.course.total.contact.hours.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.total.contact.hours.cd.abstract" abstract="true">
@@ -8311,7 +8305,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course luCodes</dict:name>
 	<dict:desc>course luCodes</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.luCodes.CreditCourse"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.luCodes.fd" parent="dict.course.luCodes.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.luCodes.cd.abstract" abstract="true">
@@ -8488,7 +8481,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course feeInfo</dict:name>
 	<dict:desc>course feeInfo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.feeInfo.CreditCourse"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.feeInfo.fd" parent="dict.course.feeInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.feeInfo.cd.abstract" abstract="true">
@@ -8510,7 +8502,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course accountingInfo</dict:name>
 	<dict:desc>course accountingInfo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.accountingInfo.CreditCourse"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.accountingInfo.fd" parent="dict.course.accountingInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.accountingInfo.cd.abstract" abstract="true">
@@ -8904,7 +8895,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course format alternateIdentifiers</dict:name>
 	<dict:desc>course format shell alternateIdentifiers</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.alternateIdentifiers.CreditCourseFormatShell"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.format.alternateIdentifiers.fd" parent="dict.course.format.alternateIdentifiers.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.format.alternateIdentifiers.cd.abstract" abstract="true">
@@ -8926,7 +8916,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course format academicSubjectOrgs</dict:name>
 	<dict:desc>course format academicSubjectOrgs</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.academicSubjectOrgs.CreditCourseFormatShell"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.format.academicSubjectOrgs.fd" parent="dict.course.format.academicSubjectOrgs.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.format.academicSubjectOrgs.cd.abstract" abstract="true">
@@ -8970,7 +8959,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course format desc</dict:name>
 	<dict:desc>course format desc</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.desc.CreditCourseFormatShell"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.format.desc.fd" parent="dict.course.format.desc.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.format.desc.cd.abstract" abstract="true">
@@ -9014,7 +9002,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course format accreditations</dict:name>
 	<dict:desc>course format accreditations</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.accreditations.CreditCourseFormatShell"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.format.accreditations.fd" parent="dict.course.format.accreditations.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.format.accreditations.cd.abstract" abstract="true">
@@ -9036,7 +9023,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course format primaryAdminOrg</dict:name>
 	<dict:desc>course format primaryAdminOrg</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.primaryAdminOrg.CreditCourseFormatShell"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.format.primaryAdminOrg.fd" parent="dict.course.format.primaryAdminOrg.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.format.primaryAdminOrg.cd.abstract" abstract="true">
@@ -9058,7 +9044,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course format alternateAdminOrgs</dict:name>
 	<dict:desc>course format alternateAdminOrgs</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.alternateAdminOrgs.CreditCourseFormatShell"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.format.alternateAdminOrgs.fd" parent="dict.course.format.alternateAdminOrgs.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.format.alternateAdminOrgs.cd.abstract" abstract="true">
@@ -9080,7 +9065,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course format primaryInstructor</dict:name>
 	<dict:desc>course format primaryInstructor</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.primaryInstructor.CreditCourseFormatShell"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.format.primaryInstructor.fd" parent="dict.course.format.primaryInstructor.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.format.primaryInstructor.cd.abstract" abstract="true">
@@ -9102,7 +9086,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course format instructors</dict:name>
 	<dict:desc>course format instructors</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.instructors.CreditCourseFormatShell"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.format.instructors.fd" parent="dict.course.format.instructors.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.format.instructors.cd.abstract" abstract="true">
@@ -9188,7 +9171,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course format intensity</dict:name>
 	<dict:desc>course format intensity</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.intensity.CreditCourseFormatShell"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.format.total.contact.hours.fd" parent="dict.course.format.total.contact.hours.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.format.total.contact.hours.cd.abstract" abstract="true">
@@ -9274,7 +9256,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course format luCodes</dict:name>
 	<dict:desc>course format luCodes</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.luCodes.CreditCourseFormatShell"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.format.luCodes.fd" parent="dict.course.format.luCodes.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.format.luCodes.cd.abstract" abstract="true">
@@ -9450,7 +9431,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course format feeInfo</dict:name>
 	<dict:desc>course format feeInfo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.feeInfo.CreditCourseFormatShell"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.format.feeInfo.fd" parent="dict.course.format.feeInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.format.feeInfo.cd.abstract" abstract="true">
@@ -9472,7 +9452,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course format accountingInfo</dict:name>
 	<dict:desc>course format accountingInfo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.accountingInfo.CreditCourseFormatShell"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.format.accountingInfo.fd" parent="dict.course.format.accountingInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.format.accountingInfo.cd.abstract" abstract="true">
@@ -9627,7 +9606,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>program academicSubjectOrgs</dict:name>
 	<dict:desc>program ademicSubjectOrgs</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.academicSubjectOrgs.Program"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.program.academicSubjectOrgs.fd" parent="dict.program.academicSubjectOrgs.fd.abstract"/>
 <dict:constraintDescriptor id="dict.program.academicSubjectOrgs.cd.abstract" abstract="true">
@@ -9715,7 +9693,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>program accreditations</dict:name>
 	<dict:desc>program accreditations</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.accreditations.Program"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.program.accreditations.fd" parent="dict.program.accreditations.fd.abstract"/>
 <dict:constraintDescriptor id="dict.program.accreditations.cd.abstract" abstract="true">
@@ -9759,7 +9736,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>program alternateAdminOrgs</dict:name>
 	<dict:desc>not used</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.alternateAdminOrgs.Program"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.program.alternateAdminOrgs.fd" parent="dict.program.alternateAdminOrgs.fd.abstract"/>
 <dict:constraintDescriptor id="dict.program.alternateAdminOrgs.cd.abstract" abstract="true">
@@ -9781,7 +9757,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>program primaryInstructor</dict:name>
 	<dict:desc>program primaryInstructor</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.primaryInstructor.Program"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.program.primaryInstructor.fd" parent="dict.program.primaryInstructor.fd.abstract"/>
 <dict:constraintDescriptor id="dict.program.primaryInstructor.cd.abstract" abstract="true">
@@ -9803,7 +9778,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>program instructors</dict:name>
 	<dict:desc>program instructors</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.instructors.Program"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.program.instructors.fd" parent="dict.program.instructors.fd.abstract"/>
 <dict:constraintDescriptor id="dict.program.instructors.cd.abstract" abstract="true">
@@ -9979,7 +9953,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>program luCodes</dict:name>
 	<dict:desc>program luCodes</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.luCodes.Program"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.program.luCodes.fd" parent="dict.program.luCodes.fd.abstract"/>
 <dict:constraintDescriptor id="dict.program.luCodes.cd.abstract" abstract="true">
@@ -10156,7 +10129,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>program feeInfo</dict:name>
 	<dict:desc>program feeInfo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.feeInfo.Program"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.program.feeInfo.fd" parent="dict.program.feeInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.program.feeInfo.cd.abstract" abstract="true">
@@ -10178,7 +10150,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>program accountingInfo</dict:name>
 	<dict:desc>program accountingInfo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.accountingInfo.Program"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.program.accountingInfo.fd" parent="dict.program.accountingInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.program.accountingInfo.cd.abstract" abstract="true">
@@ -10464,7 +10435,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course activity alternateIdentifiers</dict:name>
 	<dict:desc>course activity shell alternateIdentifiers</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.alternateIdentifiers.AllActivityTypes"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.activity.alternateIdentifiers.fd" parent="dict.course.activity.alternateIdentifiers.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.activity.alternateIdentifiers.cd.abstract" abstract="true">
@@ -10486,7 +10456,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course activity academicSubjectOrgs</dict:name>
 	<dict:desc>course activity academicSubjectOrgs</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.academicSubjectOrgs.AllActivityTypes"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.activity.academicSubjectOrgs.fd" parent="dict.course.activity.academicSubjectOrgs.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.activity.academicSubjectOrgs.cd.abstract" abstract="true">
@@ -10530,7 +10499,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course activity desc</dict:name>
 	<dict:desc>course activity desc</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.desc.AllActivityTypes"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.activity.desc.fd" parent="dict.course.activity.desc.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.activity.desc.cd.abstract" abstract="true">
@@ -10574,7 +10542,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course activity accreditations</dict:name>
 	<dict:desc>course activity accreditations</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.accreditations.AllActivityTypes"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.activity.accreditations.fd" parent="dict.course.activity.accreditations.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.activity.accreditations.cd.abstract" abstract="true">
@@ -10596,7 +10563,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course activity primaryAdminOrg</dict:name>
 	<dict:desc>course activity primaryAdminOrg</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.primaryAdminOrg.AllActivityTypes"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.activity.primaryAdminOrg.fd" parent="dict.course.activity.primaryAdminOrg.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.activity.primaryAdminOrg.cd.abstract" abstract="true">
@@ -10618,7 +10584,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course activity alternateAdminOrgs</dict:name>
 	<dict:desc>course activity alternateAdminOrgs</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.alternateAdminOrgs.AllActivityTypes"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.activity.alternateAdminOrgs.fd" parent="dict.course.activity.alternateAdminOrgs.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.activity.alternateAdminOrgs.cd.abstract" abstract="true">
@@ -10640,7 +10605,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course activity primaryInstructor</dict:name>
 	<dict:desc>course activity primaryInstructor</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.primaryInstructor.AllActivityTypes"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.activity.primaryInstructor.fd" parent="dict.course.activity.primaryInstructor.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.activity.primaryInstructor.cd.abstract" abstract="true">
@@ -10662,7 +10626,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course activity instructors</dict:name>
 	<dict:desc>course activity instructors</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.instructors.AllActivityTypes"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.activity.instructors.fd" parent="dict.course.activity.instructors.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.activity.instructors.cd.abstract" abstract="true">
@@ -10833,7 +10796,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course activity luCodes</dict:name>
 	<dict:desc>course activity luCodes</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.luCodes.AllActivityTypes"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.activity.luCodes.fd" parent="dict.course.activity.luCodes.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.activity.luCodes.cd.abstract" abstract="true">
@@ -11009,7 +10971,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course activity feeInfo</dict:name>
 	<dict:desc>course activity feeInfo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.feeInfo.AllActivityTypes"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.activity.feeInfo.fd" parent="dict.course.activity.feeInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.activity.feeInfo.cd.abstract" abstract="true">
@@ -11031,7 +10992,6 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>course activity accountingInfo</dict:name>
 	<dict:desc>course activity accountingInfo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluInfo.accountingInfo.AllActivityTypes"/>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.activity.accountingInfo.fd" parent="dict.course.activity.accountingInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.activity.accountingInfo.cd.abstract" abstract="true">

@@ -89,7 +89,6 @@ public class DictionaryOverrideFieldWriter
   writeConstraintDescriptor ();
  }
 
-
  protected void writeSubObjectStructure ()
  {
   XmlType xmlType = finder.findXmlType (field.getXmlType ());
@@ -134,14 +133,14 @@ public class DictionaryOverrideFieldWriter
 
  private String calcDefaultFieldId ()
  {
-  return parentObject.calcFieldId (field, finder.getDefaultType (), finder.getDefaultState ());
+  return parentObject.calcFieldId (field, finder.getDefaultType (), finder.
+   getDefaultState ());
  }
 
  protected String calcFieldId ()
  {
   return parentObject.calcFieldId (field, type, state);
  }
-
 
  private String calcDictionaryFieldId ()
  {
@@ -199,6 +198,15 @@ public class DictionaryOverrideFieldWriter
   writeAttributeId (calcDictionaryFieldDescriptorId ());
   writeParentToAbstract (calcDictionaryFieldDescriptorId ());
   writer.indentPrintln ("/>");
+ }
+
+ private boolean isNotUsed ()
+ {
+  if (dict.getAdditionalConstraintIds ().contains ("not.used"))
+  {
+   return true;
+  }
+  return false;
  }
 
  private void writeConstraintDescriptor ()
