@@ -85,9 +85,9 @@
   </properties>
   <scm>
     <!-- This should really be in the root level svn area. eg https://test.kuali.org/svn/maven -->
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/pom/trunk/kuali</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/pom/trunk/kuali</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/maven/pom/trunk/kuali</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/trunk/kuali</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/trunk/kuali</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/maven/trunk/kuali</url>
   </scm>
   <build>
      <pluginManagement>
