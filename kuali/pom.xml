@@ -24,7 +24,7 @@
 -->
   <groupId>org.kuali</groupId>
   <artifactId>kuali-parent</artifactId>
-  <version>1.4</version>
+  <version>1.4-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>The Kuali Foundation</name>
   <description>
@@ -85,9 +85,9 @@
   </properties>
   <scm>
     <!-- This should really be in the root level svn area. eg https://test.kuali.org/svn/maven -->
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/pom/tags/kuali-parent-1.4</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/pom/tags/kuali-parent-1.4</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/maven/pom/tags/kuali-parent-1.4</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/pom/trunk/kuali</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/pom/trunk/kuali</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/maven/pom/trunk/kuali</url>
   </scm>
   <build>
      <pluginManagement>
