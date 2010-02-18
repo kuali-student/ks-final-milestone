@@ -256,7 +256,52 @@
 	cursor: pointer;
 	
 }
-
+.KS-LOTextArea {
+	width: 186px;
+	height: 40px;
+	margin: 8px;
+	border: 1px solid #888888;
+}
+.KS-LOSelectedCategories {
+    margin-left: 0px;	
+}
+.KSLOLightBox {
+}
+.KSLOLightBoxButtonPanel {
+	background-color: white;
+	height: 40px;
+	margin-bottom: 30px;
+    padding-top: 12px;
+	padding-bottom: 20px;
+	padding-left: 16px;
+	width: 100%;
+}
+.KSLOLightBoxButton {
+    padding-right: 10px;
+}
+.KSLOLightBoxButtonSecondary {
+    margin-right: 180px;
+}
+.KSLOLightBoxMainPanel {
+	background-color: #a7a7a7;
+}
+.KSLOCategoryManagementButtonPanel {
+	background-color: white;
+	margin-bottom: 10px;
+	margin-left: 10px;
+}
+.KSLOCategoryManagementMainPanel {
+	background-color: white;
+	margin-top: 30px;
+    padding-top: 10px;
+    padding-left: 16px;
+}
+.KSLOCategoryManagementFilterPanel {
+}
+.KSLOCategoryManagementFilterLabel {
+	font-weight: bold;
+	font-size: 2em;
+}
 .cluInfo-officialIdentifier-longName{}
 .cluInfo-officialIdentifier-division{}
 .cluInfo-officialIdentifier-suffixCode{}

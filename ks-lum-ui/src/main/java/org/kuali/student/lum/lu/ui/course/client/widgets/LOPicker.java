@@ -20,7 +20,7 @@ import java.util.List;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.TextArea;
 
 /**
  * This is a description of what this class does - hjohnson don't forget to fill this in. 
@@ -29,14 +29,14 @@ import com.google.gwt.user.client.ui.TextBox;
  *
  */
 public class LOPicker extends HorizontalPanel{ 
-    TextBox loTextBox = new TextBox();
+    TextArea loTextArea = new TextArea();
     LOCategoryBuilder loCategoryBuilder;
     public LOPicker(String messageGroup, String type, String state, String loRepoKey) {
         super();
         loCategoryBuilder = new LOCategoryBuilder(messageGroup, type, state, loRepoKey);
-        
-        loTextBox.setPixelSize(200, 80);
-        super.add(loTextBox);
+        loTextArea.removeStyleName("ks-form-module-elements");
+        loTextArea.addStyleName("KS-LOTextArea");
+        super.add(loTextArea);
         super.add(loCategoryBuilder);
     }
     public void setLOCategories(List<LoCategoryInfo> categories){
@@ -46,10 +46,10 @@ public class LOPicker extends HorizontalPanel{
         return loCategoryBuilder.getValue();
     }
     public String getLOText(){
-        return loTextBox.getText();
+        return loTextArea.getText();
     }
     public void setLOText(String value){
-        loTextBox.setText(value);
+        loTextArea.setText(value);
     }
     
 }

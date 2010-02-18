@@ -58,6 +58,8 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
@@ -107,8 +109,8 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
 
         initWidget(root);
 
-        final VerticalPanel selectedPanel = new VerticalPanel();
-
+        final FlowPanel selectedPanel = new FlowPanel();
+        selectedPanel.setStyleName("KS-LOSelectedCategories");
         addButton.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
@@ -125,13 +127,17 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
                 
                 final KSLightBox pop = new KSLightBox();
                 KSButton addButton = new KSButton("Add");
+                addButton.addStyleName("KSLOLightBoxButton");
                 KSButton cancelButton = new KSButton("Cancel");
+                cancelButton.addStyleName("KSLOLightBoxButtonSecondary");
                 HorizontalPanel buttonPanel = new HorizontalPanel();
+                buttonPanel.addStyleName("KSLOLightBoxButtonPanel");
                 buttonPanel.add(addButton);
                 buttonPanel.add(cancelButton);
                 
                 
                 VerticalPanel mainPanel = new VerticalPanel();
+                mainPanel.addStyleName("KSLOLightBoxMainPanel");
                 mainPanel.add(categoryManagement);
                 mainPanel.add(buttonPanel);
                 

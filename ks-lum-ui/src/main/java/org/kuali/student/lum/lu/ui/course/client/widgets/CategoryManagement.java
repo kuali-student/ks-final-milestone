@@ -71,11 +71,15 @@ public class CategoryManagement extends Composite {
     List<LoCategoryTypeInfo> categoryTypeList;
     public CategoryManagement() {
         super.initWidget(mainPanel);
+        mainPanel.addStyleName("KSLOCategoryManagementMainPanel");
         accreditationCheckBox.setValue(true);
         skillCheckBox.setValue(true);
         subjectCheckBox.setValue(true);
         VerticalPanel filterPanel = new VerticalPanel();
-        filterPanel.add(new KSLabel("Filter"));
+        filterPanel.addStyleName("KSLOCategoryManagementFilterPanel");
+        KSLabel filterLabel = new KSLabel("Filter");
+        filterLabel.addStyleName("KSLOCategoryManagementFilterLabel");
+        filterPanel.add(filterLabel);
 
         Hyperlink selectAllLink = new Hyperlink("Select All","Select All");
         selectAllLink.addStyleName("Home-Small-Hyperlink");
@@ -109,6 +113,7 @@ public class CategoryManagement extends Composite {
         filterPanel.add(wordsInCategoryTextBox);
 
         HorizontalPanel buttonPanel = new HorizontalPanel();
+        buttonPanel.addStyleName("KSLOCategoryManagementButtonPanel");
         buttonPanel.add(addButton);
         // buttonPanel.add(filterButton);
         buttonPanel.add(deleteButton);
