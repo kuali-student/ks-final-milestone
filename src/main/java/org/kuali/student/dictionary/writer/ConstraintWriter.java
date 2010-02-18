@@ -16,13 +16,12 @@
 package org.kuali.student.dictionary.writer;
 
 import org.kuali.student.dictionary.model.Constraint;
-import java.io.PrintStream;
 
 /**
  * Writes out a constraint in XML format.
  * @author nwright
  */
-public class ConstraintWriter 
+public class ConstraintWriter
 {
 
  private Constraint constraint;
@@ -36,14 +35,17 @@ public class ConstraintWriter
 
  public void write ()
  {
-  if (isEmptyConstraint ())
+  if (constraint.getId ().equals (""))
   {
-   return;
+   if (isEmptyConstraint ())
+   {
+    return;
+   }
   }
-  // only add spacing on stand alone ones
-  // inline constraints shouldn't be separated
-  if ( ! constraint.getId ().equals (""))
+  else
   {
+   // only add spacing on stand alone ones
+   // inline constraints shouldn't be separated
    writer.println ("");
   }
 

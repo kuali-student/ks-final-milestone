@@ -3,11 +3,11 @@
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
 xsi:schemaLocation="
-http://student.kuali.org/xsd/dictionary-extension dictionary-extension.xsd
+http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Wed Feb 17 09:41:30 EST 2010
+on: Thu Feb 18 11:39:53 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -39,6 +39,16 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<!-- Single valued (non-repeating) -->
 		<!-- Used to override a repeating constraint -->
 		<dict:maxOccurs>1</dict:maxOccurs>
+		</dict:constraint>
+
+	<dict:constraint key="hidden" id="constraint.hidden" serverSide="false">
+		<!-- Hidden (not normally displayed) -->
+		<!-- Hidden isn't really a constraint but is captured here to help people think aobut the data and eventualy to help feed the configurable UI. -->
+		</dict:constraint>
+
+	<dict:constraint key="read.only" id="constraint.read.only" serverSide="false">
+		<!-- Read Only -->
+		<!-- Read-only isn't really a constraint on the data but is a constraint on the UI. It is here so it can be easily flagged as an attribute so thait can eventually feed the UI. -->
 		</dict:constraint>
 
 	<dict:constraint key="code" id="constraint.code" serverSide="false">
@@ -298,6 +308,16 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<!-- Requires special logic to check that the ID supplied actually exists -->
 		<dict:minLength>1</dict:minLength>
 		<dict:maxLength>36</dict:maxLength>
+		</dict:constraint>
+
+	<dict:constraint key="related.resultValueId" id="constraint.related.resultValueId" className="org.kuali.student.lum.lrc.validation.ResultValueObjectExistsValidator" serverSide="true">
+		<!-- Id of an existing CREDIT, CREDENTIAL, or GRADE -->
+		<!-- Requires special logic to check that the Id supplied actuall exists -->
+		</dict:constraint>
+
+	<dict:constraint key="related.resultComponentId" id="constraint.related.resultComponentId" className="org.kuali.student.lum.lrc.validation.ResultComponentExistsValidator" serverSide="true">
+		<!-- Id of an exisitn resultComponent -->
+		<!-- Requires special logic to check that the Id supplied actuall exists -->
 		</dict:constraint>
 
 	<dict:constraint key="related.gradekey" id="constraint.related.gradekey" className="org.kuali.student.lum.lrc.validation.GradeExistsValidator" serverSide="true">
@@ -1019,6 +1039,49 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		</dict:validChars>
 		</dict:constraint>
 
+	<dict:constraint key="calc.course.no" id="constraint.calc.course.no" className="org.kuali.student.lum.lu.calculation.CourseNoCalculator" serverSide="true">
+		<!-- Calculates the course number from it's various parts by concatenating them together. For KRU this calculation is: code = division + suffixCode + version -->
+		</dict:constraint>
+
+	<dict:constraint key="calc.copy.course.official.subjectArea" id="constraint.calc.copy.course.official.subjectArea" className="org.kuali.student.lum.lu.calculation.CopyOfficialCourseSubjectAreaCalculator" serverSide="true">
+		<!-- Same value as the value of the course.official.subjectArea field -->
+		<!-- Not sure how to implement this copy operation or invoke it every time the official course no gets updated -->
+		</dict:constraint>
+
+	<dict:constraint key="calc.copy.course.official.numberPart" id="constraint.calc.copy.course.official.numberPart" className="org.kuali.student.lum.lu.calculation.CopyOfficialCourseNumberPartCalculator" serverSide="true">
+		<!-- Same value as the value of the course.official.numberPart field -->
+		<!-- Not sure how to implement this copy operation or invoke it every time the official course no gets updated -->
+		</dict:constraint>
+
+	<dict:constraint key="calc.program.no" id="constraint.calc.program.no" className="org.kuali.student.lum.lu.calculation.ProgramNoCalculator" serverSide="true">
+		<!-- Not sure of the form for program just yet -->
+		<!-- Don't know all the details yet -->
+		</dict:constraint>
+
+	<dict:constraint key="calc.meta.versionInd" id="constraint.calc.meta.versionInd" className="org.kuali.student.core.calculationVersionIndCalculator" serverSide="true">
+		<!-- Calculates the version indicator that is used for optimistic locking -->
+		<!-- This could be as simple as a nano-second date-time stamp of the last update or a sequence number of the object that gets incremented on each update or some other more complex computation. -->
+		</dict:constraint>
+
+	<dict:constraint key="calc.now" id="constraint.calc.now" className="org.kuali.student.core.calculation.NowCalculator" serverSide="true">
+		<!-- Sets a field to the current time -->
+		<!-- Worry about timezone issues -->
+		</dict:constraint>
+
+	<dict:constraint key="calc.today" id="constraint.calc.today" className="org.kuali.student.core.calculation.TodayCalculator" serverSide="true">
+		<!-- Sets a field to system date -->
+		<!-- Worry about timezone issues -->
+		</dict:constraint>
+
+	<dict:constraint key="calc.authenicated.principalId" id="constraint.calc.authenicated.principalId" className="org.kuali.student.core.auth.calculation.AuthenticatedPrincipalCalculator" serverSide="true">
+		<!-- Sets a field to the currently authenticated user -->
+		<!-- How do we know who the real user is when a service calls another service? -->
+		</dict:constraint>
+
+	<dict:constraint key="calc.plain.text" id="constraint.calc.plain.text" className="org.kuali.student.core.calculation.PlainTextCalculator" serverSide="true">
+		<!-- Strips the formatting out of the formatted version of the rich text field and stores it in this plain text field -->
+		</dict:constraint>
+
 	<dict:constraint key="has.course.format.relation.lu.types" id="constraint.has.course.format.relation.lu.types" serverSide="false">
 		<!-- constrains the required LuType of the clu referenced by cluCluRelationInfo.cluID for a Has Course Format relation -->
 		<!-- TO DO: add the enumeration to simples -->
@@ -1064,6 +1127,56 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:lookup search="kuali.enum.type.validAtpTypes">
 		<dict:lookupKey field="(none)" mapsTo="(none)"/>
 		</dict:lookup>
+		</dict:constraint>
+
+	<dict:constraint key="cross.greaterthan.effective.date" id="constraint.cross.greaterthan.effective.date" serverSide="false">
+		<!-- Must be empty or a date greater than the entity's effective date -->
+		<!-- Not sure if this is how it should be handled - a calc seems like it should be server side, but we don't want this to be server side. In general, it is not clear how to document cross-field constraints -->
+		</dict:constraint>
+
+	<dict:constraint key="default.now" id="constraint.default.now" serverSide="true">
+		<!-- Defaults to NOW, when the object is created -->
+		<!-- Not sure how to implement defaults -->
+		</dict:constraint>
+
+	<dict:constraint key="default.today" id="constraint.default.today" serverSide="true">
+		<!-- Defaults to TODAY, when the object is created -->
+		<!-- Not sure how to implement defaults -->
+		</dict:constraint>
+
+	<dict:constraint key="default.true" id="constraint.default.true" serverSide="true">
+		<!-- Defaults a boolean to TRUE -->
+		<!-- Not sure how to implement defaults -->
+		</dict:constraint>
+
+	<dict:constraint key="default.active" id="constraint.default.active" serverSide="true">
+		<!-- Defaults to "active" -->
+		<!-- Not sure how to implement defaults -->
+		</dict:constraint>
+
+	<dict:constraint key="default.false" id="constraint.default.false" serverSide="true">
+		<!-- Defaults a boolean to FALSE -->
+		<!-- Not sure how to implement defaults -->
+		</dict:constraint>
+
+	<dict:constraint key="default.zero" id="constraint.default.zero" serverSide="true">
+		<!-- Defaults number to zero, 0 -->
+		<!-- May be applied to strings that hold numbers as well as numeric fields proper -->
+		</dict:constraint>
+
+	<dict:constraint key="default.one" id="constraint.default.one" serverSide="true">
+		<!-- Defaults number to a one, 1 -->
+		<!-- May be applied to strings that hold numbers as well as numeric fields proper -->
+		</dict:constraint>
+
+	<dict:constraint key="default.authenicated.principalId" id="constraint.default.authenicated.principalId" serverSide="true">
+		<!-- Defaults to the currently authenticated user -->
+		<!-- How do we know who the real user is when a service calls another service? -->
+		</dict:constraint>
+
+	<dict:constraint key="default.to.proposal.proposerOrg" id="constraint.default.to.proposal.proposerOrg" serverSide="true">
+		<!-- Defaults to the value to the proposer org from the related prposal -->
+		<!-- Not sure how to implement this -->
 		</dict:constraint>
 
 	<dict:constraint key="statement.operators" id="constraint.statement.operators" serverSide="false">
@@ -1246,6 +1359,14 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:validChars>
 		<dict:value>regex:kuali\.reqCompFieldType\.operator</dict:value>
 		</dict:validChars>
+		</dict:constraint>
+
+	<dict:constraint key="atp.in.future" id="constraint.atp.in.future" className="org.kuali.student.core.atp.validation.FutureATPValidatorValidator" serverSide="true">
+		<!-- The ATP must start in the future -->
+		</dict:constraint>
+
+	<dict:constraint key="course.variation.code.unique" id="constraint.course.variation.code.unique" className="org.kuali.student.lum.lu.validation.UniqueVariationValidatorValidator" serverSide="true">
+		<!-- The variation codes must be unique -->
 		</dict:constraint>
 
 	<dict:constraint key="hard.coded.countType" id="constraint.hard.coded.countType" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">

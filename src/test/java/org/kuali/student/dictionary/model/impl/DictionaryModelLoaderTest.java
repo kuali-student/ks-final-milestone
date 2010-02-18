@@ -54,7 +54,7 @@ public class DictionaryModelLoaderTest implements TestConstants
 
  private static SpreadsheetReader reader;
  private static DictionaryModel model;
-
+ private static ModelFinder finder;
 
  @BeforeClass
  public static void setUpClass ()
@@ -71,6 +71,7 @@ public class DictionaryModelLoaderTest implements TestConstants
   model = new DictionaryModelCache (model);
   DictionaryParentSetter parentSetter = new DictionaryParentSetter (model);
   parentSetter.set ();
+  finder = new ModelFinder (model);
  }
 
  @AfterClass
@@ -118,7 +119,6 @@ public class DictionaryModelLoaderTest implements TestConstants
    fail ("course.activity.contact.hours.no was not in default dictionary");
   }
 //   assertEquals (713, result.size ());
-  ModelFinder finder = new ModelFinder (model);
   Dictionary parent = null;
   Dictionary child = null;
 
@@ -127,14 +127,7 @@ public class DictionaryModelLoaderTest implements TestConstants
   child = finder.findDictionaryEntry ("course.official.no");
   assertEquals (child.getParent ().getId (), parent.getId ());
   child =
-   finder.findDictionaryEntry ("course.official.transcriptTitle.draft.private");
-  assertEquals (child.getParent ().getId (), parent.getId ());
-
-  parent = finder.findDictionaryEntry ("course.desc");
-  assertNull (parent.getParent ());
-  child = finder.findDictionaryEntry ("course.desc.plain");
-  assertEquals (child.getParent ().getId (), parent.getId ());
-  child = finder.findDictionaryEntry ("course.desc.plain.draft.public");
+   finder.findDictionaryEntry ("course.official.transcriptTitle.draft");
   assertEquals (child.getParent ().getId (), parent.getId ());
 
   parent = finder.findDictionaryEntry ("course.alternateIdentifiers");
@@ -148,8 +141,7 @@ public class DictionaryModelLoaderTest implements TestConstants
   assertNull (parent.getParent ());
   child = finder.findDictionaryEntry ("program.official.no");
   assertEquals (child.getParent ().getId (), parent.getId ());
-  child =
-   finder.findDictionaryEntry ("program.official.transcriptTitle.draft.private");
+  child = finder.findDictionaryEntry ("program.official.transcriptTitle.draft");
   assertEquals (child.getParent ().getId (), parent.getId ());
  }
 
@@ -253,12 +245,13 @@ public class DictionaryModelLoaderTest implements TestConstants
   System.out.println ("getConstraints");
 //  List<Type> expResult = new ArrayList ();
   List<Constraint> result = model.getConstraints ();
-//  for (MessageStructureField field : result)
-//  {
-//   System.out.println (field.getObjectField ());
-//  }
-//  assertEquals (94, result.size ());
-  assertEquals (true, true);
+  for (Constraint cons : result)
+  {
+   System.out.println (cons.getId ());
+  }
+  assertNotNull (finder.findConstraint ("required"));
+  assertNotNull (finder.findConstraint ("hidden"));
+  assertNotNull (finder.findConstraint ("read.only"));
  }
 
  /**

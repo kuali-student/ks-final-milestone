@@ -3,16 +3,16 @@
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
 xsi:schemaLocation="
-http://student.kuali.org/xsd/dictionary-extension dictionary-extension.xsd
+http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Wed Feb 17 09:41:42 EST 2010
+on: Thu Feb 18 11:40:04 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
-<import resource="constraints-dictionary-config.xml"/>
-<import resource="lrc-resultComponentInfo-dictionary-structure-config.xml"/>
+<import resource="classpath:constraints-dictionary-config.xml"/>
+<import resource="classpath:lrc-resultComponentInfo-dictionary-structure-config.xml"/>
 
 <!-- *********************************************** -->
 <!-- object structure for object.resultComponentInfo -->
@@ -27,7 +27,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:objectStructure key="org.kuali.student.lum.lrc.dto.ResultComponentInfo" id="object.resultComponentInfo" parent="object.resultComponentInfo.abstract"/>
 
 <!-- TO DO: Fix Simples name -->
-<dict:type key="kuali.resultComponentType.credit.degree.fixed" id="type.resultComponentInfo.FixedNumber.abstract" abstract="true" parent="type.resultComponentInfo.abstract">
+<dict:type key="kuali.resultComponentType.credit.degree.fixed" id="type.resultComponentInfo.FixedNumber.abstract" abstract="true">
 	<dict:name>Fixed Number</dict:name>
 	<dict:desc>This records a single fixed number of credits that are awarded if the student passes the course.</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -37,7 +37,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="kuali.resultComponentType.credit.degree.fixed" id="type.resultComponentInfo.FixedNumber" parent="type.resultComponentInfo.FixedNumber.abstract"/>
 
 <!-- TO DO: Fix Simples name -->
-<dict:type key="kuali.resultComponentType.credit.degree.range" id="type.resultComponentInfo.VariableNumber.abstract" abstract="true" parent="type.resultComponentInfo.abstract">
+<dict:type key="kuali.resultComponentType.credit.degree.range" id="type.resultComponentInfo.VariableNumber.abstract" abstract="true">
 	<dict:name>Variable Number</dict:name>
 	<dict:desc>This records a range of number of credits that can be awarded for this course.</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -47,7 +47,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="kuali.resultComponentType.credit.degree.range" id="type.resultComponentInfo.VariableNumber" parent="type.resultComponentInfo.VariableNumber.abstract"/>
 
 <!-- TO DO: add to Simples -->
-<dict:type key="kuali.resultComponentType.finalQualitative" id="type.resultComponentInfo.FinalQualitative.abstract" abstract="true" parent="type.resultComponentInfo.abstract">
+<dict:type key="kuali.resultComponentType.finalQualitative" id="type.resultComponentInfo.FinalQualitative.abstract" abstract="true">
 	<dict:name>Final Qualitative</dict:name>
 	<dict:desc>This records that a Qualitative assessment is possible for this course</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -57,7 +57,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="kuali.resultComponentType.finalQualitative" id="type.resultComponentInfo.FinalQualitative" parent="type.resultComponentInfo.FinalQualitative.abstract"/>
 
 <!-- TO DO: add to Simples -->
-<dict:type key="kuali.resultComponentType.finalGrade" id="type.resultComponentInfo.FinalGrade.abstract" abstract="true" parent="type.resultComponentInfo.abstract">
+<dict:type key="kuali.resultComponentType.finalGrade" id="type.resultComponentInfo.FinalGrade.abstract" abstract="true">
 	<dict:name>Final Grade</dict:name>
 	<dict:desc>This records that a final grade is a result for this course</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>

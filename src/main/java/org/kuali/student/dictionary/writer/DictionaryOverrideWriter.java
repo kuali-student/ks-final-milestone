@@ -278,24 +278,25 @@ public class DictionaryOverrideWriter
    writeTypeStructure (finder.getDefaultType (), null, true);
    return;
   }
-  String parentId = calcTypeId (finder.getDefaultType ());
+//  String parentId = calcTypeId (finder.getDefaultType ());
+  //writeTypeStructure (finder.getDefaultType (), null, true);
 //  if (alreadyWritten.add (finder.getDefaultState ().getName ().toLowerCase ()))
 //  {
 //   writeTypeStructure (finder.getDefaultType (), parentId, true);
 //  }
-  parentId = calcTypeId (finder.getDefaultType ());
+//  parentId = calcTypeId (finder.getDefaultType ());
   for (Type type : getConfiguredTypes ())
   {
    if (alreadyWritten.add (type.getName ().toLowerCase ()))
    {
-    writeTypeStructure (type, parentId, true);
+    writeTypeStructure (type, null, true);
    }
   }
   for (Type type : getConfiguredTypes ())
   {
    if (type.getStatus ().equalsIgnoreCase (Type.GROUPING))
    {
-    parentId = calcTypeId (type);
+    String parentId = calcTypeId (type);
     for (Type expandedType : expandType (type))
     {
      if (alreadyWritten.add (expandedType.getName ().toLowerCase ()))

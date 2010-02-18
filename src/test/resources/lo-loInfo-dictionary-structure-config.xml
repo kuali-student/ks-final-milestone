@@ -3,15 +3,15 @@
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
 xsi:schemaLocation="
-http://student.kuali.org/xsd/dictionary-extension dictionary-extension.xsd
+http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Wed Feb 17 09:41:41 EST 2010
+on: Thu Feb 18 11:40:03 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
-<import resource="constraints-dictionary-config.xml"/>
+<import resource="classpath:constraints-dictionary-config.xml"/>
 
 <!-- ********************************** -->
 <!-- object structure for object.loInfo -->
@@ -53,7 +53,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.loInfo.name.cd"/>
 </dict:field>
 <dict:field key="name" id="field.loInfo.name" parent="field.loInfo.name.abstract"/>
-<dict:fieldDescriptor key="name" id="field.loInfo.name.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.loInfo.name.fd.abstract" abstract="true">
 	<dict:name>Learning Objective Name</dict:name>
 	<dict:desc>Friendly name of the learning objective</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -71,7 +71,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.loInfo.desc.cd"/>
 </dict:field>
 <dict:field key="desc" id="field.loInfo.desc" parent="field.loInfo.desc.abstract"/>
-<dict:fieldDescriptor key="desc" id="field.loInfo.desc.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.loInfo.desc.fd.abstract" abstract="true">
 	<dict:name>Learning Objective Description</dict:name>
 	<dict:desc>Narrative description of the learning objective</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
@@ -118,7 +118,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.loInfo.desc.plain.cd"/>
 </dict:field>
 <dict:field key="plain" id="field.loInfo.desc.plain" parent="field.loInfo.desc.plain.abstract"/>
-<dict:fieldDescriptor key="plain" id="field.loInfo.desc.plain.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.loInfo.desc.plain.fd.abstract" abstract="true">
 	<dict:name>Plain Text</dict:name>
 	<dict:desc>Plain version of the text. This may be used for searching.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -141,7 +141,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.loInfo.desc.formatted.cd"/>
 </dict:field>
 <dict:field key="formatted" id="field.loInfo.desc.formatted" parent="field.loInfo.desc.formatted.abstract"/>
-<dict:fieldDescriptor key="formatted" id="field.loInfo.desc.formatted.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.loInfo.desc.formatted.fd.abstract" abstract="true">
 	<dict:name>Formatted Text</dict:name>
 	<dict:desc>Formatted version of the text.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -163,7 +163,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.loInfo.loRepositoryKey.cd"/>
 </dict:field>
 <dict:field key="loRepositoryKey" id="field.loInfo.loRepositoryKey" parent="field.loInfo.loRepositoryKey.abstract"/>
-<dict:fieldDescriptor key="loRepositoryKey" id="field.loInfo.loRepositoryKey.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.loInfo.loRepositoryKey.fd.abstract" abstract="true">
 	<dict:name>Learning Objective Repository Key</dict:name>
 	<dict:desc>Unique identifier for a learning objective Repository. This value is immutable once set during creation.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -182,7 +182,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.loInfo.effectiveDate.cd"/>
 </dict:field>
 <dict:field key="effectiveDate" id="field.loInfo.effectiveDate" parent="field.loInfo.effectiveDate.abstract"/>
-<dict:fieldDescriptor key="effectiveDate" id="field.loInfo.effectiveDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.loInfo.effectiveDate.fd.abstract" abstract="true">
 	<dict:name>Effective Date</dict:name>
 	<dict:desc>Date and time that this learning objective became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
@@ -201,7 +201,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.loInfo.expirationDate.cd"/>
 </dict:field>
 <dict:field key="expirationDate" id="field.loInfo.expirationDate" parent="field.loInfo.expirationDate.abstract"/>
-<dict:fieldDescriptor key="expirationDate" id="field.loInfo.expirationDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.loInfo.expirationDate.fd.abstract" abstract="true">
 	<dict:name>Expiration Date</dict:name>
 	<dict:desc>Date and time that this learning objective expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
@@ -220,7 +220,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.loInfo.metaInfo.cd"/>
 </dict:field>
 <dict:field key="metaInfo" id="field.loInfo.metaInfo" parent="field.loInfo.metaInfo.abstract"/>
-<dict:fieldDescriptor key="metaInfo" id="field.loInfo.metaInfo.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.loInfo.metaInfo.fd.abstract" abstract="true">
 	<dict:name>Create/Update meta info</dict:name>
 	<dict:desc>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
@@ -270,7 +270,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.loInfo.metaInfo.versionInd.cd"/>
 </dict:field>
 <dict:field key="versionInd" id="field.loInfo.metaInfo.versionInd" parent="field.loInfo.metaInfo.versionInd.abstract"/>
-<dict:fieldDescriptor key="versionInd" id="field.loInfo.metaInfo.versionInd.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.loInfo.metaInfo.versionInd.fd.abstract" abstract="true">
 	<dict:name>Version Indicator</dict:name>
 	<dict:desc>An indicator of the version of the thing being described with this meta information. This is set by the service implementation and will be used to determine conflicts in updates.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -291,7 +291,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.loInfo.metaInfo.createTime.cd"/>
 </dict:field>
 <dict:field key="createTime" id="field.loInfo.metaInfo.createTime" parent="field.loInfo.metaInfo.createTime.abstract"/>
-<dict:fieldDescriptor key="createTime" id="field.loInfo.metaInfo.createTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.loInfo.metaInfo.createTime.fd.abstract" abstract="true">
 	<dict:name>Date/Time Created</dict:name>
 	<dict:desc>The date and time the thing being described with this meta information was created</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
@@ -311,7 +311,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.loInfo.metaInfo.createId.cd"/>
 </dict:field>
 <dict:field key="createId" id="field.loInfo.metaInfo.createId" parent="field.loInfo.metaInfo.createId.abstract"/>
-<dict:fieldDescriptor key="createId" id="field.loInfo.metaInfo.createId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.loInfo.metaInfo.createId.fd.abstract" abstract="true">
 	<dict:name>Created By Identifier</dict:name>
 	<dict:desc>The principal who created the thing being described with this meta information</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -332,7 +332,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.loInfo.metaInfo.updateTime.cd"/>
 </dict:field>
 <dict:field key="updateTime" id="field.loInfo.metaInfo.updateTime" parent="field.loInfo.metaInfo.updateTime.abstract"/>
-<dict:fieldDescriptor key="updateTime" id="field.loInfo.metaInfo.updateTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.loInfo.metaInfo.updateTime.fd.abstract" abstract="true">
 	<dict:name>Date/Time Last Updated</dict:name>
 	<dict:desc>The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
@@ -352,7 +352,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.loInfo.metaInfo.updateId.cd"/>
 </dict:field>
 <dict:field key="updateId" id="field.loInfo.metaInfo.updateId" parent="field.loInfo.metaInfo.updateId.abstract"/>
-<dict:fieldDescriptor key="updateId" id="field.loInfo.metaInfo.updateId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.loInfo.metaInfo.updateId.fd.abstract" abstract="true">
 	<dict:name>Updated By Identifier</dict:name>
 	<dict:desc>The principal who last updated the thing being described with this meta information. This would be filled in on initial creation as well.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -373,7 +373,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.loInfo.type.cd"/>
 </dict:field>
 <dict:field key="type" id="field.loInfo.type" parent="field.loInfo.type.abstract"/>
-<dict:fieldDescriptor key="type" id="field.loInfo.type.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.loInfo.type.fd.abstract" abstract="true">
 	<dict:name>Learning Objective Type</dict:name>
 	<dict:desc>Unique identifier for a learning objective type.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -393,7 +393,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:selector>true</dict:selector>
 </dict:field>
 <dict:field key="state" id="field.loInfo.state" parent="field.loInfo.state.abstract"/>
-<dict:fieldDescriptor key="state" id="field.loInfo.state.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.loInfo.state.fd.abstract" abstract="true">
 	<dict:name>Learning Objective State</dict:name>
 	<dict:desc>The current status of the learning objective. The values for this field are constrained to those in the loState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -412,7 +412,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.loInfo.id.cd"/>
 </dict:field>
 <dict:field key="id" id="field.loInfo.id" parent="field.loInfo.id.abstract"/>
-<dict:fieldDescriptor key="id" id="field.loInfo.id.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.loInfo.id.fd.abstract" abstract="true">
 	<dict:name>Learning Objective Id</dict:name>
 	<dict:desc>Unique identifier for a learning objective record. This is optional, due to the identifier being set at the time of creation. Once the learning objective has been created, this should be seen as required.</dict:desc>
 	<dict:dataType>string</dict:dataType>

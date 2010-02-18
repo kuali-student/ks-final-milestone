@@ -3,15 +3,15 @@
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
 xsi:schemaLocation="
-http://student.kuali.org/xsd/dictionary-extension dictionary-extension.xsd
+http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Wed Feb 17 09:41:43 EST 2010
+on: Thu Feb 18 11:40:05 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
-<import resource="constraints-dictionary-config.xml"/>
+<import resource="classpath:constraints-dictionary-config.xml"/>
 
 <!-- ******************************************** -->
 <!-- object structure for object.lrDefinitionInfo -->
@@ -52,7 +52,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.lrDefinitionInfo.name.cd"/>
 </dict:field>
 <dict:field key="name" id="field.lrDefinitionInfo.name" parent="field.lrDefinitionInfo.name.abstract"/>
-<dict:fieldDescriptor key="name" id="field.lrDefinitionInfo.name.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.lrDefinitionInfo.name.fd.abstract" abstract="true">
 	<dict:name>Learning Result Definition Name</dict:name>
 	<dict:desc>Friendly name for the learning result definition.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -71,7 +71,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.lrDefinitionInfo.desc.cd"/>
 </dict:field>
 <dict:field key="desc" id="field.lrDefinitionInfo.desc" parent="field.lrDefinitionInfo.desc.abstract"/>
-<dict:fieldDescriptor key="desc" id="field.lrDefinitionInfo.desc.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.lrDefinitionInfo.desc.fd.abstract" abstract="true">
 	<dict:name>Learning Result Definition Description</dict:name>
 	<dict:desc>Any finite sequence of characters with letters, numerals, symbols and punctuation marks. The length can be any natural number between zero or any positive integer.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -90,7 +90,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.lrDefinitionInfo.lrType.cd"/>
 </dict:field>
 <dict:field key="lrType" id="field.lrDefinitionInfo.lrType" parent="field.lrDefinitionInfo.lrType.abstract"/>
-<dict:fieldDescriptor key="lrType" id="field.lrDefinitionInfo.lrType.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.lrDefinitionInfo.lrType.fd.abstract" abstract="true">
 	<dict:name>Learning Result Type</dict:name>
 	<dict:desc>Unique identifier for a learning result type. This is immutable once set.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -113,7 +113,7 @@ This field does not make sense. The GradeKey points to the GradeInfo object that
 	<dict:constraintDescriptorRef bean="field.lrDefinitionInfo.lrScale.cd"/>
 </dict:field>
 <dict:field key="lrScale" id="field.lrDefinitionInfo.lrScale" parent="field.lrDefinitionInfo.lrScale.abstract"/>
-<dict:fieldDescriptor key="lrScale" id="field.lrDefinitionInfo.lrScale.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.lrDefinitionInfo.lrScale.fd.abstract" abstract="true">
 	<dict:name>Learning Result Scale</dict:name>
 	<dict:desc>Unique identifier for a learning result scale type. This is immutable once set.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -134,7 +134,7 @@ This field does not make sense. The GradeKey points to the GradeInfo object that
 	<dict:constraintDescriptorRef bean="field.lrDefinitionInfo.value.cd"/>
 </dict:field>
 <dict:field key="value" id="field.lrDefinitionInfo.value" parent="field.lrDefinitionInfo.value.abstract"/>
-<dict:fieldDescriptor key="value" id="field.lrDefinitionInfo.value.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.lrDefinitionInfo.value.fd.abstract" abstract="true">
 	<dict:name>Learning Result Value</dict:name>
 	<dict:desc>Value for the learning result.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -152,7 +152,7 @@ This field does not make sense. The GradeKey points to the GradeInfo object that
 	<dict:constraintDescriptorRef bean="field.lrDefinitionInfo.operator.cd"/>
 </dict:field>
 <dict:field key="operator" id="field.lrDefinitionInfo.operator" parent="field.lrDefinitionInfo.operator.abstract"/>
-<dict:fieldDescriptor key="operator" id="field.lrDefinitionInfo.operator.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.lrDefinitionInfo.operator.fd.abstract" abstract="true">
 	<dict:name>operator</dict:name>
 	<dict:desc>The operator to use with the value, such as &gt;= (greater than or equal to)</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -172,7 +172,7 @@ This field does not make sense. The GradeKey points to the GradeInfo object that
 	<dict:constraintDescriptorRef bean="field.lrDefinitionInfo.metaInfo.cd"/>
 </dict:field>
 <dict:field key="metaInfo" id="field.lrDefinitionInfo.metaInfo" parent="field.lrDefinitionInfo.metaInfo.abstract"/>
-<dict:fieldDescriptor key="metaInfo" id="field.lrDefinitionInfo.metaInfo.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.lrDefinitionInfo.metaInfo.fd.abstract" abstract="true">
 	<dict:name>Create/Update meta info</dict:name>
 	<dict:desc>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
@@ -223,7 +223,7 @@ This field does not make sense. The GradeKey points to the GradeInfo object that
 	<dict:constraintDescriptorRef bean="field.lrDefinitionInfo.metaInfo.versionInd.cd"/>
 </dict:field>
 <dict:field key="versionInd" id="field.lrDefinitionInfo.metaInfo.versionInd" parent="field.lrDefinitionInfo.metaInfo.versionInd.abstract"/>
-<dict:fieldDescriptor key="versionInd" id="field.lrDefinitionInfo.metaInfo.versionInd.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.lrDefinitionInfo.metaInfo.versionInd.fd.abstract" abstract="true">
 	<dict:name>Version Indicator</dict:name>
 	<dict:desc>An indicator of the version of the thing being described with this meta information. This is set by the service implementation and will be used to determine conflicts in updates.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -244,7 +244,7 @@ This field does not make sense. The GradeKey points to the GradeInfo object that
 	<dict:constraintDescriptorRef bean="field.lrDefinitionInfo.metaInfo.createTime.cd"/>
 </dict:field>
 <dict:field key="createTime" id="field.lrDefinitionInfo.metaInfo.createTime" parent="field.lrDefinitionInfo.metaInfo.createTime.abstract"/>
-<dict:fieldDescriptor key="createTime" id="field.lrDefinitionInfo.metaInfo.createTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.lrDefinitionInfo.metaInfo.createTime.fd.abstract" abstract="true">
 	<dict:name>Date/Time Created</dict:name>
 	<dict:desc>The date and time the thing being described with this meta information was created</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
@@ -264,7 +264,7 @@ This field does not make sense. The GradeKey points to the GradeInfo object that
 	<dict:constraintDescriptorRef bean="field.lrDefinitionInfo.metaInfo.createId.cd"/>
 </dict:field>
 <dict:field key="createId" id="field.lrDefinitionInfo.metaInfo.createId" parent="field.lrDefinitionInfo.metaInfo.createId.abstract"/>
-<dict:fieldDescriptor key="createId" id="field.lrDefinitionInfo.metaInfo.createId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.lrDefinitionInfo.metaInfo.createId.fd.abstract" abstract="true">
 	<dict:name>Created By Identifier</dict:name>
 	<dict:desc>The principal who created the thing being described with this meta information</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -285,7 +285,7 @@ This field does not make sense. The GradeKey points to the GradeInfo object that
 	<dict:constraintDescriptorRef bean="field.lrDefinitionInfo.metaInfo.updateTime.cd"/>
 </dict:field>
 <dict:field key="updateTime" id="field.lrDefinitionInfo.metaInfo.updateTime" parent="field.lrDefinitionInfo.metaInfo.updateTime.abstract"/>
-<dict:fieldDescriptor key="updateTime" id="field.lrDefinitionInfo.metaInfo.updateTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.lrDefinitionInfo.metaInfo.updateTime.fd.abstract" abstract="true">
 	<dict:name>Date/Time Last Updated</dict:name>
 	<dict:desc>The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
@@ -305,7 +305,7 @@ This field does not make sense. The GradeKey points to the GradeInfo object that
 	<dict:constraintDescriptorRef bean="field.lrDefinitionInfo.metaInfo.updateId.cd"/>
 </dict:field>
 <dict:field key="updateId" id="field.lrDefinitionInfo.metaInfo.updateId" parent="field.lrDefinitionInfo.metaInfo.updateId.abstract"/>
-<dict:fieldDescriptor key="updateId" id="field.lrDefinitionInfo.metaInfo.updateId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.lrDefinitionInfo.metaInfo.updateId.fd.abstract" abstract="true">
 	<dict:name>Updated By Identifier</dict:name>
 	<dict:desc>The principal who last updated the thing being described with this meta information. This would be filled in on initial creation as well.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -326,7 +326,7 @@ This field does not make sense. The GradeKey points to the GradeInfo object that
 	<dict:constraintDescriptorRef bean="field.lrDefinitionInfo.lrDefinitionId.cd"/>
 </dict:field>
 <dict:field key="lrDefinitionId" id="field.lrDefinitionInfo.lrDefinitionId" parent="field.lrDefinitionInfo.lrDefinitionId.abstract"/>
-<dict:fieldDescriptor key="lrDefinitionId" id="field.lrDefinitionInfo.lrDefinitionId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.lrDefinitionInfo.lrDefinitionId.fd.abstract" abstract="true">
 	<dict:name>Learning Result Definition Id</dict:name>
 	<dict:desc>Unique identifier for a learning result definition record. This is optional, due to the identifier being set at the time of creation. Once the result definition has been created, this should be seen as required.</dict:desc>
 	<dict:dataType>string</dict:dataType>

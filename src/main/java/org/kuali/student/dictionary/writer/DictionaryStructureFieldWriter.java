@@ -166,7 +166,6 @@ public class DictionaryStructureFieldWriter
  private void writeFieldDescriptor ()
  {
   writer.indentPrint ("<dict:fieldDescriptor");
-  writer.writeAttribute ("key", field.getShortName ());
   writeAbstractAttributeId (calcFieldDescriptorId ());
   writer.indentPrintln (">");
   writer.incrementIndent ();

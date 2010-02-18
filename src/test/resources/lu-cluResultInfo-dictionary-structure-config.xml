@@ -3,15 +3,15 @@
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
 xsi:schemaLocation="
-http://student.kuali.org/xsd/dictionary-extension dictionary-extension.xsd
+http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Wed Feb 17 09:41:40 EST 2010
+on: Thu Feb 18 11:40:01 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
-<import resource="constraints-dictionary-config.xml"/>
+<import resource="classpath:constraints-dictionary-config.xml"/>
 
 <!-- ***************************************** -->
 <!-- object structure for object.cluResultInfo -->
@@ -53,7 +53,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.cluResultInfo.desc.cd"/>
 </dict:field>
 <dict:field key="desc" id="field.cluResultInfo.desc" parent="field.cluResultInfo.desc.abstract"/>
-<dict:fieldDescriptor key="desc" id="field.cluResultInfo.desc.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.cluResultInfo.desc.fd.abstract" abstract="true">
 	<dict:name>CLU Result Description</dict:name>
 	<dict:desc>Narrative description of the CLU result.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
@@ -100,7 +100,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.cluResultInfo.desc.plain.cd"/>
 </dict:field>
 <dict:field key="plain" id="field.cluResultInfo.desc.plain" parent="field.cluResultInfo.desc.plain.abstract"/>
-<dict:fieldDescriptor key="plain" id="field.cluResultInfo.desc.plain.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.cluResultInfo.desc.plain.fd.abstract" abstract="true">
 	<dict:name>Plain Text</dict:name>
 	<dict:desc>Plain version of the text. This may be used for searching.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -123,7 +123,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.cluResultInfo.desc.formatted.cd"/>
 </dict:field>
 <dict:field key="formatted" id="field.cluResultInfo.desc.formatted" parent="field.cluResultInfo.desc.formatted.abstract"/>
-<dict:fieldDescriptor key="formatted" id="field.cluResultInfo.desc.formatted.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.cluResultInfo.desc.formatted.fd.abstract" abstract="true">
 	<dict:name>Formatted Text</dict:name>
 	<dict:desc>Formatted version of the text.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -145,7 +145,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.cluResultInfo.cluId.cd"/>
 </dict:field>
 <dict:field key="cluId" id="field.cluResultInfo.cluId" parent="field.cluResultInfo.cluId.abstract"/>
-<dict:fieldDescriptor key="cluId" id="field.cluResultInfo.cluId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.cluResultInfo.cluId.fd.abstract" abstract="true">
 	<dict:name>CLU Identifier</dict:name>
 	<dict:desc>The cluId to which the CLU Result is linked.Unique identifier for a Canonical Learning Unit (CLU).</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -164,7 +164,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.cluResultInfo.resultOptions.cd"/>
 </dict:field>
 <dict:field key="resultOptions" id="field.cluResultInfo.resultOptions" parent="field.cluResultInfo.resultOptions.abstract"/>
-<dict:fieldDescriptor key="resultOptions" id="field.cluResultInfo.resultOptions.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.fd.abstract" abstract="true">
 	<dict:name>Result Options</dict:name>
 	<dict:desc>List of learning result option information.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
@@ -217,7 +217,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.cluResultInfo.resultOptions.desc.cd"/>
 </dict:field>
 <dict:field key="desc" id="field.cluResultInfo.resultOptions.desc" parent="field.cluResultInfo.resultOptions.desc.abstract"/>
-<dict:fieldDescriptor key="desc" id="field.cluResultInfo.resultOptions.desc.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.desc.fd.abstract" abstract="true">
 	<dict:name>Result Option Description</dict:name>
 	<dict:desc>Narrative description of the result option.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
@@ -264,7 +264,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.cluResultInfo.resultOptions.desc.plain.cd"/>
 </dict:field>
 <dict:field key="plain" id="field.cluResultInfo.resultOptions.desc.plain" parent="field.cluResultInfo.resultOptions.desc.plain.abstract"/>
-<dict:fieldDescriptor key="plain" id="field.cluResultInfo.resultOptions.desc.plain.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.desc.plain.fd.abstract" abstract="true">
 	<dict:name>Plain Text</dict:name>
 	<dict:desc>Plain version of the text. This may be used for searching.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -287,7 +287,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.cluResultInfo.resultOptions.desc.formatted.cd"/>
 </dict:field>
 <dict:field key="formatted" id="field.cluResultInfo.resultOptions.desc.formatted" parent="field.cluResultInfo.resultOptions.desc.formatted.abstract"/>
-<dict:fieldDescriptor key="formatted" id="field.cluResultInfo.resultOptions.desc.formatted.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.desc.formatted.fd.abstract" abstract="true">
 	<dict:name>Formatted Text</dict:name>
 	<dict:desc>Formatted version of the text.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -309,7 +309,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.cluResultInfo.resultOptions.resultUsageTypeKey.cd"/>
 </dict:field>
 <dict:field key="resultUsageTypeKey" id="field.cluResultInfo.resultOptions.resultUsageTypeKey" parent="field.cluResultInfo.resultOptions.resultUsageTypeKey.abstract"/>
-<dict:fieldDescriptor key="resultUsageTypeKey" id="field.cluResultInfo.resultOptions.resultUsageTypeKey.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.resultUsageTypeKey.fd.abstract" abstract="true">
 	<dict:name>Result Usage Type</dict:name>
 	<dict:desc>Unique identifier for a result usage type.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -328,7 +328,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.cluResultInfo.resultOptions.resultComponentId.cd"/>
 </dict:field>
 <dict:field key="resultComponentId" id="field.cluResultInfo.resultOptions.resultComponentId" parent="field.cluResultInfo.resultOptions.resultComponentId.abstract"/>
-<dict:fieldDescriptor key="resultComponentId" id="field.cluResultInfo.resultOptions.resultComponentId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.resultComponentId.fd.abstract" abstract="true">
 	<dict:name>Result Component Id</dict:name>
 	<dict:desc>Unique identifier for a result component.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -347,7 +347,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.cluResultInfo.resultOptions.effectiveDate.cd"/>
 </dict:field>
 <dict:field key="effectiveDate" id="field.cluResultInfo.resultOptions.effectiveDate" parent="field.cluResultInfo.resultOptions.effectiveDate.abstract"/>
-<dict:fieldDescriptor key="effectiveDate" id="field.cluResultInfo.resultOptions.effectiveDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.effectiveDate.fd.abstract" abstract="true">
 	<dict:name>Effective Date</dict:name>
 	<dict:desc>Date and time that this result option became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
@@ -366,7 +366,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.cluResultInfo.resultOptions.expirationDate.cd"/>
 </dict:field>
 <dict:field key="expirationDate" id="field.cluResultInfo.resultOptions.expirationDate" parent="field.cluResultInfo.resultOptions.expirationDate.abstract"/>
-<dict:fieldDescriptor key="expirationDate" id="field.cluResultInfo.resultOptions.expirationDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.expirationDate.fd.abstract" abstract="true">
 	<dict:name>Expiration Date</dict:name>
 	<dict:desc>Date and time that this result option expires. This is a similar concept to the expiration date on enumerated values. If specified, this must be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
@@ -385,7 +385,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.cluResultInfo.resultOptions.metaInfo.cd"/>
 </dict:field>
 <dict:field key="metaInfo" id="field.cluResultInfo.resultOptions.metaInfo" parent="field.cluResultInfo.resultOptions.metaInfo.abstract"/>
-<dict:fieldDescriptor key="metaInfo" id="field.cluResultInfo.resultOptions.metaInfo.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.metaInfo.fd.abstract" abstract="true">
 	<dict:name>Create/Update meta info</dict:name>
 	<dict:desc>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
@@ -436,7 +436,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.cluResultInfo.resultOptions.metaInfo.versionInd.cd"/>
 </dict:field>
 <dict:field key="versionInd" id="field.cluResultInfo.resultOptions.metaInfo.versionInd" parent="field.cluResultInfo.resultOptions.metaInfo.versionInd.abstract"/>
-<dict:fieldDescriptor key="versionInd" id="field.cluResultInfo.resultOptions.metaInfo.versionInd.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.metaInfo.versionInd.fd.abstract" abstract="true">
 	<dict:name>Version Indicator</dict:name>
 	<dict:desc>An indicator of the version of the thing being described with this meta information. This is set by the service implementation and will be used to determine conflicts in updates.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -457,7 +457,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.cluResultInfo.resultOptions.metaInfo.createTime.cd"/>
 </dict:field>
 <dict:field key="createTime" id="field.cluResultInfo.resultOptions.metaInfo.createTime" parent="field.cluResultInfo.resultOptions.metaInfo.createTime.abstract"/>
-<dict:fieldDescriptor key="createTime" id="field.cluResultInfo.resultOptions.metaInfo.createTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.metaInfo.createTime.fd.abstract" abstract="true">
 	<dict:name>Date/Time Created</dict:name>
 	<dict:desc>The date and time the thing being described with this meta information was created</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
@@ -477,7 +477,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.cluResultInfo.resultOptions.metaInfo.createId.cd"/>
 </dict:field>
 <dict:field key="createId" id="field.cluResultInfo.resultOptions.metaInfo.createId" parent="field.cluResultInfo.resultOptions.metaInfo.createId.abstract"/>
-<dict:fieldDescriptor key="createId" id="field.cluResultInfo.resultOptions.metaInfo.createId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.metaInfo.createId.fd.abstract" abstract="true">
 	<dict:name>Created By Identifier</dict:name>
 	<dict:desc>The principal who created the thing being described with this meta information</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -498,7 +498,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.cluResultInfo.resultOptions.metaInfo.updateTime.cd"/>
 </dict:field>
 <dict:field key="updateTime" id="field.cluResultInfo.resultOptions.metaInfo.updateTime" parent="field.cluResultInfo.resultOptions.metaInfo.updateTime.abstract"/>
-<dict:fieldDescriptor key="updateTime" id="field.cluResultInfo.resultOptions.metaInfo.updateTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.metaInfo.updateTime.fd.abstract" abstract="true">
 	<dict:name>Date/Time Last Updated</dict:name>
 	<dict:desc>The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
@@ -518,7 +518,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.cluResultInfo.resultOptions.metaInfo.updateId.cd"/>
 </dict:field>
 <dict:field key="updateId" id="field.cluResultInfo.resultOptions.metaInfo.updateId" parent="field.cluResultInfo.resultOptions.metaInfo.updateId.abstract"/>
-<dict:fieldDescriptor key="updateId" id="field.cluResultInfo.resultOptions.metaInfo.updateId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.metaInfo.updateId.fd.abstract" abstract="true">
 	<dict:name>Updated By Identifier</dict:name>
 	<dict:desc>The principal who last updated the thing being described with this meta information. This would be filled in on initial creation as well.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -540,7 +540,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:selector>true</dict:selector>
 </dict:field>
 <dict:field key="state" id="field.cluResultInfo.resultOptions.state" parent="field.cluResultInfo.resultOptions.state.abstract"/>
-<dict:fieldDescriptor key="state" id="field.cluResultInfo.resultOptions.state.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.state.fd.abstract" abstract="true">
 	<dict:name>Result Option State</dict:name>
 	<dict:desc>The current status of the result option. The values for this field are constrained to those in the resultOptionState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -559,7 +559,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.cluResultInfo.resultOptions.id.cd"/>
 </dict:field>
 <dict:field key="id" id="field.cluResultInfo.resultOptions.id" parent="field.cluResultInfo.resultOptions.id.abstract"/>
-<dict:fieldDescriptor key="id" id="field.cluResultInfo.resultOptions.id.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.cluResultInfo.resultOptions.id.fd.abstract" abstract="true">
 	<dict:name>Result Option Identifier</dict:name>
 	<dict:desc>Unique identifier for a result option. This is optional, due to the identifier being set at the time of creation. Once the result option has been created, this should be seen as required.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -578,7 +578,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.cluResultInfo.effectiveDate.cd"/>
 </dict:field>
 <dict:field key="effectiveDate" id="field.cluResultInfo.effectiveDate" parent="field.cluResultInfo.effectiveDate.abstract"/>
-<dict:fieldDescriptor key="effectiveDate" id="field.cluResultInfo.effectiveDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.cluResultInfo.effectiveDate.fd.abstract" abstract="true">
 	<dict:name>Effective Date</dict:name>
 	<dict:desc>Date and time that this CLU result became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
@@ -597,7 +597,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.cluResultInfo.expirationDate.cd"/>
 </dict:field>
 <dict:field key="expirationDate" id="field.cluResultInfo.expirationDate" parent="field.cluResultInfo.expirationDate.abstract"/>
-<dict:fieldDescriptor key="expirationDate" id="field.cluResultInfo.expirationDate.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.cluResultInfo.expirationDate.fd.abstract" abstract="true">
 	<dict:name>Expiration Date</dict:name>
 	<dict:desc>Date and time that this CLU result expires. This is a similar concept to the expiration date on enumerated values. If specified, this must be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
@@ -616,7 +616,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.cluResultInfo.metaInfo.cd"/>
 </dict:field>
 <dict:field key="metaInfo" id="field.cluResultInfo.metaInfo" parent="field.cluResultInfo.metaInfo.abstract"/>
-<dict:fieldDescriptor key="metaInfo" id="field.cluResultInfo.metaInfo.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.cluResultInfo.metaInfo.fd.abstract" abstract="true">
 	<dict:name>Create/Update meta info</dict:name>
 	<dict:desc>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
@@ -667,7 +667,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.cluResultInfo.metaInfo.versionInd.cd"/>
 </dict:field>
 <dict:field key="versionInd" id="field.cluResultInfo.metaInfo.versionInd" parent="field.cluResultInfo.metaInfo.versionInd.abstract"/>
-<dict:fieldDescriptor key="versionInd" id="field.cluResultInfo.metaInfo.versionInd.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.cluResultInfo.metaInfo.versionInd.fd.abstract" abstract="true">
 	<dict:name>Version Indicator</dict:name>
 	<dict:desc>An indicator of the version of the thing being described with this meta information. This is set by the service implementation and will be used to determine conflicts in updates.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -688,7 +688,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.cluResultInfo.metaInfo.createTime.cd"/>
 </dict:field>
 <dict:field key="createTime" id="field.cluResultInfo.metaInfo.createTime" parent="field.cluResultInfo.metaInfo.createTime.abstract"/>
-<dict:fieldDescriptor key="createTime" id="field.cluResultInfo.metaInfo.createTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.cluResultInfo.metaInfo.createTime.fd.abstract" abstract="true">
 	<dict:name>Date/Time Created</dict:name>
 	<dict:desc>The date and time the thing being described with this meta information was created</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
@@ -708,7 +708,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.cluResultInfo.metaInfo.createId.cd"/>
 </dict:field>
 <dict:field key="createId" id="field.cluResultInfo.metaInfo.createId" parent="field.cluResultInfo.metaInfo.createId.abstract"/>
-<dict:fieldDescriptor key="createId" id="field.cluResultInfo.metaInfo.createId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.cluResultInfo.metaInfo.createId.fd.abstract" abstract="true">
 	<dict:name>Created By Identifier</dict:name>
 	<dict:desc>The principal who created the thing being described with this meta information</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -729,7 +729,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.cluResultInfo.metaInfo.updateTime.cd"/>
 </dict:field>
 <dict:field key="updateTime" id="field.cluResultInfo.metaInfo.updateTime" parent="field.cluResultInfo.metaInfo.updateTime.abstract"/>
-<dict:fieldDescriptor key="updateTime" id="field.cluResultInfo.metaInfo.updateTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.cluResultInfo.metaInfo.updateTime.fd.abstract" abstract="true">
 	<dict:name>Date/Time Last Updated</dict:name>
 	<dict:desc>The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
@@ -749,7 +749,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.cluResultInfo.metaInfo.updateId.cd"/>
 </dict:field>
 <dict:field key="updateId" id="field.cluResultInfo.metaInfo.updateId" parent="field.cluResultInfo.metaInfo.updateId.abstract"/>
-<dict:fieldDescriptor key="updateId" id="field.cluResultInfo.metaInfo.updateId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.cluResultInfo.metaInfo.updateId.fd.abstract" abstract="true">
 	<dict:name>Updated By Identifier</dict:name>
 	<dict:desc>The principal who last updated the thing being described with this meta information. This would be filled in on initial creation as well.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -770,7 +770,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.cluResultInfo.type.cd"/>
 </dict:field>
 <dict:field key="type" id="field.cluResultInfo.type" parent="field.cluResultInfo.type.abstract"/>
-<dict:fieldDescriptor key="type" id="field.cluResultInfo.type.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.cluResultInfo.type.fd.abstract" abstract="true">
 	<dict:name>Clu Result Type</dict:name>
 	<dict:desc>Unique identifier for a clu learning result object type.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -790,7 +790,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:selector>true</dict:selector>
 </dict:field>
 <dict:field key="state" id="field.cluResultInfo.state" parent="field.cluResultInfo.state.abstract"/>
-<dict:fieldDescriptor key="state" id="field.cluResultInfo.state.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.cluResultInfo.state.fd.abstract" abstract="true">
 	<dict:name>CLU Result State</dict:name>
 	<dict:desc>The current status of the CLU Result. The values for this field are constrained to those in the cluResultState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -809,7 +809,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.cluResultInfo.id.cd"/>
 </dict:field>
 <dict:field key="id" id="field.cluResultInfo.id" parent="field.cluResultInfo.id.abstract"/>
-<dict:fieldDescriptor key="id" id="field.cluResultInfo.id.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.cluResultInfo.id.fd.abstract" abstract="true">
 	<dict:name>CLU Result Identifier</dict:name>
 	<dict:desc>Unique identifier for a CLU result. This is optional, due to the identifier being set at the time of creation. Once the result set has been created, this should be seen as required.</dict:desc>
 	<dict:dataType>string</dict:dataType>

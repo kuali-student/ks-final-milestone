@@ -3,16 +3,16 @@
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
 xsi:schemaLocation="
-http://student.kuali.org/xsd/dictionary-extension dictionary-extension.xsd
+http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Wed Feb 17 09:41:44 EST 2010
+on: Thu Feb 18 11:40:06 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
-<import resource="constraints-dictionary-config.xml"/>
-<import resource="proposal-proposalInfo-dictionary-structure-config.xml"/>
+<import resource="classpath:constraints-dictionary-config.xml"/>
+<import resource="classpath:proposal-proposalInfo-dictionary-structure-config.xml"/>
 
 <!-- **************************************** -->
 <!-- object structure for object.proposalInfo -->
@@ -28,7 +28,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:objectStructure key="org.kuali.student.core.proposal.dto.ProposalInfo" id="object.proposalInfo" parent="object.proposalInfo.abstract"/>
 
 <!-- This is a grouping of types -->
-<dict:type key="kuali.proposal.type.course.*" id="type.proposalInfo.AllCourseProposalTypes.abstract" abstract="true" parent="type.proposalInfo.abstract">
+<dict:type key="kuali.proposal.type.course.*" id="type.proposalInfo.AllCourseProposalTypes.abstract" abstract="true">
 	<dict:name>All Course Proposal Types</dict:name>
 	<dict:desc>All course proposal types</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -41,7 +41,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:type>
 
 <!-- This is a grouping of program types -->
-<dict:type key="kuali.proposal.type.program.*" id="type.proposalInfo.AllProgramProposalTypes.abstract" abstract="true" parent="type.proposalInfo.abstract">
+<dict:type key="kuali.proposal.type.program.*" id="type.proposalInfo.AllProgramProposalTypes.abstract" abstract="true">
 	<dict:name>All Program Proposal Types</dict:name>
 	<dict:desc>All program proposal types</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -54,7 +54,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:type>
 
 <!-- do these really need to be course specific? -->
-<dict:type key="kuali.proposal.type.group" id="type.proposalInfo.Grouped.abstract" abstract="true" parent="type.proposalInfo.abstract">
+<dict:type key="kuali.proposal.type.group" id="type.proposalInfo.Grouped.abstract" abstract="true">
 	<dict:name>Grouped</dict:name>
 	<dict:desc>A  group of proposals</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>

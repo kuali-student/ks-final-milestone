@@ -3,15 +3,15 @@
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
 xsi:schemaLocation="
-http://student.kuali.org/xsd/dictionary-extension dictionary-extension.xsd
+http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Wed Feb 17 09:41:42 EST 2010
+on: Thu Feb 18 11:40:05 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
-<import resource="constraints-dictionary-config.xml"/>
+<import resource="classpath:constraints-dictionary-config.xml"/>
 
 <!-- ***************************************** -->
 <!-- object structure for object.StatementInfo -->
@@ -53,7 +53,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.statementInfo.name.cd"/>
 </dict:field>
 <dict:field key="name" id="field.statementInfo.name" parent="field.statementInfo.name.abstract"/>
-<dict:fieldDescriptor key="name" id="field.statementInfo.name.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.statementInfo.name.fd.abstract" abstract="true">
 	<dict:name>Statement Name</dict:name>
 	<dict:desc>Friendly name for the statement.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -72,7 +72,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.statementInfo.desc.cd"/>
 </dict:field>
 <dict:field key="desc" id="field.statementInfo.desc" parent="field.statementInfo.desc.abstract"/>
-<dict:fieldDescriptor key="desc" id="field.statementInfo.desc.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.statementInfo.desc.fd.abstract" abstract="true">
 	<dict:name>Statement Description</dict:name>
 	<dict:desc>Narrative description for the statement.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
@@ -119,7 +119,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.statementInfo.desc.plain.cd"/>
 </dict:field>
 <dict:field key="plain" id="field.statementInfo.desc.plain" parent="field.statementInfo.desc.plain.abstract"/>
-<dict:fieldDescriptor key="plain" id="field.statementInfo.desc.plain.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.statementInfo.desc.plain.fd.abstract" abstract="true">
 	<dict:name>Plain Text</dict:name>
 	<dict:desc>Plain version of the text. This may be used for searching.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -142,7 +142,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.statementInfo.desc.formatted.cd"/>
 </dict:field>
 <dict:field key="formatted" id="field.statementInfo.desc.formatted" parent="field.statementInfo.desc.formatted.abstract"/>
-<dict:fieldDescriptor key="formatted" id="field.statementInfo.desc.formatted.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.statementInfo.desc.formatted.fd.abstract" abstract="true">
 	<dict:name>Formatted Text</dict:name>
 	<dict:desc>Formatted version of the text.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -164,7 +164,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.statementInfo.operator.cd"/>
 </dict:field>
 <dict:field key="operator" id="field.statementInfo.operator" parent="field.statementInfo.operator.abstract"/>
-<dict:fieldDescriptor key="operator" id="field.statementInfo.operator.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.statementInfo.operator.fd.abstract" abstract="true">
 	<dict:name>Statement Operator</dict:name>
 	<dict:desc>Logical operator used to assemble statements. Acceptable values are restricted to AND and OR. This operator applies to both the statements and requirement components contained within this statement.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -185,7 +185,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.statementInfo.statementIds.cd"/>
 </dict:field>
 <dict:field key="statementIds" id="field.statementInfo.statementIds" parent="field.statementInfo.statementIds.abstract"/>
-<dict:fieldDescriptor key="statementIds" id="field.statementInfo.statementIds.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.statementInfo.statementIds.fd.abstract" abstract="true">
 	<dict:name>Contained Statement Identifiers</dict:name>
 	<dict:desc>List of statement identifiers.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -205,7 +205,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.statementInfo.reqComponentIds.cd"/>
 </dict:field>
 <dict:field key="reqComponentIds" id="field.statementInfo.reqComponentIds" parent="field.statementInfo.reqComponentIds.abstract"/>
-<dict:fieldDescriptor key="reqComponentIds" id="field.statementInfo.reqComponentIds.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.statementInfo.reqComponentIds.fd.abstract" abstract="true">
 	<dict:name>Contained Requirement Component Identifiers</dict:name>
 	<dict:desc>List of requirement component identifiers.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -224,7 +224,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.statementInfo.metaInfo.cd"/>
 </dict:field>
 <dict:field key="metaInfo" id="field.statementInfo.metaInfo" parent="field.statementInfo.metaInfo.abstract"/>
-<dict:fieldDescriptor key="metaInfo" id="field.statementInfo.metaInfo.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.statementInfo.metaInfo.fd.abstract" abstract="true">
 	<dict:name>Create/Update meta info</dict:name>
 	<dict:desc>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
@@ -275,7 +275,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.statementInfo.metaInfo.versionInd.cd"/>
 </dict:field>
 <dict:field key="versionInd" id="field.statementInfo.metaInfo.versionInd" parent="field.statementInfo.metaInfo.versionInd.abstract"/>
-<dict:fieldDescriptor key="versionInd" id="field.statementInfo.metaInfo.versionInd.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.statementInfo.metaInfo.versionInd.fd.abstract" abstract="true">
 	<dict:name>Version Indicator</dict:name>
 	<dict:desc>An indicator of the version of the thing being described with this meta information. This is set by the service implementation and will be used to determine conflicts in updates.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -296,7 +296,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.statementInfo.metaInfo.createTime.cd"/>
 </dict:field>
 <dict:field key="createTime" id="field.statementInfo.metaInfo.createTime" parent="field.statementInfo.metaInfo.createTime.abstract"/>
-<dict:fieldDescriptor key="createTime" id="field.statementInfo.metaInfo.createTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.statementInfo.metaInfo.createTime.fd.abstract" abstract="true">
 	<dict:name>Date/Time Created</dict:name>
 	<dict:desc>The date and time the thing being described with this meta information was created</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
@@ -316,7 +316,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.statementInfo.metaInfo.createId.cd"/>
 </dict:field>
 <dict:field key="createId" id="field.statementInfo.metaInfo.createId" parent="field.statementInfo.metaInfo.createId.abstract"/>
-<dict:fieldDescriptor key="createId" id="field.statementInfo.metaInfo.createId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.statementInfo.metaInfo.createId.fd.abstract" abstract="true">
 	<dict:name>Created By Identifier</dict:name>
 	<dict:desc>The principal who created the thing being described with this meta information</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -337,7 +337,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.statementInfo.metaInfo.updateTime.cd"/>
 </dict:field>
 <dict:field key="updateTime" id="field.statementInfo.metaInfo.updateTime" parent="field.statementInfo.metaInfo.updateTime.abstract"/>
-<dict:fieldDescriptor key="updateTime" id="field.statementInfo.metaInfo.updateTime.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.statementInfo.metaInfo.updateTime.fd.abstract" abstract="true">
 	<dict:name>Date/Time Last Updated</dict:name>
 	<dict:desc>The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
@@ -357,7 +357,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.statementInfo.metaInfo.updateId.cd"/>
 </dict:field>
 <dict:field key="updateId" id="field.statementInfo.metaInfo.updateId" parent="field.statementInfo.metaInfo.updateId.abstract"/>
-<dict:fieldDescriptor key="updateId" id="field.statementInfo.metaInfo.updateId.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.statementInfo.metaInfo.updateId.fd.abstract" abstract="true">
 	<dict:name>Updated By Identifier</dict:name>
 	<dict:desc>The principal who last updated the thing being described with this meta information. This would be filled in on initial creation as well.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -378,7 +378,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.statementInfo.type.cd"/>
 </dict:field>
 <dict:field key="type" id="field.statementInfo.type" parent="field.statementInfo.type.abstract"/>
-<dict:fieldDescriptor key="type" id="field.statementInfo.type.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.statementInfo.type.fd.abstract" abstract="true">
 	<dict:name>Statement Type Identifier</dict:name>
 	<dict:desc>Unique identifier for an statement type.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -398,7 +398,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.statementInfo.state.cd"/>
 </dict:field>
 <dict:field key="state" id="field.statementInfo.state" parent="field.statementInfo.state.abstract"/>
-<dict:fieldDescriptor key="state" id="field.statementInfo.state.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.statementInfo.state.fd.abstract" abstract="true">
 	<dict:name>Statement State</dict:name>
 	<dict:desc>The current status of the statement. The values for this field are constrained to those in the StatementState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.</dict:desc>
 	<dict:dataType>string</dict:dataType>
@@ -418,7 +418,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.statementInfo.id.cd"/>
 </dict:field>
 <dict:field key="id" id="field.statementInfo.id" parent="field.statementInfo.id.abstract"/>
-<dict:fieldDescriptor key="id" id="field.statementInfo.id.fd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.statementInfo.id.fd.abstract" abstract="true">
 	<dict:name>Statement Identifier</dict:name>
 	<dict:desc>Unique identifier for a single statement record. This is optional, due to the identifier being set at the time of creation. Once the statement has been created, this should be seen as required.</dict:desc>
 	<dict:dataType>string</dict:dataType>

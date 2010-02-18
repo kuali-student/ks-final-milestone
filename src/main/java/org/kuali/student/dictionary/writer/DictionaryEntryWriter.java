@@ -104,7 +104,6 @@ public class DictionaryEntryWriter
  private void writeFieldDescriptor ()
  {
   writer.indentPrintln ("<dict:fieldDescriptor");
-  writer.writeAttribute ("key", field.getShortName ());
   writeParentToAbstract (few.calcFieldDescriptorId ());
   writeAbstractAttributeId (calcFieldDescriptorId ());
   writer.println (">");

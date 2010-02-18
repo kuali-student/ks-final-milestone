@@ -3,16 +3,16 @@
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
 xsi:schemaLocation="
-http://student.kuali.org/xsd/dictionary-extension dictionary-extension.xsd
+http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Wed Feb 17 09:41:41 EST 2010
+on: Thu Feb 18 11:40:02 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
-<import resource="constraints-dictionary-config.xml"/>
-<import resource="lu-cluCluRelationInfo-dictionary-structure-config.xml"/>
+<import resource="classpath:constraints-dictionary-config.xml"/>
+<import resource="classpath:lu-cluCluRelationInfo-dictionary-structure-config.xml"/>
 
 <!-- ********************************************** -->
 <!-- object structure for object.cluCluRelationInfo -->
@@ -26,7 +26,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:objectStructure key="org.kuali.student.lum.lu.dto.CluCluRelationInfo" id="object.cluCluRelationInfo" parent="object.cluCluRelationInfo.abstract"/>
 
 <!-- TODO: cross-check w/ SIMPLE -->
-<dict:type key="kuali.lu.relation.type.course.format" id="type.cluCluRelationInfo.HasCourseFormat.abstract" abstract="true" parent="type.cluCluRelationInfo.abstract">
+<dict:type key="kuali.lu.relation.type.course.format" id="type.cluCluRelationInfo.HasCourseFormat.abstract" abstract="true">
 	<dict:name>Has Course Format</dict:name>
 	<dict:desc>Maintains relation betrween a course and the course format shell</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -36,7 +36,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="kuali.lu.relation.type.course.format" id="type.cluCluRelationInfo.HasCourseFormat" parent="type.cluCluRelationInfo.HasCourseFormat.abstract"/>
 
 <!-- TODO: cross-check w/ SIMPLE -->
-<dict:type key="kuali.lu.relation.type.course.activity" id="type.cluCluRelationInfo.HasCourseActivity.abstract" abstract="true" parent="type.cluCluRelationInfo.abstract">
+<dict:type key="kuali.lu.relation.type.course.activity" id="type.cluCluRelationInfo.HasCourseActivity.abstract" abstract="true">
 	<dict:name>Has Course Activity</dict:name>
 	<dict:desc>Maintains relation betrween a course format shell and each individual activity</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -46,7 +46,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="kuali.lu.relation.type.course.activity" id="type.cluCluRelationInfo.HasCourseActivity" parent="type.cluCluRelationInfo.HasCourseActivity.abstract"/>
 
 <!-- TODO: cross-check w/ SIMPLE -->
-<dict:type key="kuali.lu.relation.type.co-located" id="type.cluCluRelationInfo.Co-Located.abstract" abstract="true" parent="type.cluCluRelationInfo.abstract">
+<dict:type key="kuali.lu.relation.type.co-located" id="type.cluCluRelationInfo.Co-Located.abstract" abstract="true">
 	<dict:name>Co-Located</dict:name>
 	<dict:desc>Maintains relations betrween different courses the meet together (are co-located)</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>

@@ -3,16 +3,16 @@
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
 xsi:schemaLocation="
-http://student.kuali.org/xsd/dictionary-extension dictionary-extension.xsd
+http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Wed Feb 17 09:41:38 EST 2010
+on: Thu Feb 18 11:39:59 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
-<import resource="constraints-dictionary-config.xml"/>
-<import resource="lu-cluInfo-dictionary-structure-config.xml"/>
+<import resource="classpath:constraints-dictionary-config.xml"/>
+<import resource="classpath:lu-cluInfo-dictionary-structure-config.xml"/>
 
 <!-- *********************************** -->
 <!-- object structure for object.cluInfo -->
@@ -32,7 +32,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:objectStructure>
 <dict:objectStructure key="org.kuali.student.lum.lu.dto.CluInfo" id="object.cluInfo" parent="object.cluInfo.abstract"/>
 
-<dict:type key="kuali.lu.type.CreditCourse" id="type.cluInfo.CreditCourse.abstract" abstract="true" parent="type.cluInfo.abstract">
+<dict:type key="kuali.lu.type.CreditCourse" id="type.cluInfo.CreditCourse.abstract" abstract="true">
 	<dict:name>Credit Course</dict:name>
 	<dict:desc>A course offered for academic credit</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -48,7 +48,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:type>
 <dict:type key="kuali.lu.type.CreditCourse" id="type.cluInfo.CreditCourse" parent="type.cluInfo.CreditCourse.abstract"/>
 
-<dict:type key="kuali.lu.type.CreditCourseFormatShell" id="type.cluInfo.CreditCourseFormatShell.abstract" abstract="true" parent="type.cluInfo.abstract">
+<dict:type key="kuali.lu.type.CreditCourseFormatShell" id="type.cluInfo.CreditCourseFormatShell.abstract" abstract="true">
 	<dict:name>Credit Course Format Shell</dict:name>
 	<dict:desc>This is really just a container to attach the activities for a given course format (each credit course can have multiple course formats each with a set of activities)</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -64,7 +64,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:type>
 <dict:type key="kuali.lu.type.CreditCourseFormatShell" id="type.cluInfo.CreditCourseFormatShell" parent="type.cluInfo.CreditCourseFormatShell.abstract"/>
 
-<dict:type key="kuali.lu.type.Program" id="type.cluInfo.Program.abstract" abstract="true" parent="type.cluInfo.abstract">
+<dict:type key="kuali.lu.type.Program" id="type.cluInfo.Program.abstract" abstract="true">
 	<dict:name>Program</dict:name>
 	<dict:desc>A non-specific program used for grouping</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -81,7 +81,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="kuali.lu.type.Program" id="type.cluInfo.Program" parent="type.cluInfo.Program.abstract"/>
 
 <!-- This is really a grouping of types -->
-<dict:type key="kuali.lu.type.activity.*" id="type.cluInfo.AllActivityTypes.abstract" abstract="true" parent="type.cluInfo.abstract">
+<dict:type key="kuali.lu.type.activity.*" id="type.cluInfo.AllActivityTypes.abstract" abstract="true">
 	<dict:name>All Activity Types</dict:name>
 	<dict:desc>All of these types of activities: Lecture, Lab, Discussion, etc.</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -1058,7 +1058,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:objectStructure>
 <dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourse" parent="object.field.cluInfo.officialIdentifier.CreditCourse.abstract"/>
 
-<dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.CreditCourse.Official.abstract" abstract="true" parent="type.field.cluInfo.officialIdentifier.CreditCourse.abstract">
+<dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.CreditCourse.Official.abstract" abstract="true">
 	<dict:name>Official</dict:name>
 	<dict:desc>This identifier holds the official identifier for this course</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -1375,7 +1375,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:objectStructure>
 <dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse" parent="object.field.cluInfo.alternateIdentifiers.CreditCourse.abstract"/>
 
-<dict:type key="kuali.lu.type.CreditCourse.identifier.cross-listed" id="type.field.cluInfo.alternateIdentifiers.CreditCourse.Cross-listed.abstract" abstract="true" parent="type.field.cluInfo.alternateIdentifiers.CreditCourse.abstract">
+<dict:type key="kuali.lu.type.CreditCourse.identifier.cross-listed" id="type.field.cluInfo.alternateIdentifiers.CreditCourse.Cross-listed.abstract" abstract="true">
 	<dict:name>Cross-listed</dict:name>
 	<dict:desc>This identifier holds the cross-listed identifiers for this course</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -1384,7 +1384,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:type>
 <dict:type key="kuali.lu.type.CreditCourse.identifier.cross-listed" id="type.field.cluInfo.alternateIdentifiers.CreditCourse.Cross-listed" parent="type.field.cluInfo.alternateIdentifiers.CreditCourse.Cross-listed.abstract"/>
 
-<dict:type key="kuali.lu.type.CreditCourse.identifier.version" id="type.field.cluInfo.alternateIdentifiers.CreditCourse.Version.abstract" abstract="true" parent="type.field.cluInfo.alternateIdentifiers.CreditCourse.abstract">
+<dict:type key="kuali.lu.type.CreditCourse.identifier.version" id="type.field.cluInfo.alternateIdentifiers.CreditCourse.Version.abstract" abstract="true">
 	<dict:name>Version</dict:name>
 	<dict:desc>This identifier holds the version information for courses that have multiple versions</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -2477,7 +2477,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:objectStructure>
 <dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourse.draft" parent="object.field.cluInfo.officialIdentifier.CreditCourse.draft.abstract"/>
 
-<dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.CreditCourse.draft.Official.abstract" abstract="true" parent="type.field.cluInfo.officialIdentifier.CreditCourse.draft.abstract">
+<dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.CreditCourse.draft.Official.abstract" abstract="true">
 	<dict:name>Official</dict:name>
 	<dict:desc>This identifier holds the official identifier for this course</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -2629,7 +2629,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:objectStructure>
 <dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse.draft" parent="object.field.cluInfo.alternateIdentifiers.CreditCourse.draft.abstract"/>
 
-<dict:type key="kuali.lu.type.CreditCourse.identifier.cross-listed" id="type.field.cluInfo.alternateIdentifiers.CreditCourse.draft.Cross-listed.abstract" abstract="true" parent="type.field.cluInfo.alternateIdentifiers.CreditCourse.draft.abstract">
+<dict:type key="kuali.lu.type.CreditCourse.identifier.cross-listed" id="type.field.cluInfo.alternateIdentifiers.CreditCourse.draft.Cross-listed.abstract" abstract="true">
 	<dict:name>Cross-listed</dict:name>
 	<dict:desc>This identifier holds the cross-listed identifiers for this course</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -2638,7 +2638,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:type>
 <dict:type key="kuali.lu.type.CreditCourse.identifier.cross-listed" id="type.field.cluInfo.alternateIdentifiers.CreditCourse.draft.Cross-listed" parent="type.field.cluInfo.alternateIdentifiers.CreditCourse.draft.Cross-listed.abstract"/>
 
-<dict:type key="kuali.lu.type.CreditCourse.identifier.version" id="type.field.cluInfo.alternateIdentifiers.CreditCourse.draft.Version.abstract" abstract="true" parent="type.field.cluInfo.alternateIdentifiers.CreditCourse.draft.abstract">
+<dict:type key="kuali.lu.type.CreditCourse.identifier.version" id="type.field.cluInfo.alternateIdentifiers.CreditCourse.draft.Version.abstract" abstract="true">
 	<dict:name>Version</dict:name>
 	<dict:desc>This identifier holds the version information for courses that have multiple versions</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -3036,7 +3036,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:objectStructure>
 <dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourse.submitted" parent="object.field.cluInfo.officialIdentifier.CreditCourse.submitted.abstract"/>
 
-<dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.CreditCourse.submitted.Official.abstract" abstract="true" parent="type.field.cluInfo.officialIdentifier.CreditCourse.submitted.abstract">
+<dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.CreditCourse.submitted.Official.abstract" abstract="true">
 	<dict:name>Official</dict:name>
 	<dict:desc>This identifier holds the official identifier for this course</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -3137,7 +3137,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:objectStructure>
 <dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse.submitted" parent="object.field.cluInfo.alternateIdentifiers.CreditCourse.submitted.abstract"/>
 
-<dict:type key="kuali.lu.type.CreditCourse.identifier.cross-listed" id="type.field.cluInfo.alternateIdentifiers.CreditCourse.submitted.Cross-listed.abstract" abstract="true" parent="type.field.cluInfo.alternateIdentifiers.CreditCourse.submitted.abstract">
+<dict:type key="kuali.lu.type.CreditCourse.identifier.cross-listed" id="type.field.cluInfo.alternateIdentifiers.CreditCourse.submitted.Cross-listed.abstract" abstract="true">
 	<dict:name>Cross-listed</dict:name>
 	<dict:desc>This identifier holds the cross-listed identifiers for this course</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -3343,7 +3343,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:objectStructure>
 <dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourse.withdrawn" parent="object.field.cluInfo.officialIdentifier.CreditCourse.withdrawn.abstract"/>
 
-<dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.CreditCourse.withdrawn.Official.abstract" abstract="true" parent="type.field.cluInfo.officialIdentifier.CreditCourse.withdrawn.abstract">
+<dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.CreditCourse.withdrawn.Official.abstract" abstract="true">
 	<dict:name>Official</dict:name>
 	<dict:desc>This identifier holds the official identifier for this course</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -3444,7 +3444,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:objectStructure>
 <dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse.withdrawn" parent="object.field.cluInfo.alternateIdentifiers.CreditCourse.withdrawn.abstract"/>
 
-<dict:type key="kuali.lu.type.CreditCourse.identifier.cross-listed" id="type.field.cluInfo.alternateIdentifiers.CreditCourse.withdrawn.Cross-listed.abstract" abstract="true" parent="type.field.cluInfo.alternateIdentifiers.CreditCourse.withdrawn.abstract">
+<dict:type key="kuali.lu.type.CreditCourse.identifier.cross-listed" id="type.field.cluInfo.alternateIdentifiers.CreditCourse.withdrawn.Cross-listed.abstract" abstract="true">
 	<dict:name>Cross-listed</dict:name>
 	<dict:desc>This identifier holds the cross-listed identifiers for this course</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -3649,7 +3649,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:objectStructure>
 <dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourse.rejected" parent="object.field.cluInfo.officialIdentifier.CreditCourse.rejected.abstract"/>
 
-<dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.CreditCourse.rejected.Official.abstract" abstract="true" parent="type.field.cluInfo.officialIdentifier.CreditCourse.rejected.abstract">
+<dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.CreditCourse.rejected.Official.abstract" abstract="true">
 	<dict:name>Official</dict:name>
 	<dict:desc>This identifier holds the official identifier for this course</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -3750,7 +3750,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:objectStructure>
 <dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse.rejected" parent="object.field.cluInfo.alternateIdentifiers.CreditCourse.rejected.abstract"/>
 
-<dict:type key="kuali.lu.type.CreditCourse.identifier.cross-listed" id="type.field.cluInfo.alternateIdentifiers.CreditCourse.rejected.Cross-listed.abstract" abstract="true" parent="type.field.cluInfo.alternateIdentifiers.CreditCourse.rejected.abstract">
+<dict:type key="kuali.lu.type.CreditCourse.identifier.cross-listed" id="type.field.cluInfo.alternateIdentifiers.CreditCourse.rejected.Cross-listed.abstract" abstract="true">
 	<dict:name>Cross-listed</dict:name>
 	<dict:desc>This identifier holds the cross-listed identifiers for this course</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -4075,7 +4075,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:objectStructure>
 <dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourseFormatShell" parent="object.field.cluInfo.officialIdentifier.CreditCourseFormatShell.abstract"/>
 
-<dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.CreditCourseFormatShell.Official.abstract" abstract="true" parent="type.field.cluInfo.officialIdentifier.CreditCourseFormatShell.abstract">
+<dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.CreditCourseFormatShell.Official.abstract" abstract="true">
 	<dict:name>Official</dict:name>
 	<dict:desc>This identifier holds the official identifier for this course</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -4603,7 +4603,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:objectStructure>
 <dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.Program" parent="object.field.cluInfo.officialIdentifier.Program.abstract"/>
 
-<dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.Program.Official.abstract" abstract="true" parent="type.field.cluInfo.officialIdentifier.Program.abstract">
+<dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.Program.Official.abstract" abstract="true">
 	<dict:name>Official</dict:name>
 	<dict:desc>This identifier holds the official identifier for this course</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -4919,7 +4919,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:objectStructure>
 <dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.Program" parent="object.field.cluInfo.alternateIdentifiers.Program.abstract"/>
 
-<dict:type key="kuali.lu.type.CreditCourse.identifier.version" id="type.field.cluInfo.alternateIdentifiers.Program.Version.abstract" abstract="true" parent="type.field.cluInfo.alternateIdentifiers.Program.abstract">
+<dict:type key="kuali.lu.type.CreditCourse.identifier.version" id="type.field.cluInfo.alternateIdentifiers.Program.Version.abstract" abstract="true">
 	<dict:name>Version</dict:name>
 	<dict:desc>This identifier holds the version information for courses that have multiple versions</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -5801,7 +5801,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:objectStructure>
 <dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.Program.draft" parent="object.field.cluInfo.officialIdentifier.Program.draft.abstract"/>
 
-<dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.Program.draft.Official.abstract" abstract="true" parent="type.field.cluInfo.officialIdentifier.Program.draft.abstract">
+<dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.Program.draft.Official.abstract" abstract="true">
 	<dict:name>Official</dict:name>
 	<dict:desc>This identifier holds the official identifier for this course</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -5929,7 +5929,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:objectStructure>
 <dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.Program.draft" parent="object.field.cluInfo.alternateIdentifiers.Program.draft.abstract"/>
 
-<dict:type key="kuali.lu.type.CreditCourse.identifier.version" id="type.field.cluInfo.alternateIdentifiers.Program.draft.Version.abstract" abstract="true" parent="type.field.cluInfo.alternateIdentifiers.Program.draft.abstract">
+<dict:type key="kuali.lu.type.CreditCourse.identifier.version" id="type.field.cluInfo.alternateIdentifiers.Program.draft.Version.abstract" abstract="true">
 	<dict:name>Version</dict:name>
 	<dict:desc>This identifier holds the version information for courses that have multiple versions</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -6246,7 +6246,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:objectStructure>
 <dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.Program.submitted" parent="object.field.cluInfo.officialIdentifier.Program.submitted.abstract"/>
 
-<dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.Program.submitted.Official.abstract" abstract="true" parent="type.field.cluInfo.officialIdentifier.Program.submitted.abstract">
+<dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.Program.submitted.Official.abstract" abstract="true">
 	<dict:name>Official</dict:name>
 	<dict:desc>This identifier holds the official identifier for this course</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -6460,7 +6460,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:objectStructure>
 <dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.Program.withdrawn" parent="object.field.cluInfo.officialIdentifier.Program.withdrawn.abstract"/>
 
-<dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.Program.withdrawn.Official.abstract" abstract="true" parent="type.field.cluInfo.officialIdentifier.Program.withdrawn.abstract">
+<dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.Program.withdrawn.Official.abstract" abstract="true">
 	<dict:name>Official</dict:name>
 	<dict:desc>This identifier holds the official identifier for this course</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -6674,7 +6674,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:objectStructure>
 <dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.Program.rejected" parent="object.field.cluInfo.officialIdentifier.Program.rejected.abstract"/>
 
-<dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.Program.rejected.Official.abstract" abstract="true" parent="type.field.cluInfo.officialIdentifier.Program.rejected.abstract">
+<dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.Program.rejected.Official.abstract" abstract="true">
 	<dict:name>Official</dict:name>
 	<dict:desc>This identifier holds the official identifier for this course</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -7032,7 +7032,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:objectStructure>
 <dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.AllActivityTypes" parent="object.field.cluInfo.officialIdentifier.AllActivityTypes.abstract"/>
 
-<dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.AllActivityTypes.Official.abstract" abstract="true" parent="type.field.cluInfo.officialIdentifier.AllActivityTypes.abstract">
+<dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.AllActivityTypes.Official.abstract" abstract="true">
 	<dict:name>Official</dict:name>
 	<dict:desc>This identifier holds the official identifier for this course</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>

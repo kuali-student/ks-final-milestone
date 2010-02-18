@@ -132,8 +132,8 @@ public class DictionaryModelWriter
   writer.indentPrintln ("xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"");
   writer.indentPrintln ("xmlns:dict=\"http://student.kuali.org/xsd/dictionary-extension\"");
   writer.indentPrint ("xsi:schemaLocation=\"\nhttp://student.kuali.org/xsd/dictionary-extension ");
-  writer.indentPrintln ("dictionary-extension.xsd");
-  //indentPrintln ("https://test.kuali.org/svn/student/ks-core/branches/ks-core-dev/ks-common-impl/src/main/resources/dictionary-extension.xsd");
+  //writer.indentPrintln ("dictionary-extension.xsd");
+  writer.indentPrintln ("http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd");
   writer.indentPrintln ("http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd");
   writer.indentPrintln ("\">");
   StringBuffer buf = new StringBuffer ();
@@ -161,7 +161,7 @@ public class DictionaryModelWriter
  protected void writeImport (XmlWriter writer, String fileName)
  {
   writer.indentPrint ("<import");
-  writer.writeAttribute ("resource", fileName);
+  writer.writeAttribute ("resource", "classpath:" + fileName);
   writer.println ("/>");
  }
 

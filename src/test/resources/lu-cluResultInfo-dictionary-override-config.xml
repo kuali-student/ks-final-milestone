@@ -3,16 +3,16 @@
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
 xsi:schemaLocation="
-http://student.kuali.org/xsd/dictionary-extension dictionary-extension.xsd
+http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Wed Feb 17 09:41:40 EST 2010
+on: Thu Feb 18 11:40:01 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
-<import resource="constraints-dictionary-config.xml"/>
-<import resource="lu-cluResultInfo-dictionary-structure-config.xml"/>
+<import resource="classpath:constraints-dictionary-config.xml"/>
+<import resource="classpath:lu-cluResultInfo-dictionary-structure-config.xml"/>
 
 <!-- ***************************************** -->
 <!-- object structure for object.cluResultInfo -->
@@ -23,7 +23,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:objectStructure>
 <dict:objectStructure key="org.kuali.student.lum.lu.dto.CluResultInfo" id="object.cluResultInfo" parent="object.cluResultInfo.abstract"/>
 
-<dict:type key="kuali.resultType.creditCourseResult" id="type.cluResultInfo.CreditCourseResults.abstract" abstract="true" parent="type.cluResultInfo.abstract">
+<dict:type key="kuali.resultType.creditCourseResult" id="type.cluResultInfo.CreditCourseResults.abstract" abstract="true">
 	<dict:name>Credit Course Results</dict:name>
 	<dict:desc>The results of a credit course</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -155,7 +155,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:objectStructure>
 <dict:objectStructure key="org.kuali.student.lum.lu.dto.ResultOptionInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults" parent="object.field.cluResultInfo.resultOptions.CreditCourseResults.abstract"/>
 
-<dict:type key="Kuali.resultUsageType.CreditAwarded" id="type.field.cluResultInfo.resultOptions.CreditCourseResults.CreditAwarded.abstract" abstract="true" parent="type.field.cluResultInfo.resultOptions.CreditCourseResults.abstract">
+<dict:type key="Kuali.resultUsageType.CreditAwarded" id="type.field.cluResultInfo.resultOptions.CreditCourseResults.CreditAwarded.abstract" abstract="true">
 	<dict:name>Credit Awarded</dict:name>
 	<dict:desc>The amount of credit to be awarded if student passes the course</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -165,7 +165,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="Kuali.resultUsageType.CreditAwarded" id="type.field.cluResultInfo.resultOptions.CreditCourseResults.CreditAwarded" parent="type.field.cluResultInfo.resultOptions.CreditCourseResults.CreditAwarded.abstract"/>
 
 <!-- TO DO: add to Simples -->
-<dict:type key="kuali.resultUsageType.FinalGradeAwarded" id="type.field.cluResultInfo.resultOptions.CreditCourseResults.FinalGradeAwarded.abstract" abstract="true" parent="type.field.cluResultInfo.resultOptions.CreditCourseResults.abstract">
+<dict:type key="kuali.resultUsageType.FinalGradeAwarded" id="type.field.cluResultInfo.resultOptions.CreditCourseResults.FinalGradeAwarded.abstract" abstract="true">
 	<dict:name>Final Grade Awarded</dict:name>
 	<dict:desc>The final grade to be awarded to a student</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
@@ -175,7 +175,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:type key="kuali.resultUsageType.FinalGradeAwarded" id="type.field.cluResultInfo.resultOptions.CreditCourseResults.FinalGradeAwarded" parent="type.field.cluResultInfo.resultOptions.CreditCourseResults.FinalGradeAwarded.abstract"/>
 
 <!-- TO DO: add to Simples -->
-<dict:type key="kuali.resultUsageType.QualitativeAssess" id="type.field.cluResultInfo.resultOptions.CreditCourseResults.QualitativeAssessment.abstract" abstract="true" parent="type.field.cluResultInfo.resultOptions.CreditCourseResults.abstract">
+<dict:type key="kuali.resultUsageType.QualitativeAssess" id="type.field.cluResultInfo.resultOptions.CreditCourseResults.QualitativeAssessment.abstract" abstract="true">
 	<dict:name>Qualitative Assessment</dict:name>
 	<dict:desc>The final qualitative assessment to be given to a student</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
