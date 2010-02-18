@@ -40,8 +40,8 @@
   <url>http://student.kuali.org/</url>
   <inceptionYear>2006</inceptionYear>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/pom/trunk/student</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/pom/trunk/student</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/maven/pom/trunk/student</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/trunk/student</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/trunk/student</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/maven/trunk/student</url>
   </scm>
 </project>
