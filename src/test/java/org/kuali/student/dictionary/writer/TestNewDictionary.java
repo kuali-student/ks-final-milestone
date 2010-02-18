@@ -11,7 +11,7 @@ public class TestNewDictionary implements TestConstants
  {
   DictionaryServiceSpringImpl dict =
    new DictionaryServiceSpringImpl (RESOURCES_DIRECTORY
-   + "/" + "lu-cluInfo-dictionary-override-config.xml");
+   + "/" + "lu-dictionary-config.xml");
   org.kuali.student.core.dictionary.dto.Type type = null;
  }
 

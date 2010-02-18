@@ -7,7 +7,7 @@ http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/d
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Thu Feb 18 13:33:56 EST 2010
+on: Thu Feb 18 14:41:09 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -125,6 +125,7 @@ Should not include rules that restrict enrollment for other purposes other than 
 	<dict:fieldRef bean="dict.requisite.statement.desc.plain"/>
 	<dict:fieldRef bean="dict.requisite.statement.desc.formatted"/>
 </dict:state>
+<dict:state key="*" id="state.field.statementInfo.desc.RequisiteRules" parent="state.field.statementInfo.desc.RequisiteRules.abstract"/>
 
 
 <!-- *********************************** -->
@@ -213,6 +214,7 @@ Should not include rules that restrict enrollment for other purposes other than 
 	<dict:fieldRef bean="dict.requisite.statement.meta.updateTime"/>
 	<dict:fieldRef bean="dict.requisite.statement.meta.updateId"/>
 </dict:state>
+<dict:state key="*" id="state.field.statementInfo.metaInfo.RequisiteRules" parent="state.field.statementInfo.metaInfo.RequisiteRules.abstract"/>
 
 
 <!-- **************************************** -->

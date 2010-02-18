@@ -7,7 +7,7 @@ http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/d
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Thu Feb 18 13:33:57 EST 2010
+on: Thu Feb 18 14:41:10 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -397,6 +397,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.all.course.proposals.meta.updateTime"/>
 	<dict:fieldRef bean="dict.all.course.proposals.meta.updateId"/>
 </dict:state>
+<dict:state key="*" id="state.field.proposalInfo.metaInfo.AllCourseProposalTypes" parent="state.field.proposalInfo.metaInfo.AllCourseProposalTypes.abstract"/>
 
 
 <!-- ***************************************** -->
@@ -542,6 +543,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.all.course.proposals.meta.updateTime"/>
 	<dict:fieldRef bean="dict.all.course.proposals.meta.updateId"/>
 </dict:state>
+<dict:state key="*" id="state.field.proposalInfo.metaInfo.AllCourseProposalTypes.draft" parent="state.field.proposalInfo.metaInfo.AllCourseProposalTypes.draft.abstract"/>
 
 
 <!-- ******************************************************************************************** -->
@@ -572,6 +574,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.all.program.proposals.meta.updateTime"/>
 	<dict:fieldRef bean="dict.all.program.proposals.meta.updateId"/>
 </dict:state>
+<dict:state key="*" id="state.field.proposalInfo.metaInfo.AllProgramProposalTypes" parent="state.field.proposalInfo.metaInfo.AllProgramProposalTypes.abstract"/>
 
 
 <!-- ****************************************** -->
@@ -717,6 +720,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.all.program.proposals.meta.updateTime"/>
 	<dict:fieldRef bean="dict.all.program.proposals.meta.updateId"/>
 </dict:state>
+<dict:state key="*" id="state.field.proposalInfo.metaInfo.AllProgramProposalTypes.draft" parent="state.field.proposalInfo.metaInfo.AllProgramProposalTypes.draft.abstract"/>
 
 
 <!-- ************************************************************************* -->
@@ -747,6 +751,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.group.proposal.meta.updateTime"/>
 	<dict:fieldRef bean="dict.group.proposal.meta.updateId"/>
 </dict:state>
+<dict:state key="*" id="state.field.proposalInfo.metaInfo.Grouped" parent="state.field.proposalInfo.metaInfo.Grouped.abstract"/>
 
 
 <!-- *********************************** -->
@@ -892,6 +897,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.group.proposal.meta.updateTime"/>
 	<dict:fieldRef bean="dict.group.proposal.meta.updateId"/>
 </dict:state>
+<dict:state key="*" id="state.field.proposalInfo.metaInfo.Grouped.draft" parent="state.field.proposalInfo.metaInfo.Grouped.draft.abstract"/>
 
 <!-- ****************************** -->
 <!-- dict.all.course.proposals.name -->

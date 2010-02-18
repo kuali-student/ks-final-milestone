@@ -7,7 +7,7 @@ http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/d
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Thu Feb 18 13:33:57 EST 2010
+on: Thu Feb 18 14:41:10 EST 2010
 by: org.kuali.student.dictionary.writer.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -138,6 +138,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.syllabus.desc.plain"/>
 	<dict:fieldRef bean="dict.syllabus.desc.formatted"/>
 </dict:state>
+<dict:state key="*" id="state.field.proposalDocRelationInfo.desc.Syllabus" parent="state.field.proposalDocRelationInfo.desc.Syllabus.abstract"/>
 
 
 <!-- ************************ -->
@@ -226,6 +227,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.syllabus.meta.updateTime"/>
 	<dict:fieldRef bean="dict.syllabus.meta.updateId"/>
 </dict:state>
+<dict:state key="*" id="state.field.proposalDocRelationInfo.metaInfo.Syllabus" parent="state.field.proposalDocRelationInfo.metaInfo.Syllabus.abstract"/>
 
 
 <!-- ***************************** -->
@@ -368,6 +370,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.other.attachment.desc.plain"/>
 	<dict:fieldRef bean="dict.other.attachment.desc.formatted"/>
 </dict:state>
+<dict:state key="*" id="state.field.proposalDocRelationInfo.desc.Other" parent="state.field.proposalDocRelationInfo.desc.Other.abstract"/>
 
 
 <!-- ******************************** -->
@@ -456,6 +459,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.other.attachment.meta.updateTime"/>
 	<dict:fieldRef bean="dict.other.attachment.meta.updateId"/>
 </dict:state>
+<dict:state key="*" id="state.field.proposalDocRelationInfo.metaInfo.Other" parent="state.field.proposalDocRelationInfo.metaInfo.Other.abstract"/>
 
 
 <!-- ************************************* -->
