@@ -167,6 +167,8 @@ public class DictionaryBeanDefinitionParser extends AbstractSingleBeanDefinition
 	                }else if(node.getLocalName().endsWith("Ref")){
 	                	if("objectStructureRef".equals(node.getLocalName())){
 	                		builder.addPropertyValue("objectStructureRef", ((Element)node).getAttribute("bean"));
+	                		//Add in the nested object too
+	                		builder.addPropertyReference("objectStructure", ((Element)node).getAttribute("bean"));
 	                	}else{
 	                		builder.addPropertyReference(localName, ((Element)node).getAttribute("bean"));
 	                	}

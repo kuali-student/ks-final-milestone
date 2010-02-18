@@ -49,8 +49,20 @@ public class DictionaryServiceSpringImpl implements DictionaryService {
 
 		Map<String, ObjectStructure> beansOfType = (Map<String, ObjectStructure>) ac.getBeansOfType(ObjectStructure.class);
 		objectStructures = new HashMap<String, ObjectStructure>();
-		for (ObjectStructure objStr : beansOfType.values())
-			objectStructures.put(objStr.getKey(), objStr);
+		for (ObjectStructure objStr : beansOfType.values()){
+			//Only add top level structures
+			if(objStr.getId()!=null){
+				if(objStr.getId().startsWith("object.")){
+					if(!objStr.getId().startsWith("object.field.")){
+						objectStructures.put(objStr.getKey(), objStr);
+					}
+				}else{
+					objectStructures.put(objStr.getKey(), objStr);
+				}
+			}else{
+				objectStructures.put(objStr.getKey(), objStr);
+			}
+		}
 	}
 
 	@Override
