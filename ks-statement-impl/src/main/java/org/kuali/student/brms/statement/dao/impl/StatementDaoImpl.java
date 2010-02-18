@@ -8,6 +8,7 @@ import javax.persistence.Query;
 
 import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
 import org.kuali.student.brms.statement.dao.StatementDao;
+import org.kuali.student.brms.statement.entity.RefStatementRelation;
 import org.kuali.student.brms.statement.entity.ReqComponent;
 import org.kuali.student.brms.statement.entity.Statement;
 
@@ -64,4 +65,14 @@ public class StatementDaoImpl extends AbstractSearchableCrudDaoImpl implements S
         return resultList;
     }
 
+    @Override
+    public List<RefStatementRelation> getRefStatementRelations(String refObjectTypeKey, String refObjectId) {
+        Query query = em.createNamedQuery("RefStatementRelation.getRefStatementRelations");
+        query.setParameter("refObjectTypeKey", refObjectTypeKey);
+        query.setParameter("refObjectId", refObjectId);
+        @SuppressWarnings("unchecked")
+        List<RefStatementRelation> resultList = query.getResultList();
+        return resultList;
+    }
+    
 }

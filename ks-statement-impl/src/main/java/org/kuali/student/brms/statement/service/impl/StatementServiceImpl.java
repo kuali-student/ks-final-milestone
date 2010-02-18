@@ -165,7 +165,20 @@ public class StatementServiceImpl implements StatementService {
 
 	public List<RefStatementRelationInfo> getRefStatementRelationsByRef(final String refObjectTypeKey, final String refObjectId)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		throw new UnsupportedOperationException("Method not yet implemented!");
+        checkForNullOrEmptyParameter(refObjectTypeKey, "refObjectTypeKey");
+        checkForEmptyParameter(refObjectId, "refObjectId");
+
+        List<RefStatementRelation> references = this.statementDao.getRefStatementRelations(
+                refObjectTypeKey, refObjectId);
+        List<RefStatementRelationInfo> referenceInfos = null;
+        if (references != null) {
+            for (RefStatementRelation reference : references) {
+                RefStatementRelationInfo dto = statementAssembler.toRefStatementRelationInfo(reference);
+                referenceInfos = (referenceInfos == null)? new ArrayList<RefStatementRelationInfo>(7) : referenceInfos;
+                referenceInfos.add(dto);
+            }
+        }
+        return referenceInfos;
 	}
 
 	public List<RefStatementRelationInfo> getRefStatementRelationsByStatement(final String statementId) 
@@ -820,20 +833,27 @@ public class StatementServiceImpl implements StatementService {
     @Override
     public StatementTreeViewInfo updateStatementTreeView(final String statementId, final StatementTreeViewInfo statementTreeViewInfo) 
     	throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        StatementTreeViewInfo origTree = getStatementTreeView(statementId);
-        
-        if (origTree == null) {
-            throw new DoesNotExistException("Statement " + statementId + " does not exist!");
+        StatementTreeViewInfo origTree = null;
+
+        if (statementId != null) {
+            try {
+                origTree = getStatementTreeView(statementId);
+            } catch (DoesNotExistException dnee) {
+                origTree = null;
+            }
         }
+        
         // insert statements and reqComponents if they do not already exists in database
         updateSTVHelperCreateStatements(statementTreeViewInfo);
         // check the two lists of relationships for ones that need to be deleted/created
-        List<String> toBeDeleted = notIn(origTree, statementTreeViewInfo);
-        for (String delStatementId : toBeDeleted) {
-            deleteStatement(delStatementId);
+        if (origTree != null) {
+            List<String> toBeDeleted = notIn(origTree, statementTreeViewInfo);
+            for (String delStatementId : toBeDeleted) {
+                deleteStatement(delStatementId);
+            }
         }
         updateStatementTreeViewHelper(statementTreeViewInfo);
-        StatementTreeViewInfo test = getStatementTreeView(statementId);
+        StatementTreeViewInfo test = getStatementTreeView(statementTreeViewInfo.getId());
         
         return test;
     }
@@ -923,6 +943,9 @@ public class StatementServiceImpl implements StatementService {
                 }
                 if (origReqComponentInfo == null) {
                     // The reqComponentInfo is a new one so create it
+                    // the id here even if it is not null it is the temporary ids assigned by client
+                    // so resets the id to null to allow a new id to be generated.
+                    reqComponentInfo.setId(null);
                     try {
                         rcAfterInsert = createReqComponent(reqComponentInfo.getType(), reqComponentInfo);
                     } catch (AlreadyExistsException e) {
@@ -947,6 +970,9 @@ public class StatementServiceImpl implements StatementService {
             }
         }
         if (origStatementInfo == null) {
+            // the id here even if it is not null it is the temporary ids assigned by client
+            // so resets the id to null to allow a new id to be generated.
+            statementTreeViewInfo.setId(null);
             newStatementInfo = statementAssembler.toStatementInfo(statementTreeViewInfo);
             try {
                 newStatementInfo = createStatement(newStatementInfo.getType(), newStatementInfo);

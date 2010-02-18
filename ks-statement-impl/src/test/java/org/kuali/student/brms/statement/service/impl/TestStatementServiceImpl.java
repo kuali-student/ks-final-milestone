@@ -1088,6 +1088,89 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     }
     
     @Test
+    public void testUpdateStatementTreeViewFromEmpty() throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+        //     After tree is updated
+        //                          STMT-TV-1:OR
+        //          STMT TV 2:AND                   STMT TV 3:AND
+        //     REQCOMP TV 1  REQCOMP TV 2      REQCOMP TV 3  REQCOMP TV 4
+
+        List<StatementTreeViewInfo> subStatements = new ArrayList<StatementTreeViewInfo>(3);
+        List<ReqComponentInfo> stv1ReqComps = new ArrayList<ReqComponentInfo>(3); 
+        List<ReqComponentInfo> stv2ReqComps = new ArrayList<ReqComponentInfo>(3);
+        
+        // req components
+        ReqComponentInfo rc1 = new ReqComponentInfo();
+        rc1.setDesc(toRichText("REQCOMP-TV-TEST-1"));
+        rc1.setType("kuali.reqCompType.gradecheck");
+        ReqComponentInfo rc2 = new ReqComponentInfo();
+        rc2.setDesc(toRichText("REQCOMP-TV-TEST-2"));
+        rc2.setType("kuali.reqCompType.gradecheck");
+        ReqComponentInfo rc3 = new ReqComponentInfo();
+        rc3.setDesc(toRichText("REQCOMP-TV-TEST-3"));
+        rc3.setType("kuali.reqCompType.gradecheck");
+        ReqComponentInfo rc4 = new ReqComponentInfo();
+        rc4.setDesc(toRichText("REQCOMP-TV-TEST-4"));
+        rc4.setType("kuali.reqCompType.gradecheck");
+        
+        // statement tree views
+        StatementTreeViewInfo treeView = new StatementTreeViewInfo();
+        treeView.setDesc(toRichText("STMT-TV-TEST-1"));
+        treeView.setOperator(StatementOperatorTypeKey.OR);
+        treeView.setParentId(null);  // parent is null because it is the root statement
+        treeView.setType("kuali.luStatementType.prereqAcademicReadiness");
+        
+        StatementTreeViewInfo subTreeView1 = new StatementTreeViewInfo();
+        subTreeView1.setDesc(toRichText("STMT-TV-TEST-2"));
+        subTreeView1.setOperator(StatementOperatorTypeKey.AND);
+        subTreeView1.setParentId(null);  // don't not what it is until the actual statement is created
+        subTreeView1.setType("kuali.luStatementType.prereqAcademicReadiness");
+        
+        StatementTreeViewInfo subTreeView2 = new StatementTreeViewInfo();
+        subTreeView2.setDesc(toRichText("STMT-TV-TEST-3"));
+        subTreeView2.setOperator(StatementOperatorTypeKey.AND);
+        subTreeView2.setParentId(null);  // don't not what it is until the actual statement is created
+        subTreeView2.setType("kuali.luStatementType.prereqAcademicReadiness");
+        
+        // construct tree with statements and req components
+        stv1ReqComps.add(rc1);
+        stv1ReqComps.add(rc2);
+        subTreeView1.setReqComponents(stv1ReqComps);
+        stv2ReqComps.add(rc3);
+        stv2ReqComps.add(rc4);
+        subTreeView2.setReqComponents(stv2ReqComps);
+        subStatements.add(subTreeView1);
+        subStatements.add(subTreeView2);
+        treeView.setStatements(subStatements);
+        
+        StatementTreeViewInfo returnedTreeView = statementService.updateStatementTreeView(treeView.getId(), treeView);
+        _testUpdateStatementTreeViewFromEmptyHelper(returnedTreeView);
+
+        StatementTreeViewInfo retrievedUpdatedTreeView = statementService.getStatementTreeView(returnedTreeView.getId());
+        _testUpdateStatementTreeViewFromEmptyHelper(retrievedUpdatedTreeView);
+    }
+
+    private void _testUpdateStatementTreeViewFromEmptyHelper(StatementTreeViewInfo treeView) {
+        List<StatementTreeViewInfo> subTrees = treeView.getStatements();
+        StatementTreeViewInfo subTree1 = (subTrees == null)? null : subTrees.get(0);
+        StatementTreeViewInfo subTree2 = (subTrees == null)? null : subTrees.get(1);
+        assertNotNull(treeView.getId());
+        assertEquals("STMT-TV-TEST-1", treeView.getDesc().getPlain());
+        int numReturnedSubTrees = (subTrees == null)? 0 : subTrees.size();
+        assertEquals(2, numReturnedSubTrees);
+        assertEquals("STMT-TV-TEST-2", subTree1.getDesc().getPlain());
+        assertEquals("STMT-TV-TEST-3", subTree2.getDesc().getPlain());
+        int numReturnedSubTree2Statements = (subTree2.getStatements() == null)? 0 :
+            subTree2.getStatements().size();
+        assertEquals(0, numReturnedSubTree2Statements);
+        assertEquals(2, subTree1.getReqComponents().size());
+        assertEquals(2, subTree2.getReqComponents().size());
+        assertEquals("REQCOMP-TV-TEST-1", subTree1.getReqComponents().get(0).getDesc().getPlain());
+        assertEquals("REQCOMP-TV-TEST-2", subTree1.getReqComponents().get(1).getDesc().getPlain());
+        assertEquals("REQCOMP-TV-TEST-3", subTree2.getReqComponents().get(0).getDesc().getPlain());
+        assertEquals("REQCOMP-TV-TEST-4", subTree2.getReqComponents().get(1).getDesc().getPlain());
+    }
+    
+    @Test
     public void testUpdateStatementTreeView() throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         //     Before tree is updated
         //                          STMT-TV-1:OR
@@ -1295,4 +1378,5 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 			assertNotNull(e.getMessage());
 		}
     }
+    
 }

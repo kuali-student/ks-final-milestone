@@ -24,6 +24,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -35,6 +37,9 @@ import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
 @Table(name = "KSSTMT_REF_STMT_REL")
+@NamedQueries( {
+    @NamedQuery(name = "RefStatementRelation.getRefStatementRelations", query = "SELECT r FROM RefStatementRelation r WHERE r.refObjectTypeKey = :refObjectTypeKey and r.refObjectId = :refObjectId")
+})
 public class RefStatementRelation extends MetaEntity implements AttributeOwner<RefStatementRelationAttribute> {
 
     @Id
