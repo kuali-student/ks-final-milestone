@@ -204,9 +204,14 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
                                 if(c.getKey().equals(resultDisplayKey)){
                                     String itemText = c.getValue();
                                     theSuggestion.addAttr(c.getKey(), c.getValue());
-                                    int index = itemText.toLowerCase().indexOf(query.toLowerCase().trim());
                                     
+                                    int index = itemText.toLowerCase().indexOf(query.toLowerCase().trim());
+                                    GWT.log("SearchSuggentOracle query : " + query, null);
+                                    GWT.log("SearchSuggentOracle itemText : " + itemText.toLowerCase(), null);
+                                    GWT.log("SearchSuggentOracle index : " + index, null);
                                     if (index < 0) {
+                                        //temporary fix to stop index out of bound exception in hosted mode
+                                        continue;
                                     	//FIXME handle case when search for text is not appearing within search result - should not happen (misconfiguration)
                                     }
                                     
