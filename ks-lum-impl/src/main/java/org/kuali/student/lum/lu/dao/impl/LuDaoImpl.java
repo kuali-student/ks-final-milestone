@@ -29,10 +29,8 @@ import org.kuali.student.lum.lu.entity.CluResult;
 import org.kuali.student.lum.lu.entity.CluResultType;
 import org.kuali.student.lum.lu.entity.CluSet;
 import org.kuali.student.lum.lu.entity.LuDocumentRelation;
-import org.kuali.student.lum.lu.entity.LuStatement;
 import org.kuali.student.lum.lu.entity.Lui;
 import org.kuali.student.lum.lu.entity.LuiLuiRelation;
-import org.kuali.student.lum.lu.entity.ReqComponent;
 
 public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao {
 
@@ -58,45 +56,6 @@ public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao {
 		query.setParameter("luState", luState);
 		@SuppressWarnings("unchecked")
 		List<Clu> resultList = query.getResultList();
-		return resultList;
-	}
-
-	@Override
-	public List<LuStatement> getLuStatementsForLuStatementType(
-			String luStatementTypeKey) {
-		Query query = em
-				.createNamedQuery("LuStatement.getLuStatementsForLuStatementType");
-		query.setParameter("luStatementTypeKey", luStatementTypeKey);
-		@SuppressWarnings("unchecked")
-		List<LuStatement> resultList = query.getResultList();
-		return resultList;
-	}
-
-	@Override
-	public List<LuStatement> getLuStatements(List<String> luStatementIdList) {
-		Query query = em.createNamedQuery("LuStatement.getLuStatements");
-		query.setParameter("luStatementIdList", luStatementIdList);
-		@SuppressWarnings("unchecked")
-		List<LuStatement> resultList = query.getResultList();
-		return resultList;
-	}
-
-	@Override
-	public List<ReqComponent> getReqComponentsByType(String reqComponentTypeKey) {
-		Query query = em
-				.createNamedQuery("ReqComponent.getReqComponentsByType");
-		query.setParameter("reqComponentTypeKey", reqComponentTypeKey);
-		@SuppressWarnings("unchecked")
-		List<ReqComponent> resultList = query.getResultList();
-		return resultList;
-	}
-
-	@Override
-	public List<ReqComponent> getReqComponents(List<String> reqComponentIdList) {
-		Query query = em.createNamedQuery("ReqComponent.getReqComponents");
-		query.setParameter("reqComponentIdList", reqComponentIdList);
-		@SuppressWarnings("unchecked")
-		List<ReqComponent> resultList = query.getResultList();
 		return resultList;
 	}
 
@@ -289,15 +248,6 @@ public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao {
 		@SuppressWarnings("unchecked")
 		List<Lui> relatedLuis = query.getResultList();
 		return relatedLuis;
-	}
-
-	@Override
-	public List<LuStatement> getLuStatementsForClu(String cluId) {
-		Query query = em.createNamedQuery("LuStatement.getLuStatementsForClu");
-		query.setParameter("cluId", cluId);
-		@SuppressWarnings("unchecked")
-		List<LuStatement> resultList = query.getResultList();
-		return resultList;
 	}
 
 	@Override

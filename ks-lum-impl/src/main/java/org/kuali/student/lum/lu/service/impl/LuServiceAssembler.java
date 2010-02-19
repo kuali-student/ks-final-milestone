@@ -64,8 +64,6 @@ import org.kuali.student.lum.lu.dto.LuPublicationTypeInfo;
 import org.kuali.student.lum.lu.dto.LuTypeInfo;
 import org.kuali.student.lum.lu.dto.LuiInfo;
 import org.kuali.student.lum.lu.dto.LuiLuiRelationInfo;
-import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
-import org.kuali.student.lum.lu.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.lum.lu.dto.ResultOptionInfo;
 import org.kuali.student.lum.lu.dto.ResultUsageTypeInfo;
 import org.kuali.student.lum.lu.entity.AffiliatedOrg;
@@ -104,8 +102,6 @@ import org.kuali.student.lum.lu.entity.LuType;
 import org.kuali.student.lum.lu.entity.Lui;
 import org.kuali.student.lum.lu.entity.LuiAttribute;
 import org.kuali.student.lum.lu.entity.LuiLuiRelation;
-import org.kuali.student.lum.lu.entity.ReqComponentField;
-import org.kuali.student.lum.lu.entity.ReqComponentFieldType;
 import org.kuali.student.lum.lu.entity.ResultOption;
 import org.kuali.student.lum.lu.entity.ResultUsageType;
 import org.springframework.beans.BeanUtils;
@@ -667,52 +663,6 @@ public class LuServiceAssembler extends BaseAssembler {
 
 		return dto;
 
-	}
-
-	public static List<ReqCompFieldInfo> toReqCompFieldInfos(
-			List<ReqComponentField> entities) {
-		List<ReqCompFieldInfo> dtos = new ArrayList<ReqCompFieldInfo>(entities
-				.size());
-		for (ReqComponentField entity : entities) {
-			dtos.add(toReqCompFieldInfo(entity));
-		}
-		return dtos;
-	}
-
-	public static ReqCompFieldInfo toReqCompFieldInfo(ReqComponentField entity) {
-		if (null == entity) {
-			return null;
-		}
-
-		ReqCompFieldInfo dto = new ReqCompFieldInfo();
-		dto.setId(entity.getKey());
-		dto.setValue(entity.getValue());
-		return dto;
-	}
-
-	public static List<ReqCompFieldTypeInfo> toReqCompFieldTypeInfos(
-			List<ReqComponentFieldType> entities) {
-		List<ReqCompFieldTypeInfo> dtos = new ArrayList<ReqCompFieldTypeInfo>(
-				entities.size());
-		for (ReqComponentFieldType entity : entities) {
-			dtos.add(toReqCompFieldTypeInfo(entity));
-		}
-		return dtos;
-	}
-
-	public static ReqCompFieldTypeInfo toReqCompFieldTypeInfo(
-			ReqComponentFieldType entity) {
-		ReqCompFieldTypeInfo dto = new ReqCompFieldTypeInfo();
-
-		BeanUtils.copyProperties(entity, dto,
-				new String[] { "fieldDescriptor" });
-
-		FieldDescriptor fDTO = new FieldDescriptor();
-		BeanUtils.copyProperties(entity.getFieldDescriptor(), fDTO);
-
-		dto.setFieldDescriptor(fDTO);
-
-		return dto;
 	}
 
 	public static List<CluIdentifierInfo> toCluIdentifierInfos(

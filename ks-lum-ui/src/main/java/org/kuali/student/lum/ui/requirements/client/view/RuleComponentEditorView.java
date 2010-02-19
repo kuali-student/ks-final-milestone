@@ -44,7 +44,6 @@ import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.brms.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.brms.statement.dto.ReqComponentInfo;
 import org.kuali.student.brms.statement.dto.ReqComponentTypeInfo;
-import org.kuali.student.lum.lu.dto.ReqComponentTypeNLTemplateInfo;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcServiceAsync;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;

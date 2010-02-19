@@ -2150,7 +2150,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		clu.setState("template");
 
 		List<ValidationResultInfo> valerros = client.validateClu("SYSTEM", clu);
-
+System.out.println("\n\n ***** valerros.size()="+valerros.size());
 		assertEquals(valerros.size(), 19);		
 	}	
 		

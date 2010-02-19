@@ -20,22 +20,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
-import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
-import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.dto.CluSetInfo;
-import org.kuali.student.lum.lu.dto.LuStatementInfo;
-import org.kuali.student.lum.lu.dto.LuStatementTypeHeaderTemplateInfo;
-import org.kuali.student.lum.lu.dto.LuStatementTypeInfo;
-import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
-import org.kuali.student.lum.lu.dto.ReqComponentInfo;
-import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
-import org.kuali.student.lum.lu.dto.ReqComponentTypeNLTemplateInfo;
+//import org.kuali.student.lum.lu.service.LuService;
+//import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
+//import org.kuali.student.lum.lu.dto.CluInfo;
+//import org.kuali.student.lum.lu.dto.CluSetInfo;
+//import org.kuali.student.lum.lu.dto.LuStatementTypeHeaderTemplateInfo;
+//import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
+//import org.kuali.student.lum.lu.dto.ReqComponentInfo;
+//import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
+//import org.kuali.student.lum.lu.dto.ReqComponentTypeNLTemplateInfo;
 
 public class RequirementsUtil {
 
-//	private static DtoAdapter dtoAdapter = new DtoAdapter();
+/*	private static DtoAdapter dtoAdapter = new DtoAdapter();
 	
     public static Map<String,Object> createData() {
     	Map<String,Object> map = new HashMap<String,Object>();
@@ -241,7 +238,7 @@ public class RequirementsUtil {
 //		return stmt;
 //	}
 	
-	public static LuStatementInfo createLuStatementInfo(String id, StatementOperatorTypeKey operator) throws Exception {
+/*	public static LuStatementInfo createLuStatementInfo(String id, StatementOperatorTypeKey operator) throws Exception {
 		LuStatementInfo stmt = new LuStatementInfo();
 		stmt.setId(id);
 		stmt.setOperator(operator);

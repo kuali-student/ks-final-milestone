@@ -29,8 +29,6 @@ import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
-import org.kuali.student.lum.lu.dto.LuStatementInfo;
-import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager.PrereqViews;
 import org.kuali.student.lum.ui.requirements.client.model.EditHistory;

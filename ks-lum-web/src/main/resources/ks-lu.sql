@@ -436,21 +436,6 @@ insert into KSLU_CLU_ATTR (ID, ATTR_NAME, ATTR_VALUE, OWNER) values ('f25bf2e4-d
 insert into KSLU_CLU_ATTR (ID, ATTR_NAME, ATTR_VALUE, OWNER) values ('ba20b990-5592-48ac-85db-aba8d6336820', 'CORE_CD', 'CS', '67201b7c-4c27-4046-bb89-9b94dbe1ba35')
 
 
-//STATEMENT TYPES
-INSERT INTO KSLU_STMT_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.luStatementType.createCourseAcademicReadiness', 'Rules used in the evaluation of a person''s academic readiness for enrollment in an LU.', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Overall Academic Readiness Rules')
-INSERT INTO KSLU_STMT_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.luStatementType.prereqAcademicReadiness', 'Pre req rules used in the evaluation of a person''s academic readiness for enrollment in an LU.', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Academic Readiness Pre Reqs')
-INSERT INTO KSLU_STMT_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.luStatementType.coreqAcademicReadiness', 'Co req used in the evaluation of a person''s academic readiness for enrollment in an LU.', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Academic Readiness Co Reqs')
-
-// REQUIREMENT TYPES
-INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.courseList.none', 'Student must have completed none of <reqCompFieldType.cluSet>', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'None of required courses')
-INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.courseList.all', 'Student must have completed all of <reqCompFieldType.cluSet>', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'All of required courses')
-INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.courseList.1of2', '<reqCompFieldType.clu> or <reqCompFieldType.clu> course', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'One of two required courses')
-INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.courseList.nof', 'Student needs <reqCompFieldType.requiredCount> courses from the following course(s): <reqCompFieldType.cluSet> ', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'N of required courses')
-INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.gradecheck', 'Student needs a minimum GPA of <reqCompFieldType.gpa>', {ts '2000-01-01 00:00:00.0'}, {ts '2001-11-30 00:00:00.0'}, 'Minimum overall GPA')
-INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.grdCondCourseList', 'Student needs a <reqCompFieldType.totalCredits> credits from the following course(s): <reqCompFieldType.cluSet>', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Course completed with minimum specified grade')
-INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.courseList.coreq.all', 'Student must be enrolled in all of the following courses', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'All of required courses')
-INSERT INTO KSLU_REQ_COM_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.reqCompType.courseList.coreq.oneof', 'Student must be enrolled in one of the following courses', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'One of required courses')
-
 // CluCluRelation
 INSERT INTO KSLU_CLUCLU_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, CLU_RELTN_REQ, EFF_DT, EXPIR_DT, ST, CLU_ID, LU_RELTN_TYPE_ID, RELATED_CLU_ID) VALUES ('CLUCLUREL-1', 'CREATEID', {ts '2000-01-01 00:00:00.0'}, 'UPDATEID', {ts '2001-01-01 00:00:00.0'}, 0, 1, {ts '2003-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'Active', 'CLU-1', 'luLuType.type1', 'CLU-2')
 INSERT INTO KSLU_CLUCLU_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, CLU_RELTN_REQ, EFF_DT, EXPIR_DT, ST, CLU_ID, LU_RELTN_TYPE_ID, RELATED_CLU_ID) VALUES ('CLUCLUREL-2', 'CREATEID', {ts '2000-01-01 00:00:00.0'}, 'UPDATEID', {ts '2001-01-01 00:00:00.0'}, 0, 1, {ts '2003-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'Active', 'CLU-1', 'luLuType.type1', 'CLU-3')

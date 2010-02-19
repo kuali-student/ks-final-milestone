@@ -96,14 +96,14 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
      * @return CLU set
      * @throws OperationFailedException If building a custom CLU set fails
      */
-    public CustomCluSetInfo getCluSet(String cluSetId) throws OperationFailedException {
+    public NLCluSetInfo getCluSet(String cluSetId) throws OperationFailedException {
     	CluSetInfo cluSet = getCluSetInfo(cluSetId);
         List<CluInfo> list = new ArrayList<CluInfo>(cluSet.getCluIds().size());
 		for(String cluId : cluSet.getCluIds()) {
         	CluInfo clu = getCluInfo(cluId);
         	list.add(clu);
         }
-    	return new CustomCluSetInfo(cluSet.getId(), list);
+    	return new NLCluSetInfo(cluSet.getId(), list);
     }
 
     /**
@@ -113,14 +113,14 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
      * @return A new CLU set
      * @throws OperationFailedException If building a custom CLU set fails
      */
-    public CustomCluSetInfo getClusAsCluSet(String cluIds) throws OperationFailedException {
+    public NLCluSetInfo getClusAsCluSet(String cluIds) throws OperationFailedException {
     	String[] cluIdArray = cluIds.split("\\s*,\\s*");
     	List<CluInfo> list = new ArrayList<CluInfo>();
     	for(String cluId : cluIdArray) {
     		CluInfo clu = getCluInfo(cluId);
     		list.add(clu);
     	}
-    	return new CustomCluSetInfo(null, list);
+    	return new NLCluSetInfo(null, list);
     }
 
     /**
@@ -130,9 +130,9 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
      * @return custom CLU set
      * @throws OperationFailedException If building a custom CLU set fails
      */
-    public CustomCluSetInfo getCluSet(ReqComponent reqComponent) throws OperationFailedException {
+    public NLCluSetInfo getCluSet(ReqComponent reqComponent) throws OperationFailedException {
         Map<String, String> map = getReqCompField(reqComponent);
-    	CustomCluSetInfo cluSet = null;
+    	NLCluSetInfo cluSet = null;
     	if(map.containsKey(ReqComponentTypes.ReqCompFieldTypes.CLU_KEY.getKey())) {
         	String cluIds = map.get(ReqComponentTypes.ReqCompFieldTypes.CLU_KEY.getKey());
         	cluSet = getClusAsCluSet(cluIds);

@@ -74,19 +74,8 @@
 		<class>org.kuali.student.lum.lu.entity.LuLuRelationTypeAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.LuPublicationType</class>
 		<class>org.kuali.student.lum.lu.entity.LuPublicationTypeAttribute</class>
-		<class>org.kuali.student.lum.lu.entity.LuStatement</class>
-		<class>org.kuali.student.lum.lu.entity.LuStatementAttribute</class>
-		<class>org.kuali.student.lum.lu.entity.LuStatementType</class>
-		<class>org.kuali.student.lum.lu.entity.LuStatementTypeAttribute</class>
-        <class>org.kuali.student.lum.lu.entity.LuStatementTypeHeaderTemplate</class>
 		<class>org.kuali.student.lum.lu.entity.LuType</class>
 		<class>org.kuali.student.lum.lu.entity.LuTypeAttribute</class>
-		<class>org.kuali.student.lum.lu.entity.ReqComponent</class>
-		<class>org.kuali.student.lum.lu.entity.ReqComponentField</class>
-		<class>org.kuali.student.lum.lu.entity.ReqComponentFieldType</class>
-		<class>org.kuali.student.lum.lu.entity.ReqComponentType</class>
-		<class>org.kuali.student.lum.lu.entity.ReqComponentTypeAttribute</class>
-		<class>org.kuali.student.lum.lu.entity.ReqComponentTypeNLTemplate</class>
 		<class>org.kuali.student.lum.lu.entity.Resource</class>
 		<class>org.kuali.student.lum.lu.entity.ResultOption</class>
 		<class>org.kuali.student.lum.lu.entity.ResultUsageType</class>

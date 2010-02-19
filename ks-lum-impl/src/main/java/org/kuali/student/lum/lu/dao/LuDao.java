@@ -25,10 +25,8 @@ import org.kuali.student.lum.lu.entity.CluResult;
 import org.kuali.student.lum.lu.entity.CluResultType;
 import org.kuali.student.lum.lu.entity.CluSet;
 import org.kuali.student.lum.lu.entity.LuDocumentRelation;
-import org.kuali.student.lum.lu.entity.LuStatement;
 import org.kuali.student.lum.lu.entity.Lui;
 import org.kuali.student.lum.lu.entity.LuiLuiRelation;
-import org.kuali.student.lum.lu.entity.ReqComponent;
 
 public interface LuDao extends CrudDao, SearchableDao  {
 	public List<Clu> getClusByIdList(List<String> cluIdList);
@@ -37,8 +35,8 @@ public interface LuDao extends CrudDao, SearchableDao  {
 	public List<Lui> getLuisByRelationType(String luiId, String luLuRelationTypeId);
 	public List<String> getLuiIdsByCluId(String cluId);
 	public List<String> getLuiIdsInAtpByCluId(String cluId, String atpKey);
-    public List<LuStatement> getLuStatementsForLuStatementType(String luStatementTypeKey);
-    public List<ReqComponent> getReqComponentsByType(String reqComponentTypeKey);
+//    public List<LuStatement> getLuStatementsForLuStatementType(String luStatementTypeKey);
+//    public List<ReqComponent> getReqComponentsByType(String reqComponentTypeKey);
     public List<CluSet> getCluSetInfoByIdList(List<String> cluSetIdList);
     public Boolean isCluInCluSet(String cluId, String cluSetId);
 	public List<LuiLuiRelation> getLuiLuiRelations(String luiId);
@@ -58,10 +56,10 @@ public interface LuDao extends CrudDao, SearchableDao  {
 			String luLuRelationTypeId);
 	public List<Lui> getRelatedLuisByLuiId(String luiId, String id);
 	public List<String> getRelatedLuiIdsByLuiId(String luiId, String id);
-    public List<LuStatement> getLuStatementsForClu(String cluId);
+//    public List<LuStatement> getLuStatementsForClu(String cluId);
 	public List<String> getLuiIdsByRelationType(String relatedLuiId, String luLuRelationTypeId);
-    public List<ReqComponent> getReqComponents(List<String> reqComponentIdList);
-    public List<LuStatement> getLuStatements(List<String> luStatementIdList);
+//    public List<ReqComponent> getReqComponents(List<String> reqComponentIdList);
+//    public List<LuStatement> getLuStatements(List<String> luStatementIdList);
 	public List<CluLoRelation> getCluLoRelationsByClu(String cluId);    
 	public List<CluLoRelation> getCluLoRelationsByCludIdAndLoId(String cluId,
 			String loId);
