@@ -113,23 +113,23 @@ public class DictionaryOverrideFieldWriter
 
  private void writeSubObjectStructureRefIfNeeded ()
  {
-  XmlType xmlType = finder.findXmlType (field.getXmlType ());
-  if (xmlType == null)
-  {
-   throw new DictionaryExecutionException ("Could not find dictionary field's type in list of xmltypes "
-    + dict.getId () + "." + field.getXmlType ());
-  }
-  if ( ! xmlType.getPrimitive ().equalsIgnoreCase (XmlType.COMPLEX))
+  if (dict.isDynamic ())
   {
    return;
   }
-  if (xmlType.getName ().equalsIgnoreCase ("attributeInfo"))
+  if ( ! dict.getPrimitive ().equalsIgnoreCase (XmlType.COMPLEX))
   {
    return;
   }
   if (isNotUsed ())
   {
    return;
+  }
+  XmlType xmlType = finder.findXmlType (field.getXmlType ());
+  if (xmlType == null)
+  {
+   throw new DictionaryExecutionException ("Could not find dictionary field's type in list of xmltypes "
+    + dict.getId () + "." + field.getXmlType ());
   }
   DictionaryOverrideWriter osw =
    new DictionaryOverrideWriter (writer,

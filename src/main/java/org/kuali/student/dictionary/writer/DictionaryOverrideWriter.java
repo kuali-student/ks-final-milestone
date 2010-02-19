@@ -592,7 +592,6 @@ public class DictionaryOverrideWriter
   return false;
  }
 
-
  public class RightTypeState
  {
 
@@ -920,22 +919,27 @@ public class DictionaryOverrideWriter
   // no write out each field
   for (Dictionary dict : getMatchingDictionaryEntries (type, state, false))
   {
-   if (dict.getPrimitive ().equalsIgnoreCase (XmlType.COMPLEX))
+   if ( ! dict.getPrimitive ().equalsIgnoreCase (XmlType.COMPLEX))
    {
-    if (isNotUsed (dict))
-    {
-     continue;
-    }
-    DictionaryOverrideFieldWriter few =
-     new DictionaryOverrideFieldWriter (writer,
-                                        model,
-                                        dict,
-                                        type,
-                                        state,
-                                        this,
-                                        dictionaryEntriesWritten);
-    few.writeSubObjectStructure ();
+    continue;
    }
+   if (isNotUsed (dict))
+   {
+    continue;
+   }
+   if (dict.isDynamic ())
+   {
+    continue;
+   }
+   DictionaryOverrideFieldWriter few =
+    new DictionaryOverrideFieldWriter (writer,
+                                       model,
+                                       dict,
+                                       type,
+                                       state,
+                                       this,
+                                       dictionaryEntriesWritten);
+   few.writeSubObjectStructure ();
   }
  }
 
