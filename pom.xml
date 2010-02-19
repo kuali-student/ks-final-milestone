@@ -224,10 +224,12 @@
 			<groupId>com.atlassian.maven.plugins</groupId>
 			<artifactId>maven-clover2-plugin</artifactId>
             <configuration>
-             <historyDir>${settings.localRepository}/${project.groupId}/${project.artifactId}/clover/history</historyDir>
-             <excludes>
-               <include>**/ui/client/**/*.java</include>             
-             </excludes>
+              <license><![CDATA[rQQrPasjfItwAkMJKkmNMCxgroOBLImTnqHdkoJrjKCIWJb
+mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0
+RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnOrotXvWxXwUTWuVN
+xUpvTWwxxuUvQnmqmUUnosomvnsmmmmmUUnosomvnsmmmmm
+UULkfsbopfqvWlcW1ofwlkXUUn]]>
+              </license>
 	        </configuration>
  		</plugin>
 		</plugins>
