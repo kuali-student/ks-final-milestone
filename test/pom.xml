@@ -11,7 +11,7 @@
   <name>Kuali Student Testing</name>
   <url>http://driver-1.ks.kuali.net/</url>
   <description>Kuali Student Testing</description>
-  <version>1-SNAPSHOT</version>
+  <version>1.0.0-SNAPSHOT</version>
   <repositories>
     <repository>
       <!-- NOTE:  This is a temporary repository pending approval from Kuali Foundation on publishing the master pom to the main SVN repo -->
