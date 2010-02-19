@@ -9,6 +9,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableL
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.RemovableItem;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.UpdatableMultiplicityComposite;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite.StyleType;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
@@ -110,7 +111,7 @@ public class CommonConfigurer {
                         List<FieldInfo> fieldMultiList = ((MultipleFieldInfoImpl) field).getFields();
 
                         // Add multiplicity widget
-                        addField(orgInfo, field.getKey(), getLabel(field.getLabel()), new CommonMultiplicityList("Add", "Test", fieldMultiList, field.getKey()));
+                        addField(orgInfo, field.getKey(), getLabel(field.getLabel()), new CommonMultiplicityList("Add", " ", fieldMultiList, field.getKey()));
 
                     } else {
                         // Initialize the Widget picker with specific widgets like pickers, drop-downs, etc
@@ -217,7 +218,13 @@ public class CommonConfigurer {
             this.parentPath=parentPath;
         }
 
+        @Override
+        public MultiplicityItem getItemDecorator(StyleType style) {
+            org.kuali.student.common.ui.client.configurable.mvc.sections.RemovableItemWithHeader item = new org.kuali.student.common.ui.client.configurable.mvc.sections.RemovableItemWithHeader(style);
+            item.setItemLabel(itemLabel);            
 
+            return item;
+        }
 
         @Override
         public Widget createItem() {
