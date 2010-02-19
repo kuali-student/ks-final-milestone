@@ -24,7 +24,7 @@
 	</bean>
 	
 
-<!--	 <tx:annotation-driven transaction-manager="jtaTxManager" />-->
+	 <tx:annotation-driven transaction-manager="transactionManager" />
     
     
 	<!-- Spring to GWT servlet mapping -->
