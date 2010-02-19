@@ -16,11 +16,10 @@
 package org.kuali.student.orchestration.orch;
 
 
-import java.util.Date;
-import org.kuali.student.common.assembly.client.ConstraintMetadata;
-import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.common.assembly.client.Metadata;
-import org.kuali.student.common.assembly.client.QueryPath;
+import org.kuali.student.core.assembly.data.ConstraintMetadata;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.orchestration.ConstraintMetadataBank;
 import org.kuali.student.orchestration.LookupMetadataBank;
 import org.kuali.student.orchestration.RecursionCounter;
@@ -89,9 +88,9 @@ public class SingleUseLoMetadata
 		}
 		new RichTextInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
 		
-		// metadata for Category
+		// metadata for Categories
 		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.CATEGORY.getKey (), childMeta);
+		mainMeta.getProperties ().put (Properties.CATEGORIES.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.LIST);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		LookupMetadataBank.setLookups (childMeta, "kuali.lookup.lo.category");

@@ -18,7 +18,7 @@ package org.kuali.student.orchestration;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.kuali.student.common.assembly.client.ConstraintMetadata;
+import org.kuali.student.core.assembly.data.ConstraintMetadata;
 
 
 public class ConstraintMetadataBank

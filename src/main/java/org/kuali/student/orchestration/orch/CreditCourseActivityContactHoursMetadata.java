@@ -16,9 +16,9 @@
 package org.kuali.student.orchestration.orch;
 
 
-import org.kuali.student.common.assembly.client.ConstraintMetadata;
-import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.common.assembly.client.Metadata;
+import org.kuali.student.core.assembly.data.ConstraintMetadata;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.orchestration.ConstraintMetadataBank;
 import org.kuali.student.orchestration.LookupMetadataBank;
 import org.kuali.student.orchestration.RecursionCounter;

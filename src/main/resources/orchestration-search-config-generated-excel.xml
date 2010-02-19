@@ -8,9 +8,9 @@ http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/searc
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Tue Jan 12 16:04:32 EST 2010
+on: Fri Jan 29 10:59:48 EST 2010
 by: org.kuali.student.dictionary.writer.SearchModelWriter
-using: Excel Spreadsheet src/test/resources/type-state configuration.xlsExcel Spreadsheet src/test/resources/orchestration-dictionary.xls, 
+using: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls, Excel Spreadsheet src/test/resources/orchestration-dictionary.xls, Excel Spreadsheet src/test/resources/service methods.xlsExcel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls, Excel Spreadsheet src/test/resources/orchestration-dictionary.xls, Excel Spreadsheet src/test/resources/service methods.xls, 
  -->
 
 <!-- Search Types -->
@@ -79,6 +79,48 @@ using: Excel Spreadsheet src/test/resources/type-state configuration.xlsExcel Sp
 		<search:searchCriteriaTypeInfo><ref bean="atp.criteria.orgAdvancedCriteria" /></search:searchCriteriaTypeInfo>
 		</search:searchType>
 
+	<search:searchType id="enumeration.management.search">
+		<search:name>Get enumerations</search:name>
+		<search:desc>Get enumerated lists of values given context</search:desc>
+		<search:searchResultTypeInfo><ref bean="enumeration.result.all" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="enumeration.criteria.context" /></search:searchCriteriaTypeInfo>
+		</search:searchType>
+
+	<search:searchType id="enumeration.management.search">
+		<search:name>Get enumerations</search:name>
+		<search:desc>Get enumerated lists of values given context</search:desc>
+		<search:searchResultTypeInfo><ref bean="enumeration.result.all" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="enumeration.criteria.context" /></search:searchCriteriaTypeInfo>
+		</search:searchType>
+
+	<search:searchType id="lo.search.loByClu">
+		<search:name>LO Search by Clu</search:name>
+		<search:desc>Returns all Los connected with the selected clu</search:desc>
+		<search:searchResultTypeInfo><ref bean="lo.result.loDesc" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="lo.criteria.loByCluId" /></search:searchCriteriaTypeInfo>
+		</search:searchType>
+
+	<search:searchType id="lo.search.loCluByDesc">
+		<search:name>LO Search for all LOs and related Clus matching supplied word</search:name>
+		<search:desc>Returns all matching LOs ids and related Clu ids and codes</search:desc>
+		<search:searchResultTypeInfo><ref bean="lo.result.loClu" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="lo.criteria.loByDesc" /></search:searchCriteriaTypeInfo>
+		</search:searchType>
+
+	<search:searchType id="lo.search.loByCategory">
+		<search:name>LO Search for all LOs by matching category</search:name>
+		<search:desc>Returns all matching LOs ids</search:desc>
+		<search:searchResultTypeInfo><ref bean="lo.result.loClu" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="lo.criteria.byCategoryName" /></search:searchCriteriaTypeInfo>
+		</search:searchType>
+
+	<search:searchType id="lo.search.categories">
+		<search:name>LO Search for all categories</search:name>
+		<search:desc>Returns all matching category names</search:desc>
+		<search:searchResultTypeInfo><ref bean="lo.result.categoryName" /></search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo><ref bean="lo.criteria.byCategoryName" /></search:searchCriteriaTypeInfo>
+		</search:searchType>
+
 <!-- Search Criteria -->
 
 	<search:searchCriteriaTypeInfo id="org.criteria.orgAdvancedCriteria">
@@ -145,6 +187,41 @@ using: Excel Spreadsheet src/test/resources/type-state configuration.xlsExcel Sp
 			<ref bean="atp.advancedAtpSearchParam.atpStartDate" />
 			<ref bean="atp.advancedAtpSearchParam.atpEndDate" />
 			<ref bean="atp.advancedAtpSearchParam.atpType" />
+		</search:queryParams>
+		</search:searchCriteriaTypeInfo>
+
+	<search:searchCriteriaTypeInfo id="enumeration.criteria.context">
+		<search:name>No criteria</search:name>
+		<search:desc>Enumeration Criterial</search:desc>
+		<search:queryParams>
+			<ref bean="enumeration.queryParam.enumerationType" />
+			<ref bean="enumeration.queryParam.contextType" />
+			<ref bean="enumeration.queryParam.contextValue" />
+			<ref bean="enumeration.queryParam.contextDate" />
+		</search:queryParams>
+		</search:searchCriteriaTypeInfo>
+
+	<search:searchCriteriaTypeInfo id="lo.criteria.loByCluId">
+		<search:name>LoByWordMatchCriteria</search:name>
+		<search:desc>no description supplied</search:desc>
+		<search:queryParams>
+			<ref bean="lo.queryParam.cluId" />
+		</search:queryParams>
+		</search:searchCriteriaTypeInfo>
+
+	<search:searchCriteriaTypeInfo id="lo.criteria.loByDesc">
+		<search:name>LoByWordMatchCriteria</search:name>
+		<search:desc>no description supplied</search:desc>
+		<search:queryParams>
+			<ref bean="lo.queryParam.loDescPlain" />
+		</search:queryParams>
+		</search:searchCriteriaTypeInfo>
+
+	<search:searchCriteriaTypeInfo id="lo.criteria.byCategoryName">
+		<search:name>LoByCategoryCriteria</search:name>
+		<search:desc>no description supplied</search:desc>
+		<search:queryParams>
+			<ref bean="lo.queryParam.loCategoryName" />
 		</search:queryParams>
 		</search:searchCriteriaTypeInfo>
 
@@ -278,6 +355,62 @@ using: Excel Spreadsheet src/test/resources/type-state configuration.xlsExcel Sp
 			</dict:fieldDescriptor>
 		</search:queryParam>
 
+	<search:queryParam id="enumeration.queryParam.enumerationType">
+			<dict:fieldDescriptor>
+			<dict:name>Enumeration Type</dict:name>
+			<dict:desc>The type of the enumeration to search</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="enumeration.queryParam.contextType">
+			<dict:fieldDescriptor>
+			<dict:name>Context Type</dict:name>
+			<dict:desc>The type of context being used</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="enumeration.queryParam.contextValue">
+			<dict:fieldDescriptor>
+			<dict:name>Context Value</dict:name>
+			<dict:desc>The value of the supplied context</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="enumeration.queryParam.contextDate">
+			<dict:fieldDescriptor>
+			<dict:name>Context Date</dict:name>
+			<dict:desc>A date supplied as context</dict:desc>
+			<dict:dataType>dateTime</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="lo.queryParam.cluId">
+			<dict:fieldDescriptor>
+			<dict:name>Clu Id</dict:name>
+			<dict:desc>Internal ID of a Clu</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="lo.queryParam.loDescPlain">
+			<dict:fieldDescriptor>
+			<dict:name>Description</dict:name>
+			<dict:desc>no description supplied</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
+	<search:queryParam id="lo.queryParam.loCategoryName">
+			<dict:fieldDescriptor>
+			<dict:name>Category</dict:name>
+			<dict:desc>no description supplied</dict:desc>
+			<dict:dataType>string</dict:dataType>
+			</dict:fieldDescriptor>
+		</search:queryParam>
+
 <!-- Search Results -->
 
 	<search:searchResultTypeInfo id="org.result.NameAndDescription">
@@ -362,6 +495,50 @@ using: Excel Spreadsheet src/test/resources/type-state configuration.xlsExcel Sp
 			<ref bean="atp.resultColumn.atpDurType" />
 			<ref bean="atp.resultColumn.atpStartDate" />
 			<ref bean="atp.resultColumn.atpTypeName" />
+		</search:resultColumns>
+		</search:searchResultTypeInfo>
+
+	<search:searchResultTypeInfo id="enumeration.result.all">
+		<search:name>All enumeration results</search:name>
+		<search:desc>Enumeration Results</search:desc>
+		<search:resultColumns>
+			<ref bean="enumeration.resultColumn.code" />
+			<ref bean="enumeration.resultColumn.abbrevValue" />
+			<ref bean="enumeration.resultColumn.value" />
+			<ref bean="enumeration.resultColumn.effectiveDate" />
+			<ref bean="enumeration.resultColumn.expirationDate" />
+			<ref bean="enumeration.resultColumn.sortKey" />
+		</search:resultColumns>
+		</search:searchResultTypeInfo>
+
+	<search:searchResultTypeInfo id="lo.result.loDesc">
+		<search:name>Just the Description of the LO</search:name>
+		<search:desc>Lo and the Description</search:desc>
+		<search:resultColumns>
+			<ref bean="lo.resultColumn.loId" />
+			<ref bean="lo.resultColumn.loDescPlain" />
+		</search:resultColumns>
+		</search:searchResultTypeInfo>
+
+	<search:searchResultTypeInfo id="lo.result.loClu">
+		<search:name>Los and Related Clus</search:name>
+		<search:desc>Lo descs ids and Clu ids and Codes</search:desc>
+		<search:resultColumns>
+			<ref bean="lo.resultColumn.loId" />
+			<ref bean="lo.resultColumn.loCluId" />
+			<ref bean="lo.resultColumn.loCluCode" />
+			<ref bean="lo.resultColumn.loDescPlain" />
+		</search:resultColumns>
+		</search:searchResultTypeInfo>
+
+	<search:searchResultTypeInfo id="lo.result.categoryName">
+		<search:name>Los and Related Clus</search:name>
+		<search:desc>Lo descs ids and Clu ids and Codes</search:desc>
+		<search:resultColumns>
+			<ref bean="lo.resultColumn.categoryId" />
+			<ref bean="lo.resultColumn.categoryName" />
+			<ref bean="lo.resultColumn.categoryType" />
+			<ref bean="lo.resultColumn.categoryNameAndType" />
 		</search:resultColumns>
 		</search:searchResultTypeInfo>
 
@@ -535,6 +712,90 @@ using: Excel Spreadsheet src/test/resources/type-state configuration.xlsExcel Sp
 		<search:dataType>date</search:dataType>
 		</search:resultColumn>
 
+	<search:resultColumn id="enumeration.resultColumn.code">
+		<search:name>Code</search:name>
+		<search:desc>The internal code of the enumeration value</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="enumeration.resultColumn.abbrevValue">
+		<search:name>Abbreviation of the code</search:name>
+		<search:desc>An abbreviation of the enumeration value</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="enumeration.resultColumn.value">
+		<search:name>Description of the code</search:name>
+		<search:desc>The description of the enumeration value</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="enumeration.resultColumn.effectiveDate">
+		<search:name>Effective date</search:name>
+		<search:desc>The date the enumeration became effective</search:desc>
+		<search:dataType>date</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="enumeration.resultColumn.expirationDate">
+		<search:name>Expiration date</search:name>
+		<search:desc>The date the enumeration became non-effective</search:desc>
+		<search:dataType>date</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="enumeration.resultColumn.sortKey">
+		<search:name>Key used to sort the results</search:name>
+		<search:desc>The description of the type</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="lo.resultColumn.loId">
+		<search:name>Lo Identifier</search:name>
+		<search:desc>Identifier of an Lo</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="lo.resultColumn.loDescPlain">
+		<search:name>Lo Desc</search:name>
+		<search:desc>Desc of an Lo</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="lo.resultColumn.loCluId">
+		<search:name>Clu Identifier</search:name>
+		<search:desc>Identifier of a Clu</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="lo.resultColumn.loCluCode">
+		<search:name>Clu Code</search:name>
+		<search:desc>Clu Code</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="lo.resultColumn.categoryId">
+		<search:name>Category ID</search:name>
+		<search:desc>Category to be used for an LO</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="lo.resultColumn.categoryName">
+		<search:name>Category</search:name>
+		<search:desc>Category to be used for an LO</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="lo.resultColumn.categoryType">
+		<search:name>Category</search:name>
+		<search:desc>Category type for a category</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
+	<search:resultColumn id="lo.resultColumn.categoryNameAndType">
+		<search:name>Category</search:name>
+		<search:desc>Category name concatenated with category type</search:desc>
+		<search:dataType>string</search:dataType>
+		</search:resultColumn>
+
 	<!-- Query Map -->
 	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
 	<property name="sourceMap">
@@ -590,6 +851,91 @@ where expiration_date is null
  key="atp.search.advancedAtpSearch"		>
 			<value>
 TBD
+</value>
+		</entry>
+		
+		<entry
+ key="enumeration.management.search"		>
+			<value>
+TBD
+</value>
+		</entry>
+		
+		<entry
+ key="lo.search.loCluByDesc"		>
+			<value>
+NATIVE:SELECT 
+    lo.id lo_id, 
+    clu.id clu_id, 
+    officialIdentifier.cd code, 
+    lodesc.plain plain 
+FROM 
+    KSLU_CLU clu 
+JOIN 
+    KSLU_LO_JN_CLU jn 
+    ON 
+    jn.CLU_ID = clu.ID 
+JOIN 
+    KSLU_LO lo 
+    ON 
+    jn.LO_ID = lo.ID 
+JOIN 
+    KSLU_CLU_IDENT officialIdentifier 
+    ON 
+    clu.OFFIC_CLU_ID = officialIdentifier.ID 
+JOIN 
+    KS_LO_RICH_TEXT_T lodesc 
+    ON 
+    lodesc.ID = lo.RT_DESCR_ID 
+WHERE 
+    lower(lodesc.PLAIN) like :lo_queryParam_loDescPlain
+</value>
+		</entry>
+		
+		<entry
+ key="lo.search.loByCategory"		>
+			<value>
+NATIVE:SELECT 
+    lo.id lo_id, 
+    clu.id clu_id, 
+    officialIdentifier.cd code, 
+    lodesc.plain plain 
+FROM 
+    KSLU_CLU clu 
+JOIN 
+    KSLU_LO_JN_CLU jn 
+    ON 
+    jn.CLU_ID = clu.ID 
+JOIN 
+    KSLU_LO lo 
+    ON 
+    jn.LO_ID = lo.ID 
+JOIN 
+    KSLU_CLU_IDENT officialIdentifier 
+    ON 
+    clu.OFFIC_CLU_ID = officialIdentifier.ID 
+JOIN 
+    KS_LO_RICH_TEXT_T lodesc 
+    ON 
+    lodesc.ID = lo.RT_DESCR_ID 
+JOIN 
+    KSLU_LO_JN_LOCATEGORY jncat
+    ON
+    lo.id = jncat.lo_id
+JOIN
+    KSLU_LO_CATEGORY cat
+    ON
+    cat.id = jncat.locategory_id
+
+WHERE 
+    lower(cat.name) like :lo_queryParam_loCategoryName
+</value>
+		</entry>
+		
+		<entry
+ key="lo.search.categories"		>
+			<value>
+SELECT cat.id, cat.name, cat.loCategoryType.name, cat.name||&apos; - &apos;||cat.loCategoryType.name FROM LoCategory cat WHERE cat.name like :lo_queryParam_loCategoryName or cat.id = :lo_queryParam_loCategoryId
 </value>
 		</entry>
 	</map>

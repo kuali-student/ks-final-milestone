@@ -16,7 +16,7 @@
 package org.kuali.student.orchestration.orch;
 
 
-import org.kuali.student.common.assembly.client.Data;
+import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
 
 

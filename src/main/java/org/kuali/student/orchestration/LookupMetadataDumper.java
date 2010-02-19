@@ -16,9 +16,9 @@
 package org.kuali.student.orchestration;
 
 import java.io.PrintStream;
-import org.kuali.student.common.assembly.client.LookupMetadata;
-import org.kuali.student.common.assembly.client.Metadata;
-import org.kuali.student.common.assembly.client.MetadataInterrogator;
+import org.kuali.student.core.assembly.data.LookupMetadata;
+import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.MetadataInterrogator;
 
 /**
  *

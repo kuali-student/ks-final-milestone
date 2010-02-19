@@ -17,7 +17,7 @@ package org.kuali.student.orchestration.orch;
 
 
 import java.util.Date;
-import org.kuali.student.common.assembly.client.Data;
+import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
 import org.kuali.student.orchestration.base.RichTextInfoHelper;
 
@@ -30,7 +30,7 @@ public class SingleUseLoHelper
 	{
 		ID ("id"),
 		DESCRIPTION ("description"),
-		CATEGORY ("category"),
+		CATEGORIES ("categories"),
 		LO_REPOSITORY ("loRepository"),
 		CHILD_SINGLE_USE_LOS ("childSingleUseLos"),
 		EFFECTIVE_DATE ("effectiveDate"),
@@ -97,15 +97,15 @@ public class SingleUseLoHelper
 	}
 	
 	
-	public void setCategory (Data value)
+	public void setCategories (Data value)
 	{
-		data.set (Properties.CATEGORY.getKey (), value);
+		data.set (Properties.CATEGORIES.getKey (), value);
 	}
 	
 	
-	public Data getCategory ()
+	public Data getCategories ()
 	{
-		return (Data) data.get (Properties.CATEGORY.getKey ());
+		return (Data) data.get (Properties.CATEGORIES.getKey ());
 	}
 	
 	

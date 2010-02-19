@@ -21,7 +21,7 @@ public interface SingleUseLoConstants
 {
 	public static final String ID = "id";
 	public static final String DESCRIPTION = "description";
-	public static final String CATEGORY = "category";
+	public static final String CATEGORIES = "categories";
 	public static final String LO_REPOSITORY = "loRepository";
 	public static final String CHILD_SINGLE_USE_LOS = "childSingleUseLos";
 	public static final String EFFECTIVE_DATE = "effectiveDate";

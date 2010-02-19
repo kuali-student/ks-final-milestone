@@ -20,8 +20,8 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.kuali.student.core.assembly.data.Metadata;
 import static org.junit.Assert.*;
-import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.orchestration.LookupMetadataDumper;
 
 /**
