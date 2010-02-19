@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.assembly.data.LookupParamMetadata;
@@ -35,10 +36,10 @@ import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.ResultColumnInfo;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
-import org.kuali.student.core.search.newdto.SearchRequest;
-import org.kuali.student.core.search.newdto.SearchResult;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
@@ -48,6 +49,8 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
  */
 public class SearchManagerImpl implements SearchManager{
 
+	final Logger logger = Logger.getLogger(SearchManagerImpl.class);
+	
 	private String searchContextFile;
 	private Map<String, SearchTypeInfo> searchInfoTypeMap;
 	private Map<String, SearchCriteriaTypeInfo> searchCriteriaTypeMap;
@@ -215,7 +218,12 @@ public class SearchManagerImpl implements SearchManager{
 		}
 		
 		LookupMetadata lookupMetadata = lookupMetadataMap.get(searchKey);
-		return dao.search(searchRequest, queryMap, lookupMetadata);
+		try{
+			return dao.search(searchRequest, queryMap, lookupMetadata);
+		}catch (Exception e){
+			logger.error("Search Failed for searchKey:"+searchKey,e);
+			throw new RuntimeException("Search Failed for searchKey:"+searchKey);
+		}
 	}
 
 	public void setCrossSearchManager(CrossSearchManager crossSearchManager) {

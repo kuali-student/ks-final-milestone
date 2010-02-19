@@ -57,12 +57,13 @@ import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
-import org.kuali.student.core.search.newdto.SearchRequest;
-import org.kuali.student.core.search.newdto.SearchResult;
 import org.kuali.student.core.search.service.impl.SearchManager;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.core.organization.service.OrganizationService", serviceName = "OrganizationService", portName = "OrganizationService", targetNamespace = "http://student.kuali.org/wsdl/organization")
@@ -766,7 +767,12 @@ public class OrganizationServiceImpl implements OrganizationService {
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(orgOrgRelationInfo, "orgOrgRelationInfo");
 
-        return validator.validateTypeStateObject(orgOrgRelationInfo, getObjectStructure("orgOrgRelationInfo"));
+		List<ValidationResultInfo> valResults = validator.validateTypeStateObject(orgOrgRelationInfo, getObjectStructure("orgOrgRelationInfo")); 
+		ValidationResultContainer valContainer = new ValidationResultContainer();
+		valContainer.setValidationResults(valResults);
+		
+		List<ValidationResultContainer> valContList = new ArrayList<ValidationResultContainer>();
+		return valContList;
 	}
 
 	@Override
@@ -776,8 +782,14 @@ public class OrganizationServiceImpl implements OrganizationService {
 			MissingParameterException, OperationFailedException {
 		// TODO Auto-generated method stub
 		checkForMissingParameter(validationType, "validationType");
+      
+		List<ValidationResultInfo> valResults = validator.validateTypeStateObject(orgPersonRelationInfo, getObjectStructure("orgPersonRelationInfo")); 
+		ValidationResultContainer valContainer = new ValidationResultContainer();
+		valContainer.setValidationResults(valResults);
+		
+		List<ValidationResultContainer> valContList = new ArrayList<ValidationResultContainer>();
+		return valContList;
 
-        return validator.validateTypeStateObject(orgPersonRelationInfo, getObjectStructure("orgPersonRelationInfo"));
 	}
 
 	@Override

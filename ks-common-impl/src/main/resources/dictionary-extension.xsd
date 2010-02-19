@@ -149,7 +149,6 @@
 			</xsd:element>
 		</xsd:sequence>
 		<xsd:attribute name="parent" use="optional" type="xsd:string"></xsd:attribute>
-		<xsd:attribute name="key" use="optional" type="xsd:string"></xsd:attribute>
 		<xsd:attribute name="id" type="xsd:ID"></xsd:attribute>
 		<xsd:attribute name="abstract" type="xsd:boolean"></xsd:attribute>
 	</xsd:complexType>
@@ -261,6 +260,7 @@
 				<xsd:element name="validChars"
 					type="validCharsConstraint" minOccurs="0" maxOccurs="1">
 				</xsd:element>
+				<!--  This is to dependency requirement on other fields -->
 				<xsd:element name="require" type="requireConstraint"
 					minOccurs="0" maxOccurs="unbounded">
 				</xsd:element>

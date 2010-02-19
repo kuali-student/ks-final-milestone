@@ -58,7 +58,7 @@ public class BeanConstraintDataProvider implements ConstraintDataProvider {
 
 	@Override
 	public String getObjectId() {
-		return (dataMap.containsKey("id")) ? dataMap.get("id").toString() : null;
+		return (dataMap.containsKey("id") && null != dataMap.get("id")) ? dataMap.get("id").toString() : null;
 	}
 
 	@Override

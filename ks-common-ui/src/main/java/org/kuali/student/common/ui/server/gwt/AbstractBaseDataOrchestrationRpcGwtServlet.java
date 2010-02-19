@@ -77,7 +77,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 				return new DataSaveResult(saveResult.getValidationResults(), saveResult.getValue());
 			}
 		} catch (Exception e) {
-			LOG.error("Unable to retrieve credit course proposal", e);
+			LOG.error("Unable to save credit course proposal", e);
 			throw new OperationFailedException("Unable to save credit course proposal");
 		}
 		return null;

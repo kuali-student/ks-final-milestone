@@ -38,26 +38,52 @@ import org.kuali.student.core.dictionary.dto.TypeStateCaseConstraint;
 import org.kuali.student.core.dictionary.dto.ValidCharsConstraint;
 import org.kuali.student.core.dictionary.dto.WhenConstraint;
 import org.kuali.student.core.messages.dto.Message;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.messages.service.MessageService;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class Validator {
 
+	//TODO: Change this to 'default' when the change is made in xml
+	private static final String DEFAULT_STATE = "(n/a)";
+
 	private static final String UNBOUNDED_CHECK = null;
 
-	private Map<String, String> messages = new HashMap<String, String>();
+	private MessageService messageService = null;
 
-	private Stack<String> elementStack = new Stack<String>();
-    private List<String> skipFields = new ArrayList<String>();
-	private DateParser dateParser = null;
+	private String messageLocaleKey = "en";
 
-	private ConstraintSetupFactory setupFactory = null;
+	private String messageGroupKey = "validation";
+
+	private DateParser dateParser = new ServerDateParser();
 
 	private boolean serverSide = true;
 
-	public Validator(ConstraintSetupFactory setupFactory, boolean serverSide) {
-		this.setupFactory = setupFactory;
-		this.serverSide = serverSide;
-		
+	public MessageService getMessageService() {
+		return messageService;
+	}
+
+	public void setMessageService(MessageService messageService) {
+		this.messageService = messageService;
+	}
+
+	public String getMessageLocaleKey() {
+		return messageLocaleKey;
+	}
+
+	public void setMessageLocaleKey(String messageLocaleKey) {
+		this.messageLocaleKey = messageLocaleKey;
+	}
+
+	public String getMessageGroupKey() {
+		return messageGroupKey;
+	}
+
+	public void setMessageGroupKey(String messageGroupKey) {
+		this.messageGroupKey = messageGroupKey;
+	}
+
+	public void setDateParser(DateParser dateParser) {
+		this.dateParser = dateParser;
 	}
 
 	/**
@@ -83,56 +109,39 @@ public class Validator {
 	}
 
 	/**
-	 * @param dateParser
-	 *            the dateParser to set
-	 */
-	public void setDateParser(DateParser dateParser) {
-		this.dateParser = dateParser;
-	}
-
-	public void addMessages(List<Message> list) {
-		for (Message m : list) {
-			messages.put(m.getId(), m.getValue());
-		}
-	}
-	private String getMessage(String id){
-	    if(messages.get(id) == null){
-	        return id;
-	    }
-	    return messages.get(id);
-	}
-
-	/**
 	 * Validate Object and all its nested child objects for given type and state
 	 * 
 	 * @param data
 	 * @param objStructure
 	 * @return
 	 */
-	public List<ValidationResultContainer> validateTypeStateObject(
-			Object data, ObjectStructure objStructure) {
-		List<ValidationResultContainer> results = new ArrayList<ValidationResultContainer>();
+	public List<ValidationResultInfo> validateTypeStateObject(Object data,
+			ObjectStructure objStructure) {
+		List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
 
-		ConstraintDataProvider dataProvider = setupFactory
-				.getDataProvider(data);
+		Stack<String> elementStack = new Stack<String>();
+		ConstraintDataProvider dataProvider = new BeanConstraintDataProvider();
+		dataProvider.initialize(data);
 
 		boolean isTypeStateObject = (dataProvider.hasField("type") && dataProvider
 				.hasField("state"));
 
 		// Push object structure to the top of the stack
-		//StringBuilder objXPathElement = new StringBuilder(objStructure.getKey());
-		StringBuilder objXPathElement = new StringBuilder(dataProvider.getPath());
+		StringBuilder objXPathElement = new StringBuilder(dataProvider
+				.getPath());
 		if (null != dataProvider.getObjectId()) {
 			objXPathElement.append("[id='" + dataProvider.getObjectId() + "']");
+		} else {
+			objXPathElement.append("[id='null']");
 		}
 		elementStack.push(objXPathElement.toString());
 
-		// We are making the assumption that all objects being validated has
-		// Type and State
-		if (!isTypeStateObject) {
-			throw new IllegalArgumentException(
-					"Non TypeState object being validated:"
-							+ dataProvider.getObjectId());
+		/*
+		 * Do nothing if the object to be validated is not type/state or if the
+		 * objectstructure with constraints is not provided
+		 */
+		if (!isTypeStateObject || null == objStructure) {
+			return results;
 		}
 
 		// Validate with the matching Type/State
@@ -142,10 +151,11 @@ public class Validator {
 					(String) dataProvider.getValue("type"))) {
 				for (State s : t.getState()) {
 					if (s.getKey().equalsIgnoreCase(
-							(String) dataProvider.getValue("state"))) {
+							(String) dataProvider.getValue("state"))
+							|| s.getKey().equalsIgnoreCase(DEFAULT_STATE)) {
 						for (Field f : s.getField()) {
-
-						    List<ValidationResultContainer> l = validateField(f, t, s, objStructure,dataProvider);
+							List<ValidationResultInfo> l = validateField(f, t,
+									s, objStructure, dataProvider, elementStack);
 							results.addAll(l);
 						}
 						break;
@@ -154,141 +164,160 @@ public class Validator {
 				break;
 			}
 		}
-		  elementStack.pop();
-		  
-		   // Joe start
-		  List<ValidationResultContainer> resultsBuffer = new ArrayList<ValidationResultContainer>();
-	            for(ValidationResultContainer vc: results){
-	                if(skipFields.contains(vc.getElement()) == false){
-                        resultsBuffer.add(vc);
-                    }
-	            }
-	            results = resultsBuffer;
-          //Joe end
+		elementStack.pop();
+
+		/* All Field validations are returned right now */
+		// List<ValidationResultContainer> resultsBuffer = new
+		// ArrayList<ValidationResultContainer>();
+		// for (ValidationResultContainer vc : results) {
+		// if (skipFields.contains(vc.getElement()) == false) {
+		// resultsBuffer.add(vc);
+		// }
+		// }
+		// results = resultsBuffer;
 		return results;
 	}
-	public void setSkipFields(List<String> list){
-	    skipFields = list;	    
-	}
-    private boolean isNullable(Field field){
-        ConstraintDescriptor cd = field.getConstraintDescriptor();
-        if (null != cd) {
-	        List<ConstraintSelector> constraintList = cd.getConstraint();
-	        for(ConstraintSelector cs: constraintList){
-	            if(cs.getMinOccurs() != null && cs.getMinOccurs() > 0){
-	                return false;
-	            }
-	        }
-        }
-        return true;
-    }
-	public List<ValidationResultContainer> validateField(Field field,
-			Type type, State state, ObjectStructure objStruct,
-			ConstraintDataProvider dataProvider) {
+
+	public List<ValidationResultInfo> validateField(Field field, Type type,
+			State state, ObjectStructure objStruct,
+			ConstraintDataProvider dataProvider, Stack<String> elementStack) {
 
 		Object value = dataProvider.getValue(field.getKey());
-		List<ValidationResultContainer> results = new ArrayList<ValidationResultContainer>();
-        System.out.println("validator:"+field.getKey());
-        System.out.println("value:"+value);
-        System.out.println("Complex:"+field.getFieldDescriptor().getDataType());
-        
-		// added by joe
-        if (value == null || "".equals(value.toString().trim())) {
-            if(isNullable(field) == false){
-               ValidationResultContainer valResults = new ValidationResultContainer(
-                            getElementXpath() + field.getKey());
-              valResults.addError(getMessage("validation.required"));
-              results.add(valResults);
+		List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
+		
+		ConstraintDescriptor cd = field.getConstraintDescriptor();
+				
+		// Handle null values in field
+		if (value == null || "".equals(value.toString().trim())) {
+			if (isNullable(field) == false) {
+				ValidationResultInfo valInfo = new ValidationResultInfo(
+						getElementXpath(elementStack) + field.getKey());
+				valInfo.setError(getMessage("validation.required"));
+				results.add(valInfo);
+			}
+			return results;
+		}
 
-            }
-            return results;
-        }   
-        // added finished
-
-		// Check to see if the Field is not a complex type
+		/*
+		 * For complex object structures only the following constraints apply
+		 * 1. TypeStateCase
+		 * 2. MinOccurs
+		 * 3. MaxOccurs
+		 */
 		if ("complex"
 				.equalsIgnoreCase(field.getFieldDescriptor().getDataType())) {
 			ObjectStructure nestedObjStruct = null;
-			if (hasText(field.getFieldDescriptor()
-					.getObjectStructureRef())) {
-				nestedObjStruct = setupFactory.getObjectStructure(field
-						.getFieldDescriptor().getObjectStructureRef());
+			if (hasText(field.getFieldDescriptor().getObjectStructureRef())) {
+				//TODO: Setup a mechanism to retrive referenced object structures
+//				nestedObjStruct = setupFactory.getObjectStructure(field
+//						.getFieldDescriptor().getObjectStructureRef());
 			} else {
 				nestedObjStruct = field.getFieldDescriptor()
 						.getObjectStructure();
 			}
 
+			BaseConstraintBean bcb = new BaseConstraintBean();
+			if(null != cd) {
+				for(ConstraintSelector constraint: cd.getConstraint()) {
+					computeBaseConstraints(constraint, bcb, field);
+				}
+			}
 			if (value instanceof Collection) {
+
+				String xPath = getElementXpath(elementStack) + field.getKey() + "/";
+
 				for (Object o : (Collection<?>) value) {
 					processNestedObjectStructure(results, o, nestedObjStruct,
 							field);
 				}
-// added by Joe
-	//		} else if(value == null){
-	  //             ValidationResultContainer valResults = new ValidationResultContainer(
-        //                   getElementXpath() + field.getKey() + "/");
-          //   valResults.addError("cannot be null");
-            // results.add(valResults);
-             // return results;
-// added by Joe finished			    
-			}else{
-				processNestedObjectStructure(results, value, nestedObjStruct,
-						field);
-			}
-		} else { // If non complex data type
-			ConstraintDescriptor cd = field.getConstraintDescriptor();
-			if (null != cd) {
+				if (bcb.minOccurs > ((Collection<?>) value).size()) {
+					ValidationResultInfo valRes = new ValidationResultInfo(
+							xPath);
+					valRes.setError(getMessage("validation.minOccurs"));
+					results.add(valRes);
+				}
 
+				Integer maxOccurs = tryParse(bcb.maxOccurs);
+				if (maxOccurs != null
+						&& maxOccurs < ((Collection<?>) value).size()) {
+					ValidationResultInfo valRes = new ValidationResultInfo(
+							xPath);							
+					valRes.setError(getMessage("validation.maxOccurs"));
+					results.add(valRes);
+				}						
+			} else {
+				if(null != value) {
+					processNestedObjectStructure(results, value, nestedObjStruct,
+							field);
+				} else {
+					if (bcb.minOccurs != null && bcb.minOccurs > 0) {
+						ValidationResultInfo val = new ValidationResultInfo(
+								getElementXpath(elementStack) + field.getKey()
+										+ "[value='null']/");
+						val.setError(getMessage("validation.required"));
+						results.add(val);
+					}					
+				}
+			}						
+		} else { // If non complex data type
+			if (null != cd) {
 				List<ConstraintSelector> constraints = cd.getConstraint();
 
 				if (value instanceof Collection) {
-
-					// TODO: Right now bcb is computed for each object. Change
-					// this so that it is only computed
-					// for the first object
 					BaseConstraintBean bcb = new BaseConstraintBean();
 					for (Object o : (Collection<?>) value) {
-						String xPath = getElementXpath() + field.getKey()
-								+ "[value='" + o.toString() + "']/";
-						ValidationResultContainer valResults = new ValidationResultContainer(
-								xPath);
-
 						for (ConstraintSelector constraint : constraints) {
-							processConstraint(valResults, constraint, field,
-									type, state, objStruct, o, dataProvider,
-									bcb);
+							processConstraint(results, constraint, field, type,
+									state, objStruct, o, dataProvider, bcb, elementStack);
 						}
-						processBaseConstraints(valResults, bcb, field, o);
-
-						if (bcb.minOccurs > ((Collection<?>) value).size()) {
-							valResults.addError(getMessage("validation.minOccurs"));
+						processBaseConstraints(results, bcb, field, o, elementStack);
+						if(!bcb.initialized) {
+							bcb.initialized = true;
 						}
-
-						Integer maxOccurs = tryParse(bcb.maxOccurs);
-						if (maxOccurs != null && maxOccurs < ((Collection<?>) value).size()) {
-							valResults.addError(getMessage("validation.maxOccurs"));
-						}
-
-						results.add(valResults);
 					}
-				} else {
-					ValidationResultContainer valResults = new ValidationResultContainer(
-							getElementXpath() + field.getKey());
 
+					String xPath = getElementXpath(elementStack) + field.getKey() + "/";
+					if (bcb.minOccurs > ((Collection<?>) value).size()) {
+						ValidationResultInfo valRes = new ValidationResultInfo(
+								xPath);
+						valRes.setError(getMessage("validation.minOccurs"));
+						results.add(valRes);
+					}
+
+					Integer maxOccurs = tryParse(bcb.maxOccurs);
+					if (maxOccurs != null
+							&& maxOccurs < ((Collection<?>) value).size()) {
+						ValidationResultInfo valRes = new ValidationResultInfo(
+								xPath);							
+						valRes.setError(getMessage("validation.maxOccurs"));
+						results.add(valRes);
+					}											
+				} else {
 					BaseConstraintBean bcb = new BaseConstraintBean();
 					for (ConstraintSelector constraint : constraints) {
-						processConstraint(valResults, constraint, field, type,
-								state, objStruct, value, dataProvider, bcb);
+						processConstraint(results, constraint, field, type,
+								state, objStruct, value, dataProvider, bcb, elementStack);
 					}
-					processBaseConstraints(valResults, bcb, field, value);
-
-					results.add(valResults);
+					processBaseConstraints(results, bcb, field, value, elementStack);
 				}
 			}
 		}
 		return results;
 	}
-	
+
+	private boolean isNullable(Field field) {
+		ConstraintDescriptor cd = field.getConstraintDescriptor();
+		if (null != cd) {
+			List<ConstraintSelector> constraintList = cd.getConstraint();
+			for (ConstraintSelector cs : constraintList) {
+				if (cs.getMinOccurs() != null && cs.getMinOccurs() > 0) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
 	private Integer tryParse(String s) {
 		Integer result = null;
 		if (s != null) {
@@ -302,35 +331,26 @@ public class Validator {
 	}
 
 	private void processNestedObjectStructure(
-			List<ValidationResultContainer> results, Object value,
+			List<ValidationResultInfo> results, Object value,
 			ObjectStructure nestedObjStruct, Field field) {
-	    
-	    results.addAll(validateTypeStateObject(value, nestedObjStruct));
-		
-		// CD should have only one type state case constraint
+
+		results.addAll(validateTypeStateObject(value, nestedObjStruct));
+
 		ConstraintDescriptor cd = field.getConstraintDescriptor();
 		if (null != cd) {
 			ConstraintSelector cs = cd.getConstraint().get(0);
 			TypeStateCaseConstraint tscs = cs.getTypeStateCaseConstraint();
 			if (null != tscs) {
-			//    ValidationResultContainer vc = new ValidationResultContainer();
-				//processTypeStateCaseConstraint(vc);
-				//results.add(vc);
+				// ValidationResultContainer vc = new
+				// ValidationResultContainer();
+				// processTypeStateCaseConstraint(vc);
+				// results.add(vc);k
 			}
 		}
 	}
 
-	private void processConstraint(ValidationResultContainer valResults,
-			ConstraintSelector constraint, Field field, Type type, State state,
-			ObjectStructure objStructure, Object value,
-			ConstraintDataProvider dataProvider, BaseConstraintBean bcb) {
-
-		// If constraint is only to be processed on server side
-		if (hasText(constraint.getClassName())
-				|| constraint.isServerSide() && !serverSide) {
-			return;
-		}
-
+	private void computeBaseConstraints(ConstraintSelector constraint,
+			BaseConstraintBean bcb, Field field) {
 		if (null != constraint.getMinLength()) {
 			bcb.minLength = (bcb.minLength > constraint.getMinLength()) ? bcb.minLength
 					: constraint.getMinLength();
@@ -380,11 +400,34 @@ public class Validator {
 				}
 			}
 		}
+	}
+
+	private void processConstraint(List<ValidationResultInfo> valResults,
+			ConstraintSelector constraint, Field field, Type type, State state,
+			ObjectStructure objStructure, Object value,
+			ConstraintDataProvider dataProvider, BaseConstraintBean bcb,
+			Stack<String> elementStack) {
+
+		// If constraint is only to be processed on server side
+		if (hasText(constraint.getClassName()) || constraint.isServerSide()
+				&& !serverSide) {
+			return;
+		}
+
+		String elementPath = getElementXpath(elementStack) + field.getKey()
+				+ "[value='" + value.toString() + "']/";
+
+		if(!bcb.initialized) {
+			computeBaseConstraints(constraint, bcb, field);
+		}
 
 		// Process Valid Chars
 		if (null != constraint.getValidChars()) {
-			processValidCharConstraint(valResults, constraint.getValidChars(),
-					dataProvider, value);
+			ValidationResultInfo val = processValidCharConstraint(elementPath,
+					constraint.getValidChars(), dataProvider, value);
+			if (null != val) {
+				valResults.add(val);
+			}
 		}
 
 		// Process Require Constraints (only if this field has value)
@@ -392,8 +435,11 @@ public class Validator {
 			if (null != constraint.getRequireConstraint()
 					&& constraint.getRequireConstraint().size() > 0) {
 				for (RequireConstraint rc : constraint.getRequireConstraint()) {
-					processRequireConstraint(valResults, rc, field, objStructure,
-							dataProvider);
+					ValidationResultInfo val = processRequireConstraint(
+							elementPath, rc, field, objStructure, dataProvider);
+					if (null != val) {
+						valResults.add(val);
+					}
 				}
 			}
 		}
@@ -402,13 +448,15 @@ public class Validator {
 		if (null != constraint.getOccursConstraint()
 				&& constraint.getOccursConstraint().size() > 0) {
 			for (OccursConstraint oc : constraint.getOccursConstraint()) {
-				processOccursConstraint(valResults, oc, field, type, state,
-						objStructure, dataProvider);
+				ValidationResultInfo val = processOccursConstraint(elementPath,
+						oc, field, type, state, objStructure, dataProvider);
+				if (null != val) {
+					valResults.add(val);
+				}
 			}
 		}
 
 		// Process lookup Constraint
-		// TODO: Implement lookup constraint
 		if (null != constraint.getLookupConstraint()
 				&& constraint.getLookupConstraint().size() > 0) {
 			for (LookupConstraint lc : constraint.getLookupConstraint()) {
@@ -421,20 +469,21 @@ public class Validator {
 				&& constraint.getCaseConstraint().size() > 0) {
 			for (CaseConstraint cc : constraint.getCaseConstraint()) {
 				processCaseConstraint(valResults, cc, field, type, state,
-						objStructure, value, dataProvider, bcb);
+						objStructure, value, dataProvider, bcb, elementStack);
 			}
 		}
 	}
 
-	private boolean processRequireConstraint(
-			ValidationResultContainer valResults,
-			RequireConstraint constraint, Field field, ObjectStructure objStructure,
-			ConstraintDataProvider dataProvider) {
+	private ValidationResultInfo processRequireConstraint(String element,
+			RequireConstraint constraint, Field field,
+			ObjectStructure objStructure, ConstraintDataProvider dataProvider) {
 
-		boolean result = false;
+		ValidationResultInfo val = null;
 
 		String fieldName = constraint.getField();
 		Object fieldValue = dataProvider.getValue(fieldName);
+
+		boolean result = true;
 
 		if (fieldValue instanceof java.lang.String) {
 			result = hasText((String) fieldValue);
@@ -448,10 +497,12 @@ public class Validator {
 			Map<String, Object> rMap = new HashMap<String, Object>();
 			rMap.put("field1", field.getKey());
 			rMap.put("field2", fieldName);
-			valResults.addError(MessageUtils.interpolate(getMessage("validation.requiresField"), rMap));
+			val = new ValidationResultInfo(element);
+			val.setError(MessageUtils.interpolate(
+					getMessage("validation.requiresField"), rMap));
 		}
 
-		return result;
+		return val;
 	}
 
 	/**
@@ -462,19 +513,17 @@ public class Validator {
 	 * @param caseConstraint
 	 * @param field
 	 */
-	private void processCaseConstraint(
-			ValidationResultContainer valResults,
+	private void processCaseConstraint(List<ValidationResultInfo> valResults,
 			CaseConstraint constraint, Field field, Type type, State state,
 			ObjectStructure objStructure, Object value,
-			ConstraintDataProvider dataProvider, BaseConstraintBean bcb) {
+			ConstraintDataProvider dataProvider, BaseConstraintBean bcb,
+			Stack<String> elementStack) {
 
 		String operator = (hasText(constraint.getOperator())) ? constraint
-				.getOperator()
-				: "EQUALS";
+				.getOperator() : "EQUALS";
 		Field caseField = (hasText(constraint.getField())) ? ValidatorUtils
 				.getField(constraint.getField(), objStructure, type.getKey(),
-						state.getKey())
-				: null;
+						state.getKey()) : null;
 
 		// TODO: What happens when the field is not in the dataProvider?
 		Object fieldValue = (null != caseField) ? dataProvider
@@ -484,19 +533,20 @@ public class Validator {
 		for (WhenConstraint wc : constraint.getWhenConstraint()) {
 			String whenValue = wc.getValue();
 
-			if (ValidatorUtils.compareValues(fieldValue, whenValue,
-					caseField.getFieldDescriptor().getDataType(), operator,
-					dateParser)) {
+			if (ValidatorUtils.compareValues(fieldValue, whenValue, caseField
+					.getFieldDescriptor().getDataType(), operator, dateParser)) {
 				processConstraint(valResults, wc.getConstraint(), field, type,
-						state, objStructure, value, dataProvider, bcb);
+						state, objStructure, value, dataProvider, bcb,
+						elementStack);
 			}
 		}
 	}
 
-	private void processValidCharConstraint(
-			ValidationResultContainer valResults,
+	private ValidationResultInfo processValidCharConstraint(String element,
 			ValidCharsConstraint vcConstraint,
 			ConstraintDataProvider dataProvider, Object value) {
+
+		ValidationResultInfo val = null;
 
 		StringBuilder fieldValue = new StringBuilder();
 		String validChars = vcConstraint.getValue();
@@ -531,15 +581,18 @@ public class Validator {
 
 		// TODO: Allow different processing based on the label
 		if ("regex".equalsIgnoreCase(processorType)) {
-			//if (!Pattern.matches(validChars, fieldValue.toString())) {
-		    if(fieldValue == null){
-                valResults
-                .addError(getMessage("validation.validCharsFailed"));
-		    }else if (fieldValue != null && !fieldValue.toString().matches(validChars)) {
-				valResults
-						.addError(getMessage("validation.validCharsFailed"));
+			// if (!Pattern.matches(validChars, fieldValue.toString())) {
+			if (fieldValue == null) {
+				val = new ValidationResultInfo(element);
+				val.setError(getMessage("validation.validCharsFailed"));
+			} else if (fieldValue != null
+					&& !fieldValue.toString().matches(validChars)) {
+				val = new ValidationResultInfo(element);
+				val.setError(getMessage("validation.validCharsFailed"));
 			}
 		}
+
+		return val;
 	}
 
 	/**
@@ -555,200 +608,237 @@ public class Validator {
 	 * @param dataProvider
 	 * @return
 	 */
-	private boolean processOccursConstraint(
-			ValidationResultContainer valResults,
+	private ValidationResultInfo processOccursConstraint(String element,
 			OccursConstraint constraint, Field field, Type type, State state,
 			ObjectStructure objStructure, ConstraintDataProvider dataProvider) {
 
 		boolean result = false;
 		int trueCount = 0;
 
-		ValidationResultContainer tempC = new ValidationResultContainer(
-				null);
+		ValidationResultInfo val = null;
 
 		for (RequireConstraint rc : constraint.getRequire()) {
-			trueCount += (processRequireConstraint(tempC, rc, field, objStructure,
-					dataProvider)) ? 1 : 0;
+			trueCount += (processRequireConstraint("", rc, field, objStructure,
+					dataProvider) != null) ? 1 : 0;
 		}
 
 		for (OccursConstraint oc : constraint.getOccurs()) {
-			trueCount += (processOccursConstraint(tempC, oc, field, type,
-					state, objStructure, dataProvider)) ? 1 : 0;
+			trueCount += (processOccursConstraint("", oc, field, type, state,
+					objStructure, dataProvider) != null) ? 1 : 0;
 		}
 
 		result = (trueCount >= constraint.getMin() && trueCount <= constraint
 				.getMax()) ? true : false;
 
 		if (!result) {
-			valResults.addError(getMessage("validation.occurs"));
+			val = new ValidationResultInfo(element);
+			val.setError(getMessage("validation.occurs"));
 		}
 
-		return result;
+		return val;
 	}
 
-	private void processLookupConstraint(
-			ValidationResultContainer valResults) {
+	// TODO: Implement lookup constraint
+	private void processLookupConstraint(List<ValidationResultInfo> valResults) {
 	}
 
+	// TODO: Implement TypeStateCase constraint
 	private void processTypeStateCaseConstraint(
-			ValidationResultContainer valResults) {
+			List<ValidationResultInfo> valResults) {
 	}
 
-	private void processBaseConstraints(
-			ValidationResultContainer valResults, BaseConstraintBean bcb,
-			Field field, Object value) {
+	private void processBaseConstraints(List<ValidationResultInfo> valResults,
+			BaseConstraintBean bcb, Field field, Object value,
+			Stack<String> elementStack) {
 
 		String dataType = field.getFieldDescriptor().getDataType();
 
-		valResults.setDataType(dataType);
-		valResults.setDerivedMinLength(bcb.minLength);
-		valResults.setDerivedMaxLength(bcb.maxLength);
-		valResults.setDerivedMinOccurs(bcb.minOccurs);
-		valResults.setDerivedMaxOccurs(bcb.maxOccurs);
-
 		if (value == null || "".equals(value.toString().trim())) {
 			if (bcb.minOccurs != null && bcb.minOccurs > 0) {
-				valResults.addError(getMessage("validation.required"));
+				ValidationResultInfo val = new ValidationResultInfo(
+						getElementXpath(elementStack) + field.getKey()
+								+ "[value='null']/");
+				val.setError(getMessage("validation.required"));
+				valResults.add(val);
 				return;
 			}
 		}
 
+		String elementPath = getElementXpath(elementStack) + field.getKey()
+				+ "[value='" + value.toString() + "']/";
+
 		if ("string".equalsIgnoreCase(dataType)) {
-			validateString(value, bcb, valResults);
+			validateString(value, bcb, elementPath, valResults);
 		} else if ("integer".equalsIgnoreCase(dataType)) {
-			validateInteger(value, bcb, valResults);
+			validateInteger(value, bcb, elementPath, valResults);
 		} else if ("long".equalsIgnoreCase(dataType)) {
-			validateLong(value, bcb, valResults);
+			validateLong(value, bcb, elementPath, valResults);
 		} else if ("double".equalsIgnoreCase(dataType)) {
-			validateDouble(value, bcb, valResults);
+			validateDouble(value, bcb, elementPath, valResults);
 		} else if ("float".equalsIgnoreCase(dataType)) {
-			validateFloat(value, bcb, valResults);
+			validateFloat(value, bcb, elementPath, valResults);
 		} else if ("boolean".equalsIgnoreCase(dataType)) {
-			validateBoolean(value, bcb, valResults);
+			validateBoolean(value, bcb, elementPath, valResults);
 		} else if ("date".equalsIgnoreCase(dataType)) {
-			validateDate(value, bcb, valResults, dateParser);
+			validateDate(value, bcb, elementPath, valResults, dateParser);
 		}
 	}
 
 	private void validateBoolean(Object value, BaseConstraintBean bcb,
-			ValidationResultContainer result) {
+			String element, List<ValidationResultInfo> results) {
 		if (!(value instanceof Boolean)) {
 			try {
 				Boolean.valueOf(value.toString());
 			} catch (Exception e) {
-				result.addError(getMessage("validation.mustBeBoolean"));
+				ValidationResultInfo val = new ValidationResultInfo(element);
+				val.setError(getMessage("validation.mustBeBoolean"));
+				results.add(val);
 			}
 		}
 	}
 
 	private void validateDouble(Object value, BaseConstraintBean bcb,
-			ValidationResultContainer result) {
+			String element, List<ValidationResultInfo> results) {
 		Double v = null;
+
+		ValidationResultInfo val = new ValidationResultInfo(element);
+
 		if (value instanceof Number) {
 			v = ((Number) value).doubleValue();
 		} else {
 			try {
 				v = Double.valueOf(value.toString());
 			} catch (Exception e) {
-				result.addError(getMessage("validation.mustBeDouble"));
+				val.setError(getMessage("validation.mustBeDouble"));
 			}
 		}
 
-		if (result.isOk()) {
+		if (val.isOk()) {
 			Double maxValue = ValidatorUtils.getDouble(bcb.maxValue);
 			Double minValue = ValidatorUtils.getDouble(bcb.minValue);
 
 			if (maxValue != null && minValue != null) {
 				// validate range
 				if (v > maxValue || v < minValue) {
-					result.addError(MessageUtils.interpolate(getMessage("validation.outOfRange"), bcb.toMap()));
+					val.setError(MessageUtils.interpolate(
+							getMessage("validation.outOfRange"), bcb.toMap()));
 				}
 			} else if (maxValue != null) {
 				if (v > maxValue) {
-					result.addError(MessageUtils.interpolate(getMessage("validation.maxValueFailed"), bcb.toMap()));
+					val.setError(MessageUtils.interpolate(
+							getMessage("validation.maxValueFailed"), bcb
+									.toMap()));
 				}
 			} else if (minValue != null) {
 				if (v < minValue) {
-					result.addError(MessageUtils.interpolate(getMessage("validation.minValueFailed"), bcb.toMap()));
+					val.setError(MessageUtils.interpolate(
+							getMessage("validation.minValueFailed"), bcb
+									.toMap()));
 				}
 			}
+		}
+
+		if (!val.isOk()) {
+			results.add(val);
 		}
 	}
 
 	private void validateFloat(Object value, BaseConstraintBean bcb,
-			ValidationResultContainer result) {
+			String element, List<ValidationResultInfo> results) {
 		Float v = null;
 
+		ValidationResultInfo val = new ValidationResultInfo(element);
 		if (value instanceof Number) {
 			v = ((Number) value).floatValue();
 		} else {
 			try {
 				v = Float.valueOf(value.toString());
 			} catch (Exception e) {
-				result.addError(getMessage("validation.mustBeFloat"));
+				val.setError(getMessage("validation.mustBeFloat"));
 			}
 		}
 
-		if (result.isOk()) {
+		if (val.isOk()) {
 			Float maxValue = ValidatorUtils.getFloat(bcb.maxValue);
 			Float minValue = ValidatorUtils.getFloat(bcb.minValue);
 
 			if (maxValue != null && minValue != null) {
 				// validate range
 				if (v > maxValue || v < minValue) {
-					result.addError(MessageUtils.interpolate(getMessage("validation.outOfRange"), bcb.toMap()));
+					val.setError(MessageUtils.interpolate(
+							getMessage("validation.outOfRange"), bcb.toMap()));
 				}
 			} else if (maxValue != null) {
 				if (v > maxValue) {
-					result.addError(MessageUtils.interpolate(getMessage("validation.maxValueFailed"), bcb.toMap()));
+					val.setError(MessageUtils.interpolate(
+							getMessage("validation.maxValueFailed"), bcb
+									.toMap()));
 				}
 			} else if (minValue != null) {
 				if (v < minValue) {
-					result.addError(MessageUtils.interpolate(getMessage("validation.minValueFailed"), bcb.toMap()));
+					val.setError(MessageUtils.interpolate(
+							getMessage("validation.minValueFailed"), bcb
+									.toMap()));
 				}
 			}
+		}
+
+		if (!val.isOk()) {
+			results.add(val);
 		}
 	}
 
 	private void validateLong(Object value, BaseConstraintBean bcb,
-			ValidationResultContainer result) {
+			String element, List<ValidationResultInfo> results) {
 		Long v = null;
 
+		ValidationResultInfo val = new ValidationResultInfo(element);
 		if (value instanceof Number) {
 			v = ((Number) value).longValue();
 		} else {
 			try {
 				v = Long.valueOf(value.toString());
 			} catch (Exception e) {
-				result.addError(getMessage("validation.mustBeLong"));
+				val.setError(getMessage("validation.mustBeLong"));
 			}
 		}
 
-		if (result.isOk()) {
+		if (val.isOk()) {
 			Long maxValue = ValidatorUtils.getLong(bcb.maxValue);
 			Long minValue = ValidatorUtils.getLong(bcb.minValue);
 
 			if (maxValue != null && minValue != null) {
 				// validate range
 				if (v > maxValue || v < minValue) {
-					result.addError(MessageUtils.interpolate(getMessage("validation.outOfRange"), bcb.toMap()));
+					val.setError(MessageUtils.interpolate(
+							getMessage("validation.outOfRange"), bcb.toMap()));
 				}
 			} else if (maxValue != null) {
 				if (v > maxValue) {
-					result.addError(MessageUtils.interpolate(getMessage("validation.maxValueFailed"), bcb.toMap()));
+					val.setError(MessageUtils.interpolate(
+							getMessage("validation.maxValueFailed"), bcb
+									.toMap()));
 				}
 			} else if (minValue != null) {
 				if (v < minValue) {
-					result.addError(MessageUtils.interpolate(getMessage("validation.minValueFailed"), bcb.toMap()));
+					val.setError(MessageUtils.interpolate(
+							getMessage("validation.minValueFailed"), bcb
+									.toMap()));
 				}
 			}
+		}
+
+		if (!val.isOk()) {
+			results.add(val);
 		}
 
 	}
 
 	private void validateInteger(Object value, BaseConstraintBean bcb,
-			ValidationResultContainer result) {
+			String element, List<ValidationResultInfo> results) {
 		Integer v = null;
+
+		ValidationResultInfo val = new ValidationResultInfo(element);
 
 		if (value instanceof Number) {
 			v = ((Number) value).intValue();
@@ -756,34 +846,45 @@ public class Validator {
 			try {
 				v = Integer.valueOf(value.toString());
 			} catch (Exception e) {
-				result.addError(getMessage("validation.mustBeInteger"));
+				val.setError(getMessage("validation.mustBeInteger"));
 			}
 		}
 
-		if (result.isOk()) {
+		if (val.isOk()) {
 			Integer maxValue = ValidatorUtils.getInteger(bcb.maxValue);
 			Integer minValue = ValidatorUtils.getInteger(bcb.minValue);
 
 			if (maxValue != null && minValue != null) {
 				// validate range
 				if (v > maxValue || v < minValue) {
-					result.addError(MessageUtils.interpolate(getMessage("validation.outOfRange"), bcb.toMap()));
+					val.setError(MessageUtils.interpolate(
+							getMessage("validation.outOfRange"), bcb.toMap()));
 				}
 			} else if (maxValue != null) {
 				if (v > maxValue) {
-					result.addError(MessageUtils.interpolate(getMessage("validation.maxValueFailed"), bcb.toMap()));
+					val.setError(MessageUtils.interpolate(
+							getMessage("validation.maxValueFailed"), bcb
+									.toMap()));
 				}
 			} else if (minValue != null) {
 				if (v < minValue) {
-					result.addError(MessageUtils.interpolate(getMessage("validation.minValueFailed"), bcb.toMap()));
+					val.setError(MessageUtils.interpolate(
+							getMessage("validation.minValueFailed"), bcb
+									.toMap()));
 				}
 			}
 		}
 
+		if (!val.isOk()) {
+			results.add(val);
+		}
 	}
 
 	private void validateDate(Object value, BaseConstraintBean bcb,
-			ValidationResultContainer result, DateParser dateParser) {
+			String element, List<ValidationResultInfo> results,
+			DateParser dateParser) {
+		ValidationResultInfo val = new ValidationResultInfo(element);
+
 		Date v = null;
 
 		if (value instanceof Date) {
@@ -792,64 +893,89 @@ public class Validator {
 			try {
 				v = dateParser.parseDate(value.toString());
 			} catch (Exception e) {
-				result.addError(getMessage("validation.mustBeDate"));
+				val.setError(getMessage("validation.mustBeDate"));
 			}
 		}
 
-		if (result.isOk()) {
-			Date maxValue = ValidatorUtils
-					.getDate(bcb.maxValue, dateParser);
-			Date minValue = ValidatorUtils
-					.getDate(bcb.minValue, dateParser);
+		if (val.isOk()) {
+			Date maxValue = ValidatorUtils.getDate(bcb.maxValue, dateParser);
+			Date minValue = ValidatorUtils.getDate(bcb.minValue, dateParser);
 
 			if (maxValue != null && minValue != null) {
 				// validate range
 				if (v.getTime() > maxValue.getTime()
 						|| v.getTime() < minValue.getTime()) {
-					result.addError(MessageUtils.interpolate(getMessage("validation.outOfRange"), bcb.toMap()));
+					val.setError(MessageUtils.interpolate(
+							getMessage("validation.outOfRange"), bcb.toMap()));
 				}
 			} else if (maxValue != null) {
 				if (v.getTime() > maxValue.getTime()) {
-					result.addError(MessageUtils.interpolate(getMessage("validation.maxValueFailed"), bcb.toMap()));
+					val.setError(MessageUtils.interpolate(
+							getMessage("validation.maxValueFailed"), bcb
+									.toMap()));
 				}
 			} else if (minValue != null) {
 				if (v.getTime() < minValue.getTime()) {
-					result.addError(MessageUtils.interpolate(getMessage("validation.minValueFailed"), bcb.toMap()));
+					val.setError(MessageUtils.interpolate(
+							getMessage("validation.minValueFailed"), bcb
+									.toMap()));
 				}
 			}
+		}
+
+		if (!val.isOk()) {
+			results.add(val);
 		}
 	}
 
 	private void validateString(Object value, BaseConstraintBean bcb,
-			ValidationResultContainer result) {
+			String element, List<ValidationResultInfo> results) {
 
-	    if(value == null){
-	        value = "";
-//            result.addError(MessageUtils.interpolate(messages
-  //                  .get("Empty string")));
-	//	    return ;
+		if (value == null) {
+			value = "";
 		}
-	    String s = value.toString().trim();
+		String s = value.toString().trim();
 
-	    Integer maxLength = tryParse(bcb.maxLength);
+		ValidationResultInfo val = new ValidationResultInfo(element);
+
+		Integer maxLength = tryParse(bcb.maxLength);
 		if (maxLength != null && bcb.minLength > 0) {
 			if (s.length() > maxLength || s.length() < bcb.minLength) {
-				result.addError(MessageUtils.interpolate(getMessage("validation.lengthOutOfRange"), bcb.toMap()));
+				val
+						.setError(MessageUtils.interpolate(
+								getMessage("validation.lengthOutOfRange"), bcb
+										.toMap()));
 			}
 		} else if (maxLength != null) {
 			if (s.length() > Integer.parseInt(bcb.maxLength)) {
-				result.addError(MessageUtils.interpolate(getMessage("validation.maxLengthFailed"), bcb.toMap()));
+				val.setError(MessageUtils.interpolate(
+						getMessage("validation.maxLengthFailed"), bcb.toMap()));
 			}
 		} else if (bcb.minLength > 0) {
 			if (s.length() < bcb.minLength) {
-				result.addError(MessageUtils.interpolate(getMessage("validation.minLengthFailed"), bcb.toMap()));
+				val.setError(MessageUtils.interpolate(
+						getMessage("validation.minLengthFailed"), bcb.toMap()));
 			}
+		}
+
+		if (!val.isOk()) {
+			results.add(val);
 		}
 	}
 
-	private String getElementXpath() {
-		StringBuilder xPath = new StringBuilder();
+	private String getMessage(String messageId) {
+		if (null == messageService) {
+			return messageId;
+		}
 
+		Message msg = messageService.getMessage(messageLocaleKey,
+				messageGroupKey, messageId);
+		return msg.getValue();
+	}
+
+	private String getElementXpath(Stack<String> elementStack) {
+		StringBuilder xPath = new StringBuilder();
+		xPath.append("/");
 		Iterator<String> itr = elementStack.iterator();
 		while (itr.hasNext()) {
 			xPath.append(itr.next() + "/");
@@ -858,7 +984,29 @@ public class Validator {
 		return xPath.toString();
 	}
 
+	/*
+	 * Homemade has text so we dont need outside libs.
+	 */
+	private boolean hasText(String string) {
+
+		if (string == null || string.length() < 1) {
+			return false;
+		}
+		int stringLength = string.length();
+
+		for (int i = 0; i < stringLength; i++) {
+			char currentChar = string.charAt(i);
+			if (' ' != currentChar || '\t' != currentChar
+					|| '\n' != currentChar) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	private class BaseConstraintBean {
+		public boolean initialized = false;
 		public Integer minOccurs = 0;
 		public String maxOccurs = UNBOUNDED_CHECK;
 		public Integer minLength = 0;
@@ -879,27 +1027,5 @@ public class Validator {
 
 			return result;
 		}
-	}
-	
-	/*
-	 * Homemade has text so we dont need outside libs.
-	 */
-	private boolean hasText(String string){
-
-		if(string==null||string.length()<1){
-			return false;
-		}
-		int stringLength = string.length();
-				
-		for(int i=0;i<stringLength;i++){
-			char currentChar=string.charAt(i);
-			if(' '!=currentChar||
-			   '\t'!=currentChar||
-			   '\n'!=currentChar){
-				return true;
-			}
-		}
-		
-		return false;
 	}
 }

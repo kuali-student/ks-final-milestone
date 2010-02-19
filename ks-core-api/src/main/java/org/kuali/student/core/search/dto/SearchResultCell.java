@@ -1,4 +1,4 @@
-package org.kuali.student.core.search.newdto;
+package org.kuali.student.core.search.dto;
 
 import java.io.Serializable;
 

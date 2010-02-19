@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.kuali.student.core.search.newdto;
+package org.kuali.student.core.search.dto;
 
 public enum SortDirection {
 	ASC,DESC;

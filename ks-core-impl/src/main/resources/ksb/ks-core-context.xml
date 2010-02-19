@@ -186,9 +186,16 @@
         </property>
     </bean>
 
-    <!-- KsPersonService -->
+    <bean id="identityServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.IdentityService" />
+        <property name="serviceQName" value="{http://rice.kuali.org/wsdl/kim}kimIdentityServiceSOAP" />
+    </bean>
+
+
+    <!-- personsearchService -->
     <bean id="personServiceImpl"
-        class="org.kuali.student.core.ksperson.service.impl.KsPersonServiceImpl">
+        class="org.kuali.student.core.personsearch.service.impl.PersonSearchServiceImpl">
+        <property name="identityService" ref="identityServiceClient"/>
     </bean>
 
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
@@ -196,9 +203,9 @@
             <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
                 <property name="jaxWsService" value="true" />
                 <property name="service" ref="personServiceImpl" />
-                <property name="serviceInterface" value="org.kuali.student.core.ksperson.service.KsPersonService" />
-                <property name="localServiceName" value="KsPersonService" />
-                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/ksperson" />
+                <property name="serviceInterface" value="org.kuali.student.core.search.service.SearchService" />
+                <property name="localServiceName" value="personsearchService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/personsearch" />
                 <property name="busSecurity" value="${ks.core.bus.security}" />
             </bean>
         </property>
@@ -469,7 +476,7 @@
 				pointcut="execution(* org.kuali.student.core.organization.service.*.*(..))"
 				method="afterThrowing" throwing="ex" />
 			<aop:after-throwing
-				pointcut="execution(* org.kuali.student.core.ksperson.service.*.*(..))"
+				pointcut="execution(* org.kuali.student.core.personsearch.service.*.*(..))"
 				method="afterThrowing" throwing="ex" />
 			<aop:after-throwing
 				pointcut="execution(* org.kuali.student.core.atp.service.*.*(..))"

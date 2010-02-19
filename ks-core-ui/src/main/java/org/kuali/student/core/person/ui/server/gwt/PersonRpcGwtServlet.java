@@ -20,12 +20,17 @@ import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
 import org.kuali.rice.kim.service.IdentityService;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
-import org.kuali.student.core.ksperson.service.KsPersonService;
 import org.kuali.student.core.person.dto.PersonInfo;
 import org.kuali.student.core.person.dto.PersonNameInfo;
 import org.kuali.student.core.person.ui.client.service.PersonRpcService;
+import org.kuali.student.core.search.service.SearchService;
 
-public class PersonRpcGwtServlet extends BaseRpcGwtServletAbstract<KsPersonService> implements
+/**
+ *
+ * @deprecated Use SearchRpcService instead in conjunction with PersonSearchServiceImpl
+ *
+ */
+public class PersonRpcGwtServlet extends BaseRpcGwtServletAbstract<SearchService> implements
 		PersonRpcService {
 	protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger
 	.getLogger(PersonRpcGwtServlet.class);

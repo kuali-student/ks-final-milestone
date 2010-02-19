@@ -29,74 +29,44 @@ import org.kuali.student.core.dictionary.dto.RequireConstraint;
 import org.kuali.student.core.dictionary.dto.State;
 import org.kuali.student.core.dictionary.dto.Type;
 import org.kuali.student.core.dictionary.dto.ValidCharsConstraint;
-import org.kuali.student.core.messages.dto.Message;
-import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
-public class ValidatorTest {
-/*
-	@Test
-	public void testElementXPath() {
-    	BeanConstraintSetupFactory bc = new BeanConstraintSetupFactory();
-    	
-    	Validator val = new Validator(bc, true);
-    	val.setDateParser(new ServerDateParser());
-    	val.addMessages(buildMessageStore());
-    	
-    	ConstraintMockPerson p = buildTestPerson1();
-    	
-    	List<ValidationResultContainer> results = val.validateTypeStateObject( p, buildObjectStructure1());    
-    	assertEquals(results.size(), 2);
+public class ValidatorTest {	
 
-    	assertEquals(results.get(0).getElement(), "personInfo[id='P1']/firstName");
-    	assertEquals(results.get(1).getElement(), "personInfo[id='P1']/dob");
-    	//assertEquals(results.get(2).getElement(), "/personInfo[id='P1']/gpa/");
+	Validator val = null;
+	
+	public ValidatorTest() {
+		val = new Validator();
+		val.setDateParser(new ServerDateParser());
+		val.setMessageService(null);
 	}
-	*/
-    @Test     
+		
+	@Test     
     public void testRequired() {
-    	
-    	BeanConstraintSetupFactory bc = new BeanConstraintSetupFactory();
-    	
-    	Validator val = new Validator(bc, true);
-    	val.setDateParser(new ServerDateParser());
-    	val.addMessages(buildMessageStore());
-    	
-    	List<ValidationResultContainer> results = val.validateTypeStateObject( buildTestPerson1(), buildObjectStructure1());    
-    	assertEquals(results.size(), 2);
+    	    	
+    	List<ValidationResultInfo> results = val.validateTypeStateObject( buildTestPerson1(), buildObjectStructure1());    
+    	assertEquals(results.size(), 1);
 
-    	assertEquals(results.get(1).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
-    	assertEquals(results.get(1).getValidationResults().get(0).getMessage(), "validation.required");
+    	assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
+    	assertEquals(results.get(0).getMessage(), "validation.required");
     }
     
 
     @Test     
     public void testLengthRange() {
     	
-    	BeanConstraintSetupFactory bc = new BeanConstraintSetupFactory();
-    	
-    	Validator val = new Validator(bc, true);
-    	val.setDateParser(new ServerDateParser());
-    	val.addMessages(buildMessageStore());
-    	
     	ConstraintMockPerson p = buildTestPerson1();
     	p.setFirstName("thisisaveryveryverylo");
     	
-    	List<ValidationResultContainer> results = val.validateTypeStateObject( p, buildObjectStructure1());    
+    	List<ValidationResultInfo> results = val.validateTypeStateObject( p, buildObjectStructure1());    
     	assertEquals(results.size(), 2);
 
     	assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
-    	assertEquals(results.get(0).getValidationResults().get(0).getMessage(), "validation.lengthOutOfRange");
+    	assertEquals(results.get(0).getMessage(), "validation.lengthOutOfRange");
     }
     
     @Test     
     public void testMinLength() {
-    	
-    	BeanConstraintSetupFactory bc = new BeanConstraintSetupFactory();
-    	
-    	Validator val = new Validator(bc, true);
-    	val.setDateParser(new ServerDateParser());
-    	val.addMessages(buildMessageStore());
     	
     	ConstraintMockPerson p = buildTestPerson1();
     	p.setFirstName("t");
@@ -104,42 +74,30 @@ public class ValidatorTest {
     	ObjectStructure o1 = buildObjectStructure1();
     	o1.getType().get(0).getState().get(0).getField().get(0).getConstraintDescriptor().getConstraint().get(0).setMaxLength(null);
     	
-    	List<ValidationResultContainer> results = val.validateTypeStateObject( p, o1);    
+    	List<ValidationResultInfo> results = val.validateTypeStateObject( p, o1);    
     	assertEquals(results.size(), 2);
 
     	assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
-    	assertEquals(results.get(0).getValidationResults().get(0).getMessage(), "validation.minLengthFailed");
+    	assertEquals(results.get(0).getMessage(), "validation.minLengthFailed");
     }
     
 
     @Test
     public void testMinDateValue() {
-    	BeanConstraintSetupFactory bc = new BeanConstraintSetupFactory();
-    	
-    	Validator val = new Validator(bc, true);
-    	val.setDateParser(new ServerDateParser());
-    	val.addMessages(buildMessageStore());
-    	
     	ConstraintMockPerson p = buildTestPerson1();
     	ServerDateParser sp = new ServerDateParser();
     	p.setDob(sp.parseDate("1960-01-01"));
     	ObjectStructure o1 = buildObjectStructure1();
     	
-    	List<ValidationResultContainer> results = val.validateTypeStateObject( p, o1);    
-    	assertEquals(results.size(), 2);
+    	List<ValidationResultInfo> results = val.validateTypeStateObject( p, o1);    
+    	assertEquals(results.size(), 1);
 
-    	assertEquals(results.get(1).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
-    	assertEquals(results.get(1).getValidationResults().get(0).getMessage(), "validation.minValueFailed");    	
+    	assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
+    	assertEquals(results.get(0).getMessage(), "validation.minValueFailed");    	
     }
     
     @Test     
     public void testMaxLength() {
-    	
-    	BeanConstraintSetupFactory bc = new BeanConstraintSetupFactory();
-    	
-    	Validator val = new Validator(bc, true);
-    	val.setDateParser(new ServerDateParser());
-    	val.addMessages(buildMessageStore());
     	
     	ConstraintMockPerson p = buildTestPerson1();
     	p.setFirstName("thisisaveryveryverylo");
@@ -147,77 +105,59 @@ public class ValidatorTest {
     	ObjectStructure o1 = buildObjectStructure1();
     	o1.getType().get(0).getState().get(0).getField().get(0).getConstraintDescriptor().getConstraint().get(0).setMinLength(0);
     	
-    	List<ValidationResultContainer> results = val.validateTypeStateObject( p, o1);    
+    	List<ValidationResultInfo> results = val.validateTypeStateObject( p, o1);    
     	assertEquals(results.size(), 2);
 
     	assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
-    	assertEquals(results.get(0).getValidationResults().get(0).getMessage(), "validation.maxLengthFailed");
+    	assertEquals(results.get(0).getMessage(), "validation.maxLengthFailed");
     }
     
     @Test     
     public void testValidChars() {
-    	
-    	BeanConstraintSetupFactory bc = new BeanConstraintSetupFactory();
-    	
-    	Validator val = new Validator(bc, true);
-    	val.setDateParser(new ServerDateParser());
-    	val.addMessages(buildMessageStore());
-    	
+    	    	
     	ConstraintMockPerson p = buildTestPerson1();
     	p.setFirstName("in$#valid");
 
     	ObjectStructure o1 = buildObjectStructure1();
     	
-    	List<ValidationResultContainer> results = val.validateTypeStateObject( p, o1);    
+    	List<ValidationResultInfo> results = val.validateTypeStateObject( p, o1);    
     	assertEquals(results.size(), 2);
 
     	assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
-    	assertEquals(results.get(0).getValidationResults().get(0).getMessage(), "validation.validCharsFailed");
+    	assertEquals(results.get(0).getMessage(), "validation.validCharsFailed");
     }
 
 
     @Test     
     public void testDoubleValueRange() {
     	
-    	BeanConstraintSetupFactory bc = new BeanConstraintSetupFactory();
-    	
-    	Validator val = new Validator(bc, true);
-    	val.setDateParser(new ServerDateParser());
-    	val.addMessages(buildMessageStore());
-    	
     	ConstraintMockPerson p = buildTestPerson2();
     	p.setGpa(5.0);
 
     	ObjectStructure o1 = buildObjectStructure1();
     	
-    	List<ValidationResultContainer> results = val.validateTypeStateObject( p, o1);    
-    	assertEquals(results.size(), 3);
+    	List<ValidationResultInfo> results = val.validateTypeStateObject( p, o1);    
+    	assertEquals(results.size(), 1);
 
-    	assertEquals(results.get(2).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
-    	assertEquals(results.get(2).getValidationResults().get(0).getMessage(), "validation.outOfRange");
+    	assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
+    	assertEquals(results.get(0).getMessage(), "validation.outOfRange");
     }
     
     @Test
-    public void testNestedStructures() {
-    	BeanConstraintSetupFactory bc = new BeanConstraintSetupFactory();
-    	
-    	Validator val = new Validator(bc, true);
-    	val.setDateParser(new ServerDateParser());
-    	val.addMessages(buildMessageStore());
-    	
+    public void testNestedStructures() {    	
     	ConstraintMockPerson p = buildTestPerson3();
 
     	ObjectStructure o = buildObjectStructure2();
     	
-    	List<ValidationResultContainer> results = val.validateTypeStateObject( p, o);    
-    	assertEquals(results.size(), 4);
+    	List<ValidationResultInfo> results = val.validateTypeStateObject( p, o);    
+    	assertEquals(results.size(), 3);
 
-    	assertEquals(results.get(2).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
-    	assertEquals(results.get(2).getValidationResults().get(0).getMessage(), "validation.required");
+    	assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
+    	assertEquals(results.get(0).getMessage(), "validation.required");
 
-    	assertEquals(results.get(3).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
-    	assertEquals(results.get(3).getValidationResults().get(0).getMessage(), "validation.requiresField");
-    	assertEquals(results.get(3).getValidationResults().get(1).getMessage(), "validation.validCharsFailed");    	
+    	assertEquals(results.get(1).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
+    	assertEquals(results.get(1).getMessage(), "validation.requiresField");
+    	assertEquals(results.get(2).getMessage(), "validation.validCharsFailed");    	
     }
     
     
@@ -483,56 +423,5 @@ public class ValidatorTest {
     	objStruct.setType(types);
 
     	return objStruct;    	
-    }
-    
-    List<Message> buildMessageStore() {
-    	List<Message> result = new ArrayList<Message>();
-    	
-    	Message m1 = new Message();
-    	m1.setId("validation.required");
-    	m1.setValue("validation.required");    	
-    	result.add(m1);
-
-    	Message m2 = new Message();
-    	m2.setId("validation.validCharsFailed");
-    	m2.setValue("validation.validCharsFailed");    	
-    	result.add(m2);
-    	
-    	Message m3 = new Message();
-    	m3.setId("validation.lengthOutOfRange");
-    	m3.setValue("validation.lengthOutOfRange");    	
-    	result.add(m3);
-    	
-    	Message m4 = new Message();
-    	m4.setId("validation.maxValueFailed");
-    	m4.setValue("validation.maxValueFailed");    	
-    	result.add(m4);
-    	
-    	Message m5 = new Message();
-    	m5.setId("validation.minValueFailed");
-    	m5.setValue("validation.minValueFailed");    	
-    	result.add(m5);    	
-
-    	Message m6 = new Message();
-    	m6.setId("validation.maxLengthFailed");
-    	m6.setValue("validation.maxLengthFailed");    	
-    	result.add(m6);    	
-
-    	Message m7 = new Message();
-    	m7.setId("validation.minLengthFailed");
-    	m7.setValue("validation.minLengthFailed");    	
-    	result.add(m7);    	
-
-    	Message m8 = new Message();
-    	m8.setId("validation.outOfRange");
-    	m8.setValue("validation.outOfRange");    	
-    	result.add(m8);
-
-    	Message m9 = new Message();
-    	m9.setId("validation.requiresField");
-    	m9.setValue("validation.requiresField");    	
-    	result.add(m9);
-    	
-    	return result;
     }
 }

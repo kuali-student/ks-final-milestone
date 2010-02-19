@@ -10,9 +10,13 @@ import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.assembly.data.AssemblyException;
+import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.assembly.data.Metadata.Permission;
 import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
 public abstract class BaseAssembler<TargetType, SourceType> implements Assembler<TargetType, SourceType> {
 
@@ -85,6 +89,25 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
         }
 
         return metadata;
+    }
+
+    protected boolean hasValidationErrors(List<ValidationResultInfo> validationResults) {
+        boolean result = false;
+        if (validationResults != null) {
+            for (ValidationResultInfo validationResult : validationResults) {
+                if (validationResult.getLevel() == ErrorLevel.ERROR) {
+                    result = true;
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+        
+    public List<ValidationResultInfo> validate(Data data)  throws AssemblyException {
+    	List<ValidationResultInfo> validationResults = null; 
+    	
+        return validationResults;
     }
 
     private static String[] getPathTokens(String fieldPath) {

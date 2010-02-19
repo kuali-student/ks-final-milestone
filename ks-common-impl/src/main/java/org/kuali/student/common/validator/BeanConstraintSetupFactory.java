@@ -16,6 +16,7 @@ package org.kuali.student.common.validator;
 
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 
+@Deprecated
 public class BeanConstraintSetupFactory implements ConstraintSetupFactory {
 
 	@Override
