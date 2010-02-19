@@ -39,31 +39,31 @@ public class XmlWriter
   this.out = out;
  }
 
- protected void setOut (PrintStream out)
+ public void setOut (PrintStream out)
  {
   this.out = out;
  }
- protected void setIndent (int indent)
+ public void setIndent (int indent)
  {
   this.indent = indent;
  }
  
- protected int getIndent ()
+ public int getIndent ()
  {
   return indent;
  }
 
- protected void incrementIndent ()
+ public void incrementIndent ()
  {
   indent ++;
  }
 
- protected void decrementIndent ()
+ public void decrementIndent ()
  {
   indent --;
  }
 
- protected PrintStream getOut ()
+ public PrintStream getOut ()
  {
   return out;
  }

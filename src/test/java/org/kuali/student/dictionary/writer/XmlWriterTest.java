@@ -15,7 +15,6 @@
  */
 package org.kuali.student.dictionary.writer;
 
-import org.kuali.student.dictionary.writer.XmlWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import org.junit.After;

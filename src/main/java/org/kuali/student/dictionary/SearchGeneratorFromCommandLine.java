@@ -15,7 +15,7 @@
  */
 package org.kuali.student.dictionary;
 
-import org.kuali.student.dictionary.writer.SearchModelWriter;
+import org.kuali.student.dictionary.writer.search.SearchModelWriter;
 import org.kuali.student.dictionary.model.SearchModel;
 import org.kuali.student.dictionary.model.impl.SearchModelCache;
 import org.kuali.student.dictionary.model.impl.SearchModelLoader;

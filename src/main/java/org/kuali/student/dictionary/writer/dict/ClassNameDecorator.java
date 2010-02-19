@@ -13,20 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.dictionary.writer;
-
-import java.io.PrintStream;
+package org.kuali.student.dictionary.writer.dict;
 
 /**
  *
  * @author nwright
  */
-public class SimpleXmlWriter extends XmlWriter
+public class ClassNameDecorator
 {
+ private String className;
 
- public SimpleXmlWriter (PrintStream out, int indent)
+ public ClassNameDecorator (String className)
  {
-  super (out, indent);
+  this.className = className;
  }
 
+ public String decorate ()
+ {
+  if (className.startsWith ("core") || className.startsWith ("lum"))
+  {
+   className = "org.kuali.student." + className;
+  }
+  if (className.indexOf ("validation") != -1)
+  {
+   className = className + "Validator";
+  }
+  else if (className.indexOf ("calculation") != -1)
+  {
+   className = className + "Calculator";
+  }
+  return className;
+ }
 }

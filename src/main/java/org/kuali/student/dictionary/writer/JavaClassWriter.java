@@ -37,7 +37,7 @@ public abstract class JavaClassWriter extends XmlWriter
  private String fileName;
  private String directory;
  private ByteArrayOutputStream body;
- protected Set<String> imports;
+ private Set<String> imports;
 
  public JavaClassWriter (String rootDirectory, String packageName,
                          String className)
@@ -57,6 +57,12 @@ public abstract class JavaClassWriter extends XmlWriter
    buildDirectory ();
   this.imports = new TreeSet ();
  }
+
+ public void importsAdd (String pack)
+ {
+  this.imports.add (pack);
+ }
+
 
  public void writeHeader ()
  {

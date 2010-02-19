@@ -15,7 +15,7 @@
  */
 package org.kuali.student.dictionary;
 
-import org.kuali.student.dictionary.writer.DictionaryModelWriter;
+import org.kuali.student.dictionary.writer.dict.DictionaryModelWriter;
 import org.kuali.student.dictionary.model.impl.DictionaryModelCache;
 import org.kuali.student.dictionary.model.DictionaryModel;
 import org.kuali.student.dictionary.model.impl.DictionaryModelLoader;

@@ -13,20 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.dictionary.writer;
+package org.kuali.student.dictionary.writer.dict;
 
 import java.io.PrintStream;
+import org.kuali.student.dictionary.writer.XmlWriter;
 
 /**
- *
+ * This writes a reference to a previously written constraint.
  * @author nwright
  */
-public class SimpleXmlWriter extends XmlWriter
+public class ConstraintRefWriter 
 {
 
- public SimpleXmlWriter (PrintStream out, int indent)
+ private String refId;
+ private XmlWriter writer;
+
+ public ConstraintRefWriter (XmlWriter writer, String refId)
  {
-  super (out, indent);
+  super ();
+  this.writer = writer;
+  this.refId = refId;
+ }
+
+ public void write ()
+ {
+  writer.indentPrint ("<dict:constraintRef");
+  writer.writeAttribute ("bean", "constraint." + refId);
+  writer.println ("/>");
  }
 
 }

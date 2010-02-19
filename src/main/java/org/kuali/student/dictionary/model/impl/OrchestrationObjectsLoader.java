@@ -16,8 +16,8 @@
 package org.kuali.student.dictionary.model.impl;
 
 import org.kuali.student.dictionary.model.util.ModelFinder;
-import org.kuali.student.dictionary.writer.FieldTypeCategoryCalculator;
-import org.kuali.student.dictionary.writer.ConstraintInterrogator;
+import org.kuali.student.dictionary.writer.orch.FieldTypeCategoryCalculator;
+import org.kuali.student.dictionary.writer.orch.ConstraintInterrogator;
 import org.kuali.student.dictionary.model.validation.DictionaryValidationException;
 import java.util.ArrayList;
 import java.util.HashMap;

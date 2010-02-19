@@ -15,7 +15,6 @@
  */
 package org.kuali.student.dictionary.writer;
 
-import org.kuali.student.dictionary.writer.XmlTypeNameBuilder;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

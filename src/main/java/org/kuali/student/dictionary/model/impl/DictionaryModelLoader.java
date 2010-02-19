@@ -18,7 +18,7 @@ package org.kuali.student.dictionary.model.impl;
 import java.text.ParseException;
 import org.kuali.student.dictionary.model.*;
 import org.kuali.student.dictionary.model.spreadsheet.WorksheetNotFoundException;
-import org.kuali.student.dictionary.writer.ClassNameDecorator;
+import org.kuali.student.dictionary.writer.dict.ClassNameDecorator;
 import org.kuali.student.dictionary.model.validation.DictionaryValidationException;
 import org.kuali.student.dictionary.model.spreadsheet.SpreadsheetReader;
 import org.kuali.student.dictionary.model.spreadsheet.WorksheetReader;
