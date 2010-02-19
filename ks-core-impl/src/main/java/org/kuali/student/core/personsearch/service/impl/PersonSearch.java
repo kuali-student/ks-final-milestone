@@ -19,10 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.entity.KimPrincipal;
 import org.kuali.rice.kim.bo.entity.dto.KimEntityDefaultInfo;
 import org.kuali.rice.kim.bo.entity.dto.KimEntityEntityTypeDefaultInfo;
-import org.kuali.rice.kim.bo.impl.PersonImpl;
+//import org.kuali.rice.kim.bo.impl.PersonImpl;
 import org.kuali.rice.kim.service.IdentityService;
 //import org.kuali.rice.kns.lookup.CollectionIncomplete;
 
@@ -34,16 +35,16 @@ import org.kuali.rice.kim.service.IdentityService;
  */
 public class PersonSearch {
     @SuppressWarnings("unchecked")
-    protected List<PersonImpl> findPeopleInternal(IdentityService identityService, Map<String, String> criteria, boolean unbounded) {
+    protected List<Person> findPeopleInternal(IdentityService identityService, Map<String, String> criteria, boolean unbounded) {
 
-        List<PersonImpl> people = new ArrayList<PersonImpl>();
+        List<Person> people = new ArrayList<Person>();
 
         List<? extends KimEntityDefaultInfo> entities = identityService.lookupEntityDefaultInfo(criteria, unbounded);
 
         for (KimEntityDefaultInfo e : entities) {
             // get to get all principals for the entity as well
             for (KimPrincipal p : e.getPrincipals()) {
-                people.add(convertEntityToPerson(e, p));
+//                people.add(convertEntityToPerson(e, p));
             }
         }
 
@@ -53,25 +54,25 @@ public class PersonSearch {
         return people;
     }
 
-    protected PersonImpl convertEntityToPerson(KimEntityDefaultInfo entity, KimPrincipal principal) {
-        try {
-            // get the EntityEntityType for the EntityType corresponding to a Person
-            KimEntityEntityTypeDefaultInfo entType = entity.getEntityType(PersonSearchServiceImpl.PERSON_ENTITY_TYPE);
-            // if no "person" entity type present for the given principal, skip to the next type in the list
-            if (entType == null) {
-                return null;
-            }
-            // attach the principal and entity objects
-            // PersonImpl has logic to pull the needed elements from the KimEntity-related classes
-            return new PersonImpl(principal, entity, PersonSearchServiceImpl.PERSON_ENTITY_TYPE);
-
-        } catch (Exception ex) {
-            // allow runtime exceptions to pass through
-            if (ex instanceof RuntimeException) {
-                throw (RuntimeException) ex;
-            } else {
-                throw new RuntimeException("Problem building person object", ex);
-            }
-        }
-    }
+//    protected PersonImpl convertEntityToPerson(KimEntityDefaultInfo entity, KimPrincipal principal) {
+//        try {
+//            // get the EntityEntityType for the EntityType corresponding to a Person
+//            KimEntityEntityTypeDefaultInfo entType = entity.getEntityType(PersonSearchServiceImpl.PERSON_ENTITY_TYPE);
+//            // if no "person" entity type present for the given principal, skip to the next type in the list
+//            if (entType == null) {
+//                return null;
+//            }
+//            // attach the principal and entity objects
+//            // PersonImpl has logic to pull the needed elements from the KimEntity-related classes
+//            return new PersonImpl(principal, entity, PersonSearchServiceImpl.PERSON_ENTITY_TYPE);
+//
+//        } catch (Exception ex) {
+//            // allow runtime exceptions to pass through
+//            if (ex instanceof RuntimeException) {
+//                throw (RuntimeException) ex;
+//            } else {
+//                throw new RuntimeException("Problem building person object", ex);
+//            }
+//        }
+//    }
 }
