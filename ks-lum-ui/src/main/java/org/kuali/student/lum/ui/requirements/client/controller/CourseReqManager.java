@@ -29,6 +29,7 @@ import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.brms.statement.dto.StatementInfo;
 import org.kuali.student.brms.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer;
 import org.kuali.student.lum.ui.requirements.client.model.EditHistory;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
@@ -62,7 +63,8 @@ public class CourseReqManager extends Controller {
     private CollectionModel<RuleInfo> ruleInfo;         //contains all rules belonging to this course
     private String cluId = null;						//course id
     private static int id = 0; 
-    private ReqComponentVO componentToEdit;				//which component user chosen to edit						
+    private ReqComponentVO componentToEdit;				//which component user chosen to edit	
+    private List<FieldDescriptor> fieldsWithLookup = new ArrayList<FieldDescriptor>();
    
     private String selectedLuStatementType = "unknown";             //type of rule that user selected to work on (add or edit)
     private Map<String, String> cluSetsData = new HashMap<String, String>(); 
@@ -180,6 +182,7 @@ public class CourseReqManager extends Controller {
                 ruleCompEditorView.setCluSetsData(cluSetsData);                
                 ruleCompEditorView.setEditedStatementVO(getRuleInfo(selectedLuStatementType).getStatementVO());
                 ruleCompEditorView.setEditedReqCompVO(componentToEdit);
+                ruleCompEditorView.setFieldsWithLookup(fieldsWithLookup);
                 return ruleCompEditorView;
             case RULE_EXPRESSION_EDITOR:
                 return ruleExpressionEditorView;
@@ -238,5 +241,11 @@ public class CourseReqManager extends Controller {
 		this.componentToEdit = componentToEdit;
 	}
 
-           
+	public List<FieldDescriptor> getFieldsWithLookup() {
+		return fieldsWithLookup;
+	}
+
+	public void setFieldsWithLookup(List<FieldDescriptor> fieldsWithLookup) {
+		this.fieldsWithLookup = fieldsWithLookup;
+	}		
 }

@@ -18,8 +18,7 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FindCourseM
 public class FindCourseAssembler implements Assembler<Data, Map<String, String>>{
 
 	@Override
-	public Data assemble(Map<String, String> input)
-			throws AssemblyException {
+	public Data assemble(Map<String, String> input) throws AssemblyException {
 		if (input == null) {
 			return null;
 		}

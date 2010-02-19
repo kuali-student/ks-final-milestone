@@ -166,7 +166,7 @@ public class LuConfigurer {
      * @return
      */
     private static SectionView generateCourseRequisitesSection() {
-        CourseRequisitesSectionView section = new CourseRequisitesSectionView(LuSections.COURSE_REQUISITES, getLabel(LUConstants.REQUISITES_LABEL_KEY), CluProposalModelDTO.class);
+        CourseRequisitesSectionView section = new CourseRequisitesSectionView(LuSections.COURSE_REQUISITES, getLabel(LUConstants.REQUISITES_LABEL_KEY));
         section.setSectionTitle(SectionTitle.generateH1Title(getLabel(LUConstants.REQUISITES_LABEL_KEY)));
         //FIXME commented out for commit, class is deprecated (believed to be ok)
         //return section;

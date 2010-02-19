@@ -41,12 +41,6 @@ public class CourseRequisitesSectionView extends SectionView {
     protected final VerticalPanel panel = new VerticalPanel();
 	private boolean loaded = false;
 	CourseReqManager childController;	//controls the display of all rules related pages
-			
-	@Deprecated
-	public CourseRequisitesSectionView(Enum<?> viewEnum, String name, Class<? extends ModelDTO> modelDTOType) {	    
-		super(viewEnum, name);
-	    super.initWidget(panel); 
-	}
 
 	public CourseRequisitesSectionView(Enum<?> viewEnum, String name) {	    
 		super(viewEnum, name);
@@ -59,6 +53,7 @@ public class CourseRequisitesSectionView extends SectionView {
 		if (loaded == false) {
 			childController = new CourseReqManager(panel);
 			childController.setParentController(getController());
+			childController.setFieldsWithLookup(getFields());
 		}
 				
         if (childController.getCurrentView() == null){
@@ -94,19 +89,16 @@ public class CourseRequisitesSectionView extends SectionView {
 
 	@Override
 	protected void addFieldToLayout(FieldDescriptor f) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub	
 	}
 
 	@Override
 	protected void addSectionToLayout(BaseSection s) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
 	}
 
 	@Override
 	protected void addWidgetToLayout(Widget w) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
 	}
 }

@@ -136,7 +136,7 @@ public class FindPanel extends ViewComposite{
     }
     private void initCourseSearchWindow(){  
     	Metadata searchMetadata = new FindCourseMetadata().getMetadata("", "");  //no type or state at this point
-        SearchPanel searchPicker = new SearchPanel(searchMetadata.getProperties().get("courseId").getLookupMetadata());                
+        SearchPanel searchPicker = new SearchPanel(searchMetadata.getProperties().get("courseId").getInitialLookup());                
         courseSearchWindow = new AdvancedSearchWindow("Find Course", searchPicker);   	    	
         courseSearchWindow.addSelectionCompleteCallback(new Callback<List<SelectedResults>>(){
             //FIXME: This should take user to the course view screens

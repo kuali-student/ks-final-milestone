@@ -21,13 +21,16 @@ import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
+import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.UpdatableMultiplicityComposite;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.service.SearchRpcService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
@@ -45,6 +48,9 @@ import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.person.ui.client.service.PersonRpcService;
+import org.kuali.student.core.person.ui.client.service.PersonRpcServiceAsync;
+import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultRow;
@@ -199,6 +205,7 @@ public class CourseConfigurer
     private SectionView generateCourseRequisitesSection() {
         CourseRequisitesSectionView section = new CourseRequisitesSectionView(LuSections.COURSE_REQUISITES, getLabel(LUConstants.REQUISITES_LABEL_KEY));
         section.setSectionTitle(SectionTitle.generateH1Title(getLabel(LUConstants.REQUISITES_LABEL_KEY)));
+        addField(section, SEARCH + "/" + "findCourse");
         return section;
     }
 
@@ -276,7 +283,7 @@ public class CourseConfigurer
 
 	private VerticalSection generateAdminOrgsSection() {
         VerticalSection adminOrgs = initSection(getH3Title(LUConstants.ADMIN_ORG_LABEL_KEY), WITH_DIVIDER);
-        addField(adminOrgs, COURSE + "/" + DEPARTMENT, null);
+        addField(adminOrgs, COURSE + "/" + DEPARTMENT);
         return adminOrgs;
 	}
 
@@ -439,7 +446,7 @@ public class CourseConfigurer
 	private static AdvancedSearchWindow createAtpSearchWindow(){
 
         Metadata searchMetadata = new CreditCourseMetadata().getMetadata("", "");  //no type or state at this point
-        SearchPanel searchPicker = new SearchPanel(searchMetadata.getProperties().get("firstExpectedOffering").getLookupMetadata());
+        SearchPanel searchPicker = new SearchPanel(searchMetadata.getProperties().get("firstExpectedOffering").getInitialLookup());
         final AdvancedSearchWindow atpSearchWindow = new AdvancedSearchWindow("Find Session", searchPicker);
 
 //        atpSearchWindow.addSelectionCompleteCallback(new Callback<List<String>>(){
@@ -905,7 +912,7 @@ public class CourseConfigurer
         public Widget createItem() {
         	String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
             GroupSection ns = new GroupSection();
-            addField(ns, DEPARTMENT, getLabel(LUConstants.DEPT_LABEL_KEY), new OrgPicker(), path);
+            addField(ns, DEPARTMENT, getLabel(LUConstants.DEPT_LABEL_KEY), null, path);
             ns.nextLine();
             addField(ns, SUBJECT_AREA, getLabel(LUConstants.SUBJECT_CODE_LABEL_KEY), path);
             addField(ns, COURSE_NUMBER_SUFFIX, getLabel(LUConstants.COURSE_NUMBER_LABEL_KEY), path);
@@ -1032,7 +1039,10 @@ public class CourseConfigurer
     }
 
     // TODO - when DOL is pushed farther down into LOBuilder,
-    // revert these 4 methods to returning void again.
+    // revert these 5 methods to returning void again.
+    private FieldDescriptor addField(Section section, String fieldKey) {
+    	return addField(section, fieldKey, null, null, null);
+    }    
     private FieldDescriptor addField(Section section, String fieldKey, String fieldLabel) {
     	return addField(section, fieldKey, fieldLabel, null, null);
     }

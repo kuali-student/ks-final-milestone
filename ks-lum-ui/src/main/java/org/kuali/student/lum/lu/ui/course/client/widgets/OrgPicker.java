@@ -56,7 +56,7 @@ public class OrgPicker extends Composite implements SuggestPicker {
 		super();
 
 		Metadata searchMetadata = new CreditCourseMetadata().getMetadata("", ""); 
-		LookupMetadata lookupMetaData = searchMetadata.getProperties().get(CreditCourseConstants.DEPARTMENT).getLookupMetadata();
+		LookupMetadata lookupMetaData = searchMetadata.getProperties().get(CreditCourseConstants.DEPARTMENT).getInitialLookup();
 		orgSearchOracle = new SearchSuggestOracle(lookupMetaData); 
 	    suggestBox = new KSSuggestBox(orgSearchOracle);
 		
