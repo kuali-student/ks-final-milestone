@@ -4,6 +4,7 @@ import static org.kuali.student.core.assembly.util.AssemblerUtils.addVersionIndi
 import static org.kuali.student.core.assembly.util.AssemblerUtils.getVersionIndicator;
 import static org.kuali.student.core.assembly.util.AssemblerUtils.isDeleted;
 import static org.kuali.student.core.assembly.util.AssemblerUtils.isModified;
+import static org.kuali.student.core.assembly.util.AssemblerUtils.setUpdated;
 
 import java.util.List;
 import java.util.Map;
@@ -268,6 +269,8 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
     
     private String saveProposal(CreditCourseProposalHelper inputProposal) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, DependentObjectsExistException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException, VersionMismatchException {
         String result = null;
+        //FIXME Forcing update here no matter what
+        setUpdated(inputProposal.getProposal().getData(), true);
         if (isDeleted(inputProposal.getProposal().getData())) {
             proposalService.deleteProposal(inputProposal.getProposal().getId());
         } else if (isModified(inputProposal.getProposal().getData()) || inputProposal.getProposal().getId() == null) { // FIXME wilj: use modification flags once the client enforces them
