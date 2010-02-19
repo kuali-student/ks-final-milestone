@@ -20,14 +20,14 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.kuali.student.dictionary.TestConstants;
+import org.kuali.student.dictionary.command.run.RunConstants;
 import static org.junit.Assert.*;
 
 /**
  *
  * @author nwright
  */
-public class ExcelSpreadsheetReaderTest implements TestConstants
+public class ExcelSpreadsheetReaderTest implements RunConstants
 {
 
  public ExcelSpreadsheetReaderTest ()

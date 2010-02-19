@@ -22,7 +22,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.kuali.student.dictionary.TestConstants;
+import org.kuali.student.dictionary.command.run.RunConstants;
 import org.kuali.student.dictionary.model.MessageStructure;
 import org.kuali.student.dictionary.model.util.MessageStructureDumper;
 import org.w3c.dom.Node;
@@ -31,7 +31,7 @@ import org.w3c.dom.Node;
  *
  * @author nwright
  */
-public class MessageStructurePageReaderFromFileTest implements TestConstants
+public class MessageStructurePageReaderFromFileTest implements RunConstants
 {
  public MessageStructurePageReaderFromFileTest ()
  {

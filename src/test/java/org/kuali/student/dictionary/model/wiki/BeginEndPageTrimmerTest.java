@@ -15,14 +15,14 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.kuali.student.dictionary.TestConstants;
+import org.kuali.student.dictionary.command.run.RunConstants;
 import static org.junit.Assert.*;
 
 /**
  *
  * @author nwright
  */
-public class BeginEndPageTrimmerTest implements TestConstants
+public class BeginEndPageTrimmerTest implements RunConstants
 {
 
  public BeginEndPageTrimmerTest ()

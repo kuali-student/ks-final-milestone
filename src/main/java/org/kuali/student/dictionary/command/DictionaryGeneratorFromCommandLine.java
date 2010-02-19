@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.dictionary;
+package org.kuali.student.dictionary.command;
 
 import org.kuali.student.dictionary.writer.dict.DictionaryModelWriter;
 import org.kuali.student.dictionary.model.impl.DictionaryModelCache;
@@ -24,6 +24,7 @@ import org.kuali.student.dictionary.model.spreadsheet.ExcelSpreadsheetReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import org.kuali.student.dictionary.DictionaryExecutionException;
 
 /**
  *

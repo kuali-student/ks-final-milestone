@@ -13,72 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.dictionary.writer.dict;
+package org.kuali.student.dictionary.command.run;
 
-import org.kuali.student.dictionary.writer.dict.DictionaryModelWriter;
 import org.kuali.student.dictionary.model.impl.DictionaryModelCache;
 import org.kuali.student.dictionary.model.impl.DictionaryModelLoader;
 import org.kuali.student.dictionary.model.DictionaryModel;
 import org.kuali.student.dictionary.model.spreadsheet.GoogleSpreadsheetReader;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.kuali.student.dictionary.TestConstants;
-import static org.junit.Assert.*;
+import org.kuali.student.dictionary.writer.dict.DictionaryModelWriter;
 
 /**
  *
  * @author nwright
  */
-public class GoogleDictionaryModelWriterTest implements TestConstants
+public class GoogleDictionaryModelWriterTest implements RunConstants
 {
 
  public GoogleDictionaryModelWriterTest ()
  {
  }
 
- @BeforeClass
- public static void setUpClass ()
-  throws Exception
- {
- }
-
- @AfterClass
- public static void tearDownClass ()
-  throws Exception
- {
- }
-
- @Before
- public void setUp ()
- {
- }
-
- @After
- public void tearDown ()
- {
- }
+ 
 
  //private static String USER_ID = "nwright@mit.edu";
  //private static String PASSWORD = "xxxxx";
  private static String SPREADSHEET_KEY = "tSdKqlIJ1piKNBie4_H0hoA";
 
- /**
-  * Test of write method, of class DictionaryWriter.
-  */
- @Test
- public void testTrue ()
- {
-  assertEquals (true, true);
- }
-
- /**
-  * Test of write method, of class DictionaryWriter.
-  */
-// @Test
- public void testWriteGoogleDictionary ()
+ public static void main (String[] args)
  {
   System.out.println ("writeGoogleDictionary");
   
@@ -92,7 +52,6 @@ public class GoogleDictionaryModelWriterTest implements TestConstants
   spreadsheet = new DictionaryModelCache (spreadsheet);
   DictionaryModelWriter instance = new DictionaryModelWriter (RESOURCES_DIRECTORY, spreadsheet);
   instance.write ();
-  assertEquals (true, true);
  }
 
 }

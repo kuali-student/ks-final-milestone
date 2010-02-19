@@ -15,6 +15,7 @@
  */
 package org.kuali.student.dictionary.model.wiki;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,14 @@ public class ServiceRepositoryPageReader
   URL url = new UrlHelper (contractPath).getUrl ();
   doc = new PageHelper ().getDocument (url, jSessionId);
  }
+
+  public ServiceRepositoryPageReader (File contractFile)
+ {
+ contractPath = contractFile.getName ();
+  doc = new PageHelper ().getDocument (contractFile);
+ }
+
+
 
  protected List<Service> getServices ()
  {

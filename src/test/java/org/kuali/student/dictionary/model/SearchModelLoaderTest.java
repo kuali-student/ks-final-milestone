@@ -24,7 +24,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.kuali.student.dictionary.TestConstants;
+import org.kuali.student.dictionary.command.run.RunConstants;
 import org.kuali.student.dictionary.model.spreadsheet.ExcelSpreadsheetReader;
 import static org.junit.Assert.*;
 
@@ -32,7 +32,7 @@ import static org.junit.Assert.*;
  *
  * @author nwright
  */
-public class SearchModelLoaderTest implements TestConstants
+public class SearchModelLoaderTest implements RunConstants
 {
 
  public SearchModelLoaderTest ()

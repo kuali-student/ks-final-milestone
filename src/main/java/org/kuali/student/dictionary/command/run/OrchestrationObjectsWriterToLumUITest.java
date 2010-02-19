@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.dictionary.writer.orch;
+package org.kuali.student.dictionary.command.run;
 
-import org.kuali.student.dictionary.writer.orch.OrchestrationObjectsWriter;
 import org.kuali.student.dictionary.writer.search.SearchModelWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -27,54 +26,22 @@ import org.kuali.student.dictionary.model.impl.DictionaryModelLoader;
 import org.kuali.student.dictionary.model.DictionaryModel;
 import org.kuali.student.dictionary.model.spreadsheet.ExcelSpreadsheetReader;
 import org.kuali.student.dictionary.model.spreadsheet.SpreadsheetReader;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.kuali.student.dictionary.TestConstants;
 import org.kuali.student.dictionary.model.spreadsheet.CompositeSpreadsheetReader;
 import org.kuali.student.dictionary.model.validation.DictionaryValidationException;
-import static org.junit.Assert.*;
+import org.kuali.student.dictionary.writer.orch.OrchestrationObjectsWriter;
 
 /**
  *
  * @author nwright
  */
-public class OrchestrationObjectsWriterToLumUITest implements TestConstants
+public class OrchestrationObjectsWriterToLumUITest implements RunConstants
 {
 
  public OrchestrationObjectsWriterToLumUITest ()
  {
  }
 
- @BeforeClass
- public static void setUpClass ()
-  throws Exception
- {
- }
-
- @AfterClass
- public static void tearDownClass ()
-  throws Exception
- {
- }
-
- @Before
- public void setUp ()
- {
- }
-
- @After
- public void tearDown ()
- {
- }
-
- /**
-  * Test of write method, of class OrchestrationObjectsDataWriter.
-  */
- @Test
- public void testWrite ()
+  public static void main (String[] args)
  {
   System.out.println ("write");
   List<SpreadsheetReader> readers = new ArrayList ();
@@ -119,7 +86,6 @@ public class OrchestrationObjectsWriterToLumUITest implements TestConstants
   {
    reader.close ();
   }
-  assertEquals (true, true);
  }
 
 }

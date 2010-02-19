@@ -1,9 +1,9 @@
 package org.kuali.student.dictionary.writer.dict;
 
 import org.junit.Test;
-import org.kuali.student.dictionary.TestConstants;
+import org.kuali.student.dictionary.command.run.RunConstants;
 
-public class TestNewDictionary implements TestConstants
+public class TestNewDictionary implements RunConstants
 {
 
  @Test

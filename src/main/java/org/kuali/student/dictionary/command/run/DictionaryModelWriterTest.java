@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.dictionary.writer.dict;
+package org.kuali.student.dictionary.command.run;
 
 import org.kuali.student.dictionary.model.impl.DictionaryModelCache;
 import org.kuali.student.dictionary.model.impl.DictionaryModelLoader;
@@ -22,54 +22,22 @@ import org.kuali.student.dictionary.model.spreadsheet.ExcelSpreadsheetReader;
 import org.kuali.student.dictionary.model.spreadsheet.SpreadsheetReader;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.kuali.student.dictionary.TestConstants;
 import org.kuali.student.dictionary.model.spreadsheet.CompositeSpreadsheetReader;
 import org.kuali.student.dictionary.model.util.DictionaryParentSetter;
-import static org.junit.Assert.*;
+import org.kuali.student.dictionary.writer.dict.DictionaryModelWriter;
 
 /**
  *
  * @author nwright
  */
-public class DictionaryModelWriterTest implements TestConstants
+public class DictionaryModelWriterTest implements RunConstants
 {
 
  public DictionaryModelWriterTest ()
  {
  }
 
- @BeforeClass
- public static void setUpClass ()
-  throws Exception
- {
- }
-
- @AfterClass
- public static void tearDownClass ()
-  throws Exception
- {
- }
-
- @Before
- public void setUp ()
- {
- }
-
- @After
- public void tearDown ()
- {
- }
-
- /**
-  * Test of write method, of class DictionaryWriter.
-  */
- @Test
- public void testWriteExcelDictionary ()
+ public static void main (String[] args)
  {
   System.out.println ("writeExcelDictionary");
   List<SpreadsheetReader> list = new ArrayList ();
@@ -90,6 +58,6 @@ public class DictionaryModelWriterTest implements TestConstants
   {
    reader.close ();
   }
-  assertEquals (true, true);
  }
+
 }

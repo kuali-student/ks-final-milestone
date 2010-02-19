@@ -23,7 +23,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.kuali.student.dictionary.TestConstants;
+import org.kuali.student.dictionary.command.run.RunConstants;
 import org.kuali.student.dictionary.model.Constraint;
 import org.kuali.student.dictionary.model.CrossObjectConstraint;
 import org.kuali.student.dictionary.model.Dictionary;
@@ -45,7 +45,7 @@ import static org.junit.Assert.*;
  *
  * @author nwright
  */
-public class DictionaryModelLoaderTest implements TestConstants
+public class DictionaryModelLoaderTest implements RunConstants
 {
 
  public DictionaryModelLoaderTest ()

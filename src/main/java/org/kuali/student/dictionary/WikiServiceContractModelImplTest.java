@@ -13,19 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.dictionary.model.wiki;
+package org.kuali.student.dictionary;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.kuali.student.dictionary.TestConstants;
+import org.kuali.student.dictionary.command.run.RunConstants;
 import org.kuali.student.dictionary.model.MessageStructure;
 import org.kuali.student.dictionary.model.Service;
+import org.kuali.student.dictionary.model.ServiceContractModel;
 import org.kuali.student.dictionary.model.ServiceMethod;
+import org.kuali.student.dictionary.model.XmlType;
 import org.kuali.student.dictionary.model.util.MessageStructureDumper;
 import org.kuali.student.dictionary.model.util.ServiceDumper;
 import org.kuali.student.dictionary.model.util.ServiceMethodDumper;
@@ -35,12 +32,14 @@ import org.kuali.student.dictionary.model.util.ServicesFilterByKeys;
 import org.kuali.student.dictionary.model.util.ServicesFilterChained;
 import org.kuali.student.dictionary.model.util.ServicesFilterExcludeDev;
 import org.kuali.student.dictionary.model.util.ServicesFilterLatestVersionOnly;
+import org.kuali.student.dictionary.model.util.XmlTypeDumper;
+import org.kuali.student.dictionary.model.wiki.WikiServiceContractModelImpl;
 
 /**
  *
  * @author nwright
  */
-public class WikiServiceContractModelImplTest implements TestConstants
+public class WikiServiceContractModelImplTest implements RunConstants
 {
 
  //           ***** NOTE *******
@@ -60,28 +59,6 @@ public class WikiServiceContractModelImplTest implements TestConstants
  {
  }
 
- @BeforeClass
- public static void setUpClass ()
-  throws Exception
- {
-  getInstance ();
- }
-
- @AfterClass
- public static void tearDownClass ()
-  throws Exception
- {
- }
-
- @Before
- public void setUp ()
- {
- }
-
- @After
- public void tearDown ()
- {
- }
 
  private static WikiServiceContractModelImpl instance = null;
 
@@ -119,7 +96,6 @@ public class WikiServiceContractModelImplTest implements TestConstants
 
 
 
- @Test
  public void testGetServices ()
  {
   System.out.println ("getServiceMethods");
@@ -133,7 +109,6 @@ public class WikiServiceContractModelImplTest implements TestConstants
  }
 
 
- @Test
  public void testGetServiceMethods ()
  {
   System.out.println ("getServiceMethods");
@@ -145,7 +120,6 @@ public class WikiServiceContractModelImplTest implements TestConstants
   }
  }
 
- @Test
  public void testGetMessageStructures ()
  {
   System.out.println ("getMessageStructures");
@@ -157,14 +131,21 @@ public class WikiServiceContractModelImplTest implements TestConstants
  }
 
 
-// @Test
-// public void testGetXmlTypes ()
-// {
-//  System.out.println ("getXmlTypes");
-//  List<XmlType> xmlTypes = instance.getXmlTypes ();
-//  for (XmlType xmlType : xmlTypes)
-//  {
-//   new XmlTypeDumper (xmlType, System.out).dump ();
-//  }
-// }
+ public void testGetXmlTypes ()
+ {
+  System.out.println ("getXmlTypes");
+  List<XmlType> xmlTypes = instance.getXmlTypes ();
+  for (XmlType xmlType : xmlTypes)
+  {
+   new XmlTypeDumper (xmlType, System.out).dump ();
+  }
+ }
+
+  public static void main (String[] args)
+  {
+   WikiServiceContractModelImplTest tester = new WikiServiceContractModelImplTest ();
+   tester.testGetMessageStructures ();
+   tester.testGetMessageStructures ();
+   tester.testGetXmlTypes ();
+  }
 }

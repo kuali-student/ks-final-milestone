@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.dictionary;
+package org.kuali.student.dictionary.command.run;
 
 /**
  *
  * @author nwright
  */
-public interface TestConstants
+public interface RunConstants
 {
 
  public static final String RESOURCES_DIRECTORY = "src/test/resources/";
@@ -56,6 +56,8 @@ public interface TestConstants
   "https://test.kuali.org/confluence/display/KULSTU/Academic+Time+Period+Service";
  public static final String SERVICE_REPOSITORY_PATH_ON_WIKI =
   "https://test.kuali.org/confluence/display/KULSTU/Service+Description+Repository";
+public static final String SERVICE_REPOSITORY_PATH_ON_DISK =
+  RESOURCES_DIRECTORY  + "Service+Description+Repository.html";
  public static final String ATP_DURATION_TYPE_CONTRACT_PATH_ON_WIKI =
   "https://test.kuali.org/confluence/display/KULSTU/atpDurationTypeInfo+Structure";
  public static final String ATP_DURATION_TYPE_KEY_CONTRACT_PATH_ON_WIKI =

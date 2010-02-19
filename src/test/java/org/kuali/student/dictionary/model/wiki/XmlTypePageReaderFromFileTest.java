@@ -22,7 +22,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.kuali.student.dictionary.TestConstants;
+import org.kuali.student.dictionary.command.run.RunConstants;
 import org.kuali.student.dictionary.model.XmlType;
 import org.kuali.student.dictionary.model.util.XmlTypeDumper;
 import org.w3c.dom.Document;
@@ -33,7 +33,7 @@ import static org.junit.Assert.*;
  *
  * @author nwright
  */
-public class XmlTypePageReaderFromFileTest implements TestConstants
+public class XmlTypePageReaderFromFileTest implements RunConstants
 {
 
  public XmlTypePageReaderFromFileTest ()
@@ -123,7 +123,7 @@ public class XmlTypePageReaderFromFileTest implements TestConstants
   new XmlTypeDumper (xmlType, System.out).dump ();
   assertEquals ("atpDurationTypeInfo", xmlType.getName ());
   assertEquals ("Dev (1.0-rc2)", xmlType.getVersion ());
-  assertEquals ("/confluence/display/KULSTU/atpDurationTypeInfo+Structure+v1.0-rc2", xmlType.getUrl ());
+  assertEquals ("src/test/resources/atpDurationTypeInfo+Structure.html", xmlType.getUrl ());
   assertEquals ("Information about an academic time period duration type.", xmlType.getDesc ());
  }
 

@@ -25,7 +25,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.kuali.student.dictionary.TestConstants;
+import org.kuali.student.dictionary.command.run.RunConstants;
 import org.kuali.student.dictionary.model.Dictionary;
 import org.kuali.student.dictionary.model.DictionaryModel;
 import static org.junit.Assert.*;
@@ -34,7 +34,7 @@ import static org.junit.Assert.*;
  *
  * @author nwright
  */
-public class ModelFinderTest implements TestConstants
+public class ModelFinderTest implements RunConstants
 {
 
  public ModelFinderTest ()
@@ -63,6 +63,8 @@ public class ModelFinderTest implements TestConstants
   reader = new ExcelSpreadsheetReader (TYPE_STATE_DICTIONARY_EXCEL_FILE);
   model = new DictionaryModelLoader (reader);
   model = new DictionaryModelCache (model);
+  DictionaryParentSetter parentSetter = new DictionaryParentSetter (model);
+  parentSetter.set ();
  }
 
  @After
@@ -79,7 +81,7 @@ public class ModelFinderTest implements TestConstants
  {
   System.out.println ("findChildDictionaryEntries");
   ModelFinder finder = new ModelFinder (model);
-  Dictionary parent = finder.findDictionaryEntry ("coursE.oFFicial.no");
+  Dictionary parent = finder.findDictionaryEntry ("coursE.oFFicial");
   assertNotNull (parent);
   //List<Dictionary> expResult = new ArrayList ();
   List<Dictionary> result = finder.findChildDictionaryEntries (parent);
@@ -88,6 +90,6 @@ public class ModelFinderTest implements TestConstants
   {
    System.out.println (dict.getId ());
   }
-  assertEquals (25, result.size ());
+  assertEquals (21, result.size ());
  }
 }

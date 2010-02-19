@@ -15,13 +15,14 @@
  */
 package org.kuali.student.dictionary.model.wiki;
 
+import java.io.File;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.kuali.student.dictionary.TestConstants;
+import org.kuali.student.dictionary.command.run.RunConstants;
 import org.kuali.student.dictionary.model.Service;
 import org.w3c.dom.Node;
 import static org.junit.Assert.*;
@@ -30,7 +31,7 @@ import static org.junit.Assert.*;
  *
  * @author nwright
  */
-public class ServiceRepositoryPageReaderTest implements TestConstants
+public class ServiceRepositoryPageReaderTest implements RunConstants
 {
 
  //           ***** NOTE *******
@@ -95,7 +96,7 @@ public class ServiceRepositoryPageReaderTest implements TestConstants
  {
   System.out.println ("extractLoad");
   ServiceRepositoryPageReader instance =
-   new ServiceRepositoryPageReader (SERVICE_REPOSITORY_PATH_ON_WIKI, JSESSIONID);
+   new ServiceRepositoryPageReader (new File (SERVICE_REPOSITORY_PATH_ON_DISK));
   Service service = new Service ();
   instance.extractLoad (service, "Academic Time Period Service v1.0-rc1");
   assertEquals ("Academic Time Period", service.getName ());
@@ -117,7 +118,7 @@ public class ServiceRepositoryPageReaderTest implements TestConstants
  {
   System.out.println ("getHtmlLinkNodes");
   ServiceRepositoryPageReader instance =
-   new ServiceRepositoryPageReader (SERVICE_REPOSITORY_PATH_ON_WIKI, JSESSIONID);
+   new ServiceRepositoryPageReader (new File (SERVICE_REPOSITORY_PATH_ON_DISK));
   List<Node> list = instance.getHtmlLinkNodes ();
   for (Node node : list)
   {

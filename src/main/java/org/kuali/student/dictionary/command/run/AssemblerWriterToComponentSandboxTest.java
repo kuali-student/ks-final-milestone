@@ -13,59 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.dictionary.writer.orch;
-
-import org.kuali.student.dictionary.model.impl.DictionaryModelCache;
-import org.kuali.student.dictionary.model.impl.DictionaryModelLoader;
-import org.kuali.student.dictionary.model.DictionaryModel;
-import org.kuali.student.dictionary.model.spreadsheet.ExcelSpreadsheetReader;
-import org.kuali.student.dictionary.model.spreadsheet.SpreadsheetReader;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.kuali.student.dictionary.TestConstants;
-import static org.junit.Assert.*;
+package org.kuali.student.dictionary.command.run;
 
 /**
  *
  * @author nwright
  */
-public class AssemblerWriterToLumUITest implements TestConstants
+public class AssemblerWriterToComponentSandboxTest implements RunConstants
 {
 
- public AssemblerWriterToLumUITest ()
- {
- }
-
- @BeforeClass
- public static void setUpClass ()
-  throws Exception
- {
- }
-
- @AfterClass
- public static void tearDownClass ()
-  throws Exception
- {
- }
-
- @Before
- public void setUp ()
- {
- }
-
- @After
- public void tearDown ()
- {
- }
-
- /**
-  * Test of write method, of class OrchestrationObjectsDataWriter.
-  */
- @Test
- public void testWrite ()
+ 
+ public static void main (String[] args)
  {
   System.out.println ("write");
 //  SpreadsheetReader dictReader =
@@ -79,8 +37,8 @@ public class AssemblerWriterToLumUITest implements TestConstants
 //   DictionaryModel model = new DictionaryModelCache (loader);
 //   OrchestrationObjectsAssemblerWriter instance =
 //    new OrchestrationObjectsAssemblerWriter (model,
-//                                    LUM_UI_DIRECTORY_TO_WRITE_JAVA,
-//                                    LUM_UI_ROOT_PACKAGE);
+//                                    COMPONENT_SANDBOX_DIRECTORY_TO_WRITE_JAVA,
+//                                    COMPONENT_SANDBOX_ROOT_PACKAGE);
 //   instance.write ();
 //  }
 //  finally
@@ -88,7 +46,6 @@ public class AssemblerWriterToLumUITest implements TestConstants
 //   dictReader.close ();
 //   orchReader.close ();
 //  }
-  assertEquals (true, true);
  }
 
 }

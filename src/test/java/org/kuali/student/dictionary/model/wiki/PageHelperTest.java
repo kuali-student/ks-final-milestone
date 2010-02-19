@@ -11,14 +11,14 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.kuali.student.dictionary.TestConstants;
+import org.kuali.student.dictionary.command.run.RunConstants;
 import org.w3c.dom.Document;
 
 /**
  *
  * @author nwright
  */
-public class PageHelperTest implements TestConstants
+public class PageHelperTest implements RunConstants
 {
 
  private static final String JSESSIONID =
