@@ -12,5 +12,6 @@
 	</parent>
     <modules>
         <module>ks-groovyws</module>
+        <module>ks-soapui</module>
     </modules>
 </project>
