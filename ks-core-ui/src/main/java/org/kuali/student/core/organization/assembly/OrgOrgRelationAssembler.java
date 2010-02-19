@@ -23,6 +23,7 @@ import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.organization.assembly.data.client.org.OrgHelper;
 import org.kuali.student.core.organization.assembly.data.client.org.OrgorgRelationHelper;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
+import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
@@ -105,12 +106,13 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
         orgOrgRelationInfo.setEffectiveDate(orgorgRelationHelper.getEffectiveDate());
         orgOrgRelationInfo.setExpirationDate(orgorgRelationHelper.getExpirationDate());
         if (isModified(orgorgRelationHelper.getData())) {
-            if (isCreated(orgorgRelationHelper.getData())) {
-            } 
-            else if (isUpdated(orgorgRelationHelper.getData())) {
+            if (isUpdated(orgorgRelationHelper.getData())) {
                 MetaInfo metaInfo = new MetaInfo();
                 orgOrgRelationInfo.setMetaInfo(metaInfo);
-            } else if (isDeleted(orgorgRelationHelper.getData())) {
+            } 
+            else if (isDeleted(orgorgRelationHelper.getData())) {
+            }
+            else if (isCreated(orgorgRelationHelper.getData())) {
             }
         }
         if(orgOrgRelationInfo.getMetaInfo()!=null){
@@ -126,7 +128,32 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
         }
         for (Property p : (Data)input.get("orgOrgRelationInfo")) {
             OrgorgRelationHelper orgOrgRelation=  OrgorgRelationHelper.wrap((Data)p.getValue());
-            if(isCreated(orgOrgRelation.getData())){
+            if(isUpdated(orgOrgRelation.getData())){
+                OrgOrgRelationInfo orgOrgRelationInfo = buildOrgOrgRelationInfo(orgOrgRelation);
+                orgOrgRelationInfo.setId(orgOrgRelation.getId());
+                try{
+                    OrgOrgRelationInfo  result = orgService.updateOrgOrgRelation(orgOrgRelationInfo.getId(), orgOrgRelationInfo);
+                    addVersionIndicator(orgOrgRelation.getData(),OrgOrgRelationInfo.class.getName(),result.getId(),result.getMetaInfo().getVersionInd());
+                }
+                catch(Exception e ){
+                    e.printStackTrace();
+                    throw(new AssemblyException());
+                }
+            }
+            else if(isDeleted(orgOrgRelation.getData())){
+//              OrgOrgRelationInfo orgOrgRelationInfo = buildOrgOrgRelationInfo(orgOrgRelation);
+//              orgOrgRelationInfo.setId(orgOrgRelation.getId());
+              try{
+                  if(orgOrgRelation.getId()!=null){
+                      StatusInfo  result = orgService.removeOrgOrgRelation(orgOrgRelation.getId());
+                  }
+              }
+              catch(Exception e ){
+                  e.printStackTrace();
+                  throw(new AssemblyException());
+              }
+          }
+            else if(isCreated(orgOrgRelation.getData())){
                 //Set the OrgId from the OrgInfo data Map which is set on saving the Org
                 orgOrgRelation.setOrgId((OrgHelper.wrap((Data)input.get("orgInfo")).getId()));
                 
@@ -134,36 +161,15 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
                 try{
                     OrgOrgRelationInfo  result = orgService.createOrgOrgRelation(orgOrgRelationInfo.getOrgId(), orgOrgRelationInfo.getRelatedOrgId(), orgOrgRelationInfo.getType(), orgOrgRelationInfo);
                     orgOrgRelation.setId(result.getId());
+                    addVersionIndicator(orgOrgRelation.getData(),OrgOrgRelationInfo.class.getName(),result.getId(),result.getMetaInfo().getVersionInd());
                 }
                 catch(Exception e ){
                     e.printStackTrace();
                     throw(new AssemblyException());
                 }
             }
-            if(isUpdated(orgOrgRelation.getData())){
-                OrgOrgRelationInfo orgOrgRelationInfo = buildOrgOrgRelationInfo(orgOrgRelation);
-                orgOrgRelationInfo.setId(orgOrgRelation.getId());
-                try{
-                    OrgOrgRelationInfo  result = orgService.updateOrgOrgRelation(orgOrgRelationInfo.getId(), orgOrgRelationInfo);
-                }
-                catch(Exception e ){
-                    e.printStackTrace();
-                    throw(new AssemblyException());
-                }
-            }
-            if(isDeleted(orgOrgRelation.getData())){
-//                OrgOrgRelationInfo orgOrgRelationInfo = buildOrgOrgRelationInfo(orgOrgRelation);
-//                orgOrgRelationInfo.setId(orgOrgRelation.getId());
-                try{
-                    if(orgOrgRelation.getId()!=null){
-                        StatusInfo  result = orgService.removeOrgOrgRelation(orgOrgRelation.getId());
-                    }
-                }
-                catch(Exception e ){
-                    e.printStackTrace();
-                    throw(new AssemblyException());
-                }
-            }
+          
+          
             
             
         }

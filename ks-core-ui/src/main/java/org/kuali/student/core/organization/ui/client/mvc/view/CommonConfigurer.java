@@ -49,6 +49,9 @@ public class CommonConfigurer {
     private boolean NO_DIVIDER = false;
     public static final String ORG_PROPOSAL_MODEL = "orgProposalModel";
     public static final String ORG_SEARCH = "searchOrgs";
+    public PositionTable positionTable;
+    public OrgPersonRelationTypePicker personRelationPicker;
+    private String orgId;
     
     public enum SectionsEnum {
         ORG_INFO, ORG_RELATIONS, POSITIONS, PERSON_RELATIONS,BROWSE_TREE,BROWSE_LIST,BROWSE_CHART,BROWSE_NAME,SEARCH
@@ -60,6 +63,15 @@ public class CommonConfigurer {
     
     public void setSectionConfigInfo(SectionConfigInfo sectionConfigInfo){
         this.sectionConfigInfo=sectionConfigInfo;
+    }
+    
+    public void setOrgId(String orgId){
+        this.orgId=orgId;
+    
+    }
+    
+    public String getOrgId(){
+        return orgId;
     }
     
     /**
@@ -113,6 +125,10 @@ public class CommonConfigurer {
                             }
                             if (field.getWidget().equals("OrgLocateTree")) {
                                 widget = new OrgLocateTree();
+                            }
+                            if (field.getWidget().equals("PositionTable")) {
+                                positionTable = new PositionTable();
+                                widget = positionTable; 
                             }
 
                         }
@@ -201,10 +217,7 @@ public class CommonConfigurer {
             this.parentPath=parentPath;
         }
 
-        @Override
-        public MultiplicityItem getItemDecorator(StyleType style) {
-            return new RemovableItem();
-        }
+
 
         @Override
         public Widget createItem() {
@@ -223,6 +236,11 @@ public class CommonConfigurer {
                     }
                     if (field.getWidget().equals("OrgButtonPicker")) {
                         widget = new OrgButtonPicker();
+                    }
+                    if (field.getWidget().equals("OrgPersonRelationTypePicker")) {
+                        personRelationPicker = new OrgPersonRelationTypePicker();
+                        personRelationPicker.setOrgId(orgId);
+                        widget = personRelationPicker;
                     }
                 }
                 addField(ns, field.getKey(), getLabel(field.getLabel()),widget,path);    

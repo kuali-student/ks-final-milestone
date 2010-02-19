@@ -31,6 +31,7 @@ import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
+import org.kuali.student.core.organization.ui.client.mvc.model.OrgPositionPersonRelationInfo;
 import org.kuali.student.core.organization.ui.client.mvc.model.SectionConfigInfo;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 
@@ -76,5 +77,6 @@ public interface OrgRpcService extends RemoteService, BaseRpcService {
     public Metadata getOrgMetaData();
     public SectionConfigInfo getSectionConfig();
     public Data fetchOrg(Data orgSearch);
+    public List<OrgPositionPersonRelationInfo> getOrgPositionPersonRelation(String orgId);
 
 }

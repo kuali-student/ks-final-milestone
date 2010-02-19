@@ -30,6 +30,7 @@ import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
+import org.kuali.student.core.organization.ui.client.mvc.model.OrgPositionPersonRelationInfo;
 import org.kuali.student.core.organization.ui.client.mvc.model.SectionConfigInfo;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 
@@ -69,4 +70,5 @@ public interface OrgRpcServiceAsync extends BaseRpcServiceAsync {
 	public void getOrgMetaData(AsyncCallback<Metadata> callback);
 	public void getSectionConfig(AsyncCallback<SectionConfigInfo> callback);
 	public void fetchOrg(Data orgSearch,AsyncCallback<Data> callback);
+	public void getOrgPositionPersonRelation(String orgId, AsyncCallback<List<OrgPositionPersonRelationInfo>> callback);
 }

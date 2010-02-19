@@ -36,6 +36,12 @@
    	<bean parent="enOrg" p:id="orgEffDate"		p:value="Effective Date"/>
    	<bean parent="enOrg" p:id="orgExpDate"		p:value="Expiration Date"/>
    	
+   	<bean parent="enOrg" p:id="orgPersonRelationExpDate"		p:value="Expiration Date"/>
+   	<bean parent="enOrg" p:id="orgPersonRelationEffDate"		p:value="Effective Date"/>
+   	<bean parent="enOrg" p:id="orgPersonRelationType"		p:value="Relationship"/>
+   	<bean parent="enOrg" p:id="orgPersonRelationPerson"		p:value="Person Id"/>
+   	<bean parent="enOrg" p:id="orgPersonRelationSection"		p:value="Membership"/>
+   	
    	<bean parent="enOrg" p:id="orgPositionRelationTypeKey"		p:value="Position"/>
    	<bean parent="enOrg" p:id="orgPositionRelationTitle"		p:value="Title"/>
    	<bean parent="enOrg" p:id="orgPositionRelationDesc"		p:value="Description"/>

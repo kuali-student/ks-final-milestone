@@ -222,8 +222,9 @@ public class OrgProposalController extends TabbedSectionLayout{
         commonConfigurer.configureOrgProposal(this);
         
         if(!initialized){
-        addButton("Create", getSaveButton());
-        addButton("Search", getModifyButton());
+        addButton("Organization", getSaveButton());
+        addButton("Positions/Members", getSaveButton());
+        addButton("Search/Modify", getModifyButton());
         
         addApplicationEventHandler(ModifyActionEvent.TYPE, new ModifyActionHandler(){
             @Override
@@ -390,6 +391,9 @@ public class OrgProposalController extends TabbedSectionLayout{
 	               public void onSuccess(Data result) {
 	                   // FIXME needs to check validation results and display messages if validation failed
 	                   orgProposalModel.setRoot(result);
+	                     commonConfigurer.positionTable.setOrgId((String)orgProposalModel.get("orgInfo/id"));
+	                     commonConfigurer.positionTable.fetchPosition();
+	                     commonConfigurer.setOrgId((String)orgProposalModel.get("orgInfo/id"));
 	                   View currentView = getCurrentView();
 	                   View orgView = getView(CommonConfigurer.SectionsEnum.ORG_INFO);
 	                   renderView(orgView);
@@ -434,7 +438,14 @@ public class OrgProposalController extends TabbedSectionLayout{
                  public void onSuccess(DataSaveResult result) {
                      // FIXME needs to check validation results and display messages if validation failed
                      orgProposalModel.setRoot(result.getValue());
+
                      View currentView = getCurrentView(); 
+                     commonConfigurer.positionTable.setOrgId((String)orgProposalModel.get("orgInfo/id"));
+                     commonConfigurer.positionTable.fetchPosition();
+                     commonConfigurer.setOrgId((String)orgProposalModel.get("orgInfo/id"));
+                     if(currentView.getName().equals("Positions")){
+                         commonConfigurer.positionTable.fetchPosition();
+                     }
                      if (currentView instanceof VerticalSectionView){
                          ((VerticalSectionView) currentView).redraw();
                      }

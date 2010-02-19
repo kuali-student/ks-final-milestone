@@ -93,11 +93,15 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
             orgOrgRelationAssembler.setOrgService(orgService);
             OrgPositionRestrictionAssembler orgPositionRestrictionAssembler= new OrgPositionRestrictionAssembler();
             orgPositionRestrictionAssembler.setOrgService(orgService);
+            OrgPersonRelationAssembler orgPersonRelationAssembler = new OrgPersonRelationAssembler();
+            orgPersonRelationAssembler.setOrgService(orgService);
             Data orgOrgRelationMap = orgOrgRelationAssembler.get(id);
             Data orgPositionMap = orgPositionRestrictionAssembler.get(id);
+            Data orgRelationMap = orgPersonRelationAssembler.get(id);
             result.set("orgInfo", resultOrg.getData());
             result.set("orgOrgRelationInfo", orgOrgRelationMap);
             result.set("OrgPositionRestrictionInfo", orgPositionMap);
+            result.set("orgPersonRelationInfo", orgRelationMap);
             
         }
         catch(Exception e){
@@ -135,8 +139,9 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
 //            Data samp = new Data();
 //            Data resultData = new Data();
 //            resultData.set("orgInfo", resultOrg.getData());       //Set the map to the key "orgInfo"
-            
             String orgId = orgInfoData.getOrgInfo().getId();
+            addVersionIndicator(orgHelper.getData(),OrgInfo.class.getName(),orgId,orgInfoData.getOrgInfo().getMetaInfo().getVersionInd());
+            
             orgHelper.setId(orgId);
             if(orgId!=null&&input.get("orgOrgRelationInfo")!=null){
 //                OrgorgRelationHelper orgOrgRelation=  OrgorgRelationHelper.wrap(input);
@@ -150,9 +155,15 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
                 orgPositionRestrictionAssembler.setOrgService(orgService);
                 Data positionData = orgPositionRestrictionAssembler.save(input).getValue();
             }
+            if(orgId!=null&&input.get("orgPersonRelationInfo")!=null){
+                OrgPersonRelationAssembler orgPersonRelationAssembler= new OrgPersonRelationAssembler();
+                orgPersonRelationAssembler.setOrgService(orgService);
+                Data relationData = orgPersonRelationAssembler.save(input).getValue();
+            }
            
             result.setValue(input);
         } catch (Exception e) {
+            e.printStackTrace();
             throw(new AssemblyException());
         }
         
@@ -182,13 +193,13 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
         }
         
         if (isModified(org.getData())) {
-           if (isUpdated(org.getData())) {
+//           if (isUpdated(org.getData())) {
                 MetaInfo metaInfo = new MetaInfo();
                 orgInfo.setMetaInfo(metaInfo);
                 result.setModificationState(ModificationState.UPDATED);
-            } else if (isDeleted(org.getData())) {
-                result.setModificationState(ModificationState.DELETED);
-            }
+//            } else if (isDeleted(org.getData())) {
+//                result.setModificationState(ModificationState.DELETED);
+//            }
         }
         else{
             setCreated(org.getData(), true);

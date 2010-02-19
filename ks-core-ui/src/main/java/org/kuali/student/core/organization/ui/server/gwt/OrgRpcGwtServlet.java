@@ -63,6 +63,7 @@ import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.organization.ui.client.mvc.model.FieldInfo;
 import org.kuali.student.core.organization.ui.client.mvc.model.FieldInfoImpl;
 import org.kuali.student.core.organization.ui.client.mvc.model.MultipleFieldInfoImpl;
+import org.kuali.student.core.organization.ui.client.mvc.model.OrgPositionPersonRelationInfo;
 import org.kuali.student.core.organization.ui.client.mvc.model.SectionConfigInfo;
 import org.kuali.student.core.organization.ui.client.mvc.model.SectionViewInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
@@ -680,6 +681,38 @@ public class OrgRpcGwtServlet extends BaseRpcGwtServletAbstract<OrganizationServ
         }
         return null;
 
+    }
+
+    @Override
+    public List<OrgPositionPersonRelationInfo> getOrgPositionPersonRelation(String orgId) {
+        ArrayList<OrgPositionPersonRelationInfo> relations = new ArrayList<OrgPositionPersonRelationInfo>();
+        OrgPositionPersonRelationInfo personRelationInfo = null;
+        try{
+            List<OrgPersonRelationInfo> orgPersonRelations = service.getAllOrgPersonRelationsByOrg(orgId);
+            List<OrgPositionRestrictionInfo> orgPositionRestrictions = service.getPositionRestrictionsByOrg(orgId);
+            
+            for(OrgPositionRestrictionInfo position:orgPositionRestrictions){
+                personRelationInfo = new OrgPositionPersonRelationInfo();
+                personRelationInfo.setOrgPersonRelationTypeKey(position.getOrgPersonRelationTypeKey());
+                personRelationInfo.setTitle(position.getTitle());
+                personRelationInfo.setDesc(position.getDesc());
+                personRelationInfo.setMinNumRelations(position.getMinNumRelations().toString());
+                personRelationInfo.setMaxNumRelations(position.getMaxNumRelations());
+                ArrayList<String> names = new ArrayList<String>();
+                for(OrgPersonRelationInfo relation: orgPersonRelations){
+                    if(position.getOrgPersonRelationTypeKey().equals(relation.getType())){
+                        names.add(relation.getPersonId());
+                    }
+                }
+                personRelationInfo.setPersonId(names);
+                relations.add(personRelationInfo);
+            }
+            
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return relations;
     }
     
 }

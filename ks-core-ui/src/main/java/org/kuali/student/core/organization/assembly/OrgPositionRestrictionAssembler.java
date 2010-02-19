@@ -96,31 +96,19 @@ public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPosit
         }
         for (Property p : (Data)input.get("OrgPositionRestrictionInfo")) {
             OrgPositionHelper orgPositionHelper=  OrgPositionHelper.wrap((Data)p.getValue());
-            if(isCreated(orgPositionHelper.getData())){
-                orgPositionHelper.setOrgId((OrgHelper.wrap((Data)input.get("orgInfo")).getId()));
-                OrgPositionRestrictionInfo orgPositionRestrictionInfo = buildOrgPositionRestrictionInfo(orgPositionHelper);
-                try{
-                    OrgPositionRestrictionInfo  result = orgService.addPositionRestrictionToOrg(orgPositionHelper.getOrgId(), 
-                            orgPositionHelper.getPersonRelationType(), orgPositionRestrictionInfo);
-                    orgPositionHelper.setId(result.getId());
-                }
-                catch(Exception e ){
-                    e.printStackTrace();
-                    throw new AssemblyException();
-                }
-            }
             if(isUpdated(orgPositionHelper.getData())){
                 OrgPositionRestrictionInfo orgPositionRestrictionInfo = buildOrgPositionRestrictionInfo(orgPositionHelper);
                 orgPositionRestrictionInfo.setId(orgPositionHelper.getId());
                 try{
                     OrgPositionRestrictionInfo  result = orgService.updatePositionRestrictionForOrg(orgPositionRestrictionInfo.getOrgId(), 
                             orgPositionRestrictionInfo.getOrgPersonRelationTypeKey(), orgPositionRestrictionInfo);
+                    addVersionIndicator(orgPositionHelper.getData(),OrgPositionRestrictionInfo.class.getName(),result.getId(),result.getMetaInfo().getVersionInd());
                 }
                 catch(Exception e ){
                     throw new AssemblyException();
                 }
             }
-            if(isDeleted(orgPositionHelper.getData())){
+            else if(isDeleted(orgPositionHelper.getData())){
                 try{
                     if(orgPositionHelper.getId()!=null){
                         StatusInfo  result = orgService.removePositionRestrictionFromOrg(orgPositionHelper.getOrgId(), orgPositionHelper.getPersonRelationType());
@@ -131,6 +119,22 @@ public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPosit
                     throw(new AssemblyException());
                 }
             }
+            else if(isCreated(orgPositionHelper.getData())){
+                orgPositionHelper.setOrgId((OrgHelper.wrap((Data)input.get("orgInfo")).getId()));
+                OrgPositionRestrictionInfo orgPositionRestrictionInfo = buildOrgPositionRestrictionInfo(orgPositionHelper);
+                try{
+                    OrgPositionRestrictionInfo  result = orgService.addPositionRestrictionToOrg(orgPositionHelper.getOrgId(), 
+                            orgPositionHelper.getPersonRelationType(), orgPositionRestrictionInfo);
+                    orgPositionHelper.setId(result.getId());
+                    addVersionIndicator(orgPositionHelper.getData(),OrgPositionRestrictionInfo.class.getName(),result.getId(),result.getMetaInfo().getVersionInd());
+                }
+                catch(Exception e ){
+                    e.printStackTrace();
+                    throw new AssemblyException();
+                }
+            }
+           
+          
         }
         
     }
@@ -165,13 +169,15 @@ public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPosit
         orgPositionRestrictionInfo.setMaxNumRelations(orgPositionHelper.getMaxNumRelations());
         orgPositionRestrictionInfo.setOrgId(orgPositionHelper.getOrgId());
         if (isModified(orgPositionHelper.getData())) {
-            if (isCreated(orgPositionHelper.getData())) {
-            } 
-            else if (isUpdated(orgPositionHelper.getData())) {
+            if (isUpdated(orgPositionHelper.getData())) {
                 MetaInfo metaInfo = new MetaInfo();
                 orgPositionRestrictionInfo.setMetaInfo(metaInfo);
-            } else if (isDeleted(orgPositionHelper.getData())) {
+                orgPositionRestrictionInfo.setId(orgPositionHelper.getId());
             }
+            else if (isDeleted(orgPositionHelper.getData())) {
+            }
+            else if (isCreated(orgPositionHelper.getData())) {
+            } 
         }
         if(orgPositionRestrictionInfo.getMetaInfo()!=null){
             orgPositionRestrictionInfo.getMetaInfo().setVersionInd(getVersionIndicator(orgPositionHelper.getData()));

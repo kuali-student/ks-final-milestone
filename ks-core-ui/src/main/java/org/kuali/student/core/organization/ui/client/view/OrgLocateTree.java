@@ -221,10 +221,10 @@ public class OrgLocateTree extends Composite implements HasStateChanges {
             orgAddPersonRel.getElement().setAttribute("value", ""+Scope.build(Scope.ORG_PERSON_RELATIONS, Scope.MODIFY).value());
             
             w.add(label);
-            w.add(edit);
-            w.add(orgAddPos);
-            w.add(orgAddRel);
-            w.add(orgAddPersonRel);
+//            w.add(edit);
+//            w.add(orgAddPos);
+//            w.add(orgAddRel);
+//            w.add(orgAddPersonRel);
             
             addStyleName("KS-Org-Widget");
         }
