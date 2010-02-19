@@ -330,6 +330,7 @@
 		<property name="constraints">
 			<list>
 				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
 			</list>
 		</property>
 	</bean>
@@ -342,6 +343,7 @@
 		<property name="constraints">
 			<list>
 				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
 			</list>
 		</property>
 	</bean>
@@ -438,6 +440,7 @@
 		<property name="constraints">
 			<list>
 				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
 			</list>
 		</property>
 	</bean>
@@ -450,6 +453,7 @@
 		<property name="constraints">
 			<list>
 				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
 			</list>
 		</property>
 	</bean>
@@ -523,6 +527,7 @@
 		<property name="constraints">
 			<list>
 				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
 			</list>
 		</property>
 	</bean>
@@ -535,6 +540,7 @@
 		<property name="constraints">
 			<list>
 				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
 			</list>
 		</property>
 	</bean>
@@ -547,6 +553,7 @@
 		<property name="constraints">
 			<list>
 				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
 			</list>
 		</property>
 	</bean>
@@ -632,12 +639,24 @@
 		<property name="writeAccess" value="ALWAYS" />
 		<property name="onChangeRefreshMetadata" value="false" />
 		<property name="dataType" value="STRING" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+			</list>
+		</property>
 	</bean>
 	<bean id="orgInfo.type" parent="dataFieldDescriptor">
 		<property name="name" value="type" />
 		<property name="writeAccess" value="ALWAYS" />
 		<property name="onChangeRefreshMetadata" value="false" />
 		<property name="dataType" value="STRING" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+			</list>
+		</property>
 	</bean>
 	<bean id="orgInfo.shortDesc" parent="dataFieldDescriptor">
 		<property name="name" value="shortDesc" />
