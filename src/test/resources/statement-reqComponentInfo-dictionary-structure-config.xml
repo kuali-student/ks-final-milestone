@@ -7,8 +7,8 @@ http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/d
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Thu Feb 18 20:08:04 EST 2010
-by: org.kuali.student.dictionary.writer.DictionaryModelWriter
+on: Fri Feb 19 08:39:17 EST 2010
+by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
 <import resource="classpath:constraints-dictionary-config.xml"/>
@@ -17,10 +17,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.reqComponentInfo -->
 <!-- ******************************************** -->
 <!-- Information about a requirement component. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.ReqComponentInfo" id="object.reqComponentInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.brms.statement.dto.ReqComponentInfo" id="object.reqComponentInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.reqComponentInfo"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.ReqComponentInfo" id="object.reqComponentInfo" parent="object.reqComponentInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.brms.statement.dto.ReqComponentInfo" id="object.reqComponentInfo" parent="object.reqComponentInfo.abstract"/>
 
 <dict:type key="*" id="type.reqComponentInfo.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -162,10 +162,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.reqComponentInfo.reqCompField.(default).(default) -->
 <!-- *********************************************************************************** -->
 <!-- Detailed information about a requirement component field value. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.ReqCompFieldInfo" id="object.field.reqComponentInfo.reqCompField.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.brms.statement.dto.ReqCompFieldInfo" id="object.field.reqComponentInfo.reqCompField.abstract" abstract="true">
 	<dict:typeRef bean="type.field.reqComponentInfo.reqCompField"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.ReqCompFieldInfo" id="object.field.reqComponentInfo.reqCompField" parent="object.field.reqComponentInfo.reqCompField.abstract"/>
+<dict:objectStructure key="org.kuali.student.brms.statement.dto.ReqCompFieldInfo" id="object.field.reqComponentInfo.reqCompField" parent="object.field.reqComponentInfo.reqCompField.abstract"/>
 
 <dict:type key="*" id="type.field.reqComponentInfo.reqCompField.abstract" abstract="true">
 	<dict:name>(default)</dict:name>

@@ -7,8 +7,8 @@ http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/d
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Thu Feb 18 20:08:05 EST 2010
-by: org.kuali.student.dictionary.writer.DictionaryModelWriter
+on: Fri Feb 19 08:39:17 EST 2010
+by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
 <import resource="classpath:constraints-dictionary-config.xml"/>
@@ -18,12 +18,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.lrDefinitionInfo -->
 <!-- ******************************************** -->
 <!-- Detailed information about a learning result definition. -->
-<dict:objectStructure key=".LrDefinitionInfo" id="object.lrDefinitionInfo.abstract" abstract="true">
+<dict:objectStructure key="NOT_FOUND.LrDefinitionInfo" id="object.lrDefinitionInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.lrDefinitionInfo.CreditCourseFinalGrade"/>
 	<dict:typeRef bean="type.lrDefinitionInfo.OverallProgramGPA"/>
 	<dict:typeRef bean="type.lrDefinitionInfo.OverallProgramTotalCredits"/>
 </dict:objectStructure>
-<dict:objectStructure key=".LrDefinitionInfo" id="object.lrDefinitionInfo" parent="object.lrDefinitionInfo.abstract"/>
+<dict:objectStructure key="NOT_FOUND.LrDefinitionInfo" id="object.lrDefinitionInfo" parent="object.lrDefinitionInfo.abstract"/>
 
 <!-- TODO: update simples -->
 <dict:type key="kuali.lrc.lrd.CreditCourseFinalGrade" id="type.lrDefinitionInfo.CreditCourseFinalGrade.abstract" abstract="true">

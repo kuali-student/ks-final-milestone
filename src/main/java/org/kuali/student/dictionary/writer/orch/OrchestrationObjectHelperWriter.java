@@ -21,10 +21,10 @@ import org.kuali.student.dictionary.model.validation.DictionaryValidationExcepti
 import org.kuali.student.dictionary.model.DictionaryModel;
 import java.util.Map;
 import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.helper.PropertyEnum;
 import org.kuali.student.dictionary.DictionaryExecutionException;
 import org.kuali.student.dictionary.writer.JavaClassWriter;
 import org.kuali.student.dictionary.writer.JavaEnumConstantCalculator;
-import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
 
 /**
  *
