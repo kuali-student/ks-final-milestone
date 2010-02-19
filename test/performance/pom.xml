@@ -3,7 +3,6 @@
 	<parent>
 		<groupId>org.kuali.student.test</groupId>
 		<artifactId>test</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
 	</parent>
     <groupId>org.kuali.student.test.performance</groupId>
     <artifactId>performance</artifactId>
