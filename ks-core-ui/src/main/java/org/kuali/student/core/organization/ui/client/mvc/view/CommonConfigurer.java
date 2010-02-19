@@ -222,7 +222,6 @@ public class CommonConfigurer {
         public MultiplicityItem getItemDecorator(StyleType style) {
             org.kuali.student.common.ui.client.configurable.mvc.sections.RemovableItemWithHeader item = new org.kuali.student.common.ui.client.configurable.mvc.sections.RemovableItemWithHeader(style);
             item.setItemLabel(itemLabel);            
-
             return item;
         }
 
@@ -261,7 +260,7 @@ public class CommonConfigurer {
      */
     private Widget getOrgAdvanceSearch(){
         Metadata searchMetadata = modelDefinition.getMetadata(QueryPath.parse("orgSearchInfo"));  //no type or state at this point
-        SearchPanel organization = new SearchPanel(searchMetadata.getProperties().get(ORG_SEARCH).getLookupMetadata());                
+        SearchPanel organization = new SearchPanel(searchMetadata.getProperties().get(ORG_SEARCH).getInitialLookup());                
         final AdvancedSearchWindow orgSearchWindow = new AdvancedSearchWindow("Organization", organization);
         KSTextBox orgTextBox = new KSTextBox();   //FIXME this will be suggest box
         final SuggestBoxWAdvSearch adminDepPicker = new SuggestBoxWAdvSearch(orgTextBox, orgSearchWindow);  

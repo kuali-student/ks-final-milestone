@@ -22,8 +22,8 @@
 		class="org.kuali.student.core.assembly.data.LookupResultMetadata" />
 	<bean id="lookupQos" abstract="true"
 		class="org.kuali.student.core.assembly.data.LookupQosMetadata" />
-	<bean id="lookupImpl" abstract="true"
-		class="org.kuali.student.core.assembly.data.LookupImplMetadata" />
+		
+	<!--Constraints Declarations		-->
 	<bean id="constraint.date.time" parent="constraint">
 		<property name="id" value="date.time" />
 		<property name="messageId" value="kuali.msg.validation.date.time" />
@@ -699,7 +699,7 @@
 							<ref bean="constraint.repeating" />
 						</list>
 					</property>
-					<property name="lookups">
+					<property name="initialLookup">
 						<bean parent="lookup">
 							<property name="key" value="org.search.advanced" />
 							<property name="name" value="Basic and Advanced Search" />
@@ -799,14 +799,6 @@
 							<property name="resultReturnKey" value="org.resultColumn.orgId" />
 							<property name="resultDisplayKey" value="org.resultColumn.orgShortName" />
 							<property name="resultSortKey" value="org.resultColumn.orgShortName" />
-							<property name="impl">
-								<bean parent="lookupImpl">
-									<property name="info"
-										value="SELECT org.id, org.shortName, org.longName, org.type.id FROM Org org" />
-									<property name="service" value="organization" />
-									<property name="type" value="JPQL" />
-								</bean>
-							</property>
 							<property name="usage" value="DEFAULT" />
 							<property name="lookupKey" value="kuali.lu.lookup.oversight.orgs" />
 						</bean>

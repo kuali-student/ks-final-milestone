@@ -39,7 +39,7 @@ public class AdvancedSearchWindow {
 	public AdvancedSearchWindow(String fieldMessageKey, SearchPanel panel){
 		searchPanel = panel;
 		//TODO use messages here
-		titleBar = new KSThinTitleBar("Find " + fieldMessageKey);
+		titleBar = new KSThinTitleBar(fieldMessageKey);
 		
 		//TODO temporary fix, todo css
 		layout.setWidth("600px");

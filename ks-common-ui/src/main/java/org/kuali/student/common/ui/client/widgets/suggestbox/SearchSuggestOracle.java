@@ -79,8 +79,8 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
         	//FIXME deal with missing default key
         	GWT.log("Cannot find searchTextKey for " + searchTypeKey, null);
         }
-
-        this.searchIdKey = lookupMetadata.getSearchIdParamKey();
+        
+        this.searchIdKey = lookupMetadata.getSearchParamIdKey();
         this.resultIdKey = lookupMetadata.getResultReturnKey();
         this.resultDisplayKey = lookupMetadata.getResultDisplayKey();
     }
@@ -204,9 +204,8 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
                                 if(c.getKey().equals(resultDisplayKey)){
                                     String itemText = c.getValue();
                                     theSuggestion.addAttr(c.getKey(), c.getValue());
+                                    int index = (" " + itemText).toLowerCase().indexOf(" " + query.toLowerCase().trim());
                                     
-                                    int index = itemText.toLowerCase().indexOf(query.toLowerCase().trim());
-
                                     if (index < 0) {
                                         //temporary fix to stop index out of bound exception in hosted mode
                                         continue;

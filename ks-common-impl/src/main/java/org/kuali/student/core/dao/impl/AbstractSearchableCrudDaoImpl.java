@@ -134,6 +134,10 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 			queryString += optionalQueryString + orderByClause;
 		}
 		
+		//remove special characters and extra spaces
+		queryString = queryString.replaceAll("[\n\r\t]", " ");
+		queryString = queryString.replaceAll("\\s+", " ");
+		
 		Query query;
 		if(isNative){
 			query = em.createNativeQuery(queryString);
@@ -277,6 +281,10 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		
 		//Create the query
 		String finalQueryString = queryString + optionalQueryString + orderByClause;
+		
+		//remove special characters and extra spaces
+		queryString = queryString.replaceAll("[\n\r\t]", " ");
+		queryString = queryString.replaceAll("\\s+", " ");
 		
 		Query query;
 		if(isNative){

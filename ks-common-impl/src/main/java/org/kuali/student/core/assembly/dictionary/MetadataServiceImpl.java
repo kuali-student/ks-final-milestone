@@ -173,7 +173,7 @@ public class MetadataServiceImpl {
             metadata.setCanView(field.isCanView());
             metadata.setCanUnmask(field.isCanUnmask());
             metadata.setDefaultValue(convertDefaultValue(metadata.getDataType(), field.getDefaultValue()));
-            metadata.setLookupMetadata(field.getLookups());
+            metadata.setInitialLookup(field.getInitialLookup());
             
             if (isRepeating(field)){
                 Metadata repeatingMetadata = new Metadata();

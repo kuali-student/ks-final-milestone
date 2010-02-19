@@ -38,7 +38,7 @@ public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
 			config.isRichText = MetadataInterrogator.hasConstraint(meta, ConstraintIds.RICH_TEXT);
 			config.maxLength = MetadataInterrogator.getSmallestMaxLength(meta);
 			config.type = meta.getDataType();
-			config.lookupMeta = meta.getLookupMetadata();
+			config.lookupMeta = meta.getInitialLookup();
 			config.additionalLookups = meta.getAdditionalLookups();
 			config.canEdit = meta.isCanEdit();
 			config.canUnmask = meta.isCanUnmask();

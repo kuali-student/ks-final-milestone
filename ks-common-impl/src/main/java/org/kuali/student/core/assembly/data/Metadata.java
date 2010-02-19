@@ -95,7 +95,7 @@ public class Metadata implements Serializable {
     @XmlElementWrapper
     private List<ConstraintMetadata> constraints;
     
-    private LookupMetadata lookupMetadata;
+    private LookupMetadata initialLookup;
 
     private String lookupContextPath;
     
@@ -131,7 +131,7 @@ public class Metadata implements Serializable {
 /*        if(toClone.lookupMetadata != null) {
             this.lookupMetadata = new LookupMetadata(toClone.lookupMetadata);
         }*/
-        this.lookupMetadata = toClone.lookupMetadata;
+        this.initialLookup = toClone.initialLookup;
         this.onChangeRefreshMetadata = toClone.onChangeRefreshMetadata;
         this.name = toClone.name;
         this.writeAccess = toClone.writeAccess;
@@ -228,12 +228,12 @@ public class Metadata implements Serializable {
         this.defaultValuePath = defaultValuePath;
     }
 
-    public LookupMetadata getLookupMetadata() {
-        return lookupMetadata;
+    public LookupMetadata getInitialLookup() {
+        return initialLookup;
     }
 
-    public void setLookupMetadata(LookupMetadata lookupMetadata) {
-        this.lookupMetadata = lookupMetadata;
+    public void setInitialLookup(LookupMetadata initialLookup) {
+        this.initialLookup = initialLookup;
     }
 
     public String getLookupContextPath() {

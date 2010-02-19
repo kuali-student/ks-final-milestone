@@ -48,19 +48,13 @@ public class KSPicker extends Composite implements HasValue<String> {
     	if (inLookupMetadata == null) {
     		//FIXME throw error?
     		return;
-    	}
+    	}    
     	
-    	//create a single list of lookup metadata
-    	List<LookupMetadata> lookupMetadata = new ArrayList<LookupMetadata>();
-    	lookupMetadata.add(inLookupMetadata);    		
-    	for (LookupMetadata addLookupData : additionalLookupMetadata) {
-    		lookupMetadata.add(addLookupData);
-    	}
+    	//1) setup initial search widget such as suggest box, drop down etc.
     	
         //setup suggest box if required
-    	List<LookupMetadata> suggestBoxLookupdata = getLookupMetadataBasedOnWidget(lookupMetadata, LookupMetadata.Widget.SUGGEST_BOX);
-    	if (suggestBoxLookupdata != null) {
-			final SearchSuggestOracle orgSearchOracle = new SearchSuggestOracle(suggestBoxLookupdata.get(0));     	
+    	if (inLookupMetadata.getWidget() == LookupMetadata.Widget.SUGGEST_BOX) {
+			final SearchSuggestOracle orgSearchOracle = new SearchSuggestOracle(inLookupMetadata);     	
 			basicWidget = new BasicWidget(new KSSuggestBox(orgSearchOracle)); 
 			((SuggestBox) basicWidget.get()).setAutoSelectEnabled(false);
 	    	orgSearchOracle.setTextWidget(((SuggestBox) basicWidget.get()).getTextBox());		
@@ -71,10 +65,19 @@ public class KSPicker extends Composite implements HasValue<String> {
     		GWT.log("KSTextBox for " + inLookupMetadata.getKey(), null);
     	}
         
+    	//2) setup advanced search widget such as advanced search box, browse hierarchy search box etc.
+    	
         //setup advanced search if required
-    	List<LookupMetadata> advancedLightboxLookupdata = getLookupMetadataBasedOnWidget(lookupMetadata, LookupMetadata.Widget.ADVANCED_LIGHTBOX);
-    	if (advancedLightboxLookupdata != null) {    	
-	        advSearchWindow = new AdvancedSearchWindow(advancedLightboxLookupdata.get(0).getName(), new SearchPanel(advancedLightboxLookupdata));
+    	List<LookupMetadata> advancedLightboxLookupdata = getLookupMetadataBasedOnWidget(additionalLookupMetadata, LookupMetadata.Widget.ADVANCED_LIGHTBOX);
+    	if (advancedLightboxLookupdata != null) {    
+    		
+    		//for multiple searches, show a drop down for user to select from
+    		if (advancedLightboxLookupdata.size() == 1) {
+    			advSearchWindow = new AdvancedSearchWindow(advancedLightboxLookupdata.get(0).getName(), new SearchPanel(advancedLightboxLookupdata.get(0)));
+    		} else {
+    			advSearchWindow = new AdvancedSearchWindow(advancedLightboxLookupdata.get(0).getName(), new SearchPanel(advancedLightboxLookupdata));
+    		}
+    		
 	        advSearchWindow.addSelectionCompleteCallback(new Callback<List<SelectedResults>>(){
 	            public void exec(List<SelectedResults> results) {
 	                if (results.size() > 0){

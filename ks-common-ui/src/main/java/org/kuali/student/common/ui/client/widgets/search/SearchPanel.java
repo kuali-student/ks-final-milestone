@@ -18,6 +18,7 @@ import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.assembly.data.LookupParamMetadata;
 import org.kuali.student.core.assembly.data.Data.Value;
+import org.kuali.student.core.assembly.data.LookupMetadata.Usage;
 import org.kuali.student.core.assembly.data.Metadata.WriteAccess;
 import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.core.search.dto.SearchRequest;
@@ -68,9 +69,8 @@ public class SearchPanel extends Composite{
 	
 	public SearchPanel(List<LookupMetadata> metas){		
 		LinkedHashMap<String, Widget> searches = new LinkedHashMap<String, Widget>();
-		int i = 0;  //temporary hack
 		for(LookupMetadata meta: metas){
-			searches.put(meta.getKey() + Integer.toString(i++), createSearchParamPanel(meta));
+			searches.put(meta.getName(), createSearchParamPanel(meta));
 		}
 		SwappablePanel swapPanel = new SwappablePanel(searches);
 		searchSelectorPanel.setWidget(swapPanel);
@@ -138,8 +138,15 @@ public class SearchPanel extends Composite{
 							params.add(param);
 							userCriteria.add(field);
 						}
-					}
+					}				
+					
+					//add search criteria widgets to the custom tab
 					for(LookupParamMetadata metaParam: meta.getParams()){
+					
+						//select only parameters shown on custom search tab
+						if (metaParam.getUsage() != Usage.CUSTOM) {
+							continue;
+						}							
 						
 						if(metaParam.getWriteAccess() == WriteAccess.NEVER){
 							SearchParam param = new SearchParam();
@@ -156,6 +163,7 @@ public class SearchPanel extends Composite{
 							}
 						}
 					}
+					
 					sr.setParams(params);
 					//TODO remove this
 					for(SearchParam p: params){
@@ -262,7 +270,15 @@ public class SearchPanel extends Composite{
 			VerticalFlowPanel panel = new VerticalFlowPanel();
 			KSLabel instrLabel = new KSLabel(advInstructions);
 			panel.add(instrLabel);
+			
+			//add search criteria widgets to the advanced tab
 			for(LookupParamMetadata param: meta.getParams()){
+				
+				//select only parameters shown on advanced search tab
+				if (param.getUsage() != Usage.ADVANCED) {
+					continue;
+				}
+				
 				if(param.getWriteAccess() == WriteAccess.ALWAYS){
 					SearchField paramField = new SearchField(param);
 					searchFields.add(paramField);
@@ -276,6 +292,7 @@ public class SearchPanel extends Composite{
 					}
 				}
 			}
+			
 			KSButton searchButton = new KSButton("Search");
 			searchButton.setPrimary(true);
 			searchButton.addClickHandler(new ClickHandler(){
@@ -513,7 +530,6 @@ public class SearchPanel extends Composite{
 				
 			}
 			return w;
-		}
-		
+		}		
 	}	
 }

@@ -58,7 +58,7 @@ public class DataFieldDescriptor {
     
     protected List<ConstraintMetadata> constraints;
     
-    protected LookupMetadata lookups;
+    protected LookupMetadata initialLookup;
     
     protected List<LookupMetadata> additionalLookups;   
     
@@ -138,12 +138,12 @@ public class DataFieldDescriptor {
         this.lookupContextPath = lookupContextPath;
     }
 
-    public LookupMetadata getLookups() {
-        return lookups;
+    public LookupMetadata getInitialLookup() {
+        return initialLookup;
     }
 
-    public void setLookups(LookupMetadata lookups) {
-        this.lookups = lookups;
+    public void setInitialLookup(LookupMetadata initialLookup) {
+        this.initialLookup = initialLookup;
     }
 
     public List<LookupMetadata> getAdditionalLookups() {

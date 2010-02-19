@@ -20,8 +20,7 @@
 		class="org.kuali.student.core.assembly.data.LookupResultMetadata" />
 	<bean id="lookupQos" abstract="true"
 		class="org.kuali.student.core.assembly.data.LookupQosMetadata" />
-	<bean id="lookupImpl" abstract="true"
-		class="org.kuali.student.core.assembly.data.LookupImplMetadata" />
+	
 	<bean id="constraint.atp.types" parent="constraint">
 		<property name="id" value="atp.types" />
 		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
@@ -871,7 +870,7 @@
 							<ref bean="constraint.lu.types" />
 						</list>
 					</property>
-					<property name="lookups">
+					<property name="initialLookup">
 						<bean parent="lookup">
 							<property name="key" value="lu.search.all.lu.types" />
 							<property name="name" value="All activity tlypes" />
@@ -932,14 +931,6 @@
 							<property name="resultReturnKey" value="lu.resultColumn.key" />
 							<property name="resultDisplayKey" value="lu.resultColumn.name" />
 							<property name="resultSortKey" value="lu.resultColumn.name" />
-							<property name="impl">
-								<bean parent="lookupImpl">
-									<property name="info"
-										value="select key, name, desc, effective_date, expiration_datefrom LuTypewhere expiration_date is null" />
-									<property name="service" value="lu" />
-									<property name="type" value="JPQL" />
-								</bean>
-							</property>
 							<property name="usage" value="DEFAULT" />
 							<property name="lookupKey" value="kuali.lu.lookup.activity.types" />
 						</bean>
@@ -1072,7 +1063,7 @@
 							<ref bean="constraint.related.orgId" />
 						</list>
 					</property>
-					<property name="lookups">
+					<property name="initialLookup">
 						<bean parent="lookup">
 							<property name="key" value="org.search.advanced" />
 							<property name="name" value="Basic and Advanced Search" />
@@ -1172,14 +1163,6 @@
 							<property name="resultReturnKey" value="org.resultColumn.orgId" />
 							<property name="resultDisplayKey" value="org.resultColumn.orgShortName" />
 							<property name="resultSortKey" value="org.resultColumn.orgShortName" />
-							<property name="impl">
-								<bean parent="lookupImpl">
-									<property name="info"
-										value="SELECT org.id, org.shortName, org.longName, org.type.id FROM Org org" />
-									<property name="service" value="organization" />
-									<property name="type" value="JPQL" />
-								</bean>
-							</property>
 							<property name="usage" value="DEFAULT" />
 							<property name="lookupKey" value="kuali.lu.lookup.admin.departments" />
 						</bean>
@@ -1269,7 +1252,7 @@
 							<ref bean="constraint.related.cluId" />
 						</list>
 					</property>
-					<property name="lookups">
+					<property name="initialLookup">
 						<bean parent="lookup">
 							<property name="key" value="lu.search.generic" />
 							<property name="name" value="Basic and Advanced Search" />
@@ -1367,13 +1350,6 @@
 							<property name="resultReturnKey" value="lu.resultColumn.cluId" />
 							<property name="resultDisplayKey" value="lu.resultColumn.luOptionalLongName" />
 							<property name="resultSortKey" value="lu.resultColumn.luOptionalLongName" />
-							<property name="impl">
-								<bean parent="lookupImpl">
-									<property name="info" value="TBD already in xml" />
-									<property name="service" value="lu" />
-									<property name="type" value="JPQL" />
-								</bean>
-							</property>
 							<property name="usage" value="DEFAULT" />
 							<property name="lookupKey"
 								value="kuali.lu.lookup.creditCoursesAndProposals" />
@@ -1995,7 +1971,7 @@
 							<ref bean="constraint.unit.types" />
 						</list>
 					</property>
-					<property name="lookups">
+					<property name="initialLookup">
 						<bean parent="lookup">
 							<property name="key" value="atp.search.atpDurationTypes" />
 							<property name="name" value="All ATP Duration Types" />
@@ -2022,13 +1998,6 @@
 							<property name="resultReturnKey" value="atp.resultColumn.atpDurationTypeKey" />
 							<property name="resultDisplayKey" value="atp.resultColumn.atpDurationTypeName" />
 							<property name="resultSortKey" value="atp.resultColumn.atpDurationTypeName" />
-							<property name="impl">
-								<bean parent="lookupImpl">
-									<property name="info" value="TBD" />
-									<property name="service" value="atp" />
-									<property name="type" value="JPQL" />
-								</bean>
-							</property>
 							<property name="usage" value="DEFAULT" />
 							<property name="lookupKey" value="kuali.lookup.durations" />
 						</bean>
@@ -2108,7 +2077,7 @@
 							<ref bean="constraint.atp.types" />
 						</list>
 					</property>
-					<property name="lookups">
+					<property name="initialLookup">
 						<bean parent="lookup">
 							<property name="key" value="atp.search.atpTypes" />
 							<property name="name" value="All ATP types" />
@@ -2134,14 +2103,6 @@
 							<property name="resultReturnKey" value="atp.resultColumn.atpTypeId" />
 							<property name="resultDisplayKey" value="atp.resultColumn.atpTypeName" />
 							<property name="resultSortKey" value="atp.resultColumn.atpTypeName" />
-							<property name="impl">
-								<bean parent="lookupImpl">
-									<property name="info"
-										value="SELECT atptype.id, atptype.name FROM AtpType atptype" />
-									<property name="service" value="atp" />
-									<property name="type" value="JPQL" />
-								</bean>
-							</property>
 							<property name="usage" value="DEFAULT" />
 							<property name="lookupKey" value="kuali.lookup.termsOfferred" />
 						</bean>
@@ -2161,7 +2122,7 @@
 							<ref bean="constraint.atp.types" />
 						</list>
 					</property>
-					<property name="lookups">
+					<property name="initialLookup">
 						<bean parent="lookup">
 							<property name="key" value="atp.search.advancedAtpSearch" />
 							<property name="name" value="Advanced ATP match" />
@@ -2261,13 +2222,6 @@
 							<property name="resultReturnKey" value="atp.resultColumn.atpId" />
 							<property name="resultDisplayKey" value="atp.resultColumn.atpSeasonalType" />
 							<property name="resultSortKey" value="atp.resultColumn.atpSeasonalType" />
-							<property name="impl">
-								<bean parent="lookupImpl">
-									<property name="info" value="TBD" />
-									<property name="service" value="organization" />
-									<property name="type" value="JPQL" />
-								</bean>
-							</property>
 							<property name="usage" value="DEFAULT" />
 							<property name="lookupKey" value="kuali.lookup.terms" />
 						</bean>
@@ -2355,7 +2309,7 @@
 							<ref bean="constraint.related.orgId" />
 						</list>
 					</property>
-					<property name="lookups">
+					<property name="initialLookup">
 						<bean parent="lookup">
 							<property name="key" value="org.search.advanced" />
 							<property name="name" value="Basic and Advanced Search" />
@@ -2455,14 +2409,6 @@
 							<property name="resultReturnKey" value="org.resultColumn.orgId" />
 							<property name="resultDisplayKey" value="org.resultColumn.orgShortName" />
 							<property name="resultSortKey" value="org.resultColumn.orgShortName" />
-							<property name="impl">
-								<bean parent="lookupImpl">
-									<property name="info"
-										value="SELECT org.id, org.shortName, org.longName, org.type.id FROM Org org" />
-									<property name="service" value="organization" />
-									<property name="type" value="JPQL" />
-								</bean>
-							</property>
 							<property name="usage" value="DEFAULT" />
 							<property name="lookupKey" value="kuali.lu.lookup.admin.departments" />
 						</bean>
@@ -2634,7 +2580,7 @@
 							<ref bean="constraint.repeating" />
 						</list>
 					</property>
-					<property name="lookups">
+					<property name="initialLookup">
 						<bean parent="lookup">
 							<property name="key" value="org.search.advanced" />
 							<property name="name" value="Basic and Advanced Search" />
@@ -2734,14 +2680,6 @@
 							<property name="resultReturnKey" value="org.resultColumn.orgId" />
 							<property name="resultDisplayKey" value="org.resultColumn.orgShortName" />
 							<property name="resultSortKey" value="org.resultColumn.orgShortName" />
-							<property name="impl">
-								<bean parent="lookupImpl">
-									<property name="info"
-										value="SELECT org.id, org.shortName, org.longName, org.type.id FROM Org org" />
-									<property name="service" value="organization" />
-									<property name="type" value="JPQL" />
-								</bean>
-							</property>
 							<property name="usage" value="DEFAULT" />
 							<property name="lookupKey" value="kuali.lu.lookup.oversight.orgs" />
 						</bean>
@@ -2775,7 +2713,7 @@
 							<ref bean="constraint.single" />
 						</list>
 					</property>
-					<property name="lookups">
+					<property name="initialLookup">
 						<bean parent="lookup">
 							<property name="key"
 								value="person.search.personQuickViewByGivenName" />
@@ -2827,13 +2765,6 @@
 							<property name="resultReturnKey" value="person.resultColumn.PersonId" />
 							<property name="resultDisplayKey" value="person.resultColumn.GivenName" />
 							<property name="resultSortKey" value="person.resultColumn.GivenName" />
-							<property name="impl">
-								<bean parent="lookupImpl">
-									<property name="info" value="I THINK THIS IS HARD CODED VIA KIM" />
-									<property name="service" value="person" />
-									<property name="type" value="SPECIAL" />
-								</bean>
-							</property>
 							<property name="usage" value="DEFAULT" />
 							<property name="lookupKey" value="kuali.lookup.people" />
 						</bean>
@@ -2924,7 +2855,7 @@
 							<ref bean="constraint.duration.types" />
 						</list>
 					</property>
-					<property name="lookups">
+					<property name="initialLookup">
 						<bean parent="lookup">
 							<property name="key" value="atp.search.atpDurationTypes" />
 							<property name="name" value="All ATP Duration Types" />
@@ -2951,13 +2882,6 @@
 							<property name="resultReturnKey" value="atp.resultColumn.atpDurationTypeKey" />
 							<property name="resultDisplayKey" value="atp.resultColumn.atpDurationTypeName" />
 							<property name="resultSortKey" value="atp.resultColumn.atpDurationTypeName" />
-							<property name="impl">
-								<bean parent="lookupImpl">
-									<property name="info" value="TBD" />
-									<property name="service" value="atp" />
-									<property name="type" value="JPQL" />
-								</bean>
-							</property>
 							<property name="usage" value="DEFAULT" />
 							<property name="lookupKey" value="kuali.lookup.durations" />
 						</bean>
@@ -3091,7 +3015,7 @@
 							<ref bean="constraint.related.personId" />
 						</list>
 					</property>
-					<property name="lookups">
+					<property name="initialLookup">
 						<bean parent="lookup">
 							<property name="key"
 								value="person.search.personQuickViewByGivenName" />
@@ -3143,13 +3067,6 @@
 							<property name="resultReturnKey" value="person.resultColumn.PersonId" />
 							<property name="resultDisplayKey" value="person.resultColumn.GivenName" />
 							<property name="resultSortKey" value="person.resultColumn.GivenName" />
-							<property name="impl">
-								<bean parent="lookupImpl">
-									<property name="info" value="I THINK THIS IS HARD CODED VIA KIM" />
-									<property name="service" value="person" />
-									<property name="type" value="SPECIAL" />
-								</bean>
-							</property>
 							<property name="usage" value="DEFAULT" />
 							<property name="lookupKey" value="kuali.lookup.people" />
 						</bean>

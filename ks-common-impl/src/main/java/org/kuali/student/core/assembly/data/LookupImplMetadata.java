@@ -18,7 +18,7 @@ package org.kuali.student.core.assembly.data;
 import java.io.Serializable;
 
 /**
- * 
+ * @deprecated   //implementation details about search types should not be in orch. dictionary
  * @author nwright
  */
 public class LookupImplMetadata implements Serializable {

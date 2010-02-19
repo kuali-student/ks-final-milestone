@@ -35,7 +35,7 @@ public class LookupMetadata implements Serializable {
     
     private LookupQosMetadata qosMetadata;
     
-    private String searchIdParamKey;
+    private String searchParamIdKey;
     
     private String resultReturnKey;
     
@@ -43,7 +43,7 @@ public class LookupMetadata implements Serializable {
     
     private String resultSortKey;
     
-    private LookupImplMetadata impl;
+    private LookupImplMetadata impl;  //FIXME remove after LookupMetadataBank is gone
 
     public enum Usage {
         DEFAULT, ADVANCED, CUSTOM
@@ -178,12 +178,12 @@ public class LookupMetadata implements Serializable {
         return sb.toString();
     }
 
-	public String getSearchIdParamKey() {
-		return searchIdParamKey;
+	public String getSearchParamIdKey() {
+		return searchParamIdKey;
 	}
 
-	public void setSearchIdParamKey(String searchIdParamKey) {
-		this.searchIdParamKey = searchIdParamKey;
+	public void setSearchParamIdKey(String searchParamIdKey) {
+		this.searchParamIdKey = searchParamIdKey;
 	}
 
 }
