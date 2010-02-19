@@ -108,6 +108,9 @@ public class Validator {
 		return dateParser;
 	}
 
+	
+	
+	
 	/**
 	 * Validate Object and all its nested child objects for given type and state
 	 * 
@@ -117,9 +120,16 @@ public class Validator {
 	 */
 	public List<ValidationResultInfo> validateTypeStateObject(Object data,
 			ObjectStructure objStructure) {
-		List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
 
 		Stack<String> elementStack = new Stack<String>();
+		return validateTypeStateObject(data, objStructure, elementStack);
+	}
+	
+	private List<ValidationResultInfo> validateTypeStateObject(Object data,
+			ObjectStructure objStructure, Stack<String> elementStack) {
+
+		List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
+
 		ConstraintDataProvider dataProvider = new BeanConstraintDataProvider();
 		dataProvider.initialize(data);
 
@@ -207,28 +217,33 @@ public class Validator {
 		if ("complex"
 				.equalsIgnoreCase(field.getFieldDescriptor().getDataType())) {
 			ObjectStructure nestedObjStruct = null;
-			if (hasText(field.getFieldDescriptor().getObjectStructureRef())) {
+			
+			if(null != field.getFieldDescriptor().getObjectStructure()) {
+				nestedObjStruct = field.getFieldDescriptor()
+				.getObjectStructure();				
+			}
+			else if (hasText(field.getFieldDescriptor().getObjectStructureRef())) {
 				//TODO: Setup a mechanism to retrive referenced object structures
 //				nestedObjStruct = setupFactory.getObjectStructure(field
 //						.getFieldDescriptor().getObjectStructureRef());
-			} else {
-				nestedObjStruct = field.getFieldDescriptor()
-						.getObjectStructure();
-			}
-
+			} 
+			
 			BaseConstraintBean bcb = new BaseConstraintBean();
 			if(null != cd) {
 				for(ConstraintSelector constraint: cd.getConstraint()) {
 					computeBaseConstraints(constraint, bcb, field);
 				}
 			}
+			
+			elementStack.push(field.getKey());
+
 			if (value instanceof Collection) {
 
-				String xPath = getElementXpath(elementStack) + field.getKey() + "/";
+				String xPath = getElementXpath(elementStack) + "/";
 
 				for (Object o : (Collection<?>) value) {
 					processNestedObjectStructure(results, o, nestedObjStruct,
-							field);
+							field, elementStack);
 				}
 				if (bcb.minOccurs > ((Collection<?>) value).size()) {
 					ValidationResultInfo valRes = new ValidationResultInfo(
@@ -248,17 +263,19 @@ public class Validator {
 			} else {
 				if(null != value) {
 					processNestedObjectStructure(results, value, nestedObjStruct,
-							field);
+							field, elementStack);
 				} else {
 					if (bcb.minOccurs != null && bcb.minOccurs > 0) {
 						ValidationResultInfo val = new ValidationResultInfo(
-								getElementXpath(elementStack) + field.getKey()
-										+ "[value='null']/");
+								getElementXpath(elementStack) + "[value='null']/");
 						val.setError(getMessage("validation.required"));
 						results.add(val);
 					}					
 				}
-			}						
+			}
+			
+			elementStack.pop();
+			
 		} else { // If non complex data type
 			if (null != cd) {
 				List<ConstraintSelector> constraints = cd.getConstraint();
@@ -332,9 +349,9 @@ public class Validator {
 
 	private void processNestedObjectStructure(
 			List<ValidationResultInfo> results, Object value,
-			ObjectStructure nestedObjStruct, Field field) {
+			ObjectStructure nestedObjStruct, Field field, Stack<String> elementStack) {
 
-		results.addAll(validateTypeStateObject(value, nestedObjStruct));
+		results.addAll(validateTypeStateObject(value, nestedObjStruct, elementStack));
 
 		ConstraintDescriptor cd = field.getConstraintDescriptor();
 		if (null != cd) {
@@ -346,7 +363,7 @@ public class Validator {
 				// processTypeStateCaseConstraint(vc);
 				// results.add(vc);k
 			}
-		}
+		}		
 	}
 
 	private void computeBaseConstraints(ConstraintSelector constraint,
