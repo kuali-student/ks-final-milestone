@@ -23,11 +23,6 @@
       </snapshots>
     </repository>
   </repositories>
-  <modules>
-    <module>performance</module>
-    <module>ui</module>
-    <module>ws</module>
-  </modules>
   <issueManagement>
     <system>JIRA</system>
     <url>https://test.kuali.org/jira/browse/KSLAB</url>
