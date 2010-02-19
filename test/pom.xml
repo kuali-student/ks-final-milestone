@@ -64,7 +64,7 @@
       <id>driver-1.ks.kuali.net</id>
       <uniqueVersion>true</uniqueVersion>
       <name>Kuali Student Repository</name>
-      <url>file://C:/maven2</url>
+      <url>file://usr/local/apache-tomcat/apache-tomcat-6.0.24/webapps/m2</url>
       <layout>default</layout>
     </repository>
   </distributionManagement>
