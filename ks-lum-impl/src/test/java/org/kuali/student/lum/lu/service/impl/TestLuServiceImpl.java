@@ -1954,29 +1954,29 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		CluIdentifierInfo officialIdentifier = new CluIdentifierInfo();
 		officialIdentifier.setType("kuali.lu.type.CreditCourse.identifier.official");
 		officialIdentifier.setState("active");
-		officialIdentifier.setCode("offId_code");
-		officialIdentifier.setDivision("offId_division");
-		officialIdentifier.setLevel("offId_level");
-		officialIdentifier.setLongName("offId_longName");
+		officialIdentifier.setCode("offIdcode");
+		officialIdentifier.setDivision("offIddivision");
+		officialIdentifier.setLevel("offIdlevel");
+		officialIdentifier.setLongName("offIdlongName");
 		// ERROR: Short name should be less than 20 chars
 		officialIdentifier.setShortName("offId_shortName_should_be_longer_than_twenty_characters");
-		officialIdentifier.setVariation("offId_variation");
-		officialIdentifier.setSuffixCode("offId_suffixcode");
-		officialIdentifier.setOrgId("offId_orgid");
+		officialIdentifier.setVariation("offIdvariation");
+		officialIdentifier.setSuffixCode("offIdsuffixcode");
+		officialIdentifier.setOrgId("offIdorgid");
 		clu.setOfficialIdentifier(officialIdentifier);
 
 		CluIdentifierInfo cluId1 = new CluIdentifierInfo();
 		cluId1.setType("kuali.lu.type.CreditCourse.identifier.cross-listed");
 		cluId1.setState("active");		
-		cluId1.setCode("cluId1_code");
-		cluId1.setDivision("cluId1_division");
-		cluId1.setLevel("cluId1_level");
-		cluId1.setLongName("cluId1_longName");
-		cluId1.setShortName("cluId1_shortName");
+		cluId1.setCode("cluIdonecode");
+		cluId1.setDivision("cluIdonedivision");
+		cluId1.setLevel("cluIdonelevel");
+		cluId1.setLongName("cluIdonelongName");
+		cluId1.setShortName("cluIdoneshortName");
 		// ERROR: Min length 3
 		// ERROR: Only numbers allowed
 		cluId1.setSuffixCode("cl");
-		cluId1.setOrgId("cluId1_orgid");
+		cluId1.setOrgId("cluIdoneorgid");
 
 		clu.getAlternateIdentifiers().add(cluId1);
 		
@@ -1984,15 +1984,15 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		// Check for different type validations 
 		cluId2.setType("kuali.lu.type.CreditCourse.identifier.version");
 		cluId2.setState("active");
-		cluId2.setCode("cluId2_code");
-		cluId2.setDivision("cluId2_division");
-		cluId2.setLevel("cluId2_level");
-		cluId2.setLongName("cluId2_longName");
-		cluId2.setShortName("cluId2_shortName");
+		cluId2.setCode("cluIdtwocode");
+		cluId2.setDivision("cluIdtwodivision");
+		cluId2.setLevel("cluIdtwolevel");
+		cluId2.setLongName("cluIdtwolongName");
+		cluId2.setShortName("cluIdtwoshortName");
 		// ERROR: Should be uppper case
 		// ERROR: should be of size 1
 		cluId2.setVariation("ab");
-		cluId2.setSuffixCode("cluId2_suffixcode");
+		cluId2.setSuffixCode("cluIdtwosuffixcode");
 		// ERROR OrgId required
 		// cluId.setOrgId();
 		clu.getAlternateIdentifiers().add(cluId2);
@@ -2017,11 +2017,11 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		clu.setEnrollable(true);
 
 		AffiliatedOrgInfo aforg = new AffiliatedOrgInfo();
-		aforg.setOrgId("AFF_ORG1");
+		aforg.setOrgId("AFFORGone");
 		aforg.setPercentage(35l);
 		
 		AffiliatedOrgInfo aforg1 = new AffiliatedOrgInfo();
-		aforg1.setOrgId("AFF_ORG2");
+		aforg1.setOrgId("AFForgtwo");
 		aforg1.setPercentage(65l);
 		
 		List<AffiliatedOrgInfo> affiliatedOrgs = new ArrayList<AffiliatedOrgInfo>();
@@ -2057,8 +2057,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		clu.setHazardousForDisabledStudents(true);
 
 		CluInstructorInfo primaryInstructor = new CluInstructorInfo();
-		primaryInstructor.setOrgId("EXT_orgId_1");
-		primaryInstructor.setPersonId("EXT_personId_1");
+		primaryInstructor.setOrgId("EXTorgIdone");
+		primaryInstructor.setPersonId("EXTpersonIdone");
 		primaryInstructor.getAttributes().put("PrimaryInstAttrKey1",
 				"PrimaryInstAttrValue1");
 		primaryInstructor.getAttributes().put("PrimaryInstAttrKey2",
@@ -2066,31 +2066,31 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		clu.setPrimaryInstructor(primaryInstructor);
 
 		CluInstructorInfo instructor1 = new CluInstructorInfo();
-		instructor1.setOrgId("EXT_orgId_2");
-		instructor1.setPersonId("EXT_personId_2");
+		instructor1.setOrgId("EXTorgIdtwo");
+		instructor1.setPersonId("EXTpersonIdtwo");
 		instructor1.getAttributes().put("Inst1AttrKey1", "Inst1AttrValue1");
 		instructor1.getAttributes().put("Inst1AttrKey2", "Inst1AttrValue2");
 		clu.getInstructors().add(instructor1);
 
 		CluInstructorInfo instructor2 = new CluInstructorInfo();
-		instructor2.setOrgId("EXT_orgId_3");
-		instructor2.setPersonId("EXT_personId_3");
+		instructor2.setOrgId("EXTorgIdthree");
+		instructor2.setPersonId("EXTpersonIdthree");
 		instructor2.getAttributes().put("Inst2AttrKey1", "Inst2AttrValue1");
 		instructor2.getAttributes().put("Inst2AttrKey2", "Inst2AttrValue2");
 		clu.getInstructors().add(instructor2);
 
 		LuCodeInfo luCode1 = new LuCodeInfo();
 		luCode1.setId("luCode1.key");
-		luCode1.setDescr("luCode1_desc");
-		luCode1.setValue("luCode1_value");
+		luCode1.setDescr("luCode1desc");
+		luCode1.setValue("luCode1value");
 		luCode1.getAttributes().put("luCode1AttrKey1", "luCode1AttrValue1");
 		luCode1.getAttributes().put("luCode1AttrKey2", "luCode1AttrValue2");
 		clu.getLuCodes().add(luCode1);
 
 		LuCodeInfo luCode2 = new LuCodeInfo();
 		luCode2.setId("luCode2.key");
-		luCode2.setDescr("luCode2_desc");
-		luCode2.setValue("luCode2_value");
+		luCode2.setDescr("luCodetwodesc");
+		luCode2.setValue("luCodetwovalue");
 		luCode2.getAttributes().put("luCode2AttrKey1", "luCode2AttrValue1");
 		luCode2.getAttributes().put("luCode2AttrKey2", "luCode2AttrValue2");
 		clu.getLuCodes().add(luCode2);
@@ -2106,24 +2106,24 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 
 		CluInstructorInfo pubPrimaryInstructor = new CluInstructorInfo();
-		pubPrimaryInstructor.setOrgId("EXT_orgId_234");
-		pubPrimaryInstructor.setPersonId("EXT_personId_2451");
+		pubPrimaryInstructor.setOrgId("EXTorgId");
+		pubPrimaryInstructor.setPersonId("EXTpersonId");
 		pubPrimaryInstructor.getAttributes().put("PubPrimaryInstAttrKey1",
 				"PubPrimaryInstAttrValue1");
 		pubPrimaryInstructor.getAttributes().put("PubPrimaryInstAttrKey2",
 				"PubPrimaryInstAttrValue2");
 
 		CluInstructorInfo pubInstructor1 = new CluInstructorInfo();
-		pubInstructor1.setOrgId("EXT_orgId_2");
-		pubInstructor1.setPersonId("EXT_personId_2");
+		pubInstructor1.setOrgId("EXTorgIdtwo");
+		pubInstructor1.setPersonId("EXT_personId_two");
 		pubInstructor1.getAttributes().put("PubInst1AttrKey1",
 				"PubInst1AttrValue1");
 		pubInstructor1.getAttributes().put("PubInst1AttrKey2",
 				"PubInst1AttrValue2");
 
 		CluInstructorInfo pubInstructor2 = new CluInstructorInfo();
-		pubInstructor2.setOrgId("EXT_orgId_3");
-		pubInstructor2.setPersonId("EXT_personId_3");
+		pubInstructor2.setOrgId("EXTorgIdthree");
+		pubInstructor2.setPersonId("EXTpersonIdthree");
 		pubInstructor2.getAttributes().put("PubInst2AttrKey1",
 				"PubInst2AttrValue1");
 		pubInstructor2.getAttributes().put("PubInst2AttrKey2",
@@ -2132,7 +2132,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		clu.setReferenceURL("http://student.kuali.org/clus");
 
 		TimeAmountInfo stdDuration = new TimeAmountInfo();
-		stdDuration.setAtpDurationTypeKey("EXT_stdDuration_Id1");
+		stdDuration.setAtpDurationTypeKey("EXTstdDurationId");
 		stdDuration.setTimeQuantity(new Integer(7867));
 		clu.setStdDuration(stdDuration);
 
@@ -2150,8 +2150,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		clu.setState("template");
 
 		List<ValidationResultInfo> valerros = client.validateClu("SYSTEM", clu);
-		//FIXME valerros is null here
-		//assertEquals(valerros.size(), 23);		
+
+		assertEquals(valerros.size(), 19);		
 	}	
 		
 	private void createAcademicSubjectOrgs(CluInfo clu) {

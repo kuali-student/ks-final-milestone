@@ -890,7 +890,7 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(cluInfo, "cluInfo");
 		
-		return validator.validateTypeStateObject(cluInfo, getObjectStructure("cluInfo"));
+		return validator.validateTypeStateObject(cluInfo, getObjectStructure("org.kuali.student.lum.lu.dto.CluInfo"));
 	}
 
 	@Override
@@ -1572,7 +1572,7 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(cluCluRelationInfo, "cluCluRelationInfo");
 
-		return validator.validateTypeStateObject(cluCluRelationInfo, getObjectStructure("cluCluRelationInfo"));
+		return validator.validateTypeStateObject(cluCluRelationInfo, getObjectStructure("org.kuali.student.lum.lu.dto.CluCluRelationInfo"));
 	}
 
 	@Override
@@ -1736,7 +1736,7 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(cluResultInfo, "cluResultInfo");
 
-		return validator.validateTypeStateObject(cluResultInfo, getObjectStructure("cluResultInfo"));		
+		return validator.validateTypeStateObject(cluResultInfo, getObjectStructure("org.kuali.student.lum.lu.dto.CluResultInfo"));		
 	}
 
 	@Override
@@ -1873,7 +1873,7 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(cluLoRelationInfo, "cluLoRelationInfo");
 		
-		return validator.validateTypeStateObject(cluLoRelationInfo, getObjectStructure("cluLoRelationInfo"));	
+		return validator.validateTypeStateObject(cluLoRelationInfo, getObjectStructure("org.kuali.student.lum.lu.dto.CluLoRelationInfo"));	
 	}
 
 	@Override
@@ -2012,7 +2012,7 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(cluSetInfo, "cluSetInfo");
 
-		return validator.validateTypeStateObject(cluSetInfo, getObjectStructure("cluSetInfo"));
+		return validator.validateTypeStateObject(cluSetInfo, getObjectStructure("org.kuali.student.lum.lu.dto.CluSetInfo"));
 	}
 
 	@Override
