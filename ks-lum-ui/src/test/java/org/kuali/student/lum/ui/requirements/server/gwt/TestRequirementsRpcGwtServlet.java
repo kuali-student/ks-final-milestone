@@ -40,7 +40,6 @@ import org.kuali.student.brms.statement.naturallanguage.translators.NaturalLangu
 import org.kuali.student.brms.statement.naturallanguage.translators.NaturalLanguageTranslatorImpl;
 import org.kuali.student.brms.statement.naturallanguage.translators.ReqComponentTranslator;
 import org.kuali.student.brms.statement.naturallanguage.translators.StatementTranslator;
-import org.kuali.student.brms.statement.naturallanguage.util.CustomReqComponentInfo;
 import org.kuali.student.brms.statement.naturallanguage.util.StatementAnchor;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
