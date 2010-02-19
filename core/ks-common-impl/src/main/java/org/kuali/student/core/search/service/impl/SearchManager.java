@@ -25,10 +25,10 @@ import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
-import org.kuali.student.core.search.newdto.SearchRequest;
-import org.kuali.student.core.search.newdto.SearchResult;
 
 public interface SearchManager {
 	public List<Result> searchForResults(String searchTypeKey,
@@ -69,5 +69,5 @@ public interface SearchManager {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException;
 	
-	public SearchResult search(SearchRequest searchRequest, SearchableDao dao);
+	public SearchResult search(SearchRequest searchRequest, SearchableDao dao) throws MissingParameterException;
 }

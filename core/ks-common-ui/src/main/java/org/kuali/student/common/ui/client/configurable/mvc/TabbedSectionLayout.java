@@ -13,6 +13,8 @@ import org.kuali.student.common.ui.client.mvc.ActionCompleteCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
+import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
+import org.kuali.student.common.ui.client.mvc.history.HistoryToken;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
@@ -52,6 +54,7 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 	
 	private KSTabPanel tabPanel = new KSTabPanel();
 	private KSTitleContainerImpl container = new KSTitleContainerImpl();
+	private final Map<String, Enum<?>> viewEnums = new HashMap<String, Enum<?>>();
 	
 	private class TabLayout extends Composite{
 		private HorizontalPanel layout = new HorizontalPanel();
@@ -121,6 +124,11 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 			String path = "";
 			KSMenuItemData current = null;
 			for (int i=1; i<hierarchy.length; i++) {
+			    // For configurable section layout the hierarchy element obtained from XML file might contain
+			   // null element. In such a case we dont require a menu to be displayed on the screen.
+			    if(hierarchy[i]==null){
+			        return;
+			    }
 				path = path + "/" + hierarchy[i];
 				KSMenuItemData item = menuHierarchyMap.get(path);
 				if (item == null) {
@@ -234,7 +242,8 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
         });
 	}
 	
-	public TabbedSectionLayout(){
+	public TabbedSectionLayout(String controllerId){
+	    super(controllerId);
 		container.setContent(tabPanel);
 		container.setTitle("New Course Proposal");
 		container.setStatus("Unsubmitted Proposal");
@@ -242,7 +251,8 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 		super.initWidget(container);
 	}
 	
-	public TabbedSectionLayout(KSTitleContainerImpl container){
+	public TabbedSectionLayout(String controllerId, KSTitleContainerImpl container){
+	    super(controllerId);
 	    this.container.setContent(tabPanel);
         this.container.setTitle(container.getTitle());
         this.container.setStatus(container.getStatus());
@@ -270,6 +280,11 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 		return null;
 	}	
 
+	@Override
+    public Enum<?> getViewEnumValue(String enumValue) {
+        return viewEnums.get(enumValue);
+    }
+	
 	@Override
 	protected void hideView(View view) {
 		//Does nothing: no need to hide, it view is always replaced in this layout
@@ -302,6 +317,7 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 
 	@Override
 	public void addSection(String[] hierarchy, final SectionView section) {
+	    viewEnums.put(section.getViewEnum().toString(), section.getViewEnum());
 		String tabKey = hierarchy[0];
 		
 		sectionNameTabMap.put(section.getName(), tabKey);
@@ -346,6 +362,7 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 
 	@Override
 	public void addTool(final ToolView tool) {
+	    viewEnums.put(tool.getViewEnum().toString(), tool.getViewEnum());
 		String tabKey = tool.getName();
 		
 		TabLayout layout;
@@ -453,5 +470,5 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
     	for(TabLayout layout: tabLayoutMap.values()){
 			layout.updateModel();
 		}
-    }
+    }    
 }

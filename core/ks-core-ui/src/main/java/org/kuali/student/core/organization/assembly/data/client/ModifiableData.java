@@ -1,6 +1,7 @@
 package org.kuali.student.core.organization.assembly.data.client;
 
-import org.kuali.student.common.assembly.client.Data;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.helper.PropertyEnum;
 
 public class ModifiableData extends Data {
 	public enum Properties implements PropertyEnum {

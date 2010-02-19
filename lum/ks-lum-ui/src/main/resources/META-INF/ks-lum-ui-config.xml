@@ -1,5 +1,7 @@
 <config>
 
+	<param name="ks.ignore.rice.login">true</param>
+	
     <param name="module.name">ks-lum-ui</param>
     <param name="db.vendor">derby</param>
 	<param name="jpa.vendor">hibernate</param>

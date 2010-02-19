@@ -16,12 +16,14 @@ package org.kuali.student.common.ui.client.widgets.list;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.list.impl.KSPickListImpl;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Skeleton for KSPickList
@@ -122,6 +124,18 @@ public class KSPickList extends KSSelectItemWidgetAbstract {
 	public HandlerRegistration addBlurHandler(BlurHandler handler) {
 		return selectItemWidget.addBlurHandler(handler);
 	}
+
+    public void addWidgetReadyCallback(Callback<Widget> callback) {
+        selectItemWidget.addWidgetReadyCallback(callback);
+    }
+
+    public boolean isInitialized() {
+        return selectItemWidget.isInitialized();
+    }
+
+    public void setInitialized(boolean initialized) {
+        selectItemWidget.setInitialized(initialized);
+    }
 
 
 }

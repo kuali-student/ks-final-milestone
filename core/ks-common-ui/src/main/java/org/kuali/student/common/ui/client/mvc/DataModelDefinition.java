@@ -2,12 +2,12 @@ package org.kuali.student.common.ui.client.mvc;
 
 import java.util.Iterator;
 
-import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.common.assembly.client.Metadata;
-import org.kuali.student.common.assembly.client.ModelDefinition;
-import org.kuali.student.common.assembly.client.QueryPath;
-import org.kuali.student.common.assembly.client.Data.DataType;
-import org.kuali.student.common.assembly.client.Data.Key;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.ModelDefinition;
+import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.assembly.data.Data.DataType;
+import org.kuali.student.core.assembly.data.Data.Key;
 
 public class DataModelDefinition implements ModelDefinition {
 	private Metadata metadata;

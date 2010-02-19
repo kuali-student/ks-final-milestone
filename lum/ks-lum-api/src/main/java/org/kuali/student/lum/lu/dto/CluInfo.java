@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.kuali.student.core.dto.AmountInfo;
 import org.kuali.student.core.dto.HasAttributes;
 import org.kuali.student.core.dto.HasTypeState;
 import org.kuali.student.core.dto.Idable;
@@ -50,46 +51,34 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
     private List<CluIdentifierInfo> alternateIdentifiers;
 
     @XmlElement
-    private List<String> academicSubjectOrgs;
+    private List<AcademicSubjectOrgInfo> academicSubjectOrgs;
 
     @XmlElement
     private String studySubjectArea;
 
     @XmlElement
-    private RichTextInfo desc;
+    private RichTextInfo descr;
 
     @XmlElement
-    private RichTextInfo marketingDesc;
-
-    // Deprecated in v  1.0-rc2
-    @XmlElement
-    private String accreditingOrg;
+    private List<String> campusLocations;
 
     @XmlElement
-    private List<AccreditationInfo> accreditationList;
+    private List<AccreditationInfo> accreditations;
 
-    // Deprecated in v  1.0-rc2
-    @XmlElement
-    private String adminOrg;
-
-    // Deprecated in v  1.0-rc2
-    @XmlElement
-    private List<String> participatingOrgs;
-
-    @XmlElement
-    private List<String> campusLocationList;
-    
     @XmlElement
     private AdminOrgInfo primaryAdminOrg;
 
     @XmlElement
     private List<AdminOrgInfo> alternateAdminOrgs;
-    
+
     @XmlElement
     private CluInstructorInfo primaryInstructor;
 
     @XmlElement
     private List<CluInstructorInfo> instructors;
+
+    @XmlElement
+    private String expectedFirstAtp;
 
     @XmlElement
     private Date effectiveDate;
@@ -98,7 +87,7 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
     private Date expirationDate;
 
     @XmlElement
-    private TimeAmountInfo intensity;
+    private AmountInfo intensity;
 
     @XmlElement
     private TimeAmountInfo stdDuration;
@@ -111,29 +100,22 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
 
     @XmlElement
     private List<LuCodeInfo> luCodes;
-
-    // Deprecated in v  1.0-rc2
-    @XmlElement
-    private CluCreditInfo creditInfo;
-
-    @XmlElement
-    private CluPublishingInfo publishingInfo;
-
+    
     @XmlElement
     private String nextReviewPeriod;
 
     @XmlElement
     private boolean isEnrollable;
-
+    
     @XmlElement
     private List<String> offeredAtpTypes;
-
+    
     @XmlElement
     private boolean hasEarlyDropDeadline;
 
     @XmlElement
     private int defaultEnrollmentEstimate;
-
+    
     @XmlElement
     private int defaultMaximumEnrollment;
 
@@ -145,7 +127,7 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
 
     @XmlElement
     private CluAccountingInfo accountingInfo;
-
+    
     @XmlElement
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
     private Map<String, String> attributes;
@@ -161,6 +143,7 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
 
     @XmlAttribute
     private String id;
+
 
     /**
      * Information related to the official identification of the clu, typically in human readable form. Used to officially reference or publish.
@@ -190,14 +173,14 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
     /*
      * The organizations that represents the Subject area of the Clu, if different from the PrimaryAdminOrg
      */
-    public List<String> getAcademicSubjectOrgs() {
+    public List<AcademicSubjectOrgInfo> getAcademicSubjectOrgs() {
         if (academicSubjectOrgs == null) {
-            academicSubjectOrgs = new ArrayList<String>();
+            academicSubjectOrgs = new ArrayList<AcademicSubjectOrgInfo>();
         }
         return academicSubjectOrgs;
     }
 
-    public void setAcademicSubjectOrgs(List<String> academicSubjectOrgs) {
+    public void setAcademicSubjectOrgs(List<AcademicSubjectOrgInfo> academicSubjectOrgs) {
         this.academicSubjectOrgs = academicSubjectOrgs;
     }
 
@@ -215,74 +198,41 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
     /**
      * Narrative description of the CLU, used for the catalog.
      */
-    public RichTextInfo getDesc() {
-        return desc;
+    public RichTextInfo getDescr() {
+        return descr;
     }
 
-    public void setDesc(RichTextInfo desc) {
-        this.desc = desc;
-    }
-
-    /**
-     * A publishable description of the LU to be used for advertising or marketing purposes
-     */
-    public RichTextInfo getMarketingDesc() {
-        return marketingDesc;
-    }
-
-    public void setMarketingDesc(RichTextInfo marketingDesc) {
-        this.marketingDesc = marketingDesc;
-    }
-
-    /**
-     * The organization responsible for accrediting the program.
-     * 
-     * Replaced by accreditationList
-     * 
-     * @deprecated
-     */
-    public String getAccreditingOrg() {
-        return accreditingOrg;
-    }
-
-    /**
-     *
-     * Replaced by accreditationList
-     * 
-     * @deprecated
-     */
-    public void setAccreditingOrg(String accreditingOrg) {
-        this.accreditingOrg = accreditingOrg;
+    public void setDescr(RichTextInfo descr) {
+        this.descr = descr;
     }
 
     /*
      * Information around the accreditation of the clu.
      */
-    public List<AccreditationInfo> getAccreditationList() {
-        if (accreditationList == null) {
-            accreditationList = new ArrayList<AccreditationInfo>();
+    public List<AccreditationInfo> getAccreditations() {
+        if (accreditations == null) {
+            accreditations = new ArrayList<AccreditationInfo>();
         }
-        return accreditationList;
+        return accreditations;
     }
 
-    public void setAccreditationList(List<AccreditationInfo> accreditation) {
-        this.accreditationList = accreditation;
+    public void setAccreditations(List<AccreditationInfo> accreditations) {
+        this.accreditations = accreditations;
     }
 
     /*
      * Places where this clu might be offered
      */
-    public List<String> getCampusLocationList() {
-        if (campusLocationList == null) {
-            campusLocationList = new ArrayList<String>();
+    public List<String> getCampusLocations() {
+        if (campusLocations == null) {
+            campusLocations = new ArrayList<String>();
         }
-        return campusLocationList;
+        return campusLocations;
     }
 
-    public void setCampusLocationList(List<String> campusLocationList) {
-        this.campusLocationList = campusLocationList;
+    public void setCampusLocations(List<String> campusLocations) {
+        this.campusLocations = campusLocations;
     }
-
     
     public AdminOrgInfo getPrimaryAdminOrg() {
         return primaryAdminOrg;
@@ -302,42 +252,6 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
     public void setAlternateAdminOrgs(List<AdminOrgInfo> alternateAdminOrgs) {
         this.alternateAdminOrgs = alternateAdminOrgs;
     }
-
-    /**
-     * The primary organization (typically, an academic department) with administrative oversight over the CLU.
-     * 
-     * @deprecated
-     */
-    public String getAdminOrg() {
-        return adminOrg;
-    }
-
-    /**
-     * @deprecated
-     */
-    public void setAdminOrg(String adminOrg) {
-        this.adminOrg = adminOrg;
-    }
-
-    /**
-     * For cross-listed CLUs, contains participating organizations (typically, academic departments).
-     * @deprecated
-     */
-    public List<String> getParticipatingOrgs() {
-        if (participatingOrgs == null) {
-            participatingOrgs = new ArrayList<String>();
-        }
-        return participatingOrgs;
-    }
-
-    /**
-     * For cross-listed CLUs, contains participating organizations (typically, academic departments).
-     * @deprecated
-     */
-    public void setParticipatingOrgs(List<String> participatingOrgs) {
-        this.participatingOrgs = participatingOrgs;
-    }
-
 
     /**
      * Primary potential instructor for the clu. This is primarily for use in advertising the clu and may not be the actual instructor.
@@ -389,11 +303,11 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
     /*
      * The expected level of time commitment between the student and the CLU meetings.
      */
-    public TimeAmountInfo getIntensity() {
+    public AmountInfo getIntensity() {
         return intensity;
     }
 
-    public void setIntensity(TimeAmountInfo intensity) {
+    public void setIntensity(AmountInfo intensity) {
         this.intensity = intensity;
     }
 
@@ -443,37 +357,7 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
     public void setLuCodes(List<LuCodeInfo> luCodes) {
         this.luCodes = luCodes;
     }
-
-    /**
-     * Information about credit
-     * 
-     * @deprecated
-     */
-    public CluCreditInfo getCreditInfo() {
-        return creditInfo;
-    }
-
-    /**
-     * 
-     * This method ...
-     * 
-     * @deprecated creditInfo
-     * 
-     */public void setCreditInfo(CluCreditInfo creditInfo) {
-        this.creditInfo = creditInfo;
-    }
-
-    /**
-     * Publishing information associated with this CLU.
-     */
-    public CluPublishingInfo getPublishingInfo() {
-        return publishingInfo;
-    }
-
-    public void setPublishingInfo(CluPublishingInfo publishingInfo) {
-        this.publishingInfo = publishingInfo;
-    }
-
+    
     /**
      * When the next review should be
      */
@@ -633,4 +517,12 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
     public void setId(String id) {
         this.id = id;
     }
+
+	public String getExpectedFirstAtp() {
+		return expectedFirstAtp;
+	}
+
+	public void setExpectedFirstAtp(String expectedFirstAtp) {
+		this.expectedFirstAtp = expectedFirstAtp;
+	}
 }

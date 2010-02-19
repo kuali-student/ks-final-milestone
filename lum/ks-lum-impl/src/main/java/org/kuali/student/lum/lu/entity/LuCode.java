@@ -38,7 +38,7 @@ public class LuCode extends MetaEntity implements AttributeOwner<LuCodeAttribute
     private String id;
     
 	@Column(name = "DESCR")
-	private String desc;
+	private String descr;
 
 	@Column(name = "VALUE")
 	private String value;
@@ -53,12 +53,12 @@ public class LuCode extends MetaEntity implements AttributeOwner<LuCodeAttribute
 	@JoinColumn(name="CLU_ID")
 	private Clu clu;
 	
-	public String getDesc() {
-		return desc;
+	public String getDescr() {
+		return descr;
 	}
 
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setDescr(String descr) {
+		this.descr = descr;
 	}
 
 	public String getValue() {

@@ -1,28 +1,33 @@
 package org.kuali.student.security.filter;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.jasig.cas.client.validation.Assertion;
-import org.kuali.student.security.saml.service.ProxyTicketValidationService;
+import org.kuali.student.security.saml.service.SamlIssuerService;
+import org.kuali.student.security.util.SamlUtils;
 import org.opensaml.SAMLAssertion;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.cas.CasAuthenticationToken;
 import org.springframework.security.ui.FilterChainOrder;
 import org.springframework.security.ui.SpringSecurityFilter;
+import org.w3c.dom.Document;
 
 public class ProxyTicketRetrieverFilter extends SpringSecurityFilter {
     
-    private String proxyTargetService = "http://localhost:8181/ks-core-web/Service/ProxyTicketValidationService";
-    private ProxyTicketValidationService samlIssuerService;
+    private String proxyTargetService = null;
+    private SamlIssuerService samlIssuerService;
     
     @Override
     public void doFilterHttp(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-        
+
         CasAuthenticationToken cat = (CasAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         
         if(cat != null && !isSAMLInSecurityContext()){
@@ -32,15 +37,31 @@ public class ProxyTicketRetrieverFilter extends SpringSecurityFilter {
             String proxyTicket = null;
             
             casAssertion = cat.getAssertion();
-            
             if(casAssertion != null){
                 proxyTicket = casAssertion.getPrincipal().getProxyTicketFor(proxyTargetService);
             }
             
-            // if statement above checks for SAML in security context, if its there don't make this service call.
-            // The first time we make this call the CxfJaxWsProxyClientFactory client with SamlTokenInHandler interceptor 
-            // wiil place the SAML from the header in the security context, therefore skipping this call in the next request.
-            samlIssuerService.validateProxyTicket(proxyTicket, proxyTargetService);
+            Document signedSAMLDoc = null;
+            SAMLAssertion samlAssertion = null;
+            
+            try{
+                String signedSAMLRet = samlIssuerService.validateCasProxyTicket(proxyTicket, proxyTargetService);
+                
+                DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+                dbf.setNamespaceAware(true);
+                
+                DocumentBuilder db = dbf.newDocumentBuilder();
+                ByteArrayInputStream bais = new ByteArrayInputStream(signedSAMLRet.getBytes());
+             
+                signedSAMLDoc = db.parse(bais);
+                samlAssertion = SamlUtils.unsignAssertion(signedSAMLDoc);
+                 
+             } catch(Exception e){
+                 throw new ServletException(e);
+             }
+             
+             // place saml in security context
+             cat.setDetails(samlAssertion);
         }
         filterChain.doFilter(request, response);
     }
@@ -66,11 +87,11 @@ public class ProxyTicketRetrieverFilter extends SpringSecurityFilter {
         this.proxyTargetService = proxyTargetService;
     }
 
-    public ProxyTicketValidationService getSamlIssuerService() {
+    public SamlIssuerService getSamlIssuerService() {
         return samlIssuerService;
     }
 
-    public void setSamlIssuerService(ProxyTicketValidationService samlIssuerService) {
+    public void setSamlIssuerService(SamlIssuerService samlIssuerService) {
         this.samlIssuerService = samlIssuerService;
     }
 

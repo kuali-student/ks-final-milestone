@@ -75,4 +75,9 @@ public class KSLightBox {
         pop.addCloseHandler(handler);
     }
 
+	public boolean isShowing() {
+		return showing;
+	}
+
+    
 }

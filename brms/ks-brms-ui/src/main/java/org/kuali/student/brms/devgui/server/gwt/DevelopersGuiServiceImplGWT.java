@@ -23,74 +23,74 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  */
 public class DevelopersGuiServiceImplGWT extends RemoteServiceServlet implements DevelopersGuiService {
 
-	private static final long serialVersionUID = 822326113643828855L;
+    private static final long serialVersionUID = 822326113643828855L;
 
-	private final DevelopersGuiService serviceImpl = (DevelopersGuiService) BeanFactory.getInstance().getBean("developersGuiService");
+    private final DevelopersGuiService serviceImpl = (DevelopersGuiService) BeanFactory.getInstance().getBean("developersGuiService");
 
-	public FactTypeInfo fetchFactType(String factTypeKey) throws Exception {
-		return serviceImpl.fetchFactType(factTypeKey);
-	}
+    public FactTypeInfo fetchFactType(String factTypeKey) throws Exception {
+    	return serviceImpl.fetchFactType(factTypeKey);
+    }
+    
+    public List<FactTypeInfo> fetchFactTypeList(List<String> factTypeKeys) throws Exception {
+    	return serviceImpl.fetchFactTypeList(factTypeKeys);
+    }
 
-	public List<FactTypeInfo> fetchFactTypeList(List<String> factTypeKeys) throws Exception {
-		return serviceImpl.fetchFactTypeList(factTypeKeys);
-	}
+    public ExecutionResultDTO executeBusinessRuleTest(BusinessRuleInfo businessRule, Map<String, String> definitionTimeFacts, Map<String, String> executionTimeFacts) throws Exception {
+    	return serviceImpl.executeBusinessRuleTest(businessRule, definitionTimeFacts, executionTimeFacts);
+    }    
+    
+    public BusinessRuleInfo createBusinessRule(BusinessRuleInfo businessRuleInfo) throws Exception {
+        return serviceImpl.createBusinessRule(businessRuleInfo);
+    }
 
-	public ExecutionResultDTO executeBusinessRuleTest(BusinessRuleInfo businessRule, Map<String, String> definitionTimeFacts, Map<String, String> executionTimeFacts) throws Exception {
-		return serviceImpl.executeBusinessRuleTest(businessRule, definitionTimeFacts, executionTimeFacts);
-	}
+    public BusinessRuleInfo updateBusinessRule(String businessRuleId, BusinessRuleInfo businessRuleInfo) throws Exception {
+        return serviceImpl.updateBusinessRule(businessRuleId, businessRuleInfo);
+    }
+    
+    public BusinessRuleInfo updateBusinessRuleState(String businessRuleId, String brState) throws Exception {
+        return serviceImpl.updateBusinessRuleState(businessRuleId,  brState);
+    }
 
-	public BusinessRuleInfo createBusinessRule(BusinessRuleInfo businessRuleInfo) throws Exception {
-		return serviceImpl.createBusinessRule(businessRuleInfo);
-	}
+    public BusinessRuleInfo fetchDetailedBusinessRuleInfo(String ruleId) throws Exception {
+        return serviceImpl.fetchDetailedBusinessRuleInfo(ruleId);
+    }
 
-	public BusinessRuleInfo updateBusinessRule(String businessRuleId, BusinessRuleInfo businessRuleInfo) throws Exception {
-		return serviceImpl.updateBusinessRule(businessRuleId, businessRuleInfo);
-	}
+    public BusinessRuleTypeInfo fetchBusinessRuleType(String ruleTypeKey, String anchorTypeKey) throws Exception {
+        return serviceImpl.fetchBusinessRuleType(ruleTypeKey, anchorTypeKey);
+    }
 
-	public BusinessRuleInfo updateBusinessRuleState(String businessRuleId, String brState) throws Exception {
-		return serviceImpl.updateBusinessRuleState(businessRuleId, brState);
-	}
+    public String testBusinessRule(String businessRuleId) throws Exception {
+        return serviceImpl.testBusinessRule(businessRuleId);
+    }
 
-	public BusinessRuleInfo fetchDetailedBusinessRuleInfo(String ruleId) throws Exception {
-		return serviceImpl.fetchDetailedBusinessRuleInfo(ruleId);
-	}
+    public List<String> findAgendaTypes() throws Exception {
+    	return serviceImpl.findAgendaTypes();
+    }
+    
+    public List<String> findBusinessRuleTypesByAgendaType(String agendaTypeKey) throws Exception {
+    	return serviceImpl.findBusinessRuleTypesByAgendaType(agendaTypeKey);
+    }
+    
+    public List<RulesHierarchyInfo> fetchRulesHierarchyInfo() {
+        return serviceImpl.fetchRulesHierarchyInfo();
+    }
 
-	public BusinessRuleTypeInfo fetchBusinessRuleType(String ruleTypeKey, String anchorTypeKey) throws Exception {
-		return serviceImpl.fetchBusinessRuleType(ruleTypeKey, anchorTypeKey);
-	}
+    public List<RuleTypesHierarchyInfo> fetchRuleTypesHierarchyInfo() {
+        return serviceImpl.fetchRuleTypesHierarchyInfo();
+    }    
+    
+    /**
+     * @return the serviceImpl
+     */
+    public DevelopersGuiService getServiceImpl() {
+        return serviceImpl;
+    }
 
-	public String testBusinessRule(String businessRuleId) throws Exception {
-		return serviceImpl.testBusinessRule(businessRuleId);
-	}
-
-	public List<String> findAgendaTypes() throws Exception {
-		return serviceImpl.findAgendaTypes();
-	}
-
-	public List<String> findBusinessRuleTypesByAgendaType(String agendaTypeKey) throws Exception {
-		return serviceImpl.findBusinessRuleTypesByAgendaType(agendaTypeKey);
-	}
-
-	public List<RulesHierarchyInfo> fetchRulesHierarchyInfo() {
-		return serviceImpl.fetchRulesHierarchyInfo();
-	}
-
-	public List<RuleTypesHierarchyInfo> fetchRuleTypesHierarchyInfo() {
-		return serviceImpl.fetchRuleTypesHierarchyInfo();
-	}
-
-	/**
-	 * @return the serviceImpl
-	 */
-	public DevelopersGuiService getServiceImpl() {
-		return serviceImpl;
-	}
-
-	/**
-	 * @param serviceImpl
-	 *            the serviceImpl to set
-	 */
-	public void setServiceImpl(DevelopersGuiServiceImpl serviceImpl) {
-		// this.serviceImpl = serviceImpl;
-	}
+    /**
+     * @param serviceImpl
+     *            the serviceImpl to set
+     */
+    public void setServiceImpl(DevelopersGuiServiceImpl serviceImpl) {
+    // this.serviceImpl = serviceImpl;
+    }
 }

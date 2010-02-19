@@ -20,6 +20,9 @@ import org.kuali.student.core.dao.CrudDao;
 import org.kuali.student.core.dao.SearchableDao;
 import org.kuali.student.lum.lu.entity.Clu;
 import org.kuali.student.lum.lu.entity.CluCluRelation;
+import org.kuali.student.lum.lu.entity.CluLoRelation;
+import org.kuali.student.lum.lu.entity.CluResult;
+import org.kuali.student.lum.lu.entity.CluResultType;
 import org.kuali.student.lum.lu.entity.CluSet;
 import org.kuali.student.lum.lu.entity.LuDocumentRelation;
 import org.kuali.student.lum.lu.entity.LuStatement;
@@ -59,4 +62,22 @@ public interface LuDao extends CrudDao, SearchableDao  {
 	public List<String> getLuiIdsByRelationType(String relatedLuiId, String luLuRelationTypeId);
     public List<ReqComponent> getReqComponents(List<String> reqComponentIdList);
     public List<LuStatement> getLuStatements(List<String> luStatementIdList);
+	public List<CluLoRelation> getCluLoRelationsByClu(String cluId);    
+	public List<CluLoRelation> getCluLoRelationsByCludIdAndLoId(String cluId,
+			String loId);
+	public List<CluLoRelation> getCluLoRelationsByLo(String loId);
+	public List<String> getAllowedCluLoRelationTypesForLuType(String luTypeId);
+	public List<CluResultType> getAllowedCluResultTypesForLuType(String luTypeId);
+	public List<String> getCluIdsByResultUsageType(String resultUsageTypeKey);
+	public List<String> getCluIdsByResultComponentId(String resultComponentId);
+	public List<String> getAllowedResultUsageTypesForLuType(String luTypeId);
+	public List<String> getAllowedResultComponentTypesForResultUsageType(
+			String resultUsageType);
+	public List<String> getAllowedLuLuRelationTypesForLuType(
+			String luTypeId, String relatedLuTypeId);
+	public List<String> getAllowedLuLuRelationTypesByLuiId(String luiId,
+			String relatedLuiId);
+	public List<String> getAllowedLuLuRelationTypesByCluId(String cluId,
+			String relatedCluId);
+	public List<CluResult> getCluResultByClu(String cluId);
 }

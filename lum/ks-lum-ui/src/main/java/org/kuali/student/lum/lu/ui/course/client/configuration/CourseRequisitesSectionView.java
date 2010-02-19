@@ -16,7 +16,9 @@ package org.kuali.student.lum.lu.ui.course.client.configuration;
 
 import java.util.List;
 
-import org.kuali.student.common.ui.client.configurable.mvc.SectionView;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
+import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
@@ -24,6 +26,7 @@ import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * 
@@ -82,15 +85,27 @@ public class CourseRequisitesSectionView extends SectionView {
 			childController.saveApplicationState();
 		}
 	}
+/*
+	@Override
+	public ErrorLevel processValidationResults(List<ValidationResultContainer> results) {
+		// TODO Auto-generated method stub
+		return ErrorLevel.OK;
+	}*/
 
 	@Override
-	public void validate(Callback<ErrorLevel> callback) {
+	protected void addFieldToLayout(FieldDescriptor f) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void processValidationResults(List<ValidationResultContainer> results) {
+	protected void addSectionToLayout(BaseSection s) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void addWidgetToLayout(Widget w) {
 		// TODO Auto-generated method stub
 		
 	}

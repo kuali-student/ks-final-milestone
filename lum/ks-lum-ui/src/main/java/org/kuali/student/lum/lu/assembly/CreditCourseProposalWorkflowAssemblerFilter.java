@@ -13,11 +13,11 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.webservice.DocumentResponse;
 import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
 import org.kuali.rice.kew.webservice.StandardResponse;
-import org.kuali.student.common.assembly.PassThroughAssemblerFilter;
-import org.kuali.student.common.assembly.client.AssemblyException;
-import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.common.assembly.client.SaveResult;
 import org.kuali.student.common.util.security.SecurityUtils;
+import org.kuali.student.core.assembly.PassThroughAssemblerFilter;
+import org.kuali.student.core.assembly.data.AssemblyException;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
 import org.kuali.student.lum.lu.dto.workflow.CluProposalDocInfo;
 

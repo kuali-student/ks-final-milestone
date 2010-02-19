@@ -52,7 +52,7 @@ public class Milestone extends MetaEntity implements
 	
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "RT_DESCR_ID")
-	private RichText desc;
+	private RichText descr;
 
 	@ManyToOne
 	@JoinColumn(name = "ATP_ID")
@@ -128,12 +128,12 @@ public class Milestone extends MetaEntity implements
 		this.id = id;
 	}
 
-	public void setDesc(RichText desc) {
-		this.desc = desc;
+	public void setDescr(RichText descr) {
+		this.descr = descr;
 	}
 
-	public RichText getDesc() {
-		return desc;
+	public RichText getDescr() {
+		return descr;
 	}
 
 }

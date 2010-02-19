@@ -22,10 +22,12 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
-import org.kuali.student.common.ui.server.gwt.rpc.BaseRemoteAbstractServiceServlet;
+
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 @SuppressWarnings("serial")
-public class ServerPropertiesRpcGwtServlet extends BaseRemoteAbstractServiceServlet implements ServerPropertiesRpcService {
+public class ServerPropertiesRpcGwtServlet extends RemoteServiceServlet
+		implements ServerPropertiesRpcService {
 
 	final Logger logger = Logger.getLogger(ServerPropertiesRpcGwtServlet.class);
 
@@ -43,7 +45,7 @@ public class ServerPropertiesRpcGwtServlet extends BaseRemoteAbstractServiceServ
 	public String get(String property) {
 		String value = properties.get(property);
 		logger.info("Getting property: " + property + " with value: " + value);
-		if (null == value) {
+		if(null==value){
 			value = ConfigContext.getCurrentContextConfig().getProperty(property);
 			logger.info("Property not found, looking in Context: " + property + " with value: " + value);
 		}

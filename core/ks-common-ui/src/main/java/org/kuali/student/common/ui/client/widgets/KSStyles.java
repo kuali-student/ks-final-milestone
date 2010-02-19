@@ -95,6 +95,7 @@ public interface KSStyles {
 	public static final String KS_LISTBOX_STYLE = "KS-Listbox";
 	public static final String KS_MODAL_GLASS = "KS-Modal-Dialog-Glass";
 	public static final String KS_MODAL_POPUP = "KS-Modal-Popup";
+	public static final String KS_PLACEHOLDER_STYLE = "KS-Placeholder";
 	
 	
 	public static final String KS_MOUSE_NORMAL = "KS-Mouse-Normal";

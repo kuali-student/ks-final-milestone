@@ -20,6 +20,7 @@ import org.kuali.student.common.ui.client.application.ApplicationComposite;
 import org.kuali.student.common.ui.client.application.ApplicationContext;
 import org.kuali.student.common.ui.client.dictionary.DictionaryLoader;
 import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.service.MessagesRpcService;
 import org.kuali.student.common.ui.client.service.SecurityRpcService;
 import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
@@ -73,6 +74,7 @@ public class LUMMainEntryPoint implements EntryPoint{
         manager = new LUMApplicationManager();
         app.setContent(manager);
         RootPanel.get().add(app);
+        HistoryManager.bind(manager);
         if(manager.getCurrentView() == null)
             manager.showDefaultView(Controller.NO_OP_CALLBACK);
     }

@@ -865,14 +865,14 @@
 }
 
 .gwt-TextArea {
-  padding: 2px;
+  /*padding: 2px;*/
 }
 .gwt-TextArea-readonly {
   color: #888;
 }
 
 .gwt-TextBox {
-  padding: 2px;
+  /*padding: 2px;*/
 }
 .gwt-TextBox-readonly {
   color: #888;

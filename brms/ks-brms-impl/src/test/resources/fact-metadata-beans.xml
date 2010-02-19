@@ -18,7 +18,7 @@
 		class="org.kuali.student.brms.factfinder.dto.FactTypeInfo">
 		<property name="id" value="fact.earned_credit_list"/>
 		<property name="name" value="fact.earned_credit_list"/>
-		<property name="desc" value="List of credits earned by a student"/>
+		<property name="descr" value="List of credits earned by a student"/>
 		<property name="factResultTypeInfo" ref="factResultType1"/>
 		<property name="factCriteriaTypeInfo" ref="factCriteriaType1"/>
 	</bean>
@@ -27,7 +27,7 @@
 		class="org.kuali.student.brms.factfinder.dto.FactTypeInfo">
 		<property name="id" value="fact.completed_course_list"/>
 		<property name="name" value="fact.completed_course_list"/>
-		<property name="desc" value="List of courses completed by a student"/>
+		<property name="descr" value="List of courses completed by a student"/>
 		<property name="factResultTypeInfo" ref="factResultType2"/>
 		<property name="factCriteriaTypeInfo" ref="factCriteriaType2"/>
 	</bean>
@@ -36,7 +36,7 @@
 		class="org.kuali.student.brms.factfinder.dto.FactResultTypeInfo">
 		<property name="id" value="result.courseCreditInfo"/>
 		<property name="name" value="result.courseCreditInfo"/>
-		<property name="desc" value="Persons course credit information"/>
+		<property name="descr" value="Persons course credit information"/>
 		<property name="resultColumnsMap">
 			<map>
                 <entry>
@@ -74,7 +74,7 @@
 		class="org.kuali.student.brms.factfinder.dto.FactResultTypeInfo">
 		<property name="id" value="result.completedCourseInfo"/>
 		<property name="name" value="result.completedCourseInfo"/>
-		<property name="desc" value="Course completed by a person"/>
+		<property name="descr" value="Course completed by a person"/>
 		<property name="resultColumnsMap">
 			<map>
 				<entry>
@@ -103,7 +103,7 @@
 		class="org.kuali.student.brms.factfinder.dto.FactCriteriaTypeInfo">
 		<property name="id" value="criteria.courseCreditInfo"/>
 		<property name="name" value="criteria.courseCreditInfo"/>
-		<property name="desc" value="Criteria for retrieving credits"/>
+		<property name="descr" value="Criteria for retrieving credits"/>
 		<property name="factParamMap">
 			<map>
 				<entry>
@@ -159,7 +159,7 @@
 		class="org.kuali.student.brms.factfinder.dto.FactCriteriaTypeInfo">
 		<property name="id" value="criteria.completedCourseInfo"/>
 		<property name="name" value="criteria.completedCourseInfo"/>
-		<property name="desc" value="Criteria for retrieving courses completed by a student"/>
+		<property name="descr" value="Criteria for retrieving courses completed by a student"/>
 		<property name="factParamMap">
 			<map>
 				<entry>

@@ -19,7 +19,7 @@ public class OrgApplicationManager extends Controller{
 
     
     public OrgApplicationManager(){
-        super();
+        super(OrgApplicationManager.class.getName());
         super.initWidget(viewPanel);
     }
 
@@ -46,6 +46,11 @@ public class OrgApplicationManager extends Controller{
     public Class<? extends Enum<?>> getViewsEnum() {
         
         return ORGViews.class;
+    }
+    
+    @Override
+    public Enum<?> getViewEnumValue(String enumValue) {
+        return ORGViews.valueOf(enumValue);
     }
 
     @Override

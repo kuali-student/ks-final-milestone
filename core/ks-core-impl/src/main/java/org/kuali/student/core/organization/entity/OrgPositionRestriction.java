@@ -58,7 +58,7 @@ public class OrgPositionRestriction extends MetaEntity implements
 
 	@Column(name = "DESCR", length = 2000)
 	// TODO what is a good number for these long descriptions?
-	private String desc;
+	private String descr;
 
 	@Column(name = "TTL")
 	private String title;
@@ -91,12 +91,12 @@ public class OrgPositionRestriction extends MetaEntity implements
 		this.id = id;
 	}
 
-	public String getDesc() {
-		return desc;
+	public String getDescr() {
+		return descr;
 	}
 
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setDescr(String descr) {
+		this.descr = descr;
 	}
 
 	public String getTitle() {

@@ -35,6 +35,7 @@ public class PropositionContainer {
     protected Map<String,RuleProposition> propositionMap = new HashMap<String, RuleProposition>();
     protected Boolean ruleResult = false;
     protected RuleReport ruleReport = new RuleReport();
+    protected Boolean overrideReport = false;
     
     /**
      * @return the functionalRuleString
@@ -119,4 +120,22 @@ public class PropositionContainer {
     public void setRuleReport(RuleReport ruleReport) {
         this.ruleReport = ruleReport;
     }
+    
+    /**
+     * Gets default override reporting behaviour.
+     * 
+     * @return True to override; otherwise false 
+     */
+	public Boolean getOverrideReport() {
+		return overrideReport;
+	}
+	
+	/**
+     * Sets the override default reporting behaviour.
+	 * 
+	 * @param overrideReport True to override; otherwise false 
+	 */
+	public void setOverrideReport(Boolean overrideReport) {
+		this.overrideReport = overrideReport;
+	}
 }

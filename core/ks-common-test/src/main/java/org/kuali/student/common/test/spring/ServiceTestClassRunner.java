@@ -61,32 +61,40 @@ public class ServiceTestClassRunner extends JUnit4ClassRunner {
 				if (f.isAnnotationPresent(Client.class)) {
 					Client a = f.getAnnotation(Client.class);
 					String port = System.getProperty("ks.test.port");
-
+					
 					Class<?> serviceImplClass = Class.forName(a.value());
 					String serviceName = "";
 					String serviceNamespaceURI = "";
-					String serviceWsdlLocation = "http://localhost:" + port + "/Service/Service" + (a.secure() ? "Secure" : "") + "?wsdl";
-					String serviceAddress = "http://localhost:" + port + "/Service/Service" + (a.secure() ? "Secure" : "");
+					String serviceWsdlLocation = "http://localhost:" + port
+							+ "/Service/Service" + (a.secure() ? "Secure" : "")
+							+ "?wsdl";
+					String serviceAddress = "http://localhost:" + port
+							+ "/Service/Service" + (a.secure() ? "Secure" : "");
 
 					if (serviceImplClass.isAnnotationPresent(WebService.class)) {
-						WebService wsAnnotation = serviceImplClass.getAnnotation(WebService.class);
+						WebService wsAnnotation = serviceImplClass
+								.getAnnotation(WebService.class);
 						serviceName = wsAnnotation.serviceName();
 						serviceNamespaceURI = wsAnnotation.targetNamespace();
 					}
 
-					Class<?> clientImplClass = Class.forName("org.kuali.student.common.ws.beans.JaxWsClientFactoryBean");
+					Class<?> clientImplClass = Class
+							.forName("org.kuali.student.common.ws.beans.JaxWsClientFactoryBean");
 
 					if (a.secure()) {
 						try {
-							clientImplClass = Class.forName("org.kuali.student.common.cxf.security.SecureJaxWsProxyFactoryBean");
+							clientImplClass = Class
+									.forName("org.kuali.student.common.cxf.security.SecureJaxWsProxyFactoryBean");
 						} catch (ClassNotFoundException cnfe) {
 						}
 					}
 
-					JaxWsClientFactory clientFactory = (JaxWsClientFactory) clientImplClass.newInstance();
+					JaxWsClientFactory clientFactory = (JaxWsClientFactory) clientImplClass
+							.newInstance();
 
 					clientFactory.setServiceEndpointInterface(f.getType());
-					clientFactory.setServiceName(new QName(serviceNamespaceURI, serviceName));
+					clientFactory.setServiceName(new QName(serviceNamespaceURI,
+							serviceName));
 					clientFactory.setWsdlLocation(serviceWsdlLocation);
 					clientFactory.setAddress(serviceAddress);
 
@@ -107,7 +115,7 @@ public class ServiceTestClassRunner extends JUnit4ClassRunner {
 	private void startServer() {
 		try {
 			// Set the default Port
-			if (System.getProperty("ks.test.default.port") == null || System.getProperty("ks.test.default.port").isEmpty()) {
+			if (System.getProperty("ks.test.default.port")==null||System.getProperty("ks.test.default.port").isEmpty()){
 				System.setProperty("ks.test.port", "9191");
 			} else {
 				System.setProperty("ks.test.port", System.getProperty("ks.test.default.port"));
@@ -119,16 +127,18 @@ public class ServiceTestClassRunner extends JUnit4ClassRunner {
 				if (f.isAnnotationPresent(Client.class)) {
 					Client a = f.getAnnotation(Client.class);
 					if (a.secure()) {
-						System.setProperty("ks.test.serviceImplSecure", a.value());
+						System.setProperty("ks.test.serviceImplSecure", a
+								.value());
 					} else {
-						System.setProperty("ks.test.serviceImplClass", a.value());
+						System.setProperty("ks.test.serviceImplClass", a
+								.value());
 					}
-					if (a.port() != null && !a.port().isEmpty()) {
+					if(a.port()!=null&&!a.port().isEmpty()){
 						System.setProperty("ks.test.port", a.port());
 					}
-					if (!"".equals(a.additionalContextFile())) {
+					if(!"".equals(a.additionalContextFile())){
 						System.setProperty("ks.test.additionalContextFile", a.additionalContextFile());
-					} else {
+					}else{
 						System.setProperty("ks.test.additionalContextFile", "classpath:*noSuchContextFile.xml");
 					}
 				}
@@ -137,15 +147,19 @@ public class ServiceTestClassRunner extends JUnit4ClassRunner {
 			// If no secure client defined, set secure service endpoint impl
 			// to be same as non-secure endpoint impl
 			if (System.getProperty("ks.test.serviceImplSecure") == null) {
-				System.setProperty("ks.test.serviceImplSecure", System.getProperty("ks.test.serviceImplClass"));
+				System.setProperty("ks.test.serviceImplSecure", System
+						.getProperty("ks.test.serviceImplClass"));
 			}
 
 			// Grab the persistence context loacation or set a default value
-			if (testImplClass.isAnnotationPresent(PersistenceFileLocation.class)) {
-				PersistenceFileLocation a = testImplClass.getAnnotation(PersistenceFileLocation.class);
+			if (testImplClass
+					.isAnnotationPresent(PersistenceFileLocation.class)) {
+				PersistenceFileLocation a = testImplClass
+						.getAnnotation(PersistenceFileLocation.class);
 				System.setProperty("ks.test.persistenceLocation", a.value());
 			} else {
-				System.setProperty("ks.test.persistenceLocation", "classpath:META-INF/persistence.xml");
+				System.setProperty("ks.test.persistenceLocation",
+						"classpath:META-INF/persistence.xml");
 			}
 
 			// Grab the Dao information and pass it to a System variable
@@ -155,7 +169,7 @@ public class ServiceTestClassRunner extends JUnit4ClassRunner {
 			if (daos != null) {
 				int i = 1;
 				for (Dao dao : daos.value()) {
-					daoImpls += dao.value() + "|" + dao.testDataFile() + "|" + dao.testSqlFile();
+					daoImpls += dao.value() + "|" + dao.testDataFile() +"|" + dao.testSqlFile()  ;
 					if (i < daos.value().length) {
 						daoImpls += ",";
 					}
@@ -163,8 +177,9 @@ public class ServiceTestClassRunner extends JUnit4ClassRunner {
 				}
 			}
 			System.setProperty("ks.test.daoImplClasses", daoImpls);
-
-			server = new Server(Integer.valueOf(System.getProperty("ks.test.port")));
+			
+			server = new Server(Integer.valueOf(System
+					.getProperty("ks.test.port")));
 
 			Context context = new Context();
 			ServletHandler servletHandler = new ServletHandler();
@@ -172,13 +187,14 @@ public class ServiceTestClassRunner extends JUnit4ClassRunner {
 			ServletMapping servletMapping = new ServletMapping();
 			ContextLoaderListener contextLoaderListener = new ContextLoaderListener();
 
-			Class<?> servletClass;
+			
+            Class<?> servletClass;
 			String wsEngine;
-			try {
-				servletClass = Class.forName("org.apache.cxf.transport.servlet.CXFServlet");
-				wsEngine = "cxf";
+			try{
+			    servletClass = Class.forName("org.apache.cxf.transport.servlet.CXFServlet");		    
+			    wsEngine = "cxf";
 			} catch (ClassNotFoundException e) {
-				servletClass = Class.forName("com.sun.xml.ws.transport.http.servlet.WSSpringServlet");
+	            servletClass = Class.forName("com.sun.xml.ws.transport.http.servlet.WSSpringServlet");
 				wsEngine = "jaxws";
 			}
 
@@ -190,24 +206,26 @@ public class ServiceTestClassRunner extends JUnit4ClassRunner {
 
 			servletMapping.setPathSpec("/*");
 			servletMapping.setServletName("Service");
-			servletHandler.setServletMappings(new ServletMapping[] { servletMapping });
+			servletHandler
+					.setServletMappings(new ServletMapping[] { servletMapping });
 
 			context.setContextPath("/Service");
 			context.setResourceBase("src/test/resources");
 
 			Map<String, String> initParams = new HashMap<String, String>();
-
-			// Set the context config location
+			
+			//Set the context config location
 			String contextConfigLocation = "classpath:META-INF/" + wsEngine + "-context.xml";
-			if (!"".equals(daoImpls)) {
-				// If there are Daos defined, add the dao context file
-				contextConfigLocation += "\nclasspath:META-INF/default-dao-context-test.xml";
+			if(!"".equals(daoImpls)){
+				//If there are Daos defined, add the dao context file
+				contextConfigLocation +="\nclasspath:META-INF/default-dao-context-test.xml";
 			}
-
+			
 			initParams.put("contextConfigLocation", contextConfigLocation);
 			initParams.put("log4jConfigLocation", "log4j.properties");
 			context.setInitParams(initParams);
-			context.setEventListeners(new EventListener[] { contextLoaderListener });
+			context
+					.setEventListeners(new EventListener[] { contextLoaderListener });
 			context.setServletHandler(servletHandler);
 
 			server.setHandler(context);
@@ -222,8 +240,7 @@ public class ServiceTestClassRunner extends JUnit4ClassRunner {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @seeorg.junit.internal.runners.JUnit4ClassRunner#run(org.junit.runner.
-	 * notification.RunNotifier)
+	 * @see org.junit.internal.runners.JUnit4ClassRunner#run(org.junit.runner.notification.RunNotifier)
 	 */
 	@Override
 	public void run(RunNotifier notifier) {

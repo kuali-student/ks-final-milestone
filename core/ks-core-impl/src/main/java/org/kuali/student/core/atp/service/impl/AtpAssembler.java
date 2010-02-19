@@ -72,7 +72,7 @@ public class AtpAssembler extends BaseAssembler{
 		atp.setType(atpType);
 
 		//Copy RichText
-		atp.setDesc(toRichText(atpInfo.getDesc()));
+		atp.setDescr(toRichText(atpInfo.getDesc()));
 		
 		return atp;
 	}
@@ -87,7 +87,7 @@ public class AtpAssembler extends BaseAssembler{
 		atpInfo.setAttributes(toAttributeMap(atp.getAttributes()));
 		atpInfo.setMetaInfo(toMetaInfo(atp.getMeta(), atp.getVersionInd()));
 		atpInfo.setType(atp.getType().getId());
-		atpInfo.setDesc(toRichTextInfo(atp.getDesc()));
+		atpInfo.setDesc(toRichTextInfo(atp.getDescr()));
 		
 		return atpInfo;
 	}
@@ -170,7 +170,7 @@ public class AtpAssembler extends BaseAssembler{
 		}
 		dateRange.setType(dateRangeType);
 
-		dateRange.setDesc(toRichText(dateRangeInfo.getDesc()));
+		dateRange.setDescr(toRichText(dateRangeInfo.getDesc()));
 		
 		return dateRange;
 	}
@@ -189,7 +189,7 @@ public class AtpAssembler extends BaseAssembler{
 				.getVersionInd()));
 		dateRangeInfo.setType(dateRange.getType().getId());
 		dateRangeInfo.setAtpId(dateRange.getAtp().getId());
-		dateRangeInfo.setDesc(toRichTextInfo(dateRange.getDesc()));
+		dateRangeInfo.setDesc(toRichTextInfo(dateRange.getDescr()));
 		
 		return dateRangeInfo;
 	}
@@ -247,7 +247,7 @@ public class AtpAssembler extends BaseAssembler{
 		}
 		milestone.setType(milestoneType);
 
-		milestone.setDesc(toRichText(milestoneInfo.getDesc()));
+		milestone.setDescr(toRichText(milestoneInfo.getDesc()));
 		
 		return milestone;
 
@@ -267,7 +267,7 @@ public class AtpAssembler extends BaseAssembler{
 				.getVersionInd()));
 		milestoneInfo.setType(milestone.getType().getId());
 		milestoneInfo.setAtpId(milestone.getAtp().getId());
-		milestoneInfo.setDesc(toRichTextInfo(milestone.getDesc()));
+		milestoneInfo.setDesc(toRichTextInfo(milestone.getDescr()));
 		
 		return milestoneInfo;
 	}

@@ -17,7 +17,7 @@ package org.kuali.student.common.test.spring;
 import org.junit.runner.RunWith;
 
 /**
- * This test will start a jetty server and deploy the service defined in the
+ * This test will start a jetty server and deploy the service define in the
  * &#064;Client. It will also initialize a client based on the annotations in
  * the &#064;Client Service implementation class. Also passes the &#064;Daos and
  * &#064;PersistenceFileLocation to system properties from the annotations.
@@ -54,16 +54,16 @@ import org.junit.runner.RunWith;
  * <p>
  * 
  * <pre>
- *  &#064;Daos( {   &#064;Dao(value = &quot;org.kuali.student.MyDaoImpl&quot;, 
+ *  @Daos( {   @Dao(value = &quot;org.kuali.student.MyDaoImpl&quot;, 
  *               testDataFile = &quot;classpath:META-INF/pretest-data-beans.xml&quot;),
- *            &#064;Dao(&quot;org.kuali.student.OtherDaoImpl&quot;) })
- *  &#064;PersistenceFileLocation(&quot;classpath:META-INF/custom-persistence.xml&quot;)
+ *            @Dao(&quot;org.kuali.student.OtherDaoImpl&quot;) })
+ *  @PersistenceFileLocation(&quot;classpath:META-INF/custom-persistence.xml&quot;)
  * public class ServiceCommonTest extends AbstractServiceTest {
  * 
- *  &#064;Client(&quot;org.kuali.student.MyServiceImpl&quot;)
+ *  @Client(&quot;org.kuali.student.MyServiceImpl&quot;)
  * public MyService client;
  * 
- *  &#064;Test
+ *  @Test
  * public void test1() {
  * 	client.foo();
  * }

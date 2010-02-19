@@ -16,10 +16,12 @@ package org.kuali.student.lum.lu.dto;
  
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
@@ -35,8 +37,14 @@ public class CluAccountingInfo implements Serializable, HasAttributes {
     private static final long serialVersionUID = 1L;
 
     @XmlElement
+    private List<AffiliatedOrgInfo> affiliatedOrgs;    
+    
+    @XmlElement
 	@XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
     private Map<String,String> attributes;
+
+    @XmlAttribute
+    private String id;
 
     /**
      * List of key/value pairs, typically used for dynamic attributes.
@@ -51,4 +59,20 @@ public class CluAccountingInfo implements Serializable, HasAttributes {
     public void setAttributes(Map<String,String> attributes) {
         this.attributes = attributes;
     }
+
+	public List<AffiliatedOrgInfo> getAffiliatedOrgs() {
+		return affiliatedOrgs;
+	}
+
+	public void setAffiliatedOrgs(List<AffiliatedOrgInfo> affiliatedOrgs) {
+		this.affiliatedOrgs = affiliatedOrgs;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}        
 }

@@ -40,8 +40,7 @@ public class ResultRow implements IsSerializable, Idable{
     }
 
     public void setValue(String columnKey, String value) {
-        columnValues.put(columnKey, value);
-        
+        columnValues.put(columnKey, value);        
     }
 
 }

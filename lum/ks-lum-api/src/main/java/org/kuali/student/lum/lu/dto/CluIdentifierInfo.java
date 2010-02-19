@@ -32,9 +32,6 @@ public class CluIdentifierInfo implements Serializable, Idable {
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private String cluId;
-
-    @XmlElement
     private String code;
 
     @XmlElement
@@ -66,17 +63,6 @@ public class CluIdentifierInfo implements Serializable, Idable {
 
     @XmlAttribute
     private String id;
-
-    /**
-     * Unique identifier for a Canonical Learning Unit (CLU). This is optional, due to the identifier being set at the time of the CLU's creation. Once this value has been set on the main CLU object, this should be seen as required.
-     */
-    public String getCluId() {
-        return cluId;
-    }
-
-    public void setCluId(String cluId) {
-        this.cluId = cluId;
-    }
 
     /**
      * The composite string that is used to officially reference or publish the CLU. Note it may have an internal structure that each Institution may want to enforce. This structure may be composed from the other parts of the structure such as Level amp; Division, but may include items such as cluType.

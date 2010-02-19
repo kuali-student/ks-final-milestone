@@ -30,7 +30,7 @@ public class ClientDateParser implements DateParser {
         
         for (DateTimeFormat format : formats) {
                 try {
-                    result = format.parse(input);
+                    result = format.parseStrict(input);
                 } catch (IllegalArgumentException e) {
                     // just eat it
                 }

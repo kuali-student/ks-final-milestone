@@ -18,6 +18,7 @@ package org.kuali.student.core.organization.ui.client.view;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ApplicationComposite;
 import org.kuali.student.common.ui.client.application.ApplicationContext;
+import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.service.MessagesRpcService;
 import org.kuali.student.common.ui.client.service.SecurityRpcService;
 import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
@@ -64,7 +65,7 @@ public class OrgEntryPoint implements EntryPoint{
             e.printStackTrace();
         } 
         
-        StyleInjector.injectStylesheet(CoreUIResources.INSTANCE.generalCss().getText());
+//        StyleInjector.injectStylesheet(CoreUIResources.INSTANCE.generalCss().getText());
         
         History.addValueChangeHandler(orgMenu);
         History.fireCurrentHistoryState();
@@ -126,11 +127,11 @@ public class OrgEntryPoint implements EntryPoint{
     
     private void initScreen(){
         app = new ApplicationComposite();
-//        manager = new OrgApplicationManager();
-//        app.setContent(manager);
-        app.setContent(getContent());
+        manager = new OrgApplicationManager();
+        app.setContent(manager);
+//        app.setContent(getContent());
         RootPanel.get().add(app);
-//        if(manager.getCurrentView() == null)
-//            manager.showDefaultView();
+        if(manager.getCurrentView() == null)
+            manager.showDefaultView(Controller.NO_OP_CALLBACK);
     }
 }

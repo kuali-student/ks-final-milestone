@@ -37,17 +37,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.core.dto.AmountInfo;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.dto.TimeAmountInfo;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
+import org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo;
 import org.kuali.student.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.lum.lu.dto.CluAccountingInfo;
 import org.kuali.student.lum.lu.dto.CluFeeInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
-import org.kuali.student.lum.lu.dto.CluPublishingInfo;
 import org.kuali.student.lum.lu.dto.LuCodeInfo;
 
 /**
@@ -75,28 +76,24 @@ public class LumCopyUtil {
         newClu.setOfficialIdentifier(cloneCluIdentifier(oldClu));
         // alternate ids:   ADT excluded
 
-        newClu.setAcademicSubjectOrgs(cloneStringList(oldClu.getAcademicSubjectOrgs()));
+        newClu.setAcademicSubjectOrgs(cloneAcademicSubjectOrgs(oldClu.getAcademicSubjectOrgs()));
         newClu.setStudySubjectArea(oldClu.getStudySubjectArea());
-        newClu.setDesc(cloneRichTextInfo(oldClu.getDesc()));
+        newClu.setDescr(cloneRichTextInfo(oldClu.getDescr()));
 
-        newClu.setMarketingDesc(cloneRichTextInfo(oldClu.getMarketingDesc()));
-        newClu.setCampusLocationList(cloneStringList(oldClu.getCampusLocationList()));
-        newClu.setAccreditationList(cloneAccreditationInfoList(oldClu.getAccreditationList()));
+        newClu.setCampusLocations(cloneStringList(oldClu.getCampusLocations()));
+        newClu.setAccreditations(cloneAccreditationInfoList(oldClu.getAccreditations()));
 
         // TODO Renamed and retyped in new version
-        newClu.setAdminOrg(oldClu.getAdminOrg());
-        newClu.setParticipatingOrgs(cloneStringList(oldClu.getParticipatingOrgs()));
         newClu.setPrimaryInstructor(cloneCluInstructorInfo(oldClu.getPrimaryInstructor()));
         newClu.setInstructors(cloneCluInstructorInfoList(oldClu.getInstructors()));
         // effectiveDate: ADT excluded
         // expirationDate: ADT excluded
-        newClu.setIntensity(cloneTimeAmountInfo(oldClu.getIntensity()));
+        newClu.setIntensity(cloneAmountInfo(oldClu.getIntensity()));
 
         newClu.setStdDuration(cloneTimeAmountInfo(oldClu.getStdDuration()));
         newClu.setCanCreateLui(oldClu.isCanCreateLui());
         newClu.setReferenceURL(oldClu.getReferenceURL());
         newClu.setLuCodes(cloneLuCodeInfoList(oldClu.getLuCodes()));
-        newClu.setPublishingInfo(cloneCluPublishingInfo(oldClu.getPublishingInfo()));
 //      newClu.setNextReviewPeriod(oldClu.getNextReviewPeriod());  ADT Excluded
 
         newClu.setEnrollable(oldClu.isEnrollable());
@@ -182,7 +179,7 @@ public class LumCopyUtil {
 
         LuCodeInfo clone = new LuCodeInfo();
 
-        clone.setDesc(old.getDesc());
+        clone.setDescr(old.getDescr());
         clone.setValue(old.getValue());
         clone.setId(old.getId());
         clone.setAttributes(cloneAttributes(old.getAttributes()));
@@ -211,6 +208,20 @@ public class LumCopyUtil {
         return clone;
     }
 
+    private static List<AcademicSubjectOrgInfo> cloneAcademicSubjectOrgs(List<AcademicSubjectOrgInfo> old) {
+        if (old == null)
+            return null;
+
+        List<AcademicSubjectOrgInfo> clone = new ArrayList<AcademicSubjectOrgInfo>();
+        for (AcademicSubjectOrgInfo  info : old) {
+        	AcademicSubjectOrgInfo newInfo = new AcademicSubjectOrgInfo();
+        	newInfo.setOrgId(info.getOrgId());
+            clone.add(newInfo);
+        }
+        return clone;
+    }
+
+    
     private static AccreditationInfo cloneAccreditationInfo(AccreditationInfo old) {
         if (old == null)
             return null;
@@ -247,23 +258,6 @@ public class LumCopyUtil {
         return clone;
     }
 
-
-    private static CluPublishingInfo cloneCluPublishingInfo(CluPublishingInfo old) {
-        if (old == null)
-            return null;
-
-        CluPublishingInfo clone = new CluPublishingInfo();
-
-        clone.setStartCycle(old.getStartCycle());
-        clone.setEndCycle(old.getEndCycle());
-        clone.setPrimaryInstructor(cloneCluInstructorInfo(old.getPrimaryInstructor()));
-        clone.setInstructors(cloneCluInstructorInfoList(old.getInstructors()));
-        clone.setAttributes(cloneAttributes(old.getAttributes()));
-        clone.setType(old.getType());
-        clone.setState(old.getState());
-
-        return clone;
-    }
 
     private static Map<String, String> cloneAttributes(Map<String, String> old) {
         if (old == null)
@@ -319,6 +313,17 @@ public class LumCopyUtil {
         TimeAmountInfo clone = new TimeAmountInfo();
         clone.setAtpDurationTypeKey(old.getAtpDurationTypeKey());
         clone.setTimeQuantity(new Integer(old.getTimeQuantity().toString()));
+        return clone;
+    }
+
+    
+    private static AmountInfo cloneAmountInfo(AmountInfo old) {
+        if (old == null)
+            return null;
+
+        AmountInfo clone = new AmountInfo();
+        clone.setUnitQuantity(old.getUnitQuantity());
+        clone.setUnitType(old.getUnitType());
         return clone;
     }
 

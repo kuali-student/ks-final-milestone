@@ -14,23 +14,14 @@
  */
 package org.kuali.student.lum.ui.requirements.client.view;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.brms.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.table.Node;
-import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTML;
@@ -106,8 +97,8 @@ public class RuleNodeWidget extends FocusPanel {
             super.setWidget(checkBoxAndToggle);
             if (showControls) {
                 checkBoxAndToggle.add(checkBox);
-                if (statementVO.getLuStatementInfo() != null &&
-                        statementVO.getLuStatementInfo().getOperator() ==
+                if (statementVO.getStatementInfo() != null &&
+                        statementVO.getStatementInfo().getOperator() ==
                             StatementOperatorTypeKey.OR) {
                     toggle.setValue(AndOrButton.Or);
                 } else {
