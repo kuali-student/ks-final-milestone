@@ -714,28 +714,32 @@ public class CategoryManagement extends Composite {
                     cell.setText(getDisplayName());
                 }
             }));
-            
+            super.addColumn(buildLoCatStateColumnDefinition());
+            super.getColumns().get(2).setVisible(false);
             if (null == displayOnlyActiveCategories) {
 		        serverProperties.get("ks.lum.ui.displayOnlyActiveLoCategories", new AsyncCallback<String>() {
 					@Override
 					public void onFailure(Throwable caught) {
 						displayOnlyActiveCategories = new Boolean("false");
                         Window.alert("Unable to retrieve displayOnlyActiveLoCategories setting: " + caught.getMessage());
-		                MyTableDefinition.super.addColumn(buildLoCatStateColumnDefinition());
+		            //    MyTableDefinition.super.addColumn(buildLoCatStateColumnDefinition());
+                        MyTableDefinition.super.getColumns().get(2).setVisible(true);
 					}
 		
 					@Override
 					public void onSuccess(String result) {
 						displayOnlyActiveCategories = Boolean.parseBoolean(result);
 						if ( ! displayOnlyActiveCategories ) {
-			                MyTableDefinition.super.addColumn(buildLoCatStateColumnDefinition());
+			          //      MyTableDefinition.super.addColumn(buildLoCatStateColumnDefinition());
+						    MyTableDefinition.super.getColumns().get(2).setVisible(true);
 						}
 					}
 		        });
             }
             else {
 				if ( ! displayOnlyActiveCategories ) {
-	                MyTableDefinition.super.addColumn(buildLoCatStateColumnDefinition());
+	                //MyTableDefinition.super.addColumn(buildLoCatStateColumnDefinition());
+				    MyTableDefinition.super.getColumns().get(2).setVisible(true);
 				}
             }
         }
