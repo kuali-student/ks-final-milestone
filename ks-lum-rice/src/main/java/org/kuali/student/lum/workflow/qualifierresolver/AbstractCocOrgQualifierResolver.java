@@ -34,10 +34,10 @@ import org.kuali.student.core.search.dto.ResultCell;
  * @author Kuali Student Team
  *
  */
-public abstract class AbstractOrgQualifierResolver extends XPathQualifierResolver {
+public abstract class AbstractCocOrgQualifierResolver extends XPathQualifierResolver {
 
 	protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger
-	.getLogger(AbstractOrgQualifierResolver.class);
+	.getLogger(AbstractCocOrgQualifierResolver.class);
 	
 	protected static final String KUALI_ORG_TYPE_CURRICULUM_CHILD = "kuali.org.CurriculumChild";
 	protected static final String KUALI_ORG_HIERARCHY_CURRICULUM  = "kuali.org.hierarchy.Curriculum";
@@ -66,7 +66,7 @@ public abstract class AbstractOrgQualifierResolver extends XPathQualifierResolve
 	/**
 	 * 
 	 */
-	public AbstractOrgQualifierResolver() {
+	public AbstractCocOrgQualifierResolver() {
 		setRuleAttribute(ruleAttribute);
 	}
 
