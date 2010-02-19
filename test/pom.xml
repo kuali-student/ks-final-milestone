@@ -58,7 +58,7 @@
   <distributionManagement>
     <site>
       <id>driver-1.ks.kuali.net</id>
-      <url>file://C:/site</url>
+      <url>file://usr/local/apache-tomcat/apache-tomcat-6.0.24/webapps/site</url>
     </site>
     <repository>
       <id>driver-1.ks.kuali.net</id>
