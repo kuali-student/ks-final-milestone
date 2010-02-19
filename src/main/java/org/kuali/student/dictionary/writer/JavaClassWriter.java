@@ -58,6 +58,38 @@ public abstract class JavaClassWriter extends XmlWriter
   this.imports = new TreeSet ();
  }
 
+ public ByteArrayOutputStream getBody ()
+ {
+  return body;
+ }
+
+ public String getClassName ()
+ {
+  return className;
+ }
+
+ public String getDirectory ()
+ {
+  return directory;
+ }
+
+ public String getFileName ()
+ {
+  return fileName;
+ }
+
+ public String getPackageName ()
+ {
+  return packageName;
+ }
+
+ public String getRootDirectory ()
+ {
+  return rootDirectory;
+ }
+
+
+ 
  public void importsAdd (String pack)
  {
   this.imports.add (pack);

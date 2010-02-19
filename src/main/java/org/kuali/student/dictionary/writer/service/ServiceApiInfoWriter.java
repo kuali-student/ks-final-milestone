@@ -127,7 +127,7 @@ public class ServiceApiInfoWriter extends JavaClassWriter
 
  private String calcFieldTypeToUse (String type)
  {
-  return ServiceMessageStructureTypeCalculator.calculate (this, model, type);
+  return ServiceMessageStructureTypeCalculator.calculate (this, model, type, null);
  }
 
 }

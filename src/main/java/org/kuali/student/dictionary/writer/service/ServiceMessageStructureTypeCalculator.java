@@ -33,7 +33,8 @@ public class ServiceMessageStructureTypeCalculator
 
  public static String calculate (JavaClassWriter writer,
                                  DictionaryModel model,
-                                 String type)
+                                 String type,
+                                 String importPackage)
  {
   if (type.equalsIgnoreCase ("attributeInfoList"))
   {
@@ -45,7 +46,7 @@ public class ServiceMessageStructureTypeCalculator
   {
    writer.importsAdd (List.class.getName ());
    type = type.substring (0, type.length () - "List".length ());
-   return "List<" + calculate (writer, model, type) + ">";
+   return "List<" + calculate (writer, model, type, importPackage) + ">";
   }
   XmlType xmlType = new ModelFinder (model).findXmlType (type);
   if (xmlType == null)
@@ -90,7 +91,12 @@ public class ServiceMessageStructureTypeCalculator
 
   if (xmlType.getPrimitive ().equalsIgnoreCase (XmlType.COMPLEX))
   {
-   return type.substring (0, 1).toUpperCase () + type.substring (1);
+   String msType = type.substring (0, 1).toUpperCase () + type.substring (1);
+   if (importPackage != null)
+   {
+     writer.importsAdd (importPackage + "." + msType);
+   }
+   return msType;
   }
 
   throw new DictionaryValidationException ("Unknown/unhandled xmlType.primtive value, " + xmlType.

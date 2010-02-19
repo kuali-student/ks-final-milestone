@@ -72,7 +72,7 @@ public class ServiceApiMethodsWriter extends JavaClassWriter
   return pack;
  }
 
- private static String calcClassName (Service service)
+ public static String calcClassName (Service service)
  {
   return service.getKey ().substring (0, 1).toUpperCase () + service.getKey ().
    substring (1).toLowerCase () + "Service";
@@ -136,6 +136,6 @@ public class ServiceApiMethodsWriter extends JavaClassWriter
 
  private String calcType (String type)
  {
-  return ServiceMessageStructureTypeCalculator.calculate (this, model, type);
+  return ServiceMessageStructureTypeCalculator.calculate (this, model, type, null);
  }
 }

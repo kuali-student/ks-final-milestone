@@ -47,7 +47,7 @@ public class ServiceExceptionWriter extends JavaClassWriter
  }
 
 
- private static String calcPackage (Service service)
+ public static String calcPackage (Service service)
  {
   return ServiceApiMethodsWriter.calcPackage (service);
  }
