@@ -76,7 +76,9 @@ import org.kuali.student.lum.lu.dto.LuTypeInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.ui.course.server.gwt.LuRuleInfoPersistanceBean;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional(rollbackFor={Throwable.class})
 public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 //  TODO Split out CluInfo assembly to its own class
 

@@ -42,7 +42,9 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInf
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalInfoHelper;
+import org.kuali.student.lum.lu.assembly.data.server.CluInfoHierarchy;
 import org.kuali.student.lum.lu.service.LuService;
+import org.springframework.transaction.annotation.Transactional;
 
 /*
  *  ASSEMBLERREVIEW
@@ -66,6 +68,7 @@ import org.kuali.student.lum.lu.service.LuService;
  *      - assemblers need to be stateless, so it needs to be passed down as part of the returned orchestration
  *      - resulting orchestrations will have complex types assembled from multiple objects each having their own version indicator
  */
+@Transactional(rollbackFor={Throwable.class})
 public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
     // TODO make sure that cluclurelation version indicators are carried over on retrieval
     // TODO verify that the right relation types have been used
@@ -79,7 +82,7 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
     
     
     private final String proposalState;
-    private CourseAssembler courseAssembler ;
+    private Assembler<Data, CluInfoHierarchy> courseAssembler ;
     private CluInfoHierarchyAssembler cluHierarchyAssembler;
     private final RichTextInfoAssembler richtextAssembler = new RichTextInfoAssembler();
     private final TimeAmountInfoAssembler timeamountAssembler = new TimeAmountInfoAssembler();
@@ -133,7 +136,7 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
         return result.getData();
     }
 
-    private CourseAssembler getCourseAssembler() {
+    private Assembler<Data, CluInfoHierarchy> getCourseAssembler() {
         return courseAssembler;
     }
 
@@ -215,7 +218,7 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
 
     @Override
     public SaveResult<Data> save(Data data) throws AssemblyException {
-        try {
+    	try {
             SaveResult<Data> result = new SaveResult<Data>();
             List<ValidationResultInfo> validationResults = validate(data);
             if (hasValidationErrors(validationResults)) {
@@ -431,7 +434,7 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
         return qualification;
     }
 
-    public void setCourseAssembler(CourseAssembler courseAssembler) {
+    public void setCourseAssembler(Assembler<Data, CluInfoHierarchy> courseAssembler) {
         this.courseAssembler = courseAssembler;
     }
 }
