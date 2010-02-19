@@ -350,7 +350,7 @@
 
     <bean id="personRpcGwtServlet"
         class="org.kuali.student.core.person.ui.server.gwt.PersonRpcGwtServlet">
-        <property name="service" ref="personClient" />
+        <property name="service" ref="personSearchClient" />
     </bean>
 
 	<bean id="LoRpcGwtServlet"
@@ -381,7 +381,7 @@
 	        <ref bean="loClient"/>
 	        <ref bean="orgClient"/>
 	      <!-- <ref bean="atpClient"/> -->
-	        <ref bean="personClient"/>
+	        <ref bean="personSearchClient"/>
 	      </list>
 		</constructor-arg>
 	</bean>
@@ -401,7 +401,7 @@
 		<property name="serviceEndpointInterface" value="org.kuali.student.lum.nlt.service.TranslationService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/nlt}TranslationService" />
 	</bean-->
-	
+
 	<bean id="statementServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.student.brms.statement.service.StatementService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/statement}StatementService" />
@@ -417,9 +417,9 @@
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/atp}AtpService" />
 	</bean>
 
-    <bean id="personClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.core.ksperson.service.KsPersonService" />
-        <property name="serviceQName" value="{http://student.kuali.org/wsdl/ksperson}KsPersonService" />
+    <bean id="personSearchClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.student.core.search.service.SearchService" />
+        <property name="serviceQName" value="{http://student.kuali.org/wsdl/personsearch}personsearchService" />
     </bean>
 
 	<bean id="messageClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">

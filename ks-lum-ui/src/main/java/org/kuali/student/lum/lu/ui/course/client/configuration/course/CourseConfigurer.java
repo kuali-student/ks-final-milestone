@@ -21,17 +21,16 @@ import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
-import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.UpdatableMultiplicityComposite;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
-import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.service.SearchRpcService;
+import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
@@ -46,9 +45,10 @@ import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.person.ui.client.service.PersonRpcService;
-import org.kuali.student.core.person.ui.client.service.PersonRpcServiceAsync;
-import org.kuali.student.core.search.dto.Result;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
+import org.kuali.student.core.search.dto.SearchResultRow;
+import org.kuali.student.core.search.dto.SortDirection;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityConstants;
@@ -232,8 +232,8 @@ public class CourseConfigurer
 
         return section;
     }
-	
-	
+
+
 
     private VerticalSection generateFeeTypeSection() {
         //TODO ALL KEYS in this section are place holders until we know actual keys
@@ -261,7 +261,7 @@ public class CourseConfigurer
 
         return section;
     }
-	
+
     private VerticalSection generateOversightSection() {
         VerticalSection oversight = initSection(getH3Title(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY), WITH_DIVIDER);
         addField(oversight, COURSE + "/" + ACADEMIC_SUBJECT_ORGS, null, new OrgListPicker());
@@ -295,7 +295,7 @@ public class CourseConfigurer
     }
 
 	private GroupSection generateCourseNumberSection() {
-       
+
         //COURSE NUMBER
         GroupSection courseNumber = new GroupSection();
         courseNumber.addStyleName(LUConstants.STYLE_SECTION);
@@ -309,7 +309,7 @@ public class CourseConfigurer
         courseNumber.addSection(generateCrossListedSection());
         courseNumber.addSection(generateOfferedJointlySection());
         courseNumber.addSection(generateVersionCodesSection());
-        
+
         return courseNumber;
 	}
 
@@ -839,33 +839,37 @@ public class CourseConfigurer
         }
     }
 
-    public class PersonList extends KSDropDown{
+    public class PersonList extends KSDropDown {
         final SimpleListItems people = new SimpleListItems();
 
-        public PersonList(){
-        PersonRpcServiceAsync personRpcServiceAsync = GWT.create(PersonRpcService.class);
-        final PersonList us = this;
-        final String userId = Application.getApplicationContext().getUserId();
-        personRpcServiceAsync.searchForResults("person.search.personQuickViewByGivenName", null, new AsyncCallback<List<Result>>() {
+        public PersonList() {
+            SearchRpcServiceAsync searchRpcServiceAsync = GWT.create(SearchRpcService.class);
+            final PersonList us = this;
+            final String userId = Application.getApplicationContext().getUserId();
+            SearchRequest searchRequest = new SearchRequest();
+            searchRequest.setSearchKey("person.search.personQuickViewByGivenName");
+            searchRequest.setSortColumn("person.resultColumn.GivenName");
+            searchRequest.setSortDirection(SortDirection.ASC);
+            searchRpcServiceAsync.search(searchRequest, new AsyncCallback<SearchResult>() {
 
-            @Override
-            public void onSuccess(List<Result> result) {
-                for (Result r : result) {
-                    people.addItem(r.getResultCells().get(0).getValue(), r.getResultCells().get(1).getValue());
+                @Override
+                public void onSuccess(SearchResult result) {
+                    for (SearchResultRow r : result.getRows()) {
+                        people.addItem(r.getCells().get(0).getValue(), r.getCells().get(1).getValue());
+                    }
+                    us.setListItems(people);
+                    us.selectItem(userId);
                 }
-                us.setListItems(people);
-                us.selectItem(userId);
-            }
 
-            @Override
-            public void onFailure(Throwable caught) {
-                Window.alert("Unable to contact the KsPersonService for the list of users");
-                people.addItem(userId, userId);
-                us.setListItems(people);
-                us.selectItem(userId);
-            }
-        });
-    }
+                @Override
+                public void onFailure(Throwable caught) {
+                    Window.alert("Unable to contact the SearchService for the list of users");
+                    people.addItem(userId, userId);
+                    us.setListItems(people);
+                    us.selectItem(userId);
+                }
+            });
+        }
 
     public boolean isMultipleSelect(){
         return true;
