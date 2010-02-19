@@ -92,7 +92,6 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
     private LuService luService;
     private StatementService statementService;
     private LearningObjectiveService loService;
-//    private TranslationService translationService;
     private OrganizationService orgService;
     private AtpService atpService;
     
@@ -384,10 +383,6 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
         this.loService = loService;
     }   
     
-//    public void setTranslationService(TranslationService translationService) {
-//        this.translationService = translationService;
-//    }
-
     public void setSearchDispatcher(SearchDispatcherImpl searchDispatcher) {
         this.searchDispatcher = searchDispatcher;
     }

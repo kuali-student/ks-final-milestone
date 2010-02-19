@@ -104,7 +104,6 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
     private LuService luService;
     private StatementService statementService;
     private LearningObjectiveService loService;
-//    private TranslationService translationService;
     private OrganizationService orgService;
     private AtpService atpService;
 
@@ -461,7 +460,6 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
         LuRuleInfoPersistanceBean ruleInfoBean = new LuRuleInfoPersistanceBean();
         ruleInfoBean.setLuService(luService);
         ruleInfoBean.setStatementService(statementService);
-//        ruleInfoBean.setTranslationService(translationService);
         ruleInfoBean.updateRules(courseId, luData);
     }
 
@@ -1128,7 +1126,6 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
         LuRuleInfoPersistanceBean ruleInfoBean = new LuRuleInfoPersistanceBean();
         ruleInfoBean.setLuService(luService);
         ruleInfoBean.setStatementService(statementService);
-//        ruleInfoBean.setTranslationService(translationService);
         return ruleInfoBean.fetchRules(courseId);
     }
 
@@ -1171,10 +1168,6 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
     public void setLoService(LearningObjectiveService loService) {
         this.loService = loService;
     }
-
-//    public void setTranslationService(TranslationService translationService) {
-//        this.translationService = translationService;
-//    }
 
     public void setSearchDispatcher(SearchDispatcherImpl searchDispatcher) {
         this.searchDispatcher = searchDispatcher;

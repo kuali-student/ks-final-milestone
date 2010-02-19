@@ -261,7 +261,6 @@
 		<property name="luService" ref="luClient"/>
 		<property name="statementService" ref="statementServiceClient"/>
 		<property name="proposalService" ref="proposalClient"/>
-		<!--property name="translationService" ref="translationClient"/-->
 		<property name="orgService" ref="orgClient"/>
 		<property name="courseAssembler" ref="courseAssembler" />
 		<property name="atpService" ref="atpClient"/>
@@ -303,7 +302,6 @@
 		<property name="loService" ref="loClient"/>
 		<property name="luService" ref="luClient"/>
 		<property name="statementService" ref="statementServiceClient"/>
-		<!--property name="translationService" ref="translationClient"/-->
 		<property name="orgService" ref="orgClient"/>
 		<property name="atpService" ref="atpClient"/>
 	</bean>
@@ -399,11 +397,6 @@
 		<property name="serviceEndpointInterface" value="org.kuali.student.core.comment.service.CommentService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/comment}CommentService" />
 	</bean>
-
-	<!--bean id="translationClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-		<property name="serviceEndpointInterface" value="org.kuali.student.lum.nlt.service.TranslationService" />
-		<property name="serviceQName" value="{http://student.kuali.org/wsdl/nlt}TranslationService" />
-	</bean-->
 
 	<bean id="statementServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.student.brms.statement.service.StatementService" />
