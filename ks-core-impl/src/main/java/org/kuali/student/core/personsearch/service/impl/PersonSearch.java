@@ -24,7 +24,7 @@ import org.kuali.rice.kim.bo.entity.dto.KimEntityDefaultInfo;
 import org.kuali.rice.kim.bo.entity.dto.KimEntityEntityTypeDefaultInfo;
 import org.kuali.rice.kim.bo.impl.PersonImpl;
 import org.kuali.rice.kim.service.IdentityService;
-import org.kuali.rice.kns.lookup.CollectionIncomplete;
+//import org.kuali.rice.kns.lookup.CollectionIncomplete;
 
 /**
  * Utility methods for dealing with Person searches
@@ -47,9 +47,9 @@ public class PersonSearch {
             }
         }
 
-        if (entities instanceof CollectionIncomplete) {
-            return new CollectionIncomplete(people, ((CollectionIncomplete) entities).getActualSizeIfTruncated());
-        }
+//        if (entities instanceof CollectionIncomplete) {
+//            return new CollectionIncomplete(people, ((CollectionIncomplete) entities).getActualSizeIfTruncated());
+//        }
         return people;
     }
 
