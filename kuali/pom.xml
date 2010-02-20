@@ -58,7 +58,7 @@
     <!-- Once that has been approved and the master pom's have been moved to the main SVN repo area, this repository entry can be removed. -->
     <repository>
       <id>kuali.release.lab</id>
-      <url>https://test.kuali.org/svn/student/deploymentlab/m2/repository</url>
+      <url>https://test.kuali.org/svn/student/deploymentlab/repository</url>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
@@ -313,7 +313,7 @@
       <distributionManagement>
         <repository>
           <id>kuali.releases.lab</id>
-          <url>svn:https://test.kuali.org/svn/student/deploymentlab/m2/repository</url>
+          <url>svn:https://test.kuali.org/svn/student/deploymentlab/repository</url>
         </repository>
       </distributionManagement>
     </profile>
