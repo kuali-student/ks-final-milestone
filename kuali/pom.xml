@@ -301,7 +301,8 @@
         </plugins>
       </build>
     </profile>
-    <!-- This profile can be removed after Kuali Foundation approves a master pom -->
+    <!-- This profile can be removed after Kuali Foundation approves the concept of a master pom and placement of 
+         that pom in the main SVN repo area (instead of having it live under deploymentlab/ in the Kuali Student area) -->
     <profile>
       <id>kuali-release-lab</id>
       <activation>
