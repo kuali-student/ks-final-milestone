@@ -1,4 +1,1 @@
-cd ..\student
-call mvn --batch-mode -Dparent.pom.release=true release:prepare
-call mvn --batch-mode -Dparent.pom.release=true release:perform
-cd ..\resources
+call release-parent-pom student
