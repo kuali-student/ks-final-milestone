@@ -72,32 +72,20 @@
     </repository>
   </repositories>
   <distributionManagement>
-    <!-- 
+    <!-- site is intentionally omitted here.  Each project must define their own -->
     <repository>
       <id>kuali.release</id>
       <name>Internal Release Repository</name>
-      <url>scp://test.kuali.org:/opt/m2/repository</url>
+      <url>${release.repository}</url>
     </repository>
     <snapshotRepository>
       <id>kuali.snapshots</id>
       <name>Internal Snapshot Repository</name>
       <url>dav:http://archiva.kuali.umd.edu/repository/snapshot</url>
     </snapshotRepository>
-    <site>
-      <id>ks.site</id>
-      <url>scp://student.kuali.org:/opt/www/student/site/core/${project.version}</url>
-    </site>
-    -->
-    <repository>
-      <id>kuali.release.lab</id>
-      <url>svn:https://test.kuali.org/svn/student/deploymentlab/repository</url>
-    </repository>
-    <site>
-      <id>kuali.student.website</id>
-      <url>file://C:/site/${project.version}</url>
-    </site>
   </distributionManagement>
   <properties>
+    <release.repository>scp://test.kuali.org:/opt/m2/repository</release.repository>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <sourceReleaseAssemblyDescriptor>source-release</sourceReleaseAssemblyDescriptor>
   </properties>
@@ -256,6 +244,7 @@
       </plugins>
     </pluginManagement>
     <plugins>
+      <!-- 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-remote-resources-plugin</artifactId>
@@ -272,6 +261,7 @@
           </execution>
         </executions>
       </plugin>
+       -->
     </plugins>
   </build>
   <reporting>
@@ -283,7 +273,6 @@
     </plugins>
   </reporting>
   <profiles>
-    <!-- START SNIPPET: release-profile -->
     <profile>
       <id>kuali-release</id>
       <build>
@@ -443,7 +432,6 @@
         </plugins>
       </build>
     </profile>
-    <!-- END SNIPPET: release-profile -->
   </profiles>
 </project>
 
