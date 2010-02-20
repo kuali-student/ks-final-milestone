@@ -19,12 +19,12 @@
   <parent>
     <groupId>org.kuali.resources</groupId>
     <artifactId>kuali-resource-bundles</artifactId>
-    <version>1-SNAPSHOT</version>
+    <version>1</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <groupId>org.kuali.resources.bundle</groupId>
   <artifactId>kuali-jar-resource-bundle</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.0</version>
   <name>Kuali JAR Resource Bundle</name>
   <description>
     An archive which contains templates for generating the necessary license files and notices for all Kuali releases.
