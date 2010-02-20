@@ -4,11 +4,12 @@
   <artifactId>kuali-parent</artifactId>
   <version>1</version>
   <versioning>
+    <release>3-SNAPSHOT</release>
     <versions>
       <version>1</version>
       <version>2</version>
       <version>3-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20100220210200</lastUpdated>
+    <lastUpdated>20100220212207</lastUpdated>
   </versioning>
 </metadata>
