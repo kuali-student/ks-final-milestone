@@ -1,11 +1,13 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.security</groupId>
 	<artifactId>ks-standard-sec</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
-    
+
 	<name>KS Standard Security</name>
 	<description>KS Standard Security - out of the box</description>
 
@@ -41,31 +43,35 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
 		</dependency>
-		
-		<!-- This jar is only needed if you are using CAS with Spring Security -->
+
+		<!--
+			This jar is only needed if you are using CAS with Spring Security
+		-->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-cas-client</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.opensaml</groupId>
 			<artifactId>opensaml</artifactId>
 		</dependency>
 
-        <dependency>
+		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-ws-security</artifactId>
+			<scope>test</scope>
 		</dependency>
-		
-         <dependency>
-   			<groupId>org.apache.cxf</groupId>
-   			<artifactId>cxf-rt-databinding-aegis</artifactId>
-  		</dependency>
-  		<dependency>
-  			<groupId>org.kuali.rice</groupId>
-  			<artifactId>rice-api</artifactId>
-  		</dependency>
+
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-databinding-aegis</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.rice</groupId>
+			<artifactId>rice-api</artifactId>
+		</dependency>
 
 	</dependencies>
 
@@ -79,11 +85,9 @@
 						<id>SamlIssuerService-wsdl</id>
 						<phase>process-classes</phase>
 						<configuration>
-							<className>
-								org.kuali.student.security.saml.service.SamlIssuerService
-							</className>
+							<className>org.kuali.student.security.saml.service.SamlIssuerService</className>
 							<serviceName>SamlIssuerService</serviceName>
-							<targetNameSpace>http://org.kuali.student/security/saml</targetNameSpace>			
+							<targetNameSpace>http://org.kuali.student/security/saml</targetNameSpace>
 						</configuration>
 						<goals>
 							<goal>java2ws</goal>
