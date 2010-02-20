@@ -300,11 +300,6 @@
          that pom in the main SVN repo area (instead of having it live under deploymentlab/ in the Kuali Student area) -->
     <profile>
       <id>kuali-release-lab</id>
-      <activation>
-        <property>
-          <name>parent.pom.release</name>
-        </property>
-      </activation>
       <distributionManagement>
         <repository>
           <id>kuali.releases.lab</id>
