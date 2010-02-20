@@ -24,7 +24,7 @@
 -->
   <groupId>org.kuali</groupId>
   <artifactId>kuali-parent</artifactId>
-  <version>2-SNAPSHOT</version>
+  <version>1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>The Kuali Foundation</name>
   <description>
@@ -86,6 +86,7 @@
   </distributionManagement>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <sourceReleaseAssemblyDescriptor>source-release</sourceReleaseAssemblyDescriptor>
   </properties>
   <scm>
     <!-- NOTE:  After approval from Kuali Foundation on the concept and location of a master pom, this should be changed to https://test.kuali.org/svn/maven/trunk/kuali -->
@@ -251,10 +252,37 @@
     </plugins>
   </reporting>
   <profiles>
+    <!-- START SNIPPET: release-profile -->
     <profile>
       <id>kuali-release</id>
       <build>
         <plugins>
+          <plugin>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <dependencies>
+              <dependency>
+                <groupId>org.apache.apache.resources</groupId>
+                <artifactId>apache-source-release-assembly-descriptor</artifactId>
+                <version>1.0.2</version>
+              </dependency>
+            </dependencies>
+            <executions>
+              <execution>
+                <id>source-release-assembly</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>single</goal>
+                </goals>
+                <configuration>
+                  <runOnlyAtExecutionRoot>true</runOnlyAtExecutionRoot>
+                  <descriptorRefs>
+                    <descriptorRef>${sourceReleaseAssemblyDescriptor}</descriptorRef>
+                  </descriptorRefs>
+                  <tarLongFileFormat>gnu</tarLongFileFormat>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
           <plugin>
             <inherited>true</inherited>
             <groupId>org.apache.maven.plugins</groupId>
@@ -292,10 +320,10 @@
           </plugin>
           <!-- TODO: Use maven-gpg-plugin to sign all kuali artifacts (poms, jars, etc) -->
           <!-- TODO: Resource plugin for bundling license files inside the .jars -->
-          <!-- TODO: Assembler thing -->
         </plugins>
       </build>
     </profile>
+    <!-- END SNIPPET: release-profile -->
     <!-- This profile can be removed after Kuali Foundation approves the concept of a master pom and placement of 
          that pom in the main SVN repo area (instead of having it live under deploymentlab/ in the Kuali Student area) -->
     <profile>
