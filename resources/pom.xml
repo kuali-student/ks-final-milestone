@@ -24,7 +24,7 @@
   </parent>
   <groupId>org.kuali.resources</groupId>
   <artifactId>kuali-resource-bundles</artifactId>
-  <version>1</version>
+  <version>1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Kuali Resource Bundles</name>
   <inceptionYear>2007</inceptionYear>
@@ -32,9 +32,9 @@
     <module>kuali-jar-resource-bundle</module>
   </modules>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/tags/kuali-resource-bundles-1</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/tags/kuali-resource-bundles-1</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/maven/tags/kuali-resource-bundles-1</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/trunk/resources</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/trunk/resources</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/maven/trunk/resources</url>
   </scm>
   <build>
     <plugins>
