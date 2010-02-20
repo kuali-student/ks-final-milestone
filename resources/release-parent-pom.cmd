@@ -1,4 +1,4 @@
 cd ..\%1
-call mvn --batch-mode -Pkuali-release-lab release:prepare
-call mvn --batch-mode -Pkuali-release-lab release:perform
+call mvn --batch-mode release:prepare
+call mvn --batch-mode release:perform
 cd ..\resources
