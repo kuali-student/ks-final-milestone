@@ -319,7 +319,7 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-deploy-plugin</artifactId>
             <configuration>
-              <updateReleaseInfo>false</updateReleaseInfo>
+              <updateReleaseInfo>true</updateReleaseInfo>
             </configuration>
           </plugin>
           <plugin>
@@ -345,6 +345,95 @@
                 <id>attach-javadocs</id>
                 <goals>
                   <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>clean</id>
+                <phase>clean</phase>
+                <configuration>
+                  <tasks>
+                    <echo message="clean"/>
+                  </tasks>
+                </configuration>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>validate</id>
+                <phase>validate</phase>
+                <configuration>
+                  <tasks>
+                    <echo message="validate"/>
+                  </tasks>
+                </configuration>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>compile</id>
+                <phase>compile</phase>
+                <configuration>
+                  <tasks>
+                    <echo message="compile"/>
+                  </tasks>
+                </configuration>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>package</id>
+                <phase>package</phase>
+                <configuration>
+                  <tasks>
+                    <echo message="package"/>
+                  </tasks>
+                </configuration>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>verify</id>
+                <phase>verify</phase>
+                <configuration>
+                  <tasks>
+                    <echo message="verify"/>
+                  </tasks>
+                </configuration>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>install</id>
+                <phase>install</phase>
+                <configuration>
+                  <tasks>
+                    <echo message="install"/>
+                  </tasks>
+                </configuration>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>deploy</id>
+                <phase>deploy</phase>
+                <configuration>
+                  <tasks>
+                    <echo message="deploy"/>
+                  </tasks>
+                </configuration>
+                <goals>
+                  <goal>run</goal>
                 </goals>
               </execution>
             </executions>
