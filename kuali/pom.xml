@@ -47,18 +47,18 @@
   </organization>
   <url>http://www.kuali.org/</url>
   <repositories>
+    <repository>
+      <id>kuali.release</id>
+      <url>https://test.kuali.org/maven</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
     <!-- NOTE:  This is a temporary repository pending approval from Kuali Foundation on publishing the master pom to the main SVN repo -->
     <!-- Once that has been approved and the master pom's have been moved to the main SVN repo area, this repository entry can be removed. -->
     <repository>
       <id>kuali.release.lab</id>
       <url>https://test.kuali.org/svn/student/deploymentlab/m2/repository</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>kuali.release</id>
-      <url>https://test.kuali.org/maven</url>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
