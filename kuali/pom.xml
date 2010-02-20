@@ -195,6 +195,7 @@
           <artifactId>maven-plugin-plugin</artifactId>
           <version>2.5.1</version>
         </plugin>
+        <!-- START SNIPPET: release-plugin-configuration -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-release-plugin</artifactId>
@@ -202,9 +203,10 @@
           <configuration>
             <useReleaseProfile>false</useReleaseProfile>
             <goals>deploy</goals>
-            <releaseProfiles>-Pkuali-release</releaseProfiles>
+            <arguments>-Papache-release</arguments>
           </configuration>
         </plugin>
+        <!-- END SNIPPET: release-plugin-configuration -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-remote-resources-plugin</artifactId>
@@ -285,7 +287,7 @@
   <profiles>
     <!-- START SNIPPET: release-profile -->
     <profile>
-      <id>kuali-release</id>
+      <id>apache-release</id>
       <build>
         <plugins>
           <plugin>
