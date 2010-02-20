@@ -24,7 +24,7 @@
   </parent>
   <groupId>org.kuali.resources</groupId>
   <artifactId>kuali-resource-bundles</artifactId>
-  <version>1</version>
+  <version>1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Kuali Resource Bundles</name>
   <inceptionYear>2007</inceptionYear>
