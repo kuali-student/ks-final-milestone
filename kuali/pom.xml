@@ -63,7 +63,7 @@
     </repository>
     <!-- NOTE:  This is a temporary repository pending approval from Kuali Foundation on the concept of a master pom and the publishing 
                 of the master pom to the main Maven2 repository. Once that has been approved and the master pom's have been published
-                to to the main Maven2 repository this temporary repository entry can be removed. -->
+                to the main Maven2 repository this temporary repository entry can be removed. -->
     <repository>
       <id>kuali.release.lab</id>
       <url>https://test.kuali.org/svn/student/deploymentlab/repository</url>
