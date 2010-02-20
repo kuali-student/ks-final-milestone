@@ -189,7 +189,7 @@
           <configuration>
             <useReleaseProfile>false</useReleaseProfile>
             <goals>deploy</goals>
-            <releaseProfiles>kuali-release</releaseProfiles>
+            <releaseProfiles>-Pkuali-release</releaseProfiles>
           </configuration>
         </plugin>
         <plugin>
