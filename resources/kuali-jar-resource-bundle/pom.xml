@@ -22,7 +22,6 @@
     <version>2-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
-  <groupId>org.kuali.resources.bundle</groupId>
   <artifactId>kuali-jar-resource-bundle</artifactId>
   <version>1.0.1-SNAPSHOT</version>
   <name>Kuali JAR Resource Bundle</name>
