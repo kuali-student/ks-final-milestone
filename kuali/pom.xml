@@ -54,6 +54,13 @@
         <enabled>false</enabled>
       </snapshots>
     </repository>
+    <repository>
+      <id>kuali.snapshot</id>
+      <url>http://archiva.kuali.umd.edu/repository/snapshot</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </repository>
     <!-- NOTE:  This is a temporary repository pending approval from Kuali Foundation on publishing the master pom to the main SVN repo -->
     <!-- Once that has been approved and the master pom's have been moved to the main SVN repo area, this repository entry can be removed. -->
     <repository>
@@ -62,13 +69,6 @@
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
-    </repository>
-    <repository>
-      <id>kuali.snapshot</id>
-      <url>http://archiva.kuali.umd.edu/repository/snapshot</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
     </repository>
   </repositories>
   <distributionManagement>
