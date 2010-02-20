@@ -22,9 +22,9 @@
     <version>1</version>
     <relativePath>../kuali/pom.xml</relativePath>
   </parent>
-  <groupId>org.kuali.kuali.resources</groupId>
+  <groupId>org.kuali.resources</groupId>
   <artifactId>kuali-resource-bundles</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Kuali Resource Bundles</name>
   <inceptionYear>2007</inceptionYear>
