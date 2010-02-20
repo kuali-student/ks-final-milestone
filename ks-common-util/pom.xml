@@ -98,8 +98,7 @@
         
         <dependency>
             <groupId>org.apache.velocity</groupId>
-            <artifactId>velocity</artifactId>
-            <version>1.5</version>         
+            <artifactId>velocity</artifactId>         
         </dependency>
         <dependency>
             <groupId>logkit</groupId>
@@ -109,7 +108,6 @@
         <dependency>
            <groupId>commons-lang</groupId>
            <artifactId>commons-lang</artifactId>
-           <version>2.4</version>
        </dependency>
 	</dependencies>
 

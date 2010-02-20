@@ -22,7 +22,7 @@
 
     <ciManagement>
         <system>continuum</system>
-        <url>http://continuum.kuali.umd.edu</url>
+        <url>https://continuum.ks.kuali.net</url>
     </ciManagement>
 
     <issueManagement>
@@ -72,21 +72,22 @@
 
     <properties>
         <!-- artifact versions -->
+        <aspectj.version>1.5.4</aspectj.version>
         <atomikos.version>3.4.1</atomikos.version>
         <cxf.version>2.2</cxf.version>
+        <derby.version>10.4.2.0</derby.version>
+        <eclipselink.version>1.0</eclipselink.version>
         <gwtVersion>1.6.4</gwtVersion>
         <jaxws-api.version>2.1</jaxws-api.version>
         <jaxws.version>2.1.5</jaxws.version>
-        <metro.version>1.4</metro.version>
+        <jetty.version>6.1.6</jetty.version>
         <junit.version>4.4</junit.version>
+        <kuali.rice.version>1.0.1</kuali.rice.version>
+        <metro.version>1.4</metro.version>
         <spring.version>2.5.4</spring.version>
         <spring.security.version>2.0.4</spring.security.version>
         <spring.security.javadoc.version>2.0.x</spring.security.javadoc.version>
-        <derby.version>10.4.2.0</derby.version>
-        <jetty.version>6.1.6</jetty.version>
-        <eclipselink.version>1.0</eclipselink.version>
-        <aspectj.version>1.5.4</aspectj.version>
-        <kuali.rice.version>1.0.1</kuali.rice.version>
+        <velocity.version>1.5</velocity.version>
         <xalan.version>2.7.1</xalan.version>
         <xercesImpl.version>2.9.1</xercesImpl.version>
 
@@ -139,17 +140,6 @@
                     </snapshots>
                 </repository>
                 <repository>
-                    <id>maven-repository.dev.java.net</id>
-                    <url>http://download.java.net/maven/1</url>
-                    <layout>legacy</layout>
-                    <releases>
-                        <enabled>true</enabled>
-                    </releases>
-                    <snapshots>
-                        <enabled>false</enabled>
-                    </snapshots>
-                </repository>
-                <repository>
                     <id>ks.public</id>
                     <url>http://archiva.kuali.umd.edu/repository/public/</url>
                 </repository>
@@ -163,13 +153,6 @@
                     <releases>
                         <enabled>true</enabled>
                     </releases>
-                    <snapshots>
-                        <enabled>false</enabled>
-                    </snapshots>
-                </repository>
-                <repository>
-                    <id>ibiblio.maven</id>
-                    <url>http://www.ibiblio.org/maven</url>
                     <snapshots>
                         <enabled>false</enabled>
                     </snapshots>
@@ -751,6 +734,32 @@
             <!-- Libraries not required for Java 1.6_04+ are being excluding (based cxf WHICH_JARS file) -->
             <dependency>
                 <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-api</artifactId>
+                <version>${cxf.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.geronimo.specs</groupId>
+                        <artifactId>geronimo-javamail_1.4_spec</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.geronimo.specs</groupId>
+                        <artifactId>geronimo-activation_1.1_spec</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-core</artifactId>
+                <version>${cxf.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.geronimo.specs</groupId>
+                        <artifactId>geronimo-javamail_1.4_spec</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-rt-frontend-jaxws</artifactId>
                 <version>${cxf.version}</version>
                 <exclusions>
@@ -976,7 +985,18 @@
             <dependency>
                 <groupId>velocity</groupId>
                 <artifactId>velocity</artifactId>
-                <version>1.4</version>
+                <version>${velocity.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity</artifactId>
+                <version>${velocity.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>2.3</version>
             </dependency>
 
             <!-- Pom dependencies for impl specific jars -->
