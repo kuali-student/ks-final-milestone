@@ -74,9 +74,8 @@
   <distributionManagement>
     <!-- Site omitted - each Kuali project must provide their own -->
     <repository>
-      <id>kuali.releases</id>
-      <name>Kuali Release Distribution Repository</name>
-      <url>scp://test.kuali.org:/opt/m2/repository</url>
+      <id>kuali.releases.lab</id>
+      <url>svn:https://test.kuali.org/svn/student/deploymentlab/repository</url>
     </repository>
     <snapshotRepository>
       <id>kuali.snapshots</id>
