@@ -304,6 +304,11 @@
     <!-- This profile can be removed after Kuali Foundation approves a master pom -->
     <profile>
       <id>kuali-release-lab</id>
+      <activation>
+        <property>
+          <name>parent.pom.release</name>
+        </property>
+      </activation>
       <distributionManagement>
         <repository>
           <id>kuali.releases.lab</id>
