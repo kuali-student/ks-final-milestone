@@ -32,9 +32,9 @@
     <module>kuali-jar-resource-bundle</module>
   </modules>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/trunk/resources</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/trunk/resources</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/maven/trunk/resources</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/tags/kuali-resource-bundles-1</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/tags/kuali-resource-bundles-1</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/maven/tags/kuali-resource-bundles-1</url>
   </scm>
   <build>
     <plugins>
