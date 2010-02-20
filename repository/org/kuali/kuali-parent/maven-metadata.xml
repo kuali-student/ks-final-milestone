@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><metadata>
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
   <groupId>org.kuali</groupId>
   <artifactId>kuali-parent</artifactId>
   <version>1</version>
@@ -8,6 +9,6 @@
       <version>2</version>
       <version>3-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20100220205023</lastUpdated>
+    <lastUpdated>20100220210200</lastUpdated>
   </versioning>
 </metadata>
