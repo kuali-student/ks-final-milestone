@@ -92,6 +92,10 @@
       <id>kuali.release.lab</id>
       <url>svn:https://test.kuali.org/svn/student/deploymentlab/repository</url>
     </repository>
+    <site>
+      <id>kuali.student.website</id>
+      <url>file://C:/site/${project.version}</url>
+    </site>
   </distributionManagement>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -104,13 +108,13 @@
     <url>https://test.kuali.org/svn/student/deploymentlab/maven/trunk/kuali</url>
   </scm>
   <build>
-     <extensions>
-       <extension>
-         <groupId>org.jvnet.wagon-svn</groupId>
-         <artifactId>wagon-svn</artifactId>
-         <version>1.9</version>
-       </extension>
-     </extensions>
+    <extensions>
+      <extension>
+        <groupId>org.jvnet.wagon-svn</groupId>
+        <artifactId>wagon-svn</artifactId>
+        <version>1.9</version>
+      </extension>
+    </extensions>
      <pluginManagement>
       <plugins>
         <!-- set versions of common plugins for reproducibility, ordered alphabetically -->
