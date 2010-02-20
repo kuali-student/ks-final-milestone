@@ -245,17 +245,17 @@ public class CourseConfigurer
     private VerticalSection generateFeeTypeSection() {
         //TODO ALL KEYS in this section are place holders until we know actual keys
         VerticalSection feeType = initSection(getH3Title(LUConstants.FEE_TYPE_LABEL_KEY), WITH_DIVIDER);
-        addField(feeType, "cluInfo/feeType", null);
+        addField(feeType, COURSE + "/" + FEES + "/" + FEE_TYPE, null);
         return feeType;
 	}
 
 	private VerticalSection generateFeeAmountSection() {
         //TODO ALL KEYS in this section are place holders until we know actual keys
         VerticalSection feeAmount = initSection(getH3Title(LUConstants.FEE_DESC_LABEL_KEY), WITH_DIVIDER);
-        addField(feeAmount, FEES +"/" + FEE_AMOUNT, getLabel(LUConstants.CURRENCY_SYMBOL_LABEL_KEY));
-        addField(feeAmount, FEES + "/" + TAXABLE, getLabel(LUConstants.TAXABLE_SYMBOL_LABEL_KEY));//TODO checkboxes go here instead
-        addField(feeAmount, FEES + "/" + FEE_DESC, getLabel(LUConstants.FEE_DESC_LABEL_KEY));
-        addField(feeAmount, FEES + "/" + INTERNAL_NOTATION, getLabel(LUConstants.INTERNAL_FEE_NOTIFICATION_LABEL_KEY));
+        addField(feeAmount, COURSE + "/" + FEES + "/" + FEE_AMOUNT, getLabel(LUConstants.CURRENCY_SYMBOL_LABEL_KEY));
+        addField(feeAmount, COURSE + "/" + FEES + "/" + TAXABLE, getLabel(LUConstants.TAXABLE_SYMBOL_LABEL_KEY));//TODO checkboxes go here instead
+        addField(feeAmount, COURSE + "/" + FEES + "/" + FEE_DESC, getLabel(LUConstants.FEE_DESC_LABEL_KEY));
+        addField(feeAmount, COURSE + "/" + FEES + "/" + INTERNAL_NOTATION, getLabel(LUConstants.INTERNAL_FEE_NOTIFICATION_LABEL_KEY));
 		return feeAmount;
 	}
 
