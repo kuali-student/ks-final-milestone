@@ -86,9 +86,6 @@
   </distributionManagement>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <compiler.source.version>1.6</compiler.source.version>
-    <compiler.target.version>1.6</compiler.target.version>
-    <sourceReleaseAssemblyDescriptor>source-release</sourceReleaseAssemblyDescriptor>
   </properties>
   <scm>
     <!-- NOTE:  After approval from Kuali Foundation on the concept and location of a master pom, this should be changed to https://test.kuali.org/svn/maven/trunk/kuali -->
