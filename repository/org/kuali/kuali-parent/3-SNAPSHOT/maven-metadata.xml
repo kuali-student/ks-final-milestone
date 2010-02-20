@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?><metadata>
+  <groupId>org.kuali</groupId>
+  <artifactId>kuali-parent</artifactId>
+  <version>3-SNAPSHOT</version>
+  <versioning>
+    <snapshot>
+      <timestamp>20100220.205023</timestamp>
+      <buildNumber>1</buildNumber>
+    </snapshot>
+    <lastUpdated>20100220205027</lastUpdated>
+  </versioning>
+</metadata>
