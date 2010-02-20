@@ -347,7 +347,7 @@
                 <phase>clean</phase>
                 <configuration>
                   <tasks>
-                    <echo message="clean" />
+                    <echo message="Kuali Release - Clean" />
                   </tasks>
                 </configuration>
                 <goals>
@@ -359,7 +359,7 @@
                 <phase>validate</phase>
                 <configuration>
                   <tasks>
-                    <echo message="validate" />
+                    <echo message="Kuali Release - Validate" />
                   </tasks>
                 </configuration>
                 <goals>
@@ -371,7 +371,7 @@
                 <phase>compile</phase>
                 <configuration>
                   <tasks>
-                    <echo message="compile" />
+                    <echo message="Kuali Release - Compile" />
                   </tasks>
                 </configuration>
                 <goals>
@@ -383,7 +383,7 @@
                 <phase>package</phase>
                 <configuration>
                   <tasks>
-                    <echo message="package" />
+                    <echo message="Kuali Release - Package" />
                   </tasks>
                 </configuration>
                 <goals>
@@ -395,7 +395,7 @@
                 <phase>verify</phase>
                 <configuration>
                   <tasks>
-                    <echo message="verify" />
+                    <echo message="Kuali Release - Verify" />
                   </tasks>
                 </configuration>
                 <goals>
@@ -407,7 +407,7 @@
                 <phase>install</phase>
                 <configuration>
                   <tasks>
-                    <echo message="install" />
+                    <echo message="Kuali Release - Install" />
                   </tasks>
                 </configuration>
                 <goals>
@@ -419,7 +419,7 @@
                 <phase>deploy</phase>
                 <configuration>
                   <tasks>
-                    <echo message="deploy" />
+                    <echo message="Kuali Release - Deploy" />
                   </tasks>
                 </configuration>
                 <goals>
