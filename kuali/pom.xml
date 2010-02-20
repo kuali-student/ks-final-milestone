@@ -24,7 +24,7 @@
 -->
   <groupId>org.kuali</groupId>
   <artifactId>kuali-parent</artifactId>
-  <version>3-SNAPSHOT</version>
+  <version>3</version>
   <packaging>pom</packaging>
   <name>The Kuali Foundation</name>
   <description>
@@ -103,9 +103,9 @@
   </properties>
   <scm>
     <!-- NOTE:  After approval from Kuali Foundation on the concept and location of a master pom, this should be changed to https://test.kuali.org/svn/maven/trunk/kuali -->
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/trunk/kuali</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/trunk/kuali</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/maven/trunk/kuali</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/tags/kuali-parent-3</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/tags/kuali-parent-3</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/maven/tags/kuali-parent-3</url>
   </scm>
   <build>
     <extensions>
@@ -357,7 +357,7 @@
                 <phase>clean</phase>
                 <configuration>
                   <tasks>
-                    <echo message="clean"/>
+                    <echo message="clean" />
                   </tasks>
                 </configuration>
                 <goals>
@@ -369,7 +369,7 @@
                 <phase>validate</phase>
                 <configuration>
                   <tasks>
-                    <echo message="validate"/>
+                    <echo message="validate" />
                   </tasks>
                 </configuration>
                 <goals>
@@ -381,7 +381,7 @@
                 <phase>compile</phase>
                 <configuration>
                   <tasks>
-                    <echo message="compile"/>
+                    <echo message="compile" />
                   </tasks>
                 </configuration>
                 <goals>
@@ -393,7 +393,7 @@
                 <phase>package</phase>
                 <configuration>
                   <tasks>
-                    <echo message="package"/>
+                    <echo message="package" />
                   </tasks>
                 </configuration>
                 <goals>
@@ -405,7 +405,7 @@
                 <phase>verify</phase>
                 <configuration>
                   <tasks>
-                    <echo message="verify"/>
+                    <echo message="verify" />
                   </tasks>
                 </configuration>
                 <goals>
@@ -417,7 +417,7 @@
                 <phase>install</phase>
                 <configuration>
                   <tasks>
-                    <echo message="install"/>
+                    <echo message="install" />
                   </tasks>
                 </configuration>
                 <goals>
@@ -429,7 +429,7 @@
                 <phase>deploy</phase>
                 <configuration>
                   <tasks>
-                    <echo message="deploy"/>
+                    <echo message="deploy" />
                   </tasks>
                 </configuration>
                 <goals>
