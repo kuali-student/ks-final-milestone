@@ -7,7 +7,7 @@
 	</parent>
     <groupId>org.kuali.student.test.performance</groupId>
     <artifactId>performance</artifactId>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.1</version>
     <packaging>pom</packaging>
     <name>Performance</name>
     <description>This set of projects is dedicated to performance testing of the Kuali Student application</description>
@@ -17,4 +17,10 @@
   <properties>
     <project.distributionManagement.repository.url>svn:https://test.kuali.org/svn/student/deploymentlab/repository</project.distributionManagement.repository.url>
   </properties>
+
+  <scm>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/performance-1.0.1</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/performance-1.0.1</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/tags/performance-1.0.1</url>
+  </scm>
 </project>
