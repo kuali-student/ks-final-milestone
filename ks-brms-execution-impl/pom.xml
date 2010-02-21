@@ -213,40 +213,6 @@
         <dependency>
         	<groupId>org.drools</groupId>
         	<artifactId>drools-repository</artifactId>
-            <exclusions>
-                <!--exclusion>
-                    <groupId>org.jboss.security</groupId>
-                    <artifactId>jboss-security-acl-impl</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.jboss.security</groupId>
-                    <artifactId>jboss-security-acl</artifactId>
-                </exclusion-->
-                <exclusion>
-                    <groupId>org.tmatesoft</groupId>
-                    <artifactId>svnkit</artifactId>
-                </exclusion>
-                <exclusion>
-			         <groupId>hsqldb</groupId>
-			         <artifactId>hsqldb</artifactId>
-                </exclusion>
-                <exclusion>
-			         <groupId>org.hibernate</groupId>
-			         <artifactId>hibernate</artifactId>
-                </exclusion>
-                <exclusion>
-			         <groupId>apache-log4j</groupId>
-			         <artifactId>log4j</artifactId>
-                </exclusion>
-                <exclusion>
-			         <groupId>jboss</groupId>
-			         <artifactId>jboss-common-core</artifactId>
-                </exclusion>
-                <exclusion>
-			         <groupId>org.jboss</groupId>
-			         <artifactId>jboss-common-core</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <!-- External dependencies -->
