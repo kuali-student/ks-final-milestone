@@ -45,10 +45,11 @@
               <goal>single</goal>
             </goals>
             <configuration>
-              <runOnlyAtExecutionRoot>true</runOnlyAtExecutionRoot>
+              <runOnlyAtExecutionRoot>false</runOnlyAtExecutionRoot>
               <descriptorRefs>
                 <descriptorRef>project</descriptorRef>
               </descriptorRefs>
+              <tarLongFileFormat>gnu</tarLongFileFormat>
             </configuration>
           </execution>
         </executions>
