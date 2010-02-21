@@ -245,7 +245,6 @@
       </plugins>
     </pluginManagement>
     <plugins>
-      <!-- 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-remote-resources-plugin</artifactId>
@@ -256,13 +255,12 @@
             </goals>
             <configuration>
               <resourceBundles>
-                <resourceBundle>org.kuali:kuali-jar-resource-bundle:1.0.0</resourceBundle>
+                <resourceBundle>org.kuali.resources:kuali-jar-resource-bundle:1.0.0</resourceBundle>
               </resourceBundles>
             </configuration>
           </execution>
         </executions>
       </plugin>
-       -->
     </plugins>
   </build>
   <reporting>
@@ -339,97 +337,7 @@
               </execution>
             </executions>
           </plugin>
-          <plugin>
-            <artifactId>maven-antrun-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>clean</id>
-                <phase>clean</phase>
-                <configuration>
-                  <tasks>
-                    <echo message="Kuali Release - Clean" />
-                  </tasks>
-                </configuration>
-                <goals>
-                  <goal>run</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>validate</id>
-                <phase>validate</phase>
-                <configuration>
-                  <tasks>
-                    <echo message="Kuali Release - Validate" />
-                  </tasks>
-                </configuration>
-                <goals>
-                  <goal>run</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>compile</id>
-                <phase>compile</phase>
-                <configuration>
-                  <tasks>
-                    <echo message="Kuali Release - Compile" />
-                  </tasks>
-                </configuration>
-                <goals>
-                  <goal>run</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>package</id>
-                <phase>package</phase>
-                <configuration>
-                  <tasks>
-                    <echo message="Kuali Release - Package" />
-                  </tasks>
-                </configuration>
-                <goals>
-                  <goal>run</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>verify</id>
-                <phase>verify</phase>
-                <configuration>
-                  <tasks>
-                    <echo message="Kuali Release - Verify" />
-                  </tasks>
-                </configuration>
-                <goals>
-                  <goal>run</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>install</id>
-                <phase>install</phase>
-                <configuration>
-                  <tasks>
-                    <echo message="Kuali Release - Install" />
-                  </tasks>
-                </configuration>
-                <goals>
-                  <goal>run</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>deploy</id>
-                <phase>deploy</phase>
-                <configuration>
-                  <tasks>
-                    <echo message="Kuali Release - Deploy" />
-                  </tasks>
-                </configuration>
-                <goals>
-                  <goal>run</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
           <!-- TODO: Use maven-gpg-plugin to sign all kuali artifacts (poms, jars, etc) -->
-          <!-- TODO: Resource plugin for bundling license files inside the .jars -->
         </plugins>
       </build>
     </profile>
