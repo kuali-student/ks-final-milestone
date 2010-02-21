@@ -3,11 +3,11 @@
 	<parent>
 		<groupId>org.kuali.student.test.ws</groupId>
 		<artifactId>ws</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.0</version>
 	</parent>
     <groupId>org.kuali.student.test.performance.ws.ks-soapui</groupId>
     <artifactId>ks-soapui</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
     <packaging>pom</packaging>
     <name>WS - SoapUI</name>
     <description>This is a service testing framework based on SoapUI</description>
