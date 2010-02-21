@@ -27,9 +27,11 @@
     <url>https://test.kuali.org/svn/student/deploymentlab/trunk/test</url>
   </scm>
   <distributionManagement>
-    <site>
-      <id>driver-1.ks.kuali.net</id>
-      <url>file://usr/local/apache-tomcat/apache-tomcat-6.0.24/webapps/site/${project.version}</url>
-    </site>
+    <!-- site is intentionally omitted here.  Each project must define their own -->
+    <repository>
+      <id>kuali.release</id>
+      <name>Internal Release Repository</name>
+      <url>svn:https://test.kuali.org/svn/student/deploymentlab/repository</url>
+    </repository>
   </distributionManagement>
-</project>
+ </project>
