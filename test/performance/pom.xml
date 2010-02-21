@@ -18,7 +18,7 @@
     <repository>
       <id>kuali.release</id>
       <name>Internal Release Repository</name>
-      <url>scp://test.kuali.org:/opt/m2/repository</url>
+      <url>svn:https://test.kuali.org/svn/student/deploymentlab/repository</url>
     </repository>
   </distributionManagement>
 </project>
