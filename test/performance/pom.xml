@@ -7,11 +7,17 @@
   </parent>
   <groupId>org.kuali.student.test.performance</groupId>
   <artifactId>performance</artifactId>
-  <version>1.0.5-SNAPSHOT</version>
+  <version>1.0.5</version>
   <packaging>pom</packaging>
   <name>Performance</name>
   <description>This set of projects is dedicated to performance testing of the Kuali Student application</description>
   <modules>
     <module>ks-tsung</module>
   </modules>
+
+  <scm>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/performance-1.0.5</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/performance-1.0.5</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/tags/performance-1.0.5</url>
+  </scm>
 </project>
