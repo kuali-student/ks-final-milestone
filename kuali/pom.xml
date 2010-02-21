@@ -24,7 +24,7 @@
 -->
   <groupId>org.kuali</groupId>
   <artifactId>kuali-parent</artifactId>
-  <version>4-SNAPSHOT</version>
+  <version>5-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>The Kuali Foundation</name>
   <description>
@@ -304,7 +304,6 @@
             </executions>
           </plugin>
           <!-- Sign the artifact, the POM, and all attached artifacts -->
-          <!-- 
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
@@ -319,7 +318,6 @@
               </execution>
             </executions>
           </plugin>
-          -->
           <plugin>
             <inherited>true</inherited>
             <groupId>org.apache.maven.plugins</groupId>
