@@ -48,7 +48,7 @@
   <url>http://www.kuali.org/</url>
   <properties>
     <release.arguments>-Pkuali-release</release.arguments>
-    <release.distribution.repository>scp://test.kuali.org:/opt/m2/repository</release.distribution.repository>
+    <project.distributionManagement.repository.url>scp://test.kuali.org:/opt/m2/repository</project.distributionManagement.repository.url>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <sourceReleaseAssemblyDescriptor>source-release</sourceReleaseAssemblyDescriptor>
   </properties>
@@ -83,7 +83,7 @@
     <repository>
       <id>kuali.release</id>
       <name>Internal Release Repository</name>
-      <url>${release.distribution.repository}</url>
+      <url>${project.distributionManagement.repository.url}</url>
     </repository>
     <snapshotRepository>
       <id>kuali.snapshots</id>
