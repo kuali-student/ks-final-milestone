@@ -303,6 +303,21 @@
               </execution>
             </executions>
           </plugin>
+          <!-- Sign the artifact, the POM, and all attached artifacts -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <configuration>
+              <passphrase>${gpg.passphrase}</passphrase>
+            </configuration>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
           <plugin>
             <inherited>true</inherited>
             <groupId>org.apache.maven.plugins</groupId>
