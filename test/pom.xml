@@ -11,7 +11,7 @@
   <name>Kuali Student Testing</name>
   <url>http://driver-1.ks.kuali.net/</url>
   <description>Kuali Student Testing</description>
-  <version>2</version>
+  <version>3-SNAPSHOT</version>
   <modules>
     <module>performance</module>
     <module>ui</module>
@@ -22,8 +22,8 @@
     <url>https://test.kuali.org/jira/browse/KSLAB</url>
   </issueManagement>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/test-2</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/test-2</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/tags/test-2</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/test</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/test</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/test</url>
   </scm>
  </project>
