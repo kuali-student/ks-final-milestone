@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>org.kuali.student.test.ui</groupId>
 		<artifactId>ui</artifactId>
-		<version>1-SNAPSHOT</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
     <groupId>org.kuali.student.test.performance.ui.ks-cuke</groupId>
     <artifactId>ks-cuke</artifactId>
