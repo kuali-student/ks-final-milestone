@@ -14,7 +14,11 @@
     <modules>
       <module>ks-tsung</module>
     </modules>
-  <properties>
-    <project.distributionManagement.repository.url>svn:https://test.kuali.org/svn/student/deploymentlab/repository</project.distributionManagement.repository.url>
-  </properties>
+  <distributionManagement>
+    <repository>
+      <id>kuali.release</id>
+      <name>Internal Release Repository</name>
+      <url>scp://test.kuali.org:/opt/m2/repository</url>
+    </repository>
+  </distributionManagement>
 </project>
