@@ -22,14 +22,14 @@
     <version>1</version>
     <relativePath>../kuali/pom.xml</relativePath>
   </parent>
-  <groupId>org.kuali.resourcebundles</groupId>
+  <groupId>org.kuali.resources</groupId>
   <artifactId>kuali-resource-bundles</artifactId>
   <version>1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Kuali Resource Bundles</name>
   <inceptionYear>2007</inceptionYear>
   <modules>
-    <module>jar</module>
+    <module>kuali-jar-resource-bundle</module>
   </modules>
   <scm>
     <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/trunk/resources</connection>
