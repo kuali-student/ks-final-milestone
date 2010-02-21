@@ -11,7 +11,7 @@
   <name>Kuali Student Testing</name>
   <url>http://driver-1.ks.kuali.net/</url>
   <description>Kuali Student Testing</description>
-  <version>2-SNAPSHOT</version>
+  <version>1-SNAPSHOT</version>
   <modules>
     <module>performance</module>
     <module>ui</module>
