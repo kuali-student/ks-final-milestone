@@ -1,3 +1,3 @@
-call mvn -N -extraReleaseArguments=-N release:clean
-call mvn --batch-mode -N -extraReleaseArguments=-N release:prepare
-call mvn --batch-mode -N -extraReleaseArguments=-N release:perform
+call mvn -N -DextraReleaseArguments=-N release:clean
+call mvn --batch-mode -N -DextraReleaseArguments=-N release:prepare
+call mvn --batch-mode -N -DextraReleaseArguments=-N release:perform
