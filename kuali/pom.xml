@@ -47,6 +47,7 @@
   </organization>
   <url>http://www.kuali.org/</url>
   <properties>
+    <project.distributionManagement.repository.url>scp://test.kuali.org:/opt/m2/repository</project.distributionManagement.repository.url>
     <extraReleaseArguments></extraReleaseArguments>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <sourceReleaseAssemblyDescriptor>source-release</sourceReleaseAssemblyDescriptor>
@@ -78,11 +79,11 @@
     </repository>
   </repositories>
   <distributionManagement>
-    <!-- site is intentionally omitted here.  Each project must define their own -->
+    <!-- site is intentionally omitted.  Each project must define its own website -->
     <repository>
       <id>kuali.release</id>
       <name>Internal Release Repository</name>
-      <url>scp://test.kuali.org:/opt/m2/repository</url>
+      <url>${project.distributionManagement.repository.url}</url>
     </repository>
     <snapshotRepository>
       <id>kuali.snapshots</id>
