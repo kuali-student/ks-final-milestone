@@ -24,7 +24,7 @@
 -->
   <groupId>org.kuali</groupId>
   <artifactId>kuali-parent</artifactId>
-  <version>6</version>
+  <version>7-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>The Kuali Foundation</name>
   <description>
@@ -93,9 +93,9 @@
   </distributionManagement>
   <scm>
     <!-- NOTE:  After approval from Kuali Foundation on the concept and location of a master pom, this should be changed to https://test.kuali.org/svn/maven/trunk/kuali -->
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/tags/kuali-parent-6</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/tags/kuali-parent-6</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/maven/tags/kuali-parent-6</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/trunk/kuali</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/trunk/kuali</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/maven/trunk/kuali</url>
   </scm>
   <build>
     <extensions>
