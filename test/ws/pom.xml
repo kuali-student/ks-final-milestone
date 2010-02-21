@@ -3,11 +3,11 @@
 	<parent>
 		<groupId>org.kuali.student.test</groupId>
 		<artifactId>test</artifactId>
-		<version>1</version>
+		<version>2-SNAPSHOT</version>
 	</parent>
     <groupId>org.kuali.student.test.ws</groupId>
     <artifactId>ws</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Web Services</name>
     <description>This area is dedicated to the automated testing of Kuali Student web services</description>
