@@ -14,4 +14,7 @@
     <modules>
       <module>ks-tsung</module>
     </modules>
+  <properties>
+    <project.distributionManagement.repository.url>svn:https://test.kuali.org/svn/student/deploymentlab/repository</project.distributionManagement.repository.url>
+  </properties>
 </project>
