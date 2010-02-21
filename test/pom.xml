@@ -42,7 +42,7 @@
           <configuration>
             <useReleaseProfile>false</useReleaseProfile>
             <goals>deploy</goals>
-            <arguments>-N</arguments>
+            <arguments>-N -Drelease.distribution.repository=svn:https://test.kuali.org/svn/student/deploymentlab/repository</arguments>
           </configuration>
         </plugin>
       </plugins>
