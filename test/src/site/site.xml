@@ -25,8 +25,18 @@
     <breadcrumbs>
       <item name="Kuali" href="https://www.kuali.org/" />
       <item name="Kuali Student" href="https://student.kuali.org/" />
-      <item name="KS Testing" href="http://${project.url}/" />
+      <item name="Kuali Student Testing" href="${project.url}" />
     </breadcrumbs>
+    
+    <!-- 
+    <menu name="Kuali Student Sites">
+      <item name="Projects" href="http://localhost/">
+        <item name="Performance" href="http://localhost/performance" >
+          <item name="${project.version}" href="http://student.kuali.org/site/core/${project.version}" />
+        </item>
+     </item>
+    </menu>
+    -->
 
     <!-- Menus that every project will inherit -->
     <menu ref="modules" inherit="bottom" />

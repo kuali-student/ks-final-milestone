@@ -10,7 +10,7 @@
   <artifactId>test</artifactId>
   <packaging>pom</packaging>
   <name>Kuali Student Testing</name>
-  <url>http://driver-1.ks.kuali.net/${project.version}</url>
+  <url>http://localhost/</url>
   <description>Kuali Student Testing</description>
   <version>6-SNAPSHOT</version>
   <modules>
@@ -30,7 +30,7 @@
   <distributionManagement>
     <site>
       <id>ks.test.website</id>
-      <url>file://C:/site/test/${project.version}</url>
+      <url>file://C:/site/test</url>
     </site>
   </distributionManagement>
   <build>
