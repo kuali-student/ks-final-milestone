@@ -17,48 +17,10 @@
     <module>ui</module>
     <module>ws</module>
   </modules>
-  <repositories>
-    <repository>
-      <!-- NOTE:  This is a temporary repository pending approval from Kuali Foundation on publishing the master pom to the main SVN repo -->
-      <!-- Once that has been approved and the master pom's have been moved to the main SVN repo area, this entry can be removed. -->
-      <id>kuali.release.lab</id>
-      <url>https://test.kuali.org/svn/student/deploymentlab/m2/repository</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
   <issueManagement>
     <system>JIRA</system>
     <url>https://test.kuali.org/jira/browse/KSLAB</url>
   </issueManagement>
-  <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <artifactId>maven-release-plugin</artifactId>
-          <configuration>
-            <username>${maven.release.username}</username>
-            <password>${maven.release.password}</password>
-            <arguments>-Dmaven.test.skip=true</arguments>
-            <preparationGoals>clean install</preparationGoals>
-            <goals>clean deploy</goals>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-  </build>
-  <reporting>
-    <plugins>
-      <plugin>
-        <artifactId>maven-plugin-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </reporting>
   <scm>
     <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/test</connection>
     <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/test</developerConnection>
@@ -69,9 +31,5 @@
       <id>driver-1.ks.kuali.net</id>
       <url>file://usr/local/apache-tomcat/apache-tomcat-6.0.24/webapps/site</url>
     </site>
-    <repository>
-      <id>kuali.releases.lab</id>
-      <url>svn:https://test.kuali.org/svn/student/deploymentlab/m2/repository</url>
-    </repository>
   </distributionManagement>
 </project>
