@@ -47,7 +47,7 @@
   </organization>
   <url>http://www.kuali.org/</url>
   <properties>
-    <project.distributionManagement.repository.url>scp://test.kuali.org:/opt/m2/repository</project.distributionManagement.repository.url>
+    <release.arguments>-Pkuali-release</release.arguments>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <sourceReleaseAssemblyDescriptor>source-release</sourceReleaseAssemblyDescriptor>
   </properties>
@@ -82,7 +82,7 @@
     <repository>
       <id>kuali.release</id>
       <name>Internal Release Repository</name>
-      <url>${project.distributionManagement.repository.url}</url>
+      <url>scp://test.kuali.org:/opt/m2/repository</url>
     </repository>
     <snapshotRepository>
       <id>kuali.snapshots</id>
@@ -191,7 +191,7 @@
           <configuration>
             <useReleaseProfile>false</useReleaseProfile>
             <goals>deploy</goals>
-            <arguments>-Pkuali-release ${extraReleaseArguments}</arguments>
+            <arguments>${release.arguments}</arguments>
           </configuration>
         </plugin>
         <plugin>
@@ -302,8 +302,8 @@
               </execution>
             </executions>
           </plugin>
-          <!-- TODO: Use maven-gpg-plugin to sign all kuali artifacts (poms, jars, etc)
-                     http://maven.apache.org/developers/release/pmc-gpg-keys.html
+          <!-- Sign the artifact, the POM, and all attached artifacts -->
+          <!-- 
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
@@ -354,8 +354,10 @@
               </execution>
             </executions>
           </plugin>
+          <!-- TODO: Use maven-gpg-plugin to sign all kuali artifacts (poms, jars, etc) -->
         </plugins>
       </build>
     </profile>
   </profiles>
 </project>
+
