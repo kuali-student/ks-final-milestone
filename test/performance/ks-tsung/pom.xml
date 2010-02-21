@@ -3,11 +3,11 @@
   <parent>
     <groupId>org.kuali.student.test.performance</groupId>
     <artifactId>performance</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
   </parent>
   <groupId>org.kuali.student.test.performance.ks-tsung</groupId>
   <artifactId>ks-tsung</artifactId>
-  <version>1.0.2-SNAPSHOT</version>
+  <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Performance - TSung</name>
   <description>This module is an automated load testing framework based on TSung</description>
