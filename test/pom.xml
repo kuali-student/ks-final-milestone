@@ -33,14 +33,7 @@
     </site>
   </distributionManagement>
   <build>
-    <extensions>
-      <extension>
-        <groupId>org.jvnet.wagon-svn</groupId>
-        <artifactId>wagon-svn</artifactId>
-        <version>1.9</version>
-      </extension>
-    </extensions>
-     <pluginManagement>
+    <pluginManagement>
       <plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -53,6 +46,6 @@
           </configuration>
         </plugin>
       </plugins>
-     </pluginManagement>
+    </pluginManagement>
   </build>
 </project>
