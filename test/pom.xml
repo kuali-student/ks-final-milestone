@@ -30,7 +30,7 @@
   <distributionManagement>
     <site>
       <id>driver-1.ks.kuali.net</id>
-      <url>file://usr/local/apache-tomcat/apache-tomcat-6.0.24/webapps/site</url>
+      <url>file://usr/local/apache-tomcat/apache-tomcat-6.0.24/webapps/site/${project.version}</url>
     </site>
   </distributionManagement>
 </project>
