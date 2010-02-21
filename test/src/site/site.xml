@@ -23,8 +23,8 @@
   <body>
     <!-- Breadcrumbs that every project will inherit -->
     <breadcrumbs>
-      <item name="Kuali" href="https://www.kuali.org/" />
-      <item name="Kuali Student" href="https://student.kuali.org/" />
+      <item name="Kuali" href="http://www.kuali.org/" />
+      <item name="Kuali Student" href="http://student.kuali.org/" />
       <item name="Kuali Student Testing" href="${project.url}" />
     </breadcrumbs>
     
