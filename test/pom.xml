@@ -22,8 +22,8 @@
     <url>https://test.kuali.org/jira/browse/KSLAB</url>
   </issueManagement>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/test</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/test</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/test</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/test-2</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/test-2</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/tags/test-2</url>
   </scm>
  </project>
