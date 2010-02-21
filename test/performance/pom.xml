@@ -14,4 +14,9 @@
   <modules>
     <module>ks-tsung</module>
   </modules>
+  <scm>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/test/performance</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/test/performance</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/test/performance</url>
+  </scm>
 </project>
