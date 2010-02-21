@@ -24,7 +24,7 @@
 -->
   <groupId>org.kuali</groupId>
   <artifactId>kuali-parent</artifactId>
-  <version>7-SNAPSHOT</version>
+  <version>6-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>The Kuali Foundation</name>
   <description>
@@ -48,6 +48,7 @@
   <url>http://www.kuali.org/</url>
   <properties>
     <release.arguments>-Pkuali-release</release.arguments>
+    <project.distributionManagement.repository.url>scp://test.kuali.org:/opt/m2/repository</project.distributionManagement.repository.url>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <sourceReleaseAssemblyDescriptor>source-release</sourceReleaseAssemblyDescriptor>
   </properties>
@@ -82,7 +83,7 @@
     <repository>
       <id>kuali.release</id>
       <name>Internal Release Repository</name>
-      <url>scp://test.kuali.org:/opt/m2/repository</url>
+      <url>${project.distributionManagement.repository.url}</url>
     </repository>
     <snapshotRepository>
       <id>kuali.snapshots</id>
@@ -360,4 +361,3 @@
     </profile>
   </profiles>
 </project>
-
