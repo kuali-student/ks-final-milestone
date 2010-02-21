@@ -9,7 +9,7 @@
   <artifactId>test</artifactId>
   <packaging>pom</packaging>
   <name>Kuali Student Testing</name>
-  <url>http://driver-1.ks.kuali.net/</url>
+  <url>http://driver-1.ks.kuali.net/${project.version}</url>
   <description>Kuali Student Testing</description>
   <version>6-SNAPSHOT</version>
   <modules>
@@ -26,6 +26,12 @@
     <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/test</developerConnection>
     <url>https://test.kuali.org/svn/student/deploymentlab/trunk/test</url>
   </scm>
+  <distributionManagement>
+    <site>
+      <id>ks.test.website</id>
+      <url>file://C:/site/test/${project.version}</url>
+    </site>
+  </distributionManagement>
   <build>
     <plugins>
       <plugin>
