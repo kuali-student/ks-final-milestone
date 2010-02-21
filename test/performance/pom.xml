@@ -7,6 +7,7 @@
 	</parent>
     <groupId>org.kuali.student.test.performance</groupId>
     <artifactId>performance</artifactId>
+	<version>1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Performance</name>
     <description>This set of projects is dedicated to performance testing of the Kuali Student application</description>
