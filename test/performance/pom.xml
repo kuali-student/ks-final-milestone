@@ -21,4 +21,9 @@
       <url>svn:https://test.kuali.org/svn/student/deploymentlab/repository</url>
     </repository>
   </distributionManagement>
+  <scm>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/test/performance</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/test/performance</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/test</url>
+  </scm>
 </project>
