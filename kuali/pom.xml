@@ -47,7 +47,7 @@
   </organization>
   <url>http://www.kuali.org/</url>
   <properties>
-    <release.arguments>-Pkuali-release</release.arguments>
+    <extraReleaseArguments></extraReleaseArguments>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <sourceReleaseAssemblyDescriptor>source-release</sourceReleaseAssemblyDescriptor>
   </properties>
@@ -191,7 +191,7 @@
           <configuration>
             <useReleaseProfile>false</useReleaseProfile>
             <goals>deploy</goals>
-            <arguments>${release.arguments}</arguments>
+            <arguments>-Pkuali-release ${extraReleaseArguments}</arguments>
           </configuration>
         </plugin>
         <plugin>
@@ -302,8 +302,8 @@
               </execution>
             </executions>
           </plugin>
-          <!-- Sign the artifact, the POM, and all attached artifacts -->
-          <!-- 
+          <!-- TODO: Use maven-gpg-plugin to sign all kuali artifacts (poms, jars, etc) -->
+          <!-- http://maven.apache.org/developers/release/pmc-gpg-keys.html
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
@@ -354,7 +354,6 @@
               </execution>
             </executions>
           </plugin>
-          <!-- TODO: Use maven-gpg-plugin to sign all kuali artifacts (poms, jars, etc) -->
         </plugins>
       </build>
     </profile>
