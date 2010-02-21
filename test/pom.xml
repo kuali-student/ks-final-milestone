@@ -27,6 +27,6 @@
     <url>https://test.kuali.org/svn/student/deploymentlab/trunk/test</url>
   </scm>
   <properties>
-    <project.distributionManagement.repository.url>scp://test.kuali.org:/opt/m2/repository</project.distributionManagement.repository.url>
+    <project.distributionManagement.repository.url>svn:https://test.kuali.org/svn/student/deploymentlab/repository</project.distributionManagement.repository.url>
   </properties>
  </project>
