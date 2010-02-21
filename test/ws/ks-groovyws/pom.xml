@@ -5,7 +5,7 @@
 		<artifactId>ws</artifactId>
 		<version>1.0.1-SNAPSHOT</version>
 	</parent>
-    <groupId>org.kuali.student.test.performance.ws.ks-groovyws</groupId>
+    <groupId>org.kuali.student.test.performance.ws.groovyws</groupId>
     <artifactId>ks-groovyws</artifactId>
 	<version>1.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>

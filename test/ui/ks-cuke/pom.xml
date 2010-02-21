@@ -5,7 +5,7 @@
 		<artifactId>ui</artifactId>
 		<version>1.0.1-SNAPSHOT</version>
 	</parent>
-    <groupId>org.kuali.student.test.performance.ui.ks-cuke</groupId>
+    <groupId>org.kuali.student.test.performance.ui.cuke</groupId>
     <artifactId>ks-cuke</artifactId>
 	<version>1.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>

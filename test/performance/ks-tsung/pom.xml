@@ -5,7 +5,7 @@
     <artifactId>performance</artifactId>
     <version>1.0.1-SNAPSHOT</version>
   </parent>
-  <groupId>org.kuali.student.test.performance.ks-tsung</groupId>
+  <groupId>org.kuali.student.test.performance.tsung</groupId>
   <artifactId>ks-tsung</artifactId>
   <version>1.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
