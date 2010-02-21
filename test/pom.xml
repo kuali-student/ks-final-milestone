@@ -32,6 +32,7 @@
       <url>file://usr/local/apache-tomcat/apache-tomcat-6.0.24/webapps/site/${project.version}</url>
     </site>
   </distributionManagement>
+  <!-- 
   <build>
     <pluginManagement>
       <plugins>
@@ -48,4 +49,5 @@
       </plugins>
     </pluginManagement>
   </build>
+  -->
 </project>
