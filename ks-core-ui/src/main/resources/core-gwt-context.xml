@@ -18,6 +18,11 @@
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/organization}OrganizationService" />
 	</bean>
 	
+	<bean id="atpClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface" value="org.kuali.student.core.atp.service.AtpService" />
+		<property name="serviceQName" value="{http://student.kuali.org/wsdl/atp}AtpService" />
+	</bean>
+	
 	<bean id="documentService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.student.core.document.service.DocumentService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/document}DocumentService" />
@@ -129,7 +134,7 @@
 		<constructor-arg>
 	      <list>
 	        <ref bean="orgClient"/>
-	      <!-- <ref bean="atpClient"/> -->	        	        	        
+	        <ref bean="atpClient"/>	        	        	        
 	      </list>
 		</constructor-arg>						
 	</bean>

@@ -67,7 +67,7 @@
 			<ref bean="atp.advancedAtpSearchParam.atpShortName"/>
 			<ref bean="atp.advancedAtpSearchParam.atpStartDate"/>
 			<ref bean="atp.advancedAtpSearchParam.atpEndDate"/>
-			<ref bean="atp.advancedAtpSearchParam.atpType"/>
+			<ref bean="atp.advancedAtpSearchParam.atpTypeName"/>
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>	
 	
@@ -90,6 +90,11 @@
 	<search:queryParam id="atp.advancedAtpSearchParam.atpType-parent" optional="true" abstract="true">
 		<ref bean="atp.fieldDescriptor.type"/>
 	</search:queryParam>			
+		
+	<search:queryParam id="atp.advancedAtpSearchParam.atpTypeName" parent="atp.advancedAtpSearchParam.atpTypeName-parent"/>
+	<search:queryParam id="atp.advancedAtpSearchParam.atpTypeName-parent" optional="true" abstract="true">
+		<ref bean="atp.fieldDescriptor.typeName"/>
+	</search:queryParam>
 	
 	<dict:fieldDescriptor id="atp.fieldDescriptor.shortName" parent="atp.fieldDescriptor.shortName-parent"/>
 	<dict:fieldDescriptor id="atp.fieldDescriptor.shortName-parent" abstract="true">
@@ -122,6 +127,14 @@
 		<dict:search key="atp.search.atpTypes"/>
 	</dict:fieldDescriptor>
 	
+	<dict:fieldDescriptor id="atp.fieldDescriptor.typeName" parent="atp.fieldDescriptor.typeName-parent"/>
+	<dict:fieldDescriptor id="atp.fieldDescriptor.typeName-parent" abstract="true">
+		<dict:name>Type Name</dict:name>
+		<dict:desc>Type name for the ATP.</dict:desc>
+		<dict:dataType>string</dict:dataType>
+		<dict:readOnly>true</dict:readOnly>
+	</dict:fieldDescriptor>
+	
 	<search:searchResultTypeInfo id="atp.result.advancedAtpSearch" parent="atp.result.advancedAtpSearch-parent"/>
 	<search:searchResultTypeInfo id="atp.result.advancedAtpSearch-parent" abstract="true">
 		<search:name>ATP Advanced Search</search:name>
@@ -130,6 +143,7 @@
 		</search:desc>
 		<search:resultColumns>
 			<ref bean="atp.resultColumn.atpId" />
+			<ref bean="atp.resultColumn.atpShortName" />
 			<ref bean="atp.resultColumn.atpSeasonalType" />
 			<ref bean="atp.resultColumn.atpDurType" />
 			<ref bean="atp.resultColumn.atpStartDate" />
@@ -348,14 +362,13 @@
 				<entry key="atp.search.advancedAtpSearch">
 					<value>SELECT
 					       atp.id,
-                           seasonaltype.name,
-                           durtype.name,
+					       atp.name,
+                           atp.type.seasonalType.name,
+                           atp.type.durationType.name,
 					       atp.effectiveDate,
-					       atptype.name
+					       atp.type.name
                            FROM Atp atp
-                           JOIN atp.type atptype
-                           JOIN atptype.seasonalType seasonaltype
-                           JOIN atptype.durationType durtype</value>
+                           </value>
 				</entry>
 				<entry key="atp.search.atpByDate">
 					<value>SELECT
@@ -376,6 +389,9 @@
 				</entry>
 				<entry key="atp.advancedAtpSearchParam.atpEndDate">
 					<value>atp.expirationDate = :atp_advancedAtpSearchParam_atpEndDate</value>
+				</entry>
+				<entry key="atp.advancedAtpSearchParam.atpTypeName">
+					<value>atp.type.name</value>
 				</entry>
 				<entry key="atp.advancedAtpSearchParam.atpType">
 					<value>atptype.id = :atp_advancedAtpSearchParam_atpType</value>

@@ -66,6 +66,8 @@ public class SearchDispatchRpcGwtServlet extends RemoteServiceServlet implements
 				} catch (MissingParameterException e) {
 					e.printStackTrace();
 				} 								
+			} else {
+				LOG.error("Search Dispatcher has no search service defined for: " + searchRequest.getSearchKey());
 			}
 		}
 		return null;
