@@ -35,9 +35,9 @@ public class ServiceExceptionWriter extends JavaClassWriter
  private ServiceMethodError error;
 
  public ServiceExceptionWriter (DictionaryModel model,
-                          String directory,
-                          Service service,
-                          ServiceMethodError error)
+                                String directory,
+                                Service service,
+                                ServiceMethodError error)
  {
   super (directory, calcPackage (service), calcClassName (error.getType ()));
   this.model = model;
@@ -45,7 +45,6 @@ public class ServiceExceptionWriter extends JavaClassWriter
   this.service = service;
   this.error = error;
  }
-
 
  public static String calcPackage (Service service)
  {
@@ -63,31 +62,40 @@ public class ServiceExceptionWriter extends JavaClassWriter
   */
  public void write ()
  {
-  indentPrintln ("public class " + calcClassName (error.getType ()) + " extends Exception");
+  String className = calcClassName (error.getType ());
+  indentPrintln ("public class " + className + " extends Exception");
   openBrace ();
-
   indentPrintln ("");
-  indentPrintln ("public " + calcClassName (error.getType ()) + "()");
+	 indentPrintln ("private static final long serialVersionUID = 1L;");
+  indentPrintln ("");
+  indentPrintln ("public " + className + "()");
   openBrace ();
   indentPrintln ("super ();");
   closeBrace ();
 
   indentPrintln ("");
-  indentPrintln ("public " + calcClassName (error.getType ()) + "(Throwable cause)");
+  indentPrintln ("public " + className + "(String msg)");
+  openBrace ();
+  indentPrintln ("super (msg);");
+  closeBrace ();
+
+  indentPrintln ("");
+  indentPrintln ("public " + className + "(Throwable cause)");
   openBrace ();
   indentPrintln ("super (cause);");
   closeBrace ();
 
   indentPrintln ("");
-  indentPrintln ("public " + calcClassName (error.getType ()) + "(String msg, Throwable cause)");
+  indentPrintln ("public " + className + "(String msg, Throwable cause)");
   openBrace ();
   indentPrintln ("super (msg, cause);");
   closeBrace ();
-  
+
   indentPrintln ("");
   closeBrace ();
 
   this.writeJavaClassAndImportsOutToFile ();
   this.getOut ().close ();
  }
+
 }

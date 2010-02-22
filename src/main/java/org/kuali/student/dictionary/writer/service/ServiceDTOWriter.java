@@ -15,6 +15,7 @@
  */
 package org.kuali.student.dictionary.writer.service;
 
+import java.io.Serializable;
 import java.util.List;
 import org.kuali.student.dictionary.DictionaryExecutionException;
 import org.kuali.student.dictionary.model.DictionaryModel;
@@ -74,12 +75,16 @@ public class ServiceDTOWriter extends JavaClassWriter
  {
   indentPrintln ("public class " + calcClassName (type.getName ()));
   incrementIndent ();
-  indentPrintln (" implements "
+  indentPrint (" implements "
    + ServiceInfoWriter.calcClassName (type.getName ()));
   importsAdd (ServiceInfoWriter.calcPackage (service)
    + "." + ServiceInfoWriter.calcClassName (type.getName ()));
+  this.importsAdd (Serializable.class.getName ());
+  indentPrintln (", Serializable");
   openBrace ();
 
+  indentPrintln ("");
+	 indentPrintln ("private static final long serialVersionUID = 1L;");
 
   List<MessageStructure> list =
   finder.findMessageStructures (type.getName ());
