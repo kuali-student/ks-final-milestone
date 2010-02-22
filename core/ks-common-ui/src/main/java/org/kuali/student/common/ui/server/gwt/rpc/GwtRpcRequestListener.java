@@ -10,6 +10,16 @@ import com.google.gwt.user.server.rpc.RPCRequest;
  */
 public interface GwtRpcRequestListener {
 	/**
+	 * This is the name of a method to execute
+	 */
+	public static final String RPC_REQUEST_METHOD = "rpc.method";
+
+	/**
+	 * These are the method parameters
+	 */
+	public static final String RPC_REQUEST_PARAMETERS = "rpc.params";
+
+	/**
 	 * This is a String that represents a serialized object that has come from
 	 * the browser
 	 */
