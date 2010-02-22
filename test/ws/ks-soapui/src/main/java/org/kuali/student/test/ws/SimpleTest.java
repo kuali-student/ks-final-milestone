@@ -22,10 +22,10 @@ public class SimpleTest {
 			// create new project
 			WsdlProject project = new WsdlProject();
 
-			// import amazon wsdl
+			// import wsdl
 			WsdlInterface iface = project.importWsdl("http://localhost//services/LuService?wsdl", true)[0];
 
-			// get "GetPage" operation
+			// Cycle through the available operations
 			List<Operation> operations = iface.getOperationList();
 
 			for (Operation operation : operations) {
@@ -41,13 +41,13 @@ public class SimpleTest {
 
 	protected String getString(WsdlOperation op) {
 		StringBuffer sb = new StringBuffer();
-		sb.append(op.getAction() + " ");
-		sb.append(op.getAnonymous() + " ");
+		// sb.append(op.getAction() + " ");
+		// sb.append(op.getAnonymous() + " ");
 		sb.append(op.getBindingOperationName() + " ");
-		sb.append(op.getInputName() + " ");
-		sb.append(op.getOutputName() + " ");
-		sb.append(op.getStyle() + " ");
-		sb.append(op.getType() + " ");
+		// sb.append(op.getInputName() + " ");
+		// sb.append(op.getOutputName() + " ");
+		// sb.append(op.getStyle() + " ");
+		// sb.append(op.getType() + " ");
 		return sb.toString();
 	}
 }
