@@ -12,7 +12,7 @@
   <name>Kuali Student Testing</name>
   <url>http://localhost/</url>
   <description>Kuali Student Testing</description>
-  <version>6-SNAPSHOT</version>
+  <version>6</version>
   <modules>
     <module>performance</module>
     <module>ui</module>
@@ -23,9 +23,9 @@
     <url>https://test.kuali.org/jira/browse/KSLAB</url>
   </issueManagement>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/test</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/test</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/test</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/test-6</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/tags/test-6</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/tags/test-6</url>
   </scm>
   <distributionManagement>
     <site>
