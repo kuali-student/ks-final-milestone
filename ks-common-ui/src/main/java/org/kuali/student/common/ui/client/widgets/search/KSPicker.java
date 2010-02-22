@@ -17,6 +17,7 @@ package org.kuali.student.common.ui.client.widgets.search;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
@@ -27,12 +28,15 @@ import org.kuali.student.core.assembly.data.LookupMetadata;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.SuggestBox;
+import com.google.gwt.user.client.ui.TextBoxBase;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -42,6 +46,7 @@ public class KSPicker extends Composite implements HasValue<String> {
     private BasicWidget basicWidget;
     private Hyperlink advSearchLink = new Hyperlink("advanced search", "advSearch");
     private AdvancedSearchWindow advSearchWindow = null;
+    private SearchPanel searchPanel;
     
     public KSPicker(LookupMetadata inLookupMetadata, List<LookupMetadata> additionalLookupMetadata){
     	    	
@@ -56,10 +61,15 @@ public class KSPicker extends Composite implements HasValue<String> {
     	if (inLookupMetadata.getWidget() == LookupMetadata.Widget.SUGGEST_BOX) {
 			final SearchSuggestOracle orgSearchOracle = new SearchSuggestOracle(inLookupMetadata);     	
 			basicWidget = new BasicWidget(new KSSuggestBox(orgSearchOracle)); 
-			((SuggestBox) basicWidget.get()).setAutoSelectEnabled(false);
+			((KSSuggestBox) basicWidget.get()).setAutoSelectEnabled(false);
 	    	orgSearchOracle.setTextWidget(((SuggestBox) basicWidget.get()).getTextBox());		
 	        layout.add(basicWidget.get());
-    	} else {
+    	} else if (inLookupMetadata.getWidget() == LookupMetadata.Widget.NO_WIDGET) {
+    		if ((inLookupMetadata.getName() != null) && (inLookupMetadata.getName().trim().length() > 0)) {
+    			advSearchLink.setText(inLookupMetadata.getName().trim());
+    		}
+    		basicWidget = new BasicWidget(new SelectionContainerWidget());
+    	} else { //default to text box
     		basicWidget = new BasicWidget(new KSTextBox());
     		layout.add(basicWidget.get());
     		GWT.log("KSTextBox for " + inLookupMetadata.getKey(), null);
@@ -73,22 +83,18 @@ public class KSPicker extends Composite implements HasValue<String> {
     		
     		//for multiple searches, show a drop down for user to select from
     		if (advancedLightboxLookupdata.size() == 1) {
-    			advSearchWindow = new AdvancedSearchWindow(advancedLightboxLookupdata.get(0).getName(), new SearchPanel(advancedLightboxLookupdata.get(0)));
+    			searchPanel = new SearchPanel(advancedLightboxLookupdata.get(0));
+    			advSearchWindow = new AdvancedSearchWindow(advancedLightboxLookupdata.get(0).getTitle(), searchPanel);
     		} else {
-    			advSearchWindow = new AdvancedSearchWindow(advancedLightboxLookupdata.get(0).getName(), new SearchPanel(advancedLightboxLookupdata));
+    			searchPanel = new SearchPanel(advancedLightboxLookupdata);
+    			advSearchWindow = new AdvancedSearchWindow(advancedLightboxLookupdata.get(0).getTitle(), searchPanel);
     		}
+    		searchPanel.setMultiSelect(true);
     		
 	        advSearchWindow.addSelectionCompleteCallback(new Callback<List<SelectedResults>>(){
 	            public void exec(List<SelectedResults> results) {
-	                if (results.size() > 0){
-	                	//suggestBox.setText(results.get(0).getDisplayKey());
-	                	//suggestBox.setValue(results.get(0).getReturnKey());
-	                	
-                        IdableSuggestion theSuggestion = new IdableSuggestion();
-                        theSuggestion.setReplacementString(results.get(0).getDisplayKey());
-                        theSuggestion.setId(results.get(0).getReturnKey());                	
-                        basicWidget.setValue(theSuggestion);
-                        
+	                if (results.size() > 0){               	           	
+                        basicWidget.setResults(results);                        
 	                	advSearchWindow.hide();
 	                }                
 	            }            
@@ -126,12 +132,21 @@ public class KSPicker extends Composite implements HasValue<String> {
 			this.basicWidget = basicWidget;			
 		}
 		
-		public void setValue(Object value) {
+		public void setResults(List<SelectedResults> results) {
 			if (basicWidget.getClass().getName().contains("KSTextBox")) {
-				((KSTextBox)basicWidget).setText((String) value);
+				((KSTextBox)basicWidget).setText(results.get(0).getDisplayKey());  //FIXME: what about the result id?
+			} else if (basicWidget.getClass().getName().contains("ContainerWidget")) {
+				List<String> selections = new ArrayList<String>();
+				for (SelectedResults result: results) {
+					selections.add(result.getDisplayKey());						  //FIXME: what about the result ids?
+				}				
+				((SelectionContainerWidget) basicWidget).setSelections(selections);
 			} else if (basicWidget.getClass().getName().contains("KSSuggestBox")) {
-				((KSSuggestBox) basicWidget).setValue((IdableSuggestion)value);
-			}			
+                IdableSuggestion theSuggestion = new IdableSuggestion();
+                theSuggestion.setReplacementString(results.get(0).getDisplayKey());
+                theSuggestion.setId(results.get(0).getReturnKey());     				
+				((KSSuggestBox) basicWidget).setValue(theSuggestion);
+			}				
 		}
 		
 		public void setValue(String value, boolean fireEvents) {
@@ -163,6 +178,58 @@ public class KSPicker extends Composite implements HasValue<String> {
 		public Widget get() {
 			return basicWidget;
 		}
+
+		public void addValuesChangeHandler(ValueChangeHandler<List<String>> handler) {
+			if (basicWidget.getClass().getName().contains("ContainerWidget")) {
+				((SelectionContainerWidget) basicWidget).addValuesChangeHandler(handler);
+			}
+		}
+    }
+    
+    private class SelectionContainerWidget extends Widget implements HasValue<List<String>> {
+    	//ValueChangeHandler<List<String>> handler;
+    	private List<String> selections = new ArrayList<String>();
+
+		public List<String> getSelections() {
+			return selections;
+		}
+
+		public void addValuesChangeHandler(ValueChangeHandler<List<String>> handler) {
+			super.addHandler(handler, ValueChangeEvent.getType());
+		}
+
+		public void setSelections(List<String> selections) {
+			this.selections = selections;
+			ValueChangeEvent.fire(this, this.selections);
+		}
+
+		@Override
+		public List<String> getValue() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public void setValue(List<String> value) {
+			// TODO Auto-generated method stub			
+		}
+
+		@Override
+		public void setValue(List<String> value, boolean fireEvents) {
+			// TODO Auto-generated method stub			
+		}
+
+		@Override
+		public HandlerRegistration addValueChangeHandler(ValueChangeHandler<List<String>> handler) {
+			// TODO Auto-generated method stub
+			return null;
+		}    	    	
+    }
+    
+    //TODO use for labels lookup
+    private String getLabel(String labelKey) {
+      //  return Application.getApplicationContext().getUILabel(messageGroup, type, state, labelKey);
+    	return null;
     }
     
     public AdvancedSearchWindow getSearchWindow(){
@@ -188,5 +255,9 @@ public class KSPicker extends Composite implements HasValue<String> {
 	@Override
 	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
 		return basicWidget.addValueChangeHandler(handler);
+	} 
+
+	public void addValuesChangeHandler(ValueChangeHandler<List<String>> handler) {
+		basicWidget.addValuesChangeHandler(handler);
 	} 
 }

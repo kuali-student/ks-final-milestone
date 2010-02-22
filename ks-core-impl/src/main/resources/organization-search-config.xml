@@ -10,20 +10,20 @@
 	<import resource="organization-dictionary-config.xml" />
 
 	<!-- definition for generic search component -->
-	<search:searchType id="org.search.advanced" parent="org.search.advanced-parent"/>
-	<search:searchType id="org.search.advanced-parent"  abstract="true">
-		<search:name>Basic and Advanced Search</search:name>
+	<search:searchType id="org.search.generic" parent="org.search.generic-parent"/>
+	<search:searchType id="org.search.generic-parent"  abstract="true">
+		<search:name>Generic search for organizations</search:name>
 		<search:desc>Query with multiple optional elements to satisfy most advanced pickers</search:desc>
 		<search:searchResultTypeInfo>
-			<ref bean="org.result.advanced"/>  <!--  could be defined as stand alone -->
+			<ref bean="org.result.generic"/>  <!--  could be defined as stand alone -->
 		</search:searchResultTypeInfo>
 		<search:searchCriteriaTypeInfo>
-			<ref bean="org.criteria.orgAdvancedCriteria"/>
+			<ref bean="org.criteria.generic"/>
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
 
-	<search:searchResultTypeInfo id="org.result.advanced" parent="org.result.advanced-parent"/>
-	<search:searchResultTypeInfo id="org.result.advanced-parent"  abstract="true">
+	<search:searchResultTypeInfo id="org.result.generic" parent="org.result.generic-parent"/>
+	<search:searchResultTypeInfo id="org.result.generic-parent"  abstract="true">
 		<search:name>Organization Full View Less Hierarchies</search:name>
 		<search:desc>Full view of the Organization Less Hierarchies</search:desc>
 		<search:resultColumns>
@@ -41,10 +41,10 @@
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>
 	
-	<search:searchCriteriaTypeInfo id="org.criteria.orgAdvancedCriteria" parent="org.criteria.orgAdvancedCriteria-parent"/>
-	<search:searchCriteriaTypeInfo id="org.criteria.orgAdvancedCriteria-parent"  abstract="true">
-		<search:name>OrgAdvancedCriteria</search:name>
-		<search:desc>Advanced criteria</search:desc>
+	<search:searchCriteriaTypeInfo id="org.criteria.generic" parent="org.criteria.generic-parent"/>
+	<search:searchCriteriaTypeInfo id="org.criteria.generic-parent"  abstract="true">
+		<search:name>List of generic criteria</search:name>
+		<search:desc>Generic criteria</search:desc>
 		<search:queryParams>
 			<ref bean="org.queryParam.orgOptionalLongName"/>
 			<ref bean="org.queryParam.orgOptionalLocation"/>
@@ -614,7 +614,7 @@
 				<entry key="org.search.test.orgs">
 					<value>SELECT org.id, org.shortName, org.longName, org.type.id, hierarchy.name FROM Org org, in(org.type.orgHierarchies) hierarchy</value>
 				</entry>
-				<entry key="org.search.advanced">
+				<entry key="org.search.generic">
 					<value>SELECT org.id, org.shortName, org.longName, org.type.id FROM Org org</value>
 				</entry>				
 				<entry key="org.queryParam.orgGenericType">

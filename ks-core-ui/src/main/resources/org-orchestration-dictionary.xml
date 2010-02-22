@@ -701,7 +701,7 @@
 					</property>
 					<property name="initialLookup">
 						<bean parent="lookup">
-							<property name="key" value="org.search.advanced" />
+							<property name="key" value="org.search.generic" />
 							<property name="name" value="Basic and Advanced Search" />
 							<property name="desc"
 								value="Query with multiple optional elements to satisfy most advanced pickers" />

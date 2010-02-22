@@ -299,17 +299,18 @@ public class SearchPanel extends Composite{
 
 				@Override
 				public void onClick(ClickEvent event) {
-					//Create search request and then pass it to the table
-					//TODO pass search to the table
+
 					SearchRequest sr = new SearchRequest();
 					List<SearchParam> params = new ArrayList<SearchParam>();
 					List<HasSearchParam> userCriteria = new ArrayList<HasSearchParam>();
+					
 					for(SearchField field: searchFields){
 						SearchParam param = field.getSearchParam();
 						//TODO is this null check needed here? probably. assuming string here
 						//TODO make check more robust here/inserting params more robust
 						//do not pass to the search parameters that are empty
-						if ((param.getValue() != null) && (param.getValue().toString().trim().isEmpty() == false)){
+						//FIXME hack - comparison to 'optional' - replace with check against 'optional' field and update related lookup metadata
+						if ((param.getValue() != null) && ((param.getValue().toString().trim().isEmpty() == false) || (param.getKey().toLowerCase().indexOf("optional") == -1))) {
 							params.add(param);
 							userCriteria.add(field);
 						}						

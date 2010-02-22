@@ -22,10 +22,11 @@ public class LookupMetadata implements Serializable {
     private static final long serialVersionUID = 1L;
     
     private String key;    
-    private String name;
+    private String name;	//name of this search
     private String desc;
-    
-    @XmlElement(name="param")
+    private String title;   //advanced search window title
+
+	@XmlElement(name="param")
     @XmlElementWrapper
     private List<LookupParamMetadata> params;
     
@@ -52,7 +53,7 @@ public class LookupMetadata implements Serializable {
     private Usage usage;
     
     public enum Widget {
-        SUGGEST_BOX, ADVANCED_LIGHTBOX
+        NO_WIDGET, SUGGEST_BOX, ADVANCED_LIGHTBOX
     }
     private Widget widget;    
 
@@ -72,6 +73,14 @@ public class LookupMetadata implements Serializable {
         this.desc = desc;
     }
 
+    public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+    
     public List<LookupParamMetadata> getParams() {
         if (params == null) {
             params = new ArrayList<LookupParamMetadata>();
