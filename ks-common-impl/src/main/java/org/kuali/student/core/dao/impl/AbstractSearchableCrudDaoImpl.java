@@ -283,8 +283,8 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		String finalQueryString = queryString + optionalQueryString + orderByClause;
 		
 		//remove special characters and extra spaces
-		finalQueryString = queryString.replaceAll("[\n\r\t]", " ");
-		finalQueryString = queryString.replaceAll("\\s+", " ");
+		//finalQueryString = queryString.replaceAll("[\n\r\t]", " ");
+		//finalQueryString = queryString.replaceAll("\\s+", " ");
 		
 		Query query;
 		if(isNative){
