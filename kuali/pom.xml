@@ -48,7 +48,6 @@
   <url>http://www.kuali.org/</url>
   <properties>
     <project.distributionManagement.repository.url>scp://test.kuali.org:/opt/m2/repository</project.distributionManagement.repository.url>
-    <extraReleaseArguments />
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <sourceReleaseAssemblyDescriptor>source-release</sourceReleaseAssemblyDescriptor>
   </properties>
@@ -192,7 +191,7 @@
           <configuration>
             <useReleaseProfile>false</useReleaseProfile>
             <goals>deploy</goals>
-            <arguments>-Pkuali-release ${extraReleaseArguments}</arguments>
+            <arguments>-Pkuali-release</arguments>
           </configuration>
         </plugin>
         <plugin>
