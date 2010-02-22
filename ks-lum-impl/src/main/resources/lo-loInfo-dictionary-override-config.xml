@@ -11,7 +11,6 @@ on: Fri Feb 19 08:39:15 EST 2010
 by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
-<import resource="classpath:constraints-dictionary-config.xml"/>
 <import resource="classpath:lo-loInfo-dictionary-structure-config.xml"/>
 
 <!-- ********************************** -->
