@@ -1,17 +1,96 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.kuali.student.test.ws</groupId>
-    <artifactId>ws</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-  </parent>
-  <groupId>org.kuali.student.test.performance.ws.soapui</groupId>
-  <artifactId>ks-soapui</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  <name>WS - SoapUI</name>
-  <description>This is a service testing framework based on SoapUI</description>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+<!-- 
+	<parent>
+		<groupId>eviware</groupId>
+		<artifactId>build</artifactId>
+		<version>2.5.1</version>
+		<relativePath>../build/pom.xml</relativePath>
+	</parent>
+ -->
+	<groupId>eviware</groupId>
+	<artifactId>maven-soapui-plugin</artifactId>
+	<packaging>maven-plugin</packaging>
+	<version>3.0</version>
+	<name>soapUI - Maven 1.x/2.x compatible plugin</name>
+	<url>http://www.soapui.org/plugin/</url>
+	<description>Maven 2 project for building a soapUI plugin that is compatible with both Maven 1.x and Maven 2.x.</description>
+	
+	<inceptionYear>2006</inceptionYear>
+	
+	<organization>
+		<name>Eviware Software AB</name>
+		<url>http://www.eviware.com</url>
+	</organization>
+
+
+	<scm>
+		<connection>scm:svn:svn://svn.eviware.com/soapui/trunk/maven-plugin
+		</connection>
+	</scm>
+	
+	<issueManagement>
+		<url>https://sourceforge.net/tracker/?group_id=136013
+		</url>
+	</issueManagement>
+	<mailingLists>
+		<mailingList>
+			<name>soapui-user</name>
+			<subscribe>http://lists.sourceforge.net/lists/listinfo/soapui-user
+			</subscribe>
+			<unsubscribe>http://lists.sourceforge.net/lists/listinfo/soapui-user
+			</unsubscribe>
+			<archive>
+				http://sourceforge.net/mailarchive/forum.php?forum=soapui-user
+			</archive>
+		</mailingList>
+	</mailingLists>
+	
+	<developers>
+		<developer>
+			<id>omatzura</id>
+			<name>Ole Matzura</name>
+			<email>ole@eviware.com</email>
+			<organization>Eviware Software AB</organization>
+			<organizationUrl>http://www.eviware.com</organizationUrl>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+		<developer>
+			<id>rnemet</id>
+			<name>Robert Nemet</name>
+			<email>robert@eviware.com</email>
+			<organization>Eviware Software AB</organization>
+			<organizationUrl>http://www.eviware.com</organizationUrl>
+			<roles>
+				<role>developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+		<developer>
+			<id>nenad.nikolic</id>
+			<name>Nenad V. Nikolic</name>
+			<email>nenadn@eviware.com</email>
+			<organization>Eviware Software AB</organization>
+			<organizationUrl>http://www.eviware.com</organizationUrl>
+			<roles>
+				<role>developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+	</developers>
+
 	<dependencies>
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-plugin-api</artifactId>
+			<version>2.0</version>
+		</dependency>
 		<dependency>
 			<groupId>fife</groupId>
 			<artifactId>rsyntaxtextarea</artifactId>
@@ -54,10 +133,10 @@
 			<version>7.3</version>
 		</dependency>
 		<dependency>
-			<groupId>com.l2fprod.common</groupId>
-			<artifactId>l2fprod-common-directorychooser</artifactId>
-			<version>7.3</version>
-		</dependency>
+            <groupId>com.l2fprod.common</groupId>
+            <artifactId>l2fprod-common-directorychooser</artifactId>
+            <version>7.3</version>
+        </dependency>
 		<dependency>
 			<groupId>swingx</groupId>
 			<artifactId>swingx</artifactId>
@@ -141,7 +220,7 @@
 		<dependency>
 			<groupId>eviware</groupId>
 			<artifactId>soapui-xmlbeans</artifactId>
-			<version>3.5-beta2</version>
+			<version>3.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>eviware</groupId>
@@ -151,7 +230,7 @@
 		<dependency>
 			<groupId>eviware</groupId>
 			<artifactId>ext-xmlbeans</artifactId>
-			<version>1.2</version>
+			<version>1.1</version>
 		</dependency>
 		<dependency>
 			<groupId>eviware</groupId>
@@ -171,37 +250,37 @@
 		<dependency>
 			<groupId>eviware</groupId>
 			<artifactId>soapui</artifactId>
-			<version>3.5-beta2</version>
+			<version>3.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>saxon</groupId>
 			<artifactId>saxon</artifactId>
-			<version>9.1.0.8j</version>
+			<version>9.1.0.6j</version>
 		</dependency>
 		<dependency>
 			<groupId>saxon</groupId>
 			<artifactId>saxon-dom</artifactId>
-			<version>9.1.0.8j</version>
+			<version>9.1.0.6j</version>
 		</dependency>
 		<dependency>
-			<groupId>rhino</groupId>
-			<artifactId>js</artifactId>
-			<version>1.7R2</version>
-		</dependency>
+            <groupId>rhino</groupId>
+            <artifactId>js</artifactId>
+            <version>1.7R2</version>
+        </dependency>
 		<dependency>
 			<groupId>groovy</groupId>
 			<artifactId>groovy-all</artifactId>
-			<version>1.7.0</version>
+			<version>1.6.4</version>
 		</dependency>
 		<dependency>
 			<groupId>jetty</groupId>
 			<artifactId>jetty</artifactId>
-			<version>6.1.22</version>
+			<version>6.1.15</version>
 		</dependency>
 		<dependency>
 			<groupId>jetty</groupId>
 			<artifactId>jetty-util</artifactId>
-			<version>6.1.22</version>
+			<version>6.1.15</version>
 		</dependency>
 		<dependency>
 			<groupId>jetty</groupId>
@@ -209,15 +288,15 @@
 			<version>2.5-20081211</version>
 		</dependency>
 		<dependency>
-			<groupId>easymock</groupId>
-			<artifactId>easymock</artifactId>
-			<version>2.0</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-jexl</groupId>
-			<artifactId>commons-jexl</artifactId>
-			<version>1.0</version>
-		</dependency>
+            <groupId>easymock</groupId>
+            <artifactId>easymock</artifactId>
+            <version>2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-jexl</groupId>
+            <artifactId>commons-jexl</artifactId>
+            <version>1.0</version>
+        </dependency>
 		<dependency>
 			<groupId>xmlunit</groupId>
 			<artifactId>xmlunit</artifactId>
@@ -266,7 +345,7 @@
 		<dependency>
 			<groupId>commons-ssl</groupId>
 			<artifactId>not-yet-commons-ssl</artifactId>
-			<version>0.3.11</version>
+			<version>0.3.10</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.activation</groupId>
@@ -279,81 +358,68 @@
 			<version>1.4</version>
 		</dependency>
 		<dependency>
-			<groupId>teamdev</groupId>
-			<artifactId>jxbrowser</artifactId>
-			<version>1.4</version>
-			<type>jar</type>
-		</dependency>
-
-		<dependency>
-			<groupId>amf</groupId>
-			<artifactId>flex-messaging-common</artifactId>
-			<version>1.0</version>
-			<type>jar</type>
-		</dependency>
-		<dependency>
-			<groupId>amf</groupId>
-			<artifactId>flex-messaging-core</artifactId>
-			<version>1.0</version>
-			<type>jar</type>
-		</dependency>
-		<dependency>
-			<groupId>amf</groupId>
-			<artifactId>flex-messaging-opt</artifactId>
-			<version>1.0</version>
-			<type>jar</type>
-		</dependency>
-		<dependency>
-			<groupId>amf</groupId>
-			<artifactId>flex-messaging-proxy</artifactId>
-			<version>1.0</version>
-			<type>jar</type>
-		</dependency>
-		<dependency>
-			<groupId>amf</groupId>
-			<artifactId>flex-messaging-remoting</artifactId>
-			<version>1.0</version>
-			<type>jar</type>
-		</dependency>
-		<dependency>
-			<groupId>thoughtworks</groupId>
-			<artifactId>xstream</artifactId>
-			<version>1.3.1</version>
-			<type>jar</type>
-		</dependency>
-		<dependency>
-			<groupId>javax.jms</groupId>
-			<artifactId>jms</artifactId>
-			<version>1.1</version>
-			<type>jar</type>
-		</dependency>
-		<dependency>
-			<groupId>hermesjms</groupId>
-			<artifactId>hermes</artifactId>
-			<version>1.14</version>
-			<type>jar</type>
-		</dependency>
-		<dependency>
-			<groupId>activesoap</groupId>
-			<artifactId>jaxb-impl</artifactId>
-			<version>1.5</version>
-			<type>jar</type>
-		</dependency>
+            <groupId>teamdev</groupId>
+            <artifactId>jxbrowser</artifactId>
+            <version>1.3.21478.301</version>
+            <type>jar</type>
+        </dependency>
 	</dependencies>
+	<reporting>
+		<plugins>
+			<plugin>
+				<artifactId>maven-changes-plugin</artifactId>
+				<configuration>
+					<xmlPath>${basedir}/xdocs/changes.xml
+					</xmlPath>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<configuration>
+							<tasks>
+								<copy file="pom.xml" tofile="${project.build.directory}/maven-soapui-plugin-${project.version}.pom"/>
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptors>
+						<descriptor>src/assembly/src.xml</descriptor>
+					</descriptors>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 	<repositories>
 		<repository>
 			<id>eviwareRepository</id>
-			<url>http://www.eviware.com/repository/maven2</url>
+			<url>http://www.eviware.com/repository/maven2
+			</url>
 		</repository>
 		<repository>
 			<id>L2fprodMaven2Repository</id>
-			<url>http://www.l2fprod.com/maven2</url>
+			<url>http://www.l2fprod.com/maven2
+			</url>
 		</repository>
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
 			<id>eviwarePluginRepository</id>
-			<url>http://www.eviware.com/repository/maven2</url>
+			<url>http://www.eviware.com/repository/maven2
+			</url>
 		</pluginRepository>
 	</pluginRepositories>
 </project>
