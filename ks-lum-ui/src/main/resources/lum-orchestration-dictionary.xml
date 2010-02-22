@@ -2222,7 +2222,7 @@
 				<!-- definition of advanced search window -->
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="lookupKey" value="kuali.lo.lookup.SingleUseLo.description.advanced1"/>			
-					<property name="key" value="lo.search.loCluByDesc"/>		<!-- once is cross search working use: lo.search.loByDescCrossSearch   -->				
+					<property name="key" value="lo.search.loByDescCrossSearch"/>		<!-- once is cross search working use: lo.search.loByDescCrossSearch   -->				
 					<property name="name" value="Search for words in Learning Objective"/>
 					<property name="desc" value="Search for descriptions in existing learning objectives."/>
 					<property name="title" value="Search for Learning Objectives"/>											
