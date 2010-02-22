@@ -20,16 +20,23 @@
         <module>web</module>
     </modules>
     <repositories>
-        <repository>
-            <id>kuali.release</id>
-            <url>https://test.kuali.org/maven</url>
-            <snapshots><enabled>false</enabled></snapshots>
-        </repository>
-        <repository>
-            <id>kuali.snapshot</id>
-            <url>http://archiva.kuali.umd.edu/repository/snapshot</url>
-            <releases><enabled>false</enabled></releases>
-        </repository>
+      <repository>
+        <id>kuali.release</id>
+        <url>https://test.kuali.org/maven</url>
+        <snapshots><enabled>false</enabled></snapshots>
+      </repository>
+      <repository>
+        <id>kuali.snapshot</id>
+        <url>http://archiva.kuali.umd.edu/repository/snapshot</url>
+        <releases><enabled>false</enabled></releases>
+      </repository>
+      <repository>
+        <id>kuali.release.lab</id>
+        <url>https://test.kuali.org/svn/student/deploymentlab/repository</url>
+        <snapshots>
+          <enabled>false</enabled>
+        </snapshots>
+      </repository>
     </repositories>
     <properties>
     	<!-- artifact versions -->
