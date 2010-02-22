@@ -175,66 +175,46 @@
 	</search:searchCriteriaTypeInfo>
 		
     <search:queryParam id="lo.queryParam.loName">
-        <dict:fieldDescriptor>
-            <dict:name>Learning Objective Name</dict:name>
-	        <dict:desc>Human-readable name for learning objective</dict:desc>
-	        <dict:dataType>string</dict:dataType>
-	        <dict:readOnly>true</dict:readOnly>
-        </dict:fieldDescriptor>
+	    <ref bean="field.loInfo.name.fd"/>
     </search:queryParam>
     
 	<search:queryParam id="lo.queryParam.loDescPlain" optional="true">
-        <dict:fieldDescriptor parent="parentFieldDescriptor">
-            <dict:name>Description</dict:name>
-        </dict:fieldDescriptor>
+		<ref bean="field.loInfo.desc.plain.fd"/>
     </search:queryParam>
        
 	<search:queryParam id="lo.queryParam.loCategoryName">
-        <dict:fieldDescriptor parent="parentFieldDescriptor">
-            <dict:name>Category</dict:name>
-        </dict:fieldDescriptor>
+		<ref bean="field.loCategoryInfo.name.fd"/>
     </search:queryParam>
     
 	<search:queryParam id="lo.queryParam.loOptionalCategoryName" optional="true">
-        <dict:fieldDescriptor parent="parentFieldDescriptor">
-            <dict:name>Category</dict:name>
-        </dict:fieldDescriptor>
+		<ref bean="field.loCategoryInfo.name.fd"/>
     </search:queryParam>    
     
     <search:queryParam id="lo.queryParam.cluOfficialIdentifier.cluCode" optional="true">
+    	<!-- no dictionary reference unless we import the lu dictionary here which might violate service modularity -->
         <dict:fieldDescriptor parent="parentFieldDescriptor">
             <dict:name>Course Code</dict:name>
         </dict:fieldDescriptor>
     </search:queryParam>    
     
 	<search:queryParam id="lo.queryParam.loCategoryRepo">
-        <dict:fieldDescriptor parent="parentFieldDescriptor">
-            <dict:name>LoRepository ID</dict:name>
-        </dict:fieldDescriptor>
+		<ref bean="field.loCategoryInfo.loRepository.fd"/>
     </search:queryParam>
     
 	<search:queryParam id="lo.queryParam.loCategoryType">
-        <dict:fieldDescriptor parent="parentFieldDescriptor">
-            <dict:name>LoCategory type</dict:name>
-        </dict:fieldDescriptor>
+		<ref bean="field.loCategoryInfo.type.fd"/>
     </search:queryParam>
     
 	<search:queryParam id="lo.queryParam.loCategoryState">
-        <dict:fieldDescriptor parent="parentFieldDescriptor">
-            <dict:name>LoCategory state</dict:name>
-        </dict:fieldDescriptor>
+		<ref bean="field.loCategoryInfo.state.fd"/>
     </search:queryParam>
     
 	<search:queryParam id="lo.queryParam.startsWith.loCategoryName">
-        <dict:fieldDescriptor parent="parentFieldDescriptor">
-            <dict:name>Category</dict:name>
-        </dict:fieldDescriptor>
+		<ref bean="field.loCategoryInfo.name.fd"/>
     </search:queryParam>
     
     <search:queryParam id="lo.queryParam.loCategoryId">
-		<dict:fieldDescriptor parent="parentFieldDescriptor">
-			<dict:name>LO category Id</dict:name>
-		</dict:fieldDescriptor>
+		<ref bean="field.loCategoryInfo.id.fd"/>
 	</search:queryParam>
 	
     <search:searchResultTypeInfo id="lo.result.los">
