@@ -381,7 +381,7 @@
 	        <ref bean="luClient"/>
 	        <ref bean="loClient"/>
 	        <ref bean="orgClient"/>
-	      <!-- <ref bean="atpClient"/> -->
+	      	<ref bean="atpClient"/>
 	        <ref bean="personSearchClient"/>
 	      </list>
 		</constructor-arg>

@@ -2577,10 +2577,13 @@
 		</property>
 		<property name="initialLookup">
 			<bean parent="lookup">
+				<property name="lookupKey" value="kuali.lu.lookup.firstexpectedoffering.suggest" />
 				<property name="key" value="atp.search.advancedAtpSearch" />
 				<property name="name" value="Advanced ATP match" />
 				<property name="desc"
 					value="Search by Name, start date, end date, and type" />
+				<property name="widget" value="SUGGEST_BOX" />
+				<property name="searchParamIdKey" value="atp.advancedAtpSearchParam.atpShortName`" />
 				<property name="params">
 					<list>
 						<bean parent="param">
@@ -2630,6 +2633,9 @@
 						</bean>
 					</list>
 				</property>
+				<property name="resultReturnKey" value="atp.resultColumn.atpId" />
+				<property name="resultDisplayKey" value="atp.resultColumn.atpSeasonalType" />
+				<property name="resultSortKey" value="atp.resultColumn.atpSeasonalType" />
 				<property name="results">
 					<list>
 						<bean parent="result">
@@ -2669,17 +2675,122 @@
 						</bean>
 					</list>
 				</property>
-				<property name="resultReturnKey" value="atp.resultColumn.atpId" />
-				<property name="resultDisplayKey" value="atp.resultColumn.atpSeasonalType" />
-				<property name="resultSortKey" value="atp.resultColumn.atpSeasonalType" />
-				<property name="usage" value="DEFAULT" />
-				<property name="lookupKey" value="kuali.lookup.terms" />
 			</bean>
 		</property>
 		<property name="additionalLookups">
-			<list />
+			<list>
+				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="lookupKey" value="kuali.lu.lookup.firstexpectedoffering.advanced" />
+					<!-- property name="title" value="Search for ATPs for First Expected Offering" /-->
+					<property name="key" value="atp.search.advancedAtpSearch" />
+					<property name="name" value="Advanced ATP match" />
+					<property name="desc"
+						value="Search by Name, start date, end date, and type" />
+					<property name="widget" value="ADVANCED_LIGHTBOX" />
+					<property name="searchParamIdKey" value="atp.advancedAtpSearchParam.atpShortName`" />
+					<property name="params">
+						<list>
+							<bean parent="param">
+								<property name="key" value="atp.advancedAtpSearchParam.atpShortName" />
+								<property name="writeAccess" value="ALWAYS" />
+								<property name="dataType" value="STRING" />
+								<property name="optional" value="true" />
+								<property name="name" value="ATP Short Name" />
+								<property name="desc"
+									value="Short name for the ATP, recorded as the default listing" />
+								<property name="caseSensitive" value="false" />
+								<property name="usage" value="ADVANCED" />
+								<property name="widget" value="SUGGEST_BOX" />
+							</bean>
+							<bean parent="param">
+								<property name="key" value="atp.advancedAtpSearchParam.atpStartDate" />
+								<property name="writeAccess" value="ALWAYS" />
+								<property name="dataType" value="TRUNCATED_DATE" />
+								<property name="optional" value="true" />
+								<property name="name" value="Start Date" />
+								<property name="desc" value="Start date of the ATP" />
+								<property name="caseSensitive" value="true" />
+								<property name="usage" value="ADVANCED" />
+								<property name="widget" value="CALENDAR" />
+							</bean>
+							<bean parent="param">
+								<property name="key" value="atp.advancedAtpSearchParam.atpEndDate" />
+								<property name="writeAccess" value="ALWAYS" />
+								<property name="dataType" value="TRUNCATED_DATE" />
+								<property name="optional" value="true" />
+								<property name="name" value="End Date" />
+								<property name="desc" value="End date of the ATP." />
+								<property name="caseSensitive" value="true" />
+								<property name="usage" value="CUSTOM" />
+								<property name="widget" value="CALENDAR" />
+							</bean>
+							<bean parent="param">
+								<property name="key" value="atp.advancedAtpSearchParam.atpTypeName" />
+								<property name="writeAccess" value="ALWAYS" />
+								<property name="dataType" value="STRING" />
+								<property name="optional" value="true" />
+								<property name="name" value="Type" />
+								<property name="desc" value="Type of the ATP" />
+								<property name="caseSensitive" value="false" />
+								<property name="usage" value="ADVANCED" />
+								<property name="widget" value="DROPDOWN_LIST" />
+							</bean>
+						</list>
+					</property>
+					<property name="resultReturnKey" value="atp.resultColumn.atpId" />
+					<property name="resultDisplayKey" value="atp.resultColumn.atpShortName" />
+					<property name="resultSortKey" value="atp.resultColumn.atpSeasonalType" />
+					<property name="results">
+						<list>							
+							<bean parent="result">
+								<property name="dataType" value="STRING" />
+								<property name="desc" value="Name of the ATP" />
+								<property name="hidden" value="false" />
+								<property name="key" value="atp.resultColumn.atpShortName" />
+								<property name="name" value="ATP Name" />
+							</bean>	
+							<bean parent="result">
+								<property name="dataType" value="STRING" />
+								<property name="desc" value="Identifier for the ATP" />
+								<property name="hidden" value="false" />
+								<property name="key" value="atp.resultColumn.atpId" />
+								<property name="name" value="ATP Identifier" />
+							</bean>
+							<bean parent="result">
+								<property name="dataType" value="STRING" />
+								<property name="desc" value="Will return Season Type." />
+								<property name="hidden" value="false" />
+								<property name="key" value="atp.resultColumn.atpSeasonalType" />
+								<property name="name" value="Season Type" />
+							</bean>
+							<bean parent="result">
+								<property name="dataType" value="STRING" />
+								<property name="desc" value="Will return Duration Type" />
+								<property name="hidden" value="false" />
+								<property name="key" value="atp.resultColumn.atpDurType" />
+								<property name="name" value="Duration Type" />
+							</bean>
+							<bean parent="result">
+								<property name="dataType" value="TRUNCATED_DATE" />
+								<property name="desc" value="Start Date of the ATP" />
+								<property name="hidden" value="false" />
+								<property name="key" value="atp.resultColumn.atpStartDate" />
+								<property name="name" value="Start Date" />
+							</bean>
+							<bean parent="result">
+								<property name="dataType" value="STRING" />
+								<property name="desc" value="Type of the ATP." />
+								<property name="hidden" value="false" />
+								<property name="key" value="atp.resultColumn.atpTypeName" />
+								<property name="name" value="Type Name" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
 		</property>
 	</bean>
+	
 	<bean id="course.duration" parent="dataFieldDescriptor">
 		<property name="name" value="duration" />
 		<property name="writeAccess" value="ALWAYS" />

@@ -385,7 +385,9 @@ public class CourseConfigurer
 //        credits.addField(new FieldDescriptor("cluInfo/maxCredits", getLabel(LUConstants.MAX_CREDITS_LABEL_KEY), Type.STRING));
 //        VerticalSection learningResults = initSection(getH3Title(LUConstants.LEARNING_RESULTS_LABEL_KEY), WITH_DIVIDER);
 //        learningResults.addField(new FieldDescriptor("cluInfo/evalType", getLabel(LUConstants.EVALUATION_TYPE_LABEL_KEY), Type.STRING)); //TODO EVAL TYPE ENUMERATION ????
-
+        VerticalSection firstExpectedOfferingSection = initSection(getH3Title("First Expected Offering"), WITH_DIVIDER);
+        addField(firstExpectedOfferingSection, COURSE + "/" + FIRST_EXPECTED_OFFERING);
+        section.addSection(firstExpectedOfferingSection);
         section.addSection(generateInstructorsSection());
 //        section.addSection(credits);
 //        section.addSection(learningResults);
@@ -431,7 +433,7 @@ public class CourseConfigurer
         //scheduling.addField(termDescriptor);
         GroupSection duration = new GroupSection();
         addField(duration, COURSE + "/" + CreditCourseConstants.DURATION + "/" + QUANTITY, getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY)); //TODO DURATION ENUMERATION
-        addField(duration, COURSE + "/" + CreditCourseConstants.DURATION + "/" + "timeUnit", "Duration Type", new DurationAtpTypeList());
+        addField(duration, COURSE + "/" + CreditCourseConstants.DURATION + "/" + "timeUnit", "Duration Type", new DurationAtpTypeList());        
         scheduling.addSection(duration);
         return scheduling;
 	}
