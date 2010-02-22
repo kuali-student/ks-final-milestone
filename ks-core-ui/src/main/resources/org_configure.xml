@@ -22,7 +22,7 @@
 	</fields>
 </sectionView>
 
-<sectionView viewName="POSITIONS" tab="PositionsMembers">
+<sectionView viewName="POSITIONS" tab="Positions/Members">
 	<section sectionName="Positions" enum="POSITIONS"></section>
 	<fields>
 			<field label="" key="" widget="PositionTable"></field> 
@@ -47,7 +47,7 @@
 	</fields>
 </sectionView>
 
-<sectionView viewName="SEARCH" tab="Search">
+<sectionView viewName="SEARCH" tab="Search/Modify">
 	<section sectionName="Search" enum="SEARCH"></section>
 	<fields>
 		<field label="orgId" key="orgSearchInfo/searchOrgs" widget="OrgUpdatePanel"></field> 
