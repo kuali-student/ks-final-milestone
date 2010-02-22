@@ -50,7 +50,7 @@
 <sectionView viewName="SEARCH" tab="Search/Modify">
 	<section sectionName="Search" enum="SEARCH"></section>
 	<fields>
-		<field label="orgId" key="orgSearchInfo/searchOrgs" widget="OrgUpdatePanel"></field> 
+		<field label="orgId" key="orgSearchInfo/searchOrgs"></field> 
 
 	</fields>
 </sectionView> 
