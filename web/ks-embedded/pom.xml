@@ -67,7 +67,7 @@
 	</build>
 	<dependencies>
        <dependency>
-         <groupId>com.cenqua</groupId>
+         <groupId>com.cenqua.clover</groupId>
           <artifactId>clover</artifactId>
           <version>2.6.3</version>
        </dependency>
