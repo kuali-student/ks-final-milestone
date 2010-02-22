@@ -5,9 +5,42 @@ import javax.servlet.http.HttpServletRequest;
 import com.google.gwt.user.server.rpc.RPCRequest;
 
 /**
- * GWT provides hooks into its handling of RPC requests.
+ * GWT provides hooks into its handling of RPC requests. This is a listener
+ * interface for responding to RPC events.
  */
 public interface GwtRpcRequestListener {
+	/**
+	 * This is a String that represents a serialized object that has come from
+	 * the browser
+	 */
+	public static final String RPC_REQUEST_PAYLOAD = "rpc.requestPayload";
+
+	/**
+	 * The serialized object gets decoded into a Method and an Object[] of
+	 * parameters
+	 */
+	public static final String RPC_REQUEST = "rpc.rpcRequest";
+
+	/**
+	 * This is the object that will get serialized and returned.
+	 */
+	public static final String RPC_RETURN_OBJECT = "rpc.returnObject";
+
+	/**
+	 * This is the return object after it has been serialized
+	 */
+	public static final String RPC_RESPONSE_PAYLOAD = "rpc.responsePayload";
+
+	/**
+	 * An unexpected exception occurred that we did not catch
+	 */
+	public static final String RPC_UNEXPECTED_FAILURE = "rpc.unexpected";
+
+	/**
+	 * Something happened that we specifically caught
+	 */
+	public static final String RPC_TRAPPED_EXCEPTION = "rpc.trappedException";
+
 	/**
 	 * This event gets fired after GWT has read the bytes associated with this
 	 * http request into a string but before it attempts to do anything else.
