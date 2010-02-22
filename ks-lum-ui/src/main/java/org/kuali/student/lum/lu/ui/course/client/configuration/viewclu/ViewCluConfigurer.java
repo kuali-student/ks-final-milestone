@@ -26,22 +26,36 @@ import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
 import org.kuali.student.common.ui.client.configurable.mvc.Section.FieldLabelType;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.dictionary.DictionaryManager;
+import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.Type;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
 import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
+import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.dictionary.dto.Field;
+import org.kuali.student.lum.lu.assembly.data.client.LuData;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalConstants;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseReqSummaryHolder;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRequisitesSummaryView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluDictionaryClassNameHelper;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
+import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LuConfigurer.LuSections;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -175,19 +189,22 @@ public class ViewCluConfigurer {
     }
 
     private static SectionView generateRequisitesSection() {
-        VerticalSectionView section = initSectionView(LuSections.COURSE_REQUISITES, LUConstants.REQUISITES_LABEL_KEY); 
-
-        VerticalSection preqSection = initSection(getH3Title(LUConstants.PREQS_LABEL_KEY), WITH_DIVIDER);
-        preqSection.addField(new FieldDescriptor("prerequisites", "TO DO", Type.STRING, new KSLabel()));
-
-        VerticalSection creqSection = initSection(getH3Title(LUConstants.CREQS_LABEL_KEY), WITH_DIVIDER);
-        creqSection.addField(new FieldDescriptor("corequisites", "TO DO", Type.STRING, new KSLabel()));
-
-        section.addSection(preqSection);
-        section.addSection(creqSection);
-
-        return section;        
-
+//      Window.alert("generateRequisitesSection");
+      CourseRequisitesSummaryView sectionCourseReq = new CourseRequisitesSummaryView(LuSections.COURSE_REQUISITES, getLabel(LUConstants.REQUISITES_LABEL_KEY));
+      CourseReqSummaryHolder.setView(sectionCourseReq);
+      return sectionCourseReq;        
+//        VerticalSectionView section = initSectionView(LuSections.COURSE_REQUISITES, LUConstants.REQUISITES_LABEL_KEY); 
+//
+//        VerticalSection preqSection = initSection(getH3Title(LUConstants.PREQS_LABEL_KEY), WITH_DIVIDER);
+//        preqSection.addField(new FieldDescriptor("prerequisites", "TO DO", Type.STRING, new KSLabel()));
+//
+//        VerticalSection creqSection = initSection(getH3Title(LUConstants.CREQS_LABEL_KEY), WITH_DIVIDER);
+//        creqSection.addField(new FieldDescriptor("corequisites", "TO DO", Type.STRING, new KSLabel()));
+//
+//        section.addSection(preqSection);
+//        section.addSection(creqSection);
+//
+//        return section;        
     }
     
     private static SectionView generateProgramRequirementsSection() {
@@ -232,6 +249,7 @@ public class ViewCluConfigurer {
         information.addSection(generateDescription(null, NO_DIVIDER));
         information.addSection(generateRationale(null, NO_DIVIDER));
 //        section.addSection(generateRestrictionsSection());
+        information.addSection(generateRequisitesSection());
 //        section.addSection(generateRequisitesSection());
 //        section.addSection(generateProgramRequirementsSection());
                
@@ -747,4 +765,5 @@ public class ViewCluConfigurer {
     private static SectionTitle getH5Title(String labelKey) {
         return SectionTitle.generateH5Title(getLabel(labelKey));
     }
+    
 }

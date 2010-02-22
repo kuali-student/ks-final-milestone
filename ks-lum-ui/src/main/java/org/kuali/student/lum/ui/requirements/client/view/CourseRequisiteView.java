@@ -29,6 +29,7 @@ import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseReqSummaryHolder;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager.PrereqViews;
 import org.kuali.student.lum.ui.requirements.client.model.EditHistory;
@@ -53,10 +54,10 @@ import com.google.gwt.user.client.ui.Widget;
 public class CourseRequisiteView extends ViewComposite {
     private RequirementsRpcServiceAsync requirementsRpcServiceAsync = GWT.create(RequirementsRpcService.class);
     
-    private final String KS_STATEMENT_TYPE_PREREQ = "kuali.luStatementType.prereqAcademicReadiness";
-    private final String KS_STATEMENT_TYPE_COREQ = "kuali.luStatementType.coreqAcademicReadiness";
-    private final String KS_STATEMENT_TYPE_ANTIREQ = "kuali.luStatementType.antireqAcademicReadiness";
-    private final String KS_STATEMENT_TYPE_ENROLLREQ = "kuali.luStatementType.enrollAcademicReadiness";    
+    private static final String KS_STATEMENT_TYPE_PREREQ = "kuali.luStatementType.prereqAcademicReadiness";
+    private static final String KS_STATEMENT_TYPE_COREQ = "kuali.luStatementType.coreqAcademicReadiness";
+    private static final String KS_STATEMENT_TYPE_ANTIREQ = "kuali.luStatementType.antireqAcademicReadiness";
+    private static final String KS_STATEMENT_TYPE_ENROLLREQ = "kuali.luStatementType.enrollAcademicReadiness";    
     
     //view's widgets
     private final SimplePanel mainPanel = new SimplePanel();
@@ -78,7 +79,7 @@ public class CourseRequisiteView extends ViewComposite {
     private ButtonEventHandler handler = new ButtonEventHandler(); 
            		
    	//view's data   			
-	List<String> applicableLuStatementTypes = new ArrayList<String>();		//rule types we deal with
+	public static List<String> applicableLuStatementTypes = new ArrayList<String>();		//rule types we deal with
 	private List<RuleInfo> courseRules; 							//contains all rules belonging to this course
 
     public CourseRequisiteView(Controller controller) {
@@ -108,7 +109,11 @@ public class CourseRequisiteView extends ViewComposite {
                 	GWT.log("Failed to get LuData DataModel", cause);
                 	Window.alert("Failed to get LuData DataModel");
                 }
-        });     	  	            
+        });     	 
+        if (CourseReqSummaryHolder.getView() != null) {
+            CourseReqSummaryHolder.getView().setTheController(getController());
+            CourseReqSummaryHolder.getView().redraw();
+        }
     }    
     
     public void initializeView() {       

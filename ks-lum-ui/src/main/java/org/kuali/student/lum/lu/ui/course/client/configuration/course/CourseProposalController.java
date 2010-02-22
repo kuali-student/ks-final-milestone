@@ -48,6 +48,7 @@ import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseReqSummaryHolder;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LuConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
@@ -572,6 +573,14 @@ public class CourseProposalController extends TabbedSectionLayout {
 	private void doShowDefaultView(final Callback<Boolean> onReadyCallback) {
 		super.showDefaultView(onReadyCallback);
 	}
-    
-    
+    @Override
+    public void setParentController(Controller controller) {
+        // TODO Auto-generated method stub
+        super.setParentController(controller);
+        if (CourseReqSummaryHolder.getView() != null) {
+            CourseReqSummaryHolder.getView().setTheController(controller);
+            CourseReqSummaryHolder.getView().redraw();
+        }    
+    }
+	
 }
