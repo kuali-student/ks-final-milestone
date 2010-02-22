@@ -12,7 +12,7 @@
   <name>Kuali Student Testing</name>
   <url>http://localhost/</url>
   <description>Kuali Student Testing</description>
-  <version>7-SNAPSHOT</version>
+  <version>6-SNAPSHOT</version>
   <modules>
     <module>performance</module>
     <module>ui</module>
