@@ -48,7 +48,7 @@ public class LookupMetadataBank
 		// new lookup metadata
 		lookup = new LookupMetadata ();
 		lookup.setLookupKey ("kuali.lu.lookup.admin.departments");
-		lookup.setKey ("org.search.advanced");
+		lookup.setKey ("org.search.generic");
 		lookup.setName ("Basic and Advanced Search");
 		lookup.setDesc ("Query with multiple optional elements to satisfy most advanced pickers");
 		lookup.setResultReturnKey ("org.resultColumn.orgId");
@@ -261,7 +261,7 @@ public class LookupMetadataBank
 		// new lookup metadata
 		lookup = new LookupMetadata ();
 		lookup.setLookupKey ("kuali.lu.lookup.oversight.orgs");
-		lookup.setKey ("org.search.advanced");
+		lookup.setKey ("org.search.generic");
 		lookup.setName ("Basic and Advanced Search");
 		lookup.setDesc ("Query with multiple optional elements to satisfy most advanced pickers");
 		lookup.setResultReturnKey ("org.resultColumn.orgId");

@@ -16,10 +16,8 @@ package org.kuali.student.lum.ui.requirements.server.gwt;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.BeforeClass;
@@ -28,22 +26,12 @@ import org.junit.Test;
 import org.kuali.student.brms.ruleexecution.runtime.drools.DroolsKnowledgeBase;
 import org.kuali.student.brms.ruleexecution.runtime.drools.SimpleExecutorDroolsImpl;
 import org.kuali.student.brms.ruleexecution.runtime.report.ast.BooleanOperators;
-import org.kuali.student.brms.statement.dto.StatementInfo;
-import org.kuali.student.brms.statement.dto.StatementTypeInfo;
-import org.kuali.student.brms.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.brms.statement.dto.ReqComponentInfo;
-import org.kuali.student.brms.statement.dto.ReqComponentTypeInfo;
+import org.kuali.student.brms.statement.dto.StatementInfo;
 import org.kuali.student.brms.statement.dto.StatementOperatorTypeKey;
-import org.kuali.student.brms.statement.naturallanguage.ContextRegistry;
-import org.kuali.student.brms.statement.naturallanguage.Context;
 import org.kuali.student.brms.statement.naturallanguage.translators.NaturalLanguageMessageBuilder;
-import org.kuali.student.brms.statement.naturallanguage.translators.NaturalLanguageTranslatorImpl;
-import org.kuali.student.brms.statement.naturallanguage.translators.ReqComponentTranslator;
-import org.kuali.student.brms.statement.naturallanguage.translators.StatementTranslator;
-import org.kuali.student.brms.statement.naturallanguage.util.StatementAnchor;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
-import org.kuali.student.lum.ui.requirements.util.RequirementsUtil;
 import org.kuali.student.lum.ui.requirements.util.StatementServiceMock;
 
 public class TestRequirementsRpcGwtServlet {

@@ -21,16 +21,13 @@ import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
-import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.UpdatableMultiplicityComposite;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
-import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.service.SearchRpcService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
@@ -41,16 +38,11 @@ import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
 import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
-import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.search.AdvancedSearchWindow;
 import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
-import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.person.ui.client.service.PersonRpcService;
-import org.kuali.student.core.person.ui.client.service.PersonRpcServiceAsync;
-import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchResultRow;
@@ -61,6 +53,7 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCours
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityContactHoursConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityDurationConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseCourseSpecificLOsConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseDurationConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseFormatConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseMetadata;
@@ -78,12 +71,10 @@ import org.kuali.student.lum.lu.ui.course.client.widgets.AtpPicker;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
 import org.kuali.student.lum.lu.ui.course.client.widgets.LOBuilder;
 import org.kuali.student.lum.lu.ui.course.client.widgets.OfferedJointlyList;
-import org.kuali.student.lum.lu.ui.course.client.widgets.OrgPicker;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -271,7 +262,7 @@ public class CourseConfigurer
 
     private VerticalSection generateOversightSection() {
         VerticalSection oversight = initSection(getH3Title(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY), WITH_DIVIDER);
-        addField(oversight, COURSE + "/" + ACADEMIC_SUBJECT_ORGS, null, new OrgListPicker());
+        addField(oversight, COURSE + "/" + ACADEMIC_SUBJECT_ORGS);
         return oversight;
 	}
 
@@ -433,7 +424,7 @@ public class CourseConfigurer
         //scheduling.addField(termDescriptor);
         GroupSection duration = new GroupSection();
         addField(duration, COURSE + "/" + CreditCourseConstants.DURATION + "/" + QUANTITY, getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY)); //TODO DURATION ENUMERATION
-        addField(duration, COURSE + "/" + CreditCourseConstants.DURATION + "/" + "timeUnit", "Duration Type", new DurationAtpTypeList());        
+        addField(duration, COURSE + "/" + CreditCourseConstants.DURATION + "/" + "timeUnit", "Duration Type", new DurationAtpTypeList());
         scheduling.addSection(duration);
         return scheduling;
 	}
@@ -473,11 +464,16 @@ public class CourseConfigurer
 
     private VerticalSection generateLearningObjectivesNestedSection() {
         VerticalSection los = initSection(null, NO_DIVIDER);
+        
+        // FIXME - make LOBuilder a section? 
+        QueryPath path = QueryPath.concat(null, COURSE + "/" + COURSE_SPECIFIC_L_OS + "/" + "*" + "/" + CreditCourseCourseSpecificLOsConstants.INCLUDED_SINGLE_USE_LO + "/" + "description");
+    	Metadata meta = modelDefinition.getMetadata(path);
+        
         // FIXME - where should repo key come from?
         FieldDescriptor fd = addField(los,
         								CreditCourseConstants.COURSE_SPECIFIC_L_OS,
         								null,
-        								new LOBuilder(type, state, groupName, "kuali.loRepository.key.singleUse"),
+        								new LOBuilder(type, state, groupName, "kuali.loRepository.key.singleUse", meta),
         								CreditCourseProposalConstants.COURSE);
 
         // have to do this here, because decision on binding is done in ks-core,
@@ -576,95 +572,6 @@ public class CourseConfigurer
 //        return context.getMessage(labelKey);
 //    }
 //
-
-    //FIXME: This is a temp widget impl for the Curriculum Oversight field. Don't yet know if this
-    //will be a multiple org select field, in which case we need a multiple org select picker widget.
-    //Otherwise if it's single org picker, need a way to bind a HasText widget to ModelDTOList
-    public class OrgListPicker extends KSSelectItemWidgetAbstract implements SuggestPicker{
-        private OrgPicker orgPicker;
-
-        public OrgListPicker(){
-            orgPicker = new OrgPicker();
-            initWidget(orgPicker);
-        }
-
-        public void deSelectItem(String id) {
-            throw new UnsupportedOperationException();
-        }
-
-        public List<String> getSelectedItems() {
-            ArrayList<String> selectedItems = new ArrayList<String>();
-            selectedItems.add(orgPicker.getValue());
-            return selectedItems;
-        }
-
-        public boolean isEnabled() {
-            return true;
-        }
-
-        public void onLoad() {
-        }
-
-        public void redraw() {
-            throw new UnsupportedOperationException();
-        }
-
-        public void selectItem(String id) {
-            orgPicker.setValue(id);
-        }
-
-        public void setEnabled(boolean b) {
-            throw new UnsupportedOperationException();
-        }
-
-        public boolean isMultipleSelect(){
-            return true;
-        }
-
-        public void clear(){
-            orgPicker.clear();
-        }
-
-		@Override
-		public HandlerRegistration addFocusHandler(FocusHandler handler) {
-			return orgPicker.addFocusHandler(handler);
-		}
-
-		@Override
-		public HandlerRegistration addBlurHandler(BlurHandler handler) {
-			return orgPicker.addBlurHandler(handler);
-		}
-
-		@Override
-		public String getValue() {
-			return orgPicker.getValue();
-		}
-
-		@Override
-		public void setValue(String value) {
-			orgPicker.setValue(value);
-
-		}
-
-		@Override
-		public void setValue(String value, boolean fireEvents) {
-			orgPicker.setValue(value, fireEvents);
-
-		}
-
-		@Override
-		public HandlerRegistration addValueChangeHandler(
-				ValueChangeHandler<String> handler) {
-			return orgPicker.addValueChangeHandler(handler);
-		}
-
-
-		@Override
-		public HandlerRegistration addSelectionChangeHandler(SelectionChangeHandler handler){
-			return orgPicker.addSelectionChangeHandler(handler);
-		}
-
-    }
 
     public class TermListPicker extends KSSelectItemWidgetAbstract implements HasText {
         private AtpPicker atpPicker;

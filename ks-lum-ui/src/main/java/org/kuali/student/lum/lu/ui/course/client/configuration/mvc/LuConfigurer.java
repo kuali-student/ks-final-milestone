@@ -365,7 +365,7 @@ public class LuConfigurer {
         VerticalSection los = initSection(null, NO_DIVIDER);    
 
         // FIXME - where should repo key come from?
-        los.addField(new FieldDescriptor("cluInfo/loInfos", null, Type.MODELDTO, new LOBuilder(type, state, groupName, "kauli.loRepository.key.singleUse")));
+        los.addField(new FieldDescriptor("cluInfo/loInfos", null, Type.MODELDTO, new LOBuilder(type, state, groupName, "kauli.loRepository.key.singleUse", null)));
         los.addStyleName("KS-LUM-Section-Divider");
         
         section.addSection(los);
@@ -843,7 +843,7 @@ public class LuConfigurer {
     	
     	searchConfig.setSearchDialogTitle("Find Organization");
     	searchConfig.setSearchService(orgRpcServiceAsync);
-    	searchConfig.setSearchTypeKey("org.search.advanced");
+    	searchConfig.setSearchTypeKey("org.search.generic");
     	searchConfig.setResultIdKey("org.resultColumn.orgId");
     	searchConfig.setRetrievedColumnKey("org.resultColumn.orgShortName");
     	

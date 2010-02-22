@@ -25,12 +25,16 @@ import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ConfirmCancelGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ConfirmCancelEnum;
+import org.kuali.student.common.ui.client.widgets.search.KSPicker;
+import org.kuali.student.core.assembly.data.LookupMetadata;
+import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
@@ -57,18 +61,12 @@ public class LOBuilder extends Composite implements HasValue<List<OutlineNode<LO
     private static String repoKey;
     private static String messageGroup;
     
-    LOSearchWindow searchWindow;   
-
     VerticalPanel main = new VerticalPanel();
-
     HorizontalPanel searchMainPanel = new HorizontalPanel();
     SimplePanel searchSpacerPanel = new SimplePanel();
-    HorizontalPanel searchLinkPanel = new HorizontalPanel();
-
-
+    KSPicker searchWindow;  
     VerticalPanel loPanel = new VerticalPanel();
 
-    KSLabel searchLink;
     LearningObjectiveList loList;
     KSLabel instructions ;
 
@@ -77,7 +75,7 @@ public class LOBuilder extends Composite implements HasValue<List<OutlineNode<LO
         //TODO: should this be an error?  Can we set realistic defaults?
     }
 
-    public LOBuilder(String luType, String luState, String luGroup, String loRepoKey) {
+    public LOBuilder(String luType, String luState, String luGroup, String loRepoKey, final Metadata metadata) {
         super();
         initWidget(main);
 
@@ -86,57 +84,29 @@ public class LOBuilder extends Composite implements HasValue<List<OutlineNode<LO
         repoKey = loRepoKey;
         messageGroup = luGroup;
 
-        ClickHandler searchClickHandler = new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                if (searchWindow == null) {
-                    
-                    ConfirmCancelGroup buttons = new ConfirmCancelGroup(new Callback<ConfirmCancelEnum>(){
-
-                        @Override
-                        public void exec(ConfirmCancelEnum result) {
-                            switch(result){
-                                case CONFIRM:
-                                    loList.addSelectedLOs(searchWindow.getLoSelections());
-                                    searchWindow.hide();
-                                    break;
-                                case CANCEL:
-                                    searchWindow.hide();
-                                    break;
-                            }
-                        }
-                    });
-
-                    searchWindow = new LOSearchWindow(messageGroup, type, state, buttons ); 
-
-
-                }
-                else {
-                    searchWindow.reset();
-                }
-                searchWindow.show();
-            }
-        };
-
-
-        instructions = new KSLabel(getLabel(LUConstants.LO_INSTRUCTIONS_KEY));
-        searchLink = new KSLabel(getLabel(LUConstants.LO_SEARCH_LINK_KEY));
-        searchLink.addClickHandler(searchClickHandler);
-        KSImage searchImage = Theme.INSTANCE.getCommonImages().getSearchIcon();
-        searchImage.addClickHandler(searchClickHandler);
-
-        searchLinkPanel.add(searchImage);
-        searchLinkPanel.add(searchLink);
+        //searchLink = new KSLabel(getLabel(LUConstants.LO_SEARCH_LINK_KEY));  picker needs to handle labels like this
+        searchWindow = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
+        searchWindow.addValuesChangeHandler(new ValueChangeHandler<List<String>>(){
+            public void onValueChange(ValueChangeEvent<List<String>> event) {
+                List<String> selection = (List<String>)event.getValue();
+                loList.addSelectedLOs(selection);
+            }                    
+        });
         searchSpacerPanel.add(new KSLabel(""));
-
         searchMainPanel.add(searchSpacerPanel);
-        searchMainPanel.add(searchLinkPanel);
+        searchMainPanel.add(searchWindow);            
 
+        //adding search icon - should this be part of search link? coordinate with UX
+        //searchImage.addClickHandler(searchClickHandler);
+        //KSImage searchImage = Theme.INSTANCE.getCommonImages().getSearchIcon();
+        //searchLinkPanel.add(searchImage);
+              
+        instructions = new KSLabel(getLabel(LUConstants.LO_INSTRUCTIONS_KEY));
+        
         loList = new LearningObjectiveList();
         loPanel.add(loList);
 
-        searchImage.addStyleName("KS-LOBuilder-Search-Image");
-        searchLink.addStyleName("KS-LOBuilder-Search-Link");
+        //searchImage.addStyleName("KS-LOBuilder-Search-Image");
         searchSpacerPanel.addStyleName("KS-LOBuilder-Spacer-Panel");
         searchMainPanel.addStyleName("KS-LOBuilder-Search-Panel");
         loPanel.addStyleName("KS-LOBuilder-LO-Panel");
