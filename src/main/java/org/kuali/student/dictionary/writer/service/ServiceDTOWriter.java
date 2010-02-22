@@ -53,7 +53,7 @@ public class ServiceDTOWriter extends JavaClassWriter
 
  public static String calcPackage (Service service)
  {
-  return ServiceApiMethodsWriter.calcPackage (service);
+  return ServiceMethodsWriter.calcPackage (service);
  }
 
  public static String calcClassName (String name)
@@ -75,9 +75,9 @@ public class ServiceDTOWriter extends JavaClassWriter
   indentPrintln ("public class " + calcClassName (type.getName ()));
   incrementIndent ();
   indentPrintln (" implements "
-   + ServiceApiInfoWriter.calcClassName (type.getName ()));
-  importsAdd (ServiceApiInfoWriter.calcPackage (service)
-   + "." + ServiceApiInfoWriter.calcClassName (type.getName ()));
+   + ServiceInfoWriter.calcClassName (type.getName ()));
+  importsAdd (ServiceInfoWriter.calcPackage (service)
+   + "." + ServiceInfoWriter.calcClassName (type.getName ()));
   openBrace ();
 
 

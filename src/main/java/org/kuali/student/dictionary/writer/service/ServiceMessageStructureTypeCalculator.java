@@ -31,6 +31,12 @@ import org.kuali.student.dictionary.writer.JavaClassWriter;
 public class ServiceMessageStructureTypeCalculator
 {
 
+ public static String calculate (DictionaryModel model,
+                                 String type)
+ {
+  return calculate (null, model, type, "");
+ }
+
  public static String calculate (JavaClassWriter writer,
                                  DictionaryModel model,
                                  String type,
@@ -38,13 +44,13 @@ public class ServiceMessageStructureTypeCalculator
  {
   if (type.equalsIgnoreCase ("attributeInfoList"))
   {
-   writer.importsAdd (Map.class.getName ());
+   importsAdd (writer, Map.class.getName ());
    return "Map<String,String>";
   }
 
   if (type.endsWith ("List"))
   {
-   writer.importsAdd (List.class.getName ());
+   importsAdd (writer, List.class.getName ());
    type = type.substring (0, type.length () - "List".length ());
    return "List<" + calculate (writer, model, type, importPackage) + ">";
   }
@@ -62,12 +68,12 @@ public class ServiceMessageStructureTypeCalculator
    }
    if (type.equalsIgnoreCase ("date"))
    {
-    writer.importsAdd (Date.class.getName ());
+    importsAdd (writer, Date.class.getName ());
     return "Date";
    }
    if (type.equalsIgnoreCase ("datetime"))
    {
-    writer.importsAdd (Date.class.getName ());
+    importsAdd (writer, Date.class.getName ());
     return "Date";
    }
    if (type.equalsIgnoreCase ("boolean"))
@@ -94,7 +100,7 @@ public class ServiceMessageStructureTypeCalculator
    String msType = type.substring (0, 1).toUpperCase () + type.substring (1);
    if (importPackage != null)
    {
-     writer.importsAdd (importPackage + "." + msType);
+    importsAdd (writer, importPackage + "." + msType);
    }
    return msType;
   }
@@ -103,4 +109,11 @@ public class ServiceMessageStructureTypeCalculator
    getPrimitive () + ", for type " + type);
  }
 
+ private static void importsAdd (JavaClassWriter writer, String importStr)
+ {
+  if (writer != null)
+  {
+   writer.importsAdd (importStr);
+  }
+ }
 }

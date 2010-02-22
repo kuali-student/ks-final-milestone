@@ -28,7 +28,7 @@ import org.kuali.student.dictionary.writer.JavaClassWriter;
  *
  * @author nwright
  */
-public class ServiceApiInfoWriter extends JavaClassWriter
+public class ServiceInfoWriter extends JavaClassWriter
 {
 
  private DictionaryModel model;
@@ -37,7 +37,7 @@ public class ServiceApiInfoWriter extends JavaClassWriter
  private Service service;
  private XmlType xmlType;
 
- public ServiceApiInfoWriter (DictionaryModel model,
+ public ServiceInfoWriter (DictionaryModel model,
                               String directory,
                               Service service,
                               XmlType xmlType)
@@ -51,7 +51,7 @@ public class ServiceApiInfoWriter extends JavaClassWriter
 
  public static String calcPackage (Service service)
  {
-  return ServiceApiMethodsWriter.calcPackage (service);
+  return ServiceMethodsWriter.calcPackage (service);
  }
 
  public static String calcClassName (String name)

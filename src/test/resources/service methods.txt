@@ -1,0 +1,432 @@
+Service	Key	ShortName	LongName	Description	url
+atp	Method	getAtpTypes			null
+atp
+	Description
+	Retrieves the list of academic time period types known by this service
+	
+
+atp	Parameters	None	None	No parameters	null
+atp	Return	atpTypeInfoList	list of academic time period types		/confluence/display/KULSTU/atpTypeInfoList+Structure+v1.0-rc1
+atp	Errors	OPERATION_FAILED	unable to complete request		
+atp	Method	getAtpType			null
+atp
+	Description
+	Retrieves information about a particular academic time period type
+	
+
+atp	Parameters	atpTypeKey	atpTypeKey	academic time period type identifier	/confluence/display/KULSTU/atpTypeKey+Structure+v1.0-rc1
+atp	Return	atpTypeInfo	academic time period type information		/confluence/display/KULSTU/atpTypeInfo+Structure+v1.0-rc2
+atp	Errors	DOES_NOT_EXIST	specified atp type not found		
+atp		INVALID_PARAMETER	invalid atpTypeKey		
+atp		MISSING_PARAMETER	atpTypeKey not specified		
+atp		OPERATION_FAILED	unable to complete request		
+atp	Method	getAtpSeasonalTypes			null
+atp
+	Description
+	Retrieves the list of Academic Time Period Seasonal Types known by this service
+	
+
+atp	Parameters	None	None	No parameters	null
+atp	Return	atpSeasonalTypeInfoList	List of academic time period seasonal types		/confluence/display/KULSTU/atpSeasonalTypeInfoList+Structure+v1.0-rc1
+atp	Errors	OPERATION_FAILED	unable to complete request		
+atp	Method	getAtpSeasonalType			null
+atp
+	Description
+	Retrieves information about a particular academic time period seasonal type
+	
+
+atp	Parameters	atpSeasonalTypeKey	atpSeasonalTypeKey	academic time period seasonal type identifier	/confluence/display/KULSTU/atpSeasonalTypeKey+Structure+v1.0-rc1
+atp	Return	atpSeasonalTypeInfo	academic time period seasonal type information		/confluence/display/KULSTU/atpSeasonalTypeInfo+Structure+v1.0-rc2
+atp	Errors	DOES_NOT_EXIST	specified atp seasonal type not found		
+atp		INVALID_PARAMETER	invalid atpSeasonalTypeKey		
+atp		MISSING_PARAMETER	atpSeasonalTypeKey not specified		
+atp		OPERATION_FAILED	unable to complete request		
+atp	Method	getAtpDurationTypes			null
+atp
+	Description
+	Retrieves the list of Academic Time Period Duration Types known by this service
+	
+
+atp	Parameters	None	None	No parameters	null
+atp	Return	atpDurationTypeInfoList	List of academic time period duration types		/confluence/display/KULSTU/atpDurationTypeInfoList+Structure+v1.0-rc1
+atp	Errors	OPERATION_FAILED	unable to complete request		
+atp	Method	getAtpDurationType			null
+atp
+	Description
+	Retrieves information about a particular academic time period duration type
+	
+
+atp	Parameters	atpDurationTypeKey	atpDurationTypeKey	academic time period duration type identifier	/confluence/display/KULSTU/atpDurationTypeKey+Structure+v1.0-rc1
+atp	Return	atpDurationTypeInfo	academic time period duration type information		/confluence/display/KULSTU/atpDurationTypeInfo+Structure+v1.0-rc2
+atp	Errors	DOES_NOT_EXIST	specified atp duration type not found		
+atp		INVALID_PARAMETER	invalid atpDurationTypeKey		
+atp		MISSING_PARAMETER	atpDurationTypeKey not specified		
+atp		OPERATION_FAILED	unable to complete request		
+atp	Method	getMilestoneTypes			null
+atp
+	Description
+	Retrieves the list of milestone types known by this service
+	
+
+atp	Parameters	None	None	No parameters	null
+atp	Return	milestoneTypeInfoList	List of milestone types		/confluence/display/KULSTU/milestoneTypeInfoList+Structure+v1.0-rc1
+atp	Errors	OPERATION_FAILED	unable to complete request		
+atp	Method	getMilestoneType			null
+atp
+	Description
+	Retrieves information about a particular milestone type
+	
+
+atp	Parameters	milestoneTypeKey	milestoneTypeKey	milestone type identifier	/confluence/display/KULSTU/milestoneTypeKey+Structure+v1.0-rc1
+atp	Return	milestoneTypeInfo	milestone type information		/confluence/display/KULSTU/milestoneTypeInfo+Structure+v1.0-rc2
+atp	Errors	DOES_NOT_EXIST	specified milestone type not found		
+atp		INVALID_PARAMETER	invalid milestoneTypeKey		
+atp		MISSING_PARAMETER	milestoneTypeKey not specified		
+atp		OPERATION_FAILED	unable to complete request		
+atp	Method	getMilestoneTypesForAtpType			null
+atp
+	Description
+	Retrieves the list of milestone types that are defined for a particular Atp Type
+	
+
+atp	Parameters	atpTypeKey	atpTypeKey	atpTypeKey	/confluence/display/KULSTU/atpTypeKey+Structure+v1.0-rc1
+atp	Return	milestoneTypeInfoList	List of milestone types		/confluence/display/KULSTU/milestoneTypeInfoList+Structure+v1.0-rc1
+atp	Errors	DOES_NOT_EXIST	specified atpTypeKey not found		
+atp		INVALID_PARAMETER	invalid atpTypeKey		
+atp		MISSING_PARAMETER	atpTypeKey not specified		
+atp		OPERATION_FAILED	unable to complete request		
+atp	Method	getDateRangeTypes			null
+atp
+	Description
+	Retrieves the list of date range types known by this service
+	
+
+atp	Parameters	None	None	No parameters	null
+atp	Return	dateRangeTypeInfoList	List of date range types		/confluence/display/KULSTU/dateRangeTypeInfoList+Structure+v1.0-rc1
+atp	Errors	OPERATION_FAILED	unable to complete request		
+atp	Method	getDateRangeType			null
+atp
+	Description
+	Retrieves information about a particular date range type
+	
+
+atp	Parameters	dateRangeTypeKey	dateRangeTypeKey	date range type identifier	/confluence/display/KULSTU/dateRangeTypeKey+Structure+v1.0-rc1
+atp	Return	dateRangeTypeInfo	date range type information		/confluence/display/KULSTU/dateRangeTypeInfo+Structure+v1.0-rc2
+atp	Errors	DOES_NOT_EXIST	specified date range type not found		
+atp		INVALID_PARAMETER	invalid dateRangeTypeKey		
+atp		MISSING_PARAMETER	dateRangeTypeKey not specified		
+atp		OPERATION_FAILED	unable to complete request		
+atp	Method	getDateRangeTypesForAtpType			null
+atp
+	Description
+	Retrieves the list of dateRange types that are defined for a particular Atp Type
+	
+
+atp	Parameters	atpTypeKey	atpTypeKey	atpTypeKey	/confluence/display/KULSTU/atpTypeKey+Structure+v1.0-rc1
+atp	Return	dateRangeTypeInfoList	List of milestone types		/confluence/display/KULSTU/dateRangeTypeInfoList+Structure+v1.0-rc1
+atp	Errors	DOES_NOT_EXIST	specified atpTypeKey not found		
+atp		INVALID_PARAMETER	invalid atpTypeKey		
+atp		MISSING_PARAMETER	atpTypeKey not specified		
+atp		OPERATION_FAILED	unable to complete request		
+atp	Method	validateAtp			null
+atp
+	Description
+	Validates an academic time period. Depending on the value of validationType, this validation could be limited to tests on just the current object and its directly contained subobjects or expanded to perform all tests related to this object. If an identifier is present for the academic time period and a record is found for that identifier, the validation checks if the academic time period can be shifted to the new values. If a record cannot be found for the identifier, it is assumed that the record does not exist and as such, the checks performed will be much shallower, typically mimicking those performed by setting the validationType to the current object. This is a slightly different pattern from the standard validation as the caller provides the identifier in the create statement instead of the server assigning an identifier.
+	
+
+atp	Parameters	validationTypeKey	validationType	Identifier of the extent of validation	/confluence/display/KULSTU/validationTypeKey+Structure+v1.0-rc1
+atp		atpInfo	atpInfo	The academic time period information to be tested.	/confluence/display/KULSTU/atpInfo+Structure+v1.0-rc2
+atp	Return	validationResultInfoList	Results from performing the validation		/confluence/display/KULSTU/validationResultInfoList+Structure+v1.0-rc2
+atp	Errors	DOES_NOT_EXIST	validationTypeKey not found		
+atp		INVALID_PARAMETER	invalid validationTypeKey, atpInfo		
+atp		MISSING_PARAMETER	missing validationTypeKey, atpInfo		
+atp		OPERATION_FAILED	unable to complete request		
+atp	Method	validateMilestone			null
+atp
+	Description
+	Validates a milestone. Depending on the value of validationType, this validation could be limited to tests on just the current object and its directly contained subobjects or expanded to perform all tests related to this object. If an identifier is present for the milestone and a record is found for that identifier, the validation checks if the milestone can be shifted to the new values. If a record cannot be found for the identifier, it is assumed that the record does not exist and as such, the checks performed will be much shallower, typically mimicking those performed by setting the validationType to the current object. This is a slightly different pattern from the standard validation as the caller provides the identifier in the create statement instead of the server assigning an identifier.
+	
+
+atp	Parameters	validationTypeKey	validationType	Identifier of the extent of validation	/confluence/display/KULSTU/validationTypeKey+Structure+v1.0-rc1
+atp		milestoneInfo	milestoneInfo	The milestone information to be tested.	/confluence/display/KULSTU/milestoneInfo+Structure+v1.0-rc2
+atp	Return	validationResultInfoList	Results from performing the validation		/confluence/display/KULSTU/validationResultInfoList+Structure+v1.0-rc2
+atp	Errors	DOES_NOT_EXIST	validationTypeKey not found		
+atp		INVALID_PARAMETER	invalid validationTypeKey, milestoneInfo		
+atp		MISSING_PARAMETER	missing validationTypeKey, milestoneInfo		
+atp		OPERATION_FAILED	unable to complete request		
+atp	Method	validateDateRange			null
+atp
+	Description
+	Validates a date range. Depending on the value of validationType, this validation could be limited to tests on just the current object and its directly contained subobjects or expanded to perform all tests related to this object. If an identifier is present for the date range and a record is found for that identifier, the validation checks if the academic time period can be shifted to the new values. If a record cannot be found for the identifier, it is assumed that the record does not exist and as such, the checks performed will be much shallower, typically mimicking those performed by setting the validationType to the current object. This is a slightly different pattern from the standard validation as the caller provides the identifier in the create statement instead of the server assigning an identifier.
+	
+
+atp	Parameters	validationTypeKey	validationType	Identifier of the extent of validation	/confluence/display/KULSTU/validationTypeKey+Structure+v1.0-rc1
+atp		dateRangeInfo	dateRangeInfo	The date range information to be tested.	/confluence/display/KULSTU/dateRangeInfo+Structure+v1.0-rc2
+atp	Return	validationResultInfoList	Results from performing the validation		/confluence/display/KULSTU/validationResultInfoList+Structure+v1.0-rc2
+atp	Errors	DOES_NOT_EXIST	validationTypeKey not found		
+atp		INVALID_PARAMETER	invalid validationTypeKey, dateRangeInfo		
+atp		MISSING_PARAMETER	missing validationTypeKey, dateRangeInfo		
+atp		OPERATION_FAILED	unable to complete request		
+atp	Method	getAtp			null
+atp
+	Description
+	Retrieves the details of a single Academic Time Period by atpKey
+	
+
+atp	Parameters	atpKey	atpKey	Unique key of the Academic Time Period to be retrieved	/confluence/display/KULSTU/atpKey+Structure+v1.0-rc1
+atp	Return	atpInfo	Details of the Academic Time Period requested		/confluence/display/KULSTU/atpInfo+Structure+v1.0-rc2
+atp	Errors	DOES_NOT_EXIST	atpKey not found		
+atp		INVALID_PARAMETER	invalid atpKey		
+atp		MISSING_PARAMETER	invalid atpKey		
+atp		OPERATION_FAILED	unable to complete request		
+atp	Method	getAtpsByDate			null
+atp
+	Description
+	Retrieves the list of Academic Time Periods that the supplied date falls within
+	
+
+atp	Parameters	dateTime	searchDate	Timestamp to be matched	/confluence/display/KULSTU/dateTime+Structure
+atp	Return	atpInfoList	List of Academic Time Periods that contain the supplied searchDate		/confluence/display/KULSTU/atpInfoList+Structure+v1.0-rc2
+atp	Errors	INVALID_PARAMETER	invalid searchDate		
+atp		MISSING_PARAMETER	invalid searchDate		
+atp		OPERATION_FAILED	unable to complete request		
+atp	Method	getAtpsByDates			null
+atp
+	Description
+	Retrieves the list of Academic Time Periods that are totally contained within the supplied dates. The entire Atp falls within the supplied dates
+	
+
+atp	Parameters	dateTime	startDate	Earliest Timestamp	/confluence/display/KULSTU/dateTime+Structure
+atp		dateTime	endDate	Latest Timestamp	/confluence/display/KULSTU/dateTime+Structure
+atp	Return	atpInfoList	List of Academic Time Periods that contain the supplied searchDate		/confluence/display/KULSTU/atpInfoList+Structure+v1.0-rc2
+atp	Errors	INVALID_PARAMETER	invalid searchDate		
+atp		MISSING_PARAMETER	invalid searchDate		
+atp		OPERATION_FAILED	unable to complete request		
+atp	Method	getAtpsByAtpType			null
+atp
+	Description
+	Retrieves a list of Academic Time Periods of the specified type
+	
+
+atp	Parameters	atpTypeKey	atpTypeKey	ATP type to be retrieved	/confluence/display/KULSTU/atpTypeKey+Structure+v1.0-rc1
+atp	Return	atpInfoList	List of Academic Time Periods that contain the supplied date		/confluence/display/KULSTU/atpInfoList+Structure+v1.0-rc2
+atp	Errors	INVALID_PARAMETER	invalid atpTypeKey		
+atp		MISSING_PARAMETER	invalid atpTypeKey		
+atp		OPERATION_FAILED	unable to complete request		
+atp	Method	getMilestone			null
+atp
+	Description
+	Retrieves the details of the specified milestone
+	
+
+atp	Parameters	milestoneKey	milestoneKey	Unique id of the milestone to be retrieved	/confluence/display/KULSTU/milestoneKey+Structure+v1.0-rc1
+atp	Return	milestoneInfo	Details of requested milestone		/confluence/display/KULSTU/milestoneInfo+Structure+v1.0-rc2
+atp	Errors	DOES_NOT_EXIST	milestoneKey not found		
+atp		INVALID_PARAMETER	invalid milestoneKey		
+atp		MISSING_PARAMETER	invalid milestoneKey		
+atp		OPERATION_FAILED	unable to complete request		
+atp	Method	getMilestonesByAtp			null
+atp
+	Description
+	Retrieves the list of milestones for a specified Academic Time Period
+	
+
+atp	Parameters	atpKey	atpKey	Unique key of the Academic Time Period to be retieved	/confluence/display/KULSTU/atpKey+Structure+v1.0-rc1
+atp	Return	milestoneInfoList	List of milestones for this Academic Time Period		/confluence/display/KULSTU/milestoneInfoList+Structure+v1.0-rc1
+atp	Errors	INVALID_PARAMETER	invalid atpKey		
+atp		MISSING_PARAMETER	invalid atpKey		
+atp		OPERATION_FAILED	unable to complete request		
+atp	Method	getMilestonesByDates			null
+atp
+	Description
+	Retrieves the list of milestones that fall within a specified set of dates
+	
+
+atp	Parameters	dateTime	startDate	Start Date for date span	/confluence/display/KULSTU/dateTime+Structure
+atp		dateTime	endDate	End Date for date span	/confluence/display/KULSTU/dateTime+Structure
+atp	Return	milestoneInfoList	List of milestones that fall within this set of dates		/confluence/display/KULSTU/milestoneInfoList+Structure+v1.0-rc1
+atp	Errors	INVALID_PARAMETER	One or more parameters invalid		
+atp		MISSING_PARAMETER	One or more parameter(s) missing		
+atp		OPERATION_FAILED	unable to complete request		
+atp	Method	getMilestonesByDatesAndType			null
+atp
+	Description
+	Retrieves a list of milestones of a specified type that fall within a specified set of dates
+	
+
+atp	Parameters	milestoneTypeKey	milestoneTypeKey	Milestone type to be retrieved	/confluence/display/KULSTU/milestoneTypeKey+Structure+v1.0-rc1
+atp		dateTime	startDate	Start Date for date range	/confluence/display/KULSTU/dateTime+Structure
+atp		dateTime	endDate	End Date for date range	/confluence/display/KULSTU/dateTime+Structure
+atp	Return	milestoneInfoList	List of milestones of this milestone type within this set of dates		/confluence/display/KULSTU/milestoneInfoList+Structure+v1.0-rc1
+atp	Errors	INVALID_PARAMETER	One or more parameters invalid		
+atp		MISSING_PARAMETER	One or more parameters missing		
+atp		OPERATION_FAILED	unable to complete request		
+atp	Method	getDateRange			null
+atp
+	Description
+	Retrieves the details of the specified daterange
+	
+
+atp	Parameters	dateRangeKey	dateRangeKey	Unique id of the date range to be retrieved	/confluence/display/KULSTU/dateRangeKey+Structure+v1.0-rc1
+atp	Return	dateRangeInfo	Details of requested daterange		/confluence/display/KULSTU/dateRangeInfo+Structure+v1.0-rc2
+atp	Errors	DOES_NOT_EXIST	dateRangeKey not found		
+atp		INVALID_PARAMETER	invalid dateRangeKey		
+atp		MISSING_PARAMETER	missing dateRangeKey		
+atp		OPERATION_FAILED	unable to complete request		
+atp	Method	getDateRangesByAtp			null
+atp
+	Description
+	Retrieves the list of DateRanges for a specified Academic Time Period
+	
+
+atp	Parameters	atpKey	atpKey	Unique key of the Academic Time Period to be retieved	/confluence/display/KULSTU/atpKey+Structure+v1.0-rc1
+atp	Return	dateRangeInfoList	List of dateRanges for this Academic Time Period		/confluence/display/KULSTU/dateRangeInfoList+Structure+v1.0-rc1
+atp	Errors	INVALID_PARAMETER	invalid atpKey		
+atp		MISSING_PARAMETER	invalid atpKey		
+atp		OPERATION_FAILED	unable to complete request		
+atp	Method	getDateRangesByDate			null
+atp
+	Description
+	Retrieves the list of DateRanges which encompass the specified date
+	
+
+atp	Parameters	dateTime	searchDate	Timestamp to be matched	/confluence/display/KULSTU/dateTime+Structure
+atp	Return	dateRangeInfoList	List of dateRanges that contain the supplied searchDate		/confluence/display/KULSTU/dateRangeInfoList+Structure+v1.0-rc1
+atp	Errors	INVALID_PARAMETER	invalid searchDate		
+atp		MISSING_PARAMETER	invalid searchDate		
+atp		OPERATION_FAILED	unable to complete request		
+atp	Method	createAtp			null
+atp
+	Description
+	Creates a new Academic Time Period
+	
+
+atp	Parameters	atpTypeKey	atpTypeKey	Type of ATP to be created	/confluence/display/KULSTU/atpTypeKey+Structure+v1.0-rc1
+atp		atpKey	atpKey	Key of ATP to be created	/confluence/display/KULSTU/atpKey+Structure+v1.0-rc1
+atp		atpInfo	atpInfo	Details of ATP to be created	/confluence/display/KULSTU/atpInfo+Structure+v1.0-rc2
+atp	Return	atpInfo	Details of ATP just created		/confluence/display/KULSTU/atpInfo+Structure+v1.0-rc2
+atp	Errors	ALREADY_EXISTS	ATP being created already exists		
+atp		DATA_VALIDATION_ERROR	One or more values invalid for this operation		
+atp		INVALID_PARAMETER	One or more parameters invalid		
+atp		MISSING_PARAMETER	One or more parameters missing		
+atp		OPERATION_FAILED	unable to complete request		
+atp		PERMISSION_DENIED	authorization failure		
+atp	Method	updateAtp			null
+atp
+	Description
+	Updates an existing Academic Time Period
+	
+
+atp	Parameters	atpKey	atpKey	Key of ATP to be updated	/confluence/display/KULSTU/atpKey+Structure+v1.0-rc1
+atp		atpInfo	atpInfo	Details of updates to ATP being updated	/confluence/display/KULSTU/atpInfo+Structure+v1.0-rc2
+atp	Return	atpInfo	Details of ATP just updated		/confluence/display/KULSTU/atpInfo+Structure+v1.0-rc2
+atp	Errors	DATA_VALIDATION_ERROR	One or more values invalid for this operation		
+atp		DOES_NOT_EXIST	ATP being updated does not exist		
+atp		INVALID_PARAMETER	One or more parameters invalid		
+atp		MISSING_PARAMETER	One or more parameters missing		
+atp		OPERATION_FAILED	unable to complete request		
+atp		PERMISSION_DENIED	authorization failure		
+atp		VERSION_MISMATCH	The action was attempted on an out of date version.		
+atp	Method	deleteAtp			null
+atp
+	Description
+	Deletes an existing Academic Time Period
+	
+
+atp	Parameters	atpKey	atpKey	Key of ATP to be deleted	/confluence/display/KULSTU/atpKey+Structure+v1.0-rc1
+atp	Return	statusInfo	status of the operation (success, failed)		/confluence/display/KULSTU/statusInfo+Structure+v1.0-rc1
+atp	Errors	DOES_NOT_EXIST	ATP being deleted does not exist		
+atp		INVALID_PARAMETER	One or more parameters invalid		
+atp		MISSING_PARAMETER	One or more parameters missing		
+atp		OPERATION_FAILED	unable to complete request		
+atp		PERMISSION_DENIED	authorization failure		
+atp	Method	addMilestone			null
+atp
+	Description
+	Add a new milestone to an existing Academic Time Period
+	
+
+atp	Parameters	atpKey	atpKey	Key of ATP to be updated	/confluence/display/KULSTU/atpKey+Structure+v1.0-rc1
+atp		milestoneKey	milestoneKey	Id of milestone to be added	/confluence/display/KULSTU/milestoneKey+Structure+v1.0-rc1
+atp		milestoneInfo	milestoneInfo	Details of milestone to be added	/confluence/display/KULSTU/milestoneInfo+Structure+v1.0-rc2
+atp	Return	milestoneInfo	Details of the newly created milestone		/confluence/display/KULSTU/milestoneInfo+Structure+v1.0-rc2
+atp	Errors	ALREADY_EXISTS	Milestone being added already exists		
+atp		DATA_VALIDATION_ERROR	One or more values invalid for this operation		
+atp		INVALID_PARAMETER	One or more parameters invalid		
+atp		MISSING_PARAMETER	One or more parameters missing		
+atp		OPERATION_FAILED	unable to complete request		
+atp		PERMISSION_DENIED	authorization failure		
+atp	Method	updateMilestone			null
+atp
+	Description
+	Updates an existing milestone.
+	
+
+atp	Parameters	milestoneKey	milestoneKey	ID of milestone to be updated	/confluence/display/KULSTU/milestoneKey+Structure+v1.0-rc1
+atp		milestoneInfo	milestoneInfo	Details of milestone to be updated	/confluence/display/KULSTU/milestoneInfo+Structure+v1.0-rc2
+atp	Return	milestoneInfo	Details of the updated milestone		/confluence/display/KULSTU/milestoneInfo+Structure+v1.0-rc2
+atp	Errors	DATA_VALIDATION_ERROR	One or more values invalid for this operation		
+atp		DOES_NOT_EXIST	Milestone being updated does not exist		
+atp		INVALID_PARAMETER	One or more parameters invalid		
+atp		MISSING_PARAMETER	One or more parameters missing		
+atp		OPERATION_FAILED	unable to complete request		
+atp		PERMISSION_DENIED	authorization failure		
+atp		VERSION_MISMATCH	The action was attempted on an out of date version.		
+atp	Method	removeMilestone			null
+atp
+	Description
+	Removes an existing milestone.
+	
+
+atp	Parameters	milestoneKey	milestoneKey	Id of milestone to be removed	/confluence/display/KULSTU/milestoneKey+Structure+v1.0-rc1
+atp	Return	statusInfo	Status of the operation (success, failed)		/confluence/display/KULSTU/statusInfo+Structure+v1.0-rc1
+atp	Errors	DOES_NOT_EXIST	Milestone being removed does not exist		
+atp		INVALID_PARAMETER	One or more parameters invalid		
+atp		MISSING_PARAMETER	One or more parameters missing		
+atp		OPERATION_FAILED	unable to complete request		
+atp		PERMISSION_DENIED	authorization failure		
+atp	Method	addDateRange			null
+atp
+	Description
+	Adds a new dateRange to an existing Academic Time Period
+	
+
+atp	Parameters	atpKey	atpKey	key of the ATP to be associated with the dateRange	/confluence/display/KULSTU/atpKey+Structure+v1.0-rc1
+atp		dateRangeKey	dateRangeKey	identifier of the dateRange to be added	/confluence/display/KULSTU/dateRangeKey+Structure+v1.0-rc1
+atp		dateRangeInfo	dateRangeInfo	details of the dateRange to be added	/confluence/display/KULSTU/dateRangeInfo+Structure+v1.0-rc2
+atp	Return	dateRangeInfo	details of the newly created dateRange		/confluence/display/KULSTU/dateRangeInfo+Structure+v1.0-rc2
+atp	Errors	ALREADY_EXISTS	dateRange being added already exists		
+atp		DATA_VALIDATION_ERROR	one or more values invalid for this operation		
+atp		INVALID_PARAMETER	one or more parameters invalid		
+atp		MISSING_PARAMETER	one or more parameters missing		
+atp		OPERATION_FAILED	unable to complete request		
+atp		PERMISSION_DENIED	authorization failure		
+atp	Method	updateDateRange			null
+atp
+	Description
+	Updates an existing daterange
+	
+
+atp	Parameters	dateRangeKey	dateRangeKey	identifier of daterange to be updated	/confluence/display/KULSTU/dateRangeKey+Structure+v1.0-rc1
+atp		dateRangeInfo	dateRangeInfo	details of daterange to be updated	/confluence/display/KULSTU/dateRangeInfo+Structure+v1.0-rc2
+atp	Return	dateRangeInfo	details of the updated dateRange		/confluence/display/KULSTU/dateRangeInfo+Structure+v1.0-rc2
+atp	Errors	DATA_VALIDATION_ERROR	One or more values invalid for this operation		
+atp		DOES_NOT_EXIST	dateRange being updated does not exist		
+atp		INVALID_PARAMETER	one or more parameters invalid		
+atp		MISSING_PARAMETER	one or more parameters missing		
+atp		OPERATION_FAILED	unable to complete request		
+atp		PERMISSION_DENIED	authorization failure		
+atp		VERSION_MISMATCH	action was attempted on an out of date version.		
+atp	Method	removeDateRange			null
+atp
+	Description
+	Removes an existing daterange.
+	
+
+atp	Parameters	dateRangeKey	dateRangeKey	key of daterange to be removed	/confluence/display/KULSTU/dateRangeKey+Structure+v1.0-rc1
+atp	Return	statusInfo	status of the operation (success, failed)		/confluence/display/KULSTU/statusInfo+Structure+v1.0-rc1
+atp	Errors	DOES_NOT_EXIST	DateRange being removed does not exist		
+atp		INVALID_PARAMETER	One or more parameters invalid		
+atp		MISSING_PARAMETER	One or more parameters missing		
+atp		OPERATION_FAILED	unable to complete request		
+atp		PERMISSION_DENIED	authorization failure		

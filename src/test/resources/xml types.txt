@@ -1,0 +1,57 @@
+name	desc	primitive	hasOwnType	hasOwnState	hasOwnCreateUpdate	Service	examples	javaPackage	comments
+dateRangeTypeInfo	Information about a date range type.	Complex	false	false	false	null	null	null	null
+atpKey	Unique identifier for an Academic Time Period (ATP).	Mapped String	false	false	false	null	null	null	null
+validationResultInfoList	List of validation results.	Complex	false	false	false	null	null	null	null
+milestoneTypeInfo	Information about a milestone type.	Complex	false	false	false	null	null	null	null
+atpSeasonalTypeInfoList	List of academic time period seasonal types.	Complex	false	false	false	null	null	null	null
+statusInfo	Contains information about the results of an operation.	Complex	false	false	false	null	null	null	null
+milestoneInfo	Information about a milestone.	Complex	false	false	false	null	null	null	null
+dateRangeInfo	Information about a date range.	Complex	false	false	false	null	null	null	null
+atpTypeInfoList	List of academic time period types.	Complex	false	false	false	null	null	null	null
+dateRangeTypeKey	Unique identifier for a date range type.	Mapped String	false	false	false	null	null	null	null
+milestoneInfoList	List of milestones.	Complex	false	false	false	null	null	null	null
+atpTypeKey	Unique identifier for an academic time period type.	Mapped String	false	false	false	null	null	null	null
+milestoneTypeKey	Unique identifier for a milestone type.	Mapped String	false	false	false	null	null	null	null
+atpDurationTypeInfoList	List of academic time period duration types.	Complex	false	false	false	null	null	null	null
+atpInfo	Information about an academic time period.	Complex	false	false	false	null	null	null	null
+atpDurationTypeInfo	Information about an academic time period duration type.	Complex	false	false	false	null	null	null	null
+atpSeasonalTypeInfo	Information about an academic time period seasonal type.	Complex	false	false	false	null	null	null	null
+dateRangeInfoList	List of date ranges.	Complex	false	false	false	null	null	null	null
+atpTypeInfo	Information about an academic time period type.	Complex	false	false	false	null	null	null	null
+atpSeasonalTypeKey	Unique identifier for an academic time period seasonal type.	Mapped String	false	false	false	null	null	null	null
+dateRangeKey	Unique identifier for a date range.	Mapped String	false	false	false	null	null	null	null
+dateTime	Specifies a date and a time.	Primitive	false	false	false	null	null	null	null
+milestoneKey	Unique identifier for a milestone.	Mapped String	false	false	false	null	null	null	null
+dateRangeTypeInfoList	List of date range types.	Complex	false	false	false	null	null	null	null
+atpInfoList	List of academic time periods.	Complex	false	false	false	null	null	null	null
+atpDurationTypeKey	Unique identifier for an academic time period duration type.	Mapped String	false	false	false	null	null	null	null
+validationTypeKey	Identifier for the type of validation.	Mapped String	false	false	false	null	null	null	null
+milestoneTypeInfoList	List of milestone types.	Complex	false	false	false	null	null	null	null
+dateRangeTypeInfo	Information about a date range type.	Complex	false	false	false	null	null	null	null
+atpKey	Unique identifier for an Academic Time Period (ATP).	Mapped String	false	false	false	null	null	null	null
+milestoneTypeInfo	Information about a milestone type.	Complex	false	false	false	null	null	null	null
+atpDurationTypeKey	Unique identifier for an academic time period duration type.	Mapped String	false	false	false	null	null	null	null
+atpDurationTypeInfo	Information about an academic time period duration type.	Complex	false	false	false	null	null	null	null
+string	Any finite sequence of characters with letters, numerals, symbols and punctuation marks. The length can be any natural number between zero or any positive integer.	Primitive	false	false	false	null	null	null	null
+atpTypeInfo	Information about an academic time period type.	Complex	false	false	false	null	null	null	null
+atpTypeKey	Unique identifier for an academic time period type.	Mapped String	false	false	false	null	null	null	null
+atpSeasonalTypeInfo	Information about an academic time period seasonal type.	Complex	false	false	false	null	null	null	null
+atpInfo	Information about an academic time period.	Complex	false	false	false	null	null	null	null
+richTextInfo	Complex type supporting both a plain text and formatted version of a string.	Complex	false	false	false	null	null	null	null
+milestoneInfo	Information about a milestone.	Complex	false	false	false	null	null	null	null
+dateRangeTypeKey	Unique identifier for a date range type.	Mapped String	false	false	false	null	null	null	null
+milestoneTypeKey	Unique identifier for a milestone type.	Mapped String	false	false	false	null	null	null	null
+metaInfo	Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.	Complex	false	false	false	null	null	null	null
+dateRangeInfo	Information about a date range.	Complex	false	false	false	null	null	null	null
+attributeInfoList	List of key/value pairs, typically used for	Complex	false	false	false	null	null	null	null
+validationResultInfo	Contains information returned as a result of a validation operation.	Complex	false	false	false	null	null	null	null
+atpSeasonalTypeKey	Unique identifier for an academic time period seasonal type.	Mapped String	false	false	false	null	null	null	null
+milestoneKey	Unique identifier for a milestone.	Mapped String	false	false	false	null	null	null	null
+boolean	Value is either true or false.	Primitive	false	false	false	null	null	null	null
+dateRangeKey	Unique identifier for a date range.	Mapped String	false	false	false	null	null	null	null
+attributeList	List of key/value pairs, typically used for	Complex	false	false	false	null	null	null	null
+attributeInfo	Key/value pair, typically used for information which may vary from the common set of information provided about an object.	Complex	false	false	false	null	null	null	null
+metaInfo	Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.	Complex	false	false	false	null	null	null	null
+principalId	Unique identifier for a principal. This may be closer to the concept of a key instead of an id, as it might be a	Mapped String	false	false	false	null	null	null	null
+principalId	Unique identifier for a principal. This may be closer to the concept of a key instead of an id, as it might be a	Mapped String	false	false	false	null	null	null	null
+attribute	Key/value pair, typically used for information which may vary from the common set of information provided about an object.	Complex	false	false	false	null	null	null	null

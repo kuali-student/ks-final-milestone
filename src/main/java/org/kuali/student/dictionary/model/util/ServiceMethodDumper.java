@@ -31,16 +31,123 @@ public class ServiceMethodDumper
    getDescription ());
   for (ServiceMethodParameter param : method.getParameters ())
   {
-   out.println (" Param: " + param.getName () + " (" + param.getType () + ") " +
-    param.getDescription () + " http://XXX" + param.getUrl ());
+   out.println (" Param: " + param.getName () + " (" + param.getType () + ") " + param.
+    getDescription () + " http://XXX" + param.getUrl ());
   }
   for (ServiceMethodError param : method.getErrors ())
   {
-   out.println (" Error: " + param.getType () + " - " +
-    param.getDescription ());
+   out.println (" Error: " + param.getType () + " - " + param.getDescription ());
   }
-  out.println (" return: " + method.getReturnValue ().getType () + " - " + method.getReturnValue ().
+  out.println (" return: " + method.getReturnValue ().getType () + " - " + method.
+   getReturnValue ().
    getDescription () + " http://XXX" + method.getReturnValue ().getUrl ());
+ }
+
+ public void writeTabbedHeader ()
+ {
+  out.print ("Service");
+  out.print ("\t");
+  out.print ("Key");
+  out.print ("\t");
+  out.print ("ShortName");
+  out.print ("\t");
+  out.print ("LongName");
+  out.print ("\t");
+  out.print ("Description");
+  out.print ("\t");
+  out.print ("url");
+  out.println ("");
+ }
+
+ public void writeTabbedData ()
+ {
+  out.print (method.getService ());
+  out.print ("\t");
+  out.print ("Method");
+  out.print ("\t");
+  out.print (method.getName ());
+  out.print ("\t");
+  out.print ("");
+  out.print ("\t");
+  out.print ("");
+  out.print ("\t");
+  out.print (method.getUrl ());
+  out.println ();
+
+  out.println (method.getService ());
+  out.print ("\t");
+  out.print ("Description");
+  out.print ("\t");
+  out.print (method.getDescription ());
+  out.print ("\t");
+  out.print ("");
+  out.println ();
+  if (method.getParameters ().size () == 0)
+  {
+   out.println (method.getService ());
+   out.print ("\t");
+   out.print ("Parameters");
+   out.print ("\t");
+   out.print ("None");
+   out.print ("\t");
+   out.print ("None");
+   out.print ("\t");
+   out.print ("No parameters");
+   out.print ("\t");
+   out.print ("");
+   out.println ();
+  }
+  else
+  {
+   String parameters = "Parameters";
+   for (ServiceMethodParameter param : method.getParameters ())
+   {
+    out.print (method.getService ());
+    out.print ("\t");
+    out.print (parameters);
+    parameters = "";
+    out.print ("\t");
+    out.print (param.getType ());
+    out.print ("\t");
+    out.print (param.getName ());
+    out.print ("\t");
+    out.print (param.getDescription ());
+    out.print ("\t");
+    out.print (param.getUrl ());
+    out.println ();
+   }
+  }
+
+  out.print (method.getService ());
+  out.print ("\t");
+  out.print ("Return");
+  out.print ("\t");
+  out.print (method.getReturnValue ().getType ());
+  out.print ("\t");
+  out.print (method.getReturnValue ().getDescription ());
+  out.print ("\t");
+  out.print ("");
+  out.print ("\t");
+  out.print (method.getReturnValue ().getUrl ());
+  out.println ();
+
+       String errors = "Errors";
+  for (ServiceMethodError error : method.getErrors ())
+  {
+    out.print (method.getService ());
+    out.print ("\t");
+    out.print (errors);
+    errors = "";
+    out.print ("\t");
+    out.print (error.getType ());
+    out.print ("\t");
+    out.print (error.getDescription ());
+    out.print ("\t");
+    out.print ("");
+    out.print ("\t");
+    out.print ("");
+    out.println ();
+  }
  }
 
 }

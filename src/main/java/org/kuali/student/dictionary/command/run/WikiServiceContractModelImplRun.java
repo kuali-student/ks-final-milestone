@@ -13,14 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.dictionary;
+package org.kuali.student.dictionary.command.run;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
-import org.kuali.student.dictionary.command.run.RunConstants;
+import org.kuali.student.dictionary.DictionaryExecutionException;
 import org.kuali.student.dictionary.model.MessageStructure;
 import org.kuali.student.dictionary.model.Service;
-import org.kuali.student.dictionary.model.ServiceContractModel;
 import org.kuali.student.dictionary.model.ServiceMethod;
 import org.kuali.student.dictionary.model.XmlType;
 import org.kuali.student.dictionary.model.util.MessageStructureDumper;
@@ -39,7 +43,7 @@ import org.kuali.student.dictionary.model.wiki.WikiServiceContractModelImpl;
  *
  * @author nwright
  */
-public class WikiServiceContractModelImplTest implements RunConstants
+public class WikiServiceContractModelImplRun implements RunConstants
 {
 
  //           ***** NOTE *******
@@ -53,12 +57,11 @@ public class WikiServiceContractModelImplTest implements RunConstants
  // cut and paste the content here.
  // ==> the JSessionID changes everytime you drop out of the browser.
  public static final String JSESSIONID =
-  "E57EE794C130D9988427FF144196B4F9.Kuali3_1Engine";
+  "246CACEB05F1CC0FC642CFB36A93BEC2.Kuali3_1Engine";
 
- public WikiServiceContractModelImplTest ()
+ public WikiServiceContractModelImplRun ()
  {
  }
-
 
  private static WikiServiceContractModelImpl instance = null;
 
@@ -71,17 +74,17 @@ public class WikiServiceContractModelImplTest implements RunConstants
   System.out.println ("getting instance of WikiServiceContractModelImpl");
   List<String> serviceKeys = new ArrayList ();
   serviceKeys.add ("atp");
-  serviceKeys.add ("comment");
-  serviceKeys.add ("dictionary");
-  serviceKeys.add ("enumerationmanagement");
-  serviceKeys.add ("lo");
-  serviceKeys.add ("lrc");
-  serviceKeys.add ("organization");
-  serviceKeys.add ("person");
-  serviceKeys.add ("proposal");
-  serviceKeys.add ("refdocrelation");
-  serviceKeys.add ("resource");
-  serviceKeys.add ("search");
+//  serviceKeys.add ("comment");
+//  serviceKeys.add ("dictionary");
+//  serviceKeys.add ("enumerationmanagement");
+//  serviceKeys.add ("lo");
+//  serviceKeys.add ("lrc");
+//  serviceKeys.add ("organization");
+//  serviceKeys.add ("person");
+//  serviceKeys.add ("proposal");
+//  serviceKeys.add ("refdocrelation");
+//  serviceKeys.add ("resource");
+//  serviceKeys.add ("search");
 //  serviceKeys.add ("lu");
   List<ServicesFilter> filters = new ArrayList ();
   filters.add (new ServicesFilterExcludeDev ());
@@ -94,58 +97,81 @@ public class WikiServiceContractModelImplTest implements RunConstants
   return instance;
  }
 
-
+ private PrintStream getOut (String fileName)
+ {
+  File file = new File (RESOURCES_DIRECTORY + "/" + fileName);
+  OutputStream out;
+  try
+  {
+   out = new FileOutputStream (file);
+  }
+  catch (FileNotFoundException ex)
+  {
+   throw new DictionaryExecutionException (ex);
+  }
+  PrintStream ps = new PrintStream (out);
+  return ps;
+ }
 
  public void testGetServices ()
  {
   System.out.println ("getServiceMethods");
-
-  List<Service> services = instance.getServices ();
+  PrintStream out = getOut ("service.txt");
+  new ServiceDumper (null, out).writeTabbedHeader ();
+  List<Service> services = getInstance ().getServices ();
   for (Service service : services)
   {
-   new ServiceDumper (service, System.out).dump ();
+   new ServiceDumper (service, out).writeTabbedData ();
   }
   //assertEquals (13, services.size ());
  }
 
-
  public void testGetServiceMethods ()
  {
   System.out.println ("getServiceMethods");
-
+  PrintStream out = getOut ("service methods.txt");
   List<ServiceMethod> methods = instance.getServiceMethods ();
+  new ServiceMethodDumper (null, out).writeTabbedHeader ();
   for (ServiceMethod method : methods)
   {
-   new ServiceMethodDumper (method, System.out).dump ();
+   new ServiceMethodDumper (method, out).writeTabbedData ();
   }
  }
 
  public void testGetMessageStructures ()
  {
   System.out.println ("getMessageStructures");
-  List<MessageStructure> msgs = instance.getMessageStructures ();
+  PrintStream out = getOut ("message structures.txt");
+
+  new MessageStructureDumper (null, out).writeTabbedHeader ();
+  List<MessageStructure> msgs = getInstance ().getMessageStructures ();
   for (MessageStructure messageStructure : msgs)
   {
-   new MessageStructureDumper (messageStructure, System.out).dump ();
+   new MessageStructureDumper (messageStructure, out).writeTabbedData ();
   }
  }
-
 
  public void testGetXmlTypes ()
  {
   System.out.println ("getXmlTypes");
-  List<XmlType> xmlTypes = instance.getXmlTypes ();
+  PrintStream out = getOut ("xml types.txt");
+
+  new XmlTypeDumper (null, out).writeTabbedHeader ();
+  List<XmlType> xmlTypes = getInstance ().getXmlTypes ();
   for (XmlType xmlType : xmlTypes)
   {
-   new XmlTypeDumper (xmlType, System.out).dump ();
+   new XmlTypeDumper (xmlType, out).writeTabbedData ();
   }
  }
 
-  public static void main (String[] args)
-  {
-   WikiServiceContractModelImplTest tester = new WikiServiceContractModelImplTest ();
-   tester.testGetMessageStructures ();
-   tester.testGetMessageStructures ();
-   tester.testGetXmlTypes ();
-  }
+ public static void main (String[] args)
+ {
+  WikiServiceContractModelImplRun tester =
+   new WikiServiceContractModelImplRun ();
+  tester.testGetServices ();
+  tester.testGetMessageStructures ();
+  tester.testGetServiceMethods ();
+  tester.testGetXmlTypes ();
+ }
+
 }

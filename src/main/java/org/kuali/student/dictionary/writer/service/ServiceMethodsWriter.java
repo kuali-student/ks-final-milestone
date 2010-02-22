@@ -27,7 +27,7 @@ import org.kuali.student.dictionary.writer.JavaClassWriter;
  *
  * @author nwright
  */
-public class ServiceApiMethodsWriter extends JavaClassWriter
+public class ServiceMethodsWriter extends JavaClassWriter
 {
 
  private DictionaryModel model;
@@ -36,7 +36,7 @@ public class ServiceApiMethodsWriter extends JavaClassWriter
  private Service service;
  private List<ServiceMethod> methods;
 
- public ServiceApiMethodsWriter (DictionaryModel model,
+ public ServiceMethodsWriter (DictionaryModel model,
                                  String directory,
                                  Service service,
                                  List<ServiceMethod> methods)

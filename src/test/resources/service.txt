@@ -1,0 +1,2 @@
+Key	Name	Version	url	ImplProject	status	comments
+atp	Academic Time Period	v1.0-rc2	/confluence/display/KULSTU/Academic+Time+Period+Service+v1.0-rc2	null	null	null

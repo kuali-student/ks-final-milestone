@@ -67,7 +67,7 @@ public class ServiceWriter
 
   // the main service
   System.out.println ("Generating services API's for " + service.getKey ());
-  new ServiceApiMethodsWriter (model, directory, service, methods).write ();
+  new ServiceMethodsWriter (model, directory, service, methods).write ();
 
   // the info's
   System.out.println ("Generating info interfaces");
@@ -82,7 +82,7 @@ public class ServiceWriter
   for (XmlType xmlType : getXmlTypesUsedByService (methods))
   {
    System.out.println ("Generating info interface for " + xmlType.getName ());
-   new ServiceApiInfoWriter (model, directory, service, xmlType).write ();
+   new ServiceInfoWriter (model, directory, service, xmlType).write ();
   }
 
 

@@ -1,0 +1,153 @@
+id	Action	xmlObject	ShortName	Name	Type	Description	Required	Cardinality	XMLAttribute	Status	Feedback
+null		dateRangeTypeInfo	name	Date Range Type Name	string	Friendly name of the date range type.	Yes	One	No		
+null		dateRangeTypeInfo	desc	Date Range Type Description	string	Narrative description of the date range type.	No	One	No		
+null		dateRangeTypeInfo	effectiveDate	Effective Date	dateTime	Date that this date range type became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.	Yes	One	No		
+null		dateRangeTypeInfo	expirationDate	Expiration Date	dateTime	Date that this date range type expires. This is a similar concept to the expiration date on enumerated values. If specified, this must be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.	No	One	No		
+null		dateRangeTypeInfo	attributes	Generic/dynamic attributes	attributeInfoList	.	No	One	No		
+null		dateRangeTypeInfo	key	Date Range Type	dateRangeTypeKey	Unique identifier for a date range type.	Yes	One	Yes		
+null		validationResultInfoList	validationResult	Validation Result	validationResultInfo	Contains information returned as a result of a validation operation.	No	Many	No		
+null		milestoneTypeInfo	name	Milestone Type Name	string	Friendly name of the milestone type.	Yes	One	No		
+null		milestoneTypeInfo	desc	Milestone Type Description	string	Narrative description of the milestone type.	No	One	No		
+null		milestoneTypeInfo	effectiveDate	Effective Date	dateTime	Date and time that this milestone type became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.	Yes	One	No		
+null		milestoneTypeInfo	expirationDate	Expiration Date	dateTime	Date and time that this milestone type expires. This is a similar concept to the expiration date on enumerated values. If specified, this must be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.	No	One	No		
+null		milestoneTypeInfo	attributes	Generic/dynamic attributes	attributeInfoList	.	No	One	No		
+null		milestoneTypeInfo	key	Milestone Type	milestoneTypeKey	Unique identifier for a milestone type.	Yes	One	Yes		
+null		atpSeasonalTypeInfoList	atpSeasonalTypeInfo	Academic Time Period Seasonal Type Information	atpSeasonalTypeInfo	Information about an academic time period seasonal type.	No	Many	No		
+null		statusInfo	success	Success Indicator	boolean	Indicates the success or failure of the operation	Yes	One	No		
+null		milestoneInfo	name	Milestone Name	string	Name of the milestone.	Yes	One	No		
+null		milestoneInfo	desc	Milestone Description	richTextInfo	Description of the milestone.	No	One	No		
+null		milestoneInfo	atpKey	Academic Time Period Identifier	atpKey	Unique identifier for an Academic Time Period (ATP).	Yes	One	No		
+null		milestoneInfo	milestoneDate	Milestone Date	dateTime	Date and time of the milestone.	Yes	One	No		
+null		milestoneInfo	attributes	Generic/dynamic attributes	attributeInfoList	.	No	One	No		
+null		milestoneInfo	metaInfo	Create/Update meta info	metaInfo	Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.	No	One	No		
+null		milestoneInfo	type	Milestone Type	milestoneTypeKey	Unique identifier for a milestone type.	Yes	One	Yes		
+null		milestoneInfo	state	Milestone State	string	The current status of the milestone. The values for this field are constrained to those in the milestoneState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.	Yes	One	Yes		
+null		milestoneInfo	key	Milestone Key	milestoneKey	Unique identifier for a milestone.	Yes	One	Yes		
+null		dateRangeInfo	name	Date Range Name	string	Friendly name of the date range.	Yes	One	No		
+null		dateRangeInfo	desc	Date Range Description	richTextInfo	Narrative description of the date range.	No	One	No		
+null		dateRangeInfo	atpKey	Academic Time Period Identifier	atpKey	Unique identifier for an Academic Time Period (ATP).	Yes	One	No		
+null		dateRangeInfo	startDate	Range Start Date	dateTime	Start date and time for the date range. This must be less than or equal to the end date of this range.	Yes	One	No		
+null		dateRangeInfo	endDate	Range End Date	dateTime	End date and time for the date range. This must be greater than or equal to the start date of this range.	Yes	One	No		
+null		dateRangeInfo	attributes	Generic/dynamic attributes	attributeInfoList	.	No	One	No		
+null		dateRangeInfo	metaInfo	Create/Update meta info	metaInfo	Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.	No	One	No		
+null		dateRangeInfo	type	Date Range Type	dateRangeTypeKey	Unique identifier for a date range type.	Yes	One	Yes		
+null		dateRangeInfo	state	Date Range State	string	The current status of the date range. The values for this field are constrained to those in the dateRangeState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.	Yes	One	Yes		
+null		dateRangeInfo	key	Date Range Key	dateRangeKey	Unique identifier for a date range.	Yes	One	Yes		
+null		atpTypeInfoList	atpTypeInfo	Academic Time Period Type Information	atpTypeInfo	Information about an academic time period type.	No	Many	No		
+null		milestoneInfoList	milestoneInfo	Milestone Info	milestoneInfo	Information about a milestone.	No	Many	No		
+null		atpDurationTypeInfoList	atpDurationTypeInfo	Academic Time Period Duration Type Information	atpDurationTypeInfo	Information about an academic time period duration type.	No	Many	No		
+null		atpInfo	name	Academic Time Period Name	string	Friendly name for the academic time period	Yes	One	No		
+null		atpInfo	desc	Academic Time Period Description	richTextInfo	Narrative description of an academic time period	No	One	No		
+null		atpInfo	startDate	Start Date	dateTime	Date and time the academic time period became effective. This does not provide a bound on date ranges or milestones associated with this time period, but instead indicates the time period proper. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.	Yes	One	No		
+null		atpInfo	endDate	End Date	dateTime	Date and time the academic time period expires. This does not provide a bound on date ranges or milestones associated with this time period, but instead indicates the time period proper. If specified, this must be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.	No	One	No		
+null		atpInfo	attributes	Generic/dynamic attributes	attributeInfoList	.	No	One	No		
+null		atpInfo	metaInfo	Create/Update meta info	metaInfo	Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.	No	One	No		
+null		atpInfo	type	Academic Time Period Type	atpTypeKey	Unique identifier for an academic time period type.	Yes	One	Yes		
+null		atpInfo	state	Academic Time Period State	string	The current status of the academic time period. The values for this field are constrained to those in the atpState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.	Yes	One	Yes		
+null		atpInfo	key	Academic Time Period Identifier	atpKey	Unique identifier for an Academic Time Period (ATP).	Yes	One	Yes		
+null		atpDurationTypeInfo	name	Academic Time Period Duration Type Name	string	Friendly name for the academic time period duration type.	Yes	One	No		
+null		atpDurationTypeInfo	desc	Academic Time Period Duration Type Description	string	Description of the academic time period duration type.	No	One	No		
+null		atpDurationTypeInfo	effectiveDate	Effective Date	dateTime	Date and time that this academic time period duration type became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.	Yes	One	No		
+null		atpDurationTypeInfo	expirationDate	Expiration Date	dateTime	Date and time that this academic time period duration type expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.	No	One	No		
+null		atpDurationTypeInfo	attributes	Generic/dynamic attributes	attributeInfoList	.	No	One	No		
+null		atpDurationTypeInfo	key	Academic Time Period Duration Type Identifier	atpDurationTypeKey	Unique identifier for an academic time period duration type.	Yes	One	Yes		
+null		atpSeasonalTypeInfo	name	Academic Time Period Seasonal Type Name	string	Friendly name of the academic time period seasonal type.	Yes	One	No		
+null		atpSeasonalTypeInfo	desc	Academic Time Period Seasonal Type Description	string	Description of the academic time period seasonal type.	No	One	No		
+null		atpSeasonalTypeInfo	effectiveDate	Effective Date	dateTime	Date and time that this academic time period seasonal type became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.	Yes	One	No		
+null		atpSeasonalTypeInfo	expirationDate	Expiration Date	dateTime	Date and time that this academic time period seasonal type expires. This is a similar concept to the expiration date on enumerated values. If specified, this must be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.	No	One	No		
+null		atpSeasonalTypeInfo	attributes	Generic/dynamic attributes	attributeInfoList	.	No	One	No		
+null		atpSeasonalTypeInfo	key	Academic Time Period Seasonal Type Identifier	atpSeasonalTypeKey	Unique identifier for an academic time period seasonal type.	Yes	One	Yes		
+null		dateRangeInfoList	dateRangeInfo	Date Range Information	dateRangeInfo	Information about a date range.	No	Many	No		
+null		atpTypeInfo	name	Academic Time Period Type Name	string	Friendly name of the academic time period type.	Yes	One	No		
+null		atpTypeInfo	desc	Academic Time Period Type Description	string	Narrative description of an academic time period type.	No	One	No		
+null		atpTypeInfo	durationType	Academic Time Period Duration Type	atpDurationTypeKey	Unique identifier for an academic time period duration type.	Yes	One	No		
+null		atpTypeInfo	seasonalType	Academic Time Period Seasonal Type	atpSeasonalTypeKey	Unique identifier for an academic time period seasonal type.	Yes	One	No		
+null		atpTypeInfo	effectiveDate	Effective Date	dateTime	Date and time that this academic time period type became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.	Yes	One	No		
+null		atpTypeInfo	expirationDate	Expiration Date	dateTime	Date and time that this academic time period type expires. This is a similar concept to the expiration date on enumerated values. If specified, this must be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.	No	One	No		
+null		atpTypeInfo	attributes	Generic/dynamic attributes	attributeInfoList	.	No	One	No		
+null		atpTypeInfo	key	Academic Time Period Type	atpTypeKey	Unique identifier for an academic time period type.	Yes	One	Yes		
+null		dateRangeTypeInfoList	dateRangeTypeInfo	Date Range Type Information	dateRangeTypeInfo	Information about a date range type.	No	Many	No		
+null		atpInfoList	atpInfo	Academic Time Period Information	atpInfo	Information about an academic time period.	No	Many	No		
+null		milestoneTypeInfoList	milestoneTypeInfo	Milestone Type Information	milestoneTypeInfo	Information about a milestone type.	No	Many	No		
+null		dateRangeTypeInfo	name	Date Range Type Name	string	Friendly name of the date range type.	Yes	One	No		
+null		dateRangeTypeInfo	desc	Date Range Type Description	string	Narrative description of the date range type.	No	One	No		
+null		dateRangeTypeInfo	effectiveDate	Effective Date	dateTime	Date that this date range type became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.	Yes	One	No		
+null		dateRangeTypeInfo	expirationDate	Expiration Date	dateTime	Date that this date range type expires. This is a similar concept to the expiration date on enumerated values. If specified, this must be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.	No	One	No		
+null		dateRangeTypeInfo	attributes	Generic/dynamic attributes	attributeList	.	No	One	No		
+null		dateRangeTypeInfo	key	Date Range Type	dateRangeTypeKey	Unique identifier for a date range type.	Yes	One	Yes		
+null		milestoneTypeInfo	name	Milestone Type Name	string	Friendly name of the milestone type.	Yes	One	No		
+null		milestoneTypeInfo	desc	Milestone Type Description	string	Narrative description of the milestone type.	No	One	No		
+null		milestoneTypeInfo	effectiveDate	Effective Date	dateTime	Date and time that this milestone type became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.	Yes	One	No		
+null		milestoneTypeInfo	expirationDate	Expiration Date	dateTime	Date and time that this milestone type expires. This is a similar concept to the expiration date on enumerated values. If specified, this must be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.	No	One	No		
+null		milestoneTypeInfo	attributes	Generic/dynamic attributes	attributeList	.	No	One	No		
+null		milestoneTypeInfo	key	Milestone Type	milestoneTypeKey	Unique identifier for a milestone type.	Yes	One	Yes		
+null		atpDurationTypeInfo	name	Academic Time Period Duration Type Name	string	Friendly name for the academic time period duration type.	Yes	One	No		
+null		atpDurationTypeInfo	desc	Academic Time Period Duration Type Description	string	Description of the academic time period duration type.	No	One	No		
+null		atpDurationTypeInfo	effectiveDate	Effective Date	dateTime	Date and time that this academic time period duration type became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.	Yes	One	No		
+null		atpDurationTypeInfo	expirationDate	Expiration Date	dateTime	Date and time that this academic time period duration type expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.	No	One	No		
+null		atpDurationTypeInfo	attributes	Generic/dynamic attributes	attributeList	.	No	One	No		
+null		atpDurationTypeInfo	key	Academic Time Period Duration Type Identifier	atpDurationTypeKey	Unique identifier for an academic time period duration type.	Yes	One	Yes		
+null		atpTypeInfo	name	Academic Time Period Type Name	string	Friendly name of the academic time period type.	Yes	One	No		
+null		atpTypeInfo	desc	Academic Time Period Type Description	string	Narrative description of an academic time period type.	No	One	No		
+null		atpTypeInfo	durationType	Academic Time Period Duration Type	atpDurationTypeKey	Unique identifier for an academic time period duration type.	Yes	One	No		
+null		atpTypeInfo	seasonalType	Academic Time Period Seasonal Type	atpSeasonalTypeKey	Unique identifier for an academic time period seasonal type.	Yes	One	No		
+null		atpTypeInfo	effectiveDate	Effective Date	dateTime	Date and time that this academic time period type became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.	Yes	One	No		
+null		atpTypeInfo	expirationDate	Expiration Date	dateTime	Date and time that this academic time period type expires. This is a similar concept to the expiration date on enumerated values. If specified, this must be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.	No	One	No		
+null		atpTypeInfo	attributes	Generic/dynamic attributes	attributeList	.	No	One	No		
+null		atpTypeInfo	key	Academic Time Period Type	atpTypeKey	Unique identifier for an academic time period type.	Yes	One	Yes		
+null		atpSeasonalTypeInfo	name	Academic Time Period Seasonal Type Name	string	Friendly name of the academic time period seasonal type.	Yes	One	No		
+null		atpSeasonalTypeInfo	desc	Academic Time Period Seasonal Type Description	string	Description of the academic time period seasonal type.	No	One	No		
+null		atpSeasonalTypeInfo	effectiveDate	Effective Date	dateTime	Date and time that this academic time period seasonal type became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.	Yes	One	No		
+null		atpSeasonalTypeInfo	expirationDate	Expiration Date	dateTime	Date and time that this academic time period seasonal type expires. This is a similar concept to the expiration date on enumerated values. If specified, this must be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.	No	One	No		
+null		atpSeasonalTypeInfo	attributes	Generic/dynamic attributes	attributeList	.	No	One	No		
+null		atpSeasonalTypeInfo	key	Academic Time Period Seasonal Type Identifier	atpSeasonalTypeKey	Unique identifier for an academic time period seasonal type.	Yes	One	Yes		
+null		atpInfo	name	Academic Time Period Name	string	Friendly name for the academic time period	Yes	One	No		
+null		atpInfo	desc	Academic Time Period Description	richTextInfo	Narrative description of an academic time period	No	One	No		
+null		atpInfo	startDate	Start Date	dateTime	Date and time the academic time period became effective. This does not provide a bound on date ranges or milestones associated with this time period, but instead indicates the time period proper. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.	Yes	One	No		
+null		atpInfo	endDate	End Date	dateTime	Date and time the academic time period expires. This does not provide a bound on date ranges or milestones associated with this time period, but instead indicates the time period proper. If specified, this must be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.	No	One	No		
+null		atpInfo	attributes	Generic/dynamic attributes	attributeInfoList	.	No	One	No		
+null		atpInfo	metaInfo	Create/Update meta info	metaInfo	Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.	No	One	No		
+null		atpInfo	type	Academic Time Period Type	atpTypeKey	Unique identifier for an academic time period type.	Yes	One	Yes		
+null		atpInfo	state	Academic Time Period State	string	The current status of the academic time period. The values for this field are constrained to those in the atpState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.	Yes	One	Yes		
+null		atpInfo	key	Academic Time Period Identifier	atpKey	Unique identifier for an Academic Time Period (ATP).	Yes	One	Yes		
+null		richTextInfo	plain	Plain Text	string	Plain version of the text. This may be used for searching.	Yes	One	No		
+null		richTextInfo	formatted	Formatted Text	string	Formatted version of the text.	Yes	One	No		Initial expectation is that the formatting will map to a subset of html.
+null		milestoneInfo	name	Milestone Name	string	Name of the milestone.	Yes	One	No		
+null		milestoneInfo	desc	Milestone Description	string	Description of the milestone.	No	One	No		
+null		milestoneInfo	atpKey	Academic Time Period Identifier	atpKey	Unique identifier for an Academic Time Period (ATP).	Yes	One	No		
+null		milestoneInfo	milestoneDate	Milestone Date	dateTime	Date and time of the milestone.	Yes	One	No		
+null		milestoneInfo	attributes	Generic/dynamic attributes	attributeList	.	No	One	No		
+null		milestoneInfo	metaInfo	Create/Update meta info	metaInfo	Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.	No	One	No		
+null		milestoneInfo	type	Milestone Type	milestoneTypeKey	Unique identifier for a milestone type.	Yes	One	Yes		
+null		milestoneInfo	state	Milestone State	string	The current status of the milestone. The values for this field are constrained to those in the milestoneState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.	Yes	One	Yes		
+null		milestoneInfo	key	Milestone Key	milestoneKey	Unique identifier for a milestone.	Yes	One	Yes		
+null		metaInfo	versionInd	Version Indicator	string	An indicator of the version of the thing being described with this meta information. This is set by the service implementation and will be used to determine conflicts in updates.	Yes	One	No		
+null		metaInfo	createTime	Date/Time Created	dateTime	The date and time the thing being described with this meta information was created	Yes	One	No		
+null		metaInfo	createId	Created By Identifier	principalId	The principal who created the thing being described with this meta information	Yes	One	No		
+null		metaInfo	updateTime	Date/Time Last Updated	dateTime	The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.	Yes	One	No		
+null		metaInfo	updateId	Updated By Identifier	principalId	The principal who last updated the thing being described with this meta information. This would be filled in on initial creation as well.	Yes	One	No		
+null		dateRangeInfo	name	Date Range Name	string	Friendly name of the date range.	Yes	One	No		
+null		dateRangeInfo	desc	Date Range Description	string	Narrative description of the date range.	No	One	No		
+null		dateRangeInfo	atpKey	Academic Time Period Identifier	atpKey	Unique identifier for an Academic Time Period (ATP).	Yes	One	No		
+null		dateRangeInfo	startDate	Range Start Date	dateTime	Start date and time for the date range. This must be less than or equal to the end date of this range.	Yes	One	No		
+null		dateRangeInfo	endDate	Range End Date	dateTime	End date and time for the date range. This must be greater than or equal to the start date of this range.	Yes	One	No		
+null		dateRangeInfo	attributes	Generic/dynamic attributes	attributeList	.	No	One	No		
+null		dateRangeInfo	metaInfo	Create/Update meta info	metaInfo	Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.	No	One	No		
+null		dateRangeInfo	type	Date Range Type	dateRangeTypeKey	Unique identifier for a date range type.	Yes	One	Yes		
+null		dateRangeInfo	state	Date Range State	string	The current status of the date range. The values for this field are constrained to those in the dateRangeState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.	Yes	One	Yes		
+null		dateRangeInfo	key	Date Range Key	dateRangeKey	Unique identifier for a date range.	Yes	One	Yes		
+null		attributeInfoList	attribute	Dynamic attribute	attributeInfo	Key/value pair, typically used for information which may vary from the common set of information provided about an object.	No	Many	No		
+null		validationResultInfo	element	Element	string	Indication of which element the validation result pertains to. In the case of validation results which are stem from a cross type constraint, the element should be the containing object. Ex. if two citizenships (which are embedded in the person) fail a uniqueness constraint, the element indicated should be the person.	Yes	One	No		
+null		validationResultInfo	errorLevel	Error Level	string	Indication of the error level of the validation result. Allowed values are OK, WARN, and ERROR.	Yes	One	No		
+null		validationResultInfo	message	Message	string	Message generated for the validation. Describes failure conditions and success aspects. May have additional meta about the specifics of the constraint violated.	Yes	One	No		
+null		validationResultInfo	task	Suggested Task	string	Indication of a potential task stemming from the current validation result. In the case of a warning or error, this may be a corrective action	No	One	No		We may want to make this a task type to distinguish it from a particular instance of a task. Likely not important for the first pass though.
+null		attributeList	attribute	Dynamic attribute	attribute	Key/value pair, typically used for information which may vary from the common set of information provided about an object.	No	Many	No		
+null		attributeInfo	value	Attribute Value	string	The value for this dynamic attribute.	Yes	One	No		
+null		attributeInfo	key	Attribute Type Identifier	string	The identifier for this attribute.	Yes	One	Yes		
+null		metaInfo	versionInd	Version Indicator	string	An indicator of the version of the thing being described with this meta information. This is set by the service implementation and will be used to determine conflicts in updates.	Yes	One	No		
+null		metaInfo	createTime	Date/Time Created	dateTime	The date and time the thing being described with this meta information was last updated	Yes	One	No		
+null		metaInfo	createId	Created By Identifier	principalId	The principal who created the thing being described with this meta information	Yes	One	No		
+null		metaInfo	updateTime	Date/Time Last Updated	dateTime	The date and time the thing being described with this meta information was last updated	Yes	One	No		
+null		metaInfo	updateId	Updated By Identifier	principalId	The principal who last updated the thing being described with this meta information	Yes	One	No		
+null		attribute	value	Attribute Value	string	The value for this dynamic attribute.	Yes	One	No		
+null		attribute	key	Attribute Type Identifier	string	The identifier for this attribute.	Yes	One	Yes		
