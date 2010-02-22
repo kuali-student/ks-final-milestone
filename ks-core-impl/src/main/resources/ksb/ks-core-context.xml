@@ -118,10 +118,10 @@
         class="org.kuali.student.core.organization.service.impl.OrganizationServiceImpl">
         <property name="organizationDao" ref="orgDao" />
         <property name="searchManager" ref="orgSearchManager" />
-        <property name="dictionaryServiceDelegate" ref="dictionaryServiceDelegate"/>
+        <property name="dictionaryServiceDelegate" ref="orgDictionaryServiceDelegate"/>
     </bean>
 
-    <bean id="dictionaryServiceDelegate"
+    <bean id="orgDictionaryServiceDelegate"
         class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
         <constructor-arg index="0" value="classpath:organization-dictionary-config.xml" />
     </bean>
