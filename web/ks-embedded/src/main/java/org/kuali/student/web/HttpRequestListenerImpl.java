@@ -10,20 +10,11 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.rice.core.config.ConfigContext;
-import org.kuali.student.common.ui.server.gwt.rpc.GwtRpcRequestListener;
+import static org.kuali.student.common.ui.server.gwt.rpc.GwtRpcRequestListener.*;
 
 import com.google.gwt.user.server.rpc.RPCRequest;
 
-public class HttpRequestListenerImpl implements RequestRecorderFilterListener, GwtRpcRequestListener {
-	private static final String RPC_REQUEST_METHOD = "rpc.method";
-	private static final String RPC_REQUEST_PARAMETERS = "rpc.params";
-	private static final String RPC_REQUEST = "rpc.request";
-	// private static final String RPC_RESPONSE = "rpc.response";
-	private static final String RPC_EXCEPTION_TRAPPED = "rpc.exception.trapped";
-	private static final String RPC_EXCEPTION_UNEXPECTED = "rpc.exception.unexpected";
-	private static final String RPC_RESPONSE_SERIALIZED = "rpc.response.serialized";
-	private static final String RPC_REQUEST_SERIALIZED = "rpc.request.serialized";
-	private static final String RPC_RESPONSE_OBJECT = "rpc.response.object";
+public class HttpRequestListenerImpl implements RequestRecorderFilterListener {
 	private static final String SESSION_RECORDER_KEY = "recordedSession";
 	private static final Log log = LogFactory.getLog(HttpRequestListenerImpl.class);
 
@@ -118,7 +109,7 @@ public class HttpRequestListenerImpl implements RequestRecorderFilterListener, G
 	}
 
 	protected void handleRpcResponse(HttpServletRequest request, RecordedRequest rr) {
-		Object result = (Object) request.getAttribute(RPC_RESPONSE_OBJECT);
+		Object result = (Object) request.getAttribute(RPC_RETURN_OBJECT);
 		if (result == null) {
 			return;
 		}
@@ -131,8 +122,8 @@ public class HttpRequestListenerImpl implements RequestRecorderFilterListener, G
 	}
 
 	protected void handleRpcExceptions(HttpServletRequest request, RecordedRequest rr) {
-		handleException(request, rr, RPC_EXCEPTION_UNEXPECTED);
-		handleException(request, rr, RPC_EXCEPTION_TRAPPED);
+		handleException(request, rr, RPC_UNEXPECTED_FAILURE);
+		handleException(request, rr, RPC_TRAPPED_EXCEPTION);
 	}
 
 	protected void handleException(HttpServletRequest request, RecordedRequest rr, String name) {
@@ -145,33 +136,4 @@ public class HttpRequestListenerImpl implements RequestRecorderFilterListener, G
 		rr.getParameters().add(bean);
 	}
 
-	@Override
-	public void doTrappedException(HttpServletRequest request, Exception e) {
-		request.setAttribute(RPC_EXCEPTION_TRAPPED, e);
-	}
-
-	@Override
-	public void doUnexpectedFailure(HttpServletRequest request, Throwable e) {
-		request.setAttribute(RPC_EXCEPTION_UNEXPECTED, e);
-	}
-
-	@Override
-	public void onAfterRequestDeserialized(HttpServletRequest request, RPCRequest rpcRequest) {
-		request.setAttribute(RPC_REQUEST, rpcRequest);
-	}
-
-	@Override
-	public void onAfterResponseSerialized(HttpServletRequest request, String responsePayload) {
-		request.setAttribute(RPC_RESPONSE_SERIALIZED, responsePayload);
-	}
-
-	@Override
-	public void onBeforeRequestDeserialized(HttpServletRequest request, String requestPayload) {
-		request.setAttribute(RPC_REQUEST_SERIALIZED, requestPayload);
-	}
-
-	@Override
-	public void onBeforeResponseSerialized(HttpServletRequest request, Object result) {
-		request.setAttribute(RPC_RESPONSE_OBJECT, result);
-	}
 }
