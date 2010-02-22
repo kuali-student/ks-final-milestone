@@ -23,7 +23,7 @@ public class SimpleTest {
 			WsdlProject project = new WsdlProject();
 
 			// import amazon wsdl
-			WsdlInterface iface = project.importWsdl("http://soap.amazon.com/schemas2/AmazonWebServices.wsdl", true)[0];
+			WsdlInterface iface = project.importWsdl("http://localhost//services/LuService?wsdl", true)[0];
 
 			// get "GetPage" operation
 			List<Operation> operations = iface.getOperationList();
