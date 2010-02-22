@@ -16,6 +16,8 @@ package org.kuali.student.common.ui.server.gwt.rpc;
 
 import java.lang.reflect.InvocationTargetException;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException;
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.server.rpc.RPC;
@@ -33,12 +35,12 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * http://code.google.com/p/google-web-toolkit/issues/detail?id=1291
  * 
  * Also contains a listener that can provide custom behavior as needed. The
- * default listener implementation does not do anything. Override this by
- * injecting your own implementation.
+ * default listener implementation just stores RPC related objects as request
+ * attributes. Injecting a different listener or use AOP to wrap methods on the
+ * default listener allows for customizing this behavior.
  */
 @SuppressWarnings("serial")
 public abstract class BaseRemoteAbstractServiceServlet extends RemoteServiceServlet {
-	GwtRpcRequestListener gwtRpcRequestListener = new DefaultGwtRpcRequestListenerImpl();
 
 	RpcUtils utils = new RpcUtils();
 
@@ -60,6 +62,64 @@ public abstract class BaseRemoteAbstractServiceServlet extends RemoteServiceServ
 			return RPC.encodeResponseForFailure(null, e);
 		}
 	}
+
+	/**
+	 * This is a String that represents a serialized object that has come from
+	 * the browser
+	 */
+	public static final String RPC_REQUEST_PAYLOAD = "rpc.requestPayload";
+
+	/**
+	 * The serialized object gets decoded into a Method and an Object[] of
+	 * parameters
+	 */
+	public static final String RPC_REQUEST = "rpc.rpcRequest";
+
+	/**
+	 * This is the object that will get serialized and returned.
+	 */
+	public static final String RPC_RETURN_OBJECT = "rpc.returnObject";
+
+	/**
+	 * This is the return object after it has been serialized
+	 */
+	public static final String RPC_RESPONSE_PAYLOAD = "rpc.responsePayload";
+
+	/**
+	 * An unexpected exception occurred that we did not catch
+	 */
+	public static final String RPC_UNEXPECTED_FAILURE = "rpc.unexpected";
+
+	/**
+	 * Something happened that we specifically caught
+	 */
+	public static final String RPC_TRAPPED_EXCEPTION = "rpc.trappedException";
+
+	GwtRpcRequestListener gwtRpcRequestListener = new GwtRpcRequestListener() {
+		public void onBeforeRequestDeserialized(HttpServletRequest request, String requestPayload) {
+			request.setAttribute(RPC_REQUEST_PAYLOAD, requestPayload);
+		}
+
+		public void onAfterRequestDeserialized(HttpServletRequest request, RPCRequest rpcRequest) {
+			request.setAttribute(RPC_REQUEST, rpcRequest);
+		}
+
+		public void onBeforeResponseSerialized(HttpServletRequest request, Object result) {
+			request.setAttribute(RPC_RETURN_OBJECT, result);
+		}
+
+		public void onAfterResponseSerialized(HttpServletRequest request, String responsePayload) {
+			request.setAttribute(RPC_RESPONSE_PAYLOAD, responsePayload);
+		}
+
+		public void doUnexpectedFailure(HttpServletRequest request, Throwable e) {
+			request.setAttribute(RPC_UNEXPECTED_FAILURE, e);
+		}
+
+		public void doTrappedException(HttpServletRequest request, Exception e) {
+			request.setAttribute(RPC_TRAPPED_EXCEPTION, e);
+		}
+	};
 
 	@Override
 	protected void onBeforeRequestDeserialized(String requestPayload) {
