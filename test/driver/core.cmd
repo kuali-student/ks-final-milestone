@@ -4,6 +4,6 @@ call removeThenCopy %QA% %DEV% ks-common-impl
 call removeThenCopy %QA% %DEV% ks-common-test
 call removeThenCopy %QA% %DEV% ks-common-ui
 call removeThenCopy %QA% %DEV% ks-common-util
+call removeThenCopy %QA% %DEV% ks-core-api
 call removeThenCopy %QA% %DEV% ks-core-impl
 call removeThenCopy %QA% %DEV% ks-core-ui
-call removeThenCopy %QA% %DEV% ks-core-web
