@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.mvc.DefaultWidgetFactory;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.common.ui.client.configurable.mvc.WidgetConfigInfo;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -35,6 +36,7 @@ public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
 		if (meta != null) {
 			config.access = meta.getWriteAccess();
 			config.isMultiLine = MetadataInterrogator.isMultilined(meta);
+			config.isRepeating = MetadataInterrogator.isRepeating(meta);
 			config.isRichText = MetadataInterrogator.hasConstraint(meta, ConstraintIds.RICH_TEXT);
 			config.maxLength = MetadataInterrogator.getSmallestMaxLength(meta);
 			config.type = meta.getDataType();
@@ -67,7 +69,7 @@ public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
 		    result = new KSLabel();
 		} else {
 		    if(config.lookupMeta != null) {
-		        result = new KSPicker(config.lookupMeta, config.additionalLookups);
+		        result = new KSPicker(config);
 		    } else {
                 switch (config.type) {
                     case BOOLEAN:
@@ -102,16 +104,5 @@ public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
 		return result;
 	}
 
-	class WidgetConfigInfo {
-		public DataType type = null;
-		public Integer maxLength = null;
-		public WriteAccess access = null;
-		public boolean isRichText = false;
-		public boolean isMultiLine = false;
-		public LookupMetadata lookupMeta = null;
-		public List<LookupMetadata> additionalLookups = null;
-		public boolean canEdit = true;
-		public boolean canUnmask = false;
-		public boolean canView = true;
-	}
+
 }

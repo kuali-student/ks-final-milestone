@@ -14,12 +14,17 @@
  */
 package org.kuali.student.common.ui.client.configurable.mvc;
 
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.HasDataValue;
+import org.kuali.student.common.ui.client.mvc.HasFocusLostCallbacks;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.list.HasSelectionChangeHandlers;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.Data.Value;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -50,6 +55,15 @@ public class ValidationEventBindingImpl  implements ValidationEventBinding {
                 	fd.getValidationRequestCallback().exec(true);
                 }
             });
+        }
+        else if(w instanceof HasFocusLostCallbacks){
+        	((HasFocusLostCallbacks) w).addFocusLostCallback(new Callback<Boolean>(){
+				@Override
+				public void exec(Boolean result) {
+					fd.setHasHadFocus(true);
+                	fd.getValidationRequestCallback().exec(true);
+				}
+			});
         }
         else if(w instanceof MultiplicityComposite || w instanceof KSLabel 
         		|| w instanceof org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite){

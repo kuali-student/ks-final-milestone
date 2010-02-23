@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.theme.Theme;
+import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.StylishDropDown;
+import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
 import org.kuali.student.common.ui.client.widgets.containers.KSWrapper;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenu.MenuImageLocation;
@@ -19,7 +22,7 @@ public class CommonUITest implements EntryPoint {
 	
     @Override
     public void onModuleLoad() {
-    	final ClickHandler handler = new ClickHandler(){
+    	/*final ClickHandler handler = new ClickHandler(){
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -77,8 +80,21 @@ public class CommonUITest implements EntryPoint {
     	
     	RootPanel.get().add(new KSDatePicker());
     	RootPanel.get().add(dropDown);
-    	RootPanel.get().add(dropDown2);
-    	RootPanel.get().add(wrapper);
+    	RootPanel.get().add(dropDown2);*/
+    	//final KSLabel label = new KSLabel("Name");
+
+    	//RootPanel.get().add(label);
+    	final KSTitleContainerImpl title = new KSTitleContainerImpl();
+    	title.setTitle("NAME1");
+    	KSButton button = new KSButton("Change", new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				title.setTitle("NEW NAME");
+				//label.
+			}});
+    	RootPanel.get().add(title);
+    	RootPanel.get().add(button);
     	
 /*    	KSWrapper wrapper = new KSWrapper();
 

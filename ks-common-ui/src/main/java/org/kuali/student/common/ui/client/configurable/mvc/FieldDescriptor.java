@@ -18,6 +18,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBi
 import org.kuali.student.common.ui.client.configurable.mvc.binding.MultiplicityCompositeBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.HasDataValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.Type;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
@@ -221,8 +222,10 @@ public class FieldDescriptor {
         	    modelWidgetBinding = org.kuali.student.common.ui.client.configurable.mvc.binding.HasTextBinding.INSTANCE;
             } else if (fieldWidget instanceof KSSelectItemWidgetAbstract){
                 modelWidgetBinding = org.kuali.student.common.ui.client.configurable.mvc.binding.SelectItemWidgetBinding.INSTANCE;
+            } else if (fieldWidget instanceof HasDataValue){
+            	modelWidgetBinding = org.kuali.student.common.ui.client.configurable.mvc.binding.HasDataValueBinding.INSTANCE;
             } else if (fieldWidget instanceof HasValue){
-                modelWidgetBinding = org.kuali.student.common.ui.client.configurable.mvc.binding.HasValueBinding.INSTANCE;
+            	modelWidgetBinding = org.kuali.student.common.ui.client.configurable.mvc.binding.HasValueBinding.INSTANCE;
             }
         }
         return modelWidgetBinding;

@@ -55,7 +55,10 @@ public class DataModelDefinition implements ModelDefinition {
 				}
 			
 			}
+			//commented out: this is a workaround for some reason runtime metadata was disappearing from time to time???
+			//if(!(key.toString().equals("_runtimeData"))){
 			_ensurePath((Data) data.get(key), currentMeta, itr, includeLeafNode);
+			//}
 		} else {
 			// we're at the leaf node
 			if (includeLeafNode) {

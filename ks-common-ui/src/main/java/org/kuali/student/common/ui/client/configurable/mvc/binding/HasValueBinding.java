@@ -49,6 +49,8 @@ public class HasValueBinding extends ModelWidgetBindingSupport<HasValue> {
             model.set(qPath, (Boolean) value);
         } else if (value instanceof Date) {
             model.set(qPath, (Date) value);
+        } else if (value instanceof Data.Value){
+        	model.set(qPath, (Data.Value) value);
         } else if (value == null){
         	String s = null;
         	model.set(qPath, s);
