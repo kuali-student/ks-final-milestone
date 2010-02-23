@@ -3,6 +3,7 @@
   <classpathentry kind="src" path="src/test/resources" output="target/test-classes" excluding="**/*.java"/>
   <classpathentry kind="src" path="src/main/java" including="**/*.java"/>
   <classpathentry kind="src" path="src/main/resources" excluding="**/*.java"/>
+  <classpathentry kind="src" path="target/maven-shared-archive-resources" excluding="**/*.java"/>
   <classpathentry kind="output" path="target/classes"/>
   <classpathentry kind="var" path="M2_REPO/javax/xml/bind/jaxb-api/2.1/jaxb-api-2.1.jar" sourcepath="M2_REPO/javax/xml/bind/jaxb-api/2.1/jaxb-api-2.1-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/javax/jcr/jcr/1.0/jcr-1.0.jar" sourcepath="M2_REPO/javax/jcr/jcr/1.0/jcr-1.0-sources.jar"/>
@@ -106,7 +107,7 @@
   <classpathentry kind="var" path="M2_REPO/org/apache/openjpa/openjpa/1.2.1/openjpa-1.2.1.jar" sourcepath="M2_REPO/org/apache/openjpa/openjpa/1.2.1/openjpa-1.2.1-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/opensaml/opensaml/1.1/opensaml-1.1.jar"/>
   <classpathentry kind="var" path="M2_REPO/oro/oro/2.0.8/oro-2.0.8.jar" sourcepath="M2_REPO/oro/oro/2.0.8/oro-2.0.8-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/kuali/rice/rice-api/1.0.1/rice-api-1.0.1.jar" sourcepath="M2_REPO/org/kuali/rice/rice-api/1.0.1/rice-api-1.0.1-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/kuali/rice/rice-api/1.0.1/rice-api-1.0.1.jar"/>
   <classpathentry kind="var" path="M2_REPO/xalan/serializer/2.7.1/serializer-2.7.1.jar"/>
   <classpathentry kind="var" path="M2_REPO/net/sourceforge/serp/serp/1.13.1/serp-1.13.1.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/mortbay/jetty/servlet-api-2.5/6.1.6/servlet-api-2.5-6.1.6.jar" sourcepath="M2_REPO/org/mortbay/jetty/servlet-api-2.5/6.1.6/servlet-api-2.5-6.1.6-sources.jar"/>
