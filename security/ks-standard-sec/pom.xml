@@ -56,13 +56,11 @@
 				<artifactId>cxf-java2ws-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>ProxyTicketValidation-wsdl</id>
+						<id>SamlIssuerService-wsdl</id>
 						<phase>process-classes</phase>
 						<configuration>
-							<className>
-								org.kuali.student.security.saml.service.ProxyTicketValidationService
-							</className>
-							<serviceName>ProxyTicketValidationService</serviceName>
+							<className>org.kuali.student.security.saml.service.SamlIssuerService</className>
+							<serviceName>SamlIssuerService</serviceName>
 							<targetNameSpace>http://org.kuali.student/security/saml</targetNameSpace>
 						</configuration>
 						<goals>
