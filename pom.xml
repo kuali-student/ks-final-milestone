@@ -92,6 +92,16 @@
                     </snapshots>
                 </repository>
                 <repository>
+                    <id>kuali.release.lab</id>
+					<url>https://test.kuali.org/svn/student/deploymentlab/repository</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+      				<snapshots>
+        				<enabled>false</enabled>
+      				</snapshots>
+    			</repository>
+                <repository>
                     <id>maven2-repository.dev.java.net</id>
                     <url>http://download.java.net/maven/2</url>
                     <snapshots>
