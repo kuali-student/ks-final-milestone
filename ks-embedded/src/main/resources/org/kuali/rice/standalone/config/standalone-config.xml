@@ -6,20 +6,22 @@
         syntax: ${varname} ${institution}
     -->
 <config>
-    <param name="db.vendor">oracle</param>
+    
     <param name="config.location">classpath:META-INF/standalone-config-defaults.xml</param>
+    <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
+    
+    <!-- BEGIN KUALI STUDENT SETTINGS -->
     <param name="config.location">classpath:META-INF/ks-core-config.xml</param>
     <param name="config.location">classpath:META-INF/ks-lum-config.xml</param>
     <param name="config.location">classpath:ks-security-config.xml</param>
 
-    <!-- BEGIN KUALI STUDENT SETTINGS -->
-
+    <param name="db.vendor">oracle</param>
+    
     <!-- used to show KS links in Rice Portal -->
     <param name="portal.show.sample.app">true</param>
 
     <param name="appserver.url">http://localhost:8081</param>
     <param name="app.code">ks-embedded</param>
-    <param name="environment" override="false">dev</param>
 
     <param name="log4j.settings.path">classpath:META-INF/log4j.properties</param>
     <param name="rice.logging.configure">true</param>
@@ -78,13 +80,6 @@
     <param name="ks.authentication.context">classpath:ks-spring-security.xml</param>
     <param name="rice.additionalSpringFiles">${ks.projects},${ks.authentication.context},classpath:StudentStandaloneSpringBeans.xml,${ks.institutional.context}</param>
 
-    <!-- default config files -->
-    <param name="config.location">${user.home}/kuali/main/${environment}/ks-embedded-config.xml</param>
-
-    <!-- additional config files -->
-    <param name="config.location">${additional.config.locations}</param>
-    <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
-
 
     <!-- Rice Urls -->
     <param name="ks.rice.personLookup.serviceAddress">${application.url}/kr/lookup.do</param>
@@ -105,4 +100,9 @@
 
     <!-- Set all services to /services instead of /remoting -->
     <param name="serviceServletUrl">${application.url}/services/</param>
+    
+    <!-- default config files -->
+    <param name="config.location">${user.home}/kuali/main/${environment}/ks-embedded-config.xml</param>
+    <param name="config.location">${additional.config.locations}</param>
+    
 </config>

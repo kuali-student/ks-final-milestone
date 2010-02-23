@@ -1,13 +1,15 @@
 <config>
     
-    <param name="module.name">ks-standalone</param>
-    <param name="db.vendor">oracle</param>
-	<param name="jpa.vendor">hibernate</param>
+    <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
 
     <param name="config.location">classpath:META-INF/ks-core-config.xml</param>
     <param name="config.location">classpath:META-INF/ks-lum-config.xml</param> 
+    
+    <param name="module.name">ks-standalone</param>
+    <param name="db.vendor">oracle</param>
+    <param name="jpa.vendor">hibernate</param>
 
-    <param name="app.code" override="false">ks-standalone</param>
+    <param name="app.code">ks-standalone</param>
     <param name="appserver.url">http://localhost:8080</param>
 	
     <param name="serviceNamespace">ks-standalone</param>
@@ -83,17 +85,20 @@
     <param name="keystore.password">r1c3pw</param>
     
     <param name="ks.rice.url">http://localhost:8081/ks-rice-${environment}</param>
-
-	<!-- Config defaults and overrides -->
-    <param name="config.location">${user.home}/kuali/main/${environment}/ks-config.xml</param>
-    <param name="config.location">${user.home}/kuali/main/${environment}/ks-standalone-config.xml</param>
-    <param name="config.location">${additional.config.locations}</param>
-    <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
     
     <param name="serviceServletUrl">${application.url}/services/</param>
     
     <!-- Rice URLS --> 
 	<param name="ks.rice.personLookup.serviceAddress">${ks.rice.url}/kr/lookup.do</param>
 	<param name="ks.rice.actionList.serviceAddress">${ks.rice.url}/kew/ActionList.do</param>
+    
+    <!-- system params for derby network version -->
+    <param name="derby.system.home" system="true" override="false">target</param>
+    <param name="derby.drda.startNetworkServer" system="true" override="false">true</param>
+    
+    <!-- Config defaults and overrides -->
+    <param name="config.location">${user.home}/kuali/main/${environment}/ks-config.xml</param>
+    <param name="config.location">${user.home}/kuali/main/${environment}/ks-standalone-config.xml</param>
+    <param name="config.location">${additional.config.locations}</param>
 
 </config>
