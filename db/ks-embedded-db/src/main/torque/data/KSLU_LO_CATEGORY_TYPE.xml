@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSLU_LO_CATEGORY_TYPE DESCR="Accreditation" EFF_DT="20080101000000"
+        EXPIR_DT="20100101000000" ID="loCategoryType.accreditation" NAME="Accreditation"/>
+    <KSLU_LO_CATEGORY_TYPE DESCR="Skill" EFF_DT="20080101000000"
+        EXPIR_DT="20100101000000" ID="loCategoryType.skillarea" NAME="Skill"/>
+    <KSLU_LO_CATEGORY_TYPE DESCR="Subject" EFF_DT="20080101000000"
+        EXPIR_DT="20100101000000" ID="loCategoryType.subject" NAME="Subject"/>
+</dataset>
