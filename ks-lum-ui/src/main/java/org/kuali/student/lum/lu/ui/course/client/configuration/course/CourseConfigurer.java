@@ -257,7 +257,7 @@ public class CourseConfigurer
 	public SectionView generateGovernanceSection(){
         VerticalSectionView section = initSectionView(LuSections.GOVERNANCE, LUConstants.GOVERNANCE_LABEL_KEY);
 
-        section.addSection(generateOversightSection());
+        //section.addSection(generateOversightSection());
         section.addSection(generateCampusSection());
         section.addSection(generateAdminOrgsSection());
 
