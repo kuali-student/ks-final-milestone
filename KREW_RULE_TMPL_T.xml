@@ -50,7 +50,7 @@
         RULE_TMPL_DESC="Workflow Document Template 3"
         RULE_TMPL_ID="1538" VER_NBR="2"/>
     <KREW_RULE_TMPL_T NM="RequestedCollaboratorRoleTemplate"
-        OBJ_ID="CE77EFDC-9607-FBAD-D970-1BA88E9E20F5"
+        OBJ_ID="F69606B8-597A-16EA-2C8E-CD287379C363"
         RULE_TMPL_DESC="Template to route to potential collaborator users"
-        RULE_TMPL_ID="1648" VER_NBR="2"/>
+        RULE_TMPL_ID="1654" VER_NBR="2"/>
 </dataset>
