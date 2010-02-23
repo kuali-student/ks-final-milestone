@@ -391,9 +391,10 @@ public class OrgProposalController extends TabbedSectionLayout{
 	               public void onSuccess(Data result) {
 	                   // FIXME needs to check validation results and display messages if validation failed
 	                   orgProposalModel.setRoot(result);
-	                     commonConfigurer.positionTable.setOrgId((String)orgProposalModel.get("orgInfo/id"));
-	                     commonConfigurer.positionTable.fetchPosition();
-	                     commonConfigurer.setOrgId((String)orgProposalModel.get("orgInfo/id"));
+	                   commonConfigurer.positionTable.setOrgId((String)orgProposalModel.get("orgInfo/id"));
+	                   commonConfigurer.positionTable.fetchPosition();
+	                   commonConfigurer.setOrgId((String)orgProposalModel.get("orgInfo/id"));
+	                   getContainer().setTitle((String)orgProposalModel.get("orgInfo/longName"));
 	                   View currentView = getCurrentView();
 	                   View orgView = getView(CommonConfigurer.SectionsEnum.ORG_INFO);
 	                   renderView(orgView);
@@ -443,6 +444,7 @@ public class OrgProposalController extends TabbedSectionLayout{
                      commonConfigurer.positionTable.setOrgId((String)orgProposalModel.get("orgInfo/id"));
                      commonConfigurer.positionTable.fetchPosition();
                      commonConfigurer.setOrgId((String)orgProposalModel.get("orgInfo/id"));
+                     getContainer().setTitle((String)orgProposalModel.get("orgInfo/longName"));
                      if(currentView.getName().equals("Positions")){
                          commonConfigurer.positionTable.fetchPosition();
                      }
