@@ -1,15 +1,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.kuali.student.web</groupId>
+	<parent>
+		<groupId>org.kuali.student</groupId>
+		<artifactId>ks-web</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<groupId>org.kuali.student</groupId>
 	<artifactId>ks-embedded</artifactId>
 	<packaging>war</packaging>
 	<name>KS Embedded</name>
 	<description>Contains all KS modules and Rice</description>
-	<parent>
-		<groupId>org.kuali.student.web</groupId>
-		<artifactId>ks-web</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
-	</parent>
+	<properties>
+		<ks.gwt.module.org>org.kuali.student.core.organization.ui.OrgEntry</ks.gwt.module.org>
+		<ks.gwt.module.lum>org.kuali.student.lum.lu.ui.main.LUMMain</ks.gwt.module.lum>
+		<ks.gwt.module.collab>org.kuali.student.lum.lu.ui.workflow.CollaboratorRequest</ks.gwt.module.collab>		
+	</properties>			
 	<build>
 		<plugins>
 			<plugin>
@@ -32,9 +37,9 @@
 				</executions>
 				<configuration>
 					<modules>
-						<module>org.kuali.student.core.organization.ui.OrgEntry</module>
-						<module>org.kuali.student.lum.lu.ui.main.LUMMain</module>
-						<module>org.kuali.student.lum.lu.ui.workflow.CollaboratorRequest</module>
+						<module>${ks.gwt.module.org}</module>
+						<module>${ks.gwt.module.lum}</module>
+						<module>${ks.gwt.module.collab}</module>
 					</modules>
 					<style>PRETTY</style>
 				</configuration>
@@ -60,24 +65,19 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.0.1</version>
 				<configuration>
+                    <webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
 					<dependentWarExcludes>**/web.xml,WEB-INF/lib/**,**/sampleTravelApplication.tag</dependentWarExcludes>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
+
 	<dependencies>
-       <dependency>
-         <groupId>commons-lang</groupId>
-          <artifactId>commons-lang</artifactId>
-       </dependency>
-       <dependency>
-         <groupId>commons-logging</groupId>
-         <artifactId>commons-logging</artifactId>
-       </dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aspects</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>org.kuali.rice</groupId>
 			<artifactId>rice-web</artifactId>
@@ -85,11 +85,13 @@
 			<type>war</type>
 			<scope>runtime</scope>
 		</dependency>
+        
 		<dependency>
 			<groupId>org.kuali.rice</groupId>
 			<artifactId>rice-impl</artifactId>
 			<version>${kuali.rice.version}</version>
 		</dependency>
+        
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-rice</artifactId>
@@ -110,6 +112,7 @@
 			<artifactId>ks-lum-ui</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
+        
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-impl</artifactId>
@@ -120,6 +123,7 @@
 			<artifactId>ks-common-ui</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
+        
         <!-- these are needed for rice jsp's to work properly -->
 		<dependency>
       		<groupId>tomcat</groupId>
@@ -145,6 +149,7 @@
       		<version>3.1.1</version>
       		<scope>runtime</scope>
     	</dependency>
+
 		<!--  Sources for GWT Compile -->
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
@@ -170,10 +175,19 @@
         <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-common-util</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+            <version>1.0.0-SNAPSHOT</version>
             <classifier>sources</classifier>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.kuali.student.core</groupId>
+            <artifactId>ks-common-impl</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <classifier>sources</classifier>
+            <scope>provided</scope>
+        </dependency>
+
+        
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-ui</artifactId>
@@ -181,12 +195,21 @@
 			<version>1.0.0-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
+		<dependency>		
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-api</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.kuali.student.brms.statement</groupId>
+			<artifactId>ks-statement-api</artifactId>
+            <version>${ks-brms.version}</version>
+            <classifier>sources</classifier>
+            <scope>provided</scope>
+        </dependency>
 	</dependencies>
+
 </project>
