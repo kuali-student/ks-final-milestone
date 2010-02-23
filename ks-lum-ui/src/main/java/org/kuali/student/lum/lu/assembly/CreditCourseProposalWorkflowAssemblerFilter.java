@@ -29,7 +29,7 @@ public class CreditCourseProposalWorkflowAssemblerFilter extends PassThroughAsse
     private SimpleDocumentActionsWebService simpleDocService;
 	private WorkflowUtility workflowUtilityService;
 	
-	private static final String WF_TYPE_CLU_DOCUMENT = "CluDocument";
+	private static final String WF_TYPE_CLU_DOCUMENT = "CluCreditCourseProposal";
 	
 	@Override
 	public void doSaveFilter(
