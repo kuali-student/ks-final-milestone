@@ -37,9 +37,9 @@ public class ServiceMethodsWriter extends JavaClassWriter
  private List<ServiceMethod> methods;
 
  public ServiceMethodsWriter (DictionaryModel model,
-                                 String directory,
-                                 Service service,
-                                 List<ServiceMethod> methods)
+                              String directory,
+                              Service service,
+                              List<ServiceMethod> methods)
  {
   super (directory, calcPackage (service), calcClassName (service));
   this.model = model;
@@ -91,12 +91,17 @@ public class ServiceMethodsWriter extends JavaClassWriter
   {
    indentPrintln ("");
    indentPrintln ("/**");
-   indentPrintln ("* " + method.getDescription ());
+   indentPrintWrappedComment (method.getDescription ());
    indentPrintln ("* ");
-   indentPrintln ("* @return " + method.getReturnValue ().getDescription ());
+   for (ServiceMethodParameter param : method.getParameters ())
+   {
+    indentPrintWrappedComment ("@param " + param.getName () + " " + param.
+     getDescription ());
+   }
+   indentPrintWrappedComment ("@return " + method.getReturnValue ().
+    getDescription ());
    indentPrintln ("*/");
-   indentPrint ("public " +
-    calcType (method.getReturnValue ().getType ()) + " " + method.
+   indentPrint ("public " + calcType (method.getReturnValue ().getType ()) + " " + method.
     getName () + "(");
    // now do parameters
    String comma = "";
@@ -138,4 +143,5 @@ public class ServiceMethodsWriter extends JavaClassWriter
  {
   return ServiceMessageStructureTypeCalculator.calculate (this, model, type, null);
  }
+
 }

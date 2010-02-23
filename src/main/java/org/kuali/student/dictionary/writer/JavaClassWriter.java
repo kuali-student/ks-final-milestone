@@ -20,8 +20,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.kuali.student.dictionary.DictionaryExecutionException;
 
 /**
@@ -88,13 +92,10 @@ public abstract class JavaClassWriter extends XmlWriter
   return rootDirectory;
  }
 
-
- 
  public void importsAdd (String pack)
  {
   this.imports.add (pack);
  }
-
 
  public void writeHeader ()
  {
@@ -151,8 +152,8 @@ public abstract class JavaClassWriter extends XmlWriter
   {
    if ( ! dir.mkdirs ())
    {
-    throw new DictionaryExecutionException ("Could not create directory " +
-     this.directory);
+    throw new DictionaryExecutionException ("Could not create directory "
+     + this.directory);
    }
   }
   try
@@ -181,6 +182,22 @@ public abstract class JavaClassWriter extends XmlWriter
  {
   decrementIndent ();
   indentPrintln ("}");
+ }
+
+ public void indentPrintWrappedComment (String str)
+ {
+  Pattern pattern = Pattern.compile (".{0,79}(?:\\S(?:-| |$)|$)");
+  Matcher m = pattern.matcher (str);
+  while (m.find ())
+  {
+   // suppresss blank lines
+   if (m.group ().equals (""))
+   {
+    continue;
+   }
+   indentPrint ("* ");
+   println (m.group ());
+  }
  }
 
 }

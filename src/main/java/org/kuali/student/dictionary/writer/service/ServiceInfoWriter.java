@@ -80,9 +80,9 @@ public class ServiceInfoWriter extends JavaClassWriter
    String type = this.calcFieldTypeToUse (ms.getType ());
    indentPrintln ("");
    indentPrintln ("/**");
-   indentPrintln ("* Set " + ms.getName ());
+   indentPrintWrappedComment ("Set " + ms.getName ());
    indentPrintln ("*");
-   indentPrintln ("* " + ms.getDescription ());
+   indentPrintWrappedComment (ms.getDescription ());
    indentPrintln ("*/");
    indentPrintln ("public void " + calcSetter (ms) + "(" + type + " " + ms.
     getShortName () + ");");
@@ -90,9 +90,9 @@ public class ServiceInfoWriter extends JavaClassWriter
 
    indentPrintln ("");
    indentPrintln ("/**");
-   indentPrintln ("* Get " + ms.getName ());
+   indentPrintWrappedComment ("Get " + ms.getName ());
    indentPrintln ("*");
-   indentPrintln ("* " + ms.getDescription ());
+   indentPrintWrappedComment (ms.getDescription ());
    indentPrintln ("*/");
    indentPrintln ("public " + type + " " + calcGetter (ms) + "();");
    indentPrintln ("");

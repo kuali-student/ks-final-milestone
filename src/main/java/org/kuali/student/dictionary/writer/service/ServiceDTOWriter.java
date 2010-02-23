@@ -61,9 +61,9 @@ public class ServiceDTOWriter extends JavaClassWriter
  {
   if (name.endsWith ("Info"))
   {
-   name = name.substring (0, name.length () - "Info".length ()) + "DTO";
+   name = name.substring (0, name.length () - "Info".length ());
   }
-  return name.substring (0, 1).toUpperCase () + name.substring (1);
+  return name.substring (0, 1).toUpperCase () + name.substring (1) + "DTO";
 
  }
 
@@ -100,6 +100,11 @@ public class ServiceDTOWriter extends JavaClassWriter
    indentPrintln ("");
    indentPrintln ("private " + fieldType + " " + name + ";");
    indentPrintln ("");
+   indentPrintln ("/**");
+   indentPrintWrappedComment ("Set " + ms.getName ());
+   indentPrintln ("*");
+   indentPrintWrappedComment (ms.getDescription ());
+   indentPrintln ("*/");
    indentPrintln ("@Override");
    indentPrintln ("public void " + calcSetter (ms) + "(" + fieldType + " " + name + ")");
    openBrace ();
@@ -107,6 +112,11 @@ public class ServiceDTOWriter extends JavaClassWriter
    closeBrace ();
 
    indentPrintln ("");
+   indentPrintln ("/**");
+   indentPrintWrappedComment ("Get " + ms.getName ());
+   indentPrintln ("*");
+   indentPrintWrappedComment (ms.getDescription ());
+   indentPrintln ("*/");
    indentPrintln ("@Override");
    indentPrintln ("public " + fieldType + " " + calcGetter (ms) + "()");
    openBrace ();
