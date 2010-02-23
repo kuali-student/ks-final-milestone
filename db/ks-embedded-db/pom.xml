@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.kuali.student.db</groupId>
 		<artifactId>ks-db</artifactId>
-		<version>1.0.0-m3-SNAPSHOT</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
     <name>KS Embedded Database</name>
     <description>Kuali Student Embedded Database</description>

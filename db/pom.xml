@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.kuali.student</groupId>
 		<artifactId>student</artifactId>
-		<version>1.0.0-m3-SNAPSHOT</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
     <name>KS Database</name>
     <description>Kuali Student Database</description>
@@ -22,12 +22,12 @@
 
      <!-- JDBC url for the KS database -->
      <oracle.ks.jdbc.url>jdbc:oracle:thin:@localhost:1521:XE</oracle.ks.jdbc.url>
- 
+
      <!-- This is the KS user -->
      <oracle.ks.username>kuali</oracle.ks.username>
      <oracle.ks.password>kuali</oracle.ks.password>
 
-     <!-- Always retain existing data, unless they explicitly indicate they no longer 
+     <!-- Always retain existing data, unless they explicitly indicate they no longer
           need it by supplying -Doracle.retain.data=false on the command line -->
      <oracle.retain.data>true</oracle.retain.data>
     </properties>
