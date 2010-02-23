@@ -38,6 +38,4 @@
 	
 	<param name="ks.core.doDataLoad">false</param>
 	
-	<param name="config.location">${user.home}/kuali/main/${environment}/ks-config.xml</param> 
-
 </config>
