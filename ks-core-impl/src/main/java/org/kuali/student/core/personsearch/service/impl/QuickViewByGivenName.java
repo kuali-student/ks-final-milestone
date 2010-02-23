@@ -30,10 +30,9 @@ public final class QuickViewByGivenName extends PersonSearch implements SearchOp
     final private String AFFILIATION_PARAM = "person.queryParam.personAffiliation";
     final private String ID_RESULT = "person.resultColumn.PersonId";
     final private String NAME_RESULT = "person.resultColumn.GivenName";
-    final private String KIM_PERSON_FIRST_NAME = "firstName";
-    final private String KIM_PERSON_MIDDLE_NAME = "middleName";
-    final private String KIM_PERSON_LAST_NAME = "lastName";
     final private String KIM_PERSON_AFFILIATION_TYPE_CODE = "affiliationTypeCode";
+
+    final private String KIM_PRINCIPALS_PRINCIPALNAME = "principals.principalName";
 
 
     private List<Person> findPersons(final IdentityService identityService, final SearchRequest searchRequest) {
@@ -62,17 +61,20 @@ public final class QuickViewByGivenName extends PersonSearch implements SearchOp
         }
         final List<Map<String, String>> searches = new ArrayList<Map<String, String>>();
         if (nameSearch != null) {
-            Map<String, String> criteria1 = new HashMap<String, String>();
-            criteria1.put(KIM_PERSON_FIRST_NAME, nameSearch);
-            searches.add(criteria1);
-
-            Map<String, String> criteria2 = new HashMap<String, String>();
-            criteria2.put(KIM_PERSON_MIDDLE_NAME, nameSearch);
-            searches.add(criteria2);
-
-            Map<String, String> criteria3 = new HashMap<String, String>();
-            criteria3.put(KIM_PERSON_LAST_NAME, nameSearch);
-            searches.add(criteria3);
+        	Map<String, String> criteria1 = new HashMap<String, String>();
+        	criteria1.put(KIM_PRINCIPALS_PRINCIPALNAME, nameSearch);
+	        searches.add(criteria1);
+//            Map<String, String> criteria1 = new HashMap<String, String>();
+//            criteria1.put(KIM_PERSON_FIRST_NAME, nameSearch);
+//            searches.add(criteria1);
+//
+//            Map<String, String> criteria2 = new HashMap<String, String>();
+//            criteria2.put(KIM_PERSON_MIDDLE_NAME, nameSearch);
+//            searches.add(criteria2);
+//
+//            Map<String, String> criteria3 = new HashMap<String, String>();
+//            criteria3.put(KIM_PERSON_LAST_NAME, nameSearch);
+//            searches.add(criteria3);
         }
 
         if (affilSearch != null) {

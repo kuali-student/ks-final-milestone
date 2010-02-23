@@ -58,9 +58,9 @@ public class PersonSearchServiceImpl implements SearchService {
 
     static {
         PERSON_CRITERIA.put("entityTypes.active", "Y");
+        PERSON_CRITERIA.put("principals.active", "Y");
         PERSON_CRITERIA.put("active", "Y");
-        PERSON_CRITERIA.put("entityTypes.entityTypeCode", PERSON_ENTITY_TYPE);
-
+        PERSON_CRITERIA.put("entityTypes.entityTypeCode", "PERSON|SYSTEM");
         searchOperations.put("person.search.personQuickViewByGivenName", new QuickViewByGivenName());
     }
 
