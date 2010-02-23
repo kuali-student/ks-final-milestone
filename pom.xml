@@ -75,93 +75,104 @@
                     <name>!ks.use.proxy</name>
                 </property>
             </activation>
+
             <repositories>
+                <!--
+                    central defined here to ensure maven checks it first as it has the best chance
+                    at finding dependencies
+                -->
                 <repository>
                     <id>central</id>
                     <url>http://repo1.maven.org/maven2/</url>
-                    <releases><enabled>true</enabled></releases>
-                    <snapshots><enabled>false</enabled></snapshots>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
                 </repository>
                 <repository>
                     <id>maven2-repository.dev.java.net</id>
                     <url>http://download.java.net/maven/2</url>
-                </repository>
-                <repository>
-                    <id>maven-repository.dev.java.net</id>
-                    <url>http://download.java.net/maven/1</url>
-                    <layout>legacy</layout>
-                    <releases><enabled>true</enabled></releases>
-                    <snapshots><enabled>false</enabled></snapshots>
-                </repository>
-                <repository>
-                    <id>kuali.rice</id>
-                    <url>https://test.kuali.org/maven</url>
-                    <releases><enabled>true</enabled></releases>
-                    <snapshots><enabled>false</enabled></snapshots>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
                 </repository>
                 <repository>
                     <id>ks.public</id>
                     <url>http://archiva.kuali.umd.edu/repository/public/</url>
                 </repository>
-                <repository>
-                    <id>apache.incubating</id>
-                    <url>http://people.apache.org/repo/m2-incubating-repository</url>
-                </repository>
-                <!-- adding until maven repository resolution fixed (does not work in 2.0.9 or 2.1.0.20080530 embedded) -->
+                <!--
+                    adding until maven repository resolution fixed (does not work in 2.0.9 or
+                    2.1.0.20080530 embedded)
+                -->
                 <repository>
                     <id>repository.jboss.org</id>
                     <url>http://repository.jboss.org/maven2</url>
-                    <releases><enabled>true</enabled></releases>
-                    <snapshots><enabled>false</enabled></snapshots>
-                </repository>
-                <repository>
-                    <id>ibiblio.maven</id>
-                    <url>http://www.ibiblio.org/maven</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
                 </repository>
                 <repository>
                     <id>EclipseLink Repo</id>
                     <url>http://www.eclipse.org/downloads/download.php?r=1&amp;nf=1&amp;file=/rt/eclipselink/maven.repo</url>
-				</repository>
-				<repository>
-					<id>gwt-maven</id>
-					<url>http://gwt-maven.googlecode.com/svn/trunk/mavenrepo</url>
-				</repository>
-				<repository>
-                    <id>shibboleth.internet2</id>
-                    <url>http://shibboleth.internet2.edu/downloads/maven2/</url>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
                 </repository>
-			</repositories>
-			<pluginRepositories>
+            </repositories>
+
+            <pluginRepositories>
                 <pluginRepository>
                     <id>central</id>
                     <url>http://repo1.maven.org/maven2/</url>
-                    <releases><enabled>true</enabled></releases>
-                    <snapshots><enabled>false</enabled></snapshots>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
                 </pluginRepository>
                 <pluginRepository>
                     <id>kuali.release</id>
                     <url>http://archiva.kuali.umd.edu/repository/release</url>
-                    <releases><enabled>true</enabled></releases>
-                    <snapshots><enabled>false</enabled></snapshots>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
                 </pluginRepository>
-				<pluginRepository>
-					<id>ks.snapshot.plugin</id>
-					<url>http://archiva.kuali.umd.edu/repository/snapshot</url>
-                    <releases><enabled>false</enabled></releases>
-                    <snapshots><enabled>true</enabled></snapshots>
-				</pluginRepository>
-				<pluginRepository>
-					<id>codehaus</id>
-					<url>http://repository.codehaus.org/</url>
-                    <releases><enabled>true</enabled></releases>
-                    <snapshots><enabled>false</enabled></snapshots>
-				</pluginRepository>
-				<pluginRepository>
-					<id>ks-public</id>
-					<url>http://archiva.kuali.umd.edu/repository/public</url>
-				</pluginRepository>
-			</pluginRepositories>
-		</profile>
+                <pluginRepository>
+                    <id>ks.snapshot.plugin</id>
+                    <url>http://archiva.kuali.umd.edu/repository/snapshot</url>
+                    <releases>
+                        <enabled>false</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </pluginRepository>
+                <pluginRepository>
+                    <id>codehaus</id>
+                    <url>http://repository.codehaus.org/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </pluginRepository>
+                <pluginRepository>
+                    <id>ks-public</id>
+                    <url>http://archiva.kuali.umd.edu/repository/public</url>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+
 		<!-- GWT Profiles - Dev environment properties -->
 		<profile>
 			<id>gwt-dev-windows</id>
