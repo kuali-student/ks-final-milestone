@@ -38,9 +38,11 @@ import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
 import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.search.AdvancedSearchWindow;
 import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
+import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.search.dto.SearchRequest;
@@ -71,10 +73,12 @@ import org.kuali.student.lum.lu.ui.course.client.widgets.AtpPicker;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
 import org.kuali.student.lum.lu.ui.course.client.widgets.LOBuilder;
 import org.kuali.student.lum.lu.ui.course.client.widgets.OfferedJointlyList;
+import org.kuali.student.lum.lu.ui.course.client.widgets.OrgPicker;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -262,7 +266,7 @@ public class CourseConfigurer
 
     private VerticalSection generateOversightSection() {
         VerticalSection oversight = initSection(getH3Title(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY), WITH_DIVIDER);
-        addField(oversight, COURSE + "/" + ACADEMIC_SUBJECT_ORGS);
+        addField(oversight, COURSE + "/" + ACADEMIC_SUBJECT_ORGS, null, new OrgListPicker());
         return oversight;
 	}
 
@@ -572,6 +576,95 @@ public class CourseConfigurer
 //        return context.getMessage(labelKey);
 //    }
 //
+
+    //FIXME: This is a temp widget impl for the Curriculum Oversight field. Don't yet know if this
+    //will be a multiple org select field, in which case we need a multiple org select picker widget.
+    //Otherwise if it's single org picker, need a way to bind a HasText widget to ModelDTOList
+    public class OrgListPicker extends KSSelectItemWidgetAbstract implements SuggestPicker{
+        private OrgPicker orgPicker;
+
+        public OrgListPicker(){
+            orgPicker = new OrgPicker();
+            initWidget(orgPicker);
+        }
+
+        public void deSelectItem(String id) {
+            throw new UnsupportedOperationException();
+        }
+
+        public List<String> getSelectedItems() {
+            ArrayList<String> selectedItems = new ArrayList<String>();
+            selectedItems.add(orgPicker.getValue());
+            return selectedItems;
+        }
+
+        public boolean isEnabled() {
+            return true;
+        }
+
+        public void onLoad() {
+        }
+
+        public void redraw() {
+            throw new UnsupportedOperationException();
+        }
+
+        public void selectItem(String id) {
+            orgPicker.setValue(id);
+        }
+
+        public void setEnabled(boolean b) {
+            throw new UnsupportedOperationException();
+        }
+
+        public boolean isMultipleSelect(){
+            return true;
+        }
+
+        public void clear(){
+            orgPicker.clear();
+        }
+
+		@Override
+		public HandlerRegistration addFocusHandler(FocusHandler handler) {
+			return orgPicker.addFocusHandler(handler);
+		}
+
+		@Override
+		public HandlerRegistration addBlurHandler(BlurHandler handler) {
+			return orgPicker.addBlurHandler(handler);
+		}
+
+		@Override
+		public String getValue() {
+			return orgPicker.getValue();
+		}
+
+		@Override
+		public void setValue(String value) {
+			orgPicker.setValue(value);
+
+		}
+
+		@Override
+		public void setValue(String value, boolean fireEvents) {
+			orgPicker.setValue(value, fireEvents);
+
+		}
+
+		@Override
+		public HandlerRegistration addValueChangeHandler(
+				ValueChangeHandler<String> handler) {
+			return orgPicker.addValueChangeHandler(handler);
+		}
+
+
+		@Override
+		public HandlerRegistration addSelectionChangeHandler(SelectionChangeHandler handler){
+			return orgPicker.addSelectionChangeHandler(handler);
+		}
+
+    }
 
     public class TermListPicker extends KSSelectItemWidgetAbstract implements HasText {
         private AtpPicker atpPicker;
