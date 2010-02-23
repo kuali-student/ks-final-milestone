@@ -258,6 +258,7 @@
 						<target>1.6</target>
 						<!-- Don't compile sources that are in jars -->
 						<compilerArgument>-implicit:none</compilerArgument>
+                        <encoding>${project.build.sourceEncoding}</encoding>
 					</configuration>
 				</plugin>
 
