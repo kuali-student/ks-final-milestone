@@ -55,8 +55,9 @@ public class SearchPanel extends Composite{
 	
 	public SearchPanel(LookupMetadata meta){		
 		lookupMetadata = meta;		
-		layout.add(createSearchParamPanel(meta));
-		
+	
+		searchSelectorPanel.setWidget(createSearchParamPanel(meta));
+		layout.add(searchSelectorPanel);		
 		tablePanel.add(searchCriteria);
 		tablePanel.add(criteria);
 
