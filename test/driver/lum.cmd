@@ -4,4 +4,3 @@ call removeThenCopy %QA% %DEV% ks-lum-api
 call removeThenCopy %QA% %DEV% ks-lum-impl
 call removeThenCopy %QA% %DEV% ks-lum-rice
 call removeThenCopy %QA% %DEV% ks-lum-ui
-call removeThenCopy %QA% %DEV% ks-lum-web
