@@ -1,25 +1,27 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.kuali.student.lum</groupId>
-	<artifactId>ks-lum-api</artifactId>
-	<packaging>jar</packaging>
-	<name>KS LUM API</name>
-	<description>KS Learning Unit Managment API</description>
-
 	<parent>
 		<groupId>org.kuali.student.lum</groupId>
 		<artifactId>ks-lum</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-
+	<groupId>org.kuali.student.lum</groupId>
+	<artifactId>ks-lum-api</artifactId>
+	<packaging>jar</packaging>
+	<name>KS LUM API</name>
+	<description>KS Learning Unit Managment API</description>
 	<dependencies>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-api</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.brms.statement</groupId>
+			<artifactId>ks-statement-api</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -63,20 +65,6 @@
                             </className>
                             <serviceName>LrcService</serviceName>
                             <targetNameSpace>http://student.kuali.org/wsdl/lrc</targetNameSpace>
-                        </configuration>
-                        <goals>
-                            <goal>java2ws</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>nlt-wsdl</id>
-                        <phase>process-classes</phase>
-                        <configuration>
-                            <className>
-                                org.kuali.student.lum.nlt.service.TranslationService
-                            </className>
-                            <serviceName>TranslationService</serviceName>
-                            <targetNameSpace>http://student.kuali.org/wsdl/nlt</targetNameSpace>
                         </configuration>
                         <goals>
                             <goal>java2ws</goal>
