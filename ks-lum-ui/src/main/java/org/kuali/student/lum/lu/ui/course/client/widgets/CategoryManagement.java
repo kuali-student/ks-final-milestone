@@ -146,7 +146,6 @@ public class CategoryManagement extends Composite {
                         bufferList.add(cate);
                     }
                 }
-                //Window.alert(""+bufferList.size());
                 categoryTable.setData(bufferList);
             }
 
@@ -269,7 +268,14 @@ public class CategoryManagement extends Composite {
             if(accreditationCheckBox.getValue() == true){
                 bufferList.addAll(getLoCategoryInfoByType("accreditation"));
             }
-        categoryTable.setData(bufferList);
+            String input = wordsInCategoryTextBox.getText();
+            List<LoCategoryInfo> listAfterNameFilter = new ArrayList<LoCategoryInfo>();
+            for (LoCategoryInfo cate : bufferList) {
+                if (cate.getName().startsWith(input)) {
+                    listAfterNameFilter.add(cate);
+                }
+            }
+        categoryTable.setData(listAfterNameFilter);
 
     }
     private List<LoCategoryInfo> getLoCategoryInfoByType(String type){
