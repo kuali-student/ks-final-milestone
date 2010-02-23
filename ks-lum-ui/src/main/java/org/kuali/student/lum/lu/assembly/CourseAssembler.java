@@ -93,8 +93,6 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 
     public static final String PROPOSAL_REFERENCE_TYPE = "kuali.proposal.referenceType.clu"; // <- what the service says, but the dictionary says: "kuali.referenceType.CLU";
     public static final String CREDIT_COURSE_PROPOSAL_DATA_TYPE = "CreditCourseProposal";
-
-    
     
     private SingleUseLoInfoAssembler loAssembler;
     private final RichTextInfoAssembler richtextAssembler = new RichTextInfoAssembler();
@@ -264,7 +262,11 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
             result.setEffectiveDate(course.getEffectiveDate());
             result.setExpirationDate(course.getExpirationDate());
 
-
+            AdminOrgInfo admin = course.getPrimaryAdminOrg();
+            if (admin != null) {
+                result.setDepartment(getOrgName(admin.getOrgId()));
+            }
+            
             result.setDescription(RichTextInfoHelper.wrap(richtextAssembler.assemble(course.getDescr())));
 
             TimeAmountInfoHelper time = TimeAmountInfoHelper.wrap(timeamountAssembler.assemble(course.getStdDuration()));
@@ -277,6 +279,10 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
                 result.setDuration(duration);
             }
             
+            result.setTermsOffered(new Data());
+            for (String atpType : course.getOfferedAtpTypes()) {
+                result.getTermsOffered().add(atpType);
+            }
             
             CluInstructorInfoHelper instr = CluInstructorInfoHelper.wrap(instructorAssembler.assemble(course.getPrimaryInstructor()));
             if (instr != null) {
@@ -285,9 +291,14 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
             result.setState(course.getState());
             result.setSubjectArea(course.getOfficialIdentifier().getDivision());
             result.setTranscriptTitle(course.getOfficialIdentifier().getShortName());
+            result.setType(course.getType());
 
             result.setAcademicSubjectOrgs(new Data());
 
+            for (AcademicSubjectOrgInfo org : course.getAcademicSubjectOrgs()) {
+                result.getAcademicSubjectOrgs().add(getOrgName(org.getOrgId()));
+            }
+            
             result.setCampusLocations(new Data());
             for (String campus : course.getCampusLocations()) {
                 result.getCampusLocations().add(campus);
@@ -326,42 +337,37 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
             // Attributes don't seem to be implemented in CluInfo DOL yet
             Map<String,String> lookupFields = new HashMap<String, String>();
 
-            result.setType(course.getType());
             lookupFields.put("CourseType", getCluTypeName(course.getType()));
 
             lookupFields.put("CourseCode", course.getOfficialIdentifier().getCode());
 
             int i = 0;
-            AdminOrgInfo admin = course.getPrimaryAdminOrg();
             if (admin != null) {
-                result.setDepartment(admin.getOrgId());
                 lookupFields.put("DeptOrgName", getOrgName(admin.getOrgId()));
             }
+            
             i=0;
-            result.setTermsOffered(new Data());
             for (String atpType : course.getOfferedAtpTypes()) {
-                result.getTermsOffered().add(atpType);
                 lookupFields.put("TermOffered",getAtpTypeName(atpType));
-//FIXME  In M4 user can only create one term offered. Remove this break when they can have multiples
+////FIXME  In M4 user can only create one term offered. Remove this break when they can have multiples
                 break;
             }
             i=0;
 
             for (AcademicSubjectOrgInfo org : course.getAcademicSubjectOrgs()) {
-                result.getAcademicSubjectOrgs().add(org.getOrgId());
                 lookupFields.put("OversightName", getOrgName(org.getOrgId()));
 //FIXME  In M4 user can only create one academic subject org. Remove this break when they can have multiples           
                 break; 
             }
+
 //            i=0;
-//            CreditCourseFormatHelper formats = CreditCourseFormatHelper.wrap(result.getFormats());
-//            CreditCourseActivityHelper activities = CreditCourseActivityHelper.wrap(formats.getActivities());
-
-//            
-//            for (String s: activities.getActivityType()) {
-//                
+//            for (CluInfoHierarchy format : hierarchy.getChildren()) {
+//                int j=0;
+//                for (CluInfoHierarchy activity : format.getChildren()) {
+//                    lookupFields.put("Format"+ i + "Activity" + j++, getCluTypeName(activity.getCluInfo().getType()));
+//                }
+//                i++;
 //            }
-
             
             result.setFees(new Data());
             CluFeeInfoHelper feeHelper = CluFeeInfoHelper.wrap(new Data());
@@ -783,7 +789,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 
         for(CluIdentifierInfo cluIdentifier : cluIdentifiers){
         	String identifierType = cluIdentifier.getType();
-            if(identifierType.equals("kuali.lu.type.CreditCourse.identifier.cross-listed")){
+            if(identifierType != null && identifierType.equals("kuali.lu.type.CreditCourse.identifier.cross-listed")){
 	            xListings = CreditCourseCrossListingsHelper.wrap(new Data());
 	            xListings.setId(cluIdentifier.getId());
 	            xListings.setType(cluIdentifier.getType());
@@ -811,7 +817,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 
         for(CluIdentifierInfo cluIdentifier : cluIdentifiers){
         	String identifierType = cluIdentifier.getType();
-            if(identifierType.equals("kuali.lu.type.CreditCourse.identifier.version")){
+            if(identifierType != null && identifierType.equals("kuali.lu.type.CreditCourse.identifier.version")){
 	            versions = CreditCourseVersionsHelper.wrap(new Data());
 	            versions.setId(cluIdentifier.getId());
 	            versions.setType(cluIdentifier.getType());
