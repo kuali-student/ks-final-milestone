@@ -5,4 +5,3 @@ call removeThenCopy %QA% %DEV% ks-brms-execution-api
 call removeThenCopy %QA% %DEV% ks-brms-execution-impl
 call removeThenCopy %QA% %DEV% ks-brms-impl
 call removeThenCopy %QA% %DEV% ks-brms-ui
-call removeThenCopy %QA% %DEV% ks-brms-web
