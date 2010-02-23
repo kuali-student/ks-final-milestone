@@ -291,14 +291,16 @@ public abstract class BaseSection extends Composite implements Section{
 					if(vc.getElement().equals(f.getFieldKey())){
 						System.out.println("Checking validation on field " + f.getFieldKey());
 						FieldInfo info = pathFieldInfoMap.get(f.getFieldKey());
-						ErrorLevel fieldStatus = info.processValidationResults(vc.getValidationResults());
-						if(fieldStatus == ErrorLevel.ERROR){
-							System.out.println("Error: " + f.getFieldKey());
-						}
-						if(fieldStatus.getLevel() > status.getLevel()){
-							
-							status = fieldStatus;
-						}
+						if (info != null){
+							ErrorLevel fieldStatus = info.processValidationResults(vc.getValidationResults());
+							if(fieldStatus == ErrorLevel.ERROR){
+								System.out.println("Error: " + f.getFieldKey());
+							}
+							if(fieldStatus.getLevel() > status.getLevel()){
+								
+								status = fieldStatus;
+							}
+						} 
 					}
 				}
 			}
