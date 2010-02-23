@@ -517,7 +517,7 @@ public class RuleComponentEditorView extends ViewComposite {
         		value = ((KSTextBox)reqCompWidget).getText();
         	} else if (reqCompWidget.getClass().getName().contains("KSPicker")) {
         		name = ((ReqCompPicker)reqCompWidget).getName();
-        		value = ((ReqCompPicker)reqCompWidget).getValue();            		
+        		value = ((ReqCompPicker)reqCompWidget).getValue().get();            		
         	}
         	
             ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo();
