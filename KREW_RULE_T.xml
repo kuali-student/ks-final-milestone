@@ -85,10 +85,10 @@
         RULE_BASE_VAL_DESC="This rule requires an approval from the Magazine workgroup if any of the sources lists one of the Magazine System's managed magazines."
         RULE_EXPR_ID="2001" RULE_ID="1644" RULE_VER_NBR="0"
         TMPL_RULE_IND="0" VER_NBR="0"/>
-    <KREW_RULE_T ACTVN_DT="20091130171954" ACTV_IND="1" CUR_IND="1"
+    <KREW_RULE_T ACTVN_DT="20100222225442" ACTV_IND="1" CUR_IND="1"
         DLGN_IND="0" DOC_TYP_NM="CluCollaboratorDocument" FRC_ACTN="1"
-        NM="AA7D2EBE-109B-C570-8BFF-1374BA30E729"
-        OBJ_ID="2E2AFCF5-DE4D-5A0A-BFFC-8D36881839A0"
-        RULE_BASE_VAL_DESC="principal id routing test" RULE_ID="1650"
-        RULE_TMPL_ID="1648" RULE_VER_NBR="0" TMPL_RULE_IND="0" VER_NBR="1"/>
+        NM="3CEF703C-3916-76CF-4A2A-041356E1A3CB"
+        OBJ_ID="B8A98C3A-9491-5823-4823-DB5652DE6031"
+        RULE_BASE_VAL_DESC="principal id routing test" RULE_ID="1656"
+        RULE_TMPL_ID="1654" RULE_VER_NBR="0" TMPL_RULE_IND="0" VER_NBR="1"/>
 </dataset>
