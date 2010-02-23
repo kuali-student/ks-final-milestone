@@ -132,7 +132,8 @@ public class WikiServiceContractModelImpl implements ServiceContractModel
   List<XmlType> types = new ArrayList ();
   List<MessageStructure> msgs = new ArrayList ();
   Set<String> allUrls = getLevelOneMessageStructureUrls ();
-  Set<String> newUrlsToBeProcessed = new HashSet (allUrls);
+  Set<String> newUrlsToBeProcessed = new HashSet ();
+  newUrlsToBeProcessed.addAll (allUrls);
   int loop = 0;
   while (newUrlsToBeProcessed.size () > 0)
   {

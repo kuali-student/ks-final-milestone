@@ -74,7 +74,7 @@ public class ServiceMethodDumper
   out.print (method.getUrl ());
   out.println ();
 
-  out.println (method.getService ());
+  out.print (method.getService ());
   out.print ("\t");
   out.print ("Description");
   out.print ("\t");
@@ -84,7 +84,7 @@ public class ServiceMethodDumper
   out.println ();
   if (method.getParameters ().size () == 0)
   {
-   out.println (method.getService ());
+   out.print (method.getService ());
    out.print ("\t");
    out.print ("Parameters");
    out.print ("\t");
@@ -131,23 +131,62 @@ public class ServiceMethodDumper
   out.print (method.getReturnValue ().getUrl ());
   out.println ();
 
-       String errors = "Errors";
+  String errors = "Errors";
   for (ServiceMethodError error : method.getErrors ())
   {
-    out.print (method.getService ());
-    out.print ("\t");
-    out.print (errors);
-    errors = "";
-    out.print ("\t");
-    out.print (error.getType ());
-    out.print ("\t");
-    out.print (error.getDescription ());
-    out.print ("\t");
-    out.print ("");
-    out.print ("\t");
-    out.print ("");
-    out.println ();
+   out.print (method.getService ());
+   out.print ("\t");
+   out.print (errors);
+   errors = "";
+   out.print ("\t");
+   out.print (error.getType ());
+   out.print ("\t");
+   out.print (error.getDescription ());
+   out.print ("\t");
+   out.print ("");
+   out.print ("\t");
+   out.print ("");
+   out.println ();
   }
+
+  out.print (method.getService ());
+  out.print ("\t");
+  out.print ("Capabilities");
+  out.print ("\t");
+  out.print ("");
+  out.print ("\t");
+  out.print ("");
+  out.print ("\t");
+  out.print ("");
+  out.print ("\t");
+  out.print ("");
+  out.println ();
+
+  out.print (method.getService ());
+  out.print ("\t");
+  out.print ("Use Cases");
+  out.print ("\t");
+  out.print ("");
+  out.print ("\t");
+  out.print ("");
+  out.print ("\t");
+  out.print ("");
+  out.print ("\t");
+  out.print ("");
+  out.println ();
+
+    out.print (method.getService ());
+  out.print ("\t");
+  out.print ("Comments/Feedback");
+  out.print ("\t");
+  out.print ("");
+  out.print ("\t");
+  out.print ("");
+  out.print ("\t");
+  out.print ("");
+  out.print ("\t");
+  out.print ("");
+  out.println ();
  }
 
 }

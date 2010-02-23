@@ -1,2 +1,12 @@
 Key	Name	Version	url	ImplProject	status	comments
 atp	Academic Time Period	v1.0-rc2	/confluence/display/KULSTU/Academic+Time+Period+Service+v1.0-rc2	null	null	null
+comment	Comment	v1.0-rc1	/confluence/display/KULSTU/Comment+Service+v1.0-rc1	null	null	null
+dictionary	Dictionary	v1.0-rc1	/confluence/display/KULSTU/Dictionary+Service+v1.0-rc1	null	null	null
+enumerationmanagement	Enumeration Management	v1.0-rc2	/confluence/display/KULSTU/Enumeration+Management+Service+v1.0-rc2	null	null	null
+lo	Learning Objective	v1.0-rc3	/confluence/display/KULSTU/Learning+Objective+Service+v1.0-rc3	null	null	null
+lrc	Learning Result Catalog	v1.0-rc1	/confluence/display/KULSTU/Learning+Result+Catalog+Service+v1.0-rc1	null	null	null
+organization	Organization	v1.0-rc2	/confluence/display/KULSTU/Organization+Service+v1.0-rc2	null	null	null
+person	Person	v1.0-rc1	/confluence/display/KULSTU/Person+Service+v1.0-rc1	null	null	null
+proposal	Proposal	v1.0-rc1	/confluence/display/KULSTU/Proposal+Service+v1.0-rc1	null	null	null
+search	Search	v1.0-rc1	/confluence/display/KULSTU/Search+Service+v1.0-rc1	null	null	null
+lu	LU	v1.0-rc4	/confluence/display/KULSTU/LU+Service+v1.0-rc4	null	null	null
