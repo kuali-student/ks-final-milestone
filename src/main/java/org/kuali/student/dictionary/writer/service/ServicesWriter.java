@@ -16,8 +16,10 @@
 package org.kuali.student.dictionary.writer.service;
 
 import java.util.Collection;
+import java.util.List;
 import org.kuali.student.dictionary.model.DictionaryModel;
 import org.kuali.student.dictionary.model.Service;
+import org.kuali.student.dictionary.model.util.ServicesFilter;
 import org.kuali.student.dictionary.model.validation.DictionaryValidationException;
 import org.kuali.student.dictionary.model.validation.ServiceMethodsValidator;
 
@@ -31,12 +33,15 @@ public class ServicesWriter
  private DictionaryModel model;
  private String directory;
  public static final String ROOT_PACKAGE = "org.kuali.student.service";
+ private ServicesFilter filter;
 
  public ServicesWriter (DictionaryModel model,
-                        String directory)
+                        String directory,
+                        ServicesFilter filter)
  {
   this.model = model;
   this.directory = directory;
+  this.filter = filter;
  }
 
  /**
@@ -47,12 +52,22 @@ public class ServicesWriter
  {
   this.validate ();
 
-  for (Service service : model.getServices ())
+ for (Service service : filterServices ())
   {
    new ServiceWriter (model, directory, service).write ();
   }
 
  }
+
+ private List<Service> filterServices ()
+ {
+  if (filter == null)
+  {
+   return model.getServices ();
+  }
+  return filter.filter (model.getServices ());
+ }
+
 
  private void validate ()
  {

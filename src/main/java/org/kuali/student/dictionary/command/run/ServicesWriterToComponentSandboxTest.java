@@ -52,7 +52,7 @@ public class ServicesWriterToComponentSandboxTest implements
     new DictionaryModelLoader (reader);
    DictionaryModel model = new DictionaryModelCache (loader);
    ServicesWriter instance =
-    new ServicesWriter (model, COMPONENT_SANDBOX_DIRECTORY_TO_WRITE_JAVA);
+    new ServicesWriter (model, COMPONENT_SANDBOX_DIRECTORY_TO_WRITE_JAVA, null);
    instance.write ();
   }
   finally

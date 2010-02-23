@@ -64,7 +64,7 @@ public class WikiServiceContractModelImplRunTest
  {
   System.out.println ("main");
   String[] args = null;
-  WikiServiceContractModelImplRun.main (args);
+//  WikiServiceContractModelImplRun.main (args);
  }
 
 }
