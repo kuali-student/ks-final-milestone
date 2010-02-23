@@ -20,7 +20,7 @@
     <groupId>org.kuali.student</groupId>
     <artifactId>student-parent</artifactId>
     <version>5</version>
-    <relativePath>../student/pom.xml</relativePath>
+    <relativePath>../maven/student/pom.xml</relativePath>
   </parent>
     <groupId>org.kuali.student</groupId>
     <artifactId>student</artifactId>
