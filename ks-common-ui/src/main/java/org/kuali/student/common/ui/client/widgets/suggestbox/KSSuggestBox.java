@@ -94,7 +94,7 @@ public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandle
     }   
     
     public String getSelectedId() {
-        String id = null;
+        String id = "";
         if(currentSuggestion != null){
             id = currentSuggestion.getId();
         }
@@ -118,6 +118,7 @@ public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandle
         	currentSuggestion.setDisplayString("");
         	currentSuggestion.setReplacementString("");
         	KSSuggestBox.this.setText("");
+        	currentId = KSSuggestBox.this.getSelectedId();
     	}
     	else
     	{
@@ -127,11 +128,10 @@ public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandle
 	            public void exec(IdableSuggestion result) {
 	                currentSuggestion = result;
 	                KSSuggestBox.this.setText((currentSuggestion == null) ? "" : currentSuggestion.getReplacementString());
-	                
+	                currentId = KSSuggestBox.this.getSelectedId();
 	            }
 	        });
     	}
-    	currentId = KSSuggestBox.this.getSelectedId();
     }   
     
     public void setValue(String id, final Callback<IdableSuggestion> callback) {
@@ -141,6 +141,8 @@ public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandle
         	currentSuggestion.setDisplayString("");
         	currentSuggestion.setReplacementString("");
         	KSSuggestBox.this.setText("");
+        	currentId = KSSuggestBox.this.getSelectedId();
+        	callback.exec(currentSuggestion);
     	}
     	else
     	{
@@ -150,12 +152,13 @@ public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandle
 	            public void exec(IdableSuggestion result) {
 	                currentSuggestion = result;
 	                KSSuggestBox.this.setText((currentSuggestion == null) ? "" : currentSuggestion.getReplacementString());
-	                
+	                currentId = KSSuggestBox.this.getSelectedId();
+	                callback.exec(currentSuggestion);
 	            }
 	        });
     	}
-    	currentId = KSSuggestBox.this.getSelectedId();
-    	callback.exec(currentSuggestion);
+    
+    	
     }
     
     @Override
@@ -168,6 +171,7 @@ public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandle
 	        	currentSuggestion.setDisplayString("");
 	        	currentSuggestion.setReplacementString("");
 	        	KSSuggestBox.this.setText("");
+	        	currentId = KSSuggestBox.this.getSelectedId();
 	    	}
 	    	else
 	    	{
@@ -177,6 +181,10 @@ public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandle
 		            public void exec(IdableSuggestion result) {
 		                currentSuggestion = result;
 		                KSSuggestBox.this.setText((currentSuggestion == null) ? "" : currentSuggestion.getReplacementString());         
+		            	if(!KSSuggestBox.this.getSelectedId().equals(currentId)){
+		            		SelectionChangeEvent.fire(KSSuggestBox.this);
+		            		currentId = KSSuggestBox.this.getSelectedId();
+		            	}
 		            }
 		        });
 	    	}
@@ -186,12 +194,7 @@ public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandle
     	{
     		this.setValue(id);
     	}
-    	if(!KSSuggestBox.this.getSelectedId().equals(currentId)){
-    		if(fireEvents){
-    			SelectionChangeEvent.fire(KSSuggestBox.this);
-    		}
-    		currentId = KSSuggestBox.this.getSelectedId();
-    	}
+
     }
     
     public void setValue(IdableSuggestion theSuggestion) {

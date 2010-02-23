@@ -170,7 +170,12 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 		
 		public void setValue(Value value, boolean fireEvents) {
 			if (basicWidget.getClass().getName().contains("KSTextBox")) {
-				((KSTextBox)basicWidget).setText((String) value.get());
+				if(value != null){
+					((KSTextBox)basicWidget).setText((String) value.get());
+				}
+				else{
+					((KSTextBox)basicWidget).setText("");
+				}
 			} else if (basicWidget.getClass().getName().contains("KSSuggestBox")) {
 				//Do check here
 				if(value != null){
@@ -180,7 +185,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 					else{
 						DataValue dataValue = (DataValue)value;
 						Data d = dataValue.get();
-						String v = d.get("0");
+						String v = d.query("0");
 						((KSSuggestBox) basicWidget).setValue((String)v, fireEvents);
 					}
 				}
