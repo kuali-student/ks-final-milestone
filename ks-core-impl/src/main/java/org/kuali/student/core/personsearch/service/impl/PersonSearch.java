@@ -43,7 +43,10 @@ public class PersonSearch {
         for (KimEntityDefaultInfo e : entities) {
             // get to get all principals for the entity as well
             for (KimPrincipal p : e.getPrincipals()) {
-                people.add(convertEntityToPerson(e, p));
+                Person person = convertEntityToPerson(e, p);
+                if(person!=null){
+                    people.add(person);
+                }
             }
         }
 
