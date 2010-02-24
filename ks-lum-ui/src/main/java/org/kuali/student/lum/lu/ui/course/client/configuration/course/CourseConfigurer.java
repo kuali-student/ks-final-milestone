@@ -200,7 +200,6 @@ public class CourseConfigurer
     private SectionView generateCourseRequisitesSection() {
         CourseRequisitesSectionView section = new CourseRequisitesSectionView(LuSections.COURSE_REQUISITES, getLabel(LUConstants.REQUISITES_LABEL_KEY));
         section.setSectionTitle(SectionTitle.generateH1Title(getLabel(LUConstants.REQUISITES_LABEL_KEY)));
-        addField(section, SEARCH + "/" + "findCourse");
         return section;
     }
 
