@@ -54,8 +54,7 @@ public class AdvancedSearchWindow {
 	}
 	
 	public void show(){
-		//TODO Reset panel here??? Also how much reseting
-		//searchPanel.
+		searchPanel.setupSearch();
 		dialog.show();
 	}
 	

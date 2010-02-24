@@ -39,51 +39,61 @@ public class SearchPanel extends Composite{
 	private VerticalFlowPanel layout = new VerticalFlowPanel();
 	private SimplePanel searchSelectorPanel = new SimplePanel();
 	private VerticalFlowPanel tablePanel = new VerticalFlowPanel();
-	private HorizontalBlockFlowPanel criteria = new HorizontalBlockFlowPanel();
+	private HorizontalBlockFlowPanel enteredCriteriaString = new HorizontalBlockFlowPanel();
 	private CollapsablePanel modifySearchPanel;
 	private boolean resultsShown = false;
 	
 	//Search data
-	private LookupMetadata lookupMetadata;
+	private List<LookupMetadata> lookups = new ArrayList<LookupMetadata>();
+	private LookupMetadata currentSearchLookupMetadata;
     private TempSearchBackedTable table = null;				//FIXME: Swap with new table implementation
-	private static enum SearchStyle{ADVANCED, CUSTOM};
+	public static enum SearchStyle{ADVANCED, CUSTOM};
 	
 	//TODO messages
 	private String advInstructions = "Enter one or more fields";
-	private KSLabel searchCriteria = new KSLabel("Search Criteria:");
+	private KSLabel enteredCriteriaHeading = new KSLabel("Search Criteria:");
 	private boolean multiSelect = false;
 	
-	public SearchPanel(LookupMetadata meta){		
-		lookupMetadata = meta;		
-	
+	public SearchPanel(LookupMetadata meta){
+		lookups.add(meta);
+		setupSearch();
+		this.initWidget(layout);
+		
+		/*
 		searchSelectorPanel.setWidget(createSearchParamPanel(meta));
 		layout.add(searchSelectorPanel);		
-		tablePanel.add(searchCriteria);
-		tablePanel.add(criteria);
+		tablePanel.add(enteredCriteriaHeading);
+		tablePanel.add(enteredCriteriaString);
 
 		table = new TempSearchBackedTable();
 		tablePanel.add(table);
 		layout.add(tablePanel);
 		tablePanel.setVisible(false);
-		this.initWidget(layout);
+		this.initWidget(layout); */
 	}
 	
-	public SearchPanel(List<LookupMetadata> metas){		
+	public SearchPanel(List<LookupMetadata> metas){	
+		lookups = metas;
+		setupSearch();
+		this.initWidget(layout);
+		
+		/*
 		LinkedHashMap<String, Widget> searches = new LinkedHashMap<String, Widget>();
 		for(LookupMetadata meta: metas){
 			searches.put(meta.getName(), createSearchParamPanel(meta));
 		}
 		SwappablePanel swapPanel = new SwappablePanel(searches);
+		
 		searchSelectorPanel.setWidget(swapPanel);
 		layout.add(searchSelectorPanel);
-		tablePanel.add(searchCriteria);
-		tablePanel.add(criteria);	
+		tablePanel.add(enteredCriteriaHeading);
+		tablePanel.add(enteredCriteriaString);	
 		
 		table = new TempSearchBackedTable();		
 		tablePanel.add(table);
 		layout.add(tablePanel);
 		tablePanel.setVisible(false);
-		this.initWidget(layout);
+		this.initWidget(layout); */
 	}
 	
 	private Widget createSearchParamPanel(LookupMetadata meta){
@@ -94,6 +104,46 @@ public class SearchPanel extends Composite{
 		panel.addPanel(SearchStyle.CUSTOM, new CustomizedSearch(meta, listItems));
 		panel.addLinkToPanel(SearchStyle.CUSTOM, "Return to Advanced", SearchStyle.ADVANCED);
 		return panel;
+	}
+	
+	public void setupSearch() {
+		/*
+		tablePanel.setVisible(false);
+		modifySearchPanel.open();
+		searchSelectorPanel.getWidget()
+		if (searchSelectorPanel.getWidget().getClass() == SwappablePanel.class) {
+			((SwappablePanel)searchSelectorPanel.getWidget()).resetPanel();
+		}
+		for (AdvancedSearch advSearchTab : advancedSearchTabs) {
+			advSearchTab.resetSearchFields();
+		}
+		for (CustomizedSearch custSearchTab : customSearchTabs) {
+			//custSearchTab.resetSearchFields();
+		} */
+		
+		Widget searchParamPanel;
+		if (lookups.size() == 1) {
+			searchParamPanel = createSearchParamPanel(lookups.get(0));
+		} else {
+			LinkedHashMap<String, Widget> searches = new LinkedHashMap<String, Widget>();
+			for(LookupMetadata lookup: lookups){
+				searches.put(lookup.getName(), createSearchParamPanel(lookup));
+			}
+			searchParamPanel = new SwappablePanel(searches);			
+		}
+		
+		tablePanel.clear();
+		layout.clear();
+				
+		searchSelectorPanel.setWidget(searchParamPanel);
+		layout.add(searchSelectorPanel);
+		tablePanel.add(enteredCriteriaHeading);
+		tablePanel.add(enteredCriteriaString);
+		
+		table = new TempSearchBackedTable();		
+		tablePanel.add(table);
+		layout.add(tablePanel);
+		tablePanel.setVisible(false);
 	}
 	
 	private class CustomizedSearch extends Composite{
@@ -172,7 +222,7 @@ public class SearchPanel extends Composite{
 					}
 					sr.setSearchKey(meta.getKey());				
 					
-					lookupMetadata = meta;					
+					currentSearchLookupMetadata = meta;					
 					table.performSearch(sr, meta.getResults(), meta.getResultReturnKey()); //temporary hack before we get a new table					
 					tablePanel.setVisible(true);
 					showCriteriaChosen(userCriteria);
@@ -272,7 +322,7 @@ public class SearchPanel extends Composite{
 			KSLabel instrLabel = new KSLabel(advInstructions);
 			panel.add(instrLabel);
 			
-			//add search criteria widgets to the advanced tab
+			//add widget for each search criteria to the advanced tab
 			for(LookupParamMetadata param: meta.getParams()){
 				
 				//select only parameters shown on advanced search tab
@@ -347,7 +397,7 @@ public class SearchPanel extends Composite{
 					}
 					sr.setSearchKey(meta.getKey());
 
-					lookupMetadata = meta;
+					currentSearchLookupMetadata = meta;
 					table.performSearch(sr, meta.getResults(), meta.getResultReturnKey());					
 					tablePanel.setVisible(true);
 					showCriteriaChosen(userCriteria);
@@ -430,14 +480,14 @@ public class SearchPanel extends Composite{
 	}
 	
 	private void showCriteriaChosen(List<HasSearchParam> fields){
-		criteria.clear();
+		enteredCriteriaString.clear();
 		for(HasSearchParam field: fields){
 			String name = field.getFieldName();
 			//TODO Should be string only, needs type safety
 			String value = field.getSearchParam().getValue().toString();
 			if(!value.isEmpty()){
 				HTMLPanel label = new HTMLPanel(" " + name + ": <b>" + value + "</b>");
-				criteria.add(label);
+				enteredCriteriaString.add(label);
 			}
 		}
 	}
@@ -456,8 +506,8 @@ public class SearchPanel extends Composite{
 		if (table != null) {			
 			List<ResultRow> selectedRows = table.getSelectedRows();
 			for (ResultRow row : selectedRows) {
-				String displayKey = row.getValue(lookupMetadata.getResultDisplayKey());
-				String returnKey = row.getValue(lookupMetadata.getResultReturnKey());
+				String displayKey = row.getValue(currentSearchLookupMetadata.getResultDisplayKey());
+				String returnKey = row.getValue(currentSearchLookupMetadata.getResultReturnKey());
 				selectedValues.add(new SelectedResults(displayKey, returnKey));
 				if (multiSelect == false) {
 					break;
@@ -516,8 +566,7 @@ public class SearchPanel extends Composite{
 					//TODO this should be a message key
 					itemText = param.getName();
 					break;
-				}
-				
+				}				
 			}
 			return itemText;
 		}
@@ -528,8 +577,7 @@ public class SearchPanel extends Composite{
 				if(param.getKey().equals(id)){
 					w = DefaultWidgetFactory.getInstance().getWidget(param);
 					break;
-				}
-				
+				}				
 			}
 			return w;
 		}		
