@@ -38,11 +38,9 @@ import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
 import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
-import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.search.AdvancedSearchWindow;
 import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
-import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.search.dto.SearchRequest;
@@ -73,12 +71,10 @@ import org.kuali.student.lum.lu.ui.course.client.widgets.AtpPicker;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
 import org.kuali.student.lum.lu.ui.course.client.widgets.LOBuilder;
 import org.kuali.student.lum.lu.ui.course.client.widgets.OfferedJointlyList;
-import org.kuali.student.lum.lu.ui.course.client.widgets.OrgPicker;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -257,7 +253,7 @@ public class CourseConfigurer
 	public SectionView generateGovernanceSection(){
         VerticalSectionView section = initSectionView(LuSections.GOVERNANCE, LUConstants.GOVERNANCE_LABEL_KEY);
 
-        //section.addSection(generateOversightSection());
+        section.addSection(generateOversightSection());
         section.addSection(generateCampusSection());
         section.addSection(generateAdminOrgsSection());
 
@@ -266,7 +262,7 @@ public class CourseConfigurer
 
     private VerticalSection generateOversightSection() {
         VerticalSection oversight = initSection(getH3Title(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY), WITH_DIVIDER);
-        addField(oversight, COURSE + "/" + ACADEMIC_SUBJECT_ORGS, null, new OrgListPicker());
+        addField(oversight, COURSE + "/" + ACADEMIC_SUBJECT_ORGS);
         return oversight;
 	}
 
@@ -358,6 +354,7 @@ public class CourseConfigurer
 	private VerticalSection generateDescriptionSection() {
         VerticalSection description = initSection(getH3Title(LUConstants.DESCRIPTION_LABEL_KEY), WITH_DIVIDER);
         //FIXME Temporary fix til we have a real rich text editor
+        //addField(description, COURSE + "/" + DESCRIPTION, null);
         addField(description, COURSE + "/" + DESCRIPTION + "/" + RichTextInfoConstants.PLAIN, null);
         return description;
 	}
@@ -577,7 +574,7 @@ public class CourseConfigurer
 //    }
 //
 
-    //FIXME: This is a temp widget impl for the Curriculum Oversight field. Don't yet know if this
+/*    //FIXME: This is a temp widget impl for the Curriculum Oversight field. Don't yet know if this
     //will be a multiple org select field, in which case we need a multiple org select picker widget.
     //Otherwise if it's single org picker, need a way to bind a HasText widget to ModelDTOList
     public class OrgListPicker extends KSSelectItemWidgetAbstract implements SuggestPicker{
@@ -664,7 +661,7 @@ public class CourseConfigurer
 			return orgPicker.addSelectionChangeHandler(handler);
 		}
 
-    }
+    }*/
 
     public class TermListPicker extends KSSelectItemWidgetAbstract implements HasText {
         private AtpPicker atpPicker;
