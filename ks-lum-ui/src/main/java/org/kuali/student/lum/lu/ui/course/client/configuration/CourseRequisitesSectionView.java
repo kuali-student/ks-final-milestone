@@ -80,12 +80,11 @@ public class CourseRequisitesSectionView extends SectionView {
 			childController.saveApplicationState();
 		}
 	}
-/*
+
 	@Override
 	public ErrorLevel processValidationResults(List<ValidationResultContainer> results) {
-		// TODO Auto-generated method stub
 		return ErrorLevel.OK;
-	}*/
+	}
 
 	@Override
 	protected void addFieldToLayout(FieldDescriptor f) {
