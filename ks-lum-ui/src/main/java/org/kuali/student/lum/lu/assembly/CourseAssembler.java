@@ -264,7 +264,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 
             AdminOrgInfo admin = course.getPrimaryAdminOrg();
             if (admin != null) {
-                result.setDepartment(getOrgName(admin.getOrgId()));
+            	result.setDepartment(admin.getOrgId());
             }
             
             result.setDescription(RichTextInfoHelper.wrap(richtextAssembler.assemble(course.getDescr())));
