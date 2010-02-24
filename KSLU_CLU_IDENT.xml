@@ -219,6 +219,9 @@
     <KSLU_CLU_IDENT CD="Code" DIV="Division" ID="IDENT-1"
         LNG_NAME="Long Name" LVL="Level" SHRT_NAME="Shortname"
         ST="State" SUFX_CD="SUFX_CD" TYPE="Type" VARTN="Variation"/>
+    <KSLU_CLU_IDENT CD="Code" DIV="Division" ID="IDENT-2"
+        LNG_NAME="Long Name" LVL="Level" SHRT_NAME="Shortname"
+        ST="State" SUFX_CD="SUFX_CD" TYPE="Type" VARTN="Variation"/>
     <KSLU_CLU_IDENT CD="MATH152" DIV="MATH" ID="IDENT-NL-1"
         LNG_NAME="MATH 152 Linear Systems" LVL="152"
         SHRT_NAME="MATH 152" ST="State-1" TYPE="Type-1" VARTN="Variation-1"/>
@@ -243,9 +246,6 @@
     <KSLU_CLU_IDENT CD="Minor Music 2" DIV="Music" ID="IDENT-NL-8"
         LNG_NAME="Minor in Music 2" LVL="Minor"
         SHRT_NAME="Minor Music 2" ST="State-1" TYPE="Type-1" VARTN="Variation-1"/>
-    <KSLU_CLU_IDENT CD="Code" DIV="Division" ID="IDENT-2"
-        LNG_NAME="Long Name" LVL="Level" SHRT_NAME="Shortname"
-        ST="State" SUFX_CD="SUFX_CD" TYPE="Type" VARTN="Variation"/>
     <KSLU_CLU_IDENT CD="AMSC662" DIV="AMSC"
         ID="a0670a4d-a029-4210-9428-c78504d5dc6a"
         LNG_NAME="Computer Organization and Programming for Scientific Computing"
