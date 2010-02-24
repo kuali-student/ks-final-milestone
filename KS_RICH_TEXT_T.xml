@@ -74,8 +74,6 @@
         ID="RICHTEXT-701" PLAIN="First year science CluSet"/>
     <KS_RICH_TEXT_T FORMATTED="&lt;p>First year arts CluSet&lt;/p>"
         ID="RICHTEXT-801" PLAIN="First year arts CluSet"/>
-    <KS_RICH_TEXT_T FORMATTED="&lt;p>Comment 1&lt;/p>"
-        ID="RT-DESC-COMMENT-1" PLAIN="Comment 1"/>
     <KS_RICH_TEXT_T ID="RT-DESC-DOCUMENT-1" PLAIN="Documents attached to a proposal"/>
     <KS_RICH_TEXT_T ID="RT-DESC-DOCUMENT-2" PLAIN="Documents attached to a Course"/>
     <KS_RICH_TEXT_T ID="a05fbec9-c1ba-42b6-8aff-b8fe7ba23084" PLAIN="Variational formulations of linear and nonlinear elliptic boundary value problems; formulation of the finite element method; construction of finite element subspaces; error estimates; eigenvalue problems; time dependent problems."/>
