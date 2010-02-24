@@ -622,7 +622,7 @@
 				<property name="key" value="person.search.personQuickViewByGivenName" />
 				<property name="name" value="All org hierarchies" />
 				<property name="desc" value="Returns all org hierarchies, name and id" />
-				<property name="widget" value="ADVANCED_LIGHTBOX"/>
+				<property name="widget" value="SUGGEST_BOX"/>
 				<property name="params">
 					<list>
 						<bean parent="param">
@@ -633,7 +633,7 @@
 							<property name="name" value="Name Lookup Field" />
 							<property name="desc" value="Name of person" />
 							<property name="caseSensitive" value="false" />
-							<property name="usage" value="ADVANCED"/>
+							<property name="usage" value="DEFAULT"/>
 							<property name="widget" value="TEXT_BOX"/>
 						</bean>
 						<bean parent="param">
