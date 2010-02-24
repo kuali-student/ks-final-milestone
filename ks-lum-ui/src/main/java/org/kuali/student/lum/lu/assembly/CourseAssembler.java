@@ -550,7 +550,10 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 
 
 //          mergeAlternateIdentifiers(course, courseClu);
-
+            //FIXME this is a fix for rich text data which does not work yet, in place so the ui workaround can work
+            if(course.getDescription() == null){
+            	course.setDescription(RichTextInfoHelper.wrap(new Data()));
+            }
             //AuthzCheck
             if(courseMetadata.getProperties().get("description").getWriteAccess()!=WriteAccess.NEVER){
                 courseClu.setDescr(getRichText(course.getDescription()));
