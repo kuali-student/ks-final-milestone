@@ -296,7 +296,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
             result.setAcademicSubjectOrgs(new Data());
 
             for (AcademicSubjectOrgInfo org : course.getAcademicSubjectOrgs()) {
-                result.getAcademicSubjectOrgs().add(getOrgName(org.getOrgId()));
+                result.getAcademicSubjectOrgs().add(org.getOrgId());
             }
             
             result.setCampusLocations(new Data());
