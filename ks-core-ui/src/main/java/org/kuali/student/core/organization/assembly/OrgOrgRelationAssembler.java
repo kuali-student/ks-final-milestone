@@ -48,10 +48,13 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
     public Data get(String id) throws AssemblyException {
 
         List<OrgOrgRelationInfo> relations = new ArrayList<OrgOrgRelationInfo>();
+        List<OrgOrgRelationInfo> parentRelations = new ArrayList<OrgOrgRelationInfo>();
         Data orgOrgRelationMap = null;
         try{
             relations = orgService.getOrgOrgRelationsByOrg(id);
-            orgOrgRelationMap = buildOrgOrgRelationDataMap(relations);
+            parentRelations = orgService.getOrgOrgRelationsByRelatedOrg(id);
+            orgOrgRelationMap = buildOrgOrgRelationDataMap(relations,parentRelations);
+            
         }
         catch(DoesNotExistException dnee){
             return null;
@@ -99,10 +102,18 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
     private OrgOrgRelationInfo buildOrgOrgRelationInfo(OrgorgRelationHelper orgorgRelationHelper){
         OrgOrgRelationInfo orgOrgRelationInfo = new OrgOrgRelationInfo();
         
+        if(orgorgRelationHelper.getOrgOrgRelationTypeKey().startsWith("REV_")){
+            orgOrgRelationInfo.setOrgId(orgorgRelationHelper.getRelatedOrgId());
+            orgOrgRelationInfo.setRelatedOrgId(orgorgRelationHelper.getOrgId());
+            orgOrgRelationInfo.setType(orgorgRelationHelper.getOrgOrgRelationTypeKey().substring(4));
+        }
+        else{
+            orgOrgRelationInfo.setOrgId(orgorgRelationHelper.getOrgId());
+            orgOrgRelationInfo.setRelatedOrgId(orgorgRelationHelper.getRelatedOrgId());
+            orgOrgRelationInfo.setType(orgorgRelationHelper.getOrgOrgRelationTypeKey());
+        }
+       
         
-        orgOrgRelationInfo.setOrgId(orgorgRelationHelper.getOrgId());
-        orgOrgRelationInfo.setRelatedOrgId(orgorgRelationHelper.getRelatedOrgId());
-        orgOrgRelationInfo.setType(orgorgRelationHelper.getOrgOrgRelationTypeKey());
         orgOrgRelationInfo.setEffectiveDate(orgorgRelationHelper.getEffectiveDate());
         orgOrgRelationInfo.setExpirationDate(orgorgRelationHelper.getExpirationDate());
         if (isModified(orgorgRelationHelper.getData())) {
@@ -177,7 +188,7 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
     }
     
     
-    private Data buildOrgOrgRelationDataMap(List<OrgOrgRelationInfo> relations){
+    private Data buildOrgOrgRelationDataMap(List<OrgOrgRelationInfo> relations,List<OrgOrgRelationInfo> parentRelations){
         Data orgOrgRelations = new Data();
         int count = 0;
         for(OrgOrgRelationInfo relation:relations){
@@ -187,6 +198,21 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
             orgOrgRelation.setOrgId(relation.getOrgId());
             orgOrgRelation.setRelatedOrgId(relation.getRelatedOrgId());
             orgOrgRelation.setOrgOrgRelationTypeKey(relation.getType());
+            orgOrgRelation.setEffectiveDate(relation.getEffectiveDate());
+            orgOrgRelation.setExpirationDate(relation.getExpirationDate());
+            
+            orgOrgRelations.set(count, orgOrgRelation.getData());
+            addVersionIndicator(orgOrgRelation.getData(),OrgOrgRelationInfo.class.getName(),relation.getId(),relation.getMetaInfo().getVersionInd());
+            count= count+1;
+        }
+        
+        for(OrgOrgRelationInfo relation:parentRelations){
+            Data relationMap = new Data();
+            OrgorgRelationHelper orgOrgRelation=  OrgorgRelationHelper.wrap(relationMap);
+            orgOrgRelation.setId(relation.getId());
+            orgOrgRelation.setRelatedOrgId(relation.getOrgId());
+            orgOrgRelation.setOrgId(relation.getRelatedOrgId());
+            orgOrgRelation.setOrgOrgRelationTypeKey("REV_" +relation.getType());
             orgOrgRelation.setEffectiveDate(relation.getEffectiveDate());
             orgOrgRelation.setExpirationDate(relation.getExpirationDate());
             
