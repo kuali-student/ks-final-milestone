@@ -816,7 +816,7 @@
 		<property name="constraints">
 			<list>
 				<ref bean="constraint.optional" />
-				<ref bean="constraint.repeating" />
+				<ref bean="constraint.single" />
 			</list>
 		</property>
 		<property name="initialLookup">
