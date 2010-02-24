@@ -27,7 +27,10 @@
 		<property name="serviceEndpointInterface" value="org.kuali.student.core.document.service.DocumentService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/document}DocumentService" />
 	</bean>
-	
+	<bean id="personSearchClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.student.core.search.service.SearchService" />
+        <property name="serviceQName" value="{http://student.kuali.org/wsdl/personsearch}personsearchService" />
+    </bean>
 
 	 <tx:annotation-driven transaction-manager="transactionManager" />
     
@@ -134,7 +137,8 @@
 		<constructor-arg>
 	      <list>
 	        <ref bean="orgClient"/>
-	        <ref bean="atpClient"/>	        	        	        
+	        <ref bean="atpClient"/>	     
+	        <ref bean="personSearchClient"/>   	        	        
 	      </list>
 		</constructor-arg>						
 	</bean>
