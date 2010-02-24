@@ -49,17 +49,17 @@
 	</bean>
 
     <!-- JTA -->
-<!--    <bean id="jtaTxManager" class="org.springframework.transaction.jta.JtaTransactionManager">-->
-<!--        <property name="transactionManager" ref="jotm" />-->
-<!--        <property name="userTransaction" ref="jotm"/>-->
-<!--        <property name="allowCustomIsolationLevels" value="true"/>-->
-<!--    </bean>-->
-<!---->
+	<alias name="jtaUserTransaction" alias="userTransaction"/>    
+    <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" lazy-init="true"> 
+		<property name="userTransaction" ref="jtaUserTransaction"/>
+		<property name="transactionManager" ref="jtaTransactionManager"/>
+        <property name="allowCustomIsolationLevels" value="true"/>
+    </bean> 
 <!--    <tx:annotation-driven transaction-manager="jtaTxManager" />-->
 <!--	<aop:aspectj-autoproxy proxy-target-class="true" />-->
 
 
-	<bean id="mapExceptionAdvisor"
+	<!--<bean id="mapExceptionAdvisor"
 		class="org.kuali.student.common.util.ExceptionMappingAdvice">
 		<property name="defaultException"
 			value="org.kuali.student.core.exceptions.OperationFailedException" />
@@ -89,7 +89,7 @@
 				pointcut="execution(* org.kuali.student.core.messages.service.*.*(..))"
 				method="afterThrowing" throwing="ex" />
 		</aop:aspect>
-	</aop:config>
+	</aop:config>-->
 	
 	
 
