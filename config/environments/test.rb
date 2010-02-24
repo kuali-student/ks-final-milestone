@@ -27,10 +27,6 @@ config.action_mailer.delivery_method = :test
 # like if you have constraints or database-specific column types
 # config.active_record.schema_format = :sql
 
-config.gem 'cucumber',    :lib => false,        :version => '0.6.1' unless File.directory?(File.join(Rails.root, 'vendor/plugins/cucumber'))
-config.gem 'webrat',      :lib => false,        :version => '0.6.0' unless File.directory?(File.join(Rails.root, 'vendor/plugins/webrat'))
-config.gem 'rspec',       :lib => false,        :version => '1.2.9' unless File.directory?(File.join(Rails.root, 'vendor/plugins/rspec'))
-config.gem 'rspec-rails', :lib => false,        :version => '1.2.9' unless File.directory?(File.join(Rails.root, 'vendor/plugins/rspec-rails'))
 config.gem 'firewatir', :version => '1.6.5'
 config.gem 'cucumber-rails', :version => '0.2.3'
 config.gem 'database_cleaner', :version => '0.4.0'
@@ -39,3 +35,4 @@ config.gem 'culerity', :version => '0.2.7'
 config.gem 'Selenium', :version => '1.1.14'
 config.gem 'selenium-client', :version => '1.2.17'
 config.gem 'mechanize', :version => '0.9.3'
+config.gem 'spreadsheet'

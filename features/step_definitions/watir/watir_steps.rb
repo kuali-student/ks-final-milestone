@@ -30,6 +30,10 @@ When /^(?:|I )click the "([^\"]*)" xpath$/ do |field|
 	@browser.element_by_xpath(field).click()
 end
 
+When  /^(?:|I )fill in text field number "([^\"]*)" with "([^\"]*)"$/ do |index, content|
+  @browser.text_field(:index, index).set(content)
+end
+
 Then /^(?:|I )should see "([^\"]*)"$/ do |text|
   @browser.text.should include(text)
 end
@@ -37,3 +41,8 @@ end
 After do
   @browser.goto path_to("the logout path")
 end
+
+Then /^(?:|I )write "([^\"]*)" into collumn "([^\"]*)" row "([^\"]*)" of the report$/ do |content, column, row|
+  @book.worksheet(0).row(row.to_i-1)[column.to_i-1] = content
+end
+
