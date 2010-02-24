@@ -213,6 +213,9 @@
         <foreign-key foreignTable="KSCO_REFERENCE" name="FK278964D4A44FBE52">
             <reference foreign="ID" local="REFERENCE"/>
         </foreign-key>
+        <foreign-key foreignTable="KS_RICH_TEXT_T" name="FK278964D46747A5F2">
+            <reference foreign="ID" local="RT_DESCR_ID"/>
+        </foreign-key>
     </table>
     <table name="KSCO_COMMENT_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -329,6 +332,9 @@
         <column name="STATE" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
         <column name="TYPE" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KS_RICH_TEXT_T" name="FKB5CCDBE76747A5F2">
+            <reference foreign="ID" local="RT_DESCR_ID"/>
+        </foreign-key>
         <foreign-key foreignTable="KSDO_DOCUMENT_TYPE" name="FKB5CCDBE723B9E99F">
             <reference foreign="TYPE_KEY" local="TYPE"/>
         </foreign-key>
@@ -348,6 +354,9 @@
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KS_RICH_TEXT_T" name="FK88CC76566747A5F2">
+            <reference foreign="ID" local="RT_DESCR_ID"/>
+        </foreign-key>
     </table>
     <table name="KSDO_DOCUMENT_CATEGORY_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
