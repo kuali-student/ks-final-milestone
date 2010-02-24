@@ -470,17 +470,19 @@ public class CrossSearchManager {
 		List <Map<String,SearchResultRow>> r = new ArrayList<Map<String,SearchResultRow>>();
 		for(Map.Entry<String,SearchResult> x:searchResults.entrySet()){
 			List<Map<String,SearchResultRow>> t = new ArrayList<Map<String,SearchResultRow>>();
-			for(SearchResultRow y:x.getValue().getRows()){
-				for(Map<String,SearchResultRow> i:r){
-					Map<String,SearchResultRow> unions =  new HashMap<String,SearchResultRow>();
-					unions.putAll(i);
-					unions.put(x.getKey(), y);
-					t.add(unions);
-				}
-				if(r.size()==0){
-					Map<String,SearchResultRow> unions  =  new HashMap<String,SearchResultRow>();
-					unions.put(x.getKey(), y);
-					t.add(unions);
+			if(x.getValue()!=null&&x.getValue().getRows()!=null){
+				for(SearchResultRow y:x.getValue().getRows()){
+					for(Map<String,SearchResultRow> i:r){
+						Map<String,SearchResultRow> unions =  new HashMap<String,SearchResultRow>();
+						unions.putAll(i);
+						unions.put(x.getKey(), y);
+						t.add(unions);
+					}
+					if(r.size()==0){
+						Map<String,SearchResultRow> unions  =  new HashMap<String,SearchResultRow>();
+						unions.put(x.getKey(), y);
+						t.add(unions);
+					}
 				}
 			}
 			r = t;
@@ -501,12 +503,14 @@ public class CrossSearchManager {
 			return compareInt(leftInteger,rightInteger,type);
 		}catch(Exception e){
 		}
-		
-		if(("true".equals(left.toLowerCase())||"false".equals(left.toLowerCase()))&&
-		   ("true".equals(right.toLowerCase())||"false".equals(right.toLowerCase()))){
-			Boolean leftBoolean = Boolean.parseBoolean(left);
-			Boolean rightBoolean = Boolean.parseBoolean(right);
-			return compareBoolean(leftBoolean,rightBoolean,type);
+		try{
+			if(("true".equals(left.toLowerCase())||"false".equals(left.toLowerCase()))&&
+			   ("true".equals(right.toLowerCase())||"false".equals(right.toLowerCase()))){
+				Boolean leftBoolean = Boolean.parseBoolean(left);
+				Boolean rightBoolean = Boolean.parseBoolean(right);
+				return compareBoolean(leftBoolean,rightBoolean,type);
+			}
+		}catch(Exception e){
 		}
 		try{
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
