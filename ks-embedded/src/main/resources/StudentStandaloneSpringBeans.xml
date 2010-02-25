@@ -107,5 +107,8 @@
         <property name="permissionTemplateNamespace" value="KS-SYS" />
         <property name="permissionTemplateName" value="Edit Document" />
     </bean>
+    
+    <!-- Use our own custom xml parser which also parses passwords -->
+   	<bean id="enUserXmlService" class="org.kuali.rice.student.kew.xml.KSUserXmlServiceImpl" />
 
 </beans>

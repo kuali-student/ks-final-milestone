@@ -104,4 +104,8 @@
 <!--
 	<bean id="ksHierarchyDerivedRoleType" class="org.kuali.student.lum.kim.HierarchyNodeTestRoleTypeServiceBase" />
 -->
+
+    <!-- Use our own custom xml parser which also parses passwords -->
+   	<bean id="enUserXmlService" class="org.kuali.rice.student.kew.xml.KSUserXmlServiceImpl" />
+
 </beans>
