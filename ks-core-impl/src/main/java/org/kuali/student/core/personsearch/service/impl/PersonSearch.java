@@ -39,13 +39,14 @@ public class PersonSearch {
         List<Person> people = new ArrayList<Person>();
 
         List<? extends KimEntityDefaultInfo> entities = identityService.lookupEntityDefaultInfo(criteria, unbounded);
-
-        for (KimEntityDefaultInfo e : entities) {
-            // get to get all principals for the entity as well
-            for (KimPrincipal p : e.getPrincipals()) {
-                Person person = convertEntityToPerson(e, p);
-                if(person!=null){
-                    people.add(person);
+        if (entities != null) {
+            for (KimEntityDefaultInfo e : entities) {
+                // get to get all principals for the entity as well
+                for (KimPrincipal p : e.getPrincipals()) {
+                    Person person = convertEntityToPerson(e, p);
+                    if (person != null) {
+                        people.add(person);
+                    }
                 }
             }
         }
