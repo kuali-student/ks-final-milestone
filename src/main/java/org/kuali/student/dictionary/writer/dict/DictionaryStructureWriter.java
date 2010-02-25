@@ -15,13 +15,12 @@
  */
 package org.kuali.student.dictionary.writer.dict;
 
-import java.text.ParseException;
+import java.util.Date;
 import org.kuali.student.dictionary.model.util.ModelFinder;
 import org.kuali.student.dictionary.model.XmlType;
 import org.kuali.student.dictionary.model.DictionaryModel;
 import org.kuali.student.dictionary.model.Type;
 import org.kuali.student.dictionary.model.State;
-import org.kuali.student.dictionary.DictionaryExecutionException;
 import org.kuali.student.dictionary.model.Field;
 import org.kuali.student.dictionary.model.util.DateUtility;
 import org.kuali.student.dictionary.writer.XmlTypeNameBuilder;
@@ -170,24 +169,8 @@ public class DictionaryStructureWriter
   writer.incrementIndent ();
   writer.writeTag ("dict:name", type.getName ());
   writer.writeTag ("dict:desc", type.getDesc ());
-  try
-  {
-   writer.writeTag ("dict:effectiveDate", fixupDate (type.getEffectiveDate ()));
-  }
-  catch (ParseException ex)
-  {
-   throw new DictionaryExecutionException (" State " + type.getName ()
-    + " has an invalid effecitve date");
-  }
-  try
-  {
-   writer.writeTag ("dict:expirationDate", fixupDate (type.getExpirationDate ()));
-  }
-  catch (ParseException ex)
-  {
-   throw new DictionaryExecutionException (" State " + type.getName ()
-    + " has an invalid expiration date");
-  }
+  writer.writeTag ("dict:effectiveDate", fixupDate (type.getEffectiveDate ()));
+  writer.writeTag ("dict:expirationDate", fixupDate (type.getExpirationDate ()));
   writer.decrementIndent ();
   writeRefBean ("dict:stateRef",
                 calcStateId (type, finder.getDefaultState ()));
@@ -382,14 +365,9 @@ public class DictionaryStructureWriter
   new AttributeIdUtil ().writeRefBean (writer, refType, id);
  }
 
- private String fixupDate (String date)
-  throws ParseException
+ private String fixupDate (Date date)
  {
   if (date == null)
-  {
-   return "";
-  }
-  if (date.equals (""))
   {
    return "";
   }

@@ -16,6 +16,7 @@
 package org.kuali.student.dictionary.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -226,26 +227,26 @@ public class State implements Serializable
   this.attributes = attributes;
  }
 
- private String effectiveDate;
+  private Date effectiveDate;
 
- public String getEffectiveDate ()
+ public Date getEffectiveDate ()
  {
   return effectiveDate;
  }
 
- public void setEffectiveDate (String effectiveDate)
+ public void setEffectiveDate (Date effectiveDate)
  {
   this.effectiveDate = effectiveDate;
  }
 
- private String expirationDate;
+ private Date expirationDate;
 
- public String getExpirationDate ()
+ public Date getExpirationDate ()
  {
   return expirationDate;
  }
 
- public void setExpirationDate (String expirationDate)
+ public void setExpirationDate (Date expirationDate)
  {
   this.expirationDate = expirationDate;
  }

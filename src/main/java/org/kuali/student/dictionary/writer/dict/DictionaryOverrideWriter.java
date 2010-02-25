@@ -15,9 +15,9 @@
  */
 package org.kuali.student.dictionary.writer.dict;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -366,24 +366,8 @@ public class DictionaryOverrideWriter
   writer.incrementIndent ();
   writer.writeTag ("dict:name", type.getName ());
   writer.writeTag ("dict:desc", type.getDesc ());
-  try
-  {
-   writer.writeTag ("dict:effectiveDate", fixupDate (type.getEffectiveDate ()));
-  }
-  catch (ParseException ex)
-  {
-   throw new DictionaryExecutionException (" State " + type.getName ()
-    + " has an invalid effecitve date");
-  }
-  try
-  {
-   writer.writeTag ("dict:expirationDate", fixupDate (type.getExpirationDate ()));
-  }
-  catch (ParseException ex)
-  {
-   throw new DictionaryExecutionException (" State " + type.getName ()
-    + " has an invalid expiration date");
-  }
+  writer.writeTag ("dict:effectiveDate", fixupDate (type.getEffectiveDate ()));
+  writer.writeTag ("dict:expirationDate", fixupDate (type.getExpirationDate ()));
   if (writeStateRefs)
   {
    if ( ! xmlType.hasOwnState ())
@@ -978,14 +962,9 @@ public class DictionaryOverrideWriter
   new AttributeIdUtil ().writeRefBean (writer, refType, id);
  }
 
- private String fixupDate (String date)
-  throws ParseException
+ private String fixupDate (Date date)
  {
   if (date == null)
-  {
-   return "";
-  }
-  if (date.equals (""))
   {
    return "";
   }

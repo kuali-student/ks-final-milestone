@@ -23,6 +23,7 @@ import org.kuali.student.dictionary.model.validation.DictionaryValidationExcepti
 import org.kuali.student.dictionary.model.spreadsheet.SpreadsheetReader;
 import org.kuali.student.dictionary.model.spreadsheet.WorksheetReader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -290,20 +291,20 @@ public class DictionaryModelLoader implements DictionaryModel
   return list;
  }
 
- private String getFixupDate (WorksheetReader reader, String name)
+ private Date getFixupDate (WorksheetReader reader, String name)
  {
   String dateStr = getFixup (reader, name);
   if (dateStr == null)
   {
-   return "";
+   return null;
   }
   if (dateStr.equals (""))
   {
-   return "";
+   return null;
   }
   try
   {
-   return new DateUtility ().asYMD (dateStr);
+   return new DateUtility ().asDate (dateStr);
   }
   catch (ParseException ex)
   {
