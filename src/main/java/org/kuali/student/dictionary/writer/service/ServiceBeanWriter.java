@@ -40,9 +40,9 @@ public class ServiceBeanWriter extends JavaClassWriter
  private ModelFinder finder;
 
  public ServiceBeanWriter (DictionaryModel model,
-                          String directory,
-                          Service service,
-                          XmlType type)
+                           String directory,
+                           Service service,
+                           XmlType type)
  {
   super (directory, calcPackage (service), calcClassName (type.getName ()));
   this.model = model;
@@ -84,10 +84,10 @@ public class ServiceBeanWriter extends JavaClassWriter
   openBrace ();
 
   indentPrintln ("");
-	 indentPrintln ("private static final long serialVersionUID = 1L;");
+  indentPrintln ("private static final long serialVersionUID = 1L;");
 
   List<MessageStructure> list =
-  finder.findMessageStructures (type.getName ());
+   finder.findMessageStructures (type.getName ());
   if (list.size () == 0)
   {
    throw new DictionaryExecutionException ("xmlType " + type.getName ()
@@ -103,10 +103,13 @@ public class ServiceBeanWriter extends JavaClassWriter
    indentPrintln ("/**");
    indentPrintWrappedComment ("Set " + ms.getName ());
    indentPrintln ("*");
+   indentPrintln ("* Type: " + ms.getType ());
+   indentPrintln ("*");
    indentPrintWrappedComment (ms.getDescription ());
    indentPrintln ("*/");
    indentPrintln ("@Override");
-   indentPrintln ("public void " + calcSetter (ms) + "(" + fieldType + " " + name + ")");
+   indentPrintln ("public void " + calcSetter (ms) + "(" + fieldType + " "
+    + name + ")");
    openBrace ();
    indentPrintln ("this." + name + " = " + name + ";");
    closeBrace ();
@@ -114,6 +117,8 @@ public class ServiceBeanWriter extends JavaClassWriter
    indentPrintln ("");
    indentPrintln ("/**");
    indentPrintWrappedComment ("Get " + ms.getName ());
+   indentPrintln ("*");
+   indentPrintln ("* Type: " + ms.getType ());
    indentPrintln ("*");
    indentPrintWrappedComment (ms.getDescription ());
    indentPrintln ("*/");

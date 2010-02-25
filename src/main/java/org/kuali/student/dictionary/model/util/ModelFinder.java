@@ -108,6 +108,18 @@ public class ModelFinder
   return null;
  }
 
+ public Type findType (String typeKey)
+ {
+  for (Type type : model.getTypes ())
+  {
+   if (type.getTypeKey ().equals (typeKey))
+   {
+    return type;
+   }
+  }
+  return null;
+ }
+
  public State findState (String xmlObject, String stateName)
  {
   if (stateName.equalsIgnoreCase (State.DEFAULT))
@@ -152,7 +164,7 @@ public class ModelFinder
   return null;
  }
 
-  /**
+ /**
   * get dictionary entries for the state overries
   * @return
   */
@@ -172,7 +184,6 @@ public class ModelFinder
   }
   return list;
  }
-
 
  /**
   * get dictionary entries for the state overries
@@ -371,7 +382,7 @@ public class ModelFinder
   }
   return findField (dict.getXmlObject (), dict.getShortName ());
  }
- 
+
  public List<Field> findFields (String xmlTypeName)
  {
   List<Field> list = new ArrayList ();

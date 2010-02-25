@@ -38,9 +38,9 @@ public class ServiceInfoWriter extends JavaClassWriter
  private XmlType xmlType;
 
  public ServiceInfoWriter (DictionaryModel model,
-                              String directory,
-                              Service service,
-                              XmlType xmlType)
+                           String directory,
+                           Service service,
+                           XmlType xmlType)
  {
   super (directory, calcPackage (service), calcClassName (xmlType.getName ()));
   this.model = model;
@@ -72,8 +72,8 @@ public class ServiceInfoWriter extends JavaClassWriter
    new ModelFinder (model).findMessageStructures (xmlType.getName ());
   if (list.size () == 0)
   {
-   throw new DictionaryExecutionException ("xmlType " + xmlType.getName () +
-    " has no fields defined in the message structure tab");
+   throw new DictionaryExecutionException ("xmlType " + xmlType.getName ()
+    + " has no fields defined in the message structure tab");
   }
   for (MessageStructure ms : list)
   {
@@ -81,6 +81,8 @@ public class ServiceInfoWriter extends JavaClassWriter
    indentPrintln ("");
    indentPrintln ("/**");
    indentPrintWrappedComment ("Set " + ms.getName ());
+   indentPrintln ("*");
+   indentPrintln ("* Type: " + ms.getType ());
    indentPrintln ("*");
    indentPrintWrappedComment (ms.getDescription ());
    indentPrintln ("*/");
@@ -91,6 +93,8 @@ public class ServiceInfoWriter extends JavaClassWriter
    indentPrintln ("");
    indentPrintln ("/**");
    indentPrintWrappedComment ("Get " + ms.getName ());
+   indentPrintln ("*");
+   indentPrintln ("* Type: " + ms.getType ());
    indentPrintln ("*");
    indentPrintWrappedComment (ms.getDescription ());
    indentPrintln ("*/");

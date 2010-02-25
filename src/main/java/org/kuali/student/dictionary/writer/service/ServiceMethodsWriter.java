@@ -95,8 +95,8 @@ public class ServiceMethodsWriter extends JavaClassWriter
    indentPrintln ("* ");
    for (ServiceMethodParameter param : method.getParameters ())
    {
-    indentPrintWrappedComment ("@param " + param.getName () + " " + param.
-     getDescription ());
+    indentPrintWrappedComment ("@param " + param.getName () + " - "
+     + param.getType () + " - " + param.getDescription ());
    }
    indentPrintWrappedComment ("@return " + method.getReturnValue ().
     getDescription ());
