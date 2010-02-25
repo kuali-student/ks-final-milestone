@@ -219,6 +219,7 @@ public class LuServiceAssembler extends BaseAssembler {
 		dto.setAlternateAdminOrgs(toCluAdminOrgInfos(entity
 				.getAlternateAdminOrgs()));
 
+		dto.setExpectedFirstAtp(entity.getExpectedFirstAtp());
 		dto.setPrimaryInstructor(toCluInstructorInfo(entity
 				.getPrimaryInstructor()));
 		dto.setInstructors(toCluInstructorInfos(entity.getInstructors()));

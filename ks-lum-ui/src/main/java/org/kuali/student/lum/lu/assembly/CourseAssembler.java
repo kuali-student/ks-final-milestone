@@ -284,6 +284,12 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
                 result.getTermsOffered().add(atpType);
             }
             
+            result.setFirstExpectedOffering(new String());
+        	String atp = course.getExpectedFirstAtp();
+        	if (atp != null && !atp.isEmpty()) {
+        		result.setFirstExpectedOffering(atp);
+        	}
+            
             CluInstructorInfoHelper instr = CluInstructorInfoHelper.wrap(instructorAssembler.assemble(course.getPrimaryInstructor()));
             if (instr != null) {
                 result.setPrimaryInstructor(instr.getPersonId());
@@ -512,6 +518,8 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
             cluId.setDivision(course.getSubjectArea());
             cluId.setShortName(course.getTranscriptTitle());
 
+            courseClu.setExpectedFirstAtp(course.getFirstExpectedOffering());
+            
             String instrId = course.getPrimaryInstructor();
             CluInstructorInfo instr = courseClu.getPrimaryInstructor();
             if (instr == null) {
