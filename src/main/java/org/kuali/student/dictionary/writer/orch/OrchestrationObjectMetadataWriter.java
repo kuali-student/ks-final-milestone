@@ -461,7 +461,7 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
 
     if (field.getType ().equalsIgnoreCase ("long"))
     {
-     return "new Data.LongValue (" + field.getDefaultValue () + ")";
+     return "new Data.LongValue (" + field.getDefaultValue () + "l)";
     }
 
     throw new DictionaryValidationException (

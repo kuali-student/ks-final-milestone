@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.kuali.student.core.assembly.data.LookupMetadata;
+import org.kuali.student.dictionary.DictionaryExecutionException;
 import org.kuali.student.dictionary.model.Constraint;
 import org.kuali.student.dictionary.model.Dictionary;
 import org.kuali.student.dictionary.model.DictionaryModel;
@@ -47,6 +48,7 @@ public class OrchestrationObjectsLoader implements OrchestrationModel
 {
 
  private DictionaryModel model;
+ private ModelFinder finder;
  private String rootPackage;
  private List<LookupMetadata> lookupMetas;
 
@@ -54,6 +56,7 @@ public class OrchestrationObjectsLoader implements OrchestrationModel
                                     String rootPackage)
  {
   this.model = model;
+  this.finder = new ModelFinder (model);
   this.lookupMetas = new SearchTypesToLookupMetadataBankConverter (model).getLookups ();
   this.rootPackage = rootPackage;
  }
@@ -192,8 +195,31 @@ public class OrchestrationObjectsLoader implements OrchestrationModel
  private void loadMessageStructureFieldConstraints (
   OrchestrationObjectField ooField, String fieldId)
  {
-  ModelFinder finder = new ModelFinder (model);
   Field msField = finder.findField (fieldId);
+  if (msField == null)
+  {
+   throw new DictionaryExecutionException
+    ("could not find field with field id " + fieldId
+    + " on ooField " + ooField.getFullyQualifiedName ());
+  }
+  loadMessageStructureFieldConstraints (ooField, msField);
+ }
+
+  private void loadMessageStructureFieldConstraints (
+  OrchestrationObjectField ooField, Dictionary dict)
+ {
+  Field msField = finder.findField (dict);
+  if (msField == null)
+  {
+   throw new DictionaryExecutionException
+    ("could not find field with for dictionary with id " + dict.getId ()
+    + " on ooField " + ooField.getFullyQualifiedName ());
+  }
+  loadMessageStructureFieldConstraints (ooField, msField);
+ }
+
+  private void loadMessageStructureFieldConstraints (OrchestrationObjectField ooField, Field msField)
+ {
   for (String consId : msField.getConstraintIds ())
   {
    Constraint cons = finder.findConstraint (consId);
@@ -379,7 +405,6 @@ public class OrchestrationObjectsLoader implements OrchestrationModel
  private void loadOrchObjsFieldConstraints (
   OrchestrationObjectField ooField, OrchObj orchObj)
  {
-  ModelFinder finder = new ModelFinder (model);
   for (String consId : orchObj.getConstraintIds ())
   {
    Constraint cons = finder.findConstraint (consId);
@@ -414,15 +439,13 @@ public class OrchestrationObjectsLoader implements OrchestrationModel
      getId ());
    }
    loadConstraintsForDictionaryEntry (ooField, dict);
-   loadMessageStructureFieldConstraints (ooField, dict.getXmlObject () + "." +
-    dict.getShortName ());
+   loadMessageStructureFieldConstraints (ooField, dict);
   }
  }
 
  private void loadConstraintsForDictionaryEntry (
   OrchestrationObjectField ooField, Dictionary dict)
  {
-  ModelFinder finder = new ModelFinder (model);
   for (String consId : dict.getAdditionalConstraintIds ())
   {
    Constraint cons = finder.findConstraint (consId);

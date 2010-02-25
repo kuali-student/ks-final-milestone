@@ -140,8 +140,6 @@ public class DictionaryModelWriter
   StringBuffer buf = new StringBuffer ();
   buf.append ("*** Automatically Generated ***");
   buf.append ("\n");
-  buf.append ("on: " + (new Date ()));
-  buf.append ("\n");
   buf.append ("by: " + this.getClass ().getName ());
   buf.append ("\n");
   String prefix = "Using:";
