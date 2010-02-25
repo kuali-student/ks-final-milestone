@@ -433,7 +433,7 @@ public class CourseConfigurer
 	private VerticalSection generateInstructorsSection() {
         VerticalSection instructors = initSection(getH3Title(LUConstants.INSTRUCTOR_LABEL_KEY), WITH_DIVIDER);
         // FIXME wilj: do we need to set the instructor's orgId? or can we default it at the assembler level?
-        addField(instructors, COURSE + "/" + PRIMARY_INSTRUCTOR, null);
+        addField(instructors, COURSE + "/" + PRIMARY_INSTRUCTOR);
         return instructors;
 	}
 
