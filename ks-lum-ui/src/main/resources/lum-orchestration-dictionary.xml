@@ -1012,7 +1012,7 @@
 		<property name="name" value="duration" />
 		<property name="writeAccess" value="ALWAYS" />
 		<property name="onChangeRefreshMetadata" value="false" />
-		<property name="dataObjectStructure" ref="duration" />
+		<property name="dataObjectStructure" ref="activityDuration" />
 		<property name="dataType" value="DATA" />
 		<property name="constraints">
 			<list>
@@ -2964,7 +2964,7 @@
 		<property name="name" value="duration" />
 		<property name="writeAccess" value="ALWAYS" />
 		<property name="onChangeRefreshMetadata" value="false" />
-		<property name="dataObjectStructure" ref="duration" />
+		<property name="dataObjectStructure" ref="courseDuration" />
 		<property name="dataType" value="DATA" />
 		<property name="constraints">
 			<list>
@@ -3958,8 +3958,17 @@
 		</property>
 	</bean>
 	<bean id="description" parent="description-parent" />
-	<bean id="duration-parent" abstract="true" parent="dataObjectStructure">
-		<property name="name" value="duration" />
+	<bean id="courseDuration-parent" abstract="true" parent="dataObjectStructure">
+		<property name="name" value="courseDuration" />
+		<property name="fields">
+			<list>
+				<ref bean="duration.termType" />
+				<ref bean="duration.quantity" />
+			</list>
+		</property>
+	</bean>
+	<bean id="activityDuration-parent" abstract="true" parent="dataObjectStructure">
+		<property name="name" value="activityDuration" />
 		<property name="fields">
 			<list>
 				<ref bean="duration.timeUnit" />
@@ -3967,6 +3976,8 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="courseDuration" parent="courseDuration-parent" />
+	<bean id="activityDuration" parent="activityDuration-parent" />
 	<bean id="duration.timeUnit" parent="dataFieldDescriptor">
 		<property name="name" value="timeUnit" />
 		<property name="writeAccess" value="ALWAYS" />
@@ -4032,7 +4043,6 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="duration" parent="duration-parent" />
 	<bean id="duration.termType" parent="dataFieldDescriptor">
 		<property name="name" value="termType" />
 		<property name="writeAccess" value="ALWAYS" />

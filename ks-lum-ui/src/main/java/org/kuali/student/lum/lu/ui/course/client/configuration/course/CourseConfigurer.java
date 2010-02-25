@@ -399,33 +399,9 @@ public class CourseConfigurer
 
 	private VerticalSection generateSchedulingSection() {
         VerticalSection scheduling = initSection(getH3Title(LUConstants.SCHEDULING_LABEL_KEY), WITH_DIVIDER);
-        //FIXME wilj: termsOffered not currently populated by assembler
-
-        //addField(scheduling, COURSE + "/" + CreditCourseConstants.DURATION + "/" + TERM_TYPE, getLabel(LUConstants.TERM_LITERAL_LABEL_KEY), new AtpTypeList());
-        //FIXME Why is this timeUnit now and not termType, this widget did not work when this comment was written
-/*        String termKey = COURSE + "/" + CreditCourseConstants.DURATION + "/" + "timeUnit";
-        Metadata termMeta = modelDefinition.getMetadata(QueryPath.parse(termKey));
-        FieldDescriptor termDescriptor = new FieldDescriptor(termKey, null, termMeta);
-        termDescriptor.setFieldWidget(new TermListPicker());
-        final QueryPath deptPath = QueryPath.parse(termDescriptor.getFieldKey());
-        termDescriptor.setWidgetBinding(new ModelWidgetBinding<TermListPicker>() {
-            // FIXME had to create custom binding because the TermListPicker always returns a list, even of 1
-            @Override
-            public void setModelValue(TermListPicker widget, DataModel model,
-                    String path) {
-                model.set(deptPath, widget.getSelectedItem());
-
-            }
-            @Override
-            public void setWidgetValue(TermListPicker widget, DataModel model,
-                    String path) {
-                widget.setText((String) model.get(path));
-            }
-        });*/
-        //scheduling.addField(termDescriptor);
         GroupSection duration = new GroupSection();
         addField(duration, COURSE + "/" + CreditCourseConstants.DURATION + "/" + QUANTITY, getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY)); //TODO DURATION ENUMERATION
-        addField(duration, COURSE + "/" + CreditCourseConstants.DURATION + "/" + "timeUnit", "Duration Type", new DurationAtpTypeList());
+        addField(duration, COURSE + "/" + CreditCourseConstants.DURATION + "/" + TERM_TYPE, "Duration Type", new DurationAtpTypeList());
         scheduling.addSection(duration);
         return scheduling;
 	}
