@@ -355,9 +355,11 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
             i=0;
 
             for (AcademicSubjectOrgInfo org : course.getAcademicSubjectOrgs()) {
-                lookupFields.put("OversightName", getOrgName(org.getOrgId()));
+            	if (org.getOrgId() != null && !org.getOrgId().isEmpty()){
+            		lookupFields.put("OversightName", getOrgName(org.getOrgId()));
 //FIXME  In M4 user can only create one academic subject org. Remove this break when they can have multiples           
-                break; 
+            		break;
+            	}
             }
 
 //            i=0;
