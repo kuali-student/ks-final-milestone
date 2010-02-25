@@ -17,7 +17,7 @@ package org.kuali.student.orchestration.base;
 
 
 import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
+import org.kuali.student.core.assembly.helper.PropertyEnum;
 
 
 public class CluPublishingInfoHelper
@@ -26,14 +26,6 @@ public class CluPublishingInfoHelper
 	
 	public enum Properties implements PropertyEnum
 	{
-		START_CYCLE ("startCycle"),
-		END_CYCLE ("endCycle"),
-		PRIMARY_INSTRUCTOR ("primaryInstructor"),
-		INSTRUCTORS ("instructors"),
-		ATTRIBUTES ("attributes"),
-		TYPE ("type"),
-		STATE ("state"),
-		ID ("id");
 		
 		private final String key;
 		
@@ -67,102 +59,6 @@ public class CluPublishingInfoHelper
 	public Data getData ()
 	{
 		return data;
-	}
-	
-	
-	public void setStartCycle (String value)
-	{
-		data.set (Properties.START_CYCLE.getKey (), value);
-	}
-	
-	
-	public String getStartCycle ()
-	{
-		return (String) data.get (Properties.START_CYCLE.getKey ());
-	}
-	
-	
-	public void setEndCycle (String value)
-	{
-		data.set (Properties.END_CYCLE.getKey (), value);
-	}
-	
-	
-	public String getEndCycle ()
-	{
-		return (String) data.get (Properties.END_CYCLE.getKey ());
-	}
-	
-	
-	public void setPrimaryInstructor (CluInstructorInfoHelper value)
-	{
-		data.set (Properties.PRIMARY_INSTRUCTOR.getKey (), (value == null) ? null : value.getData ());
-	}
-	
-	
-	public CluInstructorInfoHelper getPrimaryInstructor ()
-	{
-		return CluInstructorInfoHelper.wrap ((Data) data.get (Properties.PRIMARY_INSTRUCTOR.getKey ()));
-	}
-	
-	
-	public void setInstructors (Data value)
-	{
-		data.set (Properties.INSTRUCTORS.getKey (), value);
-	}
-	
-	
-	public Data getInstructors ()
-	{
-		return (Data) data.get (Properties.INSTRUCTORS.getKey ());
-	}
-	
-	
-	public void setAttributes (Data value)
-	{
-		data.set (Properties.ATTRIBUTES.getKey (), value);
-	}
-	
-	
-	public Data getAttributes ()
-	{
-		return (Data) data.get (Properties.ATTRIBUTES.getKey ());
-	}
-	
-	
-	public void setType (String value)
-	{
-		data.set (Properties.TYPE.getKey (), value);
-	}
-	
-	
-	public String getType ()
-	{
-		return (String) data.get (Properties.TYPE.getKey ());
-	}
-	
-	
-	public void setState (String value)
-	{
-		data.set (Properties.STATE.getKey (), value);
-	}
-	
-	
-	public String getState ()
-	{
-		return (String) data.get (Properties.STATE.getKey ());
-	}
-	
-	
-	public void setId (String value)
-	{
-		data.set (Properties.ID.getKey (), value);
-	}
-	
-	
-	public String getId ()
-	{
-		return (String) data.get (Properties.ID.getKey ());
 	}
 	
 }

@@ -16,12 +16,8 @@
 package org.kuali.student.orchestration.base;
 
 
-import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.orchestration.ConstraintMetadataBank;
 import org.kuali.student.orchestration.RecursionCounter;
-import org.kuali.student.orchestration.base.CluPublishingInfoHelper.Properties;
 
 
 public class CluPublishingInfoMetadata
@@ -53,106 +49,6 @@ public class CluPublishingInfoMetadata
 		
 		Metadata childMeta;
 		Metadata listMeta;
-		
-		// metadata for startCycle
-		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.START_CYCLE.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (this.matches (type, state, "(default)", "(default)"))
-		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("atp.types"));
-		}
-		
-		// metadata for endCycle
-		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.END_CYCLE.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (this.matches (type, state, "(default)", "(default)"))
-		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("atp.types"));
-		}
-		
-		// metadata for primaryInstructor
-		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.PRIMARY_INSTRUCTOR.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.DATA);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (this.matches (type, state, "(default)", "(default)"))
-		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-		}
-		new CluInstructorInfoMetadata ().loadChildMetadata (childMeta, type, state, recursions);
-		
-		// metadata for instructors
-		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.INSTRUCTORS.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.LIST);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (this.matches (type, state, "(default)", "(default)"))
-		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-		}
-		listMeta = new Metadata ();
-		listMeta.setDataType (Data.DataType.DATA);
-		listMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
-		new CluInstructorInfoMetadata ().loadChildMetadata (listMeta, type, state, recursions);
-		
-		// metadata for attributes
-		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.ATTRIBUTES.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.DATA);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (this.matches (type, state, "(default)", "(default)"))
-		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-		}
-		
-		// metadata for type
-		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.TYPE.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ON_CREATE);
-		if (this.matches (type, state, "(default)", "(default)"))
-		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.type"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("code"));
-		}
-		
-		// metadata for state
-		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.STATE.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
-		if (this.matches (type, state, "(default)", "(default)"))
-		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.state"));
-		}
-		
-		// metadata for id
-		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.ID.getKey (), childMeta);
-		childMeta.setDataType (Data.DataType.STRING);
-		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
-		if (this.matches (type, state, "(default)", "(default)"))
-		{
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("read.only"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
-			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.id"));
-		}
 		
 		recursions.increment (this.getClass ().getName ());
 	}

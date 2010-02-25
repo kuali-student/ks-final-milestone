@@ -18,7 +18,7 @@ package org.kuali.student.orchestration.base;
 
 import java.util.Date;
 import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
+import org.kuali.student.core.assembly.helper.PropertyEnum;
 
 
 public class ProposalInfoHelper

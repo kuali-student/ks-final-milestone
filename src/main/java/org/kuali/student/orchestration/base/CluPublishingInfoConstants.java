@@ -19,13 +19,5 @@ package org.kuali.student.orchestration.base;
 
 public interface CluPublishingInfoConstants
 {
-	public static final String START_CYCLE = "startCycle";
-	public static final String END_CYCLE = "endCycle";
-	public static final String PRIMARY_INSTRUCTOR = "primaryInstructor";
-	public static final String INSTRUCTORS = "instructors";
-	public static final String ATTRIBUTES = "attributes";
-	public static final String TYPE = "type";
-	public static final String STATE = "state";
-	public static final String ID = "id";
 }
 

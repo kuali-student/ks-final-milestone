@@ -18,7 +18,7 @@ package org.kuali.student.orchestration.base;
 
 import java.util.Date;
 import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
+import org.kuali.student.core.assembly.helper.PropertyEnum;
 
 
 public class CluInfoHelper
@@ -32,9 +32,8 @@ public class CluInfoHelper
 		ACADEMIC_SUBJECT_ORGS ("academicSubjectOrgs"),
 		STUDY_SUBJECT_AREA ("studySubjectArea"),
 		DESC ("desc"),
-		MARKETING_DESC ("marketingDesc"),
-		CAMPUS_LOCATION_LIST ("campusLocationList"),
-		ACCREDITATION ("accreditation"),
+		CAMPUS_LOCATIONS ("campusLocations"),
+		ACCREDITATIONS ("accreditations"),
 		PRIMARY_ADMIN_ORG ("primaryAdminOrg"),
 		ALTERNATE_ADMIN_ORGS ("alternateAdminOrgs"),
 		PRIMARY_INSTRUCTOR ("primaryInstructor"),
@@ -47,7 +46,6 @@ public class CluInfoHelper
 		CAN_CREATE_LUI ("canCreateLui"),
 		REFERENCE_U_R_L ("referenceURL"),
 		LU_CODES ("luCodes"),
-		PUBLISHING_INFO ("publishingInfo"),
 		NEXT_REVIEW_PERIOD ("nextReviewPeriod"),
 		IS_ENROLLABLE ("isEnrollable"),
 		OFFERED_ATP_TYPES ("offeredAtpTypes"),
@@ -158,39 +156,27 @@ public class CluInfoHelper
 	}
 	
 	
-	public void setMarketingDesc (RichTextInfoHelper value)
+	public void setCampusLocations (Data value)
 	{
-		data.set (Properties.MARKETING_DESC.getKey (), (value == null) ? null : value.getData ());
+		data.set (Properties.CAMPUS_LOCATIONS.getKey (), value);
 	}
 	
 	
-	public RichTextInfoHelper getMarketingDesc ()
+	public Data getCampusLocations ()
 	{
-		return RichTextInfoHelper.wrap ((Data) data.get (Properties.MARKETING_DESC.getKey ()));
+		return (Data) data.get (Properties.CAMPUS_LOCATIONS.getKey ());
 	}
 	
 	
-	public void setCampusLocationList (Data value)
+	public void setAccreditations (Data value)
 	{
-		data.set (Properties.CAMPUS_LOCATION_LIST.getKey (), value);
+		data.set (Properties.ACCREDITATIONS.getKey (), value);
 	}
 	
 	
-	public Data getCampusLocationList ()
+	public Data getAccreditations ()
 	{
-		return (Data) data.get (Properties.CAMPUS_LOCATION_LIST.getKey ());
-	}
-	
-	
-	public void setAccreditation (Data value)
-	{
-		data.set (Properties.ACCREDITATION.getKey (), value);
-	}
-	
-	
-	public Data getAccreditation ()
-	{
-		return (Data) data.get (Properties.ACCREDITATION.getKey ());
+		return (Data) data.get (Properties.ACCREDITATIONS.getKey ());
 	}
 	
 	
@@ -278,15 +264,15 @@ public class CluInfoHelper
 	}
 	
 	
-	public void setIntensity (TimeAmountInfoHelper value)
+	public void setIntensity (AmountInfoHelper value)
 	{
 		data.set (Properties.INTENSITY.getKey (), (value == null) ? null : value.getData ());
 	}
 	
 	
-	public TimeAmountInfoHelper getIntensity ()
+	public AmountInfoHelper getIntensity ()
 	{
-		return TimeAmountInfoHelper.wrap ((Data) data.get (Properties.INTENSITY.getKey ()));
+		return AmountInfoHelper.wrap ((Data) data.get (Properties.INTENSITY.getKey ()));
 	}
 	
 	
@@ -335,18 +321,6 @@ public class CluInfoHelper
 	public Data getLuCodes ()
 	{
 		return (Data) data.get (Properties.LU_CODES.getKey ());
-	}
-	
-	
-	public void setPublishingInfo (CluPublishingInfoHelper value)
-	{
-		data.set (Properties.PUBLISHING_INFO.getKey (), (value == null) ? null : value.getData ());
-	}
-	
-	
-	public CluPublishingInfoHelper getPublishingInfo ()
-	{
-		return CluPublishingInfoHelper.wrap ((Data) data.get (Properties.PUBLISHING_INFO.getKey ()));
 	}
 	
 	
