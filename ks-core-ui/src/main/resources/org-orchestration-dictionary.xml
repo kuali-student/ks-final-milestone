@@ -640,38 +640,38 @@
 					<list>
 						<bean parent="result">
 							<property name="dataType" value="STRING" />
-							<property name="desc" value="Internal id" />
+							<property name="desc" value="Internal person id" />
 							<property name="hidden" value="false" />
 							<property name="key" value="person.resultColumn.PersonId" />
-							<property name="name" value="Internal person id" />
+							<property name="name" value="Person id" />
 						</bean>
 						<bean parent="result">
 							<property name="dataType" value="STRING" />
-							<property name="desc" value="Internal id" />
+							<property name="desc" value="Given name of person" />
 							<property name="hidden" value="false" />
 							<property name="key" value="person.resultColumn.GivenName" />
-							<property name="name" value="Given name of person" />
+							<property name="name" value="Given name" />
 						</bean>
 						<bean parent="result">
 							<property name="dataType" value="STRING" />
-							<property name="desc" value="Entity id" />
+							<property name="desc" value="Entity Id of Person" />
 							<property name="hidden" value="false" />
 							<property name="key" value="person.resultColumn.EntityId" />
-							<property name="name" value="Entity Id of Person" />
+							<property name="name" value="Entity Id" />
 						</bean>
 						<bean parent="result">
 							<property name="dataType" value="STRING" />
-							<property name="desc" value="Principal name" />
+							<property name="desc" value="Principal name of person" />
 							<property name="hidden" value="false" />
 							<property name="key" value="person.resultColumn.PrincipalName" />
-							<property name="name" value="Principal name of person" />
+							<property name="name" value="Principal name" />
 						</bean>
 						<bean parent="result">
 							<property name="dataType" value="STRING" />
-							<property name="desc" value="Display Name" />
+							<property name="desc" value="Display name of person" />
 							<property name="hidden" value="false" />
 							<property name="key" value="person.resultColumn.DisplayName" />
-							<property name="name" value="Display name of person" />
+							<property name="name" value="Display name" />
 						</bean>
 					</list>
 				</property>
@@ -719,38 +719,38 @@
 					<list>
 						<bean parent="result">
 							<property name="dataType" value="STRING" />
-							<property name="desc" value="Internal id" />
+							<property name="desc" value="Internal person id" />
 							<property name="hidden" value="false" />
 							<property name="key" value="person.resultColumn.PersonId" />
-							<property name="name" value="Internal person id" />
+							<property name="name" value="Internal id" />
 						</bean>
 						<bean parent="result">
 							<property name="dataType" value="STRING" />
-							<property name="desc" value="Internal id" />
+							<property name="desc" value="Given name of person" />
 							<property name="hidden" value="false" />
 							<property name="key" value="person.resultColumn.GivenName" />
-							<property name="name" value="Given name of person" />
+							<property name="name" value="Given Name" />
 						</bean>
 						<bean parent="result">
 							<property name="dataType" value="STRING" />
-							<property name="desc" value="Entity id" />
+							<property name="desc" value="Entity Id of Person" />
 							<property name="hidden" value="false" />
 							<property name="key" value="person.resultColumn.EntityId" />
-							<property name="name" value="Entity Id of Person" />
+							<property name="name" value="Entity Id" />
 						</bean>
 						<bean parent="result">
 							<property name="dataType" value="STRING" />
-							<property name="desc" value="Principal name" />
+							<property name="desc" value="Principal name of person" />
 							<property name="hidden" value="false" />
 							<property name="key" value="person.resultColumn.PrincipalName" />
-							<property name="name" value="Principal name of person" />
+							<property name="name" value="Principal name" />
 						</bean>
 						<bean parent="result">
 							<property name="dataType" value="STRING" />
-							<property name="desc" value="Display Name" />
+							<property name="desc" value="Display name of person" />
 							<property name="hidden" value="false" />
 							<property name="key" value="person.resultColumn.DisplayName" />
-							<property name="name" value="Display name of person" />
+							<property name="name" value="Display name" />
 						</bean>
 					</list>
 				</property>
