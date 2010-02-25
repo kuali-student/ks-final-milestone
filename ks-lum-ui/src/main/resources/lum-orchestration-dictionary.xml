@@ -2752,7 +2752,7 @@
 				<property name="desc"
 					value="Search by Name, start date, end date, and type" />
 				<property name="widget" value="SUGGEST_BOX" />
-				<property name="searchParamIdKey" value="atp.advancedAtpSearchParam.atpShortName`" />
+				<property name="searchParamIdKey" value="atp.advancedAtpSearchParam.atpShortName" />
 				<property name="params">
 					<list>
 						<bean parent="param">
@@ -2856,7 +2856,7 @@
 					<property name="desc"
 						value="Search by Name, start date, end date, and type" />
 					<property name="widget" value="ADVANCED_LIGHTBOX" />
-					<property name="searchParamIdKey" value="atp.advancedAtpSearchParam.atpShortName`" />
+					<property name="searchParamIdKey" value="atp.advancedAtpSearchParam.atpShortName" />
 					<property name="params">
 						<list>
 							<bean parent="param">
