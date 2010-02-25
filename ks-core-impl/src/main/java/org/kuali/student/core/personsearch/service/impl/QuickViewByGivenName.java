@@ -27,17 +27,28 @@ import org.kuali.student.core.search.dto.SortDirection;
 
 public final class QuickViewByGivenName extends PersonSearch implements SearchOperation {
     final private String NAME_PARAM = "person.queryParam.personGivenName";
+    final private String ID_PARAM = "person.queryParam.personId";
     final private String AFFILIATION_PARAM = "person.queryParam.personAffiliation";
-    final private String ID_RESULT = "person.resultColumn.PersonId";
-    final private String NAME_RESULT = "person.resultColumn.GivenName";
+
+    final private String PRINCIPAL_ID_RESULT = "person.resultColumn.PersonId";
+    final private String ENTITY_ID_RESULT = "person.resultColumn.EntityId";
+    final private String DISPLAY_NAME_RESULT = "person.resultColumn.DisplayName";// Smith, John (jsmith)
+    final private String GIVEN_NAME_RESULT = "person.resultColumn.GivenName";// Smith, John
+    final private String PRINCIPAL_NAME_RESULT = "person.resultColumn.PrincipalName";
+
     final private String KIM_PERSON_AFFILIATION_TYPE_CODE = "affiliationTypeCode";
 
     final private String KIM_PRINCIPALS_PRINCIPALNAME = "principals.principalName";
-
-
+    final private String KIM_PRINCIPALS_PRINCIPALID = "principals.principalId";
+    final private String KIM_PERSON_FIRST_NAME = "names.firstName";
+    final private String KIM_PERSON_MIDDLE_NAME = "names.middleName";
+    final private String KIM_PERSON_LAST_NAME = "names.lastName";
+    
+    
     private List<Person> findPersons(final IdentityService identityService, final SearchRequest searchRequest) {
         String nameSearch = null;
         String affilSearch = null;
+        String idSearch = null;
         for (SearchParam param : searchRequest.getParams()) {
             String value = (String) param.getValue();
             if (!value.isEmpty()) {
@@ -56,28 +67,39 @@ public final class QuickViewByGivenName extends PersonSearch implements SearchOp
                     } else {
                         affilSearch = value;
                     }
+                } else if (ID_PARAM.equals(param.getKey())){
+                	if(idSearch!=null){
+                		idSearch += "|" + param.getValue();
+                	}else{
+                		idSearch = param.getValue().toString();
+                	}
                 }
             }
         }
         final List<Map<String, String>> searches = new ArrayList<Map<String, String>>();
-        if (nameSearch != null) {
-        	Map<String, String> criteria1 = new HashMap<String, String>();
-        	criteria1.put(KIM_PRINCIPALS_PRINCIPALNAME, nameSearch);
-	        searches.add(criteria1);
-//            Map<String, String> criteria1 = new HashMap<String, String>();
-//            criteria1.put(KIM_PERSON_FIRST_NAME, nameSearch);
-//            searches.add(criteria1);
-//
-//            Map<String, String> criteria2 = new HashMap<String, String>();
-//            criteria2.put(KIM_PERSON_MIDDLE_NAME, nameSearch);
-//            searches.add(criteria2);
-//
-//            Map<String, String> criteria3 = new HashMap<String, String>();
-//            criteria3.put(KIM_PERSON_LAST_NAME, nameSearch);
-//            searches.add(criteria3);
+        if(idSearch!=null){
+        	Map<String, String> criteria = new HashMap<String, String>();
+        	criteria.put(KIM_PRINCIPALS_PRINCIPALID, idSearch);
+	        searches.add(criteria);
+        }else if (nameSearch != null) {
+        	Map<String, String> principalNameCriteria = new HashMap<String, String>();
+        	principalNameCriteria.put(KIM_PRINCIPALS_PRINCIPALNAME, nameSearch);
+	        searches.add(principalNameCriteria);
+	        
+            Map<String, String> firstNameCriteria = new HashMap<String, String>();
+            firstNameCriteria.put(KIM_PERSON_FIRST_NAME, nameSearch);
+            searches.add(firstNameCriteria);
+
+            Map<String, String> middleNameCriteria = new HashMap<String, String>();
+            middleNameCriteria.put(KIM_PERSON_MIDDLE_NAME, nameSearch);
+            searches.add(middleNameCriteria);
+
+            Map<String, String> lastNameCriteria = new HashMap<String, String>();
+            lastNameCriteria.put(KIM_PERSON_LAST_NAME, nameSearch);
+            searches.add(lastNameCriteria);
         }
 
-        if (affilSearch != null) {
+        if (affilSearch != null) {//TODO what is this search for?
             if (searches.isEmpty()) {
                 searches.add(new HashMap<String, String>());
             }
@@ -90,20 +112,15 @@ public final class QuickViewByGivenName extends PersonSearch implements SearchOp
             searches.add(new HashMap<String, String>());
         }
 
-        final List<Person> persons = new ArrayList<Person>();
+        final Map<String,Person> persons = new HashMap<String,Person>();
         for (Map<String, String> criteria : searches) {
             criteria.putAll(PersonSearchServiceImpl.PERSON_CRITERIA);
-            final List<? extends Person> hits = findPeopleInternal(identityService, criteria, false);
-            nextPerson: for (Person newPerson : hits) {
-                for (Person person : persons) {
-                    if (person.getPrincipalId().equals(newPerson.getPrincipalId())) {
-                        break nextPerson;
-                    }
-                }
-                persons.add(newPerson);
+            final List<? extends Person> foundPeople = findPeopleInternal(identityService, criteria, false);
+            for (Person person : foundPeople) {
+                persons.put(person.getEntityId(), person);
             }
         }
-        return persons;
+        return new ArrayList<Person>(persons.values());
     }
 
     @Override
@@ -111,15 +128,16 @@ public final class QuickViewByGivenName extends PersonSearch implements SearchOp
         final SearchResult result = new SearchResult();
 
         List<Person> persons = findPersons(identityService, searchRequest);
+        //TODO finish sorting
         if (searchRequest.getSortDirection() != null) {
             final int direction = (searchRequest.getSortDirection().equals(SortDirection.ASC) ? 1 : -1);
             Collections.sort(persons, new Comparator<Person>() {
 
                 @Override
                 public int compare(Person o1, Person o2) {
-                    if (NAME_RESULT.equals(searchRequest.getSortColumn())) {
+                    if (DISPLAY_NAME_RESULT.equals(searchRequest.getSortColumn())) {
                         return o1.getName().compareToIgnoreCase(o2.getName()) * direction;
-                    } else if (ID_RESULT.equals(searchRequest.getSortColumn())) {
+                    } else if (ENTITY_ID_RESULT.equals(searchRequest.getSortColumn())) {
                         return o1.getPrincipalId().compareToIgnoreCase(o2.getPrincipalId()) * direction;
                     } else {
                         // TODO Recognize alternate sort columns
@@ -131,16 +149,35 @@ public final class QuickViewByGivenName extends PersonSearch implements SearchOp
 
         for (Person person : persons) {
             final SearchResultRow resultRow = new SearchResultRow();
-            resultRow.setCells(new ArrayList<SearchResultCell>(2));
-            final SearchResultCell idCell = new SearchResultCell();
-            idCell.setKey(ID_RESULT);
-            idCell.setValue(person.getPrincipalId());
-            resultRow.getCells().add(idCell);
-            final SearchResultCell nameCell = new SearchResultCell();
-            nameCell.setKey(NAME_RESULT);
-            nameCell.setValue(person.getName());
-            resultRow.getCells().add(nameCell);
+            resultRow.setCells(new ArrayList<SearchResultCell>());
+            
+            SearchResultCell cell = new SearchResultCell();
+            cell.setKey(ENTITY_ID_RESULT);
+            cell.setValue(person.getEntityId());
+            resultRow.getCells().add(cell);
+            
+            cell = new SearchResultCell();
+            cell.setKey(PRINCIPAL_ID_RESULT);
+            cell.setValue(person.getPrincipalId());
+            resultRow.getCells().add(cell);
+            
+            cell = new SearchResultCell();
+            cell.setKey(PRINCIPAL_NAME_RESULT);
+            cell.setValue(person.getPrincipalName());
+            resultRow.getCells().add(cell);
+
+            cell = new SearchResultCell();
+            cell.setKey(GIVEN_NAME_RESULT);
+            cell.setValue(person.getName());
+            resultRow.getCells().add(cell);
+
+            cell = new SearchResultCell();
+            cell.setKey(DISPLAY_NAME_RESULT);
+            cell.setValue(person.getName()+"("+person.getPrincipalName()+")");
+            resultRow.getCells().add(cell);
+            
             result.getRows().add(resultRow);
+            
         }
         result.setStartAt(1); // TODO fix this
         result.setTotalResults(result.getRows().size()); // TODO fix this
@@ -149,31 +186,6 @@ public final class QuickViewByGivenName extends PersonSearch implements SearchOp
 
     @Override
     public List<Result> searchForResults(IdentityService identityService, String searchTypeKey, List<QueryParamValue> queryParamValues) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        final SearchRequest request = new SearchRequest();
-        request.setSearchKey(searchTypeKey);
-        if (queryParamValues != null) {
-            for (QueryParamValue param : queryParamValues) {
-                final SearchParam newParam = new SearchParam();
-                newParam.setKey(param.getKey());
-                newParam.setValue((String) param.getValue());
-                request.getParams().add(newParam);
-            }
-        }
-        final List<Result> results = new ArrayList<Result>();
-
-        for (Person principal : findPersons(identityService, request)) {
-            final Result result = new Result();
-            final ResultCell idCell = new ResultCell();
-            idCell.setKey(ID_RESULT);
-            idCell.setValue(principal.getPrincipalId());
-            result.getResultCells().add(idCell);
-            final ResultCell nameCell = new ResultCell();
-            nameCell.setKey(NAME_RESULT);
-            nameCell.setValue(principal.getName());
-            result.getResultCells().add(nameCell);
-            results.add(result);
-        }
-
-        return results;
+    	throw new UnsupportedOperationException();
     }
 }

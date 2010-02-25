@@ -24,13 +24,16 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class KsPerson implements Person {
 
     private String principalId;
+    private String entityId;
     private String name;
     private String firstName;
     private String middleName;
     private String lastName;
+	private String principalName;
 
     public KsPerson(KimEntityDefaultInfo entity, KimPrincipal principal) {
         this.principalId = principal.getPrincipalId();
+        this.entityId = entity.getEntityId();
         populateNameInfo(entity, principal);
     }
 
@@ -169,7 +172,7 @@ public class KsPerson implements Person {
     @Override
     public String getEntityId() {
 
-        return null;
+        return this.entityId;
     }
 
     @Override
@@ -193,7 +196,7 @@ public class KsPerson implements Person {
     @Override
     public String getFirstName() {
 
-        return null;
+        return this.firstName;
     }
 
     @Override
@@ -205,7 +208,7 @@ public class KsPerson implements Person {
     @Override
     public String getLastName() {
 
-        return null;
+        return this.lastName;
     }
 
     @Override
@@ -217,7 +220,7 @@ public class KsPerson implements Person {
     @Override
     public String getMiddleName() {
 
-        return null;
+        return this.middleName;
     }
 
     @Override
@@ -265,7 +268,7 @@ public class KsPerson implements Person {
     @Override
     public String getPrincipalName() {
 
-        return null;
+        return principalName;
     }
 
     @Override
@@ -291,6 +294,7 @@ public class KsPerson implements Person {
     }
 
     protected void populateNameInfo(KimEntityDefaultInfo entity, KimPrincipal principal) {
+    	this.principalName = principal.getPrincipalName();
         if (entity != null) {
             KimEntityName entityName = entity.getDefaultName();
             if (entityName != null) {
