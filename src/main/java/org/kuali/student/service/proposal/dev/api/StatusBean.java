@@ -30,6 +30,8 @@
 		/**
 		* Set Success Indicator
 		*
+		* Type: boolean
+		*
 		* Indicates the success or failure of the operation
 		*/
 		@Override
@@ -40,6 +42,8 @@
 		
 		/**
 		* Get Success Indicator
+		*
+		* Type: boolean
 		*
 		* Indicates the success or failure of the operation
 		*/

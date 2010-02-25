@@ -23,6 +23,8 @@ public interface ValidationResultInfo
 	/**
 	* Set Element
 	*
+	* Type: string
+	*
 	* Indication of which element the validation result pertains to. In the case of 
 	* validation results which are stem from a cross type constraint, the element 
 	* should be the containing object. Ex. if two citizenships (which are embedded in 
@@ -33,6 +35,8 @@ public interface ValidationResultInfo
 	
 	/**
 	* Get Element
+	*
+	* Type: string
 	*
 	* Indication of which element the validation result pertains to. In the case of 
 	* validation results which are stem from a cross type constraint, the element 
@@ -47,6 +51,8 @@ public interface ValidationResultInfo
 	/**
 	* Set Error Level
 	*
+	* Type: string
+	*
 	* Indication of the error level of the validation result. Allowed values are OK, 
 	* WARN, and ERROR.
 	*/
@@ -54,6 +60,8 @@ public interface ValidationResultInfo
 	
 	/**
 	* Get Error Level
+	*
+	* Type: string
 	*
 	* Indication of the error level of the validation result. Allowed values are OK, 
 	* WARN, and ERROR.
@@ -65,6 +73,8 @@ public interface ValidationResultInfo
 	/**
 	* Set Message
 	*
+	* Type: string
+	*
 	* Message generated for the validation. Describes failure conditions and success 
 	* aspects. May have additional meta about the specifics of the constraint 
 	* violated.
@@ -73,6 +83,8 @@ public interface ValidationResultInfo
 	
 	/**
 	* Get Message
+	*
+	* Type: string
 	*
 	* Message generated for the validation. Describes failure conditions and success 
 	* aspects. May have additional meta about the specifics of the constraint 
@@ -85,6 +97,8 @@ public interface ValidationResultInfo
 	/**
 	* Set Suggested Task
 	*
+	* Type: string
+	*
 	* Indication of a potential task stemming from the current validation result. In 
 	* the case of a warning or error, this may be a corrective action
 	*/
@@ -92,6 +106,8 @@ public interface ValidationResultInfo
 	
 	/**
 	* Get Suggested Task
+	*
+	* Type: string
 	*
 	* Indication of a potential task stemming from the current validation result. In 
 	* the case of a warning or error, this may be a corrective action

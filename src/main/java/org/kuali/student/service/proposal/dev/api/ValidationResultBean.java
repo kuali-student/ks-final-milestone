@@ -30,6 +30,8 @@
 		/**
 		* Set Element
 		*
+		* Type: string
+		*
 		* Indication of which element the validation result pertains to. In the case of 
 		* validation results which are stem from a cross type constraint, the element 
 		* should be the containing object. Ex. if two citizenships (which are embedded in 
@@ -44,6 +46,8 @@
 		
 		/**
 		* Get Element
+		*
+		* Type: string
 		*
 		* Indication of which element the validation result pertains to. In the case of 
 		* validation results which are stem from a cross type constraint, the element 
@@ -62,6 +66,8 @@
 		/**
 		* Set Error Level
 		*
+		* Type: string
+		*
 		* Indication of the error level of the validation result. Allowed values are OK, 
 		* WARN, and ERROR.
 		*/
@@ -73,6 +79,8 @@
 		
 		/**
 		* Get Error Level
+		*
+		* Type: string
 		*
 		* Indication of the error level of the validation result. Allowed values are OK, 
 		* WARN, and ERROR.
@@ -88,6 +96,8 @@
 		/**
 		* Set Message
 		*
+		* Type: string
+		*
 		* Message generated for the validation. Describes failure conditions and success 
 		* aspects. May have additional meta about the specifics of the constraint 
 		* violated.
@@ -100,6 +110,8 @@
 		
 		/**
 		* Get Message
+		*
+		* Type: string
 		*
 		* Message generated for the validation. Describes failure conditions and success 
 		* aspects. May have additional meta about the specifics of the constraint 
@@ -116,6 +128,8 @@
 		/**
 		* Set Suggested Task
 		*
+		* Type: string
+		*
 		* Indication of a potential task stemming from the current validation result. In 
 		* the case of a warning or error, this may be a corrective action
 		*/
@@ -127,6 +141,8 @@
 		
 		/**
 		* Get Suggested Task
+		*
+		* Type: string
 		*
 		* Indication of a potential task stemming from the current validation result. In 
 		* the case of a warning or error, this may be a corrective action

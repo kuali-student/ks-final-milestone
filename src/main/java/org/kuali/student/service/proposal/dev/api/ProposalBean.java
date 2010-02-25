@@ -33,6 +33,8 @@
 		/**
 		* Set Proposal Name
 		*
+		* Type: string
+		*
 		* The name or title of the proposal. Any finite sequence of characters with 
 		* letters, numerals, symbols and punctuation marks. The length can be any natural 
 		* number between zero or any positive integer.
@@ -45,6 +47,8 @@
 		
 		/**
 		* Get Proposal Name
+		*
+		* Type: string
 		*
 		* The name or title of the proposal. Any finite sequence of characters with 
 		* letters, numerals, symbols and punctuation marks. The length can be any natural 
@@ -61,6 +65,8 @@
 		/**
 		* Set Proposer Person
 		*
+		* Type: personIdList
+		*
 		* List of person identifiers. Structure should contain a proposerPerson OR a 
 		* proposerOrg.
 		*/
@@ -72,6 +78,8 @@
 		
 		/**
 		* Get Proposer Person
+		*
+		* Type: personIdList
 		*
 		* List of person identifiers. Structure should contain a proposerPerson OR a 
 		* proposerOrg.
@@ -87,6 +95,8 @@
 		/**
 		* Set Proposer Organization
 		*
+		* Type: orgIdList
+		*
 		* List of organization identifiers. Structure should contain a proposerPerson OR a 
 		* proposerOrg
 		*/
@@ -98,6 +108,8 @@
 		
 		/**
 		* Get Proposer Organization
+		*
+		* Type: orgIdList
 		*
 		* List of organization identifiers. Structure should contain a proposerPerson OR a 
 		* proposerOrg
@@ -113,6 +125,8 @@
 		/**
 		* Set Proposal Reference Type
 		*
+		* Type: referenceTypeKey
+		*
 		* Unique identifier for a reference type.
 		*/
 		@Override
@@ -123,6 +137,8 @@
 		
 		/**
 		* Get Proposal Reference Type
+		*
+		* Type: referenceTypeKey
 		*
 		* Unique identifier for a reference type.
 		*/
@@ -137,6 +153,8 @@
 		/**
 		* Set Proposal Reference
 		*
+		* Type: referenceIdList
+		*
 		* List of reference identifiers.
 		*/
 		@Override
@@ -147,6 +165,8 @@
 		
 		/**
 		* Get Proposal Reference
+		*
+		* Type: referenceIdList
 		*
 		* List of reference identifiers.
 		*/
@@ -161,6 +181,8 @@
 		/**
 		* Set Rationale
 		*
+		* Type: string
+		*
 		* Brief explanation of the reason for the proposal
 		*/
 		@Override
@@ -171,6 +193,8 @@
 		
 		/**
 		* Get Rationale
+		*
+		* Type: string
 		*
 		* Brief explanation of the reason for the proposal
 		*/
@@ -185,6 +209,8 @@
 		/**
 		* Set Detailed Description
 		*
+		* Type: string
+		*
 		* Detailed description of the proposed changes.
 		*/
 		@Override
@@ -195,6 +221,8 @@
 		
 		/**
 		* Get Detailed Description
+		*
+		* Type: string
 		*
 		* Detailed description of the proposed changes.
 		*/
@@ -209,6 +237,8 @@
 		/**
 		* Set Effective Date
 		*
+		* Type: dateTime
+		*
 		* Date and time that this proposal became effective. This is a similar concept to 
 		* the effective date on enumerated values. When an expiration date has been 
 		* specified, this field must be less than or equal to the expiration date.
@@ -221,6 +251,8 @@
 		
 		/**
 		* Get Effective Date
+		*
+		* Type: dateTime
 		*
 		* Date and time that this proposal became effective. This is a similar concept to 
 		* the effective date on enumerated values. When an expiration date has been 
@@ -237,6 +269,8 @@
 		/**
 		* Set Expiration Date
 		*
+		* Type: dateTime
+		*
 		* Date and time that this proposal expires. This is a similar concept to the 
 		* expiration date on enumerated values. If specified, this should be greater than 
 		* or equal to the effective date. If this field is not specified, then no 
@@ -251,6 +285,8 @@
 		
 		/**
 		* Get Expiration Date
+		*
+		* Type: dateTime
 		*
 		* Date and time that this proposal expires. This is a similar concept to the 
 		* expiration date on enumerated values. If specified, this should be greater than 
@@ -269,6 +305,8 @@
 		/**
 		* Set Generic/dynamic attributes
 		*
+		* Type: attributeInfoList
+		*
 		* List of key/value pairs, typically used for dynamic attributes.
 		*/
 		@Override
@@ -279,6 +317,8 @@
 		
 		/**
 		* Get Generic/dynamic attributes
+		*
+		* Type: attributeInfoList
 		*
 		* List of key/value pairs, typically used for dynamic attributes.
 		*/
@@ -293,6 +333,8 @@
 		/**
 		* Set Create/Update meta info
 		*
+		* Type: metaInfo
+		*
 		* Create and last update info for the structure. This is optional and treated as 
 		* read only since the data is set by the internals of the service during 
 		* maintenance operations.
@@ -305,6 +347,8 @@
 		
 		/**
 		* Get Create/Update meta info
+		*
+		* Type: metaInfo
 		*
 		* Create and last update info for the structure. This is optional and treated as 
 		* read only since the data is set by the internals of the service during 
@@ -321,6 +365,8 @@
 		/**
 		* Set Proposal Type
 		*
+		* Type: proposalTypeKey
+		*
 		* Unique identifier for a proposal type.
 		*/
 		@Override
@@ -331,6 +377,8 @@
 		
 		/**
 		* Get Proposal Type
+		*
+		* Type: proposalTypeKey
 		*
 		* Unique identifier for a proposal type.
 		*/
@@ -345,6 +393,8 @@
 		/**
 		* Set Proposal State
 		*
+		* Type: string
+		*
 		* The current status of the proposal. The values for this field are constrained to 
 		* those in the proposalState enumeration. A separate setup operation does not 
 		* exist for retrieval of the meta data around this value.
@@ -357,6 +407,8 @@
 		
 		/**
 		* Get Proposal State
+		*
+		* Type: string
 		*
 		* The current status of the proposal. The values for this field are constrained to 
 		* those in the proposalState enumeration. A separate setup operation does not 
@@ -373,6 +425,8 @@
 		/**
 		* Set Proposal Identifier
 		*
+		* Type: proposalId
+		*
 		* Unique identifier for a Proposal. This is optional, due to the identifier being 
 		* set at the time of creation. Once the proposal has been created, this should be 
 		* seen as required.
@@ -385,6 +439,8 @@
 		
 		/**
 		* Get Proposal Identifier
+		*
+		* Type: proposalId
 		*
 		* Unique identifier for a Proposal. This is optional, due to the identifier being 
 		* set at the time of creation. Once the proposal has been created, this should be 

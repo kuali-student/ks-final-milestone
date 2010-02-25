@@ -26,12 +26,16 @@ public interface ProposalDocRelationTypeInfo
 	/**
 	* Set Proposal Document Relation Type Name
 	*
+	* Type: string
+	*
 	* Friendly name of the proposal document relation type
 	*/
 	public void setName(String name);
 	
 	/**
 	* Get Proposal Document Relation Type Name
+	*
+	* Type: string
 	*
 	* Friendly name of the proposal document relation type
 	*/
@@ -42,12 +46,16 @@ public interface ProposalDocRelationTypeInfo
 	/**
 	* Set Proposal Doc Relation Type Description
 	*
+	* Type: string
+	*
 	* Narrative description of the proposal document relation type
 	*/
 	public void setDesc(String desc);
 	
 	/**
 	* Get Proposal Doc Relation Type Description
+	*
+	* Type: string
 	*
 	* Narrative description of the proposal document relation type
 	*/
@@ -58,6 +66,8 @@ public interface ProposalDocRelationTypeInfo
 	/**
 	* Set Effective Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this proposal document relation type became effective. This 
 	* is a similar concept to the effective date on enumerated values. When an 
 	* expiration date has been specified, this field must be less than or equal to the 
@@ -67,6 +77,8 @@ public interface ProposalDocRelationTypeInfo
 	
 	/**
 	* Get Effective Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this proposal document relation type became effective. This 
 	* is a similar concept to the effective date on enumerated values. When an 
@@ -80,6 +92,8 @@ public interface ProposalDocRelationTypeInfo
 	/**
 	* Set Expiration Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this proposal document relation type expires. This is a 
 	* similar concept to the expiration date on enumerated values. If specified, this 
 	* should be greater than or equal to the effective date. If this field is not 
@@ -90,6 +104,8 @@ public interface ProposalDocRelationTypeInfo
 	
 	/**
 	* Get Expiration Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this proposal document relation type expires. This is a 
 	* similar concept to the expiration date on enumerated values. If specified, this 
@@ -104,12 +120,16 @@ public interface ProposalDocRelationTypeInfo
 	/**
 	* Set Generic/dynamic attributes
 	*
+	* Type: attributeInfoList
+	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
 	public void setAttributes(Map<String,String> attributes);
 	
 	/**
 	* Get Generic/dynamic attributes
+	*
+	* Type: attributeInfoList
 	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
@@ -120,12 +140,16 @@ public interface ProposalDocRelationTypeInfo
 	/**
 	* Set Proposal Doc Relation Type Key
 	*
+	* Type: proposalDocRelationTypeKey
+	*
 	* Unique identifier for a proposal document relation type.
 	*/
 	public void setKey(String key);
 	
 	/**
 	* Get Proposal Doc Relation Type Key
+	*
+	* Type: proposalDocRelationTypeKey
 	*
 	* Unique identifier for a proposal document relation type.
 	*/

@@ -26,12 +26,16 @@ public interface ProposalDocRelationInfo
 	/**
 	* Set Proposal Identifier
 	*
+	* Type: proposalId
+	*
 	* Unique identifier for a Proposal.
 	*/
 	public void setProposalId(String proposalId);
 	
 	/**
 	* Get Proposal Identifier
+	*
+	* Type: proposalId
 	*
 	* Unique identifier for a Proposal.
 	*/
@@ -42,12 +46,16 @@ public interface ProposalDocRelationInfo
 	/**
 	* Set Document Identifier
 	*
+	* Type: documentId
+	*
 	* Unique identifier for a document.
 	*/
 	public void setDocumentId(String documentId);
 	
 	/**
 	* Get Document Identifier
+	*
+	* Type: documentId
 	*
 	* Unique identifier for a document.
 	*/
@@ -58,12 +66,16 @@ public interface ProposalDocRelationInfo
 	/**
 	* Set Document Title
 	*
+	* Type: string
+	*
 	* The title of the document usage in the context of the Proposal.
 	*/
 	public void setTitle(String title);
 	
 	/**
 	* Get Document Title
+	*
+	* Type: string
 	*
 	* The title of the document usage in the context of the Proposal.
 	*/
@@ -74,12 +86,16 @@ public interface ProposalDocRelationInfo
 	/**
 	* Set Document Description
 	*
+	* Type: richTextInfo
+	*
 	* The description of the document usage in the context of the Proposal.
 	*/
 	public void setDesc(RichTextInfo desc);
 	
 	/**
 	* Get Document Description
+	*
+	* Type: richTextInfo
 	*
 	* The description of the document usage in the context of the Proposal.
 	*/
@@ -90,6 +106,8 @@ public interface ProposalDocRelationInfo
 	/**
 	* Set Effective Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this Proposal Doc Relation became effective. This is a 
 	* similar concept to the effective date on enumerated values. When an expiration 
 	* date has been specified, this field must be less than or equal to the expiration 
@@ -99,6 +117,8 @@ public interface ProposalDocRelationInfo
 	
 	/**
 	* Get Effective Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this Proposal Doc Relation became effective. This is a 
 	* similar concept to the effective date on enumerated values. When an expiration 
@@ -112,6 +132,8 @@ public interface ProposalDocRelationInfo
 	/**
 	* Set Expiration Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this Proposal Doc Relation expires. This is a similar concept 
 	* to the expiration date on enumerated values. If specified, this should be 
 	* greater than or equal to the effective date. If this field is not specified, 
@@ -122,6 +144,8 @@ public interface ProposalDocRelationInfo
 	
 	/**
 	* Get Expiration Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this Proposal Doc Relation expires. This is a similar concept 
 	* to the expiration date on enumerated values. If specified, this should be 
@@ -136,12 +160,16 @@ public interface ProposalDocRelationInfo
 	/**
 	* Set Generic/dynamic attributes
 	*
+	* Type: attributeInfoList
+	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
 	public void setAttributes(Map<String,String> attributes);
 	
 	/**
 	* Get Generic/dynamic attributes
+	*
+	* Type: attributeInfoList
 	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
@@ -152,6 +180,8 @@ public interface ProposalDocRelationInfo
 	/**
 	* Set Create/Update meta info
 	*
+	* Type: metaInfo
+	*
 	* Create and last update info for the structure. This is optional and treated as 
 	* read only since the data is set by the internals of the service during 
 	* maintenance operations.
@@ -160,6 +190,8 @@ public interface ProposalDocRelationInfo
 	
 	/**
 	* Get Create/Update meta info
+	*
+	* Type: metaInfo
 	*
 	* Create and last update info for the structure. This is optional and treated as 
 	* read only since the data is set by the internals of the service during 
@@ -172,6 +204,8 @@ public interface ProposalDocRelationInfo
 	/**
 	* Set Proposal Document Relation Type Key
 	*
+	* Type: proposalDocRelationTypeKey
+	*
 	* Unique identifier for a proposal document relation type. Describes the type of 
 	* usage of the document.
 	*/
@@ -179,6 +213,8 @@ public interface ProposalDocRelationInfo
 	
 	/**
 	* Get Proposal Document Relation Type Key
+	*
+	* Type: proposalDocRelationTypeKey
 	*
 	* Unique identifier for a proposal document relation type. Describes the type of 
 	* usage of the document.
@@ -190,6 +226,8 @@ public interface ProposalDocRelationInfo
 	/**
 	* Set Proposal Document Relation State Key
 	*
+	* Type: string
+	*
 	* The current status of the Proposal to document relationship. The values for this 
 	* field are constrained to those in the proposalDocRelationState enumeration. A 
 	* separate setup operation does not exist for retrieval of the meta data around 
@@ -199,6 +237,8 @@ public interface ProposalDocRelationInfo
 	
 	/**
 	* Get Proposal Document Relation State Key
+	*
+	* Type: string
 	*
 	* The current status of the Proposal to document relationship. The values for this 
 	* field are constrained to those in the proposalDocRelationState enumeration. A 
@@ -212,6 +252,8 @@ public interface ProposalDocRelationInfo
 	/**
 	* Set Proposal Document Relation Identifier
 	*
+	* Type: proposalDocRelationId
+	*
 	* Unique identifier for a proposal to document relation. This is optional, due to 
 	* the identifier being set at the time of creation. Once the connection has been 
 	* created, this should be seen as required.
@@ -220,6 +262,8 @@ public interface ProposalDocRelationInfo
 	
 	/**
 	* Get Proposal Document Relation Identifier
+	*
+	* Type: proposalDocRelationId
 	*
 	* Unique identifier for a proposal to document relation. This is optional, due to 
 	* the identifier being set at the time of creation. Once the connection has been 

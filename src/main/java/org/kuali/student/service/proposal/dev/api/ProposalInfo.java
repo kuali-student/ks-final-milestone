@@ -27,6 +27,8 @@ public interface ProposalInfo
 	/**
 	* Set Proposal Name
 	*
+	* Type: string
+	*
 	* The name or title of the proposal. Any finite sequence of characters with 
 	* letters, numerals, symbols and punctuation marks. The length can be any natural 
 	* number between zero or any positive integer.
@@ -35,6 +37,8 @@ public interface ProposalInfo
 	
 	/**
 	* Get Proposal Name
+	*
+	* Type: string
 	*
 	* The name or title of the proposal. Any finite sequence of characters with 
 	* letters, numerals, symbols and punctuation marks. The length can be any natural 
@@ -47,6 +51,8 @@ public interface ProposalInfo
 	/**
 	* Set Proposer Person
 	*
+	* Type: personIdList
+	*
 	* List of person identifiers. Structure should contain a proposerPerson OR a 
 	* proposerOrg.
 	*/
@@ -54,6 +60,8 @@ public interface ProposalInfo
 	
 	/**
 	* Get Proposer Person
+	*
+	* Type: personIdList
 	*
 	* List of person identifiers. Structure should contain a proposerPerson OR a 
 	* proposerOrg.
@@ -65,6 +73,8 @@ public interface ProposalInfo
 	/**
 	* Set Proposer Organization
 	*
+	* Type: orgIdList
+	*
 	* List of organization identifiers. Structure should contain a proposerPerson OR a 
 	* proposerOrg
 	*/
@@ -72,6 +82,8 @@ public interface ProposalInfo
 	
 	/**
 	* Get Proposer Organization
+	*
+	* Type: orgIdList
 	*
 	* List of organization identifiers. Structure should contain a proposerPerson OR a 
 	* proposerOrg
@@ -83,12 +95,16 @@ public interface ProposalInfo
 	/**
 	* Set Proposal Reference Type
 	*
+	* Type: referenceTypeKey
+	*
 	* Unique identifier for a reference type.
 	*/
 	public void setProposalReferenceType(String proposalReferenceType);
 	
 	/**
 	* Get Proposal Reference Type
+	*
+	* Type: referenceTypeKey
 	*
 	* Unique identifier for a reference type.
 	*/
@@ -99,12 +115,16 @@ public interface ProposalInfo
 	/**
 	* Set Proposal Reference
 	*
+	* Type: referenceIdList
+	*
 	* List of reference identifiers.
 	*/
 	public void setProposalReference(List<String> proposalReference);
 	
 	/**
 	* Get Proposal Reference
+	*
+	* Type: referenceIdList
 	*
 	* List of reference identifiers.
 	*/
@@ -115,12 +135,16 @@ public interface ProposalInfo
 	/**
 	* Set Rationale
 	*
+	* Type: string
+	*
 	* Brief explanation of the reason for the proposal
 	*/
 	public void setRationale(String rationale);
 	
 	/**
 	* Get Rationale
+	*
+	* Type: string
 	*
 	* Brief explanation of the reason for the proposal
 	*/
@@ -131,12 +155,16 @@ public interface ProposalInfo
 	/**
 	* Set Detailed Description
 	*
+	* Type: string
+	*
 	* Detailed description of the proposed changes.
 	*/
 	public void setDetailDesc(String detailDesc);
 	
 	/**
 	* Get Detailed Description
+	*
+	* Type: string
 	*
 	* Detailed description of the proposed changes.
 	*/
@@ -147,6 +175,8 @@ public interface ProposalInfo
 	/**
 	* Set Effective Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this proposal became effective. This is a similar concept to 
 	* the effective date on enumerated values. When an expiration date has been 
 	* specified, this field must be less than or equal to the expiration date.
@@ -155,6 +185,8 @@ public interface ProposalInfo
 	
 	/**
 	* Get Effective Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this proposal became effective. This is a similar concept to 
 	* the effective date on enumerated values. When an expiration date has been 
@@ -167,6 +199,8 @@ public interface ProposalInfo
 	/**
 	* Set Expiration Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this proposal expires. This is a similar concept to the 
 	* expiration date on enumerated values. If specified, this should be greater than 
 	* or equal to the effective date. If this field is not specified, then no 
@@ -177,6 +211,8 @@ public interface ProposalInfo
 	
 	/**
 	* Get Expiration Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this proposal expires. This is a similar concept to the 
 	* expiration date on enumerated values. If specified, this should be greater than 
@@ -191,12 +227,16 @@ public interface ProposalInfo
 	/**
 	* Set Generic/dynamic attributes
 	*
+	* Type: attributeInfoList
+	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
 	public void setAttributes(Map<String,String> attributes);
 	
 	/**
 	* Get Generic/dynamic attributes
+	*
+	* Type: attributeInfoList
 	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
@@ -207,6 +247,8 @@ public interface ProposalInfo
 	/**
 	* Set Create/Update meta info
 	*
+	* Type: metaInfo
+	*
 	* Create and last update info for the structure. This is optional and treated as 
 	* read only since the data is set by the internals of the service during 
 	* maintenance operations.
@@ -215,6 +257,8 @@ public interface ProposalInfo
 	
 	/**
 	* Get Create/Update meta info
+	*
+	* Type: metaInfo
 	*
 	* Create and last update info for the structure. This is optional and treated as 
 	* read only since the data is set by the internals of the service during 
@@ -227,12 +271,16 @@ public interface ProposalInfo
 	/**
 	* Set Proposal Type
 	*
+	* Type: proposalTypeKey
+	*
 	* Unique identifier for a proposal type.
 	*/
 	public void setType(String type);
 	
 	/**
 	* Get Proposal Type
+	*
+	* Type: proposalTypeKey
 	*
 	* Unique identifier for a proposal type.
 	*/
@@ -243,6 +291,8 @@ public interface ProposalInfo
 	/**
 	* Set Proposal State
 	*
+	* Type: string
+	*
 	* The current status of the proposal. The values for this field are constrained to 
 	* those in the proposalState enumeration. A separate setup operation does not 
 	* exist for retrieval of the meta data around this value.
@@ -251,6 +301,8 @@ public interface ProposalInfo
 	
 	/**
 	* Get Proposal State
+	*
+	* Type: string
 	*
 	* The current status of the proposal. The values for this field are constrained to 
 	* those in the proposalState enumeration. A separate setup operation does not 
@@ -263,6 +315,8 @@ public interface ProposalInfo
 	/**
 	* Set Proposal Identifier
 	*
+	* Type: proposalId
+	*
 	* Unique identifier for a Proposal. This is optional, due to the identifier being 
 	* set at the time of creation. Once the proposal has been created, this should be 
 	* seen as required.
@@ -271,6 +325,8 @@ public interface ProposalInfo
 	
 	/**
 	* Get Proposal Identifier
+	*
+	* Type: proposalId
 	*
 	* Unique identifier for a Proposal. This is optional, due to the identifier being 
 	* set at the time of creation. Once the proposal has been created, this should be 

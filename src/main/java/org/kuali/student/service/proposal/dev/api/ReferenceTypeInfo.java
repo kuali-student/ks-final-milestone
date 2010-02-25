@@ -26,12 +26,16 @@ public interface ReferenceTypeInfo
 	/**
 	* Set Reference Type Name
 	*
+	* Type: string
+	*
 	* Friendly name of the reference type.
 	*/
 	public void setName(String name);
 	
 	/**
 	* Get Reference Type Name
+	*
+	* Type: string
 	*
 	* Friendly name of the reference type.
 	*/
@@ -42,12 +46,16 @@ public interface ReferenceTypeInfo
 	/**
 	* Set Reference Type Description
 	*
+	* Type: string
+	*
 	* Narrative description of the reference type.
 	*/
 	public void setDesc(String desc);
 	
 	/**
 	* Get Reference Type Description
+	*
+	* Type: string
 	*
 	* Narrative description of the reference type.
 	*/
@@ -58,6 +66,8 @@ public interface ReferenceTypeInfo
 	/**
 	* Set Effective Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this reference type became effective. This is a similar 
 	* concept to the effective date on enumerated values. When an expiration date has 
 	* been specified, this field must be less than or equal to the expiration date.
@@ -66,6 +76,8 @@ public interface ReferenceTypeInfo
 	
 	/**
 	* Get Effective Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this reference type became effective. This is a similar 
 	* concept to the effective date on enumerated values. When an expiration date has 
@@ -78,6 +90,8 @@ public interface ReferenceTypeInfo
 	/**
 	* Set Expiration Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this reference type expires. This is a similar concept to the 
 	* expiration date on enumerated values. If specified, this should be greater than 
 	* or equal to the effective date. If this field is not specified, then no 
@@ -88,6 +102,8 @@ public interface ReferenceTypeInfo
 	
 	/**
 	* Get Expiration Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this reference type expires. This is a similar concept to the 
 	* expiration date on enumerated values. If specified, this should be greater than 
@@ -102,12 +118,16 @@ public interface ReferenceTypeInfo
 	/**
 	* Set Generic/dynamic attributes
 	*
+	* Type: attributeInfoList
+	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
 	public void setAttributes(Map<String,String> attributes);
 	
 	/**
 	* Get Generic/dynamic attributes
+	*
+	* Type: attributeInfoList
 	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
@@ -118,12 +138,16 @@ public interface ReferenceTypeInfo
 	/**
 	* Set Reference Type Identifier
 	*
+	* Type: referenceTypeKey
+	*
 	* Unique identifier for a reference type.
 	*/
 	public void setKey(String key);
 	
 	/**
 	* Get Reference Type Identifier
+	*
+	* Type: referenceTypeKey
 	*
 	* Unique identifier for a reference type.
 	*/

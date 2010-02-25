@@ -32,6 +32,8 @@
 		/**
 		* Set Proposal Identifier
 		*
+		* Type: proposalId
+		*
 		* Unique identifier for a Proposal.
 		*/
 		@Override
@@ -42,6 +44,8 @@
 		
 		/**
 		* Get Proposal Identifier
+		*
+		* Type: proposalId
 		*
 		* Unique identifier for a Proposal.
 		*/
@@ -56,6 +60,8 @@
 		/**
 		* Set Document Identifier
 		*
+		* Type: documentId
+		*
 		* Unique identifier for a document.
 		*/
 		@Override
@@ -66,6 +72,8 @@
 		
 		/**
 		* Get Document Identifier
+		*
+		* Type: documentId
 		*
 		* Unique identifier for a document.
 		*/
@@ -80,6 +88,8 @@
 		/**
 		* Set Document Title
 		*
+		* Type: string
+		*
 		* The title of the document usage in the context of the Proposal.
 		*/
 		@Override
@@ -90,6 +100,8 @@
 		
 		/**
 		* Get Document Title
+		*
+		* Type: string
 		*
 		* The title of the document usage in the context of the Proposal.
 		*/
@@ -104,6 +116,8 @@
 		/**
 		* Set Document Description
 		*
+		* Type: richTextInfo
+		*
 		* The description of the document usage in the context of the Proposal.
 		*/
 		@Override
@@ -114,6 +128,8 @@
 		
 		/**
 		* Get Document Description
+		*
+		* Type: richTextInfo
 		*
 		* The description of the document usage in the context of the Proposal.
 		*/
@@ -128,6 +144,8 @@
 		/**
 		* Set Effective Date
 		*
+		* Type: dateTime
+		*
 		* Date and time that this Proposal Doc Relation became effective. This is a 
 		* similar concept to the effective date on enumerated values. When an expiration 
 		* date has been specified, this field must be less than or equal to the expiration 
@@ -141,6 +159,8 @@
 		
 		/**
 		* Get Effective Date
+		*
+		* Type: dateTime
 		*
 		* Date and time that this Proposal Doc Relation became effective. This is a 
 		* similar concept to the effective date on enumerated values. When an expiration 
@@ -158,6 +178,8 @@
 		/**
 		* Set Expiration Date
 		*
+		* Type: dateTime
+		*
 		* Date and time that this Proposal Doc Relation expires. This is a similar concept 
 		* to the expiration date on enumerated values. If specified, this should be 
 		* greater than or equal to the effective date. If this field is not specified, 
@@ -172,6 +194,8 @@
 		
 		/**
 		* Get Expiration Date
+		*
+		* Type: dateTime
 		*
 		* Date and time that this Proposal Doc Relation expires. This is a similar concept 
 		* to the expiration date on enumerated values. If specified, this should be 
@@ -190,6 +214,8 @@
 		/**
 		* Set Generic/dynamic attributes
 		*
+		* Type: attributeInfoList
+		*
 		* List of key/value pairs, typically used for dynamic attributes.
 		*/
 		@Override
@@ -200,6 +226,8 @@
 		
 		/**
 		* Get Generic/dynamic attributes
+		*
+		* Type: attributeInfoList
 		*
 		* List of key/value pairs, typically used for dynamic attributes.
 		*/
@@ -214,6 +242,8 @@
 		/**
 		* Set Create/Update meta info
 		*
+		* Type: metaInfo
+		*
 		* Create and last update info for the structure. This is optional and treated as 
 		* read only since the data is set by the internals of the service during 
 		* maintenance operations.
@@ -226,6 +256,8 @@
 		
 		/**
 		* Get Create/Update meta info
+		*
+		* Type: metaInfo
 		*
 		* Create and last update info for the structure. This is optional and treated as 
 		* read only since the data is set by the internals of the service during 
@@ -242,6 +274,8 @@
 		/**
 		* Set Proposal Document Relation Type Key
 		*
+		* Type: proposalDocRelationTypeKey
+		*
 		* Unique identifier for a proposal document relation type. Describes the type of 
 		* usage of the document.
 		*/
@@ -253,6 +287,8 @@
 		
 		/**
 		* Get Proposal Document Relation Type Key
+		*
+		* Type: proposalDocRelationTypeKey
 		*
 		* Unique identifier for a proposal document relation type. Describes the type of 
 		* usage of the document.
@@ -268,6 +304,8 @@
 		/**
 		* Set Proposal Document Relation State Key
 		*
+		* Type: string
+		*
 		* The current status of the Proposal to document relationship. The values for this 
 		* field are constrained to those in the proposalDocRelationState enumeration. A 
 		* separate setup operation does not exist for retrieval of the meta data around 
@@ -281,6 +319,8 @@
 		
 		/**
 		* Get Proposal Document Relation State Key
+		*
+		* Type: string
 		*
 		* The current status of the Proposal to document relationship. The values for this 
 		* field are constrained to those in the proposalDocRelationState enumeration. A 
@@ -298,6 +338,8 @@
 		/**
 		* Set Proposal Document Relation Identifier
 		*
+		* Type: proposalDocRelationId
+		*
 		* Unique identifier for a proposal to document relation. This is optional, due to 
 		* the identifier being set at the time of creation. Once the connection has been 
 		* created, this should be seen as required.
@@ -310,6 +352,8 @@
 		
 		/**
 		* Get Proposal Document Relation Identifier
+		*
+		* Type: proposalDocRelationId
 		*
 		* Unique identifier for a proposal to document relation. This is optional, due to 
 		* the identifier being set at the time of creation. Once the connection has been 
