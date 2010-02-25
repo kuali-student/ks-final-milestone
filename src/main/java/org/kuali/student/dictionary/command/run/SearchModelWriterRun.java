@@ -29,10 +29,10 @@ import org.kuali.student.dictionary.writer.search.SearchModelWriter;
  *
  * @author nwright
  */
-public class SearchModelWriterTest implements RunConstants
+public class SearchModelWriterRun implements RunConstants
 {
 
- public SearchModelWriterTest ()
+ public SearchModelWriterRun ()
  {
  }
 

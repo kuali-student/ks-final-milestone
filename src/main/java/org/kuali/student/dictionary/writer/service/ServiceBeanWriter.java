@@ -29,7 +29,7 @@ import org.kuali.student.dictionary.writer.JavaClassWriter;
  *
  * @author nwright
  */
-public class ServiceDTOWriter extends JavaClassWriter
+public class ServiceBeanWriter extends JavaClassWriter
 {
 
  private DictionaryModel model;
@@ -39,7 +39,7 @@ public class ServiceDTOWriter extends JavaClassWriter
  private XmlType type;
  private ModelFinder finder;
 
- public ServiceDTOWriter (DictionaryModel model,
+ public ServiceBeanWriter (DictionaryModel model,
                           String directory,
                           Service service,
                           XmlType type)
@@ -63,7 +63,7 @@ public class ServiceDTOWriter extends JavaClassWriter
   {
    name = name.substring (0, name.length () - "Info".length ());
   }
-  return name.substring (0, 1).toUpperCase () + name.substring (1) + "DTO";
+  return name.substring (0, 1).toUpperCase () + name.substring (1) + "Bean";
 
  }
 

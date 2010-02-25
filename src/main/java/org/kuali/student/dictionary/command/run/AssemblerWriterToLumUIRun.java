@@ -19,10 +19,14 @@ package org.kuali.student.dictionary.command.run;
  *
  * @author nwright
  */
-public class AssemblerWriterToComponentSandboxTest implements RunConstants
+public class AssemblerWriterToLumUIRun implements RunConstants
 {
 
- 
+ public AssemblerWriterToLumUIRun ()
+ {
+ }
+
+
  public static void main (String[] args)
  {
   System.out.println ("write");
@@ -37,8 +41,8 @@ public class AssemblerWriterToComponentSandboxTest implements RunConstants
 //   DictionaryModel model = new DictionaryModelCache (loader);
 //   OrchestrationObjectsAssemblerWriter instance =
 //    new OrchestrationObjectsAssemblerWriter (model,
-//                                    COMPONENT_SANDBOX_DIRECTORY_TO_WRITE_JAVA,
-//                                    COMPONENT_SANDBOX_ROOT_PACKAGE);
+//                                    LUM_UI_DIRECTORY_TO_WRITE_JAVA,
+//                                    LUM_UI_ROOT_PACKAGE);
 //   instance.write ();
 //  }
 //  finally

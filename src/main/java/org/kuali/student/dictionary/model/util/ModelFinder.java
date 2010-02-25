@@ -363,7 +363,7 @@ public class ModelFinder
   return findField (xmlTypeName + "." + shortName);
  }
 
-  public Field findField (Dictionary dict)
+ public Field findField (Dictionary dict)
  {
   if (dict.isDynamic ())
   {
@@ -371,6 +371,7 @@ public class ModelFinder
   }
   return findField (dict.getXmlObject (), dict.getShortName ());
  }
+ 
  public List<Field> findFields (String xmlTypeName)
  {
   List<Field> list = new ArrayList ();

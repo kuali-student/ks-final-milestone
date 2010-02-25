@@ -34,11 +34,11 @@ import org.kuali.student.dictionary.writer.orch.OrchestrationObjectsWriter;
  *
  * @author nwright
  */
-public class OrchestrationObjectsWriterToComponentSandboxTest implements
+public class OrchestrationObjectsWriterToComponentSandboxRun implements
  RunConstants
 {
 
- public OrchestrationObjectsWriterToComponentSandboxTest ()
+ public OrchestrationObjectsWriterToComponentSandboxRun ()
  {
  }
 

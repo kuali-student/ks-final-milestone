@@ -15,44 +15,43 @@
  */
 package org.kuali.student.dictionary.command.run;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.kuali.student.dictionary.model.impl.DictionaryModelCache;
 import org.kuali.student.dictionary.model.impl.DictionaryModelLoader;
 import org.kuali.student.dictionary.model.DictionaryModel;
 import org.kuali.student.dictionary.model.spreadsheet.ExcelSpreadsheetReader;
 import org.kuali.student.dictionary.model.spreadsheet.SpreadsheetReader;
+import java.util.ArrayList;
+import java.util.List;
 import org.kuali.student.dictionary.model.spreadsheet.CompositeSpreadsheetReader;
-import org.kuali.student.dictionary.writer.service.ServicesWriter;
+import org.kuali.student.dictionary.model.util.DictionaryParentSetter;
+import org.kuali.student.dictionary.writer.dict.DictionaryModelWriter;
 
 /**
  *
  * @author nwright
  */
-public class ServicesWriterToComponentSandboxTest implements
- RunConstants
+public class DictionaryModelWriterRun implements RunConstants
 {
 
- public ServicesWriterToComponentSandboxTest ()
+ public DictionaryModelWriterRun ()
  {
  }
 
-  public static void main (String[] args)
+ public static void main (String[] args)
  {
-  System.out.println ("write");
+  System.out.println ("writeExcelDictionary");
   List<SpreadsheetReader> list = new ArrayList ();
   list.add (new ExcelSpreadsheetReader (TYPE_STATE_DICTIONARY_EXCEL_FILE));
-  list.add (new ExcelSpreadsheetReader (ORCHESTRATION_DICTIONARY_EXCEL_FILE));
   list.add (new ExcelSpreadsheetReader (SERVICES_EXCEL_FILE));
-  list.add (new ExcelSpreadsheetReader (SERVICE_METHODS_EXCEL_FILE));
   SpreadsheetReader reader = new CompositeSpreadsheetReader (list);
   try
   {
-   DictionaryModelLoader loader =
-    new DictionaryModelLoader (reader);
-   DictionaryModel model = new DictionaryModelCache (loader);
-   ServicesWriter instance =
-    new ServicesWriter (model, COMPONENT_SANDBOX_DIRECTORY_TO_WRITE_JAVA, null);
+   DictionaryModelLoader loader = new DictionaryModelLoader (reader);
+   DictionaryModel cache = new DictionaryModelCache (loader);
+   DictionaryParentSetter setter = new DictionaryParentSetter (cache);
+   setter.set ();
+   DictionaryModelWriter instance =
+    new DictionaryModelWriter (RESOURCES_DIRECTORY, cache);
    instance.write ();
   }
   finally

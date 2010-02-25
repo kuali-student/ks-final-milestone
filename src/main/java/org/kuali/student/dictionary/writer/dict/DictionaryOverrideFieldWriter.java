@@ -68,6 +68,52 @@ public class DictionaryOverrideFieldWriter
   return dict;
  }
 
+ protected Type getMainType ()
+ {
+  if (this.parentObject.getParentField () == null)
+  {
+   return type;
+  }
+  return this.parentObject.getParentField ().getMainType ();
+ }
+
+ protected State getMainState ()
+ {
+  if (this.parentObject.getParentField () == null)
+  {
+   return state;
+  }
+  return this.parentObject.getParentField ().getMainState ();
+ }
+
+ protected Type getSubType ()
+ {
+  if (this.parentObject.getParentField () == null)
+  {
+   return finder.getDefaultType ();
+  }
+  XmlType xmlType = finder.findXmlType (field.getXmlObject ());
+  if (xmlType.hasOwnType ())
+  {
+   return type;
+  }
+  return this.parentObject.getParentField ().getSubType ();
+ }
+
+ protected State getSubState ()
+ {
+  if (this.parentObject.getParentField () == null)
+  {
+   return finder.getDefaultState ();
+  }
+  XmlType xmlType = finder.findXmlType (field.getXmlObject ());
+  if (xmlType.hasOwnState ())
+  {
+   return state;
+  }
+  return this.parentObject.getParentField ().getSubState ();
+ }
+
  protected Type getType ()
  {
   return type;

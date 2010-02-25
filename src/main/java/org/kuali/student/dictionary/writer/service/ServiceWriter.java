@@ -69,16 +69,16 @@ public class ServiceWriter
   System.out.println ("Generating services API's for " + service.getKey ());
   new ServiceMethodsWriter (model, directory, service, methods).write ();
 
-  // the info's
+  // the beans's
   System.out.println ("Generating info interfaces");
   for (XmlType xmlType : getXmlTypesUsedByService (methods))
   {
-   System.out.println ("Generating DTO interface for " + xmlType.getName ());
-   new ServiceDTOWriter (model, directory, service, xmlType).write ();
+   System.out.println ("Generating Beans for " + xmlType.getName ());
+   new ServiceBeanWriter (model, directory, service, xmlType).write ();
   }
 
-    // the DTO's
-  System.out.println ("Generating DTOs");
+    // the Info interfaces's
+  System.out.println ("Generating Info interfaces");
   for (XmlType xmlType : getXmlTypesUsedByService (methods))
   {
    System.out.println ("Generating info interface for " + xmlType.getName ());

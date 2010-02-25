@@ -25,10 +25,10 @@ import org.kuali.student.dictionary.writer.dict.DictionaryModelWriter;
  *
  * @author nwright
  */
-public class GoogleDictionaryModelWriterTest implements RunConstants
+public class GoogleDictionaryModelWriterRun implements RunConstants
 {
 
- public GoogleDictionaryModelWriterTest ()
+ public GoogleDictionaryModelWriterRun ()
  {
  }
 

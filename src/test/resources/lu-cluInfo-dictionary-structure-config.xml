@@ -7,7 +7,7 @@ http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/d
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 ">
 <!-- *** Automatically Generated ***
-on: Fri Feb 19 11:16:16 EST 2010
+on: Thu Feb 25 08:59:07 EST 2010
 by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
 Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
  -->
@@ -2100,310 +2100,310 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- ***************************************************************************** -->
 
 <dict:state key="*" id="state.field.cluInfo.feeInfo.abstract" abstract="true">
-	<dict:fieldRef bean="field.cluInfo.feeInfo.cluFeeRecordInfoList"/>
+	<dict:fieldRef bean="field.cluInfo.feeInfo.cluFeeRecords"/>
 </dict:state>
 <dict:state key="*" id="state.field.cluInfo.feeInfo" parent="state.field.cluInfo.feeInfo.abstract"/>
 
 
-<dict:field key="cluFeeRecordInfoList" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecordInfoList.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecordInfoList.cd"/>
+<dict:field key="cluFeeRecords" id="field.cluInfo.feeInfo.cluFeeRecords.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecords.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecords.cd"/>
 </dict:field>
-<dict:field key="cluFeeRecordInfoList" id="field.cluInfo.feeInfo.cluFeeRecordInfoList" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.abstract"/>
-<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.fd.abstract" abstract="true">
+<dict:field key="cluFeeRecords" id="field.cluInfo.feeInfo.cluFeeRecords" parent="field.cluInfo.feeInfo.cluFeeRecords.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.fd.abstract" abstract="true">
 	<dict:name>List of CLU Fee Records</dict:name>
 	<dict:desc>List of clu fee records</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-		<dict:objectStructureRef bean="object.field.cluInfo.feeInfo.cluFeeRecordInfoList"/>
+		<dict:objectStructureRef bean="object.field.cluInfo.feeInfo.cluFeeRecords"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.fd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.fd" parent="field.cluInfo.feeInfo.cluFeeRecords.fd.abstract"/>
 <!-- Optional; Repeating -->
-<dict:constraintDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.cd.abstract" abstract="true">
+<dict:constraintDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.repeating"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="cluFeeRecordInfoList" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.cd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.cd.abstract"/>
+<dict:constraintDescriptor key="cluFeeRecords" id="field.cluInfo.feeInfo.cluFeeRecords.cd" parent="field.cluInfo.feeInfo.cluFeeRecords.cd.abstract"/>
 
-<!-- ************************************************************************************************************** -->
-<!-- object structure for object.field.cluInfo.feeInfo.(default).(default).cluFeeRecordInfoList.(default).(default) -->
-<!-- ************************************************************************************************************** -->
+<!-- ******************************************************************************************************* -->
+<!-- object structure for object.field.cluInfo.feeInfo.(default).(default).cluFeeRecords.(default).(default) -->
+<!-- ******************************************************************************************************* -->
 <!-- Information about a fee related to a clu. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeRecordInfo" id="object.field.cluInfo.feeInfo.cluFeeRecordInfoList.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.feeInfo.cluFeeRecordInfoList"/>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeRecordInfo" id="object.field.cluInfo.feeInfo.cluFeeRecords.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.feeInfo.cluFeeRecords"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeRecordInfo" id="object.field.cluInfo.feeInfo.cluFeeRecordInfoList" parent="object.field.cluInfo.feeInfo.cluFeeRecordInfoList.abstract"/>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeRecordInfo" id="object.field.cluInfo.feeInfo.cluFeeRecords" parent="object.field.cluInfo.feeInfo.cluFeeRecords.abstract"/>
 
-<dict:type key="*" id="type.field.cluInfo.feeInfo.cluFeeRecordInfoList.abstract" abstract="true">
+<dict:type key="*" id="type.field.cluInfo.feeInfo.cluFeeRecords.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
 	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-	<dict:stateRef bean="state.field.cluInfo.feeInfo.cluFeeRecordInfoList"/>
+	<dict:stateRef bean="state.field.cluInfo.feeInfo.cluFeeRecords"/>
 </dict:type>
-<dict:type key="*" id="type.field.cluInfo.feeInfo.cluFeeRecordInfoList" parent="type.field.cluInfo.feeInfo.cluFeeRecordInfoList.abstract"/>
+<dict:type key="*" id="type.field.cluInfo.feeInfo.cluFeeRecords" parent="type.field.cluInfo.feeInfo.cluFeeRecords.abstract"/>
 
-<!-- ********************************************************************************************************************** -->
-<!-- State for state.field.cluInfo.feeInfo.(default).(default).cluFeeRecordInfoList.(default).(default).(default).(default) -->
-<!-- ********************************************************************************************************************** -->
+<!-- *************************************************************************************************************** -->
+<!-- State for state.field.cluInfo.feeInfo.(default).(default).cluFeeRecords.(default).(default).(default).(default) -->
+<!-- *************************************************************************************************************** -->
 
-<dict:state key="*" id="state.field.cluInfo.feeInfo.cluFeeRecordInfoList.abstract" abstract="true">
-	<dict:fieldRef bean="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeType"/>
-	<dict:fieldRef bean="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount"/>
-	<dict:fieldRef bean="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList"/>
-	<dict:fieldRef bean="field.cluInfo.feeInfo.cluFeeRecordInfoList.id"/>
+<dict:state key="*" id="state.field.cluInfo.feeInfo.cluFeeRecords.abstract" abstract="true">
+	<dict:fieldRef bean="field.cluInfo.feeInfo.cluFeeRecords.feeType"/>
+	<dict:fieldRef bean="field.cluInfo.feeInfo.cluFeeRecords.feeAmount"/>
+	<dict:fieldRef bean="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList"/>
+	<dict:fieldRef bean="field.cluInfo.feeInfo.cluFeeRecords.id"/>
 </dict:state>
-<dict:state key="*" id="state.field.cluInfo.feeInfo.cluFeeRecordInfoList" parent="state.field.cluInfo.feeInfo.cluFeeRecordInfoList.abstract"/>
+<dict:state key="*" id="state.field.cluInfo.feeInfo.cluFeeRecords" parent="state.field.cluInfo.feeInfo.cluFeeRecords.abstract"/>
 
 
-<dict:field key="feeType" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeType.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeType.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeType.cd"/>
+<dict:field key="feeType" id="field.cluInfo.feeInfo.cluFeeRecords.feeType.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecords.feeType.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecords.feeType.cd"/>
 </dict:field>
-<dict:field key="feeType" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeType" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeType.abstract"/>
-<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeType.fd.abstract" abstract="true">
+<dict:field key="feeType" id="field.cluInfo.feeInfo.cluFeeRecords.feeType" parent="field.cluInfo.feeInfo.cluFeeRecords.feeType.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.feeType.fd.abstract" abstract="true">
 	<dict:name>Fee Type</dict:name>
 	<dict:desc>Any finite sequence of characters with letters, numerals, symbols and punctuation marks. The length can be any natural number between zero or any positive integer.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeType.fd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeType.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.feeType.fd" parent="field.cluInfo.feeInfo.cluFeeRecords.feeType.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Alphanumeric code, hypen and period. -->
-<dict:constraintDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeType.cd.abstract" abstract="true">
+<dict:constraintDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.feeType.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.code"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="feeType" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeType.cd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeType.cd.abstract"/>
+<dict:constraintDescriptor key="feeType" id="field.cluInfo.feeInfo.cluFeeRecords.feeType.cd" parent="field.cluInfo.feeInfo.cluFeeRecords.feeType.cd.abstract"/>
 
-<dict:field key="feeAmount" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.cd"/>
+<dict:field key="feeAmount" id="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.cd"/>
 </dict:field>
-<dict:field key="feeAmount" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.abstract"/>
-<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.fd.abstract" abstract="true">
+<dict:field key="feeAmount" id="field.cluInfo.feeInfo.cluFeeRecords.feeAmount" parent="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.fd.abstract" abstract="true">
 	<dict:name>Fee Amount</dict:name>
 	<dict:desc>The page currencyAmount Structure does not exist.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-		<dict:objectStructureRef bean="object.field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount"/>
+		<dict:objectStructureRef bean="object.field.cluInfo.feeInfo.cluFeeRecords.feeAmount"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.fd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.fd" parent="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating) -->
-<dict:constraintDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.cd.abstract" abstract="true">
+<dict:constraintDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="feeAmount" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.cd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.cd.abstract"/>
+<dict:constraintDescriptor key="feeAmount" id="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.cd" parent="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.cd.abstract"/>
 
-<!-- ******************************************************************************************************************************************** -->
-<!-- object structure for object.field.cluInfo.feeInfo.(default).(default).cluFeeRecordInfoList.(default).(default).feeAmount.(default).(default) -->
-<!-- ******************************************************************************************************************************************** -->
+<!-- ************************************************************************************************************************************* -->
+<!-- object structure for object.field.cluInfo.feeInfo.(default).(default).cluFeeRecords.(default).(default).feeAmount.(default).(default) -->
+<!-- ************************************************************************************************************************************* -->
 <!-- Detailed information about an amount of currency including both the type of units and the quantity. -->
-<dict:objectStructure key="org.kuali.student.core.dto.CurrencyAmountInfo" id="object.field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount"/>
+<dict:objectStructure key="org.kuali.student.core.dto.CurrencyAmountInfo" id="object.field.cluInfo.feeInfo.cluFeeRecords.feeAmount.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.feeInfo.cluFeeRecords.feeAmount"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.CurrencyAmountInfo" id="object.field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount" parent="object.field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.abstract"/>
+<dict:objectStructure key="org.kuali.student.core.dto.CurrencyAmountInfo" id="object.field.cluInfo.feeInfo.cluFeeRecords.feeAmount" parent="object.field.cluInfo.feeInfo.cluFeeRecords.feeAmount.abstract"/>
 
-<dict:type key="*" id="type.field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.abstract" abstract="true">
+<dict:type key="*" id="type.field.cluInfo.feeInfo.cluFeeRecords.feeAmount.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
 	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-	<dict:stateRef bean="state.field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount"/>
+	<dict:stateRef bean="state.field.cluInfo.feeInfo.cluFeeRecords.feeAmount"/>
 </dict:type>
-<dict:type key="*" id="type.field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount" parent="type.field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.abstract"/>
+<dict:type key="*" id="type.field.cluInfo.feeInfo.cluFeeRecords.feeAmount" parent="type.field.cluInfo.feeInfo.cluFeeRecords.feeAmount.abstract"/>
 
-<!-- **************************************************************************************************************************************************** -->
-<!-- State for state.field.cluInfo.feeInfo.(default).(default).cluFeeRecordInfoList.(default).(default).feeAmount.(default).(default).(default).(default) -->
-<!-- **************************************************************************************************************************************************** -->
+<!-- ********************************************************************************************************************************************* -->
+<!-- State for state.field.cluInfo.feeInfo.(default).(default).cluFeeRecords.(default).(default).feeAmount.(default).(default).(default).(default) -->
+<!-- ********************************************************************************************************************************************* -->
 
-<dict:state key="*" id="state.field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.abstract" abstract="true">
-	<dict:fieldRef bean="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.currencyTypeKey"/>
-	<dict:fieldRef bean="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.currencyQuantity"/>
+<dict:state key="*" id="state.field.cluInfo.feeInfo.cluFeeRecords.feeAmount.abstract" abstract="true">
+	<dict:fieldRef bean="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.currencyTypeKey"/>
+	<dict:fieldRef bean="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.currencyQuantity"/>
 </dict:state>
-<dict:state key="*" id="state.field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount" parent="state.field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.abstract"/>
+<dict:state key="*" id="state.field.cluInfo.feeInfo.cluFeeRecords.feeAmount" parent="state.field.cluInfo.feeInfo.cluFeeRecords.feeAmount.abstract"/>
 
 
-<dict:field key="currencyTypeKey" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.currencyTypeKey.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.currencyTypeKey.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.currencyTypeKey.cd"/>
+<dict:field key="currencyTypeKey" id="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.currencyTypeKey.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.currencyTypeKey.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.currencyTypeKey.cd"/>
 </dict:field>
-<dict:field key="currencyTypeKey" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.currencyTypeKey" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.currencyTypeKey.abstract"/>
-<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.currencyTypeKey.fd.abstract" abstract="true">
+<dict:field key="currencyTypeKey" id="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.currencyTypeKey" parent="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.currencyTypeKey.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.currencyTypeKey.fd.abstract" abstract="true">
 	<dict:name>currencyTypeKey</dict:name>
 	<dict:desc>The kind of units associated with the quantity, such as US Dollars</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.currencyTypeKey.fd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.currencyTypeKey.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.currencyTypeKey.fd" parent="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.currencyTypeKey.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); In list of configured currency types -->
-<dict:constraintDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.currencyTypeKey.cd.abstract" abstract="true">
+<dict:constraintDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.currencyTypeKey.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.currency.types"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="currencyTypeKey" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.currencyTypeKey.cd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.currencyTypeKey.cd.abstract"/>
+<dict:constraintDescriptor key="currencyTypeKey" id="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.currencyTypeKey.cd" parent="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.currencyTypeKey.cd.abstract"/>
 
 <!-- services has this flagged as mandatory but don't think it shoujld be because you may have picked the type of currency but not entered the amount yet.  Think of setting up a template where the type of currency is defaulted. -->
-<dict:field key="currencyQuantity" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.currencyQuantity.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.currencyQuantity.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.currencyQuantity.cd"/>
+<dict:field key="currencyQuantity" id="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.currencyQuantity.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.currencyQuantity.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.currencyQuantity.cd"/>
 </dict:field>
-<dict:field key="currencyQuantity" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.currencyQuantity" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.currencyQuantity.abstract"/>
-<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.currencyQuantity.fd.abstract" abstract="true">
+<dict:field key="currencyQuantity" id="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.currencyQuantity" parent="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.currencyQuantity.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.currencyQuantity.fd.abstract" abstract="true">
 	<dict:name>currency Quantity</dict:name>
 	<dict:desc>The amount of currency</dict:desc>
 	<dict:dataType>integer</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.currencyQuantity.fd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.currencyQuantity.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.currencyQuantity.fd" parent="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.currencyQuantity.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Integer -->
-<dict:constraintDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.currencyQuantity.cd.abstract" abstract="true">
+<dict:constraintDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.currencyQuantity.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.integer"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="currencyQuantity" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.currencyQuantity.cd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.feeAmount.currencyQuantity.cd.abstract"/>
+<dict:constraintDescriptor key="currencyQuantity" id="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.currencyQuantity.cd" parent="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.currencyQuantity.cd.abstract"/>
 
-<dict:field key="affiliatedOrgInfoList" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.cd"/>
+<dict:field key="affiliatedOrgInfoList" id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.cd"/>
 </dict:field>
-<dict:field key="affiliatedOrgInfoList" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.abstract"/>
-<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.fd.abstract" abstract="true">
+<dict:field key="affiliatedOrgInfoList" id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList" parent="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.fd.abstract" abstract="true">
 	<dict:name>List of Affiliated Orgs</dict:name>
 	<dict:desc>List of affiliated organizations.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-		<dict:objectStructureRef bean="object.field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList"/>
+		<dict:objectStructureRef bean="object.field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.fd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.fd.abstract"/>
-<!-- Optional; Single valued (non-repeating) -->
-<dict:constraintDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.cd.abstract" abstract="true">
+<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.fd" parent="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.fd.abstract"/>
+<!-- Optional; Repeating -->
+<dict:constraintDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
-	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.repeating"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="affiliatedOrgInfoList" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.cd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.cd.abstract"/>
+<dict:constraintDescriptor key="affiliatedOrgInfoList" id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.cd" parent="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.cd.abstract"/>
 
-<!-- ******************************************************************************************************************************************************** -->
-<!-- object structure for object.field.cluInfo.feeInfo.(default).(default).cluFeeRecordInfoList.(default).(default).affiliatedOrgInfoList.(default).(default) -->
-<!-- ******************************************************************************************************************************************************** -->
+<!-- ************************************************************************************************************************************************* -->
+<!-- object structure for object.field.cluInfo.feeInfo.(default).(default).cluFeeRecords.(default).(default).affiliatedOrgInfoList.(default).(default) -->
+<!-- ************************************************************************************************************************************************* -->
 <!-- Information about an organization that is affiliated in some percentage with a learning unit. For when precision is needed to support counts or dollars. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AffiliatedOrgInfo" id="object.field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList"/>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.AffiliatedOrgInfo" id="object.field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AffiliatedOrgInfo" id="object.field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList" parent="object.field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.abstract"/>
+<dict:objectStructure key="org.kuali.student.lum.lu.dto.AffiliatedOrgInfo" id="object.field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList" parent="object.field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.abstract"/>
 
-<dict:type key="*" id="type.field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.abstract" abstract="true">
+<dict:type key="*" id="type.field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
 	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-	<dict:stateRef bean="state.field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList"/>
+	<dict:stateRef bean="state.field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList"/>
 </dict:type>
-<dict:type key="*" id="type.field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList" parent="type.field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.abstract"/>
+<dict:type key="*" id="type.field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList" parent="type.field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.abstract"/>
 
-<!-- **************************************************************************************************************************************************************** -->
-<!-- State for state.field.cluInfo.feeInfo.(default).(default).cluFeeRecordInfoList.(default).(default).affiliatedOrgInfoList.(default).(default).(default).(default) -->
-<!-- **************************************************************************************************************************************************************** -->
+<!-- ********************************************************************************************************************************************************* -->
+<!-- State for state.field.cluInfo.feeInfo.(default).(default).cluFeeRecords.(default).(default).affiliatedOrgInfoList.(default).(default).(default).(default) -->
+<!-- ********************************************************************************************************************************************************* -->
 
-<dict:state key="*" id="state.field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.abstract" abstract="true">
-	<dict:fieldRef bean="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.orgId"/>
-	<dict:fieldRef bean="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.effectiveDate"/>
-	<dict:fieldRef bean="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.expirationDate"/>
-	<dict:fieldRef bean="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.percentage"/>
+<dict:state key="*" id="state.field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.abstract" abstract="true">
+	<dict:fieldRef bean="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.orgId"/>
+	<dict:fieldRef bean="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.effectiveDate"/>
+	<dict:fieldRef bean="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.expirationDate"/>
+	<dict:fieldRef bean="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.percentage"/>
 </dict:state>
-<dict:state key="*" id="state.field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList" parent="state.field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.abstract"/>
+<dict:state key="*" id="state.field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList" parent="state.field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.abstract"/>
 
 
-<dict:field key="orgId" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.orgId.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.orgId.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.orgId.cd"/>
+<dict:field key="orgId" id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.orgId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.orgId.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.orgId.cd"/>
 </dict:field>
-<dict:field key="orgId" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.orgId" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.orgId.abstract"/>
-<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.orgId.fd.abstract" abstract="true">
+<dict:field key="orgId" id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.orgId" parent="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.orgId.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.orgId.fd.abstract" abstract="true">
 	<dict:name>Organization Identifier</dict:name>
 	<dict:desc>Unique identifier for an organization.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.orgId.fd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.orgId.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.orgId.fd" parent="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.orgId.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Id of an existing ORG -->
-<dict:constraintDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.orgId.cd.abstract" abstract="true">
+<dict:constraintDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.orgId.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.related.orgId"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="orgId" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.orgId.cd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.orgId.cd.abstract"/>
+<dict:constraintDescriptor key="orgId" id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.orgId.cd" parent="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.orgId.cd.abstract"/>
 
-<dict:field key="effectiveDate" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.effectiveDate.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.effectiveDate.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.effectiveDate.cd"/>
+<dict:field key="effectiveDate" id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.effectiveDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.effectiveDate.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.effectiveDate.cd"/>
 </dict:field>
-<dict:field key="effectiveDate" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.effectiveDate" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.effectiveDate.abstract"/>
-<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.effectiveDate.fd.abstract" abstract="true">
+<dict:field key="effectiveDate" id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.effectiveDate" parent="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.effectiveDate.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.effectiveDate.fd.abstract" abstract="true">
 	<dict:name>effectiveDate</dict:name>
 	<dict:desc>Specifies a date with no time component.</dict:desc>
 	<dict:dataType>date</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.effectiveDate.fd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.effectiveDate.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.effectiveDate.fd" parent="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.effectiveDate.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Date -->
-<dict:constraintDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.effectiveDate.cd.abstract" abstract="true">
+<dict:constraintDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.effectiveDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="effectiveDate" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.effectiveDate.cd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.effectiveDate.cd.abstract"/>
+<dict:constraintDescriptor key="effectiveDate" id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.effectiveDate.cd" parent="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.effectiveDate.cd.abstract"/>
 
-<dict:field key="expirationDate" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.expirationDate.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.expirationDate.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.expirationDate.cd"/>
+<dict:field key="expirationDate" id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.expirationDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.expirationDate.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.expirationDate.cd"/>
 </dict:field>
-<dict:field key="expirationDate" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.expirationDate" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.expirationDate.abstract"/>
-<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.expirationDate.fd.abstract" abstract="true">
+<dict:field key="expirationDate" id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.expirationDate" parent="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.expirationDate.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.expirationDate.fd.abstract" abstract="true">
 	<dict:name>expirationDate</dict:name>
 	<dict:desc>Specifies a date with no time component.</dict:desc>
 	<dict:dataType>date</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.expirationDate.fd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.expirationDate.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.expirationDate.fd" parent="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.expirationDate.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Date -->
-<dict:constraintDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.expirationDate.cd.abstract" abstract="true">
+<dict:constraintDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.expirationDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="expirationDate" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.expirationDate.cd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.expirationDate.cd.abstract"/>
+<dict:constraintDescriptor key="expirationDate" id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.expirationDate.cd" parent="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.expirationDate.cd.abstract"/>
 
 <!-- services has this as mandatory but I don't think it should be flagged as such so I didn't make it required -->
-<dict:field key="percentage" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.percentage.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.percentage.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.percentage.cd"/>
+<dict:field key="percentage" id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.percentage.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.percentage.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.percentage.cd"/>
 </dict:field>
-<dict:field key="percentage" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.percentage" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.percentage.abstract"/>
-<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.percentage.fd.abstract" abstract="true">
+<dict:field key="percentage" id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.percentage" parent="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.percentage.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.percentage.fd.abstract" abstract="true">
 	<dict:name>percentage</dict:name>
 	<dict:desc>A long numeric value without a fractional component.</dict:desc>
 	<dict:dataType>long</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.percentage.fd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.percentage.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.percentage.fd" parent="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.percentage.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Integer -->
-<dict:constraintDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.percentage.cd.abstract" abstract="true">
+<dict:constraintDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.percentage.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.integer"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="percentage" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.percentage.cd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.affiliatedOrgInfoList.percentage.cd.abstract"/>
+<dict:constraintDescriptor key="percentage" id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.percentage.cd" parent="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.percentage.cd.abstract"/>
 
-<dict:field key="id" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.id.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecordInfoList.id.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecordInfoList.id.cd"/>
+<dict:field key="id" id="field.cluInfo.feeInfo.cluFeeRecords.id.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecords.id.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluInfo.feeInfo.cluFeeRecords.id.cd"/>
 </dict:field>
-<dict:field key="id" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.id" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.id.abstract"/>
-<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.id.fd.abstract" abstract="true">
+<dict:field key="id" id="field.cluInfo.feeInfo.cluFeeRecords.id" parent="field.cluInfo.feeInfo.cluFeeRecords.id.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.id.fd.abstract" abstract="true">
 	<dict:name>CLU Fee Record Identifier</dict:name>
 	<dict:desc>Identifier for the clu fee record.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.id.fd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.id.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.id.fd" parent="field.cluInfo.feeInfo.cluFeeRecords.id.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only. -->
-<dict:constraintDescriptor id="field.cluInfo.feeInfo.cluFeeRecordInfoList.id.cd.abstract" abstract="true">
+<dict:constraintDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="id" id="field.cluInfo.feeInfo.cluFeeRecordInfoList.id.cd" parent="field.cluInfo.feeInfo.cluFeeRecordInfoList.id.cd.abstract"/>
+<dict:constraintDescriptor key="id" id="field.cluInfo.feeInfo.cluFeeRecords.id.cd" parent="field.cluInfo.feeInfo.cluFeeRecords.id.cd.abstract"/>
 
 <dict:field key="accountingInfo" id="field.cluInfo.accountingInfo.abstract" abstract="true">
 	<dict:fieldDescriptorRef bean="field.cluInfo.accountingInfo.fd"/>

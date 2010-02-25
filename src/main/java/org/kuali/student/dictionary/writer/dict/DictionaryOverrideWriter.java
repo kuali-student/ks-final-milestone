@@ -805,28 +805,24 @@ public class DictionaryOverrideWriter
    return right;
   }
   right.parent = parentField.getDict ();
+  right.type = parentField.getMainType ().getName ();
+  right.state = parentField.getMainState ().getName ();
   if (xmlType.hasOwnType ())
   {
-   right.type = this.parentField.getType ().getName ();
-   right.state = this.parentField.getState ().getName ();
    right.subType = type.getName ();
-   right.subState = state.getName ();
-   return right;
   }
-  if (this.parentField.getParentObject ().getXmlType ().hasOwnCreateUpdate ())
+  else
   {
-   right.type = this.parentField.getType ().getName ();
-   right.state = this.parentField.getState ().getName ();
-   right.subType = finder.getDefaultType ().getName ();
-   right.subState = finder.getDefaultState ().getName ();
-   return right;
+   right.subType = parentField.getSubType ().getName ();
   }
-  DictionaryOverrideFieldWriter grandParent = this.parentField.getParentObject ().
-   getParentField ();
-  right.type = grandParent.getType ().getName ();
-  right.state = grandParent.getState ().getName ();
-  right.subType = this.parentField.getType ().getName ();
-  right.subState = this.parentField.getState ().getName ();
+  if (xmlType.hasOwnState ())
+  {
+   right.subState = state.getName ();
+  }
+  else
+  {
+   right.subState = parentField.getSubState ().getName ();
+  }
   return right;
  }
 

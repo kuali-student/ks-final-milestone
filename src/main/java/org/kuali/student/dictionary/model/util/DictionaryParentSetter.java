@@ -69,6 +69,11 @@ public class DictionaryParentSetter
   // objects are different so check if we are going down or up
   // if going down the hierarchy
   Field prevField = finder.findField (prev);
+  if (prevField == null)
+  {
+   throw new DictionaryExecutionException
+    ("Could not find field associated with dictionary entry with id =" + prev.getId ());
+  }
   // going down heirarchy if this sub-object is the same type of the previous field
   // because that means this field is  the 1st field of the sub-type definition
   if (calcType (prevField.getXmlType ()).equalsIgnoreCase (child.getXmlObject ()))

@@ -34,10 +34,10 @@ import org.kuali.student.dictionary.writer.orch.OrchestrationObjectsWriter;
  *
  * @author nwright
  */
-public class OrchestrationObjectsWriterToLumUITest implements RunConstants
+public class OrchestrationObjectsWriterToLumUIRun implements RunConstants
 {
 
- public OrchestrationObjectsWriterToLumUITest ()
+ public OrchestrationObjectsWriterToLumUIRun ()
  {
  }
 
