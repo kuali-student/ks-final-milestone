@@ -30,6 +30,7 @@ import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle
 import org.kuali.student.common.ui.client.widgets.suggestbox.IdableSuggestOracle.IdableSuggestion;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.LookupMetadata;
+import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.assembly.data.Data.DataValue;
 import org.kuali.student.core.assembly.data.Data.StringValue;
 import org.kuali.student.core.assembly.data.Data.Value;
@@ -185,7 +186,10 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 					else{
 						DataValue dataValue = (DataValue)value;
 						Data d = dataValue.get();
-						String v = d.query("0");
+						//final QueryPath path = new QueryPath();
+						//path.add(new Data.IntegerKey("0"));
+						QueryPath path = QueryPath.parse("0");
+						String v = d.query(path);
 						((KSSuggestBox) basicWidget).setValue((String)v, fireEvents);
 					}
 				}
@@ -207,7 +211,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 				}
 				else{
 					Data data = new Data();
-					data.set("0",((KSSuggestBox) basicWidget).getValue());
+					data.set(new Data.IntegerKey(0),((KSSuggestBox) basicWidget).getValue());
 					DataValue value = new DataValue(data);
 					return value;
 				}
