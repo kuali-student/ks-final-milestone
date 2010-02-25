@@ -509,18 +509,6 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="orgOrgRelationInfo.orgOrgRevRelation" parent="dataFieldDescriptor">
-		<property name="name" value="orgOrgRelationTypeKey" />
-		<property name="writeAccess" value="ALWAYS" />
-		<property name="onChangeRefreshMetadata"
-			value="false&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;" />
-		<property name="dataType" value="STRING" />
-		<property name="constraints">
-			<list>
-				<ref bean="constraint.single" />
-			</list>
-		</property>
-	</bean>
 	<bean id="orgOrgRelationInfo._runtimeData" parent="dataFieldDescriptor">
 		<property name="name" value="_runtimeData" />
 		<property name="writeAccess" value="NEVER" />
@@ -622,6 +610,7 @@
 				<property name="key" value="person.search.personQuickViewByGivenName" />
 				<property name="name" value="All org hierarchies" />
 				<property name="desc" value="Returns all org hierarchies, name and id" />
+				<property name="searchParamIdKey" value="person.queryParam.personId" />
 				<property name="widget" value="SUGGEST_BOX"/>
 				<property name="params">
 					<list>
@@ -634,17 +623,16 @@
 							<property name="desc" value="Name of person" />
 							<property name="caseSensitive" value="false" />
 							<property name="usage" value="DEFAULT"/>
-							<property name="widget" value="TEXT_BOX"/>
 						</bean>
 						<bean parent="param">
-							<property name="key" value="person.queryParam.personAffiliation" />
+							<property name="key" value="person.queryParam.personId" />
 							<property name="writeAccess" value="ALWAYS" />
 							<property name="dataType" value="STRING" />
-							<property name="optional" value="true" />
-							<property name="name" value="Affiliatilon Type" />
+							<property name="optional" value="false" />
+							<property name="name" value="Person Id" />
 							<property name="desc"
-								value="How the person is affiliated with the school" />
-							<property name="caseSensitive" value="true" />
+								value="Person Id" />
+							<property name="caseSensitive" value="false" />
 						</bean>
 					</list>
 				</property>
@@ -664,12 +652,32 @@
 							<property name="key" value="person.resultColumn.GivenName" />
 							<property name="name" value="Given name of person" />
 						</bean>
+						<bean parent="result">
+							<property name="dataType" value="STRING" />
+							<property name="desc" value="Entity id" />
+							<property name="hidden" value="false" />
+							<property name="key" value="person.resultColumn.EntityId" />
+							<property name="name" value="Entity Id of Person" />
+						</bean>
+						<bean parent="result">
+							<property name="dataType" value="STRING" />
+							<property name="desc" value="Principal name" />
+							<property name="hidden" value="false" />
+							<property name="key" value="person.resultColumn.PrincipalName" />
+							<property name="name" value="Principal name of person" />
+						</bean>
+						<bean parent="result">
+							<property name="dataType" value="STRING" />
+							<property name="desc" value="Display Name" />
+							<property name="hidden" value="false" />
+							<property name="key" value="person.resultColumn.DisplayName" />
+							<property name="name" value="Display name of person" />
+						</bean>
 					</list>
 				</property>
 				<property name="resultReturnKey" value="person.resultColumn.PersonId" />
-				<property name="resultDisplayKey" value="person.resultColumn.PersonId" />
-				<property name="resultSortKey" value="person.resultColumn.PersonId" />
-				<property name="usage" value="DEFAULT" />
+				<property name="resultDisplayKey" value="person.resultColumn.DisplayName" />
+				<property name="resultSortKey" value="person.resultColumn.DisplayName" />
 				<property name="lookupKey" value="kuali.lookup.people" />
 			</bean>
 		</property>
@@ -694,14 +702,16 @@
 							<property name="widget" value="TEXT_BOX"/>
 						</bean>
 						<bean parent="param">
-							<property name="key" value="person.queryParam.personAffiliation" />
+							<property name="key" value="person.queryParam.personId" />
 							<property name="writeAccess" value="ALWAYS" />
 							<property name="dataType" value="STRING" />
-							<property name="optional" value="true" />
-							<property name="name" value="Affiliatilon Type" />
+							<property name="optional" value="false" />
+							<property name="name" value="Person Id" />
 							<property name="desc"
-								value="How the person is affiliated with the school" />
-							<property name="caseSensitive" value="true" />
+								value="Person Id" />
+							<property name="usage" value="ADVANCED"/>
+							<property name="caseSensitive" value="false" />
+							<property name="widget" value="TEXT_BOX"/>
 						</bean>
 					</list>
 				</property>
@@ -716,16 +726,37 @@
 						</bean>
 						<bean parent="result">
 							<property name="dataType" value="STRING" />
-							<property name="desc" value="Given Name" />
+							<property name="desc" value="Internal id" />
 							<property name="hidden" value="false" />
 							<property name="key" value="person.resultColumn.GivenName" />
 							<property name="name" value="Given name of person" />
 						</bean>
+						<bean parent="result">
+							<property name="dataType" value="STRING" />
+							<property name="desc" value="Entity id" />
+							<property name="hidden" value="false" />
+							<property name="key" value="person.resultColumn.EntityId" />
+							<property name="name" value="Entity Id of Person" />
+						</bean>
+						<bean parent="result">
+							<property name="dataType" value="STRING" />
+							<property name="desc" value="Principal name" />
+							<property name="hidden" value="false" />
+							<property name="key" value="person.resultColumn.PrincipalName" />
+							<property name="name" value="Principal name of person" />
+						</bean>
+						<bean parent="result">
+							<property name="dataType" value="STRING" />
+							<property name="desc" value="Display Name" />
+							<property name="hidden" value="false" />
+							<property name="key" value="person.resultColumn.DisplayName" />
+							<property name="name" value="Display name of person" />
+						</bean>
 					</list>
 				</property>
-				<property name="resultReturnKey" value="person.resultColumn.GivenName" />
-				<property name="resultDisplayKey" value="person.resultColumn.PersonId" />
-				<property name="resultSortKey" value="person.resultColumn.PersonId" />
+				<property name="resultReturnKey" value="person.resultColumn.PersonId" />
+				<property name="resultDisplayKey" value="person.resultColumn.DisplayName" />
+				<property name="resultSortKey" value="person.resultColumn.DisplayName" />
 				<property name="usage" value="DEFAULT" />
 				<property name="lookupKey" value="kuali.lookup.people" />
 			</bean>
@@ -742,6 +773,18 @@
 			<list>
 				<ref bean="constraint.single" />
 				<ref bean="constraint.required" />
+			</list>
+		</property>
+	</bean>
+	<bean id="orgPersonRelationInfo.personName" parent="dataFieldDescriptor">
+		<property name="name" value="personName" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata"
+			value="false&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;" />
+		<property name="dataType" value="STRING" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
 			</list>
 		</property>
 	</bean>
