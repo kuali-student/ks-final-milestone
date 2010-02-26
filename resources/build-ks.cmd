@@ -1,3 +1,6 @@
+date /t
+time /t
+
 cd ..\..\ks-security-dev
 svn update
 call mvn -Dmaven.test.skip=true -o -Pkuali-developer-properties -Dks.gwt.compile.phase=none clean install
@@ -16,6 +19,9 @@ call mvn -Dmaven.test.skip=true -o -Pkuali-developer-properties -Dks.gwt.compile
 
 cd ..\ks-web-dev\ks-embedded
 svn update
-call mvn -Dmaven.test.skip=true -o -Pkuali-developer-properties -Dks.gwt.compile.phase=none clean install
+call mvn -Dmaven.test.skip=true -o -Pkuali-developer-properties clean install
 
 cd ..\..\maven\resources
+
+date /t
+time /t
