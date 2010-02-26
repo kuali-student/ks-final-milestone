@@ -76,7 +76,7 @@ public interface OrgRpcService extends RemoteService, BaseRpcService {
     public DataSaveResult saveOrgProposal(Data proposal) throws AssemblyException;
     public Metadata getOrgMetaData();
     public SectionConfigInfo getSectionConfig();
-    public Data fetchOrg(Data orgSearch);
+    public Data fetchOrg(String orgId);
     public List<OrgPositionPersonRelationInfo> getOrgPositionPersonRelation(String orgId);
 
 }

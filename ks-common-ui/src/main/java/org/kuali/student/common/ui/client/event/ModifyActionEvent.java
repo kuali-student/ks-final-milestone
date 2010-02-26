@@ -11,7 +11,15 @@ public class ModifyActionEvent extends ActionEvent<ModifyActionHandler> implemen
     private ActionState actionState;
     private String message = "Fetching";
     private boolean acknowledgeRequired = true;
+    private String id;
     
+    public ModifyActionEvent(){
+    }
+    
+    public ModifyActionEvent(String id){
+        this();
+        this.id = id;
+    }
     
     @Override
     protected void dispatch(ModifyActionHandler handler) {
@@ -47,5 +55,13 @@ public class ModifyActionEvent extends ActionEvent<ModifyActionHandler> implemen
 
     public void setAcknowledgeRequired(boolean acknowledgeRequired) {
         this.acknowledgeRequired = acknowledgeRequired;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

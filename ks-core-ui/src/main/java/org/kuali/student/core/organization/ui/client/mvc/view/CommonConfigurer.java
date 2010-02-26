@@ -125,7 +125,7 @@ public class CommonConfigurer {
                                 widget = getOrgAdvanceSearch();
                             }
                             if (field.getWidget().equals("OrgLocateTree")) {
-                                widget = new OrgLocateTree();
+                                widget = new OrgLocateTree(section);
                             }
                             if (field.getWidget().equals("PositionTable")) {
                                 positionTable = new PositionTable();

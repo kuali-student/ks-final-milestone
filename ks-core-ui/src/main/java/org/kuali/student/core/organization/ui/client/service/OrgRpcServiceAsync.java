@@ -69,6 +69,6 @@ public interface OrgRpcServiceAsync extends BaseRpcServiceAsync {
 	public void saveOrgProposal(Data proposal, AsyncCallback<DataSaveResult> callback);
 	public void getOrgMetaData(AsyncCallback<Metadata> callback);
 	public void getSectionConfig(AsyncCallback<SectionConfigInfo> callback);
-	public void fetchOrg(Data orgSearch,AsyncCallback<Data> callback);
+	public void fetchOrg(String orgId,AsyncCallback<Data> callback);
 	public void getOrgPositionPersonRelation(String orgId, AsyncCallback<List<OrgPositionPersonRelationInfo>> callback);
 }

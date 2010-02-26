@@ -147,7 +147,7 @@ public class OrgProposalController extends TabbedSectionLayout{
     private KSButton getModifyButton(){
         return new KSButton("Modify", new ClickHandler(){
                     public void onClick(ClickEvent event) {
-                        fireApplicationEvent(new ModifyActionEvent());
+                        fireApplicationEvent(new ModifyActionEvent((String)orgProposalModel.get("orgInfo/id")));
                     }
                 });
     }
@@ -371,7 +371,7 @@ public class OrgProposalController extends TabbedSectionLayout{
 
 	            View tempView2 = getView(CommonConfigurer.SectionsEnum.ORG_INFO);
 	            
-	            getCurrentView().updateModel();
+	            //getCurrentView().updateModel();
 	            
 	            System.out.println(" model updated ");
 	            fetchProposalOrg(modifyActionEvent);
@@ -380,7 +380,7 @@ public class OrgProposalController extends TabbedSectionLayout{
 	        }
 	       public void fetchProposalOrg(final ModifyActionEvent modifyActionEvent) {
 
-	           orgProposalRpcServiceAsync.fetchOrg(orgProposalModel.getRoot(), new AsyncCallback<Data>() {
+	           orgProposalRpcServiceAsync.fetchOrg(modifyActionEvent.getId(), new AsyncCallback<Data>() {
 	               public void onFailure(Throwable caught) {
 	                   GWT.log("Fetch Failed.", caught);
 	                   // saveWindow.setWidget(buttonGroup);

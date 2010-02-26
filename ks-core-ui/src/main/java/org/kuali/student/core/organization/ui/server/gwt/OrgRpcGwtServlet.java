@@ -667,11 +667,11 @@ public class OrgRpcGwtServlet extends BaseRpcGwtServletAbstract<OrganizationServ
     }
 
     @Override
-    public Data fetchOrg(Data orgSearch) {
+    public Data fetchOrg(String orgId) {
         try {
             initAssemblers();
-            OrgSearchHelper orgSearchHelper = OrgSearchHelper.wrap((Data)orgSearch.get("orgSearchInfo"));
-            String orgId = orgSearchHelper.getOrgId();
+            //OrgSearchHelper orgSearchHelper = OrgSearchHelper.wrap((Data)orgSearch.get("orgSearchInfo"));
+            //String orgId = orgSearchHelper.getOrgId();
             return (Data)orgProposalAssembler.get(orgId);
 //            return orgProposalAssembler.getMetadata(null,"draft");
         }
