@@ -18,4 +18,4 @@ cd ..\ks-web-dev\ks-embedded
 svn update
 call mvn -Dmaven.test.skip=true -o -Pkuali-developer-properties clean install
 
-cd ..\maven\resources
+cd ..\..\maven\resources
