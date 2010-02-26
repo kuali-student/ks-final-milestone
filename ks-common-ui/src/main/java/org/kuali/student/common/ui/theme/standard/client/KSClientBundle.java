@@ -121,6 +121,8 @@ public interface KSClientBundle extends ImmutableResourceBundle{
 	public CssResource gwtDefaultCss();
 	@Resource("org/kuali/student/common/ui/theme/standard/public/css/KSSection.css")
 	public CssResource sectionCss();
+	@Resource("org/kuali/student/common/ui/theme/standard/public/css/KSPicker.css")
+	public CssResource pickerCss();
 	
 	//Reset Css
 	@Resource("org/kuali/student/common/ui/theme/standard/public/css/Reset.css")
