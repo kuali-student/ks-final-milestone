@@ -198,6 +198,7 @@ public class LuServiceAssembler extends BaseAssembler {
 		}
 		CluInfo dto = new CluInfo();
 
+		// copy all simple fields - exclude complex data types
 		BeanUtils.copyProperties(entity, dto, new String[] {
 				"officialIdentifier", "alternateIdentifiers", "descr",
 				"participatingOrgs", "primaryInstructor", "instructors",
@@ -219,7 +220,6 @@ public class LuServiceAssembler extends BaseAssembler {
 		dto.setAlternateAdminOrgs(toCluAdminOrgInfos(entity
 				.getAlternateAdminOrgs()));
 
-		dto.setExpectedFirstAtp(entity.getExpectedFirstAtp());
 		dto.setPrimaryInstructor(toCluInstructorInfo(entity
 				.getPrimaryInstructor()));
 		dto.setInstructors(toCluInstructorInfos(entity.getInstructors()));
