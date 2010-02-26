@@ -92,10 +92,10 @@ public class LookupMetadataDumper
    out.print ("\t");
    print ("required");
   }
-  if (meta.getLookupMetadata () != null)
+  if (meta.getInitialLookup () != null)
   {
    out.print (" MainLookup=");
-   dump (meta.getLookupMetadata ());
+   dump (meta.getInitialLookup ());
   }
   for (LookupMetadata lookup : meta.getAdditionalLookups ())
   {

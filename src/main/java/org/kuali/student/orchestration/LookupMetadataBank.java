@@ -1553,17 +1553,17 @@ public class LookupMetadataBank
 		}
 		if (list.size () == 0)
 		{
-			meta.setLookupMetadata (null);
+			meta.setInitialLookup (null);
 			meta.setAdditionalLookups (list);
 			return;
 		}
 		if (list.size () == 1)
 		{
-			meta.setLookupMetadata (list.get (0));
+			meta.setInitialLookup (list.get (0));
 			meta.setAdditionalLookups (new ArrayList ());
 			return;
 		}
-		meta.setLookupMetadata (list.get (0));
+		meta.setInitialLookup (list.get (0));
 		meta.setAdditionalLookups (list.subList (1, list.size ()));
 	}
 	
