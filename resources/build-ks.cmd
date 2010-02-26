@@ -1,21 +1,16 @@
 cd ..\..\ks-security-dev
-svn update
-call mvn -Dmaven.test.skip=true -o -Pkuali-developer-properties clean install
+call build-ks-module
 
 cd ..\ks-core-dev
-svn update
-call mvn -Dmaven.test.skip=true -o -Pkuali-developer-properties clean install
+call build-ks-module
 
 cd ..\brms-dev
-svn update
-call mvn -Dmaven.test.skip=true -o -Pkuali-developer-properties clean install
+call build-ks-module
 
 cd ..\ks-lum-dev
-svn update
-call mvn -Dmaven.test.skip=true -o -Pkuali-developer-properties clean install
+call build-ks-module
 
 cd ..\ks-web-dev\ks-embedded
-svn update
-call mvn -Dmaven.test.skip=true -o -Pkuali-developer-properties clean install
+call build-ks-module
 
 cd ..\..\maven\resources
