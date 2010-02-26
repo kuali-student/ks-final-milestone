@@ -393,6 +393,7 @@ public class RuleComponentEditorView extends ViewComposite {
                     editedReqComp.setType(origReqCompType); //revert possible changes to type
                 }
                 getController().showView(PrereqViews.MANAGE_RULES, Controller.NO_OP_CALLBACK);
+                //updateNLAndExit();                    	                    	
             }
         });
 
@@ -405,23 +406,13 @@ public class RuleComponentEditorView extends ViewComposite {
                     return;
                 }
 
-            	//2. check that entered values are valid
-                requirementsRpcServiceAsync.verifyFieldsAndSetIds(editedFields, new AsyncCallback<List<ReqCompFieldInfo>>() {
-                    public void onFailure(Throwable caught) {
-                        Window.alert(caught.getMessage());
-                        caught.printStackTrace();
-                    }
-
-                    public void onSuccess(final List<ReqCompFieldInfo> editedFields) { 
-                    	//3. update req. component being edited
-                        editedReqComp.setReqCompFields(editedFields);                                                                
-                        editedReqComp.setType(selectedReqType.getId());
-                        
-                        //4. create new req. component and possibly new statement if none exists yet                      
-                        editedStatementVO.addReqComponentVO(editedReqCompVO);
-                        updateNLAndExit();                    	                    	
-                    }
-                });	    	            	                    	                    
+            	//2. update req. component being edited
+                editedReqComp.setReqCompFields(editedFields);                                                                
+                editedReqComp.setType(selectedReqType.getId());
+                
+                //3. create new req. component and possibly new statement if none exists yet                      
+                editedStatementVO.addReqComponentVO(editedReqCompVO);
+                updateNLAndExit();                    	                    	
             }
         });
 
@@ -433,21 +424,11 @@ public class RuleComponentEditorView extends ViewComposite {
                     return;
                 }
 
-            	//2. check that entered values are valid
-                requirementsRpcServiceAsync.verifyFieldsAndSetIds(editedFields, new AsyncCallback<List<ReqCompFieldInfo>>() {
-                    public void onFailure(Throwable caught) {
-                        Window.alert(caught.getMessage());
-                        caught.printStackTrace();
-                    }
-
-                    public void onSuccess(final List<ReqCompFieldInfo> editedFields) { 
-                    	//3. update req. component being edited
-                        editedReqComp.setReqCompFields(editedFields);
-                        
-                        //2. update rule
-                        updateNLAndExit();                        
-                    }
-                });	                                                
+            	//2. update req. component being edited
+                editedReqComp.setReqCompFields(editedFields);
+                
+                //3. update rule
+                updateNLAndExit();                        
             }
         });
 
@@ -515,7 +496,7 @@ public class RuleComponentEditorView extends ViewComposite {
         	if (reqCompWidget.getClass().getName().contains("KSTextBox")) {
         		name = ((KSTextBox)reqCompWidget).getName();
         		value = ((KSTextBox)reqCompWidget).getText();
-        	} else if (reqCompWidget.getClass().getName().contains("KSPicker")) {
+        	} else if (reqCompWidget.getClass().getName().contains("ReqCompPicker")) {
         		name = ((ReqCompPicker)reqCompWidget).getName();
         		value = ((ReqCompPicker)reqCompWidget).getValue().get();            		
         	}
@@ -523,6 +504,7 @@ public class RuleComponentEditorView extends ViewComposite {
             ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo();
             fieldInfo.setId(name);
             fieldInfo.setValue(value);
+
             if (checkField(fieldInfo) == false) {
             	editedFields.clear();
                 return false;
