@@ -37,61 +37,25 @@
 
 	<search:queryParam id="lu.queryParam.luOptionalId" parent="lu.queryParam.luOptionalId-parent"/>
 	<search:queryParam id="lu.queryParam.luOptionalId-parent"  optional="true" abstract="true">
-		<ref bean="lu.fd.luOptionalId"/>
+		<ref bean="field.cluInfo.id.fd"/>
 	</search:queryParam>			
 	<search:queryParam id="lu.queryParam.luOptionalLongName" parent="lu.queryParam.luOptionalLongName-parent"/>
 	<search:queryParam id="lu.queryParam.luOptionalLongName-parent"  optional="true" abstract="true">
-		<ref bean="lu.fd.luOptionalLongName"/>
+		<ref bean="field.cluInfo.officialIdentifier.longName.fd"/>
 	</search:queryParam>	
 	<search:queryParam id="lu.queryParam.luOptionalType" parent="lu.queryParam.luOptionalType-parent"/>
 	<search:queryParam id="lu.queryParam.luOptionalType-parent"  optional="true" abstract="true">
-		<ref bean="lu.fd.luOptionalType"/>
+		<ref bean="field.cluInfo.type.fd"/>
 	</search:queryParam>	
 	<search:queryParam id="lu.queryParam.luOptionalCode" parent="lu.queryParam.luOptionalCode-parent"/>
 	<search:queryParam id="lu.queryParam.luOptionalCode-parent"  optional="true" abstract="true">
-		<ref bean="lu.fd.luOptionalCode"/>
+		<ref bean="field.cluInfo.officialIdentifier.code.fd"/>
 	</search:queryParam>
 	<search:queryParam id="lu.queryParam.luOptionalLevel" parent="lu.queryParam.luOptionalLevel-parent"/>
 	<search:queryParam id="lu.queryParam.luOptionalLevel-parent"  optional="true" abstract="true">
-		<ref bean="lu.fd.luOptionalLevel"/>
+		<ref bean="field.cluInfo.officialIdentifier.level.fd"/>
 	</search:queryParam>															
 
-	<dict:fieldDescriptor id="lu.fd.luOptionalId" parent="lu.fd.luOptionalId-parent"/>
-	<dict:fieldDescriptor id="lu.fd.luOptionalId-parent"  abstract="true"> 
-		<dict:name>Id</dict:name>
-		<dict:desc>Unique identifier for a lu.</dict:desc>
-		<dict:dataType>string</dict:dataType>
-		<dict:readOnly>true</dict:readOnly>
-	</dict:fieldDescriptor>
-	<dict:fieldDescriptor id="lu.fd.luOptionalLongName" parent="lu.fd.luOptionalLongName-parent"/>
-	<dict:fieldDescriptor id="lu.fd.luOptionalLongName-parent"  abstract="true">
-		<dict:name>Name</dict:name>
-		<dict:desc>Long name.</dict:desc>
-		<dict:dataType>string</dict:dataType>
-		<dict:readOnly>true</dict:readOnly>
-	</dict:fieldDescriptor>
-	<dict:fieldDescriptor id="lu.fd.luOptionalType" parent="lu.fd.luOptionalType-parent"/>
-	<dict:fieldDescriptor id="lu.fd.luOptionalType-parent"  abstract="true">
-		<dict:name>Type</dict:name>
-		<dict:desc>Lu type (course, program etc.)</dict:desc>
-		<dict:dataType>string</dict:dataType>
-		<dict:readOnly>true</dict:readOnly>
-	</dict:fieldDescriptor>
-	<dict:fieldDescriptor id="lu.fd.luOptionalCode" parent="lu.fd.luOptionalCode-parent"/>
-	<dict:fieldDescriptor id="lu.fd.luOptionalCode-parent"  abstract="true">
-		<dict:name>Code</dict:name>
-		<dict:desc>Lu code</dict:desc>
-		<dict:dataType>string</dict:dataType>
-		<dict:readOnly>true</dict:readOnly>
-	</dict:fieldDescriptor>
-	<dict:fieldDescriptor id="lu.fd.luOptionalLevel" parent="lu.fd.luOptionalLevel-parent"/>
-	<dict:fieldDescriptor id="lu.fd.luOptionalLevel-parent"  abstract="true">
-		<dict:name>Level</dict:name>
-		<dict:desc>Lu type (course, program etc.)</dict:desc>
-		<dict:dataType>string</dict:dataType>
-		<dict:readOnly>true</dict:readOnly>
-	</dict:fieldDescriptor>
-	
 	<search:searchResultTypeInfo id="lu.result.generic" parent="lu.result.generic-parent"/>
 	<search:searchResultTypeInfo id="lu.result.generic-parent"  abstract="true">
 		<search:name>Lu Full View</search:name>
@@ -249,46 +213,31 @@
 
     <search:queryParam id="lu.queryParam.cluState" parent="lu.queryParam.cluState-parent"/>
 	<search:queryParam id="lu.queryParam.cluState-parent"  abstract="true">
-		<ref bean="childFieldDescriptor" />
+		<ref bean="field.cluInfo.state.fd" />
 	</search:queryParam>
 
     <search:queryParam id="lu.queryParam.cluCode" parent="lu.queryParam.cluCode-parent"/>
 	<search:queryParam id="lu.queryParam.cluCode-parent"  abstract="true">
-		<dict:fieldDescriptor parent="childFieldDescriptor">
-			<dict:name>Clu Code</dict:name>
-		</dict:fieldDescriptor>
+		<ref bean="field.cluInfo.officialIdentifier.code.fd"/>
 	</search:queryParam>
 
     <search:queryParam id="lu.queryParam.cluId" parent="lu.queryParam.cluId-parent"/>
 	<search:queryParam id="lu.queryParam.cluId-parent"  abstract="true">
-		<dict:fieldDescriptor parent="childFieldDescriptor">
-			<dict:name>Clu Id</dict:name>
-		</dict:fieldDescriptor>
+		<ref bean="field.cluInfo.id.fd"/>
 	</search:queryParam>
 
 	<search:queryParam id="lu.queryParam.startsWith.cluCode" parent="lu.queryParam.startsWith.cluCode-parent"/>
 	<search:queryParam id="lu.queryParam.startsWith.cluCode-parent"  abstract="true">
-		<dict:fieldDescriptor>
-			<dict:name>Starts with Clu Code</dict:name>
-			<dict:desc>Starts With Clu code.</dict:desc>
-			<dict:dataType>string</dict:dataType>
-			<dict:readOnly>true</dict:readOnly>
-		</dict:fieldDescriptor>
+		<ref bean="lu.queryParam.startsWith.cluCode.fd"/>
 	</search:queryParam>
-				
-	<dict:fieldDescriptor id="parentFieldDescriptor" parent="parentFieldDescriptor-parent"/>
-	<dict:fieldDescriptor id="parentFieldDescriptor-parent"  abstract="true">
-		<dict:name>CLU Identifier</dict:name>
-		<dict:desc>Unique identifier for a Canonical Learning Unit (CLU).</dict:desc>
+
+	<dict:fieldDescriptor id="lu.queryParam.startsWith.cluCode.fd" parent="lu.queryParam.startsWith.cluCode.fd-abstract"/>
+	<dict:fieldDescriptor id="lu.queryParam.startsWith.cluCode.fd-abstract" abstract="true">
+		<dict:name>Starts with Clu Code</dict:name>
+		<dict:desc>Starts With Clu code.</dict:desc>
 		<dict:dataType>string</dict:dataType>
 		<dict:readOnly>true</dict:readOnly>
-	</dict:fieldDescriptor>
-	
-	<dict:fieldDescriptor id="childFieldDescriptor" parent="childFieldDescriptor-parent"/>
-	<dict:fieldDescriptor id="childFieldDescriptor-parent" 
-		parent="parentFieldDescriptor" abstract="true">
-		<dict:name>Child CLU Identifier</dict:name>
-	</dict:fieldDescriptor>
+	</dict:fieldDescriptor>				
     
     <search:searchCriteriaTypeInfo id="lu.criteria.all" parent="lu.criteria.all-parent"/>
 	<search:searchCriteriaTypeInfo id="lu.criteria.all-parent"  abstract="true">

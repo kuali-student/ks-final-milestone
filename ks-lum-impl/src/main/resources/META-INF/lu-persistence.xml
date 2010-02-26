@@ -57,7 +57,6 @@
 		<class>org.kuali.student.lum.lu.entity.DeliveryMethodTypeAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.InstructionalFormatType</class>
 		<class>org.kuali.student.lum.lu.entity.InstructionalFormatTypeAttribute</class>		
-		<class>org.kuali.student.lum.lu.entity.LearningObjective</class>
 		<class>org.kuali.student.lum.lu.entity.LuCode</class>
 		<class>org.kuali.student.lum.lu.entity.LuCodeAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.LuCodeType</class>	
