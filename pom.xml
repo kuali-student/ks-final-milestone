@@ -27,7 +27,6 @@
         <drools.version>5.0.1</drools.version>
         <mvel.dep.version>2.0.12</mvel.dep.version>
         <ks-core.version>1.0.0-SNAPSHOT</ks-core.version>
-        <ks-brms.version>1.0.0-SNAPSHOT</ks-brms.version>
     </properties>
 
     <modules>
