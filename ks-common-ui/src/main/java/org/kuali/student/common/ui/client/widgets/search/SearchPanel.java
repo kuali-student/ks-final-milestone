@@ -8,6 +8,8 @@ import org.kuali.student.common.ui.client.configurable.mvc.DefaultWidgetFactory;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton;
+import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
@@ -50,7 +52,7 @@ public class SearchPanel extends Composite{
 	public static enum SearchStyle{ADVANCED, CUSTOM};
 	
 	//TODO messages
-	private String advInstructions = "Enter one or more fields";
+	private String criteriaInstructions = "Enter one or more fields";
 	private KSLabel enteredCriteriaHeading = new KSLabel("Search Criteria:");
 	private boolean multiSelect = false;
 	
@@ -58,52 +60,12 @@ public class SearchPanel extends Composite{
 		lookups.add(meta);
 		setupSearch();
 		this.initWidget(layout);
-		
-		/*
-		searchSelectorPanel.setWidget(createSearchParamPanel(meta));
-		layout.add(searchSelectorPanel);		
-		tablePanel.add(enteredCriteriaHeading);
-		tablePanel.add(enteredCriteriaString);
-
-		table = new TempSearchBackedTable();
-		tablePanel.add(table);
-		layout.add(tablePanel);
-		tablePanel.setVisible(false);
-		this.initWidget(layout); */
 	}
 	
 	public SearchPanel(List<LookupMetadata> metas){	
 		lookups = metas;
 		setupSearch();
 		this.initWidget(layout);
-		
-		/*
-		LinkedHashMap<String, Widget> searches = new LinkedHashMap<String, Widget>();
-		for(LookupMetadata meta: metas){
-			searches.put(meta.getName(), createSearchParamPanel(meta));
-		}
-		SwappablePanel swapPanel = new SwappablePanel(searches);
-		
-		searchSelectorPanel.setWidget(swapPanel);
-		layout.add(searchSelectorPanel);
-		tablePanel.add(enteredCriteriaHeading);
-		tablePanel.add(enteredCriteriaString);	
-		
-		table = new TempSearchBackedTable();		
-		tablePanel.add(table);
-		layout.add(tablePanel);
-		tablePanel.setVisible(false);
-		this.initWidget(layout); */
-	}
-	
-	private Widget createSearchParamPanel(LookupMetadata meta){
-		ParamListItems listItems = new ParamListItems(meta);
-		LinkPanel panel = new LinkPanel(SearchStyle.ADVANCED, new AdvancedSearch(meta));
-		//TODO use messages here and link styling
-		panel.addLinkToPanel(SearchStyle.ADVANCED, "Customize this Search", SearchStyle.CUSTOM);
-		panel.addPanel(SearchStyle.CUSTOM, new CustomizedSearch(meta, listItems));
-		panel.addLinkToPanel(SearchStyle.CUSTOM, "Return to Advanced", SearchStyle.ADVANCED);
-		return panel;
 	}
 	
 	public void setupSearch() {
@@ -134,16 +96,37 @@ public class SearchPanel extends Composite{
 		
 		tablePanel.clear();
 		layout.clear();
+		layout.addStyleName("KS-Picker-Border");		
 				
 		searchSelectorPanel.setWidget(searchParamPanel);
 		layout.add(searchSelectorPanel);
+		layout.add(createSpaceTemp());
 		tablePanel.add(enteredCriteriaHeading);
 		tablePanel.add(enteredCriteriaString);
 		
 		table = new TempSearchBackedTable();		
 		tablePanel.add(table);
 		layout.add(tablePanel);
-		tablePanel.setVisible(false);
+		layout.add(createSpaceTemp());
+		tablePanel.setVisible(false);	
+	}
+	
+	private Widget createSearchParamPanel(LookupMetadata meta){
+		ParamListItems listItems = new ParamListItems(meta);
+		LinkPanel panel = new LinkPanel(SearchStyle.ADVANCED, new AdvancedSearch(meta));
+		//TODO use messages here and link styling
+		panel.addLinkToPanel(SearchStyle.ADVANCED, "Customize This Search", SearchStyle.CUSTOM);
+		panel.addPanel(SearchStyle.CUSTOM, new CustomizedSearch(meta, listItems));
+		panel.addLinkToPanel(SearchStyle.CUSTOM, "Return to Advanced Search", SearchStyle.ADVANCED);
+		return panel;
+	}
+		
+	//FIXME - replace with proper CSS etc.
+	private Widget createSpaceTemp() {
+		SimplePanel searchSpacerPanel = new SimplePanel();			
+		searchSpacerPanel.add(new KSLabel(""));
+		searchSpacerPanel.addStyleName("KS-Picker-Spacer-Panel");
+		return searchSpacerPanel;
 	}
 	
 	private class CustomizedSearch extends Composite{
@@ -155,24 +138,28 @@ public class SearchPanel extends Composite{
 		
 		public CustomizedSearch(final LookupMetadata meta, final ParamListItems listItems){
 			layout.add(linePanel);
+			linePanel.add(createSpaceTemp());
 			CustomLine line = new CustomLine(meta, listItems);
 			linePanel.add(line);
 			lines.add(line);
 
-			KSButton addCriteria = new KSButton("+ Add Criteria");
+			KSLinkButton addCriteria = new KSLinkButton("+ Add Criteria", ButtonStyle.SECONDARY);
 			addCriteria.addClickHandler(new ClickHandler(){
 
 				@Override
 				public void onClick(ClickEvent event) {
 					CustomLine line = new CustomLine(meta, listItems);
+					linePanel.add(createSpaceTemp());
 					linePanel.add(line);
 					lines.add(line);
 				}
 			});
-			layout.add(addCriteria);
 			
-			KSButton searchButton = new KSButton("Search");
-			searchButton.setPrimary(true);
+			layout.add(createSpaceTemp());
+			layout.add(addCriteria);			
+			layout.add(createSpaceTemp());
+			
+			KSLinkButton searchButton = new KSLinkButton("Search", ButtonStyle.PRIMARY);
 			searchButton.addClickHandler(new ClickHandler(){
 
 				@Override
@@ -319,8 +306,13 @@ public class SearchPanel extends Composite{
 		
 		public AdvancedSearch(final LookupMetadata meta){
 			VerticalFlowPanel panel = new VerticalFlowPanel();
-			KSLabel instrLabel = new KSLabel(advInstructions);
+			
+			panel.add(createSpaceTemp());
+			
+			KSLabel instrLabel = new KSLabel(criteriaInstructions);
 			panel.add(instrLabel);
+			
+			panel.add(createSpaceTemp());			
 			
 			//add widget for each search criteria to the advanced tab
 			for(LookupParamMetadata param: meta.getParams()){
@@ -344,8 +336,9 @@ public class SearchPanel extends Composite{
 				}
 			}
 			
-			KSButton searchButton = new KSButton("Search");
-			searchButton.setPrimary(true);
+			panel.add(createSpaceTemp());
+			
+			KSLinkButton searchButton = new KSLinkButton("Search", ButtonStyle.PRIMARY);
 			searchButton.addClickHandler(new ClickHandler(){
 
 				@Override
@@ -465,8 +458,12 @@ public class SearchPanel extends Composite{
 					((HasValue) widget).setValue(param.getDefaultValue().get());
 				}
 			}
+			searchParamLabel.addStyleName("KS-Picker-Criteria-Text");						
+			
+			panel.add(createSpaceTemp());			
 			panel.add(searchParamLabel);
 			panel.add(widget);
+			
 			this.initWidget(panel);
 		}
 		

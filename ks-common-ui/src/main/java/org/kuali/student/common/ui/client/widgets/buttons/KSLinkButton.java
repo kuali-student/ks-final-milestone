@@ -45,7 +45,14 @@ public class KSLinkButton extends ClickablePanel{
 	}
 	
 	public KSLinkButton(String text){
-		this(text, ButtonStyle.SECONDARY);
+		super();
+		
+		//Label label = new Label(text);
+		String id = HTMLPanel.createUniqueId();
+		HTMLPanel panel = new HTMLPanel("<a href='javascript:return false;' id='" + id + "'>"+ text +"</a>");
+		//panel.add(label, id);
+		
+		this.setWidget(panel);		
 	}
 	
 	public KSLinkButton(String text, ButtonStyle style){

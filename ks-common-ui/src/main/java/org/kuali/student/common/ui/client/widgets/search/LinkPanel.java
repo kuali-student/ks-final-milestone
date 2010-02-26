@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton;
+import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 
@@ -35,6 +37,7 @@ public class LinkPanel extends Composite{
 			this.key = key;
 			this.content = content;
 			layout.add(content);
+			layout.add(createSpaceTemp());
 			layout.add(linkPanel);
 			this.initWidget(layout);
 		}
@@ -44,7 +47,8 @@ public class LinkPanel extends Composite{
 			link.linkName = linkText;
 			link.linkToKey = linkedPanelKey;
 			links.add(link);
-			KSLabel linkWidget = new KSLabel(linkText);
+			//KSLabel linkWidget = new KSLabel(linkText);
+			KSLinkButton linkWidget = new KSLinkButton(linkText);
 			linkWidget.addClickHandler(new ClickHandler(){
 
 				@Override
@@ -53,8 +57,17 @@ public class LinkPanel extends Composite{
 					container.setWidget(newPanel);
 				}
 			});
-			linkPanel.add(linkWidget);
+			
+			linkPanel.add(linkWidget);		
 		}
+	}
+	
+	//FIXME - replace with proper CSS etc.
+	private Widget createSpaceTemp() {
+		SimplePanel searchSpacerPanel = new SimplePanel();			
+		searchSpacerPanel.add(new KSLabel(""));
+		searchSpacerPanel.addStyleName("KS-Picker-Spacer-Panel");
+		return searchSpacerPanel;
 	}
 	
 	public LinkPanel(Enum<?> defaultPanelKey, Widget content){
