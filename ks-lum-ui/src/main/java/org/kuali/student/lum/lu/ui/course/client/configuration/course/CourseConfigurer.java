@@ -521,36 +521,6 @@ public class CourseConfigurer
 
     }
 
-    // TODO look up field label and type from dictionary & messages
-
-//    private Type translateDictType(String dictType) {
-//        if (dictType.equalsIgnoreCase("String"))
-//            return Type.STRING;
-//        else
-//            return null;
-//    }
-//
-//    private FieldDescriptor createMVCFieldDescriptor(String fieldName,
-//            String objectKey, String type, String state  ) {
-//
-//        Field f = LUDictionaryManager.getInstance().getField(objectKey, type, state, fieldName);
-//
-//        FieldDescriptor fd =
-//            new FieldDescriptor(f.getKey(),
-//                    getLabel(type, state, f.getKey() ),
-//                    translateDictType(f.getFieldDescriptor().getDataType())
-//            );
-//        return fd;
-//    }
-//
-//
-//    private String getLabel(String type, String state, String fieldId) {
-//        String labelKey = type + ":" + state + ":" + fieldId;
-//        System.out.println(labelKey);
-//        return context.getMessage(labelKey);
-//    }
-//
-
 /*    //FIXME: This is a temp widget impl for the Curriculum Oversight field. Don't yet know if this
     //will be a multiple org select field, in which case we need a multiple org select picker widget.
     //Otherwise if it's single org picker, need a way to bind a HasText widget to ModelDTOList
@@ -829,10 +799,18 @@ public class CourseConfigurer
             SearchRpcServiceAsync searchRpcServiceAsync = GWT.create(SearchRpcService.class);
             final PersonList us = this;
             final String userId = Application.getApplicationContext().getUserId();
+            
+            //FIXME: Commented out search code to display drop down with only current user, and disable select            
+            people.addItem(userId, userId);
+            us.setListItems(people);
+            us.selectItem(userId);
+            this.setEnabled(false);
+            
+            /*   
             SearchRequest searchRequest = new SearchRequest();
             searchRequest.setSearchKey("person.search.personQuickViewByGivenName");
             searchRequest.setSortColumn("person.resultColumn.GivenName");
-            searchRequest.setSortDirection(SortDirection.ASC);
+            searchRequest.setSortDirection(SortDirection.ASC);            
             searchRpcServiceAsync.search(searchRequest, new AsyncCallback<SearchResult>() {
 
                 @Override
@@ -852,6 +830,7 @@ public class CourseConfigurer
                     us.selectItem(userId);
                 }
             });
+            */
         }
 
     public boolean isMultipleSelect(){
