@@ -208,13 +208,18 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
                                     
                                     if (index < 0) {
                                         //temporary fix to stop index out of bound exception in hosted mode
-                                        continue;
+//                                        continue;
+                                        //Including fuzzy search results in the display list.
+                                        theSuggestion.setDisplayString(itemText);
+                                        theSuggestion.setReplacementString(itemText);
                                     	//FIXME handle case when search for text is not appearing within search result - should not happen (misconfiguration)
+                                        continue;
                                     }
                                     
                                     String htmlString = itemText.substring(0,index) + "<b>" + itemText.substring(index, index + query.length()) + "</b>" + itemText.substring(index + query.length(), itemText.length());
                                     theSuggestion.setDisplayString(htmlString);
                                     theSuggestion.setReplacementString(itemText);
+
                                 } else if(c.getKey().equals(resultIdKey)){
                                      theSuggestion.setId(c.getValue());
                                      theSuggestion.addAttr(c.getKey(), c.getValue());
