@@ -6,6 +6,7 @@
     <KS_RICH_TEXT_T ID="0adbc3d5-1b91-43c1-aa9f-237d374daf86" PLAIN="Cultural study of a specific theme or issue involving artifacts and documents from both past and contemporary American experience."/>
     <KS_RICH_TEXT_T ID="0d015871-2a71-4471-a695-09de5cb32713" PLAIN="A research seminar that allows African American Studies majors to complete an independent study research project in lieu of completing the AASP397: Senior Thesis. Students will examine various concepts of race, gender, labor and ethnicity in the seminar lecture component to be applied toward their specific research projects."/>
     <KS_RICH_TEXT_T ID="110e43c9-e51f-464f-893c-d21d5153b81b" PLAIN="Significant aspects of the history of African Americans with particular emphasis on the evolution and development of black communities from slavery to the present. Interdisciplinary introduction to social, political, legal and economic roots of contemporary problems faced by blacks in the United States with applications to the lives of other racial and ethnic minorities in the Americas and in other societies."/>
+    <KS_RICH_TEXT_T ID="13670c02-e384-499b-8471-3ec151d836b2"/>
     <KS_RICH_TEXT_T ID="140ca2e5-499a-45e5-a957-ee03603621b3" PLAIN="A research seminar focusing on the practice and presentation of cultura  and historical scholarship in museums and historical sites. Students will complete an original research project on the challenges and opportunities of public exhibition and interpretation of cultural and historical research."/>
     <KS_RICH_TEXT_T ID="1ad02a8a-621b-4eb1-840d-93a393846653" PLAIN="Topics in popular culture studies, including the examination of particular genres, themes, and issues."/>
     <KS_RICH_TEXT_T ID="1b2eb5ff-333a-44a3-9864-299230e550b7" PLAIN="The aggregate experience of Asian Pacific Americans, from developments in the countries of origin to their contemporary issues. The histories of Asian Pacific American groups as well as culture, politics, the media, and stereotypes, viewed from an interdisciplinary perspective."/>
@@ -34,13 +35,16 @@
     <KS_RICH_TEXT_T ID="5261cea7-c3f1-4413-a219-d8ba6b7a3a0e" PLAIN="An introduction to American popular culture, its historical development, and its role as a reflection of and influence on our culture and society."/>
     <KS_RICH_TEXT_T ID="53980ee9-6063-46f7-a43d-5c259b9ff952" PLAIN="Iterative methods for linear systems, piecewise interpolation, eigenvalue problems, numerical integration."/>
     <KS_RICH_TEXT_T ID="55effe34-4478-4006-965e-0f0fba601c50" PLAIN="Classic readings of the social, economic and political status of blacks and other minorities in the United States and the Americas."/>
+    <KS_RICH_TEXT_T ID="5625eb69-da43-43b7-b507-74712be5b08d"/>
     <KS_RICH_TEXT_T ID="56863ff2-7b31-47eb-8d5d-6d9f04177e30" PLAIN="The relationship between black Americans and the law, particularly criminal law, criminal institutions and the criminal justice system. Examines historical changes in the legal status of blacks and changes in the causes of racial disparities in criminal involvement and punishments."/>
+    <KS_RICH_TEXT_T ID="56e80a47-3573-4f45-9f53-4141421b3218"/>
     <KS_RICH_TEXT_T ID="58171da1-d680-455c-87be-0eeab2db5a59" PLAIN="An introductory multi-disciplinary and inter-disciplinary educational experience to explore issues relevant to black life, cultural experiences, and political, economic, and artistic development."/>
     <KS_RICH_TEXT_T ID="59628c72-f3f3-4e3e-b3d2-c9531cd1b2c1" PLAIN="This course presents fundamental issues of computer hardware, software, parallel computing, and scientific data management for programming for scientific computation."/>
     <KS_RICH_TEXT_T ID="5bca8955-b0a8-42cf-aac0-e6e39e2faca2" PLAIN="Modern numerical methods for solving unconstrained and constrained nonlinear optimization problems in finite dimensions. Design of computational algorithms and the analysis of their properties."/>
     <KS_RICH_TEXT_T ID="60047f4d-b18c-4e0b-96a7-60c242c8e1a0" PLAIN="In the sequence MAPL 663, MAPL 664 students work on a year-long individual project to develop software for a scientific task in a high performance computing environment. Lectures will be given on code development and validation, parallel algorithms for partial differential equations, nonlinear systems, optimization."/>
     <KS_RICH_TEXT_T ID="601002d1-2cab-424b-a551-ab9025eccb5e" PLAIN="A survey reading course. Plots the global progression of agriculture toward industrialization and conflicts along the way. Reviews major trends, highlights contrasting perspectives, and reviews contemporary issues in agriculture and agricultural development."/>
     <KS_RICH_TEXT_T ID="60608680-942c-4ff9-aa14-4b0163a588d4" PLAIN="Advanced topics in numerical linear algebra, such as dense eigenvalue problems, sparse elimination, iterative methods, and other topics."/>
+    <KS_RICH_TEXT_T ID="62ae9501-d50f-4bae-9485-6cdd2305e53e"/>
     <KS_RICH_TEXT_T ID="632ba631-ba27-469e-ab43-7f17fb5e6609" PLAIN="Monte Carlo simulation, numerical linear algebra, nonlinear systems and continuation method, optimization, ordinary differential equations. Fundamental techniques in scientific computation with an introduction to the theory and software of each topic."/>
     <KS_RICH_TEXT_T ID="63e3270d-4bb8-4e97-9fa8-2f8be03cf053" PLAIN="Culture and social relationships in a wide variety of settings from small-scale to complex societies. An overview of how anthropology analyzes human behavior. Particular attention to the relationship between language and culture."/>
     <KS_RICH_TEXT_T ID="6cf35c8b-b39d-4476-bf98-864506e461f5" PLAIN="Examination of the cultures native to North America, including the land areas of Canada, the United States of America, and the major portion of the Republic of Mexico."/>
@@ -60,6 +64,45 @@
     <KS_RICH_TEXT_T ID="9ef9b696-88dd-46d6-b5d2-3580510427bc" PLAIN="Development and application of the tools needed for examining the effectiveness of alternative policy options confronting minority communities. Review policy research methods used in forming and evaluating policies. Examination of the policy process."/>
     <KS_RICH_TEXT_T ID="9f47a080-d111-4096-84a8-c390e851163e" PLAIN="Credit according to time scheduled and organization of the course. A lecture series organized to study in depth a selected phase of agriculture not normally associated with one of the existing programs."/>
     <KS_RICH_TEXT_T ID="9ff34f6e-994a-484a-9284-bca710c3a97e" PLAIN="Tools and techniques of computational linear algebra for applications. Topics include: linear systems and least squares problems, error analysis, accuracy and stability, matrix decompositions, iterative solvers, Krylov subspace methods, symmetric and non-symmetric eigenvalue problems, singular value decomposition."/>
+    <KS_RICH_TEXT_T FORMATTED="&lt;p>Requirement Component 1&lt;/p>"
+        ID="KSSTMT_REQ_COM.DESC.1" PLAIN="Req Comp 1"/>
+    <KS_RICH_TEXT_T FORMATTED="&lt;p>Requirement Component 2&lt;/p>"
+        ID="KSSTMT_REQ_COM.DESC.2" PLAIN="Req Comp 2"/>
+    <KS_RICH_TEXT_T FORMATTED="&lt;p>Requirement Component 3&lt;/p>"
+        ID="KSSTMT_REQ_COM.DESC.3" PLAIN="Req Comp 3"/>
+    <KS_RICH_TEXT_T FORMATTED="&lt;p>Requirement Component 4&lt;/p>"
+        ID="KSSTMT_REQ_COM.DESC.4" PLAIN="Req Comp 4"/>
+    <KS_RICH_TEXT_T FORMATTED="&lt;p>Requirement Component 5&lt;/p>"
+        ID="KSSTMT_REQ_COM.DESC.5" PLAIN="Req Comp 5"/>
+    <KS_RICH_TEXT_T FORMATTED="&lt;p>Requirement Component 6&lt;/p>"
+        ID="KSSTMT_REQ_COM.DESC.6" PLAIN="Req Comp 6"/>
+    <KS_RICH_TEXT_T FORMATTED="&lt;p>Requirement Component 7&lt;/p>"
+        ID="KSSTMT_REQ_COM.DESC.7" PLAIN="Req Comp 7"/>
+    <KS_RICH_TEXT_T FORMATTED="&lt;p>Requirement Component 8&lt;/p>"
+        ID="KSSTMT_REQ_COM.DESC.8" PLAIN="Req Comp 8"/>
+    <KS_RICH_TEXT_T FORMATTED="&lt;p>Statement 1&lt;/p>"
+        ID="KSSTMT_STMT.DESC.1" PLAIN="Statement 1"/>
+    <KS_RICH_TEXT_T FORMATTED="&lt;p>Statement 105&lt;/p>"
+        ID="KSSTMT_STMT.DESC.10" PLAIN="Statement 105"/>
+    <KS_RICH_TEXT_T FORMATTED="&lt;p>Statement 106&lt;/p>"
+        ID="KSSTMT_STMT.DESC.11" PLAIN="Statement 106"/>
+    <KS_RICH_TEXT_T FORMATTED="&lt;p>Statement 2&lt;/p>"
+        ID="KSSTMT_STMT.DESC.2" PLAIN="Statement 2"/>
+    <KS_RICH_TEXT_T FORMATTED="&lt;p>Statement 3&lt;/p>"
+        ID="KSSTMT_STMT.DESC.3" PLAIN="Statement 3"/>
+    <KS_RICH_TEXT_T FORMATTED="&lt;p>Statement 4&lt;/p>"
+        ID="KSSTMT_STMT.DESC.4" PLAIN="Statement 4"/>
+    <KS_RICH_TEXT_T FORMATTED="&lt;p>Statement 5&lt;/p>"
+        ID="KSSTMT_STMT.DESC.5" PLAIN="Statement 5"/>
+    <KS_RICH_TEXT_T FORMATTED="&lt;p>Statement 101&lt;/p>"
+        ID="KSSTMT_STMT.DESC.6" PLAIN="Statement 101"/>
+    <KS_RICH_TEXT_T FORMATTED="&lt;p>Statement 102&lt;/p>"
+        ID="KSSTMT_STMT.DESC.7" PLAIN="Statement 102"/>
+    <KS_RICH_TEXT_T FORMATTED="&lt;p>Statement 103&lt;/p>"
+        ID="KSSTMT_STMT.DESC.8" PLAIN="Statement 103"/>
+    <KS_RICH_TEXT_T FORMATTED="&lt;p>Statement 104&lt;/p>"
+        ID="KSSTMT_STMT.DESC.9" PLAIN="Statement 104"/>
+    <KS_RICH_TEXT_T FORMATTED="&lt;p>Desc&lt;/p>" ID="NL-RICHTEXT-101" PLAIN="Desc"/>
     <KS_RICH_TEXT_T FORMATTED="&lt;p>Desc&lt;/p>" ID="RICHTEXT-101" PLAIN="Desc"/>
     <KS_RICH_TEXT_T FORMATTED="&lt;p>Marketing Desc&lt;/p>"
         ID="RICHTEXT-201" PLAIN="Marketing Desc"/>
@@ -85,11 +128,13 @@
     <KS_RICH_TEXT_T ID="a674dd70-6036-4637-92a8-021c7d2dea51" PLAIN="Examining the historical, economic, social, and scholarly construction of African American family structures. The problematization of &quot;Black matriarchy,&quot; hetero- and homosexuality, bi-racialism, and other efforts to &quot;normalize&quot; African Americans to conform to Eurocentric and religious concepts of family will be critically analyzed."/>
     <KS_RICH_TEXT_T ID="ab5e6b15-3ac3-46e3-bf9f-0f6bdd86df58" PLAIN="Students are required to prepare papers based upon current scientific publications relating to animal science, or upon their research work, for presentation before and discussion by the class; (1) recent advances; (2) nutrition; (3) physiology; (4) biochemistry."/>
     <KS_RICH_TEXT_T ID="abd7318c-fd3d-4aa9-ac30-332554b6aeb2" PLAIN="Nonlinear systems of equations, ordinary differential equations, boundary value problems."/>
+    <KS_RICH_TEXT_T ID="acbd1fab-d0a1-49fd-b458-40127c18e374"/>
     <KS_RICH_TEXT_T ID="ad21e6fc-a57d-457c-81a4-1858c361889d" PLAIN="Field experience in professional organizations and appropriate private and governmental agencies serving the Asian American community."/>
     <KS_RICH_TEXT_T ID="adc153f9-b9a9-421d-87a9-b725c52c5b53" PLAIN="Undergraduate honors thesis research conducted under the direction of an AGNR faculty member in partial fulfillment of the requirements of the College of AGNR Honors Program. The thesis will be defended to a faculty committee."/>
     <KS_RICH_TEXT_T ID="af23c2c0-4018-4313-bdfb-7776a5c5a1c7" PLAIN="Students devise and carry out a research program using the collections at the Smithsonian Institution or some other cooperating museum, working under joint supervision of a museum professional and a university faculty member."/>
     <KS_RICH_TEXT_T ID="b0766694-5d6c-42db-9b20-3473fe182c1d" PLAIN="Exploration of the American film from a historical perspective, illustrating the motion picture's role as an institutional phenomenon, as a form of communication, and as a source of cross-cultural study."/>
     <KS_RICH_TEXT_T ID="b0a86a82-287e-4fe4-a8cf-e6de2218aa65" PLAIN="Theoretical approaches and research methods in sociocultural anthropology. Emphasis on current debates, new directions, and their historical antecedents."/>
+    <KS_RICH_TEXT_T ID="b82c5ddd-e580-40ae-b37c-b9e1e6d7dc42"/>
     <KS_RICH_TEXT_T ID="ba41a0d1-da7c-47f4-a7df-3ed91749e60d" PLAIN="Developments in theories and methods of American Studies scholarship, with emphasis upon interaction between the humanities and the social sciences in the process of cultural analysis and evaluation."/>
     <KS_RICH_TEXT_T ID="ba6da522-8aa0-467e-97d9-2daecdc4b9cc" PLAIN="Exploration of the variety of past human societies and cultures through archaeology, from the emergence of anatomically modern humans to the more recent historical past."/>
     <KS_RICH_TEXT_T ID="baa98141-3fd9-45f9-8e1b-afca879cd618" PLAIN="The students participate in a vertically integrated (undergraduate, graduate and/or postdoctoral, faculty) research group. Format varies, but includes regular meetings, readings and presentations of material. See graduate program's online syllabus or contact the graduate program director for more information."/>
@@ -101,17 +146,22 @@
     <KS_RICH_TEXT_T ID="c6743655-7369-4480-bd77-9030fca49c92" PLAIN="Historical survey of American material culture. Ways of describing and interpreting accumulated material evidence (e.g., buildings, town plans) introduced by stressing relationship between artifact and culture."/>
     <KS_RICH_TEXT_T ID="c70cf13a-f01c-4498-a96a-e813fb422c9b" PLAIN="Examination of the cultures native to North America, including the land areas of Canada, the United States of America, and the major portion of the Republic of Mexico."/>
     <KS_RICH_TEXT_T ID="c7389c9f-4f0a-45ca-a1d6-e92da27d823b" PLAIN="Theory, method, and practice which guides modern anthropological archaeology. Includes research design and execution (from survey through excavation and interpretation), the reconstruction of aspects of past cultures, and the understanding of cultural change and meaning."/>
+    <KS_RICH_TEXT_T ID="cdb61e48-e0bc-44f9-a7ca-e05cfdee4d15"/>
     <KS_RICH_TEXT_T ID="cf94f50b-3313-4f1d-a654-acfb751f7f07" PLAIN="Lectures, experimental courses, and other special subjects in the fields of animal sciences and veterinary medicine."/>
+    <KS_RICH_TEXT_T ID="d3c2ba28-248e-48fc-b802-6ee75cedaaf5"/>
     <KS_RICH_TEXT_T ID="d4b8f13a-0132-4143-bca6-5e6218f2d701" PLAIN="Advanced study of the cultural and historical antecedents of contemporary Asian American society. Emphasis on the social, political, economic, and behavioral factors affecting Asian Americans and their communities."/>
     <KS_RICH_TEXT_T ID="d5b428f6-8e91-47ad-acfb-4d91677797e4" PLAIN="Floating point computations, direct methods for linear systems, interpolation, solution of nonlinear equations."/>
     <KS_RICH_TEXT_T ID="d5e59d71-fac4-4695-910c-5937f819dec7" PLAIN="Examination of structure and development of American culture through themes such as &quot;growing up American,&quot; &quot;culture and mental disorders,&quot; &quot;race,&quot; &quot;ethnicity,&quot; &quot;regionalism,&quot; &quot;landscape,&quot; and &quot;humor.&quot;"/>
     <KS_RICH_TEXT_T ID="d7dad0db-b6e3-4c28-a779-c457d0e0936c" PLAIN="Culture and social relationships in a wide variety of settings from small-scale to complex societies. An overview of how anthropology analyzes human behavior. Particular attention to the relationship between language and culture."/>
+    <KS_RICH_TEXT_T ID="d9ddb667-60aa-4c23-8e30-092011d27acb"/>
     <KS_RICH_TEXT_T ID="dc07c541-b9e4-4508-bee2-a99f4c7b5540" PLAIN="American humor from the Colonial era through the present in genres including literature, journalism, graphic arts, performance, and modern media. How humor expresses and mediates important social and cultural concerns including politics, religion, race and ethnicity, gender and topical issues."/>
     <KS_RICH_TEXT_T ID="dc137f92-5340-43bf-9009-4a951e7d315c" PLAIN="A survey of Asian American literature with an emphasis on recurrent themes and historical context."/>
     <KS_RICH_TEXT_T ID="dd0a09cf-d0f8-453c-9605-72661f1cb15f" PLAIN="Cultural, historical and artistic dimensions of the African experience in Africa and the Americas."/>
     <KS_RICH_TEXT_T ID="dff540a4-bac1-4712-9776-7040ae923588" PLAIN="Theories and concepts in the social and behavioral sciences relating to problems in minority communities. Issues include validity and soundness of theoretical arguments, epistemological questions of various methodologies and the relationship between policy making and policy research."/>
     <KS_RICH_TEXT_T ID="e1e24570-ebb8-4eca-aa18-a1ec61636928" PLAIN="Basic computational methods for interpolation, least squares, approximation, numerical quadrature, numerical solution of polynomial and transcendental equations, systems of linear equations and initial value problems for ordinary differential equations. Emphasis on methods and their computational properties rather than their analytic aspects. Intended primarily for students in the physical and engineering sciences."/>
+    <KS_RICH_TEXT_T ID="e3d661fa-e2b0-444f-bdbf-adf51a70ce71"/>
     <KS_RICH_TEXT_T ID="e513ae6e-bd86-43e0-9629-b56e14596223" PLAIN="An introduction to mathematical dynamics and chaos. Orbits, bifurcations, Cantor sets and horseshoes, symbolic dynamics, fractal dimension, notions of stability, flows and chaos. Includes motivation and historical perspectives, as well as examples of fundamental maps studied in dynamics and applications of dynamics."/>
+    <KS_RICH_TEXT_T ID="ecbc6215-a09d-4276-9f4e-b616cd272a73"/>
     <KS_RICH_TEXT_T ID="edd11737-aa46-43fe-b4b2-5a429649efd8" PLAIN="Concepts involved in planning and executing nonformal educational programs developed to meet the needs of youth. Emphasize the identification of opportunities; needs, and problems of youth in all socioeconomic levels; analysis of methods of working with youth groups and developing volunteer staff."/>
     <KS_RICH_TEXT_T ID="ee0a76ec-002d-4e38-9934-202154b7ebab" PLAIN="Boundary value problems for elliptic partial differential equations via operator-theoretic methods. Hilbert spaces of functions. Duality, weak convergence. Sobolev spaces. Spectral theory of compact operators. Eigenfunction expansions."/>
     <KS_RICH_TEXT_T ID="f3266b66-6020-4ffc-bc23-31d01d40ce08" PLAIN="Advanced instruction interdisciplinary research strategies, bibliography, and the structure of systems of scholarly communication in the fields and subfields of American Studies."/>
