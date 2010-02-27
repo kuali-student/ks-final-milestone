@@ -4818,9 +4818,6 @@
         <index name="SQL100208171641490">
             <index-column name="OBJ_TYPE_ID"/>
         </index>
-        <index name="SQL100208171641500">
-            <index-column name="OBJ_SUB_TYPE_ID"/>
-        </index>
     </table>
     <table name="KSSTMT_RCTYP_JN_RCFLDTYP">
         <column name="REQ_COMP_TYPE_ID" required="true" size="255" type="VARCHAR"/>
@@ -4852,9 +4849,6 @@
         </unique>
         <index name="SQL100208171641550">
             <index-column name="REQ_COM_ID"/>
-        </index>
-        <index name="SQL100208171641560">
-            <index-column name="REQ_COM_FIELD_ID"/>
         </index>
     </table>
     <table name="KSSTMT_REF_STMT_REL">
@@ -5132,9 +5126,6 @@
         <unique name="SQL100208171641430">
             <unique-column name="REQ_COM_TYPE_ID"/>
         </unique>
-        <index name="SQL100208171641790">
-            <index-column name="REQ_COM_TYPE_ID"/>
-        </index>
         <index name="SQL100208171641791">
             <index-column name="STMT_TYPE_ID"/>
         </index>
@@ -5151,9 +5142,6 @@
         <unique name="SQL100208171641440">
             <unique-column name="CHLD_STMT_TYPE_ID"/>
         </unique>
-        <index name="SQL100208171641800">
-            <index-column name="CHLD_STMT_TYPE_ID"/>
-        </index>
         <index name="SQL100208171641810">
             <index-column name="STMT_TYPE_ID"/>
         </index>
