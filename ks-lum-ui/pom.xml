@@ -176,13 +176,13 @@
 		<dependency>
 			<groupId>org.kuali.student.brms.statement</groupId>
 			<artifactId>ks-statement-api</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>${ks-brms.version}</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.kuali.student.brms.statement</groupId>
 			<artifactId>ks-statement-api</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>${ks-brms.version}</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
