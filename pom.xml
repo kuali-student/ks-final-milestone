@@ -254,6 +254,7 @@
 		<plugin>
 			<groupId>com.atlassian.maven.plugins</groupId>
 			<artifactId>maven-clover2-plugin</artifactId>
+			<version>2.6.3</version>
             <configuration>
              <historyDir>${settings.localRepository}/${project.groupId}/${project.artifactId}/clover/history</historyDir>
              <excludes>
@@ -1047,11 +1048,6 @@
 				<groupId>commons-lang</groupId>
 				<artifactId>commons-lang</artifactId>
 				<version>2.4</version>
-			</dependency>
-			<dependency>
-				<groupId>commons-logging</groupId>
-				<artifactId>commons-logging</artifactId>
-				<version>1.1.1</version>
 			</dependency>
             <dependency>
                 <groupId>commons-beanutils</groupId>
