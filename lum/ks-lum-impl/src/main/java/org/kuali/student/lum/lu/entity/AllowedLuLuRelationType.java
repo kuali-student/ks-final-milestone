@@ -1,0 +1,117 @@
+package org.kuali.student.lum.lu.entity;
+
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.core.entity.MetaEntity;
+
+@Entity
+@Table(name = "KSLU_LU_LU_ALOW_RELTN_TYPE")
+@NamedQueries( { @NamedQuery(name = "AllowedLuLuRelationType.getAllowedTypesByLuTypes", query = "SELECT relType.relationType.id FROM AllowedLuLuRelationType relType WHERE luType.id = :luTypeId and relatedLuType.id = :relatedLuTypeId") })
+public class AllowedLuLuRelationType extends MetaEntity {
+	@Id
+	@Column(name = "ID")
+	private String id;
+
+	@ManyToOne
+	@JoinColumn(name = "LU_LU_RELTN_TYPE_ID")
+	private LuLuRelationType relationType;
+	
+	@ManyToOne
+	@JoinColumn(name = "LU_TYPE_ID")
+	private LuType luType;
+	
+	@ManyToOne
+	@JoinColumn(name = "LU_REL_TYPE_ID")
+	private LuType relatedLuType;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "EFF_DT")
+	private Date effectiveDate;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "EXPIR_DT")
+	private Date expirationDate;
+
+    @Override
+    protected void onPrePersist() {
+        this.id = UUIDHelper.genStringUUID(this.id);
+    }
+	
+	public LuLuRelationType getRelationType() {
+		return relationType;
+	}
+
+	public void setRelationType(LuLuRelationType relationType) {
+		this.relationType = relationType;
+	}
+
+	public LuType getLuType() {
+		return luType;
+	}
+
+	public void setLuType(LuType luType) {
+		this.luType = luType;
+	}
+
+	public LuType getRelatedLuType() {
+		return relatedLuType;
+	}
+
+	public void setRelatedLuType(LuType relatedLuType) {
+		this.relatedLuType = relatedLuType;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public String getId() {
+		return id;
+	}
+
+	/**
+	 * @param effectiveDate the effectiveDate to set
+	 */
+	public void setEffectiveDate(Date effectiveDate) {
+		this.effectiveDate = effectiveDate;
+	}
+
+	/**
+	 * @return the effectiveDate
+	 */
+	public Date getEffectiveDate() {
+		return effectiveDate;
+	}
+
+	/**
+	 * @param expirationDate the expirationDate to set
+	 */
+	public void setExpirationDate(Date expirationDate) {
+		this.expirationDate = expirationDate;
+	}
+
+	/**
+	 * @return the expirationDate
+	 */
+	public Date getExpirationDate() {
+		return expirationDate;
+	}
+}
