@@ -24,7 +24,6 @@ import org.kuali.student.common.ui.client.event.SaveActionHandler;
 import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
 import org.kuali.student.common.ui.client.event.ValidateRequestHandler;
 import org.kuali.student.common.ui.client.event.ValidateResultEvent;
-import org.kuali.student.common.ui.client.event.ValidateResultHandler;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -201,7 +200,18 @@ public class CourseProposalController extends TabbedSectionLayout {
     		onReadyCallback.exec(true);
     	} else {
     		progressWindow.show();
-	        cluProposalRpcServiceAsync.getMetadata( 
+    		String metaDocId = "";
+    		String idType = "";
+    		// FIXME: remove hard coded strings below for KIM constants
+    		if (docId != null){
+    			idType = "documentNumber";
+    			metaDocId = docId;
+    		} else if (proposalId != null){
+    			idType = "proposalId";
+    			metaDocId = proposalId;
+    		}
+    		
+	        cluProposalRpcServiceAsync.getMetadata(idType, metaDocId,  
 	                new AsyncCallback<Metadata>(){
 	
 	                    @Override

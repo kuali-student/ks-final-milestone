@@ -479,7 +479,8 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 
     private CluInfoHierarchy buildCluInfoHierarchyFromData(CreditCourseHelper course) throws AssemblyException {
         //metadata for authz
-        Metadata courseMetadata = getMetadata(course.getId(), course.getType(), course.getState()).getProperties().get("course");//TODO cache the metadata
+    	//FIXME: change idType below to be non-hardcoded
+        Metadata courseMetadata = getMetadata("courseId", course.getId(), course.getType(), course.getState()).getProperties().get("course");//TODO cache the metadata
 
         CluInfoHierarchy result = null;
         CluInfo courseClu = null;
@@ -1252,12 +1253,17 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
     }
 
     @Override
-    protected AttributeSet getQualification(String id) {
-        String QUALIFICATION_PROPOSAL_ID = "courseId";
+    protected AttributeSet getQualification(String idType, String id) {
         String DOCUMENT_TYPE_NAME = "documentTypeName";
         AttributeSet qualification = new AttributeSet();
         qualification.put(DOCUMENT_TYPE_NAME, "CluCreditCourse");
-        qualification.put(QUALIFICATION_PROPOSAL_ID, id);
+/*
+ *	This commented out for permission changes
+ * 
+ *         String QUALIFICATION_PROPOSAL_ID = "courseId";
+ *         qualification.put(QUALIFICATION_PROPOSAL_ID, id);
+ */        
+        qualification.put(idType, id);
         return qualification;
     }
 }

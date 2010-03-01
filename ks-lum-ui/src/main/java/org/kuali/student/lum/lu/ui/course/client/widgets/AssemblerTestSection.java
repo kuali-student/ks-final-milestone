@@ -116,7 +116,7 @@ public class AssemblerTestSection extends SectionView {
 				}
 			}));
 			
-			service.getMetadata(new AsyncCallback<Metadata>() {
+			service.getMetadata("", "",new AsyncCallback<Metadata>() {
 
 				@Override
 				public void onFailure(Throwable caught) {

@@ -152,7 +152,7 @@ public class ViewCourseController extends TabbedSectionLayout {
             onReadyCallback.exec(true);
         } else {
             progressWindow.show();
-            rpcServiceAsync.getMetadata( 
+            rpcServiceAsync.getMetadata("", "", 
                     new AsyncCallback<Metadata>(){
     
                         @Override

@@ -194,24 +194,24 @@ public class LUMApplicationManager extends Controller{
 	        viewPanel.setWidget((Composite)view);
 	    }
 
-	    @Override
-	    public void showDefaultView(final Callback<Boolean> onReadyCallback) {
-	        final String docId=Window.Location.getParameter("docId");
-	        
-	        if(docId!=null){
-                initCreateCourseFromDocId(LUConstants.PROPOSAL_TYPE_COURSE_CREATE, LUConstants.CLU_TYPE_CREDIT_COURSE, docId);  //FIXME replace with program specific constants
-                this.showView(LUMViews.EDIT_COURSE_PROPOSAL, onReadyCallback);
-	        }
-	        else{
-	            this.showView(LUMViews.HOME_MENU, onReadyCallback);
-	        }
-	    }
+	@Override
+	public void showDefaultView(final Callback<Boolean> onReadyCallback) {
+		final String docId = Window.Location.getParameter("docId");
+		if (docId != null) {
+			initCreateCourseFromDocId(LUConstants.PROPOSAL_TYPE_COURSE_CREATE,
+					LUConstants.CLU_TYPE_CREDIT_COURSE, docId); // FIXME replace with program specific constants
+			this.showView(LUMViews.EDIT_COURSE_PROPOSAL, onReadyCallback);
+		} else {
+			this.showView(LUMViews.HOME_MENU, onReadyCallback);
+		}
+	}
 
-	    public Class<? extends Enum<?>> getViewsEnum() {
-	        return LUMViews.class;
-	    }        
-	    @Override
-	    public Enum<?> getViewEnumValue(String enumValue) {
-	        return LUMViews.valueOf(enumValue);
-	    }
+	public Class<? extends Enum<?>> getViewsEnum() {
+		return LUMViews.class;
+	}
+
+	@Override
+	public Enum<?> getViewEnumValue(String enumValue) {
+		return LUMViews.valueOf(enumValue);
+	}
 }

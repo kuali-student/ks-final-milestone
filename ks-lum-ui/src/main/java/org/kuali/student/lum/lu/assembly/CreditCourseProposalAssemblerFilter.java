@@ -43,7 +43,7 @@ public class CreditCourseProposalAssemblerFilter implements AssemblerFilter<Data
     @Override
     public void doSaveFilter(FilterParamWrapper<Data> request, FilterParamWrapper<SaveResult<Data>> response, SaveFilterChain<Data, Void> chain) throws AssemblyException {
         Data data = request.getValue();
-        Metadata typeMetadata = chain.getManager().getTarget().getMetadata(null, CreditCourseProposalAssembler.CREDIT_COURSE_PROPOSAL_DATA_TYPE, "draft");
+        Metadata typeMetadata = chain.getManager().getTarget().getMetadata(null, null, CreditCourseProposalAssembler.CREDIT_COURSE_PROPOSAL_DATA_TYPE, "draft");
         List<QueryPath> dirtyPaths = AssemblerUtils.findDirtyElements(data);
         
         for(QueryPath path : dirtyPaths) {

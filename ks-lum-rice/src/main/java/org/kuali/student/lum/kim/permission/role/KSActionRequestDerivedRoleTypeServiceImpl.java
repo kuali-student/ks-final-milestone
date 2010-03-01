@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.dto.DocumentDetailDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -37,6 +38,8 @@ import org.kuali.rice.student.bo.KualiStudentKimAttributes;
  *
  */
 public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
+    protected final Logger LOG = Logger.getLogger(getClass());
+	
 	private static final String APPROVE_REQUEST_RECIPIENT_ROLE_CONTENT = "Approve";
 	private static final String ACKNOWLEDGE_REQUEST_RECIPIENT_ROLE_CONTENT = "Acknowledge";
 	private static final String FYI_REQUEST_RECIPIENT_ROLE_CONTENT = "FYI";
@@ -61,6 +64,7 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 		// if no document id passed in get the document via the clu id and document type name
 		String documentTypeName = qualification.get(KimAttributes.DOCUMENT_TYPE_NAME);
 		String appId = qualification.get(KualiStudentKimAttributes.QUALIFICATION_PROPOSAL_ID);
+		LOG.info("Checking for document id using document type '" + documentTypeName + "' and application id '" + appId + "' with qualifications: " + qualification.toString());
 		DocumentDetailDTO docDetail = getWorkflowUtility().getDocumentDetailFromAppId(documentTypeName, appId);
 		if (docDetail == null) {
 			throw new RuntimeException("No valid document instance found for document type name '" + documentTypeName + "' and Application Id '" + appId + "'");
@@ -86,9 +90,10 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 		List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
 		try {
 			// check for valid qualification data to check
-			if (qualification != null && !qualification.isEmpty()) {
+			Long documentNumber = getDocumentNumber(qualification);
+			if (qualification != null && !qualification.isEmpty() && (documentNumber != null)) {
 				// get all action requests for the document id given
-				ActionRequestDTO[] actionRequests = getWorkflowUtility().getAllActionRequests(getDocumentNumber(qualification));
+				ActionRequestDTO[] actionRequests = getWorkflowUtility().getAllActionRequests(documentNumber);
 				Map<String,List<ActionRequestDTO>> requestsByPrincipalId = new HashMap<String, List<ActionRequestDTO>>();
 				// build a map by principal id of action requests for the document
 	            for (ActionRequestDTO actionRequest: actionRequests) {
@@ -124,8 +129,9 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 			AttributeSet qualification) {
 		validateRequiredAttributesAgainstReceived(qualification);
 		try {
-			if ( (qualification != null && !qualification.isEmpty()) && StringUtils.isNumeric( qualification.get(KimAttributes.DOCUMENT_NUMBER) ) ) {
-				ActionRequestDTO[] actionRequests = getWorkflowUtility().getActionRequests(getDocumentNumber(qualification), null, principalId);
+			Long documentNumber = getDocumentNumber(qualification);
+			if (qualification != null && !qualification.isEmpty() && (documentNumber != null)) {
+				ActionRequestDTO[] actionRequests = getWorkflowUtility().getActionRequests(documentNumber, null, principalId);
 				return containsActivatedRequest(roleName, actionRequests);
 			}
 			return false;

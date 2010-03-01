@@ -9,12 +9,12 @@ import static org.kuali.student.core.assembly.util.AssemblerUtils.setUpdated;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.student.core.assembly.BaseAssembler;
-import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.student.brms.statement.service.StatementService;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.assembly.Assembler;
+import org.kuali.student.core.assembly.BaseAssembler;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.SaveResult;
@@ -107,11 +107,30 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
     public Data get(String id) throws AssemblyException {
         LuData luData = new LuData();
         CreditCourseProposalHelper result = CreditCourseProposalHelper.wrap(luData);
+        CreditCourseProposalInfoHelper proposal = null;
         try {
-            CreditCourseProposalInfoHelper proposal = getProposal(id);
+            proposal = getProposal(id);
             if (proposal == null) {
                 return null;
             }
+        } catch (Exception e) {
+            throw new AssemblyException("Could not retrieve credit course proposal for id: " + id, e);
+        }
+        if (checkDocumentLevelPermissions()) {
+            // temporary hack to utilize "Open Document" permission
+	        if (StringUtils.isNotBlank(id)) {
+	        	String userId = SecurityUtils.getCurrentUserId();
+	        	if (!permissionService.isAuthorizedByTemplateName(userId, namespace, OPEN_DOCUMENT_PERM, null, getQualification("proposalId", id))) {
+	        		throw new RuntimeException("User '" + userId + "' does not have permission (namespace: " + namespace + "  permission template name: " + 
+	        				OPEN_DOCUMENT_PERM + ") to open document with id '" + id + "'");
+	        	}
+	        	else {
+	        		LOG.info("User '" + userId + "' has permission (namespace: " + namespace + "  permission template name: " + 
+	        				OPEN_DOCUMENT_PERM + ") to open document with id '" + id + "'");
+	        	}
+	        }
+        }
+        try {
             Data references = proposal.getReferences();
                 if (references.size() != 1) {
                     throw new AssemblyException(
@@ -129,8 +148,7 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
             luData.setRuleInfos(current.getRuleInfos());
             
         } catch (Exception e) {
-            throw new AssemblyException(
-                    "Could not assemble credit course proposal", e);
+            throw new AssemblyException("Could not assemble credit course proposal", e);
         }
 
         return result.getData();
@@ -423,12 +441,17 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
     }
 
     @Override
-    protected AttributeSet getQualification(String id) {
-        String QUALIFICATION_PROPOSAL_ID = "proposalId";
-        String DOCUMENT_TYPE_NAME = "documentTypeName";
+    protected boolean checkDocumentLevelPermissions() {
+    	return true;
+    }
+
+    @Override
+    protected AttributeSet getQualification(String idType, String id) {
         AttributeSet qualification = new AttributeSet();
+    	// FIXME: change this value to use constants from rice
+        String DOCUMENT_TYPE_NAME = "documentTypeName";
         qualification.put(DOCUMENT_TYPE_NAME, "CluCreditCourseProposal");
-        qualification.put(QUALIFICATION_PROPOSAL_ID, id);
+        qualification.put(idType, id);
         return qualification;
     }
 
