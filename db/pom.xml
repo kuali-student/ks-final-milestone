@@ -3,13 +3,11 @@
     <groupId>org.kuali.student.db</groupId>
     <artifactId>ks-db</artifactId>
     <packaging>pom</packaging>
-    <!-- 
 	<parent>
 		<groupId>org.kuali.student</groupId>
 		<artifactId>student</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	 -->
     <name>KS Database</name>
     <description>Kuali Student Database</description>
     <modules>
