@@ -72,7 +72,15 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
         for (LookupParamMetadata param : lookupMetadata.getParams()) {
         	if ((param.getUsage() != null) && param.getUsage().name().equals("DEFAULT")) {
         		this.searchTextKey = param.getKey();
-        		break;
+        	}
+        	//Add in any writeaccess never default values to the additional params
+        	if(param.getWriteAccess().equals("NEVER")||param.getDefaultValue()!=null){
+        		SearchParam searchParam = new SearchParam();
+        		searchParam.setKey(param.getKey());
+        		if(param.getDefaultValue().get()!=null){
+        			searchParam.setValue(param.getDefaultValue().get().toString());
+        		}
+        		additionalParams.add(searchParam);
         	}
         }
         if (this.searchTextKey == null) {
