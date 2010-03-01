@@ -136,7 +136,6 @@
   <classpathentry kind="src" path="/ks-common-impl"/>
   <classpathentry kind="src" path="/ks-common-ui"/>
   <classpathentry kind="src" path="/ks-common-util"/>
-  <classpathentry kind="var" path="M2_REPO/org/kuali/student/core/ks-core-api/${ks-core.version}/ks-core-api-${ks-core.version}.jar"/>
   <classpathentry kind="src" path="/ks-core-api"/>
   <classpathentry kind="src" path="/ks-core-impl"/>
   <classpathentry kind="src" path="/ks-core-ui"/>
