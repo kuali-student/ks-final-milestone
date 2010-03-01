@@ -7,7 +7,7 @@
   									  </configSuffixes>
   									  <enableImports>false</enableImports>
   									  <configs>
-  									    ${springBean.config.files}
+  									    <config>src/main/resources/META-INF/jaxws-context.xml</config>
   									  </configs>
   									  <configSets>
   									  </configSets>
