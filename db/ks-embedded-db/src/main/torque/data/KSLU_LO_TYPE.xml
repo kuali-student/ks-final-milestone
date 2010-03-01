@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSLU_LO_TYPE
+        DESCR="LO governed by an organization external to department, e.g., the college at large, or a state or accrediting organization"
+        EFF_DT="20080101000000" EXPIR_DT="20100101000000"
+        ID="kuali.lo.type.governed" NAME="Governed"/>
+    <KSLU_LO_TYPE
+        DESCR="LO created in support of programs or courses, e.g., faculty-inspired additional LO for a course"
+        EFF_DT="20080101000000" EXPIR_DT="20100101000000"
+        ID="kuali.lo.type.singleUse" NAME="Single use"/>
+</dataset>
