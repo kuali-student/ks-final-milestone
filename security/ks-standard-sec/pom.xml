@@ -10,6 +10,13 @@
 	</parent>
 	<name>KS Standard Security</name>
 	<description>KS Standard Security - out of the box</description>
+	<properties>
+		<springBean.config.files><![CDATA[
+			<config>src/main/resources/ks-spring-security-cas.xml</config>
+			<config>src/main/resources/ks-spring-security-saml.xml</config>
+			<config>src/main/resources/ks-spring-security.xml</config>]]>
+		</springBean.config.files>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -73,37 +80,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
-        <plugin>
-          <artifactId>maven-eclipse-plugin</artifactId>
-	      <configuration>
-	          <additionalConfig>
-	            <file>
-	              <name>.springBeans</name>
-	              <content>
-                    <!-- <config>src/main/resources/ks-spring-security-cas.xml</config> -->
-	              	<![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<beansProjectDescription>
-  <version>1</version>
-  <pluginVersion>2.3.0.200912170948-RELEASE</pluginVersion>
-  <configSuffixes>
-    <configSuffix>xml</configSuffix>
-  </configSuffixes>
-  <enableImports>false</enableImports>
-  <configs>
-    <config>src/main/resources/ks-spring-security-saml.xml</config>
-    <config>src/main/resources/ks-spring-security.xml</config>
-  </configs>
-  <configSets>
-  </configSets>
-</beansProjectDescription>]]>
-	              </content>
-                </file>
-              </additionalConfig>
-          </configuration>
-        </plugin>
-
-
 		</plugins>
 	</build>
 </project>
