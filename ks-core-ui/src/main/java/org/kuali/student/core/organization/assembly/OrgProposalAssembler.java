@@ -112,7 +112,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
     }
 
     @Override
-    public Metadata getMetadata(String id, String type, String state) throws AssemblyException {
+    public Metadata getMetadata(String idType, String id, String type, String state) throws AssemblyException {
 
         Metadata metadata = null;
         try{
@@ -288,12 +288,11 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
     }
 
     @Override
-    protected AttributeSet getQualification(String id) {
-        String QUALIFICATION_PROPOSAL_ID = "proposalId";
+    protected AttributeSet getQualification(String idType, String id) {
         String DOCUMENT_TYPE_NAME = "documentTypeName";
         AttributeSet qualification = new AttributeSet();
         qualification.put(DOCUMENT_TYPE_NAME, "CluCreditCourseProposal");
-        qualification.put(QUALIFICATION_PROPOSAL_ID, id);
+        qualification.put(idType, id);
         return qualification;
     }
    

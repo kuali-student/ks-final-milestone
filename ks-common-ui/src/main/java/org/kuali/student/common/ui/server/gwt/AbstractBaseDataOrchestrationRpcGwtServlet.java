@@ -58,11 +58,11 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 	}
 
 	@Override
-	public Metadata getMetadata() {
+	public Metadata getMetadata(String idType, String id) {
 
 		try {
 		    //FIXME: should not pass empty id. What to do here?
-			return assembler.getMetadata("", getDefaultMetaDataType(), getDefaultMetaDataState());
+			return assembler.getMetadata(idType, id, getDefaultMetaDataType(), getDefaultMetaDataState());
 		} catch (AssemblyException e) {
 			LOG.error("Error getting Metadata.",e);
 		}

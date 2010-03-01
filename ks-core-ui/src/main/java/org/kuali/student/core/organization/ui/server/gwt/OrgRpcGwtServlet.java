@@ -583,7 +583,7 @@ public class OrgRpcGwtServlet extends BaseRpcGwtServletAbstract<OrganizationServ
         try {
             initAssemblers();
             //FIXME: where to get the ID?
-            return orgProposalAssembler.getMetadata(null, null,"draft");
+            return orgProposalAssembler.getMetadata(null, null, null,"draft");
         }
         catch(Exception e){
             e.printStackTrace();

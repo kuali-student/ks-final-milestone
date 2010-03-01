@@ -10,7 +10,7 @@ public interface BaseDataOrchestrationRpcServiceAsync {
 	
 	//Data operations
 	public void getData(String dataId, AsyncCallback<Data> callback);
-	public void getMetadata(AsyncCallback<Metadata> callback);
+	public void getMetadata(String idType, String id, AsyncCallback<Metadata> callback);
 
 	public void saveData(Data data, AsyncCallback<DataSaveResult> callback);
 	
