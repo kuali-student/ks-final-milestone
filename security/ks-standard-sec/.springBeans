@@ -7,7 +7,7 @@
   									  </configSuffixes>
   									  <enableImports>false</enableImports>
   									  <configs>
-  									    <config>src/main/resources/ks-spring-security-cas.xml</config>
+  									    <!--<config>src/main/resources/ks-spring-security-cas.xml</config>-->
 			<config>src/main/resources/ks-spring-security-saml.xml</config>
 			<config>src/main/resources/ks-spring-security.xml</config>
   									  </configs>
