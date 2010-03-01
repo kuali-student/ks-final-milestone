@@ -70,6 +70,7 @@
 				<dependency>
 					<groupId>org.kuali.student.core</groupId>
 					<artifactId>ks-hibernate</artifactId>
+		          	<version>1.0.0-SNAPSHOT</version>
 					<type>pom</type>
 					<scope>test</scope>
 				</dependency>
@@ -81,6 +82,7 @@
 				<dependency>
 					<groupId>org.kuali.student.core</groupId>
 					<artifactId>ks-eclipselink</artifactId>
+		          	<version>1.0.0-SNAPSHOT</version>
 					<type>pom</type>
 					<scope>test</scope>
 				</dependency>
@@ -95,6 +97,7 @@
 				<dependency>
 					<groupId>org.kuali.student.core</groupId>
 					<artifactId>ks-cxf</artifactId>
+		          	<version>1.0.0-SNAPSHOT</version>
 					<type>pom</type>
 					<scope>test</scope>
 				</dependency>
@@ -106,11 +109,11 @@
 				<dependency>
 					<groupId>org.kuali.student.core</groupId>
 					<artifactId>ks-metro</artifactId>
+		          	<version>1.0.0-SNAPSHOT</version>
 					<type>pom</type>
 					<scope>test</scope>
 				</dependency>
 			</dependencies>
 		</profile>
 	</profiles>
-
 </project>
