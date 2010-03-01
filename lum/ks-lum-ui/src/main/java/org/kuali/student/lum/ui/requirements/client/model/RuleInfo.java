@@ -19,8 +19,8 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.table.Node;
 import org.kuali.student.core.dto.Idable;
-import org.kuali.student.lum.lu.dto.LuStatementInfo;
-import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
+import org.kuali.student.brms.statement.dto.StatementInfo;
+import org.kuali.student.brms.statement.dto.StatementOperatorTypeKey;
 
 public class RuleInfo implements Idable, Serializable {
 
@@ -28,14 +28,31 @@ public class RuleInfo implements Idable, Serializable {
     private String id = new String("0");
     private String cluId;
     private StatementVO statementVO;       //top-level statement (tree ROOT)
-    private String luStatementTypeKey;	   //statement (rule) type
     private String rationale;
     private String naturalLanguage;
     private String expression; // current state of rule expression
     private String previewedExpression; // the state of the expression when it was previewed
     private EditHistory editHistory;
     private boolean simplifying;
+    private String selectedStatementType;
     
+    public String getSelectedStatementType() {
+        return selectedStatementType;
+    }
+    public void setSelectedStatementType(String selectedStatementType) {
+        this.selectedStatementType = selectedStatementType;
+    }
+    public StatementVO createNewStatementVO() {
+        if (selectedStatementType == null) {
+            throw new java.lang.IllegalStateException("selectedStatementType must not be null");
+        }
+        StatementInfo newStatementInfo = new StatementInfo();
+        newStatementInfo.setOperator(StatementOperatorTypeKey.AND);
+        newStatementInfo.setType(selectedStatementType);
+        StatementVO statementVO = new StatementVO();                            
+        statementVO.setStatementInfo(newStatementInfo);                             
+        return statementVO;
+    }
     @Override
     public String getId() {
         return id;
@@ -46,7 +63,7 @@ public class RuleInfo implements Idable, Serializable {
     }
     public String getCluId() {
         return cluId;
-    }
+    } 
     public void setCluId(String cluId) {
         this.cluId = cluId;
     }
@@ -68,11 +85,10 @@ public class RuleInfo implements Idable, Serializable {
     public void setStatementVO(StatementVO statementVO) {
         this.statementVO = statementVO;
     }        
-    public String getLuStatementTypeKey() {
-        return luStatementTypeKey;
-    }
-    public void setLuStatementTypeKey(String luStatementTypeKey) {
-        this.luStatementTypeKey = luStatementTypeKey;
+    public String getStatementTypeKey() {
+        String statementType = (statementVO == null || statementVO.getStatementInfo() == null)? null :
+            statementVO.getStatementInfo().getType();
+    	return statementType;
     }
     
     public Node getStatementTree() {
@@ -167,10 +183,10 @@ public class RuleInfo implements Idable, Serializable {
         StatementVO enclosingStatementVO = statementVO.getEnclosingStatementVO(statementVO,
                 selectedReqComponentVOs.get(0));
         // create new statement to hold the new OR group
-        StatementVO newStatementVO = new StatementVO();
-        LuStatementInfo newLuStatementInfo = new LuStatementInfo();
+        StatementVO newStatementVO = createNewStatementVO();
+        StatementInfo newLuStatementInfo = newStatementVO.getStatementInfo();
         newLuStatementInfo.setOperator(StatementOperatorTypeKey.OR);
-        newStatementVO.setLuStatementInfo(newLuStatementInfo);
+        newStatementVO.setStatementInfo(newLuStatementInfo);
         // remove the selected RCs from original statement and move them into the new
         // StatementVO
         for (ReqComponentVO selectedReqComponentVO : selectedReqComponentVOs) {
@@ -194,10 +210,10 @@ public class RuleInfo implements Idable, Serializable {
         StatementVO enclosingStatementVO = statementVO.getEnclosingStatementVO(statementVO,
                 selectedReqComponentVOs.get(0));
         // create new statement to hold the new OR group
-        StatementVO newStatementVO = new StatementVO();
-        LuStatementInfo newLuStatementInfo = new LuStatementInfo();
+        StatementVO newStatementVO = createNewStatementVO();
+        StatementInfo newLuStatementInfo = newStatementVO.getStatementInfo();
         newLuStatementInfo.setOperator(StatementOperatorTypeKey.AND);
-        newStatementVO.setLuStatementInfo(newLuStatementInfo);
+        newStatementVO.setStatementInfo(newLuStatementInfo);
         // remove the selected RCs from original statement and move them into the new
         // StatementVO
         for (ReqComponentVO selectedReqComponentVO : selectedReqComponentVOs) {

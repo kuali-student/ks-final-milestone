@@ -14,12 +14,21 @@
  */
 package org.kuali.student.common.ui.client.mvc;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.student.common.ui.client.mvc.events.ViewChangeEvent;
+import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
+import org.kuali.student.common.ui.client.mvc.history.HistorySupport;
+import org.kuali.student.common.ui.client.mvc.history.HistoryToken;
+import org.kuali.student.common.ui.client.mvc.history.NavigationEvent;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.GwtEvent.Type;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -29,7 +38,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @author Kuali Student Team
  */
-public abstract class Controller extends Composite {
+public abstract class Controller extends Composite implements HistorySupport {
 	public static final Callback<Boolean> NO_OP_CALLBACK = new Callback<Boolean>() {
 		@Override
 		public void exec(Boolean result) {
@@ -37,12 +46,18 @@ public abstract class Controller extends Composite {
 		}
 	};
 	
+	private final String controllerId;
     private Controller parentController = null;
     private View currentView = null;
     private Enum<?> currentViewEnum = null;
+    private String defaultModelId = null;
+    private final Map<String, ModelProvider<? extends Model>> models = new HashMap<String, ModelProvider<? extends Model>>();
 
     private HandlerManager applicationEventHandlers = new HandlerManager(this);
 
+    protected Controller(final String controllerId) {
+        this.controllerId = controllerId;
+    }
     
     /**
      * Directs the controller to display the specified view. The parameter must be an enum value, based on an enum defined in
@@ -87,6 +102,7 @@ public abstract class Controller extends Composite {
 			            GWT.log("renderView " + viewType.toString(), null);
 			            renderView(view);
 			        	onReadyCallback.exec(true);
+			        	fireNavigationEvent();
 					}
 				}
 			});
@@ -96,6 +112,15 @@ public abstract class Controller extends Composite {
         }
     }
 
+    protected void fireNavigationEvent() {
+        DeferredCommand.addCommand(new Command() {
+            @Override
+            public void execute() {
+                fireApplicationEvent(new NavigationEvent(Controller.this));
+            }
+        });
+    }
+    
     /**
      * Returns the currently displayed view
      * 
@@ -174,21 +199,38 @@ public abstract class Controller extends Composite {
      * @param callback
      */
     @SuppressWarnings("unchecked")
-    public void requestModel(Class modelType, ModelRequestCallback callback) {
-        if (getParentController() != null) {
-            parentController.requestModel(modelType, callback);
-        } else {
-            callback.onRequestFail(new ModelNotFoundException("The requested model was not found", modelType));
-        }
+    public void requestModel(final Class modelType, final ModelRequestCallback callback) {
+        requestModel((modelType == null) ? null : modelType.getName(), callback);
     }
     
     @SuppressWarnings("unchecked")
-    public void requestModel(String modelId, ModelRequestCallback callback) {
-        if (getParentController() != null) {
+    public void requestModel(final String modelId, final ModelRequestCallback callback) {
+        String id = (modelId == null) ? defaultModelId : modelId;
+
+        ModelProvider<? extends Model> p = models.get(id);
+        if (p != null) {
+            p.requestModel(callback);
+        } else if (getParentController() != null) {
             parentController.requestModel(modelId, callback);
         } else {
             callback.onRequestFail(new RuntimeException("The requested model was not found: " + modelId));
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    public void requestModel(final ModelRequestCallback callback) {
+        requestModel((String)null, callback);
+    }
+    
+    public <T extends Model> void registerModel(String modelId, ModelProvider<T> provider) {
+        models.put(modelId, provider);
+    }
+    
+    public String getDefaultModelId() {
+        return defaultModelId;
+    }
+    protected void setDefaultModelId(String defaultModelId) {
+        this.defaultModelId = defaultModelId;
     }
     
     /**
@@ -254,5 +296,54 @@ public abstract class Controller extends Composite {
     public abstract void showDefaultView(Callback<Boolean> onReadyCallback);
 
     public abstract Class<? extends Enum<?>> getViewsEnum();
+    
+    public abstract Enum<?> getViewEnumValue(String enumValue);
+    
+    @Override
+    public void collectHistory(HistoryStackFrame frame) {
+        HistoryToken token = getHistoryToken();
+        frame.getTokens().put(token.getKey(), token);
+        if (currentView != null) {
+            currentView.collectHistory(frame);
+        }
+    }
+    
+    protected HistoryToken getHistoryToken() {
+        HistoryToken token = new HistoryToken(controllerId);
+        if (currentViewEnum != null) {
+            token.getParameters().put("view", currentViewEnum.toString());
+        }
+        return token;
+    }
 
+    @Override
+    public void onHistoryEvent(final HistoryStackFrame frame) {
+        HistoryToken token = frame.getTokens().get(controllerId);
+        if (token != null) {
+            String s = token.getParameters().get("view");
+            if (s != null) {
+                Enum<?> viewEnum = getViewEnumValue(s);
+                if (viewEnum != null) {
+                    if (currentViewEnum == null || !viewEnum.equals(currentViewEnum)) {
+                        showView(viewEnum, new Callback<Boolean>() {
+                            @Override
+                            public void exec(Boolean result) {
+                                if (result) {
+                                    currentView.onHistoryEvent(frame);
+                                }
+                            }
+                        });
+                    } else if (currentView != null) {
+                        currentView.onHistoryEvent(frame);
+                    }
+                }
+            }
+        }
+    }
+    
+    
+
+    public String getControllerId() {
+        return this.controllerId;
+    }
 }

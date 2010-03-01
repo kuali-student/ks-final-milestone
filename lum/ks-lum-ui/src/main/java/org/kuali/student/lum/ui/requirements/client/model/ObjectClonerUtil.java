@@ -19,16 +19,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
+import org.kuali.student.brms.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.brms.statement.dto.ReqComponentInfo;
+import org.kuali.student.brms.statement.dto.StatementInfo;
 import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
-import org.kuali.student.lum.lu.dto.LuStatementInfo;
-import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
-import org.kuali.student.lum.lu.dto.ReqComponentInfo;
-import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 
 public class ObjectClonerUtil {
 
@@ -44,13 +38,13 @@ public class ObjectClonerUtil {
     
     private static StatementVO doClone(StatementVO inStatementVO) {
         StatementVO cloned = null;
-        LuStatementInfo clonedLuStatementInfo = null;
+        StatementInfo clonedLuStatementInfo = null;
 
         if (inStatementVO != null) {
             cloned = new StatementVO();
             clonedLuStatementInfo = clone(
-                    inStatementVO.getLuStatementInfo());
-            cloned.setLuStatementInfo(clonedLuStatementInfo);
+                    inStatementVO.getStatementInfo());
+            cloned.setStatementInfo(clonedLuStatementInfo);
             if (inStatementVO != null) {
                 for (ReqComponentVO reqComponentVO : inStatementVO.getReqComponentVOs()) {
                     cloned.addReqComponentVO(clone(reqComponentVO));
@@ -66,15 +60,15 @@ public class ObjectClonerUtil {
         return cloned;
     }
     
-    private static LuStatementInfo clone(LuStatementInfo inLuStatementInfo) {
-        LuStatementInfo clonedLuStatementInfo = null;
+    private static StatementInfo clone(StatementInfo inLuStatementInfo) {
+        StatementInfo clonedLuStatementInfo = null;
         if (inLuStatementInfo != null) {
-            clonedLuStatementInfo = new LuStatementInfo();
+            clonedLuStatementInfo = new StatementInfo();
             clonedLuStatementInfo.setName(inLuStatementInfo.getName());
             clonedLuStatementInfo.setDesc(inLuStatementInfo.getDesc());
             clonedLuStatementInfo.setOperator(inLuStatementInfo.getOperator());
-            clonedLuStatementInfo.setLuStatementIds(
-                    new ArrayList<String>(inLuStatementInfo.getLuStatementIds()));
+            clonedLuStatementInfo.setStatementIds(
+                    new ArrayList<String>(inLuStatementInfo.getStatementIds()));
             clonedLuStatementInfo.setReqComponentIds(
                     new ArrayList<String>(inLuStatementInfo.getReqComponentIds()));
             clonedLuStatementInfo.setAttributes(clone(inLuStatementInfo.getAttributes()));
@@ -126,7 +120,7 @@ public class ObjectClonerUtil {
         return clonedReqComponentVO;
     }
     
-    private static ReqComponentInfo clone(ReqComponentInfo inReqComponentInfo) {
+    public static ReqComponentInfo clone(ReqComponentInfo inReqComponentInfo) {
         ReqComponentInfo clonedReqComponentInfo = null;
         if (inReqComponentInfo != null) {
             clonedReqComponentInfo = new ReqComponentInfo();

@@ -94,7 +94,7 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
         BeanUtils.copyProperties(dto, lo, new String[] { "desc", "loRepository", "loType", "attributes", "metaInfo" });
 
         lo.setAttributes(toGenericAttributes(LoAttribute.class, dto.getAttributes(), lo, dao));
-        lo.setDesc(toLoRichText(dto.getDesc()));
+        lo.setDescr(toLoRichText(dto.getDesc()));
 
         LoRepository repository = dao.fetch(LoRepository.class, dto.getLoRepositoryKey());
         if(null == repository) {
@@ -115,8 +115,8 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
         LoInfo dto = new LoInfo();
 
         BeanUtils.copyProperties(entity, dto,
-                new String[] { "desc", "attributes", "type", "loCategory" });
-        dto.setDesc(toRichTextInfo(entity.getDesc()));
+                new String[] { "desc", "attributes", "type" });
+        dto.setDesc(toRichTextInfo(entity.getDescr()));
         dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         dto.setType(entity.getLoType().getId());
@@ -124,17 +124,19 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
         return dto;
     }
 
-    public static LoCategory toLoCategory(LoCategoryInfo dto, LoDao dao) throws InvalidParameterException {
+    public static LoCategory toLoCategory(LoCategoryInfo dto, LoDao dao) throws InvalidParameterException, DoesNotExistException {
         return toLoCategory(new LoCategory(), dto, dao);
     }
     
-    public static LoCategory toLoCategory(LoCategory entity, LoCategoryInfo dto, LoDao dao) throws InvalidParameterException {
+    public static LoCategory toLoCategory(LoCategory entity, LoCategoryInfo dto, LoDao dao) throws InvalidParameterException, DoesNotExistException {
         if(entity == null)
             entity = new LoCategory();
         BeanUtils.copyProperties(dto, entity,
-                new String[] { "desc", "attributes", "metaInfo", "loRepository", "id" });
+                new String[] { "desc", "attributes", "metaInfo", "loRepository", "type", "id"});
         entity.setDesc(toLoRichText(dto.getDesc()));
         entity.setAttributes(toGenericAttributes(LoCategoryAttribute.class, dto.getAttributes(), entity, dao));
+        entity.setLoRepository(dao.fetch(LoRepository.class, dto.getLoRepository()));
+        entity.setLoCategoryType(dao.fetch(LoCategoryType.class, dto.getType()));
         return entity;
     }
 
@@ -142,11 +144,12 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
         LoCategoryInfo dto = new LoCategoryInfo();
 
         BeanUtils.copyProperties(entity, dto,
-                new String[] { "desc", "attributes", "loRepository" });
-        dto.setDesc(toRichTextInfo(entity.getDesc()));
+                new String[] { "desc", "attributes", "loRepository", "loCategoryType" });
+        dto.setDesc(toRichTextInfo(entity.getDescr()));
         dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         dto.setLoRepository(entity.getLoRepository().getId());
+        dto.setType(entity.getLoCategoryType().getId());
         
         return dto;
     }
@@ -156,7 +159,7 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
         
         BeanUtils.copyProperties(entity, dto,
                 new String[] { "desc", "attributes", "rootLo" });
-        dto.setDesc(toRichTextInfo(entity.getDesc()));
+        dto.setDesc(toRichTextInfo(entity.getDescr()));
         dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         dto.setRootLoId(entity.getRootLo() == null? null :entity.getRootLo().getId());
@@ -288,6 +291,7 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
         BeanUtils.copyProperties(dto, entity,
                 new String[] { "attributes", "metaInfo" });
         entity.setAttributes(toGenericAttributes(LoCategoryTypeAttribute.class, dto.getAttributes(), entity, dao));
+        entity.setDescr(dto.getDesc());
         return entity;
     }
 
@@ -296,6 +300,7 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
 		LoCategoryTypeInfo dto = new LoCategoryTypeInfo();
 		BeanUtils.copyProperties(loCatType, dto, new String[] { "attributes" });
         dto.setAttributes(toAttributeMap(loCatType.getAttributes()));
+        dto.setDesc(loCatType.getDescr());
 		return dto;
 	}
 

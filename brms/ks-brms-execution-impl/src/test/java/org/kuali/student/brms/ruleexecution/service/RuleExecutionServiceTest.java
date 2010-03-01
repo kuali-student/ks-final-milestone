@@ -230,7 +230,7 @@ public class RuleExecutionServiceTest {
         brInfo.setMetaInfo(metaInfo);
 
         Date effectiveStartTime = createDate(2000, 1, 1, 12, 00);
-    	Date effectiveEndTime = createDate(2010, 1, 1, 12, 00);
+    	Date effectiveEndTime = createDate(2100, 1, 1, 12, 00);
         brInfo.setEffectiveDate(effectiveStartTime);
         brInfo.setExpirationDate(effectiveEndTime);
 
@@ -313,7 +313,7 @@ public class RuleExecutionServiceTest {
         brInfo.setMetaInfo(metaInfo);
 
         Date effectiveStartTime = createDate(2000, 1, 1, 12, 00);
-    	Date effectiveEndTime = createDate(2010, 1, 1, 12, 00);
+    	Date effectiveEndTime = createDate(2100, 1, 1, 12, 00);
         brInfo.setEffectiveDate(effectiveStartTime);
         brInfo.setExpirationDate(effectiveEndTime);
 

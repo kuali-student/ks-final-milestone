@@ -72,6 +72,24 @@ public abstract class NavigationHandler implements ClickHandler, KeyDownHandler 
 		   
 		 });
 	 }
+	 
+	 
 		 
-	 public abstract void beforeNavigate(Callback<Boolean> callback);
+	 public String getUrl() {
+		return url;
+	}
+
+	public Controller getController() {
+		return controller;
+	}
+
+	public String getNavigationKey() {
+		return navigationKey;
+	}
+
+	public Enum<?> getNavEnum() {
+		return navEnum;
+	}
+
+	public abstract void beforeNavigate(Callback<Boolean> callback);
 }

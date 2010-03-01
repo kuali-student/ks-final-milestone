@@ -15,38 +15,33 @@
 package org.kuali.student.core.organization.ui.client.mvc.view;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.focus.FocusGroup;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
+import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
-import org.kuali.student.core.search.dto.QueryParamValue;
+import org.kuali.student.core.search.dto.SearchParam;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.event.dom.client.HasBlurHandlers;
-import com.google.gwt.event.dom.client.HasFocusHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class OrgPicker extends Composite implements SuggestPicker {
 	
 	private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
-	final SearchSuggestOracle orgSearchOracle = new SearchSuggestOracle(orgRpcServiceAsync,
-	        "org.search.orgByShortNameAndType", 
-	        "org.queryParam.orgShortName",
-	        "org.queryParam.orgId", 
-	        "org.resultColumn.orgId", 
-	        "org.resultColumn.orgShortName");
-    final KSSuggestBox suggestBox = new KSSuggestBox(orgSearchOracle);
+	final SearchSuggestOracle orgSearchOracle;
+	final KSSuggestBox suggestBox;;
 	
 	final KSAdvancedSearchWindow orgSearchWidget = new KSAdvancedSearchWindow(orgRpcServiceAsync, "org.search.orgQuickViewByHierarchyShortName","org.resultColumn.orgId");   
     
@@ -54,25 +49,27 @@ public class OrgPicker extends Composite implements SuggestPicker {
     
     private final FocusGroup focus = new FocusGroup(this);
     
-	public OrgPicker() {
+	public OrgPicker(LookupMetadata lookupMetaData) {
 		super();
 
-		// FIXME when org search window is displayed, call focus.setSuppressed(true), and set it to false afterwards
+		orgSearchOracle = new SearchSuggestOracle(lookupMetaData); 
+	    suggestBox = new KSSuggestBox(orgSearchOracle);
+
+	    // FIXME when org search window is displayed, call focus.setSuppressed(true), and set it to false afterwards
 		focus.addWidget(suggestBox);
 		
 		initWidget(root);
 		orgSearchOracle.setTextWidget(suggestBox.getTextBox());
 		
 		//Restrict searches to Department Types
-		ArrayList<QueryParamValue> params = new ArrayList<QueryParamValue>();
-		QueryParamValue orgTypeParam = new QueryParamValue();
+		List<SearchParam> additionalParams = new ArrayList<SearchParam>();
+		SearchParam orgTypeParam = new SearchParam();
 		orgTypeParam.setKey("org.queryParam.orgType");
 		orgTypeParam.setValue("kuali.org.Department");
-		params.add(orgTypeParam);
-		orgSearchOracle.setAdditionalQueryParams(params);
+		additionalParams.add(orgTypeParam);
+		orgSearchOracle.setAdditionalSearchParams(additionalParams);
 		
 		root.add(suggestBox);
-
 	}
 
 	@Override
@@ -114,5 +111,11 @@ public class OrgPicker extends Composite implements SuggestPicker {
 	@Override
 	public HandlerRegistration addBlurHandler(BlurHandler handler) {
 		return focus.addBlurHandler(handler);
+	}
+
+	@Override
+	public HandlerRegistration addSelectionChangeHandler(
+			SelectionChangeHandler handler) {
+		return suggestBox.addSelectionChangeHandler(handler);
 	}
 }

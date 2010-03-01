@@ -199,7 +199,11 @@ public class RuleExecutionImpl implements RuleExecution {
             Object obj = facts.get(i);
             if (obj instanceof FactContainer) {
                 FactContainer fc = (FactContainer) obj;
-                return this.reportBuilder.buildReport(fc.getPropositionContainer());
+                // If rule was executed. 
+                // E.g. Rule effective date has not expired and rule propositions were found 
+                if(fc.getState() == FactContainer.State.COMPLETE) {
+                	return this.reportBuilder.buildReport(fc.getPropositionContainer());
+                }
            }
         }
         return null;
@@ -214,15 +218,16 @@ public class RuleExecutionImpl implements RuleExecution {
 	 * @return Rule execution result DTO
 	 */
     private ExecutionResultInfo createExecutionResultInfo(ExecutionResult executionResult) {
-    	ExecutionResultInfo exeDTO = new ExecutionResultInfo();
+    	final ExecutionResultInfo exeDTO = new ExecutionResultInfo();
     	exeDTO.setExecutionLog(executionResult.getExecutionLog());
     	exeDTO.setErrorMessage(executionResult.getErrorMessage());
     	exeDTO.setExecutionSuccessful(executionResult.getExecutionResult());
     	
-    	RuleReportInfo reportDTO = new RuleReportInfo();
-    	RuleReport report = createReport(executionResult.getResults());
+    	final RuleReport report = createReport(executionResult.getResults());
+    	RuleReportInfo reportDTO = null;
     		
     	if (report != null) {
+    		reportDTO = new RuleReportInfo();
     		List<PropositionReportInfo> propositionReportList = new ArrayList<PropositionReportInfo>();
     		for(PropositionReport propositionReport : report.getPropositionReports()) {
 	    		PropositionReportInfo prDTO = new PropositionReportInfo();
@@ -246,7 +251,7 @@ public class RuleExecutionImpl implements RuleExecution {
     }
 
     private AgendaExecutionResultInfo createAgendaExecutionResult(List<ExecutionResultInfo> executionResultList) {
-    	AgendaExecutionResultInfo agendaExecutionResult = new AgendaExecutionResultInfo();
+    	final AgendaExecutionResultInfo agendaExecutionResult = new AgendaExecutionResultInfo();
 
     	// Clear execution level fact finder caching
     	this.factFinderCache.clear();
@@ -339,7 +344,7 @@ public class RuleExecutionImpl implements RuleExecution {
     private Map<String, Object> createFactMap(BusinessRuleInfo businessRule, Map<String,String> exectionParamMap) 
     	throws OperationFailedException, DoesNotExistException {
     	
-    	Map<String, Object> factMap = new HashMap<String, Object>();
+    	final Map<String, Object> factMap = new HashMap<String, Object>();
 
     	if (businessRule.getBusinessRuleElementList() == null) {
     		return factMap;
@@ -465,13 +470,13 @@ public class RuleExecutionImpl implements RuleExecution {
     		final Map<String,String> executionParamMap)
 		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
     	// Retrieve ACTIVE business rule
-    	List<BusinessRuleInfo> businessRuleInfoList = this.ruleManagement.getBusinessRuleByAnchorList(businessRuleAnchorInfoList);
+    	final List<BusinessRuleInfo> businessRuleInfoList = this.ruleManagement.getBusinessRuleByAnchorList(businessRuleAnchorInfoList);
 
     	// Clear execution level fact finder cache
     	this.factFinderCache.clear();
     	//this.factFinderTypeCache.clear();
 
-    	List<ExecutionResultInfo> executionResultList = new ArrayList<ExecutionResultInfo>();
+    	final List<ExecutionResultInfo> executionResultList = new ArrayList<ExecutionResultInfo>();
     	for(BusinessRuleInfo businessRule : businessRuleInfoList) {
 	 		ExecutionResultInfo executionResult = executeRule(businessRule.getId(), executionParamMap);
 	 		executionResultList.add(executionResult);
@@ -523,7 +528,7 @@ public class RuleExecutionImpl implements RuleExecution {
     	}
 
     	// Retrieve business rule
-    	BusinessRuleInfo businessRule = this.ruleManagement.getDetailedBusinessRuleInfo(businessRuleId);
+    	final BusinessRuleInfo businessRule = this.ruleManagement.getDetailedBusinessRuleInfo(businessRuleId);
 		addRuleSet(businessRule);
 
 		Map<String, Object> factMap = createFactMap(businessRule, exectionParamMap);
@@ -607,9 +612,9 @@ public class RuleExecutionImpl implements RuleExecution {
 			throw new MissingParameterException("businessRule is null");
 		}
 		
-		RuleSetInfo ruleSet = this.ruleRespository.translateBusinessRule(businessRule);
+		final RuleSetInfo ruleSet = this.ruleRespository.translateBusinessRule(businessRule);
 
-		Map<String, Object> factMap = createFactMap(businessRule, exectionParamMap);
+		final Map<String, Object> factMap = createFactMap(businessRule, exectionParamMap);
 		
 		try {
         	this.ruleSetExecutorTest.addRuleSet(businessRule, ruleSet);

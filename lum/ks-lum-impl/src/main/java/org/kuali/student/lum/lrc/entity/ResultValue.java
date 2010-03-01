@@ -65,7 +65,7 @@ public abstract class ResultValue extends MetaEntity {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "RT_DESCR_ID")
-    private RichText desc;
+    private RichText descr;
 
     @Column(name = "VALUE")
     private String value;
@@ -110,17 +110,17 @@ public abstract class ResultValue extends MetaEntity {
     }
 
     /**
-     * @return the desc
+     * @return the descr
      */
-    public RichText getDesc() {
-        return desc;
+    public RichText getDescr() {
+        return descr;
     }
 
     /**
-     * @param desc the desc to set
+     * @param descr the descr to set
      */
-    public void setDesc(RichText desc) {
-        this.desc = desc;
+    public void setDescr(RichText descr) {
+        this.descr = descr;
     }
 
     /**

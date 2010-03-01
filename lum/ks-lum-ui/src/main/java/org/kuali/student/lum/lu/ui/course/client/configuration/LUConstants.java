@@ -28,8 +28,6 @@ public class LUConstants {
     //TODO These should probably be somewhere else as they are LUM wide constants - not just
     //     UI specific
 
-    public final static String LU_TYPE_CREDIT_COURSE = "luType.shell.course";
-    
     public final static String COURSE_GROUP_NAME = "course";
     public final static String PROPOSAL_TYPE_COURSE_CREATE = "kuali.proposal.type.course.create";
     public final static String CLU_TYPE_CREDIT_COURSE = "kuali.lu.type.CreditCourse";
@@ -93,6 +91,7 @@ public class LUConstants {
 
     // Message keys for top-level section label lookup
     public static final String PROPOSAL_INFORMATION_LABEL_KEY = "cluProposalInformation";
+    public static final String COURSE_INFORMATION_LABEL_KEY = "cluCourseInformation";
     public static final String ACADEMIC_CONTENT_LABEL_KEY = "cluAcademicContent";
     public static final String STUDENT_ELIGIBILITY_LABEL_KEY = "cluStudentEligibility";
     public static final String ADMINISTRATION_LABEL_KEY = "cluAdministration";
@@ -112,7 +111,7 @@ public class LUConstants {
     
     // Governance labels
     public static final String GOVERNANCE_LABEL_KEY = "cluGovernance";
-    public static final String CURRICULUM_OVERSIGHT_LABEL_KEY = "cluCurriculumOversight";
+    public static final String ACADEMIC_SUBJECT_ORGS_KEY = "cluCurriculumOversight";
     public static final String CAMPUS_LOCATION_LABEL_KEY = "cluCampusLocation";
     public static final String ADMIN_ORGS_LABEL_KEY = "cluAdminOrgs";
     public static final String ADMIN_ORG_LABEL_KEY = "cluAdminOrg";
@@ -190,7 +189,7 @@ public class LUConstants {
     public static final String LO_SEARCH_LINK_KEY = "cluLOSearch";
     public static final String LO_SEARCH_AGAIN_LINK_KEY = "cluLOSearchAgain";
     public static final String LO_INSTRUCTIONS_KEY = "cluLOInstructions";
-    public static final String LO_CATEGORY_CODE_KEY = "cluLOCategoryCode";
+    public static final String LO_CATEGORY_KEY = "cluLOCategory";
 
     
     //    public static final String SYLLABUS_LABEL_KEY = "cluSyllabus";

@@ -57,6 +57,7 @@ public class KSListBoxImpl extends KSSelectItemWidgetAbstract{
             listBox.addItem(super.getListItems().getItemText(id),id);            
         }
         
+        super.setInitialized(true);
     }
 
     protected void init() {
@@ -144,10 +145,7 @@ public class KSListBoxImpl extends KSSelectItemWidgetAbstract{
         
         super.setListItems(listItems);
         
-        listBox.clear();
-        for (String id:listItems.getItemIds()){
-            listBox.addItem(listItems.getItemText(id),id);            
-        }        
+        redraw();
     }
 
     /**

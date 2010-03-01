@@ -42,6 +42,7 @@ import org.kuali.student.core.entity.MetaEntity;
 	@NamedQuery(name = "LuiLuiRelation.getLuiIdsByRelationType", query = "SELECT rel.lui.id FROM LuiLuiRelation rel WHERE rel.relatedLui.id = :luiId AND rel.luLuRelationType.id = :luLuRelationTypeId"),
 	@NamedQuery(name = "LuiLuiRelation.getLuisByRelationType", query = "SELECT rel.lui FROM LuiLuiRelation rel WHERE rel.relatedLui.id = :luiId AND rel.luLuRelationType.id = :luLuRelationTypeId"),
 	@NamedQuery(name = "LuiLuiRelation.getRelatedLuiIdsByLuiId", query = "SELECT rel.relatedLui.id FROM LuiLuiRelation rel WHERE rel.lui.id = :luiId AND rel.luLuRelationType.id = :luLuRelationTypeId"),
+	@NamedQuery(name = "LuiLuiRelation.getRelationTypeByLuiId", query = "SELECT distinct rel.luLuRelationType.id FROM LuiLuiRelation rel WHERE rel.lui.id = :luiId AND rel.relatedLui.id = :relatedLuiId"),
 	@NamedQuery(name = "LuiLuiRelation.getRelatedLuisByLuiId", query = "SELECT rel.relatedLui FROM LuiLuiRelation rel WHERE rel.lui.id = :luiId AND rel.luLuRelationType.id = :luLuRelationTypeId")
 })
 public class LuiLuiRelation extends MetaEntity implements

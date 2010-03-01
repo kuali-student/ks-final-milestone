@@ -13,7 +13,7 @@
     
     <param name="ks.core.jpa.DatabasePlatform.oracle">org.hibernate.dialect.Oracle10gDialect</param>
     <param name="ks.core.datasource.driver.name.oracle">oracle.jdbc.OracleDriver</param>
-    <param name="ks.core.datasource.url.oracle">dbc:oracle:thin:@localhost:1521:XE</param>
+    <param name="ks.core.datasource.url.oracle">jdbc:oracle:thin:@localhost:1521:XE</param>
     <param name="ks.core.datasource.username.oracle">kscore</param>
     <param name="ks.core.datasource.password.oracle">kscore</param>
     <param name="ks.core.datasource.validationQuery.oracle">select 1 from dual</param>
@@ -38,6 +38,4 @@
 	
 	<param name="ks.core.doDataLoad">false</param>
 	
-	<param name="config.location">${user.home}/kuali/main/${environment}/ks-config.xml</param> 
-
 </config>

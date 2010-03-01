@@ -86,11 +86,29 @@
 
 	<!-- impl for Rice Authentication Service  -->
 	<bean id="ksRiceAuthenticationService" class="org.kuali.student.security.KSRiceAuthenticationServiceImpl"/>
-	
-	<!-- Action Request Derived role -->
-	<bean id="ksActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.permission.role.KSActionRequestDerivedRoleTypeServiceImpl"/>
+
+	<!-- Action Request Derived role (Non Adhoc) -->
+	<bean id="ksNonAdhocActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.permission.role.KSNonAdhocActionRequestDerivedRoleTypeServiceImpl"/>
+
+    <!-- Action Request Derived role (Adhoc) -->
+    <bean id="ksAdhocActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.permission.role.KSAdhocActionRequestDerivedRoleTypeServiceImpl"/>
 
 	<!-- Route Log Derived role -->
-	<bean id="ksRouteLogDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.permission.role.KSRouteLogDerivedRoleTypeServiceImpl"/>
-	
+	<bean id="ksRouteLogDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.permission.role.KSRouteLogDerivedRoleTypeServiceImpl">
+        <property name="checkFutureRequests" value="false" />
+	</bean>
+
+	<bean id="ksCommentOnDocumentRoleTypeService" class="org.kuali.rice.kns.authorization.PermissionDerivedRoleTypeServiceImpl">
+	    <property name="permissionTemplateNamespace" value="KS-SYS" />
+	    <property name="permissionTemplateName" value="Comment on Document" />
+	</bean>
+
+    <bean id="ksEditDocumentRoleTypeService" class="org.kuali.rice.kns.authorization.PermissionDerivedRoleTypeServiceImpl">
+        <property name="permissionTemplateNamespace" value="KS-SYS" />
+        <property name="permissionTemplateName" value="Edit Document" />
+    </bean>
+    
+    <!-- Use our own custom xml parser which also parses passwords -->
+   	<bean id="enUserXmlService" class="org.kuali.rice.student.kew.xml.KSUserXmlServiceImpl" />
+
 </beans>

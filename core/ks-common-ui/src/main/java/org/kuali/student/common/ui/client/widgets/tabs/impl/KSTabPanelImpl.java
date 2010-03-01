@@ -161,36 +161,6 @@ public class KSTabPanelImpl extends KSTabPanelAbstract{
 			tabPanel.addStyleName("KS-TabPanel-Tab");
 			this.initWidget(tabPanel);
 			this.displayContent = displayContent;
-			//FIXME: (fix maybe?) The following does NOT capture mouseover and mouseout 
-			//events on a simple panel, using focuspanel instead 
-/*			Event.addNativePreviewHandler(new Event.NativePreviewHandler() {
-				@Override
-				public void onPreviewNativeEvent(NativePreviewEvent event) {
-		    	    int type = event.getTypeInt();
-		    	    if (Element.is(event.getNativeEvent().getEventTarget())) {
-			    	     com.google.gwt.dom.client.Element e = Element.as(event.getNativeEvent().getEventTarget());
-			    	     if (Tab.this.tabPanel.getElement().isOrHasChild(e)) {
-			    	         switch(type)
-			    	         {
-			    	        	case Event.ONCLICK:
-			    	        		System.out.println(e.getClassName());
-			    	        		Tab.this.onSelect();
-			    	        		
-			    	        		break;
-			    	        	case Event.ONMOUSEOVER:
-			    	        		Tab.this.onMouseOver();
-			    	        		break;
-			    	        	case Event.ONMOUSEOUT:
-			    	        		Tab.this.onMouseOut();
-			    	        		break;
-			    	        	default:
-			    	        		break;
-			    	         }
-			    	     }
-		    	    
-		    	    }
-				}
-		    });*/
 		}
 		
 		public void addTabStyleName(String style){

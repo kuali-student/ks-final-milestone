@@ -49,10 +49,10 @@ import org.kuali.student.core.organization.entity.OrgPositionRestriction;
 import org.kuali.student.core.organization.entity.OrgType;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
-import org.kuali.student.core.search.newdto.SearchParam;
-import org.kuali.student.core.search.newdto.SearchRequest;
-import org.kuali.student.core.search.newdto.SearchResult;
-import org.kuali.student.core.search.newdto.SortDirection;
+import org.kuali.student.core.search.dto.SearchParam;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
+import org.kuali.student.core.search.dto.SortDirection;
 import org.kuali.student.core.search.service.impl.SearchManager;
 import org.kuali.student.core.search.service.impl.SearchManagerImpl;
 
@@ -133,7 +133,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 
 		orgType.setId("kuali.org.CorporateEntity");
 		orgType.setName("Corporate Entity");
-		orgType.setDesc("A legal corporate entity");
+		orgType.setDescr("A legal corporate entity");
 
 		Org org = new Org();
 		org.setType(orgType);
@@ -144,7 +144,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		OrgHierarchy orgHierarchy = new OrgHierarchy();
 		orgHierarchy.setId("kuali.org.Main");
 		orgHierarchy.setName("Main");
-		orgHierarchy.setDesc("Main Organizational Hierarchy");
+		orgHierarchy.setDescr("Main Organizational Hierarchy");
 		orgHierarchy.setRootOrg(org);
 
 		dao.create(orgType);
@@ -175,7 +175,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		OrgType orgType = new OrgType();
 		orgType.setId("kauli.org.TestOrgTypeKey1");
 		orgType.setName("Test OrgType 1");
-		orgType.setDesc("A test OrgType");
+		orgType.setDescr("A test OrgType");
 
 		Org org = new Org();
 		org.setType(orgType);
@@ -194,7 +194,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		OrgHierarchy orgHierarchy = new OrgHierarchy();
 		orgHierarchy.setId("kuali.org.TestOrgHierarchy1");
 		orgHierarchy.setName("TestOrgHeir1");
-		orgHierarchy.setDesc("Test Organizational Hierarchy 1");
+		orgHierarchy.setDescr("Test Organizational Hierarchy 1");
 		orgHierarchy.setRootOrg(org);
 
 		dao.create(orgType);
@@ -238,7 +238,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		OrgType orgType = new OrgType();
 		orgType.setId("kauli.org.TestOrgTypeKey1");
 		orgType.setName("Test OrgType 1");
-		orgType.setDesc("A test OrgType");
+		orgType.setDescr("A test OrgType");
 
 		Org org = new Org();
 		org.setType(orgType);
@@ -257,7 +257,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		OrgHierarchy orgHierarchy = new OrgHierarchy();
 		orgHierarchy.setId("kuali.org.TestOrgHierarchy1");
 		orgHierarchy.setName("TestOrgHeir1");
-		orgHierarchy.setDesc("Test Organizational Hierarchy 1");
+		orgHierarchy.setDescr("Test Organizational Hierarchy 1");
 		orgHierarchy.setRootOrg(org);
 
 		dao.create(orgType);
@@ -436,11 +436,11 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 				return o1.getId().compareTo(o2.getId());
 			}});
 		assertEquals("68", orgPersonRelations.get(0).getOrg().getId());
-		assertEquals("Head", orgPersonRelations.get(0).getType().getDesc());
+		assertEquals("Head", orgPersonRelations.get(0).getType().getDescr());
 		assertEquals("KIM-1", orgPersonRelations.get(0).getPersonId());
 		assertEquals("147", orgPersonRelations.get(1).getOrg().getId());
 		assertEquals("KIM-3", orgPersonRelations.get(1).getPersonId());
-		assertEquals("Professor", orgPersonRelations.get(2).getType().getDesc());
+		assertEquals("Professor", orgPersonRelations.get(2).getType().getDescr());
 		assertEquals("KIM-1", orgPersonRelations.get(2).getPersonId());
 	}
 
@@ -448,8 +448,8 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 	public void getOrgPersonRelationsByPerson() {
 		List<OrgPersonRelation> orgPersonRelations = dao.getOrgPersonRelationsByPerson("KIM-1", "68");
 		assertEquals(2, orgPersonRelations.size());
-		assertEquals("Head", orgPersonRelations.get(0).getType().getDesc());
-		assertEquals("Professor", orgPersonRelations.get(1).getType().getDesc());
+		assertEquals("Head", orgPersonRelations.get(0).getType().getDescr());
+		assertEquals("Professor", orgPersonRelations.get(1).getType().getDescr());
 	}
 
 	@Test

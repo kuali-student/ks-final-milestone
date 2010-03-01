@@ -14,6 +14,7 @@
  */
 package org.kuali.student.core.comment.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.jws.WebService;
@@ -47,6 +48,7 @@ import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.search.service.impl.SearchManager;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
+import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -380,9 +382,12 @@ public class CommentServiceImpl implements CommentService {
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(commentInfo, "commentInfo");
 
-		List<ValidationResultContainer> validationResults = validator.validateTypeStateObject(commentInfo, getObjectStructure("commentInfo"));
-
-		return validationResults;
+		List<ValidationResultInfo> valResults = validator.validateTypeStateObject(commentInfo, getObjectStructure("commentInfo")); 
+		ValidationResultContainer valContainer = new ValidationResultContainer();
+		valContainer.setValidationResults(valResults);
+		
+		List<ValidationResultContainer> valContList = new ArrayList<ValidationResultContainer>();
+		return valContList;
     }
 
     /**

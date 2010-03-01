@@ -22,6 +22,7 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -171,41 +172,13 @@ public class KSListMenuImpl extends KSBasicMenuAbstract{
         KSMenuItemData item;
         int indent;
         int itemNum;
+        private String id = HTMLPanel.createUniqueId();
+	    HTMLPanel anchorPanel = new HTMLPanel("<a href='javascript:return false;' id='" + id + "'></a>");
         
         public MenuItemPanel(KSMenuItemData item, int indent, int itemNum){
             this.item = item;
             this.indent = indent;
             this.itemNum = itemNum;
-            
-            if(indent == 1 && !(item.getSubItems().isEmpty())){
-                itemLabel.setText(item.getLabel());
-                itemLabel.addStyleName(KSStyles.KS_BASIC_MENU_TOPLEVEL_ITEM_LABEL);
-                this.addStyleName(KSStyles.KS_BASIC_MENU_TOPLEVEL_ITEM_PANEL);
-            }
-            else{
-                itemLabel.setText(item.getLabel());
-            }
-            
-            //Deprecated Numbering code
-            /*if(numberAllItems){
-                // logic for indent maybe
-                itemLabel.setText(itemNum + ". " + item.getLabel());
-            }
-            else{
-                if(indent == 1 && !(item.getSubItems().isEmpty())){
-                    itemLabel.setText(itemNum + ". " + item.getLabel());
-                    itemLabel.addStyleName(KSStyles.KS_BASIC_MENU_TOPLEVEL_ITEM_LABEL);
-                    this.addStyleName(KSStyles.KS_BASIC_MENU_TOPLEVEL_ITEM_PANEL);
-                }
-                else{
-                    itemLabel.setText(item.getLabel());
-                }
-            }*/
-            
-            //Deprecated Indent code
-/*            if(indent > 0 && indent <= 7){
-                itemLabel.addStyleName(KSStyles.KS_INDENT + "-" + indent);
-            }*/
             
             itemLabel.setWordWrap(true);
             this.addStyleName(KSStyles.KS_BASIC_MENU_ITEM_PANEL);
@@ -219,7 +192,7 @@ public class KSListMenuImpl extends KSBasicMenuAbstract{
             this.addClickHandler(handler);
             this.addMouseOverHandler(handler);
             this.addMouseOutHandler(handler);
-
+            
             contentPanel.add(itemLabel);
             if(item.getShownIcon() != null){
             	if(imgLoc == MenuImageLocation.RIGHT){
@@ -229,7 +202,18 @@ public class KSListMenuImpl extends KSBasicMenuAbstract{
             		contentPanel.insert(item.getShownIcon(), 0);
             	}
             }
-            this.add(contentPanel);
+            
+            if(indent == 1 && !(item.getSubItems().isEmpty())){
+                itemLabel.setText(item.getLabel());
+                itemLabel.addStyleName(KSStyles.KS_BASIC_MENU_TOPLEVEL_ITEM_LABEL);
+                this.addStyleName(KSStyles.KS_BASIC_MENU_TOPLEVEL_ITEM_PANEL);
+                this.add(contentPanel);
+            }
+            else{
+                itemLabel.setText(item.getLabel());
+                anchorPanel.add(contentPanel, id);
+                this.add(anchorPanel);
+            }
         }
         
         public void addImage(KSImage shownIcon) {

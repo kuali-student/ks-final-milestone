@@ -25,7 +25,6 @@ import org.kuali.rice.kew.dto.DocumentDetailDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.service.WorkflowUtility;
-import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Role;
 import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
@@ -35,16 +34,19 @@ import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
 
 /**
- * @author delyea
  *
  */
 public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
-	private static final String NON_AD_HOC_APPROVE_REQUEST_RECIPIENT_ROLE_NAME = "Non-Ad Hoc Approve Request Recipient";
-	private static final String APPROVE_REQUEST_RECIPIENT_ROLE_NAME = "Approve Request Recipient";
-	private static final String ACKNOWLEDGE_REQUEST_RECIPIENT_ROLE_NAME = "Acknowledge Request Recipient";
-	private static final String FYI_REQUEST_RECIPIENT_ROLE_NAME = "FYI Request Recipient";
+	private static final String APPROVE_REQUEST_RECIPIENT_ROLE_CONTENT = "Approve";
+	private static final String ACKNOWLEDGE_REQUEST_RECIPIENT_ROLE_CONTENT = "Acknowledge";
+	private static final String FYI_REQUEST_RECIPIENT_ROLE_CONTENT = "FYI";
+
+	protected enum REQUESTS_TYPES_TO_CHECK {
+		BOTH, ADHOC_ONLY, NON_ADHOC_ONLY;
+	}
 
 	{
+		checkRequiredAttributes = false;
 		requiredAttributes.add( KimAttributes.DOCUMENT_NUMBER );
 		requiredAttributes.add( KimAttributes.DOCUMENT_TYPE_NAME );
 		requiredAttributes.add( KualiStudentKimAttributes.QUALIFICATION_PROPOSAL_ID );
@@ -133,31 +135,44 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 	}
 
 	protected boolean containsActivatedRequest(String roleName, ActionRequestDTO[] actionRequests) {
-		if (APPROVE_REQUEST_RECIPIENT_ROLE_NAME.equals(roleName) || NON_AD_HOC_APPROVE_REQUEST_RECIPIENT_ROLE_NAME.equals(roleName)) {
+		if (StringUtils.containsIgnoreCase(roleName, APPROVE_REQUEST_RECIPIENT_ROLE_CONTENT)) {
 			for ( ActionRequestDTO ar : actionRequests ) {
-				if ( ar.getActionRequested().equals( KEWConstants.ACTION_REQUEST_APPROVE_REQ )
-						&& ar.getStatus().equals( KEWConstants.ACTION_REQUEST_ACTIVATED ) ) {
-					return APPROVE_REQUEST_RECIPIENT_ROLE_NAME.equals(roleName) || (NON_AD_HOC_APPROVE_REQUEST_RECIPIENT_ROLE_NAME.equals(roleName) && !ar.isAdHocRequest());
-				}
-			}
-		}
-		else if (ACKNOWLEDGE_REQUEST_RECIPIENT_ROLE_NAME.equals(roleName)) {
-			for ( ActionRequestDTO ar : actionRequests ) {
-				if ( ar.getActionRequested().equals( KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ ) 
-					&& ar.getStatus().equals( KEWConstants.ACTION_REQUEST_ACTIVATED ) ) {
+				if ( ar.isApprovalRequest() && verifyActionRequest(ar)) {
 					return true;
 				}
 			}
 		}
-		else if (FYI_REQUEST_RECIPIENT_ROLE_NAME.equals(roleName)) {
+		else if (StringUtils.containsIgnoreCase(roleName, ACKNOWLEDGE_REQUEST_RECIPIENT_ROLE_CONTENT)) {
 			for ( ActionRequestDTO ar : actionRequests ) {
-				if ( ar.getActionRequested().equals( KEWConstants.ACTION_REQUEST_FYI_REQ ) 
-					&& ar.getStatus().equals( KEWConstants.ACTION_REQUEST_ACTIVATED ) ) {
+				if ( ar.isAcknowledgeRequest() && verifyActionRequest(ar)) {
+					return true;
+				}
+			}
+		}
+		else if (StringUtils.containsIgnoreCase(roleName, FYI_REQUEST_RECIPIENT_ROLE_CONTENT)) {
+			for ( ActionRequestDTO ar : actionRequests ) {
+				if ( ar.isFyiRequest() && verifyActionRequest(ar)) {
 					return true;
 				}
 			}
 		}
 		return false;
+	}
+
+	protected boolean verifyActionRequest(ActionRequestDTO ar) {
+		if (ar.isActivated()) {
+			if (ar.isAdHocRequest()) {
+				return getRequestTypesToCheck().equals(REQUESTS_TYPES_TO_CHECK.BOTH) || getRequestTypesToCheck().equals(REQUESTS_TYPES_TO_CHECK.ADHOC_ONLY);
+			}
+			else {
+				return getRequestTypesToCheck().equals(REQUESTS_TYPES_TO_CHECK.BOTH) || getRequestTypesToCheck().equals(REQUESTS_TYPES_TO_CHECK.NON_ADHOC_ONLY);
+			}
+		}
+		return false;
+	}
+
+	protected REQUESTS_TYPES_TO_CHECK getRequestTypesToCheck() {
+		return REQUESTS_TYPES_TO_CHECK.BOTH;
 	}
 
 	protected WorkflowUtility getWorkflowUtility() {

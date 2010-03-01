@@ -14,6 +14,8 @@
  */
 package org.kuali.student.common.ui.client.mvc;
 
+import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
+
 
 /**
  * This is a simple view composite that delegates all view operations to nested
@@ -64,6 +66,16 @@ public class DelegatingViewComposite extends ViewComposite {
     
     public void setChildController(Controller controller){
         this.childController = controller;
+    }
+
+    @Override
+    public void collectHistory(HistoryStackFrame frame) {
+        childController.collectHistory(frame);
+    }
+
+    @Override
+    public void onHistoryEvent(HistoryStackFrame frame) {
+        childController.onHistoryEvent(frame);
     }
 
 }

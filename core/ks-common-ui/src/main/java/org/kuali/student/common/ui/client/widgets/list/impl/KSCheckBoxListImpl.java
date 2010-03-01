@@ -158,6 +158,8 @@ public class KSCheckBoxListImpl extends KSSelectItemWidgetAbstract implements Cl
                 row += ((col + 1 )/ maxCols) * 1;
             }
         }
+        
+        setInitialized(true);
     }
 
     @Override

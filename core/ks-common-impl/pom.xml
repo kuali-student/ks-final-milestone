@@ -10,7 +10,7 @@
 	<parent>
 		<groupId>org.kuali.student.core</groupId>
 		<artifactId>ks-core</artifactId>
-		<version>1.0.0-m3-SNAPSHOT</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
 	<build>
@@ -34,20 +34,20 @@
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-util</artifactId>
-			<version>1.0.0-m3-SNAPSHOT</version>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-api</artifactId>
-			<version>1.0.0-m3-SNAPSHOT</version>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-test</artifactId>
-			<version>1.0.0-m3-SNAPSHOT</version>
+			<version>1.0.0-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
-        
+
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
@@ -66,7 +66,7 @@
 					<artifactId>ks-hibernate</artifactId>
 					<type>pom</type>
 					<scope>test</scope>
-					<version>1.0.0-m3-SNAPSHOT</version>
+					<version>1.0.0-SNAPSHOT</version>
 				</dependency>
 			</dependencies>
 		</profile>
@@ -78,7 +78,7 @@
 					<artifactId>ks-eclipselink</artifactId>
 					<type>pom</type>
 					<scope>test</scope>
-					<version>1.0.0-m3-SNAPSHOT</version>
+					<version>1.0.0-SNAPSHOT</version>
 				</dependency>
 			</dependencies>
 		</profile>
@@ -93,7 +93,7 @@
 					<artifactId>ks-cxf</artifactId>
 					<type>pom</type>
 					<scope>test</scope>
-					<version>1.0.0-m3-SNAPSHOT</version>
+					<version>1.0.0-SNAPSHOT</version>
 				</dependency>
 			</dependencies>
 		</profile>
@@ -105,7 +105,7 @@
 					<artifactId>ks-metro</artifactId>
 					<type>pom</type>
 					<scope>test</scope>
-					<version>1.0.0-m3-SNAPSHOT</version>
+					<version>1.0.0-SNAPSHOT</version>
 				</dependency>
 			</dependencies>
 		</profile>

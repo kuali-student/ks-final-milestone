@@ -83,7 +83,8 @@ public abstract class PagedSectionLayout extends LayoutController implements Con
     }
 	);
 				
-	public PagedSectionLayout() {
+	public PagedSectionLayout(String controllerId) {
+	    super(controllerId);
 		super.initWidget(panel);
 		panel.add(menuPanel, DockPanel.WEST);
 		panel.add(contentPanel, DockPanel.CENTER);

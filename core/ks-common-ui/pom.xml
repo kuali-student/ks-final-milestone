@@ -10,7 +10,7 @@
 	<parent>
 		<groupId>org.kuali.student.core</groupId>
 		<artifactId>ks-core</artifactId>
-		<version>1.0.0-m3-SNAPSHOT</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
@@ -63,39 +63,39 @@
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-api</artifactId>
-			<version>1.0.0-m3-SNAPSHOT</version>
+			<version>1.0.0-SNAPSHOT</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-api</artifactId>
-			<version>1.0.0-m3-SNAPSHOT</version>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-util</artifactId>
-			<version>1.0.0-m3-SNAPSHOT</version>
+			<version>1.0.0-SNAPSHOT</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-util</artifactId>
-			<version>1.0.0-m3-SNAPSHOT</version>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-test</artifactId>
-			<version>1.0.0-m3-SNAPSHOT</version>
+			<version>1.0.0-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-impl</artifactId>
-			<version>1.0.0-m3-SNAPSHOT</version>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
@@ -124,11 +124,11 @@
 	<profiles>
 		<profile>
 			<!--
-				mvn -P build-codehaus-gwt org.codehaus.mojo:gwt-maven-plugin:1.1:generateAsync 
+				mvn -P build-codehaus-gwt org.codehaus.mojo:gwt-maven-plugin:1.1:generateAsync
 				Run above command to processe java files that match service pattern and write GWT *ServuceAsync.java
-				files to the default generateDirectory: target/generate-sources/gwt. Generated Async.java files have 
+				files to the default generateDirectory: target/generate-sources/gwt. Generated Async.java files have
 				the same package as the Service.java it's derived from You can copy the generated file to the same
-				directory as the Service file. Important Note: this only generates files when the Service extends RemoteService. 
+				directory as the Service file. Important Note: this only generates files when the Service extends RemoteService.
 				It ignores Services that extend BaseRpcService
 			-->
 			<id>build-codehaus-gwt</id>
@@ -145,12 +145,12 @@
 								<phase>compile</phase>
 								<goals>
 									<goal>war</goal>
-								</goals>	
-							</execution>							
+								</goals>
+							</execution>
 						</executions>
 					</plugin>
-					
-					<!--  Copy test resources into proper test war dir -->					
+
+					<!--  Copy test resources into proper test war dir -->
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-antrun-plugin</artifactId>
@@ -170,7 +170,7 @@
 							</execution>
 						</executions>
 					</plugin>
-					
+
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>gwt-maven-plugin</artifactId>
@@ -183,14 +183,14 @@
 							<servicePattern>**/common/ui/**/*Service.java</servicePattern>
 						</configuration>
 					</plugin>
-					
+
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-dependency-plugin</artifactId>
-					</plugin>					
+					</plugin>
 				</plugins>
 			</build>
-			<dependencies>				
+			<dependencies>
 					<!-- This is required to wire up mock message service while testing -->
 				<dependency>
 					<groupId>org.kuali.student.core</groupId>
@@ -202,7 +202,7 @@
 					<groupId>org.springframework</groupId>
 					<artifactId>spring-web</artifactId>
 				</dependency>
-			</dependencies>						
+			</dependencies>
 		</profile>
 
         <profile>
@@ -216,7 +216,7 @@
                     <artifactId>ks-hibernate</artifactId>
                     <type>pom</type>
                     <scope>test</scope>
-                    <version>1.0.0-m3-SNAPSHOT</version>
+                    <version>1.0.0-SNAPSHOT</version>
                 </dependency>
             </dependencies>
         </profile>
@@ -228,7 +228,7 @@
                     <artifactId>ks-eclipselink</artifactId>
                     <type>pom</type>
                     <scope>test</scope>
-                    <version>1.0.0-m3-SNAPSHOT</version>
+                    <version>1.0.0-SNAPSHOT</version>
                 </dependency>
             </dependencies>
         </profile>

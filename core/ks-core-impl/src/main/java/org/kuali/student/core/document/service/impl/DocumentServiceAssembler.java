@@ -58,7 +58,7 @@ public class DocumentServiceAssembler extends BaseAssembler {
 
         BeanUtils.copyProperties(entity, dto,
                 new String[] { "desc", "attributes", "metaInfo","type", "categoryList", "document" });
-        dto.setDesc(toRichTextInfo(entity.getDesc()));
+        dto.setDesc(toRichTextInfo(entity.getDescr()));
         dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         dto.setType(entity.getType().getId());
@@ -83,7 +83,7 @@ public class DocumentServiceAssembler extends BaseAssembler {
             entity = new Document();
         BeanUtils.copyProperties(dto, entity,
                 new String[] { "desc", "attributes", "metaInfo", "type", "id", "documentBinaryInfo" });
-        entity.setDesc(toRichText(dto.getDesc()));
+        entity.setDescr(toRichText(dto.getDesc()));
         entity.setDocument(dto.getDocumentBinaryInfo().getBinary());
         entity.setAttributes(toGenericAttributes(DocumentAttribute.class, dto.getAttributes(), entity, dao));
         return entity;
@@ -94,7 +94,7 @@ public class DocumentServiceAssembler extends BaseAssembler {
 
         BeanUtils.copyProperties(entity, dto,
                 new String[] { "desc", "attributes", "type", "documents" });
-        dto.setDesc(toRichTextInfo(entity.getDesc()));
+        dto.setDesc(toRichTextInfo(entity.getDescr()));
 //        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         return dto;

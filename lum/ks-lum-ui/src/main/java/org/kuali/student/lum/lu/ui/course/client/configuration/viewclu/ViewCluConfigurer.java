@@ -15,31 +15,47 @@
 package org.kuali.student.lum.lu.ui.course.client.configuration.viewclu;
 
 import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.common.ui.client.configurable.mvc.ConfigurableLayout;
+
 import org.kuali.student.common.ui.client.configurable.mvc.CustomNestedSection;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.MultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.MultiplicitySection;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
-import org.kuali.student.common.ui.client.configurable.mvc.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.SimpleMultiplicityComposite;
 import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
-import org.kuali.student.common.ui.client.configurable.mvc.VerticalSection;
-import org.kuali.student.common.ui.client.configurable.mvc.VerticalSectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.Section.FieldLabelType;
+import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
+import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
+import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.dictionary.DictionaryManager;
+import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.Type;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
 import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
+import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.core.dictionary.dto.Field;
+import org.kuali.student.lum.lu.assembly.data.client.LuData;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalConstants;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseReqSummaryHolder;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRequisitesSummaryView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluDictionaryClassNameHelper;
 import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
+import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LuConfigurer.LuSections;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -95,7 +111,7 @@ public class ViewCluConfigurer {
         //FIXME: Label should come from messaging, field type should come from dictionary?
 //      section.addField(createMVCFieldDescriptor("campusLocationInfo", LUConstants.STRUCTURE_CLU_INFO, type, state));
 
-        section.addSection(generateCurriculumOversight(getH3Title(LUConstants.CURRICULUM_OVERSIGHT_LABEL_KEY), WITH_DIVIDER));
+        section.addSection(generateCurriculumOversight(getH3Title(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY), WITH_DIVIDER));
         section.addSection(generateCampusLocation(getH3Title(LUConstants.CAMPUS_LOCATION_LABEL_KEY), WITH_DIVIDER));
         section.addSection(generateAdminOrgs(getH3Title(LUConstants.ADMIN_ORG_LABEL_KEY), WITH_DIVIDER));
 
@@ -173,19 +189,22 @@ public class ViewCluConfigurer {
     }
 
     private static SectionView generateRequisitesSection() {
-        VerticalSectionView section = initSectionView(LuSections.COURSE_REQUISITES, LUConstants.REQUISITES_LABEL_KEY); 
-
-        VerticalSection preqSection = initSection(getH3Title(LUConstants.PREQS_LABEL_KEY), WITH_DIVIDER);
-        preqSection.addField(new FieldDescriptor("prerequisites", "TO DO", Type.STRING, new KSLabel()));
-
-        VerticalSection creqSection = initSection(getH3Title(LUConstants.CREQS_LABEL_KEY), WITH_DIVIDER);
-        creqSection.addField(new FieldDescriptor("corequisites", "TO DO", Type.STRING, new KSLabel()));
-
-        section.addSection(preqSection);
-        section.addSection(creqSection);
-
-        return section;        
-
+//      Window.alert("generateRequisitesSection");
+      CourseRequisitesSummaryView sectionCourseReq = new CourseRequisitesSummaryView(LuSections.COURSE_REQUISITES, getLabel(LUConstants.REQUISITES_LABEL_KEY));
+      CourseReqSummaryHolder.setView(sectionCourseReq);
+      return sectionCourseReq;        
+//        VerticalSectionView section = initSectionView(LuSections.COURSE_REQUISITES, LUConstants.REQUISITES_LABEL_KEY); 
+//
+//        VerticalSection preqSection = initSection(getH3Title(LUConstants.PREQS_LABEL_KEY), WITH_DIVIDER);
+//        preqSection.addField(new FieldDescriptor("prerequisites", "TO DO", Type.STRING, new KSLabel()));
+//
+//        VerticalSection creqSection = initSection(getH3Title(LUConstants.CREQS_LABEL_KEY), WITH_DIVIDER);
+//        creqSection.addField(new FieldDescriptor("corequisites", "TO DO", Type.STRING, new KSLabel()));
+//
+//        section.addSection(preqSection);
+//        section.addSection(creqSection);
+//
+//        return section;        
     }
     
     private static SectionView generateProgramRequirementsSection() {
@@ -211,7 +230,7 @@ public class ViewCluConfigurer {
         VerticalSection section = initSection(title, WITH_DIVIDER);
 
         VerticalSection governance = initSection(getH4Title(LUConstants.GOVERNANCE_LABEL_KEY), WITH_DIVIDER);
-        governance.addSection(generateCurriculumOversight(getH5Title(getLabel(LUConstants.CURRICULUM_OVERSIGHT_LABEL_KEY)), NO_DIVIDER));
+        governance.addSection(generateCurriculumOversight(getH5Title(getLabel(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY)), NO_DIVIDER));
         governance.addSection(generateCampusLocation(getH5Title(getLabel(LUConstants.CAMPUS_LOCATION_LABEL_KEY)), NO_DIVIDER));
         governance.addSection(generateAdminOrgs(getH5Title(getLabel(LUConstants.ADMIN_ORG_LABEL_KEY)), NO_DIVIDER));
 
@@ -230,6 +249,7 @@ public class ViewCluConfigurer {
         information.addSection(generateDescription(null, NO_DIVIDER));
         information.addSection(generateRationale(null, NO_DIVIDER));
 //        section.addSection(generateRestrictionsSection());
+        information.addSection(generateRequisitesSection());
 //        section.addSection(generateRequisitesSection());
 //        section.addSection(generateProgramRequirementsSection());
                
@@ -305,10 +325,9 @@ public class ViewCluConfigurer {
     private static VerticalSection generateScheduling(SectionTitle title, boolean withDivider) {
         VerticalSection section = initSection(title, withDivider);
         
-        CustomNestedSection ns = new CustomNestedSection();
-        ns.setCurrentFieldLabelType(FieldLabelType.LABEL_TOP);
+        GroupSection ns = new GroupSection();
         ns.addField(new FieldDescriptor("cluInfo/offeredAtpTypes", getLabel(LUConstants.TERM_LITERAL_LABEL_KEY), Type.LIST, new OfferedAtpTypeList())); 
-        ns.nextRow();
+        ns.nextLine();
  
         section.addSection(ns);
         section.addField(new FieldDescriptor("cluInfo/stdDuration/atpDurationTypeKey", "Duration Type :   ", Type.STRING, new KSLabel())); 
@@ -746,4 +765,5 @@ public class ViewCluConfigurer {
     private static SectionTitle getH5Title(String labelKey) {
         return SectionTitle.generateH5Title(getLabel(labelKey));
     }
+    
 }

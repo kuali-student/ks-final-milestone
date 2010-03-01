@@ -110,7 +110,7 @@ public class ProposalAssembler extends BaseAssembler {
 
         BeanUtils.copyProperties(entity, dto,
                 new String[] { "attributes" });
-
+        dto.setDesc(entity.getDescr());
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         return dto;
     }
@@ -123,7 +123,7 @@ public class ProposalAssembler extends BaseAssembler {
                 new String[] { "proposalId", "desc", "attributes", "metaInfo", "type" });
 
         dto.setProposalId(entity.getProposal().getId());
-        dto.setDesc(toRichTextInfo(entity.getDesc()));
+        dto.setDesc(toRichTextInfo(entity.getDescr()));
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
         dto.setType(entity.getType().getId());
@@ -268,7 +268,7 @@ public class ProposalAssembler extends BaseAssembler {
                 "attributes", "metaInfo", "desc" });
 
         proposalDocRelation.setDocumentId(documentId);
-        proposalDocRelation.setDesc(toRichText(proposalDocRelationInfo.getDesc()));
+        proposalDocRelation.setDescr(toRichText(proposalDocRelationInfo.getDesc()));
         proposalDocRelation.setAttributes(toGenericAttributes(ProposalDocRelationAttribute.class, proposalDocRelationInfo.getAttributes(), proposalDocRelation, dao));
 
         Proposal proposal = dao.fetch(Proposal.class, proposalId);

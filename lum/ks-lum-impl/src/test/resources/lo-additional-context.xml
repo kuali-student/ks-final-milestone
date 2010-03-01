@@ -23,6 +23,18 @@
 		<constructor-arg index="0" value="classpath:lo-dictionary-config.xml" />
 	</bean>
 
+	<bean id="ks.messageServiceMock" class="org.kuali.student.core.messages.service.impl.MessageServiceMock">
+		<property name="messageFiles">
+			<list>
+ 				<value>classpath:gwt-messages.xml</value>				
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="validator" class="org.kuali.student.common.validator.Validator">
+ 		<property name="messageService" ref="ks.messageServiceMock"/> 		
+	</bean>
+
     <bean id="mapExceptionAdvisor"
         class="org.kuali.student.common.util.ExceptionMappingAdvice">
         <property name="defaultException"

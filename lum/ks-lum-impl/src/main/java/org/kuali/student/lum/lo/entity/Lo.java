@@ -66,7 +66,7 @@ public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 	
 	@ManyToOne(cascade = CascadeType.ALL) // { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH } ) // CascadeType.ALL)
 	@JoinColumn(name = "RT_DESCR_ID")
-	private LoRichText desc;
+	private LoRichText descr;
 	
 	@ManyToOne
 	@JoinColumn(name = "LO_REPO_ID")
@@ -129,12 +129,12 @@ public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 		return name;
 	}
 
-	public LoRichText getDesc() {
-		return desc;
+	public LoRichText getDescr() {
+		return descr;
 	}
 
-	public void setDesc(LoRichText desc) {
-		this.desc = desc;
+	public void setDescr(LoRichText descr) {
+		this.descr = descr;
 	}
 
 	/**

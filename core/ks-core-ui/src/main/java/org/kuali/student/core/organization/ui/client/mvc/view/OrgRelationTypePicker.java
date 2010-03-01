@@ -36,6 +36,7 @@ public class OrgRelationTypePicker extends KSDropDown{
 			    final Map<String,String> map = new LinkedHashMap<String, String>();
                 for(OrgOrgRelationTypeInfo info : orgRelTypes) {
                     map.put(info.getId(), info.getName());
+                    map.put("REV_" + info.getId(), info.getRevName());
                 }
                 orgRelTypeList = new ListItems() {
 

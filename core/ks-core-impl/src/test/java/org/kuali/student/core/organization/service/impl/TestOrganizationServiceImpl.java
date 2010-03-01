@@ -90,11 +90,6 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		assertEquals(6,results.size());
 		assertEquals(2,results.get(0).getResultCells().size());
 		
-		SearchTypeInfo st = client.getSearchType("org.search.orgQuickViewByHierarchyShortName");
-		String searchId = st.getSearchCriteriaTypeInfo().getQueryParams().get(0).getFieldDescriptor().getSearch().getKey();
-		results = client.searchForResults(searchId, null);
-		assertEquals(2,results.size());
-		
 		//Test org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgType
 		queryParamValues = new ArrayList<QueryParamValue>();
 		qpv1 = new QueryParamValue();

@@ -29,11 +29,12 @@ import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
-import org.kuali.student.lum.ui.requirements.client.RulesUtilities;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseReqSummaryHolder;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager.PrereqViews;
 import org.kuali.student.lum.ui.requirements.client.model.EditHistory;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
+import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcService;
 import org.kuali.student.lum.ui.requirements.client.service.RequirementsRpcServiceAsync;
 
@@ -42,6 +43,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -51,10 +54,10 @@ import com.google.gwt.user.client.ui.Widget;
 public class CourseRequisiteView extends ViewComposite {
     private RequirementsRpcServiceAsync requirementsRpcServiceAsync = GWT.create(RequirementsRpcService.class);
     
-    private final String KS_STATEMENT_TYPE_PREREQ = "kuali.luStatementType.prereqAcademicReadiness";
-    private final String KS_STATEMENT_TYPE_COREQ = "kuali.luStatementType.coreqAcademicReadiness";
-    private final String KS_STATEMENT_TYPE_ANTIREQ = "kuali.luStatementType.antireqAcademicReadiness";
-    private final String KS_STATEMENT_TYPE_ENROLLREQ = "kuali.luStatementType.enrollAcademicReadiness";    
+    private static final String KS_STATEMENT_TYPE_PREREQ = "kuali.luStatementType.prereqAcademicReadiness";
+    private static final String KS_STATEMENT_TYPE_COREQ = "kuali.luStatementType.coreqAcademicReadiness";
+    private static final String KS_STATEMENT_TYPE_ANTIREQ = "kuali.luStatementType.antireqAcademicReadiness";
+    private static final String KS_STATEMENT_TYPE_ENROLLREQ = "kuali.luStatementType.enrollAcademicReadiness";    
     
     //view's widgets
     private final SimplePanel mainPanel = new SimplePanel();
@@ -73,16 +76,11 @@ public class CourseRequisiteView extends ViewComposite {
     private KSTextArea antireqRationaleTextArea = new KSTextArea();
     private KSTextArea enrollRationaleTextArea = new KSTextArea();
     private Map<String, KSButton> submitButtons = new  HashMap<String, KSButton>();
-    
     private ButtonEventHandler handler = new ButtonEventHandler(); 
-    
-    //rule types we deal with
-	List<String> applicableLuStatementTypes = new ArrayList<String>();
-   		
-   	//view's data   		
-    private List<RuleInfo> courseRules = new ArrayList<RuleInfo>();  //contains all rules, each rule has its own RuleInfo object
-    private String cluId = null;
-    private static int id = 0;
+           		
+   	//view's data   			
+	public static List<String> applicableLuStatementTypes = new ArrayList<String>();		//rule types we deal with
+	private List<RuleInfo> courseRules; 							//contains all rules belonging to this course
 
     public CourseRequisiteView(Controller controller) {
         super(controller, "Course Requisites");
@@ -95,26 +93,27 @@ public class CourseRequisiteView extends ViewComposite {
     }
     
     @Override
-    public void beforeShow(final Callback<Boolean> onReadyCallback) {                 	
-    	
-    	getController().requestModel(LuData.class,
-    			new ModelRequestCallback<DataModel>() {
-                    @Override
-                    public void onModelReady(DataModel dataModel) {
-                    	LuData luData = (LuData)dataModel.getRoot();
-                    	courseRules = luData.getRuleInfos();
-                    	cluId = dataModel.get("course/id");
-                        initializeView();
-                        onReadyCallback.exec(true);
-                    }    
-    
-                    @Override
-                    public void onRequestFail(Throwable cause) {
-                    	GWT.log("Failed to get LuData DataModel", cause);
-                    	Window.alert("Failed to get LuData DataModel");
-                        onReadyCallback.exec(false);
-                    }
-        });    	            
+    public void beforeShow(final Callback<Boolean> onReadyCallback) {
+    	getController().requestModel(LuData.class, new ModelRequestCallback<DataModel>() {
+                @Override
+                public void onModelReady(DataModel model) {
+                	//courseRules = new ArrayList<RuleInfo>(model.getValues());
+                	LuData luData = (LuData)model.getRoot();
+                	courseRules = luData.getRuleInfos();
+                    initializeView();
+                    onReadyCallback.exec(true);
+                }    
+
+                @Override
+                public void onRequestFail(Throwable cause) {
+                	GWT.log("Failed to get LuData DataModel", cause);
+                	Window.alert("Failed to get LuData DataModel");
+                }
+        });     	 
+        if (CourseReqSummaryHolder.getView() != null) {
+            CourseReqSummaryHolder.getView().setTheController(getController());
+            CourseReqSummaryHolder.getView().redraw();
+        }
     }    
     
     public void initializeView() {       
@@ -125,12 +124,7 @@ public class CourseRequisiteView extends ViewComposite {
 
         for (String luStatementType : applicableLuStatementTypes) {
         	setupRuleType(luStatementType);
-        } 
-        
-        //go to retrieve new rules only for the first time
-        if ((cluId != null) && (courseRules.size() < applicableLuStatementTypes.size())) {
-        	retrieveRules();
-        }
+        }         
     }
     
     private void setupRuleType(String luStatementTypeKey) {
@@ -145,7 +139,16 @@ public class CourseRequisiteView extends ViewComposite {
         rationalePanel3.add(rationale3);        
         rulesInfoPanel.add(rationalePanel3);
     	
-    	RuleInfo rule = getRuleInfo(luStatementTypeKey);    	
+    	RuleInfo rule = getRuleInfo(luStatementTypeKey);  
+    	if (rule == null)
+    	{
+            KSLabel reqText = new KSLabel("No " + getRuleTypeName(luStatementTypeKey).toLowerCase() + " rules have been added.");
+            reqText.setStyleName("KS-ReqMgr-NoRuleText");
+            SimplePanel rulesText = getRulesTextPanel(luStatementTypeKey);
+            rulesText.clear();
+            rulesText.add(reqText); 
+    	}
+    	
         KSButton submitButton = new KSButton(rule == null ? "Add Rule" : "Manage rule");
         submitButtons.put(luStatementTypeKey, submitButton);
         submitButton.setTitle(luStatementTypeKey);
@@ -153,90 +156,32 @@ public class CourseRequisiteView extends ViewComposite {
         submitButton.addClickHandler(handler);    
         rationalePanel3.add(submitButton);        
     	
-        if ((rule != null) || (cluId == null) ) {
-        	setRuleText(luStatementTypeKey);       	
-            return;
-        }     	    	
-    }
-            
-    private void retrieveRules() {                
-
-        requirementsRpcServiceAsync.getRules(cluId, applicableLuStatementTypes, new AsyncCallback<List<RuleInfo>>() {
-            public void onFailure(Throwable caught) {
-                Window.alert(caught.getMessage());
-                caught.printStackTrace();
-            }
-            
-            public void onSuccess(final List<RuleInfo> rules) {
-            	
-                for (String luStatementType : applicableLuStatementTypes) {
-            	
-                	//do not update rules that were modified locally
-                	if (getRuleInfo(luStatementType) != null) {
-                		continue;
-                	}
-                	
-                	RuleInfo rule = null;
-                    for (RuleInfo tmpRule : rules) {
-                        if (tmpRule.getLuStatementTypeKey().equals(luStatementType)) {              	
-                        	rule = tmpRule;
-                        	break;
-                        }                
-                    }
-                	
-                    //no rule exists for given lu statement type so state that on rules page
-		        	if (rule == null)
-		        	{
-			            KSLabel reqText = new KSLabel("No " + getRuleTypeName(luStatementType).toLowerCase() + " rules has been added.");
-			            reqText.setStyleName("KS-ReqMgr-NoRuleText");
-			            SimplePanel rulesText = getRulesTextPanel(luStatementType);
-			            rulesText.clear();
-			            rulesText.add(reqText); 
-			            continue;
-		        	}
-		        	
-		        	//update the model
-			        setRuleInfo(rule); 
-			        
-			        //update the UI
-			        submitButtons.get(rule.getLuStatementTypeKey()).setText("Manage rule");
-			        SimplePanel rulesText = getRulesTextPanel(luStatementType);
-			        rulesText.clear();
-			        rulesText.add(new KSLabel(rule.getNaturalLanguage())); 
-            	}
-    	        
-                //store this new rule model in the top most model
-                getController().requestModel(LuData.class, new ModelRequestCallback<DataModel>() {
-
-                    @Override
-                    public void onModelReady(DataModel model) {
-                        List<RuleInfo> ruleInfos = ((LuData)model.getRoot()).getRuleInfos();
-                        ruleInfos.retainAll(ruleInfos);
-                    }
-
-                    @Override
-                    public void onRequestFail(Throwable cause) {
-                    	GWT.log("Failed to get LuData DataModel", cause);
-                    	Window.alert("Failed to get LuData DataModel");
-                    }
-                });                                              
-            } 
-        });            
+       	setRuleText(luStatementTypeKey);       	  	    	
     }
     
     private void setRuleText(String luStatementTypeKey) {
-    	String ruleText;
-    	RuleInfo rule = getRuleInfo(luStatementTypeKey);    	 	
+    	final RuleInfo rule = getRuleInfo(luStatementTypeKey);
+        final SimplePanel rulesText = getRulesTextPanel(luStatementTypeKey);  	 	
     	
-    	if ((rule == null) || (rule.getNaturalLanguage() == null) || (rule.getNaturalLanguage().isEmpty())) {
-    		ruleText = "No " + getRuleTypeName(luStatementTypeKey).toLowerCase() + " rules have been added.";   		    		
+    	if (rule == null) { //|| (rule.getNaturalLanguage() == null) || (rule.getNaturalLanguage().isEmpty())) {
+    		String ruleText = "No " + getRuleTypeName(luStatementTypeKey).toLowerCase() + " rules have been added.";
+            rulesText.clear();
+    		rulesText.add(new KSLabel(ruleText));
     	} else {
-    		ruleText = rule.getNaturalLanguage();
+            rulesText.clear();
+            requirementsRpcServiceAsync.getNaturalLanguageForStatementVO(rule.getCluId(), rule.getStatementVO(), "KUALI.CATALOG", RuleComponentEditorView.TEMLATE_LANGUAGE, new AsyncCallback<String>() {
+				public void onFailure(Throwable cause) {
+	            	GWT.log("Failed to get NL for " + rule.getCluId(), cause);
+	                Window.alert("Failed to get NL for " + rule.getCluId());
+				}
+				
+				public void onSuccess(final String statementNaturalLanguage) { 
+					rule.setNaturalLanguage(statementNaturalLanguage);
+			        rulesText.clear();
+					rulesText.add(new KSLabel(statementNaturalLanguage));
+				} 
+			}); 
     	}
-
-        SimplePanel rulesText = getRulesTextPanel(luStatementTypeKey);
-        rulesText.clear();
-        rulesText.add(new KSLabel(ruleText));
     }
     
     private class ButtonEventHandler implements ClickHandler{
@@ -244,7 +189,6 @@ public class CourseRequisiteView extends ViewComposite {
         @Override
         public void onClick(ClickEvent event) {
             Widget sender = (Widget) event.getSource();
-            CourseReqManager courseReqManager = (CourseReqManager) getController();
             
             String statementType = null;
             
@@ -257,41 +201,26 @@ public class CourseRequisiteView extends ViewComposite {
             } else if (sender.getTitle().contains("antireq")) {
             	statementType = KS_STATEMENT_TYPE_ANTIREQ;
             }
-            courseReqManager.setLuStatementType(statementType);
+
+            CourseReqManager courseReqManager = (CourseReqManager) getController();
+            courseReqManager.setSelectedLuStatementType(statementType);
             
             RuleInfo rule = getRuleInfo(sender.getTitle());
-            if ((rule == null) || (rule.getNaturalLanguage() == null) || (rule.getNaturalLanguage().isEmpty())) {                
-                RuleInfo newPrereqInfo = new RuleInfo();
-                newPrereqInfo.setId(Integer.toString(id++));
-                newPrereqInfo.setCluId(cluId);
-                newPrereqInfo.setStatementVO(null);
-                newPrereqInfo.setEditHistory(new EditHistory());
-                newPrereqInfo.setLuStatementTypeKey(statementType);
-                courseRules.add(newPrereqInfo);               
-                
-                courseReqManager.resetReqCompVOModel();
-                
-                courseReqManager.setRuleInfoModel(courseRules);
-                courseReqManager.showView(PrereqViews.CLAUSE_EDITOR, Controller.NO_OP_CALLBACK);
+            //true if user is adding a new rule
+            if ((rule == null) || rule.getStatementVO() == null) {                
+                courseReqManager.addNewRule(statementType);
+                courseReqManager.showView(PrereqViews.RULE_COMPONENT_EDITOR, Controller.NO_OP_CALLBACK);
             } else {
-                courseReqManager.setRuleInfoModel(courseRules);
                 courseReqManager.showView(PrereqViews.MANAGE_RULES, Controller.NO_OP_CALLBACK);
             }
         }       
     }    
-    
-    private void setRuleInfo(RuleInfo ruleInfo) { 
-        RuleInfo origRule = getRuleInfo(ruleInfo.getLuStatementTypeKey());
-        if (origRule != null) {    	
-            courseRules.remove(origRule);
-        }               
-        courseRules.add(ruleInfo);
-    }
-    
+       
     private RuleInfo getRuleInfo(String luStatementTypeKey) { 	
         if ((courseRules != null) && !courseRules.isEmpty()) {
             for (RuleInfo ruleInfo : courseRules) {
-                if (ruleInfo.getLuStatementTypeKey().equals(luStatementTypeKey)) {              	
+                if (ruleInfo.getStatementTypeKey() != null &&
+                        ruleInfo.getStatementTypeKey().equals(luStatementTypeKey)) {              	
                     return ruleInfo;
                 }                
             }
@@ -329,8 +258,7 @@ public class CourseRequisiteView extends ViewComposite {
         rulesInfoPanel.clear();              
         
         //HEADING: prerequisite rules   
-        RulesUtilities ruleUtil = new RulesUtilities();
-        RulesUtilities.Divider divider = ruleUtil.new Divider();
+        Divider divider = new Divider();
         rulesInfoPanel.add(divider);         
         KSLabel heading = new KSLabel(ruleName);
         heading.setStyleName("KS-ReqMgr-SubHeading");
@@ -369,58 +297,24 @@ public class CourseRequisiteView extends ViewComposite {
         
         return;
     }
-        
-    private void loadRuleInfo(final String luStatementTypeKey) {                                                     
-        
-        // TODO remove when done testing the save application state feature
-//        KSButton saveApplicationState = new KSButton("Save State");
-//        saveApplicationState.setTitle("Save State");
-//        saveApplicationState.setStyleName("KS-Rules-Tight-Button");
-//        saveApplicationState.addClickHandler(new ClickHandler() {
-//            @Override
-//            public void onClick(ClickEvent event) {
-//                getController().requestModel(CluProposalModelDTO.class,
-//                        new ModelRequestCallback<CluProposalModelDTO>() {
-//                            @Override
-//                            public void onModelReady(Model<CluProposalModelDTO> model) {
-//                                KSTextArea rationaleTextArea = getRationaleTextArea(luStatementTypeKey);
-//                                model.get().putApplicationState("rationale", rationaleTextArea.getText());
-//                                Window.alert("You entered: " + model.get().getApplicationState("rationale"));
-//                            }
-//
-//                            @Override
-//                            public void onRequestFail(Throwable cause) {
-//                                Window.alert("Failed to get CluProposalModelDTO");
-//                            }
-//                });
-//            }
-//        });
-//        rationalePanel3.add(saveApplicationState);
-
-    }
-    
+            
     public void saveApplicationState() {
-        getController().requestModel(LuData.class,
-                new ModelRequestCallback<DataModel>() {
+        getController().requestModel(LuData.class, new ModelRequestCallback<DataModel>() {
             @Override
             public void onModelReady(DataModel model) {
             	LuData luData = (LuData)model.getRoot();
                 luData.putApplicationState(
                         "kuali.luStatementType.prereqAcademicReadiness.rationale", 
-                        getRationaleTextArea(KS_STATEMENT_TYPE_PREREQ)
-                        .getText());
+                        getRationaleTextArea(KS_STATEMENT_TYPE_PREREQ).getText());
                 luData.putApplicationState(
                         "kuali.luStatementType.coreqAcademicReadiness.rationale", 
-                        getRationaleTextArea(KS_STATEMENT_TYPE_COREQ)
-                        .getText());
+                        getRationaleTextArea(KS_STATEMENT_TYPE_COREQ).getText());
                 luData.putApplicationState(
                         "kuali.luStatementType.antireqAcademicReadiness.rationale", 
-                        getRationaleTextArea(KS_STATEMENT_TYPE_ANTIREQ)
-                        .getText());
+                        getRationaleTextArea(KS_STATEMENT_TYPE_ANTIREQ).getText());
                 luData.putApplicationState(
                         "kuali.luStatementType.enrollAcademicReadiness.rationale", 
-                        getRationaleTextArea(KS_STATEMENT_TYPE_ENROLLREQ)
-                        .getText());
+                        getRationaleTextArea(KS_STATEMENT_TYPE_ENROLLREQ).getText());
             }
 
             @Override
@@ -462,4 +356,23 @@ public class CourseRequisiteView extends ViewComposite {
         if (luStatementTypeKey.contains("antireq")) return "Antirequisites";
         return "";
     }
+ 
+    public class Divider extends Composite{
+        private HorizontalPanel row = new HorizontalPanel();
+        private HTML hr = new HTML("<HR />");
+        public Divider(){
+            row.addStyleName("KS-Divider");
+            row.add(hr);
+            this.initWidget(row);
+        }
+        public Widget getRowBreak() {
+            return this;
+        }
     }
+
+    @Override
+    public void updateModel() {
+        super.updateModel();
+    }
+    
+}

@@ -22,6 +22,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
@@ -33,74 +35,81 @@ import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
 /**
- * This is a description of what this class does - hjohnson don't forget to fill this in. 
+ * This is a description of what this class does - hjohnson don't forget to fill
+ * this in.
  * 
  * @author Kuali Student Team (kuali-student@googlegroups.com)
- *
+ * 
  */
 
 @Entity
 @Table(name = "KSLU_CLU_ACCRED")
+public class CluAccreditation extends MetaEntity implements
+		AttributeOwner<CluAccreditationAttribute> {
+	
+	@Id
+	@Column(name = "ID")
+	private String id;
 
-public class CluAccreditation extends MetaEntity implements AttributeOwner<CluAccreditationAttribute> {
-     @Id
-    @Column(name = "ID")
-    private String id;   
-     
-     @Column(name = "ORG_ID")
-    private String orgId;
+	@Column(name = "ORG_ID")
+	private String orgId;
 
-     @Temporal(TemporalType.TIMESTAMP)
-     @Column(name = "EFF_DT")
-     private Date effectiveDate;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "EFF_DT")
+	private Date effectiveDate;
 
-     @Temporal(TemporalType.TIMESTAMP)
-     @Column(name = "EXPIR_DT")
-     private Date expirationDate;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "EXPIR_DT")
+	private Date expirationDate;
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+	private List<CluAccreditationAttribute> attributes;
 
-     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-     private List<CluAccreditationAttribute> attributes;
+	@PrePersist
+	public void onPrePersist() {
+		this.id = UUIDHelper.genStringUUID(this.id);
+	}
 
+	public List<CluAccreditationAttribute> getAttributes() {
+		if (attributes == null) {
+			attributes = new ArrayList<CluAccreditationAttribute>();
+		}
+		return attributes;
+	}
 
-     @PrePersist
-     public void onPrePersist() {
-         this.id = UUIDHelper.genStringUUID(this.id);
-     }
-     
-     public List<CluAccreditationAttribute> getAttributes() {
-         if (attributes == null) {
-             attributes = new ArrayList<CluAccreditationAttribute>();
-         }
-         return attributes;
-     }
+	public void setAttributes(List<CluAccreditationAttribute> attributes) {
+		this.attributes = attributes;
+	}
 
-     public void setAttributes(List<CluAccreditationAttribute> attributes) {
-         this.attributes = attributes;
-     }
+	public String getOrgId() {
+		return orgId;
+	}
 
-    public String getOrgId() {
-        return orgId;
-    }
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
+	}
 
-    public void setOrgId(String orgId) {
-        this.orgId = orgId;
-    }
+	public Date getEffectiveDate() {
+		return effectiveDate;
+	}
 
-    public Date getEffectiveDate() {
-        return effectiveDate;
-    }
+	public void setEffectiveDate(Date effectiveDate) {
+		this.effectiveDate = effectiveDate;
+	}
 
-    public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = effectiveDate;
-    }
+	public Date getExpirationDate() {
+		return expirationDate;
+	}
 
-    public Date getExpirationDate() {
-        return expirationDate;
-    }
+	public void setExpirationDate(Date expirationDate) {
+		this.expirationDate = expirationDate;
+	}
 
-    public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
-    }
-     
-     
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 }

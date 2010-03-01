@@ -67,7 +67,7 @@ public class ProposalDocRelation extends MetaEntity implements AttributeOwner<Pr
 
     @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "RT_DESCR_ID")
-    private RichText desc;
+    private RichText descr;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
@@ -125,12 +125,12 @@ public class ProposalDocRelation extends MetaEntity implements AttributeOwner<Pr
         this.title = title;
     }
 
-    public RichText getDesc() {
-        return desc;
+    public RichText getDescr() {
+        return descr;
     }
 
-    public void setDesc(RichText desc) {
-        this.desc = desc;
+    public void setDescr(RichText descr) {
+        this.descr = descr;
     }
 
     public Date getEffectiveDate() {

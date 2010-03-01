@@ -17,6 +17,7 @@ package org.kuali.student.common.util.jpa;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -49,57 +50,66 @@ public class LoadSqlListener implements ApplicationListener,
 
 	private boolean loaded = false;
 
-	private Map<String,String> preloadMap;
+	private Map<String,Object> preloadMap;
 	private JtaTransactionManager jtaTxManager;
 
 	private boolean shouldLoadData = false;
 
 	@Override
+	@SuppressWarnings("unchecked") 
 	public void onApplicationEvent(ApplicationEvent event) {
 		if (event instanceof ContextRefreshedEvent && !loaded && shouldLoadData) {
 
-			for (Entry<String, String> entry : preloadMap.entrySet()) {
-				String sqlFileName = entry.getValue();
-				EntityManagerFactory emf = EntityManagerFactoryUtils
-						.findEntityManagerFactory(applicationContext, entry
-								.getKey());
-				EntityManager em = SharedEntityManagerCreator
-						.createSharedEntityManager(emf);
-
-				File sqlFile;
-				BufferedReader in;
-				try{
-				    if(sqlFileName.startsWith("classpath:")){
-				 	 	sqlFile = new ClassPathResource(sqlFileName.substring("classpath:".length())).getFile();
-					}else{
-				    	sqlFile = new File(sqlFileName);
-				    }
-					in = new BufferedReader(new FileReader(sqlFile));
-				} catch (Exception e) {
-					throw new RuntimeException(e);
-				}
-
-				String ln = "";
-
-				TransactionDefinition txDefinition = new DefaultTransactionDefinition() ;
-				TransactionStatus txStatus = jtaTxManager.getTransaction(txDefinition);
-
-				try {
-					while((ln=in.readLine())!=null){
-						if(!ln.startsWith("/")&&!ln.startsWith("--")&&StringUtils.isNotBlank(ln)){
-							ln=ln.replaceFirst("[;/]\\s*$","");
-							em.createNativeQuery(ln).executeUpdate();
-						}
+			for (Entry<String, Object> entry : preloadMap.entrySet()) {
+				if(entry.getValue() instanceof java.util.List<?>) {
+					List<String> sqlFileList = (List<String>) entry.getValue();
+					for(String sqlFile : sqlFileList) {
+						process(entry.getKey(), sqlFile);
 					}
-					jtaTxManager.commit(txStatus);
-				} catch (Exception e) {
-					logger.error("Error loading sql file "+sqlFileName+". Failing statement was '" + ln + "'",e);
-					jtaTxManager.rollback(txStatus);
+				} else {
+					process(entry.getKey(), entry.getValue().toString());
 				}
 			}
 			loaded=true;
 		}
+	}
+	
+	private void process(String entityKey, String sqlFileName) {
+		EntityManagerFactory emf = EntityManagerFactoryUtils
+				.findEntityManagerFactory(applicationContext, entityKey);
+		EntityManager em = SharedEntityManagerCreator
+				.createSharedEntityManager(emf);
 
+		File sqlFile;
+		BufferedReader in;
+		try{
+		    if(sqlFileName.startsWith("classpath:")){
+		 	 	sqlFile = new ClassPathResource(sqlFileName.substring("classpath:".length())).getFile();
+			}else{
+		    	sqlFile = new File(sqlFileName);
+		    }
+			in = new BufferedReader(new FileReader(sqlFile));
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+
+		String ln = "";
+
+		TransactionDefinition txDefinition = new DefaultTransactionDefinition() ;
+		TransactionStatus txStatus = jtaTxManager.getTransaction(txDefinition);
+
+		try {
+			while((ln=in.readLine())!=null){
+				if(!ln.startsWith("/")&&!ln.startsWith("--")&&StringUtils.isNotBlank(ln)){
+					ln=ln.replaceFirst("[;/]\\s*$","");
+					em.createNativeQuery(ln).executeUpdate();
+				}
+			}
+			jtaTxManager.commit(txStatus);
+		} catch (Exception e) {
+			logger.error("Error loading sql file "+sqlFileName+". Failing statement was '" + ln + "'",e);
+			jtaTxManager.rollback(txStatus);
+		}
 	}
 
 	@Override
@@ -116,11 +126,11 @@ public class LoadSqlListener implements ApplicationListener,
 		this.jtaTxManager = jtaTxManager;
 	}
 
-	public Map<String, String> getPreloadMap() {
+	public Map<String, Object> getPreloadMap() {
 		return preloadMap;
 	}
 
-	public void setPreloadMap(Map<String, String> preloadMap) {
+	public void setPreloadMap(Map<String, Object> preloadMap) {
 		this.preloadMap = preloadMap;
 	}
 

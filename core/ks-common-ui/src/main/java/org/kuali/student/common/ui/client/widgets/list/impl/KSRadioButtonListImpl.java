@@ -148,6 +148,8 @@ public class KSRadioButtonListImpl extends KSSelectItemWidgetAbstract implements
                 row += ((col + 1 )/ maxCols) * 1;
             }
         }
+        
+        super.setInitialized(true);
     }
 
     @Override
