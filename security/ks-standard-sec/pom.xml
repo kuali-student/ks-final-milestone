@@ -81,6 +81,7 @@
 	            <file>
 	              <name>.springBeans</name>
 	              <content>
+                    <!-- <config>src/main/resources/ks-spring-security-cas.xml</config> -->
 	              	<![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
   <version>1</version>
@@ -90,7 +91,6 @@
   </configSuffixes>
   <enableImports>false</enableImports>
   <configs>
-    <config>src/main/resources/ks-spring-security-cas.xml</config>
     <config>src/main/resources/ks-spring-security-saml.xml</config>
     <config>src/main/resources/ks-spring-security.xml</config>
   </configs>

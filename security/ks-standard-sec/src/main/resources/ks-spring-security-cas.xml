@@ -11,7 +11,7 @@
     http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.4.xsd
   	http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
   	http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
-  	
+
 	<bean class="org.kuali.student.common.util.ModPropertyPlaceholderConfigurer">
 		<property name="properties" ref="configProperties" />
 	</bean>
@@ -23,8 +23,7 @@
 			</list>
 		</property>
 	</bean>
-
-	<bean id="configProperties"
+ 	<bean id="configProperties"
 		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
 		<property name="targetObject" ref="config" />
 		<property name="targetMethod" value="getProperties" />
