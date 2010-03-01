@@ -1,10 +1,7 @@
 <projectDescription>
   <name>ks-standard-sec</name>
   <comment>KS Standard Security - out of the box. NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
-  <projects>
-    <project>ks-common-util</project>
-    <project>ks-core-api</project>
-  </projects>
+  <projects/>
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.jdt.core.javabuilder</name>
