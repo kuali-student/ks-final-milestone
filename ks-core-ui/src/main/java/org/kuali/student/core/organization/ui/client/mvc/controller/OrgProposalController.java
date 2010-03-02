@@ -66,6 +66,7 @@ public class OrgProposalController extends TabbedSectionLayout{
     private boolean modified = false;
     private CommonConfigurer commonConfigurer = new CommonConfigurer();
     final KSLightBox progressWindow = new KSLightBox();
+    boolean flag = false;
     
     OrgRpcServiceAsync orgProposalRpcServiceAsync = GWT.create(OrgRpcService.class);
     public OrgProposalController(){
@@ -147,7 +148,7 @@ public class OrgProposalController extends TabbedSectionLayout{
     private KSButton getModifyButton(){
         return new KSButton("Modify", new ClickHandler(){
                     public void onClick(ClickEvent event) {
-                        fireApplicationEvent(new ModifyActionEvent((String)orgProposalModel.get("orgInfo/id")));
+                        fireApplicationEvent(new ModifyActionEvent((String)orgProposalModel.get("orgSearchInfo/searchOrgs")));
                     }
                 });
     }
@@ -219,7 +220,10 @@ public class OrgProposalController extends TabbedSectionLayout{
     }
     
     private void init(){
-        commonConfigurer.configureOrgProposal(this);
+        if(!flag){
+            commonConfigurer.configureOrgProposal(this);
+            flag= true;
+        }
         
         if(!initialized){
         addButton("Organization", getSaveButton());
