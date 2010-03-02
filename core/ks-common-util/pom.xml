@@ -6,6 +6,12 @@
 	<packaging>jar</packaging>
 	<name>KS Common Util</name>
 	<description>KS common utilitiy classes</description>
+	<properties>
+		<springBean.config.files><![CDATA[
+    <config>src/main/resources/org/kuali/rice/core/RiceDerbyDataSourceSpringBeans.xml</config>
+]]>
+		</springBean.config.files>
+	</properties>
 
 	<parent>
 		<groupId>org.kuali.student.core</groupId>

@@ -6,6 +6,16 @@
 	<packaging>jar</packaging>
 	<name>KS Common Test</name>
 	<description>KS test framework for web services</description>
+	<properties>
+		<springBean.config.files><![CDATA[
+    <config>src/main/resources/META-INF/cxf-context.xml</config>
+    <config>src/main/resources/META-INF/default-dao-context-test.xml</config>
+    <config>src/main/resources/META-INF/default-property-config-context-test.xml</config>
+    <!--<config>src/main/resources/META-INF/default-service-context-test.xml</config>-->
+    <!--<config>src/main/resources/META-INF/jaxws-context.xml</config>-->
+]]>
+		</springBean.config.files>
+	</properties>
 
 	<parent>
 		<groupId>org.kuali.student.core</groupId>

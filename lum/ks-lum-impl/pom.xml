@@ -5,6 +5,36 @@
 	<packaging>jar</packaging>
 	<name>KS LUM Impl</name>
 	<description>KS Learning Unit Management Impl</description>
+	<properties>
+		<springBean.config.files><![CDATA[
+    <config>src/main/resources/ksb/ks-lu-context.xml</config>
+	<config>src/main/resources/statement-context.xml</config>
+    <!--
+	<config>src/main/resources/comment-dictionary-config.xml</config>
+	<config>src/main/resources/lo-dictionary-config.xml</config>
+	<config>src/main/resources/lo-loCategoryInfo-dictionary-override-config.xml</config>
+	<config>src/main/resources/lo-loCategoryInfo-dictionary-structure-config.xml</config>
+	<config>src/main/resources/lo-loInfo-dictionary-override-config.xml</config>
+	<config>src/main/resources/lo-loInfo-dictionary-structure-config.xml</config>
+	<config>src/main/resources/lo-loLoRelationInfo-dictionary-override-config.xml</config>
+	<config>src/main/resources/lo-loLoRelationInfo-dictionary-structure-config.xml</config>
+	<config>src/main/resources/lo-search-config.xml</config>
+	<config>src/main/resources/lu-cluCluRelationInfo-dictionary-override-config.xml</config>
+	<config>src/main/resources/lu-cluCluRelationInfo-dictionary-structure-config.xml</config>
+	<config>src/main/resources/lu-cluInfo-dictionary-override-config.xml</config>
+	<config>src/main/resources/lu-cluInfo-dictionary-structure-config.xml</config>
+	<config>src/main/resources/lu-cluLoRelationInfo-dictionary-override-config.xml</config>
+	<config>src/main/resources/lu-cluLoRelationInfo-dictionary-structure-config.xml</config>
+	<config>src/main/resources/lu-cluResultInfo-dictionary-override-config.xml</config>
+	<config>src/main/resources/lu-cluResultInfo-dictionary-structure-config.xml</config>
+	<config>src/main/resources/lu-cluSetInfo-dictionary-override-config.xml</config>
+	<config>src/main/resources/lu-cluSetInfo-dictionary-structure-config.xml</config>
+	<config>src/main/resources/lu-dictionary-config.xml</config>
+	<config>src/main/resources/lu-search-config.xml</config>
+	-->
+]]>
+		</springBean.config.files>
+	</properties>
 	<parent>
 		<groupId>org.kuali.student.lum</groupId>
 		<artifactId>ks-lum</artifactId>
@@ -29,6 +59,11 @@
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-util</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-core-impl</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>

@@ -6,6 +6,12 @@
 	<packaging>jar</packaging>
 	<name>KS Common Impl</name>
 	<description>KS Common Impl</description>
+	<properties>
+		<springBean.config.files><![CDATA[
+    <config>src/main/resources/constraints-dictionary-config.xml</config>
+]]>
+		</springBean.config.files>
+	</properties>
 
 	<parent>
 		<groupId>org.kuali.student.core</groupId>
