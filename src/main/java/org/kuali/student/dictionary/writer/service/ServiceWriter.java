@@ -40,14 +40,17 @@ public class ServiceWriter
 
  private DictionaryModel model;
  private String directory;
+ private String rootPackage;
  private Service service;
 
  public ServiceWriter (DictionaryModel model,
                        String directory,
+                       String rootPackage,
                        Service service)
  {
   this.model = model;
   this.directory = directory;
+  this.rootPackage = rootPackage;
   this.service = service;
  }
 
@@ -67,14 +70,14 @@ public class ServiceWriter
 
   // the main service
   System.out.println ("Generating services API's for " + service.getKey ());
-  new ServiceMethodsWriter (model, directory, service, methods).write ();
+  new ServiceMethodsWriter (model, directory, rootPackage, service, methods).write ();
 
   // the beans's
   System.out.println ("Generating info interfaces");
   for (XmlType xmlType : getXmlTypesUsedByService (methods))
   {
    System.out.println ("Generating Beans for " + xmlType.getName ());
-   new ServiceBeanWriter (model, directory, service, xmlType).write ();
+   new ServiceBeanWriter (model, directory, rootPackage, service, xmlType).write ();
   }
 
     // the Info interfaces's
@@ -82,7 +85,7 @@ public class ServiceWriter
   for (XmlType xmlType : getXmlTypesUsedByService (methods))
   {
    System.out.println ("Generating info interface for " + xmlType.getName ());
-   new ServiceInfoWriter (model, directory, service, xmlType).write ();
+   new ServiceInfoWriter (model, directory, rootPackage, service, xmlType).write ();
   }
 
 
@@ -91,7 +94,7 @@ public class ServiceWriter
   {
    System.out.println ("generating exception class: " + service.getKey () + "." + error.
     getType ());
-   new ServiceExceptionWriter (model, directory, service, error).write ();
+   new ServiceExceptionWriter (model, directory, rootPackage, service, error).write ();
   }
 
  }

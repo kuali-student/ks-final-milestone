@@ -33,25 +33,28 @@ public class ServiceInfoWriter extends JavaClassWriter
 
  private DictionaryModel model;
  private String directory;
- public static final String ROOT_PACKAGE = "org.kuali.student.service";
+ private String rootPackage;
  private Service service;
  private XmlType xmlType;
 
  public ServiceInfoWriter (DictionaryModel model,
                            String directory,
+                           String rootPackage,
                            Service service,
                            XmlType xmlType)
  {
-  super (directory, calcPackage (service), calcClassName (xmlType.getName ()));
+  super (directory, calcPackage (service, rootPackage), calcClassName (xmlType.
+   getName ()));
   this.model = model;
   this.directory = directory;
+  this.rootPackage = rootPackage;
   this.service = service;
   this.xmlType = xmlType;
  }
 
- public static String calcPackage (Service service)
+ public static String calcPackage (Service service, String rootPackage)
  {
-  return ServiceMethodsWriter.calcPackage (service);
+  return ServiceMethodsWriter.calcPackage (service, rootPackage);
  }
 
  public static String calcClassName (String name)

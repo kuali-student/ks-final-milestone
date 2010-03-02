@@ -32,25 +32,27 @@ public class ServiceMethodsWriter extends JavaClassWriter
 
  private DictionaryModel model;
  private String directory;
- public static final String ROOT_PACKAGE = "org.kuali.student.service";
+ private String rootPackage;
  private Service service;
  private List<ServiceMethod> methods;
 
  public ServiceMethodsWriter (DictionaryModel model,
                               String directory,
+                              String rootPackage,
                               Service service,
                               List<ServiceMethod> methods)
  {
-  super (directory, calcPackage (service), calcClassName (service));
+  super (directory, calcPackage (service, rootPackage), calcClassName (service));
   this.model = model;
   this.directory = directory;
+  this.rootPackage = rootPackage;
   this.service = service;
   this.methods = methods;
  }
 
- public static String calcPackage (Service service)
+ public static String calcPackage (Service service, String rootPackage)
  {
-  String pack = ROOT_PACKAGE + "." + service.getKey ().
+  String pack = rootPackage + "." + service.getKey ().
    toLowerCase () + ".";
   StringBuffer buf = new StringBuffer (service.getVersion ().length ());
   for (int i = 0; i < service.getVersion ().length (); i ++)

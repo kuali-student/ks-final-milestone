@@ -30,25 +30,27 @@ public class ServiceExceptionWriter extends JavaClassWriter
 
  private DictionaryModel model;
  private String directory;
- public static final String ROOT_PACKAGE = "org.kuali.student.service";
+ private String rootPackage;
  private Service service;
  private ServiceMethodError error;
 
  public ServiceExceptionWriter (DictionaryModel model,
                                 String directory,
+                                String rootPackage,
                                 Service service,
                                 ServiceMethodError error)
  {
-  super (directory, calcPackage (service), calcClassName (error.getType ()));
+  super (directory, calcPackage (service, rootPackage), calcClassName (error.getType ()));
   this.model = model;
   this.directory = directory;
+  this.rootPackage = rootPackage;
   this.service = service;
   this.error = error;
  }
 
- public static String calcPackage (Service service)
+ public static String calcPackage (Service service, String rootPackage)
  {
-  return ServiceMethodsWriter.calcPackage (service);
+  return ServiceMethodsWriter.calcPackage (service, rootPackage);
  }
 
  public static String calcClassName (String type)

@@ -59,7 +59,10 @@ public class ServicesWriterToComponentSandboxRun implements
    servicesToProcess.add ("proposal");
    ServicesFilter filter = new ServicesFilterByKeys (servicesToProcess);
    ServicesWriter instance =
-    new ServicesWriter (model, COMPONENT_SANDBOX_DIRECTORY_TO_WRITE_JAVA, filter);
+    new ServicesWriter (model,
+    COMPONENT_SANDBOX_DIRECTORY_TO_WRITE_JAVA,
+    ServicesWriter.DEFAULT_ROOT_PACKAGE,
+    filter);
    instance.write ();
   }
   finally

@@ -32,15 +32,18 @@ public class ServicesWriter
 
  private DictionaryModel model;
  private String directory;
- public static final String ROOT_PACKAGE = "org.kuali.student.service";
+ private String rootPackage;
+ public static final String DEFAULT_ROOT_PACKAGE = "org.kuali.student.service";
  private ServicesFilter filter;
 
  public ServicesWriter (DictionaryModel model,
                         String directory,
+                        String rootPackage,
                         ServicesFilter filter)
  {
   this.model = model;
   this.directory = directory;
+  this.rootPackage = rootPackage;
   this.filter = filter;
  }
 
@@ -54,7 +57,7 @@ public class ServicesWriter
 
  for (Service service : filterServices ())
   {
-   new ServiceWriter (model, directory, service).write ();
+   new ServiceWriter (model, directory, rootPackage, service).write ();
   }
 
  }

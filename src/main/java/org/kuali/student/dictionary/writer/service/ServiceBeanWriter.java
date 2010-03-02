@@ -34,27 +34,29 @@ public class ServiceBeanWriter extends JavaClassWriter
 
  private DictionaryModel model;
  private String directory;
- public static final String ROOT_PACKAGE = "org.kuali.student.service";
+ private String rootPackage;
  private Service service;
  private XmlType type;
  private ModelFinder finder;
 
  public ServiceBeanWriter (DictionaryModel model,
                            String directory,
+                           String rootPackage,
                            Service service,
                            XmlType type)
  {
-  super (directory, calcPackage (service), calcClassName (type.getName ()));
+  super (directory, calcPackage (service, rootPackage), calcClassName (type.getName ()));
   this.model = model;
   this.finder = new ModelFinder (model);
   this.directory = directory;
+  this.rootPackage = rootPackage;
   this.service = service;
   this.type = type;
  }
 
- public static String calcPackage (Service service)
+ public static String calcPackage (Service service, String rootPackage)
  {
-  return ServiceMethodsWriter.calcPackage (service);
+  return ServiceMethodsWriter.calcPackage (service, rootPackage);
  }
 
  public static String calcClassName (String name)
@@ -77,7 +79,7 @@ public class ServiceBeanWriter extends JavaClassWriter
   incrementIndent ();
   indentPrint (" implements "
    + ServiceInfoWriter.calcClassName (type.getName ()));
-  importsAdd (ServiceInfoWriter.calcPackage (service)
+  importsAdd (ServiceInfoWriter.calcPackage (service, rootPackage)
    + "." + ServiceInfoWriter.calcClassName (type.getName ()));
   this.importsAdd (Serializable.class.getName ());
   indentPrintln (", Serializable");
