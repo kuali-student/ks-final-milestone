@@ -18,7 +18,7 @@
 	<parent>
 		<groupId>org.kuali.student.lum</groupId>
 		<artifactId>ks-lum</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.0-rpc-SNAPSHOT</version>
 	</parent>
 
 	<build>
@@ -91,7 +91,7 @@
 					-->
 					<groupId>org.kuali.student.core</groupId>
 					<artifactId>ks-cxf</artifactId>
-					<version>1.0.0-SNAPSHOT</version>
+					<version>1.0.0-rpc-SNAPSHOT</version>
 					<type>pom</type>
 					<scope>runtime</scope>
 				</dependency>
@@ -105,7 +105,7 @@
 				<dependency>
 					<groupId>org.kuali.student.core</groupId>
 					<artifactId>ks-core-impl</artifactId>
-					<version>1.0.0-SNAPSHOT</version>
+					<version>1.0.0-rpc-SNAPSHOT</version>
 				</dependency>
 
 			    <dependency>
@@ -137,19 +137,19 @@
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-util</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0-rpc-SNAPSHOT</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-ui</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0-rpc-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-ui</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0-rpc-SNAPSHOT</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
@@ -157,24 +157,24 @@
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-ui</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0-rpc-SNAPSHOT</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-ui</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0-rpc-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-api</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0-rpc-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-api</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0-rpc-SNAPSHOT</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
@@ -183,19 +183,19 @@
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-api</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0-rpc-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-api</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0-rpc-SNAPSHOT</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
         <dependency>
             <groupId>org.kuali.student.lum</groupId>
             <artifactId>ks-lum-impl</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0-rpc-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
 

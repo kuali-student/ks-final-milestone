@@ -10,7 +10,7 @@
     <parent>
         <groupId>org.kuali.student.brms</groupId>
         <artifactId>ks-brms</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0-rpc-SNAPSHOT</version>
     </parent>
 
 	<build>
@@ -34,29 +34,29 @@
         <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-common-impl</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>1.0.0-rpc-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-common-util</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>1.0.0-rpc-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-common-test</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>1.0.0-rpc-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.kuali.student.brms.statement</groupId>
             <artifactId>ks-statement-api</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>1.0.0-rpc-SNAPSHOT</version>
         </dependency>
         <dependency>
           <groupId>org.kuali.student.brms</groupId>
           <artifactId>ks-brms-execution-impl</artifactId>
-          <version>1.0.0-SNAPSHOT</version>
+          <version>1.0.0-rpc-SNAPSHOT</version>
         </dependency>
 	</dependencies>
 
@@ -70,7 +70,7 @@
 				<dependency>
 					<groupId>org.kuali.student.core</groupId>
 					<artifactId>ks-hibernate</artifactId>
-		          	<version>1.0.0-SNAPSHOT</version>
+		          	<version>1.0.0-rpc-SNAPSHOT</version>
 					<type>pom</type>
 					<scope>test</scope>
 				</dependency>
@@ -82,7 +82,7 @@
 				<dependency>
 					<groupId>org.kuali.student.core</groupId>
 					<artifactId>ks-eclipselink</artifactId>
-		          	<version>1.0.0-SNAPSHOT</version>
+		          	<version>1.0.0-rpc-SNAPSHOT</version>
 					<type>pom</type>
 					<scope>test</scope>
 				</dependency>
@@ -97,7 +97,7 @@
 				<dependency>
 					<groupId>org.kuali.student.core</groupId>
 					<artifactId>ks-cxf</artifactId>
-		          	<version>1.0.0-SNAPSHOT</version>
+		          	<version>1.0.0-rpc-SNAPSHOT</version>
 					<type>pom</type>
 					<scope>test</scope>
 				</dependency>
@@ -109,7 +109,7 @@
 				<dependency>
 					<groupId>org.kuali.student.core</groupId>
 					<artifactId>ks-metro</artifactId>
-		          	<version>1.0.0-SNAPSHOT</version>
+		          	<version>1.0.0-rpc-SNAPSHOT</version>
 					<type>pom</type>
 					<scope>test</scope>
 				</dependency>

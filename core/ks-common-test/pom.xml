@@ -20,14 +20,14 @@
 	<parent>
 		<groupId>org.kuali.student.core</groupId>
 		<artifactId>ks-core</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.0-rpc-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-util</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0-rpc-SNAPSHOT</version>
 		</dependency>
 
 		<!-- Specific impl or use profile? -->
@@ -35,21 +35,21 @@
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-cxf</artifactId>
 			<type>pom</type>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0-rpc-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-hibernate</artifactId>
 			<type>pom</type>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0-rpc-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-jta</artifactId>
 			<type>pom</type>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0-rpc-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>

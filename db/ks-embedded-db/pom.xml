@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.kuali.student.db.ks-embedded-db</groupId>
     <artifactId>ks-embedded-db</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0-rpc-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>KS Embedded Database</name>
     <description>Kuali Student Embedded Database</description>

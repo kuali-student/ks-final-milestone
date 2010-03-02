@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>org.kuali.student</groupId>
 		<artifactId>student</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.0-rpc-SNAPSHOT</version>
 	</parent>
     <name>KS Core</name>
     <description>Kuali Student Core POM</description>
