@@ -12,9 +12,10 @@
 	<description>KS Standard Security - out of the box</description>
 	<properties>
 		<springBean.config.files><![CDATA[
-    <config>src/main/resources/ks-spring-security-cas.xml</config>
-	<config>src/main/resources/ks-spring-security-saml.xml</config>
-	<config>src/main/resources/ks-spring-security.xml</config>]]>
+    <!--<config>src/main/resources/ks-spring-security-cas.xml</config>-->
+    <config>src/main/resources/ks-spring-security-saml.xml</config>
+    <config>src/main/resources/ks-spring-security.xml</config>
+]]>
 		</springBean.config.files>
 	</properties>
 	<dependencies>
