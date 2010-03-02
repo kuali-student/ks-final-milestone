@@ -442,7 +442,7 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
 
     @Override
     protected boolean checkDocumentLevelPermissions() {
-    	return true;
+    	return false;
     }
 
     @Override
