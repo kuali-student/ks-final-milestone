@@ -6,6 +6,12 @@
 	<packaging>jar</packaging>
 	<name>KS LUM Rice</name>
 	<description>KS Learning Unit Management-rice</description>
+	<properties>
+		<springBean.config.files><![CDATA[
+    <config>src/main/resources/org/kuali/rice/student/bo/datadictionary/KualiStudentKimAttributes.xml</config>
+]]>
+		</springBean.config.files>
+	</properties>
 
 	<parent>
 		<groupId>org.kuali.student.lum</groupId>
