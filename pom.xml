@@ -290,20 +290,20 @@
             				<file>
               					<name>.springBeans</name>
               					<content>
-              						&lt;?xml version="1.0" encoding="UTF-8"?>
-									&lt;beansProjectDescription>
-  									  &lt;version>1&lt;/version>
-  									  &lt;pluginVersion>2.3.0.200912170948-RELEASE&lt;/pluginVersion>
-  									  &lt;configSuffixes>
-    								    &lt;configSuffix>xml&lt;/configSuffix>
-  									  &lt;/configSuffixes>
-  									  &lt;enableImports>false&lt;/enableImports>
-  									  &lt;configs>
-  									    ${springBean.config.files}
-  									  &lt;/configs>
-  									  &lt;configSets>
-  									  &lt;/configSets>
-									&lt;/beansProjectDescription>
+&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;beansProjectDescription>
+  &lt;version>1&lt;/version>
+  &lt;pluginVersion>2.3.0.200912170948-RELEASE&lt;/pluginVersion>
+  &lt;configSuffixes>
+    &lt;configSuffix>xml&lt;/configSuffix>
+  &lt;/configSuffixes>
+  &lt;enableImports>false&lt;/enableImports>
+  &lt;configs>
+${springBean.config.files}
+  &lt;/configs>
+  &lt;configSets>
+  &lt;/configSets>
+&lt;/beansProjectDescription>
 								</content>
 							</file>
           				</additionalConfig>
