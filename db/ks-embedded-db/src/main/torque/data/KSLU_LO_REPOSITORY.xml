@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSLU_LO_REPOSITORY EFF_DT="20080101000000"
+        EXPIR_DT="20100101000000"
+        ID="kuali.loRepository.key.institution" NAME="Institution"
+        RT_DESCR_ID="RICHTEXT-18" VERSIONIND="1"/>
+    <KSLU_LO_REPOSITORY EFF_DT="20080101000000"
+        EXPIR_DT="20100101000000" ID="kuali.loRepository.key.singleUse"
+        NAME="singleUse" RT_DESCR_ID="RICHTEXT-10" VERSIONIND="1"/>
+    <KSLU_LO_REPOSITORY EFF_DT="20080101000000"
+        EXPIR_DT="20100101000000" ID="kuali.loRepository.key.state"
+        NAME="State" RT_DESCR_ID="RICHTEXT-22" VERSIONIND="1"/>
+</dataset>

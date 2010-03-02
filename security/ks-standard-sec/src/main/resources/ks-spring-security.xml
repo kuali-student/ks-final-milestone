@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:security="http://www.springframework.org/schema/security"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/security 
+           http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
+
+
+	<import resource="ksss-auth-provider.xml"/>
+	
+	<security:http auto-config="false">
+    	<security:intercept-url pattern="/logout.html*" filters="none"/>
+    	<security:intercept-url pattern="/services/*" filters="none"/>
+        <security:intercept-url pattern="/**" access="ROLE_KS_USER"/>
+		<security:form-login />
+<!--  	<security:logout/>  -->
+    </security:http>
+    
+    <bean id="ksLogoutFilter" class="org.kuali.student.security.filter.KSLogoutFilter">
+    	<security:custom-filter position="LOGOUT_FILTER"/>
+  	</bean>
+  	
+</beans>
