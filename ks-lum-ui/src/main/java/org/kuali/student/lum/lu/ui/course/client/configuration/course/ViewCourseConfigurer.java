@@ -107,26 +107,10 @@ LearningObjectiveConstants
         layout.addSection(new String[] {COURSE_DETAILS_TAB, COURSE_VIEW}, generateComprehensiveSection());
 
     }
-  
-    //TODO add course code & title as page/tab header
-    private BaseSection generateTitle() {
-               
-        GroupSection section = new GroupSection();
-        addField(section, SUBJECT_AREA, null, new KSLabel());
-        addField(section, COURSE_NUMBER_SUFFIX, null, new KSLabel());
-        addField(section, TRANSCRIPT_TITLE, null, new KSLabel());
-
-        return section;
-
-    }
     
     private SectionView generateBasicSection() {
         VerticalSectionView section = initSectionView(Sections.BASIC_INFO, BASIC_VIEW);
-
-//        section.addSection(generateTitle());
-        
-        addField(section, "fees/0/attributes/CourseCode", getLabel(LUConstants.CODE_LABEL_KEY), new KSLabel());
-        
+               
         addField(section, CreditCourseConstants.COURSE_TITLE, getLabel(LUConstants.TITLE_LABEL_KEY), new KSLabel());
         addField(section, DESCRIPTION+ "/" + "plain", getLabel(LUConstants.DESCRIPTION_LABEL_KEY), new KSLabel());
 
@@ -155,8 +139,6 @@ LearningObjectiveConstants
 
     private VerticalSectionView generateComprehensiveSection() {
         VerticalSectionView section = initSectionView(Sections.COMPREHENSIVE_INFO, COMPREHENSIVE_VIEW);
-
-        addField(section, "fees/0/attributes/CourseCode", getLabel(LUConstants.CODE_LABEL_KEY), new KSLabel());
 
 //FIXME  In M4 Only one term offered can be set so don't need a list here. Fix for M5
 //      addField(section, CreditCourseConstants.TERMS_OFFERED, "Terms Offered", new TermsOfferedList());
