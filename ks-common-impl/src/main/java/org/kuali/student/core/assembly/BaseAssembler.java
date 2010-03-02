@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.kim.bo.role.dto.KimPermissionInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
@@ -67,7 +68,7 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
         Metadata metadata = metadataService.getMetadata(getDataType(), type, state);
         AttributeSet qualification = getQualification(idType, id);
         Boolean authorized = null;
-        if (checkDocumentLevelPermissions()) {
+        if (StringUtils.isNotBlank(id) && checkDocumentLevelPermissions()) {
             // temporary hack to utilize "Open Document" permission
 //	        if (StringUtils.isNotBlank(id)) {
 //	        	String userId = SecurityUtils.getCurrentUserId();
