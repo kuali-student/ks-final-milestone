@@ -148,7 +148,7 @@ public class OrgProposalController extends TabbedSectionLayout{
     private KSButton getModifyButton(){
         return new KSButton("Modify", new ClickHandler(){
                     public void onClick(ClickEvent event) {
-                        fireApplicationEvent(new ModifyActionEvent((String)orgProposalModel.get("orgInfo/id")));
+                        fireApplicationEvent(new ModifyActionEvent((String)orgProposalModel.get("orgSearchInfo/searchOrgs")));
                     }
                 });
     }
