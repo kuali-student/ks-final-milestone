@@ -152,6 +152,11 @@
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-core-impl</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 </project>
