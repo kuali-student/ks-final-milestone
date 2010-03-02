@@ -1,7 +1,7 @@
 <config>
 
 	<param name="ks.default.security.saml.samlIssuerServiceAddress">${serviceServletUrl}/SamlIssuerService</param>
-	<param name="ks.default.security.cas.webapp.service.context">https://localhost:8443/ks-embedded</param>
+	<param name="ks.default.security.cas.webapp.service.context">${application.url}</param>
 	<param name="ks.default.security.cas.serverAddress">https://localhost:8443/cas-server-webapp-3.3.1</param>
 	
 	<!-- when true will use CAS proxy mechanism, i.e. return a Proxy Ticket used to access a another cas service proxy -->
