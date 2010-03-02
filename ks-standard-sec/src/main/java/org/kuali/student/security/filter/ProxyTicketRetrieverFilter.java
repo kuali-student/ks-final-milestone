@@ -24,6 +24,7 @@ public class ProxyTicketRetrieverFilter extends SpringSecurityFilter {
     
     private String proxyTargetService = null;
     private SamlIssuerService samlIssuerService;
+    private boolean useCasProxyMechanism = false;
     
     @Override
     public void doFilterHttp(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
@@ -35,17 +36,30 @@ public class ProxyTicketRetrieverFilter extends SpringSecurityFilter {
             // The information is returned from the CAS server as a response to a validation request.
             Assertion casAssertion = null;
             String proxyTicket = null;
+            String principal = null;
             
+            System.out.println("ProxyTicketRetrieverFilter : inside if");
             casAssertion = cat.getAssertion();
             if(casAssertion != null){
-                proxyTicket = casAssertion.getPrincipal().getProxyTicketFor(proxyTargetService);
+                System.out.println("ProxyTicketRetrieverFilter : casAssertion is null");
+                if(useCasProxyMechanism){
+                    proxyTicket = casAssertion.getPrincipal().getProxyTicketFor(proxyTargetService);
+                } else {
+                    principal = casAssertion.getPrincipal().getName();
+                }
             }
             
             Document signedSAMLDoc = null;
             SAMLAssertion samlAssertion = null;
+            String signedSAMLRet = null;
             
             try{
-                String signedSAMLRet = samlIssuerService.validateCasProxyTicket(proxyTicket, proxyTargetService);
+                System.out.println("ProxyTicketRetrieverFilter : Proxy Ticket Returned from CAS " + proxyTicket);
+                if(useCasProxyMechanism){
+                    signedSAMLRet = samlIssuerService.validateCasProxyTicket(proxyTicket, proxyTargetService);
+                } else {
+                    signedSAMLRet = samlIssuerService.getSamlPrincipal(principal);
+                }
                 
                 DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
                 dbf.setNamespaceAware(true);
@@ -93,6 +107,14 @@ public class ProxyTicketRetrieverFilter extends SpringSecurityFilter {
 
     public void setSamlIssuerService(SamlIssuerService samlIssuerService) {
         this.samlIssuerService = samlIssuerService;
+    }
+
+    public boolean getUseCasProxyMechanism() {
+        return useCasProxyMechanism;
+    }
+
+    public void setUseCasProxyMechanism(boolean useCasProxyMechanism) {
+        this.useCasProxyMechanism = useCasProxyMechanism;
     }
 
 }

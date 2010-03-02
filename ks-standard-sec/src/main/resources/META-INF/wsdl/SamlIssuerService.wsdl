@@ -2,6 +2,8 @@
 <wsdl:definitions name="SamlIssuerService" targetNamespace="http://student.kuali.org/wsdl/security/saml" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/security/saml" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/security/saml" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/security/saml">
+    <xs:element name="getSamlPrincipal" type="tns:getSamlPrincipal"/>
+    <xs:element name="getSamlPrincipalResponse" type="tns:getSamlPrincipalResponse"/>
     <xs:element name="validateCasProxyTicket" type="tns:validateCasProxyTicket"/>
     <xs:element name="validateCasProxyTicketResponse" type="tns:validateCasProxyTicketResponse"/>
     <xs:complexType name="validateCasProxyTicket">
@@ -11,6 +13,16 @@
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="validateCasProxyTicketResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getSamlPrincipal">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="principal" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="getSamlPrincipalResponse">
         <xs:sequence>
             <xs:element minOccurs="0" name="return" type="xs:string"/>
         </xs:sequence>
@@ -25,6 +37,10 @@
     <wsdl:part name="parameters" element="tns:validateCasProxyTicketResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="getSamlPrincipalResponse">
+    <wsdl:part name="parameters" element="tns:getSamlPrincipalResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="validateCasProxyTicket">
     <wsdl:part name="parameters" element="tns:validateCasProxyTicket">
     </wsdl:part>
@@ -33,11 +49,23 @@
     <wsdl:part name="KSSecurityException" element="tns:KSSecurityException">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="getSamlPrincipal">
+    <wsdl:part name="parameters" element="tns:getSamlPrincipal">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:portType name="SamlIssuerService">
     <wsdl:operation name="validateCasProxyTicket">
       <wsdl:input name="validateCasProxyTicket" message="tns:validateCasProxyTicket">
     </wsdl:input>
       <wsdl:output name="validateCasProxyTicketResponse" message="tns:validateCasProxyTicketResponse">
+    </wsdl:output>
+      <wsdl:fault name="KSSecurityException" message="tns:KSSecurityException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSamlPrincipal">
+      <wsdl:input name="getSamlPrincipal" message="tns:getSamlPrincipal">
+    </wsdl:input>
+      <wsdl:output name="getSamlPrincipalResponse" message="tns:getSamlPrincipalResponse">
     </wsdl:output>
       <wsdl:fault name="KSSecurityException" message="tns:KSSecurityException">
     </wsdl:fault>
@@ -51,6 +79,18 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="validateCasProxyTicketResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="KSSecurityException">
+        <soap:fault name="KSSecurityException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSamlPrincipal">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getSamlPrincipal">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getSamlPrincipalResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="KSSecurityException">
