@@ -6,11 +6,17 @@
 	<packaging>jar</packaging>
 	<name>KS LUM Rice</name>
 	<description>KS Learning Unit Management-rice</description>
+	<properties>
+		<springBean.config.files><![CDATA[
+    <config>src/main/resources/org/kuali/rice/student/bo/datadictionary/KualiStudentKimAttributes.xml</config>
+]]>
+		</springBean.config.files>
+	</properties>
 
 	<parent>
 		<groupId>org.kuali.student.lum</groupId>
 		<artifactId>ks-lum</artifactId>
-		<version>1.0.0-m3-SNAPSHOT</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
 	<build>
@@ -29,7 +35,7 @@
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-rice-lessdep</artifactId>
-			<version>1.0.0-m3-SNAPSHOT</version>
+			<version>1.0.0-SNAPSHOT</version>
 			<type>pom</type>
 			<scope>provided</scope>
 		</dependency>
@@ -40,7 +46,7 @@
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-api</artifactId>
-			<version>1.0.0-m3-SNAPSHOT</version>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>

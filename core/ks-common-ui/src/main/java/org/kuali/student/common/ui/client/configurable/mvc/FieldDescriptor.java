@@ -14,16 +14,18 @@
  */
 package org.kuali.student.common.ui.client.configurable.mvc;
 
-import org.kuali.student.common.assembly.client.Metadata;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.MultiplicityCompositeBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.HasDataValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.Type;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.RichTextEditor;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
+import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.QueryPath;
 
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.HasValue;
@@ -52,6 +54,8 @@ public class FieldDescriptor {
     private boolean dirty = false;
     private boolean hasHadFocus = false;
     
+    
+   
     /**
      * @param fieldKey
      * @param fieldLabel
@@ -100,14 +104,6 @@ public class FieldDescriptor {
     		switch (metadata.getDataType()) {
     		case BOOLEAN:
     			this.fieldType = Type.BOOLEAN;
-    			break;
-    			
-    		case BYTE:
-    			this.fieldType = Type.BYTE;
-    			break;
-    			
-    		case CHARACTER:
-    			this.fieldType = Type.CHARACTER;
     			break;
     			
     		case DATE:
@@ -226,8 +222,10 @@ public class FieldDescriptor {
         	    modelWidgetBinding = org.kuali.student.common.ui.client.configurable.mvc.binding.HasTextBinding.INSTANCE;
             } else if (fieldWidget instanceof KSSelectItemWidgetAbstract){
                 modelWidgetBinding = org.kuali.student.common.ui.client.configurable.mvc.binding.SelectItemWidgetBinding.INSTANCE;
+            } else if (fieldWidget instanceof HasDataValue){
+            	modelWidgetBinding = org.kuali.student.common.ui.client.configurable.mvc.binding.HasDataValueBinding.INSTANCE;
             } else if (fieldWidget instanceof HasValue){
-                modelWidgetBinding = org.kuali.student.common.ui.client.configurable.mvc.binding.HasValueBinding.INSTANCE;
+            	modelWidgetBinding = org.kuali.student.common.ui.client.configurable.mvc.binding.HasValueBinding.INSTANCE;
             }
         }
         return modelWidgetBinding;

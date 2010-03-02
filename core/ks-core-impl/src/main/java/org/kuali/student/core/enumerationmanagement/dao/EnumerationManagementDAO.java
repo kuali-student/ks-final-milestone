@@ -17,10 +17,12 @@ package org.kuali.student.core.enumerationmanagement.dao;
 import java.util.Date;
 import java.util.List;
 
+import org.kuali.student.core.dao.CrudDao;
+import org.kuali.student.core.dao.SearchableDao;
 import org.kuali.student.core.enumerationmanagement.entity.EnumeratedValueEntity;
 import org.kuali.student.core.enumerationmanagement.entity.EnumerationMetaEntity;
 
-public interface EnumerationManagementDAO {
+public interface EnumerationManagementDAO extends CrudDao, SearchableDao{
 
     public List<EnumerationMetaEntity> findEnumerationMetas();
 

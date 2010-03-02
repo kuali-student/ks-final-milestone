@@ -12,7 +12,7 @@
 	<parent>
 		<groupId>org.kuali.student.core</groupId>
 		<artifactId>ks-core</artifactId>
-		<version>1.0.0-m3-SNAPSHOT</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
@@ -25,16 +25,16 @@
 				<exclusion>
                     <groupId>javax.mail</groupId>
                     <artifactId>mail</artifactId>
-                </exclusion>                			
+                </exclusion>
 				<exclusion>
                     <groupId>javax.servlet</groupId>
                     <artifactId>jstl</artifactId>
-                </exclusion>                			
+                </exclusion>
 				<exclusion>
                     <groupId>javax.servlet</groupId>
                     <artifactId>servlet-api</artifactId>
-                </exclusion>                			
-			
+                </exclusion>
+
 
 				<!-- Acegi & CAS -->
 				<exclusion>
@@ -48,48 +48,48 @@
         		<exclusion>
         			<groupId>org.jasig.cas</groupId>
         			<artifactId>cas-client-core</artifactId>
-        		</exclusion>       		        					                			
+        		</exclusion>
         		<exclusion>
         			<groupId>cas</groupId>
         			<artifactId>casclient</artifactId>
-        		</exclusion>       		        					                							
-				
+        		</exclusion>
+
 				<!-- Commons -->
 				<exclusion>
         			<groupId>commons-codec</groupId>
         			<artifactId>commons-codec</artifactId>
-        		</exclusion>       		        					                			
+        		</exclusion>
 				<exclusion>
         			<groupId>commons-fileupload</groupId>
         			<artifactId>commons-fileupload</artifactId>
         		</exclusion>
-				
+
 				<!-- Required for rice startup
 				<exclusion>
         			<groupId>commons-httpclient</groupId>
         			<artifactId>commons-httpclient</artifactId>
         		</exclusion>
-        		 -->       		        					                			       		       		        					                			
-				
+        		 -->
+
 				<!--  These commons libraries may be required -->
 				<exclusion>
         			<groupId>commons-io</groupId>
         			<artifactId>commons-io</artifactId>
-        		</exclusion>       		        					                			
+        		</exclusion>
 				<exclusion>
         			<groupId>commons-lang</groupId>
         			<artifactId>commons-lang</artifactId>
-        		</exclusion>       		        					                			
-				
+        		</exclusion>
+
 				<!-- OJB Dependencies (Thinking these may not be required when using JPA -->
 				<!--  Required for rice startup
 				<exclusion>
         			<groupId>ojb</groupId>
         			<artifactId>db-ojb</artifactId>
         		</exclusion>
-        		 -->       		        					                			
-											
-				<!-- CXF - Transitive Dependencies-->			
+        		 -->
+
+				<!-- CXF - Transitive Dependencies-->
 				<exclusion>
 					<groupId>javax.xml.soap</groupId>
 					<artifactId>saaj-api</artifactId>
@@ -102,8 +102,8 @@
 					<groupId>org.codehaus.woodstox</groupId>
 					<artifactId>wstx-asl</artifactId>
 				</exclusion>
-				
-				
+
+
 				<!-- Jasper -->
 				<exclusion>
 					<groupId>tomcat</groupId>
@@ -117,7 +117,7 @@
 					<groupId>tomcat</groupId>
 					<artifactId>jasper-runtime</artifactId>
         		</exclusion>
-				
+
 				<!-- Other Direct Rice Dependencies -->
         		<exclusion>
 					<groupId>backport-util-concurrent</groupId>
@@ -126,15 +126,15 @@
         		<exclusion>
         			<groupId>bcel</groupId>
         			<artifactId>bcel</artifactId>
-        		</exclusion>       		
+        		</exclusion>
         		<exclusion>
         			<groupId>bouncycastle</groupId>
         			<artifactId>bcprov-jdk15</artifactId>
-        		</exclusion>       		        					                			
+        		</exclusion>
         		<exclusion>
         			<groupId>bsf</groupId>
         			<artifactId>bsf</artifactId>
-        		</exclusion>       		        					                			
+        		</exclusion>
         		<!-- Required for rice startup
         		<exclusion>
         			<groupId>dwr</groupId>
@@ -144,12 +144,12 @@
         		<exclusion>
         			<groupId>struts</groupId>
         			<artifactId>struts</artifactId>
-        		</exclusion>       		        					                			
+        		</exclusion>
         		<!-- This is used by jboss ArchiveBrowser - anything else?
         		<exclusion>
         			<groupId>concurrent</groupId>
         			<artifactId>concurrent</artifactId>
-        		</exclusion>       		        					      
+        		</exclusion>
 				-->
         		<exclusion>
         			<groupId>displaytag</groupId>
@@ -167,35 +167,35 @@
 				<exclusion>
                     <groupId>mysql</groupId>
                     <artifactId>mysql-connector-java</artifactId>
-                </exclusion>                			
+                </exclusion>
 				<exclusion>
                     <groupId>com.oracle</groupId>
                     <artifactId>ojdbc14</artifactId>
-                </exclusion>                			
+                </exclusion>
 				<exclusion>
                     <groupId>opensymphony</groupId>
                     <artifactId>oscache</artifactId>
-                </exclusion>                			       		      		       		        					                			
+                </exclusion>
 				<!-- Required for KSB to startup
 				<exclusion>
                     <groupId>opensymphony</groupId>
                     <artifactId>quartz</artifactId>
-                </exclusion>               
-                 --> 			       		      		       		        					                			
+                </exclusion>
+                 -->
 				<exclusion>
                     <groupId>struts</groupId>
                     <artifactId>struts-el</artifactId>
-                </exclusion>                			
+                </exclusion>
 				<exclusion>
                     <groupId>taglibs</groupId>
                     <artifactId>standard</artifactId>
-                </exclusion>                			
+                </exclusion>
 
 				<exclusion>
                     <groupId>org.thoughtworks.xstream</groupId>
                     <artifactId>xstream</artifactId>
-                </exclusion>                			        				
-				
+                </exclusion>
+
                 <exclusion>
                     <groupId>junit</groupId>
                     <artifactId>junit</artifactId>
@@ -211,5 +211,5 @@
 			</exclusions>
 		</dependency>
 	</dependencies>
-	
+
 </project>

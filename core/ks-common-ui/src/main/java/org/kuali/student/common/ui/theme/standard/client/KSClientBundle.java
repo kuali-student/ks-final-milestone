@@ -119,12 +119,20 @@ public interface KSClientBundle extends ImmutableResourceBundle{
 	public CssResource searchBoxCss();
 	@Resource("org/kuali/student/common/ui/theme/standard/public/css/GwtDefault.css")
 	public CssResource gwtDefaultCss();
+	@Resource("org/kuali/student/common/ui/theme/standard/public/css/KSSection.css")
+	public CssResource sectionCss();
+	@Resource("org/kuali/student/common/ui/theme/standard/public/css/KSPicker.css")
+	public CssResource pickerCss();
 	
 	//Reset Css
 	@Resource("org/kuali/student/common/ui/theme/standard/public/css/Reset.css")
 	public CssResource resetCss();
 	
-	 //Common Images***************************************************
+	//Font & Settings Css
+	@Resource("org/kuali/student/common/ui/theme/standard/public/css/InitFonts.css")
+	public CssResource fontCss();
+	
+	//Common Images***************************************************
 	
 	@Resource("org/kuali/student/common/ui/theme/standard/public/images/common/kru_logo2.gif")
 	public ImageResource headerImage();

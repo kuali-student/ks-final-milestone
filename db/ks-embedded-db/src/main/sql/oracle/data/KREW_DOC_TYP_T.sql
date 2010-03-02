@@ -109,17 +109,23 @@ INSERT INTO KREW_DOC_TYP_T (ACTV_IND,CUR_IND,DOC_HDLR_URL,DOC_TYP_ID,DOC_TYP_NM,
   VALUES (1,1,'${kr.url}/maintenance.do?methodToCall=docHandler',2999,'IdentityManagementGenericPermissionMaintenanceDocument',0,'default.htm?turl=WordDocuments%2Fpermission.htm','Permission','A3AE4787-018E-1F17-6EB6-F2F0F366774F',2994,'2',1)
 /
 INSERT INTO KREW_DOC_TYP_T (ACTV_IND,CUR_IND,DOC_TYP_DESC,DOC_TYP_ID,DOC_TYP_NM,DOC_TYP_VER_NBR,LBL,OBJ_ID,PARNT_ID,RTE_VER_NBR,VER_NBR)
-  VALUES (1,1,'Kuali Student Parent Document',3000,'KualiStudentDocument',0,'Kuali Student Parent Document','A960CEEA-C124-887F-9B46-F73795ACF9B4',2680,'2',4)
-/
-INSERT INTO KREW_DOC_TYP_T (ACTV_IND,CUR_IND,DOC_TYP_ID,DOC_TYP_NM,DOC_TYP_VER_NBR,LBL,OBJ_ID,PARNT_ID,POST_PRCSR,RTE_VER_NBR,VER_NBR)
-  VALUES (1,1,3001,'HierarchyNodeDocumentTest',0,'HierarchyNodeDocumentTest','5FE16A7B-E885-55B3-6FD2-C737FB86E16C',3000,'org.kuali.rice.kew.postprocessor.DefaultPostProcessor','2',1)
+  VALUES (1,1,'Kuali Student Parent Document',3020,'KualiStudentDocument',0,'Kuali Student Parent Document','94621358-5795-F869-78E0-32BA3F5D72DB',2680,'2',3)
 /
 INSERT INTO KREW_DOC_TYP_T (ACTV_IND,CUR_IND,DOC_TYP_DESC,DOC_TYP_ID,DOC_TYP_NM,DOC_TYP_VER_NBR,LBL,OBJ_ID,PARNT_ID,POST_PRCSR,RTE_VER_NBR,VER_NBR)
-  VALUES (1,1,'Document used to request to add a collaborator on a Kuali Student Document',3002,'CollaboratorRequestDocument',0,'Request Collaborator Document','C9CB2050-44EB-458C-92AE-12511FDED911',3000,'org.kuali.student.lum.workflow.CourseProposalCollaboratorPostProcessor','2',2)
+  VALUES (1,1,'Document used to request to add a collaborator on a Kuali Student Document',3021,'CollaboratorRequestDocument',0,'Request Collaborator Document','6E1D4639-5094-7210-C54F-38BCD4CE9BA6',3020,'org.kuali.student.lum.workflow.CourseProposalCollaboratorPostProcessor','2',2)
 /
 INSERT INTO KREW_DOC_TYP_T (ACTV_IND,CUR_IND,DOC_HDLR_URL,DOC_TYP_DESC,DOC_TYP_ID,DOC_TYP_NM,DOC_TYP_VER_NBR,LBL,OBJ_ID,PARNT_ID,RTE_VER_NBR,VER_NBR)
-  VALUES (1,1,'${lum.application.url}/org.kuali.student.lum.lu.ui.workflow.CollaboratorRequest/CollaboratorRequest.html','Sample Clu Collaborator Request Document',3003,'CluCollaboratorDocument',0,'Sample Clu Collaborator Request Document','3CF26BEC-9409-2FE7-7D9C-AA195047B64C',3002,'2',1)
+  VALUES (1,1,'${lum.application.url}/org.kuali.student.lum.lu.ui.workflow.CollaboratorRequest/CollaboratorRequest.html','Sample Clu Collaborator Request Document',3022,'CluCollaboratorDocument',0,'Sample Clu Collaborator Request Document','88247124-7E14-8F5F-6319-05494ED5A3A5',3021,'2',1)
+/
+INSERT INTO KREW_DOC_TYP_T (ACTV_IND,CUR_IND,DOC_TYP_DESC,DOC_TYP_ID,DOC_TYP_NM,DOC_TYP_VER_NBR,LBL,OBJ_ID,PARNT_ID,RTE_VER_NBR,VER_NBR)
+  VALUES (1,1,'Kuali Student Credit Course Parent Document',3023,'CluCreditCourseParentDocument',0,'Kuali Student Credit Course Parent Document','80E6FEA5-AF41-FBEF-7CB1-046E2117A894',3020,'2',4)
+/
+INSERT INTO KREW_DOC_TYP_T (ACTV_IND,CUR_IND,DOC_TYP_DESC,DOC_TYP_ID,DOC_TYP_NM,DOC_TYP_VER_NBR,LBL,OBJ_ID,PARNT_ID,RTE_VER_NBR,VER_NBR)
+  VALUES (1,1,'Credit Course Retirement',3024,'CluCreditCourseRetirement',0,'Credit Course Retirement','4865CFDF-DB19-0FEA-A4EA-AA400305CEA5',3023,'2',1)
+/
+INSERT INTO KREW_DOC_TYP_T (ACTV_IND,CUR_IND,DOC_TYP_DESC,DOC_TYP_ID,DOC_TYP_NM,DOC_TYP_VER_NBR,LBL,OBJ_ID,PARNT_ID,RTE_VER_NBR,VER_NBR)
+  VALUES (1,1,'Credit Course Modification',3025,'CluCreditCourseModification',0,'Credit Course Modification','9F8CA13D-648A-F7BB-D501-D9D2F5DC5AD1',3023,'2',1)
 /
 INSERT INTO KREW_DOC_TYP_T (ACTV_IND,CUR_IND,DOC_HDLR_URL,DOC_TYP_DESC,DOC_TYP_ID,DOC_TYP_NM,DOC_TYP_VER_NBR,LBL,OBJ_ID,PARNT_ID,POST_PRCSR,RTE_VER_NBR,VER_NBR)
-  VALUES (1,1,'${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp','Sample Clu Document',3004,'CluDocument',0,'Sample Clu Document','62AEA05A-86AB-FE37-AA14-C5BF479BAFC0',3000,'org.kuali.student.lum.workflow.CluPostProcessor','2',1)
+  VALUES (1,1,'${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp','Credit Course Proposal',3026,'CluCreditCourseProposal',0,'Credit Course Proposal','C703DF6C-832B-55F5-1B13-63531BFEF223',3023,'org.kuali.student.lum.workflow.CluPostProcessor','2',1)
 /

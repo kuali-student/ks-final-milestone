@@ -172,6 +172,7 @@ public class HomeMenuController extends Controller{
     }
         
     public HomeMenuController(){
+        super(HomeMenuController.class.getName());
         SimplePanel simple = new SimplePanel();
         mainPanel.setStyleName("Course-Home-Main-Panel");
         menuPanel.setStyleName("Course-Home-Menu-Panel");
@@ -251,4 +252,8 @@ public class HomeMenuController extends Controller{
         return MenuViews.class;
     }
     
+    @Override
+    public Enum<?> getViewEnumValue(String enumValue) {
+        return MenuViews.valueOf(enumValue);
+    }
 }

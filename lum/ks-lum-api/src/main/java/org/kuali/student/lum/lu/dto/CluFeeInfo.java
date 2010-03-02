@@ -16,14 +16,17 @@ package org.kuali.student.lum.lu.dto;
  
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.core.dto.HasAttributes;
+import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 /**
@@ -34,10 +37,19 @@ public class CluFeeInfo implements Serializable, HasAttributes {
 
     private static final long serialVersionUID = 1L;
 
+    @XmlAttribute
+    private String id;    
+    
+    @XmlElement
+    private List<CluFeeRecordInfo> cluFeeRecords;
+    
     @XmlElement
 	@XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
     private Map<String,String> attributes;
 
+    @XmlElement
+    private MetaInfo metaInfo;
+    
     /**
      * List of key/value pairs, typically used for dynamic attributes.
      */
@@ -51,4 +63,28 @@ public class CluFeeInfo implements Serializable, HasAttributes {
     public void setAttributes(Map<String,String> attributes) {
         this.attributes = attributes;
     }
+
+	public List<CluFeeRecordInfo> getCluFeeRecords() {
+		return cluFeeRecords;
+	}
+
+	public void setCluFeeRecords(List<CluFeeRecordInfo> cluFeeRecords) {
+		this.cluFeeRecords = cluFeeRecords;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public MetaInfo getMetaInfo() {
+		return metaInfo;
+	}
+
+	public void setMetaInfo(MetaInfo metaInfo) {
+		this.metaInfo = metaInfo;
+	}
 }

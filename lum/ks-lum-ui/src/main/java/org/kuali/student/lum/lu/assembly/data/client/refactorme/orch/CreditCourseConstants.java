@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 The Kuali Foundation
+ * Copyright 2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ public interface CreditCourseConstants
 	public static final String ID = "id";
 	public static final String FORMATS = "formats";
 	public static final String TERMS_OFFERED = "termsOffered";
+	public static final String FIRST_EXPECTED_OFFERING = "firstExpectedOffering";
 	public static final String DURATION = "duration";
 	public static final String TRANSCRIPT_TITLE = "transcriptTitle";
 	public static final String COURSE_TITLE = "courseTitle";

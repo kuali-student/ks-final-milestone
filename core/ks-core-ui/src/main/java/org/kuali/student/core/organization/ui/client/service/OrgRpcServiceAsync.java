@@ -16,8 +16,10 @@ package org.kuali.student.core.organization.ui.client.service;
 
 import java.util.List;
 
-import org.kuali.student.common.assembly.client.Data;
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
+import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
@@ -28,6 +30,9 @@ import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
+import org.kuali.student.core.organization.ui.client.mvc.model.OrgPositionPersonRelationInfo;
+import org.kuali.student.core.organization.ui.client.mvc.model.SectionConfigInfo;
+import org.kuali.student.common.ui.client.service.DataSaveResult;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -62,4 +67,8 @@ public interface OrgRpcServiceAsync extends BaseRpcServiceAsync {
 	public void removePositionRestrictionFromOrg(String orgId, String orgPersonRelationTypeKey, AsyncCallback<StatusInfo> callback);
 //	public void getOrgProposalModelDefinition(String modelId, AsyncCallback<DataModel> callback);
 	public void saveOrgProposal(Data proposal, AsyncCallback<DataSaveResult> callback);
+	public void getOrgMetaData(AsyncCallback<Metadata> callback);
+	public void getSectionConfig(AsyncCallback<SectionConfigInfo> callback);
+	public void fetchOrg(String orgId,AsyncCallback<Data> callback);
+	public void getOrgPositionPersonRelation(String orgId, AsyncCallback<List<OrgPositionPersonRelationInfo>> callback);
 }

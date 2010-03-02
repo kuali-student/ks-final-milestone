@@ -62,17 +62,19 @@ public class RuleReportBuilderImpl extends AbstractMessageBuilder implements Rep
      */
     public RuleReport buildReport(final PropositionContainer pc, final Map<String, Object> messageContextMap) {
     	// This is the final rule report message summary
-    	BooleanFunctionResult result = super.build(pc.getFunctionalRuleString(), pc.getPropositionMap(), messageContextMap);
-    	String message = result.getMessage();
-        
         RuleReport ruleReport = pc.getRuleReport();
-        ruleReport.setSuccessful(pc.getRuleResult());
-
-        if (pc.getRuleResult() == true) {
-            ruleReport.setSuccessMessage(message);
-        } else {
-            ruleReport.setFailureMessage(message);
-        }
+    	if(!pc.getOverrideReport()) {
+	    	BooleanFunctionResult result = super.build(pc.getFunctionalRuleString(), pc.getPropositionMap(), messageContextMap);
+	    	String message = result.getMessage();
+	
+	        ruleReport.setSuccessful(pc.getRuleResult());
+	
+	        if (pc.getRuleResult() == true) {
+	            ruleReport.setSuccessMessage(message);
+	        } else {
+	            ruleReport.setFailureMessage(message);
+	        }
+    	}
 
         pc.setRuleReport(ruleReport);
         List<PropositionReport> propositionReportList = createPropositionReport(pc.getPropositions());

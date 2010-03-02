@@ -44,6 +44,7 @@ import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
 import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.selectors.KSSearchComponent;
 import org.kuali.student.common.ui.client.widgets.selectors.SearchComponentConfiguration;
@@ -52,6 +53,7 @@ import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 import org.kuali.student.core.search.dto.QueryParamValue;
+import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRequisitesSectionView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer;
@@ -113,7 +115,8 @@ public class LuConfigurer {
         layout.addSection(new String[] {"Edit Proposal",getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateActiveDatesSection());
         layout.addSection(new String[] {"Edit Proposal",getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateFinancialsSection());        
         layout.addSection(new String[] {getLabel(LUConstants.SUMMARY_LABEL_KEY)}, generateSummarySection());
-        layout.addSection(new String[] {"Assembler Test"}, new AssemblerTestSection(LuSections.ASSEMBLER_TEST, "Assembler Test"));
+        //FIXME commented out for commit, class is deprecated (believed to be ok)
+        //layout.addSection(new String[] {"Assembler Test"}, new AssemblerTestSection(LuSections.ASSEMBLER_TEST, "Assembler Test"));
 
         layout.addTool(new CollaboratorTool());
         layout.addTool(new CommentPanel(LuSections.COMMENTS, LUConstants.TOOL_COMMENTS));
@@ -124,7 +127,8 @@ public class LuConfigurer {
         VerticalSectionView section = initSectionView(LuSections.SUMMARY, LUConstants.SUMMARY_LABEL_KEY); 
             
         section.addSection(generateSummaryBrief(getH3Title(LUConstants.BRIEF_LABEL_KEY)));
-        section.addSection(ViewCluConfigurer.generateSummaryDetails(getH3Title(LUConstants.FULL_VIEW_LABEL_KEY)));
+        //FIXME commented out for commit, class is deprecated (believed to be ok)
+        //section.addSection(ViewCluConfigurer.generateSummaryDetails(getH3Title(LUConstants.FULL_VIEW_LABEL_KEY)));
         
         return section;
     }
@@ -162,9 +166,11 @@ public class LuConfigurer {
      * @return
      */
     private static SectionView generateCourseRequisitesSection() {
-        CourseRequisitesSectionView section = new CourseRequisitesSectionView(LuSections.COURSE_REQUISITES, getLabel(LUConstants.REQUISITES_LABEL_KEY), CluProposalModelDTO.class);
+        CourseRequisitesSectionView section = new CourseRequisitesSectionView(LuSections.COURSE_REQUISITES, getLabel(LUConstants.REQUISITES_LABEL_KEY));
         section.setSectionTitle(SectionTitle.generateH1Title(getLabel(LUConstants.REQUISITES_LABEL_KEY)));
-        return section;
+        //FIXME commented out for commit, class is deprecated (believed to be ok)
+        //return section;
+        return null;
     }
 
     private static SectionView generateActiveDatesSection() {
@@ -211,7 +217,7 @@ public class LuConfigurer {
     public static SectionView generateGovernanceSection(){
         VerticalSectionView section = initSectionView(LuSections.GOVERNANCE, LUConstants.GOVERNANCE_LABEL_KEY); 
 
-        VerticalSection oversight = initSection(getH3Title(LUConstants.CURRICULUM_OVERSIGHT_LABEL_KEY), WITH_DIVIDER);    
+        VerticalSection oversight = initSection(getH3Title(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY), WITH_DIVIDER);    
         oversight.addField(new FieldDescriptor("cluInfo/academicSubjectOrgs", null, Type.STRING, new OrgListPicker()));
 
         VerticalSection campus = initSection(getH3Title(LUConstants.CAMPUS_LOCATION_LABEL_KEY), WITH_DIVIDER);    
@@ -222,13 +228,11 @@ public class LuConfigurer {
 //        adminOrgs.addField(new FieldDescriptor("cluInfo/primaryAdminOrg/orgId", null, Type.STRING, new OrgPicker()));
 //        adminOrgs.addField(new FieldDescriptor("cluInfo/alternateAdminOrgs", null, Type.LIST, new AlternateAdminOrgList()));
         
-        
         section.addSection(oversight);
         section.addSection(campus);
         section.addSection(adminOrgs);
         
         return section;
-
     }
     
     public static SectionView generateCourseInfoSection(){
@@ -360,7 +364,8 @@ public class LuConfigurer {
 
         VerticalSection los = initSection(null, NO_DIVIDER);    
 
-        los.addField(new FieldDescriptor("cluInfo/loInfos", null, Type.MODELDTO, new LOBuilder(type, state, groupName)));
+        // FIXME - where should repo key come from?
+        los.addField(new FieldDescriptor("cluInfo/loInfos", null, Type.MODELDTO, new LOBuilder(type, state, groupName, "kauli.loRepository.key.singleUse", null)));
         los.addStyleName("KS-LUM-Section-Divider");
         
         section.addSection(los);
@@ -531,6 +536,11 @@ public class LuConfigurer {
 		public HandlerRegistration addValueChangeHandler(
 				ValueChangeHandler<String> handler) {
 			return orgPicker.addValueChangeHandler(handler);
+		}
+		
+		@Override
+		public HandlerRegistration addSelectionChangeHandler(SelectionChangeHandler handler){
+			return orgPicker.addSelectionChangeHandler(handler);
 		}
     }
     
@@ -833,12 +843,12 @@ public class LuConfigurer {
     	
     	searchConfig.setSearchDialogTitle("Find Organization");
     	searchConfig.setSearchService(orgRpcServiceAsync);
-    	searchConfig.setSearchTypeKey("org.search.advanced");
+    	searchConfig.setSearchTypeKey("org.search.generic");
     	searchConfig.setResultIdKey("org.resultColumn.orgId");
     	searchConfig.setRetrievedColumnKey("org.resultColumn.orgShortName");
     	
     	//TODO: following code should be in KSSearchComponent with config parameters set within SearchComponentConfiguration class
-    	final SearchSuggestOracle orgSearchOracle = new SearchSuggestOracle(searchConfig.getSearchService(),
+    	final SearchSuggestOracle orgSearchOracle = new SearchSuggestOracle(
     	        "org.search.orgByShortNameAndType", 
     	        "org.queryParam.orgShortName", //field user is entering and we search on... add '%' the parameter
     	        "org.queryParam.orgId", 		//if one wants to search by ID rather than by name
@@ -846,12 +856,18 @@ public class LuConfigurer {
     	        "org.resultColumn.orgShortName");
     	  			
 		//Restrict searches to Department Types
-		ArrayList<QueryParamValue> params = new ArrayList<QueryParamValue>();
-		QueryParamValue orgTypeParam = new QueryParamValue();
+//		ArrayList<QueryParamValue> params = new ArrayList<QueryParamValue>();
+//		QueryParamValue orgTypeParam = new QueryParamValue();
+//		orgTypeParam.setKey("org.queryParam.orgType");
+//		orgTypeParam.setValue("kuali.org.Department");
+//		params.add(orgTypeParam);
+		List<SearchParam> additionalParams = new ArrayList<SearchParam>();
+		SearchParam orgTypeParam = new SearchParam();
 		orgTypeParam.setKey("org.queryParam.orgType");
 		orgTypeParam.setValue("kuali.org.Department");
-		params.add(orgTypeParam);
-		orgSearchOracle.setAdditionalQueryParams(params);
+		additionalParams.add(orgTypeParam);
+
+    	orgSearchOracle.setAdditionalSearchParams(additionalParams);
 		
     	return new KSSearchComponent(searchConfig, orgSearchOracle);
     }       
@@ -892,7 +908,7 @@ public class LuConfigurer {
         searchConfig.setResultIdKey("atp.resultColumn.atpId");
 
         //TODO: following code should be in KSSearchComponent with config parameters set within SearchComponentConfiguration class
-        final SearchSuggestOracle atpSearchOracle = new SearchSuggestOracle(searchConfig.getSearchService(),
+        final SearchSuggestOracle atpSearchOracle = new SearchSuggestOracle(
                 "atp.search.atpByShortName", 
                 "atp.queryParam.atpShortName", //field user is entering and we search on... add '%' the parameter
                 "atp.queryParam.atpId",         //if one wants to search by ID rather than by name

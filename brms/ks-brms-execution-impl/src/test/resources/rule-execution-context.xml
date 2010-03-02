@@ -196,6 +196,13 @@
     <bean id="droolsTranslator"
         class="org.kuali.student.brms.translators.drools.RuleSetTranslatorDroolsImpl">
         <property name="ruleSetValidator" ref="ruleSetValidator"/>
+        <property name="ruleTemplates">
+            <list>
+               <value>velocity-templates/org/kuali/student/brms/translators/drools/RuleTemplate1-Init.vm</value>
+               <value>velocity-templates/org/kuali/student/brms/translators/drools/RuleTemplate2-Rule.vm</value>
+               <value>velocity-templates/org/kuali/student/brms/translators/drools/RuleTemplate3-RuleExpiryDate.vm</value>
+            </list>
+        </property>
     </bean>
     
     <bean id="ruleSetValidator"

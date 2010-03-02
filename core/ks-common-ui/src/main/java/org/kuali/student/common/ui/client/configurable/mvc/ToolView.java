@@ -19,6 +19,7 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
+import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.LazyPanel;
@@ -124,5 +125,14 @@ public abstract class ToolView extends LazyPanel implements View{
     public void setController(Controller controller){
         this.controller = controller;
     }
-    
+
+    @Override
+    public void collectHistory(HistoryStackFrame frame) {
+        // do nothing
+    }
+
+    @Override
+    public void onHistoryEvent(HistoryStackFrame frame) {
+        // do nothing
+    }
 }

@@ -26,6 +26,7 @@ public class OrgConstants {
     public static final String REL_EFF_DATE_LABEL_KEY = "orgOrgRelationEffDate";
     public static final String REL_EXP_DATE_LABEL_KEY = "orgOrgRelationExpDate";
     public static final String REL_NOTE_LABEL_KEY = "orgOrgRelationNote";
+    public static final String REL_SECTION = "orgOrgRelationSection";
     
     //Create Org Relation Labels
     public static final String ORG_LABEL_KEY = "orgOrgRelation";

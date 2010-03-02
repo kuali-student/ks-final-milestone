@@ -15,6 +15,9 @@ INSERT INTO KS_RICH_TEXT_T (ID,PLAIN)
 INSERT INTO KS_RICH_TEXT_T (ID,PLAIN)
   VALUES ('110e43c9-e51f-464f-893c-d21d5153b81b','Significant aspects of the history of African Americans with particular emphasis on the evolution and development of black communities from slavery to the present. Interdisciplinary introduction to social, political, legal and economic roots of contemporary problems faced by blacks in the United States with applications to the lives of other racial and ethnic minorities in the Americas and in other societies.')
 /
+INSERT INTO KS_RICH_TEXT_T (ID)
+  VALUES ('13670c02-e384-499b-8471-3ec151d836b2')
+/
 INSERT INTO KS_RICH_TEXT_T (ID,PLAIN)
   VALUES ('140ca2e5-499a-45e5-a957-ee03603621b3','A research seminar focusing on the practice and presentation of cultura  and historical scholarship in museums and historical sites. Students will complete an original research project on the challenges and opportunities of public exhibition and interpretation of cultural and historical research.')
 /
@@ -99,8 +102,14 @@ INSERT INTO KS_RICH_TEXT_T (ID,PLAIN)
 INSERT INTO KS_RICH_TEXT_T (ID,PLAIN)
   VALUES ('55effe34-4478-4006-965e-0f0fba601c50','Classic readings of the social, economic and political status of blacks and other minorities in the United States and the Americas.')
 /
+INSERT INTO KS_RICH_TEXT_T (ID)
+  VALUES ('5625eb69-da43-43b7-b507-74712be5b08d')
+/
 INSERT INTO KS_RICH_TEXT_T (ID,PLAIN)
   VALUES ('56863ff2-7b31-47eb-8d5d-6d9f04177e30','The relationship between black Americans and the law, particularly criminal law, criminal institutions and the criminal justice system. Examines historical changes in the legal status of blacks and changes in the causes of racial disparities in criminal involvement and punishments.')
+/
+INSERT INTO KS_RICH_TEXT_T (ID)
+  VALUES ('56e80a47-3573-4f45-9f53-4141421b3218')
 /
 INSERT INTO KS_RICH_TEXT_T (ID,PLAIN)
   VALUES ('58171da1-d680-455c-87be-0eeab2db5a59','An introductory multi-disciplinary and inter-disciplinary educational experience to explore issues relevant to black life, cultural experiences, and political, economic, and artistic development.')
@@ -119,6 +128,9 @@ INSERT INTO KS_RICH_TEXT_T (ID,PLAIN)
 /
 INSERT INTO KS_RICH_TEXT_T (ID,PLAIN)
   VALUES ('60608680-942c-4ff9-aa14-4b0163a588d4','Advanced topics in numerical linear algebra, such as dense eigenvalue problems, sparse elimination, iterative methods, and other topics.')
+/
+INSERT INTO KS_RICH_TEXT_T (ID)
+  VALUES ('62ae9501-d50f-4bae-9485-6cdd2305e53e')
 /
 INSERT INTO KS_RICH_TEXT_T (ID,PLAIN)
   VALUES ('632ba631-ba27-469e-ab43-7f17fb5e6609','Monte Carlo simulation, numerical linear algebra, nonlinear systems and continuation method, optimization, ordinary differential equations. Fundamental techniques in scientific computation with an introduction to the theory and software of each topic.')
@@ -178,6 +190,66 @@ INSERT INTO KS_RICH_TEXT_T (ID,PLAIN)
   VALUES ('9ff34f6e-994a-484a-9284-bca710c3a97e','Tools and techniques of computational linear algebra for applications. Topics include: linear systems and least squares problems, error analysis, accuracy and stability, matrix decompositions, iterative solvers, Krylov subspace methods, symmetric and non-symmetric eigenvalue problems, singular value decomposition.')
 /
 INSERT INTO KS_RICH_TEXT_T (FORMATTED,ID,PLAIN)
+  VALUES ('<p>Requirement Component 1</p>','KSSTMT_REQ_COM.DESC.1','Req Comp 1')
+/
+INSERT INTO KS_RICH_TEXT_T (FORMATTED,ID,PLAIN)
+  VALUES ('<p>Requirement Component 2</p>','KSSTMT_REQ_COM.DESC.2','Req Comp 2')
+/
+INSERT INTO KS_RICH_TEXT_T (FORMATTED,ID,PLAIN)
+  VALUES ('<p>Requirement Component 3</p>','KSSTMT_REQ_COM.DESC.3','Req Comp 3')
+/
+INSERT INTO KS_RICH_TEXT_T (FORMATTED,ID,PLAIN)
+  VALUES ('<p>Requirement Component 4</p>','KSSTMT_REQ_COM.DESC.4','Req Comp 4')
+/
+INSERT INTO KS_RICH_TEXT_T (FORMATTED,ID,PLAIN)
+  VALUES ('<p>Requirement Component 5</p>','KSSTMT_REQ_COM.DESC.5','Req Comp 5')
+/
+INSERT INTO KS_RICH_TEXT_T (FORMATTED,ID,PLAIN)
+  VALUES ('<p>Requirement Component 6</p>','KSSTMT_REQ_COM.DESC.6','Req Comp 6')
+/
+INSERT INTO KS_RICH_TEXT_T (FORMATTED,ID,PLAIN)
+  VALUES ('<p>Requirement Component 7</p>','KSSTMT_REQ_COM.DESC.7','Req Comp 7')
+/
+INSERT INTO KS_RICH_TEXT_T (FORMATTED,ID,PLAIN)
+  VALUES ('<p>Requirement Component 8</p>','KSSTMT_REQ_COM.DESC.8','Req Comp 8')
+/
+INSERT INTO KS_RICH_TEXT_T (FORMATTED,ID,PLAIN)
+  VALUES ('<p>Statement 1</p>','KSSTMT_STMT.DESC.1','Statement 1')
+/
+INSERT INTO KS_RICH_TEXT_T (FORMATTED,ID,PLAIN)
+  VALUES ('<p>Statement 105</p>','KSSTMT_STMT.DESC.10','Statement 105')
+/
+INSERT INTO KS_RICH_TEXT_T (FORMATTED,ID,PLAIN)
+  VALUES ('<p>Statement 106</p>','KSSTMT_STMT.DESC.11','Statement 106')
+/
+INSERT INTO KS_RICH_TEXT_T (FORMATTED,ID,PLAIN)
+  VALUES ('<p>Statement 2</p>','KSSTMT_STMT.DESC.2','Statement 2')
+/
+INSERT INTO KS_RICH_TEXT_T (FORMATTED,ID,PLAIN)
+  VALUES ('<p>Statement 3</p>','KSSTMT_STMT.DESC.3','Statement 3')
+/
+INSERT INTO KS_RICH_TEXT_T (FORMATTED,ID,PLAIN)
+  VALUES ('<p>Statement 4</p>','KSSTMT_STMT.DESC.4','Statement 4')
+/
+INSERT INTO KS_RICH_TEXT_T (FORMATTED,ID,PLAIN)
+  VALUES ('<p>Statement 5</p>','KSSTMT_STMT.DESC.5','Statement 5')
+/
+INSERT INTO KS_RICH_TEXT_T (FORMATTED,ID,PLAIN)
+  VALUES ('<p>Statement 101</p>','KSSTMT_STMT.DESC.6','Statement 101')
+/
+INSERT INTO KS_RICH_TEXT_T (FORMATTED,ID,PLAIN)
+  VALUES ('<p>Statement 102</p>','KSSTMT_STMT.DESC.7','Statement 102')
+/
+INSERT INTO KS_RICH_TEXT_T (FORMATTED,ID,PLAIN)
+  VALUES ('<p>Statement 103</p>','KSSTMT_STMT.DESC.8','Statement 103')
+/
+INSERT INTO KS_RICH_TEXT_T (FORMATTED,ID,PLAIN)
+  VALUES ('<p>Statement 104</p>','KSSTMT_STMT.DESC.9','Statement 104')
+/
+INSERT INTO KS_RICH_TEXT_T (FORMATTED,ID,PLAIN)
+  VALUES ('<p>Desc</p>','NL-RICHTEXT-101','Desc')
+/
+INSERT INTO KS_RICH_TEXT_T (FORMATTED,ID,PLAIN)
   VALUES ('<p>Desc</p>','RICHTEXT-101','Desc')
 /
 INSERT INTO KS_RICH_TEXT_T (FORMATTED,ID,PLAIN)
@@ -200,6 +272,9 @@ INSERT INTO KS_RICH_TEXT_T (FORMATTED,ID,PLAIN)
 /
 INSERT INTO KS_RICH_TEXT_T (FORMATTED,ID,PLAIN)
   VALUES ('<p>First year arts CluSet</p>','RICHTEXT-801','First year arts CluSet')
+/
+INSERT INTO KS_RICH_TEXT_T (FORMATTED,ID,PLAIN)
+  VALUES ('<p>Comment 1</p>','RT-DESC-COMMENT-1','Comment 1')
 /
 INSERT INTO KS_RICH_TEXT_T (ID,PLAIN)
   VALUES ('RT-DESC-DOCUMENT-1','Documents attached to a proposal')
@@ -228,6 +303,9 @@ INSERT INTO KS_RICH_TEXT_T (ID,PLAIN)
 INSERT INTO KS_RICH_TEXT_T (ID,PLAIN)
   VALUES ('abd7318c-fd3d-4aa9-ac30-332554b6aeb2','Nonlinear systems of equations, ordinary differential equations, boundary value problems.')
 /
+INSERT INTO KS_RICH_TEXT_T (ID)
+  VALUES ('acbd1fab-d0a1-49fd-b458-40127c18e374')
+/
 INSERT INTO KS_RICH_TEXT_T (ID,PLAIN)
   VALUES ('ad21e6fc-a57d-457c-81a4-1858c361889d','Field experience in professional organizations and appropriate private and governmental agencies serving the Asian American community.')
 /
@@ -242,6 +320,9 @@ INSERT INTO KS_RICH_TEXT_T (ID,PLAIN)
 /
 INSERT INTO KS_RICH_TEXT_T (ID,PLAIN)
   VALUES ('b0a86a82-287e-4fe4-a8cf-e6de2218aa65','Theoretical approaches and research methods in sociocultural anthropology. Emphasis on current debates, new directions, and their historical antecedents.')
+/
+INSERT INTO KS_RICH_TEXT_T (ID)
+  VALUES ('b82c5ddd-e580-40ae-b37c-b9e1e6d7dc42')
 /
 INSERT INTO KS_RICH_TEXT_T (ID,PLAIN)
   VALUES ('ba41a0d1-da7c-47f4-a7df-3ed91749e60d','Developments in theories and methods of American Studies scholarship, with emphasis upon interaction between the humanities and the social sciences in the process of cultural analysis and evaluation.')
@@ -276,8 +357,14 @@ INSERT INTO KS_RICH_TEXT_T (ID,PLAIN)
 INSERT INTO KS_RICH_TEXT_T (ID,PLAIN)
   VALUES ('c7389c9f-4f0a-45ca-a1d6-e92da27d823b','Theory, method, and practice which guides modern anthropological archaeology. Includes research design and execution (from survey through excavation and interpretation), the reconstruction of aspects of past cultures, and the understanding of cultural change and meaning.')
 /
+INSERT INTO KS_RICH_TEXT_T (ID)
+  VALUES ('cdb61e48-e0bc-44f9-a7ca-e05cfdee4d15')
+/
 INSERT INTO KS_RICH_TEXT_T (ID,PLAIN)
   VALUES ('cf94f50b-3313-4f1d-a654-acfb751f7f07','Lectures, experimental courses, and other special subjects in the fields of animal sciences and veterinary medicine.')
+/
+INSERT INTO KS_RICH_TEXT_T (ID)
+  VALUES ('d3c2ba28-248e-48fc-b802-6ee75cedaaf5')
 /
 INSERT INTO KS_RICH_TEXT_T (ID,PLAIN)
   VALUES ('d4b8f13a-0132-4143-bca6-5e6218f2d701','Advanced study of the cultural and historical antecedents of contemporary Asian American society. Emphasis on the social, political, economic, and behavioral factors affecting Asian Americans and their communities.')
@@ -290,6 +377,9 @@ INSERT INTO KS_RICH_TEXT_T (ID,PLAIN)
 /
 INSERT INTO KS_RICH_TEXT_T (ID,PLAIN)
   VALUES ('d7dad0db-b6e3-4c28-a779-c457d0e0936c','Culture and social relationships in a wide variety of settings from small-scale to complex societies. An overview of how anthropology analyzes human behavior. Particular attention to the relationship between language and culture.')
+/
+INSERT INTO KS_RICH_TEXT_T (ID)
+  VALUES ('d9ddb667-60aa-4c23-8e30-092011d27acb')
 /
 INSERT INTO KS_RICH_TEXT_T (ID,PLAIN)
   VALUES ('dc07c541-b9e4-4508-bee2-a99f4c7b5540','American humor from the Colonial era through the present in genres including literature, journalism, graphic arts, performance, and modern media. How humor expresses and mediates important social and cultural concerns including politics, religion, race and ethnicity, gender and topical issues.')
@@ -306,8 +396,14 @@ INSERT INTO KS_RICH_TEXT_T (ID,PLAIN)
 INSERT INTO KS_RICH_TEXT_T (ID,PLAIN)
   VALUES ('e1e24570-ebb8-4eca-aa18-a1ec61636928','Basic computational methods for interpolation, least squares, approximation, numerical quadrature, numerical solution of polynomial and transcendental equations, systems of linear equations and initial value problems for ordinary differential equations. Emphasis on methods and their computational properties rather than their analytic aspects. Intended primarily for students in the physical and engineering sciences.')
 /
+INSERT INTO KS_RICH_TEXT_T (ID)
+  VALUES ('e3d661fa-e2b0-444f-bdbf-adf51a70ce71')
+/
 INSERT INTO KS_RICH_TEXT_T (ID,PLAIN)
   VALUES ('e513ae6e-bd86-43e0-9629-b56e14596223','An introduction to mathematical dynamics and chaos. Orbits, bifurcations, Cantor sets and horseshoes, symbolic dynamics, fractal dimension, notions of stability, flows and chaos. Includes motivation and historical perspectives, as well as examples of fundamental maps studied in dynamics and applications of dynamics.')
+/
+INSERT INTO KS_RICH_TEXT_T (ID)
+  VALUES ('ecbc6215-a09d-4276-9f4e-b616cd272a73')
 /
 INSERT INTO KS_RICH_TEXT_T (ID,PLAIN)
   VALUES ('edd11737-aa46-43fe-b4b2-5a429649efd8','Concepts involved in planning and executing nonformal educational programs developed to meet the needs of youth. Emphasize the identification of opportunities; needs, and problems of youth in all socioeconomic levels; analysis of methods of working with youth groups and developing volunteer staff.')

@@ -103,32 +103,68 @@ INSERT INTO KREW_RTE_NODE_T (ACTVN_TYP,DOC_TYP_ID,FNL_APRVR_IND,MNDTRY_RTE_IND,N
   VALUES ('S',2999,0,0,'AdHoc',2910,'org.kuali.rice.kew.engine.node.InitialNode',1)
 /
 INSERT INTO KREW_RTE_NODE_T (ACTVN_TYP,DOC_TYP_ID,FNL_APRVR_IND,MNDTRY_RTE_IND,NM,RTE_NODE_ID,TYP,VER_NBR)
-  VALUES ('P',3001,0,0,'PreRoute',2912,'org.kuali.rice.kew.engine.node.InitialNode',1)
+  VALUES ('P',3021,0,0,'PreRoute',2971,'org.kuali.rice.kew.engine.node.InitialNode',2)
 /
 INSERT INTO KREW_RTE_NODE_T (ACTVN_TYP,DOC_TYP_ID,FNL_APRVR_IND,MNDTRY_RTE_IND,NM,RTE_MTHD_CD,RTE_MTHD_NM,RTE_NODE_ID,TYP,VER_NBR)
-  VALUES ('P',3001,0,0,'HierarchyNode','RM','org.kuali.rice.kew.role.RoleRouteModule',2913,'org.kuali.rice.kew.engine.node.RoleNode',1)
+  VALUES ('P',3021,0,0,'Accept Collaboration','FR','RequestedCollaboratorRoleTemplate',2972,'org.kuali.rice.kew.engine.node.RequestsNode',2)
 /
 INSERT INTO KREW_RTE_NODE_T (ACTVN_TYP,DOC_TYP_ID,FNL_APRVR_IND,MNDTRY_RTE_IND,NM,RTE_NODE_ID,TYP,VER_NBR)
-  VALUES ('P',3002,0,0,'PreRoute',2915,'org.kuali.rice.kew.engine.node.InitialNode',2)
+  VALUES ('P',3024,0,0,'PreRoute',2974,'org.kuali.rice.kew.engine.node.InitialNode',1)
 /
 INSERT INTO KREW_RTE_NODE_T (ACTVN_TYP,DOC_TYP_ID,FNL_APRVR_IND,MNDTRY_RTE_IND,NM,RTE_MTHD_CD,RTE_MTHD_NM,RTE_NODE_ID,TYP,VER_NBR)
-  VALUES ('P',3002,0,0,'Accept Collaboration','FR','RequestedCollaboratorRoleTemplate',2916,'org.kuali.rice.kew.engine.node.RequestsNode',2)
+  VALUES ('P',3024,0,0,'Department Review','RM','org.kuali.rice.kew.role.RoleRouteModule',2975,'org.kuali.rice.kew.engine.node.RoleNode',1)
+/
+INSERT INTO KREW_RTE_NODE_T (ACTVN_TYP,DOC_TYP_ID,FNL_APRVR_IND,MNDTRY_RTE_IND,NM,RTE_MTHD_CD,RTE_MTHD_NM,RTE_NODE_ID,TYP,VER_NBR)
+  VALUES ('P',3024,0,0,'Publication Review','RM','org.kuali.rice.kew.role.RoleRouteModule',2976,'org.kuali.rice.kew.engine.node.RoleNode',1)
 /
 INSERT INTO KREW_RTE_NODE_T (ACTVN_TYP,DOC_TYP_ID,FNL_APRVR_IND,MNDTRY_RTE_IND,NM,RTE_NODE_ID,TYP,VER_NBR)
-  VALUES ('P',3004,0,0,'PreRoute',2918,'org.kuali.rice.kew.engine.node.InitialNode',1)
+  VALUES ('P',3025,0,0,'PreRoute',2978,'org.kuali.rice.kew.engine.node.InitialNode',1)
 /
 INSERT INTO KREW_RTE_NODE_T (ACTVN_TYP,DOC_TYP_ID,FNL_APRVR_IND,MNDTRY_RTE_IND,NM,RTE_MTHD_CD,RTE_MTHD_NM,RTE_NODE_ID,TYP,VER_NBR)
-  VALUES ('P',3004,0,0,'Department Review','RM','org.kuali.rice.kew.role.RoleRouteModule',2919,'org.kuali.rice.kew.engine.node.RoleNode',1)
+  VALUES ('P',3025,0,0,'Admin Organization Review','RM','org.kuali.rice.kew.role.RoleRouteModule',2979,'org.kuali.rice.kew.engine.node.RoleNode',1)
 /
 INSERT INTO KREW_RTE_NODE_T (ACTVN_TYP,DOC_TYP_ID,FNL_APRVR_IND,MNDTRY_RTE_IND,NM,RTE_MTHD_CD,RTE_MTHD_NM,RTE_NODE_ID,TYP,VER_NBR)
-  VALUES ('P',3004,0,0,'Division Review','RM','org.kuali.rice.kew.role.RoleRouteModule',2920,'org.kuali.rice.kew.engine.node.RoleNode',1)
+  VALUES ('P',3025,0,0,'Publication Change Review','RM','org.kuali.rice.kew.role.RoleRouteModule',2980,'org.kuali.rice.kew.engine.node.RoleNode',1)
+/
+INSERT INTO KREW_RTE_NODE_T (ACTVN_TYP,DOC_TYP_ID,FNL_APRVR_IND,MNDTRY_RTE_IND,NM,RTE_NODE_ID,TYP,VER_NBR)
+  VALUES ('S',3025,0,0,'HasMajorChangeSplitNode',2981,'org.kuali.student.lum.workflow.node.MajorChangeSplitNode',1)
+/
+INSERT INTO KREW_RTE_NODE_T (ACTVN_TYP,BRCH_PROTO_ID,DOC_TYP_ID,FNL_APRVR_IND,MNDTRY_RTE_IND,NM,RTE_MTHD_CD,RTE_MTHD_NM,RTE_NODE_ID,TYP,VER_NBR)
+  VALUES ('P',2982,3025,0,0,'Department Review','RM','org.kuali.rice.kew.role.RoleRouteModule',2983,'org.kuali.rice.kew.engine.node.RoleNode',2)
+/
+INSERT INTO KREW_RTE_NODE_T (ACTVN_TYP,BRCH_PROTO_ID,DOC_TYP_ID,FNL_APRVR_IND,MNDTRY_RTE_IND,NM,RTE_MTHD_CD,RTE_MTHD_NM,RTE_NODE_ID,TYP,VER_NBR)
+  VALUES ('P',2982,3025,0,0,'Division Review','RM','org.kuali.rice.kew.role.RoleRouteModule',2984,'org.kuali.rice.kew.engine.node.RoleNode',2)
+/
+INSERT INTO KREW_RTE_NODE_T (ACTVN_TYP,BRCH_PROTO_ID,DOC_TYP_ID,FNL_APRVR_IND,MNDTRY_RTE_IND,NM,RTE_MTHD_CD,RTE_MTHD_NM,RTE_NODE_ID,TYP,VER_NBR)
+  VALUES ('P',2982,3025,0,0,'College Review','RM','org.kuali.rice.kew.role.RoleRouteModule',2985,'org.kuali.rice.kew.engine.node.RoleNode',2)
+/
+INSERT INTO KREW_RTE_NODE_T (ACTVN_TYP,BRCH_PROTO_ID,DOC_TYP_ID,FNL_APRVR_IND,MNDTRY_RTE_IND,NM,RTE_MTHD_CD,RTE_MTHD_NM,RTE_NODE_ID,TYP,VER_NBR)
+  VALUES ('P',2982,3025,0,0,'Senate Review','RM','org.kuali.rice.kew.role.RoleRouteModule',2986,'org.kuali.rice.kew.engine.node.RoleNode',2)
+/
+INSERT INTO KREW_RTE_NODE_T (ACTVN_TYP,DOC_TYP_ID,FNL_APRVR_IND,MNDTRY_RTE_IND,NM,RTE_NODE_ID,TYP,VER_NBR)
+  VALUES ('S',3025,0,0,'Join',2987,'org.kuali.rice.kew.engine.node.SimpleJoinNode',2)
+/
+INSERT INTO KREW_RTE_NODE_T (ACTVN_TYP,BRCH_PROTO_ID,DOC_TYP_ID,FNL_APRVR_IND,MNDTRY_RTE_IND,NM,RTE_NODE_ID,TYP,VER_NBR)
+  VALUES ('S',2988,3025,0,0,'NoOp',2989,'org.kuali.rice.kew.engine.node.NoOpNode',2)
 /
 INSERT INTO KREW_RTE_NODE_T (ACTVN_TYP,DOC_TYP_ID,FNL_APRVR_IND,MNDTRY_RTE_IND,NM,RTE_MTHD_CD,RTE_MTHD_NM,RTE_NODE_ID,TYP,VER_NBR)
-  VALUES ('P',3004,0,0,'College Review','RM','org.kuali.rice.kew.role.RoleRouteModule',2921,'org.kuali.rice.kew.engine.node.RoleNode',1)
+  VALUES ('P',3025,0,0,'Publication Review','RM','org.kuali.rice.kew.role.RoleRouteModule',2990,'org.kuali.rice.kew.engine.node.RoleNode',2)
+/
+INSERT INTO KREW_RTE_NODE_T (ACTVN_TYP,DOC_TYP_ID,FNL_APRVR_IND,MNDTRY_RTE_IND,NM,RTE_NODE_ID,TYP,VER_NBR)
+  VALUES ('P',3026,0,0,'PreRoute',2992,'org.kuali.rice.kew.engine.node.InitialNode',1)
 /
 INSERT INTO KREW_RTE_NODE_T (ACTVN_TYP,DOC_TYP_ID,FNL_APRVR_IND,MNDTRY_RTE_IND,NM,RTE_MTHD_CD,RTE_MTHD_NM,RTE_NODE_ID,TYP,VER_NBR)
-  VALUES ('P',3004,0,0,'Senate Review','RM','org.kuali.rice.kew.role.RoleRouteModule',2922,'org.kuali.rice.kew.engine.node.RoleNode',1)
+  VALUES ('P',3026,0,0,'Department Review','RM','org.kuali.rice.kew.role.RoleRouteModule',2993,'org.kuali.rice.kew.engine.node.RoleNode',1)
 /
 INSERT INTO KREW_RTE_NODE_T (ACTVN_TYP,DOC_TYP_ID,FNL_APRVR_IND,MNDTRY_RTE_IND,NM,RTE_MTHD_CD,RTE_MTHD_NM,RTE_NODE_ID,TYP,VER_NBR)
-  VALUES ('P',3004,0,0,'Publication Review','RM','org.kuali.rice.kew.role.RoleRouteModule',2923,'org.kuali.rice.kew.engine.node.RoleNode',1)
+  VALUES ('P',3026,0,0,'Division Review','RM','org.kuali.rice.kew.role.RoleRouteModule',2994,'org.kuali.rice.kew.engine.node.RoleNode',1)
+/
+INSERT INTO KREW_RTE_NODE_T (ACTVN_TYP,DOC_TYP_ID,FNL_APRVR_IND,MNDTRY_RTE_IND,NM,RTE_MTHD_CD,RTE_MTHD_NM,RTE_NODE_ID,TYP,VER_NBR)
+  VALUES ('P',3026,0,0,'College Review','RM','org.kuali.rice.kew.role.RoleRouteModule',2995,'org.kuali.rice.kew.engine.node.RoleNode',1)
+/
+INSERT INTO KREW_RTE_NODE_T (ACTVN_TYP,DOC_TYP_ID,FNL_APRVR_IND,MNDTRY_RTE_IND,NM,RTE_MTHD_CD,RTE_MTHD_NM,RTE_NODE_ID,TYP,VER_NBR)
+  VALUES ('P',3026,0,0,'Senate Review','RM','org.kuali.rice.kew.role.RoleRouteModule',2996,'org.kuali.rice.kew.engine.node.RoleNode',1)
+/
+INSERT INTO KREW_RTE_NODE_T (ACTVN_TYP,DOC_TYP_ID,FNL_APRVR_IND,MNDTRY_RTE_IND,NM,RTE_MTHD_CD,RTE_MTHD_NM,RTE_NODE_ID,TYP,VER_NBR)
+  VALUES ('P',3026,0,0,'Publication Review','RM','org.kuali.rice.kew.role.RoleRouteModule',2997,'org.kuali.rice.kew.engine.node.RoleNode',1)
 /

@@ -9,13 +9,11 @@ import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcServiceAsync;
 import org.kuali.student.common.ui.client.theme.Theme;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.NavigationHandler;
 import org.kuali.student.common.ui.client.widgets.StylishDropDown;
-import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 
 import com.google.gwt.core.client.GWT;
@@ -30,10 +28,12 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Frame;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -94,6 +94,7 @@ public class KSWrapper extends Composite{
 		headerBottomLinks.add(userDropDown);//Todo, put in current user
 		//headerBottomLinks.add(buildUserIdPanel());
 		
+		createHelpInfo();
 		headerBottomLinks.add(helpLabel);
 		headerBottomLinks.add(helpImage);
 		leftHeader.setVerticalAlignment(HasVerticalAlignment.ALIGN_TOP);
@@ -139,6 +140,24 @@ public class KSWrapper extends Composite{
 		footer.add(Theme.INSTANCE.getCommonImages().getSpacer());
 	}
 	
+	private void createHelpInfo(){
+	    helpImage.addClickHandler(new ClickHandler(){
+	        
+	           public void onClick(ClickEvent event) {
+	               final PopupPanel helpPopup = new PopupPanel(true);
+	               helpPopup.setWidget(new HTML("<br><h3>&nbsp;&nbsp; Kauli Student Version : 1.0.0-m4 &nbsp;&nbsp;<h3>"));
+	               
+	               helpPopup.setPopupPositionAndShow(new PopupPanel.PositionCallback() {
+	                   public void setPosition(int offsetWidth, int offsetHeight) {
+	                     int left = (Window.getClientWidth() - offsetWidth);
+	                     int top = 0;
+	                     helpPopup.setPopupPosition(left, top);
+	                   }
+	               });
+	           }
+	    });
+	}
+	
 	private void createUserDropDown() {
 		List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
     	//TODO preferences real link here
@@ -148,7 +167,7 @@ public class KSWrapper extends Composite{
     	);
     	items.add(new KSMenuItemData("Logout",
     			new WrapperNavigationHandler(
-    					"/j_spring_security_logout"))
+    					"j_spring_security_logout"))
     	);
     	userDropDown.setArrowImage(Theme.INSTANCE.getCommonImages().getDropDownIconWhite());
     	userDropDown.setItems(items);
@@ -169,7 +188,7 @@ public class KSWrapper extends Composite{
 		    	);
 		    	items.add(new KSMenuItemData("Organizations",
 		    			new WrapperNavigationHandler(
-		    					"../org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.html"))
+		    					"../org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.jsp"))
 		    	);
 		    	serverProperties.get("application.url", new AsyncCallback<String>(){
 					public void onFailure(Throwable caught) {
@@ -200,7 +219,7 @@ public class KSWrapper extends Composite{
 		    	);
 		    	items.add(new KSMenuItemData("Organizations",
 		    			new WrapperNavigationHandler(
-		    					result+"/org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.html"))
+		    					result+"/org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.jsp"))
 		    	);
 		    	serverProperties.get("application.url", new AsyncCallback<String>(){
 					public void onFailure(Throwable caught) {

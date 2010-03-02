@@ -14,6 +14,8 @@
  */
 package org.kuali.student.core.dao.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -22,26 +24,29 @@ import java.util.Map;
 
 import javax.persistence.Query;
 
-import org.kuali.student.common.assembly.client.LookupMetadata;
-import org.kuali.student.common.assembly.client.LookupParamMetadata;
-import org.kuali.student.common.assembly.client.LookupResultMetadata;
+import org.apache.log4j.Logger;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.data.LookupMetadata;
+import org.kuali.student.core.assembly.data.LookupParamMetadata;
+import org.kuali.student.core.assembly.data.LookupResultMetadata;
 import org.kuali.student.core.dao.SearchableDao;
 import org.kuali.student.core.search.dto.QueryParamInfo;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.ResultCell;
 import org.kuali.student.core.search.dto.ResultColumnInfo;
+import org.kuali.student.core.search.dto.SearchParam;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
+import org.kuali.student.core.search.dto.SearchResultCell;
+import org.kuali.student.core.search.dto.SearchResultRow;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
-import org.kuali.student.core.search.newdto.SearchParam;
-import org.kuali.student.core.search.newdto.SearchRequest;
-import org.kuali.student.core.search.newdto.SearchResult;
-import org.kuali.student.core.search.newdto.SearchResultCell;
-import org.kuali.student.core.search.newdto.SearchResultRow;
-import org.kuali.student.core.search.newdto.SortDirection;
+import org.kuali.student.core.search.dto.SortDirection;
 
 public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		implements SearchableDao {
-
+	final Logger LOG = Logger.getLogger(AbstractSearchableCrudDaoImpl.class);
+    private static SimpleDateFormat df = new SimpleDateFormat("EEE MMM dd hh:mm:ss zzz yyyy");
 
     private String getParameterDataType(SearchTypeInfo searchTypeInfo,
             QueryParamValue paramValue) {
@@ -129,6 +134,10 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 			queryString += optionalQueryString + orderByClause;
 		}
 		
+		//remove special characters and extra spaces
+		queryString = queryString.replaceAll("[\n\r\t]", " ");
+		queryString = queryString.replaceAll("\\s+", " ");
+		
 		Query query;
 		if(isNative){
 			query = em.createNativeQuery(queryString);
@@ -202,7 +211,9 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		//retrieve the SELECT statement from search type definition
 		String queryString = queryMap.get(searchKey);
 		String optionalQueryString = "";
-		
+		if(null==queryString){
+			LOG.error("No SQL query was found for searchKey:"+searchKey);
+		}
 		if(queryString.toUpperCase().startsWith("NATIVE:")){
 			queryString = queryString.substring("NATIVE:".length());
 			isNative = true;
@@ -222,10 +233,12 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 					if (condition.trim().contains(":")) {
 						optionalQueryString += queryMap.get(searchParam.getKey());
 					} else {
-						//comparison should be case insensitive and include wild card 
-						//FIXME SQL injection can occur here
+						//comparison should be case insensitive and include wild card such that we match beginning of a text 
+						//and each word within text
+						//FIXME SQL injection can occur here - or NOT if we need to assemble SQL to cover various ways one can compare criteria to a text
 						optionalQueryString += 
-							"LOWER(" + queryMap.get(searchParam.getKey()) + ") LIKE '%' || LOWER('" + searchParam.getValue() + "') || '%'"; 
+							"(LOWER(" + queryMap.get(searchParam.getKey()) + ") LIKE LOWER('" + searchParam.getValue() + "') || '%' OR " +
+							"LOWER(" + queryMap.get(searchParam.getKey()) + ") LIKE '% ' || LOWER('" + searchParam.getValue() + "') || '%')"; 
 						searchRequest.getParams().remove(searchParam);
 					}
 				}
@@ -256,7 +269,7 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 			for(LookupResultMetadata results : lookupMetadata.getResults()){
 				if(results.getKey().equals(searchRequest.getSortColumn())){
 					orderByClause = " ORDER BY "+jpqlResultColumns[i]+" ";
-					if(searchRequest.getSortDirection()!=null&&searchRequest.getSortDirection()==SortDirection.DESC){
+					if(searchRequest.getSortDirection()!=null && searchRequest.getSortDirection()==SortDirection.DESC){
 						orderByClause += "DESC ";
 					}else{
 						orderByClause += "ASC ";
@@ -268,7 +281,10 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		
 		//Create the query
 		String finalQueryString = queryString + optionalQueryString + orderByClause;
-		System.out.println("Executing query: "+finalQueryString);
+		
+		//remove special characters and extra spaces
+		//finalQueryString = queryString.replaceAll("[\n\r\t]", " ");
+		//finalQueryString = queryString.replaceAll("\\s+", " ");
 		
 		Query query;
 		if(isNative){
@@ -288,8 +304,27 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		//replace all the "." notation with "_" since the "."s in the ids of the queries will cause problems with the jpql  
 		if(searchRequest.getParams()!=null){
 			for (SearchParam searchParam : searchRequest.getParams()) {
-				query.setParameter(searchParam.getKey().replace(".", "_"), searchParam
-						.getValue());
+			    List<LookupParamMetadata> metaParams = lookupMetadata.getParams();
+			    Data.DataType paramDataType;
+			    Object queryParamValue = null;
+			    paramDataType = null;
+			    if (metaParams != null) {
+			        for (LookupParamMetadata metaParam : metaParams) {
+			            if (metaParam.getKey() != null && metaParam.getKey().equals(searchParam.getKey())) {
+			                paramDataType = metaParam.getDataType();
+			            }
+			        }
+			    }
+			    if (paramDataType == Data.DataType.DATE) {
+			        try {
+                        queryParamValue = df.parse((String)searchParam.getValue());
+                    } catch (ParseException e) {
+                        throw new RuntimeException("Failed to parse date value " + searchParam.getValue());
+                    }
+			    } else {
+			        queryParamValue = searchParam.getValue();
+			    }
+			    query.setParameter(searchParam.getKey().replace(".", "_"), queryParamValue);
 			}
 		}
 
@@ -301,7 +336,7 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		searchResult.setSortColumn(searchRequest.getSortColumn());
 		searchResult.setSortDirection(searchRequest.getSortDirection());
 		searchResult.setStartAt(searchRequest.getStartAt());
-		if(searchRequest.getNeededTotalResults()){
+		if(searchRequest.getNeededTotalResults()!=null && searchRequest.getNeededTotalResults()){
 			//Get count of total rows if needed
 			String regex = "^[Ss][Ee][Ll][Ee][Cc][Tt]\\s*([^,\\s]+).*?[Ff][Rr][Oo][Mm]";
 			String replacement = "SELECT COUNT($1) FROM";
@@ -354,7 +389,5 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		}
 		return results;
 	}
-
-
 
 }

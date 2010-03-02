@@ -2,16 +2,17 @@ package org.kuali.student.lum.lu.ui.course.client.widgets;
 
 import java.util.List;
 
-import org.kuali.student.common.assembly.client.QueryPath;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityItem;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.UpdatableMultiplicityComposite;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite.StyleType;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSAdvancedSearchWindow;
+import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
@@ -38,9 +39,14 @@ public class OfferedJointlyList extends UpdatableMultiplicityComposite {
     LuRpcServiceAsync luServiceAsync = GWT.create(LuRpcService.class);
     boolean loaded = false;
     
+    public OfferedJointlyList(){
+    	super(StyleType.TOP_LEVEL);
+    	this.setItemLabel("Course");
+    }
+    
 
 	@Override
-	public MultiplicityItem getItemDecorator() {
+	public MultiplicityItem getItemDecorator(StyleType style) {
 		return null;
 	}
 

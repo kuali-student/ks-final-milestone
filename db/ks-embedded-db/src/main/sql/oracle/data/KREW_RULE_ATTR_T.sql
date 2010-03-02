@@ -221,16 +221,7 @@ INSERT INTO KREW_RULE_ATTR_T (CLS_NM,DESC_TXT,LBL,NM,OBJ_ID,RULE_ATTR_ID,RULE_AT
       </searchingConfig>')
 /
 INSERT INTO KREW_RULE_ATTR_T (CLS_NM,DESC_TXT,LBL,NM,OBJ_ID,RULE_ATTR_ID,RULE_ATTR_TYP_CD,VER_NBR,XML)
-  VALUES ('org.kuali.rice.kew.rule.PrincipalIdRoleAttribute','Role to identify the user who is being requested as a collaborator','Requested Collaborator Role Attribute','RequestedCollaboratorRoleAttribute','39CBD75E-0BD5-2B8F-7586-70D62EFA24A9',1645,'RuleXmlAttribute',1,'<configuration>
-				<xmlElementLabel>recipientPrincipalId</xmlElementLabel>
-				<roleNameLabel>Requested Collaborator</roleNameLabel>
-			</configuration>')
-/
-INSERT INTO KREW_RULE_ATTR_T (CLS_NM,DESC_TXT,LBL,NM,OBJ_ID,RULE_ATTR_ID,RULE_ATTR_TYP_CD,VER_NBR)
-  VALUES ('org.kuali.student.lum.workflow.CollaboratorRequestCustomActionListAttribute','Collaborator Request Action List Attribute','Collaborator Request Action List Attribute','CollaboratorRequestCustomActionListAttribute','FB389C28-6537-2F58-31C3-8B15FDE43B2C',1646,'ActionListAttribute',1)
-/
-INSERT INTO KREW_RULE_ATTR_T (CLS_NM,DESC_TXT,LBL,NM,OBJ_ID,RULE_ATTR_ID,RULE_ATTR_TYP_CD,VER_NBR,XML)
-  VALUES ('org.kuali.student.lum.workflow.search.OrgSearchAttribute','CluDocument Searchable attribute','CluDocument Searchable attribute','CluDocument.ProposalOrgSearchAttribute','EF9E9E57-8DE6-E05B-50E4-AF0628A4D9AC',1647,'SearchableXmlAttribute',1,'<searchingConfig>
+  VALUES ('org.kuali.student.lum.workflow.search.OrgSearchAttribute','CluCreditCourse Searchable attribute','CluCreditCourse Searchable attribute','CluCreditCourse.OrgSearchAttribute','D6F96548-93FA-974F-8635-20D6090B9C2D',1651,'SearchableXmlAttribute',1,'<searchingConfig>
                 <fieldDef name="id" title="Organization">
                     <display>
                         <type>select</type>
@@ -241,4 +232,13 @@ INSERT INTO KREW_RULE_ATTR_T (CLS_NM,DESC_TXT,LBL,NM,OBJ_ID,RULE_ATTR_ID,RULE_AT
                     </fieldEvaluation>
                 </fieldDef>
             </searchingConfig>')
+/
+INSERT INTO KREW_RULE_ATTR_T (CLS_NM,DESC_TXT,LBL,NM,OBJ_ID,RULE_ATTR_ID,RULE_ATTR_TYP_CD,VER_NBR,XML)
+  VALUES ('org.kuali.rice.kew.rule.PrincipalIdRoleAttribute','Role to identify the user who is being requested as a collaborator','Requested Collaborator Role Attribute','RequestedCollaboratorRoleAttribute','E200BADB-8AA7-06E0-001B-DBE36A42DAF0',1652,'RuleXmlAttribute',1,'<configuration>
+				<xmlElementLabel>recipientPrincipalId</xmlElementLabel>
+				<roleNameLabel>Requested Collaborator</roleNameLabel>
+			</configuration>')
+/
+INSERT INTO KREW_RULE_ATTR_T (CLS_NM,DESC_TXT,LBL,NM,OBJ_ID,RULE_ATTR_ID,RULE_ATTR_TYP_CD,VER_NBR)
+  VALUES ('org.kuali.student.lum.workflow.CollaboratorRequestCustomActionListAttribute','Collaborator Request Action List Attribute','Collaborator Request Action List Attribute','CollaboratorRequestCustomActionListAttribute','4E55C51F-430B-024C-0A3B-476939779D79',1653,'ActionListAttribute',1)
 /

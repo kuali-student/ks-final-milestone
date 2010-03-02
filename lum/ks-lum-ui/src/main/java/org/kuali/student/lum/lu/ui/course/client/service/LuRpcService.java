@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.service.BaseRpcService;
 import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
 
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -33,7 +34,7 @@ public interface LuRpcService extends BaseRpcService {
 
     public CluInfo updateClu(String luTypeKey, CluInfo cluInfo);
 
-    public List<String> getLoIdsByClu(String cluId);
+    public List<CluLoRelationInfo> getCluLoRelationsByClu(String cluId);
 
     public CluInfo getClu(String cluId);    
 

@@ -14,7 +14,7 @@
  */
 package org.kuali.student.common.ui.client.mvc;
 
-import org.kuali.student.common.assembly.client.QueryPath;
+import org.kuali.student.core.assembly.data.QueryPath;
 
 /**
  * Event that is fired when the model is changed.

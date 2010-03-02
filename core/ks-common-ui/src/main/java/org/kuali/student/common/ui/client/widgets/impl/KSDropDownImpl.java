@@ -63,7 +63,7 @@ public class KSDropDownImpl extends KSSelectItemWidgetAbstract implements HasFoc
         }
         
         selectItem(selectedItem);
-        
+        setInitialized(true);
 	}
 	
     protected void init() {
@@ -165,22 +165,10 @@ public class KSDropDownImpl extends KSSelectItemWidgetAbstract implements HasFoc
             ((ModelListItems<T>)listItems).addOnUpdateCallback(redrawCallback);
             ((ModelListItems<T>)listItems).addOnBulkUpdateCallback(redrawCallback);
         }
-        
-        
+               
         super.setListItems(listItems);
         
-        listBox.clear();
-        if(blankFirstItem){
-            listBox.addItem("");
-        }
-        
-        for (String id:listItems.getItemIds()){
-            listBox.addItem(listItems.getItemText(id),id);            
-        }
-        if(listBox.getItemCount() != 0){
-            listBox.setSelectedIndex(0);
-        }
-
+        this.redraw();        
     }
 
     /**

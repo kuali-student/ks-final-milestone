@@ -20,33 +20,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
-import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
-import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.dto.CluSetInfo;
-import org.kuali.student.lum.lu.dto.LuStatementInfo;
-import org.kuali.student.lum.lu.dto.LuStatementTypeHeaderTemplateInfo;
-import org.kuali.student.lum.lu.dto.LuStatementTypeInfo;
-import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
-import org.kuali.student.lum.lu.dto.ReqComponentInfo;
-import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
-import org.kuali.student.lum.lu.dto.ReqComponentTypeNLTemplateInfo;
-import org.kuali.student.lum.nlt.dto.LuNlStatementInfo;
-import org.kuali.student.lum.nlt.naturallanguage.ContextRegistry;
-import org.kuali.student.lum.nlt.naturallanguage.context.Context;
-import org.kuali.student.lum.nlt.naturallanguage.context.CourseListContextImpl;
-import org.kuali.student.lum.nlt.naturallanguage.context.GradeCheckContextImpl;
-import org.kuali.student.lum.nlt.naturallanguage.context.GradeConditionCourseListContextImpl;
-import org.kuali.student.lum.nlt.naturallanguage.context.HeaderContextImpl;
-import org.kuali.student.lum.nlt.naturallanguage.util.CustomLuStatementInfo;
-import org.kuali.student.lum.nlt.naturallanguage.util.CustomReqComponentInfo;
-import org.kuali.student.lum.nlt.naturallanguage.util.DtoAdapter;
-import org.kuali.student.lum.nlt.naturallanguage.util.LuStatementAnchor;
+//import org.kuali.student.lum.lu.service.LuService;
+//import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
+//import org.kuali.student.lum.lu.dto.CluInfo;
+//import org.kuali.student.lum.lu.dto.CluSetInfo;
+//import org.kuali.student.lum.lu.dto.LuStatementTypeHeaderTemplateInfo;
+//import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
+//import org.kuali.student.lum.lu.dto.ReqComponentInfo;
+//import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
+//import org.kuali.student.lum.lu.dto.ReqComponentTypeNLTemplateInfo;
 
 public class RequirementsUtil {
 
-	private static DtoAdapter dtoAdapter = new DtoAdapter();
+/*	private static DtoAdapter dtoAdapter = new DtoAdapter();
 	
     public static Map<String,Object> createData() {
     	Map<String,Object> map = new HashMap<String,Object>();
@@ -157,11 +143,11 @@ public class RequirementsUtil {
     	return reqCompType;
     }
     
-    public static CustomReqComponentInfo createCustomReqComponent(String nlUsageTypeKey, String reqComponentType) throws Exception {
-    	ReqComponentInfo reqInfo = createReqComponent(nlUsageTypeKey, reqComponentType);
-    	CustomReqComponentInfo customReq = dtoAdapter.toCustomReqComponentInfo(reqInfo);
-    	return customReq;
-    }
+//    public static CustomReqComponentInfo createCustomReqComponent(String nlUsageTypeKey, String reqComponentType) throws Exception {
+//    	ReqComponentInfo reqInfo = createReqComponent(nlUsageTypeKey, reqComponentType);
+//    	CustomReqComponentInfo customReq = dtoAdapter.toCustomReqComponentInfo(reqInfo);
+//    	return customReq;
+//    }
     
     public static ReqComponentInfo createReqComponent(String nlUsageTypeKey, String reqComponentType) throws Exception {
     	ReqComponentInfo reqComponent = new ReqComponentInfo();
@@ -242,17 +228,17 @@ public class RequirementsUtil {
 		return fieldList;
     }
     
-	public static CustomLuStatementInfo createStatement(StatementOperatorTypeKey operator) throws Exception {
-		CustomLuStatementInfo stmt = new CustomLuStatementInfo();
-		stmt.setOperator(operator);
-		LuStatementTypeInfo type = new LuStatementTypeInfo();
-		type.setId("kuali.luStatementType.prereqAcademicReadiness");
-		type.setHeaders(createHeaders());
-		stmt.setLuStatementType(type);
-		return stmt;
-	}
+//	public static CustomLuStatementInfo createStatement(StatementOperatorTypeKey operator) throws Exception {
+//		CustomLuStatementInfo stmt = new CustomLuStatementInfo();
+//		stmt.setOperator(operator);
+//		LuStatementTypeInfo type = new LuStatementTypeInfo();
+//		type.setId("kuali.luStatementType.prereqAcademicReadiness");
+//		type.setHeaders(createHeaders());
+//		stmt.setLuStatementType(type);
+//		return stmt;
+//	}
 	
-	public static LuStatementInfo createLuStatementInfo(String id, StatementOperatorTypeKey operator) throws Exception {
+/*	public static LuStatementInfo createLuStatementInfo(String id, StatementOperatorTypeKey operator) throws Exception {
 		LuStatementInfo stmt = new LuStatementInfo();
 		stmt.setId(id);
 		stmt.setOperator(operator);
@@ -286,7 +272,7 @@ public class RequirementsUtil {
 		
 		return headerList;
 	}
-    
+/*    
     public static ContextRegistry<Context<CustomReqComponentInfo>> getReqComponentContextRegistry(LuService luService) {
     	ContextRegistry<Context<CustomReqComponentInfo>> contextRegistry = new ContextRegistry<Context<CustomReqComponentInfo>>();
 
@@ -454,4 +440,5 @@ public class RequirementsUtil {
 		
 		return s1;
     }
+*/
 }

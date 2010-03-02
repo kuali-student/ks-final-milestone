@@ -1,17 +1,33 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-      <groupId>org.kuali.student</groupId>
-      <artifactId>student-parent</artifactId>
-      <version>4</version>
-      <relativePath>../maven/student/pom.xml</relativePath>
-    </parent>
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright 2009 The Kuali Foundation
+
+  Licensed under the Educational Community License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.osedu.org/licenses/ECL-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.kuali.student</groupId>
+    <artifactId>student-parent</artifactId>
+    <version>4</version>
+    <relativePath>../maven/student/pom.xml</relativePath>
+  </parent>
     <groupId>org.kuali.student</groupId>
     <artifactId>student</artifactId>
-    <version>1.0.0-m3-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>Master KS Pom</name>
-    <description>Kuali Student Project</description>
+    <name>Kuali Student</name>
+    <description>Kuali Student</description>
     <modules>
         <module>security</module>
         <module>core</module>
@@ -19,25 +35,6 @@
         <module>lum</module>
         <module>web</module>
     </modules>
-    <repositories>
-      <repository>
-        <id>kuali.release</id>
-        <url>https://test.kuali.org/maven</url>
-        <snapshots><enabled>false</enabled></snapshots>
-      </repository>
-      <repository>
-        <id>kuali.snapshot</id>
-        <url>http://archiva.kuali.umd.edu/repository/snapshot</url>
-        <releases><enabled>false</enabled></releases>
-      </repository>
-      <repository>
-        <id>kuali.release.lab</id>
-        <url>https://test.kuali.org/svn/student/deploymentlab/repository</url>
-        <snapshots>
-          <enabled>false</enabled>
-        </snapshots>
-      </repository>
-    </repositories>
     <properties>
     	<!-- artifact versions -->
         <atomikos.version>3.4.1</atomikos.version>
@@ -78,93 +75,114 @@
                     <name>!ks.use.proxy</name>
                 </property>
             </activation>
+
             <repositories>
+                <!--
+                    central defined here to ensure maven checks it first as it has the best chance
+                    at finding dependencies
+                -->
                 <repository>
                     <id>central</id>
                     <url>http://repo1.maven.org/maven2/</url>
-                    <releases><enabled>true</enabled></releases>
-                    <snapshots><enabled>false</enabled></snapshots>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
                 </repository>
+                <repository>
+                    <id>kuali.release.lab</id>
+					<url>https://test.kuali.org/svn/student/deploymentlab/repository</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+      				<snapshots>
+        				<enabled>false</enabled>
+      				</snapshots>
+    			</repository>
                 <repository>
                     <id>maven2-repository.dev.java.net</id>
                     <url>http://download.java.net/maven/2</url>
-                </repository>
-                <repository>
-                    <id>maven-repository.dev.java.net</id>
-                    <url>http://download.java.net/maven/1</url>
-                    <layout>legacy</layout>
-                    <releases><enabled>true</enabled></releases>
-                    <snapshots><enabled>false</enabled></snapshots>
-                </repository>
-                <repository>
-                    <id>kuali.rice</id>
-                    <url>https://test.kuali.org/maven</url>
-                    <releases><enabled>true</enabled></releases>
-                    <snapshots><enabled>false</enabled></snapshots>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
                 </repository>
                 <repository>
                     <id>ks.public</id>
                     <url>http://archiva.kuali.umd.edu/repository/public/</url>
                 </repository>
-                <repository>
-                    <id>apache.incubating</id>
-                    <url>http://people.apache.org/repo/m2-incubating-repository</url>
-                </repository>
-                <!-- adding until maven repository resolution fixed (does not work in 2.0.9 or 2.1.0.20080530 embedded) -->
+                <!--
+                    adding until maven repository resolution fixed (does not work in 2.0.9 or
+                    2.1.0.20080530 embedded)
+                -->
                 <repository>
                     <id>repository.jboss.org</id>
                     <url>http://repository.jboss.org/maven2</url>
-                    <releases><enabled>true</enabled></releases>
-                    <snapshots><enabled>false</enabled></snapshots>
-                </repository>
-                <repository>
-                    <id>ibiblio.maven</id>
-                    <url>http://www.ibiblio.org/maven</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
                 </repository>
                 <repository>
                     <id>EclipseLink Repo</id>
                     <url>http://www.eclipse.org/downloads/download.php?r=1&amp;nf=1&amp;file=/rt/eclipselink/maven.repo</url>
-				</repository>
-				<repository>
-					<id>gwt-maven</id>
-					<url>http://gwt-maven.googlecode.com/svn/trunk/mavenrepo</url>
-				</repository>
-				<repository>
-                    <id>shibboleth.internet2</id>
-                    <url>http://shibboleth.internet2.edu/downloads/maven2/</url>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
                 </repository>
-			</repositories>
-			<pluginRepositories>
+            </repositories>
+
+            <pluginRepositories>
                 <pluginRepository>
                     <id>central</id>
                     <url>http://repo1.maven.org/maven2/</url>
-                    <releases><enabled>true</enabled></releases>
-                    <snapshots><enabled>false</enabled></snapshots>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
                 </pluginRepository>
                 <pluginRepository>
                     <id>kuali.release</id>
                     <url>http://archiva.kuali.umd.edu/repository/release</url>
-                    <releases><enabled>true</enabled></releases>
-                    <snapshots><enabled>false</enabled></snapshots>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
                 </pluginRepository>
-				<pluginRepository>
-					<id>ks.snapshot.plugin</id>
-					<url>http://archiva.kuali.umd.edu/repository/snapshot</url>
-                    <releases><enabled>false</enabled></releases>
-                    <snapshots><enabled>true</enabled></snapshots>
-				</pluginRepository>
-				<pluginRepository>
-					<id>codehaus</id>
-					<url>http://repository.codehaus.org/</url>
-                    <releases><enabled>true</enabled></releases>
-                    <snapshots><enabled>false</enabled></snapshots>
-				</pluginRepository>
-				<pluginRepository>
-					<id>ks-public</id>
-					<url>http://archiva.kuali.umd.edu/repository/public</url>
-				</pluginRepository>
-			</pluginRepositories>
-		</profile>
+                <pluginRepository>
+                    <id>ks.snapshot.plugin</id>
+                    <url>http://archiva.kuali.umd.edu/repository/snapshot</url>
+                    <releases>
+                        <enabled>false</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </pluginRepository>
+                <pluginRepository>
+                    <id>codehaus</id>
+                    <url>http://repository.codehaus.org/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </pluginRepository>
+                <pluginRepository>
+                    <id>ks-public</id>
+                    <url>http://archiva.kuali.umd.edu/repository/public</url>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+
 		<!-- GWT Profiles - Dev environment properties -->
 		<profile>
 			<id>gwt-dev-windows</id>
@@ -212,20 +230,6 @@
 			</extension>
 		</extensions>
 		<plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
         <plugin>
           <artifactId>maven-antrun-plugin</artifactId>
           <configuration>
@@ -239,54 +243,72 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
+          <!--
           <configuration>
             <includes>
               <include>**/*NothingWillMatchThis.java</include>
             </includes>
           </configuration>
+          -->
         </plugin>
-        <!-- 
 		<plugin>
 			<groupId>com.atlassian.maven.plugins</groupId>
 			<artifactId>maven-clover2-plugin</artifactId>
+			<version>2.6.3</version>
             <configuration>
-              <license>
-                <![CDATA[rQQrPasjfItwAkMJKkmNMCxgroOBLImTnqHdkoJrjKCIWJb
-mj2Krd<9J9nD6sR<IqbMLA7P2L01abPDWMorvjKhHqZHUh0
-RPoRTSOrOpmOqPrmMPqXVqOqoOQQrrnOrotXvWxXwUTWuVN
-xUpvTWwxxuUvQnmqmUUnosomvnsmmmmmUUnosomvnsmmmmm
-UULkfsbopfqvWlcW1ofwlkXUUn]]>
-              </license>
+             <historyDir>${settings.localRepository}/${project.groupId}/${project.artifactId}/clover/history</historyDir>
+             <excludes>
+               <include>**/ui/client/**/*.java</include>
+             </excludes>
 	        </configuration>
  		</plugin>
- 		 -->
 		</plugins>
 		<pluginManagement>
 			<plugins>
-		      	<plugin>
-        			<artifactId>maven-release-plugin</artifactId>
-				    <configuration>
-					    <username>${maven.release.username}</username>
-				        <password>${maven.release.password}</password>
-			    	    <arguments>-Dmaven.test.skip=true</arguments>
-			        	<preparationGoals>clean install</preparationGoals>
-				        <goals>clean deploy</goals>
-				    </configuration>
-      			</plugin>
     			<plugin>
 			        <artifactId>maven-eclipse-plugin</artifactId>
-			        <configuration>
+                    <version>2.8</version>
+	     			<configuration>
           				<useProjectReferences>true</useProjectReferences>
-          				<downloadSources>true</downloadSources>
+	          			<downloadSources>true</downloadSources>
           				<ajdtVersion>none</ajdtVersion>
+						<classpathContainers>
+							<classpathContainer>org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6</classpathContainer>
+							<classpathContainer>org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER</classpathContainer>
+						</classpathContainers>
+						<buildcommands>
+							<buildcommand>org.eclipse.jdt.core.javabuilder</buildcommand>
+							<buildcommand>org.maven.ide.eclipse.maven2Builder</buildcommand>
+							<buildcommand>org.springframework.ide.eclipse.core.springbuilder</buildcommand>
+						</buildcommands>
+						<projectnatures>
+							<projectnature>org.springframework.ide.eclipse.core.springnature</projectnature>
+							<projectnature>org.maven.ide.eclipse.maven2Nature</projectnature>
+							<projectnature>org.eclipse.jdt.core.javanature</projectnature>
+						</projectnatures>
+						<additionalConfig>
+            				<file>
+              					<name>.springBeans</name>
+              					<content>
+&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;beansProjectDescription>
+  &lt;version>1&lt;/version>
+  &lt;pluginVersion>2.3.0.200912170948-RELEASE&lt;/pluginVersion>
+  &lt;configSuffixes>
+    &lt;configSuffix>xml&lt;/configSuffix>
+  &lt;/configSuffixes>
+  &lt;enableImports>false&lt;/enableImports>
+  &lt;configs>
+${springBean.config.files}
+  &lt;/configs>
+  &lt;configSets>
+  &lt;/configSets>
+&lt;/beansProjectDescription>
+								</content>
+							</file>
+          				</additionalConfig>
         			</configuration>
       			</plugin>
-				<plugin>
-		        	<artifactId>maven-resources-plugin</artifactId>
-		        	<configuration>
-        		  	<encoding>UTF-8</encoding>
-		        	</configuration>
-				</plugin>
 				<plugin>
 					<artifactId>maven-compiler-plugin</artifactId>
 					<configuration>
@@ -294,6 +316,7 @@ UULkfsbopfqvWlcW1ofwlkXUUn]]>
 						<target>1.6</target>
 						<!-- Don't compile sources that are in jars -->
 						<compilerArgument>-implicit:none</compilerArgument>
+                        <encoding>${project.build.sourceEncoding}</encoding>
 					</configuration>
 				</plugin>
 
@@ -874,31 +897,31 @@ UULkfsbopfqvWlcW1ofwlkXUUn]]>
 			<dependency>
 				<groupId>org.kuali.student.ks-core</groupId>
 				<artifactId>ks-jta</artifactId>
-				<version>1.0.0-m3</version>
+				<version>1.0.0-SNAPSHOT</version>
 				<type>pom</type>
 			</dependency>
 			<dependency>
 				<groupId>org.kuali.student.ks-core</groupId>
 				<artifactId>ks-cxf</artifactId>
-				<version>1.0.0-m3</version>
+				<version>1.0.0-SNAPSHOT</version>
 				<type>pom</type>
 			</dependency>
 			<dependency>
 				<groupId>org.kuali.student.ks-core</groupId>
 				<artifactId>ks-metro</artifactId>
-				<version>1.0.0-m3</version>
+				<version>1.0.0-SNAPSHOT</version>
 				<type>pom</type>
 			</dependency>
 			<dependency>
 				<groupId>org.kuali.student.ks-core</groupId>
 				<artifactId>ks-eclipselink</artifactId>
-				<version>1.0.0-m3</version>
+				<version>1.0.0-SNAPSHOT</version>
 				<type>pom</type>
 			</dependency>
 			<dependency>
 				<groupId>org.kuali.student.ks-core</groupId>
 				<artifactId>ks-hibernate</artifactId>
-				<version>1.0.0-m3</version>
+				<version>1.0.0-SNAPSHOT</version>
 				<type>pom</type>
 			</dependency>
 
@@ -1062,17 +1085,11 @@ UULkfsbopfqvWlcW1ofwlkXUUn]]>
 				<artifactId>commons-lang</artifactId>
 				<version>2.4</version>
 			</dependency>
-			<dependency>
-				<groupId>commons-logging</groupId>
-				<artifactId>commons-logging</artifactId>
-				<version>1.1.1</version>
-			</dependency>
             <dependency>
                 <groupId>commons-beanutils</groupId>
                 <artifactId>commons-beanutils</artifactId>
                 <version>1.7.0</version>
             </dependency>
-
             <dependency>
 	            <groupId>xalan</groupId>
 	            <artifactId>xalan</artifactId>
@@ -1086,18 +1103,4 @@ UULkfsbopfqvWlcW1ofwlkXUUn]]>
 			<artifactId>junit</artifactId>
 		</dependency>
 	</dependencies>
-    <scm>
-      <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/branches/1.0.0-m3</connection>
-      <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/branches/1.0.0-m3</developerConnection>
-      <url>https://test.kuali.org/svn/student/deploymentlab/branches/1.0.0-m3</url>
-    </scm>
-    <distributionManagement>
-      <repository>
-        <uniqueVersion>true</uniqueVersion>
-        <id>internal</id>
-        <name>Kuali Student Repository</name>
-        <url>file://C:/maven2</url>
-        <layout>default</layout>
-      </repository>
-    </distributionManagement>
 </project>

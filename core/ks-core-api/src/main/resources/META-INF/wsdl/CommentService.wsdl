@@ -1,7 +1,179 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions name="CommentService" targetNamespace="http://student.kuali.org/wsdl/comment" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/comment" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/dictionary" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://student.kuali.org/wsdl/dictionary">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://student.kuali.org/wsdl/commentService" xmlns:ns1="http://student.kuali.org/wsdl/exceptions" xmlns:ns2="http://student.kuali.org/wsdl/dictionary" xmlns:tns="http://student.kuali.org/wsdl/comment" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/comment">
+    <xs:complexType name="statusInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="success" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="commentInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="commentText" type="tns:richTextInfo"/>
+            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+            <xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
+        </xs:sequence>
+        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="state" type="xs:string"/>
+        <xs:attribute name="id" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="richTextInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="plain" type="xs:string"/>
+            <xs:element minOccurs="0" name="formatted" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="jaxbAttributeList">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="attribute" type="tns:Attribute"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Attribute">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="value" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="metaInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="versionInd" type="xs:string"/>
+            <xs:element minOccurs="0" name="createTime" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="createId" type="xs:string"/>
+            <xs:element minOccurs="0" name="updateTime" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="updateId" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="validationResultContainer">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="validationResults" type="tns:validationResultInfo"/>
+            <xs:element minOccurs="0" name="errorLevel" type="tns:errorLevel"/>
+            <xs:element minOccurs="0" name="element" type="xs:string"/>
+            <xs:element minOccurs="0" name="derivedMinOccurs" type="xs:int"/>
+            <xs:element minOccurs="0" name="derivedMaxOccurs" type="xs:string"/>
+            <xs:element minOccurs="0" name="derivedMinLength" type="xs:int"/>
+            <xs:element minOccurs="0" name="derivedMaxLength" type="xs:string"/>
+            <xs:element minOccurs="0" name="dataType" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="validationResultInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="element" type="xs:string"/>
+            <xs:element minOccurs="0" name="level" type="tns:errorLevel"/>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="tagTypeInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="tagInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="namespace" type="xs:string"/>
+            <xs:element minOccurs="0" name="predicate" type="xs:string"/>
+            <xs:element minOccurs="0" name="value" type="xs:string"/>
+            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+            <xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
+        </xs:sequence>
+        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="state" type="xs:string"/>
+        <xs:attribute name="id" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="commentTypeInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="referenceTypeInfo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:simpleType name="errorLevel">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="OK"/>
+            <xs:enumeration value="WARN"/>
+            <xs:enumeration value="ERROR"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:element name="removeTag" nillable="true" type="ns0:removeTag"/>
+    <xs:element name="removeTagResponse" nillable="true" type="ns0:removeTagResponse"/>
+    <xs:element name="MissingParameterException" nillable="true" type="ns1:MissingParameterException"/>
+    <xs:element name="InvalidParameterException" nillable="true" type="ns1:InvalidParameterException"/>
+    <xs:element name="PermissionDeniedException" nillable="true" type="ns1:PermissionDeniedException"/>
+    <xs:element name="OperationFailedException" nillable="true" type="ns1:OperationFailedException"/>
+    <xs:element name="DoesNotExistException" nillable="true" type="ns1:DoesNotExistException"/>
+    <xs:element name="validateComment" nillable="true" type="ns0:validateComment"/>
+    <xs:element name="validateCommentResponse" nillable="true" type="ns0:validateCommentResponse"/>
+    <xs:element name="removeTags" nillable="true" type="ns0:removeTags"/>
+    <xs:element name="removeTagsResponse" nillable="true" type="ns0:removeTagsResponse"/>
+    <xs:element name="getObjectTypes" nillable="true" type="ns2:getObjectTypes"/>
+    <xs:element name="getObjectTypesResponse" nillable="true" type="ns2:getObjectTypesResponse"/>
+    <xs:element name="getComment" nillable="true" type="ns0:getComment"/>
+    <xs:element name="getCommentResponse" nillable="true" type="ns0:getCommentResponse"/>
+    <xs:element name="validateStructureData" nillable="true" type="ns2:validateStructureData"/>
+    <xs:element name="validateStructureDataResponse" nillable="true" type="ns2:validateStructureDataResponse"/>
+    <xs:element name="getTagsByType" nillable="true" type="ns0:getTagsByType"/>
+    <xs:element name="getTagsByTypeResponse" nillable="true" type="ns0:getTagsByTypeResponse"/>
+    <xs:element name="getTag" nillable="true" type="ns0:getTag"/>
+    <xs:element name="getTagResponse" nillable="true" type="ns0:getTagResponse"/>
+    <xs:element name="getCommentTypesForReferenceType" nillable="true" type="ns0:getCommentTypesForReferenceType"/>
+    <xs:element name="getCommentTypesForReferenceTypeResponse" nillable="true" type="ns0:getCommentTypesForReferenceTypeResponse"/>
+    <xs:element name="addTag" nillable="true" type="ns0:addTag"/>
+    <xs:element name="addTagResponse" nillable="true" type="ns0:addTagResponse"/>
+    <xs:element name="DataValidationErrorException" nillable="true" type="ns1:DataValidationErrorException"/>
+    <xs:element name="AlreadyExistsException" nillable="true" type="ns1:AlreadyExistsException"/>
+    <xs:element name="removeComment" nillable="true" type="ns0:removeComment"/>
+    <xs:element name="removeCommentResponse" nillable="true" type="ns0:removeCommentResponse"/>
+    <xs:element name="getCommentTypes" nillable="true" type="ns0:getCommentTypes"/>
+    <xs:element name="getCommentTypesResponse" nillable="true" type="ns0:getCommentTypesResponse"/>
+    <xs:element name="getObjectStructure" nillable="true" type="ns2:getObjectStructure"/>
+    <xs:element name="getObjectStructureResponse" nillable="true" type="ns2:getObjectStructureResponse"/>
+    <xs:element name="getTags" nillable="true" type="ns0:getTags"/>
+    <xs:element name="getTagsResponse" nillable="true" type="ns0:getTagsResponse"/>
+    <xs:element name="addComment" nillable="true" type="ns0:addComment"/>
+    <xs:element name="addCommentResponse" nillable="true" type="ns0:addCommentResponse"/>
+    <xs:element name="getTagTypes" nillable="true" type="ns0:getTagTypes"/>
+    <xs:element name="getTagTypesResponse" nillable="true" type="ns0:getTagTypesResponse"/>
+    <xs:element name="updateComment" nillable="true" type="ns0:updateComment"/>
+    <xs:element name="updateCommentResponse" nillable="true" type="ns0:updateCommentResponse"/>
+    <xs:element name="getReferenceTypes" nillable="true" type="ns0:getReferenceTypes"/>
+    <xs:element name="getReferenceTypesResponse" nillable="true" type="ns0:getReferenceTypesResponse"/>
+    <xs:element name="getCommentsByType" nillable="true" type="ns0:getCommentsByType"/>
+    <xs:element name="getCommentsByTypeResponse" nillable="true" type="ns0:getCommentsByTypeResponse"/>
+    <xs:element name="removeComments" nillable="true" type="ns0:removeComments"/>
+    <xs:element name="removeCommentsResponse" nillable="true" type="ns0:removeCommentsResponse"/>
+    <xs:element name="validateObject" nillable="true" type="ns2:validateObject"/>
+    <xs:element name="validateObjectResponse" nillable="true" type="ns2:validateObjectResponse"/>
+    <xs:element name="getComments" nillable="true" type="ns0:getComments"/>
+    <xs:element name="getCommentsResponse" nillable="true" type="ns0:getCommentsResponse"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/comment" xmlns:tns="http://student.kuali.org/wsdl/dictionary" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://student.kuali.org/wsdl/dictionary">
+    <xs:import namespace="http://student.kuali.org/wsdl/comment"/>
     <xs:element name="getObjectStructure" type="tns:getObjectStructure"/>
     <xs:element name="getObjectStructureResponse" type="tns:getObjectStructureResponse"/>
     <xs:element name="getObjectTypes" type="tns:getObjectTypes"/>
@@ -52,6 +224,12 @@
     <xs:complexType name="type">
         <xs:sequence>
             <xs:element maxOccurs="unbounded" name="state" type="tns:state"/>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element name="modifiable" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="attributes" type="ns1:jaxbAttributeList"/>
         </xs:sequence>
         <xs:attribute name="id" type="xs:string"/>
         <xs:attribute name="key" type="xs:string" use="required"/>
@@ -185,6 +363,50 @@
     <xs:complexType name="validateObjectResponse">
         <xs:sequence>
             <xs:element form="unqualified" name="return" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/exceptions" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/exceptions">
+    <xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
+    <xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
+    <xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
+    <xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
+    <xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
+    <xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
+    <xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
+    <xs:complexType name="MissingParameterException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="InvalidParameterException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PermissionDeniedException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="OperationFailedException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DoesNotExistException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DataValidationErrorException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AlreadyExistsException">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="message" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
 </xs:schema>
@@ -415,220 +637,6 @@
     <xs:complexType name="getCommentsResponse">
         <xs:sequence>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:commentInfo"/>
-        </xs:sequence>
-    </xs:complexType>
-</xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://student.kuali.org/wsdl/commentService" xmlns:ns1="http://student.kuali.org/wsdl/exceptions" xmlns:ns2="http://student.kuali.org/wsdl/dictionary" xmlns:tns="http://student.kuali.org/wsdl/comment" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/comment">
-    <xs:complexType name="statusInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="success" type="xs:boolean"/>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="commentInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="commentText" type="tns:richTextInfo"/>
-            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
-            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
-            <xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
-        </xs:sequence>
-        <xs:attribute name="type" type="xs:string"/>
-        <xs:attribute name="state" type="xs:string"/>
-        <xs:attribute name="id" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="richTextInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="plain" type="xs:string"/>
-            <xs:element minOccurs="0" name="formatted" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="jaxbAttributeList">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="attribute" type="tns:Attribute"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="Attribute">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="value" type="xs:string"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="metaInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="versionInd" type="xs:string"/>
-            <xs:element minOccurs="0" name="createTime" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="createId" type="xs:string"/>
-            <xs:element minOccurs="0" name="updateTime" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="updateId" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="validationResultContainer">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="validationResults" type="tns:validationResultInfo"/>
-            <xs:element minOccurs="0" name="errorLevel" type="tns:errorLevel"/>
-            <xs:element minOccurs="0" name="element" type="xs:string"/>
-            <xs:element minOccurs="0" name="derivedMinOccurs" type="xs:int"/>
-            <xs:element minOccurs="0" name="derivedMaxOccurs" type="xs:string"/>
-            <xs:element minOccurs="0" name="derivedMinLength" type="xs:int"/>
-            <xs:element minOccurs="0" name="derivedMaxLength" type="xs:string"/>
-            <xs:element minOccurs="0" name="dataType" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="validationResultInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="level" type="tns:errorLevel"/>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="tagTypeInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="desc" type="xs:string"/>
-            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="tagInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="namespace" type="xs:string"/>
-            <xs:element minOccurs="0" name="predicate" type="xs:string"/>
-            <xs:element minOccurs="0" name="value" type="xs:string"/>
-            <xs:element minOccurs="0" name="referenceTypeKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="referenceId" type="xs:string"/>
-            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
-            <xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
-        </xs:sequence>
-        <xs:attribute name="type" type="xs:string"/>
-        <xs:attribute name="state" type="xs:string"/>
-        <xs:attribute name="id" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="commentTypeInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="desc" type="xs:string"/>
-            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="referenceTypeInfo">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="desc" type="xs:string"/>
-            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
-        </xs:sequence>
-        <xs:attribute name="key" type="xs:string"/>
-    </xs:complexType>
-    <xs:simpleType name="errorLevel">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="OK"/>
-            <xs:enumeration value="WARN"/>
-            <xs:enumeration value="ERROR"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:element name="removeTag" nillable="true" type="ns0:removeTag"/>
-    <xs:element name="removeTagResponse" nillable="true" type="ns0:removeTagResponse"/>
-    <xs:element name="MissingParameterException" nillable="true" type="ns1:MissingParameterException"/>
-    <xs:element name="InvalidParameterException" nillable="true" type="ns1:InvalidParameterException"/>
-    <xs:element name="PermissionDeniedException" nillable="true" type="ns1:PermissionDeniedException"/>
-    <xs:element name="OperationFailedException" nillable="true" type="ns1:OperationFailedException"/>
-    <xs:element name="DoesNotExistException" nillable="true" type="ns1:DoesNotExistException"/>
-    <xs:element name="validateComment" nillable="true" type="ns0:validateComment"/>
-    <xs:element name="validateCommentResponse" nillable="true" type="ns0:validateCommentResponse"/>
-    <xs:element name="removeTags" nillable="true" type="ns0:removeTags"/>
-    <xs:element name="removeTagsResponse" nillable="true" type="ns0:removeTagsResponse"/>
-    <xs:element name="getObjectTypes" nillable="true" type="ns2:getObjectTypes"/>
-    <xs:element name="getObjectTypesResponse" nillable="true" type="ns2:getObjectTypesResponse"/>
-    <xs:element name="getComment" nillable="true" type="ns0:getComment"/>
-    <xs:element name="getCommentResponse" nillable="true" type="ns0:getCommentResponse"/>
-    <xs:element name="validateStructureData" nillable="true" type="ns2:validateStructureData"/>
-    <xs:element name="validateStructureDataResponse" nillable="true" type="ns2:validateStructureDataResponse"/>
-    <xs:element name="getTagsByType" nillable="true" type="ns0:getTagsByType"/>
-    <xs:element name="getTagsByTypeResponse" nillable="true" type="ns0:getTagsByTypeResponse"/>
-    <xs:element name="getTag" nillable="true" type="ns0:getTag"/>
-    <xs:element name="getTagResponse" nillable="true" type="ns0:getTagResponse"/>
-    <xs:element name="getCommentTypesForReferenceType" nillable="true" type="ns0:getCommentTypesForReferenceType"/>
-    <xs:element name="getCommentTypesForReferenceTypeResponse" nillable="true" type="ns0:getCommentTypesForReferenceTypeResponse"/>
-    <xs:element name="addTag" nillable="true" type="ns0:addTag"/>
-    <xs:element name="addTagResponse" nillable="true" type="ns0:addTagResponse"/>
-    <xs:element name="DataValidationErrorException" nillable="true" type="ns1:DataValidationErrorException"/>
-    <xs:element name="AlreadyExistsException" nillable="true" type="ns1:AlreadyExistsException"/>
-    <xs:element name="removeComment" nillable="true" type="ns0:removeComment"/>
-    <xs:element name="removeCommentResponse" nillable="true" type="ns0:removeCommentResponse"/>
-    <xs:element name="getCommentTypes" nillable="true" type="ns0:getCommentTypes"/>
-    <xs:element name="getCommentTypesResponse" nillable="true" type="ns0:getCommentTypesResponse"/>
-    <xs:element name="getObjectStructure" nillable="true" type="ns2:getObjectStructure"/>
-    <xs:element name="getObjectStructureResponse" nillable="true" type="ns2:getObjectStructureResponse"/>
-    <xs:element name="getTags" nillable="true" type="ns0:getTags"/>
-    <xs:element name="getTagsResponse" nillable="true" type="ns0:getTagsResponse"/>
-    <xs:element name="addComment" nillable="true" type="ns0:addComment"/>
-    <xs:element name="addCommentResponse" nillable="true" type="ns0:addCommentResponse"/>
-    <xs:element name="getTagTypes" nillable="true" type="ns0:getTagTypes"/>
-    <xs:element name="getTagTypesResponse" nillable="true" type="ns0:getTagTypesResponse"/>
-    <xs:element name="updateComment" nillable="true" type="ns0:updateComment"/>
-    <xs:element name="updateCommentResponse" nillable="true" type="ns0:updateCommentResponse"/>
-    <xs:element name="getReferenceTypes" nillable="true" type="ns0:getReferenceTypes"/>
-    <xs:element name="getReferenceTypesResponse" nillable="true" type="ns0:getReferenceTypesResponse"/>
-    <xs:element name="getCommentsByType" nillable="true" type="ns0:getCommentsByType"/>
-    <xs:element name="getCommentsByTypeResponse" nillable="true" type="ns0:getCommentsByTypeResponse"/>
-    <xs:element name="removeComments" nillable="true" type="ns0:removeComments"/>
-    <xs:element name="removeCommentsResponse" nillable="true" type="ns0:removeCommentsResponse"/>
-    <xs:element name="validateObject" nillable="true" type="ns2:validateObject"/>
-    <xs:element name="validateObjectResponse" nillable="true" type="ns2:validateObjectResponse"/>
-    <xs:element name="getComments" nillable="true" type="ns0:getComments"/>
-    <xs:element name="getCommentsResponse" nillable="true" type="ns0:getCommentsResponse"/>
-</xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/exceptions" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/exceptions">
-    <xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
-    <xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
-    <xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
-    <xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
-    <xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
-    <xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
-    <xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
-    <xs:complexType name="MissingParameterException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="InvalidParameterException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="PermissionDeniedException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="OperationFailedException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="DoesNotExistException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="DataValidationErrorException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="AlreadyExistsException">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="message" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
 </xs:schema>

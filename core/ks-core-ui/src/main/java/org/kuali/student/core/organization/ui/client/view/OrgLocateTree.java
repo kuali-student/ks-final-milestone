@@ -18,11 +18,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.common.ui.client.event.ModifyActionEvent;
+import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
+import org.kuali.student.core.organization.ui.client.mvc.controller.OrgProposalController;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 import org.kuali.student.core.organization.ui.client.view.OrganizationWidget.Scope;
@@ -32,28 +35,24 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DeckPanel;
-import com.google.gwt.user.client.ui.HasName;
-import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
-import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 
 public class OrgLocateTree extends Composite implements HasStateChanges {
-    
+        
     private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
     
     DeckPanel w = new DeckPanel();
     Tree tree = new Tree();
     String activeHierarchyId;
+    VerticalSectionView containingSection;
     
     boolean loaded = false;
     
@@ -68,6 +67,11 @@ public class OrgLocateTree extends Composite implements HasStateChanges {
         KSLabel lbl = new KSLabel("Please Wait...");
         w.add(lbl);
         w.showWidget(1);
+    }
+    
+    public OrgLocateTree(VerticalSectionView section) {
+        this();
+        this.containingSection = section;
     }
 
     protected void onLoad(){
@@ -163,6 +167,14 @@ public class OrgLocateTree extends Composite implements HasStateChanges {
             this.name = name;
             
             final KSLabel label = new KSLabel(name);
+            ClickHandler handlerModify = new ClickHandler() {
+                @Override
+                public void onClick(ClickEvent event) {
+                    Controller orgController = containingSection.getController();
+                    orgController.fireApplicationEvent(new ModifyActionEvent(id));
+                }
+            };
+            label.addClickHandler(handlerModify);
             
             ClickHandler handler = new ClickHandler() {
 
@@ -221,10 +233,10 @@ public class OrgLocateTree extends Composite implements HasStateChanges {
             orgAddPersonRel.getElement().setAttribute("value", ""+Scope.build(Scope.ORG_PERSON_RELATIONS, Scope.MODIFY).value());
             
             w.add(label);
-            w.add(edit);
-            w.add(orgAddPos);
-            w.add(orgAddRel);
-            w.add(orgAddPersonRel);
+//            w.add(edit);
+//            w.add(orgAddPos);
+//            w.add(orgAddRel);
+//            w.add(orgAddPersonRel);
             
             addStyleName("KS-Org-Widget");
         }

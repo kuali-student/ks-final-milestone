@@ -379,131 +379,266 @@ INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VA
   VALUES ('ruleSelector',2455,2910,'Template')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('contentFragment',2456,2912,'<start name="PreRoute"><activationType>P</activationType><mandatoryRoute>false</mandatoryRoute><finalApproval>false</finalApproval></start>')
+  VALUES ('contentFragment',2553,2971,'<start name="PreRoute"><activationType>P</activationType><mandatoryRoute>false</mandatoryRoute><finalApproval>false</finalApproval></start>')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('activationType',2457,2912,'P')
+  VALUES ('activationType',2554,2971,'P')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('mandatoryRoute',2458,2912,'false')
+  VALUES ('mandatoryRoute',2555,2971,'false')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('finalApproval',2459,2912,'false')
+  VALUES ('finalApproval',2556,2971,'false')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('ruleSelector',2460,2912,'Template')
+  VALUES ('ruleSelector',2557,2971,'Template')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('contentFragment',2461,2913,'<role name="HierarchyNode"><qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass><activationType>P</activationType></role>')
+  VALUES ('contentFragment',2558,2972,'<requests name="Accept Collaboration"><activationType>P</activationType><ruleTemplate>RequestedCollaboratorRoleTemplate</ruleTemplate></requests>')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('qualifierResolverClass',2462,2913,'org.kuali.rice.kew.role.NullQualifierResolver')
+  VALUES ('activationType',2559,2972,'P')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('activationType',2463,2913,'P')
+  VALUES ('ruleTemplate',2560,2972,'RequestedCollaboratorRoleTemplate')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('ruleSelector',2464,2913,'Template')
+  VALUES ('ruleSelector',2561,2972,'Template')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('contentFragment',2465,2915,'<start name="PreRoute"><activationType>P</activationType><mandatoryRoute>false</mandatoryRoute><finalApproval>false</finalApproval></start>')
+  VALUES ('contentFragment',2562,2974,'<start name="PreRoute"><activationType>P</activationType><mandatoryRoute>false</mandatoryRoute><finalApproval>false</finalApproval></start>')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('activationType',2466,2915,'P')
+  VALUES ('activationType',2563,2974,'P')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('mandatoryRoute',2467,2915,'false')
+  VALUES ('mandatoryRoute',2564,2974,'false')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('finalApproval',2468,2915,'false')
+  VALUES ('finalApproval',2565,2974,'false')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('ruleSelector',2469,2915,'Template')
+  VALUES ('ruleSelector',2566,2974,'Template')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('contentFragment',2470,2916,'<requests name="Accept Collaboration"><activationType>P</activationType><ruleTemplate>RequestedCollaboratorRoleTemplate</ruleTemplate></requests>')
+  VALUES ('contentFragment',2567,2975,'<role name="Department Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.DepartmentCommitteeQualifierResolver</qualifierResolverClass></role>')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('activationType',2471,2916,'P')
+  VALUES ('activationType',2568,2975,'P')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('ruleTemplate',2472,2916,'RequestedCollaboratorRoleTemplate')
+  VALUES ('qualifierResolverClass',2569,2975,'org.kuali.student.lum.workflow.qualifierresolver.DepartmentCommitteeQualifierResolver')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('ruleSelector',2473,2916,'Template')
+  VALUES ('ruleSelector',2570,2975,'Template')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('contentFragment',2474,2918,'<start name="PreRoute"><activationType>P</activationType><mandatoryRoute>false</mandatoryRoute><finalApproval>false</finalApproval></start>')
+  VALUES ('contentFragment',2571,2976,'<role name="Publication Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.PublicationQualifierResolver</qualifierResolverClass></role>')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('activationType',2475,2918,'P')
+  VALUES ('activationType',2572,2976,'P')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('mandatoryRoute',2476,2918,'false')
+  VALUES ('qualifierResolverClass',2573,2976,'org.kuali.student.lum.workflow.qualifierresolver.PublicationQualifierResolver')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('finalApproval',2477,2918,'false')
+  VALUES ('ruleSelector',2574,2976,'Template')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('ruleSelector',2478,2918,'Template')
+  VALUES ('contentFragment',2575,2978,'<start name="PreRoute"><activationType>P</activationType><mandatoryRoute>false</mandatoryRoute><finalApproval>false</finalApproval></start>')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('contentFragment',2479,2919,'<role name="Department Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.DepartmentCommitteeQualifierResolver</qualifierResolverClass></role>')
+  VALUES ('activationType',2576,2978,'P')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('activationType',2480,2919,'P')
+  VALUES ('mandatoryRoute',2577,2978,'false')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('qualifierResolverClass',2481,2919,'org.kuali.student.lum.workflow.qualifierresolver.DepartmentCommitteeQualifierResolver')
+  VALUES ('finalApproval',2578,2978,'false')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('ruleSelector',2482,2919,'Template')
+  VALUES ('ruleSelector',2579,2978,'Template')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('contentFragment',2483,2920,'<role name="Division Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.DivisionCommitteeQualifierResolver</qualifierResolverClass></role>')
+  VALUES ('contentFragment',2580,2979,'<role name="Admin Organization Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.AdminOrganizationQualifierResolver</qualifierResolverClass></role>')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('activationType',2484,2920,'P')
+  VALUES ('activationType',2581,2979,'P')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('qualifierResolverClass',2485,2920,'org.kuali.student.lum.workflow.qualifierresolver.DivisionCommitteeQualifierResolver')
+  VALUES ('qualifierResolverClass',2582,2979,'org.kuali.student.lum.workflow.qualifierresolver.AdminOrganizationQualifierResolver')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('ruleSelector',2486,2920,'Template')
+  VALUES ('ruleSelector',2583,2979,'Template')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('contentFragment',2487,2921,'<role name="College Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CollegeCommitteeQualifierResolver</qualifierResolverClass></role>')
+  VALUES ('contentFragment',2584,2980,'<role name="Publication Change Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.PublicationQualifierResolver</qualifierResolverClass></role>')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('activationType',2488,2921,'P')
+  VALUES ('activationType',2585,2980,'P')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('qualifierResolverClass',2489,2921,'org.kuali.student.lum.workflow.qualifierresolver.CollegeCommitteeQualifierResolver')
+  VALUES ('qualifierResolverClass',2586,2980,'org.kuali.student.lum.workflow.qualifierresolver.PublicationQualifierResolver')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('ruleSelector',2490,2921,'Template')
+  VALUES ('ruleSelector',2587,2980,'Template')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('contentFragment',2491,2922,'<role name="Senate Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.SenateCommitteeQualifierResolver</qualifierResolverClass></role>')
+  VALUES ('contentFragment',2588,2981,'<split name="HasMajorChangeSplitNode"><type>org.kuali.student.lum.workflow.node.MajorChangeSplitNode</type></split>')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('activationType',2492,2922,'P')
+  VALUES ('type',2589,2981,'org.kuali.student.lum.workflow.node.MajorChangeSplitNode')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('qualifierResolverClass',2493,2922,'org.kuali.student.lum.workflow.qualifierresolver.SenateCommitteeQualifierResolver')
+  VALUES ('ruleSelector',2590,2981,'Template')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('ruleSelector',2494,2922,'Template')
+  VALUES ('contentFragment',2591,2983,'<role name="Department Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.DepartmentCommitteeQualifierResolver</qualifierResolverClass></role>')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('contentFragment',2495,2923,'<role name="Publication Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.PublicationQualifierResolver</qualifierResolverClass></role>')
+  VALUES ('activationType',2592,2983,'P')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('activationType',2496,2923,'P')
+  VALUES ('qualifierResolverClass',2593,2983,'org.kuali.student.lum.workflow.qualifierresolver.DepartmentCommitteeQualifierResolver')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('qualifierResolverClass',2497,2923,'org.kuali.student.lum.workflow.qualifierresolver.PublicationQualifierResolver')
+  VALUES ('ruleSelector',2594,2983,'Template')
 /
 INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
-  VALUES ('ruleSelector',2498,2923,'Template')
+  VALUES ('contentFragment',2595,2984,'<role name="Division Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.DivisionCommitteeQualifierResolver</qualifierResolverClass></role>')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('activationType',2596,2984,'P')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('qualifierResolverClass',2597,2984,'org.kuali.student.lum.workflow.qualifierresolver.DivisionCommitteeQualifierResolver')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('ruleSelector',2598,2984,'Template')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('contentFragment',2599,2985,'<role name="College Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CollegeCommitteeQualifierResolver</qualifierResolverClass></role>')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('activationType',2600,2985,'P')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('qualifierResolverClass',2601,2985,'org.kuali.student.lum.workflow.qualifierresolver.CollegeCommitteeQualifierResolver')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('ruleSelector',2602,2985,'Template')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('contentFragment',2603,2986,'<role name="Senate Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.SenateCommitteeQualifierResolver</qualifierResolverClass></role>')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('activationType',2604,2986,'P')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('qualifierResolverClass',2605,2986,'org.kuali.student.lum.workflow.qualifierresolver.SenateCommitteeQualifierResolver')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('ruleSelector',2606,2986,'Template')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('contentFragment',2607,2987,'<join name="Join"/>')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('ruleSelector',2608,2987,'Template')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('contentFragment',2609,2989,'<simple name="NoOp"><type>org.kuali.rice.kew.engine.node.NoOpNode</type></simple>')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('type',2610,2989,'org.kuali.rice.kew.engine.node.NoOpNode')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('ruleSelector',2611,2989,'Template')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('contentFragment',2612,2990,'<role name="Publication Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.PublicationQualifierResolver</qualifierResolverClass></role>')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('activationType',2613,2990,'P')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('qualifierResolverClass',2614,2990,'org.kuali.student.lum.workflow.qualifierresolver.PublicationQualifierResolver')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('ruleSelector',2615,2990,'Template')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('contentFragment',2616,2992,'<start name="PreRoute"><activationType>P</activationType><mandatoryRoute>false</mandatoryRoute><finalApproval>false</finalApproval></start>')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('activationType',2617,2992,'P')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('mandatoryRoute',2618,2992,'false')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('finalApproval',2619,2992,'false')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('ruleSelector',2620,2992,'Template')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('contentFragment',2621,2993,'<role name="Department Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.DepartmentCommitteeQualifierResolver</qualifierResolverClass></role>')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('activationType',2622,2993,'P')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('qualifierResolverClass',2623,2993,'org.kuali.student.lum.workflow.qualifierresolver.DepartmentCommitteeQualifierResolver')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('ruleSelector',2624,2993,'Template')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('contentFragment',2625,2994,'<role name="Division Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.DivisionCommitteeQualifierResolver</qualifierResolverClass></role>')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('activationType',2626,2994,'P')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('qualifierResolverClass',2627,2994,'org.kuali.student.lum.workflow.qualifierresolver.DivisionCommitteeQualifierResolver')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('ruleSelector',2628,2994,'Template')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('contentFragment',2629,2995,'<role name="College Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CollegeCommitteeQualifierResolver</qualifierResolverClass></role>')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('activationType',2630,2995,'P')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('qualifierResolverClass',2631,2995,'org.kuali.student.lum.workflow.qualifierresolver.CollegeCommitteeQualifierResolver')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('ruleSelector',2632,2995,'Template')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('contentFragment',2633,2996,'<role name="Senate Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.SenateCommitteeQualifierResolver</qualifierResolverClass></role>')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('activationType',2634,2996,'P')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('qualifierResolverClass',2635,2996,'org.kuali.student.lum.workflow.qualifierresolver.SenateCommitteeQualifierResolver')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('ruleSelector',2636,2996,'Template')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('contentFragment',2637,2997,'<role name="Publication Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.PublicationQualifierResolver</qualifierResolverClass></role>')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('activationType',2638,2997,'P')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('qualifierResolverClass',2639,2997,'org.kuali.student.lum.workflow.qualifierresolver.PublicationQualifierResolver')
+/
+INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD,RTE_NODE_CFG_PARM_ID,RTE_NODE_ID,VAL)
+  VALUES ('ruleSelector',2640,2997,'Template')
 /

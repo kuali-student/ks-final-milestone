@@ -22,7 +22,7 @@ import org.kuali.rice.student.bo.KualiStudentKimAttributes;
 import org.kuali.student.core.search.dto.Result;
 
 public class DepartmentCommitteeQualifierResolver extends
-		AbstractOrgQualifierResolver {
+		AbstractCocOrgQualifierResolver {
 
 
 	@Override

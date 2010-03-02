@@ -1,6 +1,7 @@
 package org.kuali.student.common.ui.client.widgets.search;
 
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -10,7 +11,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class CollapsablePanel extends Composite{
-	private KSLabel label = new KSLabel();
+	private KSLinkButton label;
 	private VerticalFlowPanel layout = new VerticalFlowPanel();
 	private SimplePanel content = new SimplePanel();
 	private boolean isOpen;
@@ -18,7 +19,7 @@ public class CollapsablePanel extends Composite{
 	//TODO add rotating triangle images
 	
 	public CollapsablePanel(String name, Widget content, boolean isOpen){
-		label.setText(name);
+		label = new KSLinkButton(name);
 		this.content.setWidget(content);
 		this.isOpen = isOpen;
 		if(!isOpen){
@@ -34,8 +35,7 @@ public class CollapsablePanel extends Composite{
 				}
 				else{
 					CollapsablePanel.this.open();
-				}
-				
+				}				
 			}
 		});
 		

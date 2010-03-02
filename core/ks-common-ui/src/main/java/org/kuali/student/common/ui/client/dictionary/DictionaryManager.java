@@ -46,14 +46,17 @@ import com.google.gwt.core.client.GWT;
  * This singleton class is a repository for dictionary defs.   
  * This class holds a cache of dictionary defs loaded by an external process
  * 
+ * This class is being deprecated, the service dictionary should no longer be consumed directly
+ * by the ui.
+ * 
  * @author Kuali Student Team (kuali-student@googlegroups.com)
  *
  */
+@Deprecated
 public class DictionaryManager {
 
     private static final char DICT_KEY_SEPARATOR = ':';
 
-    private Validator validator = null;//FIXME! inject this somehow new Validator(); 
     private Map<String, Map<String, Field>> indexedFields = new HashMap<String, Map<String,Field>>();
 
 
@@ -171,14 +174,5 @@ public class DictionaryManager {
     public Set<String> getTypes() {
         return indexedFields.keySet();
     }
-    
-    public Validator getValidator() {
-        return validator;
-    }
-
-    public void setValidator(Validator validator) {
-        this.validator = validator;
-    }
-    
-    
+            
 }

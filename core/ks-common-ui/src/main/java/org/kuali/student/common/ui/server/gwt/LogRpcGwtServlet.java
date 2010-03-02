@@ -18,24 +18,23 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.service.LogRpcService;
-import org.kuali.student.common.ui.server.gwt.rpc.BaseRemoteAbstractServiceServlet;
 
-@SuppressWarnings("serial")
-public class LogRpcGwtServlet extends BaseRemoteAbstractServiceServlet implements LogRpcService {
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-	final Logger logger = Logger.getLogger(LogRpcGwtServlet.class);
+public class LogRpcGwtServlet extends RemoteServiceServlet implements LogRpcService {
+	private static final long serialVersionUID = 1L;
 
-	// final static Logger logger =
-	// LoggerFactory.getLogger(LogRpcGwtServlet.class);
+	 final Logger logger = Logger.getLogger(LogRpcGwtServlet.class);
+	
+//    final static Logger logger = LoggerFactory.getLogger(LogRpcGwtServlet.class);
 
 	private static final String DELIM = "********************************************************************************";
-
 	@Override
 	public Boolean sendLog(Map<String, String> clientContextInfo, String log) {
-
+	    
 		// TODO Use sl4j for logging
-		logger.debug(DELIM);
-		logger.debug("Client info: ");
+	    logger.debug(DELIM);
+	    logger.debug("Client info: ");
 		for (String key : clientContextInfo.keySet()) {
 			String value = clientContextInfo.get(key);
 			logger.debug("\t" + key + " = " + value);

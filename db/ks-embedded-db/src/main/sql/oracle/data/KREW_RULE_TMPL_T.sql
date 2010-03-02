@@ -43,5 +43,5 @@ INSERT INTO KREW_RULE_TMPL_T (NM,OBJ_ID,RULE_TMPL_DESC,RULE_TMPL_ID,VER_NBR)
   VALUES ('WorkflowDocument3Template','6166CBA1BAEA644DE0404F8189D86C09','Workflow Document Template 3',1538,2)
 /
 INSERT INTO KREW_RULE_TMPL_T (NM,OBJ_ID,RULE_TMPL_DESC,RULE_TMPL_ID,VER_NBR)
-  VALUES ('RequestedCollaboratorRoleTemplate','CE77EFDC-9607-FBAD-D970-1BA88E9E20F5','Template to route to potential collaborator users',1648,2)
+  VALUES ('RequestedCollaboratorRoleTemplate','F69606B8-597A-16EA-2C8E-CD287379C363','Template to route to potential collaborator users',1654,2)
 /

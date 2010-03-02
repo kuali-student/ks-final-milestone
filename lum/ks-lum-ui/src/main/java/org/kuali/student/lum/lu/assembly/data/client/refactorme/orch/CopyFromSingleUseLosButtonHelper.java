@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 The Kuali Foundation
+ * Copyright 2010 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,8 @@
 package org.kuali.student.lum.lu.assembly.data.client.refactorme.orch;
 
 
-import org.kuali.student.common.assembly.client.Data;
-import org.kuali.student.lum.lu.assembly.data.client.PropertyEnum;
+import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.core.assembly.helper.PropertyEnum;
 
 
 public class CopyFromSingleUseLosButtonHelper
@@ -26,7 +26,7 @@ public class CopyFromSingleUseLosButtonHelper
 	
 	public enum Properties implements PropertyEnum
 	{
-		ID ("id");
+		DESCRIPTION ("description");
 		
 		private final String key;
 		
@@ -63,15 +63,15 @@ public class CopyFromSingleUseLosButtonHelper
 	}
 	
 	
-	public void setId (Data value)
+	public void setDescription (Data value)
 	{
-		data.set (Properties.ID.getKey (), value);
+		data.set (Properties.DESCRIPTION.getKey (), value);
 	}
 	
 	
-	public Data getId ()
+	public Data getDescription ()
 	{
-		return (Data) data.get (Properties.ID.getKey ());
+		return (Data) data.get (Properties.DESCRIPTION.getKey ());
 	}
 	
 }

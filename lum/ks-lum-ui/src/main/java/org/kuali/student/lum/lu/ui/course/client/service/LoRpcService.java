@@ -17,6 +17,7 @@ package org.kuali.student.lum.lu.ui.course.client.service;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.service.BaseRpcService;
+import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
@@ -29,11 +30,19 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  */
 @RemoteServiceRelativePath("rpcservices/LoRpcService")
 public interface LoRpcService extends BaseRpcService {
-    
+    public List<LoCategoryInfo> getLoCategories(String loRepositoryKey);
+    public LoCategoryInfo updateLoCategory(String loCategoryId, LoCategoryInfo loCategoryInfo);
+    public StatusInfo deleteLoCategory(String loCategoryId);
     public List<LoInfo> getLoByIdList(List<String> loId);
-    
+
     public List<LoCategoryTypeInfo> getLoCategoryTypes();
 
     public LoCategoryInfo createLoCategory(String loRepositoryKey,
             String loCategoryTypeKey, LoCategoryInfo loCategoryInfo);
+
+    public LoCategoryInfo getLoCategory(String loCategoryId);
+    
+    public LoCategoryTypeInfo getLoCategoryType(String loCategoryTypeKey);
+    
+    public List<LoInfo> getLosByLoCategory(String loCategoryId);
 }

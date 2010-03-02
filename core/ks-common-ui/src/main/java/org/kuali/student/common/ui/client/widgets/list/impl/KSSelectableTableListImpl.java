@@ -217,6 +217,7 @@ public class KSSelectableTableListImpl extends KSSelectItemWidgetAbstract {
         table.addStyleName(KSStyles.KS_SELECT_TABLE_PANEL);
         root.setWidget(table);
         
+        super.setInitialized(true);
     }
 
     public void addStyleName(String style){

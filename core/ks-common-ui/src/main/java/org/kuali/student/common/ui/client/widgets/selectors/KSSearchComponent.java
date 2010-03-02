@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.focus.FocusGroup;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
@@ -140,5 +141,11 @@ public class KSSearchComponent extends Composite implements SuggestPicker {
 	@Override
 	public HandlerRegistration addBlurHandler(BlurHandler handler) {
 		return focus.addBlurHandler(handler);
+	}
+
+	@Override
+	public HandlerRegistration addSelectionChangeHandler(
+			SelectionChangeHandler handler) {
+		return suggestBox.addSelectionChangeHandler(handler);
 	}
 }

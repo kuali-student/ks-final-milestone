@@ -50,7 +50,7 @@ public class LoRepository extends MetaEntity implements AttributeOwner<LoReposit
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "RT_DESCR_ID")
-	private LoRichText desc;
+	private LoRichText descr;
 	
 	@OneToOne
 	@JoinColumn(name = "LO_ROOT_ID")
@@ -71,17 +71,17 @@ public class LoRepository extends MetaEntity implements AttributeOwner<LoReposit
 	private List<LoRepositoryAttribute> attributes;
 
 	/**
-	 * @param desc the desc to set
+	 * @param descr the descr to set
 	 */
-	public void setDesc(LoRichText desc) {
-		this.desc = desc;
+	public void setDescr(LoRichText descr) {
+		this.descr = descr;
 	}
 
 	/**
-	 * @return the desc
+	 * @return the descr
 	 */
-	public LoRichText getDesc() {
-		return desc;
+	public LoRichText getDescr() {
+		return descr;
 	}
 
 	/**

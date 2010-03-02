@@ -1,3 +1,4 @@
+
 -----------------------------------------------------------------------------
 -- DOCUMENT_CATEGORY_DETAIL
 -----------------------------------------------------------------------------
@@ -7,41 +8,23 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE DOCUMENT_CATEGORY_DETAIL CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE DOCUMENT_CATEGORY_DETAIL
 (
       DOC_ID VARCHAR2(255) NOT NULL
         , CATEGORY_ID VARCHAR2(255) NOT NULL
+    
+
 )
 /
------------------------------------------------------------------------------
--- ENUM_VAL_FLD_ENT
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'ENUM_VAL_FLD_ENT';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE ENUM_VAL_FLD_ENT CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE ENUM_VAL_FLD_ENT
-(
-      ID VARCHAR2(255)
-        , DATA_TYPE VARCHAR2(255)
-        , FLD_KEY VARCHAR2(255)
-        , INVLD_CHARS VARCHAR2(255)
-        , MAX_LGTH VARCHAR2(255)
-        , MAX_OCCRS VARCHAR2(255)
-        , MAX_VAL VARCHAR2(255)
-        , MIN_LGTH NUMBER(10)
-        , MIN_OCCRS NUMBER(10)
-        , MIN_VAL VARCHAR2(255)
-        , VALID_CHARS VARCHAR2(255)
-        , ENUM_META_ENT_ID VARCHAR2(255)
-)
-/
-ALTER TABLE ENUM_VAL_FLD_ENT
-    ADD CONSTRAINT ENUM_VAL_FLD_ENTP1
-PRIMARY KEY (ID)
-/
+
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREN_CHNL_PRODCR_T
 -----------------------------------------------------------------------------
@@ -51,16 +34,22 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREN_CHNL_PRODCR_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREN_CHNL_PRODCR_T
 (
       CHNL_ID NUMBER(8)
         , PRODCR_ID NUMBER(8)
+    
+
 )
 /
+
 ALTER TABLE KREN_CHNL_PRODCR_T
     ADD CONSTRAINT KREN_CHNL_PRODCR_TP1
 PRIMARY KEY (CHNL_ID,PRODCR_ID)
 /
+
+
 CREATE INDEX KREN_CHNL_PRODCR_TI1 
   ON KREN_CHNL_PRODCR_T 
   (CHNL_ID)
@@ -69,6 +58,11 @@ CREATE INDEX KREN_CHNL_PRODCR_TI2
   ON KREN_CHNL_PRODCR_T 
   (PRODCR_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREN_CHNL_SUBSCRP_T
 -----------------------------------------------------------------------------
@@ -78,22 +72,33 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREN_CHNL_SUBSCRP_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREN_CHNL_SUBSCRP_T
 (
       CHNL_SUBSCRP_ID NUMBER(8)
         , CHNL_ID NUMBER(8) NOT NULL
         , PRNCPL_ID VARCHAR2(40) NOT NULL
+    
     , CONSTRAINT KREN_CHNL_SUBSCRP_TC0 UNIQUE (CHNL_ID, PRNCPL_ID)
+
 )
 /
+
 ALTER TABLE KREN_CHNL_SUBSCRP_T
     ADD CONSTRAINT KREN_CHNL_SUBSCRP_TP1
 PRIMARY KEY (CHNL_SUBSCRP_ID)
 /
+
+
 CREATE INDEX KREN_CHNL_SUBSCRP_TI1 
   ON KREN_CHNL_SUBSCRP_T 
   (CHNL_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREN_CHNL_T
 -----------------------------------------------------------------------------
@@ -103,6 +108,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREN_CHNL_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREN_CHNL_T
 (
       CHNL_ID NUMBER(8)
@@ -110,13 +116,23 @@ CREATE TABLE KREN_CHNL_T
         , DESC_TXT VARCHAR2(4000) NOT NULL
         , SUBSCRB_IND CHAR(1) NOT NULL
         , VER_NBR NUMBER(8) default 1 NOT NULL
+    
     , CONSTRAINT KREN_CHNL_TC0 UNIQUE (NM)
+
 )
 /
+
 ALTER TABLE KREN_CHNL_T
     ADD CONSTRAINT KREN_CHNL_TP1
 PRIMARY KEY (CHNL_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREN_CNTNT_TYP_T
 -----------------------------------------------------------------------------
@@ -126,6 +142,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREN_CNTNT_TYP_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREN_CNTNT_TYP_T
 (
       CNTNT_TYP_ID NUMBER(8)
@@ -137,13 +154,23 @@ CREATE TABLE KREN_CNTNT_TYP_T
         , XSD CLOB NOT NULL
         , XSL CLOB NOT NULL
         , VER_NBR NUMBER(8) default 1 NOT NULL
+    
     , CONSTRAINT KREN_CNTNT_TYP_TC0 UNIQUE (NM, CNTNT_TYP_VER_NBR)
+
 )
 /
+
 ALTER TABLE KREN_CNTNT_TYP_T
     ADD CONSTRAINT KREN_CNTNT_TYP_TP1
 PRIMARY KEY (CNTNT_TYP_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREN_MSG_DELIV_T
 -----------------------------------------------------------------------------
@@ -153,6 +180,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREN_MSG_DELIV_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREN_MSG_DELIV_T
 (
       MSG_DELIV_ID NUMBER(8)
@@ -163,17 +191,27 @@ CREATE TABLE KREN_MSG_DELIV_T
         , PROC_CNT NUMBER(4) default 0 NOT NULL
         , LOCKD_DTTM DATE
         , VER_NBR NUMBER(8) default 0 NOT NULL
+    
     , CONSTRAINT KREN_MSG_DELIV_TC0 UNIQUE (MSG_ID, TYP_NM)
+
 )
 /
+
 ALTER TABLE KREN_MSG_DELIV_T
     ADD CONSTRAINT KREN_MSG_DELIV_TP1
 PRIMARY KEY (MSG_DELIV_ID)
 /
+
+
 CREATE INDEX KREN_MSG_DELIV_TI1 
   ON KREN_MSG_DELIV_T 
   (MSG_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREN_MSG_T
 -----------------------------------------------------------------------------
@@ -183,6 +221,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREN_MSG_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREN_MSG_T
 (
       MSG_ID NUMBER(8)
@@ -197,13 +236,23 @@ CREATE TABLE KREN_MSG_T
         , URL VARCHAR2(512)
         , RECIP_ID VARCHAR2(300) NOT NULL
         , VER_NBR NUMBER(8) default 0 NOT NULL
+    
     , CONSTRAINT KREN_MSG_TC0 UNIQUE (ORGN_ID)
+
 )
 /
+
 ALTER TABLE KREN_MSG_T
     ADD CONSTRAINT KREN_MSG_TP1
 PRIMARY KEY (MSG_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREN_NTFCTN_MSG_DELIV_T
 -----------------------------------------------------------------------------
@@ -213,6 +262,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREN_NTFCTN_MSG_DELIV_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREN_NTFCTN_MSG_DELIV_T
 (
       NTFCTN_MSG_DELIV_ID NUMBER(8)
@@ -222,17 +272,27 @@ CREATE TABLE KREN_NTFCTN_MSG_DELIV_T
         , SYS_ID VARCHAR2(300)
         , LOCKD_DTTM DATE
         , VER_NBR NUMBER(8) default 0 NOT NULL
+    
     , CONSTRAINT KREN_NTFCTN_MSG_DELIV_TC0 UNIQUE (NTFCTN_ID, RECIP_ID)
+
 )
 /
+
 ALTER TABLE KREN_NTFCTN_MSG_DELIV_T
     ADD CONSTRAINT KREN_NTFCTN_MSG_DELIV_TP1
 PRIMARY KEY (NTFCTN_MSG_DELIV_ID)
 /
+
+
 CREATE INDEX KREN_MSG_DELIVSI1 
   ON KREN_NTFCTN_MSG_DELIV_T 
   (NTFCTN_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREN_NTFCTN_T
 -----------------------------------------------------------------------------
@@ -242,6 +302,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREN_NTFCTN_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREN_NTFCTN_T
 (
       NTFCTN_ID NUMBER(8)
@@ -258,12 +319,17 @@ CREATE TABLE KREN_NTFCTN_T
         , PROCESSING_FLAG VARCHAR2(15) NOT NULL
         , LOCKD_DTTM DATE
         , VER_NBR NUMBER(8) default 0 NOT NULL
+    
+
 )
 /
+
 ALTER TABLE KREN_NTFCTN_T
     ADD CONSTRAINT KREN_NTFCTN_TP1
 PRIMARY KEY (NTFCTN_ID)
 /
+
+
 CREATE INDEX KREN_NTFCTN_I1 
   ON KREN_NTFCTN_T 
   (CNTNT_TYP_ID)
@@ -276,6 +342,11 @@ CREATE INDEX KREN_NTFCTN_I3
   ON KREN_NTFCTN_T 
   (PRODCR_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREN_PRIO_T
 -----------------------------------------------------------------------------
@@ -285,6 +356,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREN_PRIO_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREN_PRIO_T
 (
       PRIO_ID NUMBER(8)
@@ -292,13 +364,23 @@ CREATE TABLE KREN_PRIO_T
         , DESC_TXT VARCHAR2(500) NOT NULL
         , PRIO_ORD NUMBER(4) NOT NULL
         , VER_NBR NUMBER(8) default 1 NOT NULL
+    
     , CONSTRAINT KREN_PRIO_TC0 UNIQUE (NM)
+
 )
 /
+
 ALTER TABLE KREN_PRIO_T
     ADD CONSTRAINT KREN_PRIO_TP1
 PRIMARY KEY (PRIO_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREN_PRODCR_T
 -----------------------------------------------------------------------------
@@ -308,6 +390,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREN_PRODCR_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREN_PRODCR_T
 (
       PRODCR_ID NUMBER(8)
@@ -315,13 +398,23 @@ CREATE TABLE KREN_PRODCR_T
         , DESC_TXT VARCHAR2(1000) NOT NULL
         , CNTCT_INFO VARCHAR2(1000) NOT NULL
         , VER_NBR NUMBER(8) default 1 NOT NULL
+    
     , CONSTRAINT KREN_PRODCR_TC0 UNIQUE (NM)
+
 )
 /
+
 ALTER TABLE KREN_PRODCR_T
     ADD CONSTRAINT KREN_PRODCR_TP1
 PRIMARY KEY (PRODCR_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREN_RECIP_DELIV_T
 -----------------------------------------------------------------------------
@@ -331,6 +424,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREN_RECIP_DELIV_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREN_RECIP_DELIV_T
 (
       RECIP_DELIV_ID NUMBER(8)
@@ -338,12 +432,22 @@ CREATE TABLE KREN_RECIP_DELIV_T
         , CHNL VARCHAR2(300) NOT NULL
         , NM VARCHAR2(200) NOT NULL
         , VER_NBR NUMBER(8) default 0 NOT NULL
+    
+
 )
 /
+
 ALTER TABLE KREN_RECIP_DELIV_T
     ADD CONSTRAINT KREN_RECIP_DELIV_TP1
 PRIMARY KEY (RECIP_DELIV_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREN_RECIP_LIST_T
 -----------------------------------------------------------------------------
@@ -353,23 +457,34 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREN_RECIP_LIST_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREN_RECIP_LIST_T
 (
       RECIP_LIST_ID NUMBER(8)
         , CHNL_ID NUMBER(8) NOT NULL
         , RECIP_TYP_CD VARCHAR2(10) NOT NULL
         , RECIP_ID VARCHAR2(40) NOT NULL
+    
     , CONSTRAINT KREN_RECIP_LIST_TC0 UNIQUE (CHNL_ID, RECIP_TYP_CD, RECIP_ID)
+
 )
 /
+
 ALTER TABLE KREN_RECIP_LIST_T
     ADD CONSTRAINT KREN_RECIP_LIST_TP1
 PRIMARY KEY (RECIP_LIST_ID)
 /
+
+
 CREATE INDEX KREN_RECIP_LIST_TI1 
   ON KREN_RECIP_LIST_T 
   (CHNL_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREN_RECIP_PREFS_T
 -----------------------------------------------------------------------------
@@ -379,6 +494,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREN_RECIP_PREFS_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREN_RECIP_PREFS_T
 (
       RECIP_PREFS_ID NUMBER(8)
@@ -386,13 +502,23 @@ CREATE TABLE KREN_RECIP_PREFS_T
         , PROP VARCHAR2(200) NOT NULL
         , VAL VARCHAR2(1000) NOT NULL
         , VER_NBR NUMBER(8) default 0 NOT NULL
+    
     , CONSTRAINT KREN_RECIP_PREFS_TC0 UNIQUE (RECIP_ID, PROP)
+
 )
 /
+
 ALTER TABLE KREN_RECIP_PREFS_T
     ADD CONSTRAINT KREN_RECIP_PREFS_TP1
 PRIMARY KEY (RECIP_PREFS_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREN_RECIP_T
 -----------------------------------------------------------------------------
@@ -402,23 +528,34 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREN_RECIP_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREN_RECIP_T
 (
       RECIP_ID NUMBER(8)
         , NTFCTN_ID NUMBER(8) NOT NULL
         , RECIP_TYP_CD VARCHAR2(10) NOT NULL
         , PRNCPL_ID VARCHAR2(40) NOT NULL
+    
     , CONSTRAINT KREN_RECIP_TC0 UNIQUE (NTFCTN_ID, RECIP_TYP_CD, PRNCPL_ID)
+
 )
 /
+
 ALTER TABLE KREN_RECIP_T
     ADD CONSTRAINT KREN_RECIP_TP1
 PRIMARY KEY (RECIP_ID)
 /
+
+
 CREATE INDEX KREN_RECIP_TI1 
   ON KREN_RECIP_T 
   (NTFCTN_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREN_RVWER_T
 -----------------------------------------------------------------------------
@@ -428,6 +565,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREN_RVWER_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREN_RVWER_T
 (
       RVWER_ID NUMBER(8)
@@ -435,17 +573,27 @@ CREATE TABLE KREN_RVWER_T
         , TYP VARCHAR2(10) NOT NULL
         , PRNCPL_ID VARCHAR2(40) NOT NULL
         , VER_NBR NUMBER(8) default 1 NOT NULL
+    
     , CONSTRAINT KREN_RVWER_TC0 UNIQUE (CHNL_ID, TYP, PRNCPL_ID)
+
 )
 /
+
 ALTER TABLE KREN_RVWER_T
     ADD CONSTRAINT KREN_RVWER_TP1
 PRIMARY KEY (RVWER_ID)
 /
+
+
 CREATE INDEX KREN_RVWER_TI1 
   ON KREN_RVWER_T 
   (CHNL_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREN_SNDR_T
 -----------------------------------------------------------------------------
@@ -455,22 +603,33 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREN_SNDR_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREN_SNDR_T
 (
       SNDR_ID NUMBER(8)
         , NTFCTN_ID NUMBER(8) NOT NULL
         , NM VARCHAR2(200) NOT NULL
+    
     , CONSTRAINT KREN_SNDR_TC0 UNIQUE (NTFCTN_ID, NM)
+
 )
 /
+
 ALTER TABLE KREN_SNDR_T
     ADD CONSTRAINT KREN_SNDR_TP1
 PRIMARY KEY (SNDR_ID)
 /
+
+
 CREATE INDEX KREN_SNDR_TI1 
   ON KREN_SNDR_T 
   (NTFCTN_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_ACTN_ITM_T
 -----------------------------------------------------------------------------
@@ -480,6 +639,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_ACTN_ITM_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_ACTN_ITM_T
 (
       ACTN_ITM_ID NUMBER(14)
@@ -501,12 +661,17 @@ CREATE TABLE KREW_ACTN_ITM_T
         , GRP_ID VARCHAR2(40)
         , DLGN_GRP_ID VARCHAR2(40)
         , RQST_LBL VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KREW_ACTN_ITM_T
     ADD CONSTRAINT KREW_ACTN_ITM_TP1
 PRIMARY KEY (ACTN_ITM_ID)
 /
+
+
 CREATE INDEX KREW_ACTN_ITM_T1 
   ON KREW_ACTN_ITM_T 
   (PRNCPL_ID)
@@ -523,6 +688,11 @@ CREATE INDEX KREW_ACTN_ITM_TI5
   ON KREW_ACTN_ITM_T 
   (PRNCPL_ID, DLGN_TYP, DOC_HDR_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_ACTN_RQST_T
 -----------------------------------------------------------------------------
@@ -532,6 +702,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_ACTN_RQST_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_ACTN_RQST_T
 (
       ACTN_RQST_ID NUMBER(14)
@@ -562,12 +733,17 @@ CREATE TABLE KREW_ACTN_RQST_T
         , VER_NBR NUMBER(8) default 0
         , GRP_ID VARCHAR2(40)
         , RQST_LBL VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KREW_ACTN_RQST_T
     ADD CONSTRAINT KREW_ACTN_RQST_TP1
 PRIMARY KEY (ACTN_RQST_ID)
 /
+
+
 CREATE INDEX KREW_ACTN_RQST_T11 
   ON KREW_ACTN_RQST_T 
   (DOC_HDR_ID)
@@ -600,6 +776,11 @@ CREATE INDEX KREW_ACTN_RQST_T19
   ON KREW_ACTN_RQST_T 
   (STAT_CD, DOC_HDR_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_ACTN_TKN_T
 -----------------------------------------------------------------------------
@@ -609,6 +790,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_ACTN_TKN_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_ACTN_TKN_T
 (
       ACTN_TKN_ID NUMBER(14)
@@ -622,12 +804,17 @@ CREATE TABLE KREW_ACTN_TKN_T
         , CUR_IND NUMBER(1) default 1
         , VER_NBR NUMBER(8) default 0
         , DLGTR_GRP_ID VARCHAR2(40)
+    
+
 )
 /
+
 ALTER TABLE KREW_ACTN_TKN_T
     ADD CONSTRAINT KREW_ACTN_TKN_TP1
 PRIMARY KEY (ACTN_TKN_ID)
 /
+
+
 CREATE INDEX KREW_ACTN_TKN_TI1 
   ON KREW_ACTN_TKN_T 
   (DOC_HDR_ID, PRNCPL_ID)
@@ -648,6 +835,11 @@ CREATE INDEX KREW_ACTN_TKN_TI5
   ON KREW_ACTN_TKN_T 
   (DOC_HDR_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_ATT_T
 -----------------------------------------------------------------------------
@@ -657,6 +849,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_ATT_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_ATT_T
 (
       ATTACHMENT_ID NUMBER(19)
@@ -665,12 +858,22 @@ CREATE TABLE KREW_ATT_T
         , FILE_LOC VARCHAR2(255) NOT NULL
         , MIME_TYP VARCHAR2(255) NOT NULL
         , VER_NBR NUMBER(8) default 0
+    
+
 )
 /
+
 ALTER TABLE KREW_ATT_T
     ADD CONSTRAINT KREW_ATT_TP1
 PRIMARY KEY (ATTACHMENT_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_DLGN_RSP_T
 -----------------------------------------------------------------------------
@@ -680,6 +883,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_DLGN_RSP_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_DLGN_RSP_T
 (
       DLGN_RULE_ID NUMBER(19)
@@ -688,13 +892,23 @@ CREATE TABLE KREW_DLGN_RSP_T
         , DLGN_TYP VARCHAR2(20) NOT NULL
         , VER_NBR NUMBER(8) default 0
         , OBJ_ID VARCHAR2(36) NOT NULL
+    
     , CONSTRAINT KREW_DLGN_RSP_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KREW_DLGN_RSP_T
     ADD CONSTRAINT KREW_DLGN_RSP_TP1
 PRIMARY KEY (DLGN_RULE_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_DOC_HDR_CNTNT_T
 -----------------------------------------------------------------------------
@@ -704,16 +918,27 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_DOC_HDR_CNTNT_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_DOC_HDR_CNTNT_T
 (
       DOC_HDR_ID NUMBER(14)
         , DOC_CNTNT_TXT CLOB
+    
+
 )
 /
+
 ALTER TABLE KREW_DOC_HDR_CNTNT_T
     ADD CONSTRAINT KREW_DOC_HDR_CNTNT_TP1
 PRIMARY KEY (DOC_HDR_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_DOC_HDR_EXT_DT_T
 -----------------------------------------------------------------------------
@@ -723,18 +948,24 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_DOC_HDR_EXT_DT_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_DOC_HDR_EXT_DT_T
 (
       DOC_HDR_EXT_DT_ID NUMBER(19)
         , DOC_HDR_ID NUMBER(14) NOT NULL
         , KEY_CD VARCHAR2(256) NOT NULL
         , VAL DATE
+    
+
 )
 /
+
 ALTER TABLE KREW_DOC_HDR_EXT_DT_T
     ADD CONSTRAINT KREW_DOC_HDR_EXT_DT_TP1
 PRIMARY KEY (DOC_HDR_EXT_DT_ID)
 /
+
+
 CREATE INDEX KREW_DOC_HDR_EXT_DT_TI1 
   ON KREW_DOC_HDR_EXT_DT_T 
   (KEY_CD, VAL)
@@ -747,6 +978,11 @@ CREATE INDEX KREW_DOC_HDR_EXT_DT_TI3
   ON KREW_DOC_HDR_EXT_DT_T 
   (VAL)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_DOC_HDR_EXT_FLT_T
 -----------------------------------------------------------------------------
@@ -756,18 +992,24 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_DOC_HDR_EXT_FLT_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_DOC_HDR_EXT_FLT_T
 (
       DOC_HDR_EXT_FLT_ID NUMBER(19)
         , DOC_HDR_ID NUMBER(14) NOT NULL
         , KEY_CD VARCHAR2(256) NOT NULL
         , VAL NUMBER(30,15)
+    
+
 )
 /
+
 ALTER TABLE KREW_DOC_HDR_EXT_FLT_T
     ADD CONSTRAINT KREW_DOC_HDR_EXT_FLT_TP1
 PRIMARY KEY (DOC_HDR_EXT_FLT_ID)
 /
+
+
 CREATE INDEX KREW_DOC_HDR_EXT_FLT_TI1 
   ON KREW_DOC_HDR_EXT_FLT_T 
   (KEY_CD, VAL)
@@ -780,6 +1022,11 @@ CREATE INDEX KREW_DOC_HDR_EXT_FLT_TI3
   ON KREW_DOC_HDR_EXT_FLT_T 
   (VAL)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_DOC_HDR_EXT_LONG_T
 -----------------------------------------------------------------------------
@@ -789,18 +1036,24 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_DOC_HDR_EXT_LONG_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_DOC_HDR_EXT_LONG_T
 (
       DOC_HDR_EXT_LONG_ID NUMBER(19)
         , DOC_HDR_ID NUMBER(14) NOT NULL
         , KEY_CD VARCHAR2(256) NOT NULL
         , VAL NUMBER(22)
+    
+
 )
 /
+
 ALTER TABLE KREW_DOC_HDR_EXT_LONG_T
     ADD CONSTRAINT KREW_DOC_HDR_EXT_LONG_TP1
 PRIMARY KEY (DOC_HDR_EXT_LONG_ID)
 /
+
+
 CREATE INDEX KREW_DOC_HDR_EXT_LONG_TI1 
   ON KREW_DOC_HDR_EXT_LONG_T 
   (KEY_CD, VAL)
@@ -813,6 +1066,11 @@ CREATE INDEX KREW_DOC_HDR_EXT_LONG_TI3
   ON KREW_DOC_HDR_EXT_LONG_T 
   (VAL)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_DOC_HDR_EXT_T
 -----------------------------------------------------------------------------
@@ -822,18 +1080,24 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_DOC_HDR_EXT_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_DOC_HDR_EXT_T
 (
       DOC_HDR_EXT_ID NUMBER(19)
         , DOC_HDR_ID NUMBER(14) NOT NULL
         , KEY_CD VARCHAR2(256) NOT NULL
         , VAL VARCHAR2(2000)
+    
+
 )
 /
+
 ALTER TABLE KREW_DOC_HDR_EXT_T
     ADD CONSTRAINT KREW_DOC_HDR_EXT_TP1
 PRIMARY KEY (DOC_HDR_EXT_ID)
 /
+
+
 CREATE INDEX KREW_DOC_HDR_EXT_TI1 
   ON KREW_DOC_HDR_EXT_T 
   (KEY_CD, VAL)
@@ -846,6 +1110,11 @@ CREATE INDEX KREW_DOC_HDR_EXT_TI3
   ON KREW_DOC_HDR_EXT_T 
   (VAL)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_DOC_HDR_T
 -----------------------------------------------------------------------------
@@ -855,6 +1124,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_DOC_HDR_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_DOC_HDR_T
 (
       DOC_HDR_ID NUMBER(14)
@@ -875,13 +1145,18 @@ CREATE TABLE KREW_DOC_HDR_T
         , RTE_PRNCPL_ID VARCHAR2(40)
         , DTYPE VARCHAR2(50)
         , OBJ_ID VARCHAR2(36) NOT NULL
+    
     , CONSTRAINT KREW_DOC_HDR_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KREW_DOC_HDR_T
     ADD CONSTRAINT KREW_DOC_HDR_TP1
 PRIMARY KEY (DOC_HDR_ID)
 /
+
+
 CREATE INDEX KREW_DOC_HDR_TI1 
   ON KREW_DOC_HDR_T 
   (DOC_TYP_ID)
@@ -918,6 +1193,11 @@ CREATE INDEX KREW_DOC_HDR_TI9
   ON KREW_DOC_HDR_T 
   (APP_DOC_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_DOC_NTE_T
 -----------------------------------------------------------------------------
@@ -927,6 +1207,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_DOC_NTE_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_DOC_NTE_T
 (
       DOC_NTE_ID NUMBER(19)
@@ -935,16 +1216,26 @@ CREATE TABLE KREW_DOC_NTE_T
         , CRT_DT DATE NOT NULL
         , TXT VARCHAR2(4000)
         , VER_NBR NUMBER(8) default 0
+    
+
 )
 /
+
 ALTER TABLE KREW_DOC_NTE_T
     ADD CONSTRAINT KREW_DOC_NTE_TP1
 PRIMARY KEY (DOC_NTE_ID)
 /
+
+
 CREATE INDEX KREW_DOC_NTE_TI1 
   ON KREW_DOC_NTE_T 
   (DOC_HDR_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_DOC_TYP_ATTR_T
 -----------------------------------------------------------------------------
@@ -954,22 +1245,33 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_DOC_TYP_ATTR_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_DOC_TYP_ATTR_T
 (
       DOC_TYP_ATTRIB_ID NUMBER(19)
         , DOC_TYP_ID NUMBER(19) NOT NULL
         , RULE_ATTR_ID NUMBER(19) NOT NULL
         , ORD_INDX NUMBER(4) default 0
+    
+
 )
 /
+
 ALTER TABLE KREW_DOC_TYP_ATTR_T
     ADD CONSTRAINT KREW_DOC_TYP_ATTR_TP1
 PRIMARY KEY (DOC_TYP_ATTRIB_ID)
 /
+
+
 CREATE INDEX KREW_DOC_TYP_ATTR_TI1 
   ON KREW_DOC_TYP_ATTR_T 
   (DOC_TYP_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_DOC_TYP_PLCY_RELN_T
 -----------------------------------------------------------------------------
@@ -979,6 +1281,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_DOC_TYP_PLCY_RELN_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_DOC_TYP_PLCY_RELN_T
 (
       DOC_TYP_ID NUMBER(19)
@@ -986,13 +1289,23 @@ CREATE TABLE KREW_DOC_TYP_PLCY_RELN_T
         , PLCY_NM NUMBER(1) NOT NULL
         , VER_NBR NUMBER(8) default 0
         , OBJ_ID VARCHAR2(36) NOT NULL
+    
     , CONSTRAINT KREW_DOC_TYP_PLCY_RELN_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KREW_DOC_TYP_PLCY_RELN_T
     ADD CONSTRAINT KREW_DOC_TYP_PLCY_RELN_TP1
 PRIMARY KEY (DOC_TYP_ID,DOC_PLCY_NM)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_DOC_TYP_PROC_T
 -----------------------------------------------------------------------------
@@ -1002,6 +1315,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_DOC_TYP_PROC_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_DOC_TYP_PROC_T
 (
       DOC_TYP_PROC_ID NUMBER(19)
@@ -1010,12 +1324,17 @@ CREATE TABLE KREW_DOC_TYP_PROC_T
         , NM VARCHAR2(255) NOT NULL
         , INIT_IND NUMBER(1) default 0 NOT NULL
         , VER_NBR NUMBER(8) default 0
+    
+
 )
 /
+
 ALTER TABLE KREW_DOC_TYP_PROC_T
     ADD CONSTRAINT KREW_DOC_TYP_PROC_TP1
 PRIMARY KEY (DOC_TYP_PROC_ID)
 /
+
+
 CREATE INDEX KREW_DOC_TYP_PROC_TI1 
   ON KREW_DOC_TYP_PROC_T 
   (DOC_TYP_ID)
@@ -1028,6 +1347,11 @@ CREATE INDEX KREW_DOC_TYP_PROC_TI3
   ON KREW_DOC_TYP_PROC_T 
   (NM)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_DOC_TYP_T
 -----------------------------------------------------------------------------
@@ -1037,6 +1361,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_DOC_TYP_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_DOC_TYP_T
 (
       DOC_TYP_ID NUMBER(19)
@@ -1068,14 +1393,19 @@ CREATE TABLE KREW_DOC_TYP_T
         , GRP_ID VARCHAR2(40)
         , HELP_DEF_URL VARCHAR2(4000)
         , OBJ_ID VARCHAR2(36) NOT NULL
+    
     , CONSTRAINT KREW_DOC_TYP_TC0 UNIQUE (OBJ_ID)
     , CONSTRAINT KREW_DOC_TYP_TI1 UNIQUE (DOC_TYP_NM, DOC_TYP_VER_NBR)
+
 )
 /
+
 ALTER TABLE KREW_DOC_TYP_T
     ADD CONSTRAINT KREW_DOC_TYP_TP1
 PRIMARY KEY (DOC_TYP_ID)
 /
+
+
 CREATE INDEX KREW_DOC_TYP_TI2 
   ON KREW_DOC_TYP_T 
   (PARNT_ID)
@@ -1096,6 +1426,11 @@ CREATE INDEX KREW_DOC_TYP_TI6
   ON KREW_DOC_TYP_T 
   (DOC_TYP_NM)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_EDL_ASSCTN_T
 -----------------------------------------------------------------------------
@@ -1105,6 +1440,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_EDL_ASSCTN_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_EDL_ASSCTN_T
 (
       EDOCLT_ASSOC_ID NUMBER(19)
@@ -1114,13 +1450,23 @@ CREATE TABLE KREW_EDL_ASSCTN_T
         , ACTV_IND NUMBER(1) NOT NULL
         , VER_NBR NUMBER(8) default 0
         , OBJ_ID VARCHAR2(36) NOT NULL
+    
     , CONSTRAINT KREW_EDL_ASSCTN_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KREW_EDL_ASSCTN_T
     ADD CONSTRAINT KREW_EDL_ASSCTN_TP1
 PRIMARY KEY (EDOCLT_ASSOC_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_EDL_DEF_T
 -----------------------------------------------------------------------------
@@ -1130,6 +1476,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_EDL_DEF_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_EDL_DEF_T
 (
       EDOCLT_DEF_ID NUMBER(19)
@@ -1138,13 +1485,23 @@ CREATE TABLE KREW_EDL_DEF_T
         , ACTV_IND NUMBER(1) NOT NULL
         , VER_NBR NUMBER(8) default 0
         , OBJ_ID VARCHAR2(36) NOT NULL
+    
     , CONSTRAINT KREW_EDL_DEF_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KREW_EDL_DEF_T
     ADD CONSTRAINT KREW_EDL_DEF_TP1
 PRIMARY KEY (EDOCLT_DEF_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_EDL_DMP_T
 -----------------------------------------------------------------------------
@@ -1154,6 +1511,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_EDL_DMP_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_EDL_DMP_T
 (
       DOC_HDR_ID NUMBER(14)
@@ -1165,16 +1523,26 @@ CREATE TABLE KREW_EDL_DMP_T
         , DOC_HDR_INITR_PRNCPL_ID VARCHAR2(40) NOT NULL
         , CRNT_NODE_NM VARCHAR2(30) NOT NULL
         , VER_NBR NUMBER(8) default 0
+    
+
 )
 /
+
 ALTER TABLE KREW_EDL_DMP_T
     ADD CONSTRAINT KREW_EDL_DMP_TP1
 PRIMARY KEY (DOC_HDR_ID)
 /
+
+
 CREATE INDEX KREW_EDL_DMP_TI1 
   ON KREW_EDL_DMP_T 
   (DOC_TYP_NM, DOC_HDR_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_EDL_FLD_DMP_T
 -----------------------------------------------------------------------------
@@ -1184,6 +1552,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_EDL_FLD_DMP_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_EDL_FLD_DMP_T
 (
       EDL_FIELD_DMP_ID NUMBER(14)
@@ -1191,12 +1560,22 @@ CREATE TABLE KREW_EDL_FLD_DMP_T
         , FLD_NM VARCHAR2(255) NOT NULL
         , FLD_VAL VARCHAR2(4000)
         , VER_NBR NUMBER(8) default 0
+    
+
 )
 /
+
 ALTER TABLE KREW_EDL_FLD_DMP_T
     ADD CONSTRAINT KREW_EDL_FLD_DMP_TP1
 PRIMARY KEY (EDL_FIELD_DMP_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_HLP_T
 -----------------------------------------------------------------------------
@@ -1206,6 +1585,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_HLP_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_HLP_T
 (
       HLP_ID NUMBER(19)
@@ -1213,16 +1593,26 @@ CREATE TABLE KREW_HLP_T
         , KEY_CD VARCHAR2(500) NOT NULL
         , HLP_TXT VARCHAR2(4000) NOT NULL
         , VER_NBR NUMBER(8) default 0
+    
+
 )
 /
+
 ALTER TABLE KREW_HLP_T
     ADD CONSTRAINT KREW_HLP_TP1
 PRIMARY KEY (HLP_ID)
 /
+
+
 CREATE INDEX KREW_HLP_TI1 
   ON KREW_HLP_T 
   (KEY_CD)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_INIT_RTE_NODE_INSTN_T
 -----------------------------------------------------------------------------
@@ -1232,16 +1622,22 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_INIT_RTE_NODE_INSTN_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_INIT_RTE_NODE_INSTN_T
 (
       DOC_HDR_ID NUMBER(19)
         , RTE_NODE_INSTN_ID NUMBER(19)
+    
+
 )
 /
+
 ALTER TABLE KREW_INIT_RTE_NODE_INSTN_T
     ADD CONSTRAINT KREW_INIT_RTE_NODE_INSTN_TP1
 PRIMARY KEY (DOC_HDR_ID,RTE_NODE_INSTN_ID)
 /
+
+
 CREATE INDEX KREW_INIT_RTE_NODE_INSTN_TI1 
   ON KREW_INIT_RTE_NODE_INSTN_T 
   (DOC_HDR_ID)
@@ -1250,6 +1646,11 @@ CREATE INDEX KREW_INIT_RTE_NODE_INSTN_TI2
   ON KREW_INIT_RTE_NODE_INSTN_T 
   (RTE_NODE_INSTN_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_OUT_BOX_ITM_T
 -----------------------------------------------------------------------------
@@ -1259,6 +1660,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_OUT_BOX_ITM_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_OUT_BOX_ITM_T
 (
       ACTN_ITM_ID NUMBER(14)
@@ -1279,12 +1681,17 @@ CREATE TABLE KREW_OUT_BOX_ITM_T
         , GRP_ID VARCHAR2(40)
         , DLGN_GRP_ID VARCHAR2(40)
         , RQST_LBL VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KREW_OUT_BOX_ITM_T
     ADD CONSTRAINT KREW_OUT_BOX_ITM_TP1
 PRIMARY KEY (ACTN_ITM_ID)
 /
+
+
 CREATE INDEX KREW_OUT_BOX_ITM_TI1 
   ON KREW_OUT_BOX_ITM_T 
   (PRNCPL_ID)
@@ -1297,6 +1704,11 @@ CREATE INDEX KREW_OUT_BOX_ITM_TI3
   ON KREW_OUT_BOX_ITM_T 
   (ACTN_RQST_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_RMV_RPLC_DOC_T
 -----------------------------------------------------------------------------
@@ -1306,6 +1718,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_RMV_RPLC_DOC_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_RMV_RPLC_DOC_T
 (
       DOC_HDR_ID NUMBER(14)
@@ -1313,12 +1726,22 @@ CREATE TABLE KREW_RMV_RPLC_DOC_T
         , PRNCPL_ID VARCHAR2(40) NOT NULL
         , RPLC_PRNCPL_ID VARCHAR2(40)
         , VER_NBR NUMBER(8) default 0
+    
+
 )
 /
+
 ALTER TABLE KREW_RMV_RPLC_DOC_T
     ADD CONSTRAINT KREW_RMV_RPLC_DOC_TP1
 PRIMARY KEY (DOC_HDR_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_RMV_RPLC_GRP_T
 -----------------------------------------------------------------------------
@@ -1328,16 +1751,27 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_RMV_RPLC_GRP_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_RMV_RPLC_GRP_T
 (
       DOC_HDR_ID NUMBER(14)
         , GRP_ID NUMBER(14)
+    
+
 )
 /
+
 ALTER TABLE KREW_RMV_RPLC_GRP_T
     ADD CONSTRAINT KREW_RMV_RPLC_GRP_TP1
 PRIMARY KEY (DOC_HDR_ID,GRP_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_RMV_RPLC_RULE_T
 -----------------------------------------------------------------------------
@@ -1347,16 +1781,27 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_RMV_RPLC_RULE_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_RMV_RPLC_RULE_T
 (
       DOC_HDR_ID NUMBER(14)
         , RULE_ID NUMBER(19)
+    
+
 )
 /
+
 ALTER TABLE KREW_RMV_RPLC_RULE_T
     ADD CONSTRAINT KREW_RMV_RPLC_RULE_TP1
 PRIMARY KEY (DOC_HDR_ID,RULE_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_RTE_BRCH_PROTO_T
 -----------------------------------------------------------------------------
@@ -1366,21 +1811,32 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_RTE_BRCH_PROTO_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_RTE_BRCH_PROTO_T
 (
       RTE_BRCH_PROTO_ID NUMBER(19)
         , BRCH_NM VARCHAR2(255) NOT NULL
         , VER_NBR NUMBER(8) default 0
+    
+
 )
 /
+
 ALTER TABLE KREW_RTE_BRCH_PROTO_T
     ADD CONSTRAINT KREW_RTE_BRCH_PROTO_TP1
 PRIMARY KEY (RTE_BRCH_PROTO_ID)
 /
+
+
 CREATE INDEX KREW_RTE_BRCH_PROTO_TI1 
   ON KREW_RTE_BRCH_PROTO_T 
   (BRCH_NM)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_RTE_BRCH_ST_T
 -----------------------------------------------------------------------------
@@ -1390,6 +1846,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_RTE_BRCH_ST_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_RTE_BRCH_ST_T
 (
       RTE_BRCH_ST_ID NUMBER(19)
@@ -1397,12 +1854,17 @@ CREATE TABLE KREW_RTE_BRCH_ST_T
         , KEY_CD VARCHAR2(255) NOT NULL
         , VAL VARCHAR2(2000)
         , VER_NBR NUMBER(8) default 0
+    
+
 )
 /
+
 ALTER TABLE KREW_RTE_BRCH_ST_T
     ADD CONSTRAINT KREW_RTE_BRCH_ST_TP1
 PRIMARY KEY (RTE_BRCH_ST_ID)
 /
+
+
 CREATE INDEX KREW_RTE_BRCH_ST_TI1 
   ON KREW_RTE_BRCH_ST_T 
   (RTE_BRCH_ID, KEY_CD)
@@ -1415,6 +1877,11 @@ CREATE INDEX KREW_RTE_BRCH_ST_TI3
   ON KREW_RTE_BRCH_ST_T 
   (KEY_CD, VAL)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_RTE_BRCH_T
 -----------------------------------------------------------------------------
@@ -1424,6 +1891,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_RTE_BRCH_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_RTE_BRCH_T
 (
       RTE_BRCH_ID NUMBER(19)
@@ -1433,12 +1901,17 @@ CREATE TABLE KREW_RTE_BRCH_T
         , SPLT_RTE_NODE_INSTN_ID NUMBER(19)
         , JOIN_RTE_NODE_INSTN_ID NUMBER(19)
         , VER_NBR NUMBER(8) default 0
+    
+
 )
 /
+
 ALTER TABLE KREW_RTE_BRCH_T
     ADD CONSTRAINT KREW_RTE_BRCH_TP1
 PRIMARY KEY (RTE_BRCH_ID)
 /
+
+
 CREATE INDEX KREW_RTE_BRCH_TI1 
   ON KREW_RTE_BRCH_T 
   (NM)
@@ -1459,6 +1932,11 @@ CREATE INDEX KREW_RTE_BRCH_TI5
   ON KREW_RTE_BRCH_T 
   (JOIN_RTE_NODE_INSTN_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_RTE_NODE_CFG_PARM_T
 -----------------------------------------------------------------------------
@@ -1468,22 +1946,33 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_RTE_NODE_CFG_PARM_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_RTE_NODE_CFG_PARM_T
 (
       RTE_NODE_CFG_PARM_ID NUMBER(19)
         , RTE_NODE_ID NUMBER(19) NOT NULL
         , KEY_CD VARCHAR2(255) NOT NULL
         , VAL VARCHAR2(4000)
+    
+
 )
 /
+
 ALTER TABLE KREW_RTE_NODE_CFG_PARM_T
     ADD CONSTRAINT KREW_RTE_NODE_CFG_PARM_TP1
 PRIMARY KEY (RTE_NODE_CFG_PARM_ID)
 /
+
+
 CREATE INDEX KREW_RTE_NODE_CFG_PARM_TI1 
   ON KREW_RTE_NODE_CFG_PARM_T 
   (RTE_NODE_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_RTE_NODE_INSTN_LNK_T
 -----------------------------------------------------------------------------
@@ -1493,16 +1982,22 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_RTE_NODE_INSTN_LNK_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_RTE_NODE_INSTN_LNK_T
 (
       FROM_RTE_NODE_INSTN_ID NUMBER(19)
         , TO_RTE_NODE_INSTN_ID NUMBER(19)
+    
+
 )
 /
+
 ALTER TABLE KREW_RTE_NODE_INSTN_LNK_T
     ADD CONSTRAINT KREW_RTE_NODE_INSTN_LNK_TP1
 PRIMARY KEY (FROM_RTE_NODE_INSTN_ID,TO_RTE_NODE_INSTN_ID)
 /
+
+
 CREATE INDEX KREW_RTE_NODE_INSTN_LNK_TI1 
   ON KREW_RTE_NODE_INSTN_LNK_T 
   (FROM_RTE_NODE_INSTN_ID)
@@ -1511,6 +2006,11 @@ CREATE INDEX KREW_RTE_NODE_INSTN_LNK_TI2
   ON KREW_RTE_NODE_INSTN_LNK_T 
   (TO_RTE_NODE_INSTN_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_RTE_NODE_INSTN_ST_T
 -----------------------------------------------------------------------------
@@ -1520,6 +2020,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_RTE_NODE_INSTN_ST_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_RTE_NODE_INSTN_ST_T
 (
       RTE_NODE_INSTN_ST_ID NUMBER(19)
@@ -1527,12 +2028,17 @@ CREATE TABLE KREW_RTE_NODE_INSTN_ST_T
         , KEY_CD VARCHAR2(255) NOT NULL
         , VAL VARCHAR2(2000)
         , VER_NBR NUMBER(8) default 0
+    
+
 )
 /
+
 ALTER TABLE KREW_RTE_NODE_INSTN_ST_T
     ADD CONSTRAINT KREW_RTE_NODE_INSTN_ST_TP1
 PRIMARY KEY (RTE_NODE_INSTN_ST_ID)
 /
+
+
 CREATE INDEX KREW_RTE_NODE_INSTN_ST_TI1 
   ON KREW_RTE_NODE_INSTN_ST_T 
   (RTE_NODE_INSTN_ID, KEY_CD)
@@ -1545,6 +2051,11 @@ CREATE INDEX KREW_RTE_NODE_INSTN_ST_TI3
   ON KREW_RTE_NODE_INSTN_ST_T 
   (KEY_CD, VAL)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_RTE_NODE_INSTN_T
 -----------------------------------------------------------------------------
@@ -1554,6 +2065,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_RTE_NODE_INSTN_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_RTE_NODE_INSTN_T
 (
       RTE_NODE_INSTN_ID NUMBER(19)
@@ -1565,12 +2077,17 @@ CREATE TABLE KREW_RTE_NODE_INSTN_T
         , CMPLT_IND NUMBER(1) default 0 NOT NULL
         , INIT_IND NUMBER(1) default 0 NOT NULL
         , VER_NBR NUMBER(8) default 0
+    
+
 )
 /
+
 ALTER TABLE KREW_RTE_NODE_INSTN_T
     ADD CONSTRAINT KREW_RTE_NODE_INSTN_TP1
 PRIMARY KEY (RTE_NODE_INSTN_ID)
 /
+
+
 CREATE INDEX KREW_RTE_NODE_INSTN_TI1 
   ON KREW_RTE_NODE_INSTN_T 
   (DOC_HDR_ID, ACTV_IND, CMPLT_IND)
@@ -1587,6 +2104,11 @@ CREATE INDEX KREW_RTE_NODE_INSTN_TI4
   ON KREW_RTE_NODE_INSTN_T 
   (PROC_RTE_NODE_INSTN_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_RTE_NODE_LNK_T
 -----------------------------------------------------------------------------
@@ -1596,16 +2118,22 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_RTE_NODE_LNK_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_RTE_NODE_LNK_T
 (
       FROM_RTE_NODE_ID NUMBER(19)
         , TO_RTE_NODE_ID NUMBER(19)
+    
+
 )
 /
+
 ALTER TABLE KREW_RTE_NODE_LNK_T
     ADD CONSTRAINT KREW_RTE_NODE_LNK_TP1
 PRIMARY KEY (FROM_RTE_NODE_ID,TO_RTE_NODE_ID)
 /
+
+
 CREATE INDEX KREW_RTE_NODE_LNK_TI1 
   ON KREW_RTE_NODE_LNK_T 
   (FROM_RTE_NODE_ID)
@@ -1614,6 +2142,11 @@ CREATE INDEX KREW_RTE_NODE_LNK_TI2
   ON KREW_RTE_NODE_LNK_T 
   (TO_RTE_NODE_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_RTE_NODE_T
 -----------------------------------------------------------------------------
@@ -1623,6 +2156,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_RTE_NODE_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_RTE_NODE_T
 (
       RTE_NODE_ID NUMBER(19)
@@ -1638,12 +2172,17 @@ CREATE TABLE KREW_RTE_NODE_T
         , VER_NBR NUMBER(8) default 0
         , CONTENT_FRAGMENT VARCHAR2(4000)
         , GRP_ID VARCHAR2(40)
+    
+
 )
 /
+
 ALTER TABLE KREW_RTE_NODE_T
     ADD CONSTRAINT KREW_RTE_NODE_TP1
 PRIMARY KEY (RTE_NODE_ID)
 /
+
+
 CREATE INDEX KREW_RTE_NODE_TI1 
   ON KREW_RTE_NODE_T 
   (NM, DOC_TYP_ID)
@@ -1660,6 +2199,11 @@ CREATE INDEX KREW_RTE_NODE_TI4
   ON KREW_RTE_NODE_T 
   (DOC_TYP_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_RULE_ATTR_T
 -----------------------------------------------------------------------------
@@ -1669,6 +2213,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_RULE_ATTR_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_RULE_ATTR_T
 (
       RULE_ATTR_ID NUMBER(19)
@@ -1681,13 +2226,23 @@ CREATE TABLE KREW_RULE_ATTR_T
         , VER_NBR NUMBER(8) default 0
         , SVC_NMSPC VARCHAR2(255)
         , OBJ_ID VARCHAR2(36) NOT NULL
+    
     , CONSTRAINT KREW_RULE_ATTR_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KREW_RULE_ATTR_T
     ADD CONSTRAINT KREW_RULE_ATTR_TP1
 PRIMARY KEY (RULE_ATTR_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_RULE_EXPR_T
 -----------------------------------------------------------------------------
@@ -1697,6 +2252,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_RULE_EXPR_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_RULE_EXPR_T
 (
       RULE_EXPR_ID NUMBER(19)
@@ -1704,13 +2260,23 @@ CREATE TABLE KREW_RULE_EXPR_T
         , RULE_EXPR VARCHAR2(4000)
         , OBJ_ID VARCHAR2(36) NOT NULL
         , VER_NBR NUMBER(8) default 0
+    
     , CONSTRAINT KREW_RULE_EXPR_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KREW_RULE_EXPR_T
     ADD CONSTRAINT KREW_RULE_EXPR_TP1
 PRIMARY KEY (RULE_EXPR_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_RULE_EXT_T
 -----------------------------------------------------------------------------
@@ -1720,22 +2286,33 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_RULE_EXT_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_RULE_EXT_T
 (
       RULE_EXT_ID NUMBER(19)
         , RULE_TMPL_ATTR_ID NUMBER(19) NOT NULL
         , RULE_ID NUMBER(19) NOT NULL
         , VER_NBR NUMBER(8) default 0
+    
+
 )
 /
+
 ALTER TABLE KREW_RULE_EXT_T
     ADD CONSTRAINT KREW_RULE_EXT_TP1
 PRIMARY KEY (RULE_EXT_ID)
 /
+
+
 CREATE INDEX KREW_RULE_EXT_T1 
   ON KREW_RULE_EXT_T 
   (RULE_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_RULE_EXT_VAL_T
 -----------------------------------------------------------------------------
@@ -1745,6 +2322,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_RULE_EXT_VAL_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_RULE_EXT_VAL_T
 (
       RULE_EXT_VAL_ID NUMBER(19)
@@ -1752,12 +2330,17 @@ CREATE TABLE KREW_RULE_EXT_VAL_T
         , VAL VARCHAR2(2000) NOT NULL
         , KEY_CD VARCHAR2(2000) NOT NULL
         , VER_NBR NUMBER(8) default 0
+    
+
 )
 /
+
 ALTER TABLE KREW_RULE_EXT_VAL_T
     ADD CONSTRAINT KREW_RULE_EXT_VAL_TP1
 PRIMARY KEY (RULE_EXT_VAL_ID)
 /
+
+
 CREATE INDEX KREW_RULE_EXT_VAL_T1 
   ON KREW_RULE_EXT_VAL_T 
   (RULE_EXT_ID)
@@ -1766,6 +2349,11 @@ CREATE INDEX KREW_RULE_EXT_VAL_T2
   ON KREW_RULE_EXT_VAL_T 
   (RULE_EXT_VAL_ID, KEY_CD)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_RULE_RSP_T
 -----------------------------------------------------------------------------
@@ -1775,6 +2363,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_RULE_RSP_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_RULE_RSP_T
 (
       RULE_RSP_ID NUMBER(19)
@@ -1787,17 +2376,27 @@ CREATE TABLE KREW_RULE_RSP_T
         , APPR_PLCY CHAR(1)
         , VER_NBR NUMBER(8) default 0
         , OBJ_ID VARCHAR2(36) NOT NULL
+    
     , CONSTRAINT KREW_RULE_RSP_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KREW_RULE_RSP_T
     ADD CONSTRAINT KREW_RULE_RSP_TP1
 PRIMARY KEY (RULE_RSP_ID)
 /
+
+
 CREATE INDEX KREW_RULE_RSP_TI1 
   ON KREW_RULE_RSP_T 
   (RULE_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_RULE_T
 -----------------------------------------------------------------------------
@@ -1807,6 +2406,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_RULE_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_RULE_T
 (
       RULE_ID NUMBER(19)
@@ -1829,13 +2429,23 @@ CREATE TABLE KREW_RULE_T
         , ACTVN_DT DATE
         , VER_NBR NUMBER(8) default 0
         , OBJ_ID VARCHAR2(36) NOT NULL
+    
     , CONSTRAINT KREW_RULE_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KREW_RULE_T
     ADD CONSTRAINT KREW_RULE_TP1
 PRIMARY KEY (RULE_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_RULE_TMPL_ATTR_T
 -----------------------------------------------------------------------------
@@ -1845,6 +2455,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_RULE_TMPL_ATTR_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_RULE_TMPL_ATTR_T
 (
       RULE_TMPL_ATTR_ID NUMBER(19)
@@ -1856,13 +2467,18 @@ CREATE TABLE KREW_RULE_TMPL_ATTR_T
         , DFLT_VAL VARCHAR2(2000)
         , VER_NBR NUMBER(8) default 0
         , OBJ_ID VARCHAR2(36) NOT NULL
+    
     , CONSTRAINT KREW_RULE_TMPL_ATTR_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KREW_RULE_TMPL_ATTR_T
     ADD CONSTRAINT KREW_RULE_TMPL_ATTR_TP1
 PRIMARY KEY (RULE_TMPL_ATTR_ID)
 /
+
+
 CREATE INDEX KREW_RULE_TMPL_ATTR_TI1 
   ON KREW_RULE_TMPL_ATTR_T 
   (RULE_TMPL_ID)
@@ -1871,6 +2487,11 @@ CREATE INDEX KREW_RULE_TMPL_ATTR_TI2
   ON KREW_RULE_TMPL_ATTR_T 
   (RULE_ATTR_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_RULE_TMPL_OPTN_T
 -----------------------------------------------------------------------------
@@ -1880,6 +2501,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_RULE_TMPL_OPTN_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_RULE_TMPL_OPTN_T
 (
       RULE_TMPL_OPTN_ID NUMBER(19)
@@ -1887,12 +2509,22 @@ CREATE TABLE KREW_RULE_TMPL_OPTN_T
         , KEY_CD VARCHAR2(250)
         , VAL VARCHAR2(2000)
         , VER_NBR NUMBER(8) default 0
+    
+
 )
 /
+
 ALTER TABLE KREW_RULE_TMPL_OPTN_T
     ADD CONSTRAINT KREW_RULE_TMPL_OPTN_TP1
 PRIMARY KEY (RULE_TMPL_OPTN_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_RULE_TMPL_T
 -----------------------------------------------------------------------------
@@ -1902,6 +2534,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_RULE_TMPL_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_RULE_TMPL_T
 (
       RULE_TMPL_ID NUMBER(19)
@@ -1910,14 +2543,24 @@ CREATE TABLE KREW_RULE_TMPL_T
         , DLGN_RULE_TMPL_ID NUMBER(19)
         , VER_NBR NUMBER(8) default 0
         , OBJ_ID VARCHAR2(36) NOT NULL
+    
     , CONSTRAINT KREW_RULE_TMPL_TC0 UNIQUE (OBJ_ID)
     , CONSTRAINT KREW_RULE_TMPL_TI1 UNIQUE (NM)
+
 )
 /
+
 ALTER TABLE KREW_RULE_TMPL_T
     ADD CONSTRAINT KREW_RULE_TMPL_TP1
 PRIMARY KEY (RULE_TMPL_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_STYLE_T
 -----------------------------------------------------------------------------
@@ -1927,6 +2570,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_STYLE_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_STYLE_T
 (
       STYLE_ID NUMBER(19)
@@ -1935,13 +2579,23 @@ CREATE TABLE KREW_STYLE_T
         , ACTV_IND NUMBER(1) NOT NULL
         , VER_NBR NUMBER(8) default 0
         , OBJ_ID VARCHAR2(36) NOT NULL
+    
     , CONSTRAINT KREW_STYLE_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KREW_STYLE_T
     ADD CONSTRAINT KREW_STYLE_TP1
 PRIMARY KEY (STYLE_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KREW_USR_OPTN_T
 -----------------------------------------------------------------------------
@@ -1951,22 +2605,33 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KREW_USR_OPTN_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KREW_USR_OPTN_T
 (
       PRNCPL_ID VARCHAR2(40)
         , PRSN_OPTN_ID VARCHAR2(200)
         , VAL VARCHAR2(2000)
         , VER_NBR NUMBER(8) default 0
+    
+
 )
 /
+
 ALTER TABLE KREW_USR_OPTN_T
     ADD CONSTRAINT KREW_USR_OPTN_TP1
 PRIMARY KEY (PRNCPL_ID,PRSN_OPTN_ID)
 /
+
+
 CREATE INDEX KREW_USR_OPTN_TI1 
   ON KREW_USR_OPTN_T 
   (PRNCPL_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_ADDR_TYP_T
 -----------------------------------------------------------------------------
@@ -1976,6 +2641,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_ADDR_TYP_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_ADDR_TYP_T
 (
       ADDR_TYP_CD VARCHAR2(40)
@@ -1985,14 +2651,24 @@ CREATE TABLE KRIM_ADDR_TYP_T
         , ACTV_IND VARCHAR2(1) default 'Y'
         , DISPLAY_SORT_CD VARCHAR2(2)
         , LAST_UPDT_DT DATE default SYSDATE
+    
     , CONSTRAINT KRIM_ADDR_TYP_TC0 UNIQUE (OBJ_ID)
     , CONSTRAINT KRIM_ADDR_TYP_TC1 UNIQUE (NM)
+
 )
 /
+
 ALTER TABLE KRIM_ADDR_TYP_T
     ADD CONSTRAINT KRIM_ADDR_TYP_TP1
 PRIMARY KEY (ADDR_TYP_CD)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_AFLTN_TYP_T
 -----------------------------------------------------------------------------
@@ -2002,6 +2678,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_AFLTN_TYP_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_AFLTN_TYP_T
 (
       AFLTN_TYP_CD VARCHAR2(40)
@@ -2012,14 +2689,24 @@ CREATE TABLE KRIM_AFLTN_TYP_T
         , ACTV_IND VARCHAR2(1) default 'Y'
         , DISPLAY_SORT_CD VARCHAR2(2)
         , LAST_UPDT_DT DATE default SYSDATE
+    
     , CONSTRAINT KRIM_AFLTN_TYP_TC0 UNIQUE (OBJ_ID)
     , CONSTRAINT KRIM_AFLTN_TYP_TC1 UNIQUE (NM)
+
 )
 /
+
 ALTER TABLE KRIM_AFLTN_TYP_T
     ADD CONSTRAINT KRIM_AFLTN_TYP_TP1
 PRIMARY KEY (AFLTN_TYP_CD)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_ATTR_DEFN_T
 -----------------------------------------------------------------------------
@@ -2029,6 +2716,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_ATTR_DEFN_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_ATTR_DEFN_T
 (
       KIM_ATTR_DEFN_ID VARCHAR2(40)
@@ -2040,13 +2728,23 @@ CREATE TABLE KRIM_ATTR_DEFN_T
         , NMSPC_CD VARCHAR2(40)
         , CMPNT_NM VARCHAR2(100)
         , APPL_URL VARCHAR2(2000)
+    
     , CONSTRAINT KRIM_ATTR_DEFN_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRIM_ATTR_DEFN_T
     ADD CONSTRAINT KRIM_ATTR_DEFN_TP1
 PRIMARY KEY (KIM_ATTR_DEFN_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_CTZNSHP_STAT_T
 -----------------------------------------------------------------------------
@@ -2056,6 +2754,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_CTZNSHP_STAT_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_CTZNSHP_STAT_T
 (
       CTZNSHP_STAT_CD VARCHAR2(40)
@@ -2065,14 +2764,24 @@ CREATE TABLE KRIM_CTZNSHP_STAT_T
         , ACTV_IND VARCHAR2(1) default 'Y'
         , DISPLAY_SORT_CD VARCHAR2(2)
         , LAST_UPDT_DT DATE default SYSDATE
+    
     , CONSTRAINT KRIM_CTZNSHP_STAT_TC0 UNIQUE (OBJ_ID)
     , CONSTRAINT KRIM_CTZNSHP_STAT_TC1 UNIQUE (NM)
+
 )
 /
+
 ALTER TABLE KRIM_CTZNSHP_STAT_T
     ADD CONSTRAINT KRIM_CTZNSHP_STAT_TP1
 PRIMARY KEY (CTZNSHP_STAT_CD)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_DLGN_MBR_ATTR_DATA_T
 -----------------------------------------------------------------------------
@@ -2082,6 +2791,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_DLGN_MBR_ATTR_DATA_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_DLGN_MBR_ATTR_DATA_T
 (
       ATTR_DATA_ID VARCHAR2(40)
@@ -2091,13 +2801,23 @@ CREATE TABLE KRIM_DLGN_MBR_ATTR_DATA_T
         , KIM_TYP_ID VARCHAR2(40) NOT NULL
         , KIM_ATTR_DEFN_ID VARCHAR2(40)
         , ATTR_VAL VARCHAR2(400)
+    
     , CONSTRAINT KRIM_DLGN_MBR_ATTR_DATA_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRIM_DLGN_MBR_ATTR_DATA_T
     ADD CONSTRAINT KRIM_DLGN_MBR_ATTR_DATA_TP1
 PRIMARY KEY (ATTR_DATA_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_DLGN_MBR_T
 -----------------------------------------------------------------------------
@@ -2107,6 +2827,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_DLGN_MBR_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_DLGN_MBR_T
 (
       DLGN_MBR_ID VARCHAR2(40)
@@ -2119,13 +2840,23 @@ CREATE TABLE KRIM_DLGN_MBR_T
         , ACTV_TO_DT DATE
         , LAST_UPDT_DT DATE default SYSDATE
         , ROLE_MBR_ID VARCHAR2(40)
+    
     , CONSTRAINT KRIM_DLGN_MBR_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRIM_DLGN_MBR_T
     ADD CONSTRAINT KRIM_DLGN_MBR_TP1
 PRIMARY KEY (DLGN_MBR_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_DLGN_T
 -----------------------------------------------------------------------------
@@ -2135,6 +2866,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_DLGN_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_DLGN_T
 (
       DLGN_ID VARCHAR2(40)
@@ -2144,13 +2876,23 @@ CREATE TABLE KRIM_DLGN_T
         , ACTV_IND VARCHAR2(1) default 'Y'
         , KIM_TYP_ID VARCHAR2(40) NOT NULL
         , DLGN_TYP_CD VARCHAR2(1)
+    
     , CONSTRAINT KRIM_DLGN_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRIM_DLGN_T
     ADD CONSTRAINT KRIM_DLGN_TP1
 PRIMARY KEY (DLGN_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_EMAIL_TYP_T
 -----------------------------------------------------------------------------
@@ -2160,6 +2902,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_EMAIL_TYP_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_EMAIL_TYP_T
 (
       EMAIL_TYP_CD VARCHAR2(40)
@@ -2169,14 +2912,24 @@ CREATE TABLE KRIM_EMAIL_TYP_T
         , ACTV_IND VARCHAR2(1) default 'Y'
         , DISPLAY_SORT_CD VARCHAR2(2)
         , LAST_UPDT_DT DATE default SYSDATE
+    
     , CONSTRAINT KRIM_EMAIL_TYP_TC0 UNIQUE (OBJ_ID)
     , CONSTRAINT KRIM_EMAIL_TYP_TC1 UNIQUE (NM)
+
 )
 /
+
 ALTER TABLE KRIM_EMAIL_TYP_T
     ADD CONSTRAINT KRIM_EMAIL_TYP_TP1
 PRIMARY KEY (EMAIL_TYP_CD)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_EMP_STAT_T
 -----------------------------------------------------------------------------
@@ -2186,6 +2939,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_EMP_STAT_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_EMP_STAT_T
 (
       EMP_STAT_CD VARCHAR2(40)
@@ -2195,14 +2949,24 @@ CREATE TABLE KRIM_EMP_STAT_T
         , ACTV_IND VARCHAR2(1) default 'Y'
         , DISPLAY_SORT_CD VARCHAR2(2)
         , LAST_UPDT_DT DATE default SYSDATE
+    
     , CONSTRAINT KRIM_EMP_STAT_TC0 UNIQUE (OBJ_ID)
     , CONSTRAINT KRIM_EMP_STAT_TC1 UNIQUE (NM)
+
 )
 /
+
 ALTER TABLE KRIM_EMP_STAT_T
     ADD CONSTRAINT KRIM_EMP_STAT_TP1
 PRIMARY KEY (EMP_STAT_CD)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_EMP_TYP_T
 -----------------------------------------------------------------------------
@@ -2212,6 +2976,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_EMP_TYP_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_EMP_TYP_T
 (
       EMP_TYP_CD VARCHAR2(40)
@@ -2221,14 +2986,24 @@ CREATE TABLE KRIM_EMP_TYP_T
         , ACTV_IND VARCHAR2(1) default 'Y'
         , DISPLAY_SORT_CD VARCHAR2(2)
         , LAST_UPDT_DT DATE default SYSDATE
+    
     , CONSTRAINT KRIM_EMP_TYP_TC0 UNIQUE (OBJ_ID)
     , CONSTRAINT KRIM_EMP_TYP_TC1 UNIQUE (NM)
+
 )
 /
+
 ALTER TABLE KRIM_EMP_TYP_T
     ADD CONSTRAINT KRIM_EMP_TYP_TP1
 PRIMARY KEY (EMP_TYP_CD)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_ENTITY_ADDR_T
 -----------------------------------------------------------------------------
@@ -2238,6 +3013,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_ENTITY_ADDR_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_ENTITY_ADDR_T
 (
       ENTITY_ADDR_ID VARCHAR2(40)
@@ -2256,17 +3032,27 @@ CREATE TABLE KRIM_ENTITY_ADDR_T
         , DFLT_IND VARCHAR2(1) default 'N'
         , ACTV_IND VARCHAR2(1) default 'Y'
         , LAST_UPDT_DT DATE default SYSDATE
+    
     , CONSTRAINT KRIM_ENTITY_ADDR_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRIM_ENTITY_ADDR_T
     ADD CONSTRAINT KRIM_ENTITY_ADDR_TP1
 PRIMARY KEY (ENTITY_ADDR_ID)
 /
+
+
 CREATE INDEX KRIM_ENTITY_ADDR_TI1 
   ON KRIM_ENTITY_ADDR_T 
   (ENTITY_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_ENTITY_AFLTN_T
 -----------------------------------------------------------------------------
@@ -2276,6 +3062,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_ENTITY_AFLTN_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_ENTITY_AFLTN_T
 (
       ENTITY_AFLTN_ID VARCHAR2(40)
@@ -2287,17 +3074,27 @@ CREATE TABLE KRIM_ENTITY_AFLTN_T
         , DFLT_IND VARCHAR2(1) default 'N'
         , ACTV_IND VARCHAR2(1) default 'Y'
         , LAST_UPDT_DT DATE default SYSDATE
+    
     , CONSTRAINT KRIM_ENTITY_AFLTN_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRIM_ENTITY_AFLTN_T
     ADD CONSTRAINT KRIM_ENTITY_AFLTN_TP1
 PRIMARY KEY (ENTITY_AFLTN_ID)
 /
+
+
 CREATE INDEX KRIM_ENTITY_AFLTN_TI1 
   ON KRIM_ENTITY_AFLTN_T 
   (ENTITY_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_ENTITY_BIO_T
 -----------------------------------------------------------------------------
@@ -2307,6 +3104,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_ENTITY_BIO_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_ENTITY_BIO_T
 (
       ENTITY_ID VARCHAR2(40)
@@ -2323,13 +3121,23 @@ CREATE TABLE KRIM_ENTITY_BIO_T
         , BIRTH_STATE_CD VARCHAR2(2)
         , BIRTH_CITY VARCHAR2(30)
         , GEO_ORIGIN VARCHAR2(100)
+    
     , CONSTRAINT KRIM_ENTITY_BIO_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRIM_ENTITY_BIO_T
     ADD CONSTRAINT KRIM_ENTITY_BIO_TP1
 PRIMARY KEY (ENTITY_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_ENTITY_CACHE_T
 -----------------------------------------------------------------------------
@@ -2339,6 +3147,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_ENTITY_CACHE_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_ENTITY_CACHE_T
 (
       ENTITY_ID VARCHAR2(40)
@@ -2354,14 +3163,24 @@ CREATE TABLE KRIM_ENTITY_CACHE_T
         , EMP_ID VARCHAR2(40)
         , LAST_UPDT_TS DATE
         , OBJ_ID VARCHAR2(36) NOT NULL
+    
     , CONSTRAINT KRIM_ENTITY_CACHE_TC0 UNIQUE (OBJ_ID)
     , CONSTRAINT KRIM_ENTITY_CACHE_TC1 UNIQUE (PRNCPL_ID)
+
 )
 /
+
 ALTER TABLE KRIM_ENTITY_CACHE_T
     ADD CONSTRAINT KRIM_ENTITY_CACHE_TP1
 PRIMARY KEY (ENTITY_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_ENTITY_CTZNSHP_T
 -----------------------------------------------------------------------------
@@ -2371,6 +3190,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_ENTITY_CTZNSHP_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_ENTITY_CTZNSHP_T
 (
       ENTITY_CTZNSHP_ID VARCHAR2(40)
@@ -2383,13 +3203,23 @@ CREATE TABLE KRIM_ENTITY_CTZNSHP_T
         , END_DT DATE
         , ACTV_IND VARCHAR2(1) default 'Y'
         , LAST_UPDT_DT DATE default SYSDATE
+    
     , CONSTRAINT KRIM_ENTITY_CTZNSHP_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRIM_ENTITY_CTZNSHP_T
     ADD CONSTRAINT KRIM_ENTITY_CTZNSHP_TP1
 PRIMARY KEY (ENTITY_CTZNSHP_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_ENTITY_EMAIL_T
 -----------------------------------------------------------------------------
@@ -2399,6 +3229,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_ENTITY_EMAIL_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_ENTITY_EMAIL_T
 (
       ENTITY_EMAIL_ID VARCHAR2(40)
@@ -2411,17 +3242,27 @@ CREATE TABLE KRIM_ENTITY_EMAIL_T
         , DFLT_IND VARCHAR2(1) default 'N'
         , ACTV_IND VARCHAR2(1) default 'Y'
         , LAST_UPDT_DT DATE default SYSDATE
+    
     , CONSTRAINT KRIM_ENTITY_EMAIL_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRIM_ENTITY_EMAIL_T
     ADD CONSTRAINT KRIM_ENTITY_EMAIL_TP1
 PRIMARY KEY (ENTITY_EMAIL_ID)
 /
+
+
 CREATE INDEX KRIM_ENTITY_EMAIL_TI1 
   ON KRIM_ENTITY_EMAIL_T 
   (ENTITY_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_ENTITY_EMP_INFO_T
 -----------------------------------------------------------------------------
@@ -2431,6 +3272,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_ENTITY_EMP_INFO_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_ENTITY_EMP_INFO_T
 (
       ENTITY_EMP_ID VARCHAR2(40)
@@ -2447,13 +3289,18 @@ CREATE TABLE KRIM_ENTITY_EMP_INFO_T
         , PRMRY_DEPT_CD VARCHAR2(40)
         , EMP_ID VARCHAR2(40)
         , EMP_REC_ID VARCHAR2(40)
+    
     , CONSTRAINT KRIM_ENTITY_EMP_INFO_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRIM_ENTITY_EMP_INFO_T
     ADD CONSTRAINT KRIM_ENTITY_EMP_INFO_TP1
 PRIMARY KEY (ENTITY_EMP_ID)
 /
+
+
 CREATE INDEX KRIM_ENTITY_EMP_INFO_TI1 
   ON KRIM_ENTITY_EMP_INFO_T 
   (ENTITY_ID)
@@ -2462,6 +3309,11 @@ CREATE INDEX KRIM_ENTITY_EMP_INFO_TI2
   ON KRIM_ENTITY_EMP_INFO_T 
   (ENTITY_AFLTN_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_ENTITY_ENT_TYP_T
 -----------------------------------------------------------------------------
@@ -2471,6 +3323,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_ENTITY_ENT_TYP_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_ENTITY_ENT_TYP_T
 (
       ENT_TYP_CD VARCHAR2(40)
@@ -2479,17 +3332,27 @@ CREATE TABLE KRIM_ENTITY_ENT_TYP_T
         , VER_NBR NUMBER(8) default 1 NOT NULL
         , ACTV_IND VARCHAR2(1) default 'Y'
         , LAST_UPDT_DT DATE default SYSDATE
+    
     , CONSTRAINT KRIM_ENTITY_ENT_TYP_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRIM_ENTITY_ENT_TYP_T
     ADD CONSTRAINT KRIM_ENTITY_ENT_TYP_TP1
 PRIMARY KEY (ENT_TYP_CD,ENTITY_ID)
 /
+
+
 CREATE INDEX KRIM_ENTITY_ENT_TYP_TI1 
   ON KRIM_ENTITY_ENT_TYP_T 
   (ENTITY_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_ENTITY_ETHNIC_T
 -----------------------------------------------------------------------------
@@ -2499,6 +3362,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_ENTITY_ETHNIC_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_ENTITY_ETHNIC_T
 (
       ID VARCHAR2(40)
@@ -2507,13 +3371,23 @@ CREATE TABLE KRIM_ENTITY_ETHNIC_T
         , SUB_ETHNCTY_CD VARCHAR2(40)
         , VER_NBR NUMBER(8) default 1 NOT NULL
         , OBJ_ID VARCHAR2(36) NOT NULL
+    
     , CONSTRAINT KRIM_ENTITY_ETHNIC_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRIM_ENTITY_ETHNIC_T
     ADD CONSTRAINT KRIM_ENTITY_ETHNIC_TP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_ENTITY_EXT_ID_T
 -----------------------------------------------------------------------------
@@ -2523,6 +3397,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_ENTITY_EXT_ID_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_ENTITY_EXT_ID_T
 (
       ENTITY_EXT_ID_ID VARCHAR2(40)
@@ -2532,17 +3407,27 @@ CREATE TABLE KRIM_ENTITY_EXT_ID_T
         , EXT_ID_TYP_CD VARCHAR2(40)
         , EXT_ID VARCHAR2(100)
         , LAST_UPDT_DT DATE default SYSDATE
+    
     , CONSTRAINT KRIM_ENTITY_EXT_ID_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRIM_ENTITY_EXT_ID_T
     ADD CONSTRAINT KRIM_ENTITY_EXT_ID_TP1
 PRIMARY KEY (ENTITY_EXT_ID_ID)
 /
+
+
 CREATE INDEX KRIM_ENTITY_EXT_ID_TI1 
   ON KRIM_ENTITY_EXT_ID_T 
   (ENTITY_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_ENTITY_NM_T
 -----------------------------------------------------------------------------
@@ -2552,6 +3437,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_ENTITY_NM_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_ENTITY_NM_T
 (
       ENTITY_NM_ID VARCHAR2(40)
@@ -2567,17 +3453,27 @@ CREATE TABLE KRIM_ENTITY_NM_T
         , DFLT_IND VARCHAR2(1) default 'N'
         , ACTV_IND VARCHAR2(1) default 'Y'
         , LAST_UPDT_DT DATE default SYSDATE
+    
     , CONSTRAINT KRIM_ENTITY_NM_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRIM_ENTITY_NM_T
     ADD CONSTRAINT KRIM_ENTITY_NM_TP1
 PRIMARY KEY (ENTITY_NM_ID)
 /
+
+
 CREATE INDEX KRIM_ENTITY_NM_TI1 
   ON KRIM_ENTITY_NM_T 
   (ENTITY_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_ENTITY_PHONE_T
 -----------------------------------------------------------------------------
@@ -2587,6 +3483,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_ENTITY_PHONE_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_ENTITY_PHONE_T
 (
       ENTITY_PHONE_ID VARCHAR2(40)
@@ -2601,17 +3498,27 @@ CREATE TABLE KRIM_ENTITY_PHONE_T
         , DFLT_IND VARCHAR2(1) default 'N'
         , ACTV_IND VARCHAR2(1) default 'Y'
         , LAST_UPDT_DT DATE default SYSDATE
+    
     , CONSTRAINT KRIM_ENTITY_PHONE_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRIM_ENTITY_PHONE_T
     ADD CONSTRAINT KRIM_ENTITY_PHONE_TP1
 PRIMARY KEY (ENTITY_PHONE_ID)
 /
+
+
 CREATE INDEX KRIM_ENTITY_PHONE_TI1 
   ON KRIM_ENTITY_PHONE_T 
   (ENTITY_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_ENTITY_PRIV_PREF_T
 -----------------------------------------------------------------------------
@@ -2621,6 +3528,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_ENTITY_PRIV_PREF_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_ENTITY_PRIV_PREF_T
 (
       ENTITY_ID VARCHAR2(40)
@@ -2632,13 +3540,23 @@ CREATE TABLE KRIM_ENTITY_PRIV_PREF_T
         , SUPPRESS_PHONE_IND VARCHAR2(1) default 'Y'
         , SUPPRESS_PRSNL_IND VARCHAR2(1) default 'Y'
         , LAST_UPDT_DT DATE default SYSDATE
+    
     , CONSTRAINT KRIM_ENTITY_PRIV_PREF_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRIM_ENTITY_PRIV_PREF_T
     ADD CONSTRAINT KRIM_ENTITY_PRIV_PREF_TP1
 PRIMARY KEY (ENTITY_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_ENTITY_RESIDENCY_T
 -----------------------------------------------------------------------------
@@ -2648,6 +3566,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_ENTITY_RESIDENCY_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_ENTITY_RESIDENCY_T
 (
       ID VARCHAR2(40)
@@ -2656,13 +3575,23 @@ CREATE TABLE KRIM_ENTITY_RESIDENCY_T
         , IN_STATE VARCHAR2(40)
         , VER_NBR NUMBER(8) default 1 NOT NULL
         , OBJ_ID VARCHAR2(36) NOT NULL
+    
     , CONSTRAINT KRIM_ENTITY_RESIDENCY_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRIM_ENTITY_RESIDENCY_T
     ADD CONSTRAINT KRIM_ENTITY_RESIDENCY_TP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_ENTITY_T
 -----------------------------------------------------------------------------
@@ -2672,6 +3601,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_ENTITY_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_ENTITY_T
 (
       ENTITY_ID VARCHAR2(40)
@@ -2679,13 +3609,23 @@ CREATE TABLE KRIM_ENTITY_T
         , VER_NBR NUMBER(8) default 1 NOT NULL
         , ACTV_IND VARCHAR2(1) default 'Y'
         , LAST_UPDT_DT DATE default SYSDATE
+    
     , CONSTRAINT KRIM_ENTITY_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRIM_ENTITY_T
     ADD CONSTRAINT KRIM_ENTITY_TP1
 PRIMARY KEY (ENTITY_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_ENTITY_VISA_T
 -----------------------------------------------------------------------------
@@ -2695,6 +3635,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_ENTITY_VISA_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_ENTITY_VISA_T
 (
       ID VARCHAR2(40)
@@ -2704,13 +3645,23 @@ CREATE TABLE KRIM_ENTITY_VISA_T
         , VISA_ID VARCHAR2(40)
         , VER_NBR NUMBER(8) default 1 NOT NULL
         , OBJ_ID VARCHAR2(36) NOT NULL
+    
     , CONSTRAINT KRIM_ENTITY_VISA_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRIM_ENTITY_VISA_T
     ADD CONSTRAINT KRIM_ENTITY_VISA_TP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_ENT_NM_TYP_T
 -----------------------------------------------------------------------------
@@ -2720,6 +3671,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_ENT_NM_TYP_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_ENT_NM_TYP_T
 (
       ENT_NM_TYP_CD VARCHAR2(40)
@@ -2729,14 +3681,24 @@ CREATE TABLE KRIM_ENT_NM_TYP_T
         , ACTV_IND VARCHAR2(1) default 'Y'
         , DISPLAY_SORT_CD VARCHAR2(2)
         , LAST_UPDT_DT DATE default SYSDATE
+    
     , CONSTRAINT KRIM_ENT_NM_TYP_TC0 UNIQUE (OBJ_ID)
     , CONSTRAINT KRIM_ENT_NM_TYP_TC1 UNIQUE (NM)
+
 )
 /
+
 ALTER TABLE KRIM_ENT_NM_TYP_T
     ADD CONSTRAINT KRIM_ENT_NM_TYP_TP1
 PRIMARY KEY (ENT_NM_TYP_CD)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_ENT_TYP_T
 -----------------------------------------------------------------------------
@@ -2746,6 +3708,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_ENT_TYP_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_ENT_TYP_T
 (
       ENT_TYP_CD VARCHAR2(40)
@@ -2754,14 +3717,24 @@ CREATE TABLE KRIM_ENT_TYP_T
         , NM VARCHAR2(40)
         , DISPLAY_SORT_CD VARCHAR2(2)
         , ACTV_IND VARCHAR2(1) default 'Y'
+    
     , CONSTRAINT KRIM_ENT_TYP_TC0 UNIQUE (OBJ_ID)
     , CONSTRAINT KRIM_ENT_TYP_TC1 UNIQUE (NM)
+
 )
 /
+
 ALTER TABLE KRIM_ENT_TYP_T
     ADD CONSTRAINT KRIM_ENT_TYP_TP1
 PRIMARY KEY (ENT_TYP_CD)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_EXT_ID_TYP_T
 -----------------------------------------------------------------------------
@@ -2771,6 +3744,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_EXT_ID_TYP_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_EXT_ID_TYP_T
 (
       EXT_ID_TYP_CD VARCHAR2(40)
@@ -2781,14 +3755,24 @@ CREATE TABLE KRIM_EXT_ID_TYP_T
         , ACTV_IND VARCHAR2(1) default 'Y'
         , DISPLAY_SORT_CD VARCHAR2(2)
         , LAST_UPDT_DT DATE default SYSDATE
+    
     , CONSTRAINT KRIM_EXT_ID_TYP_TC0 UNIQUE (OBJ_ID)
     , CONSTRAINT KRIM_EXT_ID_TYP_TC1 UNIQUE (NM)
+
 )
 /
+
 ALTER TABLE KRIM_EXT_ID_TYP_T
     ADD CONSTRAINT KRIM_EXT_ID_TYP_TP1
 PRIMARY KEY (EXT_ID_TYP_CD)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_GRP_ATTR_DATA_T
 -----------------------------------------------------------------------------
@@ -2798,6 +3782,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_GRP_ATTR_DATA_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_GRP_ATTR_DATA_T
 (
       ATTR_DATA_ID VARCHAR2(40)
@@ -2807,13 +3792,23 @@ CREATE TABLE KRIM_GRP_ATTR_DATA_T
         , KIM_TYP_ID VARCHAR2(40) NOT NULL
         , KIM_ATTR_DEFN_ID VARCHAR2(40)
         , ATTR_VAL VARCHAR2(400)
+    
     , CONSTRAINT KRIM_GRP_ATTR_DATA_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRIM_GRP_ATTR_DATA_T
     ADD CONSTRAINT KRIM_GRP_ATTR_DATA_TP1
 PRIMARY KEY (ATTR_DATA_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_GRP_DOCUMENT_T
 -----------------------------------------------------------------------------
@@ -2823,6 +3818,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_GRP_DOCUMENT_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_GRP_DOCUMENT_T
 (
       FDOC_NBR VARCHAR2(14)
@@ -2834,12 +3830,22 @@ CREATE TABLE KRIM_GRP_DOCUMENT_T
         , GRP_NM VARCHAR2(400)
         , GRP_DESC VARCHAR2(400)
         , ACTV_IND VARCHAR2(1) default 'Y'
+    
+
 )
 /
+
 ALTER TABLE KRIM_GRP_DOCUMENT_T
     ADD CONSTRAINT KRIM_GRP_DOCUMENT_TP1
 PRIMARY KEY (FDOC_NBR)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_GRP_MBR_T
 -----------------------------------------------------------------------------
@@ -2849,6 +3855,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_GRP_MBR_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_GRP_MBR_T
 (
       GRP_MBR_ID VARCHAR2(40)
@@ -2860,17 +3867,27 @@ CREATE TABLE KRIM_GRP_MBR_T
         , ACTV_FRM_DT DATE
         , ACTV_TO_DT DATE
         , LAST_UPDT_DT DATE default SYSDATE
+    
     , CONSTRAINT KRIM_GRP_MBR_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRIM_GRP_MBR_T
     ADD CONSTRAINT KRIM_GRP_MBR_TP1
 PRIMARY KEY (GRP_MBR_ID)
 /
+
+
 CREATE INDEX KRIM_GRP_MBR_TI1 
   ON KRIM_GRP_MBR_T 
   (MBR_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_GRP_T
 -----------------------------------------------------------------------------
@@ -2880,6 +3897,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_GRP_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_GRP_T
 (
       GRP_ID VARCHAR2(40)
@@ -2891,14 +3909,24 @@ CREATE TABLE KRIM_GRP_T
         , KIM_TYP_ID VARCHAR2(40) NOT NULL
         , ACTV_IND VARCHAR2(1) default 'Y'
         , LAST_UPDT_DT DATE default SYSDATE
+    
     , CONSTRAINT KRIM_GRP_TC0 UNIQUE (OBJ_ID)
     , CONSTRAINT KRIM_GRP_TC1 UNIQUE (GRP_NM, NMSPC_CD)
+
 )
 /
+
 ALTER TABLE KRIM_GRP_T
     ADD CONSTRAINT KRIM_GRP_TP1
 PRIMARY KEY (GRP_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_PERM_ATTR_DATA_T
 -----------------------------------------------------------------------------
@@ -2908,6 +3936,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_PERM_ATTR_DATA_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_PERM_ATTR_DATA_T
 (
       ATTR_DATA_ID VARCHAR2(40)
@@ -2917,17 +3946,27 @@ CREATE TABLE KRIM_PERM_ATTR_DATA_T
         , KIM_TYP_ID VARCHAR2(40) NOT NULL
         , KIM_ATTR_DEFN_ID VARCHAR2(40)
         , ATTR_VAL VARCHAR2(400)
+    
     , CONSTRAINT KRIM_PERM_ATTR_DATA_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRIM_PERM_ATTR_DATA_T
     ADD CONSTRAINT KRIM_PERM_ATTR_DATA_TP1
 PRIMARY KEY (ATTR_DATA_ID)
 /
+
+
 CREATE INDEX KRIM_PERM_ATTR_DATA_TI1 
   ON KRIM_PERM_ATTR_DATA_T 
   (PERM_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_PERM_T
 -----------------------------------------------------------------------------
@@ -2937,6 +3976,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_PERM_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_PERM_T
 (
       PERM_ID VARCHAR2(40)
@@ -2947,13 +3987,23 @@ CREATE TABLE KRIM_PERM_T
         , NM VARCHAR2(100)
         , DESC_TXT VARCHAR2(400)
         , ACTV_IND VARCHAR2(1) default 'Y'
+    
     , CONSTRAINT KRIM_PERM_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRIM_PERM_T
     ADD CONSTRAINT KRIM_PERM_TP1
 PRIMARY KEY (PERM_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_PERM_TMPL_T
 -----------------------------------------------------------------------------
@@ -2963,6 +4013,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_PERM_TMPL_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_PERM_TMPL_T
 (
       PERM_TMPL_ID VARCHAR2(40)
@@ -2973,13 +4024,23 @@ CREATE TABLE KRIM_PERM_TMPL_T
         , DESC_TXT VARCHAR2(400)
         , KIM_TYP_ID VARCHAR2(40) NOT NULL
         , ACTV_IND VARCHAR2(1) default 'Y'
+    
     , CONSTRAINT KRIM_PERM_TMPL_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRIM_PERM_TMPL_T
     ADD CONSTRAINT KRIM_PERM_TMPL_TP1
 PRIMARY KEY (PERM_TMPL_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_PERSON_DOCUMENT_T
 -----------------------------------------------------------------------------
@@ -2989,6 +4050,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_PERSON_DOCUMENT_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_PERSON_DOCUMENT_T
 (
       FDOC_NBR VARCHAR2(14)
@@ -3001,12 +4063,22 @@ CREATE TABLE KRIM_PERSON_DOCUMENT_T
         , TAX_ID VARCHAR2(100)
         , UNIV_ID VARCHAR2(40)
         , ACTV_IND VARCHAR2(1) default 'Y'
+    
+
 )
 /
+
 ALTER TABLE KRIM_PERSON_DOCUMENT_T
     ADD CONSTRAINT KRIM_PERSON_DOCUMENT_TP1
 PRIMARY KEY (FDOC_NBR)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_PHONE_TYP_T
 -----------------------------------------------------------------------------
@@ -3016,6 +4088,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_PHONE_TYP_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_PHONE_TYP_T
 (
       PHONE_TYP_CD VARCHAR2(40)
@@ -3025,14 +4098,24 @@ CREATE TABLE KRIM_PHONE_TYP_T
         , ACTV_IND VARCHAR2(1) default 'Y'
         , DISPLAY_SORT_CD VARCHAR2(2)
         , LAST_UPDT_DT DATE default SYSDATE
+    
     , CONSTRAINT KRIM_PHONE_TYP_TC0 UNIQUE (OBJ_ID)
     , CONSTRAINT KRIM_PHONE_TYP_TC1 UNIQUE (PHONE_TYP_NM)
+
 )
 /
+
 ALTER TABLE KRIM_PHONE_TYP_T
     ADD CONSTRAINT KRIM_PHONE_TYP_TP1
 PRIMARY KEY (PHONE_TYP_CD)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_PND_ADDR_MT
 -----------------------------------------------------------------------------
@@ -3042,6 +4125,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_PND_ADDR_MT CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_PND_ADDR_MT
 (
       FDOC_NBR VARCHAR2(14)
@@ -3060,12 +4144,22 @@ CREATE TABLE KRIM_PND_ADDR_MT
         , OBJ_ID VARCHAR2(36) NOT NULL
         , VER_NBR NUMBER(8) default 1 NOT NULL
         , EDIT_FLAG VARCHAR2(1) default 'N'
+    
+
 )
 /
+
 ALTER TABLE KRIM_PND_ADDR_MT
     ADD CONSTRAINT KRIM_PND_ADDR_MTP1
 PRIMARY KEY (FDOC_NBR,ENTITY_ADDR_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_PND_AFLTN_MT
 -----------------------------------------------------------------------------
@@ -3075,6 +4169,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_PND_AFLTN_MT CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_PND_AFLTN_MT
 (
       FDOC_NBR VARCHAR2(14)
@@ -3086,12 +4181,22 @@ CREATE TABLE KRIM_PND_AFLTN_MT
         , ACTV_IND VARCHAR2(1) default 'Y'
         , OBJ_ID VARCHAR2(36) default SYS_GUID() NOT NULL
         , VER_NBR NUMBER(8) default 1 NOT NULL
+    
+
 )
 /
+
 ALTER TABLE KRIM_PND_AFLTN_MT
     ADD CONSTRAINT KRIM_PND_AFLTN_MTP1
 PRIMARY KEY (FDOC_NBR,ENTITY_AFLTN_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_PND_CTZNSHP_MT
 -----------------------------------------------------------------------------
@@ -3101,6 +4206,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_PND_CTZNSHP_MT CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_PND_CTZNSHP_MT
 (
       FDOC_NBR VARCHAR2(14)
@@ -3113,12 +4219,22 @@ CREATE TABLE KRIM_PND_CTZNSHP_MT
         , END_DT DATE
         , ACTV_IND VARCHAR2(1) default 'Y'
         , EDIT_FLAG VARCHAR2(1) default 'N'
+    
+
 )
 /
+
 ALTER TABLE KRIM_PND_CTZNSHP_MT
     ADD CONSTRAINT KRIM_PND_CTZNSHP_MTP1
 PRIMARY KEY (FDOC_NBR,ENTITY_CTZNSHP_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_PND_DLGN_MBR_ATTR_DATA_T
 -----------------------------------------------------------------------------
@@ -3128,6 +4244,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_PND_DLGN_MBR_ATTR_DATA_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_PND_DLGN_MBR_ATTR_DATA_T
 (
       FDOC_NBR VARCHAR2(14)
@@ -3140,12 +4257,22 @@ CREATE TABLE KRIM_PND_DLGN_MBR_ATTR_DATA_T
         , ATTR_VAL VARCHAR2(400)
         , ACTV_IND VARCHAR2(1) default 'Y'
         , EDIT_FLAG VARCHAR2(1) default 'N'
+    
+
 )
 /
+
 ALTER TABLE KRIM_PND_DLGN_MBR_ATTR_DATA_T
     ADD CONSTRAINT KRIM_PND_DLGN_MBR_ATTR_DATAP1
 PRIMARY KEY (FDOC_NBR,ATTR_DATA_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_PND_DLGN_MBR_T
 -----------------------------------------------------------------------------
@@ -3155,6 +4282,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_PND_DLGN_MBR_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_PND_DLGN_MBR_T
 (
       FDOC_NBR VARCHAR2(14)
@@ -3169,12 +4297,22 @@ CREATE TABLE KRIM_PND_DLGN_MBR_T
         , ACTV_FRM_DT DATE
         , ACTV_TO_DT DATE
         , ROLE_MBR_ID VARCHAR2(40)
+    
+
 )
 /
+
 ALTER TABLE KRIM_PND_DLGN_MBR_T
     ADD CONSTRAINT KRIM_PND_DLGN_MBR_TP1
 PRIMARY KEY (FDOC_NBR,DLGN_MBR_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_PND_DLGN_T
 -----------------------------------------------------------------------------
@@ -3184,6 +4322,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_PND_DLGN_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_PND_DLGN_T
 (
       FDOC_NBR VARCHAR2(14)
@@ -3194,12 +4333,22 @@ CREATE TABLE KRIM_PND_DLGN_T
         , KIM_TYP_ID VARCHAR2(40)
         , DLGN_TYP_CD VARCHAR2(100) NOT NULL
         , ACTV_IND VARCHAR2(1) default 'Y'
+    
+
 )
 /
+
 ALTER TABLE KRIM_PND_DLGN_T
     ADD CONSTRAINT KRIM_PND_DLGN_TP1
 PRIMARY KEY (FDOC_NBR,DLGN_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_PND_EMAIL_MT
 -----------------------------------------------------------------------------
@@ -3209,6 +4358,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_PND_EMAIL_MT CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_PND_EMAIL_MT
 (
       FDOC_NBR VARCHAR2(14)
@@ -3221,12 +4371,22 @@ CREATE TABLE KRIM_PND_EMAIL_MT
         , DFLT_IND VARCHAR2(1) default 'N'
         , ACTV_IND VARCHAR2(1) default 'Y'
         , EDIT_FLAG VARCHAR2(1) default 'N'
+    
+
 )
 /
+
 ALTER TABLE KRIM_PND_EMAIL_MT
     ADD CONSTRAINT KRIM_PND_EMAIL_MTP1
 PRIMARY KEY (FDOC_NBR,ENTITY_EMAIL_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_PND_EMP_INFO_MT
 -----------------------------------------------------------------------------
@@ -3236,6 +4396,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_PND_EMP_INFO_MT CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_PND_EMP_INFO_MT
 (
       FDOC_NBR VARCHAR2(14)
@@ -3252,12 +4413,22 @@ CREATE TABLE KRIM_PND_EMP_INFO_MT
         , PRMRY_IND VARCHAR2(1)
         , ACTV_IND VARCHAR2(1) default 'Y'
         , EDIT_FLAG VARCHAR2(1) default 'N'
+    
+
 )
 /
+
 ALTER TABLE KRIM_PND_EMP_INFO_MT
     ADD CONSTRAINT KRIM_PND_EMP_INFO_MTP1
 PRIMARY KEY (FDOC_NBR,ENTITY_EMP_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_PND_GRP_ATTR_DATA_T
 -----------------------------------------------------------------------------
@@ -3267,6 +4438,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_PND_GRP_ATTR_DATA_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_PND_GRP_ATTR_DATA_T
 (
       FDOC_NBR VARCHAR2(14)
@@ -3277,12 +4449,22 @@ CREATE TABLE KRIM_PND_GRP_ATTR_DATA_T
         , KIM_TYP_ID VARCHAR2(40)
         , KIM_ATTR_DEFN_ID VARCHAR2(40)
         , ATTR_VAL VARCHAR2(400)
+    
+
 )
 /
+
 ALTER TABLE KRIM_PND_GRP_ATTR_DATA_T
     ADD CONSTRAINT KRIM_PND_GRP_ATTR_DATA_TP1
 PRIMARY KEY (FDOC_NBR,ATTR_DATA_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_PND_GRP_MBR_T
 -----------------------------------------------------------------------------
@@ -3292,6 +4474,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_PND_GRP_MBR_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_PND_GRP_MBR_T
 (
       FDOC_NBR VARCHAR2(14)
@@ -3304,12 +4487,22 @@ CREATE TABLE KRIM_PND_GRP_MBR_T
         , MBR_TYP_CD VARCHAR2(40) NOT NULL
         , ACTV_FRM_DT DATE
         , ACTV_TO_DT DATE
+    
+
 )
 /
+
 ALTER TABLE KRIM_PND_GRP_MBR_T
     ADD CONSTRAINT KRIM_PND_GRP_MBR_TP1
 PRIMARY KEY (FDOC_NBR,GRP_MBR_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_PND_GRP_PRNCPL_MT
 -----------------------------------------------------------------------------
@@ -3319,6 +4512,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_PND_GRP_PRNCPL_MT CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_PND_GRP_PRNCPL_MT
 (
       GRP_MBR_ID VARCHAR2(40)
@@ -3335,12 +4529,22 @@ CREATE TABLE KRIM_PND_GRP_PRNCPL_MT
         , ACTV_FRM_DT DATE
         , ACTV_TO_DT DATE
         , EDIT_FLAG VARCHAR2(1) default 'N'
+    
+
 )
 /
+
 ALTER TABLE KRIM_PND_GRP_PRNCPL_MT
     ADD CONSTRAINT KRIM_PND_GRP_PRNCPL_MTP1
 PRIMARY KEY (GRP_MBR_ID,FDOC_NBR)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_PND_NM_MT
 -----------------------------------------------------------------------------
@@ -3350,6 +4554,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_PND_NM_MT CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_PND_NM_MT
 (
       FDOC_NBR VARCHAR2(14)
@@ -3365,12 +4570,22 @@ CREATE TABLE KRIM_PND_NM_MT
         , DFLT_IND VARCHAR2(1) default 'N'
         , ACTV_IND VARCHAR2(1) default 'Y'
         , EDIT_FLAG VARCHAR2(1) default 'N'
+    
+
 )
 /
+
 ALTER TABLE KRIM_PND_NM_MT
     ADD CONSTRAINT KRIM_PND_NM_MTP1
 PRIMARY KEY (FDOC_NBR,ENTITY_NM_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_PND_PHONE_MT
 -----------------------------------------------------------------------------
@@ -3380,6 +4595,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_PND_PHONE_MT CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_PND_PHONE_MT
 (
       FDOC_NBR VARCHAR2(14)
@@ -3394,12 +4610,22 @@ CREATE TABLE KRIM_PND_PHONE_MT
         , DFLT_IND VARCHAR2(1) default 'N'
         , ACTV_IND VARCHAR2(1) default 'Y'
         , EDIT_FLAG VARCHAR2(1) default 'N'
+    
+
 )
 /
+
 ALTER TABLE KRIM_PND_PHONE_MT
     ADD CONSTRAINT KRIM_PND_PHONE_MTP1
 PRIMARY KEY (FDOC_NBR,ENTITY_PHONE_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_PND_PRIV_PREF_MT
 -----------------------------------------------------------------------------
@@ -3409,6 +4635,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_PND_PRIV_PREF_MT CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_PND_PRIV_PREF_MT
 (
       FDOC_NBR VARCHAR2(14)
@@ -3420,12 +4647,22 @@ CREATE TABLE KRIM_PND_PRIV_PREF_MT
         , SUPPRESS_PHONE_IND VARCHAR2(1) default 'Y'
         , SUPPRESS_PRSNL_IND VARCHAR2(1) default 'Y'
         , EDIT_FLAG VARCHAR2(1) default 'N'
+    
+
 )
 /
+
 ALTER TABLE KRIM_PND_PRIV_PREF_MT
     ADD CONSTRAINT KRIM_PND_PRIV_PREF_MTP1
 PRIMARY KEY (FDOC_NBR)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_PND_ROLE_MBR_ATTR_DATA_MT
 -----------------------------------------------------------------------------
@@ -3435,6 +4672,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_PND_ROLE_MBR_ATTR_DATA_MT CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_PND_ROLE_MBR_ATTR_DATA_MT
 (
       FDOC_NBR VARCHAR2(14)
@@ -3447,12 +4685,22 @@ CREATE TABLE KRIM_PND_ROLE_MBR_ATTR_DATA_MT
         , ATTR_VAL VARCHAR2(400)
         , ACTV_IND VARCHAR2(1) default 'Y'
         , EDIT_FLAG VARCHAR2(1) default 'N'
+    
+
 )
 /
+
 ALTER TABLE KRIM_PND_ROLE_MBR_ATTR_DATA_MT
     ADD CONSTRAINT KRIM_PND_ROLE_MBR_ATTR_DATAP1
 PRIMARY KEY (FDOC_NBR,ATTR_DATA_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_PND_ROLE_MBR_MT
 -----------------------------------------------------------------------------
@@ -3462,6 +4710,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_PND_ROLE_MBR_MT CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_PND_ROLE_MBR_MT
 (
       FDOC_NBR VARCHAR2(14)
@@ -3475,12 +4724,22 @@ CREATE TABLE KRIM_PND_ROLE_MBR_MT
         , ACTV_FRM_DT DATE
         , ACTV_TO_DT DATE
         , EDIT_FLAG VARCHAR2(1) default 'N'
+    
+
 )
 /
+
 ALTER TABLE KRIM_PND_ROLE_MBR_MT
     ADD CONSTRAINT KRIM_PND_ROLE_MBR_MTP1
 PRIMARY KEY (FDOC_NBR,ROLE_MBR_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_PND_ROLE_MT
 -----------------------------------------------------------------------------
@@ -3490,6 +4749,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_PND_ROLE_MT CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_PND_ROLE_MT
 (
       FDOC_NBR VARCHAR2(14)
@@ -3501,12 +4761,22 @@ CREATE TABLE KRIM_PND_ROLE_MT
         , ACTV_IND VARCHAR2(1) default 'Y'
         , NMSPC_CD VARCHAR2(40)
         , EDIT_FLAG VARCHAR2(1) default 'N'
+    
+
 )
 /
+
 ALTER TABLE KRIM_PND_ROLE_MT
     ADD CONSTRAINT KRIM_PND_ROLE_MTP1
 PRIMARY KEY (FDOC_NBR,ROLE_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_PND_ROLE_PERM_T
 -----------------------------------------------------------------------------
@@ -3516,6 +4786,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_PND_ROLE_PERM_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_PND_ROLE_PERM_T
 (
       FDOC_NBR VARCHAR2(14)
@@ -3525,12 +4796,22 @@ CREATE TABLE KRIM_PND_ROLE_PERM_T
         , ROLE_ID VARCHAR2(40) NOT NULL
         , PERM_ID VARCHAR2(40) NOT NULL
         , ACTV_IND VARCHAR2(1) default 'Y'
+    
+
 )
 /
+
 ALTER TABLE KRIM_PND_ROLE_PERM_T
     ADD CONSTRAINT KRIM_PND_ROLE_PERM_TP1
 PRIMARY KEY (FDOC_NBR,ROLE_PERM_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_PND_ROLE_RSP_ACTN_MT
 -----------------------------------------------------------------------------
@@ -3540,6 +4821,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_PND_ROLE_RSP_ACTN_MT CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_PND_ROLE_RSP_ACTN_MT
 (
       ROLE_RSP_ACTN_ID VARCHAR2(40)
@@ -3553,12 +4835,22 @@ CREATE TABLE KRIM_PND_ROLE_RSP_ACTN_MT
         , ROLE_RSP_ID VARCHAR2(40)
         , EDIT_FLAG VARCHAR2(1) default 'N'
         , FRC_ACTN VARCHAR2(1)
+    
+
 )
 /
+
 ALTER TABLE KRIM_PND_ROLE_RSP_ACTN_MT
     ADD CONSTRAINT KRIM_PND_ROLE_RSP_ACTN_MTP1
 PRIMARY KEY (ROLE_RSP_ACTN_ID,FDOC_NBR)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_PND_ROLE_RSP_T
 -----------------------------------------------------------------------------
@@ -3568,6 +4860,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_PND_ROLE_RSP_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_PND_ROLE_RSP_T
 (
       FDOC_NBR VARCHAR2(14)
@@ -3577,12 +4870,22 @@ CREATE TABLE KRIM_PND_ROLE_RSP_T
         , ROLE_ID VARCHAR2(40) NOT NULL
         , RSP_ID VARCHAR2(40) NOT NULL
         , ACTV_IND VARCHAR2(1) default 'Y'
+    
+
 )
 /
+
 ALTER TABLE KRIM_PND_ROLE_RSP_T
     ADD CONSTRAINT KRIM_PND_ROLE_RSP_TP1
 PRIMARY KEY (FDOC_NBR,ROLE_RSP_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_PRNCPL_T
 -----------------------------------------------------------------------------
@@ -3592,6 +4895,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_PRNCPL_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_PRNCPL_T
 (
       PRNCPL_ID VARCHAR2(40)
@@ -3602,14 +4906,24 @@ CREATE TABLE KRIM_PRNCPL_T
         , PRNCPL_PSWD VARCHAR2(400)
         , ACTV_IND VARCHAR2(1) default 'Y'
         , LAST_UPDT_DT DATE default SYSDATE
+    
     , CONSTRAINT KRIM_PRNCPL_TC0 UNIQUE (OBJ_ID)
     , CONSTRAINT KRIM_PRNCPL_TC1 UNIQUE (PRNCPL_NM)
+
 )
 /
+
 ALTER TABLE KRIM_PRNCPL_T
     ADD CONSTRAINT KRIM_PRNCPL_TP1
 PRIMARY KEY (PRNCPL_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_ROLE_DOCUMENT_T
 -----------------------------------------------------------------------------
@@ -3619,6 +4933,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_ROLE_DOCUMENT_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_ROLE_DOCUMENT_T
 (
       FDOC_NBR VARCHAR2(14)
@@ -3630,12 +4945,22 @@ CREATE TABLE KRIM_ROLE_DOCUMENT_T
         , ROLE_NM VARCHAR2(400)
         , ACTV_IND VARCHAR2(1) default 'Y'
         , DESC_TXT VARCHAR2(4000)
+    
+
 )
 /
+
 ALTER TABLE KRIM_ROLE_DOCUMENT_T
     ADD CONSTRAINT KRIM_ROLE_DOCUMENT_TP1
 PRIMARY KEY (FDOC_NBR)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_ROLE_MBR_ATTR_DATA_T
 -----------------------------------------------------------------------------
@@ -3645,6 +4970,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_ROLE_MBR_ATTR_DATA_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_ROLE_MBR_ATTR_DATA_T
 (
       ATTR_DATA_ID VARCHAR2(40)
@@ -3654,17 +4980,27 @@ CREATE TABLE KRIM_ROLE_MBR_ATTR_DATA_T
         , KIM_TYP_ID VARCHAR2(40) NOT NULL
         , KIM_ATTR_DEFN_ID VARCHAR2(40)
         , ATTR_VAL VARCHAR2(400)
+    
     , CONSTRAINT KRIM_ROLE_MBR_ATTR_DATA_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRIM_ROLE_MBR_ATTR_DATA_T
     ADD CONSTRAINT KRIM_ROLE_MBR_ATTR_DATA_TP1
 PRIMARY KEY (ATTR_DATA_ID)
 /
+
+
 CREATE INDEX KRIM_ROLE_MBR_ATTR_DATA_TI1 
   ON KRIM_ROLE_MBR_ATTR_DATA_T 
   (ROLE_MBR_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_ROLE_MBR_T
 -----------------------------------------------------------------------------
@@ -3674,6 +5010,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_ROLE_MBR_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_ROLE_MBR_T
 (
       ROLE_MBR_ID VARCHAR2(40)
@@ -3685,17 +5022,27 @@ CREATE TABLE KRIM_ROLE_MBR_T
         , ACTV_FRM_DT DATE
         , ACTV_TO_DT DATE
         , LAST_UPDT_DT DATE default SYSDATE
+    
     , CONSTRAINT KRIM_ROLE_MBR_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRIM_ROLE_MBR_T
     ADD CONSTRAINT KRIM_ROLE_MBR_TP1
 PRIMARY KEY (ROLE_MBR_ID)
 /
+
+
 CREATE INDEX KRIM_ROLE_MBR_TI1 
   ON KRIM_ROLE_MBR_T 
   (MBR_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_ROLE_PERM_T
 -----------------------------------------------------------------------------
@@ -3705,6 +5052,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_ROLE_PERM_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_ROLE_PERM_T
 (
       ROLE_PERM_ID VARCHAR2(40)
@@ -3713,17 +5061,27 @@ CREATE TABLE KRIM_ROLE_PERM_T
         , ROLE_ID VARCHAR2(40)
         , PERM_ID VARCHAR2(40)
         , ACTV_IND VARCHAR2(1) default 'Y'
+    
     , CONSTRAINT KRIM_ROLE_PERM_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRIM_ROLE_PERM_T
     ADD CONSTRAINT KRIM_ROLE_PERM_TP1
 PRIMARY KEY (ROLE_PERM_ID)
 /
+
+
 CREATE INDEX KRIM_ROLE_PERM_TI1 
   ON KRIM_ROLE_PERM_T 
   (PERM_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_ROLE_RSP_ACTN_T
 -----------------------------------------------------------------------------
@@ -3733,6 +5091,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_ROLE_RSP_ACTN_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_ROLE_RSP_ACTN_T
 (
       ROLE_RSP_ACTN_ID VARCHAR2(40)
@@ -3744,14 +5103,24 @@ CREATE TABLE KRIM_ROLE_RSP_ACTN_T
         , ROLE_MBR_ID VARCHAR2(40)
         , ROLE_RSP_ID VARCHAR2(40)
         , FRC_ACTN VARCHAR2(1) default 'N'
+    
     , CONSTRAINT KRIM_ROLE_RSP_ACTN_TC0 UNIQUE (OBJ_ID)
     , CONSTRAINT KRIM_ROLE_RSP_ACTN_TC1 UNIQUE (ROLE_RSP_ID, ROLE_MBR_ID)
+
 )
 /
+
 ALTER TABLE KRIM_ROLE_RSP_ACTN_T
     ADD CONSTRAINT KRIM_ROLE_RSP_ACTN_TP1
 PRIMARY KEY (ROLE_RSP_ACTN_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_ROLE_RSP_T
 -----------------------------------------------------------------------------
@@ -3761,6 +5130,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_ROLE_RSP_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_ROLE_RSP_T
 (
       ROLE_RSP_ID VARCHAR2(40)
@@ -3769,17 +5139,27 @@ CREATE TABLE KRIM_ROLE_RSP_T
         , ROLE_ID VARCHAR2(40)
         , RSP_ID VARCHAR2(40)
         , ACTV_IND VARCHAR2(1) default 'Y'
+    
     , CONSTRAINT KRIM_ROLE_RSP_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRIM_ROLE_RSP_T
     ADD CONSTRAINT KRIM_ROLE_RSP_TP1
 PRIMARY KEY (ROLE_RSP_ID)
 /
+
+
 CREATE INDEX KRIM_ROLE_RSP_TI1 
   ON KRIM_ROLE_RSP_T 
   (RSP_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_ROLE_T
 -----------------------------------------------------------------------------
@@ -3789,6 +5169,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_ROLE_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_ROLE_T
 (
       ROLE_ID VARCHAR2(40)
@@ -3800,14 +5181,24 @@ CREATE TABLE KRIM_ROLE_T
         , KIM_TYP_ID VARCHAR2(40) NOT NULL
         , ACTV_IND VARCHAR2(1) default 'Y'
         , LAST_UPDT_DT DATE default SYSDATE
+    
     , CONSTRAINT KRIM_ROLE_TC0 UNIQUE (OBJ_ID)
     , CONSTRAINT KRIM_ROLE_TC1 UNIQUE (ROLE_NM, NMSPC_CD)
+
 )
 /
+
 ALTER TABLE KRIM_ROLE_T
     ADD CONSTRAINT KRIM_ROLE_TP1
 PRIMARY KEY (ROLE_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_RSP_ATTR_DATA_T
 -----------------------------------------------------------------------------
@@ -3817,6 +5208,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_RSP_ATTR_DATA_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_RSP_ATTR_DATA_T
 (
       ATTR_DATA_ID VARCHAR2(40)
@@ -3826,13 +5218,23 @@ CREATE TABLE KRIM_RSP_ATTR_DATA_T
         , KIM_TYP_ID VARCHAR2(40) NOT NULL
         , KIM_ATTR_DEFN_ID VARCHAR2(40)
         , ATTR_VAL VARCHAR2(400)
+    
     , CONSTRAINT KRIM_RSP_ATTR_DATA_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRIM_RSP_ATTR_DATA_T
     ADD CONSTRAINT KRIM_RSP_ATTR_DATA_TP1
 PRIMARY KEY (ATTR_DATA_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_RSP_T
 -----------------------------------------------------------------------------
@@ -3842,6 +5244,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_RSP_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_RSP_T
 (
       RSP_ID VARCHAR2(40)
@@ -3852,13 +5255,23 @@ CREATE TABLE KRIM_RSP_T
         , NM VARCHAR2(100)
         , DESC_TXT VARCHAR2(400)
         , ACTV_IND VARCHAR2(1) default 'Y'
+    
     , CONSTRAINT KRIM_RSP_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRIM_RSP_T
     ADD CONSTRAINT KRIM_RSP_TP1
 PRIMARY KEY (RSP_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_RSP_TMPL_T
 -----------------------------------------------------------------------------
@@ -3868,6 +5281,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_RSP_TMPL_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_RSP_TMPL_T
 (
       RSP_TMPL_ID VARCHAR2(40)
@@ -3878,13 +5292,23 @@ CREATE TABLE KRIM_RSP_TMPL_T
         , KIM_TYP_ID VARCHAR2(100) NOT NULL
         , DESC_TXT VARCHAR2(400)
         , ACTV_IND VARCHAR2(1) default 'Y'
+    
     , CONSTRAINT KRIM_RSP_TMPL_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRIM_RSP_TMPL_T
     ADD CONSTRAINT KRIM_RSP_TMPL_TP1
 PRIMARY KEY (RSP_TMPL_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_TYP_ATTR_T
 -----------------------------------------------------------------------------
@@ -3894,6 +5318,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_TYP_ATTR_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_TYP_ATTR_T
 (
       KIM_TYP_ATTR_ID VARCHAR2(40)
@@ -3903,17 +5328,27 @@ CREATE TABLE KRIM_TYP_ATTR_T
         , KIM_TYP_ID VARCHAR2(40) NOT NULL
         , KIM_ATTR_DEFN_ID VARCHAR2(40)
         , ACTV_IND VARCHAR2(1) default 'Y'
+    
     , CONSTRAINT KRIM_TYP_ATTR_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRIM_TYP_ATTR_T
     ADD CONSTRAINT KRIM_TYP_ATTR_TP1
 PRIMARY KEY (KIM_TYP_ATTR_ID)
 /
+
+
 CREATE INDEX KRIM_TYP_ATTRIBUTE_TI1 
   ON KRIM_TYP_ATTR_T 
   (KIM_TYP_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRIM_TYP_T
 -----------------------------------------------------------------------------
@@ -3923,6 +5358,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRIM_TYP_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRIM_TYP_T
 (
       KIM_TYP_ID VARCHAR2(40)
@@ -3932,13 +5368,23 @@ CREATE TABLE KRIM_TYP_T
         , SRVC_NM VARCHAR2(200)
         , ACTV_IND VARCHAR2(1) default 'Y'
         , NMSPC_CD VARCHAR2(40)
+    
     , CONSTRAINT KRIM_TYP_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRIM_TYP_T
     ADD CONSTRAINT KRIM_TYP_TP1
 PRIMARY KEY (KIM_TYP_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRNS_ADHOC_RTE_ACTN_RECIP_T
 -----------------------------------------------------------------------------
@@ -3948,6 +5394,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRNS_ADHOC_RTE_ACTN_RECIP_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRNS_ADHOC_RTE_ACTN_RECIP_T
 (
       RECIP_TYP_CD NUMBER(1)
@@ -3956,17 +5403,27 @@ CREATE TABLE KRNS_ADHOC_RTE_ACTN_RECIP_T
         , OBJ_ID VARCHAR2(36) default SYS_GUID() NOT NULL
         , VER_NBR NUMBER(8) default 1 NOT NULL
         , DOC_HDR_ID VARCHAR2(14)
+    
     , CONSTRAINT KRNS_ADHOC_RTE_ACTN_RECIP_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRNS_ADHOC_RTE_ACTN_RECIP_T
     ADD CONSTRAINT KRNS_ADHOC_RTE_ACTN_RECIP_TP1
 PRIMARY KEY (RECIP_TYP_CD,ACTN_RQST_CD,ACTN_RQST_RECIP_ID,DOC_HDR_ID)
 /
+
+
 CREATE INDEX KRNS_ADHOC_RTE_ACTN_RECIP_T2 
   ON KRNS_ADHOC_RTE_ACTN_RECIP_T 
   (DOC_HDR_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRNS_ATT_T
 -----------------------------------------------------------------------------
@@ -3976,6 +5433,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRNS_ATT_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRNS_ATT_T
 (
       NTE_ID NUMBER(14)
@@ -3986,13 +5444,23 @@ CREATE TABLE KRNS_ATT_T
         , ATT_ID VARCHAR2(36)
         , FILE_SZ NUMBER(14)
         , ATT_TYP_CD VARCHAR2(40)
+    
     , CONSTRAINT KRNS_ATT_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRNS_ATT_T
     ADD CONSTRAINT KRNS_ATT_TP1
 PRIMARY KEY (NTE_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRNS_CAMPUS_T
 -----------------------------------------------------------------------------
@@ -4002,6 +5470,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRNS_CAMPUS_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRNS_CAMPUS_T
 (
       CAMPUS_CD VARCHAR2(2)
@@ -4011,13 +5480,23 @@ CREATE TABLE KRNS_CAMPUS_T
         , OBJ_ID VARCHAR2(36) default SYS_GUID() NOT NULL
         , VER_NBR NUMBER(8) default 1 NOT NULL
         , ACTV_IND VARCHAR2(1) default 'Y' NOT NULL
+    
     , CONSTRAINT KRNS_CAMPUS_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRNS_CAMPUS_T
     ADD CONSTRAINT KRNS_CAMPUS_TP1
 PRIMARY KEY (CAMPUS_CD)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRNS_CMP_TYP_T
 -----------------------------------------------------------------------------
@@ -4027,6 +5506,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRNS_CMP_TYP_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRNS_CMP_TYP_T
 (
       CAMPUS_TYP_CD VARCHAR2(1)
@@ -4035,13 +5515,23 @@ CREATE TABLE KRNS_CMP_TYP_T
         , OBJ_ID VARCHAR2(36) default SYS_GUID() NOT NULL
         , VER_NBR NUMBER(8) default 1 NOT NULL
         , ACTV_IND VARCHAR2(1) default 'Y' NOT NULL
+    
     , CONSTRAINT KRNS_CMP_TYP_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRNS_CMP_TYP_T
     ADD CONSTRAINT KRNS_CMP_TYP_TP1
 PRIMARY KEY (CAMPUS_TYP_CD)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRNS_DOC_HDR_T
 -----------------------------------------------------------------------------
@@ -4051,6 +5541,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRNS_DOC_HDR_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRNS_DOC_HDR_T
 (
       DOC_HDR_ID VARCHAR2(14)
@@ -4060,17 +5551,27 @@ CREATE TABLE KRNS_DOC_HDR_T
         , ORG_DOC_HDR_ID VARCHAR2(10)
         , TMPL_DOC_HDR_ID VARCHAR2(14)
         , EXPLANATION VARCHAR2(400)
+    
     , CONSTRAINT KRNS_DOC_HDR_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRNS_DOC_HDR_T
     ADD CONSTRAINT KRNS_DOC_HDR_TP1
 PRIMARY KEY (DOC_HDR_ID)
 /
+
+
 CREATE INDEX KRNS_DOC_HDR_TI3 
   ON KRNS_DOC_HDR_T 
   (ORG_DOC_HDR_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRNS_LOOKUP_RSLT_T
 -----------------------------------------------------------------------------
@@ -4080,6 +5581,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRNS_LOOKUP_RSLT_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRNS_LOOKUP_RSLT_T
 (
       LOOKUP_RSLT_ID VARCHAR2(14)
@@ -4088,13 +5590,23 @@ CREATE TABLE KRNS_LOOKUP_RSLT_T
         , PRNCPL_ID VARCHAR2(40) NOT NULL
         , LOOKUP_DT DATE NOT NULL
         , SERIALZD_RSLTS CLOB
+    
     , CONSTRAINT KRNS_LOOKUP_RSLT_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRNS_LOOKUP_RSLT_T
     ADD CONSTRAINT KRNS_LOOKUP_RSLT_TP1
 PRIMARY KEY (LOOKUP_RSLT_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRNS_LOOKUP_SEL_T
 -----------------------------------------------------------------------------
@@ -4104,6 +5616,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRNS_LOOKUP_SEL_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRNS_LOOKUP_SEL_T
 (
       LOOKUP_RSLT_ID VARCHAR2(14)
@@ -4112,13 +5625,23 @@ CREATE TABLE KRNS_LOOKUP_SEL_T
         , PRNCPL_ID VARCHAR2(40) NOT NULL
         , LOOKUP_DT DATE NOT NULL
         , SEL_OBJ_IDS CLOB
+    
     , CONSTRAINT KRNS_LOOKUP_SEL_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRNS_LOOKUP_SEL_T
     ADD CONSTRAINT KRNS_LOOKUP_SEL_TP1
 PRIMARY KEY (LOOKUP_RSLT_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRNS_MAINT_DOC_ATT_T
 -----------------------------------------------------------------------------
@@ -4128,6 +5651,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRNS_MAINT_DOC_ATT_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRNS_MAINT_DOC_ATT_T
 (
       DOC_HDR_ID VARCHAR2(14)
@@ -4136,13 +5660,23 @@ CREATE TABLE KRNS_MAINT_DOC_ATT_T
         , CNTNT_TYP VARCHAR2(50)
         , OBJ_ID VARCHAR2(36) default SYS_GUID() NOT NULL
         , VER_NBR NUMBER(8) default 1 NOT NULL
+    
     , CONSTRAINT KRNS_MAINT_DOC_ATT_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRNS_MAINT_DOC_ATT_T
     ADD CONSTRAINT KRNS_MAINT_DOC_ATT_TP1
 PRIMARY KEY (DOC_HDR_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRNS_MAINT_DOC_T
 -----------------------------------------------------------------------------
@@ -4152,19 +5686,30 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRNS_MAINT_DOC_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRNS_MAINT_DOC_T
 (
       DOC_HDR_ID VARCHAR2(14)
         , OBJ_ID VARCHAR2(36) default SYS_GUID() NOT NULL
         , VER_NBR NUMBER(8) default 1 NOT NULL
         , DOC_CNTNT CLOB
+    
     , CONSTRAINT KRNS_MAINT_DOC_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRNS_MAINT_DOC_T
     ADD CONSTRAINT KRNS_MAINT_DOC_TP1
 PRIMARY KEY (DOC_HDR_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRNS_MAINT_LOCK_T
 -----------------------------------------------------------------------------
@@ -4174,6 +5719,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRNS_MAINT_LOCK_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRNS_MAINT_LOCK_T
 (
       MAINT_LOCK_REP_TXT VARCHAR2(500)
@@ -4181,17 +5727,27 @@ CREATE TABLE KRNS_MAINT_LOCK_T
         , VER_NBR NUMBER(8) default 1 NOT NULL
         , DOC_HDR_ID VARCHAR2(14) NOT NULL
         , MAINT_LOCK_ID VARCHAR2(14)
+    
     , CONSTRAINT KRNS_MAINT_LOCK_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRNS_MAINT_LOCK_T
     ADD CONSTRAINT KRNS_MAINT_LOCK_TP1
 PRIMARY KEY (MAINT_LOCK_ID)
 /
+
+
 CREATE INDEX KRNS_MAINT_LOCK_TI2 
   ON KRNS_MAINT_LOCK_T 
   (DOC_HDR_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRNS_NMSPC_T
 -----------------------------------------------------------------------------
@@ -4201,6 +5757,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRNS_NMSPC_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRNS_NMSPC_T
 (
       NMSPC_CD VARCHAR2(20)
@@ -4209,13 +5766,23 @@ CREATE TABLE KRNS_NMSPC_T
         , NM VARCHAR2(40)
         , ACTV_IND CHAR(1) default 'Y' NOT NULL
         , APPL_NMSPC_CD VARCHAR2(20)
+    
     , CONSTRAINT KRNS_NMSPC_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRNS_NMSPC_T
     ADD CONSTRAINT KRNS_NMSPC_TP1
 PRIMARY KEY (NMSPC_CD)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRNS_NTE_T
 -----------------------------------------------------------------------------
@@ -4225,6 +5792,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRNS_NTE_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRNS_NTE_T
 (
       NTE_ID NUMBER(14)
@@ -4237,13 +5805,23 @@ CREATE TABLE KRNS_NTE_T
         , TXT VARCHAR2(800)
         , PRG_CD VARCHAR2(1)
         , TPC_TXT VARCHAR2(40)
+    
     , CONSTRAINT KRNS_NTE_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRNS_NTE_T
     ADD CONSTRAINT KRNS_NTE_TP1
 PRIMARY KEY (NTE_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRNS_NTE_TYP_T
 -----------------------------------------------------------------------------
@@ -4253,6 +5831,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRNS_NTE_TYP_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRNS_NTE_TYP_T
 (
       NTE_TYP_CD VARCHAR2(4)
@@ -4260,13 +5839,23 @@ CREATE TABLE KRNS_NTE_TYP_T
         , VER_NBR NUMBER(8) default 1 NOT NULL
         , TYP_DESC_TXT VARCHAR2(100)
         , ACTV_IND VARCHAR2(1)
+    
     , CONSTRAINT KRNS_NTE_TYP_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRNS_NTE_TYP_T
     ADD CONSTRAINT KRNS_NTE_TYP_TP1
 PRIMARY KEY (NTE_TYP_CD)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRNS_PARM_DTL_TYP_T
 -----------------------------------------------------------------------------
@@ -4276,6 +5865,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRNS_PARM_DTL_TYP_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRNS_PARM_DTL_TYP_T
 (
       NMSPC_CD VARCHAR2(20)
@@ -4284,13 +5874,23 @@ CREATE TABLE KRNS_PARM_DTL_TYP_T
         , VER_NBR NUMBER(8) default 1 NOT NULL
         , NM VARCHAR2(255)
         , ACTV_IND CHAR(1) default 'Y' NOT NULL
+    
     , CONSTRAINT KRNS_PARM_DTL_TYP_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRNS_PARM_DTL_TYP_T
     ADD CONSTRAINT KRNS_PARM_DTL_TYP_TP1
 PRIMARY KEY (NMSPC_CD,PARM_DTL_TYP_CD)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRNS_PARM_T
 -----------------------------------------------------------------------------
@@ -4300,6 +5900,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRNS_PARM_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRNS_PARM_T
 (
       NMSPC_CD VARCHAR2(20)
@@ -4312,13 +5913,23 @@ CREATE TABLE KRNS_PARM_T
         , PARM_DESC_TXT VARCHAR2(4000)
         , CONS_CD VARCHAR2(1)
         , APPL_NMSPC_CD VARCHAR2(20) default 'KUALI'
+    
     , CONSTRAINT KRNS_PARM_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRNS_PARM_T
     ADD CONSTRAINT KRNS_PARM_TP1
 PRIMARY KEY (NMSPC_CD,PARM_DTL_TYP_CD,PARM_NM,APPL_NMSPC_CD)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRNS_PARM_TYP_T
 -----------------------------------------------------------------------------
@@ -4328,6 +5939,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRNS_PARM_TYP_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRNS_PARM_TYP_T
 (
       PARM_TYP_CD VARCHAR2(5)
@@ -4335,13 +5947,23 @@ CREATE TABLE KRNS_PARM_TYP_T
         , VER_NBR NUMBER(8) default 1 NOT NULL
         , NM VARCHAR2(40)
         , ACTV_IND CHAR(1) default 'Y' NOT NULL
+    
     , CONSTRAINT KRNS_PARM_TYP_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRNS_PARM_TYP_T
     ADD CONSTRAINT KRNS_PARM_TYP_TP1
 PRIMARY KEY (PARM_TYP_CD)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRNS_PESSIMISTIC_LOCK_T
 -----------------------------------------------------------------------------
@@ -4351,6 +5973,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRNS_PESSIMISTIC_LOCK_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRNS_PESSIMISTIC_LOCK_T
 (
       PESSIMISTIC_LOCK_ID NUMBER(14)
@@ -4360,13 +5983,18 @@ CREATE TABLE KRNS_PESSIMISTIC_LOCK_T
         , DOC_HDR_ID VARCHAR2(14) NOT NULL
         , GNRT_DT DATE NOT NULL
         , PRNCPL_ID VARCHAR2(40) NOT NULL
+    
     , CONSTRAINT KRNS_PESSIMISTIC_LOCK_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KRNS_PESSIMISTIC_LOCK_T
     ADD CONSTRAINT KRNS_PESSIMISTIC_LOCK_TP1
 PRIMARY KEY (PESSIMISTIC_LOCK_ID)
 /
+
+
 CREATE INDEX KRNS_PESSIMISTIC_LOCK_TI1 
   ON KRNS_PESSIMISTIC_LOCK_T 
   (DOC_HDR_ID)
@@ -4375,6 +6003,11 @@ CREATE INDEX KRNS_PESSIMISTIC_LOCK_TI2
   ON KRNS_PESSIMISTIC_LOCK_T 
   (PRNCPL_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRNS_SESN_DOC_T
 -----------------------------------------------------------------------------
@@ -4384,6 +6017,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRNS_SESN_DOC_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRNS_SESN_DOC_T
 (
       SESN_DOC_ID VARCHAR2(40)
@@ -4393,16 +6027,26 @@ CREATE TABLE KRNS_SESN_DOC_T
         , SERIALZD_DOC_FRM BLOB
         , LAST_UPDT_DT DATE
         , CONTENT_ENCRYPTED_IND CHAR(1) default 'N'
+    
+
 )
 /
+
 ALTER TABLE KRNS_SESN_DOC_T
     ADD CONSTRAINT KRNS_SESN_DOC_TP1
 PRIMARY KEY (SESN_DOC_ID,DOC_HDR_ID,PRNCPL_ID,IP_ADDR)
 /
+
+
 CREATE INDEX KRNS_SESN_DOC_TI1 
   ON KRNS_SESN_DOC_T 
   (LAST_UPDT_DT)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRSB_BAM_PARM_T
 -----------------------------------------------------------------------------
@@ -4412,21 +6056,32 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRSB_BAM_PARM_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRSB_BAM_PARM_T
 (
       BAM_PARM_ID NUMBER(14)
         , BAM_ID NUMBER(14) NOT NULL
         , PARM CLOB NOT NULL
+    
+
 )
 /
+
 ALTER TABLE KRSB_BAM_PARM_T
     ADD CONSTRAINT KRSB_BAM_PARM_TP1
 PRIMARY KEY (BAM_PARM_ID)
 /
+
+
 CREATE INDEX KREW_BAM_PARM_TI1 
   ON KRSB_BAM_PARM_T 
   (BAM_ID)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRSB_BAM_T
 -----------------------------------------------------------------------------
@@ -4436,6 +6091,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRSB_BAM_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRSB_BAM_T
 (
       BAM_ID NUMBER(14)
@@ -4448,12 +6104,17 @@ CREATE TABLE KRSB_BAM_T
         , SRVR_IND NUMBER(1) NOT NULL
         , EXCPN_TO_STR VARCHAR2(2000)
         , EXCPN_MSG CLOB
+    
+
 )
 /
+
 ALTER TABLE KRSB_BAM_T
     ADD CONSTRAINT KRSB_BAM_TP1
 PRIMARY KEY (BAM_ID)
 /
+
+
 CREATE INDEX KRSB_BAM_TI1 
   ON KRSB_BAM_T 
   (SVC_NM, MTHD_NM)
@@ -4462,6 +6123,11 @@ CREATE INDEX KRSB_BAM_TI2
   ON KRSB_BAM_T 
   (SVC_NM)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRSB_MSG_PYLD_T
 -----------------------------------------------------------------------------
@@ -4471,16 +6137,27 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRSB_MSG_PYLD_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRSB_MSG_PYLD_T
 (
       MSG_QUE_ID NUMBER(14)
         , MSG_PYLD CLOB NOT NULL
+    
+
 )
 /
+
 ALTER TABLE KRSB_MSG_PYLD_T
     ADD CONSTRAINT KRSB_MSG_PYLD_TP1
 PRIMARY KEY (MSG_QUE_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRSB_MSG_QUE_T
 -----------------------------------------------------------------------------
@@ -4490,6 +6167,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRSB_MSG_QUE_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRSB_MSG_QUE_T
 (
       MSG_QUE_ID NUMBER(14)
@@ -4505,12 +6183,17 @@ CREATE TABLE KRSB_MSG_QUE_T
         , APP_VAL_ONE VARCHAR2(2000)
         , APP_VAL_TWO VARCHAR2(2000)
         , VER_NBR NUMBER(8) default 0
+    
+
 )
 /
+
 ALTER TABLE KRSB_MSG_QUE_T
     ADD CONSTRAINT KRSB_MSG_QUE_TP1
 PRIMARY KEY (MSG_QUE_ID)
 /
+
+
 CREATE INDEX KRSB_MSG_QUE_TI1 
   ON KRSB_MSG_QUE_T 
   (SVC_NM, SVC_MTHD_NM)
@@ -4519,6 +6202,11 @@ CREATE INDEX KRSB_MSG_QUE_TI2
   ON KRSB_MSG_QUE_T 
   (SVC_NMSPC, STAT_CD, IP_NBR, DT)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRSB_QRTZ_BLOB_TRIGGERS
 -----------------------------------------------------------------------------
@@ -4528,17 +6216,28 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRSB_QRTZ_BLOB_TRIGGERS CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRSB_QRTZ_BLOB_TRIGGERS
 (
       TRIGGER_NAME VARCHAR2(80)
         , TRIGGER_GROUP VARCHAR2(80)
         , BLOB_DATA BLOB
+    
+
 )
 /
+
 ALTER TABLE KRSB_QRTZ_BLOB_TRIGGERS
     ADD CONSTRAINT KRSB_QRTZ_BLOB_TRIGGERSP1
 PRIMARY KEY (TRIGGER_NAME,TRIGGER_GROUP)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRSB_QRTZ_CALENDARS
 -----------------------------------------------------------------------------
@@ -4548,16 +6247,27 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRSB_QRTZ_CALENDARS CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRSB_QRTZ_CALENDARS
 (
       CALENDAR_NAME VARCHAR2(80)
         , CALENDAR BLOB NOT NULL
+    
+
 )
 /
+
 ALTER TABLE KRSB_QRTZ_CALENDARS
     ADD CONSTRAINT KRSB_QRTZ_CALENDARSP1
 PRIMARY KEY (CALENDAR_NAME)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRSB_QRTZ_CRON_TRIGGERS
 -----------------------------------------------------------------------------
@@ -4567,18 +6277,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRSB_QRTZ_CRON_TRIGGERS CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRSB_QRTZ_CRON_TRIGGERS
 (
       TRIGGER_NAME VARCHAR2(80)
         , TRIGGER_GROUP VARCHAR2(80)
         , CRON_EXPRESSION VARCHAR2(80) NOT NULL
         , TIME_ZONE_ID VARCHAR2(80)
+    
+
 )
 /
+
 ALTER TABLE KRSB_QRTZ_CRON_TRIGGERS
     ADD CONSTRAINT KRSB_QRTZ_CRON_TRIGGERSP1
 PRIMARY KEY (TRIGGER_NAME,TRIGGER_GROUP)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRSB_QRTZ_FIRED_TRIGGERS
 -----------------------------------------------------------------------------
@@ -4588,6 +6309,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRSB_QRTZ_FIRED_TRIGGERS CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRSB_QRTZ_FIRED_TRIGGERS
 (
       ENTRY_ID VARCHAR2(95)
@@ -4602,12 +6324,17 @@ CREATE TABLE KRSB_QRTZ_FIRED_TRIGGERS
         , JOB_GROUP VARCHAR2(80)
         , IS_STATEFUL VARCHAR2(1)
         , REQUESTS_RECOVERY VARCHAR2(1)
+    
+
 )
 /
+
 ALTER TABLE KRSB_QRTZ_FIRED_TRIGGERS
     ADD CONSTRAINT KRSB_QRTZ_FIRED_TRIGGERSP1
 PRIMARY KEY (ENTRY_ID)
 /
+
+
 CREATE INDEX KRSB_QRTZ_FIRED_TRIGGERS_TI1 
   ON KRSB_QRTZ_FIRED_TRIGGERS 
   (JOB_GROUP)
@@ -4644,6 +6371,11 @@ CREATE INDEX KRSB_QRTZ_FIRED_TRIGGERS_TI9
   ON KRSB_QRTZ_FIRED_TRIGGERS 
   (IS_VOLATILE)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRSB_QRTZ_JOB_DETAILS
 -----------------------------------------------------------------------------
@@ -4653,6 +6385,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRSB_QRTZ_JOB_DETAILS CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRSB_QRTZ_JOB_DETAILS
 (
       JOB_NAME VARCHAR2(80)
@@ -4664,16 +6397,26 @@ CREATE TABLE KRSB_QRTZ_JOB_DETAILS
         , IS_STATEFUL VARCHAR2(1) NOT NULL
         , REQUESTS_RECOVERY VARCHAR2(1) NOT NULL
         , JOB_DATA BLOB
+    
+
 )
 /
+
 ALTER TABLE KRSB_QRTZ_JOB_DETAILS
     ADD CONSTRAINT KRSB_QRTZ_JOB_DETAILSP1
 PRIMARY KEY (JOB_NAME,JOB_GROUP)
 /
+
+
 CREATE INDEX KRSB_QRTZ_JOB_DETAILS_TI1 
   ON KRSB_QRTZ_JOB_DETAILS 
   (REQUESTS_RECOVERY)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRSB_QRTZ_JOB_LISTENERS
 -----------------------------------------------------------------------------
@@ -4683,17 +6426,28 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRSB_QRTZ_JOB_LISTENERS CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRSB_QRTZ_JOB_LISTENERS
 (
       JOB_NAME VARCHAR2(80)
         , JOB_GROUP VARCHAR2(80)
         , JOB_LISTENER VARCHAR2(80)
+    
+
 )
 /
+
 ALTER TABLE KRSB_QRTZ_JOB_LISTENERS
     ADD CONSTRAINT KRSB_QRTZ_JOB_LISTENERSP1
 PRIMARY KEY (JOB_NAME,JOB_GROUP,JOB_LISTENER)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRSB_QRTZ_LOCKS
 -----------------------------------------------------------------------------
@@ -4703,15 +6457,26 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRSB_QRTZ_LOCKS CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRSB_QRTZ_LOCKS
 (
       LOCK_NAME VARCHAR2(40)
+    
+
 )
 /
+
 ALTER TABLE KRSB_QRTZ_LOCKS
     ADD CONSTRAINT KRSB_QRTZ_LOCKSP1
 PRIMARY KEY (LOCK_NAME)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRSB_QRTZ_PAUSED_TRIGGER_GRPS
 -----------------------------------------------------------------------------
@@ -4721,15 +6486,26 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRSB_QRTZ_PAUSED_TRIGGER_GRPS CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRSB_QRTZ_PAUSED_TRIGGER_GRPS
 (
       TRIGGER_GROUP VARCHAR2(80)
+    
+
 )
 /
+
 ALTER TABLE KRSB_QRTZ_PAUSED_TRIGGER_GRPS
     ADD CONSTRAINT KRSB_QRTZ_PAUSED_TRIGGER_GRP1
 PRIMARY KEY (TRIGGER_GROUP)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRSB_QRTZ_SCHEDULER_STATE
 -----------------------------------------------------------------------------
@@ -4739,17 +6515,28 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRSB_QRTZ_SCHEDULER_STATE CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRSB_QRTZ_SCHEDULER_STATE
 (
       INSTANCE_NAME VARCHAR2(80)
         , LAST_CHECKIN_TIME NUMBER(13) NOT NULL
         , CHECKIN_INTERVAL NUMBER(13) NOT NULL
+    
+
 )
 /
+
 ALTER TABLE KRSB_QRTZ_SCHEDULER_STATE
     ADD CONSTRAINT KRSB_QRTZ_SCHEDULER_STATEP1
 PRIMARY KEY (INSTANCE_NAME)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRSB_QRTZ_SIMPLE_TRIGGERS
 -----------------------------------------------------------------------------
@@ -4759,6 +6546,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRSB_QRTZ_SIMPLE_TRIGGERS CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRSB_QRTZ_SIMPLE_TRIGGERS
 (
       TRIGGER_NAME VARCHAR2(80)
@@ -4766,12 +6554,22 @@ CREATE TABLE KRSB_QRTZ_SIMPLE_TRIGGERS
         , REPEAT_COUNT NUMBER(7) NOT NULL
         , REPEAT_INTERVAL NUMBER(12) NOT NULL
         , TIMES_TRIGGERED NUMBER(7) NOT NULL
+    
+
 )
 /
+
 ALTER TABLE KRSB_QRTZ_SIMPLE_TRIGGERS
     ADD CONSTRAINT KRSB_QRTZ_SIMPLE_TRIGGERSP1
 PRIMARY KEY (TRIGGER_NAME,TRIGGER_GROUP)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRSB_QRTZ_TRIGGERS
 -----------------------------------------------------------------------------
@@ -4781,6 +6579,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRSB_QRTZ_TRIGGERS CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRSB_QRTZ_TRIGGERS
 (
       TRIGGER_NAME VARCHAR2(80)
@@ -4799,12 +6598,17 @@ CREATE TABLE KRSB_QRTZ_TRIGGERS
         , CALENDAR_NAME VARCHAR2(80)
         , MISFIRE_INSTR NUMBER(2)
         , JOB_DATA BLOB
+    
+
 )
 /
+
 ALTER TABLE KRSB_QRTZ_TRIGGERS
     ADD CONSTRAINT KRSB_QRTZ_TRIGGERSP1
 PRIMARY KEY (TRIGGER_NAME,TRIGGER_GROUP)
 /
+
+
 CREATE INDEX KRSB_QRTZ_TRIGGERS_TI1 
   ON KRSB_QRTZ_TRIGGERS 
   (NEXT_FIRE_TIME)
@@ -4821,6 +6625,11 @@ CREATE INDEX KRSB_QRTZ_TRIGGERS_TI4
   ON KRSB_QRTZ_TRIGGERS 
   (IS_VOLATILE)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRSB_QRTZ_TRIGGER_LISTENERS
 -----------------------------------------------------------------------------
@@ -4830,17 +6639,28 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRSB_QRTZ_TRIGGER_LISTENERS CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRSB_QRTZ_TRIGGER_LISTENERS
 (
       TRIGGER_NAME VARCHAR2(80)
         , TRIGGER_GROUP VARCHAR2(80)
         , TRIGGER_LISTENER VARCHAR2(80)
+    
+
 )
 /
+
 ALTER TABLE KRSB_QRTZ_TRIGGER_LISTENERS
     ADD CONSTRAINT KRSB_QRTZ_TRIGGER_LISTENERSP1
 PRIMARY KEY (TRIGGER_NAME,TRIGGER_GROUP,TRIGGER_LISTENER)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KRSB_SVC_DEF_T
 -----------------------------------------------------------------------------
@@ -4850,6 +6670,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KRSB_SVC_DEF_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KRSB_SVC_DEF_T
 (
       SVC_DEF_ID NUMBER(14)
@@ -4860,16 +6681,26 @@ CREATE TABLE KRSB_SVC_DEF_T
         , SVC_ALIVE NUMBER(1) NOT NULL
         , SVC_DEF CLOB NOT NULL
         , VER_NBR NUMBER(8) default 0
+    
+
 )
 /
+
 ALTER TABLE KRSB_SVC_DEF_T
     ADD CONSTRAINT KRSB_SVC_DEF_TP1
 PRIMARY KEY (SVC_DEF_ID)
 /
+
+
 CREATE INDEX KRSB_SVC_DEF_TI1 
   ON KRSB_SVC_DEF_T 
   (SRVR_IP, SVC_NMSPC)
 /
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KR_COUNTRY_T
 -----------------------------------------------------------------------------
@@ -4879,6 +6710,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KR_COUNTRY_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KR_COUNTRY_T
 (
       POSTAL_CNTRY_CD VARCHAR2(2)
@@ -4887,13 +6719,23 @@ CREATE TABLE KR_COUNTRY_T
         , POSTAL_CNTRY_NM VARCHAR2(40)
         , PSTL_CNTRY_RSTRC_IND VARCHAR2(1) NOT NULL
         , ACTV_IND VARCHAR2(1) default 'Y' NOT NULL
+    
     , CONSTRAINT KR_COUNTRY_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KR_COUNTRY_T
     ADD CONSTRAINT KR_COUNTRY_TP1
 PRIMARY KEY (POSTAL_CNTRY_CD)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KR_COUNTY_T
 -----------------------------------------------------------------------------
@@ -4903,6 +6745,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KR_COUNTY_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KR_COUNTY_T
 (
       COUNTY_CD VARCHAR2(10)
@@ -4912,13 +6755,23 @@ CREATE TABLE KR_COUNTY_T
         , VER_NBR NUMBER(8) default 1 NOT NULL
         , COUNTY_NM VARCHAR2(100)
         , ACTV_IND VARCHAR2(1)
+    
     , CONSTRAINT KR_COUNTY_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KR_COUNTY_T
     ADD CONSTRAINT KR_COUNTY_TP1
 PRIMARY KEY (COUNTY_CD,STATE_CD,POSTAL_CNTRY_CD)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KR_POSTAL_CODE_T
 -----------------------------------------------------------------------------
@@ -4928,6 +6781,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KR_POSTAL_CODE_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KR_POSTAL_CODE_T
 (
       POSTAL_CD VARCHAR2(20)
@@ -4938,13 +6792,23 @@ CREATE TABLE KR_POSTAL_CODE_T
         , COUNTY_CD VARCHAR2(10)
         , POSTAL_CITY_NM VARCHAR2(30)
         , ACTV_IND VARCHAR2(1) default 'Y' NOT NULL
+    
     , CONSTRAINT KR_POSTAL_CODE_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KR_POSTAL_CODE_T
     ADD CONSTRAINT KR_POSTAL_CODE_TP1
 PRIMARY KEY (POSTAL_CD,POSTAL_CNTRY_CD)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KR_STATE_T
 -----------------------------------------------------------------------------
@@ -4954,6 +6818,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KR_STATE_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KR_STATE_T
 (
       POSTAL_STATE_CD VARCHAR2(2)
@@ -4962,13 +6827,23 @@ CREATE TABLE KR_STATE_T
         , VER_NBR NUMBER(8) default 1 NOT NULL
         , POSTAL_STATE_NM VARCHAR2(40)
         , ACTV_IND VARCHAR2(1) default 'Y' NOT NULL
+    
     , CONSTRAINT KR_STATE_TC0 UNIQUE (OBJ_ID)
+
 )
 /
+
 ALTER TABLE KR_STATE_T
     ADD CONSTRAINT KR_STATE_TP1
 PRIMARY KEY (POSTAL_STATE_CD,POSTAL_CNTRY_CD)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSAP_ATP
 -----------------------------------------------------------------------------
@@ -4978,6 +6853,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSAP_ATP CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSAP_ATP
 (
       ID VARCHAR2(255)
@@ -4992,12 +6868,22 @@ CREATE TABLE KSAP_ATP
         , STATE VARCHAR2(255)
         , RT_DESCR_ID VARCHAR2(255)
         , TYPE VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSAP_ATP
     ADD CONSTRAINT KSAP_ATPP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSAP_ATP_ATTR
 -----------------------------------------------------------------------------
@@ -5007,18 +6893,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSAP_ATP_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSAP_ATP_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSAP_ATP_ATTR
     ADD CONSTRAINT KSAP_ATP_ATTRP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSAP_ATP_DUR_TYPE
 -----------------------------------------------------------------------------
@@ -5028,6 +6925,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSAP_ATP_DUR_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSAP_ATP_DUR_TYPE
 (
       TYPE_KEY VARCHAR2(255)
@@ -5035,12 +6933,22 @@ CREATE TABLE KSAP_ATP_DUR_TYPE
         , EFF_DT TIMESTAMP
         , EXPIR_DT TIMESTAMP
         , NAME VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSAP_ATP_DUR_TYPE
     ADD CONSTRAINT KSAP_ATP_DUR_TYPEP1
 PRIMARY KEY (TYPE_KEY)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSAP_ATP_DUR_TYPE_ATTR
 -----------------------------------------------------------------------------
@@ -5050,18 +6958,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSAP_ATP_DUR_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSAP_ATP_DUR_TYPE_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSAP_ATP_DUR_TYPE_ATTR
     ADD CONSTRAINT KSAP_ATP_DUR_TYPE_ATTRP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSAP_ATP_SEASONAL_TYPE
 -----------------------------------------------------------------------------
@@ -5071,6 +6990,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSAP_ATP_SEASONAL_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSAP_ATP_SEASONAL_TYPE
 (
       TYPE_KEY VARCHAR2(255)
@@ -5078,12 +6998,22 @@ CREATE TABLE KSAP_ATP_SEASONAL_TYPE
         , EFF_DT TIMESTAMP
         , EXPIR_DT TIMESTAMP
         , NAME VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSAP_ATP_SEASONAL_TYPE
     ADD CONSTRAINT KSAP_ATP_SEASONAL_TYPEP1
 PRIMARY KEY (TYPE_KEY)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSAP_ATP_SEASONAL_TYPE_ATTR
 -----------------------------------------------------------------------------
@@ -5093,18 +7023,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSAP_ATP_SEASONAL_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSAP_ATP_SEASONAL_TYPE_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSAP_ATP_SEASONAL_TYPE_ATTR
     ADD CONSTRAINT KSAP_ATP_SEASONAL_TYPE_ATTRP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSAP_ATP_TYPE
 -----------------------------------------------------------------------------
@@ -5114,6 +7055,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSAP_ATP_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSAP_ATP_TYPE
 (
       TYPE_KEY VARCHAR2(255)
@@ -5123,12 +7065,22 @@ CREATE TABLE KSAP_ATP_TYPE
         , NAME VARCHAR2(255)
         , DUR_TYPE VARCHAR2(255)
         , SEASONAL_TYPE VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSAP_ATP_TYPE
     ADD CONSTRAINT KSAP_ATP_TYPEP1
 PRIMARY KEY (TYPE_KEY)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSAP_ATP_TYPE_ATTR
 -----------------------------------------------------------------------------
@@ -5138,18 +7090,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSAP_ATP_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSAP_ATP_TYPE_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSAP_ATP_TYPE_ATTR
     ADD CONSTRAINT KSAP_ATP_TYPE_ATTRP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSAP_DT_RANGE
 -----------------------------------------------------------------------------
@@ -5159,6 +7122,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSAP_DT_RANGE CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSAP_DT_RANGE
 (
       DATERANGE_KEY VARCHAR2(255)
@@ -5174,12 +7138,22 @@ CREATE TABLE KSAP_DT_RANGE
         , ATP_ID VARCHAR2(255)
         , RT_DESCR_ID VARCHAR2(255)
         , DT_RANGE_TYPE_ID VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSAP_DT_RANGE
     ADD CONSTRAINT KSAP_DT_RANGEP1
 PRIMARY KEY (DATERANGE_KEY)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSAP_DT_RANGE_ATTR
 -----------------------------------------------------------------------------
@@ -5189,18 +7163,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSAP_DT_RANGE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSAP_DT_RANGE_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSAP_DT_RANGE_ATTR
     ADD CONSTRAINT KSAP_DT_RANGE_ATTRP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSAP_DT_RANGE_TYPE
 -----------------------------------------------------------------------------
@@ -5210,6 +7195,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSAP_DT_RANGE_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSAP_DT_RANGE_TYPE
 (
       TYPE_KEY VARCHAR2(255)
@@ -5217,12 +7203,22 @@ CREATE TABLE KSAP_DT_RANGE_TYPE
         , EFF_DT TIMESTAMP
         , EXPIR_DT TIMESTAMP
         , NAME VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSAP_DT_RANGE_TYPE
     ADD CONSTRAINT KSAP_DT_RANGE_TYPEP1
 PRIMARY KEY (TYPE_KEY)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSAP_DT_RANGE_TYPE_ATTR
 -----------------------------------------------------------------------------
@@ -5232,18 +7228,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSAP_DT_RANGE_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSAP_DT_RANGE_TYPE_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSAP_DT_RANGE_TYPE_ATTR
     ADD CONSTRAINT KSAP_DT_RANGE_TYPE_ATTRP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSAP_MLSTN
 -----------------------------------------------------------------------------
@@ -5253,6 +7260,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSAP_MLSTN CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSAP_MLSTN
 (
       ID VARCHAR2(255)
@@ -5267,12 +7275,22 @@ CREATE TABLE KSAP_MLSTN
         , ATP_ID VARCHAR2(255)
         , RT_DESCR_ID VARCHAR2(255)
         , MLSTN_TYPE_ID VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSAP_MLSTN
     ADD CONSTRAINT KSAP_MLSTNP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSAP_MLSTN_ATTR
 -----------------------------------------------------------------------------
@@ -5282,18 +7300,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSAP_MLSTN_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSAP_MLSTN_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSAP_MLSTN_ATTR
     ADD CONSTRAINT KSAP_MLSTN_ATTRP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSAP_MLSTN_TYPE
 -----------------------------------------------------------------------------
@@ -5303,6 +7332,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSAP_MLSTN_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSAP_MLSTN_TYPE
 (
       TYPE_KEY VARCHAR2(255)
@@ -5310,12 +7340,22 @@ CREATE TABLE KSAP_MLSTN_TYPE
         , EFF_DT TIMESTAMP
         , EXPIR_DT TIMESTAMP
         , NAME VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSAP_MLSTN_TYPE
     ADD CONSTRAINT KSAP_MLSTN_TYPEP1
 PRIMARY KEY (TYPE_KEY)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSAP_MLSTN_TYPE_ATTR
 -----------------------------------------------------------------------------
@@ -5325,18 +7365,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSAP_MLSTN_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSAP_MLSTN_TYPE_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSAP_MLSTN_TYPE_ATTR
     ADD CONSTRAINT KSAP_MLSTN_TYPE_ATTRP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSCO_COMMENT
 -----------------------------------------------------------------------------
@@ -5346,6 +7397,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSCO_COMMENT CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSCO_COMMENT
 (
       ID VARCHAR2(255)
@@ -5360,12 +7412,22 @@ CREATE TABLE KSCO_COMMENT
         , RT_DESCR_ID VARCHAR2(255)
         , REFERENCE VARCHAR2(255)
         , TYPE VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSCO_COMMENT
     ADD CONSTRAINT KSCO_COMMENTP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSCO_COMMENT_ATTR
 -----------------------------------------------------------------------------
@@ -5375,18 +7437,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSCO_COMMENT_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSCO_COMMENT_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSCO_COMMENT_ATTR
     ADD CONSTRAINT KSCO_COMMENT_ATTRP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSCO_COMMENT_TYPE
 -----------------------------------------------------------------------------
@@ -5396,6 +7469,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSCO_COMMENT_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSCO_COMMENT_TYPE
 (
       TYPE_KEY VARCHAR2(255)
@@ -5403,12 +7477,22 @@ CREATE TABLE KSCO_COMMENT_TYPE
         , EFF_DT TIMESTAMP
         , EXPIR_DT TIMESTAMP
         , NAME VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSCO_COMMENT_TYPE
     ADD CONSTRAINT KSCO_COMMENT_TYPEP1
 PRIMARY KEY (TYPE_KEY)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSCO_COMMENT_TYPE_ATTR
 -----------------------------------------------------------------------------
@@ -5418,18 +7502,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSCO_COMMENT_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSCO_COMMENT_TYPE_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSCO_COMMENT_TYPE_ATTR
     ADD CONSTRAINT KSCO_COMMENT_TYPE_ATTRP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSCO_REFERENCE
 -----------------------------------------------------------------------------
@@ -5439,18 +7534,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSCO_REFERENCE CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSCO_REFERENCE
 (
       ID VARCHAR2(255)
         , REFERENCE_ID VARCHAR2(255)
         , REFERENCE_TYPE VARCHAR2(255)
+    
     , CONSTRAINT SYS_C00218229 UNIQUE (REFERENCE_ID, REFERENCE_TYPE)
+
 )
 /
+
 ALTER TABLE KSCO_REFERENCE
     ADD CONSTRAINT KSCO_REFERENCEP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSCO_REFERENCE_TYPE
 -----------------------------------------------------------------------------
@@ -5460,6 +7566,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSCO_REFERENCE_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSCO_REFERENCE_TYPE
 (
       TYPE_KEY VARCHAR2(255)
@@ -5467,12 +7574,22 @@ CREATE TABLE KSCO_REFERENCE_TYPE
         , EFF_DT TIMESTAMP
         , EXPIR_DT TIMESTAMP
         , NAME VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSCO_REFERENCE_TYPE
     ADD CONSTRAINT KSCO_REFERENCE_TYPEP1
 PRIMARY KEY (TYPE_KEY)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSCO_REFERENCE_TYPE_ATTR
 -----------------------------------------------------------------------------
@@ -5482,18 +7599,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSCO_REFERENCE_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSCO_REFERENCE_TYPE_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSCO_REFERENCE_TYPE_ATTR
     ADD CONSTRAINT KSCO_REFERENCE_TYPE_ATTRP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSCO_TAG
 -----------------------------------------------------------------------------
@@ -5503,6 +7631,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSCO_TAG CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSCO_TAG
 (
       ID VARCHAR2(255)
@@ -5519,12 +7648,22 @@ CREATE TABLE KSCO_TAG
         , VAL VARCHAR2(255)
         , REFERENCE VARCHAR2(255)
         , TYPE VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSCO_TAG
     ADD CONSTRAINT KSCO_TAGP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSCO_TAG_ATTR
 -----------------------------------------------------------------------------
@@ -5534,18 +7673,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSCO_TAG_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSCO_TAG_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSCO_TAG_ATTR
     ADD CONSTRAINT KSCO_TAG_ATTRP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSCO_TAG_TYPE
 -----------------------------------------------------------------------------
@@ -5555,6 +7705,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSCO_TAG_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSCO_TAG_TYPE
 (
       TYPE_KEY VARCHAR2(255)
@@ -5562,12 +7713,22 @@ CREATE TABLE KSCO_TAG_TYPE
         , EFF_DT TIMESTAMP
         , EXPIR_DT TIMESTAMP
         , NAME VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSCO_TAG_TYPE
     ADD CONSTRAINT KSCO_TAG_TYPEP1
 PRIMARY KEY (TYPE_KEY)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSCO_TAG_TYPE_ATTR
 -----------------------------------------------------------------------------
@@ -5577,18 +7738,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSCO_TAG_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSCO_TAG_TYPE_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSCO_TAG_TYPE_ATTR
     ADD CONSTRAINT KSCO_TAG_TYPE_ATTRP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSDO_DOCUMENT
 -----------------------------------------------------------------------------
@@ -5598,6 +7770,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSDO_DOCUMENT CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSDO_DOCUMENT
 (
       DOC_ID VARCHAR2(255)
@@ -5614,12 +7787,22 @@ CREATE TABLE KSDO_DOCUMENT
         , STATE VARCHAR2(255)
         , RT_DESCR_ID VARCHAR2(255)
         , TYPE VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSDO_DOCUMENT
     ADD CONSTRAINT KSDO_DOCUMENTP1
 PRIMARY KEY (DOC_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSDO_DOCUMENT_ATTR
 -----------------------------------------------------------------------------
@@ -5629,18 +7812,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSDO_DOCUMENT_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSDO_DOCUMENT_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSDO_DOCUMENT_ATTR
     ADD CONSTRAINT KSDO_DOCUMENT_ATTRP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSDO_DOCUMENT_CATEGORY
 -----------------------------------------------------------------------------
@@ -5650,6 +7844,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSDO_DOCUMENT_CATEGORY CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSDO_DOCUMENT_CATEGORY
 (
       CATEGORY_ID VARCHAR2(255)
@@ -5657,12 +7852,22 @@ CREATE TABLE KSDO_DOCUMENT_CATEGORY
         , EXPIR_DT TIMESTAMP
         , NAME VARCHAR2(255)
         , RT_DESCR_ID VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSDO_DOCUMENT_CATEGORY
     ADD CONSTRAINT KSDO_DOCUMENT_CATEGORYP1
 PRIMARY KEY (CATEGORY_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSDO_DOCUMENT_CATEGORY_ATTR
 -----------------------------------------------------------------------------
@@ -5672,18 +7877,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSDO_DOCUMENT_CATEGORY_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSDO_DOCUMENT_CATEGORY_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSDO_DOCUMENT_CATEGORY_ATTR
     ADD CONSTRAINT KSDO_DOCUMENT_CATEGORY_ATTRP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSDO_DOCUMENT_TYPE
 -----------------------------------------------------------------------------
@@ -5693,6 +7909,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSDO_DOCUMENT_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSDO_DOCUMENT_TYPE
 (
       TYPE_KEY VARCHAR2(255)
@@ -5700,12 +7917,22 @@ CREATE TABLE KSDO_DOCUMENT_TYPE
         , EFF_DT TIMESTAMP
         , EXPIR_DT TIMESTAMP
         , NAME VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSDO_DOCUMENT_TYPE
     ADD CONSTRAINT KSDO_DOCUMENT_TYPEP1
 PRIMARY KEY (TYPE_KEY)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSDO_DOCUMENT_TYPE_ATTR
 -----------------------------------------------------------------------------
@@ -5715,18 +7942,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSDO_DOCUMENT_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSDO_DOCUMENT_TYPE_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSDO_DOCUMENT_TYPE_ATTR
     ADD CONSTRAINT KSDO_DOCUMENT_TYPE_ATTRP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSEM_CTX_ENT
 -----------------------------------------------------------------------------
@@ -5736,6 +7974,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEM_CTX_ENT CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSEM_CTX_ENT
 (
       ID VARCHAR2(255)
@@ -5743,13 +7982,23 @@ CREATE TABLE KSEM_CTX_ENT
         , CTX_VAL VARCHAR2(255)
         , ENUM_ID VARCHAR2(255)
         , ENUM_VAL_ENT_ID VARCHAR2(255)
+    
     , CONSTRAINT SYS_C00218209 UNIQUE (ENUM_VAL_ENT_ID, CTX_KEY, CTX_VAL)
+
 )
 /
+
 ALTER TABLE KSEM_CTX_ENT
     ADD CONSTRAINT KSEM_CTX_ENTP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSEM_CTX_META_ENT
 -----------------------------------------------------------------------------
@@ -5759,6 +8008,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEM_CTX_META_ENT CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSEM_CTX_META_ENT
 (
       ID VARCHAR2(255)
@@ -5769,12 +8019,22 @@ CREATE TABLE KSEM_CTX_META_ENT
         , MIN_LGTH NUMBER(10)
         , MIN_OCCRS NUMBER(10)
         , TYPE VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSEM_CTX_META_ENT
     ADD CONSTRAINT KSEM_CTX_META_ENTP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSEM_ENUM_META_ENT
 -----------------------------------------------------------------------------
@@ -5784,18 +8044,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEM_ENUM_META_ENT CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSEM_ENUM_META_ENT
 (
       ID VARCHAR2(255)
         , ENUM_KEY VARCHAR2(255)
         , ENUM_META_KEY_DESC VARCHAR2(255)
         , NAME VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSEM_ENUM_META_ENT
     ADD CONSTRAINT KSEM_ENUM_META_ENTP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSEM_ENUM_VAL_ENT
 -----------------------------------------------------------------------------
@@ -5805,6 +8076,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEM_ENUM_VAL_ENT CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSEM_ENUM_VAL_ENT
 (
       ID VARCHAR2(255)
@@ -5815,12 +8087,62 @@ CREATE TABLE KSEM_ENUM_VAL_ENT
         , EXPIR_DT TIMESTAMP
         , SORT_KEY NUMBER(10)
         , VAL VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSEM_ENUM_VAL_ENT
     ADD CONSTRAINT KSEM_ENUM_VAL_ENTP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSEM_ENUM_VAL_FLD_ENT
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEM_ENUM_VAL_FLD_ENT';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEM_ENUM_VAL_FLD_ENT CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEM_ENUM_VAL_FLD_ENT
+(
+      ID VARCHAR2(255)
+        , DATA_TYPE VARCHAR2(255)
+        , FLD_KEY VARCHAR2(255)
+        , INVLD_CHARS VARCHAR2(255)
+        , MAX_LGTH VARCHAR2(255)
+        , MAX_OCCRS VARCHAR2(255)
+        , MAX_VAL VARCHAR2(255)
+        , MIN_LGTH NUMBER(10)
+        , MIN_OCCRS NUMBER(10)
+        , MIN_VAL VARCHAR2(255)
+        , VALID_CHARS VARCHAR2(255)
+        , ENUM_META_ENT_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSEM_ENUM_VAL_FLD_ENT
+    ADD CONSTRAINT KSEM_ENUM_VAL_FLD_ENTP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSLU_CLU
 -----------------------------------------------------------------------------
@@ -5830,6 +8152,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSLU_CLU
 (
       ID VARCHAR2(255)
@@ -5838,16 +8161,15 @@ CREATE TABLE KSLU_CLU
         , UPDATEID VARCHAR2(255)
         , UPDATETIME TIMESTAMP
         , VERSIONIND NUMBER(19) NOT NULL
-        , ACCRED_ORG_ID VARCHAR2(255)
-        , ADMIN_ORG_ID VARCHAR2(255)
         , CAN_CREATE_LUI NUMBER(1)
         , DEF_ENRL_EST NUMBER(10)
         , DEF_MAX_ENRL NUMBER(10)
         , EFF_DT TIMESTAMP
+        , EXP_FIRST_ATP VARCHAR2(255)
         , EXPIR_DT TIMESTAMP
         , HAS_EARLY_DROP_DEDLN NUMBER(1)
         , CLU_INTSTY_TYPE VARCHAR2(255)
-        , CLU_INTSTY_QTY NUMBER(10)
+        , CLU_INTSTY_QTY VARCHAR2(255)
         , IS_ENRL NUMBER(1)
         , IS_HAZR_DISBLD_STU NUMBER(1)
         , NEXT_REVIEW_PRD VARCHAR2(255)
@@ -5857,21 +8179,28 @@ CREATE TABLE KSLU_CLU
         , TIMEQUANTITY NUMBER(10)
         , STDY_SUBJ_AREA VARCHAR2(255)
         , ACCT_ID VARCHAR2(255)
-        , CR_ID VARCHAR2(255)
         , RT_DESCR_ID VARCHAR2(255)
         , FEE_ID VARCHAR2(255)
         , LUTYPE_ID VARCHAR2(255)
-        , RT_MKTG_DESCR_ID VARCHAR2(255)
         , OFFIC_CLU_ID VARCHAR2(255)
         , PRI_ADMIN_ORG_ID VARCHAR2(255)
         , PRI_INSTR_ID VARCHAR2(255)
-        , PUBL_ID VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSLU_CLU
     ADD CONSTRAINT KSLU_CLUP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSLU_CLUCLU_RELTN
 -----------------------------------------------------------------------------
@@ -5881,6 +8210,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLUCLU_RELTN CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSLU_CLUCLU_RELTN
 (
       ID VARCHAR2(255)
@@ -5896,12 +8226,22 @@ CREATE TABLE KSLU_CLUCLU_RELTN
         , CLU_ID VARCHAR2(255)
         , LU_RELTN_TYPE_ID VARCHAR2(255)
         , RELATED_CLU_ID VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSLU_CLUCLU_RELTN
     ADD CONSTRAINT KSLU_CLUCLU_RELTNP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSLU_CLUCLU_RELTN_ATTR
 -----------------------------------------------------------------------------
@@ -5911,18 +8251,55 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLUCLU_RELTN_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSLU_CLUCLU_RELTN_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSLU_CLUCLU_RELTN_ATTR
     ADD CONSTRAINT KSLU_CLUCLU_RELTN_ATTRP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLURES_JN_RESOPT
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLURES_JN_RESOPT';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLURES_JN_RESOPT CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLURES_JN_RESOPT
+(
+      CLU_RES_ID VARCHAR2(255) NOT NULL
+        , RES_OPT_ID VARCHAR2(255) NOT NULL
+    
+
+)
+/
+
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSLU_CLU_ACCRED
 -----------------------------------------------------------------------------
@@ -5932,6 +8309,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_ACCRED CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSLU_CLU_ACCRED
 (
       ID VARCHAR2(255)
@@ -5943,12 +8321,22 @@ CREATE TABLE KSLU_CLU_ACCRED
         , EFF_DT TIMESTAMP
         , EXPIR_DT TIMESTAMP
         , ORG_ID VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSLU_CLU_ACCRED
     ADD CONSTRAINT KSLU_CLU_ACCREDP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSLU_CLU_ACCRED_ATTR
 -----------------------------------------------------------------------------
@@ -5958,18 +8346,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_ACCRED_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSLU_CLU_ACCRED_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSLU_CLU_ACCRED_ATTR
     ADD CONSTRAINT KSLU_CLU_ACCRED_ATTRP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSLU_CLU_ACCT
 -----------------------------------------------------------------------------
@@ -5979,15 +8378,26 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_ACCT CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSLU_CLU_ACCT
 (
       ID VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSLU_CLU_ACCT
     ADD CONSTRAINT KSLU_CLU_ACCTP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSLU_CLU_ACCT_ATTR
 -----------------------------------------------------------------------------
@@ -5997,18 +8407,55 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_ACCT_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSLU_CLU_ACCT_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSLU_CLU_ACCT_ATTR
     ADD CONSTRAINT KSLU_CLU_ACCT_ATTRP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_ACCT_JN_AFFIL_ORG
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_ACCT_JN_AFFIL_ORG';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_ACCT_JN_AFFIL_ORG CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_ACCT_JN_AFFIL_ORG
+(
+      CLU_ACCT_ID VARCHAR2(255) NOT NULL
+        , AFFIL_ORG_ID VARCHAR2(255) NOT NULL
+    
+
+)
+/
+
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSLU_CLU_ADMIN_ORG
 -----------------------------------------------------------------------------
@@ -6018,16 +8465,27 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_ADMIN_ORG CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSLU_CLU_ADMIN_ORG
 (
       ID VARCHAR2(255)
         , ORG_ID VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSLU_CLU_ADMIN_ORG
     ADD CONSTRAINT KSLU_CLU_ADMIN_ORGP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSLU_CLU_ADMIN_ORG_ATTR
 -----------------------------------------------------------------------------
@@ -6037,18 +8495,68 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_ADMIN_ORG_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSLU_CLU_ADMIN_ORG_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSLU_CLU_ADMIN_ORG_ATTR
     ADD CONSTRAINT KSLU_CLU_ADMIN_ORG_ATTRP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_AFFIL_ORG
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_AFFIL_ORG';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_AFFIL_ORG CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_AFFIL_ORG
+(
+      ID VARCHAR2(255)
+        , CREATEID VARCHAR2(255)
+        , CREATETIME TIMESTAMP
+        , UPDATEID VARCHAR2(255)
+        , UPDATETIME TIMESTAMP
+        , VERSIONIND NUMBER(20,0) NOT NULL
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , ORG_ID VARCHAR2(255)
+        , PERCT NUMBER(20,0)
+        , CLU_FEE_RCRD_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_CLU_AFFIL_ORG
+    ADD CONSTRAINT KSLU_CLU_AFFIL_ORGP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSLU_CLU_ATP_TYPE_KEY
 -----------------------------------------------------------------------------
@@ -6058,17 +8566,28 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_ATP_TYPE_KEY CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSLU_CLU_ATP_TYPE_KEY
 (
       ID VARCHAR2(255)
         , ATP_TYPE_KEY VARCHAR2(255)
         , CLU_ID VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSLU_CLU_ATP_TYPE_KEY
     ADD CONSTRAINT KSLU_CLU_ATP_TYPE_KEYP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSLU_CLU_ATTR
 -----------------------------------------------------------------------------
@@ -6078,18 +8597,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSLU_CLU_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSLU_CLU_ATTR
     ADD CONSTRAINT KSLU_CLU_ATTRP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSLU_CLU_CR
 -----------------------------------------------------------------------------
@@ -6099,6 +8629,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_CR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSLU_CLU_CR
 (
       ID VARCHAR2(255)
@@ -6117,1083 +8648,22 @@ CREATE TABLE KSLU_CLU_CR
         , REPEAT_TM_ATP VARCHAR2(255)
         , REPEAT_TM_TMQ NUMBER(10)
         , REPEAT_UNIT VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSLU_CLU_CR
     ADD CONSTRAINT KSLU_CLU_CRP1
 PRIMARY KEY (ID)
 /
------------------------------------------------------------------------------
--- KSLU_CLU_FEE
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_FEE';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_FEE CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_CLU_FEE
-(
-      ID VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_CLU_FEE
-    ADD CONSTRAINT KSLU_CLU_FEEP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_CLU_FEE_ATTR
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_FEE_ATTR';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_FEE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_CLU_FEE_ATTR
-(
-      ID VARCHAR2(255)
-        , ATTR_NAME VARCHAR2(255)
-        , ATTR_VALUE VARCHAR2(255)
-        , OWNER VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_CLU_FEE_ATTR
-    ADD CONSTRAINT KSLU_CLU_FEE_ATTRP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_CLU_IDENT
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_IDENT';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_IDENT CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_CLU_IDENT
-(
-      ID VARCHAR2(255)
-        , CD VARCHAR2(255)
-        , DIV VARCHAR2(255)
-        , LVL VARCHAR2(255)
-        , LNG_NAME VARCHAR2(255)
-        , ORG_ID VARCHAR2(255)
-        , SHRT_NAME VARCHAR2(255)
-        , ST VARCHAR2(255)
-        , SUFX_CD VARCHAR2(255)
-        , TYPE VARCHAR2(255)
-        , VARTN VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_CLU_IDENT
-    ADD CONSTRAINT KSLU_CLU_IDENTP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_CLU_INSTR
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_INSTR';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_INSTR CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_CLU_INSTR
-(
-      ID VARCHAR2(255)
-        , ORG_ID VARCHAR2(255)
-        , PERS_ID VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_CLU_INSTR
-    ADD CONSTRAINT KSLU_CLU_INSTRP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_CLU_INSTR_ATTR
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_INSTR_ATTR';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_INSTR_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_CLU_INSTR_ATTR
-(
-      ID VARCHAR2(255)
-        , ATTR_NAME VARCHAR2(255)
-        , ATTR_VALUE VARCHAR2(255)
-        , OWNER VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_CLU_INSTR_ATTR
-    ADD CONSTRAINT KSLU_CLU_INSTR_ATTRP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_CLU_JN_ALT_ADMIN_ORG
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_JN_ALT_ADMIN_ORG';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_JN_ALT_ADMIN_ORG CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_CLU_JN_ALT_ADMIN_ORG
-(
-      CLU_ID VARCHAR2(255) NOT NULL
-        , ALT_ORG_ID VARCHAR2(255) NOT NULL
-    , CONSTRAINT SYS_C00218362 UNIQUE (ALT_ORG_ID)
-)
-/
------------------------------------------------------------------------------
--- KSLU_CLU_JN_CAMP_LOC
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_JN_CAMP_LOC';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_JN_CAMP_LOC CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_CLU_JN_CAMP_LOC
-(
-      ID VARCHAR2(255)
-        , CAMP_LOC VARCHAR2(255)
-        , CLU_ID VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_CLU_JN_CAMP_LOC
-    ADD CONSTRAINT KSLU_CLU_JN_CAMP_LOCP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_CLU_JN_CLU_ACCRED
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_JN_CLU_ACCRED';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_JN_CLU_ACCRED CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_CLU_JN_CLU_ACCRED
-(
-      CLU_ID VARCHAR2(255) NOT NULL
-        , ACCRED_ORG_ID VARCHAR2(255) NOT NULL
-    , CONSTRAINT SYS_C00218367 UNIQUE (ACCRED_ORG_ID)
-)
-/
------------------------------------------------------------------------------
--- KSLU_CLU_JN_CLU_IDENT
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_JN_CLU_IDENT';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_JN_CLU_IDENT CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_CLU_JN_CLU_IDENT
-(
-      CLU_ID VARCHAR2(255) NOT NULL
-        , ALT_CLU_ID VARCHAR2(255) NOT NULL
-    , CONSTRAINT SYS_C00218370 UNIQUE (ALT_CLU_ID)
-)
-/
------------------------------------------------------------------------------
--- KSLU_CLU_JN_CLU_INSTR
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_JN_CLU_INSTR';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_JN_CLU_INSTR CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_CLU_JN_CLU_INSTR
-(
-      CLU_ID VARCHAR2(255) NOT NULL
-        , CLU_INSTR_ID VARCHAR2(255) NOT NULL
-    , CONSTRAINT SYS_C00218373 UNIQUE (CLU_INSTR_ID)
-)
-/
------------------------------------------------------------------------------
--- KSLU_CLU_JN_LU_STMT
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_JN_LU_STMT';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_JN_LU_STMT CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_CLU_JN_LU_STMT
-(
-      LU_STMT_ID VARCHAR2(255) NOT NULL
-        , CLU_ID VARCHAR2(255) NOT NULL
-)
-/
------------------------------------------------------------------------------
--- KSLU_CLU_JN_ORG
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_JN_ORG';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_JN_ORG CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_CLU_JN_ORG
-(
-      ID VARCHAR2(255)
-        , ORG_ID VARCHAR2(255)
-        , CLU_ID VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_CLU_JN_ORG
-    ADD CONSTRAINT KSLU_CLU_JN_ORGP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_CLU_JN_SUBJ_ORG
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_JN_SUBJ_ORG';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_JN_SUBJ_ORG CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_CLU_JN_SUBJ_ORG
-(
-      ID VARCHAR2(255)
-        , ORG_ID VARCHAR2(255)
-        , CLU_ID VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_CLU_JN_SUBJ_ORG
-    ADD CONSTRAINT KSLU_CLU_JN_SUBJ_ORGP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_CLU_PUBL
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_PUBL';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_PUBL CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_CLU_PUBL
-(
-      ID VARCHAR2(255)
-        , END_CYCLE VARCHAR2(255)
-        , START_CYCLE VARCHAR2(255)
-        , ST VARCHAR2(255)
-        , TYPE VARCHAR2(255)
-        , PRI_INSTR_ID VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_CLU_PUBL
-    ADD CONSTRAINT KSLU_CLU_PUBLP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_CLU_PUBL_ATTR
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_PUBL_ATTR';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_PUBL_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_CLU_PUBL_ATTR
-(
-      ID VARCHAR2(255)
-        , ATTR_NAME VARCHAR2(255)
-        , ATTR_VALUE VARCHAR2(255)
-        , OWNER VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_CLU_PUBL_ATTR
-    ADD CONSTRAINT KSLU_CLU_PUBL_ATTRP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_CLU_PUBL_JN_CLU_INSTR
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_PUBL_JN_CLU_INSTR';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_PUBL_JN_CLU_INSTR CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_CLU_PUBL_JN_CLU_INSTR
-(
-      CLU_PUBL_ID VARCHAR2(255) NOT NULL
-        , CLU_INSTR_ID VARCHAR2(255) NOT NULL
-    , CONSTRAINT SYS_C00218386 UNIQUE (CLU_INSTR_ID)
-)
-/
------------------------------------------------------------------------------
--- KSLU_CLU_SET
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_SET';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_SET CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_CLU_SET
-(
-      ID VARCHAR2(255)
-        , CREATEID VARCHAR2(255)
-        , CREATETIME TIMESTAMP
-        , UPDATEID VARCHAR2(255)
-        , UPDATETIME TIMESTAMP
-        , VERSIONIND NUMBER(19) NOT NULL
-        , CRIT_SET NUMBER(1)
-        , EFF_DT TIMESTAMP
-        , EXPIR_DT TIMESTAMP
-        , NAME VARCHAR2(255)
-        , RT_DESCR_ID VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_CLU_SET
-    ADD CONSTRAINT KSLU_CLU_SETP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_CLU_SET_ATTR
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_SET_ATTR';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_SET_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_CLU_SET_ATTR
-(
-      ID VARCHAR2(255)
-        , ATTR_NAME VARCHAR2(255)
-        , ATTR_VALUE VARCHAR2(255)
-        , OWNER VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_CLU_SET_ATTR
-    ADD CONSTRAINT KSLU_CLU_SET_ATTRP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_CLU_SET_JN_CLU
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_SET_JN_CLU';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_SET_JN_CLU CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_CLU_SET_JN_CLU
-(
-      CLU_SET_ID VARCHAR2(255) NOT NULL
-        , CLU_ID VARCHAR2(255) NOT NULL
-)
-/
------------------------------------------------------------------------------
--- KSLU_CLU_SET_JN_CLU_SET
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_SET_JN_CLU_SET';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_SET_JN_CLU_SET CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_CLU_SET_JN_CLU_SET
-(
-      CLU_SET_PARENT_ID VARCHAR2(255) NOT NULL
-        , CLU_SET_CHILD_ID VARCHAR2(255) NOT NULL
-)
-/
------------------------------------------------------------------------------
--- KSLU_LO
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LO';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LO CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_LO
-(
-      ID VARCHAR2(255)
-        , CREATEID VARCHAR2(255)
-        , CREATETIME TIMESTAMP
-        , UPDATEID VARCHAR2(255)
-        , UPDATETIME TIMESTAMP
-        , VERSIONIND NUMBER(19) NOT NULL
-        , EFF_DT TIMESTAMP
-        , EXPIR_DT TIMESTAMP
-        , NAME VARCHAR2(255)
-        , ST VARCHAR2(255)
-        , RT_DESCR_ID VARCHAR2(255)
-        , LO_REPO_ID VARCHAR2(255)
-        , LOTYPE_ID VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_LO
-    ADD CONSTRAINT KSLU_LOP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_LOLO_ALLOWED_RELTN_TYPE
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LOLO_ALLOWED_RELTN_TYPE';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LOLO_ALLOWED_RELTN_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_LOLO_ALLOWED_RELTN_TYPE
-(
-      ID VARCHAR2(255)
-        , CREATEID VARCHAR2(255)
-        , CREATETIME TIMESTAMP
-        , UPDATEID VARCHAR2(255)
-        , UPDATETIME TIMESTAMP
-        , VERSIONIND NUMBER(19) NOT NULL
-        , EFF_DT TIMESTAMP
-        , EXPIR_DT TIMESTAMP
-        , LO_TYPE_ID VARCHAR2(255)
-        , LO_REL_TYPE_ID VARCHAR2(255)
-        , LOLO_RELTN_TYPE_ID VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_LOLO_ALLOWED_RELTN_TYPE
-    ADD CONSTRAINT KSLU_LOLO_ALLOWED_RELTN_TYPP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_LOLO_RELTN
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LOLO_RELTN';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LOLO_RELTN CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_LOLO_RELTN
-(
-      ID VARCHAR2(255)
-        , CREATEID VARCHAR2(255)
-        , CREATETIME TIMESTAMP
-        , UPDATEID VARCHAR2(255)
-        , UPDATETIME TIMESTAMP
-        , VERSIONIND NUMBER(19) NOT NULL
-        , EFF_DT TIMESTAMP
-        , EXPIR_DT TIMESTAMP
-        , ST VARCHAR2(255)
-        , LO_ID VARCHAR2(255)
-        , LO_LO_RELATION_TYPE_ID VARCHAR2(255)
-        , RELATED_LO_ID VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_LOLO_RELTN
-    ADD CONSTRAINT KSLU_LOLO_RELTNP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_LOLO_RELTN_ATTR
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LOLO_RELTN_ATTR';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LOLO_RELTN_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_LOLO_RELTN_ATTR
-(
-      ID VARCHAR2(255)
-        , ATTR_NAME VARCHAR2(255)
-        , ATTR_VALUE VARCHAR2(255)
-        , OWNER VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_LOLO_RELTN_ATTR
-    ADD CONSTRAINT KSLU_LOLO_RELTN_ATTRP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_LOLO_RELTN_TYPE
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LOLO_RELTN_TYPE';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LOLO_RELTN_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_LOLO_RELTN_TYPE
-(
-      ID VARCHAR2(255)
-        , CREATEID VARCHAR2(255)
-        , CREATETIME TIMESTAMP
-        , UPDATEID VARCHAR2(255)
-        , UPDATETIME TIMESTAMP
-        , VERSIONIND NUMBER(19) NOT NULL
-        , DESCR VARCHAR2(255)
-        , EFF_DT TIMESTAMP
-        , EXPIR_DT TIMESTAMP
-        , NAME VARCHAR2(255)
-        , REV_DESCR VARCHAR2(255)
-        , REV_NAME VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_LOLO_RELTN_TYPE
-    ADD CONSTRAINT KSLU_LOLO_RELTN_TYPEP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_LOLO_RELTN_TYPE_ATTR
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LOLO_RELTN_TYPE_ATTR';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LOLO_RELTN_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_LOLO_RELTN_TYPE_ATTR
-(
-      ID VARCHAR2(255)
-        , ATTR_NAME VARCHAR2(255)
-        , ATTR_VALUE VARCHAR2(255)
-        , OWNER VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_LOLO_RELTN_TYPE_ATTR
-    ADD CONSTRAINT KSLU_LOLO_RELTN_TYPE_ATTRP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_LO_ATTR
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LO_ATTR';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LO_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_LO_ATTR
-(
-      ID VARCHAR2(255)
-        , ATTR_NAME VARCHAR2(255)
-        , ATTR_VALUE VARCHAR2(255)
-        , OWNER VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_LO_ATTR
-    ADD CONSTRAINT KSLU_LO_ATTRP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_LO_CATEGORY
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LO_CATEGORY';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LO_CATEGORY CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_LO_CATEGORY
-(
-      ID VARCHAR2(255)
-        , CREATEID VARCHAR2(255)
-        , CREATETIME TIMESTAMP
-        , UPDATEID VARCHAR2(255)
-        , UPDATETIME TIMESTAMP
-        , VERSIONIND NUMBER(19) NOT NULL
-        , EFF_DT TIMESTAMP
-        , EXPIR_DT TIMESTAMP
-        , NAME VARCHAR2(255)
-        , RT_DESCR_ID VARCHAR2(255)
-        , LO_REPO_ID VARCHAR2(255)
-        , LO_CATEGORY_TYPE_ID VARCHAR2(255)
-        , STATE VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_LO_CATEGORY
-    ADD CONSTRAINT KSLU_LO_CATEGORYP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_LO_CATEGORY_ATTR
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LO_CATEGORY_ATTR';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LO_CATEGORY_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_LO_CATEGORY_ATTR
-(
-      ID VARCHAR2(255)
-        , ATTR_NAME VARCHAR2(255)
-        , ATTR_VALUE VARCHAR2(255)
-        , OWNER VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_LO_CATEGORY_ATTR
-    ADD CONSTRAINT KSLU_LO_CATEGORY_ATTRP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_LO_CATEGORY_TYPE
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LO_CATEGORY_TYPE';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LO_CATEGORY_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_LO_CATEGORY_TYPE
-(
-      ID VARCHAR2(255)
-        , EFF_DT TIMESTAMP
-        , EXPIR_DT TIMESTAMP
-        , NAME VARCHAR2(255)
-        , DESCR VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_LO_CATEGORY_TYPE
-    ADD CONSTRAINT KSLU_LO_CATEGORY_TYPEP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_LO_CATEGORY_TYPE_ATTR
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LO_CATEGORY_TYPE_ATTR';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LO_CATEGORY_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_LO_CATEGORY_TYPE_ATTR
-(
-      ID VARCHAR2(255)
-        , ATTR_NAME VARCHAR2(255)
-        , ATTR_VALUE VARCHAR2(255)
-        , OWNER VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_LO_CATEGORY_TYPE_ATTR
-    ADD CONSTRAINT KSLU_LO_CATEGORY_TYPE_ATTRP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_LO_JN_CLU
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LO_JN_CLU';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LO_JN_CLU CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_LO_JN_CLU
-(
-      ID VARCHAR2(255)
-        , CREATEID VARCHAR2(255)
-        , CREATETIME TIMESTAMP
-        , UPDATEID VARCHAR2(255)
-        , UPDATETIME TIMESTAMP
-        , VERSIONIND NUMBER(19) NOT NULL
-        , LO_ID VARCHAR2(255)
-        , CLU_ID VARCHAR2(255)
-    , CONSTRAINT SYS_C00218399 UNIQUE (LO_ID, CLU_ID)
-)
-/
-ALTER TABLE KSLU_LO_JN_CLU
-    ADD CONSTRAINT KSLU_LO_JN_CLUP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_LO_JN_LOCATEGORY
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LO_JN_LOCATEGORY';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LO_JN_LOCATEGORY CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_LO_JN_LOCATEGORY
-(
-      LO_ID VARCHAR2(255) NOT NULL
-        , LOCATEGORY_ID VARCHAR2(255) NOT NULL
-)
-/
------------------------------------------------------------------------------
--- KSLU_LO_REPOSITORY
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LO_REPOSITORY';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LO_REPOSITORY CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_LO_REPOSITORY
-(
-      ID VARCHAR2(255)
-        , CREATEID VARCHAR2(255)
-        , CREATETIME TIMESTAMP
-        , UPDATEID VARCHAR2(255)
-        , UPDATETIME TIMESTAMP
-        , VERSIONIND NUMBER(19) NOT NULL
-        , EFF_DT TIMESTAMP
-        , EXPIR_DT TIMESTAMP
-        , NAME VARCHAR2(255)
-        , RT_DESCR_ID VARCHAR2(255)
-        , LO_ROOT_ID VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_LO_REPOSITORY
-    ADD CONSTRAINT KSLU_LO_REPOSITORYP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_LO_REPOSITORY_ATTR
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LO_REPOSITORY_ATTR';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LO_REPOSITORY_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_LO_REPOSITORY_ATTR
-(
-      ID VARCHAR2(255)
-        , ATTR_NAME VARCHAR2(255)
-        , ATTR_VALUE VARCHAR2(255)
-        , OWNER VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_LO_REPOSITORY_ATTR
-    ADD CONSTRAINT KSLU_LO_REPOSITORY_ATTRP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_LO_TYPE
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LO_TYPE';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LO_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_LO_TYPE
-(
-      ID VARCHAR2(255)
-        , DESCR VARCHAR2(255)
-        , EFF_DT TIMESTAMP
-        , EXPIR_DT TIMESTAMP
-        , NAME VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_LO_TYPE
-    ADD CONSTRAINT KSLU_LO_TYPEP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_LO_TYPE_ATTR
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LO_TYPE_ATTR';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LO_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_LO_TYPE_ATTR
-(
-      ID VARCHAR2(255)
-        , ATTR_NAME VARCHAR2(255)
-        , ATTR_VALUE VARCHAR2(255)
-        , OWNER VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_LO_TYPE_ATTR
-    ADD CONSTRAINT KSLU_LO_TYPE_ATTRP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_LR_TYPE
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LR_TYPE';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LR_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_LR_TYPE
-(
-      TYPE_KEY VARCHAR2(255)
-        , TYPE_DESC VARCHAR2(2000)
-        , EFF_DT TIMESTAMP
-        , EXPIR_DT TIMESTAMP
-        , NAME VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_LR_TYPE
-    ADD CONSTRAINT KSLU_LR_TYPEP1
-PRIMARY KEY (TYPE_KEY)
-/
------------------------------------------------------------------------------
--- KSLU_LR_TYPE_ATTR
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LR_TYPE_ATTR';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LR_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_LR_TYPE_ATTR
-(
-      ID VARCHAR2(255)
-        , ATTR_NAME VARCHAR2(255)
-        , ATTR_VALUE VARCHAR2(255)
-        , OWNER VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_LR_TYPE_ATTR
-    ADD CONSTRAINT KSLU_LR_TYPE_ATTRP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_LUI
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LUI';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LUI CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_LUI
-(
-      ID VARCHAR2(255)
-        , CREATEID VARCHAR2(255)
-        , CREATETIME TIMESTAMP
-        , UPDATEID VARCHAR2(255)
-        , UPDATETIME TIMESTAMP
-        , VERSIONIND NUMBER(19) NOT NULL
-        , ATP_ID VARCHAR2(255)
-        , EFF_DT TIMESTAMP
-        , EXP_DT TIMESTAMP
-        , LUI_CODE VARCHAR2(255)
-        , MAX_SEATS NUMBER(10)
-        , ST VARCHAR2(255)
-        , CLU_ID VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_LUI
-    ADD CONSTRAINT KSLU_LUIP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_LUILUI_RELTN
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LUILUI_RELTN';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LUILUI_RELTN CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_LUILUI_RELTN
-(
-      ID VARCHAR2(255)
-        , CREATEID VARCHAR2(255)
-        , CREATETIME TIMESTAMP
-        , UPDATEID VARCHAR2(255)
-        , UPDATETIME TIMESTAMP
-        , VERSIONIND NUMBER(19) NOT NULL
-        , EFF_DT TIMESTAMP
-        , EXPIR_DT TIMESTAMP
-        , ST VARCHAR2(255)
-        , LULU_RELTN_TYPE_ID VARCHAR2(255)
-        , LUI_ID VARCHAR2(255)
-        , RELATED_LUI_ID VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_LUILUI_RELTN
-    ADD CONSTRAINT KSLU_LUILUI_RELTNP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_LUILUI_RELTN_ATTR
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LUILUI_RELTN_ATTR';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LUILUI_RELTN_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_LUILUI_RELTN_ATTR
-(
-      ID VARCHAR2(255)
-        , ATTR_NAME VARCHAR2(255)
-        , ATTR_VALUE VARCHAR2(255)
-        , OWNER VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_LUILUI_RELTN_ATTR
-    ADD CONSTRAINT KSLU_LUILUI_RELTN_ATTRP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_LUI_ATTR
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LUI_ATTR';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LUI_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_LUI_ATTR
-(
-      ID VARCHAR2(255)
-        , ATTR_NAME VARCHAR2(255)
-        , ATTR_VALUE VARCHAR2(255)
-        , OWNER VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_LUI_ATTR
-    ADD CONSTRAINT KSLU_LUI_ATTRP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_LULU_RELTN_TYPE
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LULU_RELTN_TYPE';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LULU_RELTN_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_LULU_RELTN_TYPE
-(
-      ID VARCHAR2(255)
-        , CREATEID VARCHAR2(255)
-        , CREATETIME TIMESTAMP
-        , UPDATEID VARCHAR2(255)
-        , UPDATETIME TIMESTAMP
-        , VERSIONIND NUMBER(19) NOT NULL
-        , DESCR VARCHAR2(255)
-        , EFF_DT TIMESTAMP
-        , EXPIR_DT TIMESTAMP
-        , NAME VARCHAR2(255)
-        , REV_DESC VARCHAR2(255)
-        , REV_NAME VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_LULU_RELTN_TYPE
-    ADD CONSTRAINT KSLU_LULU_RELTN_TYPEP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_LULU_RELTN_TYPE_ATTR
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LULU_RELTN_TYPE_ATTR';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LULU_RELTN_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_LULU_RELTN_TYPE_ATTR
-(
-      ID VARCHAR2(255)
-        , ATTR_NAME VARCHAR2(255)
-        , ATTR_VALUE VARCHAR2(255)
-        , OWNER VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_LULU_RELTN_TYPE_ATTR
-    ADD CONSTRAINT KSLU_LULU_RELTN_TYPE_ATTRP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_LULU_RELTN_TYPE_JN_LU_TYP
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LULU_RELTN_TYPE_JN_LU_TYP';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LULU_RELTN_TYPE_JN_LU_TYP CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_LULU_RELTN_TYPE_JN_LU_TYP
-(
-      LULU_RELTN_TYPE_ID VARCHAR2(255) NOT NULL
-        , LU_TYPE_ID VARCHAR2(255) NOT NULL
-)
-/
------------------------------------------------------------------------------
--- KSLU_LUTYPE
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LUTYPE';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LUTYPE CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_LUTYPE
-(
-      TYPE_KEY VARCHAR2(255)
-        , TYPE_DESC VARCHAR2(2000)
-        , EFF_DT TIMESTAMP
-        , EXPIR_DT TIMESTAMP
-        , NAME VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_LUTYPE
-    ADD CONSTRAINT KSLU_LUTYPEP1
-PRIMARY KEY (TYPE_KEY)
-/
------------------------------------------------------------------------------
--- KSLU_LU_CODE
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LU_CODE';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LU_CODE CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_LU_CODE
-(
-      ID VARCHAR2(255)
-        , CREATEID VARCHAR2(255)
-        , CREATETIME TIMESTAMP
-        , UPDATEID VARCHAR2(255)
-        , UPDATETIME TIMESTAMP
-        , VERSIONIND NUMBER(19) NOT NULL
-        , DESCR VARCHAR2(255)
-        , TYPE VARCHAR2(255)
-        , VALUE VARCHAR2(255)
-        , CLU_ID VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_LU_CODE
-    ADD CONSTRAINT KSLU_LU_CODEP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_LU_CODE_ATTR
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LU_CODE_ATTR';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LU_CODE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_LU_CODE_ATTR
-(
-      ID VARCHAR2(255)
-        , ATTR_NAME VARCHAR2(255)
-        , ATTR_VALUE VARCHAR2(255)
-        , OWNER VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_LU_CODE_ATTR
-    ADD CONSTRAINT KSLU_LU_CODE_ATTRP1
-PRIMARY KEY (ID)
-/
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSLU_CLU_DOC_RELTN
 -----------------------------------------------------------------------------
@@ -7203,6 +8673,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_DOC_RELTN CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSLU_CLU_DOC_RELTN
 (
       ID VARCHAR2(255)
@@ -7219,13 +8690,23 @@ CREATE TABLE KSLU_CLU_DOC_RELTN
         , CLU_ID VARCHAR2(255)
         , DESCR VARCHAR2(255)
         , LU_DOC_RELTN_TYPE_ID VARCHAR2(255)
+    
     , CONSTRAINT SYS_C00218431 UNIQUE (CLU_ID, DOC_ID)
+
 )
 /
+
 ALTER TABLE KSLU_CLU_DOC_RELTN
     ADD CONSTRAINT KSLU_CLU_DOC_RELTNP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSLU_CLU_DOC_RELTN_ATTR
 -----------------------------------------------------------------------------
@@ -7235,18 +8716,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_DOC_RELTN_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSLU_CLU_DOC_RELTN_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSLU_CLU_DOC_RELTN_ATTR
     ADD CONSTRAINT KSLU_CLU_DOC_RELTN_ATTRP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSLU_CLU_DOC_RELTN_TYPE
 -----------------------------------------------------------------------------
@@ -7256,6 +8748,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_DOC_RELTN_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSLU_CLU_DOC_RELTN_TYPE
 (
       TYPE_KEY VARCHAR2(255)
@@ -7263,12 +8756,22 @@ CREATE TABLE KSLU_CLU_DOC_RELTN_TYPE
         , EFF_DT TIMESTAMP
         , EXPIR_DT TIMESTAMP
         , NAME VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSLU_CLU_DOC_RELTN_TYPE
     ADD CONSTRAINT KSLU_CLU_DOC_RELTN_TYPEP1
 PRIMARY KEY (TYPE_KEY)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSLU_CLU_DOC_RELTN_TYPE_ATTR
 -----------------------------------------------------------------------------
@@ -7278,33 +8781,2061 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_DOC_RELTN_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSLU_CLU_DOC_RELTN_TYPE_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSLU_CLU_DOC_RELTN_TYPE_ATTR
     ADD CONSTRAINT KSLU_CLU_DOC_RELTN_TYPE_ATTP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
--- KSLU_LU_STMT_TYPE_JN_LU_TYPE
+-- KSLU_CLU_FEE
 -----------------------------------------------------------------------------
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LU_STMT_TYPE_JN_LU_TYPE';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LU_STMT_TYPE_JN_LU_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_FEE';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_FEE CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
-CREATE TABLE KSLU_LU_STMT_TYPE_JN_LU_TYPE
+
+CREATE TABLE KSLU_CLU_FEE
 (
-      LU_STMT_TYPE_ID VARCHAR2(255) NOT NULL
-        , LU_TYPE_ID VARCHAR2(255) NOT NULL
+      ID VARCHAR2(255)
+        , CREATEID VARCHAR2(255)
+        , CREATETIME TIMESTAMP
+        , UPDATEID VARCHAR2(255)
+        , UPDATETIME TIMESTAMP
+        , VERSIONIND NUMBER(20,0) NOT NULL
+    
+
 )
 /
+
+ALTER TABLE KSLU_CLU_FEE
+    ADD CONSTRAINT KSLU_CLU_FEEP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_FEE_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_FEE_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_FEE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_FEE_ATTR
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(255)
+        , OWNER VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_CLU_FEE_ATTR
+    ADD CONSTRAINT KSLU_CLU_FEE_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_IDENT
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_IDENT';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_IDENT CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_IDENT
+(
+      ID VARCHAR2(255)
+        , CD VARCHAR2(255)
+        , DIV VARCHAR2(255)
+        , LVL VARCHAR2(255)
+        , LNG_NAME VARCHAR2(255)
+        , ORG_ID VARCHAR2(255)
+        , SHRT_NAME VARCHAR2(255)
+        , ST VARCHAR2(255)
+        , SUFX_CD VARCHAR2(255)
+        , TYPE VARCHAR2(255)
+        , VARTN VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_CLU_IDENT
+    ADD CONSTRAINT KSLU_CLU_IDENTP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_INSTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_INSTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_INSTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_INSTR
+(
+      ID VARCHAR2(255)
+        , ORG_ID VARCHAR2(255)
+        , PERS_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_CLU_INSTR
+    ADD CONSTRAINT KSLU_CLU_INSTRP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_INSTR_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_INSTR_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_INSTR_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_INSTR_ATTR
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(255)
+        , OWNER VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_CLU_INSTR_ATTR
+    ADD CONSTRAINT KSLU_CLU_INSTR_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_JN_ALT_ADMIN_ORG
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_JN_ALT_ADMIN_ORG';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_JN_ALT_ADMIN_ORG CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_JN_ALT_ADMIN_ORG
+(
+      CLU_ID VARCHAR2(255) NOT NULL
+        , ALT_ORG_ID VARCHAR2(255) NOT NULL
+    
+    , CONSTRAINT SYS_C00218362 UNIQUE (ALT_ORG_ID)
+
+)
+/
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_JN_CAMP_LOC
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_JN_CAMP_LOC';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_JN_CAMP_LOC CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_JN_CAMP_LOC
+(
+      ID VARCHAR2(255)
+        , CAMP_LOC VARCHAR2(255)
+        , CLU_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_CLU_JN_CAMP_LOC
+    ADD CONSTRAINT KSLU_CLU_JN_CAMP_LOCP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_FEEREC_JN_AFFIL_ORG
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_FEEREC_JN_AFFIL_ORG';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_FEEREC_JN_AFFIL_ORG CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_FEEREC_JN_AFFIL_ORG
+(
+      CLU_FEE_REC_ID VARCHAR2(255) NOT NULL
+        , AFFIL_ORG_ID VARCHAR2(255) NOT NULL
+    
+
+)
+/
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_FEE_JN_CLU_FEE_REC
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_FEE_JN_CLU_FEE_REC';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_FEE_JN_CLU_FEE_REC CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_FEE_JN_CLU_FEE_REC
+(
+      CLU_FEE_ID VARCHAR2(255) NOT NULL
+        , CLU_FEE_REC_ID VARCHAR2(255) NOT NULL
+    
+
+)
+/
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_FEE_REC
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_FEE_REC';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_FEE_REC CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_FEE_REC
+(
+      ID VARCHAR2(255)
+        , CREATEID VARCHAR2(255)
+        , CREATETIME TIMESTAMP
+        , UPDATEID VARCHAR2(255)
+        , UPDATETIME TIMESTAMP
+        , VERSIONIND NUMBER(20,0) NOT NULL
+        , CURRENCY_QUANT NUMBER(10,0)
+        , CURRENCY_TYPE VARCHAR2(255)
+        , FEE_TYPE VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_CLU_FEE_REC
+    ADD CONSTRAINT KSLU_CLU_FEE_RECP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_FEE_REC_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_FEE_REC_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_FEE_REC_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_FEE_REC_ATTR
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(255)
+        , OWNER VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_CLU_FEE_REC_ATTR
+    ADD CONSTRAINT KSLU_CLU_FEE_REC_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX SQL100208171628480 
+  ON KSLU_CLU_FEE_REC_ATTR 
+  (OWNER)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_JN_ACCRED
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_JN_ACCRED';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_JN_ACCRED CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_JN_ACCRED
+(
+      CLU_ID VARCHAR2(255) NOT NULL
+        , CLU_ACCRED_ID VARCHAR2(255) NOT NULL
+    
+    , CONSTRAINT SQL100208171626660 UNIQUE (CLU_ACCRED_ID)
+
+)
+/
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_JN_CLU_IDENT
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_JN_CLU_IDENT';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_JN_CLU_IDENT CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_JN_CLU_IDENT
+(
+      CLU_ID VARCHAR2(255) NOT NULL
+        , ALT_CLU_ID VARCHAR2(255) NOT NULL
+    
+    , CONSTRAINT SYS_C00218370 UNIQUE (ALT_CLU_ID)
+
+)
+/
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_JN_CLU_INSTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_JN_CLU_INSTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_JN_CLU_INSTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_JN_CLU_INSTR
+(
+      CLU_ID VARCHAR2(255) NOT NULL
+        , CLU_INSTR_ID VARCHAR2(255) NOT NULL
+    
+    , CONSTRAINT SYS_C00218373 UNIQUE (CLU_INSTR_ID)
+
+)
+/
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSSTMT_OBJECT_TYPE
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSSTMT_OBJECT_TYPE';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSSTMT_OBJECT_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSSTMT_OBJECT_TYPE
+(
+      TYPE_KEY VARCHAR2(255)
+        , TYPE_DESC VARCHAR2(2000)
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , NAME VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSSTMT_OBJECT_TYPE
+    ADD CONSTRAINT KSSTMT_OBJECT_TYPEP1
+PRIMARY KEY (TYPE_KEY)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_JN_ORG
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_JN_ORG';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_JN_ORG CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_JN_ORG
+(
+      ID VARCHAR2(255)
+        , ORG_ID VARCHAR2(255)
+        , CLU_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_CLU_JN_ORG
+    ADD CONSTRAINT KSLU_CLU_JN_ORGP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_JN_SUBJ_ORG
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_JN_SUBJ_ORG';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_JN_SUBJ_ORG CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_JN_SUBJ_ORG
+(
+      ID VARCHAR2(255)
+        , ORG_ID VARCHAR2(255)
+        , CLU_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_CLU_JN_SUBJ_ORG
+    ADD CONSTRAINT KSLU_CLU_JN_SUBJ_ORGP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_LO_RELTN
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_LO_RELTN';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_LO_RELTN CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_LO_RELTN
+(
+      ID VARCHAR2(255)
+        , CREATEID VARCHAR2(255)
+        , CREATETIME TIMESTAMP
+        , UPDATEID VARCHAR2(255)
+        , UPDATETIME TIMESTAMP
+        , VERSIONIND NUMBER(20,0) NOT NULL
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , LO_ID VARCHAR2(255)
+        , ST VARCHAR2(255)
+        , TYPE VARCHAR2(255)
+        , CLU_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_CLU_LO_RELTN
+    ADD CONSTRAINT KSLU_CLU_LO_RELTNP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_LO_RELTN_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_LO_RELTN_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_LO_RELTN_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_LO_RELTN_ATTR
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(255)
+        , OWNER VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_CLU_LO_RELTN_ATTR
+    ADD CONSTRAINT KSLU_CLU_LO_RELTN_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX SQL100208171628760 
+  ON KSLU_CLU_LO_RELTN_ATTR 
+  (OWNER)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_LO_RELTN_TYPE
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_LO_RELTN_TYPE';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_LO_RELTN_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_LO_RELTN_TYPE
+(
+      TYPE_KEY VARCHAR2(255)
+        , TYPE_DESC VARCHAR2(255)
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , NAME VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_CLU_LO_RELTN_TYPE
+    ADD CONSTRAINT KSLU_CLU_LO_RELTN_TYPEP1
+PRIMARY KEY (TYPE_KEY)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_LO_RELTN_TYPE_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_LO_RELTN_TYPE_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_LO_RELTN_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_LO_RELTN_TYPE_ATTR
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(255)
+        , OWNER VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_CLU_LO_RELTN_TYPE_ATTR
+    ADD CONSTRAINT KSLU_CLU_LO_RELTN_TYPE_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX SQL100208171628780 
+  ON KSLU_CLU_LO_RELTN_TYPE_ATTR 
+  (OWNER)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_LO_ALOW_RELTN_TYPE
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_LO_ALOW_RELTN_TYPE';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_LO_ALOW_RELTN_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_LO_ALOW_RELTN_TYPE
+(
+      ID VARCHAR2(255)
+        , CREATEID VARCHAR2(255)
+        , CREATETIME TIMESTAMP
+        , UPDATEID VARCHAR2(255)
+        , UPDATETIME TIMESTAMP
+        , VERSIONIND NUMBER(20,0) NOT NULL
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , LO_TYPE_ID VARCHAR2(255)
+        , CLULO_RELTN_TYPE_ID VARCHAR2(255)
+        , LU_TYPE_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_CLU_LO_ALOW_RELTN_TYPE
+    ADD CONSTRAINT KSLU_CLU_LO_ALOW_RELTN_TYPEP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_PUBL
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_PUBL';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_PUBL CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_PUBL
+(
+      ID VARCHAR2(255)
+        , END_CYCLE VARCHAR2(255)
+        , START_CYCLE VARCHAR2(255)
+        , ST VARCHAR2(255)
+        , TYPE VARCHAR2(255)
+        , PRI_INSTR_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_CLU_PUBL
+    ADD CONSTRAINT KSLU_CLU_PUBLP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_PUBL_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_PUBL_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_PUBL_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_PUBL_ATTR
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(255)
+        , OWNER VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_CLU_PUBL_ATTR
+    ADD CONSTRAINT KSLU_CLU_PUBL_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_PUBL_JN_CLU_INSTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_PUBL_JN_CLU_INSTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_PUBL_JN_CLU_INSTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_PUBL_JN_CLU_INSTR
+(
+      CLU_PUBL_ID VARCHAR2(255) NOT NULL
+        , CLU_INSTR_ID VARCHAR2(255) NOT NULL
+    
+    , CONSTRAINT SYS_C00218386 UNIQUE (CLU_INSTR_ID)
+
+)
+/
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_SET
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_SET';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_SET CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_SET
+(
+      ID VARCHAR2(255)
+        , CREATEID VARCHAR2(255)
+        , CREATETIME TIMESTAMP
+        , UPDATEID VARCHAR2(255)
+        , UPDATETIME TIMESTAMP
+        , VERSIONIND NUMBER(19) NOT NULL
+        , CRIT_SET NUMBER(1)
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , NAME VARCHAR2(255)
+        , RT_DESCR_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_CLU_SET
+    ADD CONSTRAINT KSLU_CLU_SETP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_SET_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_SET_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_SET_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_SET_ATTR
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(255)
+        , OWNER VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_CLU_SET_ATTR
+    ADD CONSTRAINT KSLU_CLU_SET_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_SET_JN_CLU
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_SET_JN_CLU';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_SET_JN_CLU CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_SET_JN_CLU
+(
+      CLU_SET_ID VARCHAR2(255) NOT NULL
+        , CLU_ID VARCHAR2(255) NOT NULL
+    
+
+)
+/
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_SET_JN_CLU_SET
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_SET_JN_CLU_SET';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_SET_JN_CLU_SET CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_SET_JN_CLU_SET
+(
+      CLU_SET_PARENT_ID VARCHAR2(255) NOT NULL
+        , CLU_SET_CHILD_ID VARCHAR2(255) NOT NULL
+    
+
+)
+/
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_LO
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LO';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LO CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_LO
+(
+      ID VARCHAR2(255)
+        , CREATEID VARCHAR2(255)
+        , CREATETIME TIMESTAMP
+        , UPDATEID VARCHAR2(255)
+        , UPDATETIME TIMESTAMP
+        , VERSIONIND NUMBER(19) NOT NULL
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , NAME VARCHAR2(255)
+        , ST VARCHAR2(255)
+        , RT_DESCR_ID VARCHAR2(255)
+        , LO_REPO_ID VARCHAR2(255)
+        , LOTYPE_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_LO
+    ADD CONSTRAINT KSLU_LOP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_LOLO_ALLOWED_RELTN_TYPE
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LOLO_ALLOWED_RELTN_TYPE';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LOLO_ALLOWED_RELTN_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_LOLO_ALLOWED_RELTN_TYPE
+(
+      ID VARCHAR2(255)
+        , CREATEID VARCHAR2(255)
+        , CREATETIME TIMESTAMP
+        , UPDATEID VARCHAR2(255)
+        , UPDATETIME TIMESTAMP
+        , VERSIONIND NUMBER(19) NOT NULL
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , LO_TYPE_ID VARCHAR2(255)
+        , LO_REL_TYPE_ID VARCHAR2(255)
+        , LOLO_RELTN_TYPE_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_LOLO_ALLOWED_RELTN_TYPE
+    ADD CONSTRAINT KSLU_LOLO_ALLOWED_RELTN_TYPP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_LOLO_RELTN
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LOLO_RELTN';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LOLO_RELTN CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_LOLO_RELTN
+(
+      ID VARCHAR2(255)
+        , CREATEID VARCHAR2(255)
+        , CREATETIME TIMESTAMP
+        , UPDATEID VARCHAR2(255)
+        , UPDATETIME TIMESTAMP
+        , VERSIONIND NUMBER(19) NOT NULL
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , ST VARCHAR2(255)
+        , LO_ID VARCHAR2(255)
+        , LO_LO_RELATION_TYPE_ID VARCHAR2(255)
+        , RELATED_LO_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_LOLO_RELTN
+    ADD CONSTRAINT KSLU_LOLO_RELTNP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_LOLO_RELTN_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LOLO_RELTN_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LOLO_RELTN_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_LOLO_RELTN_ATTR
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(255)
+        , OWNER VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_LOLO_RELTN_ATTR
+    ADD CONSTRAINT KSLU_LOLO_RELTN_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_LOLO_RELTN_TYPE
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LOLO_RELTN_TYPE';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LOLO_RELTN_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_LOLO_RELTN_TYPE
+(
+      ID VARCHAR2(255)
+        , DESCR VARCHAR2(255)
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , NAME VARCHAR2(255)
+        , REV_DESCR VARCHAR2(255)
+        , REV_NAME VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_LOLO_RELTN_TYPE
+    ADD CONSTRAINT KSLU_LOLO_RELTN_TYPEP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_LOLO_RELTN_TYPE_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LOLO_RELTN_TYPE_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LOLO_RELTN_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_LOLO_RELTN_TYPE_ATTR
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(255)
+        , OWNER VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_LOLO_RELTN_TYPE_ATTR
+    ADD CONSTRAINT KSLU_LOLO_RELTN_TYPE_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_LO_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LO_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LO_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_LO_ATTR
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(255)
+        , OWNER VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_LO_ATTR
+    ADD CONSTRAINT KSLU_LO_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_LO_CATEGORY
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LO_CATEGORY';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LO_CATEGORY CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_LO_CATEGORY
+(
+      ID VARCHAR2(255)
+        , CREATEID VARCHAR2(255)
+        , CREATETIME TIMESTAMP
+        , UPDATEID VARCHAR2(255)
+        , UPDATETIME TIMESTAMP
+        , VERSIONIND NUMBER(19) NOT NULL
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , NAME VARCHAR2(255)
+        , RT_DESCR_ID VARCHAR2(255)
+        , LO_REPO_ID VARCHAR2(255)
+        , LO_CATEGORY_TYPE_ID VARCHAR2(255)
+        , STATE VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_LO_CATEGORY
+    ADD CONSTRAINT KSLU_LO_CATEGORYP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_LO_CATEGORY_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LO_CATEGORY_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LO_CATEGORY_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_LO_CATEGORY_ATTR
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(255)
+        , OWNER VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_LO_CATEGORY_ATTR
+    ADD CONSTRAINT KSLU_LO_CATEGORY_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_LO_CATEGORY_TYPE
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LO_CATEGORY_TYPE';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LO_CATEGORY_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_LO_CATEGORY_TYPE
+(
+      ID VARCHAR2(255)
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , NAME VARCHAR2(255)
+        , DESCR VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_LO_CATEGORY_TYPE
+    ADD CONSTRAINT KSLU_LO_CATEGORY_TYPEP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_LO_CATEGORY_TYPE_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LO_CATEGORY_TYPE_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LO_CATEGORY_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_LO_CATEGORY_TYPE_ATTR
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(255)
+        , OWNER VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_LO_CATEGORY_TYPE_ATTR
+    ADD CONSTRAINT KSLU_LO_CATEGORY_TYPE_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_LO_JN_CLU
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LO_JN_CLU';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LO_JN_CLU CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_LO_JN_CLU
+(
+      ID VARCHAR2(255)
+        , CREATEID VARCHAR2(255)
+        , CREATETIME TIMESTAMP
+        , UPDATEID VARCHAR2(255)
+        , UPDATETIME TIMESTAMP
+        , VERSIONIND NUMBER(19) NOT NULL
+        , LO_ID VARCHAR2(255)
+        , CLU_ID VARCHAR2(255)
+    
+    , CONSTRAINT SYS_C00218399 UNIQUE (LO_ID, CLU_ID)
+
+)
+/
+
+ALTER TABLE KSLU_LO_JN_CLU
+    ADD CONSTRAINT KSLU_LO_JN_CLUP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_LO_JN_LOCATEGORY
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LO_JN_LOCATEGORY';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LO_JN_LOCATEGORY CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_LO_JN_LOCATEGORY
+(
+      LO_ID VARCHAR2(255) NOT NULL
+        , LOCATEGORY_ID VARCHAR2(255) NOT NULL
+    
+
+)
+/
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_LO_REPOSITORY
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LO_REPOSITORY';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LO_REPOSITORY CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_LO_REPOSITORY
+(
+      ID VARCHAR2(255)
+        , CREATEID VARCHAR2(255)
+        , CREATETIME TIMESTAMP
+        , UPDATEID VARCHAR2(255)
+        , UPDATETIME TIMESTAMP
+        , VERSIONIND NUMBER(19) NOT NULL
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , NAME VARCHAR2(255)
+        , RT_DESCR_ID VARCHAR2(255)
+        , LO_ROOT_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_LO_REPOSITORY
+    ADD CONSTRAINT KSLU_LO_REPOSITORYP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_LO_REPOSITORY_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LO_REPOSITORY_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LO_REPOSITORY_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_LO_REPOSITORY_ATTR
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(255)
+        , OWNER VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_LO_REPOSITORY_ATTR
+    ADD CONSTRAINT KSLU_LO_REPOSITORY_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_LO_TYPE
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LO_TYPE';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LO_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_LO_TYPE
+(
+      ID VARCHAR2(255)
+        , DESCR VARCHAR2(255)
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , NAME VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_LO_TYPE
+    ADD CONSTRAINT KSLU_LO_TYPEP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_LO_TYPE_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LO_TYPE_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LO_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_LO_TYPE_ATTR
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(255)
+        , OWNER VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_LO_TYPE_ATTR
+    ADD CONSTRAINT KSLU_LO_TYPE_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_SET_TYPE
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_SET_TYPE';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_SET_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_SET_TYPE
+(
+      TYPE_KEY VARCHAR2(255)
+        , TYPE_DESC VARCHAR2(255)
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , NAME VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_CLU_SET_TYPE
+    ADD CONSTRAINT KSLU_CLU_SET_TYPEP1
+PRIMARY KEY (TYPE_KEY)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_SET_TYPE_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_SET_TYPE_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_SET_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_SET_TYPE_ATTR
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(255)
+        , OWNER VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_CLU_SET_TYPE_ATTR
+    ADD CONSTRAINT KSLU_CLU_SET_TYPE_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_LUI
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LUI';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LUI CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_LUI
+(
+      ID VARCHAR2(255)
+        , CREATEID VARCHAR2(255)
+        , CREATETIME TIMESTAMP
+        , UPDATEID VARCHAR2(255)
+        , UPDATETIME TIMESTAMP
+        , VERSIONIND NUMBER(19) NOT NULL
+        , ATP_ID VARCHAR2(255)
+        , EFF_DT TIMESTAMP
+        , EXP_DT TIMESTAMP
+        , LUI_CODE VARCHAR2(255)
+        , MAX_SEATS NUMBER(10)
+        , ST VARCHAR2(255)
+        , CLU_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_LUI
+    ADD CONSTRAINT KSLU_LUIP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_LUILUI_RELTN
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LUILUI_RELTN';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LUILUI_RELTN CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_LUILUI_RELTN
+(
+      ID VARCHAR2(255)
+        , CREATEID VARCHAR2(255)
+        , CREATETIME TIMESTAMP
+        , UPDATEID VARCHAR2(255)
+        , UPDATETIME TIMESTAMP
+        , VERSIONIND NUMBER(19) NOT NULL
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , ST VARCHAR2(255)
+        , LULU_RELTN_TYPE_ID VARCHAR2(255)
+        , LUI_ID VARCHAR2(255)
+        , RELATED_LUI_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_LUILUI_RELTN
+    ADD CONSTRAINT KSLU_LUILUI_RELTNP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_LUILUI_RELTN_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LUILUI_RELTN_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LUILUI_RELTN_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_LUILUI_RELTN_ATTR
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(255)
+        , OWNER VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_LUILUI_RELTN_ATTR
+    ADD CONSTRAINT KSLU_LUILUI_RELTN_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_LUI_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LUI_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LUI_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_LUI_ATTR
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(255)
+        , OWNER VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_LUI_ATTR
+    ADD CONSTRAINT KSLU_LUI_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_LULU_RELTN_TYPE
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LULU_RELTN_TYPE';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LULU_RELTN_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_LULU_RELTN_TYPE
+(
+      ID VARCHAR2(255)
+        , CREATEID VARCHAR2(255)
+        , CREATETIME TIMESTAMP
+        , UPDATEID VARCHAR2(255)
+        , UPDATETIME TIMESTAMP
+        , VERSIONIND NUMBER(19) NOT NULL
+        , DESCR VARCHAR2(255)
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , NAME VARCHAR2(255)
+        , REV_DESC VARCHAR2(255)
+        , REV_NAME VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_LULU_RELTN_TYPE
+    ADD CONSTRAINT KSLU_LULU_RELTN_TYPEP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_LULU_RELTN_TYPE_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LULU_RELTN_TYPE_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LULU_RELTN_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_LULU_RELTN_TYPE_ATTR
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(255)
+        , OWNER VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_LULU_RELTN_TYPE_ATTR
+    ADD CONSTRAINT KSLU_LULU_RELTN_TYPE_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_LULU_RELTN_TYPE_JN_LU_TYP
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LULU_RELTN_TYPE_JN_LU_TYP';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LULU_RELTN_TYPE_JN_LU_TYP CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_LULU_RELTN_TYPE_JN_LU_TYP
+(
+      LULU_RELTN_TYPE_ID VARCHAR2(255) NOT NULL
+        , LU_TYPE_ID VARCHAR2(255) NOT NULL
+    
+
+)
+/
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_LUTYPE
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LUTYPE';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LUTYPE CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_LUTYPE
+(
+      TYPE_KEY VARCHAR2(255)
+        , TYPE_DESC VARCHAR2(2000)
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , NAME VARCHAR2(255)
+        , DLVR_MTHD VARCHAR2(255)
+        , INSTR_FRMT VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_LUTYPE
+    ADD CONSTRAINT KSLU_LUTYPEP1
+PRIMARY KEY (TYPE_KEY)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_LU_CD_TYPE
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LU_CD_TYPE';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LU_CD_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_LU_CD_TYPE
+(
+      TYPE_KEY VARCHAR2(255)
+        , TYPE_DESC VARCHAR2(2000)
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , NAME VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_LU_CD_TYPE
+    ADD CONSTRAINT KSLU_LU_CD_TYPEP1
+PRIMARY KEY (TYPE_KEY)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_LU_CD_TYPE_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LU_CD_TYPE_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LU_CD_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_LU_CD_TYPE_ATTR
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(255)
+        , OWNER VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_LU_CD_TYPE_ATTR
+    ADD CONSTRAINT KSLU_LU_CD_TYPE_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_LU_CODE
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LU_CODE';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LU_CODE CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_LU_CODE
+(
+      ID VARCHAR2(255)
+        , CREATEID VARCHAR2(255)
+        , CREATETIME TIMESTAMP
+        , UPDATEID VARCHAR2(255)
+        , UPDATETIME TIMESTAMP
+        , VERSIONIND NUMBER(19) NOT NULL
+        , DESCR VARCHAR2(255)
+        , TYPE VARCHAR2(255)
+        , VALUE VARCHAR2(255)
+        , CLU_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_LU_CODE
+    ADD CONSTRAINT KSLU_LU_CODEP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_LU_CODE_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LU_CODE_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LU_CODE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_LU_CODE_ATTR
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(255)
+        , OWNER VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_LU_CODE_ATTR
+    ADD CONSTRAINT KSLU_LU_CODE_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_LU_LU_ALOW_RELTN_TYPE
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LU_LU_ALOW_RELTN_TYPE';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LU_LU_ALOW_RELTN_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_LU_LU_ALOW_RELTN_TYPE
+(
+      ID VARCHAR2(255)
+        , CREATEID VARCHAR2(255)
+        , CREATETIME TIMESTAMP
+        , UPDATEID VARCHAR2(255)
+        , UPDATETIME TIMESTAMP
+        , VERSIONIND NUMBER(19) NOT NULL
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , LU_TYPE_ID VARCHAR2(255)
+        , LU_REL_TYPE_ID VARCHAR2(255)
+        , LU_LU_RELTN_TYPE_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_LU_LU_ALOW_RELTN_TYPE
+    ADD CONSTRAINT KSLU_LU_LU_ALOW_RELTN_TYPEP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSLU_LU_TYPE_ATTR
 -----------------------------------------------------------------------------
@@ -7314,194 +10845,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LU_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSLU_LU_TYPE_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSLU_LU_TYPE_ATTR
     ADD CONSTRAINT KSLU_LU_TYPE_ATTRP1
 PRIMARY KEY (ID)
 /
------------------------------------------------------------------------------
--- KSLU_REQCOMTYP_JN_REQCOMFLDTYP
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_REQCOMTYP_JN_REQCOMFLDTYP';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_REQCOMTYP_JN_REQCOMFLDTYP CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_REQCOMTYP_JN_REQCOMFLDTYP
-(
-      REQ_COMP_TYPE_ID VARCHAR2(255) NOT NULL
-        , REQ_COMP_FIELD_TYPE_ID VARCHAR2(255) NOT NULL
-)
-/
------------------------------------------------------------------------------
--- KSLU_REQ_COM
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_REQ_COM';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_REQ_COM CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_REQ_COM
-(
-      ID VARCHAR2(255)
-        , CREATEID VARCHAR2(255)
-        , CREATETIME TIMESTAMP
-        , UPDATEID VARCHAR2(255)
-        , UPDATETIME TIMESTAMP
-        , VERSIONIND NUMBER(19) NOT NULL
-        , DESCR VARCHAR2(255)
-        , EFF_DT TIMESTAMP
-        , EXPIR_DT TIMESTAMP
-        , ST VARCHAR2(255)
-        , REQ_COM_TYPE_ID VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_REQ_COM
-    ADD CONSTRAINT KSLU_REQ_COMP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_REQ_COM_FIELD
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_REQ_COM_FIELD';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_REQ_COM_FIELD CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_REQ_COM_FIELD
-(
-      ID VARCHAR2(255)
-        , REQ_COM_FIELD_KEY VARCHAR2(255)
-        , VALUE VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_REQ_COM_FIELD
-    ADD CONSTRAINT KSLU_REQ_COM_FIELDP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_REQ_COM_FIELD_TYPE
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_REQ_COM_FIELD_TYPE';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_REQ_COM_FIELD_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_REQ_COM_FIELD_TYPE
-(
-      ID VARCHAR2(255)
-        , DATA_TYPE VARCHAR2(255) NOT NULL
-        , DESCR VARCHAR2(255) NOT NULL
-        , INVALID_CHARS VARCHAR2(255)
-        , MAX_LENGTH NUMBER(10)
-        , MAX_OCCURS NUMBER(10)
-        , MAX_VALUE VARCHAR2(255)
-        , MIN_LENGTH NUMBER(10)
-        , MIN_OCCURS NUMBER(10)
-        , MIN_VALUE VARCHAR2(255)
-        , NAME VARCHAR2(255) NOT NULL
-        , READ_ONLY NUMBER(1) NOT NULL
-        , VALID_CHARS VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_REQ_COM_FIELD_TYPE
-    ADD CONSTRAINT KSLU_REQ_COM_FIELD_TYPEP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_REQ_COM_JN_REQ_COM_FIELD
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_REQ_COM_JN_REQ_COM_FIELD';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_REQ_COM_JN_REQ_COM_FIELD CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_REQ_COM_JN_REQ_COM_FIELD
-(
-      REQ_COM_ID VARCHAR2(255) NOT NULL
-        , REQ_COM_FIELD_ID VARCHAR2(255) NOT NULL
-    , CONSTRAINT SYS_C00218457 UNIQUE (REQ_COM_FIELD_ID)
-)
-/
------------------------------------------------------------------------------
--- KSLU_REQ_COM_TYPE
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_REQ_COM_TYPE';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_REQ_COM_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_REQ_COM_TYPE
-(
-      TYPE_KEY VARCHAR2(255)
-        , TYPE_DESC VARCHAR2(2000)
-        , EFF_DT TIMESTAMP
-        , EXPIR_DT TIMESTAMP
-        , NAME VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_REQ_COM_TYPE
-    ADD CONSTRAINT KSLU_REQ_COM_TYPEP1
-PRIMARY KEY (TYPE_KEY)
-/
------------------------------------------------------------------------------
--- KSLU_REQ_COM_TYPE_ATTR
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_REQ_COM_TYPE_ATTR';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_REQ_COM_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_REQ_COM_TYPE_ATTR
-(
-      ID VARCHAR2(255)
-        , ATTR_NAME VARCHAR2(255)
-        , ATTR_VALUE VARCHAR2(255)
-        , OWNER VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_REQ_COM_TYPE_ATTR
-    ADD CONSTRAINT KSLU_REQ_COM_TYPE_ATTRP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_REQ_COM_TYPE_NL_TMPL
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_REQ_COM_TYPE_NL_TMPL';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_REQ_COM_TYPE_NL_TMPL CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_REQ_COM_TYPE_NL_TMPL
-(
-      ID VARCHAR2(255)
-        , ATTR_NAME VARCHAR2(255)
-        , ATTR_VALUE VARCHAR2(255)
-        , LANGUAGE VARCHAR2(2)
-        , NL_USUAGE_TYPE_KEY VARCHAR2(255)
-        , TEMPLATE VARCHAR2(2000)
-        , OWNER VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_REQ_COM_TYPE_NL_TMPL
-    ADD CONSTRAINT KSLU_REQ_COM_TYPE_NL_TMPLP1
-PRIMARY KEY (ID)
-/
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSLU_RSRC
 -----------------------------------------------------------------------------
@@ -7511,182 +10877,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_RSRC CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSLU_RSRC
 (
       ID VARCHAR2(255)
         , RSRC_TYPE_ID VARCHAR2(255)
         , CLU_ID VARCHAR2(255)
+    
     , CONSTRAINT SYS_C00218466 UNIQUE (RSRC_TYPE_ID, CLU_ID)
+
 )
 /
+
 ALTER TABLE KSLU_RSRC
     ADD CONSTRAINT KSLU_RSRCP1
 PRIMARY KEY (ID)
 /
------------------------------------------------------------------------------
--- KSLU_STMT
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_STMT';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_STMT CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_STMT
-(
-      ID VARCHAR2(255)
-        , CREATEID VARCHAR2(255)
-        , CREATETIME TIMESTAMP
-        , UPDATEID VARCHAR2(255)
-        , UPDATETIME TIMESTAMP
-        , VERSIONIND NUMBER(19) NOT NULL
-        , DESCR VARCHAR2(255)
-        , NAME VARCHAR2(255)
-        , OPERATOR VARCHAR2(255)
-        , ST VARCHAR2(255)
-        , LU_STMT_TYPE_ID VARCHAR2(255)
-        , PARENT_LU_STMT_ID VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_STMT
-    ADD CONSTRAINT KSLU_STMTP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_STMT_ATTR
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_STMT_ATTR';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_STMT_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_STMT_ATTR
-(
-      ID VARCHAR2(255)
-        , ATTR_NAME VARCHAR2(255)
-        , ATTR_VALUE VARCHAR2(255)
-        , OWNER VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_STMT_ATTR
-    ADD CONSTRAINT KSLU_STMT_ATTRP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_STMT_JN_REQ_COM
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_STMT_JN_REQ_COM';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_STMT_JN_REQ_COM CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_STMT_JN_REQ_COM
-(
-      LU_STMT_ID VARCHAR2(255) NOT NULL
-        , REQ_COM_ID VARCHAR2(255) NOT NULL
-)
-/
------------------------------------------------------------------------------
--- KSLU_STMT_TYPE
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_STMT_TYPE';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_STMT_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_STMT_TYPE
-(
-      TYPE_KEY VARCHAR2(255)
-        , TYPE_DESC VARCHAR2(2000)
-        , EFF_DT TIMESTAMP
-        , EXPIR_DT TIMESTAMP
-        , NAME VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_STMT_TYPE
-    ADD CONSTRAINT KSLU_STMT_TYPEP1
-PRIMARY KEY (TYPE_KEY)
-/
------------------------------------------------------------------------------
--- KSLU_STMT_TYPE_ATTR
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_STMT_TYPE_ATTR';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_STMT_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_STMT_TYPE_ATTR
-(
-      ID VARCHAR2(255)
-        , ATTR_NAME VARCHAR2(255)
-        , ATTR_VALUE VARCHAR2(255)
-        , OWNER VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_STMT_TYPE_ATTR
-    ADD CONSTRAINT KSLU_STMT_TYPE_ATTRP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_STMT_TYPE_HEADER_TMPL
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_STMT_TYPE_HEADER_TMPL';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_STMT_TYPE_HEADER_TMPL CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_STMT_TYPE_HEADER_TMPL
-(
-      ID VARCHAR2(255)
-        , ATTR_NAME VARCHAR2(255)
-        , ATTR_VALUE VARCHAR2(255)
-        , LANGUAGE VARCHAR2(2)
-        , NL_USUAGE_TYPE_KEY VARCHAR2(255)
-        , TEMPLATE VARCHAR2(2000)
-        , OWNER VARCHAR2(255)
-)
-/
-ALTER TABLE KSLU_STMT_TYPE_HEADER_TMPL
-    ADD CONSTRAINT KSLU_STMT_TYPE_HEADER_TMPLP1
-PRIMARY KEY (ID)
-/
------------------------------------------------------------------------------
--- KSLU_STY_JN_LUSTY
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_STY_JN_LUSTY';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_STY_JN_LUSTY CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_STY_JN_LUSTY
-(
-      LU_STMT_TYPE_ID VARCHAR2(255) NOT NULL
-        , CHLD_LU_STMT_TYPE_ID VARCHAR2(255) NOT NULL
-    , CONSTRAINT SYS_C00218482 UNIQUE (CHLD_LU_STMT_TYPE_ID)
-)
-/
------------------------------------------------------------------------------
--- KSLU_STY_JN_RQTY
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_STY_JN_RQTY';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_STY_JN_RQTY CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-CREATE TABLE KSLU_STY_JN_RQTY
-(
-      LU_STMT_TYPE_ID VARCHAR2(255) NOT NULL
-        , REQ_COM_TYPE_ID VARCHAR2(255) NOT NULL
-    , CONSTRAINT SYS_C00218485 UNIQUE (REQ_COM_TYPE_ID)
-)
-/
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSOR_ORG
 -----------------------------------------------------------------------------
@@ -7696,6 +10909,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSOR_ORG CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSOR_ORG
 (
       ID VARCHAR2(255)
@@ -7712,12 +10926,22 @@ CREATE TABLE KSOR_ORG
         , SHRT_NAME VARCHAR2(255)
         , ST VARCHAR2(255)
         , TYPE VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSOR_ORG
     ADD CONSTRAINT KSOR_ORGP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSOR_ORG_ATTR
 -----------------------------------------------------------------------------
@@ -7727,18 +10951,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSOR_ORG_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSOR_ORG_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSOR_ORG_ATTR
     ADD CONSTRAINT KSOR_ORG_ATTRP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSOR_ORG_HIRCHY
 -----------------------------------------------------------------------------
@@ -7748,6 +10983,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSOR_ORG_HIRCHY CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSOR_ORG_HIRCHY
 (
       ID VARCHAR2(255)
@@ -7756,12 +10992,22 @@ CREATE TABLE KSOR_ORG_HIRCHY
         , EXPIR_DT TIMESTAMP
         , NAME VARCHAR2(255)
         , ROOT_ORG VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSOR_ORG_HIRCHY
     ADD CONSTRAINT KSOR_ORG_HIRCHYP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSOR_ORG_HIRCHY_ATTR
 -----------------------------------------------------------------------------
@@ -7771,18 +11017,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSOR_ORG_HIRCHY_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSOR_ORG_HIRCHY_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSOR_ORG_HIRCHY_ATTR
     ADD CONSTRAINT KSOR_ORG_HIRCHY_ATTRP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSOR_ORG_HIRCHY_JN_ORG_TYPE
 -----------------------------------------------------------------------------
@@ -7792,12 +11049,23 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSOR_ORG_HIRCHY_JN_ORG_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSOR_ORG_HIRCHY_JN_ORG_TYPE
 (
       ORG_HIRCHY_ID VARCHAR2(255) NOT NULL
         , ORG_TYPE_ID VARCHAR2(255) NOT NULL
+    
+
 )
 /
+
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSOR_ORG_JN_ORG_PERS_REL_TYPE
 -----------------------------------------------------------------------------
@@ -7807,12 +11075,23 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSOR_ORG_JN_ORG_PERS_REL_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSOR_ORG_JN_ORG_PERS_REL_TYPE
 (
       ORG_ID VARCHAR2(255) NOT NULL
         , ORG_PERS_RELTN_TYPE_ID VARCHAR2(255) NOT NULL
+    
+
 )
 /
+
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSOR_ORG_ORG_RELTN
 -----------------------------------------------------------------------------
@@ -7822,6 +11101,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSOR_ORG_ORG_RELTN CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSOR_ORG_ORG_RELTN
 (
       ID VARCHAR2(255)
@@ -7836,12 +11116,22 @@ CREATE TABLE KSOR_ORG_ORG_RELTN
         , ORG VARCHAR2(255)
         , RELATED_ORG VARCHAR2(255)
         , TYPE VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSOR_ORG_ORG_RELTN
     ADD CONSTRAINT KSOR_ORG_ORG_RELTNP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSOR_ORG_ORG_RELTN_ATTR
 -----------------------------------------------------------------------------
@@ -7851,18 +11141,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSOR_ORG_ORG_RELTN_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSOR_ORG_ORG_RELTN_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSOR_ORG_ORG_RELTN_ATTR
     ADD CONSTRAINT KSOR_ORG_ORG_RELTN_ATTRP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSOR_ORG_ORG_RELTN_TYPE
 -----------------------------------------------------------------------------
@@ -7872,6 +11173,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSOR_ORG_ORG_RELTN_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSOR_ORG_ORG_RELTN_TYPE
 (
       TYPE_KEY VARCHAR2(255)
@@ -7882,12 +11184,22 @@ CREATE TABLE KSOR_ORG_ORG_RELTN_TYPE
         , REV_DESCR VARCHAR2(255)
         , REV_NAME VARCHAR2(255)
         , ORG_HIRCHY VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSOR_ORG_ORG_RELTN_TYPE
     ADD CONSTRAINT KSOR_ORG_ORG_RELTN_TYPEP1
 PRIMARY KEY (TYPE_KEY)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSOR_ORG_ORG_RELTN_TYPE_ATTR
 -----------------------------------------------------------------------------
@@ -7897,18 +11209,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSOR_ORG_ORG_RELTN_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSOR_ORG_ORG_RELTN_TYPE_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSOR_ORG_ORG_RELTN_TYPE_ATTR
     ADD CONSTRAINT KSOR_ORG_ORG_RELTN_TYPE_ATTP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSOR_ORG_PERS_RELTN
 -----------------------------------------------------------------------------
@@ -7918,6 +11241,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSOR_ORG_PERS_RELTN CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSOR_ORG_PERS_RELTN
 (
       ID VARCHAR2(255)
@@ -7932,12 +11256,22 @@ CREATE TABLE KSOR_ORG_PERS_RELTN
         , ST VARCHAR2(255)
         , ORG VARCHAR2(255)
         , ORG_PERS_RELTN_TYPE VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSOR_ORG_PERS_RELTN
     ADD CONSTRAINT KSOR_ORG_PERS_RELTNP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSOR_ORG_PERS_RELTN_ATTR
 -----------------------------------------------------------------------------
@@ -7947,18 +11281,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSOR_ORG_PERS_RELTN_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSOR_ORG_PERS_RELTN_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSOR_ORG_PERS_RELTN_ATTR
     ADD CONSTRAINT KSOR_ORG_PERS_RELTN_ATTRP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSOR_ORG_PERS_RELTN_TYPE
 -----------------------------------------------------------------------------
@@ -7968,6 +11313,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSOR_ORG_PERS_RELTN_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSOR_ORG_PERS_RELTN_TYPE
 (
       TYPE_KEY VARCHAR2(255)
@@ -7975,12 +11321,22 @@ CREATE TABLE KSOR_ORG_PERS_RELTN_TYPE
         , EFF_DT TIMESTAMP
         , EXPIR_DT TIMESTAMP
         , NAME VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSOR_ORG_PERS_RELTN_TYPE
     ADD CONSTRAINT KSOR_ORG_PERS_RELTN_TYPEP1
 PRIMARY KEY (TYPE_KEY)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSOR_ORG_PERS_RELTN_TYPE_ATTR
 -----------------------------------------------------------------------------
@@ -7990,18 +11346,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSOR_ORG_PERS_RELTN_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSOR_ORG_PERS_RELTN_TYPE_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSOR_ORG_PERS_RELTN_TYPE_ATTR
     ADD CONSTRAINT KSOR_ORG_PERS_RELTN_TYPE_ATP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSOR_ORG_POS_RESTR
 -----------------------------------------------------------------------------
@@ -8011,6 +11378,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSOR_ORG_POS_RESTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSOR_ORG_POS_RESTR
 (
       ID VARCHAR2(255)
@@ -8027,12 +11395,22 @@ CREATE TABLE KSOR_ORG_POS_RESTR
         , TTL VARCHAR2(255)
         , ORG VARCHAR2(255)
         , PERS_RELTN_TYPE VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSOR_ORG_POS_RESTR
     ADD CONSTRAINT KSOR_ORG_POS_RESTRP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSOR_ORG_POS_RESTR_ATTR
 -----------------------------------------------------------------------------
@@ -8042,18 +11420,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSOR_ORG_POS_RESTR_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSOR_ORG_POS_RESTR_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSOR_ORG_POS_RESTR_ATTR
     ADD CONSTRAINT KSOR_ORG_POS_RESTR_ATTRP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSOR_ORG_TYPE
 -----------------------------------------------------------------------------
@@ -8063,6 +11452,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSOR_ORG_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSOR_ORG_TYPE
 (
       TYPE_KEY VARCHAR2(255)
@@ -8070,12 +11460,22 @@ CREATE TABLE KSOR_ORG_TYPE
         , EFF_DT TIMESTAMP
         , EXPIR_DT TIMESTAMP
         , NAME VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSOR_ORG_TYPE
     ADD CONSTRAINT KSOR_ORG_TYPEP1
 PRIMARY KEY (TYPE_KEY)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSOR_ORG_TYPE_ATTR
 -----------------------------------------------------------------------------
@@ -8085,18 +11485,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSOR_ORG_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSOR_ORG_TYPE_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSOR_ORG_TYPE_ATTR
     ADD CONSTRAINT KSOR_ORG_TYPE_ATTRP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSOR_ORG_TYPE_JN_ORG_PERRL_TYP
 -----------------------------------------------------------------------------
@@ -8106,12 +11517,23 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSOR_ORG_TYPE_JN_ORG_PERRL_TYP CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSOR_ORG_TYPE_JN_ORG_PERRL_TYP
 (
       ORG_TYPE_ID VARCHAR2(255) NOT NULL
         , ORG_PERS_RELTN_TYPE_ID VARCHAR2(255) NOT NULL
+    
+
 )
 /
+
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSPR_PROPOSAL
 -----------------------------------------------------------------------------
@@ -8121,6 +11543,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSPR_PROPOSAL CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSPR_PROPOSAL
 (
       PROPOSAL_ID VARCHAR2(255)
@@ -8136,12 +11559,22 @@ CREATE TABLE KSPR_PROPOSAL
         , RATIONALE VARCHAR2(255)
         , STATE VARCHAR2(255)
         , TYPE VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSPR_PROPOSAL
     ADD CONSTRAINT KSPR_PROPOSALP1
 PRIMARY KEY (PROPOSAL_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSPR_PROPOSAL_ATTR
 -----------------------------------------------------------------------------
@@ -8151,18 +11584,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSPR_PROPOSAL_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSPR_PROPOSAL_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSPR_PROPOSAL_ATTR
     ADD CONSTRAINT KSPR_PROPOSAL_ATTRP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSPR_PROPOSAL_DOCREL
 -----------------------------------------------------------------------------
@@ -8172,6 +11616,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSPR_PROPOSAL_DOCREL CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSPR_PROPOSAL_DOCREL
 (
       DOCREL_ID VARCHAR2(255)
@@ -8188,12 +11633,22 @@ CREATE TABLE KSPR_PROPOSAL_DOCREL
         , RT_DESCR_ID VARCHAR2(255)
         , PROPOSAL_ID VARCHAR2(255)
         , TYPE VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSPR_PROPOSAL_DOCREL
     ADD CONSTRAINT KSPR_PROPOSAL_DOCRELP1
 PRIMARY KEY (DOCREL_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSPR_PROPOSAL_DOCREL_ATTR
 -----------------------------------------------------------------------------
@@ -8203,18 +11658,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSPR_PROPOSAL_DOCREL_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSPR_PROPOSAL_DOCREL_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSPR_PROPOSAL_DOCREL_ATTR
     ADD CONSTRAINT KSPR_PROPOSAL_DOCREL_ATTRP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSPR_PROPOSAL_DOCREL_TYPE
 -----------------------------------------------------------------------------
@@ -8224,6 +11690,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSPR_PROPOSAL_DOCREL_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSPR_PROPOSAL_DOCREL_TYPE
 (
       ID VARCHAR2(255)
@@ -8231,12 +11698,22 @@ CREATE TABLE KSPR_PROPOSAL_DOCREL_TYPE
         , EFF_DT TIMESTAMP
         , EXPIR_DT TIMESTAMP
         , NAME VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSPR_PROPOSAL_DOCREL_TYPE
     ADD CONSTRAINT KSPR_PROPOSAL_DOCREL_TYPEP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSPR_PROPOSAL_DOCREL_TYPE_ATTR
 -----------------------------------------------------------------------------
@@ -8246,18 +11723,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSPR_PROPOSAL_DOCREL_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSPR_PROPOSAL_DOCREL_TYPE_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSPR_PROPOSAL_DOCREL_TYPE_ATTR
     ADD CONSTRAINT KSPR_PROPOSAL_DOCREL_TYPE_AP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSPR_PROPOSAL_JN_ORG
 -----------------------------------------------------------------------------
@@ -8267,17 +11755,28 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSPR_PROPOSAL_JN_ORG CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSPR_PROPOSAL_JN_ORG
 (
       ORGREF_ID VARCHAR2(255)
         , ORG_ID VARCHAR2(255)
         , PROPOSAL_ID VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSPR_PROPOSAL_JN_ORG
     ADD CONSTRAINT KSPR_PROPOSAL_JN_ORGP1
 PRIMARY KEY (ORGREF_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSPR_PROPOSAL_JN_PERSON
 -----------------------------------------------------------------------------
@@ -8287,17 +11786,28 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSPR_PROPOSAL_JN_PERSON CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSPR_PROPOSAL_JN_PERSON
 (
       ID VARCHAR2(255)
         , PERSONREF_ID VARCHAR2(255)
         , PROPOSAL_ID VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSPR_PROPOSAL_JN_PERSON
     ADD CONSTRAINT KSPR_PROPOSAL_JN_PERSONP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSPR_PROPOSAL_JN_REFERENCE
 -----------------------------------------------------------------------------
@@ -8307,12 +11817,23 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSPR_PROPOSAL_JN_REFERENCE CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSPR_PROPOSAL_JN_REFERENCE
 (
       PROPOSAL_ID VARCHAR2(255) NOT NULL
         , REFERENCE_ID VARCHAR2(255) NOT NULL
+    
+
 )
 /
+
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSPR_PROPOSAL_REFERENCE
 -----------------------------------------------------------------------------
@@ -8322,17 +11843,28 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSPR_PROPOSAL_REFERENCE CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSPR_PROPOSAL_REFERENCE
 (
       REFERENCE_ID VARCHAR2(255)
         , OBJECT_REFERENCE_ID VARCHAR2(255)
         , TYPE VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSPR_PROPOSAL_REFERENCE
     ADD CONSTRAINT KSPR_PROPOSAL_REFERENCEP1
 PRIMARY KEY (REFERENCE_ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSPR_PROPOSAL_REFTYPE
 -----------------------------------------------------------------------------
@@ -8342,6 +11874,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSPR_PROPOSAL_REFTYPE CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSPR_PROPOSAL_REFTYPE
 (
       TYPE_KEY VARCHAR2(255)
@@ -8349,12 +11882,22 @@ CREATE TABLE KSPR_PROPOSAL_REFTYPE
         , EFF_DT TIMESTAMP
         , EXPIR_DT TIMESTAMP
         , NAME VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSPR_PROPOSAL_REFTYPE
     ADD CONSTRAINT KSPR_PROPOSAL_REFTYPEP1
 PRIMARY KEY (TYPE_KEY)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSPR_PROPOSAL_REFTYPE_ATTR
 -----------------------------------------------------------------------------
@@ -8364,18 +11907,29 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSPR_PROPOSAL_REFTYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSPR_PROPOSAL_REFTYPE_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSPR_PROPOSAL_REFTYPE_ATTR
     ADD CONSTRAINT KSPR_PROPOSAL_REFTYPE_ATTRP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSPR_PROPOSAL_TYPE
 -----------------------------------------------------------------------------
@@ -8385,6 +11939,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSPR_PROPOSAL_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSPR_PROPOSAL_TYPE
 (
       TYPE_KEY VARCHAR2(255)
@@ -8392,12 +11947,22 @@ CREATE TABLE KSPR_PROPOSAL_TYPE
         , EFF_DT TIMESTAMP
         , EXPIR_DT TIMESTAMP
         , NAME VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSPR_PROPOSAL_TYPE
     ADD CONSTRAINT KSPR_PROPOSAL_TYPEP1
 PRIMARY KEY (TYPE_KEY)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KSPR_PROPOSAL_TYPE_ATTR
 -----------------------------------------------------------------------------
@@ -8407,18 +11972,1607 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSPR_PROPOSAL_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KSPR_PROPOSAL_TYPE_ATTR
 (
       ID VARCHAR2(255)
         , ATTR_NAME VARCHAR2(255)
         , ATTR_VALUE VARCHAR2(255)
         , OWNER VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE KSPR_PROPOSAL_TYPE_ATTR
     ADD CONSTRAINT KSPR_PROPOSAL_TYPE_ATTRP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_RESULT_TYPE_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_RESULT_TYPE_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_RESULT_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_RESULT_TYPE_ATTR
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(255)
+        , OWNER VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_CLU_RESULT_TYPE_ATTR
+    ADD CONSTRAINT KSLU_CLU_RESULT_TYPE_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX SQL100208171628891 
+  ON KSLU_CLU_RESULT_TYPE_ATTR 
+  (OWNER)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_RSLT
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_RSLT';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_RSLT CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_RSLT
+(
+      ID VARCHAR2(255)
+        , CREATEID VARCHAR2(255)
+        , CREATETIME TIMESTAMP
+        , UPDATEID VARCHAR2(255)
+        , UPDATETIME TIMESTAMP
+        , VERSIONIND NUMBER(20,0) NOT NULL
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , ST VARCHAR2(255)
+        , TYPE VARCHAR2(255)
+        , CLU_ID VARCHAR2(255)
+        , RT_DESCR_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_CLU_RSLT
+    ADD CONSTRAINT KSLU_CLU_RSLTP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_RSLT_LU_ALOW_TYPE
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_RSLT_LU_ALOW_TYPE';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_RSLT_LU_ALOW_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_RSLT_LU_ALOW_TYPE
+(
+      ID VARCHAR2(255)
+        , CREATEID VARCHAR2(255)
+        , CREATETIME TIMESTAMP
+        , UPDATEID VARCHAR2(255)
+        , UPDATETIME TIMESTAMP
+        , VERSIONIND NUMBER(20,0) NOT NULL
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , CLU_RSLT_TYPE_ID VARCHAR2(255)
+        , LU_TYPE_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_CLU_RSLT_LU_ALOW_TYPE
+    ADD CONSTRAINT KSLU_CLU_RSLT_LU_ALOW_TYPEP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX SQL100208171628940 
+  ON KSLU_CLU_RSLT_LU_ALOW_TYPE 
+  (CLU_RSLT_TYPE_ID)
+/
+CREATE INDEX SQL100208171628950 
+  ON KSLU_CLU_RSLT_LU_ALOW_TYPE 
+  (LU_TYPE_ID)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_CLU_RSLT_TYP
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_CLU_RSLT_TYP';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_CLU_RSLT_TYP CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_CLU_RSLT_TYP
+(
+      TYPE_KEY VARCHAR2(255)
+        , TYPE_DESC VARCHAR2(2000)
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , NAME VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_CLU_RSLT_TYP
+    ADD CONSTRAINT KSLU_CLU_RSLT_TYPP1
+PRIMARY KEY (TYPE_KEY)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_DLVMTHD_TYPE
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_DLVMTHD_TYPE';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_DLVMTHD_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_DLVMTHD_TYPE
+(
+      TYPE_KEY VARCHAR2(255)
+        , TYPE_DESC VARCHAR2(2000)
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , NAME VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_DLVMTHD_TYPE
+    ADD CONSTRAINT KSLU_DLVMTHD_TYPEP1
+PRIMARY KEY (TYPE_KEY)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_DLVMTHD_TYPE_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_DLVMTHD_TYPE_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_DLVMTHD_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_DLVMTHD_TYPE_ATTR
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(255)
+        , OWNER VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_DLVMTHD_TYPE_ATTR
+    ADD CONSTRAINT KSLU_DLVMTHD_TYPE_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX SQL100208171629100 
+  ON KSLU_DLVMTHD_TYPE_ATTR 
+  (OWNER)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_INSTFRMT_TYPE
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_INSTFRMT_TYPE';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_INSTFRMT_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_INSTFRMT_TYPE
+(
+      TYPE_KEY VARCHAR2(255)
+        , TYPE_DESC VARCHAR2(2000)
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , NAME VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_INSTFRMT_TYPE
+    ADD CONSTRAINT KSLU_INSTFRMT_TYPEP1
+PRIMARY KEY (TYPE_KEY)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_INSTFRMT_TYPE_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_INSTFRMT_TYPE_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_INSTFRMT_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_INSTFRMT_TYPE_ATTR
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(255)
+        , OWNER VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_INSTFRMT_TYPE_ATTR
+    ADD CONSTRAINT KSLU_INSTFRMT_TYPE_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX SQL100208171629130 
+  ON KSLU_INSTFRMT_TYPE_ATTR 
+  (OWNER)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_LU_PUBL_TYPE
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LU_PUBL_TYPE';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LU_PUBL_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_LU_PUBL_TYPE
+(
+      TYPE_KEY VARCHAR2(255)
+        , TYPE_DESC VARCHAR2(2000)
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , NAME VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_LU_PUBL_TYPE
+    ADD CONSTRAINT KSLU_LU_PUBL_TYPEP1
+PRIMARY KEY (TYPE_KEY)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_LU_PUBL_TYPE_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_LU_PUBL_TYPE_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_LU_PUBL_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_LU_PUBL_TYPE_ATTR
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(255)
+        , OWNER VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_LU_PUBL_TYPE_ATTR
+    ADD CONSTRAINT KSLU_LU_PUBL_TYPE_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX SQL100208171629420 
+  ON KSLU_LU_PUBL_TYPE_ATTR 
+  (OWNER)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_RSLTUSAGE_LU_ALOW_TYPE
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_RSLTUSAGE_LU_ALOW_TYPE';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_RSLTUSAGE_LU_ALOW_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_RSLTUSAGE_LU_ALOW_TYPE
+(
+      ID VARCHAR2(255)
+        , CREATEID VARCHAR2(255)
+        , CREATETIME TIMESTAMP
+        , UPDATEID VARCHAR2(255)
+        , UPDATETIME TIMESTAMP
+        , VERSIONIND NUMBER(20,0) NOT NULL
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , LU_TYPE_ID VARCHAR2(255)
+        , CLU_RSLT_USAGE_TYPE_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_RSLTUSAGE_LU_ALOW_TYPE
+    ADD CONSTRAINT KSLU_RSLTUSAGE_LU_ALOW_TYPEP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX SQL100208171629520 
+  ON KSLU_RSLTUSAGE_LU_ALOW_TYPE 
+  (CLU_RSLT_USAGE_TYPE_ID)
+/
+CREATE INDEX SQL100208171629530 
+  ON KSLU_RSLTUSAGE_LU_ALOW_TYPE 
+  (LU_TYPE_ID)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_RSLT_COMP_USG_ALOW_TYPE
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_RSLT_COMP_USG_ALOW_TYPE';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_RSLT_COMP_USG_ALOW_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_RSLT_COMP_USG_ALOW_TYPE
+(
+      ID VARCHAR2(255)
+        , CREATEID VARCHAR2(255)
+        , CREATETIME TIMESTAMP
+        , UPDATEID VARCHAR2(255)
+        , UPDATETIME TIMESTAMP
+        , VERSIONIND NUMBER(20,0) NOT NULL
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , RSLT_COMP_ID VARCHAR2(255)
+        , RSLT_USG_TYPE_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_RSLT_COMP_USG_ALOW_TYPE
+    ADD CONSTRAINT KSLU_RSLT_COMP_USG_ALOW_TYPP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX SQL100208171629600 
+  ON KSLU_RSLT_COMP_USG_ALOW_TYPE 
+  (RSLT_USG_TYPE_ID)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_RSLT_OPT
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_RSLT_OPT';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_RSLT_OPT CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_RSLT_OPT
+(
+      ID VARCHAR2(255)
+        , CREATEID VARCHAR2(255)
+        , CREATETIME TIMESTAMP
+        , UPDATEID VARCHAR2(255)
+        , UPDATETIME TIMESTAMP
+        , VERSIONIND NUMBER(20,0) NOT NULL
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , RES_COMP_ID VARCHAR2(255)
+        , ST VARCHAR2(255)
+        , RT_DESCR_ID VARCHAR2(255)
+        , RES_USAGE_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_RSLT_OPT
+    ADD CONSTRAINT KSLU_RSLT_OPTP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX SQL100208171629640 
+  ON KSLU_RSLT_OPT 
+  (RT_DESCR_ID)
+/
+CREATE INDEX SQL100208171629650 
+  ON KSLU_RSLT_OPT 
+  (RES_USAGE_ID)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_RSLT_USG_TYPE
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_RSLT_USG_TYPE';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_RSLT_USG_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_RSLT_USG_TYPE
+(
+      TYPE_KEY VARCHAR2(255)
+        , TYPE_DESC VARCHAR2(2000)
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , NAME VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_RSLT_USG_TYPE
+    ADD CONSTRAINT KSLU_RSLT_USG_TYPEP1
+PRIMARY KEY (TYPE_KEY)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSLU_RSLT_USG_TYPE_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLU_RSLT_USG_TYPE_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLU_RSLT_USG_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSLU_RSLT_USG_TYPE_ATTR
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(255)
+        , OWNER VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSLU_RSLT_USG_TYPE_ATTR
+    ADD CONSTRAINT KSLU_RSLT_USG_TYPE_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX SQL100208171629660 
+  ON KSLU_RSLT_USG_TYPE_ATTR 
+  (OWNER)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSSTMT_NL_USAGE_TYPE
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSSTMT_NL_USAGE_TYPE';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSSTMT_NL_USAGE_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSSTMT_NL_USAGE_TYPE
+(
+      TYPE_KEY VARCHAR2(255)
+        , TYPE_DESC VARCHAR2(2000)
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , NAME VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSSTMT_NL_USAGE_TYPE
+    ADD CONSTRAINT KSSTMT_NL_USAGE_TYPEP1
+PRIMARY KEY (TYPE_KEY)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSSTMT_OBJECT_SUB_TYPE
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSSTMT_OBJECT_SUB_TYPE';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSSTMT_OBJECT_SUB_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSSTMT_OBJECT_SUB_TYPE
+(
+      TYPE_KEY VARCHAR2(255)
+        , TYPE_DESC VARCHAR2(2000)
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , NAME VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSSTMT_OBJECT_SUB_TYPE
+    ADD CONSTRAINT KSSTMT_OBJECT_SUB_TYPEP1
+PRIMARY KEY (TYPE_KEY)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSSTMT_OBJECT_SUB_TYPE_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSSTMT_OBJECT_SUB_TYPE_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSSTMT_OBJECT_SUB_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSSTMT_OBJECT_SUB_TYPE_ATTR
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(255)
+        , OWNER VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSSTMT_OBJECT_SUB_TYPE_ATTR
+    ADD CONSTRAINT KSSTMT_OBJECT_SUB_TYPE_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX SQL100208171641470 
+  ON KSSTMT_OBJECT_SUB_TYPE_ATTR 
+  (OWNER)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSSTMT_OBJECT_TYPE_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSSTMT_OBJECT_TYPE_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSSTMT_OBJECT_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSSTMT_OBJECT_TYPE_ATTR
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(255)
+        , OWNER VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSSTMT_OBJECT_TYPE_ATTR
+    ADD CONSTRAINT KSSTMT_OBJECT_TYPE_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX SQL100208171641480 
+  ON KSSTMT_OBJECT_TYPE_ATTR 
+  (OWNER)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSSTMT_OBJ_TYP_JN_OBJ_SUB_TYP
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSSTMT_OBJ_TYP_JN_OBJ_SUB_TYP';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSSTMT_OBJ_TYP_JN_OBJ_SUB_TYP CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSSTMT_OBJ_TYP_JN_OBJ_SUB_TYP
+(
+      OBJ_TYPE_ID VARCHAR2(255) NOT NULL
+        , OBJ_SUB_TYPE_ID VARCHAR2(255) NOT NULL
+    
+    , CONSTRAINT SQL100208171641210 UNIQUE (OBJ_SUB_TYPE_ID)
+
+)
+/
+
+
+
+CREATE INDEX SQL100208171641490 
+  ON KSSTMT_OBJ_TYP_JN_OBJ_SUB_TYP 
+  (OBJ_TYPE_ID)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSSTMT_RCTYP_JN_RCFLDTYP
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSSTMT_RCTYP_JN_RCFLDTYP';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSSTMT_RCTYP_JN_RCFLDTYP CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSSTMT_RCTYP_JN_RCFLDTYP
+(
+      REQ_COMP_TYPE_ID VARCHAR2(255) NOT NULL
+        , REQ_COMP_FIELD_TYPE_ID VARCHAR2(255) NOT NULL
+    
+
+)
+/
+
+
+
+CREATE INDEX SQL100208171641501 
+  ON KSSTMT_RCTYP_JN_RCFLDTYP 
+  (REQ_COMP_TYPE_ID)
+/
+CREATE INDEX SQL100208171641540 
+  ON KSSTMT_RCTYP_JN_RCFLDTYP 
+  (REQ_COMP_FIELD_TYPE_ID)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSSTMT_RC_JN_RC_FIELD
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSSTMT_RC_JN_RC_FIELD';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSSTMT_RC_JN_RC_FIELD CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSSTMT_RC_JN_RC_FIELD
+(
+      REQ_COM_ID VARCHAR2(255) NOT NULL
+        , REQ_COM_FIELD_ID VARCHAR2(255) NOT NULL
+    
+    , CONSTRAINT SQL100208171641220 UNIQUE (REQ_COM_FIELD_ID)
+
+)
+/
+
+
+
+CREATE INDEX SQL100208171641550 
+  ON KSSTMT_RC_JN_RC_FIELD 
+  (REQ_COM_ID)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSSTMT_REF_STMT_REL
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSSTMT_REF_STMT_REL';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSSTMT_REF_STMT_REL CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSSTMT_REF_STMT_REL
+(
+      ID VARCHAR2(255)
+        , CREATEID VARCHAR2(255)
+        , CREATETIME TIMESTAMP
+        , UPDATEID VARCHAR2(255)
+        , UPDATETIME TIMESTAMP
+        , VERSIONIND NUMBER(20,0) NOT NULL
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , REF_OBJ_ID VARCHAR2(255)
+        , REF_OBJ_TYPE_KEY VARCHAR2(255)
+        , ST VARCHAR2(255)
+        , REF_STMT_REL_TYPE_ID VARCHAR2(255)
+        , STMT_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSSTMT_REF_STMT_REL
+    ADD CONSTRAINT KSSTMT_REF_STMT_RELP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX SQL100208171641570 
+  ON KSSTMT_REF_STMT_REL 
+  (REF_STMT_REL_TYPE_ID)
+/
+CREATE INDEX SQL100208171641580 
+  ON KSSTMT_REF_STMT_REL 
+  (STMT_ID)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSSTMT_REF_STMT_REL_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSSTMT_REF_STMT_REL_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSSTMT_REF_STMT_REL_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSSTMT_REF_STMT_REL_ATTR
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(255)
+        , OWNER VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSSTMT_REF_STMT_REL_ATTR
+    ADD CONSTRAINT KSSTMT_REF_STMT_REL_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX SQL100208171641590 
+  ON KSSTMT_REF_STMT_REL_ATTR 
+  (OWNER)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSSTMT_REF_STMT_REL_TYPE
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSSTMT_REF_STMT_REL_TYPE';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSSTMT_REF_STMT_REL_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSSTMT_REF_STMT_REL_TYPE
+(
+      TYPE_KEY VARCHAR2(255)
+        , TYPE_DESC VARCHAR2(2000)
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , NAME VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSSTMT_REF_STMT_REL_TYPE
+    ADD CONSTRAINT KSSTMT_REF_STMT_REL_TYPEP1
+PRIMARY KEY (TYPE_KEY)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSSTMT_REF_STMT_REL_TYPE_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSSTMT_REF_STMT_REL_TYPE_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSSTMT_REF_STMT_REL_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSSTMT_REF_STMT_REL_TYPE_ATTR
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(255)
+        , OWNER VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSSTMT_REF_STMT_REL_TYPE_ATTR
+    ADD CONSTRAINT KSSTMT_REF_STMT_REL_TYPE_ATP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX SQL100208171641600 
+  ON KSSTMT_REF_STMT_REL_TYPE_ATTR 
+  (OWNER)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSSTMT_REQ_COM
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSSTMT_REQ_COM';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSSTMT_REQ_COM CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSSTMT_REQ_COM
+(
+      ID VARCHAR2(255)
+        , CREATEID VARCHAR2(255)
+        , CREATETIME TIMESTAMP
+        , UPDATEID VARCHAR2(255)
+        , UPDATETIME TIMESTAMP
+        , VERSIONIND NUMBER(20,0) NOT NULL
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , ST VARCHAR2(255)
+        , RT_DESCR_ID VARCHAR2(255)
+        , REQ_COM_TYPE_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSSTMT_REQ_COM
+    ADD CONSTRAINT KSSTMT_REQ_COMP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX SQL100208171641610 
+  ON KSSTMT_REQ_COM 
+  (RT_DESCR_ID)
+/
+CREATE INDEX SQL100208171641620 
+  ON KSSTMT_REQ_COM 
+  (REQ_COM_TYPE_ID)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSSTMT_REQ_COM_FIELD
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSSTMT_REQ_COM_FIELD';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSSTMT_REQ_COM_FIELD CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSSTMT_REQ_COM_FIELD
+(
+      ID VARCHAR2(255)
+        , REQ_COM_FIELD_KEY VARCHAR2(255)
+        , VALUE VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSSTMT_REQ_COM_FIELD
+    ADD CONSTRAINT KSSTMT_REQ_COM_FIELDP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSSTMT_REQ_COM_FIELD_TYPE
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSSTMT_REQ_COM_FIELD_TYPE';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSSTMT_REQ_COM_FIELD_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSSTMT_REQ_COM_FIELD_TYPE
+(
+      ID VARCHAR2(255)
+        , DATA_TYPE VARCHAR2(255) NOT NULL
+        , DESCR VARCHAR2(255) NOT NULL
+        , INVALID_CHARS VARCHAR2(255)
+        , MAX_LENGTH NUMBER(10,0)
+        , MAX_OCCURS NUMBER(10,0)
+        , MAX_VALUE VARCHAR2(255)
+        , MIN_LENGTH NUMBER(10,0)
+        , MIN_OCCURS NUMBER(10,0)
+        , MIN_VALUE VARCHAR2(255)
+        , NAME VARCHAR2(255) NOT NULL
+        , READ_ONLY NUMBER(5,0) NOT NULL
+        , VALID_CHARS VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSSTMT_REQ_COM_FIELD_TYPE
+    ADD CONSTRAINT KSSTMT_REQ_COM_FIELD_TYPEP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSSTMT_REQ_COM_TYPE
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSSTMT_REQ_COM_TYPE';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSSTMT_REQ_COM_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSSTMT_REQ_COM_TYPE
+(
+      TYPE_KEY VARCHAR2(255)
+        , TYPE_DESC VARCHAR2(2000)
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , NAME VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSSTMT_REQ_COM_TYPE
+    ADD CONSTRAINT KSSTMT_REQ_COM_TYPEP1
+PRIMARY KEY (TYPE_KEY)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSSTMT_REQ_COM_TYPE_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSSTMT_REQ_COM_TYPE_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSSTMT_REQ_COM_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSSTMT_REQ_COM_TYPE_ATTR
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(255)
+        , OWNER VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSSTMT_REQ_COM_TYPE_ATTR
+    ADD CONSTRAINT KSSTMT_REQ_COM_TYPE_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX SQL100208171641630 
+  ON KSSTMT_REQ_COM_TYPE_ATTR 
+  (OWNER)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSSTMT_REQ_COM_TYPE_NL_TMPL
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSSTMT_REQ_COM_TYPE_NL_TMPL';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSSTMT_REQ_COM_TYPE_NL_TMPL CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSSTMT_REQ_COM_TYPE_NL_TMPL
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(255)
+        , LANGUAGE VARCHAR2(2)
+        , NL_USUAGE_TYPE_KEY VARCHAR2(255)
+        , TEMPLATE VARCHAR2(2000)
+        , OWNER VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSSTMT_REQ_COM_TYPE_NL_TMPL
+    ADD CONSTRAINT KSSTMT_REQ_COM_TYPE_NL_TMPLP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX SQL100208171641640 
+  ON KSSTMT_REQ_COM_TYPE_NL_TMPL 
+  (OWNER)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSSTMT_RSTMT_RTYP_JN_OSUB_TYP
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSSTMT_RSTMT_RTYP_JN_OSUB_TYP';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSSTMT_RSTMT_RTYP_JN_OSUB_TYP CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSSTMT_RSTMT_RTYP_JN_OSUB_TYP
+(
+      REF_STMT_REL_TYPE_ID VARCHAR2(255) NOT NULL
+        , OBJ_SUB_TYPE_ID VARCHAR2(255) NOT NULL
+    
+
+)
+/
+
+
+
+CREATE INDEX SQL100208171641650 
+  ON KSSTMT_RSTMT_RTYP_JN_OSUB_TYP 
+  (REF_STMT_REL_TYPE_ID)
+/
+CREATE INDEX SQL100208171641660 
+  ON KSSTMT_RSTMT_RTYP_JN_OSUB_TYP 
+  (OBJ_SUB_TYPE_ID)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSSTMT_RSTMT_RTYP_JN_STMT_TYP
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSSTMT_RSTMT_RTYP_JN_STMT_TYP';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSSTMT_RSTMT_RTYP_JN_STMT_TYP CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSSTMT_RSTMT_RTYP_JN_STMT_TYP
+(
+      REF_STMT_REL_TYPE_ID VARCHAR2(255) NOT NULL
+        , STMT_TYPE_ID VARCHAR2(255) NOT NULL
+    
+
+)
+/
+
+
+
+CREATE INDEX SQL100208171641680 
+  ON KSSTMT_RSTMT_RTYP_JN_STMT_TYP 
+  (REF_STMT_REL_TYPE_ID)
+/
+CREATE INDEX SQL100208171641690 
+  ON KSSTMT_RSTMT_RTYP_JN_STMT_TYP 
+  (STMT_TYPE_ID)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSSTMT_STMT
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSSTMT_STMT';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSSTMT_STMT CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSSTMT_STMT
+(
+      ID VARCHAR2(255)
+        , CREATEID VARCHAR2(255)
+        , CREATETIME TIMESTAMP
+        , UPDATEID VARCHAR2(255)
+        , UPDATETIME TIMESTAMP
+        , VERSIONIND NUMBER(20,0) NOT NULL
+        , NAME VARCHAR2(255)
+        , OPERATOR VARCHAR2(255)
+        , ST VARCHAR2(255)
+        , RT_DESCR_ID VARCHAR2(255)
+        , PARENT_STMT_ID VARCHAR2(255)
+        , STMT_TYPE_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSSTMT_STMT
+    ADD CONSTRAINT KSSTMT_STMTP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX SQL100208171641700 
+  ON KSSTMT_STMT 
+  (RT_DESCR_ID)
+/
+CREATE INDEX SQL100208171641701 
+  ON KSSTMT_STMT 
+  (PARENT_STMT_ID)
+/
+CREATE INDEX SQL100208171641720 
+  ON KSSTMT_STMT 
+  (STMT_TYPE_ID)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSSTMT_STMT_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSSTMT_STMT_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSSTMT_STMT_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSSTMT_STMT_ATTR
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(255)
+        , OWNER VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSSTMT_STMT_ATTR
+    ADD CONSTRAINT KSSTMT_STMT_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX SQL100208171641730 
+  ON KSSTMT_STMT_ATTR 
+  (OWNER)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSSTMT_STMT_JN_REQ_COM
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSSTMT_STMT_JN_REQ_COM';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSSTMT_STMT_JN_REQ_COM CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSSTMT_STMT_JN_REQ_COM
+(
+      STMT_ID VARCHAR2(255) NOT NULL
+        , REQ_COM_ID VARCHAR2(255) NOT NULL
+    
+
+)
+/
+
+
+
+CREATE INDEX SQL100208171641740 
+  ON KSSTMT_STMT_JN_REQ_COM 
+  (STMT_ID)
+/
+CREATE INDEX SQL100208171641750 
+  ON KSSTMT_STMT_JN_REQ_COM 
+  (REQ_COM_ID)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSSTMT_STMT_TYPE
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSSTMT_STMT_TYPE';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSSTMT_STMT_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSSTMT_STMT_TYPE
+(
+      TYPE_KEY VARCHAR2(255)
+        , TYPE_DESC VARCHAR2(2000)
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , NAME VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSSTMT_STMT_TYPE
+    ADD CONSTRAINT KSSTMT_STMT_TYPEP1
+PRIMARY KEY (TYPE_KEY)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSSTMT_STMT_TYPE_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSSTMT_STMT_TYPE_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSSTMT_STMT_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSSTMT_STMT_TYPE_ATTR
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(255)
+        , OWNER VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSSTMT_STMT_TYPE_ATTR
+    ADD CONSTRAINT KSSTMT_STMT_TYPE_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX SQL100208171641770 
+  ON KSSTMT_STMT_TYPE_ATTR 
+  (OWNER)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSSTMT_STMT_TYPE_HEADER_TMPL
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSSTMT_STMT_TYPE_HEADER_TMPL';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSSTMT_STMT_TYPE_HEADER_TMPL CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSSTMT_STMT_TYPE_HEADER_TMPL
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(255)
+        , LANGUAGE VARCHAR2(2)
+        , NL_USUAGE_TYPE_KEY VARCHAR2(255)
+        , TEMPLATE VARCHAR2(2000)
+        , OWNER VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSSTMT_STMT_TYPE_HEADER_TMPL
+    ADD CONSTRAINT KSSTMT_STMT_TYPE_HEADER_TMPP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX SQL100208171641780 
+  ON KSSTMT_STMT_TYPE_HEADER_TMPL 
+  (OWNER)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSSTMT_STMT_TYP_JN_RC_TYP
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSSTMT_STMT_TYP_JN_RC_TYP';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSSTMT_STMT_TYP_JN_RC_TYP CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSSTMT_STMT_TYP_JN_RC_TYP
+(
+      STMT_TYPE_ID VARCHAR2(255) NOT NULL
+        , REQ_COM_TYPE_ID VARCHAR2(255) NOT NULL
+    
+    , CONSTRAINT SQL100208171641430 UNIQUE (REQ_COM_TYPE_ID)
+
+)
+/
+
+
+
+CREATE INDEX SQL100208171641791 
+  ON KSSTMT_STMT_TYP_JN_RC_TYP 
+  (STMT_TYPE_ID)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSSTMT_STMT_TYP_JN_STMT_TYP
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSSTMT_STMT_TYP_JN_STMT_TYP';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSSTMT_STMT_TYP_JN_STMT_TYP CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSSTMT_STMT_TYP_JN_STMT_TYP
+(
+      STMT_TYPE_ID VARCHAR2(255) NOT NULL
+        , CHLD_STMT_TYPE_ID VARCHAR2(255) NOT NULL
+    
+    , CONSTRAINT SQL100208171641440 UNIQUE (CHLD_STMT_TYPE_ID)
+
+)
+/
+
+
+
+CREATE INDEX SQL100208171641810 
+  ON KSSTMT_STMT_TYP_JN_STMT_TYP 
+  (STMT_TYPE_ID)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSSTMT_USAGE_TYPE_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSSTMT_USAGE_TYPE_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSSTMT_USAGE_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSSTMT_USAGE_TYPE_ATTR
+(
+      ID VARCHAR2(255)
+        , ATTR_NAME VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(255)
+        , OWNER VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSSTMT_USAGE_TYPE_ATTR
+    ADD CONSTRAINT KSSTMT_USAGE_TYPE_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX SQL100208171641811 
+  ON KSSTMT_USAGE_TYPE_ATTR 
+  (OWNER)
+/
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KS_LO_RICH_TEXT_T
 -----------------------------------------------------------------------------
@@ -8428,17 +13582,28 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KS_LO_RICH_TEXT_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KS_LO_RICH_TEXT_T
 (
       ID VARCHAR2(255)
         , FORMATTED VARCHAR2(2000)
         , PLAIN VARCHAR2(2000)
+    
+
 )
 /
+
 ALTER TABLE KS_LO_RICH_TEXT_T
     ADD CONSTRAINT KS_LO_RICH_TEXT_TP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- KS_RICH_TEXT_T
 -----------------------------------------------------------------------------
@@ -8448,17 +13613,28 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KS_RICH_TEXT_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE KS_RICH_TEXT_T
 (
       ID VARCHAR2(255)
         , FORMATTED VARCHAR2(2000)
         , PLAIN VARCHAR2(2000)
+    
+
 )
 /
+
 ALTER TABLE KS_RICH_TEXT_T
     ADD CONSTRAINT KS_RICH_TEXT_TP1
 PRIMARY KEY (ID)
 /
+
+
+
+
+
+
+
 -----------------------------------------------------------------------------
 -- MESSAGEENTITY
 -----------------------------------------------------------------------------
@@ -8468,6 +13644,7 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE MESSAGEENTITY CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
+
 CREATE TABLE MESSAGEENTITY
 (
       DATABASEID VARCHAR2(255)
@@ -8475,12 +13652,22 @@ CREATE TABLE MESSAGEENTITY
         , ID VARCHAR2(255)
         , LOCALE VARCHAR2(255)
         , VALUE VARCHAR2(255)
+    
+
 )
 /
+
 ALTER TABLE MESSAGEENTITY
     ADD CONSTRAINT MESSAGEENTITYP1
 PRIMARY KEY (DATABASEID)
 /
+
+
+
+
+
+
+
 -- -----------------------------------------------------------------------
 -- KRIM_GRP_MBR_V
 -- -----------------------------------------------------------------------
@@ -8506,7 +13693,12 @@ ON en.ENTITY_ID = p.ENTITY_ID
 AND en.DFLT_IND = 'Y'
 AND en.ACTV_IND = 'Y'
 ORDER BY nmspc_cd, grp_nm, prncpl_nm
+
+
+
+
 /
+
 -- -----------------------------------------------------------------------
 -- KRIM_GRP_V
 -- -----------------------------------------------------------------------
@@ -8524,7 +13716,12 @@ LEFT OUTER JOIN KRIM_ATTR_DEFN_T a
 ON a.KIM_ATTR_DEFN_ID = d.KIM_ATTR_DEFN_ID
 LEFT OUTER JOIN KRIM_TYP_T t
 ON g.KIM_TYP_ID = t.KIM_TYP_ID
+
+
+
+
 /
+
 -- -----------------------------------------------------------------------
 -- KRIM_PERM_ATTR_V
 -- -----------------------------------------------------------------------
@@ -8546,7 +13743,12 @@ ON p.PERM_ID = ad.perm_id
 LEFT OUTER JOIN KRIM_ATTR_DEFN_T a
 ON ad.KIM_ATTR_DEFN_ID = a.KIM_ATTR_DEFN_ID
 ORDER BY tmpl_nmspc_cd, tmpl_nm, perm_nmspc_cd, perm_id, attr_nm
+
+
+
+
 /
+
 -- -----------------------------------------------------------------------
 -- KRIM_PERM_V
 -- -----------------------------------------------------------------------
@@ -8565,7 +13767,12 @@ INNER JOIN KRIM_PERM_TMPL_T t
 ON p.PERM_TMPL_ID = t.PERM_TMPL_ID
 LEFT OUTER JOIN KRIM_TYP_T typ
 ON t.KIM_TYP_ID = typ.KIM_TYP_ID
+
+
+
+
 /
+
 -- -----------------------------------------------------------------------
 -- KRIM_PRNCPL_V
 -- -----------------------------------------------------------------------
@@ -8587,7 +13794,12 @@ ON ea.ENTITY_ID = p.ENTITY_ID
 LEFT OUTER JOIN krim_entity_nm_t en
 ON p.ENTITY_ID = en.ENTITY_ID
 AND 'Y' = en.DFLT_IND
+
+
+
+
 /
+
 -- -----------------------------------------------------------------------
 -- KRIM_ROLE_GRP_V
 -- -----------------------------------------------------------------------
@@ -8611,7 +13823,12 @@ LEFT OUTER JOIN KRIM_ATTR_DEFN_T a
 ON a.KIM_ATTR_DEFN_ID = d.KIM_ATTR_DEFN_ID
 WHERE rm.MBR_TYP_CD = 'G'
 ORDER BY nmspc_cd, role_nm, grp_nmspc_cd, grp_nm, role_mbr_id, attr_nm
+
+
+
+
 /
+
 -- -----------------------------------------------------------------------
 -- KRIM_ROLE_PERM_V
 -- -----------------------------------------------------------------------
@@ -8639,7 +13856,12 @@ ON rp.PERM_ID = p.PERM_ID
 LEFT OUTER JOIN KRIM_ROLE_T r
 ON rp.ROLE_ID = r.ROLE_ID
 ORDER BY NMSPC_CD, role_nm, tmpl_nmspc_cd, tmpl_nm, perm_id, attr_nm
+
+
+
+
 /
+
 -- -----------------------------------------------------------------------
 -- KRIM_ROLE_PRNCPL_V
 -- -----------------------------------------------------------------------
@@ -8668,7 +13890,12 @@ LEFT OUTER JOIN KRIM_ENTITY_NM_T en
 ON p.ENTITY_ID = en.ENTITY_ID
 WHERE (en.DFLT_IND = 'Y')
 ORDER BY nmspc_cd, role_nm, prncpl_nm, rm.ROLE_MBR_ID, attr_nm
+
+
+
+
 /
+
 -- -----------------------------------------------------------------------
 -- KRIM_ROLE_ROLE_V
 -- -----------------------------------------------------------------------
@@ -8693,7 +13920,12 @@ LEFT OUTER JOIN KRIM_ATTR_DEFN_T a
 ON a.KIM_ATTR_DEFN_ID = d.KIM_ATTR_DEFN_ID
 WHERE rm.MBR_TYP_CD = 'R'
 ORDER BY nmspc_cd, role_nm, mbr_role_nmspc_cd, mbr_role_nm, role_mbr_id, attr_nm
+
+
+
+
 /
+
 -- -----------------------------------------------------------------------
 -- KRIM_ROLE_V
 -- -----------------------------------------------------------------------
@@ -8710,7 +13942,12 @@ WHERE t.KIM_TYP_ID = r.KIM_TYP_ID
 AND r.ACTV_IND = 'Y'
 ORDER BY nmspc_cd
 , role_nm
+
+
+
+
 /
+
 -- -----------------------------------------------------------------------
 -- KRIM_RSP_ATTR_V
 -- -----------------------------------------------------------------------
@@ -8733,7 +13970,12 @@ ON KRIM_rsp_T.rsp_TMPL_ID = KRIM_rsp_TMPL_T.rsp_TMPL_ID
 INNER JOIN KRIM_TYP_T KRIM_TYP_T
 ON KRIM_rsp_TMPL_T.KIM_TYP_ID = KRIM_TYP_T.KIM_TYP_ID
 ORDER BY rsp_TEMPLATE_NAME, rsp_NAME, attribute_name
+
+
+
+
 /
+
 -- -----------------------------------------------------------------------
 -- KRIM_RSP_ROLE_ACTN_V
 -- -----------------------------------------------------------------------
@@ -8767,7 +14009,12 @@ order by rsp_nmspc_cd
 , rsp_id
 , role_id
 , role_mbr_id
+
+
+
+
 /
+
 -- -----------------------------------------------------------------------
 -- KRIM_RSP_ROLE_V
 -- -----------------------------------------------------------------------
@@ -8795,6 +14042,10 @@ on rr.rsp_id = rsp.rsp_id
 left outer join krim_role_t r
 on rr.role_id = r.role_id
 order by rsp_tmpl_nmspc_cd, rsp_tmpl_nm, rsp_nmspc_cd, rsp_nm, rsp_id, attr_nm, attr_val
+
+
+
+
 /
 DECLARE temp NUMBER;
 BEGIN
@@ -8802,613 +14053,767 @@ BEGIN
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KREN_CHNL_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KREN_CHNL_S INCREMENT BY 1 START WITH 1000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KREN_CHNL_SUBSCRP_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KREN_CHNL_SUBSCRP_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KREN_CHNL_SUBSCRP_S INCREMENT BY 1 START WITH 1020 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KREN_CNTNT_TYP_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KREN_CNTNT_TYP_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KREN_CNTNT_TYP_S INCREMENT BY 1 START WITH 1000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KREN_MSG_DELIV_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KREN_MSG_DELIV_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KREN_MSG_DELIV_S INCREMENT BY 1 START WITH 1000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KREN_MSG_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KREN_MSG_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KREN_MSG_S INCREMENT BY 1 START WITH 1000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KREN_NTFCTN_MSG_DELIV_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KREN_NTFCTN_MSG_DELIV_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KREN_NTFCTN_MSG_DELIV_S INCREMENT BY 1 START WITH 1000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KREN_NTFCTN_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KREN_NTFCTN_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KREN_NTFCTN_S INCREMENT BY 1 START WITH 1000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KREN_PRIO_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KREN_PRIO_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KREN_PRIO_S INCREMENT BY 1 START WITH 1000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KREN_PRODCR_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KREN_PRODCR_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KREN_PRODCR_S INCREMENT BY 1 START WITH 1000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KREN_RECIP_DELIV_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KREN_RECIP_DELIV_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KREN_RECIP_DELIV_S INCREMENT BY 1 START WITH 1000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KREN_RECIP_LIST_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KREN_RECIP_LIST_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KREN_RECIP_LIST_S INCREMENT BY 1 START WITH 1000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KREN_RECIP_PREF_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KREN_RECIP_PREF_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KREN_RECIP_PREF_S INCREMENT BY 1 START WITH 1000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KREN_RECIP_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KREN_RECIP_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KREN_RECIP_S INCREMENT BY 1 START WITH 1000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KREN_RVWER_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KREN_RVWER_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KREN_RVWER_S INCREMENT BY 1 START WITH 1000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KREN_SNDR_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KREN_SNDR_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KREN_SNDR_S INCREMENT BY 1 START WITH 1000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KREW_ACTN_ITM_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KREW_ACTN_ITM_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KREW_ACTN_ITM_S INCREMENT BY 1 START WITH 10231 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KREW_ACTN_LIST_OPTN_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KREW_ACTN_LIST_OPTN_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KREW_ACTN_LIST_OPTN_S INCREMENT BY 1 START WITH 1277 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KREW_ACTN_RQST_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KREW_ACTN_RQST_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KREW_ACTN_RQST_S INCREMENT BY 1 START WITH 2374 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KREW_ACTN_TKN_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KREW_ACTN_TKN_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KREW_ACTN_TKN_S INCREMENT BY 1 START WITH 2335 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KREW_DOC_HDR_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KREW_DOC_HDR_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KREW_DOC_HDR_S INCREMENT BY 1 START WITH 3020 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KREW_DOC_NTE_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KREW_DOC_NTE_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KREW_DOC_NTE_S INCREMENT BY 1 START WITH 2020 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KREW_DOC_TYP_ATTR_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KREW_DOC_TYP_ATTR_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KREW_DOC_TYP_ATTR_S INCREMENT BY 1 START WITH 2011 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KREW_EDL_FLD_DMP_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KREW_EDL_FLD_DMP_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KREW_EDL_FLD_DMP_S INCREMENT BY 1 START WITH 5000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KREW_EDL_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KREW_EDL_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KREW_EDL_S INCREMENT BY 1 START WITH 2020 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KREW_HLP_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KREW_HLP_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KREW_HLP_S INCREMENT BY 1 START WITH 100 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KREW_OUT_BOX_ITM_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KREW_OUT_BOX_ITM_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KREW_OUT_BOX_ITM_S INCREMENT BY 1 START WITH 10043 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KREW_RSP_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KREW_RSP_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KREW_RSP_S INCREMENT BY 1 START WITH 2067 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KREW_RTE_NODE_CFG_PARM_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KREW_RTE_NODE_CFG_PARM_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KREW_RTE_NODE_CFG_PARM_S INCREMENT BY 1 START WITH 2553 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KREW_RTE_NODE_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KREW_RTE_NODE_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KREW_RTE_NODE_S INCREMENT BY 1 START WITH 2971 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KREW_RTE_TMPL_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KREW_RTE_TMPL_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KREW_RTE_TMPL_S INCREMENT BY 1 START WITH 1651 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KREW_RULE_EXPR_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KREW_RULE_EXPR_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KREW_RULE_EXPR_S INCREMENT BY 1 START WITH 2002 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KREW_RULE_TMPL_OPTN_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KREW_RULE_TMPL_OPTN_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KREW_RULE_TMPL_OPTN_S INCREMENT BY 1 START WITH 2020 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KREW_SRCH_ATTR_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KREW_SRCH_ATTR_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KREW_SRCH_ATTR_S INCREMENT BY 1 START WITH 2072 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KREW_USR_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KREW_USR_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KREW_USR_S INCREMENT BY 1 START WITH 100000000000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRIM_ATTR_DATA_ID_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRIM_ATTR_DATA_ID_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRIM_ATTR_DATA_ID_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRIM_ATTR_DEFN_ID_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRIM_ATTR_DEFN_ID_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRIM_ATTR_DEFN_ID_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRIM_DLGN_ID_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRIM_DLGN_ID_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRIM_DLGN_ID_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRIM_DLGN_MBR_ID_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRIM_DLGN_MBR_ID_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRIM_DLGN_MBR_ID_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRIM_ENTITY_ADDR_ID_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRIM_ENTITY_ADDR_ID_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRIM_ENTITY_ADDR_ID_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRIM_ENTITY_AFLTN_ID_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRIM_ENTITY_AFLTN_ID_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRIM_ENTITY_AFLTN_ID_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRIM_ENTITY_CTZNSHP_ID_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRIM_ENTITY_CTZNSHP_ID_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRIM_ENTITY_CTZNSHP_ID_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRIM_ENTITY_EMAIL_ID_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRIM_ENTITY_EMAIL_ID_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRIM_ENTITY_EMAIL_ID_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRIM_ENTITY_EMP_ID_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRIM_ENTITY_EMP_ID_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRIM_ENTITY_EMP_ID_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRIM_ENTITY_ETHNIC_ID_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRIM_ENTITY_ETHNIC_ID_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRIM_ENTITY_ETHNIC_ID_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRIM_ENTITY_EXT_ID_ID_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRIM_ENTITY_EXT_ID_ID_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRIM_ENTITY_EXT_ID_ID_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRIM_ENTITY_ID_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRIM_ENTITY_ID_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRIM_ENTITY_ID_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRIM_ENTITY_NM_ID_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRIM_ENTITY_NM_ID_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRIM_ENTITY_NM_ID_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRIM_ENTITY_PHONE_ID_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRIM_ENTITY_PHONE_ID_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRIM_ENTITY_PHONE_ID_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRIM_ENTITY_RESIDENCY_ID_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRIM_ENTITY_RESIDENCY_ID_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRIM_ENTITY_RESIDENCY_ID_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRIM_ENTITY_VISA_ID_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRIM_ENTITY_VISA_ID_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRIM_ENTITY_VISA_ID_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRIM_GRP_ATTR_DATA_ID_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRIM_GRP_ATTR_DATA_ID_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRIM_GRP_ATTR_DATA_ID_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRIM_GRP_ID_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRIM_GRP_ID_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRIM_GRP_ID_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRIM_GRP_MBR_ID_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRIM_GRP_MBR_ID_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRIM_GRP_MBR_ID_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRIM_PERM_ID_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRIM_PERM_ID_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRIM_PERM_ID_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRIM_PERM_RQRD_ATTR_ID_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRIM_PERM_RQRD_ATTR_ID_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRIM_PERM_RQRD_ATTR_ID_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRIM_PERM_TMPL_ID_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRIM_PERM_TMPL_ID_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRIM_PERM_TMPL_ID_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRIM_PRNCPL_ID_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRIM_PRNCPL_ID_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRIM_PRNCPL_ID_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRIM_ROLE_ID_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRIM_ROLE_ID_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRIM_ROLE_ID_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRIM_ROLE_MBR_ID_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRIM_ROLE_MBR_ID_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRIM_ROLE_MBR_ID_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRIM_ROLE_PERM_ID_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRIM_ROLE_PERM_ID_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRIM_ROLE_PERM_ID_S INCREMENT BY 1 START WITH 1000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRIM_ROLE_RSP_ACTN_ID_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRIM_ROLE_RSP_ACTN_ID_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRIM_ROLE_RSP_ACTN_ID_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRIM_ROLE_RSP_ID_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRIM_ROLE_RSP_ID_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRIM_ROLE_RSP_ID_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRIM_RSP_ID_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRIM_RSP_ID_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRIM_RSP_ID_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRIM_RSP_RQRD_ATTR_ID_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRIM_RSP_RQRD_ATTR_ID_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRIM_RSP_RQRD_ATTR_ID_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRIM_RSP_TMPL_ID_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRIM_RSP_TMPL_ID_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRIM_RSP_TMPL_ID_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRIM_TYP_ATTR_ID_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRIM_TYP_ATTR_ID_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRIM_TYP_ATTR_ID_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRIM_TYP_ID_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRIM_TYP_ID_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRIM_TYP_ID_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRNS_DOC_TYP_ATTR_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRNS_DOC_TYP_ATTR_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRNS_DOC_TYP_ATTR_S INCREMENT BY 1 START WITH 1000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRNS_LOCK_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRNS_LOCK_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRNS_LOCK_S INCREMENT BY 1 START WITH 2000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRNS_LOOKUP_RSLT_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRNS_LOOKUP_RSLT_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRNS_LOOKUP_RSLT_S INCREMENT BY 1 START WITH 2000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRNS_MAINT_LOCK_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRNS_MAINT_LOCK_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRNS_MAINT_LOCK_S INCREMENT BY 1 START WITH 2020 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRNS_NTE_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRNS_NTE_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRNS_NTE_S INCREMENT BY 1 START WITH 2020 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRSB_BAM_PARM_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRSB_BAM_PARM_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRSB_BAM_PARM_S INCREMENT BY 1 START WITH 2000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRSB_BAM_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRSB_BAM_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRSB_BAM_S INCREMENT BY 1 START WITH 2000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRSB_MSG_QUE_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRSB_MSG_QUE_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE KRSB_MSG_QUE_S INCREMENT BY 1 START WITH 10391 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'KRSB_SVC_DEF_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE KRSB_SVC_DEF_S'; END IF;
 END;
 /
-CREATE SEQUENCE KRSB_SVC_DEF_S INCREMENT BY 1 START WITH 7404 NOMAXVALUE NOCYCLE NOCACHE ORDER
+
+CREATE SEQUENCE KRSB_SVC_DEF_S INCREMENT BY 1 START WITH 7468 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+
 DECLARE temp NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'TRV_FO_ID_S';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE TRV_FO_ID_S'; END IF;
 END;
 /
+
 CREATE SEQUENCE TRV_FO_ID_S INCREMENT BY 1 START WITH 1000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
+

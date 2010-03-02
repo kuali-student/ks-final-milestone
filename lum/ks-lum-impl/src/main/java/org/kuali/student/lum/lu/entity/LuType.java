@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -31,6 +32,13 @@ public class LuType extends Type<LuTypeAttribute> {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<LuTypeAttribute> attributes;
 
+	@Column(name = "INSTR_FRMT")
+	private String instructionalFormat;
+
+	@Column(name = "DLVR_MTHD")
+    private String deliveryMethod;
+	
+	
 	public List<LuTypeAttribute> getAttributes() {
 		if (attributes == null) {
 			attributes = new ArrayList<LuTypeAttribute>();
@@ -42,4 +50,19 @@ public class LuType extends Type<LuTypeAttribute> {
 		this.attributes = attributes;
 	}
 
+	public String getInstructionalFormat() {
+		return instructionalFormat;
+	}
+
+	public void setInstructionalFormat(String instructionalFormat) {
+		this.instructionalFormat = instructionalFormat;
+	}
+
+	public String getDeliveryMethod() {
+		return deliveryMethod;
+	}
+
+	public void setDeliveryMethod(String deliveryMethod) {
+		this.deliveryMethod = deliveryMethod;
+	}
 }

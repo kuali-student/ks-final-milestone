@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.kuali.student</groupId>
 		<artifactId>student</artifactId>
-		<version>1.0.0-m3-SNAPSHOT</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<name>KS BRMS</name>
 	<description>Kuali Student Business Rule Management System</description>
@@ -22,6 +22,8 @@
 		<module>ks-brms-impl</module>
 		<module>ks-brms-execution-api</module>
 		<module>ks-brms-execution-impl</module>
+		<module>ks-statement-api</module>
+		<module>ks-statement-impl</module>
         <!--<module>ks-brms-ui</module>
         <module>ks-brms-web</module>-->
 	</modules>

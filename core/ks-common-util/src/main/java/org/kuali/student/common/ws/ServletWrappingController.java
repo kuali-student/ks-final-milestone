@@ -32,11 +32,12 @@ import org.springframework.web.servlet.mvc.AbstractController;
 
 /**
  * Spring Controller implementation that mimics standard
- * ServletWrappingController behavior (see its documentation), but with the
+ * ServletWrappingController behaviour (see its documentation), but with the
  * important difference that it doesn't instantiate the Servlet instance
  * directly but delegate for this the BeanContext, so that we can also use IoC.*
  */
-public class ServletWrappingController extends AbstractController implements BeanNameAware, InitializingBean, DisposableBean {
+public class ServletWrappingController extends AbstractController implements
+		BeanNameAware, InitializingBean, DisposableBean {
 	private Class<? extends Servlet> servletClass;
 	private String servletName;
 	private Properties initParameters = new Properties();
@@ -45,6 +46,7 @@ public class ServletWrappingController extends AbstractController implements Bea
 
 	private static org.apache.log4j.Logger log = Logger.getLogger(ServletWrappingController.class);
 
+	
 	public void setServletClass(Class<? extends Servlet> servletClass) {
 		log.info("setServletClass : " + servletClass);
 		this.servletClass = servletClass;
@@ -76,7 +78,9 @@ public class ServletWrappingController extends AbstractController implements Bea
 			throw new IllegalArgumentException("servletInstance is required");
 		}
 		if (!Servlet.class.isAssignableFrom(servletInstance.getClass())) {
-			throw new IllegalArgumentException("servletInstance [" + this.servletClass.getName() + "] needs to implement interface [javax.servlet.Servlet]");
+			throw new IllegalArgumentException("servletInstance ["
+					+ this.servletClass.getName()
+					+ "] needs to implement interface [javax.servlet.Servlet]");
 		}
 		if (this.servletName == null) {
 			this.servletName = this.beanName;
@@ -84,20 +88,21 @@ public class ServletWrappingController extends AbstractController implements Bea
 		this.servletInstance.init(new DelegatingServletConfig());
 	}
 
-	protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		log.info("handleRequestInternal");
-		try {
+	protected ModelAndView handleRequestInternal(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		log.info("handleRequestInternal : " + servletName);
+		try{
 			this.servletInstance.service(request, response);
-		} catch (Exception e) {
+		}catch(Exception e){
 			log.error(e.getMessage());
 			throw e;
 		}
-
+		
 		return null;
 	}
 
 	public void destroy() {
-		log.info("destroy");
+		log.info("destroy : " + servletName);
 		this.servletInstance.destroy();
 	}
 

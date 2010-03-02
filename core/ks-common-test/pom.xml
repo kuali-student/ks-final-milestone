@@ -6,18 +6,28 @@
 	<packaging>jar</packaging>
 	<name>KS Common Test</name>
 	<description>KS test framework for web services</description>
+	<properties>
+		<springBean.config.files><![CDATA[
+    <config>src/main/resources/META-INF/cxf-context.xml</config>
+    <config>src/main/resources/META-INF/default-dao-context-test.xml</config>
+    <config>src/main/resources/META-INF/default-property-config-context-test.xml</config>
+    <!--<config>src/main/resources/META-INF/default-service-context-test.xml</config>-->
+    <!--<config>src/main/resources/META-INF/jaxws-context.xml</config>-->
+]]>
+		</springBean.config.files>
+	</properties>
 
 	<parent>
 		<groupId>org.kuali.student.core</groupId>
 		<artifactId>ks-core</artifactId>
-		<version>1.0.0-m3-SNAPSHOT</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-util</artifactId>
-			<version>1.0.0-m3-SNAPSHOT</version>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 
 		<!-- Specific impl or use profile? -->
@@ -25,21 +35,21 @@
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-cxf</artifactId>
 			<type>pom</type>
-			<version>1.0.0-m3-SNAPSHOT</version>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-hibernate</artifactId>
 			<type>pom</type>
-			<version>1.0.0-m3-SNAPSHOT</version>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-jta</artifactId>
 			<type>pom</type>
-			<version>1.0.0-m3-SNAPSHOT</version>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
@@ -75,7 +85,7 @@
 			<artifactId>jetty</artifactId>
 			<scope>compile</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>javax.persistence</groupId>
 			<artifactId>persistence-api</artifactId>

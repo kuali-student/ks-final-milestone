@@ -6,11 +6,19 @@
 	<packaging>jar</packaging>
 	<name>KS LUM UI</name>
 	<description>KS Learing Unit Management UI</description>
+	<properties>
+		<springBean.config.files><![CDATA[
+    <config>src/main/resources/META-INF/ks-lum-ui-context.xml</config>
+    <config>src/main/resources/database-context.xml</config>
+    <config>src/main/resources/lum-gwt-context.xml</config>
+]]>
+		</springBean.config.files>
+	</properties>
 
 	<parent>
 		<groupId>org.kuali.student.lum</groupId>
 		<artifactId>ks-lum</artifactId>
-		<version>1.0.0-m3-SNAPSHOT</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
 	<build>
@@ -83,7 +91,7 @@
 					-->
 					<groupId>org.kuali.student.core</groupId>
 					<artifactId>ks-cxf</artifactId>
-					<version>1.0.0-m3-SNAPSHOT</version>
+					<version>1.0.0-SNAPSHOT</version>
 					<type>pom</type>
 					<scope>runtime</scope>
 				</dependency>
@@ -97,7 +105,7 @@
 				<dependency>
 					<groupId>org.kuali.student.core</groupId>
 					<artifactId>ks-core-impl</artifactId>
-					<version>1.0.0-m3-SNAPSHOT</version>
+					<version>1.0.0-SNAPSHOT</version>
 				</dependency>
 
 			    <dependency>
@@ -129,19 +137,19 @@
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-util</artifactId>
-			<version>1.0.0-m3-SNAPSHOT</version>
+			<version>1.0.0-SNAPSHOT</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-ui</artifactId>
-			<version>1.0.0-m3-SNAPSHOT</version>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-ui</artifactId>
-			<version>1.0.0-m3-SNAPSHOT</version>
+			<version>1.0.0-SNAPSHOT</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
@@ -149,24 +157,24 @@
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-ui</artifactId>
-			<version>1.0.0-m3-SNAPSHOT</version>
+			<version>1.0.0-SNAPSHOT</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-ui</artifactId>
-			<version>1.0.0-m3-SNAPSHOT</version>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-api</artifactId>
-			<version>1.0.0-m3-SNAPSHOT</version>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-api</artifactId>
-			<version>1.0.0-m3-SNAPSHOT</version>
+			<version>1.0.0-SNAPSHOT</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
@@ -175,19 +183,19 @@
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-api</artifactId>
-			<version>1.0.0-m3-SNAPSHOT</version>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-api</artifactId>
-			<version>1.0.0-m3-SNAPSHOT</version>
+			<version>1.0.0-SNAPSHOT</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
         <dependency>
             <groupId>org.kuali.student.lum</groupId>
             <artifactId>ks-lum-impl</artifactId>
-			<version>1.0.0-m3-SNAPSHOT</version>
+			<version>1.0.0-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
 

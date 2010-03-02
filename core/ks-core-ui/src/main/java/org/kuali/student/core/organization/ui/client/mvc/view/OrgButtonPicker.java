@@ -31,6 +31,7 @@ public class OrgButtonPicker extends Composite implements HasText{
 	
 	private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
 	private KSTextBox orgIDBox = new KSTextBox();
+	private KSTextBox orgNameBox = new KSTextBox();
 	private OrgInfo orgInfoReturned = new OrgInfo();
 	private KSButton orgSearchButton = new KSButton("Find Org", new ClickHandler() {
         @Override
@@ -48,7 +49,8 @@ public class OrgButtonPicker extends Composite implements HasText{
 
                         public void onSuccess(OrgInfo orgInfo) {
                             orgInfoReturned = orgInfo;
-                            orgIDBox.setValue(orgInfo.getLongName());
+                            orgIDBox.setValue(orgInfo.getId());
+                            orgNameBox.setValue(orgInfo.getShortName());
                             orgSearchPopup.hide();
                         }            
                     });                                        
@@ -64,8 +66,26 @@ public class OrgButtonPicker extends Composite implements HasText{
     public OrgButtonPicker(){
         super();
         initWidget(root);
+        orgIDBox.setEnabled(false);
+        orgIDBox.setVisible(false);
         root.add(orgIDBox);
+        orgNameBox.setEnabled(false);
+        root.add(orgNameBox);
         root.add(orgSearchButton);
+    }
+    
+    public void  searchOrgId(String orgId){
+        orgRpcServiceAsync.getOrganization(orgId, new AsyncCallback<OrgInfo>(){
+            public void onFailure(Throwable caught) {
+                Window.alert(caught.getMessage());
+            }
+
+            public void onSuccess(OrgInfo orgInfo) {
+                orgInfoReturned = orgInfo;
+                orgIDBox.setValue(orgInfo.getId());
+                orgNameBox.setValue(orgInfo.getShortName());
+            }            
+        });             
     }
 	@Override
 	public void onLoad() {
@@ -80,6 +100,9 @@ public class OrgButtonPicker extends Composite implements HasText{
     }
     @Override
     public void setText(String text) {
+        searchOrgId(text);
+        
+       
         
         
     }

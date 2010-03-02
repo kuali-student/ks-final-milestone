@@ -1,132 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
-	xsi:schemaLocation="
-	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
-	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-	 ">
-
-	<dict:fieldDescriptor id="baseString">
-		<dict:dataType>string</dict:dataType>
-		<dict:readOnly>false</dict:readOnly>
-	</dict:fieldDescriptor>
-
-    <dict:fieldDescriptor id="htmlString">
-        <dict:dataType>string</dict:dataType>
-        <dict:readOnly>false</dict:readOnly>
-    </dict:fieldDescriptor>
-
-	<dict:fieldDescriptor id="baseDate">
-		<dict:dataType>date</dict:dataType>
-		<dict:readOnly>false</dict:readOnly>
-	</dict:fieldDescriptor>
-
-	<dict:objectStructure key="commentInfo">
-		<dict:type key="kuali.org.Comment">
-			<dict:state id="kuali.org.commentInfo.Comment.active" key="active">
-				<dict:field key="commentText">
-					<dict:fieldDescriptor>
-						<dict:dataType>complex</dict:dataType>
-						<dict:objectStructureRef bean="richTextInfo"/>
-					</dict:fieldDescriptor>
-				</dict:field>
-                <dict:field key="referenceTypeKey">
-                    <dict:fieldDescriptor parent="baseString">
-                        <dict:name>Reference Type</dict:name>
-                        <dict:desc>Unique identifier for a reference type.</dict:desc>
-                    </dict:fieldDescriptor>
-                </dict:field>
-                <dict:field key="referenceId">
-                    <dict:fieldDescriptor parent="baseString">
-                        <dict:name>Reference Id</dict:name>
-                        <dict:desc>Identifier component for a reference. This is an external identifier and such may not uniquely identify a particular reference unless combined with the type. A referenceId could be a cluId, a luiId, an orgId, a documentId, etc.</dict:desc>
-                    </dict:fieldDescriptor>
-                </dict:field>
-
-				<dict:field key="effectiveDate">
-					<dict:fieldDescriptor parent="baseDate">
-						<dict:name>Effective Date</dict:name>
-						<dict:desc>Date on which an org becomes active.</dict:desc>
-					</dict:fieldDescriptor>
-				</dict:field>
-				<dict:field key="expirationDate">
-					<dict:fieldDescriptor parent="baseDate">
-						<dict:name>Expiration Date</dict:name>
-						<dict:desc>Date on which an org becomes inactive.</dict:desc>
-					</dict:fieldDescriptor>
-				</dict:field>
-
-			</dict:state>
-			<dict:state key="proposed" parent="kuali.org.commentInfo.Comment.active" />
-		</dict:type>
-	</dict:objectStructure>
-
-    <dict:objectStructure key="tagInfo">
-        <dict:type key="kuali.org.Tag">
-            <dict:state id="kuali.org.tagInfo.Tag.active" key="active">
-                <dict:field key="namespace">
-                   <dict:fieldDescriptor parent="baseString">
-                        <dict:name>Namespace</dict:name>
-                    </dict:fieldDescriptor>
-                </dict:field>
-                <dict:field key="predicate">
-                   <dict:fieldDescriptor parent="baseString">
-                        <dict:name>Predicate</dict:name>
-                    </dict:fieldDescriptor>
-                </dict:field>
-                <dict:field key="value">
-                   <dict:fieldDescriptor parent="baseString">
-                        <dict:name>Value</dict:name>
-                    </dict:fieldDescriptor>
-                </dict:field>
-                <dict:field key="referenceTypeKey">
-                    <dict:fieldDescriptor parent="baseString">
-                        <dict:name>Reference Type</dict:name>
-                        <dict:desc>Unique identifier for a reference type.</dict:desc>
-                    </dict:fieldDescriptor>
-                </dict:field>
-                <dict:field key="referenceId">
-                    <dict:fieldDescriptor parent="baseString">
-                        <dict:name>Reference Id</dict:name>
-                        <dict:desc>Identifier component for a reference. This is an external identifier and such may not uniquely identify a particular reference unless combined with the type. A referenceId could be a cluId, a luiId, an orgId, a documentId, etc.</dict:desc>
-                    </dict:fieldDescriptor>
-                </dict:field>
-
-                <dict:field key="effectiveDate">
-                    <dict:fieldDescriptor parent="baseDate">
-                        <dict:name>Effective Date</dict:name>
-                        <dict:desc>Date on which an org becomes active.</dict:desc>
-                    </dict:fieldDescriptor>
-                </dict:field>
-                <dict:field key="expirationDate">
-                    <dict:fieldDescriptor parent="baseDate">
-                        <dict:name>Expiration Date</dict:name>
-                        <dict:desc>Date on which an org becomes inactive.</dict:desc>
-                    </dict:fieldDescriptor>
-                </dict:field>
-
-            </dict:state>
-            <dict:state key="proposed" parent="kuali.org.tagInfo.Tag.active" />
-        </dict:type>
-    </dict:objectStructure>
-
-    <dict:objectStructure key="richTextInfo" id="richTextInfo">
-        <dict:type key="default">
-            <dict:state key="default">
-                <dict:field key="plain">
-                    <dict:fieldDescriptor parent="baseString">
-                        <dict:name>Plain text</dict:name>
-                        <dict:desc>Simple formatting</dict:desc>
-                    </dict:fieldDescriptor>
-                </dict:field>
-                <dict:field key="formatted">
-                    <dict:fieldDescriptor parent="htmlString">
-                        <dict:name>Formatted Text</dict:name>
-                        <dict:desc>Fancy rendering</dict:desc>
-                    </dict:fieldDescriptor>
-                </dict:field>
-            </dict:state>
-        </dict:type>
-    </dict:objectStructure>
-
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+xsi:schemaLocation="
+http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+">
+<!-- *** Automatically Generated ***
+on: Fri Feb 19 11:16:43 EST 2010
+by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
+Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
+ -->
+<import resource="classpath:constraints-dictionary-config.xml"/>
+<import resource="classpath:comment-commentInfo-dictionary-override-config.xml"/>
 </beans>

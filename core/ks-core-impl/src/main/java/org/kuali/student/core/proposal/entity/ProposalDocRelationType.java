@@ -44,7 +44,7 @@ public class ProposalDocRelationType implements AttributeOwner<ProposalDocRelati
     private String name;
 
     @Column(name="DESCRIPTION")
-    private String desc;
+    private String descr;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
@@ -74,12 +74,12 @@ public class ProposalDocRelationType implements AttributeOwner<ProposalDocRelati
         this.name = name;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescr() {
+        return descr;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescr(String descr) {
+        this.descr = descr;
     }
 
     public Date getEffectiveDate() {

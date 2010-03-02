@@ -30,7 +30,7 @@ import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.student.core.role.QualifierHierarchyRoleTypeService;
+import org.kuali.student.core.role.service.QualifierHierarchyRoleTypeService;
 
 /**
  * This is a description of what this class does - Rich don't forget to fill this in. 

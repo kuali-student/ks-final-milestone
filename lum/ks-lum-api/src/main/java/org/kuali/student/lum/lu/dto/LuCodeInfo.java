@@ -38,7 +38,7 @@ public class LuCodeInfo implements Serializable, Idable, HasAttributes {
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private String desc;
+    private String descr;
 
     @XmlElement
     private String value;
@@ -56,12 +56,12 @@ public class LuCodeInfo implements Serializable, Idable, HasAttributes {
     /**
      * The description of the code.
      */
-    public String getDesc() {
-        return desc;
+    public String getDescr() {
+        return descr;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescr(String descr) {
+        this.descr = descr;
     }
 
     /**

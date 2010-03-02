@@ -8,18 +8,20 @@
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-    <search:searchType id="proposal.search.courses">
+    <search:searchType id="proposal.search.courses" parent="proposal.search.courses-parent"/>
+	<search:searchType id="proposal.search.courses-parent"  abstract="true">
         <search:name>Proposal search for clu proposals</search:name>
         <search:desc>Returns all proposals</search:desc>
         <search:searchResultTypeInfo>
             <ref bean="proposal.result.courseProposals" />
         </search:searchResultTypeInfo>
         <search:searchCriteriaTypeInfo>
-           <ref bean="proposal.criteria.allCourseProposals"/>
+           	<ref bean="proposal.criteria.allCourseProposals"/>
         </search:searchCriteriaTypeInfo>
     </search:searchType>
 
-    <search:searchResultTypeInfo id="proposal.result.courseProposals">
+    <search:searchResultTypeInfo id="proposal.result.courseProposals" parent="proposal.result.courseProposals-parent"/>
+	<search:searchResultTypeInfo id="proposal.result.courseProposals-parent"  abstract="true">
         <search:name>CourseProposalResult</search:name>
         <search:desc>List of course proposals</search:desc>
         <search:resultColumns>
@@ -28,19 +30,22 @@
         </search:resultColumns>
     </search:searchResultTypeInfo>
 
-    <search:resultColumn id="proposal.resultColumn.proposalId">
+    <search:resultColumn id="proposal.resultColumn.proposalId" parent="proposal.resultColumn.proposalId-parent"/>
+	<search:resultColumn id="proposal.resultColumn.proposalId-parent"  abstract="true">
         <search:name>Proposal Identifier</search:name>
         <search:desc>Identifier of a Proposal</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
 
-    <search:resultColumn id="proposal.resultColumn.proposalName">
+    <search:resultColumn id="proposal.resultColumn.proposalName" parent="proposal.resultColumn.proposalName-parent"/>
+	<search:resultColumn id="proposal.resultColumn.proposalName-parent"  abstract="true">
         <search:name>Proposal Name</search:name>
         <search:desc>Name of the proposal</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
 
-    <search:searchCriteriaTypeInfo id="proposal.criteria.allCourseProposals">
+    <search:searchCriteriaTypeInfo id="proposal.criteria.allCourseProposals" parent="proposal.criteria.allCourseProposals-parent"/>
+	<search:searchCriteriaTypeInfo id="proposal.criteria.allCourseProposals-parent"  abstract="true">
         <search:name>CourseProposal</search:name>
         <search:desc>Placeholder Criteria</search:desc>
      </search:searchCriteriaTypeInfo>

@@ -25,6 +25,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.HasReferenceId;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
 import org.kuali.student.common.ui.client.service.CommentRpcService;
 import org.kuali.student.common.ui.client.service.CommentRpcServiceAsync;
 import org.kuali.student.common.ui.client.theme.Theme;
@@ -41,6 +42,7 @@ import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPane
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.dto.RichTextInfo;
@@ -277,9 +279,8 @@ public class CommentPanel extends ToolView implements HasReferenceId{
     	commentTypes.addSelectionChangeHandler(new SelectionChangeHandler(){
 
 			@Override
-			public void onSelectionChange(KSSelectItemWidgetAbstract w) {
+			public void onSelectionChange(SelectionChangeEvent event) {
 				refreshComments();
-				
 			}
     	});
     	
@@ -622,5 +623,15 @@ public class CommentPanel extends ToolView implements HasReferenceId{
         	editActions.setVisible(show);
         }
         
+    }
+    
+    @Override
+    public void collectHistory(HistoryStackFrame frame) {
+        // do nothing
+    }
+
+    @Override
+    public void onHistoryEvent(HistoryStackFrame frame) {
+        // do nothing
     }
 }

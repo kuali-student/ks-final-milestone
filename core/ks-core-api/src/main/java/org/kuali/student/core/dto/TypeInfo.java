@@ -37,8 +37,8 @@ public abstract class TypeInfo implements Serializable, Idable, HasAttributes {
 	@XmlElement
 	private String name;
 	
-	@XmlElement
-	private String desc;
+	@XmlElement(name ="desc")
+	private String descr;
 
 	@XmlElement
 	private Date effectiveDate;
@@ -58,12 +58,12 @@ public abstract class TypeInfo implements Serializable, Idable, HasAttributes {
 		this.name = name;
 	}
 	
-	public String getDesc(){
-		return desc;
+	public String getDescr(){
+		return descr;
 	}
 	
-	public void setDesc(String desc){
-		this.desc = desc;
+	public void setDescr(String descr){
+		this.descr = descr;
 	}
 	
 	public Date getEffectiveDate(){
