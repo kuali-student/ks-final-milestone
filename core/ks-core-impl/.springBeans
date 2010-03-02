@@ -8,6 +8,7 @@
   <enableImports>false</enableImports>
   <configs>
     <config>src/main/resources/ksb/ks-core-context.xml</config>
+    <!--
     <config>src/main/resources/atp-search-config.xml</config>
     <config>src/main/resources/comment-commentInfo-dictionary-override-config.xml</config>
     <config>src/main/resources/comment-commentInfo-dictionary-structure-config.xml</config>
@@ -19,6 +20,7 @@
     <config>src/main/resources/organization-dictionary-config.xml</config>
     <config>src/main/resources/organization-search-config.xml</config>
     <config>src/main/resources/proposal-search-config.xml</config>
+    -->
   </configs>
   <configSets>
   </configSets>

@@ -6,6 +6,25 @@
 	<packaging>jar</packaging>
 	<name>KS Core Impl</name>
 	<description>KS Core Impl</description>
+	<properties>
+		<springBean.config.files><![CDATA[
+    <config>src/main/resources/ksb/ks-core-context.xml</config>
+    <!--
+    <config>src/main/resources/atp-search-config.xml</config>
+    <config>src/main/resources/comment-commentInfo-dictionary-override-config.xml</config>
+    <config>src/main/resources/comment-commentInfo-dictionary-structure-config.xml</config>
+    <config>src/main/resources/comment-dictionary-config.xml</config>
+    <config>src/main/resources/comment-search-config.xml</config>
+    <config>src/main/resources/em-search-config.xml</config>
+    <config>src/main/resources/enumeration-context.xml</config>
+    <config>src/main/resources/messages-context.xml</config>
+    <config>src/main/resources/organization-dictionary-config.xml</config>
+    <config>src/main/resources/organization-search-config.xml</config>
+    <config>src/main/resources/proposal-search-config.xml</config>
+    -->
+]]>
+		</springBean.config.files>
+	</properties>
 
 	<parent>
 		<groupId>org.kuali.student.core</groupId>
