@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0"
+	xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+	<persistence-unit name="Statement" transaction-type="JTA">
+		<class>org.kuali.student.core.entity.Type</class>
+		<class>org.kuali.student.core.entity.Attribute</class>
+		<class>org.kuali.student.core.entity.Meta</class>
+		<class>org.kuali.student.core.entity.MetaEntity</class>
+		<class>org.kuali.student.core.entity.RichText</class>
+		<class>org.kuali.student.core.entity.TimeAmount</class>
+
+        <class>org.kuali.student.brms.statement.entity.RefStatementRelation</class>
+        <class>org.kuali.student.brms.statement.entity.RefStatementRelationAttribute</class>
+        <class>org.kuali.student.brms.statement.entity.RefStatementRelationType</class>
+        <class>org.kuali.student.brms.statement.entity.RefStatementRelationTypeAttribute</class>
+        <class>org.kuali.student.brms.statement.entity.ObjectType</class>
+        <class>org.kuali.student.brms.statement.entity.ObjectTypeAttribute</class>
+        <class>org.kuali.student.brms.statement.entity.ObjectSubType</class>
+        <class>org.kuali.student.brms.statement.entity.ObjectSubTypeAttribute</class>
+        <class>org.kuali.student.brms.statement.entity.NlUsageType</class>
+        <class>org.kuali.student.brms.statement.entity.NlUsageTypeAttribute</class>
+		<class>org.kuali.student.brms.statement.entity.Statement</class>
+		<class>org.kuali.student.brms.statement.entity.StatementAttribute</class>
+		<class>org.kuali.student.brms.statement.entity.StatementType</class>
+		<class>org.kuali.student.brms.statement.entity.StatementTypeAttribute</class>
+        <class>org.kuali.student.brms.statement.entity.StatementTypeHeaderTemplate</class>
+		<class>org.kuali.student.brms.statement.entity.ReqComponent</class>
+		<class>org.kuali.student.brms.statement.entity.ReqComponentField</class>
+		<class>org.kuali.student.brms.statement.entity.ReqComponentFieldType</class>
+		<class>org.kuali.student.brms.statement.entity.ReqComponentType</class>
+		<class>org.kuali.student.brms.statement.entity.ReqComponentTypeAttribute</class>
+		<class>org.kuali.student.brms.statement.entity.ReqComponentTypeNLTemplate</class>
+
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+	</persistence-unit>
+</persistence>
