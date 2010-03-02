@@ -120,6 +120,43 @@ public class SamlIssuerServiceImpl implements SamlIssuerService {
         }
     }
 
+    /* Use this method when not using a CAS proxy. 
+     * Example if the ProxyTicketRetrieverFilter useCasProxyMechanism = false
+     */
+    public String getSamlPrincipal(String principal) throws KSSecurityException{
+        try {      
+            Map<String,String> samlProperties = new HashMap<String,String>();
+            samlProperties.put("user", principal);
+            samlProperties.put("proxyGrantingTicket", "");
+            samlProperties.put("proxies", "");
+            samlProperties.put("samlIssuerForUser", samlIssuerForUser.trim());
+            
+            SamlUtils.setSamlProperties(samlProperties);
+            SAMLAssertion samlAssertion = SamlUtils.createAssertion();
+            
+            Document signedSAML = SamlUtils.signAssertion(samlAssertion);
+            
+            // transform the saml DOM into a writer, and return as a string response
+            DOMSource domSource = new DOMSource(signedSAML);
+            StringWriter writer = new StringWriter();
+            StreamResult result = new StreamResult(writer);
+            
+            TransformerFactory tf = TransformerFactory.newInstance();
+            Transformer transformer;
+            
+            transformer = tf.newTransformer();
+            transformer.transform(domSource, result);
+            
+            writer.flush();
+            
+            return writer.toString();
+            
+        } catch (final Exception e) {
+            throw new KSSecurityException(e);
+        } 
+
+    }
+    
     public String getCasServerUrl() {
         return casServerUrl;
     }

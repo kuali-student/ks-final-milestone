@@ -28,4 +28,7 @@ public interface SamlIssuerService {
     /* takes a CAS proxy ticket, validates it and returns a SAML token */
     public String validateCasProxyTicket(@WebParam(name="proxyTicketId")String proxyTicketId, 
                                       @WebParam(name="proxyTargetService")String proxyTargetService) throws KSSecurityException;
+    
+    /* takes a principal and returns a SAML token */
+    public String getSamlPrincipal(@WebParam(name="principal")String principal) throws KSSecurityException;
 }
