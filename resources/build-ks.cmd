@@ -9,7 +9,7 @@ cd ..\ks-core
 svn update
 call mvn -Dmaven.test.skip=true -o -Pkuali-developer-properties -Dks.gwt.compile.phase=none clean install
 
-cd ..\brms
+cd ..\ks-brms
 svn update
 call mvn -Dmaven.test.skip=true -o -Pkuali-developer-properties -Dks.gwt.compile.phase=none clean install
 
