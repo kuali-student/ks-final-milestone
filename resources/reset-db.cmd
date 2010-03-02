@@ -1,7 +1,10 @@
 date /t
 time /t
 
-cd ..\..\kul-cfg-dbs\impex
+cd ..\..\ks-embedded-db
+svn update
+
+cd ..\kul-cfg-dbs\impex
 rem call ant satellite-init
 call ant import
 
