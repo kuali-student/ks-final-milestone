@@ -22,5 +22,5 @@ package org.kuali.student.common.ui.client.security;
  */
 public interface AuthorizationCallback {
     public void isAuthorized();
-    public void isNotAuthorized();
+    public void isNotAuthorized(String msg);    
 }

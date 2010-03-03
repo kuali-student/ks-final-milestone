@@ -15,6 +15,8 @@
 package org.kuali.student.common.ui.client.mvc;
 
 import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
+import org.kuali.student.common.ui.client.security.AuthorizationCallback;
+import org.kuali.student.common.ui.client.security.RequiresAuthorization;
 
 
 /**
@@ -25,7 +27,7 @@ import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
  * @author Kuali Student Team
  *
  */
-public class DelegatingViewComposite extends ViewComposite {
+public class DelegatingViewComposite extends ViewComposite implements RequiresAuthorization {
     Controller childController;
     
     /**
@@ -82,5 +84,28 @@ public class DelegatingViewComposite extends ViewComposite {
     public void clear() {
     	childController.reset();
     }
+
+	@Override
+	public void checkAuthorization(AuthorizationCallback callback) {
+		if (childController instanceof RequiresAuthorization){
+			((RequiresAuthorization)childController).checkAuthorization(callback);
+		}				
+	}
+
+	@Override
+	public boolean isAuthorizationRequired() {
+		if (childController instanceof RequiresAuthorization){
+			return ((RequiresAuthorization)childController).isAuthorizationRequired();
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public void setAuthorizationRequired(boolean required) {
+		if (childController instanceof RequiresAuthorization){
+			((RequiresAuthorization)childController).setAuthorizationRequired(required);
+		}		
+	}
 
 }

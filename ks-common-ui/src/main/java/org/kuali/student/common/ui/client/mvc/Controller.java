@@ -22,6 +22,8 @@ import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
 import org.kuali.student.common.ui.client.mvc.history.HistorySupport;
 import org.kuali.student.common.ui.client.mvc.history.HistoryToken;
 import org.kuali.student.common.ui.client.mvc.history.NavigationEvent;
+import org.kuali.student.common.ui.client.security.AuthorizationCallback;
+import org.kuali.student.common.ui.client.security.RequiresAuthorization;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
@@ -29,6 +31,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -38,7 +41,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @author Kuali Student Team
  */
-public abstract class Controller extends Composite implements HistorySupport {
+public abstract class Controller extends Composite implements HistorySupport{
 	public static final Callback<Boolean> NO_OP_CALLBACK = new Callback<Boolean>() {
 		@Override
 		public void exec(Boolean result) {
@@ -84,12 +87,33 @@ public abstract class Controller extends Composite implements HistorySupport {
         	onReadyCallback.exec(false);
             throw new ControllerException("View not registered: " + viewType.toString());
         }
+    
+        boolean requiresAuthz = (view instanceof RequiresAuthorization) && ((RequiresAuthorization)view).isAuthorizationRequired(); 
+        
+        if (requiresAuthz){
+        	//A callback is required if async rpc call is required for authz check
+        	((RequiresAuthorization)view).checkAuthorization(new AuthorizationCallback(){
+				public void isAuthorized() {
+					showView(view, viewType, onReadyCallback);
+				}
+
+				public void isNotAuthorized(String msg) {
+					Window.alert(msg);
+					onReadyCallback.exec(false);					
+				}        		
+        	});
+        } else {
+        	showView(view, viewType, onReadyCallback);
+        }
+    }
+    
+    protected <V extends Enum<?>> void showView(final View view, final V viewType, final Callback<Boolean> onReadyCallback){
         if ((currentView == null) || currentView.beforeHide()) {
 			view.beforeShow(new Callback<Boolean>() {
 				@Override
 				public void exec(Boolean result) {
 					if (!result) {
-						GWT.log("showView: beforeShow yielded false " + viewType.toString(), null);
+						GWT.log("showView: beforeShow yielded false " + viewType, null);
 			        	onReadyCallback.exec(false);
 					} else {
 			        	if (currentView != null) {
@@ -109,7 +133,7 @@ public abstract class Controller extends Composite implements HistorySupport {
         } else {
         	onReadyCallback.exec(false);
             GWT.log("Current view canceled hide action", null);
-        }
+        }    	
     }
 
     protected void fireNavigationEvent() {
@@ -347,5 +371,5 @@ public abstract class Controller extends Composite implements HistorySupport {
     
     public void reset(){
     	currentView = null;
-    }
+    }        
 }
