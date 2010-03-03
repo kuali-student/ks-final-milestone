@@ -2,12 +2,28 @@
 
 .ks-header h3 { margin: 0; }
 
-h1.ks-heading-course-title { color: #666; display:block; font-weight: normal; margin-bottom: 0; padding: 15px 0 10px 0;}
+h1.ks-heading-course-title { 
+	color: #666; 
+	display:block; 
+	font-size: 2.333em;
+	font-weight: normal; 
+	margin-bottom: 0; 
+	padding: 15px 0 10px 0;
+}
 
-h2.ks-heading-page-title { color: #940b07; }
-.ks-heading-page-section h3{ color: #000; font-weight: normal; padding-bottom: 4px; border-bottom: solid 2px #ccc; margin-bottom: .5em;}
-/*h3.ks-heading-page-section span { color: #aaa; }*/
-h3.ks-heading-page-section{ color: #000; font-weight: normal; padding-bottom: 4px; border-bottom: solid 2px #ccc; margin-bottom: .5em;}
+h2.ks-heading-page-title { 
+	font-size: 2em;
+	color: #940b07; 
+}
+.ks-heading-page-section {
+    font-size: 1.5em; 
+    color: #000; 
+    font-weight: normal; 
+    padding-bottom: 4px; 
+    border-bottom: solid 2px #ccc; 
+    margin-bottom: .5em;
+}
+
 
 /*** Page ***/
 .ks-page-container {
@@ -168,8 +184,18 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 .ks-form-bordered { background-color: #fff; border: solid 1px #ccc; margin-bottom: 1em;}
 .ks-form-bordered-header { background-color: #eee; padding: 4px 8px; margin: 0;  }
 
-.ks-form-bordered-header-title { display:table; float:left; height: 1%; }
-.ks-form-bordered-header-title h4 { margin-bottom: 0; color: #424242; }
+.ks-form-bordered-header-title {
+	font-size: 1.167em; 
+	font-weight: bold;
+	color: #424242;
+	display:table; 
+	float:left; 
+	height: 1%; 
+	background-color:  #F0F0F0;
+}
+.ks-form-bordered-header-title h4 { 
+	margin-bottom: 0; 	
+}
 
 /*** Form (Bordered): Delete, and Help ***/
 
@@ -228,7 +254,15 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 	margin-bottom: .75em;
 }
 
-.ks-form-course-format-activity-header-title { display:table; float:left; height: 1%; }
+.ks-form-course-format-activity-header-title { 
+	font-size: 1.083em; /* 13px */
+    font-weight: bold;
+    color: #424242;
+	display:table; 
+	float:left; 
+	height: 1%; 
+	border-bottom: solid 1px #ccc; 
+}
 .ks-form-course-format-activity-header-title h5 { margin-bottom: 0; color: #424242; }
 
 .ks-form-course-format-activity-header-delete { float:right; margin-left: 3px; width: 12px; height: 14px;}
@@ -288,7 +322,13 @@ p.noted { margin: 0 0 10px 0; color: #39b54a; font-family: Georgia;}
 	display: inline-block;
 }
 
-.ks-form-module-elements-instruction { margin-bottom: .15em; display: block; color: #000; }
+.ks-form-module-elements-instruction { 
+	font-size: 1em; /* 12px */
+    font-weight: bold;
+	margin-bottom: .15em; 
+	display: block; 
+	color: #000; 
+}
 
 .ks-form-header-title-actions { display:inline-block; float:right; margin-top: 2px; }
 
@@ -359,7 +399,11 @@ a.ks-form-module-elements-help:hover, a.ks-form-module-elements-delete:hover {
 	color: #2C61E6;
 	border-color: #2C61E6;
 }*/
-.ks-form-module-elements-help-text { margin: 2px 0 0 0; font-size: 0.916em; color: #424242; }
+.ks-form-module-elements-help-text { 
+	margin: 2px 0 0 0; 
+	font-size: 0.916em; 
+	color: #424242; 
+}
 
 .ks-form-module-validation {
 	float: left;
@@ -399,7 +443,11 @@ a.ks-form-module-elements-help:hover, a.ks-form-module-elements-delete:hover {
 .ks-form-module-single-line-margin{margin-top: 1.2em;}
 .ks-form-module-no-line-margin{margin-top: 0em;}
 
-label.ks-form-module-elements-top-margin, h6.ks-form-module-elements-top-margin  { margin-top: 0; } /* Clears the top margin we just put for elements that need it removed */
+label.ks-form-module-elements-top-margin, h6.ks-form-module-elements-top-margin  { 
+    font-size: 1em;
+    font-weight: bold;
+    margin-top: 0; 
+} /* Clears the top margin we just put for elements that need it removed */
 
 /*** Basic Form Styling ***/
 
