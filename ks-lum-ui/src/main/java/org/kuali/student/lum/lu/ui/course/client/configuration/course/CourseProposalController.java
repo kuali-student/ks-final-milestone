@@ -34,6 +34,8 @@ import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.WorkQueue;
 import org.kuali.student.common.ui.client.mvc.WorkQueue.WorkItem;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
+import org.kuali.student.common.ui.client.security.AuthorizationCallback;
+import org.kuali.student.common.ui.client.security.RequiresAuthorization;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -67,7 +69,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  * @author Kuali Student Team
  *
  */
-public class CourseProposalController extends TabbedSectionLayout { 
+public class CourseProposalController extends TabbedSectionLayout implements RequiresAuthorization { 
     private final DataModel cluProposalModel = new DataModel(); 
     private Collaborators.CollaboratorModel collaboratorModel;
     
@@ -593,4 +595,25 @@ public class CourseProposalController extends TabbedSectionLayout {
         }    
     }
 	
+	@Override
+	public void checkAuthorization(AuthorizationCallback callback) {		
+		//TODO: Add server side call to check authorization
+		boolean authorized = true;
+		if (!authorized){
+			callback.isNotAuthorized("Access to this document is not allowed");
+		} else {
+			callback.isAuthorized();
+		}		
+	}
+
+	@Override
+	public boolean isAuthorizationRequired() {
+		return true;
+	}
+
+	@Override
+	public void setAuthorizationRequired(boolean required) {
+		throw new UnsupportedOperationException();
+	}
+    
 }
