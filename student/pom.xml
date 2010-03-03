@@ -51,7 +51,7 @@
   <modules>
     <module>../../ks-security</module>
     <module>../../ks-core</module>
-    <module>../../brms</module>
+    <module>../../ks-brms</module>
     <module>../../ks-lum</module>
   </modules>
   <scm>
