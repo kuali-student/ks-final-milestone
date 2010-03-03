@@ -31,6 +31,10 @@
         <property name="serviceEndpointInterface" value="org.kuali.student.core.search.service.SearchService" />
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/personsearch}personsearchService" />
     </bean>
+    <bean id="permissionServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.PermissionService" />
+		<property name="serviceQName" value="{KIM}kimPermissionServiceUnsecure" />
+	</bean>
 
 	 <tx:annotation-driven transaction-manager="transactionManager" />
     
@@ -153,9 +157,14 @@
 		class="org.kuali.student.common.ui.server.gwt.ServerPropertiesRpcGwtServlet">
 	</bean>
 	
-	<bean id="orgProposalAssembler" class="org.kuali.student.core.organization.assembly.OrgProposalAssembler">
+	<bean id="orgProposalAssembler" class="org.kuali.student.core.organization.assembly.OrgProposalAssembler" parent="baseAssembler">
 		<property name="orgService" ref="orgClient"/>
-		<property name="metadataService" ref="metadataServiceImpl"/>
+	</bean>
+	
+	<bean id="baseAssembler" abstract="true" class="org.kuali.student.core.assembly.BaseAssembler">
+		<property name="permissionService" ref="permissionServiceClient" />
+		<property name="metadataService" ref="metadataServiceImpl" />
+		<property name="namespace" value="KS-SYS" />
 	</bean>
 	
 	<!-- Metadata lookup service -->
