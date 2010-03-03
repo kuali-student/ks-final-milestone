@@ -91,35 +91,20 @@ public class LUMApplicationManager extends Controller{
 
 	    @Override
 	    protected <V extends Enum<?>> View getView(V viewType) {
-	    	// FIXME the showDefaultView calls should probably be handled elsewhere, not in this factory method
 	        switch ((LUMViews) viewType) {
 	            case HOME_MENU:
 	                return homeMenuView;
-	            case CREATE_COURSE:
-	                //initBlankCluProposalView(LUConstants.PROPOSAL_TYPE_COURSE_CREATE, LUConstants.CLU_TYPE_CREDIT_COURSE);
-	                initBlankCreateCourse();
-	                
-	                //FIXME: This is a quick fix, need better way to reset view
-	                createCourseController.showDefaultView(NO_OP_CALLBACK);  
-
-	                return createCourseView;
+	            case CREATE_COURSE:	                	                
+	                return initBlankCreateCourse();
 	            case EDIT_COURSE_PROPOSAL:
-	                //View setup should already be handled.
-
-	                //FIXME: This is quick fix, need better way via config to set and show summary view.
-	                createCourseController.showDefaultView(NO_OP_CALLBACK); 
-//	                cluProposalController.showView(LuConfigurer.LuSections.SUMMARY);//FIXME this was causing the nav bar not to show up
+	            	createCourseView.clear();	            	
 	                return createCourseView;
 	            case VIEW_COURSE:
 	                initViewCourse();
-	                viewCourseController.showDefaultView(NO_OP_CALLBACK);
 	                return viewCourseView;
 	            case CREATE_PROGRAM:
-	                initCreateCourseByType(LUConstants.PROPOSAL_TYPE_PROGRAM_CREATE, LUConstants.CLU_TYPE_CREDIT_PROGRAM);  //FIXME replace with program specific constants
-
-	                //FIXME: This is a quick fix, need better way to reset view
-	                createCourseController.showDefaultView(NO_OP_CALLBACK);  
-
+	            	//FIXME replace with program specific constants
+	            	initCreateCourseByType(LUConstants.PROPOSAL_TYPE_PROGRAM_CREATE, LUConstants.CLU_TYPE_CREDIT_PROGRAM); 
 	                return createCourseView; //createProgramView;                
 	            default:
 	                return null;
