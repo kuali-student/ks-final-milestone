@@ -77,5 +77,10 @@ public class DelegatingViewComposite extends ViewComposite {
     public void onHistoryEvent(HistoryStackFrame frame) {
         childController.onHistoryEvent(frame);
     }
+    
+    @Override
+    public void clear() {
+    	childController.reset();
+    }
 
 }

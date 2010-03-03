@@ -340,10 +340,12 @@ public abstract class Controller extends Composite implements HistorySupport {
             }
         }
     }
-    
-    
-
+        
     public String getControllerId() {
         return this.controllerId;
+    }
+    
+    public void reset(){
+    	currentView = null;
     }
 }
