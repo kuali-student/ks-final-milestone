@@ -39,6 +39,21 @@
   </organization>
   <url>http://student.kuali.org/</url>
   <inceptionYear>2006</inceptionYear>
+  <repositories>
+    <repository>
+      <id>kuali.release.lab</id>
+      <url>https://test.kuali.org/svn/student/deploymentlab/repository</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+  <modules>
+    <module>../../ks-security</module>
+    <module>../../ks-core</module>
+    <module>../../brms</module>
+    <module>../../ks-lum</module>
+  </modules>
   <scm>
     <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/trunk/student</connection>
     <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/trunk/student</developerConnection>
