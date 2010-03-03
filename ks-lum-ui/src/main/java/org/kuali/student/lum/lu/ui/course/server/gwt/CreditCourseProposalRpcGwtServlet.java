@@ -17,7 +17,10 @@ import org.kuali.rice.kew.webservice.StandardResponse;
 import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.AbstractBaseDataOrchestrationRpcGwtServlet;
+import org.kuali.student.core.assembly.Assembler;
+import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.lum.lu.assembly.ModifyCreditCourseProposalManager;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
 import org.kuali.student.lum.lu.dto.workflow.CluProposalCollabRequestDocInfo;
 import org.kuali.student.lum.lu.dto.workflow.CluProposalDocInfo;
@@ -36,6 +39,19 @@ public class CreditCourseProposalRpcGwtServlet extends
 	private static final String DEFAULT_METADATA_TYPE = null;
     
 	private PermissionService permissionService;
+	
+	private ModifyCreditCourseProposalManager modifyCourseManager;
+	
+	
+	@Override
+	public Data getDataCopy(String dataId) throws OperationFailedException {
+		try {
+			return modifyCourseManager.getCopy(dataId);
+		} catch (AssemblyException e) {
+			LOG.error("Copy Failed on id:"+dataId, e);
+			throw new OperationFailedException("Copy Failed on id:"+dataId,e);
+		}
+	}
 	
     @Override
 	protected String deriveAppIdFromData(Data data) {
@@ -224,4 +240,13 @@ public class CreditCourseProposalRpcGwtServlet extends
     public void setPermissionService(PermissionService permissionService) {
         this.permissionService = permissionService;
     }
+
+	public ModifyCreditCourseProposalManager getModifyCourseManager() {
+		return modifyCourseManager;
+	}
+
+	public void setModifyCourseManager(
+			ModifyCreditCourseProposalManager modifyCourseManager) {
+		this.modifyCourseManager = modifyCourseManager;
+	}
 }

@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcService;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
+import org.kuali.student.core.assembly.data.Data;
 
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("rpcservices/CreditCourseProposalRpcService")
@@ -14,4 +15,6 @@ public interface CreditCourseProposalRpcService extends BaseDataOrchestrationRpc
     public HashMap<String, ArrayList<String>> getCollaborators(String docId) throws OperationFailedException;
 
     public Boolean hasPermission(String permName);
+    
+    public Data getDataCopy(String dataId) throws OperationFailedException;
 }

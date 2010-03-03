@@ -248,7 +248,13 @@
 		<property name="simpleDocService" ref="simpleDocActionsClient" />
 		<property name="workflowUtilityService" ref="workflowUtilityClient" />
 		<property name="permissionService" ref="permissionServiceClient" />
+		<property name="modifyCourseManager" ref="modifyCreditCourseProposalManager"/>
 	</bean>
+	
+	<bean id="modifyCreditCourseProposalManager" class="org.kuali.student.lum.lu.assembly.ModifyCreditCourseProposalManager">
+		<property name="creditCourseProposalAssembler" ref="creditCourseProposalAssemblerFilterManager"/>
+	</bean>
+	
 	<bean id="baseAssembler" abstract="true" class="org.kuali.student.core.assembly.BaseAssembler">
 		<property name="permissionService" ref="permissionServiceClient" />
 		<property name="metadataService" ref="metadataServiceImpl" />
