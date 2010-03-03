@@ -15,6 +15,7 @@
 package org.kuali.student.lum.lu.ui.course.client.configuration.viewclu;
 
 import org.kuali.student.common.ui.client.configurable.mvc.PagedSectionLayout;
+import org.kuali.student.common.ui.client.event.ChangeViewActionEvent;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.Model;
@@ -31,7 +32,6 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalMo
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
-import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -58,7 +58,7 @@ public class ViewCluController extends PagedSectionLayout{
     private KSButton quitButton = new KSButton("Quit", new ClickHandler(){
         public void onClick(ClickEvent event) {
             Controller parentController =ViewCluController.this.getParentController(); 
-            parentController.fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.HOME_MENU, event));
+            parentController.fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.HOME_MENU));
         }
     });
     

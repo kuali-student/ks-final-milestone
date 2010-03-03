@@ -14,6 +14,7 @@
  */
 package org.kuali.student.lum.lu.ui.home.client.view;
 
+import org.kuali.student.common.ui.client.event.ChangeViewActionEvent;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
 import org.kuali.student.common.ui.client.widgets.KSButton;
@@ -21,7 +22,6 @@ import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.lum.lu.ui.course.client.widgets.CategoryManagement;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
-import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -56,7 +56,7 @@ public class CreateCreditCoursePanel extends ViewComposite{
             Widget sender = (Widget) event.getSource();
             
             if(sender == startBlank){
-                CreateCreditCoursePanel.this.getController().fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.CREATE_COURSE));
+                CreateCreditCoursePanel.this.getController().fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.CREATE_COURSE));
             } else {
                 Window.alert("Function not yet implemented");
             }

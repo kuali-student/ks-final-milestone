@@ -14,32 +14,27 @@
  */
 package org.kuali.student.lum.lu.ui.main.client.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.kuali.student.common.ui.client.event.ChangeViewActionEvent;
+import org.kuali.student.common.ui.client.event.ChangeViewActionHandler;
+import org.kuali.student.common.ui.client.event.ChangeViewActionEvent.ViewDetail;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DelegatingViewComposite;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.events.LogoutEvent;
 import org.kuali.student.common.ui.client.mvc.events.LogoutHandler;
-import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseProposalController;
 import org.kuali.student.lum.lu.ui.course.client.configuration.course.ViewCourseController;
 import org.kuali.student.lum.lu.ui.home.client.view.HomeMenuController;
-import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
-import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateHandler;
 
-import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 public class LUMApplicationManager extends Controller{
 
-	   private final SimplePanel viewPanel = new SimplePanel();
-
+		private final SimplePanel viewPanel = new SimplePanel();
 
 	    private final View homeMenuView = new DelegatingViewComposite(this, new HomeMenuController());
 
@@ -48,6 +43,8 @@ public class LUMApplicationManager extends Controller{
 
 	    private Controller viewCourseController = null;
 	    private DelegatingViewComposite viewCourseView;
+	    
+	    private boolean loaded = false;
 
 	    public LUMApplicationManager(){
 	        super(LUMApplicationManager.class.getName());
@@ -55,34 +52,31 @@ public class LUMApplicationManager extends Controller{
 	    }
 
 	    protected void onLoad() {
-	        addApplicationEventHandler(ChangeViewStateEvent.TYPE, new ChangeViewStateHandler() {
-	            public void onViewStateChange(ChangeViewStateEvent event) {
-	                //FIXME: This is very hacky
-	                if (event.getEventSource() != null && event.getEventSource() instanceof SelectionEvent){                    
-	                    List<String> selectedIds = (List<String>)((SelectionEvent)event.getEventSource()).getSelectedItem();
-	                    String selectedId = selectedIds.get(0);
-
-	                    if (event.getViewType().equals(LUMViews.EDIT_COURSE_PROPOSAL)){
-	                        initCreateCourseFromProposalId(LUConstants.PROPOSAL_TYPE_COURSE_CREATE, LUConstants.CLU_TYPE_CREDIT_COURSE, selectedId);                        
-	                    }
-
-//	                    if (event.getViewType().equals(LUMViews.VIEW_COURSE)) {
-//	                        initViewCluViewFromCluId(selectedId);                        
-//	                    }
-
-	                } else if ((event.getEventSource() != null) && (event.getEventSource() instanceof ArrayList) && (event.getViewType().equals(LUMViews.VIEW_COURSE))){                    
-	                    initViewCourseFromCourseId(((List<SelectedResults>)event.getEventSource()).get(0).getReturnKey());                        
-	                }
-	                
-	                showView(event.getViewType(), NO_OP_CALLBACK);  
-	            }
-	        });
-
-	        addApplicationEventHandler(LogoutEvent.TYPE, new LogoutHandler() {
-	            public void onLogout(LogoutEvent event) {
-	                Window.Location.assign("/j_spring_security_logout");
-	            }
-	        });
+	    	if (!loaded){
+		        addApplicationEventHandler(ChangeViewActionEvent.TYPE, new ChangeViewActionHandler() {
+		            public void onViewStateChange(ChangeViewActionEvent event) {
+		            	ViewDetail viewDetail = event.getViewDetail();
+	
+		                if (viewDetail != null && viewDetail.getDataId() != null){                    	
+		                    if (event.getViewType().equals(LUMViews.EDIT_COURSE_PROPOSAL)){
+		                        initCreateCourseFromProposalId(LUConstants.PROPOSAL_TYPE_COURSE_CREATE, LUConstants.CLU_TYPE_CREDIT_COURSE, viewDetail.getDataId());                        
+		                    } else if (event.getViewType().equals(LUMViews.VIEW_COURSE)){                    
+		                    	initViewCourseFromCourseId(viewDetail.getDataId());
+		                    }
+		                }
+		                
+		                showView(event.getViewType(), NO_OP_CALLBACK);  
+		            }
+		        });
+	
+		        addApplicationEventHandler(LogoutEvent.TYPE, new LogoutHandler() {
+		            public void onLogout(LogoutEvent event) {
+		                Window.Location.assign("/j_spring_security_logout");
+		            }
+		        });
+		        
+		        loaded = true;
+	    	}
 	    }
 
 	    public enum LUMViews {
@@ -175,7 +169,6 @@ public class LUMApplicationManager extends Controller{
 
 	    @Override
 	    protected void renderView(View view) {
-	        // TODO Bsmith - THIS METHOD NEEDS JAVADOCS
 	        viewPanel.setWidget((Composite)view);
 	    }
 

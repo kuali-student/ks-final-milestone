@@ -16,6 +16,8 @@ package org.kuali.student.lum.lu.ui.home.client.view;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.event.ChangeViewActionEvent;
+import org.kuali.student.common.ui.client.event.ChangeViewActionEvent.ViewDetail;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
@@ -34,7 +36,6 @@ import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.home.client.view.CreateCreditCoursePanel.ButtonRow;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
-import org.kuali.student.lum.lu.ui.main.client.events.ChangeViewStateEvent;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -139,10 +140,10 @@ public class FindPanel extends ViewComposite{
         SearchPanel searchPicker = new SearchPanel(searchMetadata.getProperties().get("courseId").getInitialLookup());                
         courseSearchWindow = new AdvancedSearchWindow("Find Course", searchPicker);   	    	
         courseSearchWindow.addSelectionCompleteCallback(new Callback<List<SelectedResults>>(){
-            //FIXME: This should take user to the course view screens
             public void exec(List<SelectedResults> results) {
                 if (results.size() > 0){
-                    FindPanel.this.getController().fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.VIEW_COURSE, results));
+                	ViewDetail viewDetail = new ViewDetail(results.get(0).getReturnKey());                	
+                    FindPanel.this.getController().fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.VIEW_COURSE, viewDetail));
                     courseSearchWindow.hide();
                 }                
             }            
@@ -156,7 +157,8 @@ public class FindPanel extends ViewComposite{
             public void onSelection(SelectionEvent<List<String>> event) {
                 final List<String> selected = event.getSelectedItem();
                 if (selected.size() > 0){
-                    FindPanel.this.getController().fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.EDIT_COURSE_PROPOSAL, event));
+                	ViewDetail viewDetail = new ViewDetail(selected.get(0));
+                    FindPanel.this.getController().fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.EDIT_COURSE_PROPOSAL, viewDetail));
                     proposalSearchWindow.hide();
                 }                
             }            
