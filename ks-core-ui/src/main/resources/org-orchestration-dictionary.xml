@@ -356,12 +356,7 @@
 							<property name="key" value="org.queryParam.orgOptionalType" />
 							<property name="name" value="Org Type" />
 							<property name="desc" value="Type of an organization." />						
-							<property name="writeAccess" value="NEVER" />
-							<property name="defaultValue">
-								<bean parent="datatype.StringValue">
-									<property name="value" value="kuali.org.Department" />
-								</bean>
-							</property>										
+							<property name="writeAccess" value="NEVER" />									
 							<property name="caseSensitive" value="true" />
 						</bean>
 					</list>
@@ -453,12 +448,7 @@
 								<property name="name" value="Type"/>
 								<property name="desc" value="Type of an organization."/>
 								<property name="dataType" value="STRING"/>								
-								<property name="writeAccess" value="NEVER"/>
-								<property name="defaultValue">
-									<bean parent="datatype.StringValue">
-										<property name="value" value="kuali.org.Department" />
-									</bean>
-								</property>									
+								<property name="writeAccess" value="NEVER"/>							
 								<property name="optional" value="true"/>
 								<property name="caseSensitive" value="true"/>
 							</bean>
@@ -1056,12 +1046,7 @@
 							<property name="key" value="org.queryParam.orgOptionalType" />
 							<property name="name" value="Org Type" />
 							<property name="desc" value="Type of an organization." />						
-							<property name="writeAccess" value="NEVER" />
-							<property name="defaultValue">
-								<bean parent="datatype.StringValue">
-									<property name="value" value="kuali.org.Department" />
-								</bean>
-							</property>										
+							<property name="writeAccess" value="NEVER" />									
 							<property name="caseSensitive" value="true" />
 						</bean>
 					</list>
@@ -1153,12 +1138,7 @@
 								<property name="name" value="Type"/>
 								<property name="desc" value="Type of an organization."/>
 								<property name="dataType" value="STRING"/>								
-								<property name="writeAccess" value="NEVER"/>
-								<property name="defaultValue">
-									<bean parent="datatype.StringValue">
-										<property name="value" value="kuali.org.Department" />
-									</bean>
-								</property>									
+								<property name="writeAccess" value="NEVER"/>							
 								<property name="optional" value="true"/>
 								<property name="caseSensitive" value="true"/>
 							</bean>
