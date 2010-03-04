@@ -25,6 +25,7 @@ import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.core.messages.dto.MessageList;
 import org.kuali.student.core.organization.ui.client.mvc.controller.OrgApplicationManager;
+import org.kuali.student.core.organization.ui.client.theme.OrgTheme;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -54,7 +55,9 @@ public class OrgEntryPoint implements EntryPoint{
     public void onModuleLoad() {
         final ApplicationContext context = new ApplicationContext();
         Application.setApplicationContext(context);
-
+        final String injectString = OrgTheme.INSTANCE.getOrgCss().getCssString();
+        StyleInjector.injectStylesheet(injectString);
+        
         loadApp(context);
 
         try {
