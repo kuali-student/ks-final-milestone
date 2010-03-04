@@ -167,6 +167,20 @@
    			</value>   			
    		</property>   		
    	</bean>
+   	
+   	<!--  View Course labels -->
+   	<bean parent="enCourse" p:id="cluState"		p:value="State"/>
+   	<bean parent="enCourse" p:id="cluType"		p:value="Type"/>
+   	<bean parent="enCourse" p:id="cluPrimaryInstructor"		p:value="Primary Instructor"/>
+   	<bean parent="enCourse" p:id="cluDisclosurePanelHeading"		p:value="More Details"/>
+   	<bean parent="enCourse" p:id="cluTermsOffered"		p:value="Terms Offered"/>
+   	<bean parent="enCourse" p:id="cluDurationType"		p:value="Duration Type"/>
+   	<bean parent="enCourse" p:id="cluDurationQuantity"		p:value="Duration Quantity"/>   	
+   	<bean parent="enCourse" p:id="cluBasicView"		p:value="Basic"/>   	
+   	<bean parent="enCourse" p:id="cluComprehensiveView"		p:value="Comprehensive"/>   	
+   	<bean parent="enCourse" p:id="cluCourseDetails"		p:value="Course Details"/>   	
+
+
 
    	<bean parent="esCourse" p:id="cluProposalInformation"		p:value="Información de la oferta"/>
 	   	<bean parent="esCourse" p:id="cluSummary"	    	p:value="Resumen"/>

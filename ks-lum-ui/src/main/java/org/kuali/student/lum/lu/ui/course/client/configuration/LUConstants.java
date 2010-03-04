@@ -225,6 +225,17 @@ public class LUConstants {
     public static final String DEPT_REQS_LABEL_KEY = "cluDeptRequirements";
     public static final String DEPT_LABEL_KEY = "cluDept";
 
+    //  View Course labels
+    public static final String BASIC_VIEW_LABEL_KEY = "cluBasicView";
+    public static final String COMPREHENSIVE_VIEW_LABEL_KEY = "cluComprehensiveView";
+    public static final String COURSE_DETAILS_LABEL_KEY = "cluCourseDetails";
+    public static final String STATE_LABEL_KEY = "cluState";
+    public static final String TYPE_LABEL_KEY = "cluType";
+    public static final String PRIMARY_INSTRUCTOR_LABEL_KEY = "cluPrimaryInstructor";
+    public static final String DISCLOSURE_PANEL_LABEL_KEY = "cluDisclosurePanelHeading";
+    public static final String TERMS_OFFERED_LABEL_KEY = "cluTermsOffered";
+    public static final String DURATION_TYPE_LABEL_KEY = "cluDurationType";
+    public static final String DURATION_QUANTITY_LABEL_KEY = "cluDurationQuantity";
 
 
 }

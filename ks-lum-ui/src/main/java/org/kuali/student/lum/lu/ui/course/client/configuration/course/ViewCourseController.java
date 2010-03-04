@@ -183,7 +183,7 @@ public class ViewCourseController extends TabbedSectionLayout {
         cfg.generateLayout(this);
              
         if (!initialized) {
-            addButton(ViewCourseConfigurer.COURSE_DETAILS_TAB, getQuitButton());
+            addButton(cfg.getTabKey(), getQuitButton());
         }
         initialized = true;
     }
@@ -220,15 +220,6 @@ public class ViewCourseController extends TabbedSectionLayout {
                 
                 callback.onModelReady(ref);
             }
-//        } else if(modelType == RequirementsDisplayWidget.RequirementsModel.class){
-//            if(null==requirementsModel){
-//                requirementsModel = new RequirementsDisplayWidget.RequirementsModel();
-//            }
-//            if(cluModel!=null && cluModel.get(CLU_ID_KEY)!=null){
-//                courseId=cluModel.get(CLU_ID_KEY);
-//            }
-//            requirementsModel.setCluId(courseId);    
-//            callback.onModelReady(requirementsModel);
         }else if (modelType == LuData.class){
             requestModel(CourseConfigurer.CLU_PROPOSAL_MODEL, callback);
         } else /*
@@ -257,7 +248,7 @@ public class ViewCourseController extends TabbedSectionLayout {
                 workCompleteCallback.exec(true);
                 progressWindow.hide();
             }
-            
+
         });
     }
     
