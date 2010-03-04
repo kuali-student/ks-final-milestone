@@ -222,7 +222,7 @@ public class SearchManagerImpl implements SearchManager{
 			return dao.search(searchRequest, queryMap, lookupMetadata);
 		}catch (Exception e){
 			logger.error("Search Failed for searchKey:"+searchKey,e);
-			throw new RuntimeException("Search Failed for searchKey:"+searchKey);
+			throw new RuntimeException("Search Failed for searchKey:"+searchKey,e);
 		}
 	}
 
