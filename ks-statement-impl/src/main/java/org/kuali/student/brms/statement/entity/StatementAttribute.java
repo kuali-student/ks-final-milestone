@@ -22,7 +22,7 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Attribute;
 
 @Entity
-@Table(name = "KSSTMT_STMT_ATTR")
+@Table(name = "KSST_STMT_ATTR")
 public class StatementAttribute extends Attribute<Statement> {
 	@ManyToOne
 	@JoinColumn(name = "OWNER")

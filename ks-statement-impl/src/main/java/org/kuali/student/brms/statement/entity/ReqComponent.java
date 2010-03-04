@@ -37,7 +37,7 @@ import org.kuali.student.core.entity.MetaEntity;
 import org.kuali.student.core.entity.RichText;
 
 @Entity
-@Table(name="KSSTMT_REQ_COM")
+@Table(name="KSST_REQ_COM")
 @NamedQueries( {
 	@NamedQuery(name = "ReqComponent.getReqComponentsByType", query = "SELECT r FROM ReqComponent r WHERE r.requiredComponentType.id = :reqComponentTypeKey"), 
 	@NamedQuery(name = "ReqComponent.getReqComponents", query = "SELECT r FROM ReqComponent r WHERE r.id IN (:reqComponentIdList)") 
@@ -67,7 +67,7 @@ public class ReqComponent extends MetaEntity {
     private ReqComponentType requiredComponentType;
     
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    @JoinTable(name = "KSSTMT_RC_JN_RC_FIELD", joinColumns = @JoinColumn(name = "REQ_COM_ID"), inverseJoinColumns = @JoinColumn(name = "REQ_COM_FIELD_ID"))
+    @JoinTable(name = "KSST_RC_JN_RC_FIELD", joinColumns = @JoinColumn(name = "REQ_COM_ID"), inverseJoinColumns = @JoinColumn(name = "REQ_COM_FIELD_ID"))
     private List<ReqComponentField> reqCompField;
     
     /**

@@ -28,22 +28,22 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Type;
 
 @Entity
-@Table(name = "KSSTMT_STMT_TYPE")
+@Table(name = "KSST_STMT_TYPE")
 public class StatementType extends Type<StatementTypeAttribute> {
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<StatementTypeAttribute> attributes;
     
     @OneToMany
-    @JoinTable(name = "KSSTMT_STMT_TYP_JN_RC_TYP", joinColumns = @JoinColumn(name = "STMT_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "REQ_COM_TYPE_ID"))
+    @JoinTable(name = "KSST_STMT_TYP_JN_RC_TYP", joinColumns = @JoinColumn(name = "STMT_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "REQ_COM_TYPE_ID"))
     private List<ReqComponentType> allowedReqComponentTypes;
     
     @OneToMany
-    @JoinTable(name = "KSSTMT_STMT_TYP_JN_STMT_TYP", joinColumns = @JoinColumn(name = "STMT_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "CHLD_STMT_TYPE_ID"))
+    @JoinTable(name = "KSST_STMT_TYP_JN_STMT_TYP", joinColumns = @JoinColumn(name = "STMT_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "CHLD_STMT_TYPE_ID"))
     private List<StatementType> allowedStatementTypes;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<StatementTypeHeaderTemplate> statementHeaders;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+//    private List<StatementTypeHeaderTemplate> statementHeaders;
     
     @ManyToMany(cascade = {CascadeType.ALL}, mappedBy = "statementTypeList") //, fetch = FetchType.EAGER)
     private List<RefStatementRelationType> refStatementRelationTypes = new ArrayList<RefStatementRelationType>();
@@ -83,13 +83,13 @@ public class StatementType extends Type<StatementTypeAttribute> {
         this.allowedStatementTypes = allowedStatementTypes;
     }
 
-	public List<StatementTypeHeaderTemplate> getStatementHeaders() {
-		return statementHeaders;
-	}
-
-	public void setStatementHeaders(List<StatementTypeHeaderTemplate> header) {
-		this.statementHeaders = header;
-	}
+//	public List<StatementTypeHeaderTemplate> getStatementHeaders() {
+//		return statementHeaders;
+//	}
+//
+//	public void setStatementHeaders(List<StatementTypeHeaderTemplate> header) {
+//		this.statementHeaders = header;
+//	}
 
 	public List<RefStatementRelationType> getRefStatementRelationTypes() {
 		return refStatementRelationTypes;

@@ -23,7 +23,7 @@ import javax.persistence.Table;
 import org.kuali.student.common.util.UUIDHelper;
 
 @Entity
-@Table(name="KSSTMT_REQ_COM_FIELD")
+@Table(name="KSST_REQ_COM_FIELD")
 public class ReqComponentField {
 
 	@Id

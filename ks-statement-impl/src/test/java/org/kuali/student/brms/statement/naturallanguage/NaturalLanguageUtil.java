@@ -215,7 +215,7 @@ public class NaturalLanguageUtil {
 		stmt.setOperator(operator);
 		StatementType type = new StatementType();
 		type.setId("kuali.luStatementType.prereqAcademicReadiness");
-		type.setStatementHeaders(createHeaders());
+		//type.setStatementHeaders(createHeaders());
 		stmt.setStatementType(type);
 		return stmt;
 	}
@@ -235,25 +235,25 @@ public class NaturalLanguageUtil {
 	public static StatementType createLuStatementTypeInfo(String id) throws Exception {
 		StatementType type = new StatementType();
 		type.setId(id);
-		type.setStatementHeaders(createHeaders());
+		//type.setStatementHeaders(createHeaders());
 		return type;
 	}
 	
-	public static List<StatementTypeHeaderTemplate> createHeaders() {
-		List<StatementTypeHeaderTemplate> headerList = new ArrayList<StatementTypeHeaderTemplate>();
-		StatementTypeHeaderTemplate header1 = new StatementTypeHeaderTemplate();
-		header1.setLanguage("en");
-		header1.setNlUsageTypeKey("KUALI.CATALOG");
-		header1.setTemplate("Requirement for $clu.getOfficialIdentifier().getLongName(): ");
-		headerList.add(header1);
-		StatementTypeHeaderTemplate header2 = new StatementTypeHeaderTemplate();
-		header2.setLanguage("de");
-		header2.setNlUsageTypeKey("KUALI.CATALOG");
-		header2.setTemplate("Voraussetzung fur die $clu.getOfficialIdentifier().getLongName(): ");
-		headerList.add(header2);
-		
-		return headerList;
-	}
+//	public static List<StatementTypeHeaderTemplate> createHeaders() {
+//		List<StatementTypeHeaderTemplate> headerList = new ArrayList<StatementTypeHeaderTemplate>();
+//		StatementTypeHeaderTemplate header1 = new StatementTypeHeaderTemplate();
+//		header1.setLanguage("en");
+//		header1.setNlUsageTypeKey("KUALI.CATALOG");
+//		header1.setTemplate("Requirement for $clu.getOfficialIdentifier().getLongName(): ");
+//		headerList.add(header1);
+//		StatementTypeHeaderTemplate header2 = new StatementTypeHeaderTemplate();
+//		header2.setLanguage("de");
+//		header2.setNlUsageTypeKey("KUALI.CATALOG");
+//		header2.setTemplate("Voraussetzung fur die $clu.getOfficialIdentifier().getLongName(): ");
+//		headerList.add(header2);
+//		
+//		return headerList;
+//	}
     
     public static ContextRegistry<Context<ReqComponent>> getReqComponentContextRegistry() {
     	ContextRegistry<Context<ReqComponent>> contextRegistry = new ContextRegistry<Context<ReqComponent>>();

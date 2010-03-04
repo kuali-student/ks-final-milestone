@@ -25,7 +25,7 @@
 		<class>org.kuali.student.brms.statement.entity.StatementAttribute</class>
 		<class>org.kuali.student.brms.statement.entity.StatementType</class>
 		<class>org.kuali.student.brms.statement.entity.StatementTypeAttribute</class>
-        <class>org.kuali.student.brms.statement.entity.StatementTypeHeaderTemplate</class>
+        <!--class>org.kuali.student.brms.statement.entity.StatementTypeHeaderTemplate</class-->
 		<class>org.kuali.student.brms.statement.entity.ReqComponent</class>
 		<class>org.kuali.student.brms.statement.entity.ReqComponentField</class>
 		<class>org.kuali.student.brms.statement.entity.ReqComponentFieldType</class>

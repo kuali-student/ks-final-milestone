@@ -22,7 +22,7 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Attribute;
 
 @Entity
-@Table(name = "KSSTMT_OBJECT_TYPE_ATTR")
+@Table(name = "KSST_OBJECT_TYPE_ATTR")
 public class ObjectTypeAttribute extends Attribute<ObjectType> {
 	@ManyToOne
 	@JoinColumn(name = "OWNER")

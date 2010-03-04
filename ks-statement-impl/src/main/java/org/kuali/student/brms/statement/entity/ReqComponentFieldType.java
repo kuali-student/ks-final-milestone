@@ -23,7 +23,7 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.FieldDescriptorEntity;
 
 @Entity
-@Table(name="KSSTMT_REQ_COM_FIELD_TYPE")
+@Table(name="KSST_REQ_COM_FIELD_TYPE")
 public class ReqComponentFieldType {
 
     @Id

@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Attribute;
 
 @Entity
-@Table(name = "KSSTMT_REF_STMT_REL_ATTR")
+@Table(name = "KSST_REF_STMT_REL_ATTR")
 public class RefStatementRelationAttribute extends Attribute<RefStatementRelation> {
 	@ManyToOne
 	@JoinColumn(name = "OWNER")

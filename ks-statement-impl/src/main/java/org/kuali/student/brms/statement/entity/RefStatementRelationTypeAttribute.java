@@ -22,7 +22,7 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Attribute;
 
 @Entity
-@Table(name = "KSSTMT_REF_STMT_REL_TYPE_ATTR")
+@Table(name = "KSST_REF_STMT_REL_TYPE_ATTR")
 public class RefStatementRelationTypeAttribute extends Attribute<RefStatementRelationType> {
 	@ManyToOne
 	@JoinColumn(name = "OWNER")

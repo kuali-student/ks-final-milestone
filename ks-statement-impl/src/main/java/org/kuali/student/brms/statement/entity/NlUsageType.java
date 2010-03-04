@@ -25,7 +25,7 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Type;
 
 @Entity
-@Table(name = "KSSTMT_NL_USAGE_TYPE")
+@Table(name = "KSST_NL_USAGE_TYPE")
 public class NlUsageType extends Type<NlUsageTypeAttribute> {
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")

@@ -25,7 +25,7 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Type;
 
 @Entity
-@Table(name = "KSSTMT_OBJECT_SUB_TYPE")
+@Table(name = "KSST_OBJECT_SUB_TYPE")
 public class ObjectSubType extends Type<ObjectSubTypeAttribute> {
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")

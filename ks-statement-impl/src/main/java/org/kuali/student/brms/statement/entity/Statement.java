@@ -39,7 +39,7 @@ import org.kuali.student.core.entity.RichText;
 import org.kuali.student.brms.statement.dto.StatementOperatorTypeKey;
 
 @Entity
-@Table(name = "KSSTMT_STMT")
+@Table(name = "KSST_STMT")
 @NamedQueries( {
     @NamedQuery(name = "Statement.getStatementsForStatementType", query = "SELECT ls FROM Statement ls WHERE ls.statementType.id = :statementTypeKey"),
     @NamedQuery(name = "Statement.getStatements", query = "SELECT ls FROM Statement ls WHERE ls.id IN (:statementIdList)"),
@@ -72,7 +72,7 @@ public class Statement extends MetaEntity implements AttributeOwner<StatementAtt
     private List<Statement> children = new ArrayList<Statement>();
 
     @ManyToMany
-    @JoinTable(name = "KSSTMT_STMT_JN_REQ_COM", joinColumns = @JoinColumn(name = "STMT_ID"), inverseJoinColumns = @JoinColumn(name = "REQ_COM_ID"))
+    @JoinTable(name = "KSST_STMT_JN_REQ_COM", joinColumns = @JoinColumn(name = "STMT_ID"), inverseJoinColumns = @JoinColumn(name = "REQ_COM_ID"))
     private List<ReqComponent> requiredComponents = new ArrayList<ReqComponent>();
 
     @ManyToOne

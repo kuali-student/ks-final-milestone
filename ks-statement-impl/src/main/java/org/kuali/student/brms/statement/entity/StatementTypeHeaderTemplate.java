@@ -23,7 +23,7 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Attribute;
 
 @Entity
-@Table(name = "KSSTMT_STMT_TYPE_HEADER_TMPL")
+@Table(name = "KSST_STMT_TYPE_HEADER_TMPL")
 public class StatementTypeHeaderTemplate extends Attribute<StatementType> {
 	@ManyToOne
 	@JoinColumn(name = "OWNER")

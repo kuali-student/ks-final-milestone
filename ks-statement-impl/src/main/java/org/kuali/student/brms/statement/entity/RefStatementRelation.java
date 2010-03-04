@@ -36,7 +36,7 @@ import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
-@Table(name = "KSSTMT_REF_STMT_REL")
+@Table(name = "KSST_REF_STMT_REL")
 @NamedQueries( {
     @NamedQuery(name = "RefStatementRelation.getRefStatementRelations", query = "SELECT r FROM RefStatementRelation r WHERE r.refObjectTypeKey = :refObjectTypeKey and r.refObjectId = :refObjectId")
 })

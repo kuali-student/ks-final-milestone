@@ -28,18 +28,18 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Type;
 
 @Entity
-@Table(name = "KSSTMT_REF_STMT_REL_TYPE")
+@Table(name = "KSST_REF_STMT_REL_TYPE")
 public class RefStatementRelationType extends Type<RefStatementRelationTypeAttribute> {
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<RefStatementRelationTypeAttribute> attributes = new ArrayList<RefStatementRelationTypeAttribute>();
 	
     @ManyToMany(cascade = {CascadeType.ALL}) //, fetch = FetchType.EAGER)
-    @JoinTable(name = "KSSTMT_RSTMT_RTYP_JN_OSUB_TYP", joinColumns = @JoinColumn(name = "REF_STMT_REL_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "OBJ_SUB_TYPE_ID"))
+    @JoinTable(name = "KSST_RSTMT_RTYP_JN_OSUB_TYP", joinColumns = @JoinColumn(name = "REF_STMT_REL_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "OBJ_SUB_TYPE_ID"))
     List<ObjectSubType> objectSubTypeList = new ArrayList<ObjectSubType>();
 
     @ManyToMany(cascade = {CascadeType.ALL}) //, fetch = FetchType.EAGER)
-    @JoinTable(name = "KSSTMT_RSTMT_RTYP_JN_STMT_TYP", joinColumns = @JoinColumn(name = "REF_STMT_REL_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "STMT_TYPE_ID"))
+    @JoinTable(name = "KSST_RSTMT_RTYP_JN_STMT_TYP", joinColumns = @JoinColumn(name = "REF_STMT_REL_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "STMT_TYPE_ID"))
     List<StatementType> statementTypeList = new ArrayList<StatementType>();
 
 	@Override

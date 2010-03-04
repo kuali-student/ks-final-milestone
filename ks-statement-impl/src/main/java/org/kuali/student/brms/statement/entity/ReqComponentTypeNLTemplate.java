@@ -23,7 +23,7 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Attribute;
 
 @Entity
-@Table(name = "KSSTMT_REQ_COM_TYPE_NL_TMPL")
+@Table(name = "KSST_REQ_COM_TYPE_NL_TMPL")
 public class ReqComponentTypeNLTemplate extends Attribute<ReqComponentType> {
 	@ManyToOne
 	@JoinColumn(name = "OWNER")

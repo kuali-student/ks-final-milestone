@@ -28,14 +28,14 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Type;
 
 @Entity
-@Table(name = "KSSTMT_OBJECT_TYPE")
+@Table(name = "KSST_OBJECT_TYPE")
 public class ObjectType extends Type<ObjectTypeAttribute> {
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<ObjectTypeAttribute> attributes = new ArrayList<ObjectTypeAttribute>();
 	
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    @JoinTable(name = "KSSTMT_OBJ_TYP_JN_OBJ_SUB_TYP", joinColumns = @JoinColumn(name = "OBJ_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "OBJ_SUB_TYPE_ID"))
+    @JoinTable(name = "KSST_OBJ_TYP_JN_OBJ_SUB_TYP", joinColumns = @JoinColumn(name = "OBJ_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "OBJ_SUB_TYPE_ID"))
 	private List<ObjectSubType> objectSubTypes = new ArrayList<ObjectSubType>();
 
 	@Override
