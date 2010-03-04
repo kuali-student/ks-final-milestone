@@ -288,8 +288,10 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		
 		Query query;
 		if(isNative){
+			LOG.info("Native Query:"+finalQueryString);
 			query = em.createNativeQuery(finalQueryString);
 		}else{
+			LOG.info("JPQL Query:"+finalQueryString);
 			query = em.createQuery(finalQueryString);
 		}
 		
@@ -375,10 +377,21 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 					SearchResultCell resultCell = new SearchResultCell();
 					resultCell.setKey(resultColumn.getKey());
 					
-					if(queryResult.getClass().isArray()){
-						resultCell.setValue(((Object[])queryResult)[i].toString());
-					}else{
-						resultCell.setValue(queryResult.toString());
+					try {
+						Object queryResultCell = null;
+						if(queryResult.getClass().isArray()){
+							queryResultCell = ((Object[])queryResult)[i];
+							
+						}else{
+							queryResultCell = queryResult;
+						}
+						
+						if (queryResultCell != null) {
+							resultCell.setValue(queryResultCell.toString());							
+						}
+					
+					} catch (Exception e) {
+						throw new RuntimeException("Error copying results from " + queryResult.toString(),e);
 					}
 					
 					result.getCells().add(resultCell);
