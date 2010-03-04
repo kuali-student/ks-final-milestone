@@ -252,7 +252,9 @@
 	</bean>
 	
 	<bean id="modifyCreditCourseProposalManager" class="org.kuali.student.lum.lu.assembly.ModifyCreditCourseProposalManager">
-		<property name="creditCourseProposalAssembler" ref="creditCourseProposalAssemblerFilterManager"/>
+		<property name="creditCourseAssembler" ref="creditCourseProposalAssemblerFilterManager"/>
+		<property name="luService" ref="luClient"/>
+		<property name="statementService" ref="statementServiceClient"/>
 	</bean>
 	
 	<bean id="baseAssembler" abstract="true" class="org.kuali.student.core.assembly.BaseAssembler">

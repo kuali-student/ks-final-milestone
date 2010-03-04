@@ -4,15 +4,18 @@ package org.kuali.student.lum.lu.assembly;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.kuali.student.brms.statement.service.StatementService;
 import org.kuali.student.core.assembly.Assembler;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.assembly.data.Data.Property;
-import org.kuali.student.core.assembly.helper.RuntimeDataHelper;
 import org.kuali.student.core.assembly.util.AssemblerUtils;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
+import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.lum.lu.ui.course.server.gwt.LuRuleInfoPersistanceBean;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
 import org.kuali.student.lum.ui.requirements.client.model.RuleInfo;
 import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
@@ -25,37 +28,42 @@ import org.kuali.student.lum.ui.requirements.client.model.StatementVO;
  */
 public class ModifyCreditCourseProposalManager{
 
-	Assembler<Data,Void> creditCourseProposalAssembler; 
-
-	public Data getCopy(String id) throws AssemblyException {
+    private final Logger LOG = Logger.getLogger(ModifyCreditCourseProposalManager.class);
+	
+	Assembler<Data,Void> creditCourseAssembler; 
+	LuService luService;
+	StatementService statementService;
+	
+	public Data getNewProposalWithCopyOfClu(String cluId) throws AssemblyException {
 		
 		//Get The data to copy
-		Data data = creditCourseProposalAssembler.get(id);
+		Data data = creditCourseAssembler.get(cluId);
 		
 		//Clear out all ids in the data and set runtime data to created
 		clearIdsRecursively(data);
 		
-		//Clear the references
-		CreditCourseProposalHelper proposal = CreditCourseProposalHelper.wrap(data);
-		proposal.getProposal().setReferences(new Data());
-    	
-		//Clear out ids from resultInfo object and anything else with external ids
-        if (data instanceof LuData) {
-        	LuData luData = (LuData)data;
-        	List<RuleInfo> rules = luData.getRuleInfos();
-        	for(RuleInfo rule:rules){
-        		rule.setCluId(null);
-        		rule.setId(null);
-        		clearStatementIds(rule.getStatementVO());
-        	}
-        }
-	
-    	//TODO add any additional data that defines this as a copy, or add clu-clu 
-		//relations to link this to the original
+		//Create the proposal and attach the course
+		LuData luData = new LuData();
+		CreditCourseProposalHelper proposal = CreditCourseProposalHelper.wrap(luData);
+		CreditCourseHelper course = CreditCourseHelper.wrap(data);
+		proposal.setCourse(course);
 		
-        //Resave the data and return with new ids
-    	SaveResult<Data> savedCopy = creditCourseProposalAssembler.save(data); 
-    	return savedCopy.getValue();
+		//Get a copy of the RuleInfoData
+        LuRuleInfoPersistanceBean ruleInfoBean = new LuRuleInfoPersistanceBean();
+        ruleInfoBean.setLuService(luService);
+        ruleInfoBean.setStatementService(statementService);
+        List<RuleInfo> rules = ruleInfoBean.fetchRules(cluId);
+		
+        //Clear out ids from resultInfo object and anything else with external ids
+    	for(RuleInfo rule:rules){
+    		rule.setCluId(null);
+    		rule.setId(null);
+    		clearStatementIds(rule.getStatementVO());
+    	}
+		luData.setRuleInfos(rules);
+	
+    	//add any additional data that defines this as a copy here (state? other relationships/flags)
+		return proposal.getData();
 	}
 	
 
@@ -83,7 +91,7 @@ public class ModifyCreditCourseProposalManager{
     		
     		Property prop = i.next();
     		
-    		//recurse through any nested maps
+    		//recurse through any nested maps (don't recurse through runtime data since the setCreated call will create new Data children
     		if(prop.getValueType().isAssignableFrom(Data.class)&&!"_runtimeData".equals(prop.getKey())){
     			clearIdsRecursively((Data)prop.getValue());
     		}
@@ -96,13 +104,38 @@ public class ModifyCreditCourseProposalManager{
     	
     }
 
-	public Assembler<Data, Void> getCreditCourseProposalAssembler() {
-		return creditCourseProposalAssembler;
+	public LuService getLuService() {
+		return luService;
 	}
 
-	public void setCreditCourseProposalAssembler(
-			Assembler<Data, Void> creditCourseProposalAssembler) {
-		this.creditCourseProposalAssembler = creditCourseProposalAssembler;
+
+
+	public void setLuService(LuService luService) {
+		this.luService = luService;
+	}
+
+
+
+	public StatementService getStatementService() {
+		return statementService;
+	}
+
+
+
+	public void setStatementService(StatementService statementService) {
+		this.statementService = statementService;
+	}
+
+
+
+	public Assembler<Data, Void> getCreditCourseAssembler() {
+		return creditCourseAssembler;
+	}
+
+
+
+	public void setCreditCourseAssembler(Assembler<Data, Void> creditCourseAssembler) {
+		this.creditCourseAssembler = creditCourseAssembler;
 	}
 	
 

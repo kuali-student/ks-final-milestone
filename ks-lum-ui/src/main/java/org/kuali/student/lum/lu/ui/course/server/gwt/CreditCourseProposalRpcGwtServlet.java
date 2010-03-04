@@ -17,7 +17,6 @@ import org.kuali.rice.kew.webservice.StandardResponse;
 import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.AbstractBaseDataOrchestrationRpcGwtServlet;
-import org.kuali.student.core.assembly.Assembler;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.lum.lu.assembly.ModifyCreditCourseProposalManager;
@@ -44,9 +43,9 @@ public class CreditCourseProposalRpcGwtServlet extends
 	
 	
 	@Override
-	public Data getDataCopy(String dataId) throws OperationFailedException {
+	public Data getNewProposalWithCopyOfClu(String dataId) throws OperationFailedException {
 		try {
-			return modifyCourseManager.getCopy(dataId);
+			return modifyCourseManager.getNewProposalWithCopyOfClu(dataId);
 		} catch (AssemblyException e) {
 			LOG.error("Copy Failed on id:"+dataId, e);
 			throw new OperationFailedException("Copy Failed on id:"+dataId,e);

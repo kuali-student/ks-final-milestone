@@ -16,5 +16,6 @@ public interface CreditCourseProposalRpcService extends BaseDataOrchestrationRpc
 
     public Boolean hasPermission(String permName);
     
-    public Data getDataCopy(String dataId) throws OperationFailedException;
+	public Data getNewProposalWithCopyOfClu(String cluId) throws OperationFailedException;
+
 }
