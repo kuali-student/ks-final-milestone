@@ -571,7 +571,7 @@
 					<value>org.id = :org_queryParam_orgOptionalId</value>
 				</entry>					
 				<entry key="org.queryParam.orgOptionalType">
-					<value>org.type.id = :org_queryParam_orgOptionalType</value>
+					<value>org.type.id IN (:org_queryParam_orgOptionalType)</value>
 				</entry>	
 				<entry key="org.queryParam.orgOptionalShortName">
 					<value>org.shortName</value>

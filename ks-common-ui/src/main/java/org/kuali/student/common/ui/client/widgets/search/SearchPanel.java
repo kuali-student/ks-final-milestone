@@ -189,14 +189,23 @@ public class SearchPanel extends Composite{
 						if(metaParam.getWriteAccess() == WriteAccess.NEVER){
 							SearchParam param = new SearchParam();
 							param.setKey(metaParam.getKey());
-							param.setValue(metaParam.getDefaultValue().toString());
+							if(metaParam.getDefaultValueList()==null){
+								param.setValue(metaParam.getDefaultValueString());
+							}else{
+								param.setValue(metaParam.getDefaultValueList());
+							}
 							params.add(param);
 						}
 						else if(metaParam.getWriteAccess() == WriteAccess.WHEN_NULL){
-							if(metaParam.getDefaultValue() != null && !(metaParam.getDefaultValue().toString().isEmpty())){
+							if((metaParam.getDefaultValueString() != null && !metaParam.getDefaultValueString().isEmpty())||
+							   (metaParam.getDefaultValueList() != null && !metaParam.getDefaultValueList().isEmpty())){
 								SearchParam param = new SearchParam();
 								param.setKey(metaParam.getKey());
-								param.setValue(metaParam.getDefaultValue().toString());
+								if(metaParam.getDefaultValueList()==null){
+									param.setValue(metaParam.getDefaultValueString());
+								}else{
+									param.setValue(metaParam.getDefaultValueList());
+								}
 								params.add(param);
 							}
 						}
@@ -328,7 +337,7 @@ public class SearchPanel extends Composite{
 					panel.add(paramField);
 				}
 				else if(param.getWriteAccess() == WriteAccess.WHEN_NULL){
-					if(param.getDefaultValue() == null){
+					if(param.getDefaultValueString() == null && param.getDefaultValueList() == null){
 						SearchField paramField = new SearchField(param);
 						searchFields.add(paramField);
 						panel.add(paramField);
@@ -362,22 +371,31 @@ public class SearchPanel extends Composite{
 					
 					for(LookupParamMetadata metaParam: meta.getParams()){
 						if(metaParam.getWriteAccess() == WriteAccess.NEVER){
-							Value defaultValue = metaParam.getDefaultValue();
-							if ((defaultValue == null) || (defaultValue.toString().isEmpty())) {
+							if ((metaParam.getDefaultValueString() == null || metaParam.getDefaultValueString().isEmpty())&&
+								(metaParam.getDefaultValueList() == null || metaParam.getDefaultValueList().isEmpty())) {
 								//FIXME throw an exception?
 								GWT.log("Key = " + metaParam.getKey() + " has write access NEVER but has no default value!", null);
 								continue;
 							}
 							SearchParam param = new SearchParam();
 							param.setKey(metaParam.getKey());
-							param.setValue(defaultValue.toString());
+							if(metaParam.getDefaultValueList()==null){
+								param.setValue(metaParam.getDefaultValueString());
+							}else{
+								param.setValue(metaParam.getDefaultValueList());
+							}
 							params.add(param);
 						}
 						else if(metaParam.getWriteAccess() == WriteAccess.WHEN_NULL){
-							if(metaParam.getDefaultValue() != null && !(metaParam.getDefaultValue().toString().isEmpty())){
+							if((metaParam.getDefaultValueString() != null && !metaParam.getDefaultValueString().isEmpty())||
+							   (metaParam.getDefaultValueList() != null && !metaParam.getDefaultValueList().isEmpty())){
 								SearchParam param = new SearchParam();
 								param.setKey(metaParam.getKey());
-								param.setValue(metaParam.getDefaultValue().toString());
+								if(metaParam.getDefaultValueList()==null){
+									param.setValue(metaParam.getDefaultValueString());
+								}else{
+									param.setValue(metaParam.getDefaultValueList());
+								}
 								params.add(param);
 							}
 						}
@@ -450,12 +468,13 @@ public class SearchPanel extends Composite{
 			fieldName = param.getName();
 			KSLabel searchParamLabel = new KSLabel(fieldName);
 			widget = DefaultWidgetFactory.getInstance().getWidget(param);
-			if(param.getDefaultValue() != null){
+			if(param.getDefaultValueString() != null){
+				//TODO ADd handling of default value lists here
 				if(widget instanceof HasText){
-					((HasText) widget).setText(param.getDefaultValue().toString());
+					((HasText) widget).setText(param.getDefaultValueString().toString());
 				}
 				else if(widget instanceof HasValue){
-					((HasValue) widget).setValue(param.getDefaultValue().get());
+					((HasValue) widget).setValue(param.getDefaultValueString());
 				}
 			}
 			searchParamLabel.addStyleName("KS-Picker-Criteria-Text");						

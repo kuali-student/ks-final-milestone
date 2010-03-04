@@ -74,12 +74,14 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
         		this.searchTextKey = param.getKey();
         	}
         	//Add in any writeaccess never default values to the additional params
-        	if(param.getWriteAccess().equals("NEVER")||param.getDefaultValue()!=null){
+        	if(param.getWriteAccess().equals("NEVER")||param.getDefaultValueString()!=null||param.getDefaultValueList()!=null){
         		SearchParam searchParam = new SearchParam();
         		searchParam.setKey(param.getKey());
-        		if(param.getDefaultValue().get()!=null){
-        			searchParam.setValue(param.getDefaultValue().get().toString());
-        		}
+				if(param.getDefaultValueList()==null){
+					searchParam.setValue(param.getDefaultValueString());
+				}else{
+					searchParam.setValue(param.getDefaultValueList());
+				}
         		additionalParams.add(searchParam);
         	}
         }
