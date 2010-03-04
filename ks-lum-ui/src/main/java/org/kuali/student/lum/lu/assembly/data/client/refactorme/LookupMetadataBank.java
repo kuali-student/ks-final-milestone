@@ -113,7 +113,7 @@ public class LookupMetadataBank
 		param.setWriteAccess (Metadata.WriteAccess.NEVER);
 		param.setDataType (Data.DataType.STRING);
 		param.setOptional (true);
-		param.setDefaultValue (new Data.StringValue ("kuali.org.Department"));
+		param.setDefaultValueString ("kuali.org.Department");
 		param.setCaseSensitive (true);
 		lookup.getParams ().add (param);
 		
@@ -326,7 +326,7 @@ public class LookupMetadataBank
 		param.setWriteAccess (Metadata.WriteAccess.NEVER);
 		param.setDataType (Data.DataType.STRING);
 		param.setOptional (true);
-		param.setDefaultValue (new Data.StringValue ("kuali.org.Program"));
+		param.setDefaultValueString ("kuali.org.Program");
 		param.setCaseSensitive (true);
 		lookup.getParams ().add (param);
 		
@@ -475,7 +475,7 @@ public class LookupMetadataBank
 		param.setWriteAccess (Metadata.WriteAccess.NEVER);
 		param.setDataType (Data.DataType.STRING);
 		param.setOptional (true);
-		param.setDefaultValue (new Data.StringValue ("kuali.lu.type.CreditCourse"));
+		param.setDefaultValueString ("kuali.lu.type.CreditCourse");
 		param.setCaseSensitive (true);
 		lookup.getParams ().add (param);
 		
@@ -560,7 +560,7 @@ public class LookupMetadataBank
 		param.setWriteAccess (Metadata.WriteAccess.NEVER);
 		param.setDataType (Data.DataType.STRING);
 		param.setOptional (true);
-		param.setDefaultValue (new Data.StringValue ("kuali.lu.type.CreditCourse"));
+		param.setDefaultValueString ("kuali.lu.type.CreditCourse");
 		param.setCaseSensitive (true);
 		lookup.getParams ().add (param);
 		
@@ -727,7 +727,7 @@ public class LookupMetadataBank
 		param.setWriteAccess (Metadata.WriteAccess.NEVER);
 		param.setDataType (Data.DataType.STRING);
 		param.setOptional (true);
-		param.setDefaultValue (new Data.StringValue ("kuali.lu.campusLocation"));
+		param.setDefaultValueString ("kuali.lu.campusLocation");
 		param.setCaseSensitive (true);
 		lookup.getParams ().add (param);
 		
@@ -830,7 +830,7 @@ public class LookupMetadataBank
 		param.setWriteAccess (Metadata.WriteAccess.NEVER);
 		param.setDataType (Data.DataType.STRING);
 		param.setOptional (true);
-		param.setDefaultValue (new Data.StringValue ("kuali.lu.subjectArea"));
+		param.setDefaultValueString ("kuali.lu.subjectArea");
 		param.setCaseSensitive (true);
 		lookup.getParams ().add (param);
 		

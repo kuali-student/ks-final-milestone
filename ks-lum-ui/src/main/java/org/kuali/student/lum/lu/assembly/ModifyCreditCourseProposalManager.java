@@ -9,6 +9,8 @@ import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.assembly.data.Data.Property;
+import org.kuali.student.core.assembly.helper.RuntimeDataHelper;
+import org.kuali.student.core.assembly.util.AssemblerUtils;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
@@ -30,7 +32,7 @@ public class ModifyCreditCourseProposalManager{
 		//Get The data to copy
 		Data data = creditCourseProposalAssembler.get(id);
 		
-		//Clear out all ids in the data
+		//Clear out all ids in the data and set runtime data to created
 		clearIdsRecursively(data);
 		
 		//Clear the references
@@ -47,7 +49,8 @@ public class ModifyCreditCourseProposalManager{
         		clearStatementIds(rule.getStatementVO());
         	}
         }
-		//TODO add any additional data that defines this as a copy, or add clu-clu 
+	
+    	//TODO add any additional data that defines this as a copy, or add clu-clu 
 		//relations to link this to the original
 		
         //Resave the data and return with new ids
@@ -55,7 +58,10 @@ public class ModifyCreditCourseProposalManager{
     	return savedCopy.getValue();
 	}
 	
-    private void clearStatementIds(StatementVO stmt) {
+
+
+	private void clearStatementIds(StatementVO stmt) {
+		//Clear out any ids that are statements
 		for(ReqComponentVO reqComp: stmt.getAllReqComponentVOs()){
 			reqComp.setId(null);
 			reqComp.getReqComponentInfo().setId(null);
@@ -69,17 +75,25 @@ public class ModifyCreditCourseProposalManager{
 	}
 
 	private void clearIdsRecursively(Data data){
+		//Set runtime create to true
+    	AssemblerUtils.setCreated(data, true);
+		
+    	//Loop through all properties
     	for(Iterator<Property> i=data.iterator();i.hasNext();){
+    		
     		Property prop = i.next();
+    		
     		//recurse through any nested maps
-    		if(prop.getValueType().isAssignableFrom(Data.class)){
+    		if(prop.getValueType().isAssignableFrom(Data.class)&&!"_runtimeData".equals(prop.getKey())){
     			clearIdsRecursively((Data)prop.getValue());
     		}
+    		
     		//Clear out any id fields
     		if( prop.getKey() instanceof String && "id".equals(prop.getKey())){
     			data.set(prop.getWrappedKey(), (String)null);
     		}
     	}
+    	
     }
 
 	public Assembler<Data, Void> getCreditCourseProposalAssembler() {

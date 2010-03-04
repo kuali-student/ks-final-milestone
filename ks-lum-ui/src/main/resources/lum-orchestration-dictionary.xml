@@ -1161,10 +1161,11 @@
 							<property name="name" value="Org Type" />
 							<property name="desc" value="Type of an organization." />						
 							<property name="writeAccess" value="NEVER" />
-							<property name="defaultValue">
-								<bean parent="datatype.StringValue">
-									<property name="value" value="kuali.org.Department" />
-								</bean>
+							<property name="defaultValueList">
+								<list>
+									<value>kuali.org.Department</value>
+									<value>kuali.org.College</value>
+								</list>
 							</property>										
 							<property name="caseSensitive" value="true" />
 						</bean>
@@ -1258,10 +1259,11 @@
 								<property name="desc" value="Type of an organization."/>
 								<property name="dataType" value="STRING"/>								
 								<property name="writeAccess" value="NEVER"/>
-								<property name="defaultValue">
-									<bean parent="datatype.StringValue">
-										<property name="value" value="kuali.org.Department" />
-									</bean>
+								<property name="defaultValueList">
+									<list>
+										<value>kuali.org.Department</value>
+										<value>kuali.org.College</value>
+									</list>
 								</property>									
 								<property name="optional" value="true"/>
 								<property name="caseSensitive" value="true"/>
@@ -3075,10 +3077,11 @@
 							<property name="name" value="Org Type" />
 							<property name="desc" value="Type of an organization." />						
 							<property name="writeAccess" value="NEVER" />
-							<property name="defaultValue">
-								<bean parent="datatype.StringValue">
-									<property name="value" value="kuali.org.Department" />
-								</bean>
+							<property name="defaultValueList">
+								<list>
+									<value>kuali.org.Department</value>
+									<value>kuali.org.College</value>
+								</list>
 							</property>										
 							<property name="caseSensitive" value="true" />
 						</bean>
@@ -3173,10 +3176,11 @@
 								<property name="desc" value="Type of an organization."/>
 								<property name="dataType" value="STRING"/>								
 								<property name="writeAccess" value="NEVER"/>
-								<property name="defaultValue">
-									<bean parent="datatype.StringValue">
-										<property name="value" value="kuali.org.Department" />
-									</bean>
+								<property name="defaultValueList">
+									<list>
+										<value>kuali.org.Department</value>
+										<value>kuali.org.College</value>
+									</list>
 								</property>									
 								<property name="optional" value="true"/>
 								<property name="caseSensitive" value="true"/>
@@ -3513,10 +3517,11 @@
 							<property name="name" value="Org Type" />
 							<property name="desc" value="Type of an organization." />						
 							<property name="writeAccess" value="NEVER" />
-							<property name="defaultValue">
-								<bean parent="datatype.StringValue">
-									<property name="value" value="kuali.org.Department" />
-								</bean>
+							<property name="defaultValueList">
+								<list>
+									<value>kuali.org.Department</value>
+									<value>kuali.org.College</value>
+								</list>
 							</property>										
 							<property name="caseSensitive" value="true" />
 						</bean>
@@ -3611,10 +3616,11 @@
 								<property name="desc" value="Type of an organization."/>
 								<property name="dataType" value="STRING"/>								
 								<property name="writeAccess" value="NEVER"/>
-								<property name="defaultValue">
-									<bean parent="datatype.StringValue">
-										<property name="value" value="kuali.org.Department" />
-									</bean>
+								<property name="defaultValueList">
+									<list>
+										<value>kuali.org.Department</value>
+										<value>kuali.org.College</value>
+									</list>
 								</property>									
 								<property name="optional" value="true"/>
 								<property name="caseSensitive" value="true"/>
@@ -4468,11 +4474,7 @@
 							<property name="name" value="Lu Type" />
 							<property name="desc" value="Type of a learning unit" />						
 							<property name="writeAccess" value="NEVER" />
-							<property name="defaultValue">
-								<bean parent="datatype.StringValue">
-									<property name="value" value="kuali.lu.type.CreditCourse" />
-								</bean>
-							</property>										
+							<property name="defaultValueString" value="kuali.lu.type.CreditCourse" />
 							<property name="caseSensitive" value="true" />
 						</bean>
 					</list>
@@ -4555,11 +4557,7 @@
 								<property name="desc" value="Type of a course"/>
 								<property name="dataType" value="STRING"/>								
 								<property name="writeAccess" value="NEVER"/>
-								<property name="defaultValue">
-									<bean parent="datatype.StringValue">
-										<property name="value" value="kuali.lu.type.CreditCourse" />
-									</bean>
-								</property>									
+								<property name="defaultValueString" value="kuali.lu.type.CreditCourse" />
 								<property name="optional" value="true"/>
 								<property name="caseSensitive" value="true"/>
 							</bean>
