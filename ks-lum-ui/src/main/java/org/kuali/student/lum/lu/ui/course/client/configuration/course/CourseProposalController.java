@@ -16,6 +16,8 @@ package org.kuali.student.lum.lu.ui.course.client.configuration.course;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.application.ViewContext;
+import org.kuali.student.common.ui.client.application.ViewContext.IdType;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
@@ -48,10 +50,8 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
-import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseReqSummaryHolder;
-import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LuConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
@@ -70,49 +70,33 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  *
  */
 public class CourseProposalController extends TabbedSectionLayout implements RequiresAuthorization { 
-    private final DataModel cluProposalModel = new DataModel(); 
+
+	//RPC Services
+	CreditCourseProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CreditCourseProposalRpcService.class);
+	
+	//Models
+	private final DataModel cluProposalModel = new DataModel(); 
     private Collaborators.CollaboratorModel collaboratorModel;
     
     private WorkQueue modelRequestQueue;
 
-	private String docId = null;
-	private String proposalType = null;
-	private String cluType = "kuali.lu.type.CreditCourse";
-	private SaveActionEvent currentSaveEvent = null;
-    private boolean processingSave = false;
-    private String proposalId = null;
-	
-	private final String CLU_PROPOSAL_ID_KEY   = "proposal/id";
-	private final String CLU_PROPOSAL_NAME_KEY = "proposal/title";
-
-	private String PROPOSAL_STATE = "draft.private";	
-	private final String CLU_STATE = "draft";
-	
-	private final String REFERENCE_TYPE = "referenceType.clu";
+    private ViewContext context;
+    			
 	private boolean initialized = false;
-	CreditCourseProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CreditCourseProposalRpcService.class);
 	
-	final KSLightBox progressWindow = new KSLightBox();
-
-    
+	private final KSLightBox progressWindow = new KSLightBox();
         
     public CourseProposalController(){
         super(CourseProposalController.class.getName());
+        this.context = new ViewContext();
         initialize();
     }
-    public CourseProposalController(String proposalType, String cluType){
+
+    public CourseProposalController(ViewContext viewContext){
         super(CourseProposalController.class.getName());
-    	this.proposalType = proposalType;
-    	this.cluType = cluType;        
+        this.context = viewContext;
         initialize();
     }
-    public CourseProposalController(String proposalType, String cluType, String docId) {
-        super(CourseProposalController.class.getName());
-    	this.docId = docId;   	
-    	this.proposalType = proposalType;
-    	this.cluType = cluType;
-        initialize();
-	}
     
     private void initialize() {
         super.setDefaultModelId(CourseConfigurer.CLU_PROPOSAL_MODEL);
@@ -128,9 +112,9 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
                     @Override
                     public void exec(Callback<Boolean> workCompleteCallback) {
                         if (cluProposalModel.getRoot() == null || cluProposalModel.getRoot().size() == 0){
-                            if(docId!=null){
+                            if(context.getIdType() == IdType.DOCUMENT_ID){
                                 getCluProposalFromWorkflowId(callback, workCompleteCallback);
-                            } else if (proposalId != null){
+                            } else if (context.getIdType() == IdType.PROPOSAL_ID){
                                 getCluProposalFromProposalId(callback, workCompleteCallback);
                             } else{
                                 createNewCluProposalModel(callback, workCompleteCallback);
@@ -202,28 +186,15 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
     		onReadyCallback.exec(true);
     	} else {
     		progressWindow.show();
-    		String metaDocId = "";
-    		String idType = "";
-    		// FIXME: remove hard coded strings below for KIM constants
-    		if (docId != null){
-    			idType = "documentNumber";
-    			metaDocId = docId;
-    		} else if (proposalId != null){
-    			idType = "proposalId";
-    			metaDocId = proposalId;
-    		}
-    		
-	        cluProposalRpcServiceAsync.getMetadata(idType, metaDocId,  
+	        cluProposalRpcServiceAsync.getMetadata(context.getIdType().toString(), context.getId(),  
 	                new AsyncCallback<Metadata>(){
-	
-	                    @Override
-	                    public void onFailure(Throwable caught) {
+
+	        	public void onFailure(Throwable caught) {
 	                    	onReadyCallback.exec(false);
 	                    	progressWindow.hide();
 	                        throw new RuntimeException("Failed to get model definition.", caught);                        
 	                    }
 	
-	                    @Override
 	                    public void onSuccess(Metadata result) {
 	                    	DataModelDefinition def = new DataModelDefinition(result);
 	                        cluProposalModel.setDefinition(def);
@@ -232,24 +203,17 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
 	                        onReadyCallback.exec(true);
 	                        progressWindow.hide();
 	                    }                
-	            });
-	        
+	            });	        
     	}
     }
+    
     private void init(DataModelDefinition modelDefinition){
         
+    	//FIXME: This needs to be able to use a different configurer
         CourseConfigurer cfg = new CourseConfigurer();
         cfg.setModelDefinition(modelDefinition);
         cfg.configureCourseProposal(this);
-        
-/*
-        else if (proposalType == LUConstants.PROPOSAL_TYPE_PROGRAM_CREATE) { 
-        	proposalType = LUConstants.PROPOSAL_TYPE_COURSE_CREATE; //FIXME: remove when we have programs in dictionary...
-        	cluType = LUConstants.CLU_TYPE_CREDIT_COURSE; //FIXME: remove when we have programs in dictionary...
-        	CourseConfigurer.configureProgramProposal(this, objectKey, typeKey, stateKey);
-        }
-*/        
-        
+               
         if (!initialized){
 	        addButton("Edit Proposal", getSaveButton());
 	        addButton("Edit Proposal", getQuitButton());
@@ -261,29 +225,6 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
 	                doSaveAction(saveAction);
 	            }            
 	        });
-	        
-/*	        addApplicationEventHandler(ValidateResultEvent.TYPE, new ValidateResultHandler() {
-	            @Override
-	            public void onValidateResult(ValidateResultEvent event) {
-	            	if(processingSave){
-	            		List<ValidationResultContainer> list = event.getValidationResult();
-	            		ErrorLevel errorLevel = checkForErrors(list);
-	            		if(errorLevel.equals(ErrorLevel.ERROR)){
-	            			//TODO replace with a ks modal
-	            			Window.alert("Validation failed.  The proposal could not be saved.  Please check fields for errors.");
-	            		}
-	            		else if(errorLevel.equals(ErrorLevel.WARN)){
-	            			//TODO do something else for warning level?
-	            			saveProposalClu(currentSaveEvent);
-	            		}
-	            		else{
-	            			saveProposalClu(currentSaveEvent);
-	            		}
-	            		processingSave = false;
-	            		currentSaveEvent = null;
-	            	}
-	            }
-	        });*/
         }
         
         initialized = true;
@@ -294,14 +235,11 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
      */
     @Override
     public Class<? extends Enum<?>> getViewsEnum() {
-        return LuConfigurer.LuSections.class;
-    }
-
-   
-
+        return CourseConfigurer.CourseSections.class;
+    }   
     
-    @SuppressWarnings("unchecked")
     @Override
+    @SuppressWarnings("unchecked")
     public void requestModel(Class modelType, final ModelRequestCallback callback) {
         if(modelType == ReferenceModel.class){
         	if (cluProposalModel != null){
@@ -310,14 +248,13 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
         		//FIXME: test code
         		if(cluProposalModel.get("proposal/id") != null){
             		ref.setReferenceId((String)cluProposalModel.get("proposal/id"));
-        		}
-        		else{
+        		} else {
         			ref.setReferenceId(null);
         		}
         		
-        		ref.setReferenceTypeKey(REFERENCE_TYPE);
-        		ref.setReferenceType(cluType);
-        		ref.setReferenceState(CLU_STATE);
+        		ref.setReferenceTypeKey(CourseConfigurer.REFERENCE_TYPE_KEY);
+        		ref.setReferenceType(CourseConfigurer.REFERENCE_TYPE);
+        		ref.setReferenceState(context.getState());
         		
         		callback.onModelReady(ref);
         	}
@@ -328,28 +265,27 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
         		collaboratorModel = new Collaborators.CollaboratorModel();
         	}
         	String proposalId="";
-        	if(cluProposalModel!=null && cluProposalModel.get(CLU_PROPOSAL_ID_KEY)!=null){
-        		proposalId=cluProposalModel.get(CLU_PROPOSAL_ID_KEY);
+        	if(cluProposalModel!=null && cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH)!=null){
+        		proposalId=cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH);
         	}
         	collaboratorModel.setProposalId(proposalId);    
         	callback.onModelReady(collaboratorModel);
-        }else if (modelType == LuData.class){
+        } else if (modelType == LuData.class){
         	requestModel(CourseConfigurer.CLU_PROPOSAL_MODEL, callback);
-        } else /*
-        */ {
+        } else {
             super.requestModel(modelType, callback);
         }
-        LoInfo lo = new LoInfo();
+
     }
     
     @SuppressWarnings("unchecked")        
     private void getCluProposalFromWorkflowId(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
        
-        cluProposalRpcServiceAsync.getDataFromWorkflowId(docId, new AsyncCallback<Data>(){
+        cluProposalRpcServiceAsync.getDataFromWorkflowId(context.getId(), new AsyncCallback<Data>(){
 
             @Override
             public void onFailure(Throwable caught) {
-                Window.alert("Error loading Proposal from docId: "+docId+". "+caught.getMessage());
+                Window.alert("Error loading Proposal from docId: "+context.getId()+". "+caught.getMessage());
                 createNewCluProposalModel(callback, workCompleteCallback);
                 progressWindow.hide();
 
@@ -370,7 +306,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
     @SuppressWarnings("unchecked")    
     private void getCluProposalFromProposalId(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
     	progressWindow.show();
-    	cluProposalRpcServiceAsync.getData(proposalId, new AsyncCallback<Data>(){
+    	cluProposalRpcServiceAsync.getData(context.getId(), new AsyncCallback<Data>(){
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -399,13 +335,10 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
 
     
     public void doSaveAction(final SaveActionEvent saveActionEvent){       
-    	currentSaveEvent = saveActionEvent;
-    	if(CourseProposalController.this.isStartSectionShowing()){
+    	if (CourseProposalController.this.isStartSectionShowing()){
     		getStartSection().updateModel();
-    	}
-    	else{
+    	} else{
     		getCurrentView().updateModel();
-            //CourseProposalController.this.updateModel();
     	}
     	
         requestModel(new ModelRequestCallback<DataModel>() {
@@ -435,7 +368,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
                     	}
                     	
                     	if(save){
-                            String proposalName = cluProposalModel.get(CLU_PROPOSAL_NAME_KEY);
+                            String proposalName = cluProposalModel.get(CourseConfigurer.PROPOSAL_TITLE_PATH);
                             if (proposalName == null && !CourseProposalController.this.isStartSectionShowing()){
                                 showStartSection(NO_OP_CALLBACK);
                             }
@@ -499,71 +432,44 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
         	
         };
         try {
-//	        if(cluProposalModel.get().get("proposal/id") == null){
-	        	// FIXME wilj: find out if/why curriculum oversight retrieving/saving wrong org and admin org is not saving at all
-	            cluProposalRpcServiceAsync.saveData(cluProposalModel.getRoot(), new AsyncCallback<DataSaveResult>(){
-	                public void onFailure(Throwable caught) {
-	                   saveFailedCallback.exec(caught);                 
-	                }
-	
-	                public void onSuccess(DataSaveResult result) {
-	                	// FIXME needs to check validation results and display messages if validation failed
-	    				cluProposalModel.setRoot(result.getValue());
-	    	            View currentView = getCurrentView(); 
-	    				if (currentView instanceof VerticalSectionView){
-	    	            	((VerticalSectionView) currentView).redraw();
-	    	            }
-	    				if (saveActionEvent.isAcknowledgeRequired()){
-	                        saveMessage.setText("Save Successful");
-	                        buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
-	                    } else {
-	                        saveWindow.hide();
-	                        saveActionEvent.doActionComplete();                        
-	                    }                    
-	                }
-	            });
-//	        }
+            cluProposalRpcServiceAsync.saveData(cluProposalModel.getRoot(), new AsyncCallback<DataSaveResult>(){
+                public void onFailure(Throwable caught) {
+                   saveFailedCallback.exec(caught);                 
+                }
+
+                public void onSuccess(DataSaveResult result) {
+                	// FIXME needs to check validation results and display messages if validation failed
+    				cluProposalModel.setRoot(result.getValue());
+    	            View currentView = getCurrentView(); 
+    				if (currentView instanceof VerticalSectionView){
+    	            	((VerticalSectionView) currentView).redraw();
+    	            }
+    				if (saveActionEvent.isAcknowledgeRequired()){
+                        saveMessage.setText("Save Successful");
+                        buttonGroup.getButton(OkEnum.Ok).setEnabled(true);
+                    } else {
+                        saveWindow.hide();
+                        saveActionEvent.doActionComplete();                        
+                    }                    
+                }
+            });
         } catch (Exception e) {
         	saveFailedCallback.exec(e);
         }
 
     }
-
     
-
-    public String getDocId() {
-        return docId;
-    }
-
-
-    public void setDocId(String docId) {
-        this.docId = docId;
-        this.proposalId = null;
-        this.cluProposalModel.setRoot(new LuData());
-    }
-
-
-    public String getProposalId() {
-        return proposalId;
-    }
-
-
-    public void setProposalId(String proposalId) {
-        this.proposalId = proposalId;
-        this.docId = null;
-        this.cluProposalModel.setRoot(new LuData());        
+    public void setContext(ViewContext viewContext){
+    	clear();
+    	this.context = viewContext;
     }
     
-    public void clear(String proposalType, String cluType){
+    public void clear(){
         super.clear();
-        this.proposalType = proposalType;
-        this.cluType = cluType;
+        this.context = new ViewContext();
         if (cluProposalModel != null){
             this.cluProposalModel.setRoot(new LuData());            
         }
-        this.setModelDTO(null, null);
-        this.docId = null;
-        this.proposalId = null;
     }
     
 	
@@ -585,9 +491,9 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
 	private void doShowDefaultView(final Callback<Boolean> onReadyCallback) {
 		super.showDefaultView(onReadyCallback);
 	}
-    @Override
+    
+	@Override
     public void setParentController(Controller controller) {
-        // TODO Auto-generated method stub
         super.setParentController(controller);
         if (CourseReqSummaryHolder.getView() != null) {
             CourseReqSummaryHolder.getView().setTheController(controller);

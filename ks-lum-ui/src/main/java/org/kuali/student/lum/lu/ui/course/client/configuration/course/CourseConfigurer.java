@@ -43,10 +43,6 @@ import org.kuali.student.common.ui.client.widgets.search.AdvancedSearchWindow;
 import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.dto.SearchResultRow;
-import org.kuali.student.core.search.dto.SortDirection;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityConstants;
@@ -64,9 +60,7 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.LearningObj
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.removeinm4.LOBuilderBinding;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRequisitesSectionView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
-import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LuConfigurer.LuSections;
 import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer;
-import org.kuali.student.lum.lu.ui.course.client.widgets.AssemblerTestSection;
 import org.kuali.student.lum.lu.ui.course.client.widgets.AtpPicker;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
 import org.kuali.student.lum.lu.ui.course.client.widgets.LOBuilder;
@@ -76,8 +70,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -112,7 +104,17 @@ public class CourseConfigurer
     private boolean WITH_DIVIDER = true;
     private boolean NO_DIVIDER = false;
 
-    public static final String CLU_PROPOSAL_MODEL = "cluProposalModel";
+    public static final String CLU_PROPOSAL_MODEL	= "cluProposalModel";
+    public static final String PROPOSAL_ID_PATH		= "proposal/id";
+    public static final String PROPOSAL_TITLE_PATH	= "proposal/title";
+    public static final String REFERENCE_TYPE_KEY	= "referenceType.clu";
+    public static final String REFERENCE_TYPE 		= "kuali.lu.type.CreditCourse";
+
+    public enum CourseSections{
+        CLU_BEGIN, AUTHOR, SUMMARY, GOVERNANCE, COURSE_LOGISTICS, COURSE_INFO, LEARNING_OBJECTIVES,
+        COURSE_REQUISITES, ACTIVE_DATES, FINANCIALS, ATTACHMENTS, COMMENTS, DOCUMENTS,
+        PROGRAM_INFO, ASSEMBLER_TEST
+    }
 
     private DataModelDefinition modelDefinition;
 
@@ -137,12 +139,12 @@ public class CourseConfigurer
         //layout.addSection(new String[] {"Assembler Test"}, new AssemblerTestSection(LuSections.ASSEMBLER_TEST, "Assembler Test"));
 
         layout.addTool(new CollaboratorTool());
-        layout.addTool(new CommentPanel(LuSections.COMMENTS, LUConstants.TOOL_COMMENTS));
-        layout.addTool(new DocumentTool(LuSections.DOCUMENTS, LUConstants.TOOL_DOCUMENTS));
+        layout.addTool(new CommentPanel(CourseSections.COMMENTS, LUConstants.TOOL_COMMENTS));
+        layout.addTool(new DocumentTool(CourseSections.DOCUMENTS, LUConstants.TOOL_DOCUMENTS));
     }
 
     public SectionView generateSummarySection(){
-        VerticalSectionView section = initSectionView(LuSections.SUMMARY, LUConstants.SUMMARY_LABEL_KEY);
+        VerticalSectionView section = initSectionView(CourseSections.SUMMARY, LUConstants.SUMMARY_LABEL_KEY);
 
         section.addSection(generateSummaryBrief(getH3Title(LUConstants.BRIEF_LABEL_KEY)));
         section.addSection(generateSummaryDetails(getH3Title(LUConstants.FULL_VIEW_LABEL_KEY)));
@@ -179,7 +181,7 @@ public class CourseConfigurer
     }
 
     public void addCluStartSection(ConfigurableLayout layout){
-        VerticalSectionView section = initSectionView(LuSections.CLU_BEGIN, LUConstants.START_LABEL_KEY);
+        VerticalSectionView section = initSectionView(CourseSections.CLU_BEGIN, LUConstants.START_LABEL_KEY);
 
         addField(section, PROPOSAL + "/" + TITLE , getLabel(LUConstants.PROPOSAL_TITLE_LABEL_KEY));
         //This will need to be a person picker
@@ -195,14 +197,14 @@ public class CourseConfigurer
      * @return
      */
     private SectionView generateCourseRequisitesSection() {
-        CourseRequisitesSectionView section = new CourseRequisitesSectionView(LuSections.COURSE_REQUISITES, getLabel(LUConstants.REQUISITES_LABEL_KEY));
+        CourseRequisitesSectionView section = new CourseRequisitesSectionView(CourseSections.COURSE_REQUISITES, getLabel(LUConstants.REQUISITES_LABEL_KEY));
         section.setSectionTitle(SectionTitle.generateH1Title(getLabel(LUConstants.REQUISITES_LABEL_KEY)));
         addField(section, SEARCH + "/" + "findCourse");
         return section;
     }
 
     private SectionView generateActiveDatesSection() {
-        VerticalSectionView section = initSectionView(LuSections.ACTIVE_DATES, LUConstants.ACTIVE_DATES_LABEL_KEY);
+        VerticalSectionView section = initSectionView(CourseSections.ACTIVE_DATES, LUConstants.ACTIVE_DATES_LABEL_KEY);
 
         section.addSection(generateActiveDateStartSection());
         section.addSection(generateActiveDateEndSection());
@@ -223,7 +225,7 @@ public class CourseConfigurer
 	}
 
 	private SectionView generateFinancialsSection() {
-        VerticalSectionView section = initSectionView(LuSections.FINANCIALS, LUConstants.FINANCIALS_LABEL_KEY);
+        VerticalSectionView section = initSectionView(CourseSections.FINANCIALS, LUConstants.FINANCIALS_LABEL_KEY);
 
         //TODO ALL KEYS in this section are place holders until we know actual keys
         section.addSection(generateFeeTypeSection());
@@ -253,35 +255,17 @@ public class CourseConfigurer
 	}
 
 	public SectionView generateGovernanceSection(){
-        VerticalSectionView section = initSectionView(LuSections.GOVERNANCE, LUConstants.GOVERNANCE_LABEL_KEY);
+        VerticalSectionView section = initSectionView(CourseSections.GOVERNANCE, LUConstants.GOVERNANCE_LABEL_KEY);
 
-        section.addSection(generateOversightSection());
-        section.addSection(generateCampusSection());
-        section.addSection(generateAdminOrgsSection());
+        addField(section, COURSE + "/" + ACADEMIC_SUBJECT_ORGS, getLabel(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY));
+        addField(section, COURSE + "/" + CAMPUS_LOCATIONS, getLabel(LUConstants.CAMPUS_LOCATION_LABEL_KEY), new CampusLocationList());
+        addField(section, COURSE + "/" + DEPARTMENT, getLabel(LUConstants.ADMIN_ORG_LABEL_KEY));
 
         return section;
     }
 
-    private VerticalSection generateOversightSection() {
-        VerticalSection oversight = initSection(getH3Title(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY), WITH_DIVIDER);
-        addField(oversight, COURSE + "/" + ACADEMIC_SUBJECT_ORGS);
-        return oversight;
-	}
-
-	private VerticalSection generateCampusSection() {
-        VerticalSection campus = initSection(getH3Title(LUConstants.CAMPUS_LOCATION_LABEL_KEY), WITH_DIVIDER);
-        addField(campus, COURSE + "/" + CAMPUS_LOCATIONS, null, new CampusLocationList());
-        return campus;
-	}
-
-	private VerticalSection generateAdminOrgsSection() {
-        VerticalSection adminOrgs = initSection(getH3Title(LUConstants.ADMIN_ORG_LABEL_KEY), WITH_DIVIDER);
-        addField(adminOrgs, COURSE + "/" + DEPARTMENT);
-        return adminOrgs;
-	}
-
 	public SectionView generateCourseInfoSection(){
-        VerticalSectionView section = initSectionView(LuSections.COURSE_INFO, LUConstants.INFORMATION_LABEL_KEY);
+        VerticalSectionView section = initSectionView(CourseSections.COURSE_INFO, LUConstants.INFORMATION_LABEL_KEY);
 
         //FIXME: Label should be key to messaging, field type should come from dictionary?
 
@@ -368,7 +352,7 @@ public class CourseConfigurer
 	}
 
     public SectionView generateCourseLogisticsSection() {
-        VerticalSectionView section = initSectionView(LuSections.COURSE_LOGISTICS, LUConstants.LOGISTICS_LABEL_KEY);
+        VerticalSectionView section = initSectionView(CourseSections.COURSE_LOGISTICS, LUConstants.LOGISTICS_LABEL_KEY);
 
 //      instructors.addField(new FieldDescriptor("cluInfo/instructors", null, Type.LIST, new AlternateInstructorList()));
 //        //CREDITS
@@ -436,7 +420,7 @@ public class CourseConfigurer
     }
 
     private SectionView generateLearningObjectivesSection() {
-        VerticalSectionView section = initSectionView(LuSections.LEARNING_OBJECTIVES, LUConstants.LEARNING_OBJECTIVES_LABEL_KEY);
+        VerticalSectionView section = initSectionView(CourseSections.LEARNING_OBJECTIVES, LUConstants.LEARNING_OBJECTIVES_LABEL_KEY);
         section.addSection(generateLearningObjectivesNestedSection());
         return section;
     }
@@ -918,13 +902,13 @@ public class CourseConfigurer
         layout.addSection(new String[] {getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateProgramInfoSection());
 
         layout.addTool(new CollaboratorTool());
-        layout.addTool(new CommentPanel(LuSections.COMMENTS, LUConstants.TOOL_COMMENTS));
-        layout.addTool(new DocumentTool(LuSections.DOCUMENTS, LUConstants.TOOL_DOCUMENTS));
+        layout.addTool(new CommentPanel(CourseSections.COMMENTS, LUConstants.TOOL_COMMENTS));
+        layout.addTool(new DocumentTool(CourseSections.DOCUMENTS, LUConstants.TOOL_DOCUMENTS));
     }
 
 
     public SectionView generateProgramInfoSection(){
-        VerticalSectionView section = initSectionView(LuSections.PROGRAM_INFO, LUConstants.INFORMATION_LABEL_KEY);
+        VerticalSectionView section = initSectionView(CourseSections.PROGRAM_INFO, LUConstants.INFORMATION_LABEL_KEY);
         section.addSection(generateShortTitleSection());
         return section;
     }
@@ -937,7 +921,7 @@ public class CourseConfigurer
 
 	public class CollaboratorTool extends ToolView{
         public CollaboratorTool(){
-            super(LuSections.AUTHOR, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS);
+            super(CourseSections.AUTHOR, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS);
         }
 
         @Override

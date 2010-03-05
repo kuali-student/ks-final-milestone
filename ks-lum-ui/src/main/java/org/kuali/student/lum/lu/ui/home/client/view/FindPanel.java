@@ -16,8 +16,9 @@ package org.kuali.student.lum.lu.ui.home.client.view;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.application.ViewContext;
+import org.kuali.student.common.ui.client.application.ViewContext.IdType;
 import org.kuali.student.common.ui.client.event.ChangeViewActionEvent;
-import org.kuali.student.common.ui.client.event.ChangeViewActionEvent.ViewDetail;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
@@ -142,8 +143,10 @@ public class FindPanel extends ViewComposite{
         courseSearchWindow.addSelectionCompleteCallback(new Callback<List<SelectedResults>>(){
             public void exec(List<SelectedResults> results) {
                 if (results.size() > 0){
-                	ViewDetail viewDetail = new ViewDetail(results.get(0).getReturnKey());                	
-                    FindPanel.this.getController().fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.VIEW_COURSE, viewDetail));
+                	ViewContext viewContext = new ViewContext();
+                	viewContext.setId(results.get(0).getReturnKey());
+                	viewContext.setIdType(IdType.OBJECT_ID);
+                    FindPanel.this.getController().fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.VIEW_COURSE, viewContext));
                     courseSearchWindow.hide();
                 }                
             }            
@@ -157,8 +160,10 @@ public class FindPanel extends ViewComposite{
             public void onSelection(SelectionEvent<List<String>> event) {
                 final List<String> selected = event.getSelectedItem();
                 if (selected.size() > 0){
-                	ViewDetail viewDetail = new ViewDetail(selected.get(0));
-                    FindPanel.this.getController().fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.EDIT_COURSE_PROPOSAL, viewDetail));
+                	ViewContext viewContext = new ViewContext();
+                	viewContext.setId(selected.get(0));
+                	viewContext.setIdType(IdType.PROPOSAL_ID);
+                    FindPanel.this.getController().fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.EDIT_COURSE_PROPOSAL, viewContext));
                     proposalSearchWindow.hide();
                 }                
             }            
