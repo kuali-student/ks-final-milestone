@@ -30,6 +30,8 @@
 		/**
 		* Set Field Value
 		*
+		* Type: string
+		*
 		* The value for this field.
 		*/
 		@Override
@@ -40,6 +42,8 @@
 		
 		/**
 		* Get Field Value
+		*
+		* Type: string
 		*
 		* The value for this field.
 		*/
@@ -54,6 +58,8 @@
 		/**
 		* Set Field Identifier
 		*
+		* Type: string
+		*
 		* The identifier for this field.
 		*/
 		@Override
@@ -64,6 +70,8 @@
 		
 		/**
 		* Get Field Identifier
+		*
+		* Type: string
 		*
 		* The identifier for this field.
 		*/

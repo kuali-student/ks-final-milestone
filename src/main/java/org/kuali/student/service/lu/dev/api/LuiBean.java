@@ -32,6 +32,8 @@
 		/**
 		* Set LUI Code
 		*
+		* Type: string
+		*
 		* Code identifier/name for the LUI. This is typically used in human readable form 
 		* (e.g. ENGL 100 section 123).
 		*/
@@ -43,6 +45,8 @@
 		
 		/**
 		* Get LUI Code
+		*
+		* Type: string
 		*
 		* Code identifier/name for the LUI. This is typically used in human readable form 
 		* (e.g. ENGL 100 section 123).
@@ -58,6 +62,8 @@
 		/**
 		* Set CLU Identifier
 		*
+		* Type: cluId
+		*
 		* Unique identifier for a Canonical Learning Unit (CLU).
 		*/
 		@Override
@@ -68,6 +74,8 @@
 		
 		/**
 		* Get CLU Identifier
+		*
+		* Type: cluId
 		*
 		* Unique identifier for a Canonical Learning Unit (CLU).
 		*/
@@ -82,6 +90,8 @@
 		/**
 		* Set ATP Identifier
 		*
+		* Type: atpKey
+		*
 		* Unique identifier for an Academic Time Period (ATP).
 		*/
 		@Override
@@ -92,6 +102,8 @@
 		
 		/**
 		* Get ATP Identifier
+		*
+		* Type: atpKey
 		*
 		* Unique identifier for an Academic Time Period (ATP).
 		*/
@@ -106,6 +118,8 @@
 		/**
 		* Set Maximum Number of Seats
 		*
+		* Type: integer
+		*
 		* Maximum number of "seats" that the LUI will hold for registration.
 		*/
 		@Override
@@ -116,6 +130,8 @@
 		
 		/**
 		* Get Maximum Number of Seats
+		*
+		* Type: integer
 		*
 		* Maximum number of "seats" that the LUI will hold for registration.
 		*/
@@ -130,6 +146,8 @@
 		/**
 		* Set Effective Date
 		*
+		* Type: dateTime
+		*
 		* Date and time that this LUI became effective. This is a similar concept to the 
 		* effective date on enumerated values. When an expiration date has been specified, 
 		* this field must be less than or equal to the expiration date.
@@ -142,6 +160,8 @@
 		
 		/**
 		* Get Effective Date
+		*
+		* Type: dateTime
 		*
 		* Date and time that this LUI became effective. This is a similar concept to the 
 		* effective date on enumerated values. When an expiration date has been specified, 
@@ -158,6 +178,8 @@
 		/**
 		* Set Expiration Date
 		*
+		* Type: dateTime
+		*
 		* Date and time that this LUI expires. This is a similar concept to the expiration 
 		* date on enumerated values. If specified, this should be greater than or equal to 
 		* the effective date. If this field is not specified, then no expiration date has 
@@ -172,6 +194,8 @@
 		
 		/**
 		* Get Expiration Date
+		*
+		* Type: dateTime
 		*
 		* Date and time that this LUI expires. This is a similar concept to the expiration 
 		* date on enumerated values. If specified, this should be greater than or equal to 
@@ -190,6 +214,8 @@
 		/**
 		* Set Generic/dynamic attributes
 		*
+		* Type: attributeInfoList
+		*
 		* .
 		*/
 		@Override
@@ -200,6 +226,8 @@
 		
 		/**
 		* Get Generic/dynamic attributes
+		*
+		* Type: attributeInfoList
 		*
 		* .
 		*/
@@ -214,6 +242,8 @@
 		/**
 		* Set Create/Update meta info
 		*
+		* Type: metaInfo
+		*
 		* Create and last update info for the structure. This is optional and treated as 
 		* read only since the data is set by the internals of the service during 
 		* maintenance operations.
@@ -226,6 +256,8 @@
 		
 		/**
 		* Get Create/Update meta info
+		*
+		* Type: metaInfo
 		*
 		* Create and last update info for the structure. This is optional and treated as 
 		* read only since the data is set by the internals of the service during 
@@ -242,6 +274,8 @@
 		/**
 		* Set CLU State Identifier
 		*
+		* Type: string
+		*
 		* The current status of the LUI. The values for this field are constrained to 
 		* those in the luState enumeration. A separate setup operation does not exist for 
 		* retrieval of the meta data around this value.
@@ -254,6 +288,8 @@
 		
 		/**
 		* Get CLU State Identifier
+		*
+		* Type: string
 		*
 		* The current status of the LUI. The values for this field are constrained to 
 		* those in the luState enumeration. A separate setup operation does not exist for 
@@ -270,6 +306,8 @@
 		/**
 		* Set LUI Identifier
 		*
+		* Type: luiId
+		*
 		* This is optional, due to the identifier being set at the time of creation. Once 
 		* the LUI has been created, this should be seen as required.
 		*/
@@ -281,6 +319,8 @@
 		
 		/**
 		* Get LUI Identifier
+		*
+		* Type: luiId
 		*
 		* This is optional, due to the identifier being set at the time of creation. Once 
 		* the LUI has been created, this should be seen as required.

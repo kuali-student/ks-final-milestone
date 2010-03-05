@@ -44,7 +44,7 @@ public class CluInfoHelper
 		INTENSITY ("intensity"),
 		STD_DURATION ("stdDuration"),
 		CAN_CREATE_LUI ("canCreateLui"),
-		REFERENCE_U_R_L ("referenceURL"),
+		REFERENCE_URL ("referenceURL"),
 		LU_CODES ("luCodes"),
 		NEXT_REVIEW_PERIOD ("nextReviewPeriod"),
 		IS_ENROLLABLE ("isEnrollable"),
@@ -302,13 +302,13 @@ public class CluInfoHelper
 	
 	public void setReferenceURL (String value)
 	{
-		data.set (Properties.REFERENCE_U_R_L.getKey (), value);
+		data.set (Properties.REFERENCE_URL.getKey (), value);
 	}
 	
 	
 	public String getReferenceURL ()
 	{
-		return (String) data.get (Properties.REFERENCE_U_R_L.getKey ());
+		return (String) data.get (Properties.REFERENCE_URL.getKey ());
 	}
 	
 	

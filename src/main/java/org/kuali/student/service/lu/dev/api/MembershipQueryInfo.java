@@ -25,12 +25,16 @@ public interface MembershipQueryInfo
 	/**
 	* Set search Type Key
 	*
+	* Type: searchTypeKey
+	*
 	* Identifier for a search type.
 	*/
 	public void setSearchTypeKey(String searchTypeKey);
 	
 	/**
 	* Get search Type Key
+	*
+	* Type: searchTypeKey
 	*
 	* Identifier for a search type.
 	*/
@@ -41,6 +45,8 @@ public interface MembershipQueryInfo
 	/**
 	* Set query Parameter Value List
 	*
+	* Type: queryParamValueList
+	*
 	* List of query parameter values. Not required if the search doesn't extend beyond 
 	* the included object.
 	*/
@@ -48,6 +54,8 @@ public interface MembershipQueryInfo
 	
 	/**
 	* Get query Parameter Value List
+	*
+	* Type: queryParamValueList
 	*
 	* List of query parameter values. Not required if the search doesn't extend beyond 
 	* the included object.

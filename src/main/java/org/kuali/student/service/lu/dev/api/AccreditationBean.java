@@ -32,6 +32,8 @@
 		/**
 		* Set Organization Identifier
 		*
+		* Type: orgId
+		*
 		* Unique identifier for an organization. This organization is the body behind the 
 		* accreditation.
 		*/
@@ -43,6 +45,8 @@
 		
 		/**
 		* Get Organization Identifier
+		*
+		* Type: orgId
 		*
 		* Unique identifier for an organization. This organization is the body behind the 
 		* accreditation.
@@ -58,6 +62,8 @@
 		/**
 		* Set Effective Date
 		*
+		* Type: dateTime
+		*
 		* Date and time the accreditation became effective. This is a similar concept to 
 		* the effective date on enumerated values. When an expiration date has been 
 		* specified, this field must be less than or equal to the expiration date.
@@ -70,6 +76,8 @@
 		
 		/**
 		* Get Effective Date
+		*
+		* Type: dateTime
 		*
 		* Date and time the accreditation became effective. This is a similar concept to 
 		* the effective date on enumerated values. When an expiration date has been 
@@ -86,6 +94,8 @@
 		/**
 		* Set Expiration Date
 		*
+		* Type: dateTime
+		*
 		* Date and time that this accreditation expires. This is a similar concept to the 
 		* expiration date on enumerated values. If specified, this should be greater than 
 		* or equal to the effective date. If this field is not specified, then no 
@@ -100,6 +110,8 @@
 		
 		/**
 		* Get Expiration Date
+		*
+		* Type: dateTime
 		*
 		* Date and time that this accreditation expires. This is a similar concept to the 
 		* expiration date on enumerated values. If specified, this should be greater than 
@@ -118,6 +130,8 @@
 		/**
 		* Set Generic/dynamic attributes
 		*
+		* Type: attributeInfoList
+		*
 		* List of key/value pairs, typically used for dynamic attributes.
 		*/
 		@Override
@@ -128,6 +142,8 @@
 		
 		/**
 		* Get Generic/dynamic attributes
+		*
+		* Type: attributeInfoList
 		*
 		* List of key/value pairs, typically used for dynamic attributes.
 		*/
@@ -142,6 +158,8 @@
 		/**
 		* Set Create/Update meta info
 		*
+		* Type: metaInfo
+		*
 		* Create and last update info for the structure. This is optional and treated as 
 		* read only since the data is set by the internals of the service during 
 		* maintenance operations.
@@ -154,6 +172,8 @@
 		
 		/**
 		* Get Create/Update meta info
+		*
+		* Type: metaInfo
 		*
 		* Create and last update info for the structure. This is optional and treated as 
 		* read only since the data is set by the internals of the service during 
@@ -170,6 +190,8 @@
 		/**
 		* Set Accreditation Identifier
 		*
+		* Type: string
+		*
 		* Identifier for the accreditation.
 		*/
 		@Override
@@ -180,6 +202,8 @@
 		
 		/**
 		* Get Accreditation Identifier
+		*
+		* Type: string
 		*
 		* Identifier for the accreditation.
 		*/

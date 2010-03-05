@@ -23,12 +23,16 @@ public interface TimeAmountInfo
 	/**
 	* Set Academic Time Period Duration Type Key
 	*
+	* Type: atpDurationTypeKey
+	*
 	* The kind of units associated with the quantity, such as Semesters
 	*/
 	public void setAtpDurationTypeKey(String atpDurationTypeKey);
 	
 	/**
 	* Get Academic Time Period Duration Type Key
+	*
+	* Type: atpDurationTypeKey
 	*
 	* The kind of units associated with the quantity, such as Semesters
 	*/
@@ -39,12 +43,16 @@ public interface TimeAmountInfo
 	/**
 	* Set Time Quantity
 	*
+	* Type: integer
+	*
 	* The amount of time
 	*/
 	public void setTimeQuantity(Integer timeQuantity);
 	
 	/**
 	* Get Time Quantity
+	*
+	* Type: integer
 	*
 	* The amount of time
 	*/

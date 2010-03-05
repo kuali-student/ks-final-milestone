@@ -285,7 +285,7 @@ public class CluInfoMetadata
 		
 		// metadata for referenceURL
 		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.REFERENCE_U_R_L.getKey (), childMeta);
+		mainMeta.getProperties ().put (Properties.REFERENCE_URL.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		if (this.matches (type, state, "(default)", "(default)"))

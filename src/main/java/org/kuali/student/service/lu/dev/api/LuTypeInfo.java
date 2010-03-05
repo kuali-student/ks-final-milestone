@@ -26,12 +26,16 @@ public interface LuTypeInfo
 	/**
 	* Set Learning Unit Type Name
 	*
+	* Type: string
+	*
 	* Friendly name of the learning unit type
 	*/
 	public void setName(String name);
 	
 	/**
 	* Get Learning Unit Type Name
+	*
+	* Type: string
 	*
 	* Friendly name of the learning unit type
 	*/
@@ -42,12 +46,16 @@ public interface LuTypeInfo
 	/**
 	* Set Learning Unit Type Description
 	*
+	* Type: string
+	*
 	* Narrative description of the learning unit type
 	*/
 	public void setDesc(String desc);
 	
 	/**
 	* Get Learning Unit Type Description
+	*
+	* Type: string
 	*
 	* Narrative description of the learning unit type
 	*/
@@ -58,6 +66,8 @@ public interface LuTypeInfo
 	/**
 	* Set Instructional Format
 	*
+	* Type: instructionalFormatTypeKey
+	*
 	* Unique identifier for an instructional format type. Examples of potential 
 	* instructional formats for courses are lab, lecture, etc.
 	*/
@@ -65,6 +75,8 @@ public interface LuTypeInfo
 	
 	/**
 	* Get Instructional Format
+	*
+	* Type: instructionalFormatTypeKey
 	*
 	* Unique identifier for an instructional format type. Examples of potential 
 	* instructional formats for courses are lab, lecture, etc.
@@ -76,6 +88,8 @@ public interface LuTypeInfo
 	/**
 	* Set Delivery Method
 	*
+	* Type: deliveryMethodTypeKey
+	*
 	* Unique identifier for a delivery method type. In other avenues, this would be 
 	* described as channels or media. Examples of delivery method are face to face, 
 	* online, correspondence, etc.
@@ -84,6 +98,8 @@ public interface LuTypeInfo
 	
 	/**
 	* Get Delivery Method
+	*
+	* Type: deliveryMethodTypeKey
 	*
 	* Unique identifier for a delivery method type. In other avenues, this would be 
 	* described as channels or media. Examples of delivery method are face to face, 
@@ -96,6 +112,8 @@ public interface LuTypeInfo
 	/**
 	* Set Effective Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this learning unit type became effective. This is a similar 
 	* concept to the effective date on enumerated values. When an expiration date has 
 	* been specified, this field must be less than or equal to the expiration date.
@@ -104,6 +122,8 @@ public interface LuTypeInfo
 	
 	/**
 	* Get Effective Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this learning unit type became effective. This is a similar 
 	* concept to the effective date on enumerated values. When an expiration date has 
@@ -116,6 +136,8 @@ public interface LuTypeInfo
 	/**
 	* Set Expiration Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this learning unit type expires. This is a similar concept to 
 	* the expiration date on enumerated values. If specified, this should be greater 
 	* than or equal to the effective date. If this field is not specified, then no 
@@ -126,6 +148,8 @@ public interface LuTypeInfo
 	
 	/**
 	* Get Expiration Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this learning unit type expires. This is a similar concept to 
 	* the expiration date on enumerated values. If specified, this should be greater 
@@ -140,12 +164,16 @@ public interface LuTypeInfo
 	/**
 	* Set Generic/dynamic attributes
 	*
+	* Type: attributeInfoList
+	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
 	public void setAttributes(Map<String,String> attributes);
 	
 	/**
 	* Get Generic/dynamic attributes
+	*
+	* Type: attributeInfoList
 	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
@@ -156,12 +184,16 @@ public interface LuTypeInfo
 	/**
 	* Set Learning Unit Type Key
 	*
+	* Type: luTypeKey
+	*
 	* Unique identifier for a learning unit type.
 	*/
 	public void setKey(String key);
 	
 	/**
 	* Get Learning Unit Type Key
+	*
+	* Type: luTypeKey
 	*
 	* Unique identifier for a learning unit type.
 	*/

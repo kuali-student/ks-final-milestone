@@ -32,6 +32,8 @@
 		/**
 		* Set List of CLU Fee Records
 		*
+		* Type: cluFeeRecordInfoList
+		*
 		* List of clu fee records
 		*/
 		@Override
@@ -42,6 +44,8 @@
 		
 		/**
 		* Get List of CLU Fee Records
+		*
+		* Type: cluFeeRecordInfoList
 		*
 		* List of clu fee records
 		*/
@@ -56,6 +60,8 @@
 		/**
 		* Set Generic/dynamic attributes
 		*
+		* Type: attributeInfoList
+		*
 		* List of key/value pairs, typically used for dynamic attributes.
 		*/
 		@Override
@@ -66,6 +72,8 @@
 		
 		/**
 		* Get Generic/dynamic attributes
+		*
+		* Type: attributeInfoList
 		*
 		* List of key/value pairs, typically used for dynamic attributes.
 		*/

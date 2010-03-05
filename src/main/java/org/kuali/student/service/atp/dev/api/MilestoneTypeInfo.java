@@ -26,12 +26,16 @@ public interface MilestoneTypeInfo
 	/**
 	* Set Milestone Type Name
 	*
+	* Type: string
+	*
 	* Friendly name of the milestone type.
 	*/
 	public void setName(String name);
 	
 	/**
 	* Get Milestone Type Name
+	*
+	* Type: string
 	*
 	* Friendly name of the milestone type.
 	*/
@@ -42,12 +46,16 @@ public interface MilestoneTypeInfo
 	/**
 	* Set Milestone Type Description
 	*
+	* Type: string
+	*
 	* Narrative description of the milestone type.
 	*/
 	public void setDesc(String desc);
 	
 	/**
 	* Get Milestone Type Description
+	*
+	* Type: string
 	*
 	* Narrative description of the milestone type.
 	*/
@@ -58,6 +66,8 @@ public interface MilestoneTypeInfo
 	/**
 	* Set Effective Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this milestone type became effective. This is a similar 
 	* concept to the effective date on enumerated values. When an expiration date has 
 	* been specified, this field must be less than or equal to the expiration date.
@@ -66,6 +76,8 @@ public interface MilestoneTypeInfo
 	
 	/**
 	* Get Effective Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this milestone type became effective. This is a similar 
 	* concept to the effective date on enumerated values. When an expiration date has 
@@ -78,6 +90,8 @@ public interface MilestoneTypeInfo
 	/**
 	* Set Expiration Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this milestone type expires. This is a similar concept to the 
 	* expiration date on enumerated values. If specified, this must be greater than or 
 	* equal to the effective date. If this field is not specified, then no expiration 
@@ -88,6 +102,8 @@ public interface MilestoneTypeInfo
 	
 	/**
 	* Get Expiration Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this milestone type expires. This is a similar concept to the 
 	* expiration date on enumerated values. If specified, this must be greater than or 
@@ -102,12 +118,16 @@ public interface MilestoneTypeInfo
 	/**
 	* Set Generic/dynamic attributes
 	*
+	* Type: attributeInfoList
+	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
 	public void setAttributes(Map<String,String> attributes);
 	
 	/**
 	* Get Generic/dynamic attributes
+	*
+	* Type: attributeInfoList
 	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
@@ -118,12 +138,16 @@ public interface MilestoneTypeInfo
 	/**
 	* Set Milestone Type
 	*
+	* Type: milestoneTypeKey
+	*
 	* Unique identifier for a milestone type.
 	*/
 	public void setKey(String key);
 	
 	/**
 	* Get Milestone Type
+	*
+	* Type: milestoneTypeKey
 	*
 	* Unique identifier for a milestone type.
 	*/

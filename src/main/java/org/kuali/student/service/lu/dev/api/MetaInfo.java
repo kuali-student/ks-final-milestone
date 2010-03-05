@@ -25,6 +25,8 @@ public interface MetaInfo
 	/**
 	* Set Version Indicator
 	*
+	* Type: string
+	*
 	* An indicator of the version of the thing being described with this meta 
 	* information. This is set by the service implementation and will be used to 
 	* determine conflicts in updates.
@@ -33,6 +35,8 @@ public interface MetaInfo
 	
 	/**
 	* Get Version Indicator
+	*
+	* Type: string
 	*
 	* An indicator of the version of the thing being described with this meta 
 	* information. This is set by the service implementation and will be used to 
@@ -45,6 +49,8 @@ public interface MetaInfo
 	/**
 	* Set Date/Time Created
 	*
+	* Type: dateTime
+	*
 	* The date and time the thing being described with this meta information was 
 	* created
 	*/
@@ -52,6 +58,8 @@ public interface MetaInfo
 	
 	/**
 	* Get Date/Time Created
+	*
+	* Type: dateTime
 	*
 	* The date and time the thing being described with this meta information was 
 	* created
@@ -63,12 +71,16 @@ public interface MetaInfo
 	/**
 	* Set Created By Identifier
 	*
+	* Type: principalId
+	*
 	* The principal who created the thing being described with this meta information
 	*/
 	public void setCreateId(String createId);
 	
 	/**
 	* Get Created By Identifier
+	*
+	* Type: principalId
 	*
 	* The principal who created the thing being described with this meta information
 	*/
@@ -79,6 +91,8 @@ public interface MetaInfo
 	/**
 	* Set Date/Time Last Updated
 	*
+	* Type: dateTime
+	*
 	* The date and time the thing being described with this meta information was last 
 	* updated. This would be filled in on initial creation as well.
 	*/
@@ -86,6 +100,8 @@ public interface MetaInfo
 	
 	/**
 	* Get Date/Time Last Updated
+	*
+	* Type: dateTime
 	*
 	* The date and time the thing being described with this meta information was last 
 	* updated. This would be filled in on initial creation as well.
@@ -97,6 +113,8 @@ public interface MetaInfo
 	/**
 	* Set Updated By Identifier
 	*
+	* Type: principalId
+	*
 	* The principal who last updated the thing being described with this meta 
 	* information. This would be filled in on initial creation as well.
 	*/
@@ -104,6 +122,8 @@ public interface MetaInfo
 	
 	/**
 	* Get Updated By Identifier
+	*
+	* Type: principalId
 	*
 	* The principal who last updated the thing being described with this meta 
 	* information. This would be filled in on initial creation as well.

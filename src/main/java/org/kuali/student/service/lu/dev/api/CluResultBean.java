@@ -32,6 +32,8 @@
 		/**
 		* Set CLU Result Description
 		*
+		* Type: richTextInfo
+		*
 		* Narrative description of the CLU result.
 		*/
 		@Override
@@ -42,6 +44,8 @@
 		
 		/**
 		* Get CLU Result Description
+		*
+		* Type: richTextInfo
 		*
 		* Narrative description of the CLU result.
 		*/
@@ -56,6 +60,8 @@
 		/**
 		* Set CLU Identifier
 		*
+		* Type: cluId
+		*
 		* The cluId to which the CLU Result is linked.Unique identifier for a Canonical 
 		* Learning Unit (CLU).
 		*/
@@ -67,6 +73,8 @@
 		
 		/**
 		* Get CLU Identifier
+		*
+		* Type: cluId
 		*
 		* The cluId to which the CLU Result is linked.Unique identifier for a Canonical 
 		* Learning Unit (CLU).
@@ -82,6 +90,8 @@
 		/**
 		* Set Result Options
 		*
+		* Type: resultOptionInfoList
+		*
 		* List of learning result option information.
 		*/
 		@Override
@@ -92,6 +102,8 @@
 		
 		/**
 		* Get Result Options
+		*
+		* Type: resultOptionInfoList
 		*
 		* List of learning result option information.
 		*/
@@ -106,6 +118,8 @@
 		/**
 		* Set Effective Date
 		*
+		* Type: dateTime
+		*
 		* Date and time that this CLU result became effective. This is a similar concept 
 		* to the effective date on enumerated values. When an expiration date has been 
 		* specified, this field must be less than or equal to the expiration date.
@@ -118,6 +132,8 @@
 		
 		/**
 		* Get Effective Date
+		*
+		* Type: dateTime
 		*
 		* Date and time that this CLU result became effective. This is a similar concept 
 		* to the effective date on enumerated values. When an expiration date has been 
@@ -134,6 +150,8 @@
 		/**
 		* Set Expiration Date
 		*
+		* Type: dateTime
+		*
 		* Date and time that this CLU result expires. This is a similar concept to the 
 		* expiration date on enumerated values. If specified, this must be greater than or 
 		* equal to the effective date. If this field is not specified, then no expiration 
@@ -148,6 +166,8 @@
 		
 		/**
 		* Get Expiration Date
+		*
+		* Type: dateTime
 		*
 		* Date and time that this CLU result expires. This is a similar concept to the 
 		* expiration date on enumerated values. If specified, this must be greater than or 
@@ -166,6 +186,8 @@
 		/**
 		* Set Create/Update meta info
 		*
+		* Type: metaInfo
+		*
 		* Create and last update info for the structure. This is optional and treated as 
 		* read only since the data is set by the internals of the service during 
 		* maintenance operations.
@@ -178,6 +200,8 @@
 		
 		/**
 		* Get Create/Update meta info
+		*
+		* Type: metaInfo
 		*
 		* Create and last update info for the structure. This is optional and treated as 
 		* read only since the data is set by the internals of the service during 
@@ -194,6 +218,8 @@
 		/**
 		* Set Clu Result Type
 		*
+		* Type: cluResultTypeKey
+		*
 		* Unique identifier for a clu learning result object type.
 		*/
 		@Override
@@ -204,6 +230,8 @@
 		
 		/**
 		* Get Clu Result Type
+		*
+		* Type: cluResultTypeKey
 		*
 		* Unique identifier for a clu learning result object type.
 		*/
@@ -218,6 +246,8 @@
 		/**
 		* Set CLU Result State
 		*
+		* Type: string
+		*
 		* The current status of the CLU Result. The values for this field are constrained 
 		* to those in the cluResultState enumeration. A separate setup operation does not 
 		* exist for retrieval of the meta data around this value.
@@ -230,6 +260,8 @@
 		
 		/**
 		* Get CLU Result State
+		*
+		* Type: string
 		*
 		* The current status of the CLU Result. The values for this field are constrained 
 		* to those in the cluResultState enumeration. A separate setup operation does not 
@@ -246,6 +278,8 @@
 		/**
 		* Set CLU Result Identifier
 		*
+		* Type: cluResultId
+		*
 		* Unique identifier for a CLU result. This is optional, due to the identifier 
 		* being set at the time of creation. Once the result set has been created, this 
 		* should be seen as required.
@@ -258,6 +292,8 @@
 		
 		/**
 		* Get CLU Result Identifier
+		*
+		* Type: cluResultId
 		*
 		* Unique identifier for a CLU result. This is optional, due to the identifier 
 		* being set at the time of creation. Once the result set has been created, this 

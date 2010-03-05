@@ -26,6 +26,8 @@ public interface LuiInfo
 	/**
 	* Set LUI Code
 	*
+	* Type: string
+	*
 	* Code identifier/name for the LUI. This is typically used in human readable form 
 	* (e.g. ENGL 100 section 123).
 	*/
@@ -33,6 +35,8 @@ public interface LuiInfo
 	
 	/**
 	* Get LUI Code
+	*
+	* Type: string
 	*
 	* Code identifier/name for the LUI. This is typically used in human readable form 
 	* (e.g. ENGL 100 section 123).
@@ -44,12 +48,16 @@ public interface LuiInfo
 	/**
 	* Set CLU Identifier
 	*
+	* Type: cluId
+	*
 	* Unique identifier for a Canonical Learning Unit (CLU).
 	*/
 	public void setCluId(String cluId);
 	
 	/**
 	* Get CLU Identifier
+	*
+	* Type: cluId
 	*
 	* Unique identifier for a Canonical Learning Unit (CLU).
 	*/
@@ -60,12 +68,16 @@ public interface LuiInfo
 	/**
 	* Set ATP Identifier
 	*
+	* Type: atpKey
+	*
 	* Unique identifier for an Academic Time Period (ATP).
 	*/
 	public void setAtpKey(String atpKey);
 	
 	/**
 	* Get ATP Identifier
+	*
+	* Type: atpKey
 	*
 	* Unique identifier for an Academic Time Period (ATP).
 	*/
@@ -76,12 +88,16 @@ public interface LuiInfo
 	/**
 	* Set Maximum Number of Seats
 	*
+	* Type: integer
+	*
 	* Maximum number of "seats" that the LUI will hold for registration.
 	*/
 	public void setMaxSeats(Integer maxSeats);
 	
 	/**
 	* Get Maximum Number of Seats
+	*
+	* Type: integer
 	*
 	* Maximum number of "seats" that the LUI will hold for registration.
 	*/
@@ -92,6 +108,8 @@ public interface LuiInfo
 	/**
 	* Set Effective Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this LUI became effective. This is a similar concept to the 
 	* effective date on enumerated values. When an expiration date has been specified, 
 	* this field must be less than or equal to the expiration date.
@@ -100,6 +118,8 @@ public interface LuiInfo
 	
 	/**
 	* Get Effective Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this LUI became effective. This is a similar concept to the 
 	* effective date on enumerated values. When an expiration date has been specified, 
@@ -112,6 +132,8 @@ public interface LuiInfo
 	/**
 	* Set Expiration Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this LUI expires. This is a similar concept to the expiration 
 	* date on enumerated values. If specified, this should be greater than or equal to 
 	* the effective date. If this field is not specified, then no expiration date has 
@@ -122,6 +144,8 @@ public interface LuiInfo
 	
 	/**
 	* Get Expiration Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this LUI expires. This is a similar concept to the expiration 
 	* date on enumerated values. If specified, this should be greater than or equal to 
@@ -136,12 +160,16 @@ public interface LuiInfo
 	/**
 	* Set Generic/dynamic attributes
 	*
+	* Type: attributeInfoList
+	*
 	* .
 	*/
 	public void setAttributes(Map<String,String> attributes);
 	
 	/**
 	* Get Generic/dynamic attributes
+	*
+	* Type: attributeInfoList
 	*
 	* .
 	*/
@@ -152,6 +180,8 @@ public interface LuiInfo
 	/**
 	* Set Create/Update meta info
 	*
+	* Type: metaInfo
+	*
 	* Create and last update info for the structure. This is optional and treated as 
 	* read only since the data is set by the internals of the service during 
 	* maintenance operations.
@@ -160,6 +190,8 @@ public interface LuiInfo
 	
 	/**
 	* Get Create/Update meta info
+	*
+	* Type: metaInfo
 	*
 	* Create and last update info for the structure. This is optional and treated as 
 	* read only since the data is set by the internals of the service during 
@@ -172,6 +204,8 @@ public interface LuiInfo
 	/**
 	* Set CLU State Identifier
 	*
+	* Type: string
+	*
 	* The current status of the LUI. The values for this field are constrained to 
 	* those in the luState enumeration. A separate setup operation does not exist for 
 	* retrieval of the meta data around this value.
@@ -180,6 +214,8 @@ public interface LuiInfo
 	
 	/**
 	* Get CLU State Identifier
+	*
+	* Type: string
 	*
 	* The current status of the LUI. The values for this field are constrained to 
 	* those in the luState enumeration. A separate setup operation does not exist for 
@@ -192,6 +228,8 @@ public interface LuiInfo
 	/**
 	* Set LUI Identifier
 	*
+	* Type: luiId
+	*
 	* This is optional, due to the identifier being set at the time of creation. Once 
 	* the LUI has been created, this should be seen as required.
 	*/
@@ -199,6 +237,8 @@ public interface LuiInfo
 	
 	/**
 	* Get LUI Identifier
+	*
+	* Type: luiId
 	*
 	* This is optional, due to the identifier being set at the time of creation. Once 
 	* the LUI has been created, this should be seen as required.

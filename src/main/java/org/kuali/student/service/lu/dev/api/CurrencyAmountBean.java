@@ -30,6 +30,8 @@
 		/**
 		* Set currencyTypeKey
 		*
+		* Type: currencyTypeKey
+		*
 		* The kind of units associated with the quantity, such as US Dollars
 		*/
 		@Override
@@ -40,6 +42,8 @@
 		
 		/**
 		* Get currencyTypeKey
+		*
+		* Type: currencyTypeKey
 		*
 		* The kind of units associated with the quantity, such as US Dollars
 		*/
@@ -54,6 +58,8 @@
 		/**
 		* Set currency Quantity
 		*
+		* Type: integer
+		*
 		* The amount of currency
 		*/
 		@Override
@@ -64,6 +70,8 @@
 		
 		/**
 		* Get currency Quantity
+		*
+		* Type: integer
 		*
 		* The amount of currency
 		*/

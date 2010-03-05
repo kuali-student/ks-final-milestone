@@ -31,6 +31,8 @@
 		/**
 		* Set Organization Identifier
 		*
+		* Type: orgId
+		*
 		* Unique identifier for an organization. This indicates which organization this 
 		* individual is associated with for the purposes of this clu.
 		*/
@@ -42,6 +44,8 @@
 		
 		/**
 		* Get Organization Identifier
+		*
+		* Type: orgId
 		*
 		* Unique identifier for an organization. This indicates which organization this 
 		* individual is associated with for the purposes of this clu.
@@ -57,6 +61,8 @@
 		/**
 		* Set Person Identifier
 		*
+		* Type: personId
+		*
 		* Unique identifier for a person record.
 		*/
 		@Override
@@ -67,6 +73,8 @@
 		
 		/**
 		* Get Person Identifier
+		*
+		* Type: personId
 		*
 		* Unique identifier for a person record.
 		*/
@@ -81,6 +89,8 @@
 		/**
 		* Set Generic/dynamic attributes
 		*
+		* Type: attributeInfoList
+		*
 		* List of key/value pairs, typically used for dynamic attributes.
 		*/
 		@Override
@@ -91,6 +101,8 @@
 		
 		/**
 		* Get Generic/dynamic attributes
+		*
+		* Type: attributeInfoList
 		*
 		* List of key/value pairs, typically used for dynamic attributes.
 		*/

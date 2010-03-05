@@ -26,6 +26,8 @@ public interface LuLuRelationTypeInfo
 	/**
 	* Set LU to LU Relation Type Name
 	*
+	* Type: string
+	*
 	* Short name of the LU to LU relationship type. This is primarily to be used by 
 	* developers and may end up translated in the end system.
 	*/
@@ -33,6 +35,8 @@ public interface LuLuRelationTypeInfo
 	
 	/**
 	* Get LU to LU Relation Type Name
+	*
+	* Type: string
 	*
 	* Short name of the LU to LU relationship type. This is primarily to be used by 
 	* developers and may end up translated in the end system.
@@ -44,12 +48,16 @@ public interface LuLuRelationTypeInfo
 	/**
 	* Set LU to LU Relation Type Description
 	*
+	* Type: string
+	*
 	* Narrative description of the LU to LU relationship type.
 	*/
 	public void setDesc(String desc);
 	
 	/**
 	* Get LU to LU Relation Type Description
+	*
+	* Type: string
 	*
 	* Narrative description of the LU to LU relationship type.
 	*/
@@ -60,6 +68,8 @@ public interface LuLuRelationTypeInfo
 	/**
 	* Set LU to LU Relation Type Reverse Name
 	*
+	* Type: string
+	*
 	* Name for the reverse LU to LU relationship type. This is primarily to be used by 
 	* developers and may end up translated in the end system.
 	*/
@@ -67,6 +77,8 @@ public interface LuLuRelationTypeInfo
 	
 	/**
 	* Get LU to LU Relation Type Reverse Name
+	*
+	* Type: string
 	*
 	* Name for the reverse LU to LU relationship type. This is primarily to be used by 
 	* developers and may end up translated in the end system.
@@ -78,12 +90,16 @@ public interface LuLuRelationTypeInfo
 	/**
 	* Set LU to LU Relation Type Reverse Description
 	*
+	* Type: string
+	*
 	* Description of the reverse of the LU to LU relationship type
 	*/
 	public void setRevDesc(String revDesc);
 	
 	/**
 	* Get LU to LU Relation Type Reverse Description
+	*
+	* Type: string
 	*
 	* Description of the reverse of the LU to LU relationship type
 	*/
@@ -94,6 +110,8 @@ public interface LuLuRelationTypeInfo
 	/**
 	* Set Effective Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this LU to LU relationship type became effective. This is a 
 	* similar concept to the effective date on enumerated values. When an expiration 
 	* date has been specified, this field must be less than or equal to the expiration 
@@ -103,6 +121,8 @@ public interface LuLuRelationTypeInfo
 	
 	/**
 	* Get Effective Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this LU to LU relationship type became effective. This is a 
 	* similar concept to the effective date on enumerated values. When an expiration 
@@ -116,6 +136,8 @@ public interface LuLuRelationTypeInfo
 	/**
 	* Set Expiration Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this LU to LU relationship type expires. This is a similar 
 	* concept to the expiration date on enumerated values. If specified, this should 
 	* be greater than or equal to the effective date. If this field is not specified, 
@@ -126,6 +148,8 @@ public interface LuLuRelationTypeInfo
 	
 	/**
 	* Get Expiration Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this LU to LU relationship type expires. This is a similar 
 	* concept to the expiration date on enumerated values. If specified, this should 
@@ -140,12 +164,16 @@ public interface LuLuRelationTypeInfo
 	/**
 	* Set Generic/dynamic attributes
 	*
+	* Type: attributeInfoList
+	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
 	public void setAttributes(Map<String,String> attributes);
 	
 	/**
 	* Get Generic/dynamic attributes
+	*
+	* Type: attributeInfoList
 	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
@@ -156,12 +184,16 @@ public interface LuLuRelationTypeInfo
 	/**
 	* Set LU to LU Relation Type Key
 	*
+	* Type: luLuRelationTypeKey
+	*
 	* Unique identifier for the LU to LU relation type.
 	*/
 	public void setKey(String key);
 	
 	/**
 	* Get LU to LU Relation Type Key
+	*
+	* Type: luLuRelationTypeKey
 	*
 	* Unique identifier for the LU to LU relation type.
 	*/

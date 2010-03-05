@@ -27,6 +27,8 @@ public interface CluInfo
 	/**
 	* Set Official Idenfifier
 	*
+	* Type: cluIdentifierInfo
+	*
 	* Information related to the official identification of the clu, typically in 
 	* human readable form. Used to officially reference or publish.
 	*/
@@ -34,6 +36,8 @@ public interface CluInfo
 	
 	/**
 	* Get Official Idenfifier
+	*
+	* Type: cluIdentifierInfo
 	*
 	* Information related to the official identification of the clu, typically in 
 	* human readable form. Used to officially reference or publish.
@@ -45,6 +49,8 @@ public interface CluInfo
 	/**
 	* Set Alternate Idenfifiers
 	*
+	* Type: cluIdentifierInfoList
+	*
 	* Information related to alternate identifications of the clu, typically in human 
 	* readable form. Used to reference or publish.
 	*/
@@ -52,6 +58,8 @@ public interface CluInfo
 	
 	/**
 	* Get Alternate Idenfifiers
+	*
+	* Type: cluIdentifierInfoList
 	*
 	* Information related to alternate identifications of the clu, typically in human 
 	* readable form. Used to reference or publish.
@@ -63,6 +71,8 @@ public interface CluInfo
 	/**
 	* Set Academic Subject Orgs
 	*
+	* Type: academicSubjectOrgInfoList
+	*
 	* The organizations that represents the Subject area of the Clu, if different from 
 	* the PrimaryAdminOrg?
 	*/
@@ -70,6 +80,8 @@ public interface CluInfo
 	
 	/**
 	* Get Academic Subject Orgs
+	*
+	* Type: academicSubjectOrgInfoList
 	*
 	* The organizations that represents the Subject area of the Clu, if different from 
 	* the PrimaryAdminOrg?
@@ -81,6 +93,8 @@ public interface CluInfo
 	/**
 	* Set Study Subject Area
 	*
+	* Type: string
+	*
 	* The Study Subject Area is used to identify the area of study associated with the 
 	* clu. It may be a general study area (e.g. Chemistry) or very specific (e.g. 
 	* Naval Architecture) depending on the level of specificity of the clu.
@@ -89,6 +103,8 @@ public interface CluInfo
 	
 	/**
 	* Get Study Subject Area
+	*
+	* Type: string
 	*
 	* The Study Subject Area is used to identify the area of study associated with the 
 	* clu. It may be a general study area (e.g. Chemistry) or very specific (e.g. 
@@ -101,12 +117,16 @@ public interface CluInfo
 	/**
 	* Set Description
 	*
+	* Type: richTextInfo
+	*
 	* Narrative description of the CLU, used for the catalog.
 	*/
 	public void setDesc(RichTextInfo desc);
 	
 	/**
 	* Get Description
+	*
+	* Type: richTextInfo
 	*
 	* Narrative description of the CLU, used for the catalog.
 	*/
@@ -117,12 +137,16 @@ public interface CluInfo
 	/**
 	* Set List of Campus Locations
 	*
+	* Type: campusLocationList
+	*
 	* Places where this clu might be offered
 	*/
 	public void setCampusLocations(List<String> campusLocations);
 	
 	/**
 	* Get List of Campus Locations
+	*
+	* Type: campusLocationList
 	*
 	* Places where this clu might be offered
 	*/
@@ -133,12 +157,16 @@ public interface CluInfo
 	/**
 	* Set Accreditations
 	*
+	* Type: accreditationInfoList
+	*
 	* Information around the accreditation of the clu.
 	*/
 	public void setAccreditations(List<AccreditationInfo> accreditations);
 	
 	/**
 	* Get Accreditations
+	*
+	* Type: accreditationInfoList
 	*
 	* Information around the accreditation of the clu.
 	*/
@@ -149,6 +177,8 @@ public interface CluInfo
 	/**
 	* Set Admin Org
 	*
+	* Type: adminOrgInfo
+	*
 	* The primary organization (typically, an academic department) with administrative 
 	* oversight over the CLU. This will be used for Authorization and Workflow.
 	*/
@@ -156,6 +186,8 @@ public interface CluInfo
 	
 	/**
 	* Get Admin Org
+	*
+	* Type: adminOrgInfo
 	*
 	* The primary organization (typically, an academic department) with administrative 
 	* oversight over the CLU. This will be used for Authorization and Workflow.
@@ -167,6 +199,8 @@ public interface CluInfo
 	/**
 	* Set Alternate Admin Orgs
 	*
+	* Type: adminOrgInfoList
+	*
 	* For situations where more than one Organization shares in the Administration of 
 	* this clu. This will be used in Authorization and Workflow
 	*/
@@ -174,6 +208,8 @@ public interface CluInfo
 	
 	/**
 	* Get Alternate Admin Orgs
+	*
+	* Type: adminOrgInfoList
 	*
 	* For situations where more than one Organization shares in the Administration of 
 	* this clu. This will be used in Authorization and Workflow
@@ -185,6 +221,8 @@ public interface CluInfo
 	/**
 	* Set Primary Instructor
 	*
+	* Type: cluInstructorInfo
+	*
 	* Primary potential instructor for the clu. This is primarily for use in 
 	* advertising the clu and may not be the actual instructor.
 	*/
@@ -192,6 +230,8 @@ public interface CluInfo
 	
 	/**
 	* Get Primary Instructor
+	*
+	* Type: cluInstructorInfo
 	*
 	* Primary potential instructor for the clu. This is primarily for use in 
 	* advertising the clu and may not be the actual instructor.
@@ -203,6 +243,8 @@ public interface CluInfo
 	/**
 	* Set Instructors
 	*
+	* Type: cluInstructorInfoList
+	*
 	* Instructors associated with this clu. This may not be an exhaustive list, and 
 	* instead may only be used to indicate potential instructors in publication.
 	*/
@@ -210,6 +252,8 @@ public interface CluInfo
 	
 	/**
 	* Get Instructors
+	*
+	* Type: cluInstructorInfoList
 	*
 	* Instructors associated with this clu. This may not be an exhaustive list, and 
 	* instead may only be used to indicate potential instructors in publication.
@@ -221,6 +265,8 @@ public interface CluInfo
 	/**
 	* Set Expected First ATP
 	*
+	* Type: atpKey
+	*
 	* The expected first academic time period that this clu would be effective. This 
 	* may not reflect the first "real" academic time period for this clu.
 	*/
@@ -228,6 +274,8 @@ public interface CluInfo
 	
 	/**
 	* Get Expected First ATP
+	*
+	* Type: atpKey
 	*
 	* The expected first academic time period that this clu would be effective. This 
 	* may not reflect the first "real" academic time period for this clu.
@@ -239,6 +287,8 @@ public interface CluInfo
 	/**
 	* Set Effective Date
 	*
+	* Type: dateTime
+	*
 	* Date and time the CLU became effective. This is a similar concept to the 
 	* effective date on enumerated values. When an expiration date has been specified, 
 	* this field must be less than or equal to the expiration date.
@@ -247,6 +297,8 @@ public interface CluInfo
 	
 	/**
 	* Get Effective Date
+	*
+	* Type: dateTime
 	*
 	* Date and time the CLU became effective. This is a similar concept to the 
 	* effective date on enumerated values. When an expiration date has been specified, 
@@ -259,6 +311,8 @@ public interface CluInfo
 	/**
 	* Set Expiration Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this CLU expires. This is a similar concept to the expiration 
 	* date on enumerated values. If specified, this should be greater than or equal to 
 	* the effective date. If this field is not specified, then no expiration date has 
@@ -269,6 +323,8 @@ public interface CluInfo
 	
 	/**
 	* Get Expiration Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this CLU expires. This is a similar concept to the expiration 
 	* date on enumerated values. If specified, this should be greater than or equal to 
@@ -283,12 +339,16 @@ public interface CluInfo
 	/**
 	* Set Intensity
 	*
+	* Type: amountInfo
+	*
 	* The expected level of time commitment between the student and the CLU meetings.
 	*/
 	public void setIntensity(AmountInfo intensity);
 	
 	/**
 	* Get Intensity
+	*
+	* Type: amountInfo
 	*
 	* The expected level of time commitment between the student and the CLU meetings.
 	*/
@@ -299,12 +359,16 @@ public interface CluInfo
 	/**
 	* Set Standard Duration
 	*
+	* Type: timeAmountInfo
+	*
 	* The standard duration of the learning unit.
 	*/
 	public void setStdDuration(TimeAmountInfo stdDuration);
 	
 	/**
 	* Get Standard Duration
+	*
+	* Type: timeAmountInfo
 	*
 	* The standard duration of the learning unit.
 	*/
@@ -315,12 +379,16 @@ public interface CluInfo
 	/**
 	* Set Can Create LUI
 	*
+	* Type: boolean
+	*
 	* Indicates if the CLU can be used to instantiate LUIs (offerings).
 	*/
 	public void setCanCreateLui(Boolean canCreateLui);
 	
 	/**
 	* Get Can Create LUI
+	*
+	* Type: boolean
 	*
 	* Indicates if the CLU can be used to instantiate LUIs (offerings).
 	*/
@@ -331,6 +399,8 @@ public interface CluInfo
 	/**
 	* Set Reference URL
 	*
+	* Type: string
+	*
 	* An URL for additional information about the CLU. This could be a reference to a 
 	* document which might in turn have references to other documents (e.g. course 
 	* syllabus provided by the faculty or department, standard schedule of classes, 
@@ -340,6 +410,8 @@ public interface CluInfo
 	
 	/**
 	* Get Reference URL
+	*
+	* Type: string
 	*
 	* An URL for additional information about the CLU. This could be a reference to a 
 	* document which might in turn have references to other documents (e.g. course 
@@ -353,6 +425,8 @@ public interface CluInfo
 	/**
 	* Set LU Code Info
 	*
+	* Type: luCodeInfoList
+	*
 	* List of LU code info structures. These are structures so that many different 
 	* types of codes can be associated with the clu. This allows them to be put into 
 	* categories.
@@ -361,6 +435,8 @@ public interface CluInfo
 	
 	/**
 	* Get LU Code Info
+	*
+	* Type: luCodeInfoList
 	*
 	* List of LU code info structures. These are structures so that many different 
 	* types of codes can be associated with the clu. This allows them to be put into 
@@ -373,12 +449,16 @@ public interface CluInfo
 	/**
 	* Set Next Review Period
 	*
+	* Type: atpKey
+	*
 	* When the next review should be
 	*/
 	public void setNextReviewPeriod(String nextReviewPeriod);
 	
 	/**
 	* Get Next Review Period
+	*
+	* Type: atpKey
 	*
 	* When the next review should be
 	*/
@@ -389,6 +469,8 @@ public interface CluInfo
 	/**
 	* Set Is Enrollable
 	*
+	* Type: boolean
+	*
 	* Indicates if Luis generated from this Clu are intended to be enrolled in by 
 	* Students directly
 	*/
@@ -396,6 +478,8 @@ public interface CluInfo
 	
 	/**
 	* Get Is Enrollable
+	*
+	* Type: boolean
 	*
 	* Indicates if Luis generated from this Clu are intended to be enrolled in by 
 	* Students directly
@@ -407,6 +491,8 @@ public interface CluInfo
 	/**
 	* Set Offered Academic Time Period Types
 	*
+	* Type: atpTypeKeyList
+	*
 	* The academic time period types in which this CLU is typically offered. Standard 
 	* usage would equate to terms. It can define a timeframe that a clu with of a 
 	* certain stdDuration would fall in.
@@ -415,6 +501,8 @@ public interface CluInfo
 	
 	/**
 	* Get Offered Academic Time Period Types
+	*
+	* Type: atpTypeKeyList
 	*
 	* The academic time period types in which this CLU is typically offered. Standard 
 	* usage would equate to terms. It can define a timeframe that a clu with of a 
@@ -427,6 +515,8 @@ public interface CluInfo
 	/**
 	* Set Has Early Drop Deadline
 	*
+	* Type: boolean
+	*
 	* Indicates if the CLU has an Early Drop Deadline (EDD). Certain courses are 
 	* designated as such to maximize access to courses that have historically 
 	* experienced high demand and high attrition. Default is "false".
@@ -435,6 +525,8 @@ public interface CluInfo
 	
 	/**
 	* Get Has Early Drop Deadline
+	*
+	* Type: boolean
 	*
 	* Indicates if the CLU has an Early Drop Deadline (EDD). Certain courses are 
 	* designated as such to maximize access to courses that have historically 
@@ -447,12 +539,16 @@ public interface CluInfo
 	/**
 	* Set Default Enrollment Estimate
 	*
+	* Type: integer
+	*
 	* Default enrollment estimate for this CLU.
 	*/
 	public void setDefaultEnrollmentEstimate(Integer defaultEnrollmentEstimate);
 	
 	/**
 	* Get Default Enrollment Estimate
+	*
+	* Type: integer
 	*
 	* Default enrollment estimate for this CLU.
 	*/
@@ -463,12 +559,16 @@ public interface CluInfo
 	/**
 	* Set Default Maximum Enrollment
 	*
+	* Type: integer
+	*
 	* Default maximum enrollment for this CLU.
 	*/
 	public void setDefaultMaximumEnrollment(Integer defaultMaximumEnrollment);
 	
 	/**
 	* Get Default Maximum Enrollment
+	*
+	* Type: integer
 	*
 	* Default maximum enrollment for this CLU.
 	*/
@@ -479,6 +579,8 @@ public interface CluInfo
 	/**
 	* Set Is Hazardous For Disabled Students
 	*
+	* Type: boolean
+	*
 	* Indicates if the CLU may be hazardous for students with disabilities. Would 
 	* default to "false".
 	*/
@@ -486,6 +588,8 @@ public interface CluInfo
 	
 	/**
 	* Get Is Hazardous For Disabled Students
+	*
+	* Type: boolean
 	*
 	* Indicates if the CLU may be hazardous for students with disabilities. Would 
 	* default to "false".
@@ -497,12 +601,16 @@ public interface CluInfo
 	/**
 	* Set feeInfo
 	*
+	* Type: cluFeeInfo
+	*
 	* Fee information associated with this CLU.
 	*/
 	public void setFeeInfo(CluFeeInfo feeInfo);
 	
 	/**
 	* Get feeInfo
+	*
+	* Type: cluFeeInfo
 	*
 	* Fee information associated with this CLU.
 	*/
@@ -513,12 +621,16 @@ public interface CluInfo
 	/**
 	* Set accountingInfo
 	*
+	* Type: cluAccountingInfo
+	*
 	* Accounting information associated with this CLU.
 	*/
 	public void setAccountingInfo(CluAccountingInfo accountingInfo);
 	
 	/**
 	* Get accountingInfo
+	*
+	* Type: cluAccountingInfo
 	*
 	* Accounting information associated with this CLU.
 	*/
@@ -529,12 +641,16 @@ public interface CluInfo
 	/**
 	* Set Generic/dynamic attributes
 	*
+	* Type: attributeInfoList
+	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
 	public void setAttributes(Map<String,String> attributes);
 	
 	/**
 	* Get Generic/dynamic attributes
+	*
+	* Type: attributeInfoList
 	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
@@ -545,6 +661,8 @@ public interface CluInfo
 	/**
 	* Set Create/Update meta info
 	*
+	* Type: metaInfo
+	*
 	* Create and last update info for the structure. This is optional and treated as 
 	* read only since the data is set by the internals of the service during 
 	* maintenance operations.
@@ -553,6 +671,8 @@ public interface CluInfo
 	
 	/**
 	* Get Create/Update meta info
+	*
+	* Type: metaInfo
 	*
 	* Create and last update info for the structure. This is optional and treated as 
 	* read only since the data is set by the internals of the service during 
@@ -565,6 +685,8 @@ public interface CluInfo
 	/**
 	* Set Learning Unit Type
 	*
+	* Type: luTypeKey
+	*
 	* Unique identifier for a learning unit type. Once set at create time, this field 
 	* may not be updated.
 	*/
@@ -572,6 +694,8 @@ public interface CluInfo
 	
 	/**
 	* Get Learning Unit Type
+	*
+	* Type: luTypeKey
 	*
 	* Unique identifier for a learning unit type. Once set at create time, this field 
 	* may not be updated.
@@ -583,6 +707,8 @@ public interface CluInfo
 	/**
 	* Set Learning Unit State
 	*
+	* Type: string
+	*
 	* The current status of the clu. The values for this field are constrained to 
 	* those in the luState enumeration. A separate setup operation does not exist for 
 	* retrieval of the meta data around this value. This field may not be updated 
@@ -593,6 +719,8 @@ public interface CluInfo
 	
 	/**
 	* Get Learning Unit State
+	*
+	* Type: string
 	*
 	* The current status of the clu. The values for this field are constrained to 
 	* those in the luState enumeration. A separate setup operation does not exist for 
@@ -607,6 +735,8 @@ public interface CluInfo
 	/**
 	* Set CLU Identifier
 	*
+	* Type: cluId
+	*
 	* Unique identifier for a Canonical Learning Unit (CLU). This is optional, due to 
 	* the identifier being set at the time of creation. Once the CLU has been created, 
 	* this should be seen as required.
@@ -615,6 +745,8 @@ public interface CluInfo
 	
 	/**
 	* Get CLU Identifier
+	*
+	* Type: cluId
 	*
 	* Unique identifier for a Canonical Learning Unit (CLU). This is optional, due to 
 	* the identifier being set at the time of creation. Once the CLU has been created, 

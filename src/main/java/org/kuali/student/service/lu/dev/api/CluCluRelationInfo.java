@@ -26,6 +26,8 @@ public interface CluCluRelationInfo
 	/**
 	* Set CLU Identifier
 	*
+	* Type: cluId
+	*
 	* Unique identifier for a Canonical Learning Unit (CLU). This is the "From" or 
 	* "Parent" in the relation.
 	*/
@@ -33,6 +35,8 @@ public interface CluCluRelationInfo
 	
 	/**
 	* Get CLU Identifier
+	*
+	* Type: cluId
 	*
 	* Unique identifier for a Canonical Learning Unit (CLU). This is the "From" or 
 	* "Parent" in the relation.
@@ -44,6 +48,8 @@ public interface CluCluRelationInfo
 	/**
 	* Set Related CLU Identifier
 	*
+	* Type: cluId
+	*
 	* Unique identifier for a Canonical Learning Unit (CLU). This is the "To" or 
 	* "Child" of the relation.
 	*/
@@ -51,6 +57,8 @@ public interface CluCluRelationInfo
 	
 	/**
 	* Get Related CLU Identifier
+	*
+	* Type: cluId
 	*
 	* Unique identifier for a Canonical Learning Unit (CLU). This is the "To" or 
 	* "Child" of the relation.
@@ -62,6 +70,8 @@ public interface CluCluRelationInfo
 	/**
 	* Set Is CLU Relation Required
 	*
+	* Type: boolean
+	*
 	* Indicates if the relation is required upon instantiation of a LUI. Default is 
 	* "true".
 	*/
@@ -69,6 +79,8 @@ public interface CluCluRelationInfo
 	
 	/**
 	* Get Is CLU Relation Required
+	*
+	* Type: boolean
 	*
 	* Indicates if the relation is required upon instantiation of a LUI. Default is 
 	* "true".
@@ -80,6 +92,8 @@ public interface CluCluRelationInfo
 	/**
 	* Set Effective Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this CLU to CLU relationship became effective. This is a 
 	* similar concept to the effective date on enumerated values. When an expiration 
 	* date has been specified, this field must be less than or equal to the expiration 
@@ -89,6 +103,8 @@ public interface CluCluRelationInfo
 	
 	/**
 	* Get Effective Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this CLU to CLU relationship became effective. This is a 
 	* similar concept to the effective date on enumerated values. When an expiration 
@@ -102,6 +118,8 @@ public interface CluCluRelationInfo
 	/**
 	* Set Expiration Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this CLU to CLU relationship expires. This is a similar 
 	* concept to the expiration date on enumerated values. If specified, this should 
 	* be greater than or equal to the effective date. If this field is not specified, 
@@ -112,6 +130,8 @@ public interface CluCluRelationInfo
 	
 	/**
 	* Get Expiration Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this CLU to CLU relationship expires. This is a similar 
 	* concept to the expiration date on enumerated values. If specified, this should 
@@ -126,12 +146,16 @@ public interface CluCluRelationInfo
 	/**
 	* Set Generic/dynamic attributes
 	*
+	* Type: attributeInfoList
+	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
 	public void setAttributes(Map<String,String> attributes);
 	
 	/**
 	* Get Generic/dynamic attributes
+	*
+	* Type: attributeInfoList
 	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
@@ -142,6 +166,8 @@ public interface CluCluRelationInfo
 	/**
 	* Set Create/Update meta info
 	*
+	* Type: metaInfo
+	*
 	* Create and last update info for the structure. This is optional and treated as 
 	* read only since the data is set by the internals of the service during 
 	* maintenance operations.
@@ -150,6 +176,8 @@ public interface CluCluRelationInfo
 	
 	/**
 	* Get Create/Update meta info
+	*
+	* Type: metaInfo
 	*
 	* Create and last update info for the structure. This is optional and treated as 
 	* read only since the data is set by the internals of the service during 
@@ -162,12 +190,16 @@ public interface CluCluRelationInfo
 	/**
 	* Set LU to LU Relation Type
 	*
+	* Type: luLuRelationTypeKey
+	*
 	* Unique identifier for the LU to LU relation type.
 	*/
 	public void setType(String type);
 	
 	/**
 	* Get LU to LU Relation Type
+	*
+	* Type: luLuRelationTypeKey
 	*
 	* Unique identifier for the LU to LU relation type.
 	*/
@@ -178,6 +210,8 @@ public interface CluCluRelationInfo
 	/**
 	* Set LU to LU Relation State
 	*
+	* Type: string
+	*
 	* Identifier for the current status of a CLU to CLU relationship. The values for 
 	* this field are constrained to those in the luLuRelationState enumeration. A 
 	* separate setup operation does not exist for retrieval of the meta data around 
@@ -187,6 +221,8 @@ public interface CluCluRelationInfo
 	
 	/**
 	* Get LU to LU Relation State
+	*
+	* Type: string
 	*
 	* Identifier for the current status of a CLU to CLU relationship. The values for 
 	* this field are constrained to those in the luLuRelationState enumeration. A 
@@ -200,6 +236,8 @@ public interface CluCluRelationInfo
 	/**
 	* Set CLU to CLU Relation Identifier
 	*
+	* Type: cluCluRelationId
+	*
 	* Unique identifier for a CLU to CLU relationship. This is optional, due to the 
 	* identifier being set at the time of creation. Once the relation has been 
 	* created, this should be seen as required.
@@ -208,6 +246,8 @@ public interface CluCluRelationInfo
 	
 	/**
 	* Get CLU to CLU Relation Identifier
+	*
+	* Type: cluCluRelationId
 	*
 	* Unique identifier for a CLU to CLU relationship. This is optional, due to the 
 	* identifier being set at the time of creation. Once the relation has been 

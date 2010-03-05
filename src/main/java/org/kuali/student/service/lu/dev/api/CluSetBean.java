@@ -33,6 +33,8 @@
 		/**
 		* Set CLU Set Name
 		*
+		* Type: string
+		*
 		* Friendly name of the CLU Set.
 		*/
 		@Override
@@ -43,6 +45,8 @@
 		
 		/**
 		* Get CLU Set Name
+		*
+		* Type: string
 		*
 		* Friendly name of the CLU Set.
 		*/
@@ -57,6 +61,8 @@
 		/**
 		* Set CLU Set Description
 		*
+		* Type: richTextInfo
+		*
 		* Narrative description of the CLU Set.
 		*/
 		@Override
@@ -67,6 +73,8 @@
 		
 		/**
 		* Get CLU Set Description
+		*
+		* Type: richTextInfo
 		*
 		* Narrative description of the CLU Set.
 		*/
@@ -81,6 +89,8 @@
 		/**
 		* Set Effective Date
 		*
+		* Type: dateTime
+		*
 		* Date and time that this CLU Set became effective. This is a similar concept to 
 		* the effective date on enumerated values. When an expiration date has been 
 		* specified, this field must be less than or equal to the expiration date.
@@ -93,6 +103,8 @@
 		
 		/**
 		* Get Effective Date
+		*
+		* Type: dateTime
 		*
 		* Date and time that this CLU Set became effective. This is a similar concept to 
 		* the effective date on enumerated values. When an expiration date has been 
@@ -109,6 +121,8 @@
 		/**
 		* Set Expiration Date
 		*
+		* Type: dateTime
+		*
 		* Date and time that this CLU Set expires. This is a similar concept to the 
 		* expiration date on enumerated values. If specified, this should be greater than 
 		* or equal to the effective date. If this field is not specified, then no 
@@ -123,6 +137,8 @@
 		
 		/**
 		* Get Expiration Date
+		*
+		* Type: dateTime
 		*
 		* Date and time that this CLU Set expires. This is a similar concept to the 
 		* expiration date on enumerated values. If specified, this should be greater than 
@@ -141,6 +157,8 @@
 		/**
 		* Set Membership Query
 		*
+		* Type: membershipQueryInfo
+		*
 		* Specifies a search for CLU identifiers. Present for dynamic CLU Sets
 		*/
 		@Override
@@ -151,6 +169,8 @@
 		
 		/**
 		* Get Membership Query
+		*
+		* Type: membershipQueryInfo
 		*
 		* Specifies a search for CLU identifiers. Present for dynamic CLU Sets
 		*/
@@ -165,6 +185,8 @@
 		/**
 		* Set Contained CLU Set Identifiers
 		*
+		* Type: cluSetIdList
+		*
 		* List of identifiers of directly contained CLU Sets. Present for enumerated CLU 
 		* Sets.
 		*/
@@ -176,6 +198,8 @@
 		
 		/**
 		* Get Contained CLU Set Identifiers
+		*
+		* Type: cluSetIdList
 		*
 		* List of identifiers of directly contained CLU Sets. Present for enumerated CLU 
 		* Sets.
@@ -191,6 +215,8 @@
 		/**
 		* Set Contained CLU Identifiers
 		*
+		* Type: cluIdList
+		*
 		* List of identifiers of directly contained CLUs. Present for enumerated CLU Sets.
 		*/
 		@Override
@@ -201,6 +227,8 @@
 		
 		/**
 		* Get Contained CLU Identifiers
+		*
+		* Type: cluIdList
 		*
 		* List of identifiers of directly contained CLUs. Present for enumerated CLU Sets.
 		*/
@@ -215,6 +243,8 @@
 		/**
 		* Set Generic/dynamic attributes
 		*
+		* Type: attributeInfoList
+		*
 		* List of key/value pairs, typically used for dynamic attributes.
 		*/
 		@Override
@@ -225,6 +255,8 @@
 		
 		/**
 		* Get Generic/dynamic attributes
+		*
+		* Type: attributeInfoList
 		*
 		* List of key/value pairs, typically used for dynamic attributes.
 		*/
@@ -239,6 +271,8 @@
 		/**
 		* Set Create/Update meta info
 		*
+		* Type: metaInfo
+		*
 		* Create and last update info for the structure. This is optional and treated as 
 		* read only since the data is set by the internals of the service during 
 		* maintenance operations.
@@ -251,6 +285,8 @@
 		
 		/**
 		* Get Create/Update meta info
+		*
+		* Type: metaInfo
 		*
 		* Create and last update info for the structure. This is optional and treated as 
 		* read only since the data is set by the internals of the service during 
@@ -267,6 +303,8 @@
 		/**
 		* Set CLU Set Type
 		*
+		* Type: cluSetTypeKey
+		*
 		* Unique identifier for a clu set type. Once set at create time, this field may 
 		* not be updated.
 		*/
@@ -278,6 +316,8 @@
 		
 		/**
 		* Get CLU Set Type
+		*
+		* Type: cluSetTypeKey
 		*
 		* Unique identifier for a clu set type. Once set at create time, this field may 
 		* not be updated.
@@ -293,6 +333,8 @@
 		/**
 		* Set CLU Set State
 		*
+		* Type: string
+		*
 		* The current status of the clu set. The values for this field are constrained to 
 		* those in the cluSetState enumeration. A separate setup operation does not exist 
 		* for retrieval of the meta data around this value.
@@ -305,6 +347,8 @@
 		
 		/**
 		* Get CLU Set State
+		*
+		* Type: string
 		*
 		* The current status of the clu set. The values for this field are constrained to 
 		* those in the cluSetState enumeration. A separate setup operation does not exist 
@@ -321,6 +365,8 @@
 		/**
 		* Set CLU Set Identifier
 		*
+		* Type: cluSetId
+		*
 		* Unique identifier for a CLU Set. This is optional, due to the identifier being 
 		* set at the time of creation. Once the CLU Set has been created, this should be 
 		* seen as required.
@@ -333,6 +379,8 @@
 		
 		/**
 		* Get CLU Set Identifier
+		*
+		* Type: cluSetId
 		*
 		* Unique identifier for a CLU Set. This is optional, due to the identifier being 
 		* set at the time of creation. Once the CLU Set has been created, this should be 

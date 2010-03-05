@@ -35,7 +35,7 @@ public interface AtpService
 	/**
 	* Retrieves information about a particular academic time period type
 	* 
-	* @param atpTypeKey academic time period type identifier
+	* @param atpTypeKey - atpTypeKey - academic time period type identifier
 	* @return academic time period type information
 	*/
 	public AtpTypeInfo getAtpType(String atpTypeKey)
@@ -57,7 +57,8 @@ public interface AtpService
 	/**
 	* Retrieves information about a particular academic time period seasonal type
 	* 
-	* @param atpSeasonalTypeKey academic time period seasonal type identifier
+	* @param atpSeasonalTypeKey - atpSeasonalTypeKey - academic time period seasonal 
+	* type identifier
 	* @return academic time period seasonal type information
 	*/
 	public AtpSeasonalTypeInfo getAtpSeasonalType(String atpSeasonalTypeKey)
@@ -79,7 +80,8 @@ public interface AtpService
 	/**
 	* Retrieves information about a particular academic time period duration type
 	* 
-	* @param atpDurationTypeKey academic time period duration type identifier
+	* @param atpDurationTypeKey - atpDurationTypeKey - academic time period duration 
+	* type identifier
 	* @return academic time period duration type information
 	*/
 	public AtpDurationTypeInfo getAtpDurationType(String atpDurationTypeKey)
@@ -101,7 +103,7 @@ public interface AtpService
 	/**
 	* Retrieves information about a particular milestone type
 	* 
-	* @param milestoneTypeKey milestone type identifier
+	* @param milestoneTypeKey - milestoneTypeKey - milestone type identifier
 	* @return milestone type information
 	*/
 	public MilestoneTypeInfo getMilestoneType(String milestoneTypeKey)
@@ -114,7 +116,7 @@ public interface AtpService
 	/**
 	* Retrieves the list of milestone types that are defined for a particular Atp Type
 	* 
-	* @param atpTypeKey atpTypeKey
+	* @param atpTypeKey - atpTypeKey - atpTypeKey
 	* @return List of milestone types
 	*/
 	public List<MilestoneTypeInfo> getMilestoneTypesForAtpType(String atpTypeKey)
@@ -136,7 +138,7 @@ public interface AtpService
 	/**
 	* Retrieves information about a particular date range type
 	* 
-	* @param dateRangeTypeKey date range type identifier
+	* @param dateRangeTypeKey - dateRangeTypeKey - date range type identifier
 	* @return date range type information
 	*/
 	public DateRangeTypeInfo getDateRangeType(String dateRangeTypeKey)
@@ -149,7 +151,7 @@ public interface AtpService
 	/**
 	* Retrieves the list of dateRange types that are defined for a particular Atp Type
 	* 
-	* @param atpTypeKey atpTypeKey
+	* @param atpTypeKey - atpTypeKey - atpTypeKey
 	* @return List of milestone types
 	*/
 	public List<DateRangeTypeInfo> getDateRangeTypesForAtpType(String atpTypeKey)
@@ -172,8 +174,9 @@ public interface AtpService
 	* the standard validation as the caller provides the identifier in the create 
 	* statement instead of the server assigning an identifier.
 	* 
-	* @param validationType Identifier of the extent of validation
-	* @param atpInfo The academic time period information to be tested.
+	* @param validationType - validationTypeKey - Identifier of the extent of 
+	* validation
+	* @param atpInfo - atpInfo - The academic time period information to be tested.
 	* @return Results from performing the validation
 	*/
 	public List<ValidationResultInfo> validateAtp(String validationType, AtpInfo atpInfo)
@@ -196,8 +199,9 @@ public interface AtpService
 	* caller provides the identifier in the create statement instead of the server 
 	* assigning an identifier.
 	* 
-	* @param validationType Identifier of the extent of validation
-	* @param milestoneInfo The milestone information to be tested.
+	* @param validationType - validationTypeKey - Identifier of the extent of 
+	* validation
+	* @param milestoneInfo - milestoneInfo - The milestone information to be tested.
 	* @return Results from performing the validation
 	*/
 	public List<ValidationResultInfo> validateMilestone(String validationType, MilestoneInfo milestoneInfo)
@@ -220,8 +224,9 @@ public interface AtpService
 	* validation as the caller provides the identifier in the create statement instead 
 	* of the server assigning an identifier.
 	* 
-	* @param validationType Identifier of the extent of validation
-	* @param dateRangeInfo The date range information to be tested.
+	* @param validationType - validationTypeKey - Identifier of the extent of 
+	* validation
+	* @param dateRangeInfo - dateRangeInfo - The date range information to be tested.
 	* @return Results from performing the validation
 	*/
 	public List<ValidationResultInfo> validateDateRange(String validationType, DateRangeInfo dateRangeInfo)
@@ -234,7 +239,7 @@ public interface AtpService
 	/**
 	* Retrieves the details of a single Academic Time Period by atpKey
 	* 
-	* @param atpKey Unique key of the Academic Time Period to be retrieved
+	* @param atpKey - atpKey - Unique key of the Academic Time Period to be retrieved
 	* @return Details of the Academic Time Period requested
 	*/
 	public AtpInfo getAtp(String atpKey)
@@ -247,7 +252,7 @@ public interface AtpService
 	/**
 	* Retrieves the list of Academic Time Periods that the supplied date falls within
 	* 
-	* @param searchDate Timestamp to be matched
+	* @param searchDate - dateTime - Timestamp to be matched
 	* @return List of Academic Time Periods that contain the supplied searchDate
 	*/
 	public List<AtpInfo> getAtpsByDate(Date searchDate)
@@ -260,8 +265,8 @@ public interface AtpService
 	* Retrieves the list of Academic Time Periods that are totally contained within 
 	* the supplied dates. The entire Atp falls within the supplied dates
 	* 
-	* @param startDate Earliest Timestamp
-	* @param endDate Latest Timestamp
+	* @param startDate - dateTime - Earliest Timestamp
+	* @param endDate - dateTime - Latest Timestamp
 	* @return List of Academic Time Periods that contain the supplied searchDate
 	*/
 	public List<AtpInfo> getAtpsByDates(Date startDate, Date endDate)
@@ -273,7 +278,7 @@ public interface AtpService
 	/**
 	* Retrieves a list of Academic Time Periods of the specified type
 	* 
-	* @param atpTypeKey ATP type to be retrieved
+	* @param atpTypeKey - atpTypeKey - ATP type to be retrieved
 	* @return List of Academic Time Periods that contain the supplied date
 	*/
 	public List<AtpInfo> getAtpsByAtpType(String atpTypeKey)
@@ -285,7 +290,7 @@ public interface AtpService
 	/**
 	* Retrieves the details of the specified milestone
 	* 
-	* @param milestoneKey Unique id of the milestone to be retrieved
+	* @param milestoneKey - milestoneKey - Unique id of the milestone to be retrieved
 	* @return Details of requested milestone
 	*/
 	public MilestoneInfo getMilestone(String milestoneKey)
@@ -298,7 +303,7 @@ public interface AtpService
 	/**
 	* Retrieves the list of milestones for a specified Academic Time Period
 	* 
-	* @param atpKey Unique key of the Academic Time Period to be retieved
+	* @param atpKey - atpKey - Unique key of the Academic Time Period to be retieved
 	* @return List of milestones for this Academic Time Period
 	*/
 	public List<MilestoneInfo> getMilestonesByAtp(String atpKey)
@@ -310,8 +315,8 @@ public interface AtpService
 	/**
 	* Retrieves the list of milestones that fall within a specified set of dates
 	* 
-	* @param startDate Start Date for date span
-	* @param endDate End Date for date span
+	* @param startDate - dateTime - Start Date for date span
+	* @param endDate - dateTime - End Date for date span
 	* @return List of milestones that fall within this set of dates
 	*/
 	public List<MilestoneInfo> getMilestonesByDates(Date startDate, Date endDate)
@@ -324,9 +329,9 @@ public interface AtpService
 	* Retrieves a list of milestones of a specified type that fall within a specified 
 	* set of dates
 	* 
-	* @param milestoneTypeKey Milestone type to be retrieved
-	* @param startDate Start Date for date range
-	* @param endDate End Date for date range
+	* @param milestoneTypeKey - milestoneTypeKey - Milestone type to be retrieved
+	* @param startDate - dateTime - Start Date for date range
+	* @param endDate - dateTime - End Date for date range
 	* @return List of milestones of this milestone type within this set of dates
 	*/
 	public List<MilestoneInfo> getMilestonesByDatesAndType(String milestoneTypeKey, Date startDate, Date endDate)
@@ -338,7 +343,7 @@ public interface AtpService
 	/**
 	* Retrieves the details of the specified daterange
 	* 
-	* @param dateRangeKey Unique id of the date range to be retrieved
+	* @param dateRangeKey - dateRangeKey - Unique id of the date range to be retrieved
 	* @return Details of requested daterange
 	*/
 	public DateRangeInfo getDateRange(String dateRangeKey)
@@ -351,7 +356,7 @@ public interface AtpService
 	/**
 	* Retrieves the list of DateRanges for a specified Academic Time Period
 	* 
-	* @param atpKey Unique key of the Academic Time Period to be retieved
+	* @param atpKey - atpKey - Unique key of the Academic Time Period to be retieved
 	* @return List of dateRanges for this Academic Time Period
 	*/
 	public List<DateRangeInfo> getDateRangesByAtp(String atpKey)
@@ -363,7 +368,7 @@ public interface AtpService
 	/**
 	* Retrieves the list of DateRanges which encompass the specified date
 	* 
-	* @param searchDate Timestamp to be matched
+	* @param searchDate - dateTime - Timestamp to be matched
 	* @return List of dateRanges that contain the supplied searchDate
 	*/
 	public List<DateRangeInfo> getDateRangesByDate(Date searchDate)
@@ -375,9 +380,9 @@ public interface AtpService
 	/**
 	* Creates a new Academic Time Period
 	* 
-	* @param atpTypeKey Type of ATP to be created
-	* @param atpKey Key of ATP to be created
-	* @param atpInfo Details of ATP to be created
+	* @param atpTypeKey - atpTypeKey - Type of ATP to be created
+	* @param atpKey - atpKey - Key of ATP to be created
+	* @param atpInfo - atpInfo - Details of ATP to be created
 	* @return Details of ATP just created
 	*/
 	public AtpInfo createAtp(String atpTypeKey, String atpKey, AtpInfo atpInfo)
@@ -392,8 +397,8 @@ public interface AtpService
 	/**
 	* Updates an existing Academic Time Period
 	* 
-	* @param atpKey Key of ATP to be updated
-	* @param atpInfo Details of updates to ATP being updated
+	* @param atpKey - atpKey - Key of ATP to be updated
+	* @param atpInfo - atpInfo - Details of updates to ATP being updated
 	* @return Details of ATP just updated
 	*/
 	public AtpInfo updateAtp(String atpKey, AtpInfo atpInfo)
@@ -409,7 +414,7 @@ public interface AtpService
 	/**
 	* Deletes an existing Academic Time Period
 	* 
-	* @param atpKey Key of ATP to be deleted
+	* @param atpKey - atpKey - Key of ATP to be deleted
 	* @return status of the operation (success, failed)
 	*/
 	public StatusInfo deleteAtp(String atpKey)
@@ -423,9 +428,9 @@ public interface AtpService
 	/**
 	* Add a new milestone to an existing Academic Time Period
 	* 
-	* @param atpKey Key of ATP to be updated
-	* @param milestoneKey Id of milestone to be added
-	* @param milestoneInfo Details of milestone to be added
+	* @param atpKey - atpKey - Key of ATP to be updated
+	* @param milestoneKey - milestoneKey - Id of milestone to be added
+	* @param milestoneInfo - milestoneInfo - Details of milestone to be added
 	* @return Details of the newly created milestone
 	*/
 	public MilestoneInfo addMilestone(String atpKey, String milestoneKey, MilestoneInfo milestoneInfo)
@@ -440,8 +445,8 @@ public interface AtpService
 	/**
 	* Updates an existing milestone.
 	* 
-	* @param milestoneKey ID of milestone to be updated
-	* @param milestoneInfo Details of milestone to be updated
+	* @param milestoneKey - milestoneKey - ID of milestone to be updated
+	* @param milestoneInfo - milestoneInfo - Details of milestone to be updated
 	* @return Details of the updated milestone
 	*/
 	public MilestoneInfo updateMilestone(String milestoneKey, MilestoneInfo milestoneInfo)
@@ -457,7 +462,7 @@ public interface AtpService
 	/**
 	* Removes an existing milestone.
 	* 
-	* @param milestoneKey Id of milestone to be removed
+	* @param milestoneKey - milestoneKey - Id of milestone to be removed
 	* @return Status of the operation (success, failed)
 	*/
 	public StatusInfo removeMilestone(String milestoneKey)
@@ -471,9 +476,9 @@ public interface AtpService
 	/**
 	* Adds a new dateRange to an existing Academic Time Period
 	* 
-	* @param atpKey key of the ATP to be associated with the dateRange
-	* @param dateRangeKey identifier of the dateRange to be added
-	* @param dateRangeInfo details of the dateRange to be added
+	* @param atpKey - atpKey - key of the ATP to be associated with the dateRange
+	* @param dateRangeKey - dateRangeKey - identifier of the dateRange to be added
+	* @param dateRangeInfo - dateRangeInfo - details of the dateRange to be added
 	* @return details of the newly created dateRange
 	*/
 	public DateRangeInfo addDateRange(String atpKey, String dateRangeKey, DateRangeInfo dateRangeInfo)
@@ -488,8 +493,8 @@ public interface AtpService
 	/**
 	* Updates an existing daterange
 	* 
-	* @param dateRangeKey identifier of daterange to be updated
-	* @param dateRangeInfo details of daterange to be updated
+	* @param dateRangeKey - dateRangeKey - identifier of daterange to be updated
+	* @param dateRangeInfo - dateRangeInfo - details of daterange to be updated
 	* @return details of the updated dateRange
 	*/
 	public DateRangeInfo updateDateRange(String dateRangeKey, DateRangeInfo dateRangeInfo)
@@ -505,7 +510,7 @@ public interface AtpService
 	/**
 	* Removes an existing daterange.
 	* 
-	* @param dateRangeKey key of daterange to be removed
+	* @param dateRangeKey - dateRangeKey - key of daterange to be removed
 	* @return status of the operation (success, failed)
 	*/
 	public StatusInfo removeDateRange(String dateRangeKey)

@@ -26,12 +26,16 @@ public interface CluLoRelationInfo
 	/**
 	* Set CLU Identifier
 	*
+	* Type: cluId
+	*
 	* Unique identifier for a Canonical Learning Unit (CLU).
 	*/
 	public void setCluId(String cluId);
 	
 	/**
 	* Get CLU Identifier
+	*
+	* Type: cluId
 	*
 	* Unique identifier for a Canonical Learning Unit (CLU).
 	*/
@@ -42,12 +46,16 @@ public interface CluLoRelationInfo
 	/**
 	* Set LO Identifier
 	*
+	* Type: loId
+	*
 	* Unique identifier for a learning objective record.
 	*/
 	public void setLoId(String loId);
 	
 	/**
 	* Get LO Identifier
+	*
+	* Type: loId
 	*
 	* Unique identifier for a learning objective record.
 	*/
@@ -58,6 +66,8 @@ public interface CluLoRelationInfo
 	/**
 	* Set Effective Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this CLU to LO relationship became effective. This is a 
 	* similar concept to the effective date on enumerated values. When an expiration 
 	* date has been specified, this field must be less than or equal to the expiration 
@@ -67,6 +77,8 @@ public interface CluLoRelationInfo
 	
 	/**
 	* Get Effective Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this CLU to LO relationship became effective. This is a 
 	* similar concept to the effective date on enumerated values. When an expiration 
@@ -80,6 +92,8 @@ public interface CluLoRelationInfo
 	/**
 	* Set Expiration Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this CLU to LO relationship expires. This is a similar 
 	* concept to the expiration date on enumerated values. If specified, this should 
 	* be greater than or equal to the effective date. If this field is not specified, 
@@ -90,6 +104,8 @@ public interface CluLoRelationInfo
 	
 	/**
 	* Get Expiration Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this CLU to LO relationship expires. This is a similar 
 	* concept to the expiration date on enumerated values. If specified, this should 
@@ -104,12 +120,16 @@ public interface CluLoRelationInfo
 	/**
 	* Set Generic/dynamic attributes
 	*
+	* Type: attributeInfoList
+	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
 	public void setAttributes(Map<String,String> attributes);
 	
 	/**
 	* Get Generic/dynamic attributes
+	*
+	* Type: attributeInfoList
 	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
@@ -120,6 +140,8 @@ public interface CluLoRelationInfo
 	/**
 	* Set Create/Update meta info
 	*
+	* Type: metaInfo
+	*
 	* Create and last update info for the structure. This is optional and treated as 
 	* read only since the data is set by the internals of the service during 
 	* maintenance operations.
@@ -128,6 +150,8 @@ public interface CluLoRelationInfo
 	
 	/**
 	* Get Create/Update meta info
+	*
+	* Type: metaInfo
 	*
 	* Create and last update info for the structure. This is optional and treated as 
 	* read only since the data is set by the internals of the service during 
@@ -140,12 +164,16 @@ public interface CluLoRelationInfo
 	/**
 	* Set LU to LU Relation Type
 	*
+	* Type: luLuRelationTypeKey
+	*
 	* Unique identifier for a clu lo relation type.
 	*/
 	public void setType(String type);
 	
 	/**
 	* Get LU to LU Relation Type
+	*
+	* Type: luLuRelationTypeKey
 	*
 	* Unique identifier for a clu lo relation type.
 	*/
@@ -156,6 +184,8 @@ public interface CluLoRelationInfo
 	/**
 	* Set LU to LU Relation State
 	*
+	* Type: string
+	*
 	* Identifier for the current status of a CLU to LO relationship. The values for 
 	* this field are constrained to those in the luLoRelationState enumeration. A 
 	* separate setup operation does not exist for retrieval of the meta data around 
@@ -165,6 +195,8 @@ public interface CluLoRelationInfo
 	
 	/**
 	* Get LU to LU Relation State
+	*
+	* Type: string
 	*
 	* Identifier for the current status of a CLU to LO relationship. The values for 
 	* this field are constrained to those in the luLoRelationState enumeration. A 
@@ -178,6 +210,8 @@ public interface CluLoRelationInfo
 	/**
 	* Set CLU to CLU Relation Identifier
 	*
+	* Type: cluCluRelationId
+	*
 	* Unique identifier for a single CLU LO Relation record. This is optional, due to 
 	* the identifier being set at the time of creation. Once the relation has been 
 	* created, this should be seen as required.
@@ -186,6 +220,8 @@ public interface CluLoRelationInfo
 	
 	/**
 	* Get CLU to CLU Relation Identifier
+	*
+	* Type: cluCluRelationId
 	*
 	* Unique identifier for a single CLU LO Relation record. This is optional, due to 
 	* the identifier being set at the time of creation. Once the relation has been 

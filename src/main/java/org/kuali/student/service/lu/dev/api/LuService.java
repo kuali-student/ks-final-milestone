@@ -34,7 +34,8 @@ public interface LuService
 	/**
 	* Retrieves information about a delivery method type
 	* 
-	* @param deliveryMethodTypeKey Key of the Delivery Method Type
+	* @param deliveryMethodTypeKey - deliveryMethodTypeKey - Key of the Delivery 
+	* Method Type
 	* @return information about a Delivery Method Type
 	*/
 	public DeliveryMethodTypeInfo getDeliveryMethodType(String deliveryMethodTypeKey)
@@ -56,7 +57,8 @@ public interface LuService
 	/**
 	* Retrieves information about a Instructional Format Type
 	* 
-	* @param instructionalFormatTypeKey Key of the Instructional Format Type
+	* @param instructionalFormatTypeKey - instructionalFormatTypeKey - Key of the 
+	* Instructional Format Type
 	* @return information about a Instructional Format Type
 	*/
 	public InstructionalFormatTypeInfo getInstructionalFormatType(String instructionalFormatTypeKey)
@@ -78,7 +80,7 @@ public interface LuService
 	/**
 	* Retrieves information about a LU Type
 	* 
-	* @param luTypeKey Key of the LU Type
+	* @param luTypeKey - luTypeKey - Key of the LU Type
 	* @return information about a LU Type
 	*/
 	public LuTypeInfo getLuType(String luTypeKey)
@@ -100,7 +102,7 @@ public interface LuService
 	/**
 	* Retrieves information about a learning unit code type
 	* 
-	* @param luCodeTypeKey Key of the learning unit code type
+	* @param luCodeTypeKey - luCodeTypeKey - Key of the learning unit code type
 	* @return information about a learning unit code type
 	*/
 	public LuCodeTypeInfo getLuCodeType(String luCodeTypeKey)
@@ -122,7 +124,8 @@ public interface LuService
 	/**
 	* Retrieves the LU to LU relation type
 	* 
-	* @param luLuRelationTypeKey Key of the LU to LU Relation Type
+	* @param luLuRelationTypeKey - luLuRelationTypeKey - Key of the LU to LU Relation 
+	* Type
 	* @return LU to LU relation type information
 	*/
 	public LuLuRelationTypeInfo getLuLuRelationType(String luLuRelationTypeKey)
@@ -134,8 +137,8 @@ public interface LuService
 	/**
 	* Retrieves the list of allowed relation types between the two specified LU Types
 	* 
-	* @param luTypeKey Key of the first LU Type
-	* @param relatedLuTypeKey Key of the second LU Type
+	* @param luTypeKey - luTypeKey - Key of the first LU Type
+	* @param relatedLuTypeKey - luTypeKey - Key of the second LU Type
 	* @return list of LU to LU relation types
 	*/
 	public List<String> getAllowedLuLuRelationTypesForLuType(String luTypeKey, String relatedLuTypeKey)
@@ -157,7 +160,8 @@ public interface LuService
 	/**
 	* Retrieves information about a publication type
 	* 
-	* @param luPublicationTypeKey Key of the Learning Unit Publication Type
+	* @param luPublicationTypeKey - luPublicationTypeKey - Key of the Learning Unit 
+	* Publication Type
 	* @return information about a Learning Unit Publication Type
 	*/
 	public LuPublicationTypeInfo getLuPublicationType(String luPublicationTypeKey)
@@ -170,7 +174,7 @@ public interface LuService
 	/**
 	* Retrieves the list of allowed publication types for the specified LU Type
 	* 
-	* @param luTypeKey Key of the LU Type
+	* @param luTypeKey - luTypeKey - Key of the LU Type
 	* @return list of LU publication types
 	*/
 	public List<String> getLuPublicationTypesForLuType(String luTypeKey)
@@ -192,7 +196,8 @@ public interface LuService
 	/**
 	* Retrieves information about a clu result object type
 	* 
-	* @param cluResultTypeKey Key of the Canonical Learning Unit Result Type
+	* @param cluResultTypeKey - cluResultTypeKey - Key of the Canonical Learning Unit 
+	* Result Type
 	* @return information about a Learning Unit Publication Type
 	*/
 	public CluResultTypeInfo getCluResultType(String cluResultTypeKey)
@@ -206,7 +211,7 @@ public interface LuService
 	* Retrieves the list of clu result types which are allowed to be used in 
 	* conjunction with a particular lu type.
 	* 
-	* @param luTypeKey luTypeKey
+	* @param luTypeKey - luTypeKey - luTypeKey
 	* @return list of clu result types
 	*/
 	public List<String> getCluResultTypesForLuType(String luTypeKey)
@@ -228,7 +233,7 @@ public interface LuService
 	/**
 	* Retrieves information about a Result Usage Type
 	* 
-	* @param resultUsageTypeKey Key of the Result Usage Type
+	* @param resultUsageTypeKey - resultUsageTypeKey - Key of the Result Usage Type
 	* @return information about a Result Usage Type
 	*/
 	public ResultUsageTypeInfo getResultUsageType(String resultUsageTypeKey)
@@ -242,7 +247,7 @@ public interface LuService
 	* Retrieves the list of result usage types which are allowed to be used in 
 	* conjunction with an lu type.
 	* 
-	* @param luTypeKey luTypeKey
+	* @param luTypeKey - luTypeKey - luTypeKey
 	* @return list of result usage types
 	*/
 	public List<String> getAllowedResultUsageTypesForLuType(String luTypeKey)
@@ -256,7 +261,7 @@ public interface LuService
 	* Retrieves the list of result component types which are allowed to be used in 
 	* conjunction with result usage type.
 	* 
-	* @param resultUsageTypeKey resultUsageTypeKey
+	* @param resultUsageTypeKey - resultUsageTypeKey - resultUsageTypeKey
 	* @return list of result component types
 	*/
 	public List<String> getAllowedResultComponentTypesForResultUsageType(String resultUsageTypeKey)
@@ -278,7 +283,8 @@ public interface LuService
 	/**
 	* Retrieves information for a specified CLU to LO relation type
 	* 
-	* @param cluLoRelationTypeKey Key of the CLU to LO Relation Type
+	* @param cluLoRelationTypeKey - cluLoRelationTypeKey - Key of the CLU to LO 
+	* Relation Type
 	* @return CLU to LO relation type information
 	*/
 	public CluLoRelationTypeInfo getCluLoRelationType(String cluLoRelationTypeKey)
@@ -292,7 +298,7 @@ public interface LuService
 	* Retrieves the list of CLU LO relation types which are allowed to be used in 
 	* conjunction with an lu type.
 	* 
-	* @param luTypeKey luTypeKey
+	* @param luTypeKey - luTypeKey - luTypeKey
 	* @return list of clu lo relation types
 	*/
 	public List<String> getAllowedCluLoRelationTypesForLuType(String luTypeKey)
@@ -314,7 +320,7 @@ public interface LuService
 	/**
 	* Retrieves information about a specified CLU set type
 	* 
-	* @param cluSetTypeKey Key of the CLU set type
+	* @param cluSetTypeKey - cluSetTypeKey - Key of the CLU set type
 	* @return information about a CLU set type
 	*/
 	public CluSetTypeInfo getCluSetType(String cluSetTypeKey)
@@ -327,7 +333,7 @@ public interface LuService
 	/**
 	* Retrieves core information about a CLU
 	* 
-	* @param cluId identifier of the CLU
+	* @param cluId - cluId - identifier of the CLU
 	* @return information about a CLU
 	*/
 	public CluInfo getClu(String cluId)
@@ -340,7 +346,7 @@ public interface LuService
 	/**
 	* Retrieves information about CLUs from a list of ids
 	* 
-	* @param cluIdList List of CLU identifiers
+	* @param cluIdList - cluIdList - List of CLU identifiers
 	* @return information a list of CLUs
 	*/
 	public List<CluInfo> getClusByIdList(List<String> cluIdList)
@@ -353,8 +359,8 @@ public interface LuService
 	/**
 	* Retrieves the list of CLUs for the specified LU Type and state
 	* 
-	* @param luTypeKey Type of the CLUs to retrieve
-	* @param luState State of the CLUs to retrieve.
+	* @param luTypeKey - luTypeKey - Type of the CLUs to retrieve
+	* @param luState - string - State of the CLUs to retrieve.
 	* @return list of CLU information
 	*/
 	public List<CluInfo> getClusByLuType(String luTypeKey, String luState)
@@ -367,8 +373,10 @@ public interface LuService
 	/**
 	* Retrieves the list of CLU ids for the specified LU Type and state
 	* 
-	* @param luTypeKey Type of the CLUs whose identifiers should be retrieved
-	* @param luState State of the CLUs whose identifiers should be retrieved
+	* @param luTypeKey - luTypeKey - Type of the CLUs whose identifiers should be 
+	* retrieved
+	* @param luState - string - State of the CLUs whose identifiers should be 
+	* retrieved
 	* @return list of CLU identifiers
 	*/
 	public List<String> getCluIdsByLuType(String luTypeKey, String luState)
@@ -381,8 +389,8 @@ public interface LuService
 	/**
 	* Retrieves the list of allowed relation types between the two specified CLUs
 	* 
-	* @param cluId identifier of the first CLU
-	* @param relatedCluId identifier of the second CLU
+	* @param cluId - cluId - identifier of the first CLU
+	* @param relatedCluId - cluId - identifier of the second CLU
 	* @return list of LU to LU relation types
 	*/
 	public List<String> getAllowedLuLuRelationTypesByCluId(String cluId, String relatedCluId)
@@ -395,8 +403,8 @@ public interface LuService
 	/**
 	* from the other direction)
 	* 
-	* @param relatedCluId identifier of the child or To CLU
-	* @param luLuRelationType the LU to LU relation type
+	* @param relatedCluId - cluId - identifier of the child or To CLU
+	* @param luLuRelationType - luLuRelationTypeKey - the LU to LU relation type
 	* @return list of CLU information
 	*/
 	public List<CluInfo> getClusByRelation(String relatedCluId, String luLuRelationType)
@@ -409,8 +417,8 @@ public interface LuService
 	/**
 	* from the other direction)
 	* 
-	* @param relatedCluId identifier of the child or To CLU
-	* @param luLuRelationType the LU to LU relation type
+	* @param relatedCluId - cluId - identifier of the child or To CLU
+	* @param luLuRelationType - luLuRelationTypeKey - the LU to LU relation type
 	* @return list of CLU identifiers
 	*/
 	public List<String> getCluIdsByRelation(String relatedCluId, String luLuRelationType)
@@ -423,8 +431,8 @@ public interface LuService
 	/**
 	* from the other direction)
 	* 
-	* @param cluId identifier of the parent or From CLU
-	* @param luLuRelationType the LU to LU relation type
+	* @param cluId - cluId - identifier of the parent or From CLU
+	* @param luLuRelationType - luLuRelationTypeKey - the LU to LU relation type
 	* @return list of CLU information
 	*/
 	public List<CluInfo> getRelatedClusByCluId(String cluId, String luLuRelationType)
@@ -437,8 +445,8 @@ public interface LuService
 	/**
 	* from the other direction)
 	* 
-	* @param cluId identifier of the parent or From CLU
-	* @param luLuRelationType the LU to LU relation type
+	* @param cluId - cluId - identifier of the parent or From CLU
+	* @param luLuRelationType - luLuRelationTypeKey - the LU to LU relation type
 	* @return list of CLU identifiers
 	*/
 	public List<String> getRelatedCluIdsByCluId(String cluId, String luLuRelationType)
@@ -452,7 +460,8 @@ public interface LuService
 	* Retrieves the relationship information between CLUs for a particular Relation 
 	* instance
 	* 
-	* @param cluCluRelationId identifier of the CLU to CLU relation
+	* @param cluCluRelationId - cluCluRelationId - identifier of the CLU to CLU 
+	* relation
 	* @return information on the relation between two CLUs
 	*/
 	public CluCluRelationInfo getCluCluRelation(String cluCluRelationId)
@@ -465,7 +474,7 @@ public interface LuService
 	/**
 	* Retrieves the list of relationship information for the specified CLU
 	* 
-	* @param cluId identifier of the parent or From CLU
+	* @param cluId - cluId - identifier of the parent or From CLU
 	* @return list of CLU to CLU relation information
 	*/
 	public List<CluCluRelationInfo> getCluCluRelationsByClu(String cluId)
@@ -478,7 +487,7 @@ public interface LuService
 	/**
 	* Retrieves a list of publication objects for a particular clu
 	* 
-	* @param cluId clu identifier
+	* @param cluId - cluId - clu identifier
 	* @return list of publication objects used by the specified clu
 	*/
 	public List<CluPublicationInfo> getCluPublicationsByCluId(String cluId)
@@ -491,7 +500,8 @@ public interface LuService
 	/**
 	* Retrieves a list of publication objects of a particular Type
 	* 
-	* @param luPublicationTypeKey luPublicationType identifier
+	* @param luPublicationTypeKey - luPublicationTypeKey - luPublicationType 
+	* identifier
 	* @return list of CLU Publication objects using the specified type
 	*/
 	public List<CluPublicationInfo> getCluPublicationsByType(String luPublicationTypeKey)
@@ -504,7 +514,7 @@ public interface LuService
 	/**
 	* Retrieves an LU publication object by its identifier
 	* 
-	* @param cluPublicationId CLU publication identifier
+	* @param cluPublicationId - cluPublicationId - CLU publication identifier
 	* @return CLU Publication information
 	*/
 	public CluPublicationInfo getCluPublication(String cluPublicationId)
@@ -517,7 +527,7 @@ public interface LuService
 	/**
 	* Retrieves information about a Clu Result
 	* 
-	* @param cluResultId identifier of the Clu Result
+	* @param cluResultId - cluResultId - identifier of the Clu Result
 	* @return information about a Clu Result
 	*/
 	public CluResultInfo getCluResult(String cluResultId)
@@ -530,7 +540,7 @@ public interface LuService
 	/**
 	* Retrieves the list of cluResults associated with a particular clu
 	* 
-	* @param cluId clu identifier
+	* @param cluId - cluId - clu identifier
 	* @return result information for a clu
 	*/
 	public List<CluResultInfo> getCluResultsByClu(String cluId)
@@ -544,7 +554,8 @@ public interface LuService
 	* Retrieves the list of clu ids with the results of the specified usage type. This 
 	* would for example allow requests for all clus which have a final grade.
 	* 
-	* @param resultUsageTypeKey identifier of the result usage type
+	* @param resultUsageTypeKey - resultUsageTypeKey - identifier of the result usage 
+	* type
 	* @return list of clu ids
 	*/
 	public List<String> getCluIdsByResultUsageType(String resultUsageTypeKey)
@@ -557,7 +568,8 @@ public interface LuService
 	/**
 	* Retrieves the list of clu ids which use a particular result component
 	* 
-	* @param resultComponentId identifier of the result component
+	* @param resultComponentId - resultComponentId - identifier of the result 
+	* component
 	* @return list of clu ids
 	*/
 	public List<String> getCluIdsByResultComponent(String resultComponentId)
@@ -570,7 +582,7 @@ public interface LuService
 	/**
 	* Retrieve information on a CLU LO Relation.
 	* 
-	* @param cluLoRelationId Identifier of the CLU LO Relation
+	* @param cluLoRelationId - cluLoRelationId - Identifier of the CLU LO Relation
 	* @return The retrieved CLU LO Relation information
 	*/
 	public CluLoRelationInfo getCluLoRelation(String cluLoRelationId)
@@ -585,7 +597,7 @@ public interface LuService
 	* Retrieves the list of canonical learning unit to learning objective 
 	* relationships for a given CLU.
 	* 
-	* @param cluId Identifier for the CLU
+	* @param cluId - cluId - Identifier for the CLU
 	* @return List of canonical learning unit to learning objective relationships
 	*/
 	public List<CluLoRelationInfo> getCluLoRelationsByClu(String cluId)
@@ -599,7 +611,7 @@ public interface LuService
 	* Retrieves the list of CLU identifiers associated with a given learning objective 
 	* identifier.
 	* 
-	* @param loId Identifier for the learning objective
+	* @param loId - loId - Identifier for the learning objective
 	* @return List of CLU LO Relations
 	*/
 	public List<CluLoRelationInfo> getCluLoRelationsByLo(String loId)
@@ -612,7 +624,7 @@ public interface LuService
 	/**
 	* Retrieves the list of Resource requirements for the specified CLU
 	* 
-	* @param cluId Unique identifier for the CLU
+	* @param cluId - cluId - Unique identifier for the CLU
 	* @return List of resource requirements
 	*/
 	public List<String> getResourceRequirementsForCluId(String cluId)
@@ -627,7 +639,7 @@ public interface LuService
 	* itself, and in the case of a dynamic CLU set, should include the criteria used 
 	* to generate the set.
 	* 
-	* @param cluSetId Identifier of the CLU set
+	* @param cluSetId - cluSetId - Identifier of the CLU set
 	* @return The retrieved CLU set information
 	*/
 	public CluSetInfo getCluSetInfo(String cluSetId)
@@ -641,7 +653,7 @@ public interface LuService
 	/**
 	* Retrieve information on CLU sets from a list of cluSet Ids.
 	* 
-	* @param cluSetIdList List of identifiers of CLU sets
+	* @param cluSetIdList - cluSetIdList - List of identifiers of CLU sets
 	* @return The retrieved list of CLU set information
 	*/
 	public List<CluSetInfo> getCluSetInfoByIdList(List<String> cluSetIdList)
@@ -655,7 +667,7 @@ public interface LuService
 	/**
 	* Retrieve the list of CLU Set Ids within a CLU Set
 	* 
-	* @param cluSetId Identifier of the CLU set
+	* @param cluSetId - cluSetId - Identifier of the CLU set
 	* @return The retrieved list of CLU Set Ids within the specified CLU set
 	*/
 	public List<String> getCluSetIdsFromCluSet(String cluSetId)
@@ -669,7 +681,7 @@ public interface LuService
 	/**
 	* Retrieves the list of CLUs in a CLU set. This only retrieves the direct members.
 	* 
-	* @param cluSetId Identifier of the CLU set
+	* @param cluSetId - cluSetId - Identifier of the CLU set
 	* @return The retrieved list of information on the CLUs within the CLU set 
 	* (flattened and de-duped)
 	*/
@@ -685,7 +697,7 @@ public interface LuService
 	* Retrieves the list of CLU Identifiers within a CLU Set. This only retrieves the 
 	* direct members.
 	* 
-	* @param cluSetId Identifier of the CLU set
+	* @param cluSetId - cluSetId - Identifier of the CLU set
 	* @return The retrieved list of CLU Ids within the specified CLU set (flattened 
 	* and de-duped)
 	*/
@@ -701,7 +713,7 @@ public interface LuService
 	* Retrieves the full list of CLUs in this CLU set or any cluset that is included 
 	* within that.
 	* 
-	* @param cluSetId Identifier of the CLU set
+	* @param cluSetId - cluSetId - Identifier of the CLU set
 	* @return The retrieved list of information on the CLUs
 	*/
 	public List<CluInfo> getAllClusInCluSet(String cluSetId)
@@ -716,7 +728,7 @@ public interface LuService
 	* Retrieves the list of CLU Identifiers within a CLU Set or any cluset that is 
 	* included within that.
 	* 
-	* @param cluSetId Identifier of the CLU set
+	* @param cluSetId - cluSetId - Identifier of the CLU set
 	* @return The retrieved list of CLU Ids within the specified CLU set
 	*/
 	public List<String> getAllCluIdsInCluSet(String cluSetId)
@@ -730,8 +742,8 @@ public interface LuService
 	/**
 	* Checks if a CLU is a member of a CLU set or any contained CLU set
 	* 
-	* @param cluId Identifier of the CLU to check
-	* @param cluSetId Identifier of the CLU set
+	* @param cluId - cluId - Identifier of the CLU to check
+	* @param cluSetId - cluSetId - Identifier of the CLU set
 	* @return True if the CLU is a member of the CLU Set
 	*/
 	public Boolean isCluInCluSet(String cluId, String cluSetId)
@@ -745,7 +757,7 @@ public interface LuService
 	/**
 	* Retrieves information about a LUI
 	* 
-	* @param luiId identifier of the LUI
+	* @param luiId - luiId - identifier of the LUI
 	* @return information about a LUI
 	*/
 	public LuiInfo getLui(String luiId)
@@ -758,7 +770,7 @@ public interface LuService
 	/**
 	* Retrieves information about LUIs from a list of Ids
 	* 
-	* @param luiIdList List of LUI identifiers
+	* @param luiIdList - luiIdList - List of LUI identifiers
 	* @return information about a list of LUIs
 	*/
 	public List<LuiInfo> getLuisByIdList(List<String> luiIdList)
@@ -771,8 +783,8 @@ public interface LuService
 	/**
 	* Retrieves the list of LUIs for the specified CLU and period
 	* 
-	* @param cluId identifier of the CLU
-	* @param atpKey identifier for the academic time period
+	* @param cluId - cluId - identifier of the CLU
+	* @param atpKey - atpKey - identifier for the academic time period
 	* @return list of LUI information
 	*/
 	public List<LuiInfo> getLuisInAtpByCluId(String cluId, String atpKey)
@@ -785,7 +797,7 @@ public interface LuService
 	/**
 	* Retrieves the list of LUI ids for the specified CLU
 	* 
-	* @param cluId identifier of the CLU
+	* @param cluId - cluId - identifier of the CLU
 	* @return list of LUI identifiers
 	*/
 	public List<String> getLuiIdsByCluId(String cluId)
@@ -798,8 +810,8 @@ public interface LuService
 	/**
 	* Retrieves the list of LUI ids for the specified CLU and Time period
 	* 
-	* @param cluId identifier of the CLU
-	* @param atpKey identifier for the academic time period
+	* @param cluId - cluId - identifier of the CLU
+	* @param atpKey - atpKey - identifier for the academic time period
 	* @return list of LUI identifiers
 	*/
 	public List<String> getLuiIdsInAtpByCluId(String cluId, String atpKey)
@@ -812,8 +824,8 @@ public interface LuService
 	/**
 	* Retrieves the list of allowed relation types between the two specified LUIs
 	* 
-	* @param luiId identifier of the first LUI
-	* @param relatedLuiId identifier of the second LUI
+	* @param luiId - luiId - identifier of the first LUI
+	* @param relatedLuiId - luiId - identifier of the second LUI
 	* @return list of LU to LU relation types
 	*/
 	public List<String> getAllowedLuLuRelationTypesByLuiId(String luiId, String relatedLuiId)
@@ -826,8 +838,8 @@ public interface LuService
 	/**
 	* from the other direction)
 	* 
-	* @param relatedLuiId identifier of the LUI
-	* @param luLuRelationType the LU to LU relation type
+	* @param relatedLuiId - luiId - identifier of the LUI
+	* @param luLuRelationType - luLuRelationTypeKey - the LU to LU relation type
 	* @return list of LUI information
 	*/
 	public List<LuiInfo> getLuisByRelation(String relatedLuiId, String luLuRelationType)
@@ -840,8 +852,8 @@ public interface LuService
 	/**
 	* from the other direction)
 	* 
-	* @param relatedLuiId identifier of the LUI
-	* @param luLuRelationType the LU to LU relation type
+	* @param relatedLuiId - luiId - identifier of the LUI
+	* @param luLuRelationType - luLuRelationTypeKey - the LU to LU relation type
 	* @return list of LUI identifiers
 	*/
 	public List<String> getLuiIdsByRelation(String relatedLuiId, String luLuRelationType)
@@ -854,8 +866,8 @@ public interface LuService
 	/**
 	* from the other direction)
 	* 
-	* @param luiId identifier of the LUI
-	* @param luLuRelationType the LU to LU relation type
+	* @param luiId - luiId - identifier of the LUI
+	* @param luLuRelationType - luLuRelationTypeKey - the LU to LU relation type
 	* @return list of LUI information
 	*/
 	public List<LuiInfo> getRelatedLuisByLuiId(String luiId, String luLuRelationType)
@@ -868,8 +880,8 @@ public interface LuService
 	/**
 	* from the other direction)
 	* 
-	* @param luiId identifier of the LUI
-	* @param luLuRelationType the LU to LU relation type
+	* @param luiId - luiId - identifier of the LUI
+	* @param luLuRelationType - luLuRelationTypeKey - the LU to LU relation type
 	* @return list of LUI identifiers
 	*/
 	public List<String> getRelatedLuiIdsByLuiId(String luiId, String luLuRelationType)
@@ -883,7 +895,7 @@ public interface LuService
 	* Retrieves the relationship information between LUIs given a specific relation 
 	* instance
 	* 
-	* @param luiLuiRelationId identifier of LUI to LUI relation
+	* @param luiLuiRelationId - luiLuiRelationId - identifier of LUI to LUI relation
 	* @return information on the relation between two LUIs
 	*/
 	public LuiLuiRelationInfo getLuiLuiRelation(String luiLuiRelationId)
@@ -896,7 +908,7 @@ public interface LuService
 	/**
 	* Retrieves the list of relationship information for the specified LUI
 	* 
-	* @param luiId identifier of the LUI
+	* @param luiId - luiId - identifier of the LUI
 	* @return list of LUI to LUI relation information
 	*/
 	public List<LuiLuiRelationInfo> getLuiLuiRelationsByLui(String luiId)
@@ -917,8 +929,9 @@ public interface LuService
 	* such, the checks performed will be much shallower, typically mimicking those 
 	* performed by setting the validationType to the current object.
 	* 
-	* @param validationType identifier of the extent of validation
-	* @param cluInfo CLU information to be tested.
+	* @param validationType - validationTypeKey - identifier of the extent of 
+	* validation
+	* @param cluInfo - cluInfo - CLU information to be tested.
 	* @return results from performing the validation
 	*/
 	public List<ValidationResultInfo> validateClu(String validationType, CluInfo cluInfo)
@@ -931,8 +944,9 @@ public interface LuService
 	/**
 	* Creates a new CLU
 	* 
-	* @param luTypeKey identifier of the LU Type for the CLU being created
-	* @param cluInfo information about the CLU being created
+	* @param luTypeKey - luTypeKey - identifier of the LU Type for the CLU being 
+	* created
+	* @param cluInfo - cluInfo - information about the CLU being created
 	* @return the created CLU information
 	*/
 	public CluInfo createClu(String luTypeKey, CluInfo cluInfo)
@@ -948,8 +962,8 @@ public interface LuService
 	/**
 	* Updates an existing CLU
 	* 
-	* @param cluId identifier for the CLU to be updated
-	* @param cluInfo updated information about the CLU
+	* @param cluId - cluId - identifier for the CLU to be updated
+	* @param cluInfo - cluInfo - updated information about the CLU
 	* @return the updated CLU information
 	*/
 	public CluInfo updateClu(String cluId, CluInfo cluInfo)
@@ -965,7 +979,7 @@ public interface LuService
 	/**
 	* Deletes an existing CLU
 	* 
-	* @param cluId identifier for the CLU to be deleted
+	* @param cluId - cluId - identifier for the CLU to be deleted
 	* @return status of the operation
 	*/
 	public StatusInfo deleteClu(String cluId)
@@ -980,9 +994,9 @@ public interface LuService
 	/**
 	* Updates the state of the specified CLU
 	* 
-	* @param cluId identifier for the CLU to be updated
-	* @param luState new state for the CLU. Value is expected to be constrained to 
-	* those in the luState enumeration.
+	* @param cluId - cluId - identifier for the CLU to be updated
+	* @param luState - string - new state for the CLU. Value is expected to be 
+	* constrained to those in the luState enumeration.
 	* @return the updated CLU information
 	*/
 	public CluInfo updateCluState(String cluId, String luState)
@@ -1006,8 +1020,10 @@ public interface LuService
 	* typically mimicking those performed by setting the validationType to the current 
 	* object.
 	* 
-	* @param validationType identifier of the extent of validation
-	* @param cluCluRelationInfo cluCluRelation information to be tested.
+	* @param validationType - validationTypeKey - identifier of the extent of 
+	* validation
+	* @param cluCluRelationInfo - cluCluRelationInfo - cluCluRelation information to 
+	* be tested.
 	* @return results from performing the validation
 	*/
 	public List<ValidationResultInfo> validateCluCluRelation(String validationType, CluCluRelationInfo cluCluRelationInfo)
@@ -1020,13 +1036,14 @@ public interface LuService
 	/**
 	* Create a directional relationship between two CLUs
 	* 
-	* @param cluId identifier of the first CLU in the relationship - The From or 
-	* Parent of the relation
-	* @param relatedCluId identifier of the second CLU in the relationship to be 
-	* related to - the To or Child of the Relation
-	* @param luLuRelationType the LU to LU relationship type of the relationship
-	* @param cluCluRelationInfo information about the relationship between the two 
-	* CLUs
+	* @param cluId - cluId - identifier of the first CLU in the relationship - The 
+	* From or Parent of the relation
+	* @param relatedCluId - cluId - identifier of the second CLU in the relationship 
+	* to be related to - the To or Child of the Relation
+	* @param luLuRelationType - luLuRelationTypeKey - the LU to LU relationship type 
+	* of the relationship
+	* @param cluCluRelationInfo - cluCluRelationInfo - information about the 
+	* relationship between the two CLUs
 	* @return the created CLU to CLU relation information
 	*/
 	public CluCluRelationInfo createCluCluRelation(String cluId, String relatedCluId, String luLuRelationType, CluCluRelationInfo cluCluRelationInfo)
@@ -1043,8 +1060,10 @@ public interface LuService
 	/**
 	* Updates a relationship between two CLUs
 	* 
-	* @param cluCluRelationId identifier of the CLU to CLU relation to be updated
-	* @param cluCluRelationInfo changed information about the CLU to CLU relationship
+	* @param cluCluRelationId - cluCluRelationId - identifier of the CLU to CLU 
+	* relation to be updated
+	* @param cluCluRelationInfo - cluCluRelationInfo - changed information about the 
+	* CLU to CLU relationship
 	* @return the updated CLU to CLU relation information
 	*/
 	public CluCluRelationInfo updateCluCluRelation(String cluCluRelationId, CluCluRelationInfo cluCluRelationInfo)
@@ -1060,7 +1079,8 @@ public interface LuService
 	/**
 	* Deletes a relationship between two CLUs
 	* 
-	* @param cluCluRelationId identifier of CLU to CLU relationship to delete
+	* @param cluCluRelationId - cluCluRelationId - identifier of CLU to CLU 
+	* relationship to delete
 	* @return status of the operation (success or failure)
 	*/
 	public StatusInfo deleteCluCluRelation(String cluCluRelationId)
@@ -1083,8 +1103,10 @@ public interface LuService
 	* the checks performed will be much shallower, typically mimicking those performed 
 	* by setting the validationType to the current object.
 	* 
-	* @param validationType identifier of the extent of validation
-	* @param cluPublicationInfo CLU publication information to be tested.
+	* @param validationType - validationTypeKey - identifier of the extent of 
+	* validation
+	* @param cluPublicationInfo - cluPublicationInfo - CLU publication information to 
+	* be tested.
 	* @return results from performing the validation
 	*/
 	public List<ValidationResultInfo> validateCluPublication(String validationType, CluPublicationInfo cluPublicationInfo)
@@ -1098,9 +1120,10 @@ public interface LuService
 	* Create a clu publication object, which contains information about publication 
 	* for a clu.
 	* 
-	* @param cluId identifier of a clu
-	* @param luPublicationType type of lu publication
-	* @param cluPublicationInfo information about publication for a clu
+	* @param cluId - cluId - identifier of a clu
+	* @param luPublicationType - luPublicationTypeKey - type of lu publication
+	* @param cluPublicationInfo - cluPublicationInfo - information about publication 
+	* for a clu
 	* @return information about the created clu publication object
 	*/
 	public CluPublicationInfo createCluPublication(String cluId, String luPublicationType, CluPublicationInfo cluPublicationInfo)
@@ -1115,8 +1138,10 @@ public interface LuService
 	/**
 	* Updates an existing clu publication object
 	* 
-	* @param cluPublicationId identifier for the clu publication object to be updated
-	* @param cluPublicationInfo updated information about the clu publication object
+	* @param cluPublicationId - cluPublicationId - identifier for the clu publication 
+	* object to be updated
+	* @param cluPublicationInfo - cluPublicationInfo - updated information about the 
+	* clu publication object
 	* @return the updated clu publication information
 	*/
 	public CluPublicationInfo updateCluPublication(String cluPublicationId, CluPublicationInfo cluPublicationInfo)
@@ -1132,7 +1157,8 @@ public interface LuService
 	/**
 	* Deletes an existing clu publication object
 	* 
-	* @param cluPublicationId identifier for the clu publication object to be deleted
+	* @param cluPublicationId - cluPublicationId - identifier for the clu publication 
+	* object to be deleted
 	* @return status of the operation
 	*/
 	public StatusInfo deleteCluPublication(String cluPublicationId)
@@ -1156,8 +1182,9 @@ public interface LuService
 	* performed will be much shallower, typically mimicking those performed by setting 
 	* the validationType to the current object.
 	* 
-	* @param validationType identifier of the extent of validation
-	* @param cluResultInfo CLU result information to be tested.
+	* @param validationType - validationTypeKey - identifier of the extent of 
+	* validation
+	* @param cluResultInfo - cluResultInfo - CLU result information to be tested.
 	* @return results from performing the validation
 	*/
 	public List<ValidationResultInfo> validateCluResult(String validationType, CluResultInfo cluResultInfo)
@@ -1171,9 +1198,10 @@ public interface LuService
 	* Create a clu result object, which contains information about potential results 
 	* for a clu.
 	* 
-	* @param cluId identifier of a clu
-	* @param cluResultType type of clu result
-	* @param cluResultInfo information about potential results for a clu
+	* @param cluId - cluId - identifier of a clu
+	* @param cluResultType - cluResultTypeKey - type of clu result
+	* @param cluResultInfo - cluResultInfo - information about potential results for a 
+	* clu
 	* @return information about the created clu result
 	*/
 	public CluResultInfo createCluResult(String cluId, String cluResultType, CluResultInfo cluResultInfo)
@@ -1189,8 +1217,8 @@ public interface LuService
 	/**
 	* Updates an existing clu result
 	* 
-	* @param cluResultId identifier for the clu result to be updated
-	* @param cluResultInfo updated information about the clu result
+	* @param cluResultId - cluResultId - identifier for the clu result to be updated
+	* @param cluResultInfo - cluResultInfo - updated information about the clu result
 	* @return the updated clu result information
 	*/
 	public CluResultInfo updateCluResult(String cluResultId, CluResultInfo cluResultInfo)
@@ -1206,7 +1234,7 @@ public interface LuService
 	/**
 	* Deletes an existing clu result
 	* 
-	* @param cluResultId identifier for the clu result to be deleted
+	* @param cluResultId - cluResultId - identifier for the clu result to be deleted
 	* @return status of the operation
 	*/
 	public StatusInfo deleteCluResult(String cluResultId)
@@ -1230,8 +1258,10 @@ public interface LuService
 	* typically mimicking those performed by setting the validationType to the current 
 	* object.
 	* 
-	* @param validationType identifier of the extent of validation
-	* @param cluLoRelationInfo cluLoRelation information to be tested.
+	* @param validationType - validationTypeKey - identifier of the extent of 
+	* validation
+	* @param cluLoRelationInfo - cluLoRelationInfo - cluLoRelation information to be 
+	* tested.
 	* @return results from performing the validation
 	*/
 	public List<ValidationResultInfo> validateCluLoRelation(String validationType, CluLoRelationInfo cluLoRelationInfo)
@@ -1244,10 +1274,12 @@ public interface LuService
 	/**
 	* Creates a relationship between a learning objective and a CLU.
 	* 
-	* @param cluId CLU identifier
-	* @param loId learning objective identifier
-	* @param cluLoRelationType type of clu learning objective relationship
-	* @param cluLoRelationInfo clu learning objective relationship information
+	* @param cluId - cluId - CLU identifier
+	* @param loId - loId - learning objective identifier
+	* @param cluLoRelationType - cluLoRelationTypeKey - type of clu learning objective 
+	* relationship
+	* @param cluLoRelationInfo - cluLoRelationInfo - clu learning objective 
+	* relationship information
 	* @return the newly created clu learning objective relationship
 	*/
 	public CluLoRelationInfo createCluLoRelation(String cluId, String loId, String cluLoRelationType, CluLoRelationInfo cluLoRelationInfo)
@@ -1262,10 +1294,10 @@ public interface LuService
 	/**
 	* Updates a relationship between a clu and learning objective
 	* 
-	* @param cluLoRelationId identifier of the clu learning objective relationship to 
-	* be updated
-	* @param cluLoRelationInfo information about the clu learning objective 
-	* relationship to be updated
+	* @param cluLoRelationId - cluLoRelationId - identifier of the clu learning 
+	* objective relationship to be updated
+	* @param cluLoRelationInfo - cluLoRelationInfo - information about the clu 
+	* learning objective relationship to be updated
 	* @return the updated clu learning objective relationship information
 	*/
 	public CluLoRelationInfo updateCluLoRelation(String cluLoRelationId, CluLoRelationInfo cluLoRelationInfo)
@@ -1281,7 +1313,8 @@ public interface LuService
 	/**
 	* Removes a relationship between a learning objective and a Clu.
 	* 
-	* @param cluLoRelationId CLU learning objective Relationship identifier
+	* @param cluLoRelationId - cluLoRelationId - CLU learning objective Relationship 
+	* identifier
 	* @return Status
 	*/
 	public StatusInfo deleteCluLoRelation(String cluLoRelationId)
@@ -1295,9 +1328,9 @@ public interface LuService
 	/**
 	* Add a Resource requirement to a CLU
 	* 
-	* @param resourceTypeKey identifier of the resource requirement type to be added 
-	* to the CLU
-	* @param cluId identifier of the CLU
+	* @param resourceTypeKey - resourceTypeKey - identifier of the resource 
+	* requirement type to be added to the CLU
+	* @param cluId - cluId - identifier of the CLU
 	* @return status of the operation (success or failure)
 	*/
 	public StatusInfo addCluResourceRequirement(String resourceTypeKey, String cluId)
@@ -1312,9 +1345,9 @@ public interface LuService
 	/**
 	* Remove a Resource requirement from a CLU
 	* 
-	* @param resourceTypeKey identifier of the resource type to be removed from the 
-	* CLU
-	* @param cluId identifier of the CLU
+	* @param resourceTypeKey - resourceTypeKey - identifier of the resource type to be 
+	* removed from the CLU
+	* @param cluId - cluId - identifier of the CLU
 	* @return status of the operation (success or failure)
 	*/
 	public StatusInfo removeCluResourceRequirement(String resourceTypeKey, String cluId)
@@ -1336,8 +1369,9 @@ public interface LuService
 	* not exist and as such, the checks performed will be much shallower, typically 
 	* mimicking those performed by setting the validationType to the current object.
 	* 
-	* @param validationType identifier of the extent of validation
-	* @param cluSetInfo CLU set information to be tested.
+	* @param validationType - validationTypeKey - identifier of the extent of 
+	* validation
+	* @param cluSetInfo - cluSetInfo - CLU set information to be tested.
 	* @return results from performing the validation
 	*/
 	public List<ValidationResultInfo> validateCluSet(String validationType, CluSetInfo cluSetInfo)
@@ -1350,8 +1384,8 @@ public interface LuService
 	/**
 	* Creates a CLU set.
 	* 
-	* @param cluSetType type of the CLU set to be created
-	* @param cluSetInfo information required to create a CLU set
+	* @param cluSetType - cluSetTypeKey - type of the CLU set to be created
+	* @param cluSetInfo - cluSetInfo - information required to create a CLU set
 	* @return the created CLU set information
 	*/
 	public CluSetInfo createCluSet(String cluSetType, CluSetInfo cluSetInfo)
@@ -1367,8 +1401,8 @@ public interface LuService
 	/**
 	* Update the information for a CLU set
 	* 
-	* @param cluSetId identifier of the CLU set to be updated
-	* @param cluSetInfo updated information about the CLU set
+	* @param cluSetId - cluSetId - identifier of the CLU set to be updated
+	* @param cluSetInfo - cluSetInfo - updated information about the CLU set
 	* @return the updated CLU set information
 	*/
 	public CluSetInfo updateCluSet(String cluSetId, CluSetInfo cluSetInfo)
@@ -1386,7 +1420,7 @@ public interface LuService
 	/**
 	* Delete a CLU set
 	* 
-	* @param cluSetId identifier of the CLU set to be deleted
+	* @param cluSetId - cluSetId - identifier of the CLU set to be deleted
 	* @return status of the operation (success or failure)
 	*/
 	public StatusInfo deleteCluSet(String cluSetId)
@@ -1400,8 +1434,8 @@ public interface LuService
 	/**
 	* Adds one CLU set to another
 	* 
-	* @param cluSetId identifier of the host CLU set
-	* @param addedCluSetId identifier of the CLU set to be added
+	* @param cluSetId - cluSetId - identifier of the host CLU set
+	* @param addedCluSetId - cluSetId - identifier of the CLU set to be added
 	* @return status of the operation (success or failure)
 	*/
 	public StatusInfo addCluSetToCluSet(String cluSetId, String addedCluSetId)
@@ -1417,8 +1451,8 @@ public interface LuService
 	/**
 	* Removes one CLU set from another
 	* 
-	* @param cluSetId identifier of the host CLU set
-	* @param removedCluSetId identifier of the CLU set to be removed
+	* @param cluSetId - cluSetId - identifier of the host CLU set
+	* @param removedCluSetId - cluSetId - identifier of the CLU set to be removed
 	* @return status of the operation (success or failure)
 	*/
 	public StatusInfo removeCluSetFromCluSet(String cluSetId, String removedCluSetId)
@@ -1433,8 +1467,8 @@ public interface LuService
 	/**
 	* Add a CLU to a CLU set
 	* 
-	* @param cluId identifier of CLU to add to the CLU set
-	* @param cluSetId identifier of the CLU set
+	* @param cluId - cluId - identifier of CLU to add to the CLU set
+	* @param cluSetId - cluSetId - identifier of the CLU set
 	* @return status of the operation (success or failure)
 	*/
 	public StatusInfo addCluToCluSet(String cluId, String cluSetId)
@@ -1449,8 +1483,8 @@ public interface LuService
 	/**
 	* Remove a CLU from a CLU set
 	* 
-	* @param cluId identifier of CLU to remove from the CLU set
-	* @param cluSetId identifier of the CLU set
+	* @param cluId - cluId - identifier of CLU to remove from the CLU set
+	* @param cluSetId - cluSetId - identifier of the CLU set
 	* @return status of the operation (success or failure)
 	*/
 	public StatusInfo removeCluFromCluSet(String cluId, String cluSetId)
@@ -1473,8 +1507,9 @@ public interface LuService
 	* such, the checks performed will be much shallower, typically mimicking those 
 	* performed by setting the validationType to the current object.
 	* 
-	* @param validationType identifier of the extent of validation
-	* @param luiInfo LUI information to be tested.
+	* @param validationType - validationTypeKey - identifier of the extent of 
+	* validation
+	* @param luiInfo - luiInfo - LUI information to be tested.
 	* @return results from performing the validation
 	*/
 	public List<ValidationResultInfo> validateLui(String validationType, LuiInfo luiInfo)
@@ -1487,9 +1522,10 @@ public interface LuService
 	/**
 	* Creates a new LUI
 	* 
-	* @param cluId identifier of the CLU for the LUI being created
-	* @param atpKey identifier of the academic time period for the LUI being created
-	* @param luiInfo information about the LUI being created
+	* @param cluId - cluId - identifier of the CLU for the LUI being created
+	* @param atpKey - atpKey - identifier of the academic time period for the LUI 
+	* being created
+	* @param luiInfo - luiInfo - information about the LUI being created
 	* @return the created LUI information
 	*/
 	public LuiInfo createLui(String cluId, String atpKey, LuiInfo luiInfo)
@@ -1505,8 +1541,8 @@ public interface LuService
 	/**
 	* Updates an existing LUI
 	* 
-	* @param luiId identifier for the LUI to be updated
-	* @param luiInfo updated information about the LUI
+	* @param luiId - luiId - identifier for the LUI to be updated
+	* @param luiInfo - luiInfo - updated information about the LUI
 	* @return the updated LUI information
 	*/
 	public LuiInfo updateLui(String luiId, LuiInfo luiInfo)
@@ -1522,7 +1558,7 @@ public interface LuService
 	/**
 	* Deletes a LUI record
 	* 
-	* @param luiId identifier for the LUI to be deleted
+	* @param luiId - luiId - identifier for the LUI to be deleted
 	* @return status of the operation
 	*/
 	public StatusInfo deleteLui(String luiId)
@@ -1537,9 +1573,9 @@ public interface LuService
 	/**
 	* Updates the state of the LUI
 	* 
-	* @param luiId identifier for the LUI to be updated
-	* @param luState New state for LUI. Value is expected to be constrained to those 
-	* in the luState enumeration.
+	* @param luiId - luiId - identifier for the LUI to be updated
+	* @param luState - string - New state for LUI. Value is expected to be constrained 
+	* to those in the luState enumeration.
 	* @return the updated LUI information
 	*/
 	public LuiInfo updateLuiState(String luiId, String luState)
@@ -1563,8 +1599,10 @@ public interface LuService
 	* shallower, typically mimicking those performed by setting the validationType to 
 	* the current object.
 	* 
-	* @param validationType identifier of the extent of validation
-	* @param luiLuiRelationInfo LUI to LUI relationship information to be tested.
+	* @param validationType - validationTypeKey - identifier of the extent of 
+	* validation
+	* @param luiLuiRelationInfo - luiLuiRelationInfo - LUI to LUI relationship 
+	* information to be tested.
 	* @return results from performing the validation
 	*/
 	public List<ValidationResultInfo> validateLuiLuiRelation(String validationType, LuiLuiRelationInfo luiLuiRelationInfo)
@@ -1577,12 +1615,13 @@ public interface LuService
 	/**
 	* Create a relationship between two LUIs
 	* 
-	* @param luiId identifier of the first LUI in the relationship
-	* @param relatedLuiId identifier of the second LUI in the relationship to be 
-	* related to
-	* @param luLuRelationType the LU to LU relationship type of the relationship
-	* @param luiLuiRelationInfo information about the relationship between the two 
-	* LUIs
+	* @param luiId - luiId - identifier of the first LUI in the relationship
+	* @param relatedLuiId - luiId - identifier of the second LUI in the relationship 
+	* to be related to
+	* @param luLuRelationType - luLuRelationTypeKey - the LU to LU relationship type 
+	* of the relationship
+	* @param luiLuiRelationInfo - luiLuiRelationInfo - information about the 
+	* relationship between the two LUIs
 	* @return the created LUI to LUI relation information
 	*/
 	public LuiLuiRelationInfo createLuiLuiRelation(String luiId, String relatedLuiId, String luLuRelationType, LuiLuiRelationInfo luiLuiRelationInfo)
@@ -1599,9 +1638,10 @@ public interface LuService
 	/**
 	* Updates a relationship between two LUIs
 	* 
-	* @param luiLuiRelationId identifier of the LUI to LUI relation to update
-	* @param luiLuiRelationInfo changed information about the relationship between the 
-	* two LUIs
+	* @param luiLuiRelationId - luiLuiRelationId - identifier of the LUI to LUI 
+	* relation to update
+	* @param luiLuiRelationInfo - luiLuiRelationInfo - changed information about the 
+	* relationship between the two LUIs
 	* @return the update LUI to LUI relation information
 	*/
 	public LuiLuiRelationInfo updateLuiLuiRelation(String luiLuiRelationId, LuiLuiRelationInfo luiLuiRelationInfo)
@@ -1617,7 +1657,8 @@ public interface LuService
 	/**
 	* Deletes a relationship between two LUIs
 	* 
-	* @param luiLuiRelationId identifier of the LUI to LUI relation to delete
+	* @param luiLuiRelationId - luiLuiRelationId - identifier of the LUI to LUI 
+	* relation to delete
 	* @return status of the operation (success or failure)
 	*/
 	public StatusInfo deleteLuiLuiRelation(String luiLuiRelationId)

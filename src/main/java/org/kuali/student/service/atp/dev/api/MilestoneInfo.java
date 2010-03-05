@@ -26,12 +26,16 @@ public interface MilestoneInfo
 	/**
 	* Set Milestone Name
 	*
+	* Type: string
+	*
 	* Name of the milestone.
 	*/
 	public void setName(String name);
 	
 	/**
 	* Get Milestone Name
+	*
+	* Type: string
 	*
 	* Name of the milestone.
 	*/
@@ -42,12 +46,16 @@ public interface MilestoneInfo
 	/**
 	* Set Milestone Description
 	*
+	* Type: richTextInfo
+	*
 	* Description of the milestone.
 	*/
 	public void setDesc(RichTextInfo desc);
 	
 	/**
 	* Get Milestone Description
+	*
+	* Type: richTextInfo
 	*
 	* Description of the milestone.
 	*/
@@ -58,12 +66,16 @@ public interface MilestoneInfo
 	/**
 	* Set Academic Time Period Identifier
 	*
+	* Type: atpKey
+	*
 	* Unique identifier for an Academic Time Period (ATP).
 	*/
 	public void setAtpKey(String atpKey);
 	
 	/**
 	* Get Academic Time Period Identifier
+	*
+	* Type: atpKey
 	*
 	* Unique identifier for an Academic Time Period (ATP).
 	*/
@@ -74,12 +86,16 @@ public interface MilestoneInfo
 	/**
 	* Set Milestone Date
 	*
+	* Type: dateTime
+	*
 	* Date and time of the milestone.
 	*/
 	public void setMilestoneDate(Date milestoneDate);
 	
 	/**
 	* Get Milestone Date
+	*
+	* Type: dateTime
 	*
 	* Date and time of the milestone.
 	*/
@@ -90,12 +106,16 @@ public interface MilestoneInfo
 	/**
 	* Set Generic/dynamic attributes
 	*
+	* Type: attributeInfoList
+	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
 	public void setAttributes(Map<String,String> attributes);
 	
 	/**
 	* Get Generic/dynamic attributes
+	*
+	* Type: attributeInfoList
 	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
@@ -106,6 +126,8 @@ public interface MilestoneInfo
 	/**
 	* Set Create/Update meta info
 	*
+	* Type: metaInfo
+	*
 	* Create and last update info for the structure. This is optional and treated as 
 	* read only since the data is set by the internals of the service during 
 	* maintenance operations.
@@ -114,6 +136,8 @@ public interface MilestoneInfo
 	
 	/**
 	* Get Create/Update meta info
+	*
+	* Type: metaInfo
 	*
 	* Create and last update info for the structure. This is optional and treated as 
 	* read only since the data is set by the internals of the service during 
@@ -126,12 +150,16 @@ public interface MilestoneInfo
 	/**
 	* Set Milestone Type
 	*
+	* Type: milestoneTypeKey
+	*
 	* Unique identifier for a milestone type.
 	*/
 	public void setType(String type);
 	
 	/**
 	* Get Milestone Type
+	*
+	* Type: milestoneTypeKey
 	*
 	* Unique identifier for a milestone type.
 	*/
@@ -142,6 +170,8 @@ public interface MilestoneInfo
 	/**
 	* Set Milestone State
 	*
+	* Type: string
+	*
 	* The current status of the milestone. The values for this field are constrained 
 	* to those in the milestoneState enumeration. A separate setup operation does not 
 	* exist for retrieval of the meta data around this value.
@@ -150,6 +180,8 @@ public interface MilestoneInfo
 	
 	/**
 	* Get Milestone State
+	*
+	* Type: string
 	*
 	* The current status of the milestone. The values for this field are constrained 
 	* to those in the milestoneState enumeration. A separate setup operation does not 
@@ -162,12 +194,16 @@ public interface MilestoneInfo
 	/**
 	* Set Milestone Key
 	*
+	* Type: milestoneKey
+	*
 	* Unique identifier for a milestone.
 	*/
 	public void setKey(String key);
 	
 	/**
 	* Get Milestone Key
+	*
+	* Type: milestoneKey
 	*
 	* Unique identifier for a milestone.
 	*/

@@ -57,7 +57,7 @@ public class SingleUseRepositoryCategoryMetadata
 		
 		// metadata for ID
 		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.I_D.getKey (), childMeta);
+		mainMeta.getProperties ().put (Properties.ID.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.STRING);
 		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
 		if (this.matches (type, state, "(default)", "(default)"))

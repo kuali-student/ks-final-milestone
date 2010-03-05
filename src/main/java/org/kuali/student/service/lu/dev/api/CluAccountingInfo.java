@@ -26,12 +26,16 @@ public interface CluAccountingInfo
 	/**
 	* Set List of Affiliated Organizations
 	*
+	* Type: affiliatedOrgInfoList
+	*
 	* List of affiliated organizations.
 	*/
 	public void setAffiliatedOrgInfoList(List<AffiliatedOrgInfo> affiliatedOrgInfoList);
 	
 	/**
 	* Get List of Affiliated Organizations
+	*
+	* Type: affiliatedOrgInfoList
 	*
 	* List of affiliated organizations.
 	*/
@@ -42,12 +46,16 @@ public interface CluAccountingInfo
 	/**
 	* Set Generic/dynamic attributes
 	*
+	* Type: attributeInfoList
+	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
 	public void setAttributes(Map<String,String> attributes);
 	
 	/**
 	* Get Generic/dynamic attributes
+	*
+	* Type: attributeInfoList
 	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/

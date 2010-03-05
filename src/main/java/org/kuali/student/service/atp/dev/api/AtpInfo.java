@@ -26,12 +26,16 @@ public interface AtpInfo
 	/**
 	* Set Academic Time Period Name
 	*
+	* Type: string
+	*
 	* Friendly name for the academic time period
 	*/
 	public void setName(String name);
 	
 	/**
 	* Get Academic Time Period Name
+	*
+	* Type: string
 	*
 	* Friendly name for the academic time period
 	*/
@@ -42,12 +46,16 @@ public interface AtpInfo
 	/**
 	* Set Academic Time Period Description
 	*
+	* Type: richTextInfo
+	*
 	* Narrative description of an academic time period
 	*/
 	public void setDesc(RichTextInfo desc);
 	
 	/**
 	* Get Academic Time Period Description
+	*
+	* Type: richTextInfo
 	*
 	* Narrative description of an academic time period
 	*/
@@ -57,6 +65,8 @@ public interface AtpInfo
 	
 	/**
 	* Set Start Date
+	*
+	* Type: dateTime
 	*
 	* Date and time the academic time period became effective. This does not provide a 
 	* bound on date ranges or milestones associated with this time period, but instead 
@@ -68,6 +78,8 @@ public interface AtpInfo
 	
 	/**
 	* Get Start Date
+	*
+	* Type: dateTime
 	*
 	* Date and time the academic time period became effective. This does not provide a 
 	* bound on date ranges or milestones associated with this time period, but instead 
@@ -82,6 +94,8 @@ public interface AtpInfo
 	/**
 	* Set End Date
 	*
+	* Type: dateTime
+	*
 	* Date and time the academic time period expires. This does not provide a bound on 
 	* date ranges or milestones associated with this time period, but instead 
 	* indicates the time period proper. If specified, this must be greater than or 
@@ -93,6 +107,8 @@ public interface AtpInfo
 	
 	/**
 	* Get End Date
+	*
+	* Type: dateTime
 	*
 	* Date and time the academic time period expires. This does not provide a bound on 
 	* date ranges or milestones associated with this time period, but instead 
@@ -108,12 +124,16 @@ public interface AtpInfo
 	/**
 	* Set Generic/dynamic attributes
 	*
+	* Type: attributeInfoList
+	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
 	public void setAttributes(Map<String,String> attributes);
 	
 	/**
 	* Get Generic/dynamic attributes
+	*
+	* Type: attributeInfoList
 	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
@@ -124,6 +144,8 @@ public interface AtpInfo
 	/**
 	* Set Create/Update meta info
 	*
+	* Type: metaInfo
+	*
 	* Create and last update info for the structure. This is optional and treated as 
 	* read only since the data is set by the internals of the service during 
 	* maintenance operations.
@@ -132,6 +154,8 @@ public interface AtpInfo
 	
 	/**
 	* Get Create/Update meta info
+	*
+	* Type: metaInfo
 	*
 	* Create and last update info for the structure. This is optional and treated as 
 	* read only since the data is set by the internals of the service during 
@@ -144,12 +168,16 @@ public interface AtpInfo
 	/**
 	* Set Academic Time Period Type
 	*
+	* Type: atpTypeKey
+	*
 	* Unique identifier for an academic time period type.
 	*/
 	public void setType(String type);
 	
 	/**
 	* Get Academic Time Period Type
+	*
+	* Type: atpTypeKey
 	*
 	* Unique identifier for an academic time period type.
 	*/
@@ -160,6 +188,8 @@ public interface AtpInfo
 	/**
 	* Set Academic Time Period State
 	*
+	* Type: string
+	*
 	* The current status of the academic time period. The values for this field are 
 	* constrained to those in the atpState enumeration. A separate setup operation 
 	* does not exist for retrieval of the meta data around this value.
@@ -168,6 +198,8 @@ public interface AtpInfo
 	
 	/**
 	* Get Academic Time Period State
+	*
+	* Type: string
 	*
 	* The current status of the academic time period. The values for this field are 
 	* constrained to those in the atpState enumeration. A separate setup operation 
@@ -180,12 +212,16 @@ public interface AtpInfo
 	/**
 	* Set Academic Time Period Identifier
 	*
+	* Type: atpKey
+	*
 	* Unique identifier for an Academic Time Period (ATP).
 	*/
 	public void setKey(String key);
 	
 	/**
 	* Get Academic Time Period Identifier
+	*
+	* Type: atpKey
 	*
 	* Unique identifier for an Academic Time Period (ATP).
 	*/

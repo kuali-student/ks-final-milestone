@@ -26,12 +26,16 @@ public interface CluResultInfo
 	/**
 	* Set CLU Result Description
 	*
+	* Type: richTextInfo
+	*
 	* Narrative description of the CLU result.
 	*/
 	public void setDesc(RichTextInfo desc);
 	
 	/**
 	* Get CLU Result Description
+	*
+	* Type: richTextInfo
 	*
 	* Narrative description of the CLU result.
 	*/
@@ -42,6 +46,8 @@ public interface CluResultInfo
 	/**
 	* Set CLU Identifier
 	*
+	* Type: cluId
+	*
 	* The cluId to which the CLU Result is linked.Unique identifier for a Canonical 
 	* Learning Unit (CLU).
 	*/
@@ -49,6 +55,8 @@ public interface CluResultInfo
 	
 	/**
 	* Get CLU Identifier
+	*
+	* Type: cluId
 	*
 	* The cluId to which the CLU Result is linked.Unique identifier for a Canonical 
 	* Learning Unit (CLU).
@@ -60,12 +68,16 @@ public interface CluResultInfo
 	/**
 	* Set Result Options
 	*
+	* Type: resultOptionInfoList
+	*
 	* List of learning result option information.
 	*/
 	public void setResultOptions(List<ResultOptionInfo> resultOptions);
 	
 	/**
 	* Get Result Options
+	*
+	* Type: resultOptionInfoList
 	*
 	* List of learning result option information.
 	*/
@@ -76,6 +88,8 @@ public interface CluResultInfo
 	/**
 	* Set Effective Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this CLU result became effective. This is a similar concept 
 	* to the effective date on enumerated values. When an expiration date has been 
 	* specified, this field must be less than or equal to the expiration date.
@@ -84,6 +98,8 @@ public interface CluResultInfo
 	
 	/**
 	* Get Effective Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this CLU result became effective. This is a similar concept 
 	* to the effective date on enumerated values. When an expiration date has been 
@@ -96,6 +112,8 @@ public interface CluResultInfo
 	/**
 	* Set Expiration Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this CLU result expires. This is a similar concept to the 
 	* expiration date on enumerated values. If specified, this must be greater than or 
 	* equal to the effective date. If this field is not specified, then no expiration 
@@ -106,6 +124,8 @@ public interface CluResultInfo
 	
 	/**
 	* Get Expiration Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this CLU result expires. This is a similar concept to the 
 	* expiration date on enumerated values. If specified, this must be greater than or 
@@ -120,6 +140,8 @@ public interface CluResultInfo
 	/**
 	* Set Create/Update meta info
 	*
+	* Type: metaInfo
+	*
 	* Create and last update info for the structure. This is optional and treated as 
 	* read only since the data is set by the internals of the service during 
 	* maintenance operations.
@@ -128,6 +150,8 @@ public interface CluResultInfo
 	
 	/**
 	* Get Create/Update meta info
+	*
+	* Type: metaInfo
 	*
 	* Create and last update info for the structure. This is optional and treated as 
 	* read only since the data is set by the internals of the service during 
@@ -140,12 +164,16 @@ public interface CluResultInfo
 	/**
 	* Set Clu Result Type
 	*
+	* Type: cluResultTypeKey
+	*
 	* Unique identifier for a clu learning result object type.
 	*/
 	public void setType(String type);
 	
 	/**
 	* Get Clu Result Type
+	*
+	* Type: cluResultTypeKey
 	*
 	* Unique identifier for a clu learning result object type.
 	*/
@@ -156,6 +184,8 @@ public interface CluResultInfo
 	/**
 	* Set CLU Result State
 	*
+	* Type: string
+	*
 	* The current status of the CLU Result. The values for this field are constrained 
 	* to those in the cluResultState enumeration. A separate setup operation does not 
 	* exist for retrieval of the meta data around this value.
@@ -164,6 +194,8 @@ public interface CluResultInfo
 	
 	/**
 	* Get CLU Result State
+	*
+	* Type: string
 	*
 	* The current status of the CLU Result. The values for this field are constrained 
 	* to those in the cluResultState enumeration. A separate setup operation does not 
@@ -176,6 +208,8 @@ public interface CluResultInfo
 	/**
 	* Set CLU Result Identifier
 	*
+	* Type: cluResultId
+	*
 	* Unique identifier for a CLU result. This is optional, due to the identifier 
 	* being set at the time of creation. Once the result set has been created, this 
 	* should be seen as required.
@@ -184,6 +218,8 @@ public interface CluResultInfo
 	
 	/**
 	* Get CLU Result Identifier
+	*
+	* Type: cluResultId
 	*
 	* Unique identifier for a CLU result. This is optional, due to the identifier 
 	* being set at the time of creation. Once the result set has been created, this 

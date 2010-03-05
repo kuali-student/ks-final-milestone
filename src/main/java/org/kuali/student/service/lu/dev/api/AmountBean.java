@@ -30,6 +30,8 @@
 		/**
 		* Set Unit Type
 		*
+		* Type: string
+		*
 		* The kind of units associated with the quantity, such as hours/week. It is 
 		* expected that in usage in other structures, this value will always be enumerated 
 		* based on that context.
@@ -42,6 +44,8 @@
 		
 		/**
 		* Get Unit Type
+		*
+		* Type: string
 		*
 		* The kind of units associated with the quantity, such as hours/week. It is 
 		* expected that in usage in other structures, this value will always be enumerated 
@@ -58,6 +62,8 @@
 		/**
 		* Set Unit Quantity
 		*
+		* Type: string
+		*
 		* The amount of units. Allowed values consist of numeric values as well as the 
 		* string "unbounded".
 		*/
@@ -69,6 +75,8 @@
 		
 		/**
 		* Get Unit Quantity
+		*
+		* Type: string
 		*
 		* The amount of units. Allowed values consist of numeric values as well as the 
 		* string "unbounded".

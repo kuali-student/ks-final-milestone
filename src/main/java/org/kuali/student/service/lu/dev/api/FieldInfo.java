@@ -23,12 +23,16 @@ public interface FieldInfo
 	/**
 	* Set Field Value
 	*
+	* Type: string
+	*
 	* The value for this field.
 	*/
 	public void setValue(String value);
 	
 	/**
 	* Get Field Value
+	*
+	* Type: string
 	*
 	* The value for this field.
 	*/
@@ -39,12 +43,16 @@ public interface FieldInfo
 	/**
 	* Set Field Identifier
 	*
+	* Type: string
+	*
 	* The identifier for this field.
 	*/
 	public void setKey(String key);
 	
 	/**
 	* Get Field Identifier
+	*
+	* Type: string
 	*
 	* The identifier for this field.
 	*/

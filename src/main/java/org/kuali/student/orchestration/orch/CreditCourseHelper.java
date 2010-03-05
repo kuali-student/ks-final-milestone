@@ -29,6 +29,7 @@ public class CreditCourseHelper
 	public enum Properties implements PropertyEnum
 	{
 		ID ("id"),
+		COPY_OF_COURSE_ID ("copyOfCourseId"),
 		FORMATS ("formats"),
 		TERMS_OFFERED ("termsOffered"),
 		FIRST_EXPECTED_OFFERING ("firstExpectedOffering"),
@@ -53,7 +54,7 @@ public class CreditCourseHelper
 		ACADEMIC_SUBJECT_ORGS ("academicSubjectOrgs"),
 		CAMPUS_LOCATIONS ("campusLocations"),
 		PRIMARY_INSTRUCTOR ("primaryInstructor"),
-		COURSE_SPECIFIC_L_OS ("courseSpecificLOs"),
+		COURSE_SPECIFIC_LOS ("courseSpecificLOs"),
 		_RUNTIME_DATA ("_runtimeData");
 		
 		private final String key;
@@ -100,6 +101,18 @@ public class CreditCourseHelper
 	public String getId ()
 	{
 		return (String) data.get (Properties.ID.getKey ());
+	}
+	
+	
+	public void setCopyOfCourseId (String value)
+	{
+		data.set (Properties.COPY_OF_COURSE_ID.getKey (), value);
+	}
+	
+	
+	public String getCopyOfCourseId ()
+	{
+		return (String) data.get (Properties.COPY_OF_COURSE_ID.getKey ());
 	}
 	
 	
@@ -393,13 +406,13 @@ public class CreditCourseHelper
 	
 	public void setCourseSpecificLOs (Data value)
 	{
-		data.set (Properties.COURSE_SPECIFIC_L_OS.getKey (), value);
+		data.set (Properties.COURSE_SPECIFIC_LOS.getKey (), value);
 	}
 	
 	
 	public Data getCourseSpecificLOs ()
 	{
-		return (Data) data.get (Properties.COURSE_SPECIFIC_L_OS.getKey ());
+		return (Data) data.get (Properties.COURSE_SPECIFIC_LOS.getKey ());
 	}
 	
 	

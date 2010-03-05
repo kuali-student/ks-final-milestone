@@ -25,12 +25,16 @@ public interface LuCodeInfo
 	/**
 	* Set LU Code Description
 	*
+	* Type: string
+	*
 	* The description of the code.
 	*/
 	public void setDesc(String desc);
 	
 	/**
 	* Get LU Code Description
+	*
+	* Type: string
 	*
 	* The description of the code.
 	*/
@@ -41,12 +45,16 @@ public interface LuCodeInfo
 	/**
 	* Set LU Code Value
 	*
+	* Type: string
+	*
 	* The code value.
 	*/
 	public void setValue(String value);
 	
 	/**
 	* Get LU Code Value
+	*
+	* Type: string
 	*
 	* The code value.
 	*/
@@ -57,12 +65,16 @@ public interface LuCodeInfo
 	/**
 	* Set Generic/dynamic attributes
 	*
+	* Type: attributeInfoList
+	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
 	public void setAttributes(Map<String,String> attributes);
 	
 	/**
 	* Get Generic/dynamic attributes
+	*
+	* Type: attributeInfoList
 	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
@@ -73,6 +85,8 @@ public interface LuCodeInfo
 	/**
 	* Set Create/Update meta info
 	*
+	* Type: metaInfo
+	*
 	* Create and last update info for the structure. This is optional and treated as 
 	* read only since the data is set by the internals of the service during 
 	* maintenance operations.
@@ -81,6 +95,8 @@ public interface LuCodeInfo
 	
 	/**
 	* Get Create/Update meta info
+	*
+	* Type: metaInfo
 	*
 	* Create and last update info for the structure. This is optional and treated as 
 	* read only since the data is set by the internals of the service during 
@@ -93,12 +109,16 @@ public interface LuCodeInfo
 	/**
 	* Set LU Code Type
 	*
+	* Type: luCodeTypeKey
+	*
 	* Unique identifier for a learning unit code type.
 	*/
 	public void setType(String type);
 	
 	/**
 	* Get LU Code Type
+	*
+	* Type: luCodeTypeKey
 	*
 	* Unique identifier for a learning unit code type.
 	*/

@@ -33,6 +33,8 @@
 		/**
 		* Set Official Idenfifier
 		*
+		* Type: cluIdentifierInfo
+		*
 		* Information related to the official identification of the clu, typically in 
 		* human readable form. Used to officially reference or publish.
 		*/
@@ -44,6 +46,8 @@
 		
 		/**
 		* Get Official Idenfifier
+		*
+		* Type: cluIdentifierInfo
 		*
 		* Information related to the official identification of the clu, typically in 
 		* human readable form. Used to officially reference or publish.
@@ -59,6 +63,8 @@
 		/**
 		* Set Alternate Idenfifiers
 		*
+		* Type: cluIdentifierInfoList
+		*
 		* Information related to alternate identifications of the clu, typically in human 
 		* readable form. Used to reference or publish.
 		*/
@@ -70,6 +76,8 @@
 		
 		/**
 		* Get Alternate Idenfifiers
+		*
+		* Type: cluIdentifierInfoList
 		*
 		* Information related to alternate identifications of the clu, typically in human 
 		* readable form. Used to reference or publish.
@@ -85,6 +93,8 @@
 		/**
 		* Set Academic Subject Orgs
 		*
+		* Type: academicSubjectOrgInfoList
+		*
 		* The organizations that represents the Subject area of the Clu, if different from 
 		* the PrimaryAdminOrg?
 		*/
@@ -96,6 +106,8 @@
 		
 		/**
 		* Get Academic Subject Orgs
+		*
+		* Type: academicSubjectOrgInfoList
 		*
 		* The organizations that represents the Subject area of the Clu, if different from 
 		* the PrimaryAdminOrg?
@@ -111,6 +123,8 @@
 		/**
 		* Set Study Subject Area
 		*
+		* Type: string
+		*
 		* The Study Subject Area is used to identify the area of study associated with the 
 		* clu. It may be a general study area (e.g. Chemistry) or very specific (e.g. 
 		* Naval Architecture) depending on the level of specificity of the clu.
@@ -123,6 +137,8 @@
 		
 		/**
 		* Get Study Subject Area
+		*
+		* Type: string
 		*
 		* The Study Subject Area is used to identify the area of study associated with the 
 		* clu. It may be a general study area (e.g. Chemistry) or very specific (e.g. 
@@ -139,6 +155,8 @@
 		/**
 		* Set Description
 		*
+		* Type: richTextInfo
+		*
 		* Narrative description of the CLU, used for the catalog.
 		*/
 		@Override
@@ -149,6 +167,8 @@
 		
 		/**
 		* Get Description
+		*
+		* Type: richTextInfo
 		*
 		* Narrative description of the CLU, used for the catalog.
 		*/
@@ -163,6 +183,8 @@
 		/**
 		* Set List of Campus Locations
 		*
+		* Type: campusLocationList
+		*
 		* Places where this clu might be offered
 		*/
 		@Override
@@ -173,6 +195,8 @@
 		
 		/**
 		* Get List of Campus Locations
+		*
+		* Type: campusLocationList
 		*
 		* Places where this clu might be offered
 		*/
@@ -187,6 +211,8 @@
 		/**
 		* Set Accreditations
 		*
+		* Type: accreditationInfoList
+		*
 		* Information around the accreditation of the clu.
 		*/
 		@Override
@@ -197,6 +223,8 @@
 		
 		/**
 		* Get Accreditations
+		*
+		* Type: accreditationInfoList
 		*
 		* Information around the accreditation of the clu.
 		*/
@@ -211,6 +239,8 @@
 		/**
 		* Set Admin Org
 		*
+		* Type: adminOrgInfo
+		*
 		* The primary organization (typically, an academic department) with administrative 
 		* oversight over the CLU. This will be used for Authorization and Workflow.
 		*/
@@ -222,6 +252,8 @@
 		
 		/**
 		* Get Admin Org
+		*
+		* Type: adminOrgInfo
 		*
 		* The primary organization (typically, an academic department) with administrative 
 		* oversight over the CLU. This will be used for Authorization and Workflow.
@@ -237,6 +269,8 @@
 		/**
 		* Set Alternate Admin Orgs
 		*
+		* Type: adminOrgInfoList
+		*
 		* For situations where more than one Organization shares in the Administration of 
 		* this clu. This will be used in Authorization and Workflow
 		*/
@@ -248,6 +282,8 @@
 		
 		/**
 		* Get Alternate Admin Orgs
+		*
+		* Type: adminOrgInfoList
 		*
 		* For situations where more than one Organization shares in the Administration of 
 		* this clu. This will be used in Authorization and Workflow
@@ -263,6 +299,8 @@
 		/**
 		* Set Primary Instructor
 		*
+		* Type: cluInstructorInfo
+		*
 		* Primary potential instructor for the clu. This is primarily for use in 
 		* advertising the clu and may not be the actual instructor.
 		*/
@@ -274,6 +312,8 @@
 		
 		/**
 		* Get Primary Instructor
+		*
+		* Type: cluInstructorInfo
 		*
 		* Primary potential instructor for the clu. This is primarily for use in 
 		* advertising the clu and may not be the actual instructor.
@@ -289,6 +329,8 @@
 		/**
 		* Set Instructors
 		*
+		* Type: cluInstructorInfoList
+		*
 		* Instructors associated with this clu. This may not be an exhaustive list, and 
 		* instead may only be used to indicate potential instructors in publication.
 		*/
@@ -300,6 +342,8 @@
 		
 		/**
 		* Get Instructors
+		*
+		* Type: cluInstructorInfoList
 		*
 		* Instructors associated with this clu. This may not be an exhaustive list, and 
 		* instead may only be used to indicate potential instructors in publication.
@@ -315,6 +359,8 @@
 		/**
 		* Set Expected First ATP
 		*
+		* Type: atpKey
+		*
 		* The expected first academic time period that this clu would be effective. This 
 		* may not reflect the first "real" academic time period for this clu.
 		*/
@@ -326,6 +372,8 @@
 		
 		/**
 		* Get Expected First ATP
+		*
+		* Type: atpKey
 		*
 		* The expected first academic time period that this clu would be effective. This 
 		* may not reflect the first "real" academic time period for this clu.
@@ -341,6 +389,8 @@
 		/**
 		* Set Effective Date
 		*
+		* Type: dateTime
+		*
 		* Date and time the CLU became effective. This is a similar concept to the 
 		* effective date on enumerated values. When an expiration date has been specified, 
 		* this field must be less than or equal to the expiration date.
@@ -353,6 +403,8 @@
 		
 		/**
 		* Get Effective Date
+		*
+		* Type: dateTime
 		*
 		* Date and time the CLU became effective. This is a similar concept to the 
 		* effective date on enumerated values. When an expiration date has been specified, 
@@ -369,6 +421,8 @@
 		/**
 		* Set Expiration Date
 		*
+		* Type: dateTime
+		*
 		* Date and time that this CLU expires. This is a similar concept to the expiration 
 		* date on enumerated values. If specified, this should be greater than or equal to 
 		* the effective date. If this field is not specified, then no expiration date has 
@@ -383,6 +437,8 @@
 		
 		/**
 		* Get Expiration Date
+		*
+		* Type: dateTime
 		*
 		* Date and time that this CLU expires. This is a similar concept to the expiration 
 		* date on enumerated values. If specified, this should be greater than or equal to 
@@ -401,6 +457,8 @@
 		/**
 		* Set Intensity
 		*
+		* Type: amountInfo
+		*
 		* The expected level of time commitment between the student and the CLU meetings.
 		*/
 		@Override
@@ -411,6 +469,8 @@
 		
 		/**
 		* Get Intensity
+		*
+		* Type: amountInfo
 		*
 		* The expected level of time commitment between the student and the CLU meetings.
 		*/
@@ -425,6 +485,8 @@
 		/**
 		* Set Standard Duration
 		*
+		* Type: timeAmountInfo
+		*
 		* The standard duration of the learning unit.
 		*/
 		@Override
@@ -435,6 +497,8 @@
 		
 		/**
 		* Get Standard Duration
+		*
+		* Type: timeAmountInfo
 		*
 		* The standard duration of the learning unit.
 		*/
@@ -449,6 +513,8 @@
 		/**
 		* Set Can Create LUI
 		*
+		* Type: boolean
+		*
 		* Indicates if the CLU can be used to instantiate LUIs (offerings).
 		*/
 		@Override
@@ -459,6 +525,8 @@
 		
 		/**
 		* Get Can Create LUI
+		*
+		* Type: boolean
 		*
 		* Indicates if the CLU can be used to instantiate LUIs (offerings).
 		*/
@@ -473,6 +541,8 @@
 		/**
 		* Set Reference URL
 		*
+		* Type: string
+		*
 		* An URL for additional information about the CLU. This could be a reference to a 
 		* document which might in turn have references to other documents (e.g. course 
 		* syllabus provided by the faculty or department, standard schedule of classes, 
@@ -486,6 +556,8 @@
 		
 		/**
 		* Get Reference URL
+		*
+		* Type: string
 		*
 		* An URL for additional information about the CLU. This could be a reference to a 
 		* document which might in turn have references to other documents (e.g. course 
@@ -503,6 +575,8 @@
 		/**
 		* Set LU Code Info
 		*
+		* Type: luCodeInfoList
+		*
 		* List of LU code info structures. These are structures so that many different 
 		* types of codes can be associated with the clu. This allows them to be put into 
 		* categories.
@@ -515,6 +589,8 @@
 		
 		/**
 		* Get LU Code Info
+		*
+		* Type: luCodeInfoList
 		*
 		* List of LU code info structures. These are structures so that many different 
 		* types of codes can be associated with the clu. This allows them to be put into 
@@ -531,6 +607,8 @@
 		/**
 		* Set Next Review Period
 		*
+		* Type: atpKey
+		*
 		* When the next review should be
 		*/
 		@Override
@@ -541,6 +619,8 @@
 		
 		/**
 		* Get Next Review Period
+		*
+		* Type: atpKey
 		*
 		* When the next review should be
 		*/
@@ -555,6 +635,8 @@
 		/**
 		* Set Is Enrollable
 		*
+		* Type: boolean
+		*
 		* Indicates if Luis generated from this Clu are intended to be enrolled in by 
 		* Students directly
 		*/
@@ -566,6 +648,8 @@
 		
 		/**
 		* Get Is Enrollable
+		*
+		* Type: boolean
 		*
 		* Indicates if Luis generated from this Clu are intended to be enrolled in by 
 		* Students directly
@@ -581,6 +665,8 @@
 		/**
 		* Set Offered Academic Time Period Types
 		*
+		* Type: atpTypeKeyList
+		*
 		* The academic time period types in which this CLU is typically offered. Standard 
 		* usage would equate to terms. It can define a timeframe that a clu with of a 
 		* certain stdDuration would fall in.
@@ -593,6 +679,8 @@
 		
 		/**
 		* Get Offered Academic Time Period Types
+		*
+		* Type: atpTypeKeyList
 		*
 		* The academic time period types in which this CLU is typically offered. Standard 
 		* usage would equate to terms. It can define a timeframe that a clu with of a 
@@ -609,6 +697,8 @@
 		/**
 		* Set Has Early Drop Deadline
 		*
+		* Type: boolean
+		*
 		* Indicates if the CLU has an Early Drop Deadline (EDD). Certain courses are 
 		* designated as such to maximize access to courses that have historically 
 		* experienced high demand and high attrition. Default is "false".
@@ -621,6 +711,8 @@
 		
 		/**
 		* Get Has Early Drop Deadline
+		*
+		* Type: boolean
 		*
 		* Indicates if the CLU has an Early Drop Deadline (EDD). Certain courses are 
 		* designated as such to maximize access to courses that have historically 
@@ -637,6 +729,8 @@
 		/**
 		* Set Default Enrollment Estimate
 		*
+		* Type: integer
+		*
 		* Default enrollment estimate for this CLU.
 		*/
 		@Override
@@ -647,6 +741,8 @@
 		
 		/**
 		* Get Default Enrollment Estimate
+		*
+		* Type: integer
 		*
 		* Default enrollment estimate for this CLU.
 		*/
@@ -661,6 +757,8 @@
 		/**
 		* Set Default Maximum Enrollment
 		*
+		* Type: integer
+		*
 		* Default maximum enrollment for this CLU.
 		*/
 		@Override
@@ -671,6 +769,8 @@
 		
 		/**
 		* Get Default Maximum Enrollment
+		*
+		* Type: integer
 		*
 		* Default maximum enrollment for this CLU.
 		*/
@@ -685,6 +785,8 @@
 		/**
 		* Set Is Hazardous For Disabled Students
 		*
+		* Type: boolean
+		*
 		* Indicates if the CLU may be hazardous for students with disabilities. Would 
 		* default to "false".
 		*/
@@ -696,6 +798,8 @@
 		
 		/**
 		* Get Is Hazardous For Disabled Students
+		*
+		* Type: boolean
 		*
 		* Indicates if the CLU may be hazardous for students with disabilities. Would 
 		* default to "false".
@@ -711,6 +815,8 @@
 		/**
 		* Set feeInfo
 		*
+		* Type: cluFeeInfo
+		*
 		* Fee information associated with this CLU.
 		*/
 		@Override
@@ -721,6 +827,8 @@
 		
 		/**
 		* Get feeInfo
+		*
+		* Type: cluFeeInfo
 		*
 		* Fee information associated with this CLU.
 		*/
@@ -735,6 +843,8 @@
 		/**
 		* Set accountingInfo
 		*
+		* Type: cluAccountingInfo
+		*
 		* Accounting information associated with this CLU.
 		*/
 		@Override
@@ -745,6 +855,8 @@
 		
 		/**
 		* Get accountingInfo
+		*
+		* Type: cluAccountingInfo
 		*
 		* Accounting information associated with this CLU.
 		*/
@@ -759,6 +871,8 @@
 		/**
 		* Set Generic/dynamic attributes
 		*
+		* Type: attributeInfoList
+		*
 		* List of key/value pairs, typically used for dynamic attributes.
 		*/
 		@Override
@@ -769,6 +883,8 @@
 		
 		/**
 		* Get Generic/dynamic attributes
+		*
+		* Type: attributeInfoList
 		*
 		* List of key/value pairs, typically used for dynamic attributes.
 		*/
@@ -783,6 +899,8 @@
 		/**
 		* Set Create/Update meta info
 		*
+		* Type: metaInfo
+		*
 		* Create and last update info for the structure. This is optional and treated as 
 		* read only since the data is set by the internals of the service during 
 		* maintenance operations.
@@ -795,6 +913,8 @@
 		
 		/**
 		* Get Create/Update meta info
+		*
+		* Type: metaInfo
 		*
 		* Create and last update info for the structure. This is optional and treated as 
 		* read only since the data is set by the internals of the service during 
@@ -811,6 +931,8 @@
 		/**
 		* Set Learning Unit Type
 		*
+		* Type: luTypeKey
+		*
 		* Unique identifier for a learning unit type. Once set at create time, this field 
 		* may not be updated.
 		*/
@@ -822,6 +944,8 @@
 		
 		/**
 		* Get Learning Unit Type
+		*
+		* Type: luTypeKey
 		*
 		* Unique identifier for a learning unit type. Once set at create time, this field 
 		* may not be updated.
@@ -837,6 +961,8 @@
 		/**
 		* Set Learning Unit State
 		*
+		* Type: string
+		*
 		* The current status of the clu. The values for this field are constrained to 
 		* those in the luState enumeration. A separate setup operation does not exist for 
 		* retrieval of the meta data around this value. This field may not be updated 
@@ -851,6 +977,8 @@
 		
 		/**
 		* Get Learning Unit State
+		*
+		* Type: string
 		*
 		* The current status of the clu. The values for this field are constrained to 
 		* those in the luState enumeration. A separate setup operation does not exist for 
@@ -869,6 +997,8 @@
 		/**
 		* Set CLU Identifier
 		*
+		* Type: cluId
+		*
 		* Unique identifier for a Canonical Learning Unit (CLU). This is optional, due to 
 		* the identifier being set at the time of creation. Once the CLU has been created, 
 		* this should be seen as required.
@@ -881,6 +1011,8 @@
 		
 		/**
 		* Get CLU Identifier
+		*
+		* Type: cluId
 		*
 		* Unique identifier for a Canonical Learning Unit (CLU). This is optional, due to 
 		* the identifier being set at the time of creation. Once the CLU has been created, 

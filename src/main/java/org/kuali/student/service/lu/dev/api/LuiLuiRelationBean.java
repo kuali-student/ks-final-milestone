@@ -32,6 +32,8 @@
 		/**
 		* Set LUI Identifier
 		*
+		* Type: luiId
+		*
 		* Unique identifier for a Learning Unit Instance (LUI).
 		*/
 		@Override
@@ -42,6 +44,8 @@
 		
 		/**
 		* Get LUI Identifier
+		*
+		* Type: luiId
 		*
 		* Unique identifier for a Learning Unit Instance (LUI).
 		*/
@@ -56,6 +60,8 @@
 		/**
 		* Set Related LUI Identifier
 		*
+		* Type: luiId
+		*
 		* Unique identifier for a Learning Unit Instance (LUI).
 		*/
 		@Override
@@ -66,6 +72,8 @@
 		
 		/**
 		* Get Related LUI Identifier
+		*
+		* Type: luiId
 		*
 		* Unique identifier for a Learning Unit Instance (LUI).
 		*/
@@ -80,6 +88,8 @@
 		/**
 		* Set Effective Date
 		*
+		* Type: dateTime
+		*
 		* Date and time that this LUI to LUI relationship type became effective. This is a 
 		* similar concept to the effective date on enumerated values. When an expiration 
 		* date has been specified, this field must be less than or equal to the expiration 
@@ -93,6 +103,8 @@
 		
 		/**
 		* Get Effective Date
+		*
+		* Type: dateTime
 		*
 		* Date and time that this LUI to LUI relationship type became effective. This is a 
 		* similar concept to the effective date on enumerated values. When an expiration 
@@ -110,6 +122,8 @@
 		/**
 		* Set Expiration Date
 		*
+		* Type: dateTime
+		*
 		* Date and time that this LUI to LUI relationship type expires. This is a similar 
 		* concept to the expiration date on enumerated values. If specified, this should 
 		* be greater than or equal to the effective date. If this field is not specified, 
@@ -124,6 +138,8 @@
 		
 		/**
 		* Get Expiration Date
+		*
+		* Type: dateTime
 		*
 		* Date and time that this LUI to LUI relationship type expires. This is a similar 
 		* concept to the expiration date on enumerated values. If specified, this should 
@@ -142,6 +158,8 @@
 		/**
 		* Set Generic/dynamic attributes
 		*
+		* Type: attributeInfoList
+		*
 		* dynaamic attribiutes
 		*/
 		@Override
@@ -152,6 +170,8 @@
 		
 		/**
 		* Get Generic/dynamic attributes
+		*
+		* Type: attributeInfoList
 		*
 		* dynaamic attribiutes
 		*/
@@ -166,6 +186,8 @@
 		/**
 		* Set Create/Update meta info
 		*
+		* Type: metaInfo
+		*
 		* Create and last update info for the structure. This is optional and treated as 
 		* read only since the data is set by the internals of the service during 
 		* maintenance operations.
@@ -178,6 +200,8 @@
 		
 		/**
 		* Get Create/Update meta info
+		*
+		* Type: metaInfo
 		*
 		* Create and last update info for the structure. This is optional and treated as 
 		* read only since the data is set by the internals of the service during 
@@ -194,6 +218,8 @@
 		/**
 		* Set LU to LU Relation Type
 		*
+		* Type: luLuRelationTypeKey
+		*
 		* Unique identifier for the LU to LU relation type.
 		*/
 		@Override
@@ -204,6 +230,8 @@
 		
 		/**
 		* Get LU to LU Relation Type
+		*
+		* Type: luLuRelationTypeKey
 		*
 		* Unique identifier for the LU to LU relation type.
 		*/
@@ -218,6 +246,8 @@
 		/**
 		* Set LU to LU Relation State
 		*
+		* Type: string
+		*
 		* The current status of the LUI to LUI relationship. The values for this field are 
 		* constrained to those in the luLuRelationState enumeration. A separate setup 
 		* operation does not exist for retrieval of the meta data around this value.
@@ -230,6 +260,8 @@
 		
 		/**
 		* Get LU to LU Relation State
+		*
+		* Type: string
 		*
 		* The current status of the LUI to LUI relationship. The values for this field are 
 		* constrained to those in the luLuRelationState enumeration. A separate setup 
@@ -246,6 +278,8 @@
 		/**
 		* Set LUI to LUI Relation Identifier
 		*
+		* Type: luiLuiRelationId
+		*
 		* Unique identifier for a LUI to LUI relation. This is optional, due to the 
 		* identifier being set at the time of creation. Once the relation has been 
 		* created, this should be seen as required.
@@ -258,6 +292,8 @@
 		
 		/**
 		* Get LUI to LUI Relation Identifier
+		*
+		* Type: luiLuiRelationId
 		*
 		* Unique identifier for a LUI to LUI relation. This is optional, due to the 
 		* identifier being set at the time of creation. Once the relation has been 

@@ -25,12 +25,16 @@ public interface ResultOptionInfo
 	/**
 	* Set Result Option Description
 	*
+	* Type: richTextInfo
+	*
 	* Narrative description of the result option.
 	*/
 	public void setDesc(RichTextInfo desc);
 	
 	/**
 	* Get Result Option Description
+	*
+	* Type: richTextInfo
 	*
 	* Narrative description of the result option.
 	*/
@@ -41,12 +45,16 @@ public interface ResultOptionInfo
 	/**
 	* Set Result Usage Type
 	*
+	* Type: resultUsageTypeKey
+	*
 	* Unique identifier for a result usage type.
 	*/
 	public void setResultUsageTypeKey(String resultUsageTypeKey);
 	
 	/**
 	* Get Result Usage Type
+	*
+	* Type: resultUsageTypeKey
 	*
 	* Unique identifier for a result usage type.
 	*/
@@ -57,12 +65,16 @@ public interface ResultOptionInfo
 	/**
 	* Set Result Component Id
 	*
+	* Type: resultComponentId
+	*
 	* Unique identifier for a result component.
 	*/
 	public void setResultComponentId(String resultComponentId);
 	
 	/**
 	* Get Result Component Id
+	*
+	* Type: resultComponentId
 	*
 	* Unique identifier for a result component.
 	*/
@@ -73,6 +85,8 @@ public interface ResultOptionInfo
 	/**
 	* Set Effective Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this result option became effective. This is a similar 
 	* concept to the effective date on enumerated values. When an expiration date has 
 	* been specified, this field must be less than or equal to the expiration date.
@@ -81,6 +95,8 @@ public interface ResultOptionInfo
 	
 	/**
 	* Get Effective Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this result option became effective. This is a similar 
 	* concept to the effective date on enumerated values. When an expiration date has 
@@ -93,6 +109,8 @@ public interface ResultOptionInfo
 	/**
 	* Set Expiration Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this result option expires. This is a similar concept to the 
 	* expiration date on enumerated values. If specified, this must be greater than or 
 	* equal to the effective date. If this field is not specified, then no expiration 
@@ -103,6 +121,8 @@ public interface ResultOptionInfo
 	
 	/**
 	* Get Expiration Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this result option expires. This is a similar concept to the 
 	* expiration date on enumerated values. If specified, this must be greater than or 
@@ -117,6 +137,8 @@ public interface ResultOptionInfo
 	/**
 	* Set Create/Update meta info
 	*
+	* Type: metaInfo
+	*
 	* Create and last update info for the structure. This is optional and treated as 
 	* read only since the data is set by the internals of the service during 
 	* maintenance operations.
@@ -125,6 +147,8 @@ public interface ResultOptionInfo
 	
 	/**
 	* Get Create/Update meta info
+	*
+	* Type: metaInfo
 	*
 	* Create and last update info for the structure. This is optional and treated as 
 	* read only since the data is set by the internals of the service during 
@@ -137,6 +161,8 @@ public interface ResultOptionInfo
 	/**
 	* Set Result Option State
 	*
+	* Type: string
+	*
 	* The current status of the result option. The values for this field are 
 	* constrained to those in the resultOptionState enumeration. A separate setup 
 	* operation does not exist for retrieval of the meta data around this value.
@@ -145,6 +171,8 @@ public interface ResultOptionInfo
 	
 	/**
 	* Get Result Option State
+	*
+	* Type: string
 	*
 	* The current status of the result option. The values for this field are 
 	* constrained to those in the resultOptionState enumeration. A separate setup 
@@ -157,6 +185,8 @@ public interface ResultOptionInfo
 	/**
 	* Set Result Option Identifier
 	*
+	* Type: resultOptionId
+	*
 	* Unique identifier for a result option. This is optional, due to the identifier 
 	* being set at the time of creation. Once the result option has been created, this 
 	* should be seen as required.
@@ -165,6 +195,8 @@ public interface ResultOptionInfo
 	
 	/**
 	* Get Result Option Identifier
+	*
+	* Type: resultOptionId
 	*
 	* Unique identifier for a result option. This is optional, due to the identifier 
 	* being set at the time of creation. Once the result option has been created, this 

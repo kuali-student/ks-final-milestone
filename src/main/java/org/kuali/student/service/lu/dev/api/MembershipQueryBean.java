@@ -31,6 +31,8 @@
 		/**
 		* Set search Type Key
 		*
+		* Type: searchTypeKey
+		*
 		* Identifier for a search type.
 		*/
 		@Override
@@ -41,6 +43,8 @@
 		
 		/**
 		* Get search Type Key
+		*
+		* Type: searchTypeKey
 		*
 		* Identifier for a search type.
 		*/
@@ -55,6 +59,8 @@
 		/**
 		* Set query Parameter Value List
 		*
+		* Type: queryParamValueList
+		*
 		* List of query parameter values. Not required if the search doesn't extend beyond 
 		* the included object.
 		*/
@@ -66,6 +72,8 @@
 		
 		/**
 		* Get query Parameter Value List
+		*
+		* Type: queryParamValueList
 		*
 		* List of query parameter values. Not required if the search doesn't extend beyond 
 		* the included object.

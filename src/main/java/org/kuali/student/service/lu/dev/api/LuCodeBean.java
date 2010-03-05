@@ -31,6 +31,8 @@
 		/**
 		* Set LU Code Description
 		*
+		* Type: string
+		*
 		* The description of the code.
 		*/
 		@Override
@@ -41,6 +43,8 @@
 		
 		/**
 		* Get LU Code Description
+		*
+		* Type: string
 		*
 		* The description of the code.
 		*/
@@ -55,6 +59,8 @@
 		/**
 		* Set LU Code Value
 		*
+		* Type: string
+		*
 		* The code value.
 		*/
 		@Override
@@ -65,6 +71,8 @@
 		
 		/**
 		* Get LU Code Value
+		*
+		* Type: string
 		*
 		* The code value.
 		*/
@@ -79,6 +87,8 @@
 		/**
 		* Set Generic/dynamic attributes
 		*
+		* Type: attributeInfoList
+		*
 		* List of key/value pairs, typically used for dynamic attributes.
 		*/
 		@Override
@@ -89,6 +99,8 @@
 		
 		/**
 		* Get Generic/dynamic attributes
+		*
+		* Type: attributeInfoList
 		*
 		* List of key/value pairs, typically used for dynamic attributes.
 		*/
@@ -103,6 +115,8 @@
 		/**
 		* Set Create/Update meta info
 		*
+		* Type: metaInfo
+		*
 		* Create and last update info for the structure. This is optional and treated as 
 		* read only since the data is set by the internals of the service during 
 		* maintenance operations.
@@ -115,6 +129,8 @@
 		
 		/**
 		* Get Create/Update meta info
+		*
+		* Type: metaInfo
 		*
 		* Create and last update info for the structure. This is optional and treated as 
 		* read only since the data is set by the internals of the service during 
@@ -131,6 +147,8 @@
 		/**
 		* Set LU Code Type
 		*
+		* Type: luCodeTypeKey
+		*
 		* Unique identifier for a learning unit code type.
 		*/
 		@Override
@@ -141,6 +159,8 @@
 		
 		/**
 		* Get LU Code Type
+		*
+		* Type: luCodeTypeKey
 		*
 		* Unique identifier for a learning unit code type.
 		*/

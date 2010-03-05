@@ -27,7 +27,7 @@ public class SingleUseRepositoryCategoryHelper
 	
 	public enum Properties implements PropertyEnum
 	{
-		I_D ("iD"),
+		ID ("iD"),
 		NAME ("name"),
 		LO_REPOSITORY ("loRepository"),
 		TYPE_KEY ("typeKey"),
@@ -74,13 +74,13 @@ public class SingleUseRepositoryCategoryHelper
 	
 	public void setID (String value)
 	{
-		data.set (Properties.I_D.getKey (), value);
+		data.set (Properties.ID.getKey (), value);
 	}
 	
 	
 	public String getID ()
 	{
-		return (String) data.get (Properties.I_D.getKey ());
+		return (String) data.get (Properties.ID.getKey ());
 	}
 	
 	

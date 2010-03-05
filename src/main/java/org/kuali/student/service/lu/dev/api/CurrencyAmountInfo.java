@@ -23,12 +23,16 @@ public interface CurrencyAmountInfo
 	/**
 	* Set currencyTypeKey
 	*
+	* Type: currencyTypeKey
+	*
 	* The kind of units associated with the quantity, such as US Dollars
 	*/
 	public void setCurrencyTypeKey(String currencyTypeKey);
 	
 	/**
 	* Get currencyTypeKey
+	*
+	* Type: currencyTypeKey
 	*
 	* The kind of units associated with the quantity, such as US Dollars
 	*/
@@ -39,12 +43,16 @@ public interface CurrencyAmountInfo
 	/**
 	* Set currency Quantity
 	*
+	* Type: integer
+	*
 	* The amount of currency
 	*/
 	public void setCurrencyQuantity(Integer currencyQuantity);
 	
 	/**
 	* Get currency Quantity
+	*
+	* Type: integer
 	*
 	* The amount of currency
 	*/

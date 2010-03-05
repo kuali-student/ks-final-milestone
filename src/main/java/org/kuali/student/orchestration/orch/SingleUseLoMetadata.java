@@ -72,6 +72,19 @@ public class SingleUseLoMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.id"));
 		}
 		
+		// metadata for Name
+		childMeta = new Metadata ();
+		mainMeta.getProperties ().put (Properties.NAME.getKey (), childMeta);
+		childMeta.setDataType (Data.DataType.STRING);
+		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single.line.text"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+		}
+		
 		// metadata for Description
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.DESCRIPTION.getKey (), childMeta);

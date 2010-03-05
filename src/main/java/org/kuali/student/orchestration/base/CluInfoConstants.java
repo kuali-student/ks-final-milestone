@@ -36,7 +36,7 @@ public interface CluInfoConstants
 	public static final String INTENSITY = "intensity";
 	public static final String STD_DURATION = "stdDuration";
 	public static final String CAN_CREATE_LUI = "canCreateLui";
-	public static final String REFERENCE_U_R_L = "referenceURL";
+	public static final String REFERENCE_URL = "referenceURL";
 	public static final String LU_CODES = "luCodes";
 	public static final String NEXT_REVIEW_PERIOD = "nextReviewPeriod";
 	public static final String IS_ENROLLABLE = "isEnrollable";

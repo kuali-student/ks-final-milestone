@@ -26,12 +26,16 @@ public interface CluLoRelationTypeInfo
 	/**
 	* Set CLU LO Relation Type Name
 	*
+	* Type: string
+	*
 	* Friendly name of the CLU LO Relation type
 	*/
 	public void setName(String name);
 	
 	/**
 	* Get CLU LO Relation Type Name
+	*
+	* Type: string
 	*
 	* Friendly name of the CLU LO Relation type
 	*/
@@ -42,12 +46,16 @@ public interface CluLoRelationTypeInfo
 	/**
 	* Set CLU LO Relation Type Description
 	*
+	* Type: string
+	*
 	* Narrative description of the CLU LO Relation
 	*/
 	public void setDesc(String desc);
 	
 	/**
 	* Get CLU LO Relation Type Description
+	*
+	* Type: string
 	*
 	* Narrative description of the CLU LO Relation
 	*/
@@ -58,6 +66,8 @@ public interface CluLoRelationTypeInfo
 	/**
 	* Set Effective Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this CLU LO relation type became effective. This is a similar 
 	* concept to the effective date on enumerated values. When an expiration date has 
 	* been specified, this field must be less than or equal to the expiration date.
@@ -66,6 +76,8 @@ public interface CluLoRelationTypeInfo
 	
 	/**
 	* Get Effective Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this CLU LO relation type became effective. This is a similar 
 	* concept to the effective date on enumerated values. When an expiration date has 
@@ -78,6 +90,8 @@ public interface CluLoRelationTypeInfo
 	/**
 	* Set Expiration Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this CLU LO relation type expires. This is a similar concept 
 	* to the expiration date on enumerated values. If specified, this should be 
 	* greater than or equal to the effective date. If this field is not specified, 
@@ -88,6 +102,8 @@ public interface CluLoRelationTypeInfo
 	
 	/**
 	* Get Expiration Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this CLU LO relation type expires. This is a similar concept 
 	* to the expiration date on enumerated values. If specified, this should be 
@@ -102,12 +118,16 @@ public interface CluLoRelationTypeInfo
 	/**
 	* Set Generic/dynamic attributes
 	*
+	* Type: attributeInfoList
+	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
 	public void setAttributes(Map<String,String> attributes);
 	
 	/**
 	* Get Generic/dynamic attributes
+	*
+	* Type: attributeInfoList
 	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
@@ -118,12 +138,16 @@ public interface CluLoRelationTypeInfo
 	/**
 	* Set CLU LO Relation Type Key
 	*
+	* Type: cluLoRelationTypeKey
+	*
 	* Unique identifier for a clu lo relation type.
 	*/
 	public void setKey(String key);
 	
 	/**
 	* Get CLU LO Relation Type Key
+	*
+	* Type: cluLoRelationTypeKey
 	*
 	* Unique identifier for a clu lo relation type.
 	*/

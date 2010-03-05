@@ -32,6 +32,8 @@
 		/**
 		* Set Result Usage Type Name
 		*
+		* Type: string
+		*
 		* Friendly name of the learning result usage type
 		*/
 		@Override
@@ -42,6 +44,8 @@
 		
 		/**
 		* Get Result Usage Type Name
+		*
+		* Type: string
 		*
 		* Friendly name of the learning result usage type
 		*/
@@ -56,6 +60,8 @@
 		/**
 		* Set Result Usage Type Description
 		*
+		* Type: string
+		*
 		* Narrative description of the result usage type
 		*/
 		@Override
@@ -66,6 +72,8 @@
 		
 		/**
 		* Get Result Usage Type Description
+		*
+		* Type: string
 		*
 		* Narrative description of the result usage type
 		*/
@@ -80,6 +88,8 @@
 		/**
 		* Set Effective Date
 		*
+		* Type: dateTime
+		*
 		* Date and time that this result usage type became effective. This is a similar 
 		* concept to the effective date on enumerated values. When an expiration date has 
 		* been specified, this field must be less than or equal to the expiration date.
@@ -92,6 +102,8 @@
 		
 		/**
 		* Get Effective Date
+		*
+		* Type: dateTime
 		*
 		* Date and time that this result usage type became effective. This is a similar 
 		* concept to the effective date on enumerated values. When an expiration date has 
@@ -108,6 +120,8 @@
 		/**
 		* Set Expiration Date
 		*
+		* Type: dateTime
+		*
 		* Date and time that this result usage type expires. This is a similar concept to 
 		* the expiration date on enumerated values. If specified, this should be greater 
 		* than or equal to the effective date. If this field is not specified, then no 
@@ -122,6 +136,8 @@
 		
 		/**
 		* Get Expiration Date
+		*
+		* Type: dateTime
 		*
 		* Date and time that this result usage type expires. This is a similar concept to 
 		* the expiration date on enumerated values. If specified, this should be greater 
@@ -140,6 +156,8 @@
 		/**
 		* Set Generic/dynamic attributes
 		*
+		* Type: attributeInfoList
+		*
 		* List of key/value pairs, typically used for dynamic attributes.
 		*/
 		@Override
@@ -150,6 +168,8 @@
 		
 		/**
 		* Get Generic/dynamic attributes
+		*
+		* Type: attributeInfoList
 		*
 		* List of key/value pairs, typically used for dynamic attributes.
 		*/
@@ -164,6 +184,8 @@
 		/**
 		* Set Result Usage Type Key
 		*
+		* Type: resultUsageTypeKey
+		*
 		* Unique identifier for a result usage type.
 		*/
 		@Override
@@ -174,6 +196,8 @@
 		
 		/**
 		* Get Result Usage Type Key
+		*
+		* Type: resultUsageTypeKey
 		*
 		* Unique identifier for a result usage type.
 		*/

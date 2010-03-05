@@ -102,6 +102,17 @@ public class RuntimeDataMetadata
 		childMeta.getProperties ().put (QueryPath.getWildCard (), listMeta);
 		new RuntimeDataVersionsMetadata ().loadChildMetadata (listMeta, type, state, recursions);
 		
+		// metadata for Dirty
+		childMeta = new Metadata ();
+		mainMeta.getProperties ().put (Properties.DIRTY.getKey (), childMeta);
+		childMeta.setDataType (Data.DataType.BOOLEAN);
+		childMeta.setWriteAccess (Metadata.WriteAccess.NEVER);
+		childMeta.setDefaultValue (new Data.BooleanValue (Boolean.FALSE));
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+		}
+		
 		recursions.increment (this.getClass ().getName ());
 	}
 }

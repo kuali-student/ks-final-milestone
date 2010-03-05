@@ -23,12 +23,16 @@ public interface RichTextInfo
 	/**
 	* Set Plain Text
 	*
+	* Type: string
+	*
 	* Plain version of the text. This may be used for searching.
 	*/
 	public void setPlain(String plain);
 	
 	/**
 	* Get Plain Text
+	*
+	* Type: string
 	*
 	* Plain version of the text. This may be used for searching.
 	*/
@@ -39,12 +43,16 @@ public interface RichTextInfo
 	/**
 	* Set Formatted Text
 	*
+	* Type: string
+	*
 	* Formatted version of the text.
 	*/
 	public void setFormatted(String formatted);
 	
 	/**
 	* Get Formatted Text
+	*
+	* Type: string
 	*
 	* Formatted version of the text.
 	*/

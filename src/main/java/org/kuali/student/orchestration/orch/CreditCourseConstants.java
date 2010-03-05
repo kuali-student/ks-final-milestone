@@ -20,6 +20,7 @@ package org.kuali.student.orchestration.orch;
 public interface CreditCourseConstants
 {
 	public static final String ID = "id";
+	public static final String COPY_OF_COURSE_ID = "copyOfCourseId";
 	public static final String FORMATS = "formats";
 	public static final String TERMS_OFFERED = "termsOffered";
 	public static final String FIRST_EXPECTED_OFFERING = "firstExpectedOffering";
@@ -44,7 +45,7 @@ public interface CreditCourseConstants
 	public static final String ACADEMIC_SUBJECT_ORGS = "academicSubjectOrgs";
 	public static final String CAMPUS_LOCATIONS = "campusLocations";
 	public static final String PRIMARY_INSTRUCTOR = "primaryInstructor";
-	public static final String COURSE_SPECIFIC_L_OS = "courseSpecificLOs";
+	public static final String COURSE_SPECIFIC_LOS = "courseSpecificLOs";
 	public static final String _RUNTIME_DATA = "_runtimeData";
 }
 

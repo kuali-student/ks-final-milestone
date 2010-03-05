@@ -30,6 +30,8 @@
 		/**
 		* Set Attribute Value
 		*
+		* Type: string
+		*
 		* The value for this dynamic attribute.
 		*/
 		@Override
@@ -40,6 +42,8 @@
 		
 		/**
 		* Get Attribute Value
+		*
+		* Type: string
 		*
 		* The value for this dynamic attribute.
 		*/
@@ -54,6 +58,8 @@
 		/**
 		* Set Attribute Type Identifier
 		*
+		* Type: string
+		*
 		* The identifier for this attribute.
 		*/
 		@Override
@@ -64,6 +70,8 @@
 		
 		/**
 		* Get Attribute Type Identifier
+		*
+		* Type: string
 		*
 		* The identifier for this attribute.
 		*/

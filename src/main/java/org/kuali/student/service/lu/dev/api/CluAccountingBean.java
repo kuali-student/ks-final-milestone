@@ -32,6 +32,8 @@
 		/**
 		* Set List of Affiliated Organizations
 		*
+		* Type: affiliatedOrgInfoList
+		*
 		* List of affiliated organizations.
 		*/
 		@Override
@@ -42,6 +44,8 @@
 		
 		/**
 		* Get List of Affiliated Organizations
+		*
+		* Type: affiliatedOrgInfoList
 		*
 		* List of affiliated organizations.
 		*/
@@ -56,6 +60,8 @@
 		/**
 		* Set Generic/dynamic attributes
 		*
+		* Type: attributeInfoList
+		*
 		* List of key/value pairs, typically used for dynamic attributes.
 		*/
 		@Override
@@ -66,6 +72,8 @@
 		
 		/**
 		* Get Generic/dynamic attributes
+		*
+		* Type: attributeInfoList
 		*
 		* List of key/value pairs, typically used for dynamic attributes.
 		*/

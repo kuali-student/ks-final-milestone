@@ -26,12 +26,16 @@ public interface DateRangeTypeInfo
 	/**
 	* Set Date Range Type Name
 	*
+	* Type: string
+	*
 	* Friendly name of the date range type.
 	*/
 	public void setName(String name);
 	
 	/**
 	* Get Date Range Type Name
+	*
+	* Type: string
 	*
 	* Friendly name of the date range type.
 	*/
@@ -42,12 +46,16 @@ public interface DateRangeTypeInfo
 	/**
 	* Set Date Range Type Description
 	*
+	* Type: string
+	*
 	* Narrative description of the date range type.
 	*/
 	public void setDesc(String desc);
 	
 	/**
 	* Get Date Range Type Description
+	*
+	* Type: string
 	*
 	* Narrative description of the date range type.
 	*/
@@ -58,6 +66,8 @@ public interface DateRangeTypeInfo
 	/**
 	* Set Effective Date
 	*
+	* Type: dateTime
+	*
 	* Date that this date range type became effective. This is a similar concept to 
 	* the effective date on enumerated values. When an expiration date has been 
 	* specified, this field must be less than or equal to the expiration date.
@@ -66,6 +76,8 @@ public interface DateRangeTypeInfo
 	
 	/**
 	* Get Effective Date
+	*
+	* Type: dateTime
 	*
 	* Date that this date range type became effective. This is a similar concept to 
 	* the effective date on enumerated values. When an expiration date has been 
@@ -78,6 +90,8 @@ public interface DateRangeTypeInfo
 	/**
 	* Set Expiration Date
 	*
+	* Type: dateTime
+	*
 	* Date that this date range type expires. This is a similar concept to the 
 	* expiration date on enumerated values. If specified, this must be greater than or 
 	* equal to the effective date. If this field is not specified, then no expiration 
@@ -88,6 +102,8 @@ public interface DateRangeTypeInfo
 	
 	/**
 	* Get Expiration Date
+	*
+	* Type: dateTime
 	*
 	* Date that this date range type expires. This is a similar concept to the 
 	* expiration date on enumerated values. If specified, this must be greater than or 
@@ -102,12 +118,16 @@ public interface DateRangeTypeInfo
 	/**
 	* Set Generic/dynamic attributes
 	*
+	* Type: attributeInfoList
+	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
 	public void setAttributes(Map<String,String> attributes);
 	
 	/**
 	* Get Generic/dynamic attributes
+	*
+	* Type: attributeInfoList
 	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
@@ -118,12 +138,16 @@ public interface DateRangeTypeInfo
 	/**
 	* Set Date Range Type
 	*
+	* Type: dateRangeTypeKey
+	*
 	* Unique identifier for a date range type.
 	*/
 	public void setKey(String key);
 	
 	/**
 	* Get Date Range Type
+	*
+	* Type: dateRangeTypeKey
 	*
 	* Unique identifier for a date range type.
 	*/

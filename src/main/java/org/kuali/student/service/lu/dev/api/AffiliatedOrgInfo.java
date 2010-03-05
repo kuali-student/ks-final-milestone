@@ -25,12 +25,16 @@ public interface AffiliatedOrgInfo
 	/**
 	* Set Organization Identifier
 	*
+	* Type: orgId
+	*
 	* Unique identifier for an organization.
 	*/
 	public void setOrgId(String orgId);
 	
 	/**
 	* Get Organization Identifier
+	*
+	* Type: orgId
 	*
 	* Unique identifier for an organization.
 	*/
@@ -41,12 +45,16 @@ public interface AffiliatedOrgInfo
 	/**
 	* Set effectiveDate
 	*
+	* Type: date
+	*
 	* Specifies a date with no time component.
 	*/
 	public void setEffectiveDate(Date effectiveDate);
 	
 	/**
 	* Get effectiveDate
+	*
+	* Type: date
 	*
 	* Specifies a date with no time component.
 	*/
@@ -57,12 +65,16 @@ public interface AffiliatedOrgInfo
 	/**
 	* Set expirationDate
 	*
+	* Type: date
+	*
 	* Specifies a date with no time component.
 	*/
 	public void setExpirationDate(Date expirationDate);
 	
 	/**
 	* Get expirationDate
+	*
+	* Type: date
 	*
 	* Specifies a date with no time component.
 	*/
@@ -73,12 +85,16 @@ public interface AffiliatedOrgInfo
 	/**
 	* Set percentage
 	*
+	* Type: long
+	*
 	* A long numeric value without a fractional component.
 	*/
 	public void setPercentage(Long percentage);
 	
 	/**
 	* Get percentage
+	*
+	* Type: long
 	*
 	* A long numeric value without a fractional component.
 	*/

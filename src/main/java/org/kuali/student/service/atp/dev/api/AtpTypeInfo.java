@@ -26,12 +26,16 @@ public interface AtpTypeInfo
 	/**
 	* Set Academic Time Period Type Name
 	*
+	* Type: string
+	*
 	* Friendly name of the academic time period type.
 	*/
 	public void setName(String name);
 	
 	/**
 	* Get Academic Time Period Type Name
+	*
+	* Type: string
 	*
 	* Friendly name of the academic time period type.
 	*/
@@ -42,12 +46,16 @@ public interface AtpTypeInfo
 	/**
 	* Set Academic Time Period Type Description
 	*
+	* Type: string
+	*
 	* Narrative description of an academic time period type.
 	*/
 	public void setDesc(String desc);
 	
 	/**
 	* Get Academic Time Period Type Description
+	*
+	* Type: string
 	*
 	* Narrative description of an academic time period type.
 	*/
@@ -58,12 +66,16 @@ public interface AtpTypeInfo
 	/**
 	* Set Academic Time Period Duration Type
 	*
+	* Type: atpDurationTypeKey
+	*
 	* Unique identifier for an academic time period duration type.
 	*/
 	public void setDurationType(String durationType);
 	
 	/**
 	* Get Academic Time Period Duration Type
+	*
+	* Type: atpDurationTypeKey
 	*
 	* Unique identifier for an academic time period duration type.
 	*/
@@ -74,12 +86,16 @@ public interface AtpTypeInfo
 	/**
 	* Set Academic Time Period Seasonal Type
 	*
+	* Type: atpSeasonalTypeKey
+	*
 	* Unique identifier for an academic time period seasonal type.
 	*/
 	public void setSeasonalType(String seasonalType);
 	
 	/**
 	* Get Academic Time Period Seasonal Type
+	*
+	* Type: atpSeasonalTypeKey
 	*
 	* Unique identifier for an academic time period seasonal type.
 	*/
@@ -90,6 +106,8 @@ public interface AtpTypeInfo
 	/**
 	* Set Effective Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this academic time period type became effective. This is a 
 	* similar concept to the effective date on enumerated values. When an expiration 
 	* date has been specified, this field must be less than or equal to the expiration 
@@ -99,6 +117,8 @@ public interface AtpTypeInfo
 	
 	/**
 	* Get Effective Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this academic time period type became effective. This is a 
 	* similar concept to the effective date on enumerated values. When an expiration 
@@ -112,6 +132,8 @@ public interface AtpTypeInfo
 	/**
 	* Set Expiration Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this academic time period type expires. This is a similar 
 	* concept to the expiration date on enumerated values. If specified, this must be 
 	* greater than or equal to the effective date. If this field is not specified, 
@@ -122,6 +144,8 @@ public interface AtpTypeInfo
 	
 	/**
 	* Get Expiration Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this academic time period type expires. This is a similar 
 	* concept to the expiration date on enumerated values. If specified, this must be 
@@ -136,12 +160,16 @@ public interface AtpTypeInfo
 	/**
 	* Set Generic/dynamic attributes
 	*
+	* Type: attributeInfoList
+	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
 	public void setAttributes(Map<String,String> attributes);
 	
 	/**
 	* Get Generic/dynamic attributes
+	*
+	* Type: attributeInfoList
 	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
@@ -152,12 +180,16 @@ public interface AtpTypeInfo
 	/**
 	* Set Academic Time Period Type
 	*
+	* Type: atpTypeKey
+	*
 	* Unique identifier for an academic time period type.
 	*/
 	public void setKey(String key);
 	
 	/**
 	* Get Academic Time Period Type
+	*
+	* Type: atpTypeKey
 	*
 	* Unique identifier for an academic time period type.
 	*/

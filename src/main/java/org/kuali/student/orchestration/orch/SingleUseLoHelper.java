@@ -29,6 +29,7 @@ public class SingleUseLoHelper
 	public enum Properties implements PropertyEnum
 	{
 		ID ("id"),
+		NAME ("name"),
 		DESCRIPTION ("description"),
 		CATEGORIES ("categories"),
 		LO_REPOSITORY ("loRepository"),
@@ -82,6 +83,18 @@ public class SingleUseLoHelper
 	public String getId ()
 	{
 		return (String) data.get (Properties.ID.getKey ());
+	}
+	
+	
+	public void setName (String value)
+	{
+		data.set (Properties.NAME.getKey (), value);
+	}
+	
+	
+	public String getName ()
+	{
+		return (String) data.get (Properties.NAME.getKey ());
 	}
 	
 	

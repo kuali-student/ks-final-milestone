@@ -26,12 +26,16 @@ public interface LuPublicationTypeInfo
 	/**
 	* Set LU Publication Type Name
 	*
+	* Type: string
+	*
 	* Short name of the LU publication type.
 	*/
 	public void setName(String name);
 	
 	/**
 	* Get LU Publication Type Name
+	*
+	* Type: string
 	*
 	* Short name of the LU publication type.
 	*/
@@ -42,6 +46,8 @@ public interface LuPublicationTypeInfo
 	/**
 	* Set Publication Type Description
 	*
+	* Type: string
+	*
 	* Narrative description of the LU publication type. This can hold the target 
 	* audience info, e.g. Prospective students.
 	*/
@@ -49,6 +55,8 @@ public interface LuPublicationTypeInfo
 	
 	/**
 	* Get Publication Type Description
+	*
+	* Type: string
 	*
 	* Narrative description of the LU publication type. This can hold the target 
 	* audience info, e.g. Prospective students.
@@ -60,6 +68,8 @@ public interface LuPublicationTypeInfo
 	/**
 	* Set Effective Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this LU publication type became effective. This is a similar 
 	* concept to the effective date on enumerated values. When an expiration date has 
 	* been specified, this field must be less than or equal to the expiration date.
@@ -68,6 +78,8 @@ public interface LuPublicationTypeInfo
 	
 	/**
 	* Get Effective Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this LU publication type became effective. This is a similar 
 	* concept to the effective date on enumerated values. When an expiration date has 
@@ -80,6 +92,8 @@ public interface LuPublicationTypeInfo
 	/**
 	* Set Expiration Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this LU publication type expires. This is a similar concept 
 	* to the expiration date on enumerated values. If specified, this should be 
 	* greater than or equal to the effective date. If this field is not specified, 
@@ -90,6 +104,8 @@ public interface LuPublicationTypeInfo
 	
 	/**
 	* Get Expiration Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this LU publication type expires. This is a similar concept 
 	* to the expiration date on enumerated values. If specified, this should be 
@@ -104,12 +120,16 @@ public interface LuPublicationTypeInfo
 	/**
 	* Set Generic/dynamic attributes
 	*
+	* Type: attributeInfoList
+	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
 	public void setAttributes(Map<String,String> attributes);
 	
 	/**
 	* Get Generic/dynamic attributes
+	*
+	* Type: attributeInfoList
 	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
@@ -120,12 +140,16 @@ public interface LuPublicationTypeInfo
 	/**
 	* Set LU Publication Type Key
 	*
+	* Type: luPublicationTypeKey
+	*
 	* Unique identifier for lu publication type.
 	*/
 	public void setKey(String key);
 	
 	/**
 	* Get LU Publication Type Key
+	*
+	* Type: luPublicationTypeKey
 	*
 	* Unique identifier for lu publication type.
 	*/

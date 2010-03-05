@@ -31,6 +31,8 @@
 		/**
 		* Set Organization Identifier
 		*
+		* Type: orgId
+		*
 		* Unique identifier for an organization.
 		*/
 		@Override
@@ -41,6 +43,8 @@
 		
 		/**
 		* Get Organization Identifier
+		*
+		* Type: orgId
 		*
 		* Unique identifier for an organization.
 		*/
@@ -55,6 +59,8 @@
 		/**
 		* Set effectiveDate
 		*
+		* Type: date
+		*
 		* Specifies a date with no time component.
 		*/
 		@Override
@@ -65,6 +71,8 @@
 		
 		/**
 		* Get effectiveDate
+		*
+		* Type: date
 		*
 		* Specifies a date with no time component.
 		*/
@@ -79,6 +87,8 @@
 		/**
 		* Set expirationDate
 		*
+		* Type: date
+		*
 		* Specifies a date with no time component.
 		*/
 		@Override
@@ -89,6 +99,8 @@
 		
 		/**
 		* Get expirationDate
+		*
+		* Type: date
 		*
 		* Specifies a date with no time component.
 		*/
@@ -103,6 +115,8 @@
 		/**
 		* Set percentage
 		*
+		* Type: long
+		*
 		* A long numeric value without a fractional component.
 		*/
 		@Override
@@ -113,6 +127,8 @@
 		
 		/**
 		* Get percentage
+		*
+		* Type: long
 		*
 		* A long numeric value without a fractional component.
 		*/

@@ -26,12 +26,16 @@ public interface DeliveryMethodTypeInfo
 	/**
 	* Set Delivery Method Type Name
 	*
+	* Type: string
+	*
 	* Friendly name of the delivery method type
 	*/
 	public void setName(String name);
 	
 	/**
 	* Get Delivery Method Type Name
+	*
+	* Type: string
 	*
 	* Friendly name of the delivery method type
 	*/
@@ -42,12 +46,16 @@ public interface DeliveryMethodTypeInfo
 	/**
 	* Set Delivery Method Type Description
 	*
+	* Type: string
+	*
 	* Narrative description of the delivery method type
 	*/
 	public void setDesc(String desc);
 	
 	/**
 	* Get Delivery Method Type Description
+	*
+	* Type: string
 	*
 	* Narrative description of the delivery method type
 	*/
@@ -58,6 +66,8 @@ public interface DeliveryMethodTypeInfo
 	/**
 	* Set Effective Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this delivery method type became effective. This is a similar 
 	* concept to the effective date on enumerated values. When an expiration date has 
 	* been specified, this field must be less than or equal to the expiration date.
@@ -66,6 +76,8 @@ public interface DeliveryMethodTypeInfo
 	
 	/**
 	* Get Effective Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this delivery method type became effective. This is a similar 
 	* concept to the effective date on enumerated values. When an expiration date has 
@@ -78,6 +90,8 @@ public interface DeliveryMethodTypeInfo
 	/**
 	* Set Expiration Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this delivery method type expires. This is a similar concept 
 	* to the expiration date on enumerated values. If specified, this should be 
 	* greater than or equal to the effective date. If this field is not specified, 
@@ -88,6 +102,8 @@ public interface DeliveryMethodTypeInfo
 	
 	/**
 	* Get Expiration Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this delivery method type expires. This is a similar concept 
 	* to the expiration date on enumerated values. If specified, this should be 
@@ -102,12 +118,16 @@ public interface DeliveryMethodTypeInfo
 	/**
 	* Set Generic/dynamic attributes
 	*
+	* Type: attributeInfoList
+	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
 	public void setAttributes(Map<String,String> attributes);
 	
 	/**
 	* Get Generic/dynamic attributes
+	*
+	* Type: attributeInfoList
 	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
@@ -118,12 +138,16 @@ public interface DeliveryMethodTypeInfo
 	/**
 	* Set Delivery Method Type Key
 	*
+	* Type: deliveryMethodTypeKey
+	*
 	* Unique identifier for a delivery method type.
 	*/
 	public void setKey(String key);
 	
 	/**
 	* Get Delivery Method Type Key
+	*
+	* Type: deliveryMethodTypeKey
 	*
 	* Unique identifier for a delivery method type.
 	*/

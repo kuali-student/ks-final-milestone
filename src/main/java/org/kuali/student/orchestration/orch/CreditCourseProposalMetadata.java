@@ -103,6 +103,20 @@ public class CreditCourseProposalMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("proposal.types"));
 		}
 		
+		// metadata for Search
+		childMeta = new Metadata ();
+		mainMeta.getProperties ().put (Properties.SEARCH.getKey (), childMeta);
+		childMeta.setDataType (Data.DataType.STRING);
+		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("course.proposal.types"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("required"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("proposal.types"));
+		}
+		
 		recursions.increment (this.getClass ().getName ());
 	}
 }

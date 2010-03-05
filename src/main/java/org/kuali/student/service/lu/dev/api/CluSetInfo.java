@@ -27,12 +27,16 @@ public interface CluSetInfo
 	/**
 	* Set CLU Set Name
 	*
+	* Type: string
+	*
 	* Friendly name of the CLU Set.
 	*/
 	public void setName(String name);
 	
 	/**
 	* Get CLU Set Name
+	*
+	* Type: string
 	*
 	* Friendly name of the CLU Set.
 	*/
@@ -43,12 +47,16 @@ public interface CluSetInfo
 	/**
 	* Set CLU Set Description
 	*
+	* Type: richTextInfo
+	*
 	* Narrative description of the CLU Set.
 	*/
 	public void setDesc(RichTextInfo desc);
 	
 	/**
 	* Get CLU Set Description
+	*
+	* Type: richTextInfo
 	*
 	* Narrative description of the CLU Set.
 	*/
@@ -59,6 +67,8 @@ public interface CluSetInfo
 	/**
 	* Set Effective Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this CLU Set became effective. This is a similar concept to 
 	* the effective date on enumerated values. When an expiration date has been 
 	* specified, this field must be less than or equal to the expiration date.
@@ -67,6 +77,8 @@ public interface CluSetInfo
 	
 	/**
 	* Get Effective Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this CLU Set became effective. This is a similar concept to 
 	* the effective date on enumerated values. When an expiration date has been 
@@ -79,6 +91,8 @@ public interface CluSetInfo
 	/**
 	* Set Expiration Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this CLU Set expires. This is a similar concept to the 
 	* expiration date on enumerated values. If specified, this should be greater than 
 	* or equal to the effective date. If this field is not specified, then no 
@@ -89,6 +103,8 @@ public interface CluSetInfo
 	
 	/**
 	* Get Expiration Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this CLU Set expires. This is a similar concept to the 
 	* expiration date on enumerated values. If specified, this should be greater than 
@@ -103,12 +119,16 @@ public interface CluSetInfo
 	/**
 	* Set Membership Query
 	*
+	* Type: membershipQueryInfo
+	*
 	* Specifies a search for CLU identifiers. Present for dynamic CLU Sets
 	*/
 	public void setMembershipQuery(MembershipQueryInfo membershipQuery);
 	
 	/**
 	* Get Membership Query
+	*
+	* Type: membershipQueryInfo
 	*
 	* Specifies a search for CLU identifiers. Present for dynamic CLU Sets
 	*/
@@ -119,6 +139,8 @@ public interface CluSetInfo
 	/**
 	* Set Contained CLU Set Identifiers
 	*
+	* Type: cluSetIdList
+	*
 	* List of identifiers of directly contained CLU Sets. Present for enumerated CLU 
 	* Sets.
 	*/
@@ -126,6 +148,8 @@ public interface CluSetInfo
 	
 	/**
 	* Get Contained CLU Set Identifiers
+	*
+	* Type: cluSetIdList
 	*
 	* List of identifiers of directly contained CLU Sets. Present for enumerated CLU 
 	* Sets.
@@ -137,12 +161,16 @@ public interface CluSetInfo
 	/**
 	* Set Contained CLU Identifiers
 	*
+	* Type: cluIdList
+	*
 	* List of identifiers of directly contained CLUs. Present for enumerated CLU Sets.
 	*/
 	public void setCluIds(List<String> cluIds);
 	
 	/**
 	* Get Contained CLU Identifiers
+	*
+	* Type: cluIdList
 	*
 	* List of identifiers of directly contained CLUs. Present for enumerated CLU Sets.
 	*/
@@ -153,12 +181,16 @@ public interface CluSetInfo
 	/**
 	* Set Generic/dynamic attributes
 	*
+	* Type: attributeInfoList
+	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
 	public void setAttributes(Map<String,String> attributes);
 	
 	/**
 	* Get Generic/dynamic attributes
+	*
+	* Type: attributeInfoList
 	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
@@ -169,6 +201,8 @@ public interface CluSetInfo
 	/**
 	* Set Create/Update meta info
 	*
+	* Type: metaInfo
+	*
 	* Create and last update info for the structure. This is optional and treated as 
 	* read only since the data is set by the internals of the service during 
 	* maintenance operations.
@@ -177,6 +211,8 @@ public interface CluSetInfo
 	
 	/**
 	* Get Create/Update meta info
+	*
+	* Type: metaInfo
 	*
 	* Create and last update info for the structure. This is optional and treated as 
 	* read only since the data is set by the internals of the service during 
@@ -189,6 +225,8 @@ public interface CluSetInfo
 	/**
 	* Set CLU Set Type
 	*
+	* Type: cluSetTypeKey
+	*
 	* Unique identifier for a clu set type. Once set at create time, this field may 
 	* not be updated.
 	*/
@@ -196,6 +234,8 @@ public interface CluSetInfo
 	
 	/**
 	* Get CLU Set Type
+	*
+	* Type: cluSetTypeKey
 	*
 	* Unique identifier for a clu set type. Once set at create time, this field may 
 	* not be updated.
@@ -207,6 +247,8 @@ public interface CluSetInfo
 	/**
 	* Set CLU Set State
 	*
+	* Type: string
+	*
 	* The current status of the clu set. The values for this field are constrained to 
 	* those in the cluSetState enumeration. A separate setup operation does not exist 
 	* for retrieval of the meta data around this value.
@@ -215,6 +257,8 @@ public interface CluSetInfo
 	
 	/**
 	* Get CLU Set State
+	*
+	* Type: string
 	*
 	* The current status of the clu set. The values for this field are constrained to 
 	* those in the cluSetState enumeration. A separate setup operation does not exist 
@@ -227,6 +271,8 @@ public interface CluSetInfo
 	/**
 	* Set CLU Set Identifier
 	*
+	* Type: cluSetId
+	*
 	* Unique identifier for a CLU Set. This is optional, due to the identifier being 
 	* set at the time of creation. Once the CLU Set has been created, this should be 
 	* seen as required.
@@ -235,6 +281,8 @@ public interface CluSetInfo
 	
 	/**
 	* Get CLU Set Identifier
+	*
+	* Type: cluSetId
 	*
 	* Unique identifier for a CLU Set. This is optional, due to the identifier being 
 	* set at the time of creation. Once the CLU Set has been created, this should be 

@@ -26,12 +26,16 @@ public interface AtpDurationTypeInfo
 	/**
 	* Set Academic Time Period Duration Type Name
 	*
+	* Type: string
+	*
 	* Friendly name for the academic time period duration type.
 	*/
 	public void setName(String name);
 	
 	/**
 	* Get Academic Time Period Duration Type Name
+	*
+	* Type: string
 	*
 	* Friendly name for the academic time period duration type.
 	*/
@@ -42,12 +46,16 @@ public interface AtpDurationTypeInfo
 	/**
 	* Set Academic Time Period Duration Type Description
 	*
+	* Type: string
+	*
 	* Description of the academic time period duration type.
 	*/
 	public void setDesc(String desc);
 	
 	/**
 	* Get Academic Time Period Duration Type Description
+	*
+	* Type: string
 	*
 	* Description of the academic time period duration type.
 	*/
@@ -58,6 +66,8 @@ public interface AtpDurationTypeInfo
 	/**
 	* Set Effective Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this academic time period duration type became effective. 
 	* This is a similar concept to the effective date on enumerated values. When an 
 	* expiration date has been specified, this field must be less than or equal to the 
@@ -67,6 +77,8 @@ public interface AtpDurationTypeInfo
 	
 	/**
 	* Get Effective Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this academic time period duration type became effective. 
 	* This is a similar concept to the effective date on enumerated values. When an 
@@ -80,6 +92,8 @@ public interface AtpDurationTypeInfo
 	/**
 	* Set Expiration Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this academic time period duration type expires. This is a 
 	* similar concept to the expiration date on enumerated values. If specified, this 
 	* should be greater than or equal to the effective date. If this field is not 
@@ -90,6 +104,8 @@ public interface AtpDurationTypeInfo
 	
 	/**
 	* Get Expiration Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this academic time period duration type expires. This is a 
 	* similar concept to the expiration date on enumerated values. If specified, this 
@@ -104,12 +120,16 @@ public interface AtpDurationTypeInfo
 	/**
 	* Set Generic/dynamic attributes
 	*
+	* Type: attributeInfoList
+	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
 	public void setAttributes(Map<String,String> attributes);
 	
 	/**
 	* Get Generic/dynamic attributes
+	*
+	* Type: attributeInfoList
 	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
@@ -120,12 +140,16 @@ public interface AtpDurationTypeInfo
 	/**
 	* Set Academic Time Period Duration Type Identifier
 	*
+	* Type: atpDurationTypeKey
+	*
 	* Unique identifier for an academic time period duration type.
 	*/
 	public void setKey(String key);
 	
 	/**
 	* Get Academic Time Period Duration Type Identifier
+	*
+	* Type: atpDurationTypeKey
 	*
 	* Unique identifier for an academic time period duration type.
 	*/

@@ -32,6 +32,8 @@
 		/**
 		* Set Learning Unit Type Name
 		*
+		* Type: string
+		*
 		* Friendly name of the learning unit type
 		*/
 		@Override
@@ -42,6 +44,8 @@
 		
 		/**
 		* Get Learning Unit Type Name
+		*
+		* Type: string
 		*
 		* Friendly name of the learning unit type
 		*/
@@ -56,6 +60,8 @@
 		/**
 		* Set Learning Unit Type Description
 		*
+		* Type: string
+		*
 		* Narrative description of the learning unit type
 		*/
 		@Override
@@ -66,6 +72,8 @@
 		
 		/**
 		* Get Learning Unit Type Description
+		*
+		* Type: string
 		*
 		* Narrative description of the learning unit type
 		*/
@@ -80,6 +88,8 @@
 		/**
 		* Set Instructional Format
 		*
+		* Type: instructionalFormatTypeKey
+		*
 		* Unique identifier for an instructional format type. Examples of potential 
 		* instructional formats for courses are lab, lecture, etc.
 		*/
@@ -91,6 +101,8 @@
 		
 		/**
 		* Get Instructional Format
+		*
+		* Type: instructionalFormatTypeKey
 		*
 		* Unique identifier for an instructional format type. Examples of potential 
 		* instructional formats for courses are lab, lecture, etc.
@@ -106,6 +118,8 @@
 		/**
 		* Set Delivery Method
 		*
+		* Type: deliveryMethodTypeKey
+		*
 		* Unique identifier for a delivery method type. In other avenues, this would be 
 		* described as channels or media. Examples of delivery method are face to face, 
 		* online, correspondence, etc.
@@ -118,6 +132,8 @@
 		
 		/**
 		* Get Delivery Method
+		*
+		* Type: deliveryMethodTypeKey
 		*
 		* Unique identifier for a delivery method type. In other avenues, this would be 
 		* described as channels or media. Examples of delivery method are face to face, 
@@ -134,6 +150,8 @@
 		/**
 		* Set Effective Date
 		*
+		* Type: dateTime
+		*
 		* Date and time that this learning unit type became effective. This is a similar 
 		* concept to the effective date on enumerated values. When an expiration date has 
 		* been specified, this field must be less than or equal to the expiration date.
@@ -146,6 +164,8 @@
 		
 		/**
 		* Get Effective Date
+		*
+		* Type: dateTime
 		*
 		* Date and time that this learning unit type became effective. This is a similar 
 		* concept to the effective date on enumerated values. When an expiration date has 
@@ -162,6 +182,8 @@
 		/**
 		* Set Expiration Date
 		*
+		* Type: dateTime
+		*
 		* Date and time that this learning unit type expires. This is a similar concept to 
 		* the expiration date on enumerated values. If specified, this should be greater 
 		* than or equal to the effective date. If this field is not specified, then no 
@@ -176,6 +198,8 @@
 		
 		/**
 		* Get Expiration Date
+		*
+		* Type: dateTime
 		*
 		* Date and time that this learning unit type expires. This is a similar concept to 
 		* the expiration date on enumerated values. If specified, this should be greater 
@@ -194,6 +218,8 @@
 		/**
 		* Set Generic/dynamic attributes
 		*
+		* Type: attributeInfoList
+		*
 		* List of key/value pairs, typically used for dynamic attributes.
 		*/
 		@Override
@@ -204,6 +230,8 @@
 		
 		/**
 		* Get Generic/dynamic attributes
+		*
+		* Type: attributeInfoList
 		*
 		* List of key/value pairs, typically used for dynamic attributes.
 		*/
@@ -218,6 +246,8 @@
 		/**
 		* Set Learning Unit Type Key
 		*
+		* Type: luTypeKey
+		*
 		* Unique identifier for a learning unit type.
 		*/
 		@Override
@@ -228,6 +258,8 @@
 		
 		/**
 		* Get Learning Unit Type Key
+		*
+		* Type: luTypeKey
 		*
 		* Unique identifier for a learning unit type.
 		*/

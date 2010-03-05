@@ -26,12 +26,16 @@ public interface InstructionalFormatTypeInfo
 	/**
 	* Set Instructional Format Type Name
 	*
+	* Type: string
+	*
 	* Friendly name of the instructional format type
 	*/
 	public void setName(String name);
 	
 	/**
 	* Get Instructional Format Type Name
+	*
+	* Type: string
 	*
 	* Friendly name of the instructional format type
 	*/
@@ -42,12 +46,16 @@ public interface InstructionalFormatTypeInfo
 	/**
 	* Set Learning Unit Type Description
 	*
+	* Type: string
+	*
 	* Narrative description of the instructional format type
 	*/
 	public void setDesc(String desc);
 	
 	/**
 	* Get Learning Unit Type Description
+	*
+	* Type: string
 	*
 	* Narrative description of the instructional format type
 	*/
@@ -58,6 +66,8 @@ public interface InstructionalFormatTypeInfo
 	/**
 	* Set Effective Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this instructional format type became effective. This is a 
 	* similar concept to the effective date on enumerated values. When an expiration 
 	* date has been specified, this field must be less than or equal to the expiration 
@@ -67,6 +77,8 @@ public interface InstructionalFormatTypeInfo
 	
 	/**
 	* Get Effective Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this instructional format type became effective. This is a 
 	* similar concept to the effective date on enumerated values. When an expiration 
@@ -80,6 +92,8 @@ public interface InstructionalFormatTypeInfo
 	/**
 	* Set Expiration Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this instructional format type expires. This is a similar 
 	* concept to the expiration date on enumerated values. If specified, this should 
 	* be greater than or equal to the effective date. If this field is not specified, 
@@ -90,6 +104,8 @@ public interface InstructionalFormatTypeInfo
 	
 	/**
 	* Get Expiration Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this instructional format type expires. This is a similar 
 	* concept to the expiration date on enumerated values. If specified, this should 
@@ -104,12 +120,16 @@ public interface InstructionalFormatTypeInfo
 	/**
 	* Set Generic/dynamic attributes
 	*
+	* Type: attributeInfoList
+	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
 	public void setAttributes(Map<String,String> attributes);
 	
 	/**
 	* Get Generic/dynamic attributes
+	*
+	* Type: attributeInfoList
 	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
@@ -120,12 +140,16 @@ public interface InstructionalFormatTypeInfo
 	/**
 	* Set Instructional Format Type Key
 	*
+	* Type: instructionalFormatTypeKey
+	*
 	* Unique identifier for an instructional format type.
 	*/
 	public void setKey(String key);
 	
 	/**
 	* Get Instructional Format Type Key
+	*
+	* Type: instructionalFormatTypeKey
 	*
 	* Unique identifier for an instructional format type.
 	*/

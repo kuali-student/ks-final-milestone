@@ -26,12 +26,16 @@ public interface CluFeeInfo
 	/**
 	* Set List of CLU Fee Records
 	*
+	* Type: cluFeeRecordInfoList
+	*
 	* List of clu fee records
 	*/
 	public void setCluFeeRecords(List<CluFeeRecordInfo> cluFeeRecords);
 	
 	/**
 	* Get List of CLU Fee Records
+	*
+	* Type: cluFeeRecordInfoList
 	*
 	* List of clu fee records
 	*/
@@ -42,12 +46,16 @@ public interface CluFeeInfo
 	/**
 	* Set Generic/dynamic attributes
 	*
+	* Type: attributeInfoList
+	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
 	public void setAttributes(Map<String,String> attributes);
 	
 	/**
 	* Get Generic/dynamic attributes
+	*
+	* Type: attributeInfoList
 	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/

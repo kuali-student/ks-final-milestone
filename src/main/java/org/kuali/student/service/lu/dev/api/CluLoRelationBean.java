@@ -32,6 +32,8 @@
 		/**
 		* Set CLU Identifier
 		*
+		* Type: cluId
+		*
 		* Unique identifier for a Canonical Learning Unit (CLU).
 		*/
 		@Override
@@ -42,6 +44,8 @@
 		
 		/**
 		* Get CLU Identifier
+		*
+		* Type: cluId
 		*
 		* Unique identifier for a Canonical Learning Unit (CLU).
 		*/
@@ -56,6 +60,8 @@
 		/**
 		* Set LO Identifier
 		*
+		* Type: loId
+		*
 		* Unique identifier for a learning objective record.
 		*/
 		@Override
@@ -66,6 +72,8 @@
 		
 		/**
 		* Get LO Identifier
+		*
+		* Type: loId
 		*
 		* Unique identifier for a learning objective record.
 		*/
@@ -80,6 +88,8 @@
 		/**
 		* Set Effective Date
 		*
+		* Type: dateTime
+		*
 		* Date and time that this CLU to LO relationship became effective. This is a 
 		* similar concept to the effective date on enumerated values. When an expiration 
 		* date has been specified, this field must be less than or equal to the expiration 
@@ -93,6 +103,8 @@
 		
 		/**
 		* Get Effective Date
+		*
+		* Type: dateTime
 		*
 		* Date and time that this CLU to LO relationship became effective. This is a 
 		* similar concept to the effective date on enumerated values. When an expiration 
@@ -110,6 +122,8 @@
 		/**
 		* Set Expiration Date
 		*
+		* Type: dateTime
+		*
 		* Date and time that this CLU to LO relationship expires. This is a similar 
 		* concept to the expiration date on enumerated values. If specified, this should 
 		* be greater than or equal to the effective date. If this field is not specified, 
@@ -124,6 +138,8 @@
 		
 		/**
 		* Get Expiration Date
+		*
+		* Type: dateTime
 		*
 		* Date and time that this CLU to LO relationship expires. This is a similar 
 		* concept to the expiration date on enumerated values. If specified, this should 
@@ -142,6 +158,8 @@
 		/**
 		* Set Generic/dynamic attributes
 		*
+		* Type: attributeInfoList
+		*
 		* List of key/value pairs, typically used for dynamic attributes.
 		*/
 		@Override
@@ -152,6 +170,8 @@
 		
 		/**
 		* Get Generic/dynamic attributes
+		*
+		* Type: attributeInfoList
 		*
 		* List of key/value pairs, typically used for dynamic attributes.
 		*/
@@ -166,6 +186,8 @@
 		/**
 		* Set Create/Update meta info
 		*
+		* Type: metaInfo
+		*
 		* Create and last update info for the structure. This is optional and treated as 
 		* read only since the data is set by the internals of the service during 
 		* maintenance operations.
@@ -178,6 +200,8 @@
 		
 		/**
 		* Get Create/Update meta info
+		*
+		* Type: metaInfo
 		*
 		* Create and last update info for the structure. This is optional and treated as 
 		* read only since the data is set by the internals of the service during 
@@ -194,6 +218,8 @@
 		/**
 		* Set LU to LU Relation Type
 		*
+		* Type: luLuRelationTypeKey
+		*
 		* Unique identifier for a clu lo relation type.
 		*/
 		@Override
@@ -204,6 +230,8 @@
 		
 		/**
 		* Get LU to LU Relation Type
+		*
+		* Type: luLuRelationTypeKey
 		*
 		* Unique identifier for a clu lo relation type.
 		*/
@@ -218,6 +246,8 @@
 		/**
 		* Set LU to LU Relation State
 		*
+		* Type: string
+		*
 		* Identifier for the current status of a CLU to LO relationship. The values for 
 		* this field are constrained to those in the luLoRelationState enumeration. A 
 		* separate setup operation does not exist for retrieval of the meta data around 
@@ -231,6 +261,8 @@
 		
 		/**
 		* Get LU to LU Relation State
+		*
+		* Type: string
 		*
 		* Identifier for the current status of a CLU to LO relationship. The values for 
 		* this field are constrained to those in the luLoRelationState enumeration. A 
@@ -248,6 +280,8 @@
 		/**
 		* Set CLU to CLU Relation Identifier
 		*
+		* Type: cluCluRelationId
+		*
 		* Unique identifier for a single CLU LO Relation record. This is optional, due to 
 		* the identifier being set at the time of creation. Once the relation has been 
 		* created, this should be seen as required.
@@ -260,6 +294,8 @@
 		
 		/**
 		* Get CLU to CLU Relation Identifier
+		*
+		* Type: cluCluRelationId
 		*
 		* Unique identifier for a single CLU LO Relation record. This is optional, due to 
 		* the identifier being set at the time of creation. Once the relation has been 

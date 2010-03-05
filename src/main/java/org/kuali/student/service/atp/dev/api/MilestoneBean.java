@@ -32,6 +32,8 @@
 		/**
 		* Set Milestone Name
 		*
+		* Type: string
+		*
 		* Name of the milestone.
 		*/
 		@Override
@@ -42,6 +44,8 @@
 		
 		/**
 		* Get Milestone Name
+		*
+		* Type: string
 		*
 		* Name of the milestone.
 		*/
@@ -56,6 +60,8 @@
 		/**
 		* Set Milestone Description
 		*
+		* Type: richTextInfo
+		*
 		* Description of the milestone.
 		*/
 		@Override
@@ -66,6 +72,8 @@
 		
 		/**
 		* Get Milestone Description
+		*
+		* Type: richTextInfo
 		*
 		* Description of the milestone.
 		*/
@@ -80,6 +88,8 @@
 		/**
 		* Set Academic Time Period Identifier
 		*
+		* Type: atpKey
+		*
 		* Unique identifier for an Academic Time Period (ATP).
 		*/
 		@Override
@@ -90,6 +100,8 @@
 		
 		/**
 		* Get Academic Time Period Identifier
+		*
+		* Type: atpKey
 		*
 		* Unique identifier for an Academic Time Period (ATP).
 		*/
@@ -104,6 +116,8 @@
 		/**
 		* Set Milestone Date
 		*
+		* Type: dateTime
+		*
 		* Date and time of the milestone.
 		*/
 		@Override
@@ -114,6 +128,8 @@
 		
 		/**
 		* Get Milestone Date
+		*
+		* Type: dateTime
 		*
 		* Date and time of the milestone.
 		*/
@@ -128,6 +144,8 @@
 		/**
 		* Set Generic/dynamic attributes
 		*
+		* Type: attributeInfoList
+		*
 		* List of key/value pairs, typically used for dynamic attributes.
 		*/
 		@Override
@@ -138,6 +156,8 @@
 		
 		/**
 		* Get Generic/dynamic attributes
+		*
+		* Type: attributeInfoList
 		*
 		* List of key/value pairs, typically used for dynamic attributes.
 		*/
@@ -152,6 +172,8 @@
 		/**
 		* Set Create/Update meta info
 		*
+		* Type: metaInfo
+		*
 		* Create and last update info for the structure. This is optional and treated as 
 		* read only since the data is set by the internals of the service during 
 		* maintenance operations.
@@ -164,6 +186,8 @@
 		
 		/**
 		* Get Create/Update meta info
+		*
+		* Type: metaInfo
 		*
 		* Create and last update info for the structure. This is optional and treated as 
 		* read only since the data is set by the internals of the service during 
@@ -180,6 +204,8 @@
 		/**
 		* Set Milestone Type
 		*
+		* Type: milestoneTypeKey
+		*
 		* Unique identifier for a milestone type.
 		*/
 		@Override
@@ -190,6 +216,8 @@
 		
 		/**
 		* Get Milestone Type
+		*
+		* Type: milestoneTypeKey
 		*
 		* Unique identifier for a milestone type.
 		*/
@@ -204,6 +232,8 @@
 		/**
 		* Set Milestone State
 		*
+		* Type: string
+		*
 		* The current status of the milestone. The values for this field are constrained 
 		* to those in the milestoneState enumeration. A separate setup operation does not 
 		* exist for retrieval of the meta data around this value.
@@ -216,6 +246,8 @@
 		
 		/**
 		* Get Milestone State
+		*
+		* Type: string
 		*
 		* The current status of the milestone. The values for this field are constrained 
 		* to those in the milestoneState enumeration. A separate setup operation does not 
@@ -232,6 +264,8 @@
 		/**
 		* Set Milestone Key
 		*
+		* Type: milestoneKey
+		*
 		* Unique identifier for a milestone.
 		*/
 		@Override
@@ -242,6 +276,8 @@
 		
 		/**
 		* Get Milestone Key
+		*
+		* Type: milestoneKey
 		*
 		* Unique identifier for a milestone.
 		*/

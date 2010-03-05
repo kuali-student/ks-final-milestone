@@ -23,12 +23,16 @@ public interface AttributeInfo
 	/**
 	* Set Attribute Value
 	*
+	* Type: string
+	*
 	* The value for this dynamic attribute.
 	*/
 	public void setValue(String value);
 	
 	/**
 	* Get Attribute Value
+	*
+	* Type: string
 	*
 	* The value for this dynamic attribute.
 	*/
@@ -39,12 +43,16 @@ public interface AttributeInfo
 	/**
 	* Set Attribute Type Identifier
 	*
+	* Type: string
+	*
 	* The identifier for this attribute.
 	*/
 	public void setKey(String key);
 	
 	/**
 	* Get Attribute Type Identifier
+	*
+	* Type: string
 	*
 	* The identifier for this attribute.
 	*/

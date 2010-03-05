@@ -30,6 +30,8 @@
 		/**
 		* Set Academic Time Period Duration Type Key
 		*
+		* Type: atpDurationTypeKey
+		*
 		* The kind of units associated with the quantity, such as Semesters
 		*/
 		@Override
@@ -40,6 +42,8 @@
 		
 		/**
 		* Get Academic Time Period Duration Type Key
+		*
+		* Type: atpDurationTypeKey
 		*
 		* The kind of units associated with the quantity, such as Semesters
 		*/
@@ -54,6 +58,8 @@
 		/**
 		* Set Time Quantity
 		*
+		* Type: integer
+		*
 		* The amount of time
 		*/
 		@Override
@@ -64,6 +70,8 @@
 		
 		/**
 		* Get Time Quantity
+		*
+		* Type: integer
 		*
 		* The amount of time
 		*/

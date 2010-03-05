@@ -23,6 +23,8 @@ public interface CluIdentifierInfo
 	/**
 	* Set Code
 	*
+	* Type: string
+	*
 	* The composite string that is used to officially reference or publish the CLU. 
 	* Note it may have an internal structure that each Institution may want to 
 	* enforce. This structure may be composed from the other parts of the structure 
@@ -32,6 +34,8 @@ public interface CluIdentifierInfo
 	
 	/**
 	* Get Code
+	*
+	* Type: string
 	*
 	* The composite string that is used to officially reference or publish the CLU. 
 	* Note it may have an internal structure that each Institution may want to 
@@ -45,12 +49,16 @@ public interface CluIdentifierInfo
 	/**
 	* Set Short Name
 	*
+	* Type: string
+	*
 	* Abbreviated name of the CLU, commonly used on transcripts
 	*/
 	public void setShortName(String shortName);
 	
 	/**
 	* Get Short Name
+	*
+	* Type: string
 	*
 	* Abbreviated name of the CLU, commonly used on transcripts
 	*/
@@ -61,12 +69,16 @@ public interface CluIdentifierInfo
 	/**
 	* Set Long Name
 	*
+	* Type: string
+	*
 	* Full name of the CLU, commonly used on catalogues
 	*/
 	public void setLongName(String longName);
 	
 	/**
 	* Get Long Name
+	*
+	* Type: string
 	*
 	* Full name of the CLU, commonly used on catalogues
 	*/
@@ -77,12 +89,16 @@ public interface CluIdentifierInfo
 	/**
 	* Set Level
 	*
+	* Type: string
+	*
 	* A code that indicates whether this is introductory, advanced, etc.
 	*/
 	public void setLevel(String level);
 	
 	/**
 	* Get Level
+	*
+	* Type: string
 	*
 	* A code that indicates whether this is introductory, advanced, etc.
 	*/
@@ -93,6 +109,8 @@ public interface CluIdentifierInfo
 	/**
 	* Set Division
 	*
+	* Type: string
+	*
 	* A code that indicates what school, program, major, subject area, etc. Examples: 
 	* "Chem", "18"
 	*/
@@ -100,6 +118,8 @@ public interface CluIdentifierInfo
 	
 	/**
 	* Get Division
+	*
+	* Type: string
 	*
 	* A code that indicates what school, program, major, subject area, etc. Examples: 
 	* "Chem", "18"
@@ -111,6 +131,8 @@ public interface CluIdentifierInfo
 	/**
 	* Set Suffix Code
 	*
+	* Type: string
+	*
 	* The "extra" portion of the code, which usually corresponds with the most 
 	* detailed part of the number. Ex. at MIT we might map Division to subject 
 	* area(Ex:6) but overall we need to say the code is 6.120. This field would 
@@ -120,6 +142,8 @@ public interface CluIdentifierInfo
 	
 	/**
 	* Get Suffix Code
+	*
+	* Type: string
 	*
 	* The "extra" portion of the code, which usually corresponds with the most 
 	* detailed part of the number. Ex. at MIT we might map Division to subject 
@@ -133,6 +157,8 @@ public interface CluIdentifierInfo
 	/**
 	* Set Variation
 	*
+	* Type: string
+	*
 	* A number that indicates the sequence or order of versions in cases where several 
 	* different Clus have the same offical Identifier
 	*/
@@ -140,6 +166,8 @@ public interface CluIdentifierInfo
 	
 	/**
 	* Get Variation
+	*
+	* Type: string
 	*
 	* A number that indicates the sequence or order of versions in cases where several 
 	* different Clus have the same offical Identifier
@@ -151,12 +179,16 @@ public interface CluIdentifierInfo
 	/**
 	* Set Organization Identifier
 	*
+	* Type: orgId
+	*
 	* The identifier of the organization associated with this cluIdentifier.
 	*/
 	public void setOrgId(String orgId);
 	
 	/**
 	* Get Organization Identifier
+	*
+	* Type: orgId
 	*
 	* The identifier of the organization associated with this cluIdentifier.
 	*/
@@ -167,6 +199,8 @@ public interface CluIdentifierInfo
 	/**
 	* Set CLU Identifier Type
 	*
+	* Type: string
+	*
 	* Identifies the type of usage for the identifier. While most usages will have the 
 	* same data constraints, this may provide some context around what the specific 
 	* intent is for this identifier. (Ex. Why does this alternate identifier exist?)
@@ -175,6 +209,8 @@ public interface CluIdentifierInfo
 	
 	/**
 	* Get CLU Identifier Type
+	*
+	* Type: string
 	*
 	* Identifies the type of usage for the identifier. While most usages will have the 
 	* same data constraints, this may provide some context around what the specific 
@@ -187,6 +223,8 @@ public interface CluIdentifierInfo
 	/**
 	* Set CLU Identifier State
 	*
+	* Type: string
+	*
 	* Identifies the state of the identifier. Values for this field are constrained to 
 	* values present within the cluIdentifierState enumeration.
 	*/
@@ -194,6 +232,8 @@ public interface CluIdentifierInfo
 	
 	/**
 	* Get CLU Identifier State
+	*
+	* Type: string
 	*
 	* Identifies the state of the identifier. Values for this field are constrained to 
 	* values present within the cluIdentifierState enumeration.
@@ -205,6 +245,8 @@ public interface CluIdentifierInfo
 	/**
 	* Set CLU Identifier Identifier
 	*
+	* Type: string
+	*
 	* Identifies the particular identifier structure. This is set by the service to be 
 	* able to determine changes and alterations to the structure as well as provides a 
 	* handle for searches. This structure is not accessible through unique operations, 
@@ -215,6 +257,8 @@ public interface CluIdentifierInfo
 	
 	/**
 	* Get CLU Identifier Identifier
+	*
+	* Type: string
 	*
 	* Identifies the particular identifier structure. This is set by the service to be 
 	* able to determine changes and alterations to the structure as well as provides a 

@@ -25,6 +25,8 @@ public interface CluInstructorInfo
 	/**
 	* Set Organization Identifier
 	*
+	* Type: orgId
+	*
 	* Unique identifier for an organization. This indicates which organization this 
 	* individual is associated with for the purposes of this clu.
 	*/
@@ -32,6 +34,8 @@ public interface CluInstructorInfo
 	
 	/**
 	* Get Organization Identifier
+	*
+	* Type: orgId
 	*
 	* Unique identifier for an organization. This indicates which organization this 
 	* individual is associated with for the purposes of this clu.
@@ -43,12 +47,16 @@ public interface CluInstructorInfo
 	/**
 	* Set Person Identifier
 	*
+	* Type: personId
+	*
 	* Unique identifier for a person record.
 	*/
 	public void setPersonId(String personId);
 	
 	/**
 	* Get Person Identifier
+	*
+	* Type: personId
 	*
 	* Unique identifier for a person record.
 	*/
@@ -59,12 +67,16 @@ public interface CluInstructorInfo
 	/**
 	* Set Generic/dynamic attributes
 	*
+	* Type: attributeInfoList
+	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
 	public void setAttributes(Map<String,String> attributes);
 	
 	/**
 	* Get Generic/dynamic attributes
+	*
+	* Type: attributeInfoList
 	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/

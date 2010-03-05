@@ -30,6 +30,8 @@
 		/**
 		* Set Plain Text
 		*
+		* Type: string
+		*
 		* Plain version of the text. This may be used for searching.
 		*/
 		@Override
@@ -40,6 +42,8 @@
 		
 		/**
 		* Get Plain Text
+		*
+		* Type: string
 		*
 		* Plain version of the text. This may be used for searching.
 		*/
@@ -54,6 +58,8 @@
 		/**
 		* Set Formatted Text
 		*
+		* Type: string
+		*
 		* Formatted version of the text.
 		*/
 		@Override
@@ -64,6 +70,8 @@
 		
 		/**
 		* Get Formatted Text
+		*
+		* Type: string
 		*
 		* Formatted version of the text.
 		*/

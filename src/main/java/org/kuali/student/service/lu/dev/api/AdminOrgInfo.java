@@ -25,12 +25,16 @@ public interface AdminOrgInfo
 	/**
 	* Set Organization Identifier
 	*
+	* Type: orgId
+	*
 	* Unique identifier for an organization.
 	*/
 	public void setOrgId(String orgId);
 	
 	/**
 	* Get Organization Identifier
+	*
+	* Type: orgId
 	*
 	* Unique identifier for an organization.
 	*/
@@ -41,12 +45,16 @@ public interface AdminOrgInfo
 	/**
 	* Set Generic/dynamic attributes
 	*
+	* Type: attributeInfoList
+	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
 	public void setAttributes(Map<String,String> attributes);
 	
 	/**
 	* Get Generic/dynamic attributes
+	*
+	* Type: attributeInfoList
 	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/

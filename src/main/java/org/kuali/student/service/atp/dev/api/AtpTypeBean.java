@@ -32,6 +32,8 @@
 		/**
 		* Set Academic Time Period Type Name
 		*
+		* Type: string
+		*
 		* Friendly name of the academic time period type.
 		*/
 		@Override
@@ -42,6 +44,8 @@
 		
 		/**
 		* Get Academic Time Period Type Name
+		*
+		* Type: string
 		*
 		* Friendly name of the academic time period type.
 		*/
@@ -56,6 +60,8 @@
 		/**
 		* Set Academic Time Period Type Description
 		*
+		* Type: string
+		*
 		* Narrative description of an academic time period type.
 		*/
 		@Override
@@ -66,6 +72,8 @@
 		
 		/**
 		* Get Academic Time Period Type Description
+		*
+		* Type: string
 		*
 		* Narrative description of an academic time period type.
 		*/
@@ -80,6 +88,8 @@
 		/**
 		* Set Academic Time Period Duration Type
 		*
+		* Type: atpDurationTypeKey
+		*
 		* Unique identifier for an academic time period duration type.
 		*/
 		@Override
@@ -90,6 +100,8 @@
 		
 		/**
 		* Get Academic Time Period Duration Type
+		*
+		* Type: atpDurationTypeKey
 		*
 		* Unique identifier for an academic time period duration type.
 		*/
@@ -104,6 +116,8 @@
 		/**
 		* Set Academic Time Period Seasonal Type
 		*
+		* Type: atpSeasonalTypeKey
+		*
 		* Unique identifier for an academic time period seasonal type.
 		*/
 		@Override
@@ -114,6 +128,8 @@
 		
 		/**
 		* Get Academic Time Period Seasonal Type
+		*
+		* Type: atpSeasonalTypeKey
 		*
 		* Unique identifier for an academic time period seasonal type.
 		*/
@@ -128,6 +144,8 @@
 		/**
 		* Set Effective Date
 		*
+		* Type: dateTime
+		*
 		* Date and time that this academic time period type became effective. This is a 
 		* similar concept to the effective date on enumerated values. When an expiration 
 		* date has been specified, this field must be less than or equal to the expiration 
@@ -141,6 +159,8 @@
 		
 		/**
 		* Get Effective Date
+		*
+		* Type: dateTime
 		*
 		* Date and time that this academic time period type became effective. This is a 
 		* similar concept to the effective date on enumerated values. When an expiration 
@@ -158,6 +178,8 @@
 		/**
 		* Set Expiration Date
 		*
+		* Type: dateTime
+		*
 		* Date and time that this academic time period type expires. This is a similar 
 		* concept to the expiration date on enumerated values. If specified, this must be 
 		* greater than or equal to the effective date. If this field is not specified, 
@@ -172,6 +194,8 @@
 		
 		/**
 		* Get Expiration Date
+		*
+		* Type: dateTime
 		*
 		* Date and time that this academic time period type expires. This is a similar 
 		* concept to the expiration date on enumerated values. If specified, this must be 
@@ -190,6 +214,8 @@
 		/**
 		* Set Generic/dynamic attributes
 		*
+		* Type: attributeInfoList
+		*
 		* List of key/value pairs, typically used for dynamic attributes.
 		*/
 		@Override
@@ -200,6 +226,8 @@
 		
 		/**
 		* Get Generic/dynamic attributes
+		*
+		* Type: attributeInfoList
 		*
 		* List of key/value pairs, typically used for dynamic attributes.
 		*/
@@ -214,6 +242,8 @@
 		/**
 		* Set Academic Time Period Type
 		*
+		* Type: atpTypeKey
+		*
 		* Unique identifier for an academic time period type.
 		*/
 		@Override
@@ -224,6 +254,8 @@
 		
 		/**
 		* Get Academic Time Period Type
+		*
+		* Type: atpTypeKey
 		*
 		* Unique identifier for an academic time period type.
 		*/

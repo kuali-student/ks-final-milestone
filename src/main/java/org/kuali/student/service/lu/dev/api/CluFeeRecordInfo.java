@@ -26,6 +26,8 @@ public interface CluFeeRecordInfo
 	/**
 	* Set Fee Type
 	*
+	* Type: string
+	*
 	* Any finite sequence of characters with letters, numerals, symbols and 
 	* punctuation marks. The length can be any natural number between zero or any 
 	* positive integer.
@@ -34,6 +36,8 @@ public interface CluFeeRecordInfo
 	
 	/**
 	* Get Fee Type
+	*
+	* Type: string
 	*
 	* Any finite sequence of characters with letters, numerals, symbols and 
 	* punctuation marks. The length can be any natural number between zero or any 
@@ -46,12 +50,16 @@ public interface CluFeeRecordInfo
 	/**
 	* Set Fee Amount
 	*
+	* Type: currencyAmountInfo
+	*
 	* The page currencyAmount Structure does not exist.
 	*/
 	public void setFeeAmount(CurrencyAmountInfo feeAmount);
 	
 	/**
 	* Get Fee Amount
+	*
+	* Type: currencyAmountInfo
 	*
 	* The page currencyAmount Structure does not exist.
 	*/
@@ -62,12 +70,16 @@ public interface CluFeeRecordInfo
 	/**
 	* Set List of Affiliated Orgs
 	*
+	* Type: affiliatedOrgInfoList
+	*
 	* List of affiliated organizations.
 	*/
 	public void setAffiliatedOrgInfoList(List<AffiliatedOrgInfo> affiliatedOrgInfoList);
 	
 	/**
 	* Get List of Affiliated Orgs
+	*
+	* Type: affiliatedOrgInfoList
 	*
 	* List of affiliated organizations.
 	*/
@@ -78,12 +90,16 @@ public interface CluFeeRecordInfo
 	/**
 	* Set Generic/dynamic attributes
 	*
+	* Type: attributeInfoList
+	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
 	public void setAttributes(Map<String,String> attributes);
 	
 	/**
 	* Get Generic/dynamic attributes
+	*
+	* Type: attributeInfoList
 	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
@@ -94,12 +110,16 @@ public interface CluFeeRecordInfo
 	/**
 	* Set CLU Fee Record Identifier
 	*
+	* Type: string
+	*
 	* Identifier for the clu fee record.
 	*/
 	public void setId(String id);
 	
 	/**
 	* Get CLU Fee Record Identifier
+	*
+	* Type: string
 	*
 	* Identifier for the clu fee record.
 	*/

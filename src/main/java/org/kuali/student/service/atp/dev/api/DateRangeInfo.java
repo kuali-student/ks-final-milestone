@@ -26,12 +26,16 @@ public interface DateRangeInfo
 	/**
 	* Set Date Range Name
 	*
+	* Type: string
+	*
 	* Friendly name of the date range.
 	*/
 	public void setName(String name);
 	
 	/**
 	* Get Date Range Name
+	*
+	* Type: string
 	*
 	* Friendly name of the date range.
 	*/
@@ -42,12 +46,16 @@ public interface DateRangeInfo
 	/**
 	* Set Date Range Description
 	*
+	* Type: richTextInfo
+	*
 	* Narrative description of the date range.
 	*/
 	public void setDesc(RichTextInfo desc);
 	
 	/**
 	* Get Date Range Description
+	*
+	* Type: richTextInfo
 	*
 	* Narrative description of the date range.
 	*/
@@ -58,12 +66,16 @@ public interface DateRangeInfo
 	/**
 	* Set Academic Time Period Identifier
 	*
+	* Type: atpKey
+	*
 	* Unique identifier for an Academic Time Period (ATP).
 	*/
 	public void setAtpKey(String atpKey);
 	
 	/**
 	* Get Academic Time Period Identifier
+	*
+	* Type: atpKey
 	*
 	* Unique identifier for an Academic Time Period (ATP).
 	*/
@@ -74,6 +86,8 @@ public interface DateRangeInfo
 	/**
 	* Set Range Start Date
 	*
+	* Type: dateTime
+	*
 	* Start date and time for the date range. This must be less than or equal to the 
 	* end date of this range.
 	*/
@@ -81,6 +95,8 @@ public interface DateRangeInfo
 	
 	/**
 	* Get Range Start Date
+	*
+	* Type: dateTime
 	*
 	* Start date and time for the date range. This must be less than or equal to the 
 	* end date of this range.
@@ -92,6 +108,8 @@ public interface DateRangeInfo
 	/**
 	* Set Range End Date
 	*
+	* Type: dateTime
+	*
 	* End date and time for the date range. This must be greater than or equal to the 
 	* start date of this range.
 	*/
@@ -99,6 +117,8 @@ public interface DateRangeInfo
 	
 	/**
 	* Get Range End Date
+	*
+	* Type: dateTime
 	*
 	* End date and time for the date range. This must be greater than or equal to the 
 	* start date of this range.
@@ -110,12 +130,16 @@ public interface DateRangeInfo
 	/**
 	* Set Generic/dynamic attributes
 	*
+	* Type: attributeInfoList
+	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
 	public void setAttributes(Map<String,String> attributes);
 	
 	/**
 	* Get Generic/dynamic attributes
+	*
+	* Type: attributeInfoList
 	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
@@ -126,6 +150,8 @@ public interface DateRangeInfo
 	/**
 	* Set Create/Update meta info
 	*
+	* Type: metaInfo
+	*
 	* Create and last update info for the structure. This is optional and treated as 
 	* read only since the data is set by the internals of the service during 
 	* maintenance operations.
@@ -134,6 +160,8 @@ public interface DateRangeInfo
 	
 	/**
 	* Get Create/Update meta info
+	*
+	* Type: metaInfo
 	*
 	* Create and last update info for the structure. This is optional and treated as 
 	* read only since the data is set by the internals of the service during 
@@ -146,12 +174,16 @@ public interface DateRangeInfo
 	/**
 	* Set Date Range Type
 	*
+	* Type: dateRangeTypeKey
+	*
 	* Unique identifier for a date range type.
 	*/
 	public void setType(String type);
 	
 	/**
 	* Get Date Range Type
+	*
+	* Type: dateRangeTypeKey
 	*
 	* Unique identifier for a date range type.
 	*/
@@ -162,6 +194,8 @@ public interface DateRangeInfo
 	/**
 	* Set Date Range State
 	*
+	* Type: string
+	*
 	* The current status of the date range. The values for this field are constrained 
 	* to those in the dateRangeState enumeration. A separate setup operation does not 
 	* exist for retrieval of the meta data around this value.
@@ -170,6 +204,8 @@ public interface DateRangeInfo
 	
 	/**
 	* Get Date Range State
+	*
+	* Type: string
 	*
 	* The current status of the date range. The values for this field are constrained 
 	* to those in the dateRangeState enumeration. A separate setup operation does not 
@@ -182,12 +218,16 @@ public interface DateRangeInfo
 	/**
 	* Set Date Range Key
 	*
+	* Type: dateRangeKey
+	*
 	* Unique identifier for a date range.
 	*/
 	public void setKey(String key);
 	
 	/**
 	* Get Date Range Key
+	*
+	* Type: dateRangeKey
 	*
 	* Unique identifier for a date range.
 	*/

@@ -23,12 +23,16 @@ public interface StatusInfo
 	/**
 	* Set Success Indicator
 	*
+	* Type: boolean
+	*
 	* Indicates the success or failure of the operation
 	*/
 	public void setSuccess(Boolean success);
 	
 	/**
 	* Get Success Indicator
+	*
+	* Type: boolean
 	*
 	* Indicates the success or failure of the operation
 	*/

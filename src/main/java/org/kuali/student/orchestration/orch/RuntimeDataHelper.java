@@ -29,7 +29,8 @@ public class RuntimeDataHelper
 		CREATED ("created"),
 		DELETED ("deleted"),
 		UPDATED ("updated"),
-		VERSIONS ("versions");
+		VERSIONS ("versions"),
+		DIRTY ("dirty");
 		
 		private final String key;
 		
@@ -111,6 +112,18 @@ public class RuntimeDataHelper
 	public Data getVersions ()
 	{
 		return (Data) data.get (Properties.VERSIONS.getKey ());
+	}
+	
+	
+	public void setDirty (Boolean value)
+	{
+		data.set (Properties.DIRTY.getKey (), value);
+	}
+	
+	
+	public Boolean isDirty ()
+	{
+		return (Boolean) data.get (Properties.DIRTY.getKey ());
 	}
 	
 }

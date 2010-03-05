@@ -23,12 +23,16 @@ public interface QueryParamValue
 	/**
 	* Set Query Parameter Value
 	*
+	* Type: string
+	*
 	* Value(s) for the query parameter.
 	*/
 	public void setValue(String value);
 	
 	/**
 	* Get Query Parameter Value
+	*
+	* Type: string
 	*
 	* Value(s) for the query parameter.
 	*/
@@ -39,12 +43,16 @@ public interface QueryParamValue
 	/**
 	* Set Query Parameter Identifier
 	*
+	* Type: queryParamKey
+	*
 	* Identifier for a query parameter.
 	*/
 	public void setKey(String key);
 	
 	/**
 	* Get Query Parameter Identifier
+	*
+	* Type: queryParamKey
 	*
 	* Identifier for a query parameter.
 	*/

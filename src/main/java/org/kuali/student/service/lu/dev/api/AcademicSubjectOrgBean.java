@@ -30,6 +30,8 @@
 		/**
 		* Set Organization Identifier
 		*
+		* Type: orgId
+		*
 		* Unique identifier for an organization.
 		*/
 		@Override
@@ -40,6 +42,8 @@
 		
 		/**
 		* Get Organization Identifier
+		*
+		* Type: orgId
 		*
 		* Unique identifier for an organization.
 		*/

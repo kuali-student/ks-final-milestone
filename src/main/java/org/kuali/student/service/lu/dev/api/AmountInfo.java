@@ -23,6 +23,8 @@ public interface AmountInfo
 	/**
 	* Set Unit Type
 	*
+	* Type: string
+	*
 	* The kind of units associated with the quantity, such as hours/week. It is 
 	* expected that in usage in other structures, this value will always be enumerated 
 	* based on that context.
@@ -31,6 +33,8 @@ public interface AmountInfo
 	
 	/**
 	* Get Unit Type
+	*
+	* Type: string
 	*
 	* The kind of units associated with the quantity, such as hours/week. It is 
 	* expected that in usage in other structures, this value will always be enumerated 
@@ -43,6 +47,8 @@ public interface AmountInfo
 	/**
 	* Set Unit Quantity
 	*
+	* Type: string
+	*
 	* The amount of units. Allowed values consist of numeric values as well as the 
 	* string "unbounded".
 	*/
@@ -50,6 +56,8 @@ public interface AmountInfo
 	
 	/**
 	* Get Unit Quantity
+	*
+	* Type: string
 	*
 	* The amount of units. Allowed values consist of numeric values as well as the 
 	* string "unbounded".

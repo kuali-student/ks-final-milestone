@@ -26,12 +26,16 @@ public interface AtpSeasonalTypeInfo
 	/**
 	* Set Academic Time Period Seasonal Type Name
 	*
+	* Type: string
+	*
 	* Friendly name of the academic time period seasonal type.
 	*/
 	public void setName(String name);
 	
 	/**
 	* Get Academic Time Period Seasonal Type Name
+	*
+	* Type: string
 	*
 	* Friendly name of the academic time period seasonal type.
 	*/
@@ -42,12 +46,16 @@ public interface AtpSeasonalTypeInfo
 	/**
 	* Set Academic Time Period Seasonal Type Description
 	*
+	* Type: string
+	*
 	* Description of the academic time period seasonal type.
 	*/
 	public void setDesc(String desc);
 	
 	/**
 	* Get Academic Time Period Seasonal Type Description
+	*
+	* Type: string
 	*
 	* Description of the academic time period seasonal type.
 	*/
@@ -58,6 +66,8 @@ public interface AtpSeasonalTypeInfo
 	/**
 	* Set Effective Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this academic time period seasonal type became effective. 
 	* This is a similar concept to the effective date on enumerated values. When an 
 	* expiration date has been specified, this field must be less than or equal to the 
@@ -67,6 +77,8 @@ public interface AtpSeasonalTypeInfo
 	
 	/**
 	* Get Effective Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this academic time period seasonal type became effective. 
 	* This is a similar concept to the effective date on enumerated values. When an 
@@ -80,6 +92,8 @@ public interface AtpSeasonalTypeInfo
 	/**
 	* Set Expiration Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this academic time period seasonal type expires. This is a 
 	* similar concept to the expiration date on enumerated values. If specified, this 
 	* must be greater than or equal to the effective date. If this field is not 
@@ -90,6 +104,8 @@ public interface AtpSeasonalTypeInfo
 	
 	/**
 	* Get Expiration Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this academic time period seasonal type expires. This is a 
 	* similar concept to the expiration date on enumerated values. If specified, this 
@@ -104,12 +120,16 @@ public interface AtpSeasonalTypeInfo
 	/**
 	* Set Generic/dynamic attributes
 	*
+	* Type: attributeInfoList
+	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
 	public void setAttributes(Map<String,String> attributes);
 	
 	/**
 	* Get Generic/dynamic attributes
+	*
+	* Type: attributeInfoList
 	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
@@ -120,12 +140,16 @@ public interface AtpSeasonalTypeInfo
 	/**
 	* Set Academic Time Period Seasonal Type Identifier
 	*
+	* Type: atpSeasonalTypeKey
+	*
 	* Unique identifier for an academic time period seasonal type.
 	*/
 	public void setKey(String key);
 	
 	/**
 	* Get Academic Time Period Seasonal Type Identifier
+	*
+	* Type: atpSeasonalTypeKey
 	*
 	* Unique identifier for an academic time period seasonal type.
 	*/

@@ -23,12 +23,16 @@ public interface AcademicSubjectOrgInfo
 	/**
 	* Set Organization Identifier
 	*
+	* Type: orgId
+	*
 	* Unique identifier for an organization.
 	*/
 	public void setOrgId(String orgId);
 	
 	/**
 	* Get Organization Identifier
+	*
+	* Type: orgId
 	*
 	* Unique identifier for an organization.
 	*/

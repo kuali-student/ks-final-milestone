@@ -31,6 +31,8 @@
 		/**
 		* Set Organization Identifier
 		*
+		* Type: orgId
+		*
 		* Unique identifier for an organization.
 		*/
 		@Override
@@ -41,6 +43,8 @@
 		
 		/**
 		* Get Organization Identifier
+		*
+		* Type: orgId
 		*
 		* Unique identifier for an organization.
 		*/
@@ -55,6 +59,8 @@
 		/**
 		* Set Generic/dynamic attributes
 		*
+		* Type: attributeInfoList
+		*
 		* List of key/value pairs, typically used for dynamic attributes.
 		*/
 		@Override
@@ -65,6 +71,8 @@
 		
 		/**
 		* Get Generic/dynamic attributes
+		*
+		* Type: attributeInfoList
 		*
 		* List of key/value pairs, typically used for dynamic attributes.
 		*/

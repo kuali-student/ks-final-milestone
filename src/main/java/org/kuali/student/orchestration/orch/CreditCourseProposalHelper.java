@@ -29,7 +29,8 @@ public class CreditCourseProposalHelper
 		PROPOSAL ("proposal"),
 		COURSE ("course"),
 		STATE ("state"),
-		TYPE ("type");
+		TYPE ("type"),
+		SEARCH ("search");
 		
 		private final String key;
 		
@@ -111,6 +112,18 @@ public class CreditCourseProposalHelper
 	public String getType ()
 	{
 		return (String) data.get (Properties.TYPE.getKey ());
+	}
+	
+	
+	public void setSearch (String value)
+	{
+		data.set (Properties.SEARCH.getKey (), value);
+	}
+	
+	
+	public String getSearch ()
+	{
+		return (String) data.get (Properties.SEARCH.getKey ());
 	}
 	
 }

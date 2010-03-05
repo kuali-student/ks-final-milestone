@@ -30,6 +30,8 @@
 		/**
 		* Set Code
 		*
+		* Type: string
+		*
 		* The composite string that is used to officially reference or publish the CLU. 
 		* Note it may have an internal structure that each Institution may want to 
 		* enforce. This structure may be composed from the other parts of the structure 
@@ -43,6 +45,8 @@
 		
 		/**
 		* Get Code
+		*
+		* Type: string
 		*
 		* The composite string that is used to officially reference or publish the CLU. 
 		* Note it may have an internal structure that each Institution may want to 
@@ -60,6 +64,8 @@
 		/**
 		* Set Short Name
 		*
+		* Type: string
+		*
 		* Abbreviated name of the CLU, commonly used on transcripts
 		*/
 		@Override
@@ -70,6 +76,8 @@
 		
 		/**
 		* Get Short Name
+		*
+		* Type: string
 		*
 		* Abbreviated name of the CLU, commonly used on transcripts
 		*/
@@ -84,6 +92,8 @@
 		/**
 		* Set Long Name
 		*
+		* Type: string
+		*
 		* Full name of the CLU, commonly used on catalogues
 		*/
 		@Override
@@ -94,6 +104,8 @@
 		
 		/**
 		* Get Long Name
+		*
+		* Type: string
 		*
 		* Full name of the CLU, commonly used on catalogues
 		*/
@@ -108,6 +120,8 @@
 		/**
 		* Set Level
 		*
+		* Type: string
+		*
 		* A code that indicates whether this is introductory, advanced, etc.
 		*/
 		@Override
@@ -118,6 +132,8 @@
 		
 		/**
 		* Get Level
+		*
+		* Type: string
 		*
 		* A code that indicates whether this is introductory, advanced, etc.
 		*/
@@ -132,6 +148,8 @@
 		/**
 		* Set Division
 		*
+		* Type: string
+		*
 		* A code that indicates what school, program, major, subject area, etc. Examples: 
 		* "Chem", "18"
 		*/
@@ -143,6 +161,8 @@
 		
 		/**
 		* Get Division
+		*
+		* Type: string
 		*
 		* A code that indicates what school, program, major, subject area, etc. Examples: 
 		* "Chem", "18"
@@ -158,6 +178,8 @@
 		/**
 		* Set Suffix Code
 		*
+		* Type: string
+		*
 		* The "extra" portion of the code, which usually corresponds with the most 
 		* detailed part of the number. Ex. at MIT we might map Division to subject 
 		* area(Ex:6) but overall we need to say the code is 6.120. This field would 
@@ -171,6 +193,8 @@
 		
 		/**
 		* Get Suffix Code
+		*
+		* Type: string
 		*
 		* The "extra" portion of the code, which usually corresponds with the most 
 		* detailed part of the number. Ex. at MIT we might map Division to subject 
@@ -188,6 +212,8 @@
 		/**
 		* Set Variation
 		*
+		* Type: string
+		*
 		* A number that indicates the sequence or order of versions in cases where several 
 		* different Clus have the same offical Identifier
 		*/
@@ -199,6 +225,8 @@
 		
 		/**
 		* Get Variation
+		*
+		* Type: string
 		*
 		* A number that indicates the sequence or order of versions in cases where several 
 		* different Clus have the same offical Identifier
@@ -214,6 +242,8 @@
 		/**
 		* Set Organization Identifier
 		*
+		* Type: orgId
+		*
 		* The identifier of the organization associated with this cluIdentifier.
 		*/
 		@Override
@@ -224,6 +254,8 @@
 		
 		/**
 		* Get Organization Identifier
+		*
+		* Type: orgId
 		*
 		* The identifier of the organization associated with this cluIdentifier.
 		*/
@@ -238,6 +270,8 @@
 		/**
 		* Set CLU Identifier Type
 		*
+		* Type: string
+		*
 		* Identifies the type of usage for the identifier. While most usages will have the 
 		* same data constraints, this may provide some context around what the specific 
 		* intent is for this identifier. (Ex. Why does this alternate identifier exist?)
@@ -250,6 +284,8 @@
 		
 		/**
 		* Get CLU Identifier Type
+		*
+		* Type: string
 		*
 		* Identifies the type of usage for the identifier. While most usages will have the 
 		* same data constraints, this may provide some context around what the specific 
@@ -266,6 +302,8 @@
 		/**
 		* Set CLU Identifier State
 		*
+		* Type: string
+		*
 		* Identifies the state of the identifier. Values for this field are constrained to 
 		* values present within the cluIdentifierState enumeration.
 		*/
@@ -277,6 +315,8 @@
 		
 		/**
 		* Get CLU Identifier State
+		*
+		* Type: string
 		*
 		* Identifies the state of the identifier. Values for this field are constrained to 
 		* values present within the cluIdentifierState enumeration.
@@ -292,6 +332,8 @@
 		/**
 		* Set CLU Identifier Identifier
 		*
+		* Type: string
+		*
 		* Identifies the particular identifier structure. This is set by the service to be 
 		* able to determine changes and alterations to the structure as well as provides a 
 		* handle for searches. This structure is not accessible through unique operations, 
@@ -306,6 +348,8 @@
 		
 		/**
 		* Get CLU Identifier Identifier
+		*
+		* Type: string
 		*
 		* Identifies the particular identifier structure. This is set by the service to be 
 		* able to determine changes and alterations to the structure as well as provides a 

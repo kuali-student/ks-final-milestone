@@ -26,12 +26,16 @@ public interface LuCodeTypeInfo
 	/**
 	* Set Learning Unit Code Type Name
 	*
+	* Type: string
+	*
 	* Friendly name of the learning unit code type
 	*/
 	public void setName(String name);
 	
 	/**
 	* Get Learning Unit Code Type Name
+	*
+	* Type: string
 	*
 	* Friendly name of the learning unit code type
 	*/
@@ -42,12 +46,16 @@ public interface LuCodeTypeInfo
 	/**
 	* Set Learning Unit Code Type Description
 	*
+	* Type: string
+	*
 	* Narrative description of the learning unit code type
 	*/
 	public void setDesc(String desc);
 	
 	/**
 	* Get Learning Unit Code Type Description
+	*
+	* Type: string
 	*
 	* Narrative description of the learning unit code type
 	*/
@@ -58,6 +66,8 @@ public interface LuCodeTypeInfo
 	/**
 	* Set Effective Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this learning unit code type became effective. This is a 
 	* similar concept to the effective date on enumerated values. When an expiration 
 	* date has been specified, this field must be less than or equal to the expiration 
@@ -67,6 +77,8 @@ public interface LuCodeTypeInfo
 	
 	/**
 	* Get Effective Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this learning unit code type became effective. This is a 
 	* similar concept to the effective date on enumerated values. When an expiration 
@@ -80,6 +92,8 @@ public interface LuCodeTypeInfo
 	/**
 	* Set Expiration Date
 	*
+	* Type: dateTime
+	*
 	* Date and time that this learning unit code type expires. This is a similar 
 	* concept to the expiration date on enumerated values. If specified, this should 
 	* be greater than or equal to the effective date. If this field is not specified, 
@@ -90,6 +104,8 @@ public interface LuCodeTypeInfo
 	
 	/**
 	* Get Expiration Date
+	*
+	* Type: dateTime
 	*
 	* Date and time that this learning unit code type expires. This is a similar 
 	* concept to the expiration date on enumerated values. If specified, this should 
@@ -104,12 +120,16 @@ public interface LuCodeTypeInfo
 	/**
 	* Set Generic/dynamic attributes
 	*
+	* Type: attributeInfoList
+	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
 	public void setAttributes(Map<String,String> attributes);
 	
 	/**
 	* Get Generic/dynamic attributes
+	*
+	* Type: attributeInfoList
 	*
 	* List of key/value pairs, typically used for dynamic attributes.
 	*/
@@ -120,12 +140,16 @@ public interface LuCodeTypeInfo
 	/**
 	* Set Learning Unit Code Type Key
 	*
+	* Type: luCodeTypeKey
+	*
 	* Unique identifier for a learning unit code type.
 	*/
 	public void setKey(String key);
 	
 	/**
 	* Get Learning Unit Code Type Key
+	*
+	* Type: luCodeTypeKey
 	*
 	* Unique identifier for a learning unit code type.
 	*/

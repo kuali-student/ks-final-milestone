@@ -72,6 +72,19 @@ public class CreditCourseMetadata
 			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.id"));
 		}
 		
+		// metadata for CopyOfCourseId
+		childMeta = new Metadata ();
+		mainMeta.getProperties ().put (Properties.COPY_OF_COURSE_ID.getKey (), childMeta);
+		childMeta.setDataType (Data.DataType.STRING);
+		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
+		if (this.matches (type, state, "(default)", "(default)"))
+		{
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("single"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("optional"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("kuali.id"));
+			childMeta.getConstraints ().add (ConstraintMetadataBank.BANK.get ("related.cluid"));
+		}
+		
 		// metadata for Formats
 		childMeta = new Metadata ();
 		mainMeta.getProperties ().put (Properties.FORMATS.getKey (), childMeta);
@@ -445,7 +458,7 @@ public class CreditCourseMetadata
 		
 		// metadata for CourseSpecificLOs
 		childMeta = new Metadata ();
-		mainMeta.getProperties ().put (Properties.COURSE_SPECIFIC_L_OS.getKey (), childMeta);
+		mainMeta.getProperties ().put (Properties.COURSE_SPECIFIC_LOS.getKey (), childMeta);
 		childMeta.setDataType (Data.DataType.LIST);
 		childMeta.setWriteAccess (Metadata.WriteAccess.ALWAYS);
 		if (this.matches (type, state, "(default)", "(default)"))

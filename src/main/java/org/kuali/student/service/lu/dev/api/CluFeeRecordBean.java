@@ -32,6 +32,8 @@
 		/**
 		* Set Fee Type
 		*
+		* Type: string
+		*
 		* Any finite sequence of characters with letters, numerals, symbols and 
 		* punctuation marks. The length can be any natural number between zero or any 
 		* positive integer.
@@ -44,6 +46,8 @@
 		
 		/**
 		* Get Fee Type
+		*
+		* Type: string
 		*
 		* Any finite sequence of characters with letters, numerals, symbols and 
 		* punctuation marks. The length can be any natural number between zero or any 
@@ -60,6 +64,8 @@
 		/**
 		* Set Fee Amount
 		*
+		* Type: currencyAmountInfo
+		*
 		* The page currencyAmount Structure does not exist.
 		*/
 		@Override
@@ -70,6 +76,8 @@
 		
 		/**
 		* Get Fee Amount
+		*
+		* Type: currencyAmountInfo
 		*
 		* The page currencyAmount Structure does not exist.
 		*/
@@ -84,6 +92,8 @@
 		/**
 		* Set List of Affiliated Orgs
 		*
+		* Type: affiliatedOrgInfoList
+		*
 		* List of affiliated organizations.
 		*/
 		@Override
@@ -94,6 +104,8 @@
 		
 		/**
 		* Get List of Affiliated Orgs
+		*
+		* Type: affiliatedOrgInfoList
 		*
 		* List of affiliated organizations.
 		*/
@@ -108,6 +120,8 @@
 		/**
 		* Set Generic/dynamic attributes
 		*
+		* Type: attributeInfoList
+		*
 		* List of key/value pairs, typically used for dynamic attributes.
 		*/
 		@Override
@@ -118,6 +132,8 @@
 		
 		/**
 		* Get Generic/dynamic attributes
+		*
+		* Type: attributeInfoList
 		*
 		* List of key/value pairs, typically used for dynamic attributes.
 		*/
@@ -132,6 +148,8 @@
 		/**
 		* Set CLU Fee Record Identifier
 		*
+		* Type: string
+		*
 		* Identifier for the clu fee record.
 		*/
 		@Override
@@ -142,6 +160,8 @@
 		
 		/**
 		* Get CLU Fee Record Identifier
+		*
+		* Type: string
 		*
 		* Identifier for the clu fee record.
 		*/

@@ -30,6 +30,8 @@
 		/**
 		* Set Query Parameter Value
 		*
+		* Type: string
+		*
 		* Value(s) for the query parameter.
 		*/
 		@Override
@@ -40,6 +42,8 @@
 		
 		/**
 		* Get Query Parameter Value
+		*
+		* Type: string
 		*
 		* Value(s) for the query parameter.
 		*/
@@ -54,6 +58,8 @@
 		/**
 		* Set Query Parameter Identifier
 		*
+		* Type: queryParamKey
+		*
 		* Identifier for a query parameter.
 		*/
 		@Override
@@ -64,6 +70,8 @@
 		
 		/**
 		* Get Query Parameter Identifier
+		*
+		* Type: queryParamKey
 		*
 		* Identifier for a query parameter.
 		*/
