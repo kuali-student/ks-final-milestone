@@ -1,1 +1,1 @@
-call mvn -Dmaven.test.skip=true -Pkuali-developer-properties install
+call mvn -o -Dmaven.test.skip=true -Pkuali-developer-properties install
