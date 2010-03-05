@@ -441,7 +441,9 @@ public class MetadataServiceImpl {
                     }
                     break;
                 case LONG:
-                    value = new Data.LongValue(Long.valueOf(s));
+                	if (!s.isEmpty()){
+                		value = new Data.LongValue(Long.valueOf(s));
+                	}
                     break;
                 case DOUBLE:
                     value = new Data.DoubleValue(Double.valueOf(s));

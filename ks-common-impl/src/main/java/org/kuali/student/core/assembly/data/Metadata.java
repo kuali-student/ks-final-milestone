@@ -95,6 +95,7 @@ public class Metadata implements Serializable {
     @XmlElementWrapper
     private List<ConstraintMetadata> constraints;
     
+    @XmlElement(name="lookupMetadata")
     private LookupMetadata initialLookup;
 
     private String lookupContextPath;
