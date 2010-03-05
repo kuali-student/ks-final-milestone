@@ -12,9 +12,9 @@ import com.eviware.soapui.impl.wsdl.WsdlSubmitContext;
 import com.eviware.soapui.model.iface.Operation;
 import com.eviware.soapui.model.iface.Response;
 
-public class SimpleTest {
+public class WsdlTest {
 	public static void main(String[] args) {
-		new SimpleTest().run();
+		new WsdlTest().run();
 	}
 
 	public void run() {
@@ -23,7 +23,7 @@ public class SimpleTest {
 			WsdlProject project = new WsdlProject();
 
 			// import wsdl
-			WsdlInterface iface = project.importWsdl("http://localhost//services/LuService?wsdl", true)[0];
+			WsdlInterface iface = project.importWsdl("http://localhost/ks-embedded/services/LuService?wsdl", true)[0];
 
 			// Cycle through the available operations
 			List<Operation> operations = iface.getOperationList();
