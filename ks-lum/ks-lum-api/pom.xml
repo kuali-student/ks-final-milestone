@@ -35,7 +35,7 @@
 				<executions>
 					<execution>
 						<id>lo-wsdl</id>
-						<phase>process-classes</phase>
+						<phase>${ks.ws.compile.phase}</phase>
 						<configuration>
 							<className>
 								org.kuali.student.lum.lo.service.LearningObjectiveService
@@ -49,7 +49,7 @@
 					</execution>
 					<execution>
 						<id>lu-wsdl</id>
-						<phase>process-classes</phase>
+						<phase>${ks.ws.compile.phase}</phase>
 						<configuration>
 							<className>
 								org.kuali.student.lum.lu.service.LuService
@@ -63,7 +63,7 @@
 					</execution>
                     <execution>
                         <id>lrc-wsdl</id>
-                        <phase>process-classes</phase>
+                        <phase>${ks.ws.compile.phase}</phase>
                         <configuration>
                             <className>
                                 org.kuali.student.lum.lrc.service.LrcService

@@ -30,7 +30,7 @@
 				<executions>
 					<execution>
 						<id>statement-wsdl</id>
-						<phase>process-classes</phase>
+						<phase>${ks.ws.compile.phase}</phase>
 						<configuration>
 							<className>
 								org.kuali.student.brms.statement.service.StatementService
