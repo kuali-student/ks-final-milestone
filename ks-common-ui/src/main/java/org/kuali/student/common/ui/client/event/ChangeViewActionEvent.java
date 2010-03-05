@@ -14,6 +14,8 @@
  */
 package org.kuali.student.common.ui.client.event;
 
+import org.kuali.student.common.ui.client.application.ViewContext;
+
 
 /**
  * The ChangeViewActionEvent can be used to request the controller to change the current view to the desired view.
@@ -26,7 +28,7 @@ public class ChangeViewActionEvent<V extends Enum<?>> extends ActionEvent<Change
     
     private V viewType;
     
-    private ViewDetail viewDetail;
+    private ViewContext viewContext;
     
     /** 
      * @param viewType The name of the view to switch to.
@@ -37,11 +39,11 @@ public class ChangeViewActionEvent<V extends Enum<?>> extends ActionEvent<Change
     
     /** 
      * @param viewType The name of the view to switch
-     * @param viewDetail Any data required to switch to this view.
+     * @param viewContext Context information (eg. ids, actions) required by view.
      */
-    public ChangeViewActionEvent(V viewType, ViewDetail viewDetail){
+    public ChangeViewActionEvent(V viewType, ViewContext viewContext){
         this.viewType = viewType;
-        this.viewDetail = viewDetail;
+        this.viewContext = viewContext;
     }
 
     @Override
@@ -58,28 +60,11 @@ public class ChangeViewActionEvent<V extends Enum<?>> extends ActionEvent<Change
         return viewType;
     }
 
-    public ViewDetail getViewDetail() {
-        return viewDetail;
-    }
+	public ViewContext getViewContext() {
+		return viewContext;
+	}
 
-    /** 
-     * Use to pass along any data that may be required by the controller to initialize the view in question.
-     * 
-     * @param viewDetail 
-     */
-    public void setViewDetails(ViewDetail viewDetail) {
-        this.viewDetail = viewDetail;
-    }
-    
-    //TODO: A more defined structure of details that may be required to switch the view
-    public static class ViewDetail{
-    	String dataId;
-    	public ViewDetail(String dataId){
-    		this.dataId = dataId;
-    	}
-    	
-    	public String getDataId(){
-    		return dataId;
-    	}
-    }
+	public void setViewContext(ViewContext viewContext) {
+		this.viewContext = viewContext;
+	}       
 }
