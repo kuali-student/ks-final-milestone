@@ -138,15 +138,17 @@
 	</bean>
 	
 	<bean id="SearchDispatchRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.SearchDispatchRpcGwtServlet">
-		<constructor-arg>
-	      <list>
-	        <ref bean="orgClient"/>
-	        <ref bean="atpClient"/>	     
-	        <ref bean="personSearchClient"/>   	        	        
-	      </list>
-		</constructor-arg>						
+		<property name="searchDispatcher" ref="searchDispatcher" />						
 	</bean>
-	
+	<bean id="searchDispatcher" class="org.kuali.student.core.search.service.impl.SearchDispatcherImpl">
+		<property name="services">
+			<list>
+		        <ref bean="orgClient"/>
+		        <ref bean="atpClient"/>	     
+		        <ref bean="personSearchClient"/>   	        	        
+			</list>
+		</property>
+	</bean>
 	<bean id="uploadStatusRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.UploadStatusRpcGwtServlet">	
 	</bean>
 	

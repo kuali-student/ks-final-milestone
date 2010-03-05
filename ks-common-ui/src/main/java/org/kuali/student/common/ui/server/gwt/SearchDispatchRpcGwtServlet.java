@@ -1,17 +1,11 @@
 package org.kuali.student.common.ui.server.gwt;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.service.SearchRpcService;
 import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.dto.SearchTypeInfo;
-import org.kuali.student.core.search.service.SearchService;
+import org.kuali.student.core.search.service.impl.SearchDispatcher;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -20,32 +14,9 @@ public class SearchDispatchRpcGwtServlet extends RemoteServiceServlet implements
 	private static final long serialVersionUID = 1L;
 
 	final Logger LOG = Logger.getLogger(SearchDispatchRpcGwtServlet.class);
-	
-	//Map of search key->service
-	private Map<String,SearchService> serviceMap;
-	
-	public SearchDispatchRpcGwtServlet(SearchService... services){
+	private SearchDispatcher searchDispatcher;
+	public SearchDispatchRpcGwtServlet() {
 		super();
-		serviceMap = new HashMap<String,SearchService>();
-		
-		//Look through each service, grab it's search keys and add them to the map
-		for(SearchService service:services){
-			if(null==service){
-				LOG.warn("Null service passed to SearchDelegator");
-			}else{
-				try {
-					List<SearchTypeInfo> searchTypes = service.getSearchTypes();
-					if(searchTypes!=null){
-						for(SearchTypeInfo searchType:searchTypes){
-							serviceMap.put(searchType.getKey(),service);
-						}
-					}
-				} catch (OperationFailedException e) {
-					// TODO Auto-generated catch block
-					LOG.warn("Error getting searchTypes",e);
-				}
-			}
-		}
 	}
 	
 	/**
@@ -56,20 +27,10 @@ public class SearchDispatchRpcGwtServlet extends RemoteServiceServlet implements
 	 */
 	@Override
 	public SearchResult search(SearchRequest searchRequest) {
-		//Lookup which service to call for given search key and do the search
-		if(searchRequest != null){
-			String searchKey = searchRequest.getSearchKey();
-			SearchService searchService = serviceMap.get(searchKey);
-			if(searchService != null){
-		        try {
-					return searchService.search(searchRequest);
-				} catch (MissingParameterException e) {
-					e.printStackTrace();
-				} 								
-			} else {
-				LOG.error("Search Dispatcher has no search service defined for: " + searchRequest.getSearchKey());
-			}
-		}
-		return null;
+		return searchDispatcher.dispatchSearch(searchRequest);
+	}
+
+	public void setSearchDispatcher(SearchDispatcher searchDispatcher) {
+		this.searchDispatcher = searchDispatcher;
 	}
 }
