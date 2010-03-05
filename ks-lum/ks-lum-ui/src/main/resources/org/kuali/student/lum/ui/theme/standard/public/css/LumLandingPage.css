@@ -1,0 +1,25 @@
+.KS-LumLandingPage{
+	
+}
+
+.KS-LumLandingPage .KS-SearchBox{
+	font-size: 1em;
+	width: 430px;
+}
+
+.KS-LumLandingPage .gwt-ListBox{
+	font-size: 1em;
+	vertical-align: middle;
+}
+
+.KS-LumLandingPage-SearchPanel{	
+	margin-bottom: 2em;
+}
+
+.KS-LumLandingPage-SearchLabel{
+	margin-top: 2em;
+	font-weight: bold;
+	margin-bottom: .2em;
+}
+
+

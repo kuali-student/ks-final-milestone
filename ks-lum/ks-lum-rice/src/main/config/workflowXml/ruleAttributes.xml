@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute RuleAttribute">
+		<ruleAttribute>
+			<name>RequestedCollaboratorRoleAttribute</name>
+			<className>org.kuali.rice.kew.rule.PrincipalIdRoleAttribute</className>
+			<label>Requested Collaborator Role Attribute</label>
+			<description>Role to identify the user who is being requested as a collaborator</description>
+			<type>RuleXmlAttribute</type>
+			<configuration>
+				<xmlElementLabel>recipientPrincipalId</xmlElementLabel>
+				<roleNameLabel>Requested Collaborator</roleNameLabel>
+			</configuration>
+		</ruleAttribute>
+		<ruleAttribute>
+        	<name>CollaboratorRequestCustomActionListAttribute</name>
+        	<className>org.kuali.student.lum.workflow.CollaboratorRequestCustomActionListAttribute</className>
+        	<label>Collaborator Request Action List Attribute</label>
+        	<description>Collaborator Request Action List Attribute</description>
+        	<type>ActionListAttribute</type>
+		</ruleAttribute>
+	</ruleAttributes>
+</data>
