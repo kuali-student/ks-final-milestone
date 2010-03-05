@@ -384,17 +384,19 @@
 	</bean>
 
 	<bean id="SearchDispatchRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.SearchDispatchRpcGwtServlet">
-		<constructor-arg>
-	      <list>
-	        <ref bean="luClient"/>
-	        <ref bean="loClient"/>
-	        <ref bean="orgClient"/>
-	      	<ref bean="atpClient"/>
-	        <ref bean="personSearchClient"/>
-	      </list>
-		</constructor-arg>
+		<property name="searchDispatcher" ref="searchDispatcher" />
 	</bean>
-
+	<bean id="searchDispatcher" class="org.kuali.student.core.search.service.impl.SearchDispatcherImpl">
+		<property name="services">
+			<list>
+		        <ref bean="luClient"/>
+		        <ref bean="loClient"/>
+		        <ref bean="orgClient"/>
+		      	<ref bean="atpClient"/>
+		        <ref bean="personSearchClient"/>
+			</list>
+		</property>
+	</bean>
 	<!-- Service clients -->
 	<bean id="luClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.student.lum.lu.service.LuService" />
