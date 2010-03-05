@@ -15,7 +15,6 @@
  */
 package org.kuali.student.dictionary.writer.orch;
 
-import org.kuali.student.core.assembly.data.LookupImplMetadata;
 import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.assembly.data.LookupParamMetadata;
 import org.kuali.student.core.assembly.data.LookupResultMetadata;
@@ -53,12 +52,6 @@ public class LookupMetadataWriter
   writeSetValue ("ResultDisplayKey", lookupMeta.getResultDisplayKey ());
   writeSetValue ("ResultSortKey", lookupMeta.getResultSortKey ());
   writeSetValue ("Usage", lookupMeta.getUsage ());
-
-  out.importsAdd (LookupImplMetadata.class.getName ());
-  out.indentPrintln ("");
-  out.indentPrintln ("impl = new LookupImplMetadata ();");
-  new LookupImplMetadataWriter (out, "impl", lookupMeta.getImpl ()).write ();
-  out.indentPrintln ("lookup.setImpl (impl);");
   
   out.importsAdd (LookupParamMetadata.class.getName ());
   for (LookupParamMetadata paramMeta : lookupMeta.getParams ())

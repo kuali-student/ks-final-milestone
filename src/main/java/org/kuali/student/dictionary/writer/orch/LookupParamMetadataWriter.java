@@ -52,7 +52,7 @@ public class LookupParamMetadataWriter
   writeSetValue ("WriteAccess", paramMeta.getWriteAccess ());
   writeSetValue ("DataType", paramMeta.getDataType ());
   writeSetValue ("Optional", paramMeta.isOptional ());
-  writeSetValue ("DefaultValue", paramMeta.getDefaultValue ());
+  writeSetValue ("DefaultValueString", paramMeta.getDefaultValueString ());
   writeSetValue ("Usage", paramMeta.getUsage ());
   writeSetValue ("Widget", paramMeta.getWidget ());
   writeSetValue ("CaseSensitive", paramMeta.isCaseSensitive ());

@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.LookupImplMetadata;
 import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.assembly.data.LookupParamMetadata;
 import org.kuali.student.core.assembly.data.LookupResultMetadata;
@@ -53,12 +52,6 @@ public class SearchTypeToLookupMetadataConverter
   lookupMeta.setUsage (calcLookupUsage (searchType.getUsage ()));
   lookupMeta.setName (asString (searchType.getName ()));
   lookupMeta.setDesc (asString (searchType.getDescription ()));
-  LookupImplMetadata impl = new LookupImplMetadata ();
-  lookupMeta.setImpl (impl);
-  impl.setService (asString (searchType.getService ()));
-  impl.setType (asString (searchType.getImplementation ().getType ()));
-  impl.setInfo (asString (searchType.getImplementation ().getDescription ()));
-
   for (SearchCriteriaParameter param : searchType.getSearchCriteria ().
    getParameters ())
   {
@@ -73,10 +66,8 @@ public class SearchTypeToLookupMetadataConverter
    paramMeta.setWriteAccess (calcWriteAccess (asString (param.getWriteAccess ())));
    paramMeta.setUsage (calcParamUsage (param.getUsage ()));
    paramMeta.setWidget (calcParamWidget (param.getWidget ()));
-   // TODO: support default values as lists
-   paramMeta.setDefaultValue (asDataValue (paramMeta.getDataType (),
-                                           param.getDefaultValue (),
-                                           "defaultValue"));
+   // TODO: support default values as lists)
+   paramMeta.setDefaultValueString (calcParamDefaultValueString (param.getDefaultValue ()));
   }
 
   for (SearchResultColumn col :
@@ -112,6 +103,20 @@ public class SearchTypeToLookupMetadataConverter
   }
   return lookupMeta;
  }
+
+ private String calcParamDefaultValueString (String value)
+ {
+  if (value == null)
+  {
+   return null;
+  }
+  if (value.equals (""))
+  {
+   return null;
+  }
+  return value;
+ }
+
 
  private Metadata.WriteAccess calcWriteAccess (String value)
  {

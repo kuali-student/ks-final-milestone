@@ -166,7 +166,7 @@ public class OrchestrationObjectMetadataWriter extends JavaClassWriter
   {
    importsAdd (rootPackage + ".LookupMetadataBank");
    indentPrintln ("LookupMetadataBank.setLookups (childMeta, " + quote (field.getLookup ()) + ");");
-   //indentPrintln ("childMeta.setLookupMetadata (LookupMetadataBank.LOOKUP_BANK.get (" +
+   //indentPrintln ("childMeta.setInitialLookup (LookupMetadataBank.LOOKUP_BANK.get (" +
    // quote (field.getLookup ()) + ".toLowerCase ()));");
    indentPrintln ("childMeta.setLookupContextPath (" +
     quote (replaceEmptyWitNull (field.getLookupContextPath ())) + ");");

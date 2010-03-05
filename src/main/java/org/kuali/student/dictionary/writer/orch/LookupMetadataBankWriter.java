@@ -22,7 +22,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.kuali.student.core.assembly.data.LookupImplMetadata;
 import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.assembly.data.LookupParamMetadata;
 import org.kuali.student.core.assembly.data.LookupResultMetadata;
@@ -76,11 +75,9 @@ public class LookupMetadataBankWriter extends JavaClassWriter
   indentPrintln ("LookupMetadata lookup = null;");
   indentPrintln ("LookupParamMetadata param = null;");
   indentPrintln ("LookupResultMetadata result = null;");
-  indentPrintln ("LookupImplMetadata impl = null;");
   importsAdd (LookupMetadata.class.getName ());
   importsAdd (LookupParamMetadata.class.getName ());
   importsAdd (LookupResultMetadata.class.getName ());
-  importsAdd (LookupImplMetadata.class.getName ());
 
   // basic conversion
   List<LookupMetadata> lookupMetas = orchModel.getLookups ();
@@ -169,18 +166,23 @@ public class LookupMetadataBankWriter extends JavaClassWriter
   closeBrace ();
   indentPrintln ("if (list.size () == 0)");
   openBrace ();
-  indentPrintln ("meta.setLookupMetadata (null);");
+  indentPrintln ("meta.setInitialLookup (null);");
   indentPrintln ("meta.setAdditionalLookups (list);");
   indentPrintln ("return;");
   closeBrace ();
   indentPrintln ("if (list.size () == 1)");
   openBrace ();
-  indentPrintln ("meta.setLookupMetadata (list.get (0));");
+  indentPrintln ("meta.setInitialLookup (list.get (0));");
   indentPrintln ("meta.setAdditionalLookups (new ArrayList ());");
   indentPrintln ("return;");
   closeBrace ();
-  indentPrintln ("meta.setLookupMetadata (list.get (0));");
-  indentPrintln ("meta.setAdditionalLookups (list.subList (1, list.size ()));");
+  indentPrintln ("meta.setInitialLookup (list.get (0));");
+  indentPrintln ("List<LookupMetadata> additional = new ArrayList ();");
+  indentPrintln ("for(int i = 1; i < list.size(); i++)");
+  openBrace ();
+  indentPrintln ("additional.add (list.get (i));");
+  closeBrace ();
+  indentPrintln ("meta.setAdditionalLookups (additional);");
   closeBrace ();
 
   importsAdd (List.class.getName ());
