@@ -94,11 +94,13 @@
 			<xsl:attribute name="class">org.kuali.student.core.assembly.data.LookupQosMetadata</xsl:attribute>
 		</xsl:element>
 
+		<!-- This class is deprecated 
 		<xsl:element name="bean">
 			<xsl:attribute name="id">lookupImpl</xsl:attribute>
 			<xsl:attribute name="abstract">true</xsl:attribute>
 			<xsl:attribute name="class">org.kuali.student.core.assembly.data.LookupImplMetadata</xsl:attribute>
 		</xsl:element>
+		 -->
 
 		<!-- Constraints with ids -->
 		<xsl:for-each select="$allConstraints/constraint">
@@ -204,7 +206,7 @@
 									
 					<xsl:element name="property">
 						<xsl:choose>
-							<xsl:when test="name(.)='stringValue' or name(.)='booleanValue'">
+							<xsl:when test="name(.)='stringValue' or name(.)='booleanValue' or name(.)='longValue'">
 								<xsl:attribute name="name">defaultValue</xsl:attribute>
 							</xsl:when>
 							<xsl:otherwise>
@@ -217,7 +219,7 @@
 				<xsl:apply-templates select="metadata/constraints"/>
 				<xsl:if test="metadata/lookupMetadata">
 					<xsl:element name="property">
-						<xsl:attribute name="name">lookups</xsl:attribute>
+						<xsl:attribute name="name">initialLookup</xsl:attribute>
 						<xsl:apply-templates select="metadata/lookupMetadata"/>
 					</xsl:element>
 				</xsl:if>
@@ -354,14 +356,7 @@
 				<xsl:attribute name="parent">param</xsl:attribute>
 					<xsl:for-each select="*[not(self::stringValue) and not(self::booleanValue)]">
 						<xsl:element name="property">
-							<xsl:choose>
-								<xsl:when test="name(.)='stringValue' or name(.)='booleanValue'">
-									<xsl:attribute name="name">defaultValue</xsl:attribute>
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:attribute name="name" select="name(.)" />
-								</xsl:otherwise>
-							</xsl:choose>					
+							<xsl:attribute name="name" select="name(.)" />
 							<xsl:choose>
 								<xsl:when test="name(.)='lookupMetadata'">
 									<xsl:apply-templates select="."/>
