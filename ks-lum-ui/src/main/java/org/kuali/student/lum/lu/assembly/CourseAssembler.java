@@ -88,6 +88,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 	public static final String JOINT_RELATION_TYPE = "kuali.lu.relation.type.co-located";
 	public static final String PROPOSAL_TYPE_CREATE_COURSE = "kuali.proposal.type.course.create";
 	public static final String FORMAT_LU_TYPE = "kuali.lu.type.CreditCourseFormatShell";
+	public static final String COPY_OF_CLU_RELATION_TYPE = "kuali.lu.relation.type.copyOfClu";
 
 	public static final String FORMAT_RELATION_TYPE = "luLuRelationType.hasCourseFormat";
 	public static final String ACTIVITY_RELATION_TYPE = "luLuRelationType.contains";
@@ -168,7 +169,13 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 			} else {
 				course = CreditCourseHelper.wrap(input);
 			}
-
+            
+            //See if this is a create and this is a copy
+            String copyOfCourseId = null;
+            if(course.getId()==null&&course.getCopyOfCourseId()!=null){
+            	copyOfCourseId=course.getCopyOfCourseId();
+            }
+            
 			// first save all of the clus and relations
 			SaveResult<CluInfoHierarchy> courseResult = saveHierarchy(course);
 			result.addValidationResults(courseResult.getValidationResults());
@@ -184,6 +191,12 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 				}
 			}
 
+            //if this is a copy, save a new copy relation
+            if(copyOfCourseId!=null){
+            	CluCluRelationInfo cluCluRelationInfo = new CluCluRelationInfo();
+            	luService.createCluCluRelation(courseId, copyOfCourseId, COPY_OF_CLU_RELATION_TYPE, cluCluRelationInfo);
+            }
+            
 			saveRules(courseId, (LuData)input);
 
 			// save the Learning Objective(s)
@@ -394,6 +407,12 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 			}
 			feeHelper.setAttributes(hlp.getData());
 			result.getFees().add(feeHelper.getData());         
+			
+			//See if this is a copy of a clu and set that;    
+			List<String> copiedFromIds = luService.getRelatedCluIdsByCluId(result.getId(), COPY_OF_CLU_RELATION_TYPE);
+			if(copiedFromIds!=null&&copiedFromIds.size()>0){
+				result.setCopyOfCourseId(copiedFromIds.get(0));
+			}
 		}
 		catch (Exception e) {
 			throw new AssemblyException(

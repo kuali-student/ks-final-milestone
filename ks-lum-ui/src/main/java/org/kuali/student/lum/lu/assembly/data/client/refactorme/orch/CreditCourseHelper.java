@@ -53,6 +53,7 @@ public class CreditCourseHelper
 		CAMPUS_LOCATIONS ("campusLocations"),
 		PRIMARY_INSTRUCTOR ("primaryInstructor"),
 		COURSE_SPECIFIC_L_OS ("courseSpecificLOs"),
+		COPY_OF_COURSE_ID ("copyOfCourseId"),
 		_RUNTIME_DATA ("_runtimeData");
 		
 		private final String key;
@@ -377,6 +378,14 @@ public class CreditCourseHelper
 		return (Data) data.get (Properties.COURSE_SPECIFIC_L_OS.getKey ());
 	}
 	
+	
+	public String getCopyOfCourseId(){
+		return (String) data.get(Properties.COPY_OF_COURSE_ID.getKey());
+	}
+	
+	public void setCopyOfCourseId(String value){
+		data.set(Properties.COPY_OF_COURSE_ID.getKey(), value);	
+	}
 	
 	public void set_runtimeData (RuntimeDataHelper value)
 	{

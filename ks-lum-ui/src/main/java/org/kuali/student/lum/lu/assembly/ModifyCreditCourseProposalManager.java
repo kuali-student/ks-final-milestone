@@ -46,6 +46,8 @@ public class ModifyCreditCourseProposalManager{
 		LuData luData = new LuData();
 		CreditCourseProposalHelper proposal = CreditCourseProposalHelper.wrap(luData);
 		CreditCourseHelper course = CreditCourseHelper.wrap(data);
+		course.setCopyOfCourseId(cluId);
+		
 		proposal.setCourse(course);
 		
 		//Get a copy of the RuleInfoData
@@ -62,7 +64,7 @@ public class ModifyCreditCourseProposalManager{
     	}
 		luData.setRuleInfos(rules);
 	
-    	//add any additional data that defines this as a copy here (state? other relationships/flags)
+		//add any additional data that defines this as a copy here (state? other relationships/flags)
 		return proposal.getData();
 	}
 	
