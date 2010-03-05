@@ -12,9 +12,7 @@ import java.util.ArrayList;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlElementRef;
-import javax.xml.bind.annotation.XmlElementRefs;
+import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.core.assembly.data.LookupMetadata.Usage;
 import org.kuali.student.core.assembly.data.Metadata.WriteAccess;
@@ -30,19 +28,6 @@ public class LookupParamMetadata implements Serializable {
     private Data.DataType dataType;    
     private boolean optional;
     
-    @XmlAnyElement
-    @XmlElementRefs({
-        @XmlElementRef(type=Data.BooleanValue.class),
-        @XmlElementRef(type=Data.StringValue.class),
-        @XmlElementRef(type=Data.IntegerValue.class),
-        @XmlElementRef(type=Data.DoubleValue.class),
-        @XmlElementRef(type=Data.FloatValue.class),
-        @XmlElementRef(type=Data.LongValue.class),
-        @XmlElementRef(type=Data.ShortValue.class),
-        @XmlElementRef(type=Data.DataValue.class),
-        @XmlElementRef(type=Data.TimestampValue.class),
-        @XmlElementRef(type=Data.TimeValue.class)
-    })
     private ArrayList<String> defaultValueList;
     private String defaultValueString;
     
@@ -51,6 +36,7 @@ public class LookupParamMetadata implements Serializable {
     private boolean caseSensitive;
     private Usage usage;
 
+    @XmlType(name="ParamWidget")
     public enum Widget {
         SUGGEST_BOX, DROPDOWN_LIST, RADIO_BUTTONS, CHECK_BOXES, TEXT_BOX, CALENDAR, PICKER
     }
