@@ -14,6 +14,7 @@ import org.kuali.student.core.assembly.util.AssemblerUtils;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalInfoHelper;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.ui.course.server.gwt.LuRuleInfoPersistanceBean;
 import org.kuali.student.lum.ui.requirements.client.model.ReqComponentVO;
@@ -44,11 +45,14 @@ public class ModifyCreditCourseProposalManager{
 		
 		//Create the proposal and attach the course
 		LuData luData = new LuData();
-		CreditCourseProposalHelper proposal = CreditCourseProposalHelper.wrap(luData);
+		CreditCourseProposalHelper result = CreditCourseProposalHelper.wrap(luData);
 		CreditCourseHelper course = CreditCourseHelper.wrap(data);
 		course.setCopyOfCourseId(cluId);
 		
-		proposal.setCourse(course);
+		CreditCourseProposalInfoHelper proposal = CreditCourseProposalInfoHelper.wrap(new Data());
+		
+		result.setCourse(course);
+		result.setProposal(proposal);
 		
 		//Get a copy of the RuleInfoData
         LuRuleInfoPersistanceBean ruleInfoBean = new LuRuleInfoPersistanceBean();
@@ -65,7 +69,7 @@ public class ModifyCreditCourseProposalManager{
 		luData.setRuleInfos(rules);
 	
 		//add any additional data that defines this as a copy here (state? other relationships/flags)
-		return proposal.getData();
+		return result.getData();
 	}
 	
 
