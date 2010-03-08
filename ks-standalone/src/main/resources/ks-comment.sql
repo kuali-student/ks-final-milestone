@@ -38,8 +38,6 @@ INSERT INTO KSCO_COMMENT (ID, RT_DESCR_ID, REFERENCE, EFF_DT, EXPIR_DT, TYPE, ST
 // Tag Type
 INSERT INTO KSCO_TAG_TYPE(TYPE_KEY,NAME,TYPE_DESC,EFF_DT,EXPIR_DT) values ('tagType.default','Default','Default tag type',{ts '2000-01-01 00:00:00.0'},{ts '2000-12-31 00:00:00.0'})
 /
-INSERT INTO KSCO_TAG_TYPE(TYPE_KEY,NAME,TYPE_DESC,EFF_DT,EXPIR_DT) values ('tagType.default','Default','Default tag type',{ts '2000-01-01 00:00:00.0'},{ts '2000-12-31 00:00:00.0'})
-/
 
 // Tag
 INSERT INTO KSCO_TAG(ID,NAME_SPACE,PREDICATE,VAL,REFERENCE,EFF_DT,EXPIR_DT, TYPE, STATE, VERSIONIND) VALUES ('Comment-TAG-1','UnitedStates','era','20thCentury','1234567ASDF',{ts '2000-01-01 00:00:00.0'},{ts '2000-12-31 00:00:00.0'},'tagType.default','active',0)
