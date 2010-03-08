@@ -474,4 +474,10 @@ public class SingleUseLoInfoAssembler implements Assembler<Data, LoInfo> {
 	public SaveResult<Data> save(Data input) throws AssemblyException {
 		throw new UnsupportedOperationException("SingleUseLoInfoAssembler#save(Data) waiting for CluInfoHierarchyAssembler refactor");
 	}
+
+	@Override
+	public Metadata getDefaultMetadata() throws AssemblyException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

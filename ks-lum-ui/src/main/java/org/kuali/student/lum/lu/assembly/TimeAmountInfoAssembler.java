@@ -67,4 +67,10 @@ public class TimeAmountInfoAssembler implements Assembler<Data, TimeAmountInfo>{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public Metadata getDefaultMetadata() throws AssemblyException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

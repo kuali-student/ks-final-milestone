@@ -294,12 +294,19 @@
 	</bean>
 	<bean id="creditCourseProposalAssemblerFilter" class="org.kuali.student.lum.lu.assembly.CreditCourseProposalAssemblerFilter">
 	</bean>
+	<bean id="idTranslator" class="org.kuali.student.core.assembly.util.IdTranslator">
+		<constructor-arg ref="searchDispatcher" />
+	</bean>
+	<bean id="idTranslatorAssemblerFilter" class="org.kuali.student.lum.lu.assembly.IdTranslatorAssemblerFilter">
+		<constructor-arg ref="idTranslator" />
+	</bean>
 
 	<!-- Filter manager that targets the credit course proposal assembler -->
 	<bean id="creditCourseProposalAssemblerFilterManager" class="org.kuali.student.core.assembly.AssemblerFilterManager">
 		<constructor-arg ref="creditCourseProposalAssembler"/>
 		<property name="filters">
 			<list>
+				<ref bean="idTranslatorAssemblerFilter" />
 				<ref bean="workflowAssemblerFilter"/>
 				<ref bean="creditCourseProposalAssemblerFilter" />
 			</list>

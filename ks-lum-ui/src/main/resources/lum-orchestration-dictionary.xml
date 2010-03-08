@@ -788,6 +788,8 @@
 				<ref bean="_runtimeData.updated" />
 				<ref bean="_runtimeData.versions" />
 				<ref bean="_runtimeData.dirty" />
+				<ref bean="_runtimeData.id-translation" />
+				<ref bean="_runtimeData.dirty" />
 			</list>
 		</property>
 	</bean>
@@ -838,6 +840,13 @@
 				<ref bean="constraint.repeating" />
 			</list>
 		</property>
+	</bean>
+	<bean id="_runtimeData.id-translation" parent="dataFieldDescriptor">
+		<property name="name" value="id-translation" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataObjectStructure" ref="versions" />
+		<property name="dataType" value="DATA" />
 	</bean>
 	<bean id="_runtimeData.dirty" parent="dataFieldDescriptor">
 		<property name="name" value="dirty" />

@@ -85,4 +85,10 @@ public class CluIdentifierInfoAssembler implements Assembler<Data, CluIdentifier
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public Metadata getDefaultMetadata() throws AssemblyException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
