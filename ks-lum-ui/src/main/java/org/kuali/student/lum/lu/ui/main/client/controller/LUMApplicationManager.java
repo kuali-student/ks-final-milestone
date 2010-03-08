@@ -24,6 +24,7 @@ import org.kuali.student.common.ui.client.mvc.DelegatingViewComposite;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.events.LogoutEvent;
 import org.kuali.student.common.ui.client.mvc.events.LogoutHandler;
+import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
 import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseProposalController;
 import org.kuali.student.lum.lu.ui.course.client.configuration.course.ViewCourseController;
 import org.kuali.student.lum.lu.ui.home.client.view.HomeMenuController;
@@ -62,7 +63,8 @@ public class LUMApplicationManager extends Controller {
 							if (context != null && context.getId() != null) {
 								switch ((LUMViews)event.getViewType()){
 									case EDIT_COURSE_PROPOSAL: initCreateCourse(context);break;
-									case VIEW_COURSE: initViewCourseFromCourseId(context.getId());
+									case VIEW_COURSE: initViewCourseFromCourseId(context.getId());break;
+									case MODIFY_COURSE: initModifyCourse(context);break;
 								}
 							}
 
@@ -81,7 +83,7 @@ public class LUMApplicationManager extends Controller {
 	}
 
 	public enum LUMViews {
-		HOME_MENU, CREATE_COURSE, EDIT_COURSE_PROPOSAL, VIEW_COURSE, CREATE_PROGRAM
+		HOME_MENU, CREATE_COURSE, EDIT_COURSE_PROPOSAL, VIEW_COURSE, MODIFY_COURSE, CREATE_PROGRAM
 	}
 
 	@Override
@@ -96,6 +98,8 @@ public class LUMApplicationManager extends Controller {
 			case VIEW_COURSE:
 				initViewCourse();
 				return viewCourseView;
+            case MODIFY_COURSE:
+                return createCourseView; 
 			case CREATE_PROGRAM:
 				// FIXME replace with program view
 				return createCourseView; // createProgramView;
@@ -118,6 +122,14 @@ public class LUMApplicationManager extends Controller {
 
 		return createCourseView;
 	}
+	
+    private View initModifyCourse(ViewContext context) {
+        KSTitleContainerImpl layoutTitle = new KSTitleContainerImpl("Modify Course");
+        createCourseController = new CourseProposalController(context, layoutTitle);
+        createCourseView = new DelegatingViewComposite(LUMApplicationManager.this, createCourseController);
+
+        return createCourseView;
+    }
 
 	private View initViewCourseFromCourseId(String id) {
 		initViewCourse();

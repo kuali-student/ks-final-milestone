@@ -46,6 +46,7 @@ import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
+import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
@@ -85,7 +86,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
 	private boolean initialized = false;
 	
 	private final KSLightBox progressWindow = new KSLightBox();
-        
+    
     public CourseProposalController(){
         super(CourseProposalController.class.getName());
         this.context = new ViewContext();
@@ -94,6 +95,12 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
 
     public CourseProposalController(ViewContext viewContext){
         super(CourseProposalController.class.getName());
+        this.context = viewContext;
+        initialize();
+    }
+    
+    public CourseProposalController(ViewContext viewContext, KSTitleContainerImpl layoutTitle){
+        super(CourseProposalController.class.getName(), layoutTitle);
         this.context = viewContext;
         initialize();
     }
@@ -116,6 +123,8 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
                                 getCluProposalFromWorkflowId(callback, workCompleteCallback);
                             } else if (context.getIdType() == IdType.PROPOSAL_ID){
                                 getCluProposalFromProposalId(callback, workCompleteCallback);
+                            } else if (context.getIdType() == IdType.OBJECT_ID){
+                                getNewProposalWithCopyOfClu(callback, workCompleteCallback);
                             } else{
                                 createNewCluProposalModel(callback, workCompleteCallback);
                             }                
@@ -327,6 +336,30 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
     }
     
     @SuppressWarnings("unchecked")
+    private void getNewProposalWithCopyOfClu(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
+        progressWindow.show();
+        cluProposalRpcServiceAsync.getNewProposalWithCopyOfClu(context.getId(), new AsyncCallback<Data>(){
+
+            @Override
+            public void onFailure(Throwable caught) {
+                Window.alert("Error loading Proposal: "+caught.getMessage());
+                createNewCluProposalModel(callback, workCompleteCallback);
+                progressWindow.hide();
+            }
+
+            @Override
+            public void onSuccess(Data result) {
+                cluProposalModel.setRoot(result);
+                getContainer().setTitle(getSectionTitle());
+                callback.onModelReady(cluProposalModel);
+                workCompleteCallback.exec(true);
+                progressWindow.hide();
+            }
+            
+        });        
+    }
+    
+    @SuppressWarnings("unchecked")
     private void createNewCluProposalModel(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
         cluProposalModel.setRoot(new LuData());
         callback.onModelReady(cluProposalModel);
@@ -522,4 +555,14 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
 		throw new UnsupportedOperationException();
 	}
     
+    protected  String getSectionTitle() {
+        
+        StringBuffer sb = new StringBuffer();
+        sb.append(cluProposalModel.get("course/fees/0/attributes/CourseCode"));
+        sb.append(" - ");
+        sb.append(cluProposalModel.get("course/transcriptTitle"));
+
+        return sb.toString();
+
+    }
 }

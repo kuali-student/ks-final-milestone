@@ -46,12 +46,13 @@ import com.google.gwt.user.client.ui.Widget;
 public class HomeMenuController extends Controller{
     
     public enum MenuViews {
-        DEFAULT_VIEW, CREATE_COURSE_VIEW, FIND_VIEW, CREATE_PROGRAM_VIEW
+        DEFAULT_VIEW, CREATE_COURSE_VIEW, MODIFY_COURSE_VIEW, FIND_VIEW, CREATE_PROGRAM_VIEW
     }
     
     public View defaultPanel = new DefaultPanel(this);
     public View creditCoursePanel = new CreateCreditCoursePanel(this);
     public View findPanel = new FindPanel(this);
+    public View modifyFindPanel = new ModifyFindPanel(this);
     
     public HorizontalPanel mainPanel = new HorizontalPanel();
     public VerticalPanel menuPanel = new VerticalPanel();
@@ -137,7 +138,11 @@ public class HomeMenuController extends Controller{
             else if (sender == createProgram.getPanel()) {
             	createProgram.select();
             	fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.CREATE_PROGRAM));
-            }            
+            }
+            else if (sender == modifyCourse.getPanel()) {
+                modifyCourse.select();
+                showView(MenuViews.MODIFY_COURSE_VIEW, NO_OP_CALLBACK);
+            }
             else if(sender == find.getPanel()){
                 find.select();
                 showView(MenuViews.FIND_VIEW, NO_OP_CALLBACK);
@@ -211,6 +216,8 @@ public class HomeMenuController extends Controller{
                 return defaultPanel;
             case CREATE_COURSE_VIEW:
                 return creditCoursePanel;
+            case MODIFY_COURSE_VIEW:
+                return modifyFindPanel;
             case CREATE_PROGRAM_VIEW:
             	return defaultPanel;
             case FIND_VIEW:
