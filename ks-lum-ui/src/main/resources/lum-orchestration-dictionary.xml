@@ -36,7 +36,15 @@
 		<property name="id" value="defaultVarCharLength"/>
 		<property name="desc" value="Must be less than 2000 characters" />
 		<property name="maxLength" value="1999" />
-	</bean>	
+	</bean>
+	<bean id="constraint.atp.in.future" parent="constraint">
+		<property name="id" value="atp.in.future" />
+		<property name="messageId" value="kuali.msg.validation.atp.not.in.future" />
+		<property name="desc" value="The ATP must start in the future" />
+		<property name="serverSide" value="true" />
+		<property name="specialValidator"
+			value="org.kuali.student.core.atp.validation.FutureATPValidatorValidator" />
+	</bean>		
 	<bean id="constraint.atp.types" parent="constraint">
 		<property name="id" value="atp.types" />
 		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
@@ -150,7 +158,7 @@
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
 		<property name="maxLength" value="10" />
-		<property name="validChars" value="regex:^[-+]?\d+(\.\d+)?$" />
+		<property name="validChars" value="regex:^[-+]?[0-9]+(\.[0-9]+)?$" />
 		<property name="comments"
 			value="http://regexlib.com/REDetails.aspx?regexp_id=117" />
 	</bean>
@@ -203,6 +211,15 @@
 		<property name="specialValidator"
 			value="org.kuali.student.core.calculation.HardCodedValueCalculator" />
 	</bean>
+	<bean id="constraint.hard.coded.feeType.Revenue" parent="constraint">
+		<property name="id" value="hard.coded.feeType.Revenue" />
+		<property name="messageId" value="kuali.msg.validation.hard.coded" />
+		<property name="desc" value="Must be &#34;Per Credit Rate&#34;" />
+		<property name="serverSide" value="true" />
+		<property name="validChars" value="regex:Revenue" />
+		<property name="specialValidator"
+			value="org.kuali.student.core.calculation.HardCodedValueCalculator" />
+	</bean>
 	<bean id="constraint.hard.coded.lolorealtion.includes" parent="constraint">
 		<property name="id" value="hard.coded.lolorealtion.includes" />
 		<property name="messageId" value="kuali.msg.validation.hard.coded" />
@@ -231,6 +248,42 @@
 		<property name="desc" value="Must be 1" />
 		<property name="serverSide" value="true" />
 		<property name="validChars" value="regex:1" />
+		<property name="specialValidator"
+			value="org.kuali.student.core.calculation.HardCodedValueCalculator" />
+	</bean>
+	<bean id="constraint.hard.coded.rateType.fixedRate" parent="constraint">
+		<property name="id" value="hard.coded.rateType.fixedRate" />
+		<property name="messageId" value="kuali.msg.validation.hard.coded" />
+		<property name="desc" value="Must be &#34;Fixed Rate&#34;" />
+		<property name="serverSide" value="true" />
+		<property name="validChars" value="regex:Fixed Rate" />
+		<property name="specialValidator"
+			value="org.kuali.student.core.calculation.HardCodedValueCalculator" />
+	</bean>
+	<bean id="constraint.hard.coded.rateType.multipleRate" parent="constraint">
+		<property name="id" value="hard.coded.rateType.multipleRate" />
+		<property name="messageId" value="kuali.msg.validation.hard.coded" />
+		<property name="desc" value="Must be &#34;Multiple Rate&#34;" />
+		<property name="serverSide" value="true" />
+		<property name="validChars" value="regex:Multiple Rate" />
+		<property name="specialValidator"
+			value="org.kuali.student.core.calculation.HardCodedValueCalculator" />
+	</bean>
+	<bean id="constraint.hard.coded.rateType.perCreditRate" parent="constraint">
+		<property name="id" value="hard.coded.rateType.perCreditRate" />
+		<property name="messageId" value="kuali.msg.validation.hard.coded" />
+		<property name="desc" value="Must be &#34;Per Credit Rate&#34;" />
+		<property name="serverSide" value="true" />
+		<property name="validChars" value="regex:Per Credit Rate" />
+		<property name="specialValidator"
+			value="org.kuali.student.core.calculation.HardCodedValueCalculator" />
+	</bean>
+	<bean id="constraint.hard.coded.rateType.variableRate" parent="constraint">
+		<property name="id" value="hard.coded.rateType.variableRate" />
+		<property name="messageId" value="kuali.msg.validation.hard.coded" />
+		<property name="desc" value="Must be &#34;Variable Rate&#34;" />
+		<property name="serverSide" value="true" />
+		<property name="validChars" value="regex:Variable Rate" />
 		<property name="specialValidator"
 			value="org.kuali.student.core.calculation.HardCodedValueCalculator" />
 	</bean>
@@ -287,7 +340,7 @@
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
 		<property name="maxLength" value="10" />
-		<property name="validChars" value="regex:^(\+|-)?\d+$" />
+		<property name="validChars" value="regex:^(\+|-)?[0-9]+$" />
 		<property name="comments"
 			value="http://regexlib.com/REDetails.aspx?regexp_id=14" />
 	</bean>
@@ -447,7 +500,8 @@
 			value="Multi-line text field that accepts all printable characters plus tab, carraige-return and linefeed." />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
-		<property name="validChars" value="regex:[\x20-\x7E \t\n\r]*" />
+		<property name="validChars"
+			value="regex:[A-Za-z0-9.-;:&#34;'&amp;%$#@!\n\r\t ]*" />
 		<property name="comments"
 			value="old reg ex was [A-Za-z0-9.-;;'&amp;%$#@!\n\r\t]*" />
 	</bean>
@@ -459,7 +513,7 @@
 		<property name="minLength" value="1" />
 		<property name="maxLength" value="10" />
 		<property name="minValue" value="0" />
-		<property name="validChars" value="regex:^\d+$" />
+		<property name="validChars" value="regex:^[0-9]+$" />
 		<property name="comments"
 			value="http://regexlib.com/REDetails.aspx?regexp_id=13" />
 	</bean>
@@ -487,6 +541,14 @@
 		<property name="minLength" value="1" />
 		<property name="maxLength" value="60" />
 		<property name="comments" value="TO DO: add to SimpleS" />
+	</bean>
+	<bean id="constraint.rate.types" parent="constraint">
+		<property name="id" value="rate.types" />
+		<property name="messageId" value="kuali.msg.validation.not.in.enumerated.list" />
+		<property name="desc" value="In a list of configured rate types" />
+		<property name="serverSide" value="false" />
+		<property name="minLength" value="1" />
+		<property name="maxLength" value="60" />
 	</bean>
 	<bean id="constraint.read.only" parent="constraint">
 		<property name="id" value="read.only" />
@@ -573,7 +635,8 @@
 			value="Text field that accepts all types of characters using some sort of escaping convention along with the ability to specify bolding, font size, color etc." />
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
-		<property name="validChars" value="regex:[\x20-\x7E \t\n\r]*" />
+		<property name="validChars"
+			value="regex:[A-Za-z0-9.-;:&#34;'&amp;%$#@!\n\r\t ]*" />
 		<property name="comments"
 			value="Not sure if characterset for rich text is the same for regular text but just interpretted differently.  I.e. html is plain text interpreted differently." />
 	</bean>
@@ -593,7 +656,7 @@
 		<property name="serverSide" value="false" />
 		<property name="minLength" value="1" />
 		<property name="maxLength" value="255" />
-		<property name="validChars" value="regex:[\x20-\x7E ]*" />
+		<property name="validChars" value="regex:[A-Za-z0-9.-;:&#34;'&amp;%$#@!\t ]*" />
 		<property name="comments"
 			value="old reg ex was &#34;[A-Za-z0-9.-;;'&amp;%$#@!]*" />
 	</bean>
@@ -709,6 +772,9 @@
 		<property name="constraints">
 			<list>
 				<ref bean="constraint.single" />
+				<ref bean="constraint.course.proposal.types" />
+				<ref bean="constraint.required" />
+				<ref bean="constraint.proposal.types" />
 			</list>
 		</property>
 	</bean>
@@ -721,6 +787,7 @@
 				<ref bean="_runtimeData.deleted" />
 				<ref bean="_runtimeData.updated" />
 				<ref bean="_runtimeData.versions" />
+				<ref bean="_runtimeData.dirty" />
 			</list>
 		</property>
 	</bean>
@@ -769,6 +836,18 @@
 		<property name="constraints">
 			<list>
 				<ref bean="constraint.repeating" />
+			</list>
+		</property>
+	</bean>
+	<bean id="_runtimeData.dirty" parent="dataFieldDescriptor">
+		<property name="name" value="dirty" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="BOOLEAN" />
+		<property name="defaultValue" value="FALSE" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
 			</list>
 		</property>
 	</bean>
@@ -949,6 +1028,7 @@
 							<property name="writeAccess" value="NEVER" />
 							<property name="dataType" value="STRING" />
 							<property name="optional" value="true" />
+							<property name="defaultValueString" value="kuali.lu.type.CreditCourse" />
 							<property name="name" value="Type" />
 							<property name="desc" value="Lu type (course, program etc.)" />
 							<property name="caseSensitive" value="true" />
@@ -1331,6 +1411,7 @@
 							<property name="writeAccess" value="NEVER" />
 							<property name="dataType" value="STRING" />
 							<property name="optional" value="true" />
+							<property name="defaultValueString" value="kuali.lu.subjectArea" />
 							<property name="name" value="Enumeration Type" />
 							<property name="desc" value="The type of the enumeration to search" />
 							<property name="caseSensitive" value="true" />
@@ -1612,6 +1693,7 @@
 							<property name="writeAccess" value="NEVER" />
 							<property name="dataType" value="STRING" />
 							<property name="optional" value="true" />
+							<property name="defaultValueString" value="kuali.lu.type.CreditCourse" />
 							<property name="name" value="Type" />
 							<property name="desc" value="Lu type (course, program etc.)" />
 							<property name="caseSensitive" value="true" />
@@ -1749,83 +1831,705 @@
 		<property name="name" value="fees" />
 		<property name="fields">
 			<list>
-				<ref bean="fees.feeType" />
-				<ref bean="fees.feeAmount" />
-				<ref bean="fees.taxable" />
-				<ref bean="fees.feeDesc" />
-				<ref bean="fees.internalNotation" />
-				<ref bean="fees._runtimeData" />
+				<ref bean="fees.justification" />
+				<ref bean="fees.fixedRateFee" />
+				<ref bean="fees.variableRateFee" />
+				<ref bean="fees.multipleRateFee" />
+				<ref bean="fees.perCreditFee" />
 			</list>
 		</property>
 	</bean>
-	<bean id="fees.feeType" parent="dataFieldDescriptor">
-		<property name="name" value="feeType" />
-		<property name="writeAccess" value="NEVER" />
-		<property name="onChangeRefreshMetadata" value="false" />
-		<property name="dataType" value="STRING" />
-		<property name="constraints">
-			<list>
-				<ref bean="constraint.single" />
-			</list>
-		</property>
-	</bean>
-	<bean id="fees.feeAmount" parent="dataFieldDescriptor">
-		<property name="name" value="feeAmount" />
+	<bean id="fees.justification" parent="dataFieldDescriptor">
+		<property name="name" value="justification" />
 		<property name="writeAccess" value="ALWAYS" />
 		<property name="onChangeRefreshMetadata" value="false" />
 		<property name="dataType" value="STRING" />
 		<property name="constraints">
 			<list>
 				<ref bean="constraint.single" />
+				<ref bean="constraint.optional" />
+				<ref bean="constraint.multi.line.text" />
+				<bean parent="constraint">
+					<property name="serverSide" value="false" />
+					<property name="maxLength" value="1000" />
+				</bean>
+				<ref bean="constraint.optional" />
+				<ref bean="constraint.repeating" />
 			</list>
 		</property>
 	</bean>
-	<bean id="fees.taxable" parent="dataFieldDescriptor">
-		<property name="name" value="taxable" />
+	<bean id="fees.fixedRateFee" parent="dataFieldDescriptor">
+		<property name="name" value="fixedRateFee" />
 		<property name="writeAccess" value="ALWAYS" />
 		<property name="onChangeRefreshMetadata" value="false" />
-		<property name="dataType" value="STRING" />
-		<property name="constraints">
-			<list>
-				<ref bean="constraint.single" />
-			</list>
-		</property>
-	</bean>
-	<bean id="fees.feeDesc" parent="dataFieldDescriptor">
-		<property name="name" value="feeDesc" />
-		<property name="writeAccess" value="ALWAYS" />
-		<property name="onChangeRefreshMetadata" value="false" />
-		<property name="dataType" value="STRING" />
-		<property name="constraints">
-			<list>
-				<ref bean="constraint.single" />
-			</list>
-		</property>
-	</bean>
-	<bean id="fees.internalNotation" parent="dataFieldDescriptor">
-		<property name="name" value="internalNotation" />
-		<property name="writeAccess" value="ALWAYS" />
-		<property name="onChangeRefreshMetadata" value="false" />
-		<property name="dataType" value="STRING" />
-		<property name="constraints">
-			<list>
-				<ref bean="constraint.single" />
-			</list>
-		</property>
-	</bean>
-	<bean id="fees._runtimeData" parent="dataFieldDescriptor">
-		<property name="name" value="_runtimeData" />
-		<property name="writeAccess" value="NEVER" />
-		<property name="onChangeRefreshMetadata" value="false" />
-		<property name="dataObjectStructure" ref="_runtimeData" />
+		<property name="dataObjectStructure" ref="fixedRateFee" />
 		<property name="dataType" value="DATA" />
 		<property name="constraints">
 			<list>
-				<ref bean="constraint.single" />
+				<ref bean="constraint.repeating" />
+				<ref bean="constraint.optional" />
+			</list>
+		</property>
+	</bean>
+	<bean id="fees.variableRateFee" parent="dataFieldDescriptor">
+		<property name="name" value="variableRateFee" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataObjectStructure" ref="variableRateFee" />
+		<property name="dataType" value="DATA" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.repeating" />
+			</list>
+		</property>
+	</bean>
+	<bean id="fees.multipleRateFee" parent="dataFieldDescriptor">
+		<property name="name" value="multipleRateFee" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataObjectStructure" ref="multipleRateFee" />
+		<property name="dataType" value="DATA" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.repeating" />
+			</list>
+		</property>
+	</bean>
+	<bean id="fees.perCreditFee" parent="dataFieldDescriptor">
+		<property name="name" value="perCreditFee" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataObjectStructure" ref="perCreditFee" />
+		<property name="dataType" value="DATA" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.repeating" />
+				<ref bean="constraint.repeating" />
 			</list>
 		</property>
 	</bean>
 	<bean id="fees" parent="fees-parent" />
+	<bean id="fixedRateFee-parent" abstract="true" parent="dataObjectStructure">
+		<property name="name" value="fixedRateFee" />
+		<property name="fields">
+			<list>
+				<ref bean="fixedRateFee.feeType" />
+				<ref bean="fixedRateFee.rateType" />
+				<ref bean="fixedRateFee.amount" />
+				<ref bean="fixedRateFee.id" />
+			</list>
+		</property>
+	</bean>
+	<bean id="fixedRateFee.feeType" parent="dataFieldDescriptor">
+		<property name="name" value="feeType" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="defaultValuePath" value="FeeSelector.FeeType" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+				<ref bean="constraint.code" />
+			</list>
+		</property>
+	</bean>
+	<bean id="fixedRateFee.rateType" parent="dataFieldDescriptor">
+		<property name="name" value="rateType" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="defaultValue" value="" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+				<ref bean="constraint.hard.coded.rateType.fixedRate" />
+				<ref bean="constraint.rate.types" />
+				<ref bean="constraint.optional" />
+				<ref bean="constraint.repeating" />
+			</list>
+		</property>
+	</bean>
+	<bean id="fixedRateFee.amount" parent="dataFieldDescriptor">
+		<property name="name" value="amount" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+				<ref bean="constraint.optional" />
+				<ref bean="constraint.repeating" />
+			</list>
+		</property>
+	</bean>
+	<bean id="fixedRateFee.id" parent="dataFieldDescriptor">
+		<property name="name" value="id" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+				<ref bean="constraint.required" />
+				<ref bean="constraint.read.only" />
+				<ref bean="constraint.single" />
+				<ref bean="constraint.kuali.id" />
+			</list>
+		</property>
+	</bean>
+	<bean id="fixedRateFee" parent="fixedRateFee-parent" />
+	<bean id="variableRateFee-parent" abstract="true" parent="dataObjectStructure">
+		<property name="name" value="variableRateFee" />
+		<property name="fields">
+			<list>
+				<ref bean="variableRateFee.feeType" />
+				<ref bean="variableRateFee.rateType" />
+				<ref bean="variableRateFee.minAmount" />
+				<ref bean="variableRateFee.maxAmount" />
+				<ref bean="variableRateFee.id" />
+			</list>
+		</property>
+	</bean>
+	<bean id="variableRateFee.feeType" parent="dataFieldDescriptor">
+		<property name="name" value="feeType" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="defaultValuePath" value="FeeSelector.FeeType" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.optional" />
+				<ref bean="constraint.required" />
+				<ref bean="constraint.single" />
+				<ref bean="constraint.code" />
+			</list>
+		</property>
+	</bean>
+	<bean id="variableRateFee.rateType" parent="dataFieldDescriptor">
+		<property name="name" value="rateType" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="defaultValue" value="" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+				<ref bean="constraint.hard.coded.rateType.variableRate" />
+				<ref bean="constraint.rate.types" />
+				<ref bean="constraint.optional" />
+				<ref bean="constraint.repeating" />
+			</list>
+		</property>
+	</bean>
+	<bean id="variableRateFee.minAmount" parent="dataFieldDescriptor">
+		<property name="name" value="minAmount" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+			</list>
+		</property>
+	</bean>
+	<bean id="variableRateFee.maxAmount" parent="dataFieldDescriptor">
+		<property name="name" value="maxAmount" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+			</list>
+		</property>
+	</bean>
+	<bean id="variableRateFee.id" parent="dataFieldDescriptor">
+		<property name="name" value="id" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+				<ref bean="constraint.required" />
+				<ref bean="constraint.read.only" />
+				<ref bean="constraint.single" />
+				<ref bean="constraint.kuali.id" />
+			</list>
+		</property>
+	</bean>
+	<bean id="variableRateFee" parent="variableRateFee-parent" />
+	<bean id="multipleRateFee-parent" abstract="true" parent="dataObjectStructure">
+		<property name="name" value="multipleRateFee" />
+		<property name="fields">
+			<list>
+				<ref bean="multipleRateFee.feeType" />
+				<ref bean="multipleRateFee.rateType" />
+				<ref bean="multipleRateFee.amount" />
+				<ref bean="multipleRateFee.id" />
+			</list>
+		</property>
+	</bean>
+	<bean id="multipleRateFee.feeType" parent="dataFieldDescriptor">
+		<property name="name" value="feeType" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="defaultValuePath" value="FeeSelector.FeeType" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.optional" />
+				<ref bean="constraint.required" />
+				<ref bean="constraint.single" />
+				<ref bean="constraint.code" />
+			</list>
+		</property>
+	</bean>
+	<bean id="multipleRateFee.rateType" parent="dataFieldDescriptor">
+		<property name="name" value="rateType" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="defaultValue" value="" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+				<ref bean="constraint.hard.coded.rateType.multipleRate" />
+				<ref bean="constraint.rate.types" />
+				<ref bean="constraint.optional" />
+				<ref bean="constraint.repeating" />
+			</list>
+		</property>
+	</bean>
+	<bean id="multipleRateFee.amount" parent="dataFieldDescriptor">
+		<property name="name" value="amount" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.repeating" />
+				<ref bean="constraint.required" />
+				<bean parent="constraint">
+					<property name="serverSide" value="false" />
+					<property name="minOccurs" value="2" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="multipleRateFee.id" parent="dataFieldDescriptor">
+		<property name="name" value="id" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+				<ref bean="constraint.required" />
+				<ref bean="constraint.read.only" />
+				<ref bean="constraint.single" />
+				<ref bean="constraint.kuali.id" />
+			</list>
+		</property>
+	</bean>
+	<bean id="multipleRateFee" parent="multipleRateFee-parent" />
+	<bean id="perCreditFee-parent" abstract="true" parent="dataObjectStructure">
+		<property name="name" value="perCreditFee" />
+		<property name="fields">
+			<list>
+				<ref bean="perCreditFee.feeType" />
+				<ref bean="perCreditFee.rateType" />
+				<ref bean="perCreditFee.amount" />
+				<ref bean="perCreditFee.id" />
+			</list>
+		</property>
+	</bean>
+	<bean id="perCreditFee.feeType" parent="dataFieldDescriptor">
+		<property name="name" value="feeType" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="defaultValuePath" value="FeeSelector.FeeType" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.optional" />
+				<ref bean="constraint.required" />
+				<ref bean="constraint.single" />
+				<ref bean="constraint.code" />
+			</list>
+		</property>
+	</bean>
+	<bean id="perCreditFee.rateType" parent="dataFieldDescriptor">
+		<property name="name" value="rateType" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="defaultValue" value="" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+				<ref bean="constraint.hard.coded.rateType.perCreditRate" />
+				<ref bean="constraint.rate.types" />
+				<ref bean="constraint.optional" />
+				<ref bean="constraint.repeating" />
+			</list>
+		</property>
+	</bean>
+	<bean id="perCreditFee.amount" parent="dataFieldDescriptor">
+		<property name="name" value="amount" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+				<ref bean="constraint.optional" />
+				<ref bean="constraint.repeating" />
+			</list>
+		</property>
+	</bean>
+	<bean id="perCreditFee.id" parent="dataFieldDescriptor">
+		<property name="name" value="id" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+				<ref bean="constraint.required" />
+				<ref bean="constraint.read.only" />
+				<ref bean="constraint.single" />
+				<ref bean="constraint.kuali.id" />
+			</list>
+		</property>
+	</bean>
+	<bean id="perCreditFee" parent="perCreditFee-parent" />
+	<bean id="expenditureOrg-parent" abstract="true" parent="dataObjectStructure">
+		<property name="name" value="expenditureOrg" />
+		<property name="fields">
+			<list>
+				<ref bean="expenditureOrg.orgId" />
+				<ref bean="expenditureOrg.percentage" />
+				<ref bean="expenditureOrg.effectiveDate" />
+			</list>
+		</property>
+	</bean>
+	<bean id="expenditureOrg.orgId" parent="dataFieldDescriptor">
+		<property name="name" value="orgId" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+			</list>
+		</property>
+		<property name="initialLookup">
+			<bean parent="lookup">
+				<property name="key" value="org.search.generic" />
+				<property name="name" value="Basic and Advanced Search" />
+				<property name="desc"
+					value="Query with multiple optional elements to satisfy most advanced pickers" />
+				<property name="params">
+					<list>
+						<bean parent="param">
+							<property name="key" value="org.queryParam.orgOptionalLongName" />
+							<property name="writeAccess" value="ALWAYS" />
+							<property name="dataType" value="STRING" />
+							<property name="optional" value="true" />
+							<property name="name" value="Organization Name" />
+							<property name="desc" value="Long organization name." />
+							<property name="caseSensitive" value="false" />
+							<property name="usage" value="DEFAULT" />
+							<property name="widget" value="CHECK_BOXES" />
+						</bean>
+						<bean parent="param">
+							<property name="key" value="org.queryParam.orgOptionalLocation" />
+							<property name="writeAccess" value="ALWAYS" />
+							<property name="dataType" value="STRING" />
+							<property name="optional" value="true" />
+							<property name="name" value="Location" />
+							<property name="desc" value="Organization location." />
+							<property name="caseSensitive" value="false" />
+							<property name="usage" value="ADVANCED" />
+							<property name="widget" value="TEXT_BOX" />
+						</bean>
+						<bean parent="param">
+							<property name="key" value="org.queryParam.orgOptionalId" />
+							<property name="writeAccess" value="ALWAYS" />
+							<property name="dataType" value="STRING" />
+							<property name="optional" value="true" />
+							<property name="name" value="Id" />
+							<property name="desc" value="Unique identifier for an organization." />
+							<property name="caseSensitive" value="true" />
+							<property name="usage" value="CUSTOM" />
+						</bean>
+						<bean parent="param">
+							<property name="key" value="org.queryParam.orgOptionalShortName" />
+							<property name="writeAccess" value="ALWAYS" />
+							<property name="dataType" value="STRING" />
+							<property name="optional" value="true" />
+							<property name="name" value="Organization Name" />
+							<property name="desc" value="Short organization name." />
+							<property name="caseSensitive" value="false" />
+							<property name="usage" value="ADVANCED" />
+							<property name="widget" value="SUGGEST_BOX" />
+						</bean>
+						<bean parent="param">
+							<property name="key" value="org.queryParam.orgOptionalType" />
+							<property name="writeAccess" value="NEVER" />
+							<property name="dataType" value="STRING" />
+							<property name="optional" value="true" />
+							<property name="name" value="Org Type" />
+							<property name="desc" value="Type of an organization." />
+							<property name="caseSensitive" value="true" />
+						</bean>
+					</list>
+				</property>
+				<property name="results">
+					<list>
+						<bean parent="result">
+							<property name="dataType" value="STRING" />
+							<property name="desc" value="Identifier for the organization" />
+							<property name="hidden" value="false" />
+							<property name="key" value="org.resultColumn.orgId" />
+							<property name="name" value="Organization Identifier" />
+						</bean>
+						<bean parent="result">
+							<property name="dataType" value="STRING" />
+							<property name="desc"
+								value="Short name for the organization, recorded as the default listing" />
+							<property name="hidden" value="false" />
+							<property name="key" value="org.resultColumn.orgShortName" />
+							<property name="name" value="Organization Short Name" />
+						</bean>
+						<bean parent="result">
+							<property name="dataType" value="STRING" />
+							<property name="desc"
+								value="Long name for the organization, recorded as the default listing." />
+							<property name="hidden" value="false" />
+							<property name="key" value="org.resultColumn.orgOptionalLongName" />
+							<property name="name" value="Name" />
+						</bean>
+						<bean parent="result">
+							<property name="dataType" value="STRING" />
+							<property name="desc" value="Organization Type" />
+							<property name="hidden" value="false" />
+							<property name="key" value="org.resultColumn.orgType" />
+							<property name="name" value="Organization Type" />
+						</bean>
+					</list>
+				</property>
+				<property name="resultReturnKey" value="org.resultColumn.orgId" />
+				<property name="resultDisplayKey" value="org.resultColumn.orgShortName" />
+				<property name="resultSortKey" value="org.resultColumn.orgShortName" />
+				<property name="usage" value="DEFAULT" />
+				<property name="lookupKey" value="kuali.lu.lookup.finacialOrgs" />
+			</bean>
+		</property>
+		<property name="additionalLookups">
+			<list />
+		</property>
+	</bean>
+	<bean id="expenditureOrg.percentage" parent="dataFieldDescriptor">
+		<property name="name" value="percentage" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="LONG" />
+		<property name="defaultValue" value="" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+			</list>
+		</property>
+	</bean>
+	<bean id="expenditureOrg.effectiveDate" parent="dataFieldDescriptor">
+		<property name="name" value="effectiveDate" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="defaultValuePath" value="course.effectiveDate" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+			</list>
+		</property>
+	</bean>
+	<bean id="expenditureOrg" parent="expenditureOrg-parent" />
+	<bean id="revenueOrg-parent" abstract="true" parent="dataObjectStructure">
+		<property name="name" value="revenueOrg" />
+		<property name="fields">
+			<list>
+				<ref bean="revenueOrg.orgId" />
+				<ref bean="revenueOrg.percentage" />
+				<ref bean="revenueOrg.effectiveDate" />
+			</list>
+		</property>
+	</bean>
+	<bean id="revenueOrg.orgId" parent="dataFieldDescriptor">
+		<property name="name" value="orgId" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+			</list>
+		</property>
+		<property name="initialLookup">
+			<bean parent="lookup">
+				<property name="key" value="org.search.generic" />
+				<property name="name" value="Basic and Advanced Search" />
+				<property name="desc"
+					value="Query with multiple optional elements to satisfy most advanced pickers" />
+				<property name="params">
+					<list>
+						<bean parent="param">
+							<property name="key" value="org.queryParam.orgOptionalLongName" />
+							<property name="writeAccess" value="ALWAYS" />
+							<property name="dataType" value="STRING" />
+							<property name="optional" value="true" />
+							<property name="name" value="Organization Name" />
+							<property name="desc" value="Long organization name." />
+							<property name="caseSensitive" value="false" />
+							<property name="usage" value="DEFAULT" />
+							<property name="widget" value="CHECK_BOXES" />
+						</bean>
+						<bean parent="param">
+							<property name="key" value="org.queryParam.orgOptionalLocation" />
+							<property name="writeAccess" value="ALWAYS" />
+							<property name="dataType" value="STRING" />
+							<property name="optional" value="true" />
+							<property name="name" value="Location" />
+							<property name="desc" value="Organization location." />
+							<property name="caseSensitive" value="false" />
+							<property name="usage" value="ADVANCED" />
+							<property name="widget" value="TEXT_BOX" />
+						</bean>
+						<bean parent="param">
+							<property name="key" value="org.queryParam.orgOptionalId" />
+							<property name="writeAccess" value="ALWAYS" />
+							<property name="dataType" value="STRING" />
+							<property name="optional" value="true" />
+							<property name="name" value="Id" />
+							<property name="desc" value="Unique identifier for an organization." />
+							<property name="caseSensitive" value="true" />
+							<property name="usage" value="CUSTOM" />
+						</bean>
+						<bean parent="param">
+							<property name="key" value="org.queryParam.orgOptionalShortName" />
+							<property name="writeAccess" value="ALWAYS" />
+							<property name="dataType" value="STRING" />
+							<property name="optional" value="true" />
+							<property name="name" value="Organization Name" />
+							<property name="desc" value="Short organization name." />
+							<property name="caseSensitive" value="false" />
+							<property name="usage" value="ADVANCED" />
+							<property name="widget" value="SUGGEST_BOX" />
+						</bean>
+						<bean parent="param">
+							<property name="key" value="org.queryParam.orgOptionalType" />
+							<property name="writeAccess" value="NEVER" />
+							<property name="dataType" value="STRING" />
+							<property name="optional" value="true" />
+							<property name="name" value="Org Type" />
+							<property name="desc" value="Type of an organization." />
+							<property name="caseSensitive" value="true" />
+						</bean>
+					</list>
+				</property>
+				<property name="results">
+					<list>
+						<bean parent="result">
+							<property name="dataType" value="STRING" />
+							<property name="desc" value="Identifier for the organization" />
+							<property name="hidden" value="false" />
+							<property name="key" value="org.resultColumn.orgId" />
+							<property name="name" value="Organization Identifier" />
+						</bean>
+						<bean parent="result">
+							<property name="dataType" value="STRING" />
+							<property name="desc"
+								value="Short name for the organization, recorded as the default listing" />
+							<property name="hidden" value="false" />
+							<property name="key" value="org.resultColumn.orgShortName" />
+							<property name="name" value="Organization Short Name" />
+						</bean>
+						<bean parent="result">
+							<property name="dataType" value="STRING" />
+							<property name="desc"
+								value="Long name for the organization, recorded as the default listing." />
+							<property name="hidden" value="false" />
+							<property name="key" value="org.resultColumn.orgOptionalLongName" />
+							<property name="name" value="Name" />
+						</bean>
+						<bean parent="result">
+							<property name="dataType" value="STRING" />
+							<property name="desc" value="Organization Type" />
+							<property name="hidden" value="false" />
+							<property name="key" value="org.resultColumn.orgType" />
+							<property name="name" value="Organization Type" />
+						</bean>
+					</list>
+				</property>
+				<property name="resultReturnKey" value="org.resultColumn.orgId" />
+				<property name="resultDisplayKey" value="org.resultColumn.orgShortName" />
+				<property name="resultSortKey" value="org.resultColumn.orgShortName" />
+				<property name="usage" value="DEFAULT" />
+				<property name="lookupKey" value="kuali.lu.lookup.finacialOrgs" />
+			</bean>
+		</property>
+		<property name="additionalLookups">
+			<list />
+		</property>
+	</bean>
+	<bean id="revenueOrg.percentage" parent="dataFieldDescriptor">
+		<property name="name" value="percentage" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="LONG" />
+		<property name="defaultValue" value="" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+			</list>
+		</property>
+	</bean>
+	<bean id="revenueOrg.effectiveDate" parent="dataFieldDescriptor">
+		<property name="name" value="effectiveDate" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="defaultValuePath" value="course.effectiveDate" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+			</list>
+		</property>
+	</bean>
+	<bean id="revenueOrg" parent="revenueOrg-parent" />
 	<bean id="courseSpecificLOs-parent" abstract="true" parent="dataObjectStructure">
 		<property name="name" value="courseSpecificLOs" />
 		<property name="fields">
@@ -2639,6 +3343,7 @@
 		<property name="fields">
 			<list>
 				<ref bean="course.id" />
+				<ref bean="course.copyOfCourseId" />
 				<ref bean="course.formats" />
 				<ref bean="course.termsOffered" />
 				<ref bean="course.firstExpectedOffering" />
@@ -2654,6 +3359,8 @@
 				<ref bean="course.joints" />
 				<ref bean="course.finalResults" />
 				<ref bean="course.fees" />
+				<ref bean="course.expenditureInfo" />
+				<ref bean="course.revenueInfo" />
 				<ref bean="course.state" />
 				<ref bean="course.type" />
 				<ref bean="course.effectiveDate" />
@@ -2678,6 +3385,20 @@
 				<ref bean="constraint.read.only" />
 				<ref bean="constraint.single" />
 				<ref bean="constraint.kuali.id" />
+			</list>
+		</property>
+	</bean>
+	<bean id="course.copyOfCourseId" parent="dataFieldDescriptor">
+		<property name="name" value="copyOfCourseId" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.optional" />
+				<ref bean="constraint.kuali.id" />
+				<ref bean="constraint.related.cluId" />
 			</list>
 		</property>
 	</bean>
@@ -2754,6 +3475,9 @@
 			<list>
 				<ref bean="constraint.single" />
 				<ref bean="constraint.required" />
+				<ref bean="constraint.atp.in.future" />
+				<ref bean="constraint.optional" />
+				<ref bean="constraint.atp.types" />
 			</list>
 		</property>
 		<property name="initialLookup">
@@ -3248,6 +3972,7 @@
 							<property name="writeAccess" value="NEVER" />
 							<property name="dataType" value="STRING" />
 							<property name="optional" value="true" />
+							<property name="defaultValueString" value="kuali.lu.subjectArea" />
 							<property name="name" value="Enumeration Type" />
 							<property name="desc" value="The type of the enumeration to search" />
 							<property name="caseSensitive" value="true" />
@@ -3419,6 +4144,32 @@
 		<property name="constraints">
 			<list>
 				<ref bean="constraint.repeating" />
+			</list>
+		</property>
+	</bean>
+	<bean id="course.expenditureInfo" parent="dataFieldDescriptor">
+		<property name="name" value="expenditureInfo" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataObjectStructure" ref="expenditureInfo" />
+		<property name="dataType" value="DATA" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.optional" />
+			</list>
+		</property>
+	</bean>
+	<bean id="course.revenueInfo" parent="dataFieldDescriptor">
+		<property name="name" value="revenueInfo" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataObjectStructure" ref="revenueInfo" />
+		<property name="dataType" value="DATA" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.optional" />
 			</list>
 		</property>
 	</bean>
@@ -3686,6 +4437,7 @@
 							<property name="writeAccess" value="NEVER" />
 							<property name="dataType" value="STRING" />
 							<property name="optional" value="true" />
+							<property name="defaultValueString" value="kuali.lu.campusLocation" />
 							<property name="name" value="Enumeration Type" />
 							<property name="desc" value="The type of the enumeration to search" />
 							<property name="caseSensitive" value="true" />
@@ -4156,6 +4908,48 @@
 			<list />
 		</property>
 	</bean>
+	<bean id="expenditureInfo-parent" abstract="true" parent="dataObjectStructure">
+		<property name="name" value="expenditureInfo" />
+		<property name="fields">
+			<list>
+				<ref bean="expenditureInfo.expenditureOrg" />
+				<ref bean="expenditureInfo.totalPercentage" />
+			</list>
+		</property>
+	</bean>
+	<bean id="expenditureInfo.expenditureOrg" parent="dataFieldDescriptor">
+		<property name="name" value="expenditureOrg" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataObjectStructure" ref="expenditureOrg" />
+		<property name="dataType" value="DATA" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.repeating" />
+				<ref bean="constraint.required" />
+				<bean parent="constraint">
+					<property name="serverSide" value="false" />
+					<property name="maxOccurs" value="20" />
+				</bean>
+				<ref bean="constraint.optional" />
+				<ref bean="constraint.repeating" />
+			</list>
+		</property>
+	</bean>
+	<bean id="expenditureInfo.totalPercentage" parent="dataFieldDescriptor">
+		<property name="name" value="totalPercentage" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.optional" />
+			</list>
+		</property>
+	</bean>
+	<bean id="expenditureInfo" parent="expenditureInfo-parent" />
+
 	<bean id="metaInfo-parent" abstract="true" parent="dataObjectStructure">
 		<property name="name" value="metaInfo" />
 		<property name="fields">
@@ -4429,7 +5223,82 @@
 		</property>
 	</bean>
 	<bean id="proposal" parent="proposal-parent" />
-	
+		<bean id="revenueInfo-parent" abstract="true" parent="dataObjectStructure">
+		<property name="name" value="revenueInfo" />
+		<property name="fields">
+			<list>
+				<ref bean="revenueInfo.feeType" />
+				<ref bean="revenueInfo.id" />
+				<ref bean="revenueInfo.revenueOrg" />
+				<ref bean="revenueInfo.totalPercentage" />
+			</list>
+		</property>
+	</bean>
+	<bean id="revenueInfo.feeType" parent="dataFieldDescriptor">
+		<property name="name" value="feeType" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="defaultValue" value="" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+				<ref bean="constraint.hard.coded.feeType.Revenue" />
+				<ref bean="constraint.required" />
+				<ref bean="constraint.single" />
+				<ref bean="constraint.code" />
+			</list>
+		</property>
+	</bean>
+	<bean id="revenueInfo.id" parent="dataFieldDescriptor">
+		<property name="name" value="id" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+				<ref bean="constraint.required" />
+				<ref bean="constraint.read.only" />
+				<ref bean="constraint.single" />
+				<ref bean="constraint.kuali.id" />
+			</list>
+		</property>
+	</bean>
+	<bean id="revenueInfo.revenueOrg" parent="dataFieldDescriptor">
+		<property name="name" value="revenueOrg" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataObjectStructure" ref="revenueOrg" />
+		<property name="dataType" value="DATA" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.repeating" />
+				<ref bean="constraint.required" />
+				<bean parent="constraint">
+					<property name="serverSide" value="false" />
+					<property name="maxOccurs" value="20" />
+				</bean>
+				<ref bean="constraint.optional" />
+				<ref bean="constraint.repeating" />
+			</list>
+		</property>
+	</bean>
+	<bean id="revenueInfo.totalPercentage" parent="dataFieldDescriptor">
+		<property name="name" value="totalPercentage" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.optional" />
+			</list>
+		</property>
+	</bean>
+	<bean id="revenueInfo" parent="revenueInfo-parent" />
 	<bean id="serach-parent" abstract="true" parent="dataObjectStructure">
 		<property name="name" value="search" />
 		<property name="fields">
