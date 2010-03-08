@@ -25,9 +25,6 @@
         <column name="STATE" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
         <column name="TYPE" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KS_RICH_TEXT_T" name="FK91BE1D56747A5F2">
-            <reference foreign="ID" local="RT_DESCR_ID"/>
-        </foreign-key>
         <foreign-key foreignTable="KSAP_ATP_TYPE" name="FK91BE1D5359A216F">
             <reference foreign="TYPE_KEY" local="TYPE"/>
         </foreign-key>
@@ -111,9 +108,6 @@
         <column name="ATP_ID" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
         <column name="DT_RANGE_TYPE_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KS_RICH_TEXT_T" name="FK237F74566747A5F2">
-            <reference foreign="ID" local="RT_DESCR_ID"/>
-        </foreign-key>
         <foreign-key foreignTable="KSAP_DT_RANGE_TYPE" name="FK237F74562E3E4416">
             <reference foreign="TYPE_KEY" local="DT_RANGE_TYPE_ID"/>
         </foreign-key>
@@ -159,9 +153,6 @@
         <column name="ATP_ID" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
         <column name="MLSTN_TYPE_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KS_RICH_TEXT_T" name="FK32504D666747A5F2">
-            <reference foreign="ID" local="RT_DESCR_ID"/>
-        </foreign-key>
         <foreign-key foreignTable="KSAP_ATP" name="FK32504D66B1104A58">
             <reference foreign="ID" local="ATP_ID"/>
         </foreign-key>
@@ -213,9 +204,6 @@
         <foreign-key foreignTable="KSCO_REFERENCE" name="FK278964D4A44FBE52">
             <reference foreign="ID" local="REFERENCE"/>
         </foreign-key>
-        <foreign-key foreignTable="KS_RICH_TEXT_T" name="FK278964D46747A5F2">
-            <reference foreign="ID" local="RT_DESCR_ID"/>
-        </foreign-key>
     </table>
     <table name="KSCO_COMMENT_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -249,7 +237,7 @@
         <foreign-key foreignTable="KSCO_REFERENCE_TYPE" name="FK8CBAE8808E68868F">
             <reference foreign="TYPE_KEY" local="REFERENCE_TYPE"/>
         </foreign-key>
-        <unique name="SYS_C00127489">
+        <unique name="SYS_C0023361">
             <unique-column name="REFERENCE_ID"/>
             <unique-column name="REFERENCE_TYPE"/>
         </unique>
@@ -332,9 +320,6 @@
         <column name="STATE" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
         <column name="TYPE" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KS_RICH_TEXT_T" name="FKB5CCDBE76747A5F2">
-            <reference foreign="ID" local="RT_DESCR_ID"/>
-        </foreign-key>
         <foreign-key foreignTable="KSDO_DOCUMENT_TYPE" name="FKB5CCDBE723B9E99F">
             <reference foreign="TYPE_KEY" local="TYPE"/>
         </foreign-key>
@@ -354,9 +339,6 @@
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KS_RICH_TEXT_T" name="FK88CC76566747A5F2">
-            <reference foreign="ID" local="RT_DESCR_ID"/>
-        </foreign-key>
     </table>
     <table name="KSDO_DOCUMENT_CATEGORY_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -387,12 +369,11 @@
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="CTX_KEY" size="255" type="VARCHAR"/>
         <column name="CTX_VAL" size="255" type="VARCHAR"/>
-        <column name="ENUM_ID" size="255" type="VARCHAR"/>
         <column name="ENUM_VAL_ENT_ID" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSEM_ENUM_VAL_ENT" name="FKF0BED564A2AE7410">
             <reference foreign="ID" local="ENUM_VAL_ENT_ID"/>
         </foreign-key>
-        <unique name="SYS_C00218209">
+        <unique name="SYS_C0023339">
             <unique-column name="ENUM_VAL_ENT_ID"/>
             <unique-column name="CTX_KEY"/>
             <unique-column name="CTX_VAL"/>
