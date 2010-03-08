@@ -152,7 +152,7 @@
         NM="CluCreditCourse.OrgSearchAttribute"
         OBJ_ID="D6F96548-93FA-974F-8635-20D6090B9C2D"
         RULE_ATTR_ID="1651" RULE_ATTR_TYP_CD="SearchableXmlAttribute"
-        VER_NBR="1" XML="&lt;searchingConfig>&#xd;&#xa;                &lt;fieldDef name=&quot;id&quot; title=&quot;Organization&quot;>&#xd;&#xa;                    &lt;display>&#xd;&#xa;                        &lt;type>select&lt;/type>&#xd;&#xa;                           &lt;values>kuali_values_finder_class(org.kuali.rice.student.lookup.keyvalues.OrgCocValuesFinder)&lt;/values>&#xd;&#xa;                    &lt;/display>&#xd;&#xa;                    &lt;fieldEvaluation>&#xd;&#xa;                        &lt;xpathexpression>wf:xstreamsafe('//cluProposalDocInfo/orgId')&lt;/xpathexpression>&#xd;&#xa;                    &lt;/fieldEvaluation>&#xd;&#xa;                &lt;/fieldDef>&#xd;&#xa;            &lt;/searchingConfig>"/>
+        VER_NBR="1" XML="&lt;searchingConfig>&#xa;                &lt;fieldDef name=&quot;id&quot; title=&quot;Organization&quot;>&#xa;                    &lt;display>&#xa;                        &lt;type>select&lt;/type>&#xa;                           &lt;values>kuali_values_finder_class(org.kuali.rice.student.lookup.keyvalues.OrgCocValuesFinder)&lt;/values>&#xa;                    &lt;/display>&#xa;                    &lt;fieldEvaluation>&#xa;                        &lt;xpathexpression>wf:xstreamsafe('//cluProposalDocInfo/orgId')&lt;/xpathexpression>&#xa;                    &lt;/fieldEvaluation>&#xa;                &lt;/fieldDef>&#xa;            &lt;/searchingConfig>"/>
     <KREW_RULE_ATTR_T
         CLS_NM="org.kuali.rice.kew.rule.PrincipalIdRoleAttribute"
         DESC_TXT="Role to identify the user who is being requested as a collaborator"
@@ -160,7 +160,7 @@
         NM="RequestedCollaboratorRoleAttribute"
         OBJ_ID="E200BADB-8AA7-06E0-001B-DBE36A42DAF0"
         RULE_ATTR_ID="1652" RULE_ATTR_TYP_CD="RuleXmlAttribute"
-        VER_NBR="1" XML="&lt;configuration>&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&lt;xmlElementLabel>recipientPrincipalId&lt;/xmlElementLabel>&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&lt;roleNameLabel>Requested Collaborator&lt;/roleNameLabel>&#xd;&#xa;&#x9;&#x9;&#x9;&lt;/configuration>"/>
+        VER_NBR="1" XML="&lt;configuration>&#xa;&#x9;&#x9;&#x9;&#x9;&lt;xmlElementLabel>recipientPrincipalId&lt;/xmlElementLabel>&#xa;&#x9;&#x9;&#x9;&#x9;&lt;roleNameLabel>Requested Collaborator&lt;/roleNameLabel>&#xa;&#x9;&#x9;&#x9;&lt;/configuration>"/>
     <KREW_RULE_ATTR_T
         CLS_NM="org.kuali.student.lum.workflow.CollaboratorRequestCustomActionListAttribute"
         DESC_TXT="Collaborator Request Action List Attribute"

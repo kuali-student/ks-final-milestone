@@ -5,7 +5,6 @@
         ID="0043840f-566b-40e6-a30a-b652b889c0af"
         LNG_NAME="Partial Differential Equations II" LVL="600"
         SHRT_NAME="PARTIAL DIFF EQUAT II" SUFX_CD="674"/>
-    <KSLU_CLU_IDENT CD="nullnull" ID="04153225-2ca5-406c-8551-c2b6532ec82a"/>
     <KSLU_CLU_IDENT CD="ANTH360" DIV="ANTH"
         ID="04ee47f3-393b-43f6-a248-d8d7be11fddd"
         LNG_NAME="Method and Theory in Sociocultural Anthropology"
@@ -61,7 +60,7 @@
     <KSLU_CLU_IDENT CD="AAST233" DIV="AAST"
         ID="37ecfd9e-b65d-4909-bdc5-6b1300447889"
         LNG_NAME="Introduction to Asian American Literature" LVL="200"
-        SHRT_NAME="INTRO ASIAN AMERICAN LIT" SUFX_CD="233"/>
+        SHRT_NAME="INTRO ASIAN AMERICAN LIT" SUFX_CD="233" TYPE="kuali.lu.type.CreditCourse.identifier.cross-listed"/>
     <KSLU_CLU_IDENT CD="ANTH260" DIV="ANTH"
         ID="386d5be7-395d-408f-8ca1-4e36e4d5f500"
         LNG_NAME="Introduction to Sociocultural Anthropology and Linguistics"
@@ -219,6 +218,9 @@
     <KSLU_CLU_IDENT CD="Code" DIV="Division" ID="IDENT-1"
         LNG_NAME="Long Name" LVL="Level" SHRT_NAME="Shortname"
         ST="State" SUFX_CD="SUFX_CD" TYPE="Type" VARTN="Variation"/>
+    <KSLU_CLU_IDENT CD="Code" DIV="Division" ID="IDENT-2"
+        LNG_NAME="Long Name" LVL="Level" SHRT_NAME="Shortname"
+        ST="State" SUFX_CD="SUFX_CD" TYPE="Type" VARTN="Variation"/>
     <KSLU_CLU_IDENT CD="MATH152" DIV="MATH" ID="IDENT-NL-1"
         LNG_NAME="MATH 152 Linear Systems" LVL="152"
         SHRT_NAME="MATH 152" ST="State-1" TYPE="Type-1" VARTN="Variation-1"/>
@@ -243,9 +245,6 @@
     <KSLU_CLU_IDENT CD="Minor Music 2" DIV="Music" ID="IDENT-NL-8"
         LNG_NAME="Minor in Music 2" LVL="Minor"
         SHRT_NAME="Minor Music 2" ST="State-1" TYPE="Type-1" VARTN="Variation-1"/>
-    <KSLU_CLU_IDENT CD="Code" DIV="Division" ID="IDENT-2"
-        LNG_NAME="Long Name" LVL="Level" SHRT_NAME="Shortname"
-        ST="State" SUFX_CD="SUFX_CD" TYPE="Type" VARTN="Variation"/>
     <KSLU_CLU_IDENT CD="AMSC662" DIV="AMSC"
         ID="a0670a4d-a029-4210-9428-c78504d5dc6a"
         LNG_NAME="Computer Organization and Programming for Scientific Computing"
@@ -253,7 +252,7 @@
     <KSLU_CLU_IDENT CD="AMSC452" DIV="AMSC"
         ID="a47e2d88-cb6d-4c52-901c-cc7b630a0d24"
         LNG_NAME="Introduction to Dynamics and Chaos" LVL="400"
-        SHRT_NAME="INTRO TO DYNAMICS&amp;CHAOS" SUFX_CD="452"/>
+        SHRT_NAME="INTRO TO DYNAMICS&amp;CHAOS" SUFX_CD="452" TYPE="kuali.lu.type.CreditCourse.identifier.version"/>
     <KSLU_CLU_IDENT CD="AGNR333" DIV="AGNR"
         ID="a496ff91-f689-4ae9-bf33-3c5d813907d8"
         LNG_NAME="Agriculture's Progression toward Industrialization"
