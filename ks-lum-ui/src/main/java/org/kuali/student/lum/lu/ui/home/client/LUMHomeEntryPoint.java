@@ -21,7 +21,7 @@ import com.google.gwt.libideas.client.StyleInjector;
 import com.google.gwt.libideas.resources.client.CssResource;
 import com.google.gwt.libideas.resources.client.ResourcePrototype;
 
-public class HomeEntryPoint implements EntryPoint{
+public class LUMHomeEntryPoint implements EntryPoint{
 
     @Override
     public void onModuleLoad() {

@@ -5,5 +5,5 @@
   	<!--
 	<stylesheet src="Home.css"/>
 	--><!-- Specify the app entry point class.                   -->
-	<entry-point class="org.kuali.student.lum.lu.ui.home.client.HomeEntryPoint"/>
+	<entry-point class="org.kuali.student.lum.lu.ui.home.client.LUMHomeEntryPoint"/>
 </module>
