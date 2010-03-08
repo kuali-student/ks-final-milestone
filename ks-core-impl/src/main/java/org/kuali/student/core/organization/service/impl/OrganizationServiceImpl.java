@@ -906,7 +906,9 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 		Set<OrgTreeInfo> results = new HashSet<OrgTreeInfo>();
 		Org rootOrg = organizationDao.fetch(Org.class, rootOrgId);
-		results.add(new OrgTreeInfo(rootOrgId,null,rootOrg.getLongName()));
+		OrgTreeInfo root = new OrgTreeInfo(rootOrgId,null,rootOrg.getLongName());
+		root.setPositions(this.organizationDao.getOrgMemebershipCount(root.getOrgId()));
+		results.add(root);
 		results.addAll(parseOrgTree(rootOrgId, orgHierarchyId, maxLevels,0));
 		return new ArrayList<OrgTreeInfo>(results);
 	}
@@ -917,6 +919,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 		if(maxLevels==0||currentLevel<maxLevels){
 			List<OrgTreeInfo> orgTreeInfos = this.organizationDao.getOrgTreeInfo(rootOrgId,orgHierarchyId);
 			for(OrgTreeInfo orgTreeInfo:orgTreeInfos){
+			    orgTreeInfo.setPositions(this.organizationDao.getOrgMemebershipCount(orgTreeInfo.getOrgId()));
 				results.addAll(parseOrgTree(orgTreeInfo.getOrgId(),orgHierarchyId, maxLevels, currentLevel+1));
 			}
 			results.addAll(orgTreeInfos);

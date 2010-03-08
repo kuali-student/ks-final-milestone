@@ -249,4 +249,12 @@ public class OrganizationDaoImpl extends AbstractSearchableCrudDaoImpl implement
 
 		return (OrgPositionRestriction) query.getSingleResult();
 	}
+
+    @Override
+    public Long getOrgMemebershipCount(String orgId) {
+        Query query = em.createNamedQuery("OrgPersonRelation.getOrgMembershipCount");
+        query.setParameter("orgId", orgId);
+        
+        return (Long)query.getSingleResult();
+    }
 }
