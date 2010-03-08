@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSLU_CLU_ADMIN_ORG ID="ADMIN-ORG-1" ORG_ID="42"/>
+    <KSLU_CLU_ADMIN_ORG ID="ADMIN-ORG-2" ORG_ID="44"/>
+</dataset>
