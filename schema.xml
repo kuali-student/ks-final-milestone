@@ -667,7 +667,7 @@
         <foreign-key foreignTable="KSLU_LO_REPOSITORY" name="FK116CA3915CEF039A">
             <reference foreign="ID" local="LO_REPO_ID"/>
         </foreign-key>
-        <foreign-key foreignTable="KS_LO_RICH_TEXT_T" name="FK116CA391604442A3">
+        <foreign-key foreignTable="KSLO_RICH_TEXT_T" name="FK116CA391604442A3">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
         <foreign-key foreignTable="KSLU_LO_TYPE" name="FK116CA391F0D1299B">
@@ -763,7 +763,7 @@
         <foreign-key foreignTable="KSLU_LO_REPOSITORY" name="FK1FC1ADEC5CEF039A">
             <reference foreign="ID" local="LO_REPO_ID"/>
         </foreign-key>
-        <foreign-key foreignTable="KS_LO_RICH_TEXT_T" name="FK1FC1ADEC604442A3">
+        <foreign-key foreignTable="KSLO_RICH_TEXT_T" name="FK1FC1ADEC604442A3">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
         <foreign-key foreignTable="KSLU_LO_CATEGORY_TYPE" name="FK1FC1ADEC9FBA4F97">
@@ -820,7 +820,7 @@
         <foreign-key foreignTable="KSLU_LO" name="FK5D0D44B8BF253DC0">
             <reference foreign="ID" local="LO_ROOT_ID"/>
         </foreign-key>
-        <foreign-key foreignTable="KS_LO_RICH_TEXT_T" name="FK5D0D44B8604442A3">
+        <foreign-key foreignTable="KSLO_RICH_TEXT_T" name="FK5D0D44B8604442A3">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
     </table>
@@ -1410,7 +1410,7 @@
             <reference foreign="TYPE_KEY" local="OWNER"/>
         </foreign-key>
     </table>
-    <table name="KS_LO_RICH_TEXT_T">
+    <table name="KSLO_RICH_TEXT_T">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="FORMATTED" size="2000" type="VARCHAR"/>
         <column name="PLAIN" size="2000" type="VARCHAR"/>
