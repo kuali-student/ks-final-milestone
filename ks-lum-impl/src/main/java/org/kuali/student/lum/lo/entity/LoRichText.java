@@ -24,6 +24,6 @@ import org.kuali.student.core.entity.RichText;
  *
  */
 @Entity
-@Table(name = "KS_LO_RICH_TEXT_T")
+@Table(name = "KSLO_RICH_TEXT_T")
 public class LoRichText extends RichText {
 }
