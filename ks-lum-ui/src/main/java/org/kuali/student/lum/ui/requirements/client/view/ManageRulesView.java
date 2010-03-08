@@ -16,6 +16,7 @@ package org.kuali.student.lum.ui.requirements.client.view;
 
 import java.util.List;
 
+import org.kuali.student.brms.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.mvc.Controller;
@@ -30,9 +31,7 @@ import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.KSTabPanel;
 import org.kuali.student.common.ui.client.widgets.table.Node;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
-import org.kuali.student.brms.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseReqSummaryHolder;
-import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager;
 import org.kuali.student.lum.ui.requirements.client.controller.CourseReqManager.PrereqViews;
 import org.kuali.student.lum.ui.requirements.client.model.ObjectClonerUtil;
