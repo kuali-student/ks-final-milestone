@@ -13,8 +13,7 @@
     <KSLO_RICH_TEXT_T
         FORMATTED="&lt;p>Advanced Learning Objective type&lt;/p>"
         ID="RICHTEXT-13" PLAIN="Advanced Learning Objective type"/>
-    <KSLO_RICH_TEXT_T
-        FORMATTED="The ability to use sensory cues to ..."
+    <KSLO_RICH_TEXT_T FORMATTED="The ability to use sensory cues to ..."
         ID="RICHTEXT-14" PLAIN="The ability to use sensory cues to guide motor activity.  This ranges from sensory stimulation, through cue selection, to translation."/>
     <KSLO_RICH_TEXT_T FORMATTED="&lt;p>Create Wiki&lt;/p>"
         ID="RICHTEXT-15" PLAIN="Create Wiki"/>
