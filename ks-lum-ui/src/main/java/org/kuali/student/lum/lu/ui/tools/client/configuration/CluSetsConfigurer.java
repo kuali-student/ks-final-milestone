@@ -14,72 +14,20 @@
  */
 package org.kuali.student.lum.lu.ui.tools.client.configuration;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
-import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.UpdatableMultiplicityComposite;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-import org.kuali.student.common.ui.client.service.SearchRpcService;
-import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
-import org.kuali.student.common.ui.client.widgets.KSDropDown;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
-import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
-import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
-import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
-import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
-import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
-import org.kuali.student.common.ui.client.widgets.search.AdvancedSearchWindow;
-import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.dto.SearchResultRow;
-import org.kuali.student.core.search.dto.SortDirection;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityContactHoursConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityDurationConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseCourseSpecificLOsConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseDurationConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseFormatConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseMetadata;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.LearningObjectiveConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.removeinm4.LOBuilderBinding;
-import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRequisitesSectionView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
-import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.CluProposalModelDTO;
-import org.kuali.student.lum.lu.ui.course.client.configuration.mvc.LuConfigurer.LuSections;
-import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer;
-import org.kuali.student.lum.lu.ui.course.client.widgets.AssemblerTestSection;
-import org.kuali.student.lum.lu.ui.course.client.widgets.AtpPicker;
-import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
-import org.kuali.student.lum.lu.ui.course.client.widgets.LOBuilder;
-import org.kuali.student.lum.lu.ui.course.client.widgets.OfferedJointlyList;
+import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseConfigurer.CourseSections;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
 public class CluSetsConfigurer {
@@ -101,7 +49,7 @@ public class CluSetsConfigurer {
     }
 
     private SectionView createCluSetSection() {
-        VerticalSectionView section = initSectionView(LuSections.GOVERNANCE, ToolsConstants.NEW_CLU_SET);
+        VerticalSectionView section = initSectionView(CourseSections.GOVERNANCE, ToolsConstants.NEW_CLU_SET);
         VerticalSection oversight = initSection(getH3Title(ToolsConstants.NEW_CLU_SET_INFO), WITH_DIVIDER);
         //addField(oversight, COURSE + "/" + ACADEMIC_SUBJECT_ORGS);
         section.addSection(oversight);
@@ -109,7 +57,7 @@ public class CluSetsConfigurer {
 	}
     
     private SectionView editCluSetSection() {
-        VerticalSectionView section = initSectionView(LuSections.LEARNING_OBJECTIVES, ToolsConstants.EDIT_CLU_SET);
+        VerticalSectionView section = initSectionView(CourseSections.LEARNING_OBJECTIVES, ToolsConstants.EDIT_CLU_SET);
         VerticalSection oversight = initSection(getH3Title(ToolsConstants.EDIT_CLU_SET_INFO), WITH_DIVIDER);
         //addField(oversight, COURSE + "/" + ACADEMIC_SUBJECT_ORGS);
         section.addSection(oversight);
@@ -118,7 +66,7 @@ public class CluSetsConfigurer {
         
     
     private VerticalSectionView initSectionView (Enum<?> viewEnum, String labelKey) {
-        VerticalSectionView section = new VerticalSectionView(viewEnum, getLabel(labelKey), CluProposalModelDTO.class);
+        VerticalSectionView section = new VerticalSectionView(viewEnum, getLabel(labelKey), CLU_PROPOSAL_MODEL);
         section.addStyleName(LUConstants.STYLE_SECTION);
         section.setSectionTitle(getH1Title(labelKey));
 
