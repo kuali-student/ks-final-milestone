@@ -19,8 +19,7 @@ import java.util.List;
 
 import javax.persistence.NoResultException;
 
-import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.entity.RichText;
+import org.kuali.student.core.dto.ReferenceTypeInfo;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
@@ -29,8 +28,6 @@ import org.kuali.student.core.proposal.dto.ProposalDocRelationInfo;
 import org.kuali.student.core.proposal.dto.ProposalDocRelationTypeInfo;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.dto.ProposalTypeInfo;
-import org.kuali.student.core.dto.ReferenceTypeInfo;
-import org.kuali.student.core.proposal.entity.ProposalReference;
 import org.kuali.student.core.proposal.entity.Proposal;
 import org.kuali.student.core.proposal.entity.ProposalAttribute;
 import org.kuali.student.core.proposal.entity.ProposalDocRelation;
@@ -38,8 +35,10 @@ import org.kuali.student.core.proposal.entity.ProposalDocRelationAttribute;
 import org.kuali.student.core.proposal.entity.ProposalDocRelationType;
 import org.kuali.student.core.proposal.entity.ProposalOrg;
 import org.kuali.student.core.proposal.entity.ProposalPerson;
-import org.kuali.student.core.proposal.entity.ProposalType;
+import org.kuali.student.core.proposal.entity.ProposalReference;
 import org.kuali.student.core.proposal.entity.ProposalReferenceType;
+import org.kuali.student.core.proposal.entity.ProposalRichText;
+import org.kuali.student.core.proposal.entity.ProposalType;
 import org.kuali.student.core.service.impl.BaseAssembler;
 import org.springframework.beans.BeanUtils;
 
@@ -136,14 +135,6 @@ public class ProposalAssembler extends BaseAssembler {
             dtos.add(toProposalDocRelationInfo(entity));
         }
         return dtos;
-    }
-
-    public static RichTextInfo toRichTextInfo(RichText entity) {
-        RichTextInfo dto = new RichTextInfo();
-
-        BeanUtils.copyProperties(entity, dto);
-
-        return dto;
     }
 
     public static List<ReferenceTypeInfo> toReferenceTypeInfos(List<ProposalReferenceType> entities) {
@@ -268,7 +259,7 @@ public class ProposalAssembler extends BaseAssembler {
                 "attributes", "metaInfo", "desc" });
 
         proposalDocRelation.setDocumentId(documentId);
-        proposalDocRelation.setDescr(toRichText(proposalDocRelationInfo.getDesc()));
+        proposalDocRelation.setDescr(toRichText(ProposalRichText.class, proposalDocRelationInfo.getDesc()));
         proposalDocRelation.setAttributes(toGenericAttributes(ProposalDocRelationAttribute.class, proposalDocRelationInfo.getAttributes(), proposalDocRelation, dao));
 
         Proposal proposal = dao.fetch(Proposal.class, proposalId);

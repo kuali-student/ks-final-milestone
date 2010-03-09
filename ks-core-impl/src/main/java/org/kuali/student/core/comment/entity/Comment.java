@@ -34,7 +34,6 @@ import javax.persistence.TemporalType;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
-import org.kuali.student.core.entity.RichText;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.
@@ -58,7 +57,7 @@ public class Comment extends MetaEntity implements AttributeOwner<CommentAttribu
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "RT_DESCR_ID")
-    private RichText commentText;
+    private CommentRichText commentText;
 
     @ManyToOne
     @JoinColumn(name = "REFERENCE")
@@ -107,14 +106,14 @@ public class Comment extends MetaEntity implements AttributeOwner<CommentAttribu
     /**
      * @return the commentText
      */
-    public RichText getCommentText() {
+    public CommentRichText getCommentText() {
         return commentText;
     }
 
     /**
      * @param commentText the commentText to set
      */
-    public void setCommentText(RichText commentText) {
+    public void setCommentText(CommentRichText commentText) {
         this.commentText = commentText;
     }
 

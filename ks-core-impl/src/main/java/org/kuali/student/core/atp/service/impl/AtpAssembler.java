@@ -24,6 +24,7 @@ import org.kuali.student.core.atp.dto.DateRangeInfo;
 import org.kuali.student.core.atp.dto.MilestoneInfo;
 import org.kuali.student.core.atp.entity.Atp;
 import org.kuali.student.core.atp.entity.AtpAttribute;
+import org.kuali.student.core.atp.entity.AtpRichText;
 import org.kuali.student.core.atp.entity.AtpType;
 import org.kuali.student.core.atp.entity.DateRange;
 import org.kuali.student.core.atp.entity.DateRangeAttribute;
@@ -31,8 +32,6 @@ import org.kuali.student.core.atp.entity.DateRangeType;
 import org.kuali.student.core.atp.entity.Milestone;
 import org.kuali.student.core.atp.entity.MilestoneAttribute;
 import org.kuali.student.core.atp.entity.MilestoneType;
-import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.entity.RichText;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
@@ -72,7 +71,7 @@ public class AtpAssembler extends BaseAssembler{
 		atp.setType(atpType);
 
 		//Copy RichText
-		atp.setDescr(toRichText(atpInfo.getDesc()));
+		atp.setDescr(toRichText(AtpRichText.class, atpInfo.getDesc()));
 		
 		return atp;
 	}
@@ -170,7 +169,7 @@ public class AtpAssembler extends BaseAssembler{
 		}
 		dateRange.setType(dateRangeType);
 
-		dateRange.setDescr(toRichText(dateRangeInfo.getDesc()));
+		dateRange.setDescr(toRichText(AtpRichText.class, dateRangeInfo.getDesc()));
 		
 		return dateRange;
 	}
@@ -247,7 +246,7 @@ public class AtpAssembler extends BaseAssembler{
 		}
 		milestone.setType(milestoneType);
 
-		milestone.setDescr(toRichText(milestoneInfo.getDesc()));
+		milestone.setDescr(toRichText(AtpRichText.class, milestoneInfo.getDesc()));
 		
 		return milestone;
 
@@ -281,22 +280,4 @@ public class AtpAssembler extends BaseAssembler{
 		return milestoneInfoList;
 	}
 	
-	public static RichTextInfo toRichTextInfo(RichText entity) {
-		if(entity==null){
-			return null;
-		}
-		
-		RichTextInfo dto = new RichTextInfo();
-		BeanUtils.copyProperties(entity, dto, new String[] { "id" });
-		return dto;
-	}
-	
-	public static RichText toRichText(RichTextInfo richTextInfo) {
-		if(richTextInfo == null){
-			return null;
-		}
-		RichText richText = new RichText();
-		BeanUtils.copyProperties(richTextInfo, richText);
-		return richText;
-	}
 }

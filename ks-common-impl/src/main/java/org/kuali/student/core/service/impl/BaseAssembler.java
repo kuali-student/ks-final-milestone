@@ -141,14 +141,31 @@ public class BaseAssembler {
 		return metaInfo;
 	}
 
-	public static RichText toRichText(RichTextInfo richTextInfo) {
+	public static <T extends RichText> T toRichText(Class<T> richTextClass, RichTextInfo richTextInfo) {
 		if(richTextInfo == null){
 			return null;
 		}
-		RichText richText = new RichText();
-		BeanUtils.copyProperties(richTextInfo, richText);
+		
+		T richText = null;
+		
+		try {
+    		richText = richTextClass.newInstance();
+    		BeanUtils.copyProperties(richTextInfo, richText);
+    	} catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    	
 		return richText;
 	}
 
-
+	public static RichTextInfo toRichTextInfo(RichText entity) {
+        if(entity==null){
+            return null;
+        }
+        
+        RichTextInfo dto = new RichTextInfo();
+        BeanUtils.copyProperties(entity, dto, new String[] { "id" });
+        
+        return dto;
+    }
 }

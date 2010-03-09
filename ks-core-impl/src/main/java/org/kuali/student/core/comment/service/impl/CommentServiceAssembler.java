@@ -20,19 +20,18 @@ import java.util.List;
 import org.kuali.student.core.comment.dao.CommentDao;
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comment.dto.CommentTypeInfo;
-import org.kuali.student.core.dto.ReferenceTypeInfo;
 import org.kuali.student.core.comment.dto.TagInfo;
 import org.kuali.student.core.comment.dto.TagTypeInfo;
 import org.kuali.student.core.comment.entity.Comment;
 import org.kuali.student.core.comment.entity.CommentAttribute;
+import org.kuali.student.core.comment.entity.CommentRichText;
 import org.kuali.student.core.comment.entity.CommentType;
 import org.kuali.student.core.comment.entity.Reference;
 import org.kuali.student.core.comment.entity.ReferenceType;
 import org.kuali.student.core.comment.entity.Tag;
 import org.kuali.student.core.comment.entity.TagAttribute;
 import org.kuali.student.core.comment.entity.TagType;
-import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.entity.RichText;
+import org.kuali.student.core.dto.ReferenceTypeInfo;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.service.impl.BaseAssembler;
@@ -67,19 +66,6 @@ public class CommentServiceAssembler extends BaseAssembler {
         }
         return dtos;
     }
-
-    public static RichTextInfo toRichTextInfo(RichText entity) {
-        if(entity==null){
-            return null;
-        }
-
-        RichTextInfo dto = new RichTextInfo();
-
-        BeanUtils.copyProperties(entity, dto, new String[] { "id" });
-
-        return dto;
-    }
-
 
     public static TagInfo toTagInfo(Tag entity) {
         TagInfo dto = new TagInfo();
@@ -148,7 +134,7 @@ public class CommentServiceAssembler extends BaseAssembler {
                     "Tag Type does not exist for id: " + dto.getType());
         }
         entity.setType(type);
-        entity.setCommentText(toRichText(dto.getCommentText()));
+        entity.setCommentText(toRichText(CommentRichText.class, dto.getCommentText()));
         entity.setAttributes(toGenericAttributes(CommentAttribute.class, dto.getAttributes(), entity, dao));
 		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
         // TODO comment type
@@ -188,7 +174,7 @@ public class CommentServiceAssembler extends BaseAssembler {
 			throws InvalidParameterException, DoesNotExistException {
 		BeanUtils.copyProperties(dto, entity, new String[] { "id, reference",
 				"commentText", "attributes", "type", "metaInfo" });
-		entity.setCommentText(toRichText(dto.getCommentText()));
+		entity.setCommentText(toRichText(CommentRichText.class, dto.getCommentText()));
 
 		entity.setAttributes(toGenericAttributes(CommentAttribute.class, dto
 				.getAttributes(), entity, commentDao));
@@ -236,4 +222,5 @@ public class CommentServiceAssembler extends BaseAssembler {
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         return dto;
 	}
+	
 }
