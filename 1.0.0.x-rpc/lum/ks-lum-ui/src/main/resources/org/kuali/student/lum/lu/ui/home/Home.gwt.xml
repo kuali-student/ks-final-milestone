@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><module>
-
-  	<inherits name="org.kuali.student.common.ui.CommonUI"/>
-  	
-  	<!--
-	<stylesheet src="Home.css"/>
-	--><!-- Specify the app entry point class.                   -->
-	<entry-point class="org.kuali.student.lum.lu.ui.home.client.HomeEntryPoint"/>
-</module>

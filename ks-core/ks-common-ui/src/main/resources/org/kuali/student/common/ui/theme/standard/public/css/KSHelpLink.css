@@ -1,0 +1,29 @@
+.KS-Help-Text{
+	color:gray;
+	font-size:x-small;
+	cursor:pointer;
+}
+
+.KS-Help-Text-Panel{
+}
+
+.KS-Help-Frame{
+	width: 400px;
+	height: 500px;
+}
+
+.KS-Help-Text-OK{
+}
+.KS-Help-Text-Panel-OK{
+}
+.KS-Help-Text-Error{
+}
+.KS-Help-Text-Panel-Error{
+}
+
+.KS-Help-Popup{
+}
+
+.KS-Help-Image{
+	cursor:pointer;
+}
