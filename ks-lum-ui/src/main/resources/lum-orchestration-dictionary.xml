@@ -787,7 +787,6 @@
 				<ref bean="_runtimeData.deleted" />
 				<ref bean="_runtimeData.updated" />
 				<ref bean="_runtimeData.versions" />
-				<ref bean="_runtimeData.dirty" />
 				<ref bean="_runtimeData.id-translation" />
 				<ref bean="_runtimeData.dirty" />
 			</list>
