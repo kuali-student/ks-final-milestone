@@ -314,7 +314,7 @@
 	<bean id="idTranslator" class="org.kuali.student.core.assembly.util.IdTranslator">
 		<constructor-arg ref="searchDispatcher" />
 	</bean>
-	<bean id="idTranslatorAssemblerFilter" class="org.kuali.student.lum.lu.assembly.IdTranslatorAssemblerFilter">
+	<bean id="idTranslatorAssemblerFilter" class="org.kuali.student.core.assembly.IdTranslatorAssemblerFilter">
 		<constructor-arg ref="idTranslator" />
 	</bean>
 
