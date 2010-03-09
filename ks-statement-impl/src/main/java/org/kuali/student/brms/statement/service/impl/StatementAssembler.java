@@ -17,15 +17,6 @@ package org.kuali.student.brms.statement.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.core.dictionary.dto.FieldDescriptor;
-import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.entity.RichText;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.service.impl.BaseAssembler;
 import org.kuali.student.brms.statement.dao.StatementDao;
 import org.kuali.student.brms.statement.dto.NlUsageTypeInfo;
 import org.kuali.student.brms.statement.dto.RefStatementRelationInfo;
@@ -49,7 +40,15 @@ import org.kuali.student.brms.statement.entity.ReqComponentFieldType;
 import org.kuali.student.brms.statement.entity.ReqComponentType;
 import org.kuali.student.brms.statement.entity.Statement;
 import org.kuali.student.brms.statement.entity.StatementAttribute;
+import org.kuali.student.brms.statement.entity.StatementRichText;
 import org.kuali.student.brms.statement.entity.StatementType;
+import org.kuali.student.core.dictionary.dto.FieldDescriptor;
+import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.MissingParameterException;
+import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.core.service.impl.BaseAssembler;
 import org.springframework.beans.BeanUtils;
 
 public class StatementAssembler extends BaseAssembler {
@@ -164,7 +163,7 @@ public class StatementAssembler extends BaseAssembler {
         }
         reqComp.setReqComponentFields(reqCompFieldList);
         
-        reqComp.setDescr(toRichText(reqCompInfo.getDesc()));
+        reqComp.setDescr(toRichText(StatementRichText.class, reqCompInfo.getDesc()));
         
         return reqComp;
     }
@@ -355,7 +354,7 @@ public class StatementAssembler extends BaseAssembler {
 //            stmt.setParent(parent);
 //        }
         
-        stmt.setDescr(toRichText(stmtInfo.getDesc()));
+        stmt.setDescr(toRichText(StatementRichText.class, stmtInfo.getDesc()));
         
         return stmt;
     }
@@ -397,28 +396,6 @@ public class StatementAssembler extends BaseAssembler {
             dtos.add(toStatementInfo(entity));
         }
         return dtos;
-
-    }
-
-    public static RichText toRichText(RichTextInfo richTextInfo) {
-        if(richTextInfo == null){
-            return null;
-        }
-        RichText richText = new RichText();
-        BeanUtils.copyProperties(richTextInfo, richText);
-        return richText;
-    }
-
-    public RichTextInfo toRichTextInfo(RichText entity) {
-        if(entity==null){
-            return null;
-        }
-
-        RichTextInfo dto = new RichTextInfo();
-
-        BeanUtils.copyProperties(entity, dto, new String[] { "id" });
-
-        return dto;
 
     }
 

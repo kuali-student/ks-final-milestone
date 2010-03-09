@@ -8,8 +8,6 @@
 		<class>org.kuali.student.core.entity.Attribute</class>
 		<class>org.kuali.student.core.entity.Meta</class>
 		<class>org.kuali.student.core.entity.MetaEntity</class>
-		<class>org.kuali.student.core.entity.RichText</class>
-		<class>org.kuali.student.core.entity.TimeAmount</class>
     
       	<class>org.kuali.student.brms.rulemanagement.entity.Agenda</class>
       	<class>org.kuali.student.brms.rulemanagement.entity.AgendaDetermination</class>

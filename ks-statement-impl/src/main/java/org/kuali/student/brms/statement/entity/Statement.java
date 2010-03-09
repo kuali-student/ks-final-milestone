@@ -32,11 +32,10 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.kuali.student.brms.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
-import org.kuali.student.core.entity.RichText;
-import org.kuali.student.brms.statement.dto.StatementOperatorTypeKey;
 
 @Entity
 @Table(name = "KSST_STMT")
@@ -55,7 +54,7 @@ public class Statement extends MetaEntity implements AttributeOwner<StatementAtt
 
     @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "RT_DESCR_ID")
-    private RichText descr;
+    private StatementRichText descr;
     
     @Column(name="ST")
     private String state;
@@ -150,11 +149,11 @@ public class Statement extends MetaEntity implements AttributeOwner<StatementAtt
         this.name = name;
     }
 
-    public RichText getDescr() {
+    public StatementRichText getDescr() {
         return descr;
     }
 
-    public void setDescr(RichText descr) {
+    public void setDescr(StatementRichText descr) {
         this.descr = descr;
     }
 

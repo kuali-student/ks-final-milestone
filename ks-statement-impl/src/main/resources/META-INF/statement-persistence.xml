@@ -23,6 +23,7 @@
         <class>org.kuali.student.brms.statement.entity.NlUsageTypeAttribute</class>
 		<class>org.kuali.student.brms.statement.entity.Statement</class>
 		<class>org.kuali.student.brms.statement.entity.StatementAttribute</class>
+        <class>org.kuali.student.brms.statement.entity.StatementRichText</class>
 		<class>org.kuali.student.brms.statement.entity.StatementType</class>
 		<class>org.kuali.student.brms.statement.entity.StatementTypeAttribute</class>
         <!--class>org.kuali.student.brms.statement.entity.StatementTypeHeaderTemplate</class-->
