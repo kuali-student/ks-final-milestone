@@ -39,7 +39,6 @@ import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.Amount;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
-import org.kuali.student.core.entity.RichText;
 import org.kuali.student.core.entity.TimeAmount;
 
 @Entity
@@ -70,7 +69,7 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     
     @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "RT_DESCR_ID")
-    private RichText descr;
+    private LuRichText descr;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "clu")
     private List<CluCampusLocation> campusLocations;
@@ -226,11 +225,11 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
         this.studySubjectArea = studySubjectArea;
     }
 
-    public RichText getDescr() {
+    public LuRichText getDescr() {
         return descr;
     }
 
-    public void setDescr(RichText descr) {
+    public void setDescr(LuRichText descr) {
         this.descr = descr;
     }
 

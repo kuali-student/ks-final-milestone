@@ -31,7 +31,6 @@ import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.entity.Amount;
-import org.kuali.student.core.entity.RichText;
 import org.kuali.student.core.entity.TimeAmount;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.CircularRelationshipException;
@@ -111,6 +110,7 @@ import org.kuali.student.lum.lu.entity.LuCodeAttribute;
 import org.kuali.student.lum.lu.entity.LuCodeType;
 import org.kuali.student.lum.lu.entity.LuLuRelationType;
 import org.kuali.student.lum.lu.entity.LuPublicationType;
+import org.kuali.student.lum.lu.entity.LuRichText;
 import org.kuali.student.lum.lu.entity.LuType;
 import org.kuali.student.lum.lu.entity.Lui;
 import org.kuali.student.lum.lu.entity.LuiAttribute;
@@ -950,7 +950,7 @@ public class LuServiceImpl implements LuService {
 		}
 
 		if (cluInfo.getDescr() != null) {
-			clu.setDescr(LuServiceAssembler.toRichText(cluInfo.getDescr()));
+			clu.setDescr(LuServiceAssembler.toRichText(LuRichText.class, cluInfo.getDescr()));
 		}
 
 		if (cluInfo.getPrimaryAdminOrg() != null) {
@@ -1199,7 +1199,7 @@ public class LuServiceImpl implements LuService {
 
 		if (cluInfo.getDescr() != null) {
 			if (clu.getDescr() == null) {
-				clu.setDescr(new RichText());
+				clu.setDescr(new LuRichText());
 			}
 			BeanUtils.copyProperties(cluInfo.getDescr(), clu.getDescr());
 		} else if (clu.getDescr() != null) {
@@ -1765,7 +1765,7 @@ public class LuServiceImpl implements LuService {
 			ResultUsageType resUsageType = luDao.fetch(ResultUsageType.class,
 					resOptInfo.getResultUsageTypeKey());
 			resOpt.setResultUsageType(resUsageType);
-			resOpt.setDesc(LuServiceAssembler.toRichText(resOptInfo.getDesc()));
+			resOpt.setDesc(LuServiceAssembler.toRichText(LuRichText.class, resOptInfo.getDesc()));
 			luDao.create(resOpt);
 			resOptList.add(resOpt);
 		}
@@ -1775,7 +1775,7 @@ public class LuServiceImpl implements LuService {
 				"desc", "resultOptions", "metaInfo" });
 
 		cluResult.setDesc(LuServiceAssembler
-				.toRichText(cluResultInfo.getDesc()));
+				.toRichText(LuRichText.class, cluResultInfo.getDesc()));
 		cluResult.setResultOptions(resOptList);
 
 		luDao.create(cluResult);
@@ -1829,7 +1829,7 @@ public class LuServiceImpl implements LuService {
 			ResultUsageType resUsageType = luDao.fetch(ResultUsageType.class,
 					resOptInfo.getResultUsageTypeKey());
 			opt.setResultUsageType(resUsageType);
-			opt.setDesc(LuServiceAssembler.toRichText(resOptInfo.getDesc()));
+			opt.setDesc(LuServiceAssembler.toRichText(LuRichText.class, resOptInfo.getDesc()));
 			result.getResultOptions().add(opt);
 		}
 
@@ -1841,7 +1841,7 @@ public class LuServiceImpl implements LuService {
 		BeanUtils.copyProperties(cluResultInfo, result, new String[] { "id",
 				"desc", "resultOptions" });
 
-		result.setDesc(LuServiceAssembler.toRichText(cluResultInfo.getDesc()));
+		result.setDesc(LuServiceAssembler.toRichText(LuRichText.class, cluResultInfo.getDesc()));
 
 		CluResult updated = luDao.update(result);
 
@@ -2043,7 +2043,7 @@ public class LuServiceImpl implements LuService {
 				CluSetAttribute.class, cluSetInfo.getAttributes(), cluSet,
 				luDao));
 		cluSet.setName(cluSetName);
-		cluSet.setDescr(LuServiceAssembler.toRichText(cluSetInfo.getDescr()));
+		cluSet.setDescr(LuServiceAssembler.toRichText(LuRichText.class, cluSetInfo.getDescr()));
 
 		// TODO: set membership query information based on how the queryparamvalue is to be persisted
 		
@@ -2131,7 +2131,7 @@ public class LuServiceImpl implements LuService {
 		cluSet.setAttributes(LuServiceAssembler.toGenericAttributes(
 				CluSetAttribute.class, cluSetInfo.getAttributes(), cluSet,
 				luDao));
-		cluSet.setDescr(LuServiceAssembler.toRichText(cluSetInfo.getDescr()));
+		cluSet.setDescr(LuServiceAssembler.toRichText(LuRichText.class, cluSetInfo.getDescr()));
 
 		CluSet updated = luDao.update(cluSet);
 

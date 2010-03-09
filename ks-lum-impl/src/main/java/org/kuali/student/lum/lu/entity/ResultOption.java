@@ -28,7 +28,6 @@ import javax.persistence.TemporalType;
 
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.MetaEntity;
-import org.kuali.student.core.entity.RichText;
 
 @Entity
 @Table(name = "KSLU_RSLT_OPT")
@@ -47,7 +46,7 @@ public class ResultOption extends MetaEntity  {
 
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "RT_DESCR_ID")
-	private RichText desc;
+	private LuRichText desc;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EFF_DT")
@@ -89,11 +88,11 @@ public class ResultOption extends MetaEntity  {
 		this.resultComponentId = resultComponentId;
 	}
 
-	public RichText getDesc() {
+	public LuRichText getDesc() {
 		return desc;
 	}
 
-	public void setDesc(RichText desc) {
+	public void setDesc(LuRichText desc) {
 		this.desc = desc;
 	}
 

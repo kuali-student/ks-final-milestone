@@ -36,7 +36,6 @@ import javax.persistence.TemporalType;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
-import org.kuali.student.core.entity.RichText;
 
 @Entity
 @Table(name = "KSLU_CLU_SET")
@@ -57,7 +56,7 @@ public class CluSet extends MetaEntity implements
 
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "RT_DESCR_ID")
-	private RichText descr;
+	private LuRichText descr;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EFF_DT")
@@ -115,11 +114,11 @@ public class CluSet extends MetaEntity implements
 		this.name = name;
 	}
 
-	public RichText getDescr() {
+	public LuRichText getDescr() {
 		return descr;
 	}
 
-	public void setDescr(RichText descr) {
+	public void setDescr(LuRichText descr) {
 		this.descr = descr;
 	}
 

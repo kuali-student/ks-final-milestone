@@ -37,7 +37,6 @@ import javax.persistence.TemporalType;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
-import org.kuali.student.core.entity.RichText;
 
 @Entity
 @Table(name = "KSLU_LRC_RESCOMP")
@@ -59,7 +58,7 @@ public class ResultComponent extends MetaEntity implements AttributeOwner<Result
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "RT_DESCR_ID")
-    private RichText descr;
+    private LrcRichText descr;
 
     @ManyToMany
     @JoinTable(name="KSLU_LRC_RESCOMP_JN_RESVALUE",
@@ -124,14 +123,14 @@ public class ResultComponent extends MetaEntity implements AttributeOwner<Result
     /**
      * @return the descr
      */
-    public RichText getDescr() {
+    public LrcRichText getDescr() {
         return descr;
     }
 
     /**
      * @param descr the descr to set
      */
-    public void setDescr(RichText descr) {
+    public void setDescr(LrcRichText descr) {
         this.descr = descr;
     }
 
