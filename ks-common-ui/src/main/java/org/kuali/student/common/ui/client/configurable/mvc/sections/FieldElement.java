@@ -14,6 +14,7 @@ public class FieldElement extends Composite{
 
     public FieldElement(String title, Widget widget) {
         titlePanel.setTitleText(title);
+        titlePanel.getTitleWidget().addStyleName("ks-form-module-single-line-margin");
         titlePanel.getDescWidget().addStyleName("ks-form-module-elements-instruction");
         layout.add(titlePanel);
         layout.add(widget);
@@ -62,5 +63,9 @@ public class FieldElement extends Composite{
 			titlePanel.removeStyleName("invalid");
 		}
 
+	}
+	
+	public Widget getTitleWidget() {
+	    return titlePanel.getTitleWidget();
 	}
 }

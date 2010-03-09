@@ -5,9 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton;
-import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 
@@ -18,10 +16,10 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class LinkPanel extends Composite{
-	
+
 	private Map<Enum<?>, PanelInfo> panels = new HashMap<Enum<?>, PanelInfo>();
 	private SimplePanel container = new SimplePanel();
-	
+
 	private class PanelInfo extends Composite{
 		private VerticalFlowPanel layout = new VerticalFlowPanel();
 		private HorizontalBlockFlowPanel linkPanel = new HorizontalBlockFlowPanel();
@@ -32,17 +30,16 @@ public class LinkPanel extends Composite{
 			protected String linkName;
 			protected Enum<?> linkToKey;
 		}
-		
+
 		public PanelInfo(Enum<?> key, Widget content){
 			this.key = key;
 			this.content = content;
 			layout.add(content);
-			layout.add(createSpaceTemp());
 			layout.add(linkPanel);
 			this.initWidget(layout);
 		}
-		
-		public void addLink(String linkText, final Enum<?> linkedPanelKey){
+
+		public KSLinkButton addLink(String linkText, final Enum<?> linkedPanelKey){
 			NavLink link = new NavLink();
 			link.linkName = linkText;
 			link.linkToKey = linkedPanelKey;
@@ -57,35 +54,28 @@ public class LinkPanel extends Composite{
 					container.setWidget(newPanel);
 				}
 			});
-			
-			linkPanel.add(linkWidget);		
+
+			linkPanel.add(linkWidget);
+			return linkWidget;
 		}
 	}
-	
-	//FIXME - replace with proper CSS etc.
-	private Widget createSpaceTemp() {
-		SimplePanel searchSpacerPanel = new SimplePanel();			
-		searchSpacerPanel.add(new KSLabel(""));
-		searchSpacerPanel.addStyleName("KS-Picker-Spacer-Panel");
-		return searchSpacerPanel;
-	}
-	
+
 	public LinkPanel(Enum<?> defaultPanelKey, Widget content){
 		PanelInfo info = new PanelInfo(defaultPanelKey, content);
 		panels.put(defaultPanelKey, info);
 		container.setWidget(info);
 		this.initWidget(container);
 	}
-	
+
 	public void addPanel(Enum<?> panelKey, Widget content){
 		PanelInfo info = new PanelInfo(panelKey, content);
 		panels.put(panelKey, info);
 	}
-	
-	public void addLinkToPanel(Enum<?> panelKey, String linkText, Enum<?> linkedPanelKey){
+
+	public KSLinkButton addLinkToPanel(Enum<?> panelKey, String linkText, Enum<?> linkedPanelKey){
 		PanelInfo info = panels.get(panelKey);
-		info.addLink(linkText, linkedPanelKey);
+		return info.addLink(linkText, linkedPanelKey);
 	}
-	
+
 
 }
