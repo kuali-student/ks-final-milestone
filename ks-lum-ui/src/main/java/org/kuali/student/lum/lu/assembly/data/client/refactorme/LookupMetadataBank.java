@@ -44,8 +44,8 @@ public class LookupMetadataBank
 		//
 		// new lookup metadata
 		lookup = new LookupMetadata ();
-		lookup.setLookupKey ("kuali.lu.lookup.admin.departments");
-		lookup.setKey ("org.search.generic");
+		lookup.setId ("kuali.lu.lookup.admin.departments");
+		lookup.setSearchTypeId ("org.search.generic");
 		lookup.setName ("Basic and Advanced Search");
 		lookup.setDesc ("Query with multiple optional elements to satisfy most advanced pickers");
 		lookup.setResultReturnKey ("org.resultColumn.orgId");
@@ -135,14 +135,14 @@ public class LookupMetadataBank
 		result.setDesc ("Organization Type");
 		result.setDataType (Data.DataType.STRING);
 		lookup.getResults ().add (result);
-		SEARCH_BANK.put (lookup.getKey ().toLowerCase (), lookup);
-		LOOKUP_BANK.put (lookup.getLookupKey ().toLowerCase (), lookup);
+		SEARCH_BANK.put (lookup.getSearchTypeId ().toLowerCase (), lookup);
+		LOOKUP_BANK.put (lookup.getId ().toLowerCase (), lookup);
 		
 		//
 		// new lookup metadata
 		lookup = new LookupMetadata ();
-		lookup.setLookupKey ("kuali.active.org.types");
-		lookup.setKey ("org.search.all.active.org.types");
+		lookup.setId ("kuali.active.org.types");
+		lookup.setSearchTypeId ("org.search.all.active.org.types");
 		lookup.setName ("All Organization Types");
 		lookup.setDesc ("Returns all active organization types");
 		lookup.setResultReturnKey ("org.resultColumn.key");
@@ -184,14 +184,14 @@ public class LookupMetadataBank
 		result.setDesc ("The date the type became non-effective");
 		result.setDataType (Data.DataType.TRUNCATED_DATE);
 		lookup.getResults ().add (result);
-		SEARCH_BANK.put (lookup.getKey ().toLowerCase (), lookup);
-		LOOKUP_BANK.put (lookup.getLookupKey ().toLowerCase (), lookup);
+		SEARCH_BANK.put (lookup.getSearchTypeId ().toLowerCase (), lookup);
+		LOOKUP_BANK.put (lookup.getId ().toLowerCase (), lookup);
 		
 		//
 		// new lookup metadata
 		lookup = new LookupMetadata ();
-		lookup.setLookupKey ("kuali.lookup.people");
-		lookup.setKey ("person.search.personQuickViewByGivenName");
+		lookup.setId ("kuali.lookup.people");
+		lookup.setSearchTypeId ("person.search.personQuickViewByGivenName");
 		lookup.setName ("All org hierarchies");
 		lookup.setDesc ("Returns all org hierarchies, name and id");
 		lookup.setResultReturnKey ("person.resultColumn.PersonId");
@@ -231,14 +231,14 @@ public class LookupMetadataBank
 		result.setDesc ("Internal id");
 		result.setDataType (Data.DataType.STRING);
 		lookup.getResults ().add (result);
-		SEARCH_BANK.put (lookup.getKey ().toLowerCase (), lookup);
-		LOOKUP_BANK.put (lookup.getLookupKey ().toLowerCase (), lookup);
+		SEARCH_BANK.put (lookup.getSearchTypeId ().toLowerCase (), lookup);
+		LOOKUP_BANK.put (lookup.getId ().toLowerCase (), lookup);
 		
 		//
 		// new lookup metadata
 		lookup = new LookupMetadata ();
-		lookup.setLookupKey ("kuali.lu.lookup.oversight.orgs");
-		lookup.setKey ("org.search.generic");
+		lookup.setId ("kuali.lu.lookup.oversight.orgs");
+		lookup.setSearchTypeId ("org.search.generic");
 		lookup.setName ("Basic and Advanced Search");
 		lookup.setDesc ("Query with multiple optional elements to satisfy most advanced pickers");
 		lookup.setResultReturnKey ("org.resultColumn.orgId");
@@ -328,14 +328,14 @@ public class LookupMetadataBank
 		result.setDesc ("Organization Type");
 		result.setDataType (Data.DataType.STRING);
 		lookup.getResults ().add (result);
-		SEARCH_BANK.put (lookup.getKey ().toLowerCase (), lookup);
-		LOOKUP_BANK.put (lookup.getLookupKey ().toLowerCase (), lookup);
+		SEARCH_BANK.put (lookup.getSearchTypeId ().toLowerCase (), lookup);
+		LOOKUP_BANK.put (lookup.getId ().toLowerCase (), lookup);
 		
 		//
 		// new lookup metadata
 		lookup = new LookupMetadata ();
-		lookup.setLookupKey ("kuali.lookup.termsOfferred");
-		lookup.setKey ("atp.search.atpTypes");
+		lookup.setId ("kuali.lookup.termsOfferred");
+		lookup.setSearchTypeId ("atp.search.atpTypes");
 		lookup.setName ("All ATP types");
 		lookup.setDesc ("Returns the list of all ATP Types");
 		lookup.setResultReturnKey ("atp.resultColumn.atpTypeId");
@@ -356,14 +356,14 @@ public class LookupMetadataBank
 		result.setDesc ("Type of the ATP.");
 		result.setDataType (Data.DataType.STRING);
 		lookup.getResults ().add (result);
-		SEARCH_BANK.put (lookup.getKey ().toLowerCase (), lookup);
-		LOOKUP_BANK.put (lookup.getLookupKey ().toLowerCase (), lookup);
+		SEARCH_BANK.put (lookup.getSearchTypeId ().toLowerCase (), lookup);
+		LOOKUP_BANK.put (lookup.getId ().toLowerCase (), lookup);
 		
 		//
 		// new lookup metadata
 		lookup = new LookupMetadata ();
-		lookup.setLookupKey ("kuali.lookup.durations");
-		lookup.setKey ("atp.search.atpDurationTypes");
+		lookup.setId ("kuali.lookup.durations");
+		lookup.setSearchTypeId ("atp.search.atpDurationTypes");
 		lookup.setName ("All ATP Duration Types");
 		lookup.setDesc ("Returns the list of all ATP Duration Types");
 		lookup.setResultReturnKey ("atp.resultColumn.atpDurationTypeKey");
@@ -384,14 +384,14 @@ public class LookupMetadataBank
 		result.setDesc ("Duration Type Name");
 		result.setDataType (Data.DataType.STRING);
 		lookup.getResults ().add (result);
-		SEARCH_BANK.put (lookup.getKey ().toLowerCase (), lookup);
-		LOOKUP_BANK.put (lookup.getLookupKey ().toLowerCase (), lookup);
+		SEARCH_BANK.put (lookup.getSearchTypeId ().toLowerCase (), lookup);
+		LOOKUP_BANK.put (lookup.getId ().toLowerCase (), lookup);
 		
 		//
 		// new lookup metadata
 		lookup = new LookupMetadata ();
-		lookup.setLookupKey ("kuali.lu.lookup.creditCoursesAndProposals");
-		lookup.setKey ("lu.search.generic");
+		lookup.setId ("kuali.lu.lookup.creditCoursesAndProposals");
+		lookup.setSearchTypeId ("lu.search.generic");
 		lookup.setName ("Basic and Advanced Search");
 		lookup.setDesc ("Query with multiple optional elements to satisfy most advanced pickers");
 		lookup.setResultReturnKey ("lu.resultColumn.cluId");
@@ -483,14 +483,14 @@ public class LookupMetadataBank
 		result.setDesc ("Level of Lu");
 		result.setDataType (Data.DataType.STRING);
 		lookup.getResults ().add (result);
-		SEARCH_BANK.put (lookup.getKey ().toLowerCase (), lookup);
-		LOOKUP_BANK.put (lookup.getLookupKey ().toLowerCase (), lookup);
+		SEARCH_BANK.put (lookup.getSearchTypeId ().toLowerCase (), lookup);
+		LOOKUP_BANK.put (lookup.getId ().toLowerCase (), lookup);
 		
 		//
 		// new lookup metadata
 		lookup = new LookupMetadata ();
-		lookup.setLookupKey ("kuali.lu.lookup.activity.types");
-		lookup.setKey ("lu.search.all.lu.types");
+		lookup.setId ("kuali.lu.lookup.activity.types");
+		lookup.setSearchTypeId ("lu.search.all.lu.types");
 		lookup.setName ("All activity tlypes");
 		lookup.setDesc ("All activity types");
 		lookup.setResultReturnKey ("lu.resultColumn.key");
@@ -543,14 +543,14 @@ public class LookupMetadataBank
 		result.setDesc ("The date the type became non-effective");
 		result.setDataType (Data.DataType.TRUNCATED_DATE);
 		lookup.getResults ().add (result);
-		SEARCH_BANK.put (lookup.getKey ().toLowerCase (), lookup);
-		LOOKUP_BANK.put (lookup.getLookupKey ().toLowerCase (), lookup);
+		SEARCH_BANK.put (lookup.getSearchTypeId ().toLowerCase (), lookup);
+		LOOKUP_BANK.put (lookup.getId ().toLowerCase (), lookup);
 		
 		//
 		// new lookup metadata
 		lookup = new LookupMetadata ();
-		lookup.setLookupKey ("kuali.lookup.terms");
-		lookup.setKey ("atp.search.advancedAtpSearch");
+		lookup.setId ("kuali.lookup.terms");
+		lookup.setSearchTypeId ("atp.search.advancedAtpSearch");
 		lookup.setName ("Advanced ATP match");
 		lookup.setDesc ("Search by Name, start date, end date, and type");
 		lookup.setResultReturnKey ("atp.resultColumn.atpId");
@@ -638,14 +638,14 @@ public class LookupMetadataBank
 		result.setDesc ("Type of the ATP.");
 		result.setDataType (Data.DataType.STRING);
 		lookup.getResults ().add (result);
-		SEARCH_BANK.put (lookup.getKey ().toLowerCase (), lookup);
-		LOOKUP_BANK.put (lookup.getLookupKey ().toLowerCase (), lookup);
+		SEARCH_BANK.put (lookup.getSearchTypeId ().toLowerCase (), lookup);
+		LOOKUP_BANK.put (lookup.getId ().toLowerCase (), lookup);
 		
 		//
 		// new lookup metadata
 		lookup = new LookupMetadata ();
-		lookup.setLookupKey ("kuali.lu.lookup.campusLocations");
-		lookup.setKey ("enumeration.management.search");
+		lookup.setId ("kuali.lu.lookup.campusLocations");
+		lookup.setSearchTypeId ("enumeration.management.search");
 		lookup.setName ("Get enumerations");
 		lookup.setDesc ("Get enumerated lists of values given context");
 		lookup.setResultReturnKey ("enumeration.resultColumn.code");
@@ -735,14 +735,14 @@ public class LookupMetadataBank
 		result.setDesc ("The description of the type");
 		result.setDataType (Data.DataType.STRING);
 		lookup.getResults ().add (result);
-		SEARCH_BANK.put (lookup.getKey ().toLowerCase (), lookup);
-		LOOKUP_BANK.put (lookup.getLookupKey ().toLowerCase (), lookup);
+		SEARCH_BANK.put (lookup.getSearchTypeId ().toLowerCase (), lookup);
+		LOOKUP_BANK.put (lookup.getId ().toLowerCase (), lookup);
 		
 		//
 		// new lookup metadata
 		lookup = new LookupMetadata ();
-		lookup.setLookupKey ("kuali.lu.lookup.subjectAreas");
-		lookup.setKey ("enumeration.management.search");
+		lookup.setId ("kuali.lu.lookup.subjectAreas");
+		lookup.setSearchTypeId ("enumeration.management.search");
 		lookup.setName ("Get enumerations");
 		lookup.setDesc ("Get enumerated lists of values given context");
 		lookup.setResultReturnKey ("enumeration.resultColumn.code");
@@ -832,14 +832,14 @@ public class LookupMetadataBank
 		result.setDesc ("The description of the type");
 		result.setDataType (Data.DataType.STRING);
 		lookup.getResults ().add (result);
-		SEARCH_BANK.put (lookup.getKey ().toLowerCase (), lookup);
-		LOOKUP_BANK.put (lookup.getLookupKey ().toLowerCase (), lookup);
+		SEARCH_BANK.put (lookup.getSearchTypeId ().toLowerCase (), lookup);
+		LOOKUP_BANK.put (lookup.getId ().toLowerCase (), lookup);
 		
 		//
 		// new lookup metadata
 		lookup = new LookupMetadata ();
-		lookup.setLookupKey ("kuali.lookup.singleUseLos");
-		lookup.setKey ("lo.search.loByClu");
+		lookup.setId ("kuali.lookup.singleUseLos");
+		lookup.setSearchTypeId ("lo.search.loByClu");
 		lookup.setName ("LO Search by Clu");
 		lookup.setDesc ("Returns all Los connected with the selected clu");
 		lookup.setResultReturnKey ("lo.resultColumn.loDescPlain");
@@ -870,14 +870,14 @@ public class LookupMetadataBank
 		result.setDesc ("Desc of an Lo");
 		result.setDataType (Data.DataType.STRING);
 		lookup.getResults ().add (result);
-		SEARCH_BANK.put (lookup.getKey ().toLowerCase (), lookup);
-		LOOKUP_BANK.put (lookup.getLookupKey ().toLowerCase (), lookup);
+		SEARCH_BANK.put (lookup.getSearchTypeId ().toLowerCase (), lookup);
+		LOOKUP_BANK.put (lookup.getId ().toLowerCase (), lookup);
 		
 		//
 		// new lookup metadata
 		lookup = new LookupMetadata ();
-		lookup.setLookupKey ("kuali.lookup.singleUseLos.additional.1");
-		lookup.setKey ("lo.search.loCluByDesc");
+		lookup.setId ("kuali.lookup.singleUseLos.additional.1");
+		lookup.setSearchTypeId ("lo.search.loCluByDesc");
 		lookup.setName ("LO Search for all LOs and related Clus matching supplied word");
 		lookup.setDesc ("Returns all matching LOs ids and related Clu ids and codes");
 		lookup.setResultReturnKey ("lo.resultColumn.loDescPlain");
@@ -921,14 +921,14 @@ public class LookupMetadataBank
 		result.setDesc ("Desc of an Lo");
 		result.setDataType (Data.DataType.STRING);
 		lookup.getResults ().add (result);
-		SEARCH_BANK.put (lookup.getKey ().toLowerCase (), lookup);
-		LOOKUP_BANK.put (lookup.getLookupKey ().toLowerCase (), lookup);
+		SEARCH_BANK.put (lookup.getSearchTypeId ().toLowerCase (), lookup);
+		LOOKUP_BANK.put (lookup.getId ().toLowerCase (), lookup);
 		
 		//
 		// new lookup metadata
 		lookup = new LookupMetadata ();
-		lookup.setLookupKey ("kuali.lookup.singleUseLos.additional.2");
-		lookup.setKey ("lo.search.loByCategory");
+		lookup.setId ("kuali.lookup.singleUseLos.additional.2");
+		lookup.setSearchTypeId ("lo.search.loByCategory");
 		lookup.setName ("LO Search for all LOs by matching category");
 		lookup.setDesc ("Returns all matching LOs ids");
 		lookup.setResultReturnKey ("lo.resultColumn.loDescPlain");
@@ -973,14 +973,14 @@ public class LookupMetadataBank
 		result.setDesc ("no description supplied");
 		result.setDataType (Data.DataType.STRING);
 		lookup.getResults ().add (result);
-		SEARCH_BANK.put (lookup.getKey ().toLowerCase (), lookup);
-		LOOKUP_BANK.put (lookup.getLookupKey ().toLowerCase (), lookup);
+		SEARCH_BANK.put (lookup.getSearchTypeId ().toLowerCase (), lookup);
+		LOOKUP_BANK.put (lookup.getId ().toLowerCase (), lookup);
 		
 		//
 		// new lookup metadata
 		lookup = new LookupMetadata ();
-		lookup.setLookupKey ("kuali.lookup.lo.category");
-		lookup.setKey ("lo.search.categories");
+		lookup.setId ("kuali.lookup.lo.category");
+		lookup.setSearchTypeId ("lo.search.categories");
 		lookup.setName ("LO Search for all categories");
 		lookup.setDesc ("Returns all matching category names");
 		lookup.setResultReturnKey ("lo.resultColumn.categoryId");
@@ -1024,14 +1024,14 @@ public class LookupMetadataBank
 		result.setDesc ("Category name concatenated with category type");
 		result.setDataType (Data.DataType.STRING);
 		lookup.getResults ().add (result);
-		SEARCH_BANK.put (lookup.getKey ().toLowerCase (), lookup);
-		LOOKUP_BANK.put (lookup.getLookupKey ().toLowerCase (), lookup);
+		SEARCH_BANK.put (lookup.getSearchTypeId ().toLowerCase (), lookup);
+		LOOKUP_BANK.put (lookup.getId ().toLowerCase (), lookup);
 		
 		//
 		// new lookup metadata
 		lookup = new LookupMetadata ();
-		lookup.setLookupKey ("kuali.lu.lookup.feeTypes");
-		lookup.setKey ("enumeration.management.search");
+		lookup.setId ("kuali.lu.lookup.feeTypes");
+		lookup.setSearchTypeId ("enumeration.management.search");
 		lookup.setName ("Get enumerations");
 		lookup.setDesc ("Get enumerated lists of values given context");
 		lookup.setResultReturnKey ("enumeration.resultColumn.code");
@@ -1122,14 +1122,14 @@ public class LookupMetadataBank
 		result.setDesc ("The description of the type");
 		result.setDataType (Data.DataType.STRING);
 		lookup.getResults ().add (result);
-		SEARCH_BANK.put (lookup.getKey ().toLowerCase (), lookup);
-		LOOKUP_BANK.put (lookup.getLookupKey ().toLowerCase (), lookup);
+		SEARCH_BANK.put (lookup.getSearchTypeId ().toLowerCase (), lookup);
+		LOOKUP_BANK.put (lookup.getId ().toLowerCase (), lookup);
 		
 		//
 		// new lookup metadata
 		lookup = new LookupMetadata ();
-		lookup.setLookupKey ("kuali.lu.lookup.rateTypes");
-		lookup.setKey ("enumeration.management.search");
+		lookup.setId ("kuali.lu.lookup.rateTypes");
+		lookup.setSearchTypeId ("enumeration.management.search");
 		lookup.setName ("Get enumerations");
 		lookup.setDesc ("Get enumerated lists of values given context");
 		lookup.setResultReturnKey ("enumeration.resultColumn.code");
@@ -1220,14 +1220,14 @@ public class LookupMetadataBank
 		result.setDesc ("The description of the type");
 		result.setDataType (Data.DataType.STRING);
 		lookup.getResults ().add (result);
-		SEARCH_BANK.put (lookup.getKey ().toLowerCase (), lookup);
-		LOOKUP_BANK.put (lookup.getLookupKey ().toLowerCase (), lookup);
+		SEARCH_BANK.put (lookup.getSearchTypeId ().toLowerCase (), lookup);
+		LOOKUP_BANK.put (lookup.getId ().toLowerCase (), lookup);
 		
 		//
 		// new lookup metadata
 		lookup = new LookupMetadata ();
-		lookup.setLookupKey ("kuali.lu.lookup.finacialOrgs");
-		lookup.setKey ("org.search.generic");
+		lookup.setId ("kuali.lu.lookup.finacialOrgs");
+		lookup.setSearchTypeId ("org.search.generic");
 		lookup.setName ("Basic and Advanced Search");
 		lookup.setDesc ("Query with multiple optional elements to satisfy most advanced pickers");
 		lookup.setResultReturnKey ("org.resultColumn.orgId");
@@ -1316,8 +1316,8 @@ public class LookupMetadataBank
 		result.setDesc ("Organization Type");
 		result.setDataType (Data.DataType.STRING);
 		lookup.getResults ().add (result);
-		SEARCH_BANK.put (lookup.getKey ().toLowerCase (), lookup);
-		LOOKUP_BANK.put (lookup.getLookupKey ().toLowerCase (), lookup);
+		SEARCH_BANK.put (lookup.getSearchTypeId ().toLowerCase (), lookup);
+		LOOKUP_BANK.put (lookup.getId ().toLowerCase (), lookup);
 		
 		// set childLookup atp.search.atpTypes
 		// on kuali.lookup.terms.atp.advancedAtpSearchParam.atpType
