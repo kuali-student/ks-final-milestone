@@ -77,7 +77,7 @@ public class SearchManagerImpl implements SearchManager{
 		for(SearchTypeInfo searchTypeInfo:searchInfoTypeMap.values()){
 			LookupMetadata lookupMetaData = new LookupMetadata();
 			lookupMetaData.setDesc(searchTypeInfo.getDesc());
-			lookupMetaData.setKey(searchTypeInfo.getKey());
+			lookupMetaData.setSearchTypeId(searchTypeInfo.getKey());
 			lookupMetaData.setName(searchTypeInfo.getName());
 			//Copy paramater information
 			if(searchTypeInfo.getSearchCriteriaTypeInfo()!=null&&searchTypeInfo.getSearchCriteriaTypeInfo().getQueryParams()!=null){
@@ -109,7 +109,7 @@ public class SearchManagerImpl implements SearchManager{
 				}
 				lookupMetaData.setResults(results);
 			}
-			lookupMetadataMap.put(lookupMetaData.getKey(), lookupMetaData);
+			lookupMetadataMap.put(lookupMetaData.getSearchTypeId(), lookupMetaData);
 		}
 	}
 

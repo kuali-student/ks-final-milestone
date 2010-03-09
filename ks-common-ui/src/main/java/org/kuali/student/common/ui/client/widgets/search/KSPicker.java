@@ -89,7 +89,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
     	} else { //default to text box
     		basicWidget = new BasicWidget(config != null && config.canEdit ? new KSTextBox() : new KSLabel());
     		layout.add(basicWidget.get());
-    		GWT.log("KSTextBox for " + inLookupMetadata.getKey(), null);
+    		GWT.log("KSTextBox for " + inLookupMetadata.getSearchTypeId(), null);
     	}
         
     	//2) setup advanced search widget such as advanced search box, browse hierarchy search box etc.
@@ -132,8 +132,6 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
         this.initWidget(layout);
     }
     
-
-
 	private List<LookupMetadata> getLookupMetadataBasedOnWidget(List<LookupMetadata> additionalLookupMetadata, LookupMetadata.Widget widgetType) {
     	List<LookupMetadata> lookups = new ArrayList<LookupMetadata>();
     	for (LookupMetadata addLookupData : additionalLookupMetadata) {
@@ -193,8 +191,6 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 					else{
 						DataValue dataValue = (DataValue)value;
 						Data d = dataValue.get();
-						//final QueryPath path = new QueryPath();
-						//path.add(new Data.IntegerKey("0"));
 						QueryPath path = QueryPath.parse("0");
 						String v = d.query(path);
 						((KSSuggestBox) basicWidget).setValue((String)v, fireEvents);
@@ -279,10 +275,8 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 						callback.exec(true);
 					}
 				});
-			}	
-			
+			}				
 		}
-
     }
     
     private class SelectionContainerWidget extends Widget implements HasValue<List<String>> {
@@ -334,30 +328,6 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
     public AdvancedSearchWindow getSearchWindow(){
         return advSearchWindow;
     }
-
-/*	@Override
-	public String getValue() {
-		return basicWidget.getValue();
-	}
-
-	@Override
-	public void setValue(String value) {
-		setValue(value, true);		
-	}
-
-	@Override
-	public void setValue(String value, boolean fireEvents) {
-		//suggest.reset();
-		basicWidget.setValue(value, fireEvents);
-	}*/
-
-/*	public HandlerRegistration addStringValueChangeHandler(ValueChangeHandler<String> handler) {
-		return basicWidget.addValueChangeHandler(handler);
-	} */
-
-/*	public void addStringValuesChangeHandler(ValueChangeHandler<List<String>> handler) {
-		basicWidget.addValuesChangeHandler(handler);
-	}*/
 
 	@Override
 	public void addValueChangeCallback(Callback<Value> callback) {

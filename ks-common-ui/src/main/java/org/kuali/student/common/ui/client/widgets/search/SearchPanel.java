@@ -216,7 +216,7 @@ public class SearchPanel extends Composite{
 					for(SearchParam p: params){
 						GWT.log("Key = " + p.getKey() + "  Value = " + p.getValue().toString(), null);
 					}
-					sr.setSearchKey(meta.getKey());				
+					sr.setSearchKey(meta.getSearchTypeId());				
 					
 					currentSearchLookupMetadata = meta;					
 					table.performSearch(sr, meta.getResults(), meta.getResultReturnKey()); //temporary hack before we get a new table					
@@ -406,7 +406,7 @@ public class SearchPanel extends Composite{
 					for(SearchParam p: params){
 						GWT.log("Key = " + p.getKey() + "  Value = " + p.getValue().toString(), null);
 					}
-					sr.setSearchKey(meta.getKey());
+					sr.setSearchKey(meta.getSearchTypeId());
 
 					currentSearchLookupMetadata = meta;
 					table.performSearch(sr, meta.getResults(), meta.getResultReturnKey());					

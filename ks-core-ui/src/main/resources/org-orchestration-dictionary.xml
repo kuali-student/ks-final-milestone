@@ -337,8 +337,8 @@
 		<property name="initialLookup">
 			<!--  define configuration for a suggest box -->
 			<bean parent="lookup">
-				<property name="lookupKey" value="kuali.lu.lookup.admin.departments.suggest" />
-				<property name="key" value="org.search.generic" />					
+				<property name="id" value="kuali.lu.lookup.admin.departments.suggest" />
+				<property name="searchTypeId" value="org.search.generic" />					
 				<property name="name" value="Organization search" />
 				<property name="desc" value="Search for administrative department organization" />								
 				<property name="widget" value="SUGGEST_BOX"/>
@@ -396,8 +396,8 @@
 			<list>
 				<!-- definition of advanced search window -->
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
-					<property name="lookupKey" value="kuali.lu.lookup.admin.departments.advanced"/>
-					<property name="key" value="org.search.generic"/>										
+					<property name="id" value="kuali.lu.lookup.admin.departments.advanced"/>
+					<property name="searchTypeId" value="org.search.generic"/>										
 					<property name="name" value="Find Organizations"/>
 					<property name="desc" value="Search for administrative department organization"/>
 					<property name="title" value="Find Organization"/>
@@ -597,7 +597,7 @@
 		</property>
 		<property name="initialLookup">
 			<bean parent="lookup">
-				<property name="key" value="person.search.personQuickViewByGivenName" />
+				<property name="searchTypeId" value="person.search.personQuickViewByGivenName" />
 				<property name="name" value="All org hierarchies" />
 				<property name="desc" value="Returns all org hierarchies, name and id" />
 				<property name="searchParamIdKey" value="person.queryParam.personId" />
@@ -668,13 +668,13 @@
 				<property name="resultReturnKey" value="person.resultColumn.PersonId" />
 				<property name="resultDisplayKey" value="person.resultColumn.DisplayName" />
 				<property name="resultSortKey" value="person.resultColumn.DisplayName" />
-				<property name="lookupKey" value="kuali.lookup.people" />
+				<property name="id" value="kuali.lookup.people" />
 			</bean>
 		</property>
 		<property name="additionalLookups">
 			<list>
 				<bean parent="lookup">
-				<property name="key" value="person.search.personQuickViewByGivenName" />
+				<property name="searchTypeId" value="person.search.personQuickViewByGivenName" />
 				<property name="name" value="All org hierarchies" />
 				<property name="desc" value="Returns all org hierarchies, name and id" />
 				<property name="widget" value="ADVANCED_LIGHTBOX"/>
@@ -748,7 +748,7 @@
 				<property name="resultDisplayKey" value="person.resultColumn.DisplayName" />
 				<property name="resultSortKey" value="person.resultColumn.DisplayName" />
 				<property name="usage" value="DEFAULT" />
-				<property name="lookupKey" value="kuali.lookup.people" />
+				<property name="id" value="kuali.lookup.people" />
 			</bean>
 			</list>
 		</property>
@@ -1027,8 +1027,8 @@
 		<property name="initialLookup">
 			<!--  define configuration for a suggest box -->
 			<bean parent="lookup">
-				<property name="lookupKey" value="kuali.lu.lookup.admin.departments.suggest" />
-				<property name="key" value="org.search.generic" />					
+				<property name="id" value="kuali.lu.lookup.admin.departments.suggest" />
+				<property name="searchTypeId" value="org.search.generic" />					
 				<property name="name" value="Organization search" />
 				<property name="desc" value="Search for administrative department organization" />								
 				<property name="widget" value="SUGGEST_BOX"/>
@@ -1086,8 +1086,8 @@
 			<list>
 				<!-- definition of advanced search window -->
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
-					<property name="lookupKey" value="kuali.lu.lookup.admin.departments.advanced"/>
-					<property name="key" value="org.search.generic"/>										
+					<property name="id" value="kuali.lu.lookup.admin.departments.advanced"/>
+					<property name="searchTypeId" value="org.search.generic"/>										
 					<property name="name" value="Find Organizations"/>
 					<property name="desc" value="Search for administrative department organization"/>
 					<property name="title" value="Find Organization"/>

@@ -67,7 +67,7 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
      */
     public SearchSuggestOracle(LookupMetadata lookupMetadata) {
     	this.lookupMetaData = lookupMetadata;
-        this.searchTypeKey = lookupMetaData.getKey();
+        this.searchTypeKey = lookupMetaData.getSearchTypeId();
         
         for (LookupParamMetadata param : lookupMetadata.getParams()) {
         	if ((param.getUsage() != null) && param.getUsage().name().equals("DEFAULT")) {

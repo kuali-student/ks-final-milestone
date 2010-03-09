@@ -872,7 +872,7 @@
 					</property>
 					<property name="initialLookup">
 						<bean parent="lookup">
-							<property name="key" value="lu.search.all.lu.types" />
+							<property name="searchTypeId" value="lu.search.all.lu.types" />
 							<property name="name" value="All activity tlypes" />
 							<property name="desc" value="All activity types" />
 							<property name="params">
@@ -932,7 +932,7 @@
 							<property name="resultDisplayKey" value="lu.resultColumn.name" />
 							<property name="resultSortKey" value="lu.resultColumn.name" />
 							<property name="usage" value="DEFAULT" />
-							<property name="lookupKey" value="kuali.lu.lookup.activity.types" />
+							<property name="id" value="kuali.lu.lookup.activity.types" />
 						</bean>
 					</property>
 				</bean>
@@ -1065,7 +1065,7 @@
 					</property>
 					<property name="initialLookup">
 						<bean parent="lookup">
-							<property name="key" value="org.search.advanced" />
+							<property name="searchTypeId" value="org.search.advanced" />
 							<property name="name" value="Basic and Advanced Search" />
 							<property name="desc"
 								value="Query with multiple optional elements to satisfy most advanced pickers" />
@@ -1164,7 +1164,7 @@
 							<property name="resultDisplayKey" value="org.resultColumn.orgShortName" />
 							<property name="resultSortKey" value="org.resultColumn.orgShortName" />
 							<property name="usage" value="DEFAULT" />
-							<property name="lookupKey" value="kuali.lu.lookup.admin.departments" />
+							<property name="id" value="kuali.lu.lookup.admin.departments" />
 						</bean>
 					</property>
 				</bean>
@@ -1254,7 +1254,7 @@
 					</property>
 					<property name="initialLookup">
 						<bean parent="lookup">
-							<property name="key" value="lu.search.generic" />
+							<property name="searchTypeId" value="lu.search.generic" />
 							<property name="name" value="Basic and Advanced Search" />
 							<property name="desc"
 								value="Query with multiple optional elements to satisfy most advanced pickers" />
@@ -1351,8 +1351,7 @@
 							<property name="resultDisplayKey" value="lu.resultColumn.luOptionalLongName" />
 							<property name="resultSortKey" value="lu.resultColumn.luOptionalLongName" />
 							<property name="usage" value="DEFAULT" />
-							<property name="lookupKey"
-								value="kuali.lu.lookup.creditCoursesAndProposals" />
+							<property name="id" value="kuali.lu.lookup.creditCoursesAndProposals" />
 						</bean>
 					</property>
 				</bean>
@@ -1973,7 +1972,7 @@
 					</property>
 					<property name="initialLookup">
 						<bean parent="lookup">
-							<property name="key" value="atp.search.atpDurationTypes" />
+							<property name="searchTypeId" value="atp.search.atpDurationTypes" />
 							<property name="name" value="All ATP Duration Types" />
 							<property name="desc"
 								value="Returns the list of all ATP Duration Types" />
@@ -1999,7 +1998,7 @@
 							<property name="resultDisplayKey" value="atp.resultColumn.atpDurationTypeName" />
 							<property name="resultSortKey" value="atp.resultColumn.atpDurationTypeName" />
 							<property name="usage" value="DEFAULT" />
-							<property name="lookupKey" value="kuali.lookup.durations" />
+							<property name="id" value="kuali.lookup.durations" />
 						</bean>
 					</property>
 				</bean>
@@ -2079,7 +2078,7 @@
 					</property>
 					<property name="initialLookup">
 						<bean parent="lookup">
-							<property name="key" value="atp.search.atpTypes" />
+							<property name="searchTypeId" value="atp.search.atpTypes" />
 							<property name="name" value="All ATP types" />
 							<property name="desc" value="Returns the list of all ATP Types" />
 							<property name="results">
@@ -2104,7 +2103,7 @@
 							<property name="resultDisplayKey" value="atp.resultColumn.atpTypeName" />
 							<property name="resultSortKey" value="atp.resultColumn.atpTypeName" />
 							<property name="usage" value="DEFAULT" />
-							<property name="lookupKey" value="kuali.lookup.termsOfferred" />
+							<property name="id" value="kuali.lookup.termsOfferred" />
 						</bean>
 					</property>
 				</bean>
@@ -2124,7 +2123,7 @@
 					</property>
 					<property name="initialLookup">
 						<bean parent="lookup">
-							<property name="key" value="atp.search.advancedAtpSearch" />
+							<property name="searchTypeId" value="atp.search.advancedAtpSearch" />
 							<property name="name" value="Advanced ATP match" />
 							<property name="desc"
 								value="Search by Name, start date, end date, and type" />
@@ -2223,7 +2222,7 @@
 							<property name="resultDisplayKey" value="atp.resultColumn.atpSeasonalType" />
 							<property name="resultSortKey" value="atp.resultColumn.atpSeasonalType" />
 							<property name="usage" value="DEFAULT" />
-							<property name="lookupKey" value="kuali.lookup.terms" />
+							<property name="id" value="kuali.lookup.terms" />
 						</bean>
 					</property>
 				</bean>
@@ -2311,7 +2310,7 @@
 					</property>
 					<property name="initialLookup">
 						<bean parent="lookup">
-							<property name="key" value="org.search.advanced" />
+							<property name="searchTypeId" value="org.search.advanced" />
 							<property name="name" value="Basic and Advanced Search" />
 							<property name="desc"
 								value="Query with multiple optional elements to satisfy most advanced pickers" />
@@ -2410,7 +2409,7 @@
 							<property name="resultDisplayKey" value="org.resultColumn.orgShortName" />
 							<property name="resultSortKey" value="org.resultColumn.orgShortName" />
 							<property name="usage" value="DEFAULT" />
-							<property name="lookupKey" value="kuali.lu.lookup.admin.departments" />
+							<property name="id" value="kuali.lu.lookup.admin.departments" />
 						</bean>
 					</property>
 				</bean>
@@ -2582,7 +2581,7 @@
 					</property>
 					<property name="initialLookup">
 						<bean parent="lookup">
-							<property name="key" value="org.search.advanced" />
+							<property name="searchTypeId" value="org.search.advanced" />
 							<property name="name" value="Basic and Advanced Search" />
 							<property name="desc"
 								value="Query with multiple optional elements to satisfy most advanced pickers" />
@@ -2681,7 +2680,7 @@
 							<property name="resultDisplayKey" value="org.resultColumn.orgShortName" />
 							<property name="resultSortKey" value="org.resultColumn.orgShortName" />
 							<property name="usage" value="DEFAULT" />
-							<property name="lookupKey" value="kuali.lu.lookup.oversight.orgs" />
+							<property name="id" value="kuali.lu.lookup.oversight.orgs" />
 						</bean>
 					</property>
 				</bean>
@@ -2715,7 +2714,7 @@
 					</property>
 					<property name="initialLookup">
 						<bean parent="lookup">
-							<property name="key"
+							<property name="searchTypeId"
 								value="person.search.personQuickViewByGivenName" />
 							<property name="name" value="All org hierarchies" />
 							<property name="desc"
@@ -2766,7 +2765,7 @@
 							<property name="resultDisplayKey" value="person.resultColumn.GivenName" />
 							<property name="resultSortKey" value="person.resultColumn.GivenName" />
 							<property name="usage" value="DEFAULT" />
-							<property name="lookupKey" value="kuali.lookup.people" />
+							<property name="id" value="kuali.lookup.people" />
 						</bean>
 					</property>
 				</bean>
@@ -2857,7 +2856,7 @@
 					</property>
 					<property name="initialLookup">
 						<bean parent="lookup">
-							<property name="key" value="atp.search.atpDurationTypes" />
+							<property name="searchTypeId" value="atp.search.atpDurationTypes" />
 							<property name="name" value="All ATP Duration Types" />
 							<property name="desc"
 								value="Returns the list of all ATP Duration Types" />
@@ -2883,7 +2882,7 @@
 							<property name="resultDisplayKey" value="atp.resultColumn.atpDurationTypeName" />
 							<property name="resultSortKey" value="atp.resultColumn.atpDurationTypeName" />
 							<property name="usage" value="DEFAULT" />
-							<property name="lookupKey" value="kuali.lookup.durations" />
+							<property name="id" value="kuali.lookup.durations" />
 						</bean>
 					</property>
 				</bean>
@@ -3017,7 +3016,7 @@
 					</property>
 					<property name="initialLookup">
 						<bean parent="lookup">
-							<property name="key"
+							<property name="searchTypeId"
 								value="person.search.personQuickViewByGivenName" />
 							<property name="name" value="All org hierarchies" />
 							<property name="desc"
@@ -3068,7 +3067,7 @@
 							<property name="resultDisplayKey" value="person.resultColumn.GivenName" />
 							<property name="resultSortKey" value="person.resultColumn.GivenName" />
 							<property name="usage" value="DEFAULT" />
-							<property name="lookupKey" value="kuali.lookup.people" />
+							<property name="id" value="kuali.lookup.people" />
 						</bean>
 					</property>
 				</bean>

@@ -45,7 +45,7 @@ public class IdTranslator {
     	SearchRequest sr = new SearchRequest();
     	sr.setNeededTotalResults(false);
     	
-    	sr.setSearchKey(lookupMetadata.getKey());
+    	sr.setSearchKey(lookupMetadata.getSearchTypeId());
 
 		List<SearchParam> searchParams = new ArrayList<SearchParam>();
 		SearchParam param2 = createParam(lookupMetadata.getSearchParamIdKey(), searchId);
