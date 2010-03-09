@@ -123,7 +123,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
                                 getCluProposalFromWorkflowId(callback, workCompleteCallback);
                             } else if (context.getIdType() == IdType.PROPOSAL_ID){
                                 getCluProposalFromProposalId(callback, workCompleteCallback);
-                            } else if (context.getIdType() == IdType.OBJECT_ID){
+                            } else if (context.getIdType() == IdType.OBJECT_ID && !context.getId().equals("")){
                                 getNewProposalWithCopyOfClu(callback, workCompleteCallback);
                             } else{
                                 createNewCluProposalModel(callback, workCompleteCallback);
