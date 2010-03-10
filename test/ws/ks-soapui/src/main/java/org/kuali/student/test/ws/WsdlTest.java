@@ -2,19 +2,25 @@ package org.kuali.student.test.ws;
 
 import java.util.List;
 
-import com.eviware.soapui.impl.support.AbstractHttpRequestInterface;
 import com.eviware.soapui.impl.wsdl.WsdlInterface;
 import com.eviware.soapui.impl.wsdl.WsdlOperation;
 import com.eviware.soapui.impl.wsdl.WsdlProject;
-import com.eviware.soapui.impl.wsdl.WsdlRequest;
-import com.eviware.soapui.impl.wsdl.WsdlSubmit;
-import com.eviware.soapui.impl.wsdl.WsdlSubmitContext;
 import com.eviware.soapui.model.iface.Operation;
-import com.eviware.soapui.model.iface.Response;
+import com.eviware.soapui.tools.SoapUITestCaseRunner;
 
 public class WsdlTest {
 	public static void main(String[] args) {
-		new WsdlTest().run();
+		new WsdlTest().run2();
+	}
+
+	public void run2() {
+		try {
+			SoapUITestCaseRunner runner = new SoapUITestCaseRunner();
+			runner.setProjectFile("C:/workspace5/test/ws/ks-soapui/src/main/resources/KualiStudentMilestone4-soapui-project.xml");
+			runner.run();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void run() {

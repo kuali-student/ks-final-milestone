@@ -11,6 +11,19 @@
   <packaging>jar</packaging>
   <name>WS - SoapUI</name>
   <description>This is a service testing framework based on SoapUI</description>
+  <build>
+    <plugins>
+      <plugin>
+      <groupId>eviware</groupId>
+      <artifactId>maven-soapui-plugin</artifactId>
+      <version>3.0</version>
+      <configuration>
+        <projectFile>${project.basedir}/src/main/resources/KualiStudentMilestone4-soapui-project.xml</projectFile>
+        <host>test.kuali.org/ks-stg</host>
+      </configuration>
+      </plugin>
+    </plugins>
+  </build>
 	<dependencies>
 		<dependency>
 			<groupId>fife</groupId>
@@ -341,6 +354,16 @@
 		</dependency>
 	</dependencies>
 	<repositories>
+        <repository>
+          <id>central</id>
+          <url>http://repo1.maven.org/maven2/</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
 		<repository>
 			<id>eviwareRepository</id>
 			<url>http://www.eviware.com/repository/maven2</url>
