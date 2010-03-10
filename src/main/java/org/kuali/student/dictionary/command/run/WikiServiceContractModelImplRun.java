@@ -57,7 +57,7 @@ public class WikiServiceContractModelImplRun implements RunConstants
  // cut and paste the content here.
  // ==> the JSessionID changes everytime you drop out of the browser.
  public static final String JSESSIONID =
-  "95D234A893B197F37BBD4236D5F7E75B.Kuali3_1Engine";
+  "94FAB190ACB01FE9227A98A50590479A.Kuali3_1Engine";
 
  public WikiServiceContractModelImplRun ()
  {
@@ -73,19 +73,19 @@ public class WikiServiceContractModelImplRun implements RunConstants
   }
   System.out.println ("getting instance of WikiServiceContractModelImpl");
   List<String> serviceKeys = new ArrayList ();
-  serviceKeys.add ("atp");
-  serviceKeys.add ("comment");
-  serviceKeys.add ("dictionary");
-  serviceKeys.add ("enumerationmanagement");
-  serviceKeys.add ("lo");
-  serviceKeys.add ("lrc");
+//  serviceKeys.add ("atp");
+//  serviceKeys.add ("comment");
+//  serviceKeys.add ("dictionary");
+//  serviceKeys.add ("enumerationmanagement");
+//  serviceKeys.add ("lo");
+//  serviceKeys.add ("lrc");
   serviceKeys.add ("organization");
-  serviceKeys.add ("person");
-  serviceKeys.add ("proposal");
+//  serviceKeys.add ("person");
+//  serviceKeys.add ("proposal");
 //  serviceKeys.add ("refdocrelation");
 //  serviceKeys.add ("resource");
-  serviceKeys.add ("search");
-  serviceKeys.add ("lu");
+//  serviceKeys.add ("search");
+//  serviceKeys.add ("lu");
   List<ServicesFilter> filters = new ArrayList ();
   //filters.add (new ServicesFilterExcludeDev ());
   filters.add (new ServicesFilterLatestVersionOnly ());

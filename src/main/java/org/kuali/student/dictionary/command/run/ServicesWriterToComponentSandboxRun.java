@@ -57,6 +57,7 @@ public class ServicesWriterToComponentSandboxRun implements
    servicesToProcess.add ("atp");
    servicesToProcess.add ("lu");
    servicesToProcess.add ("lo");
+   servicesToProcess.add ("organization");
    servicesToProcess.add ("proposal");
 //   servicesToProcess.add ("comment");
    servicesToProcess.add ("dictionary");
