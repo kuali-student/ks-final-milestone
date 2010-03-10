@@ -14,6 +14,8 @@
  */
 package org.kuali.student.lum.lu.ui.tools.client.configuration;
 
+import java.util.List;
+
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
@@ -23,6 +25,8 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSect
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.widgets.search.KSPicker;
+import org.kuali.student.core.assembly.data.LookupMetadata;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
@@ -60,6 +64,8 @@ public class CluSetsConfigurer {
         VerticalSectionView section = initSectionView(CourseSections.LEARNING_OBJECTIVES, ToolsConstants.EDIT_CLU_SET);
         VerticalSection oversight = initSection(getH3Title(ToolsConstants.EDIT_CLU_SET_INFO), WITH_DIVIDER);
         //addField(oversight, COURSE + "/" + ACADEMIC_SUBJECT_ORGS);
+        String findCluSetFieldKey = "search" + "/" + "findCluSet"; 
+        addField(oversight, findCluSetFieldKey, "", configureCluSetSearch(findCluSetFieldKey));
         section.addSection(oversight);
         return section;
 	}
@@ -108,6 +114,32 @@ public class CluSetsConfigurer {
         return SectionTitle.generateH5Title(getLabel(labelKey));
     }
 
+    private CluSetPicker configureCluSetSearch(String fieldKey) {
+        QueryPath path = QueryPath.concat(null, fieldKey);
+        Metadata metaData = modelDefinition.getMetadata(path);
+        CluSetPicker cluSetPicker = new CluSetPicker(metaData.getInitialLookup(), metaData.getAdditionalLookups());
+        return cluSetPicker;    
+    }
+
+    // picker Classes
+    public static class CluSetPicker extends KSPicker {
+
+        private String name;
+
+        public CluSetPicker(LookupMetadata inLookupMetadata, List<LookupMetadata> additionalLookupMetadata) {
+            super(inLookupMetadata, additionalLookupMetadata);
+        }
+        
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }       
+    }
+    
+    
     // TODO - when DOL is pushed farther down into LOBuilder,
     // revert these 5 methods to returning void again.
     private FieldDescriptor addField(Section section, String fieldKey) {
