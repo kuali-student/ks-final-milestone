@@ -207,5 +207,16 @@ public interface KSClientBundle extends ImmutableResourceBundle{
     @Resource("org/kuali/student/common/ui/theme/custom/public/images/richTextEditor/popout.png")
     public ImageResource popout();
     
+    @Resource("org/kuali/student/common/ui/theme/custom/public/images/common/user-white.png")
+    public ImageResource personIcon();    
+
+    @Resource("org/kuali/student/common/ui/theme/custom/public/images/common/documents-stack.png")
+    public ImageResource documentIcon();    
+
+    @Resource("org/kuali/student/common/ui/theme/custom/public/images/common/balloon.png")
+    public ImageResource commentIcon();    
+
+    @Resource("org/kuali/student/common/ui/theme/custom/public/images/common/flask.png")
+    public ImageResource analysisIcon();    
 
 }

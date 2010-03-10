@@ -547,4 +547,9 @@ public class DocumentTool extends ToolView implements HasReferenceId{
     public void onHistoryEvent(HistoryStackFrame frame) {
         // do nothing
     }
+
+	@Override
+	public KSImage getImage() {
+		return Theme.INSTANCE.getCommonImages().getDocumentIcon();
+	}
 }

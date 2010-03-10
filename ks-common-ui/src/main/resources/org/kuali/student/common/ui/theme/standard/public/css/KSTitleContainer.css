@@ -16,7 +16,7 @@
 	margin-bottom: 25px;
 	font-size: 30px;
 	font-weight: bold;
-	color: white;
+	color: #666666;
 	margin-left: 20px;
 }
 
@@ -32,7 +32,7 @@
 
 .KS-TitleContainer-Layout{
 	width: 100%;
-	background-color: #898b8b;
+	background-color: #EAEAEA;
 }
 
 .KS-TitleContainer{

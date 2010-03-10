@@ -19,4 +19,8 @@ public interface CommonImages {
 	public KSImage getDropDownIconCustom();
 	public KSImage getLightBulbIcon();
     public KSImage getProgressSpinner();
+    public KSImage getCommentIcon();
+    public KSImage getPersonIcon();
+    public KSImage getDocumentIcon();
+    public KSImage getAnalysisIcon();
 }

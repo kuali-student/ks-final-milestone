@@ -40,7 +40,6 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumeration
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
-import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
@@ -634,4 +633,9 @@ public class CommentPanel extends ToolView implements HasReferenceId{
     public void onHistoryEvent(HistoryStackFrame frame) {
         // do nothing
     }
+
+	@Override
+	public KSImage getImage() {
+		return Theme.INSTANCE.getCommonImages().getCommentIcon();
+	}
 }

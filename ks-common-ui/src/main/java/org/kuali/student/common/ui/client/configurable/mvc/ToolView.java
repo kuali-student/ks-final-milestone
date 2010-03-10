@@ -20,6 +20,7 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
+import org.kuali.student.common.ui.client.widgets.KSImage;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.LazyPanel;
@@ -114,6 +115,8 @@ public abstract class ToolView extends LazyPanel implements View{
         return viewEnum;
     }
 
+    public abstract KSImage getImage();
+    
     /**
      * @see org.kuali.student.common.ui.client.mvc.View#updateModel()
      */

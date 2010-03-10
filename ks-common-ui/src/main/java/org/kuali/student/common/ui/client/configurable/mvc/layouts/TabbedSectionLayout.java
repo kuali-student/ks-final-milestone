@@ -254,10 +254,8 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 	
 	public TabbedSectionLayout(String controllerId){
 	    super(controllerId);
-		container.setContent(tabPanel);
+	    container.setContent(tabPanel);
 		container.setTitle("New Course Proposal");
-		container.setStatus("Unsubmitted Proposal");
-		container.setLinkText("Workflow Overview");
 		super.initWidget(container);
 	}
 	
@@ -381,7 +379,7 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 		if(!(tabPanel.hasTabKey(tabKey))){
 			layout = new TabLayout();
 			tabLayoutMap.put(tabKey, layout);
-			tabPanel.addTab(tabKey, tabKey, layout, TabPosition.RIGHT);
+			tabPanel.addTab(tabKey, tabKey, tool.getImage(), layout, TabPosition.RIGHT);
 		}
 		else{
 			layout = tabLayoutMap.get(tabKey);

@@ -84,7 +84,25 @@ public class CommonImagesImpl implements CommonImages{
 	public KSImage getProgressSpinner() {
 		return new KSImage(KSClientBundle.INSTANCE.spinner());
 	}
-	
-	
+
+	@Override
+	public KSImage getAnalysisIcon() {
+		return new KSImage(KSClientBundle.INSTANCE.analysisIcon());
+	}
+
+	@Override
+	public KSImage getCommentIcon() {
+		return new KSImage(KSClientBundle.INSTANCE.commentIcon());
+	}
+
+	@Override
+	public KSImage getDocumentIcon() {
+		return new KSImage(KSClientBundle.INSTANCE.documentIcon());
+	}
+
+	@Override
+	public KSImage getPersonIcon() {
+		return new KSImage(KSClientBundle.INSTANCE.personIcon());
+	}	
 
 }
