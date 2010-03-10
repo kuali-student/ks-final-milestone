@@ -509,7 +509,16 @@ public class StatementServiceImpl implements StatementService {
         return statementAssembler.toStatementInfos(list);
     }
 
-	@Override
+    /**
+     * Gets child statements but does no downward recursion of child statements.
+     * 
+     * @param statementId statement identifier
+     * @return List of child statements using the specified statement
+     * @throws DoesNotExistException Statement not found
+     * @throws InvalidParameterException Invalid statementId
+     * @throws MissingParameterException statementId not specified
+     * @throws OperationFailedException Unable to complete request
+     */
 	public List<StatementInfo> getStatementsUsingStatement(final String statementId)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForNullOrEmptyParameter(statementId, "statementId");
@@ -757,7 +766,7 @@ public class StatementServiceImpl implements StatementService {
 	@Override
 	public List<ValidationResultInfo> validateRefStatementRelation(final String validationType, RefStatementRelationInfo refStatementRelationInfo)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		throw new UnsupportedOperationException("Method not yet implemented!");
+        return createValidator().validateTypeStateObject(refStatementRelationInfo, getObjectStructure("refStatementRelationInfo"));
 	}
 	
     @Override
