@@ -450,7 +450,12 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 		}
 		return true;
 	}
-	
+
+	public Boolean isAuthorized(PermissionType type, Map<String,String> attributes) {
+		// FIXME: this should probably be implemented in a better way
+		return true;
+	}
+
 	protected abstract String deriveAppIdFromData(Data data);
 	protected abstract String deriveDocContentFromData(Data data);
 	protected abstract String getDefaultWorkflowDocumentType();

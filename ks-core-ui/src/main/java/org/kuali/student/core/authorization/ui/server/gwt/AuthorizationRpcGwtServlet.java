@@ -14,11 +14,13 @@
  */
 package org.kuali.student.core.authorization.ui.server.gwt;
 
-import org.kuali.rice.kim.KimAuthenticationProvider;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.PermissionService;
+import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.authorization.ui.client.service.AuthorizationRpcService;
-import org.springframework.security.context.SecurityContextHolder;
-import org.springframework.security.userdetails.UserDetails;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -26,23 +28,39 @@ public class AuthorizationRpcGwtServlet extends RemoteServiceServlet implements 
 
 	private static final long serialVersionUID = 8568346881191827247L;
 	private PermissionService permissionService;
-	
+
 	@Override
-	public Boolean hasPermission(String namespace, String permissionTemplateName) {
-		
-        Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username;
-    	if(obj instanceof KimAuthenticationProvider.UserWithId){
-    		//This is actually the user Id
-    		username = ((KimAuthenticationProvider.UserWithId)obj).getUserId();
-    	}else if (obj instanceof UserDetails) {
-            username = ((UserDetails)obj).getUsername();
-          } else {
-            username = obj.toString();
-          }
-		boolean result = permissionService.hasPermissionByTemplateName(username, namespace, permissionTemplateName, null);
-		
-		return new Boolean(result);
+	public Boolean isAuthorizedForPermission(String namespace, String permissionTemplateName) {
+		return isAuthorizedForPermissionWithDetailsAndQualifications(namespace, permissionTemplateName, null, null);
+	}
+
+	public Boolean isAuthorizedForPermissionWithQualifications(String namespace, String permissionTemplateName, Map<String,String> roleQualifications) {
+		return isAuthorizedForPermissionWithDetailsAndQualifications(namespace, permissionTemplateName, roleQualifications, null);
+	}
+
+	public Boolean isAuthorizedForPermissionWithDetailsAndQualifications(String namespace, String permissionTemplateName, Map<String,String> roleQualifications, Map<String,String> permissionDetails) {
+		String currentUser = getCurrentUser();
+		if (StringUtils.isBlank(currentUser)) {
+			throw new RuntimeException("Unable to find current user or backdoor user.");
+		}
+		AttributeSet roleQuals = null;
+		if (roleQualifications != null) {
+			roleQuals = new AttributeSet(roleQualifications);
+		}
+		AttributeSet permDetails = null;
+		if (permissionDetails != null) {
+			permDetails = new AttributeSet(permissionDetails);
+		}
+		return new Boolean(permissionService.isAuthorizedByTemplateName(currentUser, namespace, permissionTemplateName, permDetails, roleQuals));
+	}
+
+	protected String getCurrentUser() {
+		String username = SecurityUtils.getCurrentUserId();
+		//backdoorId is only for convenience
+		if(username==null&&this.getThreadLocalRequest().getSession().getAttribute("backdoorId")!=null){
+			username=(String)this.getThreadLocalRequest().getSession().getAttribute("backdoorId");
+        }
+		return username;
 	}
 
 	public void setPermissionService(PermissionService permissionService) {

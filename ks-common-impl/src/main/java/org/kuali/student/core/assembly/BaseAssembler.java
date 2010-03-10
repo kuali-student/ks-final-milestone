@@ -29,7 +29,7 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
     protected final Logger LOG = Logger.getLogger(getClass());
     protected String namespace;
     
-    protected Map<String, String> getPermissions(String dtoName) {
+    protected Map<String, String> getFieldAccessPermissions(String dtoName) {
         try {
             //get permissions and turn into a map of fieldName=>access
             String principalId = SecurityUtils.getCurrentUserId();
@@ -81,9 +81,10 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
 //	        				OPEN_DOCUMENT_PERM + ") to open document with id '" + id + "'");
 //	        	}
 //	        }
-	        authorized = Boolean.valueOf(permissionService.isAuthorizedByTemplateName(SecurityUtils.getCurrentUserId(), namespace,
+        	String currentUser = SecurityUtils.getCurrentUserId();
+	        authorized = Boolean.valueOf(permissionService.isAuthorizedByTemplateName(currentUser, namespace,
 	                EDIT_DOCUMENT_PERM, null, qualification));
-	        LOG.info("Permission for user '" + SecurityUtils.getCurrentUserId() + "' editing document(namespace: " + namespace + " permTmpltNm: " + EDIT_DOCUMENT_PERM + ") for id '" + id + "': " + ((authorized == null) ? "not found" : authorized.toString()));
+			LOG.info("Permission '" + namespace + "/" + EDIT_DOCUMENT_PERM + "' for user '" + currentUser + "': " + authorized);
 	        metadata.setCanEdit(authorized.booleanValue());
         }
 
@@ -93,7 +94,7 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
         }
         // if not checking doc level perms or user does have "Edit Document" perm check field level authZ
         else {
-	        Map<String, String> permissions = getPermissions(getDtoName());
+	        Map<String, String> permissions = getFieldAccessPermissions(getDtoName());
 	        if (permissions != null) {
 	            for (Map.Entry<String, String> permission : permissions.entrySet()) {
 	                String dtoFieldPath = permission.getKey();

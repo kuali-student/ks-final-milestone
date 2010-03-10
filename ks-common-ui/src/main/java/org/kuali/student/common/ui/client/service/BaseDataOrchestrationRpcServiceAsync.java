@@ -1,5 +1,8 @@
 package org.kuali.student.common.ui.client.service;
 
+import java.util.Map;
+
+import org.kuali.student.common.ui.client.service.AuthorizationRpcService.PermissionType;
 import org.kuali.student.common.ui.client.service.WorkflowRpcService.RequestType;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
@@ -30,6 +33,8 @@ public interface BaseDataOrchestrationRpcServiceAsync {
 	public void fyiDocumentWithId(String dataId, AsyncCallback<Boolean> callback);
 	
 	public void adhocRequest(String docId, String recipientPrincipalId, RequestType requestType, String annotation, AsyncCallback<Boolean> callback);
+
+	public void isAuthorized(PermissionType type, Map<String,String> attributes, AsyncCallback<Boolean> callback);
 
 //	void acknowledgeDocumentWithId(java.lang.String dataId, com.google.gwt.user.client.rpc.AsyncCallback<java.lang.Boolean> arg2);
 //	void adhocRequest(java.lang.String docId, java.lang.String recipientPrincipalId, org.kuali.student.common.ui.client.service.WorkflowRpcService.RequestType requestType, java.lang.String annotation, com.google.gwt.user.client.rpc.AsyncCallback<java.lang.Boolean> arg5);

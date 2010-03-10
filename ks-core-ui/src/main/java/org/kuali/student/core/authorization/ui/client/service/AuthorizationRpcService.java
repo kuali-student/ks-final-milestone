@@ -14,9 +14,13 @@
  */
 package org.kuali.student.core.authorization.ui.client.service;
 
+import java.util.Map;
+
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("rpcservices/AuthorizationRpcService")
-public interface AuthorizationRpcService extends RemoteService{
-	public Boolean hasPermission(String namespace, String permissionTemplateName);
+public interface AuthorizationRpcService extends RemoteService {
+	public Boolean isAuthorizedForPermission(String namespace, String permissionTemplateName);
+	public Boolean isAuthorizedForPermissionWithQualifications(String namespace, String permissionTemplateName, Map<String,String> roleQualifications);
+	public Boolean isAuthorizedForPermissionWithDetailsAndQualifications(String namespace, String permissionTemplateName, Map<String,String> roleQualifications, Map<String,String> permissionDetails);
 }

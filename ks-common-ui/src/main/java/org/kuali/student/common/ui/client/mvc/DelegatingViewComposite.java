@@ -17,6 +17,7 @@ package org.kuali.student.common.ui.client.mvc;
 import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
 import org.kuali.student.common.ui.client.security.AuthorizationCallback;
 import org.kuali.student.common.ui.client.security.RequiresAuthorization;
+import org.kuali.student.common.ui.client.service.AuthorizationRpcService.PermissionType;
 
 
 /**
@@ -86,9 +87,9 @@ public class DelegatingViewComposite extends ViewComposite implements RequiresAu
     }
 
 	@Override
-	public void checkAuthorization(AuthorizationCallback callback) {
+	public void checkAuthorization(PermissionType permissionType, AuthorizationCallback callback) {
 		if (childController instanceof RequiresAuthorization){
-			((RequiresAuthorization)childController).checkAuthorization(callback);
+			((RequiresAuthorization)childController).checkAuthorization(permissionType, callback);
 		}				
 	}
 

@@ -50,7 +50,6 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 	private boolean loaded = false;
 	private final Map<String, Enum<?>> viewEnums = new HashMap<String, Enum<?>>();
 	
-	
 	Enum<?> defaultView = null;
 	
 	private Class<? extends ModelDTO> modelDTOType;
@@ -476,7 +475,7 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 	}
 	    
     public void clear(){
-    	
+    	super.clear();
     	for(TabLayout layout: tabLayoutMap.values()){
 			layout.clear();
 		}

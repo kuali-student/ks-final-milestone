@@ -17,6 +17,7 @@ package org.kuali.student.common.ui.client.mvc;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.events.ViewChangeEvent;
 import org.kuali.student.common.ui.client.mvc.history.HistoryStackFrame;
 import org.kuali.student.common.ui.client.mvc.history.HistorySupport;
@@ -24,6 +25,7 @@ import org.kuali.student.common.ui.client.mvc.history.HistoryToken;
 import org.kuali.student.common.ui.client.mvc.history.NavigationEvent;
 import org.kuali.student.common.ui.client.security.AuthorizationCallback;
 import org.kuali.student.common.ui.client.security.RequiresAuthorization;
+import org.kuali.student.common.ui.client.service.AuthorizationRpcService.PermissionType;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
@@ -54,6 +56,7 @@ public abstract class Controller extends Composite implements HistorySupport{
     private View currentView = null;
     private Enum<?> currentViewEnum = null;
     private String defaultModelId = null;
+    private ViewContext context = new ViewContext();
     private final Map<String, ModelProvider<? extends Model>> models = new HashMap<String, ModelProvider<? extends Model>>();
 
     private HandlerManager applicationEventHandlers = new HandlerManager(this);
@@ -87,22 +90,35 @@ public abstract class Controller extends Composite implements HistorySupport{
         	onReadyCallback.exec(false);
             throw new ControllerException("View not registered: " + viewType.toString());
         }
-    
-        boolean requiresAuthz = (view instanceof RequiresAuthorization) && ((RequiresAuthorization)view).isAuthorizationRequired(); 
-        
-        if (requiresAuthz){
-        	//A callback is required if async rpc call is required for authz check
-        	((RequiresAuthorization)view).checkAuthorization(new AuthorizationCallback(){
-				public void isAuthorized() {
-					showView(view, viewType, onReadyCallback);
-				}
 
-				public void isNotAuthorized(String msg) {
-					Window.alert(msg);
-					onReadyCallback.exec(false);					
-				}        		
-        	});
+        boolean requiresAuthz = (view instanceof RequiresAuthorization) && ((RequiresAuthorization)view).isAuthorizationRequired(); 
+
+        if (requiresAuthz){
+        	ViewContext tempContext = view.getController().getViewContext();
+        	if (view instanceof DelegatingViewComposite) {
+        		tempContext = ((DelegatingViewComposite)view).getChildController().getViewContext();
+        	}
+        	PermissionType permType = (tempContext != null) ? tempContext.getPermissionType() : null;
+        	if (permType != null) {
+        		GWT.log("Checking permission type '" + permType.toString() + "' for view '" + view.toString() + "'", null);
+            	//A callback is required if async rpc call is required for authz check
+	        	((RequiresAuthorization)view).checkAuthorization(permType, new AuthorizationCallback(){
+					public void isAuthorized() {
+						showView(view, viewType, onReadyCallback);
+					}
+
+					public void isNotAuthorized(String msg) {
+						Window.alert(msg);
+						onReadyCallback.exec(false);					
+					}        		
+	        	});
+        	}
+        	else {
+        		GWT.log("Cannot find PermissionType for view '" + view.toString() + "' which requires authorization", null);
+            	showView(view, viewType, onReadyCallback);
+        	}
         } else {
+    		GWT.log("Not Requiring Auth.", null);
         	showView(view, viewType, onReadyCallback);
         }
     }
@@ -364,7 +380,20 @@ public abstract class Controller extends Composite implements HistorySupport{
             }
         }
     }
-        
+
+    public void setViewContext(ViewContext viewContext){
+    	clear();
+    	this.context = viewContext;
+    }
+
+    public ViewContext getViewContext() {
+    	return this.context;
+    }
+
+    public void clear(){
+        this.context = new ViewContext();
+    }
+
     public String getControllerId() {
         return this.controllerId;
     }

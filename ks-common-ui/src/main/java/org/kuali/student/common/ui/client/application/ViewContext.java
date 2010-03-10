@@ -1,5 +1,7 @@
 package org.kuali.student.common.ui.client.application;
 
+import org.kuali.student.common.ui.client.service.AuthorizationRpcService.PermissionType;
+
 /**
  * ViewContext can be used to pass along context information when switching or initializing a view.
  * 
@@ -9,6 +11,7 @@ package org.kuali.student.common.ui.client.application;
  */
 public class ViewContext {
 	public enum IdType {
+		// FIXME: remove hard coded strings below for KIM constants
 		PROPOSAL_ID("proposalId"), DOCUMENT_ID("documentNumber"), OBJECT_ID("objectId");
         
 		final String stringValue;
@@ -23,8 +26,11 @@ public class ViewContext {
 	}
 	
 	private String id = "";
-	private IdType idType = IdType.OBJECT_ID;	
+	private IdType idType = null;
+//	private IdType idType = IdType.OBJECT_ID;
+	// FIXME: change state to proper default or null
 	private String state = "draft";
+	private PermissionType permissionType;
 
 	public String getId() {
 		return id;
@@ -49,4 +55,13 @@ public class ViewContext {
 	public void setState(String state) {
 		this.state = state;
 	}
+
+	public PermissionType getPermissionType() {
+    	return permissionType;
+    }
+
+	public void setPermissionType(PermissionType permissionType) {
+    	this.permissionType = permissionType;
+    }
+
 }
