@@ -174,8 +174,8 @@ public class ServiceWriter
    XmlType subType = finder.findXmlType (stripListFromType (ms.getType ()));
    if (subType == null)
    {
-    throw new DictionaryValidationException ("Parameter " + ms.getId ()
-     + "has an unknown type, " + ms.getType ());
+    throw new DictionaryValidationException ("MessageStructure field " + ms.getId ()
+     + " has an unknown type, " + ms.getType ());
    }
    addTypeAndAllSubTypes (set, subType);
   }

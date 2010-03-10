@@ -56,7 +56,13 @@ public class ServicesWriterToComponentSandboxRun implements
    List<String> servicesToProcess = new ArrayList ();
    servicesToProcess.add ("atp");
    servicesToProcess.add ("lu");
+   servicesToProcess.add ("lo");
    servicesToProcess.add ("proposal");
+//   servicesToProcess.add ("comment");
+   servicesToProcess.add ("dictionary");
+   servicesToProcess.add ("document");
+   servicesToProcess.add ("enumerable");
+   servicesToProcess.add ("search");  
    ServicesFilter filter = new ServicesFilterByKeys (servicesToProcess);
    ServicesWriter instance =
     new ServicesWriter (model,
