@@ -50,7 +50,7 @@ public class OrgEntryPoint implements EntryPoint{
     ApplicationComposite app;
     private OrgApplicationManager manager = null;
     SimplePanel content = new SimplePanel();
-    private OrgMenu orgMenu = new OrgMenu(content);;
+//    private OrgMenu orgMenu = new OrgMenu(content);;
     
     public void onModuleLoad() {
         final ApplicationContext context = new ApplicationContext();
@@ -70,7 +70,7 @@ public class OrgEntryPoint implements EntryPoint{
         
 //        StyleInjector.injectStylesheet(CoreUIResources.INSTANCE.generalCss().getText());
         
-        History.addValueChangeHandler(orgMenu);
+//        History.addValueChangeHandler(orgMenu);
         History.fireCurrentHistoryState();
 
         if(DOM.getElementById("loadingSpinner") != null)
@@ -85,8 +85,8 @@ public class OrgEntryPoint implements EntryPoint{
         mainPanel.setStyleName("ks-main");
         mainPanel.add(pageTitle, DockPanel.NORTH);
 
-        mainPanel.add(orgMenu, DockPanel.WEST);
-        mainPanel.setCellWidth(orgMenu, "200px");
+//        mainPanel.add(orgMenu, DockPanel.WEST);
+//        mainPanel.setCellWidth(orgMenu, "200px");
         mainPanel.add(content, DockPanel.CENTER);
         
 //        mainPanel.add(new KSButton("Logout", new ClickHandler() {
