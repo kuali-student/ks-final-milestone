@@ -116,7 +116,7 @@ public class LookupMetadataDumper
   {
    return;
   }
-  out.print (lookup.getLookupKey ());
+  out.print (lookup.getSearchTypeId ());
  }
 
 }
