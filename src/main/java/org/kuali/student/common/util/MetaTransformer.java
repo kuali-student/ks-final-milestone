@@ -43,6 +43,10 @@ import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
 /**
  * This is a description of what this class does - Will Gomes don't forget to fill this in.
  * 
+ * Usage:
+ *  -m metadata-file.xml
+ *  -o output-file.xml
+ * 
  * @author Kuali Student Team
  */
 public class MetaTransformer {
@@ -115,7 +119,7 @@ public class MetaTransformer {
             srcPackage = cmd.getOptionValue(SOURCE_PACKAGE);
         }
 
-        if (cmd.hasOption(SOURCE_CLASS)){
+        if (cmd.hasOption(SOURCE_CLASS) && ! cmd.hasOption(SOURCE_XML)){
             srcClass = cmd.getOptionValue(SOURCE_CLASS);
             if (!cmd.hasOption(SOURCE_PACKAGE)){
                 System.err.println("A source package (-p) must be provided for source class : " + srcClass);
@@ -149,8 +153,8 @@ public class MetaTransformer {
                 }
             }
             
-        } else {                       
-            generateSpringXML(null);
+        } else {            
+            generateSpringXML("OrgProposal");
         }
 
         //loadMetadataXML();        
