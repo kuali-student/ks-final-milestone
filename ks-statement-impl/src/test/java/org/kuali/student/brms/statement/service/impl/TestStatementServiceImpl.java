@@ -70,12 +70,14 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 		CluInfo clu3 = new CluInfo("CLU-NL-2", "MATH221", "MATH 221", "MATH 221 Matrix Algebra");
 		
 		// Add CLUs
-		// TODO - Investigate why adding clu2, clu1 doesn't work for method testGetNaturalLanguageForStatement()
+		// Clu list order is important for natural language translation
+		// Adding clu2, clu1 doesn't work for method testGetNaturalLanguageForStatement(), testGetNaturalLanguageForReqComponent
 		List<CluInfo> cluList1 = new ArrayList<CluInfo>();
 		cluList1.add(clu1);
 		cluList1.add(clu2);
 
-		// TODO - Investigate why adding clu1, clu2, clu3 doesn't work for method testGetNaturalLanguageForStatement()
+		// Clu list order is important for natural language translation
+		// Adding clu1, clu2, clu3 doesn't work for method testGetNaturalLanguageForStatement()
 		List<CluInfo> cluList2 = new ArrayList<CluInfo>();
 		cluList2.add(clu1);
 		cluList2.add(clu3);
@@ -94,6 +96,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 		CluSetInfo cluSet2 = new CluSetInfo("CLUSET-NL-2", cluList2);
 		cluSetList.add(cluSet1);
 		cluSetList.add(cluSet2);
+		
 		CourseListContextImpl.setCluSetInfo(cluSetList);
 	}
 	
@@ -214,9 +217,6 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 //		assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
 //	}
 
-	
-	
-
     public static List<ReqCompFieldInfo> createReqComponentFields(String expectedValue, String operator, String reqCompFieldType, String id) {
 		List<ReqCompFieldInfo> fieldList = new ArrayList<ReqCompFieldInfo>();
 		ReqCompFieldInfo field1 = new ReqCompFieldInfo();
@@ -268,12 +268,6 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 
 		assertEquals("Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 2 of MATH 152, MATH 221, MATH 180", naturalLanguage);
 	}
-	
-	
-	
-	
-	
-	
 	
 	@Test
     public void testGetNlUsageType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -599,7 +593,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     }
 
     @Test
-    public void testGetReqCompTypeForLuStmtType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
+    public void testGetReqComponentTypesForStatementType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException {
         List<ReqComponentTypeInfo> reqCompTypeInfoList = statementService.getReqComponentTypesForStatementType("kuali.luStatementType.prereqAcademicReadiness");
 
         assertNotNull(reqCompTypeInfoList);
@@ -722,9 +716,6 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         assertEquals(mf.getCreateTime(), df.parse("20000101"));
         assertEquals(mf.getUpdateTime(), df.parse("20010101"));
     }
-
-
-
 
     @Test
     public void testGetReqCompByInvalidType() throws InvalidParameterException, MissingParameterException, OperationFailedException, ParseException, DoesNotExistException {
