@@ -908,8 +908,11 @@ public class OrganizationServiceImpl implements OrganizationService {
 		Org rootOrg = organizationDao.fetch(Org.class, rootOrgId);
 		OrgTreeInfo root = new OrgTreeInfo(rootOrgId,null,rootOrg.getLongName());
 		root.setPositions(this.organizationDao.getOrgMemebershipCount(root.getOrgId()));
+		root.setOrgHierarchyId(orgHierarchyId);
 		results.add(root);
-		results.addAll(parseOrgTree(rootOrgId, orgHierarchyId, maxLevels,0));
+		if(maxLevels>=0){
+		    results.addAll(parseOrgTree(rootOrgId, orgHierarchyId, maxLevels,0));
+		}
 		return new ArrayList<OrgTreeInfo>(results);
 	}
 
