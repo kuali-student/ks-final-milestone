@@ -6831,7 +6831,7 @@
    <soapenv:Header/>
    <soapenv:Body>
       <lu:getClu>
-        <cluId>4484b5a0-1f23-46ae-8e88-c87d175dce52</cluId>
+        <cluId>bd132b53-12ff-4621-8717-8fc22cb385d2</cluId>
       </lu:getClu>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:assertion type="Schema Compliance"><con:configuration/></con:assertion><con:assertion type="SOAP Fault Assertion"/><con:assertion type="Simple Contains"><con:configuration><token>&lt;return id="</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="transfer" name="CopyCluPropertiesForUpdate"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" useXQuery="false" entitize="false" transferChildNodes="false"><con:name>copyCluIdToCluIdElement</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>getSimpleClu</con:sourceStep><con:sourcePath>declare namespace ns3='http://student.kuali.org/wsdl/lu';
@@ -6854,8 +6854,8 @@
    <soapenv:Header/>
    <soapenv:Body>
       <lu:updateClu>
-         <cluId>4484b5a0-1f23-46ae-8e88-c87d175dce52</cluId>
-         <cluInfo type="kuali.lu.type.CreditCourse" state="draft" id="4484b5a0-1f23-46ae-8e88-c87d175dce52">
+         <cluId>bd132b53-12ff-4621-8717-8fc22cb385d2</cluId>
+         <cluInfo type="kuali.lu.type.CreditCourse" state="draft" id="bd132b53-12ff-4621-8717-8fc22cb385d2">
             <officialIdentifier id="eaf2a116-7090-4426-a104-f131aa4d3b0f">
               <code>nullnull</code>
             </officialIdentifier>
@@ -6866,14 +6866,14 @@
             <campusLocations>NorthCountyCampus</campusLocations>
             <campusLocations>SouthCountyCampus</campusLocations>
             <primaryAdminOrg>
-               <id>5b0a0f2b-7c35-4fb9-9d7a-7ad0663f3665</id>
+               <id>17b2b045-e995-498b-ac50-e177fdd889f9</id>
                <orgId>51</orgId>
             </primaryAdminOrg>
             
             <metaInfo>
                <versionInd>0</versionInd>
                <createTime>2010-03-09T19:43:59.780-07:00</createTime>
-               <updateTime>2010-03-10T00:04:02.014-07:00</updateTime>
+               <updateTime>2010-03-10T01:06:38.530-07:00</updateTime>
             </metaInfo>
          </cluInfo>
       </lu:updateClu>
@@ -6885,7 +6885,7 @@
    <soapenv:Header/>
    <soapenv:Body>
       <lu:deleteClu>
-        <cluId>4484b5a0-1f23-46ae-8e88-c87d175dce52</cluId>
+        <cluId>bd132b53-12ff-4621-8717-8fc22cb385d2</cluId>
       </lu:deleteClu>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:assertion type="Schema Compliance"><con:configuration/></con:assertion><con:assertion type="SOAP Fault Assertion"/><con:assertion type="Simple Contains"><con:configuration><token>&lt;success>true&lt;/success></token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase><con:properties/><con:reportParameters/></con:testSuite><con:requirements/><con:properties><con:property><con:name>fff</con:name><con:value>eee</con:value></con:property></con:properties><con:wssContainer/><con:databaseConnectionContainer/><con:reporting><con:reportTemplates/><con:xmlTemplates/><con:parameters/></con:reporting></con:soapui-project>
