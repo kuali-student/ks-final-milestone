@@ -44,7 +44,11 @@ public class CollapsablePanel extends Composite{
 		this.initWidget(layout);
 	}
 	
-	public boolean isOpen(){
+	public KSLinkButton getLabel() {
+        return label;
+    }
+
+    public boolean isOpen(){
 		return isOpen;
 	}
 	

@@ -135,10 +135,24 @@ public class SearchPanel extends Composite{
         LinkPanel panel = new LinkPanel(SearchStyle.ADVANCED, new AdvancedSearch(meta));
         //TODO use messages here and link styling
         KSLinkButton button = panel.addLinkToPanel(SearchStyle.ADVANCED, getMessage("searchPanelCustomizeSearch"), SearchStyle.CUSTOM);
+        button.addClickHandler(new ClickHandler(){
+
+            @Override
+            public void onClick(ClickEvent event) {
+                tablePanel.setVisible(false);
+
+            }});
         button.addStyleName("KS-Advanced-Search-Button");
         button.getParent().addStyleName("clearfix");
         panel.addPanel(SearchStyle.CUSTOM, new CustomizedSearch(meta, listItems));
         button = panel.addLinkToPanel(SearchStyle.CUSTOM, getMessage("searchPanelReturnToAdvancedSearch"), SearchStyle.ADVANCED);
+        button.addClickHandler(new ClickHandler(){
+
+            @Override
+            public void onClick(ClickEvent event) {
+                tablePanel.setVisible(false);
+
+            }});
         button.addStyleName("KS-Advanced-Search-Button");
         button.getParent().addStyleName("clearfix");
         return panel;
@@ -242,6 +256,14 @@ public class SearchPanel extends Composite{
                     if(!resultsShown){
                         searchSelectorPanel.removeFromParent();
                         modifySearchPanel = new CollapsablePanel(getMessage("searchPanelModifySearch"), searchSelectorPanel, false);
+                        KSLinkButton label = modifySearchPanel.getLabel();
+                        label.addClickHandler(new ClickHandler(){
+
+                            @Override
+                            public void onClick(ClickEvent event) {
+                                tablePanel.setVisible(false);
+                                
+                            }});
                         SearchPanel.this.layout.insert(modifySearchPanel, 0);
                     }
                     else{
@@ -409,6 +431,14 @@ public class SearchPanel extends Composite{
                     if(!resultsShown){
                         searchSelectorPanel.removeFromParent();
                         modifySearchPanel = new CollapsablePanel(getMessage("searchPanelModifySearch"), searchSelectorPanel, false);
+                        KSLinkButton label = modifySearchPanel.getLabel();
+                        label.addClickHandler(new ClickHandler(){
+
+                            @Override
+                            public void onClick(ClickEvent event) {
+                                tablePanel.setVisible(false);
+                                
+                            }});
                         SearchPanel.this.layout.insert(modifySearchPanel, 0);
                     }
                     else{
