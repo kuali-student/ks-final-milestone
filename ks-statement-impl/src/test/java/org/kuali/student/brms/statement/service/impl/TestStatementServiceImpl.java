@@ -210,14 +210,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 		assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
 	}
 	
-//	@Test
-//	public void testTranslateStatementTreeViewToNL() throws InvalidParameterException, MissingParameterException, OperationFailedException {
-//		ReqComponentInfo reqCompInfo = createReqComponent1();
-//		String naturalLanguage = statementService.translateStatementTreeViewToNL(statementTreeViewInfo, "KUALI.CATALOG", "en");
-//		assertEquals("Student must have completed 1 of MATH 152, MATH 180", naturalLanguage);
-//	}
-
-    public static List<ReqCompFieldInfo> createReqComponentFields(String expectedValue, String operator, String reqCompFieldType, String id) {
+    private List<ReqCompFieldInfo> createReqComponentFields(String expectedValue, String operator, String reqCompFieldType, String id) {
 		List<ReqCompFieldInfo> fieldList = new ArrayList<ReqCompFieldInfo>();
 		ReqCompFieldInfo field1 = new ReqCompFieldInfo();
 		field1.setId("reqCompFieldType.requiredCount");
@@ -237,7 +230,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 		return fieldList;
     }
     
-    public static ReqComponentInfo createReqComponent(String reqComponentType, List<ReqCompFieldInfo> fieldList) {
+    private ReqComponentInfo createReqComponent(String reqComponentType, List<ReqCompFieldInfo> fieldList) {
     	ReqComponentTypeInfo reqCompType = new ReqComponentTypeInfo();
     	reqCompType.setId(reqComponentType);
 		
@@ -250,7 +243,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     }
 	
 	@Test
-	public void testGetNaturalLanguageForLuStatementInfo1_Simple_Clu() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException {
+	public void testTranslateStatementTreeViewToNL_SimpleStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException {
 		StatementTreeViewInfo statementInfo = new StatementTreeViewInfo();
 		statementInfo.setType("kuali.luStatementType.prereqAcademicReadiness");
 		statementInfo.setOperator(StatementOperatorTypeKey.OR);
@@ -1134,13 +1127,13 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         treeView.setStatements(subStatements);
         
         StatementTreeViewInfo returnedTreeView = statementService.updateStatementTreeView(treeView.getId(), treeView);
-        _testUpdateStatementTreeViewFromEmptyHelper(returnedTreeView);
+        testStatementTreeView(returnedTreeView);
 
         StatementTreeViewInfo retrievedUpdatedTreeView = statementService.getStatementTreeView(returnedTreeView.getId());
-        _testUpdateStatementTreeViewFromEmptyHelper(retrievedUpdatedTreeView);
+        testStatementTreeView(retrievedUpdatedTreeView);
     }
 
-    private void _testUpdateStatementTreeViewFromEmptyHelper(StatementTreeViewInfo treeView) {
+    private void testStatementTreeView(StatementTreeViewInfo treeView) {
         List<StatementTreeViewInfo> subTrees = treeView.getStatements();
         StatementTreeViewInfo subTree1 = (subTrees == null)? null : subTrees.get(0);
         StatementTreeViewInfo subTree2 = (subTrees == null)? null : subTrees.get(1);
