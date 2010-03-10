@@ -2,7 +2,7 @@
 
 .ks-header h3 { margin: 0; }
 
-h1.ks-heading-course-title {
+.ks-heading-course-title h1{
 	color: #666;
 	display:block;
 	font-size: 2.333em;
@@ -11,11 +11,11 @@ h1.ks-heading-course-title {
 	padding: 15px 0 10px 0;
 }
 
-h2.ks-heading-page-title {
+.ks-heading-page-title h2{
 	font-size: 2em;
 	color: #940b07;
 }
-.ks-heading-page-section {
+.ks-heading-page-section h3{
     font-size: 1.5em;
     color: #000;
     font-weight: normal;
