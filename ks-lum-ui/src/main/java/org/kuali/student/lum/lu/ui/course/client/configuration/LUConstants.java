@@ -52,7 +52,7 @@ public class LUConstants {
 
     //Section names
     public static final String SECTION_PROPOSAL_INFORMATION = "Proposal Information";
-    public static final String SECTION_AUTHORS_AND_COLLABORATORS = "Authors + Collaborators";
+    public static final String SECTION_AUTHORS_AND_COLLABORATORS = "People & Permissions";
     public static final String SECTION_GOVERNANCE = "Governance";
     public static final String SECTION_COURSE_LOGISTICS = "Course Logistics";
 
@@ -74,8 +74,8 @@ public class LUConstants {
     public static final String SECTION_PROGRAM_REQUIREMENTS = "Program Requirements";    
     
     //Tools
-    public static final String TOOL_COMMENTS = "Proposal Comments";
-    public static final String TOOL_DOCUMENTS = "Attach Documents";
+    public static final String TOOL_COMMENTS_LABEL_KEY = "toolComments";
+    public static final String TOOL_DOCUMENTS_LABEL_KEY = "toolDocuments";
     public static final String SECTION_ATTACHMENTS = "Attachments";
     public static final String SECTION_SUPPORTING_DOCUMENTS = "Supporting Documents";
    
@@ -100,6 +100,8 @@ public class LUConstants {
     public static final String PROPOSAL_TITLE_LABEL_KEY = "cluProposalTitle";
     public static final String PROPOSAL_DIRECTIONS_LABEL_KEY = "cluProposalDirections";
     public static final String PROPOSAL_PERSON_LABEL_KEY = "cluProposalPerson";
+    
+    public static final String EDIT_TAB_LABEL_KEY = "cluEditTab";
     
     //Summary labels
     public static final String SUMMARY_LABEL_KEY = "cluSummary";

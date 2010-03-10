@@ -26,6 +26,8 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.Type;
+import org.kuali.student.common.ui.client.theme.Theme;
+import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
@@ -515,6 +517,11 @@ public class ViewCluConfigurer {
         protected Widget createWidget() {
             return new Collaborators();
         }
+
+		@Override
+		public KSImage getImage() {
+			return Theme.INSTANCE.getCommonImages().getPersonIcon();
+		}
 
     }    
 
