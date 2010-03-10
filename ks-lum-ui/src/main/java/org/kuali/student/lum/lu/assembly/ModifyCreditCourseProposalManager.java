@@ -91,6 +91,7 @@ public class ModifyCreditCourseProposalManager{
 	private void clearIdsRecursively(Data data){
 		//Set runtime create to true
     	//AssemblerUtils.setCreated(data, true);
+		if(data==null) return;
 		
     	//Loop through all properties
     	for(Iterator<Property> i=data.iterator();i.hasNext();){
