@@ -42,6 +42,8 @@ public class OrgTreeInfo implements Serializable {
 	
 	private String relationType;
 	
+	private String orgHierarchyId;
+	
 	private long positions=0;
 	
 	
@@ -107,7 +109,13 @@ public class OrgTreeInfo implements Serializable {
     }
     
     
-	/* (non-Javadoc)
+	public String getOrgHierarchyId() {
+        return orgHierarchyId;
+    }
+    public void setOrgHierarchyId(String orgHierarchyId) {
+        this.orgHierarchyId = orgHierarchyId;
+    }
+    /* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
