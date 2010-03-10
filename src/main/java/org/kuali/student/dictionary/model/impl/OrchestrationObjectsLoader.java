@@ -337,7 +337,7 @@ public class OrchestrationObjectsLoader implements OrchestrationModel
   List<String> list = new ArrayList ();
   for (LookupMetadata lookup : findAdditional (field.getLookup ()))
   {
-   list.add (lookup.getLookupKey ());
+   list.add (lookup.getId ());
   }
   field.setAdditionalLookups (list);
  }
@@ -347,7 +347,7 @@ public class OrchestrationObjectsLoader implements OrchestrationModel
   List<LookupMetadata> list = new ArrayList ();
   for (LookupMetadata lookup : lookupMetas)
   {
-   if (lookup.getLookupKey ().toLowerCase ().startsWith (lookupKey + ".additional."))
+   if (lookup.getId ().toLowerCase ().startsWith (lookupKey + ".additional."))
    {
     list.add (lookup);
    }

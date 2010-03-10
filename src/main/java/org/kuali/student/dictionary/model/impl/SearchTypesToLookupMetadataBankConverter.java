@@ -86,7 +86,7 @@ public class SearchTypesToLookupMetadataBankConverter
  {
   for (LookupMetadata meta : metas)
   {
-   if (meta.getLookupKey ().equalsIgnoreCase (key))
+   if (meta.getId ().equalsIgnoreCase (key))
    {
     return meta;
    }

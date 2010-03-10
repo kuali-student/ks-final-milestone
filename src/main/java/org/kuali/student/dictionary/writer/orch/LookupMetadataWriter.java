@@ -44,8 +44,8 @@ public class LookupMetadataWriter
  public void write ()
  {
   out.importsAdd (LookupMetadata.class.getName ());
-  writeSetValue ("LookupKey", lookupMeta.getLookupKey ());
-  writeSetValue ("Key", lookupMeta.getKey ());
+  writeSetValue ("Id", lookupMeta.getId ());
+  writeSetValue ("SearchTypeId", lookupMeta.getSearchTypeId ());
   writeSetValue ("Name", lookupMeta.getName ());
   writeSetValue ("Desc", lookupMeta.getDesc ());
   writeSetValue ("ResultReturnKey", lookupMeta.getResultReturnKey ());

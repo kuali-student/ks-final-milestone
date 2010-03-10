@@ -47,8 +47,8 @@ public class SearchTypeToLookupMetadataConverter
  public LookupMetadata convert ()
  {
   LookupMetadata lookupMeta = new LookupMetadata ();
-  lookupMeta.setKey (asString (searchType.getKey ()));
-  lookupMeta.setLookupKey (searchType.getLookupKey ());
+  lookupMeta.setSearchTypeId (asString (searchType.getKey ()));
+  lookupMeta.setId (searchType.getLookupKey ());
   lookupMeta.setUsage (calcLookupUsage (searchType.getUsage ()));
   lookupMeta.setName (asString (searchType.getName ()));
   lookupMeta.setDesc (asString (searchType.getDescription ()));

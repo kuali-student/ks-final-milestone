@@ -90,8 +90,8 @@ public class LookupMetadataBankWriter extends JavaClassWriter
    indentPrintln ("// new lookup metadata");
    indentPrintln ("lookup = new LookupMetadata ();");
    new LookupMetadataWriter (this, "lookup", lookupMeta).write ();
-   indentPrintln ("SEARCH_BANK.put (lookup.getKey ().toLowerCase (), lookup);");
-   indentPrintln ("LOOKUP_BANK.put (lookup.getLookupKey ().toLowerCase (), lookup);");
+   indentPrintln ("SEARCH_BANK.put (lookup.getSearchTypeId ().toLowerCase (), lookup);");
+   indentPrintln ("LOOKUP_BANK.put (lookup.getId ().toLowerCase (), lookup);");
   }
 
   for (LookupMetadata lookupMeta : lookupMetas)
@@ -100,8 +100,8 @@ public class LookupMetadataBankWriter extends JavaClassWriter
    {
     if (param.getChildLookup () != null)
     {
-     String childLookupKey = param.getChildLookup ().getKey ();
-     String lookupKey = lookupMeta.getLookupKey ();
+     String childLookupKey = param.getChildLookup ().getSearchTypeId ();
+     String lookupKey = lookupMeta.getId ();
      String paramKey = param.getKey ();
      indentPrintln ("");
      indentPrintln ("// set childLookup " + childLookupKey);
