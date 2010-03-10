@@ -48,6 +48,9 @@
     <bean parent="enCommon" p:id="searchPanelModifySearch"         p:value="Modify Search"/>
     <bean parent="enCommon" p:id="searchPanelReturnToAdvancedSearch"         p:value="Return to Advanced Search"/>
 
+    <!-- Swappable Panel messages  -->
+    <bean parent="enCommon" p:id="swappablePanelSearchFor"         p:value="Search For"/>
+
 	<bean id="esCommon" abstract="true" class="org.kuali.student.core.messages.entity.MessageEntity">
         <property name="locale"         value="es" />
         <property name="groupName"      value="common" />
