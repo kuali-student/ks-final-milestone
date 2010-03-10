@@ -16,6 +16,7 @@ package org.kuali.student.lum.lu.ui.course.client.configuration.course;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
 import org.kuali.student.common.ui.client.event.ChangeViewActionEvent;
 import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
@@ -76,6 +77,11 @@ public class ViewCourseController extends TabbedSectionLayout {
             
     public ViewCourseController(){
         super(ViewCourseController.class.getName(), layoutTitle);
+        initialize();
+    }
+    public ViewCourseController(ViewContext context){
+        super(ViewCourseController.class.getName(), layoutTitle);
+    	setViewContext(context);
         initialize();
     }
     public ViewCourseController(String cluType){

@@ -24,6 +24,7 @@ import org.kuali.student.common.ui.client.mvc.DelegatingViewComposite;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.events.LogoutEvent;
 import org.kuali.student.common.ui.client.mvc.events.LogoutHandler;
+import org.kuali.student.common.ui.client.service.AuthorizationRpcService.PermissionType;
 import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
 import org.kuali.student.lum.lu.ui.course.client.configuration.course.CourseProposalController;
 import org.kuali.student.lum.lu.ui.course.client.configuration.course.ViewCourseController;
@@ -65,6 +66,7 @@ public class LUMApplicationManager extends Controller {
 							ViewContext context = event.getViewContext();
 
 							if (context != null && context.getId() != null) {
+								context.setPermissionType(PermissionType.OPEN);
 								switch ((LUMViews)event.getViewType()){
 									case EDIT_COURSE_PROPOSAL: initCreateCourse(context);break;
 									case VIEW_COURSE: initViewCourseFromCourseId(context.getId());break;
@@ -119,6 +121,7 @@ public class LUMApplicationManager extends Controller {
 
 	private View initBlankCreateCourse() {
 		ViewContext context = new ViewContext();
+		context.setPermissionType(PermissionType.INITIATE);
 		createCourseController = new CourseProposalController(context);
 		createCourseView = new DelegatingViewComposite(LUMApplicationManager.this, createCourseController);
 
@@ -135,6 +138,8 @@ public class LUMApplicationManager extends Controller {
     private View initModifyCourse(ViewContext context) {
         KSTitleContainerImpl layoutTitle = new KSTitleContainerImpl("Modify Course");
         createCourseController = new CourseProposalController(context, layoutTitle);
+        // FIXME: ADD IN VALID PERMISSION CHECK HERE
+		context.setPermissionType(null);
         createCourseView = new DelegatingViewComposite(LUMApplicationManager.this, createCourseController);
 
         return createCourseView;
@@ -149,7 +154,9 @@ public class LUMApplicationManager extends Controller {
 
 	private View initViewCourse() {
 		if (viewCourseController == null) {
-			viewCourseController = new ViewCourseController();
+			ViewContext context = new ViewContext();
+			context.setPermissionType(PermissionType.OPEN);
+			viewCourseController = new ViewCourseController(context);
 			viewCourseView = new DelegatingViewComposite(LUMApplicationManager.this, viewCourseController);
 		}
 		
@@ -181,6 +188,7 @@ public class LUMApplicationManager extends Controller {
 			ViewContext context = new ViewContext();
 			context.setId(docId);
 			context.setIdType(IdType.DOCUMENT_ID);
+			context.setPermissionType(PermissionType.OPEN);
 			initCreateCourse(context);
 			this.showView(LUMViews.EDIT_COURSE_PROPOSAL, onReadyCallback);
 		} else {

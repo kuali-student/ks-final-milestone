@@ -14,7 +14,9 @@
  */
 package org.kuali.student.lum.lu.ui.home.client.view;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.application.ViewContext.IdType;
@@ -22,6 +24,7 @@ import org.kuali.student.common.ui.client.event.ChangeViewActionEvent;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
+import org.kuali.student.common.ui.client.service.AuthorizationRpcService.PermissionType;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.search.AdvancedSearchWindow;
 import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
@@ -109,10 +112,12 @@ public class FindPanel extends ViewComposite{
 //            });
             
             ButtonRow findCourseRow = new ButtonRow(findCourseButton, "Find an existing course.");
-            addIfPermitted(mainPanel, findCourseRow, "Lookup Course");
+//            addIfPermitted(mainPanel, findCourseRow, "Lookup Course");
+            addIfPermitted(mainPanel, findCourseRow, PermissionType.SEARCH);
             
             ButtonRow findProposalRow = new ButtonRow(findProposalButton, "Find an existing proposal."); 
-            addIfPermitted(mainPanel, findProposalRow, "Lookup Proposal");
+//            addIfPermitted(mainPanel, findProposalRow, "Lookup Proposal");
+            addIfPermitted(mainPanel, findProposalRow, PermissionType.SEARCH);
             
             // TODO Please leave on 
 //            mainPanel.add(new ButtonRow(findAtpButton, "Find a Session."));
@@ -121,11 +126,15 @@ public class FindPanel extends ViewComposite{
         }
         onReadyCallback.exec(true);
     }
-    private void addIfPermitted(final Panel container, final Widget element, String permName) {
-        cluProposalRpcServiceAsync.hasPermission(permName, new AsyncCallback<Boolean>() {
+    private void addIfPermitted(final Panel container, final Widget element, PermissionType permType) {
+    	addIfPermitted(container, element, permType, new HashMap<String,String>());
+    }
+
+    private void addIfPermitted(final Panel container, final Widget element, PermissionType permType, Map<String,String> permissionAttributes) {
+        cluProposalRpcServiceAsync.isAuthorized(permType, permissionAttributes, new AsyncCallback<Boolean>() {
             @Override
             public void onFailure(Throwable caught) {
-                // TODO what to do here?
+                throw new RuntimeException("Could not verify authorization: " + caught.getMessage(), caught);
             }
             @Override
             public void onSuccess(Boolean result) {

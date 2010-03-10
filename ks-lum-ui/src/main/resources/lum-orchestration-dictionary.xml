@@ -5497,8 +5497,8 @@
 		<property name="initialLookup">
 			<!--  define configuration for a suggest box -->
 			<bean parent="lookup">
-				<property name="lookupKey" value="kuali.lu.lookup.findCluSet.suggest" />
-				<property name="key" value="cluset.search.generic" />					
+				<property name="id" value="kuali.lu.lookup.findCluSet.suggest" />
+				<property name="searchTypeId" value="cluset.search.generic" />					
 				<property name="name" value="Find CluSet" />
 				<property name="desc" value="Search for CluSets" />								
 				<property name="widget" value="SUGGEST_BOX"/>
@@ -5555,8 +5555,8 @@
 			<list>
 				<!-- definition of advanced search window -->
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
-					<property name="lookupKey" value="kuali.lu.lookup.findCluSet.advanced"/>
-					<property name="key" value="cluset.search.generic"/>										
+					<property name="id" value="kuali.lu.lookup.findCluSet.advanced"/>
+					<property name="searchTypeId" value="cluset.search.generic"/>										
 					<property name="name" value="Find Clu Set"/>
 					<property name="desc" value="Search for Clu Set"/>
 					<property name="title" value="Advanced CLU Set Search"/>

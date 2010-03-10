@@ -107,30 +107,11 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
     public Data get(String id) throws AssemblyException {
         LuData luData = new LuData();
         CreditCourseProposalHelper result = CreditCourseProposalHelper.wrap(luData);
-        CreditCourseProposalInfoHelper proposal = null;
         try {
-            proposal = getProposal(id);
+        	CreditCourseProposalInfoHelper proposal = getProposal(id);
             if (proposal == null) {
                 return null;
             }
-        } catch (Exception e) {
-            throw new AssemblyException("Could not retrieve credit course proposal for id: " + id, e);
-        }
-        if (checkDocumentLevelPermissions()) {
-            // temporary hack to utilize "Open Document" permission
-	        if (StringUtils.isNotBlank(id)) {
-	        	String userId = SecurityUtils.getCurrentUserId();
-	        	if (!permissionService.isAuthorizedByTemplateName(userId, namespace, OPEN_DOCUMENT_PERM, null, getQualification("proposalId", id))) {
-	        		throw new RuntimeException("User '" + userId + "' does not have permission (namespace: " + namespace + "  permission template name: " + 
-	        				OPEN_DOCUMENT_PERM + ") to open document with id '" + id + "'");
-	        	}
-	        	else {
-	        		LOG.info("User '" + userId + "' has permission (namespace: " + namespace + "  permission template name: " + 
-	        				OPEN_DOCUMENT_PERM + ") to open document with id '" + id + "'");
-	        	}
-	        }
-        }
-        try {
             Data references = proposal.getReferences();
                 if (references.size() != 1) {
                     throw new AssemblyException(
@@ -165,7 +146,7 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
 
 
         //Get permissions for course
-        Map<String, String> permissions = getPermissions("kuali.lu.type.CreditCourse");
+        Map<String, String> permissions = getFieldAccessPermissions(getDtoName());
         
         CreditCourseHelper course = CreditCourseHelper.wrap(getCourseAssembler().get(cluId));
 
@@ -442,7 +423,7 @@ public class CreditCourseProposalAssembler extends BaseAssembler<Data, Void> {
 
     @Override
     protected boolean checkDocumentLevelPermissions() {
-    	return false;
+    	return true;
     }
 
     @Override

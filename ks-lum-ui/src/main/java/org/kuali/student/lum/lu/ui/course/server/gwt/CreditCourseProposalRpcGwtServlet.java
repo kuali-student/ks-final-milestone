@@ -3,6 +3,7 @@ package org.kuali.student.lum.lu.ui.course.server.gwt;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -14,6 +15,7 @@ import org.kuali.rice.kew.dto.RouteNodeInstanceDTO;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.webservice.DocumentResponse;
 import org.kuali.rice.kew.webservice.StandardResponse;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.AbstractBaseDataOrchestrationRpcGwtServlet;
@@ -224,12 +226,34 @@ public class CreditCourseProposalRpcGwtServlet extends
             throw new OperationFailedException("Error getting actions Requested",e);
 		}
     }
-	
+
 	@Override
-	public Boolean hasPermission(String permName) {
-	    //FIXME this is just a stub until the KIM perms are defined
-	    //return permissionService.hasPermission(getCurrentUser(), "KS-LUM", permName, null);
-	    return true;
+	public Boolean isAuthorized(PermissionType type, Map<String,String> attributes) {
+		String namespaceCode = null;
+		String permissionTemplateName = null;
+		AttributeSet roleQuals = new AttributeSet("documentTypeName", getDefaultWorkflowDocumentType());
+		if (PermissionType.INITIATE.equals(type)) {
+			namespaceCode = "KR-SYS";
+			permissionTemplateName = "Initiate Document";
+		}
+		else if (PermissionType.OPEN.equals(type)) {
+			namespaceCode = "KS-SYS";
+			permissionTemplateName = "Open Document";
+		}
+		else if (PermissionType.SEARCH.equals(type)) {
+        	// FIXME: add real perms for SEARCH
+        	return Boolean.TRUE;
+		}
+		else {
+			return null;
+		}
+		if (attributes != null) {
+			roleQuals.putAll(attributes);
+		}
+		String user = getCurrentUser();
+		boolean result = getPermissionService().isAuthorizedByTemplateName(user, namespaceCode, permissionTemplateName, null, roleQuals);
+		LOG.info("Permission '" + namespaceCode + "/" + permissionTemplateName + "' for user '" + user + "': " + result);
+		return Boolean.valueOf(result);
 	}
 	
 	public PermissionService getPermissionService() {
@@ -248,4 +272,5 @@ public class CreditCourseProposalRpcGwtServlet extends
 			ModifyCreditCourseProposalManager modifyCourseManager) {
 		this.modifyCourseManager = modifyCourseManager;
 	}
+
 }

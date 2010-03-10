@@ -14,7 +14,9 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.configuration.course;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.application.ViewContext.IdType;
@@ -40,6 +42,7 @@ import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.security.AuthorizationCallback;
 import org.kuali.student.common.ui.client.security.RequiresAuthorization;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.common.ui.client.service.AuthorizationRpcService.PermissionType;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
@@ -78,30 +81,28 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
 	//Models
 	private final DataModel cluProposalModel = new DataModel(); 
     private Collaborators.CollaboratorModel collaboratorModel;
-    
+
     private WorkQueue modelRequestQueue;
 
-    private ViewContext context;
-    			
 	private boolean initialized = false;
 	
 	private final KSLightBox progressWindow = new KSLightBox();
-    
+
     public CourseProposalController(){
         super(CourseProposalController.class.getName());
-        this.context = new ViewContext();
+        setViewContext(new ViewContext());
         initialize();
     }
 
     public CourseProposalController(ViewContext viewContext){
         super(CourseProposalController.class.getName());
-        this.context = viewContext;
+        setViewContext(viewContext);
         initialize();
     }
     
     public CourseProposalController(ViewContext viewContext, KSTitleContainerImpl layoutTitle){
         super(CourseProposalController.class.getName(), layoutTitle);
-        this.context = viewContext;
+        setViewContext(viewContext);
         initialize();
     }
     
@@ -119,11 +120,11 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
                     @Override
                     public void exec(Callback<Boolean> workCompleteCallback) {
                         if (cluProposalModel.getRoot() == null || cluProposalModel.getRoot().size() == 0){
-                            if(context.getIdType() == IdType.DOCUMENT_ID){
+                            if(getViewContext().getIdType() == IdType.DOCUMENT_ID){
                                 getCluProposalFromWorkflowId(callback, workCompleteCallback);
-                            } else if (context.getIdType() == IdType.PROPOSAL_ID){
+                            } else if (getViewContext().getIdType() == IdType.PROPOSAL_ID){
                                 getCluProposalFromProposalId(callback, workCompleteCallback);
-                            } else if (context.getIdType() == IdType.OBJECT_ID && !context.getId().equals("")){
+                            } else if (getViewContext().getIdType() == IdType.OBJECT_ID){
                                 getNewProposalWithCopyOfClu(callback, workCompleteCallback);
                             } else{
                                 createNewCluProposalModel(callback, workCompleteCallback);
@@ -174,8 +175,8 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
                     }
                 });
     }
- 
-        
+
+
     private KSButton getQuitButton(){
         return new KSButton("Quit", new ClickHandler(){
                     public void onClick(ClickEvent event) {
@@ -184,7 +185,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
                     }
                 });       
     }
-    
+
     private void init(final Callback<Boolean> onReadyCallback) {
     	KSProgressIndicator progressInd = new KSProgressIndicator();
     	progressInd.setText("Loading");
@@ -195,7 +196,8 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
     		onReadyCallback.exec(true);
     	} else {
     		progressWindow.show();
-	        cluProposalRpcServiceAsync.getMetadata(context.getIdType().toString(), context.getId(),  
+    		String idType = (getViewContext().getIdType() != null) ? getViewContext().getIdType().toString() : null;
+	        cluProposalRpcServiceAsync.getMetadata(idType, getViewContext().getId(),  
 	                new AsyncCallback<Metadata>(){
 
 	        	public void onFailure(Throwable caught) {
@@ -263,7 +265,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
         		
         		ref.setReferenceTypeKey(CourseConfigurer.REFERENCE_TYPE_KEY);
         		ref.setReferenceType(CourseConfigurer.REFERENCE_TYPE);
-        		ref.setReferenceState(context.getState());
+        		ref.setReferenceState(getViewContext().getState());
         		
         		callback.onModelReady(ref);
         	}
@@ -290,11 +292,11 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
     @SuppressWarnings("unchecked")        
     private void getCluProposalFromWorkflowId(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
        
-        cluProposalRpcServiceAsync.getDataFromWorkflowId(context.getId(), new AsyncCallback<Data>(){
+        cluProposalRpcServiceAsync.getDataFromWorkflowId(getViewContext().getId(), new AsyncCallback<Data>(){
 
             @Override
             public void onFailure(Throwable caught) {
-                Window.alert("Error loading Proposal from docId: "+context.getId()+". "+caught.getMessage());
+                Window.alert("Error loading Proposal from docId: "+getViewContext().getId()+". "+caught.getMessage());
                 createNewCluProposalModel(callback, workCompleteCallback);
                 progressWindow.hide();
 
@@ -315,7 +317,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
     @SuppressWarnings("unchecked")    
     private void getCluProposalFromProposalId(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
     	progressWindow.show();
-    	cluProposalRpcServiceAsync.getData(context.getId(), new AsyncCallback<Data>(){
+    	cluProposalRpcServiceAsync.getData(getViewContext().getId(), new AsyncCallback<Data>(){
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -338,7 +340,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
     @SuppressWarnings("unchecked")
     private void getNewProposalWithCopyOfClu(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
         progressWindow.show();
-        cluProposalRpcServiceAsync.getNewProposalWithCopyOfClu(context.getId(), new AsyncCallback<Data>(){
+        cluProposalRpcServiceAsync.getNewProposalWithCopyOfClu(getViewContext().getId(), new AsyncCallback<Data>(){
 
             @Override
             public void onFailure(Throwable caught) {
@@ -492,14 +494,8 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
 
     }
     
-    public void setContext(ViewContext viewContext){
-    	clear();
-    	this.context = viewContext;
-    }
-    
     public void clear(){
         super.clear();
-        this.context = new ViewContext();
         if (cluProposalModel != null){
             this.cluProposalModel.setRoot(new LuData());            
         }
@@ -533,16 +529,35 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
             CourseReqSummaryHolder.getView().redraw();
         }    
     }
-	
+
 	@Override
-	public void checkAuthorization(AuthorizationCallback callback) {		
-		//TODO: Add server side call to check authorization
-		boolean authorized = true;
-		if (!authorized){
-			callback.isNotAuthorized("Access to this document is not allowed");
-		} else {
-			callback.isAuthorized();
-		}		
+	public void checkAuthorization(final PermissionType permissionType, final AuthorizationCallback authCallback) {
+		Map<String,String> attributes = new HashMap<String,String>();
+//		if (StringUtils.isNotBlank(getViewContext().getId())) {
+		GWT.log("Attempting Auth Check.", null);
+		if ( (getViewContext().getId() != null) && (!"".equals(getViewContext().getId())) ) {
+			attributes.put(getViewContext().getIdType().toString(), getViewContext().getId());
+		}
+    	cluProposalRpcServiceAsync.isAuthorized(permissionType, attributes, new AsyncCallback<Boolean>(){
+
+			@Override
+			public void onFailure(Throwable caught) {
+				authCallback.isNotAuthorized("Error checking authorization.");
+				GWT.log("Error checking proposal authorization.", caught);
+                Window.alert("Error Checking Proposal Authorization: "+caught.getMessage());
+			}
+
+			@Override
+			public void onSuccess(Boolean result) {
+				GWT.log("Succeeded checking auth for permission type '" + permissionType + "' with result: " + result, null);
+				if (Boolean.TRUE.equals(result)) {
+					authCallback.isAuthorized();
+				}
+				else {
+					authCallback.isNotAuthorized("User is not authorized.");
+				}
+			}
+    	});
 	}
 
 	@Override
@@ -554,7 +569,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
 	public void setAuthorizationRequired(boolean required) {
 		throw new UnsupportedOperationException();
 	}
-    
+
     protected  String getSectionTitle() {
         
         StringBuffer sb = new StringBuffer();
