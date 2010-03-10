@@ -3,7 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-    
+
 	<bean id="enCommon" abstract="true" class="org.kuali.student.core.messages.entity.MessageEntity">
         <property name="locale"         value="en" />
         <property name="groupName"      value="common" />
@@ -14,7 +14,7 @@
    	<bean parent="enCommon" p:id="wait"			p:value="Please wait..."/>
    	<bean parent="enCommon" p:id="yes"			p:value="Yes"/>
   	<bean parent="enCommon" p:id="no"			p:value="No"/>
-  	<bean parent="enCommon" p:id="add"			p:value="Add"/>  	
+  	<bean parent="enCommon" p:id="add"			p:value="Add"/>
   	<bean parent="enCommon" p:id="remove"		p:value="Remove"/>
   	<bean parent="enCommon" p:id="modify"		p:value="Modify"/>
   	<bean parent="enCommon" p:id="processing"	p:value="Processing..."/>
@@ -23,22 +23,31 @@
    	<bean parent="enCommon" p:id="go"		p:value="Go"/>
    	<bean parent="enCommon" p:id="create"		p:value="Create"/>
    	<bean parent="enCommon" p:id="search"		p:value="Search"/>
-   	
+
    	<bean parent="enCommon" p:id="errorDialogTitle"     	p:value="Send us an Error Report"/>
    	<bean parent="enCommon" p:id="errorDescription"     	p:value="Here is the information included in this report."/>
    	<bean parent="enCommon" p:id="describeAction"     	p:value="Enter a brief description of what you were doing at the time of the error."/>
-   	 
+
    	 <!--  CommentPanel Messages -->
    	<bean parent="enCommon" p:id="allComments"     	p:value="All"/>
-   	
+
    	<!-- CreditCourse readable states -->
    	<bean parent="enCommon" p:id="kuali.lu.type.CreditCourse.draft"     	p:value="Proposal"/>
    	<bean parent="enCommon" p:id="kuali.lu.type.CreditCourse.submitted"     	p:value="Submitted"/>
-   	
+
    	<!-- RequiredEnum Messages -->
    	<bean parent="enCommon" p:id="required"     	p:value="Required"/>
    	<bean parent="enCommon" p:id="optional"     	p:value="(optional)"/>
-  	
+
+   	<!-- Search Panel Messages -->
+  	<bean parent="enCommon" p:id="searchPanelAddCriteria"         p:value="+ Add Criteria"/>
+    <bean parent="enCommon" p:id="searchPanelCriteria"         p:value="Search Criteria:"/>
+    <bean parent="enCommon" p:id="searchPanelEnterFields"         p:value="Enter one or more fields"/>
+    <bean parent="enCommon" p:id="searchPanelModifySearch"         p:value="Modify Search"/>
+    <bean parent="enCommon" p:id="searchPanelCustomizeSearch"         p:value="Customize This Search"/>
+    <bean parent="enCommon" p:id="searchPanelModifySearch"         p:value="Modify Search"/>
+    <bean parent="enCommon" p:id="searchPanelReturnToAdvancedSearch"         p:value="Return to Advanced Search"/>
+
 	<bean id="esCommon" abstract="true" class="org.kuali.student.core.messages.entity.MessageEntity">
         <property name="locale"         value="es" />
         <property name="groupName"      value="common" />
@@ -49,7 +58,7 @@
    	<bean parent="esCommon" p:id="wait"			p:value="Espere por favor..."/>
    	<bean parent="esCommon" p:id="yes"			p:value="Sí"/>
   	<bean parent="esCommon" p:id="no"			p:value="No"/>
-  	<bean parent="esCommon" p:id="add"			p:value="Agregue"/>  	
+  	<bean parent="esCommon" p:id="add"			p:value="Agregue"/>
   	<bean parent="esCommon" p:id="remove"		p:value="Quite"/>
   	<bean parent="esCommon" p:id="modify"		p:value="Modifiqúese"/>
   	<bean parent="esCommon" p:id="processing"	p:value="Proceso..."/>
@@ -86,9 +95,9 @@
     <bean parent="enValidation" p:id="validation.mustBeInteger"		p:value="Must be numeric"/>
     <bean parent="enValidation" p:id="validation.mustBeLong"		p:value="Must be numeric"/>
     <bean parent="enValidation" p:id="validation.occurs"		p:value="Invalid number of occurrences."/>
-    
 
-	
-	
-	
+
+
+
+
 </beans>
