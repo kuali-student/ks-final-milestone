@@ -21,6 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.assembly.util.IdTranslation;
 import org.kuali.student.core.assembly.util.IdTranslator;
 
@@ -39,14 +40,30 @@ public class IdTranslatorAssemblerFilter extends PassThroughAssemblerFilter<Data
     @Override
     public void doGetFilter(FilterParamWrapper<String> id, FilterParamWrapper<Data> response, GetFilterChain<Data, Void> chain) throws AssemblyException {
         chain.doGetFilter(id, response);
-
-        Assembler a = chain.getManager().getTarget();
-        Metadata metadata = a.getDefaultMetadata();
-        if (metadata != null && response.getValue() != null) {
-            translateIds(response.getValue(), metadata);
+        Data data = response.getValue(); 
+        if (data != null) {
+            translateIds(data, chain);
+        }
+    }
+    
+    @Override
+    public void doSaveFilter(FilterParamWrapper<Data> request, FilterParamWrapper<SaveResult<Data>> response, SaveFilterChain<Data, Void> chain) throws AssemblyException {
+        chain.doSaveFilter(request, response);
+        SaveResult<Data> saveResult = response.getValue();
+        Data data = saveResult != null && saveResult.getValue() != null ? saveResult.getValue() : null;
+        if(data != null) {
+            translateIds(data, chain);
         }
     }
 
+    private void translateIds(Data data, AssemblerManagerAccessable<Data, Void> chain) throws AssemblyException {
+        Assembler a = chain.getManager().getTarget();
+        Metadata metadata = a.getDefaultMetadata();
+        if (metadata != null && data != null) {
+            _translateIds(data, metadata);
+        }
+    }
+    
     /**
      * Uses the IdTranslator and Metadata to convert IDs into their display text and stores those translations in the
      * _runtimeData node
@@ -57,7 +74,7 @@ public class IdTranslatorAssemblerFilter extends PassThroughAssemblerFilter<Data
      *            the Metadata instance representing the data provided.
      * @throws AssemblyException
      */
-    private void translateIds(Data data, Metadata metadata) throws AssemblyException {
+    private void _translateIds(Data data, Metadata metadata) throws AssemblyException {
         try {
             Map<String, Metadata> children = metadata.getProperties();
             if (children != null && children.size() > 0) {
@@ -65,7 +82,7 @@ public class IdTranslatorAssemblerFilter extends PassThroughAssemblerFilter<Data
                     Object fieldValue = data.get(e.getKey());
                     Metadata fieldMetadata = e.getValue();
                     if (fieldValue != null && fieldValue instanceof Data) {
-                        translateIds((Data) fieldValue, fieldMetadata);
+                        _translateIds((Data) fieldValue, fieldMetadata);
                     } else if (fieldValue != null && fieldValue instanceof String) {
                         if (fieldMetadata.getInitialLookup() != null && !StringUtils.isEmpty((String) fieldValue)) {
                             IdTranslation trans = idTranslator.getTranslation(fieldMetadata.getInitialLookup(), (String) fieldValue);
