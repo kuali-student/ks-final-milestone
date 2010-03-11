@@ -196,8 +196,25 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
     		onReadyCallback.exec(true);
     	} else {
     		progressWindow.show();
-    		String idType = (getViewContext().getIdType() != null) ? getViewContext().getIdType().toString() : null;
-	        cluProposalRpcServiceAsync.getMetadata(idType, getViewContext().getId(),  
+
+    		String idType = null;
+    		String viewContextId = null;
+    		// The switch was added due to the way permissions currently work. 
+    		// For a new Create Course Proposal or Modify Course we send nulls so that permissions are not checked.
+    		if(getViewContext().getIdType() != null){
+    		    switch (getViewContext().getIdType()) {
+                    case PROPOSAL_ID :
+                        idType = getViewContext().getIdType().toString();
+                        viewContextId = getViewContext().getId();
+                        break;
+                    case DOCUMENT_ID :
+                        idType = getViewContext().getIdType().toString();
+                        viewContextId = getViewContext().getId();
+                        break;
+                }
+    		}
+    		
+	        cluProposalRpcServiceAsync.getMetadata(idType, viewContextId,  
 	                new AsyncCallback<Metadata>(){
 
 	        	public void onFailure(Throwable caught) {
