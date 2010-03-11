@@ -37,6 +37,7 @@ import org.kuali.student.core.organization.ui.client.view.OrgLocateTree;
 import org.kuali.student.core.organization.ui.client.view.OrgUpdatePanel;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
 
 public class CommonConfigurer {
@@ -129,6 +130,7 @@ public class CommonConfigurer {
                             }
                             if (field.getWidget().equals("PositionTable")) {
                                 positionTable = new PositionTable();
+                                DOM.setElementAttribute(positionTable.getElement(), "id", "orgPositionsTable");
                                 widget = positionTable; 
                             }
 

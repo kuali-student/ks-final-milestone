@@ -54,6 +54,7 @@ public class MembersTable extends Composite{
         super();                
         redraw();               
         layout.setWidth("100%");
+        layout.addStyleName("KS-Org-MemberTable");
         initWidget(layout);
         initializeTable();
 
@@ -207,31 +208,33 @@ public class MembersTable extends Composite{
     }
     
     private void fetchPersonInfo(){
-        orgProposalRpcServiceAsync.getNamesForPersonIds(personIds, new AsyncCallback<Map<String,MembershipInfo>>(){
+        if (personIds.size() > 0) {
+            orgProposalRpcServiceAsync.getNamesForPersonIds(personIds, new AsyncCallback<Map<String, MembershipInfo>>() {
 
-            @Override
-            public void onFailure(Throwable caught) {
-                GWT.log("fetch failed", caught);
-            }
-
-            @Override
-            public void onSuccess(Map<String, MembershipInfo> result) {
-                resultRows.clear();
-                for(MembershipInfo member:members ){
-                    ResultRow theRow = new ResultRow();
-                    MembershipInfo retrievedMember = result.get(member.getEntityNameId());
-                    member.setFirstName(retrievedMember.getFirstName());
-                    member.setLastName(retrievedMember.getLastName());
-                    
-                    theRow.setValue("fname", member.getFirstName());
-                    theRow.setValue("lname", member.getLastName());
-                    theRow.setValue("position", member.getPositionName());
-                    resultRows.add(theRow);
+                @Override
+                public void onFailure(Throwable caught) {
+                    GWT.log("fetch failed", caught);
                 }
-                redraw();
-            }
-            
-        });
+
+                @Override
+                public void onSuccess(Map<String, MembershipInfo> result) {
+                    resultRows.clear();
+                    for (MembershipInfo member : members) {
+                        ResultRow theRow = new ResultRow();
+                        MembershipInfo retrievedMember = result.get(member.getEntityNameId());
+                        member.setFirstName(retrievedMember.getFirstName());
+                        member.setLastName(retrievedMember.getLastName());
+
+                        theRow.setValue("fname", member.getFirstName());
+                        theRow.setValue("lname", member.getLastName());
+                        theRow.setValue("position", member.getPositionName());
+                        resultRows.add(theRow);
+                    }
+                    redraw();
+                }
+
+            });
+        }
     }
     
     private void drawMembershipTable(){

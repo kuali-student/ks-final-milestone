@@ -11,13 +11,16 @@ import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
+import org.kuali.student.core.organization.ui.client.theme.OrgTreeImages;
 import org.kuali.student.core.organization.ui.client.view.OrganizationWidget.Scope;
+
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
@@ -28,11 +31,13 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.TreeImages;
 
 public class OrgTree  extends Composite{
     private OrgRpcServiceAsync orgRpcServiceAsync = GWT.create(OrgRpcService.class);
     Panel  w = new SimplePanel();
-    Tree tree = new Tree();
+    TreeImages images = (TreeImages)GWT.create(OrgTreeImages.class);
+    Tree tree = new Tree(images);
     VerticalSectionView containingSection;
     boolean loaded = false;
     
@@ -40,7 +45,6 @@ public class OrgTree  extends Composite{
         super.initWidget(w);
         w.add(tree);
         tree.setWidth("100%");
-        tree.addStyleName("KS-Org-Tree");
         KSLabel lbl = new KSLabel("Please Wait...");
         
         tree.addOpenHandler(new OpenHandler<TreeItem>(){
@@ -160,7 +164,9 @@ public class OrgTree  extends Composite{
             this.hierarchyId = hierarchyId;
 
             KSLabel label = new KSLabel(name);
+            label.addStyleName("KS-Org-Tree-Label");
             final MembersTable memberTable = new MembersTable();
+            DOM.setElementAttribute(memberTable.getElement(), "id", "orgTreeMemberTable");
             memberTable.setOrgId(orgId);
             ClickHandler handlerModify = new ClickHandler() {
                 @Override
@@ -199,7 +205,7 @@ public class OrgTree  extends Composite{
             members.getElement().setAttribute("value", ""+Scope.build(Scope.ORG_PERSON_RELATIONS, Scope.MODIFY).value());
             w.add(label);
             w.add(members);
-            w.addStyleName("KS-Org-Tree-Member-Section");
+            w.addStyleName("KS-Org-Tree-Section");
             addStyleName("KS-Org-Widget");
             
             
@@ -231,9 +237,11 @@ public class OrgTree  extends Composite{
             this.orgId=id;
             this.hierarchyId=hierarchyId;
             final MembersTable memberTable = new MembersTable();
+            DOM.setElementAttribute(memberTable.getElement(), "id", "orgTreeMemberTable");
             memberTable.setOrgId(id);
             
             final KSLabel label = new KSLabel(name);
+            label.addStyleName("KS-Org-Tree-Label");
             ClickHandler handlerModify = new ClickHandler() {
                 @Override
                 public void onClick(ClickEvent event) {
@@ -272,7 +280,7 @@ public class OrgTree  extends Composite{
             
             w.add(label);
             w.add(members);
-            w.addStyleName("KS-Org-Tree-Member-Section");
+            w.addStyleName("KS-Org-Tree-Section");
             
             addStyleName("KS-Org-Widget");
         }

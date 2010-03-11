@@ -56,5 +56,7 @@
 			<b>Loading...</b>
 		</div>
 		<script language='javascript' src='org.kuali.student.core.organization.ui.OrgEntry.nocache.js'></script>
+		<div id="orgPositionsTable"></div>
+		<div id="orgTreeMemberTable"></div>
 	</body>
 </html>

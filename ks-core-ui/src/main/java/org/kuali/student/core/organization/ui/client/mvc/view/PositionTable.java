@@ -4,14 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.widgets.pagetable.GenericTableModel;
 import org.kuali.student.common.ui.client.widgets.pagetable.PagingScrollTableBuilder;
-import org.kuali.student.common.ui.client.widgets.search.TempSearchBackedTable;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import org.kuali.student.common.ui.client.widgets.searchtable.SearchColumnDefinition;
-import org.kuali.student.core.assembly.data.LookupResultMetadata;
-import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.ui.client.mvc.model.OrgPositionPersonRelationInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
@@ -77,8 +73,8 @@ public class PositionTable extends Composite{
         columnDefs.add(new SearchColumnDefinition("Person ID", "person"));
         columnDefs.add(new SearchColumnDefinition("Position Name", "postion"));
         columnDefs.add(new SearchColumnDefinition("Position Description", "desc"));
-        columnDefs.add(new SearchColumnDefinition("Maximum No.", "max"));
-        columnDefs.add(new SearchColumnDefinition("Minimum No.", "min"));
+//        columnDefs.add(new SearchColumnDefinition("Maximum No.", "max"));
+//        columnDefs.add(new SearchColumnDefinition("Minimum No.", "min"));
 
         if(columnDefs.size() == 1){
             //FIXME auto adjusting width to fill table does not work with 1 column bug in incubator???
@@ -109,8 +105,8 @@ public class PositionTable extends Composite{
                                     ResultRow theRow = new ResultRow();
                                     theRow.setValue("postion", positionRelation.getTitle());
                                     theRow.setValue("desc", positionRelation.getDesc());
-                                    theRow.setValue("max", positionRelation.getMaxNumRelations());
-                                    theRow.setValue("min", positionRelation.getMinNumRelations().toString());
+//                                    theRow.setValue("max", positionRelation.getMaxNumRelations());
+//                                    theRow.setValue("min", positionRelation.getMinNumRelations().toString());
                                     theRow.setValue("person", (String) personId);
                                     resultRows.add(theRow);
                                 }
@@ -118,8 +114,8 @@ public class PositionTable extends Composite{
                                 ResultRow theRow = new ResultRow();
                                 theRow.setValue("postion", positionRelation.getTitle());
                                 theRow.setValue("desc", positionRelation.getDesc());
-                                theRow.setValue("max", positionRelation.getMaxNumRelations());
-                                theRow.setValue("min", positionRelation.getMinNumRelations().toString());
+//                                theRow.setValue("max", positionRelation.getMaxNumRelations());
+//                                theRow.setValue("min", positionRelation.getMinNumRelations().toString());
                                 resultRows.add(theRow);
                             }
 
