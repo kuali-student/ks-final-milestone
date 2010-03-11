@@ -59,79 +59,86 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
     private Hyperlink advSearchLink = new Hyperlink("advanced search", "advSearch");
     private AdvancedSearchWindow advSearchWindow = null;
     private SearchPanel searchPanel;
-    private WidgetConfigInfo config = new WidgetConfigInfo();
+    private WidgetConfigInfo config;
     
     public KSPicker(WidgetConfigInfo config) {
-		this(config.lookupMeta, config.additionalLookups);
-    	this.config = config;
+        this.config = config;
+		init(config.lookupMeta, config.additionalLookups);
 	}
     
     public KSPicker(LookupMetadata inLookupMetadata, List<LookupMetadata> additionalLookupMetadata){
-    	if (inLookupMetadata == null) {
-    		//FIXME throw error?
-    		return;
-    	}    
-    	
-    	//1) setup initial search widget such as suggest box, drop down etc.
-    	
-        //setup suggest box if required
-    	if (inLookupMetadata.getWidget() == LookupMetadata.Widget.SUGGEST_BOX) {
-			final SearchSuggestOracle orgSearchOracle = new SearchSuggestOracle(inLookupMetadata);     	
-			basicWidget = new BasicWidget(new KSSuggestBox(orgSearchOracle, config != null ? config.canEdit : true)); 
-			((KSSuggestBox) basicWidget.get()).setAutoSelectEnabled(false);
-	    	orgSearchOracle.setTextWidget(((SuggestBox) basicWidget.get()).getTextBox());		
-	        layout.add(basicWidget.get());
-    	} else if (inLookupMetadata.getWidget() == LookupMetadata.Widget.NO_WIDGET) {
-    		if ((inLookupMetadata.getName() != null) && (inLookupMetadata.getName().trim().length() > 0)) {
-    			advSearchLink.setText(inLookupMetadata.getName().trim());
-    		}
-    		basicWidget = new BasicWidget(new SelectionContainerWidget());
-    	} else { //default to text box
-    		basicWidget = new BasicWidget(config != null && config.canEdit ? new KSTextBox() : new KSLabel());
-    		layout.add(basicWidget.get());
-    		GWT.log("KSTextBox for " + inLookupMetadata.getSearchTypeId(), null);
-    	}
+    	init(inLookupMetadata, additionalLookupMetadata);
+    }
+    private void init(LookupMetadata inLookupMetadata, List<LookupMetadata> additionalLookupMetadata) {
+        if (inLookupMetadata == null) {
+            //FIXME throw error?
+            return;
+        }    
+        if(config == null) {
+            config = new WidgetConfigInfo();
+        }
+        //1) setup initial search widget such as suggest box, drop down etc.
         
-    	//2) setup advanced search widget such as advanced search box, browse hierarchy search box etc.
-    	
+        //setup suggest box if required
+        if (inLookupMetadata.getWidget() == LookupMetadata.Widget.SUGGEST_BOX) {
+            final SearchSuggestOracle orgSearchOracle = new SearchSuggestOracle(inLookupMetadata);
+            if(config.canEdit) {
+                basicWidget = new BasicWidget(new KSSuggestBox(orgSearchOracle, true));
+                ((KSSuggestBox) basicWidget.get()).setAutoSelectEnabled(false);
+                orgSearchOracle.setTextWidget(((SuggestBox) basicWidget.get()).getTextBox());       
+            } else {
+                basicWidget = new BasicWidget(new KSLabel());
+            }
+            layout.add(basicWidget.get());
+        } else if (inLookupMetadata.getWidget() == LookupMetadata.Widget.NO_WIDGET) {
+            if ((inLookupMetadata.getName() != null) && (inLookupMetadata.getName().trim().length() > 0)) {
+                advSearchLink.setText(inLookupMetadata.getName().trim());
+            }
+            basicWidget = new BasicWidget(new SelectionContainerWidget());
+        } else { //default to text box
+            basicWidget = new BasicWidget(config != null && config.canEdit ? new KSTextBox() : new KSLabel());
+            layout.add(basicWidget.get());
+            GWT.log("KSTextBox for " + inLookupMetadata.getSearchTypeId(), null);
+        }
+        
+        //2) setup advanced search widget such as advanced search box, browse hierarchy search box etc.
+        
         //setup advanced search if required
-    	List<LookupMetadata> advancedLightboxLookupdata = getLookupMetadataBasedOnWidget(additionalLookupMetadata, LookupMetadata.Widget.ADVANCED_LIGHTBOX);
-    	if (advancedLightboxLookupdata != null) {    
-    		
-    		//for multiple searches, show a drop down for user to select from
-    		if (advancedLightboxLookupdata.size() == 1) {
-    			searchPanel = new SearchPanel(advancedLightboxLookupdata.get(0));
-    			advSearchWindow = new AdvancedSearchWindow(advancedLightboxLookupdata.get(0).getTitle(), searchPanel);
-    		} else {
-    			searchPanel = new SearchPanel(advancedLightboxLookupdata);
-    			advSearchWindow = new AdvancedSearchWindow(advancedLightboxLookupdata.get(0).getTitle(), searchPanel);
-    		}
-    		searchPanel.setMultiSelect(true);
-    		
-	        advSearchWindow.addSelectionCompleteCallback(new Callback<List<SelectedResults>>(){
-	            public void exec(List<SelectedResults> results) {
-	                if (results.size() > 0){               	           	
+        List<LookupMetadata> advancedLightboxLookupdata = getLookupMetadataBasedOnWidget(additionalLookupMetadata, LookupMetadata.Widget.ADVANCED_LIGHTBOX);
+        if (advancedLightboxLookupdata != null && config.canEdit) {    
+            
+            //for multiple searches, show a drop down for user to select from
+            if (advancedLightboxLookupdata.size() == 1) {
+                searchPanel = new SearchPanel(advancedLightboxLookupdata.get(0));
+                advSearchWindow = new AdvancedSearchWindow(advancedLightboxLookupdata.get(0).getTitle(), searchPanel);
+            } else {
+                searchPanel = new SearchPanel(advancedLightboxLookupdata);
+                advSearchWindow = new AdvancedSearchWindow(advancedLightboxLookupdata.get(0).getTitle(), searchPanel);
+            }
+            searchPanel.setMultiSelect(true);
+            
+            advSearchWindow.addSelectionCompleteCallback(new Callback<List<SelectedResults>>(){
+                public void exec(List<SelectedResults> results) {
+                    if (results.size() > 0){                            
                         basicWidget.setResults(results);                        
-	                	advSearchWindow.hide();
-	                }                
-	            }            
-	        });      
-	        
-	        advSearchLink.addClickHandler(new ClickHandler(){
-	            @Override
-	            public void onClick(ClickEvent event) {
-	               if(advSearchWindow != null){
-	                   advSearchWindow.show();
-	               }
-	            }
-	        });
-	        
-	        layout.add(advSearchLink);        
-    	}
+                        advSearchWindow.hide();
+                    }                
+                }            
+            });      
+            
+            advSearchLink.addClickHandler(new ClickHandler(){
+                @Override
+                public void onClick(ClickEvent event) {
+                   if(advSearchWindow != null){
+                       advSearchWindow.show();
+                   }
+                }
+            });
+            layout.add(advSearchLink);
+        }
         
         this.initWidget(layout);
     }
-    
 	private List<LookupMetadata> getLookupMetadataBasedOnWidget(List<LookupMetadata> additionalLookupMetadata, LookupMetadata.Widget widgetType) {
     	List<LookupMetadata> lookups = new ArrayList<LookupMetadata>();
     	for (LookupMetadata addLookupData : additionalLookupMetadata) {
@@ -170,6 +177,8 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 				((KSTextBox)basicWidget).setText(translation);
 			} else if(basicWidget instanceof KSSuggestBox) {
 				((KSSuggestBox) basicWidget).setValue(id, translation);
+			} else if(basicWidget instanceof KSLabel) {
+			    ((KSLabel)basicWidget).setText(translation);
 			} else {
 				((KSSuggestBox) basicWidget).setValue("", true);
 			}
