@@ -127,7 +127,7 @@
 	<bean id="orgRpcGwtServlet" class="org.kuali.student.core.organization.ui.server.gwt.OrgRpcGwtServlet">
 		<property name="service" ref="orgClient"/>
 		<property name="identityService" ref="identityServiceClient"/>
-		<property name="orgProposalAssembler" ref="orgProposalAssembler"/>
+		<property name="orgProposalAssembler" ref="orgAssemblerFilterManager"/>
 	</bean>
 
 	<bean id="personRpcGwtServlet" class="org.kuali.student.core.person.ui.server.gwt.PersonRpcGwtServlet">	
@@ -189,6 +189,11 @@
 	
 	<bean id="orgAssemblerFilterManager" class="org.kuali.student.core.assembly.AssemblerFilterManager">
 		<constructor-arg ref="orgProposalAssembler"/>
+		<property name="filters">
+  		 <list>
+    		<ref bean="idTranslatorAssemblerFilter" />
+   		</list>
+  		</property>
 	</bean>
 
 
