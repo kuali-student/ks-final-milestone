@@ -11,6 +11,8 @@ import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.core.assembly.util.AssemblerUtils;
+import org.kuali.student.core.proposal.dto.ProposalInfo;
+import org.kuali.student.core.proposal.service.ProposalService;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
@@ -34,6 +36,7 @@ public class ModifyCreditCourseProposalManager{
 	Assembler<Data,Void> creditCourseAssembler; 
 	LuService luService;
 	StatementService statementService;
+	private ProposalService proposalService;
 	
 	public Data getNewProposalWithCopyOfClu(String cluId) throws AssemblyException {
 		
@@ -49,7 +52,15 @@ public class ModifyCreditCourseProposalManager{
 		CreditCourseHelper course = CreditCourseHelper.wrap(data);
 		course.setCopyOfCourseId(cluId);
 		
+		List<ProposalInfo> proposalList = null;
+		try{
+		    proposalList = proposalService.getProposalsByReference(CreditCourseProposalAssembler.PROPOSAL_REFERENCE_TYPE, cluId);
+		} catch(Exception e){
+		    throw new AssemblyException(e.getMessage(), e);
+		}
 		CreditCourseProposalInfoHelper proposal = CreditCourseProposalInfoHelper.wrap(new Data());
+		// Can we have more than one course in a proposal? if yes how do we handle this here?
+		proposal.setRationale(proposalList.get(0).getRationale());
 		
 		result.setCourse(course);
 		result.setProposal(proposal);
@@ -144,6 +155,18 @@ public class ModifyCreditCourseProposalManager{
 	public void setCreditCourseAssembler(Assembler<Data, Void> creditCourseAssembler) {
 		this.creditCourseAssembler = creditCourseAssembler;
 	}
+
+
+
+    public ProposalService getProposalService() {
+        return proposalService;
+    }
+
+
+
+    public void setProposalService(ProposalService proposalService) {
+        this.proposalService = proposalService;
+    }
 	
 
 }
