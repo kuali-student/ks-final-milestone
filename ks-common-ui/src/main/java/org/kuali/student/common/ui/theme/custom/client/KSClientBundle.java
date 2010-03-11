@@ -231,6 +231,13 @@ public interface KSClientBundle extends ImmutableResourceBundle{
     public ImageResource nodeIcon();    
 
     @Resource("org/kuali/student/common/ui/theme/custom/public/images/common/users.png")
-    public ImageResource peopleIcon();    
+    public ImageResource peopleIcon();   
+    
+    @Resource("org/kuali/student/common/ui/theme/custom/public/images/common/disclosure_triangle_opened.png")
+    public ImageResource disclosureOpenedIcon();    
+
+    @Resource("org/kuali/student/common/ui/theme/custom/public/images/common/disclosure_triangle_closed.png")
+    public ImageResource disclosureClosedIcon();    
+
 
 }

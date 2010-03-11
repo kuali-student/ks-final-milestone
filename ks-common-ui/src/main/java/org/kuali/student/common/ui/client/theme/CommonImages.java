@@ -28,4 +28,6 @@ public interface CommonImages {
 	public KSImage getPeopleIcon();
 	public KSImage getBookIcon();
 	public KSImage getNodeIcon();
+	public KSImage getDisclosureOpenedIcon();
+	public KSImage getDisclosureClosedIcon();
 }

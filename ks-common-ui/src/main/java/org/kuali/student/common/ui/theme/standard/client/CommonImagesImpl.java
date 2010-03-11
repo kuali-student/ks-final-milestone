@@ -125,6 +125,16 @@ public class CommonImagesImpl implements CommonImages{
 	public KSImage getPeopleIcon() {
 		return new KSImage(KSClientBundle.INSTANCE.peopleIcon());
 	}
+
+	@Override
+	public KSImage getDisclosureClosedIcon() {
+		return new KSImage(KSClientBundle.INSTANCE.disclosureClosedIcon());
+	}
+
+	@Override
+	public KSImage getDisclosureOpenedIcon() {
+		return new KSImage(KSClientBundle.INSTANCE.disclosureOpenedIcon());
+	}
 	
 	
 }

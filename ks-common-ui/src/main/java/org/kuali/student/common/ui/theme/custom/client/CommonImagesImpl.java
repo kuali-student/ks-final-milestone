@@ -131,4 +131,16 @@ public class CommonImagesImpl implements CommonImages{
 		return new KSImage(KSClientBundle.INSTANCE.spacerIcon());
 	}
 
+	@Override
+	public KSImage getDisclosureClosedIcon() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public KSImage getDisclosureOpenedIcon() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
