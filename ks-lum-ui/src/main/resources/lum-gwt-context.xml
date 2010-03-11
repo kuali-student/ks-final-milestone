@@ -122,6 +122,11 @@
 					<ref bean="CourseRpcGwtServletController" />
 				</entry>
 				<entry
+					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/WorkflowToolRpcService">
+					<ref bean="WorkflowToolRpcGwtServletController" />
+				</entry>
+				
+				<entry
 					key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CluSetManagementRpcService">
 					<ref bean="CluSetManagementRpcGwtServletController" />
 				</entry>
@@ -233,11 +238,17 @@
 		<property name="servletName" value="CourseRpcGwtServlet" />
 		<property name="servletInstance" ref="CourseRpcGwtServlet" />
 	</bean>
+	
+	<bean id="WorkflowToolRpcGwtServletController"
+		class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="WorkflowToolRpcGwtServlet" />
+		<property name="servletInstance" ref="WorkflowToolRpcGwtServlet" />
+	</bean>
 
 	<bean id="CluSetManagementRpcGwtServletController" class="org.kuali.student.common.ws.ServletWrappingController">
 		<property name="servletName" value="CluSetManagementRpcGwtServlet" />
 		<property name="servletInstance" ref="CluSetManagementRpcGwtServlet" />
-	</bean>	
+	</bean>
 
 	<!-- GWT Servlets -->
 	<bean id="requirementsRpcGwtServlet"
@@ -249,6 +260,15 @@
 	<bean id="LuRpcGwtServlet"
 		class="org.kuali.student.lum.lu.ui.course.server.gwt.LuRpcGwtServlet">
 		<property name="service" ref="luClient" />
+	</bean>
+	
+	<bean id="WorkflowToolRpcGwtServlet"
+		class="org.kuali.student.lum.lu.ui.course.server.gwt.WorkflowToolRpcGwtServlet">
+		<property name="metadataService" ref="metadataServiceImpl" />
+		<property name="simpleDocService" ref="simpleDocActionsClient" />
+		<property name="permissionService" ref="permissionServiceClient" />
+		<property name="identityService" ref="identityServiceClient"/>
+		<property name="workflowUtilityService" ref="workflowUtilityClient" />
 	</bean>
 
 	<bean id="CluProposalRpcGwtServlet"
@@ -497,5 +517,10 @@
 		<property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.PermissionService" />
 		<property name="serviceQName" value="{KIM}kimPermissionServiceUnsecure" />
 	</bean>
+	
+	<bean id="identityServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.IdentityService" />
+        <property name="serviceQName" value="{http://rice.kuali.org/wsdl/kim}kimIdentityServiceSOAP" />
+    </bean>
 
 </beans>

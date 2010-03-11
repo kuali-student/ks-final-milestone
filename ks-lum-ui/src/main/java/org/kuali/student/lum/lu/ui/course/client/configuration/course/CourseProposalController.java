@@ -58,6 +58,7 @@ import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseReqSummaryHolder;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
+import org.kuali.student.lum.lu.ui.course.client.widgets.CollaboratorTool;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
 
@@ -73,6 +74,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  * @author Kuali Student Team
  *
  */
+
 public class CourseProposalController extends TabbedSectionLayout implements RequiresAuthorization { 
 
 	//RPC Services
@@ -286,10 +288,10 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
         		
         		callback.onModelReady(ref);
         	}
-        } else if(modelType == Collaborators.CollaboratorModel.class){
+        } else if(modelType == CollaboratorTool.CollaboratorModel.class){
         	//Update the collabmodel with info from the CluProposal Model
         	//Create a new one if it does not yet exist
-        	if(null==collaboratorModel){
+/*        	if(null==collaboratorModel){
         		collaboratorModel = new Collaborators.CollaboratorModel();
         	}
         	String proposalId="";
@@ -297,8 +299,16 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
         		proposalId=cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH);
         	}
         	collaboratorModel.setProposalId(proposalId);    
+        	callback.onModelReady(collaboratorModel);*/
+        	CollaboratorTool.CollaboratorModel collaboratorModel = new CollaboratorTool.CollaboratorModel();
+        	String proposalId=null;
+        	if(cluProposalModel!=null && cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH)!=null){
+        		proposalId=cluProposalModel.get(CourseConfigurer.PROPOSAL_ID_PATH);
+        	}
+        	collaboratorModel.setDataId(proposalId);
         	callback.onModelReady(collaboratorModel);
-        } else if (modelType == LuData.class){
+        	
+        }else if (modelType == LuData.class){
         	requestModel(CourseConfigurer.CLU_PROPOSAL_MODEL, callback);
         } else {
             super.requestModel(modelType, callback);

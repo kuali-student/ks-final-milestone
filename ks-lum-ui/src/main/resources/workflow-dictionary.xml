@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">	
+		<!-- data structures -->
+	<bean id="workflow" parent="workflow-parent" />
+	<bean id="workflow-parent" abstract="true"
+		parent="dataObjectStructure">
+		<property name="name" value="workflow" />
+		<property name="fields">
+			<list>
+				<ref bean="workflow.personId" />
+				<ref bean="workflow.collaboratorType" />
+				<ref bean="workflow.collaborators" />		
+			</list>
+		</property>
+	</bean>
+	<bean id="workflow.collaborators" parent="dataFieldDescriptor">
+		<property name="name" value="collaborators" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.repeating" />
+			</list>
+		</property>
+	</bean>
+	<bean id="workflow.collaboratorType" parent="dataFieldDescriptor">
+		<property name="name" value="collaboratorType" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.required" />
+				<ref bean="constraint.repeating" />
+				<ref bean="constraint.code" />
+			</list>
+		</property>
+	</bean>
+	<bean id="workflow.personId" parent="dataFieldDescriptor">
+		<property name="name" value="personId" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata"
+			value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+			</list>
+		</property>
+		<property name="initialLookup">
+			<bean parent="lookup">
+				<property name="searchTypeId" value="person.search.personQuickViewByGivenName" />
+				<property name="name" value="All org hierarchies" />
+				<property name="desc" value="Returns all org hierarchies, name and id" />
+				<property name="searchParamIdKey" value="person.queryParam.personId" />
+				<property name="widget" value="SUGGEST_BOX"/>
+				<property name="params">
+					<list>
+						<bean parent="param">
+							<property name="key" value="person.queryParam.personGivenName" />
+							<property name="writeAccess" value="ALWAYS" />
+							<property name="dataType" value="STRING" />
+							<property name="optional" value="false" />
+							<property name="name" value="Name Lookup Field" />
+							<property name="desc" value="Name of person" />
+							<property name="caseSensitive" value="false" />
+							<property name="usage" value="DEFAULT"/>
+						</bean>
+						<bean parent="param">
+							<property name="key" value="person.queryParam.personId" />
+							<property name="writeAccess" value="ALWAYS" />
+							<property name="dataType" value="STRING" />
+							<property name="optional" value="false" />
+							<property name="name" value="Person Id" />
+							<property name="desc"
+								value="Person Id" />
+							<property name="caseSensitive" value="false" />
+						</bean>
+					</list>
+				</property>
+				<property name="results">
+					<list>
+						<bean parent="result">
+							<property name="dataType" value="STRING" />
+							<property name="desc" value="Internal person id" />
+							<property name="hidden" value="false" />
+							<property name="key" value="person.resultColumn.PersonId" />
+							<property name="name" value="Person id" />
+						</bean>
+						<bean parent="result">
+							<property name="dataType" value="STRING" />
+							<property name="desc" value="Given name of person" />
+							<property name="hidden" value="false" />
+							<property name="key" value="person.resultColumn.GivenName" />
+							<property name="name" value="Given name" />
+						</bean>
+						<bean parent="result">
+							<property name="dataType" value="STRING" />
+							<property name="desc" value="Entity Id of Person" />
+							<property name="hidden" value="false" />
+							<property name="key" value="person.resultColumn.EntityId" />
+							<property name="name" value="Entity Id" />
+						</bean>
+						<bean parent="result">
+							<property name="dataType" value="STRING" />
+							<property name="desc" value="Principal name of person" />
+							<property name="hidden" value="false" />
+							<property name="key" value="person.resultColumn.PrincipalName" />
+							<property name="name" value="Principal name" />
+						</bean>
+						<bean parent="result">
+							<property name="dataType" value="STRING" />
+							<property name="desc" value="Display name of person" />
+							<property name="hidden" value="false" />
+							<property name="key" value="person.resultColumn.DisplayName" />
+							<property name="name" value="Display name" />
+						</bean>
+					</list>
+				</property>
+				<property name="resultReturnKey" value="person.resultColumn.PersonId" />
+				<property name="resultDisplayKey" value="person.resultColumn.DisplayName" />
+				<property name="resultSortKey" value="person.resultColumn.DisplayName" />
+				<property name="id" value="kuali.lookup.people" />
+			</bean>
+		</property>
+		<property name="additionalLookups">
+			<list>
+				<bean parent="lookup">
+				<property name="searchTypeId" value="person.search.personQuickViewByGivenName" />
+				<property name="name" value="All org hierarchies" />
+				<property name="desc" value="Returns all org hierarchies, name and id" />
+				<property name="widget" value="ADVANCED_LIGHTBOX"/>
+				<property name="params">
+					<list>
+						<bean parent="param">
+							<property name="key" value="person.queryParam.personGivenName" />
+							<property name="writeAccess" value="ALWAYS" />
+							<property name="dataType" value="STRING" />
+							<property name="optional" value="false" />
+							<property name="name" value="Name Lookup Field" />
+							<property name="desc" value="Name of person" />
+							<property name="caseSensitive" value="false" />
+							<property name="usage" value="ADVANCED"/>
+							<property name="widget" value="TEXT_BOX"/>
+						</bean>
+						<bean parent="param">
+							<property name="key" value="person.queryParam.personId" />
+							<property name="writeAccess" value="ALWAYS" />
+							<property name="dataType" value="STRING" />
+							<property name="optional" value="false" />
+							<property name="name" value="Person Id" />
+							<property name="desc"
+								value="Person Id" />
+							<property name="usage" value="ADVANCED"/>
+							<property name="caseSensitive" value="false" />
+							<property name="widget" value="TEXT_BOX"/>
+						</bean>
+					</list>
+				</property>
+				<property name="results">
+					<list>
+						<bean parent="result">
+							<property name="dataType" value="STRING" />
+							<property name="desc" value="Internal person id" />
+							<property name="hidden" value="false" />
+							<property name="key" value="person.resultColumn.PersonId" />
+							<property name="name" value="Internal id" />
+						</bean>
+						<bean parent="result">
+							<property name="dataType" value="STRING" />
+							<property name="desc" value="Given name of person" />
+							<property name="hidden" value="false" />
+							<property name="key" value="person.resultColumn.GivenName" />
+							<property name="name" value="Given Name" />
+						</bean>
+						<bean parent="result">
+							<property name="dataType" value="STRING" />
+							<property name="desc" value="Entity Id of Person" />
+							<property name="hidden" value="false" />
+							<property name="key" value="person.resultColumn.EntityId" />
+							<property name="name" value="Entity Id" />
+						</bean>
+						<bean parent="result">
+							<property name="dataType" value="STRING" />
+							<property name="desc" value="Principal name of person" />
+							<property name="hidden" value="false" />
+							<property name="key" value="person.resultColumn.PrincipalName" />
+							<property name="name" value="Principal name" />
+						</bean>
+						<bean parent="result">
+							<property name="dataType" value="STRING" />
+							<property name="desc" value="Display name of person" />
+							<property name="hidden" value="false" />
+							<property name="key" value="person.resultColumn.DisplayName" />
+							<property name="name" value="Display name" />
+						</bean>
+					</list>
+				</property>
+				<property name="resultReturnKey" value="person.resultColumn.PersonId" />
+				<property name="resultDisplayKey" value="person.resultColumn.DisplayName" />
+				<property name="resultSortKey" value="person.resultColumn.DisplayName" />
+				<property name="usage" value="DEFAULT" />
+				<property name="id" value="kuali.lookup.people" />
+			</bean>
+			</list>
+		</property>
+	</bean>
+</beans>

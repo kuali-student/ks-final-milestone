@@ -508,7 +508,7 @@ public class ViewCluConfigurer {
 
     }
         
-    public static class CollaboratorTool extends ToolView{
+/*    public static class CollaboratorTool extends ToolView{
         public CollaboratorTool(){
             super(LuSections.AUTHOR, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS);            
         }
@@ -518,12 +518,7 @@ public class ViewCluConfigurer {
             return new Collaborators();
         }
 
-		@Override
-		public KSImage getImage() {
-			return Theme.INSTANCE.getCommonImages().getPersonIcon();
-		}
-
-    }    
+    }  */  
 
     private static String getLabel(String fieldId) {
         return Application.getApplicationContext().getUILabel(LUConstants.COURSE_GROUP_NAME, type, state, fieldId);   //FIXME: set proper group name

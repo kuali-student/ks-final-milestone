@@ -45,6 +45,10 @@ import org.kuali.student.common.ui.client.widgets.search.AdvancedSearchWindow;
 import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
+import org.kuali.student.core.search.dto.SearchResultRow;
+import org.kuali.student.core.search.dto.SortDirection;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.RichTextInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityConstants;
@@ -63,7 +67,11 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.removeinm4.
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRequisitesSectionView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.service.WorkflowToolRpcService;
+import org.kuali.student.lum.lu.ui.course.client.service.WorkflowToolRpcServiceAsync;
+import org.kuali.student.lum.lu.ui.course.client.widgets.AssemblerTestSection;
 import org.kuali.student.lum.lu.ui.course.client.widgets.AtpPicker;
+import org.kuali.student.lum.lu.ui.course.client.widgets.CollaboratorTool;
 import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
 import org.kuali.student.lum.lu.ui.course.client.widgets.LOBuilder;
 import org.kuali.student.lum.lu.ui.course.client.widgets.OfferedJointlyList;
@@ -105,6 +113,8 @@ public class CourseConfigurer
 
     private boolean WITH_DIVIDER = true;
     private boolean NO_DIVIDER = false;
+    
+
 
     public static final String CLU_PROPOSAL_MODEL	= "cluProposalModel";
     public static final String PROPOSAL_ID_PATH		= "proposal/id";
@@ -139,11 +149,12 @@ public class CourseConfigurer
         //layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateFinancialsSection());
         layout.addSection(new String[] {getLabel(LUConstants.SUMMARY_LABEL_KEY)}, generateSummarySection());
 
-        //layout.addSection(new String[] {"Assembler Test"}, new AssemblerTestSection(LuSections.ASSEMBLER_TEST, "Assembler Test"));
+        //layout.addSection(new String[] {"Assembler Test"}, new AssemblerTestSection(CourseSections.ASSEMBLER_TEST, "Assembler Test"));
 
-        layout.addTool(new CollaboratorTool());
-        layout.addTool(new CommentPanel(CourseSections.COMMENTS, getLabel(LUConstants.TOOL_COMMENTS_LABEL_KEY)));
-        layout.addTool(new DocumentTool(CourseSections.DOCUMENTS, getLabel(LUConstants.TOOL_DOCUMENTS_LABEL_KEY)));
+        layout.addTool(new CollaboratorTool(CourseSections.AUTHOR, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS, 
+        		getH2Title(LUConstants.SECTION_AUTHORS_AND_COLLABORATORS)));
+        layout.addTool(new CommentPanel(CourseSections.COMMENTS, LUConstants.TOOL_COMMENTS_LABEL_KEY));
+        layout.addTool(new DocumentTool(CourseSections.DOCUMENTS, LUConstants.TOOL_DOCUMENTS_LABEL_KEY));
     }
 
     public SectionView generateSummarySection(){
@@ -816,7 +827,8 @@ public class CourseConfigurer
 
         layout.addSection(new String[] {getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateProgramInfoSection());
 
-        layout.addTool(new CollaboratorTool());
+        layout.addTool(new CollaboratorTool(CourseSections.AUTHOR, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS, 
+        		getH3Title(LUConstants.SECTION_AUTHORS_AND_COLLABORATORS)));
         layout.addTool(new CommentPanel(CourseSections.COMMENTS, LUConstants.TOOL_COMMENTS_LABEL_KEY));
         layout.addTool(new DocumentTool(CourseSections.DOCUMENTS, LUConstants.TOOL_DOCUMENTS_LABEL_KEY));
     }
@@ -834,22 +846,27 @@ public class CourseConfigurer
         return shortTitle;
 	}
 
-	public class CollaboratorTool extends ToolView{
-        @Override
-		public KSImage getImage() {
-			return Theme.INSTANCE.getCommonImages().getPersonIcon();
-		}
-
-		public CollaboratorTool(){
+/*	public class CollaboratorTool extends ToolView{
+		
+        public CollaboratorTool(){
             super(CourseSections.AUTHOR, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS);
         }
 
+
         @Override
         protected Widget createWidget() {
-            return new Collaborators();
+            //return new Collaborators();
+        	final VerticalSection section = new VerticalSection(getH3Title(LUConstants.SECTION_AUTHORS_AND_COLLABORATORS));
+        	
+        	
+        	
+        	//TODO convert to messages
+        	//
+        	
+        	return section;
         }
 
-    }
+    }*/
 
     private VerticalSectionView initSectionView (Enum<?> viewEnum, String labelKey) {
         VerticalSectionView section = new VerticalSectionView(viewEnum, getLabel(labelKey), CLU_PROPOSAL_MODEL);
