@@ -1,0 +1,20 @@
+.KS-Org-Tree-Member-Section{
+	
+	background-color: #eeeeee;
+	width: 1100;
+}
+
+.KS-Disclosure-Content-Open, .KS-Org-Tree, .KS-Org-Search-Widget, .KS-Person-Search-Widget{
+	margin: 5px;
+background: FormBackgroundColor;
+border: outset FormBackgroundColor thin;
+}
+
+.action,.action a:link, .action a:visited, .action a:hover {
+	font: 12px tahoma, arial, verdana, sans-serif;
+	text-decoration: none;
+	margin: 0;
+	margin-left: 1em;
+	color: blue;
+}
+
