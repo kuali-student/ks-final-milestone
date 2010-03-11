@@ -47,8 +47,10 @@ public class LookupMetadata implements Serializable {
     
     private LookupImplMetadata impl;  //FIXME remove after LookupMetadataBank is gone
 
+    // how a search criteria will be used. ADVANCED_CUSTOM is shown on both advanced
+	// and custom screens of the advanced search lightbox
     public enum Usage {
-        DEFAULT, ADVANCED, CUSTOM
+        DEFAULT, ADVANCED, CUSTOM, ADVANCED_CUSTOM
     }
 
     private Usage usage;

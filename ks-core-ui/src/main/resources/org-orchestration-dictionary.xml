@@ -411,7 +411,7 @@
 								<property name="dataType" value="STRING"/>								
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="false"/>
-								<property name="usage" value="ADVANCED"/>
+								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
@@ -421,7 +421,7 @@
 								<property name="dataType" value="STRING"/>								
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="false"/>
-								<property name="usage" value="ADVANCED"/>
+								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="TEXT_BOX"/>
 							</bean>
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
@@ -431,7 +431,7 @@
 								<property name="dataType" value="STRING"/>								
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="false"/>
-								<property name="usage" value="ADVANCED"/>
+								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>							
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
@@ -688,7 +688,7 @@
 							<property name="name" value="Name Lookup Field" />
 							<property name="desc" value="Name of person" />
 							<property name="caseSensitive" value="false" />
-							<property name="usage" value="ADVANCED"/>
+							<property name="usage" value="ADVANCED_CUSTOM"/>
 							<property name="widget" value="TEXT_BOX"/>
 						</bean>
 						<bean parent="param">
@@ -697,9 +697,8 @@
 							<property name="dataType" value="STRING" />
 							<property name="optional" value="false" />
 							<property name="name" value="Person Id" />
-							<property name="desc"
-								value="Person Id" />
-							<property name="usage" value="ADVANCED"/>
+							<property name="desc" value="Person Id" />
+							<property name="usage" value="ADVANCED_CUSTOM"/>
 							<property name="caseSensitive" value="false" />
 							<property name="widget" value="TEXT_BOX"/>
 						</bean>
@@ -1101,7 +1100,7 @@
 								<property name="dataType" value="STRING"/>								
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="false"/>
-								<property name="usage" value="ADVANCED"/>
+								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
@@ -1111,7 +1110,7 @@
 								<property name="dataType" value="STRING"/>								
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="false"/>
-								<property name="usage" value="ADVANCED"/>
+								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="TEXT_BOX"/>
 							</bean>
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
@@ -1121,7 +1120,7 @@
 								<property name="dataType" value="STRING"/>								
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="false"/>
-								<property name="usage" value="ADVANCED"/>
+								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>							
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">

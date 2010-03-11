@@ -18,7 +18,9 @@ public class SwappablePanel extends Composite{
 	private ListBox panelSelector = new ListBox();
 	private LinkedHashMap<String, Widget> panelMap = new LinkedHashMap<String, Widget>();
 	private SimplePanel content = new SimplePanel();
-	private KSLabel searchForLabel = new KSLabel(Application.getApplicationContext().getMessage("swappablePanelSearchFor"));
+	//FIXME: eventually we will need 'Search For' label as well. can the use of 'Search By' or 'Search For' be automatically
+	// implied or do we need another lookup configuration parameter?
+	private KSLabel searchForLabel = new KSLabel(Application.getApplicationContext().getMessage("swappablePanelSearchBy"));
 
 	public SwappablePanel(LinkedHashMap<String, Widget> panelMap){
 		this.panelMap = panelMap;

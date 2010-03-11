@@ -39,7 +39,7 @@ public class Metadata implements Serializable {
 
     public enum WriteAccess {
         ON_CREATE, /* must also be required */
-        ALWAYS, NEVER, WHEN_NULL
+        ALWAYS, NEVER, WHEN_NULL, REQUIRED
     }
 
     public enum Permission {
