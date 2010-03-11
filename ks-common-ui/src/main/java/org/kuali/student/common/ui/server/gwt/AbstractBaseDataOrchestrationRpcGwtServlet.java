@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.dto.DocumentContentDTO;
 import org.kuali.rice.kew.dto.DocumentDetailDTO;
 import org.kuali.rice.kew.service.WorkflowUtility;
@@ -13,6 +12,8 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.webservice.DocumentResponse;
 import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
 import org.kuali.rice.kew.webservice.StandardResponse;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcService;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
@@ -46,6 +47,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 
     private SimpleDocumentActionsWebService simpleDocService;
     private WorkflowUtility workflowUtilityService;
+	private PermissionService permissionService;
 	
 	@Override
 	public Data getData(String dataId) {
@@ -290,12 +292,13 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
             LOG.debug("Calling action requested with user:"+username+" and docId:"+docDetail.getRouteHeaderId());
 
             Map<String,String> results = new HashMap<String,String>();
-            for(ActionRequestDTO request:docDetail.getActionRequests()){
-        		if(request.getPrincipalId()!=null&&request.getPrincipalId().equals(username)){
-        			results.put(request.getActionRequested(), "true");
-        		}
+            AttributeSet kewActionsRequested = workflowUtilityService.getActionsRequested(username, docDetail.getRouteHeaderId());
+            for (String key : kewActionsRequested.keySet()) {
+            	if ("true".equalsIgnoreCase(kewActionsRequested.get(key))) {
+            		results.put(key,"true");
+            	}
             }
-            
+
             String actionsRequested = "";
 
             String documentStatus = workflowUtilityService.getDocumentStatus(docDetail.getRouteHeaderId());
@@ -451,9 +454,44 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 		return true;
 	}
 
+	protected boolean checkDocumentLevelPermissions() {
+		return false;
+	}
+
 	public Boolean isAuthorized(PermissionType type, Map<String,String> attributes) {
-		// FIXME: this should probably be implemented in a better way
-		return true;
+		String user = getCurrentUser();
+		boolean result = false;
+		if (checkDocumentLevelPermissions()) {
+			String namespaceCode = null;
+			String permissionTemplateName = null;
+			AttributeSet roleQuals = new AttributeSet("documentTypeName", getDefaultWorkflowDocumentType());
+			if (PermissionType.INITIATE.equals(type)) {
+				namespaceCode = "KR-SYS";
+				permissionTemplateName = "Initiate Document";
+			}
+			else if (PermissionType.OPEN.equals(type)) {
+				namespaceCode = "KS-SYS";
+				permissionTemplateName = "Open Document";
+			}
+			else if (PermissionType.SEARCH.equals(type)) {
+	        	// FIXME: add real perms for SEARCH
+	        	return Boolean.TRUE;
+			}
+			else {
+				return null;
+			}
+			if (attributes != null) {
+				roleQuals.putAll(attributes);
+			}
+			LOG.info("Checking Permission '" + namespaceCode + "/" + permissionTemplateName + "' for user '" + user + "'");
+			result = getPermissionService().isAuthorizedByTemplateName(user, namespaceCode, permissionTemplateName, null, roleQuals);
+		}
+		else {
+			LOG.info("Will not check for document level permissions. Defaulting authorization to true.");
+			result = true;
+		}
+		LOG.info("Result of authorization check for user '" + user + "': " + result);
+		return Boolean.valueOf(result);
 	}
 
 	protected abstract String deriveAppIdFromData(Data data);
@@ -466,6 +504,14 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 	public void setAssembler(Assembler<Data, Void> assembler) {
 		this.assembler = assembler;
 	}
+
+	public PermissionService getPermissionService() {
+        return permissionService;
+    }
+
+    public void setPermissionService(PermissionService permissionService) {
+        this.permissionService = permissionService;
+    }
 
 	public void setSimpleDocService(SimpleDocumentActionsWebService simpleDocService) {
 		this.simpleDocService = simpleDocService;

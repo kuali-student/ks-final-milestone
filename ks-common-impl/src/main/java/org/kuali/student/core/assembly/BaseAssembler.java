@@ -69,18 +69,6 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
         AttributeSet qualification = getQualification(idType, id);
         Boolean authorized = null;
         if (StringUtils.isNotBlank(id) && checkDocumentLevelPermissions()) {
-            // temporary hack to utilize "Open Document" permission
-//	        if (StringUtils.isNotBlank(id)) {
-//	        	String userId = SecurityUtils.getCurrentUserId();
-//	        	if (!permissionService.isAuthorizedByTemplateName(userId, namespace, OPEN_DOCUMENT_PERM, null, qualification)) {
-//	        		throw new RuntimeException("User '" + userId + "' does not have permission (namespace: " + namespace + "  permission template name: " + 
-//	        				OPEN_DOCUMENT_PERM + ") to open document with id '" + id + "'");
-//	        	}
-//	        	else {
-//	        		LOG.info("User '" + userId + "' has permission (namespace: " + namespace + "  permission template name: " + 
-//	        				OPEN_DOCUMENT_PERM + ") to open document with id '" + id + "'");
-//	        	}
-//	        }
         	String currentUser = SecurityUtils.getCurrentUserId();
 	        authorized = Boolean.valueOf(permissionService.isAuthorizedByTemplateName(currentUser, namespace,
 	                EDIT_DOCUMENT_PERM, null, qualification));
@@ -146,7 +134,7 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
         return fieldPath.split("/");
     }
 
-    protected boolean checkDocumentLevelPermissions() {
+    public boolean checkDocumentLevelPermissions() {
     	return false;
     }
 
