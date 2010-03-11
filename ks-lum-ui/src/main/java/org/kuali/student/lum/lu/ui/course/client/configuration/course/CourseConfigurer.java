@@ -430,8 +430,7 @@ public class CourseConfigurer
 
     private VerticalSection generateLearningObjectivesNestedSection() {
         VerticalSection los = initSection(null, NO_DIVIDER);
-        
-        // FIXME - make LOBuilder a section? 
+         
         QueryPath path = QueryPath.concat(null, COURSE + "/" + COURSE_SPECIFIC_LOS + "/" + "*" + "/" + CreditCourseCourseSpecificLOsConstants.INCLUDED_SINGLE_USE_LO + "/" + "description");
     	Metadata meta = modelDefinition.getMetadata(path);
         
@@ -509,94 +508,7 @@ public class CourseConfigurer
 
     }
 
-/*    //FIXME: This is a temp widget impl for the Curriculum Oversight field. Don't yet know if this
-    //will be a multiple org select field, in which case we need a multiple org select picker widget.
-    //Otherwise if it's single org picker, need a way to bind a HasText widget to ModelDTOList
-    public class OrgListPicker extends KSSelectItemWidgetAbstract implements SuggestPicker{
-        private OrgPicker orgPicker;
 
-        public OrgListPicker(){
-            orgPicker = new OrgPicker();
-            initWidget(orgPicker);
-        }
-
-        public void deSelectItem(String id) {
-            throw new UnsupportedOperationException();
-        }
-
-        public List<String> getSelectedItems() {
-            ArrayList<String> selectedItems = new ArrayList<String>();
-            selectedItems.add(orgPicker.getValue());
-            return selectedItems;
-        }
-
-        public boolean isEnabled() {
-            return true;
-        }
-
-        public void onLoad() {
-        }
-
-        public void redraw() {
-            throw new UnsupportedOperationException();
-        }
-
-        public void selectItem(String id) {
-            orgPicker.setValue(id);
-        }
-
-        public void setEnabled(boolean b) {
-            throw new UnsupportedOperationException();
-        }
-
-        public boolean isMultipleSelect(){
-            return true;
-        }
-
-        public void clear(){
-            orgPicker.clear();
-        }
-
-		@Override
-		public HandlerRegistration addFocusHandler(FocusHandler handler) {
-			return orgPicker.addFocusHandler(handler);
-		}
-
-		@Override
-		public HandlerRegistration addBlurHandler(BlurHandler handler) {
-			return orgPicker.addBlurHandler(handler);
-		}
-
-		@Override
-		public String getValue() {
-			return orgPicker.getValue();
-		}
-
-		@Override
-		public void setValue(String value) {
-			orgPicker.setValue(value);
-
-		}
-
-		@Override
-		public void setValue(String value, boolean fireEvents) {
-			orgPicker.setValue(value, fireEvents);
-
-		}
-
-		@Override
-		public HandlerRegistration addValueChangeHandler(
-				ValueChangeHandler<String> handler) {
-			return orgPicker.addValueChangeHandler(handler);
-		}
-
-
-		@Override
-		public HandlerRegistration addSelectionChangeHandler(SelectionChangeHandler handler){
-			return orgPicker.addSelectionChangeHandler(handler);
-		}
-
-    }*/
 
     public class TermListPicker extends KSSelectItemWidgetAbstract implements HasText {
         private AtpPicker atpPicker;

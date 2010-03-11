@@ -59,14 +59,8 @@ public class FindPanel extends ViewComposite{
     ProposalRpcServiceAsync proposalServiceAsync = GWT.create(ProposalRpcService.class);
     CreditCourseProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CreditCourseProposalRpcService.class);
     
-    // TODO please leave on until the atp search has found a home.
-//    AtpRpcServiceAsync atpRpcServiceAsync = GWT.create(AtpRpcService.class);
-    
-    
     AdvancedSearchWindow courseSearchWindow;
     KSAdvancedSearchWindow proposalSearchWindow;
-    // TODO please leave on until the atp search has found a home.
-    AdvancedSearchWindow atpSearchWindow;
     
     private VerticalPanel mainPanel = new VerticalPanel();
         
@@ -98,18 +92,7 @@ public class FindPanel extends ViewComposite{
                     }
                     proposalSearchWindow.show();
                 }            
-            });
-            
-            
-            // TODO please leave on until the atp search has found a home.
-//            KSButton findAtpButton = new KSButton("Find Session", new ClickHandler(){
-//                public void onClick(ClickEvent event) {
-//                    if (atpSearchWindow == null){
-//                        initAtpSearchWindow();
-//                    }
-//                    atpSearchWindow.show();
-//                }            
-//            });
+            });            
             
             ButtonRow findCourseRow = new ButtonRow(findCourseButton, "Find an existing course.");
 //            addIfPermitted(mainPanel, findCourseRow, "Lookup Course");
@@ -119,9 +102,6 @@ public class FindPanel extends ViewComposite{
 //            addIfPermitted(mainPanel, findProposalRow, "Lookup Proposal");
             addIfPermitted(mainPanel, findProposalRow, PermissionType.SEARCH);
             
-            // TODO Please leave on 
-//            mainPanel.add(new ButtonRow(findAtpButton, "Find a Session."));
-
             loaded = true;
         }
         onReadyCallback.exec(true);
@@ -129,7 +109,7 @@ public class FindPanel extends ViewComposite{
     private void addIfPermitted(final Panel container, final Widget element, PermissionType permType) {
     	addIfPermitted(container, element, permType, new HashMap<String,String>());
     }
-
+    
     private void addIfPermitted(final Panel container, final Widget element, PermissionType permType, Map<String,String> permissionAttributes) {
         cluProposalRpcServiceAsync.isAuthorized(permType, permissionAttributes, new AsyncCallback<Boolean>() {
             @Override
@@ -141,10 +121,10 @@ public class FindPanel extends ViewComposite{
                 if(result) {
                     container.add(element);
                 }
-            }
-            
+            }            
         });
     }
+    
     private void initCourseSearchWindow(){  
     	Metadata searchMetadata = new FindCourseMetadata().getMetadata("", "");  //no type or state at this point
         SearchPanel searchPicker = new SearchPanel(searchMetadata.getProperties().get("courseId").getInitialLookup());                
@@ -159,7 +139,27 @@ public class FindPanel extends ViewComposite{
                     courseSearchWindow.hide();
                 }                
             }            
-        });               
+        });   
+        
+    	/*FindCourseAssembler findCourseAssembler = new FindCourseAssembler();
+    	Metadata metadata = new Metadata();    	
+		try {
+			metadata = findCourseAssembler.getMetadata(CreditCourseProposalConstants.SEARCH + "/" + "findCourse", "", "");
+		} catch (AssemblyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+    	
+        courseSearchWindow = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
+        courseSearchWindow.addValuesChangeHandler(new ValueChangeHandler<List<String>>(){
+            public void onValueChange(ValueChangeEvent<List<String>> event) {
+                List<String> selection = (List<String>)event.getValue();
+                if (selection.size() > 0){
+                    FindPanel.this.getController().fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.VIEW_COURSE, selection));
+                    //courseSearchWindow.hide();
+                } 
+            }                    
+        }); */        
     } 
     
     private void initProposalSearchWindow(){
@@ -177,25 +177,5 @@ public class FindPanel extends ViewComposite{
                 }                
             }            
         });        
-    }
-    
-    // TODO please leave on until the atp search has found a home.
-//    private void initAtpSearchWindow(){
-//        
-//        Metadata searchMetadata = new CreditCourseMetadata().getMetadata("", "");  //no type or state at this point
-//        SearchPanel searchPicker = new SearchPanel(atpRpcServiceAsync, searchMetadata.getProperties().get("firstExpectedOffering").getLookupMetadata());
-//        atpSearchWindow = new AdvancedSearchWindow("Find Session", searchPicker);
-//            
-//        atpSearchWindow.addSelectionCompleteCallback(new Callback<List<String>>(){
-//            public void exec(List<String> event) {
-//                final String selected = event.get(0);
-//                if (selected.length() > 0){
-////                    List<String> selectedItems = event;
-////                    ChangeViewStateEvent tempEvent = new ChangeViewStateEvent(LUMViews.VIEW_COURSE, selectedItems);
-////                    FindPanel.this.getController().fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.VIEW_COURSE, event));
-//                    courseSearchWindow.hide();
-//                }                
-//            }            
-//        });        
-//    }
+    }    
 }
