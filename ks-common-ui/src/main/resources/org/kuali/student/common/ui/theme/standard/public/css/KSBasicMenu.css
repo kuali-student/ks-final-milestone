@@ -209,6 +209,7 @@
 
 .KS-Navigation-DropDown .KS-Basic-Menu-Item-Panel a:hover{
 	color: #FFFFFF;
+	cursor: pointer;
 }
 
 .KS-Navigation-DropDown .KS-Basic-Menu-Item-Panel-Hover{
@@ -217,6 +218,7 @@
 
 .KS-Navigation-DropDown .KS-Basic-Menu-Item-Panel-Selected a:hover{
 	color: #333333;
+	cursor: pointer;
 }
 
 /* Landing Page Navigation DropDown */

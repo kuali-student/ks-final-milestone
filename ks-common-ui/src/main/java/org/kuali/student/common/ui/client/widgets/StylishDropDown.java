@@ -27,6 +27,7 @@ public class StylishDropDown extends Composite{
 	
 	private ClickablePanel namePanel = new ClickablePanel();
 	private boolean showSelectedItem = false;
+	private boolean showTitleIcon = false;
 	private SimplePanel container = new SimplePanel();
 	private PopupPanel menuPanel = new PopupPanel();
 	private KSListMenuImpl menu = new KSListMenuImpl();
@@ -122,7 +123,7 @@ public class StylishDropDown extends Composite{
 					StylishDropDown.this.hideMenu();
 					if(showSelectedItem){
 						titleLabel.setText(item.getLabel());
-						if(item.getShownIcon() != null){
+						if(item.getShownIcon() != null && showTitleIcon){
 							titleLayout.remove(titleImage);
 							Image image = item.getShownIcon().getImage();
 							titleImage = new KSImage(image.getUrl(), image.getOriginLeft(), 
@@ -198,6 +199,14 @@ public class StylishDropDown extends Composite{
 
 	public void setShowSelectedItem(boolean showSelectedItem) {
 		this.showSelectedItem = showSelectedItem;
+	}
+	
+	public void setShowTitleIcon(boolean showTitleIcon){
+		this.showTitleIcon = showTitleIcon;
+	}
+	
+	public boolean isShowingTitleIcon(){
+		return showTitleIcon;
 	}
 	
 	
