@@ -427,18 +427,17 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 		List<CluCluRelationInfo> children = luService.getCluCluRelationsByClu(currentClu.getCluInfo().getId());
 		if (children != null) {
 			for (CluCluRelationInfo rel : children) {
-				if(rel.getType().equals(JOINT_RELATION_TYPE)){
-					// if the cluclu realtion is of type jointCourses than dont add that as a child to the CluInfoHierarchy object
-					return;
-				}
-				CluInfo clu = luService.getClu(rel.getRelatedCluId());
-				CluInfoHierarchy c = new CluInfoHierarchy();
-				c.setParentRelationType(currentRel.getRelationshipType());
-				c.setParentRelationState(currentRel.getRelationshipState());
-				c.setCluInfo(clu);
-				currentClu.getChildren().add(c);
-				for (RelationshipHierarchy h : currentRel.getChildren()) {
-					buildRelatedCourse(c, h);
+			// if the cluclu realtion is of type jointCourses dont add as a child to the CluInfoHierarchy object
+				if(!rel.getType().equals(JOINT_RELATION_TYPE)){
+					CluInfo clu = luService.getClu(rel.getRelatedCluId());
+					CluInfoHierarchy c = new CluInfoHierarchy();
+					c.setParentRelationType(currentRel.getRelationshipType());
+					c.setParentRelationState(currentRel.getRelationshipState());
+					c.setCluInfo(clu);
+					currentClu.getChildren().add(c);
+					for (RelationshipHierarchy h : currentRel.getChildren()) {
+						buildRelatedCourse(c, h);
+					}
 				}
 			}
 		}
@@ -751,8 +750,9 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 			List<CluInfo> clus = luService.getClusByRelation(clu.getId(), JOINT_RELATION_TYPE);
 			joint.setCourseId(clu.getId());
 			joint.setType(JOINT_RELATION_TYPE);
-			joint.setSubjectArea(clu.getStudySubjectArea());
+			joint.setSubjectArea(clu.getOfficialIdentifier().getDivision());
 			joint.setCourseTitle(clu.getOfficialIdentifier().getLongName());
+			joint.setCourseNumberSuffix(clu.getOfficialIdentifier().getSuffixCode());
 
 		}
 		catch(Exception e){

@@ -228,8 +228,7 @@ public class LUConstants {
     public static final String DEPT_LABEL_KEY = "cluDept";
 
     //  View Course labels
-    public static final String BASIC_VIEW_LABEL_KEY = "cluBasicView";
-    public static final String COMPREHENSIVE_VIEW_LABEL_KEY = "cluComprehensiveView";
+    public static final String CURRENT_VIEW_LABEL_KEY = "cluCurrentView";
     public static final String COURSE_DETAILS_LABEL_KEY = "cluCourseDetails";
     public static final String STATE_LABEL_KEY = "cluState";
     public static final String TYPE_LABEL_KEY = "cluType";

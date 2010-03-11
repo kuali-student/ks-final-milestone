@@ -193,11 +193,8 @@
 	<bean parent="enCourse" p:id="cluTermsOffered" p:value="Terms Offered" />
 	<bean parent="enCourse" p:id="cluDurationType" p:value="Duration Type" />
 	<bean parent="enCourse" p:id="cluDurationQuantity" p:value="Duration Quantity" />
-	<bean parent="enCourse" p:id="cluBasicView" p:value="Basic" />
-	<bean parent="enCourse" p:id="cluComprehensiveView" p:value="Comprehensive" />
+	<bean parent="enCourse" p:id="cluCurrentView" p:value="Current" />
 	<bean parent="enCourse" p:id="cluCourseDetails" p:value="Course Details" />
-
-
 
 	<bean parent="esCourse" p:id="cluProposalInformation" p:value="Información de la oferta" />
 	<bean parent="esCourse" p:id="cluSummary" p:value="Resumen" />

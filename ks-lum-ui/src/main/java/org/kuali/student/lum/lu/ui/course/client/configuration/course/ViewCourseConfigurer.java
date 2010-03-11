@@ -19,13 +19,14 @@ import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.DisplayMultiplicityComposite;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.CollapsableSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-import org.kuali.student.common.ui.client.widgets.KSDisclosureSection;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
@@ -36,7 +37,6 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCours
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseDurationConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseFormatConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.LearningObjectiveConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
@@ -75,8 +75,6 @@ LearningObjectiveConstants
 	private static final String VERSION_CODE_PATH = "versionCode";
 	private static final String VERSION_COURSE_NUMBER_SUFFIX_PATH = "courseNumberSuffix";
 	private static final String VERSION_SUBJECT_AREA_PATH = "subjectArea";
-    private static final String JOINT_COURSE_TITLE = "courseTitle";
-	private static final String JOINT_COURSE_CODE_PATH = "fees/0/attributes/CourseCode";
     private static final String LO_DESCRIPTION_PATH = "includedSingleUseLo/description/plain";
     private static final String ALTERNATE_ADMIN_ORG_ID_PATH = "orgId";
     private static final String STATEMENTS_PATH = "statements";
@@ -86,8 +84,6 @@ LearningObjectiveConstants
     private String state = "draft";
     private String groupName;
     
-    protected static final String COURSE_VIEW = "View";
-
     private DataModelDefinition modelDefinition;
 
     public enum Sections{
@@ -101,15 +97,25 @@ LearningObjectiveConstants
     public void generateLayout(ConfigurableLayout layout) {
         groupName = LUConstants.COURSE_GROUP_NAME;
 
-        layout.addSection(new String[] {getLabel(LUConstants.COURSE_DETAILS_LABEL_KEY), COURSE_VIEW}, generateBasicSection());
-        layout.addSection(new String[] {getLabel(LUConstants.COURSE_DETAILS_LABEL_KEY), COURSE_VIEW}, generateComprehensiveSection());
+        layout.addSection(new String[] {getLabel(LUConstants.CURRENT_VIEW_LABEL_KEY)}, generateDetails());
 
     }
     
-    private SectionView generateBasicSection() {
-        VerticalSectionView section = initSectionView(Sections.BASIC_INFO, LUConstants.BASIC_VIEW_LABEL_KEY);
+    private SectionView generateDetails() {
+        VerticalSectionView section = initSectionView(Sections.BASIC_INFO, LUConstants.COURSE_DETAILS_LABEL_KEY);
                
-        addField(section, CreditCourseConstants.COURSE_TITLE, getLabel(LUConstants.TITLE_LABEL_KEY), new KSLabel());
+        section.addSection(generateBasicSection());
+        section.addSection(generateComprehensiveSection());
+
+        
+        return section; 
+    }
+
+	private BaseSection generateBasicSection() {
+		
+		VerticalSection section = new VerticalSection();
+		
+		addField(section, CreditCourseConstants.COURSE_TITLE, getLabel(LUConstants.TITLE_LABEL_KEY), new KSLabel());
         addField(section, DESCRIPTION+ PATH_SEPARATOR + "plain", getLabel(LUConstants.DESCRIPTION_LABEL_KEY), new KSLabel());
 
         addField(section,  CreditCourseConstants.STATE, getLabel(LUConstants.STATE_LABEL_KEY), new KSLabel());
@@ -125,25 +131,21 @@ LearningObjectiveConstants
         addField(section, CAMPUS_LOCATIONS, getLabel(LUConstants.CAMPUS_LOCATION_LABEL_KEY), new CampusLocationList());
 
         addField(section,  PRIMARY_INSTRUCTOR, getLabel(LUConstants.PRIMARY_INSTRUCTOR_LABEL_KEY), new KSLabel());
-//      TODO        addField(section,  NOTES, null, new KSLabel());
-        addField(section, CROSS_LISTINGS, getLabel(LUConstants.CROSS_LISTED_LABEL_KEY), new CrossListedList(CROSS_LISTINGS));    
+        addField(section, CROSS_LISTINGS, getLabel(LUConstants.CROSS_LISTED_LABEL_KEY), new CrossListedList(CROSS_LISTINGS));
         
-        KSDisclosureSection disclosure =  new KSDisclosureSection(getLabel(LUConstants.DISCLOSURE_PANEL_LABEL_KEY), new KSLabel("Hello"), false);
-        section.addWidget(disclosure);
-
-
         return section;
-    }
+	}
 
-    private VerticalSectionView generateComprehensiveSection() {
-        VerticalSectionView section = initSectionView(Sections.COMPREHENSIVE_INFO, LUConstants.COMPREHENSIVE_VIEW_LABEL_KEY);
+    private CollapsableSection generateComprehensiveSection() {
+    	
+  	    CollapsableSection section = new CollapsableSection("More Details");
 
 //FIXME  In M4 Only one term offered can be set so don't need a list here. Fix for M5
 //      addField(section, CreditCourseConstants.TERMS_OFFERED, "Terms Offered", new TermsOfferedList());
         addField(section, TERMS_OFFERED_PATH, getLabel(LUConstants.TERMS_OFFERED_LABEL_KEY), new KSLabel());
         addField(section, CreditCourseConstants.DURATION + PATH_SEPARATOR + TERM_TYPE, getLabel(LUConstants.DURATION_TYPE_LABEL_KEY), new KSLabel());
         addField(section, CreditCourseConstants.DURATION + PATH_SEPARATOR + QUANTITY, getLabel(LUConstants.DURATION_QUANTITY_LABEL_KEY), new KSLabel());
-        addField(section, CreditCourseConstants.TRANSCRIPT_TITLE, getLabel(LUConstants.SHORT_TITLE_LABEL_KEY), new KSLabel());
+        addField(section, TRANSCRIPT_TITLE, getLabel(LUConstants.SHORT_TITLE_LABEL_KEY), new KSLabel());
 
 //FIXME  In M4 Only one primary admin org can be set so don't need a list here. Fix for M5
 //      addField(section, CreditCourseConstants.ALT_ADMIN_ORGS, null, new AlternateAdminOrgList(ALT_ADMIN_ORGS));
@@ -375,8 +377,9 @@ LearningObjectiveConstants
         public Widget createItem() {
             String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
             GroupSection groupSection = new GroupSection();
-            addField(groupSection, JOINT_COURSE_CODE_PATH, getLabel(LUConstants.CODE_LABEL_KEY), new KSLabel(), path);
-            addField(groupSection, JOINT_COURSE_TITLE, getLabel(LUConstants.TITLE_LABEL_KEY), new KSLabel(), path);
+            addField(groupSection, "subjectArea", getLabel(LUConstants.CODE_LABEL_KEY), new KSLabel(), path);
+            addField(groupSection, "courseNumberSuffix", getLabel(LUConstants.CODE_LABEL_KEY), new KSLabel(), path);
+            addField(groupSection, "courseTitle", getLabel(LUConstants.TITLE_LABEL_KEY), new KSLabel(), path);
 
             return groupSection;
         }
@@ -385,13 +388,12 @@ LearningObjectiveConstants
     private VerticalSectionView initSectionView (Enum<?> viewEnum, String labelKey) {
         VerticalSectionView section = new VerticalSectionView(viewEnum, getLabel(labelKey), CourseConfigurer.CLU_PROPOSAL_MODEL);
         section.addStyleName(LUConstants.STYLE_SECTION);
-        section.setSectionTitle(getH1Title(labelKey));
 
         return section;
     }
 
     protected String getTabKey() {
-    	return getLabel(LUConstants.COURSE_DETAILS_LABEL_KEY);
+    	return getLabel(LUConstants.CURRENT_VIEW_LABEL_KEY);
     }
 
     private String getLabel(String labelKey) {
