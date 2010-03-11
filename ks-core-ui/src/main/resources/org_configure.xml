@@ -18,6 +18,15 @@
 				<field label="orgOrgRelationExpDate" key="expirationDate"></field>
 			</fields>
 		</multipleField>
+		<multipleField itemLabel="orgPositionRelationSection" addItemLabel="Add" key="OrgPositionRestrictionInfo">
+			<fields>
+				<field label="orgPositionRelationTypeKey" key="orgPersonRelationTypeKey" widget="OrgPositionTypePicker"></field>
+				<field label="orgPositionRelationTitle" key="title" ></field>
+				<field label="orgPositionRelationDesc" key="desc"></field>
+				<field label="orgPositionRelationMinPpl" key="minNumRelations"></field>
+				<field label="orgPositionRelationMaxPpl" key="maxNumRelations"></field>
+			</fields>
+		</multipleField>
 
 	</fields>
 </sectionView>
@@ -34,16 +43,6 @@
 					<field label="orgPersonRelationExpDate" key="expirationDate"></field>
 				</fields>
 			</multipleField> 
-			<multipleField itemLabel="orgPositionRelationSection" addItemLabel="Add" key="OrgPositionRestrictionInfo">
-			<fields>
-				<field label="orgPositionRelationTypeKey" key="orgPersonRelationTypeKey" widget="OrgPositionTypePicker"></field>
-				<field label="orgPositionRelationTitle" key="title" ></field>
-				<field label="orgPositionRelationDesc" key="desc"></field>
-				<field label="orgPositionRelationMinPpl" key="minNumRelations"></field>
-				<field label="orgPositionRelationMaxPpl" key="maxNumRelations"></field>
-			</fields>
-		</multipleField>
-
 	</fields>
 </sectionView>
 
