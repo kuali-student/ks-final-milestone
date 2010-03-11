@@ -12,11 +12,14 @@ import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImp
 import org.kuali.student.common.ui.client.widgets.containers.KSWrapper;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenu.MenuImageLocation;
+import org.kuali.student.common.ui.client.widgets.table.SimpleWidgetTable;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class CommonUITest implements EntryPoint {
 	
@@ -84,7 +87,7 @@ public class CommonUITest implements EntryPoint {
     	//final KSLabel label = new KSLabel("Name");
 
     	//RootPanel.get().add(label);
-    	final KSTitleContainerImpl title = new KSTitleContainerImpl();
+/*    	final KSTitleContainerImpl title = new KSTitleContainerImpl();
     	title.setTitle("NAME1");
     	KSButton button = new KSButton("Change", new ClickHandler(){
 
@@ -93,8 +96,20 @@ public class CommonUITest implements EntryPoint {
 				title.setTitle("NEW NAME");
 				//label.
 			}});
-    	RootPanel.get().add(title);
-    	RootPanel.get().add(button);
+    	RootPanel.get().add(title);*/        
+    	List<String> columns = new ArrayList<String>();
+        columns.add("Name");
+        columns.add("Permissions");
+        columns.add("Workflow Permissions");
+        columns.add("Remove Person");
+        SimpleWidgetTable table = new SimpleWidgetTable(columns);
+        List<Widget> widgets = new ArrayList<Widget>();
+        widgets.add(new Label("Hello"));
+        widgets.add(new Label("Hello2"));
+        widgets.add(new Label(""));
+        widgets.add(new Label("Hello4"));
+        table.addRow(widgets);
+    	RootPanel.get().add(table);
     	
 /*    	KSWrapper wrapper = new KSWrapper();
 

@@ -16,6 +16,7 @@ package org.kuali.student.common.ui.client.widgets.documenttool;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.configurable.mvc.DelayedToolView;
 import org.kuali.student.common.ui.client.configurable.mvc.HasReferenceId;
 import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
 import org.kuali.student.common.ui.client.dto.FileStatus;
@@ -60,7 +61,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.widgetideas.client.ProgressBar;
 import com.google.gwt.widgetideas.client.ProgressBar.TextFormatter;
 
-public class DocumentTool extends ToolView implements HasReferenceId{
+public class DocumentTool extends DelayedToolView implements HasReferenceId{
 
 	private String referenceId;
 	private String referenceTypeKey;

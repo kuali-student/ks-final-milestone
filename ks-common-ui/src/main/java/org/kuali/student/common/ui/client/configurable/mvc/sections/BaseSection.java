@@ -173,10 +173,12 @@ public abstract class BaseSection extends Composite implements Section{
 	
 	                                @Override
 	                                public void onModelReady(DataModel model) {
-	                                    mwb.setModelValue(w, model, fieldDescriptor.getFieldKey());
-	                                    ValidateRequestEvent e = new ValidateRequestEvent();
-	                                    e.setFieldDescriptor(fieldDescriptor);
-	                                    LayoutController.findParentLayout(fieldDescriptor.getFieldWidget()).fireApplicationEvent(e);
+	                                	if(fieldDescriptor.getFieldKey() != null){
+		                                    mwb.setModelValue(w, model, fieldDescriptor.getFieldKey());
+		                                    ValidateRequestEvent e = new ValidateRequestEvent();
+		                                    e.setFieldDescriptor(fieldDescriptor);
+		                                    LayoutController.findParentLayout(fieldDescriptor.getFieldWidget()).fireApplicationEvent(e);
+	                                	}
 	                                }
 	
 	                                @Override

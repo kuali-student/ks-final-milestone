@@ -24,6 +24,10 @@
     margin-bottom: .5em;
 }
 
+.ks-section-widget{
+	padding-bottom: 3px;
+}
+
 
 /*** Page ***/
 .ks-page-container {
