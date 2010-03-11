@@ -1309,7 +1309,7 @@
 								<property name="dataType" value="STRING"/>								
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="false"/>
-								<property name="usage" value="ADVANCED"/>
+								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
@@ -1319,7 +1319,7 @@
 								<property name="dataType" value="STRING"/>								
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="false"/>
-								<property name="usage" value="ADVANCED"/>
+								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="TEXT_BOX"/>
 							</bean>
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
@@ -1329,7 +1329,7 @@
 								<property name="dataType" value="STRING"/>								
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="false"/>
-								<property name="usage" value="ADVANCED"/>
+								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>							
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
@@ -1714,7 +1714,7 @@
 							<property name="name" value="Code" />
 							<property name="desc" value="Lu code" />
 							<property name="caseSensitive" value="true" />
-							<property name="usage" value="ADVANCED" />
+							<property name="usage" value="ADVANCED_CUSTOM" />
 							<property name="widget" value="TEXT_BOX" />
 						</bean>
 						<bean parent="param">
@@ -1725,7 +1725,7 @@
 							<property name="name" value="Level" />
 							<property name="desc" value="Lu level grad/undergrad" />
 							<property name="caseSensitive" value="true" />
-							<property name="usage" value="ADVANCED" />
+							<property name="usage" value="ADVANCED_CUSTOM" />
 							<property name="widget" value="TEXT_BOX" />
 						</bean>
 					</list>
@@ -2276,7 +2276,7 @@
 							<property name="name" value="Location" />
 							<property name="desc" value="Organization location." />
 							<property name="caseSensitive" value="false" />
-							<property name="usage" value="ADVANCED" />
+							<property name="usage" value="ADVANCED_CUSTOM" />
 							<property name="widget" value="TEXT_BOX" />
 						</bean>
 						<bean parent="param">
@@ -2297,7 +2297,7 @@
 							<property name="name" value="Organization Name" />
 							<property name="desc" value="Short organization name." />
 							<property name="caseSensitive" value="false" />
-							<property name="usage" value="ADVANCED" />
+							<property name="usage" value="ADVANCED_CUSTOM" />
 							<property name="widget" value="SUGGEST_BOX" />
 						</bean>
 						<bean parent="param">
@@ -2431,7 +2431,7 @@
 							<property name="name" value="Location" />
 							<property name="desc" value="Organization location." />
 							<property name="caseSensitive" value="false" />
-							<property name="usage" value="ADVANCED" />
+							<property name="usage" value="ADVANCED_CUSTOM" />
 							<property name="widget" value="TEXT_BOX" />
 						</bean>
 						<bean parent="param">
@@ -2452,7 +2452,7 @@
 							<property name="name" value="Organization Name" />
 							<property name="desc" value="Short organization name." />
 							<property name="caseSensitive" value="false" />
-							<property name="usage" value="ADVANCED" />
+							<property name="usage" value="ADVANCED_CUSTOM" />
 							<property name="widget" value="SUGGEST_BOX" />
 						</bean>
 						<bean parent="param">
@@ -2949,8 +2949,8 @@
 				<!-- definition of advanced search window -->
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lo.lookup.SingleUseLo.description.advanced1"/>			
-					<property name="searchTypeId" value="lo.search.loByDescCrossSearch"/>		<!-- once is cross search working use: lo.search.loByDescCrossSearch   -->				
-					<property name="name" value="Search for words in Learning Objective"/>
+					<property name="searchTypeId" value="lo.search.loByDescCrossSearch"/>				
+					<property name="name" value="keyword in Learning Objective"/>
 					<property name="desc" value="Search for descriptions in existing learning objectives."/>
 					<property name="title" value="Search for Learning Objectives"/>											
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>		
@@ -2961,7 +2961,7 @@
 								<property name="name" value="Description"/>
 								<property name="desc" value="Description of learning objective."/>
 								<property name="dataType" value="STRING"/>								
-								<property name="writeAccess" value="ALWAYS"/>
+								<property name="writeAccess" value="REQUIRED"/>
 								<property name="caseSensitive" value="false"/>
 								<property name="usage" value="ADVANCED"/>
 								<property name="widget" value="TEXT_BOX"/>
@@ -3000,7 +3000,7 @@
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lo.lookup.SingleUseLo.description.advanced2"/>			
 					<property name="searchTypeId" value="lo.search.loByCategory"/>		<!-- once is cross search working use: lo.search.loByDescCrossSearch   -->				
-					<property name="name" value="Search by Category"/>
+					<property name="name" value="by Category"/>
 					<property name="desc" value="Search for learning objectives by category."/>										
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>		
 					<property name="params">
@@ -3010,7 +3010,7 @@
 								<property name="name" value="Category"/>
 								<property name="desc" value="Category."/>
 								<property name="dataType" value="STRING"/>								
-								<property name="writeAccess" value="ALWAYS"/>
+								<property name="writeAccess" value="REQUIRED"/>
 								<property name="caseSensitive" value="false"/>
 								<property name="usage" value="ADVANCED"/>
 								<property name="widget" value="TEXT_BOX"/>
@@ -3056,7 +3056,7 @@
 				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lo.lookup.SingleUseLo.description.advanced3"/>			
 					<property name="searchTypeId" value="lo.search.loByCluCode"/>		<!-- once is cross search working use: lo.search.loByDescCrossSearch   -->				
-					<property name="name" value="Search by Course Code"/>
+					<property name="name" value="by a Course"/>
 					<property name="desc" value="Search for learning objectives by course code."/>										
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>		
 					<property name="params">
@@ -3066,7 +3066,7 @@
 								<property name="name" value="Course Code"/>
 								<property name="desc" value="Course Code"/>
 								<property name="dataType" value="STRING"/>								
-								<property name="writeAccess" value="ALWAYS"/>
+								<property name="writeAccess" value="REQUIRED"/>
 								<property name="caseSensitive" value="false"/>
 								<property name="usage" value="ADVANCED"/>
 								<property name="widget" value="TEXT_BOX"/>  <!-- FIXME: should be a drop down -->
@@ -3519,7 +3519,7 @@
 							<property name="name" value="Start Date" />
 							<property name="desc" value="Start date of the ATP" />
 							<property name="caseSensitive" value="true" />
-							<property name="usage" value="ADVANCED" />
+							<property name="usage" value="ADVANCED_CUSTOM" />
 							<property name="widget" value="CALENDAR" />
 						</bean>
 						<bean parent="param">
@@ -3541,7 +3541,7 @@
 							<property name="name" value="Type" />
 							<property name="desc" value="Type of the ATP" />
 							<property name="caseSensitive" value="false" />
-							<property name="usage" value="ADVANCED" />
+							<property name="usage" value="ADVANCED_CUSTOM" />
 							<property name="widget" value="DROPDOWN_LIST" />
 						</bean>
 					</list>
@@ -3612,7 +3612,7 @@
 								<property name="desc"
 									value="Short name for the ATP, recorded as the default listing" />
 								<property name="caseSensitive" value="false" />
-								<property name="usage" value="ADVANCED" />
+								<property name="usage" value="ADVANCED_CUSTOM" />
 								<property name="widget" value="SUGGEST_BOX" />
 							</bean>
 							<bean parent="param">
@@ -3623,7 +3623,7 @@
 								<property name="name" value="Start Date" />
 								<property name="desc" value="Start date of the ATP" />
 								<property name="caseSensitive" value="true" />
-								<property name="usage" value="ADVANCED" />
+								<property name="usage" value="ADVANCED_CUSTOM" />
 								<property name="widget" value="CALENDAR" />
 							</bean>
 							<bean parent="param">
@@ -3645,7 +3645,7 @@
 								<property name="name" value="Type" />
 								<property name="desc" value="Type of the ATP" />
 								<property name="caseSensitive" value="false" />
-								<property name="usage" value="ADVANCED" />
+								<property name="usage" value="ADVANCED_CUSTOM" />
 								<property name="widget" value="DROPDOWN_LIST" />
 							</bean>
 						</list>
@@ -3870,7 +3870,7 @@
 								<property name="dataType" value="STRING"/>								
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="false"/>
-								<property name="usage" value="ADVANCED"/>
+								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
@@ -3880,7 +3880,7 @@
 								<property name="dataType" value="STRING"/>								
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="false"/>
-								<property name="usage" value="ADVANCED"/>
+								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="TEXT_BOX"/>
 							</bean>
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
@@ -3890,7 +3890,7 @@
 								<property name="dataType" value="STRING"/>								
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="false"/>
-								<property name="usage" value="ADVANCED"/>
+								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>							
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
@@ -4337,7 +4337,7 @@
 								<property name="dataType" value="STRING"/>								
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="false"/>
-								<property name="usage" value="ADVANCED"/>
+								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
@@ -4347,7 +4347,7 @@
 								<property name="dataType" value="STRING"/>								
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="false"/>
-								<property name="usage" value="ADVANCED"/>
+								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="TEXT_BOX"/>
 							</bean>
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
@@ -4357,7 +4357,7 @@
 								<property name="dataType" value="STRING"/>								
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="false"/>
-								<property name="usage" value="ADVANCED"/>
+								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>							
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
@@ -5407,7 +5407,7 @@
 								<property name="dataType" value="STRING"/>								
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="false"/>
-								<property name="usage" value="ADVANCED"/>
+								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
@@ -5417,7 +5417,7 @@
 								<property name="dataType" value="STRING"/>								
 								<property name="writeAccess" value="ALWAYS"/>
 								<property name="caseSensitive" value="false"/>
-								<property name="usage" value="ADVANCED"/>
+								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>						
 							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
@@ -5480,7 +5480,7 @@
 			</list>
 		</property>
 	</bean>	
-	<bean id="search.findCluSet" parent="dataFieldDescriptor">  <!-- what the bean id should be so it loads for CourseConfigurer? -->
+	<bean id="search.findCluSet" parent="dataFieldDescriptor"> 
 		<property name="name" value="findCluSet" />
 		<property name="writeAccess" value="ALWAYS" />
 		<property name="onChangeRefreshMetadata" value="false" />
