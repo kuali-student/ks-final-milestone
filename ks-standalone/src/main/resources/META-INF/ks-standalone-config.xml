@@ -91,14 +91,14 @@
     <!-- Rice URLS --> 
 	<param name="ks.rice.personLookup.serviceAddress">${ks.rice.url}/kr/lookup.do</param>
 	<param name="ks.rice.actionList.serviceAddress">${ks.rice.url}/kew/ActionList.do</param>
-    <param name="ks.rice.docSearch.serviceAddress">${workflow.documentsearch.base.url}</param>
+    <param name="ks.rice.docSearch.serviceAddress">${ks.rice.url}/kew/DocumentSearch.do</param>
     
     
     <!-- KS Urls -->
     <param name="ks.logout.url" override="false">${application.url}/j_spring_security_logout</param>
 
     <!-- OrgUrls -->
-    <param name="ks.org.MainEntryPoint" override="false"> ${application.url}/org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.html</param>
+    <param name="ks.org.MainEntryPoint" override="false">${application.url}/org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.html</param>
 
     <!-- LumUrls -->
     <param name="lum.application.url" override="false">${application.url}</param>
