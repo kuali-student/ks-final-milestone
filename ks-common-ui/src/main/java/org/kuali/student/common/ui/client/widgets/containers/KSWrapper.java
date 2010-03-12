@@ -47,6 +47,8 @@ public class KSWrapper extends Composite{
     private final String LUM_APP_URL		= "lum.application.url";
     private final String APP_URL			= "application.url";
     private final String DOC_SEARCH_URL		= "ks.rice.docSearch.serviceAddress";
+    private final String RICE_URL           = "ks.rice.url";
+    private final String RICE_LINK_LABEL   = "ks.rice.label";
 
     private ServerPropertiesRpcServiceAsync serverPropertiesRpcService = GWT.create(ServerPropertiesRpcService.class);
         
@@ -81,6 +83,8 @@ public class KSWrapper extends Composite{
     private String docSearchUrl = "";
     private String appUrl = "..";
     private String lumAppUrl = "..";
+    private String riceURL ="..";
+    private String riceLinkLabel="Rice";
     
     private boolean loaded = false;
             
@@ -108,7 +112,7 @@ public class KSWrapper extends Composite{
 	protected void onLoad() {
 		super.onLoad();
 		if (!loaded){
-			List<String> serverPropertyList = Arrays.asList(ACTION_LIST_URL, APP_URL, DOC_SEARCH_URL, LUM_APP_URL);
+			List<String> serverPropertyList = Arrays.asList(ACTION_LIST_URL, APP_URL, DOC_SEARCH_URL, LUM_APP_URL,RICE_URL,RICE_LINK_LABEL);
 			
 	        serverPropertiesRpcService.get(serverPropertyList, new AsyncCallback<Map<String,String>>() {
 	            public void onFailure(Throwable caught) { 
@@ -123,6 +127,8 @@ public class KSWrapper extends Composite{
 	                    docSearchUrl	= result.get(DOC_SEARCH_URL);
 	                    lumAppUrl 		= result.get(LUM_APP_URL);
 	                    actionListUrl 	= result.get(ACTION_LIST_URL);
+	                    riceURL         = result.get(RICE_URL);
+	                    riceLinkLabel = result.get(RICE_LINK_LABEL);
 	                }
 	                init();
 	            }
@@ -152,6 +158,9 @@ public class KSWrapper extends Composite{
 		createNavDropDown();
 		leftHeader.add(navDropDown);//TODO Put back in with operations
 		rightHeader.setVerticalAlignment(HasVerticalAlignment.ALIGN_TOP);
+		List<KSLabel> topLinks = new ArrayList<KSLabel>();
+		topLinks.add(buildLink(riceLinkLabel,riceLinkLabel,riceURL+"/portal.do"));
+		setHeaderCustomLinks(topLinks);
 		rightHeader.add(headerTopLinks);
 		rightHeader.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
 		rightHeader.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
