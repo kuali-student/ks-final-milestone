@@ -628,14 +628,6 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    public List<Result> searchForResults(final String searchTypeKey, final List<QueryParamValue> queryParamValues) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        checkForMissingParameter(searchTypeKey, "searchTypeKey");
-        checkForMissingParameter(queryParamValues, "queryParamValues");
-
-        return searchManager.searchForResults(searchTypeKey, queryParamValues, statementDao);
-    }
-
-    @Override
     public List<String> getObjectTypes() {
         return dictionaryServiceDelegate.getObjectTypes();
     }
