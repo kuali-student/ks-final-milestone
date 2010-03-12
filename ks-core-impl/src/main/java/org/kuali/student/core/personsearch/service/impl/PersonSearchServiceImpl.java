@@ -97,24 +97,6 @@ public class PersonSearchServiceImpl implements SearchService {
     /**
      * This overridden method ...
      *
-     * @see org.kuali.student.core.search.service.SearchService#searchForResults(java.lang.String, java.util.List)
-     */
-    @Override
-    public List<Result> searchForResults(String searchTypeKey, List<QueryParamValue> queryParamValues) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        if (searchTypeKey == null) {
-            new MissingParameterException("searchTypeKey can not be null");
-        }
-        final SearchOperation search = searchOperations.get(searchTypeKey);
-        if (search != null) {
-            return search.searchForResults(identityService, searchTypeKey, queryParamValues);
-        }
-        throw new DoesNotExistException("searchTypeKey is not recognized");
-
-    }
-
-    /**
-     * This overridden method ...
-     *
      * @see org.kuali.student.core.search.service.SearchService#getSearchCriteriaType(java.lang.String)
      */
     @Override

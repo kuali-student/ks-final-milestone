@@ -143,50 +143,50 @@ public class OrgSearchBackedTable extends Composite{
         if(pagingScrollTable != null){
             pagingScrollTable.setEmptyTableWidget(new Label("Processing Search..."));
         }
-        searchService.searchForResults(searchTypeKey, queryParamValues, new AsyncCallback<List<Result>>(){
-
-            @Override
-            public void onFailure(Throwable caught) {
-                // TODO bsmith - THIS METHOD NEEDS JAVADOCS
-                
-            }
-
-            @Override
-            public void onSuccess(List<Result> results) {
-                
-                if(results != null){
-                    for (Result r: results){
-                        ResultRow theRow = new ResultRow();
-                        for(ResultCell c: r.getResultCells()){
-                            if(c.getKey().equals(resultIdKey)){
-                                theRow.setId(c.getValue());
-                            }
-                            theRow.setValue(c.getKey(), c.getValue());
-                        }
-                        resultRows.add(theRow);
-                    }
-                    
-                }
-                redraw();
-                
-                /*tableModel.setRows(resultRows);
-                //tableModel = new GenericTableModel<ResultRow>(resultRows);
-                
-                pagingScrollTable = builder.build(tableModel);
-                pagingScrollTable.setResizePolicy(ResizePolicy.FILL_WIDTH);
-                //pagingScrollTable.reloadPage();
-                //pagingScrollTable.redraw();
-                pagingOptions = createPagingOptions(pagingScrollTable);
-                layout.clear();
-                layout.add(pagingOptions);
-                layout.add(pagingScrollTable);
-                pagingScrollTable.fillWidth();*/
-                //pagingScrollTable.setResizePolicy(ResizePolicy.FILL_WIDTH);
-                //pagingScrollTable.fillWidth();
-                //layout.remove(index)
-                //main.add(createTableAndSelectionPanel(createPagingOptions(pagingScrollTable)));
-            }
-        });
+//        searchService.searchForResults(searchTypeKey, queryParamValues, new AsyncCallback<List<Result>>(){
+//
+//            @Override
+//            public void onFailure(Throwable caught) {
+//                // TODO bsmith - THIS METHOD NEEDS JAVADOCS
+//                
+//            }
+//
+//            @Override
+//            public void onSuccess(List<Result> results) {
+//                
+//                if(results != null){
+//                    for (Result r: results){
+//                        ResultRow theRow = new ResultRow();
+//                        for(ResultCell c: r.getResultCells()){
+//                            if(c.getKey().equals(resultIdKey)){
+//                                theRow.setId(c.getValue());
+//                            }
+//                            theRow.setValue(c.getKey(), c.getValue());
+//                        }
+//                        resultRows.add(theRow);
+//                    }
+//                    
+//                }
+//                redraw();
+//                
+//                /*tableModel.setRows(resultRows);
+//                //tableModel = new GenericTableModel<ResultRow>(resultRows);
+//                
+//                pagingScrollTable = builder.build(tableModel);
+//                pagingScrollTable.setResizePolicy(ResizePolicy.FILL_WIDTH);
+//                //pagingScrollTable.reloadPage();
+//                //pagingScrollTable.redraw();
+//                pagingOptions = createPagingOptions(pagingScrollTable);
+//                layout.clear();
+//                layout.add(pagingOptions);
+//                layout.add(pagingScrollTable);
+//                pagingScrollTable.fillWidth();*/
+//                //pagingScrollTable.setResizePolicy(ResizePolicy.FILL_WIDTH);
+//                //pagingScrollTable.fillWidth();
+//                //layout.remove(index)
+//                //main.add(createTableAndSelectionPanel(createPagingOptions(pagingScrollTable)));
+//            }
+//        });
         
         
     }

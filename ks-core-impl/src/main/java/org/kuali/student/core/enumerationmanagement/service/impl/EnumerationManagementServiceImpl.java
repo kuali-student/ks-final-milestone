@@ -267,17 +267,6 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 	}
 
 	@Override
-	public List<Result> searchForResults(String searchTypeKey,
-			List<QueryParamValue> queryParamValues)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		checkForMissingParameter(searchTypeKey, "searchTypeKey");
-		
-		return searchManager.searchForResults(searchTypeKey, queryParamValues, enumDAO);
-	}
-
-	@Override
 	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
 		return searchManager.search(searchRequest, enumDAO);
 	}

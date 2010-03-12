@@ -171,7 +171,7 @@ public class OrgAdvancedSearchRpc extends Composite implements HasSelectionHandl
                     
                     if (fd.getSearch()!=null && fd.getSearch().getKey() != null ){                                                
                         KSSelectItemWidgetAbstract dropDown = new KSDropDown();
-                        populateSearchEnumeration(dropDown, fd.getSearch().getKey());
+//                        populateSearchEnumeration(dropDown, fd.getSearch().getKey());
                         
                         dropDown.setName(q.getKey());
                         searchParamTable.setWidget(row, column, dropDown);
@@ -314,22 +314,22 @@ public class OrgAdvancedSearchRpc extends Composite implements HasSelectionHandl
         });*/
     }
 
-    private void populateSearchEnumeration(final KSSelectItemWidgetAbstract selectField, String searchType){               
-        searchService.searchForResults(searchType, null, new AsyncCallback<List<Result>>(){
-
-            @Override
-            public void onFailure(Throwable caught) {
-                // TODO: Handle this exception                
-            }
-
-            @Override
-            public void onSuccess(List<Result> results) {
-                selectField.setListItems(new SearchResultListItems(results));
-                selectField.redraw();
-            }
-            
-        });
-    } 
+//    private void populateSearchEnumeration(final KSSelectItemWidgetAbstract selectField, String searchType){               
+//        searchService.searchForResults(searchType, null, new AsyncCallback<List<Result>>(){
+//
+//            @Override
+//            public void onFailure(Throwable caught) {
+//                // TODO: Handle this exception                
+//            }
+//
+//            @Override
+//            public void onSuccess(List<Result> results) {
+//                selectField.setListItems(new SearchResultListItems(results));
+//                selectField.redraw();
+//            }
+//            
+//        });
+//    } 
     
     private void populateSearchEnumeration(final KSSelectItemWidgetAbstract selectField, Enum enumInfo){
         //TODO: Call the enumeration managment service to get enum

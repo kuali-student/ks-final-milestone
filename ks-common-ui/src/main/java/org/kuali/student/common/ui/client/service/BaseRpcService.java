@@ -48,9 +48,6 @@ public interface BaseRpcService extends RemoteService{
     
     
     /* Search Operations */
-    
-    public List<Result> searchForResults(String searchTypeKey, List<QueryParamValue> queryParamValues);
-
     public List<SearchTypeInfo> getSearchTypes();
 
     public SearchTypeInfo getSearchType(String searchTypeKey);

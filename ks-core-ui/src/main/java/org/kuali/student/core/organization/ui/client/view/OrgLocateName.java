@@ -32,13 +32,14 @@ import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
+import org.kuali.student.core.search.dto.SearchParam;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
+import org.kuali.student.core.search.dto.SearchResultRow;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
@@ -78,27 +79,31 @@ public class OrgLocateName extends Composite implements HasStateChanges {
                 source = (ToggleButton) event.getSource();
             source.setDown(true);
 
-            List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>();
-            QueryParamValue qpv1 = new QueryParamValue();
+            List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
+            SearchParam qpv1 = new SearchParam();
             qpv1.setKey("org.queryParam.orgShortName");
             qpv1.setValue(source.getText() + '%');
             queryParamValues.add(qpv1);
-
-            orgRpcServiceAsync.searchForResults("org.search.orgQuickLongViewByFirstLetter", queryParamValues, new AsyncCallback<List<Result>>() {
+            
+            SearchRequest searchRequest = new SearchRequest();
+            searchRequest.setParams(queryParamValues);
+            searchRequest.setSearchKey("org.search.orgQuickLongViewByFirstLetter");
+            
+            orgRpcServiceAsync.search(searchRequest, new AsyncCallback<SearchResult>() {
 
                 public void onFailure(Throwable caught) {
                     Window.alert(caught.getMessage());
                 }
 
-                public void onSuccess(List<Result> result) {
-                    if (result == null || result.size() <= 0) {
+                public void onSuccess(SearchResult result) {
+                    if (result == null || result.getRows().size() <= 0) {
                         resultPanel.setWidget(noResults);
                     } else {
-                        final Map<String, Result> orgInfoMap = new HashMap<String, Result>();
-                        for (Result r : result) {
+                        final Map<String, SearchResultRow> orgInfoMap = new HashMap<String, SearchResultRow>();
+                        for (SearchResultRow r : result.getRows()) {
                             List<String> selectedItems = orgTypes.getSelectedItems();
-                            if (selectedItems.isEmpty() || selectedItems.contains(r.getResultCells().get(2).getValue()))
-                                orgInfoMap.put(r.getResultCells().get(0).getValue(), r);
+                            if (selectedItems.isEmpty() || selectedItems.contains(r.getCells().get(2).getValue()))
+                                orgInfoMap.put(r.getCells().get(0).getValue(), r);
                         }
                         ListItems items = new ListItems() {
 
@@ -107,10 +112,10 @@ public class OrgLocateName extends Composite implements HasStateChanges {
                             }
 
                             public String getItemAttribute(String id, String attrkey) {
-                                Result r = orgInfoMap.get(id);
+                            	SearchResultRow r = orgInfoMap.get(id);
 
                                 if (attrkey.equals("Organization Name")) {
-                                    return r.getResultCells().get(1).getValue();
+                                    return r.getCells().get(1).getValue();
                                 }
 
                                 return null;
@@ -134,7 +139,7 @@ public class OrgLocateName extends Composite implements HasStateChanges {
 
                             @Override
                             public String getItemText(String id) {
-                                return ((Result) orgInfoMap.get(id)).getResultCells().get(1).getValue();
+                                return orgInfoMap.get(id).getCells().get(1).getValue();
                             }
 
                         };

@@ -43,8 +43,6 @@ public interface BaseRpcServiceAsync {
     
     void validateStructureData(String objectTypeKey, String stateKey, String info, AsyncCallback<Boolean> callback);
 
-    public void searchForResults(String searchTypeKey, List<QueryParamValue> queryParamValues, AsyncCallback<List<Result>> callback);
-
     void getSearchCriteriaType(String searchCriteriaTypeKey, AsyncCallback<SearchCriteriaTypeInfo> callback);
     
     void getSearchCriteriaTypes(AsyncCallback<List<SearchCriteriaTypeInfo>> callback);

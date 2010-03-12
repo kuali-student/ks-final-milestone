@@ -54,8 +54,6 @@ import org.kuali.student.core.organization.entity.OrgPersonRelationType;
 import org.kuali.student.core.organization.entity.OrgPositionRestriction;
 import org.kuali.student.core.organization.entity.OrgType;
 import org.kuali.student.core.organization.service.OrganizationService;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
@@ -610,17 +608,6 @@ public class OrganizationServiceImpl implements OrganizationService {
 		}
 		organizationDao.delete(opr);
 		return new StatusInfo();
-	}
-
-	@Override
-	public List<Result> searchForResults(String searchTypeKey,
-			List<QueryParamValue> queryParamValues)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		checkForMissingParameter(searchTypeKey, "searchTypeKey");
-		
-		return searchManager.searchForResults(searchTypeKey, queryParamValues, organizationDao);
 	}
 
 	@Override

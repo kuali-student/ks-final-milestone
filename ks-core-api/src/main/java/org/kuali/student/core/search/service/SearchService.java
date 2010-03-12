@@ -26,9 +26,6 @@ import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
@@ -37,21 +34,6 @@ import org.kuali.student.core.search.dto.SearchTypeInfo;
 @WebService(name = "SearchService", targetNamespace = "http://student.kuali.org/wsdl/search")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface SearchService {
-
-    /** 
-     * Retrieves results in tabular form for the specified parameters.
-     * @param searchTypeKey search identifier
-     * @param queryParamValues list of values for search parameters
-     * @return list of results from the query
-     * @throws DoesNotExistException specified search type not found
-     * @throws InvalidParameterException invalid searchTypeKey, queryParamValueList
-     * @throws MissingParameterException searchTypeKey, queryParamValueList not specified
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-	 */
-    @RequestWrapper(className="org.kuali.student.core.search.service.jaxws.SearchForResults", targetNamespace="http://student.kuali.org/wsdl/search")    
-    @ResponseWrapper(className="org.kuali.student.core.search.service.jaxws.SearchForResultsResponse", targetNamespace="http://student.kuali.org/wsdl/search")
-    public List<Result> searchForResults(@WebParam(name="searchTypeKey")String searchTypeKey, @WebParam(name="queryParamValues")List<QueryParamValue> queryParamValues) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves the list of search types known by this service.

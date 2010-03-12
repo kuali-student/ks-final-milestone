@@ -23,9 +23,6 @@ import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
@@ -220,27 +217,6 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
         return null;
     }
     
-    /**
-     * @see org.kuali.student.core.search.service.SearchService#searchForResults(java.lang.String, java.util.List)
-     */
-    @Override
-    public List<Result> searchForResults(String searchTypeKey, List<QueryParamValue> queryParamValues){        
-        try {
-            return ((SearchService)getService()).searchForResults(searchTypeKey, queryParamValues);
-        } catch (DoesNotExistException e) {
-            e.printStackTrace();
-        } catch (InvalidParameterException e) {
-            e.printStackTrace();
-        } catch (MissingParameterException e) {
-            e.printStackTrace();
-        } catch (OperationFailedException e) {
-            e.printStackTrace();
-        } catch (PermissionDeniedException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     /**
      * @see org.kuali.student.core.search.service.SearchService#search(org.kuali.student.core.search.dto.SearchRequest)
      */

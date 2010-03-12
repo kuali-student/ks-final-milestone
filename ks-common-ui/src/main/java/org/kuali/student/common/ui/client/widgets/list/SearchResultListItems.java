@@ -17,10 +17,9 @@ package org.kuali.student.common.ui.client.widgets.list;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.ResultColumnInfo;
+import org.kuali.student.core.search.dto.SearchResultRow;
 
 /**
  * This is a ListItems adapter for search results returned by the search service.
@@ -31,15 +30,15 @@ import org.kuali.student.core.search.dto.ResultColumnInfo;
  */
 public class SearchResultListItems implements ListItems{
 
-    private List<String> attrKeys;
-    private Map<String, Result> resultDataMap = new HashMap<String, Result>();
+    private ArrayList<String> attrKeys;
+    private HashMap<String, SearchResultRow> resultDataMap = new HashMap<String, SearchResultRow>();
     private int attrOffset = 0;
         
     public SearchResultListItems(){
         
     }
 
-    public SearchResultListItems(List<Result> results){
+    public SearchResultListItems(List<SearchResultRow> results){
         setResults(results);
     }
 
@@ -55,25 +54,25 @@ public class SearchResultListItems implements ListItems{
         attrOffset = 1;
     }
     
-    public SearchResultListItems(List<ResultColumnInfo> resultColumns, List<Result> results){
+    public SearchResultListItems(List<ResultColumnInfo> resultColumns, List<SearchResultRow> results){
         setResultColumns(resultColumns);
         setResults(results);
     }       
     
-    public void setResults(List<Result> results){            
+    public void setResults(List<SearchResultRow> results){            
         resultDataMap.clear();
         if (results != null){
-            for (Result r: results){
+            for (SearchResultRow r: results){
                 //FIXME: This assumes search results have id as first column
-                resultDataMap.put(r.getResultCells().get(0).getValue(), r);
+                resultDataMap.put(r.getCells().get(0).getValue(), r);
             }
             
             //Default keys for column attributes
             if (results.size() > 0){
-                Result r = results.get(0);
+                SearchResultRow r = results.get(0);
                 if (attrKeys == null){
                     attrKeys = new ArrayList<String>();
-                    for (int i=0; i < r.getResultCells().size(); i ++){
+                    for (int i=0; i < r.getCells().size(); i ++){
                         attrKeys.add("attr" + String.valueOf(i));
                     }
                 }
@@ -88,11 +87,11 @@ public class SearchResultListItems implements ListItems{
 
     @Override
     public String getItemAttribute(String id, String attrKey) {
-        Result r = resultDataMap.get(id);
+        SearchResultRow r = resultDataMap.get(id);
         
         int attrIndex = attrKeys.indexOf(attrKey);
         if (attrIndex >= 0 ){
-            return r.getResultCells().get(attrIndex + attrOffset).getValue(); 
+            return r.getCells().get(attrIndex + attrOffset).getValue(); 
         }
 
         return null;
@@ -126,7 +125,7 @@ public class SearchResultListItems implements ListItems{
     @Override
     public String getItemText(String id) {
         // FIXME: What value should this really return for multi-column list, id or the first non-id column?
-        return ((Result)resultDataMap.get(id)).getResultCells().get(1).getValue();
+        return resultDataMap.get(id).getCells().get(1).getValue();
     }
     
 }

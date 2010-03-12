@@ -29,9 +29,10 @@ import org.kuali.student.common.ui.client.widgets.list.SearchResultListItems;
 import org.kuali.student.common.ui.client.widgets.searchtable.SearchBackedTable;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.core.search.dto.QueryParamInfo;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.core.search.dto.SearchParam;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -218,14 +219,14 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
            
     private void executeSearch(){
         //Build query paramaters
-        List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>();
+        List<SearchParam> searchParams = new ArrayList<SearchParam>();
         for (int row=0; row < searchParamTable.getRowCount()-1; row++ ){
             Widget w = searchParamTable.getWidget(row, 1);
             
-            QueryParamValue queryParamValue = new QueryParamValue();
-            queryParamValue.setKey(((HasName)w).getName());
+            SearchParam searchParam = new SearchParam();
+            searchParam.setKey(((HasName)w).getName());
             if (w instanceof KSSelectItemWidgetAbstract){
-                queryParamValue.setValue(((KSSelectItemWidgetAbstract)w).getSelectedItem());
+            	searchParam.setValue(((KSSelectItemWidgetAbstract)w).getSelectedItem());
 //                System.out.println(((KSSelectItemWidgetAbstract)w).getSelectedItem());
             } else {
                 String value = ((HasText)w).getText();
@@ -238,12 +239,12 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
                 if (ignoreCase) {
                     value = value.toLowerCase();
                 }
-                queryParamValue.setValue(value);
+                searchParam.setValue(value);
             }
-            queryParamValues.add(queryParamValue);                
+            searchParams.add(searchParam);                
         }
         searchResultsTable.clearTable();
-        searchResultsTable.performSearch(queryParamValues);
+        searchResultsTable.performSearch(searchParams);
         tabPanel.selectTab(1);
        
         //Call the search service
@@ -273,7 +274,8 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
     }
 
     private void populateSearchEnumeration(final KSSelectItemWidgetAbstract selectField, String searchType){               
-        searchService.searchForResults(searchType, null, new AsyncCallback<List<Result>>(){
+        SearchRequest searchRequest = new SearchRequest();
+    	searchService.search(searchRequest, new AsyncCallback<SearchResult>(){
 
             @Override
             public void onFailure(Throwable caught) {
@@ -281,8 +283,8 @@ public class KSAdvancedSearchRpc extends Composite implements HasSelectionHandle
             }
 
             @Override
-            public void onSuccess(List<Result> results) {
-                selectField.setListItems(new SearchResultListItems(results));
+            public void onSuccess(SearchResult result) {
+                selectField.setListItems(new SearchResultListItems(result.getRows()));
                 selectField.redraw();
             }
             

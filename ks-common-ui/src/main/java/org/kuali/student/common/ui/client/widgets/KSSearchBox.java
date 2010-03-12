@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
+import org.kuali.student.core.search.dto.SearchParam;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
 
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.SuggestOracle.Response;
 
 public class KSSearchBox extends Composite{
 	private KSTextBox searchField = new KSTextBox();
@@ -43,15 +43,18 @@ public class KSSearchBox extends Composite{
 	        query = query.toLowerCase();
 	        query = query.replace(" ", "%");
 	        query = "%" + query + "%";
-	        List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>();
+	        List<SearchParam> searchParams = new ArrayList<SearchParam>();
 	        for(String field: searchableFields){
-		        QueryParamValue qv = new QueryParamValue();
-		        qv.setKey(field);
-		        qv.setValue(query);
-		        queryParamValues.add(qv);
+		        SearchParam searchParam = new SearchParam();
+		        searchParam.setKey(field);
+		        searchParam.setValue(query);
+		        searchParams.add(searchParam);
 	        }
 	        if(searchService != null){
-	        	searchService.searchForResults(searchTypeKey, queryParamValues, new AsyncCallback<List<Result>>(){
+	        	SearchRequest searchRequest = new SearchRequest();
+	        	searchRequest.setParams(searchParams);
+	        	searchRequest.setSearchKey(searchTypeKey);
+	        	searchService.search(searchRequest, new AsyncCallback<SearchResult>(){
 	        		
 	                @Override
 	                public void onFailure(Throwable caught) {
@@ -59,7 +62,7 @@ public class KSSearchBox extends Composite{
 	                }
 	    
 	                @Override
-	                public void onSuccess(List<Result> results) {
+	                public void onSuccess(SearchResult results) {
 	                
 	                }
 	                
