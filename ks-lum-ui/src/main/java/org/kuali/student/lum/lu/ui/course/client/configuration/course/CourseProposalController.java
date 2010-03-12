@@ -61,7 +61,6 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.CourseReqSummaryH
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.widgets.CollaboratorTool;
-import org.kuali.student.lum.lu.ui.course.client.widgets.Collaborators;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager.LUMViews;
 
 import com.google.gwt.core.client.GWT;
@@ -84,7 +83,6 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
 	
 	//Models
 	private final DataModel cluProposalModel = new DataModel(); 
-    private Collaborators.CollaboratorModel collaboratorModel;
 
     private WorkQueue modelRequestQueue;
 
