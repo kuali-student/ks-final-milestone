@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
-import org.kuali.student.core.search.dto.QueryParamValue;
+import org.kuali.student.core.search.dto.SearchParam;
 
 /**
  * Specifies a search for CLU identifiers.
@@ -47,7 +47,7 @@ public class MembershipQueryInfo implements Serializable {
     private String searchTypeKey;
 
     @XmlElement
-    private List<QueryParamValue> queryParamValueList;
+    private List<SearchParam> queryParamValueList;
 
     /**
      * Identifier for a search type.
@@ -63,14 +63,14 @@ public class MembershipQueryInfo implements Serializable {
     /**
      * List of query parameter values. Not required if the search doesn't extend beyond the included object.
      */
-    public List<QueryParamValue> getQueryParamValueList() {
+    public List<SearchParam> getQueryParamValueList() {
         if (queryParamValueList == null) {
-            queryParamValueList = new ArrayList<QueryParamValue>(0);
+            queryParamValueList = new ArrayList<SearchParam>(0);
         }
         return queryParamValueList;
     }
 
-    public void setQueryParamValueList(List<QueryParamValue> queryParamValueList) {
+    public void setQueryParamValueList(List<SearchParam> queryParamValueList) {
         this.queryParamValueList = queryParamValueList;
     }
 
