@@ -263,6 +263,8 @@ public class KSListMenuImpl extends KSBasicMenuAbstract{
     
     @Override
     protected void populateMenu() {
+    	menuPanel.clear();
+    	menuItems.clear();
         createMenuItems(items, 1);  
     }
     
