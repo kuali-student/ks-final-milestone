@@ -2,7 +2,6 @@ package org.kuali.student.lum.lu.ui.course.client.widgets;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,14 +19,15 @@ import org.kuali.student.common.ui.client.widgets.list.KSRadioButtonList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.SearchResultListItems;
-import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.core.organization.ui.client.view.searchwidget.OrgThinTitleBar;
 import org.kuali.student.core.search.dto.QueryParamInfo;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
-import org.kuali.student.core.search.dto.ResultCell;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.core.search.dto.SearchParam;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
+import org.kuali.student.core.search.dto.SearchResultCell;
+import org.kuali.student.core.search.dto.SearchResultRow;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -35,8 +35,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -47,7 +45,6 @@ import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -164,10 +161,10 @@ public class AtpDateSearchLightBox implements HasSelectionHandlers<List<String>>
     }
 
     private void executeSearch(){
-        List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>();
+        List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
         for (int row=0; row < searchParamTable.getRowCount()-1; row++ ){
             Widget w = searchParamTable.getWidget(row, 1);
-            QueryParamValue queryParamValue = new QueryParamValue();
+            SearchParam queryParamValue = new SearchParam();
             if (w instanceof HasName) {
                 queryParamValue.setKey(((HasName)w).getName());
             } else if (w instanceof KSDatePickerAbstract) {
@@ -196,18 +193,22 @@ public class AtpDateSearchLightBox implements HasSelectionHandlers<List<String>>
             searchResultsLayout.remove(selections);
         }
         selections = new KSRadioButtonList("Selections");
-
-        searchService.searchForResults(searchTypeKey, queryParamValues, new AsyncCallback<List<Result>>(){
+        
+        SearchRequest searchRequest = new SearchRequest();
+        searchRequest.setParams(queryParamValues);
+        searchRequest.setSearchKey(searchTypeKey);
+        
+        searchService.search(searchRequest, new AsyncCallback<SearchResult>(){
             @Override
             public void onFailure(Throwable caught) {
                 System.out.println("AtpDateSearchLightBox Search failed.");
                 caught.printStackTrace();
             }
             @Override
-            public void onSuccess(List<Result> results) {
+            public void onSuccess(SearchResult result) {
                 ListItems items = null;
-                if (results != null) {
-                    items = new SelectionItems(results, resultIdKey,
+                if (result != null&&result.getRows()!=null) {
+                    items = new SelectionItems(result.getRows(), resultIdKey,
                             displayKey);
                     selections.setListItems(items);
                     searchResultsLayout.add(selections);
@@ -218,8 +219,11 @@ public class AtpDateSearchLightBox implements HasSelectionHandlers<List<String>>
         });
     }
 
-    private void populateSearchEnumeration(final KSSelectItemWidgetAbstract selectField, String searchType){               
-        searchService.searchForResults(searchType, null, new AsyncCallback<List<Result>>(){
+    private void populateSearchEnumeration(final KSSelectItemWidgetAbstract selectField, String searchType){  
+        SearchRequest searchRequest = new SearchRequest();
+        searchRequest.setParams(null);
+        searchRequest.setSearchKey(searchType);
+        searchService.search(searchRequest, new AsyncCallback<SearchResult>(){
 
             @Override
             public void onFailure(Throwable caught) {
@@ -228,8 +232,8 @@ public class AtpDateSearchLightBox implements HasSelectionHandlers<List<String>>
             }
 
             @Override
-            public void onSuccess(List<Result> results) {
-                selectField.setListItems(new SearchResultListItems(results));
+            public void onSuccess(SearchResult result) {
+                selectField.setListItems(new SearchResultListItems(result.getRows()));
                 selectField.redraw();
             }
             
@@ -265,11 +269,11 @@ public class AtpDateSearchLightBox implements HasSelectionHandlers<List<String>>
 
 class SelectionItems implements ListItems {
     
-    private List<Result> results;
+    private List<SearchResultRow> results;
     private String resultIdKey;
     private String displayKey;
     
-    public SelectionItems(List<Result> results,
+    public SelectionItems(List<SearchResultRow> results,
             String resultIdKey, 
             String displayKey) {
         this.results = results;
@@ -284,8 +288,8 @@ class SelectionItems implements ListItems {
     @Override
     public List<String> getAttrKeys() {
         List<String> attrKeys = null;        
-        for (Result result : results) {
-            for (ResultCell resultCell : result.getResultCells()) {
+        for (SearchResultRow result : results) {
+            for (SearchResultCell resultCell : result.getCells()) {
                 attrKeys = (attrKeys == null)? new ArrayList<String>() : attrKeys;
                 attrKeys.add(resultCell.getKey());
             }
@@ -295,12 +299,12 @@ class SelectionItems implements ListItems {
 
     @Override
     public String getItemAttribute(String id, String attrkey) {
-        Result item = null;
+    	SearchResultRow item = null;
         String itemAttribute = null;
         // go through the results to find the item with the same id
         // as the "id" method argument
-        for (Result result : results) {
-            for (ResultCell resultCell : result.getResultCells()) {
+        for (SearchResultRow result : results) {
+            for (SearchResultCell resultCell : result.getCells()) {
                 if (resultCell.getValue().equals(id)) {
                     item = result;
                 }
@@ -308,7 +312,7 @@ class SelectionItems implements ListItems {
         }
         // retrieve the value of the item found above.
         if (item != null) {
-            for (ResultCell resultCell : item.getResultCells()) {
+            for (SearchResultCell resultCell : item.getCells()) {
                 if (resultCell.getKey().equals(attrkey)) {
                     itemAttribute = resultCell.getValue();
                 }
@@ -327,8 +331,8 @@ class SelectionItems implements ListItems {
     public List<String> getItemIds() {
         List<String> itemIds = null;
         if (results != null) {
-            for (Result result : results) {
-                for (ResultCell resultCell : result.getResultCells()) {
+            for (SearchResultRow result : results) {
+                for (SearchResultCell resultCell : result.getCells()) {
                     if (resultCell.getKey().equals(resultIdKey)) {
                         itemIds = (itemIds == null)? new ArrayList<String>() : itemIds;
                         itemIds.add(resultCell.getValue());

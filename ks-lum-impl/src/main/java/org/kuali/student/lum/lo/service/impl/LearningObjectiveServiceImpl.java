@@ -730,21 +730,6 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
         return searchManager.getSearchTypesByResult(searchResultTypeKey);
     }
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.core.search.service.SearchService#searchForResults(java.lang.String, java.util.List)
-	 */
-	@Override
-	public List<Result> searchForResults(String searchTypeKey,
-			List<QueryParamValue> queryParamValues)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-        checkForMissingParameter(searchTypeKey, "searchTypeKey");
-        checkForMissingParameter(queryParamValues, "queryParamValues");
-
-        return searchManager.searchForResults(searchTypeKey, queryParamValues, loDao);
-	}
-
 	@Override
 	public LoLoRelationInfo createLoLoRelation(String loId, String relatedLoId,
 			String loLoRelationType, LoLoRelationInfo loLoRelationInfo)

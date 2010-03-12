@@ -51,9 +51,11 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
-import org.kuali.student.core.search.dto.ResultCell;
+import org.kuali.student.core.search.dto.SearchParam;
+import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.core.search.dto.SearchResult;
+import org.kuali.student.core.search.dto.SearchResultCell;
+import org.kuali.student.core.search.dto.SearchResultRow;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo;
 import org.kuali.student.lum.lu.dto.AccreditationInfo;
@@ -1907,25 +1909,28 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			ParseException, VersionMismatchException {
-		List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>(
+		List<SearchParam> queryParamValues = new ArrayList<SearchParam>(
 				0);
-		List<Result> clus = client.searchForResults("lu.search.clus", queryParamValues);
-		Collections.sort(clus, new Comparator<Result>() {
-			public int compare(Result o1, Result o2) {
-				return o1.getResultCells().get(0).getValue().compareTo(
-						o2.getResultCells().get(0).getValue());
+		SearchRequest searchRequest = new SearchRequest();
+		searchRequest.setSearchKey("lu.search.clus");
+		searchRequest.setParams(queryParamValues);
+		SearchResult clus = client.search(searchRequest);
+		Collections.sort(clus.getRows(), new Comparator<SearchResultRow>() {
+			public int compare(SearchResultRow o1, SearchResultRow o2) {
+				return o1.getCells().get(0).getValue().compareTo(
+						o2.getCells().get(0).getValue());
 			}
 		});
 		assertNotNull(clus);
-		assertEquals(103, clus.size());
-		Result result = clus.get(0);
+		assertEquals(103, clus.getRows().size());
+		SearchResultRow result = clus.getRows().get(0);
 		assertNotNull(result);
 
-		List<ResultCell> resultCells = result.getResultCells();
+		List<SearchResultCell> resultCells = result.getCells();
 		assertNotNull(resultCells);
 		assertEquals(2, resultCells.size());
 
-		ResultCell resultCell = resultCells.get(0);
+		SearchResultCell resultCell = resultCells.get(0);
 		assertEquals("lu.resultColumn.cluId", resultCell.getKey());
 		assertEquals("00000000-a389-4fd0-b349-1e649c20fd08", resultCell
 				.getValue());

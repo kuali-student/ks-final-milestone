@@ -2541,18 +2541,6 @@ public class LuServiceImpl implements LuService {
 	 **************************************************************************/
 
 	@Override
-	public List<Result> searchForResults(String searchTypeKey,
-			List<QueryParamValue> queryParamValues)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		checkForMissingParameter(searchTypeKey, "searchTypeKey");
-
-		return searchManager.searchForResults(searchTypeKey, queryParamValues,
-				luDao);
-	}
-
-	@Override
 	public SearchCriteriaTypeInfo getSearchCriteriaType(
 			String searchCriteriaTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
