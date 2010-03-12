@@ -32,6 +32,7 @@
 			<ref bean="lu.queryParam.luOptionalType"/>
 			<ref bean="lu.queryParam.luOptionalCode"/>
 			<ref bean="lu.queryParam.luOptionalLevel"/>
+			<ref bean="lu.queryParam.luOptionalState"/>
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
@@ -55,6 +56,10 @@
 	<search:queryParam id="lu.queryParam.luOptionalLevel-parent"  optional="true" abstract="true">
 		<ref bean="field.cluInfo.officialIdentifier.level.fd"/>
 	</search:queryParam>															
+	<search:queryParam id="lu.queryParam.luOptionalState" parent="lu.queryParam.luOptionalState-parent"/>
+	<search:queryParam id="lu.queryParam.luOptionalState-parent"  optional="true" abstract="true">
+		<ref bean="field.cluInfo.state.fd"/>
+	</search:queryParam>
 
 	<search:searchResultTypeInfo id="lu.result.generic" parent="lu.result.generic-parent"/>
 	<search:searchResultTypeInfo id="lu.result.generic-parent"  abstract="true">
@@ -384,6 +389,9 @@
 				</entry>
 				<entry key="lu.queryParam.luOptionalLevel">
 					<value>clu.officialIdentifier.level</value>
+				</entry>
+				<entry key="lu.queryParam.luOptionalState">
+					<value>clu.state = :lu_queryParam_luOptionalState</value>
 				</entry>
 				<entry key="cluset.queryParam.optionalId">
 					<value>cluset.id = :cluset_queryParam_optionalId</value>

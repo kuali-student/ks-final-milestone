@@ -456,6 +456,19 @@ public class LookupMetadataBank
 		param.setCaseSensitive (true);
 		lookup.getParams ().add (param);
 		
+		param = new LookupParamMetadata ();
+		param.setKey ("lu.queryParam.luOptionalState");
+		param.setName ("State");
+		param.setDesc ("Lu State");
+		param.setWriteAccess (Metadata.WriteAccess.NEVER);
+		param.setDataType (Data.DataType.STRING);
+		param.setOptional (true);
+		param.setUsage (LookupMetadata.Usage.ADVANCED);
+		param.setWidget (LookupParamMetadata.Widget.TEXT_BOX);
+		param.setCaseSensitive (true);
+		param.setDefaultValueString ("activated");
+		lookup.getParams ().add (param);
+		
 		result = new LookupResultMetadata ();
 		result.setKey ("lu.resultColumn.cluId");
 		result.setName ("Clu Id");
