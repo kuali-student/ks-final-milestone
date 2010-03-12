@@ -33,7 +33,7 @@ INSERT INTO KSLU_CLU_FEE (ID, VERSIONIND) VALUES ('FEE-1', 0)
 INSERT INTO KSLU_CLU_FEE (ID, VERSIONIND) VALUES ('FEE-2', 0)
 
 // LU Type
-INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.lu.type.CreditCourse', 'A Shell Course', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Course')
+INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.lu.type.CreditCourse', 'A Credit Course', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Course')
 INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('luType.shell.program', 'A Shell Program', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Program')
 
 // NL - Clu - MATH152
