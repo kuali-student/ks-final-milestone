@@ -12,8 +12,8 @@
 <!--		<field label="orgDesc" key="org/versions" widget="VersionCodeList"></field>  -->
 		<multipleField itemLabel="orgOrgRelationSection" addItemLabel="Add" key="orgOrgRelationInfo">
 			<fields>
-				<field label="orgOrgRelationName" key="relatedOrgId"></field>
 				<field label="orgOrgRelationType" key="orgOrgRelationTypeKey" widget="OrgRelationTypePicker"></field>
+				<field label="orgOrgRelationName" key="relatedOrgId"></field>
 				<field label="orgOrgRelationEffDate" key="effectiveDate"></field>
 				<field label="orgOrgRelationExpDate" key="expirationDate"></field>
 			</fields>
