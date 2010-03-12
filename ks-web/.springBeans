@@ -12,6 +12,7 @@
 	  <config>ks-embedded/src/main/resources/embedded-gwt-context.xml</config>
 	  <config>ks-embedded/src/main/resources/rice-jpa-override-dataloader.xml</config>
 	  <config>ks-embedded/src/main/resources/org/kuali/rice/standalone/config/StandaloneSpringBeans.xml</config>
+	  <config>ks-embedded/src/main/resources/StudentStandaloneSpringBeans.xml</config>
 	  <config>ks-embedded/src/main/resources/org/kuali/rice/student/bo/datadictionary/KualiStudentKimAttributes.xml</config>
 	</configs>
 	<configSets>
