@@ -135,6 +135,9 @@ public interface KSClientBundle extends ImmutableResourceBundle{
 	@Resource("org/kuali/student/common/ui/theme/standard/public/images/common/kru_logo.png")
 	public ImageResource headerImage();
 	
+	@Resource("org/kuali/student/common/ui/theme/standard/public/images/common/powered_by_ks.png")
+	public ImageResource footerImage();
+	
 	@Resource("org/kuali/student/common/ui/theme/standard/public/images/common/gradcap-1.png")
 	public ImageResource curriculumManagementImage();
 	

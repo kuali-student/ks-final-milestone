@@ -143,4 +143,10 @@ public class CommonImagesImpl implements CommonImages{
 		return null;
 	}
 
+	@Override
+	public KSImage getFooterImage() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

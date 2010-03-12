@@ -192,7 +192,7 @@ public class KSWrapper extends Composite{
 		helpLabel.addStyleName("KS-Wrapper-Help-Label");
 		rightHeader.addStyleName("KS-Wrapper-Header-Right-Panel");
 		leftHeader.addStyleName("KS-Wrapper-Header-Left-Panel");
-		footer.add(Theme.INSTANCE.getCommonImages().getSpacer());		
+		footer.add(Theme.INSTANCE.getCommonImages().getFooterImage());		
 	}
 	
 	private void createHelpInfo(){

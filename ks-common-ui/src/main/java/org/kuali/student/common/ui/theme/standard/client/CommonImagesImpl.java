@@ -135,6 +135,11 @@ public class CommonImagesImpl implements CommonImages{
 	public KSImage getDisclosureOpenedIcon() {
 		return new KSImage(KSClientBundle.INSTANCE.disclosureOpenedIcon());
 	}
+
+	@Override
+	public KSImage getFooterImage() {
+		return new KSImage(KSClientBundle.INSTANCE.footerImage());
+	}
 	
 	
 }

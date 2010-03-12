@@ -4,7 +4,8 @@ import org.kuali.student.common.ui.client.widgets.KSImage;
 
 public interface CommonImages {
 
-    public KSImage getHelpIcon();
+    public KSImage getFooterImage();
+	public KSImage getHelpIcon();
     public KSImage getOkIcon();
     public KSImage getErrorIcon();
     public KSImage getWarningIcon();
