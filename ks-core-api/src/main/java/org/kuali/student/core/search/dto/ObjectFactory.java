@@ -43,18 +43,6 @@ public class ObjectFactory {
 		return new QueryParamInfo();
 	}
 
-	public QueryParamValue createQueryParamValue() {
-		return new QueryParamValue();
-	}
-
-	public Result createResult() {
-		return new Result();
-	}
-
-	public ResultCell createResultCell() {
-		return new ResultCell();
-	}
-
 	public ResultColumnInfo createResultColumnInfo() {
 		return new ResultColumnInfo();
 	}

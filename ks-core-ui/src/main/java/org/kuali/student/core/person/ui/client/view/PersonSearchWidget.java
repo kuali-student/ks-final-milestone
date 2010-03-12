@@ -28,8 +28,6 @@ import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.core.person.dto.PersonInfo;
 import org.kuali.student.core.person.ui.client.service.PersonRpcService;
 import org.kuali.student.core.person.ui.client.service.PersonRpcServiceAsync;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;

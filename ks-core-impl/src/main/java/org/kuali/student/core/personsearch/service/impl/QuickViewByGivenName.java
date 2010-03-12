@@ -9,14 +9,6 @@ import java.util.Map;
 
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.IdentityService;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
-import org.kuali.student.core.search.dto.ResultCell;
 import org.kuali.student.core.search.dto.SearchParam;
 import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.core.search.dto.SearchResult;
@@ -184,8 +176,4 @@ public final class QuickViewByGivenName extends PersonSearch implements SearchOp
         return result;
     }
 
-    @Override
-    public List<Result> searchForResults(IdentityService identityService, String searchTypeKey, List<QueryParamValue> queryParamValues) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	throw new UnsupportedOperationException();
-    }
 }
