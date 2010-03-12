@@ -24,6 +24,12 @@
 	width: 100%;
 }
 
+.KS-TitleContainer-Toolbar{
+	width: 100%;
+	margin-bottom: 20px;
+	margin-left: 20px;
+}
+
 .KS-TitleContainer-Right-Panel{
 	float: right;
 	margin-top: 20px;

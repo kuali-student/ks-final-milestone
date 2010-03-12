@@ -402,6 +402,10 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 		
 	}
 	
+	public void addToolbar(Widget toolbar){
+		this.container.setToolbar(toolbar);
+	}
+	
     public void showStartSection(final Callback<Boolean> onReadyCallback){
         startSectionView.beforeShow(new Callback<Boolean>() {
 			@Override
