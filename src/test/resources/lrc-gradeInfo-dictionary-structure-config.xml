@@ -151,11 +151,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.gradeInfo.expirationDate.fd" parent="field.gradeInfo.expirationDate.fd.abstract"/>
-<!-- Optional; Single valued (non-repeating); Date-Time -->
+<!-- Optional; Single valued (non-repeating); Date-Time; Must be empty or a date greater than the entity's effective date -->
 <dict:constraintDescriptor id="field.gradeInfo.expirationDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="field.gradeInfo.expirationDate.cd" parent="field.gradeInfo.expirationDate.cd.abstract"/>
 
@@ -189,9 +190,9 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.gradeInfo.key.fd" parent="field.gradeInfo.key.fd.abstract"/>
-<!-- Optional; Single valued (non-repeating); Kuali KEY; structured like a type but unique like and ID, used to identify configured objects. -->
+<!-- Required; Single valued (non-repeating); Kuali KEY; structured like a type but unique like and ID, used to identify configured objects. -->
 <dict:constraintDescriptor id="field.gradeInfo.key.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.key"/>
 </dict:constraintDescriptor>

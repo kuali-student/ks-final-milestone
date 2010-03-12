@@ -135,11 +135,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluCluRelationInfo.expirationDate.fd" parent="field.cluCluRelationInfo.expirationDate.fd.abstract"/>
-<!-- Optional; Single valued (non-repeating); Date-Time -->
+<!-- Optional; Single valued (non-repeating); Date-Time; Must be empty or a date greater than the entity's effective date -->
 <dict:constraintDescriptor id="field.cluCluRelationInfo.expirationDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="field.cluCluRelationInfo.expirationDate.cd" parent="field.cluCluRelationInfo.expirationDate.cd.abstract"/>
 
@@ -156,10 +157,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluCluRelationInfo.metaInfo.fd" parent="field.cluCluRelationInfo.metaInfo.fd.abstract"/>
-<!-- Read Only; Single valued (non-repeating) -->
+<!-- Optional; Single valued (non-repeating); Kuali Meta Data: calculated by service, read-only; Read Only -->
 <dict:constraintDescriptor id="field.cluCluRelationInfo.metaInfo.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="field.cluCluRelationInfo.metaInfo.cd" parent="field.cluCluRelationInfo.metaInfo.cd.abstract"/>
 
@@ -349,11 +352,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluCluRelationInfo.id.fd" parent="field.cluCluRelationInfo.id.fd.abstract"/>
-<!-- Read Only; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only. -->
+<!-- Optional; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only.; Read Only -->
 <dict:constraintDescriptor id="field.cluCluRelationInfo.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="field.cluCluRelationInfo.id.cd" parent="field.cluCluRelationInfo.id.cd.abstract"/>
 </beans>

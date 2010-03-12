@@ -689,12 +689,14 @@ TODO: update simples -->
 	<dict:desc>credit course with final grade metaInfo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.lrDefinitionInfo.metaInfo.CreditCourseFinalGrade"/>
+	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.credit.course.with.final.grade.metaInfo.fd" parent="dict.credit.course.with.final.grade.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.with.final.grade.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="dict.credit.course.with.final.grade.metaInfo.cd" parent="dict.credit.course.with.final.grade.metaInfo.cd.abstract"/>
 
@@ -870,12 +872,14 @@ TODO: update simples -->
 	<dict:desc>gpa in overall program metaInfo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.lrDefinitionInfo.metaInfo.OverallProgramGPA"/>
+	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.gpa.in.overall.program.metaInfo.fd" parent="dict.gpa.in.overall.program.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.gpa.in.overall.program.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="dict.gpa.in.overall.program.metaInfo.cd" parent="dict.gpa.in.overall.program.metaInfo.cd.abstract"/>
 
@@ -1051,12 +1055,14 @@ TODO: update simples -->
 	<dict:desc>total credits in overall program metaInfo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.lrDefinitionInfo.metaInfo.OverallProgramTotalCredits"/>
+	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.total.credits.in.overall.program.metaInfo.fd" parent="dict.total.credits.in.overall.program.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.total.credits.in.overall.program.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="dict.total.credits.in.overall.program.metaInfo.cd" parent="dict.total.credits.in.overall.program.metaInfo.cd.abstract"/>
 

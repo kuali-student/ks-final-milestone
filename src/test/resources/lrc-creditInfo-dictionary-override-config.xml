@@ -231,6 +231,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="dict.academic.credit.expirationDate.cd" parent="dict.academic.credit.expirationDate.cd.abstract"/>
 
@@ -251,6 +252,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor id="dict.academic.credit.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
 	<dict:constraintRef bean="constraint.hard.coded.academic.credit"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="type" id="dict.academic.credit.type.cd" parent="dict.academic.credit.type.cd.abstract"/>
@@ -267,12 +269,14 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>academic credit internal id</dict:name>
 	<dict:desc>Unique identifier for a credit value.</dict:desc>
 	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.academic.credit.internal.id.fd" parent="dict.academic.credit.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.academic.credit.internal.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.hidden"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.academic.credit.internal.id.cd" parent="dict.academic.credit.internal.id.cd.abstract"/>

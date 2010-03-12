@@ -380,6 +380,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="dict.credit.course.set.expirationDate.cd" parent="dict.credit.course.set.expirationDate.cd.abstract"/>
 
@@ -466,8 +467,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.credit.course.set.metaInfo.fd" parent="dict.credit.course.set.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.set.metaInfo.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="dict.credit.course.set.metaInfo.cd" parent="dict.credit.course.set.metaInfo.cd.abstract"/>
 
@@ -533,9 +536,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.credit.course.set.id.fd" parent="dict.credit.course.set.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.credit.course.set.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.credit.course.set.id.cd" parent="dict.credit.course.set.id.cd.abstract"/>
 </beans>

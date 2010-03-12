@@ -419,6 +419,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="dict.allCategories.lo.category.expirationDate.cd" parent="dict.allCategories.lo.category.expirationDate.cd.abstract"/>
 
@@ -435,11 +436,14 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>meta info</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.loCategoryInfo.metaInfo.allcategories"/>
+	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.allCategories.lo.category.metaInfo.fd" parent="dict.allCategories.lo.category.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.allCategories.lo.category.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="dict.allCategories.lo.category.metaInfo.cd" parent="dict.allCategories.lo.category.metaInfo.cd.abstract"/>
 
@@ -460,6 +464,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor id="dict.allCategories.lo.category.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
 	<dict:constraintRef bean="constraint.lo.category.types"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="type" id="dict.allCategories.lo.category.type.cd" parent="dict.allCategories.lo.category.type.cd.abstract"/>
@@ -501,9 +506,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.allCategories.lo.category.id.fd" parent="dict.allCategories.lo.category.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.allCategories.lo.category.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.hidden"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.allCategories.lo.category.id.cd" parent="dict.allCategories.lo.category.id.cd.abstract"/>

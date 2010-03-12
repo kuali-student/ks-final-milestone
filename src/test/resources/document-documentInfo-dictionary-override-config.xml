@@ -460,6 +460,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="dict.file.expirationDate.cd" parent="dict.file.expirationDate.cd.abstract"/>
 
@@ -476,12 +477,14 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>file metaInfo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.documentInfo.metaInfo.File"/>
+	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.file.metaInfo.fd" parent="dict.file.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.file.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="dict.file.metaInfo.cd" parent="dict.file.metaInfo.cd.abstract"/>
 
@@ -541,12 +544,14 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>file internal id</dict:name>
 	<dict:desc>file internal id</dict:desc>
 	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.file.internal.id.fd" parent="dict.file.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.file.internal.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.hidden"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.file.internal.id.cd" parent="dict.file.internal.id.cd.abstract"/>

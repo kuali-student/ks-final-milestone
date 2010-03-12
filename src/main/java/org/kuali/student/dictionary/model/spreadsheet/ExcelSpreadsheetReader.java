@@ -55,7 +55,7 @@ public class ExcelSpreadsheetReader implements SpreadsheetReader
   }
   catch (IOException ex)
   {
-   throw new DictionaryExecutionException (ex);
+   throw new DictionaryExecutionException ("problem with file " + spreadsheetFileName, ex);
   }
   return workbook;
  }

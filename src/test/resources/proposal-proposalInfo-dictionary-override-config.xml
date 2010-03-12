@@ -1087,6 +1087,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="dict.all.course.proposals.expirationDate.cd" parent="dict.all.course.proposals.expirationDate.cd.abstract"/>
 
@@ -1103,12 +1104,14 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>all course proposals metaInfo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.proposalInfo.metaInfo.AllCourseProposalTypes"/>
+	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.all.course.proposals.metaInfo.fd" parent="dict.all.course.proposals.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.course.proposals.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="dict.all.course.proposals.metaInfo.cd" parent="dict.all.course.proposals.metaInfo.cd.abstract"/>
 
@@ -1129,6 +1132,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor id="dict.all.course.proposals.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
 	<dict:constraintRef bean="constraint.proposal.types"/>
 	<dict:constraintRef bean="constraint.course.proposal.types"/>
 </dict:constraintDescriptor>
@@ -1168,12 +1172,14 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>all course proposals internal id</dict:name>
 	<dict:desc>all course proposals internal id</dict:desc>
 	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.all.course.proposals.internal.id.fd" parent="dict.all.course.proposals.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.course.proposals.internal.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.hidden"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.all.course.proposals.internal.id.cd" parent="dict.all.course.proposals.internal.id.cd.abstract"/>
@@ -1389,6 +1395,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="dict.all.program.proposals.expirationDate.cd" parent="dict.all.program.proposals.expirationDate.cd.abstract"/>
 
@@ -1405,12 +1412,14 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>all program proposals metaInfo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.proposalInfo.metaInfo.AllProgramProposalTypes"/>
+	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.all.program.proposals.metaInfo.fd" parent="dict.all.program.proposals.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.program.proposals.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="dict.all.program.proposals.metaInfo.cd" parent="dict.all.program.proposals.metaInfo.cd.abstract"/>
 
@@ -1431,6 +1440,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor id="dict.all.program.proposals.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
 	<dict:constraintRef bean="constraint.proposal.types"/>
 	<dict:constraintRef bean="constraint.program.proposal.types"/>
 </dict:constraintDescriptor>
@@ -1470,12 +1480,14 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>all program proposals internal id</dict:name>
 	<dict:desc>all program proposals internal id</dict:desc>
 	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.all.program.proposals.internal.id.fd" parent="dict.all.program.proposals.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.all.program.proposals.internal.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.hidden"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.all.program.proposals.internal.id.cd" parent="dict.all.program.proposals.internal.id.cd.abstract"/>
@@ -1692,6 +1704,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="dict.group.proposal.expirationDate.cd" parent="dict.group.proposal.expirationDate.cd.abstract"/>
 
@@ -1708,12 +1721,14 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>group proposal metaInfo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.proposalInfo.metaInfo.Grouped"/>
+	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.group.proposal.metaInfo.fd" parent="dict.group.proposal.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.group.proposal.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="dict.group.proposal.metaInfo.cd" parent="dict.group.proposal.metaInfo.cd.abstract"/>
 
@@ -1734,6 +1749,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor id="dict.group.proposal.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
 	<dict:constraintRef bean="constraint.proposal.types"/>
 	<dict:constraintRef bean="constraint.hard.coded.group.proposal"/>
 </dict:constraintDescriptor>
@@ -1773,12 +1789,14 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>group proposal internal id</dict:name>
 	<dict:desc>group proposal internal id</dict:desc>
 	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.group.proposal.internal.id.fd" parent="dict.group.proposal.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.group.proposal.internal.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.hidden"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.group.proposal.internal.id.cd" parent="dict.group.proposal.internal.id.cd.abstract"/>

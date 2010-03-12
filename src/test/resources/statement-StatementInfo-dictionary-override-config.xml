@@ -453,8 +453,10 @@ Should not include rules that restrict enrollment for other purposes other than 
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.requisite.statement.metainfo.fd" parent="dict.requisite.statement.metainfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.requisite.statement.metainfo.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="dict.requisite.statement.metainfo.cd" parent="dict.requisite.statement.metainfo.cd.abstract"/>
 
@@ -520,9 +522,10 @@ Should not include rules that restrict enrollment for other purposes other than 
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.requisite.statement.id.fd" parent="dict.requisite.statement.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.requisite.statement.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.requisite.statement.id.cd" parent="dict.requisite.statement.id.cd.abstract"/>
 </beans>

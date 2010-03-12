@@ -214,11 +214,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.proposalInfo.expirationDate.fd" parent="field.proposalInfo.expirationDate.fd.abstract"/>
-<!-- Optional; Single valued (non-repeating); Date-Time -->
+<!-- Optional; Single valued (non-repeating); Date-Time; Must be empty or a date greater than the entity's effective date -->
 <dict:constraintDescriptor id="field.proposalInfo.expirationDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="field.proposalInfo.expirationDate.cd" parent="field.proposalInfo.expirationDate.cd.abstract"/>
 
@@ -232,13 +233,15 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.proposalInfo.metaInfo"/>
+	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.proposalInfo.metaInfo.fd" parent="field.proposalInfo.metaInfo.fd.abstract"/>
-<!-- Optional; Single valued (non-repeating); Kuali Meta Data: calculated by service, read-only -->
+<!-- Optional; Single valued (non-repeating); Kuali Meta Data: calculated by service, read-only; Read Only -->
 <dict:constraintDescriptor id="field.proposalInfo.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="field.proposalInfo.metaInfo.cd" parent="field.proposalInfo.metaInfo.cd.abstract"/>
 
@@ -387,10 +390,11 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.proposalInfo.type.fd" parent="field.proposalInfo.type.fd.abstract"/>
-<!-- Required; Single valued (non-repeating); In a list of configured proposal types -->
+<!-- Required; Single valued (non-repeating); Kuali TYPE: required on add, then read-only; In a list of configured proposal types -->
 <dict:constraintDescriptor id="field.proposalInfo.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
 	<dict:constraintRef bean="constraint.proposal.types"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="type" id="field.proposalInfo.type.cd" parent="field.proposalInfo.type.cd.abstract"/>
@@ -424,13 +428,15 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>Proposal Identifier</dict:name>
 	<dict:desc>Unique identifier for a Proposal. This is optional, due to the identifier being set at the time of creation. Once the proposal has been created, this should be seen as required.</dict:desc>
 	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.proposalInfo.id.fd" parent="field.proposalInfo.id.fd.abstract"/>
-<!-- Optional; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only. -->
+<!-- Optional; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only.; Read Only -->
 <dict:constraintDescriptor id="field.proposalInfo.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="field.proposalInfo.id.cd" parent="field.proposalInfo.id.cd.abstract"/>
 </beans>

@@ -702,6 +702,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="dict.syllabus.expirationDate.cd" parent="dict.syllabus.expirationDate.cd.abstract"/>
 
@@ -718,12 +719,14 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>syllabus metaInfo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.proposalDocRelationInfo.metaInfo.Syllabus"/>
+	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.syllabus.metaInfo.fd" parent="dict.syllabus.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.syllabus.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="dict.syllabus.metaInfo.cd" parent="dict.syllabus.metaInfo.cd.abstract"/>
 
@@ -744,6 +747,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor id="dict.syllabus.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
 	<dict:constraintRef bean="constraint.hard.coded.syllabus"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="type" id="dict.syllabus.type.cd" parent="dict.syllabus.type.cd.abstract"/>
@@ -782,12 +786,14 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>syllabus title</dict:name>
 	<dict:desc>syllabus title</dict:desc>
 	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.syllabus.internal.id.fd" parent="dict.syllabus.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.syllabus.internal.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.hidden"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.syllabus.internal.id.cd" parent="dict.syllabus.internal.id.cd.abstract"/>
@@ -919,6 +925,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="dict.other.attachment.expirationDate.cd" parent="dict.other.attachment.expirationDate.cd.abstract"/>
 
@@ -935,12 +942,14 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>other metaInfo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.proposalDocRelationInfo.metaInfo.Other"/>
+	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.other.attachment.metaInfo.fd" parent="dict.other.attachment.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.other.attachment.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="dict.other.attachment.metaInfo.cd" parent="dict.other.attachment.metaInfo.cd.abstract"/>
 
@@ -961,6 +970,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor id="dict.other.attachment.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
 	<dict:constraintRef bean="constraint.hard.coded.other.document"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="type" id="dict.other.attachment.type.cd" parent="dict.other.attachment.type.cd.abstract"/>
@@ -999,12 +1009,14 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:name>other title</dict:name>
 	<dict:desc>other title</dict:desc>
 	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.other.attachment.internal.id.fd" parent="dict.other.attachment.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.other.attachment.internal.id.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.hidden"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.other.attachment.internal.id.cd" parent="dict.other.attachment.internal.id.cd.abstract"/>

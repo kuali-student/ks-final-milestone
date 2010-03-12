@@ -335,11 +335,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.officialIdentifier.id.fd" parent="field.cluInfo.officialIdentifier.id.fd.abstract"/>
-<!-- Read Only; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only. -->
+<!-- Optional; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only.; Read Only -->
 <dict:constraintDescriptor id="field.cluInfo.officialIdentifier.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="field.cluInfo.officialIdentifier.id.cd" parent="field.cluInfo.officialIdentifier.id.cd.abstract"/>
 
@@ -608,11 +609,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.alternateIdentifiers.id.fd" parent="field.cluInfo.alternateIdentifiers.id.fd.abstract"/>
-<!-- Read Only; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only. -->
+<!-- Optional; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only.; Read Only -->
 <dict:constraintDescriptor id="field.cluInfo.alternateIdentifiers.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="field.cluInfo.alternateIdentifiers.id.cd" parent="field.cluInfo.alternateIdentifiers.id.cd.abstract"/>
 
@@ -910,11 +912,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.accreditations.expirationDate.fd" parent="field.cluInfo.accreditations.expirationDate.fd.abstract"/>
-<!-- Optional; Single valued (non-repeating); Date-Time -->
+<!-- Optional; Single valued (non-repeating); Date-Time; Must be empty or a date greater than the entity's effective date -->
 <dict:constraintDescriptor id="field.cluInfo.accreditations.expirationDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="field.cluInfo.accreditations.expirationDate.cd" parent="field.cluInfo.accreditations.expirationDate.cd.abstract"/>
 
@@ -931,10 +934,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.accreditations.metaInfo.fd" parent="field.cluInfo.accreditations.metaInfo.fd.abstract"/>
-<!-- Read Only; Single valued (non-repeating) -->
+<!-- Optional; Single valued (non-repeating); Kuali Meta Data: calculated by service, read-only; Read Only -->
 <dict:constraintDescriptor id="field.cluInfo.accreditations.metaInfo.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="field.cluInfo.accreditations.metaInfo.cd" parent="field.cluInfo.accreditations.metaInfo.cd.abstract"/>
 
@@ -1084,11 +1089,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.accreditations.id.fd" parent="field.cluInfo.accreditations.id.fd.abstract"/>
-<!-- Read Only; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only. -->
+<!-- Optional; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only.; Read Only -->
 <dict:constraintDescriptor id="field.cluInfo.accreditations.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="field.cluInfo.accreditations.id.cd" parent="field.cluInfo.accreditations.id.cd.abstract"/>
 
@@ -1441,11 +1447,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.expirationDate.fd" parent="field.cluInfo.expirationDate.fd.abstract"/>
-<!-- Optional; Single valued (non-repeating); Date-Time -->
+<!-- Optional; Single valued (non-repeating); Date-Time; Must be empty or a date greater than the entity's effective date -->
 <dict:constraintDescriptor id="field.cluInfo.expirationDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="field.cluInfo.expirationDate.cd" parent="field.cluInfo.expirationDate.cd.abstract"/>
 
@@ -1761,10 +1768,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.luCodes.metaInfo.fd" parent="field.cluInfo.luCodes.metaInfo.fd.abstract"/>
-<!-- Read Only; Single valued (non-repeating) -->
+<!-- Optional; Single valued (non-repeating); Kuali Meta Data: calculated by service, read-only; Read Only -->
 <dict:constraintDescriptor id="field.cluInfo.luCodes.metaInfo.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="field.cluInfo.luCodes.metaInfo.cd" parent="field.cluInfo.luCodes.metaInfo.cd.abstract"/>
 
@@ -2356,11 +2365,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>date</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.expirationDate.fd" parent="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.expirationDate.fd.abstract"/>
-<!-- Optional; Single valued (non-repeating); Date -->
+<!-- Optional; Single valued (non-repeating); Date; Must be empty or a date greater than the entity's effective date -->
 <dict:constraintDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.expirationDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.expirationDate.cd" parent="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.expirationDate.cd.abstract"/>
 
@@ -2396,11 +2406,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.id.fd" parent="field.cluInfo.feeInfo.cluFeeRecords.id.fd.abstract"/>
-<!-- Read Only; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only. -->
+<!-- Optional; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only.; Read Only -->
 <dict:constraintDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="field.cluInfo.feeInfo.cluFeeRecords.id.cd" parent="field.cluInfo.feeInfo.cluFeeRecords.id.cd.abstract"/>
 
@@ -2548,11 +2559,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:dataType>date</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.accountingInfo.affiliatedOrgInfoList.expirationDate.fd" parent="field.cluInfo.accountingInfo.affiliatedOrgInfoList.expirationDate.fd.abstract"/>
-<!-- Optional; Single valued (non-repeating); Date -->
+<!-- Optional; Single valued (non-repeating); Date; Must be empty or a date greater than the entity's effective date -->
 <dict:constraintDescriptor id="field.cluInfo.accountingInfo.affiliatedOrgInfoList.expirationDate.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="field.cluInfo.accountingInfo.affiliatedOrgInfoList.expirationDate.cd" parent="field.cluInfo.accountingInfo.affiliatedOrgInfoList.expirationDate.cd.abstract"/>
 
@@ -2590,10 +2602,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.metaInfo.fd" parent="field.cluInfo.metaInfo.fd.abstract"/>
-<!-- Read Only; Single valued (non-repeating) -->
+<!-- Optional; Single valued (non-repeating); Kuali Meta Data: calculated by service, read-only; Read Only -->
 <dict:constraintDescriptor id="field.cluInfo.metaInfo.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="field.cluInfo.metaInfo.cd" parent="field.cluInfo.metaInfo.cd.abstract"/>
 
@@ -2786,11 +2800,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.id.fd" parent="field.cluInfo.id.fd.abstract"/>
-<!-- Read Only; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only. -->
+<!-- Optional; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only.; Read Only -->
 <dict:constraintDescriptor id="field.cluInfo.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="field.cluInfo.id.cd" parent="field.cluInfo.id.cd.abstract"/>
 </beans>

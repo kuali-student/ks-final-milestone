@@ -533,6 +533,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="dict.requisite.req.component.expirationDate.cd" parent="dict.requisite.req.component.expirationDate.cd.abstract"/>
 
@@ -553,8 +554,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.requisite.req.component.metaInfo.fd" parent="dict.requisite.req.component.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.requisite.req.component.metaInfo.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="dict.requisite.req.component.metaInfo.cd" parent="dict.requisite.req.component.metaInfo.cd.abstract"/>
 
@@ -619,9 +622,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.requisite.req.component.id.fd" parent="dict.requisite.req.component.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.requisite.req.component.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.requisite.req.component.id.cd" parent="dict.requisite.req.component.id.cd.abstract"/>
 </beans>

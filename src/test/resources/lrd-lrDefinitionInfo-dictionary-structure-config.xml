@@ -176,13 +176,15 @@ This field does not make sense. The GradeKey points to the GradeInfo object that
 	<dict:desc>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.lrDefinitionInfo.metaInfo"/>
+	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.lrDefinitionInfo.metaInfo.fd" parent="field.lrDefinitionInfo.metaInfo.fd.abstract"/>
-<!-- Optional; Single valued (non-repeating); Kuali Meta Data: calculated by service, read-only -->
+<!-- Optional; Single valued (non-repeating); Kuali Meta Data: calculated by service, read-only; Read Only -->
 <dict:constraintDescriptor id="field.lrDefinitionInfo.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="field.lrDefinitionInfo.metaInfo.cd" parent="field.lrDefinitionInfo.metaInfo.cd.abstract"/>
 

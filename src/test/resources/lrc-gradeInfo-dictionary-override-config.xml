@@ -229,6 +229,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="dict.qualitative.grade.expirationDate.cd" parent="dict.qualitative.grade.expirationDate.cd.abstract"/>
 
@@ -269,7 +270,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.qualitative.grade.key.fd" parent="dict.qualitative.grade.key.fd.abstract"/>
 <dict:constraintDescriptor id="dict.qualitative.grade.key.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.key"/>
 </dict:constraintDescriptor>
@@ -401,6 +402,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="dict.letter.grade.expirationDate.cd" parent="dict.letter.grade.expirationDate.cd.abstract"/>
 
@@ -441,7 +443,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.letter.grade.key.fd" parent="dict.letter.grade.key.fd.abstract"/>
 <dict:constraintDescriptor id="dict.letter.grade.key.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.key"/>
 </dict:constraintDescriptor>
@@ -573,6 +575,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="dict.pass-fail.grade.expirationDate.cd" parent="dict.pass-fail.grade.expirationDate.cd.abstract"/>
 
@@ -613,7 +616,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.pass-fail.grade.key.fd" parent="dict.pass-fail.grade.key.fd.abstract"/>
 <dict:constraintDescriptor id="dict.pass-fail.grade.key.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.key"/>
 </dict:constraintDescriptor>

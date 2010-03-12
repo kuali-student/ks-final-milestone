@@ -404,6 +404,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="dict.singleUse.lo.expirationDate.cd" parent="dict.singleUse.lo.expirationDate.cd.abstract"/>
 
@@ -441,11 +442,14 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:desc>meta info</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.loInfo.metaInfo.singleUse"/>
+	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.singleUse.lo.metaInfo.fd" parent="dict.singleUse.lo.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.singleUse.lo.metaInfo.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="dict.singleUse.lo.metaInfo.cd" parent="dict.singleUse.lo.metaInfo.cd.abstract"/>
 
@@ -466,6 +470,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor id="dict.singleUse.lo.type.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
 	<dict:constraintRef bean="constraint.lo.types"/>
 	<dict:constraintRef bean="constraint.hard.coded.singleUse.lo"/>
 </dict:constraintDescriptor>
@@ -509,9 +514,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.singleUse.lo.internal.id.fd" parent="dict.singleUse.lo.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.singleUse.lo.internal.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.hidden"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.singleUse.lo.internal.id.cd" parent="dict.singleUse.lo.internal.id.cd.abstract"/>

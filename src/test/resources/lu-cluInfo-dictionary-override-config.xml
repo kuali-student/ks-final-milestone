@@ -1357,9 +1357,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.official.internal.id.fd" parent="dict.course.official.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.official.internal.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.hidden"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.course.official.internal.id.cd" parent="dict.course.official.internal.id.cd.abstract"/>
@@ -1709,9 +1710,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.cross-listed.internal.id.fd" parent="dict.course.cross-listed.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.cross-listed.internal.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.hidden"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.course.cross-listed.internal.id.cd" parent="dict.course.cross-listed.internal.id.cd.abstract"/>
@@ -1968,9 +1970,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.version.internal.id.fd" parent="dict.course.version.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.version.internal.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.hidden"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.course.version.internal.id.cd" parent="dict.course.version.internal.id.cd.abstract"/>
@@ -2359,6 +2362,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 	<dict:constraintRef bean="constraint.not.used"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.expirationDate.cd" parent="dict.course.feeInfo.cluFeeRecordInfoList.affiliatedOrgs.expirationDate.cd.abstract"/>
@@ -2511,9 +2515,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.feeInfo.cluFeeRecordInfoList.id.fd" parent="dict.course.feeInfo.cluFeeRecordInfoList.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.feeInfo.cluFeeRecordInfoList.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.required"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.course.feeInfo.cluFeeRecordInfoList.id.cd" parent="dict.course.feeInfo.cluFeeRecordInfoList.id.cd.abstract"/>
@@ -2685,6 +2690,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 	<dict:constraintRef bean="constraint.not.used"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="dict.course.expInfo.affiliatedOrgs.expirationDate.cd" parent="dict.course.expInfo.affiliatedOrgs.expirationDate.cd.abstract"/>
@@ -5270,9 +5276,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.format.official.internal.id.fd" parent="dict.course.format.official.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.format.official.internal.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.hidden"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.course.format.official.internal.id.cd" parent="dict.course.format.official.internal.id.cd.abstract"/>
@@ -5807,9 +5814,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.program.official.internal.id.fd" parent="dict.program.official.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.program.official.internal.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.hidden"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.program.official.internal.id.cd" parent="dict.program.official.internal.id.cd.abstract"/>
@@ -6121,9 +6129,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.program.version.internal.id.fd" parent="dict.program.version.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.program.version.internal.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.hidden"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.program.version.internal.id.cd" parent="dict.program.version.internal.id.cd.abstract"/>
@@ -8301,9 +8310,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.activity.official.internal.id.fd" parent="dict.course.activity.official.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.activity.official.internal.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.hidden"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.course.activity.official.internal.id.cd" parent="dict.course.activity.official.internal.id.cd.abstract"/>
@@ -9046,6 +9056,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="dict.course.expirationDate.cd" parent="dict.course.expirationDate.cd.abstract"/>
 
@@ -9394,8 +9405,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.meta.fd" parent="dict.course.meta.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.meta.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="dict.course.meta.cd" parent="dict.course.meta.cd.abstract"/>
 
@@ -9460,9 +9473,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.internal.id.fd" parent="dict.course.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.internal.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.hidden"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.course.internal.id.cd" parent="dict.course.internal.id.cd.abstract"/>
@@ -9701,6 +9715,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 	<dict:constraintRef bean="constraint.required"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="dict.course.expirationDate.retired.cd" parent="dict.course.expirationDate.retired.cd.abstract"/>
@@ -9998,6 +10013,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="dict.course.format.expirationDate.cd" parent="dict.course.format.expirationDate.cd.abstract"/>
 
@@ -10321,8 +10337,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.format.metaInfo.fd" parent="dict.course.format.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.format.metaInfo.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="dict.course.format.metaInfo.cd" parent="dict.course.format.metaInfo.cd.abstract"/>
 
@@ -10388,9 +10406,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.format.internal.id.fd" parent="dict.course.format.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.format.internal.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.hidden"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.course.format.internal.id.cd" parent="dict.course.format.internal.id.cd.abstract"/>
@@ -10692,6 +10711,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="dict.program.expirationDate.cd" parent="dict.program.expirationDate.cd.abstract"/>
 
@@ -11019,8 +11039,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.program.meta.fd" parent="dict.program.meta.fd.abstract"/>
 <dict:constraintDescriptor id="dict.program.meta.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="dict.program.meta.cd" parent="dict.program.meta.cd.abstract"/>
 
@@ -11085,9 +11107,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.program.internal.id.fd" parent="dict.program.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.program.internal.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.hidden"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.program.internal.id.cd" parent="dict.program.internal.id.cd.abstract"/>
@@ -11241,6 +11264,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 	<dict:constraintRef bean="constraint.required"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="dict.program.expirationDate.retired.cd" parent="dict.program.expirationDate.retired.cd.abstract"/>
@@ -11538,6 +11562,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="dict.course.activity.expirationDate.cd" parent="dict.course.activity.expirationDate.cd.abstract"/>
 
@@ -11861,8 +11886,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.activity.metaInfo.fd" parent="dict.course.activity.metaInfo.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.activity.metaInfo.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="metaInfo" id="dict.course.activity.metaInfo.cd" parent="dict.course.activity.metaInfo.cd.abstract"/>
 
@@ -11928,9 +11955,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.activity.internal.id.fd" parent="dict.course.activity.internal.id.fd.abstract"/>
 <dict:constraintDescriptor id="dict.course.activity.internal.id.cd.abstract" abstract="true">
-	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.hidden"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="id" id="dict.course.activity.internal.id.cd" parent="dict.course.activity.internal.id.cd.abstract"/>
