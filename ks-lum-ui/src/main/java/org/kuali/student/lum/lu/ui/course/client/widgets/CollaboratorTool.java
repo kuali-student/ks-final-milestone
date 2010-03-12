@@ -107,7 +107,7 @@ public class CollaboratorTool extends Composite implements ToolView{
         List<String> columns = new ArrayList<String>();
         columns.add("Name");
         columns.add("Permissions");
-        columns.add("Workflow Permissions");
+        columns.add("Workflow Action");
         
         //TODO add this in later
         //columns.add("Remove Person");
