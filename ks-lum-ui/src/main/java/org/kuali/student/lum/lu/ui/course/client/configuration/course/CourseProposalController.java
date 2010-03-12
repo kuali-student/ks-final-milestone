@@ -581,7 +581,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
 					authCallback.isAuthorized();
 				}
 				else {
-					authCallback.isNotAuthorized("User is not authorized.");
+					authCallback.isNotAuthorized("User is not authorized: " + permissionType);
 				}
 			}
     	});

@@ -16,8 +16,11 @@ package org.kuali.student.lum.kim.permission.role;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -32,6 +35,7 @@ import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
+import org.kuali.rice.kim.service.support.impl.KimTypeAttributeValidationException;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
 
 /**
@@ -44,15 +48,76 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 	private static final String ACKNOWLEDGE_REQUEST_RECIPIENT_ROLE_CONTENT = "Acknowledge";
 	private static final String FYI_REQUEST_RECIPIENT_ROLE_CONTENT = "FYI";
 
+	protected Set<List<String>> newRequiredAttributes = new HashSet<List<String>>();
+
 	protected enum REQUESTS_TYPES_TO_CHECK {
 		BOTH, ADHOC_ONLY, NON_ADHOC_ONLY;
 	}
 
 	{
-		checkRequiredAttributes = false;
-		requiredAttributes.add( KimAttributes.DOCUMENT_NUMBER );
-		requiredAttributes.add( KimAttributes.DOCUMENT_TYPE_NAME );
-		requiredAttributes.add( KualiStudentKimAttributes.QUALIFICATION_PROPOSAL_ID );
+		checkRequiredAttributes = true;
+		List<String> listOne = new ArrayList<String>();
+		listOne.add( KimAttributes.DOCUMENT_NUMBER );
+		newRequiredAttributes.add(listOne);
+		List<String> listTwo = new ArrayList<String>();
+		listTwo.add( KimAttributes.DOCUMENT_TYPE_NAME );
+		listTwo.add( KualiStudentKimAttributes.QUALIFICATION_PROPOSAL_ID );
+		newRequiredAttributes.add(listTwo);
+	}
+
+	/** 
+	 * The part about where the receivedAttributes list being empty does not return errors is copied from Rice base class.
+	 * 
+	 * @see org.kuali.rice.kim.service.support.impl.KimTypeServiceBase#validateRequiredAttributesAgainstReceived(org.kuali.rice.kim.bo.types.dto.AttributeSet)
+	 **/
+	@Override
+	protected void validateRequiredAttributesAgainstReceived(AttributeSet receivedAttributes){
+		// abort if type does not want the qualifiers to be checked
+		if ( !isCheckRequiredAttributes() ) {
+			return;
+		}
+		// abort if the list is empty, no attributes need to be checked
+		if ( newRequiredAttributes == null || newRequiredAttributes.isEmpty() ) {
+			return;
+		}
+		// if attributes are null or empty, they're all missing
+		if ( receivedAttributes == null || receivedAttributes.isEmpty() ) {
+			return;		
+		}
+		
+		Set<List<String>> totalMissingAttributes = new HashSet<List<String>>();
+		for (List<String> currentReqAttributes : newRequiredAttributes) {
+			List<String> missingAttributes = new ArrayList<String>();
+			for( String requiredAttribute : currentReqAttributes ) {
+				if( !receivedAttributes.containsKey(requiredAttribute) ) {
+					missingAttributes.add(requiredAttribute);
+				}
+			}
+			if (missingAttributes.isEmpty()) {
+				// if no missing attributes from this list then we have required attributes needed
+				return;
+			}
+			totalMissingAttributes.add(missingAttributes);
+        }
+
+		int i = 1;
+    	StringBuffer errorMessage = new StringBuffer("Missing Required Attributes from lists - ");
+    	for (List<String> missingAttributes : totalMissingAttributes) {
+            if(missingAttributes.size()>0) {
+            	errorMessage.append("List " + i + ": (");
+            	i++;
+            	Iterator<String> attribIter = missingAttributes.iterator();
+            	while ( attribIter.hasNext() ) {
+            		errorMessage.append( attribIter.next() );
+            		if( attribIter.hasNext() ) {
+            			errorMessage.append( COMMA_SEPARATOR );
+            		}
+            	}
+            	errorMessage.append(")");
+            }
+        }
+		LOG.info("Found missing attributes: " + errorMessage.toString());
+        throw new KimTypeAttributeValidationException(errorMessage.toString());
 	}
 
 	protected Long getDocumentNumber(AttributeSet qualification) throws WorkflowException {

@@ -2,6 +2,7 @@ package org.kuali.student.lum.lu.ui.course.client.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcService;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
@@ -15,4 +16,6 @@ public interface CreditCourseProposalRpcService extends BaseDataOrchestrationRpc
     public HashMap<String, ArrayList<String>> getCollaborators(String docId) throws OperationFailedException;
 
 	public Data getNewProposalWithCopyOfClu(String cluId) throws OperationFailedException;
+
+    public Boolean isAuthorized(PermissionType type, Map<String,String> attributes);
 }
