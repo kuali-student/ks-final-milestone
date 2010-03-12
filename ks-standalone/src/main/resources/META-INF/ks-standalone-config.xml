@@ -84,6 +84,7 @@
     <param name="keystore.alias">rice</param>
     <param name="keystore.password">r1c3pw</param>
     
+    <param name="ks.rice.label">RICE</param>
     <param name="ks.rice.url">http://localhost:8081/ks-rice-${environment}</param>
     
     <param name="serviceServletUrl">${application.url}/services/</param>

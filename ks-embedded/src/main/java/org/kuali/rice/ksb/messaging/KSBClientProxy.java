@@ -24,6 +24,7 @@ import javax.xml.namespace.QName;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.util.ExceptionUtils;
 
 /**
  * This class creates a proxy for services deployed on KSB. A 
@@ -59,7 +60,7 @@ private static final Logger LOG = Logger.getLogger(KSBClientProxy.class);
         try {
             return method.invoke(service, args);
         } catch (InvocationTargetException e) {
-            throw e.fillInStackTrace().getCause();
+            throw ExceptionUtils.unwrapActualCause(e);
         }
         
     }
