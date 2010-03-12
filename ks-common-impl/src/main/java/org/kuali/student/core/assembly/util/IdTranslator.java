@@ -84,7 +84,7 @@ public class IdTranslator {
 			
 		
         IdTranslation result = null; 
-        if(searchResults != null){
+        if(searchResults != null && searchResults.getRows().size() > 0){
         	result = new IdTranslation();
         	result.setId(id);
         	

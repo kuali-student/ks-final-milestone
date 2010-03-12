@@ -14,6 +14,7 @@
  */
 package org.kuali.student.core.assembly;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -21,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.core.assembly.data.MetadataInterrogator;
 import org.kuali.student.core.assembly.data.SaveResult;
 import org.kuali.student.core.assembly.util.IdTranslation;
 import org.kuali.student.core.assembly.util.IdTranslator;
@@ -79,14 +81,36 @@ public class IdTranslatorAssemblerFilter extends PassThroughAssemblerFilter<Data
             Map<String, Metadata> children = metadata.getProperties();
             if (children != null && children.size() > 0) {
                 for (Entry<String, Metadata> e : children.entrySet()) {
-                    Object fieldValue = data.get(e.getKey());
+                    
                     Metadata fieldMetadata = e.getValue();
-                    if (fieldValue != null && fieldValue instanceof Data) {
-                        _translateIds((Data) fieldValue, fieldMetadata);
-                    } else if (fieldValue != null && fieldValue instanceof String) {
-                        if (fieldMetadata.getInitialLookup() != null && !StringUtils.isEmpty((String) fieldValue)) {
-                            IdTranslation trans = idTranslator.getTranslation(fieldMetadata.getInitialLookup(), (String) fieldValue);
-                            setTranslation(data, e.getKey(), trans.getDisplay());
+                    if(MetadataInterrogator.isRepeating(fieldMetadata)) {
+                        Iterator<Data.Property> iter = data.iterator();
+                        while(iter.hasNext()) {
+                            Data.Property prop = iter.next();
+                            Object fieldValue = prop.getValue();
+                            if(fieldValue != null && fieldValue instanceof Data) {
+                                _translateIds((Data) fieldValue, fieldMetadata);//, p);
+                            } else if (fieldValue != null && fieldValue instanceof String) {
+                                if (fieldMetadata.getInitialLookup() != null && !StringUtils.isEmpty((String) fieldValue)) {
+                                    IdTranslation trans = idTranslator.getTranslation(fieldMetadata.getInitialLookup(), (String) fieldValue);
+                                    if(trans != null) {
+                                        setTranslation(data, e.getKey(), trans.getDisplay());
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        Object fieldValue = data.get(e.getKey());
+                        if (fieldValue != null && fieldValue instanceof Data) {
+                            _translateIds((Data) fieldValue, fieldMetadata);//, p);
+                        } else if (fieldValue != null && fieldValue instanceof String) {
+                            if (fieldMetadata.getInitialLookup() != null && !StringUtils.isEmpty((String) fieldValue)) {
+                                IdTranslation trans = idTranslator.getTranslation(fieldMetadata.getInitialLookup(), (String) fieldValue);
+                                if(trans != null) {
+                                    setTranslation(data, e.getKey(), trans.getDisplay());
+                                }
+                            }
                         }
                     }
                 }
