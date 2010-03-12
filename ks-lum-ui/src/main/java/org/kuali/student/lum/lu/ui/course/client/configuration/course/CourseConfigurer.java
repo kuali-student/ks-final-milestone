@@ -153,8 +153,8 @@ public class CourseConfigurer
 
         layout.addTool(new CollaboratorTool(CourseSections.AUTHOR, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS, 
         		getH2Title(LUConstants.SECTION_AUTHORS_AND_COLLABORATORS)));
-        layout.addTool(new CommentPanel(CourseSections.COMMENTS, LUConstants.TOOL_COMMENTS_LABEL_KEY));
-        layout.addTool(new DocumentTool(CourseSections.DOCUMENTS, LUConstants.TOOL_DOCUMENTS_LABEL_KEY));
+        layout.addTool(new CommentPanel(CourseSections.COMMENTS, getLabel(LUConstants.TOOL_COMMENTS_LABEL_KEY)));
+        layout.addTool(new DocumentTool(CourseSections.DOCUMENTS, getLabel(LUConstants.TOOL_DOCUMENTS_LABEL_KEY)));
     }
 
     public SectionView generateSummarySection(){
@@ -845,28 +845,6 @@ public class CourseConfigurer
         addField(shortTitle, "cluInfo/officialIdentifier/shortName", null);
         return shortTitle;
 	}
-
-/*	public class CollaboratorTool extends ToolView{
-		
-        public CollaboratorTool(){
-            super(CourseSections.AUTHOR, LUConstants.SECTION_AUTHORS_AND_COLLABORATORS);
-        }
-
-
-        @Override
-        protected Widget createWidget() {
-            //return new Collaborators();
-        	final VerticalSection section = new VerticalSection(getH3Title(LUConstants.SECTION_AUTHORS_AND_COLLABORATORS));
-        	
-        	
-        	
-        	//TODO convert to messages
-        	//
-        	
-        	return section;
-        }
-
-    }*/
 
     private VerticalSectionView initSectionView (Enum<?> viewEnum, String labelKey) {
         VerticalSectionView section = new VerticalSectionView(viewEnum, getLabel(labelKey), CLU_PROPOSAL_MODEL);
