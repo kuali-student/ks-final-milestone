@@ -42,6 +42,7 @@ import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.security.AuthorizationCallback;
 import org.kuali.student.common.ui.client.security.RequiresAuthorization;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.common.ui.client.service.WorkflowRpcServiceAsync;
 import org.kuali.student.common.ui.client.service.AuthorizationRpcService.PermissionType;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -54,6 +55,7 @@ import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.core.workflow.ui.client.widgets.WorkflowToolbar;
 import org.kuali.student.lum.lu.assembly.data.client.LuData;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseReqSummaryHolder;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
@@ -86,6 +88,8 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
 
     private WorkQueue modelRequestQueue;
 
+    private WorkflowToolbar workflowToolbar;
+    
 	private boolean initialized = false;
 	
 	private final KSLightBox progressWindow = new KSLightBox();
@@ -243,7 +247,14 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
         CourseConfigurer cfg = new CourseConfigurer();
         cfg.setModelDefinition(modelDefinition);
         cfg.configureCourseProposal(this);
-               
+        
+        //FIXME: This needs to be moved to the configurer
+        workflowToolbar = new WorkflowToolbar();
+        workflowToolbar.setIdPath("proposal/id");
+        workflowToolbar.setRequiredFieldPaths(new String[]{"course/department"});
+        workflowToolbar.setWorkflowRpcService((WorkflowRpcServiceAsync)GWT.create(CreditCourseProposalRpcService.class));
+        this.addToolbar(workflowToolbar);
+
         if (!initialized){
 	        addButton("Edit Proposal", getSaveButton());
 	        addButton("Edit Proposal", getQuitButton());
@@ -512,7 +523,8 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
                     } else {
                         saveWindow.hide();
                         saveActionEvent.doActionComplete();                        
-                    }                    
+                    } 
+    				workflowToolbar.refresh();
                 }
             });
         } catch (Exception e) {
