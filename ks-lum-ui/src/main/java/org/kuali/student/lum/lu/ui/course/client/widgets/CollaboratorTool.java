@@ -1,12 +1,10 @@
 package org.kuali.student.lum.lu.ui.course.client.widgets;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.mvc.AbstractSimpleModel;
@@ -38,7 +36,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public class CollaboratorTool extends Composite implements ToolView{
@@ -108,6 +105,7 @@ public class CollaboratorTool extends Composite implements ToolView{
         columns.add("Name");
         columns.add("Permissions");
         columns.add("Workflow Action");
+        columns.add("Request Status");
         
         //TODO add this in later
         //columns.add("Remove Person");
@@ -397,19 +395,27 @@ public class CollaboratorTool extends Composite implements ToolView{
 						if(numberCollabs > 0){
 							tableSection.setSectionTitle(SectionTitle.generateH3Title("Added People (" + numberCollabs + ")"));
 						}
+						rowWidgets.add(new KSLabel(person.getActionRequestStatus()));
 						//TODO add back in when we have remove
-/*							KSLinkButton remove = new KSLinkButton("X", ButtonStyle.DELETE);
-							remove.addClickHandler(new ClickHandler(){
-
+/*
+						if (person.isCanRevokeRequest()) {
+							KSLinkButton remove = new KSLinkButton("X", ButtonStyle.DELETE);
+							remove.addClickHandler(new ClickHandler() {
+	
 								@Override
 								public void onClick(ClickEvent event) {
-									Boolean ok = Window.confirm("Are you sure you want to delete " + id + "?");
-									if(ok){
-										//delete and refresh
+									Boolean ok = Window.confirm("Are you sure you want to revoke workflow request " + id + "?");
+									if (ok) {
+										// delete and refresh
 									}
 								}
 							});
-							rowWidgets.add(remove);*/
+							rowWidgets.add(remove);
+						}
+						else {
+							rowWidgets.add(new KSLabel(""));
+						}
+*/
 						table.addRow(rowWidgets);
 						
 						numberCollabs++;

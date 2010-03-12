@@ -21,6 +21,9 @@ public class WorkflowPersonInfo implements Serializable{
 	private List<String> permList;
 	private List<String> actionList;
 	
+	private boolean canRevokeRequest = false;
+	private String actionRequestStatus;
+	
 	public String getPrincipalId() {
 		return principalId;
 	}
@@ -57,6 +60,18 @@ public class WorkflowPersonInfo implements Serializable{
 	public void setActionList(List<String> actionList) {
 		this.actionList = actionList;
 	}
+	public boolean isCanRevokeRequest() {
+    	return canRevokeRequest;
+    }
+	public void setCanRevokeRequest(boolean canRevokeRequest) {
+    	this.canRevokeRequest = canRevokeRequest;
+    }
+	public String getActionRequestStatus() {
+    	return actionRequestStatus;
+    }
+	public void setActionRequestStatus(String actionRequestStatus) {
+    	this.actionRequestStatus = actionRequestStatus;
+    }
 	
 
 }

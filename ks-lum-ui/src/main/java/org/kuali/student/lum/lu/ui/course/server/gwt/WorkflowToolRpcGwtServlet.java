@@ -1,37 +1,26 @@
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
-import org.kuali.rice.kew.dto.RouteNodeInstanceDTO;
 import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kew.webservice.DocumentResponse;
 import org.kuali.rice.kew.webservice.StandardResponse;
 import org.kuali.rice.kim.bo.entity.dto.KimEntityDefaultInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.IdentityService;
 import org.kuali.rice.kim.service.PermissionService;
-import org.kuali.student.common.ui.client.service.WorkflowRpcService.RequestType;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.AbstractBaseDataOrchestrationRpcGwtServlet;
 import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
-import org.kuali.student.lum.lu.dto.workflow.CluProposalCollabRequestDocInfo;
-import org.kuali.student.lum.lu.dto.workflow.PrincipalIdRoleAttribute;
 import org.kuali.student.lum.lu.dto.workflow.WorkflowPersonInfo;
 import org.kuali.student.lum.lu.ui.course.client.service.WorkflowToolRpcService;
-
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 //FIXME this servlet should take not extend abstract base 
 public class WorkflowToolRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet implements WorkflowToolRpcService{
 	
@@ -171,8 +160,7 @@ public class WorkflowToolRpcGwtServlet extends AbstractBaseDataOrchestrationRpcG
 			ActionRequestDTO[] items = getWorkflowUtilityService().getAllActionRequests(Long.parseLong(docId));
 	        if(items!=null){
 	        	for(ActionRequestDTO item:items){
-	        		//TODO Dont know if I care about activated and done here
-	        		//if (item.isActivated() && (!item.isDone())) {
+	        		if (item.isAdHocRequest()) {
 	        			WorkflowPersonInfo person = new WorkflowPersonInfo();
 	        			person.setPrincipalId(item.getPrincipalId());
 	        			
@@ -204,10 +192,18 @@ public class WorkflowToolRpcGwtServlet extends AbstractBaseDataOrchestrationRpcG
 	        			}
 	        			
 	        			String request = item.getRequestLabel();
+	        			if (request == null || ("".equals(request))) {
+	        				request = KEWConstants.ACTION_REQUEST_CD.get(item.getActionRequested());
+	        			}
 	        			person.getActionList().add(request);
 	        			
+	        			person.setActionRequestStatus(getActionRequestStatusLabel(item.getStatus()));
+	        			
+	        			if (!item.isDone()) {
+	        				person.setCanRevokeRequest(true);
+	        			}
 	        			people.add(person);
-	        		//}
+	        		}
 	        	}
 	        }
 	
@@ -250,4 +246,13 @@ public class WorkflowToolRpcGwtServlet extends AbstractBaseDataOrchestrationRpcG
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+    private String getActionRequestStatusLabel(String key) {
+        Map<String,String> newArStatusLabels = new HashMap<String,String>();
+        newArStatusLabels.put(KEWConstants.ACTION_REQUEST_ACTIVATED, "Active");
+        newArStatusLabels.put(KEWConstants.ACTION_REQUEST_INITIALIZED, "Pending");
+        newArStatusLabels.put(KEWConstants.ACTION_REQUEST_DONE_STATE, "Completed");
+        return newArStatusLabels.get(key);
+    }
+
 }
