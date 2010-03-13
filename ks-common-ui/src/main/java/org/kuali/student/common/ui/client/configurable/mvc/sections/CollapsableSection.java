@@ -2,6 +2,7 @@ package org.kuali.student.common.ui.client.configurable.mvc.sections;
 
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.widgets.field.layout.FieldElement;
 import org.kuali.student.common.ui.client.widgets.search.CollapsablePanel;
 
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -89,5 +90,11 @@ public class CollapsableSection extends BaseSection{
             this.addFieldToLayout(f);
         }
         //Fire validation request here?
+	}
+
+	@Override
+	protected void removeSectionFromLayout(BaseSection section) {
+		layout.remove(section);
+		
 	}
 }

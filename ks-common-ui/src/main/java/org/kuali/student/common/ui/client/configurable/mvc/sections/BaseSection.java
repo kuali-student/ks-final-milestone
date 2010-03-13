@@ -21,6 +21,7 @@ import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.field.layout.FieldElement;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
 import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
@@ -221,6 +222,14 @@ public abstract class BaseSection extends Composite implements Section{
         sections.add(section);
         addSectionToLayout(section);
 	}
+	
+	@Override
+	public void removeSection(BaseSection section){
+		sections.remove(section);
+		removeSectionFromLayout(section);
+	}
+	
+	protected abstract void removeSectionFromLayout(BaseSection section);
 
 	@Override
 	public void clearHighlight() {

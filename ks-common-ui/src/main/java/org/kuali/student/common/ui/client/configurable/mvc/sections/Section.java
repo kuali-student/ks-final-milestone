@@ -40,4 +40,5 @@ public interface Section extends HasLayoutController{
 	public void updateView(DataModel model);
 	public void updateModel(DataModel model);
 	public void setSectionValidationPanel(ValidationMessagePanel validationPanel);
+	public void removeSection(BaseSection section);
 }

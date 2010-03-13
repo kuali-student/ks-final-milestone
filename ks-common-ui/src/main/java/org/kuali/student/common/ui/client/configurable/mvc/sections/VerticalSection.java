@@ -10,6 +10,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.RequiredEnum;
 import org.kuali.student.common.ui.client.configurable.mvc.RowDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.Section.FieldLabelType;
+import org.kuali.student.common.ui.client.widgets.field.layout.FieldElement;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 
@@ -96,5 +97,10 @@ public class VerticalSection extends BaseSection{
 	@Override
 	protected void addWidgetToLayout(Widget w) {
 		layout.add(w);
+	}
+	
+	@Override
+	protected void removeSectionFromLayout(BaseSection section) {
+		layout.remove(section);
 	}
 }
