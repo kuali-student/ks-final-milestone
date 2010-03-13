@@ -6,11 +6,11 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.DefaultWidgetFactory;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.FieldElement;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton;
 import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.field.layout.FieldElement;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
@@ -369,8 +369,8 @@ public class SearchPanel extends Composite{
 			}
 			
             KSLinkButton searchButton = new KSLinkButton(getMessage("search"), ButtonStyle.PRIMARY);
-            searchButton.addStyleName("KS-Advanced-Search-Button");
-            searchButton.addStyleName("clearboth");
+            //searchButton.addStyleName("KS-Advanced-Search-Button");
+            //searchButton.addStyleName("clearboth");
 			searchButton.addClickHandler(new ClickHandler(){
 
 				@Override
