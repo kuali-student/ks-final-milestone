@@ -53,6 +53,9 @@ public class ModifyCreditCourseProposalManager{
 		CreditCourseHelper course = CreditCourseHelper.wrap(data);
 		course.setCopyOfCourseId(cluId);
 		
+		//temp fix until we find out why lo are not saving
+		course.setCourseSpecificLOs(null);
+		
 		List<ProposalInfo> proposalList = null;
 		try{
 		    proposalList = proposalService.getProposalsByReference(CreditCourseProposalAssembler.PROPOSAL_REFERENCE_TYPE, cluId);
