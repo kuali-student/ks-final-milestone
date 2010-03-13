@@ -1,4 +1,4 @@
-package org.kuali.student.common.ui.client.configurable.mvc.sections;
+package org.kuali.student.common.ui.client.widgets.field.layout;
 
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.widgets.KSTitleDescPanel;
