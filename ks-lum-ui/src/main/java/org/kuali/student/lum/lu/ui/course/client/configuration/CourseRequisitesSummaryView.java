@@ -165,4 +165,9 @@ public class CourseRequisitesSummaryView extends SectionView {
         // TODO Auto-generated method stub      
     }
     
+	@Override
+	protected void removeSectionFromLayout(BaseSection section) {
+	
+	}
+    
 }

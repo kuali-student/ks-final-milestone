@@ -559,4 +559,8 @@ public class AssemblerTestSection extends SectionView {
 		
 	}
 	
+	@Override
+	protected void removeSectionFromLayout(BaseSection section) {
+	}
+	
 }
