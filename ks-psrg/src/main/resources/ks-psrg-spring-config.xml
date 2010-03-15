@@ -28,7 +28,7 @@
                            
                            
 
-    <bean id="methodTrackerAdvice" class="org.kuali.student.common.util.MethodTrackerAdvice" />
+    <bean id="methodTrackerAdvice" class="org.kuali.student.psrg.util.MethodTrackerAdvice" />
 	
 	<aop:config>
       <aop:aspect id="myAspect" ref="methodTrackerAdvice">
