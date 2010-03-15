@@ -45,7 +45,8 @@ public class ServiceBeanWriter extends JavaClassWriter
                            Service service,
                            XmlType type)
  {
-  super (directory, calcPackage (service, rootPackage), calcClassName (type.getName ()));
+  super (directory, calcPackage (service, rootPackage), calcClassName (type.
+   getName ()));
   this.model = model;
   this.finder = new ModelFinder (model);
   this.directory = directory;
@@ -142,21 +143,12 @@ public class ServiceBeanWriter extends JavaClassWriter
 
  private String calcGetter (MessageStructure ms)
  {
-  if (calcFieldTypeToUse (ms.getType ()).equals ("Boolean"))
-  {
-   return "is" + calcProperName (ms.getShortName ());
-  }
-  return "get" + calcProperName (ms.getShortName ());
+  return new GetterSetterNameCalculator (ms, this, model).calcGetter ();
  }
 
  private String calcSetter (MessageStructure ms)
  {
-  return "set" + calcProperName (ms.getShortName ());
- }
-
- private String calcProperName (String name)
- {
-  return name.substring (0, 1).toUpperCase () + name.substring (1);
+  return new GetterSetterNameCalculator (ms, this, model).calcSetter ();
  }
 
  private String calcFieldTypeToUse (String type)
