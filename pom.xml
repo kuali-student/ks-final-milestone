@@ -44,6 +44,7 @@
     <module>ks-core</module>
     <module>ks-brms</module>
     <module>ks-lum</module>
+    <module>ks-psrg</module>
     <module>ks-web</module>
   </modules>
   <scm>
