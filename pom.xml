@@ -103,7 +103,7 @@
 
         <!-- build properties -->
         <ks.gwt.compile.phase>process-classes</ks.gwt.compile.phase>
-        <ks-standard-security.version>1.0.0-m4-SNAPSHOT</ks-standard-security.version>
+        <ks-standard-security.version>1.0.0-m4</ks-standard-security.version>
     </properties>
 
     <profiles>
