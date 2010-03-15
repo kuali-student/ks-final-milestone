@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<version>1</version>
+	<pluginVersion><![CDATA[2.3.0.200912170948-RELEASE]]></pluginVersion>
+	<configSuffixes>
+		<configSuffix><![CDATA[xml]]></configSuffix>
+	</configSuffixes>
+	<enableImports><![CDATA[false]]></enableImports>
+	<configs>
+	 <config>ks-core-impl/src/main/resources/ksb/ks-core-context.xml</config>
+	 <config>ks-core-impl/src/main/resources/enumeration-context.xml</config>
+	 <config>ks-core-impl/src/main/resources/messages-context.xml</config>
+	 <config>ks-core-ui/src/main/resources/core-gwt-context.xml</config>
+	 <config>ks-core-ui/src/main/resources/META-INF/ks-core-ui-context.xml</config>
+	</configs>
+	<configSets>
+	</configSets>
+</beansProjectDescription>
