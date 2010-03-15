@@ -62,7 +62,11 @@ public class HasDataValueBinding extends ModelWidgetBindingSupport<HasDataValue>
         	        translationPath.add(new Data.StringKey("id-translation"));
         	        
         	        String translation = model.get(translationPath);
-        	        ((TranslatableValueWidget)widget).setValue((String)value, translation);
+        	        if(translation != null && !translation.isEmpty()) {
+        	            ((TranslatableValueWidget)widget).setValue((String)value, translation);
+        	        } else {
+        	            widget.setValue(new StringValue((String)value));
+        	        }
             	} else {
             		widget.setValue(new StringValue((String)value));
             	}
