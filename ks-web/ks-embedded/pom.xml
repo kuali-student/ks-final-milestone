@@ -100,6 +100,11 @@
 		</dependency>
         
 		<dependency>
+			<groupId>org.kuali.student.psrg</groupId>
+			<artifactId>ks-psrg</artifactId>
+			<version>1.0.0-m4-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<groupId>org.kuali.student.lum</groupId>
 			<artifactId>ks-lum-rice</artifactId>
 			<version>${ks-lum.version}</version>
