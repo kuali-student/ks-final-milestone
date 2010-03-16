@@ -1,0 +1,1266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dict="http://student.kuali.org/xsd/dictionary-extension" xsi:schemaLocation=" http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<dict:constraint key="repeating" id="repeating"
+	serverSide="false">
+		<!-- Repeating -->
+		<!-- Nine 9's get translated as "(unbounded)" -->
+		<dict:maxOccurs>(unbounded)</dict:maxOccurs>
+	</dict:constraint>
+	<dict:constraint key="single" id="single" serverSide="false">
+		<!-- Single valued (non-repeating) -->
+		<!-- Used to override a repeating constraint -->
+		<dict:maxOccurs>1</dict:maxOccurs>
+	</dict:constraint>
+
+<!-- OrgCodeInfo Object Structure -->
+<dict:objectStructure key="OrgCodeInfo" id="OrgCodeInfo" parent="OrgCodeInfo-parent"/>
+<dict:objectStructure key="OrgCodeInfo-parent" id="OrgCodeInfo-parent" abstract="true">
+	<dict:typeRef bean="OrgCodeInfo.type.default"/>
+</dict:objectStructure>
+
+
+<!-- OrgCodeInfo Types -->
+<dict:type key="default" id="OrgCodeInfo.type.default" parent="OrgCodeInfo.type.default-parent"/>
+<dict:type key="default-parent" id="OrgCodeInfo.type.default-parent" abstract="true" modifiable="false">
+	<dict:name>Default Name</dict:name>
+	<dict:desc>Default Description</dict:desc>
+	<dict:effectiveDate>2000-01-01</dict:effectiveDate>
+	<dict:expirationDate>2100-01-01</dict:expirationDate>
+	<dict:attributes>
+		<dict:attribute key="attr1" value="value1"/>
+		<dict:attribute key="attr2" value="value2"/>
+	</dict:attributes>
+	<dict:stateRef bean="OrgCodeInfo.state.default"/>
+</dict:type>
+
+<dict:type key="default2" id="DoubleInheritance" parent="DoubleInheritance-parent"/>
+<dict:type key="default2-parent" id="DoubleInheritance-parent" abstract="true" parent="OrgCodeInfo.type.default-parent" modifiable="false">
+	<dict:name>NEW</dict:name>
+</dict:type>
+
+
+<!-- OrgCodeInfo States -->
+<dict:state key="default" id="OrgCodeInfo.state.default" parent="OrgCodeInfo.state.default-parent"/>
+<dict:state key="default-parent" id="OrgCodeInfo.state.default-parent" abstract="true">
+	<dict:fieldRef bean="OrgCodeInfo.default.desc"/>
+	<dict:fieldRef bean="OrgCodeInfo.default.value"/>
+</dict:state>
+
+
+<!-- OrgCodeInfo Fields -->
+<dict:field id="OrgCodeInfo.default.desc" key="desc" parent="OrgCodeInfo.default.desc-parent"/>
+<dict:field id="OrgCodeInfo.default.desc-parent" key="desc-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgCodeInfo.default.desc.fd"/>
+	<dict:constraintDescriptorRef bean="OrgCodeInfo.default.desc.cd"/>
+</dict:field>
+
+<dict:field id="OrgCodeInfo.default.value" key="value" parent="OrgCodeInfo.default.value-parent"/>
+<dict:field id="OrgCodeInfo.default.value-parent" key="value-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgCodeInfo.default.value.fd"/>
+	<dict:constraintDescriptorRef bean="OrgCodeInfo.default.value.cd"/>
+</dict:field>
+
+
+<!-- OrgCodeInfo Field Descriptors -->
+<dict:fieldDescriptor id="OrgCodeInfo.default.desc.fd" parent="OrgCodeInfo.default.desc.fd-parent"/>
+<dict:fieldDescriptor id="OrgCodeInfo.default.desc.fd-parent" abstract="true">
+	<dict:name>desc</dict:name>
+	<dict:desc>The description of the code.</dict:desc>
+	<dict:dataType>String</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgCodeInfo.default.value.fd" parent="OrgCodeInfo.default.value.fd-parent"/>
+<dict:fieldDescriptor id="OrgCodeInfo.default.value.fd-parent" abstract="true">
+	<dict:name>value</dict:name>
+	<dict:desc>The code value.</dict:desc>
+	<dict:dataType>String</dict:dataType>
+</dict:fieldDescriptor>
+
+
+<!-- OrgCodeInfo Constraints -->
+<dict:constraintDescriptor id="OrgCodeInfo.default.desc.cd" parent="OrgCodeInfo.default.desc.cd-parent"/>
+<dict:constraintDescriptor id="OrgCodeInfo.default.desc.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgCodeInfo.default.value.cd" parent="OrgCodeInfo.default.value.cd-parent"/>
+<dict:constraintDescriptor id="OrgCodeInfo.default.value.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+
+<!-- OrgHierarchyInfo Object Structure -->
+<dict:objectStructure key="OrgHierarchyInfo" id="OrgHierarchyInfo" parent="OrgHierarchyInfo-parent"/>
+<dict:objectStructure key="OrgHierarchyInfo-parent" id="OrgHierarchyInfo-parent" abstract="true">
+	<dict:typeRef bean="OrgHierarchyInfo.type.default"/>
+</dict:objectStructure>
+
+
+<!-- OrgHierarchyInfo Types -->
+<dict:type key="default" id="OrgHierarchyInfo.type.default" parent="OrgHierarchyInfo.type.default-parent"/>
+<dict:type key="default-parent" id="OrgHierarchyInfo.type.default-parent" abstract="true">
+	<dict:stateRef bean="OrgHierarchyInfo.state.default"/>
+</dict:type>
+
+
+<!-- OrgHierarchyInfo States -->
+<dict:state key="default" id="OrgHierarchyInfo.state.default" parent="OrgHierarchyInfo.state.default-parent"/>
+<dict:state key="default-parent" id="OrgHierarchyInfo.state.default-parent" abstract="true">
+	<dict:fieldRef bean="OrgHierarchyInfo.default.descr"/>
+	<dict:fieldRef bean="OrgHierarchyInfo.default.effectiveDate"/>
+	<dict:fieldRef bean="OrgHierarchyInfo.default.expirationDate"/>
+	<dict:fieldRef bean="OrgHierarchyInfo.default.name"/>
+	<dict:fieldRef bean="OrgHierarchyInfo.default.rootOrgId"/>
+</dict:state>
+
+
+<!-- OrgHierarchyInfo Fields -->
+<dict:field id="OrgHierarchyInfo.default.descr" key="descr" parent="OrgHierarchyInfo.default.descr-parent"/>
+<dict:field id="OrgHierarchyInfo.default.descr-parent" key="descr-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgHierarchyInfo.default.descr.fd"/>
+	<dict:constraintDescriptorRef bean="OrgHierarchyInfo.default.descr.cd"/>
+</dict:field>
+
+<dict:field id="OrgHierarchyInfo.default.effectiveDate" key="effectiveDate" parent="OrgHierarchyInfo.default.effectiveDate-parent"/>
+<dict:field id="OrgHierarchyInfo.default.effectiveDate-parent" key="effectiveDate-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgHierarchyInfo.default.effectiveDate.fd"/>
+	<dict:constraintDescriptorRef bean="OrgHierarchyInfo.default.effectiveDate.cd"/>
+</dict:field>
+
+<dict:field id="OrgHierarchyInfo.default.expirationDate" key="expirationDate" parent="OrgHierarchyInfo.default.expirationDate-parent"/>
+<dict:field id="OrgHierarchyInfo.default.expirationDate-parent" key="expirationDate-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgHierarchyInfo.default.expirationDate.fd"/>
+	<dict:constraintDescriptorRef bean="OrgHierarchyInfo.default.expirationDate.cd"/>
+</dict:field>
+
+<dict:field id="OrgHierarchyInfo.default.name" key="name" parent="OrgHierarchyInfo.default.name-parent"/>
+<dict:field id="OrgHierarchyInfo.default.name-parent" key="name-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgHierarchyInfo.default.name.fd"/>
+	<dict:constraintDescriptorRef bean="OrgHierarchyInfo.default.name.cd"/>
+</dict:field>
+
+<dict:field id="OrgHierarchyInfo.default.rootOrgId" key="rootOrgId" parent="OrgHierarchyInfo.default.rootOrgId-parent"/>
+<dict:field id="OrgHierarchyInfo.default.rootOrgId-parent" key="rootOrgId-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgHierarchyInfo.default.rootOrgId.fd"/>
+	<dict:constraintDescriptorRef bean="OrgHierarchyInfo.default.rootOrgId.cd"/>
+</dict:field>
+
+
+<!-- OrgHierarchyInfo Field Descriptors -->
+<dict:fieldDescriptor id="OrgHierarchyInfo.default.descr.fd" parent="OrgHierarchyInfo.default.descr.fd-parent"/>
+<dict:fieldDescriptor id="OrgHierarchyInfo.default.descr.fd-parent" abstract="true">
+	<dict:name>descr</dict:name>
+	<dict:desc>descr</dict:desc>
+	<dict:dataType>String</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgHierarchyInfo.default.effectiveDate.fd" parent="OrgHierarchyInfo.default.effectiveDate.fd-parent"/>
+<dict:fieldDescriptor id="OrgHierarchyInfo.default.effectiveDate.fd-parent" abstract="true">
+	<dict:name>effectiveDate</dict:name>
+	<dict:desc>effectiveDate</dict:desc>
+	<dict:dataType>Date</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgHierarchyInfo.default.expirationDate.fd" parent="OrgHierarchyInfo.default.expirationDate.fd-parent"/>
+<dict:fieldDescriptor id="OrgHierarchyInfo.default.expirationDate.fd-parent" abstract="true">
+	<dict:name>expirationDate</dict:name>
+	<dict:desc>expirationDate</dict:desc>
+	<dict:dataType>Date</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgHierarchyInfo.default.name.fd" parent="OrgHierarchyInfo.default.name.fd-parent"/>
+<dict:fieldDescriptor id="OrgHierarchyInfo.default.name.fd-parent" abstract="true">
+	<dict:name>name</dict:name>
+	<dict:desc>name</dict:desc>
+	<dict:dataType>String</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgHierarchyInfo.default.rootOrgId.fd" parent="OrgHierarchyInfo.default.rootOrgId.fd-parent"/>
+<dict:fieldDescriptor id="OrgHierarchyInfo.default.rootOrgId.fd-parent" abstract="true">
+	<dict:name>rootOrgId</dict:name>
+	<dict:desc>Root organization for the hierarchy.</dict:desc>
+	<dict:dataType>String</dict:dataType>
+</dict:fieldDescriptor>
+
+
+<!-- OrgHierarchyInfo Constraints -->
+<dict:constraintDescriptor id="OrgHierarchyInfo.default.descr.cd" parent="OrgHierarchyInfo.default.descr.cd-parent"/>
+<dict:constraintDescriptor id="OrgHierarchyInfo.default.descr.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgHierarchyInfo.default.effectiveDate.cd" parent="OrgHierarchyInfo.default.effectiveDate.cd-parent"/>
+<dict:constraintDescriptor id="OrgHierarchyInfo.default.effectiveDate.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgHierarchyInfo.default.expirationDate.cd" parent="OrgHierarchyInfo.default.expirationDate.cd-parent"/>
+<dict:constraintDescriptor id="OrgHierarchyInfo.default.expirationDate.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgHierarchyInfo.default.name.cd" parent="OrgHierarchyInfo.default.name.cd-parent"/>
+<dict:constraintDescriptor id="OrgHierarchyInfo.default.name.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgHierarchyInfo.default.rootOrgId.cd" parent="OrgHierarchyInfo.default.rootOrgId.cd-parent"/>
+<dict:constraintDescriptor id="OrgHierarchyInfo.default.rootOrgId.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+
+<!-- OrgInfo Object Structure -->
+<dict:objectStructure key="OrgInfo" id="OrgInfo" parent="OrgInfo-parent"/>
+<dict:objectStructure key="OrgInfo-parent" id="OrgInfo-parent" abstract="true">
+	<dict:typeRef bean="OrgInfo.type.default"/>
+</dict:objectStructure>
+
+
+<!-- OrgInfo Types -->
+<dict:type key="default" id="OrgInfo.type.default" parent="OrgInfo.type.default-parent"/>
+<dict:type key="default-parent" id="OrgInfo.type.default-parent" abstract="true">
+	<dict:stateRef bean="OrgInfo.state.default"/>
+</dict:type>
+
+
+<!-- OrgInfo States -->
+<dict:state key="default" id="OrgInfo.state.default" parent="OrgInfo.state.default-parent"/>
+<dict:state key="default-parent" id="OrgInfo.state.default-parent" abstract="true">
+	<dict:fieldRef bean="OrgInfo.default.effectiveDate"/>
+	<dict:fieldRef bean="OrgInfo.default.expirationDate"/>
+	<dict:fieldRef bean="OrgInfo.default.longDesc"/>
+	<dict:fieldRef bean="OrgInfo.default.longName"/>
+	<dict:fieldRef bean="OrgInfo.default.orgCodes"/>
+	<dict:fieldRef bean="OrgInfo.default.shortDesc"/>
+	<dict:fieldRef bean="OrgInfo.default.shortName"/>
+	<dict:fieldRef bean="OrgInfo.default.sortName"/>
+</dict:state>
+
+
+<!-- OrgInfo Fields -->
+<dict:field id="OrgInfo.default.effectiveDate" key="effectiveDate" parent="OrgInfo.default.effectiveDate-parent"/>
+<dict:field id="OrgInfo.default.effectiveDate-parent" key="effectiveDate-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgInfo.default.effectiveDate.fd"/>
+	<dict:constraintDescriptorRef bean="OrgInfo.default.effectiveDate.cd"/>
+</dict:field>
+
+<dict:field id="OrgInfo.default.expirationDate" key="expirationDate" parent="OrgInfo.default.expirationDate-parent"/>
+<dict:field id="OrgInfo.default.expirationDate-parent" key="expirationDate-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgInfo.default.expirationDate.fd"/>
+	<dict:constraintDescriptorRef bean="OrgInfo.default.expirationDate.cd"/>
+</dict:field>
+
+<dict:field id="OrgInfo.default.longDesc" key="longDesc" parent="OrgInfo.default.longDesc-parent"/>
+<dict:field id="OrgInfo.default.longDesc-parent" key="longDesc-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgInfo.default.longDesc.fd"/>
+	<dict:constraintDescriptorRef bean="OrgInfo.default.longDesc.cd"/>
+</dict:field>
+
+<dict:field id="OrgInfo.default.longName" key="longName" parent="OrgInfo.default.longName-parent"/>
+<dict:field id="OrgInfo.default.longName-parent" key="longName-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgInfo.default.longName.fd"/>
+	<dict:constraintDescriptorRef bean="OrgInfo.default.longName.cd"/>
+</dict:field>
+
+<dict:field id="OrgInfo.default.orgCodes" key="orgCodes" parent="OrgInfo.default.orgCodes-parent"/>
+<dict:field id="OrgInfo.default.orgCodes-parent" key="orgCodes-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgInfo.default.orgCodes.fd"/>
+	<dict:constraintDescriptorRef bean="OrgInfo.default.orgCodes.cd"/>
+</dict:field>
+
+<dict:field id="OrgInfo.default.shortDesc" key="shortDesc" parent="OrgInfo.default.shortDesc-parent"/>
+<dict:field id="OrgInfo.default.shortDesc-parent" key="shortDesc-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgInfo.default.shortDesc.fd"/>
+	<dict:constraintDescriptorRef bean="OrgInfo.default.shortDesc.cd"/>
+</dict:field>
+
+<dict:field id="OrgInfo.default.shortName" key="shortName" parent="OrgInfo.default.shortName-parent"/>
+<dict:field id="OrgInfo.default.shortName-parent" key="shortName-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgInfo.default.shortName.fd"/>
+	<dict:constraintDescriptorRef bean="OrgInfo.default.shortName.cd"/>
+</dict:field>
+
+<dict:field id="OrgInfo.default.sortName" key="sortName" parent="OrgInfo.default.sortName-parent"/>
+<dict:field id="OrgInfo.default.sortName-parent" key="sortName-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgInfo.default.sortName.fd"/>
+	<dict:constraintDescriptorRef bean="OrgInfo.default.sortName.cd"/>
+</dict:field>
+
+
+<!-- OrgInfo Field Descriptors -->
+<dict:fieldDescriptor id="OrgInfo.default.effectiveDate.fd" parent="OrgInfo.default.effectiveDate.fd-parent"/>
+<dict:fieldDescriptor id="OrgInfo.default.effectiveDate.fd-parent" abstract="true">
+	<dict:name>effectiveDate</dict:name>
+	<dict:desc>Date and time that this organization became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
+	<dict:dataType>Date</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgInfo.default.expirationDate.fd" parent="OrgInfo.default.expirationDate.fd-parent"/>
+<dict:fieldDescriptor id="OrgInfo.default.expirationDate.fd-parent" abstract="true">
+	<dict:name>expirationDate</dict:name>
+	<dict:desc>Date and time that this organization expires. This is a similar concept to the expiration date on enumerated values. If specified, this must be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:desc>
+	<dict:dataType>Date</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgInfo.default.longDesc.fd" parent="OrgInfo.default.longDesc.fd-parent"/>
+<dict:fieldDescriptor id="OrgInfo.default.longDesc.fd-parent" abstract="true">
+	<dict:name>longDesc</dict:name>
+	<dict:desc>Narrative description of the organization.</dict:desc>
+	<dict:dataType>String</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgInfo.default.longName.fd" parent="OrgInfo.default.longName.fd-parent"/>
+<dict:fieldDescriptor id="OrgInfo.default.longName.fd-parent" abstract="true">
+	<dict:name>longName</dict:name>
+	<dict:desc>Full name of the organization.</dict:desc>
+	<dict:dataType>String</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgInfo.default.orgCodes.fd" parent="OrgInfo.default.orgCodes.fd-parent"/>
+<dict:fieldDescriptor id="OrgInfo.default.orgCodes.fd-parent" abstract="true">
+	<dict:name>orgCodes</dict:name>
+	<dict:desc>List of organization code info structures. These are structures so that many different types of codes can be associated with the org. This allows them to be put into categories.</dict:desc>
+	<dict:dataType>complex</dict:dataType>
+	<dict:objectStructureRef bean="OrgCodeInfo"/>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgInfo.default.shortDesc.fd" parent="OrgInfo.default.shortDesc.fd-parent"/>
+<dict:fieldDescriptor id="OrgInfo.default.shortDesc.fd-parent" abstract="true">
+	<dict:name>shortDesc</dict:name>
+	<dict:desc>A brief description of the organization.</dict:desc>
+	<dict:dataType>String</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgInfo.default.shortName.fd" parent="OrgInfo.default.shortName.fd-parent"/>
+<dict:fieldDescriptor id="OrgInfo.default.shortName.fd-parent" abstract="true">
+	<dict:name>shortName</dict:name>
+	<dict:desc>Shortened format or abbreviation of the organization's name.</dict:desc>
+	<dict:dataType>String</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgInfo.default.sortName.fd" parent="OrgInfo.default.sortName.fd-parent"/>
+<dict:fieldDescriptor id="OrgInfo.default.sortName.fd-parent" abstract="true">
+	<dict:name>sortName</dict:name>
+	<dict:desc>The name used for sorting, for cases when alphabetical sorting by shortName or longName is undesirable.</dict:desc>
+	<dict:dataType>String</dict:dataType>
+</dict:fieldDescriptor>
+
+
+<!-- OrgInfo Constraints -->
+<dict:constraintDescriptor id="OrgInfo.default.effectiveDate.cd" parent="OrgInfo.default.effectiveDate.cd-parent"/>
+<dict:constraintDescriptor id="OrgInfo.default.effectiveDate.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgInfo.default.expirationDate.cd" parent="OrgInfo.default.expirationDate.cd-parent"/>
+<dict:constraintDescriptor id="OrgInfo.default.expirationDate.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgInfo.default.longDesc.cd" parent="OrgInfo.default.longDesc.cd-parent"/>
+<dict:constraintDescriptor id="OrgInfo.default.longDesc.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgInfo.default.longName.cd" parent="OrgInfo.default.longName.cd-parent"/>
+<dict:constraintDescriptor id="OrgInfo.default.longName.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgInfo.default.orgCodes.cd" parent="OrgInfo.default.orgCodes.cd-parent"/>
+<dict:constraintDescriptor id="OrgInfo.default.orgCodes.cd-parent" abstract="true">
+	<dict:constraintRef bean="repeating"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgInfo.default.shortDesc.cd" parent="OrgInfo.default.shortDesc.cd-parent"/>
+<dict:constraintDescriptor id="OrgInfo.default.shortDesc.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgInfo.default.shortName.cd" parent="OrgInfo.default.shortName.cd-parent"/>
+<dict:constraintDescriptor id="OrgInfo.default.shortName.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgInfo.default.sortName.cd" parent="OrgInfo.default.sortName.cd-parent"/>
+<dict:constraintDescriptor id="OrgInfo.default.sortName.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+
+<!-- OrgOrgRelationInfo Object Structure -->
+<dict:objectStructure key="OrgOrgRelationInfo" id="OrgOrgRelationInfo" parent="OrgOrgRelationInfo-parent"/>
+<dict:objectStructure key="OrgOrgRelationInfo-parent" id="OrgOrgRelationInfo-parent" abstract="true">
+	<dict:typeRef bean="OrgOrgRelationInfo.type.default"/>
+</dict:objectStructure>
+
+
+<!-- OrgOrgRelationInfo Types -->
+<dict:type key="default" id="OrgOrgRelationInfo.type.default" parent="OrgOrgRelationInfo.type.default-parent"/>
+<dict:type key="default-parent" id="OrgOrgRelationInfo.type.default-parent" abstract="true">
+	<dict:stateRef bean="OrgOrgRelationInfo.state.default"/>
+</dict:type>
+
+
+<!-- OrgOrgRelationInfo States -->
+<dict:state key="default" id="OrgOrgRelationInfo.state.default" parent="OrgOrgRelationInfo.state.default-parent"/>
+<dict:state key="default-parent" id="OrgOrgRelationInfo.state.default-parent" abstract="true">
+	<dict:fieldRef bean="OrgOrgRelationInfo.default.effectiveDate"/>
+	<dict:fieldRef bean="OrgOrgRelationInfo.default.expirationDate"/>
+	<dict:fieldRef bean="OrgOrgRelationInfo.default.orgId"/>
+	<dict:fieldRef bean="OrgOrgRelationInfo.default.relatedOrgId"/>
+</dict:state>
+
+
+<!-- OrgOrgRelationInfo Fields -->
+<dict:field id="OrgOrgRelationInfo.default.effectiveDate" key="effectiveDate" parent="OrgOrgRelationInfo.default.effectiveDate-parent"/>
+<dict:field id="OrgOrgRelationInfo.default.effectiveDate-parent" key="effectiveDate-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgOrgRelationInfo.default.effectiveDate.fd"/>
+	<dict:constraintDescriptorRef bean="OrgOrgRelationInfo.default.effectiveDate.cd"/>
+</dict:field>
+
+<dict:field id="OrgOrgRelationInfo.default.expirationDate" key="expirationDate" parent="OrgOrgRelationInfo.default.expirationDate-parent"/>
+<dict:field id="OrgOrgRelationInfo.default.expirationDate-parent" key="expirationDate-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgOrgRelationInfo.default.expirationDate.fd"/>
+	<dict:constraintDescriptorRef bean="OrgOrgRelationInfo.default.expirationDate.cd"/>
+</dict:field>
+
+<dict:field id="OrgOrgRelationInfo.default.orgId" key="orgId" parent="OrgOrgRelationInfo.default.orgId-parent"/>
+<dict:field id="OrgOrgRelationInfo.default.orgId-parent" key="orgId-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgOrgRelationInfo.default.orgId.fd"/>
+	<dict:constraintDescriptorRef bean="OrgOrgRelationInfo.default.orgId.cd"/>
+</dict:field>
+
+<dict:field id="OrgOrgRelationInfo.default.relatedOrgId" key="relatedOrgId" parent="OrgOrgRelationInfo.default.relatedOrgId-parent"/>
+<dict:field id="OrgOrgRelationInfo.default.relatedOrgId-parent" key="relatedOrgId-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgOrgRelationInfo.default.relatedOrgId.fd"/>
+	<dict:constraintDescriptorRef bean="OrgOrgRelationInfo.default.relatedOrgId.cd"/>
+</dict:field>
+
+
+<!-- OrgOrgRelationInfo Field Descriptors -->
+<dict:fieldDescriptor id="OrgOrgRelationInfo.default.effectiveDate.fd" parent="OrgOrgRelationInfo.default.effectiveDate.fd-parent"/>
+<dict:fieldDescriptor id="OrgOrgRelationInfo.default.effectiveDate.fd-parent" abstract="true">
+	<dict:name>effectiveDate</dict:name>
+	<dict:desc>Date and time that this organization to organization relationship became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
+	<dict:dataType>Date</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgOrgRelationInfo.default.expirationDate.fd" parent="OrgOrgRelationInfo.default.expirationDate.fd-parent"/>
+<dict:fieldDescriptor id="OrgOrgRelationInfo.default.expirationDate.fd-parent" abstract="true">
+	<dict:name>expirationDate</dict:name>
+	<dict:desc>Date and time that this organization to organization relationship expires. This is a similar concept to the expiration date on enumerated values. If specified, this must be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:desc>
+	<dict:dataType>Date</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgOrgRelationInfo.default.orgId.fd" parent="OrgOrgRelationInfo.default.orgId.fd-parent"/>
+<dict:fieldDescriptor id="OrgOrgRelationInfo.default.orgId.fd-parent" abstract="true">
+	<dict:name>orgId</dict:name>
+	<dict:desc>Identifies the "parent" organization in the relation. The relationship is from this organization to the other organization.</dict:desc>
+	<dict:dataType>String</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgOrgRelationInfo.default.relatedOrgId.fd" parent="OrgOrgRelationInfo.default.relatedOrgId.fd-parent"/>
+<dict:fieldDescriptor id="OrgOrgRelationInfo.default.relatedOrgId.fd-parent" abstract="true">
+	<dict:name>relatedOrgId</dict:name>
+	<dict:desc>This identifies the "child" organization in the relation. The relationship is from the other organization to this organization.</dict:desc>
+	<dict:dataType>String</dict:dataType>
+</dict:fieldDescriptor>
+
+
+<!-- OrgOrgRelationInfo Constraints -->
+<dict:constraintDescriptor id="OrgOrgRelationInfo.default.effectiveDate.cd" parent="OrgOrgRelationInfo.default.effectiveDate.cd-parent"/>
+<dict:constraintDescriptor id="OrgOrgRelationInfo.default.effectiveDate.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgOrgRelationInfo.default.expirationDate.cd" parent="OrgOrgRelationInfo.default.expirationDate.cd-parent"/>
+<dict:constraintDescriptor id="OrgOrgRelationInfo.default.expirationDate.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgOrgRelationInfo.default.orgId.cd" parent="OrgOrgRelationInfo.default.orgId.cd-parent"/>
+<dict:constraintDescriptor id="OrgOrgRelationInfo.default.orgId.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgOrgRelationInfo.default.relatedOrgId.cd" parent="OrgOrgRelationInfo.default.relatedOrgId.cd-parent"/>
+<dict:constraintDescriptor id="OrgOrgRelationInfo.default.relatedOrgId.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+
+<!-- OrgOrgRelationTypeInfo Object Structure -->
+<dict:objectStructure key="OrgOrgRelationTypeInfo" id="OrgOrgRelationTypeInfo" parent="OrgOrgRelationTypeInfo-parent"/>
+<dict:objectStructure key="OrgOrgRelationTypeInfo-parent" id="OrgOrgRelationTypeInfo-parent" abstract="true">
+	<dict:typeRef bean="OrgOrgRelationTypeInfo.type.default"/>
+</dict:objectStructure>
+
+
+<!-- OrgOrgRelationTypeInfo Types -->
+<dict:type key="default" id="OrgOrgRelationTypeInfo.type.default" parent="OrgOrgRelationTypeInfo.type.default-parent"/>
+<dict:type key="default-parent" id="OrgOrgRelationTypeInfo.type.default-parent" abstract="true">
+	<dict:stateRef bean="OrgOrgRelationTypeInfo.state.default"/>
+</dict:type>
+
+
+<!-- OrgOrgRelationTypeInfo States -->
+<dict:state key="default" id="OrgOrgRelationTypeInfo.state.default" parent="OrgOrgRelationTypeInfo.state.default-parent"/>
+<dict:state key="default-parent" id="OrgOrgRelationTypeInfo.state.default-parent" abstract="true">
+	<dict:fieldRef bean="OrgOrgRelationTypeInfo.default.descr"/>
+	<dict:fieldRef bean="OrgOrgRelationTypeInfo.default.effectiveDate"/>
+	<dict:fieldRef bean="OrgOrgRelationTypeInfo.default.expirationDate"/>
+	<dict:fieldRef bean="OrgOrgRelationTypeInfo.default.name"/>
+	<dict:fieldRef bean="OrgOrgRelationTypeInfo.default.orgHierarchyKey"/>
+	<dict:fieldRef bean="OrgOrgRelationTypeInfo.default.revDesc"/>
+	<dict:fieldRef bean="OrgOrgRelationTypeInfo.default.revName"/>
+</dict:state>
+
+
+<!-- OrgOrgRelationTypeInfo Fields -->
+<dict:field id="OrgOrgRelationTypeInfo.default.descr" key="descr" parent="OrgOrgRelationTypeInfo.default.descr-parent"/>
+<dict:field id="OrgOrgRelationTypeInfo.default.descr-parent" key="descr-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgOrgRelationTypeInfo.default.descr.fd"/>
+	<dict:constraintDescriptorRef bean="OrgOrgRelationTypeInfo.default.descr.cd"/>
+</dict:field>
+
+<dict:field id="OrgOrgRelationTypeInfo.default.effectiveDate" key="effectiveDate" parent="OrgOrgRelationTypeInfo.default.effectiveDate-parent"/>
+<dict:field id="OrgOrgRelationTypeInfo.default.effectiveDate-parent" key="effectiveDate-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgOrgRelationTypeInfo.default.effectiveDate.fd"/>
+	<dict:constraintDescriptorRef bean="OrgOrgRelationTypeInfo.default.effectiveDate.cd"/>
+</dict:field>
+
+<dict:field id="OrgOrgRelationTypeInfo.default.expirationDate" key="expirationDate" parent="OrgOrgRelationTypeInfo.default.expirationDate-parent"/>
+<dict:field id="OrgOrgRelationTypeInfo.default.expirationDate-parent" key="expirationDate-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgOrgRelationTypeInfo.default.expirationDate.fd"/>
+	<dict:constraintDescriptorRef bean="OrgOrgRelationTypeInfo.default.expirationDate.cd"/>
+</dict:field>
+
+<dict:field id="OrgOrgRelationTypeInfo.default.name" key="name" parent="OrgOrgRelationTypeInfo.default.name-parent"/>
+<dict:field id="OrgOrgRelationTypeInfo.default.name-parent" key="name-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgOrgRelationTypeInfo.default.name.fd"/>
+	<dict:constraintDescriptorRef bean="OrgOrgRelationTypeInfo.default.name.cd"/>
+</dict:field>
+
+<dict:field id="OrgOrgRelationTypeInfo.default.orgHierarchyKey" key="orgHierarchyKey" parent="OrgOrgRelationTypeInfo.default.orgHierarchyKey-parent"/>
+<dict:field id="OrgOrgRelationTypeInfo.default.orgHierarchyKey-parent" key="orgHierarchyKey-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgOrgRelationTypeInfo.default.orgHierarchyKey.fd"/>
+	<dict:constraintDescriptorRef bean="OrgOrgRelationTypeInfo.default.orgHierarchyKey.cd"/>
+</dict:field>
+
+<dict:field id="OrgOrgRelationTypeInfo.default.revDesc" key="revDesc" parent="OrgOrgRelationTypeInfo.default.revDesc-parent"/>
+<dict:field id="OrgOrgRelationTypeInfo.default.revDesc-parent" key="revDesc-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgOrgRelationTypeInfo.default.revDesc.fd"/>
+	<dict:constraintDescriptorRef bean="OrgOrgRelationTypeInfo.default.revDesc.cd"/>
+</dict:field>
+
+<dict:field id="OrgOrgRelationTypeInfo.default.revName" key="revName" parent="OrgOrgRelationTypeInfo.default.revName-parent"/>
+<dict:field id="OrgOrgRelationTypeInfo.default.revName-parent" key="revName-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgOrgRelationTypeInfo.default.revName.fd"/>
+	<dict:constraintDescriptorRef bean="OrgOrgRelationTypeInfo.default.revName.cd"/>
+</dict:field>
+
+
+<!-- OrgOrgRelationTypeInfo Field Descriptors -->
+<dict:fieldDescriptor id="OrgOrgRelationTypeInfo.default.descr.fd" parent="OrgOrgRelationTypeInfo.default.descr.fd-parent"/>
+<dict:fieldDescriptor id="OrgOrgRelationTypeInfo.default.descr.fd-parent" abstract="true">
+	<dict:name>descr</dict:name>
+	<dict:desc>descr</dict:desc>
+	<dict:dataType>String</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgOrgRelationTypeInfo.default.effectiveDate.fd" parent="OrgOrgRelationTypeInfo.default.effectiveDate.fd-parent"/>
+<dict:fieldDescriptor id="OrgOrgRelationTypeInfo.default.effectiveDate.fd-parent" abstract="true">
+	<dict:name>effectiveDate</dict:name>
+	<dict:desc>effectiveDate</dict:desc>
+	<dict:dataType>Date</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgOrgRelationTypeInfo.default.expirationDate.fd" parent="OrgOrgRelationTypeInfo.default.expirationDate.fd-parent"/>
+<dict:fieldDescriptor id="OrgOrgRelationTypeInfo.default.expirationDate.fd-parent" abstract="true">
+	<dict:name>expirationDate</dict:name>
+	<dict:desc>expirationDate</dict:desc>
+	<dict:dataType>Date</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgOrgRelationTypeInfo.default.name.fd" parent="OrgOrgRelationTypeInfo.default.name.fd-parent"/>
+<dict:fieldDescriptor id="OrgOrgRelationTypeInfo.default.name.fd-parent" abstract="true">
+	<dict:name>name</dict:name>
+	<dict:desc>name</dict:desc>
+	<dict:dataType>String</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgOrgRelationTypeInfo.default.orgHierarchyKey.fd" parent="OrgOrgRelationTypeInfo.default.orgHierarchyKey.fd-parent"/>
+<dict:fieldDescriptor id="OrgOrgRelationTypeInfo.default.orgHierarchyKey.fd-parent" abstract="true">
+	<dict:name>orgHierarchyKey</dict:name>
+	<dict:desc>The organization hierarchy relationships of this type belong to.</dict:desc>
+	<dict:dataType>String</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgOrgRelationTypeInfo.default.revDesc.fd" parent="OrgOrgRelationTypeInfo.default.revDesc.fd-parent"/>
+<dict:fieldDescriptor id="OrgOrgRelationTypeInfo.default.revDesc.fd-parent" abstract="true">
+	<dict:name>revDesc</dict:name>
+	<dict:desc>Narrative description of the reverse of the organization to organization relationship type.</dict:desc>
+	<dict:dataType>String</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgOrgRelationTypeInfo.default.revName.fd" parent="OrgOrgRelationTypeInfo.default.revName.fd-parent"/>
+<dict:fieldDescriptor id="OrgOrgRelationTypeInfo.default.revName.fd-parent" abstract="true">
+	<dict:name>revName</dict:name>
+	<dict:desc>Name for the reverse of the organization to organization relationship type. This is primarily to be used by developers and may end up translated in the end system.</dict:desc>
+	<dict:dataType>String</dict:dataType>
+</dict:fieldDescriptor>
+
+
+<!-- OrgOrgRelationTypeInfo Constraints -->
+<dict:constraintDescriptor id="OrgOrgRelationTypeInfo.default.descr.cd" parent="OrgOrgRelationTypeInfo.default.descr.cd-parent"/>
+<dict:constraintDescriptor id="OrgOrgRelationTypeInfo.default.descr.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgOrgRelationTypeInfo.default.effectiveDate.cd" parent="OrgOrgRelationTypeInfo.default.effectiveDate.cd-parent"/>
+<dict:constraintDescriptor id="OrgOrgRelationTypeInfo.default.effectiveDate.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgOrgRelationTypeInfo.default.expirationDate.cd" parent="OrgOrgRelationTypeInfo.default.expirationDate.cd-parent"/>
+<dict:constraintDescriptor id="OrgOrgRelationTypeInfo.default.expirationDate.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgOrgRelationTypeInfo.default.name.cd" parent="OrgOrgRelationTypeInfo.default.name.cd-parent"/>
+<dict:constraintDescriptor id="OrgOrgRelationTypeInfo.default.name.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgOrgRelationTypeInfo.default.orgHierarchyKey.cd" parent="OrgOrgRelationTypeInfo.default.orgHierarchyKey.cd-parent"/>
+<dict:constraintDescriptor id="OrgOrgRelationTypeInfo.default.orgHierarchyKey.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgOrgRelationTypeInfo.default.revDesc.cd" parent="OrgOrgRelationTypeInfo.default.revDesc.cd-parent"/>
+<dict:constraintDescriptor id="OrgOrgRelationTypeInfo.default.revDesc.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgOrgRelationTypeInfo.default.revName.cd" parent="OrgOrgRelationTypeInfo.default.revName.cd-parent"/>
+<dict:constraintDescriptor id="OrgOrgRelationTypeInfo.default.revName.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+
+<!-- OrgPersonRelationInfo Object Structure -->
+<dict:objectStructure key="OrgPersonRelationInfo" id="OrgPersonRelationInfo" parent="OrgPersonRelationInfo-parent"/>
+<dict:objectStructure key="OrgPersonRelationInfo-parent" id="OrgPersonRelationInfo-parent" abstract="true">
+	<dict:typeRef bean="OrgPersonRelationInfo.type.default"/>
+</dict:objectStructure>
+
+
+<!-- OrgPersonRelationInfo Types -->
+<dict:type key="default" id="OrgPersonRelationInfo.type.default" parent="OrgPersonRelationInfo.type.default-parent"/>
+<dict:type key="default-parent" id="OrgPersonRelationInfo.type.default-parent" abstract="true">
+	<dict:stateRef bean="OrgPersonRelationInfo.state.default"/>
+</dict:type>
+
+
+<!-- OrgPersonRelationInfo States -->
+<dict:state key="default" id="OrgPersonRelationInfo.state.default" parent="OrgPersonRelationInfo.state.default-parent"/>
+<dict:state key="default-parent" id="OrgPersonRelationInfo.state.default-parent" abstract="true">
+	<dict:fieldRef bean="OrgPersonRelationInfo.default.effectiveDate"/>
+	<dict:fieldRef bean="OrgPersonRelationInfo.default.expirationDate"/>
+	<dict:fieldRef bean="OrgPersonRelationInfo.default.orgId"/>
+	<dict:fieldRef bean="OrgPersonRelationInfo.default.personId"/>
+</dict:state>
+
+
+<!-- OrgPersonRelationInfo Fields -->
+<dict:field id="OrgPersonRelationInfo.default.effectiveDate" key="effectiveDate" parent="OrgPersonRelationInfo.default.effectiveDate-parent"/>
+<dict:field id="OrgPersonRelationInfo.default.effectiveDate-parent" key="effectiveDate-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgPersonRelationInfo.default.effectiveDate.fd"/>
+	<dict:constraintDescriptorRef bean="OrgPersonRelationInfo.default.effectiveDate.cd"/>
+</dict:field>
+
+<dict:field id="OrgPersonRelationInfo.default.expirationDate" key="expirationDate" parent="OrgPersonRelationInfo.default.expirationDate-parent"/>
+<dict:field id="OrgPersonRelationInfo.default.expirationDate-parent" key="expirationDate-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgPersonRelationInfo.default.expirationDate.fd"/>
+	<dict:constraintDescriptorRef bean="OrgPersonRelationInfo.default.expirationDate.cd"/>
+</dict:field>
+
+<dict:field id="OrgPersonRelationInfo.default.orgId" key="orgId" parent="OrgPersonRelationInfo.default.orgId-parent"/>
+<dict:field id="OrgPersonRelationInfo.default.orgId-parent" key="orgId-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgPersonRelationInfo.default.orgId.fd"/>
+	<dict:constraintDescriptorRef bean="OrgPersonRelationInfo.default.orgId.cd"/>
+</dict:field>
+
+<dict:field id="OrgPersonRelationInfo.default.personId" key="personId" parent="OrgPersonRelationInfo.default.personId-parent"/>
+<dict:field id="OrgPersonRelationInfo.default.personId-parent" key="personId-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgPersonRelationInfo.default.personId.fd"/>
+	<dict:constraintDescriptorRef bean="OrgPersonRelationInfo.default.personId.cd"/>
+</dict:field>
+
+
+<!-- OrgPersonRelationInfo Field Descriptors -->
+<dict:fieldDescriptor id="OrgPersonRelationInfo.default.effectiveDate.fd" parent="OrgPersonRelationInfo.default.effectiveDate.fd-parent"/>
+<dict:fieldDescriptor id="OrgPersonRelationInfo.default.effectiveDate.fd-parent" abstract="true">
+	<dict:name>effectiveDate</dict:name>
+	<dict:desc>Date and time that this organization to person relationship became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
+	<dict:dataType>Date</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgPersonRelationInfo.default.expirationDate.fd" parent="OrgPersonRelationInfo.default.expirationDate.fd-parent"/>
+<dict:fieldDescriptor id="OrgPersonRelationInfo.default.expirationDate.fd-parent" abstract="true">
+	<dict:name>expirationDate</dict:name>
+	<dict:desc>Date and time that this organization to person relationship expires. This is a similar concept to the expiration date on enumerated values. If specified, this must be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:desc>
+	<dict:dataType>Date</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgPersonRelationInfo.default.orgId.fd" parent="OrgPersonRelationInfo.default.orgId.fd-parent"/>
+<dict:fieldDescriptor id="OrgPersonRelationInfo.default.orgId.fd-parent" abstract="true">
+	<dict:name>orgId</dict:name>
+	<dict:desc>Identifier of the organization in the relationship.</dict:desc>
+	<dict:dataType>String</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgPersonRelationInfo.default.personId.fd" parent="OrgPersonRelationInfo.default.personId.fd-parent"/>
+<dict:fieldDescriptor id="OrgPersonRelationInfo.default.personId.fd-parent" abstract="true">
+	<dict:name>personId</dict:name>
+	<dict:desc>Identifier of the person in the relationship.</dict:desc>
+	<dict:dataType>String</dict:dataType>
+</dict:fieldDescriptor>
+
+
+<!-- OrgPersonRelationInfo Constraints -->
+<dict:constraintDescriptor id="OrgPersonRelationInfo.default.effectiveDate.cd" parent="OrgPersonRelationInfo.default.effectiveDate.cd-parent"/>
+<dict:constraintDescriptor id="OrgPersonRelationInfo.default.effectiveDate.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgPersonRelationInfo.default.expirationDate.cd" parent="OrgPersonRelationInfo.default.expirationDate.cd-parent"/>
+<dict:constraintDescriptor id="OrgPersonRelationInfo.default.expirationDate.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgPersonRelationInfo.default.orgId.cd" parent="OrgPersonRelationInfo.default.orgId.cd-parent"/>
+<dict:constraintDescriptor id="OrgPersonRelationInfo.default.orgId.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgPersonRelationInfo.default.personId.cd" parent="OrgPersonRelationInfo.default.personId.cd-parent"/>
+<dict:constraintDescriptor id="OrgPersonRelationInfo.default.personId.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+
+<!-- OrgPersonRelationTypeInfo Object Structure -->
+<dict:objectStructure key="OrgPersonRelationTypeInfo" id="OrgPersonRelationTypeInfo" parent="OrgPersonRelationTypeInfo-parent"/>
+<dict:objectStructure key="OrgPersonRelationTypeInfo-parent" id="OrgPersonRelationTypeInfo-parent" abstract="true">
+	<dict:typeRef bean="OrgPersonRelationTypeInfo.type.default"/>
+</dict:objectStructure>
+
+
+<!-- OrgPersonRelationTypeInfo Types -->
+<dict:type key="default" id="OrgPersonRelationTypeInfo.type.default" parent="OrgPersonRelationTypeInfo.type.default-parent"/>
+<dict:type key="default-parent" id="OrgPersonRelationTypeInfo.type.default-parent" abstract="true">
+	<dict:stateRef bean="OrgPersonRelationTypeInfo.state.default"/>
+</dict:type>
+
+
+<!-- OrgPersonRelationTypeInfo States -->
+<dict:state key="default" id="OrgPersonRelationTypeInfo.state.default" parent="OrgPersonRelationTypeInfo.state.default-parent"/>
+<dict:state key="default-parent" id="OrgPersonRelationTypeInfo.state.default-parent" abstract="true">
+	<dict:fieldRef bean="OrgPersonRelationTypeInfo.default.descr"/>
+	<dict:fieldRef bean="OrgPersonRelationTypeInfo.default.effectiveDate"/>
+	<dict:fieldRef bean="OrgPersonRelationTypeInfo.default.expirationDate"/>
+	<dict:fieldRef bean="OrgPersonRelationTypeInfo.default.name"/>
+</dict:state>
+
+
+<!-- OrgPersonRelationTypeInfo Fields -->
+<dict:field id="OrgPersonRelationTypeInfo.default.descr" key="descr" parent="OrgPersonRelationTypeInfo.default.descr-parent"/>
+<dict:field id="OrgPersonRelationTypeInfo.default.descr-parent" key="descr-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgPersonRelationTypeInfo.default.descr.fd"/>
+	<dict:constraintDescriptorRef bean="OrgPersonRelationTypeInfo.default.descr.cd"/>
+</dict:field>
+
+<dict:field id="OrgPersonRelationTypeInfo.default.effectiveDate" key="effectiveDate" parent="OrgPersonRelationTypeInfo.default.effectiveDate-parent"/>
+<dict:field id="OrgPersonRelationTypeInfo.default.effectiveDate-parent" key="effectiveDate-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgPersonRelationTypeInfo.default.effectiveDate.fd"/>
+	<dict:constraintDescriptorRef bean="OrgPersonRelationTypeInfo.default.effectiveDate.cd"/>
+</dict:field>
+
+<dict:field id="OrgPersonRelationTypeInfo.default.expirationDate" key="expirationDate" parent="OrgPersonRelationTypeInfo.default.expirationDate-parent"/>
+<dict:field id="OrgPersonRelationTypeInfo.default.expirationDate-parent" key="expirationDate-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgPersonRelationTypeInfo.default.expirationDate.fd"/>
+	<dict:constraintDescriptorRef bean="OrgPersonRelationTypeInfo.default.expirationDate.cd"/>
+</dict:field>
+
+<dict:field id="OrgPersonRelationTypeInfo.default.name" key="name" parent="OrgPersonRelationTypeInfo.default.name-parent"/>
+<dict:field id="OrgPersonRelationTypeInfo.default.name-parent" key="name-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgPersonRelationTypeInfo.default.name.fd"/>
+	<dict:constraintDescriptorRef bean="OrgPersonRelationTypeInfo.default.name.cd"/>
+</dict:field>
+
+
+<!-- OrgPersonRelationTypeInfo Field Descriptors -->
+<dict:fieldDescriptor id="OrgPersonRelationTypeInfo.default.descr.fd" parent="OrgPersonRelationTypeInfo.default.descr.fd-parent"/>
+<dict:fieldDescriptor id="OrgPersonRelationTypeInfo.default.descr.fd-parent" abstract="true">
+	<dict:name>descr</dict:name>
+	<dict:desc>descr</dict:desc>
+	<dict:dataType>String</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgPersonRelationTypeInfo.default.effectiveDate.fd" parent="OrgPersonRelationTypeInfo.default.effectiveDate.fd-parent"/>
+<dict:fieldDescriptor id="OrgPersonRelationTypeInfo.default.effectiveDate.fd-parent" abstract="true">
+	<dict:name>effectiveDate</dict:name>
+	<dict:desc>effectiveDate</dict:desc>
+	<dict:dataType>Date</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgPersonRelationTypeInfo.default.expirationDate.fd" parent="OrgPersonRelationTypeInfo.default.expirationDate.fd-parent"/>
+<dict:fieldDescriptor id="OrgPersonRelationTypeInfo.default.expirationDate.fd-parent" abstract="true">
+	<dict:name>expirationDate</dict:name>
+	<dict:desc>expirationDate</dict:desc>
+	<dict:dataType>Date</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgPersonRelationTypeInfo.default.name.fd" parent="OrgPersonRelationTypeInfo.default.name.fd-parent"/>
+<dict:fieldDescriptor id="OrgPersonRelationTypeInfo.default.name.fd-parent" abstract="true">
+	<dict:name>name</dict:name>
+	<dict:desc>name</dict:desc>
+	<dict:dataType>String</dict:dataType>
+</dict:fieldDescriptor>
+
+
+<!-- OrgPersonRelationTypeInfo Constraints -->
+<dict:constraintDescriptor id="OrgPersonRelationTypeInfo.default.descr.cd" parent="OrgPersonRelationTypeInfo.default.descr.cd-parent"/>
+<dict:constraintDescriptor id="OrgPersonRelationTypeInfo.default.descr.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgPersonRelationTypeInfo.default.effectiveDate.cd" parent="OrgPersonRelationTypeInfo.default.effectiveDate.cd-parent"/>
+<dict:constraintDescriptor id="OrgPersonRelationTypeInfo.default.effectiveDate.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgPersonRelationTypeInfo.default.expirationDate.cd" parent="OrgPersonRelationTypeInfo.default.expirationDate.cd-parent"/>
+<dict:constraintDescriptor id="OrgPersonRelationTypeInfo.default.expirationDate.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgPersonRelationTypeInfo.default.name.cd" parent="OrgPersonRelationTypeInfo.default.name.cd-parent"/>
+<dict:constraintDescriptor id="OrgPersonRelationTypeInfo.default.name.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+
+<!-- OrgPositionRestrictionInfo Object Structure -->
+<dict:objectStructure key="OrgPositionRestrictionInfo" id="OrgPositionRestrictionInfo" parent="OrgPositionRestrictionInfo-parent"/>
+<dict:objectStructure key="OrgPositionRestrictionInfo-parent" id="OrgPositionRestrictionInfo-parent" abstract="true">
+	<dict:typeRef bean="OrgPositionRestrictionInfo.type.default"/>
+</dict:objectStructure>
+
+
+<!-- OrgPositionRestrictionInfo Types -->
+<dict:type key="default" id="OrgPositionRestrictionInfo.type.default" parent="OrgPositionRestrictionInfo.type.default-parent"/>
+<dict:type key="default-parent" id="OrgPositionRestrictionInfo.type.default-parent" abstract="true">
+	<dict:stateRef bean="OrgPositionRestrictionInfo.state.default"/>
+</dict:type>
+
+
+<!-- OrgPositionRestrictionInfo States -->
+<dict:state key="default" id="OrgPositionRestrictionInfo.state.default" parent="OrgPositionRestrictionInfo.state.default-parent"/>
+<dict:state key="default-parent" id="OrgPositionRestrictionInfo.state.default-parent" abstract="true">
+	<dict:fieldRef bean="OrgPositionRestrictionInfo.default.desc"/>
+	<dict:fieldRef bean="OrgPositionRestrictionInfo.default.maxNumRelations"/>
+	<dict:fieldRef bean="OrgPositionRestrictionInfo.default.minNumRelations"/>
+	<dict:fieldRef bean="OrgPositionRestrictionInfo.default.orgId"/>
+	<dict:fieldRef bean="OrgPositionRestrictionInfo.default.orgPersonRelationTypeKey"/>
+	<dict:fieldRef bean="OrgPositionRestrictionInfo.default.stdDuration"/>
+	<dict:fieldRef bean="OrgPositionRestrictionInfo.default.title"/>
+</dict:state>
+
+
+<!-- OrgPositionRestrictionInfo Fields -->
+<dict:field id="OrgPositionRestrictionInfo.default.desc" key="desc" parent="OrgPositionRestrictionInfo.default.desc-parent"/>
+<dict:field id="OrgPositionRestrictionInfo.default.desc-parent" key="desc-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgPositionRestrictionInfo.default.desc.fd"/>
+	<dict:constraintDescriptorRef bean="OrgPositionRestrictionInfo.default.desc.cd"/>
+</dict:field>
+
+<dict:field id="OrgPositionRestrictionInfo.default.maxNumRelations" key="maxNumRelations" parent="OrgPositionRestrictionInfo.default.maxNumRelations-parent"/>
+<dict:field id="OrgPositionRestrictionInfo.default.maxNumRelations-parent" key="maxNumRelations-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgPositionRestrictionInfo.default.maxNumRelations.fd"/>
+	<dict:constraintDescriptorRef bean="OrgPositionRestrictionInfo.default.maxNumRelations.cd"/>
+</dict:field>
+
+<dict:field id="OrgPositionRestrictionInfo.default.minNumRelations" key="minNumRelations" parent="OrgPositionRestrictionInfo.default.minNumRelations-parent"/>
+<dict:field id="OrgPositionRestrictionInfo.default.minNumRelations-parent" key="minNumRelations-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgPositionRestrictionInfo.default.minNumRelations.fd"/>
+	<dict:constraintDescriptorRef bean="OrgPositionRestrictionInfo.default.minNumRelations.cd"/>
+</dict:field>
+
+<dict:field id="OrgPositionRestrictionInfo.default.orgId" key="orgId" parent="OrgPositionRestrictionInfo.default.orgId-parent"/>
+<dict:field id="OrgPositionRestrictionInfo.default.orgId-parent" key="orgId-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgPositionRestrictionInfo.default.orgId.fd"/>
+	<dict:constraintDescriptorRef bean="OrgPositionRestrictionInfo.default.orgId.cd"/>
+</dict:field>
+
+<dict:field id="OrgPositionRestrictionInfo.default.orgPersonRelationTypeKey" key="orgPersonRelationTypeKey" parent="OrgPositionRestrictionInfo.default.orgPersonRelationTypeKey-parent"/>
+<dict:field id="OrgPositionRestrictionInfo.default.orgPersonRelationTypeKey-parent" key="orgPersonRelationTypeKey-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgPositionRestrictionInfo.default.orgPersonRelationTypeKey.fd"/>
+	<dict:constraintDescriptorRef bean="OrgPositionRestrictionInfo.default.orgPersonRelationTypeKey.cd"/>
+</dict:field>
+
+<dict:field id="OrgPositionRestrictionInfo.default.stdDuration" key="stdDuration" parent="OrgPositionRestrictionInfo.default.stdDuration-parent"/>
+<dict:field id="OrgPositionRestrictionInfo.default.stdDuration-parent" key="stdDuration-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgPositionRestrictionInfo.default.stdDuration.fd"/>
+	<dict:constraintDescriptorRef bean="OrgPositionRestrictionInfo.default.stdDuration.cd"/>
+</dict:field>
+
+<dict:field id="OrgPositionRestrictionInfo.default.title" key="title" parent="OrgPositionRestrictionInfo.default.title-parent"/>
+<dict:field id="OrgPositionRestrictionInfo.default.title-parent" key="title-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgPositionRestrictionInfo.default.title.fd"/>
+	<dict:constraintDescriptorRef bean="OrgPositionRestrictionInfo.default.title.cd"/>
+</dict:field>
+
+
+<!-- OrgPositionRestrictionInfo Field Descriptors -->
+<dict:fieldDescriptor id="OrgPositionRestrictionInfo.default.desc.fd" parent="OrgPositionRestrictionInfo.default.desc.fd-parent"/>
+<dict:fieldDescriptor id="OrgPositionRestrictionInfo.default.desc.fd-parent" abstract="true">
+	<dict:name>desc</dict:name>
+	<dict:desc>Description of the restrictions and use of the relationship type within this particular organization. This should primarily focus on deviations from the standard use of the relationship type.</dict:desc>
+	<dict:dataType>String</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgPositionRestrictionInfo.default.maxNumRelations.fd" parent="OrgPositionRestrictionInfo.default.maxNumRelations.fd-parent"/>
+<dict:fieldDescriptor id="OrgPositionRestrictionInfo.default.maxNumRelations.fd-parent" abstract="true">
+	<dict:name>maxNumRelations</dict:name>
+	<dict:desc>Acts as an upper bound on the number of relationships of this type expected for the organization. The values of this field are restricted to integer values and the string "unbounded". If specified, this should be greater than or equal to the value of minNumRelations, with the value "unbounded" being automatically assumed to be greater.</dict:desc>
+	<dict:dataType>String</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgPositionRestrictionInfo.default.minNumRelations.fd" parent="OrgPositionRestrictionInfo.default.minNumRelations.fd-parent"/>
+<dict:fieldDescriptor id="OrgPositionRestrictionInfo.default.minNumRelations.fd-parent" abstract="true">
+	<dict:name>minNumRelations</dict:name>
+	<dict:desc>Acts as a lower bound on the number of relationships of this type expected for the organization. If specified, this should be less than or equal to the value of maxNumRelations</dict:desc>
+	<dict:dataType>Integer</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgPositionRestrictionInfo.default.orgId.fd" parent="OrgPositionRestrictionInfo.default.orgId.fd-parent"/>
+<dict:fieldDescriptor id="OrgPositionRestrictionInfo.default.orgId.fd-parent" abstract="true">
+	<dict:name>orgId</dict:name>
+	<dict:desc>Organization the restriction applies to.</dict:desc>
+	<dict:dataType>String</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgPositionRestrictionInfo.default.orgPersonRelationTypeKey.fd" parent="OrgPositionRestrictionInfo.default.orgPersonRelationTypeKey.fd-parent"/>
+<dict:fieldDescriptor id="OrgPositionRestrictionInfo.default.orgPersonRelationTypeKey.fd-parent" abstract="true">
+	<dict:name>orgPersonRelationTypeKey</dict:name>
+	<dict:desc>Organization to person relationship type the restriction applies to.</dict:desc>
+	<dict:dataType>String</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgPositionRestrictionInfo.default.stdDuration.fd" parent="OrgPositionRestrictionInfo.default.stdDuration.fd-parent"/>
+<dict:fieldDescriptor id="OrgPositionRestrictionInfo.default.stdDuration.fd-parent" abstract="true">
+	<dict:name>stdDuration</dict:name>
+	<dict:desc>Describes the standard duration of relationships of this type.</dict:desc>
+	<dict:dataType>complex</dict:dataType>
+	<dict:objectStructureRef bean="TimeAmountInfo"/>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgPositionRestrictionInfo.default.title.fd" parent="OrgPositionRestrictionInfo.default.title.fd-parent"/>
+<dict:fieldDescriptor id="OrgPositionRestrictionInfo.default.title.fd-parent" abstract="true">
+	<dict:name>title</dict:name>
+	<dict:desc>Title of organization person relationships of this type. This allows for distinction from the name of the relationship type itself, specific for the given organization.</dict:desc>
+	<dict:dataType>String</dict:dataType>
+</dict:fieldDescriptor>
+
+
+<!-- OrgPositionRestrictionInfo Constraints -->
+<dict:constraintDescriptor id="OrgPositionRestrictionInfo.default.desc.cd" parent="OrgPositionRestrictionInfo.default.desc.cd-parent"/>
+<dict:constraintDescriptor id="OrgPositionRestrictionInfo.default.desc.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgPositionRestrictionInfo.default.maxNumRelations.cd" parent="OrgPositionRestrictionInfo.default.maxNumRelations.cd-parent"/>
+<dict:constraintDescriptor id="OrgPositionRestrictionInfo.default.maxNumRelations.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgPositionRestrictionInfo.default.minNumRelations.cd" parent="OrgPositionRestrictionInfo.default.minNumRelations.cd-parent"/>
+<dict:constraintDescriptor id="OrgPositionRestrictionInfo.default.minNumRelations.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgPositionRestrictionInfo.default.orgId.cd" parent="OrgPositionRestrictionInfo.default.orgId.cd-parent"/>
+<dict:constraintDescriptor id="OrgPositionRestrictionInfo.default.orgId.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgPositionRestrictionInfo.default.orgPersonRelationTypeKey.cd" parent="OrgPositionRestrictionInfo.default.orgPersonRelationTypeKey.cd-parent"/>
+<dict:constraintDescriptor id="OrgPositionRestrictionInfo.default.orgPersonRelationTypeKey.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgPositionRestrictionInfo.default.stdDuration.cd" parent="OrgPositionRestrictionInfo.default.stdDuration.cd-parent"/>
+<dict:constraintDescriptor id="OrgPositionRestrictionInfo.default.stdDuration.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgPositionRestrictionInfo.default.title.cd" parent="OrgPositionRestrictionInfo.default.title.cd-parent"/>
+<dict:constraintDescriptor id="OrgPositionRestrictionInfo.default.title.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+
+<!-- TimeAmountInfo Object Structure -->
+<dict:objectStructure key="TimeAmountInfo" id="TimeAmountInfo" parent="TimeAmountInfo-parent"/>
+<dict:objectStructure key="TimeAmountInfo-parent" id="TimeAmountInfo-parent" abstract="true">
+	<dict:typeRef bean="TimeAmountInfo.type.default"/>
+</dict:objectStructure>
+
+
+<!-- TimeAmountInfo Types -->
+<dict:type key="default" id="TimeAmountInfo.type.default" parent="TimeAmountInfo.type.default-parent"/>
+<dict:type key="default-parent" id="TimeAmountInfo.type.default-parent" abstract="true">
+	<dict:stateRef bean="TimeAmountInfo.state.default"/>
+</dict:type>
+
+
+<!-- TimeAmountInfo States -->
+<dict:state key="default" id="TimeAmountInfo.state.default" parent="TimeAmountInfo.state.default-parent"/>
+<dict:state key="default-parent" id="TimeAmountInfo.state.default-parent" abstract="true">
+	<dict:fieldRef bean="TimeAmountInfo.default.atpDurationTypeKey"/>
+	<dict:fieldRef bean="TimeAmountInfo.default.timeQuantity"/>
+</dict:state>
+
+
+<!-- TimeAmountInfo Fields -->
+<dict:field id="TimeAmountInfo.default.atpDurationTypeKey" key="atpDurationTypeKey" parent="TimeAmountInfo.default.atpDurationTypeKey-parent"/>
+<dict:field id="TimeAmountInfo.default.atpDurationTypeKey-parent" key="atpDurationTypeKey-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="TimeAmountInfo.default.atpDurationTypeKey.fd"/>
+	<dict:constraintDescriptorRef bean="TimeAmountInfo.default.atpDurationTypeKey.cd"/>
+</dict:field>
+
+<dict:field id="TimeAmountInfo.default.timeQuantity" key="timeQuantity" parent="TimeAmountInfo.default.timeQuantity-parent"/>
+<dict:field id="TimeAmountInfo.default.timeQuantity-parent" key="timeQuantity-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="TimeAmountInfo.default.timeQuantity.fd"/>
+	<dict:constraintDescriptorRef bean="TimeAmountInfo.default.timeQuantity.cd"/>
+</dict:field>
+
+
+<!-- TimeAmountInfo Field Descriptors -->
+<dict:fieldDescriptor id="TimeAmountInfo.default.atpDurationTypeKey.fd" parent="TimeAmountInfo.default.atpDurationTypeKey.fd-parent"/>
+<dict:fieldDescriptor id="TimeAmountInfo.default.atpDurationTypeKey.fd-parent" abstract="true">
+	<dict:name>atpDurationTypeKey</dict:name>
+	<dict:desc>atpDurationTypeKey</dict:desc>
+	<dict:dataType>String</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="TimeAmountInfo.default.timeQuantity.fd" parent="TimeAmountInfo.default.timeQuantity.fd-parent"/>
+<dict:fieldDescriptor id="TimeAmountInfo.default.timeQuantity.fd-parent" abstract="true">
+	<dict:name>timeQuantity</dict:name>
+	<dict:desc>timeQuantity</dict:desc>
+	<dict:dataType>Integer</dict:dataType>
+</dict:fieldDescriptor>
+
+
+<!-- TimeAmountInfo Constraints -->
+<dict:constraintDescriptor id="TimeAmountInfo.default.atpDurationTypeKey.cd" parent="TimeAmountInfo.default.atpDurationTypeKey.cd-parent"/>
+<dict:constraintDescriptor id="TimeAmountInfo.default.atpDurationTypeKey.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="TimeAmountInfo.default.timeQuantity.cd" parent="TimeAmountInfo.default.timeQuantity.cd-parent"/>
+<dict:constraintDescriptor id="TimeAmountInfo.default.timeQuantity.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+
+<!-- OrgTreeInfo Object Structure -->
+<dict:objectStructure key="OrgTreeInfo" id="OrgTreeInfo" parent="OrgTreeInfo-parent"/>
+<dict:objectStructure key="OrgTreeInfo-parent" id="OrgTreeInfo-parent" abstract="true">
+	<dict:typeRef bean="OrgTreeInfo.type.default"/>
+</dict:objectStructure>
+
+
+<!-- OrgTreeInfo Types -->
+<dict:type key="default" id="OrgTreeInfo.type.default" parent="OrgTreeInfo.type.default-parent"/>
+<dict:type key="default-parent" id="OrgTreeInfo.type.default-parent" abstract="true">
+	<dict:stateRef bean="OrgTreeInfo.state.default"/>
+</dict:type>
+
+
+<!-- OrgTreeInfo States -->
+<dict:state key="default" id="OrgTreeInfo.state.default" parent="OrgTreeInfo.state.default-parent"/>
+<dict:state key="default-parent" id="OrgTreeInfo.state.default-parent" abstract="true">
+	<dict:fieldRef bean="OrgTreeInfo.default.displayName"/>
+	<dict:fieldRef bean="OrgTreeInfo.default.orgId"/>
+	<dict:fieldRef bean="OrgTreeInfo.default.parentId"/>
+</dict:state>
+
+
+<!-- OrgTreeInfo Fields -->
+<dict:field id="OrgTreeInfo.default.displayName" key="displayName" parent="OrgTreeInfo.default.displayName-parent"/>
+<dict:field id="OrgTreeInfo.default.displayName-parent" key="displayName-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgTreeInfo.default.displayName.fd"/>
+	<dict:constraintDescriptorRef bean="OrgTreeInfo.default.displayName.cd"/>
+</dict:field>
+
+<dict:field id="OrgTreeInfo.default.orgId" key="orgId" parent="OrgTreeInfo.default.orgId-parent"/>
+<dict:field id="OrgTreeInfo.default.orgId-parent" key="orgId-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgTreeInfo.default.orgId.fd"/>
+	<dict:constraintDescriptorRef bean="OrgTreeInfo.default.orgId.cd"/>
+</dict:field>
+
+<dict:field id="OrgTreeInfo.default.parentId" key="parentId" parent="OrgTreeInfo.default.parentId-parent"/>
+<dict:field id="OrgTreeInfo.default.parentId-parent" key="parentId-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgTreeInfo.default.parentId.fd"/>
+	<dict:constraintDescriptorRef bean="OrgTreeInfo.default.parentId.cd"/>
+</dict:field>
+
+
+<!-- OrgTreeInfo Field Descriptors -->
+<dict:fieldDescriptor id="OrgTreeInfo.default.displayName.fd" parent="OrgTreeInfo.default.displayName.fd-parent"/>
+<dict:fieldDescriptor id="OrgTreeInfo.default.displayName.fd-parent" abstract="true">
+	<dict:name>displayName</dict:name>
+	<dict:desc>displayName</dict:desc>
+	<dict:dataType>String</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgTreeInfo.default.orgId.fd" parent="OrgTreeInfo.default.orgId.fd-parent"/>
+<dict:fieldDescriptor id="OrgTreeInfo.default.orgId.fd-parent" abstract="true">
+	<dict:name>orgId</dict:name>
+	<dict:desc>orgId</dict:desc>
+	<dict:dataType>String</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgTreeInfo.default.parentId.fd" parent="OrgTreeInfo.default.parentId.fd-parent"/>
+<dict:fieldDescriptor id="OrgTreeInfo.default.parentId.fd-parent" abstract="true">
+	<dict:name>parentId</dict:name>
+	<dict:desc>parentId</dict:desc>
+	<dict:dataType>String</dict:dataType>
+</dict:fieldDescriptor>
+
+
+<!-- OrgTreeInfo Constraints -->
+<dict:constraintDescriptor id="OrgTreeInfo.default.displayName.cd" parent="OrgTreeInfo.default.displayName.cd-parent"/>
+<dict:constraintDescriptor id="OrgTreeInfo.default.displayName.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgTreeInfo.default.orgId.cd" parent="OrgTreeInfo.default.orgId.cd-parent"/>
+<dict:constraintDescriptor id="OrgTreeInfo.default.orgId.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgTreeInfo.default.parentId.cd" parent="OrgTreeInfo.default.parentId.cd-parent"/>
+<dict:constraintDescriptor id="OrgTreeInfo.default.parentId.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+
+<!-- OrgTypeInfo Object Structure -->
+<dict:objectStructure key="OrgTypeInfo" id="OrgTypeInfo" parent="OrgTypeInfo-parent"/>
+<dict:objectStructure key="OrgTypeInfo-parent" id="OrgTypeInfo-parent" abstract="true">
+	<dict:typeRef bean="OrgTypeInfo.type.default"/>
+</dict:objectStructure>
+
+
+<!-- OrgTypeInfo Types -->
+<dict:type key="default" id="OrgTypeInfo.type.default" parent="OrgTypeInfo.type.default-parent"/>
+<dict:type key="default-parent" id="OrgTypeInfo.type.default-parent" abstract="true">
+	<dict:stateRef bean="OrgTypeInfo.state.default"/>
+</dict:type>
+
+
+<!-- OrgTypeInfo States -->
+<dict:state key="default" id="OrgTypeInfo.state.default" parent="OrgTypeInfo.state.default-parent"/>
+<dict:state key="default-parent" id="OrgTypeInfo.state.default-parent" abstract="true">
+	<dict:fieldRef bean="OrgTypeInfo.default.descr"/>
+	<dict:fieldRef bean="OrgTypeInfo.default.effectiveDate"/>
+	<dict:fieldRef bean="OrgTypeInfo.default.expirationDate"/>
+	<dict:fieldRef bean="OrgTypeInfo.default.name"/>
+</dict:state>
+
+
+<!-- OrgTypeInfo Fields -->
+<dict:field id="OrgTypeInfo.default.descr" key="descr" parent="OrgTypeInfo.default.descr-parent"/>
+<dict:field id="OrgTypeInfo.default.descr-parent" key="descr-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgTypeInfo.default.descr.fd"/>
+	<dict:constraintDescriptorRef bean="OrgTypeInfo.default.descr.cd"/>
+</dict:field>
+
+<dict:field id="OrgTypeInfo.default.effectiveDate" key="effectiveDate" parent="OrgTypeInfo.default.effectiveDate-parent"/>
+<dict:field id="OrgTypeInfo.default.effectiveDate-parent" key="effectiveDate-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgTypeInfo.default.effectiveDate.fd"/>
+	<dict:constraintDescriptorRef bean="OrgTypeInfo.default.effectiveDate.cd"/>
+</dict:field>
+
+<dict:field id="OrgTypeInfo.default.expirationDate" key="expirationDate" parent="OrgTypeInfo.default.expirationDate-parent"/>
+<dict:field id="OrgTypeInfo.default.expirationDate-parent" key="expirationDate-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgTypeInfo.default.expirationDate.fd"/>
+	<dict:constraintDescriptorRef bean="OrgTypeInfo.default.expirationDate.cd"/>
+</dict:field>
+
+<dict:field id="OrgTypeInfo.default.name" key="name" parent="OrgTypeInfo.default.name-parent"/>
+<dict:field id="OrgTypeInfo.default.name-parent" key="name-parent" abstract="true">
+	<dict:fieldDescriptorRef bean="OrgTypeInfo.default.name.fd"/>
+	<dict:constraintDescriptorRef bean="OrgTypeInfo.default.name.cd"/>
+</dict:field>
+
+
+<!-- OrgTypeInfo Field Descriptors -->
+<dict:fieldDescriptor id="OrgTypeInfo.default.descr.fd" parent="OrgTypeInfo.default.descr.fd-parent"/>
+<dict:fieldDescriptor id="OrgTypeInfo.default.descr.fd-parent" abstract="true">
+	<dict:name>descr</dict:name>
+	<dict:desc>descr</dict:desc>
+	<dict:dataType>String</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgTypeInfo.default.effectiveDate.fd" parent="OrgTypeInfo.default.effectiveDate.fd-parent"/>
+<dict:fieldDescriptor id="OrgTypeInfo.default.effectiveDate.fd-parent" abstract="true">
+	<dict:name>effectiveDate</dict:name>
+	<dict:desc>effectiveDate</dict:desc>
+	<dict:dataType>Date</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgTypeInfo.default.expirationDate.fd" parent="OrgTypeInfo.default.expirationDate.fd-parent"/>
+<dict:fieldDescriptor id="OrgTypeInfo.default.expirationDate.fd-parent" abstract="true">
+	<dict:name>expirationDate</dict:name>
+	<dict:desc>expirationDate</dict:desc>
+	<dict:dataType>Date</dict:dataType>
+</dict:fieldDescriptor>
+
+<dict:fieldDescriptor id="OrgTypeInfo.default.name.fd" parent="OrgTypeInfo.default.name.fd-parent"/>
+<dict:fieldDescriptor id="OrgTypeInfo.default.name.fd-parent" abstract="true">
+	<dict:name>name</dict:name>
+	<dict:desc>name</dict:desc>
+	<dict:dataType>String</dict:dataType>
+</dict:fieldDescriptor>
+
+
+<!-- OrgTypeInfo Constraints -->
+<dict:constraintDescriptor id="OrgTypeInfo.default.descr.cd" parent="OrgTypeInfo.default.descr.cd-parent"/>
+<dict:constraintDescriptor id="OrgTypeInfo.default.descr.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgTypeInfo.default.effectiveDate.cd" parent="OrgTypeInfo.default.effectiveDate.cd-parent"/>
+<dict:constraintDescriptor id="OrgTypeInfo.default.effectiveDate.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgTypeInfo.default.expirationDate.cd" parent="OrgTypeInfo.default.expirationDate.cd-parent"/>
+<dict:constraintDescriptor id="OrgTypeInfo.default.expirationDate.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+<dict:constraintDescriptor id="OrgTypeInfo.default.name.cd" parent="OrgTypeInfo.default.name.cd-parent"/>
+<dict:constraintDescriptor id="OrgTypeInfo.default.name.cd-parent" abstract="true">
+	<dict:constraintRef bean="single"/>
+</dict:constraintDescriptor>
+
+</beans>
