@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:operation isOneWay="false" action="" name="getCluResultType" bindingOperationName="getCluResultType" type="Request-Response" outputName="getCluResultTypeResponse" inputName="getCluResultType" receivesAttachments="false" sendsAttachments="false" id="75a8d38d-175e-4b8d-b809-b0b74621561a" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config"><con:settings/></con:operation>

@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:operation isOneWay="false" action="" name="validateLuiLuiRelation" bindingOperationName="validateLuiLuiRelation" type="Request-Response" outputName="validateLuiLuiRelationResponse" inputName="validateLuiLuiRelation" receivesAttachments="false" sendsAttachments="false" id="2f057f1e-9cb9-4b1f-bbbe-1a088feb38b5" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config"><con:settings/></con:operation>
