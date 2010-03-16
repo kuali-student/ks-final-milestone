@@ -32,8 +32,10 @@
 	
 	<aop:config>
       <aop:aspect id="myAspect" ref="methodTrackerAdvice">
-        <aop:pointcut id="serviceMethods" expression="execution (* org.kuali.student..service..*Service*.*(..))"/>
-        <aop:around pointcut-ref="serviceMethods" method="trackMethod"/>
+        <aop:pointcut id="serviceMethods" expression="execution (* org.kuali.student..service..*Service.*(..))"/>
+        <aop:pointcut id="serviceMethods2" expression="execution (* org.kuali.student.lum.lu.service.impl.LuServiceImpl.*(..))"/>
+        <aop:pointcut id="serviceMethods3" expression="execution (* org.kuali.student..service..*ServiceImpl.*(..))"/>
+        <aop:around pointcut-ref="serviceMethods3" method="trackMethod"/>
       </aop:aspect>
 	</aop:config>
 
