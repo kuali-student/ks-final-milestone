@@ -25,7 +25,7 @@ public class MethodTrackerAdvice {
 		long elapsed = stop - start;
 		StringBuffer sb = new StringBuffer();
 		sb.append("Seq:" + space(currentSequence, 4) + " ");
-		sb.append("Time: " + space(elapsed, 5) + " ");
+		sb.append("Time: " + space(elapsed, 4) + " ");
 		sb.append(getPrettyPrint(call, result));
 		log.info(sb.toString());
 		return result;
