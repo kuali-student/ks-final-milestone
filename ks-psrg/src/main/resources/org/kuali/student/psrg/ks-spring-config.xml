@@ -32,9 +32,12 @@
 	
 	<aop:config>
       <aop:aspect id="myAspect" ref="methodTrackerAdvice">
+        <!-- For some reason this was causing the trackMethod to execute twice each time a service method
+             was invoked.  In the debugger it looked like there were 2 different Proxy objects containing 
+             a reference to the same LuServiceImpl. 
         <aop:pointcut id="serviceMethods" expression="execution (* org.kuali.student..service..*Service.*(..))"/>
-        <aop:pointcut id="serviceMethods2" expression="execution (* org.kuali.student.lum.lu.service.impl.LuServiceImpl.*(..))"/>
-        <aop:pointcut id="serviceMethods3" expression="execution (* org.kuali.student..service..*ServiceImpl.*(..))"/>
+         -->
+        <aop:pointcut id="serviceMethods" expression="execution (* org.kuali.student..service..impl.*Service*.*(..))"/>
         <aop:around pointcut-ref="serviceMethods" method="trackMethod"/>
       </aop:aspect>
 	</aop:config>
