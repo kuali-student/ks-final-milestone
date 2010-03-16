@@ -211,12 +211,15 @@
 
     <!--  Rule Execution  -->
 
-    <bean id="ruleSetExecutor"
+    <bean id="droolsRuleExecutor"
         class="org.kuali.student.brms.ruleexecution.runtime.drools.RuleSetExecutorDroolsImpl">
         <property name="enableExecutionLogging" value="true"/>
         <property name="enableStatLogging" value="true"/>
         <property name="ruleBaseCache" ref="ruleBaseCache"/>
     </bean>
+    <!--bean id="janinoRuleExecutor"
+        class="org.kuali.student.brms.ruleexecution.runtime.janino.RuleExecutorJaninoImpl">
+    </bean-->
 
     <bean id="ruleBaseCache"
         class="org.kuali.student.brms.ruleexecution.runtime.drools.DroolsKnowledgeBase">
@@ -237,7 +240,7 @@
         class="org.kuali.student.brms.ruleexecution.runtime.drools.SimpleExecutorDroolsImpl">
     </bean>
     
-    <bean id="ruleSetExecutorTest"
+    <bean id="droolsRuleExecutorTest"
         class="org.kuali.student.brms.ruleexecution.runtime.drools.RuleSetExecutorDroolsImpl">
         <property name="enableExecutionLogging" value="true"/>
         <property name="enableStatLogging" value="false"/>
@@ -264,7 +267,8 @@
         <!-- Embedded rule repository service -->
         <property name="ruleRespository" ref="ruleRepository"/>
         <property name="reportBuilder" ref="reportBuilder"/>
-        <property name="ruleSetExecutor" ref="ruleSetExecutor"/>
-        <property name="ruleSetExecutorTest" ref="ruleSetExecutorTest"/>
+        <property name="ruleSetExecutor" ref="droolsRuleExecutor"/>
+        <!--property name="ruleSetExecutor" ref="janinoRuleExecutor"/-->
+        <property name="ruleSetExecutorTest" ref="droolsRuleExecutorTest"/>
     </bean>
 </beans>

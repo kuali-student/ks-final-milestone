@@ -31,7 +31,6 @@
         <property name="ruleManagement" ref="ruleManagement2"/>
     </bean>
 
-
     <bean id="ruleExecution2" name="ruleExecution2"
         class="org.kuali.student.brms.ruleexecution.runtime.RuleExecutionImpl">
         <property name="enableRuleSetCaching" value="false"/>
@@ -42,8 +41,8 @@
         <!-- Rule repository service -->
         <property name="ruleRespository" ref="ruleRepositoryServiceClient"/>
         <property name="reportBuilder" ref="reportBuilder"/>
-        <property name="ruleSetExecutor" ref="ruleSetExecutor"/>
-        <property name="ruleSetExecutorTest" ref="ruleSetExecutorTest"/>
+        <property name="ruleSetExecutor" ref="droolsRuleExecutor"/>
+        <property name="ruleSetExecutorTest" ref="droolsRuleExecutorTest"/>
     </bean>
 
     <bean id="ruleManagement2"
