@@ -20,7 +20,7 @@ import java.util.Map;
 import org.kuali.student.brms.repository.dto.RuleSetInfo;
 import org.kuali.student.brms.rulemanagement.dto.BusinessRuleInfo;
 
-public interface RuleSetExecutor {
+public interface RuleExecutor {
     /**
      * Adds or replaces a rule set in the rule set execution cache.
      * This is a convenience method since rule sets are lazily loaded into the 

@@ -34,7 +34,7 @@ import org.kuali.student.brms.repository.drools.util.DroolsUtil;
 import org.kuali.student.brms.repository.dto.RuleSetInfo;
 import org.kuali.student.brms.ruleexecution.exceptions.RuleSetExecutionException;
 import org.kuali.student.brms.ruleexecution.runtime.ExecutionResult;
-import org.kuali.student.brms.ruleexecution.runtime.RuleSetExecutor;
+import org.kuali.student.brms.ruleexecution.runtime.RuleExecutor;
 import org.kuali.student.brms.ruleexecution.runtime.drools.logging.DroolsExecutionStatistics;
 import org.kuali.student.brms.ruleexecution.runtime.drools.logging.DroolsWorkingMemoryLogger;
 import org.kuali.student.brms.ruleexecution.runtime.drools.logging.DroolsWorkingMemoryStatisticsLogger;
@@ -46,7 +46,7 @@ import org.kuali.student.brms.util.LoggingStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
+public class RuleSetExecutorDroolsImpl implements RuleExecutor {
     /** SLF4J logging framework */
     final static Logger logger = LoggerFactory.getLogger(RuleSetExecutorDroolsImpl.class);
 

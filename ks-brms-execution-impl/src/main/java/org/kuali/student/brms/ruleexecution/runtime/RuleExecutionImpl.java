@@ -40,7 +40,7 @@ import org.kuali.student.brms.ruleexecution.dto.PropositionReportInfo;
 import org.kuali.student.brms.ruleexecution.dto.RuleReportInfo;
 import org.kuali.student.brms.ruleexecution.exceptions.RuleSetExecutionException;
 import org.kuali.student.brms.ruleexecution.runtime.ExecutionResult;
-import org.kuali.student.brms.ruleexecution.runtime.RuleSetExecutor;
+import org.kuali.student.brms.ruleexecution.runtime.RuleExecutor;
 import org.kuali.student.brms.ruleexecution.runtime.report.ReportBuilder;
 import org.kuali.student.brms.rulemanagement.dto.BusinessRuleAnchorInfo;
 import org.kuali.student.brms.rulemanagement.dto.BusinessRuleInfo;
@@ -61,9 +61,9 @@ public class RuleExecutionImpl implements RuleExecution {
     /** SLF4J logging framework */
     final static Logger logger = LoggerFactory.getLogger(RuleExecutionImpl.class);
     
-    private RuleSetExecutor ruleSetExecutor;
+    private RuleExecutor ruleSetExecutor;
 
-    private RuleSetExecutor ruleSetExecutorTest;
+    private RuleExecutor ruleSetExecutorTest;
     
     private RuleRepository ruleRespository;
 
@@ -88,7 +88,7 @@ public class RuleExecutionImpl implements RuleExecution {
      * 
      * @return Rule execution engine
      */
-	public RuleSetExecutor getRuleSetExecutor() {
+	public RuleExecutor getRuleSetExecutor() {
 		return ruleSetExecutor;
 	}
 
@@ -97,7 +97,7 @@ public class RuleExecutionImpl implements RuleExecution {
 	 * 
 	 * @param ruleSetExecutor Rule execution engine
 	 */
-	public void setRuleSetExecutor(final RuleSetExecutor ruleSetExecutor) {
+	public void setRuleSetExecutor(final RuleExecutor ruleSetExecutor) {
 		this.ruleSetExecutor = ruleSetExecutor;
 	}
 
@@ -106,7 +106,7 @@ public class RuleExecutionImpl implements RuleExecution {
 	 * 
 	 * @param ruleSetExecutor Rule execution engine
 	 */
-	public void setRuleSetExecutorTest(final RuleSetExecutor ruleSetExecutor) {
+	public void setRuleSetExecutorTest(final RuleExecutor ruleSetExecutor) {
 		this.ruleSetExecutorTest = ruleSetExecutor;
 	}
 

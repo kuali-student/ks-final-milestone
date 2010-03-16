@@ -24,7 +24,7 @@ import org.kuali.student.brms.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.brms.repository.dto.RuleSetInfo;
 import org.kuali.student.brms.ruleexecution.exceptions.RuleSetExecutionException;
 import org.kuali.student.brms.ruleexecution.runtime.ExecutionResult;
-import org.kuali.student.brms.ruleexecution.runtime.RuleSetExecutor;
+import org.kuali.student.brms.ruleexecution.runtime.RuleExecutor;
 import org.kuali.student.brms.rulemanagement.dto.BusinessRuleInfo;
 import org.kuali.student.brms.rulemanagement.dto.RuleElementInfo;
 import org.kuali.student.brms.rulemanagement.dto.RulePropositionInfo;
@@ -45,7 +45,7 @@ import org.kuali.student.brms.util.FactContainer;
  * correct error and success messages when executing agendas.
  * </p>
  */
-public class RuleExecutorJaninoImpl implements RuleSetExecutor {
+public class RuleExecutorJaninoImpl implements RuleExecutor {
 
 	@Override
 	public void addRuleSet(BusinessRuleInfo businessRule, RuleSetInfo ruleSet) {

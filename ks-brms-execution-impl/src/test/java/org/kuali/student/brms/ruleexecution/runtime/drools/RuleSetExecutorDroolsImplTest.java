@@ -45,7 +45,7 @@ import org.kuali.student.brms.internal.common.utils.FactUtil;
 import org.kuali.student.brms.repository.dto.RuleSetInfo;
 import org.kuali.student.brms.ruleexecution.exceptions.RuleSetExecutionException;
 import org.kuali.student.brms.ruleexecution.runtime.ExecutionResult;
-import org.kuali.student.brms.ruleexecution.runtime.RuleSetExecutor;
+import org.kuali.student.brms.ruleexecution.runtime.RuleExecutor;
 import org.kuali.student.brms.ruleexecution.runtime.SimpleExecutor;
 import org.kuali.student.brms.ruleexecution.runtime.drools.logging.DroolsExecutionStatistics;
 import org.kuali.student.brms.ruleexecution.runtime.drools.util.DroolsTestUtil;
@@ -64,7 +64,7 @@ public class RuleSetExecutorDroolsImplTest {
 	private DroolsUtil droolsUtil = new DroolsUtil();
 
 	/** Rule set executor interface */
-	private static RuleSetExecutor executor = new RuleSetExecutorDroolsImpl();
+	private static RuleExecutor executor = new RuleSetExecutorDroolsImpl();
 	private static SimpleExecutor simpleExecutor = new SimpleExecutorDroolsImpl();
 	private static DroolsKnowledgeBase ruleBase = new DroolsKnowledgeBase();
 
