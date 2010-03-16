@@ -52,7 +52,7 @@ public class State implements Serializable
   *
   * @param objectType new value of xmlTypeState
   */
- public void setxmlTypeState (String xmlTypeState)
+ public void setXmlTypeState (String xmlTypeState)
  {
   this.xmlTypeState = xmlTypeState;
  }

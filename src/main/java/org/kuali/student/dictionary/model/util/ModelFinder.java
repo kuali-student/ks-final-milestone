@@ -112,7 +112,7 @@ public class ModelFinder
  {
   for (Type type : model.getTypes ())
   {
-   if (type.getTypeKey ().equals (typeKey))
+   if (type.getTypeKey ().equalsIgnoreCase (typeKey))
    {
     return type;
    }
@@ -138,6 +138,19 @@ public class ModelFinder
   }
   return null;
  }
+
+  public State findState (String stateKey)
+ {
+  for (State state : model.getStates ())
+  {
+   if (state.getStateKey ().equalsIgnoreCase (stateKey))
+   {
+     return state;
+   }
+  }
+  return null;
+ }
+
 
  public Dictionary findRoot (Dictionary dict)
  {
