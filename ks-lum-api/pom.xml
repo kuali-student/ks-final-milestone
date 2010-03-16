@@ -23,7 +23,7 @@
 		<dependency>
 			<groupId>org.kuali.student.brms.statement</groupId>
 			<artifactId>ks-statement-api</artifactId>
-			<version>${ks-statement-api.version}</version>
+			<version>${ks-brms.version}</version>
 		</dependency>
 	</dependencies>
 
