@@ -28,6 +28,7 @@
         <derby.version>10.4.2.0</derby.version>
         <ks-core.version>1.0.0-m5</ks-core.version>
         <ks-lum.version>1.0.0-m5</ks-lum.version>
+        <ks-brms.version>1.0.0-m5</ks-brms.version>
     </properties>
     
     <scm>
