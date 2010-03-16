@@ -32,7 +32,6 @@ import org.kuali.student.brms.rulemanagement.entity.AgendaDetermination;
 import org.kuali.student.brms.rulemanagement.entity.BusinessRule;
 import org.kuali.student.brms.rulemanagement.entity.BusinessRuleType;
 import org.kuali.student.brms.rulemanagement.entity.RuleElement;
-import org.kuali.student.brms.translators.drools.RuleSetTranslatorDroolsImpl;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -52,7 +51,7 @@ import org.springframework.util.StringUtils;
 public class RuleManagementImpl implements RuleManagement {
 
     /** SLF4J logging framework */
-    final static Logger logger = LoggerFactory.getLogger(RuleSetTranslatorDroolsImpl.class);
+    final static Logger logger = LoggerFactory.getLogger(RuleManagementImpl.class);
 
     private static final String RULE_SNAPSHOT_SUFFIX = "_SNAPSHOT";
 

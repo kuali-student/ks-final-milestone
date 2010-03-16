@@ -47,4 +47,21 @@ public class SumPropositionTest {
         Assert.assertTrue(expectedValue.compareTo((BigDecimal) prop.getResultValues().iterator().next()) == -1);
     }
 
+	@Test
+    public void testSumTrue_Mathes() throws Exception {
+		FactResultInfo fact = CommonTestUtil.createFact(
+				new String[] {String.class.getName(), String.class.getName()},
+				new String[] {"MATH101", "3", "MATH103", "4", "CHEM101", "3"}, 
+    			new String[] {"resultColumn.cluId","resultColumn.credits"});
+
+    	BigDecimal expectedValue = new BigDecimal("10.0");
+        SumProposition<BigDecimal> prop = new SumProposition<BigDecimal>(
+        		"A-1", "A",
+                ComparisonOperator.MATCHES, expectedValue, fact, "resultColumn.credits");
+
+        Boolean result = prop.apply();
+
+        Assert.assertTrue(result);
+        Assert.assertTrue(expectedValue.compareTo((BigDecimal) prop.getResultValues().iterator().next()) == 0);
+    }
 }

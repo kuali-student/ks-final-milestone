@@ -25,7 +25,7 @@ public class StatisticsProposition<T extends Number> extends AbstractProposition
 	public Boolean apply() {
 		this.computedValue = calculate();
 		
-		result = checkTruthValue(computedValue, super.expectedValue);
+		result = checkTruthValue(computedValue);
 
         return result;
 	}

@@ -36,7 +36,7 @@ public class ComparisonOperatorComparable<T extends Comparable<T>> extends Abstr
 	}
 
     protected Boolean compare() {
-        if (!(this.computedValue instanceof Comparable) || !(this.expectedValue instanceof Comparable)) {
+        if (!(this.computedValue instanceof Comparable<?>) || !(this.expectedValue instanceof Comparable<?>)) {
             throw new IllegalArgumentException("Both computed value and expected values have to implement java.lang.Comparable.");
         }
 

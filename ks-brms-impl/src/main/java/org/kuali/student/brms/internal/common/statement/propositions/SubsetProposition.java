@@ -69,7 +69,7 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
 
         Integer count = Integer.valueOf(met.size());
 
-        result = checkTruthValue(count, super.expectedValue);
+        result = checkTruthValue(count);
 
         this.resultValues = met;
 

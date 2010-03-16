@@ -21,7 +21,6 @@ import java.util.List;
 
 import org.kuali.student.brms.internal.common.entity.ComparisonOperator;
 import org.kuali.student.brms.internal.common.statement.MessageContextConstants;
-import org.kuali.student.brms.internal.common.statement.propositions.functions.ComparisonOperatorComparable;
 
 /**
  * A constraint that compares a constrained property (fact) to a given criterion. The threshold may be defined as minimum or
@@ -34,7 +33,6 @@ import org.kuali.student.brms.internal.common.statement.propositions.functions.C
  */
 public class SimpleComparableProposition<T extends Comparable<T>> extends AbstractProposition<T> {
 
-    private ComparisonOperatorComparable<T> comparableFunction;
     private T fact;
     private List<Boolean> resultValues;
     
@@ -48,15 +46,13 @@ public class SimpleComparableProposition<T extends Comparable<T>> extends Abstra
         		null, null, null, null);
 
         this.fact = fact;
-        comparableFunction = new ComparisonOperatorComparable<T>(operator, expectedValue, this.fact);
     }
 
     @Override
     public Boolean apply() {
         sanityCheck();
 
-        //result = checkTruthValue(this.fact, super.expectedValue);
-        result = (Boolean) comparableFunction.compute();
+        result = checkTruthValue(this.fact);
 
         this.resultValues = new ArrayList<Boolean>();
         this.resultValues.add(result);

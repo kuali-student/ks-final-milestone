@@ -26,7 +26,7 @@ public class MaxProposition<T extends Comparable<T>> extends AbstractProposition
     public Boolean apply() {
     	this.max = this.maxFunction.compute();
 
-        result = checkTruthValue(this.max, super.expectedValue);
+        result = checkTruthValue(this.max);
 
         resultValues = new ArrayList<T>();
         resultValues.add(this.max);

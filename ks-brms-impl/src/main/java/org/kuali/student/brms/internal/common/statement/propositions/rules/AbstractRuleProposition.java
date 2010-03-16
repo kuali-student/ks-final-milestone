@@ -462,7 +462,7 @@ public abstract class AbstractRuleProposition<T> implements RuleProposition {
 	}
 
     public String toString() {
-    	return "YVFProposition[id=" + this.proposition.getId() 
+    	return "AbstractRuleProposition[id=" + this.proposition.getId() 
     		+ ", propositionName=" + this.proposition.getPropositionName() 
     		+ ", type=" + this.proposition.getType() 
     		+ ", result="+this.proposition.getResult() + "]";

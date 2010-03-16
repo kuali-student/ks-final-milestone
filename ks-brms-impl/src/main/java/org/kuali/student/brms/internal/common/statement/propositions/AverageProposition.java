@@ -42,7 +42,7 @@ public class AverageProposition<E extends Number> extends AbstractProposition<Bi
     	Number num = averageFunction.compute();
     	average = new BigDecimal(num.toString());
 
-        result = checkTruthValue(average, super.expectedValue);
+        result = checkTruthValue(average);
 
         resultValues = new ArrayList<BigDecimal>();
         resultValues.add(average);

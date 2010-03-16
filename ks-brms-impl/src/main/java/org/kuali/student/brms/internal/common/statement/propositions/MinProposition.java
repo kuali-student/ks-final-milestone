@@ -26,7 +26,7 @@ public class MinProposition<T extends Comparable<T>> extends AbstractProposition
     public Boolean apply() {
     	this.min = this.minFunction.compute();
 
-        result = checkTruthValue(this.min, super.expectedValue);
+        result = checkTruthValue(this.min);
 
         resultValues = new ArrayList<T>();
         resultValues.add(this.min);

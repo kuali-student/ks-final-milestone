@@ -358,4 +358,75 @@ public class SimpleComparableRulePropositionTest {
         		BusinessRuleUtil.getDefaultIsoTimeZone(cal1.getTime()), report.getMessage());
 	}
 
+	@Test
+	public void testSimpleComparableProposition_Matches() throws Exception {
+		YieldValueFunctionInfo yvf = new YieldValueFunctionInfo();
+		FactStructureInfo fs1 = CommonTestUtil.createFactStructure("fact.id.1", "course.comparable.fact");
+
+		Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
+		resultColumnKeyMap.put(MessageContextConstants.PROPOSITION_SIMPLE_COMPARABLE_COLUMN_KEY, "resultColumn.grade");
+		fs1.setResultColumnKeyTranslations(resultColumnKeyMap);
+
+		yvf.setFactStructureList(Arrays.asList(fs1));
+		String expectedValue = "^(\\d{5}(( |-)\\d{4})?)|"; // USA postal code regex
+		RulePropositionInfo ruleProposition = CommonTestUtil.createRuleProposition(
+				yvf, expectedValue, ComparisonOperator.MATCHES.toString(), String.class.getName());
+
+		Map<String, Object> factMap = getFactMap(fs1, String.class.getName(), "90210-1234", "resultColumn.grade");
+		
+		SimpleComparableRuleProposition<String> proposition = new SimpleComparableRuleProposition<String>(
+				"1", "SimpleComparableRuleProposition", ruleProposition, factMap);
+
+		proposition.apply();
+		PropositionReport report = proposition.buildReport();
+		
+		Assert.assertTrue(proposition.getResult());
+		Assert.assertNotNull(report);
+//		Assert.assertNull(report.getFailureMessage());
+		Assert.assertNotNull(report.getMessage());
+
+		FactResultInfo factResult = report.getFactResult();
+		Assert.assertEquals(1, factResult.getResultList().size());
+		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), "resultColumn.grade", "90210-1234"));
+
+		FactResultInfo propositionResult = report.getPropositionResult();
+        Assert.assertEquals(1, propositionResult.getResultList().size());
+		Assert.assertTrue(CommonTestUtil.containsResult(propositionResult.getResultList(), "resultColumn.grade", "true"));
+	}
+
+	@Test
+	public void testSimpleComparableProposition_NotMatches() throws Exception {
+		YieldValueFunctionInfo yvf = new YieldValueFunctionInfo();
+		FactStructureInfo fs1 = CommonTestUtil.createFactStructure("fact.id.1", "course.comparable.fact");
+
+		Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
+		resultColumnKeyMap.put(MessageContextConstants.PROPOSITION_SIMPLE_COMPARABLE_COLUMN_KEY, "resultColumn.grade");
+		fs1.setResultColumnKeyTranslations(resultColumnKeyMap);
+
+		yvf.setFactStructureList(Arrays.asList(fs1));
+		String expectedValue = "^(\\d{5}(( |-)\\d{4})?)|"; // USA postal code regex
+		RulePropositionInfo ruleProposition = CommonTestUtil.createRuleProposition(
+				yvf, expectedValue, ComparisonOperator.NOT_MATCHES.toString(), String.class.getName());
+
+		Map<String, Object> factMap = getFactMap(fs1, String.class.getName(), "90210-xxx", "resultColumn.grade");
+		
+		SimpleComparableRuleProposition<String> proposition = new SimpleComparableRuleProposition<String>(
+				"1", "SimpleComparableRuleProposition", ruleProposition, factMap);
+
+		proposition.apply();
+		PropositionReport report = proposition.buildReport();
+		
+		Assert.assertTrue(proposition.getResult());
+		Assert.assertNotNull(report);
+//		Assert.assertNull(report.getFailureMessage());
+		Assert.assertNotNull(report.getMessage());
+
+		FactResultInfo factResult = report.getFactResult();
+		Assert.assertEquals(1, factResult.getResultList().size());
+		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), "resultColumn.grade", "90210-xxx"));
+
+		FactResultInfo propositionResult = report.getPropositionResult();
+        Assert.assertEquals(1, propositionResult.getResultList().size());
+		Assert.assertTrue(CommonTestUtil.containsResult(propositionResult.getResultList(), "resultColumn.grade", "true"));
+	}
 }

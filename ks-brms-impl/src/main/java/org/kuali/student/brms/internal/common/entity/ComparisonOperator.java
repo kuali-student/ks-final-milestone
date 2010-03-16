@@ -13,5 +13,12 @@ package org.kuali.student.brms.internal.common.entity;
  * @author Kuali Student Team (zdenek.kuali@gmail.com)
  */
 public enum ComparisonOperator {
-    EQUAL_TO, NOT_EQUAL_TO, GREATER_THAN, LESS_THAN, GREATER_THAN_OR_EQUAL_TO, LESS_THAN_OR_EQUAL_TO;
+    EQUAL_TO, // = 
+    NOT_EQUAL_TO, // != or <>
+    GREATER_THAN, // >
+    LESS_THAN, // <
+    GREATER_THAN_OR_EQUAL_TO, // >= 
+    LESS_THAN_OR_EQUAL_TO, // <=
+    MATCHES, // matches a regular expression
+    NOT_MATCHES, // not matches a regular expression
 }
