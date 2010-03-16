@@ -131,7 +131,7 @@ public class TempSearchBackedTable extends Composite{
             //TODO: use this as a token to get a message from message service instead 
             String header = r.getName();
             String key = r.getKey();
-            if(!(r.getKey().equals(TempSearchBackedTable.this.resultIdColumnKey))){
+            if(!r.isHidden()){
                 columnDefs.add(new SearchColumnDefinition(header, key));
             }
         }
