@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.theme.Theme;
+import org.kuali.student.common.ui.client.widgets.ApplicationPanel;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.StylishDropDown;
 import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
 import org.kuali.student.common.ui.client.widgets.containers.KSWrapper;
+import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
+import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenu.MenuImageLocation;
 import org.kuali.student.common.ui.client.widgets.table.SimpleWidgetTable;
@@ -17,14 +21,70 @@ import org.kuali.student.common.ui.client.widgets.table.SimpleWidgetTable;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class CommonUITest implements EntryPoint {
 	
     @Override
     public void onModuleLoad() {
+		final AbsolutePanel panel = ApplicationPanel.get();
+		final KSButton button = new KSButton("show lightbox", new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				final KSLightBox box = new KSLightBox(new HTML("Proposal Comments"));
+				box.setWidget(new TestLightboxContent());
+				box.show();
+			}
+		});
+		panel.add(button);
+		
+		for (int i=0; i<500; i++) {
+			panel.add(new Label("label " + i));
+		}
+		
+	}
+	
+	public static class TestLightboxContent extends Composite {
+		final VerticalPanel panel = new VerticalPanel();
+		final HorizontalPanel buttonPanel = new HorizontalPanel();
+		final HorizontalPanel horizontalContent = new HorizontalPanel();
+		final VerticalPanel verticalContent = new VerticalPanel();
+		
+		public TestLightboxContent() {
+			super.initWidget(panel);
+			panel.add(buttonPanel);
+			panel.add(horizontalContent);
+			panel.add(verticalContent);
+			
+			buttonPanel.add(new KSButton("horizontal", new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					for (int i=0; i<10; i++) {
+						horizontalContent.add(new HTML("<div style='padding-left: 1em'>item&nbsp;" + i + "</div>"));
+					}
+				}
+			}));
+			
+			buttonPanel.add(new KSButton("vertical", new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					for (int i=0; i<10; i++) {
+						verticalContent.add(new Label("item " + i));
+					}
+				}
+			}));
+			
+		}
+	}
+
+    public void onModuleLoad_Original() {
     	/*final ClickHandler handler = new ClickHandler(){
 
 			@Override

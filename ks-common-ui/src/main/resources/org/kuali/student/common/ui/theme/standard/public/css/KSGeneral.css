@@ -32,3 +32,58 @@
 		filter: progid:DXImageTransform.Microsoft.Glow(color=#666666,strength=3) progid:DXImageTransform.Microsoft.Shadow(color=#000000,direction=135,strength=6);*/
 	}
 }
+
+
+/* TODO move these styles to the appropriate locations */
+
+html,body {
+   height:100%;
+   width:100%;
+   overflow:hidden;
+}
+
+
+.ks-lightbox {
+	overflow: visible;
+	color:#333; 
+	background-color:#fff; 
+	border:6px solid #aaa;
+	padding: 3px;
+}
+
+.ks-lightbox-title {
+	position: relative;
+	width: 100%;
+	margin: 0.25em 0.25em 0.25em 0.25em;
+	font-size: 2em;
+	color: #940b07;
+}
+
+.ks-lightbox-content {
+	margin: 0.25em 0.25em 0.25em 0.1em;
+}
+
+.ks-lightbox-close-panel {
+	overflow: visible;
+}
+
+
+
+.ks-lightbox-close {
+	background: url('images/common/lightbox_close.png') no-repeat; 
+	width:40px; 
+	height:40px; 
+	display:inline; 
+	z-index:9999; 
+	position:absolute; 
+	top:-20px; 
+	right:-20px; 
+	cursor:pointer;
+}
+
+.ks-lightbox-close:hover {
+	background: url('images/common/lightbox_close_hover.png') no-repeat; 
+}
+
+
+
