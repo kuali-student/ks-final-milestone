@@ -2,7 +2,9 @@ package org.kuali.student.lum.lu.ui.course.client.widgets;
 
 import java.util.ArrayList;
 
+import org.kuali.student.common.ui.client.theme.Theme;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSImage;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -196,6 +198,8 @@ public class OutlineManager extends Composite {
       super.sinkEvents(Event.ONMOUSEMOVE);
       super.sinkEvents(Event.ONMOUSEOUT);
       emptySpacePanel.setStyleName("KS-LOOutlineManagerToolbar");
+      KSImage ieHack = Theme.INSTANCE.getCommonImages().getSpacer();
+      emptySpacePanel.add(ieHack);
       super.insert(emptySpacePanel,0);
     }
 

@@ -185,7 +185,7 @@ public class LOBuilder extends Composite implements HasValue<List<OutlineNode<LO
         
         public LearningObjectiveList(){
             mainPanel.add(outlineComposite);
-            KSLabel addnew = new KSLabel("Add new Learning Objective");
+            KSLabel addnew = new KSLabel("Add item");
             addnew.addStyleName("KS-LOBuilder-New");
             mainPanel.add(addnew);
             addnew.addClickHandler(new ClickHandler(){

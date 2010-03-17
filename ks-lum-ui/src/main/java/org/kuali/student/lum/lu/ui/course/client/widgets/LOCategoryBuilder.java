@@ -93,7 +93,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
     private KSButton addButton = new KSButton("Add");
 
     private KSLightBox createCategoryWindow;
-    Hyperlink browseCategoryLink = new Hyperlink("Browse categories", "BrowseCategories");
+    Hyperlink browseCategoryLink = new Hyperlink("Browse for categories", "BrowseCategories");
 
     public LOCategoryBuilder(String messageGroup, String type, String state, String loRepoKey) {
         super();
