@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:operation isOneWay="false" action="" name="getAllOrgPersonRelationsByOrg" bindingOperationName="getAllOrgPersonRelationsByOrg" type="Request-Response" outputName="getAllOrgPersonRelationsByOrgResponse" inputName="getAllOrgPersonRelationsByOrg" receivesAttachments="false" sendsAttachments="false" xmlns:con="http://eviware.com/soapui/config"><con:settings/></con:operation>

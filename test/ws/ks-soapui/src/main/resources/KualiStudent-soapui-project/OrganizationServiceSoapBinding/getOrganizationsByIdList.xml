@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:operation isOneWay="false" action="" name="getOrganizationsByIdList" bindingOperationName="getOrganizationsByIdList" type="Request-Response" outputName="getOrganizationsByIdListResponse" inputName="getOrganizationsByIdList" receivesAttachments="false" sendsAttachments="false" xmlns:con="http://eviware.com/soapui/config"><con:settings/></con:operation>
