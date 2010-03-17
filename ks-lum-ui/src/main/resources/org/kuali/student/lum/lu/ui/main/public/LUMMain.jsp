@@ -71,12 +71,16 @@
     }
 %>
 
-<!-- OPTIONAL: include this if you want history support -->
-<iframe src="javascript:''" id="__gwt_historyFrame"
-	style="width: 0; height: 0; border: 0"> </iframe>
+	<!-- OPTIONAL: include this if you want history support -->
+	<iframe src="javascript:''" id="__gwt_historyFrame"
+		style="width: 0; height: 0; border: 0"> </iframe>
+	
+	<div id="applicationPanel" style="height: 100%; width: 100%; overflow: auto">
+	</div>
 
-<script type="text/javascript" language="javascript"
-	src="org.kuali.student.lum.lu.ui.main.LUMMain.nocache.js">
-		</script>
+	<script type="text/javascript" language="javascript"
+		src="org.kuali.student.lum.lu.ui.main.LUMMain.nocache.js">
+			</script>
+
 </body>
 </html>
