@@ -52,8 +52,7 @@ public class FactFinderImpl implements FactFinder {
     		logger.info("\n---------- fetchFact ----------\n" +
     				"factStructureId="+factStructure.getFactStructureId()+
     				"\nfactTypeKey="+factTypeKey+
-    				"\nfactStructure.paramValueMap="+
-    				(factStructure == null ? "null" : factStructure.getParamValueMap())+
+    				"\nfactStructure.paramValueMap="+factStructure.getParamValueMap()+
     				"\n-----------------------------------------");
     	}
     	FactResultInfo result = new FactResultInfo();
