@@ -63,7 +63,7 @@ public class RuleEngineRepositoryConfiguratorImpl
      */
     public Repository getJCRRepository( final URL repoConfigFile, final URL repoLocation ) {
         try {
-            if (repoConfigFile == null || repoConfigFile == null ) {
+            if (repoConfigFile == null) {
                 return new TransientRepository();
             } else { 
                 return new PrivateTransientRepository(repoConfigFile, repoLocation);
