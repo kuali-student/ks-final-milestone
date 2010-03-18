@@ -7,8 +7,8 @@
     <name>KS Embedded Database</name>
     <description>Kuali Student Embedded Database</description>
     <properties>
-     <oracle.ks.jdbc.url>jdbc:oracle:thin:@localhost:1521:XE</oracle.ks.jdbc.url>
-     <oracle.ks.jdbc.driver>oracle.jdbc.OracleDriver</oracle.ks.jdbc.driver>
+     <oracle.ks.embedded.jdbc.url>jdbc:oracle:thin:@localhost:1521:XE</oracle.ks.embedded.jdbc.url>
+     <oracle.jdbc.driver>oracle.jdbc.OracleDriver</oracle.jdbc.driver>
     </properties>
     <build>
       <plugins>
@@ -25,8 +25,8 @@
            </dependency>
          </dependencies>
          <configuration>
-          <driver>${oracle.ks.jdbc.driver}</driver>
-          <url>${oracle.ks.jdbc.url}</url>
+          <driver>${oracle.jdbc.driver}</driver>
+          <url>${oracle.ks.embedded.jdbc.url}</url>
           <autocommit>false</autocommit>
           <delimiter>/</delimiter>
           <delimiterType>row</delimiterType>
@@ -40,7 +40,7 @@
               <goal>execute</goal>
             </goals>
             <configuration>
-              <settingsKey>${oracle.ks.jdbc.url}.dba</settingsKey>
+              <settingsKey>${oracle.ks.embedded.jdbc.url}.dba</settingsKey>
               <sqlCommand>
                 DROP USER kuali CASCADE
                 /
