@@ -65,7 +65,7 @@
             </goals>
             <configuration>
               <srcFiles>
-                <srcFile>${project.basedir}/sql/schema.sql</srcFile>
+                <srcFile>${project.basedir}/src/sql/schema.sql</srcFile>
               </srcFiles>
             </configuration>
           </execution>
@@ -77,7 +77,7 @@
             </goals>
             <configuration>
               <fileset>
-                <basedir>${project.basedir}/datasql</basedir>
+                <basedir>${project.basedir}/src/datasql</basedir>
                 <includes>
                  <include>**/*.sql</include>
                 </includes>
@@ -92,7 +92,7 @@
             </goals>
             <configuration>
               <srcFiles>
-                <srcFile>${project.basedir}/sql/schema-constraints.sql</srcFile>
+                <srcFile>${project.basedir}/src/sql/schema-constraints.sql</srcFile>
               </srcFiles>
             </configuration>
           </execution>
