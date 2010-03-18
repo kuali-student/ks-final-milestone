@@ -14,12 +14,18 @@
  */
 package org.kuali.student.common.ui.client.widgets;
 
+import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton.SpanPanel;
+
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.event.dom.client.HasMouseOutHandlers;
+import com.google.gwt.event.dom.client.HasMouseOverHandlers;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -33,9 +39,16 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.ComplexPanel;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineHTML;
+import com.google.gwt.user.client.ui.InlineLabel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * KSButton wraps gwt Button.  This class provides most of the same functionality, but sets KS css styles
@@ -45,203 +58,149 @@ import com.google.gwt.user.client.ui.InlineHTML;
  * @author Kuali Student Team
  *
  */
-public class KSButton extends Button{
-    public static enum ButtonImageAlign{LEFT, RIGHT, TOP, BOTTOM};
-    private Image image = null;
-    private InlineHTML alignmentHTML;
-    private boolean primary;
-    
+public class KSButton extends Composite implements HasClickHandlers, HasMouseOverHandlers, HasMouseOutHandlers{
 
+	public static enum ButtonStyle{
+		PRIMARY("ks-button-primary", "ks-button-primary-disabled"),
+		SECONDARY("ks-button-secondary", "ks-button-secondary-disabled"),
+		PRIMARY_SMALL("ks-button-primary-small", "ks-button-primary-small-disabled"),
+		SECONDARY_SMALL("ks-button-secondary-small", "ks-button-secondary-small-disabled"),
+		FORM_SMALL("ks-form-button-small", null),
+		FORM_LARGE("ks-form-button-large", null),
+		HELP("ks-form-module-elements-help", null),
+		DELETE("ks-form-module-elements-delete", null),
+		DEFAULT_ANCHOR("ks-link", "ks-link-disabled");
+		
+		private String style;
+		private String disabledStyle;
 
-    /**
-     * This constructs a button with no caption.
-     * 
-     */
-    public KSButton(){
-        super();
-        setupDefaultStyle();
-        
-    }
-    
-    /**
-     * Creates a button with the given HTML caption.
-     * 
-     * @param html the HTML caption
-     */
-    public KSButton(String html){
-        super(html);
-        setupDefaultStyle();
-    }
-    
-    /**
-     * Creates a button with the given HTML caption and click handler.
-     * 
-     * @param html the HTML caption
-     * @param handler the click handler
-     */
-    public KSButton(String html,ClickHandler handler){
-        super(html, handler);
-        setupDefaultStyle();
-    }
-    
-    /**
-     * This method makes the button a "primary" button.  It does not affect it's behavior,
-     * but instead alters it's style to one that is different/more eye-catching than default buttons.
-     * 
-     * @param primary true if this button is primary, false otherwise.
-     */
-    public void setPrimary(boolean primary){
-        this.primary = primary;
-        if(primary){
-            addStyleName(KSStyles.KS_BUTTON_SPECIAL_STYLE);
-            //addStyleName("gradient");
-        }
-        else{
-            removeStyleName(KSStyles.KS_BUTTON_SPECIAL_STYLE);
-        }
-    }
-    
-    public boolean isPrimary() {
-        return primary;
-    }
-    
-    /**
-     * This method sets the default style for the button and button events.
-     * 
-     */
-    private void setupDefaultStyle(){
-        addStyleName(KSStyles.KS_BUTTON_STYLE);
-        
-        this.addBlurHandler(new BlurHandler(){
-            public void onBlur(BlurEvent event) {
-                KSButton.this.removeStyleName(KSStyles.KS_BUTTON_FOCUS_STYLE);
-                
-            }   
-        }); 
+		private ButtonStyle(String style, String disabledStyle){
+			this.style = style;
+			this.disabledStyle = disabledStyle;
+		}
+		
+		public String getStyle(){
+			return style;
+		}
+		
+		public String getDisabledStyle() {
+			return disabledStyle;
+		}
+	};
+	
+	public class SpanPanel extends ComplexPanel{
+		
+		public SpanPanel(){
+			setElement(DOM.createSpan());
+		}
+		
+		  /**
+		   * Adds a new child widget to the panel.
+		   * 
+		   * @param w the widget to be added
+		   */
+		  @Override
+		  public void add(Widget w) {
+		    add(w, getElement());
+		  }
 
-        this.addFocusHandler(new FocusHandler(){
-            public void onFocus(FocusEvent event) {
-                KSButton.this.addStyleName(KSStyles.KS_BUTTON_FOCUS_STYLE);
+		  /**
+		   * Inserts a widget before the specified index.
+		   * 
+		   * @param w the widget to be inserted
+		   * @param beforeIndex the index before which it will be inserted
+		   * @throws IndexOutOfBoundsException if <code>beforeIndex</code> is out of
+		   *           range
+		   */
+		  public void insert(Widget w, int beforeIndex) {
+		    insert(w, getElement(), beforeIndex, true);
+		  }
+	}
+	
+	private SpanPanel panel = new SpanPanel();
+	private Anchor anchor;
+	private InlineLabel disabledLabel = new InlineLabel();
+	private boolean enabled = true;
+	private ButtonStyle currentStyle;
+	private String text;
+	private Widget widget;
+	
+	public boolean isEnabled() {
+		return enabled;
+	}
 
-            }       
-        });
-        
-        this.addMouseOverHandler(new MouseOverHandler(){
-            public void onMouseOver(MouseOverEvent event) {
-                KSButton.this.addStyleName(KSStyles.KS_BUTTON_HOVER_STYLE);
-                
-            }       
-        });
-        
-        this.addMouseOutHandler(new MouseOutHandler(){
+	public void setEnabled(boolean enabled) {
+		anchor.setEnabled(enabled);
+		if(enabled){
+			panel.remove(disabledLabel);
+			panel.add(anchor);
+		}
+		else{
+			panel.remove(anchor);
+			panel.add(disabledLabel);
 
-            public void onMouseOut(MouseOutEvent event) {
-                KSButton.this.removeStyleName(KSStyles.KS_BUTTON_HOVER_STYLE);
-                KSButton.this.removeStyleName(KSStyles.KS_BUTTON_CLICK_STYLE);
-            }
-            
-        });
-        
-        this.addClickHandler(new ClickHandler(){
+		}
+	}
+	
+	public KSButton(String text){
+		this(text, ButtonStyle.PRIMARY);
+	}
+	
+	public KSButton(String text, ButtonStyle style){
+		super();
 
-            public void onClick(ClickEvent event) {
-                KSButton.this.removeStyleName(KSStyles.KS_BUTTON_HOVER_STYLE);
-            }
-            
-        });
-        
-        this.addMouseDownHandler(new MouseDownHandler(){
+		this.text = text;
+		this.currentStyle = style;
+		disabledLabel.setText(text);
+		anchor = new Anchor();
+		if(currentStyle.getStyle() != null){
+			disabledLabel.setStyleName(currentStyle.getStyle());
+			anchor.setStyleName(currentStyle.getStyle());
+		}
+		String disabledStyle = currentStyle.getDisabledStyle();
+		if(disabledStyle == null){
+			disabledLabel.addStyleName("disabled");
+		}
+		else{
+			disabledLabel.setStyleName(disabledStyle);
+		}
+		anchor.setText(text);
+		anchor.setHref("javascript:return false;");
 
-            public void onMouseDown(MouseDownEvent event) {
-                KSButton.this.addStyleName(KSStyles.KS_BUTTON_CLICK_STYLE);
-                
-            }
-        });
-        
-        this.addMouseUpHandler(new MouseUpHandler(){
+		panel.add(anchor);
+		
+		this.initWidget(panel);
+	}
+	
+	@Override
+	public HandlerRegistration addClickHandler(ClickHandler handler) {
+		return anchor.addClickHandler(handler);
+	}
+	
+	public void setText(String text){
+		this.text = text;
+		anchor.setText(text);
+		disabledLabel.setText(text);
+	}
+	
+	public KSButton(){
+		this("", ButtonStyle.PRIMARY);
+	}
+	
+	public KSButton(String text, ClickHandler handler){
+		this(text, ButtonStyle.PRIMARY);
+		anchor.addClickHandler(handler);
+	}
 
-            public void onMouseUp(MouseUpEvent event) {
-                KSButton.this.removeStyleName(KSStyles.KS_BUTTON_CLICK_STYLE);
-                
-            }
-        });
-        
-        this.addKeyDownHandler(new KeyDownHandler(){
+	@Override
+	public HandlerRegistration addMouseOverHandler(MouseOverHandler handler) {
+		return anchor.addMouseOverHandler(handler);
+	}
 
-            public void onKeyDown(KeyDownEvent event) {
-                if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER){
-                    KSButton.this.addStyleName(KSStyles.KS_BUTTON_CLICK_STYLE);
-                }
-            }
-            
-        });
-        
-        this.addKeyUpHandler(new KeyUpHandler(){
-
-            public void onKeyUp(KeyUpEvent event) {
-                if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER){
-                    KSButton.this.removeStyleName(KSStyles.KS_BUTTON_CLICK_STYLE);
-                }
-                
-            }
-            
-        });
-        
-    }
-
-    /**
-     * Sets the image for this button.  The image appears before other button content.
-     * 
-     * @param image the Image object to be used in this button
-     */
-    public void setImage(final Image image, ButtonImageAlign alignment) {
-        if(this.alignmentHTML != null){
-            this.getElement().removeChild(this.alignmentHTML.getElement());
-        }
-       
-        switch(alignment){
-            case LEFT:
-                this.alignmentHTML = new InlineHTML("&nbsp;");
-                this.getElement().insertBefore(alignmentHTML.getElement(), this.getElement().getFirstChild());
-                this.getElement().insertBefore(image.getElement(), this.getElement().getFirstChild());
-                break;
-            case RIGHT:
-                this.alignmentHTML = new InlineHTML("&nbsp;");
-                this.getElement().insertBefore(alignmentHTML.getElement(), null);
-                this.getElement().insertBefore(image.getElement(), null);
-                break;
-            case TOP:
-                this.alignmentHTML = new InlineHTML("<br />");
-                this.getElement().insertBefore(alignmentHTML.getElement(), this.getElement().getFirstChild());
-                this.getElement().insertBefore(image.getElement(), this.getElement().getFirstChild());
-                break;
-            case BOTTOM:
-                this.alignmentHTML = new InlineHTML("<br />");
-                this.getElement().insertBefore(alignmentHTML.getElement(), null);
-                this.getElement().insertBefore(image.getElement(), null);
-                break;
-            default:
-                this.alignmentHTML = new InlineHTML("&nbsp;");
-                this.getElement().insertBefore(alignmentHTML.getElement(), this.getElement().getFirstChild());
-                this.getElement().insertBefore(image.getElement(), this.getElement().getFirstChild());
-                break;
-        }
-        
-        if (this.image != null) {
-            this.getElement().removeChild(this.image.getElement());
-        }
-        
-        this.image = image;
-    }
-
-    /**
-     * Returns the image being used in this button.
-     * 
-     * @return Image used in this button, null otherwise.
-     */
-    public Image getImage() {
-        return image;
-    }
-    
-    
+	@Override
+	public HandlerRegistration addMouseOutHandler(MouseOutHandler handler) {
+		return anchor.addMouseOutHandler(handler);
+	}
+	
+	
 }

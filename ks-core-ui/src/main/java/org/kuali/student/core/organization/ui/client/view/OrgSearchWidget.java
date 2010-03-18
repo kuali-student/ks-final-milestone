@@ -46,6 +46,7 @@ import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -110,8 +111,12 @@ public class OrgSearchWidget extends Composite implements HasSelectionHandlers<O
 
             @Override
             public void onKeyPress(KeyPressEvent event) {
-                if(event.getCharCode() == KeyCodes.KEY_ENTER)
-                    submit.click();
+                if(event.getCharCode() == KeyCodes.KEY_ENTER){
+                	if(!orgHierarchyDropDown.getSelectedItems().isEmpty())
+                        getSearchResults();
+                    else
+                        Window.alert("No Hierarchy Selected");
+                }
             }
         
         });

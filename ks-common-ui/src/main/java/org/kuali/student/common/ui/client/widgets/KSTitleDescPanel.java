@@ -8,7 +8,7 @@ public class KSTitleDescPanel extends Composite{
 	private VerticalFlowPanel layout = new VerticalFlowPanel();
 	private KSLabel title = new KSLabel();
 	private KSLabel desc = new KSLabel();
-	
+
 	public KSTitleDescPanel(String title, String desc){
 		this.title.setText(title);
 		this.desc.setText(desc);

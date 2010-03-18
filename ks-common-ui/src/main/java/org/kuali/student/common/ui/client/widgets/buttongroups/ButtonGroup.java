@@ -51,10 +51,6 @@ public abstract class ButtonGroup<T extends ButtonEnum> extends Composite{
         buttonMap.get(key).setText(text);
     }
     
-    public void setFocusedButton(T key){
-        buttonMap.get(key).setFocus(true);
-    }
-    
     public KSButton getButton(T key){
         return buttonMap.get(key);
     }

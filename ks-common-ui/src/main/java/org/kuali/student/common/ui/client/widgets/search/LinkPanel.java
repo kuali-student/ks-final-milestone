@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton;
+import org.kuali.student.common.ui.client.widgets.buttons.KSLinkButton.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 
@@ -45,7 +46,7 @@ public class LinkPanel extends Composite{
 			link.linkToKey = linkedPanelKey;
 			links.add(link);
 			//KSLabel linkWidget = new KSLabel(linkText);
-			KSLinkButton linkWidget = new KSLinkButton(linkText);
+			KSLinkButton linkWidget = new KSLinkButton(linkText, ButtonStyle.DEFAULT_ANCHOR);
 			linkWidget.addClickHandler(new ClickHandler(){
 
 				@Override
