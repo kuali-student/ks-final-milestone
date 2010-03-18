@@ -7,12 +7,8 @@
     <name>KS Embedded Database</name>
     <description>Kuali Student Embedded Database</description>
     <properties>
-     <oracle.dba.username>system</oracle.dba.username>
-     <oracle.dba.password>gw570229</oracle.dba.password>
      <oracle.ks.jdbc.url>jdbc:oracle:thin:@localhost:1521:XE</oracle.ks.jdbc.url>
      <oracle.ks.jdbc.driver>oracle.jdbc.OracleDriver</oracle.ks.jdbc.driver>
-     <oracle.ks.username>kuali</oracle.ks.username>
-     <oracle.ks.password>kuali</oracle.ks.password>
     </properties>
     <build>
       <plugins>
