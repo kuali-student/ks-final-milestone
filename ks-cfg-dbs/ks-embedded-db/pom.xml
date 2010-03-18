@@ -7,12 +7,9 @@
     <name>KS Embedded Database</name>
     <description>Kuali Student Embedded Database</description>
     <properties>
-     <!-- This user drops/recreates the KS user and database -->
      <oracle.dba.username>system</oracle.dba.username>
      <oracle.dba.password>gw570229</oracle.dba.password>
-     <!-- JDBC url for the KS database -->
      <oracle.ks.jdbc.url>jdbc:oracle:thin:@localhost:1521:XE</oracle.ks.jdbc.url>
-     <!-- This is the KS user -->
      <oracle.ks.username>kuali</oracle.ks.username>
      <oracle.ks.password>kuali</oracle.ks.password>
     </properties>
