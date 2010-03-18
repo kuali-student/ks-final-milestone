@@ -22,6 +22,7 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.service.MessagesRpcService;
 import org.kuali.student.common.ui.client.service.SecurityRpcService;
 import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
+import org.kuali.student.common.ui.client.widgets.ApplicationPanel;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.core.messages.dto.MessageList;
 import org.kuali.student.core.organization.ui.client.mvc.controller.OrgApplicationManager;
@@ -133,7 +134,7 @@ public class OrgEntryPoint implements EntryPoint{
         manager = new OrgApplicationManager();
         app.setContent(manager);
 //        app.setContent(getContent());
-        RootPanel.get().add(app);
+        ApplicationPanel.get().add(app);
         if(manager.getCurrentView() == null)
             manager.showDefaultView(Controller.NO_OP_CALLBACK);
     }
