@@ -75,7 +75,7 @@ public class OrgEntryPoint implements EntryPoint{
         History.fireCurrentHistoryState();
 
         if(DOM.getElementById("loadingSpinner") != null)
-            DOM.removeChild(RootPanel.getBodyElement(), DOM.getElementById("loadingSpinner"));        
+            DOM.removeChild(ApplicationPanel.get().getElement(), DOM.getElementById("loadingSpinner"));        
     }
     
     public Widget getContent(){
