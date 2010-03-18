@@ -25,7 +25,6 @@ public class BorderedVerticalFieldLayout extends FieldLayout{
 		verticalLayout.addStyleName("ks-form-bordered-body");
 		body.setStyleName("ks-form-bordered");
 		header = new Header(title);
-		header.setHeaderTitle("HAHAHA");
 		header.setStyleName("ks-form-bordered-header");
 		title.addStyleName("ks-form-bordered-header-title");
 		body.add(header);
