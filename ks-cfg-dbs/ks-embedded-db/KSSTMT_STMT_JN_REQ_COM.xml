@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset >
 <dataset>
     <KSSTMT_STMT_JN_REQ_COM REQ_COM_ID="REQCOMP-NL-1" STMT_ID="STMT-3"/>
     <KSSTMT_STMT_JN_REQ_COM REQ_COM_ID="REQCOMP-NL-1" STMT_ID="STMT-5"/>

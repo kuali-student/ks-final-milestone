@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset >
 <dataset>
     <KSLU_CLU_PUBL END_CYCLE="Fall" ID="PUBL-1" PRI_INSTR_ID="INSTR-1"
         ST="State" START_CYCLE="Spring" TYPE="Type"/>

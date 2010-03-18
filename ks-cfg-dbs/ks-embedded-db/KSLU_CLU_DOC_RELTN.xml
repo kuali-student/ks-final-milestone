@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE dataset SYSTEM "data.dtd">
+<!DOCTYPE dataset >
 <dataset>
     <KSLU_CLU_DOC_RELTN CLU_ID="CLU-1" CREATEID="CREATEID"
         CREATETIME="20000101000000" DOC_ID="DOC-1"
