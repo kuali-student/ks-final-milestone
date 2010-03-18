@@ -1,7 +1,10 @@
 package org.kuali.student.brms.util;
 
-public class LoggingStringBuilder {
-	private int counter = 0;
+public class LoggingStringBuilder implements java.io.Serializable {
+	/** Class serial version uid */
+    private static final long serialVersionUID = 1L;
+
+    private int counter = 0;
 	private StringBuilder stringBuilder = new StringBuilder();
 	private String format = "%1$6d: %2$s";
 	

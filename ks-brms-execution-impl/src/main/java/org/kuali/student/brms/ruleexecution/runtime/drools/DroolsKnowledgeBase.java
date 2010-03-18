@@ -32,7 +32,10 @@ import org.slf4j.LoggerFactory;
  * Drools RuleBase cache.
  * Default cache is an LRU cache with a maximum of 20 entries.
  */
-public class DroolsKnowledgeBase {
+public class DroolsKnowledgeBase implements java.io.Serializable {
+	/** Class serial version uid */
+    private static final long serialVersionUID = 1L;
+
     /** SLF4J logging framework */
     final static Logger logger = LoggerFactory.getLogger(DroolsKnowledgeBase.class);
 

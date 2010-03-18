@@ -73,7 +73,9 @@ import org.slf4j.LoggerFactory;
  * @author Kuali Student Team (len.kuali@googlegroups.com)
  *
  */
-public class DroolsUtil {
+public class DroolsUtil implements java.io.Serializable {
+	/** Class serial version uid */
+    private static final long serialVersionUID = 1L;
     
     /** SLF4J logging framework */
     final static Logger logger = LoggerFactory.getLogger(DroolsUtil.class);

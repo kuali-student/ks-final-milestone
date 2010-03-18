@@ -29,7 +29,9 @@ import org.kuali.student.brms.internal.common.statement.report.RuleReport;
  * @author Kuali Student Team (kamal.kuali@gmail.com)
  *
  */
-public class PropositionContainer {
+public class PropositionContainer  implements java.io.Serializable {
+	/** Class serial version uid */
+    private static final long serialVersionUID = 1L;
 
     protected String functionalRuleString;
     protected Map<String,RuleProposition> propositionMap = new HashMap<String, RuleProposition>();

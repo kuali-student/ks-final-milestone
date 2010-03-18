@@ -21,7 +21,9 @@ import java.util.List;
  * Rule report stores the success message and/or failure message summary of 
  * all the propositions (business rule). 
  */
-public class RuleReport {
+public class RuleReport implements java.io.Serializable {
+	/** Class serial version uid */
+    private static final long serialVersionUID = 1L;
 
     /**
      * True for successful report; otherwise false for an unsuccessful report

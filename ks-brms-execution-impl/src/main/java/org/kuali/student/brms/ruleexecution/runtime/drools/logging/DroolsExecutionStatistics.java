@@ -5,8 +5,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DroolsExecutionStatistics {
-	private final static DroolsExecutionStatistics INSTANCE = new DroolsExecutionStatistics();
+public class DroolsExecutionStatistics implements java.io.Serializable {
+	/** Class serial version uid */
+    private static final long serialVersionUID = 1L;
+
+    private final static DroolsExecutionStatistics INSTANCE = new DroolsExecutionStatistics();
 	private Date startTime;
 	private Map<String,EventLogger> eventMap = new HashMap<String,EventLogger>();
 	
