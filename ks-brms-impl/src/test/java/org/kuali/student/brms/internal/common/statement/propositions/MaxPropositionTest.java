@@ -23,7 +23,7 @@ public class MaxPropositionTest {
     	MaxProposition<String> maxProp = new MaxProposition<String>(
     			"A-1", "A",
     			ComparisonOperator.EQUAL_TO, 
-    			new String("5"), fact, "resultColumn.credits");
+    			"5", fact, "resultColumn.credits");
 
     	Boolean result = maxProp.apply();
 
