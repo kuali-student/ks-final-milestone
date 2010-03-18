@@ -64,6 +64,7 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCours
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseJointsHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseVersionsHelper;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseHelper.Properties;
 import org.kuali.student.lum.lu.assembly.data.server.CluInfoHierarchy;
 import org.kuali.student.lum.lu.assembly.data.server.CluInfoHierarchy.ModificationState;
 import org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo;
@@ -94,7 +95,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 	public static final String ACTIVITY_RELATION_TYPE = "luLuRelationType.contains";
 
 	public static final String PROPOSAL_REFERENCE_TYPE = "kuali.proposal.referenceType.clu"; // <- what the service says, but the dictionary says: "kuali.referenceType.CLU";
-	public static final String CREDIT_COURSE_PROPOSAL_DATA_TYPE = "CreditCourseProposal";
+	public static final String COURSE_DATA_TYPE = "course";
 
 	private SingleUseLoInfoAssembler loAssembler;
 	private final RichTextInfoAssembler richtextAssembler = new RichTextInfoAssembler();
@@ -356,58 +357,10 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 				}
 			}
 			result.setId(course.getId());
-
-			//FIXME: Temp hack to send id and type translations back to View Course UI. Once fields added to DOL, fix!!
-			// Sending the lookup values back as dynamic attributes in the fee structure (fees not in M4). 
-			// Attributes don't seem to be implemented in CluInfo DOL yet
-			Map<String,String> lookupFields = new HashMap<String, String>();
-
-			lookupFields.put("CourseType", getCluTypeName(course.getType()));
-
-			lookupFields.put("CourseCode", course.getOfficialIdentifier().getCode());
-
-			int i = 0;
-			if (admin != null) {
-				lookupFields.put("DeptOrgName", getOrgName(admin.getOrgId()));
-			}
-
-			i=0;
-			for (String atpType : course.getOfferedAtpTypes()) {
-				lookupFields.put("TermOffered",getAtpTypeName(atpType));
-				////FIXME  In M4 user can only create one term offered. Remove this break when they can have multiples
-				break;
-			}
-			i=0;
-
-			for (AcademicSubjectOrgInfo org : course.getAcademicSubjectOrgs()) {
-				if (org.getOrgId() != null && !org.getOrgId().isEmpty()){
-					lookupFields.put("OversightName", getOrgName(org.getOrgId()));
-					//FIXME  In M4 user can only create one academic subject org. Remove this break when they can have multiples           
-					break;
-				}
-			}
-
-			//            i=0;
-			//            for (CluInfoHierarchy format : hierarchy.getChildren()) {
-			//                int j=0;
-			//                for (CluInfoHierarchy activity : format.getChildren()) {
-			//                    lookupFields.put("Format"+ i + "Activity" + j++, getCluTypeName(activity.getCluInfo().getType()));
-			//                }
-			//                i++;
-			//            }
-
-			result.setFees(new Data());
-			CluFeeInfoHelper feeHelper = CluFeeInfoHelper.wrap(new Data());
-			feeHelper.setAttributes(new Data());
-
-			Data data = new Data();
-			AttributeInfoHelper hlp = AttributeInfoHelper.wrap(data);
-			for (Map.Entry<String, String> entry : lookupFields.entrySet()) {
-				data.set(entry.getKey(), entry.getValue());
-			}
-			feeHelper.setAttributes(hlp.getData());
-			result.getFees().add(feeHelper.getData());         
 			
+			//FIXME: Temp hack to send course code back to View Course UI. Once fields added to DOL, fix!!
+			result.getData().set ("courseCode", course.getOfficialIdentifier().getCode());
+      		
 			//See if this is a copy of a clu and set that;    
 			List<String> copiedFromIds = luService.getRelatedCluIdsByCluId(result.getId(), COPY_OF_CLU_RELATION_TYPE);
 			if(copiedFromIds!=null&&copiedFromIds.size()>0){
@@ -504,7 +457,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 	private CluInfoHierarchy buildCluInfoHierarchyFromData(CreditCourseHelper course) throws AssemblyException {
 		//metadata for authz
 		//FIXME: change idType below to be non-hardcoded
-		Metadata courseMetadata = getMetadata("courseId", course.getId(), course.getType(), course.getState()).getProperties().get("course");//TODO cache the metadata
+		Metadata courseMetadata = getMetadata("courseId", course.getId(), course.getType(), course.getState());//TODO cache the metadata
 
 		CluInfoHierarchy result = null;
 		CluInfo courseClu = null;
@@ -1188,6 +1141,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 			data.set("statements",statements);
 		}
 	}
+
 	private RichTextInfo getRichText(RichTextInfoHelper hlp) throws AssemblyException {
 		if (hlp == null || hlp.getData() == null) {
 			return null;
@@ -1278,7 +1232,7 @@ public class CourseAssembler extends BaseAssembler<Data, CluInfoHierarchy> {
 
 	@Override
 	protected String getDataType() {
-		return CREDIT_COURSE_PROPOSAL_DATA_TYPE;
+		return COURSE_DATA_TYPE;
 	}
 
 	@Override

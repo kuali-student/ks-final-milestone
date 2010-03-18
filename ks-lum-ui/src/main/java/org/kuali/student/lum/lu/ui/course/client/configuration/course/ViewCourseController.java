@@ -317,7 +317,7 @@ public class ViewCourseController extends TabbedSectionLayout {
     protected  String getSectionTitle() {
                
     	StringBuffer sb = new StringBuffer();
-    	sb.append(cluModel.get("fees/0/attributes/CourseCode"));
+    	sb.append(cluModel.get("courseCode"));
     	sb.append(" - ");
     	sb.append(cluModel.get("transcriptTitle"));
 

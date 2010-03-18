@@ -610,7 +610,7 @@ public class CourseProposalController extends TabbedSectionLayout implements Req
     protected  String getSectionTitle() {
         
         StringBuffer sb = new StringBuffer();
-        sb.append(cluProposalModel.get("course/fees/0/attributes/CourseCode"));
+        sb.append(cluProposalModel.get("course/courseCode"));
         sb.append(" - ");
         sb.append(cluProposalModel.get("course/transcriptTitle"));
 

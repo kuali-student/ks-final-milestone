@@ -366,6 +366,11 @@
 
 	<bean id="courseAssemblerFilterManager" class="org.kuali.student.core.assembly.AssemblerFilterManager">
 		<constructor-arg ref="courseAssembler"/>
+		<property name="filters">
+			<list>
+				<ref bean="idTranslatorAssemblerFilter" />
+			</list>
+		</property>
 	</bean>
 
 	<bean id="ServerPropertiesServlet"

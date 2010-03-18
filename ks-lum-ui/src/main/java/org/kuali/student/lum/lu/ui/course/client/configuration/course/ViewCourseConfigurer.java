@@ -65,12 +65,11 @@ FeeInfoConstants,
 LearningObjectiveConstants
 {
 
+    public static final String COURSE_MODEL	= "courseModel";
+
 	private static final String PATH_SEPARATOR = "/";
+	private static final String ID_TRANSLATION = "id-translation";
 	//FIXME: Temp paths waiting for DOL changes
-    private static final String ACADEMIC_SUBJECT_ORGS_PATH = "fees/0/attributes/OversightName";
-	private static final String TERMS_OFFERED_PATH = "fees/0/attributes/TermOffered";
-	private static final String ADMIN_ORG_DEPT_NAME_PATH = "fees/0/attributes/DeptOrgName";
-	private static final String COURSE_TYPE_PATH = "fees/0/attributes/CourseType";
     private static final String VERSION_TITLE_PATH = "versionTitle";
 	private static final String VERSION_CODE_PATH = "versionCode";
 	private static final String VERSION_COURSE_NUMBER_SUFFIX_PATH = "courseNumberSuffix";
@@ -78,7 +77,7 @@ LearningObjectiveConstants
     private static final String LO_DESCRIPTION_PATH = "includedSingleUseLo/description/plain";
     private static final String ALTERNATE_ADMIN_ORG_ID_PATH = "orgId";
     private static final String STATEMENTS_PATH = "statements";
-    
+
     //FIXME:  Initialize type and state from selected cluId
     private String type = "course";
     private String state = "draft";
@@ -120,9 +119,8 @@ LearningObjectiveConstants
 
         addField(section,  CreditCourseConstants.STATE, getLabel(LUConstants.STATE_LABEL_KEY), new KSLabel());
         
-        //FIXME: This is a hack to return id/key field names rather than the id/key. Fix in M5
-        addField(section, COURSE_TYPE_PATH, getLabel(LUConstants.TYPE_LABEL_KEY), new KSLabel());
-        addField(section, ADMIN_ORG_DEPT_NAME_PATH, getLabel(LUConstants.DEPT_LABEL_KEY), new KSLabel());
+        addField(section, CreditCourseConstants.TYPE, getLabel(LUConstants.TYPE_LABEL_KEY), new KSLabel());
+        addField(section, getTranslationKey(DEPARTMENT), getLabel(LUConstants.DEPT_LABEL_KEY), new KSLabel());
 
 //FIXME        addField(section, CREDITS,  getLabel(LUConstants.CREDITS_LABEL_KEY), new KSLabel());
         addField(section, STATEMENTS_PATH, getLabel(LUConstants.REQUISITES_LABEL_KEY), new StatementList());
@@ -130,7 +128,7 @@ LearningObjectiveConstants
 //FIXME        addField(section, FEES + "/" + "id", getLabel(LUConstants.FINANCIALS_LABEL_KEY), new KSLabel());
         addField(section, CAMPUS_LOCATIONS, getLabel(LUConstants.CAMPUS_LOCATION_LABEL_KEY), new CampusLocationList());
 
-        addField(section,  PRIMARY_INSTRUCTOR, getLabel(LUConstants.PRIMARY_INSTRUCTOR_LABEL_KEY), new KSLabel());
+        addField(section, getTranslationKey(PRIMARY_INSTRUCTOR), getLabel(LUConstants.PRIMARY_INSTRUCTOR_LABEL_KEY), new KSLabel());
         addField(section, CROSS_LISTINGS, getLabel(LUConstants.CROSS_LISTED_LABEL_KEY), new CrossListedList(CROSS_LISTINGS));
         
         return section;
@@ -140,9 +138,6 @@ LearningObjectiveConstants
     	
   	    CollapsableSection section = new CollapsableSection("More Details");
 
-//FIXME  In M4 Only one term offered can be set so don't need a list here. Fix for M5
-//      addField(section, CreditCourseConstants.TERMS_OFFERED, "Terms Offered", new TermsOfferedList());
-        addField(section, TERMS_OFFERED_PATH, getLabel(LUConstants.TERMS_OFFERED_LABEL_KEY), new KSLabel());
         addField(section, CreditCourseConstants.DURATION + PATH_SEPARATOR + TERM_TYPE, getLabel(LUConstants.DURATION_TYPE_LABEL_KEY), new KSLabel());
         addField(section, CreditCourseConstants.DURATION + PATH_SEPARATOR + QUANTITY, getLabel(LUConstants.DURATION_QUANTITY_LABEL_KEY), new KSLabel());
         addField(section, TRANSCRIPT_TITLE, getLabel(LUConstants.SHORT_TITLE_LABEL_KEY), new KSLabel());
@@ -155,9 +150,7 @@ LearningObjectiveConstants
         addField(section, EFFECTIVE_DATE, getLabel(LUConstants.EFFECTIVE_DATE_LABEL_KEY), new KSLabel());
         addField(section, EXPIRATION_DATE, getLabel(LUConstants.EXPIRATION_DATE_LABEL_KEY), new KSLabel());
 
-//FIXME  In M4 Only one academic subject org can be set so don't need a list here. Fix for M5
-//      addField(section, ACADEMIC_SUBJECT_ORGS, getLabel(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY), new AcademicSubjectOrgList());
-        addField(section, ACADEMIC_SUBJECT_ORGS_PATH, getLabel(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY), new KSLabel());
+        addField(section, getTranslationKey(ACADEMIC_SUBJECT_ORGS), getLabel(LUConstants.ACADEMIC_SUBJECT_ORGS_KEY), new AcademicSubjectOrgList());
 
         addField(section, COURSE_SPECIFIC_LOS,  getLabel(LUConstants.LEARNING_OBJECTIVES_LABEL_KEY),  new LearningObjectiveList(COURSE_SPECIFIC_LOS));
         
@@ -220,7 +213,6 @@ LearningObjectiveConstants
 
     }
 
-    //FIXME CourseFormatList - not sure what needs to be here
     private class CourseFormatList extends DisplayMultiplicityComposite {
         private final String parentPath;
         public CourseFormatList(String parentPath){
@@ -236,7 +228,6 @@ LearningObjectiveConstants
         }
     }
 
-    //FIXME CourseActivityList - not sure what needs to be here
     private class CourseActivityList extends DisplayMultiplicityComposite {
 
         private final String parentPath;
@@ -282,31 +273,6 @@ LearningObjectiveConstants
     private class AcademicSubjectOrgList extends KSLabelList{
 
         public AcademicSubjectOrgList(){
-            SimpleListItems list = new SimpleListItems();
-
-            super.setListItems(list);
-        }
-
-    }
-
-//    private class TermsOfferedList extends DisplayMultiplicityComposite{
-//        private final String parentPath;
-//        public TermsOfferedList(String parentPath){
-//            this.parentPath = parentPath;
-//        }
-//
-//        @Override
-//        public Widget createItem() {
-//            String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
-//            GroupSection group = new GroupSection();
-//            addField(group, String.valueOf(itemCount-1), null, new KSLabel(), path);
-//
-//            return group;
-//        }
-//    }
-
-    private class TermsOfferedList extends KSLabelList{
-        public TermsOfferedList(){
             SimpleListItems list = new SimpleListItems();
 
             super.setListItems(list);
@@ -390,6 +356,10 @@ LearningObjectiveConstants
         section.addStyleName(LUConstants.STYLE_SECTION);
 
         return section;
+    }
+
+    private String getTranslationKey(String fieldKey) {
+    	return CreditCourseConstants._RUNTIME_DATA + PATH_SEPARATOR + fieldKey + PATH_SEPARATOR + ID_TRANSLATION;
     }
 
     protected String getTabKey() {
