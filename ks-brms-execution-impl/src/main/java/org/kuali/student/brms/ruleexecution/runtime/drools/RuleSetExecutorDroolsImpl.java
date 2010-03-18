@@ -46,12 +46,12 @@ import org.kuali.student.brms.util.LoggingStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RuleSetExecutorDroolsImpl implements RuleExecutor {
-    /** SLF4J logging framework */
-    final static Logger logger = LoggerFactory.getLogger(RuleSetExecutorDroolsImpl.class);
-
+public class RuleSetExecutorDroolsImpl implements RuleExecutor, java.io.Serializable {
 	/** Class serial version uid */
     private static final long serialVersionUID = 1L;
+
+    /** SLF4J logging framework */
+    final static Logger logger = LoggerFactory.getLogger(RuleSetExecutorDroolsImpl.class);
 
     private final DroolsUtil droolsUtil = DroolsUtil.getInstance();
     
