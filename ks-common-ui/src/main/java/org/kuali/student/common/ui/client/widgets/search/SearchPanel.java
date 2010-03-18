@@ -380,6 +380,7 @@ public class SearchPanel extends Composite{
 					List<SearchParam> params = new ArrayList<SearchParam>();
 					List<HasSearchParam> userCriteria = new ArrayList<HasSearchParam>();
 
+					//initialize search parameters if user entered values into search criteria fields in UI
 					for(SearchField field: searchFields){
 						SearchParam param = field.getSearchParam();
 						//TODO is this null check needed here? probably. assuming string here
@@ -392,6 +393,7 @@ public class SearchPanel extends Composite{
 						}
 					}
 
+					//initialize search parameters that are hidden from the UI because they are set to default context specific values
 					for(LookupParamMetadata metaParam: meta.getParams()){
 						if(metaParam.getWriteAccess() == WriteAccess.NEVER){
 							if ((metaParam.getDefaultValueString() == null || metaParam.getDefaultValueString().isEmpty())&&

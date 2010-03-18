@@ -137,5 +137,8 @@ public class KSPickList extends KSSelectItemWidgetAbstract {
         selectItemWidget.setInitialized(initialized);
     }
 
-
+    @Override
+    public void clear() {
+        // TODO Auto-generated method stub        
+    }
 }

@@ -153,8 +153,7 @@ public class KSDropDown extends KSSelectItemWidgetAbstract{
 
     @Override
     public void redraw() {
-        dropDown.redraw();
-        
+        dropDown.redraw();        
     }
 
 	@Override
@@ -182,6 +181,8 @@ public class KSDropDown extends KSSelectItemWidgetAbstract{
         dropDown.setInitialized(initialized);
     }
 
-	
-
+    @Override
+    public void clear() {
+        dropDown.clear();        
+    }
 }

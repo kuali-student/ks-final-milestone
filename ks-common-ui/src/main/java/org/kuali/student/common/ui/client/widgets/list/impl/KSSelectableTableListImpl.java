@@ -264,4 +264,9 @@ public class KSSelectableTableListImpl extends KSSelectItemWidgetAbstract {
 			}
 		};
 	}
+
+    @Override
+    public void clear() {
+        // TODO Auto-generated method stub       
+    }
 }

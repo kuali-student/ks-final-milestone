@@ -56,7 +56,7 @@ public class LookupMetadata implements Serializable {
     private Usage usage;
     
     public enum Widget {
-        NO_WIDGET, SUGGEST_BOX, ADVANCED_LIGHTBOX, BUTTON
+        NO_WIDGET, SUGGEST_BOX, ADVANCED_LIGHTBOX, DROP_DOWN, BUTTON
     }
     private Widget widget;    
 

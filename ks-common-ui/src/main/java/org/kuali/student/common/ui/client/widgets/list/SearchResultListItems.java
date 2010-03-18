@@ -34,10 +34,14 @@ public class SearchResultListItems implements ListItems{
     private HashMap<String, SearchResultRow> resultDataMap = new HashMap<String, SearchResultRow>();
     private int attrOffset = 0;
         
-    public SearchResultListItems(){
-        
+    public SearchResultListItems(){       
     }
-
+    
+    public SearchResultListItems(List<ResultColumnInfo> resultColumns, List<SearchResultRow> results){
+        setResultColumns(resultColumns);
+        setResults(results);
+    }   
+    
     public SearchResultListItems(List<SearchResultRow> results){
         setResults(results);
     }
@@ -53,12 +57,7 @@ public class SearchResultListItems implements ListItems{
         attrKeys.remove(0);
         attrOffset = 1;
     }
-    
-    public SearchResultListItems(List<ResultColumnInfo> resultColumns, List<SearchResultRow> results){
-        setResultColumns(resultColumns);
-        setResults(results);
-    }       
-    
+           
     public void setResults(List<SearchResultRow> results){            
         resultDataMap.clear();
         if (results != null){
@@ -125,6 +124,7 @@ public class SearchResultListItems implements ListItems{
     @Override
     public String getItemText(String id) {
         // FIXME: What value should this really return for multi-column list, id or the first non-id column?
+        // or pass in a constructor parameter for which column represents id and text
         return resultDataMap.get(id).getCells().get(1).getValue();
     }
     

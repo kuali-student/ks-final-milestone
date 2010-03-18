@@ -156,5 +156,9 @@ public class KSListBox extends KSSelectItemWidgetAbstract{
     public void setInitialized(boolean initialized) {
         dropDown.setInitialized(initialized);
     }
-    
+
+    @Override
+    public void clear() {
+        // TODO Auto-generated method stub        
+    }    
 }
