@@ -401,7 +401,7 @@ public class BusinessRuleUtil {
     		return new BigInteger(value);
     	}
     	else if (clazz.equals(Boolean.class)) {
-    		return new Boolean(value);
+    		return Boolean.valueOf(value);
     	}
     	else if (clazz.equals(Date.class)) {
     		return convertDate(value);

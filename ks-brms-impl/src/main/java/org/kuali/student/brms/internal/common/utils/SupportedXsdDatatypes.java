@@ -56,7 +56,7 @@ public class SupportedXsdDatatypes {
     		case STRING:
     			return DatatypeConverter.parseString(xsdStringValue);
     		case BOOLEAN:
-    			return new Boolean(DatatypeConverter.parseBoolean(xsdStringValue));
+    			return Boolean.valueOf(DatatypeConverter.parseBoolean(xsdStringValue));
     		case DECIMAL:
     			return DatatypeConverter.parseDecimal(xsdStringValue);
     		case FLOAT:

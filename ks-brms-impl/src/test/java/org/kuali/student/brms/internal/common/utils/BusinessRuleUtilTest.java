@@ -115,7 +115,7 @@ public class BusinessRuleUtilTest {
 
     @Test
     public void testConvertToDataType_Boolean() throws Exception {
-    	Boolean b = new Boolean(true);
+    	Boolean b = Boolean.valueOf(true);
     	Boolean value = (Boolean) BusinessRuleUtil.convertToDataType(Boolean.class, b);
     	Assert.assertEquals(b, value);
     }
