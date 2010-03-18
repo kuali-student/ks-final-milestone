@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class FieldElement extends Composite{
 
 	private KSTitleDescPanel titlePanel = new KSTitleDescPanel();
