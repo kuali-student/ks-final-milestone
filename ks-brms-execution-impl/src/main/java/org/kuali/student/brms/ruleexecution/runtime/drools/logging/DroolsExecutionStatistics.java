@@ -53,8 +53,11 @@ public class DroolsExecutionStatistics implements java.io.Serializable {
     	eventMap.get(key).addActivation(executionTime);
     }
     
-	public static class EventLogger {
-		private String ruleBaseType;
+	public static class EventLogger implements java.io.Serializable {
+		/** Class serial version uid */
+	    private static final long serialVersionUID = 1L;
+
+	    private String ruleBaseType;
 		private String packageName;
 		private String ruleName;
 		private int activationCount = 0;
@@ -97,7 +100,9 @@ public class DroolsExecutionStatistics implements java.io.Serializable {
 		}
 	}
 
-	public static class StatisticsLogger {
+	public static class StatisticsLogger implements java.io.Serializable {
+		/** Class serial version uid */
+	    private static final long serialVersionUID = 1L;
 
 		private int totalLogEventCount = 0;
 		private int totalActivationsFiredCount = 0;
