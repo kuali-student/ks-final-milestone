@@ -7,8 +7,23 @@
     <name>KS Embedded Database</name>
     <description>Kuali Student Embedded Database</description>
     <properties>
+     <!-- The sql-maven-plugin uses the jdbc url to look in settings.xml for server credentials.
+          You will need to define a server with an id that is the same as jdbc url.  It contains
+          the credentials for the Kuali Student application.  Also define a server with an id that
+          is the same as the jdbc url with ".dba" appended to the end.  The credentials for this
+          server must have dba privileges on the database instance. 
+     <server>
+       <id>jdbc:oracle:thin:@localhost:1521:XE</id>
+       <username>kualiStudentUsername</username>
+       <password>kualiStudentPassword</password>
+     </server>
+     <server>
+       <id>jdbc:oracle:thin:@localhost:1521:XE.dba</id>
+       <username>dbaUsername</username>  <-- usually this is "system"
+       <password>dbaPassword</password>
+     </server>
+     -->    
      <oracle.ks.embedded.jdbc.url>jdbc:oracle:thin:@localhost:1521:XE</oracle.ks.embedded.jdbc.url>
-     <oracle.jdbc.driver>oracle.jdbc.OracleDriver</oracle.jdbc.driver>
     </properties>
     <build>
       <plugins>
@@ -25,7 +40,7 @@
            </dependency>
          </dependencies>
          <configuration>
-          <driver>${oracle.jdbc.driver}</driver>
+          <driver>oracle.jdbc.OracleDriver</driver>
           <url>${oracle.ks.embedded.jdbc.url}</url>
           <autocommit>false</autocommit>
           <delimiter>/</delimiter>
