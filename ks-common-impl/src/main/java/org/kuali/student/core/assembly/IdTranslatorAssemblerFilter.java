@@ -33,114 +33,110 @@ import org.kuali.student.core.assembly.util.IdTranslator;
  * @author Kuali Student Team
  */
 public class IdTranslatorAssemblerFilter extends PassThroughAssemblerFilter<Data, Void> {
-	private IdTranslator idTranslator;
+    private IdTranslator idTranslator;
 
-	public IdTranslatorAssemblerFilter(IdTranslator idTranslator) {
-		this.idTranslator = idTranslator;
-	}
+    public IdTranslatorAssemblerFilter(IdTranslator idTranslator) {
+        this.idTranslator = idTranslator;
+    }
 
-	@Override
-	public void doGetFilter(FilterParamWrapper<String> id, FilterParamWrapper<Data> response, GetFilterChain<Data, Void> chain) throws AssemblyException {
-		chain.doGetFilter(id, response);
-		Data data = response.getValue(); 
-		if (data != null) {
-			translateIds(data, chain);
-		}
-	}
+    @Override
+    public void doGetFilter(FilterParamWrapper<String> id, FilterParamWrapper<Data> response, GetFilterChain<Data, Void> chain) throws AssemblyException {
+        chain.doGetFilter(id, response);
+        Data data = response.getValue(); 
+        if (data != null) {
+            translateIds(data, chain);
+        }
+    }
+    
+    @Override
+    public void doSaveFilter(FilterParamWrapper<Data> request, FilterParamWrapper<SaveResult<Data>> response, SaveFilterChain<Data, Void> chain) throws AssemblyException {
+        chain.doSaveFilter(request, response);
+        SaveResult<Data> saveResult = response.getValue();
+        Data data = saveResult != null && saveResult.getValue() != null ? saveResult.getValue() : null;
+        if(data != null) {
+            translateIds(data, chain);
+        }
+    }
 
-	@Override
-	public void doSaveFilter(FilterParamWrapper<Data> request, FilterParamWrapper<SaveResult<Data>> response, SaveFilterChain<Data, Void> chain) throws AssemblyException {
-		chain.doSaveFilter(request, response);
-		SaveResult<Data> saveResult = response.getValue();
-		Data data = saveResult != null && saveResult.getValue() != null ? saveResult.getValue() : null;
-		if(data != null) {
-			translateIds(data, chain);
-		}
-	}
+    private void translateIds(Data data, AssemblerManagerAccessable<Data, Void> chain) throws AssemblyException {
+        Assembler a = chain.getManager().getTarget();
+        Metadata metadata = a.getDefaultMetadata();
+        if (metadata != null && data != null) {
+            _translateIds(data, metadata);
+        }
+    }
+    
+    /**
+     * Uses the IdTranslator and Metadata to convert IDs into their display text and stores those translations in the
+     * _runtimeData node
+     * 
+     * @param data
+     *            the Data instance containing IDs to be translated
+     * @param metadata
+     *            the Metadata instance representing the data provided.
+     * @throws AssemblyException
+     */
+    private void _translateIds(Data data, Metadata metadata) throws AssemblyException {
+        try {
+            Map<String, Metadata> children = metadata.getProperties();
+            if (children != null && children.size() > 0) {
+                for (Entry<String, Metadata> e : children.entrySet()) {
+                    
+                    Metadata fieldMetadata = e.getValue();
+                    if(MetadataInterrogator.isRepeating(fieldMetadata)) {
+                        Iterator<Data.Property> iter = data.iterator();
+                        while(iter.hasNext()) {
+                            Data.Property prop = iter.next();
+                            Object fieldValue = prop.getValue();
+                            if(fieldValue != null && fieldValue instanceof Data) {
+                                _translateIds((Data) fieldValue, fieldMetadata);//, p);
+                            } else if (fieldValue != null && fieldValue instanceof String) {
+                                if (fieldMetadata.getInitialLookup() != null && !StringUtils.isEmpty((String) fieldValue)) {
+                                    IdTranslation trans = idTranslator.getTranslation(fieldMetadata.getInitialLookup(), (String) fieldValue);
+                                    if(trans != null) {
+                                        setTranslation(data, e.getKey(), trans.getDisplay());
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        Object fieldValue = data.get(e.getKey());
+                        if (fieldValue != null && fieldValue instanceof Data) {
+                            _translateIds((Data) fieldValue, fieldMetadata);//, p);
+                        } else if (fieldValue != null && fieldValue instanceof String) {
+                            if (fieldMetadata.getInitialLookup() != null && !StringUtils.isEmpty((String) fieldValue)) {
+                                IdTranslation trans = idTranslator.getTranslation(fieldMetadata.getInitialLookup(), (String) fieldValue);
+                                if(trans != null) {
+                                    setTranslation(data, e.getKey(), trans.getDisplay());
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
-	private void translateIds(Data data, AssemblerManagerAccessable<Data, Void> chain) throws AssemblyException {
-		Assembler a = chain.getManager().getTarget();
-		Metadata metadata = a.getDefaultMetadata();
-		if (metadata != null && data != null) {
-			_translateIds(data, metadata);
-		}
-	}
+        } catch (Exception e) {
+            // throw new AssemblyException("Unable to translate IDs", e);
 
-	/**
-	 * Uses the IdTranslator and Metadata to convert IDs into their display text and stores those translations in the
-	 * _runtimeData node
-	 * 
-	 * @param data
-	 *            the Data instance containing IDs to be translated
-	 * @param metadata
-	 *            the Metadata instance representing the data provided.
-	 * @throws AssemblyException
-	 */
-	private void _translateIds(Data data, Metadata metadata) throws AssemblyException {
-		try {
-			Map<String, Metadata> children = metadata.getProperties();
-			if (children != null && children.size() > 0) {
-				for (Entry<String, Metadata> e : children.entrySet()) {
+            // Do nothing for now
+            e.printStackTrace();
+        }
+    }
 
-					Metadata fieldMetadata = e.getValue();
-					if(MetadataInterrogator.isRepeating(fieldMetadata)) {
-						Data thisData = data.get(e.getKey());
-						if (thisData != null) {
-							Iterator<Data.Property> iter = thisData.iterator();
-							while(iter.hasNext()) {
-								Data.Property prop = iter.next();
-								Object fieldValue = prop.getValue();
-								if(fieldValue != null && fieldValue instanceof Data) {
-									_translateIds((Data) fieldValue, fieldMetadata);//, p);
-								} else if (fieldValue != null && fieldValue instanceof String) {
-									if (fieldMetadata.getInitialLookup() != null && !StringUtils.isEmpty((String) fieldValue)) {
-										IdTranslation trans = idTranslator.getTranslation(fieldMetadata.getInitialLookup(), (String) fieldValue);
-										if(trans != null) {
-											setTranslation(data, e.getKey(), trans.getDisplay());
-										}
-									}
-								}
-							}               	
-						}
-
-					}
-					else {
-						Object fieldValue = data.get(e.getKey());
-						if (fieldValue != null && fieldValue instanceof Data) {
-							_translateIds((Data) fieldValue, fieldMetadata);//, p);
-						} else if (fieldValue != null && fieldValue instanceof String) {
-							if (fieldMetadata.getInitialLookup() != null && !StringUtils.isEmpty((String) fieldValue)) {
-								IdTranslation trans = idTranslator.getTranslation(fieldMetadata.getInitialLookup(), (String) fieldValue);
-								if(trans != null) {
-									setTranslation(data, e.getKey(), trans.getDisplay());
-								}
-							}
-						}
-					}
-				}
-			}
-
-		} catch (Exception e) {
-			// throw new AssemblyException("Unable to translate IDs", e);
-
-			// Do nothing for now
-			e.printStackTrace();
-		}
-	}
-
-	private static void setTranslation(Data data, String field, String translation) {
-		if (data != null) {
-			Data runtime = data.get("_runtimeData");
-			if (runtime == null) {
-				runtime = new Data();
-				data.set("_runtimeData", runtime);
-			}
-			Data fieldData = runtime.get(field);
-			if (fieldData == null) {
-				fieldData = new Data();
-				runtime.set(field, fieldData);
-			}
-			fieldData.set("id-translation", translation);
-		}
-	}
+    private static void setTranslation(Data data, String field, String translation) {
+        if (data != null) {
+            Data runtime = data.get("_runtimeData");
+            if (runtime == null) {
+                runtime = new Data();
+                data.set("_runtimeData", runtime);
+            }
+            Data fieldData = runtime.get(field);
+            if (fieldData == null) {
+                fieldData = new Data();
+                runtime.set(field, fieldData);
+            }
+            fieldData.set("id-translation", translation);
+        }
+    }
 }
