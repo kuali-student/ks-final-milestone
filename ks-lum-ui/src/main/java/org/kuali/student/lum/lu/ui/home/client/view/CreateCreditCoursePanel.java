@@ -54,15 +54,7 @@ public class CreateCreditCoursePanel extends ViewComposite{
 
         @Override
         public void onClick(ClickEvent event) {
-            Widget sender = (Widget) event.getSource();
-            
-            if(sender == startBlank){
-                CreateCreditCoursePanel.this.getController().fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.CREATE_COURSE));
-            } else if(sender == cluSetManagement){
-                CreateCreditCoursePanel.this.getController().fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.MANAGE_CLU_SETS));
-            } else {
-                Window.alert("Function not yet implemented");
-            }
+        	Window.alert("Function not yet implemented");
         }
         
     }
@@ -71,7 +63,7 @@ public class CreateCreditCoursePanel extends ViewComposite{
         private HorizontalPanel row = new HorizontalPanel();
         private KSLabel descLabel = new KSLabel();
         
-        public ButtonRow(Button theButton, String description){
+        public ButtonRow(KSButton theButton, String description){
             row.addStyleName("Home-Button-Row");
             row.addStyleName("Content-Left-Margin");
             descLabel.addStyleName("Home-Description-Label");
@@ -85,7 +77,7 @@ public class CreateCreditCoursePanel extends ViewComposite{
             this.initWidget(row);
         }
         
-        public ButtonRow(Button theButton, String description, Widget moreLink){
+        public ButtonRow(KSButton theButton, String description, Widget moreLink){
             this(theButton, description);
             descLabel.getElement().appendChild(moreLink.getElement());
         }
@@ -110,13 +102,26 @@ public class CreateCreditCoursePanel extends ViewComposite{
         viewProcess.addClickHandler(handler);
         mainPanel.add(new RowBreak());
         mainPanel.add(new ButtonRow(startBlank, "Create a new blank course proposal."));
-        startBlank.addClickHandler(handler);
+        startBlank.addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				 CreateCreditCoursePanel.this.getController().fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.CREATE_COURSE));		
+			}
+		});
         mainPanel.add(new ButtonRow(selectTemplate, "Create a proposal from a proposal template."));
         selectTemplate.addClickHandler(handler);
         mainPanel.add(new ButtonRow(copyProposal, "Create a proposal by copying an existing course proposal."));
         copyProposal.addClickHandler(handler);
         mainPanel.add(new ButtonRow(copyCourse, "Create a proposal by copying an existing course."));
-        cluSetManagement.addClickHandler(handler);
+        cluSetManagement.addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				CreateCreditCoursePanel.this.getController().fireApplicationEvent(new ChangeViewActionEvent<LUMViews>(LUMViews.MANAGE_CLU_SETS));
+				
+			}
+		});
         mainPanel.add(new ButtonRow(cluSetManagement, "Manage CLU Sets."));
 
         mainPanel.add(new ButtonRow(categoryManagement, "Manage the category"));
