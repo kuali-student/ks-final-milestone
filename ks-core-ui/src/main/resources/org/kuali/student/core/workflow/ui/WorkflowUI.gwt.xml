@@ -1,0 +1,3 @@
+<module>
+	<inherits name="org.kuali.student.common.ui.CommonUI"/>
+</module>
