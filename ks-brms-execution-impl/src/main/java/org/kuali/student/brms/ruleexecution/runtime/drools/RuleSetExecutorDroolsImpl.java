@@ -452,7 +452,7 @@ public class RuleSetExecutorDroolsImpl implements RuleExecutor, java.io.Serializ
         return result;
     }
 
-    private class BusinessRuleInfoValue implements java.io.Serializable {
+    private static class BusinessRuleInfoValue implements java.io.Serializable {
     	/** Class serial version uid */
         private static final long serialVersionUID = 1L;
         
