@@ -24,6 +24,7 @@ import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.service.MessagesRpcService;
 import org.kuali.student.common.ui.client.service.SecurityRpcService;
 import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
+import org.kuali.student.common.ui.client.widgets.ApplicationPanel;
 import org.kuali.student.core.messages.dto.MessageList;
 import org.kuali.student.lum.lu.ui.main.client.controller.LUMApplicationManager;
 import org.kuali.student.lum.lu.ui.main.client.theme.LumTheme;
@@ -35,7 +36,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamFactory;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
-import com.google.gwt.user.client.ui.RootPanel;
 
 public class LUMMainEntryPoint implements EntryPoint{
 
@@ -71,7 +71,7 @@ public class LUMMainEntryPoint implements EntryPoint{
         app = new ApplicationComposite();
         manager = new LUMApplicationManager();
         app.setContent(manager);
-        RootPanel.get().add(app);
+        ApplicationPanel.get().add(app);
         HistoryManager.bind(manager);
         if(manager.getCurrentView() == null)
             manager.showDefaultView(Controller.NO_OP_CALLBACK);
