@@ -14,9 +14,6 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.configuration.course;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
@@ -36,10 +33,7 @@ import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
 import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
 import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
-import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
-import org.kuali.student.common.ui.client.widgets.search.AdvancedSearchWindow;
-import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoConstants;
@@ -51,7 +45,6 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCours
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseCourseSpecificLOsConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseDurationConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseFormatConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseMetadata;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.FeeInfoConstants;
@@ -60,16 +53,11 @@ import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.removeinm4.
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRequisitesSectionView;
 import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.viewclu.ViewCluConfigurer;
-import org.kuali.student.lum.lu.ui.course.client.widgets.AtpPicker;
 import org.kuali.student.lum.lu.ui.course.client.widgets.CollaboratorTool;
 import org.kuali.student.lum.lu.ui.course.client.widgets.LOBuilder;
 import org.kuali.student.lum.lu.ui.course.client.widgets.OfferedJointlyList;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -103,8 +91,6 @@ public class CourseConfigurer
     private boolean WITH_DIVIDER = true;
     private boolean NO_DIVIDER = false;
     
-
-
     public static final String CLU_PROPOSAL_MODEL	= "cluProposalModel";
     public static final String PROPOSAL_ID_PATH		= "proposal/id";
     public static final String PROPOSAL_TITLE_PATH	= "proposal/title";
@@ -236,8 +222,6 @@ public class CourseConfigurer
 
         return section;
     }
-
-
 
     private VerticalSection generateFeeTypeSection() {
         //TODO ALL KEYS in this section are place holders until we know actual keys
@@ -375,7 +359,6 @@ public class CourseConfigurer
         section.addSection(generateSchedulingSection());
         section.addSection(generateCourseFormatsSection());
 
-
         return section;
     }
 
@@ -390,7 +373,7 @@ public class CourseConfigurer
         VerticalSection scheduling = initSection(getH3Title(LUConstants.SCHEDULING_LABEL_KEY), WITH_DIVIDER);
         GroupSection duration = new GroupSection();
         addField(duration, COURSE + "/" + CreditCourseConstants.DURATION + "/" + QUANTITY, getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY)); //TODO DURATION ENUMERATION
-        addField(duration, COURSE + "/" + CreditCourseConstants.DURATION + "/" + TERM_TYPE, "Duration Type", new DurationAtpTypeList());
+        addField(duration, COURSE + "/" + CreditCourseConstants.DURATION + "/" + TERM_TYPE, getLabel(LUConstants.DURATION_TYPE_LABEL_KEY));
         scheduling.addSection(duration);
         return scheduling;
 	}
@@ -401,26 +384,6 @@ public class CourseConfigurer
         addField(instructors, COURSE + "/" + PRIMARY_INSTRUCTOR);
         return instructors;
 	}
-
-	private static AdvancedSearchWindow createAtpSearchWindow(){
-
-        Metadata searchMetadata = new CreditCourseMetadata().getMetadata("", "");  //no type or state at this point
-        SearchPanel searchPicker = new SearchPanel(searchMetadata.getProperties().get("firstExpectedOffering").getInitialLookup());
-        final AdvancedSearchWindow atpSearchWindow = new AdvancedSearchWindow("Find Session", searchPicker);
-
-//        atpSearchWindow.addSelectionCompleteCallback(new Callback<List<String>>(){
-//            public void exec(List<String> event) {
-//                final String selected = event.get(0);
-//                if (selected.length() > 0){
-////                  List<String> selectedItems = event;
-////                  ChangeViewStateEvent tempEvent = new ChangeViewStateEvent(LUMViews.VIEW_COURSE, selectedItems);
-////                  FindPanel.this.getController().fireApplicationEvent(new ChangeViewStateEvent<LUMViews>(LUMViews.VIEW_COURSE, event));
-//                    atpSearchWindow.hide();
-//                }
-//            }
-//        });
-        return atpSearchWindow;
-    }
 
     private SectionView generateLearningObjectivesSection() {
         VerticalSectionView section = initSectionView(CourseSections.LEARNING_OBJECTIVES, LUConstants.LEARNING_OBJECTIVES_LABEL_KEY);
@@ -491,13 +454,11 @@ public class CourseConfigurer
             activity.nextLine();
             */
 
-            // FIXME need to get the term offered added to the activity metadata?
-//            activity.addField(new FieldDescriptor("term", getLabel(LUConstants.TERM_LITERAL_LABEL_KEY), Type.STRING, new AtpTypeList()));
             addField(activity, CreditCourseActivityConstants.DURATION + "/" + CreditCourseActivityDurationConstants.QUANTITY, getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY), path);
-            addField(activity, CreditCourseActivityConstants.DURATION + "/" + CreditCourseActivityDurationConstants.TIME_UNIT, "Duration Type", new DurationAtpTypeList(), path);
+            addField(activity, CreditCourseActivityConstants.DURATION + "/" + CreditCourseActivityDurationConstants.TIME_UNIT, getLabel(LUConstants.DURATION_TYPE_LABEL_KEY), null, path);
 
             activity.nextLine();
-            addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.HRS, "Contact Hours" , path);
+            addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.HRS, getLabel(LUConstants.CONTACT_HOURS_LABEL_KEY) , path);
             // FIXME look up what the label and implement as dropdown
             //FIXME this fields constraints are wrong in its metadata, temporarily commented out
             addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.PER, null,  new ContactHoursAtpTypeList(), path);
@@ -507,77 +468,6 @@ public class CourseConfigurer
         }
 
     }
-
-
-
-    public class TermListPicker extends KSSelectItemWidgetAbstract implements HasText {
-        private AtpPicker atpPicker;
-
-        public TermListPicker(){
-            atpPicker = new AtpPicker();
-            initWidget(atpPicker);
-        }
-
-        public void deSelectItem(String id) {
-            throw new UnsupportedOperationException();
-        }
-
-        public List<String> getSelectedItems() {
-            ArrayList<String> selectedItems = new ArrayList<String>();
-            selectedItems.add(atpPicker.getText());
-            return selectedItems;
-        }
-
-        public boolean isEnabled() {
-            return true;
-        }
-
-        public void onLoad() {
-        }
-
-        public void redraw() {
-            throw new UnsupportedOperationException();
-        }
-
-        public void selectItem(String id) {
-            atpPicker.setText(id);
-        }
-
-        public void setEnabled(boolean b) {
-            throw new UnsupportedOperationException();
-        }
-
-        public boolean isMultipleSelect(){
-            return true;
-        }
-
-        public void clear(){
-            atpPicker.clear();
-        }
-
-        @Override
-        public HandlerRegistration addFocusHandler(FocusHandler handler) {
-            return atpPicker.addFocusHandler(handler);
-        }
-
-        @Override
-        public HandlerRegistration addBlurHandler(BlurHandler handler) {
-            return atpPicker.addBlurHandler(handler);
-        }
-
-        @Override
-        public String getText() {
-            return atpPicker.getText();
-        }
-
-        @Override
-        public void setText(String value) {
-            atpPicker.setText(value);
-
-        }
-
-    }
-
 
     // FIXME uncomment and fix AlternateAdminOrgList and AlternateInstructorList
 //    public class AlternateAdminOrgList extends MultiplicityCompositeWithLabels {
@@ -632,19 +522,6 @@ public class CourseConfigurer
         }
     }
 
-    public class DurationAtpTypeList extends KSDropDown{
-        public DurationAtpTypeList(){
-            SimpleListItems activityTypes = new SimpleListItems();
-
-            activityTypes.addItem("atpType.duration.week", "Week");
-            activityTypes.addItem("atpType.duration.month", "Month");
-            activityTypes.addItem("atpType.semester.day", "Day");
-
-            super.setListItems(activityTypes);
-        }
-
-    }
-
     public class ContactHoursAtpTypeList extends KSDropDown{
         public ContactHoursAtpTypeList(){
             SimpleListItems activityTypes = new SimpleListItems();
@@ -672,23 +549,6 @@ public class CourseConfigurer
 
             super.setListItems(activityTypes);
             this.selectItem("kuali.lu.type.activity.Lecture");
-        }
-    }
-
-    public class AtpTypeList extends KSDropDown{
-        public AtpTypeList(){
-            SimpleListItems activityTypes = new SimpleListItems();
-
-            activityTypes.addItem("atpType.semester.fall", "Fall");
-            activityTypes.addItem("atpType.semester.spring", "Spring");
-            activityTypes.addItem("atpType.semester.summer", "Summer");
-            activityTypes.addItem("atpType.semester.winter", "Winter");
-
-            super.setListItems(activityTypes);
-        }
-
-        public boolean isMultipleSelect(){
-            return false;
         }
     }
 
@@ -775,8 +635,6 @@ public class CourseConfigurer
             return ns;
         }
     }
-
-
 
     public class VersionCodeList extends UpdatableMultiplicityComposite {
         {

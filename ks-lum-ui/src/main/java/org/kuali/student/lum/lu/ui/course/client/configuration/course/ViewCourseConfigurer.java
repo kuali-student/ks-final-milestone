@@ -34,6 +34,7 @@ import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.base.MetaInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityConstants;
+import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseActivityDurationConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseDurationConstants;
 import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseFormatConstants;
@@ -138,6 +139,9 @@ LearningObjectiveConstants
     	
   	    CollapsableSection section = new CollapsableSection("More Details");
 
+//FIXME  In M4 Only one term offered can be set so don't need a list here. Fix for M5
+//      addField(section, CreditCourseConstants.TERMS_OFFERED, "Terms Offered", new TermsOfferedList());
+    //    addField(section, TERMS_OFFERED_PATH, getLabel(LUConstants.TERMS_OFFERED_LABEL_KEY), new KSLabel());
         addField(section, CreditCourseConstants.DURATION + PATH_SEPARATOR + TERM_TYPE, getLabel(LUConstants.DURATION_TYPE_LABEL_KEY), new KSLabel());
         addField(section, CreditCourseConstants.DURATION + PATH_SEPARATOR + QUANTITY, getLabel(LUConstants.DURATION_QUANTITY_LABEL_KEY), new KSLabel());
         addField(section, TRANSCRIPT_TITLE, getLabel(LUConstants.SHORT_TITLE_LABEL_KEY), new KSLabel());
@@ -210,7 +214,6 @@ LearningObjectiveConstants
 
             super.setListItems(list);
         }
-
     }
 
     private class CourseFormatList extends DisplayMultiplicityComposite {
@@ -242,8 +245,8 @@ LearningObjectiveConstants
             addField(activity, ACTIVITY_TYPE, null, new KSLabel(), path);
 //            activity.nextLine();
 //
-//            addField(activity, CreditCourseActivityConstants.DURATION + "/" + CreditCourseActivityDurationConstants.QUANTITY, getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY), new KSLabel(), path);
-//            addField(activity, CreditCourseActivityConstants.DURATION + "/" + CreditCourseActivityDurationConstants.TIME_UNIT, "Duration Type", new KSLabel(), path);
+//            addField(activity, CreditCourseActivityConstants.DURATION + "/" + CreditCourseActivityDurationConstants.QUANTITY, getLabel(LUConstants.DURATION_LITERAL_LABEL_KEY), path);
+//            addField(activity, CreditCourseActivityConstants.DURATION + "/" + CreditCourseActivityDurationConstants.TIME_UNIT, getLabel(LUConstants.DURATION_TYPE_LABEL_KEY), null, path);
 //
 //            activity.nextLine();
 //            addField(activity, CONTACT_HOURS + "/" + CreditCourseActivityContactHoursConstants.HRS, "Contact Hours" , new KSLabel(), path);
@@ -278,14 +281,6 @@ LearningObjectiveConstants
             super.setListItems(list);
         }
 
-    }
-    
-    private class DurationAtpTypeList extends KSLabelList{
-        public DurationAtpTypeList(){
-            SimpleListItems list = new SimpleListItems();
-
-            super.setListItems(list);
-        }
     }
 
     private class StatementList extends KSLabelList {
@@ -389,7 +384,6 @@ LearningObjectiveConstants
     private SectionTitle getH5Title(String labelKey) {
         return SectionTitle.generateH5Title(getLabel(labelKey));
     }
-
 
     private void addField(Section section, String fieldKey, String fieldLabel) {
         addField(section, fieldKey, fieldLabel, null, null);
