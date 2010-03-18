@@ -34,7 +34,7 @@
           <url>${oracle.ks.jdbc.url}</url>
           <username>${oracle.ks.username}</username>
           <password>${oracle.ks.password}</password>
-          <autocommit>false</autocommit>
+          <autocommit>true</autocommit>
           <delimiter>/</delimiter>
           <delimiterType>row</delimiterType>
           <onError>continue</onError>
