@@ -2,13 +2,14 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.kuali.student.dbs</groupId>
     <artifactId>ks-embedded-db</artifactId>
-    <packaging>pom</packaging>
+    <version>1.0.0-m4-SNAPSHOT</version>
+    <packaging>jar</packaging>
     <name>KS Embedded Database</name>
     <description>Kuali Student Embedded Database</description>
     <properties>
      <!-- This user drops/recreates the KS user and database -->
      <oracle.dba.username>system</oracle.dba.username>
-     <oracle.dba.password>ksAdminPass</oracle.dba.password>
+     <oracle.dba.password>gw570229</oracle.dba.password>
      <!-- JDBC url for the KS database -->
      <oracle.ks.jdbc.url>jdbc:oracle:thin:@localhost:1521:XE</oracle.ks.jdbc.url>
      <!-- This is the KS user -->
@@ -66,7 +67,7 @@
             </goals>
             <configuration>
               <srcFiles>
-                <srcFile>${project.basedir}/src/oracle/sql/schema.sql</srcFile>
+                <srcFile>${project.basedir}/sql/schema.sql</srcFile>
               </srcFiles>
             </configuration>
           </execution>
@@ -78,7 +79,7 @@
             </goals>
             <configuration>
               <fileset>
-                <basedir>${project.basedir}/src/oracle/datasql</basedir>
+                <basedir>${project.basedir}/datasql</basedir>
                 <includes>
                  <include>**/*.sql</include>
                 </includes>
@@ -93,7 +94,7 @@
             </goals>
             <configuration>
               <srcFiles>
-                <srcFile>${project.basedir}/src/oracle/sql/schema-constraints.sql</srcFile>
+                <srcFile>${project.basedir}/sql/schema-constraints.sql</srcFile>
               </srcFiles>
             </configuration>
           </execution>
