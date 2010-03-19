@@ -21,8 +21,9 @@
 
     <bean id="ruleSetExecutor"
         class="org.kuali.student.brms.ruleexecution.runtime.drools.RuleSetExecutorDroolsImpl">
-        <property name="enableExecutionLogging" value="true"/>
-        <property name="enableStatLogging" value="true"/>
+        <!-- enableExecutionLogging=true and enableStatLogging=true -->
+        <constructor-arg index="0" type="boolean" value="true" />
+        <constructor-arg index="1" type="boolean" value="true" />
         <property name="ruleBaseCache" ref="ruleBaseCache"/>
     </bean>
 
@@ -47,8 +48,9 @@
     
     <bean id="ruleSetExecutorTest"
         class="org.kuali.student.brms.ruleexecution.runtime.drools.RuleSetExecutorDroolsImpl">
-        <property name="enableExecutionLogging" value="true"/>
-        <property name="enableStatLogging" value="false"/>
+        <!-- enableExecutionLogging=true and enableStatLogging=false -->
+        <constructor-arg index="0" type="boolean" value="true" />
+        <constructor-arg index="1" type="boolean" value="false" />
         <property name="ruleBaseCache" ref="ruleBaseCacheTest"/>
     </bean>
 

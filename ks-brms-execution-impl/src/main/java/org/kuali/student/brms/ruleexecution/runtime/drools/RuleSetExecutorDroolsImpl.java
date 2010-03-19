@@ -74,25 +74,36 @@ public class RuleSetExecutorDroolsImpl implements RuleExecutor, java.io.Serializ
     private final DroolsExecutionStatistics executionStats = DroolsExecutionStatistics.getInstance();
     
     /**
-     * Constructs a new rule set executor.
+     * Constructs a new rule set executor with no logging.
      */
     public RuleSetExecutorDroolsImpl() {
     	this.logExecution = false;
     }
 
     /**
+     * Constructs a new rule set executor.
+     * 
+     * @param logExecution True execution logging is enabled; otherwise disabled
+     * @param statLogging True statistics logging is enabled; otherwise disabled
+     */
+    public RuleSetExecutorDroolsImpl(boolean logExecution, boolean statLogging) {
+    	this.logExecution = logExecution;
+    	this.statLogging = statLogging;
+    }
+
+    /**
      * Enables rule engine execution logging.
      */
-    public void setEnableExecutionLogging(boolean enable) {
-    	this.logExecution = enable;
-    }
+//    public void setEnableExecutionLogging(boolean enable) {
+//    	this.logExecution = enable;
+//    }
 
     /**
      * Enables rule engine execution statistics logging.
      */
-    public void setEnableStatLogging(boolean enable) {
-    	this.statLogging = enable;
-    }
+//    public void setEnableStatLogging(boolean enable) {
+//    	this.statLogging = enable;
+//    }
 
     /**
      * Gets Drools execution statistics.

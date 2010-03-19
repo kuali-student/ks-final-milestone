@@ -64,7 +64,7 @@ public class RuleSetExecutorDroolsImplTest {
 	private DroolsUtil droolsUtil = new DroolsUtil();
 
 	/** Rule set executor interface */
-	private static RuleExecutor executor = new RuleSetExecutorDroolsImpl();
+	private static RuleExecutor executor = new RuleSetExecutorDroolsImpl(true, true);
 	private static SimpleExecutor simpleExecutor = new SimpleExecutorDroolsImpl();
 	private static DroolsKnowledgeBase ruleBase = new DroolsKnowledgeBase();
 
@@ -74,7 +74,7 @@ public class RuleSetExecutorDroolsImplTest {
     public static void setUpOnce() throws Exception {
 //        ReportBuilder reportBuilder = new RuleReportBuilder(simpleExecutor);
 //        ((RuleSetExecutorDroolsImpl)executor).setReportBuilder(reportBuilder);
-        ((RuleSetExecutorDroolsImpl)executor).setEnableExecutionLogging(true);
+//        ((RuleSetExecutorDroolsImpl)executor).setEnableExecutionLogging(true);
     	((RuleSetExecutorDroolsImpl)executor).setRuleBaseCache(ruleBase);
     }
 
@@ -530,7 +530,7 @@ public class RuleSetExecutorDroolsImplTest {
         factMap.put(factKeyIntersection, factResultIntersection);
 
     	// Enable rule execution statistics
-        ((RuleSetExecutorDroolsImpl)executor).setEnableStatLogging(true);
+//        ((RuleSetExecutorDroolsImpl)executor).setEnableStatLogging(true);
         DroolsExecutionStatistics droolsStats = ((RuleSetExecutorDroolsImpl)executor).getStatistics();
 
     	// Execute ruleset and fact
