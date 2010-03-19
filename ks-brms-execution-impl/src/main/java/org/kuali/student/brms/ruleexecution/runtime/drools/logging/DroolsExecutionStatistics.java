@@ -60,7 +60,7 @@ public class DroolsExecutionStatistics implements java.io.Serializable {
 	    private String ruleBaseType;
 		private String packageName;
 		private String ruleName;
-		private int activationCount = 0;
+		private long activationCount = 0;
 		private long totalExecutionTime = 0;
 	
 		public EventLogger(String ruleBaseType, String packageName, String ruleName) {
@@ -86,7 +86,7 @@ public class DroolsExecutionStatistics implements java.io.Serializable {
 			this.totalExecutionTime += executionTime;
 		}
 		
-		public int getActivationCount() {
+		public long getActivationCount() {
 			return this.activationCount;
 		}
 		
@@ -96,7 +96,7 @@ public class DroolsExecutionStatistics implements java.io.Serializable {
 		 * @return Average rule execution time
 		 */
 		public double getAverageExecutionTime() {
-			return (this.totalExecutionTime / (this.activationCount));
+			return (double)this.totalExecutionTime / (double)this.activationCount;
 		}
 	}
 
