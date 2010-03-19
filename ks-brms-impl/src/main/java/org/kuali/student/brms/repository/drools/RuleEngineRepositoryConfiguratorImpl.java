@@ -172,7 +172,10 @@ public class RuleEngineRepositoryConfiguratorImpl
                 File homeDir = new File( repoHome );
                 if (!homeDir.exists()) {
                     logger.info("Creating repository home directory: " + this.repositoryLocation);
-                    homeDir.mkdirs();
+                    boolean repoHomeDirCreated = homeDir.mkdirs();
+                    if(!repoHomeDirCreated) {
+                    	throw new RuleEngineRepositoryException("Creating repository home directory failed: " + repoHome);
+                    }
                 }
                 URL configFile = new URL( repoConfigFile ); 
                 // Load the configuration and create the repository
