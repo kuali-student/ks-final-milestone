@@ -181,8 +181,9 @@ System.out.println(propositions.get(i).getMessageId() + ": result = " + results[
 	private List<RuleProposition> createPropositions(BusinessRuleInfo businessRule, Map<String, RulePropositionInfo> propositionMap, Map<String, Object> factMap) {
 		List<RuleProposition> propositions = new ArrayList<RuleProposition>();
 		
-		for(String key : propositionMap.keySet()) {
-			RulePropositionInfo ruleProposition = propositionMap.get(key);
+		for(Map.Entry<String, RulePropositionInfo> entry : propositionMap.entrySet()) {
+			String key = entry.getKey();
+			RulePropositionInfo ruleProposition = entry.getValue();
             String yvf = ruleProposition.getLeftHandSide().getYieldValueFunction().getYieldValueFunctionType();
             
         	if (yvf.equals("SIMPLECOMPARABLE")) {
