@@ -40,7 +40,7 @@ public class CommonUITest implements EntryPoint {
 		});
 		panel.add(button);
 		
-    	ApplicationPanel.get().add(new Button("Add Notification", new ClickHandler() {
+    	ApplicationPanel.get().add(new Button("Test Notifications", new ClickHandler() {
             @Override
             public void onClick(final ClickEvent event) {
             		KSNotifier.add(new KSNotification("This is a long message that will need to word wrap butnotallofitisverywordwrapfriendlyasyoucanplainlysee", false, 10000));
@@ -53,7 +53,7 @@ public class CommonUITest implements EntryPoint {
 								
 								@Override
 								public void run() {
-			                        KSNotifier.add(new KSNotification(new Image("http://www.digyourowngrave.com/content/purple_and_brown.jpg"), 100000));
+			                        KSNotifier.add(new KSNotification(new Image("images/common/KS_logo_white_transparent.png"), 10000));
 								}
 							}.schedule(5000);
 						}
