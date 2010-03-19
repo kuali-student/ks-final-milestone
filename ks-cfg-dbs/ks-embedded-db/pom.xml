@@ -7,23 +7,9 @@
     <name>KS Embedded Database</name>
     <description>Kuali Student Embedded Database</description>
     <properties>
-     <!-- The sql-maven-plugin uses the jdbc url to look in settings.xml for server credentials.
-          You will need to define a server with an id that is the same as jdbc url.  It contains
-          the credentials for the Kuali Student application.  Also define a server with an id that
-          is the same as the jdbc url with ".dba" appended to the end.  The credentials for this
-          server must have dba privileges on the database instance. 
-     <server>
-       <id>jdbc:oracle:thin:@localhost:1521:XE</id>
-       <username>kualiStudentUsername</username>
-       <password>kualiStudentPassword</password>
-     </server>
-     <server>
-       <id>jdbc:oracle:thin:@localhost:1521:XE.dba</id>
-       <username>dbaUsername</username>  <-- usually this is "system"
-       <password>dbaPassword</password>
-     </server>
-     -->    
      <oracle.ks.embedded.jdbc.url>jdbc:oracle:thin:@localhost:1521:XE</oracle.ks.embedded.jdbc.url>
+     <!-- Override this with false to reset the database with the default dataset -->
+     <ks.embedded.retain.db>true</ks.embedded.retain.db>
     </properties>
     <build>
       <plugins>
@@ -46,6 +32,7 @@
           <delimiter>/</delimiter>
           <delimiterType>row</delimiterType>
           <onError>continue</onError>
+          <skip>${ks.embedded.retain.db}</skip>
          </configuration>
          <executions>
            <execution>
@@ -74,7 +61,7 @@
             </goals>
             <configuration>
               <srcFiles>
-                <srcFile>${project.basedir}/src/sql/schema.sql</srcFile>
+                <srcFile>${project.basedir}/src/main/resources/sql/schema.sql</srcFile>
               </srcFiles>
             </configuration>
           </execution>
@@ -86,7 +73,7 @@
             </goals>
             <configuration>
               <fileset>
-                <basedir>${project.basedir}/src/datasql</basedir>
+                <basedir>${project.basedir}/src/main/resources/datasql</basedir>
                 <includes>
                  <include>**/*.sql</include>
                 </includes>
@@ -101,7 +88,7 @@
             </goals>
             <configuration>
               <srcFiles>
-                <srcFile>${project.basedir}/src/sql/schema-constraints.sql</srcFile>
+                <srcFile>${project.basedir}/src/main/resources/sql/schema-constraints.sql</srcFile>
               </srcFiles>
             </configuration>
           </execution>
