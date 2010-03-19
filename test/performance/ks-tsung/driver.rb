@@ -167,7 +167,9 @@ config.xml_obj.write($stdout, 2) if(config.debug) # Dump out xml
 config.xml_obj.write(config.xml_writer.file, 2) # Write xml to file
 config.xml_writer.file.close # Need to close so Tsung can open the file
 
+
 if(config.execute)
+  # Launch tsung
   config.log.info_msg("Starting tsung with command [tsung -f #{config.xml_writer.file_path} start]")
   puts `tsung -f #{config.xml_writer.file_path} start`
 end

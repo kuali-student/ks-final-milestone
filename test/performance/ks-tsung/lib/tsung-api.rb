@@ -9,8 +9,9 @@
 #
 
 require 'rubygems'
-require 'builder'
 
+# Need class variables for elements to check whether they've been written
+# These elements map to xmlelements that can only be written once
 @@tsung_xml_written       = false
 @@session_element         = {}
 @@transaction_element     = {}
@@ -88,7 +89,7 @@ class Transaction < Session
   def initialize(txn_name, config, session_name, probability='100%', type='ts_http')
     config.log.debug_msg("Transaction-> entering initialize...")
     super(config, session_name, probability, type)
-    @txn_name    = txn_name
+    @txn_name    = txn_name # Need to verify it's valid format - lowercase alpha + underscores
     @@transaction_element[@txn_name] = {} if(!@@transaction_element[@txn_name])
     
     # Check if transaction element has been written yet
@@ -118,13 +119,18 @@ end
 class Requests < Transaction
   
   attr_accessor :list
-  attr_reader :xml_element
+  attr_reader :xml_element, :url
   
   def initialize(txn_name, config, session_name, probability='100%', type='ts_http')
     config.log.debug_msg("Requests-> entering initialize...")
     super(txn_name, config, session_name, probability, type)
     @list = [] # request list
     @xml_element = @@transaction_element[txn_name][:element]
+    
+    # Create request URL for rpc hack
+    # Only works with 1 server BUG
+    @url = "http://#{config.servers[0]}/#{config.context}"
+    config.log.debug_msg("Request base URL: #{@url}")
     config.log.debug_msg("Created Request container")
   end
   
@@ -133,7 +139,10 @@ class Requests < Transaction
   # Option: DEFAULT_VALUE
   # * 'method': 'GET'
   # * 'version': '1.1'
-  def add(url, opts={})
+  #
+  # Other options that are valid
+  # * 'subst': 'true'
+  def add(url, opts={}, req_opts={})
     
     defaults = {
       "method" => 'GET',
@@ -142,8 +151,14 @@ class Requests < Transaction
       #:content_type => nil,
       #:contents => nil
     }
+    
+    # This is used to tell Tsung if we want a dynamic substitution
+    req_defaults = {
+      "subst" => 'false'
+    }
   
     opts = defaults.merge(opts)
+    req_opts = req_defaults.merge(req_opts)
     
     # Make sure requests begins with app context
     if(url !~ /^\/self.config.context/) 
@@ -159,7 +174,7 @@ class Requests < Transaction
     req_str << " contents='#{opts[:contents]}'" if(opts[:contents])
     req_str << ">"
 
-    req = @xml_element.add_element('request')
+    req = @xml_element.add_element('request', req_opts)
     req.add_element('http', opts)
     
     @list << req_str

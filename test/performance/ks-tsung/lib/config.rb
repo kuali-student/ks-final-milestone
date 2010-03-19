@@ -37,8 +37,11 @@ class AutoConfig
     puts "Let's setup your test run config..."
     
     # Output file
-    print "What do you want to name your output xml file? "
-    xml_fn = gets.chomp
+    xml_fn = ""
+    while(xml_fn == "")
+      print "What do you want to name your output xml file? "
+      xml_fn = gets.chomp
+    end
     # If they specify a path then store that, otherwise stick it in config dir
     self.output = (xml_fn =~ /^(\.|\/)/ ? xml_fn : "#{self.log_dir}/#{xml_fn}")
     self.log.info_msg "Your xml file will be here: #{self.output}"
@@ -283,7 +286,8 @@ class AutoConfig
 
     self.log.debug_msg "Entering write_config_xml..."
     # FIX: don't hardcode dtd path
-    xml_doc = Document.new("<?xml version='1.0?><!DOCTYPE tsung SYSTEM '/opt/local/share/tsung/tsung-1.0.dtd'>")
+    dtd = get_dtd_path
+    xml_doc = Document.new("<?xml version='1.0?><!DOCTYPE tsung SYSTEM '#{dtd}'>")
     # Store xml doc object in config 
     self.xml_obj = xml_doc
     
@@ -337,4 +341,20 @@ class AutoConfig
   def to_s
     self.inspect
   end
+
+  private
+  
+  def get_dtd_path
+    
+    dtd_path = '/opt/local/share/tsung/tsung-1.0.dtd' #default
+    locate = `locate tsung-1.0.dtd`
+    locate.split('\n').each do |line|
+      if(line =~ /share/)
+        dtd_path = line
+      end
+    end
+    
+    return dtd_path
+  end
+
 end

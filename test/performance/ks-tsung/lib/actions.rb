@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
 class Actions < Transaction
-  # Shell class for now...not sure what will go here
   
   attr_accessor :config, :list
   
