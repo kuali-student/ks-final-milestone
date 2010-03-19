@@ -318,7 +318,7 @@ public class StatementAssembler extends BaseAssembler {
         // Copy nested statements
         List<Statement> stmtList = new ArrayList<Statement>();
         for(String stmtId : stmtInfo.getStatementIds()) {
-            if(stmtId == stmtInfo.getId()) {
+            if(stmtId.equals(stmtInfo.getId())) {
                 throw new OperationFailedException("Statement nested within itself. Statement Id: " + stmtInfo.getId());
             }
 
