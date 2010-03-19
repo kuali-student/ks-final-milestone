@@ -21,6 +21,10 @@ import org.kuali.student.brms.util.LoggingStringBuilder;
 public class DroolsWorkingMemoryLogger extends WorkingMemoryLogger {
 
 	private LoggingStringBuilder stringBuilder;
+
+	public DroolsWorkingMemoryLogger() {
+		super();
+	}
 	
     public DroolsWorkingMemoryLogger(final KnowledgeRuntimeEventManager workingMemoryEventManager) {
         super(workingMemoryEventManager);

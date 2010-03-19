@@ -22,7 +22,11 @@ public class DroolsWorkingMemoryStatisticsLogger extends WorkingMemoryLogger {
 	private DroolsExecutionStatistics stats;
 	private final ConcurrentMap<String, Long> executionTimeMap = new ConcurrentHashMap<String, Long>();
 	
-    public DroolsWorkingMemoryStatisticsLogger(
+	public DroolsWorkingMemoryStatisticsLogger() {
+		super();
+	}
+
+	public DroolsWorkingMemoryStatisticsLogger(
     		final KnowledgeRuntimeEventManager workingMemoryEventManager,
     		final String ruleBaseType,
     		final DroolsExecutionStatistics stats) {
