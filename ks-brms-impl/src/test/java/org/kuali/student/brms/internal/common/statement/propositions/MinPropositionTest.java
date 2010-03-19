@@ -1,10 +1,8 @@
 package org.kuali.student.brms.internal.common.statement.propositions;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -12,13 +10,8 @@ import org.kuali.student.brms.factfinder.dto.FactResultInfo;
 import org.kuali.student.brms.internal.common.entity.ComparisonOperator;
 import org.kuali.student.brms.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.brms.internal.common.utils.CommonTestUtil;
-import org.kuali.student.brms.rulemanagement.dto.RulePropositionInfo;
 
 public class MinPropositionTest {
-    private List<BigDecimal> gradeList = CommonTestUtil.createList("85.0,75.0,80.0");
-
-	private RulePropositionInfo ruleProposition = new RulePropositionInfo();
-
 	@Test
     public void testMinProposition_String() throws Exception {
 		FactResultInfo fact = CommonTestUtil.createFact(

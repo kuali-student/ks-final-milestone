@@ -50,7 +50,7 @@ public class IntersectionProposition<E> extends AbstractProposition<Integer> {
 		this.factColumn = factColumn;
 		this.criteriaColumn = criteriaColumn;
 		intersection = new Intersection();
-    	intersection.setCriteria(criteriaDTO, criteriaColumn);
+    	intersection.setCriteria(criteriaDTO, this.criteriaColumn);
     	intersection.setFact(factDTO, factColumn);
     }
 
