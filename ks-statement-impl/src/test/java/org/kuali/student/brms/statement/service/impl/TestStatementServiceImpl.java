@@ -1175,7 +1175,9 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         List<ReqComponentInfo> reqComponents = new ArrayList<ReqComponentInfo>(7);
         ReqComponentInfo reqComp_tv_test1 = new ReqComponentInfo();
         ReqComponentInfo reqComp_tv_test2 = new ReqComponentInfo();
-        reqComponents.addAll(subTree2.getReqComponents());
+        if(subTree2 != null) {
+        	reqComponents.addAll(subTree2.getReqComponents());
+        }
         reqComp_tv_test1.setDesc(toRichText("REQCOMP TV TEST1"));
         reqComp_tv_test1.setType("kuali.reqCompType.gradecheck");
         reqComp_tv_test2.setDesc(toRichText("REQCOMP TV TEST2"));
@@ -1186,9 +1188,15 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         newSubTree2.setReqComponents(reqComponents);
         newSubTree2.setOperator(StatementOperatorTypeKey.AND);
         newSubTree2.setType("kuali.luStatementType.prereqAcademicReadiness");
-        subTreeView.remove(subTree2);
-        subTreeView.add(newSubTree2);
-        subTree1.setDesc(toRichText(subTree1.getDesc().getPlain() + " is edited"));
+        if(subTreeView != null) {
+	        if(subTree2 != null) {
+	        	subTreeView.remove(subTree2);
+	        }
+	        subTreeView.add(newSubTree2);
+        }
+        if(subTree1 != null) {
+        	subTree1.setDesc(toRichText(subTree1.getDesc().getPlain() + " is edited"));
+        }
         
         StatementTreeViewInfo returnedTreeView = statementService.updateStatementTreeView(treeView.getId(), treeView);
         List<StatementTreeViewInfo> returnedSubTrees = returnedTreeView.getStatements();
