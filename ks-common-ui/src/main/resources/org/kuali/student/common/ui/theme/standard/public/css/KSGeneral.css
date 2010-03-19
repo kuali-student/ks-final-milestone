@@ -113,7 +113,9 @@ html,body {
 	\-moz-border-radius: 6px 6px;
 	\-webkit-border-radius: 6px 6px;
 }
-.ks-notification-message * {
+
+
+.ks-notification-message p * {
 	white-space: pre-wrap;
 	white-space: \-moz-pre-wrap;
 	white-space: \-pre-wrap;
@@ -122,6 +124,11 @@ html,body {
 	color: white;
 	vertical-align: baseline;
 }
+
+.ks-notification-message a {
+	color: #2C61E6;
+}
+
 a.ks-notification-close {
 	background-image:url("images/common/lightbox_close_20px.png");
 	background-repeat:no-repeat;
@@ -129,13 +136,26 @@ a.ks-notification-close {
 	display:inline;
 	height:25px;
 	position:absolute;
-	right:-15px;
-	top:-10px;
+	right:0px;
+	top:6px;
 	width:25px;
 	z-index:9999;
 }
 a.ks-notification-close:hover {
 	background-image:url("images/common/lightbox_close_hover_20px.png");
 }
+
+	
+/*
+Failed attempt at getting IE to stop clipping the close anchor
+
+.ks-notification-container {display: inline-block;}
+.ks-notification-container {display: block;}
+.ks-notification-message {display: inline-block;}
+.ks-notification-message {display: block;}
+.ks-notification-close {display: inline-block;}
+.ks-notification-close {display: block;}
+
+*/
 
 

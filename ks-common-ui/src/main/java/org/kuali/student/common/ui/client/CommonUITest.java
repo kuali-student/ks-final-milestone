@@ -43,7 +43,7 @@ public class CommonUITest implements EntryPoint {
     	ApplicationPanel.get().add(new Button("Test Notifications", new ClickHandler() {
             @Override
             public void onClick(final ClickEvent event) {
-            		KSNotifier.add(new KSNotification("This is a long message that will need to word wrap butnotallofitisverywordwrapfriendlyasyoucanplainlysee", false, 10000));
+            		KSNotifier.add(new KSNotification("Thisisalongmessagethatwillneedtowordwrapbutnotallofitisverywordwrapfriendlyasyoucanplainlysee", false, 10000));
             		new Timer() {
 						
 						@Override

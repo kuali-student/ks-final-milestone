@@ -37,7 +37,7 @@ public class KSNotification extends Composite implements HasCloseHandlers<KSNoti
 	private final String id = HTMLPanel.createUniqueId();
 	private final String contentId = HTMLPanel.createUniqueId();
 	private final String closeLinkId = HTMLPanel.createUniqueId();
-	private final HTMLPanel panel = new HTMLPanel("<a href='javascript:return false;' title='Close' class='ks-notification-close' style='visibility: hidden' id='" + closeLinkId + "'></a><p id='" + contentId + "'></p>");
+	private final HTMLPanel panel = new HTMLPanel("<p id='" + contentId + "'></p><a href='javascript:return false;' title='Close' class='ks-notification-close' style='visibility: hidden' id='" + closeLinkId + "'></a>");
 	
 	public KSNotification(final String message, boolean isHtml, final int duration) {
 		this.duration = duration;
