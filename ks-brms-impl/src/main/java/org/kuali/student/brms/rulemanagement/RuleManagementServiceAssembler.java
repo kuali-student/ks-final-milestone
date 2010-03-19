@@ -446,11 +446,11 @@ public class RuleManagementServiceAssembler extends BaseAssembler {
        Set<FactStructureVariable> fsParamVarList = new HashSet<FactStructureVariable>(); 
        Map<String,String> factParamVarMap = factDTO.getParamValueMap();
        if (factParamVarMap != null) {
-	       for(String key: factParamVarMap.keySet()) {
+	       for(Map.Entry<String,String> entry: factParamVarMap.entrySet()) {
 	           FactStructureVariable fsVar = new FactStructureVariable();
 	           fsVar.setFactStructure(fs);
-	           fsVar.setStructureKey(key);
-	           fsVar.setValue((String)factParamVarMap.get(key));
+	           fsVar.setStructureKey(entry.getKey());
+	           fsVar.setValue(entry.getValue());
 	           fsParamVarList.add(fsVar);
 	       }
 	       fs.setParamValueSet(fsParamVarList);
@@ -461,11 +461,11 @@ public class RuleManagementServiceAssembler extends BaseAssembler {
        Set<FactStructureTranslationKey> fsTranslationKeySet = new HashSet<FactStructureTranslationKey>(); 
        Map<String,String> translationKeyMap = factDTO.getResultColumnKeyTranslations();
        if (translationKeyMap != null) {
-           for(String key: translationKeyMap.keySet()) {
+           for(Map.Entry<String,String> entry: translationKeyMap.entrySet()) {
                FactStructureTranslationKey fsKey = new FactStructureTranslationKey();
                fsKey.setFactStructure(fs);
-               fsKey.setTranslationKey(key);
-               fsKey.setValue((String)translationKeyMap.get(key));
+               fsKey.setTranslationKey(entry.getKey());
+               fsKey.setValue(entry.getValue());
                fsTranslationKeySet.add(fsKey);
            }
            fs.setTranslationKeySet(fsTranslationKeySet);
