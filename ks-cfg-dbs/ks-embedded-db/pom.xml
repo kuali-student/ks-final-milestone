@@ -8,7 +8,7 @@
     <description>Kuali Student Embedded Database</description>
     <properties>
      <oracle.ks.embedded.jdbc.url>jdbc:oracle:thin:@localhost:1521:XE</oracle.ks.embedded.jdbc.url>
-     <!-- Override this with false to reset the database with the default dataset -->
+     <!-- Override this with false to reset the db with the default dataset -->
      <ks.embedded.retain.db>true</ks.embedded.retain.db>
     </properties>
     <build>
