@@ -444,7 +444,7 @@ public class ProposalServiceImpl implements ProposalService {
      */
     @Override
     public boolean validateObject(String objectTypeKey, String stateKey, String info) {
-        return validateObject(objectTypeKey, stateKey, info);
+        return dictionaryServiceDelegate.validateObject(objectTypeKey, stateKey, info);
     }
 
     /**
@@ -452,7 +452,7 @@ public class ProposalServiceImpl implements ProposalService {
      */
     @Override
     public boolean validateStructureData(String objectTypeKey, String stateKey, String info) {
-        return validateStructureData(objectTypeKey, stateKey, info);
+        return dictionaryServiceDelegate.validateStructureData(objectTypeKey, stateKey, info);
     }
 
     /**
