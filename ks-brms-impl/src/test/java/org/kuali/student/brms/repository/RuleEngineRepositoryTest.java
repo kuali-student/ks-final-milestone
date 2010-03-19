@@ -79,7 +79,7 @@ public class RuleEngineRepositoryTest {
     /** Drools Jackrabbit repository */
     private static DroolsJackrabbitRepository jackrabbitRepository;
     /** Rule engine repository interface */
-    private static RuleEngineRepository brmsRepository;
+    private RuleEngineRepository brmsRepository;
     /** Drools test utility class */
     private static DroolsTestUtil droolsTestUtil = DroolsTestUtil.getInstance();
     /** Rule engine utility class */
