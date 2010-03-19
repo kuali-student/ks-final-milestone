@@ -215,7 +215,7 @@ public class StatementServiceImpl implements StatementService {
 		// test usage type key exists
 		getNlUsageType(nlUsageTypeKey);
 		
-		final String lang = this.naturalLanguageTranslator.getLanguage();
+		String lang = this.naturalLanguageTranslator.getLanguage();
 		try {
 			if(language != null) {
 				this.naturalLanguageTranslator.setLanguage(language);
@@ -261,7 +261,7 @@ public class StatementServiceImpl implements StatementService {
 		checkForNullOrEmptyParameter(nlUsageTypeKey, "nlUsageTypeKey");
 		checkForEmptyParameter(language, "language");
 		
-		final String lang = this.naturalLanguageTranslator.getLanguage();
+		String lang = this.naturalLanguageTranslator.getLanguage();
 		try {
 			if(language != null) {
 				this.naturalLanguageTranslator.setLanguage(language);
@@ -282,7 +282,7 @@ public class StatementServiceImpl implements StatementService {
 		checkForNullOrEmptyParameter(nlUsageTypeKey, "nlUsageTypeKey");
 		checkForEmptyParameter(language, "language");
 		
-		final String lang = this.naturalLanguageTranslator.getLanguage();
+		String lang = this.naturalLanguageTranslator.getLanguage();
 		try {
 			if(language != null) {
 				this.naturalLanguageTranslator.setLanguage(language);
@@ -303,7 +303,7 @@ public class StatementServiceImpl implements StatementService {
 		checkForNullOrEmptyParameter(nlUsageTypeKey, "nlUsageTypeKey");
 		checkForEmptyParameter(language, "language");
 
-		final String lang = this.naturalLanguageTranslator.getLanguage();
+		String lang = this.naturalLanguageTranslator.getLanguage();
 		try {
 			// test usage type key exists
 			getNlUsageType(nlUsageTypeKey);
@@ -332,7 +332,7 @@ public class StatementServiceImpl implements StatementService {
 		checkForNullOrEmptyParameter(nlUsageTypeKey, "nlUsageTypeKey");
 		checkForEmptyParameter(language, "language");
 
-		final String lang = this.naturalLanguageTranslator.getLanguage();
+		String lang = this.naturalLanguageTranslator.getLanguage();
 		try {
 			if(language != null) {
 				this.naturalLanguageTranslator.setLanguage(language);
@@ -782,13 +782,11 @@ public class StatementServiceImpl implements StatementService {
      */
     private List<ReqComponentInfo> getReqComponentInfos(final StatementInfo statementInfo) 
     	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        List<ReqComponentInfo> reqComponentInfos = null;
+        List<ReqComponentInfo> reqComponentInfos = new ArrayList<ReqComponentInfo>();
         if (statementInfo == null) return null;
         if (statementInfo.getReqComponentIds() != null) {
             for (String reqComponentId : statementInfo.getReqComponentIds()) {
                 ReqComponentInfo reqCompInfo = getReqComponent(reqComponentId);
-                reqComponentInfos = (reqComponentInfos == null)? new ArrayList<ReqComponentInfo>(5) : 
-                    reqComponentInfos;
                 reqComponentInfos.add(reqCompInfo);
             }
         }
@@ -819,7 +817,7 @@ public class StatementServiceImpl implements StatementService {
                 StatementInfo subStatement = getStatement(statementId);
                 List<StatementTreeViewInfo> statements = 
                     (statementTreeViewInfo.getStatements() == null)? 
-                            new ArrayList<StatementTreeViewInfo>(5) : statementTreeViewInfo.getStatements();
+                            new ArrayList<StatementTreeViewInfo>() : statementTreeViewInfo.getStatements();
                 StatementTreeViewInfo subStatementTreeViewInfo = new StatementTreeViewInfo();
                 // recursive call to get subStatementTreeViewInfo
                 getStatementTreeViewHelper(subStatement, subStatementTreeViewInfo);
