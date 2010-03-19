@@ -1,1 +1,1 @@
-call mvn -Dks.embedded.retain.db=false process-resources
+call mvn -Dks.embedded.retain.db=false process-sources
