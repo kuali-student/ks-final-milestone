@@ -27,7 +27,7 @@ public class MaxTest {
 		Max<Integer> max = new Max<Integer>(fact, "resultColumn.credits");
 		Number output = max.compute();
 		
-		Assert.assertEquals(new Integer(5), output);
+		Assert.assertEquals(Integer.valueOf(5), output);
 	}
 
 	@Test

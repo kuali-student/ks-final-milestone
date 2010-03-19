@@ -79,22 +79,22 @@ public abstract class AbstractFunction<T> implements Function<T> {
     		return value;
     	}
     	else if (type.equals(Integer.class)) {
-    		return new Integer(value.intValue());
+    		return Integer.valueOf(value.intValue());
     	}
     	else if (type.equals(Double.class)) {
     		return new Double(value.doubleValue());
     	}
     	else if (type.equals(Long.class)) {
-    		return new Long(value.longValue());
+    		return Long.valueOf(value.longValue());
     	}
     	else if (type.equals(Float.class)) {
     		return new Float(value.floatValue());
     	}
     	else if (type.equals(Short.class)) {
-    		return new Short(value.shortValue());
+    		return Short.valueOf(value.shortValue());
     	}
     	else if (type.equals(Byte.class)) {
-    		return new Byte(value.byteValue());
+    		return Byte.valueOf(value.byteValue());
     	}
     	else if (type.equals(BigDecimal.class)) {
     		return new BigDecimal(value.toString());

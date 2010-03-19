@@ -21,7 +21,7 @@ public class IntersectionPropositionTest {
 
 		IntersectionProposition<String> prop = new IntersectionProposition<String>(
         		"A-1", "A",
-                ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, new Integer(1), 
+                ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, Integer.valueOf(1), 
                 criteria, "resultColumn.cluId", fact, "resultColumn.cluId");
 
         Boolean result = prop.apply();
@@ -43,7 +43,7 @@ public class IntersectionPropositionTest {
 
         IntersectionProposition<String> prop = new IntersectionProposition<String>(
         		"A-1", "A",
-                ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, new Integer(2), 
+                ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, Integer.valueOf(2), 
                 criteria, "resultColumn.cluId", fact, "resultColumn.cluId");
 
         Boolean result = prop.apply();
@@ -65,7 +65,7 @@ public class IntersectionPropositionTest {
 
         IntersectionProposition<String> prop = new IntersectionProposition<String>(
         		"A-1", "A",
-                ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, new Integer(1), 
+                ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, Integer.valueOf(1), 
                 criteria, "resultColumn.cluId", fact, "resultColumn.cluId");
 
         Boolean result = prop.apply();

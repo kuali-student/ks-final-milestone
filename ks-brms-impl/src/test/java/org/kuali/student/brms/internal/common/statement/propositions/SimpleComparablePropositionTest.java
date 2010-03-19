@@ -40,7 +40,7 @@ public class SimpleComparablePropositionTest {
     public void testSimpleComparableProposition_Integer() throws Exception {
     	SimpleComparableProposition<Integer> comparableProp = new SimpleComparableProposition<Integer>(
     			"A-1", "A",
-    			ComparisonOperator.EQUAL_TO, new Integer("100"), new Integer(100));
+    			ComparisonOperator.EQUAL_TO, Integer.valueOf("100"), Integer.valueOf(100));
 
     	Boolean result = comparableProp.apply();
 

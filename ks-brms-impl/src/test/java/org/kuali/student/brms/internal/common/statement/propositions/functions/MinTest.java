@@ -27,7 +27,7 @@ public class MinTest {
 		Min<Integer> min = new Min<Integer>(fact, "resultColumn.credits");
 		Number output1 = min.compute();
 		
-		Assert.assertEquals(new Integer(3), output1);
+		Assert.assertEquals(Integer.valueOf(3), output1);
 	}
 
 	@Test

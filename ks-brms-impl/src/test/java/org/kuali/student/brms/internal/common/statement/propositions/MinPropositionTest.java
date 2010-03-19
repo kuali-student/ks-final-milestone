@@ -79,7 +79,7 @@ public class MinPropositionTest {
 				new String[] {"MATH101", "3", "MATH103", "4", "CHEM101", "5"}, 
     			new String[] {"resultColumn.cluId", "resultColumn.credits"});
 
-    	Integer number = new Integer(3);
+    	Integer number = Integer.valueOf(3);
     	MinProposition<Integer> minProp = new MinProposition<Integer>(
     			"A-1", "A", ComparisonOperator.EQUAL_TO, number, 
     			fact, "resultColumn.credits");
@@ -97,7 +97,7 @@ public class MinPropositionTest {
 				new String[] {"MATH101", "3", "MATH103", "4", "CHEM101", "5"}, 
     			new String[] {"resultColumn.cluId", "resultColumn.credits"});
 
-    	Long number = new Long(3);
+    	Long number = Long.valueOf(3);
     	MinProposition<Long> minProp = new MinProposition<Long>(
     			"A-1", "A", ComparisonOperator.EQUAL_TO, number, 
     			fact, "resultColumn.credits");

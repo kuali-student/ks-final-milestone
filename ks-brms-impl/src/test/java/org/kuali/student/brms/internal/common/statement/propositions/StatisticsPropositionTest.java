@@ -115,7 +115,7 @@ public class StatisticsPropositionTest {
     			"A-1", "A",
     			ComparisonOperator.EQUAL_TO,
     			StatisticsProposition.StatFunction.SUM,
-    			new Double(6.0), Arrays.asList(new Long[]{new Long(1), new Long(2), new Long(3)}),
+    			new Double(6.0), Arrays.asList(new Long[]{Long.valueOf(1), Long.valueOf(2), Long.valueOf(3)}),
     			ruleProposition);
 
     	Boolean result = statProp.apply();
@@ -129,7 +129,7 @@ public class StatisticsPropositionTest {
     			"A-1", "A",
     			ComparisonOperator.EQUAL_TO,
     			StatisticsProposition.StatFunction.SUM,
-    			new Double(6.0), Arrays.asList(new Integer[]{new Integer(1), new Integer(2), new Integer(3)}),
+    			new Double(6.0), Arrays.asList(new Integer[]{Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(3)}),
     			ruleProposition);
 
     	Boolean result = statProp.apply();

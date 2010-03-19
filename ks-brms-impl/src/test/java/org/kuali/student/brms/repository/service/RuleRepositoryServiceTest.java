@@ -519,7 +519,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
 		List<RuleElementInfo> ruleElementList = new ArrayList<RuleElementInfo>();
         RuleElementInfo element1 = dtoFactory.createRuleElementDTO(
         		"element-1", "PROPOSITION", 
-        		new Integer(1), createRuleProposition(
+        		Integer.valueOf(1), createRuleProposition(
             			YieldValueFunctionType.SUBSET.toString(), 
             			ComparisonOperator.EQUAL_TO.toString(),
             			"1",
@@ -527,7 +527,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
             			yieldValueFunction1));
         RuleElementInfo element2 = dtoFactory.createRuleElementDTO(
         		"element-2", "PROPOSITION", 
-        		new Integer(1), createRuleProposition(
+        		Integer.valueOf(1), createRuleProposition(
             			YieldValueFunctionType.INTERSECTION.toString(), 
             			ComparisonOperator.EQUAL_TO.toString(),
             			"1",

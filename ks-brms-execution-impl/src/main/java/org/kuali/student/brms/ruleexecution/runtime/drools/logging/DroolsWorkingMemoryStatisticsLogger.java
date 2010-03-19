@@ -43,7 +43,7 @@ public class DroolsWorkingMemoryStatisticsLogger extends WorkingMemoryLogger {
 	@Override
     public void beforeActivationFired(final BeforeActivationFiredEvent event, final WorkingMemory workingMemory) {
     	long time = System.nanoTime();
-    	this.executionTimeMap.put(getId(event.getActivation()), new Long(time));
+    	this.executionTimeMap.put(getId(event.getActivation()), Long.valueOf(time));
     }
 
 	@Override

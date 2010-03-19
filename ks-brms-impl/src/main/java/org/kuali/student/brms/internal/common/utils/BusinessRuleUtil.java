@@ -27,10 +27,17 @@ public class BusinessRuleUtil {
     public static final char PROPOSITION_PREFIX = 'P';
     //public static final String CALENDAR_DATE_FORMAT = "yyyy.MM.dd-HH.mm.ss.SSS";
     public static final String ISO_TIMESTAMP_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
-    private static final SimpleDateFormat isoDateFormat = new SimpleDateFormat(ISO_TIMESTAMP_FORMAT);
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat();
 
-    /*
+    /**
+     * Returns a new ISO date format.
+     * 
+     * @return New ISO date format
+     */
+    public static SimpleDateFormat getIsoDateFormatInstance() {
+    	return new SimpleDateFormat(ISO_TIMESTAMP_FORMAT);
+    }
+
+    /**
      * Validates rule composed of propositions e.g. P1, e.g. (P1), e.g. P1 OR P2 AND P3, e.g. (P1 AND P2 OR P3) etc.
      * 
      * @param text - rule text
@@ -95,7 +102,7 @@ public class BusinessRuleUtil {
         return (message.isEmpty() ? COMPOSITION_IS_VALID_MESSAGE : message);
     }
 
-    /*
+    /**
      * Recursive parsing of a rule composed of propositions e.g. P1, e.g. (P1), e.g. P1 OR P2 AND P3, e.g. (P1 AND P2 OR P3) etc.
      * 
      * @param text - rule text
@@ -140,7 +147,7 @@ public class BusinessRuleUtil {
 
                 // (after brackets) handle Proposition or combination of Propositions
                 int propID = getPropositionID(nextToken); // ensure we can get valid Proposition ID
-                text = text.substring(new Integer(propID).toString().length() + 1).trim();
+                text = text.substring(Integer.valueOf(propID).toString().length() + 1).trim();
             }
 
             text = text.trim();
@@ -171,7 +178,7 @@ public class BusinessRuleUtil {
         throw new IllegalRuleFormatException("Expected '" + PROPOSITION_PREFIX + "x' or '(" + PROPOSITION_PREFIX + "x' but found nothing.");
     }
 
-    /*
+    /**
      * Retrieves next token from rule composition e.g. Px, (, ), OR, AND
      * 
      * @param composition - business rule composition e.g. (P1 AND P2) OR P3
@@ -205,7 +212,7 @@ public class BusinessRuleUtil {
         return nextToken;
     }
 
-    /*
+    /**
      * Retrieve up to first five characters of a String
      * 
      * @param text to retrieve chars from
@@ -219,7 +226,7 @@ public class BusinessRuleUtil {
         return text.substring(0, maxLen);
     }
 
-    /*
+    /**
      * Get Proposition ID from a text that starts with proposition in format 'Px' or 'px' e.g. P1
      * 
      * @param text - rule text
@@ -495,7 +502,7 @@ public class BusinessRuleUtil {
      */
     public static Date convertDate(String value) {
     	try {
-			return isoDateFormat.parse(value);
+			return getIsoDateFormatInstance().parse(value);
 		} catch (ParseException e) {
 			throw new RuntimeException("Data type conversion error", e);
 		}
@@ -509,7 +516,7 @@ public class BusinessRuleUtil {
      * @return
      */
     public static String formatIsoDate(Date date) {
-    	return isoDateFormat.format(date).toString();
+    	return getIsoDateFormatInstance().format(date).toString();
     }
 
     /**
@@ -520,6 +527,7 @@ public class BusinessRuleUtil {
      * @return Formatted date
      */
     public static String formatDate(Date date, String pattern) {
+    	SimpleDateFormat dateFormat = new SimpleDateFormat();
     	dateFormat.applyPattern(pattern);
     	return dateFormat.format(date).toString();
     }
@@ -530,6 +538,7 @@ public class BusinessRuleUtil {
      * @return Default ISO time zone
      */
     public static String getDefaultIsoTimeZone(Date date) {
+    	SimpleDateFormat dateFormat = new SimpleDateFormat();
     	dateFormat.applyPattern("Z");
     	return dateFormat.format(date).toString();
     }

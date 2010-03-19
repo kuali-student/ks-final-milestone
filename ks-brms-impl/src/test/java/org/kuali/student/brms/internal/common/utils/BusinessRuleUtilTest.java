@@ -52,7 +52,7 @@ public class BusinessRuleUtilTest {
 
     @Test
     public void testConvertToDataType_Integer() throws Exception {
-    	Integer num = new Integer(1);
+    	Integer num = Integer.valueOf(1);
     	Integer value = (Integer) BusinessRuleUtil.convertToDataType(Integer.class, num);
     	Assert.assertEquals(num, value);
     }
@@ -66,7 +66,7 @@ public class BusinessRuleUtilTest {
 
     @Test
     public void testConvertToDataType_Long() throws Exception {
-    	Long num = new Long(1L);
+    	Long num = Long.valueOf(1L);
     	Long value = (Long) BusinessRuleUtil.convertToDataType(Long.class,num);
     	Assert.assertEquals(num, value);
     }

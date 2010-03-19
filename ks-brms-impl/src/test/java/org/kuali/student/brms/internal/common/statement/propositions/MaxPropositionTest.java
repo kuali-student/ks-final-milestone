@@ -74,7 +74,7 @@ public class MaxPropositionTest {
 				new String[] {"MATH101", "3", "MATH103", "4", "CHEM101", "5"}, 
     			new String[] {"resultColumn.cluId", "resultColumn.credits"});
 
-    	Integer number = new Integer(5);
+    	Integer number = Integer.valueOf(5);
     	MaxProposition<Integer> maxProp = new MaxProposition<Integer>(
     			"A-1", "A", ComparisonOperator.EQUAL_TO, number, 
     			fact, "resultColumn.credits");
@@ -92,7 +92,7 @@ public class MaxPropositionTest {
 				new String[] {"MATH101", "3", "MATH103", "4", "CHEM101", "5"}, 
     			new String[] {"resultColumn.cluId", "resultColumn.credits"});
 
-    	Long number = new Long(5);
+    	Long number = Long.valueOf(5);
     	MaxProposition<Long> maxProp = new MaxProposition<Long>(
     			"A-1", "A",
     			ComparisonOperator.EQUAL_TO, number, 

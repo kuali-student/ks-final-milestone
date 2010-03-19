@@ -66,11 +66,11 @@ public class SupportedXsdDatatypes {
     		case DATETIME:
     			return DatatypeConverter.parseDateTime(xsdStringValue);
     		case INT:
-    			return new Integer(DatatypeConverter.parseInt(xsdStringValue));
+    			return Integer.valueOf(DatatypeConverter.parseInt(xsdStringValue));
     		case INTEGER:
     			return DatatypeConverter.parseInteger(xsdStringValue);
     		case LONG:
-    			return new Long(DatatypeConverter.parseLong(xsdStringValue));
+    			return Long.valueOf(DatatypeConverter.parseLong(xsdStringValue));
     	}
 		throw new AssertionError("Data type conversion error. Unknown XSD datatype: " + xsdDataType);
     }

@@ -52,7 +52,7 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
     		FactResultInfo criteriaDTO, String criteriaColumn, 
     		FactResultInfo factDTO, String factColumn) {
         super(id, propositionName, PropositionType.SUBSET, 
-        		ComparisonOperator.EQUAL_TO, new Integer(criteriaDTO.getResultList().size()),
+        		ComparisonOperator.EQUAL_TO, Integer.valueOf(criteriaDTO.getResultList().size()),
         		criteriaDTO, criteriaColumn, factDTO, factColumn);
 		this.factColumn = factColumn;
 		this.criteriaColumn = criteriaColumn;

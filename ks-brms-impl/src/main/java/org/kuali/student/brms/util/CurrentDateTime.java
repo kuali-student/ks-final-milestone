@@ -8,8 +8,8 @@ public class CurrentDateTime implements java.io.Serializable {
     /** Class serial version uid */
     private static final long serialVersionUID = 1L;
 
-    private final static String pattern = "yyyyMMddHHmmss";
-    private final static SimpleDateFormat format = new SimpleDateFormat(pattern);
+    private final String pattern = "yyyyMMddHHmmss";
+    private final SimpleDateFormat format = new SimpleDateFormat(pattern);
 
     public long getCurrentDateAsLong() {
 		return getDateAsLong(new Date());
@@ -18,7 +18,7 @@ public class CurrentDateTime implements java.io.Serializable {
 	public long getDateAsLong(Date date) {
 		Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        Long time = new Long(format.format(date));
+        Long time = Long.valueOf(format.format(date));
         return time.longValue();
 	}
 }
