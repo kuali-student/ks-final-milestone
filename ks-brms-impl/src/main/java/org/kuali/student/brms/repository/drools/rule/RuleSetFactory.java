@@ -26,7 +26,7 @@ import org.kuali.student.brms.repository.rule.RuleSet;
 public class RuleSetFactory {
 
     /** Rule factory instance */
-    private static RuleSetFactory factory;
+    private final static RuleSetFactory factory = new RuleSetFactory();
     
     /**
      * Private constructor
@@ -39,9 +39,6 @@ public class RuleSetFactory {
      * @return A factory
      */
     public static RuleSetFactory getInstance() {
-        if ( factory == null ) {
-            factory = new RuleSetFactory();
-        }
         return factory;
     }
     

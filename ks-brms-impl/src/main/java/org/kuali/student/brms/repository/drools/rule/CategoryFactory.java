@@ -19,7 +19,7 @@ import org.kuali.student.brms.repository.rule.Category;
 
 public class CategoryFactory {
     /** Category factory instance */
-    private static CategoryFactory factory;
+    private final static CategoryFactory factory = new CategoryFactory();
 
     /**
      * Private constructor
@@ -32,9 +32,6 @@ public class CategoryFactory {
      * @return A factory
      */
     public static CategoryFactory getInstance() {
-        if ( factory == null ) {
-            factory = new CategoryFactory();
-        }
         return factory;
     }
 
