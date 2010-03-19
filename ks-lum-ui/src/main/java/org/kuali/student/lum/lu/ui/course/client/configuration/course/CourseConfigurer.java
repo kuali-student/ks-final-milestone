@@ -564,6 +564,7 @@ public class CourseConfigurer
             people.addItem(userId, userId);
             us.setListItems(people);
             us.selectItem(userId);
+            us.setBlankFirstItem(false);
             this.setEnabled(false);
             
             /*   
