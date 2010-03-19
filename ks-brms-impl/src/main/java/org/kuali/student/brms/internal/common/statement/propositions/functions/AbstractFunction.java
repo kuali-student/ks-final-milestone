@@ -20,7 +20,7 @@ public abstract class AbstractFunction<T> implements Function<T> {
 
 	String operation;
 
-	public abstract T compute();
+	//public abstract T compute();
 
 	public void setOperation(String operationType) {
 		this.operation = operationType;
@@ -82,13 +82,13 @@ public abstract class AbstractFunction<T> implements Function<T> {
     		return Integer.valueOf(value.intValue());
     	}
     	else if (type.equals(Double.class)) {
-    		return new Double(value.doubleValue());
+    		return Double.valueOf(value.doubleValue());
     	}
     	else if (type.equals(Long.class)) {
     		return Long.valueOf(value.longValue());
     	}
     	else if (type.equals(Float.class)) {
-    		return new Float(value.floatValue());
+    		return Float.valueOf(value.floatValue());
     	}
     	else if (type.equals(Short.class)) {
     		return Short.valueOf(value.shortValue());
