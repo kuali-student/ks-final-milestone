@@ -51,11 +51,10 @@ public class RuleSetValidatorDroolsImpl implements RuleSetValidator {
      */
     public boolean verify(Reader source) throws RuleSetTranslatorException {
         DrlParser p = new DrlParser();
-        PackageDescr pkg;
         boolean valid = true;
         
         try {
-            pkg = p.parse(source);
+            p.parse(source);
         } catch (DroolsParserException e) {
             throw new RuleSetTranslatorException("Parsing rule failed", e);
         }

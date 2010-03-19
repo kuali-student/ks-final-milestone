@@ -316,7 +316,6 @@ public class SimpleExecutorDroolsImpl implements SimpleExecutor {
     private ExecutionResult execute(KnowledgeBase knowledgeBase, List<?> facts) {
         StatelessKnowledgeSession session = knowledgeBase.newStatelessKnowledgeSession();
         DroolsWorkingMemoryLogger droolsLogger = null;
-        DroolsWorkingMemoryStatisticsLogger statLogger = null;
         LoggingStringBuilder executionLog = null;
         
         if(this.logExecution) {
@@ -324,8 +323,7 @@ public class SimpleExecutorDroolsImpl implements SimpleExecutor {
         	droolsLogger = new DroolsWorkingMemoryLogger(session, executionLog);
         }
         if(this.statlogging) {
-        	statLogger = new DroolsWorkingMemoryStatisticsLogger(
-        			session, "SimpleExecutorDroolsImpl", executionStats);
+        	new DroolsWorkingMemoryStatisticsLogger(session, "SimpleExecutorDroolsImpl", executionStats);
         }
 
         if(this.globalObjectMap != null && !this.globalObjectMap.isEmpty()) {

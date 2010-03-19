@@ -92,20 +92,6 @@ public class RuleSetExecutorDroolsImpl implements RuleExecutor, java.io.Serializ
     }
 
     /**
-     * Enables rule engine execution logging.
-     */
-//    public void setEnableExecutionLogging(boolean enable) {
-//    	this.logExecution = enable;
-//    }
-
-    /**
-     * Enables rule engine execution statistics logging.
-     */
-//    public void setEnableStatLogging(boolean enable) {
-//    	this.statLogging = enable;
-//    }
-
-    /**
      * Gets Drools execution statistics.
      * 
      * @return Execution statistics
@@ -404,14 +390,12 @@ public class RuleSetExecutorDroolsImpl implements RuleExecutor, java.io.Serializ
     	KnowledgeBase knowledgeBase = ruleBaseCache.getKnowledgeBase(ruleBaseType);
         StatelessKnowledgeSession session = knowledgeBase.newStatelessKnowledgeSession();
         DroolsWorkingMemoryLogger droolsLogger = null;
-        DroolsWorkingMemoryStatisticsLogger statLogger = null;
         
         if(this.logExecution) {
         	droolsLogger = new DroolsWorkingMemoryLogger(session, this.executionLog);
         }
         if(this.statLogging) {
-        	statLogger = new DroolsWorkingMemoryStatisticsLogger(
-        			session, ruleBaseType, this.executionStats);
+        	new DroolsWorkingMemoryStatisticsLogger(session, ruleBaseType, this.executionStats);
         }
         
         if(this.globalObjectMap != null && !this.globalObjectMap.isEmpty()) {
