@@ -84,6 +84,15 @@ public class RuleRepositoryImpl implements RuleRepository {
 	}
 
 	/**
+	 * Sets the rule set validator.
+	 * 
+	 * @param ruleSetValidator Rule set validator
+	 */
+	public void setRuleSetValidator(final RuleSetValidator ruleSetValidator) {
+		this.ruleSetValidator = ruleSetValidator;
+	}
+
+	/**
      * Creates a new category in the repository.
      * 
      * @param path Category path
@@ -732,7 +741,7 @@ public class RuleRepositoryImpl implements RuleRepository {
 		
     	try {
     		RuleSet ruleSet = this.ruleSetTranslator.translate(businessRule);
-	    	RuleSetVerificationResult result = ruleSetValidator.verify(ruleSet);
+	    	RuleSetVerificationResult result = this.ruleSetValidator.verify(ruleSet);
 	        return ruleAdapter.getRuleSetVerificationResultDTO(result);
 		} catch(IllegalArgumentException e) {
 			logger.error(e.getMessage(), e);
