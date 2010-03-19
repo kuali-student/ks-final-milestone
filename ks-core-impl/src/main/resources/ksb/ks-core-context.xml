@@ -84,12 +84,7 @@
         class="org.kuali.student.core.organization.service.impl.OrganizationServiceImpl">
         <property name="organizationDao" ref="orgDao" />
         <property name="searchManager" ref="orgSearchManager" />
-        <property name="dictionaryServiceDelegate" ref="orgDictionaryServiceDelegate"/>
-    </bean>
-
-    <bean id="orgDictionaryServiceDelegate"
-        class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
-        <constructor-arg index="0" value="classpath:organization-dictionary-config.xml" />
+        <property name="dictionaryServiceDelegate" ref="coreDictionaryServiceDelegate"/>
     </bean>
 
     <bean id="orgSearchManager"
@@ -230,8 +225,8 @@
         <property name="em" ref="commentEntityManager" />
     </bean>
 
-    <bean id="commentDictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
-        <constructor-arg index="0" value="classpath:comment-dictionary-config.xml" />
+    <bean id="coreDictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
+        <constructor-arg index="0" value="${ks.core.dictionary.serviceContextLocations}" />
     </bean>
 
     <bean id="commentSearchManager"
@@ -243,7 +238,7 @@
     <bean id="commentServiceImpl"
         class="org.kuali.student.core.comment.service.impl.CommentServiceImpl">
         <property name="commentDao" ref="commentDao" />
-        <property name="dictionaryServiceDelegate" ref="commentDictionaryServiceDelegate" />
+        <property name="dictionaryServiceDelegate" ref="coreDictionaryServiceDelegate" />
         <property name="searchManager" ref="commentSearchManager" />
     </bean>
 
@@ -291,7 +286,7 @@
     <bean id="documentServiceImpl"
         class="org.kuali.student.core.document.service.impl.DocumentServiceImpl">
         <property name="documentDao" ref="documentDao1" />
-        <property name="dictionaryServiceDelegate" ref="documentDictionaryServiceDelegate" />
+        <property name="dictionaryServiceDelegate" ref="coreDictionaryServiceDelegate" />
 <!--        <property name="searchManager" ref="documentSearchManager" />-->
     </bean>
 
@@ -363,16 +358,9 @@
     <bean name="proposalServiceImpl"
         class="org.kuali.student.core.proposal.service.impl.ProposalServiceImpl">
         <property name="proposalDao" ref="proposalDao"/>
-        <!-- <property name="dictionaryServiceDelegate" ref="proposalDictionaryServiceDelegate"/> -->
+        <!-- <property name="dictionaryServiceDelegate" ref="coreDictionaryServiceDelegate"/> -->
         <property name="searchManager" ref="proposalSearchManager"/>
 	</bean>
-
-<!--
-    <bean id="proposalDictionaryServiceDelegate"
-        class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
-        <constructor-arg index="0" value="classpath:proposal-dictionary-config.xml" />
-    </bean>
--->
 
     <bean id="proposalSearchManager"
         class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
