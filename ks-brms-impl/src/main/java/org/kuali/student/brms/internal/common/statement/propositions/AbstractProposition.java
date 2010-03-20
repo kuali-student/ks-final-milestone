@@ -182,7 +182,7 @@ public abstract class AbstractProposition<T> implements Proposition {
     /**
      * Executes the proposition rule.
      */
-    public abstract Boolean apply();
+    //public abstract Boolean apply();
 
     /**
      * @return the result

@@ -18,8 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.brms.statement.entity.ReqComponent;
 import org.kuali.student.brms.statement.entity.ReqComponentField;
 
@@ -74,5 +72,5 @@ public abstract class AbstractContext<T> implements Context<T> {
      * @param context Context to create the map from
      * @throws DoesNotExistException If CLU, CluSet or relation does not exist
      */
-	public abstract Map<String, Object> createContextMap(T context) throws OperationFailedException;
+	//public abstract Map<String, Object> createContextMap(T context) throws OperationFailedException;
 }
