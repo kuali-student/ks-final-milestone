@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<con:operation isOneWay="false" action="" name="getCluPublicationsByType" bindingOperationName="getCluPublicationsByType" type="Request-Response" outputName="getCluPublicationsByTypeResponse" inputName="getCluPublicationsByType" receivesAttachments="false" sendsAttachments="false" id="d3d4615b-91f6-4bff-84dd-b6bd163ce31b" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config"><con:settings/></con:operation>
