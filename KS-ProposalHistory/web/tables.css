@@ -16,7 +16,7 @@
 
 /* Heads -------------------------------------------------------------- */ 
 
-.ks-table th {
+.ks-table-th {
 	color: #fff;
 	text-align:left;
 	background:#8b8b8b;
@@ -87,7 +87,7 @@
 
 
 /* ---- subhead ---------------- */ 
-td.subhead {
+td-subhead {
 	background:#d6d6d6;
 	color: #000;
 	font-size: 1.083em;
