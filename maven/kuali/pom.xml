@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  Copyright 2009 The Kuali Foundation
- 
-  Licensed under the Educational Community License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
- 
-  http://www.osedu.org/licenses/ECL-2.0
- 
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
- -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <!--
+    Copyright 2009 The Kuali Foundation Licensed under the Educational Community
+    License, Version 2.0 (the "License"); you may not use this file except in
+    compliance with the License. You may obtain a copy of the License at
+    http://www.osedu.org/licenses/ECL-2.0 Unless required by applicable law or
+    agreed to in writing, software distributed under the License is distributed
+    on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+    express or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-<!-- 
-    Shared parent. 
-    Contains settings common to all projects at Kuali 
-    This includes a standard release profile that all projects should use when producing released artifacts 
-    Standard versions of plugins are also defined but may be overridden by individual projects as needed
--->
+  <!--
+    Shared parent. Contains settings common to all projects at Kuali. This
+    includes a standard release profile that all projects should use when
+    producing released artifacts. Standard versions of plugins are also defined
+    but may be overridden/configured by individual projects as needed
+  -->
   <groupId>org.kuali</groupId>
   <artifactId>kuali-parent</artifactId>
-  <version>2-SNAPSHOT</version>
+  <version>1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>The Kuali Foundation</name>
   <description>
-   Kuali is a community of universities, colleges, businesses, and other organizations that have partnered to build and 
-   sustain open-source administrative software for higher education, by higher education. Kuali software is designed to 
-   meet the needs of all sizes of institutions, from land-grant research universities to community colleges. The members 
-   of the Kuali Community share a common vision of open, modular, and distributed systems for their software requirements. 
-   Kuali software is released under the Educational Community License
+    Kuali is a community of universities, colleges, businesses, and other
+    organizations that have partnered to build and
+    sustain open-source administrative software for higher education, by higher
+    education. Kuali software is designed to
+    meet the needs of all sizes of institutions, from land-grant research
+    universities to community colleges. The members
+    of the Kuali Community share a common vision of open, modular, and
+    distributed systems for their software requirements.
+    Kuali software is released under the Educational Community License
   </description>
   <licenses>
     <license>
@@ -47,10 +47,12 @@
   </organization>
   <url>http://www.kuali.org/</url>
   <properties>
-    <project.distributionManagement.repository.url>scp://test.kuali.org:/opt/m2/repository</project.distributionManagement.repository.url>
+    <project.distributionManagement.repository.url>scp://test.kuali.org:/opt/m2/repository
+    </project.distributionManagement.repository.url>
     <extraReleaseArguments />
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <sourceReleaseAssemblyDescriptor>source-release</sourceReleaseAssemblyDescriptor>
+    <sourceReleaseAssemblyDescriptor>source-release
+    </sourceReleaseAssemblyDescriptor>
   </properties>
   <repositories>
     <repository>
@@ -67,19 +69,26 @@
         <enabled>false</enabled>
       </releases>
     </repository>
-    <!-- NOTE:  This is a temporary repository pending approval from Kuali Foundation on the concept of a master pom and the publishing 
-                of the master pom to the main Maven2 repository. Once that has been approved and the master pom's have been published
-                to the main Maven2 repository this temporary repository entry can be removed. -->
+    <!--
+      NOTE: This is a temporary repository pending approval from Kuali
+      Foundation on the concept of a master pom and the publishing of the master
+      pom to the main Maven2 repository. Once that has been approved and the
+      master pom's have been published to the main Maven2 repository this
+      temporary repository entry can be removed.
+    -->
     <repository>
       <id>kuali.release.lab</id>
-      <url>https://test.kuali.org/svn/student/deploymentlab/repository</url>
+      <url>https://test.kuali.org/svn/student/deploymentlab/repository
+      </url>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
     </repository>
   </repositories>
   <distributionManagement>
-    <!-- site is intentionally omitted.  Each project must define its own website -->
+    <!--
+      site is intentionally omitted. Each project must define its own website
+    -->
     <repository>
       <id>kuali.release</id>
       <name>Internal Release Repository</name>
@@ -92,7 +101,11 @@
     </snapshotRepository>
   </distributionManagement>
   <scm>
-    <!-- NOTE:  After approval from Kuali Foundation on the concept and location of a master pom, this should be changed to https://test.kuali.org/svn/maven/trunk/kuali -->
+    <!--
+      NOTE: After approval from Kuali Foundation on the concept and location of
+      a master pom, this should be changed to
+      https://test.kuali.org/svn/maven/trunk/kuali
+    -->
     <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven/kuali</connection>
     <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven/kuali</developerConnection>
     <url>https://test.kuali.org/svn/student/deploymentlab/trunk/maven/kuali</url>
@@ -105,9 +118,12 @@
         <version>1.9</version>
       </extension>
     </extensions>
-     <pluginManagement>
+    <pluginManagement>
       <plugins>
-        <!-- set versions of common plugins for reproducibility, ordered alphabetically -->
+        <!--
+          set versions of common plugins for reproducibility, ordered
+          alphabetically
+        -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-antrun-plugin</artifactId>
@@ -168,8 +184,10 @@
           <configuration>
             <archive>
               <manifest>
-                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                <addDefaultSpecificationEntries>true
+                </addDefaultSpecificationEntries>
+                <addDefaultImplementationEntries>true
+                </addDefaultImplementationEntries>
               </manifest>
             </archive>
           </configuration>
@@ -192,7 +210,8 @@
           <configuration>
             <useReleaseProfile>false</useReleaseProfile>
             <goals>deploy</goals>
-            <arguments>-Pkuali-release ${extraReleaseArguments}</arguments>
+            <arguments>-Pkuali-release ${extraReleaseArguments}
+            </arguments>
           </configuration>
         </plugin>
         <plugin>
@@ -245,27 +264,6 @@
         </plugin>
       </plugins>
     </pluginManagement>
-    <plugins>
-      <!-- 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-remote-resources-plugin</artifactId>
-        <version>1.1</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>process</goal>
-            </goals>
-            <configuration>
-              <resourceBundles>
-                <resourceBundle>org.kuali.resources:kuali-jar-resource-bundle:1.0.0</resourceBundle>
-              </resourceBundles>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-       -->
-    </plugins>
   </build>
   <reporting>
     <plugins>
@@ -285,7 +283,8 @@
             <dependencies>
               <dependency>
                 <groupId>org.apache.apache.resources</groupId>
-                <artifactId>apache-source-release-assembly-descriptor</artifactId>
+                <artifactId>apache-source-release-assembly-descriptor
+                </artifactId>
                 <version>1.0.2</version>
               </dependency>
             </dependencies>
@@ -299,29 +298,17 @@
                 <configuration>
                   <runOnlyAtExecutionRoot>true</runOnlyAtExecutionRoot>
                   <descriptorRefs>
-                    <descriptorRef>${sourceReleaseAssemblyDescriptor}</descriptorRef>
+                    <descriptorRef>${sourceReleaseAssemblyDescriptor}
+                    </descriptorRef>
                   </descriptorRefs>
                   <tarLongFileFormat>gnu</tarLongFileFormat>
                 </configuration>
               </execution>
             </executions>
           </plugin>
-          <!-- TODO: Use maven-gpg-plugin to sign all kuali artifacts (poms, jars, etc) -->
-          <!-- http://maven.apache.org/developers/release/pmc-gpg-keys.html
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <configuration>
-              <passphrase>${gpg.passphrase}</passphrase>
-            </configuration>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>sign</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
+          <!--
+            TODO: Use maven-gpg-plugin to sign all kuali artifacts (poms, jars,
+            etc)
           -->
           <plugin>
             <inherited>true</inherited>
