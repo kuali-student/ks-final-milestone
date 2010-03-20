@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<con:operation isOneWay="false" action="" name="validateCluSet" bindingOperationName="validateCluSet" type="Request-Response" outputName="validateCluSetResponse" inputName="validateCluSet" receivesAttachments="false" sendsAttachments="false" id="d9324163-4888-4c8e-94e0-c27f14137239" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config"><con:settings/></con:operation>

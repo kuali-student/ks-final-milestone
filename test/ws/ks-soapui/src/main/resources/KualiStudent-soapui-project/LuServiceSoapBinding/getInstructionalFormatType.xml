@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<con:operation isOneWay="false" action="" name="getInstructionalFormatType" bindingOperationName="getInstructionalFormatType" type="Request-Response" outputName="getInstructionalFormatTypeResponse" inputName="getInstructionalFormatType" receivesAttachments="false" sendsAttachments="false" id="3f23f431-d4a5-439a-ba10-79f12fb3840e" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config"><con:settings/></con:operation>
