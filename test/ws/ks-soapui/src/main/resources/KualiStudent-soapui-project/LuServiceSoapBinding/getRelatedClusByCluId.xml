@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<con:operation isOneWay="false" action="" name="getRelatedClusByCluId" bindingOperationName="getRelatedClusByCluId" type="Request-Response" outputName="getRelatedClusByCluIdResponse" inputName="getRelatedClusByCluId" receivesAttachments="false" sendsAttachments="false" id="072d268a-44e4-41a6-8b4f-d34a42bcf87d" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config"><con:settings/></con:operation>

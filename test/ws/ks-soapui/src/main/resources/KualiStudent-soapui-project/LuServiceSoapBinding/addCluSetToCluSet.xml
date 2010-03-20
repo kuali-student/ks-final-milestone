@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<con:operation isOneWay="false" action="" name="addCluSetToCluSet" bindingOperationName="addCluSetToCluSet" type="Request-Response" outputName="addCluSetToCluSetResponse" inputName="addCluSetToCluSet" receivesAttachments="false" sendsAttachments="false" id="fae8d77b-5c77-486a-9cb5-bc37282839fa" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config"><con:settings/></con:operation>
