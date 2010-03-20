@@ -49,9 +49,9 @@
     </repository>
   </repositories>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/trunk/student</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/trunk/student</developerConnection>
-    <url>https://test.kuali.org/svn/student/deploymentlab/maven/trunk/student</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven/student</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/trunk/maven/student</developerConnection>
+    <url>https://test.kuali.org/svn/student/deploymentlab/trunk/maven/student</url>
   </scm>
   <build>
     <pluginManagement>
