@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:operation isOneWay="false" action="" name="getLuLuRelationTypes" bindingOperationName="getLuLuRelationTypes" type="Request-Response" outputName="getLuLuRelationTypesResponse" inputName="getLuLuRelationTypes" receivesAttachments="false" sendsAttachments="false" id="9b613d88-619f-47bf-af57-42ca3d2651b4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config"><con:settings/></con:operation>

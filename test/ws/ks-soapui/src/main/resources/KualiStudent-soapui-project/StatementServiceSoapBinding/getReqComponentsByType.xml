@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:operation isOneWay="false" action="" name="getReqComponentsByType" bindingOperationName="getReqComponentsByType" type="Request-Response" outputName="getReqComponentsByTypeResponse" inputName="getReqComponentsByType" receivesAttachments="false" sendsAttachments="false" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config"><con:settings/></con:operation>

@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:operation isOneWay="false" action="" name="updateLui" bindingOperationName="updateLui" type="Request-Response" outputName="updateLuiResponse" inputName="updateLui" receivesAttachments="false" sendsAttachments="false" id="277b7558-4e4f-45b9-a111-324d4ead340b" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config"><con:settings/></con:operation>

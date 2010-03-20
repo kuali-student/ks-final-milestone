@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:operation isOneWay="false" action="" name="getCluCluRelation" bindingOperationName="getCluCluRelation" type="Request-Response" outputName="getCluCluRelationResponse" inputName="getCluCluRelation" receivesAttachments="false" sendsAttachments="false" id="e2c41311-4809-4d84-90a1-d8f0e3dae39e" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config"><con:settings/></con:operation>

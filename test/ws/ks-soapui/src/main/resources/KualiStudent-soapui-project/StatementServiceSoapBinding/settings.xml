@@ -1,0 +1,3164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="StatementServiceSoapBinding" type="wsdl" bindingName="{http://student.kuali.org/wsdl/statement}StatementServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost/ks-embedded/services/StatementService?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost/ks-embedded/services/StatementService?wsdl"><con:part><con:url>http://localhost/ks-embedded/services/StatementService?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="StatementService" targetNamespace="http://student.kuali.org/wsdl/statement" xmlns:ns1="http://cxf.apache.org/bindings/xformat" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://student.kuali.org/wsdl/statement" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/statement" xmlns:ns0="http://student.kuali.org/wsdl/exceptions" xmlns:ns1="http://student.kuali.org/wsdl/dictionary" xmlns:ns2="http://student.kuali.org/wsdl/search" xmlns:ns3="http://student.kuali.org/wsdl/organization" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://student.kuali.org/wsdl/dictionary"/>
+      <xs:element name="createRefStatementRelation" type="tns:createRefStatementRelation"/>
+      <xs:element name="createRefStatementRelationResponse" type="tns:createRefStatementRelationResponse"/>
+      <xs:element name="createReqComponent" type="tns:createReqComponent"/>
+      <xs:element name="createReqComponentResponse" type="tns:createReqComponentResponse"/>
+      <xs:element name="createStatement" type="tns:createStatement"/>
+      <xs:element name="createStatementResponse" type="tns:createStatementResponse"/>
+      <xs:element name="deleteRefStatementRelation" type="tns:deleteRefStatementRelation"/>
+      <xs:element name="deleteRefStatementRelationResponse" type="tns:deleteRefStatementRelationResponse"/>
+      <xs:element name="deleteReqComponent" type="tns:deleteReqComponent"/>
+      <xs:element name="deleteReqComponentResponse" type="tns:deleteReqComponentResponse"/>
+      <xs:element name="deleteStatement" type="tns:deleteStatement"/>
+      <xs:element name="deleteStatementResponse" type="tns:deleteStatementResponse"/>
+      <xs:element name="getNaturalLanguageForRefStatementRelation" type="tns:getNaturalLanguageForRefStatementRelation"/>
+      <xs:element name="getNaturalLanguageForRefStatementRelationResponse" type="tns:getNaturalLanguageForRefStatementRelationResponse"/>
+      <xs:element name="getNaturalLanguageForReqComponent" type="tns:getNaturalLanguageForReqComponent"/>
+      <xs:element name="getNaturalLanguageForReqComponentResponse" type="tns:getNaturalLanguageForReqComponentResponse"/>
+      <xs:element name="getNaturalLanguageForStatement" type="tns:getNaturalLanguageForStatement"/>
+      <xs:element name="getNaturalLanguageForStatementResponse" type="tns:getNaturalLanguageForStatementResponse"/>
+      <xs:element name="getNlUsageType" type="tns:getNlUsageType"/>
+      <xs:element name="getNlUsageTypeResponse" type="tns:getNlUsageTypeResponse"/>
+      <xs:element name="getNlUsageTypes" type="tns:getNlUsageTypes"/>
+      <xs:element name="getNlUsageTypesResponse" type="tns:getNlUsageTypesResponse"/>
+      <xs:element name="getRefObjectSubTypes" type="tns:getRefObjectSubTypes"/>
+      <xs:element name="getRefObjectSubTypesResponse" type="tns:getRefObjectSubTypesResponse"/>
+      <xs:element name="getRefObjectTypes" type="tns:getRefObjectTypes"/>
+      <xs:element name="getRefObjectTypesResponse" type="tns:getRefObjectTypesResponse"/>
+      <xs:element name="getRefStatementRelation" type="tns:getRefStatementRelation"/>
+      <xs:element name="getRefStatementRelationResponse" type="tns:getRefStatementRelationResponse"/>
+      <xs:element name="getRefStatementRelationType" type="tns:getRefStatementRelationType"/>
+      <xs:element name="getRefStatementRelationTypeResponse" type="tns:getRefStatementRelationTypeResponse"/>
+      <xs:element name="getRefStatementRelationTypes" type="tns:getRefStatementRelationTypes"/>
+      <xs:element name="getRefStatementRelationTypesForRefObjectSubType" type="tns:getRefStatementRelationTypesForRefObjectSubType"/>
+      <xs:element name="getRefStatementRelationTypesForRefObjectSubTypeResponse" type="tns:getRefStatementRelationTypesForRefObjectSubTypeResponse"/>
+      <xs:element name="getRefStatementRelationTypesResponse" type="tns:getRefStatementRelationTypesResponse"/>
+      <xs:element name="getRefStatementRelationsByRef" type="tns:getRefStatementRelationsByRef"/>
+      <xs:element name="getRefStatementRelationsByRefResponse" type="tns:getRefStatementRelationsByRefResponse"/>
+      <xs:element name="getRefStatementRelationsByStatement" type="tns:getRefStatementRelationsByStatement"/>
+      <xs:element name="getRefStatementRelationsByStatementResponse" type="tns:getRefStatementRelationsByStatementResponse"/>
+      <xs:element name="getReqComponent" type="tns:getReqComponent"/>
+      <xs:element name="getReqComponentResponse" type="tns:getReqComponentResponse"/>
+      <xs:element name="getReqComponentType" type="tns:getReqComponentType"/>
+      <xs:element name="getReqComponentTypeResponse" type="tns:getReqComponentTypeResponse"/>
+      <xs:element name="getReqComponentTypes" type="tns:getReqComponentTypes"/>
+      <xs:element name="getReqComponentTypesForStatementType" type="tns:getReqComponentTypesForStatementType"/>
+      <xs:element name="getReqComponentTypesForStatementTypeResponse" type="tns:getReqComponentTypesForStatementTypeResponse"/>
+      <xs:element name="getReqComponentTypesResponse" type="tns:getReqComponentTypesResponse"/>
+      <xs:element name="getReqComponentsByType" type="tns:getReqComponentsByType"/>
+      <xs:element name="getReqComponentsByTypeResponse" type="tns:getReqComponentsByTypeResponse"/>
+      <xs:element name="getStatement" type="tns:getStatement"/>
+      <xs:element name="getStatementResponse" type="tns:getStatementResponse"/>
+      <xs:element name="getStatementTreeView" type="tns:getStatementTreeView"/>
+      <xs:element name="getStatementTreeViewResponse" type="tns:getStatementTreeViewResponse"/>
+      <xs:element name="getStatementType" type="tns:getStatementType"/>
+      <xs:element name="getStatementTypeResponse" type="tns:getStatementTypeResponse"/>
+      <xs:element name="getStatementTypes" type="tns:getStatementTypes"/>
+      <xs:element name="getStatementTypesForRefStatementRelationType" type="tns:getStatementTypesForRefStatementRelationType"/>
+      <xs:element name="getStatementTypesForRefStatementRelationTypeResponse" type="tns:getStatementTypesForRefStatementRelationTypeResponse"/>
+      <xs:element name="getStatementTypesForStatementType" type="tns:getStatementTypesForStatementType"/>
+      <xs:element name="getStatementTypesForStatementTypeResponse" type="tns:getStatementTypesForStatementTypeResponse"/>
+      <xs:element name="getStatementTypesResponse" type="tns:getStatementTypesResponse"/>
+      <xs:element name="getStatementsByType" type="tns:getStatementsByType"/>
+      <xs:element name="getStatementsByTypeResponse" type="tns:getStatementsByTypeResponse"/>
+      <xs:element name="getStatementsUsingReqComponent" type="tns:getStatementsUsingReqComponent"/>
+      <xs:element name="getStatementsUsingReqComponentResponse" type="tns:getStatementsUsingReqComponentResponse"/>
+      <xs:element name="getStatementsUsingStatement" type="tns:getStatementsUsingStatement"/>
+      <xs:element name="getStatementsUsingStatementResponse" type="tns:getStatementsUsingStatementResponse"/>
+      <xs:element name="translateReqComponentToNL" type="tns:translateReqComponentToNL"/>
+      <xs:element name="translateReqComponentToNLResponse" type="tns:translateReqComponentToNLResponse"/>
+      <xs:element name="translateStatementTreeViewToNL" type="tns:translateStatementTreeViewToNL"/>
+      <xs:element name="translateStatementTreeViewToNLResponse" type="tns:translateStatementTreeViewToNLResponse"/>
+      <xs:element name="updateRefStatementRelation" type="tns:updateRefStatementRelation"/>
+      <xs:element name="updateRefStatementRelationResponse" type="tns:updateRefStatementRelationResponse"/>
+      <xs:element name="updateReqComponent" type="tns:updateReqComponent"/>
+      <xs:element name="updateReqComponentResponse" type="tns:updateReqComponentResponse"/>
+      <xs:element name="updateStatement" type="tns:updateStatement"/>
+      <xs:element name="updateStatementResponse" type="tns:updateStatementResponse"/>
+      <xs:element name="updateStatementTreeView" type="tns:updateStatementTreeView"/>
+      <xs:element name="updateStatementTreeViewResponse" type="tns:updateStatementTreeViewResponse"/>
+      <xs:element name="validateRefStatementRelation" type="tns:validateRefStatementRelation"/>
+      <xs:element name="validateRefStatementRelationResponse" type="tns:validateRefStatementRelationResponse"/>
+      <xs:element name="validateReqComponent" type="tns:validateReqComponent"/>
+      <xs:element name="validateReqComponentResponse" type="tns:validateReqComponentResponse"/>
+      <xs:element name="validateStatement" type="tns:validateStatement"/>
+      <xs:element name="validateStatementResponse" type="tns:validateStatementResponse"/>
+      <xs:complexType name="updateStatement">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="statementId" type="xs:string"/>
+          <xs:element minOccurs="0" name="statementInfo" type="tns:statementInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="statementInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="name" type="xs:string"/>
+          <xs:element minOccurs="0" name="desc" type="tns:richTextInfo"/>
+          <xs:element minOccurs="0" name="operator" type="tns:statementOperatorTypeKey"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="statementIds" type="xs:string"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="reqComponentIds" type="xs:string"/>
+          <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+          <xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
+        </xs:sequence>
+        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="state" type="xs:string"/>
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="parentId" type="xs:string"/>
+      </xs:complexType>
+      <xs:complexType name="richTextInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="plain" type="xs:string"/>
+          <xs:element minOccurs="0" name="formatted" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="jaxbAttributeList">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="attribute" type="tns:Attribute"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="Attribute">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="value" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+      </xs:complexType>
+      <xs:complexType name="metaInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="versionInd" type="xs:string"/>
+          <xs:element minOccurs="0" name="createTime" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="createId" type="xs:string"/>
+          <xs:element minOccurs="0" name="updateTime" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="updateId" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="updateStatementResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:statementInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="translateReqComponentToNL">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="reqComponentInfo" type="tns:reqComponentInfo"/>
+          <xs:element minOccurs="0" name="nlUsageTypeKey" type="xs:string"/>
+          <xs:element minOccurs="0" name="language" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="reqComponentInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="desc" type="tns:richTextInfo"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="reqCompFields" type="tns:reqCompFieldInfo"/>
+          <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
+          <xs:element minOccurs="0" name="requiredComponentType" type="tns:reqComponentTypeInfo"/>
+        </xs:sequence>
+        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="state" type="xs:string"/>
+        <xs:attribute name="id" type="xs:string"/>
+      </xs:complexType>
+      <xs:complexType name="reqCompFieldInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="value" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+      </xs:complexType>
+      <xs:complexType name="reqComponentTypeInfo">
+        <xs:complexContent>
+          <xs:extension base="tns:typeInfo">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="reqCompFieldTypes">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="reqCompFieldType" type="tns:reqCompFieldTypeInfo"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType abstract="true" name="typeInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="name" type="xs:string"/>
+          <xs:element minOccurs="0" name="desc" type="xs:string"/>
+          <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+      </xs:complexType>
+      <xs:complexType name="reqCompFieldTypeInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" ref="ns1:fieldDescriptor"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+      </xs:complexType>
+      <xs:complexType name="translateReqComponentToNLResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getStatementTypesForStatementType">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="statementTypeKey" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getStatementTypesForStatementTypeResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="createReqComponent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="reqComponentType" type="xs:string"/>
+          <xs:element minOccurs="0" name="reqComponentInfo" type="tns:reqComponentInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="createReqComponentResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:reqComponentInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getNaturalLanguageForRefStatementRelation">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="refStatementRelationId" type="xs:string"/>
+          <xs:element minOccurs="0" name="nlUsageTypeKey" type="xs:string"/>
+          <xs:element minOccurs="0" name="language" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getNaturalLanguageForRefStatementRelationResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="validateStatement">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="validationType" type="xs:string"/>
+          <xs:element minOccurs="0" name="statementInfo" type="tns:statementInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="validateStatementResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="updateRefStatementRelation">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="refStatementRelationId" type="xs:string"/>
+          <xs:element minOccurs="0" name="refStatementRelationInfo" type="tns:refStatementRelationInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="refStatementRelationInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="refObjectTypeKey" type="xs:string"/>
+          <xs:element minOccurs="0" name="refObjectId" type="xs:string"/>
+          <xs:element minOccurs="0" name="statementId" type="xs:string"/>
+          <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+          <xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
+        </xs:sequence>
+        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="state" type="xs:string"/>
+        <xs:attribute name="id" type="xs:string"/>
+      </xs:complexType>
+      <xs:complexType name="updateRefStatementRelationResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:refStatementRelationInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="updateReqComponent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="reqComponentId" type="xs:string"/>
+          <xs:element minOccurs="0" name="reqComponentInfo" type="tns:reqComponentInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="updateReqComponentResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:reqComponentInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getReqComponentType">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="reqComponentTypeKey" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getReqComponentTypeResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:reqComponentTypeInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="createStatement">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="statementType" type="xs:string"/>
+          <xs:element minOccurs="0" name="statementInfo" type="tns:statementInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="createStatementResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:statementInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getStatementType">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="statementTypeKey" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getStatementTypeResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:statementTypeInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="statementTypeInfo">
+        <xs:complexContent>
+          <xs:extension base="tns:typeInfo">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="allowedReqComponentTypes">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="reqComponentTypeKey" type="xs:string"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element minOccurs="0" name="allowedStatementTypes">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="statementTypeKey" type="xs:string"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="deleteRefStatementRelation">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="refStatementRelationId" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="deleteRefStatementRelationResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:statusInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="statusInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="success" type="xs:boolean"/>
+          <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getRefObjectSubTypes">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="objectTypeKey" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getRefObjectSubTypesResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="deleteStatement">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="statementId" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="deleteStatementResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:statusInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="validateReqComponent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="validationType" type="xs:string"/>
+          <xs:element minOccurs="0" name="reqComponentInfo" type="tns:reqComponentInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="validateReqComponentResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getRefObjectTypes">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="getRefObjectTypesResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getRefStatementRelation">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="refStatementRelationId" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getRefStatementRelationResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:refStatementRelationInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="updateStatementTreeView">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="statementId" type="xs:string"/>
+          <xs:element minOccurs="0" name="statementTreeViewInfo" type="tns:statementTreeViewInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="statementTreeViewInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="name" type="xs:string"/>
+          <xs:element minOccurs="0" name="desc" type="tns:richTextInfo"/>
+          <xs:element minOccurs="0" name="operator" type="tns:statementOperatorTypeKey"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="statements" type="tns:statementTreeViewInfo"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="reqComponents" type="tns:reqComponentInfo"/>
+          <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+          <xs:element minOccurs="0" name="metaInfo" type="tns:metaInfo"/>
+        </xs:sequence>
+        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="state" type="xs:string"/>
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="parentId" type="xs:string"/>
+      </xs:complexType>
+      <xs:complexType name="updateStatementTreeViewResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:statementTreeViewInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getStatementsUsingStatement">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="statementId" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getStatementsUsingStatementResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:statementInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getStatement">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="statementId" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getStatementResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:statementInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getRefStatementRelationsByRef">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="refObjectTypeKey" type="xs:string"/>
+          <xs:element minOccurs="0" name="refObjectId" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getRefStatementRelationsByRefResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:refStatementRelationInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getStatementsUsingReqComponent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="reqComponentId" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getStatementsUsingReqComponentResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:statementInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getRefStatementRelationType">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="refStatementRelationTypeKey" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getRefStatementRelationTypeResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:refStatementRelationTypeInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="refStatementRelationTypeInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="name" type="xs:string"/>
+          <xs:element minOccurs="0" name="desc" type="xs:string"/>
+          <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="attributes" type="tns:jaxbAttributeList"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+      </xs:complexType>
+      <xs:complexType name="getRefStatementRelationsByStatement">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="statementId" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getRefStatementRelationsByStatementResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:refStatementRelationInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getStatementTypes">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="getStatementTypesResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:statementTypeInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="deleteReqComponent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="reqComponentId" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="deleteReqComponentResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:statusInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="translateStatementTreeViewToNL">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="statementTreeViewInfo" type="tns:statementTreeViewInfo"/>
+          <xs:element minOccurs="0" name="nlUsageTypeKey" type="xs:string"/>
+          <xs:element minOccurs="0" name="language" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="translateStatementTreeViewToNLResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getStatementsByType">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="statementTypeKey" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getStatementsByTypeResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="createRefStatementRelation">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="refStatementRelationInfo" type="tns:refStatementRelationInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="createRefStatementRelationResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:refStatementRelationInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getRefStatementRelationTypesForRefObjectSubType">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="refSubTypeKey" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getRefStatementRelationTypesForRefObjectSubTypeResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getReqComponentTypes">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="getReqComponentTypesResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getReqComponentsByType">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="reqComponentTypeKey" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getReqComponentsByTypeResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getReqComponentTypesForStatementType">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="statementTypeKey" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getReqComponentTypesForStatementTypeResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getNlUsageTypes">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="getNlUsageTypesResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getStatementTreeView">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="statementId" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getStatementTreeViewResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:statementTreeViewInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getReqComponent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="reqComponentId" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getReqComponentResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:reqComponentInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getNaturalLanguageForReqComponent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="reqComponentId" type="xs:string"/>
+          <xs:element minOccurs="0" name="nlUsageTypeKey" type="xs:string"/>
+          <xs:element minOccurs="0" name="language" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getNaturalLanguageForReqComponentResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="validateRefStatementRelation">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="validationType" type="xs:string"/>
+          <xs:element minOccurs="0" name="refStatementRelationInfo" type="tns:refStatementRelationInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="validateRefStatementRelationResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:validationResultInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="validationResultInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="element" type="xs:string"/>
+          <xs:element minOccurs="0" name="level" type="tns:errorLevel"/>
+          <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getNaturalLanguageForStatement">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="statementId" type="xs:string"/>
+          <xs:element minOccurs="0" name="nlUsageTypeKey" type="xs:string"/>
+          <xs:element minOccurs="0" name="language" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getNaturalLanguageForStatementResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getNlUsageType">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="nlUsageTypeKey" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getNlUsageTypeResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:nlUsageTypeInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="nlUsageTypeInfo">
+        <xs:complexContent>
+          <xs:extension base="tns:typeInfo">
+            <xs:sequence/>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="getRefStatementRelationTypes">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="getRefStatementRelationTypesResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:refStatementRelationTypeInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getStatementTypesForRefStatementRelationType">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="refStatementRelationTypeKey" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getStatementTypesForRefStatementRelationTypeResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="statementOperatorTypeKey">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="AND"/>
+          <xs:enumeration value="OR"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="errorLevel">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="OK"/>
+          <xs:enumeration value="WARN"/>
+          <xs:enumeration value="ERROR"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="OperationFailedException" nillable="true" type="ns0:OperationFailedException"/>
+      <xs:element name="VersionMismatchException" nillable="true" type="ns0:VersionMismatchException"/>
+      <xs:element name="MissingParameterException" nillable="true" type="ns0:MissingParameterException"/>
+      <xs:element name="PermissionDeniedException" nillable="true" type="ns0:PermissionDeniedException"/>
+      <xs:element name="DoesNotExistException" nillable="true" type="ns0:DoesNotExistException"/>
+      <xs:element name="DataValidationErrorException" nillable="true" type="ns0:DataValidationErrorException"/>
+      <xs:element name="CircularReferenceException" nillable="true" type="ns0:CircularReferenceException"/>
+      <xs:element name="InvalidParameterException" nillable="true" type="ns0:InvalidParameterException"/>
+      <xs:element name="getObjectStructure" nillable="true" type="ns1:getObjectStructure"/>
+      <xs:element name="getObjectStructureResponse" nillable="true" type="ns1:getObjectStructureResponse"/>
+      <xs:element name="getSearchCriteriaTypes" nillable="true" type="ns2:getSearchCriteriaTypes"/>
+      <xs:element name="getSearchCriteriaTypesResponse" nillable="true" type="ns2:getSearchCriteriaTypesResponse"/>
+      <xs:element name="search" nillable="true" type="ns3:search"/>
+      <xs:element name="searchResponse" nillable="true" type="ns3:searchResponse"/>
+      <xs:element name="AlreadyExistsException" nillable="true" type="ns0:AlreadyExistsException"/>
+      <xs:element name="getSearchType" nillable="true" type="ns2:getSearchType"/>
+      <xs:element name="getSearchTypeResponse" nillable="true" type="ns2:getSearchTypeResponse"/>
+      <xs:element name="validateObject" nillable="true" type="ns1:validateObject"/>
+      <xs:element name="validateObjectResponse" nillable="true" type="ns1:validateObjectResponse"/>
+      <xs:element name="getSearchTypesByCriteria" nillable="true" type="ns2:getSearchTypesByCriteria"/>
+      <xs:element name="getSearchTypesByCriteriaResponse" nillable="true" type="ns2:getSearchTypesByCriteriaResponse"/>
+      <xs:element name="validateStructureData" nillable="true" type="ns1:validateStructureData"/>
+      <xs:element name="validateStructureDataResponse" nillable="true" type="ns1:validateStructureDataResponse"/>
+      <xs:element name="getObjectTypes" nillable="true" type="ns1:getObjectTypes"/>
+      <xs:element name="getObjectTypesResponse" nillable="true" type="ns1:getObjectTypesResponse"/>
+      <xs:element name="searchForResults" nillable="true" type="ns2:searchForResults"/>
+      <xs:element name="searchForResultsResponse" nillable="true" type="ns2:searchForResultsResponse"/>
+      <xs:element name="getSearchCriteriaType" nillable="true" type="ns2:getSearchCriteriaType"/>
+      <xs:element name="getSearchCriteriaTypeResponse" nillable="true" type="ns2:getSearchCriteriaTypeResponse"/>
+      <xs:element name="getSearchTypes" nillable="true" type="ns2:getSearchTypes"/>
+      <xs:element name="getSearchTypesResponse" nillable="true" type="ns2:getSearchTypesResponse"/>
+      <xs:element name="getSearchTypesByResult" nillable="true" type="ns2:getSearchTypesByResult"/>
+      <xs:element name="getSearchTypesByResultResponse" nillable="true" type="ns2:getSearchTypesByResultResponse"/>
+      <xs:element name="getSearchResultTypes" nillable="true" type="ns2:getSearchResultTypes"/>
+      <xs:element name="getSearchResultTypesResponse" nillable="true" type="ns2:getSearchResultTypesResponse"/>
+      <xs:element name="getSearchResultType" nillable="true" type="ns2:getSearchResultType"/>
+      <xs:element name="getSearchResultTypeResponse" nillable="true" type="ns2:getSearchResultTypeResponse"/>
+    </xs:schema>
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://student.kuali.org/wsdl/dictionary" xmlns:ns1="http://student.kuali.org/wsdl/statement" xmlns:tns="http://student.kuali.org/wsdl/dictionary" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://student.kuali.org/wsdl/statement"/>
+      <xs:element name="fieldDescriptor" type="tns:fieldDescriptor"/>
+      <xs:element name="getObjectStructure" type="tns:getObjectStructure"/>
+      <xs:element name="getObjectStructureResponse" type="tns:getObjectStructureResponse"/>
+      <xs:element name="getObjectTypes" type="tns:getObjectTypes"/>
+      <xs:element name="getObjectTypesResponse" type="tns:getObjectTypesResponse"/>
+      <xs:element name="validateObject" type="tns:validateObject"/>
+      <xs:element name="validateObjectResponse" type="tns:validateObjectResponse"/>
+      <xs:element name="validateStructureData" type="tns:validateStructureData"/>
+      <xs:element name="validateStructureDataResponse" type="tns:validateStructureDataResponse"/>
+      <xs:complexType name="fieldDescriptor">
+        <xs:sequence>
+          <xs:element name="name" type="xs:string"/>
+          <xs:element name="desc" type="xs:string"/>
+          <xs:element name="readOnly" type="xs:boolean"/>
+          <xs:element name="dataType" type="xs:string"/>
+          <xs:element minOccurs="0" name="search" type="tns:searchSelector"/>
+          <xs:element minOccurs="0" name="objectStructure" type="tns:objectStructure"/>
+          <xs:element minOccurs="0" name="objectStructureRef" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string"/>
+      </xs:complexType>
+      <xs:complexType name="searchSelector">
+        <xs:sequence/>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+      </xs:complexType>
+      <xs:complexType name="objectStructure">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="type" type="tns:type"/>
+          <xs:element minOccurs="0" name="name" type="xs:string"/>
+          <xs:element minOccurs="0" name="desc" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+        <xs:attribute name="id" type="xs:string"/>
+      </xs:complexType>
+      <xs:complexType name="type">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="state" type="tns:state"/>
+          <xs:element minOccurs="0" name="name" type="xs:string"/>
+          <xs:element minOccurs="0" name="desc" type="xs:string"/>
+          <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+          <xs:element name="modifiable" type="xs:boolean"/>
+          <xs:element minOccurs="0" name="attributes" type="ns1:jaxbAttributeList"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+      </xs:complexType>
+      <xs:complexType name="state">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="field" type="tns:field"/>
+          <xs:element minOccurs="0" name="constraintDescriptor" type="tns:constraintDescriptor"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+      </xs:complexType>
+      <xs:complexType name="field">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="fieldDescriptor" type="tns:fieldDescriptor"/>
+          <xs:element minOccurs="0" name="constraintDescriptor" type="tns:constraintDescriptor"/>
+          <xs:element name="selector" type="xs:boolean"/>
+          <xs:element name="dynamic" type="xs:boolean"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+        <xs:attribute name="id" type="xs:string"/>
+      </xs:complexType>
+      <xs:complexType name="constraintDescriptor">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="constraint" type="tns:constraintSelector"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+        <xs:attribute name="id" type="xs:string"/>
+      </xs:complexType>
+      <xs:complexType name="constraintSelector">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="minValue" type="xs:string"/>
+          <xs:element minOccurs="0" name="maxValue" type="xs:string"/>
+          <xs:element minOccurs="0" name="minLength" type="xs:int"/>
+          <xs:element minOccurs="0" name="maxLength" type="xs:string"/>
+          <xs:element minOccurs="0" name="validChars" type="tns:validCharsConstraint"/>
+          <xs:element minOccurs="0" name="minOccurs" type="xs:int"/>
+          <xs:element minOccurs="0" name="maxOccurs" type="xs:string"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="require" type="tns:requireConstraint"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="case" type="tns:caseConstraint"/>
+          <xs:element minOccurs="0" name="typeStateCase" type="tns:typeStateCaseConstraint"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="lookup" type="tns:lookupConstraint"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="occurs" type="tns:occursConstraint"/>
+        </xs:sequence>
+        <xs:attribute name="className" type="xs:string"/>
+        <xs:attribute name="key" type="xs:string" use="required"/>
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="serverSide" type="xs:boolean" use="required"/>
+        <xs:attribute name="locale" type="xs:string"/>
+      </xs:complexType>
+      <xs:complexType name="validCharsConstraint">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="value" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="fields" type="xs:string"/>
+        <xs:attribute name="separator" type="xs:string"/>
+      </xs:complexType>
+      <xs:complexType name="requireConstraint">
+        <xs:sequence/>
+        <xs:attribute name="field" type="xs:string"/>
+      </xs:complexType>
+      <xs:complexType name="caseConstraint">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="when" type="tns:whenConstraint"/>
+        </xs:sequence>
+        <xs:attribute name="field" type="xs:string"/>
+        <xs:attribute name="operator" type="xs:string"/>
+      </xs:complexType>
+      <xs:complexType name="whenConstraint">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="constraint" type="tns:constraintSelector"/>
+        </xs:sequence>
+        <xs:attribute name="value" type="xs:string"/>
+      </xs:complexType>
+      <xs:complexType name="typeStateCaseConstraint">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="typeStateWhen" type="tns:typeStateWhenConstraint"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="typeStateWhenConstraint">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="minOccurs" type="xs:int"/>
+          <xs:element minOccurs="0" name="maxOccurs" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="state" type="xs:string"/>
+      </xs:complexType>
+      <xs:complexType name="lookupConstraint">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="lookupKey" type="tns:lookupKeyConstraint"/>
+        </xs:sequence>
+        <xs:attribute name="search" type="xs:string"/>
+        <xs:attribute name="searchField" type="xs:string"/>
+      </xs:complexType>
+      <xs:complexType name="lookupKeyConstraint">
+        <xs:sequence/>
+        <xs:attribute name="field" type="xs:string"/>
+        <xs:attribute name="mapsTo" type="xs:string"/>
+      </xs:complexType>
+      <xs:complexType name="occursConstraint">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="require" type="tns:requireConstraint"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="occurs" type="tns:occursConstraint"/>
+        </xs:sequence>
+        <xs:attribute name="min" type="xs:int"/>
+        <xs:attribute name="max" type="xs:int"/>
+      </xs:complexType>
+      <xs:complexType name="getObjectStructure">
+        <xs:sequence>
+          <xs:element form="unqualified" minOccurs="0" name="objectTypeKey" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getObjectStructureResponse">
+        <xs:sequence>
+          <xs:element form="unqualified" minOccurs="0" name="return" type="tns:objectStructure"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="validateObject">
+        <xs:sequence>
+          <xs:element form="unqualified" minOccurs="0" name="objectTypeKey" type="xs:string"/>
+          <xs:element form="unqualified" minOccurs="0" name="stateKey" type="xs:string"/>
+          <xs:element form="unqualified" minOccurs="0" name="info" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="validateObjectResponse">
+        <xs:sequence>
+          <xs:element form="unqualified" name="return" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="validateStructureData">
+        <xs:sequence>
+          <xs:element form="unqualified" minOccurs="0" name="objectTypeKey" type="xs:string"/>
+          <xs:element form="unqualified" minOccurs="0" name="stateKey" type="xs:string"/>
+          <xs:element form="unqualified" minOccurs="0" name="info" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="validateStructureDataResponse">
+        <xs:sequence>
+          <xs:element form="unqualified" name="return" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getObjectTypes">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="getObjectTypesResponse">
+        <xs:sequence>
+          <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/exceptions" xmlns:tns="http://student.kuali.org/wsdl/exceptions" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
+      <xs:element name="CircularReferenceException" type="tns:CircularReferenceException"/>
+      <xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
+      <xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
+      <xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
+      <xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
+      <xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
+      <xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
+      <xs:element name="VersionMismatchException" type="tns:VersionMismatchException"/>
+      <xs:complexType name="OperationFailedException">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="VersionMismatchException">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="MissingParameterException">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PermissionDeniedException">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="DoesNotExistException">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="DataValidationErrorException">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="CircularReferenceException">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="InvalidParameterException">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="AlreadyExistsException">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://student.kuali.org/wsdl/search" xmlns:ns1="http://student.kuali.org/wsdl/dictionary" xmlns:tns="http://student.kuali.org/wsdl/search" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://student.kuali.org/wsdl/dictionary"/>
+      <xs:element name="getSearchCriteriaType" type="tns:getSearchCriteriaType"/>
+      <xs:element name="getSearchCriteriaTypeResponse" type="tns:getSearchCriteriaTypeResponse"/>
+      <xs:element name="getSearchCriteriaTypes" type="tns:getSearchCriteriaTypes"/>
+      <xs:element name="getSearchCriteriaTypesResponse" type="tns:getSearchCriteriaTypesResponse"/>
+      <xs:element name="getSearchResultType" type="tns:getSearchResultType"/>
+      <xs:element name="getSearchResultTypeResponse" type="tns:getSearchResultTypeResponse"/>
+      <xs:element name="getSearchResultTypes" type="tns:getSearchResultTypes"/>
+      <xs:element name="getSearchResultTypesResponse" type="tns:getSearchResultTypesResponse"/>
+      <xs:element name="getSearchType" type="tns:getSearchType"/>
+      <xs:element name="getSearchTypeResponse" type="tns:getSearchTypeResponse"/>
+      <xs:element name="getSearchTypes" type="tns:getSearchTypes"/>
+      <xs:element name="getSearchTypesByCriteria" type="tns:getSearchTypesByCriteria"/>
+      <xs:element name="getSearchTypesByCriteriaResponse" type="tns:getSearchTypesByCriteriaResponse"/>
+      <xs:element name="getSearchTypesByResult" type="tns:getSearchTypesByResult"/>
+      <xs:element name="getSearchTypesByResultResponse" type="tns:getSearchTypesByResultResponse"/>
+      <xs:element name="getSearchTypesResponse" type="tns:getSearchTypesResponse"/>
+      <xs:element name="searchForResults" type="tns:searchForResults"/>
+      <xs:element name="searchForResultsResponse" type="tns:searchForResultsResponse"/>
+      <xs:complexType name="getSearchCriteriaTypes">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="getSearchCriteriaTypesResponse">
+        <xs:sequence>
+          <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="return" type="tns:searchCriteriaTypeInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="searchCriteriaTypeInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="name" type="xs:string"/>
+          <xs:element minOccurs="0" name="desc" type="xs:string"/>
+          <xs:element minOccurs="0" name="queryParams">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element maxOccurs="unbounded" minOccurs="0" name="queryParam" type="tns:queryParamInfo"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+      </xs:complexType>
+      <xs:complexType name="queryParamInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" ref="ns1:fieldDescriptor"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+        <xs:attribute name="optional" type="xs:boolean" use="required"/>
+      </xs:complexType>
+      <xs:complexType name="searchRequest">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="searchKey" type="xs:string"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="params" nillable="true" type="tns:searchParam"/>
+          <xs:element minOccurs="0" name="sortColumn" type="xs:string"/>
+          <xs:element minOccurs="0" name="sortDirection" type="tns:sortDirection"/>
+          <xs:element minOccurs="0" name="startAt" type="xs:int"/>
+          <xs:element minOccurs="0" name="maxResults" type="xs:int"/>
+          <xs:element minOccurs="0" name="neededTotalResults" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="searchParam">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="value" type="xs:string"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="listValue" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+      </xs:complexType>
+      <xs:complexType name="searchResult">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="startAt" type="xs:int"/>
+          <xs:element minOccurs="0" name="totalResults" type="xs:int"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="rows" nillable="true" type="tns:searchResultRow"/>
+          <xs:element minOccurs="0" name="sortColumn" type="xs:string"/>
+          <xs:element minOccurs="0" name="sortDirection" type="tns:sortDirection"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="searchResultRow">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="cells" nillable="true" type="tns:searchResultCell"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="searchResultCell">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="value" type="xs:string"/>
+          <xs:element minOccurs="0" name="key" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getSearchType">
+        <xs:sequence>
+          <xs:element form="unqualified" minOccurs="0" name="searchTypeKey" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getSearchTypeResponse">
+        <xs:sequence>
+          <xs:element form="unqualified" minOccurs="0" name="return" type="tns:searchTypeInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="searchTypeInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="name" type="xs:string"/>
+          <xs:element minOccurs="0" name="desc" type="xs:string"/>
+          <xs:element minOccurs="0" name="searchResultTypeInfo" type="tns:searchResultTypeInfo"/>
+          <xs:element minOccurs="0" name="searchCriteriaTypeInfo" type="tns:searchCriteriaTypeInfo"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+      </xs:complexType>
+      <xs:complexType name="searchResultTypeInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="name" type="xs:string"/>
+          <xs:element minOccurs="0" name="desc" type="xs:string"/>
+          <xs:element minOccurs="0" name="resultColumns">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element maxOccurs="unbounded" minOccurs="0" name="resultColumn" type="tns:resultColumnInfo"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+      </xs:complexType>
+      <xs:complexType name="resultColumnInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="name" type="xs:string"/>
+          <xs:element minOccurs="0" name="desc" type="xs:string"/>
+          <xs:element minOccurs="0" name="dataType" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+      </xs:complexType>
+      <xs:complexType name="getSearchTypesByCriteria">
+        <xs:sequence>
+          <xs:element form="unqualified" minOccurs="0" name="searchCriteriaTypeKey" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getSearchTypesByCriteriaResponse">
+        <xs:sequence>
+          <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="return" type="tns:searchTypeInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="searchForResults">
+        <xs:sequence>
+          <xs:element form="unqualified" minOccurs="0" name="searchTypeKey" type="xs:string"/>
+          <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="queryParamValues" type="tns:queryParamValue"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="queryParamValue">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="value" type="xs:string"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="listValue" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+      </xs:complexType>
+      <xs:complexType name="searchForResultsResponse">
+        <xs:sequence>
+          <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="return" type="tns:result"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="result">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="resultCells" type="tns:resultCell"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="resultCell">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="value" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+      </xs:complexType>
+      <xs:complexType name="getSearchCriteriaType">
+        <xs:sequence>
+          <xs:element form="unqualified" minOccurs="0" name="searchCriteriaTypeKey" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getSearchCriteriaTypeResponse">
+        <xs:sequence>
+          <xs:element form="unqualified" minOccurs="0" name="return" type="tns:searchCriteriaTypeInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getSearchTypes">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="getSearchTypesResponse">
+        <xs:sequence>
+          <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="return" type="tns:searchTypeInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getSearchTypesByResult">
+        <xs:sequence>
+          <xs:element form="unqualified" minOccurs="0" name="searchResultTypeKey" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getSearchTypesByResultResponse">
+        <xs:sequence>
+          <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="return" type="tns:searchTypeInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getSearchResultTypes">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="getSearchResultTypesResponse">
+        <xs:sequence>
+          <xs:element form="unqualified" maxOccurs="unbounded" minOccurs="0" name="return" type="tns:searchResultTypeInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getSearchResultType">
+        <xs:sequence>
+          <xs:element form="unqualified" minOccurs="0" name="searchResultTypeKey" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getSearchResultTypeResponse">
+        <xs:sequence>
+          <xs:element form="unqualified" minOccurs="0" name="return" type="tns:searchResultTypeInfo"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="searchRelationship">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="lhs" type="tns:typeAttribute"/>
+          <xs:element minOccurs="0" name="rhs" type="tns:typeAttribute"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="typeAttribute">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="parentType" type="xs:string"/>
+          <xs:element minOccurs="0" name="name" type="xs:string"/>
+          <xs:element minOccurs="0" name="alias" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="sortDirection">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="ASC"/>
+          <xs:enumeration value="DESC"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:schema>
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/organization" xmlns:ns1="http://student.kuali.org/wsdl/search" xmlns:tns="http://student.kuali.org/wsdl/organization" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://student.kuali.org/wsdl/search"/>
+      <xs:element name="search" type="tns:search"/>
+      <xs:element name="searchResponse" type="tns:searchResponse"/>
+      <xs:complexType name="search">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="ns1:searchRequest"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="searchResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="ns1:searchResult"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="updateStatementResponse">
+    <wsdl:part element="tns:updateStatementResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRefObjectSubTypesResponse">
+    <wsdl:part element="tns:getRefObjectSubTypesResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSearchType">
+    <wsdl:part element="tns:getSearchType" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PermissionDeniedException">
+    <wsdl:part element="tns:PermissionDeniedException" name="PermissionDeniedException"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateStatement">
+    <wsdl:part element="tns:updateStatement" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createStatement">
+    <wsdl:part element="tns:createStatement" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForResultsResponse">
+    <wsdl:part element="tns:searchForResultsResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteStatementResponse">
+    <wsdl:part element="tns:deleteStatementResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DataValidationErrorException">
+    <wsdl:part element="tns:DataValidationErrorException" name="DataValidationErrorException"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRefStatementRelationResponse">
+    <wsdl:part element="tns:getRefStatementRelationResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getNaturalLanguageForStatementResponse">
+    <wsdl:part element="tns:getNaturalLanguageForStatementResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getStatementsUsingStatementResponse">
+    <wsdl:part element="tns:getStatementsUsingStatementResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getStatementsByType">
+    <wsdl:part element="tns:getStatementsByType" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getObjectTypesResponse">
+    <wsdl:part element="tns:getObjectTypesResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getNaturalLanguageForStatement">
+    <wsdl:part element="tns:getNaturalLanguageForStatement" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRefStatementRelation">
+    <wsdl:part element="tns:getRefStatementRelation" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getStatementTypesResponse">
+    <wsdl:part element="tns:getStatementTypesResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getReqComponentType">
+    <wsdl:part element="tns:getReqComponentType" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getStatementsUsingStatement">
+    <wsdl:part element="tns:getStatementsUsingStatement" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSearchTypesByCriteriaResponse">
+    <wsdl:part element="tns:getSearchTypesByCriteriaResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRefStatementRelationsByRef">
+    <wsdl:part element="tns:getRefStatementRelationsByRef" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getNlUsageTypeResponse">
+    <wsdl:part element="tns:getNlUsageTypeResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getReqComponentsByTypeResponse">
+    <wsdl:part element="tns:getReqComponentsByTypeResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getReqComponentResponse">
+    <wsdl:part element="tns:getReqComponentResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createReqComponentResponse">
+    <wsdl:part element="tns:createReqComponentResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createRefStatementRelationResponse">
+    <wsdl:part element="tns:createRefStatementRelationResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateReqComponentResponse">
+    <wsdl:part element="tns:updateReqComponentResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateStatementTreeView">
+    <wsdl:part element="tns:updateStatementTreeView" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSearchTypes">
+    <wsdl:part element="tns:getSearchTypes" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateRefStatementRelationResponse">
+    <wsdl:part element="tns:updateRefStatementRelationResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchResponse">
+    <wsdl:part element="tns:searchResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getNlUsageTypes">
+    <wsdl:part element="tns:getNlUsageTypes" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSearchResultTypeResponse">
+    <wsdl:part element="tns:getSearchResultTypeResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="translateStatementTreeViewToNLResponse">
+    <wsdl:part element="tns:translateStatementTreeViewToNLResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="MissingParameterException">
+    <wsdl:part element="tns:MissingParameterException" name="MissingParameterException"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteRefStatementRelationResponse">
+    <wsdl:part element="tns:deleteRefStatementRelationResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getNaturalLanguageForRefStatementRelation">
+    <wsdl:part element="tns:getNaturalLanguageForRefStatementRelation" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getReqComponent">
+    <wsdl:part element="tns:getReqComponent" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateObjectResponse">
+    <wsdl:part element="tns:validateObjectResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteReqComponentResponse">
+    <wsdl:part element="tns:deleteReqComponentResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getReqComponentTypes">
+    <wsdl:part element="tns:getReqComponentTypes" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateStatementTreeViewResponse">
+    <wsdl:part element="tns:updateStatementTreeViewResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateRefStatementRelation">
+    <wsdl:part element="tns:updateRefStatementRelation" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getStatement">
+    <wsdl:part element="tns:getStatement" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CircularReferenceException">
+    <wsdl:part element="tns:CircularReferenceException" name="CircularReferenceException"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getReqComponentsByType">
+    <wsdl:part element="tns:getReqComponentsByType" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createStatementResponse">
+    <wsdl:part element="tns:createStatementResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSearchCriteriaTypesResponse">
+    <wsdl:part element="tns:getSearchCriteriaTypesResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRefObjectSubTypes">
+    <wsdl:part element="tns:getRefObjectSubTypes" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getStatementResponse">
+    <wsdl:part element="tns:getStatementResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getStatementsByTypeResponse">
+    <wsdl:part element="tns:getStatementsByTypeResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getStatementsUsingReqComponent">
+    <wsdl:part element="tns:getStatementsUsingReqComponent" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createReqComponent">
+    <wsdl:part element="tns:createReqComponent" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSearchTypeResponse">
+    <wsdl:part element="tns:getSearchTypeResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="translateReqComponentToNL">
+    <wsdl:part element="tns:translateReqComponentToNL" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateStatement">
+    <wsdl:part element="tns:validateStatement" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteRefStatementRelation">
+    <wsdl:part element="tns:deleteRefStatementRelation" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getStatementsUsingReqComponentResponse">
+    <wsdl:part element="tns:getStatementsUsingReqComponentResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getObjectTypes">
+    <wsdl:part element="tns:getObjectTypes" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="InvalidParameterException">
+    <wsdl:part element="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getNaturalLanguageForRefStatementRelationResponse">
+    <wsdl:part element="tns:getNaturalLanguageForRefStatementRelationResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRefStatementRelationTypesResponse">
+    <wsdl:part element="tns:getRefStatementRelationTypesResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteStatement">
+    <wsdl:part element="tns:deleteStatement" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="VersionMismatchException">
+    <wsdl:part element="tns:VersionMismatchException" name="VersionMismatchException"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="OperationFailedException">
+    <wsdl:part element="tns:OperationFailedException" name="OperationFailedException"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AlreadyExistsException">
+    <wsdl:part element="tns:AlreadyExistsException" name="AlreadyExistsException"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateObject">
+    <wsdl:part element="tns:validateObject" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSearchCriteriaType">
+    <wsdl:part element="tns:getSearchCriteriaType" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getNaturalLanguageForReqComponent">
+    <wsdl:part element="tns:getNaturalLanguageForReqComponent" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getObjectStructure">
+    <wsdl:part element="tns:getObjectStructure" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSearchCriteriaTypes">
+    <wsdl:part element="tns:getSearchCriteriaTypes" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getStatementTypesForStatementType">
+    <wsdl:part element="tns:getStatementTypesForStatementType" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRefStatementRelationTypes">
+    <wsdl:part element="tns:getRefStatementRelationTypes" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateReqComponent">
+    <wsdl:part element="tns:updateReqComponent" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRefStatementRelationsByStatement">
+    <wsdl:part element="tns:getRefStatementRelationsByStatement" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForResults">
+    <wsdl:part element="tns:searchForResults" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getStatementTypesForRefStatementRelationTypeResponse">
+    <wsdl:part element="tns:getStatementTypesForRefStatementRelationTypeResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getObjectStructureResponse">
+    <wsdl:part element="tns:getObjectStructureResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getNlUsageType">
+    <wsdl:part element="tns:getNlUsageType" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRefStatementRelationTypesForRefObjectSubTypeResponse">
+    <wsdl:part element="tns:getRefStatementRelationTypesForRefObjectSubTypeResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getStatementTypesForRefStatementRelationType">
+    <wsdl:part element="tns:getStatementTypesForRefStatementRelationType" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSearchTypesResponse">
+    <wsdl:part element="tns:getSearchTypesResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRefStatementRelationsByRefResponse">
+    <wsdl:part element="tns:getRefStatementRelationsByRefResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRefStatementRelationTypesForRefObjectSubType">
+    <wsdl:part element="tns:getRefStatementRelationTypesForRefObjectSubType" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getStatementTypes">
+    <wsdl:part element="tns:getStatementTypes" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getReqComponentTypesResponse">
+    <wsdl:part element="tns:getReqComponentTypesResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateStatementResponse">
+    <wsdl:part element="tns:validateStatementResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRefStatementRelationType">
+    <wsdl:part element="tns:getRefStatementRelationType" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getStatementTreeView">
+    <wsdl:part element="tns:getStatementTreeView" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getStatementType">
+    <wsdl:part element="tns:getStatementType" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateReqComponentResponse">
+    <wsdl:part element="tns:validateReqComponentResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getStatementTypesForStatementTypeResponse">
+    <wsdl:part element="tns:getStatementTypesForStatementTypeResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateReqComponent">
+    <wsdl:part element="tns:validateReqComponent" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateStructureDataResponse">
+    <wsdl:part element="tns:validateStructureDataResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createRefStatementRelation">
+    <wsdl:part element="tns:createRefStatementRelation" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRefObjectTypesResponse">
+    <wsdl:part element="tns:getRefObjectTypesResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DoesNotExistException">
+    <wsdl:part element="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSearchResultType">
+    <wsdl:part element="tns:getSearchResultType" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteReqComponent">
+    <wsdl:part element="tns:deleteReqComponent" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getStatementTreeViewResponse">
+    <wsdl:part element="tns:getStatementTreeViewResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="search">
+    <wsdl:part element="tns:search" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRefStatementRelationsByStatementResponse">
+    <wsdl:part element="tns:getRefStatementRelationsByStatementResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getNlUsageTypesResponse">
+    <wsdl:part element="tns:getNlUsageTypesResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getReqComponentTypesForStatementType">
+    <wsdl:part element="tns:getReqComponentTypesForStatementType" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSearchResultTypesResponse">
+    <wsdl:part element="tns:getSearchResultTypesResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSearchCriteriaTypeResponse">
+    <wsdl:part element="tns:getSearchCriteriaTypeResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getReqComponentTypeResponse">
+    <wsdl:part element="tns:getReqComponentTypeResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSearchResultTypes">
+    <wsdl:part element="tns:getSearchResultTypes" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getReqComponentTypesForStatementTypeResponse">
+    <wsdl:part element="tns:getReqComponentTypesForStatementTypeResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="translateStatementTreeViewToNL">
+    <wsdl:part element="tns:translateStatementTreeViewToNL" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateRefStatementRelationResponse">
+    <wsdl:part element="tns:validateRefStatementRelationResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getStatementTypeResponse">
+    <wsdl:part element="tns:getStatementTypeResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRefStatementRelationTypeResponse">
+    <wsdl:part element="tns:getRefStatementRelationTypeResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSearchTypesByResultResponse">
+    <wsdl:part element="tns:getSearchTypesByResultResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="translateReqComponentToNLResponse">
+    <wsdl:part element="tns:translateReqComponentToNLResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSearchTypesByResult">
+    <wsdl:part element="tns:getSearchTypesByResult" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSearchTypesByCriteria">
+    <wsdl:part element="tns:getSearchTypesByCriteria" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateStructureData">
+    <wsdl:part element="tns:validateStructureData" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateRefStatementRelation">
+    <wsdl:part element="tns:validateRefStatementRelation" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRefObjectTypes">
+    <wsdl:part element="tns:getRefObjectTypes" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getNaturalLanguageForReqComponentResponse">
+    <wsdl:part element="tns:getNaturalLanguageForReqComponentResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="StatementService">
+    <wsdl:operation name="updateStatement">
+      <wsdl:input message="tns:updateStatement" name="updateStatement"></wsdl:input>
+      <wsdl:output message="tns:updateStatementResponse" name="updateStatementResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DataValidationErrorException" name="DataValidationErrorException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:CircularReferenceException" name="CircularReferenceException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:VersionMismatchException" name="VersionMismatchException"></wsdl:fault>
+      <wsdl:fault message="tns:PermissionDeniedException" name="PermissionDeniedException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="translateReqComponentToNL">
+      <wsdl:input message="tns:translateReqComponentToNL" name="translateReqComponentToNL"></wsdl:input>
+      <wsdl:output message="tns:translateReqComponentToNLResponse" name="translateReqComponentToNLResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getObjectStructure">
+      <wsdl:input message="tns:getObjectStructure" name="getObjectStructure"></wsdl:input>
+      <wsdl:output message="tns:getObjectStructureResponse" name="getObjectStructureResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSearchCriteriaTypes">
+      <wsdl:input message="tns:getSearchCriteriaTypes" name="getSearchCriteriaTypes"></wsdl:input>
+      <wsdl:output message="tns:getSearchCriteriaTypesResponse" name="getSearchCriteriaTypesResponse"></wsdl:output>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getStatementTypesForStatementType">
+      <wsdl:input message="tns:getStatementTypesForStatementType" name="getStatementTypesForStatementType"></wsdl:input>
+      <wsdl:output message="tns:getStatementTypesForStatementTypeResponse" name="getStatementTypesForStatementTypeResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="search">
+      <wsdl:input message="tns:search" name="search"></wsdl:input>
+      <wsdl:output message="tns:searchResponse" name="searchResponse"></wsdl:output>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createReqComponent">
+      <wsdl:input message="tns:createReqComponent" name="createReqComponent"></wsdl:input>
+      <wsdl:output message="tns:createReqComponentResponse" name="createReqComponentResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DataValidationErrorException" name="DataValidationErrorException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:AlreadyExistsException" name="AlreadyExistsException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:PermissionDeniedException" name="PermissionDeniedException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getNaturalLanguageForRefStatementRelation">
+      <wsdl:input message="tns:getNaturalLanguageForRefStatementRelation" name="getNaturalLanguageForRefStatementRelation"></wsdl:input>
+      <wsdl:output message="tns:getNaturalLanguageForRefStatementRelationResponse" name="getNaturalLanguageForRefStatementRelationResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateStatement">
+      <wsdl:input message="tns:validateStatement" name="validateStatement"></wsdl:input>
+      <wsdl:output message="tns:validateStatementResponse" name="validateStatementResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateRefStatementRelation">
+      <wsdl:input message="tns:updateRefStatementRelation" name="updateRefStatementRelation"></wsdl:input>
+      <wsdl:output message="tns:updateRefStatementRelationResponse" name="updateRefStatementRelationResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DataValidationErrorException" name="DataValidationErrorException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:VersionMismatchException" name="VersionMismatchException"></wsdl:fault>
+      <wsdl:fault message="tns:PermissionDeniedException" name="PermissionDeniedException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSearchType">
+      <wsdl:input message="tns:getSearchType" name="getSearchType"></wsdl:input>
+      <wsdl:output message="tns:getSearchTypeResponse" name="getSearchTypeResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateReqComponent">
+      <wsdl:input message="tns:updateReqComponent" name="updateReqComponent"></wsdl:input>
+      <wsdl:output message="tns:updateReqComponentResponse" name="updateReqComponentResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DataValidationErrorException" name="DataValidationErrorException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:VersionMismatchException" name="VersionMismatchException"></wsdl:fault>
+      <wsdl:fault message="tns:PermissionDeniedException" name="PermissionDeniedException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getReqComponentType">
+      <wsdl:input message="tns:getReqComponentType" name="getReqComponentType"></wsdl:input>
+      <wsdl:output message="tns:getReqComponentTypeResponse" name="getReqComponentTypeResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createStatement">
+      <wsdl:input message="tns:createStatement" name="createStatement"></wsdl:input>
+      <wsdl:output message="tns:createStatementResponse" name="createStatementResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DataValidationErrorException" name="DataValidationErrorException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:AlreadyExistsException" name="AlreadyExistsException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:PermissionDeniedException" name="PermissionDeniedException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getStatementType">
+      <wsdl:input message="tns:getStatementType" name="getStatementType"></wsdl:input>
+      <wsdl:output message="tns:getStatementTypeResponse" name="getStatementTypeResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteRefStatementRelation">
+      <wsdl:input message="tns:deleteRefStatementRelation" name="deleteRefStatementRelation"></wsdl:input>
+      <wsdl:output message="tns:deleteRefStatementRelationResponse" name="deleteRefStatementRelationResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:PermissionDeniedException" name="PermissionDeniedException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRefObjectSubTypes">
+      <wsdl:input message="tns:getRefObjectSubTypes" name="getRefObjectSubTypes"></wsdl:input>
+      <wsdl:output message="tns:getRefObjectSubTypesResponse" name="getRefObjectSubTypesResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteStatement">
+      <wsdl:input message="tns:deleteStatement" name="deleteStatement"></wsdl:input>
+      <wsdl:output message="tns:deleteStatementResponse" name="deleteStatementResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:PermissionDeniedException" name="PermissionDeniedException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateReqComponent">
+      <wsdl:input message="tns:validateReqComponent" name="validateReqComponent"></wsdl:input>
+      <wsdl:output message="tns:validateReqComponentResponse" name="validateReqComponentResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRefObjectTypes">
+      <wsdl:input message="tns:getRefObjectTypes" name="getRefObjectTypes"></wsdl:input>
+      <wsdl:output message="tns:getRefObjectTypesResponse" name="getRefObjectTypesResponse"></wsdl:output>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateObject">
+      <wsdl:input message="tns:validateObject" name="validateObject"></wsdl:input>
+      <wsdl:output message="tns:validateObjectResponse" name="validateObjectResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRefStatementRelation">
+      <wsdl:input message="tns:getRefStatementRelation" name="getRefStatementRelation"></wsdl:input>
+      <wsdl:output message="tns:getRefStatementRelationResponse" name="getRefStatementRelationResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateStatementTreeView">
+      <wsdl:input message="tns:updateStatementTreeView" name="updateStatementTreeView"></wsdl:input>
+      <wsdl:output message="tns:updateStatementTreeViewResponse" name="updateStatementTreeViewResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DataValidationErrorException" name="DataValidationErrorException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:CircularReferenceException" name="CircularReferenceException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:VersionMismatchException" name="VersionMismatchException"></wsdl:fault>
+      <wsdl:fault message="tns:PermissionDeniedException" name="PermissionDeniedException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getStatementsUsingStatement">
+      <wsdl:input message="tns:getStatementsUsingStatement" name="getStatementsUsingStatement"></wsdl:input>
+      <wsdl:output message="tns:getStatementsUsingStatementResponse" name="getStatementsUsingStatementResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getStatement">
+      <wsdl:input message="tns:getStatement" name="getStatement"></wsdl:input>
+      <wsdl:output message="tns:getStatementResponse" name="getStatementResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRefStatementRelationsByRef">
+      <wsdl:input message="tns:getRefStatementRelationsByRef" name="getRefStatementRelationsByRef"></wsdl:input>
+      <wsdl:output message="tns:getRefStatementRelationsByRefResponse" name="getRefStatementRelationsByRefResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getStatementsUsingReqComponent">
+      <wsdl:input message="tns:getStatementsUsingReqComponent" name="getStatementsUsingReqComponent"></wsdl:input>
+      <wsdl:output message="tns:getStatementsUsingReqComponentResponse" name="getStatementsUsingReqComponentResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSearchTypesByCriteria">
+      <wsdl:input message="tns:getSearchTypesByCriteria" name="getSearchTypesByCriteria"></wsdl:input>
+      <wsdl:output message="tns:getSearchTypesByCriteriaResponse" name="getSearchTypesByCriteriaResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRefStatementRelationType">
+      <wsdl:input message="tns:getRefStatementRelationType" name="getRefStatementRelationType"></wsdl:input>
+      <wsdl:output message="tns:getRefStatementRelationTypeResponse" name="getRefStatementRelationTypeResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateStructureData">
+      <wsdl:input message="tns:validateStructureData" name="validateStructureData"></wsdl:input>
+      <wsdl:output message="tns:validateStructureDataResponse" name="validateStructureDataResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRefStatementRelationsByStatement">
+      <wsdl:input message="tns:getRefStatementRelationsByStatement" name="getRefStatementRelationsByStatement"></wsdl:input>
+      <wsdl:output message="tns:getRefStatementRelationsByStatementResponse" name="getRefStatementRelationsByStatementResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getStatementTypes">
+      <wsdl:input message="tns:getStatementTypes" name="getStatementTypes"></wsdl:input>
+      <wsdl:output message="tns:getStatementTypesResponse" name="getStatementTypesResponse"></wsdl:output>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteReqComponent">
+      <wsdl:input message="tns:deleteReqComponent" name="deleteReqComponent"></wsdl:input>
+      <wsdl:output message="tns:deleteReqComponentResponse" name="deleteReqComponentResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:PermissionDeniedException" name="PermissionDeniedException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="translateStatementTreeViewToNL">
+      <wsdl:input message="tns:translateStatementTreeViewToNL" name="translateStatementTreeViewToNL"></wsdl:input>
+      <wsdl:output message="tns:translateStatementTreeViewToNLResponse" name="translateStatementTreeViewToNLResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getStatementsByType">
+      <wsdl:input message="tns:getStatementsByType" name="getStatementsByType"></wsdl:input>
+      <wsdl:output message="tns:getStatementsByTypeResponse" name="getStatementsByTypeResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createRefStatementRelation">
+      <wsdl:input message="tns:createRefStatementRelation" name="createRefStatementRelation"></wsdl:input>
+      <wsdl:output message="tns:createRefStatementRelationResponse" name="createRefStatementRelationResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:AlreadyExistsException" name="AlreadyExistsException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:PermissionDeniedException" name="PermissionDeniedException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRefStatementRelationTypesForRefObjectSubType">
+      <wsdl:input message="tns:getRefStatementRelationTypesForRefObjectSubType" name="getRefStatementRelationTypesForRefObjectSubType"></wsdl:input>
+      <wsdl:output message="tns:getRefStatementRelationTypesForRefObjectSubTypeResponse" name="getRefStatementRelationTypesForRefObjectSubTypeResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getReqComponentTypes">
+      <wsdl:input message="tns:getReqComponentTypes" name="getReqComponentTypes"></wsdl:input>
+      <wsdl:output message="tns:getReqComponentTypesResponse" name="getReqComponentTypesResponse"></wsdl:output>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getObjectTypes">
+      <wsdl:input message="tns:getObjectTypes" name="getObjectTypes"></wsdl:input>
+      <wsdl:output message="tns:getObjectTypesResponse" name="getObjectTypesResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="searchForResults">
+      <wsdl:input message="tns:searchForResults" name="searchForResults"></wsdl:input>
+      <wsdl:output message="tns:searchForResultsResponse" name="searchForResultsResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:PermissionDeniedException" name="PermissionDeniedException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getReqComponentsByType">
+      <wsdl:input message="tns:getReqComponentsByType" name="getReqComponentsByType"></wsdl:input>
+      <wsdl:output message="tns:getReqComponentsByTypeResponse" name="getReqComponentsByTypeResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSearchCriteriaType">
+      <wsdl:input message="tns:getSearchCriteriaType" name="getSearchCriteriaType"></wsdl:input>
+      <wsdl:output message="tns:getSearchCriteriaTypeResponse" name="getSearchCriteriaTypeResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getReqComponentTypesForStatementType">
+      <wsdl:input message="tns:getReqComponentTypesForStatementType" name="getReqComponentTypesForStatementType"></wsdl:input>
+      <wsdl:output message="tns:getReqComponentTypesForStatementTypeResponse" name="getReqComponentTypesForStatementTypeResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getNlUsageTypes">
+      <wsdl:input message="tns:getNlUsageTypes" name="getNlUsageTypes"></wsdl:input>
+      <wsdl:output message="tns:getNlUsageTypesResponse" name="getNlUsageTypesResponse"></wsdl:output>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getStatementTreeView">
+      <wsdl:input message="tns:getStatementTreeView" name="getStatementTreeView"></wsdl:input>
+      <wsdl:output message="tns:getStatementTreeViewResponse" name="getStatementTreeViewResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSearchTypes">
+      <wsdl:input message="tns:getSearchTypes" name="getSearchTypes"></wsdl:input>
+      <wsdl:output message="tns:getSearchTypesResponse" name="getSearchTypesResponse"></wsdl:output>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getReqComponent">
+      <wsdl:input message="tns:getReqComponent" name="getReqComponent"></wsdl:input>
+      <wsdl:output message="tns:getReqComponentResponse" name="getReqComponentResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getNaturalLanguageForReqComponent">
+      <wsdl:input message="tns:getNaturalLanguageForReqComponent" name="getNaturalLanguageForReqComponent"></wsdl:input>
+      <wsdl:output message="tns:getNaturalLanguageForReqComponentResponse" name="getNaturalLanguageForReqComponentResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSearchTypesByResult">
+      <wsdl:input message="tns:getSearchTypesByResult" name="getSearchTypesByResult"></wsdl:input>
+      <wsdl:output message="tns:getSearchTypesByResultResponse" name="getSearchTypesByResultResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSearchResultTypes">
+      <wsdl:input message="tns:getSearchResultTypes" name="getSearchResultTypes"></wsdl:input>
+      <wsdl:output message="tns:getSearchResultTypesResponse" name="getSearchResultTypesResponse"></wsdl:output>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateRefStatementRelation">
+      <wsdl:input message="tns:validateRefStatementRelation" name="validateRefStatementRelation"></wsdl:input>
+      <wsdl:output message="tns:validateRefStatementRelationResponse" name="validateRefStatementRelationResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getNaturalLanguageForStatement">
+      <wsdl:input message="tns:getNaturalLanguageForStatement" name="getNaturalLanguageForStatement"></wsdl:input>
+      <wsdl:output message="tns:getNaturalLanguageForStatementResponse" name="getNaturalLanguageForStatementResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getNlUsageType">
+      <wsdl:input message="tns:getNlUsageType" name="getNlUsageType"></wsdl:input>
+      <wsdl:output message="tns:getNlUsageTypeResponse" name="getNlUsageTypeResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSearchResultType">
+      <wsdl:input message="tns:getSearchResultType" name="getSearchResultType"></wsdl:input>
+      <wsdl:output message="tns:getSearchResultTypeResponse" name="getSearchResultTypeResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRefStatementRelationTypes">
+      <wsdl:input message="tns:getRefStatementRelationTypes" name="getRefStatementRelationTypes"></wsdl:input>
+      <wsdl:output message="tns:getRefStatementRelationTypesResponse" name="getRefStatementRelationTypesResponse"></wsdl:output>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getStatementTypesForRefStatementRelationType">
+      <wsdl:input message="tns:getStatementTypesForRefStatementRelationType" name="getStatementTypesForRefStatementRelationType"></wsdl:input>
+      <wsdl:output message="tns:getStatementTypesForRefStatementRelationTypeResponse" name="getStatementTypesForRefStatementRelationTypeResponse"></wsdl:output>
+      <wsdl:fault message="tns:InvalidParameterException" name="InvalidParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:MissingParameterException" name="MissingParameterException"></wsdl:fault>
+      <wsdl:fault message="tns:DoesNotExistException" name="DoesNotExistException"></wsdl:fault>
+      <wsdl:fault message="tns:OperationFailedException" name="OperationFailedException"></wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="StatementServiceSoapBinding" type="tns:StatementService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getObjectStructure">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getObjectStructure">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getObjectStructureResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="translateReqComponentToNL">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="translateReqComponentToNL">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="translateReqComponentToNLResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateStatement">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateStatement">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateStatementResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="CircularReferenceException">
+        <soap:fault name="CircularReferenceException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSearchCriteriaTypes">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getSearchCriteriaTypes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getSearchCriteriaTypesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getStatementTypesForStatementType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getStatementTypesForStatementType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getStatementTypesForStatementTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createReqComponent">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createReqComponent">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createReqComponentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException">
+        <soap:fault name="AlreadyExistsException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="search">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="search">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getNaturalLanguageForRefStatementRelation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getNaturalLanguageForRefStatementRelation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getNaturalLanguageForRefStatementRelationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateRefStatementRelation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateRefStatementRelation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateRefStatementRelationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateStatement">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateStatement">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateStatementResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSearchType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getSearchType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getSearchTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createStatement">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createStatement">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createStatementResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException">
+        <soap:fault name="AlreadyExistsException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getReqComponentType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getReqComponentType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getReqComponentTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateReqComponent">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateReqComponent">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateReqComponentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getStatementType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getStatementType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getStatementTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteRefStatementRelation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteRefStatementRelation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteRefStatementRelationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteStatement">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteStatement">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteStatementResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRefObjectSubTypes">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getRefObjectSubTypes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getRefObjectSubTypesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateReqComponent">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateReqComponent">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateReqComponentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRefObjectTypes">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getRefObjectTypes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getRefObjectTypesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateObject">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateObject">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateObjectResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRefStatementRelation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getRefStatementRelation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getRefStatementRelationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateStatementTreeView">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateStatementTreeView">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateStatementTreeViewResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="CircularReferenceException">
+        <soap:fault name="CircularReferenceException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getStatementsUsingStatement">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getStatementsUsingStatement">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getStatementsUsingStatementResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getStatement">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getStatement">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getStatementResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRefStatementRelationsByRef">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getRefStatementRelationsByRef">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getRefStatementRelationsByRefResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getStatementsUsingReqComponent">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getStatementsUsingReqComponent">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getStatementsUsingReqComponentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSearchTypesByCriteria">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getSearchTypesByCriteria">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getSearchTypesByCriteriaResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRefStatementRelationType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getRefStatementRelationType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getRefStatementRelationTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRefStatementRelationsByStatement">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getRefStatementRelationsByStatement">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getRefStatementRelationsByStatementResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateStructureData">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateStructureData">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateStructureDataResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteReqComponent">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteReqComponent">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteReqComponentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getStatementTypes">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getStatementTypes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getStatementTypesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="translateStatementTreeViewToNL">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="translateStatementTreeViewToNL">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="translateStatementTreeViewToNLResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getStatementsByType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getStatementsByType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getStatementsByTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createRefStatementRelation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createRefStatementRelation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createRefStatementRelationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException">
+        <soap:fault name="AlreadyExistsException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRefStatementRelationTypesForRefObjectSubType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getRefStatementRelationTypesForRefObjectSubType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getRefStatementRelationTypesForRefObjectSubTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getReqComponentTypes">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getReqComponentTypes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getReqComponentTypesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getObjectTypes">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getObjectTypes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getObjectTypesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getReqComponentsByType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getReqComponentsByType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getReqComponentsByTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForResults">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForResults">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForResultsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSearchCriteriaType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getSearchCriteriaType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getSearchCriteriaTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getNlUsageTypes">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getNlUsageTypes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getNlUsageTypesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getReqComponentTypesForStatementType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getReqComponentTypesForStatementType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getReqComponentTypesForStatementTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getStatementTreeView">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getStatementTreeView">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getStatementTreeViewResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSearchTypes">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getSearchTypes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getSearchTypesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getReqComponent">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getReqComponent">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getReqComponentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getNaturalLanguageForReqComponent">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getNaturalLanguageForReqComponent">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getNaturalLanguageForReqComponentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSearchTypesByResult">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getSearchTypesByResult">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getSearchTypesByResultResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSearchResultTypes">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getSearchResultTypes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getSearchResultTypesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getNaturalLanguageForStatement">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getNaturalLanguageForStatement">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getNaturalLanguageForStatementResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateRefStatementRelation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateRefStatementRelation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateRefStatementRelationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getNlUsageType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getNlUsageType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getNlUsageTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRefStatementRelationTypes">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getRefStatementRelationTypes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getRefStatementRelationTypesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSearchResultType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getSearchResultType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getSearchResultTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getStatementTypesForRefStatementRelationType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getStatementTypesForRefStatementRelationType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getStatementTypesForRefStatementRelationTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="StatementService">
+    <wsdl:port binding="tns:StatementServiceSoapBinding" name="StatementServicePort">
+      <soap:address location="http://localhost/ks-embedded/services/StatementService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost/ks-embedded/services/StatementService</con:endpoint></con:endpoints></con:interface>

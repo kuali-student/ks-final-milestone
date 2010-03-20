@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="CeditCourseActiveDates" searchProperties="true" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:testStep type="request" name="createCreditCourse"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>LuServiceSoapBinding</con:interface><con:operation>createClu</con:operation><con:request name="createCreditCourse"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://test.kuali.org/ks-stg/services/LuService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lu="http://student.kuali.org/wsdl/lu">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lu:createClu>
+         <luTypeKey>kuali.lu.type.CreditCourse</luTypeKey>
+           <cluInfo type="kuali.lu.type.CreditCourse" state="draft" id="">
+            <officialIdentifier type="" state="" id="">
+            </officialIdentifier>
+            <academicSubjectOrgs>
+               <orgId>51</orgId>
+            </academicSubjectOrgs>
+            <campusLocations>NorthCountyCampus</campusLocations>
+            <campusLocations>SouthCountyCampus</campusLocations>
+            <primaryAdminOrg>
+               <orgId>51</orgId>
+            </primaryAdminOrg>
+
+
+               <effectiveDate>2010-03-17T14:54:18.606-07:00</effectiveDate>
+               <expirationDate>2013-03-17T14:54:18.606-07:00</expirationDate>
+
+         </cluInfo>
+      </lu:createClu>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:assertion type="Schema Compliance"><con:configuration/></con:assertion><con:assertion type="SOAP Fault Assertion"/><con:assertion type="Simple Contains"><con:configuration><token>&lt;return id="</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase>

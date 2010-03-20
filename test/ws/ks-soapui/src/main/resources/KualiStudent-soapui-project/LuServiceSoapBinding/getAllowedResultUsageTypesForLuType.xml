@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:operation isOneWay="false" action="" name="getAllowedResultUsageTypesForLuType" bindingOperationName="getAllowedResultUsageTypesForLuType" type="Request-Response" outputName="getAllowedResultUsageTypesForLuTypeResponse" inputName="getAllowedResultUsageTypesForLuType" receivesAttachments="false" sendsAttachments="false" id="0af9376d-bf9d-4cff-b07e-541959675002" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config"><con:settings/></con:operation>
