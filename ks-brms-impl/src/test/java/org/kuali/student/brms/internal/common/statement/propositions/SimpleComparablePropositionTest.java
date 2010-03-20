@@ -52,7 +52,7 @@ public class SimpleComparablePropositionTest {
     public void testSimpleComparableProposition_Long() throws Exception {
     	SimpleComparableProposition<Long> comparableProp = new SimpleComparableProposition<Long>(
     			"A-1", "A",
-    			ComparisonOperator.EQUAL_TO, new Long("1000000000000000000"), new Long(1000000000000000000l));
+    			ComparisonOperator.EQUAL_TO, Long.valueOf("1000000000000000000"), Long.valueOf(1000000000000000000l));
 
     	Boolean result = comparableProp.apply();
 
