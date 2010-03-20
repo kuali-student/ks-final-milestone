@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?><project xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache.org/xsd/decoration-1.0.0.xsd" xmlns="http://maven.apache.org/DECORATION/1.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <bannerLeft>
+    <name></name>
+    <src></src>
+    <href>http://student.kuali.org/</href>
+  </bannerLeft>
+  <bannerRight>
+    <name></name>
+    <src></src>
+    <href>http://student.kuali.org/</href>
+  </bannerRight>
+  <publishDate position="right" format="yyyy-MM-dd" />
+  <version position="right" />
+  <skin>
+    <groupId>org.apache.maven.skins</groupId>
+    <artifactId>maven-stylus-skin</artifactId>
+    <version>1.1</version>
+  </skin>
+  <body>
+    <breadcrumbs>
+      <item name="Kuali" href="https://www.kuali.org/" />
+      <item name="Kuali Student" href="https://student.kuali.org/" />
+      <item name="KS Testing" href="http://driver-1.ks.kuali.net/" />
+    </breadcrumbs>
+    <menu name="Modules" inherit="bottom" ref="modules">
+      <item name="Performance" href="performance/index.html" />
+      <item name="User Interface" href="ui/index.html" />
+      <item name="Web Services" href="ws/index.html" />
+    </menu>
+    <menu inherit="bottom" ref="reports" />
+  </body>
+</project>
