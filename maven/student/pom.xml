@@ -19,12 +19,12 @@
   <parent>
     <groupId>org.kuali</groupId>
     <artifactId>kuali-parent</artifactId>
-    <version>8</version>
+    <version>1</version>
     <relativePath>../kuali/pom.xml</relativePath>
   </parent>
   <groupId>org.kuali.student</groupId>
   <artifactId>student-parent</artifactId>
-  <version>7-SNAPSHOT</version>
+  <version>1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Kuali Student</name>
   <description>
@@ -48,19 +48,13 @@
       </snapshots>
     </repository>
   </repositories>
-  <modules>
-    <module>../../ks-security</module>
-    <module>../../ks-core</module>
-    <module>../../ks-brms</module>
-    <module>../../ks-lum</module>
-  </modules>
   <scm>
     <connection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/trunk/student</connection>
     <developerConnection>scm:svn:https://test.kuali.org/svn/student/deploymentlab/maven/trunk/student</developerConnection>
     <url>https://test.kuali.org/svn/student/deploymentlab/maven/trunk/student</url>
   </scm>
   <build>
-     <pluginManagement>
+    <pluginManagement>
       <plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
