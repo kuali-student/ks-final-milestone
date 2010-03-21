@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="impex/src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="impex/lib/ant-1.6.5.jar"/>
+	<classpathentry kind="lib" path="impex/lib/ant-contrib-1.0b3.jar"/>
+	<classpathentry kind="lib" path="impex/lib/antlr-2.7.5.jar"/>
+	<classpathentry kind="lib" path="impex/lib/avalon-logkit-2.1.jar"/>
+	<classpathentry kind="lib" path="impex/lib/commons-collections-3.1.jar"/>
+	<classpathentry kind="lib" path="impex/lib/commons-lang-2.1.jar"/>
+	<classpathentry kind="lib" path="impex/lib/commons-logging-1.0.4.jar"/>
+	<classpathentry kind="lib" path="impex/lib/log4j-1.2.14.jar"/>
+	<classpathentry kind="lib" path="impex/lib/texen-1.0.jar"/>
+	<classpathentry kind="lib" path="impex/lib/velocity-1.5.jar"/>
+	<classpathentry kind="lib" path="impex/lib/village-2.0.jar"/>
+	<classpathentry kind="lib" path="impex/lib/werken-xpath-0.9.4.jar"/>
+	<classpathentry kind="lib" path="impex/lib/xercesImpl-2.6.2.jar"/>
+	<classpathentry kind="lib" path="impex/lib/xml-apis-2.0.2.jar"/>
+	<classpathentry kind="lib" path="impex/lib/svnant.jar"/>
+	<classpathentry kind="lib" path="impex/lib/svnClientAdapter.jar"/>
+	<classpathentry kind="lib" path="impex/lib/svnjavahl.jar"/>
+	<classpathentry kind="lib" path="impex/lib/svnkit.jar"/>
+	<classpathentry kind="output" path="impex/build"/>
+</classpath>

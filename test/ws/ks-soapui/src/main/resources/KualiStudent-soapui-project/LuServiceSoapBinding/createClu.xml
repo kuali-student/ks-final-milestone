@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:operation isOneWay="false" action="" name="createClu" bindingOperationName="createClu" type="Request-Response" outputName="createCluResponse" inputName="createClu" receivesAttachments="false" sendsAttachments="false" anonymous="optional" id="a85e17bf-5635-4028-91d4-204c17af302f" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:call name="createCreditCourse" id="611c9560-0da1-47e7-a6d1-ff00e0657c13" outgoingWss="" incomingWss=""><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://test.kuali.org/ks-stg/services/LuService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lu="http://student.kuali.org/wsdl/lu">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lu:createClu>
+         <luTypeKey>kuali.lu.type.CreditCourse</luTypeKey>
+           <cluInfo type="kuali.lu.type.CreditCourse" state="draft" id="">
+            <officialIdentifier type="" state="" id="">
+            </officialIdentifier>
+            <academicSubjectOrgs>
+               <orgId>51</orgId>
+            </academicSubjectOrgs>
+            <campusLocations>NorthCountyCampus</campusLocations>
+            <campusLocations>SouthCountyCampus</campusLocations>
+            <primaryAdminOrg>
+               <orgId>51</orgId>
+            </primaryAdminOrg>
+         </cluInfo>
+      </lu:createClu>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:username xsi:nil="true"/><con:password xsi:nil="true"/><con:domain xsi:nil="true"/></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://student.kuali.org/wsdl/lu/LuService/createClu"/><con:wsrmConfig version="1.2"/></con:call><con:call name="createCreditCourseFormatShell"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://test.kuali.org/ks-stg/services/LuService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lu="http://student.kuali.org/wsdl/lu">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lu:createClu>
+         <luTypeKey>kuali.lu.type.CreditCourseFormatShell</luTypeKey>
+           <cluInfo type="kuali.lu.type.CreditCourseFormatShell" state="draft" id="">
+         </cluInfo>
+      </lu:createClu>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:username xsi:nil="true"/><con:password xsi:nil="true"/><con:domain xsi:nil="true"/></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://student.kuali.org/wsdl/lu/LuService/createClu"/><con:wsrmConfig version="1.2"/></con:call><con:call name="createActivityLecture"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://test.kuali.org/ks-stg/services/LuService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lu="http://student.kuali.org/wsdl/lu">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lu:createClu>
+         <luTypeKey>kuali.lu.type.activity.Lecture</luTypeKey>
+         <cluInfo type="kuali.lu.type.activity.Lecture" state="draft" id="">
+            <intensity>
+               <unitType>atpType.duration.weekly</unitType>
+               <unitQuantity>1</unitQuantity>
+            </intensity>
+            <stdDuration>
+               <atpDurationTypeKey>atpType.duration.week</atpDurationTypeKey>
+               <timeQuantity>1</timeQuantity>
+            </stdDuration>
+         </cluInfo>
+      </lu:createClu>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:username xsi:nil="true"/><con:password xsi:nil="true"/><con:domain xsi:nil="true"/></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://student.kuali.org/wsdl/lu/LuService/createClu"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Request 4"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost/ks-embedded/services/LuService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lu="http://student.kuali.org/wsdl/lu">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lu:createClu>
+         <!--Optional:-->
+         <luTypeKey>?</luTypeKey>
+         <!--Optional:-->
+         <cluInfo type="?" state="?" id="?">
+            <!--Optional:-->
+            <officialIdentifier type="?" state="?" id="?">
+               <!--Optional:-->
+               <code>?</code>
+               <!--Optional:-->
+               <shortName>?</shortName>
+               <!--Optional:-->
+               <longName>?</longName>
+               <!--Optional:-->
+               <level>?</level>
+               <!--Optional:-->
+               <division>?</division>
+               <!--Optional:-->
+               <variation>?</variation>
+               <!--Optional:-->
+               <suffixCode>?</suffixCode>
+               <!--Optional:-->
+               <orgId>?</orgId>
+            </officialIdentifier>
+            <!--Zero or more repetitions:-->
+            <alternateIdentifiers type="?" state="?" id="?">
+               <!--Optional:-->
+               <code>?</code>
+               <!--Optional:-->
+               <shortName>?</shortName>
+               <!--Optional:-->
+               <longName>?</longName>
+               <!--Optional:-->
+               <level>?</level>
+               <!--Optional:-->
+               <division>?</division>
+               <!--Optional:-->
+               <variation>?</variation>
+               <!--Optional:-->
+               <suffixCode>?</suffixCode>
+               <!--Optional:-->
+               <orgId>?</orgId>
+            </alternateIdentifiers>
+            <!--Zero or more repetitions:-->
+            <academicSubjectOrgs>
+               <!--Optional:-->
+               <orgId>?</orgId>
+            </academicSubjectOrgs>
+            <!--Optional:-->
+            <studySubjectArea>?</studySubjectArea>
+            <!--Optional:-->
+            <descr>
+               <!--Optional:-->
+               <plain>?</plain>
+               <!--Optional:-->
+               <formatted>?</formatted>
+            </descr>
+            <!--Zero or more repetitions:-->
+            <campusLocations>?</campusLocations>
+            <!--Zero or more repetitions:-->
+            <accreditations>
+               <attributes>
+                  <!--Zero or more repetitions:-->
+                  <entry>
+                     <!--Optional:-->
+                     <key>?</key>
+                     <!--Optional:-->
+                     <value>?</value>
+                  </entry>
+               </attributes>
+               <!--Optional:-->
+               <effectiveDate>?</effectiveDate>
+               <!--Optional:-->
+               <expirationDate>?</expirationDate>
+               <!--Optional:-->
+               <id>?</id>
+               <!--Optional:-->
+               <metaInfo>
+                  <!--Optional:-->
+                  <versionInd>?</versionInd>
+                  <!--Optional:-->
+                  <createTime>?</createTime>
+                  <!--Optional:-->
+                  <createId>?</createId>
+                  <!--Optional:-->
+                  <updateTime>?</updateTime>
+                  <!--Optional:-->
+                  <updateId>?</updateId>
+               </metaInfo>
+               <!--Optional:-->
+               <orgId>?</orgId>
+            </accreditations>
+            <!--Optional:-->
+            <primaryAdminOrg>
+               <attributes>
+                  <!--Zero or more repetitions:-->
+                  <entry>
+                     <!--Optional:-->
+                     <key>?</key>
+                     <!--Optional:-->
+                     <value>?</value>
+                  </entry>
+               </attributes>
+               <!--Optional:-->
+               <id>?</id>
+               <!--Optional:-->
+               <orgId>?</orgId>
+            </primaryAdminOrg>
+            <!--Zero or more repetitions:-->
+            <alternateAdminOrgs>
+               <attributes>
+                  <!--Zero or more repetitions:-->
+                  <entry>
+                     <!--Optional:-->
+                     <key>?</key>
+                     <!--Optional:-->
+                     <value>?</value>
+                  </entry>
+               </attributes>
+               <!--Optional:-->
+               <id>?</id>
+               <!--Optional:-->
+               <orgId>?</orgId>
+            </alternateAdminOrgs>
+            <!--Optional:-->
+            <primaryInstructor>
+               <!--Optional:-->
+               <orgId>?</orgId>
+               <!--Optional:-->
+               <personId>?</personId>
+               <!--Optional:-->
+               <attributes>
+                  <!--Zero or more repetitions:-->
+                  <attribute key="?">
+                     <!--Optional:-->
+                     <value>?</value>
+                  </attribute>
+               </attributes>
+            </primaryInstructor>
+            <!--Zero or more repetitions:-->
+            <instructors>
+               <!--Optional:-->
+               <orgId>?</orgId>
+               <!--Optional:-->
+               <personId>?</personId>
+               <!--Optional:-->
+               <attributes>
+                  <!--Zero or more repetitions:-->
+                  <attribute key="?">
+                     <!--Optional:-->
+                     <value>?</value>
+                  </attribute>
+               </attributes>
+            </instructors>
+            <!--Optional:-->
+            <expectedFirstAtp>?</expectedFirstAtp>
+            <!--Optional:-->
+            <effectiveDate>?</effectiveDate>
+            <!--Optional:-->
+            <expirationDate>?</expirationDate>
+            <!--Optional:-->
+            <intensity>
+               <!--Optional:-->
+               <unitType>?</unitType>
+               <!--Optional:-->
+               <unitQuantity>?</unitQuantity>
+            </intensity>
+            <!--Optional:-->
+            <stdDuration>
+               <!--Optional:-->
+               <atpDurationTypeKey>?</atpDurationTypeKey>
+               <!--Optional:-->
+               <timeQuantity>?</timeQuantity>
+            </stdDuration>
+            <canCreateLui>?</canCreateLui>
+            <!--Optional:-->
+            <referenceURL>?</referenceURL>
+            <!--Zero or more repetitions:-->
+            <luCodes key="?">
+               <!--Optional:-->
+               <descr>?</descr>
+               <!--Optional:-->
+               <value>?</value>
+               <!--Optional:-->
+               <attributes>
+                  <!--Zero or more repetitions:-->
+                  <attribute key="?">
+                     <!--Optional:-->
+                     <value>?</value>
+                  </attribute>
+               </attributes>
+               <!--Optional:-->
+               <metaInfo>
+                  <!--Optional:-->
+                  <versionInd>?</versionInd>
+                  <!--Optional:-->
+                  <createTime>?</createTime>
+                  <!--Optional:-->
+                  <createId>?</createId>
+                  <!--Optional:-->
+                  <updateTime>?</updateTime>
+                  <!--Optional:-->
+                  <updateId>?</updateId>
+               </metaInfo>
+            </luCodes>
+            <!--Optional:-->
+            <nextReviewPeriod>?</nextReviewPeriod>
+            <isEnrollable>?</isEnrollable>
+            <!--Zero or more repetitions:-->
+            <offeredAtpTypes>?</offeredAtpTypes>
+            <hasEarlyDropDeadline>?</hasEarlyDropDeadline>
+            <defaultEnrollmentEstimate>?</defaultEnrollmentEstimate>
+            <defaultMaximumEnrollment>?</defaultMaximumEnrollment>
+            <isHazardousForDisabledStudents>?</isHazardousForDisabledStudents>
+            <!--Optional:-->
+            <feeInfo id="?">
+               <!--Zero or more repetitions:-->
+               <cluFeeRecords id="?">
+                  <!--Optional:-->
+                  <feeType>?</feeType>
+                  <!--Optional:-->
+                  <feeAmount>
+                     <!--Optional:-->
+                     <currencyTypeKey>?</currencyTypeKey>
+                     <!--Optional:-->
+                     <currencyQuantity>?</currencyQuantity>
+                  </feeAmount>
+                  <!--Zero or more repetitions:-->
+                  <affiliatedOrgInfoList id="?">
+                     <!--Optional:-->
+                     <orgId>?</orgId>
+                     <!--Optional:-->
+                     <effectiveDate>?</effectiveDate>
+                     <!--Optional:-->
+                     <expirationDate>?</expirationDate>
+                     <!--Optional:-->
+                     <percentage>?</percentage>
+                  </affiliatedOrgInfoList>
+                  <!--Optional:-->
+                  <attributes>
+                     <!--Zero or more repetitions:-->
+                     <attribute key="?">
+                        <!--Optional:-->
+                        <value>?</value>
+                     </attribute>
+                  </attributes>
+               </cluFeeRecords>
+               <!--Optional:-->
+               <attributes>
+                  <!--Zero or more repetitions:-->
+                  <attribute key="?">
+                     <!--Optional:-->
+                     <value>?</value>
+                  </attribute>
+               </attributes>
+               <!--Optional:-->
+               <metaInfo>
+                  <!--Optional:-->
+                  <versionInd>?</versionInd>
+                  <!--Optional:-->
+                  <createTime>?</createTime>
+                  <!--Optional:-->
+                  <createId>?</createId>
+                  <!--Optional:-->
+                  <updateTime>?</updateTime>
+                  <!--Optional:-->
+                  <updateId>?</updateId>
+               </metaInfo>
+            </feeInfo>
+            <!--Optional:-->
+            <accountingInfo id="?">
+               <!--Zero or more repetitions:-->
+               <affiliatedOrgs id="?">
+                  <!--Optional:-->
+                  <orgId>?</orgId>
+                  <!--Optional:-->
+                  <effectiveDate>?</effectiveDate>
+                  <!--Optional:-->
+                  <expirationDate>?</expirationDate>
+                  <!--Optional:-->
+                  <percentage>?</percentage>
+               </affiliatedOrgs>
+               <!--Optional:-->
+               <attributes>
+                  <!--Zero or more repetitions:-->
+                  <attribute key="?">
+                     <!--Optional:-->
+                     <value>?</value>
+                  </attribute>
+               </attributes>
+            </accountingInfo>
+            <!--Optional:-->
+            <attributes>
+               <!--Zero or more repetitions:-->
+               <attribute key="?">
+                  <!--Optional:-->
+                  <value>?</value>
+               </attribute>
+            </attributes>
+            <!--Optional:-->
+            <metaInfo>
+               <!--Optional:-->
+               <versionInd>?</versionInd>
+               <!--Optional:-->
+               <createTime>?</createTime>
+               <!--Optional:-->
+               <createId>?</createId>
+               <!--Optional:-->
+               <updateTime>?</updateTime>
+               <!--Optional:-->
+               <updateId>?</updateId>
+            </metaInfo>
+         </cluInfo>
+      </lu:createClu>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://student.kuali.org/wsdl/lu/LuService/createClu"/><con:wsrmConfig version="1.2"/></con:call></con:operation>

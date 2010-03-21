@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:operation isOneWay="false" action="" name="deleteCluCluRelation" bindingOperationName="deleteCluCluRelation" type="Request-Response" outputName="deleteCluCluRelationResponse" inputName="deleteCluCluRelation" receivesAttachments="false" sendsAttachments="false" id="42d22e12-1764-4f13-896f-eb0c2156ef41" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config"><con:settings/></con:operation>

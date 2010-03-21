@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:operation isOneWay="false" action="" name="getOrgOrgRelationTypes" bindingOperationName="getOrgOrgRelationTypes" type="Request-Response" outputName="getOrgOrgRelationTypesResponse" inputName="getOrgOrgRelationTypes" receivesAttachments="false" sendsAttachments="false" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config"><con:settings/></con:operation>
