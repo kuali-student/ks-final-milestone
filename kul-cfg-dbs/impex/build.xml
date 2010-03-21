@@ -179,7 +179,15 @@ Note: Due to java native library classloader issues, the export routine (and pos
 		<sequential>
 			<echo message="create-ddl at @{torque.sql.dir}" />
 			<mkdir dir="@{torque.sql.dir}" />
-			<torque-sql contextProperties="${torque.contextProperties}" controlTemplate="${torque.template.sql}" outputDirectory="@{torque.sql.absolute.dir}" outputFile="report.sql.generation" sqldbmap="@{torque.sql.dir}/sqldb.map" targetDatabase="${import.torque.database}" templatePath="${torque.templatePath}" useClasspath="true">
+			<torque-sql 
+				contextProperties="${torque.contextProperties}" 
+				  controlTemplate="${torque.template.sql}" 
+				  outputDirectory="@{torque.sql.absolute.dir}" 
+				       outputFile="report.sql.generation" 
+				         sqldbmap="@{torque.sql.dir}/sqldb.map" 
+				   targetDatabase="${import.torque.database}" 
+				     templatePath="${torque.templatePath}" 
+				     useClasspath="true">
 				<fileset dir="@{torque.schema.dir}" includes="schema.xml" />
 			</torque-sql>
 		</sequential>
