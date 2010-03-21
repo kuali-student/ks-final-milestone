@@ -51,7 +51,7 @@ public class KualiXmlToAppData extends DefaultHandler {
 	private Vector<String> alreadyReadFiles;
 
 	/** this is the stack to store parsing data */
-	private Stack<KualiXmlToAppData> parsingStack = new Stack<KualiXmlToAppData>();
+	private Stack parsingStack = new Stack();
 
 	static {
 		saxFactory = SAXParserFactory.newInstance();
