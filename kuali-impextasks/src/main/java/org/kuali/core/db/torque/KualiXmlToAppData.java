@@ -48,10 +48,10 @@ public class KualiXmlToAppData extends DefaultHandler {
 	private static SAXParserFactory saxFactory;
 
 	/** remember all files we have already parsed to detect looping. */
-	private Vector alreadyReadFiles;
+	private Vector<String> alreadyReadFiles;
 
 	/** this is the stack to store parsing data */
-	private Stack parsingStack = new Stack();
+	private Stack<KualiXmlToAppData> parsingStack = new Stack<KualiXmlToAppData>();
 
 	static {
 		saxFactory = SAXParserFactory.newInstance();
@@ -101,7 +101,7 @@ public class KualiXmlToAppData extends DefaultHandler {
 			if ((alreadyReadFiles != null) && alreadyReadFiles.contains(xmlFile)) {
 				return database;
 			} else if (alreadyReadFiles == null) {
-				alreadyReadFiles = new Vector(3, 1);
+				alreadyReadFiles = new Vector<String>(3, 1);
 			}
 
 			// remember the file to avoid looping
