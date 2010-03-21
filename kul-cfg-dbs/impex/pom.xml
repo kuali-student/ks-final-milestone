@@ -37,10 +37,9 @@
       <version>10.2.0.3.0</version>
     </dependency>
     <dependency>
-    	<groupId>org.apache.ant</groupId>
-    	<artifactId>ant</artifactId>
-    	<version>1.7.0</version>
-    	<scope>compile</scope>
+      <groupId>org.apache.ant</groupId>
+      <artifactId>ant</artifactId>
+      <version>1.7.0</version>
     </dependency>
   </dependencies>
   <build>
@@ -50,22 +49,30 @@
         <artifactId>maven-antrun-plugin</artifactId>
         <configuration>
           <tasks>
-            <!-- 
             <property name="compile_classpath" refid="maven.compile.classpath" />
             <property name="runtime_classpath" refid="maven.runtime.classpath" />
             <property name="test_classpath" refid="maven.test.classpath" />
             <property name="plugin_classpath" refid="maven.plugin.classpath" />
-
-            <echo message="compile classpath: ${compile_classpath}" />
-            <echo message="runtime classpath: ${runtime_classpath}" />
-            <echo message="test classpath:    ${test_classpath}" />
-            <echo message="plugin classpath:  ${plugin_classpath}" />
-             -->
+            <!-- 
+            <echo message="compile
+              classpath: ${compile_classpath}" />
+            <echo message="runtime
+              classpath: ${runtime_classpath}" />
+            <echo message="test classpath:
+              ${test_classpath}" />
+            <echo message="plugin classpath:
+              ${plugin_classpath}" />
+               -->
             <ant antfile="${basedir}/build.xml">
               <target name="${target}" />
             </ant>
           </tasks>
           <dependencies>
+            <dependency>
+              <groupId>org.apache.ant</groupId>
+              <artifactId>ant</artifactId>
+              <version>1.7.0</version>
+            </dependency>
             <dependency>
               <groupId>org.kuali.core.ant</groupId>
               <artifactId>kuali-impextasks</artifactId>

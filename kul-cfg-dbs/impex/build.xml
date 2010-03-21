@@ -95,18 +95,20 @@ Note: Due to java native library classloader issues, the export routine (and pos
 	</condition>
 
 	<path id="torque-classpath">
-		<!--
 		<pathelement path="${compile_classpath}"/>
-		--> 
+		<!--
 		<pathelement location="kuali-impextasks.jar" />
 		<fileset dir="${torque.lib.dir}" includes="*.jar" />
 		<fileset dir="${drivers.directory}" includes="${drivers.file.pattern}" />
+		-->
 	</path>
+	<!--
 	<typedef resource="org/tigris/subversion/svnant/svnantlib.xml">
 		<classpath>
-			<fileset dir="${lib.dir}" includes="*.jar" />
+				<pathelement path="${compile_classpath}" />
 		</classpath>
 	</typedef>
+	-->
 
 	<!--
     The default.properties file will map old properties to the new ones along
@@ -123,10 +125,9 @@ Note: Due to java native library classloader issues, the export routine (and pos
     centralize them and clean up the targets.
   -->
 	<target name="inittasks">
-		
 		<taskdef resource="net/sf/antcontrib/antlib.xml">
 			<classpath>
-				<pathelement location="lib/ant-contrib-1.0b3.jar" />
+				<pathelement path="${compile_classpath}" />
 			</classpath>
 		</taskdef>
 		<taskdef name="torque-data-model" classpathref="torque-classpath" classname="org.apache.torque.task.TorqueDataModelTask" />
@@ -470,9 +471,6 @@ Note: Due to java native library classloader issues, the export routine (and pos
 	</target>
 
 	<target name="external-run-dataxml-load">
-		<echo message="cp!!!! ${compile_classpath}"/>
-		<echo message="cp!!!! ${java.class.path}"/>
-
 		<java classname="org.apache.tools.ant.Main" fork="true" dir="${basedir}">
 			<classpath path="${compile_classpath}" />
 			<jvmarg value="-Xmx1g" />
