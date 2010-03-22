@@ -55,6 +55,8 @@ public class OrgTree  extends Composite{
                 Node rootNode = (Node)item.getWidget();
                 String orgId = rootNode.getOrgId();
                 String orgName = rootNode.getName();
+                item.removeItems();
+                item.addItem("");
                 if(item.getChildCount()==1){
                     getOrgTree(orgId,rootNode.getHierarchyId(),item);
                 }
