@@ -8,7 +8,7 @@
   <groupId>org.kuali.core.ant</groupId>
   <artifactId>kuali-impextasks</artifactId>
   <packaging>jar</packaging>
-  <version>1.0.2-SNAPSHOT</version>
+  <version>1.0.1-SNAPSHOT</version>
   <name>Kuali Impex Ant Tasks</name>
   <description>Kuali Impex Ant Tasks</description>
   <repositories>
