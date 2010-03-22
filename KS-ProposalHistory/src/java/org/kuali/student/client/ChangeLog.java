@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  *
@@ -22,11 +23,22 @@ import com.google.gwt.user.client.ui.PopupPanel;
 public class ChangeLog extends PopupPanel {
 
     private Button closeButton;
+    private VerticalPanel contents;
     
     // default Constructor
     ChangeLog() {
+        super(false);
+        contents = new VerticalPanel();
+        addHeaderText();
+        contents.add(createVersionsTable());
 
-        this.add(createVersionsTable());
+        createCloseButton();
+        contents.add(closeButton);
+        this.setWidget(contents);
+
+        this.addStyleName("body");
+        this.addStyleName("ks-page-container");
+
 
     }
 
@@ -37,12 +49,12 @@ public class ChangeLog extends PopupPanel {
         // Panel Title
         HTML panelTitle = new HTML("<h2>Change Log</h2>");
         panelTitle.addStyleName("ks-heading-page-title");
-        this.add(panelTitle);
+        contents.add(panelTitle);
 
 
         HTML introHtml = new HTML("This list shows the changes made to the Proposal Histry Attribute.");
         introHtml.setHeight("40px");
-        this.add(introHtml);
+        contents.add(introHtml);
 
     }
 

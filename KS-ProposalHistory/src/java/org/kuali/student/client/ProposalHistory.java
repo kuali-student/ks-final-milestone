@@ -11,6 +11,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -27,13 +28,32 @@ public class ProposalHistory extends PopupPanel {
     private VerticalPanel contents;
 
     ProposalHistory() {
-
+        super(false);
         contents = new VerticalPanel();
-        createVersionsTable();
+        addHeaderText();
+        contents.add(createVersionsTable());
         
         createCloseButton();
+        contents.add(closeButton);
         this.setWidget(contents);
-        this.add(closeButton);
+
+        this.addStyleName("body");
+        this.addStyleName("ks-page-container");
+    }
+
+    private void addHeaderText() {
+
+        // Breadcrumbs...
+
+        // Panel Title
+        HTML panelTitle = new HTML("<h2>Proposal History</h2>");
+        panelTitle.addStyleName("ks-heading-page-title");
+        contents.add(panelTitle);
+
+
+        HTML introHtml = new HTML("This list shows the changes made to the Proposal.");
+        introHtml.setHeight("40px");
+        contents.add(introHtml);
 
     }
 
@@ -95,7 +115,7 @@ public class ProposalHistory extends PopupPanel {
         versionTable.setText(4, 2, "March 14, 2010");
         versionTable.setText(4, 3, "Stuart Sim");
 
-        versionTable.setSize("560px", "200px");
+        // versionTable.setSize("200px", "200px");
 
         return versionTable;
 
