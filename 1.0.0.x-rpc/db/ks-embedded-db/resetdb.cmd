@@ -1,1 +1,0 @@
-call mvn -o -Doracle.retain.data=false process-sources
