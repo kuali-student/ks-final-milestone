@@ -57,4 +57,52 @@
          </cluInfo>
       </lu:updateClu>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:username xsi:nil="true"/><con:password xsi:nil="true"/><con:domain xsi:nil="true"/></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://student.kuali.org/wsdl/lu/LuService/updateClu"/><con:wsrmConfig version="1.2"/></con:call></con:operation>
+</soapenv:Envelope>]]></con:request><con:credentials><con:username xsi:nil="true"/><con:password xsi:nil="true"/><con:domain xsi:nil="true"/></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://student.kuali.org/wsdl/lu/LuService/updateClu"/><con:wsrmConfig version="1.2"/></con:call><con:call name="updateCreditCourseCourseInformation"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost/ks-embedded/services/LuService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lu="http://student.kuali.org/wsdl/lu">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lu:updateClu>
+         <cluId>7d410577-64a6-44bc-ae08-7bed44ad3aea</cluId>
+         <cluInfo type="kuali.lu.type.CreditCourse" state="draft" id="7d410577-64a6-44bc-ae08-7bed44ad3aea">
+            <officialIdentifier type="" state="" id="">
+               <code>nullnull</code>
+               <shortName>Short Course Title</shortName>
+               <longName>Course Title</longName>
+               <division>ABCD</division>
+               <suffixCode>123</suffixCode>
+            </officialIdentifier>
+            <alternateIdentifiers>
+               <division>DCBA</division>
+               <suffixCode>321</suffixCode>
+               <orgId>51</orgId>
+            </alternateIdentifiers>
+            <academicSubjectOrgs>
+               <orgId>51</orgId>
+            </academicSubjectOrgs>
+            <descr>
+               <plain>Course Description</plain>
+            </descr>
+            <campusLocations>NorthCountyCampus</campusLocations>
+            <campusLocations>SouthCountyCampus</campusLocations>
+            <primaryAdminOrg>
+               <id>4580f068-e337-443d-bd6c-f70b8adbe868</id>
+               <orgId>51</orgId>
+            </primaryAdminOrg>
+            <primaryInstructor>
+               <personId>earl</personId>
+            </primaryInstructor>
+            <expectedFirstAtp>kuali.atp.AY2008-2009</expectedFirstAtp>
+            <effectiveDate>2020-03-09T19:43:59.780-07:00</effectiveDate>
+            <expirationDate>2021-03-09T19:43:59.780-07:00</expirationDate>
+            <stdDuration>
+               <atpDurationTypeKey>atpType.duration.week</atpDurationTypeKey>
+               <timeQuantity>1</timeQuantity>
+            </stdDuration>
+            <metaInfo>
+               <versionInd>13</versionInd>
+               <createTime>2010-03-19T10:29:02.393-07:00</createTime>
+               <updateTime>2010-03-19T10:44:28.276-07:00</updateTime>
+            </metaInfo>
+         </cluInfo>
+      </lu:updateClu>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://student.kuali.org/wsdl/lu/LuService/updateClu"/><con:wsrmConfig version="1.2"/></con:call></con:operation>
