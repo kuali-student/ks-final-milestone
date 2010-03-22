@@ -39,5 +39,6 @@
 	<param name="ks.core.doDataLoad">false</param>
 	
 	<param name="ks.core.dictionary.serviceContextLocations">classpath:comment-dictionary-config.xml,classpath:document-dictionary-config.xml,classpath:organization-dictionary-config.xml</param>
+	<param name="ks.core.orchestration.dictionaryContextLocations">classpath:org-orchestration-dictionary.xml</param>
 	
 </config>

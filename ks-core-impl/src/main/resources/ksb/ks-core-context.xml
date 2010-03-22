@@ -276,18 +276,11 @@
     <bean id="documentDictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
         <constructor-arg index="0" value="classpath:document-dictionary-config.xml" />
     </bean>
-<!--
-    <bean id="documentSearchManager"
-        class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
-        autowire="byType">
-        <constructor-arg index="0" value="classpath:document-search-config.xml" />
-    </bean>-->
 
     <bean id="documentServiceImpl"
         class="org.kuali.student.core.document.service.impl.DocumentServiceImpl">
         <property name="documentDao" ref="documentDao1" />
         <property name="dictionaryServiceDelegate" ref="coreDictionaryServiceDelegate" />
-<!--        <property name="searchManager" ref="documentSearchManager" />-->
     </bean>
 
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
