@@ -99,7 +99,7 @@
     <dependency>
       <groupId>velocity</groupId>
       <artifactId>velocity</artifactId>
-      <version>1.5-beta2</version>
+      <version>1.5</version>
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
