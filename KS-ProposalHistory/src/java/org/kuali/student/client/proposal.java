@@ -58,22 +58,22 @@ package org.kuali.student.client;
                 rootPanel.add(title, 0, 0);
 
                 Label CLUTitle = new Label("Introduction to Geology that is a very long title about specific things");
-                rootPanel.add(CLUTitle, 21, 76);
-                CLUTitle.setSize("441px", "13px");
+                rootPanel.add(CLUTitle, 30, 80);
+                CLUTitle.setSize("500px", "15px");
                 CLUTitle.addStyleName("ks-heading-course-title");
                 //
                 // Drop Down Combo Boxes
                 // Replacement KS Widget:
 
                 ListBox workflowActionsCombo = new ListBox();
-                rootPanel.add(workflowActionsCombo, 29, 105);
-                workflowActionsCombo.setSize("97px", "22px");
+                rootPanel.add(workflowActionsCombo, 30, 105);
+                workflowActionsCombo.setSize("150px", "25px");
                 workflowActionsCombo.addItem("Check Inbox");
                 workflowActionsCombo.addItem("Add Comment");
 
                 ListBox proposalActionsComboBox = new ListBox();
                 rootPanel.add(proposalActionsComboBox, 193, 105);
-                proposalActionsComboBox.setSize("97px", "22px");
+                proposalActionsComboBox.setSize("150px", "25px");
                 proposalActionsComboBox.addItem("Review Proposal");
                 //
                 // Main Tab Panel

@@ -8,19 +8,12 @@ package org.kuali.student.client;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.TabPanel;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.PopupPanel;
 
 
 /**
@@ -59,23 +52,23 @@ public class ReviewProposal extends FlowPanel {
         Button proposalHistoryButton = new Button();
         proposalHistoryButton.setText("Proposal History");
         proposalHistoryButton.addClickHandler(new ClickHandler(){
-                public void onClick(ClickEvent event) {
-                        //hide();
+            public void onClick(ClickEvent event) {
+                //hide();
 
-                        ProposalHistory proposalHistory = new ProposalHistory();
-                        proposalHistory.setModal(true);
-                        proposalHistory.setAutoHideEnabled(true);
-                        proposalHistory.show();
-                }
+                // Why is this not working?
+                showProposalHistory();
+
+            }
         });
 
 
-
+  
+        this.add(proposalHistoryButton);
 
         // Put in the event handler here...
-        ChangeLog changeLog = new ChangeLog();
-        changeLog.setModal(true);
-        changeLog.setAutoHideEnabled(true);
+        // ChangeLog changeLog = new ChangeLog();
+        // changeLog.setModal(true);
+        // changeLog.setAutoHideEnabled(true);
         // changeLog.show();
 
     }
@@ -93,17 +86,17 @@ public class ReviewProposal extends FlowPanel {
             versionTable.getColumnFormatter().setWidth(2, "100px");
             versionTable.getColumnFormatter().setWidth(3, "100px");
 
-            Label titleHeaderLabel = new Label("Title");
+            Label titleHeaderLabel = new Label("");
             titleHeaderLabel.setHorizontalAlignment(Label.ALIGN_CENTER);
 
             // titleHeaderLabel.setStyleName("ks-table th");
             versionTable.getRowFormatter().addStyleName(0, "ks-table-th");
 
             versionTable.setWidget(0, 0,titleHeaderLabel);
-            Label nameHeaderLabel = new Label("Name");
+            Label nameHeaderLabel = new Label("Last Updated");
             nameHeaderLabel.setHorizontalAlignment(Label.ALIGN_CENTER);
             versionTable.setWidget(0, 1,nameHeaderLabel);
-            Label dateHeaderLabel = new Label("Last Updated");
+            Label dateHeaderLabel = new Label("Owner");
             dateHeaderLabel.setHorizontalAlignment(Label.ALIGN_CENTER);
             versionTable.setWidget(0, 2,dateHeaderLabel);
             Label changeHeaderLabel = new Label("Change Log");
@@ -201,8 +194,25 @@ public class ReviewProposal extends FlowPanel {
 
 
 
-        }
+    }
 
+
+    public void showProposalHistory() {
+
+        ProposalHistory proposalHistory = new ProposalHistory();
+        proposalHistory.setModal(true);
+        proposalHistory.setAutoHideEnabled(true);
+        proposalHistory.show();
+        proposalHistory.center();
+    }
+
+    public void showChangeLog() {
+        ChangeLog changeLog = new ChangeLog();
+        changeLog.setModal(true);
+        changeLog.setAutoHideEnabled(true);
+        changeLog.show();
+        changeLog.center();
+    }
 
 
     // This is a button right now but it could be a graphic
@@ -215,10 +225,7 @@ public class ReviewProposal extends FlowPanel {
             this.addClickHandler(new ClickHandler(){
                 public void onClick(ClickEvent event) {
 
-                    ChangeLog changeLog = new ChangeLog();
-                    changeLog.setModal(true);
-                    changeLog.setAutoHideEnabled(true);
-                    changeLog.show();
+                    showChangeLog();
                 }
         });
 
