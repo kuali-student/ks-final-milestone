@@ -33,7 +33,6 @@ import org.kuali.student.core.organization.ui.client.mvc.model.SectionViewInfo;
 import org.kuali.student.core.organization.ui.client.mvc.view.OrgConfigurerFactory.OrgSections;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
-import org.kuali.student.core.organization.ui.client.view.OrgLocateTree;
 import org.kuali.student.core.organization.ui.client.view.OrgUpdatePanel;
 
 import com.google.gwt.core.client.GWT;
