@@ -26,7 +26,7 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
-    <bean id="methodTrackerAdvice" class="org.kuali.student.psrg.util.MethodTrackerAdvice" />
+    <bean id="methodTrackerAdvice" class="org.kuali.student.psrg.util.MethodTrackerAdvice2" />
 	
 	<aop:config>
       <aop:aspect id="myAspect" ref="methodTrackerAdvice">
