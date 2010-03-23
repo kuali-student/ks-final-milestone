@@ -4,7 +4,7 @@
     <groupId>org.kuali.student.security</groupId>
     <artifactId>ks-security</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0-m4</version>
+    <version>1.0.0-m5</version>
 
     <name>KS Security</name>
     <description>KS Security Parent POM</description>
