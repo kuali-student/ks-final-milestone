@@ -1,0 +1,70 @@
+.KS-Wrapper-Header-Content{
+	height: 130px;
+	background-color: #A20000;
+	width: 99%;
+	min-width: 960px;
+	padding-left: 25px;
+	padding-bottom: 15px;
+	padding-top: 10px;
+}
+
+.KS-Wrapper-Header{
+	height: 130px;
+	background-color: #A20000;
+	width: 100%;
+	
+}
+
+.KS-Wrapper-Footer{
+	padding-left: 20px; 
+	height: 60px;
+	background-color: #A20000;
+	width: 100%;
+}
+.KS-Wrapper-Content{
+	background-color: #d5d5d5;
+}
+.KS-Wrapper{
+	background-color: #d5d5d5;
+	width: 100%;
+}
+.KS-Wrapper-Help-Label{
+	font-size: 18px;
+	font-weight: bold;
+	color: white;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+.KS-Wrapper-Header-Right-Panel{
+	height: 100%;
+	float: right;
+}
+.KS-Wrapper-Header-Left-Panel{
+	height: 100%;
+}
+.KS-Wrapper-Navigation-Dropdown{}
+.KS-Wrapper-User-Dropdown{}
+.KS-Wrapper-Footer-Link{}
+
+.KS-Wrapper-Header-Custom-Link{
+	font-size: 14px;
+	font-weight: bold;
+	color: #d5d5d5;
+}
+
+.KS-Wrapper-Header-Custom-Link-Panel{
+	background-color: #7b1314;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 8px;
+	padding-bottom: 8px;
+	margin-left: 3px;
+	\-moz-border-radius: 15px;
+	\-webkit-border-radius: 15px; 
+	\-khtml-border-radius: 15px;
+	border-radius:15px;
+}
+
+.KS-Wrapper-Header-Custom-Link-Panel:hover{
+	background-color: white;
+}
