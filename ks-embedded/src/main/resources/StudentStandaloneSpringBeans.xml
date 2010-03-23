@@ -24,19 +24,8 @@
 		<property name="remotedServiceRegistry" ref="enServiceInvoker" />
 		<property name="serviceDefinition">
 			<bean parent="kimSoapService" p:service-ref="kimPermissionService"
-				p:localServiceName="kimPermissionServiceUnsecure">
-				<property name="busSecurity" value="false" />
-				<property name="jaxWsService" value="true" />
-			</bean>
-		</property>
-	</bean>
-
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-		<property name="remotedServiceRegistry" ref="enServiceInvoker" />
-		<property name="serviceDefinition">
-			<bean parent="kimSoapService" p:service-ref="kimIdentityService"
-				p:localServiceName="kimIdentityServiceSOAPUnsecure">
-				<property name="busSecurity" value="false" />
+				p:localServiceName="kimPermissionService">
+				<property name="busSecurity" value="${ks.core.bus.security}" />
 				<property name="jaxWsService" value="true" />
 			</bean>
 		</property>
