@@ -30,6 +30,7 @@ import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HasValue;
 
+@Deprecated
 public class HasValueBinding implements PropertyBinding<HasValue>{
     
     public static HasValueBinding INSTANCE = new HasValueBinding();

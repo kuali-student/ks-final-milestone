@@ -22,6 +22,7 @@ import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ListType;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.StringType;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 
+@Deprecated
 public class SelectItemWidgetBinding implements PropertyBinding<KSSelectItemWidgetAbstract>{
 
     public static SelectItemWidgetBinding INSTANCE = new SelectItemWidgetBinding();

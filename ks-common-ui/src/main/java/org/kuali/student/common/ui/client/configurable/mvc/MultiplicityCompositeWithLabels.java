@@ -20,6 +20,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public abstract class MultiplicityCompositeWithLabels extends MultiplicityComposite {
 	{
 		useDeleteLabel = true;

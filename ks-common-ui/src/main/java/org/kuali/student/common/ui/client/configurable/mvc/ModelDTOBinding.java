@@ -17,6 +17,7 @@ package org.kuali.student.common.ui.client.configurable.mvc;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
 import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue;
 
+@Deprecated
 public class ModelDTOBinding implements PropertyBinding<ModelDTO>{
     
     private String fieldKey;

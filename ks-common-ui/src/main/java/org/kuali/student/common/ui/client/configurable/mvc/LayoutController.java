@@ -14,35 +14,23 @@
  */
 package org.kuali.student.common.ui.client.configurable.mvc;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
 import org.kuali.student.common.ui.client.event.ValidateResultEvent;
 import org.kuali.student.common.ui.client.event.ValidateResultHandler;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTO;
-import org.kuali.student.common.ui.client.mvc.dto.ModelDTOValue.ModelDTOType;
-import org.kuali.student.common.ui.client.validator.ModelDTOConstraintSetupFactory;
-import org.kuali.student.common.validator.Validator;
-import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.validation.dto.ValidationResultContainer;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class LayoutController extends Controller implements ConfigurableLayout {
-    private ModelDTO modelDTO;
     private LayoutController parentLayoutController= null; 
-    private Map<String, String> classToObjectKeyMap = new HashMap<String, String>();
-
-    
+  
 	protected final HashMap<String, View> sectionViewMap = new HashMap<String, View>();	
 	
     public LayoutController(String controllerId){
@@ -81,83 +69,6 @@ public abstract class LayoutController extends Controller implements Configurabl
     	
     }
     
-    /**
-     * ModelDTO no longer supported in UI and will be removed at some point.
-     * Any code referencing it should not be used.
-     * @param section
-     */
-    @Deprecated
-    public void setModelDTO(ModelDTO dto, Map<String, String> classToObjectKeyMap){
-        modelDTO = dto;
-        this.classToObjectKeyMap = classToObjectKeyMap;
-        super.addApplicationEventHandler(ValidateResultEvent.TYPE, new ValidateResultHandler() {
-            @Override
-            public void onValidateResult(ValidateResultEvent event) {
-               List<ValidationResultContainer> list = event.getValidationResult();
-               if(list == null || list.size() == 0 ){
-                   return;
-               }
-               String ele = "";
-               for(ValidationResultContainer vc: list){
-             
-                   List<ValidationResultInfo> vrList = vc.getValidationResults();
-                   for(ValidationResultInfo vr: vrList){
-                       ele += vc.getElement()+":"+vr.getMessage()+"\n\n";
-                   }
-               }
-               //Window.alert("Error:\n"+ele);
-               System.out.println(ele);
-            }
-        });
-    }
-    public ModelDTO getModel(){
-        return modelDTO;
-    }
-    
-    /**
-     * ModelDTO no longer supported in UI and will be removed at some point.
-     * Any code referencing it should not be used.
-     * @param section
-     */
-    @Deprecated
-    public void validate(Section section){
-        ModelDTOConstraintSetupFactory bc = new ModelDTOConstraintSetupFactory();
-        List<String> skip = new ArrayList<String>();
-        skip.add("cluInfo/officialIdentifier/id");
-        skip.add("cluInfo/id");
-        skip.add("proposalInfo/id");
-        skip.add("proposalInfo/proposalReferenceType");
-        skip.add("proposalInfo/proposalReference");
-        skip.add("proposalInfo/metaInfo");
-        skip.add("cluInfo/isEnrollable");
-        skip.add("cluInfo/primaryAdminOrg");
-        
-//        Validator val = new Validator(bc, true);
-
-        final ValidateResultEvent e = new ValidateResultEvent();
-        //getModel().keySet();
-        ModelDTO model = getModel();
-        for(String key: model.keySet()){
-            if(model.get(key) instanceof ModelDTOType == false){
-                continue;
-            }
-                
-        	ModelDTO currentModel = ((ModelDTOType) model.get(key)).get();
-        	String objectKey = classToObjectKeyMap.get(currentModel.getClassName());
-        	ObjectStructure objStructure = Application.getApplicationContext().getDictionaryData(objectKey);
-            if(objStructure == null){
-               Window.alert("Cannot load dictionary(object structure)");
-            }
-            
-            //ConstraintSetupFactory sectionbc = new SectionContraintSetupFactory(section,bc.getDataProvider(currentModel));
-            //Validator val = new Validator(sectionbc, true);
-
-//            List<ValidationResultContainer> results = val.validateTypeStateObject(currentModel, objStructure);
-//           e.addValidationResult(results);// filled by calling the real validate code
-        }
-        fireApplicationEvent(e);
-
-    }
     public static LayoutController findParentLayout(Widget w){
         LayoutController result = null;
         while (true) {

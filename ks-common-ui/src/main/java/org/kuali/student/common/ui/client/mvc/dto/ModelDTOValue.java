@@ -26,6 +26,7 @@ import java.util.Map;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public interface ModelDTOValue extends Serializable {
 	
 	/**

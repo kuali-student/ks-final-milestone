@@ -497,19 +497,4 @@ public class TabbedSectionLayout extends LayoutController implements Configurabl
 		return null;
 	}
 
-	@Override
-	public void addSection(
-			String[] hierarchy,
-			org.kuali.student.common.ui.client.configurable.mvc.SectionView section) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void addStartSection(
-			org.kuali.student.common.ui.client.configurable.mvc.SectionView section) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

@@ -38,6 +38,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
  * @author Kuali Student Team
  * 
  */
+@Deprecated
 public class MultiplicitySection extends Section implements HasModelDTOValue{
 
     private ModelDTOValue modelDTOValue; 
