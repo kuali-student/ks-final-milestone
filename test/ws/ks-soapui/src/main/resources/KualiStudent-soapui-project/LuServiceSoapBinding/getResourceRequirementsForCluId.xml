@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:operation isOneWay="false" action="" name="getResourceRequirementsForCluId" bindingOperationName="getResourceRequirementsForCluId" type="Request-Response" outputName="getResourceRequirementsForCluIdResponse" inputName="getResourceRequirementsForCluId" receivesAttachments="false" sendsAttachments="false" id="f0f8f87c-51f1-4f37-a520-f268ea1e1ba5" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config"><con:settings/></con:operation>

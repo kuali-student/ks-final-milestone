@@ -1,0 +1,9 @@
+<module>
+	<inherits name="org.kuali.student.core.organization.Organization"/>
+	<inherits name="org.kuali.student.core.person.ui.PersonUI"/>
+	<inherits name="org.kuali.student.core.authorization.ui.AuthorizationUI"/>
+	<inherits name="org.kuali.student.common.ui.CommonUI"/>
+	<inherits name='org.kuali.student.core.organization.assembly.data.OrgData' />	
+	
+    <extend-property name="locale" values="en"/>   
+</module>

@@ -1,0 +1,28 @@
+.KS-Disclosure-Content{
+	border:none;
+}
+.KS-Disclosure-Header{
+	font: bold;
+	width: 100%;
+	background-color: #F3F3F3; 
+	
+}
+.KS-Disclosure-Header-Open{
+	font: bold #D54F44;
+	border-bottom: 1px solid #c0c0c0;
+}
+.KS-Disclosure-Content-Open{
+	margin: 5px;
+}
+
+.KS-Disclosure-Section{
+	  width: 75%;
+	  margin: 6px;
+      border: 1px solid #c0c0c0; 
+
+}
+
+KS-Disclosure-Section-Open{
+	width: 100%; 
+
+}
