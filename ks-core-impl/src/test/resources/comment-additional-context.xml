@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <bean id="searchManager"
+        class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
+        autowire="byType">
+        <constructor-arg index="0" value="classpath:comment-search-config.xml" />
+    </bean>
+    <bean id="dictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
+        <constructor-arg index="0" value="classpath:comment-dictionary-config.xml" />
+    </bean>
+    
+    <bean id="beanConstraintSetupFactory" class="org.kuali.student.common.validator.BeanConstraintSetupFactory">
+    </bean>
+    
+    <bean id="validator" class="org.kuali.student.common.validator.Validator">
+    </bean>
+</beans>
