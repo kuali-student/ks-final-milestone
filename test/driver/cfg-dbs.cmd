@@ -4,7 +4,7 @@ set VERSION=1.0.0-m5
 set MODULE=ks-core-db
 call removeThenCopyDb %MODULE% %QUALIFIER% %VERSION%
 
-set MODULE=ks-embedded
+set MODULE=ks-embedded-db
 call removeThenCopyDb %MODULE% %QUALIFIER% %VERSION%
 
 set MODULE=ks-rice-db
