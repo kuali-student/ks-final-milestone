@@ -1,6 +1,0 @@
-DROP USER kuali CASCADE
-/
-CREATE USER kuali IDENTIFIED BY kuali
-/
-GRANT DBA TO kuali
-/
