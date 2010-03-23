@@ -1,6 +1,4 @@
-set QA=https://test.kuali.org/svn/student/deploymentlab/trunk/1.0.x/ks-cfg-dbs
-set DEV=https://test.kuali.org/svn/student/ks-cfg-dbs
-call removeThenCopyDb %QA% %DEV% ks-core-db
-call removeThenCopyDb %QA% %DEV% ks-embedded-db
-call removeThenCopyDb %QA% %DEV% ks-lum-db
-call removeThenCopyDb %QA% %DEV% ks-rice-db
+set MODULE=ks-core-db
+set QUALIFIER=tags
+set VERSION=1.0.0-m5
+call removeThenCopy %MODULE% %QUALIFIER% %VERSION%

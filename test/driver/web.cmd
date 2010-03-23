@@ -1,3 +1,4 @@
-set QA=https://test.kuali.org/svn/student/deploymentlab/trunk/1.0.x/ks-web
-set DEV=https://test.kuali.org/svn/student/ks-web/tags/ks-web-1.0.0-m5
-call removeThenCopy %QA% %DEV%
+set MODULE=ks-web
+set QUALIFIER=tags
+set VERSION=1.0.0-m5
+call removeThenCopy %MODULE% %QUALIFIER% %VERSION%
