@@ -1,0 +1,129 @@
+/* Copyright 2008 Google Inc. All Rights Reserved. */
+
+.KS-Select-Table-Panel{
+	
+}
+
+.google-visualization-table-table {
+  font-family: arial, helvetica;
+  font-size: 0.8em;
+  border-collapse: collapse;
+  cursor: default;
+  margin: 0;
+  background: white;
+}
+
+.google-visualization-table-table tbody {
+  background: transparent;
+}
+
+.google-visualization-table-table * {
+  margin: 0;
+  vertical-align: middle;
+  padding: 2px;
+  font-size: 10pt;
+  font-family: arial, helvetica;
+}
+
+.google-visualization-table-tr-head, .google-visualization-table-tr-head td {
+  font-weight: bold;
+  text-align: center;
+}
+
+.google-visualization-table-tr-even, .google-visualization-table-tr-even td {
+  background-color: #E2EBF5;
+}
+
+.google-visualization-table-tr-odd, .google-visualization-table-tr-odd td {
+  background-color: #C7D2E1;
+}
+
+.google-visualization-table-tr-sel, .google-visualization-table-tr-sel td {
+  background-color: #D7C7AD;
+}
+
+.google-visualization-table-tr-over, .google-visualization-table-tr-over td {
+  background-color: #EBDBCE;
+}
+
+.google-visualization-table-sorthdr {
+  cursor: pointer;
+}
+
+.google-visualization-table-sortind {
+  color: #ccc;
+  font-size: 9px;
+  padding-left: 6px;
+}
+
+.google-visualization-table-th {
+  border: 1px solid #eee;
+  padding: 6px;
+}
+
+.google-visualization-table-td {
+  border: 1px solid #eee;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-right: 3px;
+  padding-left: 3px;
+}
+
+.google-visualization-table-td-freeze-rightmost {
+  border-right-width: 4px;
+}
+
+.google-visualization-table-td-bool {
+  border: 1px solid #eee;
+  padding-right: 3px;
+  padding-left: 3px;
+  text-align: center;
+  font-family: Arial Unicode MS, Arial, Helvetica;
+}
+
+.google-visualization-table-td-center {
+  border: 1px solid #eee;
+  padding-right: 3px;
+  padding-left: 3px;
+  text-align: center;
+}
+
+.google-visualization-table-td-right {
+  border: 1px solid #eee;
+  padding-right: 3px;
+  padding-left: 3px;
+  text-align: right;
+}
+
+.google-visualization-table-seq {
+  border: 1px solid #eee;
+  text-align: right;
+  color: #666;
+  padding-right: 3px;
+  padding-left: 3px;
+}
+
+.google-visualization-table-button {
+  font-size: 10px;
+  padding-right: 6px;
+}
+
+.google-visualization-table-td-page {
+  text-align: left;
+  vertical-align: middle;
+  height: 30px;
+}
+
+.google-visualization-table-arrow-dr {
+  padding-left: 13px !important; 
+  background: url(arrow_dr.png) no-repeat left;
+}
+
+.google-visualization-table-arrow-ug {
+  padding-left: 13px !important;
+  background: url(arrow_ug.png) no-repeat left;
+}
+
+.google-visualization-table-arrow-empty {
+  padding-left: 13px !important;  
+}
