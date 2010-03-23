@@ -69,7 +69,7 @@
 
 	<!-- OrgAdmin Derived role (AdministrativeOfficer of this org) -->
 	<bean id="ksOrgAdminRoleTypeService"
-		class="org.kuali.student.lum.workflow.derivedrole.OrgDerivedRoleTypeServiceImpl">
+		class="org.kuali.student.lum.kim.role.type.OrgDerivedRoleTypeServiceImpl">
 		<property name="includedOrgPersonRelationTypes">
 			<list>
 				<value>kuali.org.PersonRelation.Chair</value>
@@ -80,7 +80,7 @@
 
 	<!-- Org Derived role (anyone that's related to this org) -->
 	<bean id="ksOrgCommitteeRoleTypeService"
-		class="org.kuali.student.lum.workflow.derivedrole.OrgDerivedRoleTypeServiceImpl">
+		class="org.kuali.student.lum.kim.role.type.OrgDerivedRoleTypeServiceImpl">
 		<property name="excludedOrgPersonRelationTypes">
 			<list>
 				<value>kuali.org.PersonRelation.Chair</value>
@@ -90,13 +90,13 @@
 	</bean>
 
     <!-- Action Request Derived role (Non Adhoc) -->
-    <bean id="ksNonAdhocActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.permission.role.KSNonAdhocActionRequestDerivedRoleTypeServiceImpl"/>
+    <bean id="ksNonAdhocActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.role.type.KSNonAdhocActionRequestDerivedRoleTypeServiceImpl"/>
 
     <!-- Action Request Derived role (Adhoc) -->
-    <bean id="ksAdhocActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.permission.role.KSAdhocActionRequestDerivedRoleTypeServiceImpl"/>
+    <bean id="ksAdhocActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.role.type.KSAdhocActionRequestDerivedRoleTypeServiceImpl"/>
 
     <!-- Route Log Derived role -->
-    <bean id="ksRouteLogDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.permission.role.KSRouteLogDerivedRoleTypeServiceImpl">
+    <bean id="ksRouteLogDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.role.type.KSRouteLogDerivedRoleTypeServiceImpl">
         <property name="checkFutureRequests" value="false" />
     </bean>    
 
@@ -112,7 +112,7 @@
 
 	<!-- Hierarchy Derived role -->
 <!--
-	<bean id="ksHierarchyDerivedRoleType" class="org.kuali.student.lum.kim.HierarchyNodeTestRoleTypeServiceBase" />
+	<bean id="ksHierarchyDerivedRoleType" class="org.kuali.student.lum.kim.role.type.HierarchyNodeTestRoleTypeServiceBase" />
 -->
 
     <!-- Use our own custom xml parser which also parses passwords -->
