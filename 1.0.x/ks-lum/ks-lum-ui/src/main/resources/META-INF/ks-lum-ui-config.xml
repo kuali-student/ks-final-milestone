@@ -1,0 +1,37 @@
+<config>
+
+    <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
+    <param name="config.location">classpath:META-INF/ks-ksb-config-defaults.xml</param>
+    
+	<param name="ks.ignore.rice.login">true</param>
+	
+    <param name="module.name">ks-lum-ui</param>
+    <param name="db.vendor">derby</param>
+	<param name="jpa.vendor">hibernate</param>
+
+    <!-- Application configuration -->
+    <param name="app.code">ks-lum</param>
+	<param name="app.context.name">${app.code}</param>
+    <param name="http.port">8888</param>  
+    <param name="rice.logging.configure">true</param>
+    <param name="log4j.settings.path">classpath:META-INF/log4j.properties</param>
+    <param name="serviceNamespace">KSLumUI</param>
+    
+    <!-- Keystore Configuration -->
+    <param name="keystore.file">${rice.base}../../src/main/resources/META-INF/rice.keystore</param>
+    <param name="keystore.alias">rice</param>
+    <param name="keystore.password">r1c3pw</param>
+    
+    <!-- Application dictionary -->
+    <param name="ks.lum.orchestration.dictionaryContextLocations">classpath:lum-orchestration-dictionary.xml</param>
+    
+    <param name="config.location">${user.home}/kuali/main/${environment}/ks-config.xml</param>
+    <param name="config.location">${user.home}/kuali/main/${environment}/ks-lum-ui-config.xml</param> 
+    
+    <param name="lum.application.url" override="false"></param>
+	
+	<param name="ks.rice.application.url">http://localhost:8081/ks-embedded-dev/</param>
+	<param name="ks.rice.actionList.serviceAddress">${ks.rice.application.url}/kew/ActionList.do</param>
+    <param name="ks.rice.docSearch.serviceAddress">${ks.rice.application.url}/kew/DocumentSearch.do</param>
+    
+</config>
