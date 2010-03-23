@@ -1,0 +1,31 @@
+@eval PRIMARYCOLOR1 org.kuali.student.common.ui.client.css.CssPreferences.PRIMARY_COLOR_1;
+@eval PRIMARYCOLOR2 org.kuali.student.common.ui.client.css.CssPreferences.PRIMARY_COLOR_2;
+@eval SECONDARYCOLOR1 org.kuali.student.common.ui.client.css.CssPreferences.SECONDARY_COLOR_1;
+@eval SECONDARYCOLOR2 org.kuali.student.common.ui.client.css.CssPreferences.SECONDARY_COLOR_2;
+
+@url buttonBackground blueGradient;
+
+.KS-Button{
+	margin: 2px;
+	color: white;
+	background-color: black;
+	border: 1px solid black;
+	background: buttonBackground repeat-x;
+}
+.KS-Button-Hover{
+	color: #FF9933;
+}
+
+.KS-Button-Focus{
+	color: #FF9933;	
+}
+
+.KS-Button-Click{
+	color: #FF9933;
+}
+
+.KS-Button-Special{
+	color: white;
+	background: url("images/blue-gradient.jpg") repeat-x;
+	font-weight: bold;
+}
