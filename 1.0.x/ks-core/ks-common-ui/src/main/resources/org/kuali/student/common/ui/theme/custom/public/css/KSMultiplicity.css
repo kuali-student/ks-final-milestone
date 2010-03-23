@@ -1,0 +1,25 @@
+.KS-Multiplicity-Composite{
+	text-align: left;
+	width: 100%;	
+	vertical-align: top;	
+}
+
+.KS-Multiplicity-Item{
+	text-align: left;
+	width: 90%;
+	margin: 10px;
+	border: 1px solid black;
+}
+
+.KS-Multiplicity-Item-Header{
+	background-color: #E8E8E8;
+	text-align: left;
+	border: 1px solid #808080;
+	width: 100%;
+}
+
+.KS-Multiplicity-Link-Label {
+	color: blue;
+	font-size: 11px;
+	cursor: pointer;
+}
