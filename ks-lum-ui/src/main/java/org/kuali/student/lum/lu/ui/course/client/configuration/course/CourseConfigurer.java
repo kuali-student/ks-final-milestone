@@ -29,10 +29,13 @@ import org.kuali.student.common.ui.client.service.SearchRpcService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.commenttool.CommentPanel;
 import org.kuali.student.common.ui.client.widgets.documenttool.DocumentTool;
 import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.assembly.data.QueryPath;
@@ -121,7 +124,7 @@ public class CourseConfigurer
         layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ACADEMIC_CONTENT_LABEL_KEY)}, generateLearningObjectivesSection());
         layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.STUDENT_ELIGIBILITY_LABEL_KEY)}, generateCourseRequisitesSection());
         layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateActiveDatesSection());
-        //layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateFinancialsSection());
+        layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.ADMINISTRATION_LABEL_KEY)}, generateFinancialsSection());
         layout.addSection(new String[] {getLabel(LUConstants.SUMMARY_LABEL_KEY)}, generateSummarySection());
 
         //layout.addSection(new String[] {"Assembler Test"}, new AssemblerTestSection(CourseSections.ASSEMBLER_TEST, "Assembler Test"));
@@ -213,15 +216,6 @@ public class CourseConfigurer
         return startDate;
 	}
 
-	private SectionView generateFinancialsSection() {
-        VerticalSectionView section = initSectionView(CourseSections.FINANCIALS, LUConstants.FINANCIALS_LABEL_KEY);
-
-        //TODO ALL KEYS in this section are place holders until we know actual keys
-        section.addSection(generateFeeTypeSection());
-        section.addSection(generateFeeAmountSection());
-
-        return section;
-    }
 
     private VerticalSection generateFeeTypeSection() {
         //TODO ALL KEYS in this section are place holders until we know actual keys
@@ -793,4 +787,169 @@ public class CourseConfigurer
     	section.addField(fd);
     	return fd;
     }
+    private SectionView generateFinancialsSection() {
+        VerticalSectionView section = initSectionView(CourseSections.FINANCIALS, LUConstants.FINANCIALS_LABEL_KEY);
+
+        //TODO ALL KEYS in this section are place holders until we know actual keys
+        VerticalSection justiFee = initSection(getH3Title("Course Fees"), WITH_DIVIDER);
+        addField(justiFee, COURSE + "/" +FEES + "/" + "justification",null,new KSTextArea(), "Justification of Fees");
+        addField(justiFee, COURSE + "/" +FEES + "/"+"feeTypes" , null, new FeeList(COURSE + "/" + FEES+ "/"));
+
+        VerticalSection financialSection = initSection(getH3Title("Financial Information"), WITH_DIVIDER);
+        
+        addField(financialSection, COURSE + "/" + "revenueOrg", "Revenue");
+        addField(financialSection, COURSE + "/" + "revenueOrg/totalPercentage", "Amount");
+        addField(financialSection, COURSE + "/" , null, new FinancialInformationList(COURSE + "/" + "revenueOrg"));
+
+        addField(financialSection, COURSE + "/" + "expenditureOrg", "Expenditure");
+        addField(financialSection, COURSE + "/" + "expenditureOrg/totalPercentage", "Amount");
+
+        addField(financialSection, COURSE + "/" + "expenditureOrg", null, new ExpenditureList(COURSE + "/" + "expenditureOrg"));
+        section.addSection(justiFee);
+        section.addSection(financialSection);
+        return section;
+    }
+    public class RateTypeList extends KSDropDown{
+        public RateTypeList(){
+            SimpleListItems types = new SimpleListItems();
+            types.addItem("kuali.enum.type.rateTypes.variableRateFee", "Variable Rate");
+            types.addItem("kuali.enum.type.rateTypes.fixedRateFee", "Fixed Rate");
+            types.addItem("kuali.enum.type.rateTypes.multipleRateFee", "Multiple Rate");
+            types.addItem("kuali.enum.type.rateTypes.perCreditFee", "Per Credit Rate");
+            super.setListItems(types);
+        }
+    }
+    public class FeeTypeList extends KSDropDown{
+        public FeeTypeList(){
+            SimpleListItems types = new SimpleListItems();
+            types.addItem("kuali.enum.type.feeTypes.labFee", "Lab Fee");
+            types.addItem("kuali.enum.type.feeTypes.materialFee", "Material Fee");
+            types.addItem("kuali.enum.type.feeTypes.studioFee", "Studio Fee");
+            types.addItem("kuali.enum.type.feeTypes.fieldTripFee", "Field Trip Fee");
+            types.addItem("kuali.enum.type.feeTypes.fieldStudyFee", "Field Study Fee");
+            types.addItem("kuali.enum.type.feeTypes.administrativeFee", "Administrative Fee");
+            types.addItem("kuali.enum.type.feeTypes.coopFee", "Coop Fee");
+            types.addItem("kuali.enum.type.feeTypes.greensFee", "Greens Fee");
+            super.setListItems(types);
+        }
+    }    
+    public class FeeList extends UpdatableMultiplicityComposite {
+        {
+            setAddItemLabel("Add a fee");
+            setItemLabel("Fee");
+        }
+        private final String parentPath;
+
+        public FeeList(String parentPath){
+            super(StyleType.TOP_LEVEL);
+            this.parentPath = parentPath;
+            
+            
+        }
+       
+        @Override
+        public Widget createItem() {
+            String innerPath = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
+
+            final GroupSection variableSection = new GroupSection();
+            final GroupSection fixedSection= new GroupSection();
+            final GroupSection multipeSection= new GroupSection();
+            final GroupSection perCreditSection= new GroupSection();
+            
+
+            addField(variableSection, "feeType", "Amount", innerPath );
+            addField(variableSection, "feeType", "To", innerPath );
+            addField(fixedSection, "feeType", "Amount", innerPath );
+            addField(multipeSection, "feeType", "Amount",new MultipleFeeList("feeType"), innerPath );
+            addField(perCreditSection, "feeType", "Amount(PerCredit)", innerPath );
+
+            final GroupSection mainSection = new GroupSection();
+            final String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
+            addField(mainSection, "feeType", "Fee Type", new FeeTypeList(),path );
+            final KSDropDown rateTypeDropDown = new RateTypeList();
+            addField(mainSection, "rateType", "Rate Type", rateTypeDropDown,path);
+            
+            rateTypeDropDown.selectItem("");// fake select
+            rateTypeDropDown.addSelectionChangeHandler(new SelectionChangeHandler(){
+                @Override
+                public void onSelectionChange(SelectionChangeEvent event) {
+                    mainSection.removeSection(variableSection);
+                    mainSection.removeSection(fixedSection);
+                    mainSection.removeSection(multipeSection);
+                    mainSection.removeSection(perCreditSection);
+                    if(rateTypeDropDown.getSelectedItem().equals("kuali.enum.type.rateTypes.variableRateFee")){
+                        mainSection.addSection(variableSection);
+                    }else if(rateTypeDropDown.getSelectedItem().equals("kuali.enum.type.rateTypes.fixedRateFee")){
+                        mainSection.addSection(fixedSection);
+                    }else if(rateTypeDropDown.getSelectedItem().equals("kuali.enum.type.rateTypes.multipleRateFee")){
+                        mainSection.addSection(multipeSection);
+                    }else if(rateTypeDropDown.getSelectedItem().equals("kuali.enum.type.rateTypes.perCreditFee")){
+                        mainSection.addSection(perCreditSection);
+                    }                    
+                }
+            });
+            return mainSection;
+        }
+
+    }
+    public class MultipleFeeList extends UpdatableMultiplicityComposite {
+        {
+            setAddItemLabel("Add another Fee");
+            setItemLabel("Fee");
+        }
+        private final String parentPath;
+        public MultipleFeeList(String parentPath){
+            super(StyleType.TOP_LEVEL);
+            this.parentPath = parentPath;
+        }
+        @Override
+        public Widget createItem() {
+            String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
+            GroupSection ns = new GroupSection();
+            addField(ns, "another Fee", "Fee", path );
+            
+            return ns;
+        }
+        
+    }
+    public class FinancialInformationList extends UpdatableMultiplicityComposite {
+        {
+            setAddItemLabel("Add another Organization");
+            setItemLabel("Organization");
+        }
+        private final String parentPath;
+        public FinancialInformationList(String parentPath){
+            super(StyleType.TOP_LEVEL);
+            this.parentPath = parentPath;
+        }
+        @Override
+        public Widget createItem() {
+            String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
+            GroupSection ns = new GroupSection();
+            addField(ns, "revenueOrg", "Revenue", path );
+            addField(ns, "totalPercentage", "Amount", path);
+            
+            return ns;
+        }
+    }
+    public class ExpenditureList extends UpdatableMultiplicityComposite {
+        {
+            setAddItemLabel("Add another Organization");
+            setItemLabel("Organization");
+        }
+        private final String parentPath;
+        public ExpenditureList(String parentPath){
+            super(StyleType.TOP_LEVEL);
+            this.parentPath = parentPath;
+        }
+        @Override
+        public Widget createItem() {
+            String path = QueryPath.concat(parentPath, String.valueOf(itemCount-1)).toString();
+            GroupSection ns = new GroupSection();
+            addField(ns, "expenditureOrg", "Expenditure",path );
+            addField(ns, "totalPercentage", "Amount",path);
+
+            return ns;
+        }
+    }      
 }
