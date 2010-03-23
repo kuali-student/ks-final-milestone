@@ -159,6 +159,7 @@ public class OrgProposalController extends TabbedSectionLayout{
         KSProgressIndicator progressInd = new KSProgressIndicator();
         progressInd.setText("Loading");
         progressInd.show();
+        progressWindow.removeCloseLink();
         progressWindow.setWidget(progressInd);
 
         if (initialized) {
@@ -412,6 +413,7 @@ public class OrgProposalController extends TabbedSectionLayout{
 	       }
 	    public void saveProposalOrg(final SaveActionEvent saveActionEvent){
 	        final KSLightBox saveWindow = new KSLightBox();
+	        saveWindow.removeCloseLink();
 	        final KSLabel saveMessage = new KSLabel(saveActionEvent.getMessage() + "...");
 	        final OkGroup buttonGroup = new OkGroup(new Callback<OkEnum>(){
 	                
