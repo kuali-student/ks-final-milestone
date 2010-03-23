@@ -1,0 +1,46 @@
+##
+## Copyright 2007 The Kuali Foundation
+##
+## Licensed under the Educational Community License, Version 1.0 (the "License");
+## you may not use this file except in compliance with the License.
+## You may obtain a copy of the License at
+##
+## http://www.opensource.org/licenses/ecl1.php
+##
+## Unless required by applicable law or agreed to in writing, software
+## distributed under the License is distributed on an "AS IS" BASIS,
+## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+## See the License for the specific language governing permissions and
+## limitations under the License.
+##
+
+## A date enforcement rule template
+## Generics need Java 1.5 or greater - Must set drools.dialect.java.compiler=ECLIPSE
+
+# Date created: $dateTool.get('yyyy-MM-dd HH:mm:ss z')
+
+rule "${ruleName}"
+    no-loop true
+    lock-on-active true
+
+    when 
+        //Do not run rule when: currentDate < effectiveStartTime OR currentDate >= effectiveEndTime
+        CurrentDateTime( currentDateAsLong < $effectiveStartTime || currentDateAsLong >= $effectiveEndTime )
+        container : FactContainer( anchor == "${anchor}", anchorTypeKey == "${anchorTypeKey}", state == FactContainer.State.INIT, propositionMap : propositionMap, prop : propositionContainer, factMap : factMap )
+    then
+        Logger logger = LoggerFactory.getLogger(org.kuali.student.brms.translators.RuleSetTranslator.class);
+
+        if (logger.isWarnEnabled()) {
+            logger.warn("*** Rule (rule id=${ruleId}) has expired and was not executed ***");
+        }
+                
+        prop.setOverrideReport(true);
+        prop.setFunctionalRuleString("$functionString");
+        prop.setRuleResult(false);
+        RuleReport report = new RuleReport();
+        report.setSuccessful(false);
+        report.setFailureMessage("Rule has expired and was not executed");
+        prop.setRuleReport(report);
+        //retract(currentDateTime);
+        container.setState(FactContainer.State.COMPLETE);
+end
