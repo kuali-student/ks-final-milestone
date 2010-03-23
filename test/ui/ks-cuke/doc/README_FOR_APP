@@ -1,0 +1,132 @@
+== Welcome to ks-cuke-testing
+
+Cucumber is a testing framework that enables testing of web applications with simple
+syntax but powerful engine based on Ruby scripting. 
+It does not require directly Rails support but some gems may use Rails web libraries, 
+e.g. Culerity. 
+
+== Getting Started
+Please not that we prepend each install command with sudo. This is not necessary in windows and will not work there. 
+Linux and Mac users should install with sudo to have the gems install into the system library.
+
+1. Install Ruby with all features checked: http://www.ruby-lang.org/en/downloads/
+	check if ruby is running ok: 'ruby -v'
+
+2. Install Rails. For now only needed for gem management and selenium. You also need to have the latest rubygems.
+   'sudo gem update --system'
+   'sudo gem install rails'
+
+3. Checkout ks-cuke-testing project from svn (into current folder):
+	'svn co https://test.kuali.org/svn/student/deploymentlab/UI/ks-cuke-testing ks-cuke-testing'
+	go to ks-cuke-testing folder: 'cd ks-cuke-testing'
+
+4. Install all needed gems by running script: 'sudo rake gems:install RAILS_ENV=test'
+	If you have problem you can run manual installations based on config/environments/test.rb e.g.:
+	'sudo gem install cucumber watir fire-watir Selenium selenium-client rspec rspec-rails savon'
+	
+5. Have running Tomcat with ks-embedded application and Oracle with database. 
+	The testing framework assumes that the path to the app is http://localhost:8080/ks-embedded
+
+6. Run default test with -p switch (switch either one: watir, selenium, soap)
+	'cucumber -p watir'
+	'cucumber -p selenium'
+	'cucumber -p soap'
+	'cucumber -p culerity'
+	Remember that watir or selenium needs to start Firefox for the first time on Mac 
+	(you have to unload Firefox before), wait until empty Firefox will appear and 
+	then you have to run it second time e.g.: 'cucumber -p watir'. Also dont forget to
+	install jssh plugin for watir to work http://wiki.openqa.org/display/WTR/FireWatir+Installation.
+	
+7. Culerity.
+	If you would like to run culerity tests you need to have jruby installed on your system.
+	Please follow this tutorial to do so http://www.iowaosum.com/install-jruby. 
+	If everything is set up correctly you should be able to issue the following command without trouble.
+	'jruby -S gem install celerity'
+	If the gem installed successfully you will be able to run culerity tests.
+	
+8. (Windows specifics) 
+	If you have missing 'a' characters in output use command: 'chcp 1252' to switch to correct font mapping.
+	Don't forget to issue 'sudo gem install win32console' to have a pretty output in the terminal.
+	Selenium may not work under windows. If that is the case please navigate to
+	c:\ruby\lib\ruby\gems\1.8\gems\webrat-0.6.0\lib\webrat\selenium\selenium_rc_server.rb and replace all occurrences of '0.0.0.0'
+	with '127.0.0.1'. 
+	Also put Jruby path after Ruby path in Path environment variable! Otherwise rake test (in 4.) will try to install 
+	all Ruby gems to Jruby and your tests will not work.
+ 	
+	If you receive a 'exec format error' while running culerity tests under windows then please navigate to c:\ruby\lib\ruby\gems\1.8\gems\culerity-0.2.7\lib\culerity.rb and change
+	"jruby #{__FILE__}" to "jruby.bat #{__FILE__}" on line 24 of the file.
+
+9. (Mac specifics)
+	Selenium testing can be performed only with Firefox 3.5.3 version (go figure). In addition, a library 
+	in Firefox app has to be disabled or deleted e.g. by renaming:
+	'sudo mv /Applications/Firefox.app/Contents/MacOS/libsqlite3.dylib /Applications/Firefox.app/Contents/MacOS/_libsqlite3.dylib'  
+	
+Notes: sometimes installations will get in trouble with error messages of some kind, try to follow 
+	suggestions and work it out manually
+	
+	
+== Web Servers
+	Tomcat 6.0.20
+
+
+== Description of Contents
+
+app
+  Holds all the code that's specific to this particular application.
+
+app/controllers
+  Holds controllers that should be named like weblogs_controller.rb for
+  automated URL mapping. All controllers should descend from ApplicationController
+  which itself descends from ActionController::Base.
+
+app/models
+  Holds models that should be named like post.rb.
+  Most models will descend from ActiveRecord::Base.
+
+app/views
+  Holds the template files for the view that should be named like
+  weblogs/index.html.erb for the WeblogsController#index action. All views use eRuby
+  syntax.
+
+app/views/layouts
+  Holds the template files for layouts to be used with views. This models the common
+  header/footer method of wrapping views. In your views, define a layout using the
+  <tt>layout :default</tt> and create a file named default.html.erb. Inside default.html.erb,
+  call <% yield %> to render the view using this layout.
+
+app/helpers
+  Holds view helpers that should be named like weblogs_helper.rb. These are generated
+  for you automatically when using script/generate for controllers. Helpers can be used to
+  wrap functionality for your views into methods.
+
+config
+  Configuration files for the Rails environment, the routing map, the database, and other dependencies.
+
+db
+  Contains the database schema in schema.rb.  db/migrate contains all
+  the sequence of Migrations for your schema.
+
+doc
+  This directory is where your application documentation will be stored when generated
+  using <tt>rake doc:app</tt>
+
+lib
+  Application specific libraries. Basically, any kind of custom code that doesn't
+  belong under controllers, models, or helpers. This directory is in the load path.
+
+public
+  The directory available for the web server. Contains subdirectories for images, stylesheets,
+  and javascripts. Also contains the dispatchers and the default HTML files. This should be
+  set as the DOCUMENT_ROOT of your web server.
+
+script
+  Helper scripts for automation and generation.
+
+features
+  Functional tests along with fixtures. When using the script/generate scripts, template
+  test files will be generated for you and placed in this directory.
+
+vendor
+  External libraries that the application depends on. Also includes the plugins subdirectory.
+  If the app has frozen rails, those gems also go here, under vendor/rails/.
+  This directory is in the load path.
