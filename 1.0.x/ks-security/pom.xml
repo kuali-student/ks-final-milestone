@@ -502,11 +502,11 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-            <dependency>
+            <!--<dependency>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-tools-common</artifactId>
                 <version>${cxf.version}</version>
-            </dependency>
+            </dependency>-->
             <dependency>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-rt-frontend-jaxws</artifactId>
@@ -655,7 +655,7 @@
                 <artifactId>cxf-rt-databinding-aegis</artifactId>
                 <version>${cxf.version}</version>
             </dependency>
-            <dependency>
+            <!--<dependency>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-api</artifactId>
                 <version>${cxf.version}</version>
@@ -676,7 +676,7 @@
                         <artifactId>geronimo-javamail_1.4_spec</artifactId>
                     </exclusion>
                 </exclusions>
-            </dependency>
+            </dependency>-->
 
             <dependency>
                 <groupId>org.apache.ws.security</groupId>
