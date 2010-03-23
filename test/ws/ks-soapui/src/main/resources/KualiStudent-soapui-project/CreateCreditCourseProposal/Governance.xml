@@ -25,7 +25,7 @@
    <soapenv:Body>
       <lu:getClu>
         
-      <cluId>6cfe1696-a4ee-419e-8492-9d047355110c</cluId></lu:getClu>
+      <cluId>6f6b6703-8b59-44d4-a42d-41438b774012</cluId></lu:getClu>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:assertion type="Schema Compliance"><con:configuration/></con:assertion><con:assertion type="SOAP Fault Assertion"/><con:assertion type="Simple Contains"><con:configuration><token>&lt;return id="</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="transfer" name="CopyCluIdToProposal"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" useXQuery="false" entitize="false" transferChildNodes="false"><con:name>copyCluId</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>getClu - getCreditCourse</con:sourceStep><con:sourcePath>declare namespace ns2='http://student.kuali.org/wsdl/lu';
 //ns2:getCluResponse[1]/return[1]/@id</con:sourcePath><con:targetType>Request</con:targetType><con:targetStep>createProposal - createCreditCourseProposal</con:targetStep><con:targetPath>declare namespace prop='http://student.kuali.org/wsdl/proposal';
@@ -36,7 +36,7 @@
          <proposalTypeKey>kuali.proposal.type.course.create</proposalTypeKey><proposalInfo type="kuali.proposal.type.course.create">
             <name>Proposal Title</name>
             <proposalReferenceType>kuali.proposal.referenceType.clu</proposalReferenceType>
-            <proposalReference>6cfe1696-a4ee-419e-8492-9d047355110c</proposalReference>
+            <proposalReference>6f6b6703-8b59-44d4-a42d-41438b774012</proposalReference>
          </proposalInfo>
       </prop:createProposal>
    </soapenv:Body>
@@ -52,11 +52,11 @@
    <soapenv:Header/>
    <soapenv:Body>
       <prop:updateProposal>
-         <proposalId>45e9753b-e085-4649-862b-2d0a04d59942</proposalId>
-         <proposalInfo type="kuali.proposal.type.course.create" id="45e9753b-e085-4649-862b-2d0a04d59942">
+         <proposalId>4f120609-2a6b-4b34-a783-774bbdf45b8d</proposalId>
+         <proposalInfo type="kuali.proposal.type.course.create" id="4f120609-2a6b-4b34-a783-774bbdf45b8d">
             <name>Updated Proposal Title</name>
             <proposalReferenceType>kuali.proposal.referenceType.clu</proposalReferenceType>
-            <proposalReference>6cfe1696-a4ee-419e-8492-9d047355110c</proposalReference>
+            <proposalReference>6f6b6703-8b59-44d4-a42d-41438b774012</proposalReference>
             <metaInfo>
                <versionInd>0</versionInd>
                <createTime>2010-03-18T16:36:49.444-07:00</createTime>
@@ -79,8 +79,8 @@
    <soapenv:Header/>
    <soapenv:Body>
       <lu:updateClu>
-         <cluId>6cfe1696-a4ee-419e-8492-9d047355110c</cluId>
-         <cluInfo type="kuali.lu.type.CreditCourse" state="draft" id="6cfe1696-a4ee-419e-8492-9d047355110c">
+         <cluId>6f6b6703-8b59-44d4-a42d-41438b774012</cluId>
+         <cluInfo type="kuali.lu.type.CreditCourse" state="draft" id="6f6b6703-8b59-44d4-a42d-41438b774012">
             <officialIdentifier id="">
             </officialIdentifier>
             <academicSubjectOrgs>
@@ -89,7 +89,7 @@
             <campusLocations>NorthCountyCampus</campusLocations>
             <campusLocations>SouthCountyCampus</campusLocations>
             <primaryAdminOrg>
-               <id>841035c4-1415-4a41-9bfe-a9572e10cfd7</id>
+               <id>a9416fbc-d6e7-4bd4-9748-585d439c2451</id>
                <orgId>51</orgId>
             </primaryAdminOrg>
 
@@ -146,12 +146,12 @@
    <soapenv:Header/>
    <soapenv:Body>
       <lu:createCluCluRelation>
-         <cluId>6cfe1696-a4ee-419e-8492-9d047355110c</cluId>
-         <relatedCluId>6ba94f0e-c183-46be-84c2-e555d919aa29</relatedCluId>
+         <cluId>6f6b6703-8b59-44d4-a42d-41438b774012</cluId>
+         <relatedCluId>db867523-dacb-46a9-9390-7e3b8959eeff</relatedCluId>
          <luLuRelationTypeKey>luLuRelationType.contains</luLuRelationTypeKey>
          <cluCluRelationInfo type="luLuRelationType.contains" state="Active" id="">
-            <cluId>6cfe1696-a4ee-419e-8492-9d047355110c</cluId>
-            <relatedCluId>6ba94f0e-c183-46be-84c2-e555d919aa29</relatedCluId>
+            <cluId>6f6b6703-8b59-44d4-a42d-41438b774012</cluId>
+            <relatedCluId>db867523-dacb-46a9-9390-7e3b8959eeff</relatedCluId>
          </cluCluRelationInfo>
       </lu:createCluCluRelation>
    </soapenv:Body>
@@ -167,12 +167,12 @@
    <soapenv:Header/>
    <soapenv:Body>
       <lu:createCluCluRelation>
-         <cluId>6ba94f0e-c183-46be-84c2-e555d919aa29</cluId>
-         <relatedCluId>e37b3403-2e97-421d-b4ec-05dc6c788da8</relatedCluId>
+         <cluId>db867523-dacb-46a9-9390-7e3b8959eeff</cluId>
+         <relatedCluId>0877ce83-4b37-4932-b80a-d0edc0cd331e</relatedCluId>
          <luLuRelationTypeKey>luLuRelationType.contains</luLuRelationTypeKey>
          <cluCluRelationInfo type="luLuRelationType.contains" state="Active" id="">
-            <cluId>6ba94f0e-c183-46be-84c2-e555d919aa29</cluId>
-            <relatedCluId>e37b3403-2e97-421d-b4ec-05dc6c788da8</relatedCluId>
+            <cluId>db867523-dacb-46a9-9390-7e3b8959eeff</cluId>
+            <relatedCluId>0877ce83-4b37-4932-b80a-d0edc0cd331e</relatedCluId>
          </cluCluRelationInfo>
       </lu:createCluCluRelation>
    </soapenv:Body>
@@ -183,7 +183,7 @@
    <soapenv:Body>
       <lu:getCluCluRelationsByClu>
          
-      <cluId>6cfe1696-a4ee-419e-8492-9d047355110c</cluId></lu:getCluCluRelationsByClu>
+      <cluId>6f6b6703-8b59-44d4-a42d-41438b774012</cluId></lu:getCluCluRelationsByClu>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:assertion type="Schema Compliance"><con:configuration/></con:assertion><con:assertion type="SOAP Fault Assertion"/><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://student.kuali.org/wsdl/lu/LuService/getCluCluRelationsByClu"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="transfer" name="CopyCluPropertiesForUpdateCourseInformation"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" useXQuery="false" entitize="false" transferChildNodes="false"><con:name>copyCluIdToCluIdElement</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>getClu - getCreditCourse</con:sourceStep><con:sourcePath>declare namespace ns2='http://student.kuali.org/wsdl/lu';
 //ns2:getCluResponse[1]/return[1]/@id</con:sourcePath><con:targetType>Request</con:targetType><con:targetStep>updateClu - updateCreditCourseCourseInformation</con:targetStep><con:targetPath>declare namespace lu='http://student.kuali.org/wsdl/lu';
@@ -199,9 +199,9 @@
    <soapenv:Header/>
    <soapenv:Body>
       <lu:updateClu>
-         <cluId>6cfe1696-a4ee-419e-8492-9d047355110c</cluId>
-         <cluInfo type="kuali.lu.type.CreditCourse" state="draft" id="6cfe1696-a4ee-419e-8492-9d047355110c">
-            <officialIdentifier id="b577aa5b-fd0c-4d71-b930-2f1b476658a3">
+         <cluId>6f6b6703-8b59-44d4-a42d-41438b774012</cluId>
+         <cluInfo type="kuali.lu.type.CreditCourse" state="draft" id="6f6b6703-8b59-44d4-a42d-41438b774012">
+            <officialIdentifier id="ce104893-e18b-4084-88a3-e43838f3e9d2">
                <code>nullnull</code>
                <shortName>Short Course Title</shortName>
                <longName>Course Title</longName>
@@ -229,7 +229,7 @@
             <campusLocations>SouthCountyCampus</campusLocations>
             <primaryAdminOrg>
 
-               <id>841035c4-1415-4a41-9bfe-a9572e10cfd7</id>
+               <id>a9416fbc-d6e7-4bd4-9748-585d439c2451</id>
                <orgId>51</orgId>
             </primaryAdminOrg>
             <primaryInstructor>
@@ -264,7 +264,7 @@
    <soapenv:Header/>
    <soapenv:Body>
       <lu:deleteCluCluRelation>
-         <cluCluRelationId>9182d890-9c7f-4ef8-beda-04caa143cdbf</cluCluRelationId>
+         <cluCluRelationId>500ebf65-a1c3-4a10-9960-00dc109bfefa</cluCluRelationId>
       </lu:deleteCluCluRelation>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:assertion type="Schema Compliance"><con:configuration/></con:assertion><con:assertion type="SOAP Fault Assertion"/><con:assertion type="Simple Contains"><con:configuration><token>&lt;success>true&lt;/success></token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://student.kuali.org/wsdl/lu/LuService/deleteCluCluRelation"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="transfer" name="CopyCluIdToDeleteActivityLecture"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" useXQuery="false" entitize="false" transferChildNodes="false"><con:name>cluId</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>createClu - createActivityLecture</con:sourceStep><con:sourcePath>declare namespace ns2='http://student.kuali.org/wsdl/lu';
@@ -273,7 +273,7 @@
    <soapenv:Header/>
    <soapenv:Body>
       <lu:deleteClu>
-        <cluId>e37b3403-2e97-421d-b4ec-05dc6c788da8</cluId>
+        <cluId>0877ce83-4b37-4932-b80a-d0edc0cd331e</cluId>
       </lu:deleteClu>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:assertion type="Schema Compliance"><con:configuration/></con:assertion><con:assertion type="SOAP Fault Assertion"/><con:assertion type="Simple Contains"><con:configuration><token>&lt;success>true&lt;/success></token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="transfer" name="CopyCluCluRelationId-FormatShell"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" useXQuery="false" entitize="false" transferChildNodes="false"><con:name>cluId</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>createCluCluRelation - relateCreditCourseToCourseFormatShell</con:sourceStep><con:sourcePath>declare namespace ns2='http://student.kuali.org/wsdl/lu';
@@ -282,7 +282,7 @@
    <soapenv:Header/>
    <soapenv:Body>
       <lu:deleteCluCluRelation>
-         <cluCluRelationId>01aca775-b892-4a90-a10c-543188a0cc2f</cluCluRelationId>
+         <cluCluRelationId>884079cf-4cc8-4758-bb13-b31e48fe6d65</cluCluRelationId>
       </lu:deleteCluCluRelation>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:assertion type="Schema Compliance"><con:configuration/></con:assertion><con:assertion type="SOAP Fault Assertion"/><con:assertion type="Simple Contains"><con:configuration><token>&lt;success>true&lt;/success></token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://student.kuali.org/wsdl/lu/LuService/deleteCluCluRelation"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="transfer" name="CopyCluIdToDeleteFormatShell"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" useXQuery="false" entitize="false" transferChildNodes="false"><con:name>cluId</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>createClu - createFormatShell</con:sourceStep><con:sourcePath>declare namespace ns2='http://student.kuali.org/wsdl/lu';
@@ -291,7 +291,7 @@
    <soapenv:Header/>
    <soapenv:Body>
       <lu:deleteClu>
-        <cluId>6ba94f0e-c183-46be-84c2-e555d919aa29</cluId>
+        <cluId>db867523-dacb-46a9-9390-7e3b8959eeff</cluId>
       </lu:deleteClu>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:assertion type="Schema Compliance"><con:configuration/></con:assertion><con:assertion type="SOAP Fault Assertion"/><con:assertion type="Simple Contains"><con:configuration><token>&lt;success>true&lt;/success></token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="transfer" name="CopyCluIdToDeleteCreditCourse"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" useXQuery="false" entitize="false" transferChildNodes="false"><con:name>cluId</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>createClu - createCreditCourse</con:sourceStep><con:sourcePath>declare namespace ns2='http://student.kuali.org/wsdl/lu';
@@ -300,7 +300,7 @@
    <soapenv:Header/>
    <soapenv:Body>
       <lu:deleteClu>
-        <cluId>6cfe1696-a4ee-419e-8492-9d047355110c</cluId>
+        <cluId>6f6b6703-8b59-44d4-a42d-41438b774012</cluId>
       </lu:deleteClu>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:assertion type="Schema Compliance"><con:configuration/></con:assertion><con:assertion type="SOAP Fault Assertion"/><con:assertion type="Simple Contains"><con:configuration><token>&lt;success>true&lt;/success></token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="transfer" name="CopyProposalPropertiesForDelete"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" useXQuery="false" entitize="false" transferChildNodes="false"><con:name>copyProposalId</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>createProposal - createCreditCourseProposal</con:sourceStep><con:sourcePath>declare namespace ns2='http://student.kuali.org/wsdl/proposal';
@@ -309,7 +309,7 @@
    <soapenv:Header/>
    <soapenv:Body>
       <prop:deleteProposal>
-         <proposalId>45e9753b-e085-4649-862b-2d0a04d59942</proposalId>
+         <proposalId>4f120609-2a6b-4b34-a783-774bbdf45b8d</proposalId>
       </prop:deleteProposal>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:assertion type="Schema Compliance"><con:configuration/></con:assertion><con:assertion type="SOAP Fault Assertion"/><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://student.kuali.org/wsdl/proposal/ProposalService/deleteProposal"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/><con:reportParameters/></con:testCase>

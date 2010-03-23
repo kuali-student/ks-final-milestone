@@ -24,7 +24,7 @@
    <soapenv:Header/>
    <soapenv:Body>
       <lu:getClu>
-        <cluId>5d7983ff-f4f8-4364-bf89-804e3077ec1d</cluId>
+        <cluId>55f0425d-c16b-4984-aff9-25e0fa7907e9</cluId>
       </lu:getClu>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:assertion type="Schema Compliance"><con:configuration/></con:assertion><con:assertion type="SOAP Fault Assertion"/><con:assertion type="Simple Contains"><con:configuration><token>&lt;return id="</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains"><con:configuration><token>&lt;versionInd>0&lt;/versionInd></token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="transfer" name="CopyCluPropertiesForUpdate"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" useXQuery="false" entitize="false" transferChildNodes="false"><con:name>copyCluIdToCluIdElement</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>getClu - getCreditCourse</con:sourceStep><con:sourcePath>declare namespace ns2='http://student.kuali.org/wsdl/lu';
@@ -43,8 +43,8 @@
    <soapenv:Header/>
    <soapenv:Body>
       <lu:updateClu>
-         <cluId>5d7983ff-f4f8-4364-bf89-804e3077ec1d</cluId>
-         <cluInfo type="kuali.lu.type.CreditCourse" state="draft" id="5d7983ff-f4f8-4364-bf89-804e3077ec1d">
+         <cluId>55f0425d-c16b-4984-aff9-25e0fa7907e9</cluId>
+         <cluInfo type="kuali.lu.type.CreditCourse" state="draft" id="55f0425d-c16b-4984-aff9-25e0fa7907e9">
             <officialIdentifier id="a0f9be6a-74a2-4867-ab83-cd55562ad27e">
             </officialIdentifier>
             <academicSubjectOrgs>
@@ -53,7 +53,7 @@
             <campusLocations>NorthCountyCampus</campusLocations>
             <campusLocations>SouthCountyCampus</campusLocations>
             <primaryAdminOrg>
-               <id>a837fbb4-453b-4377-9ca1-1cc8f907b8d0</id>
+               <id>f85965b1-f45f-4d11-b090-fd2664b5d79a</id>
                <orgId>51</orgId>
             </primaryAdminOrg>
             <primaryInstructor>
@@ -66,8 +66,8 @@
             </stdDuration>
             <metaInfo>
                <versionInd>0</versionInd>
-               <createTime>2010-03-22T17:42:30.770-07:00</createTime>
-               <updateTime>2010-03-22T17:42:30.770-07:00</updateTime>
+               <createTime>2010-03-22T18:29:14.471-07:00</createTime>
+               <updateTime>2010-03-22T18:29:14.471-07:00</updateTime>
             </metaInfo>
          </cluInfo>
       </lu:updateClu>
@@ -110,12 +110,12 @@
    <soapenv:Header/>
    <soapenv:Body>
       <lu:createCluCluRelation>
-         <cluId>5d7983ff-f4f8-4364-bf89-804e3077ec1d</cluId>
-         <relatedCluId>bb22f5c4-056f-4f89-9a13-11ad30b76f9f</relatedCluId>
+         <cluId>55f0425d-c16b-4984-aff9-25e0fa7907e9</cluId>
+         <relatedCluId>a211efd4-b280-411f-b11f-113f93cab6e2</relatedCluId>
          <luLuRelationTypeKey>luLuRelationType.contains</luLuRelationTypeKey>
          <cluCluRelationInfo type="luLuRelationType.contains" state="Active" id="">
-            <cluId>5d7983ff-f4f8-4364-bf89-804e3077ec1d</cluId>
-            <relatedCluId>bb22f5c4-056f-4f89-9a13-11ad30b76f9f</relatedCluId>
+            <cluId>55f0425d-c16b-4984-aff9-25e0fa7907e9</cluId>
+            <relatedCluId>a211efd4-b280-411f-b11f-113f93cab6e2</relatedCluId>
          </cluCluRelationInfo>
       </lu:createCluCluRelation>
    </soapenv:Body>
@@ -131,12 +131,12 @@
    <soapenv:Header/>
    <soapenv:Body>
       <lu:createCluCluRelation>
-         <cluId>5d7983ff-f4f8-4364-bf89-804e3077ec1d</cluId>
-         <relatedCluId>d7392658-6143-411e-a3ff-247d0268242d</relatedCluId>
+         <cluId>55f0425d-c16b-4984-aff9-25e0fa7907e9</cluId>
+         <relatedCluId>5ec00482-04ce-4339-8a93-5afa82366c7b</relatedCluId>
          <luLuRelationTypeKey>luLuRelationType.contains</luLuRelationTypeKey>
          <cluCluRelationInfo type="luLuRelationType.contains" state="Active" id="">
-            <cluId>5d7983ff-f4f8-4364-bf89-804e3077ec1d</cluId>
-            <relatedCluId>d7392658-6143-411e-a3ff-247d0268242d</relatedCluId>
+            <cluId>55f0425d-c16b-4984-aff9-25e0fa7907e9</cluId>
+            <relatedCluId>5ec00482-04ce-4339-8a93-5afa82366c7b</relatedCluId>
          </cluCluRelationInfo>
       </lu:createCluCluRelation>
    </soapenv:Body>
