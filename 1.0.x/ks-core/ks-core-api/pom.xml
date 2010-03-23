@@ -29,7 +29,7 @@
                     <!-- removed until needed
 					<execution>
 						<id>role-type-wsdl</id>
-						<phase>process-classes</phase>
+						<phase>${ks.ws.compile.phase}</phase>
 						<configuration>
 							<className>
 								org.kuali.student.core.role.service.QualifierHierarchyRoleTypeService
@@ -43,7 +43,7 @@
                     -->
 					<execution>
 						<id>organization-wsdl</id>
-						<phase>process-classes</phase>
+						<phase>${ks.ws.compile.phase}</phase>
 						<configuration>
 							<className>
 								org.kuali.student.core.organization.service.OrganizationService
@@ -57,7 +57,7 @@
 					</execution>
 					<execution>
 						<id>enumerationmanagement-wsdl</id>
-						<phase>process-classes</phase>
+						<phase>${ks.ws.compile.phase}</phase>
 						<configuration>
 							<className>
 								org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService
@@ -71,7 +71,7 @@
 					</execution>
 					<execution>
 						<id>atp-wsdl</id>
-						<phase>process-classes</phase>
+						<phase>${ks.ws.compile.phase}</phase>
 						<configuration>
 							<className>
 								org.kuali.student.core.atp.service.AtpService
@@ -85,7 +85,7 @@
 					</execution>
 					<execution>
 						<id>messages-wsdl</id>
-						<phase>process-classes</phase>
+						<phase>${ks.ws.compile.phase}</phase>
 						<configuration>
 							<className>
 								org.kuali.student.core.messages.service.MessageService
@@ -99,7 +99,7 @@
 					</execution>
 					<execution>
 						<id>document-wsdl</id>
-						<phase>process-classes</phase>
+						<phase>${ks.ws.compile.phase}</phase>
 						<configuration>
 							<className>
 								org.kuali.student.core.document.service.DocumentService
@@ -113,7 +113,7 @@
 					</execution>
 					<execution>
 						<id>comment-wsdl</id>
-						<phase>process-classes</phase>
+						<phase>${ks.ws.compile.phase}</phase>
 						<configuration>
 							<className>
 								org.kuali.student.core.comment.service.CommentService
@@ -127,7 +127,7 @@
 					</execution>
                     <execution>
                         <id>proposal-wsdl</id>
-                        <phase>process-classes</phase>
+                        <phase>${ks.ws.compile.phase}</phase>
                         <configuration>
                             <className>
                                 org.kuali.student.core.proposal.service.ProposalService
