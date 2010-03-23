@@ -36,9 +36,11 @@ public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandle
     private IdableSuggestion currentSuggestion = null;
     private IdableSuggestOracle oracle;
     private String currentId = "";
+    
     public KSSuggestBox(IdableSuggestOracle oracle) {
     	this(oracle, true);
     }
+    
     public KSSuggestBox(IdableSuggestOracle oracle, boolean enabled){
     	super(oracle, new KSTextBox());
     	super.getTextBox().setEnabled(enabled);
@@ -75,8 +77,7 @@ public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandle
                 	currentSuggestion = new IdableSuggestion();
                 	currentSuggestion.setId("");
                 	currentSuggestion.setDisplayString("");
-                	currentSuggestion.setReplacementString("");
-                	
+                	currentSuggestion.setReplacementString("");                	
                 }
                 
                 if(!KSSuggestBox.this.getSelectedId().equals(currentId)){
@@ -160,9 +161,8 @@ public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandle
 	            }
 	        });
     	}
-    
-    	
     }
+    
     public void setValue(String id, String translation) {
     	currentSuggestion = new IdableSuggestion();
     	currentSuggestion.setId(id);
@@ -171,6 +171,7 @@ public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandle
     	KSSuggestBox.this.setText(translation);
     	currentId = KSSuggestBox.this.getSelectedId();
     }
+    
     @Override
     public void setValue(String id, boolean fireEvents) {
     	if(fireEvents == true){
