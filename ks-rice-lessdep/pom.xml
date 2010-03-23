@@ -127,11 +127,13 @@
         		<exclusion>
         			<groupId>bcel</groupId>
         			<artifactId>bcel</artifactId>
-        		</exclusion>       		
+        		</exclusion>   
+        		<!-- This is needed for bus security in ks-standalone     		
         		<exclusion>
         			<groupId>bouncycastle</groupId>
         			<artifactId>bcprov-jdk15</artifactId>
-        		</exclusion>       		        					                			
+        		</exclusion>
+        		-->       		        					                			
         		<exclusion>
         			<groupId>bsf</groupId>
         			<artifactId>bsf</artifactId>
